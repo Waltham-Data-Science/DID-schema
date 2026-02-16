@@ -151,39 +151,3 @@ class TestInvalidDocuments:
         )
 
 
-class TestDefinitionFiles:
-    """Definition files are blank templates — they should load and have correct structure."""
-
-    def test_base_definition_structure(self, base_definition):
-        assert "document_class" in base_definition
-        assert base_definition["document_class"]["classname"] == "base"
-        assert "base" in base_definition
-        assert set(base_definition["base"].keys()) == {"id", "session_id", "name", "datestamp"}
-
-    def test_probe_location_definition_structure(self, probe_location_definition):
-        assert "document_class" in probe_location_definition
-        assert probe_location_definition["document_class"]["classname"] == "probe_location"
-        assert "base" in probe_location_definition
-        assert "probe_location" in probe_location_definition
-
-    def test_base_definition_all_blank(self, base_definition):
-        """All field values in a blank definition should be empty strings."""
-        for value in base_definition["base"].values():
-            assert value == "", f"Expected blank value, got: {value!r}"
-
-    def test_probe_location_definition_all_blank(self, probe_location_definition):
-        for value in probe_location_definition["base"].values():
-            assert value == "", f"Expected blank base value, got: {value!r}"
-        for value in probe_location_definition["probe_location"].values():
-            assert value == "", f"Expected blank probe_location value, got: {value!r}"
-
-    def test_definition_schema_paths_use_token(self, base_definition):
-        """Definition paths should use $NDISCHEMAPATH token."""
-        assert "$NDISCHEMAPATH" in base_definition["document_class"]["schema"]
-        assert "$NDISCHEMAPATH" in base_definition["document_class"]["definition"]
-
-    def test_probe_location_definition_has_dependency(self, probe_location_definition):
-        deps = probe_location_definition["depends_on"]
-        assert len(deps) == 1
-        assert deps[0]["name"] == "probe_id"
-        assert deps[0]["value"] == ""

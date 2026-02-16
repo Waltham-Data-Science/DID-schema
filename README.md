@@ -2,7 +2,7 @@
 
 ## What is this repo?
 
-`did-schema` is the schema layer for DID (data-interface database) and NDI (neuroscience data interface). It defines the canonical JSON format for schema files that describe DID/NDI document types, ships a meta-schema that validates schema files themselves, and provides example schemas and blank document definitions. This repo is not NDI itself -- it is a standalone dependency that both DID and NDI rely on for document type definitions. Language-specific tooling (MATLAB, Python, etc.) lives in separate repositories and consumes these schemas.
+`did-schema` is the schema layer for DID (data-interface database) and NDI (neuroscience data interface). It defines the canonical JSON format for schema files that describe DID/NDI document types and ships a meta-schema that validates schema files themselves. This repo is not NDI itself -- it is a standalone dependency that both DID and NDI rely on for document type definitions. Language-specific tooling (MATLAB, Python, etc.) lives in separate repositories and consumes these schemas.
 
 ## Schema format overview
 
@@ -21,7 +21,7 @@ See [REPO_SPEC.md](REPO_SPEC.md) for the full specification.
 
 ## Directory layout
 
-Each document type is a directory under `schemas/` containing both its schema definition and its blank document definition (template):
+Each document type is a directory under `schemas/` containing its schema definition:
 
 ```
 did-schema/
@@ -35,11 +35,9 @@ did-schema/
 |   |   +-- did_schema_meta.json        <- meta-schema (JSON Schema Draft 7)
 |   +-- base/
 |   |   +-- schema.json                 <- schema for the base document type
-|   |   +-- definition.json             <- blank document template for base
 |   +-- probe/
 |       +-- probe_location/
 |           +-- schema.json             <- schema for probe_location document type
-|           +-- definition.json         <- blank document template for probe_location
 |
 +-- tests/
     +-- conftest.py
@@ -68,7 +66,7 @@ Validation is explicit and deferred -- documents do not validate themselves on c
 
 ## Path tokens
 
-Schema and definition files use `$NDISCHEMAPATH` tokens in path references. These are resolved at runtime by consumer tooling. Since schemas and definitions are co-located in this repo, a single token suffices. For example, `$NDISCHEMAPATH/base/schema.json` resolves to the base schema file.
+Schema files use `$NDISCHEMAPATH` tokens in path references (e.g., superclass references). These are resolved at runtime by consumer tooling. For example, `$NDISCHEMAPATH/base/schema.json` resolves to the base schema file.
 
 ## Running the tests
 
@@ -88,9 +86,8 @@ pytest
 
 1. Create a directory under `schemas/` (e.g., `schemas/mytype/` or `schemas/category/mytype/`).
 2. Add `schema.json` with the six required top-level keys.
-3. Add `definition.json` with the blank document template.
-4. Add test fixtures under `tests/fixtures/` if needed.
-5. Run `pytest` to verify the new schema passes meta-validation.
+3. Add test fixtures under `tests/fixtures/` if needed.
+4. Run `pytest` to verify the new schema passes meta-validation.
 
 ## Contributing
 

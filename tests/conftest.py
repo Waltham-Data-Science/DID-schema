@@ -41,15 +41,6 @@ def probe_location_schema():
     return load_json(os.path.join(SCHEMAS_DIR, "probe", "probe_location", "schema.json"))
 
 
-@pytest.fixture
-def base_definition():
-    return load_json(os.path.join(SCHEMAS_DIR, "base", "definition.json"))
-
-
-@pytest.fixture
-def probe_location_definition():
-    return load_json(os.path.join(SCHEMAS_DIR, "probe", "probe_location", "definition.json"))
-
 
 @pytest.fixture
 def valid_base_document():

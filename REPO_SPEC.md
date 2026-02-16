@@ -23,7 +23,6 @@ not NDI itself — it is the schema layer that NDI and DID both depend on.
 - Defines the canonical JSON format for schema files that describe DID/NDI document types.
 - Provides a meta-schema (a schema for schema files themselves) that validates schema files before they are used.
 - Ships example schema files for `base` and `probe_location` document types.
-- Co-locates blank document definitions (templates) alongside their schemas.
 - Ships Python-based unit tests that validate all schemas and document fixtures.
 
 **What this repo does NOT do:**
@@ -44,12 +43,10 @@ did-schema/
 │   ├── meta/
 │   │   └── did_schema_meta.json        ← meta-schema: validates schema files
 │   ├── base/
-│   │   ├── schema.json                 ← schema for the base document type
-│   │   └── definition.json             ← blank document definition for base
+│   │   └── schema.json                 ← schema for the base document type
 │   └── probe/
 │       └── probe_location/
-│           ├── schema.json             ← schema for probe_location document type
-│           └── definition.json         ← blank document definition for probe_location
+│           └── schema.json             ← schema for probe_location document type
 │
 └── tests/
     ├── conftest.py                     ← shared fixtures and helpers
@@ -64,14 +61,12 @@ did-schema/
         └── invalid_schema_missing_classname.json
 ```
 
-### Co-located schemas and definitions
+### Schema directory layout
 
-Each document type lives in its own directory containing two files:
-- `schema.json` — the type definition (fields, types, constraints, inheritance)
-- `definition.json` — a blank document template (all fields set to `blank_value`)
-
-This eliminates the need for separate `$NDISCHEMAPATH` and `$NDIDOCUMENTPATH` tokens.
-All path references now use the single `$NDISCHEMAPATH` token.
+Each document type lives in its own directory containing a `schema.json` file.
+Path references in schema files use the `$NDISCHEMAPATH` token, resolved at runtime
+by consumer tooling. Blank document definitions (templates) are the responsibility
+of language-specific tooling repos, not this repo.
 
 ---
 
@@ -423,70 +418,6 @@ The meta-schema must enforce:
 
 ---
 
-## Example Definition Files
-
-Definition files describe the blank document (not the schema). They are what the system
-reads to construct an empty document object in memory. They are **not** validated against
-the schema — they represent the blank/template state.
-
-Each definition file lives alongside its schema file in the same directory.
-
-### `schemas/base/definition.json`
-
-```json
-{
-    "document_class": {
-        "definition":    "$NDISCHEMAPATH/base/definition.json",
-        "schema":        "$NDISCHEMAPATH/base/schema.json",
-        "classname":     "base",
-        "class_version": "1.0.0",
-        "superclasses":  []
-    },
-    "depends_on": [],
-    "base": {
-        "id":          "",
-        "session_id":  "",
-        "name":        "",
-        "datestamp":   ""
-    }
-}
-```
-
-### `schemas/probe/probe_location/definition.json`
-
-```json
-{
-    "document_class": {
-        "definition":    "$NDISCHEMAPATH/probe/probe_location/definition.json",
-        "schema":        "$NDISCHEMAPATH/probe/probe_location/schema.json",
-        "classname":     "probe_location",
-        "class_version": "1.0.0",
-        "superclasses": [
-            { "classname": "base", "definition": "$NDISCHEMAPATH/base/definition.json" }
-        ]
-    },
-    "depends_on": [
-        { "name": "probe_id", "value": "" }
-    ],
-    "base": {
-        "id":          "",
-        "session_id":  "",
-        "name":        "",
-        "datestamp":   ""
-    },
-    "probe_location": {
-        "ontology_name": "",
-        "name":          ""
-    }
-}
-```
-
-Note: when a definition has superclasses, the inherited fields are flattened into the
-definition document directly (here, the `"base"` block appears in the probe_location
-definition). This mirrors the existing NDI convention.
-
----
-
 ## Test Tooling (Python)
 
 The test suite uses Python with `pytest` and `jsonschema`. These tests validate the
@@ -529,6 +460,4 @@ pytest
 
 6. **`ontology` is required on every field, but may be `null`.** Requiring the key (even if null) makes it clear that the schema author considered ontology annotation and made a deliberate choice. A missing `ontology` key is a meta-schema validation error.
 
-7. **Schemas and definitions are co-located.** Each document type directory contains both `schema.json` and `definition.json`. This eliminates the separate `$NDIDOCUMENTPATH` token — all paths use `$NDISCHEMAPATH`.
-
-8. **Language-specific tooling lives elsewhere.** This repo holds only schemas, definitions, and test validation. Runtime classes for loading, parsing, and manipulating documents belong in language-specific repos (e.g., `DID-matlab`, `DID-python`).
+7. **Language-specific tooling lives elsewhere.** This repo holds only schema definitions and test validation. Runtime classes for loading, parsing, manipulating documents, and generating blank document templates belong in language-specific repos (e.g., `DID-matlab`, `DID-python`).
