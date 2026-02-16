@@ -1,0 +1,24 @@
+{
+    "document_class": {
+        "definition":    "$NDIDOCUMENTPATH/probe/probe_location.json",
+        "schema":        "$NDISCHEMAPATH/probe/probe_location_schema.json",
+        "classname":     "probe_location",
+        "class_version": "1.0.0",
+        "superclasses": [
+            { "classname": "base", "definition": "$NDIDOCUMENTPATH/base.json" }
+        ]
+    },
+    "depends_on": [
+        { "name": "probe_id", "value": "aabb1122ccdd3344_aabb1122ccdd3344" }
+    ],
+    "base": {
+        "id":          "aabb1122ccdd3344_1122334455667788",
+        "session_id":  "aabb1122ccdd3344_9900aabbccddeeff",
+        "name":        "left_hemisphere_probe_location",
+        "datestamp":   "2024-06-01T12:00:00.000Z"
+    },
+    "probe_location": {
+        "ontology_name": "uberon:0002436",
+        "name":          "primary visual cortex"
+    }
+}

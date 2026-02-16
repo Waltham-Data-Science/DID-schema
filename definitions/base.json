@@ -1,0 +1,16 @@
+{
+    "document_class": {
+        "definition":    "$NDIDOCUMENTPATH/base.json",
+        "schema":        "$NDISCHEMAPATH/base_schema.json",
+        "classname":     "base",
+        "class_version": "1.0.0",
+        "superclasses":  []
+    },
+    "depends_on": [],
+    "base": {
+        "id":          "",
+        "session_id":  "",
+        "name":        "",
+        "datestamp":   ""
+    }
+}

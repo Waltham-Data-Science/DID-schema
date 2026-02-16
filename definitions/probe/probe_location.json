@@ -1,0 +1,24 @@
+{
+    "document_class": {
+        "definition":    "$NDIDOCUMENTPATH/probe/probe_location.json",
+        "schema":        "$NDISCHEMAPATH/probe/probe_location_schema.json",
+        "classname":     "probe_location",
+        "class_version": "1.0.0",
+        "superclasses": [
+            { "classname": "base", "definition": "$NDIDOCUMENTPATH/base.json" }
+        ]
+    },
+    "depends_on": [
+        { "name": "probe_id", "value": "" }
+    ],
+    "base": {
+        "id":          "",
+        "session_id":  "",
+        "name":        "",
+        "datestamp":   ""
+    },
+    "probe_location": {
+        "ontology_name": "",
+        "name":          ""
+    }
+}

@@ -1,0 +1,185 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "$id": "https://did-schema.example.org/meta/did_schema_meta.json",
+    "title": "DID/NDI Schema Meta-Schema",
+    "description": "Validates the structure of DID/NDI schema files. All schema files must conform to this meta-schema.",
+    "type": "object",
+    "required": ["classname", "class_version", "superclasses", "depends_on", "file", "fields"],
+    "additionalProperties": false,
+    "properties": {
+        "classname": {
+            "type": "string",
+            "pattern": "^[a-zA-Z][a-zA-Z0-9_]*$",
+            "description": "Unique name of the document type."
+        },
+        "class_version": {
+            "type": "string",
+            "pattern": "^\\d+\\.\\d+\\.\\d+$",
+            "description": "Semantic version string MAJOR.MINOR.PATCH."
+        },
+        "superclasses": {
+            "type": "array",
+            "items": { "$ref": "#/$defs/superclass_reference" },
+            "description": "Array of superclass reference objects."
+        },
+        "depends_on": {
+            "type": "array",
+            "items": { "$ref": "#/$defs/dependency_object" },
+            "description": "Array of dependency objects."
+        },
+        "file": {
+            "type": "array",
+            "items": { "$ref": "#/$defs/file_record" },
+            "description": "Array of file record objects."
+        },
+        "fields": {
+            "type": "array",
+            "items": { "$ref": "#/$defs/field_definition" },
+            "description": "Array of field definition objects."
+        }
+    },
+    "$defs": {
+        "superclass_reference": {
+            "type": "object",
+            "required": ["classname", "schema"],
+            "additionalProperties": false,
+            "properties": {
+                "classname": {
+                    "type": "string",
+                    "description": "Name of the parent class."
+                },
+                "schema": {
+                    "type": "string",
+                    "description": "Path or token-substituted path to the parent schema file."
+                }
+            }
+        },
+        "dependency_object": {
+            "type": "object",
+            "required": ["name", "mustBeNonEmpty", "documentation"],
+            "additionalProperties": false,
+            "properties": {
+                "name": {
+                    "type": "string",
+                    "description": "Role name of the dependency."
+                },
+                "mustBeNonEmpty": {
+                    "type": "boolean",
+                    "description": "Whether the dependency value must be non-empty at validation time."
+                },
+                "documentation": {
+                    "type": "string",
+                    "description": "Human-readable description."
+                }
+            }
+        },
+        "file_record": {
+            "type": "object",
+            "required": ["name", "documentation"],
+            "additionalProperties": false,
+            "properties": {
+                "name": {
+                    "type": "string",
+                    "description": "Identifier for this file record."
+                },
+                "documentation": {
+                    "type": "string",
+                    "description": "Description of the file's contents."
+                }
+            }
+        },
+        "ontology_object": {
+            "type": "object",
+            "required": ["namespace", "term", "uri"],
+            "additionalProperties": false,
+            "properties": {
+                "namespace": {
+                    "type": "string",
+                    "description": "Ontology name (e.g., uberon, schema, iao, pato)."
+                },
+                "term": {
+                    "type": "string",
+                    "description": "Term identifier within the namespace."
+                },
+                "uri": {
+                    "type": ["string", "null"],
+                    "description": "Full resolvable URI, or null if unavailable."
+                }
+            }
+        },
+        "field_definition": {
+            "type": "object",
+            "required": [
+                "name", "type", "blank_value", "default_value",
+                "mustBeNonEmpty", "mustBeScalar", "mustNotHaveNaN",
+                "queryable", "ontology", "documentation", "constraints"
+            ],
+            "additionalProperties": false,
+            "properties": {
+                "name": {
+                    "type": "string",
+                    "pattern": "^[a-zA-Z][a-zA-Z0-9_]*$",
+                    "description": "Field name. No more than two consecutive underscores."
+                },
+                "type": {
+                    "type": "string",
+                    "enum": ["did_uid", "char", "string", "integer", "double", "matrix", "timestamp", "boolean", "structure"],
+                    "description": "Data type of the field."
+                },
+                "blank_value": {
+                    "description": "Value in a freshly constructed blank document. May fail validation."
+                },
+                "default_value": {
+                    "description": "Legitimate fallback value. Must pass validation."
+                },
+                "mustBeNonEmpty": {
+                    "type": "boolean",
+                    "description": "Value may not be null, empty string, empty array, or empty object at validation time."
+                },
+                "mustBeScalar": {
+                    "type": "boolean",
+                    "description": "Value must be a single element (not array/matrix)."
+                },
+                "mustNotHaveNaN": {
+                    "type": "boolean",
+                    "description": "No NaN values permitted."
+                },
+                "queryable": {
+                    "type": "boolean",
+                    "description": "Whether this field is indexed in the database."
+                },
+                "ontology": {
+                    "oneOf": [
+                        { "$ref": "#/$defs/ontology_object" },
+                        { "type": "null" }
+                    ],
+                    "description": "Ontology node, or null."
+                },
+                "documentation": {
+                    "type": "string",
+                    "description": "Human-readable description."
+                },
+                "constraints": {
+                    "type": "object",
+                    "description": "Type-specific constraints. Use {} for unconstrained."
+                },
+                "fields": {
+                    "type": "array",
+                    "items": { "$ref": "#/$defs/field_definition" },
+                    "description": "Nested field definitions for structure type fields."
+                }
+            },
+            "if": {
+                "properties": { "type": { "const": "structure" } }
+            },
+            "then": {
+                "required": [
+                    "name", "type", "blank_value", "default_value",
+                    "mustBeNonEmpty", "mustBeScalar", "mustNotHaveNaN",
+                    "queryable", "ontology", "documentation", "constraints",
+                    "fields"
+                ]
+            }
+        }
+    }
+}

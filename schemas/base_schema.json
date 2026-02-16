@@ -1,0 +1,73 @@
+{
+    "classname":     "base",
+    "class_version": "1.0.0",
+    "superclasses":  [],
+    "depends_on":    [],
+    "file":          [],
+    "fields": [
+        {
+            "name":           "id",
+            "type":           "did_uid",
+            "blank_value":    "",
+            "default_value":  "",
+            "mustBeNonEmpty": true,
+            "mustBeScalar":   true,
+            "mustNotHaveNaN": false,
+            "queryable":      true,
+            "ontology": {
+                "namespace": "iao",
+                "term":      "0000578",
+                "uri":       "http://purl.obolibrary.org/obo/IAO_0000578"
+            },
+            "documentation":  "Unique identifier for this document instance.",
+            "constraints":    {}
+        },
+        {
+            "name":           "session_id",
+            "type":           "did_uid",
+            "blank_value":    "",
+            "default_value":  "",
+            "mustBeNonEmpty": true,
+            "mustBeScalar":   true,
+            "mustNotHaveNaN": false,
+            "queryable":      true,
+            "ontology":       null,
+            "documentation":  "Unique identifier of the session this document belongs to.",
+            "constraints":    {}
+        },
+        {
+            "name":           "name",
+            "type":           "char",
+            "blank_value":    "",
+            "default_value":  "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar":   true,
+            "mustNotHaveNaN": false,
+            "queryable":      true,
+            "ontology": {
+                "namespace": "schema",
+                "term":      "name",
+                "uri":       "https://schema.org/name"
+            },
+            "documentation":  "Human-readable name for this document.",
+            "constraints":    { "max_length": 256 }
+        },
+        {
+            "name":           "datestamp",
+            "type":           "timestamp",
+            "blank_value":    "",
+            "default_value":  "2018-12-05T18:36:47.241Z",
+            "mustBeNonEmpty": true,
+            "mustBeScalar":   true,
+            "mustNotHaveNaN": false,
+            "queryable":      true,
+            "ontology": {
+                "namespace": "schema",
+                "term":      "dateCreated",
+                "uri":       "https://schema.org/dateCreated"
+            },
+            "documentation":  "UTC timestamp of document creation in ISO 8601 format.",
+            "constraints":    {}
+        }
+    ]
+}
