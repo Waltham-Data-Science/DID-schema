@@ -44,7 +44,7 @@
                 "term":      "name",
                 "uri":       "https://schema.org/name"
             },
-            "documentation":  "Human-readable name of the probe location (e.g., 'primary visual cortex').",
+            "documentation":  "Human-readable name or label of the probe location as used by the ontology referenced in ontology_name (e.g., 'primary visual cortex').",
             "constraints":    { "max_length": 256 }
         }
     ]
