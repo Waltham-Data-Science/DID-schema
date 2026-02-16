@@ -2,11 +2,10 @@
 
 ## Purpose
 
-This document is a complete specification for a new repository called `did-schema`.
-Implement everything described here. Where implementation details are left to judgment,
-prefer simplicity and clarity over cleverness. Prefer flat file structures. Prefer
-readable code over terse code. Leave TODO comments where behaviour is intentionally
-deferred.
+This document is a complete specification for the `did-schema` repository.
+This repo defines the canonical JSON schema format for DID/NDI document types.
+It is language-agnostic — language-specific tooling (MATLAB, Python, etc.) lives
+in separate repositories and consumes these schemas as a dependency.
 
 ---
 
@@ -14,7 +13,7 @@ deferred.
 
 **Repo name:** `did-schema`
 
-**Language:** MATLAB (primary), with JSON as the schema/document file format.
+**Language:** JSON (schema definitions), Python (test tooling only).
 
 **Purpose:** Define and validate the JSON schema format used by DID (data-interface
 database) documents and NDI (neuroscience data interface) documents. This repo is
@@ -22,53 +21,41 @@ not NDI itself — it is the schema layer that NDI and DID both depend on.
 
 **What this repo does:**
 - Defines the canonical JSON format for schema files that describe DID/NDI document types.
-- Provides a MATLAB class `did.schema.Schema` that loads, parses, and validates schema files.
-- Provides a MATLAB class `did.schema.Document` that loads document instances and validates them against their schema.
 - Provides a meta-schema (a schema for schema files themselves) that validates schema files before they are used.
 - Ships example schema files for `base` and `probe_location` document types.
-- Ships unit tests for all of the above.
+- Co-locates blank document definitions (templates) alongside their schemas.
+- Ships Python-based unit tests that validate all schemas and document fixtures.
+
+**What this repo does NOT do:**
+- Provide runtime tooling for loading, parsing, or manipulating documents. That belongs in language-specific repos (e.g., `DID-matlab`, `DID-python`).
 
 ---
 
 ## Repo File Structure
 
-Create the following files and directories. Details for each are given in subsequent sections.
-
 ```
 did-schema/
 │
 ├── README.md
-├── REPO_SPEC.md                        ← (this file, copy it in)
+├── REPO_SPEC.md                        ← (this file)
+├── pyproject.toml                      ← Python test dependencies
 │
 ├── schemas/
 │   ├── meta/
 │   │   └── did_schema_meta.json        ← meta-schema: validates schema files
-│   ├── base_schema.json                ← schema for the base document type
+│   ├── base/
+│   │   ├── schema.json                 ← schema for the base document type
+│   │   └── definition.json             ← blank document definition for base
 │   └── probe/
-│       └── probe_location_schema.json  ← schema for probe_location document type
-│
-├── definitions/
-│   ├── base.json                       ← blank document definition for base
-│   └── probe/
-│       └── probe_location.json         ← blank document definition for probe_location
-│
-├── +did/
-│   └── +schema/
-│       ├── Schema.m                    ← class: loads + validates a schema file
-│       ├── Document.m                  ← class: loads + validates a document instance
-│       ├── Validator.m                 ← class: runs validation logic
-│       ├── MetaValidator.m             ← class: validates schema files against meta-schema
-│       └── util/
-│           ├── loadJSON.m              ← helper: read a JSON file into a MATLAB struct
-│           ├── semver.m                ← helper: parse and compare semver strings
-│           └── resolveSchemaPath.m     ← helper: resolve $NDISCHEMAPATH / $NDIDOCUMENTPATH tokens
+│       └── probe_location/
+│           ├── schema.json             ← schema for probe_location document type
+│           └── definition.json         ← blank document definition for probe_location
 │
 └── tests/
-    ├── test_Schema.m                   ← unit tests for Schema class
-    ├── test_Document.m                 ← unit tests for Document class
-    ├── test_Validator.m                ← unit tests for Validator class
-    ├── test_MetaValidator.m            ← unit tests for MetaValidator class
-    ├── test_semver.m                   ← unit tests for semver helper
+    ├── conftest.py                     ← shared fixtures and helpers
+    ├── test_meta_schema.py             ← meta-schema validation tests
+    ├── test_schemas.py                 ← structural tests for schema files
+    ├── test_documents.py               ← document fixture validation tests
     └── fixtures/
         ├── valid_base_document.json
         ├── invalid_base_document_missing_id.json
@@ -76,6 +63,15 @@ did-schema/
         ├── valid_probe_location_document.json
         └── invalid_schema_missing_classname.json
 ```
+
+### Co-located schemas and definitions
+
+Each document type lives in its own directory containing two files:
+- `schema.json` — the type definition (fields, types, constraints, inheritance)
+- `definition.json` — a blank document template (all fields set to `blank_value`)
+
+This eliminates the need for separate `$NDISCHEMAPATH` and `$NDIDOCUMENTPATH` tokens.
+All path references now use the single `$NDISCHEMAPATH` token.
 
 ---
 
@@ -101,7 +97,7 @@ unrecognized top-level keys.
 ### Superclass Reference Object
 
 ```json
-{ "classname": "base", "schema": "$NDISCHEMAPATH/base_schema.json" }
+{ "classname": "base", "schema": "$NDISCHEMAPATH/base/schema.json" }
 ```
 
 | Key         | Type   | Required | Description |
@@ -270,8 +266,8 @@ declared version is compatible with the current schema version (same MAJOR, any 
 
 `schemas/meta/did_schema_meta.json` is a JSON Schema Draft 7 file (standard JSON Schema,
 not NDI format) that validates any NDI schema file. This lets you use any standard JSON
-Schema validator (e.g., the MATLAB `jsonschema` toolbox, or Python `jsonschema`) to
-check that an NDI schema file is well-formed before loading it.
+Schema validator (e.g., Python `jsonschema`) to check that an NDI schema file is
+well-formed before loading it.
 
 The meta-schema must enforce:
 - All six top-level keys are present.
@@ -287,14 +283,11 @@ The meta-schema must enforce:
 - `mustBeNonEmpty`, `mustBeScalar`, `mustNotHaveNaN`, `queryable` are all booleans.
 - For `type: "structure"`, the `fields` key is present.
 
-Write this as a proper JSON Schema Draft 7 document. Use `$defs` for reusable
-sub-schemas (field definition, ontology object, etc.).
-
 ---
 
-## Example Schema Files to Create
+## Example Schema Files
 
-### `schemas/base_schema.json`
+### `schemas/base/schema.json`
 
 ```json
 {
@@ -372,14 +365,14 @@ sub-schemas (field definition, ontology object, etc.).
 }
 ```
 
-### `schemas/probe/probe_location_schema.json`
+### `schemas/probe/probe_location/schema.json`
 
 ```json
 {
     "classname":     "probe_location",
     "class_version": "1.0.0",
     "superclasses": [
-        { "classname": "base", "schema": "$NDISCHEMAPATH/base_schema.json" }
+        { "classname": "base", "schema": "$NDISCHEMAPATH/base/schema.json" }
     ],
     "depends_on": [
         {
@@ -430,19 +423,21 @@ sub-schemas (field definition, ontology object, etc.).
 
 ---
 
-## Example Definition Files to Create
+## Example Definition Files
 
 Definition files describe the blank document (not the schema). They are what the system
 reads to construct an empty document object in memory. They are **not** validated against
 the schema — they represent the blank/template state.
 
-### `definitions/base.json`
+Each definition file lives alongside its schema file in the same directory.
+
+### `schemas/base/definition.json`
 
 ```json
 {
     "document_class": {
-        "definition":    "$NDIDOCUMENTPATH/base.json",
-        "schema":        "$NDISCHEMAPATH/base_schema.json",
+        "definition":    "$NDISCHEMAPATH/base/definition.json",
+        "schema":        "$NDISCHEMAPATH/base/schema.json",
         "classname":     "base",
         "class_version": "1.0.0",
         "superclasses":  []
@@ -457,20 +452,17 @@ the schema — they represent the blank/template state.
 }
 ```
 
-Note: the blank values here (`""`) correspond to the `blank_value` for each field in
-the schema. They are not required to pass validation.
-
-### `definitions/probe/probe_location.json`
+### `schemas/probe/probe_location/definition.json`
 
 ```json
 {
     "document_class": {
-        "definition":    "$NDIDOCUMENTPATH/probe/probe_location.json",
-        "schema":        "$NDISCHEMAPATH/probe/probe_location_schema.json",
+        "definition":    "$NDISCHEMAPATH/probe/probe_location/definition.json",
+        "schema":        "$NDISCHEMAPATH/probe/probe_location/schema.json",
         "classname":     "probe_location",
         "class_version": "1.0.0",
         "superclasses": [
-            { "classname": "base", "definition": "$NDIDOCUMENTPATH/base.json" }
+            { "classname": "base", "definition": "$NDISCHEMAPATH/base/definition.json" }
         ]
     },
     "depends_on": [
@@ -495,375 +487,35 @@ definition). This mirrors the existing NDI convention.
 
 ---
 
-## MATLAB Classes to Implement
+## Test Tooling (Python)
 
-All classes live in the `+did/+schema/` package directory.
+The test suite uses Python with `pytest` and `jsonschema`. These tests validate the
+schema files themselves — they do not provide runtime document tooling.
 
----
+### Test categories
 
-### `+did/+schema/Schema.m`
+- **`test_meta_schema.py`** — Validates all schema files against `did_schema_meta.json`
+  using JSON Schema Draft 7. Tests that valid schemas pass and invalid schemas fail with
+  expected errors.
 
-Loads and represents a single schema file.
+- **`test_schemas.py`** — Structural tests: field names match naming patterns, types are
+  valid, required keys are present, superclass references are consistent, classnames are
+  unique across the repo.
 
-```
-Properties (public, read-only after construction):
-    classname       (string)   — document type name
-    class_version   (string)   — semver string
-    superclasses    (struct array) — loaded superclass schemas (recursive)
-    depends_on      (struct array) — dependency definitions
-    file            (struct array) — file record definitions
-    fields          (struct array) — field definitions for this class only
-    all_fields      (struct array) — fields from this class + all superclasses (flattened)
-    schema_path     (string)   — resolved filesystem path to this schema file
-    raw             (struct)   — the raw parsed JSON struct
+- **`test_documents.py`** — Validates document fixtures against their schemas using a
+  lightweight Python validator. Tests that valid documents pass and invalid documents
+  fail with the expected error fields (e.g., missing `id`, bad `datestamp` format).
 
-Constructor:
-    s = did.schema.Schema(schema_path)
-    s = did.schema.Schema(schema_path, path_tokens)
-        schema_path  : path to the schema JSON file
-                       may contain tokens like $NDISCHEMAPATH
-        path_tokens  : (optional) struct with token -> path mappings
-                       e.g., struct('NDISCHEMAPATH', '/path/to/schemas')
+### Running
 
-Methods (public):
-    result = s.validate_schema_file()
-        Validates the schema file itself against the meta-schema.
-        Returns a did.schema.ValidationResult object.
-
-    result = s.validate_document(doc_struct)
-        Validates a document struct against this schema (including superclass fields).
-        Returns a did.schema.ValidationResult object.
-
-    field = s.get_field(field_name)
-        Returns the field definition struct for a named field.
-        Searches this class's fields and all inherited fields.
-        Returns empty struct if not found.
-
-    disp(s)
-        Pretty-prints the schema summary.
+```bash
+pip install pytest jsonschema
+pytest
 ```
 
 ---
 
-### `+did/+schema/Document.m`
-
-Loads and represents a document instance.
-
-```
-Properties (public, read-only after construction):
-    classname       (string)
-    class_version   (string)
-    schema          (did.schema.Schema)  — the schema for this document type
-    data            (struct)             — the full document data
-    definition_path (string)
-
-Constructor:
-    d = did.schema.Document(definition_path_or_struct)
-    d = did.schema.Document(definition_path_or_struct, schema_search_paths)
-
-Methods (public):
-    result = d.validate()
-        Validates this document against its schema.
-        Returns a did.schema.ValidationResult object.
-
-    value = d.get(field_name)
-        Returns the value of a named field, searching all property blocks.
-
-    d2 = d.set(field_name, value)
-        Returns a new Document with the named field set to value.
-        Does not mutate the original.
-
-    s = d.to_struct()
-        Returns the document as a plain MATLAB struct.
-
-    json = d.to_json()
-        Returns the document as a JSON string.
-```
-
----
-
-### `+did/+schema/Validator.m`
-
-Contains all validation logic. Stateless — all methods are static.
-
-```
-Static Methods:
-
-    result = did.schema.Validator.validate_document(doc_struct, schema)
-        Top-level entry point. Validates a document struct against a Schema object.
-        Validates all fields, including inherited ones from superclasses.
-        Validates depends_on entries.
-        Returns a did.schema.ValidationResult.
-
-    result = did.schema.Validator.validate_field(value, field_def)
-        Validates a single value against a field definition struct.
-        Applies type check, constraint check, mustBeNonEmpty, mustBeScalar, mustNotHaveNaN.
-        Returns a did.schema.ValidationResult.
-
-    ok = did.schema.Validator.check_type(value, type_string)
-        Returns true if value conforms to the declared type.
-
-    ok = did.schema.Validator.check_constraints(value, type_string, constraints)
-        Returns true if value satisfies all constraints for the given type.
-
-    ok = did.schema.Validator.check_mustBeNonEmpty(value)
-        Returns false if value is [], {}, '', or [].
-
-    ok = did.schema.Validator.check_mustBeScalar(value)
-        Returns false if numel(value) != 1 for numeric/logical,
-        or if the value is a cell array or non-scalar struct.
-
-    ok = did.schema.Validator.check_mustNotHaveNaN(value)
-        Returns false if any element of value is NaN.
-
-    ok = did.schema.Validator.check_timestamp(value)
-        Returns true if value is a string matching ISO 8601 UTC format.
-
-    ok = did.schema.Validator.check_did_uid(value)
-        Returns true if value looks like a valid DID UID.
-        TODO: define the exact UID format regex; for now accept any non-empty string.
-
-    [major, minor, patch] = did.schema.Validator.parse_semver(version_string)
-        Parses a semver string. Throws if malformed.
-
-    ok = did.schema.Validator.is_compatible_version(doc_version, schema_version)
-        Returns true if doc_version and schema_version have the same MAJOR component.
-```
-
----
-
-### `+did/+schema/MetaValidator.m`
-
-Validates schema files against the meta-schema using standard JSON Schema Draft 7.
-
-```
-Methods (public):
-
-    result = did.schema.MetaValidator.validate(schema_path_or_struct)
-        Validates a schema file against did_schema_meta.json.
-        Returns a did.schema.ValidationResult.
-
-    path = did.schema.MetaValidator.meta_schema_path()
-        Returns the filesystem path to did_schema_meta.json,
-        resolving relative to the location of this .m file.
-```
-
-Implementation note: MATLAB R2022b and later include `jsonschema.Validator`. Use it
-if available. Otherwise, implement a lightweight structural checker in pure MATLAB that
-checks required keys, types, and patterns without full JSON Schema Draft 7 compliance.
-Leave a TODO marking where full Draft 7 compliance would be added.
-
----
-
-### `+did/+schema/ValidationResult.m`
-
-A simple result object returned by all validation functions.
-
-```
-Properties:
-    is_valid    (logical)     — true if validation passed
-    errors      (cell array of strings)  — error messages; empty if is_valid
-    warnings    (cell array of strings)  — warnings (e.g., default_value doesn't pass validation)
-    field_path  (string)      — dot-separated path to the field that failed, e.g. "probe_location.name"
-
-Constructor:
-    r = did.schema.ValidationResult()          — constructs a passing result
-    r = did.schema.ValidationResult(errors)    — constructs a failing result
-
-Methods:
-    r = r.add_error(message)
-    r = r.add_warning(message)
-    r2 = r.merge(other_result)   — combine two results (union of errors and warnings)
-    disp(r)                      — pretty-print the result
-```
-
----
-
-### `+did/+schema/util/loadJSON.m`
-
-```
-function s = loadJSON(filepath)
-% LOADJSON Read a JSON file and return it as a MATLAB struct.
-%   s = loadJSON(filepath)
-%   filepath : absolute or relative path to a .json file
-%   s        : MATLAB struct (or cell array for JSON arrays)
-%
-% Uses jsondecode internally. Throws a clear error if the file does not
-% exist or is not valid JSON.
-```
-
----
-
-### `+did/+schema/util/semver.m`
-
-```
-function [major, minor, patch] = semver(version_string)
-% SEMVER Parse a semantic version string.
-%   [major, minor, patch] = semver('1.2.3')
-%   Throws an error if the string does not match \d+\.\d+\.\d+.
-```
-
----
-
-### `+did/+schema/util/resolveSchemaPath.m`
-
-```
-function resolved = resolveSchemaPath(path_with_tokens, token_map)
-% RESOLVESCHEMAPATH Substitute path tokens in a schema path string.
-%   resolved = resolveSchemaPath('$NDISCHEMAPATH/base_schema.json', token_map)
-%   token_map : struct where fieldnames are token names (without $),
-%               and values are the replacement path strings.
-%   Example:
-%     token_map.NDISCHEMAPATH = '/home/user/schemas';
-%     resolveSchemaPath('$NDISCHEMAPATH/base.json', token_map)
-%     → '/home/user/schemas/base.json'
-```
-
----
-
-## Test Fixtures to Create
-
-### `tests/fixtures/valid_base_document.json`
-
-```json
-{
-    "document_class": {
-        "definition":    "$NDIDOCUMENTPATH/base.json",
-        "schema":        "$NDISCHEMAPATH/base_schema.json",
-        "classname":     "base",
-        "class_version": "1.0.0",
-        "superclasses":  []
-    },
-    "depends_on": [],
-    "base": {
-        "id":          "4126919195e6b5af_40d651024919a2e4",
-        "session_id":  "4126919195e8839b_40c6d9f78d173ae7",
-        "name":        "my_test_document",
-        "datestamp":   "2024-06-01T12:00:00.000Z"
-    }
-}
-```
-
-### `tests/fixtures/invalid_base_document_missing_id.json`
-
-Same as above but with `"id": ""` — should fail `mustBeNonEmpty` for the `id` field.
-
-### `tests/fixtures/invalid_base_document_bad_datestamp.json`
-
-Same as valid but with `"datestamp": "not-a-timestamp"` — should fail timestamp format check.
-
-### `tests/fixtures/valid_probe_location_document.json`
-
-```json
-{
-    "document_class": {
-        "definition":    "$NDIDOCUMENTPATH/probe/probe_location.json",
-        "schema":        "$NDISCHEMAPATH/probe/probe_location_schema.json",
-        "classname":     "probe_location",
-        "class_version": "1.0.0",
-        "superclasses": [
-            { "classname": "base", "definition": "$NDIDOCUMENTPATH/base.json" }
-        ]
-    },
-    "depends_on": [
-        { "name": "probe_id", "value": "aabb1122ccdd3344_aabb1122ccdd3344" }
-    ],
-    "base": {
-        "id":          "aabb1122ccdd3344_1122334455667788",
-        "session_id":  "aabb1122ccdd3344_9900aabbccddeeff",
-        "name":        "left_hemisphere_probe_location",
-        "datestamp":   "2024-06-01T12:00:00.000Z"
-    },
-    "probe_location": {
-        "ontology_name": "uberon:0002436",
-        "name":          "primary visual cortex"
-    }
-}
-```
-
-### `tests/fixtures/invalid_schema_missing_classname.json`
-
-A schema file with the `classname` key omitted — should fail meta-schema validation.
-
----
-
-## Unit Tests to Implement
-
-Each test file should use MATLAB's `matlab.unittest.TestCase` framework.
-
-### `tests/test_Schema.m`
-
-- Test that a valid schema file loads without error.
-- Test that `Schema.fields` contains the correct number of fields for `base_schema.json`.
-- Test that `Schema.all_fields` for `probe_location` includes both `base` and `probe_location` fields.
-- Test that loading a schema with a bad path throws a clear error.
-- Test that `validate_schema_file()` returns `is_valid = true` for `base_schema.json`.
-- Test that `validate_schema_file()` returns `is_valid = false` for `invalid_schema_missing_classname.json`.
-
-### `tests/test_Document.m`
-
-- Test that `valid_base_document.json` loads and validates cleanly.
-- Test that `valid_probe_location_document.json` loads and validates cleanly.
-- Test that `invalid_base_document_missing_id.json` fails validation with an error mentioning `id`.
-- Test that `invalid_base_document_bad_datestamp.json` fails validation with an error mentioning `datestamp`.
-- Test that `Document.get('id')` returns the correct value.
-- Test that `Document.set('name', 'new_name')` returns a new document with the updated value and does not modify the original.
-
-### `tests/test_Validator.m`
-
-- Test `check_mustBeNonEmpty` with: `""`, `[]`, `{}`, `null` (fail); `"hello"`, `1`, `struct('a',1)` (pass).
-- Test `check_mustBeScalar` with: `[1 2 3]` (fail); `1`, `"hi"` (pass).
-- Test `check_mustNotHaveNaN` with: `NaN`, `[1 NaN 3]` (fail); `1.5`, `[1 2 3]` (pass).
-- Test `check_timestamp` with: `"2024-06-01T12:00:00.000Z"` (pass); `"not-a-date"`, `""` (fail).
-- Test `check_type` for each of the valid type strings.
-- Test `check_constraints` for integer min/max, double min/max, char max_length, matrix rows/cols.
-- Test `parse_semver` with valid and invalid strings.
-- Test `is_compatible_version` for same MAJOR (compatible), different MAJOR (incompatible).
-
-### `tests/test_MetaValidator.m`
-
-- Test that `base_schema.json` passes meta-validation.
-- Test that `probe_location_schema.json` passes meta-validation.
-- Test that `invalid_schema_missing_classname.json` fails meta-validation.
-- Test that a schema with an unrecognized `type` string fails meta-validation.
-
-### `tests/test_semver.m`
-
-- Test `semver('1.0.0')` returns `[1, 0, 0]`.
-- Test `semver('2.14.3')` returns `[2, 14, 3]`.
-- Test `semver('bad')` throws an error.
-- Test `semver('1.2')` throws an error.
-
----
-
-## README.md Contents
-
-Write a README.md with the following sections:
-
-1. **What is this repo?** — one paragraph explaining did-schema as the schema layer for DID/NDI.
-2. **Schema format overview** — brief description of the six top-level keys and the field definition object, with a link to `REPO_SPEC.md` for full details.
-3. **Versioning** — one paragraph explaining semver usage and the MAJOR/MINOR/PATCH rules.
-4. **blank_value vs. default_value** — one short paragraph.
-5. **Validation** — explain that validation is explicit/deferred, not automatic on construction.
-6. **Getting started** — how to run the tests (`runtests('tests')`), how to load a schema, how to validate a document, with code snippets.
-7. **Repo structure** — the file tree reproduced.
-8. **Contributing** — one paragraph: when to bump MAJOR vs. MINOR vs. PATCH when editing a schema file.
-
----
-
-## Implementation Notes and TODOs
-
-Leave the following as `% TODO` comments in the code:
-
-- `Validator.check_did_uid`: The exact UID format regex is not yet standardized. For now, accept any non-empty string that is 33+ characters and contains only hex characters and underscores.
-- `MetaValidator`: Full JSON Schema Draft 7 compliance is deferred. Current implementation checks required keys and basic types only.
-- `Schema`: Superclass schemas are resolved relative to the referencing schema's directory. Cross-repo superclass resolution (e.g., NDI schema depending on a DID schema in a different repo) is not yet implemented — path tokens are the interim mechanism.
-- `Document.validate()`: Dependency existence checks (verifying that `depends_on` values point to real documents in a database) are not implemented at this layer. This layer only checks that `mustBeNonEmpty` dependencies have non-empty values. Full existence checking is the responsibility of the database layer.
-- `Validator.check_constraints` for `matrix`: Row/column dimension checking requires the value to actually be a 2D numeric array. The current implementation tolerates 1D arrays with a warning.
-
----
-
-## Key Design Decisions (for reference, do not implement differently)
+## Key Design Decisions (for reference)
 
 1. **`blank_value` and `default_value` are always both present** in every field definition. Neither is optional. This is enforced by the meta-schema.
 
@@ -871,8 +523,12 @@ Leave the following as `% TODO` comments in the code:
 
 3. **`"fields"` is the universal key** for property lists, not a per-class key. The old format used a class-named key (e.g., `"base": [...]`, `"probe_location": [...]`). The new format always uses `"fields": [...]`. The classname is already in `classname`; there is no need to repeat it as a key.
 
-4. **Validation is a pull action, not a push action.** A document does not validate itself on construction. Validation is triggered explicitly by calling `document.validate()` or by the database layer before insert. Schema files are validated against the meta-schema when `Schema` is constructed (a light check), but full document validation is always explicit.
+4. **Validation is a pull action, not a push action.** A document does not validate itself on construction. Validation is triggered explicitly by calling the appropriate method in the consumer tooling, or by the database layer before insert.
 
-5. **Superclass fields are inherited by flattening.** `Schema.all_fields` is a flat array combining fields from the schema and all its ancestors, in superclass-first order (base fields first). Duplicate field names are not permitted; the meta-validator checks for this across the inheritance chain.
+5. **Superclass fields are inherited by flattening.** `all_fields` is a flat array combining fields from the schema and all its ancestors, in superclass-first order (base fields first). Duplicate field names are not permitted; the meta-validator checks for this across the inheritance chain.
 
 6. **`ontology` is required on every field, but may be `null`.** Requiring the key (even if null) makes it clear that the schema author considered ontology annotation and made a deliberate choice. A missing `ontology` key is a meta-schema validation error.
+
+7. **Schemas and definitions are co-located.** Each document type directory contains both `schema.json` and `definition.json`. This eliminates the separate `$NDIDOCUMENTPATH` token — all paths use `$NDISCHEMAPATH`.
+
+8. **Language-specific tooling lives elsewhere.** This repo holds only schemas, definitions, and test validation. Runtime classes for loading, parsing, and manipulating documents belong in language-specific repos (e.g., `DID-matlab`, `DID-python`).

@@ -1,11 +1,11 @@
 {
     "document_class": {
-        "definition":    "$NDIDOCUMENTPATH/probe/probe_location.json",
-        "schema":        "$NDISCHEMAPATH/probe/probe_location_schema.json",
+        "definition":    "$NDISCHEMAPATH/probe/probe_location/definition.json",
+        "schema":        "$NDISCHEMAPATH/probe/probe_location/schema.json",
         "classname":     "probe_location",
         "class_version": "1.0.0",
         "superclasses": [
-            { "classname": "base", "definition": "$NDIDOCUMENTPATH/base.json" }
+            { "classname": "base", "definition": "$NDISCHEMAPATH/base/definition.json" }
         ]
     },
     "depends_on": [

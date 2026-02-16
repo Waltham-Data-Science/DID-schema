@@ -1,7 +1,7 @@
 {
     "document_class": {
-        "definition":    "$NDIDOCUMENTPATH/base.json",
-        "schema":        "$NDISCHEMAPATH/base_schema.json",
+        "definition":    "$NDISCHEMAPATH/base/definition.json",
+        "schema":        "$NDISCHEMAPATH/base/schema.json",
         "classname":     "base",
         "class_version": "1.0.0",
         "superclasses":  []

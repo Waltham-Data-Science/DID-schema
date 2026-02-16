@@ -2,7 +2,7 @@
     "classname":     "probe_location",
     "class_version": "1.0.0",
     "superclasses": [
-        { "classname": "base", "schema": "$NDISCHEMAPATH/base_schema.json" }
+        { "classname": "base", "schema": "$NDISCHEMAPATH/base/schema.json" }
     ],
     "depends_on": [
         {

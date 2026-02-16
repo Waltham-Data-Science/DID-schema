@@ -2,7 +2,7 @@
 
 ## What is this repo?
 
-`did-schema` is the schema layer for DID (data-interface database) and NDI (neuroscience data interface). It defines the canonical JSON format for schema files that describe DID/NDI document types, provides MATLAB classes for loading, parsing, and validating both schema files and document instances, and ships a meta-schema that validates schema files themselves. This repo is not NDI itself -- it is a standalone dependency that both DID and NDI rely on for document type definitions and validation.
+`did-schema` is the schema layer for DID (data-interface database) and NDI (neuroscience data interface). It defines the canonical JSON format for schema files that describe DID/NDI document types, ships a meta-schema that validates schema files themselves, and provides example schemas and blank document definitions. This repo is not NDI itself -- it is a standalone dependency that both DID and NDI rely on for document type definitions. Language-specific tooling (MATLAB, Python, etc.) lives in separate repositories and consumes these schemas.
 
 ## Schema format overview
 
@@ -19,6 +19,41 @@ Each field definition object contains: `name`, `type`, `blank_value`, `default_v
 
 See [REPO_SPEC.md](REPO_SPEC.md) for the full specification.
 
+## Directory layout
+
+Each document type is a directory under `schemas/` containing both its schema definition and its blank document definition (template):
+
+```
+did-schema/
+|
++-- README.md
++-- REPO_SPEC.md
++-- pyproject.toml
+|
++-- schemas/
+|   +-- meta/
+|   |   +-- did_schema_meta.json        <- meta-schema (JSON Schema Draft 7)
+|   +-- base/
+|   |   +-- schema.json                 <- schema for the base document type
+|   |   +-- definition.json             <- blank document template for base
+|   +-- probe/
+|       +-- probe_location/
+|           +-- schema.json             <- schema for probe_location document type
+|           +-- definition.json         <- blank document template for probe_location
+|
++-- tests/
+    +-- conftest.py
+    +-- test_meta_schema.py
+    +-- test_schemas.py
+    +-- test_documents.py
+    +-- fixtures/
+        +-- valid_base_document.json
+        +-- invalid_base_document_missing_id.json
+        +-- invalid_base_document_bad_datestamp.json
+        +-- valid_probe_location_document.json
+        +-- invalid_schema_missing_classname.json
+```
+
 ## Versioning
 
 Schema files use semantic versioning (`MAJOR.MINOR.PATCH`). Increment **MAJOR** when making breaking changes (removing/renaming fields, changing types, adding required constraints or dependencies, modifying superclass hierarchy). Increment **MINOR** when adding new optional fields, relaxing constraints, or improving ontology annotations -- existing documents will still pass validation. Increment **PATCH** for documentation corrections, `default_value` changes, or formatting cleanup with no behavioral effect.
@@ -29,91 +64,33 @@ Every field has both a `blank_value` and a `default_value`. The `blank_value` is
 
 ## Validation
 
-Validation is explicit and deferred -- documents do not validate themselves on construction. Call `document.validate()` or `schema.validate_document(doc_struct)` to trigger validation. Schema files are lightly checked against the meta-schema when loaded, but full document validation is always a pull action initiated by the caller or the database layer before insert.
+Validation is explicit and deferred -- documents do not validate themselves on construction. Consumer tooling (MATLAB, Python, etc.) calls a validate function explicitly, or the database layer triggers validation before insert. Schema files are validated against the meta-schema at load time.
 
-## Getting started
+## Path tokens
 
-### Run the tests
+Schema and definition files use `$NDISCHEMAPATH` tokens in path references. These are resolved at runtime by consumer tooling. Since schemas and definitions are co-located in this repo, a single token suffices. For example, `$NDISCHEMAPATH/base/schema.json` resolves to the base schema file.
 
-```matlab
-% From the repo root directory
-addpath(pwd);
-runtests('tests');
+## Running the tests
+
+```bash
+pip install pytest jsonschema
+pytest
 ```
 
-### Load a schema
+Or install as a project with test dependencies:
 
-```matlab
-tokens = struct('NDISCHEMAPATH', fullfile(pwd, 'schemas'), ...
-                'NDIDOCUMENTPATH', fullfile(pwd, 'definitions'));
-
-s = did.schema.Schema(fullfile(pwd, 'schemas', 'base_schema.json'), tokens);
-disp(s);
+```bash
+pip install -e ".[test]"
+pytest
 ```
 
-### Validate a document
+## Adding a new document type
 
-```matlab
-tokens = struct('NDISCHEMAPATH', fullfile(pwd, 'schemas'), ...
-                'NDIDOCUMENTPATH', fullfile(pwd, 'definitions'));
-
-d = did.schema.Document(fullfile(pwd, 'tests', 'fixtures', 'valid_base_document.json'), tokens);
-result = d.validate();
-disp(result);
-```
-
-### Load and inspect a schema field
-
-```matlab
-field = s.get_field('datestamp');
-disp(field);
-```
-
-## Repo structure
-
-```
-did-schema/
-|
-+-- README.md
-+-- REPO_SPEC.md
-|
-+-- schemas/
-|   +-- meta/
-|   |   +-- did_schema_meta.json
-|   +-- base_schema.json
-|   +-- probe/
-|       +-- probe_location_schema.json
-|
-+-- definitions/
-|   +-- base.json
-|   +-- probe/
-|       +-- probe_location.json
-|
-+-- +did/
-|   +-- +schema/
-|       +-- Schema.m
-|       +-- Document.m
-|       +-- Validator.m
-|       +-- MetaValidator.m
-|       +-- ValidationResult.m
-|       +-- util/
-|           +-- loadJSON.m
-|           +-- semver.m
-|           +-- resolveSchemaPath.m
-|
-+-- tests/
-    +-- test_Schema.m
-    +-- test_Document.m
-    +-- test_Validator.m
-    +-- test_MetaValidator.m
-    +-- test_semver.m
-    +-- fixtures/
-        +-- valid_base_document.json
-        +-- invalid_base_document_missing_id.json
-        +-- invalid_base_document_bad_datestamp.json
-        +-- valid_probe_location_document.json
-        +-- invalid_schema_missing_classname.json
-```
+1. Create a directory under `schemas/` (e.g., `schemas/mytype/` or `schemas/category/mytype/`).
+2. Add `schema.json` with the six required top-level keys.
+3. Add `definition.json` with the blank document template.
+4. Add test fixtures under `tests/fixtures/` if needed.
+5. Run `pytest` to verify the new schema passes meta-validation.
 
 ## Contributing
 
