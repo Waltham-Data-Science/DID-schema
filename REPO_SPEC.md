@@ -116,6 +116,11 @@ unrecognized top-level keys.
 | `mustBeNonEmpty` | boolean | yes      | Whether the dependency value must be non-empty at validation time. |
 | `documentation`  | string  | yes      | Human-readable description. |
 
+In a document instance, each dependency has a `name` and a `value`. The `value` must be
+the `id` (DID UID) of another document in the database, or of a document queued for
+insertion in the same transaction. This referential constraint cannot be checked by
+schema-level validation alone — see **Validation Phases** below.
+
 ### File Record Object
 
 ```json
@@ -254,6 +259,47 @@ The validator must:
 
 The validator must be able to compare two semver strings and determine if a document's
 declared version is compatible with the current schema version (same MAJOR, any MINOR/PATCH).
+
+---
+
+## Validation Phases
+
+Document validation is split into two phases. Phase 1 requires only the document and its
+schema. Phase 2 requires access to the database (or a batch of documents being inserted
+together). Both phases are the responsibility of consumer tooling — this repo defines the
+rules; consumer tooling enforces them.
+
+### Phase 1 — Schema-level validation (single document)
+
+Checks that can be performed with only the document and its schema file(s):
+
+- All fields declared in the schema (including inherited superclass fields) are present.
+- `mustBeNonEmpty` fields are not `null`, `""`, `[]`, or `{}`.
+- `mustBeScalar` fields are single values, not arrays.
+- `mustNotHaveNaN` fields contain no NaN values.
+- Type-specific format checks (e.g., `timestamp` matches ISO 8601 UTC, `did_uid` matches
+  the UID pattern).
+- Type-specific constraint checks (e.g., `min`/`max` for numeric types, `max_length` for
+  strings, `rows`/`cols` for matrices).
+- `depends_on` entries with `mustBeNonEmpty: true` have non-empty values.
+- `class_version` compatibility (same MAJOR version as the schema).
+
+Phase 1 is fully specified by this repo and tested in the test suite.
+
+### Phase 2 — Database-level validation (cross-document)
+
+Checks that require access to the database or a transaction context:
+
+- **Referential integrity of `depends_on`**: each dependency `value` must be the `id` of
+  an existing document in the database, or of a document queued for insertion in the same
+  transaction. The referenced document must exist and be of an appropriate type.
+- **Uniqueness of `id`**: the document's `id` field must not collide with any existing
+  document in the database.
+- **Any other cross-document invariants** defined by the application layer.
+
+Phase 2 is specified here but enforced by consumer tooling (e.g., the database insert
+path in `DID-matlab` or `DID-python`). This repo does not test Phase 2 because it has
+no database.
 
 ---
 
@@ -460,4 +506,6 @@ pytest
 
 6. **`ontology` is required on every field, but may be `null`.** Requiring the key (even if null) makes it clear that the schema author considered ontology annotation and made a deliberate choice. A missing `ontology` key is a meta-schema validation error.
 
-7. **Language-specific tooling lives elsewhere.** This repo holds only schema definitions and test validation. Runtime classes for loading, parsing, manipulating documents, and generating blank document templates belong in language-specific repos (e.g., `DID-matlab`, `DID-python`).
+7. **Validation has two phases.** Phase 1 (schema-level) checks a single document against its schema — types, constraints, non-empty rules, format patterns. Phase 2 (database-level) checks cross-document invariants — referential integrity of `depends_on` values, uniqueness of `id`. This repo specifies both phases but only tests Phase 1. Phase 2 enforcement belongs in consumer tooling.
+
+8. **Language-specific tooling lives elsewhere.** This repo holds only schema definitions and test validation. Runtime classes for loading, parsing, manipulating documents, and generating blank document templates belong in language-specific repos (e.g., `DID-matlab`, `DID-python`).
