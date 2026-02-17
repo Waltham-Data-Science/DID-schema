@@ -1,0 +1,74 @@
+{
+    "classname":     "ngrid",
+    "class_version": "1.0.0",
+    "superclasses": [
+        { "classname": "base", "schema": "$NDISCHEMAPATH/base/schema.json" }
+    ],
+    "depends_on": [
+        {
+            "name":           "element_id",
+            "mustBeNonEmpty": false,
+            "documentation":  "The document ID of the element this N-dimensional grid is associated with."
+        }
+    ],
+    "file": [
+        {
+            "name":           "ngrid_file",
+            "documentation":  "The N-dimensional grid data file."
+        }
+    ],
+    "fields": [
+        {
+            "name":           "ndims",
+            "type":           "integer",
+            "blank_value":    0,
+            "default_value":  0,
+            "mustBeNonEmpty": true,
+            "mustBeScalar":   true,
+            "mustNotHaveNaN": true,
+            "queryable":      true,
+            "ontology":       null,
+            "documentation":  "The number of dimensions of the grid.",
+            "constraints":    {}
+        },
+        {
+            "name":           "dim_sizes",
+            "type":           "char",
+            "blank_value":    "",
+            "default_value":  "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar":   true,
+            "mustNotHaveNaN": false,
+            "queryable":      false,
+            "ontology":       null,
+            "documentation":  "The size of each dimension, serialised as a JSON array of integers.",
+            "constraints":    {}
+        },
+        {
+            "name":           "dim_labels",
+            "type":           "char",
+            "blank_value":    "",
+            "default_value":  "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar":   true,
+            "mustNotHaveNaN": false,
+            "queryable":      false,
+            "ontology":       null,
+            "documentation":  "Labels for each dimension, serialised as a JSON array of strings.",
+            "constraints":    {}
+        },
+        {
+            "name":           "data_type",
+            "type":           "char",
+            "blank_value":    "",
+            "default_value":  "double",
+            "mustBeNonEmpty": false,
+            "mustBeScalar":   true,
+            "mustNotHaveNaN": false,
+            "queryable":      true,
+            "ontology":       null,
+            "documentation":  "The numeric data type of the grid values (e.g., 'double', 'single', 'int16').",
+            "constraints":    { "max_length": 64 }
+        }
+    ]
+}
