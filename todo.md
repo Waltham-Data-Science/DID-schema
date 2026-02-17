@@ -16,7 +16,7 @@ keys and value types are not defined in the schema.
 |---|--------|-------|----------------------|
 | 1 | `daq/syncgraph` | `graph_structure` | JSON representation of the synchronization graph connecting DAQ systems via sync rules. |
 | 2 | `data/fitcurve` | `fit_parameters` | JSON object or array of the fitted parameter values. |
-| 3 | `data/ontologyTableRow` | `row_data` | JSON object representing the key-value data for this ontology table row. |
+| ~~3~~ | ~~`data/ontologyTableRow`~~ | ~~`row_data`~~ | **DONE** — Replaced with 4 proper fields: `names`, `variableNames`, `ontologyNodes` (all comma-separated char), and `data` (structure type with dynamic keys from `variableNames`; requires special evaluator). |
 | 4 | `metadata/openminds` | `openminds_data` | JSON object containing the openMINDS metadata fields. |
 | 5 | `metadata/openminds_element` | `openminds_data` | JSON object containing the openMINDS metadata fields for this element. |
 | 6 | `metadata/openminds_stimulus` | `openminds_data` | JSON object containing the openMINDS metadata fields for this stimulus. |
