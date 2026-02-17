@@ -1,0 +1,45 @@
+{
+    "classname":     "subject",
+    "class_version": "1.0.0",
+    "superclasses": [
+        { "classname": "base", "schema": "$NDISCHEMAPATH/base/schema.json" }
+    ],
+    "depends_on":    [],
+    "file":          [],
+    "fields": [
+        {
+            "name":           "local_identifier",
+            "type":           "char",
+            "blank_value":    "",
+            "default_value":  "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar":   true,
+            "mustNotHaveNaN": false,
+            "queryable":      true,
+            "ontology": {
+                "namespace": "iao",
+                "term":      "0000578",
+                "uri":       "http://purl.obolibrary.org/obo/IAO_0000578"
+            },
+            "documentation":  "A globally unique identifier meaningful to a local group (e.g., 'mouse123@vhlab.org').",
+            "constraints":    { "max_length": 256 }
+        },
+        {
+            "name":           "description",
+            "type":           "char",
+            "blank_value":    "",
+            "default_value":  "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar":   true,
+            "mustNotHaveNaN": false,
+            "queryable":      false,
+            "ontology": {
+                "namespace": "schema",
+                "term":      "description",
+                "uri":       "https://schema.org/description"
+            },
+            "documentation":  "A free-text description of the subject.",
+            "constraints":    { "max_length": 1024 }
+        }
+    ]
+}
