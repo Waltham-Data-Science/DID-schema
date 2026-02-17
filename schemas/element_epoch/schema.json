@@ -1,0 +1,57 @@
+{
+    "classname":     "element_epoch",
+    "class_version": "1.0.0",
+    "superclasses": [
+        { "classname": "base", "schema": "$NDISCHEMAPATH/base/schema.json" },
+        { "classname": "epochid", "schema": "$NDISCHEMAPATH/epochid/schema.json" }
+    ],
+    "depends_on": [
+        {
+            "name":           "element_id",
+            "mustBeNonEmpty": true,
+            "documentation":  "The document ID of the element associated with this epoch."
+        }
+    ],
+    "file":          [],
+    "fields": [
+        {
+            "name":           "epoch_clock",
+            "type":           "char",
+            "blank_value":    "",
+            "default_value":  "dev_local_time",
+            "mustBeNonEmpty": true,
+            "mustBeScalar":   true,
+            "mustNotHaveNaN": false,
+            "queryable":      true,
+            "ontology":       null,
+            "documentation":  "The clock type that describes this epoch (e.g., 'dev_local_time', 'utc', 'exp_global_time').",
+            "constraints":    { "max_length": 256 }
+        },
+        {
+            "name":           "t0",
+            "type":           "double",
+            "blank_value":    0.0,
+            "default_value":  0.0,
+            "mustBeNonEmpty": true,
+            "mustBeScalar":   true,
+            "mustNotHaveNaN": true,
+            "queryable":      false,
+            "ontology":       null,
+            "documentation":  "The start time of this epoch, in time units of epoch_clock.",
+            "constraints":    {}
+        },
+        {
+            "name":           "t1",
+            "type":           "double",
+            "blank_value":    1.0,
+            "default_value":  1.0,
+            "mustBeNonEmpty": true,
+            "mustBeScalar":   true,
+            "mustNotHaveNaN": true,
+            "queryable":      false,
+            "ontology":       null,
+            "documentation":  "The stop time of this epoch, in time units of epoch_clock.",
+            "constraints":    {}
+        }
+    ]
+}
