@@ -28,16 +28,17 @@
         },
         {
             "name":           "parameters",
-            "type":           "char",
-            "blank_value":    "",
-            "default_value":  "",
+            "type":           "structure",
+            "blank_value":    {},
+            "default_value":  {},
             "mustBeNonEmpty": false,
             "mustBeScalar":   true,
             "mustNotHaveNaN": false,
             "queryable":      false,
             "ontology":       null,
-            "documentation":  "JSON object of the parameters used for sorting.",
-            "constraints":    {}
+            "documentation":  "Structure of parameter name-value pairs used for spike sorting. Keys and value types are specific to the algorithm named in sorter_name.",
+            "constraints":    { "dynamic_keys_from": "sorter_name" },
+            "fields":         []
         }
     ]
 }

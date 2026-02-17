@@ -28,16 +28,16 @@
         },
         {
             "name":           "channel_positions",
-            "type":           "char",
-            "blank_value":    "",
-            "default_value":  "",
+            "type":           "matrix",
+            "blank_value":    [],
+            "default_value":  [],
             "mustBeNonEmpty": false,
-            "mustBeScalar":   true,
+            "mustBeScalar":   false,
             "mustNotHaveNaN": false,
             "queryable":      false,
             "ontology":       null,
-            "documentation":  "JSON array of [x, y] positions for each channel in position_units.",
-            "constraints":    {}
+            "documentation":  "Nx2 matrix of channel positions in position_units, where N equals num_channels. Each row is [x, y] giving the spatial location of that channel on the probe.",
+            "constraints":    { "element_type": "double", "shape": "Nx2" }
         },
         {
             "name":           "position_units",

@@ -20,16 +20,17 @@
     "fields": [
         {
             "name":           "mapping_data",
-            "type":           "char",
-            "blank_value":    "",
-            "default_value":  "",
+            "type":           "structure",
+            "blank_value":    {},
+            "default_value":  {},
             "mustBeNonEmpty": false,
             "mustBeScalar":   true,
             "mustNotHaveNaN": false,
             "queryable":      false,
             "ontology":       null,
-            "documentation":  "JSON representation of the time mapping between clocks for this epoch.",
-            "constraints":    {}
+            "documentation":  "Structure representing the time mapping between clocks for this epoch. Keys are implementation-defined by the sync rule; typically includes the clock names being mapped and the corresponding sample timestamps.",
+            "constraints":    {},
+            "fields":         []
         },
         {
             "name":           "mapping_status",

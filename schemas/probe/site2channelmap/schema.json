@@ -15,16 +15,17 @@
     "fields": [
         {
             "name":           "site_to_channel",
-            "type":           "char",
-            "blank_value":    "",
-            "default_value":  "",
+            "type":           "structure",
+            "blank_value":    {},
+            "default_value":  {},
             "mustBeNonEmpty": false,
             "mustBeScalar":   true,
             "mustNotHaveNaN": false,
             "queryable":      false,
             "ontology":       null,
-            "documentation":  "JSON object mapping site numbers (keys) to DAQ channel numbers (values).",
-            "constraints":    {}
+            "documentation":  "Structure mapping probe site identifiers (keys, as strings) to zero-based DAQ channel indices (values, integers). Number of entries equals num_sites.",
+            "constraints":    { "dynamic_keys": true, "value_type": "integer" },
+            "fields":         []
         },
         {
             "name":           "num_sites",

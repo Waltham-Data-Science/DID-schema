@@ -28,42 +28,42 @@
         },
         {
             "name":           "independent_values",
-            "type":           "char",
-            "blank_value":    "",
-            "default_value":  "",
+            "type":           "matrix",
+            "blank_value":    [],
+            "default_value":  [],
             "mustBeNonEmpty": false,
-            "mustBeScalar":   true,
+            "mustBeScalar":   false,
             "mustNotHaveNaN": false,
             "queryable":      false,
             "ontology":       null,
-            "documentation":  "JSON array of the independent variable values.",
-            "constraints":    {}
+            "documentation":  "Array of numeric values of the independent variable, one per tuning curve point. Must be the same length as response_mean and response_stderr.",
+            "constraints":    { "element_type": "double" }
         },
         {
             "name":           "response_mean",
-            "type":           "char",
-            "blank_value":    "",
-            "default_value":  "",
+            "type":           "matrix",
+            "blank_value":    [],
+            "default_value":  [],
             "mustBeNonEmpty": false,
-            "mustBeScalar":   true,
+            "mustBeScalar":   false,
             "mustNotHaveNaN": false,
             "queryable":      false,
             "ontology":       null,
-            "documentation":  "JSON array of mean response values at each independent variable value.",
-            "constraints":    {}
+            "documentation":  "Array of mean response values at each point in independent_values. Must be the same length as independent_values.",
+            "constraints":    { "element_type": "double" }
         },
         {
             "name":           "response_stderr",
-            "type":           "char",
-            "blank_value":    "",
-            "default_value":  "",
+            "type":           "matrix",
+            "blank_value":    [],
+            "default_value":  [],
             "mustBeNonEmpty": false,
-            "mustBeScalar":   true,
+            "mustBeScalar":   false,
             "mustNotHaveNaN": false,
             "queryable":      false,
             "ontology":       null,
-            "documentation":  "JSON array of standard error of mean for each response value.",
-            "constraints":    {}
+            "documentation":  "Array of standard error of the mean for each response value. Must be the same length as independent_values.",
+            "constraints":    { "element_type": "double" }
         }
     ]
 }

@@ -36,7 +36,7 @@
             "mustNotHaveNaN": false,
             "queryable":      false,
             "ontology":       null,
-            "documentation":  "JSON array of metadata field names this reader can extract.",
+            "documentation":  "Comma-separated list of metadata field names this reader can extract (e.g., 'sample_rate,num_channels,device_name').",
             "constraints":    {}
         }
     ]

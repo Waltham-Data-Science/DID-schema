@@ -28,16 +28,16 @@
         },
         {
             "name":           "presentation_order",
-            "type":           "char",
-            "blank_value":    "",
-            "default_value":  "",
+            "type":           "matrix",
+            "blank_value":    [],
+            "default_value":  [],
             "mustBeNonEmpty": false,
-            "mustBeScalar":   true,
-            "mustNotHaveNaN": false,
+            "mustBeScalar":   false,
+            "mustNotHaveNaN": true,
             "queryable":      false,
             "ontology":       null,
-            "documentation":  "JSON array of stimulus indices in the order they were presented.",
-            "constraints":    {}
+            "documentation":  "Array of integer stimulus indices (1-based) in the order they were presented. Length equals num_trials.",
+            "constraints":    { "element_type": "integer" }
         },
         {
             "name":           "num_trials",

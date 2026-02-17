@@ -33,16 +33,17 @@
         },
         {
             "name":           "fit_parameters",
-            "type":           "char",
-            "blank_value":    "",
-            "default_value":  "",
+            "type":           "structure",
+            "blank_value":    {},
+            "default_value":  {},
             "mustBeNonEmpty": false,
             "mustBeScalar":   true,
             "mustNotHaveNaN": false,
             "queryable":      false,
             "ontology":       null,
-            "documentation":  "JSON object of the fitted parameter values.",
-            "constraints":    {}
+            "documentation":  "Structure of fitted parameter values keyed by parameter name. Keys and value types depend on fit_function (e.g., for 'threshold_linear': {threshold, slope}; for 'rectified_power': {threshold, slope, exponent}).",
+            "constraints":    { "dynamic_keys_from": "fit_function" },
+            "fields":         []
         },
         {
             "name":           "r_squared",

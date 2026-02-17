@@ -28,16 +28,17 @@
         },
         {
             "name":           "openminds_data",
-            "type":           "char",
-            "blank_value":    "",
-            "default_value":  "",
+            "type":           "structure",
+            "blank_value":    {},
+            "default_value":  {},
             "mustBeNonEmpty": false,
             "mustBeScalar":   true,
             "mustNotHaveNaN": false,
             "queryable":      false,
             "ontology":       null,
-            "documentation":  "JSON object containing the openMINDS metadata fields for this element.",
-            "constraints":    {}
+            "documentation":  "Structure containing the openMINDS metadata fields for this element, conforming to the schema type specified in openminds_type. Keys and value types follow the openMINDS specification for that type.",
+            "constraints":    { "conforms_to": "openminds_type" },
+            "fields":         []
         }
     ]
 }

@@ -15,29 +15,29 @@
     "fields": [
         {
             "name":           "response_window",
-            "type":           "char",
-            "blank_value":    "",
-            "default_value":  "",
+            "type":           "matrix",
+            "blank_value":    [],
+            "default_value":  [],
             "mustBeNonEmpty": false,
-            "mustBeScalar":   true,
+            "mustBeScalar":   false,
             "mustNotHaveNaN": false,
             "queryable":      false,
             "ontology":       null,
-            "documentation":  "JSON array [t_start, t_end] defining the time window for computing the scalar response (in seconds).",
-            "constraints":    {}
+            "documentation":  "Two-element row vector [t_start, t_end] in seconds defining the time window over which the scalar response is computed, relative to stimulus onset.",
+            "constraints":    { "element_type": "double", "length": 2 }
         },
         {
             "name":           "baseline_window",
-            "type":           "char",
-            "blank_value":    "",
-            "default_value":  "",
+            "type":           "matrix",
+            "blank_value":    [],
+            "default_value":  [],
             "mustBeNonEmpty": false,
-            "mustBeScalar":   true,
+            "mustBeScalar":   false,
             "mustNotHaveNaN": false,
             "queryable":      false,
             "ontology":       null,
-            "documentation":  "JSON array [t_start, t_end] defining the baseline time window (in seconds).",
-            "constraints":    {}
+            "documentation":  "Two-element row vector [t_start, t_end] in seconds defining the baseline time window used for response normalisation, relative to stimulus onset.",
+            "constraints":    { "element_type": "double", "length": 2 }
         },
         {
             "name":           "computation_method",

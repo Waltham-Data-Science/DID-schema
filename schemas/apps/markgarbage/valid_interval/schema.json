@@ -15,16 +15,16 @@
     "fields": [
         {
             "name":           "intervals",
-            "type":           "char",
-            "blank_value":    "",
-            "default_value":  "",
+            "type":           "matrix",
+            "blank_value":    [],
+            "default_value":  [],
             "mustBeNonEmpty": false,
-            "mustBeScalar":   true,
+            "mustBeScalar":   false,
             "mustNotHaveNaN": false,
             "queryable":      false,
             "ontology":       null,
-            "documentation":  "JSON array of [start, end] time intervals (in seconds) that are considered valid (non-garbage).",
-            "constraints":    {}
+            "documentation":  "Nx2 matrix of valid (non-garbage) time intervals in seconds, where N equals num_intervals. Each row is [t_start, t_end] with t_start < t_end.",
+            "constraints":    { "element_type": "double", "shape": "Nx2" }
         },
         {
             "name":           "num_intervals",
