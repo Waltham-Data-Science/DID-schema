@@ -1,0 +1,82 @@
+{
+    "classname":     "binaryseries_parameters",
+    "class_version": "1.0.0",
+    "superclasses": [
+        { "classname": "base", "schema": "$NDISCHEMAPATH/base/schema.json" }
+    ],
+    "depends_on": [
+        {
+            "name":           "element_id",
+            "mustBeNonEmpty": false,
+            "documentation":  "The document ID of the element this binary series is associated with."
+        }
+    ],
+    "file":          [],
+    "fields": [
+        {
+            "name":           "data_type",
+            "type":           "char",
+            "blank_value":    "",
+            "default_value":  "double",
+            "mustBeNonEmpty": true,
+            "mustBeScalar":   true,
+            "mustNotHaveNaN": false,
+            "queryable":      true,
+            "ontology":       null,
+            "documentation":  "The numeric data type of the binary series (e.g., 'double', 'single', 'int16', 'uint8').",
+            "constraints":    { "max_length": 32 }
+        },
+        {
+            "name":           "sample_rate",
+            "type":           "double",
+            "blank_value":    0.0,
+            "default_value":  0.0,
+            "mustBeNonEmpty": true,
+            "mustBeScalar":   true,
+            "mustNotHaveNaN": true,
+            "queryable":      true,
+            "ontology":       null,
+            "documentation":  "The sampling rate in samples per second (Hz).",
+            "constraints":    {}
+        },
+        {
+            "name":           "num_channels",
+            "type":           "integer",
+            "blank_value":    0,
+            "default_value":  1,
+            "mustBeNonEmpty": true,
+            "mustBeScalar":   true,
+            "mustNotHaveNaN": true,
+            "queryable":      true,
+            "ontology":       null,
+            "documentation":  "The number of channels in the binary series.",
+            "constraints":    {}
+        },
+        {
+            "name":           "byte_order",
+            "type":           "char",
+            "blank_value":    "",
+            "default_value":  "little-endian",
+            "mustBeNonEmpty": false,
+            "mustBeScalar":   true,
+            "mustNotHaveNaN": false,
+            "queryable":      false,
+            "ontology":       null,
+            "documentation":  "Byte order of the binary data ('little-endian' or 'big-endian').",
+            "constraints":    { "max_length": 32 }
+        },
+        {
+            "name":           "header_bytes",
+            "type":           "integer",
+            "blank_value":    0,
+            "default_value":  0,
+            "mustBeNonEmpty": false,
+            "mustBeScalar":   true,
+            "mustNotHaveNaN": true,
+            "queryable":      false,
+            "ontology":       null,
+            "documentation":  "The number of header bytes to skip before reading binary data.",
+            "constraints":    {}
+        }
+    ]
+}

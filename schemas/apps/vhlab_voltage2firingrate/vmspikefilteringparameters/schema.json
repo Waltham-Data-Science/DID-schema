@@ -1,0 +1,43 @@
+{
+    "classname":     "vmspikefilteringparameters",
+    "class_version": "1.0.0",
+    "superclasses": [
+        { "classname": "base", "schema": "$NDISCHEMAPATH/base/schema.json" }
+    ],
+    "depends_on": [
+        {
+            "name":           "element_id",
+            "mustBeNonEmpty": true,
+            "documentation":  "The document ID of the neuron element these filtering parameters apply to."
+        }
+    ],
+    "file":          [],
+    "fields": [
+        {
+            "name":           "filter_type",
+            "type":           "char",
+            "blank_value":    "",
+            "default_value":  "median",
+            "mustBeNonEmpty": true,
+            "mustBeScalar":   true,
+            "mustNotHaveNaN": false,
+            "queryable":      true,
+            "ontology":       null,
+            "documentation":  "The type of spike filtering applied to the Vm signal (e.g., 'median', 'interpolation').",
+            "constraints":    { "max_length": 64 }
+        },
+        {
+            "name":           "filter_window",
+            "type":           "double",
+            "blank_value":    0.0,
+            "default_value":  0.001,
+            "mustBeNonEmpty": false,
+            "mustBeScalar":   true,
+            "mustNotHaveNaN": false,
+            "queryable":      false,
+            "ontology":       null,
+            "documentation":  "The time window in seconds used for spike filtering.",
+            "constraints":    {}
+        }
+    ]
+}

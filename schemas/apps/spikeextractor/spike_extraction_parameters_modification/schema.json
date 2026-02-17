@@ -1,0 +1,43 @@
+{
+    "classname":     "spike_extraction_parameters_modification",
+    "class_version": "1.0.0",
+    "superclasses": [
+        { "classname": "base", "schema": "$NDISCHEMAPATH/base/schema.json" }
+    ],
+    "depends_on": [
+        {
+            "name":           "spike_extraction_parameters_id",
+            "mustBeNonEmpty": true,
+            "documentation":  "The document ID of the spike_extraction_parameters being modified."
+        }
+    ],
+    "file":          [],
+    "fields": [
+        {
+            "name":           "modified_fields",
+            "type":           "char",
+            "blank_value":    "",
+            "default_value":  "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar":   true,
+            "mustNotHaveNaN": false,
+            "queryable":      false,
+            "ontology":       null,
+            "documentation":  "JSON object of field names and their modified values.",
+            "constraints":    {}
+        },
+        {
+            "name":           "modification_reason",
+            "type":           "char",
+            "blank_value":    "",
+            "default_value":  "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar":   true,
+            "mustNotHaveNaN": false,
+            "queryable":      false,
+            "ontology":       null,
+            "documentation":  "A free-text reason for the parameter modification.",
+            "constraints":    { "max_length": 1024 }
+        }
+    ]
+}

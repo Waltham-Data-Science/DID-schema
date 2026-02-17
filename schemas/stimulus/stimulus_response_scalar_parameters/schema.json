@@ -1,0 +1,56 @@
+{
+    "classname":     "stimulus_response_scalar_parameters",
+    "class_version": "1.0.0",
+    "superclasses": [
+        { "classname": "base", "schema": "$NDISCHEMAPATH/base/schema.json" }
+    ],
+    "depends_on": [
+        {
+            "name":           "stimulus_response_scalar_id",
+            "mustBeNonEmpty": true,
+            "documentation":  "The document ID of the stimulus_response_scalar these parameters describe."
+        }
+    ],
+    "file":          [],
+    "fields": [
+        {
+            "name":           "response_window",
+            "type":           "char",
+            "blank_value":    "",
+            "default_value":  "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar":   true,
+            "mustNotHaveNaN": false,
+            "queryable":      false,
+            "ontology":       null,
+            "documentation":  "JSON array [t_start, t_end] defining the time window for computing the scalar response (in seconds).",
+            "constraints":    {}
+        },
+        {
+            "name":           "baseline_window",
+            "type":           "char",
+            "blank_value":    "",
+            "default_value":  "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar":   true,
+            "mustNotHaveNaN": false,
+            "queryable":      false,
+            "ontology":       null,
+            "documentation":  "JSON array [t_start, t_end] defining the baseline time window (in seconds).",
+            "constraints":    {}
+        },
+        {
+            "name":           "computation_method",
+            "type":           "char",
+            "blank_value":    "",
+            "default_value":  "mean",
+            "mustBeNonEmpty": false,
+            "mustBeScalar":   true,
+            "mustNotHaveNaN": false,
+            "queryable":      true,
+            "ontology":       null,
+            "documentation":  "The method used to compute the scalar response (e.g., 'mean', 'f1f0', 'max').",
+            "constraints":    { "max_length": 64 }
+        }
+    ]
+}

@@ -1,0 +1,43 @@
+{
+    "classname":     "electrode_offset_voltage",
+    "class_version": "1.0.0",
+    "superclasses": [
+        { "classname": "base", "schema": "$NDISCHEMAPATH/base/schema.json" }
+    ],
+    "depends_on": [
+        {
+            "name":           "probe_id",
+            "mustBeNonEmpty": true,
+            "documentation":  "The document ID of the probe this offset voltage data belongs to."
+        }
+    ],
+    "file":          [],
+    "fields": [
+        {
+            "name":           "offset_voltages",
+            "type":           "char",
+            "blank_value":    "",
+            "default_value":  "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar":   true,
+            "mustNotHaveNaN": false,
+            "queryable":      false,
+            "ontology":       null,
+            "documentation":  "JSON array of offset voltage values for each electrode channel.",
+            "constraints":    {}
+        },
+        {
+            "name":           "voltage_units",
+            "type":           "char",
+            "blank_value":    "",
+            "default_value":  "V",
+            "mustBeNonEmpty": false,
+            "mustBeScalar":   true,
+            "mustNotHaveNaN": false,
+            "queryable":      false,
+            "ontology":       null,
+            "documentation":  "The units of the offset voltage values (e.g., 'V', 'mV', 'uV').",
+            "constraints":    { "max_length": 16 }
+        }
+    ]
+}

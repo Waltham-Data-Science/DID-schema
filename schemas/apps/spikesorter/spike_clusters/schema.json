@@ -1,0 +1,53 @@
+{
+    "classname":     "spike_clusters",
+    "class_version": "1.0.0",
+    "superclasses": [
+        { "classname": "base", "schema": "$NDISCHEMAPATH/base/schema.json" }
+    ],
+    "depends_on": [
+        {
+            "name":           "element_id",
+            "mustBeNonEmpty": true,
+            "documentation":  "The document ID of the element (e.g., probe) this sorting output is associated with."
+        },
+        {
+            "name":           "sorting_parameters_id",
+            "mustBeNonEmpty": true,
+            "documentation":  "The document ID of the sorting parameters used."
+        }
+    ],
+    "file": [
+        {
+            "name":           "clusters_file",
+            "documentation":  "The file containing the spike cluster assignments."
+        }
+    ],
+    "fields": [
+        {
+            "name":           "num_clusters",
+            "type":           "integer",
+            "blank_value":    0,
+            "default_value":  0,
+            "mustBeNonEmpty": false,
+            "mustBeScalar":   true,
+            "mustNotHaveNaN": true,
+            "queryable":      true,
+            "ontology":       null,
+            "documentation":  "The number of clusters (units) identified.",
+            "constraints":    {}
+        },
+        {
+            "name":           "num_spikes",
+            "type":           "integer",
+            "blank_value":    0,
+            "default_value":  0,
+            "mustBeNonEmpty": false,
+            "mustBeScalar":   true,
+            "mustNotHaveNaN": true,
+            "queryable":      true,
+            "ontology":       null,
+            "documentation":  "The total number of spikes that were sorted.",
+            "constraints":    {}
+        }
+    ]
+}

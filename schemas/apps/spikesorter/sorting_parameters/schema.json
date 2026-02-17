@@ -1,0 +1,43 @@
+{
+    "classname":     "sorting_parameters",
+    "class_version": "1.0.0",
+    "superclasses": [
+        { "classname": "base", "schema": "$NDISCHEMAPATH/base/schema.json" }
+    ],
+    "depends_on": [
+        {
+            "name":           "element_id",
+            "mustBeNonEmpty": true,
+            "documentation":  "The document ID of the element (e.g., probe) these sorting parameters apply to."
+        }
+    ],
+    "file":          [],
+    "fields": [
+        {
+            "name":           "sorter_name",
+            "type":           "char",
+            "blank_value":    "",
+            "default_value":  "",
+            "mustBeNonEmpty": true,
+            "mustBeScalar":   true,
+            "mustNotHaveNaN": false,
+            "queryable":      true,
+            "ontology":       null,
+            "documentation":  "The name of the spike sorting algorithm.",
+            "constraints":    { "max_length": 128 }
+        },
+        {
+            "name":           "parameters",
+            "type":           "char",
+            "blank_value":    "",
+            "default_value":  "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar":   true,
+            "mustNotHaveNaN": false,
+            "queryable":      false,
+            "ontology":       null,
+            "documentation":  "JSON object of the parameters used for sorting.",
+            "constraints":    {}
+        }
+    ]
+}

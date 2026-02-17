@@ -1,0 +1,56 @@
+{
+    "classname":     "stimulus_parameter_table",
+    "class_version": "1.0.0",
+    "superclasses": [
+        { "classname": "base", "schema": "$NDISCHEMAPATH/base/schema.json" }
+    ],
+    "depends_on": [
+        {
+            "name":           "stimulus_presentation_id",
+            "mustBeNonEmpty": true,
+            "documentation":  "The document ID of the stimulus presentation this parameter table belongs to."
+        }
+    ],
+    "file":          [],
+    "fields": [
+        {
+            "name":           "parameter_names",
+            "type":           "char",
+            "blank_value":    "",
+            "default_value":  "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar":   true,
+            "mustNotHaveNaN": false,
+            "queryable":      false,
+            "ontology":       null,
+            "documentation":  "JSON array of parameter names (column headers) in the table.",
+            "constraints":    {}
+        },
+        {
+            "name":           "table_data",
+            "type":           "char",
+            "blank_value":    "",
+            "default_value":  "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar":   true,
+            "mustNotHaveNaN": false,
+            "queryable":      false,
+            "ontology":       null,
+            "documentation":  "JSON 2D array of parameter values (rows x columns).",
+            "constraints":    {}
+        },
+        {
+            "name":           "num_stimuli",
+            "type":           "integer",
+            "blank_value":    0,
+            "default_value":  0,
+            "mustBeNonEmpty": false,
+            "mustBeScalar":   true,
+            "mustNotHaveNaN": true,
+            "queryable":      true,
+            "ontology":       null,
+            "documentation":  "The number of stimulus conditions (rows) in the table.",
+            "constraints":    {}
+        }
+    ]
+}

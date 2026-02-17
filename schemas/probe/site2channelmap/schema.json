@@ -1,0 +1,43 @@
+{
+    "classname":     "site2channelmap",
+    "class_version": "1.0.0",
+    "superclasses": [
+        { "classname": "base", "schema": "$NDISCHEMAPATH/base/schema.json" }
+    ],
+    "depends_on": [
+        {
+            "name":           "probe_id",
+            "mustBeNonEmpty": true,
+            "documentation":  "The document ID of the probe this channel map belongs to."
+        }
+    ],
+    "file":          [],
+    "fields": [
+        {
+            "name":           "site_to_channel",
+            "type":           "char",
+            "blank_value":    "",
+            "default_value":  "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar":   true,
+            "mustNotHaveNaN": false,
+            "queryable":      false,
+            "ontology":       null,
+            "documentation":  "JSON object mapping site numbers (keys) to DAQ channel numbers (values).",
+            "constraints":    {}
+        },
+        {
+            "name":           "num_sites",
+            "type":           "integer",
+            "blank_value":    0,
+            "default_value":  0,
+            "mustBeNonEmpty": false,
+            "mustBeScalar":   true,
+            "mustNotHaveNaN": true,
+            "queryable":      true,
+            "ontology":       null,
+            "documentation":  "The number of recording sites in this mapping.",
+            "constraints":    {}
+        }
+    ]
+}

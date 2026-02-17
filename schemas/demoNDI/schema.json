@@ -1,0 +1,37 @@
+{
+    "classname":     "demoNDI",
+    "class_version": "1.0.0",
+    "superclasses": [
+        { "classname": "base", "schema": "$NDISCHEMAPATH/base/schema.json" }
+    ],
+    "depends_on":    [],
+    "file":          [],
+    "fields": [
+        {
+            "name":           "demo_param1",
+            "type":           "double",
+            "blank_value":    0.0,
+            "default_value":  1.0,
+            "mustBeNonEmpty": false,
+            "mustBeScalar":   true,
+            "mustNotHaveNaN": false,
+            "queryable":      true,
+            "ontology":       null,
+            "documentation":  "A demonstration numeric parameter.",
+            "constraints":    {}
+        },
+        {
+            "name":           "demo_param2",
+            "type":           "char",
+            "blank_value":    "",
+            "default_value":  "hello",
+            "mustBeNonEmpty": false,
+            "mustBeScalar":   true,
+            "mustNotHaveNaN": false,
+            "queryable":      true,
+            "ontology":       null,
+            "documentation":  "A demonstration string parameter.",
+            "constraints":    { "max_length": 256 }
+        }
+    ]
+}
