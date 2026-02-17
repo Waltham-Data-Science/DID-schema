@@ -1,0 +1,69 @@
+{
+    "classname":     "fitcurve",
+    "class_version": "1.0.0",
+    "superclasses": [
+        { "classname": "base", "schema": "$NDISCHEMAPATH/base/schema.json" }
+    ],
+    "depends_on": [
+        {
+            "name":           "element_id",
+            "mustBeNonEmpty": false,
+            "documentation":  "The document ID of the element this fit curve is associated with."
+        }
+    ],
+    "file":          [],
+    "fields": [
+        {
+            "name":           "fit_function",
+            "type":           "char",
+            "blank_value":    "",
+            "default_value":  "",
+            "mustBeNonEmpty": true,
+            "mustBeScalar":   true,
+            "mustNotHaveNaN": false,
+            "queryable":      true,
+            "ontology":       null,
+            "documentation":  "The name or formula of the fitting function (e.g., 'gaussian', 'sigmoid', 'polynomial').",
+            "constraints":    { "max_length": 256 }
+        },
+        {
+            "name":           "fit_parameters",
+            "type":           "char",
+            "blank_value":    "",
+            "default_value":  "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar":   true,
+            "mustNotHaveNaN": false,
+            "queryable":      false,
+            "ontology":       null,
+            "documentation":  "JSON object or array of the fitted parameter values.",
+            "constraints":    {}
+        },
+        {
+            "name":           "goodness_of_fit",
+            "type":           "double",
+            "blank_value":    0.0,
+            "default_value":  0.0,
+            "mustBeNonEmpty": false,
+            "mustBeScalar":   true,
+            "mustNotHaveNaN": false,
+            "queryable":      false,
+            "ontology":       null,
+            "documentation":  "A goodness-of-fit statistic (e.g., R-squared value).",
+            "constraints":    {}
+        },
+        {
+            "name":           "goodness_of_fit_type",
+            "type":           "char",
+            "blank_value":    "",
+            "default_value":  "r_squared",
+            "mustBeNonEmpty": false,
+            "mustBeScalar":   true,
+            "mustNotHaveNaN": false,
+            "queryable":      true,
+            "ontology":       null,
+            "documentation":  "The type of goodness-of-fit measure (e.g., 'r_squared', 'rmse', 'chi_squared').",
+            "constraints":    { "max_length": 64 }
+        }
+    ]
+}

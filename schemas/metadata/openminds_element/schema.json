@@ -1,0 +1,43 @@
+{
+    "classname":     "openminds_element",
+    "class_version": "1.0.0",
+    "superclasses": [
+        { "classname": "base", "schema": "$NDISCHEMAPATH/base/schema.json" }
+    ],
+    "depends_on": [
+        {
+            "name":           "element_id",
+            "mustBeNonEmpty": true,
+            "documentation":  "The document ID of the element this openMINDS metadata describes."
+        }
+    ],
+    "file":          [],
+    "fields": [
+        {
+            "name":           "openminds_type",
+            "type":           "char",
+            "blank_value":    "",
+            "default_value":  "",
+            "mustBeNonEmpty": true,
+            "mustBeScalar":   true,
+            "mustNotHaveNaN": false,
+            "queryable":      true,
+            "ontology":       null,
+            "documentation":  "The openMINDS schema type for this element metadata.",
+            "constraints":    { "max_length": 256 }
+        },
+        {
+            "name":           "openminds_data",
+            "type":           "char",
+            "blank_value":    "",
+            "default_value":  "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar":   true,
+            "mustNotHaveNaN": false,
+            "queryable":      false,
+            "ontology":       null,
+            "documentation":  "JSON object containing the openMINDS metadata fields for this element.",
+            "constraints":    {}
+        }
+    ]
+}

@@ -1,0 +1,30 @@
+{
+    "classname":     "session_in_a_dataset",
+    "class_version": "1.0.0",
+    "superclasses": [
+        { "classname": "base", "schema": "$NDISCHEMAPATH/base/schema.json" }
+    ],
+    "depends_on": [
+        {
+            "name":           "session_id",
+            "mustBeNonEmpty": true,
+            "documentation":  "The document ID of the session."
+        }
+    ],
+    "file":          [],
+    "fields": [
+        {
+            "name":           "dataset_id",
+            "type":           "char",
+            "blank_value":    "",
+            "default_value":  "",
+            "mustBeNonEmpty": true,
+            "mustBeScalar":   true,
+            "mustNotHaveNaN": false,
+            "queryable":      true,
+            "ontology":       null,
+            "documentation":  "The identifier of the dataset this session belongs to.",
+            "constraints":    { "max_length": 256 }
+        }
+    ]
+}

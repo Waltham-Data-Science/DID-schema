@@ -1,0 +1,40 @@
+{
+    "classname":     "stimulus_response",
+    "class_version": "1.0.0",
+    "superclasses": [
+        { "classname": "base", "schema": "$NDISCHEMAPATH/base/schema.json" }
+    ],
+    "depends_on": [
+        {
+            "name":           "stimulus_presentation_id",
+            "mustBeNonEmpty": true,
+            "documentation":  "The document ID of the stimulus presentation."
+        },
+        {
+            "name":           "element_id",
+            "mustBeNonEmpty": true,
+            "documentation":  "The document ID of the element (e.g., neuron) whose response was measured."
+        }
+    ],
+    "file": [
+        {
+            "name":           "response_file",
+            "documentation":  "The file containing the stimulus response data."
+        }
+    ],
+    "fields": [
+        {
+            "name":           "response_type",
+            "type":           "char",
+            "blank_value":    "",
+            "default_value":  "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar":   true,
+            "mustNotHaveNaN": false,
+            "queryable":      true,
+            "ontology":       null,
+            "documentation":  "The type of response measured (e.g., 'spikes', 'calcium', 'voltage').",
+            "constraints":    { "max_length": 128 }
+        }
+    ]
+}

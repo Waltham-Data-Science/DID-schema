@@ -1,0 +1,51 @@
+{
+    "classname":     "probe_location",
+    "class_version": "1.0.0",
+    "superclasses": [
+        { "classname": "base", "schema": "$NDISCHEMAPATH/base/schema.json" }
+    ],
+    "depends_on": [
+        {
+            "name":           "probe_id",
+            "mustBeNonEmpty": true,
+            "documentation":  "The unique ID of the probe document this location is associated with."
+        }
+    ],
+    "file":   [],
+    "fields": [
+        {
+            "name":           "ontology_name",
+            "type":           "char",
+            "blank_value":    "",
+            "default_value":  "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar":   true,
+            "mustNotHaveNaN": false,
+            "queryable":      true,
+            "ontology": {
+                "namespace": "iao",
+                "term":      "0000219",
+                "uri":       "http://purl.obolibrary.org/obo/IAO_0000219"
+            },
+            "documentation":  "Formal ontology identifier for the probe location (e.g., 'uberon:0002436').",
+            "constraints":    { "max_length": 256 }
+        },
+        {
+            "name":           "name",
+            "type":           "char",
+            "blank_value":    "",
+            "default_value":  "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar":   true,
+            "mustNotHaveNaN": false,
+            "queryable":      true,
+            "ontology": {
+                "namespace": "schema",
+                "term":      "name",
+                "uri":       "https://schema.org/name"
+            },
+            "documentation":  "Human-readable name or label of the probe location as used by the ontology referenced in ontology_name (e.g., 'primary visual cortex').",
+            "constraints":    { "max_length": 256 }
+        }
+    ]
+}

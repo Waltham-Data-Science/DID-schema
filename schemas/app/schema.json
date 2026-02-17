@@ -1,0 +1,118 @@
+{
+    "classname":     "app",
+    "class_version": "1.0.0",
+    "superclasses": [
+        { "classname": "base", "schema": "$NDISCHEMAPATH/base/schema.json" }
+    ],
+    "depends_on":    [],
+    "file":          [],
+    "fields": [
+        {
+            "name":           "app_name",
+            "type":           "char",
+            "blank_value":    "",
+            "default_value":  "ndi.app",
+            "mustBeNonEmpty": true,
+            "mustBeScalar":   true,
+            "mustNotHaveNaN": false,
+            "queryable":      true,
+            "ontology": {
+                "namespace": "schema",
+                "term":      "name",
+                "uri":       "https://schema.org/name"
+            },
+            "documentation":  "The name of the application.",
+            "constraints":    { "max_length": 256 }
+        },
+        {
+            "name":           "app_version",
+            "type":           "char",
+            "blank_value":    "",
+            "default_value":  "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar":   true,
+            "mustNotHaveNaN": false,
+            "queryable":      true,
+            "ontology": {
+                "namespace": "schema",
+                "term":      "softwareVersion",
+                "uri":       "https://schema.org/softwareVersion"
+            },
+            "documentation":  "The version of the app (often a Git commit identifier).",
+            "constraints":    { "max_length": 256 }
+        },
+        {
+            "name":           "url",
+            "type":           "char",
+            "blank_value":    "",
+            "default_value":  "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar":   true,
+            "mustNotHaveNaN": false,
+            "queryable":      false,
+            "ontology": {
+                "namespace": "schema",
+                "term":      "url",
+                "uri":       "https://schema.org/url"
+            },
+            "documentation":  "The home page URL of the application.",
+            "constraints":    { "max_length": 1024 }
+        },
+        {
+            "name":           "os",
+            "type":           "char",
+            "blank_value":    "",
+            "default_value":  "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar":   true,
+            "mustNotHaveNaN": false,
+            "queryable":      false,
+            "ontology": {
+                "namespace": "schema",
+                "term":      "operatingSystem",
+                "uri":       "https://schema.org/operatingSystem"
+            },
+            "documentation":  "The operating system that ran the application.",
+            "constraints":    { "max_length": 256 }
+        },
+        {
+            "name":           "os_version",
+            "type":           "char",
+            "blank_value":    "",
+            "default_value":  "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar":   true,
+            "mustNotHaveNaN": false,
+            "queryable":      false,
+            "ontology":       null,
+            "documentation":  "The operating system version.",
+            "constraints":    { "max_length": 256 }
+        },
+        {
+            "name":           "interpreter",
+            "type":           "char",
+            "blank_value":    "",
+            "default_value":  "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar":   true,
+            "mustNotHaveNaN": false,
+            "queryable":      true,
+            "ontology":       null,
+            "documentation":  "The name of the interpreter (e.g., 'Matlab', 'python3').",
+            "constraints":    { "max_length": 256 }
+        },
+        {
+            "name":           "interpreter_version",
+            "type":           "char",
+            "blank_value":    "",
+            "default_value":  "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar":   true,
+            "mustNotHaveNaN": false,
+            "queryable":      false,
+            "ontology":       null,
+            "documentation":  "The version of the interpreter.",
+            "constraints":    { "max_length": 256 }
+        }
+    ]
+}

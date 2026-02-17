@@ -1,0 +1,48 @@
+{
+    "classname":     "syncrule_mapping",
+    "class_version": "1.0.0",
+    "superclasses": [
+        { "classname": "base", "schema": "$NDISCHEMAPATH/base/schema.json" }
+    ],
+    "depends_on": [
+        {
+            "name":           "syncrule_id",
+            "mustBeNonEmpty": true,
+            "documentation":  "The document ID of the sync rule this mapping was computed from."
+        },
+        {
+            "name":           "epochid",
+            "mustBeNonEmpty": true,
+            "documentation":  "The document ID of the epoch this mapping was computed for."
+        }
+    ],
+    "file":          [],
+    "fields": [
+        {
+            "name":           "mapping_data",
+            "type":           "char",
+            "blank_value":    "",
+            "default_value":  "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar":   true,
+            "mustNotHaveNaN": false,
+            "queryable":      false,
+            "ontology":       null,
+            "documentation":  "JSON representation of the time mapping between clocks for this epoch.",
+            "constraints":    {}
+        },
+        {
+            "name":           "mapping_status",
+            "type":           "char",
+            "blank_value":    "",
+            "default_value":  "complete",
+            "mustBeNonEmpty": true,
+            "mustBeScalar":   true,
+            "mustNotHaveNaN": false,
+            "queryable":      true,
+            "ontology":       null,
+            "documentation":  "The status of the mapping computation ('complete', 'failed').",
+            "constraints":    { "max_length": 32 }
+        }
+    ]
+}

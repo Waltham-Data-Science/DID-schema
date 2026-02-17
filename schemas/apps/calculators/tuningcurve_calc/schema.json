@@ -1,0 +1,43 @@
+{
+    "classname":     "tuningcurve_calc",
+    "class_version": "1.0.0",
+    "superclasses": [
+        { "classname": "base", "schema": "$NDISCHEMAPATH/base/schema.json" }
+    ],
+    "depends_on": [
+        {
+            "name":           "stimulus_tuningcurve_id",
+            "mustBeNonEmpty": true,
+            "documentation":  "The document ID of the tuning curve this calculation was performed on."
+        }
+    ],
+    "file":          [],
+    "fields": [
+        {
+            "name":           "calculator_name",
+            "type":           "char",
+            "blank_value":    "",
+            "default_value":  "",
+            "mustBeNonEmpty": true,
+            "mustBeScalar":   true,
+            "mustNotHaveNaN": false,
+            "queryable":      true,
+            "ontology":       null,
+            "documentation":  "The name of the tuning curve calculator.",
+            "constraints":    { "max_length": 256 }
+        },
+        {
+            "name":           "result_data",
+            "type":           "char",
+            "blank_value":    "",
+            "default_value":  "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar":   true,
+            "mustNotHaveNaN": false,
+            "queryable":      false,
+            "ontology":       null,
+            "documentation":  "JSON object containing the tuning curve calculation results.",
+            "constraints":    {}
+        }
+    ]
+}

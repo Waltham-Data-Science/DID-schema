@@ -1,0 +1,37 @@
+{
+    "classname":     "syncrule",
+    "class_version": "1.0.0",
+    "superclasses": [
+        { "classname": "base", "schema": "$NDISCHEMAPATH/base/schema.json" }
+    ],
+    "depends_on":    [],
+    "file":          [],
+    "fields": [
+        {
+            "name":           "ndi_syncrule_class",
+            "type":           "char",
+            "blank_value":    "",
+            "default_value":  "",
+            "mustBeNonEmpty": true,
+            "mustBeScalar":   true,
+            "mustNotHaveNaN": false,
+            "queryable":      true,
+            "ontology":       null,
+            "documentation":  "The class name of the synchronisation rule implementation.",
+            "constraints":    { "max_length": 256 }
+        },
+        {
+            "name":           "parameters",
+            "type":           "char",
+            "blank_value":    "",
+            "default_value":  "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar":   true,
+            "mustNotHaveNaN": false,
+            "queryable":      false,
+            "ontology":       null,
+            "documentation":  "Synchronisation rule parameters, serialised as a JSON string.",
+            "constraints":    {}
+        }
+    ]
+}

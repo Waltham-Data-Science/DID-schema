@@ -1,0 +1,37 @@
+{
+    "classname":     "metadata_editor",
+    "class_version": "1.0.0",
+    "superclasses": [
+        { "classname": "base", "schema": "$NDISCHEMAPATH/base/schema.json" }
+    ],
+    "depends_on":    [],
+    "file":          [],
+    "fields": [
+        {
+            "name":           "editor_class",
+            "type":           "char",
+            "blank_value":    "",
+            "default_value":  "",
+            "mustBeNonEmpty": true,
+            "mustBeScalar":   true,
+            "mustNotHaveNaN": false,
+            "queryable":      true,
+            "ontology":       null,
+            "documentation":  "The class name of the metadata editor implementation.",
+            "constraints":    { "max_length": 256 }
+        },
+        {
+            "name":           "target_classname",
+            "type":           "char",
+            "blank_value":    "",
+            "default_value":  "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar":   true,
+            "mustNotHaveNaN": false,
+            "queryable":      true,
+            "ontology":       null,
+            "documentation":  "The DID classname of the documents this editor can modify.",
+            "constraints":    { "max_length": 256 }
+        }
+    ]
+}

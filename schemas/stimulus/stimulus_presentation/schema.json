@@ -1,0 +1,56 @@
+{
+    "classname":     "stimulus_presentation",
+    "class_version": "1.0.0",
+    "superclasses": [
+        { "classname": "base", "schema": "$NDISCHEMAPATH/base/schema.json" }
+    ],
+    "depends_on": [
+        {
+            "name":           "element_id",
+            "mustBeNonEmpty": true,
+            "documentation":  "The document ID of the element associated with this stimulus presentation."
+        }
+    ],
+    "file":          [],
+    "fields": [
+        {
+            "name":           "stimulus_type",
+            "type":           "char",
+            "blank_value":    "",
+            "default_value":  "",
+            "mustBeNonEmpty": true,
+            "mustBeScalar":   true,
+            "mustNotHaveNaN": false,
+            "queryable":      true,
+            "ontology":       null,
+            "documentation":  "The type of stimulus presented (e.g., 'grating', 'noise', 'natural_image').",
+            "constraints":    { "max_length": 256 }
+        },
+        {
+            "name":           "presentation_order",
+            "type":           "char",
+            "blank_value":    "",
+            "default_value":  "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar":   true,
+            "mustNotHaveNaN": false,
+            "queryable":      false,
+            "ontology":       null,
+            "documentation":  "JSON array of stimulus indices in the order they were presented.",
+            "constraints":    {}
+        },
+        {
+            "name":           "num_trials",
+            "type":           "integer",
+            "blank_value":    0,
+            "default_value":  0,
+            "mustBeNonEmpty": false,
+            "mustBeScalar":   true,
+            "mustNotHaveNaN": true,
+            "queryable":      true,
+            "ontology":       null,
+            "documentation":  "The total number of stimulus trials.",
+            "constraints":    {}
+        }
+    ]
+}

@@ -1,0 +1,48 @@
+{
+    "classname":     "binnedspikeratevm",
+    "class_version": "1.0.0",
+    "superclasses": [
+        { "classname": "base", "schema": "$NDISCHEMAPATH/base/schema.json" }
+    ],
+    "depends_on": [
+        {
+            "name":           "element_id",
+            "mustBeNonEmpty": true,
+            "documentation":  "The document ID of the neuron element this binned spike rate was computed from."
+        }
+    ],
+    "file": [
+        {
+            "name":           "binnedspikeratevm_file",
+            "documentation":  "The file containing binned spike rate and Vm data."
+        }
+    ],
+    "fields": [
+        {
+            "name":           "bin_size",
+            "type":           "double",
+            "blank_value":    0.0,
+            "default_value":  0.001,
+            "mustBeNonEmpty": true,
+            "mustBeScalar":   true,
+            "mustNotHaveNaN": true,
+            "queryable":      true,
+            "ontology":       null,
+            "documentation":  "The bin size in seconds for computing the binned spike rate.",
+            "constraints":    {}
+        },
+        {
+            "name":           "num_bins",
+            "type":           "integer",
+            "blank_value":    0,
+            "default_value":  0,
+            "mustBeNonEmpty": false,
+            "mustBeScalar":   true,
+            "mustNotHaveNaN": true,
+            "queryable":      false,
+            "ontology":       null,
+            "documentation":  "The total number of bins.",
+            "constraints":    {}
+        }
+    ]
+}

@@ -1,0 +1,44 @@
+{
+    "classname":     "measurement",
+    "class_version": "1.0.0",
+    "superclasses": [
+        { "classname": "base", "schema": "$NDISCHEMAPATH/base/schema.json" },
+        { "classname": "epochid", "schema": "$NDISCHEMAPATH/epochid/schema.json" }
+    ],
+    "depends_on": [
+        {
+            "name":           "element_id",
+            "mustBeNonEmpty": true,
+            "documentation":  "The document ID of the element this measurement belongs to."
+        }
+    ],
+    "file":          [],
+    "fields": [
+        {
+            "name":           "measurement_class",
+            "type":           "char",
+            "blank_value":    "",
+            "default_value":  "",
+            "mustBeNonEmpty": true,
+            "mustBeScalar":   true,
+            "mustNotHaveNaN": false,
+            "queryable":      true,
+            "ontology":       null,
+            "documentation":  "The class name of the measurement type (e.g., 'ndi_timeseries_measurement').",
+            "constraints":    { "max_length": 256 }
+        },
+        {
+            "name":           "parameters",
+            "type":           "char",
+            "blank_value":    "",
+            "default_value":  "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar":   true,
+            "mustNotHaveNaN": false,
+            "queryable":      false,
+            "ontology":       null,
+            "documentation":  "Measurement parameters, serialised as a JSON string.",
+            "constraints":    {}
+        }
+    ]
+}

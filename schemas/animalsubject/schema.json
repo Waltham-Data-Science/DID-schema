@@ -1,0 +1,41 @@
+{
+    "classname":     "animalsubject",
+    "class_version": "1.0.0",
+    "superclasses": [
+        { "classname": "base", "schema": "$NDISCHEMAPATH/base/schema.json" }
+    ],
+    "depends_on":    [],
+    "file":          [],
+    "fields": [
+        {
+            "name":           "scientific_name",
+            "type":           "char",
+            "blank_value":    "",
+            "default_value":  "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar":   true,
+            "mustNotHaveNaN": false,
+            "queryable":      true,
+            "ontology": {
+                "namespace": "ncbitaxon",
+                "term":      "scientific_name",
+                "uri":       "http://purl.obolibrary.org/obo/NCBITaxon#scientific_name"
+            },
+            "documentation":  "The scientific (Latin binomial) name of the animal species (e.g., 'Mus musculus').",
+            "constraints":    { "max_length": 256 }
+        },
+        {
+            "name":           "genbank_commonname",
+            "type":           "char",
+            "blank_value":    "",
+            "default_value":  "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar":   true,
+            "mustNotHaveNaN": false,
+            "queryable":      true,
+            "ontology":       null,
+            "documentation":  "The GenBank common name of the animal species (e.g., 'house mouse').",
+            "constraints":    { "max_length": 256 }
+        }
+    ]
+}

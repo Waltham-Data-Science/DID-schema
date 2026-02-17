@@ -1,0 +1,14 @@
+[project]
+name = "did-schema"
+version = "1.0.0"
+description = "Schema definitions and validation for DID/NDI documents"
+requires-python = ">=3.9"
+
+[project.optional-dependencies]
+test = [
+    "pytest>=7.0",
+    "jsonschema>=4.0",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

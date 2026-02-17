@@ -1,0 +1,50 @@
+{
+    "classname":     "openminds",
+    "class_version": "1.0.0",
+    "superclasses": [
+        { "classname": "base", "schema": "$NDISCHEMAPATH/base/schema.json" }
+    ],
+    "depends_on":    [],
+    "file":          [],
+    "fields": [
+        {
+            "name":           "openminds_type",
+            "type":           "char",
+            "blank_value":    "",
+            "default_value":  "",
+            "mustBeNonEmpty": true,
+            "mustBeScalar":   true,
+            "mustNotHaveNaN": false,
+            "queryable":      true,
+            "ontology":       null,
+            "documentation":  "The openMINDS schema type (e.g., 'core.DatasetVersion', 'core.Person').",
+            "constraints":    { "max_length": 256 }
+        },
+        {
+            "name":           "openminds_data",
+            "type":           "char",
+            "blank_value":    "",
+            "default_value":  "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar":   true,
+            "mustNotHaveNaN": false,
+            "queryable":      false,
+            "ontology":       null,
+            "documentation":  "JSON object containing the openMINDS metadata fields.",
+            "constraints":    {}
+        },
+        {
+            "name":           "openminds_version",
+            "type":           "char",
+            "blank_value":    "",
+            "default_value":  "v3",
+            "mustBeNonEmpty": false,
+            "mustBeScalar":   true,
+            "mustNotHaveNaN": false,
+            "queryable":      true,
+            "ontology":       null,
+            "documentation":  "The version of the openMINDS specification used.",
+            "constraints":    { "max_length": 16 }
+        }
+    ]
+}

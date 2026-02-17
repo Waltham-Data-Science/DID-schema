@@ -1,0 +1,82 @@
+{
+    "classname":     "position_metadata",
+    "class_version": "1.0.0",
+    "superclasses": [
+        { "classname": "base", "schema": "$NDISCHEMAPATH/base/schema.json" }
+    ],
+    "depends_on": [
+        {
+            "name":           "element_id",
+            "mustBeNonEmpty": true,
+            "documentation":  "The document ID of the element whose position is described."
+        }
+    ],
+    "file":          [],
+    "fields": [
+        {
+            "name":           "x",
+            "type":           "double",
+            "blank_value":    0.0,
+            "default_value":  0.0,
+            "mustBeNonEmpty": true,
+            "mustBeScalar":   true,
+            "mustNotHaveNaN": true,
+            "queryable":      false,
+            "ontology":       null,
+            "documentation":  "The x-coordinate of the element position.",
+            "constraints":    {}
+        },
+        {
+            "name":           "y",
+            "type":           "double",
+            "blank_value":    0.0,
+            "default_value":  0.0,
+            "mustBeNonEmpty": true,
+            "mustBeScalar":   true,
+            "mustNotHaveNaN": true,
+            "queryable":      false,
+            "ontology":       null,
+            "documentation":  "The y-coordinate of the element position.",
+            "constraints":    {}
+        },
+        {
+            "name":           "z",
+            "type":           "double",
+            "blank_value":    0.0,
+            "default_value":  0.0,
+            "mustBeNonEmpty": true,
+            "mustBeScalar":   true,
+            "mustNotHaveNaN": true,
+            "queryable":      false,
+            "ontology":       null,
+            "documentation":  "The z-coordinate of the element position.",
+            "constraints":    {}
+        },
+        {
+            "name":           "position_units",
+            "type":           "char",
+            "blank_value":    "",
+            "default_value":  "um",
+            "mustBeNonEmpty": true,
+            "mustBeScalar":   true,
+            "mustNotHaveNaN": false,
+            "queryable":      true,
+            "ontology":       null,
+            "documentation":  "The units for the position coordinates (e.g., 'um', 'mm', 'cm').",
+            "constraints":    { "max_length": 32 }
+        },
+        {
+            "name":           "coordinate_system",
+            "type":           "char",
+            "blank_value":    "",
+            "default_value":  "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar":   true,
+            "mustNotHaveNaN": false,
+            "queryable":      true,
+            "ontology":       null,
+            "documentation":  "The coordinate system or reference frame for this position.",
+            "constraints":    { "max_length": 256 }
+        }
+    ]
+}

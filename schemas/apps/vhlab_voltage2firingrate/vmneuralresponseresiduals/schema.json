@@ -1,0 +1,40 @@
+{
+    "classname":     "vmneuralresponseresiduals",
+    "class_version": "1.0.0",
+    "superclasses": [
+        { "classname": "base", "schema": "$NDISCHEMAPATH/base/schema.json" }
+    ],
+    "depends_on": [
+        {
+            "name":           "element_id",
+            "mustBeNonEmpty": true,
+            "documentation":  "The document ID of the neuron element this residuals analysis is associated with."
+        },
+        {
+            "name":           "vmspikefit_id",
+            "mustBeNonEmpty": true,
+            "documentation":  "The document ID of the Vm-spike fit this residual analysis was computed from."
+        }
+    ],
+    "file": [
+        {
+            "name":           "residuals_file",
+            "documentation":  "The file containing the neural response residual data."
+        }
+    ],
+    "fields": [
+        {
+            "name":           "mean_residual",
+            "type":           "double",
+            "blank_value":    0.0,
+            "default_value":  0.0,
+            "mustBeNonEmpty": false,
+            "mustBeScalar":   true,
+            "mustNotHaveNaN": false,
+            "queryable":      false,
+            "ontology":       null,
+            "documentation":  "The mean residual of the Vm-to-firing-rate fit.",
+            "constraints":    {}
+        }
+    ]
+}

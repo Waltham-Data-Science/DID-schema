@@ -1,0 +1,43 @@
+{
+    "classname":     "valid_interval",
+    "class_version": "1.0.0",
+    "superclasses": [
+        { "classname": "base", "schema": "$NDISCHEMAPATH/base/schema.json" }
+    ],
+    "depends_on": [
+        {
+            "name":           "element_id",
+            "mustBeNonEmpty": true,
+            "documentation":  "The document ID of the element whose valid intervals are marked."
+        }
+    ],
+    "file":          [],
+    "fields": [
+        {
+            "name":           "intervals",
+            "type":           "char",
+            "blank_value":    "",
+            "default_value":  "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar":   true,
+            "mustNotHaveNaN": false,
+            "queryable":      false,
+            "ontology":       null,
+            "documentation":  "JSON array of [start, end] time intervals (in seconds) that are considered valid (non-garbage).",
+            "constraints":    {}
+        },
+        {
+            "name":           "num_intervals",
+            "type":           "integer",
+            "blank_value":    0,
+            "default_value":  0,
+            "mustBeNonEmpty": false,
+            "mustBeScalar":   true,
+            "mustNotHaveNaN": true,
+            "queryable":      true,
+            "ontology":       null,
+            "documentation":  "The number of valid intervals.",
+            "constraints":    {}
+        }
+    ]
+}

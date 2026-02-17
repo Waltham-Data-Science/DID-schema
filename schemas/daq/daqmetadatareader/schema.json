@@ -1,0 +1,43 @@
+{
+    "classname":     "daqmetadatareader",
+    "class_version": "1.0.0",
+    "superclasses": [
+        { "classname": "base", "schema": "$NDISCHEMAPATH/base/schema.json" }
+    ],
+    "depends_on": [
+        {
+            "name":           "daqsystem_id",
+            "mustBeNonEmpty": true,
+            "documentation":  "The document ID of the DAQ system this metadata reader is associated with."
+        }
+    ],
+    "file":          [],
+    "fields": [
+        {
+            "name":           "reader_class",
+            "type":           "char",
+            "blank_value":    "",
+            "default_value":  "",
+            "mustBeNonEmpty": true,
+            "mustBeScalar":   true,
+            "mustNotHaveNaN": false,
+            "queryable":      true,
+            "ontology":       null,
+            "documentation":  "The class name of the metadata reader implementation.",
+            "constraints":    { "max_length": 256 }
+        },
+        {
+            "name":           "metadata_names",
+            "type":           "char",
+            "blank_value":    "",
+            "default_value":  "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar":   true,
+            "mustNotHaveNaN": false,
+            "queryable":      false,
+            "ontology":       null,
+            "documentation":  "JSON array of metadata field names this reader can extract.",
+            "constraints":    {}
+        }
+    ]
+}

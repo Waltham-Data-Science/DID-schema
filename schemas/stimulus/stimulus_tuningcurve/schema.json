@@ -1,0 +1,69 @@
+{
+    "classname":     "stimulus_tuningcurve",
+    "class_version": "1.0.0",
+    "superclasses": [
+        { "classname": "base", "schema": "$NDISCHEMAPATH/base/schema.json" }
+    ],
+    "depends_on": [
+        {
+            "name":           "stimulus_response_scalar_id",
+            "mustBeNonEmpty": true,
+            "documentation":  "The document ID of the stimulus_response_scalar this tuning curve was derived from."
+        }
+    ],
+    "file":          [],
+    "fields": [
+        {
+            "name":           "independent_variable",
+            "type":           "char",
+            "blank_value":    "",
+            "default_value":  "",
+            "mustBeNonEmpty": true,
+            "mustBeScalar":   true,
+            "mustNotHaveNaN": false,
+            "queryable":      true,
+            "ontology":       null,
+            "documentation":  "The name of the independent stimulus variable (e.g., 'angle', 'spatial_frequency').",
+            "constraints":    { "max_length": 256 }
+        },
+        {
+            "name":           "independent_values",
+            "type":           "char",
+            "blank_value":    "",
+            "default_value":  "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar":   true,
+            "mustNotHaveNaN": false,
+            "queryable":      false,
+            "ontology":       null,
+            "documentation":  "JSON array of the independent variable values.",
+            "constraints":    {}
+        },
+        {
+            "name":           "response_mean",
+            "type":           "char",
+            "blank_value":    "",
+            "default_value":  "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar":   true,
+            "mustNotHaveNaN": false,
+            "queryable":      false,
+            "ontology":       null,
+            "documentation":  "JSON array of mean response values at each independent variable value.",
+            "constraints":    {}
+        },
+        {
+            "name":           "response_stderr",
+            "type":           "char",
+            "blank_value":    "",
+            "default_value":  "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar":   true,
+            "mustNotHaveNaN": false,
+            "queryable":      false,
+            "ontology":       null,
+            "documentation":  "JSON array of standard error of mean for each response value.",
+            "constraints":    {}
+        }
+    ]
+}

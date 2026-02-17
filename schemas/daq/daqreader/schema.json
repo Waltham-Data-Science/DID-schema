@@ -1,0 +1,24 @@
+{
+    "classname":     "daqreader",
+    "class_version": "1.0.0",
+    "superclasses": [
+        { "classname": "base", "schema": "$NDISCHEMAPATH/base/schema.json" }
+    ],
+    "depends_on":    [],
+    "file":          [],
+    "fields": [
+        {
+            "name":           "ndi_daqreader_class",
+            "type":           "char",
+            "blank_value":    "",
+            "default_value":  "ndi_daqreader",
+            "mustBeNonEmpty": true,
+            "mustBeScalar":   true,
+            "mustNotHaveNaN": false,
+            "queryable":      true,
+            "ontology":       null,
+            "documentation":  "The class name of the DAQ reader implementation.",
+            "constraints":    { "max_length": 256 }
+        }
+    ]
+}
