@@ -39,7 +39,7 @@ pairs, interval pairs) that is not yet defined.
 | # | Schema | Field | Status |
 |---|--------|-------|--------|
 | ~~15~~ | ~~`probe/probe_geometry`~~ | ~~`channel_positions`~~ | **DONE** — Changed to `matrix` type; Nx2 matrix of [x, y] positions, `element_type: "double"`. |
-| ~~16~~ | ~~`apps/markgarbage/valid_interval`~~ | ~~`intervals`~~ | **DONE** — Changed to `matrix` type; Nx2 matrix of [t_start, t_end] pairs, `element_type: "double"`. |
+| ~~16~~ | ~~`apps/markgarbage/valid_interval`~~ | ~~`intervals`~~ | **DONE (full rewrite)** — Each document represents one interval. The erroneous `intervals`/`num_intervals` fields were replaced with `timeref_structt0` (structure with 5 sub-fields), `t0` (double), `timeref_structt1` (structure with 5 sub-fields), and `t1` (double). The timeref sub-fields are `referent_epochsetname`, `referent_classname`, `clocktypestring` (enum), `epoch`, and `time`. |
 | ~~17~~ | ~~`stimulus/stimulus_parameter_table`~~ | ~~`table_data`~~ | **DONE** — Changed to `matrix` type; 2D matrix (num_stimuli × num_parameters), `element_type: "double"`. |
 | ~~18~~ | ~~`stimulus/stimulus_response_scalar_parameters`~~ | ~~`response_window`~~ | **N/A** — `stimulus_response_scalar_parameters` is an abstract placeholder class with no fields; concrete subclasses (e.g., `stimulus_response_scalar_parameters_basic`) define their own fields. The erroneous fields were removed from the base class schema. |
 | ~~19~~ | ~~`stimulus/stimulus_response_scalar_parameters`~~ | ~~`baseline_window`~~ | **N/A** — See item 18. |
