@@ -61,11 +61,15 @@
             "properties": {
                 "name": {
                     "type": "string",
-                    "description": "Role name of the dependency."
+                    "description": "Role name of the dependency. The '#' character is a numeric placeholder: a name such as 'syncrule_id_#' matches any runtime name of the form 'syncrule_id_1', 'syncrule_id_2', etc. When '#' appears, 'multiple' must be true."
                 },
                 "mustBeNonEmpty": {
                     "type": "boolean",
                     "description": "Whether the dependency value must be non-empty at validation time."
+                },
+                "multiple": {
+                    "type": "boolean",
+                    "description": "If true, zero or more instances of this dependency may appear at runtime, distinguished by substituting a positive integer for the '#' placeholder in 'name'. Omit or set to false for exactly-one dependencies."
                 },
                 "documentation": {
                     "type": "string",

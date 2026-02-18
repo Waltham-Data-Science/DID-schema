@@ -4,35 +4,28 @@
     "superclasses": [
         { "classname": "base", "schema": "$NDISCHEMAPATH/base/schema.json" }
     ],
-    "depends_on":    [],
+    "depends_on": [
+        {
+            "name":           "syncrule_id_#",
+            "mustBeNonEmpty": true,
+            "multiple":       true,
+            "documentation":  "The document ID of a synchronisation rule participating in this sync graph. Each instance is named 'syncrule_id_1', 'syncrule_id_2', etc. A sync graph may reference any number of sync rules."
+        }
+    ],
     "file":          [],
     "fields": [
         {
-            "name":           "graph_structure",
-            "type":           "structure",
-            "blank_value":    {},
-            "default_value":  {},
-            "mustBeNonEmpty": false,
+            "name":           "ndi_syncgraph_class",
+            "type":           "char",
+            "blank_value":    "",
+            "default_value":  "",
+            "mustBeNonEmpty": true,
             "mustBeScalar":   true,
             "mustNotHaveNaN": false,
-            "queryable":      false,
-            "ontology":       null,
-            "documentation":  "Structure representing the synchronization graph connecting DAQ systems via sync rules. Keys are implementation-defined; typically includes node identifiers (DAQ system document IDs) and edge descriptors (sync rule document IDs with source and target nodes).",
-            "constraints":    {},
-            "fields":         []
-        },
-        {
-            "name":           "node_count",
-            "type":           "integer",
-            "blank_value":    0,
-            "default_value":  0,
-            "mustBeNonEmpty": false,
-            "mustBeScalar":   true,
-            "mustNotHaveNaN": true,
             "queryable":      true,
             "ontology":       null,
-            "documentation":  "The number of nodes (DAQ systems) in the sync graph.",
-            "constraints":    {}
+            "documentation":  "The class name of the synchronisation graph implementation.",
+            "constraints":    { "max_length": 256 }
         }
     ]
 }
