@@ -23,7 +23,7 @@ keys and value types are not defined in the schema.
 | ~~7~~ | ~~`metadata/openminds_subject`~~ | ~~`openminds_data`~~ | **N/A** — See item 5. |
 | ~~8~~ | ~~`ingestion/syncrule_mapping`~~ | ~~`mapping_data`~~ | **DONE** — Changed to `structure` type with `fields: []`; dynamic keys are implementation-defined by the sync rule. |
 | ~~9~~ | ~~`sorting/SpikeInterfaceSortingOutputs`~~ | ~~`sorter_parameters`~~ | **DONE** — Changed to `structure` type with `fields: []`; `dynamic_keys_from: "sorter_name"`. |
-| ~~10~~ | ~~`apps/spikesorter/sorting_parameters`~~ | ~~`parameters`~~ | **DONE** — Changed to `structure` type with `fields: []`; `dynamic_keys_from: "sorter_name"`. |
+| ~~10~~ | ~~`apps/spikesorter/sorting_parameters`~~ | ~~`parameters`~~ | **DONE (full rewrite)** — The generic `parameters` structure was replaced with 6 specific named fields: `graphical_mode` (integer 0/1), `num_pca_features` (integer, min 1), `interpolation` (integer factor ≥1), `min_clusters` (integer ≥1), `max_clusters` (integer ≥1), `num_start` (integer ≥1). `sorter_name` retained. |
 | ~~11~~ | ~~`apps/calculators/tuningcurve_calc`~~ | ~~`result_data`~~ | **DONE** — Changed to `structure` type with `fields: []`; `dynamic_keys_from: "calculator_name"`. |
 | ~~12~~ | ~~`apps/vhlab_voltage2firingrate/vmspikefit`~~ | ~~`fit_parameters`~~ | **DONE** — Changed to `structure` type with `fields: []`; `dynamic_keys_from: "fit_function"`. |
 | ~~13~~ | ~~`apps/spikeextractor/spike_extraction_parameters_modification`~~ | ~~`modified_fields`~~ | **DONE** — Changed to `structure` type with `fields: []`; `dynamic_keys: true` (one key per modified field). |
