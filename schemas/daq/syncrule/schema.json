@@ -22,16 +22,17 @@
         },
         {
             "name":           "parameters",
-            "type":           "char",
-            "blank_value":    "",
-            "default_value":  "",
+            "type":           "structure",
+            "blank_value":    {},
+            "default_value":  {},
             "mustBeNonEmpty": false,
             "mustBeScalar":   true,
             "mustNotHaveNaN": false,
             "queryable":      false,
             "ontology":       null,
-            "documentation":  "Synchronisation rule parameters, serialised as a JSON string.",
-            "constraints":    {}
+            "documentation":  "Synchronisation rule parameters. Keys and value types are specific to the sync rule implementation named in ndi_syncrule_class.",
+            "constraints":    {},
+            "fields":         []
         }
     ]
 }
