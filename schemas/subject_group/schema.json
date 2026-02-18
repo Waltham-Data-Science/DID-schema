@@ -43,7 +43,7 @@
             "mustNotHaveNaN": false,
             "queryable":      false,
             "ontology":       null,
-            "documentation":  "A JSON array of subject document IDs belonging to this group.",
+            "documentation":  "Comma-separated list of subject document IDs belonging to this group (e.g., 'id1,id2,id3').",
             "constraints":    {}
         }
     ]

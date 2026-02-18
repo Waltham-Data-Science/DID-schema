@@ -28,16 +28,17 @@
         },
         {
             "name":           "result_data",
-            "type":           "char",
-            "blank_value":    "",
-            "default_value":  "",
+            "type":           "structure",
+            "blank_value":    {},
+            "default_value":  {},
             "mustBeNonEmpty": false,
             "mustBeScalar":   true,
             "mustNotHaveNaN": false,
             "queryable":      false,
             "ontology":       null,
-            "documentation":  "JSON object containing the tuning curve calculation results.",
-            "constraints":    {}
+            "documentation":  "Structure containing the tuning curve calculation results. Keys and value types are specific to the calculator named in calculator_name (e.g., preferred direction, tuning width, modulation index).",
+            "constraints":    { "dynamic_keys_from": "calculator_name" },
+            "fields":         []
         }
     ]
 }

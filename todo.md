@@ -12,22 +12,22 @@ sub-fields can be filled out.
 These are the highest-priority items: they hold arbitrary key-value data whose
 keys and value types are not defined in the schema.
 
-| # | Schema | Field | Current documentation |
-|---|--------|-------|----------------------|
-| 1 | `daq/syncgraph` | `graph_structure` | JSON representation of the synchronization graph connecting DAQ systems via sync rules. |
-| 2 | `data/fitcurve` | `fit_parameters` | JSON object or array of the fitted parameter values. |
+| # | Schema | Field | Status |
+|---|--------|-------|--------|
+| ~~1~~ | ~~`daq/syncgraph`~~ | ~~`graph_structure`~~ | **DONE** — Changed to `structure` type with `fields: []`; dynamic keys document graph nodes/edges. |
+| ~~2~~ | ~~`data/fitcurve`~~ | ~~`fit_parameters`~~ | **DONE** — Changed to `structure` type with `fields: []`; `dynamic_keys_from: "fit_function"`. |
 | ~~3~~ | ~~`data/ontologyTableRow`~~ | ~~`row_data`~~ | **DONE** — Replaced with 4 proper fields: `names`, `variableNames`, `ontologyNodes` (all comma-separated char), and `data` (structure type with dynamic keys from `variableNames`; requires special evaluator). |
-| 4 | `metadata/openminds` | `openminds_data` | JSON object containing the openMINDS metadata fields. |
-| 5 | `metadata/openminds_element` | `openminds_data` | JSON object containing the openMINDS metadata fields for this element. |
-| 6 | `metadata/openminds_stimulus` | `openminds_data` | JSON object containing the openMINDS metadata fields for this stimulus. |
-| 7 | `metadata/openminds_subject` | `openminds_data` | JSON object containing the openMINDS metadata fields for this subject. |
-| 8 | `ingestion/syncrule_mapping` | `mapping_data` | JSON representation of the time mapping between clocks for this epoch. |
-| 9 | `sorting/SpikeInterfaceSortingOutputs` | `sorter_parameters` | JSON object of the parameters used to run the sorter. |
-| 10 | `apps/spikesorter/sorting_parameters` | `parameters` | JSON object of the parameters used for sorting. |
-| 11 | `apps/calculators/tuningcurve_calc` | `result_data` | JSON object containing the tuning curve calculation results. |
-| 12 | `apps/vhlab_voltage2firingrate/vmspikefit` | `fit_parameters` | JSON object of the fitted parameter values. |
-| 13 | `apps/spikeextractor/spike_extraction_parameters_modification` | `modified_fields` | JSON object of field names and their modified values. |
-| 14 | `probe/site2channelmap` | `site_to_channel` | JSON object mapping site numbers (keys) to DAQ channel numbers (values). |
+| ~~4~~ | ~~`metadata/openminds`~~ | ~~`openminds_data`~~ | **DONE** — Changed to `structure` type with `fields: []`; `conforms_to: "openminds_type"`. |
+| ~~5~~ | ~~`metadata/openminds_element`~~ | ~~`openminds_data`~~ | **N/A** — Blank placeholder by design; the `depends_on` entry connects a document to the openMINDS class. Both erroneous fields (`openminds_type`, `openminds_data`) removed. |
+| ~~6~~ | ~~`metadata/openminds_stimulus`~~ | ~~`openminds_data`~~ | **N/A** — See item 5. |
+| ~~7~~ | ~~`metadata/openminds_subject`~~ | ~~`openminds_data`~~ | **N/A** — See item 5. |
+| ~~8~~ | ~~`ingestion/syncrule_mapping`~~ | ~~`mapping_data`~~ | **DONE** — Changed to `structure` type with `fields: []`; dynamic keys are implementation-defined by the sync rule. |
+| ~~9~~ | ~~`sorting/SpikeInterfaceSortingOutputs`~~ | ~~`sorter_parameters`~~ | **DONE** — Changed to `structure` type with `fields: []`; `dynamic_keys_from: "sorter_name"`. |
+| ~~10~~ | ~~`apps/spikesorter/sorting_parameters`~~ | ~~`parameters`~~ | **DONE (full rewrite)** — The generic `parameters` structure was replaced with 6 specific named fields: `graphical_mode` (integer 0/1), `num_pca_features` (integer, min 1), `interpolation` (integer factor ≥1), `min_clusters` (integer ≥1), `max_clusters` (integer ≥1), `num_start` (integer ≥1). `sorter_name` retained. |
+| ~~11~~ | ~~`apps/calculators/tuningcurve_calc`~~ | ~~`result_data`~~ | **DONE** — Changed to `structure` type with `fields: []`; `dynamic_keys_from: "calculator_name"`. |
+| ~~12~~ | ~~`apps/vhlab_voltage2firingrate/vmspikefit`~~ | ~~`fit_parameters`~~ | **DONE** — Changed to `structure` type with `fields: []`; `dynamic_keys_from: "fit_function"`. |
+| ~~13~~ | ~~`apps/spikeextractor/spike_extraction_parameters_modification`~~ | ~~`modified_fields`~~ | **DONE** — Changed to `structure` type with `fields: []`; `dynamic_keys: true` (one key per modified field). |
+| ~~14~~ | ~~`probe/site2channelmap`~~ | ~~`site_to_channel`~~ | **DONE** — Changed to `structure` type with `fields: []`; `dynamic_keys: true`, `value_type: "integer"`. |
 
 ---
 
@@ -36,13 +36,13 @@ keys and value types are not defined in the schema.
 These hold arrays where each element has internal structure (e.g., coordinate
 pairs, interval pairs) that is not yet defined.
 
-| # | Schema | Field | Current documentation |
-|---|--------|-------|----------------------|
-| 15 | `probe/probe_geometry` | `channel_positions` | JSON array of [x, y] positions for each channel in position_units. |
-| 16 | `apps/markgarbage/valid_interval` | `intervals` | JSON array of [start, end] time intervals (in seconds) that are considered valid (non-garbage). |
-| 17 | `stimulus/stimulus_parameter_table` | `table_data` | JSON 2D array of parameter values (rows x columns). |
-| 18 | `stimulus/stimulus_response_scalar_parameters` | `response_window` | JSON array [t_start, t_end] defining the time window for computing the scalar response (in seconds). |
-| 19 | `stimulus/stimulus_response_scalar_parameters` | `baseline_window` | JSON array [t_start, t_end] defining the baseline time window (in seconds). |
+| # | Schema | Field | Status |
+|---|--------|-------|--------|
+| ~~15~~ | ~~`probe/probe_geometry`~~ | ~~`channel_positions`~~ | **DONE** — Changed to `matrix` type; Nx2 matrix of [x, y] positions, `element_type: "double"`. |
+| ~~16~~ | ~~`apps/markgarbage/valid_interval`~~ | ~~`intervals`~~ | **DONE (full rewrite)** — Each document represents one interval. The erroneous `intervals`/`num_intervals` fields were replaced with `timeref_structt0` (structure with 5 sub-fields), `t0` (double), `timeref_structt1` (structure with 5 sub-fields), and `t1` (double). The timeref sub-fields are `referent_epochsetname`, `referent_classname`, `clocktypestring` (enum), `epoch`, and `time`. |
+| ~~17~~ | ~~`stimulus/stimulus_parameter_table`~~ | ~~`table_data`~~ | **DONE** — Changed to `matrix` type; 2D matrix (num_stimuli × num_parameters), `element_type: "double"`. |
+| ~~18~~ | ~~`stimulus/stimulus_response_scalar_parameters`~~ | ~~`response_window`~~ | **N/A** — `stimulus_response_scalar_parameters` is an abstract placeholder class with no fields; concrete subclasses (e.g., `stimulus_response_scalar_parameters_basic`) define their own fields. The erroneous fields were removed from the base class schema. |
+| ~~19~~ | ~~`stimulus/stimulus_response_scalar_parameters`~~ | ~~`baseline_window`~~ | **N/A** — See item 18. |
 
 ---
 
@@ -51,35 +51,39 @@ pairs, interval pairs) that is not yet defined.
 These hold flat arrays of scalars (numbers, strings, IDs). The element type is
 described in prose but the schema does not enforce it.
 
-| # | Schema | Field | Current documentation |
-|---|--------|-------|----------------------|
-| 20 | `subject_group` | `subject_ids` | A JSON array of subject document IDs belonging to this group. |
-| 21 | `data/ngrid` | `dim_sizes` | The size of each dimension, serialised as a JSON array of integers. |
-| 22 | `data/ngrid` | `dim_labels` | Labels for each dimension, serialised as a JSON array of strings. |
-| 23 | `daq/daqmetadatareader` | `metadata_names` | JSON array of metadata field names this reader can extract. |
-| 24 | `probe/electrode_offset_voltage` | `offset_voltages` | JSON array of offset voltage values for each electrode channel. |
-| 25 | `stimulus/control_stimulus_ids` | `control_ids` | JSON array of control stimulus identifiers. |
-| 26 | `stimulus/stimulus_parameter` | `parameter_values` | JSON array of the parameter values used across stimulus presentations. |
-| 27 | `stimulus/stimulus_parameter_table` | `parameter_names` | JSON array of parameter names (column headers) in the table. |
-| 28 | `stimulus/stimulus_presentation` | `presentation_order` | JSON array of stimulus indices in the order they were presented. |
-| 29 | `stimulus/stimulus_response_scalar` | `stimulus_values` | JSON array of the independent stimulus parameter values. |
-| 30 | `stimulus/stimulus_response_scalar` | `response_values` | JSON array of scalar response values (one per stimulus condition). |
-| 31 | `stimulus/stimulus_tuningcurve` | `independent_values` | JSON array of the independent variable values. |
-| 32 | `stimulus/stimulus_tuningcurve` | `response_mean` | JSON array of mean response values at each independent variable value. |
-| 33 | `stimulus/stimulus_tuningcurve` | `response_stderr` | JSON array of standard error of mean for each response value. |
+| # | Schema | Field | Status |
+|---|--------|-------|--------|
+| ~~20~~ | ~~`subject_group`~~ | ~~`subject_ids`~~ | **DONE** — Stays `char`; documentation updated to comma-separated list. |
+| ~~21~~ | ~~`data/ngrid`~~ | ~~`dim_sizes`~~ | **DONE** — Changed to `matrix` type; `element_type: "integer"`, `min_value: 1`. |
+| ~~22~~ | ~~`data/ngrid`~~ | ~~`dim_labels`~~ | **DONE** — Stays `char`; documentation updated to comma-separated list. |
+| ~~23~~ | ~~`daq/daqmetadatareader`~~ | ~~`metadata_names`~~ | **DONE** — Stays `char`; documentation updated to comma-separated list. |
+| ~~24~~ | ~~`probe/electrode_offset_voltage`~~ | ~~`offset_voltages`~~ | **DONE** — Changed to `matrix` type; `element_type: "double"`. |
+| ~~25~~ | ~~`stimulus/control_stimulus_ids`~~ | ~~`control_ids`~~ | **DONE** — Stays `char`; documentation updated to comma-separated list. |
+| ~~26~~ | ~~`stimulus/stimulus_parameter`~~ | ~~`parameter_values`~~ | **DONE** — Changed to `matrix` type; `element_type: "double"`. |
+| ~~27~~ | ~~`stimulus/stimulus_parameter_table`~~ | ~~`parameter_names`~~ | **DONE** — Stays `char`; documentation updated to comma-separated list. |
+| ~~28~~ | ~~`stimulus/stimulus_presentation`~~ | ~~`presentation_order`~~ | **DONE** — Changed to `matrix` type; `element_type: "integer"`. |
+| ~~29~~ | ~~`stimulus/stimulus_response_scalar`~~ | ~~`stimulus_values`~~ | **DONE** — Changed to `matrix` type; `element_type: "double"`. |
+| ~~30~~ | ~~`stimulus/stimulus_response_scalar`~~ | ~~`response_values`~~ | **DONE** — Changed to `matrix` type; `element_type: "double"`. |
+| ~~31~~ | ~~`stimulus/stimulus_tuningcurve`~~ | ~~`independent_values`~~ | **DONE** — Changed to `matrix` type; `element_type: "double"`. |
+| ~~32~~ | ~~`stimulus/stimulus_tuningcurve`~~ | ~~`response_mean`~~ | **DONE** — Changed to `matrix` type; `element_type: "double"`. |
+| ~~33~~ | ~~`stimulus/stimulus_tuningcurve`~~ | ~~`response_stderr`~~ | **DONE** — Changed to `matrix` type; `element_type: "double"`. |
 
 ---
 
 ## Summary
 
-- **14** fields hold JSON objects with completely undefined internal structure
-- **5** fields hold JSON arrays where each element is itself structured
-- **14** fields hold JSON arrays of simple scalars
+All 33 fields across 22 schemas have been updated:
 
-**Total: 33 fields across 22 schemas** need examples to define their sub-field
-structure.
+- **13** former `char` JSON object fields → `structure` type with `fields: []` and constraint hints
+- **1** former `char` JSON object field → `structure` type (ontologyTableRow, done previously)
+- **9** former `char` numeric array fields → `matrix` type with `element_type` constraint
+- **3** former `char` 2D/window numeric array fields → `matrix` type with `shape`/`length` constraint (items 15–17; items 18–19 were N/A — the schema is a placeholder)
+- **5** former `char` string array fields → remain `char`, documentation updated to comma-separated
 
-### Next steps
+### Convention summary
 
-Please provide example documents (or point to existing data) for any of the
-above so I can expand the schemas with proper sub-field definitions.
+| Former encoding | New type | When |
+|---|---|---|
+| `"char"` holding JSON object | `structure` with `fields: []` | Key-value structure with dynamic/unknown keys |
+| `"char"` holding numeric JSON array | `matrix` with `element_type` | 1D or 2D array of numbers |
+| `"char"` holding string JSON array | `char` (comma-separated) | Array of strings or identifiers |

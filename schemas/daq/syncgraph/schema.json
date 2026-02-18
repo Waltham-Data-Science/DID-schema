@@ -9,16 +9,17 @@
     "fields": [
         {
             "name":           "graph_structure",
-            "type":           "char",
-            "blank_value":    "",
-            "default_value":  "",
+            "type":           "structure",
+            "blank_value":    {},
+            "default_value":  {},
             "mustBeNonEmpty": false,
             "mustBeScalar":   true,
             "mustNotHaveNaN": false,
             "queryable":      false,
             "ontology":       null,
-            "documentation":  "JSON representation of the synchronization graph connecting DAQ systems via sync rules.",
-            "constraints":    {}
+            "documentation":  "Structure representing the synchronization graph connecting DAQ systems via sync rules. Keys are implementation-defined; typically includes node identifiers (DAQ system document IDs) and edge descriptors (sync rule document IDs with source and target nodes).",
+            "constraints":    {},
+            "fields":         []
         },
         {
             "name":           "node_count",

@@ -23,7 +23,7 @@
             "mustNotHaveNaN": false,
             "queryable":      false,
             "ontology":       null,
-            "documentation":  "JSON array of control stimulus identifiers.",
+            "documentation":  "Comma-separated list of control stimulus identifiers (e.g., 'blank,gray_screen'). These identify which stimulus conditions serve as controls.",
             "constraints":    {}
         },
         {

@@ -28,16 +28,16 @@
         },
         {
             "name":           "parameter_values",
-            "type":           "char",
-            "blank_value":    "",
-            "default_value":  "",
+            "type":           "matrix",
+            "blank_value":    [],
+            "default_value":  [],
             "mustBeNonEmpty": false,
-            "mustBeScalar":   true,
+            "mustBeScalar":   false,
             "mustNotHaveNaN": false,
             "queryable":      false,
             "ontology":       null,
-            "documentation":  "JSON array of the parameter values used across stimulus presentations.",
-            "constraints":    {}
+            "documentation":  "Array of numeric parameter values used across stimulus presentations, in parameter_units. One value per unique stimulus condition.",
+            "constraints":    { "element_type": "double" }
         },
         {
             "name":           "parameter_units",

@@ -27,17 +27,82 @@
             "constraints":    { "max_length": 128 }
         },
         {
-            "name":           "parameters",
-            "type":           "char",
-            "blank_value":    "",
-            "default_value":  "",
-            "mustBeNonEmpty": false,
+            "name":           "graphical_mode",
+            "type":           "integer",
+            "blank_value":    0,
+            "default_value":  0,
+            "mustBeNonEmpty": true,
             "mustBeScalar":   true,
-            "mustNotHaveNaN": false,
+            "mustNotHaveNaN": true,
             "queryable":      false,
             "ontology":       null,
-            "documentation":  "JSON object of the parameters used for sorting.",
-            "constraints":    {}
+            "documentation":  "Whether to use a graphical presentation during sorting (0 = no, 1 = yes).",
+            "constraints":    { "min": 0, "max": 1 }
+        },
+        {
+            "name":           "num_pca_features",
+            "type":           "integer",
+            "blank_value":    10,
+            "default_value":  10,
+            "mustBeNonEmpty": true,
+            "mustBeScalar":   true,
+            "mustNotHaveNaN": true,
+            "queryable":      true,
+            "ontology":       null,
+            "documentation":  "Number of principal component features to use in clustering.",
+            "constraints":    { "min": 1 }
+        },
+        {
+            "name":           "interpolation",
+            "type":           "integer",
+            "blank_value":    3,
+            "default_value":  3,
+            "mustBeNonEmpty": true,
+            "mustBeScalar":   true,
+            "mustNotHaveNaN": true,
+            "queryable":      false,
+            "ontology":       null,
+            "documentation":  "Interpolation factor for spike waveforms. Waveforms are upsampled by this integer factor to provide extra resolution during alignment and clustering (e.g., 3 means 3x upsampling). Set to 1 for no interpolation.",
+            "constraints":    { "min": 1 }
+        },
+        {
+            "name":           "min_clusters",
+            "type":           "integer",
+            "blank_value":    3,
+            "default_value":  3,
+            "mustBeNonEmpty": true,
+            "mustBeScalar":   true,
+            "mustNotHaveNaN": true,
+            "queryable":      true,
+            "ontology":       null,
+            "documentation":  "Minimum number of clusters (units) to produce.",
+            "constraints":    { "min": 1 }
+        },
+        {
+            "name":           "max_clusters",
+            "type":           "integer",
+            "blank_value":    10,
+            "default_value":  10,
+            "mustBeNonEmpty": true,
+            "mustBeScalar":   true,
+            "mustNotHaveNaN": true,
+            "queryable":      true,
+            "ontology":       null,
+            "documentation":  "Maximum number of clusters (units) to produce. Must be >= min_clusters.",
+            "constraints":    { "min": 1 }
+        },
+        {
+            "name":           "num_start",
+            "type":           "integer",
+            "blank_value":    5,
+            "default_value":  5,
+            "mustBeNonEmpty": true,
+            "mustBeScalar":   true,
+            "mustNotHaveNaN": true,
+            "queryable":      false,
+            "ontology":       null,
+            "documentation":  "Initial number of clusters to seed the clustering algorithm with.",
+            "constraints":    { "min": 1 }
         }
     ]
 }

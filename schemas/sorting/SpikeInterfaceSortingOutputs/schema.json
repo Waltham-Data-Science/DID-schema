@@ -59,16 +59,17 @@
         },
         {
             "name":           "sorter_parameters",
-            "type":           "char",
-            "blank_value":    "",
-            "default_value":  "",
+            "type":           "structure",
+            "blank_value":    {},
+            "default_value":  {},
             "mustBeNonEmpty": false,
             "mustBeScalar":   true,
             "mustNotHaveNaN": false,
             "queryable":      false,
             "ontology":       null,
-            "documentation":  "JSON object of the parameters used to run the sorter.",
-            "constraints":    {}
+            "documentation":  "Structure of the parameters used to run the sorter. Keys and value types are specific to the algorithm named in sorter_name (e.g., for 'kilosort2': {detect_threshold, projection_threshold, ...}).",
+            "constraints":    { "dynamic_keys_from": "sorter_name" },
+            "fields":         []
         }
     ]
 }

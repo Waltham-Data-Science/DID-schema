@@ -23,21 +23,21 @@
             "mustNotHaveNaN": false,
             "queryable":      false,
             "ontology":       null,
-            "documentation":  "JSON array of parameter names (column headers) in the table.",
+            "documentation":  "Comma-separated list of parameter names (column headers) in the table (e.g., 'angle,spatial_frequency,contrast'). Number of entries determines the number of columns in table_data.",
             "constraints":    {}
         },
         {
             "name":           "table_data",
-            "type":           "char",
-            "blank_value":    "",
-            "default_value":  "",
+            "type":           "matrix",
+            "blank_value":    [],
+            "default_value":  [],
             "mustBeNonEmpty": false,
-            "mustBeScalar":   true,
+            "mustBeScalar":   false,
             "mustNotHaveNaN": false,
             "queryable":      false,
             "ontology":       null,
-            "documentation":  "JSON 2D array of parameter values (rows x columns).",
-            "constraints":    {}
+            "documentation":  "2D matrix of numeric parameter values with shape (num_stimuli x num_parameters), where num_parameters equals the number of entries in parameter_names.",
+            "constraints":    { "element_type": "double", "shape": "num_stimuli x num_parameters" }
         },
         {
             "name":           "num_stimuli",

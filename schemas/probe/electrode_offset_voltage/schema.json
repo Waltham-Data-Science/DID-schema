@@ -15,16 +15,16 @@
     "fields": [
         {
             "name":           "offset_voltages",
-            "type":           "char",
-            "blank_value":    "",
-            "default_value":  "",
+            "type":           "matrix",
+            "blank_value":    [],
+            "default_value":  [],
             "mustBeNonEmpty": false,
-            "mustBeScalar":   true,
+            "mustBeScalar":   false,
             "mustNotHaveNaN": false,
             "queryable":      false,
             "ontology":       null,
-            "documentation":  "JSON array of offset voltage values for each electrode channel.",
-            "constraints":    {}
+            "documentation":  "Array of DC offset voltage values, one per electrode channel, in voltage_units. Length must match the number of channels on the probe.",
+            "constraints":    { "element_type": "double" }
         },
         {
             "name":           "voltage_units",

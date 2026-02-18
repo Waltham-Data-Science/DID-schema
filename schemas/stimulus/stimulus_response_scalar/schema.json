@@ -15,29 +15,29 @@
     "fields": [
         {
             "name":           "stimulus_values",
-            "type":           "char",
-            "blank_value":    "",
-            "default_value":  "",
+            "type":           "matrix",
+            "blank_value":    [],
+            "default_value":  [],
             "mustBeNonEmpty": false,
-            "mustBeScalar":   true,
+            "mustBeScalar":   false,
             "mustNotHaveNaN": false,
             "queryable":      false,
             "ontology":       null,
-            "documentation":  "JSON array of the independent stimulus parameter values.",
-            "constraints":    {}
+            "documentation":  "Array of independent stimulus parameter values, one per stimulus condition. Must be the same length as response_values.",
+            "constraints":    { "element_type": "double" }
         },
         {
             "name":           "response_values",
-            "type":           "char",
-            "blank_value":    "",
-            "default_value":  "",
+            "type":           "matrix",
+            "blank_value":    [],
+            "default_value":  [],
             "mustBeNonEmpty": false,
-            "mustBeScalar":   true,
+            "mustBeScalar":   false,
             "mustNotHaveNaN": false,
             "queryable":      false,
             "ontology":       null,
-            "documentation":  "JSON array of scalar response values (one per stimulus condition).",
-            "constraints":    {}
+            "documentation":  "Array of scalar response values in response_units, one per stimulus condition. Must be the same length as stimulus_values.",
+            "constraints":    { "element_type": "double" }
         },
         {
             "name":           "response_units",
