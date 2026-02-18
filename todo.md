@@ -41,8 +41,8 @@ pairs, interval pairs) that is not yet defined.
 | ~~15~~ | ~~`probe/probe_geometry`~~ | ~~`channel_positions`~~ | **DONE** — Changed to `matrix` type; Nx2 matrix of [x, y] positions, `element_type: "double"`. |
 | ~~16~~ | ~~`apps/markgarbage/valid_interval`~~ | ~~`intervals`~~ | **DONE** — Changed to `matrix` type; Nx2 matrix of [t_start, t_end] pairs, `element_type: "double"`. |
 | ~~17~~ | ~~`stimulus/stimulus_parameter_table`~~ | ~~`table_data`~~ | **DONE** — Changed to `matrix` type; 2D matrix (num_stimuli × num_parameters), `element_type: "double"`. |
-| ~~18~~ | ~~`stimulus/stimulus_response_scalar_parameters`~~ | ~~`response_window`~~ | **DONE** — Changed to `matrix` type; two-element vector [t_start, t_end], `length: 2`. |
-| ~~19~~ | ~~`stimulus/stimulus_response_scalar_parameters`~~ | ~~`baseline_window`~~ | **DONE** — Changed to `matrix` type; two-element vector [t_start, t_end], `length: 2`. |
+| ~~18~~ | ~~`stimulus/stimulus_response_scalar_parameters`~~ | ~~`response_window`~~ | **N/A** — `stimulus_response_scalar_parameters` is an abstract placeholder class with no fields; concrete subclasses (e.g., `stimulus_response_scalar_parameters_basic`) define their own fields. The erroneous fields were removed from the base class schema. |
+| ~~19~~ | ~~`stimulus/stimulus_response_scalar_parameters`~~ | ~~`baseline_window`~~ | **N/A** — See item 18. |
 
 ---
 
@@ -77,8 +77,7 @@ All 33 fields across 22 schemas have been updated:
 - **13** former `char` JSON object fields → `structure` type with `fields: []` and constraint hints
 - **1** former `char` JSON object field → `structure` type (ontologyTableRow, done previously)
 - **9** former `char` numeric array fields → `matrix` type with `element_type` constraint
-- **2** former `char` 2D numeric array fields → `matrix` type with `shape` constraint
-- **3** former `char` numeric window fields → `matrix` type with `length: 2` constraint
+- **3** former `char` 2D/window numeric array fields → `matrix` type with `shape`/`length` constraint (items 15–17; items 18–19 were N/A — the schema is a placeholder)
 - **5** former `char` string array fields → remain `char`, documentation updated to comma-separated
 
 ### Convention summary

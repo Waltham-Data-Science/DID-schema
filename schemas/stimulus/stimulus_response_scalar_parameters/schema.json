@@ -12,45 +12,5 @@
         }
     ],
     "file":          [],
-    "fields": [
-        {
-            "name":           "response_window",
-            "type":           "matrix",
-            "blank_value":    [],
-            "default_value":  [],
-            "mustBeNonEmpty": false,
-            "mustBeScalar":   false,
-            "mustNotHaveNaN": false,
-            "queryable":      false,
-            "ontology":       null,
-            "documentation":  "Two-element row vector [t_start, t_end] in seconds defining the time window over which the scalar response is computed, relative to stimulus onset.",
-            "constraints":    { "element_type": "double", "length": 2 }
-        },
-        {
-            "name":           "baseline_window",
-            "type":           "matrix",
-            "blank_value":    [],
-            "default_value":  [],
-            "mustBeNonEmpty": false,
-            "mustBeScalar":   false,
-            "mustNotHaveNaN": false,
-            "queryable":      false,
-            "ontology":       null,
-            "documentation":  "Two-element row vector [t_start, t_end] in seconds defining the baseline time window used for response normalisation, relative to stimulus onset.",
-            "constraints":    { "element_type": "double", "length": 2 }
-        },
-        {
-            "name":           "computation_method",
-            "type":           "char",
-            "blank_value":    "",
-            "default_value":  "mean",
-            "mustBeNonEmpty": false,
-            "mustBeScalar":   true,
-            "mustNotHaveNaN": false,
-            "queryable":      true,
-            "ontology":       null,
-            "documentation":  "The method used to compute the scalar response (e.g., 'mean', 'f1f0', 'max').",
-            "constraints":    { "max_length": 64 }
-        }
-    ]
+    "fields":        []
 }
