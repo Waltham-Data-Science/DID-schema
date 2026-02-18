@@ -18,9 +18,9 @@ keys and value types are not defined in the schema.
 | ~~2~~ | ~~`data/fitcurve`~~ | ~~`fit_parameters`~~ | **DONE** — Changed to `structure` type with `fields: []`; `dynamic_keys_from: "fit_function"`. |
 | ~~3~~ | ~~`data/ontologyTableRow`~~ | ~~`row_data`~~ | **DONE** — Replaced with 4 proper fields: `names`, `variableNames`, `ontologyNodes` (all comma-separated char), and `data` (structure type with dynamic keys from `variableNames`; requires special evaluator). |
 | ~~4~~ | ~~`metadata/openminds`~~ | ~~`openminds_data`~~ | **DONE** — Changed to `structure` type with `fields: []`; `conforms_to: "openminds_type"`. |
-| ~~5~~ | ~~`metadata/openminds_element`~~ | ~~`openminds_data`~~ | **DONE** — Changed to `structure` type with `fields: []`; `conforms_to: "openminds_type"`. |
-| ~~6~~ | ~~`metadata/openminds_stimulus`~~ | ~~`openminds_data`~~ | **DONE** — Changed to `structure` type with `fields: []`; `conforms_to: "openminds_type"`. |
-| ~~7~~ | ~~`metadata/openminds_subject`~~ | ~~`openminds_data`~~ | **DONE** — Changed to `structure` type with `fields: []`; `conforms_to: "openminds_type"`. |
+| ~~5~~ | ~~`metadata/openminds_element`~~ | ~~`openminds_data`~~ | **N/A** — Blank placeholder by design; the `depends_on` entry connects a document to the openMINDS class. Both erroneous fields (`openminds_type`, `openminds_data`) removed. |
+| ~~6~~ | ~~`metadata/openminds_stimulus`~~ | ~~`openminds_data`~~ | **N/A** — See item 5. |
+| ~~7~~ | ~~`metadata/openminds_subject`~~ | ~~`openminds_data`~~ | **N/A** — See item 5. |
 | ~~8~~ | ~~`ingestion/syncrule_mapping`~~ | ~~`mapping_data`~~ | **DONE** — Changed to `structure` type with `fields: []`; dynamic keys are implementation-defined by the sync rule. |
 | ~~9~~ | ~~`sorting/SpikeInterfaceSortingOutputs`~~ | ~~`sorter_parameters`~~ | **DONE** — Changed to `structure` type with `fields: []`; `dynamic_keys_from: "sorter_name"`. |
 | ~~10~~ | ~~`apps/spikesorter/sorting_parameters`~~ | ~~`parameters`~~ | **DONE** — Changed to `structure` type with `fields: []`; `dynamic_keys_from: "sorter_name"`. |
