@@ -1,50 +1,50 @@
 {
-    "classname":     "subject_group",
-    "class_version": "1.0.0",
-    "superclasses": [
-        { "classname": "base", "schema": "$NDISCHEMAPATH/base/schema.json" }
+    "_classname":     "subject_group",
+    "_class_version": "1.0.0",
+    "_superclasses": [
+        { "_classname": "base", "_schema": "$NDISCHEMAPATH/base/schema.json" }
     ],
-    "depends_on":    [],
-    "file":          [],
-    "fields": [
+    "_depends_on":    [],
+    "_file":          [],
+    "_fields": [
         {
-            "name":           "group_name",
+            "_name":           "group_name",
             "type":           "char",
-            "blank_value":    "",
-            "default_value":  "",
-            "mustBeNonEmpty": true,
-            "mustBeScalar":   true,
-            "mustNotHaveNaN": false,
-            "queryable":      true,
-            "ontology":       null,
-            "documentation":  "The name of the subject group (e.g., 'control', 'treatment').",
-            "constraints":    { "max_length": 256 }
+            "_blank_value":    "",
+            "_default_value":  "",
+            "_mustBeNonEmpty": true,
+            "_mustBeScalar":   true,
+            "_mustNotHaveNaN": false,
+            "_queryable":      true,
+            "_ontology":       null,
+            "_documentation":  "The name of the subject group (e.g., 'control', 'treatment').",
+            "_constraints":    { "max_length": 256 }
         },
         {
-            "name":           "description",
+            "_name":           "description",
             "type":           "char",
-            "blank_value":    "",
-            "default_value":  "",
-            "mustBeNonEmpty": false,
-            "mustBeScalar":   true,
-            "mustNotHaveNaN": false,
-            "queryable":      false,
-            "ontology":       null,
-            "documentation":  "A free-text description of this subject group.",
-            "constraints":    { "max_length": 1024 }
+            "_blank_value":    "",
+            "_default_value":  "",
+            "_mustBeNonEmpty": false,
+            "_mustBeScalar":   true,
+            "_mustNotHaveNaN": false,
+            "_queryable":      false,
+            "_ontology":       null,
+            "_documentation":  "A free-text description of this subject group.",
+            "_constraints":    { "max_length": 1024 }
         },
         {
-            "name":           "subject_ids",
+            "_name":           "subject_ids",
             "type":           "char",
-            "blank_value":    "",
-            "default_value":  "",
-            "mustBeNonEmpty": false,
-            "mustBeScalar":   true,
-            "mustNotHaveNaN": false,
-            "queryable":      false,
-            "ontology":       null,
-            "documentation":  "Comma-separated list of subject document IDs belonging to this group (e.g., 'id1,id2,id3').",
-            "constraints":    {}
+            "_blank_value":    "",
+            "_default_value":  "",
+            "_mustBeNonEmpty": false,
+            "_mustBeScalar":   true,
+            "_mustNotHaveNaN": false,
+            "_queryable":      false,
+            "_ontology":       null,
+            "_documentation":  "Comma-separated list of subject document IDs belonging to this group (e.g., 'id1,id2,id3').",
+            "_constraints":    {}
         }
     ]
 }

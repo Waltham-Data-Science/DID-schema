@@ -1,66 +1,66 @@
 {
-    "classname":     "spikewaves",
-    "class_version": "1.0.0",
-    "superclasses": [
-        { "classname": "base", "schema": "$NDISCHEMAPATH/base/schema.json" }
+    "_classname":     "spikewaves",
+    "_class_version": "1.0.0",
+    "_superclasses": [
+        { "_classname": "base", "_schema": "$NDISCHEMAPATH/base/schema.json" }
     ],
-    "depends_on": [
+    "_depends_on": [
         {
-            "name":           "element_id",
-            "mustBeNonEmpty": true,
-            "documentation":  "The document ID of the element (e.g., probe) from which spikes were extracted."
+            "_name":           "element_id",
+            "_mustBeNonEmpty": true,
+            "_documentation":  "The document ID of the element (e.g., probe) from which spikes were extracted."
         },
         {
-            "name":           "spike_extraction_parameters_id",
-            "mustBeNonEmpty": true,
-            "documentation":  "The document ID of the extraction parameters used."
+            "_name":           "spike_extraction_parameters_id",
+            "_mustBeNonEmpty": true,
+            "_documentation":  "The document ID of the extraction parameters used."
         }
     ],
-    "file": [
+    "_file": [
         {
-            "name":           "spikewaves_file",
-            "documentation":  "The file containing the spike waveform data."
+            "_name":           "spikewaves_file",
+            "_documentation":  "The file containing the spike waveform data."
         }
     ],
-    "fields": [
+    "_fields": [
         {
-            "name":           "num_spikes",
+            "_name":           "num_spikes",
             "type":           "integer",
-            "blank_value":    0,
-            "default_value":  0,
-            "mustBeNonEmpty": false,
-            "mustBeScalar":   true,
-            "mustNotHaveNaN": true,
-            "queryable":      true,
-            "ontology":       null,
-            "documentation":  "The number of spike waveforms extracted.",
-            "constraints":    {}
+            "_blank_value":    0,
+            "_default_value":  0,
+            "_mustBeNonEmpty": false,
+            "_mustBeScalar":   true,
+            "_mustNotHaveNaN": true,
+            "_queryable":      true,
+            "_ontology":       null,
+            "_documentation":  "The number of spike waveforms extracted.",
+            "_constraints":    {}
         },
         {
-            "name":           "samples_per_spike",
+            "_name":           "samples_per_spike",
             "type":           "integer",
-            "blank_value":    0,
-            "default_value":  0,
-            "mustBeNonEmpty": false,
-            "mustBeScalar":   true,
-            "mustNotHaveNaN": true,
-            "queryable":      false,
-            "ontology":       null,
-            "documentation":  "The number of samples per spike waveform.",
-            "constraints":    {}
+            "_blank_value":    0,
+            "_default_value":  0,
+            "_mustBeNonEmpty": false,
+            "_mustBeScalar":   true,
+            "_mustNotHaveNaN": true,
+            "_queryable":      false,
+            "_ontology":       null,
+            "_documentation":  "The number of samples per spike waveform.",
+            "_constraints":    {}
         },
         {
-            "name":           "sample_rate",
+            "_name":           "sample_rate",
             "type":           "double",
-            "blank_value":    0.0,
-            "default_value":  0.0,
-            "mustBeNonEmpty": false,
-            "mustBeScalar":   true,
-            "mustNotHaveNaN": false,
-            "queryable":      false,
-            "ontology":       null,
-            "documentation":  "The sampling rate in Hz used during extraction.",
-            "constraints":    {}
+            "_blank_value":    0.0,
+            "_default_value":  0.0,
+            "_mustBeNonEmpty": false,
+            "_mustBeScalar":   true,
+            "_mustNotHaveNaN": false,
+            "_queryable":      false,
+            "_ontology":       null,
+            "_documentation":  "The sampling rate in Hz used during extraction.",
+            "_constraints":    {}
         }
     ]
 }

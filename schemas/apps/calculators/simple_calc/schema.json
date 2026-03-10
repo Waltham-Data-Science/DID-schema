@@ -1,56 +1,56 @@
 {
-    "classname":     "simple_calc",
-    "class_version": "1.0.0",
-    "superclasses": [
-        { "classname": "base", "schema": "$NDISCHEMAPATH/base/schema.json" }
+    "_classname":     "simple_calc",
+    "_class_version": "1.0.0",
+    "_superclasses": [
+        { "_classname": "base", "_schema": "$NDISCHEMAPATH/base/schema.json" }
     ],
-    "depends_on": [
+    "_depends_on": [
         {
-            "name":           "element_id",
-            "mustBeNonEmpty": true,
-            "documentation":  "The document ID of the element this calculation is associated with."
+            "_name":           "element_id",
+            "_mustBeNonEmpty": true,
+            "_documentation":  "The document ID of the element this calculation is associated with."
         }
     ],
-    "file":          [],
-    "fields": [
+    "_file":          [],
+    "_fields": [
         {
-            "name":           "calculator_name",
+            "_name":           "calculator_name",
             "type":           "char",
-            "blank_value":    "",
-            "default_value":  "",
-            "mustBeNonEmpty": true,
-            "mustBeScalar":   true,
-            "mustNotHaveNaN": false,
-            "queryable":      true,
-            "ontology":       null,
-            "documentation":  "The name of the calculator that produced this result.",
-            "constraints":    { "max_length": 256 }
+            "_blank_value":    "",
+            "_default_value":  "",
+            "_mustBeNonEmpty": true,
+            "_mustBeScalar":   true,
+            "_mustNotHaveNaN": false,
+            "_queryable":      true,
+            "_ontology":       null,
+            "_documentation":  "The name of the calculator that produced this result.",
+            "_constraints":    { "max_length": 256 }
         },
         {
-            "name":           "result_value",
+            "_name":           "result_value",
             "type":           "double",
-            "blank_value":    0.0,
-            "default_value":  0.0,
-            "mustBeNonEmpty": false,
-            "mustBeScalar":   true,
-            "mustNotHaveNaN": false,
-            "queryable":      false,
-            "ontology":       null,
-            "documentation":  "The scalar result value of the calculation.",
-            "constraints":    {}
+            "_blank_value":    0.0,
+            "_default_value":  0.0,
+            "_mustBeNonEmpty": false,
+            "_mustBeScalar":   true,
+            "_mustNotHaveNaN": false,
+            "_queryable":      false,
+            "_ontology":       null,
+            "_documentation":  "The scalar result value of the calculation.",
+            "_constraints":    {}
         },
         {
-            "name":           "result_units",
+            "_name":           "result_units",
             "type":           "char",
-            "blank_value":    "",
-            "default_value":  "",
-            "mustBeNonEmpty": false,
-            "mustBeScalar":   true,
-            "mustNotHaveNaN": false,
-            "queryable":      true,
-            "ontology":       null,
-            "documentation":  "The units of the result value.",
-            "constraints":    { "max_length": 64 }
+            "_blank_value":    "",
+            "_default_value":  "",
+            "_mustBeNonEmpty": false,
+            "_mustBeScalar":   true,
+            "_mustNotHaveNaN": false,
+            "_queryable":      true,
+            "_ontology":       null,
+            "_documentation":  "The units of the result value.",
+            "_constraints":    { "max_length": 64 }
         }
     ]
 }

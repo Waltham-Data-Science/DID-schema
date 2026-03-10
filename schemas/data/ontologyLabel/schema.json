@@ -1,56 +1,56 @@
 {
-    "classname":     "ontologyLabel",
-    "class_version": "1.0.0",
-    "superclasses": [
-        { "classname": "base", "schema": "$NDISCHEMAPATH/base/schema.json" }
+    "_classname":     "ontologyLabel",
+    "_class_version": "1.0.0",
+    "_superclasses": [
+        { "_classname": "base", "_schema": "$NDISCHEMAPATH/base/schema.json" }
     ],
-    "depends_on": [
+    "_depends_on": [
         {
-            "name":           "element_id",
-            "mustBeNonEmpty": false,
-            "documentation":  "The document ID of the element this ontology label is associated with."
+            "_name":           "element_id",
+            "_mustBeNonEmpty": false,
+            "_documentation":  "The document ID of the element this ontology label is associated with."
         }
     ],
-    "file":          [],
-    "fields": [
+    "_file":          [],
+    "_fields": [
         {
-            "name":           "ontology_name",
+            "_name":           "ontology_name",
             "type":           "char",
-            "blank_value":    "",
-            "default_value":  "",
-            "mustBeNonEmpty": true,
-            "mustBeScalar":   true,
-            "mustNotHaveNaN": false,
-            "queryable":      true,
-            "ontology":       null,
-            "documentation":  "The name of the ontology (e.g., 'Allen CCF v3').",
-            "constraints":    { "max_length": 256 }
+            "_blank_value":    "",
+            "_default_value":  "",
+            "_mustBeNonEmpty": true,
+            "_mustBeScalar":   true,
+            "_mustNotHaveNaN": false,
+            "_queryable":      true,
+            "_ontology":       null,
+            "_documentation":  "The name of the ontology (e.g., 'Allen CCF v3').",
+            "_constraints":    { "max_length": 256 }
         },
         {
-            "name":           "label",
+            "_name":           "label",
             "type":           "char",
-            "blank_value":    "",
-            "default_value":  "",
-            "mustBeNonEmpty": true,
-            "mustBeScalar":   true,
-            "mustNotHaveNaN": false,
-            "queryable":      true,
-            "ontology":       null,
-            "documentation":  "The ontology label assigned to this element (e.g., brain region name).",
-            "constraints":    { "max_length": 256 }
+            "_blank_value":    "",
+            "_default_value":  "",
+            "_mustBeNonEmpty": true,
+            "_mustBeScalar":   true,
+            "_mustNotHaveNaN": false,
+            "_queryable":      true,
+            "_ontology":       null,
+            "_documentation":  "The ontology label assigned to this element (e.g., brain region name).",
+            "_constraints":    { "max_length": 256 }
         },
         {
-            "name":           "label_id",
+            "_name":           "label_id",
             "type":           "integer",
-            "blank_value":    0,
-            "default_value":  0,
-            "mustBeNonEmpty": false,
-            "mustBeScalar":   true,
-            "mustNotHaveNaN": true,
-            "queryable":      true,
-            "ontology":       null,
-            "documentation":  "The numeric identifier of the ontology label.",
-            "constraints":    {}
+            "_blank_value":    0,
+            "_default_value":  0,
+            "_mustBeNonEmpty": false,
+            "_mustBeScalar":   true,
+            "_mustNotHaveNaN": true,
+            "_queryable":      true,
+            "_ontology":       null,
+            "_documentation":  "The numeric identifier of the ontology label.",
+            "_constraints":    {}
         }
     ]
 }

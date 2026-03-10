@@ -1,44 +1,44 @@
 {
-    "classname":     "site2channelmap",
-    "class_version": "1.0.0",
-    "superclasses": [
-        { "classname": "base", "schema": "$NDISCHEMAPATH/base/schema.json" }
+    "_classname":     "site2channelmap",
+    "_class_version": "1.0.0",
+    "_superclasses": [
+        { "_classname": "base", "_schema": "$NDISCHEMAPATH/base/schema.json" }
     ],
-    "depends_on": [
+    "_depends_on": [
         {
-            "name":           "probe_id",
-            "mustBeNonEmpty": true,
-            "documentation":  "The document ID of the probe this channel map belongs to."
+            "_name":           "probe_id",
+            "_mustBeNonEmpty": true,
+            "_documentation":  "The document ID of the probe this channel map belongs to."
         }
     ],
-    "file":          [],
-    "fields": [
+    "_file":          [],
+    "_fields": [
         {
-            "name":           "site_to_channel",
+            "_name":           "site_to_channel",
             "type":           "structure",
-            "blank_value":    {},
-            "default_value":  {},
-            "mustBeNonEmpty": false,
-            "mustBeScalar":   true,
-            "mustNotHaveNaN": false,
-            "queryable":      false,
-            "ontology":       null,
-            "documentation":  "Structure mapping probe site identifiers (keys, as strings) to zero-based DAQ channel indices (values, integers). Number of entries equals num_sites.",
-            "constraints":    { "dynamic_keys": true, "value_type": "integer" },
-            "fields":         []
+            "_blank_value":    {},
+            "_default_value":  {},
+            "_mustBeNonEmpty": false,
+            "_mustBeScalar":   true,
+            "_mustNotHaveNaN": false,
+            "_queryable":      false,
+            "_ontology":       null,
+            "_documentation":  "Structure mapping probe site identifiers (keys, as strings) to zero-based DAQ channel indices (values, integers). Number of entries equals num_sites.",
+            "_constraints":    { "dynamic_keys": true, "value_type": "integer" },
+            "_fields":         []
         },
         {
-            "name":           "num_sites",
+            "_name":           "num_sites",
             "type":           "integer",
-            "blank_value":    0,
-            "default_value":  0,
-            "mustBeNonEmpty": false,
-            "mustBeScalar":   true,
-            "mustNotHaveNaN": true,
-            "queryable":      true,
-            "ontology":       null,
-            "documentation":  "The number of recording sites in this mapping.",
-            "constraints":    {}
+            "_blank_value":    0,
+            "_default_value":  0,
+            "_mustBeNonEmpty": false,
+            "_mustBeScalar":   true,
+            "_mustNotHaveNaN": true,
+            "_queryable":      true,
+            "_ontology":       null,
+            "_documentation":  "The number of recording sites in this mapping.",
+            "_constraints":    {}
         }
     ]
 }

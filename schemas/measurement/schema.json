@@ -1,44 +1,44 @@
 {
-    "classname":     "measurement",
-    "class_version": "1.0.0",
-    "superclasses": [
-        { "classname": "base", "schema": "$NDISCHEMAPATH/base/schema.json" },
-        { "classname": "epochid", "schema": "$NDISCHEMAPATH/epochid/schema.json" }
+    "_classname":     "measurement",
+    "_class_version": "1.0.0",
+    "_superclasses": [
+        { "_classname": "base", "_schema": "$NDISCHEMAPATH/base/schema.json" },
+        { "_classname": "epochid", "_schema": "$NDISCHEMAPATH/epochid/schema.json" }
     ],
-    "depends_on": [
+    "_depends_on": [
         {
-            "name":           "element_id",
-            "mustBeNonEmpty": true,
-            "documentation":  "The document ID of the element this measurement belongs to."
+            "_name":           "element_id",
+            "_mustBeNonEmpty": true,
+            "_documentation":  "The document ID of the element this measurement belongs to."
         }
     ],
-    "file":          [],
-    "fields": [
+    "_file":          [],
+    "_fields": [
         {
-            "name":           "measurement_class",
+            "_name":           "measurement_class",
             "type":           "char",
-            "blank_value":    "",
-            "default_value":  "",
-            "mustBeNonEmpty": true,
-            "mustBeScalar":   true,
-            "mustNotHaveNaN": false,
-            "queryable":      true,
-            "ontology":       null,
-            "documentation":  "The class name of the measurement type (e.g., 'ndi_timeseries_measurement').",
-            "constraints":    { "max_length": 256 }
+            "_blank_value":    "",
+            "_default_value":  "",
+            "_mustBeNonEmpty": true,
+            "_mustBeScalar":   true,
+            "_mustNotHaveNaN": false,
+            "_queryable":      true,
+            "_ontology":       null,
+            "_documentation":  "The class name of the measurement type (e.g., 'ndi_timeseries_measurement').",
+            "_constraints":    { "max_length": 256 }
         },
         {
-            "name":           "parameters",
+            "_name":           "parameters",
             "type":           "char",
-            "blank_value":    "",
-            "default_value":  "",
-            "mustBeNonEmpty": false,
-            "mustBeScalar":   true,
-            "mustNotHaveNaN": false,
-            "queryable":      false,
-            "ontology":       null,
-            "documentation":  "Measurement parameters, serialised as a JSON string.",
-            "constraints":    {}
+            "_blank_value":    "",
+            "_default_value":  "",
+            "_mustBeNonEmpty": false,
+            "_mustBeScalar":   true,
+            "_mustNotHaveNaN": false,
+            "_queryable":      false,
+            "_ontology":       null,
+            "_documentation":  "Measurement parameters, serialised as a JSON string.",
+            "_constraints":    {}
         }
     ]
 }

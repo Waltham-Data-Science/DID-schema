@@ -1,74 +1,74 @@
 {
-    "classname":     "imageStack",
-    "class_version": "1.0.0",
-    "superclasses": [
-        { "classname": "base", "schema": "$NDISCHEMAPATH/base/schema.json" }
+    "_classname":     "imageStack",
+    "_class_version": "1.0.0",
+    "_superclasses": [
+        { "_classname": "base", "_schema": "$NDISCHEMAPATH/base/schema.json" }
     ],
-    "depends_on": [
+    "_depends_on": [
         {
-            "name":           "element_id",
-            "mustBeNonEmpty": false,
-            "documentation":  "The document ID of the element this image stack is associated with."
+            "_name":           "element_id",
+            "_mustBeNonEmpty": false,
+            "_documentation":  "The document ID of the element this image stack is associated with."
         }
     ],
-    "file": [
+    "_file": [
         {
-            "name":           "imagestack_file",
-            "documentation":  "The file containing the image stack data."
+            "_name":           "imagestack_file",
+            "_documentation":  "The file containing the image stack data."
         }
     ],
-    "fields": [
+    "_fields": [
         {
-            "name":           "num_frames",
+            "_name":           "num_frames",
             "type":           "integer",
-            "blank_value":    0,
-            "default_value":  0,
-            "mustBeNonEmpty": false,
-            "mustBeScalar":   true,
-            "mustNotHaveNaN": true,
-            "queryable":      true,
-            "ontology":       null,
-            "documentation":  "The number of frames (slices) in the image stack.",
-            "constraints":    {}
+            "_blank_value":    0,
+            "_default_value":  0,
+            "_mustBeNonEmpty": false,
+            "_mustBeScalar":   true,
+            "_mustNotHaveNaN": true,
+            "_queryable":      true,
+            "_ontology":       null,
+            "_documentation":  "The number of frames (slices) in the image stack.",
+            "_constraints":    {}
         },
         {
-            "name":           "x_pixels",
+            "_name":           "x_pixels",
             "type":           "integer",
-            "blank_value":    0,
-            "default_value":  0,
-            "mustBeNonEmpty": false,
-            "mustBeScalar":   true,
-            "mustNotHaveNaN": true,
-            "queryable":      false,
-            "ontology":       null,
-            "documentation":  "The number of pixels in the x-dimension per frame.",
-            "constraints":    {}
+            "_blank_value":    0,
+            "_default_value":  0,
+            "_mustBeNonEmpty": false,
+            "_mustBeScalar":   true,
+            "_mustNotHaveNaN": true,
+            "_queryable":      false,
+            "_ontology":       null,
+            "_documentation":  "The number of pixels in the x-dimension per frame.",
+            "_constraints":    {}
         },
         {
-            "name":           "y_pixels",
+            "_name":           "y_pixels",
             "type":           "integer",
-            "blank_value":    0,
-            "default_value":  0,
-            "mustBeNonEmpty": false,
-            "mustBeScalar":   true,
-            "mustNotHaveNaN": true,
-            "queryable":      false,
-            "ontology":       null,
-            "documentation":  "The number of pixels in the y-dimension per frame.",
-            "constraints":    {}
+            "_blank_value":    0,
+            "_default_value":  0,
+            "_mustBeNonEmpty": false,
+            "_mustBeScalar":   true,
+            "_mustNotHaveNaN": true,
+            "_queryable":      false,
+            "_ontology":       null,
+            "_documentation":  "The number of pixels in the y-dimension per frame.",
+            "_constraints":    {}
         },
         {
-            "name":           "image_format",
+            "_name":           "image_format",
             "type":           "char",
-            "blank_value":    "",
-            "default_value":  "",
-            "mustBeNonEmpty": false,
-            "mustBeScalar":   true,
-            "mustNotHaveNaN": false,
-            "queryable":      true,
-            "ontology":       null,
-            "documentation":  "The file format of the image stack (e.g., 'tiff', 'nifti').",
-            "constraints":    { "max_length": 32 }
+            "_blank_value":    "",
+            "_default_value":  "",
+            "_mustBeNonEmpty": false,
+            "_mustBeScalar":   true,
+            "_mustNotHaveNaN": false,
+            "_queryable":      true,
+            "_ontology":       null,
+            "_documentation":  "The file format of the image stack (e.g., 'tiff', 'nifti').",
+            "_constraints":    { "max_length": 32 }
         }
     ]
 }

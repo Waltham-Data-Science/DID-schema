@@ -1,44 +1,44 @@
 {
-    "classname":     "tuningcurve_calc",
-    "class_version": "1.0.0",
-    "superclasses": [
-        { "classname": "base", "schema": "$NDISCHEMAPATH/base/schema.json" }
+    "_classname":     "tuningcurve_calc",
+    "_class_version": "1.0.0",
+    "_superclasses": [
+        { "_classname": "base", "_schema": "$NDISCHEMAPATH/base/schema.json" }
     ],
-    "depends_on": [
+    "_depends_on": [
         {
-            "name":           "stimulus_tuningcurve_id",
-            "mustBeNonEmpty": true,
-            "documentation":  "The document ID of the tuning curve this calculation was performed on."
+            "_name":           "stimulus_tuningcurve_id",
+            "_mustBeNonEmpty": true,
+            "_documentation":  "The document ID of the tuning curve this calculation was performed on."
         }
     ],
-    "file":          [],
-    "fields": [
+    "_file":          [],
+    "_fields": [
         {
-            "name":           "calculator_name",
+            "_name":           "calculator_name",
             "type":           "char",
-            "blank_value":    "",
-            "default_value":  "",
-            "mustBeNonEmpty": true,
-            "mustBeScalar":   true,
-            "mustNotHaveNaN": false,
-            "queryable":      true,
-            "ontology":       null,
-            "documentation":  "The name of the tuning curve calculator.",
-            "constraints":    { "max_length": 256 }
+            "_blank_value":    "",
+            "_default_value":  "",
+            "_mustBeNonEmpty": true,
+            "_mustBeScalar":   true,
+            "_mustNotHaveNaN": false,
+            "_queryable":      true,
+            "_ontology":       null,
+            "_documentation":  "The name of the tuning curve calculator.",
+            "_constraints":    { "max_length": 256 }
         },
         {
-            "name":           "result_data",
+            "_name":           "result_data",
             "type":           "structure",
-            "blank_value":    {},
-            "default_value":  {},
-            "mustBeNonEmpty": false,
-            "mustBeScalar":   true,
-            "mustNotHaveNaN": false,
-            "queryable":      false,
-            "ontology":       null,
-            "documentation":  "Structure containing the tuning curve calculation results. Keys and value types are specific to the calculator named in calculator_name (e.g., preferred direction, tuning width, modulation index).",
-            "constraints":    { "dynamic_keys_from": "calculator_name" },
-            "fields":         []
+            "_blank_value":    {},
+            "_default_value":  {},
+            "_mustBeNonEmpty": false,
+            "_mustBeScalar":   true,
+            "_mustNotHaveNaN": false,
+            "_queryable":      false,
+            "_ontology":       null,
+            "_documentation":  "Structure containing the tuning curve calculation results. Keys and value types are specific to the calculator named in calculator_name (e.g., preferred direction, tuning width, modulation index).",
+            "_constraints":    { "dynamic_keys_from": "calculator_name" },
+            "_fields":         []
         }
     ]
 }

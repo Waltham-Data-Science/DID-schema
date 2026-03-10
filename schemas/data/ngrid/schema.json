@@ -1,74 +1,74 @@
 {
-    "classname":     "ngrid",
-    "class_version": "1.0.0",
-    "superclasses": [
-        { "classname": "base", "schema": "$NDISCHEMAPATH/base/schema.json" }
+    "_classname":     "ngrid",
+    "_class_version": "1.0.0",
+    "_superclasses": [
+        { "_classname": "base", "_schema": "$NDISCHEMAPATH/base/schema.json" }
     ],
-    "depends_on": [
+    "_depends_on": [
         {
-            "name":           "element_id",
-            "mustBeNonEmpty": false,
-            "documentation":  "The document ID of the element this N-dimensional grid is associated with."
+            "_name":           "element_id",
+            "_mustBeNonEmpty": false,
+            "_documentation":  "The document ID of the element this N-dimensional grid is associated with."
         }
     ],
-    "file": [
+    "_file": [
         {
-            "name":           "ngrid_file",
-            "documentation":  "The N-dimensional grid data file."
+            "_name":           "ngrid_file",
+            "_documentation":  "The N-dimensional grid data file."
         }
     ],
-    "fields": [
+    "_fields": [
         {
-            "name":           "ndims",
+            "_name":           "ndims",
             "type":           "integer",
-            "blank_value":    0,
-            "default_value":  0,
-            "mustBeNonEmpty": true,
-            "mustBeScalar":   true,
-            "mustNotHaveNaN": true,
-            "queryable":      true,
-            "ontology":       null,
-            "documentation":  "The number of dimensions of the grid.",
-            "constraints":    {}
+            "_blank_value":    0,
+            "_default_value":  0,
+            "_mustBeNonEmpty": true,
+            "_mustBeScalar":   true,
+            "_mustNotHaveNaN": true,
+            "_queryable":      true,
+            "_ontology":       null,
+            "_documentation":  "The number of dimensions of the grid.",
+            "_constraints":    {}
         },
         {
-            "name":           "dim_sizes",
+            "_name":           "dim_sizes",
             "type":           "matrix",
-            "blank_value":    [],
-            "default_value":  [],
-            "mustBeNonEmpty": false,
-            "mustBeScalar":   false,
-            "mustNotHaveNaN": true,
-            "queryable":      false,
-            "ontology":       null,
-            "documentation":  "The size of each dimension as an array of positive integers, one entry per dimension. Length must equal ndims.",
-            "constraints":    { "element_type": "integer", "min_value": 1 }
+            "_blank_value":    [],
+            "_default_value":  [],
+            "_mustBeNonEmpty": false,
+            "_mustBeScalar":   false,
+            "_mustNotHaveNaN": true,
+            "_queryable":      false,
+            "_ontology":       null,
+            "_documentation":  "The size of each dimension as an array of positive integers, one entry per dimension. Length must equal ndims.",
+            "_constraints":    { "element_type": "integer", "min_value": 1 }
         },
         {
-            "name":           "dim_labels",
+            "_name":           "dim_labels",
             "type":           "char",
-            "blank_value":    "",
-            "default_value":  "",
-            "mustBeNonEmpty": false,
-            "mustBeScalar":   true,
-            "mustNotHaveNaN": false,
-            "queryable":      false,
-            "ontology":       null,
-            "documentation":  "Comma-separated labels for each dimension (e.g., 'time,channel,trial'). Number of entries must equal ndims.",
-            "constraints":    {}
+            "_blank_value":    "",
+            "_default_value":  "",
+            "_mustBeNonEmpty": false,
+            "_mustBeScalar":   true,
+            "_mustNotHaveNaN": false,
+            "_queryable":      false,
+            "_ontology":       null,
+            "_documentation":  "Comma-separated labels for each dimension (e.g., 'time,channel,trial'). Number of entries must equal ndims.",
+            "_constraints":    {}
         },
         {
-            "name":           "data_type",
+            "_name":           "data_type",
             "type":           "char",
-            "blank_value":    "",
-            "default_value":  "double",
-            "mustBeNonEmpty": false,
-            "mustBeScalar":   true,
-            "mustNotHaveNaN": false,
-            "queryable":      true,
-            "ontology":       null,
-            "documentation":  "The numeric data type of the grid values (e.g., 'double', 'single', 'int16').",
-            "constraints":    { "max_length": 64 }
+            "_blank_value":    "",
+            "_default_value":  "double",
+            "_mustBeNonEmpty": false,
+            "_mustBeScalar":   true,
+            "_mustNotHaveNaN": false,
+            "_queryable":      true,
+            "_ontology":       null,
+            "_documentation":  "The numeric data type of the grid values (e.g., 'double', 'single', 'int16').",
+            "_constraints":    { "max_length": 64 }
         }
     ]
 }

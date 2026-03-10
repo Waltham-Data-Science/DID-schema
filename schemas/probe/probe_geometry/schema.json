@@ -1,69 +1,69 @@
 {
-    "classname":     "probe_geometry",
-    "class_version": "1.0.0",
-    "superclasses": [
-        { "classname": "base", "schema": "$NDISCHEMAPATH/base/schema.json" }
+    "_classname":     "probe_geometry",
+    "_class_version": "1.0.0",
+    "_superclasses": [
+        { "_classname": "base", "_schema": "$NDISCHEMAPATH/base/schema.json" }
     ],
-    "depends_on": [
+    "_depends_on": [
         {
-            "name":           "probe_id",
-            "mustBeNonEmpty": true,
-            "documentation":  "The document ID of the probe whose geometry is described."
+            "_name":           "probe_id",
+            "_mustBeNonEmpty": true,
+            "_documentation":  "The document ID of the probe whose geometry is described."
         }
     ],
-    "file":          [],
-    "fields": [
+    "_file":          [],
+    "_fields": [
         {
-            "name":           "num_channels",
+            "_name":           "num_channels",
             "type":           "integer",
-            "blank_value":    0,
-            "default_value":  0,
-            "mustBeNonEmpty": true,
-            "mustBeScalar":   true,
-            "mustNotHaveNaN": true,
-            "queryable":      true,
-            "ontology":       null,
-            "documentation":  "The total number of channels on the probe.",
-            "constraints":    {}
+            "_blank_value":    0,
+            "_default_value":  0,
+            "_mustBeNonEmpty": true,
+            "_mustBeScalar":   true,
+            "_mustNotHaveNaN": true,
+            "_queryable":      true,
+            "_ontology":       null,
+            "_documentation":  "The total number of channels on the probe.",
+            "_constraints":    {}
         },
         {
-            "name":           "channel_positions",
+            "_name":           "channel_positions",
             "type":           "matrix",
-            "blank_value":    [],
-            "default_value":  [],
-            "mustBeNonEmpty": false,
-            "mustBeScalar":   false,
-            "mustNotHaveNaN": false,
-            "queryable":      false,
-            "ontology":       null,
-            "documentation":  "Nx2 matrix of channel positions in position_units, where N equals num_channels. Each row is [x, y] giving the spatial location of that channel on the probe.",
-            "constraints":    { "element_type": "double", "shape": "Nx2" }
+            "_blank_value":    [],
+            "_default_value":  [],
+            "_mustBeNonEmpty": false,
+            "_mustBeScalar":   false,
+            "_mustNotHaveNaN": false,
+            "_queryable":      false,
+            "_ontology":       null,
+            "_documentation":  "Nx2 matrix of channel positions in position_units, where N equals num_channels. Each row is [x, y] giving the spatial location of that channel on the probe.",
+            "_constraints":    { "element_type": "double", "shape": "Nx2" }
         },
         {
-            "name":           "position_units",
+            "_name":           "position_units",
             "type":           "char",
-            "blank_value":    "",
-            "default_value":  "um",
-            "mustBeNonEmpty": false,
-            "mustBeScalar":   true,
-            "mustNotHaveNaN": false,
-            "queryable":      false,
-            "ontology":       null,
-            "documentation":  "The units for channel positions (e.g., 'um', 'mm').",
-            "constraints":    { "max_length": 32 }
+            "_blank_value":    "",
+            "_default_value":  "um",
+            "_mustBeNonEmpty": false,
+            "_mustBeScalar":   true,
+            "_mustNotHaveNaN": false,
+            "_queryable":      false,
+            "_ontology":       null,
+            "_documentation":  "The units for channel positions (e.g., 'um', 'mm').",
+            "_constraints":    { "max_length": 32 }
         },
         {
-            "name":           "probe_type",
+            "_name":           "probe_type",
             "type":           "char",
-            "blank_value":    "",
-            "default_value":  "",
-            "mustBeNonEmpty": false,
-            "mustBeScalar":   true,
-            "mustNotHaveNaN": false,
-            "queryable":      true,
-            "ontology":       null,
-            "documentation":  "The type or model of the probe (e.g., 'Neuropixels 1.0', 'tetrode').",
-            "constraints":    { "max_length": 256 }
+            "_blank_value":    "",
+            "_default_value":  "",
+            "_mustBeNonEmpty": false,
+            "_mustBeScalar":   true,
+            "_mustNotHaveNaN": false,
+            "_queryable":      true,
+            "_ontology":       null,
+            "_documentation":  "The type or model of the probe (e.g., 'Neuropixels 1.0', 'tetrode').",
+            "_constraints":    { "max_length": 256 }
         }
     ]
 }

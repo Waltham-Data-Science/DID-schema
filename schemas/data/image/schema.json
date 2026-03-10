@@ -1,87 +1,87 @@
 {
-    "classname":     "image",
-    "class_version": "1.0.0",
-    "superclasses": [
-        { "classname": "base", "schema": "$NDISCHEMAPATH/base/schema.json" }
+    "_classname":     "image",
+    "_class_version": "1.0.0",
+    "_superclasses": [
+        { "_classname": "base", "_schema": "$NDISCHEMAPATH/base/schema.json" }
     ],
-    "depends_on": [
+    "_depends_on": [
         {
-            "name":           "element_id",
-            "mustBeNonEmpty": false,
-            "documentation":  "The document ID of the element this image is associated with."
+            "_name":           "element_id",
+            "_mustBeNonEmpty": false,
+            "_documentation":  "The document ID of the element this image is associated with."
         }
     ],
-    "file": [
+    "_file": [
         {
-            "name":           "image_file",
-            "documentation":  "The image file (e.g., PNG, TIFF, JPEG)."
+            "_name":           "image_file",
+            "_documentation":  "The image file (e.g., PNG, TIFF, JPEG)."
         }
     ],
-    "fields": [
+    "_fields": [
         {
-            "name":           "image_type",
+            "_name":           "image_type",
             "type":           "char",
-            "blank_value":    "",
-            "default_value":  "",
-            "mustBeNonEmpty": false,
-            "mustBeScalar":   true,
-            "mustNotHaveNaN": false,
-            "queryable":      true,
-            "ontology":       null,
-            "documentation":  "The type or modality of the image (e.g., 'brightfield', 'fluorescence', 'confocal').",
-            "constraints":    { "max_length": 256 }
+            "_blank_value":    "",
+            "_default_value":  "",
+            "_mustBeNonEmpty": false,
+            "_mustBeScalar":   true,
+            "_mustNotHaveNaN": false,
+            "_queryable":      true,
+            "_ontology":       null,
+            "_documentation":  "The type or modality of the image (e.g., 'brightfield', 'fluorescence', 'confocal').",
+            "_constraints":    { "max_length": 256 }
         },
         {
-            "name":           "image_format",
+            "_name":           "image_format",
             "type":           "char",
-            "blank_value":    "",
-            "default_value":  "",
-            "mustBeNonEmpty": false,
-            "mustBeScalar":   true,
-            "mustNotHaveNaN": false,
-            "queryable":      true,
-            "ontology":       null,
-            "documentation":  "The file format of the image (e.g., 'png', 'tiff', 'jpeg').",
-            "constraints":    { "max_length": 32 }
+            "_blank_value":    "",
+            "_default_value":  "",
+            "_mustBeNonEmpty": false,
+            "_mustBeScalar":   true,
+            "_mustNotHaveNaN": false,
+            "_queryable":      true,
+            "_ontology":       null,
+            "_documentation":  "The file format of the image (e.g., 'png', 'tiff', 'jpeg').",
+            "_constraints":    { "max_length": 32 }
         },
         {
-            "name":           "x_resolution",
+            "_name":           "x_resolution",
             "type":           "double",
-            "blank_value":    0.0,
-            "default_value":  0.0,
-            "mustBeNonEmpty": false,
-            "mustBeScalar":   true,
-            "mustNotHaveNaN": false,
-            "queryable":      false,
-            "ontology":       null,
-            "documentation":  "The x-axis resolution (pixels per unit).",
-            "constraints":    {}
+            "_blank_value":    0.0,
+            "_default_value":  0.0,
+            "_mustBeNonEmpty": false,
+            "_mustBeScalar":   true,
+            "_mustNotHaveNaN": false,
+            "_queryable":      false,
+            "_ontology":       null,
+            "_documentation":  "The x-axis resolution (pixels per unit).",
+            "_constraints":    {}
         },
         {
-            "name":           "y_resolution",
+            "_name":           "y_resolution",
             "type":           "double",
-            "blank_value":    0.0,
-            "default_value":  0.0,
-            "mustBeNonEmpty": false,
-            "mustBeScalar":   true,
-            "mustNotHaveNaN": false,
-            "queryable":      false,
-            "ontology":       null,
-            "documentation":  "The y-axis resolution (pixels per unit).",
-            "constraints":    {}
+            "_blank_value":    0.0,
+            "_default_value":  0.0,
+            "_mustBeNonEmpty": false,
+            "_mustBeScalar":   true,
+            "_mustNotHaveNaN": false,
+            "_queryable":      false,
+            "_ontology":       null,
+            "_documentation":  "The y-axis resolution (pixels per unit).",
+            "_constraints":    {}
         },
         {
-            "name":           "resolution_units",
+            "_name":           "resolution_units",
             "type":           "char",
-            "blank_value":    "",
-            "default_value":  "um",
-            "mustBeNonEmpty": false,
-            "mustBeScalar":   true,
-            "mustNotHaveNaN": false,
-            "queryable":      false,
-            "ontology":       null,
-            "documentation":  "The units for x_resolution and y_resolution (e.g., 'um', 'mm').",
-            "constraints":    { "max_length": 32 }
+            "_blank_value":    "",
+            "_default_value":  "um",
+            "_mustBeNonEmpty": false,
+            "_mustBeScalar":   true,
+            "_mustNotHaveNaN": false,
+            "_queryable":      false,
+            "_ontology":       null,
+            "_documentation":  "The units for x_resolution and y_resolution (e.g., 'um', 'mm').",
+            "_constraints":    { "max_length": 32 }
         }
     ]
 }

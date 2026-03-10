@@ -1,108 +1,108 @@
 {
-    "classname":     "sorting_parameters",
-    "class_version": "1.0.0",
-    "superclasses": [
-        { "classname": "base", "schema": "$NDISCHEMAPATH/base/schema.json" }
+    "_classname":     "sorting_parameters",
+    "_class_version": "1.0.0",
+    "_superclasses": [
+        { "_classname": "base", "_schema": "$NDISCHEMAPATH/base/schema.json" }
     ],
-    "depends_on": [
+    "_depends_on": [
         {
-            "name":           "element_id",
-            "mustBeNonEmpty": true,
-            "documentation":  "The document ID of the element (e.g., probe) these sorting parameters apply to."
+            "_name":           "element_id",
+            "_mustBeNonEmpty": true,
+            "_documentation":  "The document ID of the element (e.g., probe) these sorting parameters apply to."
         }
     ],
-    "file":          [],
-    "fields": [
+    "_file":          [],
+    "_fields": [
         {
-            "name":           "sorter_name",
+            "_name":           "sorter_name",
             "type":           "char",
-            "blank_value":    "",
-            "default_value":  "",
-            "mustBeNonEmpty": true,
-            "mustBeScalar":   true,
-            "mustNotHaveNaN": false,
-            "queryable":      true,
-            "ontology":       null,
-            "documentation":  "The name of the spike sorting algorithm.",
-            "constraints":    { "max_length": 128 }
+            "_blank_value":    "",
+            "_default_value":  "",
+            "_mustBeNonEmpty": true,
+            "_mustBeScalar":   true,
+            "_mustNotHaveNaN": false,
+            "_queryable":      true,
+            "_ontology":       null,
+            "_documentation":  "The name of the spike sorting algorithm.",
+            "_constraints":    { "max_length": 128 }
         },
         {
-            "name":           "graphical_mode",
+            "_name":           "graphical_mode",
             "type":           "integer",
-            "blank_value":    0,
-            "default_value":  0,
-            "mustBeNonEmpty": true,
-            "mustBeScalar":   true,
-            "mustNotHaveNaN": true,
-            "queryable":      false,
-            "ontology":       null,
-            "documentation":  "Whether to use a graphical presentation during sorting (0 = no, 1 = yes).",
-            "constraints":    { "min": 0, "max": 1 }
+            "_blank_value":    0,
+            "_default_value":  0,
+            "_mustBeNonEmpty": true,
+            "_mustBeScalar":   true,
+            "_mustNotHaveNaN": true,
+            "_queryable":      false,
+            "_ontology":       null,
+            "_documentation":  "Whether to use a graphical presentation during sorting (0 = no, 1 = yes).",
+            "_constraints":    { "min": 0, "max": 1 }
         },
         {
-            "name":           "num_pca_features",
+            "_name":           "num_pca_features",
             "type":           "integer",
-            "blank_value":    10,
-            "default_value":  10,
-            "mustBeNonEmpty": true,
-            "mustBeScalar":   true,
-            "mustNotHaveNaN": true,
-            "queryable":      true,
-            "ontology":       null,
-            "documentation":  "Number of principal component features to use in clustering.",
-            "constraints":    { "min": 1 }
+            "_blank_value":    10,
+            "_default_value":  10,
+            "_mustBeNonEmpty": true,
+            "_mustBeScalar":   true,
+            "_mustNotHaveNaN": true,
+            "_queryable":      true,
+            "_ontology":       null,
+            "_documentation":  "Number of principal component features to use in clustering.",
+            "_constraints":    { "min": 1 }
         },
         {
-            "name":           "interpolation",
+            "_name":           "interpolation",
             "type":           "integer",
-            "blank_value":    3,
-            "default_value":  3,
-            "mustBeNonEmpty": true,
-            "mustBeScalar":   true,
-            "mustNotHaveNaN": true,
-            "queryable":      false,
-            "ontology":       null,
-            "documentation":  "Interpolation factor for spike waveforms. Waveforms are upsampled by this integer factor to provide extra resolution during alignment and clustering (e.g., 3 means 3x upsampling). Set to 1 for no interpolation.",
-            "constraints":    { "min": 1 }
+            "_blank_value":    3,
+            "_default_value":  3,
+            "_mustBeNonEmpty": true,
+            "_mustBeScalar":   true,
+            "_mustNotHaveNaN": true,
+            "_queryable":      false,
+            "_ontology":       null,
+            "_documentation":  "Interpolation factor for spike waveforms. Waveforms are upsampled by this integer factor to provide extra resolution during alignment and clustering (e.g., 3 means 3x upsampling). Set to 1 for no interpolation.",
+            "_constraints":    { "min": 1 }
         },
         {
-            "name":           "min_clusters",
+            "_name":           "min_clusters",
             "type":           "integer",
-            "blank_value":    3,
-            "default_value":  3,
-            "mustBeNonEmpty": true,
-            "mustBeScalar":   true,
-            "mustNotHaveNaN": true,
-            "queryable":      true,
-            "ontology":       null,
-            "documentation":  "Minimum number of clusters (units) to produce.",
-            "constraints":    { "min": 1 }
+            "_blank_value":    3,
+            "_default_value":  3,
+            "_mustBeNonEmpty": true,
+            "_mustBeScalar":   true,
+            "_mustNotHaveNaN": true,
+            "_queryable":      true,
+            "_ontology":       null,
+            "_documentation":  "Minimum number of clusters (units) to produce.",
+            "_constraints":    { "min": 1 }
         },
         {
-            "name":           "max_clusters",
+            "_name":           "max_clusters",
             "type":           "integer",
-            "blank_value":    10,
-            "default_value":  10,
-            "mustBeNonEmpty": true,
-            "mustBeScalar":   true,
-            "mustNotHaveNaN": true,
-            "queryable":      true,
-            "ontology":       null,
-            "documentation":  "Maximum number of clusters (units) to produce. Must be >= min_clusters.",
-            "constraints":    { "min": 1 }
+            "_blank_value":    10,
+            "_default_value":  10,
+            "_mustBeNonEmpty": true,
+            "_mustBeScalar":   true,
+            "_mustNotHaveNaN": true,
+            "_queryable":      true,
+            "_ontology":       null,
+            "_documentation":  "Maximum number of clusters (units) to produce. Must be >= min_clusters.",
+            "_constraints":    { "min": 1 }
         },
         {
-            "name":           "num_start",
+            "_name":           "num_start",
             "type":           "integer",
-            "blank_value":    5,
-            "default_value":  5,
-            "mustBeNonEmpty": true,
-            "mustBeScalar":   true,
-            "mustNotHaveNaN": true,
-            "queryable":      false,
-            "ontology":       null,
-            "documentation":  "Initial number of clusters to seed the clustering algorithm with.",
-            "constraints":    { "min": 1 }
+            "_blank_value":    5,
+            "_default_value":  5,
+            "_mustBeNonEmpty": true,
+            "_mustBeScalar":   true,
+            "_mustNotHaveNaN": true,
+            "_queryable":      false,
+            "_ontology":       null,
+            "_documentation":  "Initial number of clusters to seed the clustering algorithm with.",
+            "_constraints":    { "min": 1 }
         }
     ]
 }

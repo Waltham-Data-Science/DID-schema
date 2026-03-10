@@ -2,37 +2,37 @@
     "$schema": "http://json-schema.org/draft-07/schema#",
     "$id": "https://did-schema.example.org/meta/did_schema_meta.json",
     "title": "DID/NDI Schema Meta-Schema",
-    "description": "Validates the structure of DID/NDI schema files. All schema files must conform to this meta-schema.",
+    "description": "Validates the structure of DID/NDI schema files. NAMING CONVENTION: property names that are standard JSON Schema keywords (type, $schema, $id, $ref, $defs, properties, required, items, enum, const, pattern, description, etc.) are used as-is. Every property name introduced by this schema system — i.e. not part of the JSON Schema vocabulary — is prefixed with an underscore (_) to distinguish custom extensions from standard vocabulary.",
     "type": "object",
-    "required": ["classname", "class_version", "superclasses", "depends_on", "file", "fields"],
+    "required": ["_classname", "_class_version", "_superclasses", "_depends_on", "_file", "_fields"],
     "additionalProperties": false,
     "properties": {
-        "classname": {
+        "_classname": {
             "type": "string",
             "pattern": "^[a-zA-Z][a-zA-Z0-9_]*$",
             "description": "Unique name of the document type."
         },
-        "class_version": {
+        "_class_version": {
             "type": "string",
             "pattern": "^\\d+\\.\\d+\\.\\d+$",
             "description": "Semantic version string MAJOR.MINOR.PATCH."
         },
-        "superclasses": {
+        "_superclasses": {
             "type": "array",
             "items": { "$ref": "#/$defs/superclass_reference" },
             "description": "Array of superclass reference objects."
         },
-        "depends_on": {
+        "_depends_on": {
             "type": "array",
             "items": { "$ref": "#/$defs/dependency_object" },
             "description": "Array of dependency objects."
         },
-        "file": {
+        "_file": {
             "type": "array",
             "items": { "$ref": "#/$defs/file_record" },
             "description": "Array of file record objects."
         },
-        "fields": {
+        "_fields": {
             "type": "array",
             "items": { "$ref": "#/$defs/field_definition" },
             "description": "Array of field definition objects."
@@ -41,14 +41,14 @@
     "$defs": {
         "superclass_reference": {
             "type": "object",
-            "required": ["classname", "schema"],
+            "required": ["_classname", "_schema"],
             "additionalProperties": false,
             "properties": {
-                "classname": {
+                "_classname": {
                     "type": "string",
                     "description": "Name of the parent class."
                 },
-                "schema": {
+                "_schema": {
                     "type": "string",
                     "description": "Path or token-substituted path to the parent schema file."
                 }
@@ -56,22 +56,22 @@
         },
         "dependency_object": {
             "type": "object",
-            "required": ["name", "mustBeNonEmpty", "documentation"],
+            "required": ["_name", "_mustBeNonEmpty", "_documentation"],
             "additionalProperties": false,
             "properties": {
-                "name": {
+                "_name": {
                     "type": "string",
-                    "description": "Role name of the dependency. The '#' character is a numeric placeholder: a name such as 'syncrule_id_#' matches any runtime name of the form 'syncrule_id_1', 'syncrule_id_2', etc. When '#' appears, 'multiple' must be true."
+                    "description": "Role name of the dependency. The '#' character is a numeric placeholder: a name such as 'syncrule_id_#' matches any runtime name of the form 'syncrule_id_1', 'syncrule_id_2', etc. When '#' appears, '_multiple' must be true."
                 },
-                "mustBeNonEmpty": {
+                "_mustBeNonEmpty": {
                     "type": "boolean",
                     "description": "Whether the dependency value must be non-empty at validation time."
                 },
-                "multiple": {
+                "_multiple": {
                     "type": "boolean",
-                    "description": "If true, zero or more instances of this dependency may appear at runtime, distinguished by substituting a positive integer for the '#' placeholder in 'name'. Omit or set to false for exactly-one dependencies."
+                    "description": "If true, zero or more instances of this dependency may appear at runtime, distinguished by substituting a positive integer for the '#' placeholder in '_name'. Omit or set to false for exactly-one dependencies."
                 },
-                "documentation": {
+                "_documentation": {
                     "type": "string",
                     "description": "Human-readable description."
                 }
@@ -79,14 +79,14 @@
         },
         "file_record": {
             "type": "object",
-            "required": ["name", "documentation"],
+            "required": ["_name", "_documentation"],
             "additionalProperties": false,
             "properties": {
-                "name": {
+                "_name": {
                     "type": "string",
                     "description": "Identifier for this file record."
                 },
-                "documentation": {
+                "_documentation": {
                     "type": "string",
                     "description": "Description of the file's contents."
                 }
@@ -94,18 +94,18 @@
         },
         "ontology_object": {
             "type": "object",
-            "required": ["namespace", "term", "uri"],
+            "required": ["_namespace", "_term", "_uri"],
             "additionalProperties": false,
             "properties": {
-                "namespace": {
+                "_namespace": {
                     "type": "string",
                     "description": "Ontology name (e.g., uberon, schema, iao, pato)."
                 },
-                "term": {
+                "_term": {
                     "type": "string",
                     "description": "Term identifier within the namespace."
                 },
-                "uri": {
+                "_uri": {
                     "type": ["string", "null"],
                     "description": "Full resolvable URI, or null if unavailable."
                 }
@@ -114,60 +114,60 @@
         "field_definition": {
             "type": "object",
             "required": [
-                "name", "type", "blank_value", "default_value",
-                "mustBeNonEmpty", "mustBeScalar", "mustNotHaveNaN",
-                "queryable", "ontology", "documentation", "constraints"
+                "_name", "type", "_blank_value", "_default_value",
+                "_mustBeNonEmpty", "_mustBeScalar", "_mustNotHaveNaN",
+                "_queryable", "_ontology", "_documentation", "_constraints"
             ],
             "additionalProperties": false,
             "properties": {
-                "name": {
+                "_name": {
                     "type": "string",
                     "pattern": "^[a-zA-Z][a-zA-Z0-9_]*$",
-                    "description": "Field name. No more than two consecutive underscores."
+                    "description": "Field name."
                 },
                 "type": {
                     "type": "string",
                     "enum": ["did_uid", "char", "string", "integer", "double", "matrix", "timestamp", "boolean", "structure"],
-                    "description": "Data type of the field."
+                    "description": "Data type of the field. Uses the standard JSON Schema keyword 'type'; values are NDI-specific."
                 },
-                "blank_value": {
+                "_blank_value": {
                     "description": "Value in a freshly constructed blank document. May fail validation."
                 },
-                "default_value": {
+                "_default_value": {
                     "description": "Legitimate fallback value. Must pass validation."
                 },
-                "mustBeNonEmpty": {
+                "_mustBeNonEmpty": {
                     "type": "boolean",
                     "description": "Value may not be null, empty string, empty array, or empty object at validation time."
                 },
-                "mustBeScalar": {
+                "_mustBeScalar": {
                     "type": "boolean",
-                    "description": "Value must be a single element (not array/matrix)."
+                    "description": "Value must be a single element (not array/matrix). Domain-specific to MATLAB/scientific computing; has no JSON Schema equivalent."
                 },
-                "mustNotHaveNaN": {
+                "_mustNotHaveNaN": {
                     "type": "boolean",
-                    "description": "No NaN values permitted."
+                    "description": "No NaN values permitted. Domain-specific; NaN is not valid JSON but can appear in MATLAB/HDF5 data."
                 },
-                "queryable": {
+                "_queryable": {
                     "type": "boolean",
                     "description": "Whether this field is indexed in the database."
                 },
-                "ontology": {
+                "_ontology": {
                     "oneOf": [
                         { "$ref": "#/$defs/ontology_object" },
                         { "type": "null" }
                     ],
                     "description": "Ontology node, or null."
                 },
-                "documentation": {
+                "_documentation": {
                     "type": "string",
-                    "description": "Human-readable description."
+                    "description": "Human-readable description of the field."
                 },
-                "constraints": {
+                "_constraints": {
                     "type": "object",
-                    "description": "Type-specific constraints. Use {} for unconstrained."
+                    "description": "Standard JSON Schema validation keywords constraining this field's value (e.g., minLength, minimum, maximum, pattern, enum). Use {} for unconstrained. JSON Schema validators can apply these keywords directly to field values."
                 },
-                "fields": {
+                "_fields": {
                     "type": "array",
                     "items": { "$ref": "#/$defs/field_definition" },
                     "description": "Nested field definitions for structure type fields."
@@ -178,10 +178,10 @@
             },
             "then": {
                 "required": [
-                    "name", "type", "blank_value", "default_value",
-                    "mustBeNonEmpty", "mustBeScalar", "mustNotHaveNaN",
-                    "queryable", "ontology", "documentation", "constraints",
-                    "fields"
+                    "_name", "type", "_blank_value", "_default_value",
+                    "_mustBeNonEmpty", "_mustBeScalar", "_mustNotHaveNaN",
+                    "_queryable", "_ontology", "_documentation", "_constraints",
+                    "_fields"
                 ]
             }
         }

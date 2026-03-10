@@ -1,16 +1,16 @@
 {
-    "classname":     "openminds_subject",
-    "class_version": "1.0.0",
-    "superclasses": [
-        { "classname": "base", "schema": "$NDISCHEMAPATH/base/schema.json" }
+    "_classname":     "openminds_subject",
+    "_class_version": "1.0.0",
+    "_superclasses": [
+        { "_classname": "base", "_schema": "$NDISCHEMAPATH/base/schema.json" }
     ],
-    "depends_on": [
+    "_depends_on": [
         {
-            "name":           "subject_id",
-            "mustBeNonEmpty": true,
-            "documentation":  "The document ID of the subject this openMINDS metadata describes."
+            "_name":           "subject_id",
+            "_mustBeNonEmpty": true,
+            "_documentation":  "The document ID of the subject this openMINDS metadata describes."
         }
     ],
-    "file":          [],
-    "fields":        []
+    "_file":          [],
+    "_fields":        []
 }

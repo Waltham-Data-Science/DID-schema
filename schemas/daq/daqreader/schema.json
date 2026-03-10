@@ -1,24 +1,24 @@
 {
-    "classname":     "daqreader",
-    "class_version": "1.0.0",
-    "superclasses": [
-        { "classname": "base", "schema": "$NDISCHEMAPATH/base/schema.json" }
+    "_classname":     "daqreader",
+    "_class_version": "1.0.0",
+    "_superclasses": [
+        { "_classname": "base", "_schema": "$NDISCHEMAPATH/base/schema.json" }
     ],
-    "depends_on":    [],
-    "file":          [],
-    "fields": [
+    "_depends_on":    [],
+    "_file":          [],
+    "_fields": [
         {
-            "name":           "ndi_daqreader_class",
+            "_name":           "ndi_daqreader_class",
             "type":           "char",
-            "blank_value":    "",
-            "default_value":  "ndi_daqreader",
-            "mustBeNonEmpty": true,
-            "mustBeScalar":   true,
-            "mustNotHaveNaN": false,
-            "queryable":      true,
-            "ontology":       null,
-            "documentation":  "The class name of the DAQ reader implementation.",
-            "constraints":    { "max_length": 256 }
+            "_blank_value":    "",
+            "_default_value":  "ndi_daqreader",
+            "_mustBeNonEmpty": true,
+            "_mustBeScalar":   true,
+            "_mustNotHaveNaN": false,
+            "_queryable":      true,
+            "_ontology":       null,
+            "_documentation":  "The class name of the DAQ reader implementation.",
+            "_constraints":    { "max_length": 256 }
         }
     ]
 }
