@@ -1,37 +1,37 @@
 {
-    "classname":     "demoNDI",
-    "class_version": "1.0.0",
-    "superclasses": [
-        { "classname": "base", "schema": "$NDISCHEMAPATH/base/schema.json" }
+    "_classname":     "demoNDI",
+    "_class_version": "1.0.0",
+    "_superclasses": [
+        { "_classname": "base", "_schema": "$NDISCHEMAPATH/base/schema.json" }
     ],
-    "depends_on":    [],
-    "file":          [],
-    "fields": [
+    "_depends_on":    [],
+    "_file":          [],
+    "_fields": [
         {
-            "name":           "demo_param1",
+            "_name":           "demo_param1",
             "type":           "double",
-            "blank_value":    0.0,
-            "default_value":  1.0,
-            "mustBeNonEmpty": false,
-            "mustBeScalar":   true,
-            "mustNotHaveNaN": false,
-            "queryable":      true,
-            "ontology":       null,
-            "documentation":  "A demonstration numeric parameter.",
-            "constraints":    {}
+            "_blank_value":    0.0,
+            "_default_value":  1.0,
+            "_mustBeNonEmpty": false,
+            "_mustBeScalar":   true,
+            "_mustNotHaveNaN": false,
+            "_queryable":      true,
+            "_ontology":       null,
+            "_documentation":  "A demonstration numeric parameter.",
+            "_constraints":    {}
         },
         {
-            "name":           "demo_param2",
+            "_name":           "demo_param2",
             "type":           "char",
-            "blank_value":    "",
-            "default_value":  "hello",
-            "mustBeNonEmpty": false,
-            "mustBeScalar":   true,
-            "mustNotHaveNaN": false,
-            "queryable":      true,
-            "ontology":       null,
-            "documentation":  "A demonstration string parameter.",
-            "constraints":    { "max_length": 256 }
+            "_blank_value":    "",
+            "_default_value":  "hello",
+            "_mustBeNonEmpty": false,
+            "_mustBeScalar":   true,
+            "_mustNotHaveNaN": false,
+            "_queryable":      true,
+            "_ontology":       null,
+            "_documentation":  "A demonstration string parameter.",
+            "_constraints":    { "max_length": 256 }
         }
     ]
 }

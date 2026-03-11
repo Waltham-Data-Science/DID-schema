@@ -1,63 +1,63 @@
 {
-    "classname":     "session",
-    "class_version": "1.0.0",
-    "superclasses": [
-        { "classname": "base", "schema": "$NDISCHEMAPATH/base/schema.json" }
+    "_classname":     "session",
+    "_class_version": "1.0.0",
+    "_superclasses": [
+        { "_classname": "base", "_schema": "$NDISCHEMAPATH/base/schema.json" }
     ],
-    "depends_on":    [],
-    "file":          [],
-    "fields": [
+    "_depends_on":    [],
+    "_file":          [],
+    "_fields": [
         {
-            "name":           "reference",
+            "_name":           "reference",
             "type":           "char",
-            "blank_value":    "",
-            "default_value":  "",
-            "mustBeNonEmpty": true,
-            "mustBeScalar":   true,
-            "mustNotHaveNaN": false,
-            "queryable":      true,
-            "ontology":       null,
-            "documentation":  "A unique reference string for this experimental session.",
-            "constraints":    { "max_length": 256 }
+            "_blank_value":    "",
+            "_default_value":  "",
+            "_mustBeNonEmpty": true,
+            "_mustBeScalar":   true,
+            "_mustNotHaveNaN": false,
+            "_queryable":      true,
+            "_ontology":       null,
+            "_documentation":  "A unique reference string for this experimental session.",
+            "_constraints":    { "max_length": 256 }
         },
         {
-            "name":           "type",
+            "_name":           "type",
             "type":           "char",
-            "blank_value":    "",
-            "default_value":  "",
-            "mustBeNonEmpty": false,
-            "mustBeScalar":   true,
-            "mustNotHaveNaN": false,
-            "queryable":      true,
-            "ontology":       null,
-            "documentation":  "The session type (e.g., 'acute', 'chronic').",
-            "constraints":    { "max_length": 128 }
+            "_blank_value":    "",
+            "_default_value":  "",
+            "_mustBeNonEmpty": false,
+            "_mustBeScalar":   true,
+            "_mustNotHaveNaN": false,
+            "_queryable":      true,
+            "_ontology":       null,
+            "_documentation":  "The session type (e.g., 'acute', 'chronic').",
+            "_constraints":    { "max_length": 128 }
         },
         {
-            "name":           "date",
+            "_name":           "date",
             "type":           "char",
-            "blank_value":    "",
-            "default_value":  "",
-            "mustBeNonEmpty": false,
-            "mustBeScalar":   true,
-            "mustNotHaveNaN": false,
-            "queryable":      true,
-            "ontology":       null,
-            "documentation":  "The date of the session in ISO 8601 format (YYYY-MM-DD).",
-            "constraints":    { "max_length": 32 }
+            "_blank_value":    "",
+            "_default_value":  "",
+            "_mustBeNonEmpty": false,
+            "_mustBeScalar":   true,
+            "_mustNotHaveNaN": false,
+            "_queryable":      true,
+            "_ontology":       null,
+            "_documentation":  "The date of the session in ISO 8601 format (YYYY-MM-DD).",
+            "_constraints":    { "max_length": 32 }
         },
         {
-            "name":           "purpose",
+            "_name":           "purpose",
             "type":           "char",
-            "blank_value":    "",
-            "default_value":  "",
-            "mustBeNonEmpty": false,
-            "mustBeScalar":   true,
-            "mustNotHaveNaN": false,
-            "queryable":      false,
-            "ontology":       null,
-            "documentation":  "A free-text description of the purpose of this session.",
-            "constraints":    { "max_length": 1024 }
+            "_blank_value":    "",
+            "_default_value":  "",
+            "_mustBeNonEmpty": false,
+            "_mustBeScalar":   true,
+            "_mustNotHaveNaN": false,
+            "_queryable":      false,
+            "_ontology":       null,
+            "_documentation":  "A free-text description of the purpose of this session.",
+            "_constraints":    { "max_length": 1024 }
         }
     ]
 }

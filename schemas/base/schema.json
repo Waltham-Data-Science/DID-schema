@@ -1,73 +1,73 @@
 {
-    "classname":     "base",
-    "class_version": "1.0.0",
-    "superclasses":  [],
-    "depends_on":    [],
-    "file":          [],
-    "fields": [
+    "_classname":     "base",
+    "_class_version": "1.0.0",
+    "_superclasses":  [],
+    "_depends_on":    [],
+    "_file":          [],
+    "_fields": [
         {
-            "name":           "id",
+            "_name":           "id",
             "type":           "did_uid",
-            "blank_value":    "",
-            "default_value":  "",
-            "mustBeNonEmpty": true,
-            "mustBeScalar":   true,
-            "mustNotHaveNaN": false,
-            "queryable":      true,
-            "ontology": {
-                "namespace": "iao",
-                "term":      "0000578",
-                "uri":       "http://purl.obolibrary.org/obo/IAO_0000578"
+            "_blank_value":    "",
+            "_default_value":  "",
+            "_mustBeNonEmpty": true,
+            "_mustBeScalar":   true,
+            "_mustNotHaveNaN": false,
+            "_queryable":      true,
+            "_ontology": {
+                "_namespace": "iao",
+                "_term":      "0000578",
+                "_uri":       "http://purl.obolibrary.org/obo/IAO_0000578"
             },
-            "documentation":  "Unique identifier for this document instance.",
-            "constraints":    {}
+            "_documentation":  "Unique identifier for this document instance.",
+            "_constraints":    {}
         },
         {
-            "name":           "session_id",
+            "_name":           "session_id",
             "type":           "did_uid",
-            "blank_value":    "",
-            "default_value":  "",
-            "mustBeNonEmpty": true,
-            "mustBeScalar":   true,
-            "mustNotHaveNaN": false,
-            "queryable":      true,
-            "ontology":       null,
-            "documentation":  "Unique identifier of the session this document belongs to.",
-            "constraints":    {}
+            "_blank_value":    "",
+            "_default_value":  "",
+            "_mustBeNonEmpty": true,
+            "_mustBeScalar":   true,
+            "_mustNotHaveNaN": false,
+            "_queryable":      true,
+            "_ontology":       null,
+            "_documentation":  "Unique identifier of the session this document belongs to.",
+            "_constraints":    {}
         },
         {
-            "name":           "name",
+            "_name":           "name",
             "type":           "char",
-            "blank_value":    "",
-            "default_value":  "",
-            "mustBeNonEmpty": false,
-            "mustBeScalar":   true,
-            "mustNotHaveNaN": false,
-            "queryable":      true,
-            "ontology": {
-                "namespace": "schema",
-                "term":      "name",
-                "uri":       "https://schema.org/name"
+            "_blank_value":    "",
+            "_default_value":  "",
+            "_mustBeNonEmpty": false,
+            "_mustBeScalar":   true,
+            "_mustNotHaveNaN": false,
+            "_queryable":      true,
+            "_ontology": {
+                "_namespace": "schema",
+                "_term":      "name",
+                "_uri":       "https://schema.org/name"
             },
-            "documentation":  "Human-readable name for this document.",
-            "constraints":    { "max_length": 256 }
+            "_documentation":  "Human-readable name for this document.",
+            "_constraints":    { "max_length": 256 }
         },
         {
-            "name":           "datestamp",
+            "_name":           "datestamp",
             "type":           "timestamp",
-            "blank_value":    "",
-            "default_value":  "2018-12-05T18:36:47.241Z",
-            "mustBeNonEmpty": true,
-            "mustBeScalar":   true,
-            "mustNotHaveNaN": false,
-            "queryable":      true,
-            "ontology": {
-                "namespace": "schema",
-                "term":      "dateCreated",
-                "uri":       "https://schema.org/dateCreated"
+            "_blank_value":    "",
+            "_default_value":  "2018-12-05T18:36:47.241Z",
+            "_mustBeNonEmpty": true,
+            "_mustBeScalar":   true,
+            "_mustNotHaveNaN": false,
+            "_queryable":      true,
+            "_ontology": {
+                "_namespace": "schema",
+                "_term":      "dateCreated",
+                "_uri":       "https://schema.org/dateCreated"
             },
-            "documentation":  "UTC timestamp of document creation in ISO 8601 format.",
-            "constraints":    {}
+            "_documentation":  "UTC timestamp of document creation in ISO 8601 format.",
+            "_constraints":    {}
         }
     ]
 }

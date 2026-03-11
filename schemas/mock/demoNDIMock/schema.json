@@ -1,37 +1,37 @@
 {
-    "classname":     "demoNDIMock",
-    "class_version": "1.0.0",
-    "superclasses": [
-        { "classname": "base", "schema": "$NDISCHEMAPATH/base/schema.json" }
+    "_classname":     "demoNDIMock",
+    "_class_version": "1.0.0",
+    "_superclasses": [
+        { "_classname": "base", "_schema": "$NDISCHEMAPATH/base/schema.json" }
     ],
-    "depends_on":    [],
-    "file":          [],
-    "fields": [
+    "_depends_on":    [],
+    "_file":          [],
+    "_fields": [
         {
-            "name":           "mock_value",
+            "_name":           "mock_value",
             "type":           "double",
-            "blank_value":    0.0,
-            "default_value":  42.0,
-            "mustBeNonEmpty": false,
-            "mustBeScalar":   true,
-            "mustNotHaveNaN": false,
-            "queryable":      true,
-            "ontology":       null,
-            "documentation":  "A mock numeric value for testing purposes.",
-            "constraints":    {}
+            "_blank_value":    0.0,
+            "_default_value":  42.0,
+            "_mustBeNonEmpty": false,
+            "_mustBeScalar":   true,
+            "_mustNotHaveNaN": false,
+            "_queryable":      true,
+            "_ontology":       null,
+            "_documentation":  "A mock numeric value for testing purposes.",
+            "_constraints":    {}
         },
         {
-            "name":           "mock_label",
+            "_name":           "mock_label",
             "type":           "char",
-            "blank_value":    "",
-            "default_value":  "mock",
-            "mustBeNonEmpty": false,
-            "mustBeScalar":   true,
-            "mustNotHaveNaN": false,
-            "queryable":      true,
-            "ontology":       null,
-            "documentation":  "A mock string label for testing purposes.",
-            "constraints":    { "max_length": 128 }
+            "_blank_value":    "",
+            "_default_value":  "mock",
+            "_mustBeNonEmpty": false,
+            "_mustBeScalar":   true,
+            "_mustNotHaveNaN": false,
+            "_queryable":      true,
+            "_ontology":       null,
+            "_documentation":  "A mock string label for testing purposes.",
+            "_constraints":    { "max_length": 128 }
         }
     ]
 }

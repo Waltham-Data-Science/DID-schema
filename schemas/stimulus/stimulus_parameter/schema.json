@@ -1,56 +1,56 @@
 {
-    "classname":     "stimulus_parameter",
-    "class_version": "1.0.0",
-    "superclasses": [
-        { "classname": "base", "schema": "$NDISCHEMAPATH/base/schema.json" }
+    "_classname":     "stimulus_parameter",
+    "_class_version": "1.0.0",
+    "_superclasses": [
+        { "_classname": "base", "_schema": "$NDISCHEMAPATH/base/schema.json" }
     ],
-    "depends_on": [
+    "_depends_on": [
         {
-            "name":           "stimulus_presentation_id",
-            "mustBeNonEmpty": true,
-            "documentation":  "The document ID of the stimulus presentation this parameter belongs to."
+            "_name":           "stimulus_presentation_id",
+            "_mustBeNonEmpty": true,
+            "_documentation":  "The document ID of the stimulus presentation this parameter belongs to."
         }
     ],
-    "file":          [],
-    "fields": [
+    "_file":          [],
+    "_fields": [
         {
-            "name":           "parameter_name",
+            "_name":           "parameter_name",
             "type":           "char",
-            "blank_value":    "",
-            "default_value":  "",
-            "mustBeNonEmpty": true,
-            "mustBeScalar":   true,
-            "mustNotHaveNaN": false,
-            "queryable":      true,
-            "ontology":       null,
-            "documentation":  "The name of the stimulus parameter (e.g., 'angle', 'spatial_frequency').",
-            "constraints":    { "max_length": 256 }
+            "_blank_value":    "",
+            "_default_value":  "",
+            "_mustBeNonEmpty": true,
+            "_mustBeScalar":   true,
+            "_mustNotHaveNaN": false,
+            "_queryable":      true,
+            "_ontology":       null,
+            "_documentation":  "The name of the stimulus parameter (e.g., 'angle', 'spatial_frequency').",
+            "_constraints":    { "max_length": 256 }
         },
         {
-            "name":           "parameter_values",
+            "_name":           "parameter_values",
             "type":           "matrix",
-            "blank_value":    [],
-            "default_value":  [],
-            "mustBeNonEmpty": false,
-            "mustBeScalar":   false,
-            "mustNotHaveNaN": false,
-            "queryable":      false,
-            "ontology":       null,
-            "documentation":  "Array of numeric parameter values used across stimulus presentations, in parameter_units. One value per unique stimulus condition.",
-            "constraints":    { "element_type": "double" }
+            "_blank_value":    [],
+            "_default_value":  [],
+            "_mustBeNonEmpty": false,
+            "_mustBeScalar":   false,
+            "_mustNotHaveNaN": false,
+            "_queryable":      false,
+            "_ontology":       null,
+            "_documentation":  "Array of numeric parameter values used across stimulus presentations, in parameter_units. One value per unique stimulus condition.",
+            "_constraints":    { "element_type": "double" }
         },
         {
-            "name":           "parameter_units",
+            "_name":           "parameter_units",
             "type":           "char",
-            "blank_value":    "",
-            "default_value":  "",
-            "mustBeNonEmpty": false,
-            "mustBeScalar":   true,
-            "mustNotHaveNaN": false,
-            "queryable":      true,
-            "ontology":       null,
-            "documentation":  "The units of the parameter values (e.g., 'degrees', 'cpd', 'Hz').",
-            "constraints":    { "max_length": 64 }
+            "_blank_value":    "",
+            "_default_value":  "",
+            "_mustBeNonEmpty": false,
+            "_mustBeScalar":   true,
+            "_mustNotHaveNaN": false,
+            "_queryable":      true,
+            "_ontology":       null,
+            "_documentation":  "The units of the parameter values (e.g., 'degrees', 'cpd', 'Hz').",
+            "_constraints":    { "max_length": 64 }
         }
     ]
 }

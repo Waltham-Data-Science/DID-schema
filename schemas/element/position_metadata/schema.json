@@ -1,82 +1,82 @@
 {
-    "classname":     "position_metadata",
-    "class_version": "1.0.0",
-    "superclasses": [
-        { "classname": "base", "schema": "$NDISCHEMAPATH/base/schema.json" }
+    "_classname":     "position_metadata",
+    "_class_version": "1.0.0",
+    "_superclasses": [
+        { "_classname": "base", "_schema": "$NDISCHEMAPATH/base/schema.json" }
     ],
-    "depends_on": [
+    "_depends_on": [
         {
-            "name":           "element_id",
-            "mustBeNonEmpty": true,
-            "documentation":  "The document ID of the element whose position is described."
+            "_name":           "element_id",
+            "_mustBeNonEmpty": true,
+            "_documentation":  "The document ID of the element whose position is described."
         }
     ],
-    "file":          [],
-    "fields": [
+    "_file":          [],
+    "_fields": [
         {
-            "name":           "x",
+            "_name":           "x",
             "type":           "double",
-            "blank_value":    0.0,
-            "default_value":  0.0,
-            "mustBeNonEmpty": true,
-            "mustBeScalar":   true,
-            "mustNotHaveNaN": true,
-            "queryable":      false,
-            "ontology":       null,
-            "documentation":  "The x-coordinate of the element position.",
-            "constraints":    {}
+            "_blank_value":    0.0,
+            "_default_value":  0.0,
+            "_mustBeNonEmpty": true,
+            "_mustBeScalar":   true,
+            "_mustNotHaveNaN": true,
+            "_queryable":      false,
+            "_ontology":       null,
+            "_documentation":  "The x-coordinate of the element position.",
+            "_constraints":    {}
         },
         {
-            "name":           "y",
+            "_name":           "y",
             "type":           "double",
-            "blank_value":    0.0,
-            "default_value":  0.0,
-            "mustBeNonEmpty": true,
-            "mustBeScalar":   true,
-            "mustNotHaveNaN": true,
-            "queryable":      false,
-            "ontology":       null,
-            "documentation":  "The y-coordinate of the element position.",
-            "constraints":    {}
+            "_blank_value":    0.0,
+            "_default_value":  0.0,
+            "_mustBeNonEmpty": true,
+            "_mustBeScalar":   true,
+            "_mustNotHaveNaN": true,
+            "_queryable":      false,
+            "_ontology":       null,
+            "_documentation":  "The y-coordinate of the element position.",
+            "_constraints":    {}
         },
         {
-            "name":           "z",
+            "_name":           "z",
             "type":           "double",
-            "blank_value":    0.0,
-            "default_value":  0.0,
-            "mustBeNonEmpty": true,
-            "mustBeScalar":   true,
-            "mustNotHaveNaN": true,
-            "queryable":      false,
-            "ontology":       null,
-            "documentation":  "The z-coordinate of the element position.",
-            "constraints":    {}
+            "_blank_value":    0.0,
+            "_default_value":  0.0,
+            "_mustBeNonEmpty": true,
+            "_mustBeScalar":   true,
+            "_mustNotHaveNaN": true,
+            "_queryable":      false,
+            "_ontology":       null,
+            "_documentation":  "The z-coordinate of the element position.",
+            "_constraints":    {}
         },
         {
-            "name":           "position_units",
+            "_name":           "position_units",
             "type":           "char",
-            "blank_value":    "",
-            "default_value":  "um",
-            "mustBeNonEmpty": true,
-            "mustBeScalar":   true,
-            "mustNotHaveNaN": false,
-            "queryable":      true,
-            "ontology":       null,
-            "documentation":  "The units for the position coordinates (e.g., 'um', 'mm', 'cm').",
-            "constraints":    { "max_length": 32 }
+            "_blank_value":    "",
+            "_default_value":  "um",
+            "_mustBeNonEmpty": true,
+            "_mustBeScalar":   true,
+            "_mustNotHaveNaN": false,
+            "_queryable":      true,
+            "_ontology":       null,
+            "_documentation":  "The units for the position coordinates (e.g., 'um', 'mm', 'cm').",
+            "_constraints":    { "max_length": 32 }
         },
         {
-            "name":           "coordinate_system",
+            "_name":           "coordinate_system",
             "type":           "char",
-            "blank_value":    "",
-            "default_value":  "",
-            "mustBeNonEmpty": false,
-            "mustBeScalar":   true,
-            "mustNotHaveNaN": false,
-            "queryable":      true,
-            "ontology":       null,
-            "documentation":  "The coordinate system or reference frame for this position.",
-            "constraints":    { "max_length": 256 }
+            "_blank_value":    "",
+            "_default_value":  "",
+            "_mustBeNonEmpty": false,
+            "_mustBeScalar":   true,
+            "_mustNotHaveNaN": false,
+            "_queryable":      true,
+            "_ontology":       null,
+            "_documentation":  "The coordinate system or reference frame for this position.",
+            "_constraints":    { "max_length": 256 }
         }
     ]
 }

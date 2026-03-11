@@ -1,62 +1,62 @@
 {
-    "classname":     "vmspikefit",
-    "class_version": "1.0.0",
-    "superclasses": [
-        { "classname": "base", "schema": "$NDISCHEMAPATH/base/schema.json" }
+    "_classname":     "vmspikefit",
+    "_class_version": "1.0.0",
+    "_superclasses": [
+        { "_classname": "base", "_schema": "$NDISCHEMAPATH/base/schema.json" }
     ],
-    "depends_on": [
+    "_depends_on": [
         {
-            "name":           "element_id",
-            "mustBeNonEmpty": true,
-            "documentation":  "The document ID of the neuron element this Vm-spike fit is associated with."
+            "_name":           "element_id",
+            "_mustBeNonEmpty": true,
+            "_documentation":  "The document ID of the neuron element this Vm-spike fit is associated with."
         }
     ],
-    "file": [
+    "_file": [
         {
-            "name":           "vmspikefit_file",
-            "documentation":  "The file containing the Vm-to-spike-rate fit data."
+            "_name":           "vmspikefit_file",
+            "_documentation":  "The file containing the Vm-to-spike-rate fit data."
         }
     ],
-    "fields": [
+    "_fields": [
         {
-            "name":           "fit_function",
+            "_name":           "fit_function",
             "type":           "char",
-            "blank_value":    "",
-            "default_value":  "",
-            "mustBeNonEmpty": true,
-            "mustBeScalar":   true,
-            "mustNotHaveNaN": false,
-            "queryable":      true,
-            "ontology":       null,
-            "documentation":  "The name of the function used to fit Vm to firing rate (e.g., 'threshold_linear', 'rectified_power').",
-            "constraints":    { "max_length": 128 }
+            "_blank_value":    "",
+            "_default_value":  "",
+            "_mustBeNonEmpty": true,
+            "_mustBeScalar":   true,
+            "_mustNotHaveNaN": false,
+            "_queryable":      true,
+            "_ontology":       null,
+            "_documentation":  "The name of the function used to fit Vm to firing rate (e.g., 'threshold_linear', 'rectified_power').",
+            "_constraints":    { "max_length": 128 }
         },
         {
-            "name":           "fit_parameters",
+            "_name":           "fit_parameters",
             "type":           "structure",
-            "blank_value":    {},
-            "default_value":  {},
-            "mustBeNonEmpty": false,
-            "mustBeScalar":   true,
-            "mustNotHaveNaN": false,
-            "queryable":      false,
-            "ontology":       null,
-            "documentation":  "Structure of fitted parameter values keyed by parameter name. Keys and value types depend on fit_function (e.g., for 'threshold_linear': {threshold, slope}; for 'rectified_power': {threshold, slope, exponent}).",
-            "constraints":    { "dynamic_keys_from": "fit_function" },
-            "fields":         []
+            "_blank_value":    {},
+            "_default_value":  {},
+            "_mustBeNonEmpty": false,
+            "_mustBeScalar":   true,
+            "_mustNotHaveNaN": false,
+            "_queryable":      false,
+            "_ontology":       null,
+            "_documentation":  "Structure of fitted parameter values keyed by parameter name. Keys and value types depend on fit_function (e.g., for 'threshold_linear': {threshold, slope}; for 'rectified_power': {threshold, slope, exponent}).",
+            "_constraints":    { "dynamic_keys_from": "fit_function" },
+            "_fields":         []
         },
         {
-            "name":           "r_squared",
+            "_name":           "r_squared",
             "type":           "double",
-            "blank_value":    0.0,
-            "default_value":  0.0,
-            "mustBeNonEmpty": false,
-            "mustBeScalar":   true,
-            "mustNotHaveNaN": false,
-            "queryable":      true,
-            "ontology":       null,
-            "documentation":  "R-squared goodness-of-fit value.",
-            "constraints":    {}
+            "_blank_value":    0.0,
+            "_default_value":  0.0,
+            "_mustBeNonEmpty": false,
+            "_mustBeScalar":   true,
+            "_mustNotHaveNaN": false,
+            "_queryable":      true,
+            "_ontology":       null,
+            "_documentation":  "R-squared goodness-of-fit value.",
+            "_constraints":    {}
         }
     ]
 }

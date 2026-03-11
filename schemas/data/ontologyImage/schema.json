@@ -1,48 +1,48 @@
 {
-    "classname":     "ontologyImage",
-    "class_version": "1.0.0",
-    "superclasses": [
-        { "classname": "base", "schema": "$NDISCHEMAPATH/base/schema.json" }
+    "_classname":     "ontologyImage",
+    "_class_version": "1.0.0",
+    "_superclasses": [
+        { "_classname": "base", "_schema": "$NDISCHEMAPATH/base/schema.json" }
     ],
-    "depends_on": [
+    "_depends_on": [
         {
-            "name":           "element_id",
-            "mustBeNonEmpty": false,
-            "documentation":  "The document ID of the element this ontology image is associated with."
+            "_name":           "element_id",
+            "_mustBeNonEmpty": false,
+            "_documentation":  "The document ID of the element this ontology image is associated with."
         }
     ],
-    "file": [
+    "_file": [
         {
-            "name":           "ontology_image_file",
-            "documentation":  "The ontology image file."
+            "_name":           "ontology_image_file",
+            "_documentation":  "The ontology image file."
         }
     ],
-    "fields": [
+    "_fields": [
         {
-            "name":           "ontology_name",
+            "_name":           "ontology_name",
             "type":           "char",
-            "blank_value":    "",
-            "default_value":  "",
-            "mustBeNonEmpty": true,
-            "mustBeScalar":   true,
-            "mustNotHaveNaN": false,
-            "queryable":      true,
-            "ontology":       null,
-            "documentation":  "The name of the ontology this image is drawn from (e.g., 'Allen CCF v3').",
-            "constraints":    { "max_length": 256 }
+            "_blank_value":    "",
+            "_default_value":  "",
+            "_mustBeNonEmpty": true,
+            "_mustBeScalar":   true,
+            "_mustNotHaveNaN": false,
+            "_queryable":      true,
+            "_ontology":       null,
+            "_documentation":  "The name of the ontology this image is drawn from (e.g., 'Allen CCF v3').",
+            "_constraints":    { "max_length": 256 }
         },
         {
-            "name":           "ontology_region",
+            "_name":           "ontology_region",
             "type":           "char",
-            "blank_value":    "",
-            "default_value":  "",
-            "mustBeNonEmpty": false,
-            "mustBeScalar":   true,
-            "mustNotHaveNaN": false,
-            "queryable":      true,
-            "ontology":       null,
-            "documentation":  "The brain region or structure label from the ontology.",
-            "constraints":    { "max_length": 256 }
+            "_blank_value":    "",
+            "_default_value":  "",
+            "_mustBeNonEmpty": false,
+            "_mustBeScalar":   true,
+            "_mustNotHaveNaN": false,
+            "_queryable":      true,
+            "_ontology":       null,
+            "_documentation":  "The brain region or structure label from the ontology.",
+            "_constraints":    { "max_length": 256 }
         }
     ]
 }

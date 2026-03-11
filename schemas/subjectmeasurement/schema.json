@@ -1,63 +1,63 @@
 {
-    "classname":     "subjectmeasurement",
-    "class_version": "1.0.0",
-    "superclasses": [
-        { "classname": "base", "schema": "$NDISCHEMAPATH/base/schema.json" },
-        { "classname": "subject", "schema": "$NDISCHEMAPATH/subject/schema.json" }
+    "_classname":     "subjectmeasurement",
+    "_class_version": "1.0.0",
+    "_superclasses": [
+        { "_classname": "base", "_schema": "$NDISCHEMAPATH/base/schema.json" },
+        { "_classname": "subject", "_schema": "$NDISCHEMAPATH/subject/schema.json" }
     ],
-    "depends_on":    [],
-    "file":          [],
-    "fields": [
+    "_depends_on":    [],
+    "_file":          [],
+    "_fields": [
         {
-            "name":           "measurement",
+            "_name":           "measurement",
             "type":           "char",
-            "blank_value":    "",
-            "default_value":  "",
-            "mustBeNonEmpty": true,
-            "mustBeScalar":   true,
-            "mustNotHaveNaN": false,
-            "queryable":      true,
-            "ontology": {
-                "namespace": "iao",
-                "term":      "0000109",
-                "uri":       "http://purl.obolibrary.org/obo/IAO_0000109"
+            "_blank_value":    "",
+            "_default_value":  "",
+            "_mustBeNonEmpty": true,
+            "_mustBeScalar":   true,
+            "_mustNotHaveNaN": false,
+            "_queryable":      true,
+            "_ontology": {
+                "_namespace": "iao",
+                "_term":      "0000109",
+                "_uri":       "http://purl.obolibrary.org/obo/IAO_0000109"
             },
-            "documentation":  "The name or type of measurement performed on the subject.",
-            "constraints":    { "max_length": 256 }
+            "_documentation":  "The name or type of measurement performed on the subject.",
+            "_constraints":    { "max_length": 256 }
         },
         {
-            "name":           "value",
+            "_name":           "value",
             "type":           "char",
-            "blank_value":    "",
-            "default_value":  "",
-            "mustBeNonEmpty": false,
-            "mustBeScalar":   true,
-            "mustNotHaveNaN": false,
-            "queryable":      true,
-            "ontology": {
-                "namespace": "iao",
-                "term":      "0000032",
-                "uri":       "http://purl.obolibrary.org/obo/IAO_0000032"
+            "_blank_value":    "",
+            "_default_value":  "",
+            "_mustBeNonEmpty": false,
+            "_mustBeScalar":   true,
+            "_mustNotHaveNaN": false,
+            "_queryable":      true,
+            "_ontology": {
+                "_namespace": "iao",
+                "_term":      "0000032",
+                "_uri":       "http://purl.obolibrary.org/obo/IAO_0000032"
             },
-            "documentation":  "The value of the measurement as a string.",
-            "constraints":    { "max_length": 1024 }
+            "_documentation":  "The value of the measurement as a string.",
+            "_constraints":    { "max_length": 1024 }
         },
         {
-            "name":           "measurement_datestamp",
+            "_name":           "measurement_datestamp",
             "type":           "timestamp",
-            "blank_value":    "",
-            "default_value":  "2018-12-05T18:36:47.241Z",
-            "mustBeNonEmpty": false,
-            "mustBeScalar":   true,
-            "mustNotHaveNaN": false,
-            "queryable":      true,
-            "ontology": {
-                "namespace": "schema",
-                "term":      "dateCreated",
-                "uri":       "https://schema.org/dateCreated"
+            "_blank_value":    "",
+            "_default_value":  "2018-12-05T18:36:47.241Z",
+            "_mustBeNonEmpty": false,
+            "_mustBeScalar":   true,
+            "_mustNotHaveNaN": false,
+            "_queryable":      true,
+            "_ontology": {
+                "_namespace": "schema",
+                "_term":      "dateCreated",
+                "_uri":       "https://schema.org/dateCreated"
             },
-            "documentation":  "The timestamp when this measurement was taken.",
-            "constraints":    {}
+            "_documentation":  "The timestamp when this measurement was taken.",
+            "_constraints":    {}
         }
     ]
 }

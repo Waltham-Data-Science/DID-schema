@@ -1,44 +1,44 @@
 {
-    "classname":     "spike_extraction_parameters_modification",
-    "class_version": "1.0.0",
-    "superclasses": [
-        { "classname": "base", "schema": "$NDISCHEMAPATH/base/schema.json" }
+    "_classname":     "spike_extraction_parameters_modification",
+    "_class_version": "1.0.0",
+    "_superclasses": [
+        { "_classname": "base", "_schema": "$NDISCHEMAPATH/base/schema.json" }
     ],
-    "depends_on": [
+    "_depends_on": [
         {
-            "name":           "spike_extraction_parameters_id",
-            "mustBeNonEmpty": true,
-            "documentation":  "The document ID of the spike_extraction_parameters being modified."
+            "_name":           "spike_extraction_parameters_id",
+            "_mustBeNonEmpty": true,
+            "_documentation":  "The document ID of the spike_extraction_parameters being modified."
         }
     ],
-    "file":          [],
-    "fields": [
+    "_file":          [],
+    "_fields": [
         {
-            "name":           "modified_fields",
+            "_name":           "modified_fields",
             "type":           "structure",
-            "blank_value":    {},
-            "default_value":  {},
-            "mustBeNonEmpty": false,
-            "mustBeScalar":   true,
-            "mustNotHaveNaN": false,
-            "queryable":      false,
-            "ontology":       null,
-            "documentation":  "Structure whose keys are the names of the modified spike_extraction_parameters fields and whose values are the new values assigned to them. Dynamic keys: one entry per modified field.",
-            "constraints":    { "dynamic_keys": true },
-            "fields":         []
+            "_blank_value":    {},
+            "_default_value":  {},
+            "_mustBeNonEmpty": false,
+            "_mustBeScalar":   true,
+            "_mustNotHaveNaN": false,
+            "_queryable":      false,
+            "_ontology":       null,
+            "_documentation":  "Structure whose keys are the names of the modified spike_extraction_parameters fields and whose values are the new values assigned to them. Dynamic keys: one entry per modified field.",
+            "_constraints":    { "dynamic_keys": true },
+            "_fields":         []
         },
         {
-            "name":           "modification_reason",
+            "_name":           "modification_reason",
             "type":           "char",
-            "blank_value":    "",
-            "default_value":  "",
-            "mustBeNonEmpty": false,
-            "mustBeScalar":   true,
-            "mustNotHaveNaN": false,
-            "queryable":      false,
-            "ontology":       null,
-            "documentation":  "A free-text reason for the parameter modification.",
-            "constraints":    { "max_length": 1024 }
+            "_blank_value":    "",
+            "_default_value":  "",
+            "_mustBeNonEmpty": false,
+            "_mustBeScalar":   true,
+            "_mustNotHaveNaN": false,
+            "_queryable":      false,
+            "_ontology":       null,
+            "_documentation":  "A free-text reason for the parameter modification.",
+            "_constraints":    { "max_length": 1024 }
         }
     ]
 }

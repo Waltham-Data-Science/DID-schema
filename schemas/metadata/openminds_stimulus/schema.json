@@ -1,16 +1,16 @@
 {
-    "classname":     "openminds_stimulus",
-    "class_version": "1.0.0",
-    "superclasses": [
-        { "classname": "base", "schema": "$NDISCHEMAPATH/base/schema.json" }
+    "_classname":     "openminds_stimulus",
+    "_class_version": "1.0.0",
+    "_superclasses": [
+        { "_classname": "base", "_schema": "$NDISCHEMAPATH/base/schema.json" }
     ],
-    "depends_on": [
+    "_depends_on": [
         {
-            "name":           "stimulus_id",
-            "mustBeNonEmpty": true,
-            "documentation":  "The document ID of the stimulus this openMINDS metadata describes."
+            "_name":           "stimulus_id",
+            "_mustBeNonEmpty": true,
+            "_documentation":  "The document ID of the stimulus this openMINDS metadata describes."
         }
     ],
-    "file":          [],
-    "fields":        []
+    "_file":          [],
+    "_fields":        []
 }

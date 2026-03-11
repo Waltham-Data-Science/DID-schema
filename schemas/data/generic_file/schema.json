@@ -1,61 +1,61 @@
 {
-    "classname":     "generic_file",
-    "class_version": "1.0.0",
-    "superclasses": [
-        { "classname": "base", "schema": "$NDISCHEMAPATH/base/schema.json" }
+    "_classname":     "generic_file",
+    "_class_version": "1.0.0",
+    "_superclasses": [
+        { "_classname": "base", "_schema": "$NDISCHEMAPATH/base/schema.json" }
     ],
-    "depends_on": [
+    "_depends_on": [
         {
-            "name":           "element_id",
-            "mustBeNonEmpty": false,
-            "documentation":  "The document ID of the element this file is associated with."
+            "_name":           "element_id",
+            "_mustBeNonEmpty": false,
+            "_documentation":  "The document ID of the element this file is associated with."
         }
     ],
-    "file": [
+    "_file": [
         {
-            "name":           "data_file",
-            "documentation":  "The generic data file."
+            "_name":           "data_file",
+            "_documentation":  "The generic data file."
         }
     ],
-    "fields": [
+    "_fields": [
         {
-            "name":           "filename",
+            "_name":           "filename",
             "type":           "char",
-            "blank_value":    "",
-            "default_value":  "",
-            "mustBeNonEmpty": false,
-            "mustBeScalar":   true,
-            "mustNotHaveNaN": false,
-            "queryable":      true,
-            "ontology":       null,
-            "documentation":  "The original filename of the data file.",
-            "constraints":    { "max_length": 512 }
+            "_blank_value":    "",
+            "_default_value":  "",
+            "_mustBeNonEmpty": false,
+            "_mustBeScalar":   true,
+            "_mustNotHaveNaN": false,
+            "_queryable":      true,
+            "_ontology":       null,
+            "_documentation":  "The original filename of the data file.",
+            "_constraints":    { "max_length": 512 }
         },
         {
-            "name":           "mimetype",
+            "_name":           "mimetype",
             "type":           "char",
-            "blank_value":    "",
-            "default_value":  "application/octet-stream",
-            "mustBeNonEmpty": false,
-            "mustBeScalar":   true,
-            "mustNotHaveNaN": false,
-            "queryable":      true,
-            "ontology":       null,
-            "documentation":  "The MIME type of the data file.",
-            "constraints":    { "max_length": 128 }
+            "_blank_value":    "",
+            "_default_value":  "application/octet-stream",
+            "_mustBeNonEmpty": false,
+            "_mustBeScalar":   true,
+            "_mustNotHaveNaN": false,
+            "_queryable":      true,
+            "_ontology":       null,
+            "_documentation":  "The MIME type of the data file.",
+            "_constraints":    { "max_length": 128 }
         },
         {
-            "name":           "description",
+            "_name":           "description",
             "type":           "char",
-            "blank_value":    "",
-            "default_value":  "",
-            "mustBeNonEmpty": false,
-            "mustBeScalar":   true,
-            "mustNotHaveNaN": false,
-            "queryable":      false,
-            "ontology":       null,
-            "documentation":  "A free-text description of the file contents.",
-            "constraints":    { "max_length": 1024 }
+            "_blank_value":    "",
+            "_default_value":  "",
+            "_mustBeNonEmpty": false,
+            "_mustBeScalar":   true,
+            "_mustNotHaveNaN": false,
+            "_queryable":      false,
+            "_ontology":       null,
+            "_documentation":  "A free-text description of the file contents.",
+            "_constraints":    { "max_length": 1024 }
         }
     ]
 }

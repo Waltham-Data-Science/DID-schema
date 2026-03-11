@@ -1,40 +1,40 @@
 {
-    "classname":     "stimulus_response",
-    "class_version": "1.0.0",
-    "superclasses": [
-        { "classname": "base", "schema": "$NDISCHEMAPATH/base/schema.json" }
+    "_classname":     "stimulus_response",
+    "_class_version": "1.0.0",
+    "_superclasses": [
+        { "_classname": "base", "_schema": "$NDISCHEMAPATH/base/schema.json" }
     ],
-    "depends_on": [
+    "_depends_on": [
         {
-            "name":           "stimulus_presentation_id",
-            "mustBeNonEmpty": true,
-            "documentation":  "The document ID of the stimulus presentation."
+            "_name":           "stimulus_presentation_id",
+            "_mustBeNonEmpty": true,
+            "_documentation":  "The document ID of the stimulus presentation."
         },
         {
-            "name":           "element_id",
-            "mustBeNonEmpty": true,
-            "documentation":  "The document ID of the element (e.g., neuron) whose response was measured."
+            "_name":           "element_id",
+            "_mustBeNonEmpty": true,
+            "_documentation":  "The document ID of the element (e.g., neuron) whose response was measured."
         }
     ],
-    "file": [
+    "_file": [
         {
-            "name":           "response_file",
-            "documentation":  "The file containing the stimulus response data."
+            "_name":           "response_file",
+            "_documentation":  "The file containing the stimulus response data."
         }
     ],
-    "fields": [
+    "_fields": [
         {
-            "name":           "response_type",
+            "_name":           "response_type",
             "type":           "char",
-            "blank_value":    "",
-            "default_value":  "",
-            "mustBeNonEmpty": false,
-            "mustBeScalar":   true,
-            "mustNotHaveNaN": false,
-            "queryable":      true,
-            "ontology":       null,
-            "documentation":  "The type of response measured (e.g., 'spikes', 'calcium', 'voltage').",
-            "constraints":    { "max_length": 128 }
+            "_blank_value":    "",
+            "_default_value":  "",
+            "_mustBeNonEmpty": false,
+            "_mustBeScalar":   true,
+            "_mustNotHaveNaN": false,
+            "_queryable":      true,
+            "_ontology":       null,
+            "_documentation":  "The type of response measured (e.g., 'spikes', 'calcium', 'voltage').",
+            "_constraints":    { "max_length": 128 }
         }
     ]
 }

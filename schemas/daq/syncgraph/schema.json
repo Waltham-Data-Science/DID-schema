@@ -1,38 +1,31 @@
 {
-    "classname":     "syncgraph",
-    "class_version": "1.0.0",
-    "superclasses": [
-        { "classname": "base", "schema": "$NDISCHEMAPATH/base/schema.json" }
+    "_classname":     "syncgraph",
+    "_class_version": "1.0.0",
+    "_superclasses": [
+        { "_classname": "base", "_schema": "$NDISCHEMAPATH/base/schema.json" }
     ],
-    "depends_on":    [],
-    "file":          [],
-    "fields": [
+    "_depends_on": [
         {
-            "name":           "graph_structure",
-            "type":           "structure",
-            "blank_value":    {},
-            "default_value":  {},
-            "mustBeNonEmpty": false,
-            "mustBeScalar":   true,
-            "mustNotHaveNaN": false,
-            "queryable":      false,
-            "ontology":       null,
-            "documentation":  "Structure representing the synchronization graph connecting DAQ systems via sync rules. Keys are implementation-defined; typically includes node identifiers (DAQ system document IDs) and edge descriptors (sync rule document IDs with source and target nodes).",
-            "constraints":    {},
-            "fields":         []
-        },
+            "_name":           "syncrule_id_#",
+            "_mustBeNonEmpty": true,
+            "_multiple":       true,
+            "_documentation":  "The document ID of a synchronisation rule participating in this sync graph. Each instance is named 'syncrule_id_1', 'syncrule_id_2', etc. A sync graph may reference any number of sync rules."
+        }
+    ],
+    "_file":          [],
+    "_fields": [
         {
-            "name":           "node_count",
-            "type":           "integer",
-            "blank_value":    0,
-            "default_value":  0,
-            "mustBeNonEmpty": false,
-            "mustBeScalar":   true,
-            "mustNotHaveNaN": true,
-            "queryable":      true,
-            "ontology":       null,
-            "documentation":  "The number of nodes (DAQ systems) in the sync graph.",
-            "constraints":    {}
+            "_name":           "ndi_syncgraph_class",
+            "type":           "char",
+            "_blank_value":    "",
+            "_default_value":  "",
+            "_mustBeNonEmpty": true,
+            "_mustBeScalar":   true,
+            "_mustNotHaveNaN": false,
+            "_queryable":      true,
+            "_ontology":       null,
+            "_documentation":  "The class name of the synchronisation graph implementation.",
+            "_constraints":    { "max_length": 256 }
         }
     ]
 }
