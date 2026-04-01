@@ -1,43 +1,49 @@
 {
-    "_classname":     "epochfiles_ingested",
+    "_classname": "epochfiles_ingested",
     "_class_version": "1.0.0",
+    "_maturity_level": "work_in_progress",
     "_superclasses": [
-        { "_classname": "base", "_schema": "$NDISCHEMAPATH/base/schema.json" }
+        {
+            "_classname": "base",
+            "_schema": "$NDISCHEMAPATH/base/schema.json"
+        }
     ],
     "_depends_on": [
         {
-            "_name":           "epochid",
+            "_name": "epochid",
             "_mustBeNonEmpty": true,
-            "_documentation":  "The document ID of the epoch whose files were ingested."
+            "_documentation": "The document ID of the epoch whose files were ingested."
         }
     ],
-    "_file":          [],
+    "_file": [],
     "_fields": [
         {
-            "_name":           "ingestion_status",
-            "type":           "char",
-            "_blank_value":    "",
-            "_default_value":  "complete",
+            "_name": "ingestion_status",
+            "type": "char",
+            "_blank_value": "",
+            "_default_value": "complete",
             "_mustBeNonEmpty": true,
-            "_mustBeScalar":   true,
+            "_mustBeScalar": true,
             "_mustNotHaveNaN": false,
-            "_queryable":      true,
-            "_ontology":       null,
-            "_documentation":  "The status of the epoch files ingestion ('complete', 'partial', 'failed').",
-            "_constraints":    { "max_length": 32 }
+            "_queryable": true,
+            "_ontology": null,
+            "_documentation": "The status of the epoch files ingestion ('complete', 'partial', 'failed').",
+            "_constraints": {
+                "max_length": 32
+            }
         },
         {
-            "_name":           "num_files_ingested",
-            "type":           "integer",
-            "_blank_value":    0,
-            "_default_value":  0,
+            "_name": "num_files_ingested",
+            "type": "integer",
+            "_blank_value": 0,
+            "_default_value": 0,
             "_mustBeNonEmpty": false,
-            "_mustBeScalar":   true,
+            "_mustBeScalar": true,
             "_mustNotHaveNaN": true,
-            "_queryable":      true,
-            "_ontology":       null,
-            "_documentation":  "The number of files ingested for this epoch.",
-            "_constraints":    {}
+            "_queryable": true,
+            "_ontology": null,
+            "_documentation": "The number of files ingested for this epoch.",
+            "_constraints": {}
         }
     ]
 }
