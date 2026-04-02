@@ -236,6 +236,16 @@ For `"type": "structure"` fields, an additional key is required:
 
 Setting the entire `"_ontology"` value to `null` is valid.
 
+### Useful Ontology Terms
+
+The following ontology terms are relevant to DID/NDI schemas and may be used in
+`_ontology` annotations on fields:
+
+| Namespace       | Term    | Label                     | URI | Notes |
+|-----------------|---------|---------------------------|-----|-------|
+| NCI Thesaurus   | C169028 | Study Unique Identifier   | https://ncit.nci.nih.gov/ncitbrowser/ConceptReport.jsp?dictionary=NCI_Thesaurus&code=C169028 | Useful for `id` / `session_id` style fields |
+| NCI             | C67447  | Session                   | https://ncit.nci.nih.gov/ncitbrowser/ConceptReport.jsp?dictionary=NCI_Thesaurus&code=C67447 | "Time, period, or term devoted to some activity." |
+
 ---
 
 ## JSON Format: Type System
