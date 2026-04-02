@@ -4,7 +4,7 @@
     "title": "DID/NDI Schema Meta-Schema",
     "description": "Validates the structure of DID/NDI schema files. NAMING CONVENTION: property names that are standard JSON Schema keywords (type, $schema, $id, $ref, $defs, properties, required, items, enum, const, pattern, description, etc.) are used as-is. Every property name introduced by this schema system — i.e. not part of the JSON Schema vocabulary — is prefixed with an underscore (_) to distinguish custom extensions from standard vocabulary.",
     "type": "object",
-    "required": ["_classname", "_class_version", "_superclasses", "_depends_on", "_file", "_fields"],
+    "required": ["_classname", "_class_version", "_maturity_level", "_superclasses", "_depends_on", "_file", "_fields"],
     "additionalProperties": false,
     "properties": {
         "_classname": {
@@ -16,6 +16,11 @@
             "type": "string",
             "pattern": "^\\d+\\.\\d+\\.\\d+$",
             "description": "Semantic version string MAJOR.MINOR.PATCH."
+        },
+        "_maturity_level": {
+            "type": "string",
+            "enum": ["work_in_progress", "mature"],
+            "description": "Maturity level of this schema: 'work_in_progress' for schemas still under development, 'mature' for stable schemas."
         },
         "_superclasses": {
             "type": "array",
@@ -94,7 +99,7 @@
         },
         "ontology_object": {
             "type": "object",
-            "required": ["_namespace", "_term", "_uri"],
+            "required": ["_namespace", "_term", "_name", "_uri"],
             "additionalProperties": false,
             "properties": {
                 "_namespace": {
@@ -104,6 +109,10 @@
                 "_term": {
                     "type": "string",
                     "description": "Term identifier within the namespace."
+                },
+                "_name": {
+                    "type": "string",
+                    "description": "Human-readable name or label of the ontology term (e.g., 'centrally registered identifier')."
                 },
                 "_uri": {
                     "type": ["string", "null"],

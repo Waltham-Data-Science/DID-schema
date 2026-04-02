@@ -1,56 +1,60 @@
 {
-    "_classname":     "stimulus_response_scalar_parameters_basic",
+    "_classname": "stimulus_response_scalar_parameters_basic",
     "_class_version": "1.0.0",
+    "_maturity_level": "work_in_progress",
     "_superclasses": [
-        { "_classname": "base", "_schema": "$NDISCHEMAPATH/base/schema.json" }
+        {
+            "_classname": "base",
+            "_schema": "$NDISCHEMAPATH/base/schema.json"
+        }
     ],
     "_depends_on": [
         {
-            "_name":           "stimulus_response_scalar_id",
+            "_name": "stimulus_response_scalar_id",
             "_mustBeNonEmpty": true,
-            "_documentation":  "The document ID of the stimulus_response_scalar these basic parameters describe."
+            "_documentation": "The document ID of the stimulus_response_scalar these basic parameters describe."
         }
     ],
-    "_file":          [],
+    "_file": [],
     "_fields": [
         {
-            "_name":           "response_window_start",
-            "type":           "double",
-            "_blank_value":    0.0,
-            "_default_value":  0.0,
+            "_name": "response_window_start",
+            "type": "double",
+            "_blank_value": 0.0,
+            "_default_value": 0.0,
             "_mustBeNonEmpty": false,
-            "_mustBeScalar":   true,
+            "_mustBeScalar": true,
             "_mustNotHaveNaN": false,
-            "_queryable":      false,
-            "_ontology":       null,
-            "_documentation":  "Start of the response window in seconds after stimulus onset.",
-            "_constraints":    {}
+            "_queryable": false,
+            "_ontology": null,
+            "_documentation": "Start of the response window in seconds after stimulus onset.",
+            "_constraints": {}
         },
         {
-            "_name":           "response_window_end",
-            "type":           "double",
-            "_blank_value":    0.0,
-            "_default_value":  0.0,
+            "_name": "response_window_end",
+            "type": "double",
+            "_blank_value": 0.0,
+            "_default_value": 0.0,
             "_mustBeNonEmpty": false,
-            "_mustBeScalar":   true,
+            "_mustBeScalar": true,
             "_mustNotHaveNaN": false,
-            "_queryable":      false,
-            "_ontology":       null,
-            "_documentation":  "End of the response window in seconds after stimulus onset.",
-            "_constraints":    {}
+            "_queryable": false,
+            "_ontology": null,
+            "_documentation": "End of the response window in seconds after stimulus onset.",
+            "_constraints": {}
         },
         {
-            "_name":           "freq_response",
-            "type":           "integer",
-            "_blank_value":    0,
-            "_default_value":  0,
+            "_name": "freq_response",
+            "type": "integer",
+            "_blank_value": 0,
+            "_default_value": 0,
             "_mustBeNonEmpty": false,
-            "_mustBeScalar":   true,
+            "_mustBeScalar": true,
             "_mustNotHaveNaN": true,
-            "_queryable":      true,
-            "_ontology":       null,
-            "_documentation":  "The frequency component used for the response computation (0 = mean, 1 = F1, 2 = F2).",
-            "_constraints":    {}
+            "_queryable": true,
+            "_ontology": null,
+            "_documentation": "The frequency component used for the response computation (0 = mean, 1 = F1, 2 = F2).",
+            "_constraints": {}
         }
     ]
 }

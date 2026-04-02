@@ -1,35 +1,41 @@
 {
-    "_classname":     "daqmetadatareader_epochdata_ingested",
+    "_classname": "daqmetadatareader_epochdata_ingested",
     "_class_version": "1.0.0",
+    "_maturity_level": "work_in_progress",
     "_superclasses": [
-        { "_classname": "base", "_schema": "$NDISCHEMAPATH/base/schema.json" }
+        {
+            "_classname": "base",
+            "_schema": "$NDISCHEMAPATH/base/schema.json"
+        }
     ],
     "_depends_on": [
         {
-            "_name":           "daqmetadatareader_id",
+            "_name": "daqmetadatareader_id",
             "_mustBeNonEmpty": true,
-            "_documentation":  "The document ID of the DAQ metadata reader whose epoch data has been ingested."
+            "_documentation": "The document ID of the DAQ metadata reader whose epoch data has been ingested."
         },
         {
-            "_name":           "epochid",
+            "_name": "epochid",
             "_mustBeNonEmpty": true,
-            "_documentation":  "The document ID of the epoch whose data was ingested."
+            "_documentation": "The document ID of the epoch whose data was ingested."
         }
     ],
-    "_file":          [],
+    "_file": [],
     "_fields": [
         {
-            "_name":           "ingestion_status",
-            "type":           "char",
-            "_blank_value":    "",
-            "_default_value":  "complete",
+            "_name": "ingestion_status",
+            "type": "char",
+            "_blank_value": "",
+            "_default_value": "complete",
             "_mustBeNonEmpty": true,
-            "_mustBeScalar":   true,
+            "_mustBeScalar": true,
             "_mustNotHaveNaN": false,
-            "_queryable":      true,
-            "_ontology":       null,
-            "_documentation":  "The status of the ingestion ('complete', 'partial', 'failed').",
-            "_constraints":    { "max_length": 32 }
+            "_queryable": true,
+            "_ontology": null,
+            "_documentation": "The status of the ingestion ('complete', 'partial', 'failed').",
+            "_constraints": {
+                "max_length": 32
+            }
         }
     ]
 }

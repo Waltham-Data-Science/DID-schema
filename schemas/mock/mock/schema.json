@@ -1,5 +1,5 @@
 {
-    "_classname": "daqreader",
+    "_classname": "mock",
     "_class_version": "1.0.0",
     "_maturity_level": "work_in_progress",
     "_superclasses": [
@@ -12,19 +12,17 @@
     "_file": [],
     "_fields": [
         {
-            "_name": "ndi_daqreader_class",
-            "type": "char",
-            "_blank_value": "",
-            "_default_value": "ndi_daqreader",
-            "_mustBeNonEmpty": true,
+            "_name": "ismock",
+            "type": "integer",
+            "_blank_value": 0,
+            "_default_value": 1,
+            "_mustBeNonEmpty": false,
             "_mustBeScalar": true,
             "_mustNotHaveNaN": false,
             "_queryable": true,
             "_ontology": null,
-            "_documentation": "The class name of the DAQ reader implementation.",
-            "_constraints": {
-                "max_length": 256
-            }
+            "_documentation": "A parameter that denotes the document as a mock document.",
+            "_constraints": {}
         }
     ]
 }

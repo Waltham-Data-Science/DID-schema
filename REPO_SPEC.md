@@ -191,6 +191,7 @@ Every entry in `"_fields"` (at any nesting depth) must have **all** of the follo
     "_ontology": {
         "_namespace": "pato",
         "_term":      "0000044",
+        "_name":      "frequency",
         "_uri":       "http://purl.obolibrary.org/obo/PATO_0000044"
     },
     "_documentation":  "Sampling rate in Hz.",
@@ -224,6 +225,7 @@ For `"type": "structure"` fields, an additional key is required:
 {
     "_namespace": "uberon",
     "_term":      "0002436",
+    "_name":      "primary visual cortex",
     "_uri":       "http://purl.obolibrary.org/obo/UBERON_0002436"
 }
 ```
@@ -232,9 +234,21 @@ For `"type": "structure"` fields, an additional key is required:
 |--------------|----------------|----------|-------------|
 | `_namespace` | string         | yes      | Ontology name (e.g., `"uberon"`, `"schema"`, `"iao"`, `"pato"`). |
 | `_term`      | string         | yes      | Term identifier within the namespace. |
+| `_name`      | string         | yes      | Human-readable name or label of the ontology term (e.g., `"centrally registered identifier"`). |
 | `_uri`       | string or null | yes      | Full resolvable URI, or `null` if unavailable. |
 
 Setting the entire `"_ontology"` value to `null` is valid.
+
+### Useful Ontology Terms
+
+The following ontology terms are relevant to DID/NDI schemas and may be used in
+`_ontology` annotations on fields:
+
+| Namespace       | Term    | Label                           | URI | Notes |
+|-----------------|---------|----------------------------------|-----|-------|
+| iao             | 0000578 | centrally registered identifier | http://purl.obolibrary.org/obo/IAO_0000578 | Used for `id` fields |
+| NCI Thesaurus   | C169028 | Study Unique Identifier         | https://ncit.nci.nih.gov/ncitbrowser/ConceptReport.jsp?dictionary=NCI_Thesaurus&code=C169028 | Useful for `id` / `session_id` style fields |
+| NCI             | C67447  | Session                         | https://ncit.nci.nih.gov/ncitbrowser/ConceptReport.jsp?dictionary=NCI_Thesaurus&code=C67447 | "Time, period, or term devoted to some activity." |
 
 ---
 
@@ -392,6 +406,7 @@ The meta-schema must enforce:
             "_ontology": {
                 "_namespace": "iao",
                 "_term":      "0000578",
+                "_name":      "centrally registered identifier",
                 "_uri":       "http://purl.obolibrary.org/obo/IAO_0000578"
             },
             "_documentation":  "Unique identifier for this document instance.",
@@ -422,6 +437,7 @@ The meta-schema must enforce:
             "_ontology": {
                 "_namespace": "schema",
                 "_term":      "name",
+                "_name":      "name",
                 "_uri":       "https://schema.org/name"
             },
             "_documentation":  "Human-readable name for this document.",
@@ -439,6 +455,7 @@ The meta-schema must enforce:
             "_ontology": {
                 "_namespace": "schema",
                 "_term":      "dateCreated",
+                "_name":      "dateCreated",
                 "_uri":       "https://schema.org/dateCreated"
             },
             "_documentation":  "UTC timestamp of document creation in ISO 8601 format.",
@@ -478,6 +495,7 @@ The meta-schema must enforce:
             "_ontology": {
                 "_namespace": "iao",
                 "_term":      "0000219",
+                "_name":      "denotes",
                 "_uri":       "http://purl.obolibrary.org/obo/IAO_0000219"
             },
             "_documentation":  "Formal ontology identifier for the probe location (e.g., 'uberon:0002436').",
@@ -495,6 +513,7 @@ The meta-schema must enforce:
             "_ontology": {
                 "_namespace": "schema",
                 "_term":      "name",
+                "_name":      "name",
                 "_uri":       "https://schema.org/name"
             },
             "_documentation":  "Human-readable name or label of the probe location as used by the ontology referenced in ontology_name (e.g., 'primary visual cortex').",

@@ -1,5 +1,5 @@
 {
-    "_classname": "session",
+    "_classname": "filter",
     "_class_version": "1.0.0",
     "_maturity_level": "work_in_progress",
     "_superclasses": [
@@ -12,22 +12,7 @@
     "_file": [],
     "_fields": [
         {
-            "_name": "reference",
-            "type": "char",
-            "_blank_value": "",
-            "_default_value": "",
-            "_mustBeNonEmpty": true,
-            "_mustBeScalar": true,
-            "_mustNotHaveNaN": false,
-            "_queryable": true,
-            "_ontology": null,
-            "_documentation": "A unique reference string for this experimental session.",
-            "_constraints": {
-                "max_length": 256
-            }
-        },
-        {
-            "_name": "type",
+            "_name": "label",
             "type": "char",
             "_blank_value": "",
             "_default_value": "",
@@ -36,13 +21,11 @@
             "_mustNotHaveNaN": false,
             "_queryable": true,
             "_ontology": null,
-            "_documentation": "The session type (e.g., 'acute', 'chronic').",
-            "_constraints": {
-                "max_length": 128
-            }
+            "_documentation": "A user label.",
+            "_constraints": {}
         },
         {
-            "_name": "date",
+            "_name": "filter_type",
             "type": "char",
             "_blank_value": "",
             "_default_value": "",
@@ -51,25 +34,35 @@
             "_mustNotHaveNaN": false,
             "_queryable": true,
             "_ontology": null,
-            "_documentation": "The date of the session in ISO 8601 format (YYYY-MM-DD).",
-            "_constraints": {
-                "max_length": 32
-            }
+            "_documentation": "The filter type: 'bandpass', 'low', 'high', 'none'.",
+            "_constraints": {}
         },
         {
-            "_name": "purpose",
+            "_name": "algorithm",
             "type": "char",
             "_blank_value": "",
             "_default_value": "",
             "_mustBeNonEmpty": false,
             "_mustBeScalar": true,
             "_mustNotHaveNaN": false,
-            "_queryable": false,
+            "_queryable": true,
             "_ontology": null,
-            "_documentation": "A free-text description of the purpose of this session.",
-            "_constraints": {
-                "max_length": 1024
-            }
+            "_documentation": "The filter algorithm: 'chebyshev_1', 'chebyshev_2', 'butterworth', 'bessel', 'elliptic', 'none'.",
+            "_constraints": {}
+        },
+        {
+            "_name": "parameters",
+            "type": "structure",
+            "_blank_value": {},
+            "_default_value": {},
+            "_mustBeNonEmpty": false,
+            "_mustBeScalar": true,
+            "_mustNotHaveNaN": false,
+            "_queryable": true,
+            "_ontology": null,
+            "_documentation": "A structure containing filter parameters: sampleFrequency, order, filterFrequency, passbandRipple, stopbandAttenuation.",
+            "_constraints": {},
+            "_fields": []
         }
     ]
 }

@@ -1,43 +1,51 @@
 {
-    "_classname":     "electrode_offset_voltage",
+    "_classname": "electrode_offset_voltage",
     "_class_version": "1.0.0",
+    "_maturity_level": "work_in_progress",
     "_superclasses": [
-        { "_classname": "base", "_schema": "$NDISCHEMAPATH/base/schema.json" }
+        {
+            "_classname": "base",
+            "_schema": "$NDISCHEMAPATH/base/schema.json"
+        }
     ],
     "_depends_on": [
         {
-            "_name":           "probe_id",
+            "_name": "probe_id",
             "_mustBeNonEmpty": true,
-            "_documentation":  "The document ID of the probe this offset voltage data belongs to."
+            "_documentation": "The document ID of the probe this offset voltage data belongs to."
         }
     ],
-    "_file":          [],
+    "_file": [],
     "_fields": [
         {
-            "_name":           "offset_voltages",
-            "type":           "matrix",
-            "_blank_value":    [],
-            "_default_value":  [],
+            "_name": "offset_voltages",
+            "type": "matrix",
+            "_blank_value": [],
+            "_default_value": [],
             "_mustBeNonEmpty": false,
-            "_mustBeScalar":   false,
+            "_mustBeScalar": false,
             "_mustNotHaveNaN": false,
-            "_queryable":      false,
-            "_ontology":       null,
-            "_documentation":  "Array of DC offset voltage values, one per electrode channel, in voltage_units. Length must match the number of channels on the probe.",
-            "_constraints":    { "element_type": "double" }
+            "_queryable": false,
+            "_ontology": null,
+            "_documentation": "Array of DC offset voltage values, one per electrode channel, in voltage_units. Length must match the number of channels on the probe.",
+            "_constraints": {
+                "element_type": "double"
+            }
         },
         {
-            "_name":           "voltage_units",
-            "type":           "char",
-            "_blank_value":    "",
-            "_default_value":  "V",
+            "_name": "voltage_units",
+            "type": "char",
+            "_blank_value": "",
+            "_default_value": "V",
             "_mustBeNonEmpty": false,
-            "_mustBeScalar":   true,
+            "_mustBeScalar": true,
             "_mustNotHaveNaN": false,
-            "_queryable":      false,
-            "_ontology":       null,
-            "_documentation":  "The units of the offset voltage values (e.g., 'V', 'mV', 'uV').",
-            "_constraints":    { "max_length": 16 }
+            "_queryable": false,
+            "_ontology": null,
+            "_documentation": "The units of the offset voltage values (e.g., 'V', 'mV', 'uV').",
+            "_constraints": {
+                "max_length": 16
+            }
         }
     ]
 }

@@ -1,56 +1,64 @@
 {
-    "_classname":     "dataset_session_info",
+    "_classname": "dataset_session_info",
     "_class_version": "1.0.0",
+    "_maturity_level": "work_in_progress",
     "_superclasses": [
-        { "_classname": "base", "_schema": "$NDISCHEMAPATH/base/schema.json" }
+        {
+            "_classname": "base",
+            "_schema": "$NDISCHEMAPATH/base/schema.json"
+        }
     ],
     "_depends_on": [
         {
-            "_name":           "session_id",
+            "_name": "session_id",
             "_mustBeNonEmpty": true,
-            "_documentation":  "The document ID of the session this info describes."
+            "_documentation": "The document ID of the session this info describes."
         }
     ],
-    "_file":          [],
+    "_file": [],
     "_fields": [
         {
-            "_name":           "dataset_id",
-            "type":           "char",
-            "_blank_value":    "",
-            "_default_value":  "",
+            "_name": "dataset_id",
+            "type": "char",
+            "_blank_value": "",
+            "_default_value": "",
             "_mustBeNonEmpty": true,
-            "_mustBeScalar":   true,
+            "_mustBeScalar": true,
             "_mustNotHaveNaN": false,
-            "_queryable":      true,
-            "_ontology":       null,
-            "_documentation":  "The identifier of the dataset this session belongs to.",
-            "_constraints":    { "max_length": 256 }
+            "_queryable": true,
+            "_ontology": null,
+            "_documentation": "The identifier of the dataset this session belongs to.",
+            "_constraints": {
+                "max_length": 256
+            }
         },
         {
-            "_name":           "session_index",
-            "type":           "integer",
-            "_blank_value":    0,
-            "_default_value":  0,
+            "_name": "session_index",
+            "type": "integer",
+            "_blank_value": 0,
+            "_default_value": 0,
             "_mustBeNonEmpty": false,
-            "_mustBeScalar":   true,
+            "_mustBeScalar": true,
             "_mustNotHaveNaN": true,
-            "_queryable":      true,
-            "_ontology":       null,
-            "_documentation":  "The zero-based index of this session within the dataset.",
-            "_constraints":    {}
+            "_queryable": true,
+            "_ontology": null,
+            "_documentation": "The zero-based index of this session within the dataset.",
+            "_constraints": {}
         },
         {
-            "_name":           "reference_path",
-            "type":           "char",
-            "_blank_value":    "",
-            "_default_value":  "",
+            "_name": "reference_path",
+            "type": "char",
+            "_blank_value": "",
+            "_default_value": "",
             "_mustBeNonEmpty": false,
-            "_mustBeScalar":   true,
+            "_mustBeScalar": true,
             "_mustNotHaveNaN": false,
-            "_queryable":      false,
-            "_ontology":       null,
-            "_documentation":  "The file-system path or reference for this session's data.",
-            "_constraints":    { "max_length": 1024 }
+            "_queryable": false,
+            "_ontology": null,
+            "_documentation": "The file-system path or reference for this session's data.",
+            "_constraints": {
+                "max_length": 1024
+            }
         }
     ]
 }
