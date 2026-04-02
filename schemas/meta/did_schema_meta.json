@@ -99,7 +99,7 @@
         },
         "ontology_object": {
             "type": "object",
-            "required": ["_namespace", "_term", "_uri"],
+            "required": ["_namespace", "_term", "_name", "_uri"],
             "additionalProperties": false,
             "properties": {
                 "_namespace": {
@@ -109,6 +109,10 @@
                 "_term": {
                     "type": "string",
                     "description": "Term identifier within the namespace."
+                },
+                "_name": {
+                    "type": "string",
+                    "description": "Human-readable name or label of the ontology term (e.g., 'centrally registered identifier')."
                 },
                 "_uri": {
                     "type": ["string", "null"],

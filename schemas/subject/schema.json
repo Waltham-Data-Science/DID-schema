@@ -23,6 +23,7 @@
             "_ontology": {
                 "_namespace": "iao",
                 "_term": "0000578",
+                "_name": "centrally registered identifier",
                 "_uri": "http://purl.obolibrary.org/obo/IAO_0000578"
             },
             "_documentation": "A globally unique identifier meaningful to a local group (e.g., 'mouse123@vhlab.org').",
@@ -42,6 +43,7 @@
             "_ontology": {
                 "_namespace": "schema",
                 "_term": "description",
+                "_name": "description",
                 "_uri": "https://schema.org/description"
             },
             "_documentation": "A free-text description of the subject.",

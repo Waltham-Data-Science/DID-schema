@@ -29,6 +29,7 @@
             "_ontology": {
                 "_namespace": "iao",
                 "_term": "0000219",
+                "_name": "denotes",
                 "_uri": "http://purl.obolibrary.org/obo/IAO_0000219"
             },
             "_documentation": "Formal ontology identifier for the probe location (e.g., 'uberon:0002436').",
@@ -48,6 +49,7 @@
             "_ontology": {
                 "_namespace": "schema",
                 "_term": "name",
+                "_name": "name",
                 "_uri": "https://schema.org/name"
             },
             "_documentation": "Human-readable name or label of the probe location as used by the ontology referenced in ontology_name (e.g., 'primary visual cortex').",

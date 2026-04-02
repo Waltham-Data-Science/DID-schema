@@ -49,6 +49,7 @@
             "_ontology": {
                 "_namespace": "schema",
                 "_term": "name",
+                "_name": "name",
                 "_uri": "https://schema.org/name"
             },
             "_documentation": "The name of the element. Elements are uniquely defined by name, reference, and type.",

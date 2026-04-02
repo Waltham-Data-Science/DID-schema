@@ -18,6 +18,7 @@
             "_ontology": {
                 "_namespace": "iao",
                 "_term": "0000578",
+                "_name": "centrally registered identifier",
                 "_uri": "http://purl.obolibrary.org/obo/IAO_0000578"
             },
             "_documentation": "Unique identifier for this document instance.",
@@ -48,6 +49,7 @@
             "_ontology": {
                 "_namespace": "schema",
                 "_term": "name",
+                "_name": "name",
                 "_uri": "https://schema.org/name"
             },
             "_documentation": "Human-readable name for this document.",
@@ -67,6 +69,7 @@
             "_ontology": {
                 "_namespace": "schema",
                 "_term": "dateCreated",
+                "_name": "dateCreated",
                 "_uri": "https://schema.org/dateCreated"
             },
             "_documentation": "UTC timestamp of document creation in ISO 8601 format.",

@@ -23,6 +23,7 @@
             "_ontology": {
                 "_namespace": "schema",
                 "_term": "name",
+                "_name": "name",
                 "_uri": "https://schema.org/name"
             },
             "_documentation": "The name of the application.",
@@ -42,6 +43,7 @@
             "_ontology": {
                 "_namespace": "schema",
                 "_term": "softwareVersion",
+                "_name": "softwareVersion",
                 "_uri": "https://schema.org/softwareVersion"
             },
             "_documentation": "The version of the app (often a Git commit identifier).",
@@ -61,6 +63,7 @@
             "_ontology": {
                 "_namespace": "schema",
                 "_term": "url",
+                "_name": "url",
                 "_uri": "https://schema.org/url"
             },
             "_documentation": "The home page URL of the application.",
@@ -80,6 +83,7 @@
             "_ontology": {
                 "_namespace": "schema",
                 "_term": "operatingSystem",
+                "_name": "operatingSystem",
                 "_uri": "https://schema.org/operatingSystem"
             },
             "_documentation": "The operating system that ran the application.",

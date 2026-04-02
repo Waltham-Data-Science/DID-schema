@@ -23,6 +23,7 @@
             "_ontology": {
                 "_namespace": "ncbitaxon",
                 "_term": "scientific_name",
+                "_name": "scientific_name",
                 "_uri": "http://purl.obolibrary.org/obo/NCBITaxon#scientific_name"
             },
             "_documentation": "The scientific (Latin binomial) name of the animal species (e.g., 'Mus musculus').",

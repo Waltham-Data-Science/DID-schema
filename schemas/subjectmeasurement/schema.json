@@ -27,6 +27,7 @@
             "_ontology": {
                 "_namespace": "iao",
                 "_term": "0000109",
+                "_name": "measurement datum",
                 "_uri": "http://purl.obolibrary.org/obo/IAO_0000109"
             },
             "_documentation": "The name or type of measurement performed on the subject.",
@@ -46,6 +47,7 @@
             "_ontology": {
                 "_namespace": "iao",
                 "_term": "0000032",
+                "_name": "scalar measurement datum",
                 "_uri": "http://purl.obolibrary.org/obo/IAO_0000032"
             },
             "_documentation": "The value of the measurement as a string.",
@@ -65,6 +67,7 @@
             "_ontology": {
                 "_namespace": "schema",
                 "_term": "dateCreated",
+                "_name": "dateCreated",
                 "_uri": "https://schema.org/dateCreated"
             },
             "_documentation": "The timestamp when this measurement was taken.",
