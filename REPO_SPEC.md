@@ -44,6 +44,9 @@ did-schema/
 │   │   └── did_schema_meta.json        ← meta-schema: validates schema files
 │   ├── base/
 │   │   └── schema.json                 ← schema for the base document type
+│   ├── data/
+│   │   └── directory/
+│   │       └── schema.json             ← schema for the directory document type
 │   └── probe/
 │       └── probe_location/
 │           └── schema.json             ← schema for probe_location document type
@@ -96,16 +99,18 @@ allowed values are documented below.
 Every schema file must conform to the following structure exactly. The meta-schema
 enforces this.
 
-### Top-Level Keys (all required)
+### Top-Level Keys
 
-| Key               | Type   | May be empty? | Description |
-|-------------------|--------|---------------|-------------|
-| `_classname`      | string | no            | Unique name of the document type. Must match `^[a-zA-Z][a-zA-Z0-9_]*$`. |
-| `_class_version`  | string | no            | Semantic version string `"MAJOR.MINOR.PATCH"`. |
-| `_superclasses`   | array  | yes (`[]`)    | Array of superclass reference objects (see below). |
-| `_depends_on`     | array  | yes (`[]`)    | Array of dependency objects (see below). |
-| `_file`           | array  | yes (`[]`)    | Array of file record objects (see below). |
-| `_fields`         | array  | yes (`[]`)    | Array of field definition objects (see below). |
+| Key               | Type   | Required | May be empty? | Description |
+|-------------------|--------|----------|---------------|-------------|
+| `_classname`      | string | yes      | no            | Unique name of the document type. Must match `^[a-zA-Z][a-zA-Z0-9_]*$`. |
+| `_class_version`  | string | yes      | no            | Semantic version string `"MAJOR.MINOR.PATCH"`. |
+| `_maturity_level` | string | yes      | no            | `"work_in_progress"` or `"mature"`. |
+| `_superclasses`   | array  | yes      | yes (`[]`)    | Array of superclass reference objects (see below). |
+| `_depends_on`     | array  | yes      | yes (`[]`)    | Array of dependency objects (see below). |
+| `_file`           | array  | no       | yes (`[]`)    | Array of file record objects (see below). Omit for document types with no associated files. |
+| `_directory`      | array  | no       | yes (`[]`)    | Array of directory record objects (see below). Omit for document types with no associated directories. |
+| `_fields`         | array  | yes      | yes (`[]`)    | Array of field definition objects (see below). |
 
 No other top-level keys are permitted. The validator must reject schema files with
 unrecognized top-level keys.
@@ -173,6 +178,111 @@ optional in aggregate).
 |------------------|--------|----------|-------------|
 | `_name`          | string | yes      | Identifier for this file record. |
 | `_documentation` | string | yes      | Description of the file's contents. |
+
+### Directory Record Object
+
+```json
+{ "_name": "raw_data", "_documentation": "Directory of raw acquisition files." }
+```
+
+| Key              | Type   | Required | Description |
+|------------------|--------|----------|-------------|
+| `_name`          | string | yes      | Identifier for this directory record. Must not collide with any `_file` record `_name` on the same schema. |
+| `_documentation` | string | yes      | Description of the directory's contents. |
+
+A `_directory` entry declares a named directory slot on a document type, analogous to
+how `_file` declares a named file slot. Consumer tooling provides a `get_directory(name)`
+method (parallel to `open_binary_file(name)`) to retrieve the directory object for a
+given slot.
+
+Each directory slot is backed by a `directory` document in the database (see
+**Directory Document Type** below). The directory document depends on the owning
+document via `parent_doc_id`, and stores the directory's file listing in a manifest
+file — keeping the JSON metadata small regardless of how many files the directory
+contains.
+
+#### Directory Document Type
+
+The `directory` document type (`schemas/data/directory/schema.json`) is the storage
+backing for `_directory` slots. It extends `base` and has the following structure:
+
+**Dependencies:**
+- `parent_doc_id` (required) — the `id` of the root document that owns this directory.
+  For subdirectories, this is still the root owning document, not the parent directory.
+  This enables a single query (`isa directory AND depends_on parent_doc_id = X`) to
+  retrieve the entire directory tree for a document.
+- `parent_directory_id` (optional) — the `id` of the parent directory document. Empty
+  for top-level directories (those filling a `_directory` slot). Non-empty for
+  subdirectories nested within another directory.
+
+**File:**
+- `manifest_file` — a file listing the contents of this directory. The manifest is
+  internal infrastructure and is not accessible via `open_binary_file`. Use
+  `get_directory_manifest` instead.
+
+**Fields:**
+- `dirname` (char) — the actual directory name (e.g., `"raw_data/"`, `"metadata/"`).
+- `directory_role` (char) — the `_name` of the `_directory` slot this directory fills
+  on the parent document's schema. Non-empty for top-level directories, empty for
+  subdirectories. This is how consumer tooling matches a directory document back to its
+  schema slot when the user calls `get_directory("raw_data")`.
+- `num_entries` (integer) — number of file entries in the manifest.
+- `manifest_format` (char) — format of the manifest file (default: `"jsonlines"`).
+
+#### Tree Structure
+
+Directories form a tree via the `parent_directory_id` dependency:
+
+```
+experiment doc (id=A)
+  _directory: ["raw_data", "analysis_output"]
+
+  directory doc (id=B, parent_doc_id=A, parent_directory_id="",
+                 dirname="raw_data/", directory_role="raw_data")
+    manifest_file: [trial_001.tif, trial_002.tif, ...]
+
+    directory doc (id=D, parent_doc_id=A, parent_directory_id=B,
+                   dirname="metadata/", directory_role="")
+      manifest_file: [params.json, config.yaml]
+
+  directory doc (id=C, parent_doc_id=A, parent_directory_id="",
+                 dirname="analysis_output/", directory_role="analysis_output")
+    manifest_file: [results.csv, summary.pdf]
+```
+
+Useful queries:
+- **All directories for document A:** `isa directory AND depends_on parent_doc_id = A`
+- **Children of directory B:** `isa directory AND depends_on parent_directory_id = B`
+- **Top-level directories for document A:** above query + `parent_directory_id is empty`
+
+#### Manifest Format
+
+The recommended manifest format is JSON Lines (`"jsonlines"`): one JSON object per
+line, streamable, no need to parse the entire file into memory:
+
+```jsonl
+{"filename": "trial_001.tif", "size": 4096, "checksum_sha256": "ab3f..."}
+{"filename": "trial_002.tif", "size": 4096, "checksum_sha256": "cd7e..."}
+```
+
+#### Consumer Tooling Methods
+
+The following methods are the responsibility of consumer tooling (DID-python,
+DID-matlab), not this schema repo:
+
+- `get_directory(name)` — retrieve the directory object for a named `_directory` slot.
+- `get_directory_manifest(directory_doc_id)` — read and parse the manifest file,
+  returning a structured listing. This is the only way to access the manifest.
+- `open_binary_file(doc_id, name)` — when `doc_id` is a directory document, `name` is
+  resolved as a filename in the manifest (not a `_file` slot). The `manifest_file`
+  `_file` slot is never accessible via `open_binary_file` on a directory document.
+
+#### Subclassing for Constrained Directory Structures
+
+To enforce specific directory layouts (e.g., BIDS, NWB), create a subclass of
+`directory` that adds required fields, constraints, or specific `_depends_on`
+entries. For example, a `bids_directory` subclass could require specific
+subdirectory names or mandate a particular manifest format.
 
 ### Field Definition Object
 
@@ -339,6 +449,7 @@ Checks that can be performed with only the document and its schema file(s):
   (e.g., `minimum`/`maximum` for numeric types, `maxLength` for strings).
 - `_depends_on` entries with `_mustBeNonEmpty: true` have non-empty values.
 - `_class_version` compatibility (same MAJOR version as the schema).
+- `_directory` and `_file` record names are unique across both arrays (no collisions).
 
 Phase 1 is fully specified by this repo and tested in the test suite.
 
@@ -367,12 +478,15 @@ Schema validator (e.g., Python `jsonschema`) to check that an NDI schema file is
 well-formed before loading it.
 
 The meta-schema must enforce:
-- All six top-level keys are present (`_classname`, `_class_version`, `_superclasses`, `_depends_on`, `_file`, `_fields`).
+- Required top-level keys are present: `_classname`, `_class_version`, `_maturity_level`, `_superclasses`, `_depends_on`, `_fields`.
+- Optional top-level keys, if present, have correct structure: `_file`, `_directory`.
 - `_classname` matches `^[a-zA-Z][a-zA-Z0-9_]*$`.
 - `_class_version` matches `^\d+\.\d+\.\d+$`.
+- `_maturity_level` is `"work_in_progress"` or `"mature"`.
 - `_superclasses` is an array of objects each with `_classname` (string) and `_schema` (string).
 - `_depends_on` is an array of dependency objects.
-- `_file` is an array of file record objects.
+- `_file` (if present) is an array of file record objects.
+- `_directory` (if present) is an array of directory record objects.
 - `_fields` is an array of field definition objects.
 - Each field definition object has all required keys with correct types.
 - `type` is one of the valid type strings.
@@ -576,3 +690,9 @@ pytest
 10. **`_constraints` accepts standard JSON Schema validation keywords.** Rather than inventing custom constraint names, the `_constraints` object on each field definition holds standard JSON Schema keywords (`minLength`, `maxLength`, `minimum`, `maximum`, `pattern`, `enum`, etc.). A standard JSON Schema validator can apply these directly to field values without custom tooling.
 
 11. **Numbered dependencies use the `_name_#` pattern.** When a document type may reference an arbitrary number of instances of the same dependency kind, the dependency entry in `_depends_on` uses `#` as a placeholder for a positive integer in `_name` (e.g., `"syncrule_id_#"`), and sets `_multiple: true`. At runtime, actual entries are named `syncrule_id_1`, `syncrule_id_2`, etc. This avoids enumerating a fixed maximum in the schema while still giving each runtime entry a unique, queryable name.
+
+12. **`_file` and `_directory` are optional top-level keys.** Not all document types have associated files or directories. Schemas that do not need them simply omit the key. This avoids forcing every schema to declare `"_file": []` or `"_directory": []`.
+
+13. **Directories are stored as separate documents, not inline metadata.** A directory's file listing is stored in a manifest file attached to a `directory` document, not in the JSON metadata of the parent document. This keeps document metadata small regardless of directory size (even for directories with hundreds of thousands of files). The directory tree structure is expressed through `_depends_on` references (`parent_doc_id` and `parent_directory_id`), enabling efficient tree queries.
+
+14. **`open_binary_file` on a directory document resolves filenames from the manifest.** When called on a directory document, `open_binary_file(doc_id, name)` resolves `name` against the manifest entries, not `_file` slots. The `manifest_file` `_file` slot is internal infrastructure and is never accessible via `open_binary_file`; use `get_directory_manifest` instead.

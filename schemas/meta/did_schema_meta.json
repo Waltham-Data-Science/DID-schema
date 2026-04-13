@@ -4,7 +4,7 @@
     "title": "DID/NDI Schema Meta-Schema",
     "description": "Validates the structure of DID/NDI schema files. NAMING CONVENTION: property names that are standard JSON Schema keywords (type, $schema, $id, $ref, $defs, properties, required, items, enum, const, pattern, description, etc.) are used as-is. Every property name introduced by this schema system — i.e. not part of the JSON Schema vocabulary — is prefixed with an underscore (_) to distinguish custom extensions from standard vocabulary.",
     "type": "object",
-    "required": ["_classname", "_class_version", "_maturity_level", "_superclasses", "_depends_on", "_file", "_fields"],
+    "required": ["_classname", "_class_version", "_maturity_level", "_superclasses", "_depends_on", "_fields"],
     "additionalProperties": false,
     "properties": {
         "_classname": {
@@ -35,7 +35,12 @@
         "_file": {
             "type": "array",
             "items": { "$ref": "#/$defs/file_record" },
-            "description": "Array of file record objects."
+            "description": "Array of file record objects. Optional — omit for document types that have no associated files."
+        },
+        "_directory": {
+            "type": "array",
+            "items": { "$ref": "#/$defs/directory_record" },
+            "description": "Array of directory record objects. Optional — omit for document types that have no associated directories."
         },
         "_fields": {
             "type": "array",
@@ -94,6 +99,21 @@
                 "_documentation": {
                     "type": "string",
                     "description": "Description of the file's contents."
+                }
+            }
+        },
+        "directory_record": {
+            "type": "object",
+            "required": ["_name", "_documentation"],
+            "additionalProperties": false,
+            "properties": {
+                "_name": {
+                    "type": "string",
+                    "description": "Identifier for this directory record. Must not collide with any _file record name on the same schema."
+                },
+                "_documentation": {
+                    "type": "string",
+                    "description": "Description of the directory's contents."
                 }
             }
         },

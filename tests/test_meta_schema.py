@@ -43,8 +43,8 @@ class TestMetaSchemaValidation:
     def test_invalid_schema_bad_type_fails(self, meta_schema, base_schema):
         """A schema with an unrecognized type string must fail meta-validation."""
         bad = dict(base_schema)
-        bad["fields"] = [dict(base_schema["fields"][0])]
-        bad["fields"][0]["type"] = "nonexistent_type"
+        bad["_fields"] = [dict(base_schema["_fields"][0])]
+        bad["_fields"][0]["type"] = "nonexistent_type"
         with pytest.raises(jsonschema.ValidationError):
             jsonschema.validate(instance=bad, schema=meta_schema)
 
@@ -66,5 +66,75 @@ class TestMetaSchemaValidation:
         """class_version must match semver pattern."""
         bad = dict(base_schema)
         bad["class_version"] = "not.a.version"
+        with pytest.raises(jsonschema.ValidationError):
+            jsonschema.validate(instance=bad, schema=meta_schema)
+
+    def test_directory_schema_passes(self, meta_schema, directory_schema):
+        """The directory document schema must pass meta-validation."""
+        jsonschema.validate(instance=directory_schema, schema=meta_schema)
+
+    def test_schema_without_file_key_passes(self, meta_schema):
+        """A schema that omits _file entirely should pass (it is optional)."""
+        minimal = {
+            "_classname": "no_file_test",
+            "_class_version": "1.0.0",
+            "_maturity_level": "work_in_progress",
+            "_superclasses": [],
+            "_depends_on": [],
+            "_fields": [],
+        }
+        jsonschema.validate(instance=minimal, schema=meta_schema)
+
+    def test_schema_with_directory_key_passes(self, meta_schema):
+        """A schema with a _directory array should pass."""
+        with_dir = {
+            "_classname": "dir_test",
+            "_class_version": "1.0.0",
+            "_maturity_level": "work_in_progress",
+            "_superclasses": [],
+            "_depends_on": [],
+            "_directory": [
+                {
+                    "_name": "raw_data",
+                    "_documentation": "Raw acquisition files.",
+                }
+            ],
+            "_fields": [],
+        }
+        jsonschema.validate(instance=with_dir, schema=meta_schema)
+
+    def test_invalid_directory_record_missing_name_fails(self, meta_schema):
+        """A _directory entry without _name must fail."""
+        bad = {
+            "_classname": "bad_dir_test",
+            "_class_version": "1.0.0",
+            "_maturity_level": "work_in_progress",
+            "_superclasses": [],
+            "_depends_on": [],
+            "_directory": [
+                {"_documentation": "Missing _name."}
+            ],
+            "_fields": [],
+        }
+        with pytest.raises(jsonschema.ValidationError):
+            jsonschema.validate(instance=bad, schema=meta_schema)
+
+    def test_invalid_directory_record_extra_key_fails(self, meta_schema):
+        """A _directory entry with extra keys must fail."""
+        bad = {
+            "_classname": "bad_dir_test",
+            "_class_version": "1.0.0",
+            "_maturity_level": "work_in_progress",
+            "_superclasses": [],
+            "_depends_on": [],
+            "_directory": [
+                {
+                    "_name": "raw_data",
+                    "_documentation": "Raw data.",
+                    "_extra": "not allowed",
+                }
+            ],
+            "_fields": [],
+        }
         with pytest.raises(jsonschema.ValidationError):
             jsonschema.validate(instance=bad, schema=meta_schema)

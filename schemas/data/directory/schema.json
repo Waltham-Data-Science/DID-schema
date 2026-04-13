@@ -1,0 +1,91 @@
+{
+    "_classname": "directory",
+    "_class_version": "1.0.0",
+    "_maturity_level": "work_in_progress",
+    "_superclasses": [
+        {
+            "_classname": "base",
+            "_schema": "$NDISCHEMAPATH/base/schema.json"
+        }
+    ],
+    "_depends_on": [
+        {
+            "_name": "parent_doc_id",
+            "_mustBeNonEmpty": true,
+            "_documentation": "The document ID of the parent document that owns this directory. For subdirectories, this is still the root owning document (not the parent directory), enabling a single query to retrieve the entire directory tree for a document."
+        },
+        {
+            "_name": "parent_directory_id",
+            "_mustBeNonEmpty": false,
+            "_documentation": "The document ID of the parent directory document. Empty for top-level directories (those directly attached to the owning document's _directory slot). Non-empty for subdirectories."
+        }
+    ],
+    "_file": [
+        {
+            "_name": "manifest_file",
+            "_documentation": "A file listing the contents of this directory. The format is specified by the manifest_format field. The manifest is internal infrastructure and is not accessible via open_binary_file; use get_directory_manifest instead. Files listed in the manifest are accessible via open_binary_file(directory_doc_id, filename)."
+        }
+    ],
+    "_fields": [
+        {
+            "_name": "dirname",
+            "type": "char",
+            "_blank_value": "",
+            "_default_value": "",
+            "_mustBeNonEmpty": true,
+            "_mustBeScalar": true,
+            "_mustNotHaveNaN": false,
+            "_queryable": true,
+            "_ontology": null,
+            "_documentation": "The directory name (e.g., 'raw_data/', 'metadata/'). This is the actual name of the directory, which may differ from the directory_role.",
+            "_constraints": {
+                "maxLength": 512
+            }
+        },
+        {
+            "_name": "directory_role",
+            "type": "char",
+            "_blank_value": "",
+            "_default_value": "",
+            "_mustBeNonEmpty": false,
+            "_mustBeScalar": true,
+            "_mustNotHaveNaN": false,
+            "_queryable": true,
+            "_ontology": null,
+            "_documentation": "The _name of the _directory slot this directory fills on the parent document's schema. Non-empty for top-level directories (e.g., 'raw_data' matching a _directory entry on the parent). Empty for subdirectories, which are not bound to a schema slot.",
+            "_constraints": {
+                "maxLength": 256
+            }
+        },
+        {
+            "_name": "num_entries",
+            "type": "integer",
+            "_blank_value": 0,
+            "_default_value": 0,
+            "_mustBeNonEmpty": false,
+            "_mustBeScalar": true,
+            "_mustNotHaveNaN": true,
+            "_queryable": true,
+            "_ontology": null,
+            "_documentation": "The number of file entries in this directory's manifest (not counting subdirectories, which are separate directory documents).",
+            "_constraints": {
+                "minimum": 0
+            }
+        },
+        {
+            "_name": "manifest_format",
+            "type": "char",
+            "_blank_value": "",
+            "_default_value": "jsonlines",
+            "_mustBeNonEmpty": true,
+            "_mustBeScalar": true,
+            "_mustNotHaveNaN": false,
+            "_queryable": true,
+            "_ontology": null,
+            "_documentation": "The format of the manifest file. Recommended default is 'jsonlines' (one JSON object per line with keys: filename, size, checksum_sha256). Other formats may be supported by consumer tooling.",
+            "_constraints": {
+                "maxLength": 64
+            }
+        }
+    ]
+}
