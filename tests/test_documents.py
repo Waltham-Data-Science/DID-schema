@@ -32,11 +32,11 @@ def load_schema_for_document(doc, schemas_dir):
 def get_all_fields(schema, schemas_dir):
     """Recursively resolve superclass fields and return flattened field list."""
     fields = []
-    for superclass in schema.get("superclasses", []):
-        super_path = resolve_schema_path(superclass["schema"], schemas_dir)
+    for superclass in schema.get("_superclasses", []):
+        super_path = resolve_schema_path(superclass["_schema"], schemas_dir)
         super_schema = load_json(super_path)
         fields.extend(get_all_fields(super_schema, schemas_dir))
-    fields.extend(schema["fields"])
+    fields.extend(schema["_fields"])
     return fields
 
 
@@ -54,7 +54,7 @@ def validate_document(doc, schemas_dir):
             field_blocks[key] = val
 
     for field_def in all_fields:
-        name = field_def["name"]
+        name = field_def["_name"]
         field_type = field_def["type"]
 
         # Find the value in the document's data blocks
@@ -71,7 +71,7 @@ def validate_document(doc, schemas_dir):
             continue
 
         # mustBeNonEmpty check
-        if field_def.get("mustBeNonEmpty", False):
+        if field_def.get("_mustBeNonEmpty", False):
             if value is None or value == "" or value == [] or value == {}:
                 errors.append(
                     f"Field '{name}' must be non-empty but got: {value!r}"
@@ -92,14 +92,14 @@ def validate_document(doc, schemas_dir):
                 )
 
         if field_type in ("char", "string") and isinstance(value, str):
-            max_length = field_def.get("constraints", {}).get("max_length")
+            max_length = field_def.get("_constraints", {}).get("max_length")
             if max_length is not None and len(value) > max_length:
                 errors.append(
                     f"Field '{name}' exceeds max_length {max_length}: length={len(value)}"
                 )
 
         if field_type in ("integer", "double") and isinstance(value, (int, float)):
-            constraints = field_def.get("constraints", {})
+            constraints = field_def.get("_constraints", {})
             min_val = constraints.get("min")
             max_val = constraints.get("max")
             if min_val is not None and value < min_val:
@@ -108,10 +108,10 @@ def validate_document(doc, schemas_dir):
                 errors.append(f"Field '{name}' above maximum {max_val}: {value}")
 
     # Validate depends_on
-    for dep_def in schema.get("depends_on", []):
-        dep_name = dep_def["name"]
+    for dep_def in schema.get("_depends_on", []):
+        dep_name = dep_def["_name"]
         doc_deps = {d["name"]: d.get("value", "") for d in doc.get("depends_on", [])}
-        if dep_def.get("mustBeNonEmpty", False):
+        if dep_def.get("_mustBeNonEmpty", False):
             dep_value = doc_deps.get(dep_name, "")
             if not dep_value:
                 errors.append(
@@ -149,5 +149,3 @@ class TestInvalidDocuments:
         assert any("datestamp" in e for e in errors), (
             f"Expected error about 'datestamp', got: {errors}"
         )
-
-
