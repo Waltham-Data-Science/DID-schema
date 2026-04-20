@@ -1,0 +1,57 @@
+{
+    "_classname": "ontologyImage",
+    "_class_version": "1.0.0",
+    "_maturity_level": "work_in_progress",
+    "_superclasses": [
+        {
+            "_classname": "base",
+            "_schema": "$NDISCHEMAPATH/base/schema.json"
+        }
+    ],
+    "_depends_on": [
+        {
+            "_name": "element_id",
+            "_mustBeNonEmpty": false,
+            "_documentation": "The document ID of the element this ontology image is associated with.",
+            "_must_refer_to_document_class": ""
+        }
+    ],
+    "_file": [
+        {
+            "_name": "ontology_image_file",
+            "_documentation": "The ontology image file."
+        }
+    ],
+    "_fields": [
+        {
+            "_name": "ontology_name",
+            "type": "char",
+            "_blank_value": "",
+            "_default_value": "",
+            "_mustBeNonEmpty": true,
+            "_mustBeScalar": true,
+            "_mustNotHaveNaN": false,
+            "_queryable": true,
+            "_ontology": null,
+            "_documentation": "The name of the ontology this image is drawn from (e.g., 'Allen CCF v3').",
+            "_constraints": {
+                "max_length": 256
+            }
+        },
+        {
+            "_name": "ontology_region",
+            "type": "char",
+            "_blank_value": "",
+            "_default_value": "",
+            "_mustBeNonEmpty": false,
+            "_mustBeScalar": true,
+            "_mustNotHaveNaN": false,
+            "_queryable": true,
+            "_ontology": null,
+            "_documentation": "The brain region or structure label from the ontology.",
+            "_constraints": {
+                "max_length": 256
+            }
+        }
+    ]
+}

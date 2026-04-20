@@ -1,0 +1,86 @@
+{
+    "_classname": "treatment",
+    "_class_version": "1.0.0",
+    "_maturity_level": "work_in_progress",
+    "_superclasses": [
+        {
+            "_classname": "base",
+            "_schema": "$NDISCHEMAPATH/base/schema.json"
+        }
+    ],
+    "_depends_on": [
+        {
+            "_name": "subject_id",
+            "_mustBeNonEmpty": true,
+            "_documentation": "The document ID of the subject that received this treatment.",
+            "_must_refer_to_document_class": ""
+        },
+        {
+            "_name": "manipulation_id",
+            "_mustBeNonEmpty": false,
+            "_documentation": "The document ID of the manipulation associated with this treatment.",
+            "_must_refer_to_document_class": ""
+        },
+        {
+            "_name": "protocol_id",
+            "_mustBeNonEmpty": false,
+            "_documentation": "The document ID of the protocol associated with this treatment.",
+            "_must_refer_to_document_class": ""
+        }
+    ],
+    "_file": [],
+    "_fields": [
+        {
+            "_name": "ontologyName",
+            "type": "char",
+            "_blank_value": "",
+            "_default_value": "",
+            "_mustBeNonEmpty": false,
+            "_mustBeScalar": true,
+            "_mustNotHaveNaN": false,
+            "_queryable": true,
+            "_ontology": null,
+            "_documentation": "The ontology node of the treatment.",
+            "_constraints": {}
+        },
+        {
+            "_name": "name",
+            "type": "char",
+            "_blank_value": "",
+            "_default_value": "",
+            "_mustBeNonEmpty": false,
+            "_mustBeScalar": true,
+            "_mustNotHaveNaN": false,
+            "_queryable": true,
+            "_ontology": null,
+            "_documentation": "The name of the treatment in the ontology node.",
+            "_constraints": {}
+        },
+        {
+            "_name": "numeric_value",
+            "type": "matrix",
+            "_blank_value": "",
+            "_default_value": "",
+            "_mustBeNonEmpty": false,
+            "_mustBeScalar": false,
+            "_mustNotHaveNaN": false,
+            "_queryable": true,
+            "_ontology": null,
+            "_documentation": "The numeric value associated with the treatment.",
+            "_constraints": {}
+        },
+        {
+            "_name": "string_value",
+            "type": "char",
+            "_blank_value": "",
+            "_default_value": "",
+            "_mustBeNonEmpty": false,
+            "_mustBeScalar": true,
+            "_mustNotHaveNaN": false,
+            "_queryable": true,
+            "_ontology": null,
+            "_documentation": "The character string value associated with the treatment.",
+            "_constraints": {}
+        }
+    ]
+}

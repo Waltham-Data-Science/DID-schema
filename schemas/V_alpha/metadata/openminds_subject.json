@@ -1,0 +1,21 @@
+{
+    "_classname": "openminds_subject",
+    "_class_version": "1.0.0",
+    "_maturity_level": "work_in_progress",
+    "_superclasses": [
+        {
+            "_classname": "base",
+            "_schema": "$NDISCHEMAPATH/base/schema.json"
+        }
+    ],
+    "_depends_on": [
+        {
+            "_name": "subject_id",
+            "_mustBeNonEmpty": true,
+            "_documentation": "The document ID of the subject this openMINDS metadata describes.",
+            "_must_refer_to_document_class": ""
+        }
+    ],
+    "_file": [],
+    "_fields": []
+}
