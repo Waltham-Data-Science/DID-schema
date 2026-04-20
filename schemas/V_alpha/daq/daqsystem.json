@@ -1,0 +1,43 @@
+{
+    "_classname": "daqsystem",
+    "_class_version": "1.0.0",
+    "_maturity_level": "work_in_progress",
+    "_superclasses": [
+        {
+            "_classname": "base",
+            "_schema": "$NDISCHEMAPATH/base/schema.json"
+        }
+    ],
+    "_depends_on": [
+        {
+            "_name": "filenavigator_id",
+            "_mustBeNonEmpty": true,
+            "_documentation": "The document ID of the file navigator used by this DAQ system.",
+            "_must_refer_to_document_class": ""
+        },
+        {
+            "_name": "daqreader_id",
+            "_mustBeNonEmpty": true,
+            "_documentation": "The document ID of the DAQ reader used by this DAQ system.",
+            "_must_refer_to_document_class": ""
+        }
+    ],
+    "_file": [],
+    "_fields": [
+        {
+            "_name": "ndi_daqsystem_class",
+            "type": "char",
+            "_blank_value": "",
+            "_default_value": "",
+            "_mustBeNonEmpty": true,
+            "_mustBeScalar": true,
+            "_mustNotHaveNaN": false,
+            "_queryable": true,
+            "_ontology": null,
+            "_documentation": "The class name of the DAQ system implementation.",
+            "_constraints": {
+                "max_length": 256
+            }
+        }
+    ]
+}
