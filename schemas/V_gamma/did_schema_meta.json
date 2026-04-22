@@ -2,7 +2,7 @@
     "$schema": "http://json-schema.org/draft-07/schema#",
     "$id": "https://did-schema.example.org/V_gamma/did_schema_meta.json",
     "title": "DID/NDI Schema Meta-Schema (V_gamma)",
-    "description": "Validates the structure of DID/NDI schema files for V_gamma. V_gamma introduces two named composite types, 'duration' and 'ontology_term', and a redesigned field-level '_ontology' annotation shape with keys '_node' (CURIE) and '_name' (label); the CURIE prefix is resolved against CURIE_lookups_meta.json. NAMING CONVENTION: property names that are standard JSON Schema keywords (type, $schema, $id, $ref, $defs, properties, required, items, enum, const, pattern, description, etc.) are used as-is. Every property name introduced by this schema system — i.e. not part of the JSON Schema vocabulary — is prefixed with an underscore (_) to distinguish custom extensions from standard vocabulary.",
+    "description": "Validates the structure of DID/NDI schema files for V_gamma. V_gamma introduces named composite types 'duration', 'ontology_term', 'volume', 'mass', 'length', 'voltage', and 'current', and a redesigned field-level '_ontology' annotation shape with keys '_node' (CURIE) and '_name' (label); the CURIE prefix is resolved against CURIE_lookups_meta.json. The five SI-dimensioned types share the same sub-field layout as 'duration' (a canonical-unit double, 'approximate' boolean, 'source_unit' char, 'source_value' double); only the canonical sub-field name and the allowed source units differ. NAMING CONVENTION: property names that are standard JSON Schema keywords (type, $schema, $id, $ref, $defs, properties, required, items, enum, const, pattern, description, etc.) are used as-is. Every property name introduced by this schema system — i.e. not part of the JSON Schema vocabulary — is prefixed with an underscore (_) to distinguish custom extensions from standard vocabulary.",
     "type": "object",
     "required": [
         "_classname",
@@ -209,7 +209,12 @@
                         "boolean",
                         "structure",
                         "duration",
-                        "ontology_term"
+                        "ontology_term",
+                        "volume",
+                        "mass",
+                        "length",
+                        "voltage",
+                        "current"
                     ],
                     "description": "Data type of the field. Uses the standard JSON Schema keyword 'type'; values are NDI-specific."
                 },

@@ -15,10 +15,14 @@ VALID_TYPES_BASE = {
     "matrix", "timestamp", "boolean", "structure",
 }
 
-# V_gamma adds the two named composite types.
+# V_gamma adds named composite types: the SI-dimensioned family (duration,
+# volume, mass, length, voltage, current) plus ontology_term.
 VALID_TYPES_BY_VERSION = {
     "V_beta":  VALID_TYPES_BASE,
-    "V_gamma": VALID_TYPES_BASE | {"duration", "ontology_term"},
+    "V_gamma": VALID_TYPES_BASE | {
+        "duration", "volume", "mass", "length", "voltage", "current",
+        "ontology_term",
+    },
 }
 
 # V_gamma refactored four schemas into ontology_term fields, bumping their

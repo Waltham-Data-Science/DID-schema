@@ -8,15 +8,29 @@ over unchanged.
 
 V_gamma adds three related features on top of V_beta:
 
-- **Named composite types.** Two new entries in the field-definition `type`
-  enum, each backed by a fixed sub-field layout in document values:
-  - `duration`: `seconds` (double), `approximate` (boolean),
-    `source_unit` (char), `source_value` (double). Supported `_constraints`
-    keys: `minimum_seconds`, `maximum_seconds`, `allowed_units`.
+- **Named composite types.** Seven new entries in the field-definition
+  `type` enum, each backed by a fixed sub-field layout in document values:
+  - The SI-dimensioned family, all sharing the four-sub-field shape
+    (`<canonical_unit>` double, `approximate` boolean, `source_unit`
+    char, `source_value` double):
+    - `duration`: canonical `seconds`. `_constraints`:
+      `minimum_seconds`, `maximum_seconds`, `allowed_units`.
+    - `volume`: canonical `liters`. `_constraints`: `minimum_liters`,
+      `maximum_liters`, `allowed_units`.
+    - `mass`: canonical `grams`. `_constraints`: `minimum_grams`,
+      `maximum_grams`, `allowed_units`.
+    - `length`: canonical `meters`. `_constraints`: `minimum_meters`,
+      `maximum_meters`, `allowed_units`.
+    - `voltage`: canonical `volts`. `_constraints`: `minimum_volts`,
+      `maximum_volts`, `allowed_units`.
+    - `current`: canonical `amperes`. `_constraints`:
+      `minimum_amperes`, `maximum_amperes`, `allowed_units`.
   - `ontology_term`: `node` (char, a CURIE), `name` (char, label snapshot).
     Supported `_constraints` keys: `allowed_namespaces`.
   These composite types let a single field carry what previously required
-  several coordinated char/double fields.
+  several coordinated char/double fields. The canonical units of the
+  SI-dimensioned family are practical SI (grams over kilograms, liters
+  over cubic metres) so lab-scale values read naturally.
 
 - **CURIE registry.** A new advisory file `CURIE_lookups_meta.json` maps
   CURIE prefixes (e.g., `iao`, `uberon`, `schema`, `allen_ccf_v3`) to their
