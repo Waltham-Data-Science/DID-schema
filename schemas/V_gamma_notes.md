@@ -12,21 +12,17 @@ V_gamma adds three related features on top of V_beta:
   `type` enum, each backed by a fixed sub-field layout in document values:
   - The SI-dimensioned family, all sharing the four-sub-field shape
     (`<canonical_unit>` double, `approximate` boolean, `source_unit`
-    char, `source_value` double):
-    - `duration`: canonical `seconds`. `_constraints`:
-      `minimum_seconds`, `maximum_seconds`, `allowed_units`.
-    - `volume`: canonical `liters`. `_constraints`: `minimum_liters`,
-      `maximum_liters`, `allowed_units`.
-    - `mass`: canonical `grams`. `_constraints`: `minimum_grams`,
-      `maximum_grams`, `allowed_units`.
-    - `length`: canonical `meters`. `_constraints`: `minimum_meters`,
-      `maximum_meters`, `allowed_units`.
-    - `voltage`: canonical `volts`. `_constraints`: `minimum_volts`,
-      `maximum_volts`, `allowed_units`.
-    - `current`: canonical `amperes`. `_constraints`:
-      `minimum_amperes`, `maximum_amperes`, `allowed_units`.
-    - `frequency`: canonical `hertz`. `_constraints`:
-      `minimum_hertz`, `maximum_hertz`, `allowed_units`.
+    char, `source_value` double) and the same three `_constraints`
+    keys (`minimum`, `maximum`, `allowed_units`). `minimum` and
+    `maximum` always bound the canonical value; the unit is determined
+    by the field's type.
+    - `duration`: canonical `seconds`.
+    - `volume`: canonical `liters`.
+    - `mass`: canonical `grams`.
+    - `length`: canonical `meters`.
+    - `voltage`: canonical `volts`.
+    - `current`: canonical `amperes`.
+    - `frequency`: canonical `hertz`.
   - `ontology_term`: `node` (char, a CURIE), `name` (char, label snapshot).
     Supported `_constraints` keys: `allowed_namespaces`.
   These composite types let a single field carry what previously required
@@ -64,6 +60,24 @@ the document-visible field layout changed.
 `ontology_table_row.json` was **not** refactored: its `ontology_nodes`
 field is a comma-separated list of CURIEs (not a single composite), so it
 stays at `1.0.0`.
+
+## `duration` constraint-key rename
+
+`duration` originally shipped with `_constraints` keys
+`minimum_seconds` and `maximum_seconds`. These were renamed to plain
+`minimum` and `maximum` to align with the rest of the SI-dimensioned
+family (`volume`, `mass`, `length`, `voltage`, `current`, `frequency`)
+and with the unqualified `minimum`/`maximum` already used by the
+primitive `double` and `integer` types. The field's `type` is enough
+to determine the unit in which `minimum`/`maximum` are interpreted, so
+the unit suffix added no information.
+
+This is a schema-file-syntax change, not a document-shape change —
+document values for `duration` fields (the `seconds`/`approximate`/
+`source_unit`/`source_value` sub-fields) are unaffected. No
+`_class_version` bump is required. Any schemas or external tooling
+that referenced `minimum_seconds`/`maximum_seconds` must be updated
+to use `minimum`/`maximum`.
 
 ## Annotation-shape change is not a version bump
 

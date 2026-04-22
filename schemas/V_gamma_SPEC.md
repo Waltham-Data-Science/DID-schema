@@ -335,13 +335,13 @@ Relevant CURIEs for annotating fields:
 | `timestamp`     | ISO 8601 UTC timestamp string                   | `{}` (none)                                           | Validator checks format |
 | `boolean`       | true/false                                      | `{}` (none)                                           | |
 | `structure`     | Nested sub-document (JSON object)               | `{}` (none); use `_fields` key for nested fields      | Recursive |
-| `duration`      | Named composite: canonical seconds with unit provenance | `{ "minimum_seconds": number or null, "maximum_seconds": number or null, "allowed_units": array or null }` | Sub-fields: `seconds`, `approximate`, `source_unit`, `source_value`. See "Named Composite Types". |
-| `volume`        | Named composite: canonical liters with unit provenance | `{ "minimum_liters": number or null, "maximum_liters": number or null, "allowed_units": array or null }` | Sub-fields: `liters`, `approximate`, `source_unit`, `source_value`. |
-| `mass`          | Named composite: canonical grams with unit provenance | `{ "minimum_grams": number or null, "maximum_grams": number or null, "allowed_units": array or null }` | Sub-fields: `grams`, `approximate`, `source_unit`, `source_value`. |
-| `length`        | Named composite: canonical meters with unit provenance | `{ "minimum_meters": number or null, "maximum_meters": number or null, "allowed_units": array or null }` | Sub-fields: `meters`, `approximate`, `source_unit`, `source_value`. |
-| `voltage`       | Named composite: canonical volts with unit provenance | `{ "minimum_volts": number or null, "maximum_volts": number or null, "allowed_units": array or null }` | Sub-fields: `volts`, `approximate`, `source_unit`, `source_value`. |
-| `current`       | Named composite: canonical amperes with unit provenance | `{ "minimum_amperes": number or null, "maximum_amperes": number or null, "allowed_units": array or null }` | Sub-fields: `amperes`, `approximate`, `source_unit`, `source_value`. |
-| `frequency`     | Named composite: canonical hertz with unit provenance | `{ "minimum_hertz": number or null, "maximum_hertz": number or null, "allowed_units": array or null }` | Sub-fields: `hertz`, `approximate`, `source_unit`, `source_value`. |
+| `duration`      | Named composite: canonical seconds with unit provenance | `{ "minimum": number or null, "maximum": number or null, "allowed_units": array or null }` | Sub-fields: `seconds`, `approximate`, `source_unit`, `source_value`. See "Named Composite Types". `minimum`/`maximum` bound the canonical (`seconds`). |
+| `volume`        | Named composite: canonical liters with unit provenance | `{ "minimum": number or null, "maximum": number or null, "allowed_units": array or null }` | Sub-fields: `liters`, `approximate`, `source_unit`, `source_value`. `minimum`/`maximum` bound the canonical (`liters`). |
+| `mass`          | Named composite: canonical grams with unit provenance | `{ "minimum": number or null, "maximum": number or null, "allowed_units": array or null }` | Sub-fields: `grams`, `approximate`, `source_unit`, `source_value`. `minimum`/`maximum` bound the canonical (`grams`). |
+| `length`        | Named composite: canonical meters with unit provenance | `{ "minimum": number or null, "maximum": number or null, "allowed_units": array or null }` | Sub-fields: `meters`, `approximate`, `source_unit`, `source_value`. `minimum`/`maximum` bound the canonical (`meters`). |
+| `voltage`       | Named composite: canonical volts with unit provenance | `{ "minimum": number or null, "maximum": number or null, "allowed_units": array or null }` | Sub-fields: `volts`, `approximate`, `source_unit`, `source_value`. `minimum`/`maximum` bound the canonical (`volts`). |
+| `current`       | Named composite: canonical amperes with unit provenance | `{ "minimum": number or null, "maximum": number or null, "allowed_units": array or null }` | Sub-fields: `amperes`, `approximate`, `source_unit`, `source_value`. `minimum`/`maximum` bound the canonical (`amperes`). |
+| `frequency`     | Named composite: canonical hertz with unit provenance | `{ "minimum": number or null, "maximum": number or null, "allowed_units": array or null }` | Sub-fields: `hertz`, `approximate`, `source_unit`, `source_value`. `minimum`/`maximum` bound the canonical (`hertz`). |
 | `ontology_term` | Named composite: CURIE ontology reference with label snapshot | `{ "allowed_namespaces": array or null }` | Sub-fields: `node`, `name`. See "Named Composite Types". |
 
 #### Semantics of validation flags by type
@@ -421,11 +421,12 @@ for a given dimension, there is exactly one canonical unit across the
 whole corpus, so cross-document numeric queries are meaningful without
 per-field conversion.
 
-Each type supports the same three `_constraints` keys, with the
-minimum/maximum keys named after the canonical unit:
+Each type supports the same three `_constraints` keys. `minimum` and
+`maximum` bound the canonical-unit value; the unit is determined by the
+field's type (e.g., on a `volume` field, `minimum: 0` means "0 liters").
 
-- `minimum_<canonical>` (number or null)
-- `maximum_<canonical>` (number or null)
+- `minimum` (number or null) — lower bound on the canonical value.
+- `maximum` (number or null) — upper bound on the canonical value.
 - `allowed_units` (array of strings or null) — restrict permissible
   `source_unit` values for this field.
 
@@ -462,8 +463,8 @@ Authors wanting calendar-aware durations should use a separate type (not
 yet defined; see Future Candidates below).
 
 **`_constraints` keys allowed:**
-- `minimum_seconds` (number or null) — lower bound on the canonical seconds.
-- `maximum_seconds` (number or null) — upper bound.
+- `minimum` (number or null) — lower bound on the canonical value (seconds).
+- `maximum` (number or null) — upper bound on the canonical value (seconds).
 - `allowed_units` (array of strings or null) — restrict permissible
   `source_unit` values for this field.
 
@@ -497,8 +498,8 @@ Canonical sub-field: `liters` (double).
 
 All ratios are exact, so `approximate` is always `false` for volume values.
 
-**`_constraints` keys allowed:** `minimum_liters`, `maximum_liters`,
-`allowed_units`.
+**`_constraints` keys allowed:** `minimum`, `maximum`, `allowed_units`.
+`minimum` and `maximum` bound the canonical (`liters`).
 
 ### `mass` (new in V_gamma)
 
@@ -517,8 +518,8 @@ Canonical sub-field: `grams` (double). Chosen over the strict SI base
 
 All ratios are exact.
 
-**`_constraints` keys allowed:** `minimum_grams`, `maximum_grams`,
-`allowed_units`.
+**`_constraints` keys allowed:** `minimum`, `maximum`, `allowed_units`.
+`minimum` and `maximum` bound the canonical (`grams`).
 
 ### `length` (new in V_gamma)
 
@@ -537,8 +538,8 @@ Canonical sub-field: `meters` (double).
 
 All ratios are exact.
 
-**`_constraints` keys allowed:** `minimum_meters`, `maximum_meters`,
-`allowed_units`.
+**`_constraints` keys allowed:** `minimum`, `maximum`, `allowed_units`.
+`minimum` and `maximum` bound the canonical (`meters`).
 
 ### `voltage` (new in V_gamma)
 
@@ -555,8 +556,8 @@ Canonical sub-field: `volts` (double).
 
 All ratios are exact.
 
-**`_constraints` keys allowed:** `minimum_volts`, `maximum_volts`,
-`allowed_units`.
+**`_constraints` keys allowed:** `minimum`, `maximum`, `allowed_units`.
+`minimum` and `maximum` bound the canonical (`volts`).
 
 ### `current` (new in V_gamma)
 
@@ -573,8 +574,8 @@ Canonical sub-field: `amperes` (double).
 
 All ratios are exact.
 
-**`_constraints` keys allowed:** `minimum_amperes`, `maximum_amperes`,
-`allowed_units`.
+**`_constraints` keys allowed:** `minimum`, `maximum`, `allowed_units`.
+`minimum` and `maximum` bound the canonical (`amperes`).
 
 ### `frequency` (new in V_gamma)
 
@@ -596,8 +597,8 @@ stimulus frequencies, so it fits the practical-SI rule.
 
 All ratios are exact.
 
-**`_constraints` keys allowed:** `minimum_hertz`, `maximum_hertz`,
-`allowed_units`.
+**`_constraints` keys allowed:** `minimum`, `maximum`, `allowed_units`.
+`minimum` and `maximum` bound the canonical (`hertz`).
 
 ### `ontology_term` (new in V_gamma)
 
@@ -798,10 +799,10 @@ Checks that can be performed with only the document and its schema file(s):
   listed source unit is an exact ratio of the canonical unit). All unit
   conversions are constants, so no tolerance window applies.
 - `ontology_term`: `node` matches CURIE pattern `^[a-z][a-z0-9_]*:[^\s:]+$`.
-- Type-specific constraint checks in `_constraints` (e.g.,
-  `minimum_seconds`/`maximum_seconds` for durations,
-  `minimum_liters`/`maximum_liters` for volumes, and so on for each
-  SI-dimensioned type; `allowed_namespaces` for ontology terms).
+- Type-specific constraint checks in `_constraints`: on every
+  SI-dimensioned type, `minimum` and `maximum` (if present) bound the
+  canonical value; on `ontology_term`, `allowed_namespaces` restricts
+  the permitted CURIE prefixes.
 - `_depends_on` entries with `_mustBeNonEmpty: true` have non-empty values.
 - `_class_version` compatibility (same MAJOR version as the schema).
 - `_directory` and `_file` record names are unique across both arrays.
@@ -994,8 +995,8 @@ meta-schema does not validate that CURIE prefixes appear in the registry.
     "_ontology":       null,
     "_documentation":  "How long the treatment was administered.",
     "_constraints": {
-        "minimum_seconds": 0,
-        "allowed_units":   ["second", "minute", "hour", "day", "week"]
+        "minimum":       0,
+        "allowed_units": ["second", "minute", "hour", "day", "week"]
     }
 }
 ```
@@ -1026,8 +1027,8 @@ A document value for this field might look like:
     "_ontology":       null,
     "_documentation":  "Volume of virus solution injected.",
     "_constraints": {
-        "minimum_liters": 0,
-        "allowed_units":  ["nanoliter", "microliter", "milliliter"]
+        "minimum":       0,
+        "allowed_units": ["nanoliter", "microliter", "milliliter"]
     }
 }
 ```
@@ -1045,8 +1046,9 @@ A document value for this field might look like:
 
 The other SI-dimensioned types (`mass`, `length`, `voltage`, `current`,
 `frequency`) follow the same template with their canonical sub-field
-name and dimension-specific `allowed_units` / `minimum_<canonical>` /
-`maximum_<canonical>` keys.
+name; the `_constraints` keys are identical (`minimum`, `maximum`,
+`allowed_units`), with `minimum`/`maximum` interpreted in the
+dimension's canonical unit.
 
 ---
 
@@ -1093,8 +1095,9 @@ pytest
 9. **Custom property names are prefixed with `_`.**
 10. **`_constraints` accepts standard JSON Schema validation keywords**
     for primitive types, and named composite-specific keys for
-    composites (`minimum_<canonical>` / `maximum_<canonical>` /
-    `allowed_units` for each SI-dimensioned type,
+    composites (`minimum` / `maximum` / `allowed_units` for each
+    SI-dimensioned type — `minimum`/`maximum` always apply to the
+    canonical value, whose unit is determined by the field's type;
     `allowed_namespaces` for `ontology_term`).
 11. **Numbered dependencies use the `_name_#` pattern.**
 12. **`_file` and `_directory` are optional top-level keys.**
