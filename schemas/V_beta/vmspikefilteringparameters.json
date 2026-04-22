@@ -30,7 +30,7 @@
             "_ontology": null,
             "_documentation": "The type of spike filtering applied to the Vm signal (e.g., 'median', 'interpolation').",
             "_constraints": {
-                "max_length": 64
+                "maxLength": 64
             }
         },
         {

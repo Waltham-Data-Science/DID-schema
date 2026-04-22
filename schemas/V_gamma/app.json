@@ -26,7 +26,7 @@
             },
             "_documentation": "The name of the application.",
             "_constraints": {
-                "max_length": 256
+                "maxLength": 256
             }
         },
         {
@@ -44,7 +44,7 @@
             },
             "_documentation": "The version of the app (often a Git commit identifier).",
             "_constraints": {
-                "max_length": 256
+                "maxLength": 256
             }
         },
         {
@@ -62,7 +62,7 @@
             },
             "_documentation": "The home page URL of the application.",
             "_constraints": {
-                "max_length": 1024
+                "maxLength": 1024
             }
         },
         {
@@ -80,7 +80,7 @@
             },
             "_documentation": "The operating system that ran the application.",
             "_constraints": {
-                "max_length": 256
+                "maxLength": 256
             }
         },
         {
@@ -95,7 +95,7 @@
             "_ontology": null,
             "_documentation": "The operating system version.",
             "_constraints": {
-                "max_length": 256
+                "maxLength": 256
             }
         },
         {
@@ -110,7 +110,7 @@
             "_ontology": null,
             "_documentation": "The name of the interpreter (e.g., 'Matlab', 'python3').",
             "_constraints": {
-                "max_length": 256
+                "maxLength": 256
             }
         },
         {
@@ -125,7 +125,7 @@
             "_ontology": null,
             "_documentation": "The version of the interpreter.",
             "_constraints": {
-                "max_length": 256
+                "maxLength": 256
             }
         }
     ]

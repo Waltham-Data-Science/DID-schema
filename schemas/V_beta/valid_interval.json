@@ -43,7 +43,7 @@
                     "_ontology": null,
                     "_documentation": "The name of the ndi.epoch.epochset object (e.g., device name, probe name, element name) that provides the time reference.",
                     "_constraints": {
-                        "max_length": 256
+                        "maxLength": 256
                     }
                 },
                 {
@@ -58,7 +58,7 @@
                     "_ontology": null,
                     "_documentation": "The class name of the referent epochset object (e.g., 'element', 'probe', 'device').",
                     "_constraints": {
-                        "max_length": 256
+                        "maxLength": 256
                     }
                 },
                 {
@@ -73,7 +73,7 @@
                     "_ontology": null,
                     "_documentation": "String identifier of the ndi.time.clocktype used for this reference. Valid values: 'dev_local_time', 'dev_global_time', 'utc', 'approx_utc', 'exp_global_time', 'no_time'.",
                     "_constraints": {
-                        "max_length": 64,
+                        "maxLength": 64,
                         "allowed_values": [
                             "dev_local_time",
                             "dev_global_time",
@@ -96,7 +96,7 @@
                     "_ontology": null,
                     "_documentation": "The epochid of the epoch in the referent epochset that provides the time origin.",
                     "_constraints": {
-                        "max_length": 256
+                        "maxLength": 256
                     }
                 },
                 {
@@ -152,7 +152,7 @@
                     "_ontology": null,
                     "_documentation": "The name of the ndi.epoch.epochset object (e.g., device name, probe name, element name) that provides the time reference.",
                     "_constraints": {
-                        "max_length": 256
+                        "maxLength": 256
                     }
                 },
                 {
@@ -167,7 +167,7 @@
                     "_ontology": null,
                     "_documentation": "The class name of the referent epochset object (e.g., 'element', 'probe', 'device').",
                     "_constraints": {
-                        "max_length": 256
+                        "maxLength": 256
                     }
                 },
                 {
@@ -182,7 +182,7 @@
                     "_ontology": null,
                     "_documentation": "String identifier of the ndi.time.clocktype used for this reference. Valid values: 'dev_local_time', 'dev_global_time', 'utc', 'approx_utc', 'exp_global_time', 'no_time'.",
                     "_constraints": {
-                        "max_length": 64,
+                        "maxLength": 64,
                         "allowed_values": [
                             "dev_local_time",
                             "dev_global_time",
@@ -205,7 +205,7 @@
                     "_ontology": null,
                     "_documentation": "The epochid of the epoch in the referent epochset that provides the time origin.",
                     "_constraints": {
-                        "max_length": 256
+                        "maxLength": 256
                     }
                 },
                 {

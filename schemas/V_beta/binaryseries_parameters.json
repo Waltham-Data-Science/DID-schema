@@ -30,7 +30,7 @@
             "_ontology": null,
             "_documentation": "The numeric data type of the binary series (e.g., 'double', 'single', 'int16', 'uint8').",
             "_constraints": {
-                "max_length": 32
+                "maxLength": 32
             }
         },
         {
@@ -71,7 +71,7 @@
             "_ontology": null,
             "_documentation": "Byte order of the binary data ('little-endian' or 'big-endian').",
             "_constraints": {
-                "max_length": 32
+                "maxLength": 32
             }
         },
         {

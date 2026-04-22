@@ -48,7 +48,7 @@
             "_ontology": null,
             "_documentation": "The version of JRCLUST used for sorting.",
             "_constraints": {
-                "max_length": 32
+                "maxLength": 32
             }
         }
     ]

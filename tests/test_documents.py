@@ -1,40 +1,45 @@
 """Tests for document fixture validation against their schemas.
 
 These tests validate document instances by checking field values against
-the constraints and rules defined in the schema files. This replicates
-the core validation logic that MATLAB/Python tooling would perform.
+the constraints and rules defined in the schema files. Parametrized across
+every active schema version (V_beta and V_gamma).
 """
 
 import os
 import re
 
-import pytest
-
-from conftest import SCHEMAS_DIR, load_json
+from conftest import load_json
 
 TIMESTAMP_RE = re.compile(
     r"^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(\.\d+)?Z$"
 )
 DID_UID_RE = re.compile(r"^[0-9a-fA-F_]{33,}$")
+CURIE_RE = re.compile(r"^[a-z][a-z0-9_]*:[^\s:]+$")
 
 
-def resolve_schema_path(token_path, schemas_dir):
-    """Replace $NDISCHEMAPATH token with the actual schemas directory."""
-    return token_path.replace("$NDISCHEMAPATH", schemas_dir)
+def schema_path_for_classname(classname, schemas_dir):
+    """Resolve a classname to its schema file under the flat layout."""
+    return os.path.join(schemas_dir, f"{classname}.json")
 
 
 def load_schema_for_document(doc, schemas_dir):
     """Load the schema file referenced by a document's document_class."""
-    schema_path = resolve_schema_path(doc["document_class"]["schema"], schemas_dir)
-    return load_json(schema_path)
+    classname = doc["document_class"]["classname"]
+    return load_json(schema_path_for_classname(classname, schemas_dir))
 
 
 def get_all_fields(schema, schemas_dir):
-    """Recursively resolve superclass fields and return flattened field list."""
+    """Recursively resolve superclass fields and return flattened field list.
+
+    Uses each superclass's _classname to locate its schema file in the flat
+    layout; the _schema path inside the schema file is ignored for resolution
+    purposes.
+    """
     fields = []
     for superclass in schema.get("_superclasses", []):
-        super_path = resolve_schema_path(superclass["_schema"], schemas_dir)
-        super_schema = load_json(super_path)
+        super_schema = load_json(
+            schema_path_for_classname(superclass["_classname"], schemas_dir)
+        )
         fields.extend(get_all_fields(super_schema, schemas_dir))
     fields.extend(schema["_fields"])
     return fields
@@ -46,8 +51,8 @@ def validate_document(doc, schemas_dir):
     all_fields = get_all_fields(schema, schemas_dir)
     errors = []
 
-    # Build a map of classname -> field data blocks in the document
-    # The document stores field values under class-named keys (e.g., "base", "probe_location")
+    # Build a map of classname -> field data blocks in the document.
+    # Field values live under class-named keys (e.g. "base", "probe_location").
     field_blocks = {}
     for key, val in doc.items():
         if key not in ("document_class", "depends_on") and isinstance(val, dict):
@@ -57,10 +62,9 @@ def validate_document(doc, schemas_dir):
         name = field_def["_name"]
         field_type = field_def["type"]
 
-        # Find the value in the document's data blocks
         value = None
         found = False
-        for block_name, block_data in field_blocks.items():
+        for block_data in field_blocks.values():
             if name in block_data:
                 value = block_data[name]
                 found = True
@@ -70,7 +74,7 @@ def validate_document(doc, schemas_dir):
             errors.append(f"Field '{name}' not found in document")
             continue
 
-        # mustBeNonEmpty check
+        # mustBeNonEmpty check (null/empty string/empty list/empty dict).
         if field_def.get("_mustBeNonEmpty", False):
             if value is None or value == "" or value == [] or value == {}:
                 errors.append(
@@ -78,7 +82,6 @@ def validate_document(doc, schemas_dir):
                 )
                 continue
 
-        # Type-specific validation
         if field_type == "timestamp" and isinstance(value, str) and value != "":
             if not TIMESTAMP_RE.match(value):
                 errors.append(
@@ -92,31 +95,49 @@ def validate_document(doc, schemas_dir):
                 )
 
         if field_type in ("char", "string") and isinstance(value, str):
-            max_length = field_def.get("_constraints", {}).get("max_length")
-            if max_length is not None and len(value) > max_length:
+            constraints = field_def.get("_constraints", {})
+            max_len = constraints.get("maxLength")
+            if max_len is not None and len(value) > max_len:
                 errors.append(
-                    f"Field '{name}' exceeds max_length {max_length}: length={len(value)}"
+                    f"Field '{name}' exceeds maxLength {max_len}: length={len(value)}"
                 )
 
         if field_type in ("integer", "double") and isinstance(value, (int, float)):
             constraints = field_def.get("_constraints", {})
-            min_val = constraints.get("min")
-            max_val = constraints.get("max")
+            min_val = constraints.get("minimum")
+            max_val = constraints.get("maximum")
             if min_val is not None and value < min_val:
                 errors.append(f"Field '{name}' below minimum {min_val}: {value}")
             if max_val is not None and value > max_val:
                 errors.append(f"Field '{name}' above maximum {max_val}: {value}")
 
-    # Validate depends_on
+        if field_type == "ontology_term" and value is not None:
+            if not isinstance(value, dict):
+                errors.append(
+                    f"Field '{name}' must be an object for ontology_term, got: {value!r}"
+                )
+            else:
+                if set(value.keys()) != {"node", "name"}:
+                    errors.append(
+                        f"Field '{name}' ontology_term must have exactly "
+                        f"'node' and 'name' keys, got: {sorted(value.keys())}"
+                    )
+                else:
+                    node = value["node"]
+                    if not isinstance(node, str) or not CURIE_RE.match(node):
+                        errors.append(
+                            f"Field '{name}' ontology_term.node is not a valid "
+                            f"CURIE: {node!r}"
+                        )
+
+    # Validate depends_on.
     for dep_def in schema.get("_depends_on", []):
         dep_name = dep_def["_name"]
         doc_deps = {d["name"]: d.get("value", "") for d in doc.get("depends_on", [])}
         if dep_def.get("_mustBeNonEmpty", False):
             dep_value = doc_deps.get(dep_name, "")
             if not dep_value:
-                errors.append(
-                    f"Dependency '{dep_name}' must be non-empty"
-                )
+                errors.append(f"Dependency '{dep_name}' must be non-empty")
 
     return errors
 
@@ -128,7 +149,9 @@ class TestValidDocuments:
         errors = validate_document(valid_base_document, schemas_dir)
         assert errors == [], f"Valid base document had errors: {errors}"
 
-    def test_valid_probe_location_document(self, valid_probe_location_document, schemas_dir):
+    def test_valid_probe_location_document(
+        self, valid_probe_location_document, schemas_dir
+    ):
         errors = validate_document(valid_probe_location_document, schemas_dir)
         assert errors == [], f"Valid probe_location document had errors: {errors}"
 
@@ -143,7 +166,9 @@ class TestInvalidDocuments:
             f"Expected error about 'id' being non-empty, got: {errors}"
         )
 
-    def test_bad_datestamp_fails(self, invalid_base_document_bad_datestamp, schemas_dir):
+    def test_bad_datestamp_fails(
+        self, invalid_base_document_bad_datestamp, schemas_dir
+    ):
         errors = validate_document(invalid_base_document_bad_datestamp, schemas_dir)
         assert len(errors) > 0, "Expected validation errors for bad datestamp"
         assert any("datestamp" in e for e in errors), (

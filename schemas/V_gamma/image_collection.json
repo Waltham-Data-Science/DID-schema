@@ -48,7 +48,7 @@
             "_ontology": null,
             "_documentation": "The file format of images in the collection (e.g., 'png', 'tiff').",
             "_constraints": {
-                "max_length": 32
+                "maxLength": 32
             }
         },
         {
@@ -63,7 +63,7 @@
             "_ontology": null,
             "_documentation": "A free-text description of this image collection.",
             "_constraints": {
-                "max_length": 1024
+                "maxLength": 1024
             }
         }
     ]

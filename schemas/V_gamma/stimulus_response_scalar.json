@@ -60,7 +60,7 @@
             "_ontology": null,
             "_documentation": "The units of the response values (e.g., 'spikes/s', 'dF/F').",
             "_constraints": {
-                "max_length": 64
+                "maxLength": 64
             }
         }
     ]

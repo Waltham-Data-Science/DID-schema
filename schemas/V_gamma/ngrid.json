@@ -77,7 +77,7 @@
             "_ontology": null,
             "_documentation": "The numeric data type of the grid values (e.g., 'double', 'single', 'int16').",
             "_constraints": {
-                "max_length": 64
+                "maxLength": 64
             }
         }
     ]

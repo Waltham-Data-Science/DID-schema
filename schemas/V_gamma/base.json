@@ -50,7 +50,7 @@
             },
             "_documentation": "Human-readable name for this document.",
             "_constraints": {
-                "max_length": 256
+                "maxLength": 256
             }
         },
         {

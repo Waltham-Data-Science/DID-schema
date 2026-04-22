@@ -30,7 +30,7 @@
             "_ontology": null,
             "_documentation": "The name of the calculator that produced this result.",
             "_constraints": {
-                "max_length": 256
+                "maxLength": 256
             }
         },
         {
@@ -58,7 +58,7 @@
             "_ontology": null,
             "_documentation": "The units of the result value.",
             "_constraints": {
-                "max_length": 64
+                "maxLength": 64
             }
         }
     ]

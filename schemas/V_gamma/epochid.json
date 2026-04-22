@@ -26,7 +26,7 @@
             },
             "_documentation": "The epoch identifier that this document refers to.",
             "_constraints": {
-                "max_length": 256
+                "maxLength": 256
             }
         }
     ]

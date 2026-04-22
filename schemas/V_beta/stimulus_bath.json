@@ -30,7 +30,7 @@
             "_ontology": null,
             "_documentation": "The name of the bath solution (e.g., 'ACSF', 'TTX').",
             "_constraints": {
-                "max_length": 256
+                "maxLength": 256
             }
         },
         {
@@ -58,7 +58,7 @@
             "_ontology": null,
             "_documentation": "The units of the concentration (e.g., 'mM', 'uM', 'nM').",
             "_constraints": {
-                "max_length": 32
+                "maxLength": 32
             }
         }
     ]

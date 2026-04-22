@@ -49,7 +49,7 @@
             "_ontology": null,
             "_documentation": "The units for the distance value (e.g., 'um', 'mm', 'cm').",
             "_constraints": {
-                "max_length": 32
+                "maxLength": 32
             }
         }
     ]

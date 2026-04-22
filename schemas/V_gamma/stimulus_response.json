@@ -41,7 +41,7 @@
             "_ontology": null,
             "_documentation": "The type of response measured (e.g., 'spikes', 'calcium', 'voltage').",
             "_constraints": {
-                "max_length": 128
+                "maxLength": 128
             }
         }
     ]

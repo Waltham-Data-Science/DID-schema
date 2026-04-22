@@ -30,7 +30,7 @@
             "_ontology": null,
             "_documentation": "The name of the independent stimulus variable (e.g., 'angle', 'spatial_frequency').",
             "_constraints": {
-                "max_length": 256
+                "maxLength": 256
             }
         },
         {

@@ -43,7 +43,7 @@
             "_ontology": null,
             "_documentation": "The type of threshold ('std' for standard deviation multiples, 'absolute' for voltage).",
             "_constraints": {
-                "max_length": 32
+                "maxLength": 32
             }
         },
         {

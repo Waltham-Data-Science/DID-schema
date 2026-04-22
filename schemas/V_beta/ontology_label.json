@@ -30,7 +30,7 @@
             "_ontology": null,
             "_documentation": "The name of the ontology (e.g., 'Allen CCF v3').",
             "_constraints": {
-                "max_length": 256
+                "maxLength": 256
             }
         },
         {
@@ -45,7 +45,7 @@
             "_ontology": null,
             "_documentation": "The ontology label assigned to this element (e.g., brain region name).",
             "_constraints": {
-                "max_length": 256
+                "maxLength": 256
             }
         },
         {

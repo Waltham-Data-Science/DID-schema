@@ -27,7 +27,7 @@
             "_ontology": null,
             "_documentation": "The clock type for this single epoch.",
             "_constraints": {
-                "max_length": 256
+                "maxLength": 256
             }
         },
         {

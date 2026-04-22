@@ -74,7 +74,7 @@
             "_ontology": null,
             "_documentation": "The file format of the image stack (e.g., 'tiff', 'nifti').",
             "_constraints": {
-                "max_length": 32
+                "maxLength": 32
             }
         }
     ]

@@ -46,7 +46,7 @@
             "_ontology": null,
             "_documentation": "A free-text reason for the parameter modification.",
             "_constraints": {
-                "max_length": 1024
+                "maxLength": 1024
             }
         }
     ]

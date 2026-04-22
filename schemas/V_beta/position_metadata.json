@@ -69,7 +69,7 @@
             "_ontology": null,
             "_documentation": "The units for the position coordinates (e.g., 'um', 'mm', 'cm').",
             "_constraints": {
-                "max_length": 32
+                "maxLength": 32
             }
         },
         {
@@ -84,7 +84,7 @@
             "_ontology": null,
             "_documentation": "The coordinate system or reference frame for this position.",
             "_constraints": {
-                "max_length": 256
+                "maxLength": 256
             }
         }
     ]

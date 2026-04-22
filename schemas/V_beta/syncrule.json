@@ -23,7 +23,7 @@
             "_ontology": null,
             "_documentation": "The class name of the synchronisation rule implementation.",
             "_constraints": {
-                "max_length": 256
+                "maxLength": 256
             }
         },
         {

@@ -30,7 +30,7 @@
             "_ontology": null,
             "_documentation": "The identifier of the dataset this session belongs to.",
             "_constraints": {
-                "max_length": 256
+                "maxLength": 256
             }
         },
         {
@@ -58,7 +58,7 @@
             "_ontology": null,
             "_documentation": "The file-system path or reference for this session's data.",
             "_constraints": {
-                "max_length": 1024
+                "maxLength": 1024
             }
         }
     ]

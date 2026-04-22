@@ -35,7 +35,7 @@
             "_ontology": null,
             "_documentation": "The type or modality of the image (e.g., 'brightfield', 'fluorescence', 'confocal').",
             "_constraints": {
-                "max_length": 256
+                "maxLength": 256
             }
         },
         {
@@ -50,7 +50,7 @@
             "_ontology": null,
             "_documentation": "The file format of the image (e.g., 'png', 'tiff', 'jpeg').",
             "_constraints": {
-                "max_length": 32
+                "maxLength": 32
             }
         },
         {
@@ -91,7 +91,7 @@
             "_ontology": null,
             "_documentation": "The units for x_resolution and y_resolution (e.g., 'um', 'mm').",
             "_constraints": {
-                "max_length": 32
+                "maxLength": 32
             }
         }
     ]

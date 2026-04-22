@@ -27,7 +27,7 @@
             "_ontology": null,
             "_documentation": "The NDR file type this reader handles (e.g., 'SpikeGadgets', 'Intan', 'CED').",
             "_constraints": {
-                "max_length": 256
+                "maxLength": 256
             }
         },
         {
@@ -42,7 +42,7 @@
             "_ontology": null,
             "_documentation": "The file extension associated with this reader (e.g., '.rec', '.rhd', '.smr').",
             "_constraints": {
-                "max_length": 32
+                "maxLength": 32
             }
         }
     ]
