@@ -1,0 +1,155 @@
+{
+    "profile_name": "virus_injection",
+    "profile_version": "1.0.0",
+    "_maturity_level": "work_in_progress",
+    "extends": "",
+    "profile_ontology": {
+        "_namespace": "obi",
+        "_term": "0000412",
+        "_name": "viral vector administration",
+        "_uri": "http://purl.obolibrary.org/obo/OBI_0000412"
+    },
+    "_documentation": "Administration of a viral vector to a subject. Species-agnostic base profile; profiles for specific organisms or delivery routes (e.g., mammalian stereotaxic, systemic via tail-vein, intracerebroventricular) should extend this one and add location or route fields as appropriate.",
+    "_fields": [
+        {
+            "_name": "virus_construct",
+            "type": "ontology",
+            "_blank_value": null,
+            "_default_value": null,
+            "_mustBeNonEmpty": true,
+            "_mustBeScalar": true,
+            "_mustNotHaveNaN": false,
+            "_queryable": true,
+            "_ontology": null,
+            "_documentation": "The specific viral construct injected (e.g., Addgene plasmid 100842 'pAAV.Syn.GCaMP6f.WPRE.SV40'). Value ontology is unconstrained to allow Addgene and lab-local registries.",
+            "_constraints": {}
+        },
+        {
+            "_name": "serotype",
+            "type": "ontology",
+            "_blank_value": null,
+            "_default_value": null,
+            "_mustBeNonEmpty": true,
+            "_mustBeScalar": true,
+            "_mustNotHaveNaN": false,
+            "_queryable": true,
+            "_ontology": null,
+            "_documentation": "Viral serotype (e.g., AAV1, AAV9, AAVretro). Constrained to descendants of Parvoviridae; profiles for lentivirus or rabies should extend this one and widen the constraint.",
+            "_constraints": {
+                "descendant_of": {
+                    "_namespace": "ncbitaxon",
+                    "_term": "10803",
+                    "_name": "Parvoviridae",
+                    "_uri": null
+                }
+            }
+        },
+        {
+            "_name": "volume",
+            "type": "quantity",
+            "_blank_value": null,
+            "_default_value": null,
+            "_mustBeNonEmpty": true,
+            "_mustBeScalar": true,
+            "_mustNotHaveNaN": true,
+            "_queryable": true,
+            "_ontology": null,
+            "_documentation": "Total volume of viral stock delivered.",
+            "_constraints": {
+                "minimum": 0,
+                "canonical_unit": {
+                    "_namespace": "uo",
+                    "_term": "0000102",
+                    "_name": "nanoliter",
+                    "_uri": "http://purl.obolibrary.org/obo/UO_0000102"
+                },
+                "canonical_unit_label": "nl"
+            }
+        },
+        {
+            "_name": "titer",
+            "type": "quantity",
+            "_blank_value": null,
+            "_default_value": null,
+            "_mustBeNonEmpty": true,
+            "_mustBeScalar": true,
+            "_mustNotHaveNaN": true,
+            "_queryable": true,
+            "_ontology": null,
+            "_documentation": "Viral particle concentration of the injected stock. Tooling converts vg/mL, IU/mL, and TU/mL at insert using the standard vector-biology conversion table.",
+            "_constraints": {
+                "minimum": 0,
+                "canonical_unit": {
+                    "_namespace": "ucum",
+                    "_term": "[GC]/mL",
+                    "_name": "genome copies per milliliter",
+                    "_uri": null
+                },
+                "canonical_unit_label": "gc_per_ml"
+            }
+        },
+        {
+            "_name": "onset",
+            "type": "relative_quantity",
+            "_blank_value": null,
+            "_default_value": null,
+            "_mustBeNonEmpty": true,
+            "_mustBeScalar": true,
+            "_mustNotHaveNaN": true,
+            "_queryable": true,
+            "_ontology": null,
+            "_documentation": "Time of injection relative to session start. Negative = before session, positive = during or after.",
+            "_constraints": {
+                "canonical_unit": {
+                    "_namespace": "uo",
+                    "_term": "0000033",
+                    "_name": "day",
+                    "_uri": "http://purl.obolibrary.org/obo/UO_0000033"
+                },
+                "canonical_unit_label": "day",
+                "reference": "session_start"
+            }
+        },
+        {
+            "_name": "injection_rate",
+            "type": "quantity",
+            "_blank_value": null,
+            "_default_value": null,
+            "_mustBeNonEmpty": false,
+            "_mustBeScalar": true,
+            "_mustNotHaveNaN": true,
+            "_queryable": true,
+            "_ontology": null,
+            "_documentation": "Delivery speed. Optional; often not recorded for bolus injections.",
+            "_constraints": {
+                "minimum": 0,
+                "canonical_unit": {
+                    "_namespace": "ucum",
+                    "_term": "nL/min",
+                    "_name": "nanoliters per minute",
+                    "_uri": null
+                },
+                "canonical_unit_label": "nl_per_min"
+            }
+        },
+        {
+            "_name": "promoter",
+            "type": "ontology",
+            "_blank_value": null,
+            "_default_value": null,
+            "_mustBeNonEmpty": false,
+            "_mustBeScalar": true,
+            "_mustNotHaveNaN": false,
+            "_queryable": true,
+            "_ontology": null,
+            "_documentation": "Promoter driving transgene expression (e.g., CaMKII, hSyn, CAG, Ef1a). Often redundant with virus_construct but recorded separately by convention.",
+            "_constraints": {}
+        }
+    ],
+    "promoted_fields": [
+        "serotype",
+        "volume",
+        "titer",
+        "onset"
+    ]
+}

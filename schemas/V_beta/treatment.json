@@ -1,11 +1,11 @@
 {
     "_classname": "treatment",
-    "_class_version": "1.0.0",
+    "_class_version": "2.0.0",
     "_maturity_level": "work_in_progress",
     "_superclasses": [
         {
             "_classname": "base",
-            "_schema": "$NDISCHEMAPATH/base/schema.json"
+            "_schema": "$NDISCHEMAPATH/base.json"
         }
     ],
     "_depends_on": [
@@ -14,72 +14,22 @@
             "_mustBeNonEmpty": true,
             "_documentation": "The document ID of the subject that received this treatment.",
             "_must_refer_to_document_class": ""
-        },
-        {
-            "_name": "manipulation_id",
-            "_mustBeNonEmpty": false,
-            "_documentation": "The document ID of the manipulation associated with this treatment.",
-            "_must_refer_to_document_class": ""
-        },
-        {
-            "_name": "protocol_id",
-            "_mustBeNonEmpty": false,
-            "_documentation": "The document ID of the protocol associated with this treatment.",
-            "_must_refer_to_document_class": ""
         }
     ],
     "_file": [],
     "_fields": [
         {
-            "_name": "ontology_name",
-            "type": "char",
-            "_blank_value": "",
-            "_default_value": "",
+            "_name": "manipulation",
+            "type": "structure",
+            "_shape_from_minischema": true,
+            "_blank_value": {},
+            "_default_value": {},
             "_mustBeNonEmpty": false,
             "_mustBeScalar": true,
             "_mustNotHaveNaN": false,
             "_queryable": true,
             "_ontology": null,
-            "_documentation": "The ontology node of the treatment.",
-            "_constraints": {}
-        },
-        {
-            "_name": "name",
-            "type": "char",
-            "_blank_value": "",
-            "_default_value": "",
-            "_mustBeNonEmpty": false,
-            "_mustBeScalar": true,
-            "_mustNotHaveNaN": false,
-            "_queryable": true,
-            "_ontology": null,
-            "_documentation": "The name of the treatment in the ontology node.",
-            "_constraints": {}
-        },
-        {
-            "_name": "numeric_value",
-            "type": "matrix",
-            "_blank_value": "",
-            "_default_value": "",
-            "_mustBeNonEmpty": false,
-            "_mustBeScalar": false,
-            "_mustNotHaveNaN": false,
-            "_queryable": true,
-            "_ontology": null,
-            "_documentation": "The numeric value associated with the treatment.",
-            "_constraints": {}
-        },
-        {
-            "_name": "string_value",
-            "type": "char",
-            "_blank_value": "",
-            "_default_value": "",
-            "_mustBeNonEmpty": false,
-            "_mustBeScalar": true,
-            "_mustNotHaveNaN": false,
-            "_queryable": true,
-            "_ontology": null,
-            "_documentation": "The character string value associated with the treatment.",
+            "_documentation": "The set of name/value entries describing what was done to the subject. The shape of this structure is delegated to a minischema (profile) identified on each document instance via the top-level _minischema key. Each entry is a named slot whose type comes from the profile's _fields array (typically 'ontology', 'quantity', or 'relative_quantity').",
             "_constraints": {}
         }
     ]

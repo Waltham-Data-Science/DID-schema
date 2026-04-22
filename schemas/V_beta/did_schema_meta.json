@@ -220,9 +220,12 @@
                         "matrix",
                         "timestamp",
                         "boolean",
-                        "structure"
+                        "structure",
+                        "ontology",
+                        "quantity",
+                        "relative_quantity"
                     ],
-                    "description": "Data type of the field. Uses the standard JSON Schema keyword 'type'; values are NDI-specific."
+                    "description": "Data type of the field. Uses the standard JSON Schema keyword 'type'; values are NDI-specific. The 'ontology' type holds an ontology_object value. The 'quantity' type holds an object {<canonical_unit_label>: double, source_value: double, source_unit: string}; the canonical-unit label is declared in _constraints.canonical_unit_label. The 'relative_quantity' type adds a 'reference' string to the quantity object and declares its reference anchor in _constraints.reference."
                 },
                 "_blank_value": {
                     "description": "Value in a freshly constructed blank document. May fail validation."
@@ -271,31 +274,69 @@
                         "$ref": "#/$defs/field_definition"
                     },
                     "description": "Nested field definitions for structure type fields."
+                },
+                "_shape_from_minischema": {
+                    "type": "boolean",
+                    "description": "Only valid on type 'structure'. When true, the field's nested shape is delegated to a minischema carried on the document instance under the top-level _minischema key; the schema file does not need to list nested _fields. When omitted or false, a structure field must list its own _fields."
                 }
             },
-            "if": {
-                "properties": {
-                    "type": {
-                        "const": "structure"
+            "allOf": [
+                {
+                    "if": {
+                        "properties": {
+                            "type": {
+                                "const": "structure"
+                            },
+                            "_shape_from_minischema": {
+                                "const": true
+                            }
+                        },
+                        "required": [
+                            "_shape_from_minischema"
+                        ]
+                    },
+                    "then": {
+                        "required": [
+                            "_name",
+                            "type",
+                            "_blank_value",
+                            "_default_value",
+                            "_mustBeNonEmpty",
+                            "_mustBeScalar",
+                            "_mustNotHaveNaN",
+                            "_queryable",
+                            "_ontology",
+                            "_documentation",
+                            "_constraints"
+                        ]
+                    },
+                    "else": {
+                        "if": {
+                            "properties": {
+                                "type": {
+                                    "const": "structure"
+                                }
+                            }
+                        },
+                        "then": {
+                            "required": [
+                                "_name",
+                                "type",
+                                "_blank_value",
+                                "_default_value",
+                                "_mustBeNonEmpty",
+                                "_mustBeScalar",
+                                "_mustNotHaveNaN",
+                                "_queryable",
+                                "_ontology",
+                                "_documentation",
+                                "_constraints",
+                                "_fields"
+                            ]
+                        }
                     }
                 }
-            },
-            "then": {
-                "required": [
-                    "_name",
-                    "type",
-                    "_blank_value",
-                    "_default_value",
-                    "_mustBeNonEmpty",
-                    "_mustBeScalar",
-                    "_mustNotHaveNaN",
-                    "_queryable",
-                    "_ontology",
-                    "_documentation",
-                    "_constraints",
-                    "_fields"
-                ]
-            }
+            ]
         }
     }
 }

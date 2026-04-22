@@ -49,10 +49,13 @@ did-schema/
 │   ├── V_beta_notes.md                 ← V_beta status and V_alpha→V_beta renames
 │   └── V_beta/                         ← flat directory of V_beta schemas
 │       ├── did_schema_meta.json        ← meta-schema: validates schema files
+│       ├── profile_meta.json           ← meta-schema: validates profile (minischema) files
 │       ├── base.json                   ← schema for the base document type
 │       ├── directory.json              ← schema for the directory document type
 │       ├── probe_location.json         ← schema for probe_location document type
-│       └── ...                         ← one JSON file per document type (all snake_case)
+│       ├── ...                         ← one JSON file per document type (all snake_case)
+│       └── profiles/                   ← canonical profiles (minischemas)
+│           └── virus_injection.json    ← profile for virus injection treatments
 │
 └── tests/
     ├── conftest.py                     ← shared fixtures and helpers
@@ -76,11 +79,16 @@ filename is also snake_case. There is exactly one schema file per document
 type; subdirectories and per-type directories are not used.
 
 The meta-schema (`did_schema_meta.json`) lives alongside the document-type
-schemas in `schemas/V_beta/`.
+schemas in `schemas/V_beta/`. A second meta-schema (`profile_meta.json`) sits
+next to it and validates canonical profile (minischema) files under
+`schemas/V_beta/profiles/`. See **Minischemas and the `_minischema` Document
+Key** for the profile mechanism.
 
 Path references in schema files use the `$NDISCHEMAPATH` token, resolved at
 runtime by consumer tooling. Under the flat layout, a reference to another
-schema resolves as `$NDISCHEMAPATH/<classname>.json`. Blank document
+schema resolves as `$NDISCHEMAPATH/<classname>.json`; a reference to a
+canonical profile resolves as
+`$NDISCHEMAPATH/profiles/<profile_name>.json`. Blank document
 definitions (templates) are the responsibility of language-specific tooling
 repos, not this repo.
 
@@ -412,29 +420,47 @@ The following ontology terms are relevant to DID/NDI schemas and may be used in
 
 ### Valid Types
 
-| Type        | Description                                     | `_constraints` keys                                   | Notes |
-|-------------|-------------------------------------------------|------------------------------------------------------|-------|
-| `did_uid`   | NDI/DID unique identifier string                | `{}` (none)                                          | |
-| `char`      | Character array / string                        | `{ "maxLength": integer or null }`                   | `"string"` is accepted as an alias |
-| `integer`   | Single integer value                            | `{ "minimum": integer or null, "maximum": integer or null }` | |
-| `double`    | Single double-precision float                   | `{ "minimum": number or null, "maximum": number or null }`   | |
-| `matrix`    | 2D array of doubles                             | `{ "rows": int or null, "cols": int or null, "minimum": number or null, "maximum": number or null }` | `_mustBeScalar` should be `false` |
-| `timestamp` | ISO 8601 UTC timestamp string                   | `{}` (none)                                          | Validator checks format |
-| `boolean`   | true/false                                      | `{}` (none)                                          | |
-| `structure` | Nested sub-document (JSON object)               | `{}` (none); use `"_fields"` key for nested fields   | Recursive |
+| Type                | Description                                     | `_constraints` keys                                   | Notes |
+|---------------------|-------------------------------------------------|------------------------------------------------------|-------|
+| `did_uid`           | NDI/DID unique identifier string                | `{}` (none)                                          | |
+| `char`              | Character array / string                        | `{ "maxLength": integer or null }`                   | `"string"` is accepted as an alias |
+| `integer`           | Single integer value                            | `{ "minimum": integer or null, "maximum": integer or null }` | |
+| `double`            | Single double-precision float                   | `{ "minimum": number or null, "maximum": number or null }`   | |
+| `matrix`            | 2D array of doubles                             | `{ "rows": int or null, "cols": int or null, "minimum": number or null, "maximum": number or null }` | `_mustBeScalar` should be `false` |
+| `timestamp`         | ISO 8601 UTC timestamp string                   | `{}` (none)                                          | Validator checks format |
+| `boolean`           | true/false                                      | `{}` (none)                                          | |
+| `structure`         | Nested sub-document (JSON object)               | `{}` (none); use `"_fields"` key for nested fields, OR set `"_shape_from_minischema": true` to delegate the shape to a minischema at runtime | Recursive |
+| `ontology`          | An ontology node (`ontology_object`: `_namespace`, `_term`, `_name`, `_uri`) | `{ "descendant_of": ontology_object or absent }` — when present, the value must be a descendant of this node in its ontology | |
+| `quantity`          | A measured value with units, stored canonically: `{ "<canonical_unit_label>": double, "source_value": double, "source_unit": string }`. The canonical-unit-label field name is declared in `_constraints.canonical_unit_label`. | `{ "canonical_unit": ontology_object (required), "canonical_unit_label": snake_case string (required), "minimum": number or null, "maximum": number or null }` | Consumer tooling converts `source_value`/`source_unit` to the canonical unit at insert. `source_value` and `source_unit` are retained for provenance and display. |
+| `relative_quantity` | A `quantity` with an explicit temporal (or other) anchor: adds a `"reference"` string to the document value. | `{ "canonical_unit", "canonical_unit_label", "reference" (string, required), "minimum", "maximum" }` | Same conversion and provenance semantics as `quantity`. The `reference` constraint names the anchor (e.g., `"session_start"`, `"surgery"`, `"birth"`). |
 
 #### Semantics of validation flags by type
 
-| Type        | `_mustBeNonEmpty` applies? | `_mustBeScalar` applies? | `_mustNotHaveNaN` applies? |
-|-------------|---------------------------|--------------------------|---------------------------|
-| `did_uid`   | yes (non-empty string)    | yes                      | no — must be `false`      |
-| `char`      | yes (non-empty string)    | yes                      | no — must be `false`      |
-| `integer`   | yes                       | yes                      | yes                       |
-| `double`    | yes                       | yes                      | yes                       |
-| `matrix`    | yes (non-empty array)     | no — should be `false`   | yes (element-wise)        |
-| `timestamp` | yes (non-empty string)    | yes                      | no — must be `false`      |
-| `boolean`   | yes                       | yes (implicitly)         | no — must be `false`      |
-| `structure` | yes (non-empty object)    | yes                      | no — must be `false`      |
+| Type                | `_mustBeNonEmpty` applies? | `_mustBeScalar` applies? | `_mustNotHaveNaN` applies? |
+|---------------------|---------------------------|--------------------------|---------------------------|
+| `did_uid`           | yes (non-empty string)    | yes                      | no — must be `false`      |
+| `char`              | yes (non-empty string)    | yes                      | no — must be `false`      |
+| `integer`           | yes                       | yes                      | yes                       |
+| `double`            | yes                       | yes                      | yes                       |
+| `matrix`            | yes (non-empty array)     | no — should be `false`   | yes (element-wise)        |
+| `timestamp`         | yes (non-empty string)    | yes                      | no — must be `false`      |
+| `boolean`           | yes                       | yes (implicitly)         | no — must be `false`      |
+| `structure`         | yes (non-empty object)    | yes                      | no — must be `false`      |
+| `ontology`          | yes (object with non-empty `_namespace` and `_term`) | yes       | no — must be `false`      |
+| `quantity`          | yes (object with canonical value present) | yes                     | yes (on canonical numeric value) |
+| `relative_quantity` | yes (object with canonical value and reference present) | yes       | yes (on canonical numeric value) |
+
+#### `_shape_from_minischema` on `structure` fields
+
+A `structure` field may set `"_shape_from_minischema": true` to declare that its
+nested shape is not fixed in the schema file but is delegated at runtime to a
+profile (minischema) named on each document instance under the top-level
+`_minischema` key (see **Minischemas and the `_minischema` Document Key** below).
+
+When `_shape_from_minischema` is `true` on a `structure` field, the schema file
+omits the nested `_fields` array (it is no longer required by the meta-schema).
+When `_shape_from_minischema` is absent or `false`, a `structure` field must
+include `_fields` as before.
 
 ---
 
@@ -514,6 +540,104 @@ Phase 2 is specified here but enforced by consumer tooling (e.g., the database i
 path in `DID-matlab` or `DID-python`). This repo does not test Phase 2 because it has
 no database.
 
+### Minischema resolution (Phase 2)
+
+When a schema declares a `structure` field with `"_shape_from_minischema": true`,
+Phase 1 validates only the wrapper (type is object; all base-schema rules apply)
+and does not descend into the field's contents. Phase 2 is responsible for:
+
+1. Reading the document's top-level `_minischema` key (see next section).
+2. For each minischema entry, either fetching the referenced profile document (or
+   file, for canonical profiles) or reading the inline `_fields` array.
+3. Validating the delegated `structure` field's contents against the resolved
+   `_fields` array using the standard Phase-1 field-validation pipeline.
+
+---
+
+## Minischemas and the `_minischema` Document Key
+
+A **minischema** (profile) is a named, versioned, ontology-anchored schema
+fragment that defines the shape of a `structure` field on a document. Profiles
+enable a single document type (e.g., `treatment`) to host an open-ended family
+of domain-specific shapes (virus injection, drug treatment, bath application,
+etc.) without creating one document type per shape.
+
+Profiles come in two tiers:
+
+- **Canonical profiles** ship in this repository under
+  `schemas/V_beta/profiles/<profile_name>.json` and are governed by
+  `schemas/V_beta/profile_meta.json` (a standard JSON Schema Draft 7 file).
+  They are versioned with the same semver discipline as schema files.
+- **User-defined profiles** live in a user's database as documents, created and
+  edited without changes to this repository. They follow the same shape as
+  canonical profiles and are validated by the same `profile_meta.json`.
+
+### Profile file shape
+
+A profile file is a JSON object with the following required keys:
+
+| Key                | Type                    | Description |
+|--------------------|-------------------------|-------------|
+| `profile_name`     | string (snake_case)     | Unique profile identifier. |
+| `profile_version`  | string (semver)         | `MAJOR.MINOR.PATCH`; bump semantics match `_class_version`. |
+| `_maturity_level`  | enum                    | `"work_in_progress"` or `"mature"`. |
+| `extends`          | string                  | `profile_name` of a parent profile, or `""` for no parent. When non-empty, consumer tooling flattens the parent's `_fields` into this profile's (parent-first) before applying. |
+| `profile_ontology` | ontology object         | Semantic anchor for the profile as a whole. |
+| `_documentation`   | string                  | Human-readable description. |
+| `_fields`          | array of field defs     | Same shape as `_fields` on a regular schema file. Each entry's `_name` becomes the key of a slot inside the delegated `structure` field on the document. |
+| `promoted_fields`  | array of strings        | List of field names that consumer database tooling should materialize as indexed columns for fast search. Indexing hint only; the delegated structure remains the source of truth. |
+
+### Document-level `_minischema` key
+
+A document instance whose schema declares a `structure` field with
+`"_shape_from_minischema": true` must carry a top-level `_minischema` key
+mapping each such field name to a profile definition. Two forms are permitted
+per entry:
+
+**Reference form** — point at a stored or canonical profile:
+
+```json
+"_minischema": {
+    "manipulation": { "_ref": "virus_injection" }
+}
+```
+
+The `_ref` value is either the `profile_name` of a canonical profile (resolved
+against `schemas/V_beta/profiles/`) or a `did_uid` of a user-defined profile
+document in the same database.
+
+**Inline form** — carry the schema fragment directly, no profile document
+needed:
+
+```json
+"_minischema": {
+    "manipulation": {
+        "_fields": [
+            { "_name": "observed_effect", "type": "ontology",
+              "_mustBeNonEmpty": true,
+              "_mustBeScalar":   true,
+              "_mustNotHaveNaN": false,
+              "_queryable":      true,
+              "_ontology":       null,
+              "_documentation":  "...",
+              "_blank_value":    null,
+              "_default_value":  null,
+              "_constraints":    {} }
+        ]
+    }
+}
+```
+
+Inline form is appropriate for one-off experimental treatments that don't
+warrant a reusable profile. If a pattern recurs, lift the inline `_fields`
+into a profile document (canonical or user-defined) and switch to `_ref`.
+
+The reference form does **not** duplicate into `_depends_on`. Phase 2
+resolution of `_minischema._ref` is itself the referential-integrity check;
+writing the same reference twice adds no information and obscures the
+distinction between data-to-data references (`_depends_on`) and
+data-to-schema references (`_minischema`).
+
 ---
 
 ## The Meta-Schema
@@ -536,10 +660,19 @@ The meta-schema must enforce:
 - `_directory` (if present) is an array of directory record objects.
 - `_fields` is an array of field definition objects.
 - Each field definition object has all required keys with correct types.
-- `type` is one of the valid type strings.
+- `type` is one of the valid type strings (`did_uid`, `char`, `string`, `integer`, `double`, `matrix`, `timestamp`, `boolean`, `structure`, `ontology`, `quantity`, `relative_quantity`).
 - `_ontology` is either `null` or an object with `_namespace`, `_term`, `_uri`.
 - `_mustBeNonEmpty`, `_mustBeScalar`, `_mustNotHaveNaN`, `_queryable` are all booleans.
-- For `type: "structure"`, the `_fields` key is present.
+- For `type: "structure"` without `"_shape_from_minischema": true`, the `_fields` key is present. When `"_shape_from_minischema": true`, `_fields` may be omitted.
+
+`schemas/V_beta/profile_meta.json` is a separate JSON Schema Draft 7 file that
+validates profile (minischema) files. It reuses the `ontology_object` and
+`field_definition` shapes from `did_schema_meta.json` and adds profile-specific
+top-level keys (`profile_name`, `profile_version`, `extends`, `profile_ontology`,
+`_documentation`, `_fields`, `promoted_fields`). Profile `_constraints` objects
+may carry the profile-specific keys `canonical_unit`, `canonical_unit_label`,
+`descendant_of`, and `reference` in addition to standard JSON Schema validation
+keywords.
 
 ---
 
@@ -743,3 +876,9 @@ pytest
 13. **Directories are stored as separate documents, not inline metadata.** A directory's file listing is stored in a manifest file attached to a `directory` document, not in the JSON metadata of the parent document. This keeps document metadata small regardless of directory size (even for directories with hundreds of thousands of files). The directory tree structure is expressed through `_depends_on` references (`parent_doc_id` and `parent_directory_id`), enabling efficient tree queries.
 
 14. **`open_binary_file` on a directory document resolves filenames from the manifest.** When called on a directory document, `open_binary_file(doc_id, name)` resolves `name` against the manifest entries, not `_file` slots. The `manifest_file` `_file` slot is internal infrastructure and is never accessible via `open_binary_file`; use `get_directory_manifest` instead.
+
+15. **Minischemas (profiles) are separate from `_depends_on`.** `_depends_on` expresses data-to-data relationships — this document references those documents as peer data entities. `_minischema` expresses data-to-schema-fragment relationships — the shape of this field is defined by that profile. Conflating the two would overload `_depends_on` with a categorically different concept. The `_ref` inside `_minischema` is its own referential-integrity check during Phase 2 resolution; it is not additionally written into `_depends_on`.
+
+16. **`quantity` and `relative_quantity` store a canonical numeric value plus the original source.** Each document value is an object `{ <canonical_unit_label>: double, source_value: double, source_unit: string }` (plus `reference` for `relative_quantity`). The profile declares the canonical unit and its short label once; the canonical value field is named for its unit (e.g., `volume.nl`, `titer.gc_per_ml`, `onset.day`) so JSON is self-documenting to a human reader. `source_value` and `source_unit` are retained on every document for provenance, audit, and display. This mirrors UCUM + LOINC practice in clinical data: the profile (LOINC) fixes the canonical unit, the value is stored in that unit, the original is retained in parallel fields.
+
+17. **Canonical profiles are versioned artifacts; user profiles are data.** Canonical profiles ship under `schemas/V_beta/profiles/`, follow the same semver discipline as schema files, and are PR-reviewed. User-defined profiles live in a database as documents and share the same `profile_meta.json` validator but are not governed by this repository. A user profile may extend a canonical one via the `extends` key, inheriting all of its `_fields` and adding or overriding where appropriate.

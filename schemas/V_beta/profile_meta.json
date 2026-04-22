@@ -1,0 +1,212 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "$id": "https://did-schema.example.org/meta/profile_meta.json",
+    "title": "DID/NDI Profile Meta-Schema",
+    "description": "Validates the structure of DID/NDI profile (minischema) files. A profile is a named, versioned, ontology-anchored schema fragment that defines the shape of a structure field on another document type. Profiles live under schemas/V_beta/profiles/ (canonical) or as user-defined documents in a database. The inline _fields array reuses the field_definition shape from did_schema_meta.json.",
+    "type": "object",
+    "required": [
+        "profile_name",
+        "profile_version",
+        "_maturity_level",
+        "extends",
+        "profile_ontology",
+        "_documentation",
+        "_fields",
+        "promoted_fields"
+    ],
+    "additionalProperties": false,
+    "properties": {
+        "profile_name": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9_]*$",
+            "description": "Unique snake_case identifier for this profile."
+        },
+        "profile_version": {
+            "type": "string",
+            "pattern": "^\\d+\\.\\d+\\.\\d+$",
+            "description": "Semantic version string MAJOR.MINOR.PATCH. Same semantics as _class_version on regular schemas: MAJOR bumps on breaking changes (removing required fields, changing canonical units, tightening constraints); MINOR on additive changes; PATCH on docs-only changes."
+        },
+        "_maturity_level": {
+            "type": "string",
+            "enum": [
+                "work_in_progress",
+                "mature"
+            ],
+            "description": "Maturity level of this profile."
+        },
+        "extends": {
+            "type": "string",
+            "description": "profile_name of a parent profile that this profile extends, or empty string for no parent. When non-empty, consumer tooling flattens the parent's _fields into this profile's _fields (parent-first order) before validating a document's manipulation structure."
+        },
+        "profile_ontology": {
+            "$ref": "#/$defs/ontology_object"
+        },
+        "_documentation": {
+            "type": "string",
+            "description": "Human-readable description of what this profile represents."
+        },
+        "_fields": {
+            "type": "array",
+            "items": {
+                "$ref": "#/$defs/field_definition"
+            },
+            "description": "Array of field definitions describing the shape of each named entry inside the manipulation structure of a document conforming to this profile. Same shape as _fields on a regular schema file."
+        },
+        "promoted_fields": {
+            "type": "array",
+            "items": {
+                "type": "string",
+                "pattern": "^[a-z][a-z0-9_]*$"
+            },
+            "description": "List of field _names from _fields that consumer database tooling should materialize as indexed columns for fast search. Purely an indexing hint; the manipulation structure remains the source of truth."
+        }
+    },
+    "$defs": {
+        "ontology_object": {
+            "type": "object",
+            "required": [
+                "_namespace",
+                "_term",
+                "_name",
+                "_uri"
+            ],
+            "additionalProperties": false,
+            "properties": {
+                "_namespace": {
+                    "type": "string",
+                    "description": "Ontology name (e.g., uberon, obi, pato, uo, ucum)."
+                },
+                "_term": {
+                    "type": "string",
+                    "description": "Term identifier within the namespace."
+                },
+                "_name": {
+                    "type": "string",
+                    "description": "Human-readable label of the ontology term."
+                },
+                "_uri": {
+                    "type": [
+                        "string",
+                        "null"
+                    ],
+                    "description": "Full resolvable URI, or null if unavailable."
+                }
+            }
+        },
+        "field_definition": {
+            "type": "object",
+            "required": [
+                "_name",
+                "type",
+                "_blank_value",
+                "_default_value",
+                "_mustBeNonEmpty",
+                "_mustBeScalar",
+                "_mustNotHaveNaN",
+                "_queryable",
+                "_ontology",
+                "_documentation",
+                "_constraints"
+            ],
+            "additionalProperties": false,
+            "properties": {
+                "_name": {
+                    "type": "string",
+                    "pattern": "^[a-z][a-z0-9_]*$",
+                    "description": "Field name (snake_case)."
+                },
+                "type": {
+                    "type": "string",
+                    "enum": [
+                        "did_uid",
+                        "char",
+                        "string",
+                        "integer",
+                        "double",
+                        "matrix",
+                        "timestamp",
+                        "boolean",
+                        "structure",
+                        "ontology",
+                        "quantity",
+                        "relative_quantity"
+                    ]
+                },
+                "_blank_value": {},
+                "_default_value": {},
+                "_mustBeNonEmpty": { "type": "boolean" },
+                "_mustBeScalar": { "type": "boolean" },
+                "_mustNotHaveNaN": { "type": "boolean" },
+                "_queryable": { "type": "boolean" },
+                "_ontology": {
+                    "oneOf": [
+                        { "$ref": "#/$defs/ontology_object" },
+                        { "type": "null" }
+                    ]
+                },
+                "_documentation": { "type": "string" },
+                "_constraints": {
+                    "type": "object",
+                    "description": "JSON Schema validation keywords and NDI-specific constraint keys. Applicable keys depend on 'type'. For 'ontology': 'descendant_of' (ontology_object) optionally constrains values to a subtree. For 'quantity' and 'relative_quantity': 'canonical_unit' (ontology_object, required) names the canonical unit; 'canonical_unit_label' (string, required) is the snake_case field name used in the document to hold the canonical numeric value; 'minimum'/'maximum' optionally constrain that numeric value. For 'relative_quantity': 'reference' (string, required) names the temporal anchor (e.g., 'session_start', 'surgery', 'birth').",
+                    "properties": {
+                        "descendant_of": { "$ref": "#/$defs/ontology_object" },
+                        "canonical_unit": { "$ref": "#/$defs/ontology_object" },
+                        "canonical_unit_label": {
+                            "type": "string",
+                            "pattern": "^[a-z][a-z0-9_]*$"
+                        },
+                        "reference": { "type": "string" },
+                        "minimum": { "type": "number" },
+                        "maximum": { "type": "number" },
+                        "minLength": { "type": "integer", "minimum": 0 },
+                        "maxLength": { "type": "integer", "minimum": 0 },
+                        "pattern": { "type": "string" },
+                        "enum": { "type": "array" }
+                    }
+                },
+                "_fields": {
+                    "type": "array",
+                    "items": { "$ref": "#/$defs/field_definition" }
+                }
+            },
+            "allOf": [
+                {
+                    "if": {
+                        "properties": { "type": { "const": "ontology" } }
+                    },
+                    "then": {
+                        "properties": {
+                            "_constraints": {
+                                "not": { "required": [ "canonical_unit" ] }
+                            }
+                        }
+                    }
+                },
+                {
+                    "if": {
+                        "properties": { "type": { "const": "quantity" } }
+                    },
+                    "then": {
+                        "properties": {
+                            "_constraints": {
+                                "required": [ "canonical_unit", "canonical_unit_label" ]
+                            }
+                        }
+                    }
+                },
+                {
+                    "if": {
+                        "properties": { "type": { "const": "relative_quantity" } }
+                    },
+                    "then": {
+                        "properties": {
+                            "_constraints": {
+                                "required": [ "canonical_unit", "canonical_unit_label", "reference" ]
+                            }
+                        }
+                    }
+                }
+            ]
+        }
+    }
+}
