@@ -255,7 +255,7 @@ following keys:
 | `_mustBeScalar`   | boolean         | yes      | Value must be a single element (not array/matrix). |
 | `_mustNotHaveNaN` | boolean         | yes      | No NaN values permitted. For types where this is meaningless, must be `false`. |
 | `_queryable`      | boolean         | yes      | Whether this field is indexed in the database. |
-| `_ontology`       | object or null  | yes      | CURIE-based ontology annotation (see below), or `null`. |
+| `_ontology`       | object or null  | yes      | CURIE-based annotation of what the field itself means (e.g., this field denotes the concept of "frequency"). Not a place to store an ontology-rooted value — that is the `ontology_term` type. See below, or `null` if no suitable term exists. |
 | `_documentation`  | string          | yes      | Human-readable description. |
 | `_constraints`    | object          | yes      | Type-specific constraint keywords. Use `{}` for unconstrained. |
 
@@ -285,12 +285,26 @@ The full resolvable URI is derived from the CURIE registry at lookup time; it
 is not stored per-annotation. Consumer tooling is responsible for expansion
 and for warning on unknown prefixes.
 
-**Note:** the annotation keys carry the leading `_` because they are
-NDI-extension keys inside a schema file. The document-value sub-fields of the
-`ontology_term` composite type (`node`, `name`) do NOT carry leading
-underscores because those are data field names — see "Named Composite Types"
-below. The two forms carry the same information model (CURIE + label) but
-appear in different places.
+**Purpose:** `_ontology` describes **what the field itself means** — it
+annotates the field's concept so a reader can tell that, say, a
+`sample_rate` field denotes the ontology concept "frequency". It is NOT
+a place to store an ontology-rooted *value* that a document instance
+carries. That is the job of the `ontology_term` type: a field with
+`"type": "ontology_term"` holds a CURIE + label pair **as data** in each
+document (e.g., a `location` field whose value is
+`uberon:0002436`/"primary visual cortex"). Put differently:
+- `_ontology` (schema-level annotation) — "this field is *about* X."
+- `ontology_term` (document-value type) — "the value *is* X."
+The two can coexist on the same field: a field of type `ontology_term`
+still has its own `_ontology` annotation describing what the field
+represents (often `iao:0000219` / "denotes").
+
+**Note on underscore convention:** the annotation keys carry the leading
+`_` because they are NDI-extension keys inside a schema file. The
+document-value sub-fields of the `ontology_term` composite type (`node`,
+`name`) do NOT carry leading underscores because those are data field
+names — see "Named Composite Types" below. The two forms carry the same
+information model (CURIE + label) but appear in different places.
 
 ### Useful Ontology Terms
 
@@ -1070,6 +1084,9 @@ pytest
 4. **Validation is a pull action, not a push action.**
 5. **Superclass fields are inherited by flattening.**
 6. **`_ontology` is required on every field, but may be `null`.**
+   `_ontology` annotates what the field *means* (the concept the field
+   represents); it is not a place to store an ontology-rooted value.
+   Ontology-rooted values go in a field of type `ontology_term`.
 7. **Validation has two phases.** Phase 1 (schema-level) and Phase 2
    (database-level).
 8. **Language-specific tooling lives elsewhere.**
