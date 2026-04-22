@@ -1,4 +1,7 @@
-"""Tests that validate schema files against the DID meta-schema (JSON Schema Draft 7)."""
+"""Tests that validate schema files against the DID meta-schema (JSON Schema Draft 7).
+
+Parametrized across every active schema version (V_beta and V_gamma).
+"""
 
 import glob
 import os
@@ -6,7 +9,17 @@ import os
 import jsonschema
 import pytest
 
-from conftest import SCHEMAS_DIR, load_json
+from conftest import load_json
+
+# Files in each schemas/V_*/ directory that are NOT document-type schemas
+# and therefore should not be validated against the meta-schema.
+META_ONLY_FILES = {"did_schema_meta.json", "CURIE_lookups_meta.json"}
+
+
+def schema_files_in(schemas_dir):
+    """All document-type schema files in the flat version directory."""
+    paths = glob.glob(os.path.join(schemas_dir, "*.json"))
+    return [p for p in paths if os.path.basename(p) not in META_ONLY_FILES]
 
 
 class TestMetaSchemaValidation:
@@ -18,18 +31,17 @@ class TestMetaSchemaValidation:
     def test_probe_location_schema_passes(self, meta_schema, probe_location_schema):
         jsonschema.validate(instance=probe_location_schema, schema=meta_schema)
 
-    def test_all_schema_files_pass(self, meta_schema):
-        """Walk schemas/ and validate every schema.json against the meta-schema."""
-        schema_files = glob.glob(
-            os.path.join(SCHEMAS_DIR, "**", "schema.json"), recursive=True
+    def test_all_schema_files_pass(self, meta_schema, schemas_dir):
+        """Validate every document-type schema file against the meta-schema."""
+        files = schema_files_in(schemas_dir)
+        assert len(files) >= 2, (
+            f"Expected at least base and probe_location schemas in {schemas_dir}"
         )
-        assert len(schema_files) >= 2, "Expected at least base and probe_location schemas"
-        for path in schema_files:
+        for path in files:
             data = load_json(path)
-            jsonschema.validate(
-                instance=data,
-                schema=meta_schema,
-            ), f"Schema file failed meta-validation: {path}"
+            jsonschema.validate(instance=data, schema=meta_schema), (
+                f"Schema file failed meta-validation: {path}"
+            )
 
     def test_invalid_schema_missing_classname_fails(
         self, meta_schema, invalid_schema_missing_classname
@@ -56,16 +68,16 @@ class TestMetaSchemaValidation:
             jsonschema.validate(instance=bad, schema=meta_schema)
 
     def test_invalid_schema_bad_classname_pattern_fails(self, meta_schema, base_schema):
-        """classname must match ^[a-zA-Z][a-zA-Z0-9_]*$."""
+        """_classname must match the snake_case/identifier pattern."""
         bad = dict(base_schema)
-        bad["classname"] = "123_invalid"
+        bad["_classname"] = "123_invalid"
         with pytest.raises(jsonschema.ValidationError):
             jsonschema.validate(instance=bad, schema=meta_schema)
 
     def test_invalid_schema_bad_version_pattern_fails(self, meta_schema, base_schema):
-        """class_version must match semver pattern."""
+        """_class_version must match semver pattern."""
         bad = dict(base_schema)
-        bad["class_version"] = "not.a.version"
+        bad["_class_version"] = "not.a.version"
         with pytest.raises(jsonschema.ValidationError):
             jsonschema.validate(instance=bad, schema=meta_schema)
 

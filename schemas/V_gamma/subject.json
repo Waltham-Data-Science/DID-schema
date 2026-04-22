@@ -1,0 +1,51 @@
+{
+    "_classname": "subject",
+    "_class_version": "1.0.0",
+    "_maturity_level": "work_in_progress",
+    "_superclasses": [
+        {
+            "_classname": "base",
+            "_schema": "$NDISCHEMAPATH/base/schema.json"
+        }
+    ],
+    "_depends_on": [],
+    "_file": [],
+    "_fields": [
+        {
+            "_name": "local_identifier",
+            "type": "char",
+            "_blank_value": "",
+            "_default_value": "",
+            "_mustBeNonEmpty": false,
+            "_mustBeScalar": true,
+            "_mustNotHaveNaN": false,
+            "_queryable": true,
+            "_ontology": {
+                "_node": "iao:0000578",
+                "_name": "centrally registered identifier"
+            },
+            "_documentation": "A globally unique identifier meaningful to a local group (e.g., 'mouse123@vhlab.org').",
+            "_constraints": {
+                "maxLength": 256
+            }
+        },
+        {
+            "_name": "description",
+            "type": "char",
+            "_blank_value": "",
+            "_default_value": "",
+            "_mustBeNonEmpty": false,
+            "_mustBeScalar": true,
+            "_mustNotHaveNaN": false,
+            "_queryable": false,
+            "_ontology": {
+                "_node": "schema:description",
+                "_name": "description"
+            },
+            "_documentation": "A free-text description of the subject.",
+            "_constraints": {
+                "maxLength": 1024
+            }
+        }
+    ]
+}

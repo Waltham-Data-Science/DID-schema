@@ -35,7 +35,7 @@
             },
             "_documentation": "Formal ontology identifier for the probe location (e.g., 'uberon:0002436').",
             "_constraints": {
-                "max_length": 256
+                "maxLength": 256
             }
         },
         {
@@ -55,7 +55,7 @@
             },
             "_documentation": "Human-readable name or label of the probe location as used by the ontology referenced in ontology_name (e.g., 'primary visual cortex').",
             "_constraints": {
-                "max_length": 256
+                "maxLength": 256
             }
         }
     ]

@@ -1,0 +1,87 @@
+{
+    "_classname": "orientation_direction_tuning",
+    "_class_version": "1.0.0",
+    "_maturity_level": "work_in_progress",
+    "_superclasses": [
+        {
+            "_classname": "base",
+            "_schema": "$NDISCHEMAPATH/base/schema.json"
+        }
+    ],
+    "_depends_on": [
+        {
+            "_name": "stimulus_tuningcurve_id",
+            "_mustBeNonEmpty": true,
+            "_documentation": "The document ID of the stimulus_tuningcurve this orientation/direction tuning was computed from.",
+            "_must_refer_to_document_class": ""
+        }
+    ],
+    "_file": [],
+    "_fields": [
+        {
+            "_name": "preferred_direction",
+            "type": "double",
+            "_blank_value": 0.0,
+            "_default_value": 0.0,
+            "_mustBeNonEmpty": false,
+            "_mustBeScalar": true,
+            "_mustNotHaveNaN": false,
+            "_queryable": true,
+            "_ontology": null,
+            "_documentation": "The preferred direction of motion in degrees (0-360).",
+            "_constraints": {}
+        },
+        {
+            "_name": "preferred_orientation",
+            "type": "double",
+            "_blank_value": 0.0,
+            "_default_value": 0.0,
+            "_mustBeNonEmpty": false,
+            "_mustBeScalar": true,
+            "_mustNotHaveNaN": false,
+            "_queryable": true,
+            "_ontology": null,
+            "_documentation": "The preferred orientation in degrees (0-180).",
+            "_constraints": {}
+        },
+        {
+            "_name": "direction_selectivity_index",
+            "type": "double",
+            "_blank_value": 0.0,
+            "_default_value": 0.0,
+            "_mustBeNonEmpty": false,
+            "_mustBeScalar": true,
+            "_mustNotHaveNaN": false,
+            "_queryable": true,
+            "_ontology": null,
+            "_documentation": "Direction selectivity index (DSI), range 0 to 1.",
+            "_constraints": {}
+        },
+        {
+            "_name": "orientation_selectivity_index",
+            "type": "double",
+            "_blank_value": 0.0,
+            "_default_value": 0.0,
+            "_mustBeNonEmpty": false,
+            "_mustBeScalar": true,
+            "_mustNotHaveNaN": false,
+            "_queryable": true,
+            "_ontology": null,
+            "_documentation": "Orientation selectivity index (OSI), range 0 to 1.",
+            "_constraints": {}
+        },
+        {
+            "_name": "tuning_width",
+            "type": "double",
+            "_blank_value": 0.0,
+            "_default_value": 0.0,
+            "_mustBeNonEmpty": false,
+            "_mustBeScalar": true,
+            "_mustNotHaveNaN": false,
+            "_queryable": false,
+            "_ontology": null,
+            "_documentation": "The half-width at half-height of the tuning curve in degrees.",
+            "_constraints": {}
+        }
+    ]
+}

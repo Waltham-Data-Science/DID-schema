@@ -1,0 +1,132 @@
+{
+    "_classname": "app",
+    "_class_version": "1.0.0",
+    "_maturity_level": "work_in_progress",
+    "_superclasses": [
+        {
+            "_classname": "base",
+            "_schema": "$NDISCHEMAPATH/base/schema.json"
+        }
+    ],
+    "_depends_on": [],
+    "_file": [],
+    "_fields": [
+        {
+            "_name": "app_name",
+            "type": "char",
+            "_blank_value": "",
+            "_default_value": "ndi.app",
+            "_mustBeNonEmpty": true,
+            "_mustBeScalar": true,
+            "_mustNotHaveNaN": false,
+            "_queryable": true,
+            "_ontology": {
+                "_node": "schema:name",
+                "_name": "name"
+            },
+            "_documentation": "The name of the application.",
+            "_constraints": {
+                "maxLength": 256
+            }
+        },
+        {
+            "_name": "app_version",
+            "type": "char",
+            "_blank_value": "",
+            "_default_value": "",
+            "_mustBeNonEmpty": false,
+            "_mustBeScalar": true,
+            "_mustNotHaveNaN": false,
+            "_queryable": true,
+            "_ontology": {
+                "_node": "schema:softwareVersion",
+                "_name": "softwareVersion"
+            },
+            "_documentation": "The version of the app (often a Git commit identifier).",
+            "_constraints": {
+                "maxLength": 256
+            }
+        },
+        {
+            "_name": "url",
+            "type": "char",
+            "_blank_value": "",
+            "_default_value": "",
+            "_mustBeNonEmpty": false,
+            "_mustBeScalar": true,
+            "_mustNotHaveNaN": false,
+            "_queryable": false,
+            "_ontology": {
+                "_node": "schema:url",
+                "_name": "url"
+            },
+            "_documentation": "The home page URL of the application.",
+            "_constraints": {
+                "maxLength": 1024
+            }
+        },
+        {
+            "_name": "os",
+            "type": "char",
+            "_blank_value": "",
+            "_default_value": "",
+            "_mustBeNonEmpty": false,
+            "_mustBeScalar": true,
+            "_mustNotHaveNaN": false,
+            "_queryable": false,
+            "_ontology": {
+                "_node": "schema:operatingSystem",
+                "_name": "operatingSystem"
+            },
+            "_documentation": "The operating system that ran the application.",
+            "_constraints": {
+                "maxLength": 256
+            }
+        },
+        {
+            "_name": "os_version",
+            "type": "char",
+            "_blank_value": "",
+            "_default_value": "",
+            "_mustBeNonEmpty": false,
+            "_mustBeScalar": true,
+            "_mustNotHaveNaN": false,
+            "_queryable": false,
+            "_ontology": null,
+            "_documentation": "The operating system version.",
+            "_constraints": {
+                "maxLength": 256
+            }
+        },
+        {
+            "_name": "interpreter",
+            "type": "char",
+            "_blank_value": "",
+            "_default_value": "",
+            "_mustBeNonEmpty": false,
+            "_mustBeScalar": true,
+            "_mustNotHaveNaN": false,
+            "_queryable": true,
+            "_ontology": null,
+            "_documentation": "The name of the interpreter (e.g., 'Matlab', 'python3').",
+            "_constraints": {
+                "maxLength": 256
+            }
+        },
+        {
+            "_name": "interpreter_version",
+            "type": "char",
+            "_blank_value": "",
+            "_default_value": "",
+            "_mustBeNonEmpty": false,
+            "_mustBeScalar": true,
+            "_mustNotHaveNaN": false,
+            "_queryable": false,
+            "_ontology": null,
+            "_documentation": "The version of the interpreter.",
+            "_constraints": {
+                "maxLength": 256
+            }
+        }
+    ]
+}

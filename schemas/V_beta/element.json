@@ -36,7 +36,7 @@
             "_ontology": null,
             "_documentation": "The name of the NDI element class that is stored.",
             "_constraints": {
-                "max_length": 256
+                "maxLength": 256
             }
         },
         {
@@ -56,7 +56,7 @@
             },
             "_documentation": "The name of the element. Elements are uniquely defined by name, reference, and type.",
             "_constraints": {
-                "max_length": 256
+                "maxLength": 256
             }
         },
         {
@@ -71,7 +71,7 @@
             "_ontology": null,
             "_documentation": "The reference number of the element.",
             "_constraints": {
-                "max_length": 256
+                "maxLength": 256
             }
         },
         {
@@ -86,7 +86,7 @@
             "_ontology": null,
             "_documentation": "The type of the element. Common probe types are defined in probetype2object.",
             "_constraints": {
-                "max_length": 256
+                "maxLength": 256
             }
         },
         {
