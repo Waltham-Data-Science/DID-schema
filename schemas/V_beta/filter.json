@@ -1,0 +1,68 @@
+{
+    "_classname": "filter",
+    "_class_version": "1.0.0",
+    "_maturity_level": "work_in_progress",
+    "_superclasses": [
+        {
+            "_classname": "base",
+            "_schema": "$NDISCHEMAPATH/base/schema.json"
+        }
+    ],
+    "_depends_on": [],
+    "_file": [],
+    "_fields": [
+        {
+            "_name": "label",
+            "type": "char",
+            "_blank_value": "",
+            "_default_value": "",
+            "_mustBeNonEmpty": false,
+            "_mustBeScalar": true,
+            "_mustNotHaveNaN": false,
+            "_queryable": true,
+            "_ontology": null,
+            "_documentation": "A user label.",
+            "_constraints": {}
+        },
+        {
+            "_name": "filter_type",
+            "type": "char",
+            "_blank_value": "",
+            "_default_value": "",
+            "_mustBeNonEmpty": false,
+            "_mustBeScalar": true,
+            "_mustNotHaveNaN": false,
+            "_queryable": true,
+            "_ontology": null,
+            "_documentation": "The filter type: 'bandpass', 'low', 'high', 'none'.",
+            "_constraints": {}
+        },
+        {
+            "_name": "algorithm",
+            "type": "char",
+            "_blank_value": "",
+            "_default_value": "",
+            "_mustBeNonEmpty": false,
+            "_mustBeScalar": true,
+            "_mustNotHaveNaN": false,
+            "_queryable": true,
+            "_ontology": null,
+            "_documentation": "The filter algorithm: 'chebyshev_1', 'chebyshev_2', 'butterworth', 'bessel', 'elliptic', 'none'.",
+            "_constraints": {}
+        },
+        {
+            "_name": "parameters",
+            "type": "structure",
+            "_blank_value": {},
+            "_default_value": {},
+            "_mustBeNonEmpty": false,
+            "_mustBeScalar": true,
+            "_mustNotHaveNaN": false,
+            "_queryable": true,
+            "_ontology": null,
+            "_documentation": "A structure containing filter parameters: sampleFrequency, order, filterFrequency, passbandRipple, stopbandAttenuation.",
+            "_constraints": {},
+            "_fields": []
+        }
+    ]
+}
