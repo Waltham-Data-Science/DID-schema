@@ -61,6 +61,8 @@ did-schema/
 ├── schemas/
 │   ├── V_gamma_SPEC.md                 ← (this file) V_gamma specification
 │   ├── V_gamma_notes.md                ← V_gamma status and V_beta→V_gamma changes
+│   ├── V_alpha/                        ← retained during migration (see notes)
+│   ├── V_beta/                         ← retained during migration (see notes)
 │   └── V_gamma/                        ← flat directory of V_gamma schemas
 │       ├── did_schema_meta.json        ← meta-schema: validates schema files
 │       ├── CURIE_lookups_meta.json     ← CURIE registry (prefix → URI base)
@@ -79,6 +81,10 @@ did-schema/
         ├── invalid_base_document_missing_id.json
         └── ...
 ```
+
+`V_alpha/` and `V_beta/` persist alongside `V_gamma/` during migration and
+are removed only after migration completes, matching the approach described
+in `V_beta_notes.md`.
 
 ### Schema directory layout
 
@@ -587,10 +593,11 @@ Checks that can be performed with only the document and its schema file(s):
   the four sub-fields of correct primitive types, `ontology_term` is an
   object with exactly the two sub-fields.
 - `duration`: `approximate` is consistent with `source_unit` per the unit
-  registry; `seconds` is consistent with `source_value * unit_factor(source_unit)`
-  to within the unit's tolerance (exact units: exact; approximate units:
-  the stored approximate-seconds per this spec).
-- `ontology_term`: `node` matches CURIE pattern `^[a-z][a-z0-9_]*:[^\s]+$`.
+  registry; `seconds` must equal `source_value × unit_factor(source_unit)`
+  exactly, using the fixed conversion table in this spec
+  (`month = 2,592,000 s`, `year = 31,536,000 s`, other units exact). All
+  unit conversions are constants, so no tolerance window applies.
+- `ontology_term`: `node` matches CURIE pattern `^[a-z][a-z0-9_]*:[^\s:]+$`.
 - Type-specific constraint checks in `_constraints` (e.g.,
   `minimum_seconds`/`maximum_seconds` for durations,
   `allowed_namespaces` for ontology terms).
