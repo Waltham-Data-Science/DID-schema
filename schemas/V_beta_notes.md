@@ -53,13 +53,12 @@ Field names:
 
 ## Status
 
-V_beta schemas, like V_alpha, use the older flat-directory layout (one JSON
-per document type at the top of `V_beta/`), not the per-type directory layout
-with `schema.json` described in `REPO_SPEC.md`. They are **not** loaded by
-the meta-schema test suite.
+V_beta schemas, like V_alpha, use the flat-directory layout (one JSON per
+document type at the top of `V_beta/`) described in `V_beta_SPEC.md`. They
+are **not** loaded by the meta-schema test suite.
 
-V_beta is an intermediate format. Once the migration to the current format
-(per `REPO_SPEC.md`) is complete, both `V_alpha/` and `V_beta/` will be
-removed.
+V_beta is the current target format. Once migration from V_alpha to V_beta
+is complete, the `V_alpha/` directory will be removed.
 
-Do not add new document types to `V_beta/`.
+Do not add new document types to `V_beta/` without following the naming
+requirements in `V_beta_SPEC.md`.
