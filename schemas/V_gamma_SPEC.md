@@ -14,7 +14,7 @@ snake_case naming rules, and adds three things:
    `approximate` flag, and a `source_unit`/`source_value` provenance pair.
    The shipped dimension types are `duration` (canonical: `seconds`),
    `volume` (`liters`), `mass` (`grams`), `length` (`meters`), `voltage`
-   (`volts`), and `current` (`amperes`).
+   (`volts`), `current` (`amperes`), and `frequency` (`hertz`).
 2. **A CURIE registry** — `schemas/V_gamma/CURIE_lookups_meta.json` maps
    CURIE prefixes to URI bases, labels, and metadata. Used by tooling to
    expand CURIEs and to flag approximate or unknown namespaces.
@@ -327,6 +327,7 @@ Relevant CURIEs for annotating fields:
 | `length`        | Named composite: canonical meters with unit provenance | `{ "minimum_meters": number or null, "maximum_meters": number or null, "allowed_units": array or null }` | Sub-fields: `meters`, `approximate`, `source_unit`, `source_value`. |
 | `voltage`       | Named composite: canonical volts with unit provenance | `{ "minimum_volts": number or null, "maximum_volts": number or null, "allowed_units": array or null }` | Sub-fields: `volts`, `approximate`, `source_unit`, `source_value`. |
 | `current`       | Named composite: canonical amperes with unit provenance | `{ "minimum_amperes": number or null, "maximum_amperes": number or null, "allowed_units": array or null }` | Sub-fields: `amperes`, `approximate`, `source_unit`, `source_value`. |
+| `frequency`     | Named composite: canonical hertz with unit provenance | `{ "minimum_hertz": number or null, "maximum_hertz": number or null, "allowed_units": array or null }` | Sub-fields: `hertz`, `approximate`, `source_unit`, `source_value`. |
 | `ontology_term` | Named composite: CURIE ontology reference with label snapshot | `{ "allowed_namespaces": array or null }` | Sub-fields: `node`, `name`. See "Named Composite Types". |
 
 #### Semantics of validation flags by type
@@ -347,6 +348,7 @@ Relevant CURIEs for annotating fields:
 | `length`        | yes (meters not null, source_unit non-empty, source_value not null) | yes — always true (single structured value) | yes (meters and source_value not NaN) |
 | `voltage`       | yes (volts not null, source_unit non-empty, source_value not null) | yes — always true (single structured value) | yes (volts and source_value not NaN) |
 | `current`       | yes (amperes not null, source_unit non-empty, source_value not null) | yes — always true (single structured value) | yes (amperes and source_value not NaN) |
+| `frequency`     | yes (hertz not null, source_unit non-empty, source_value not null) | yes — always true (single structured value) | yes (hertz and source_value not NaN) |
 | `ontology_term` | yes (node non-empty)                              | yes — always true                        | no — must be `false`                          |
 
 ---
@@ -388,14 +390,15 @@ specification — schema authors do NOT declare the sub-fields with
 
 ### The SI-dimensioned family
 
-`duration`, `volume`, `mass`, `length`, `voltage`, and `current` are all
-variants of the same four-sub-field pattern. Each stores a **canonical
-value** in a fixed SI unit alongside the author's **original value and
-unit**, plus an **`approximate`** flag that propagates precision loss
-through unit conversion. The sub-field that holds the canonical value is
-named after the unit (`seconds`, `liters`, `grams`, `meters`, `volts`,
-`amperes`) so queries read naturally (e.g., `injection_volume.liters >
-1.5e-9`).
+`duration`, `volume`, `mass`, `length`, `voltage`, `current`, and
+`frequency` are all variants of the same four-sub-field pattern. Each
+stores a **canonical value** in a fixed SI unit alongside the author's
+**original value and unit**, plus an **`approximate`** flag that
+propagates precision loss through unit conversion. The sub-field that
+holds the canonical value is named after the unit (`seconds`, `liters`,
+`grams`, `meters`, `volts`, `amperes`, `hertz`) so queries read
+naturally (e.g., `injection_volume.liters > 1.5e-9`,
+`sample_rate.hertz >= 30000`).
 
 The canonical unit for each dimension is the **practical SI unit** used in
 lab work, not necessarily the strict SI base unit. That means `liters`
@@ -559,6 +562,29 @@ All ratios are exact.
 **`_constraints` keys allowed:** `minimum_amperes`, `maximum_amperes`,
 `allowed_units`.
 
+### `frequency` (new in V_gamma)
+
+Canonical sub-field: `hertz` (double). Hertz is SI-derived (1/second)
+rather than an SI base unit, but it is the unit actually written in lab
+work for sampling rates, firing rates, oscillation frequencies, and
+stimulus frequencies, so it fits the practical-SI rule.
+
+**Allowed source units and conversion factors (unit → hertz):**
+
+| Source unit  | Factor (Hz) |
+|--------------|-------------|
+| `microhertz` | 1e-6        |
+| `millihertz` | 1e-3        |
+| `hertz`      | 1           |
+| `kilohertz`  | 1e3         |
+| `megahertz`  | 1e6         |
+| `gigahertz`  | 1e9         |
+
+All ratios are exact.
+
+**`_constraints` keys allowed:** `minimum_hertz`, `maximum_hertz`,
+`allowed_units`.
+
 ### `ontology_term` (new in V_gamma)
 
 An ontology term value stores a CURIE identifier alongside a human-readable
@@ -608,11 +634,12 @@ in a future version. They are **not** part of V_gamma.
   (`{canonical_value, canonical_unit, source_value, source_unit,
   approximate}`) or select a spec-registered dimension via
   `_constraints.dimension`. V_gamma intentionally does not ship this:
-  the six pre-named dimensions (`duration`, `volume`, `mass`, `length`,
-  `voltage`, `current`) cover current needs, and deferring the generic
-  form avoids two authors disagreeing on canonical units for the same
-  dimension. Add when an unnamed dimension clearly needs it in three or
-  more schemas, or promote it to a named dimension instead.
+  the seven pre-named dimensions (`duration`, `volume`, `mass`,
+  `length`, `voltage`, `current`, `frequency`) cover current needs, and
+  deferring the generic form avoids two authors disagreeing on
+  canonical units for the same dimension. Add when an unnamed dimension
+  clearly needs it in three or more schemas, or promote it to a named
+  dimension instead.
 - **`stereotaxic_coordinate`** — `{ap, ml, dv, reference_point, units}`.
   Strong near-term candidate given the existing `probe_location`,
   `virus_injection`, and `probe_geometry` schemas.
@@ -743,18 +770,19 @@ Checks that can be performed with only the document and its schema file(s):
 - `_mustNotHaveNaN` fields contain no NaN values.
 - Type-specific format checks: `timestamp` matches ISO 8601 UTC,
   `did_uid` matches the UID pattern, each SI-dimensioned type
-  (`duration`, `volume`, `mass`, `length`, `voltage`, `current`) is an
-  object with exactly the four sub-fields (`<canonical_unit>`,
-  `approximate`, `source_unit`, `source_value`) of correct primitive
-  types, `ontology_term` is an object with exactly the two sub-fields.
+  (`duration`, `volume`, `mass`, `length`, `voltage`, `current`,
+  `frequency`) is an object with exactly the four sub-fields
+  (`<canonical_unit>`, `approximate`, `source_unit`, `source_value`) of
+  correct primitive types, `ontology_term` is an object with exactly
+  the two sub-fields.
 - SI-dimensioned types: `approximate` is consistent with `source_unit` per
   the unit registry; the canonical sub-field value must equal
   `source_value × unit_factor(source_unit)` exactly, using the fixed
   conversion table for the dimension given in this spec (for `duration`,
   `month = 2,592,000 s`, `year = 31,536,000 s`, other units exact; for
-  `volume`, `mass`, `length`, `voltage`, `current`, every listed source
-  unit is an exact ratio of the canonical unit). All unit conversions are
-  constants, so no tolerance window applies.
+  `volume`, `mass`, `length`, `voltage`, `current`, `frequency`, every
+  listed source unit is an exact ratio of the canonical unit). All unit
+  conversions are constants, so no tolerance window applies.
 - `ontology_term`: `node` matches CURIE pattern `^[a-z][a-z0-9_]*:[^\s:]+$`.
 - Type-specific constraint checks in `_constraints` (e.g.,
   `minimum_seconds`/`maximum_seconds` for durations,
@@ -806,7 +834,7 @@ The meta-schema must enforce:
 - Each field definition has all required keys with correct types.
 - `type` is one of: `did_uid`, `char`, `string`, `integer`, `double`,
   `matrix`, `timestamp`, `boolean`, `structure`, `duration`, `volume`,
-  `mass`, `length`, `voltage`, `current`, `ontology_term`.
+  `mass`, `length`, `voltage`, `current`, `frequency`, `ontology_term`.
 - `_ontology` is either `null` or an object with exactly `_node` (string)
   and `_name` (string).
 - `_mustBeNonEmpty`, `_mustBeScalar`, `_mustNotHaveNaN`, `_queryable`
@@ -1001,9 +1029,9 @@ A document value for this field might look like:
 }
 ```
 
-The other SI-dimensioned types (`mass`, `length`, `voltage`, `current`)
-follow the same template with their canonical sub-field name and
-dimension-specific `allowed_units` / `minimum_<canonical>` /
+The other SI-dimensioned types (`mass`, `length`, `voltage`, `current`,
+`frequency`) follow the same template with their canonical sub-field
+name and dimension-specific `allowed_units` / `minimum_<canonical>` /
 `maximum_<canonical>` keys.
 
 ---
@@ -1058,16 +1086,17 @@ pytest
     the manifest.**
 15. **Named composite types are spec-defined, not author-defined.**
     V_gamma ships `duration`, `volume`, `mass`, `length`, `voltage`,
-    `current`, and `ontology_term`. Adding a new composite is a spec
-    change, not a schema-author action.
+    `current`, `frequency`, and `ontology_term`. Adding a new composite
+    is a spec change, not a schema-author action.
 16. **SI-dimensioned types use practical SI units as canonical.** One
     fixed canonical unit per dimension (`seconds`, `liters`, `grams`,
-    `meters`, `volts`, `amperes`) keeps the generic numeric query engine
-    working unchanged and makes cross-document comparisons meaningful
-    without per-field conversion. The canonical is the unit actually
-    written in lab literature, not necessarily the strict SI base
-    (`grams` rather than `kilogram`, `liters` rather than `cubic
-    metre`). The `source_*` sub-fields preserve author intent;
+    `meters`, `volts`, `amperes`, `hertz`) keeps the generic numeric
+    query engine working unchanged and makes cross-document comparisons
+    meaningful without per-field conversion. The canonical is the unit
+    actually written in lab literature, not necessarily the strict SI
+    base (`grams` rather than `kilogram`, `liters` rather than `cubic
+    metre`; `hertz` is SI-derived rather than base but is what lab work
+    uses). The `source_*` sub-fields preserve author intent;
     `approximate` propagates precision loss through unit conversion.
 17. **`ontology_term` carries a label snapshot.** `node` is authoritative;
     `name` is a provenance snapshot frozen at write time. This enables

@@ -8,7 +8,7 @@ over unchanged.
 
 V_gamma adds three related features on top of V_beta:
 
-- **Named composite types.** Seven new entries in the field-definition
+- **Named composite types.** Eight new entries in the field-definition
   `type` enum, each backed by a fixed sub-field layout in document values:
   - The SI-dimensioned family, all sharing the four-sub-field shape
     (`<canonical_unit>` double, `approximate` boolean, `source_unit`
@@ -25,6 +25,8 @@ V_gamma adds three related features on top of V_beta:
       `maximum_volts`, `allowed_units`.
     - `current`: canonical `amperes`. `_constraints`:
       `minimum_amperes`, `maximum_amperes`, `allowed_units`.
+    - `frequency`: canonical `hertz`. `_constraints`:
+      `minimum_hertz`, `maximum_hertz`, `allowed_units`.
   - `ontology_term`: `node` (char, a CURIE), `name` (char, label snapshot).
     Supported `_constraints` keys: `allowed_namespaces`.
   These composite types let a single field carry what previously required

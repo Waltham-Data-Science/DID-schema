@@ -16,12 +16,12 @@ VALID_TYPES_BASE = {
 }
 
 # V_gamma adds named composite types: the SI-dimensioned family (duration,
-# volume, mass, length, voltage, current) plus ontology_term.
+# volume, mass, length, voltage, current, frequency) plus ontology_term.
 VALID_TYPES_BY_VERSION = {
     "V_beta":  VALID_TYPES_BASE,
     "V_gamma": VALID_TYPES_BASE | {
         "duration", "volume", "mass", "length", "voltage", "current",
-        "ontology_term",
+        "frequency", "ontology_term",
     },
 }
 
