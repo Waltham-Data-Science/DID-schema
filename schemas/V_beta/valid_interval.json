@@ -1,0 +1,240 @@
+{
+    "_classname": "valid_interval",
+    "_class_version": "1.0.0",
+    "_maturity_level": "work_in_progress",
+    "_superclasses": [
+        {
+            "_classname": "base",
+            "_schema": "$NDISCHEMAPATH/base/schema.json"
+        }
+    ],
+    "_depends_on": [
+        {
+            "_name": "element_id",
+            "_mustBeNonEmpty": true,
+            "_documentation": "The document ID of the element whose valid interval is marked.",
+            "_must_refer_to_document_class": ""
+        }
+    ],
+    "_file": [],
+    "_fields": [
+        {
+            "_name": "timeref_structt0",
+            "type": "structure",
+            "_blank_value": {},
+            "_default_value": {},
+            "_mustBeNonEmpty": true,
+            "_mustBeScalar": true,
+            "_mustNotHaveNaN": false,
+            "_queryable": false,
+            "_ontology": null,
+            "_documentation": "Time reference for the start of the interval (t0). Specifies the epoch and clock against which t0 is measured.",
+            "_constraints": {},
+            "_fields": [
+                {
+                    "_name": "referent_epochsetname",
+                    "type": "char",
+                    "_blank_value": "",
+                    "_default_value": "",
+                    "_mustBeNonEmpty": false,
+                    "_mustBeScalar": true,
+                    "_mustNotHaveNaN": false,
+                    "_queryable": false,
+                    "_ontology": null,
+                    "_documentation": "The name of the ndi.epoch.epochset object (e.g., device name, probe name, element name) that provides the time reference.",
+                    "_constraints": {
+                        "max_length": 256
+                    }
+                },
+                {
+                    "_name": "referent_classname",
+                    "type": "char",
+                    "_blank_value": "",
+                    "_default_value": "",
+                    "_mustBeNonEmpty": false,
+                    "_mustBeScalar": true,
+                    "_mustNotHaveNaN": false,
+                    "_queryable": false,
+                    "_ontology": null,
+                    "_documentation": "The class name of the referent epochset object (e.g., 'element', 'probe', 'device').",
+                    "_constraints": {
+                        "max_length": 256
+                    }
+                },
+                {
+                    "_name": "clocktypestring",
+                    "type": "char",
+                    "_blank_value": "",
+                    "_default_value": "",
+                    "_mustBeNonEmpty": false,
+                    "_mustBeScalar": true,
+                    "_mustNotHaveNaN": false,
+                    "_queryable": false,
+                    "_ontology": null,
+                    "_documentation": "String identifier of the ndi.time.clocktype used for this reference. Valid values: 'dev_local_time', 'dev_global_time', 'utc', 'approx_utc', 'exp_global_time', 'no_time'.",
+                    "_constraints": {
+                        "max_length": 64,
+                        "allowed_values": [
+                            "dev_local_time",
+                            "dev_global_time",
+                            "utc",
+                            "approx_utc",
+                            "exp_global_time",
+                            "no_time"
+                        ]
+                    }
+                },
+                {
+                    "_name": "epoch",
+                    "type": "char",
+                    "_blank_value": "",
+                    "_default_value": "",
+                    "_mustBeNonEmpty": false,
+                    "_mustBeScalar": true,
+                    "_mustNotHaveNaN": false,
+                    "_queryable": false,
+                    "_ontology": null,
+                    "_documentation": "The epochid of the epoch in the referent epochset that provides the time origin.",
+                    "_constraints": {
+                        "max_length": 256
+                    }
+                },
+                {
+                    "_name": "time",
+                    "type": "double",
+                    "_blank_value": 0.0,
+                    "_default_value": 0.0,
+                    "_mustBeNonEmpty": true,
+                    "_mustBeScalar": true,
+                    "_mustNotHaveNaN": false,
+                    "_queryable": false,
+                    "_ontology": null,
+                    "_documentation": "The time offset (in seconds) within the reference epoch that serves as the origin for t0.",
+                    "_constraints": {}
+                }
+            ]
+        },
+        {
+            "_name": "t0",
+            "type": "double",
+            "_blank_value": 0.0,
+            "_default_value": 0.0,
+            "_mustBeNonEmpty": true,
+            "_mustBeScalar": true,
+            "_mustNotHaveNaN": false,
+            "_queryable": true,
+            "_ontology": null,
+            "_documentation": "Start time of the valid interval in seconds, measured relative to the origin defined by timeref_structt0.",
+            "_constraints": {}
+        },
+        {
+            "_name": "timeref_structt1",
+            "type": "structure",
+            "_blank_value": {},
+            "_default_value": {},
+            "_mustBeNonEmpty": true,
+            "_mustBeScalar": true,
+            "_mustNotHaveNaN": false,
+            "_queryable": false,
+            "_ontology": null,
+            "_documentation": "Time reference for the end of the interval (t1). Specifies the epoch and clock against which t1 is measured.",
+            "_constraints": {},
+            "_fields": [
+                {
+                    "_name": "referent_epochsetname",
+                    "type": "char",
+                    "_blank_value": "",
+                    "_default_value": "",
+                    "_mustBeNonEmpty": false,
+                    "_mustBeScalar": true,
+                    "_mustNotHaveNaN": false,
+                    "_queryable": false,
+                    "_ontology": null,
+                    "_documentation": "The name of the ndi.epoch.epochset object (e.g., device name, probe name, element name) that provides the time reference.",
+                    "_constraints": {
+                        "max_length": 256
+                    }
+                },
+                {
+                    "_name": "referent_classname",
+                    "type": "char",
+                    "_blank_value": "",
+                    "_default_value": "",
+                    "_mustBeNonEmpty": false,
+                    "_mustBeScalar": true,
+                    "_mustNotHaveNaN": false,
+                    "_queryable": false,
+                    "_ontology": null,
+                    "_documentation": "The class name of the referent epochset object (e.g., 'element', 'probe', 'device').",
+                    "_constraints": {
+                        "max_length": 256
+                    }
+                },
+                {
+                    "_name": "clocktypestring",
+                    "type": "char",
+                    "_blank_value": "",
+                    "_default_value": "",
+                    "_mustBeNonEmpty": false,
+                    "_mustBeScalar": true,
+                    "_mustNotHaveNaN": false,
+                    "_queryable": false,
+                    "_ontology": null,
+                    "_documentation": "String identifier of the ndi.time.clocktype used for this reference. Valid values: 'dev_local_time', 'dev_global_time', 'utc', 'approx_utc', 'exp_global_time', 'no_time'.",
+                    "_constraints": {
+                        "max_length": 64,
+                        "allowed_values": [
+                            "dev_local_time",
+                            "dev_global_time",
+                            "utc",
+                            "approx_utc",
+                            "exp_global_time",
+                            "no_time"
+                        ]
+                    }
+                },
+                {
+                    "_name": "epoch",
+                    "type": "char",
+                    "_blank_value": "",
+                    "_default_value": "",
+                    "_mustBeNonEmpty": false,
+                    "_mustBeScalar": true,
+                    "_mustNotHaveNaN": false,
+                    "_queryable": false,
+                    "_ontology": null,
+                    "_documentation": "The epochid of the epoch in the referent epochset that provides the time origin.",
+                    "_constraints": {
+                        "max_length": 256
+                    }
+                },
+                {
+                    "_name": "time",
+                    "type": "double",
+                    "_blank_value": 0.0,
+                    "_default_value": 0.0,
+                    "_mustBeNonEmpty": true,
+                    "_mustBeScalar": true,
+                    "_mustNotHaveNaN": false,
+                    "_queryable": false,
+                    "_ontology": null,
+                    "_documentation": "The time offset (in seconds) within the reference epoch that serves as the origin for t1.",
+                    "_constraints": {}
+                }
+            ]
+        },
+        {
+            "_name": "t1",
+            "type": "double",
+            "_blank_value": 0.0,
+            "_default_value": 0.0,
+            "_mustBeNonEmpty": true,
+            "_mustBeScalar": true,
+            "_mustNotHaveNaN": false,
+            "_queryable": true,
+            "_ontology": null,
+            "_documentation": "End time of the valid interval in seconds, measured relative to the origin defined by timeref_structt1. Must be >= t0 when both references are the same clock.",
+            "_constraints": {}
+        }
+    ]
+}

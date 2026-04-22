@@ -1,0 +1,98 @@
+{
+    "_classname": "image",
+    "_class_version": "1.0.0",
+    "_maturity_level": "work_in_progress",
+    "_superclasses": [
+        {
+            "_classname": "base",
+            "_schema": "$NDISCHEMAPATH/base/schema.json"
+        }
+    ],
+    "_depends_on": [
+        {
+            "_name": "element_id",
+            "_mustBeNonEmpty": false,
+            "_documentation": "The document ID of the element this image is associated with.",
+            "_must_refer_to_document_class": ""
+        }
+    ],
+    "_file": [
+        {
+            "_name": "image_file",
+            "_documentation": "The image file (e.g., PNG, TIFF, JPEG)."
+        }
+    ],
+    "_fields": [
+        {
+            "_name": "image_type",
+            "type": "char",
+            "_blank_value": "",
+            "_default_value": "",
+            "_mustBeNonEmpty": false,
+            "_mustBeScalar": true,
+            "_mustNotHaveNaN": false,
+            "_queryable": true,
+            "_ontology": null,
+            "_documentation": "The type or modality of the image (e.g., 'brightfield', 'fluorescence', 'confocal').",
+            "_constraints": {
+                "max_length": 256
+            }
+        },
+        {
+            "_name": "image_format",
+            "type": "char",
+            "_blank_value": "",
+            "_default_value": "",
+            "_mustBeNonEmpty": false,
+            "_mustBeScalar": true,
+            "_mustNotHaveNaN": false,
+            "_queryable": true,
+            "_ontology": null,
+            "_documentation": "The file format of the image (e.g., 'png', 'tiff', 'jpeg').",
+            "_constraints": {
+                "max_length": 32
+            }
+        },
+        {
+            "_name": "x_resolution",
+            "type": "double",
+            "_blank_value": 0.0,
+            "_default_value": 0.0,
+            "_mustBeNonEmpty": false,
+            "_mustBeScalar": true,
+            "_mustNotHaveNaN": false,
+            "_queryable": false,
+            "_ontology": null,
+            "_documentation": "The x-axis resolution (pixels per unit).",
+            "_constraints": {}
+        },
+        {
+            "_name": "y_resolution",
+            "type": "double",
+            "_blank_value": 0.0,
+            "_default_value": 0.0,
+            "_mustBeNonEmpty": false,
+            "_mustBeScalar": true,
+            "_mustNotHaveNaN": false,
+            "_queryable": false,
+            "_ontology": null,
+            "_documentation": "The y-axis resolution (pixels per unit).",
+            "_constraints": {}
+        },
+        {
+            "_name": "resolution_units",
+            "type": "char",
+            "_blank_value": "",
+            "_default_value": "um",
+            "_mustBeNonEmpty": false,
+            "_mustBeScalar": true,
+            "_mustNotHaveNaN": false,
+            "_queryable": false,
+            "_ontology": null,
+            "_documentation": "The units for x_resolution and y_resolution (e.g., 'um', 'mm').",
+            "_constraints": {
+                "max_length": 32
+            }
+        }
+    ]
+}

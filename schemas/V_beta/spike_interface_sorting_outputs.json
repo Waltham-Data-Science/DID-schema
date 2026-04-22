@@ -1,0 +1,84 @@
+{
+    "_classname": "spike_interface_sorting_outputs",
+    "_class_version": "1.0.0",
+    "_maturity_level": "work_in_progress",
+    "_superclasses": [
+        {
+            "_classname": "base",
+            "_schema": "$NDISCHEMAPATH/base/schema.json"
+        }
+    ],
+    "_depends_on": [
+        {
+            "_name": "element_id",
+            "_mustBeNonEmpty": true,
+            "_documentation": "The document ID of the element (e.g., probe) this sorting output is associated with.",
+            "_must_refer_to_document_class": ""
+        }
+    ],
+    "_file": [
+        {
+            "_name": "sorting_output_file",
+            "_documentation": "The SpikeInterface sorting output file."
+        }
+    ],
+    "_fields": [
+        {
+            "_name": "sorter_name",
+            "type": "char",
+            "_blank_value": "",
+            "_default_value": "",
+            "_mustBeNonEmpty": true,
+            "_mustBeScalar": true,
+            "_mustNotHaveNaN": false,
+            "_queryable": true,
+            "_ontology": null,
+            "_documentation": "The name of the spike sorter used (e.g., 'kilosort2', 'mountainsort4').",
+            "_constraints": {
+                "max_length": 128
+            }
+        },
+        {
+            "_name": "num_units",
+            "type": "integer",
+            "_blank_value": 0,
+            "_default_value": 0,
+            "_mustBeNonEmpty": false,
+            "_mustBeScalar": true,
+            "_mustNotHaveNaN": true,
+            "_queryable": true,
+            "_ontology": null,
+            "_documentation": "The number of units (clusters) found by the sorter.",
+            "_constraints": {}
+        },
+        {
+            "_name": "sample_rate",
+            "type": "double",
+            "_blank_value": 0.0,
+            "_default_value": 0.0,
+            "_mustBeNonEmpty": false,
+            "_mustBeScalar": true,
+            "_mustNotHaveNaN": false,
+            "_queryable": false,
+            "_ontology": null,
+            "_documentation": "The sampling rate in Hz of the recording that was sorted.",
+            "_constraints": {}
+        },
+        {
+            "_name": "sorter_parameters",
+            "type": "structure",
+            "_blank_value": {},
+            "_default_value": {},
+            "_mustBeNonEmpty": false,
+            "_mustBeScalar": true,
+            "_mustNotHaveNaN": false,
+            "_queryable": false,
+            "_ontology": null,
+            "_documentation": "Structure of the parameters used to run the sorter. Keys and value types are specific to the algorithm named in sorter_name (e.g., for 'kilosort2': {detect_threshold, projection_threshold, ...}).",
+            "_constraints": {
+                "dynamic_keys_from": "sorter_name"
+            },
+            "_fields": []
+        }
+    ]
+}

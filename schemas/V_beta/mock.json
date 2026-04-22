@@ -1,0 +1,28 @@
+{
+    "_classname": "mock",
+    "_class_version": "1.0.0",
+    "_maturity_level": "work_in_progress",
+    "_superclasses": [
+        {
+            "_classname": "base",
+            "_schema": "$NDISCHEMAPATH/base/schema.json"
+        }
+    ],
+    "_depends_on": [],
+    "_file": [],
+    "_fields": [
+        {
+            "_name": "ismock",
+            "type": "integer",
+            "_blank_value": 0,
+            "_default_value": 1,
+            "_mustBeNonEmpty": false,
+            "_mustBeScalar": true,
+            "_mustNotHaveNaN": false,
+            "_queryable": true,
+            "_ontology": null,
+            "_documentation": "A parameter that denotes the document as a mock document.",
+            "_constraints": {}
+        }
+    ]
+}

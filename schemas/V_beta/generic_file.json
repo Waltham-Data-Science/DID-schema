@@ -1,0 +1,72 @@
+{
+    "_classname": "generic_file",
+    "_class_version": "1.0.0",
+    "_maturity_level": "work_in_progress",
+    "_superclasses": [
+        {
+            "_classname": "base",
+            "_schema": "$NDISCHEMAPATH/base/schema.json"
+        }
+    ],
+    "_depends_on": [
+        {
+            "_name": "element_id",
+            "_mustBeNonEmpty": false,
+            "_documentation": "The document ID of the element this file is associated with.",
+            "_must_refer_to_document_class": ""
+        }
+    ],
+    "_file": [
+        {
+            "_name": "data_file",
+            "_documentation": "The generic data file."
+        }
+    ],
+    "_fields": [
+        {
+            "_name": "filename",
+            "type": "char",
+            "_blank_value": "",
+            "_default_value": "",
+            "_mustBeNonEmpty": false,
+            "_mustBeScalar": true,
+            "_mustNotHaveNaN": false,
+            "_queryable": true,
+            "_ontology": null,
+            "_documentation": "The original filename of the data file.",
+            "_constraints": {
+                "max_length": 512
+            }
+        },
+        {
+            "_name": "mimetype",
+            "type": "char",
+            "_blank_value": "",
+            "_default_value": "application/octet-stream",
+            "_mustBeNonEmpty": false,
+            "_mustBeScalar": true,
+            "_mustNotHaveNaN": false,
+            "_queryable": true,
+            "_ontology": null,
+            "_documentation": "The MIME type of the data file.",
+            "_constraints": {
+                "max_length": 128
+            }
+        },
+        {
+            "_name": "description",
+            "type": "char",
+            "_blank_value": "",
+            "_default_value": "",
+            "_mustBeNonEmpty": false,
+            "_mustBeScalar": true,
+            "_mustNotHaveNaN": false,
+            "_queryable": false,
+            "_ontology": null,
+            "_documentation": "A free-text description of the file contents.",
+            "_constraints": {
+                "max_length": 1024
+            }
+        }
+    ]
+}

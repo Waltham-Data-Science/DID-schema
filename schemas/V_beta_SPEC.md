@@ -1,11 +1,17 @@
-# REPO_SPEC.md — did-schema: DID/NDI Document Schema Format
+# V_beta_SPEC.md — DID/NDI Document Schema Format (V_beta)
 
 ## Purpose
 
-This document is a complete specification for the `did-schema` repository.
-This repo defines the canonical JSON schema format for DID/NDI document types.
-It is language-agnostic — language-specific tooling (MATLAB, Python, etc.) lives
-in separate repositories and consumes these schemas as a dependency.
+This document is a complete specification for the **V_beta** schema set in the
+`did-schema` repository. V_beta inherits the V_alpha flat directory layout
+(one JSON file per document type at the top of `schemas/V_beta/`) and adds
+**snake_case naming requirements** for classnames, field names, and filenames.
+See the "Naming Convention" section below and — for every rule that V_beta
+shares with V_alpha — `schemas/V_alpha_SPEC.md`.
+
+The specification is language-agnostic — language-specific tooling (MATLAB,
+Python, etc.) lives in separate repositories and consumes these schemas as a
+dependency.
 
 ---
 
@@ -22,7 +28,7 @@ not NDI itself — it is the schema layer that NDI and DID both depend on.
 **What this repo does:**
 - Defines the canonical JSON format for schema files that describe DID/NDI document types.
 - Provides a meta-schema (a schema for schema files themselves) that validates schema files before they are used.
-- Ships example schema files for `base` and `probe_location` document types.
+- Ships one JSON file per document type under `schemas/V_beta/` using a flat layout.
 - Ships Python-based unit tests that validate all schemas and document fixtures.
 
 **What this repo does NOT do:**
@@ -36,20 +42,17 @@ not NDI itself — it is the schema layer that NDI and DID both depend on.
 did-schema/
 │
 ├── README.md
-├── REPO_SPEC.md                        ← (this file)
 ├── pyproject.toml                      ← Python test dependencies
 │
 ├── schemas/
-│   ├── meta/
-│   │   └── did_schema_meta.json        ← meta-schema: validates schema files
-│   ├── base/
-│   │   └── schema.json                 ← schema for the base document type
-│   ├── data/
-│   │   └── directory/
-│   │       └── schema.json             ← schema for the directory document type
-│   └── probe/
-│       └── probe_location/
-│           └── schema.json             ← schema for probe_location document type
+│   ├── V_beta_SPEC.md                  ← (this file) V_beta specification
+│   ├── V_beta_notes.md                 ← V_beta status and V_alpha→V_beta renames
+│   └── V_beta/                         ← flat directory of V_beta schemas
+│       ├── did_schema_meta.json        ← meta-schema: validates schema files
+│       ├── base.json                   ← schema for the base document type
+│       ├── directory.json              ← schema for the directory document type
+│       ├── probe_location.json         ← schema for probe_location document type
+│       └── ...                         ← one JSON file per document type (all snake_case)
 │
 └── tests/
     ├── conftest.py                     ← shared fixtures and helpers
@@ -66,10 +69,20 @@ did-schema/
 
 ### Schema directory layout
 
-Each document type lives in its own directory containing a `schema.json` file.
-Path references in schema files use the `$NDISCHEMAPATH` token, resolved at runtime
-by consumer tooling. Blank document definitions (templates) are the responsibility
-of language-specific tooling repos, not this repo.
+Each document type is a **single JSON file** at the top of `schemas/V_beta/`,
+named `<classname>.json`. The filename stem must equal the document's
+`_classname` value, and because classnames must be snake_case (see below) the
+filename is also snake_case. There is exactly one schema file per document
+type; subdirectories and per-type directories are not used.
+
+The meta-schema (`did_schema_meta.json`) lives alongside the document-type
+schemas in `schemas/V_beta/`.
+
+Path references in schema files use the `$NDISCHEMAPATH` token, resolved at
+runtime by consumer tooling. Under the flat layout, a reference to another
+schema resolves as `$NDISCHEMAPATH/<classname>.json`. Blank document
+definitions (templates) are the responsibility of language-specific tooling
+repos, not this repo.
 
 ---
 
@@ -92,6 +105,39 @@ keyword, but the enum values it accepts (`char`, `did_uid`, `matrix`, etc.) are
 NDI-specific. The key itself is kept without prefix because it is standard; the
 allowed values are documented below.
 
+### V_beta snake_case requirements
+
+V_beta tightens V_alpha's naming rules: every identifier introduced by the
+schema author must be snake_case. Specifically:
+
+- **Classnames.** The value of `_classname` (at the top level and inside each
+  `_superclasses` entry) must match `^[a-z][a-z0-9_]*$` — lowercase letters,
+  digits, and underscores, starting with a letter. No uppercase letters, no
+  camelCase, no PascalCase.
+- **Field names.** The value of `_name` on every field definition object
+  (inside `_fields`, at any nesting depth, including nested `structure`
+  subfields) must match `^[a-z][a-z0-9_]*$`, with no more than two consecutive
+  underscores.
+- **Dependency names.** The value of `_name` on every `_depends_on` entry must
+  match `^[a-z][a-z0-9_]*(_#)?$` — the optional trailing `_#` is the numeric
+  placeholder described in "Numbered Dependencies" below.
+- **Directory record names.** The value of `_name` on every `_directory` entry
+  must match `^[a-z][a-z0-9_]*$`.
+- **File record names.** The value of `_name` on every `_file` entry should
+  be snake_case where it is an identifier. When the `_name` is a literal
+  filename (e.g. `"level1.bin"`), the stem before the extension must be
+  snake_case; the extension is preserved.
+- **Filenames.** Each schema file is named `<classname>.json`; since the
+  classname is snake_case, the filename stem is likewise snake_case.
+
+Keys that are either standard JSON Schema keywords or underscore-prefixed
+structural keys (`_classname`, `_class_version`, `_mustBeNonEmpty`, etc.) are
+fixed by this specification and are **not** subject to the snake_case rule
+above — they are literal keys defined by the spec, not user-chosen names.
+
+The meta-schema for V_beta enforces the classname and field-name patterns
+directly.
+
 ---
 
 ## JSON Format: Schema Files
@@ -103,7 +149,7 @@ enforces this.
 
 | Key               | Type   | Required | May be empty? | Description |
 |-------------------|--------|----------|---------------|-------------|
-| `_classname`      | string | yes      | no            | Unique name of the document type. Must match `^[a-zA-Z][a-zA-Z0-9_]*$`. |
+| `_classname`      | string | yes      | no            | Unique name of the document type. Must match `^[a-z][a-z0-9_]*$` (snake_case, see Naming Convention). |
 | `_class_version`  | string | yes      | no            | Semantic version string `"MAJOR.MINOR.PATCH"`. |
 | `_maturity_level` | string | yes      | no            | `"work_in_progress"` or `"mature"`. |
 | `_superclasses`   | array  | yes      | yes (`[]`)    | Array of superclass reference objects (see below). |
@@ -118,13 +164,13 @@ unrecognized top-level keys.
 ### Superclass Reference Object
 
 ```json
-{ "_classname": "base", "_schema": "$NDISCHEMAPATH/base/schema.json" }
+{ "_classname": "base", "_schema": "$NDISCHEMAPATH/base.json" }
 ```
 
 | Key          | Type   | Required | Description |
 |--------------|--------|----------|-------------|
 | `_classname` | string | yes      | Name of the parent class. |
-| `_schema`    | string | yes      | Path or token-substituted path to the parent schema file. |
+| `_schema`    | string | yes      | Path or token-substituted path to the parent schema file. Under the flat V_beta layout this is `$NDISCHEMAPATH/<parent_classname>.json`. |
 
 ### Dependency Object
 
@@ -203,7 +249,7 @@ contains.
 
 #### Directory Document Type
 
-The `directory` document type (`schemas/data/directory/schema.json`) is the storage
+The `directory` document type (`schemas/V_beta/directory.json`) is the storage
 backing for `_directory` slots. It extends `base` and has the following structure:
 
 **Dependencies:**
@@ -311,7 +357,7 @@ Every entry in `"_fields"` (at any nesting depth) must have **all** of the follo
 
 | Key               | Type            | Required | Notes |
 |-------------------|-----------------|----------|-------|
-| `_name`           | string          | yes      | `^[a-zA-Z][a-zA-Z0-9_]*$`, no more than two consecutive underscores. |
+| `_name`           | string          | yes      | `^[a-z][a-z0-9_]*$` (snake_case), no more than two consecutive underscores. |
 | `type`            | string          | yes      | One of the valid types (see Type System below). Standard JSON Schema keyword. |
 | `_blank_value`    | any             | yes      | Value in a freshly constructed blank document. May fail validation. |
 | `_default_value`  | any             | yes      | Legitimate fallback. Must pass validation. |
@@ -472,15 +518,16 @@ no database.
 
 ## The Meta-Schema
 
-`schemas/meta/did_schema_meta.json` is a JSON Schema Draft 7 file (standard JSON Schema,
-not NDI format) that validates any NDI schema file. This lets you use any standard JSON
+`schemas/V_beta/did_schema_meta.json` is a JSON Schema Draft 7 file (standard JSON
+Schema, not NDI format) that validates any NDI schema file. This lets you use any standard JSON
 Schema validator (e.g., Python `jsonschema`) to check that an NDI schema file is
 well-formed before loading it.
 
 The meta-schema must enforce:
 - Required top-level keys are present: `_classname`, `_class_version`, `_maturity_level`, `_superclasses`, `_depends_on`, `_fields`.
 - Optional top-level keys, if present, have correct structure: `_file`, `_directory`.
-- `_classname` matches `^[a-zA-Z][a-zA-Z0-9_]*$`.
+- `_classname` matches `^[a-z][a-z0-9_]*$` (snake_case).
+- Every `_name` on a field, dependency, or record matches the appropriate snake_case pattern (see "V_beta snake_case requirements" above).
 - `_class_version` matches `^\d+\.\d+\.\d+$`.
 - `_maturity_level` is `"work_in_progress"` or `"mature"`.
 - `_superclasses` is an array of objects each with `_classname` (string) and `_schema` (string).
@@ -498,7 +545,7 @@ The meta-schema must enforce:
 
 ## Example Schema Files
 
-### `schemas/base/schema.json`
+### `schemas/V_beta/base.json`
 
 ```json
 {
@@ -579,14 +626,14 @@ The meta-schema must enforce:
 }
 ```
 
-### `schemas/probe/probe_location/schema.json`
+### `schemas/V_beta/probe_location.json`
 
 ```json
 {
     "_classname":     "probe_location",
     "_class_version": "1.0.0",
     "_superclasses": [
-        { "_classname": "base", "_schema": "$NDISCHEMAPATH/base/schema.json" }
+        { "_classname": "base", "_schema": "$NDISCHEMAPATH/base.json" }
     ],
     "_depends_on": [
         {

@@ -17,7 +17,7 @@ Every schema file is a JSON object with exactly six top-level keys:
 
 Each field definition object contains: `name`, `type`, `blank_value`, `default_value`, `mustBeNonEmpty`, `mustBeScalar`, `mustNotHaveNaN`, `queryable`, `ontology`, `documentation`, and `constraints`. Supported types are `did_uid`, `char`, `integer`, `double`, `matrix`, `timestamp`, `boolean`, and `structure`.
 
-See [REPO_SPEC.md](REPO_SPEC.md) for the full specification.
+See [schemas/V_alpha_SPEC.md](schemas/V_alpha_SPEC.md) for the V_alpha specification and [schemas/V_beta_SPEC.md](schemas/V_beta_SPEC.md) for the V_beta specification (V_alpha plus snake_case naming requirements).
 
 ## Directory layout
 
@@ -27,7 +27,6 @@ Each document type is a directory under `schemas/` containing its schema definit
 did-schema/
 |
 +-- README.md
-+-- REPO_SPEC.md
 +-- pyproject.toml
 |
 +-- schemas/

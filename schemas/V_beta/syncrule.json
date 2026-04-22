@@ -1,0 +1,44 @@
+{
+    "_classname": "syncrule",
+    "_class_version": "1.0.0",
+    "_maturity_level": "work_in_progress",
+    "_superclasses": [
+        {
+            "_classname": "base",
+            "_schema": "$NDISCHEMAPATH/base/schema.json"
+        }
+    ],
+    "_depends_on": [],
+    "_file": [],
+    "_fields": [
+        {
+            "_name": "ndi_syncrule_class",
+            "type": "char",
+            "_blank_value": "",
+            "_default_value": "",
+            "_mustBeNonEmpty": true,
+            "_mustBeScalar": true,
+            "_mustNotHaveNaN": false,
+            "_queryable": true,
+            "_ontology": null,
+            "_documentation": "The class name of the synchronisation rule implementation.",
+            "_constraints": {
+                "max_length": 256
+            }
+        },
+        {
+            "_name": "parameters",
+            "type": "structure",
+            "_blank_value": {},
+            "_default_value": {},
+            "_mustBeNonEmpty": false,
+            "_mustBeScalar": true,
+            "_mustNotHaveNaN": false,
+            "_queryable": false,
+            "_ontology": null,
+            "_documentation": "Synchronisation rule parameters. Keys and value types are specific to the sync rule implementation named in ndi_syncrule_class.",
+            "_constraints": {},
+            "_fields": []
+        }
+    ]
+}
