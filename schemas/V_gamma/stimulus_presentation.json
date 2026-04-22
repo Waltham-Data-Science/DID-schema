@@ -1,0 +1,65 @@
+{
+    "_classname": "stimulus_presentation",
+    "_class_version": "1.0.0",
+    "_maturity_level": "work_in_progress",
+    "_superclasses": [
+        {
+            "_classname": "base",
+            "_schema": "$NDISCHEMAPATH/base/schema.json"
+        }
+    ],
+    "_depends_on": [
+        {
+            "_name": "element_id",
+            "_mustBeNonEmpty": true,
+            "_documentation": "The document ID of the element associated with this stimulus presentation.",
+            "_must_refer_to_document_class": ""
+        }
+    ],
+    "_file": [],
+    "_fields": [
+        {
+            "_name": "stimulus_type",
+            "type": "char",
+            "_blank_value": "",
+            "_default_value": "",
+            "_mustBeNonEmpty": true,
+            "_mustBeScalar": true,
+            "_mustNotHaveNaN": false,
+            "_queryable": true,
+            "_ontology": null,
+            "_documentation": "The type of stimulus presented (e.g., 'grating', 'noise', 'natural_image').",
+            "_constraints": {
+                "max_length": 256
+            }
+        },
+        {
+            "_name": "presentation_order",
+            "type": "matrix",
+            "_blank_value": [],
+            "_default_value": [],
+            "_mustBeNonEmpty": false,
+            "_mustBeScalar": false,
+            "_mustNotHaveNaN": true,
+            "_queryable": false,
+            "_ontology": null,
+            "_documentation": "Array of integer stimulus indices (1-based) in the order they were presented. Length equals num_trials.",
+            "_constraints": {
+                "element_type": "integer"
+            }
+        },
+        {
+            "_name": "num_trials",
+            "type": "integer",
+            "_blank_value": 0,
+            "_default_value": 0,
+            "_mustBeNonEmpty": false,
+            "_mustBeScalar": true,
+            "_mustNotHaveNaN": true,
+            "_queryable": true,
+            "_ontology": null,
+            "_documentation": "The total number of stimulus trials.",
+            "_constraints": {}
+        }
+    ]
+}

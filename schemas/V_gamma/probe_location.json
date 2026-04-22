@@ -1,0 +1,38 @@
+{
+    "_classname": "probe_location",
+    "_class_version": "2.0.0",
+    "_maturity_level": "work_in_progress",
+    "_superclasses": [
+        {
+            "_classname": "base",
+            "_schema": "$NDISCHEMAPATH/base/schema.json"
+        }
+    ],
+    "_depends_on": [
+        {
+            "_name": "probe_id",
+            "_mustBeNonEmpty": true,
+            "_documentation": "The unique ID of the probe document this location is associated with.",
+            "_must_refer_to_document_class": ""
+        }
+    ],
+    "_file": [],
+    "_fields": [
+        {
+            "_name": "location",
+            "type": "ontology_term",
+            "_blank_value": null,
+            "_default_value": null,
+            "_mustBeNonEmpty": false,
+            "_mustBeScalar": true,
+            "_mustNotHaveNaN": false,
+            "_queryable": true,
+            "_ontology": {
+                "_node": "iao:0000219",
+                "_name": "denotes"
+            },
+            "_documentation": "Anatomical or functional location of the probe, as an ontology term (e.g., UBERON:0002436 'primary visual cortex').",
+            "_constraints": {}
+        }
+    ]
+}

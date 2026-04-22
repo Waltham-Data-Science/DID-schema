@@ -1,0 +1,48 @@
+{
+    "_classname": "control_stimulus_ids",
+    "_class_version": "1.0.0",
+    "_maturity_level": "work_in_progress",
+    "_superclasses": [
+        {
+            "_classname": "base",
+            "_schema": "$NDISCHEMAPATH/base/schema.json"
+        }
+    ],
+    "_depends_on": [
+        {
+            "_name": "stimulus_presentation_id",
+            "_mustBeNonEmpty": true,
+            "_documentation": "The document ID of the stimulus presentation these control IDs describe.",
+            "_must_refer_to_document_class": ""
+        }
+    ],
+    "_file": [],
+    "_fields": [
+        {
+            "_name": "control_ids",
+            "type": "char",
+            "_blank_value": "",
+            "_default_value": "",
+            "_mustBeNonEmpty": false,
+            "_mustBeScalar": true,
+            "_mustNotHaveNaN": false,
+            "_queryable": false,
+            "_ontology": null,
+            "_documentation": "Comma-separated list of control stimulus identifiers (e.g., 'blank,gray_screen'). These identify which stimulus conditions serve as controls.",
+            "_constraints": {}
+        },
+        {
+            "_name": "num_control_ids",
+            "type": "integer",
+            "_blank_value": 0,
+            "_default_value": 0,
+            "_mustBeNonEmpty": false,
+            "_mustBeScalar": true,
+            "_mustNotHaveNaN": true,
+            "_queryable": true,
+            "_ontology": null,
+            "_documentation": "The number of unique control stimulus identifiers.",
+            "_constraints": {}
+        }
+    ]
+}
