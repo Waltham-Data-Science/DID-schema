@@ -7,8 +7,6 @@ import glob
 import os
 import re
 
-import pytest
-
 from conftest import load_json
 
 # V_beta type set: the primitives.

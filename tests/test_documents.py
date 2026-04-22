@@ -8,8 +8,6 @@ every active schema version (V_beta and V_gamma).
 import os
 import re
 
-import pytest
-
 from conftest import load_json
 
 TIMESTAMP_RE = re.compile(
