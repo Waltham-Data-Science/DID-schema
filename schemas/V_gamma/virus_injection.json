@@ -30,7 +30,7 @@
             "_ontology": null,
             "_documentation": "The name of the virus construct (e.g., 'AAV2-CaMKII-GCaMP6f').",
             "_constraints": {
-                "max_length": 512
+                "maxLength": 512
             }
         },
         {
@@ -45,7 +45,7 @@
             "_ontology": null,
             "_documentation": "The serotype of the viral vector (e.g., 'AAV2', 'AAV9', 'lentivirus').",
             "_constraints": {
-                "max_length": 64
+                "maxLength": 64
             }
         },
         {
@@ -73,7 +73,7 @@
             "_ontology": null,
             "_documentation": "The units for the titer (e.g., 'gc/mL', 'vg/mL').",
             "_constraints": {
-                "max_length": 32
+                "maxLength": 32
             }
         },
         {
@@ -101,7 +101,7 @@
             "_ontology": null,
             "_documentation": "The units for the injected volume (e.g., 'nL', 'uL').",
             "_constraints": {
-                "max_length": 16
+                "maxLength": 16
             }
         },
         {
@@ -116,7 +116,7 @@
             "_ontology": null,
             "_documentation": "The anatomical location of the injection site.",
             "_constraints": {
-                "max_length": 256
+                "maxLength": 256
             }
         }
     ]

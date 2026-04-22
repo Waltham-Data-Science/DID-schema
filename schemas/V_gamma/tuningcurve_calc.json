@@ -30,7 +30,7 @@
             "_ontology": null,
             "_documentation": "The name of the tuning curve calculator.",
             "_constraints": {
-                "max_length": 256
+                "maxLength": 256
             }
         },
         {

@@ -30,7 +30,7 @@
             "_ontology": null,
             "_documentation": "The identifier of the dataset this session belongs to.",
             "_constraints": {
-                "max_length": 256
+                "maxLength": 256
             }
         }
     ]

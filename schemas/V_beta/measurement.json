@@ -34,7 +34,7 @@
             "_ontology": null,
             "_documentation": "The class name of the measurement type (e.g., 'ndi_timeseries_measurement').",
             "_constraints": {
-                "max_length": 256
+                "maxLength": 256
             }
         },
         {

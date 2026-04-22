@@ -30,7 +30,7 @@
             "_ontology": null,
             "_documentation": "The type of stimulus presented (e.g., 'grating', 'noise', 'natural_image').",
             "_constraints": {
-                "max_length": 256
+                "maxLength": 256
             }
         },
         {

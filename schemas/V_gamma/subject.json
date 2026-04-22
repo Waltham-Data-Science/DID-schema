@@ -26,7 +26,7 @@
             },
             "_documentation": "A globally unique identifier meaningful to a local group (e.g., 'mouse123@vhlab.org').",
             "_constraints": {
-                "max_length": 256
+                "maxLength": 256
             }
         },
         {
@@ -44,7 +44,7 @@
             },
             "_documentation": "A free-text description of the subject.",
             "_constraints": {
-                "max_length": 1024
+                "maxLength": 1024
             }
         }
     ]

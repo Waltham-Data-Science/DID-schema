@@ -23,7 +23,7 @@
             "_ontology": null,
             "_documentation": "The class name of the metadata editor implementation.",
             "_constraints": {
-                "max_length": 256
+                "maxLength": 256
             }
         },
         {
@@ -38,7 +38,7 @@
             "_ontology": null,
             "_documentation": "The DID classname of the documents this editor can modify.",
             "_constraints": {
-                "max_length": 256
+                "maxLength": 256
             }
         }
     ]

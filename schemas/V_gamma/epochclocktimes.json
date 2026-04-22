@@ -34,7 +34,7 @@
             "_ontology": null,
             "_documentation": "The clock type for this epoch (e.g., 'dev_local_time', 'utc', 'exp_global_time').",
             "_constraints": {
-                "max_length": 256
+                "maxLength": 256
             }
         },
         {

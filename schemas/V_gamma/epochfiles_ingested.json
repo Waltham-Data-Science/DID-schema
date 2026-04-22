@@ -30,7 +30,7 @@
             "_ontology": null,
             "_documentation": "The status of the epoch files ingestion ('complete', 'partial', 'failed').",
             "_constraints": {
-                "max_length": 32
+                "maxLength": 32
             }
         },
         {

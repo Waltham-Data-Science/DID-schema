@@ -30,7 +30,7 @@
             "_ontology": null,
             "_documentation": "The name or formula of the fitting function (e.g., 'gaussian', 'sigmoid', 'polynomial').",
             "_constraints": {
-                "max_length": 256
+                "maxLength": 256
             }
         },
         {
@@ -74,7 +74,7 @@
             "_ontology": null,
             "_documentation": "The type of goodness-of-fit measure (e.g., 'r_squared', 'rmse', 'chi_squared').",
             "_constraints": {
-                "max_length": 64
+                "maxLength": 64
             }
         }
     ]

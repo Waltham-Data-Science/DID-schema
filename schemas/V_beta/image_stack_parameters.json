@@ -43,7 +43,7 @@
             "_ontology": null,
             "_documentation": "The units for the z-step (e.g., 'um', 'mm').",
             "_constraints": {
-                "max_length": 32
+                "maxLength": 32
             }
         },
         {
@@ -84,7 +84,7 @@
             "_ontology": null,
             "_documentation": "The units for the pixel size (e.g., 'um', 'mm').",
             "_constraints": {
-                "max_length": 32
+                "maxLength": 32
             }
         }
     ]

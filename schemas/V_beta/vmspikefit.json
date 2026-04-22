@@ -35,7 +35,7 @@
             "_ontology": null,
             "_documentation": "The name of the function used to fit Vm to firing rate (e.g., 'threshold_linear', 'rectified_power').",
             "_constraints": {
-                "max_length": 128
+                "maxLength": 128
             }
         },
         {

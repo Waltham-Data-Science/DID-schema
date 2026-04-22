@@ -30,7 +30,7 @@
             "_ontology": null,
             "_documentation": "The class name of the metadata reader implementation.",
             "_constraints": {
-                "max_length": 256
+                "maxLength": 256
             }
         },
         {

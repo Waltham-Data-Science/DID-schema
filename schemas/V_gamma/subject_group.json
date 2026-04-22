@@ -23,7 +23,7 @@
             "_ontology": null,
             "_documentation": "The name of the subject group (e.g., 'control', 'treatment').",
             "_constraints": {
-                "max_length": 256
+                "maxLength": 256
             }
         },
         {
@@ -38,7 +38,7 @@
             "_ontology": null,
             "_documentation": "A free-text description of this subject group.",
             "_constraints": {
-                "max_length": 1024
+                "maxLength": 1024
             }
         },
         {

@@ -23,7 +23,7 @@
             "_ontology": null,
             "_documentation": "A unique reference string for this experimental session.",
             "_constraints": {
-                "max_length": 256
+                "maxLength": 256
             }
         },
         {
@@ -38,7 +38,7 @@
             "_ontology": null,
             "_documentation": "The session type (e.g., 'acute', 'chronic').",
             "_constraints": {
-                "max_length": 128
+                "maxLength": 128
             }
         },
         {
@@ -53,7 +53,7 @@
             "_ontology": null,
             "_documentation": "The date of the session in ISO 8601 format (YYYY-MM-DD).",
             "_constraints": {
-                "max_length": 32
+                "maxLength": 32
             }
         },
         {
@@ -68,7 +68,7 @@
             "_ontology": null,
             "_documentation": "A free-text description of the purpose of this session.",
             "_constraints": {
-                "max_length": 1024
+                "maxLength": 1024
             }
         }
     ]

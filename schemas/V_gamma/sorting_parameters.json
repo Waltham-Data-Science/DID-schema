@@ -30,7 +30,7 @@
             "_ontology": null,
             "_documentation": "The name of the spike sorting algorithm.",
             "_constraints": {
-                "max_length": 128
+                "maxLength": 128
             }
         },
         {

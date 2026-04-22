@@ -45,7 +45,7 @@
             "_ontology": null,
             "_documentation": "The units of the offset voltage values (e.g., 'V', 'mV', 'uV').",
             "_constraints": {
-                "max_length": 16
+                "maxLength": 16
             }
         }
     ]

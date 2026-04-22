@@ -43,7 +43,7 @@
             "_ontology": null,
             "_documentation": "Quality label for this unit (e.g., 'good', 'mua', 'noise').",
             "_constraints": {
-                "max_length": 64
+                "maxLength": 64
             }
         },
         {

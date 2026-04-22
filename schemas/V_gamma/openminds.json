@@ -23,7 +23,7 @@
             "_ontology": null,
             "_documentation": "The openMINDS schema type (e.g., 'core.DatasetVersion', 'core.Person').",
             "_constraints": {
-                "max_length": 256
+                "maxLength": 256
             }
         },
         {
@@ -54,7 +54,7 @@
             "_ontology": null,
             "_documentation": "The version of the openMINDS specification used.",
             "_constraints": {
-                "max_length": 16
+                "maxLength": 16
             }
         }
     ]

@@ -30,7 +30,7 @@
             "_ontology": null,
             "_documentation": "The name of the project.",
             "_constraints": {
-                "max_length": 256
+                "maxLength": 256
             }
         },
         {
@@ -45,7 +45,7 @@
             "_ontology": null,
             "_documentation": "The user who created this project variable.",
             "_constraints": {
-                "max_length": 256
+                "maxLength": 256
             }
         },
         {
@@ -60,7 +60,7 @@
             "_ontology": null,
             "_documentation": "The lab or group associated with this project variable.",
             "_constraints": {
-                "max_length": 256
+                "maxLength": 256
             }
         },
         {
@@ -75,7 +75,7 @@
             "_ontology": null,
             "_documentation": "A free-text description of the project variable.",
             "_constraints": {
-                "max_length": 1024
+                "maxLength": 1024
             }
         },
         {

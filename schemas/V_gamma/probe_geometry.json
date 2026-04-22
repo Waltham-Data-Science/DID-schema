@@ -59,7 +59,7 @@
             "_ontology": null,
             "_documentation": "The units for channel positions (e.g., 'um', 'mm').",
             "_constraints": {
-                "max_length": 32
+                "maxLength": 32
             }
         },
         {
@@ -74,7 +74,7 @@
             "_ontology": null,
             "_documentation": "The type or model of the probe (e.g., 'Neuropixels 1.0', 'tetrode').",
             "_constraints": {
-                "max_length": 256
+                "maxLength": 256
             }
         }
     ]

@@ -23,7 +23,7 @@
             "_ontology": null,
             "_documentation": "The class name of the file navigator implementation.",
             "_constraints": {
-                "max_length": 256
+                "maxLength": 256
             }
         },
         {
@@ -51,7 +51,7 @@
             "_ontology": null,
             "_documentation": "The class name of the epoch-to-probe mapping implementation.",
             "_constraints": {
-                "max_length": 256
+                "maxLength": 256
             }
         },
         {

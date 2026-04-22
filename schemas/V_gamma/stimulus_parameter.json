@@ -30,7 +30,7 @@
             "_ontology": null,
             "_documentation": "The name of the stimulus parameter (e.g., 'angle', 'spatial_frequency').",
             "_constraints": {
-                "max_length": 256
+                "maxLength": 256
             }
         },
         {
@@ -60,7 +60,7 @@
             "_ontology": null,
             "_documentation": "The units of the parameter values (e.g., 'degrees', 'cpd', 'Hz').",
             "_constraints": {
-                "max_length": 64
+                "maxLength": 64
             }
         }
     ]

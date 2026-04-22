@@ -23,7 +23,7 @@
             "_ontology": null,
             "_documentation": "The URL of the remote dataset location.",
             "_constraints": {
-                "max_length": 1024
+                "maxLength": 1024
             }
         },
         {
@@ -38,7 +38,7 @@
             "_ontology": null,
             "_documentation": "The type of remote storage (e.g., 's3', 'http', 'globus', 'git').",
             "_constraints": {
-                "max_length": 64
+                "maxLength": 64
             }
         },
         {
@@ -53,7 +53,7 @@
             "_ontology": null,
             "_documentation": "The dataset identifier at the remote location.",
             "_constraints": {
-                "max_length": 256
+                "maxLength": 256
             }
         }
     ]

@@ -35,7 +35,7 @@
             "_ontology": null,
             "_documentation": "The original filename of the data file.",
             "_constraints": {
-                "max_length": 512
+                "maxLength": 512
             }
         },
         {
@@ -50,7 +50,7 @@
             "_ontology": null,
             "_documentation": "The MIME type of the data file.",
             "_constraints": {
-                "max_length": 128
+                "maxLength": 128
             }
         },
         {
@@ -65,7 +65,7 @@
             "_ontology": null,
             "_documentation": "A free-text description of the file contents.",
             "_constraints": {
-                "max_length": 1024
+                "maxLength": 1024
             }
         }
     ]
