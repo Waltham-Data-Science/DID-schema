@@ -3,7 +3,7 @@
     "$id": "https://did-schema.example.org/meta/CURIE_lookups_meta.json",
     "title": "CURIE Registry for DID/NDI V_gamma",
     "description": "Registry mapping CURIE prefixes (used in ontology_term.node values and in field-level _ontology._node annotations) to their authoritative URI base and metadata. Consumer tooling uses this file to expand a CURIE such as 'uberon:0002436' into the full URI 'http://purl.obolibrary.org/obo/UBERON_0002436'. Prefixes are matched case-insensitively; by convention prefixes are written in lowercase inside documents and annotations.",
-    "_format_version": "1.0.0",
+    "_format_version": "1.1.0",
     "_prefixes": {
         "iao": {
             "_label": "Information Artifact Ontology",
@@ -32,6 +32,20 @@
             "_uri_style": "obo_underscore",
             "_approximate": false,
             "_documentation": "Anatomical ontology for the developing mouse."
+        },
+        "mmusdv": {
+            "_label": "Mouse Developmental Stages",
+            "_uri_base": "http://purl.obolibrary.org/obo/MmusDv_",
+            "_uri_style": "obo_underscore",
+            "_approximate": false,
+            "_documentation": "Life-cycle / developmental-stage ontology for Mus musculus. Useful inside ontology_term values and in time_reference values whose referent_kind == 'ontology_stage' (e.g., 'mmusdv:0000037' postnatal stage)."
+        },
+        "hsapdv": {
+            "_label": "Human Developmental Stages",
+            "_uri_base": "http://purl.obolibrary.org/obo/HsapDv_",
+            "_uri_style": "obo_underscore",
+            "_approximate": false,
+            "_documentation": "Life-cycle / developmental-stage ontology for Homo sapiens. Useful for time_reference values whose referent_kind == 'ontology_stage'."
         },
         "ncit": {
             "_label": "NCI Thesaurus",

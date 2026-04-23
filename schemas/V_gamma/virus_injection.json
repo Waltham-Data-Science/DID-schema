@@ -1,6 +1,6 @@
 {
     "_classname": "virus_injection",
-    "_class_version": "1.0.0",
+    "_class_version": "1.1.0",
     "_maturity_level": "work_in_progress",
     "_superclasses": [
         {
@@ -13,6 +13,12 @@
             "_name": "subject_id",
             "_mustBeNonEmpty": true,
             "_documentation": "The document ID of the subject that received this virus injection.",
+            "_must_refer_to_document_class": ""
+        },
+        {
+            "_name": "injected_at_referent_id",
+            "_mustBeNonEmpty": false,
+            "_documentation": "Document whose start, end, or midpoint is the origin for injected_at. Required when injected_at.referent_kind == 'document'; left empty otherwise. Cascading delete: if the referenced document is deleted, this virus_injection document is deleted too.",
             "_must_refer_to_document_class": ""
         }
     ],
@@ -118,6 +124,19 @@
             "_constraints": {
                 "maxLength": 256
             }
+        },
+        {
+            "_name": "injected_at",
+            "type": "time_reference",
+            "_blank_value": null,
+            "_default_value": null,
+            "_mustBeNonEmpty": false,
+            "_mustBeScalar": true,
+            "_mustNotHaveNaN": true,
+            "_queryable": true,
+            "_ontology": null,
+            "_documentation": "When the injection was performed, expressed as a time_reference. Optional. When referent_kind == 'document', depends_on_name must equal 'injected_at_referent_id'.",
+            "_constraints": {}
         }
     ]
 }

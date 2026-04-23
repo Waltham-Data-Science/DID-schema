@@ -1,6 +1,6 @@
 {
     "_classname": "treatment",
-    "_class_version": "2.0.0",
+    "_class_version": "2.1.0",
     "_maturity_level": "work_in_progress",
     "_superclasses": [
         {
@@ -25,6 +25,12 @@
             "_name": "protocol_id",
             "_mustBeNonEmpty": false,
             "_documentation": "The document ID of the protocol associated with this treatment.",
+            "_must_refer_to_document_class": ""
+        },
+        {
+            "_name": "administered_at_referent_id",
+            "_mustBeNonEmpty": false,
+            "_documentation": "Document whose start, end, or midpoint is the origin for administered_at. Required when administered_at.referent_kind == 'document'; left empty otherwise. Cascading delete: if the referenced document is deleted, this treatment document is deleted too.",
             "_must_refer_to_document_class": ""
         }
     ],
@@ -67,6 +73,19 @@
             "_queryable": true,
             "_ontology": null,
             "_documentation": "The character string value associated with the treatment.",
+            "_constraints": {}
+        },
+        {
+            "_name": "administered_at",
+            "type": "time_reference",
+            "_blank_value": null,
+            "_default_value": null,
+            "_mustBeNonEmpty": false,
+            "_mustBeScalar": true,
+            "_mustNotHaveNaN": true,
+            "_queryable": true,
+            "_ontology": null,
+            "_documentation": "When the treatment was administered, expressed as a time_reference. Optional — leave null when administration time is not recorded. When referent_kind == 'document', depends_on_name must equal 'administered_at_referent_id'.",
             "_constraints": {}
         }
     ]

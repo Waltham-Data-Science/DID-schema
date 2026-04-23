@@ -1,0 +1,35 @@
+{
+    "_classname": "subject_birth_event",
+    "_class_version": "1.0.0",
+    "_maturity_level": "work_in_progress",
+    "_superclasses": [
+        {
+            "_classname": "base",
+            "_schema": "$NDISCHEMAPATH/base/schema.json"
+        }
+    ],
+    "_depends_on": [
+        {
+            "_name": "subject_id",
+            "_mustBeNonEmpty": true,
+            "_documentation": "The subject document whose birth (or birth-equivalent origin) this document records. Cascading delete: when the subject tag document is deleted, this event is deleted too.",
+            "_must_refer_to_document_class": "subject"
+        }
+    ],
+    "_file": [],
+    "_fields": [
+        {
+            "_name": "occurred_at",
+            "type": "time_reference",
+            "_blank_value": null,
+            "_default_value": null,
+            "_mustBeNonEmpty": true,
+            "_mustBeScalar": true,
+            "_mustNotHaveNaN": true,
+            "_queryable": true,
+            "_ontology": null,
+            "_documentation": "When the subject was born, expressed as a time_reference. For wild-caught animals or subjects without recorded DOB, use referent_kind == 'unknown'; for stage-only knowledge use referent_kind == 'ontology_stage' with a developmental-stage CURIE (e.g., 'mmusdv:0000037' postnatal stage). Document-kind references are unusual here but permitted (e.g., birth witnessed during another logged event).",
+            "_constraints": {}
+        }
+    ]
+}
