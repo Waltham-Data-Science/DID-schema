@@ -2,6 +2,8 @@
 
 This note synthesises the seven per-paper summaries in this directory into a proposal for the minimal set of NDI document types needed to fully encapsulate the data + metadata for reuse, plus a validation strategy that balances standardisation with per-paradigm flexibility. This is a design sketch for discussion, not a decided plan.
 
+> **Reader's note (important).** The original version of this document proposed ~15 new NDI document types built from scratch. After inspecting the openMINDS schema repositories in depth (see [Leveraging openMINDS](#leveraging-openminds) below), it turned out that most of those types already exist in openMINDS with nearly the same semantics — including the `treatment_protocol` / `treatment_event` split, the `apparatus` / `placement` pattern, the `subject` / `subject_state` pattern, and the `substrate` via-`TissueSample` pattern. The later sections of this document still stand on their own as a domain analysis, but the **minimal NDI schema** recommended at the bottom is much narrower than the original ~15-type list: **reuse openMINDS for metadata, and let NDI own only the things openMINDS does not cover** (sample-aligned epochs, spike-sorted units, fit/tuning-curve/HMM outputs, clock-sync graphs, the `did_uid` scheme, and schema-file meta-validation).
+
 ## Common themes that recur across all 7 papers
 
 Even across tree shrew / rat / ferret / mouse / *C. elegans* / *C. briggsae*, and across in-vivo ephys / slice ephys / behavior / imaging / LC-MS, the same structural skeleton appears:
@@ -275,6 +277,139 @@ Mukherjee 2019 explicitly re-analyses 10 rats from Sadacca et al. 2016 and Li et
 7. How do we represent `placement_on` — as an `epoch` subclass, or as a distinct linking-document type?
 8. Is `treatment_event` a subclass of `epoch`, or a sibling type that references an epoch?
 
+## Leveraging openMINDS
+
+openMINDS (https://github.com/openMetadataInitiative) is a metadata framework developed by the Human Brain Project / EBRAINS community for describing neuroscience research products. It is modular, actively maintained, widely used (EBRAINS Knowledge Graph, DataLad, KnowledgeSpace), and in practice covers *most* of the document types we were proposing — with names and semantics that in many cases match what this document arrived at independently.
+
+### openMINDS at a glance
+
+Nine modules, each a separate GitHub repository under `openMetadataInitiative/`:
+
+| Module | Covers | Relevance to NDI |
+|---|---|---|
+| `openMINDS_core` | Subjects, specimens, strains, protocols, activities, devices, files, datasets, persons, identifiers | **High** — nearly the entire metadata skeleton |
+| `openMINDS_ephys` | Electrode / ElectrodeArray / Pipette + their Usage; Channel; Recording; RecordingActivity; CellPatching; ElectrodePlacement | **High** — direct match for ephys probes |
+| `openMINDS_stimulation` | Stimulus, EphysStimulus, StimulationActivity | **High** — direct match for visual gratings, shocks, optogenetic pulses |
+| `openMINDS_specimenPrep` | TissueSampleSlicing, CranialWindowPreparation, DevicePlacement, TissueCulturePreparation | **High** — slice ephys, chronic window, implant prep |
+| `openMINDS_SANDS` | Anatomical atlases, coordinate frameworks, parcellations, coordinate points, spatial annotations | **High** — probe_location + histology with real atlas IDs |
+| `openMINDS_controlledTerms` | 113 controlled-vocabulary schemas (Species, BiologicalSex, AgeCategory, Technique, StimulusType, Disease, CellType, Handedness, ExperimentalApproach, …) | **High** — replaces most of our enum fields |
+| `openMINDS_chemicals` | ChemicalSubstance, ChemicalMixture | Medium — useful for drug / reagent documents |
+| `openMINDS_computation` | Computational methodology metadata | Medium — for analysis pipelines |
+| `openMINDS_publications` | Publication + citation metadata | Low — useful but tangential |
+
+### How openMINDS is structured
+
+- Custom JSON template files named `*.schema.tpl.json` that expand to standard JSON Schema Draft 7 via openMINDS tooling.
+- Schemas use a small meta-vocabulary: `_type` (namespaced, e.g. `core:Subject`), `_extends` (inheritance), `_linkedTypes` (references to other typed documents), `_embeddedTypes` (inline sub-structures), `_linkedCategories` (polymorphic references — any member of a named category), `_instruction` (human-readable docs), `_formats` (e.g. IRI, date-time).
+- Instances are identified by IRIs/UUIDs and link to each other by reference.
+- Controlled-term categories are themselves schemas, with concrete term instances maintained as separate data.
+
+### The openMINDS patterns that match what we proposed
+
+The core design patterns that emerged from our cross-paper analysis are already present in openMINDS under slightly different names:
+
+| What we proposed | openMINDS equivalent | Notes |
+|---|---|---|
+| `subject` | `core:Subject` + `core:SubjectState` | State is time-slice: age, attributes, handedness. States can descend from each other via `descendedFrom` — e.g. pre-injection → post-injection → post-recording. |
+| Populational subject (plate of worms) | `core:SubjectGroup` + `core:SubjectGroupState` | Directly answers open question #1 — populations are first-class specimens. |
+| `treatment_protocol` (recipe) | `core:Protocol` | Carries `name`, `description`, `technique`, `stimulusType`, `describedIn` (citation). |
+| `treatment_event` (execution) | `core:ProtocolExecution` (extends `core:ExperimentalActivity` → `core:Activity`) | Has `startTime`, `endTime`, `input`, `output`, `performedBy`, `studyTarget`, `protocol` reference. Answers open question #2 exactly. |
+| `apparatus` | `core:Device` + specialisations (`ephys:ElectrodeArray`, `ephys:Electrode`, `ephys:Pipette`) | Physical-object record including `conductorMaterial`, `insulatorMaterial`, `intrinsicResistance`, `numberOfElectrodes`, `electrodeIdentifier[]`. |
+| `placement` | `core:DeviceUsage` + specialisations (`ephys:ElectrodeArrayUsage`) | Time-bounded *usage* of a device, carrying `anatomicalLocationOfArray`, `anatomicalLocationOfElectrodes[]`, `spatialLocationOfElectrodes[]` (as `sands:CoordinatePoint`), `contactResistances[]`, `usedSpecimen`. Neatly separates "the probe" from "the probe in this animal at this time." |
+| `stimulus` | `stimulation:Stimulus` (+ `stimulation:EphysStimulus`) | Has `deliveredBy` / `generatedBy` (device usage references), `epoch`, `specification`. |
+| `trial` / `epoch` (stimulus-aligned) | `stimulation:StimulationActivity` | An Activity with `stimulus[]`, `input` (SubjectState), `output` (files + SubjectState), `setup`, inherited `startTime`/`endTime`. |
+| `recording` | `ephys:Recording` + `ephys:RecordingActivity` + `ephys:Channel` | Splits the *data product* from the *activity that produced it*. |
+| `histology` / `probe_location` coordinates | `sands:AnatomicalTargetPosition`, `sands:CoordinatePoint`, `sands:ParcellationEntity`, `sands:CommonCoordinateFramework` | Allen CCF, Waxholm, custom frames all supported. |
+| `substrate` (brain slice) | `core:TissueSample` + `core:TissueSampleState` + `specimenPrep:TissueSampleSlicing` | Slice has its own identity, state transitions, and a slicing activity that produced it. |
+| `data_access` | `core:DOI`, `core:Handle`, `core:File`, `core:FileRepository`, `core:FileBundle`, `core:UsageAgreement`, `core:License` | Digital identifiers are first-class citizens. |
+| Controlled vocabularies (species, sex, technique, drug, …) | `controlledTerms:*` (113 categories) | Including `AgeCategory`, `BiologicalSex`, `Handedness`, `Species`, `Strain`, `Disease`, `ExperimentalApproach`, `Technique`, `StimulusType`, `CellType`, `AnatomicalAxesOrientation`, `BreedingType`, etc. |
+| Strain/transgenic line | `core:Strain` | Carries `species`, `backgroundStrain`, `geneticStrainType`, `breedingType`, RRID, ILAR laboratory code, stock number — directly models Francesconi's OTR-Cre / AVP-Cre lines, Haley's `osm-6(p811)`, Bhar's `klp-6`/`cil-7` mutants. |
+| Person / lab / funder | `core:Person` (+ ORCID), `core:Organization` (+ RORID), `core:Consortium`, `core:Funding` | |
+| Quantitative values with units | `core:QuantitativeValue`, `core:QuantitativeValueRange`, `core:QuantitativeValueArray` | All embedded types; carry value + unit + uncertainty. |
+
+### The structural insight openMINDS brings: everything is an Activity
+
+openMINDS treats every happening — a protocol execution, a stimulation, a recording, a surgery, a slicing — as an **Activity** with typed `input`s and `output`s, a time window, an agent who performed it, and optional `customPropertySet` for paradigm-specific fields. This gives you a **provenance DAG** for free: "this `analysis_output` came from these `Recording`s, which were produced by this `RecordingActivity`, which had these `SubjectState`s as input and this `Protocol` as its method, performed by this `Person` on this date." PROV-style provenance is arguably the thing we were groping toward with `depends_on` but never formalised.
+
+### What NDI still needs to own (the actual gaps)
+
+openMINDS does not cover — and was never designed to cover — the time-sample-aligned, data-in-file level of detail that NDI exists to provide:
+
+1. **`did_uid`** — NDI's immutable per-document identifier system (openMINDS uses IRIs/UUIDs; different scheme, but reconcilable).
+2. **Sample-aligned `epoch`** — an epoch that points at a specific sample range within a recording file, with clock-sync information. openMINDS's `Activity.startTime`/`endTime` is wall-clock and too coarse for sample-level queries.
+3. **Spike-sorted units** — unit ID, waveform, quality metrics, cluster parameters. openMINDS has `Recording` and `Channel` but not sorted units.
+4. **Fit / tuning-curve / analysis outputs** — DOG fits, Movshon TF fits, Naka-Rushton contrast, HMM change points, mixed-effects fits. The existing `apps/*` and `data/fitcurve` schemas already do this and should stay.
+5. **`daq/syncgraph`** — clock alignment across multiple recording streams. Unique to NDI.
+6. **`ingestion/syncrule_mapping`** — rules for merging / aligning data at ingest. Unique to NDI.
+7. **Factorial / covaried stimulus table** — `stimulus_parameter_table`, `stimulus_presentation`, `stimulus_tuningcurve`. openMINDS has a single `Stimulus` per presentation; it doesn't express "direction × TF × contrast factorial with shared blank."
+8. **Analysis app outputs** (`apps/calculators/*`, `apps/spikeextractor/*`, `apps/spikesorter/*`, `apps/markgarbage/*`, `apps/vhlab_voltage2firingrate/*`) — lab-specific calculators. Keep as-is.
+9. **The meta-schema** for validating schema files themselves. This is the current NDI meta-schema in `schemas/meta/did_schema_meta.json`.
+
+### Proposed integration architecture
+
+Three concrete moves:
+
+**Move 1 — declare openMINDS as an upstream dependency.**
+
+Pin a specific openMINDS release (all 9 modules, or the subset actually used). For each paper-level metadata need (subject, strain, protocol, device, stimulus type, anatomical location, …) the NDI schema *links out to* an openMINDS-typed instance rather than redefining fields. The existing `metadata/openminds` / `metadata/openminds_subject` / `metadata/openminds_stimulus` / `metadata/openminds_element` placeholders in the schema repo were exactly this pattern — half-finished but correct in spirit.
+
+**Move 2 — let NDI documents reference openMINDS instances natively.**
+
+Extend the NDI `depends_on` mechanism so a dependency can point at (i) another NDI document by `did_uid`, or (ii) an openMINDS instance by IRI/UUID. Ingest-time validation resolves both.
+
+**Move 3 — restrict NDI schema authoring to the gaps.**
+
+New NDI schemas should only be written for the 9 categories in "What NDI still needs to own" above. Do not re-author `subject`, `strain`, `protocol`, `device`, `stimulus_type`, `anatomical_location`, or controlled vocabularies — reference openMINDS. If a field needed on an NDI doc maps to an openMINDS controlled term, express that as `ontology: "openMINDS:controlledTerms:Species"` (or whatever the final link syntax is).
+
+### Revised minimal NDI document set
+
+With openMINDS doing the heavy lifting, the NDI-native document types shrink to roughly these:
+
+1. **`base`** (already exists) — `did_uid`, provenance.
+2. **`session`** — time-bounded experimental run; `depends_on` an openMINDS `SubjectState` or `SubjectGroupState` + a `DatasetVersion`.
+3. **`epoch`** — sample-aligned time window within a session, referencing an openMINDS `Activity` for semantics.
+4. **`recording`** — NDI-level wrapper tying raw data files to sample-alignment, sampling rate, channel map; can `depends_on` `ephys:RecordingActivity`.
+5. **`syncgraph`** / **`syncrule_mapping`** (already exist in some form) — clock alignment.
+6. **`spikesort_output`** — sorted units, waveforms, cluster params (generalise the existing `sorting/SpikeInterfaceSortingOutputs`).
+7. **`tuning_curve`** / **`fit_curve`** (already exist) — DOG, Movshon, Naka-Rushton, etc.
+8. **`analysis_output`** — generic derived data with `method` reference; the existing `apps/*` schemas are concrete cases.
+9. **`factor_design`** — factorial / covaried stimulus-parameter table; generalises `stimulus_parameter_table`.
+10. **`profile`** (optional, as before) — paradigm-level declaration of which openMINDS + NDI doc types are expected.
+
+That's ~10 NDI-native types instead of the ~15 I was proposing, and each one is doing something openMINDS does not.
+
+### Validation strategy update
+
+The three-layer strategy still applies, but with cleaner layering:
+
+1. **Structural (NDI meta-schema + openMINDS JSON Schema Draft 7).** NDI documents validated by the current NDI meta-schema; openMINDS-linked instances validated by openMINDS tooling upstream.
+2. **Link integrity at ingest.** Resolve every `depends_on` across both systems; error if an openMINDS IRI is unreachable or the linked instance's type doesn't match what the NDI field expects.
+3. **Ontology-backed controlled vocabularies via openMINDS.** Instead of maintaining NCBITaxon/UBERON/ChEBI lookups ourselves, use openMINDS controlled-term categories. They already wrap the underlying ontologies and provide stable IRIs.
+
+### How this changes the 7-paper stress test
+
+| Paper | What openMINDS would give you for free |
+|---|---|
+| Van Hooser 2013 | `core:Subject` (tree shrew), `controlledTerms:Species`, `ephys:Electrode` (carbon fiber / tetrode), `ephys:ElectrodeUsage` (laminar coordinates via `sands:CoordinatePoint`), `core:Protocol` (anaesthesia, paralysis), `stimulation:Stimulus` (drifting gratings, bars), `stimulation:StimulationActivity` per block, `sands:AnatomicalTargetPosition` for LGN layers & V1 sublaminae. NDI-native: sample-aligned epochs, spike sorts, DOG fits. |
+| Francesconi 2025 | `core:SubjectGroup` for OTR-Cre cohort, `core:Strain` for each Cre line, `core:Protocol` for AVP bath application, `core:ProtocolExecution` per slice, `specimenPrep:TissueSampleSlicing`, `ephys:PipetteUsage`, `stimulation:Stimulus` for optogenetic pulses, `core:DOI` for Zenodo code link, NDI-Cloud accession as `core:File`. NDI-native: trace-level epochs, behavior indices. |
+| Reikersdorfer 2022 | `core:Device` for CFEA (with fabrication metadata), `core:DeviceUsage` in mouse vs ferret, `specimenPrep:CranialWindowPreparation`, `specimenPrep:DevicePlacement`. NDI-native: 11-month longitudinal session linkage. |
+| Bhar 2025 | `core:SubjectGroup` for plate populations, `core:Strain` per mutant, `core:Protocol` for IAA+heat training (with sub-protocols composable!), `core:ProtocolExecution` per plate, `core:TissueSample` for the plate itself (with its own state transitions — trained → rested → readout), `stimulation:Stimulus` for IAA vapor / heat / diacetyl. |
+| Haley 2024 | Same as Bhar pattern; plus NDI-Cloud `core:DOI`, `core:File` for raw videos, `core:File` for tracking output. `core:Protocol` covers the three assay variants. |
+| Griswold 2025 | `core:Subject` + `core:SubjectState` with `descendedFrom` linking pre- to post-eye-opening states, `core:ProtocolExecution` for the exposure sessions, `stimulation:StimulationActivity` for grating blocks, `sands:CoordinatePoint` for monocular V1. |
+| Mukherjee 2019 | `core:Strain` (Long-Evans), `core:Protocol` for surgeries + habituation + water restriction, `ephys:ElectrodeArray`/`Usage` for the opto-trode, `stimulation:EphysStimulus` for ArchT laser, `core:TissueSample` for anterior digastric muscle (EMG site), `core:ProtocolExecution` wrapping the trial sequence, `core:DOI` references to the Sadacca 2016 data used in control analyses (cross-dataset `depends_on`). |
+
+### Open questions this raises
+
+- **Serialization bridge.** openMINDS's `*.schema.tpl.json` format is not quite JSON Schema Draft 7 — it's a template that *compiles to* Draft 7. Do we (a) consume the compiled output and keep NDI's `classname`/`fields` syntax, or (b) adopt openMINDS's template format for any NDI schema that wraps an openMINDS type? Option (a) is less invasive; option (b) reduces translation overhead.
+- **Instance resolution at ingest.** NDI documents reference openMINDS instances by IRI. Do we bundle a local cache of openMINDS instances per NDI-Cloud deposit (for offline validation and long-term archival), or always resolve live? The archival argument favors bundling.
+- **Version pinning.** openMINDS evolves. What's the policy when an NDI dataset references `openMINDS v3.0` instances but the ecosystem has moved to v4.0? openMINDS already supports versioning but NDI needs to commit to a policy.
+- **Controlled-term instance coverage.** openMINDS controlledTerms have curated instance sets; if a needed term (e.g., a specific *C. briggsae* strain) isn't in the official list, do we submit it upstream, fork, or maintain a local supplement? This is a community-contribution question, not a schema question.
+
 ## Possible next step
 
-Sketch stub schema files for the ~15 core types on a new branch, then pressure-test the design by instantiating example documents from the metadata captured in each paper's summary — especially the edge cases above (Bhar exchange assay + cyclic training, Haley contrast-video-per-plate, Reikersdorfer 11-month chronic recordings, Mukherjee re-analysis of external data). Failures to express any of these cleanly would drive the next round of schema revision.
+Two candidate next moves, pick one:
+
+1. **Build against openMINDS first.** Pin openMINDS v4.x, write example instance documents (as JSON) for each of the 7 papers using openMINDS types for all metadata, and let that expose exactly which gaps NDI needs to fill. This is low-risk and produces worked examples we can publish alongside the schema.
+2. **Sketch the ~10 NDI-native stub schemas on a new branch** and instantiate them against the 7 papers, leaving openMINDS references as URI strings for now. This validates the NDI-native shape without requiring openMINDS tooling.
+
+Recommendation: do (1) first on one paper (probably Griswold 2025 — cleanest NDI-Cloud dataset with explicit developmental manipulation) to make the integration tangible, then generalise.
