@@ -1,0 +1,60 @@
+{
+    "_classname": "session_occurrence",
+    "_class_version": "1.0.0",
+    "_maturity_level": "work_in_progress",
+    "_superclasses": [
+        {
+            "_classname": "base",
+            "_schema": "$NDISCHEMAPATH/base/schema.json"
+        }
+    ],
+    "_depends_on": [
+        {
+            "_name": "session_id",
+            "_mustBeNonEmpty": true,
+            "_documentation": "The session document this occurrence describes. Cascading delete: when the session is deleted, this occurrence is deleted too.",
+            "_must_refer_to_document_class": "session"
+        },
+        {
+            "_name": "started_at_referent_id",
+            "_mustBeNonEmpty": false,
+            "_documentation": "Document that anchors started_at when started_at.referent_kind == 'document'. Empty otherwise.",
+            "_must_refer_to_document_class": ""
+        },
+        {
+            "_name": "ended_at_referent_id",
+            "_mustBeNonEmpty": false,
+            "_documentation": "Document that anchors ended_at when ended_at.referent_kind == 'document'. Empty otherwise.",
+            "_must_refer_to_document_class": ""
+        }
+    ],
+    "_file": [],
+    "_fields": [
+        {
+            "_name": "started_at",
+            "type": "time_reference",
+            "_blank_value": null,
+            "_default_value": null,
+            "_mustBeNonEmpty": false,
+            "_mustBeScalar": true,
+            "_mustNotHaveNaN": true,
+            "_queryable": true,
+            "_ontology": null,
+            "_documentation": "When the session started. Optional; leave null when start time is not recorded. Use referent_kind == 'unknown' to assert that the start time is intentionally not knowable rather than merely missing.",
+            "_constraints": {}
+        },
+        {
+            "_name": "ended_at",
+            "type": "time_reference",
+            "_blank_value": null,
+            "_default_value": null,
+            "_mustBeNonEmpty": false,
+            "_mustBeScalar": true,
+            "_mustNotHaveNaN": true,
+            "_queryable": true,
+            "_ontology": null,
+            "_documentation": "When the session ended. Same shape and conventions as started_at.",
+            "_constraints": {}
+        }
+    ]
+}

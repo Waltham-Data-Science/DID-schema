@@ -343,6 +343,8 @@ Relevant CURIEs for annotating fields:
 | `current`       | Named composite: canonical amperes with unit provenance | `{ "minimum": number or null, "maximum": number or null, "allowed_units": array or null }` | Sub-fields: `amperes`, `approximate`, `source_unit`, `source_value`. `minimum`/`maximum` bound the canonical (`amperes`). |
 | `frequency`     | Named composite: canonical hertz with unit provenance | `{ "minimum": number or null, "maximum": number or null, "allowed_units": array or null }` | Sub-fields: `hertz`, `approximate`, `source_unit`, `source_value`. `minimum`/`maximum` bound the canonical (`hertz`). |
 | `ontology_term` | Named composite: CURIE ontology reference with label snapshot | `{ "allowed_namespaces": array or null }` | Sub-fields: `node`, `name`. See "Named Composite Types". |
+| `timeref_epochset` | Named composite: four-tuple naming an acquisition-clock origin (referent epochset name + class + epoch + clocktype) | `{ "allowed_classnames": array or null, "allowed_clocktypes": array or null }` | Sub-fields: `epochsetname`, `classname`, `epoch`, `clocktype`. See "Named Composite Types". |
+| `time_reference` | Named composite: a time value expressed as an offset from a chosen origin (depended-on document, acquisition-clock epoch, UTC wall clock, ontology-anchored stage, or unknown) | `{ "allowed_kinds": array or null, "allowed_stage_namespaces": array or null }` | Sub-fields: `referent_kind`, `depends_on_name`, `anchor_point`, `epochset` (a `timeref_epochset`), `utc_timestamp`, `stage` (an `ontology_term`), `offset_seconds`, `approximate`, `notes`. See "Named Composite Types". |
 
 #### Semantics of validation flags by type
 
@@ -364,6 +366,8 @@ Relevant CURIEs for annotating fields:
 | `current`       | yes (amperes not null, source_unit non-empty, source_value not null) | yes — always true (single structured value) | yes (amperes and source_value not NaN) |
 | `frequency`     | yes (hertz not null, source_unit non-empty, source_value not null) | yes — always true (single structured value) | yes (hertz and source_value not NaN) |
 | `ontology_term` | yes (node non-empty)                              | yes — always true                        | no — must be `false`                          |
+| `timeref_epochset` | yes (all four sub-fields non-empty)             | yes — always true                        | no — must be `false`                          |
+| `time_reference` | yes (referent_kind non-empty; payload required by kind, see below) | yes — always true | yes (offset_seconds and any nested numeric not NaN) |
 
 ---
 
@@ -391,7 +395,10 @@ specification — schema authors do NOT declare the sub-fields with
 ### Rules for named composites
 
 - Sub-field names are fixed by the spec; authors do not choose them.
-- Sub-field types are primitive (`char`, `double`, `boolean`, etc.).
+- Sub-field types are usually primitive (`char`, `double`, `boolean`,
+  etc.). A composite may nest another named composite as a sub-field
+  (e.g., `time_reference` embeds `timeref_epochset` and `ontology_term`);
+  the validator looks up the nested shape from this spec by type name.
 - Sub-field names are **not** underscore-prefixed — they are data field
   names, parallel to the field names inside a generic `structure`.
 - `_mustBeScalar` for a named composite value is always `true` (the value
@@ -638,6 +645,175 @@ document was written in. If a particular study deliberately pins to a
 specific ontology release across time, that belongs in a study-level
 annotation, not on each term value.
 
+### `timeref_epochset` (new in V_gamma)
+
+A `timeref_epochset` value is the four-tuple that identifies the origin of
+an acquisition-clock time reference: which epochset (typically a device,
+probe, or element) owns the clock, which of its epochs the time is measured
+within, and which clock that epochset uses.
+
+It exists as its own named composite so it can be reused — currently only
+inside `time_reference`, but available wherever else the same four fields
+are needed (e.g., a future `epochclocktimes` rewrite).
+
+**Sub-fields (in document values):**
+
+| Sub-field      | Type | Description |
+|----------------|------|-------------|
+| `epochsetname` | char | Name of the ndi epochset object (device / probe / element name). |
+| `classname`    | char | Class of that referent (e.g., `element`, `probe`, `device`). |
+| `epoch`        | char | The `epochid` within that epochset that defines the origin epoch. |
+| `clocktype`    | char | Which clock owned by the referent. One of: `dev_local_time`, `dev_global_time`, `exp_global_time`. UTC and approximate-UTC are not values here — they are their own `referent_kind` on `time_reference`. |
+
+**`_constraints` keys allowed:**
+- `allowed_classnames` (array of strings or null) — restrict permissible
+  `classname` values for this field.
+- `allowed_clocktypes` (array of strings or null) — restrict permissible
+  `clocktype` values.
+
+`_mustBeNonEmpty: true` requires all four sub-fields to be non-empty.
+
+### `time_reference` (new in V_gamma)
+
+A `time_reference` value expresses a time as `(origin, offset)` — a chosen
+origin plus a number of seconds past it. The origin can be:
+
+- another document (referenced through the containing schema's `_depends_on`
+  array, so referential integrity and cascading deletes are inherited from
+  the existing dependency machinery),
+- an acquisition-clock epoch (via a nested `timeref_epochset`),
+- a UTC wall-clock timestamp (in which case there is no offset — the
+  timestamp *is* the time),
+- an ontology-anchored developmental or life-cycle stage (via a nested
+  `ontology_term`), with an optional offset within the stage,
+- explicitly `unknown` — a structurally valid placeholder for cases where
+  the time was not recorded (wild-caught animals with no DOB, treatments
+  delivered without a logged time, etc.).
+
+The discriminator is `referent_kind`. Different sub-fields are populated
+for different kinds; unused sub-fields take their blank values. The
+single value shape, with one discriminator, keeps the generic dot-path
+query engine working unchanged (e.g., `started_at.utc_timestamp` or
+`administered_at.offset_seconds`).
+
+**Sub-fields (in document values):**
+
+| Sub-field         | Type             | Used when `referent_kind` is | Description |
+|-------------------|------------------|------------------------------|-------------|
+| `referent_kind`   | char (enum)      | always                       | One of: `document`, `acquisition_clock`, `utc`, `ontology_stage`, `unknown`. |
+| `depends_on_name` | char             | `document`                   | Name of the `_depends_on` entry on the containing schema that resolves to the referent's did_uid. The actual document id lives in that depends_on slot, not in this value, so cascading deletes are inherited from the dependency mechanism. |
+| `anchor_point`    | char (enum)      | `document`                   | Which point on the referenced document is the origin: `start` or `end`. |
+| `epochset`        | `timeref_epochset` | `acquisition_clock`        | Nested composite naming the device / probe / element + epoch + clocktype that defines zero. |
+| `utc_timestamp`   | char (ISO 8601)  | `utc`                        | Wall-clock time. The timestamp *is* the time — no offset applies. |
+| `stage`           | `ontology_term`  | `ontology_stage`             | Developmental / life-cycle stage CURIE + label. |
+| `offset_seconds`  | double           | `document`, `acquisition_clock`, `ontology_stage` | Seconds past the origin. `0.0` means "the origin itself". Not present (or zero) for the `utc` and `unknown` kinds. |
+| `approximate`     | boolean          | always                       | `true` for known-imprecise references (former `approx_utc` clock; reconstructed treatment times; rough stage assignments). |
+| `notes`           | char             | always                       | Free-text qualifier (e.g., "DOB inferred from body mass"). May be empty. |
+
+**Required-by-kind table.** The validator must enforce, in addition to
+the per-field validation flags:
+
+| `referent_kind`     | required (non-blank) sub-fields                              |
+|---------------------|--------------------------------------------------------------|
+| `document`          | `depends_on_name`, `anchor_point`, `offset_seconds`          |
+| `acquisition_clock` | `epochset`, `offset_seconds`                                 |
+| `utc`               | `utc_timestamp`                                              |
+| `ontology_stage`    | `stage`, `offset_seconds`                                    |
+| `unknown`           | (none beyond `referent_kind` and `approximate`)              |
+
+**`depends_on_name` cross-field invariant.** When `referent_kind ==
+"document"`, the value of `depends_on_name` must equal the `_name` of one
+of the `_depends_on` entries declared on the *containing* schema, and that
+slot in the actual document must hold a non-empty did_uid. When
+`referent_kind != "document"`, `depends_on_name` is blank. This is what
+makes referential integrity automatic: if the depended-on document is
+deleted, the existing dependency cascade fires and the referencing
+document is deleted too — there are no dangling time references.
+
+**Why no `midpoint` in `anchor_point`?** Two values cover the cases that
+arise in practice (start of treatment, end of session, etc.) without
+introducing a third option whose computation depends on knowing both
+endpoints. If a future use case clearly needs midpoints, add them as a
+spec change.
+
+**`_constraints` keys allowed:**
+- `allowed_kinds` (array of strings or null) — restrict permissible
+  `referent_kind` values for this field (e.g., `["document", "utc"]` to
+  forbid stage- or unknown-kind references on a particular field).
+- `allowed_stage_namespaces` (array of strings or null) — when
+  `ontology_stage` is permitted, restrict the CURIE prefixes accepted on
+  the nested `stage.node` (e.g., `["mmusdv", "hsapdv", "emapa"]`).
+
+**Composite-inside-composite.** `time_reference` is the first V_gamma
+composite whose sub-fields include other named composites (`epochset` →
+`timeref_epochset`; `stage` → `ontology_term`). The validator looks up
+those sub-composites' shapes by name from this spec, the same way it
+already does for top-level `duration`, `volume`, etc. Schema authors do
+not redeclare the nested shapes.
+
+**Example values.**
+
+```json
+// "2 hours after the start of the treatment that this doc depends on"
+{
+    "referent_kind":   "document",
+    "depends_on_name": "treatment_id",
+    "anchor_point":    "start",
+    "offset_seconds":  7200.0,
+    "approximate":     false,
+    "notes":           ""
+}
+
+// "3.14 s into epoch e001 of probe vhlab_p1"
+{
+    "referent_kind": "acquisition_clock",
+    "epochset": {
+        "epochsetname": "vhlab_p1",
+        "classname":    "probe",
+        "epoch":        "e001",
+        "clocktype":    "dev_local_time"
+    },
+    "offset_seconds": 3.14,
+    "approximate":    false,
+    "notes":          ""
+}
+
+// "2024-05-12T14:30:00.250Z" — wall clock, no offset applies
+{
+    "referent_kind":  "utc",
+    "utc_timestamp": "2024-05-12T14:30:00.250Z",
+    "approximate":    false,
+    "notes":          ""
+}
+
+// Approx-UTC (former 'approx_utc' clock, now just an approximate flag)
+{
+    "referent_kind":  "utc",
+    "utc_timestamp": "2024-05-12T14:30:00Z",
+    "approximate":    true,
+    "notes":          "reconstructed from lab notebook"
+}
+
+// "Postnatal day ~4 in mouse, exact time unknown"
+{
+    "referent_kind": "ontology_stage",
+    "stage": {
+        "node": "mmusdv:0000037",
+        "name": "postnatal stage"
+    },
+    "offset_seconds": 345600.0,
+    "approximate":    true,
+    "notes":          ""
+}
+
+// Wild-caught — DOB not recorded
+{
+    "referent_kind": "unknown",
+    "approximate":   true,
+    "notes":         "wild-caught; DOB not recorded"
+}
+```
+
 ### Future Candidate Composite Types
 
 The following shapes recur in scientific data and are plausible additions
@@ -799,6 +975,16 @@ Checks that can be performed with only the document and its schema file(s):
   listed source unit is an exact ratio of the canonical unit). All unit
   conversions are constants, so no tolerance window applies.
 - `ontology_term`: `node` matches CURIE pattern `^[a-z][a-z0-9_]*:[^\s:]+$`.
+- `timeref_epochset`: object with exactly the four sub-fields
+  (`epochsetname`, `classname`, `epoch`, `clocktype`) of correct primitive
+  types; `clocktype` is one of the allowed acquisition-clock values.
+- `time_reference`: object whose `referent_kind` selects the required
+  payload sub-fields per the table in "Named Composite Types"; nested
+  `epochset` (a `timeref_epochset`) and `stage` (an `ontology_term`) are
+  validated against their own composite shapes; `utc_timestamp`, when
+  present, matches ISO 8601; `depends_on_name`, when `referent_kind ==
+  "document"`, equals the `_name` of an entry in the containing schema's
+  `_depends_on` array.
 - Type-specific constraint checks in `_constraints`: on every
   SI-dimensioned type, `minimum` and `maximum` (if present) bound the
   canonical value; on `ontology_term`, `allowed_namespaces` restricts
@@ -849,7 +1035,8 @@ The meta-schema must enforce:
 - Each field definition has all required keys with correct types.
 - `type` is one of: `did_uid`, `char`, `string`, `integer`, `double`,
   `matrix`, `timestamp`, `boolean`, `structure`, `duration`, `volume`,
-  `mass`, `length`, `voltage`, `current`, `frequency`, `ontology_term`.
+  `mass`, `length`, `voltage`, `current`, `frequency`, `ontology_term`,
+  `timeref_epochset`, `time_reference`.
 - `_ontology` is either `null` or an object with exactly `_node` (string)
   and `_name` (string).
 - `_mustBeNonEmpty`, `_mustBeScalar`, `_mustNotHaveNaN`, `_queryable`
@@ -1106,8 +1293,9 @@ pytest
     the manifest.**
 15. **Named composite types are spec-defined, not author-defined.**
     V_gamma ships `duration`, `volume`, `mass`, `length`, `voltage`,
-    `current`, `frequency`, and `ontology_term`. Adding a new composite
-    is a spec change, not a schema-author action.
+    `current`, `frequency`, `ontology_term`, `timeref_epochset`, and
+    `time_reference`. Adding a new composite is a spec change, not a
+    schema-author action.
 16. **SI-dimensioned types use practical SI units as canonical.** One
     fixed canonical unit per dimension (`seconds`, `liters`, `grams`,
     `meters`, `volts`, `amperes`, `hertz`) keeps the generic numeric
