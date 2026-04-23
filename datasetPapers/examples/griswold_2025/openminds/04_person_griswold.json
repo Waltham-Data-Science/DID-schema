@@ -1,0 +1,12 @@
+{
+  "@type": "core:Person",
+  "@id": "openminds:person-griswold-sophie",
+  "givenName": "Sophie",
+  "familyName": "Griswold",
+  "affiliation": [
+    {
+      "@type": "core:Affiliation",
+      "memberOf": {"@id": "openminds:organization-brandeis"}
+    }
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "@type": "core:SubjectState",
+  "@id": "openminds:griswold-subject-state-EO1-01-P25-postopen",
+  "lookupLabel": "EO1-01 at P25, immediately post forceps eye-opening (right eye)",
+  "descendedFrom": [
+    {"@id": "openminds:griswold-subject-state-EO1-01-P25-pre"}
+  ],
+  "ageCategory": [{"@id": "controlledTerms:AgeCategory/neonatal"}],
+  "age": {
+    "@type": "core:QuantitativeValue",
+    "value": 25,
+    "unit": {"@id": "controlledTerms:UnitOfMeasurement/postnatal-day"}
+  },
+  "attribute": [
+    {"@id": "controlledTerms:SubjectAttribute/one-eye-open-right"}
+  ]
+}

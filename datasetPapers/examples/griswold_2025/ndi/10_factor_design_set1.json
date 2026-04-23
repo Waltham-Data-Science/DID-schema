@@ -1,0 +1,42 @@
+{
+  "classname": "factor_design",
+  "class_version": "0.1.0",
+  "id": "ndi-factor-design-griswold-set1",
+  "session_id": "ndi-session-griswold-EO1-01",
+  "name": "Stimulus Set 1 factorial (orientation x SF x contrast, TF fixed at 4 Hz)",
+  "datestamp": "2024-11-14T14:12:00-05:00",
+  "factors": [
+    {
+      "name": "orientation",
+      "unit": "degree",
+      "levels": [0, 45, 90, 135]
+    },
+    {
+      "name": "spatial_frequency",
+      "unit": "cycles_per_degree",
+      "levels": [0.04, 0.08, 0.16, 0.24, 0.32, 0.64, 0.90, 1.25]
+    },
+    {
+      "name": "contrast",
+      "unit": "dimensionless",
+      "levels": [0.04, 0.08, 0.16, 0.32, 0.64, 1.0]
+    }
+  ],
+  "fixed_parameters": {
+    "temporal_frequency": {"value": 4, "unit": "hertz"},
+    "duration": {"value": 4, "unit": "second"},
+    "inter_stimulus_interval": {"value": 3.5, "unit": "second"},
+    "motion_type": "drift-back-and-forth-every-4-cycles"
+  },
+  "blank_control": {
+    "stimulus_ref": "openminds:griswold-stim-blank",
+    "per_set_block": true
+  },
+  "repetitions": 5,
+  "ordering": "pseudo-random-within-repetition",
+  "total_unique_stimuli": 192,
+  "total_trials": 960,
+  "depends_on": [
+    {"name": "stimulation_activity", "value": "openminds:griswold-stimact-EO1-01-set1"}
+  ]
+}

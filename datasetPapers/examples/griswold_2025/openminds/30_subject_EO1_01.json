@@ -1,0 +1,17 @@
+{
+  "@type": "core:Subject",
+  "@id": "openminds:griswold-subject-EO1-01",
+  "lookupLabel": "EO1-01",
+  "internalIdentifier": "EO1-01",
+  "species": {"@id": "openminds:species-mustela-putorius-furo"},
+  "biologicalSex": {"@id": "controlledTerms:BiologicalSex/female"},
+  "isPartOf": [
+    {"@id": "openminds:griswold-subject-group-EO1"}
+  ],
+  "studiedState": [
+    {"@id": "openminds:griswold-subject-state-EO1-01-P25-pre"},
+    {"@id": "openminds:griswold-subject-state-EO1-01-P25-postopen"},
+    {"@id": "openminds:griswold-subject-state-EO1-01-P28-postexposure"},
+    {"@id": "openminds:griswold-subject-state-EO1-01-P55-terminal"}
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "@type": "core:Organization",
+  "@id": "openminds:organization-brandeis",
+  "fullName": "Brandeis University",
+  "shortName": "Brandeis",
+  "digitalIdentifier": {
+    "@type": "core:RORID",
+    "identifier": "https://ror.org/05abbep66"
+  }
+}

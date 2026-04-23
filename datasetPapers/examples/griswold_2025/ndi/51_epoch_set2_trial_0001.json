@@ -1,0 +1,29 @@
+{
+  "classname": "epoch",
+  "class_version": "0.1.0",
+  "id": "ndi-epoch-EO1-01-set2-trial-0001",
+  "session_id": "ndi-session-griswold-EO1-01",
+  "name": "Stimulus Set 2, trial 0001 (direction=90, TF=4)",
+  "datestamp": "2024-11-14T16:20:12.500-05:00",
+  "sample_range": {
+    "start_sample": 75375000,
+    "end_sample": 75495000,
+    "sampling_rate_hz": 30000
+  },
+  "time_range_seconds": [2512.5, 2516.5],
+  "time_reference": "recording_start",
+  "trial_index": 1,
+  "trial_type": "stimulus",
+  "stimulus_ref": "openminds:griswold-stim-set2-dir90-tf4",
+  "factor_values": {
+    "direction": 90,
+    "temporal_frequency": 4,
+    "spatial_frequency": 0.1,
+    "contrast": 1
+  },
+  "depends_on": [
+    {"name": "recording", "value": "ndi-recording-griswold-EO1-01-session-01"},
+    {"name": "factor_design", "value": "ndi-factor-design-griswold-set2"},
+    {"name": "stimulation_activity", "value": "openminds:griswold-stimact-EO1-01-set2"}
+  ]
+}

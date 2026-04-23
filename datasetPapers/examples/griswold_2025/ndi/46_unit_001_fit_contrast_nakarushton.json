@@ -1,0 +1,24 @@
+{
+  "classname": "fit_curve",
+  "class_version": "1.0.0",
+  "id": "ndi-fit-unit-001-contrast-nakarushton",
+  "session_id": "ndi-session-griswold-EO1-01",
+  "name": "Naka-Rushton contrast fit for unit-001",
+  "datestamp": "2024-11-20T12:34:00-05:00",
+  "fit_function": "naka_rushton",
+  "fit_parameters": {
+    "R_max": 24.3,
+    "c50": 0.21,
+    "n": 2.6,
+    "B": 3.1
+  },
+  "fit_parameter_documentation": "R = R_max * c^n / (c50^n + c^n) + B. R_max = saturating response above baseline; c50 = semi-saturation contrast; n = exponent; B = baseline response.",
+  "derived": {
+    "sensitivity": 8.7,
+    "sensitivity_definition": "1 / contrast at which response first exceeds 5 SD of blank"
+  },
+  "depends_on": [
+    {"name": "spikesort_output", "value": "ndi-spikesort-griswold-EO1-01-session-01"},
+    {"name": "factor_design", "value": "ndi-factor-design-griswold-set1"}
+  ]
+}

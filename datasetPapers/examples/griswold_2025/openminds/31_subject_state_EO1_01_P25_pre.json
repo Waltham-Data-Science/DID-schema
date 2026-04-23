@@ -1,0 +1,14 @@
+{
+  "@type": "core:SubjectState",
+  "@id": "openminds:griswold-subject-state-EO1-01-P25-pre",
+  "lookupLabel": "EO1-01 at P25, pre eye-opening",
+  "ageCategory": [{"@id": "controlledTerms:AgeCategory/neonatal"}],
+  "age": {
+    "@type": "core:QuantitativeValue",
+    "value": 25,
+    "unit": {"@id": "controlledTerms:UnitOfMeasurement/postnatal-day"}
+  },
+  "attribute": [
+    {"@id": "controlledTerms:SubjectAttribute/eyes-closed"}
+  ]
+}

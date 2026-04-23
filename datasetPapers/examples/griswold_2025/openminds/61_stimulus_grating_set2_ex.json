@@ -1,0 +1,21 @@
+{
+  "@type": "stimulation:VisualStimulus",
+  "@id": "openminds:griswold-stim-set2-dir90-tf4",
+  "internalIdentifier": "set2-dir90-tf4",
+  "description": "Example stimulus from Set 2: drifting sinusoidal grating, direction=90 deg (rightward motion), temporal frequency=4 Hz, spatial frequency=0.1 cpd, contrast=1. Unidirectional drift, 4 s duration, 3.5 s ISI (gray screen).",
+  "deliveredBy": {"@id": "openminds:griswold-device-usage-crt-monitor"},
+  "generatedBy": {"@id": "openminds:griswold-software-psychtoolbox"},
+  "specification": [
+    {
+      "@type": "core:PropertyValueList",
+      "property": [
+        {"@type": "core:NumericalProperty", "name": "direction", "value": 90, "unit": {"@id": "controlledTerms:UnitOfMeasurement/degree"}},
+        {"@type": "core:NumericalProperty", "name": "spatialFrequency", "value": 0.1, "unit": {"@id": "controlledTerms:UnitOfMeasurement/cycles-per-degree"}},
+        {"@type": "core:NumericalProperty", "name": "temporalFrequency", "value": 4, "unit": {"@id": "controlledTerms:UnitOfMeasurement/hertz"}},
+        {"@type": "core:NumericalProperty", "name": "contrast", "value": 1},
+        {"@type": "core:NumericalProperty", "name": "durationSeconds", "value": 4, "unit": {"@id": "controlledTerms:UnitOfMeasurement/second"}},
+        {"@type": "core:StringProperty", "name": "motionType", "value": "unidirectional"}
+      ]
+    }
+  ]
+}

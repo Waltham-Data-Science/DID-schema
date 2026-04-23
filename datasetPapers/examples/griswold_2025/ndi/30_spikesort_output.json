@@ -1,0 +1,28 @@
+{
+  "classname": "spikesort_output",
+  "class_version": "0.1.0",
+  "id": "ndi-spikesort-griswold-EO1-01-session-01",
+  "session_id": "ndi-session-griswold-EO1-01",
+  "name": "JRClust spike sorting of EO1-01 session 01",
+  "datestamp": "2024-11-20T11:00:00-05:00",
+  "sorter_name": "JRClust",
+  "sorter_version": "4.0.0",
+  "sorter_parameters": {
+    "filter_type": "ndiff",
+    "threshold_type": "median-absolute-deviation",
+    "threshold_factor": 5,
+    "cluster_method": "DPClus"
+  },
+  "num_units": 21,
+  "unit_ids": [
+    "unit-001", "unit-002", "unit-003", "unit-004", "unit-005",
+    "unit-006", "unit-007", "unit-008", "unit-009", "unit-010",
+    "unit-011", "unit-012", "unit-013", "unit-014", "unit-015",
+    "unit-016", "unit-017", "unit-018", "unit-019", "unit-020",
+    "unit-021"
+  ],
+  "cluster_quality_note": "Per-unit quality metrics (SNR, ISI-violation rate, waveform amplitude) in processed deposit, not shown here.",
+  "depends_on": [
+    {"name": "recording", "value": "ndi-recording-griswold-EO1-01-session-01"}
+  ]
+}

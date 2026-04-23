@@ -1,0 +1,12 @@
+{
+  "@type": "core:SubjectGroup",
+  "@id": "openminds:griswold-subject-group-EO1",
+  "lookupLabel": "EO1 (one eye opened prematurely at P25)",
+  "internalIdentifier": "EO1",
+  "quantity": 17,
+  "species": [{"@id": "openminds:species-mustela-putorius-furo"}],
+  "biologicalSex": [{"@id": "controlledTerms:BiologicalSex/female"}],
+  "studiedState": [
+    {"@id": "openminds:griswold-subject-group-state-EO1-terminal"}
+  ]
+}

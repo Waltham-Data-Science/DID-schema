@@ -1,0 +1,15 @@
+{
+  "@type": "core:Protocol",
+  "@id": "openminds:griswold-protocol-terminal-surgery",
+  "name": "Ferret terminal V1 recording preparation",
+  "description": "Ketamine 20 mg/kg i.m. induction; atropine 0.16-0.8 mg/kg i.m. and dexamethasone 0.5 mg/kg i.m.; mask isoflurane -> tracheostomy -> ventilated 1.5-3% isoflurane in 2:1 N2O:O2; IP cannula for gallamine triethiodide 10-30 mg/kg/h and Ringer's 3 mL/kg/h; wound margins infused with bupivacaine; custom stereotaxic frame (non-vision-blocking); bilateral V1 craniotomy; 1x1 mm durotomy; eyelids sutured open with contact lenses; post-paralysis N2O:O2 adjusted to 1:1; continuous ECG; body 37 C. Terminal: pentobarbital 200 mg/kg i.p., transcardial 4% PFA perfusion.",
+  "technique": [
+    {"@id": "controlledTerms:Technique/tracheostomy"},
+    {"@id": "controlledTerms:Technique/craniotomy"},
+    {"@id": "controlledTerms:Technique/durotomy"},
+    {"@id": "controlledTerms:Technique/transcardial-perfusion"}
+  ],
+  "describedIn": [
+    {"@id": "openminds:doi-elife-106513"}
+  ]
+}

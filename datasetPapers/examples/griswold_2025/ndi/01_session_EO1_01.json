@@ -1,0 +1,17 @@
+{
+  "classname": "session",
+  "class_version": "1.0.0",
+  "id": "ndi-session-griswold-EO1-01",
+  "session_id": "ndi-session-griswold-EO1-01",
+  "name": "EO1-01 session 01",
+  "datestamp": "2024-11-14T14:00:00-05:00",
+  "reference": "griswold_2025_EO1-01_S01",
+  "type": "acute",
+  "date": "2024-11-14",
+  "purpose": "Monocular V1 multichannel recording in a ferret with right eye opened prematurely at P25; Stimulus Set 1 followed by Stimulus Set 2.",
+  "depends_on": [
+    {"name": "subject_state", "value": "openminds:griswold-subject-state-EO1-01-P55-terminal"},
+    {"name": "recording_activity", "value": "openminds:griswold-recact-EO1-01-session-01"},
+    {"name": "dataset_version", "value": "openminds:griswold-dataset-version-v1"}
+  ]
+}

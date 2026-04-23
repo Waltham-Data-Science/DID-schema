@@ -1,0 +1,22 @@
+{
+  "@type": "core:Person",
+  "@id": "openminds:person-van-hooser-stephen",
+  "givenName": "Stephen",
+  "familyName": "Van Hooser",
+  "digitalIdentifier": [
+    {
+      "@type": "core:ORCID",
+      "identifier": "https://orcid.org/0000-0001-XXXX-XXXX"
+    }
+  ],
+  "contactInformation": {
+    "@type": "core:ContactInformation",
+    "email": "vanhoosr@brandeis.edu"
+  },
+  "affiliation": [
+    {
+      "@type": "core:Affiliation",
+      "memberOf": {"@id": "openminds:organization-brandeis"}
+    }
+  ]
+}

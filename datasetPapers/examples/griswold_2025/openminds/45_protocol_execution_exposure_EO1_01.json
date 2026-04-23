@@ -1,0 +1,36 @@
+{
+  "@type": "core:ProtocolExecution",
+  "@id": "openminds:griswold-protex-exposure-EO1-01",
+  "lookupLabel": "EO1-01, 4-day visual exposure (P25-P28)",
+  "protocol": [
+    {"@id": "openminds:griswold-protocol-visual-exposure"}
+  ],
+  "startTime": "2024-10-15T10:00:00-04:00",
+  "endTime": "2024-10-18T12:00:00-04:00",
+  "input": [
+    {"@id": "openminds:griswold-subject-state-EO1-01-P25-postopen"}
+  ],
+  "output": [
+    {"@id": "openminds:griswold-subject-state-EO1-01-P28-postexposure"}
+  ],
+  "performedBy": [
+    {"@id": "openminds:person-griswold-sophie"}
+  ],
+  "isPartOf": {"@id": "openminds:griswold-dataset-version-v1"},
+  "customPropertySet": [
+    {
+      "@type": "core:CustomPropertySet",
+      "context": "exposure schedule",
+      "property": [
+        {"@type": "core:NumericalProperty", "name": "sessionsPerDay", "value": 1},
+        {
+          "@type": "core:NumericalProperty",
+          "name": "sessionDuration",
+          "value": 2,
+          "unit": {"@id": "controlledTerms:UnitOfMeasurement/hour"}
+        },
+        {"@type": "core:NumericalProperty", "name": "numberOfDays", "value": 4}
+      ]
+    }
+  ]
+}

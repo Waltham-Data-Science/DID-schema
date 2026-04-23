@@ -1,0 +1,11 @@
+{
+  "@type": "sands:CoordinatePoint",
+  "@id": "openminds:griswold-coordinate-v1-monocular",
+  "lookupLabel": "V1 monocular penetration site, EO1-01 session 01",
+  "coordinateSpace": {"@id": "openminds:griswold-ccf-ferret-brandeis"},
+  "coordinates": [
+    {"@type": "core:QuantitativeValue", "value": 3.5, "unit": {"@id": "controlledTerms:UnitOfMeasurement/millimeter"}},
+    {"@type": "core:QuantitativeValue", "value": -18.0, "unit": {"@id": "controlledTerms:UnitOfMeasurement/millimeter"}},
+    {"@type": "core:QuantitativeValue", "value": 0.5, "unit": {"@id": "controlledTerms:UnitOfMeasurement/millimeter"}}
+  ]
+}

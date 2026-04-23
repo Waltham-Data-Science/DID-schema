@@ -1,0 +1,12 @@
+{
+  "@type": "core:Protocol",
+  "@id": "openminds:griswold-protocol-premature-eye-opening",
+  "name": "Premature forceps eye-opening at P25",
+  "description": "At postnatal day 25 (approximately 5-10 days before natural eye opening in ferret), one or both eyelids are gently separated with fine forceps under brief manual restraint. The eye is not otherwise treated. Used to manipulate the onset of patterned visual experience.",
+  "technique": [
+    {"@id": "controlledTerms:Technique/forceps-dissection"}
+  ],
+  "describedIn": [
+    {"@id": "openminds:doi-elife-106513"}
+  ]
+}

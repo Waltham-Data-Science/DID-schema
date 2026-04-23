@@ -1,0 +1,14 @@
+{
+  "@type": "core:Dataset",
+  "@id": "openminds:griswold-dataset-premature-vision",
+  "fullName": "Premature vision drives aberrant development of response properties in primary visual cortex",
+  "shortName": "Griswold_PrematureVision_Ferret_V1",
+  "description": "In-vivo multichannel electrophysiology from primary visual cortex of ferrets reared with either zero, one, or both eyes opened prematurely on postnatal day 25. Receptive-field properties (orientation, direction, spatial frequency, temporal frequency, contrast) measured at P55-68, after closure of the ocular-dominance critical period.",
+  "hasVersion": [
+    {"@id": "openminds:griswold-dataset-version-v1"}
+  ],
+  "author": [
+    {"@id": "openminds:person-griswold-sophie"},
+    {"@id": "openminds:person-van-hooser-stephen"}
+  ]
+}

@@ -1,0 +1,31 @@
+{
+  "@type": "stimulation:StimulationActivity",
+  "@id": "openminds:griswold-stimact-EO1-01-set1",
+  "lookupLabel": "EO1-01 session 01, Stimulus Set 1 block (ori x SF x contrast at 4 Hz)",
+  "startTime": "2024-11-14T14:12:00-05:00",
+  "endTime": "2024-11-14T16:08:00-05:00",
+  "input": [
+    {"@id": "openminds:griswold-subject-state-EO1-01-P55-terminal"}
+  ],
+  "output": [
+    {"@id": "openminds:griswold-file-raw-ephys-EO1-01"}
+  ],
+  "protocol": [
+    {"@id": "openminds:griswold-protocol-recording-session"}
+  ],
+  "stimulus": [
+    {"@id": "openminds:griswold-stim-set1-ori0-sf0p16-c1"},
+    {"@id": "openminds:griswold-stim-blank"}
+  ],
+  "setup": {"@id": "openminds:griswold-setup-visual-ephys"},
+  "customPropertySet": [
+    {
+      "@type": "core:CustomPropertySet",
+      "context": "factorial structure (reference NDI factor_design doc for enumeration of all combinations)",
+      "property": [
+        {"@type": "core:StringProperty", "name": "factorDesignRef", "value": "ndi:griswold-factor-design-set1"},
+        {"@type": "core:NumericalProperty", "name": "repetitions", "value": 5}
+      ]
+    }
+  ]
+}

@@ -1,0 +1,18 @@
+{
+  "@type": "core:File",
+  "@id": "openminds:griswold-file-raw-ephys-EO1-01",
+  "name": "EO1-01_session-01_raw.dat",
+  "iri": "https://www.ndi-cloud.com/datasets/28xb47y1/EO1-01/session-01/raw.dat",
+  "format": {"@id": "controlledTerms:ContentType/intan-rhd-raw-binary"},
+  "hash": {
+    "@type": "core:Hash",
+    "algorithm": "SHA-256",
+    "digest": "REPLACE_WITH_ACTUAL_HASH"
+  },
+  "storageSize": {
+    "@type": "core:QuantitativeValue",
+    "value": 12450,
+    "unit": {"@id": "controlledTerms:UnitOfMeasurement/megabyte"}
+  },
+  "fileRepository": {"@id": "openminds:griswold-ndicloud-repository"}
+}

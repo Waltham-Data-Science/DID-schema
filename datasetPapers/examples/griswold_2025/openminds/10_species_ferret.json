@@ -1,0 +1,7 @@
+{
+  "@type": "controlledTerms:Species",
+  "@id": "openminds:species-mustela-putorius-furo",
+  "name": "Mustela putorius furo",
+  "preferredOntologyIdentifier": "http://purl.obolibrary.org/obo/NCBITaxon_9669",
+  "synonym": ["domestic ferret", "ferret"]
+}

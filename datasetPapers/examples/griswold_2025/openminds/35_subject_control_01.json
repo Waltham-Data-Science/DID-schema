@@ -1,0 +1,14 @@
+{
+  "@type": "core:Subject",
+  "@id": "openminds:griswold-subject-control-01",
+  "lookupLabel": "control-01",
+  "internalIdentifier": "control-01",
+  "species": {"@id": "openminds:species-mustela-putorius-furo"},
+  "biologicalSex": {"@id": "controlledTerms:BiologicalSex/female"},
+  "isPartOf": [
+    {"@id": "openminds:griswold-subject-group-control"}
+  ],
+  "studiedState": [
+    {"@id": "openminds:griswold-subject-state-control-01-P55-terminal"}
+  ]
+}

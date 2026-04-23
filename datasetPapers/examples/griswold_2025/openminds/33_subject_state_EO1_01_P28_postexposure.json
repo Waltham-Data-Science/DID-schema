@@ -1,0 +1,14 @@
+{
+  "@type": "core:SubjectState",
+  "@id": "openminds:griswold-subject-state-EO1-01-P28-postexposure",
+  "lookupLabel": "EO1-01 at P28, after 4 days of 2 h/day unguided visual exposure",
+  "descendedFrom": [
+    {"@id": "openminds:griswold-subject-state-EO1-01-P25-postopen"}
+  ],
+  "ageCategory": [{"@id": "controlledTerms:AgeCategory/neonatal"}],
+  "age": {
+    "@type": "core:QuantitativeValue",
+    "value": 28,
+    "unit": {"@id": "controlledTerms:UnitOfMeasurement/postnatal-day"}
+  }
+}

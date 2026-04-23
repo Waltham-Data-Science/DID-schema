@@ -1,0 +1,24 @@
+{
+  "@type": "ephys:RecordingActivity",
+  "@id": "openminds:griswold-recact-EO1-01-session-01",
+  "lookupLabel": "EO1-01 session 01: 32-channel V1 monocular recording",
+  "internalIdentifier": "EO1-01_session-01",
+  "startTime": "2024-11-14T14:00:00-05:00",
+  "endTime": "2024-11-14T19:30:00-05:00",
+  "protocol": [
+    {"@id": "openminds:griswold-protocol-recording-session"}
+  ],
+  "device": [
+    {"@id": "openminds:griswold-device-usage-EO1-01-session-01"}
+  ],
+  "input": [
+    {"@id": "openminds:griswold-subject-state-EO1-01-P55-terminal"}
+  ],
+  "output": [
+    {"@id": "openminds:griswold-file-raw-ephys-EO1-01"}
+  ],
+  "performedBy": [
+    {"@id": "openminds:person-griswold-sophie"}
+  ],
+  "isPartOf": {"@id": "openminds:griswold-dataset-version-v1"}
+}

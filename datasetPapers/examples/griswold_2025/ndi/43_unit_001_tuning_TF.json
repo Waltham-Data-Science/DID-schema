@@ -1,0 +1,23 @@
+{
+  "classname": "stimulus_tuningcurve",
+  "class_version": "1.0.0",
+  "id": "ndi-tuning-unit-001-TF",
+  "session_id": "ndi-session-griswold-EO1-01",
+  "name": "Temporal frequency tuning, unit-001, at preferred direction, contrast=1, SF=0.1 cpd (set 2)",
+  "datestamp": "2024-11-20T12:15:00-05:00",
+  "unit_id": "unit-001",
+  "tuning_axis": "temporal_frequency",
+  "independent_values": [0.5, 1, 2, 4, 8, 16, 32],
+  "independent_unit": "hertz",
+  "response_type": "mean_firing_rate_F0",
+  "response_unit": "spikes_per_second",
+  "response_mean": [18.7, 22.4, 24.1, 21.9, 16.5, 9.3, 3.8],
+  "response_stderr": [1.3, 1.4, 1.5, 1.3, 1.1, 0.7, 0.4],
+  "num_repetitions": 7,
+  "blank_response_mean": 3.2,
+  "blank_response_stderr": 0.4,
+  "depends_on": [
+    {"name": "spikesort_output", "value": "ndi-spikesort-griswold-EO1-01-session-01"},
+    {"name": "factor_design", "value": "ndi-factor-design-griswold-set2"}
+  ]
+}
