@@ -19,7 +19,7 @@ Even across tree shrew / rat / ferret / mouse / *C. elegans* / *C. briggsae*, an
 
 The key *differences* across papers are what fills those slots, not the slots themselves. That's the design lever.
 
-## Proposed minimal document set (~13 core types)
+## Proposed minimal document set (~14 core types)
 
 Most of these already exist in some form in the schema:
 
@@ -36,6 +36,10 @@ Most of these already exist in some form in the schema:
 11. **`analysis_output`** — derived data: tuning curve, fit, classification, spike sort, change point — with links back to the `recording`s and `trial`s that produced it and the `analysis_model` that produced it.
 12. **`histology`** — section-level anatomical verification, stains, lesions, track reconstruction.
 13. **`data_access`** — how to get the raw bytes: DOI, NDI-Cloud accession, Zenodo, request-only contact, file share path.
+
+Plus one type that the edge-case analysis below adds:
+
+14. **`substrate`** — a physical medium prepared ahead of time, shared across subjects/trials, that can itself carry a history of treatments and observations: agar plates, nematode arenas, brain slices, coverslips. See "Edge case 1" below for why this doesn't reduce to `apparatus`.
 
 Plus two cross-cutting supports already half-built in the current schema:
 
@@ -104,7 +108,87 @@ Recommendation: subclass the *common* cases you can see across these seven paper
 | Griswold 2025 (ferret premature vision) | ferret, female | developmental `sensory_manipulation` with per-eye timing, multi-group design, mixed-effects `analysis_model` |
 | Mukherjee 2019 (rat GC taste) | rat, female | simultaneous ephys + EMG + IOC, factorial trial design (`factor_design`), ArchT `optogenetic_pulse` with timing variants, Bayesian hierarchical `analysis_model`, HMM change-points, request-only `data_access` |
 
+## Edge cases that strain the 13-type proposal
+
+The 13-type list above covers the main skeleton, but several specific patterns across these papers don't fit cleanly. The most important is the **"plate as subject"** pattern.
+
+### Edge case 1 — plate-as-measured-object (Bhar 2025, Haley 2024)
+
+In both *C. elegans* papers the agar plate is simultaneously (a) the environment, (b) the stimulus source, and (c) the thing being measured. Concretely:
+
+- **Bhar 2025** — after training, worms are removed and *the plate itself* is the object under test. Naïve worms placed on a "trained plate" acquire LTAM 20–24 h later; naïve worms placed on a "naïve plate" do not. The plate carries a causally relevant history (trained / naïve / heat-killed *E. coli* / IAA-only / klp-6 mutant-trained / cross-species).
+- **Haley 2024** — patch density (from OP50-GFP fluorescence), patch-edge position, growth time, and isometric-grid layout are measured *per plate* before the assay starts. Multiple worms on the same plate share these measurements; worms on different plates do not.
+
+Neither fits into `subject`, `treatment`, `stimulus`, or `apparatus` cleanly.
+
+#### Proposed extension — new type: `substrate`
+
+A physical medium that is (i) prepared ahead of the session, (ii) shared across multiple subjects/trials, and (iii) can itself carry measurements and a history of treatments.
+
+Fields:
+
+- `substrate_type` enum: `ngm_agar_plate`, `nematode_arena`, `brain_slice`, `coverslip`, `microfluidic_chip`, ...
+- `geometry` — dimensions / shape (Ø 60 mm plate, 30 mm PET arena, 300 µm slice).
+- Accepts `treatment` documents via `depends_on` (seeding with OP50, chemical supplementation, prior-occupant exposure).
+- Accepts `observation` documents (patch-density map, contrast video, LC-MS of supernatant).
+- Accepts `stimulus` documents (the patches *are* the stimulus to any worm placed on the plate).
+
+Position in the hierarchy:
+
+```
+session ─── substrate ─── {treatment*, observation*, stimulus*}
+           ↑
+           └── subject (or subject_group) is "placed on" this substrate
+```
+
+This also subsumes slice electrophysiology cleanly: a `brain_slice` substrate is prepared, treated (aCSF composition, drug wash-in), recorded from (patch recording = a `recording` scoped to that substrate), and has its own histology.
+
+#### Proposed extension — new relationship: `placement_on` (subject ↔ substrate, time-bounded)
+
+Not a simple `depends_on` — it's time-windowed and reversible. Bhar's exchange assay is literally *moving subjects between substrates within 30 min of training* and measuring 20–24 h later. The same applies to Haley's transfer of animals onto a condition plate via agar plug.
+
+Modelling this as an `epoch`-like document with `subject`, `substrate`, start time, end time, and transfer method (agar plug, eyelash pick, M9 wash) makes the exchange assay expressible and the "which plate was this worm on when?" question answerable.
+
+#### Other patterns this single addition covers
+
+- **Haley's "contrast video"** — a per-plate measurement made *before* worms are added, used later to register patch locations onto the behavioural recording. It's an `observation` on the `substrate`, not on any subject.
+- **Bhar's LC-MS of supernatants** — samples collected per-plate after differential centrifugation. Again, `observation` on `substrate`, with no individual subject attached.
+- **Pharmacology bath solutions** (Francesconi, Mukherjee in-vitro) — aCSF composition is a property of the slice's environment over time; maps cleanly to `substrate` + time-varying `treatment`.
+
+### Edge case 2 — cross-species exchange (Bhar 2025)
+
+A naïve *C. elegans* placed on a plate that held trained *C. briggsae*. Needs either two `subject` documents sharing one `substrate`, or species-agnostic `substrate` with per-species `subject_group`. The `substrate` extension above makes this straightforward: the substrate has a history that is species-agnostic, and each `placement_on` event carries its own species-typed `subject_group`.
+
+### Edge case 3 — longitudinal reuse of one subject (Reikersdorfer 2022)
+
+Chronic mouse recordings demonstrate stable single units at 11 months post-implantation. The same `subject` + `probe` + `placement` persists across hundreds of `session`s. Implications:
+
+- `session` should carry `days_since_implant` (or more generally, an offset from a named reference event on the subject's timeline).
+- `placement` is a persistent object, not per-session; each session `depends_on` an existing `placement` rather than creating one.
+- Impedance measurements are per-session per-channel time-series — argues for a dedicated `observation/impedance` rather than embedding in `probe` or `placement`.
+
+### Edge case 4 — multi-stage protocols with rest periods (Bhar 2025, Mukherjee 2019 water restriction)
+
+Training paradigms are cyclic (2 min pair × 5 with 10 min rest; then 20 h rest; then readout). Water-restriction regimens run for days. These don't fit a single `treatment` document cleanly unless the schema allows either:
+
+- A **schedule** embedded in one `treatment` document (structure with dynamic keys per cycle), or
+- Many small `treatment` documents per cycle linked to a parent `training_protocol`.
+
+See open question 2 below.
+
+### Edge case 5 — data that is shared across papers (Griswold 2025 ↔ Van Hooser 2013 style reuse)
+
+Mukherjee 2019 explicitly re-analyses 10 rats from Sadacca et al. 2016 and Li et al. 2016. The schema should let an `analysis_output` `depends_on` `recording`s that live in *other* datasets (other NDI-Cloud accessions). This argues for `data_access` references to be first-class citizens that `analysis_output` and `recording` can both point to, rather than an embedded field on `session`.
+
 ## Open questions to resolve before writing schemas
+
+1. Is populational `subject` (a plate of worms) a first-class alternative to individual `subject`, or is it always a `subject_group` wrapping N individual `subject`s?
+2. Do we want `treatment` to be one document per administration (many small docs per session) or one document per protocol with a schedule inside it?
+3. How much should `analysis_output` be schema-constrained vs. free-form? Right now the existing `apps/calculators/...` schemas are very specific — do we want that pattern for every new analysis, or a single generic `analysis_output` with a `method` reference?
+4. Is a `profile` / paradigm concept something we want in the schema layer, or kept in consumer tooling (MATLAB/Python libraries)?
+5. Should `data_access` be a separate document or an embedded field on `session` / `recording`? (Edge case 5 argues separate.)
+6. Should `substrate` be a top-level type, or is it better modelled as a specialised `apparatus`? (The "has its own history of treatments and observations, independent of any subject" semantics argues for top-level.)
+7. How do we represent `placement_on` — as an `epoch` subclass, or as a distinct linking-document type?
 
 1. Is populational `subject` (a plate of worms) a first-class alternative to individual `subject`, or is it always a `subject_group` wrapping N individual `subject`s?
 2. Do we want `treatment` to be one document per administration (many small docs per session) or one document per protocol with a schedule inside it?
@@ -114,4 +198,4 @@ Recommendation: subclass the *common* cases you can see across these seven paper
 
 ## Possible next step
 
-Sketch stub schema files for the 13 core types on a new branch, then pressure-test the design by instantiating example documents from the metadata captured in each paper's summary. Failures to express something cleanly would drive the next round of schema revision.
+Sketch stub schema files for the 14 core types on a new branch, then pressure-test the design by instantiating example documents from the metadata captured in each paper's summary — especially the edge cases above (Bhar exchange assay, Haley contrast-video-per-plate, Reikersdorfer 11-month chronic recordings, Mukherjee re-analysis of external data). Failures to express any of these cleanly would drive the next round of schema revision.
