@@ -19,27 +19,28 @@ Even across tree shrew / rat / ferret / mouse / *C. elegans* / *C. briggsae*, an
 
 The key *differences* across papers are what fills those slots, not the slots themselves. That's the design lever.
 
-## Proposed minimal document set (~14 core types)
+## Proposed minimal document set (~15 core types)
 
 Most of these already exist in some form in the schema:
 
 1. **`subject_identifier`** — the immutable tag that ties together all of a given subject's records (per `Ideas.md`).
 2. **`subject`** — species / strain / sex / age / source metadata; extend for populations (e.g., a plate of worms).
 3. **`session`** — time-bounded experimental run; `depends_on` subject.
-4. **`treatment`** — abstract base; subclasses: `anesthesia`, `drug_administration`, `surgery`, `stereotaxic_injection`, `cannulation`, `sensory_manipulation` (e.g., premature eye opening), `training_protocol`.
-5. **`apparatus`** — abstract base; subclasses: `probe` (with construction + impedance history), `optical_fiber`, `cannula`, `emg_electrode`, `camera`, `microscope`.
-6. **`placement`** — subject-relative location of an apparatus; subclasses for stereotaxic vs arena vs slice.
-7. **`stimulus`** — abstract base; subclasses: `visual_grating`, `visual_bar`, `auditory`, `tactile`, `taste`, `optogenetic_pulse`, `chemogenetic_dose`, `chemoattractant_field`, `foot_shock`.
-8. **`trial`** / **`epoch`** — window with trial-type factors and references to stimulus + treatment + apparatus-in-use.
-9. **`recording`** — raw stream (channels, sampling rate, filter, file pointer).
-10. **`observation`** — non-ephys measurement: behavior score, EMG burst, gape event, chemotaxis index, imaging puncta count.
-11. **`analysis_output`** — derived data: tuning curve, fit, classification, spike sort, change point — with links back to the `recording`s and `trial`s that produced it and the `analysis_model` that produced it.
-12. **`histology`** — section-level anatomical verification, stains, lesions, track reconstruction.
-13. **`data_access`** — how to get the raw bytes: DOI, NDI-Cloud accession, Zenodo, request-only contact, file share path.
+4. **`treatment_protocol`** — reusable *recipe* (no timestamps, no subject). Carries step list, cycle count, and references to stimuli/drugs/environments. Versioned so "Dahiya 2019 LTAM training v1.2" is a single citable object. See the "Cyclic and multi-stage treatments" section below.
+5. **`treatment_event`** — *execution* of a `treatment_protocol` against a specific `subject`/`subject_group`/`substrate`, with clock times and optional per-step deviations. Naturally a specialisation of `epoch`. Subclasses of either type: `anesthesia`, `drug_administration`, `surgery`, `stereotaxic_injection`, `cannulation`, `sensory_manipulation`, `training`.
+6. **`apparatus`** — abstract base; subclasses: `probe` (with construction + impedance history), `optical_fiber`, `cannula`, `emg_electrode`, `camera`, `microscope`.
+7. **`placement`** — subject-relative location of an apparatus; subclasses for stereotaxic vs arena vs slice.
+8. **`stimulus`** — abstract base; subclasses: `visual_grating`, `visual_bar`, `auditory`, `tactile`, `taste`, `optogenetic_pulse`, `chemogenetic_dose`, `chemoattractant_field`, `foot_shock`.
+9. **`trial`** / **`epoch`** — window with trial-type factors and references to stimulus + treatment + apparatus-in-use.
+10. **`recording`** — raw stream (channels, sampling rate, filter, file pointer).
+11. **`observation`** — non-ephys measurement: behavior score, EMG burst, gape event, chemotaxis index, imaging puncta count.
+12. **`analysis_output`** — derived data: tuning curve, fit, classification, spike sort, change point — with links back to the `recording`s and `trial`s that produced it and the `analysis_model` that produced it.
+13. **`histology`** — section-level anatomical verification, stains, lesions, track reconstruction.
+14. **`data_access`** — how to get the raw bytes: DOI, NDI-Cloud accession, Zenodo, request-only contact, file share path.
 
 Plus one type that the edge-case analysis below adds:
 
-14. **`substrate`** — a physical medium prepared ahead of time, shared across subjects/trials, that can itself carry a history of treatments and observations: agar plates, nematode arenas, brain slices, coverslips. See "Edge case 1" below for why this doesn't reduce to `apparatus`.
+15. **`substrate`** — a physical medium prepared ahead of time, shared across subjects/trials, that can itself carry a history of treatments and observations: agar plates, nematode arenas, brain slices, coverslips. See "Edge case 1" below for why this doesn't reduce to `apparatus`.
 
 Plus two cross-cutting supports already half-built in the current schema:
 
@@ -52,15 +53,18 @@ Plus two cross-cutting supports already half-built in the current schema:
 subject_identifier
     └── subject
           └── session
-                ├── treatment*
+                ├── treatment_event* ─── treatment_protocol, (subject | substrate)
                 ├── apparatus* ─── placement
                 ├── stimulus*
-                ├── trial/epoch* ─── stimulus, treatment
+                ├── trial/epoch* ─── stimulus, treatment_event
                 ├── recording ─── apparatus, placement
                 ├── observation
                 ├── analysis_output ─── recording / trial / analysis_model
                 ├── histology ─── subject, placement
                 └── data_access
+
+treatment_protocol  (library, not per-session; reusable across sessions and labs)
+    └── depends_on other treatment_protocols (for composition)
 ```
 
 (`*` = typically many per session.)
@@ -108,9 +112,89 @@ Recommendation: subclass the *common* cases you can see across these seven paper
 | Griswold 2025 (ferret premature vision) | ferret, female | developmental `sensory_manipulation` with per-eye timing, multi-group design, mixed-effects `analysis_model` |
 | Mukherjee 2019 (rat GC taste) | rat, female | simultaneous ephys + EMG + IOC, factorial trial design (`factor_design`), ArchT `optogenetic_pulse` with timing variants, Bayesian hierarchical `analysis_model`, HMM change-points, request-only `data_access` |
 
-## Edge cases that strain the 13-type proposal
+## Cyclic and multi-stage treatments
 
-The 13-type list above covers the main skeleton, but several specific patterns across these papers don't fit cleanly. The most important is the **"plate as subject"** pattern.
+Many paradigms across these papers are cyclic or multi-stage: Bhar's 5× (2 min IAA+heat / 10 min rest) → 20 h rest → readout; Mukherjee's 20 mL/day × 7 day water restriction; Francesconi's 10 min antagonist → 12–15 min AVP+antagonist → 12–15 min washout; Griswold's 2 h/day × 4 day exposure. The clean way to represent these is to separate **recipe** from **execution**.
+
+### Pattern: `treatment_protocol` (recipe) + `treatment_event` (execution)
+
+**`treatment_protocol`** — reusable template, no timestamps, no subject:
+
+- `name`, `version` — so protocols are citable objects (semantic versioning, same convention as schema files).
+- `steps` — ordered list; `structure` field with `dynamic_keys: true`, one entry per step, each with:
+  - `step_type` — controlled enum: `exposure`, `rest`, `washout`, `wait`, `readout`, `sub_protocol`.
+  - `duration` (+ tolerance if relevant).
+  - `stimulus` / `drug` / `environment` references.
+- `cycles` — number of times `steps` repeat, plus any between-cycle interval.
+- `depends_on` other `treatment_protocol`s — protocols compose, so an outer protocol can reference an inner one.
+
+**`treatment_event`** — actual execution:
+
+- `depends_on` a `treatment_protocol` **and** a `subject`/`subject_group`/`substrate`.
+- `start_time`, `end_time` (wall-clock or session-relative).
+- `deviations` — optional list of per-step actual timings, missed cycles, dose adjustments, environmental excursions.
+- One `treatment_event` per real execution.
+
+A `treatment_event` is naturally a specialisation of `epoch`: it inherits time-boundedness so spikes, videos, and observations can be aligned against it the same way they align against any other epoch.
+
+### Worked example — Bhar 2025 LTAM training
+
+```
+treatment_protocol: "Bhar 2025 IAA+heat LTAM training"
+  steps:
+    - step_type: sub_protocol
+      ref: "IAA+heat pairing cycle"
+      cycles: 5
+      inter_cycle_gap: null     # gap is inside the sub-protocol
+    - step_type: rest
+      duration: 20 h
+      environment: "22 °C incubator"
+    - step_type: readout
+      ref: "chemotaxis_index_assay"
+
+treatment_protocol: "IAA+heat pairing cycle"
+  steps:
+    - step_type: exposure
+      duration: 2 min
+      stimulus_refs: ["heat_pulse", "IAA_vapor"]   # co-applied
+    - step_type: rest
+      duration: 10 min
+      environment: "22 °C"
+
+treatment_event: "Plate A, experiment 2025-04-12"
+  protocol: "Bhar 2025 IAA+heat LTAM training"
+  applied_to: substrate "60 mm NGM plate #A"       # note: substrate, not subject
+  subjects: subject_group "~30 N2 young-adult hermaphrodites"
+  start_time: 2025-04-12T10:00
+  end_time:   2025-04-13T06:30
+  deviations: []
+```
+
+Composition via `depends_on` between protocols lets the pairing cycle be authored once and reused by future paradigms (diacetyl + heat, 3 vs 5 cycles, etc.) without duplicating the cycle definition.
+
+### How this pattern covers the other papers
+
+| Paper | Outer protocol | Inner unit |
+|---|---|---|
+| Bhar 2025 | 5× IAA+heat pairing, 20 h rest, readout | 2 min exposure + 10 min rest |
+| Mukherjee 2019 water restriction | 20 mL/day × 7 days from habituation day 2 | 1 day allocation |
+| Mukherjee 2019 session | 128 trials, pseudo-random, 16 sets × 8 trials | 1 trial (taste ± laser) |
+| Francesconi 2025 ephys drug | 10 min antagonist → 12–15 min antagonist + AVP → 12–15 min washout | single bath step |
+| Griswold 2025 premature exposure | 2 h/day × 4 days from P25 | one 2 h session |
+| Haley 2024 acclimation | 24 h on large OP50 patch at 20 °C | one plate |
+| Reikersdorfer 2022 post-op | buprenorphine SR 0.5–1 mg/kg at t=0, antibiotic 24/48 h | single drug administration |
+
+The same protocol/event split expresses all of these.
+
+### Open design questions specific to cyclic treatments
+
+- **`treatment_event` as a subclass of `epoch`?** Cleaner alignment with downstream queries (spikes/videos already know how to reference an epoch); costs a small increase in the epoch taxonomy.
+- **Per-step events.** Does a reader need to query "what happened during cycle 3, step 2"? Default to one flat `treatment_event` + a `deviations` field; emit per-step sub-events only when something non-nominal actually happened.
+- **How strict should `steps` be?** `structure` with `dynamic_keys` + a controlled `step_type` enum gives flexibility; a fully enumerated list of typed step subclasses gives stricter validation but much more schema volume. Lean flexible — with this many paradigms the long tail will never close.
+
+## Edge cases that strain the core proposal
+
+The core list above covers the main skeleton, but several specific patterns across these papers don't fit cleanly. The most important is the **"plate as subject"** pattern.
 
 ### Edge case 1 — plate-as-measured-object (Bhar 2025, Haley 2024)
 
@@ -183,19 +267,14 @@ Mukherjee 2019 explicitly re-analyses 10 rats from Sadacca et al. 2016 and Li et
 ## Open questions to resolve before writing schemas
 
 1. Is populational `subject` (a plate of worms) a first-class alternative to individual `subject`, or is it always a `subject_group` wrapping N individual `subject`s?
-2. Do we want `treatment` to be one document per administration (many small docs per session) or one document per protocol with a schedule inside it?
+2. ~~Do we want `treatment` to be one document per administration or one document per protocol with a schedule inside it?~~ *Resolved in "Cyclic and multi-stage treatments": split into `treatment_protocol` (recipe) + `treatment_event` (execution).*
 3. How much should `analysis_output` be schema-constrained vs. free-form? Right now the existing `apps/calculators/...` schemas are very specific — do we want that pattern for every new analysis, or a single generic `analysis_output` with a `method` reference?
 4. Is a `profile` / paradigm concept something we want in the schema layer, or kept in consumer tooling (MATLAB/Python libraries)?
 5. Should `data_access` be a separate document or an embedded field on `session` / `recording`? (Edge case 5 argues separate.)
 6. Should `substrate` be a top-level type, or is it better modelled as a specialised `apparatus`? (The "has its own history of treatments and observations, independent of any subject" semantics argues for top-level.)
 7. How do we represent `placement_on` — as an `epoch` subclass, or as a distinct linking-document type?
-
-1. Is populational `subject` (a plate of worms) a first-class alternative to individual `subject`, or is it always a `subject_group` wrapping N individual `subject`s?
-2. Do we want `treatment` to be one document per administration (many small docs per session) or one document per protocol with a schedule inside it?
-3. How much should `analysis_output` be schema-constrained vs. free-form? Right now the existing `apps/calculators/...` schemas are very specific — do we want that pattern for every new analysis, or a single generic `analysis_output` with a `method` reference?
-4. Is a `profile` / paradigm concept something we want in the schema layer, or kept in consumer tooling (MATLAB/Python libraries)?
-5. Should `data_access` be a separate document or an embedded field on `session` / `recording`?
+8. Is `treatment_event` a subclass of `epoch`, or a sibling type that references an epoch?
 
 ## Possible next step
 
-Sketch stub schema files for the 14 core types on a new branch, then pressure-test the design by instantiating example documents from the metadata captured in each paper's summary — especially the edge cases above (Bhar exchange assay, Haley contrast-video-per-plate, Reikersdorfer 11-month chronic recordings, Mukherjee re-analysis of external data). Failures to express any of these cleanly would drive the next round of schema revision.
+Sketch stub schema files for the ~15 core types on a new branch, then pressure-test the design by instantiating example documents from the metadata captured in each paper's summary — especially the edge cases above (Bhar exchange assay + cyclic training, Haley contrast-video-per-plate, Reikersdorfer 11-month chronic recordings, Mukherjee re-analysis of external data). Failures to express any of these cleanly would drive the next round of schema revision.
