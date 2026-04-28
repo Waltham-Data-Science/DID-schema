@@ -32,7 +32,10 @@
             "_mustBeScalar": true,
             "_mustNotHaveNaN": true,
             "_queryable": true,
-            "_ontology": null,
+            "_ontology": {
+                "_node": "empty:array_dimensionality",
+                "_name": "array dimensionality"
+            },
             "_documentation": "The number of dimensions of the grid.",
             "_constraints": {}
         },
@@ -45,7 +48,10 @@
             "_mustBeScalar": false,
             "_mustNotHaveNaN": true,
             "_queryable": false,
-            "_ontology": null,
+            "_ontology": {
+                "_node": "empty:array_shape",
+                "_name": "array shape"
+            },
             "_documentation": "The size of each dimension as an array of positive integers, one entry per dimension. Length must equal ndims.",
             "_constraints": {
                 "element_type": "integer",
@@ -61,7 +67,10 @@
             "_mustBeScalar": true,
             "_mustNotHaveNaN": false,
             "_queryable": false,
-            "_ontology": null,
+            "_ontology": {
+                "_node": "empty:array_dimension_labels",
+                "_name": "array dimension labels"
+            },
             "_documentation": "Comma-separated labels for each dimension (e.g., 'time,channel,trial'). Number of entries must equal ndims.",
             "_constraints": {}
         },
@@ -74,8 +83,11 @@
             "_mustBeScalar": true,
             "_mustNotHaveNaN": false,
             "_queryable": true,
-            "_ontology": null,
-            "_documentation": "The numeric data type of the grid values (e.g., 'double', 'single', 'int16').",
+            "_ontology": {
+                "_node": "iao:0000219",
+                "_name": "denotes"
+            },
+            "_documentation": "The numeric data type of the grid values (e.g., 'double', 'single', 'int16'). The field denotes a value drawn from a numeric-type vocabulary; candidate for promotion to ontology_term.",
             "_constraints": {
                 "maxLength": 64
             }
