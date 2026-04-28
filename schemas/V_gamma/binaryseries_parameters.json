@@ -27,7 +27,10 @@
             "_mustBeScalar": true,
             "_mustNotHaveNaN": false,
             "_queryable": true,
-            "_ontology": null,
+            "_ontology": {
+                "_node": "ncit:C42645",
+                "_name": "Data Type"
+            },
             "_documentation": "The numeric data type of the binary series (e.g., 'double', 'single', 'int16', 'uint8').",
             "_constraints": {
                 "maxLength": 32
@@ -42,7 +45,10 @@
             "_mustBeScalar": true,
             "_mustNotHaveNaN": true,
             "_queryable": true,
-            "_ontology": null,
+            "_ontology": {
+                "_node": "pato:0000044",
+                "_name": "frequency"
+            },
             "_documentation": "The sampling rate in samples per second (Hz).",
             "_constraints": {}
         },
@@ -55,7 +61,10 @@
             "_mustBeScalar": true,
             "_mustNotHaveNaN": true,
             "_queryable": true,
-            "_ontology": null,
+            "_ontology": {
+                "_node": "ncit:C25463",
+                "_name": "Count"
+            },
             "_documentation": "The number of channels in the binary series.",
             "_constraints": {}
         },
@@ -68,7 +77,10 @@
             "_mustBeScalar": true,
             "_mustNotHaveNaN": false,
             "_queryable": false,
-            "_ontology": null,
+            "_ontology": {
+                "_node": "ncit:C181701",
+                "_name": "Byte Order"
+            },
             "_documentation": "Byte order of the binary data ('little-endian' or 'big-endian').",
             "_constraints": {
                 "maxLength": 32
