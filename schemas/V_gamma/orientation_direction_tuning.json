@@ -28,7 +28,7 @@
             "_mustNotHaveNaN": false,
             "_queryable": true,
             "_ontology": {
-                "_node": "empty:preferred_direction_of_motion",
+                "_node": "placeholder:preferred_direction_of_motion",
                 "_name": "preferred direction of motion"
             },
             "_documentation": "The preferred direction of motion in degrees (0-360).",
@@ -44,7 +44,7 @@
             "_mustNotHaveNaN": false,
             "_queryable": true,
             "_ontology": {
-                "_node": "empty:preferred_orientation",
+                "_node": "placeholder:preferred_orientation",
                 "_name": "preferred orientation"
             },
             "_documentation": "The preferred orientation in degrees (0-180).",
@@ -60,7 +60,7 @@
             "_mustNotHaveNaN": false,
             "_queryable": true,
             "_ontology": {
-                "_node": "empty:direction_selectivity_index",
+                "_node": "placeholder:direction_selectivity_index",
                 "_name": "direction selectivity index"
             },
             "_documentation": "Direction selectivity index (DSI), range 0 to 1.",
@@ -76,7 +76,7 @@
             "_mustNotHaveNaN": false,
             "_queryable": true,
             "_ontology": {
-                "_node": "empty:orientation_selectivity_index",
+                "_node": "placeholder:orientation_selectivity_index",
                 "_name": "orientation selectivity index"
             },
             "_documentation": "Orientation selectivity index (OSI), range 0 to 1.",
@@ -92,7 +92,7 @@
             "_mustNotHaveNaN": false,
             "_queryable": false,
             "_ontology": {
-                "_node": "empty:tuning_curve_half_width_at_half_height",
+                "_node": "placeholder:tuning_curve_half_width_at_half_height",
                 "_name": "tuning curve half-width at half-height"
             },
             "_documentation": "The half-width at half-height of the tuning curve in degrees.",
