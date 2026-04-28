@@ -33,8 +33,8 @@
             "_mustNotHaveNaN": true,
             "_queryable": true,
             "_ontology": {
-                "_node": "empty:array_dimensionality",
-                "_name": "array dimensionality"
+                "_node": "iao:0000027",
+                "_name": "data item"
             },
             "_documentation": "The number of dimensions of the grid.",
             "_constraints": {}
@@ -49,8 +49,8 @@
             "_mustNotHaveNaN": true,
             "_queryable": false,
             "_ontology": {
-                "_node": "empty:array_shape",
-                "_name": "array shape"
+                "_node": "iao:0000027",
+                "_name": "data item"
             },
             "_documentation": "The size of each dimension as an array of positive integers, one entry per dimension. Length must equal ndims.",
             "_constraints": {
@@ -68,8 +68,8 @@
             "_mustNotHaveNaN": false,
             "_queryable": false,
             "_ontology": {
-                "_node": "empty:array_dimension_labels",
-                "_name": "array dimension labels"
+                "_node": "iao:0000300",
+                "_name": "textual entity"
             },
             "_documentation": "Comma-separated labels for each dimension (e.g., 'time,channel,trial'). Number of entries must equal ndims.",
             "_constraints": {}
@@ -84,10 +84,10 @@
             "_mustNotHaveNaN": false,
             "_queryable": true,
             "_ontology": {
-                "_node": "iao:0000219",
-                "_name": "denotes"
+                "_node": "iao:0000098",
+                "_name": "denotator type"
             },
-            "_documentation": "The numeric data type of the grid values (e.g., 'double', 'single', 'int16'). The field denotes a value drawn from a numeric-type vocabulary; candidate for promotion to ontology_term.",
+            "_documentation": "The numeric data type of the grid values (e.g., 'double', 'single', 'int16').",
             "_constraints": {
                 "maxLength": 64
             }
