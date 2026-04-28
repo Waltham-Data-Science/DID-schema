@@ -31,7 +31,10 @@
             "_mustBeScalar": true,
             "_mustNotHaveNaN": false,
             "_queryable": true,
-            "_ontology": null,
+            "_ontology": {
+                "_node": "ncit:C169028",
+                "_name": "Study Unique Identifier"
+            },
             "_documentation": "Unique identifier of the session this document belongs to.",
             "_constraints": {}
         },

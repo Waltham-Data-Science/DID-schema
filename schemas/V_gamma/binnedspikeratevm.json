@@ -25,16 +25,24 @@
     "_fields": [
         {
             "_name": "bin_size",
-            "type": "double",
-            "_blank_value": 0.0,
-            "_default_value": 0.001,
+            "type": "duration",
+            "_blank_value": null,
+            "_default_value": {
+                "seconds": 0.001,
+                "approximate": false,
+                "source_unit": "millisecond",
+                "source_value": 1.0
+            },
             "_mustBeNonEmpty": true,
             "_mustBeScalar": true,
             "_mustNotHaveNaN": true,
             "_queryable": true,
             "_ontology": null,
-            "_documentation": "The bin size in seconds for computing the binned spike rate.",
-            "_constraints": {}
+            "_documentation": "The width of each bin used to compute the binned spike rate, expressed as a duration.",
+            "_constraints": {
+                "minimum": 0,
+                "allowed_units": ["nanosecond", "microsecond", "millisecond", "second"]
+            }
         },
         {
             "_name": "num_bins",
@@ -45,7 +53,10 @@
             "_mustBeScalar": true,
             "_mustNotHaveNaN": true,
             "_queryable": false,
-            "_ontology": null,
+            "_ontology": {
+                "_node": "ncit:C25463",
+                "_name": "Count"
+            },
             "_documentation": "The total number of bins.",
             "_constraints": {}
         }
