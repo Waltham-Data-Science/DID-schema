@@ -27,8 +27,11 @@
             "_mustBeScalar": true,
             "_mustNotHaveNaN": false,
             "_queryable": true,
-            "_ontology": null,
-            "_documentation": "The name of the independent stimulus variable (e.g., 'angle', 'spatial_frequency').",
+            "_ontology": {
+                "_node": "obi:0000750",
+                "_name": "independent variable"
+            },
+            "_documentation": "The name of the independent stimulus variable (e.g., 'angle', 'spatial_frequency'). Candidate for promotion to ontology_term.",
             "_constraints": {
                 "maxLength": 256
             }
@@ -42,7 +45,10 @@
             "_mustBeScalar": false,
             "_mustNotHaveNaN": false,
             "_queryable": false,
-            "_ontology": null,
+            "_ontology": {
+                "_node": "iao:0000027",
+                "_name": "data item"
+            },
             "_documentation": "Array of numeric values of the independent variable, one per tuning curve point. Must be the same length as response_mean and response_stderr.",
             "_constraints": {
                 "element_type": "double"
@@ -57,7 +63,10 @@
             "_mustBeScalar": false,
             "_mustNotHaveNaN": false,
             "_queryable": false,
-            "_ontology": null,
+            "_ontology": {
+                "_node": "ncit:C53319",
+                "_name": "Arithmetic Mean"
+            },
             "_documentation": "Array of mean response values at each point in independent_values. Must be the same length as independent_values.",
             "_constraints": {
                 "element_type": "double"
@@ -72,8 +81,11 @@
             "_mustBeScalar": false,
             "_mustNotHaveNaN": false,
             "_queryable": false,
-            "_ontology": null,
-            "_documentation": "Array of standard error of the mean for each response value. Must be the same length as independent_values.",
+            "_ontology": {
+                "_node": "stato:0000037",
+                "_name": "standard error of the mean"
+            },
+            "_documentation": "Array of standard error of the mean for each response value. Must be the same length as independent_values. Each element is itself a SEM; the array dimension is across independent_values.",
             "_constraints": {
                 "element_type": "double"
             }

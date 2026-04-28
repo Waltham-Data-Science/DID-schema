@@ -3,7 +3,7 @@
     "$id": "https://did-schema.example.org/meta/CURIE_lookups_meta.json",
     "title": "CURIE Registry for DID/NDI V_gamma",
     "description": "Registry mapping CURIE prefixes (used in ontology_term.node values and in field-level _ontology._node annotations) to their authoritative URI base and metadata. Consumer tooling uses this file to expand a CURIE such as 'uberon:0002436' into the full URI 'http://purl.obolibrary.org/obo/UBERON_0002436'. Prefixes are matched case-insensitively; by convention prefixes are written in lowercase inside documents and annotations.",
-    "_format_version": "1.0.0",
+    "_format_version": "1.0.3",
     "_prefixes": {
         "iao": {
             "_label": "Information Artifact Ontology",
@@ -40,6 +40,20 @@
             "_approximate": false,
             "_documentation": "Controlled vocabulary for biomedical concepts. An OBO-style mirror is available at the given base; the canonical browser lives at https://ncit.nci.nih.gov/ncitbrowser/."
         },
+        "stato": {
+            "_label": "Statistical Methods Ontology",
+            "_uri_base": "http://purl.obolibrary.org/obo/STATO_",
+            "_uri_style": "obo_underscore",
+            "_approximate": false,
+            "_documentation": "OBO Foundry ontology of statistical methods, distributions, variables, and spread/variation metrics. Site: https://stato-ontology.org/."
+        },
+        "obi": {
+            "_label": "Ontology for Biomedical Investigations",
+            "_uri_base": "http://purl.obolibrary.org/obo/OBI_",
+            "_uri_style": "obo_underscore",
+            "_approximate": false,
+            "_documentation": "OBO Foundry ontology of biological and clinical investigations. Used here for mid-level concepts (e.g., 'independent variable' OBI:0000750) that STATO imports rather than re-defining."
+        },
         "schema": {
             "_label": "Schema.org",
             "_uri_base": "https://schema.org/",
@@ -55,11 +69,18 @@
             "_documentation": "Identifiers are integer region IDs from the Allen CCF v3 structure graph. No canonical web URI is defined here; consumers should resolve via the Allen SDK or equivalent."
         },
         "empty": {
+            "_label": "Empty Ontology (Experimental Measurements, Purposes, and Treatments)",
+            "_uri_base": "https://raw.githubusercontent.com/Waltham-Data-Science/empty-ontology/main/empty-base.owl#EMPTY_",
+            "_uri_style": "obo_underscore",
+            "_approximate": false,
+            "_documentation": "Empty Ontology by Waltham Data Science — https://github.com/Waltham-Data-Science/empty-ontology. Term IDs are numeric (e.g., 'empty:0000001'). No PURL is in use yet; the canonical artefact is the GitHub-raw OWL file 'empty-base.owl' on the main branch, and CURIEs expand to a fragment within that file (matching the EMPTY_ prefix used inside the OWL). Consumer tooling (e.g., ndi-ontology-matlab) fetches the full OWL and searches by ID/label rather than dereferencing per-term URIs."
+        },
+        "placeholder": {
             "_label": "Placeholder namespace for example and in-progress data",
             "_uri_base": "",
             "_uri_style": "local",
             "_approximate": true,
-            "_documentation": "Reserved placeholder for documentation examples and for values that have not yet been mapped to a real ontology. Values are not expected to resolve. Flagged approximate so tooling can warn."
+            "_documentation": "Reserved placeholder for documentation examples and for values that have not yet been mapped to a real ontology. Values are not expected to resolve. Flagged approximate so tooling can warn. Distinct from the 'empty' prefix (registered above), which points at the real Empty Ontology."
         }
     },
     "_uri_styles": {

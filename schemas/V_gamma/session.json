@@ -20,7 +20,10 @@
             "_mustBeScalar": true,
             "_mustNotHaveNaN": false,
             "_queryable": true,
-            "_ontology": null,
+            "_ontology": {
+                "_node": "ncit:C169028",
+                "_name": "Study Unique Identifier"
+            },
             "_documentation": "A unique reference string for this experimental session.",
             "_constraints": {
                 "maxLength": 256
@@ -35,8 +38,11 @@
             "_mustBeScalar": true,
             "_mustNotHaveNaN": false,
             "_queryable": true,
-            "_ontology": null,
-            "_documentation": "The session type (e.g., 'acute', 'chronic').",
+            "_ontology": {
+                "_node": "iao:0000219",
+                "_name": "denotes"
+            },
+            "_documentation": "The session type (e.g., 'acute', 'chronic'). The field denotes a value drawn from a session-type vocabulary; candidate for promotion to ontology_term.",
             "_constraints": {
                 "maxLength": 128
             }
@@ -50,7 +56,10 @@
             "_mustBeScalar": true,
             "_mustNotHaveNaN": false,
             "_queryable": true,
-            "_ontology": null,
+            "_ontology": {
+                "_node": "schema:startDate",
+                "_name": "startDate"
+            },
             "_documentation": "The date of the session in ISO 8601 format (YYYY-MM-DD).",
             "_constraints": {
                 "maxLength": 32
@@ -65,7 +74,10 @@
             "_mustBeScalar": true,
             "_mustNotHaveNaN": false,
             "_queryable": false,
-            "_ontology": null,
+            "_ontology": {
+                "_node": "schema:description",
+                "_name": "description"
+            },
             "_documentation": "A free-text description of the purpose of this session.",
             "_constraints": {
                 "maxLength": 1024

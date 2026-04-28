@@ -27,8 +27,11 @@
             "_mustBeScalar": true,
             "_mustNotHaveNaN": false,
             "_queryable": true,
-            "_ontology": null,
-            "_documentation": "The type of stimulus presented (e.g., 'grating', 'noise', 'natural_image').",
+            "_ontology": {
+                "_node": "iao:0000219",
+                "_name": "denotes"
+            },
+            "_documentation": "The type of stimulus presented (e.g., 'grating', 'noise', 'natural_image'). The field denotes a value drawn from a stimulus-type vocabulary; candidate for promotion to ontology_term.",
             "_constraints": {
                 "maxLength": 256
             }
@@ -42,7 +45,10 @@
             "_mustBeScalar": false,
             "_mustNotHaveNaN": true,
             "_queryable": false,
-            "_ontology": null,
+            "_ontology": {
+                "_node": "placeholder:stimulus_presentation_order",
+                "_name": "stimulus presentation order"
+            },
             "_documentation": "Array of integer stimulus indices (1-based) in the order they were presented. Length equals num_trials.",
             "_constraints": {
                 "element_type": "integer"
@@ -57,7 +63,10 @@
             "_mustBeScalar": true,
             "_mustNotHaveNaN": true,
             "_queryable": true,
-            "_ontology": null,
+            "_ontology": {
+                "_node": "placeholder:trial_count",
+                "_name": "trial count"
+            },
             "_documentation": "The total number of stimulus trials.",
             "_constraints": {}
         }
