@@ -28,10 +28,10 @@
             "_mustNotHaveNaN": false,
             "_queryable": true,
             "_ontology": {
-                "_node": "iao:0000219",
-                "_name": "denotes"
+                "_node": "obi:0000750",
+                "_name": "independent variable"
             },
-            "_documentation": "The name of the independent stimulus variable (e.g., 'angle', 'spatial_frequency'). The field denotes a value drawn from a stimulus-variable vocabulary; candidate for promotion to ontology_term.",
+            "_documentation": "The name of the independent stimulus variable (e.g., 'angle', 'spatial_frequency'). Candidate for promotion to ontology_term.",
             "_constraints": {
                 "maxLength": 256
             }
@@ -82,10 +82,10 @@
             "_mustNotHaveNaN": false,
             "_queryable": false,
             "_ontology": {
-                "_node": "iao:0000027",
-                "_name": "data item"
+                "_node": "stato:0000037",
+                "_name": "standard error of the mean"
             },
-            "_documentation": "Array of standard error of the mean for each response value. Must be the same length as independent_values. The IAO 'data item' definition explicitly includes statistical summaries; a more specific term (e.g., a STATO 'standard error of mean' class) is a candidate once that namespace is registered.",
+            "_documentation": "Array of standard error of the mean for each response value. Must be the same length as independent_values. Each element is itself a SEM; the array dimension is across independent_values.",
             "_constraints": {
                 "element_type": "double"
             }
