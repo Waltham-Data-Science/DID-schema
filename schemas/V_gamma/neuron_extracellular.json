@@ -27,7 +27,10 @@
             "_mustBeScalar": true,
             "_mustNotHaveNaN": true,
             "_queryable": true,
-            "_ontology": null,
+            "_ontology": {
+                "_node": "iao:0000578",
+                "_name": "centrally registered identifier"
+            },
             "_documentation": "The cluster identifier assigned to this neuron by a spike sorter.",
             "_constraints": {}
         },
@@ -40,8 +43,11 @@
             "_mustBeScalar": true,
             "_mustNotHaveNaN": false,
             "_queryable": true,
-            "_ontology": null,
-            "_documentation": "Quality label for this unit (e.g., 'good', 'mua', 'noise').",
+            "_ontology": {
+                "_node": "empty:spike_sorting_quality_label",
+                "_name": "spike-sorting quality label"
+            },
+            "_documentation": "Quality label for this unit (e.g., 'good', 'mua', 'noise'). Candidate for promotion to ontology_term once a controlled vocabulary (e.g., a spike-sorting quality branch in NIFSTD) is registered.",
             "_constraints": {
                 "maxLength": 64
             }
@@ -55,7 +61,10 @@
             "_mustBeScalar": true,
             "_mustNotHaveNaN": true,
             "_queryable": true,
-            "_ontology": null,
+            "_ontology": {
+                "_node": "empty:action_potential_count",
+                "_name": "action potential count"
+            },
             "_documentation": "The total number of spikes assigned to this neuron.",
             "_constraints": {}
         },
@@ -68,8 +77,11 @@
             "_mustBeScalar": true,
             "_mustNotHaveNaN": false,
             "_queryable": false,
-            "_ontology": null,
-            "_documentation": "The mean firing rate of this neuron in Hz.",
+            "_ontology": {
+                "_node": "pato:0000044",
+                "_name": "frequency"
+            },
+            "_documentation": "The mean firing rate of this neuron in Hz. Candidate for promotion to the V_gamma 'frequency' composite type.",
             "_constraints": {}
         }
     ]

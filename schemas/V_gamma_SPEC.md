@@ -970,10 +970,10 @@ meta-schema does not validate that CURIE prefixes appear in the registry.
             "_mustNotHaveNaN": false,
             "_queryable":      true,
             "_ontology": {
-                "_node": "iao:0000219",
-                "_name": "denotes"
+                "_node": "schema:location",
+                "_name": "location"
             },
-            "_documentation": "Anatomical or functional location of the probe, as an ontology term (e.g., 'uberon:0002436' / 'primary visual cortex').",
+            "_documentation": "Anatomical or functional location where the probe is sampling, as an ontology term (e.g., 'uberon:0002436' / 'primary visual cortex').",
             "_constraints":   {}
         }
     ]

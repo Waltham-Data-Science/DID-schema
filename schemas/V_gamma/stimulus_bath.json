@@ -27,8 +27,11 @@
             "_mustBeScalar": true,
             "_mustNotHaveNaN": false,
             "_queryable": true,
-            "_ontology": null,
-            "_documentation": "The name of the bath solution (e.g., 'ACSF', 'TTX').",
+            "_ontology": {
+                "_node": "iao:0000219",
+                "_name": "denotes"
+            },
+            "_documentation": "The name of the bath solution (e.g., 'ACSF', 'TTX'). The field denotes a chemical entity / drug; candidate for promotion to ontology_term once a chemistry namespace (e.g., ChEBI, DrON) is registered.",
             "_constraints": {
                 "maxLength": 256
             }
@@ -42,7 +45,10 @@
             "_mustBeScalar": true,
             "_mustNotHaveNaN": false,
             "_queryable": false,
-            "_ontology": null,
+            "_ontology": {
+                "_node": "pato:0000033",
+                "_name": "concentration of"
+            },
             "_documentation": "The concentration of the active compound.",
             "_constraints": {}
         },
@@ -55,7 +61,10 @@
             "_mustBeScalar": true,
             "_mustNotHaveNaN": false,
             "_queryable": true,
-            "_ontology": null,
+            "_ontology": {
+                "_node": "iao:0000003",
+                "_name": "measurement unit label"
+            },
             "_documentation": "The units of the concentration (e.g., 'mM', 'uM', 'nM').",
             "_constraints": {
                 "maxLength": 32

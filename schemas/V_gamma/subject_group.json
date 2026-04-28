@@ -20,8 +20,11 @@
             "_mustBeScalar": true,
             "_mustNotHaveNaN": false,
             "_queryable": true,
-            "_ontology": null,
-            "_documentation": "The name of the subject group (e.g., 'control', 'treatment').",
+            "_ontology": {
+                "_node": "schema:name",
+                "_name": "name"
+            },
+            "_documentation": "The name of the subject group (e.g., 'control', 'treatment'). Candidate for promotion to ontology_term once a study-arm vocabulary (e.g., NCIT 'Study Arm' branch) is registered.",
             "_constraints": {
                 "maxLength": 256
             }
@@ -35,7 +38,10 @@
             "_mustBeScalar": true,
             "_mustNotHaveNaN": false,
             "_queryable": false,
-            "_ontology": null,
+            "_ontology": {
+                "_node": "schema:description",
+                "_name": "description"
+            },
             "_documentation": "A free-text description of this subject group.",
             "_constraints": {
                 "maxLength": 1024
@@ -50,7 +56,10 @@
             "_mustBeScalar": true,
             "_mustNotHaveNaN": false,
             "_queryable": false,
-            "_ontology": null,
+            "_ontology": {
+                "_node": "iao:0000578",
+                "_name": "centrally registered identifier"
+            },
             "_documentation": "Comma-separated list of subject document IDs belonging to this group (e.g., 'id1,id2,id3').",
             "_constraints": {}
         }
