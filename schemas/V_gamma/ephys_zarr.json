@@ -1,0 +1,341 @@
+{
+    "_classname": "ephys_zarr",
+    "_class_version": "1.0.0",
+    "_maturity_level": "work_in_progress",
+    "_superclasses": [
+        {
+            "_classname": "zarr",
+            "_schema": "$NDISCHEMAPATH/zarr/schema.json"
+        }
+    ],
+    "_depends_on": [
+        {
+            "_name": "probe_id",
+            "_mustBeNonEmpty": true,
+            "_documentation": "The document ID of the probe geometry document whose channels this recording samples. Required: an ephys recording is only meaningful in the context of a specific probe.",
+            "_must_refer_to_document_class": ""
+        },
+        {
+            "_name": "element_id",
+            "_mustBeNonEmpty": false,
+            "_documentation": "The document ID of the NDI element this recording is associated with (e.g., a specific tetrode, shank, or probe segment). Optional; matches the image_zarr convention.",
+            "_must_refer_to_document_class": ""
+        }
+    ],
+    "_file": [],
+    "_fields": [
+        {
+            "_name": "sample_rate",
+            "type": "frequency",
+            "_blank_value": null,
+            "_default_value": null,
+            "_mustBeNonEmpty": true,
+            "_mustBeScalar": true,
+            "_mustNotHaveNaN": true,
+            "_queryable": true,
+            "_ontology": {
+                "_node": "pato:0000044",
+                "_name": "frequency"
+            },
+            "_documentation": "Acquisition sampling rate in hertz. Denormalised from the time axis: equals 1 / (multiscales[0].datasets[0].scale at the time axis index) when axes[time].unit is 'second' (and divided appropriately for other time units). Carries the original unit and value in source_unit / source_value so writers can preserve their natural unit; queries against sample_rate.hertz are the canonical form.",
+            "_constraints": {
+                "minimum": 0
+            }
+        },
+        {
+            "_name": "num_samples",
+            "type": "integer",
+            "_blank_value": 0,
+            "_default_value": 1,
+            "_mustBeNonEmpty": true,
+            "_mustBeScalar": true,
+            "_mustNotHaveNaN": true,
+            "_queryable": true,
+            "_ontology": {
+                "_node": "ncit:C25463",
+                "_name": "Count"
+            },
+            "_documentation": "Number of samples along the time axis of the native array. Denormalised from shape at the time axis index. Used as the canonical 'how long is this recording' scalar for indexing and length queries.",
+            "_constraints": {
+                "minimum": 0
+            }
+        },
+        {
+            "_name": "num_channels",
+            "type": "integer",
+            "_blank_value": 0,
+            "_default_value": 1,
+            "_mustBeNonEmpty": true,
+            "_mustBeScalar": true,
+            "_mustNotHaveNaN": true,
+            "_queryable": true,
+            "_ontology": {
+                "_node": "ncit:C25463",
+                "_name": "Count"
+            },
+            "_documentation": "Number of recording channels. Denormalised from shape at the channel axis index. Equal to the length of the channels array.",
+            "_constraints": {
+                "minimum": 1
+            }
+        },
+        {
+            "_name": "recording_duration",
+            "type": "duration",
+            "_blank_value": null,
+            "_default_value": null,
+            "_mustBeNonEmpty": false,
+            "_mustBeScalar": true,
+            "_mustNotHaveNaN": true,
+            "_queryable": true,
+            "_ontology": null,
+            "_documentation": "Total recording duration, equal to num_samples / sample_rate. Denormalised so that 'find recordings longer than 10 minutes' is one direct query against recording_duration.seconds. Null when num_samples or sample_rate is not yet known.",
+            "_constraints": {
+                "minimum": 0
+            }
+        },
+        {
+            "_name": "time_origin_reference",
+            "type": "char",
+            "_blank_value": "",
+            "_default_value": "acquisition_start",
+            "_mustBeNonEmpty": true,
+            "_mustBeScalar": true,
+            "_mustNotHaveNaN": false,
+            "_queryable": true,
+            "_ontology": null,
+            "_documentation": "Reference event that sample 0 of the native array corresponds to. 'acquisition_start' means sample 0 is the first sample written by the DAQ. 'epoch_start' means sample 0 is the experimental epoch's t=0. 'daq_clock' means sample 0 is at the DAQ's free-running clock time recorded in time_origin_offset. 'absolute_utc' means sample 0 is at the UTC instant recorded in time_origin_offset (as seconds since the Unix epoch).",
+            "_constraints": {
+                "enum": [
+                    "acquisition_start",
+                    "epoch_start",
+                    "daq_clock",
+                    "absolute_utc"
+                ]
+            }
+        },
+        {
+            "_name": "time_origin_offset",
+            "type": "duration",
+            "_blank_value": null,
+            "_default_value": null,
+            "_mustBeNonEmpty": false,
+            "_mustBeScalar": true,
+            "_mustNotHaveNaN": true,
+            "_queryable": true,
+            "_ontology": null,
+            "_documentation": "Offset from the reference origin to sample 0. For time_origin_reference='epoch_start', this is the delay between epoch onset and the first sample (positive when the DAQ began after the epoch). For 'daq_clock' and 'absolute_utc', this is the absolute clock value of sample 0 expressed as a duration since the relevant zero. Null when no offset applies (e.g., time_origin_reference='acquisition_start' and the offset is trivially zero).",
+            "_constraints": {}
+        },
+        {
+            "_name": "channels",
+            "type": "structure",
+            "_blank_value": [],
+            "_default_value": [],
+            "_mustBeNonEmpty": true,
+            "_mustBeScalar": false,
+            "_mustNotHaveNaN": false,
+            "_queryable": true,
+            "_ontology": null,
+            "_documentation": "Per-channel acquisition records, parallel-indexed to the channel axis of the native array. Each element describes one recording channel: which physical probe contact it sampled, its gain/offset to convert stored values to physical voltage, and any quality flag.",
+            "_constraints": {},
+            "_fields": [
+                {
+                    "_name": "contact_id",
+                    "type": "integer",
+                    "_blank_value": 0,
+                    "_default_value": 0,
+                    "_mustBeNonEmpty": true,
+                    "_mustBeScalar": true,
+                    "_mustNotHaveNaN": true,
+                    "_queryable": true,
+                    "_ontology": null,
+                    "_documentation": "Zero-based index into the referenced probe_geometry document's channel_positions matrix. Identifies which physical electrode contact this recording channel was wired to.",
+                    "_constraints": {
+                        "minimum": 0
+                    }
+                },
+                {
+                    "_name": "contact_label",
+                    "type": "char",
+                    "_blank_value": "",
+                    "_default_value": "",
+                    "_mustBeNonEmpty": false,
+                    "_mustBeScalar": true,
+                    "_mustNotHaveNaN": false,
+                    "_queryable": true,
+                    "_ontology": null,
+                    "_documentation": "Human-readable channel label (e.g., 'ch001', 'CSC1', 'shank0_ch7'). Free-form string; empty when the writer did not record one.",
+                    "_constraints": {
+                        "maxLength": 128
+                    }
+                },
+                {
+                    "_name": "gain",
+                    "type": "double",
+                    "_blank_value": 1.0,
+                    "_default_value": 1.0,
+                    "_mustBeNonEmpty": true,
+                    "_mustBeScalar": true,
+                    "_mustNotHaveNaN": true,
+                    "_queryable": false,
+                    "_ontology": null,
+                    "_documentation": "Multiplier applied to convert stored values to physical voltage in voltage_unit: physical = (stored - offset) * gain. For raw int16 ADC data, this is typically the per-step voltage of the ADC range (e.g., 0.195 microvolts/step for an Intan headstage at default range). For data already stored in physical units, gain is 1.0.",
+                    "_constraints": {
+                        "minimum": 0
+                    }
+                },
+                {
+                    "_name": "offset",
+                    "type": "double",
+                    "_blank_value": 0.0,
+                    "_default_value": 0.0,
+                    "_mustBeNonEmpty": false,
+                    "_mustBeScalar": true,
+                    "_mustNotHaveNaN": true,
+                    "_queryable": false,
+                    "_ontology": null,
+                    "_documentation": "Additive offset subtracted from stored values before gain is applied: physical = (stored - offset) * gain. Typically 0 for ADC-derived data; non-zero when the writer applied a baseline shift before storage.",
+                    "_constraints": {}
+                },
+                {
+                    "_name": "voltage_unit",
+                    "type": "char",
+                    "_blank_value": "",
+                    "_default_value": "microvolt",
+                    "_mustBeNonEmpty": true,
+                    "_mustBeScalar": true,
+                    "_mustNotHaveNaN": false,
+                    "_queryable": true,
+                    "_ontology": {
+                        "_node": "pato:0001463",
+                        "_name": "electrical potential"
+                    },
+                    "_documentation": "Physical unit of (stored - offset) * gain. Almost always 'microvolt' for extracellular ephys; 'millivolt' for intracellular or LFP; 'volt' for raw bench signals.",
+                    "_constraints": {
+                        "enum": [
+                            "microvolt",
+                            "millivolt",
+                            "volt"
+                        ]
+                    }
+                },
+                {
+                    "_name": "bad_channel",
+                    "type": "boolean",
+                    "_blank_value": false,
+                    "_default_value": false,
+                    "_mustBeNonEmpty": false,
+                    "_mustBeScalar": true,
+                    "_mustNotHaveNaN": false,
+                    "_queryable": true,
+                    "_ontology": null,
+                    "_documentation": "True when this channel is known-bad (broken contact, excessive noise, saturated) and should be excluded from analysis. False by default.",
+                    "_constraints": {}
+                }
+            ]
+        },
+        {
+            "_name": "filter_history",
+            "type": "structure",
+            "_blank_value": [],
+            "_default_value": [],
+            "_mustBeNonEmpty": false,
+            "_mustBeScalar": false,
+            "_mustNotHaveNaN": false,
+            "_queryable": true,
+            "_ontology": null,
+            "_documentation": "Ordered list of filters applied to the signal before storage. Empty when the signal is stored raw (no filtering). Each entry describes one filter stage; the order reflects the order of application.",
+            "_constraints": {},
+            "_fields": [
+                {
+                    "_name": "filter_type",
+                    "type": "char",
+                    "_blank_value": "",
+                    "_default_value": "highpass",
+                    "_mustBeNonEmpty": true,
+                    "_mustBeScalar": true,
+                    "_mustNotHaveNaN": false,
+                    "_queryable": true,
+                    "_ontology": null,
+                    "_documentation": "Class of filter response. 'highpass' passes frequencies above cutoff_low. 'lowpass' passes frequencies below cutoff_high. 'bandpass' passes frequencies between cutoff_low and cutoff_high. 'bandstop' rejects frequencies between cutoff_low and cutoff_high. 'notch' is a narrow bandstop (single-frequency rejection, e.g. 50/60 Hz line noise).",
+                    "_constraints": {
+                        "enum": [
+                            "highpass",
+                            "lowpass",
+                            "bandpass",
+                            "bandstop",
+                            "notch"
+                        ]
+                    }
+                },
+                {
+                    "_name": "filter_family",
+                    "type": "char",
+                    "_blank_value": "",
+                    "_default_value": "butterworth",
+                    "_mustBeNonEmpty": true,
+                    "_mustBeScalar": true,
+                    "_mustNotHaveNaN": false,
+                    "_queryable": true,
+                    "_ontology": null,
+                    "_documentation": "Filter design family. 'butterworth' for flat passband. 'chebyshev1' / 'chebyshev2' for sharper rolloff with passband / stopband ripple. 'bessel' for linear phase. 'fir' for finite-impulse-response designs. 'iir_other' for unspecified IIR designs (writer's filter description was incomplete).",
+                    "_constraints": {
+                        "enum": [
+                            "butterworth",
+                            "chebyshev1",
+                            "chebyshev2",
+                            "bessel",
+                            "fir",
+                            "iir_other"
+                        ]
+                    }
+                },
+                {
+                    "_name": "order",
+                    "type": "integer",
+                    "_blank_value": 0,
+                    "_default_value": 2,
+                    "_mustBeNonEmpty": false,
+                    "_mustBeScalar": true,
+                    "_mustNotHaveNaN": true,
+                    "_queryable": true,
+                    "_ontology": null,
+                    "_documentation": "Filter order. For IIR filters, the number of poles; for FIR filters, the number of taps minus one. 0 when the writer did not record an order.",
+                    "_constraints": {
+                        "minimum": 0
+                    }
+                },
+                {
+                    "_name": "cutoff_low",
+                    "type": "frequency",
+                    "_blank_value": null,
+                    "_default_value": null,
+                    "_mustBeNonEmpty": false,
+                    "_mustBeScalar": true,
+                    "_mustNotHaveNaN": true,
+                    "_queryable": true,
+                    "_ontology": null,
+                    "_documentation": "Lower-band cutoff frequency. For 'highpass': the single cutoff. For 'bandpass' / 'bandstop' / 'notch': the lower edge of the passband / stopband / notched region. Null for 'lowpass' filters (which have only an upper cutoff).",
+                    "_constraints": {
+                        "minimum": 0
+                    }
+                },
+                {
+                    "_name": "cutoff_high",
+                    "type": "frequency",
+                    "_blank_value": null,
+                    "_default_value": null,
+                    "_mustBeNonEmpty": false,
+                    "_mustBeScalar": true,
+                    "_mustNotHaveNaN": true,
+                    "_queryable": true,
+                    "_ontology": null,
+                    "_documentation": "Upper-band cutoff frequency. For 'lowpass': the single cutoff. For 'bandpass' / 'bandstop' / 'notch': the upper edge of the passband / stopband / notched region. Null for 'highpass' filters (which have only a lower cutoff).",
+                    "_constraints": {
+                        "minimum": 0
+                    }
+                }
+            ]
+        }
+    ]
+}
