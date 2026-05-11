@@ -94,37 +94,100 @@
             }
         },
         {
-            "_name": "time_origin_reference",
-            "type": "char",
-            "_blank_value": "",
-            "_default_value": "acquisition_start",
+            "_name": "sample0_timeref",
+            "type": "structure",
+            "_blank_value": {},
+            "_default_value": {},
             "_mustBeNonEmpty": true,
             "_mustBeScalar": true,
             "_mustNotHaveNaN": false,
-            "_queryable": true,
+            "_queryable": false,
             "_ontology": null,
-            "_documentation": "Reference event that sample 0 of the native array corresponds to. 'acquisition_start' means sample 0 is the first sample written by the DAQ. 'epoch_start' means sample 0 is the experimental epoch's t=0. 'daq_clock' means sample 0 is at the DAQ's free-running clock time recorded in time_origin_offset. 'absolute_utc' means sample 0 is at the UTC instant recorded in time_origin_offset (as seconds since the Unix epoch).",
-            "_constraints": {
-                "enum": [
-                    "acquisition_start",
-                    "epoch_start",
-                    "daq_clock",
-                    "absolute_utc"
-                ]
-            }
-        },
-        {
-            "_name": "time_origin_offset",
-            "type": "duration",
-            "_blank_value": null,
-            "_default_value": null,
-            "_mustBeNonEmpty": false,
-            "_mustBeScalar": true,
-            "_mustNotHaveNaN": true,
-            "_queryable": true,
-            "_ontology": null,
-            "_documentation": "Offset from the reference origin to sample 0. For time_origin_reference='epoch_start', this is the delay between epoch onset and the first sample (positive when the DAQ began after the epoch). For 'daq_clock' and 'absolute_utc', this is the absolute clock value of sample 0 expressed as a duration since the relevant zero. Null when no offset applies (e.g., time_origin_reference='acquisition_start' and the offset is trivially zero).",
-            "_constraints": {}
+            "_documentation": "NDI time reference for sample 0 of the native array. Five sub-fields (matching the timeref_struct pattern used by valid_interval) place the first sample on a specific clock anchored to a specific epoch of a specific epochset, with a seconds offset within that epoch. This is the canonical way to express 'when did this recording start' in NDI's temporal vocabulary, and lets the time of sample 0 participate in sync graphs and cross-clock translation without any special-case handling on the consumer side.",
+            "_constraints": {},
+            "_fields": [
+                {
+                    "_name": "referent_epochsetname",
+                    "type": "char",
+                    "_blank_value": "",
+                    "_default_value": "",
+                    "_mustBeNonEmpty": false,
+                    "_mustBeScalar": true,
+                    "_mustNotHaveNaN": false,
+                    "_queryable": false,
+                    "_ontology": null,
+                    "_documentation": "Name of the ndi.epoch.epochset object (e.g., device name, probe name, element name) that provides the time reference for sample 0.",
+                    "_constraints": {
+                        "maxLength": 256
+                    }
+                },
+                {
+                    "_name": "referent_classname",
+                    "type": "char",
+                    "_blank_value": "",
+                    "_default_value": "",
+                    "_mustBeNonEmpty": false,
+                    "_mustBeScalar": true,
+                    "_mustNotHaveNaN": false,
+                    "_queryable": false,
+                    "_ontology": null,
+                    "_documentation": "Class name of the referent epochset object (e.g., 'element', 'probe', 'device').",
+                    "_constraints": {
+                        "maxLength": 256
+                    }
+                },
+                {
+                    "_name": "clocktypestring",
+                    "type": "char",
+                    "_blank_value": "",
+                    "_default_value": "",
+                    "_mustBeNonEmpty": false,
+                    "_mustBeScalar": true,
+                    "_mustNotHaveNaN": false,
+                    "_queryable": false,
+                    "_ontology": null,
+                    "_documentation": "String identifier of the ndi.time.clocktype used for sample 0. Valid values: 'dev_local_time', 'dev_global_time', 'utc', 'approx_utc', 'exp_global_time', 'no_time'.",
+                    "_constraints": {
+                        "maxLength": 64,
+                        "enum": [
+                            "dev_local_time",
+                            "dev_global_time",
+                            "utc",
+                            "approx_utc",
+                            "exp_global_time",
+                            "no_time"
+                        ]
+                    }
+                },
+                {
+                    "_name": "epoch",
+                    "type": "char",
+                    "_blank_value": "",
+                    "_default_value": "",
+                    "_mustBeNonEmpty": false,
+                    "_mustBeScalar": true,
+                    "_mustNotHaveNaN": false,
+                    "_queryable": false,
+                    "_ontology": null,
+                    "_documentation": "The epochid of the epoch in the referent epochset that provides the time origin for sample 0.",
+                    "_constraints": {
+                        "maxLength": 256
+                    }
+                },
+                {
+                    "_name": "time",
+                    "type": "double",
+                    "_blank_value": 0.0,
+                    "_default_value": 0.0,
+                    "_mustBeNonEmpty": true,
+                    "_mustBeScalar": true,
+                    "_mustNotHaveNaN": false,
+                    "_queryable": false,
+                    "_ontology": null,
+                    "_documentation": "Time offset (in seconds) within the reference epoch that corresponds to sample 0.",
+                    "_constraints": {}
+                }
+            ]
         },
         {
             "_name": "channels",
