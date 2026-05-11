@@ -46,15 +46,67 @@ array/object literals; either is conformant.
 - `"id"` — the top-level `id` field.
 - `"datestamp"` — top-level scalar field.
 - `"sample_rate.hertz"` — sub-field of a named composite or generic structure.
-- `"axes"` — a field whose value is an array (operators below describe what
-  can be asked of it).
+- `"axes"` — a field whose value is an array (scalar operators below treat
+  the array as an atomic value; `[*]` iteration is described in
+  "Array-iteration paths" below).
 - `""` — empty selector; only valid with operators that do not need a field
   (currently `isa`).
 
-Dot-paths address one level of nesting per `.`. **Wildcards and array
-indices are not part of the field selector.** Reaching into the elements of
-an array is done by the operator (`hasanysubfield_contains_string`,
-`hasmember`), not by the path.
+Dot-paths address one level of nesting per `.`. Array iteration is
+expressed with the `[*]` suffix on a segment that names an array (see
+below). Numeric indices (e.g., `axes[0]`) are not part of the selector.
+
+## Array-iteration paths
+
+When a path segment names an **array-of-structure** field (i.e., a
+`type: "structure"` field whose `_mustBeScalar: false` makes the value an
+array of objects), appending `[*]` to that segment iterates over its
+elements. Operators applied to a sub-path beyond `[*]` evaluate against
+each element in turn, and the search structure matches the document if
+**any** element satisfies the operator (existential semantics, analogous
+to MongoDB's array dot-paths and to SQL's `EXISTS` over `json_each`).
+
+Examples:
+
+- `"axes[*].name"` — the `name` sub-field of each element of the `axes`
+  array.
+- `"multiscales[*].datasets[*].path"` — the `path` sub-field of each
+  element of each `multiscales` element's `datasets` sub-array. Multiple
+  `[*]` segments compose: the document matches if there exists `(i, j)`
+  such that `multiscales[i].datasets[j].path` satisfies the operator.
+- `"channels[*].window.min"` — `[*]` may be followed by ordinary scalar
+  sub-paths; `window.min` is read out of each element.
+
+Any operator from the table below may be used with an `[*]` path. The
+existing operator `hasanysubfield_contains_string` is a backward-compatible
+shorthand for `<array_field>[*].<sub_field>` + `contains_string`; the
+shorthand remains supported for legacy queries.
+
+### Independent vs. correlated array predicates
+
+Two queries combined with `and()`/`or()` are evaluated **independently per
+search structure**. Two `[*]` predicates over the same array do not
+necessarily refer to the same element. For example, this query —
+
+```
+and(
+  ndi.query('axes[*].name', 'exact_string', 'z'),
+  ndi.query('axes[*].unit', 'exact_string', 'micrometer')
+)
+```
+
+— matches a document if *some* axis has name `z` **and** *some* axis has
+unit `micrometer`, possibly different axes. This is independent
+quantifier semantics.
+
+**Correlated predicates** (asking whether the same array element
+simultaneously satisfies multiple conditions) are not part of v1 of the
+array-iteration extension. Workaround: where the natural query requires
+correlated semantics, denormalise to a scalar shadow field (e.g.,
+`axis_z_unit`) on the document, or compose the test in consumer code after
+retrieval. Correlated quantifiers — analogous to MongoDB's `$elemMatch` or
+JSONPath filter expressions — are a candidate for a future model
+revision.
 
 ## Operators (core)
 
@@ -79,7 +131,18 @@ These operators are required of every conformant implementation.
 | Operator                          | `param1`     | `param2` | Meaning |
 |-----------------------------------|--------------|----------|---------|
 | `hasmember`                       | scalar value | —        | Field value is an array and `param1` is one of its elements (membership test on a flat array). |
-| `hasanysubfield_contains_string`  | sub-field name | string | Field value is an **array of structures** such that at least one element has a sub-field named `param1` whose value contains the string in `param2`. This is the only built-in any-element quantifier; it is restricted to substring matching on string sub-fields. |
+| `hasanysubfield_contains_string`  | sub-field name | string | Legacy shorthand. Field value is an **array of structures** such that at least one element has a sub-field named `param1` whose value contains the string in `param2`. Equivalent to using `contains_string` with a `[*]` path: `<field>[*].<sub_field>`. The shorthand remains supported. |
+
+Beyond these dedicated operators, **any scalar operator may be used with
+an `[*]` path** to express existential quantification over an
+array-of-structure field. For example:
+
+- `field = "axes[*].unit"`, `operation = "exact_string"`, `param1 = "micrometer"` — any axis with unit exactly `micrometer`.
+- `field = "channels[*].window.min"`, `operation = "lessthan"`, `param1 = 100` — any channel whose window minimum is below 100.
+- `field = "multiscales[*].datasets[*].path"`, `operation = "regexp"`, `param1 = "^0/"` — any pyramid level whose path starts with `0/`.
+
+See "Array-iteration paths" above for the full semantics and for the
+independent vs. correlated discussion.
 
 ### Document-level predicates
 
@@ -126,35 +189,23 @@ array (OR).
 The model is deliberately small. The following queries are out of scope and
 schema authors must not assume `_queryable: true` makes them work:
 
-1. **Non-substring quantifiers over arrays of structures.** Only
-   `hasanysubfield_contains_string` walks into an array of structures, and
-   only with `contains_string` semantics on a string sub-field. There is no
-   built-in `hasanysubfield_exact_string`, `hasanysubfield_greaterthan`,
-   etc. Workaround: store the queryable value in a shape that
-   `contains_string` can answer (controlled-vocabulary strings with no
-   substring overlap), or denormalise to a scalar shadow field.
+1. **Correlated multi-predicate on the same array element.** Two queries
+   combined with `and()` over `[*]` paths into the same array do not
+   necessarily refer to the same element (see "Independent vs. correlated
+   array predicates" above). Asking "exists an element with sub-field
+   A = x **and** sub-field B = y in the *same* element" is not directly
+   expressible in v1. Workaround: store the correlated pair in a
+   denormalised scalar field, or compose the test in consumer code after
+   retrieval.
 
-2. **Correlated multi-predicate on the same array element.** Combining two
-   `hasanysubfield_contains_string` queries with `and` finds documents
-   where *some* element matches the first and *some* element matches the
-   second — possibly different elements. Asking "exists an element with
-   sub-field A = x **and** sub-field B = y in the same element" is not
-   expressible. Workaround: store the correlated pair in a denormalised
-   scalar field, or compose the test in consumer code after retrieval.
-
-3. **Nested arrays of structures beyond one level.** A path like
-   `multiscales.datasets.path` is a literal property path; it does not
-   iterate. `hasanysubfield_contains_string` reaches one level into one
-   array. Workaround: flatten the schema (one document per inner element)
-   or surface the deeply nested value as a scalar shadow field.
-
-4. **Per-element comparisons on numeric arrays / matrices.** `exact_number`
+2. **Per-element comparisons on numeric arrays / matrices.** `exact_number`
    tests whole-array equality. There is no built-in "any element of the
-   array is greater than X" or "the third element equals Y." Workaround:
-   surface the queryable scalar as its own field (e.g., `pixels_x`
-   alongside a `shape` matrix).
+   matrix is greater than X" or "the third element equals Y." `[*]`
+   iteration applies to array-of-structure fields, not to flat numeric
+   matrices. Workaround: surface the queryable scalar as its own field
+   (e.g., `pixels_x` alongside a `shape` matrix).
 
-5. **Cross-document joins inside a single query.** Each query evaluates
+3. **Cross-document joins inside a single query.** Each query evaluates
    against one document at a time. `depends_on` is the only cross-document
    primitive and it tests a static dependency declaration, not arbitrary
    join predicates. Multi-step queries are composed in consumer code by

@@ -1,0 +1,290 @@
+{
+    "_classname": "zarr",
+    "_class_version": "1.0.0",
+    "_maturity_level": "work_in_progress",
+    "_abstract": true,
+    "_superclasses": [
+        {
+            "_classname": "base",
+            "_schema": "$NDISCHEMAPATH/base/schema.json"
+        }
+    ],
+    "_depends_on": [],
+    "_file": [],
+    "_directory": [
+        {
+            "_name": "store",
+            "_documentation": "The zarr store: a directory tree of .zgroup, .zarray, and .zattrs JSON sidecars plus chunk binary files (zarr v2) or equivalent v3 layout. The store may be local, on S3, or on HTTP. The directory document's manifest_format determines how chunk paths are enumerated: 'zarr_implicit' (no manifest file; consumer derives chunk paths from the recipe in this document plus base_uri), 'jsonlines' (per-file local manifest), 'jsonlines_uri' (per-file with optional remote URIs), or 'kerchunk_parquet' (reference-style aggregation)."
+        }
+    ],
+    "_fields": [
+        {
+            "_name": "zarr_format",
+            "type": "char",
+            "_blank_value": "",
+            "_default_value": "2",
+            "_mustBeNonEmpty": true,
+            "_mustBeScalar": true,
+            "_mustNotHaveNaN": false,
+            "_queryable": true,
+            "_ontology": null,
+            "_documentation": "The zarr format version. '2' for the historical zarr v2 layout (one .zarray per array, .zgroup per group, .zattrs for metadata). '3' for the zarr v3 layout (zarr.json per node, sharding support, codec pipelines).",
+            "_constraints": {
+                "enum": [
+                    "2",
+                    "3"
+                ]
+            }
+        },
+        {
+            "_name": "dimension_separator",
+            "type": "char",
+            "_blank_value": "",
+            "_default_value": "/",
+            "_mustBeNonEmpty": true,
+            "_mustBeScalar": true,
+            "_mustNotHaveNaN": false,
+            "_queryable": true,
+            "_ontology": null,
+            "_documentation": "The character used to separate chunk indices in chunk file paths. '.' produces paths like '0.0.0' (zarr v2 historical default). '/' produces paths like '0/0/0' (zarr v2 directory-style and zarr v3 default). Required for consumers that derive chunk paths from the recipe ('zarr_implicit' manifest_format).",
+            "_constraints": {
+                "enum": [
+                    ".",
+                    "/"
+                ]
+            }
+        },
+        {
+            "_name": "dtype",
+            "type": "char",
+            "_blank_value": "",
+            "_default_value": "<u2",
+            "_mustBeNonEmpty": true,
+            "_mustBeScalar": true,
+            "_mustNotHaveNaN": false,
+            "_queryable": true,
+            "_ontology": null,
+            "_documentation": "The element data type, written as a numpy-style dtype string (e.g., '<u2' little-endian uint16, '<f4' little-endian float32, '<i2' int16, '|u1' uint8, '<f8' float64). The leading character is the byte order ('<' little-endian, '>' big-endian, '|' not-applicable). zarr v3 may also accept the long-form names ('uint16', 'float32', etc.); consumer tooling should normalise.",
+            "_constraints": {
+                "maxLength": 32
+            }
+        },
+        {
+            "_name": "shape",
+            "type": "matrix",
+            "_blank_value": null,
+            "_default_value": null,
+            "_mustBeNonEmpty": true,
+            "_mustBeScalar": false,
+            "_mustNotHaveNaN": true,
+            "_queryable": false,
+            "_ontology": null,
+            "_documentation": "Per-dimension size of the native (level 0) array, as an Nx1 column vector. The number of rows equals num_dimensions. Element type is integer. For an HxWxC image at one timepoint, this is [H; W; C]. For ephys data with samples and channels, this is [num_samples; num_channels]. Whole-vector queries via exact_number are supported but rarely useful; concrete subclasses typically denormalise frequently-queried dimensions (e.g., pixels_x, num_samples) as their own scalar fields.",
+            "_constraints": {
+                "cols": 1,
+                "element_type": "integer",
+                "minimum": 1
+            }
+        },
+        {
+            "_name": "chunks",
+            "type": "matrix",
+            "_blank_value": null,
+            "_default_value": null,
+            "_mustBeNonEmpty": true,
+            "_mustBeScalar": false,
+            "_mustNotHaveNaN": true,
+            "_queryable": false,
+            "_ontology": null,
+            "_documentation": "Per-dimension chunk size of the native (level 0) array, as an Nx1 column vector. Each entry is the chunk extent along that dimension; chunk count along the dimension is ceil(shape[i] / chunks[i]). Element type is integer.",
+            "_constraints": {
+                "cols": 1,
+                "element_type": "integer",
+                "minimum": 1
+            }
+        },
+        {
+            "_name": "num_dimensions",
+            "type": "integer",
+            "_blank_value": 0,
+            "_default_value": 1,
+            "_mustBeNonEmpty": true,
+            "_mustBeScalar": true,
+            "_mustNotHaveNaN": true,
+            "_queryable": true,
+            "_ontology": null,
+            "_documentation": "Number of dimensions of the native array. Equals the length of shape and chunks. Denormalised for cheap querying ('find all 5D zarrs').",
+            "_constraints": {
+                "minimum": 1
+            }
+        },
+        {
+            "_name": "num_elements",
+            "type": "double",
+            "_blank_value": 0.0,
+            "_default_value": 1.0,
+            "_mustBeNonEmpty": true,
+            "_mustBeScalar": true,
+            "_mustNotHaveNaN": true,
+            "_queryable": true,
+            "_ontology": null,
+            "_documentation": "Total number of elements in the native (level 0) array, i.e., the product of shape. Stored as double rather than integer because lightsheet and EM volumes routinely exceed 2^31 elements. Denormalised for cheap querying ('find all zarrs with > 1e10 elements').",
+            "_constraints": {
+                "minimum": 1
+            }
+        },
+        {
+            "_name": "compressor",
+            "type": "structure",
+            "_blank_value": null,
+            "_default_value": null,
+            "_mustBeNonEmpty": false,
+            "_mustBeScalar": true,
+            "_mustNotHaveNaN": false,
+            "_queryable": true,
+            "_ontology": null,
+            "_documentation": "Compression codec applied to chunks. A scalar structure; null means no compression (raw chunks). The same compressor is assumed to apply across all pyramid levels — OME-Zarr writers in practice do not vary the compressor per level.",
+            "_constraints": {},
+            "_fields": [
+                {
+                    "_name": "name",
+                    "type": "char",
+                    "_blank_value": "",
+                    "_default_value": "blosc",
+                    "_mustBeNonEmpty": true,
+                    "_mustBeScalar": true,
+                    "_mustNotHaveNaN": false,
+                    "_queryable": true,
+                    "_ontology": null,
+                    "_documentation": "Name of the compression codec (e.g., 'blosc', 'gzip', 'zstd', 'lz4', 'zlib').",
+                    "_constraints": {
+                        "enum": [
+                            "blosc",
+                            "gzip",
+                            "zstd",
+                            "lz4",
+                            "zlib"
+                        ]
+                    }
+                },
+                {
+                    "_name": "level",
+                    "type": "integer",
+                    "_blank_value": 0,
+                    "_default_value": 5,
+                    "_mustBeNonEmpty": false,
+                    "_mustBeScalar": true,
+                    "_mustNotHaveNaN": true,
+                    "_queryable": false,
+                    "_ontology": null,
+                    "_documentation": "Compression level. Codec-specific semantics (1-9 for gzip, 1-9 for blosc, 1-22 for zstd).",
+                    "_constraints": {
+                        "minimum": 0
+                    }
+                },
+                {
+                    "_name": "shuffle",
+                    "type": "integer",
+                    "_blank_value": 0,
+                    "_default_value": 1,
+                    "_mustBeNonEmpty": false,
+                    "_mustBeScalar": true,
+                    "_mustNotHaveNaN": true,
+                    "_queryable": false,
+                    "_ontology": null,
+                    "_documentation": "Pre-compression shuffle filter (blosc-specific; ignored by other codecs). 0 = no shuffle, 1 = byte shuffle, 2 = bit shuffle.",
+                    "_constraints": {
+                        "enum": [
+                            0,
+                            1,
+                            2
+                        ]
+                    }
+                },
+                {
+                    "_name": "inner_codec",
+                    "type": "char",
+                    "_blank_value": "",
+                    "_default_value": "",
+                    "_mustBeNonEmpty": false,
+                    "_mustBeScalar": true,
+                    "_mustNotHaveNaN": false,
+                    "_queryable": false,
+                    "_ontology": null,
+                    "_documentation": "Inner codec used by blosc (its 'cname' parameter). Examples: 'lz4', 'zstd', 'blosclz'. Empty / ignored when the outer compressor name is not 'blosc'.",
+                    "_constraints": {
+                        "maxLength": 32
+                    }
+                }
+            ]
+        },
+        {
+            "_name": "multiscale_levels",
+            "type": "structure",
+            "_blank_value": [],
+            "_default_value": [
+                {
+                    "path": "0",
+                    "scale_factors": null,
+                    "downsampling_method": "none"
+                }
+            ],
+            "_mustBeNonEmpty": true,
+            "_mustBeScalar": false,
+            "_mustNotHaveNaN": false,
+            "_queryable": true,
+            "_ontology": null,
+            "_documentation": "Ordered list of pyramid levels stored as arrays within the zarr group. Element 0 is the native (full-resolution) array; subsequent elements are progressively downsampled. A non-pyramid zarr has exactly one entry with path '0', scale_factors of all ones (or null), and downsampling_method 'none'. The interpretation of which axes are downsampled and which downsampling methods are valid is subclass-specific: image_zarr typically downsamples spatial axes via mean/gaussian/peak; ephys_zarr typically downsamples the time axis via minmax_envelope/decimate/rms.",
+            "_constraints": {},
+            "_fields": [
+                {
+                    "_name": "path",
+                    "type": "char",
+                    "_blank_value": "",
+                    "_default_value": "0",
+                    "_mustBeNonEmpty": true,
+                    "_mustBeScalar": true,
+                    "_mustNotHaveNaN": false,
+                    "_queryable": true,
+                    "_ontology": null,
+                    "_documentation": "Path of this level within the zarr group, relative to the group root. Typically '0' for the native array, '1' for the first downsample, etc.",
+                    "_constraints": {
+                        "maxLength": 256
+                    }
+                },
+                {
+                    "_name": "scale_factors",
+                    "type": "matrix",
+                    "_blank_value": null,
+                    "_default_value": null,
+                    "_mustBeNonEmpty": false,
+                    "_mustBeScalar": false,
+                    "_mustNotHaveNaN": true,
+                    "_queryable": false,
+                    "_ontology": null,
+                    "_documentation": "Per-dimension downsampling factor from the native (level 0) array to this level, as an Nx1 column vector. For example, [1; 1; 2; 2; 2] in a 5D image (t, c, z, y, x) where the spatial axes are halved and time/channel are preserved. May be null for level 0 (no downsampling).",
+                    "_constraints": {
+                        "cols": 1,
+                        "element_type": "double",
+                        "minimum": 1
+                    }
+                },
+                {
+                    "_name": "downsampling_method",
+                    "type": "char",
+                    "_blank_value": "",
+                    "_default_value": "none",
+                    "_mustBeNonEmpty": true,
+                    "_mustBeScalar": true,
+                    "_mustNotHaveNaN": false,
+                    "_queryable": true,
+                    "_ontology": null,
+                    "_documentation": "Name of the algorithm used to produce this level from the native array (or from the previous level). 'none' for the native level. Domain-specific values are constrained by concrete subclasses (image_zarr permits 'mean', 'gaussian', 'peak', 'nearest', 'mode'; ephys_zarr permits 'minmax_envelope', 'decimate', 'rms', 'mean').",
+                    "_constraints": {
+                        "maxLength": 64
+                    }
+                }
+            ]
+        }
+    ]
+}
