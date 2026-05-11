@@ -143,15 +143,15 @@
                     "_name": "contact_id",
                     "type": "integer",
                     "_blank_value": 0,
-                    "_default_value": 0,
+                    "_default_value": 1,
                     "_mustBeNonEmpty": true,
                     "_mustBeScalar": true,
                     "_mustNotHaveNaN": true,
                     "_queryable": true,
                     "_ontology": null,
-                    "_documentation": "Zero-based index into the referenced probe_geometry document's channel_positions matrix. Identifies which physical electrode contact this recording channel was wired to.",
+                    "_documentation": "One-based logical channel number on the referenced probe, matching NDI's 1-based indexing of probe_geometry.channel_positions (contact 1 is row 1 of channel_positions, contact 2 is row 2, etc.). Identifies which physical electrode contact this recording channel was wired to.",
                     "_constraints": {
-                        "minimum": 0
+                        "minimum": 1
                     }
                 },
                 {
