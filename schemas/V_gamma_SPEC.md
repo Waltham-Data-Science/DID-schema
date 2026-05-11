@@ -254,7 +254,7 @@ following keys:
 | `_mustBeNonEmpty` | boolean         | yes      | See per-type semantics below. |
 | `_mustBeScalar`   | boolean         | yes      | Value must be a single element (not array/matrix). |
 | `_mustNotHaveNaN` | boolean         | yes      | No NaN values permitted. For types where this is meaningless, must be `false`. |
-| `_queryable`      | boolean         | yes      | Whether this field is indexed in the database. |
+| `_queryable`      | boolean         | yes      | Whether this field is indexed for did.query/ndi.query. See `did_query_model.md` for the operators and shapes a queryable field is promised to support. |
 | `_ontology`       | object or null  | yes      | CURIE-based annotation of what the field itself means (e.g., this field denotes the concept of "frequency"). Not a place to store an ontology-rooted value — that is the `ontology_term` type. See below, or `null` if no suitable term exists. |
 | `_documentation`  | string          | yes      | Human-readable description. |
 | `_constraints`    | object          | yes      | Type-specific constraint keywords. Use `{}` for unconstrained. |
@@ -305,6 +305,13 @@ document-value sub-fields of the `ontology_term` composite type (`node`,
 `name`) do NOT carry leading underscores because those are data field
 names — see "Named Composite Types" below. The two forms carry the same
 information model (CURIE + label) but appear in different places.
+
+### Query model (pointer)
+
+The abstract query model that `_queryable: true` promises is specified in
+`schemas/did_query_model.md` (operators, composition, and known
+limitations). The SPEC defines schema shape; the query model defines what
+can be asked of a queryable field. The two evolve independently.
 
 ### Useful Ontology Terms
 
