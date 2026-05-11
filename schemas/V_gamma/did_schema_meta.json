@@ -32,6 +32,10 @@
             ],
             "description": "Maturity level of this schema: 'work_in_progress' for schemas still under development, 'mature' for stable schemas."
         },
+        "_abstract": {
+            "type": "boolean",
+            "description": "If true, no document may have _classname equal to this class — only concrete subclasses may be instantiated. Default false when omitted. Does not affect inheritance, field flattening, or isa query matching."
+        },
         "_superclasses": {
             "type": "array",
             "items": {
@@ -266,6 +270,11 @@
                         "$ref": "#/$defs/field_definition"
                     },
                     "description": "Nested field definitions for structure type fields."
+                },
+                "_discriminator": {
+                    "type": "string",
+                    "pattern": "^[a-zA-Z][a-zA-Z0-9_]*$",
+                    "description": "Optional, only meaningful for type: 'structure'. Names a sub-field within _fields whose value tags discriminated-union element variants. The discriminator sub-field is conventionally a char field with an enum constraint. The meta-schema does not enforce variant-specific required-field rules; consumer tooling and per-schema documentation define those."
                 }
             },
             "if": {

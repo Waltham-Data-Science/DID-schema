@@ -2,6 +2,7 @@
     "_classname": "stimulus_response_scalar_parameters",
     "_class_version": "1.0.0",
     "_maturity_level": "work_in_progress",
+    "_abstract": true,
     "_superclasses": [
         {
             "_classname": "base",

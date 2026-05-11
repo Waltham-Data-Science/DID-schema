@@ -74,7 +74,7 @@
                     "_documentation": "String identifier of the ndi.time.clocktype used for this reference. Valid values: 'dev_local_time', 'dev_global_time', 'utc', 'approx_utc', 'exp_global_time', 'no_time'.",
                     "_constraints": {
                         "maxLength": 64,
-                        "allowed_values": [
+                        "enum": [
                             "dev_local_time",
                             "dev_global_time",
                             "utc",
@@ -183,7 +183,7 @@
                     "_documentation": "String identifier of the ndi.time.clocktype used for this reference. Valid values: 'dev_local_time', 'dev_global_time', 'utc', 'approx_utc', 'exp_global_time', 'no_time'.",
                     "_constraints": {
                         "maxLength": 64,
-                        "allowed_values": [
+                        "enum": [
                             "dev_local_time",
                             "dev_global_time",
                             "utc",

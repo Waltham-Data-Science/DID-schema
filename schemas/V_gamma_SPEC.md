@@ -176,6 +176,7 @@ meta-schema enforces this.
 | `_classname`      | string | yes      | no            | Unique name of the document type. Must match `^[a-z][a-z0-9_]*$` (snake_case). |
 | `_class_version`  | string | yes      | no            | Semantic version string `"MAJOR.MINOR.PATCH"`. |
 | `_maturity_level` | string | yes      | no            | `"work_in_progress"` or `"mature"`. |
+| `_abstract`       | boolean| no       | n/a           | If `true`, no document may have `_classname` equal to this class — only concrete subclasses may be instantiated. Default `false` when omitted. Does not affect inheritance, field flattening, or `isa` query matching. |
 | `_superclasses`   | array  | yes      | yes (`[]`)    | Array of superclass reference objects. |
 | `_depends_on`     | array  | yes      | yes (`[]`)    | Array of dependency objects. |
 | `_file`           | array  | no       | yes (`[]`)    | Array of file record objects. Omit for document types with no associated files. |
@@ -183,6 +184,30 @@ meta-schema enforces this.
 | `_fields`         | array  | yes      | yes (`[]`)    | Array of field definition objects. |
 
 No other top-level keys are permitted.
+
+### Abstract Classes (new in V_gamma)
+
+A schema with `_abstract: true` defines a type whose only purpose is to be
+inherited from. Concrete subclasses of an abstract class are instantiable;
+the abstract class itself is not. The single enforced rule:
+
+> A document is invalid if its `_classname` equals the `_classname` of a
+> schema whose `_abstract` is `true`.
+
+Everything else about an abstract class behaves like a normal schema:
+
+- Its `_fields`, `_depends_on`, `_file`, `_directory`, and `_superclasses`
+  are flattened into every concrete subclass during inheritance.
+- `isa <abstract_classname>` queries match every document whose class chain
+  includes the abstract class.
+- The meta-schema permits the key but does not enforce the instantiation
+  rule — Phase 1 validation does (see "Validation Phases").
+
+Marking a previously concrete class as `_abstract: true` is a **MAJOR**
+class-version change because existing documents with that `_classname`
+become invalid. Use the abstract marker for placeholder parent classes
+whose only role is shared structure (e.g., `zarr` as the parent of
+`image_zarr` and `ephys_zarr`).
 
 ### Superclass Reference Object
 
@@ -254,16 +279,40 @@ following keys:
 | `_mustBeNonEmpty` | boolean         | yes      | See per-type semantics below. |
 | `_mustBeScalar`   | boolean         | yes      | Value must be a single element (not array/matrix). |
 | `_mustNotHaveNaN` | boolean         | yes      | No NaN values permitted. For types where this is meaningless, must be `false`. |
-| `_queryable`      | boolean         | yes      | Whether this field is indexed in the database. |
+| `_queryable`      | boolean         | yes      | Whether this field is indexed for did.query/ndi.query. See `did_query_model.md` for the operators and shapes a queryable field is promised to support. |
 | `_ontology`       | object or null  | yes      | CURIE-based annotation of what the field itself means (e.g., this field denotes the concept of "frequency"). Not a place to store an ontology-rooted value — that is the `ontology_term` type. See below, or `null` if no suitable term exists. |
 | `_documentation`  | string          | yes      | Human-readable description. |
 | `_constraints`    | object          | yes      | Type-specific constraint keywords. Use `{}` for unconstrained. |
 
-For `"type": "structure"` fields, an additional key is required:
+For `"type": "structure"` fields, an additional key is required, plus two
+optional keys for the array-of-structure and discriminated-union variants:
 
-| Key       | Type  | Required            | Notes |
-|-----------|-------|---------------------|-------|
-| `_fields` | array | yes (for structure) | Nested field definition objects. Same format, recursive. |
+| Key             | Type    | Required            | Notes |
+|-----------------|---------|---------------------|-------|
+| `_fields`       | array   | yes (for structure) | Nested field definition objects. Same format, recursive. |
+| `_discriminator`| string  | no                  | Name of a sub-field within `_fields` whose value tags variant elements. The discriminator sub-field must itself be of type `char` (typically with an `enum` in `_constraints`). When present, consumer tooling and per-schema documentation specify which other sub-fields are required for each discriminator value; the meta-schema does not enforce variant-specific required-field rules. Only meaningful when the structure represents a discriminated union of element shapes. |
+
+#### Scalar vs. array structure values (new in V_gamma)
+
+The `_mustBeScalar` flag selects the value shape carried by a
+`"type": "structure"` field:
+
+- `_mustBeScalar: true` — value is **one object** matching `_fields`. This
+  is the historical V_gamma structure semantics.
+- `_mustBeScalar: false` — value is an **array of objects**, each matching
+  `_fields`. Empty array (`[]`) is permitted unless `_mustBeNonEmpty:
+  true`. Use this for repeated records (e.g., per-axis records, per-channel
+  rendering settings, per-pyramid-level descriptors).
+
+For an array-of-structure value, `_mustBeNonEmpty: true` means the array
+itself is non-empty; per-element non-empty checks happen via the per-element
+`_fields` rules. Consumer query tooling reaches into array-of-structure
+values with `[*]` path syntax (see `did_query_model.md`).
+
+The `matrix` type continues to be the right choice for numeric tabular data
+(2D arrays of doubles or integers). The `structure` type with
+`_mustBeScalar: false` is the right choice for record-like repetition where
+each element has named sub-fields.
 
 ### Ontology Annotation Object (new in V_gamma)
 
@@ -305,6 +354,13 @@ document-value sub-fields of the `ontology_term` composite type (`node`,
 `name`) do NOT carry leading underscores because those are data field
 names — see "Named Composite Types" below. The two forms carry the same
 information model (CURIE + label) but appear in different places.
+
+### Query model (pointer)
+
+The abstract query model that `_queryable: true` promises is specified in
+`schemas/did_query_model.md` (operators, composition, and known
+limitations). The SPEC defines schema shape; the query model defines what
+can be asked of a queryable field. The two evolve independently.
 
 ### Useful Ontology Terms
 
@@ -778,10 +834,16 @@ rules; consumer tooling enforces them.
 
 Checks that can be performed with only the document and its schema file(s):
 
+- The document's `_classname` is not the `_classname` of a schema with
+  `_abstract: true`. (Documents must instantiate a concrete subclass.)
 - All fields declared in the schema (including inherited superclass
   fields) are present.
 - `_mustBeNonEmpty` fields satisfy the per-type semantics above.
-- `_mustBeScalar` fields are single values, not arrays.
+- `_mustBeScalar` fields are single values, not arrays — **except** for
+  `type: "structure"` fields where `_mustBeScalar: false` declares the
+  value to be an array of objects each matching `_fields`. For such
+  array-of-structure fields, each element is validated against the
+  per-element `_fields` rules.
 - `_mustNotHaveNaN` fields contain no NaN values.
 - Type-specific format checks: `timestamp` matches ISO 8601 UTC,
   `did_uid` matches the UID pattern, each SI-dimensioned type
@@ -835,8 +897,8 @@ uses a prefix present in `CURIE_lookups_meta.json`. Prefixes flagged
 The meta-schema must enforce:
 - Required top-level keys: `_classname`, `_class_version`,
   `_maturity_level`, `_superclasses`, `_depends_on`, `_fields`.
-- Optional top-level keys, if present, have correct structure: `_file`,
-  `_directory`.
+- Optional top-level keys, if present, have correct structure: `_abstract`
+  (boolean), `_file`, `_directory`.
 - `_classname` matches `^[a-z][a-z0-9_]*$`.
 - Every `_name` on a field, dependency, or record matches the appropriate
   snake_case pattern.
@@ -854,7 +916,10 @@ The meta-schema must enforce:
   and `_name` (string).
 - `_mustBeNonEmpty`, `_mustBeScalar`, `_mustNotHaveNaN`, `_queryable`
   are all booleans.
-- For `type: "structure"`, the `_fields` key is present.
+- For `type: "structure"`, the `_fields` key is present. The optional
+  `_discriminator` key, if present, is a string naming a sub-field within
+  `_fields` (the discriminator semantics themselves are not validated by
+  the meta-schema).
 
 The meta-schema does **not** structurally validate the internal shape of
 named composite document values (the SI-dimensioned types and

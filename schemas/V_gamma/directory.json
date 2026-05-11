@@ -84,9 +84,29 @@
             "_mustNotHaveNaN": false,
             "_queryable": true,
             "_ontology": null,
-            "_documentation": "The format of the manifest file. Recommended default is 'jsonlines' (one JSON object per line with keys: filename, size, checksum_sha256). Other formats may be supported by consumer tooling.",
+            "_documentation": "The format of the manifest file. 'jsonlines' is one JSON object per line with keys filename, size, checksum_sha256 (no per-entry URIs; the directory's files all live under the same store as the directory document). 'jsonlines_uri' is the same plus an optional per-entry 'uri' field; entries without 'uri' are resolved against the directory's base_uri. 'kerchunk_parquet' is a Parquet file of kerchunk-style {key, uri, offset, length} references, used for mixed-source virtual aggregations (reserved for future use). 'zarr_implicit' means no manifest file is present; consumer tooling derives chunk paths from the owning zarr document's recipe (shape, chunks, dimension_separator) plus base_uri, and the manifest_file attachment may be empty.",
             "_constraints": {
-                "maxLength": 64
+                "enum": [
+                    "jsonlines",
+                    "jsonlines_uri",
+                    "kerchunk_parquet",
+                    "zarr_implicit"
+                ]
+            }
+        },
+        {
+            "_name": "base_uri",
+            "type": "char",
+            "_blank_value": "",
+            "_default_value": "",
+            "_mustBeNonEmpty": false,
+            "_mustBeScalar": true,
+            "_mustNotHaveNaN": false,
+            "_queryable": true,
+            "_ontology": null,
+            "_documentation": "Optional URI prefix used as the resolution root for files in this directory. Examples: 's3://bucket/light_sheet_001/', 'https://data.example.org/img42/', or empty when files are local relative to the document's storage. Required when manifest_format is 'zarr_implicit' (since the consumer must construct chunk URIs from base_uri plus the zarr recipe). Optional when manifest_format is 'jsonlines_uri' (used as the default for entries that omit their own 'uri'). Ignored when manifest_format is 'jsonlines'. Credentials are never included in base_uri; they are supplied by the consumer environment.",
+            "_constraints": {
+                "maxLength": 2048
             }
         }
     ]
