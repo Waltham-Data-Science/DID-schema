@@ -7,7 +7,13 @@ import glob
 import os
 import re
 
-from conftest import load_json
+from conftest import (
+    load_json,
+    schema_class_version,
+    schema_classname,
+    schema_superclasses,
+    superclass_classname,
+)
 
 # V_beta type set: the primitives.
 VALID_TYPES_BASE = {
@@ -56,13 +62,13 @@ class TestBaseSchema:
     """Structural tests for the base schema. Applies to every version."""
 
     def test_classname(self, base_schema):
-        assert base_schema["_classname"] == "base"
+        assert schema_classname(base_schema) == "base"
 
     def test_version_is_semver(self, base_schema):
-        assert SEMVER_RE.match(base_schema["_class_version"])
+        assert SEMVER_RE.match(schema_class_version(base_schema))
 
     def test_no_superclasses(self, base_schema):
-        assert base_schema["_superclasses"] == []
+        assert schema_superclasses(base_schema) == []
 
     def test_has_four_fields(self, base_schema):
         assert len(base_schema["_fields"]) == 4
@@ -119,21 +125,22 @@ class TestProbeLocationSchema:
     """Structural tests for the probe_location schema."""
 
     def test_classname(self, probe_location_schema):
-        assert probe_location_schema["_classname"] == "probe_location"
+        assert schema_classname(probe_location_schema) == "probe_location"
 
     def test_class_version(self, probe_location_schema, schema_version):
         assert (
-            probe_location_schema["_class_version"]
+            schema_class_version(probe_location_schema)
             == PROBE_LOCATION_VERSION[schema_version]
         )
 
     def test_has_one_superclass(self, probe_location_schema):
-        assert len(probe_location_schema["_superclasses"]) == 1
-        assert probe_location_schema["_superclasses"][0]["_classname"] == "base"
+        supers = schema_superclasses(probe_location_schema)
+        assert len(supers) == 1
+        assert superclass_classname(supers[0]) == "base"
 
     def test_superclass_reference_points_to_base(self, probe_location_schema):
         """The superclass _schema reference should mention the base schema."""
-        path = probe_location_schema["_superclasses"][0]["_schema"]
+        path = schema_superclasses(probe_location_schema)[0]["_schema"]
         assert "base" in path and path.endswith(".json")
 
     def test_field_names(self, probe_location_schema, schema_version):
@@ -167,7 +174,7 @@ class TestInheritanceResolution:
 
     def test_no_superclass_for_base(self, base_schema):
         """base has no superclasses."""
-        assert base_schema["_superclasses"] == []
+        assert schema_superclasses(base_schema) == []
 
 
 class TestAllSchemaFilesConsistency:
@@ -175,7 +182,7 @@ class TestAllSchemaFilesConsistency:
 
     def test_all_classnames_are_unique(self, schemas_dir):
         paths = all_schema_files(schemas_dir)
-        classnames = [load_json(p)["_classname"] for p in paths]
+        classnames = [schema_classname(load_json(p)) for p in paths]
         assert len(classnames) == len(set(classnames)), (
             f"Duplicate classnames found in {schemas_dir}: {classnames}"
         )
@@ -183,8 +190,9 @@ class TestAllSchemaFilesConsistency:
     def test_all_versions_are_semver(self, schemas_dir):
         for path in all_schema_files(schemas_dir):
             schema = load_json(path)
-            assert SEMVER_RE.match(schema["_class_version"]), (
-                f"{path}: _class_version '{schema['_class_version']}' is not valid semver"
+            version = schema_class_version(schema)
+            assert SEMVER_RE.match(version), (
+                f"{path}: class_version '{version}' is not valid semver"
             )
 
     def test_all_field_types_are_valid(self, schemas_dir, schema_version):
@@ -213,11 +221,12 @@ class TestDirectorySchema:
     """Structural tests for the directory document schema."""
 
     def test_classname(self, directory_schema):
-        assert directory_schema["_classname"] == "directory"
+        assert schema_classname(directory_schema) == "directory"
 
     def test_extends_base(self, directory_schema):
-        assert len(directory_schema["_superclasses"]) == 1
-        assert directory_schema["_superclasses"][0]["_classname"] == "base"
+        supers = schema_superclasses(directory_schema)
+        assert len(supers) == 1
+        assert superclass_classname(supers[0]) == "base"
 
     def test_has_parent_doc_dependency(self, directory_schema):
         dep_names = [d["_name"] for d in directory_schema["_depends_on"]]

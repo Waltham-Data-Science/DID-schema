@@ -23,6 +23,36 @@ def load_json(path):
         return json.load(f)
 
 
+def schema_classname(schema):
+    """Read a schema file's class_name regardless of wire shape.
+
+    V_beta schema files: top-level "_classname".
+    V_gamma schema files: nested "document_class.class_name".
+    """
+    if "document_class" in schema:
+        return schema["document_class"]["class_name"]
+    return schema["_classname"]
+
+
+def schema_class_version(schema):
+    if "document_class" in schema:
+        return schema["document_class"]["class_version"]
+    return schema["_class_version"]
+
+
+def schema_superclasses(schema):
+    if "document_class" in schema:
+        return schema["document_class"]["superclasses"]
+    return schema["_superclasses"]
+
+
+def superclass_classname(entry):
+    """Read a superclass reference's classname (V_beta `_classname` or V_gamma `class_name`)."""
+    if "class_name" in entry:
+        return entry["class_name"]
+    return entry["_classname"]
+
+
 def schemas_dir_for(version):
     return os.path.join(SCHEMAS_ROOT, version)
 

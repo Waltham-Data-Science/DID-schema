@@ -6,7 +6,7 @@ of `schemas/V_gamma/`) and snake_case naming requirements for classnames,
 field names, and filenames. See `V_beta_SPEC.md` for the rules that carry
 over unchanged.
 
-V_gamma adds four related features on top of V_beta:
+V_gamma adds five related features on top of V_beta:
 
 - **Named composite types.** Eight new entries in the field-definition
   `type` enum, each backed by a fixed sub-field layout in document values:
@@ -44,15 +44,13 @@ V_gamma adds four related features on top of V_beta:
 
 - **Class-scoped property blocks at the document-instance level.**
   V_beta's intended wire shape was a single flat namespace per document;
-  V_gamma reverts to per-class property blocks keyed by `_classname`
+  V_gamma reverts to per-class property blocks keyed by `class_name`
   (one block per class in the inheritance chain). This restores the
   V_alpha document layout, collapsed so that the block key equals
-  `_classname` verbatim (V_alpha's separate `property_list_name` is
-  removed). Schema files are unchanged — a class's `<class>.json`
-  still declares only its own `_fields`. Flattening remains an
-  internal step for validators and query-path indexing; it is no
-  longer the wire shape. See the new "JSON Format: Document
-  Instances" section in `V_gamma_SPEC.md`.
+  `class_name` verbatim (V_alpha's separate `property_list_name` is
+  removed). Flattening remains an internal step for validators and
+  query-path indexing; it is no longer the wire shape. See the new
+  "JSON Format: Document Instances" section in `V_gamma_SPEC.md`.
 
   Motivation, in brief:
   - **Per-field provenance.** A reader can tell at a glance which class
@@ -69,6 +67,25 @@ V_gamma adds four related features on top of V_beta:
     it at the wire-shape level reduces the V_alpha → V_gamma transition
     to a per-document data migration rather than a code rewrite of the
     toolbox.
+
+- **Class metadata under a top-level `document_class` header.** The
+  class-identity fields (`class_name`, `class_version`, `superclasses`)
+  live under a top-level `document_class` block on both schema files and
+  document instances, restoring the V_alpha legacy NDI-matlab layout.
+  Previously V_gamma kept these at the top level with underscore prefixes
+  (`_classname`, `_class_version`, `_superclasses`); they are now nested
+  and unprefixed inside `document_class`. `_depends_on` stays at the top
+  level (it is a cross-document concern, not a piece of class identity).
+
+  Inside `document_class.superclasses[i]`:
+  - Schema files use `class_name` plus `_schema` (the schema-file path).
+  - Document instances use `class_name` plus `class_version` (no path).
+
+  This is a schema-file-syntax change; no `class_version` bumps result
+  from it. The motivation is one-to-one alignment with the V_alpha
+  NDI-matlab wire shape so that the V_alpha → V_gamma transition
+  remains a mechanical per-document data migration rather than a code
+  rewrite of consumer tooling.
 
 ## Class-version bumps (2.0.0)
 

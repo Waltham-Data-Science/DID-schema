@@ -8,7 +8,7 @@ every active schema version (V_beta and V_gamma).
 import os
 import re
 
-from conftest import load_json
+from conftest import load_json, schema_superclasses, superclass_classname
 
 TIMESTAMP_RE = re.compile(
     r"^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(\.\d+)?Z$"
@@ -26,19 +26,20 @@ def doc_metadata(doc):
     """Return (classname, depends_on_list, class_block_keys) for a document.
 
     Supports both wire shapes:
-    - V_beta: top-level "document_class"/"depends_on" (unprefixed).
-    - V_gamma: top-level "_classname"/"_class_version"/"_superclasses"/
-      "_depends_on" (underscore-prefixed). See
-      "JSON Format: Document Instances" in V_gamma_SPEC.md.
+    - V_beta: top-level "document_class" with sub-key "classname"; top-level
+      "depends_on" (no underscore).
+    - V_gamma: top-level "document_class" with sub-key "class_name"; top-level
+      "_depends_on" (underscore-prefixed). See "JSON Format: Document
+      Instances" in V_gamma_SPEC.md.
     """
-    if "_classname" in doc:
-        classname = doc["_classname"]
+    header = doc["document_class"]
+    if "class_name" in header:
+        classname = header["class_name"]
         depends_on = doc.get("_depends_on", [])
-        reserved = {"_classname", "_class_version", "_superclasses", "_depends_on"}
     else:
-        classname = doc["document_class"]["classname"]
+        classname = header["classname"]
         depends_on = doc.get("depends_on", [])
-        reserved = {"document_class", "depends_on"}
+    reserved = {"document_class", "_depends_on", "depends_on"}
     block_keys = [k for k, v in doc.items() if k not in reserved and isinstance(v, dict)]
     return classname, depends_on, block_keys
 
@@ -52,14 +53,14 @@ def load_schema_for_document(doc, schemas_dir):
 def get_all_fields(schema, schemas_dir):
     """Recursively resolve superclass fields and return flattened field list.
 
-    Uses each superclass's _classname to locate its schema file in the flat
-    layout; the _schema path inside the schema file is ignored for resolution
-    purposes.
+    Uses each superclass's class_name (V_gamma) or _classname (V_beta) to
+    locate its schema file in the flat layout; the _schema path inside the
+    schema file is ignored for resolution purposes.
     """
     fields = []
-    for superclass in schema.get("_superclasses", []):
+    for superclass in schema_superclasses(schema):
         super_schema = load_json(
-            schema_path_for_classname(superclass["_classname"], schemas_dir)
+            schema_path_for_classname(superclass_classname(superclass), schemas_dir)
         )
         fields.extend(get_all_fields(super_schema, schemas_dir))
     fields.extend(schema["_fields"])
