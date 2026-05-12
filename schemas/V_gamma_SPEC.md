@@ -179,6 +179,24 @@ this specification (`document_class`, `class_name`, `class_version`,
 and are not subject to the snake_case rule above — they are literal keys
 defined by the spec, not user-chosen names.
 
+### Reserved Keys
+
+The complete list of property names reserved by this schema system lives
+in `schemas/V_gamma/ndi_reserved_keys.json`. That file is the discoverable,
+machine-readable surface for the reserved vocabulary; the meta-schema
+(`did_schema_meta.json`) is the enforcement surface. The manifest is split
+into two short lists:
+
+- `schema_file_keys` — names that appear in a class schema file
+  (e.g. `base.json`, `probe_location.json`).
+- `document_instance_keys` — names that appear in an NDI document instance
+  on disk.
+
+Schema authors **must not** reuse any reserved name as their own data
+field name (i.e., as a `_name` inside a `_fields` entry). Tools and agents
+that need to know whether a given key is part of NDI's vocabulary should
+consult this manifest rather than guessing from the underscore prefix.
+
 ---
 
 ## JSON Format: Schema Files
