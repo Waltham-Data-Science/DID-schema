@@ -1,13 +1,11 @@
 {
-    "document_class": {
-        "classname":     "probe_location",
-        "class_version": "2.0.0",
-        "superclasses": [
-            { "classname": "base" }
-        ]
-    },
-    "depends_on": [
-        { "name": "probe_id", "value": "aabb1122ccdd3344_aabb1122ccdd3344" }
+    "_classname":     "probe_location",
+    "_class_version": "2.0.0",
+    "_superclasses": [
+        { "_classname": "base", "_class_version": "1.0.0" }
+    ],
+    "_depends_on": [
+        { "_name": "probe_id", "value": "aabb1122ccdd3344_aabb1122ccdd3344" }
     ],
     "base": {
         "id":          "aabb1122ccdd3344_1122334455667788",
