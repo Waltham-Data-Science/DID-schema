@@ -5,7 +5,7 @@
 This document is a complete specification for the **V_gamma** schema set in the
 `did-schema` repository. V_gamma inherits the V_beta flat directory layout
 (one JSON file per document type at the top of `schemas/V_gamma/`) and
-snake_case naming rules, and adds three things:
+snake_case naming rules, and adds four things:
 
 1. **Named composite types** (typedefs) — a spec-level mechanism for types
    that name a fixed composite shape with documented sub-fields. V_gamma
@@ -21,6 +21,13 @@ snake_case naming rules, and adds three things:
 3. **A redesigned `_ontology` annotation shape** — the field-level ontology
    annotation now uses `{"_node": "<curie>", "_name": "<label>"}` instead of
    the four-key V_beta form.
+4. **Class-scoped property blocks at the document-instance level** — a
+   V_gamma document carries its fields under per-class top-level blocks
+   keyed by `_classname` (one block per class in the inheritance chain),
+   rather than as a single flattened bag of fields. This restores the
+   V_alpha document layout — collapsed so that the block key equals
+   `_classname` exactly, with no separate `property_list_name` knob — and
+   is described in "JSON Format: Document Instances" below.
 
 The specification is language-agnostic — language-specific tooling (MATLAB,
 Python, etc.) lives in separate repositories and consumes these schemas as a
@@ -176,7 +183,7 @@ meta-schema enforces this.
 | `_classname`      | string | yes      | no            | Unique name of the document type. Must match `^[a-z][a-z0-9_]*$` (snake_case). |
 | `_class_version`  | string | yes      | no            | Semantic version string `"MAJOR.MINOR.PATCH"`. |
 | `_maturity_level` | string | yes      | no            | `"work_in_progress"` or `"mature"`. |
-| `_abstract`       | boolean| no       | n/a           | If `true`, no document may have `_classname` equal to this class — only concrete subclasses may be instantiated. Default `false` when omitted. Does not affect inheritance, field flattening, or `isa` query matching. |
+| `_abstract`       | boolean| no       | n/a           | If `true`, no document may have `_classname` equal to this class — only concrete subclasses may be instantiated. Default `false` when omitted. Does not affect inheritance, field resolution, or `isa` query matching. |
 | `_superclasses`   | array  | yes      | yes (`[]`)    | Array of superclass reference objects. |
 | `_depends_on`     | array  | yes      | yes (`[]`)    | Array of dependency objects. |
 | `_file`           | array  | no       | yes (`[]`)    | Array of file record objects. Omit for document types with no associated files. |
@@ -197,7 +204,11 @@ the abstract class itself is not. The single enforced rule:
 Everything else about an abstract class behaves like a normal schema:
 
 - Its `_fields`, `_depends_on`, `_file`, `_directory`, and `_superclasses`
-  are flattened into every concrete subclass during inheritance.
+  participate in inheritance exactly as for a concrete class. The validator
+  walks the class chain to collect the full set of required fields and
+  dependencies; in a document instance, fields declared by an abstract
+  class live in that class's own property block (see "JSON Format:
+  Document Instances"), not in a subclass's block.
 - `isa <abstract_classname>` queries match every document whose class chain
   includes the abstract class.
 - The meta-schema permits the key but does not enforce the instantiation
@@ -283,6 +294,7 @@ following keys:
 | `_ontology`       | object or null  | yes      | CURIE-based annotation of what the field itself means (e.g., this field denotes the concept of "frequency"). Not a place to store an ontology-rooted value — that is the `ontology_term` type. See below, or `null` if no suitable term exists. |
 | `_documentation`  | string          | yes      | Human-readable description. |
 | `_constraints`    | object          | yes      | Type-specific constraint keywords. Use `{}` for unconstrained. |
+| `_overrides`      | string          | no       | If present, the `_classname` of an ancestor class that declares a field of the same `_name`. Marks this entry as an explicit override of the inherited field rather than silent shadowing. See "Field Overrides" under "JSON Format: Document Instances". Omit on fields that do not override an ancestor. |
 
 For `"type": "structure"` fields, an additional key is required, plus two
 optional keys for the array-of-structure and discriminated-union variants:
@@ -728,6 +740,219 @@ their own named composites; only the spec can.
 
 ---
 
+## JSON Format: Document Instances
+
+A V_gamma **document instance** — the JSON object stored in the database or
+serialised on the wire — is not a flat bag of fields. It is organised into
+**class-scoped property blocks**: one top-level block per class in the
+document's inheritance chain, keyed by that class's `_classname`. Field
+values live in the block of the class that declared the field.
+
+This is the V_alpha document layout, collapsed: the property-block key is
+the declaring class's `_classname` verbatim. V_alpha's separate
+`property_list_name` knob is removed — the block key must equal
+`_classname` exactly, with no second name to coordinate.
+
+The schema-file shape is unaffected: a class's `<classname>.json` still
+declares only its own `_fields`. Inheritance still works by walking the
+`_superclasses` chain. The class-scoped layout applies only to the
+document-instance wire shape; field-collection ("flattening") remains an
+internal validation and query-indexing step.
+
+### Top-level keys of a document instance
+
+| Key              | Type    | Required | Description |
+|------------------|---------|----------|-------------|
+| `_classname`     | string  | yes      | Concrete class this document instantiates. Must match `^[a-z][a-z0-9_]*$` and must not equal the `_classname` of any schema with `_abstract: true`. |
+| `_class_version` | string  | yes      | Semantic version of the concrete class's schema at write time. Must satisfy the MAJOR-version rule under "Versioning Rules" relative to the schema used at validation time. |
+| `_superclasses`  | array   | yes      | Snapshot of the inheritance chain at write time. Each entry is a superclass reference object (see "Schema-Reference Forms" below) listing the superclass's `_classname` and `_class_version`. Empty `[]` for `base`. |
+| `_depends_on`    | array   | yes      | Array of dependency-value objects (see "Dependency Values" below). Empty `[]` if the class chain declares no dependencies. |
+| `<classname>`    | object  | one per class in the chain | A property block whose key is the `_classname` of a class in this document's inheritance chain (including the concrete class itself). Contents are described below. |
+
+No other top-level keys are permitted. Exactly one property block must
+appear for each class in `{concrete class} ∪ {transitive superclasses}`,
+with no extras and no omissions, even when a class declares zero fields
+(in which case its block is `{}`).
+
+### Schema-reference forms (in document instances vs. schema files)
+
+Schema files and document instances both reference superclasses, but they
+serve different purposes and so carry different keys.
+
+| Position                                    | Required keys                     | Optional keys             | Purpose |
+|---------------------------------------------|-----------------------------------|---------------------------|---------|
+| `_superclasses[i]` in a schema file         | `_classname`, `_schema`           | —                         | Resolve the superclass schema file at validation time. |
+| `_superclasses[i]` in a document instance   | `_classname`, `_class_version`    | —                         | Pin the inheritance chain as it stood when the document was written. No `_schema` path is required because the validator looks the class up by name. |
+
+### Property block contents
+
+Each property block holds the field values declared by that class's
+schema, keyed by `_name`:
+
+```json
+"base": {
+    "id":         "412...",
+    "session_id": "412...",
+    "name":       "rig_1",
+    "datestamp":  "2026-05-11T..."
+}
+```
+
+Rules:
+
+- **Provenance is structural.** Every field value sits inside the property
+  block of the class that *declared* it. A reader who wants to find a
+  field's `_documentation`, `_ontology`, `_constraints`, or type opens
+  `schemas/V_gamma/<block_key>.json` and looks the field up by `_name`.
+- **No accidental shadowing.** A subclass declaring `_name: "id"` does
+  not silently overwrite `base.id`; the subclass field lives in the
+  subclass's own block and is a distinct value. Validation rejects a
+  schema in which a subclass declares a `_name` already declared by an
+  ancestor unless the subclass marks the entry as an explicit override
+  (see "Field Overrides" below).
+- **Required vs. empty blocks.** A class with zero declared fields still
+  contributes a block; that block is the empty object `{}`. This keeps
+  the wire shape predictable: the set of top-level keys equals
+  `{_classname, _class_version, _superclasses, _depends_on}` plus the
+  class chain, with no implicit omissions.
+- **No cross-block field movement.** A field declared in `base` is not
+  copied into the subclass's block. Validators and query engines that
+  need a flat view of all fields build it themselves by walking the
+  chain (see "Field collection for validation and queries" below).
+
+### Field Overrides
+
+When a subclass genuinely needs to redefine an inherited field — for
+example, to narrow its `_constraints` or tighten `_mustBeNonEmpty` — the
+subclass's schema file re-declares the field by `_name` in its own
+`_fields` and sets the new field-definition key `_overrides` to the
+ancestor classname that originally declared it:
+
+```json
+{
+    "_name":           "name",
+    "_overrides":      "base",
+    "type":            "char",
+    ...
+}
+```
+
+Override semantics:
+
+- The override must agree with the ancestor field on `type`. Changing
+  `type` is not an override; it is a separate field and must use a
+  different `_name`.
+- The override's `_constraints` and `_mustBeNonEmpty`/`_mustBeScalar`/
+  `_mustNotHaveNaN` flags apply *in addition to* the ancestor's, i.e.,
+  the effective constraint is the intersection (the stricter of the
+  two). A subclass cannot loosen an ancestor's constraint via override.
+- In the document instance, the field value lives in **both** the
+  ancestor block and the subclass block, and the two values must be
+  identical. (Writers populate both; readers may consult either; the
+  validator checks equality.) This preserves the structural-provenance
+  guarantee — both classes legitimately claim the field — without
+  inventing override-only semantics that a reader would have to know
+  about to find the value.
+- A schema without `_overrides` that re-declares an inherited `_name`
+  is rejected by the meta-schema. Silent shadowing is not permitted.
+
+Most subclasses never need overrides. The feature exists so that the
+"subclass cannot accidentally shadow" rule has a deliberate escape
+hatch.
+
+### Dependency Values
+
+The top-level `_depends_on` array carries the runtime dependency
+**values** (the IDs of other documents). Each entry is:
+
+```json
+{ "_name": "probe_id", "value": "aabb1122ccdd3344_aabb1122ccdd3344" }
+```
+
+| Key      | Type   | Required | Description |
+|----------|--------|----------|-------------|
+| `_name`  | string | yes      | Role name matching a `_name` declared in some class's `_depends_on` (after numbered-dependency expansion — `syncrule_id_1`, `syncrule_id_2`, etc. — for `_multiple: true` declarations). |
+| `value`  | string | yes      | The `id` (DID UID) of another document. May be empty only if the declaring `_depends_on` entry has `_mustBeNonEmpty: false`. |
+
+Dependency declarations live in the class schemas; dependency *values*
+live at the top level of the document, not inside any class's property
+block. Two reasons: (a) `_depends_on` referential integrity is a
+cross-document concern that does not belong to any one class's data, and
+(b) keeping the dependency list in one place lets a query engine answer
+`isa X AND depends_on Y` without walking class blocks.
+
+### Field collection for validation and queries
+
+The class-scoped wire shape is the **storage** layout. Internal tooling
+that wants a single flat view still has one:
+
+- **Validators** walk the `_superclasses` chain to collect the union of
+  required fields and dependencies, then check that each declared field
+  is present in the right block.
+- **Query engines** derive a flat set of indexed paths from the chain
+  (e.g., `daqsystem.sample_rate.hertz`). Class-scoped storage does not
+  change which paths are queryable — only that the leading segment is
+  the declaring class's name. See `did_query_model.md`.
+- **`isa <classname>`** matches any document whose `_classname` is
+  `<classname>` or whose `_superclasses` chain transitively contains
+  `<classname>`. Class-scoped storage makes the chain explicit on every
+  document; no separate inheritance index is required.
+
+### Example document
+
+For a `daqsystem` class whose `_superclasses` is `[{"_classname":
+"base", "_class_version": "1.0.0"}]`:
+
+```json
+{
+    "_classname":     "daqsystem",
+    "_class_version": "1.0.0",
+    "_superclasses": [
+        { "_classname": "base", "_class_version": "1.0.0" }
+    ],
+    "_depends_on": [],
+    "base": {
+        "id":         "4126919195e6b5af_40d651024919a2e4",
+        "session_id": "4126919195e8839b_40c6d9f78d173ae7",
+        "name":       "rig_1",
+        "datestamp":  "2026-05-11T12:00:00.000Z"
+    },
+    "daqsystem": {
+        "sample_rate": {
+            "hertz":        30000.0,
+            "approximate":  false,
+            "source_unit":  "hertz",
+            "source_value": 30000.0
+        }
+    }
+}
+```
+
+A reader staring at this JSON can tell at a glance that `sample_rate`
+was declared by `daqsystem` (it sits inside the `daqsystem` block) and
+that `id`/`session_id`/`name`/`datestamp` were declared by `base`.
+Looking up the field definitions is a one-step path: open
+`schemas/V_gamma/<block_key>.json` and find the field by `_name`.
+
+### V_alpha → V_gamma migration (document instances)
+
+V_alpha already used class-scoped property blocks with a separate
+`property_list_name` per class. The V_gamma migration for a V_alpha
+document is mechanical:
+
+1. Replace the V_alpha metadata header (`document_class`, etc.) with the
+   four V_gamma top-level keys (`_classname`, `_class_version`,
+   `_superclasses`, `_depends_on`).
+2. Rename each property block whose `property_list_name` differs from
+   the class's `class_name` so the block key equals `_classname`.
+3. Apply the V_alpha → V_gamma transformations to field values
+   themselves (e.g., named-composite refactors documented in
+   `V_gamma_notes.md`).
+
+No re-flattening or de-flattening of the document body is required.
+
+---
+
 ## CURIE Registry
 
 `schemas/V_gamma/CURIE_lookups_meta.json` is an advisory registry that maps
@@ -834,10 +1059,21 @@ rules; consumer tooling enforces them.
 
 Checks that can be performed with only the document and its schema file(s):
 
+- The document's top-level keys are exactly
+  `{_classname, _class_version, _superclasses, _depends_on}` plus one
+  property block per class in the inheritance chain (concrete class plus
+  every transitive superclass). No extras and no omissions.
 - The document's `_classname` is not the `_classname` of a schema with
   `_abstract: true`. (Documents must instantiate a concrete subclass.)
-- All fields declared in the schema (including inherited superclass
-  fields) are present.
+- The `_superclasses` snapshot at the top of the document is consistent
+  with the class chain derived from the schema files (same set, same
+  order, classname-by-classname).
+- Each property block contains exactly the fields declared in that
+  class's `_fields` (after expansion of any `_overrides` re-declarations),
+  with no extras. Fields declared by an ancestor live in the ancestor's
+  block, not in the subclass's block.
+- For any field with `_overrides` set, the value in the subclass's block
+  equals the value in the overridden ancestor's block.
 - `_mustBeNonEmpty` fields satisfy the per-type semantics above.
 - `_mustBeScalar` fields are single values, not arrays — **except** for
   `type: "structure"` fields where `_mustBeScalar: false` declares the
@@ -909,6 +1145,11 @@ The meta-schema must enforce:
 - `_file` / `_directory` (if present) are arrays of the correct shape.
 - `_fields` is an array of field definition objects.
 - Each field definition has all required keys with correct types.
+- `_overrides`, if present on a field definition, is a string matching
+  `^[a-z][a-z0-9_]*$` (the `_classname` of an ancestor). Cross-file
+  resolution of the named ancestor — and the requirement that an
+  ancestor declared a field of the same `_name` and matching `type` —
+  is enforced by Phase 1 validation, not by the meta-schema.
 - `type` is one of: `did_uid`, `char`, `string`, `integer`, `double`,
   `matrix`, `timestamp`, `boolean`, `structure`, `duration`, `volume`,
   `mass`, `length`, `voltage`, `current`, `frequency`, `ontology_term`.
@@ -1149,7 +1390,12 @@ pytest
 2. **All three validation flags are always present** on every field.
 3. **`_fields` is the universal key** for property lists.
 4. **Validation is a pull action, not a push action.**
-5. **Superclass fields are inherited by flattening.**
+5. **Superclass fields are inherited by chain-walking, not by
+   document-instance flattening.** Inheritance is resolved by walking
+   `_superclasses` at validation and query-planning time. Document
+   instances carry fields in class-scoped property blocks (one
+   top-level block per class in the chain, keyed by `_classname`), not
+   in a single flat namespace. See "JSON Format: Document Instances".
 6. **`_ontology` is required on every field, but may be `null`.**
    `_ontology` annotates what the field *means* (the concept the field
    represents); it is not a place to store an ontology-rooted value.
@@ -1198,3 +1444,12 @@ pytest
     Transforming `_ontology` annotation shape does not invalidate
     existing documents; only document-level changes bump the class
     version.
+21. **Class-scoped property blocks are the document-instance wire shape.**
+    A document carries fields in per-class top-level blocks keyed by
+    `_classname`, restoring the V_alpha layout collapsed so that the
+    block key equals `_classname` exactly (no separate
+    `property_list_name`). Provenance is structural: a field's
+    declaring class is the block it sits in. Subclasses cannot
+    silently shadow inherited fields; deliberate overrides use the
+    `_overrides` field key and store the value in both blocks. See
+    "JSON Format: Document Instances".

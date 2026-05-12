@@ -6,7 +6,7 @@ of `schemas/V_gamma/`) and snake_case naming requirements for classnames,
 field names, and filenames. See `V_beta_SPEC.md` for the rules that carry
 over unchanged.
 
-V_gamma adds three related features on top of V_beta:
+V_gamma adds four related features on top of V_beta:
 
 - **Named composite types.** Eight new entries in the field-definition
   `type` enum, each backed by a fixed sub-field layout in document values:
@@ -41,6 +41,32 @@ V_gamma adds three related features on top of V_beta:
   four-key shape. The CURIE replaces the `_namespace`/`_term`/`_uri` trio:
   `_node` is `"<lowercased_namespace>:<term>"` and `_uri` is dropped
   (derivable from the CURIE registry). `_ontology: null` is still valid.
+
+- **Class-scoped property blocks at the document-instance level.**
+  V_beta's intended wire shape was a single flat namespace per document;
+  V_gamma reverts to per-class property blocks keyed by `_classname`
+  (one block per class in the inheritance chain). This restores the
+  V_alpha document layout, collapsed so that the block key equals
+  `_classname` verbatim (V_alpha's separate `property_list_name` is
+  removed). Schema files are unchanged — a class's `<class>.json`
+  still declares only its own `_fields`. Flattening remains an
+  internal step for validators and query-path indexing; it is no
+  longer the wire shape. See the new "JSON Format: Document
+  Instances" section in `V_gamma_SPEC.md`.
+
+  Motivation, in brief:
+  - **Per-field provenance.** A reader can tell at a glance which class
+    declared each value (it sits in that class's block), and find the
+    field's `_documentation`/`_ontology`/`_constraints` by opening
+    `schemas/V_gamma/<block_key>.json`.
+  - **No accidental shadowing.** A subclass cannot silently redefine an
+    inherited field; deliberate overrides use the new field key
+    `_overrides` and store the value in both blocks.
+  - **NDI-matlab compatibility.** NDI-matlab — the largest consumer of
+    did-schema — is built end-to-end on the class-scoped layout. Keeping
+    it at the wire-shape level reduces the V_alpha → V_gamma transition
+    to a per-document data migration rather than a code rewrite of the
+    toolbox.
 
 ## Class-version bumps (2.0.0)
 

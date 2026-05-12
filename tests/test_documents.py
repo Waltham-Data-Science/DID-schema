@@ -22,9 +22,30 @@ def schema_path_for_classname(classname, schemas_dir):
     return os.path.join(schemas_dir, f"{classname}.json")
 
 
+def doc_metadata(doc):
+    """Return (classname, depends_on_list, class_block_keys) for a document.
+
+    Supports both wire shapes:
+    - V_beta: top-level "document_class"/"depends_on" (unprefixed).
+    - V_gamma: top-level "_classname"/"_class_version"/"_superclasses"/
+      "_depends_on" (underscore-prefixed). See
+      "JSON Format: Document Instances" in V_gamma_SPEC.md.
+    """
+    if "_classname" in doc:
+        classname = doc["_classname"]
+        depends_on = doc.get("_depends_on", [])
+        reserved = {"_classname", "_class_version", "_superclasses", "_depends_on"}
+    else:
+        classname = doc["document_class"]["classname"]
+        depends_on = doc.get("depends_on", [])
+        reserved = {"document_class", "depends_on"}
+    block_keys = [k for k, v in doc.items() if k not in reserved and isinstance(v, dict)]
+    return classname, depends_on, block_keys
+
+
 def load_schema_for_document(doc, schemas_dir):
-    """Load the schema file referenced by a document's document_class."""
-    classname = doc["document_class"]["classname"]
+    """Load the schema file referenced by a document's class metadata."""
+    classname, _, _ = doc_metadata(doc)
     return load_json(schema_path_for_classname(classname, schemas_dir))
 
 
@@ -53,10 +74,8 @@ def validate_document(doc, schemas_dir):
 
     # Build a map of classname -> field data blocks in the document.
     # Field values live under class-named keys (e.g. "base", "probe_location").
-    field_blocks = {}
-    for key, val in doc.items():
-        if key not in ("document_class", "depends_on") and isinstance(val, dict):
-            field_blocks[key] = val
+    _, _, block_keys = doc_metadata(doc)
+    field_blocks = {k: doc[k] for k in block_keys}
 
     for field_def in all_fields:
         name = field_def["_name"]
@@ -130,10 +149,15 @@ def validate_document(doc, schemas_dir):
                             f"CURIE: {node!r}"
                         )
 
-    # Validate depends_on.
+    # Validate depends_on. Each runtime entry's role name is in "name"
+    # (V_beta wire shape) or "_name" (V_gamma wire shape).
+    _, doc_depends_on, _ = doc_metadata(doc)
+    doc_deps = {
+        (d.get("_name") or d.get("name")): d.get("value", "")
+        for d in doc_depends_on
+    }
     for dep_def in schema.get("_depends_on", []):
         dep_name = dep_def["_name"]
-        doc_deps = {d["name"]: d.get("value", "") for d in doc.get("depends_on", [])}
         if dep_def.get("_mustBeNonEmpty", False):
             dep_value = doc_deps.get(dep_name, "")
             if not dep_value:
