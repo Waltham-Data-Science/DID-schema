@@ -5,177 +5,177 @@
         "superclasses": [
             {
                 "class_name": "epochclocktimes",
-                "_schema": "$NDISCHEMAPATH/epochclocktimes/schema.json"
+                "schema": "$NDISCHEMAPATH/epochclocktimes/schema.json"
             },
             {
                 "class_name": "filter",
-                "_schema": "$NDISCHEMAPATH/data/filter/schema.json"
+                "schema": "$NDISCHEMAPATH/data/filter/schema.json"
             },
             {
                 "class_name": "base",
-                "_schema": "$NDISCHEMAPATH/base/schema.json"
+                "schema": "$NDISCHEMAPATH/base/schema.json"
             },
             {
                 "class_name": "epochid",
-                "_schema": "$NDISCHEMAPATH/epochid/schema.json"
+                "schema": "$NDISCHEMAPATH/epochid/schema.json"
             }
         ]
     },
-    "_maturity_level": "work_in_progress",
-    "_depends_on": [
+    "maturity_level": "work_in_progress",
+    "depends_on": [
         {
-            "_name": "element_id",
-            "_mustBeNonEmpty": true,
-            "_documentation": "The document ID of the element this pyraview is associated with.",
-            "_must_refer_to_document_class": ""
+            "name": "element_id",
+            "mustBeNonEmpty": true,
+            "documentation": "The document ID of the element this pyraview is associated with.",
+            "must_refer_to_document_class": ""
         }
     ],
-    "_file": [
+    "file": [
         {
-            "_name": "level1.bin",
-            "_documentation": "Binary data for decimation level 1."
+            "name": "level1.bin",
+            "documentation": "Binary data for decimation level 1."
         },
         {
-            "_name": "level2.bin",
-            "_documentation": "Binary data for decimation level 2."
+            "name": "level2.bin",
+            "documentation": "Binary data for decimation level 2."
         },
         {
-            "_name": "level3.bin",
-            "_documentation": "Binary data for decimation level 3."
+            "name": "level3.bin",
+            "documentation": "Binary data for decimation level 3."
         },
         {
-            "_name": "level4.bin",
-            "_documentation": "Binary data for decimation level 4."
+            "name": "level4.bin",
+            "documentation": "Binary data for decimation level 4."
         },
         {
-            "_name": "level5.bin",
-            "_documentation": "Binary data for decimation level 5."
+            "name": "level5.bin",
+            "documentation": "Binary data for decimation level 5."
         },
         {
-            "_name": "level6.bin",
-            "_documentation": "Binary data for decimation level 6."
+            "name": "level6.bin",
+            "documentation": "Binary data for decimation level 6."
         },
         {
-            "_name": "level7.bin",
-            "_documentation": "Binary data for decimation level 7."
+            "name": "level7.bin",
+            "documentation": "Binary data for decimation level 7."
         },
         {
-            "_name": "level8.bin",
-            "_documentation": "Binary data for decimation level 8."
+            "name": "level8.bin",
+            "documentation": "Binary data for decimation level 8."
         },
         {
-            "_name": "level9.bin",
-            "_documentation": "Binary data for decimation level 9."
+            "name": "level9.bin",
+            "documentation": "Binary data for decimation level 9."
         },
         {
-            "_name": "level10.bin",
-            "_documentation": "Binary data for decimation level 10."
+            "name": "level10.bin",
+            "documentation": "Binary data for decimation level 10."
         }
     ],
-    "_fields": [
+    "fields": [
         {
-            "_name": "label",
+            "name": "label",
             "type": "char",
-            "_blank_value": "",
-            "_default_value": "",
-            "_mustBeNonEmpty": false,
-            "_mustBeScalar": true,
-            "_mustNotHaveNaN": false,
-            "_queryable": true,
-            "_ontology": null,
-            "_documentation": "A string label.",
-            "_constraints": {}
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "A string label.",
+            "constraints": {}
         },
         {
-            "_name": "native_rate",
+            "name": "native_rate",
             "type": "double",
-            "_blank_value": 0.0,
-            "_default_value": 0.0,
-            "_mustBeNonEmpty": false,
-            "_mustBeScalar": true,
-            "_mustNotHaveNaN": false,
-            "_queryable": true,
-            "_ontology": null,
-            "_documentation": "Native sampling rate.",
-            "_constraints": {}
+            "blank_value": 0.0,
+            "default_value": 0.0,
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Native sampling rate.",
+            "constraints": {}
         },
         {
-            "_name": "native_start_time",
+            "name": "native_start_time",
             "type": "double",
-            "_blank_value": 0.0,
-            "_default_value": 0.0,
-            "_mustBeNonEmpty": false,
-            "_mustBeScalar": true,
-            "_mustNotHaveNaN": false,
-            "_queryable": true,
-            "_ontology": null,
-            "_documentation": "Native start time (t0).",
-            "_constraints": {}
+            "blank_value": 0.0,
+            "default_value": 0.0,
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Native start time (t0).",
+            "constraints": {}
         },
         {
-            "_name": "channels",
+            "name": "channels",
             "type": "integer",
-            "_blank_value": 0,
-            "_default_value": 0,
-            "_mustBeNonEmpty": false,
-            "_mustBeScalar": true,
-            "_mustNotHaveNaN": false,
-            "_queryable": true,
-            "_ontology": null,
-            "_documentation": "Number of channels in the probe.",
-            "_constraints": {}
+            "blank_value": 0,
+            "default_value": 0,
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Number of channels in the probe.",
+            "constraints": {}
         },
         {
-            "_name": "data_type",
+            "name": "data_type",
             "type": "char",
-            "_blank_value": "",
-            "_default_value": "",
-            "_mustBeNonEmpty": false,
-            "_mustBeScalar": true,
-            "_mustNotHaveNaN": false,
-            "_queryable": true,
-            "_ontology": null,
-            "_documentation": "Data type: 'int8', 'uint8', 'int16', 'uint16', 'int32', 'uint32', 'int64', 'uint64', 'single', 'double'.",
-            "_constraints": {}
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Data type: 'int8', 'uint8', 'int16', 'uint16', 'int32', 'uint32', 'int64', 'uint64', 'single', 'double'.",
+            "constraints": {}
         },
         {
-            "_name": "decimation_levels",
+            "name": "decimation_levels",
             "type": "matrix",
-            "_blank_value": "",
-            "_default_value": "",
-            "_mustBeNonEmpty": false,
-            "_mustBeScalar": false,
-            "_mustNotHaveNaN": false,
-            "_queryable": true,
-            "_ontology": null,
-            "_documentation": "Vector of decimation levels (integers).",
-            "_constraints": {}
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": false,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Vector of decimation levels (integers).",
+            "constraints": {}
         },
         {
-            "_name": "decimation_sampling_rates",
+            "name": "decimation_sampling_rates",
             "type": "matrix",
-            "_blank_value": "",
-            "_default_value": "",
-            "_mustBeNonEmpty": false,
-            "_mustBeScalar": false,
-            "_mustNotHaveNaN": false,
-            "_queryable": true,
-            "_ontology": null,
-            "_documentation": "Vector of decimation sampling rates (doubles).",
-            "_constraints": {}
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": false,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Vector of decimation sampling rates (doubles).",
+            "constraints": {}
         },
         {
-            "_name": "decimation_start_times",
+            "name": "decimation_start_times",
             "type": "matrix",
-            "_blank_value": "",
-            "_default_value": "",
-            "_mustBeNonEmpty": false,
-            "_mustBeScalar": false,
-            "_mustNotHaveNaN": false,
-            "_queryable": true,
-            "_ontology": null,
-            "_documentation": "Vector of decimation start times (doubles).",
-            "_constraints": {}
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": false,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Vector of decimation start times (doubles).",
+            "constraints": {}
         }
     ]
 }

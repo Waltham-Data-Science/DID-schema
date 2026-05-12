@@ -5,33 +5,33 @@
         "superclasses": [
             {
                 "class_name": "base",
-                "_schema": "$NDISCHEMAPATH/base/schema.json"
+                "schema": "$NDISCHEMAPATH/base/schema.json"
             }
         ]
     },
-    "_maturity_level": "work_in_progress",
-    "_depends_on": [
+    "maturity_level": "work_in_progress",
+    "depends_on": [
         {
-            "_name": "session_id",
-            "_mustBeNonEmpty": true,
-            "_documentation": "The document ID of the session.",
-            "_must_refer_to_document_class": ""
+            "name": "session_id",
+            "mustBeNonEmpty": true,
+            "documentation": "The document ID of the session.",
+            "must_refer_to_document_class": ""
         }
     ],
-    "_file": [],
-    "_fields": [
+    "file": [],
+    "fields": [
         {
-            "_name": "dataset_id",
+            "name": "dataset_id",
             "type": "char",
-            "_blank_value": "",
-            "_default_value": "",
-            "_mustBeNonEmpty": true,
-            "_mustBeScalar": true,
-            "_mustNotHaveNaN": false,
-            "_queryable": true,
-            "_ontology": null,
-            "_documentation": "The identifier of the dataset this session belongs to.",
-            "_constraints": {
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": true,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "The identifier of the dataset this session belongs to.",
+            "constraints": {
                 "maxLength": 256
             }
         }

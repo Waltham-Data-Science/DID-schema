@@ -5,26 +5,26 @@
         "superclasses": [
             {
                 "class_name": "base",
-                "_schema": "$NDISCHEMAPATH/base/schema.json"
+                "schema": "$NDISCHEMAPATH/base/schema.json"
             }
         ]
     },
-    "_maturity_level": "work_in_progress",
-    "_depends_on": [],
-    "_file": [],
-    "_fields": [
+    "maturity_level": "work_in_progress",
+    "depends_on": [],
+    "file": [],
+    "fields": [
         {
-            "_name": "ismock",
+            "name": "ismock",
             "type": "integer",
-            "_blank_value": 0,
-            "_default_value": 1,
-            "_mustBeNonEmpty": false,
-            "_mustBeScalar": true,
-            "_mustNotHaveNaN": false,
-            "_queryable": true,
-            "_ontology": null,
-            "_documentation": "A parameter that denotes the document as a mock document.",
-            "_constraints": {}
+            "blank_value": 0,
+            "default_value": 1,
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "A parameter that denotes the document as a mock document.",
+            "constraints": {}
         }
     ]
 }

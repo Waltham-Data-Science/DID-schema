@@ -8,7 +8,15 @@ every active schema version (V_beta and V_gamma).
 import os
 import re
 
-from conftest import load_json, schema_superclasses, superclass_classname
+from conftest import (
+    entry_get,
+    is_v_gamma,
+    load_json,
+    schema_depends_on,
+    schema_fields,
+    schema_superclasses,
+    superclass_classname,
+)
 
 TIMESTAMP_RE = re.compile(
     r"^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(\.\d+)?Z$"
@@ -29,16 +37,15 @@ def doc_metadata(doc):
     - V_beta: top-level "document_class" with sub-key "classname"; top-level
       "depends_on" (no underscore).
     - V_gamma: top-level "document_class" with sub-key "class_name"; top-level
-      "_depends_on" (underscore-prefixed). See "JSON Format: Document
+      "depends_on" (no underscore, post-rename). See "JSON Format: Document
       Instances" in V_gamma_SPEC.md.
     """
     header = doc["document_class"]
     if "class_name" in header:
         classname = header["class_name"]
-        depends_on = doc.get("_depends_on", [])
     else:
         classname = header["classname"]
-        depends_on = doc.get("depends_on", [])
+    depends_on = doc.get("depends_on", doc.get("_depends_on", []))
     reserved = {"document_class", "_depends_on", "depends_on"}
     block_keys = [k for k, v in doc.items() if k not in reserved and isinstance(v, dict)]
     return classname, depends_on, block_keys
@@ -54,8 +61,8 @@ def get_all_fields(schema, schemas_dir):
     """Recursively resolve superclass fields and return flattened field list.
 
     Uses each superclass's class_name (V_gamma) or _classname (V_beta) to
-    locate its schema file in the flat layout; the _schema path inside the
-    schema file is ignored for resolution purposes.
+    locate its schema file in the flat layout; the schema-path entry inside
+    the superclass reference is ignored for resolution purposes.
     """
     fields = []
     for superclass in schema_superclasses(schema):
@@ -63,7 +70,7 @@ def get_all_fields(schema, schemas_dir):
             schema_path_for_classname(superclass_classname(superclass), schemas_dir)
         )
         fields.extend(get_all_fields(super_schema, schemas_dir))
-    fields.extend(schema["_fields"])
+    fields.extend(schema_fields(schema))
     return fields
 
 
@@ -79,7 +86,7 @@ def validate_document(doc, schemas_dir):
     field_blocks = {k: doc[k] for k in block_keys}
 
     for field_def in all_fields:
-        name = field_def["_name"]
+        name = entry_get(field_def, "name")
         field_type = field_def["type"]
 
         value = None
@@ -95,7 +102,7 @@ def validate_document(doc, schemas_dir):
             continue
 
         # mustBeNonEmpty check (null/empty string/empty list/empty dict).
-        if field_def.get("_mustBeNonEmpty", False):
+        if entry_get(field_def, "mustBeNonEmpty", default=False):
             if value is None or value == "" or value == [] or value == {}:
                 errors.append(
                     f"Field '{name}' must be non-empty but got: {value!r}"
@@ -115,7 +122,7 @@ def validate_document(doc, schemas_dir):
                 )
 
         if field_type in ("char", "string") and isinstance(value, str):
-            constraints = field_def.get("_constraints", {})
+            constraints = entry_get(field_def, "constraints", default={})
             max_len = constraints.get("maxLength")
             if max_len is not None and len(value) > max_len:
                 errors.append(
@@ -123,7 +130,7 @@ def validate_document(doc, schemas_dir):
                 )
 
         if field_type in ("integer", "double") and isinstance(value, (int, float)):
-            constraints = field_def.get("_constraints", {})
+            constraints = entry_get(field_def, "constraints", default={})
             min_val = constraints.get("minimum")
             max_val = constraints.get("maximum")
             if min_val is not None and value < min_val:
@@ -151,15 +158,16 @@ def validate_document(doc, schemas_dir):
                         )
 
     # Validate depends_on. Each runtime entry's role name is in "name"
-    # (V_beta wire shape) or "_name" (V_gamma wire shape).
+    # (V_beta and V_gamma wire shapes; V_beta had "_name", but post-rename
+    # V_gamma also uses "name").
     _, doc_depends_on, _ = doc_metadata(doc)
     doc_deps = {
-        (d.get("_name") or d.get("name")): d.get("value", "")
+        (d.get("name") or d.get("_name")): d.get("value", "")
         for d in doc_depends_on
     }
-    for dep_def in schema.get("_depends_on", []):
-        dep_name = dep_def["_name"]
-        if dep_def.get("_mustBeNonEmpty", False):
+    for dep_def in schema_depends_on(schema):
+        dep_name = entry_get(dep_def, "name")
+        if entry_get(dep_def, "mustBeNonEmpty", default=False):
             dep_value = doc_deps.get(dep_name, "")
             if not dep_value:
                 errors.append(f"Dependency '{dep_name}' must be non-empty")

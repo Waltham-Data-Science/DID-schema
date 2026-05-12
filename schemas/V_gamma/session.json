@@ -5,83 +5,83 @@
         "superclasses": [
             {
                 "class_name": "base",
-                "_schema": "$NDISCHEMAPATH/base/schema.json"
+                "schema": "$NDISCHEMAPATH/base/schema.json"
             }
         ]
     },
-    "_maturity_level": "work_in_progress",
-    "_depends_on": [],
-    "_file": [],
-    "_fields": [
+    "maturity_level": "work_in_progress",
+    "depends_on": [],
+    "file": [],
+    "fields": [
         {
-            "_name": "reference",
+            "name": "reference",
             "type": "char",
-            "_blank_value": "",
-            "_default_value": "",
-            "_mustBeNonEmpty": true,
-            "_mustBeScalar": true,
-            "_mustNotHaveNaN": false,
-            "_queryable": true,
-            "_ontology": {
-                "_node": "ncit:C169028",
-                "_name": "Study Unique Identifier"
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": true,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": {
+                "node": "ncit:C169028",
+                "name": "Study Unique Identifier"
             },
-            "_documentation": "A unique reference string for this experimental session.",
-            "_constraints": {
+            "documentation": "A unique reference string for this experimental session.",
+            "constraints": {
                 "maxLength": 256
             }
         },
         {
-            "_name": "type",
+            "name": "type",
             "type": "char",
-            "_blank_value": "",
-            "_default_value": "",
-            "_mustBeNonEmpty": false,
-            "_mustBeScalar": true,
-            "_mustNotHaveNaN": false,
-            "_queryable": true,
-            "_ontology": {
-                "_node": "iao:0000219",
-                "_name": "denotes"
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": {
+                "node": "iao:0000219",
+                "name": "denotes"
             },
-            "_documentation": "The session type (e.g., 'acute', 'chronic'). The field denotes a value drawn from a session-type vocabulary; candidate for promotion to ontology_term.",
-            "_constraints": {
+            "documentation": "The session type (e.g., 'acute', 'chronic'). The field denotes a value drawn from a session-type vocabulary; candidate for promotion to ontology_term.",
+            "constraints": {
                 "maxLength": 128
             }
         },
         {
-            "_name": "date",
+            "name": "date",
             "type": "char",
-            "_blank_value": "",
-            "_default_value": "",
-            "_mustBeNonEmpty": false,
-            "_mustBeScalar": true,
-            "_mustNotHaveNaN": false,
-            "_queryable": true,
-            "_ontology": {
-                "_node": "schema:startDate",
-                "_name": "startDate"
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": {
+                "node": "schema:startDate",
+                "name": "startDate"
             },
-            "_documentation": "The date of the session in ISO 8601 format (YYYY-MM-DD).",
-            "_constraints": {
+            "documentation": "The date of the session in ISO 8601 format (YYYY-MM-DD).",
+            "constraints": {
                 "maxLength": 32
             }
         },
         {
-            "_name": "purpose",
+            "name": "purpose",
             "type": "char",
-            "_blank_value": "",
-            "_default_value": "",
-            "_mustBeNonEmpty": false,
-            "_mustBeScalar": true,
-            "_mustNotHaveNaN": false,
-            "_queryable": false,
-            "_ontology": {
-                "_node": "schema:description",
-                "_name": "description"
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": false,
+            "ontology": {
+                "node": "schema:description",
+                "name": "description"
             },
-            "_documentation": "A free-text description of the purpose of this session.",
-            "_constraints": {
+            "documentation": "A free-text description of the purpose of this session.",
+            "constraints": {
                 "maxLength": 1024
             }
         }

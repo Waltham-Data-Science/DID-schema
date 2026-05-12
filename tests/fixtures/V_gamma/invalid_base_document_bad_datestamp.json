@@ -4,7 +4,7 @@
         "class_version": "1.0.0",
         "superclasses":  []
     },
-    "_depends_on": [],
+    "depends_on": [],
     "base": {
         "id":          "4126919195e6b5af_40d651024919a2e4",
         "session_id":  "4126919195e8839b_40c6d9f78d173ae7",

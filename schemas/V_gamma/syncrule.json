@@ -5,42 +5,42 @@
         "superclasses": [
             {
                 "class_name": "base",
-                "_schema": "$NDISCHEMAPATH/base/schema.json"
+                "schema": "$NDISCHEMAPATH/base/schema.json"
             }
         ]
     },
-    "_maturity_level": "work_in_progress",
-    "_depends_on": [],
-    "_file": [],
-    "_fields": [
+    "maturity_level": "work_in_progress",
+    "depends_on": [],
+    "file": [],
+    "fields": [
         {
-            "_name": "ndi_syncrule_class",
+            "name": "ndi_syncrule_class",
             "type": "char",
-            "_blank_value": "",
-            "_default_value": "",
-            "_mustBeNonEmpty": true,
-            "_mustBeScalar": true,
-            "_mustNotHaveNaN": false,
-            "_queryable": true,
-            "_ontology": null,
-            "_documentation": "The class name of the synchronisation rule implementation.",
-            "_constraints": {
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": true,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "The class name of the synchronisation rule implementation.",
+            "constraints": {
                 "maxLength": 256
             }
         },
         {
-            "_name": "parameters",
+            "name": "parameters",
             "type": "structure",
-            "_blank_value": {},
-            "_default_value": {},
-            "_mustBeNonEmpty": false,
-            "_mustBeScalar": true,
-            "_mustNotHaveNaN": false,
-            "_queryable": false,
-            "_ontology": null,
-            "_documentation": "Synchronisation rule parameters. Keys and value types are specific to the sync rule implementation named in ndi_syncrule_class.",
-            "_constraints": {},
-            "_fields": []
+            "blank_value": {},
+            "default_value": {},
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": false,
+            "ontology": null,
+            "documentation": "Synchronisation rule parameters. Keys and value types are specific to the sync rule implementation named in ndi_syncrule_class.",
+            "constraints": {},
+            "fields": []
         }
     ]
 }

@@ -5,34 +5,34 @@
         "superclasses": [
             {
                 "class_name": "base",
-                "_schema": "$NDISCHEMAPATH/base/schema.json"
+                "schema": "$NDISCHEMAPATH/base/schema.json"
             }
         ]
     },
-    "_maturity_level": "work_in_progress",
-    "_depends_on": [
+    "maturity_level": "work_in_progress",
+    "depends_on": [
         {
-            "_name": "syncrule_id_#",
-            "_mustBeNonEmpty": true,
-            "_multiple": true,
-            "_documentation": "The document ID of a synchronisation rule participating in this sync graph. Each instance is named 'syncrule_id_1', 'syncrule_id_2', etc. A sync graph may reference any number of sync rules.",
-            "_must_refer_to_document_class": ""
+            "name": "syncrule_id_#",
+            "mustBeNonEmpty": true,
+            "multiple": true,
+            "documentation": "The document ID of a synchronisation rule participating in this sync graph. Each instance is named 'syncrule_id_1', 'syncrule_id_2', etc. A sync graph may reference any number of sync rules.",
+            "must_refer_to_document_class": ""
         }
     ],
-    "_file": [],
-    "_fields": [
+    "file": [],
+    "fields": [
         {
-            "_name": "ndi_syncgraph_class",
+            "name": "ndi_syncgraph_class",
             "type": "char",
-            "_blank_value": "",
-            "_default_value": "",
-            "_mustBeNonEmpty": true,
-            "_mustBeScalar": true,
-            "_mustNotHaveNaN": false,
-            "_queryable": true,
-            "_ontology": null,
-            "_documentation": "The class name of the synchronisation graph implementation.",
-            "_constraints": {
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": true,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "The class name of the synchronisation graph implementation.",
+            "constraints": {
                 "maxLength": 256
             }
         }

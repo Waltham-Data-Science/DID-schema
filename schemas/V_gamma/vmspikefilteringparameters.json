@@ -5,48 +5,48 @@
         "superclasses": [
             {
                 "class_name": "base",
-                "_schema": "$NDISCHEMAPATH/base/schema.json"
+                "schema": "$NDISCHEMAPATH/base/schema.json"
             }
         ]
     },
-    "_maturity_level": "work_in_progress",
-    "_depends_on": [
+    "maturity_level": "work_in_progress",
+    "depends_on": [
         {
-            "_name": "element_id",
-            "_mustBeNonEmpty": true,
-            "_documentation": "The document ID of the neuron element these filtering parameters apply to.",
-            "_must_refer_to_document_class": ""
+            "name": "element_id",
+            "mustBeNonEmpty": true,
+            "documentation": "The document ID of the neuron element these filtering parameters apply to.",
+            "must_refer_to_document_class": ""
         }
     ],
-    "_file": [],
-    "_fields": [
+    "file": [],
+    "fields": [
         {
-            "_name": "filter_type",
+            "name": "filter_type",
             "type": "char",
-            "_blank_value": "",
-            "_default_value": "median",
-            "_mustBeNonEmpty": true,
-            "_mustBeScalar": true,
-            "_mustNotHaveNaN": false,
-            "_queryable": true,
-            "_ontology": null,
-            "_documentation": "The type of spike filtering applied to the Vm signal (e.g., 'median', 'interpolation').",
-            "_constraints": {
+            "blank_value": "",
+            "default_value": "median",
+            "mustBeNonEmpty": true,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "The type of spike filtering applied to the Vm signal (e.g., 'median', 'interpolation').",
+            "constraints": {
                 "maxLength": 64
             }
         },
         {
-            "_name": "filter_window",
+            "name": "filter_window",
             "type": "double",
-            "_blank_value": 0.0,
-            "_default_value": 0.001,
-            "_mustBeNonEmpty": false,
-            "_mustBeScalar": true,
-            "_mustNotHaveNaN": false,
-            "_queryable": false,
-            "_ontology": null,
-            "_documentation": "The time window in seconds used for spike filtering.",
-            "_constraints": {}
+            "blank_value": 0.0,
+            "default_value": 0.001,
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": false,
+            "ontology": null,
+            "documentation": "The time window in seconds used for spike filtering.",
+            "constraints": {}
         }
     ]
 }

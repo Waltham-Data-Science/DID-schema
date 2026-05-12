@@ -5,20 +5,20 @@
         "superclasses": [
             {
                 "class_name": "base",
-                "_schema": "$NDISCHEMAPATH/base/schema.json"
+                "schema": "$NDISCHEMAPATH/base/schema.json"
             }
         ]
     },
-    "_maturity_level": "work_in_progress",
-    "_abstract": true,
-    "_depends_on": [
+    "maturity_level": "work_in_progress",
+    "abstract": true,
+    "depends_on": [
         {
-            "_name": "stimulus_response_scalar_id",
-            "_mustBeNonEmpty": true,
-            "_documentation": "The document ID of the stimulus_response_scalar these parameters describe.",
-            "_must_refer_to_document_class": ""
+            "name": "stimulus_response_scalar_id",
+            "mustBeNonEmpty": true,
+            "documentation": "The document ID of the stimulus_response_scalar these parameters describe.",
+            "must_refer_to_document_class": ""
         }
     ],
-    "_file": [],
-    "_fields": []
+    "file": [],
+    "fields": []
 }

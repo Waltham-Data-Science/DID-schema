@@ -2,20 +2,20 @@
     "$schema": "http://json-schema.org/draft-07/schema#",
     "$id": "https://did-schema.example.org/V_gamma/did_schema_meta.json",
     "title": "DID/NDI Schema Meta-Schema (V_gamma)",
-    "description": "Validates the structure of DID/NDI schema files for V_gamma. V_gamma introduces named composite types 'duration', 'ontology_term', 'volume', 'mass', 'length', 'voltage', 'current', and 'frequency', and a redesigned field-level '_ontology' annotation shape with keys '_node' (CURIE) and '_name' (label); the CURIE prefix is resolved against CURIE_lookups_meta.json. The six SI-dimensioned types share the same sub-field layout as 'duration' (a canonical-unit double, 'approximate' boolean, 'source_unit' char, 'source_value' double); only the canonical sub-field name and the allowed source units differ. NAMING CONVENTION: property names that are standard JSON Schema keywords (type, $schema, $id, $ref, $defs, properties, required, items, enum, const, pattern, description, etc.) are used as-is. Every property name introduced by this schema system — i.e. not part of the JSON Schema vocabulary — is prefixed with an underscore (_) to distinguish custom extensions from standard vocabulary. The single deliberate exception is the top-level 'document_class' header (with sub-keys 'class_name', 'class_version', 'superclasses'): this is the class-metadata block restored from the V_alpha layout and is left unprefixed so the V_gamma wire shape matches the V_alpha legacy NDI-matlab form one-to-one.",
+    "description": "Validates the structure of DID/NDI schema files for V_gamma. V_gamma introduces named composite types 'duration', 'ontology_term', 'volume', 'mass', 'length', 'voltage', 'current', and 'frequency', and a redesigned field-level 'ontology' annotation shape with keys 'node' (CURIE) and 'name' (label); the CURIE prefix is resolved against CURIE_lookups_meta.json. The six SI-dimensioned types share the same sub-field layout as 'duration' (a canonical-unit double, 'approximate' boolean, 'source_unit' char, 'source_value' double); only the canonical sub-field name and the allowed source units differ. NAMING CONVENTION: V_gamma drops the V_beta underscore prefix on NDI-extension keys. Every reserved key — JSON Schema vocabulary or NDI extension — is used without an underscore prefix; the authoritative enumeration of NDI-reserved names lives in ndi_reserved_keys.json and is enforced by this meta-schema. Schema authors must not reuse a reserved name as their own data field name.",
     "type": "object",
     "required": [
         "document_class",
-        "_maturity_level",
-        "_depends_on",
-        "_fields"
+        "maturity_level",
+        "depends_on",
+        "fields"
     ],
     "additionalProperties": false,
     "properties": {
         "document_class": {
             "$ref": "#/$defs/document_class_header"
         },
-        "_maturity_level": {
+        "maturity_level": {
             "type": "string",
             "enum": [
                 "work_in_progress",
@@ -23,32 +23,32 @@
             ],
             "description": "Maturity level of this schema: 'work_in_progress' for schemas still under development, 'mature' for stable schemas."
         },
-        "_abstract": {
+        "abstract": {
             "type": "boolean",
             "description": "If true, no document may have document_class.class_name equal to this class — only concrete subclasses may be instantiated. Default false when omitted. Does not affect inheritance, field flattening, or isa query matching."
         },
-        "_depends_on": {
+        "depends_on": {
             "type": "array",
             "items": {
                 "$ref": "#/$defs/dependency_object"
             },
             "description": "Array of dependency objects. Top-level (not under document_class) because dependency declarations attach to the class but dependency values in document instances are cross-document and are kept at the top level of the instance for query convenience."
         },
-        "_file": {
+        "file": {
             "type": "array",
             "items": {
                 "$ref": "#/$defs/file_record"
             },
             "description": "Array of file record objects. Optional — omit for document types that have no associated files."
         },
-        "_directory": {
+        "directory": {
             "type": "array",
             "items": {
                 "$ref": "#/$defs/directory_record"
             },
             "description": "Array of directory record objects. Optional — omit for document types that have no associated directories."
         },
-        "_fields": {
+        "fields": {
             "type": "array",
             "items": {
                 "$ref": "#/$defs/field_definition"
@@ -81,7 +81,7 @@
                     "items": {
                         "$ref": "#/$defs/superclass_reference"
                     },
-                    "description": "Array of superclass reference objects (class_name + _schema path)."
+                    "description": "Array of superclass reference objects (class_name + schema path)."
                 }
             }
         },
@@ -89,7 +89,7 @@
             "type": "object",
             "required": [
                 "class_name",
-                "_schema"
+                "schema"
             ],
             "additionalProperties": false,
             "properties": {
@@ -97,7 +97,7 @@
                     "type": "string",
                     "description": "Name of the parent class."
                 },
-                "_schema": {
+                "schema": {
                     "type": "string",
                     "description": "Path or token-substituted path to the parent schema file."
                 }
@@ -106,30 +106,30 @@
         "dependency_object": {
             "type": "object",
             "required": [
-                "_name",
-                "_mustBeNonEmpty",
-                "_documentation",
-                "_must_refer_to_document_class"
+                "name",
+                "mustBeNonEmpty",
+                "documentation",
+                "must_refer_to_document_class"
             ],
             "additionalProperties": false,
             "properties": {
-                "_name": {
+                "name": {
                     "type": "string",
-                    "description": "Role name of the dependency. The '#' character is a numeric placeholder: a name such as 'syncrule_id_#' matches any runtime name of the form 'syncrule_id_1', 'syncrule_id_2', etc. When '#' appears, '_multiple' must be true."
+                    "description": "Role name of the dependency. The '#' character is a numeric placeholder: a name such as 'syncrule_id_#' matches any runtime name of the form 'syncrule_id_1', 'syncrule_id_2', etc. When '#' appears, 'multiple' must be true."
                 },
-                "_mustBeNonEmpty": {
+                "mustBeNonEmpty": {
                     "type": "boolean",
                     "description": "Whether the dependency value must be non-empty at validation time."
                 },
-                "_multiple": {
+                "multiple": {
                     "type": "boolean",
-                    "description": "If true, zero or more instances of this dependency may appear at runtime, distinguished by substituting a positive integer for the '#' placeholder in '_name'. Omit or set to false for exactly-one dependencies."
+                    "description": "If true, zero or more instances of this dependency may appear at runtime, distinguished by substituting a positive integer for the '#' placeholder in 'name'. Omit or set to false for exactly-one dependencies."
                 },
-                "_documentation": {
+                "documentation": {
                     "type": "string",
                     "description": "Human-readable description."
                 },
-                "_must_refer_to_document_class": {
+                "must_refer_to_document_class": {
                     "type": "string",
                     "pattern": "^$|^[a-zA-Z][a-zA-Z0-9_]*(,[a-zA-Z][a-zA-Z0-9_]*)*$",
                     "description": "Comma-separated enumerated list of class_name values that the referenced document may belong to. Empty string means no constraint on the referenced document class."
@@ -139,16 +139,16 @@
         "file_record": {
             "type": "object",
             "required": [
-                "_name",
-                "_documentation"
+                "name",
+                "documentation"
             ],
             "additionalProperties": false,
             "properties": {
-                "_name": {
+                "name": {
                     "type": "string",
                     "description": "Identifier for this file record."
                 },
-                "_documentation": {
+                "documentation": {
                     "type": "string",
                     "description": "Description of the file's contents."
                 }
@@ -157,16 +157,16 @@
         "directory_record": {
             "type": "object",
             "required": [
-                "_name",
-                "_documentation"
+                "name",
+                "documentation"
             ],
             "additionalProperties": false,
             "properties": {
-                "_name": {
+                "name": {
                     "type": "string",
-                    "description": "Identifier for this directory record. Must not collide with any _file record name on the same schema."
+                    "description": "Identifier for this directory record. Must not collide with any file record name on the same schema."
                 },
-                "_documentation": {
+                "documentation": {
                     "type": "string",
                     "description": "Description of the directory's contents."
                 }
@@ -175,16 +175,16 @@
         "ontology_object": {
             "type": "object",
             "required": [
-                "_node",
-                "_name"
+                "node",
+                "name"
             ],
             "additionalProperties": false,
             "properties": {
-                "_node": {
+                "node": {
                     "type": "string",
                     "description": "CURIE identifier of the form 'prefix:local', where 'prefix' is a key in CURIE_lookups_meta.json (e.g., 'iao:0000578')."
                 },
-                "_name": {
+                "name": {
                     "type": "string",
                     "description": "Human-readable label of the ontology term (e.g., 'centrally registered identifier')."
                 }
@@ -193,21 +193,21 @@
         "field_definition": {
             "type": "object",
             "required": [
-                "_name",
+                "name",
                 "type",
-                "_blank_value",
-                "_default_value",
-                "_mustBeNonEmpty",
-                "_mustBeScalar",
-                "_mustNotHaveNaN",
-                "_queryable",
-                "_ontology",
-                "_documentation",
-                "_constraints"
+                "blank_value",
+                "default_value",
+                "mustBeNonEmpty",
+                "mustBeScalar",
+                "mustNotHaveNaN",
+                "queryable",
+                "ontology",
+                "documentation",
+                "constraints"
             ],
             "additionalProperties": false,
             "properties": {
-                "_name": {
+                "name": {
                     "type": "string",
                     "pattern": "^[a-zA-Z][a-zA-Z0-9_]*$",
                     "description": "Field name."
@@ -235,29 +235,29 @@
                     ],
                     "description": "Data type of the field. Uses the standard JSON Schema keyword 'type'; values are NDI-specific."
                 },
-                "_blank_value": {
+                "blank_value": {
                     "description": "Value in a freshly constructed blank document. May fail validation."
                 },
-                "_default_value": {
+                "default_value": {
                     "description": "Legitimate fallback value. Must pass validation."
                 },
-                "_mustBeNonEmpty": {
+                "mustBeNonEmpty": {
                     "type": "boolean",
                     "description": "Value may not be null, empty string, empty array, or empty object at validation time."
                 },
-                "_mustBeScalar": {
+                "mustBeScalar": {
                     "type": "boolean",
                     "description": "Value must be a single element (not array/matrix). Domain-specific to MATLAB/scientific computing; has no JSON Schema equivalent."
                 },
-                "_mustNotHaveNaN": {
+                "mustNotHaveNaN": {
                     "type": "boolean",
                     "description": "No NaN values permitted. Domain-specific; NaN is not valid JSON but can appear in MATLAB/HDF5 data."
                 },
-                "_queryable": {
+                "queryable": {
                     "type": "boolean",
                     "description": "Whether this field is indexed in the database."
                 },
-                "_ontology": {
+                "ontology": {
                     "oneOf": [
                         {
                             "$ref": "#/$defs/ontology_object"
@@ -268,25 +268,25 @@
                     ],
                     "description": "Ontology node, or null."
                 },
-                "_documentation": {
+                "documentation": {
                     "type": "string",
                     "description": "Human-readable description of the field."
                 },
-                "_constraints": {
+                "constraints": {
                     "type": "object",
                     "description": "Standard JSON Schema validation keywords constraining this field's value (e.g., minLength, minimum, maximum, pattern, enum). Use {} for unconstrained. JSON Schema validators can apply these keywords directly to field values."
                 },
-                "_fields": {
+                "fields": {
                     "type": "array",
                     "items": {
                         "$ref": "#/$defs/field_definition"
                     },
                     "description": "Nested field definitions for structure type fields."
                 },
-                "_discriminator": {
+                "discriminator": {
                     "type": "string",
                     "pattern": "^[a-zA-Z][a-zA-Z0-9_]*$",
-                    "description": "Optional, only meaningful for type: 'structure'. Names a sub-field within _fields whose value tags discriminated-union element variants. The discriminator sub-field is conventionally a char field with an enum constraint. The meta-schema does not enforce variant-specific required-field rules; consumer tooling and per-schema documentation define those."
+                    "description": "Optional, only meaningful for type: 'structure'. Names a sub-field within fields whose value tags discriminated-union element variants. The discriminator sub-field is conventionally a char field with an enum constraint. The meta-schema does not enforce variant-specific required-field rules; consumer tooling and per-schema documentation define those."
                 }
             },
             "if": {
@@ -298,18 +298,18 @@
             },
             "then": {
                 "required": [
-                    "_name",
+                    "name",
                     "type",
-                    "_blank_value",
-                    "_default_value",
-                    "_mustBeNonEmpty",
-                    "_mustBeScalar",
-                    "_mustNotHaveNaN",
-                    "_queryable",
-                    "_ontology",
-                    "_documentation",
-                    "_constraints",
-                    "_fields"
+                    "blank_value",
+                    "default_value",
+                    "mustBeNonEmpty",
+                    "mustBeScalar",
+                    "mustNotHaveNaN",
+                    "queryable",
+                    "ontology",
+                    "documentation",
+                    "constraints",
+                    "fields"
                 ]
             }
         }

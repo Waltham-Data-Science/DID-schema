@@ -5,36 +5,36 @@
         "superclasses": [
             {
                 "class_name": "base",
-                "_schema": "$NDISCHEMAPATH/base/schema.json"
+                "schema": "$NDISCHEMAPATH/base/schema.json"
             }
         ]
     },
-    "_maturity_level": "work_in_progress",
-    "_depends_on": [
+    "maturity_level": "work_in_progress",
+    "depends_on": [
         {
-            "_name": "probe_id",
-            "_mustBeNonEmpty": true,
-            "_documentation": "The unique ID of the probe document this location is associated with.",
-            "_must_refer_to_document_class": ""
+            "name": "probe_id",
+            "mustBeNonEmpty": true,
+            "documentation": "The unique ID of the probe document this location is associated with.",
+            "must_refer_to_document_class": ""
         }
     ],
-    "_file": [],
-    "_fields": [
+    "file": [],
+    "fields": [
         {
-            "_name": "location",
+            "name": "location",
             "type": "ontology_term",
-            "_blank_value": null,
-            "_default_value": null,
-            "_mustBeNonEmpty": false,
-            "_mustBeScalar": true,
-            "_mustNotHaveNaN": false,
-            "_queryable": true,
-            "_ontology": {
-                "_node": "schema:location",
-                "_name": "location"
+            "blank_value": null,
+            "default_value": null,
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": {
+                "node": "schema:location",
+                "name": "location"
             },
-            "_documentation": "Anatomical or functional location where the probe is sampling, as an ontology term (e.g., UBERON:0002436 'primary visual cortex').",
-            "_constraints": {}
+            "documentation": "Anatomical or functional location where the probe is sampling, as an ontology term (e.g., UBERON:0002436 'primary visual cortex').",
+            "constraints": {}
         }
     ]
 }

@@ -5,66 +5,66 @@
         "superclasses": [
             {
                 "class_name": "base",
-                "_schema": "$NDISCHEMAPATH/base/schema.json"
+                "schema": "$NDISCHEMAPATH/base/schema.json"
             }
         ]
     },
-    "_maturity_level": "work_in_progress",
-    "_depends_on": [],
-    "_file": [],
-    "_fields": [
+    "maturity_level": "work_in_progress",
+    "depends_on": [],
+    "file": [],
+    "fields": [
         {
-            "_name": "label",
+            "name": "label",
             "type": "char",
-            "_blank_value": "",
-            "_default_value": "",
-            "_mustBeNonEmpty": false,
-            "_mustBeScalar": true,
-            "_mustNotHaveNaN": false,
-            "_queryable": true,
-            "_ontology": null,
-            "_documentation": "A user label.",
-            "_constraints": {}
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "A user label.",
+            "constraints": {}
         },
         {
-            "_name": "filter_type",
+            "name": "filter_type",
             "type": "char",
-            "_blank_value": "",
-            "_default_value": "",
-            "_mustBeNonEmpty": false,
-            "_mustBeScalar": true,
-            "_mustNotHaveNaN": false,
-            "_queryable": true,
-            "_ontology": null,
-            "_documentation": "The filter type: 'bandpass', 'low', 'high', 'none'.",
-            "_constraints": {}
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "The filter type: 'bandpass', 'low', 'high', 'none'.",
+            "constraints": {}
         },
         {
-            "_name": "algorithm",
+            "name": "algorithm",
             "type": "char",
-            "_blank_value": "",
-            "_default_value": "",
-            "_mustBeNonEmpty": false,
-            "_mustBeScalar": true,
-            "_mustNotHaveNaN": false,
-            "_queryable": true,
-            "_ontology": null,
-            "_documentation": "The filter algorithm: 'chebyshev_1', 'chebyshev_2', 'butterworth', 'bessel', 'elliptic', 'none'.",
-            "_constraints": {}
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "The filter algorithm: 'chebyshev_1', 'chebyshev_2', 'butterworth', 'bessel', 'elliptic', 'none'.",
+            "constraints": {}
         },
         {
-            "_name": "parameters",
+            "name": "parameters",
             "type": "structure",
-            "_blank_value": {},
-            "_default_value": {},
-            "_mustBeNonEmpty": false,
-            "_mustBeScalar": true,
-            "_mustNotHaveNaN": false,
-            "_queryable": true,
-            "_ontology": null,
-            "_documentation": "A structure containing filter parameters: sampleFrequency, order, filterFrequency, passbandRipple, stopbandAttenuation.",
-            "_constraints": {},
-            "_fields": []
+            "blank_value": {},
+            "default_value": {},
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "A structure containing filter parameters: sampleFrequency, order, filterFrequency, passbandRipple, stopbandAttenuation.",
+            "constraints": {},
+            "fields": []
         }
     ]
 }

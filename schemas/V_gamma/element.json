@@ -5,102 +5,102 @@
         "superclasses": [
             {
                 "class_name": "base",
-                "_schema": "$NDISCHEMAPATH/base/schema.json"
+                "schema": "$NDISCHEMAPATH/base/schema.json"
             }
         ]
     },
-    "_maturity_level": "work_in_progress",
-    "_depends_on": [
+    "maturity_level": "work_in_progress",
+    "depends_on": [
         {
-            "_name": "underlying_element_id",
-            "_mustBeNonEmpty": false,
-            "_documentation": "The document ID of the underlying element, if this element derives from another.",
-            "_must_refer_to_document_class": ""
+            "name": "underlying_element_id",
+            "mustBeNonEmpty": false,
+            "documentation": "The document ID of the underlying element, if this element derives from another.",
+            "must_refer_to_document_class": ""
         },
         {
-            "_name": "subject_id",
-            "_mustBeNonEmpty": false,
-            "_documentation": "The document ID of the subject associated with this element.",
-            "_must_refer_to_document_class": ""
+            "name": "subject_id",
+            "mustBeNonEmpty": false,
+            "documentation": "The document ID of the subject associated with this element.",
+            "must_refer_to_document_class": ""
         }
     ],
-    "_file": [],
-    "_fields": [
+    "file": [],
+    "fields": [
         {
-            "_name": "ndi_element_class",
+            "name": "ndi_element_class",
             "type": "char",
-            "_blank_value": "",
-            "_default_value": "ndi_element",
-            "_mustBeNonEmpty": true,
-            "_mustBeScalar": true,
-            "_mustNotHaveNaN": false,
-            "_queryable": true,
-            "_ontology": null,
-            "_documentation": "The name of the NDI element class that is stored.",
-            "_constraints": {
+            "blank_value": "",
+            "default_value": "ndi_element",
+            "mustBeNonEmpty": true,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "The name of the NDI element class that is stored.",
+            "constraints": {
                 "maxLength": 256
             }
         },
         {
-            "_name": "element_name",
+            "name": "element_name",
             "type": "char",
-            "_blank_value": "",
-            "_default_value": "",
-            "_mustBeNonEmpty": true,
-            "_mustBeScalar": true,
-            "_mustNotHaveNaN": false,
-            "_queryable": true,
-            "_ontology": {
-                "_node": "schema:name",
-                "_name": "name"
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": true,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": {
+                "node": "schema:name",
+                "name": "name"
             },
-            "_documentation": "The name of the element. Elements are uniquely defined by name, reference, and type.",
-            "_constraints": {
+            "documentation": "The name of the element. Elements are uniquely defined by name, reference, and type.",
+            "constraints": {
                 "maxLength": 256
             }
         },
         {
-            "_name": "reference",
+            "name": "reference",
             "type": "char",
-            "_blank_value": "",
-            "_default_value": "1",
-            "_mustBeNonEmpty": true,
-            "_mustBeScalar": true,
-            "_mustNotHaveNaN": false,
-            "_queryable": true,
-            "_ontology": null,
-            "_documentation": "The reference number of the element.",
-            "_constraints": {
+            "blank_value": "",
+            "default_value": "1",
+            "mustBeNonEmpty": true,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "The reference number of the element.",
+            "constraints": {
                 "maxLength": 256
             }
         },
         {
-            "_name": "element_type",
+            "name": "element_type",
             "type": "char",
-            "_blank_value": "",
-            "_default_value": "",
-            "_mustBeNonEmpty": false,
-            "_mustBeScalar": true,
-            "_mustNotHaveNaN": false,
-            "_queryable": true,
-            "_ontology": null,
-            "_documentation": "The type of the element. Common probe types are defined in probetype2object.",
-            "_constraints": {
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "The type of the element. Common probe types are defined in probetype2object.",
+            "constraints": {
                 "maxLength": 256
             }
         },
         {
-            "_name": "direct",
+            "name": "direct",
             "type": "integer",
-            "_blank_value": 0,
-            "_default_value": 0,
-            "_mustBeNonEmpty": false,
-            "_mustBeScalar": true,
-            "_mustNotHaveNaN": true,
-            "_queryable": true,
-            "_ontology": null,
-            "_documentation": "Does this element directly feed data from an underlying element? 0 for no, 1 for yes.",
-            "_constraints": {
+            "blank_value": 0,
+            "default_value": 0,
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": true,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Does this element directly feed data from an underlying element? 0 for no, 1 for yes.",
+            "constraints": {
                 "min": 0,
                 "max": 1
             }

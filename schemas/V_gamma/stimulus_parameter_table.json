@@ -5,62 +5,62 @@
         "superclasses": [
             {
                 "class_name": "base",
-                "_schema": "$NDISCHEMAPATH/base/schema.json"
+                "schema": "$NDISCHEMAPATH/base/schema.json"
             }
         ]
     },
-    "_maturity_level": "work_in_progress",
-    "_depends_on": [
+    "maturity_level": "work_in_progress",
+    "depends_on": [
         {
-            "_name": "stimulus_presentation_id",
-            "_mustBeNonEmpty": true,
-            "_documentation": "The document ID of the stimulus presentation this parameter table belongs to.",
-            "_must_refer_to_document_class": ""
+            "name": "stimulus_presentation_id",
+            "mustBeNonEmpty": true,
+            "documentation": "The document ID of the stimulus presentation this parameter table belongs to.",
+            "must_refer_to_document_class": ""
         }
     ],
-    "_file": [],
-    "_fields": [
+    "file": [],
+    "fields": [
         {
-            "_name": "parameter_names",
+            "name": "parameter_names",
             "type": "char",
-            "_blank_value": "",
-            "_default_value": "",
-            "_mustBeNonEmpty": false,
-            "_mustBeScalar": true,
-            "_mustNotHaveNaN": false,
-            "_queryable": false,
-            "_ontology": null,
-            "_documentation": "Comma-separated list of parameter names (column headers) in the table (e.g., 'angle,spatial_frequency,contrast'). Number of entries determines the number of columns in table_data.",
-            "_constraints": {}
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": false,
+            "ontology": null,
+            "documentation": "Comma-separated list of parameter names (column headers) in the table (e.g., 'angle,spatial_frequency,contrast'). Number of entries determines the number of columns in table_data.",
+            "constraints": {}
         },
         {
-            "_name": "table_data",
+            "name": "table_data",
             "type": "matrix",
-            "_blank_value": [],
-            "_default_value": [],
-            "_mustBeNonEmpty": false,
-            "_mustBeScalar": false,
-            "_mustNotHaveNaN": false,
-            "_queryable": false,
-            "_ontology": null,
-            "_documentation": "2D matrix of numeric parameter values with shape (num_stimuli x num_parameters), where num_parameters equals the number of entries in parameter_names.",
-            "_constraints": {
+            "blank_value": [],
+            "default_value": [],
+            "mustBeNonEmpty": false,
+            "mustBeScalar": false,
+            "mustNotHaveNaN": false,
+            "queryable": false,
+            "ontology": null,
+            "documentation": "2D matrix of numeric parameter values with shape (num_stimuli x num_parameters), where num_parameters equals the number of entries in parameter_names.",
+            "constraints": {
                 "element_type": "double",
                 "shape": "num_stimuli x num_parameters"
             }
         },
         {
-            "_name": "num_stimuli",
+            "name": "num_stimuli",
             "type": "integer",
-            "_blank_value": 0,
-            "_default_value": 0,
-            "_mustBeNonEmpty": false,
-            "_mustBeScalar": true,
-            "_mustNotHaveNaN": true,
-            "_queryable": true,
-            "_ontology": null,
-            "_documentation": "The number of stimulus conditions (rows) in the table.",
-            "_constraints": {}
+            "blank_value": 0,
+            "default_value": 0,
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": true,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "The number of stimulus conditions (rows) in the table.",
+            "constraints": {}
         }
     ]
 }

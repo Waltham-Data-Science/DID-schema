@@ -5,76 +5,76 @@
         "superclasses": [
             {
                 "class_name": "base",
-                "_schema": "$NDISCHEMAPATH/base/schema.json"
+                "schema": "$NDISCHEMAPATH/base/schema.json"
             }
         ]
     },
-    "_maturity_level": "work_in_progress",
-    "_depends_on": [
+    "maturity_level": "work_in_progress",
+    "depends_on": [
         {
-            "_name": "subject_id",
-            "_mustBeNonEmpty": true,
-            "_documentation": "The document ID of the subject that received this drug treatment.",
-            "_must_refer_to_document_class": ""
+            "name": "subject_id",
+            "mustBeNonEmpty": true,
+            "documentation": "The document ID of the subject that received this drug treatment.",
+            "must_refer_to_document_class": ""
         }
     ],
-    "_file": [],
-    "_fields": [
+    "file": [],
+    "fields": [
         {
-            "_name": "drug_name",
+            "name": "drug_name",
             "type": "char",
-            "_blank_value": "",
-            "_default_value": "",
-            "_mustBeNonEmpty": true,
-            "_mustBeScalar": true,
-            "_mustNotHaveNaN": false,
-            "_queryable": true,
-            "_ontology": null,
-            "_documentation": "The name of the drug administered.",
-            "_constraints": {
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": true,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "The name of the drug administered.",
+            "constraints": {
                 "maxLength": 256
             }
         },
         {
-            "_name": "dose",
+            "name": "dose",
             "type": "double",
-            "_blank_value": 0.0,
-            "_default_value": 0.0,
-            "_mustBeNonEmpty": false,
-            "_mustBeScalar": true,
-            "_mustNotHaveNaN": false,
-            "_queryable": false,
-            "_ontology": null,
-            "_documentation": "The dose of the drug administered.",
-            "_constraints": {}
+            "blank_value": 0.0,
+            "default_value": 0.0,
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": false,
+            "ontology": null,
+            "documentation": "The dose of the drug administered.",
+            "constraints": {}
         },
         {
-            "_name": "dose_units",
+            "name": "dose_units",
             "type": "char",
-            "_blank_value": "",
-            "_default_value": "",
-            "_mustBeNonEmpty": false,
-            "_mustBeScalar": true,
-            "_mustNotHaveNaN": false,
-            "_queryable": true,
-            "_ontology": null,
-            "_documentation": "The units of the dose (e.g., 'mg/kg', 'uL', 'mM').",
-            "_constraints": {
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "The units of the dose (e.g., 'mg/kg', 'uL', 'mM').",
+            "constraints": {
                 "maxLength": 32
             }
         },
         {
-            "_name": "route",
+            "name": "route",
             "type": "char",
-            "_blank_value": "",
-            "_default_value": "",
-            "_mustBeNonEmpty": false,
-            "_mustBeScalar": true,
-            "_mustNotHaveNaN": false,
-            "_queryable": true,
-            "_ontology": null,
-            "_documentation": "The route of administration (e.g., 'ip', 'iv', 'sc', 'oral', 'topical').",
-            "_constraints": {
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "The route of administration (e.g., 'ip', 'iv', 'sc', 'oral', 'topical').",
+            "constraints": {
                 "maxLength": 64
             }
         }

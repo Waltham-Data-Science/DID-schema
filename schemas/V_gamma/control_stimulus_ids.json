@@ -5,46 +5,46 @@
         "superclasses": [
             {
                 "class_name": "base",
-                "_schema": "$NDISCHEMAPATH/base/schema.json"
+                "schema": "$NDISCHEMAPATH/base/schema.json"
             }
         ]
     },
-    "_maturity_level": "work_in_progress",
-    "_depends_on": [
+    "maturity_level": "work_in_progress",
+    "depends_on": [
         {
-            "_name": "stimulus_presentation_id",
-            "_mustBeNonEmpty": true,
-            "_documentation": "The document ID of the stimulus presentation these control IDs describe.",
-            "_must_refer_to_document_class": ""
+            "name": "stimulus_presentation_id",
+            "mustBeNonEmpty": true,
+            "documentation": "The document ID of the stimulus presentation these control IDs describe.",
+            "must_refer_to_document_class": ""
         }
     ],
-    "_file": [],
-    "_fields": [
+    "file": [],
+    "fields": [
         {
-            "_name": "control_ids",
+            "name": "control_ids",
             "type": "char",
-            "_blank_value": "",
-            "_default_value": "",
-            "_mustBeNonEmpty": false,
-            "_mustBeScalar": true,
-            "_mustNotHaveNaN": false,
-            "_queryable": false,
-            "_ontology": null,
-            "_documentation": "Comma-separated list of control stimulus identifiers (e.g., 'blank,gray_screen'). These identify which stimulus conditions serve as controls.",
-            "_constraints": {}
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": false,
+            "ontology": null,
+            "documentation": "Comma-separated list of control stimulus identifiers (e.g., 'blank,gray_screen'). These identify which stimulus conditions serve as controls.",
+            "constraints": {}
         },
         {
-            "_name": "num_control_ids",
+            "name": "num_control_ids",
             "type": "integer",
-            "_blank_value": 0,
-            "_default_value": 0,
-            "_mustBeNonEmpty": false,
-            "_mustBeScalar": true,
-            "_mustNotHaveNaN": true,
-            "_queryable": true,
-            "_ontology": null,
-            "_documentation": "The number of unique control stimulus identifiers.",
-            "_constraints": {}
+            "blank_value": 0,
+            "default_value": 0,
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": true,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "The number of unique control stimulus identifiers.",
+            "constraints": {}
         }
     ]
 }

@@ -5,92 +5,92 @@
         "superclasses": [
             {
                 "class_name": "base",
-                "_schema": "$NDISCHEMAPATH/base/schema.json"
+                "schema": "$NDISCHEMAPATH/base/schema.json"
             }
         ]
     },
-    "_maturity_level": "work_in_progress",
-    "_depends_on": [
+    "maturity_level": "work_in_progress",
+    "depends_on": [
         {
-            "_name": "element_id",
-            "_mustBeNonEmpty": false,
-            "_documentation": "The document ID of the element this N-dimensional grid is associated with.",
-            "_must_refer_to_document_class": ""
+            "name": "element_id",
+            "mustBeNonEmpty": false,
+            "documentation": "The document ID of the element this N-dimensional grid is associated with.",
+            "must_refer_to_document_class": ""
         }
     ],
-    "_file": [
+    "file": [
         {
-            "_name": "ngrid_file",
-            "_documentation": "The N-dimensional grid data file."
+            "name": "ngrid_file",
+            "documentation": "The N-dimensional grid data file."
         }
     ],
-    "_fields": [
+    "fields": [
         {
-            "_name": "ndims",
+            "name": "ndims",
             "type": "integer",
-            "_blank_value": 0,
-            "_default_value": 0,
-            "_mustBeNonEmpty": true,
-            "_mustBeScalar": true,
-            "_mustNotHaveNaN": true,
-            "_queryable": true,
-            "_ontology": {
-                "_node": "iao:0000027",
-                "_name": "data item"
+            "blank_value": 0,
+            "default_value": 0,
+            "mustBeNonEmpty": true,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": true,
+            "queryable": true,
+            "ontology": {
+                "node": "iao:0000027",
+                "name": "data item"
             },
-            "_documentation": "The number of dimensions of the grid.",
-            "_constraints": {}
+            "documentation": "The number of dimensions of the grid.",
+            "constraints": {}
         },
         {
-            "_name": "dim_sizes",
+            "name": "dim_sizes",
             "type": "matrix",
-            "_blank_value": [],
-            "_default_value": [],
-            "_mustBeNonEmpty": false,
-            "_mustBeScalar": false,
-            "_mustNotHaveNaN": true,
-            "_queryable": false,
-            "_ontology": {
-                "_node": "iao:0000027",
-                "_name": "data item"
+            "blank_value": [],
+            "default_value": [],
+            "mustBeNonEmpty": false,
+            "mustBeScalar": false,
+            "mustNotHaveNaN": true,
+            "queryable": false,
+            "ontology": {
+                "node": "iao:0000027",
+                "name": "data item"
             },
-            "_documentation": "The size of each dimension as an array of positive integers, one entry per dimension. Length must equal ndims.",
-            "_constraints": {
+            "documentation": "The size of each dimension as an array of positive integers, one entry per dimension. Length must equal ndims.",
+            "constraints": {
                 "element_type": "integer",
                 "min_value": 1
             }
         },
         {
-            "_name": "dim_labels",
+            "name": "dim_labels",
             "type": "char",
-            "_blank_value": "",
-            "_default_value": "",
-            "_mustBeNonEmpty": false,
-            "_mustBeScalar": true,
-            "_mustNotHaveNaN": false,
-            "_queryable": false,
-            "_ontology": {
-                "_node": "iao:0000300",
-                "_name": "textual entity"
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": false,
+            "ontology": {
+                "node": "iao:0000300",
+                "name": "textual entity"
             },
-            "_documentation": "Comma-separated labels for each dimension (e.g., 'time,channel,trial'). Number of entries must equal ndims.",
-            "_constraints": {}
+            "documentation": "Comma-separated labels for each dimension (e.g., 'time,channel,trial'). Number of entries must equal ndims.",
+            "constraints": {}
         },
         {
-            "_name": "data_type",
+            "name": "data_type",
             "type": "char",
-            "_blank_value": "",
-            "_default_value": "double",
-            "_mustBeNonEmpty": false,
-            "_mustBeScalar": true,
-            "_mustNotHaveNaN": false,
-            "_queryable": true,
-            "_ontology": {
-                "_node": "iao:0000098",
-                "_name": "denotator type"
+            "blank_value": "",
+            "default_value": "double",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": {
+                "node": "iao:0000098",
+                "name": "denotator type"
             },
-            "_documentation": "The numeric data type of the grid values (e.g., 'double', 'single', 'int16').",
-            "_constraints": {
+            "documentation": "The numeric data type of the grid values (e.g., 'double', 'single', 'int16').",
+            "constraints": {
                 "maxLength": 64
             }
         }

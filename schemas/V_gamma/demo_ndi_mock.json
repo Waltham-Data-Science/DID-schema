@@ -5,39 +5,39 @@
         "superclasses": [
             {
                 "class_name": "base",
-                "_schema": "$NDISCHEMAPATH/base/schema.json"
+                "schema": "$NDISCHEMAPATH/base/schema.json"
             }
         ]
     },
-    "_maturity_level": "work_in_progress",
-    "_depends_on": [],
-    "_file": [],
-    "_fields": [
+    "maturity_level": "work_in_progress",
+    "depends_on": [],
+    "file": [],
+    "fields": [
         {
-            "_name": "mock_value",
+            "name": "mock_value",
             "type": "double",
-            "_blank_value": 0.0,
-            "_default_value": 42.0,
-            "_mustBeNonEmpty": false,
-            "_mustBeScalar": true,
-            "_mustNotHaveNaN": false,
-            "_queryable": true,
-            "_ontology": null,
-            "_documentation": "A mock numeric value for testing purposes.",
-            "_constraints": {}
+            "blank_value": 0.0,
+            "default_value": 42.0,
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "A mock numeric value for testing purposes.",
+            "constraints": {}
         },
         {
-            "_name": "mock_label",
+            "name": "mock_label",
             "type": "char",
-            "_blank_value": "",
-            "_default_value": "mock",
-            "_mustBeNonEmpty": false,
-            "_mustBeScalar": true,
-            "_mustNotHaveNaN": false,
-            "_queryable": true,
-            "_ontology": null,
-            "_documentation": "A mock string label for testing purposes.",
-            "_constraints": {
+            "blank_value": "",
+            "default_value": "mock",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "A mock string label for testing purposes.",
+            "constraints": {
                 "maxLength": 128
             }
         }

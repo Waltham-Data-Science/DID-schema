@@ -5,101 +5,101 @@
         "superclasses": [
             {
                 "class_name": "base",
-                "_schema": "$NDISCHEMAPATH/base/schema.json"
+                "schema": "$NDISCHEMAPATH/base/schema.json"
             }
         ]
     },
-    "_maturity_level": "work_in_progress",
-    "_depends_on": [
+    "maturity_level": "work_in_progress",
+    "depends_on": [
         {
-            "_name": "element_id",
-            "_mustBeNonEmpty": false,
-            "_documentation": "The document ID of the element this binary series is associated with.",
-            "_must_refer_to_document_class": ""
+            "name": "element_id",
+            "mustBeNonEmpty": false,
+            "documentation": "The document ID of the element this binary series is associated with.",
+            "must_refer_to_document_class": ""
         }
     ],
-    "_file": [],
-    "_fields": [
+    "file": [],
+    "fields": [
         {
-            "_name": "data_type",
+            "name": "data_type",
             "type": "char",
-            "_blank_value": "",
-            "_default_value": "double",
-            "_mustBeNonEmpty": true,
-            "_mustBeScalar": true,
-            "_mustNotHaveNaN": false,
-            "_queryable": true,
-            "_ontology": {
-                "_node": "ncit:C42645",
-                "_name": "Data Type"
+            "blank_value": "",
+            "default_value": "double",
+            "mustBeNonEmpty": true,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": {
+                "node": "ncit:C42645",
+                "name": "Data Type"
             },
-            "_documentation": "The numeric data type of the binary series (e.g., 'double', 'single', 'int16', 'uint8').",
-            "_constraints": {
+            "documentation": "The numeric data type of the binary series (e.g., 'double', 'single', 'int16', 'uint8').",
+            "constraints": {
                 "maxLength": 32
             }
         },
         {
-            "_name": "sample_rate",
+            "name": "sample_rate",
             "type": "double",
-            "_blank_value": 0.0,
-            "_default_value": 0.0,
-            "_mustBeNonEmpty": true,
-            "_mustBeScalar": true,
-            "_mustNotHaveNaN": true,
-            "_queryable": true,
-            "_ontology": {
-                "_node": "pato:0000044",
-                "_name": "frequency"
+            "blank_value": 0.0,
+            "default_value": 0.0,
+            "mustBeNonEmpty": true,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": true,
+            "queryable": true,
+            "ontology": {
+                "node": "pato:0000044",
+                "name": "frequency"
             },
-            "_documentation": "The sampling rate in samples per second (Hz).",
-            "_constraints": {}
+            "documentation": "The sampling rate in samples per second (Hz).",
+            "constraints": {}
         },
         {
-            "_name": "num_channels",
+            "name": "num_channels",
             "type": "integer",
-            "_blank_value": 0,
-            "_default_value": 1,
-            "_mustBeNonEmpty": true,
-            "_mustBeScalar": true,
-            "_mustNotHaveNaN": true,
-            "_queryable": true,
-            "_ontology": {
-                "_node": "ncit:C25463",
-                "_name": "Count"
+            "blank_value": 0,
+            "default_value": 1,
+            "mustBeNonEmpty": true,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": true,
+            "queryable": true,
+            "ontology": {
+                "node": "ncit:C25463",
+                "name": "Count"
             },
-            "_documentation": "The number of channels in the binary series.",
-            "_constraints": {}
+            "documentation": "The number of channels in the binary series.",
+            "constraints": {}
         },
         {
-            "_name": "byte_order",
+            "name": "byte_order",
             "type": "char",
-            "_blank_value": "",
-            "_default_value": "little-endian",
-            "_mustBeNonEmpty": false,
-            "_mustBeScalar": true,
-            "_mustNotHaveNaN": false,
-            "_queryable": false,
-            "_ontology": {
-                "_node": "ncit:C181701",
-                "_name": "Byte Order"
+            "blank_value": "",
+            "default_value": "little-endian",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": false,
+            "ontology": {
+                "node": "ncit:C181701",
+                "name": "Byte Order"
             },
-            "_documentation": "Byte order of the binary data ('little-endian' or 'big-endian').",
-            "_constraints": {
+            "documentation": "Byte order of the binary data ('little-endian' or 'big-endian').",
+            "constraints": {
                 "maxLength": 32
             }
         },
         {
-            "_name": "header_bytes",
+            "name": "header_bytes",
             "type": "integer",
-            "_blank_value": 0,
-            "_default_value": 0,
-            "_mustBeNonEmpty": false,
-            "_mustBeScalar": true,
-            "_mustNotHaveNaN": true,
-            "_queryable": false,
-            "_ontology": null,
-            "_documentation": "The number of header bytes to skip before reading binary data.",
-            "_constraints": {}
+            "blank_value": 0,
+            "default_value": 0,
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": true,
+            "queryable": false,
+            "ontology": null,
+            "documentation": "The number of header bytes to skip before reading binary data.",
+            "constraints": {}
         }
     ]
 }

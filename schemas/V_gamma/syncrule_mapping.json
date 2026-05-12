@@ -5,53 +5,53 @@
         "superclasses": [
             {
                 "class_name": "base",
-                "_schema": "$NDISCHEMAPATH/base/schema.json"
+                "schema": "$NDISCHEMAPATH/base/schema.json"
             }
         ]
     },
-    "_maturity_level": "work_in_progress",
-    "_depends_on": [
+    "maturity_level": "work_in_progress",
+    "depends_on": [
         {
-            "_name": "syncrule_id",
-            "_mustBeNonEmpty": true,
-            "_documentation": "The document ID of the sync rule this mapping was computed from.",
-            "_must_refer_to_document_class": ""
+            "name": "syncrule_id",
+            "mustBeNonEmpty": true,
+            "documentation": "The document ID of the sync rule this mapping was computed from.",
+            "must_refer_to_document_class": ""
         },
         {
-            "_name": "epochid",
-            "_mustBeNonEmpty": true,
-            "_documentation": "The document ID of the epoch this mapping was computed for.",
-            "_must_refer_to_document_class": ""
+            "name": "epochid",
+            "mustBeNonEmpty": true,
+            "documentation": "The document ID of the epoch this mapping was computed for.",
+            "must_refer_to_document_class": ""
         }
     ],
-    "_file": [],
-    "_fields": [
+    "file": [],
+    "fields": [
         {
-            "_name": "mapping_data",
+            "name": "mapping_data",
             "type": "structure",
-            "_blank_value": {},
-            "_default_value": {},
-            "_mustBeNonEmpty": false,
-            "_mustBeScalar": true,
-            "_mustNotHaveNaN": false,
-            "_queryable": false,
-            "_ontology": null,
-            "_documentation": "Structure representing the time mapping between clocks for this epoch. Keys are implementation-defined by the sync rule; typically includes the clock names being mapped and the corresponding sample timestamps.",
-            "_constraints": {},
-            "_fields": []
+            "blank_value": {},
+            "default_value": {},
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": false,
+            "ontology": null,
+            "documentation": "Structure representing the time mapping between clocks for this epoch. Keys are implementation-defined by the sync rule; typically includes the clock names being mapped and the corresponding sample timestamps.",
+            "constraints": {},
+            "fields": []
         },
         {
-            "_name": "mapping_status",
+            "name": "mapping_status",
             "type": "char",
-            "_blank_value": "",
-            "_default_value": "complete",
-            "_mustBeNonEmpty": true,
-            "_mustBeScalar": true,
-            "_mustNotHaveNaN": false,
-            "_queryable": true,
-            "_ontology": null,
-            "_documentation": "The status of the mapping computation ('complete', 'failed').",
-            "_constraints": {
+            "blank_value": "",
+            "default_value": "complete",
+            "mustBeNonEmpty": true,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "The status of the mapping computation ('complete', 'failed').",
+            "constraints": {
                 "maxLength": 32
             }
         }

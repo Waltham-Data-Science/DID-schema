@@ -5,65 +5,65 @@
         "superclasses": [
             {
                 "class_name": "base",
-                "_schema": "$NDISCHEMAPATH/base/schema.json"
+                "schema": "$NDISCHEMAPATH/base/schema.json"
             }
         ]
     },
-    "_maturity_level": "work_in_progress",
-    "_depends_on": [],
-    "_file": [],
-    "_fields": [
+    "maturity_level": "work_in_progress",
+    "depends_on": [],
+    "file": [],
+    "fields": [
         {
-            "_name": "group_name",
+            "name": "group_name",
             "type": "char",
-            "_blank_value": "",
-            "_default_value": "",
-            "_mustBeNonEmpty": true,
-            "_mustBeScalar": true,
-            "_mustNotHaveNaN": false,
-            "_queryable": true,
-            "_ontology": {
-                "_node": "schema:name",
-                "_name": "name"
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": true,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": {
+                "node": "schema:name",
+                "name": "name"
             },
-            "_documentation": "The name of the subject group (e.g., 'control', 'treatment'). Candidate for promotion to ontology_term once a study-arm vocabulary (e.g., NCIT 'Study Arm' branch) is registered.",
-            "_constraints": {
+            "documentation": "The name of the subject group (e.g., 'control', 'treatment'). Candidate for promotion to ontology_term once a study-arm vocabulary (e.g., NCIT 'Study Arm' branch) is registered.",
+            "constraints": {
                 "maxLength": 256
             }
         },
         {
-            "_name": "description",
+            "name": "description",
             "type": "char",
-            "_blank_value": "",
-            "_default_value": "",
-            "_mustBeNonEmpty": false,
-            "_mustBeScalar": true,
-            "_mustNotHaveNaN": false,
-            "_queryable": false,
-            "_ontology": {
-                "_node": "schema:description",
-                "_name": "description"
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": false,
+            "ontology": {
+                "node": "schema:description",
+                "name": "description"
             },
-            "_documentation": "A free-text description of this subject group.",
-            "_constraints": {
+            "documentation": "A free-text description of this subject group.",
+            "constraints": {
                 "maxLength": 1024
             }
         },
         {
-            "_name": "subject_ids",
+            "name": "subject_ids",
             "type": "char",
-            "_blank_value": "",
-            "_default_value": "",
-            "_mustBeNonEmpty": false,
-            "_mustBeScalar": true,
-            "_mustNotHaveNaN": false,
-            "_queryable": false,
-            "_ontology": {
-                "_node": "iao:0000578",
-                "_name": "centrally registered identifier"
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": false,
+            "ontology": {
+                "node": "iao:0000578",
+                "name": "centrally registered identifier"
             },
-            "_documentation": "Comma-separated list of subject document IDs belonging to this group (e.g., 'id1,id2,id3').",
-            "_constraints": {}
+            "documentation": "Comma-separated list of subject document IDs belonging to this group (e.g., 'id1,id2,id3').",
+            "constraints": {}
         }
     ]
 }

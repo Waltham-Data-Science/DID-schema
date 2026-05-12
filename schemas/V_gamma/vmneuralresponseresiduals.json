@@ -5,44 +5,44 @@
         "superclasses": [
             {
                 "class_name": "base",
-                "_schema": "$NDISCHEMAPATH/base/schema.json"
+                "schema": "$NDISCHEMAPATH/base/schema.json"
             }
         ]
     },
-    "_maturity_level": "work_in_progress",
-    "_depends_on": [
+    "maturity_level": "work_in_progress",
+    "depends_on": [
         {
-            "_name": "element_id",
-            "_mustBeNonEmpty": true,
-            "_documentation": "The document ID of the neuron element this residuals analysis is associated with.",
-            "_must_refer_to_document_class": ""
+            "name": "element_id",
+            "mustBeNonEmpty": true,
+            "documentation": "The document ID of the neuron element this residuals analysis is associated with.",
+            "must_refer_to_document_class": ""
         },
         {
-            "_name": "vmspikefit_id",
-            "_mustBeNonEmpty": true,
-            "_documentation": "The document ID of the Vm-spike fit this residual analysis was computed from.",
-            "_must_refer_to_document_class": ""
+            "name": "vmspikefit_id",
+            "mustBeNonEmpty": true,
+            "documentation": "The document ID of the Vm-spike fit this residual analysis was computed from.",
+            "must_refer_to_document_class": ""
         }
     ],
-    "_file": [
+    "file": [
         {
-            "_name": "residuals_file",
-            "_documentation": "The file containing the neural response residual data."
+            "name": "residuals_file",
+            "documentation": "The file containing the neural response residual data."
         }
     ],
-    "_fields": [
+    "fields": [
         {
-            "_name": "mean_residual",
+            "name": "mean_residual",
             "type": "double",
-            "_blank_value": 0.0,
-            "_default_value": 0.0,
-            "_mustBeNonEmpty": false,
-            "_mustBeScalar": true,
-            "_mustNotHaveNaN": false,
-            "_queryable": false,
-            "_ontology": null,
-            "_documentation": "The mean residual of the Vm-to-firing-rate fit.",
-            "_constraints": {}
+            "blank_value": 0.0,
+            "default_value": 0.0,
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": false,
+            "ontology": null,
+            "documentation": "The mean residual of the Vm-to-firing-rate fit.",
+            "constraints": {}
         }
     ]
 }

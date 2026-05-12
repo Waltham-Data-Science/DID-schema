@@ -5,19 +5,19 @@
         "superclasses": [
             {
                 "class_name": "base",
-                "_schema": "$NDISCHEMAPATH/base/schema.json"
+                "schema": "$NDISCHEMAPATH/base/schema.json"
             }
         ]
     },
-    "_maturity_level": "work_in_progress",
-    "_depends_on": [
+    "maturity_level": "work_in_progress",
+    "depends_on": [
         {
-            "_name": "stimulus_id",
-            "_mustBeNonEmpty": true,
-            "_documentation": "The document ID of the stimulus this openMINDS metadata describes.",
-            "_must_refer_to_document_class": ""
+            "name": "stimulus_id",
+            "mustBeNonEmpty": true,
+            "documentation": "The document ID of the stimulus this openMINDS metadata describes.",
+            "must_refer_to_document_class": ""
         }
     ],
-    "_file": [],
-    "_fields": []
+    "file": [],
+    "fields": []
 }

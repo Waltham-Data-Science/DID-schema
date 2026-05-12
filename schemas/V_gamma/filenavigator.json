@@ -5,69 +5,69 @@
         "superclasses": [
             {
                 "class_name": "base",
-                "_schema": "$NDISCHEMAPATH/base/schema.json"
+                "schema": "$NDISCHEMAPATH/base/schema.json"
             }
         ]
     },
-    "_maturity_level": "work_in_progress",
-    "_depends_on": [],
-    "_file": [],
-    "_fields": [
+    "maturity_level": "work_in_progress",
+    "depends_on": [],
+    "file": [],
+    "fields": [
         {
-            "_name": "ndi_filenavigator_class",
+            "name": "ndi_filenavigator_class",
             "type": "char",
-            "_blank_value": "",
-            "_default_value": "ndi_filenavigator",
-            "_mustBeNonEmpty": true,
-            "_mustBeScalar": true,
-            "_mustNotHaveNaN": false,
-            "_queryable": true,
-            "_ontology": null,
-            "_documentation": "The class name of the file navigator implementation.",
-            "_constraints": {
+            "blank_value": "",
+            "default_value": "ndi_filenavigator",
+            "mustBeNonEmpty": true,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "The class name of the file navigator implementation.",
+            "constraints": {
                 "maxLength": 256
             }
         },
         {
-            "_name": "fileparameters",
+            "name": "fileparameters",
             "type": "char",
-            "_blank_value": "",
-            "_default_value": "",
-            "_mustBeNonEmpty": false,
-            "_mustBeScalar": true,
-            "_mustNotHaveNaN": false,
-            "_queryable": false,
-            "_ontology": null,
-            "_documentation": "Parameters that describe how to navigate the file system for epoch data.",
-            "_constraints": {}
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": false,
+            "ontology": null,
+            "documentation": "Parameters that describe how to navigate the file system for epoch data.",
+            "constraints": {}
         },
         {
-            "_name": "epochprobemap_class",
+            "name": "epochprobemap_class",
             "type": "char",
-            "_blank_value": "",
-            "_default_value": "",
-            "_mustBeNonEmpty": false,
-            "_mustBeScalar": true,
-            "_mustNotHaveNaN": false,
-            "_queryable": false,
-            "_ontology": null,
-            "_documentation": "The class name of the epoch-to-probe mapping implementation.",
-            "_constraints": {
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": false,
+            "ontology": null,
+            "documentation": "The class name of the epoch-to-probe mapping implementation.",
+            "constraints": {
                 "maxLength": 256
             }
         },
         {
-            "_name": "epochprobemap_fileparameters",
+            "name": "epochprobemap_fileparameters",
             "type": "char",
-            "_blank_value": "",
-            "_default_value": "",
-            "_mustBeNonEmpty": false,
-            "_mustBeScalar": true,
-            "_mustNotHaveNaN": false,
-            "_queryable": false,
-            "_ontology": null,
-            "_documentation": "File parameters for the epoch-to-probe mapping.",
-            "_constraints": {}
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": false,
+            "ontology": null,
+            "documentation": "File parameters for the epoch-to-probe mapping.",
+            "constraints": {}
         }
     ]
 }

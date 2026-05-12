@@ -5,45 +5,45 @@
         "superclasses": [
             {
                 "class_name": "base",
-                "_schema": "$NDISCHEMAPATH/base/schema.json"
+                "schema": "$NDISCHEMAPATH/base/schema.json"
             },
             {
                 "class_name": "daqreader",
-                "_schema": "$NDISCHEMAPATH/daq/daqreader/schema.json"
+                "schema": "$NDISCHEMAPATH/daq/daqreader/schema.json"
             }
         ]
     },
-    "_maturity_level": "work_in_progress",
-    "_depends_on": [],
-    "_file": [],
-    "_fields": [
+    "maturity_level": "work_in_progress",
+    "depends_on": [],
+    "file": [],
+    "fields": [
         {
-            "_name": "file_type",
+            "name": "file_type",
             "type": "char",
-            "_blank_value": "",
-            "_default_value": "",
-            "_mustBeNonEmpty": true,
-            "_mustBeScalar": true,
-            "_mustNotHaveNaN": false,
-            "_queryable": true,
-            "_ontology": null,
-            "_documentation": "The NDR file type this reader handles (e.g., 'SpikeGadgets', 'Intan', 'CED').",
-            "_constraints": {
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": true,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "The NDR file type this reader handles (e.g., 'SpikeGadgets', 'Intan', 'CED').",
+            "constraints": {
                 "maxLength": 256
             }
         },
         {
-            "_name": "file_extension",
+            "name": "file_extension",
             "type": "char",
-            "_blank_value": "",
-            "_default_value": "",
-            "_mustBeNonEmpty": false,
-            "_mustBeScalar": true,
-            "_mustNotHaveNaN": false,
-            "_queryable": true,
-            "_ontology": null,
-            "_documentation": "The file extension associated with this reader (e.g., '.rec', '.rhd', '.smr').",
-            "_constraints": {
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "The file extension associated with this reader (e.g., '.rec', '.rhd', '.smr').",
+            "constraints": {
                 "maxLength": 32
             }
         }

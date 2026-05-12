@@ -5,52 +5,52 @@
         "superclasses": [
             {
                 "class_name": "base",
-                "_schema": "$NDISCHEMAPATH/base/schema.json"
+                "schema": "$NDISCHEMAPATH/base/schema.json"
             }
         ]
     },
-    "_maturity_level": "work_in_progress",
-    "_depends_on": [
+    "maturity_level": "work_in_progress",
+    "depends_on": [
         {
-            "_name": "element_id_1",
-            "_mustBeNonEmpty": true,
-            "_documentation": "The document ID of the first element.",
-            "_must_refer_to_document_class": ""
+            "name": "element_id_1",
+            "mustBeNonEmpty": true,
+            "documentation": "The document ID of the first element.",
+            "must_refer_to_document_class": ""
         },
         {
-            "_name": "element_id_2",
-            "_mustBeNonEmpty": true,
-            "_documentation": "The document ID of the second element.",
-            "_must_refer_to_document_class": ""
+            "name": "element_id_2",
+            "mustBeNonEmpty": true,
+            "documentation": "The document ID of the second element.",
+            "must_refer_to_document_class": ""
         }
     ],
-    "_file": [],
-    "_fields": [
+    "file": [],
+    "fields": [
         {
-            "_name": "distance",
+            "name": "distance",
             "type": "double",
-            "_blank_value": 0.0,
-            "_default_value": 0.0,
-            "_mustBeNonEmpty": true,
-            "_mustBeScalar": true,
-            "_mustNotHaveNaN": true,
-            "_queryable": false,
-            "_ontology": null,
-            "_documentation": "The distance between the two elements, in distance_units.",
-            "_constraints": {}
+            "blank_value": 0.0,
+            "default_value": 0.0,
+            "mustBeNonEmpty": true,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": true,
+            "queryable": false,
+            "ontology": null,
+            "documentation": "The distance between the two elements, in distance_units.",
+            "constraints": {}
         },
         {
-            "_name": "distance_units",
+            "name": "distance_units",
             "type": "char",
-            "_blank_value": "",
-            "_default_value": "um",
-            "_mustBeNonEmpty": true,
-            "_mustBeScalar": true,
-            "_mustNotHaveNaN": false,
-            "_queryable": true,
-            "_ontology": null,
-            "_documentation": "The units for the distance value (e.g., 'um', 'mm', 'cm').",
-            "_constraints": {
+            "blank_value": "",
+            "default_value": "um",
+            "mustBeNonEmpty": true,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "The units for the distance value (e.g., 'um', 'mm', 'cm').",
+            "constraints": {
                 "maxLength": 32
             }
         }
