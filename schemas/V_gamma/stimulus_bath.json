@@ -5,70 +5,70 @@
         "superclasses": [
             {
                 "class_name": "base",
-                "_schema": "$NDISCHEMAPATH/base/schema.json"
+                "schema": "$NDISCHEMAPATH/base/schema.json"
             }
         ]
     },
-    "_maturity_level": "work_in_progress",
-    "_depends_on": [
+    "maturity_level": "work_in_progress",
+    "depends_on": [
         {
-            "_name": "element_id",
-            "_mustBeNonEmpty": true,
-            "_documentation": "The document ID of the element receiving this bath stimulus.",
-            "_must_refer_to_document_class": ""
+            "name": "element_id",
+            "mustBeNonEmpty": true,
+            "documentation": "The document ID of the element receiving this bath stimulus.",
+            "must_refer_to_document_class": ""
         }
     ],
-    "_file": [],
-    "_fields": [
+    "file": [],
+    "fields": [
         {
-            "_name": "solution_name",
+            "name": "solution_name",
             "type": "char",
-            "_blank_value": "",
-            "_default_value": "",
-            "_mustBeNonEmpty": true,
-            "_mustBeScalar": true,
-            "_mustNotHaveNaN": false,
-            "_queryable": true,
-            "_ontology": {
-                "_node": "iao:0000219",
-                "_name": "denotes"
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": true,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": {
+                "node": "iao:0000219",
+                "name": "denotes"
             },
-            "_documentation": "The name of the bath solution (e.g., 'ACSF', 'TTX'). The field denotes a chemical entity / drug; candidate for promotion to ontology_term once a chemistry namespace (e.g., ChEBI, DrON) is registered.",
-            "_constraints": {
+            "documentation": "The name of the bath solution (e.g., 'ACSF', 'TTX'). The field denotes a chemical entity / drug; candidate for promotion to ontology_term once a chemistry namespace (e.g., ChEBI, DrON) is registered.",
+            "constraints": {
                 "maxLength": 256
             }
         },
         {
-            "_name": "concentration",
+            "name": "concentration",
             "type": "double",
-            "_blank_value": 0.0,
-            "_default_value": 0.0,
-            "_mustBeNonEmpty": false,
-            "_mustBeScalar": true,
-            "_mustNotHaveNaN": false,
-            "_queryable": false,
-            "_ontology": {
-                "_node": "pato:0000033",
-                "_name": "concentration of"
+            "blank_value": 0.0,
+            "default_value": 0.0,
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": false,
+            "ontology": {
+                "node": "pato:0000033",
+                "name": "concentration of"
             },
-            "_documentation": "The concentration of the active compound.",
-            "_constraints": {}
+            "documentation": "The concentration of the active compound.",
+            "constraints": {}
         },
         {
-            "_name": "concentration_units",
+            "name": "concentration_units",
             "type": "char",
-            "_blank_value": "",
-            "_default_value": "",
-            "_mustBeNonEmpty": false,
-            "_mustBeScalar": true,
-            "_mustNotHaveNaN": false,
-            "_queryable": true,
-            "_ontology": {
-                "_node": "iao:0000003",
-                "_name": "measurement unit label"
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": {
+                "node": "iao:0000003",
+                "name": "measurement unit label"
             },
-            "_documentation": "The units of the concentration (e.g., 'mM', 'uM', 'nM').",
-            "_constraints": {
+            "documentation": "The units of the concentration (e.g., 'mM', 'uM', 'nM').",
+            "constraints": {
                 "maxLength": 32
             }
         }

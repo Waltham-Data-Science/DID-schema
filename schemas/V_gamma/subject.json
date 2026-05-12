@@ -5,47 +5,47 @@
         "superclasses": [
             {
                 "class_name": "base",
-                "_schema": "$NDISCHEMAPATH/base/schema.json"
+                "schema": "$NDISCHEMAPATH/base/schema.json"
             }
         ]
     },
-    "_maturity_level": "work_in_progress",
-    "_depends_on": [],
-    "_file": [],
-    "_fields": [
+    "maturity_level": "work_in_progress",
+    "depends_on": [],
+    "file": [],
+    "fields": [
         {
-            "_name": "local_identifier",
+            "name": "local_identifier",
             "type": "char",
-            "_blank_value": "",
-            "_default_value": "",
-            "_mustBeNonEmpty": false,
-            "_mustBeScalar": true,
-            "_mustNotHaveNaN": false,
-            "_queryable": true,
-            "_ontology": {
-                "_node": "iao:0000578",
-                "_name": "centrally registered identifier"
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": {
+                "node": "iao:0000578",
+                "name": "centrally registered identifier"
             },
-            "_documentation": "A globally unique identifier meaningful to a local group (e.g., 'mouse123@vhlab.org').",
-            "_constraints": {
+            "documentation": "A globally unique identifier meaningful to a local group (e.g., 'mouse123@vhlab.org').",
+            "constraints": {
                 "maxLength": 256
             }
         },
         {
-            "_name": "description",
+            "name": "description",
             "type": "char",
-            "_blank_value": "",
-            "_default_value": "",
-            "_mustBeNonEmpty": false,
-            "_mustBeScalar": true,
-            "_mustNotHaveNaN": false,
-            "_queryable": false,
-            "_ontology": {
-                "_node": "schema:description",
-                "_name": "description"
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": false,
+            "ontology": {
+                "node": "schema:description",
+                "name": "description"
             },
-            "_documentation": "A free-text description of the subject.",
-            "_constraints": {
+            "documentation": "A free-text description of the subject.",
+            "constraints": {
                 "maxLength": 1024
             }
         }

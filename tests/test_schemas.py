@@ -8,9 +8,14 @@ import os
 import re
 
 from conftest import (
+    entry_get,
     load_json,
     schema_class_version,
     schema_classname,
+    schema_depends_on,
+    schema_directory_records,
+    schema_fields,
+    schema_file_records,
     schema_superclasses,
     superclass_classname,
 )
@@ -46,7 +51,7 @@ PROBE_LOCATION_FIELDS = {
                 "ontology_name_type": None},
 }
 
-META_ONLY_FILES = {"did_schema_meta.json", "CURIE_lookups_meta.json"}
+META_ONLY_FILES = {"did_schema_meta.json", "CURIE_lookups_meta.json", "ndi_reserved_keys.json"}
 
 FIELD_NAME_RE = re.compile(r"^[a-zA-Z][a-zA-Z0-9_]*$")
 SEMVER_RE = re.compile(r"^\d+\.\d+\.\d+$")
@@ -71,52 +76,60 @@ class TestBaseSchema:
         assert schema_superclasses(base_schema) == []
 
     def test_has_four_fields(self, base_schema):
-        assert len(base_schema["_fields"]) == 4
+        assert len(schema_fields(base_schema)) == 4
 
     def test_field_names(self, base_schema):
-        names = [f["_name"] for f in base_schema["_fields"]]
+        names = [entry_get(f, "name") for f in schema_fields(base_schema)]
         assert names == ["id", "session_id", "name", "datestamp"]
 
     def test_field_types_are_valid(self, base_schema, schema_version):
         valid = VALID_TYPES_BY_VERSION[schema_version]
-        for field in base_schema["_fields"]:
+        for field in schema_fields(base_schema):
             assert field["type"] in valid, (
-                f"Field '{field['_name']}' has invalid type '{field['type']}'"
+                f"Field '{entry_get(field, 'name')}' has invalid type '{field['type']}'"
             )
 
     def test_all_field_names_match_pattern(self, base_schema):
-        for field in base_schema["_fields"]:
-            assert FIELD_NAME_RE.match(field["_name"]), (
-                f"Field name '{field['_name']}' does not match naming pattern"
+        for field in schema_fields(base_schema):
+            fname = entry_get(field, "name")
+            assert FIELD_NAME_RE.match(fname), (
+                f"Field name '{fname}' does not match naming pattern"
             )
 
-    def test_required_field_keys_present(self, base_schema):
-        required_keys = {
-            "_name", "type", "_blank_value", "_default_value",
-            "_mustBeNonEmpty", "_mustBeScalar", "_mustNotHaveNaN",
-            "_queryable", "_ontology", "_documentation", "_constraints",
-        }
-        for field in base_schema["_fields"]:
+    def test_required_field_keys_present(self, base_schema, schema_version):
+        if schema_version == "V_gamma":
+            required_keys = {
+                "name", "type", "blank_value", "default_value",
+                "mustBeNonEmpty", "mustBeScalar", "mustNotHaveNaN",
+                "queryable", "ontology", "documentation", "constraints",
+            }
+        else:
+            required_keys = {
+                "_name", "type", "_blank_value", "_default_value",
+                "_mustBeNonEmpty", "_mustBeScalar", "_mustNotHaveNaN",
+                "_queryable", "_ontology", "_documentation", "_constraints",
+            }
+        for field in schema_fields(base_schema):
             missing = required_keys - set(field.keys())
             assert not missing, (
-                f"Field '{field['_name']}' missing keys: {missing}"
+                f"Field '{entry_get(field, 'name')}' missing keys: {missing}"
             )
 
     def test_ontology_is_object_or_null(self, base_schema, schema_version):
         """Ontology annotation shape differs by version.
 
-        V_beta uses {_namespace, _term, _name, _uri}; V_gamma uses {_node, _name}.
+        V_beta uses {_namespace, _term, _name, _uri}; V_gamma uses {node, name}.
         """
         if schema_version == "V_beta":
             expected_keys = {"_namespace", "_term", "_name", "_uri"}
         else:
-            expected_keys = {"_node", "_name"}
-        for field in base_schema["_fields"]:
-            ont = field["_ontology"]
+            expected_keys = {"node", "name"}
+        for field in schema_fields(base_schema):
+            ont = entry_get(field, "ontology")
             if ont is not None:
                 assert isinstance(ont, dict)
                 assert set(ont.keys()) == expected_keys, (
-                    f"Field '{field['_name']}' ontology has keys "
+                    f"Field '{entry_get(field, 'name')}' ontology has keys "
                     f"{set(ont.keys())}, expected {expected_keys}"
                 )
 
@@ -139,23 +152,25 @@ class TestProbeLocationSchema:
         assert superclass_classname(supers[0]) == "base"
 
     def test_superclass_reference_points_to_base(self, probe_location_schema):
-        """The superclass _schema reference should mention the base schema."""
-        path = schema_superclasses(probe_location_schema)[0]["_schema"]
+        """The superclass schema reference should mention the base schema."""
+        sup = schema_superclasses(probe_location_schema)[0]
+        path = sup.get("schema", sup.get("_schema"))
         assert "base" in path and path.endswith(".json")
 
     def test_field_names(self, probe_location_schema, schema_version):
-        names = {f["_name"] for f in probe_location_schema["_fields"]}
+        names = {entry_get(f, "name") for f in schema_fields(probe_location_schema)}
         assert names == PROBE_LOCATION_FIELDS[schema_version]["names"]
 
     def test_has_one_dependency(self, probe_location_schema):
-        assert len(probe_location_schema["_depends_on"]) == 1
-        dep = probe_location_schema["_depends_on"][0]
-        assert dep["_name"] == "probe_id"
-        assert dep["_mustBeNonEmpty"] is True
+        deps = schema_depends_on(probe_location_schema)
+        assert len(deps) == 1
+        dep = deps[0]
+        assert entry_get(dep, "name") == "probe_id"
+        assert entry_get(dep, "mustBeNonEmpty") is True
 
     def test_field_types_are_valid(self, probe_location_schema, schema_version):
         valid = VALID_TYPES_BY_VERSION[schema_version]
-        for field in probe_location_schema["_fields"]:
+        for field in schema_fields(probe_location_schema):
             assert field["type"] in valid
 
 
@@ -166,8 +181,8 @@ class TestInheritanceResolution:
         self, base_schema, probe_location_schema, schema_version
     ):
         """probe_location's full field list is base fields + own fields."""
-        base_names = [f["_name"] for f in base_schema["_fields"]]
-        own_names = [f["_name"] for f in probe_location_schema["_fields"]]
+        base_names = [entry_get(f, "name") for f in schema_fields(base_schema)]
+        own_names = [entry_get(f, "name") for f in schema_fields(probe_location_schema)]
         assert base_names[:4] == ["id", "session_id", "name", "datestamp"]
         expected_own = PROBE_LOCATION_FIELDS[schema_version]["names"]
         assert set(own_names) == expected_own
@@ -199,21 +214,21 @@ class TestAllSchemaFilesConsistency:
         valid = VALID_TYPES_BY_VERSION[schema_version]
         for path in all_schema_files(schemas_dir):
             schema = load_json(path)
-            for field in schema["_fields"]:
+            for field in schema_fields(schema):
                 assert field["type"] in valid, (
-                    f"{path}: field '{field['_name']}' has invalid type "
+                    f"{path}: field '{entry_get(field, 'name')}' has invalid type "
                     f"'{field['type']}'"
                 )
 
     def test_file_and_directory_names_do_not_collide(self, schemas_dir):
-        """_file and _directory record names must not overlap within a schema."""
+        """file and directory record names must not overlap within a schema."""
         for path in all_schema_files(schemas_dir):
             schema = load_json(path)
-            file_names = {r["_name"] for r in schema.get("_file", [])}
-            dir_names = {r["_name"] for r in schema.get("_directory", [])}
+            file_names = {entry_get(r, "name") for r in schema_file_records(schema)}
+            dir_names = {entry_get(r, "name") for r in schema_directory_records(schema)}
             overlap = file_names & dir_names
             assert not overlap, (
-                f"{path}: _file and _directory share names: {overlap}"
+                f"{path}: file and directory share names: {overlap}"
             )
 
 
@@ -229,28 +244,27 @@ class TestDirectorySchema:
         assert superclass_classname(supers[0]) == "base"
 
     def test_has_parent_doc_dependency(self, directory_schema):
-        dep_names = [d["_name"] for d in directory_schema["_depends_on"]]
+        deps = schema_depends_on(directory_schema)
+        dep_names = [entry_get(d, "name") for d in deps]
         assert "parent_doc_id" in dep_names
-        parent_dep = next(
-            d for d in directory_schema["_depends_on"] if d["_name"] == "parent_doc_id"
-        )
-        assert parent_dep["_mustBeNonEmpty"] is True
+        parent_dep = next(d for d in deps if entry_get(d, "name") == "parent_doc_id")
+        assert entry_get(parent_dep, "mustBeNonEmpty") is True
 
     def test_has_parent_directory_dependency(self, directory_schema):
-        dep_names = [d["_name"] for d in directory_schema["_depends_on"]]
+        deps = schema_depends_on(directory_schema)
+        dep_names = [entry_get(d, "name") for d in deps]
         assert "parent_directory_id" in dep_names
         parent_dir_dep = next(
-            d for d in directory_schema["_depends_on"]
-            if d["_name"] == "parent_directory_id"
+            d for d in deps if entry_get(d, "name") == "parent_directory_id"
         )
-        assert parent_dir_dep["_mustBeNonEmpty"] is False
+        assert entry_get(parent_dir_dep, "mustBeNonEmpty") is False
 
     def test_has_manifest_file(self, directory_schema):
-        file_names = [f["_name"] for f in directory_schema.get("_file", [])]
+        file_names = [entry_get(f, "name") for f in schema_file_records(directory_schema)]
         assert "manifest_file" in file_names
 
     def test_has_expected_fields(self, directory_schema):
-        field_names = [f["_name"] for f in directory_schema["_fields"]]
+        field_names = [entry_get(f, "name") for f in schema_fields(directory_schema)]
         assert "dirname" in field_names
         assert "directory_role" in field_names
         assert "num_entries" in field_names
@@ -258,18 +272,18 @@ class TestDirectorySchema:
 
     def test_dirname_must_be_non_empty(self, directory_schema):
         dirname_field = next(
-            f for f in directory_schema["_fields"] if f["_name"] == "dirname"
+            f for f in schema_fields(directory_schema) if entry_get(f, "name") == "dirname"
         )
-        assert dirname_field["_mustBeNonEmpty"] is True
+        assert entry_get(dirname_field, "mustBeNonEmpty") is True
 
     def test_directory_role_may_be_empty(self, directory_schema):
         role_field = next(
-            f for f in directory_schema["_fields"] if f["_name"] == "directory_role"
+            f for f in schema_fields(directory_schema) if entry_get(f, "name") == "directory_role"
         )
-        assert role_field["_mustBeNonEmpty"] is False
+        assert entry_get(role_field, "mustBeNonEmpty") is False
 
     def test_manifest_format_default_is_jsonlines(self, directory_schema):
         fmt_field = next(
-            f for f in directory_schema["_fields"] if f["_name"] == "manifest_format"
+            f for f in schema_fields(directory_schema) if entry_get(f, "name") == "manifest_format"
         )
-        assert fmt_field["_default_value"] == "jsonlines"
+        assert entry_get(fmt_field, "default_value") == "jsonlines"

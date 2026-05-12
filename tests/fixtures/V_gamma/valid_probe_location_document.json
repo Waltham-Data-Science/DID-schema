@@ -6,8 +6,8 @@
             { "class_name": "base", "class_version": "1.0.0" }
         ]
     },
-    "_depends_on": [
-        { "_name": "probe_id", "value": "aabb1122ccdd3344_aabb1122ccdd3344" }
+    "depends_on": [
+        { "name": "probe_id", "value": "aabb1122ccdd3344_aabb1122ccdd3344" }
     ],
     "base": {
         "id":          "aabb1122ccdd3344_1122334455667788",

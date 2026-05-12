@@ -1,0 +1,46 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "$id": "https://did-schema.example.org/V_gamma/ndi_reserved_keys.json",
+    "title": "NDI Reserved Keys (V_gamma)",
+    "description": "Authoritative list of property names reserved by the NDI/DID schema system in V_gamma. Two lists are provided: `schema_file_keys` for names that appear in a class schema file (e.g. base.json, probe_location.json), and `document_instance_keys` for names that appear in an NDI document instance on disk. Schema authors MUST NOT use any reserved name as their own data field name (i.e., as a `name` inside a `fields` entry). This manifest is the discoverable surface for the reserved vocabulary; the meta-schema (did_schema_meta.json) is the enforcement surface. The CURIE registry file (CURIE_lookups_meta.json) has its own separate vocabulary and is out of scope here.",
+    "schema_file_keys": [
+        { "name": "document_class", "context": "top-level", "description": "Class-identity header. Sub-keys: class_name, class_version, superclasses. Restored from the V_alpha NDI-matlab layout." },
+        { "name": "class_name", "context": "inside document_class and inside document_class.superclasses entries", "description": "snake_case identifier of a class." },
+        { "name": "class_version", "context": "inside document_class", "description": "Semantic version of the schema (MAJOR.MINOR.PATCH)." },
+        { "name": "superclasses", "context": "inside document_class", "description": "Array of superclass reference objects." },
+        { "name": "schema", "context": "inside document_class.superclasses entries", "description": "Path or token-substituted path to the superclass schema file." },
+        { "name": "maturity_level", "context": "top-level", "description": "\"work_in_progress\" or \"mature\"." },
+        { "name": "abstract", "context": "top-level", "description": "If true, this class cannot be instantiated directly; only concrete subclasses may be." },
+        { "name": "depends_on", "context": "top-level", "description": "Array of dependency-declaration objects." },
+        { "name": "file", "context": "top-level", "description": "Array of file-record objects." },
+        { "name": "directory", "context": "top-level", "description": "Array of directory-record objects." },
+        { "name": "fields", "context": "top-level (and recursive inside structure-typed fields)", "description": "Array of field-definition objects." },
+        { "name": "name", "context": "inside depends_on / file / directory / fields / ontology entries", "description": "Identifier of the entry (snake_case)." },
+        { "name": "documentation", "context": "inside depends_on / file / directory / fields entries", "description": "Human-readable description." },
+        { "name": "multiple", "context": "inside depends_on entries", "description": "Enables numbered-dependency expansion (name_#)." },
+        { "name": "must_refer_to_document_class", "context": "inside depends_on entries", "description": "Class-name constraint on the referenced document; empty string means any class." },
+        { "name": "mustBeNonEmpty", "context": "inside depends_on and fields entries", "description": "Value must be non-empty (per-type semantics defined in the SPEC)." },
+        { "name": "mustBeScalar", "context": "inside fields entries", "description": "Value must be a single element (not array/matrix)." },
+        { "name": "mustNotHaveNaN", "context": "inside fields entries", "description": "No NaN values permitted." },
+        { "name": "blank_value", "context": "inside fields entries", "description": "Value carried by a freshly constructed blank document. May fail validation." },
+        { "name": "default_value", "context": "inside fields entries", "description": "Legitimate default value. Must pass validation." },
+        { "name": "queryable", "context": "inside fields entries", "description": "Whether the field is indexed for did.query / ndi.query." },
+        { "name": "ontology", "context": "inside fields entries", "description": "CURIE-based annotation of what the field itself denotes. Null permitted." },
+        { "name": "node", "context": "inside an ontology annotation object", "description": "CURIE identifier (prefix:local) of the ontology term." },
+        { "name": "constraints", "context": "inside fields entries", "description": "Type-specific constraint keywords; `{}` if unconstrained." },
+        { "name": "discriminator", "context": "inside fields entries of type \"structure\"", "description": "Names the variant-tagging sub-field for discriminated unions." }
+    ],
+    "document_instance_keys": [
+        { "name": "document_class", "context": "top-level", "description": "Class-identity header (sub-keys: class_name, class_version, superclasses)." },
+        { "name": "class_name", "context": "inside document_class and inside document_class.superclasses entries", "description": "Concrete-class or superclass identifier." },
+        { "name": "class_version", "context": "inside document_class and inside document_class.superclasses entries", "description": "Semantic version at write time." },
+        { "name": "superclasses", "context": "inside document_class", "description": "Snapshot of the inheritance chain at write time." },
+        { "name": "depends_on", "context": "top-level", "description": "Array of dependency-value objects." },
+        { "name": "name", "context": "inside depends_on entries", "description": "Role name matching a dependency declaration (after numbered-dependency expansion)." },
+        { "name": "value", "context": "inside depends_on entries", "description": "DID UID of the referenced document." }
+    ],
+    "notes": [
+        "Property-block keys in a document instance equal the `class_name` of a class in the document's inheritance chain. These are reserved by virtue of being class names; they are not enumerated here because they are not fixed strings.",
+        "Sub-field names inside named composite types (e.g. `seconds`, `source_unit`, `node`, `name` inside `duration` / `ontology_term`) are NOT reserved keys in the sense of this manifest. They are data field names fixed by the type's specification."
+    ]
+}

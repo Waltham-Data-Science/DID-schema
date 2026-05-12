@@ -5,86 +5,86 @@
         "superclasses": [
             {
                 "class_name": "base",
-                "_schema": "$NDISCHEMAPATH/base/schema.json"
+                "schema": "$NDISCHEMAPATH/base/schema.json"
             }
         ]
     },
-    "_maturity_level": "work_in_progress",
-    "_depends_on": [
+    "maturity_level": "work_in_progress",
+    "depends_on": [
         {
-            "_name": "element_id",
-            "_mustBeNonEmpty": true,
-            "_documentation": "The document ID of the element (e.g., probe) this neuron was recorded from.",
-            "_must_refer_to_document_class": ""
+            "name": "element_id",
+            "mustBeNonEmpty": true,
+            "documentation": "The document ID of the element (e.g., probe) this neuron was recorded from.",
+            "must_refer_to_document_class": ""
         }
     ],
-    "_file": [],
-    "_fields": [
+    "file": [],
+    "fields": [
         {
-            "_name": "cluster_id",
+            "name": "cluster_id",
             "type": "integer",
-            "_blank_value": 0,
-            "_default_value": 0,
-            "_mustBeNonEmpty": true,
-            "_mustBeScalar": true,
-            "_mustNotHaveNaN": true,
-            "_queryable": true,
-            "_ontology": {
-                "_node": "iao:0000578",
-                "_name": "centrally registered identifier"
+            "blank_value": 0,
+            "default_value": 0,
+            "mustBeNonEmpty": true,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": true,
+            "queryable": true,
+            "ontology": {
+                "node": "iao:0000578",
+                "name": "centrally registered identifier"
             },
-            "_documentation": "The cluster identifier assigned to this neuron by a spike sorter.",
-            "_constraints": {}
+            "documentation": "The cluster identifier assigned to this neuron by a spike sorter.",
+            "constraints": {}
         },
         {
-            "_name": "quality",
+            "name": "quality",
             "type": "char",
-            "_blank_value": "",
-            "_default_value": "",
-            "_mustBeNonEmpty": false,
-            "_mustBeScalar": true,
-            "_mustNotHaveNaN": false,
-            "_queryable": true,
-            "_ontology": {
-                "_node": "placeholder:spike_sorting_quality_label",
-                "_name": "spike-sorting quality label"
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": {
+                "node": "placeholder:spike_sorting_quality_label",
+                "name": "spike-sorting quality label"
             },
-            "_documentation": "Quality label for this unit (e.g., 'good', 'mua', 'noise'). Candidate for promotion to ontology_term once a controlled vocabulary (e.g., a spike-sorting quality branch in NIFSTD) is registered.",
-            "_constraints": {
+            "documentation": "Quality label for this unit (e.g., 'good', 'mua', 'noise'). Candidate for promotion to ontology_term once a controlled vocabulary (e.g., a spike-sorting quality branch in NIFSTD) is registered.",
+            "constraints": {
                 "maxLength": 64
             }
         },
         {
-            "_name": "num_spikes",
+            "name": "num_spikes",
             "type": "integer",
-            "_blank_value": 0,
-            "_default_value": 0,
-            "_mustBeNonEmpty": false,
-            "_mustBeScalar": true,
-            "_mustNotHaveNaN": true,
-            "_queryable": true,
-            "_ontology": {
-                "_node": "placeholder:action_potential_count",
-                "_name": "action potential count"
+            "blank_value": 0,
+            "default_value": 0,
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": true,
+            "queryable": true,
+            "ontology": {
+                "node": "placeholder:action_potential_count",
+                "name": "action potential count"
             },
-            "_documentation": "The total number of spikes assigned to this neuron.",
-            "_constraints": {}
+            "documentation": "The total number of spikes assigned to this neuron.",
+            "constraints": {}
         },
         {
-            "_name": "mean_firing_rate",
+            "name": "mean_firing_rate",
             "type": "double",
-            "_blank_value": 0.0,
-            "_default_value": 0.0,
-            "_mustBeNonEmpty": false,
-            "_mustBeScalar": true,
-            "_mustNotHaveNaN": false,
-            "_queryable": false,
-            "_ontology": {
-                "_node": "pato:0000044",
-                "_name": "frequency"
+            "blank_value": 0.0,
+            "default_value": 0.0,
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": false,
+            "ontology": {
+                "node": "pato:0000044",
+                "name": "frequency"
             },
-            "_documentation": "The mean firing rate of this neuron in Hz. Candidate for promotion to the V_gamma 'frequency' composite type.",
-            "_constraints": {}
+            "documentation": "The mean firing rate of this neuron in Hz. Candidate for promotion to the V_gamma 'frequency' composite type.",
+            "constraints": {}
         }
     ]
 }

@@ -5,58 +5,58 @@
         "superclasses": [
             {
                 "class_name": "base",
-                "_schema": "$NDISCHEMAPATH/base/schema.json"
+                "schema": "$NDISCHEMAPATH/base/schema.json"
             },
             {
                 "class_name": "epochid",
-                "_schema": "$NDISCHEMAPATH/epochid/schema.json"
+                "schema": "$NDISCHEMAPATH/epochid/schema.json"
             }
         ]
     },
-    "_maturity_level": "work_in_progress",
-    "_depends_on": [],
-    "_file": [],
-    "_fields": [
+    "maturity_level": "work_in_progress",
+    "depends_on": [],
+    "file": [],
+    "fields": [
         {
-            "_name": "epoch_clock",
+            "name": "epoch_clock",
             "type": "char",
-            "_blank_value": "",
-            "_default_value": "dev_local_time",
-            "_mustBeNonEmpty": true,
-            "_mustBeScalar": true,
-            "_mustNotHaveNaN": false,
-            "_queryable": true,
-            "_ontology": null,
-            "_documentation": "The clock type for this single epoch.",
-            "_constraints": {
+            "blank_value": "",
+            "default_value": "dev_local_time",
+            "mustBeNonEmpty": true,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "The clock type for this single epoch.",
+            "constraints": {
                 "maxLength": 256
             }
         },
         {
-            "_name": "t0",
+            "name": "t0",
             "type": "double",
-            "_blank_value": 0.0,
-            "_default_value": 0.0,
-            "_mustBeNonEmpty": true,
-            "_mustBeScalar": true,
-            "_mustNotHaveNaN": true,
-            "_queryable": false,
-            "_ontology": null,
-            "_documentation": "Start time of the single epoch.",
-            "_constraints": {}
+            "blank_value": 0.0,
+            "default_value": 0.0,
+            "mustBeNonEmpty": true,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": true,
+            "queryable": false,
+            "ontology": null,
+            "documentation": "Start time of the single epoch.",
+            "constraints": {}
         },
         {
-            "_name": "t1",
+            "name": "t1",
             "type": "double",
-            "_blank_value": 1.0,
-            "_default_value": 1.0,
-            "_mustBeNonEmpty": true,
-            "_mustBeScalar": true,
-            "_mustNotHaveNaN": true,
-            "_queryable": false,
-            "_ontology": null,
-            "_documentation": "Stop time of the single epoch.",
-            "_constraints": {}
+            "blank_value": 1.0,
+            "default_value": 1.0,
+            "mustBeNonEmpty": true,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": true,
+            "queryable": false,
+            "ontology": null,
+            "documentation": "Stop time of the single epoch.",
+            "constraints": {}
         }
     ]
 }

@@ -5,74 +5,74 @@
         "superclasses": [
             {
                 "class_name": "base",
-                "_schema": "$NDISCHEMAPATH/base/schema.json"
+                "schema": "$NDISCHEMAPATH/base/schema.json"
             }
         ]
     },
-    "_maturity_level": "work_in_progress",
-    "_depends_on": [
+    "maturity_level": "work_in_progress",
+    "depends_on": [
         {
-            "_name": "element_id",
-            "_mustBeNonEmpty": true,
-            "_documentation": "The document ID of the element (e.g., probe) these extraction parameters apply to.",
-            "_must_refer_to_document_class": ""
+            "name": "element_id",
+            "mustBeNonEmpty": true,
+            "documentation": "The document ID of the element (e.g., probe) these extraction parameters apply to.",
+            "must_refer_to_document_class": ""
         }
     ],
-    "_file": [],
-    "_fields": [
+    "file": [],
+    "fields": [
         {
-            "_name": "threshold",
+            "name": "threshold",
             "type": "double",
-            "_blank_value": 0.0,
-            "_default_value": -4.0,
-            "_mustBeNonEmpty": true,
-            "_mustBeScalar": true,
-            "_mustNotHaveNaN": true,
-            "_queryable": true,
-            "_ontology": null,
-            "_documentation": "The threshold value used for spike detection (in multiples of standard deviation or absolute voltage).",
-            "_constraints": {}
+            "blank_value": 0.0,
+            "default_value": -4.0,
+            "mustBeNonEmpty": true,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": true,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "The threshold value used for spike detection (in multiples of standard deviation or absolute voltage).",
+            "constraints": {}
         },
         {
-            "_name": "threshold_type",
+            "name": "threshold_type",
             "type": "char",
-            "_blank_value": "",
-            "_default_value": "std",
-            "_mustBeNonEmpty": false,
-            "_mustBeScalar": true,
-            "_mustNotHaveNaN": false,
-            "_queryable": true,
-            "_ontology": null,
-            "_documentation": "The type of threshold ('std' for standard deviation multiples, 'absolute' for voltage).",
-            "_constraints": {
+            "blank_value": "",
+            "default_value": "std",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "The type of threshold ('std' for standard deviation multiples, 'absolute' for voltage).",
+            "constraints": {
                 "maxLength": 32
             }
         },
         {
-            "_name": "filter_low",
+            "name": "filter_low",
             "type": "double",
-            "_blank_value": 0.0,
-            "_default_value": 300.0,
-            "_mustBeNonEmpty": false,
-            "_mustBeScalar": true,
-            "_mustNotHaveNaN": false,
-            "_queryable": false,
-            "_ontology": null,
-            "_documentation": "The low-pass cutoff frequency of the bandpass filter in Hz.",
-            "_constraints": {}
+            "blank_value": 0.0,
+            "default_value": 300.0,
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": false,
+            "ontology": null,
+            "documentation": "The low-pass cutoff frequency of the bandpass filter in Hz.",
+            "constraints": {}
         },
         {
-            "_name": "filter_high",
+            "name": "filter_high",
             "type": "double",
-            "_blank_value": 0.0,
-            "_default_value": 6000.0,
-            "_mustBeNonEmpty": false,
-            "_mustBeScalar": true,
-            "_mustNotHaveNaN": false,
-            "_queryable": false,
-            "_ontology": null,
-            "_documentation": "The high-pass cutoff frequency of the bandpass filter in Hz.",
-            "_constraints": {}
+            "blank_value": 0.0,
+            "default_value": 6000.0,
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": false,
+            "ontology": null,
+            "documentation": "The high-pass cutoff frequency of the bandpass filter in Hz.",
+            "constraints": {}
         }
     ]
 }

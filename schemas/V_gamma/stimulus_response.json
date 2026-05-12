@@ -5,44 +5,44 @@
         "superclasses": [
             {
                 "class_name": "base",
-                "_schema": "$NDISCHEMAPATH/base/schema.json"
+                "schema": "$NDISCHEMAPATH/base/schema.json"
             }
         ]
     },
-    "_maturity_level": "work_in_progress",
-    "_depends_on": [
+    "maturity_level": "work_in_progress",
+    "depends_on": [
         {
-            "_name": "stimulus_presentation_id",
-            "_mustBeNonEmpty": true,
-            "_documentation": "The document ID of the stimulus presentation.",
-            "_must_refer_to_document_class": ""
+            "name": "stimulus_presentation_id",
+            "mustBeNonEmpty": true,
+            "documentation": "The document ID of the stimulus presentation.",
+            "must_refer_to_document_class": ""
         },
         {
-            "_name": "element_id",
-            "_mustBeNonEmpty": true,
-            "_documentation": "The document ID of the element (e.g., neuron) whose response was measured.",
-            "_must_refer_to_document_class": ""
+            "name": "element_id",
+            "mustBeNonEmpty": true,
+            "documentation": "The document ID of the element (e.g., neuron) whose response was measured.",
+            "must_refer_to_document_class": ""
         }
     ],
-    "_file": [
+    "file": [
         {
-            "_name": "response_file",
-            "_documentation": "The file containing the stimulus response data."
+            "name": "response_file",
+            "documentation": "The file containing the stimulus response data."
         }
     ],
-    "_fields": [
+    "fields": [
         {
-            "_name": "response_type",
+            "name": "response_type",
             "type": "char",
-            "_blank_value": "",
-            "_default_value": "",
-            "_mustBeNonEmpty": false,
-            "_mustBeScalar": true,
-            "_mustNotHaveNaN": false,
-            "_queryable": true,
-            "_ontology": null,
-            "_documentation": "The type of response measured (e.g., 'spikes', 'calcium', 'voltage').",
-            "_constraints": {
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "The type of response measured (e.g., 'spikes', 'calcium', 'voltage').",
+            "constraints": {
                 "maxLength": 128
             }
         }

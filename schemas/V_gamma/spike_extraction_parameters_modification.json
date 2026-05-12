@@ -5,49 +5,49 @@
         "superclasses": [
             {
                 "class_name": "base",
-                "_schema": "$NDISCHEMAPATH/base/schema.json"
+                "schema": "$NDISCHEMAPATH/base/schema.json"
             }
         ]
     },
-    "_maturity_level": "work_in_progress",
-    "_depends_on": [
+    "maturity_level": "work_in_progress",
+    "depends_on": [
         {
-            "_name": "spike_extraction_parameters_id",
-            "_mustBeNonEmpty": true,
-            "_documentation": "The document ID of the spike_extraction_parameters being modified.",
-            "_must_refer_to_document_class": ""
+            "name": "spike_extraction_parameters_id",
+            "mustBeNonEmpty": true,
+            "documentation": "The document ID of the spike_extraction_parameters being modified.",
+            "must_refer_to_document_class": ""
         }
     ],
-    "_file": [],
-    "_fields": [
+    "file": [],
+    "fields": [
         {
-            "_name": "modified_fields",
+            "name": "modified_fields",
             "type": "structure",
-            "_blank_value": {},
-            "_default_value": {},
-            "_mustBeNonEmpty": false,
-            "_mustBeScalar": true,
-            "_mustNotHaveNaN": false,
-            "_queryable": false,
-            "_ontology": null,
-            "_documentation": "Structure whose keys are the names of the modified spike_extraction_parameters fields and whose values are the new values assigned to them. Dynamic keys: one entry per modified field.",
-            "_constraints": {
+            "blank_value": {},
+            "default_value": {},
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": false,
+            "ontology": null,
+            "documentation": "Structure whose keys are the names of the modified spike_extraction_parameters fields and whose values are the new values assigned to them. Dynamic keys: one entry per modified field.",
+            "constraints": {
                 "dynamic_keys": true
             },
-            "_fields": []
+            "fields": []
         },
         {
-            "_name": "modification_reason",
+            "name": "modification_reason",
             "type": "char",
-            "_blank_value": "",
-            "_default_value": "",
-            "_mustBeNonEmpty": false,
-            "_mustBeScalar": true,
-            "_mustNotHaveNaN": false,
-            "_queryable": false,
-            "_ontology": null,
-            "_documentation": "A free-text reason for the parameter modification.",
-            "_constraints": {
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": false,
+            "ontology": null,
+            "documentation": "A free-text reason for the parameter modification.",
+            "constraints": {
                 "maxLength": 1024
             }
         }

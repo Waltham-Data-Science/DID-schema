@@ -5,43 +5,43 @@
         "superclasses": [
             {
                 "class_name": "base",
-                "_schema": "$NDISCHEMAPATH/base/schema.json"
+                "schema": "$NDISCHEMAPATH/base/schema.json"
             }
         ]
     },
-    "_maturity_level": "work_in_progress",
-    "_depends_on": [
+    "maturity_level": "work_in_progress",
+    "depends_on": [
         {
-            "_name": "element_id",
-            "_mustBeNonEmpty": true,
-            "_documentation": "The document ID of the neuron element this binned spike rate was computed from.",
-            "_must_refer_to_document_class": ""
+            "name": "element_id",
+            "mustBeNonEmpty": true,
+            "documentation": "The document ID of the neuron element this binned spike rate was computed from.",
+            "must_refer_to_document_class": ""
         }
     ],
-    "_file": [
+    "file": [
         {
-            "_name": "binnedspikeratevm_file",
-            "_documentation": "The file containing binned spike rate and Vm data."
+            "name": "binnedspikeratevm_file",
+            "documentation": "The file containing binned spike rate and Vm data."
         }
     ],
-    "_fields": [
+    "fields": [
         {
-            "_name": "bin_size",
+            "name": "bin_size",
             "type": "duration",
-            "_blank_value": null,
-            "_default_value": {
+            "blank_value": null,
+            "default_value": {
                 "seconds": 0.001,
                 "approximate": false,
                 "source_unit": "millisecond",
                 "source_value": 1.0
             },
-            "_mustBeNonEmpty": true,
-            "_mustBeScalar": true,
-            "_mustNotHaveNaN": true,
-            "_queryable": true,
-            "_ontology": null,
-            "_documentation": "The width of each bin used to compute the binned spike rate, expressed as a duration.",
-            "_constraints": {
+            "mustBeNonEmpty": true,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": true,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "The width of each bin used to compute the binned spike rate, expressed as a duration.",
+            "constraints": {
                 "minimum": 0,
                 "allowed_units": [
                     "nanosecond",
@@ -52,20 +52,20 @@
             }
         },
         {
-            "_name": "num_bins",
+            "name": "num_bins",
             "type": "integer",
-            "_blank_value": 0,
-            "_default_value": 0,
-            "_mustBeNonEmpty": false,
-            "_mustBeScalar": true,
-            "_mustNotHaveNaN": true,
-            "_queryable": false,
-            "_ontology": {
-                "_node": "ncit:C25463",
-                "_name": "Count"
+            "blank_value": 0,
+            "default_value": 0,
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": true,
+            "queryable": false,
+            "ontology": {
+                "node": "ncit:C25463",
+                "name": "Count"
             },
-            "_documentation": "The total number of bins.",
-            "_constraints": {}
+            "documentation": "The total number of bins.",
+            "constraints": {}
         }
     ]
 }

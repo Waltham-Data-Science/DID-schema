@@ -5,39 +5,39 @@
         "superclasses": [
             {
                 "class_name": "base",
-                "_schema": "$NDISCHEMAPATH/base/schema.json"
+                "schema": "$NDISCHEMAPATH/base/schema.json"
             }
         ]
     },
-    "_maturity_level": "work_in_progress",
-    "_depends_on": [
+    "maturity_level": "work_in_progress",
+    "depends_on": [
         {
-            "_name": "filenavigator_id",
-            "_mustBeNonEmpty": true,
-            "_documentation": "The document ID of the file navigator used by this DAQ system.",
-            "_must_refer_to_document_class": ""
+            "name": "filenavigator_id",
+            "mustBeNonEmpty": true,
+            "documentation": "The document ID of the file navigator used by this DAQ system.",
+            "must_refer_to_document_class": ""
         },
         {
-            "_name": "daqreader_id",
-            "_mustBeNonEmpty": true,
-            "_documentation": "The document ID of the DAQ reader used by this DAQ system.",
-            "_must_refer_to_document_class": ""
+            "name": "daqreader_id",
+            "mustBeNonEmpty": true,
+            "documentation": "The document ID of the DAQ reader used by this DAQ system.",
+            "must_refer_to_document_class": ""
         }
     ],
-    "_file": [],
-    "_fields": [
+    "file": [],
+    "fields": [
         {
-            "_name": "ndi_daqsystem_class",
+            "name": "ndi_daqsystem_class",
             "type": "char",
-            "_blank_value": "",
-            "_default_value": "",
-            "_mustBeNonEmpty": true,
-            "_mustBeScalar": true,
-            "_mustNotHaveNaN": false,
-            "_queryable": true,
-            "_ontology": null,
-            "_documentation": "The class name of the DAQ system implementation.",
-            "_constraints": {
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": true,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "The class name of the DAQ system implementation.",
+            "constraints": {
                 "maxLength": 256
             }
         }

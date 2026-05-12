@@ -5,100 +5,100 @@
         "superclasses": [
             {
                 "class_name": "base",
-                "_schema": "$NDISCHEMAPATH/base/schema.json"
+                "schema": "$NDISCHEMAPATH/base/schema.json"
             }
         ]
     },
-    "_maturity_level": "work_in_progress",
-    "_depends_on": [
+    "maturity_level": "work_in_progress",
+    "depends_on": [
         {
-            "_name": "stimulus_tuningcurve_id",
-            "_mustBeNonEmpty": true,
-            "_documentation": "The document ID of the stimulus_tuningcurve this orientation/direction tuning was computed from.",
-            "_must_refer_to_document_class": ""
+            "name": "stimulus_tuningcurve_id",
+            "mustBeNonEmpty": true,
+            "documentation": "The document ID of the stimulus_tuningcurve this orientation/direction tuning was computed from.",
+            "must_refer_to_document_class": ""
         }
     ],
-    "_file": [],
-    "_fields": [
+    "file": [],
+    "fields": [
         {
-            "_name": "preferred_direction",
+            "name": "preferred_direction",
             "type": "double",
-            "_blank_value": 0.0,
-            "_default_value": 0.0,
-            "_mustBeNonEmpty": false,
-            "_mustBeScalar": true,
-            "_mustNotHaveNaN": false,
-            "_queryable": true,
-            "_ontology": {
-                "_node": "placeholder:preferred_direction_of_motion",
-                "_name": "preferred direction of motion"
+            "blank_value": 0.0,
+            "default_value": 0.0,
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": {
+                "node": "placeholder:preferred_direction_of_motion",
+                "name": "preferred direction of motion"
             },
-            "_documentation": "The preferred direction of motion in degrees (0-360).",
-            "_constraints": {}
+            "documentation": "The preferred direction of motion in degrees (0-360).",
+            "constraints": {}
         },
         {
-            "_name": "preferred_orientation",
+            "name": "preferred_orientation",
             "type": "double",
-            "_blank_value": 0.0,
-            "_default_value": 0.0,
-            "_mustBeNonEmpty": false,
-            "_mustBeScalar": true,
-            "_mustNotHaveNaN": false,
-            "_queryable": true,
-            "_ontology": {
-                "_node": "placeholder:preferred_orientation",
-                "_name": "preferred orientation"
+            "blank_value": 0.0,
+            "default_value": 0.0,
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": {
+                "node": "placeholder:preferred_orientation",
+                "name": "preferred orientation"
             },
-            "_documentation": "The preferred orientation in degrees (0-180).",
-            "_constraints": {}
+            "documentation": "The preferred orientation in degrees (0-180).",
+            "constraints": {}
         },
         {
-            "_name": "direction_selectivity_index",
+            "name": "direction_selectivity_index",
             "type": "double",
-            "_blank_value": 0.0,
-            "_default_value": 0.0,
-            "_mustBeNonEmpty": false,
-            "_mustBeScalar": true,
-            "_mustNotHaveNaN": false,
-            "_queryable": true,
-            "_ontology": {
-                "_node": "placeholder:direction_selectivity_index",
-                "_name": "direction selectivity index"
+            "blank_value": 0.0,
+            "default_value": 0.0,
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": {
+                "node": "placeholder:direction_selectivity_index",
+                "name": "direction selectivity index"
             },
-            "_documentation": "Direction selectivity index (DSI), range 0 to 1.",
-            "_constraints": {}
+            "documentation": "Direction selectivity index (DSI), range 0 to 1.",
+            "constraints": {}
         },
         {
-            "_name": "orientation_selectivity_index",
+            "name": "orientation_selectivity_index",
             "type": "double",
-            "_blank_value": 0.0,
-            "_default_value": 0.0,
-            "_mustBeNonEmpty": false,
-            "_mustBeScalar": true,
-            "_mustNotHaveNaN": false,
-            "_queryable": true,
-            "_ontology": {
-                "_node": "placeholder:orientation_selectivity_index",
-                "_name": "orientation selectivity index"
+            "blank_value": 0.0,
+            "default_value": 0.0,
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": {
+                "node": "placeholder:orientation_selectivity_index",
+                "name": "orientation selectivity index"
             },
-            "_documentation": "Orientation selectivity index (OSI), range 0 to 1.",
-            "_constraints": {}
+            "documentation": "Orientation selectivity index (OSI), range 0 to 1.",
+            "constraints": {}
         },
         {
-            "_name": "tuning_width",
+            "name": "tuning_width",
             "type": "double",
-            "_blank_value": 0.0,
-            "_default_value": 0.0,
-            "_mustBeNonEmpty": false,
-            "_mustBeScalar": true,
-            "_mustNotHaveNaN": false,
-            "_queryable": false,
-            "_ontology": {
-                "_node": "placeholder:tuning_curve_half_width_at_half_height",
-                "_name": "tuning curve half-width at half-height"
+            "blank_value": 0.0,
+            "default_value": 0.0,
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": false,
+            "ontology": {
+                "node": "placeholder:tuning_curve_half_width_at_half_height",
+                "name": "tuning curve half-width at half-height"
             },
-            "_documentation": "The half-width at half-height of the tuning curve in degrees.",
-            "_constraints": {}
+            "documentation": "The half-width at half-height of the tuning curve in degrees.",
+            "constraints": {}
         }
     ]
 }

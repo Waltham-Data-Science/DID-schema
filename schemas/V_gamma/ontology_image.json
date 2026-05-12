@@ -5,38 +5,38 @@
         "superclasses": [
             {
                 "class_name": "base",
-                "_schema": "$NDISCHEMAPATH/base/schema.json"
+                "schema": "$NDISCHEMAPATH/base/schema.json"
             }
         ]
     },
-    "_maturity_level": "work_in_progress",
-    "_depends_on": [
+    "maturity_level": "work_in_progress",
+    "depends_on": [
         {
-            "_name": "element_id",
-            "_mustBeNonEmpty": false,
-            "_documentation": "The document ID of the element this ontology image is associated with.",
-            "_must_refer_to_document_class": ""
+            "name": "element_id",
+            "mustBeNonEmpty": false,
+            "documentation": "The document ID of the element this ontology image is associated with.",
+            "must_refer_to_document_class": ""
         }
     ],
-    "_file": [
+    "file": [
         {
-            "_name": "ontology_image_file",
-            "_documentation": "The ontology image file."
+            "name": "ontology_image_file",
+            "documentation": "The ontology image file."
         }
     ],
-    "_fields": [
+    "fields": [
         {
-            "_name": "region",
+            "name": "region",
             "type": "ontology_term",
-            "_blank_value": null,
-            "_default_value": null,
-            "_mustBeNonEmpty": true,
-            "_mustBeScalar": true,
-            "_mustNotHaveNaN": false,
-            "_queryable": true,
-            "_ontology": null,
-            "_documentation": "The brain region or structure this image depicts, as an ontology term (e.g., 'allen_ccf_v3:12345').",
-            "_constraints": {}
+            "blank_value": null,
+            "default_value": null,
+            "mustBeNonEmpty": true,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "The brain region or structure this image depicts, as an ontology term (e.g., 'allen_ccf_v3:12345').",
+            "constraints": {}
         }
     ]
 }

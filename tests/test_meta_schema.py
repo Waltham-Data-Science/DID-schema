@@ -13,7 +13,7 @@ from conftest import load_json
 
 # Files in each schemas/V_*/ directory that are NOT document-type schemas
 # and therefore should not be validated against the meta-schema.
-META_ONLY_FILES = {"did_schema_meta.json", "CURIE_lookups_meta.json"}
+META_ONLY_FILES = {"did_schema_meta.json", "CURIE_lookups_meta.json", "ndi_reserved_keys.json"}
 
 
 def schema_files_in(schemas_dir):
@@ -55,11 +55,12 @@ class TestMetaSchemaValidation:
         # "document_class". Either is acceptable.
         assert "_classname" in msg or "document_class" in msg
 
-    def test_invalid_schema_bad_type_fails(self, meta_schema, base_schema):
+    def test_invalid_schema_bad_type_fails(self, meta_schema, base_schema, schema_version):
         """A schema with an unrecognized type string must fail meta-validation."""
-        bad = dict(base_schema)
-        bad["_fields"] = [dict(base_schema["_fields"][0])]
-        bad["_fields"][0]["type"] = "nonexistent_type"
+        import copy
+        bad = copy.deepcopy(base_schema)
+        fields_key = "fields" if schema_version == "V_gamma" else "_fields"
+        bad[fields_key][0]["type"] = "nonexistent_type"
         with pytest.raises(jsonschema.ValidationError):
             jsonschema.validate(instance=bad, schema=meta_schema)
 
@@ -101,17 +102,18 @@ class TestMetaSchemaValidation:
         jsonschema.validate(instance=directory_schema, schema=meta_schema)
 
     def test_schema_without_file_key_passes(self, meta_schema, schema_version):
-        """A schema that omits _file entirely should pass (it is optional)."""
+        """A schema that omits the file array entirely should pass (it is optional)."""
         minimal = _minimal_schema(schema_version, "no_file_test")
         jsonschema.validate(instance=minimal, schema=meta_schema)
 
     def test_schema_with_directory_key_passes(self, meta_schema, schema_version):
-        """A schema with a _directory array should pass."""
+        """A schema with a directory array should pass."""
         with_dir = _minimal_schema(schema_version, "dir_test")
-        with_dir["_directory"] = [
+        keys = _key_names(schema_version)
+        with_dir[keys["directory"]] = [
             {
-                "_name": "raw_data",
-                "_documentation": "Raw acquisition files.",
+                keys["name"]: "raw_data",
+                keys["documentation"]: "Raw acquisition files.",
             }
         ]
         jsonschema.validate(instance=with_dir, schema=meta_schema)
@@ -119,21 +121,23 @@ class TestMetaSchemaValidation:
     def test_invalid_directory_record_missing_name_fails(
         self, meta_schema, schema_version
     ):
-        """A _directory entry without _name must fail."""
+        """A directory entry without a name must fail."""
         bad = _minimal_schema(schema_version, "bad_dir_test")
-        bad["_directory"] = [{"_documentation": "Missing _name."}]
+        keys = _key_names(schema_version)
+        bad[keys["directory"]] = [{keys["documentation"]: "Missing name."}]
         with pytest.raises(jsonschema.ValidationError):
             jsonschema.validate(instance=bad, schema=meta_schema)
 
     def test_invalid_directory_record_extra_key_fails(
         self, meta_schema, schema_version
     ):
-        """A _directory entry with extra keys must fail."""
+        """A directory entry with extra keys must fail."""
         bad = _minimal_schema(schema_version, "bad_dir_test")
-        bad["_directory"] = [
+        keys = _key_names(schema_version)
+        bad[keys["directory"]] = [
             {
-                "_name": "raw_data",
-                "_documentation": "Raw data.",
+                keys["name"]: "raw_data",
+                keys["documentation"]: "Raw data.",
                 "_extra": "not allowed",
             }
         ]
@@ -141,8 +145,35 @@ class TestMetaSchemaValidation:
             jsonschema.validate(instance=bad, schema=meta_schema)
 
 
+def _key_names(version):
+    """Return the wire-shape key names for NDI-extension keys in a given version.
+
+    V_gamma drops the V_beta underscore prefix on every NDI-extension key.
+    """
+    if version == "V_gamma":
+        return {
+            "maturity_level": "maturity_level",
+            "depends_on": "depends_on",
+            "fields": "fields",
+            "file": "file",
+            "directory": "directory",
+            "name": "name",
+            "documentation": "documentation",
+        }
+    return {
+        "maturity_level": "_maturity_level",
+        "depends_on": "_depends_on",
+        "fields": "_fields",
+        "file": "_file",
+        "directory": "_directory",
+        "name": "_name",
+        "documentation": "_documentation",
+    }
+
+
 def _minimal_schema(version, class_name):
     """Build a minimal valid schema in the wire shape for the given version."""
+    keys = _key_names(version)
     if version == "V_gamma":
         return {
             "document_class": {
@@ -150,15 +181,15 @@ def _minimal_schema(version, class_name):
                 "class_version": "1.0.0",
                 "superclasses": [],
             },
-            "_maturity_level": "work_in_progress",
-            "_depends_on": [],
-            "_fields": [],
+            keys["maturity_level"]: "work_in_progress",
+            keys["depends_on"]: [],
+            keys["fields"]: [],
         }
     return {
         "_classname": class_name,
         "_class_version": "1.0.0",
-        "_maturity_level": "work_in_progress",
+        keys["maturity_level"]: "work_in_progress",
         "_superclasses": [],
-        "_depends_on": [],
-        "_fields": [],
+        keys["depends_on"]: [],
+        keys["fields"]: [],
     }

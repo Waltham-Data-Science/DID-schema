@@ -2,7 +2,7 @@
 
 The `V_gamma/` directory is a forward-evolution of `V_beta/`. It inherits
 V_beta's flat directory layout (one JSON file per document type at the top
-of `schemas/V_gamma/`) and snake_case naming requirements for classnames,
+of `schemas/V_gamma/`) and snake_case naming requirements for class_names,
 field names, and filenames. See `V_beta_SPEC.md` for the rules that carry
 over unchanged.
 
@@ -12,7 +12,7 @@ V_gamma adds five related features on top of V_beta:
   `type` enum, each backed by a fixed sub-field layout in document values:
   - The SI-dimensioned family, all sharing the four-sub-field shape
     (`<canonical_unit>` double, `approximate` boolean, `source_unit`
-    char, `source_value` double) and the same three `_constraints`
+    char, `source_value` double) and the same three `constraints`
     keys (`minimum`, `maximum`, `allowed_units`). `minimum` and
     `maximum` always bound the canonical value; the unit is determined
     by the field's type.
@@ -24,7 +24,7 @@ V_gamma adds five related features on top of V_beta:
     - `current`: canonical `amperes`.
     - `frequency`: canonical `hertz`.
   - `ontology_term`: `node` (char, a CURIE), `name` (char, label snapshot).
-    Supported `_constraints` keys: `allowed_namespaces`.
+    Supported `constraints` keys: `allowed_namespaces`.
   These composite types let a single field carry what previously required
   several coordinated char/double fields. The canonical units of the
   SI-dimensioned family are practical SI (grams over kilograms, liters
@@ -36,11 +36,11 @@ V_gamma adds five related features on top of V_beta:
   to resolve CURIEs to URIs and to warn on unknown or approximate prefixes.
   It is not structurally enforced by the meta-schema.
 
-- **Redesigned `_ontology` annotation shape.** The field-level `_ontology`
-  annotation now uses two keys `_node` and `_name` instead of the V_beta
+- **Redesigned `ontology` annotation shape.** The field-level `ontology`
+  annotation now uses two keys `node` and `name` instead of the V_beta
   four-key shape. The CURIE replaces the `_namespace`/`_term`/`_uri` trio:
-  `_node` is `"<lowercased_namespace>:<term>"` and `_uri` is dropped
-  (derivable from the CURIE registry). `_ontology: null` is still valid.
+  `node` is `"<lowercased_namespace>:<term>"` and `_uri` is dropped
+  (derivable from the CURIE registry). `ontology: null` is still valid.
 
 - **Class-scoped property blocks at the document-instance level.**
   V_beta's intended wire shape was a single flat namespace per document;
@@ -55,10 +55,10 @@ V_gamma adds five related features on top of V_beta:
   Motivation, in brief:
   - **Per-field provenance.** A reader can tell at a glance which class
     declared each value (it sits in that class's block), and find the
-    field's `_documentation`/`_ontology`/`_constraints` by opening
+    field's `documentation`/`ontology`/`constraints` by opening
     `schemas/V_gamma/<block_key>.json`.
   - **No shadowing by construction.** Field identity is
-    `(declaring_class, _name)`. A subclass can declare a `_name` that
+    `(declaring_class, name)`. A subclass can declare a `name` that
     an ancestor also declares — the two are simply distinct fields
     living at distinct paths (e.g., `base.id` vs. `<subclass>.id`),
     not an override or shadow of one another.
@@ -73,12 +73,12 @@ V_gamma adds five related features on top of V_beta:
   live under a top-level `document_class` block on both schema files and
   document instances, restoring the V_alpha legacy NDI-matlab layout.
   Previously V_gamma kept these at the top level with underscore prefixes
-  (`_classname`, `_class_version`, `_superclasses`); they are now nested
-  and unprefixed inside `document_class`. `_depends_on` stays at the top
+  (`_class_name`, `_class_version`, `_superclasses`); they are now nested
+  and unprefixed inside `document_class`. `depends_on` stays at the top
   level (it is a cross-document concern, not a piece of class identity).
 
   Inside `document_class.superclasses[i]`:
-  - Schema files use `class_name` plus `_schema` (the schema-file path).
+  - Schema files use `class_name` plus `schema` (the schema-file path).
   - Document instances use `class_name` plus `class_version` (no path).
 
   This is a schema-file-syntax change; no `class_version` bumps result
@@ -94,10 +94,10 @@ Four schemas collapse multiple coordinated fields into a single
 
 | Schema               | Removed fields                              | Added field              |
 |----------------------|---------------------------------------------|--------------------------|
-| `probe_location`     | `ontology_name`, `name`                     | `location`               |
-| `treatment`          | `ontology_name`, `name`                     | `treatment_name`         |
-| `ontology_image`     | `ontology_name`, `ontology_region`          | `region`                 |
-| `ontology_label`     | `ontology_name`, `label`, `label_id`        | `term`                   |
+| `probe_location`     | `ontologyname`, `name`                     | `location`               |
+| `treatment`          | `ontologyname`, `name`                     | `treatmentname`         |
+| `ontology_image`     | `ontologyname`, `ontology_region`          | `region`                 |
+| `ontologylabel`     | `ontologyname`, `label`, `label_id`        | `term`                   |
 
 Each of these files bumped `_class_version` from `1.0.0` to `2.0.0` because
 the document-visible field layout changed.
@@ -108,7 +108,7 @@ stays at `1.0.0`.
 
 ## `duration` constraint-key rename
 
-`duration` originally shipped with `_constraints` keys
+`duration` originally shipped with `constraints` keys
 `minimum_seconds` and `maximum_seconds`. These were renamed to plain
 `minimum` and `maximum` to align with the rest of the SI-dimensioned
 family (`volume`, `mass`, `length`, `voltage`, `current`, `frequency`)
@@ -126,7 +126,7 @@ to use `minimum`/`maximum`.
 
 ## Annotation-shape change is not a version bump
 
-The `_ontology` annotation-shape transform was applied to every schema
+The `ontology` annotation-shape transform was applied to every schema
 file in `V_gamma/` that carried the old four-key shape, but those files did
 **not** receive a `_class_version` bump. The annotation is schema-file
 syntax describing the field; it does not change the shape of documents

@@ -5,63 +5,63 @@
         "superclasses": [
             {
                 "class_name": "base",
-                "_schema": "$NDISCHEMAPATH/base/schema.json"
+                "schema": "$NDISCHEMAPATH/base/schema.json"
             }
         ]
     },
-    "_maturity_level": "work_in_progress",
-    "_depends_on": [
+    "maturity_level": "work_in_progress",
+    "depends_on": [
         {
-            "_name": "stimulus_presentation_id",
-            "_mustBeNonEmpty": true,
-            "_documentation": "The document ID of the stimulus presentation this parameter belongs to.",
-            "_must_refer_to_document_class": ""
+            "name": "stimulus_presentation_id",
+            "mustBeNonEmpty": true,
+            "documentation": "The document ID of the stimulus presentation this parameter belongs to.",
+            "must_refer_to_document_class": ""
         }
     ],
-    "_file": [],
-    "_fields": [
+    "file": [],
+    "fields": [
         {
-            "_name": "parameter_name",
+            "name": "parameter_name",
             "type": "char",
-            "_blank_value": "",
-            "_default_value": "",
-            "_mustBeNonEmpty": true,
-            "_mustBeScalar": true,
-            "_mustNotHaveNaN": false,
-            "_queryable": true,
-            "_ontology": null,
-            "_documentation": "The name of the stimulus parameter (e.g., 'angle', 'spatial_frequency').",
-            "_constraints": {
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": true,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "The name of the stimulus parameter (e.g., 'angle', 'spatial_frequency').",
+            "constraints": {
                 "maxLength": 256
             }
         },
         {
-            "_name": "parameter_values",
+            "name": "parameter_values",
             "type": "matrix",
-            "_blank_value": [],
-            "_default_value": [],
-            "_mustBeNonEmpty": false,
-            "_mustBeScalar": false,
-            "_mustNotHaveNaN": false,
-            "_queryable": false,
-            "_ontology": null,
-            "_documentation": "Array of numeric parameter values used across stimulus presentations, in parameter_units. One value per unique stimulus condition.",
-            "_constraints": {
+            "blank_value": [],
+            "default_value": [],
+            "mustBeNonEmpty": false,
+            "mustBeScalar": false,
+            "mustNotHaveNaN": false,
+            "queryable": false,
+            "ontology": null,
+            "documentation": "Array of numeric parameter values used across stimulus presentations, in parameter_units. One value per unique stimulus condition.",
+            "constraints": {
                 "element_type": "double"
             }
         },
         {
-            "_name": "parameter_units",
+            "name": "parameter_units",
             "type": "char",
-            "_blank_value": "",
-            "_default_value": "",
-            "_mustBeNonEmpty": false,
-            "_mustBeScalar": true,
-            "_mustNotHaveNaN": false,
-            "_queryable": true,
-            "_ontology": null,
-            "_documentation": "The units of the parameter values (e.g., 'degrees', 'cpd', 'Hz').",
-            "_constraints": {
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "The units of the parameter values (e.g., 'degrees', 'cpd', 'Hz').",
+            "constraints": {
                 "maxLength": 64
             }
         }

@@ -5,137 +5,137 @@
         "superclasses": [
             {
                 "class_name": "base",
-                "_schema": "$NDISCHEMAPATH/base/schema.json"
+                "schema": "$NDISCHEMAPATH/base/schema.json"
             }
         ]
     },
-    "_maturity_level": "work_in_progress",
-    "_depends_on": [],
-    "_file": [],
-    "_fields": [
+    "maturity_level": "work_in_progress",
+    "depends_on": [],
+    "file": [],
+    "fields": [
         {
-            "_name": "app_name",
+            "name": "app_name",
             "type": "char",
-            "_blank_value": "",
-            "_default_value": "ndi.app",
-            "_mustBeNonEmpty": true,
-            "_mustBeScalar": true,
-            "_mustNotHaveNaN": false,
-            "_queryable": true,
-            "_ontology": {
-                "_node": "schema:name",
-                "_name": "name"
+            "blank_value": "",
+            "default_value": "ndi.app",
+            "mustBeNonEmpty": true,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": {
+                "node": "schema:name",
+                "name": "name"
             },
-            "_documentation": "The name of the application.",
-            "_constraints": {
+            "documentation": "The name of the application.",
+            "constraints": {
                 "maxLength": 256
             }
         },
         {
-            "_name": "app_version",
+            "name": "app_version",
             "type": "char",
-            "_blank_value": "",
-            "_default_value": "",
-            "_mustBeNonEmpty": false,
-            "_mustBeScalar": true,
-            "_mustNotHaveNaN": false,
-            "_queryable": true,
-            "_ontology": {
-                "_node": "schema:softwareVersion",
-                "_name": "softwareVersion"
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": {
+                "node": "schema:softwareVersion",
+                "name": "softwareVersion"
             },
-            "_documentation": "The version of the app (often a Git commit identifier).",
-            "_constraints": {
+            "documentation": "The version of the app (often a Git commit identifier).",
+            "constraints": {
                 "maxLength": 256
             }
         },
         {
-            "_name": "url",
+            "name": "url",
             "type": "char",
-            "_blank_value": "",
-            "_default_value": "",
-            "_mustBeNonEmpty": false,
-            "_mustBeScalar": true,
-            "_mustNotHaveNaN": false,
-            "_queryable": false,
-            "_ontology": {
-                "_node": "schema:url",
-                "_name": "url"
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": false,
+            "ontology": {
+                "node": "schema:url",
+                "name": "url"
             },
-            "_documentation": "The home page URL of the application.",
-            "_constraints": {
+            "documentation": "The home page URL of the application.",
+            "constraints": {
                 "maxLength": 1024
             }
         },
         {
-            "_name": "os",
+            "name": "os",
             "type": "char",
-            "_blank_value": "",
-            "_default_value": "",
-            "_mustBeNonEmpty": false,
-            "_mustBeScalar": true,
-            "_mustNotHaveNaN": false,
-            "_queryable": false,
-            "_ontology": {
-                "_node": "schema:operatingSystem",
-                "_name": "operatingSystem"
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": false,
+            "ontology": {
+                "node": "schema:operatingSystem",
+                "name": "operatingSystem"
             },
-            "_documentation": "The operating system that ran the application.",
-            "_constraints": {
+            "documentation": "The operating system that ran the application.",
+            "constraints": {
                 "maxLength": 256
             }
         },
         {
-            "_name": "os_version",
+            "name": "os_version",
             "type": "char",
-            "_blank_value": "",
-            "_default_value": "",
-            "_mustBeNonEmpty": false,
-            "_mustBeScalar": true,
-            "_mustNotHaveNaN": false,
-            "_queryable": false,
-            "_ontology": {
-                "_node": "schema:softwareVersion",
-                "_name": "softwareVersion"
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": false,
+            "ontology": {
+                "node": "schema:softwareVersion",
+                "name": "softwareVersion"
             },
-            "_documentation": "The operating system version.",
-            "_constraints": {
+            "documentation": "The operating system version.",
+            "constraints": {
                 "maxLength": 256
             }
         },
         {
-            "_name": "interpreter",
+            "name": "interpreter",
             "type": "char",
-            "_blank_value": "",
-            "_default_value": "",
-            "_mustBeNonEmpty": false,
-            "_mustBeScalar": true,
-            "_mustNotHaveNaN": false,
-            "_queryable": true,
-            "_ontology": {
-                "_node": "schema:runtimePlatform",
-                "_name": "runtimePlatform"
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": {
+                "node": "schema:runtimePlatform",
+                "name": "runtimePlatform"
             },
-            "_documentation": "The name of the interpreter (e.g., 'Matlab', 'python3').",
-            "_constraints": {
+            "documentation": "The name of the interpreter (e.g., 'Matlab', 'python3').",
+            "constraints": {
                 "maxLength": 256
             }
         },
         {
-            "_name": "interpreter_version",
+            "name": "interpreter_version",
             "type": "char",
-            "_blank_value": "",
-            "_default_value": "",
-            "_mustBeNonEmpty": false,
-            "_mustBeScalar": true,
-            "_mustNotHaveNaN": false,
-            "_queryable": false,
-            "_ontology": {
-                "_node": "schema:softwareVersion",
-                "_name": "softwareVersion"
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": false,
+            "ontology": {
+                "node": "schema:softwareVersion",
+                "name": "softwareVersion"
             },
-            "_documentation": "The version of the interpreter.",
-            "_constraints": {
+            "documentation": "The version of the interpreter.",
+            "constraints": {
                 "maxLength": 256
             }
         }

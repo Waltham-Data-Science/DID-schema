@@ -5,63 +5,63 @@
         "superclasses": [
             {
                 "class_name": "base",
-                "_schema": "$NDISCHEMAPATH/base/schema.json"
+                "schema": "$NDISCHEMAPATH/base/schema.json"
             }
         ]
     },
-    "_maturity_level": "work_in_progress",
-    "_depends_on": [
+    "maturity_level": "work_in_progress",
+    "depends_on": [
         {
-            "_name": "stimulus_response_id",
-            "_mustBeNonEmpty": true,
-            "_documentation": "The document ID of the stimulus_response this scalar summary belongs to.",
-            "_must_refer_to_document_class": ""
+            "name": "stimulus_response_id",
+            "mustBeNonEmpty": true,
+            "documentation": "The document ID of the stimulus_response this scalar summary belongs to.",
+            "must_refer_to_document_class": ""
         }
     ],
-    "_file": [],
-    "_fields": [
+    "file": [],
+    "fields": [
         {
-            "_name": "stimulus_values",
+            "name": "stimulus_values",
             "type": "matrix",
-            "_blank_value": [],
-            "_default_value": [],
-            "_mustBeNonEmpty": false,
-            "_mustBeScalar": false,
-            "_mustNotHaveNaN": false,
-            "_queryable": false,
-            "_ontology": null,
-            "_documentation": "Array of independent stimulus parameter values, one per stimulus condition. Must be the same length as response_values.",
-            "_constraints": {
+            "blank_value": [],
+            "default_value": [],
+            "mustBeNonEmpty": false,
+            "mustBeScalar": false,
+            "mustNotHaveNaN": false,
+            "queryable": false,
+            "ontology": null,
+            "documentation": "Array of independent stimulus parameter values, one per stimulus condition. Must be the same length as response_values.",
+            "constraints": {
                 "element_type": "double"
             }
         },
         {
-            "_name": "response_values",
+            "name": "response_values",
             "type": "matrix",
-            "_blank_value": [],
-            "_default_value": [],
-            "_mustBeNonEmpty": false,
-            "_mustBeScalar": false,
-            "_mustNotHaveNaN": false,
-            "_queryable": false,
-            "_ontology": null,
-            "_documentation": "Array of scalar response values in response_units, one per stimulus condition. Must be the same length as stimulus_values.",
-            "_constraints": {
+            "blank_value": [],
+            "default_value": [],
+            "mustBeNonEmpty": false,
+            "mustBeScalar": false,
+            "mustNotHaveNaN": false,
+            "queryable": false,
+            "ontology": null,
+            "documentation": "Array of scalar response values in response_units, one per stimulus condition. Must be the same length as stimulus_values.",
+            "constraints": {
                 "element_type": "double"
             }
         },
         {
-            "_name": "response_units",
+            "name": "response_units",
             "type": "char",
-            "_blank_value": "",
-            "_default_value": "",
-            "_mustBeNonEmpty": false,
-            "_mustBeScalar": true,
-            "_mustNotHaveNaN": false,
-            "_queryable": true,
-            "_ontology": null,
-            "_documentation": "The units of the response values (e.g., 'spikes/s', 'dF/F').",
-            "_constraints": {
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "The units of the response values (e.g., 'spikes/s', 'dF/F').",
+            "constraints": {
                 "maxLength": 64
             }
         }
