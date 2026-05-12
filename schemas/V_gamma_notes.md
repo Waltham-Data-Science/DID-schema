@@ -90,6 +90,14 @@ V_gamma adds five related features on top of V_beta:
   remains a mechanical per-document data migration rather than a code
   rewrite of consumer tooling.
 
+  `abstract` follows the same reasoning: whether a class is instantiable
+  is class-identity metadata in the same sense as `maturity_level`, so
+  it lives inside `document_class` as an optional boolean (default
+  `false` when omitted) rather than as a sibling top-level key. This
+  too is a schema-file-syntax change and does not trigger
+  `class_version` bumps on the two schemas that carry `abstract: true`
+  (`zarr`, `stimulus_response_scalar_parameters`).
+
 ## Class-version bumps (2.0.0)
 
 Four schemas collapse multiple coordinated fields into a single

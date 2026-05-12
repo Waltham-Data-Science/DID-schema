@@ -212,8 +212,7 @@ meta-schema enforces this.
 
 | Key               | Type    | Required | May be empty? | Description |
 |-------------------|---------|----------|---------------|-------------|
-| `document_class`  | object  | yes      | no            | Class-identity header. Contains `class_name`, `class_version`, `superclasses`, and `maturity_level` — see "Document-Class Header" below. |
-| `abstract`       | boolean | no       | n/a           | If `true`, no document may have `document_class.class_name` equal to this class — only concrete subclasses may be instantiated. Default `false` when omitted. Does not affect inheritance, field resolution, or `isa` query matching. |
+| `document_class`  | object  | yes      | no            | Class-identity header. Contains `class_name`, `class_version`, `superclasses`, `maturity_level`, and optional `abstract` — see "Document-Class Header" below. |
 | `depends_on`     | array   | yes      | yes (`[]`)    | Array of dependency objects. Stays at the top level (not under `document_class`) because dependency *values* in document instances are cross-document; keeping the key at the top level mirrors the instance shape and lets a query engine answer `isa X AND depends_on Y` without descending into the header. |
 | `file`           | array   | no       | yes (`[]`)    | Array of file record objects. Omit for document types with no associated files. |
 | `directory`      | array   | no       | yes (`[]`)    | Array of directory record objects. Omit for document types with no associated directories. |
@@ -234,12 +233,13 @@ No other top-level keys are permitted.
 }
 ```
 
-| Key              | Type   | Required | Description |
-|------------------|--------|----------|-------------|
-| `class_name`     | string | yes      | Unique name of the document type. Must match `^[a-z][a-z0-9_]*$` (snake_case). |
-| `class_version`  | string | yes      | Semantic version string `"MAJOR.MINOR.PATCH"`. |
-| `superclasses`   | array  | yes      | Array of superclass reference objects (may be `[]`). |
-| `maturity_level` | string | yes      | `"work_in_progress"` or `"mature"`. |
+| Key              | Type    | Required | Description |
+|------------------|---------|----------|-------------|
+| `class_name`     | string  | yes      | Unique name of the document type. Must match `^[a-z][a-z0-9_]*$` (snake_case). |
+| `class_version`  | string  | yes      | Semantic version string `"MAJOR.MINOR.PATCH"`. |
+| `superclasses`   | array   | yes      | Array of superclass reference objects (may be `[]`). |
+| `maturity_level` | string  | yes      | `"work_in_progress"` or `"mature"`. |
+| `abstract`       | boolean | no       | If `true`, no document may have `document_class.class_name` equal to this class — only concrete subclasses may be instantiated. Default `false` when omitted. Does not affect inheritance, field resolution, or `isa` query matching. |
 
 **Naming-convention note.** `document_class` and its sub-keys form the
 class-metadata header restored from the V_alpha legacy NDI-matlab layout.
@@ -248,12 +248,14 @@ matching the V_alpha layout verbatim keeps tooling migrations mechanical.
 
 ### Abstract Classes (new in V_gamma)
 
-A schema with `abstract: true` defines a type whose only purpose is to be
-inherited from. Concrete subclasses of an abstract class are instantiable;
-the abstract class itself is not. The single enforced rule:
+A schema with `document_class.abstract: true` defines a type whose only
+purpose is to be inherited from. Concrete subclasses of an abstract class
+are instantiable; the abstract class itself is not. The single enforced
+rule:
 
 > A document is invalid if its `document_class.class_name` equals the
-> `document_class.class_name` of a schema whose `abstract` is `true`.
+> `document_class.class_name` of a schema whose `document_class.abstract`
+> is `true`.
 
 Everything else about an abstract class behaves like a normal schema:
 
@@ -269,8 +271,8 @@ Everything else about an abstract class behaves like a normal schema:
 - The meta-schema permits the key but does not enforce the instantiation
   rule — Phase 1 validation does (see "Validation Phases").
 
-Marking a previously concrete class as `abstract: true` is a **MAJOR**
-class-version change because existing documents with that
+Marking a previously concrete class as `document_class.abstract: true` is
+a **MAJOR** class-version change because existing documents with that
 `document_class.class_name` become invalid. Use the abstract marker for
 placeholder parent classes whose only role is shared structure (e.g.,
 `zarr` as the parent of `image_zarr` and `ephys_zarr`).
@@ -846,7 +848,7 @@ with no extras and no omissions, even when a class declares zero fields
 
 | Key             | Type   | Required | Description |
 |-----------------|--------|----------|-------------|
-| `class_name`    | string | yes      | Concrete class this document instantiates. Must match `^[a-z][a-z0-9_]*$` and must not equal the `class_name` of any schema with `abstract: true`. |
+| `class_name`    | string | yes      | Concrete class this document instantiates. Must match `^[a-z][a-z0-9_]*$` and must not equal the `class_name` of any schema with `document_class.abstract: true`. |
 | `class_version` | string | yes      | Semantic version of the concrete class's schema at write time. Must satisfy the MAJOR-version rule under "Versioning Rules" relative to the schema used at validation time. |
 | `superclasses`  | array  | yes      | Snapshot of the inheritance chain at write time. Each entry is a superclass reference object (see "Schema-Reference Forms" below) listing the superclass's `class_name` and `class_version`. Empty `[]` for `base`. |
 
@@ -1111,8 +1113,8 @@ Checks that can be performed with only the document and its schema file(s):
   the inheritance chain (concrete class plus every transitive
   superclass). No extras and no omissions.
 - The `document_class.class_name` is not the `class_name` of a schema
-  with `abstract: true`. (Documents must instantiate a concrete
-  subclass.)
+  with `document_class.abstract: true`. (Documents must instantiate a
+  concrete subclass.)
 - The `document_class.superclasses` snapshot at the top of the document
   is consistent with the class chain derived from the schema files
   (same set, same order, class-name-by-class-name).
@@ -1178,10 +1180,11 @@ uses a prefix present in `CURIE_lookups_meta.json`. Prefixes flagged
 
 The meta-schema must enforce:
 - Required top-level keys: `document_class`, `depends_on`, `fields`.
-- Optional top-level keys, if present, have correct structure: `abstract`
-  (boolean), `file`, `directory`.
-- `document_class` is an object with exactly the keys `class_name`,
-  `class_version`, `superclasses`, and `maturity_level`.
+- Optional top-level keys, if present, have correct structure: `file`,
+  `directory`.
+- `document_class` is an object with the required keys `class_name`,
+  `class_version`, `superclasses`, and `maturity_level`, and the optional
+  key `abstract` (boolean). No other keys are permitted.
 - `document_class.class_name` matches `^[a-z][a-z0-9_]*$`.
 - Every `name` on a field, dependency, or record matches the appropriate
   snake_case pattern.
