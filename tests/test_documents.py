@@ -10,7 +10,6 @@ import re
 
 from conftest import (
     entry_get,
-    is_v_gamma,
     load_json,
     schema_depends_on,
     schema_fields,
