@@ -1,14 +1,16 @@
 {
-    "_classname": "stimulus_response_scalar_parameters",
-    "_class_version": "1.0.0",
+    "document_class": {
+        "class_name": "stimulus_response_scalar_parameters",
+        "class_version": "1.0.0",
+        "superclasses": [
+            {
+                "class_name": "base",
+                "_schema": "$NDISCHEMAPATH/base/schema.json"
+            }
+        ]
+    },
     "_maturity_level": "work_in_progress",
     "_abstract": true,
-    "_superclasses": [
-        {
-            "_classname": "base",
-            "_schema": "$NDISCHEMAPATH/base/schema.json"
-        }
-    ],
     "_depends_on": [
         {
             "_name": "stimulus_response_scalar_id",

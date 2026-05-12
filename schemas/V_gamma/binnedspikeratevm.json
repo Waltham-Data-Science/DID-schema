@@ -1,13 +1,15 @@
 {
-    "_classname": "binnedspikeratevm",
-    "_class_version": "1.0.0",
+    "document_class": {
+        "class_name": "binnedspikeratevm",
+        "class_version": "1.0.0",
+        "superclasses": [
+            {
+                "class_name": "base",
+                "_schema": "$NDISCHEMAPATH/base/schema.json"
+            }
+        ]
+    },
     "_maturity_level": "work_in_progress",
-    "_superclasses": [
-        {
-            "_classname": "base",
-            "_schema": "$NDISCHEMAPATH/base/schema.json"
-        }
-    ],
     "_depends_on": [
         {
             "_name": "element_id",
@@ -41,7 +43,12 @@
             "_documentation": "The width of each bin used to compute the binned spike rate, expressed as a duration.",
             "_constraints": {
                 "minimum": 0,
-                "allowed_units": ["nanosecond", "microsecond", "millisecond", "second"]
+                "allowed_units": [
+                    "nanosecond",
+                    "microsecond",
+                    "millisecond",
+                    "second"
+                ]
             }
         },
         {

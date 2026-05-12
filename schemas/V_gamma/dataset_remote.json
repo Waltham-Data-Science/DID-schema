@@ -1,13 +1,15 @@
 {
-    "_classname": "dataset_remote",
-    "_class_version": "1.0.0",
+    "document_class": {
+        "class_name": "dataset_remote",
+        "class_version": "1.0.0",
+        "superclasses": [
+            {
+                "class_name": "base",
+                "_schema": "$NDISCHEMAPATH/base/schema.json"
+            }
+        ]
+    },
     "_maturity_level": "work_in_progress",
-    "_superclasses": [
-        {
-            "_classname": "base",
-            "_schema": "$NDISCHEMAPATH/base/schema.json"
-        }
-    ],
     "_depends_on": [],
     "_file": [],
     "_fields": [

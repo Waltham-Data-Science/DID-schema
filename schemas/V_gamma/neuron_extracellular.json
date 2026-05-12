@@ -1,13 +1,15 @@
 {
-    "_classname": "neuron_extracellular",
-    "_class_version": "1.0.0",
+    "document_class": {
+        "class_name": "neuron_extracellular",
+        "class_version": "1.0.0",
+        "superclasses": [
+            {
+                "class_name": "base",
+                "_schema": "$NDISCHEMAPATH/base/schema.json"
+            }
+        ]
+    },
     "_maturity_level": "work_in_progress",
-    "_superclasses": [
-        {
-            "_classname": "base",
-            "_schema": "$NDISCHEMAPATH/base/schema.json"
-        }
-    ],
     "_depends_on": [
         {
             "_name": "element_id",

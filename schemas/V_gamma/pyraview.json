@@ -1,25 +1,27 @@
 {
-    "_classname": "pyraview",
-    "_class_version": "1.0.0",
+    "document_class": {
+        "class_name": "pyraview",
+        "class_version": "1.0.0",
+        "superclasses": [
+            {
+                "class_name": "epochclocktimes",
+                "_schema": "$NDISCHEMAPATH/epochclocktimes/schema.json"
+            },
+            {
+                "class_name": "filter",
+                "_schema": "$NDISCHEMAPATH/data/filter/schema.json"
+            },
+            {
+                "class_name": "base",
+                "_schema": "$NDISCHEMAPATH/base/schema.json"
+            },
+            {
+                "class_name": "epochid",
+                "_schema": "$NDISCHEMAPATH/epochid/schema.json"
+            }
+        ]
+    },
     "_maturity_level": "work_in_progress",
-    "_superclasses": [
-        {
-            "_classname": "epochclocktimes",
-            "_schema": "$NDISCHEMAPATH/epochclocktimes/schema.json"
-        },
-        {
-            "_classname": "filter",
-            "_schema": "$NDISCHEMAPATH/data/filter/schema.json"
-        },
-        {
-            "_classname": "base",
-            "_schema": "$NDISCHEMAPATH/base/schema.json"
-        },
-        {
-            "_classname": "epochid",
-            "_schema": "$NDISCHEMAPATH/epochid/schema.json"
-        }
-    ],
     "_depends_on": [
         {
             "_name": "element_id",

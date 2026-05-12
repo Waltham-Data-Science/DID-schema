@@ -1,9 +1,11 @@
 {
-    "_classname":     "probe_location",
-    "_class_version": "2.0.0",
-    "_superclasses": [
-        { "_classname": "base", "_class_version": "1.0.0" }
-    ],
+    "document_class": {
+        "class_name":    "probe_location",
+        "class_version": "2.0.0",
+        "superclasses": [
+            { "class_name": "base", "class_version": "1.0.0" }
+        ]
+    },
     "_depends_on": [
         { "_name": "probe_id", "value": "aabb1122ccdd3344_aabb1122ccdd3344" }
     ],

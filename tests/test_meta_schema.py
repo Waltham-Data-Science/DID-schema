@@ -50,7 +50,10 @@ class TestMetaSchemaValidation:
             jsonschema.validate(
                 instance=invalid_schema_missing_classname, schema=meta_schema
             )
-        assert "classname" in str(exc_info.value)
+        msg = str(exc_info.value)
+        # V_beta reports missing "_classname"; V_gamma reports missing
+        # "document_class". Either is acceptable.
+        assert "_classname" in msg or "document_class" in msg
 
     def test_invalid_schema_bad_type_fails(self, meta_schema, base_schema):
         """A schema with an unrecognized type string must fail meta-validation."""
@@ -67,17 +70,29 @@ class TestMetaSchemaValidation:
         with pytest.raises(jsonschema.ValidationError):
             jsonschema.validate(instance=bad, schema=meta_schema)
 
-    def test_invalid_schema_bad_classname_pattern_fails(self, meta_schema, base_schema):
-        """_classname must match the snake_case/identifier pattern."""
-        bad = dict(base_schema)
-        bad["_classname"] = "123_invalid"
+    def test_invalid_schema_bad_classname_pattern_fails(
+        self, meta_schema, base_schema, schema_version
+    ):
+        """class_name must match the snake_case/identifier pattern."""
+        import copy
+        bad = copy.deepcopy(base_schema)
+        if schema_version == "V_gamma":
+            bad["document_class"]["class_name"] = "123_invalid"
+        else:
+            bad["_classname"] = "123_invalid"
         with pytest.raises(jsonschema.ValidationError):
             jsonschema.validate(instance=bad, schema=meta_schema)
 
-    def test_invalid_schema_bad_version_pattern_fails(self, meta_schema, base_schema):
-        """_class_version must match semver pattern."""
-        bad = dict(base_schema)
-        bad["_class_version"] = "not.a.version"
+    def test_invalid_schema_bad_version_pattern_fails(
+        self, meta_schema, base_schema, schema_version
+    ):
+        """class_version must match semver pattern."""
+        import copy
+        bad = copy.deepcopy(base_schema)
+        if schema_version == "V_gamma":
+            bad["document_class"]["class_version"] = "not.a.version"
+        else:
+            bad["_class_version"] = "not.a.version"
         with pytest.raises(jsonschema.ValidationError):
             jsonschema.validate(instance=bad, schema=meta_schema)
 
@@ -85,68 +100,65 @@ class TestMetaSchemaValidation:
         """The directory document schema must pass meta-validation."""
         jsonschema.validate(instance=directory_schema, schema=meta_schema)
 
-    def test_schema_without_file_key_passes(self, meta_schema):
+    def test_schema_without_file_key_passes(self, meta_schema, schema_version):
         """A schema that omits _file entirely should pass (it is optional)."""
-        minimal = {
-            "_classname": "no_file_test",
-            "_class_version": "1.0.0",
-            "_maturity_level": "work_in_progress",
-            "_superclasses": [],
-            "_depends_on": [],
-            "_fields": [],
-        }
+        minimal = _minimal_schema(schema_version, "no_file_test")
         jsonschema.validate(instance=minimal, schema=meta_schema)
 
-    def test_schema_with_directory_key_passes(self, meta_schema):
+    def test_schema_with_directory_key_passes(self, meta_schema, schema_version):
         """A schema with a _directory array should pass."""
-        with_dir = {
-            "_classname": "dir_test",
-            "_class_version": "1.0.0",
-            "_maturity_level": "work_in_progress",
-            "_superclasses": [],
-            "_depends_on": [],
-            "_directory": [
-                {
-                    "_name": "raw_data",
-                    "_documentation": "Raw acquisition files.",
-                }
-            ],
-            "_fields": [],
-        }
+        with_dir = _minimal_schema(schema_version, "dir_test")
+        with_dir["_directory"] = [
+            {
+                "_name": "raw_data",
+                "_documentation": "Raw acquisition files.",
+            }
+        ]
         jsonschema.validate(instance=with_dir, schema=meta_schema)
 
-    def test_invalid_directory_record_missing_name_fails(self, meta_schema):
+    def test_invalid_directory_record_missing_name_fails(
+        self, meta_schema, schema_version
+    ):
         """A _directory entry without _name must fail."""
-        bad = {
-            "_classname": "bad_dir_test",
-            "_class_version": "1.0.0",
-            "_maturity_level": "work_in_progress",
-            "_superclasses": [],
-            "_depends_on": [],
-            "_directory": [
-                {"_documentation": "Missing _name."}
-            ],
-            "_fields": [],
-        }
+        bad = _minimal_schema(schema_version, "bad_dir_test")
+        bad["_directory"] = [{"_documentation": "Missing _name."}]
         with pytest.raises(jsonschema.ValidationError):
             jsonschema.validate(instance=bad, schema=meta_schema)
 
-    def test_invalid_directory_record_extra_key_fails(self, meta_schema):
+    def test_invalid_directory_record_extra_key_fails(
+        self, meta_schema, schema_version
+    ):
         """A _directory entry with extra keys must fail."""
-        bad = {
-            "_classname": "bad_dir_test",
-            "_class_version": "1.0.0",
-            "_maturity_level": "work_in_progress",
-            "_superclasses": [],
-            "_depends_on": [],
-            "_directory": [
-                {
-                    "_name": "raw_data",
-                    "_documentation": "Raw data.",
-                    "_extra": "not allowed",
-                }
-            ],
-            "_fields": [],
-        }
+        bad = _minimal_schema(schema_version, "bad_dir_test")
+        bad["_directory"] = [
+            {
+                "_name": "raw_data",
+                "_documentation": "Raw data.",
+                "_extra": "not allowed",
+            }
+        ]
         with pytest.raises(jsonschema.ValidationError):
             jsonschema.validate(instance=bad, schema=meta_schema)
+
+
+def _minimal_schema(version, class_name):
+    """Build a minimal valid schema in the wire shape for the given version."""
+    if version == "V_gamma":
+        return {
+            "document_class": {
+                "class_name": class_name,
+                "class_version": "1.0.0",
+                "superclasses": [],
+            },
+            "_maturity_level": "work_in_progress",
+            "_depends_on": [],
+            "_fields": [],
+        }
+    return {
+        "_classname": class_name,
+        "_class_version": "1.0.0",
+        "_maturity_level": "work_in_progress",
+        "_superclasses": [],
+        "_depends_on": [],
+        "_fields": [],
+    }

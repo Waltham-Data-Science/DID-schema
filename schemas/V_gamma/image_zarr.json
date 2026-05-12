@@ -1,13 +1,15 @@
 {
-    "_classname": "image_zarr",
-    "_class_version": "1.0.0",
+    "document_class": {
+        "class_name": "image_zarr",
+        "class_version": "1.0.0",
+        "superclasses": [
+            {
+                "class_name": "zarr",
+                "_schema": "$NDISCHEMAPATH/zarr/schema.json"
+            }
+        ]
+    },
     "_maturity_level": "work_in_progress",
-    "_superclasses": [
-        {
-            "_classname": "zarr",
-            "_schema": "$NDISCHEMAPATH/zarr/schema.json"
-        }
-    ],
     "_depends_on": [
         {
             "_name": "element_id",

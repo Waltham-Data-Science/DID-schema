@@ -2,27 +2,18 @@
     "$schema": "http://json-schema.org/draft-07/schema#",
     "$id": "https://did-schema.example.org/V_gamma/did_schema_meta.json",
     "title": "DID/NDI Schema Meta-Schema (V_gamma)",
-    "description": "Validates the structure of DID/NDI schema files for V_gamma. V_gamma introduces named composite types 'duration', 'ontology_term', 'volume', 'mass', 'length', 'voltage', 'current', and 'frequency', and a redesigned field-level '_ontology' annotation shape with keys '_node' (CURIE) and '_name' (label); the CURIE prefix is resolved against CURIE_lookups_meta.json. The six SI-dimensioned types share the same sub-field layout as 'duration' (a canonical-unit double, 'approximate' boolean, 'source_unit' char, 'source_value' double); only the canonical sub-field name and the allowed source units differ. NAMING CONVENTION: property names that are standard JSON Schema keywords (type, $schema, $id, $ref, $defs, properties, required, items, enum, const, pattern, description, etc.) are used as-is. Every property name introduced by this schema system — i.e. not part of the JSON Schema vocabulary — is prefixed with an underscore (_) to distinguish custom extensions from standard vocabulary.",
+    "description": "Validates the structure of DID/NDI schema files for V_gamma. V_gamma introduces named composite types 'duration', 'ontology_term', 'volume', 'mass', 'length', 'voltage', 'current', and 'frequency', and a redesigned field-level '_ontology' annotation shape with keys '_node' (CURIE) and '_name' (label); the CURIE prefix is resolved against CURIE_lookups_meta.json. The six SI-dimensioned types share the same sub-field layout as 'duration' (a canonical-unit double, 'approximate' boolean, 'source_unit' char, 'source_value' double); only the canonical sub-field name and the allowed source units differ. NAMING CONVENTION: property names that are standard JSON Schema keywords (type, $schema, $id, $ref, $defs, properties, required, items, enum, const, pattern, description, etc.) are used as-is. Every property name introduced by this schema system — i.e. not part of the JSON Schema vocabulary — is prefixed with an underscore (_) to distinguish custom extensions from standard vocabulary. The single deliberate exception is the top-level 'document_class' header (with sub-keys 'class_name', 'class_version', 'superclasses'): this is the class-metadata block restored from the V_alpha layout and is left unprefixed so the V_gamma wire shape matches the V_alpha legacy NDI-matlab form one-to-one.",
     "type": "object",
     "required": [
-        "_classname",
-        "_class_version",
+        "document_class",
         "_maturity_level",
-        "_superclasses",
         "_depends_on",
         "_fields"
     ],
     "additionalProperties": false,
     "properties": {
-        "_classname": {
-            "type": "string",
-            "pattern": "^[a-zA-Z][a-zA-Z0-9_]*$",
-            "description": "Unique name of the document type."
-        },
-        "_class_version": {
-            "type": "string",
-            "pattern": "^\\d+\\.\\d+\\.\\d+$",
-            "description": "Semantic version string MAJOR.MINOR.PATCH."
+        "document_class": {
+            "$ref": "#/$defs/document_class_header"
         },
         "_maturity_level": {
             "type": "string",
@@ -34,21 +25,14 @@
         },
         "_abstract": {
             "type": "boolean",
-            "description": "If true, no document may have _classname equal to this class — only concrete subclasses may be instantiated. Default false when omitted. Does not affect inheritance, field flattening, or isa query matching."
-        },
-        "_superclasses": {
-            "type": "array",
-            "items": {
-                "$ref": "#/$defs/superclass_reference"
-            },
-            "description": "Array of superclass reference objects."
+            "description": "If true, no document may have document_class.class_name equal to this class — only concrete subclasses may be instantiated. Default false when omitted. Does not affect inheritance, field flattening, or isa query matching."
         },
         "_depends_on": {
             "type": "array",
             "items": {
                 "$ref": "#/$defs/dependency_object"
             },
-            "description": "Array of dependency objects."
+            "description": "Array of dependency objects. Top-level (not under document_class) because dependency declarations attach to the class but dependency values in document instances are cross-document and are kept at the top level of the instance for query convenience."
         },
         "_file": {
             "type": "array",
@@ -73,15 +57,43 @@
         }
     },
     "$defs": {
+        "document_class_header": {
+            "type": "object",
+            "required": [
+                "class_name",
+                "class_version",
+                "superclasses"
+            ],
+            "additionalProperties": false,
+            "properties": {
+                "class_name": {
+                    "type": "string",
+                    "pattern": "^[a-zA-Z][a-zA-Z0-9_]*$",
+                    "description": "Unique name of the document type."
+                },
+                "class_version": {
+                    "type": "string",
+                    "pattern": "^\\d+\\.\\d+\\.\\d+$",
+                    "description": "Semantic version string MAJOR.MINOR.PATCH."
+                },
+                "superclasses": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/$defs/superclass_reference"
+                    },
+                    "description": "Array of superclass reference objects (class_name + _schema path)."
+                }
+            }
+        },
         "superclass_reference": {
             "type": "object",
             "required": [
-                "_classname",
+                "class_name",
                 "_schema"
             ],
             "additionalProperties": false,
             "properties": {
-                "_classname": {
+                "class_name": {
                     "type": "string",
                     "description": "Name of the parent class."
                 },
@@ -120,7 +132,7 @@
                 "_must_refer_to_document_class": {
                     "type": "string",
                     "pattern": "^$|^[a-zA-Z][a-zA-Z0-9_]*(,[a-zA-Z][a-zA-Z0-9_]*)*$",
-                    "description": "Comma-separated enumerated list of classname values that the referenced document may belong to. Empty string means no constraint on the referenced document class."
+                    "description": "Comma-separated enumerated list of class_name values that the referenced document may belong to. Empty string means no constraint on the referenced document class."
                 }
             }
         },

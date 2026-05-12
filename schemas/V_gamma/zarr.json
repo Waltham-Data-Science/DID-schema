@@ -1,14 +1,16 @@
 {
-    "_classname": "zarr",
-    "_class_version": "1.0.0",
+    "document_class": {
+        "class_name": "zarr",
+        "class_version": "1.0.0",
+        "superclasses": [
+            {
+                "class_name": "base",
+                "_schema": "$NDISCHEMAPATH/base/schema.json"
+            }
+        ]
+    },
     "_maturity_level": "work_in_progress",
     "_abstract": true,
-    "_superclasses": [
-        {
-            "_classname": "base",
-            "_schema": "$NDISCHEMAPATH/base/schema.json"
-        }
-    ],
     "_depends_on": [],
     "_file": [],
     "_directory": [
@@ -130,7 +132,7 @@
             "_mustNotHaveNaN": true,
             "_queryable": false,
             "_ontology": null,
-            "_documentation": "Per-dimension chunk size of the native (level 0) array as an Nx1 column vector of integers; the chunk count along dimension i is ceil(shape[i] / chunks[i]). In v2 this is the top-level chunks field. In v3 it is chunk_grid.configuration.chunk_shape (when chunk_grid.name is 'regular' — the only grid type currently defined by the spec).",
+            "_documentation": "Per-dimension chunk size of the native (level 0) array as an Nx1 column vector of integers; the chunk count along dimension i is ceil(shape[i] / chunks[i]). In v2 this is the top-level chunks field. In v3 it is chunk_grid.configuration.chunk_shape (when chunk_grid.name is 'regular' \u2014 the only grid type currently defined by the spec).",
             "_constraints": {
                 "cols": 1,
                 "element_type": "integer",

@@ -23,11 +23,18 @@ snake_case naming rules, and adds four things:
    the four-key V_beta form.
 4. **Class-scoped property blocks at the document-instance level** — a
    V_gamma document carries its fields under per-class top-level blocks
-   keyed by `_classname` (one block per class in the inheritance chain),
-   rather than as a single flattened bag of fields. This restores the
-   V_alpha document layout — collapsed so that the block key equals
-   `_classname` exactly, with no separate `property_list_name` knob — and
-   is described in "JSON Format: Document Instances" below.
+   keyed by the declaring class's `class_name` (one block per class in
+   the inheritance chain), rather than as a single flattened bag of
+   fields. This restores the V_alpha document layout — collapsed so that
+   the block key equals the class's `class_name` exactly, with no
+   separate `property_list_name` knob — and is described in "JSON
+   Format: Document Instances" below.
+5. **Class metadata under a top-level `document_class` header** — the
+   class-identity fields (`class_name`, `class_version`, `superclasses`)
+   live under a top-level `document_class` block on both schema files
+   and document instances, restoring the V_alpha legacy NDI-matlab
+   layout. `_depends_on` stays at the top level (see "JSON Format:
+   Document Instances" for the rationale).
 
 The specification is language-agnostic — language-specific tooling (MATLAB,
 Python, etc.) lives in separate repositories and consumes these schemas as a
@@ -101,10 +108,11 @@ in `V_beta_notes.md`.
 ### Schema directory layout
 
 Each document type is a **single JSON file** at the top of `schemas/V_gamma/`,
-named `<classname>.json`. The filename stem must equal the document's
-`_classname` value, and because classnames must be snake_case (see below) the
-filename is also snake_case. There is exactly one schema file per document
-type; subdirectories and per-type directories are not used.
+named `<class_name>.json`. The filename stem must equal the document's
+`document_class.class_name` value, and because class names must be
+snake_case (see below) the filename is also snake_case. There is exactly
+one schema file per document type; subdirectories and per-type directories
+are not used.
 
 The meta-schema (`did_schema_meta.json`) and the CURIE registry
 (`CURIE_lookups_meta.json`) live alongside the document-type schemas in
@@ -144,8 +152,9 @@ because it is standard; the allowed values are documented below.
 Every identifier introduced by the schema author must be snake_case.
 Specifically:
 
-- **Classnames.** `_classname` (top-level and inside each `_superclasses`
-  entry) must match `^[a-z][a-z0-9_]*$`.
+- **Classnames.** `document_class.class_name` (and the `class_name` key
+  inside each `document_class.superclasses` entry) must match
+  `^[a-z][a-z0-9_]*$`.
 - **Field names.** `_name` on every field definition object (inside `_fields`,
   at any nesting depth, including inside structure sub-fields) must match
   `^[a-z][a-z0-9_]*$`, with no more than two consecutive underscores.
@@ -164,10 +173,11 @@ The **sub-field names of named composite types** (e.g., `seconds`,
 happen to be snake_case. They are not underscore-prefixed because they are
 document-value field names, not schema-extension keys.
 
-Keys that are standard JSON Schema keywords or underscore-prefixed structural
-keys (`_classname`, `_class_version`, `_mustBeNonEmpty`, etc.) are fixed by
-this specification and are not subject to the snake_case rule above — they are
-literal keys defined by the spec, not user-chosen names.
+Keys that are standard JSON Schema keywords or structural keys defined by
+this specification (`document_class`, `class_name`, `class_version`,
+`superclasses`, `_mustBeNonEmpty`, etc.) are fixed by this specification
+and are not subject to the snake_case rule above — they are literal keys
+defined by the spec, not user-chosen names.
 
 ---
 
@@ -178,19 +188,42 @@ meta-schema enforces this.
 
 ### Top-Level Keys
 
-| Key               | Type   | Required | May be empty? | Description |
-|-------------------|--------|----------|---------------|-------------|
-| `_classname`      | string | yes      | no            | Unique name of the document type. Must match `^[a-z][a-z0-9_]*$` (snake_case). |
-| `_class_version`  | string | yes      | no            | Semantic version string `"MAJOR.MINOR.PATCH"`. |
-| `_maturity_level` | string | yes      | no            | `"work_in_progress"` or `"mature"`. |
-| `_abstract`       | boolean| no       | n/a           | If `true`, no document may have `_classname` equal to this class — only concrete subclasses may be instantiated. Default `false` when omitted. Does not affect inheritance, field resolution, or `isa` query matching. |
-| `_superclasses`   | array  | yes      | yes (`[]`)    | Array of superclass reference objects. |
-| `_depends_on`     | array  | yes      | yes (`[]`)    | Array of dependency objects. |
-| `_file`           | array  | no       | yes (`[]`)    | Array of file record objects. Omit for document types with no associated files. |
-| `_directory`      | array  | no       | yes (`[]`)    | Array of directory record objects. Omit for document types with no associated directories. |
-| `_fields`         | array  | yes      | yes (`[]`)    | Array of field definition objects. |
+| Key               | Type    | Required | May be empty? | Description |
+|-------------------|---------|----------|---------------|-------------|
+| `document_class`  | object  | yes      | no            | Class-identity header. Contains `class_name`, `class_version`, and `superclasses` — see "Document-Class Header" below. |
+| `_maturity_level` | string  | yes      | no            | `"work_in_progress"` or `"mature"`. |
+| `_abstract`       | boolean | no       | n/a           | If `true`, no document may have `document_class.class_name` equal to this class — only concrete subclasses may be instantiated. Default `false` when omitted. Does not affect inheritance, field resolution, or `isa` query matching. |
+| `_depends_on`     | array   | yes      | yes (`[]`)    | Array of dependency objects. Stays at the top level (not under `document_class`) because dependency *values* in document instances are cross-document; keeping the key at the top level mirrors the instance shape and lets a query engine answer `isa X AND depends_on Y` without descending into the header. |
+| `_file`           | array   | no       | yes (`[]`)    | Array of file record objects. Omit for document types with no associated files. |
+| `_directory`      | array   | no       | yes (`[]`)    | Array of directory record objects. Omit for document types with no associated directories. |
+| `_fields`         | array   | yes      | yes (`[]`)    | Array of field definition objects. |
 
 No other top-level keys are permitted.
+
+### Document-Class Header
+
+```json
+"document_class": {
+    "class_name":    "probe_location",
+    "class_version": "2.0.0",
+    "superclasses": [
+        { "class_name": "base", "_schema": "$NDISCHEMAPATH/base.json" }
+    ]
+}
+```
+
+| Key             | Type   | Required | Description |
+|-----------------|--------|----------|-------------|
+| `class_name`    | string | yes      | Unique name of the document type. Must match `^[a-z][a-z0-9_]*$` (snake_case). |
+| `class_version` | string | yes      | Semantic version string `"MAJOR.MINOR.PATCH"`. |
+| `superclasses`  | array  | yes      | Array of superclass reference objects (may be `[]`). |
+
+**Naming-convention note.** `document_class` and its three sub-keys are
+deliberately *not* underscore-prefixed, even though they are
+NDI-specific. They form the class-metadata header restored from the
+V_alpha legacy NDI-matlab layout, and matching that layout verbatim
+keeps tooling migrations mechanical. Everywhere else in this spec the
+underscore-prefix rule applies as stated above.
 
 ### Abstract Classes (new in V_gamma)
 
@@ -198,33 +231,39 @@ A schema with `_abstract: true` defines a type whose only purpose is to be
 inherited from. Concrete subclasses of an abstract class are instantiable;
 the abstract class itself is not. The single enforced rule:
 
-> A document is invalid if its `_classname` equals the `_classname` of a
-> schema whose `_abstract` is `true`.
+> A document is invalid if its `document_class.class_name` equals the
+> `document_class.class_name` of a schema whose `_abstract` is `true`.
 
 Everything else about an abstract class behaves like a normal schema:
 
-- Its `_fields`, `_depends_on`, `_file`, `_directory`, and `_superclasses`
-  participate in inheritance exactly as for a concrete class. The validator
-  walks the class chain to collect the full set of required fields and
-  dependencies; in a document instance, fields declared by an abstract
-  class live in that class's own property block (see "JSON Format:
-  Document Instances"), not in a subclass's block.
-- `isa <abstract_classname>` queries match every document whose class chain
-  includes the abstract class.
+- Its `_fields`, `_depends_on`, `_file`, `_directory`, and
+  `document_class.superclasses` participate in inheritance exactly as for
+  a concrete class. The validator walks the class chain to collect the
+  full set of required fields and dependencies; in a document instance,
+  fields declared by an abstract class live in that class's own property
+  block (see "JSON Format: Document Instances"), not in a subclass's
+  block.
+- `isa <abstract_class_name>` queries match every document whose class
+  chain includes the abstract class.
 - The meta-schema permits the key but does not enforce the instantiation
   rule — Phase 1 validation does (see "Validation Phases").
 
 Marking a previously concrete class as `_abstract: true` is a **MAJOR**
-class-version change because existing documents with that `_classname`
-become invalid. Use the abstract marker for placeholder parent classes
-whose only role is shared structure (e.g., `zarr` as the parent of
-`image_zarr` and `ephys_zarr`).
+class-version change because existing documents with that
+`document_class.class_name` become invalid. Use the abstract marker for
+placeholder parent classes whose only role is shared structure (e.g.,
+`zarr` as the parent of `image_zarr` and `ephys_zarr`).
 
-### Superclass Reference Object
+### Superclass Reference Object (in schema files)
 
 ```json
-{ "_classname": "base", "_schema": "$NDISCHEMAPATH/base.json" }
+{ "class_name": "base", "_schema": "$NDISCHEMAPATH/base.json" }
 ```
+
+Each entry in `document_class.superclasses` carries `class_name` (the
+parent class's `class_name`) and `_schema` (the path or token-substituted
+path to the parent schema file). `_schema` keeps its underscore prefix
+because it names a path resource, not a class-metadata field.
 
 ### Dependency Object
 
@@ -744,44 +783,61 @@ their own named composites; only the spec can.
 A V_gamma **document instance** — the JSON object stored in the database or
 serialised on the wire — is not a flat bag of fields. It is organised into
 **class-scoped property blocks**: one top-level block per class in the
-document's inheritance chain, keyed by that class's `_classname`. Field
+document's inheritance chain, keyed by that class's `class_name`. Field
 values live in the block of the class that declared the field.
 
 This is the V_alpha document layout, collapsed: the property-block key is
-the declaring class's `_classname` verbatim. V_alpha's separate
+the declaring class's `class_name` verbatim. V_alpha's separate
 `property_list_name` knob is removed — the block key must equal
-`_classname` exactly, with no second name to coordinate.
+`class_name` exactly, with no second name to coordinate.
 
-The schema-file shape is unaffected: a class's `<classname>.json` still
-declares only its own `_fields`. Inheritance still works by walking the
-`_superclasses` chain. The class-scoped layout applies only to the
-document-instance wire shape; field-collection ("flattening") remains an
-internal validation and query-indexing step.
+The schema-file shape is unaffected: a class's `<class_name>.json` still
+declares its own `_fields` and its own `document_class` header.
+Inheritance still works by walking the `document_class.superclasses`
+chain. The class-scoped layout applies only to the document-instance
+wire shape; field-collection ("flattening") remains an internal
+validation and query-indexing step.
 
 ### Top-level keys of a document instance
 
 | Key              | Type    | Required | Description |
 |------------------|---------|----------|-------------|
-| `_classname`     | string  | yes      | Concrete class this document instantiates. Must match `^[a-z][a-z0-9_]*$` and must not equal the `_classname` of any schema with `_abstract: true`. |
-| `_class_version` | string  | yes      | Semantic version of the concrete class's schema at write time. Must satisfy the MAJOR-version rule under "Versioning Rules" relative to the schema used at validation time. |
-| `_superclasses`  | array   | yes      | Snapshot of the inheritance chain at write time. Each entry is a superclass reference object (see "Schema-Reference Forms" below) listing the superclass's `_classname` and `_class_version`. Empty `[]` for `base`. |
-| `_depends_on`    | array   | yes      | Array of dependency-value objects (see "Dependency Values" below). Empty `[]` if the class chain declares no dependencies. |
-| `<classname>`    | object  | one per class in the chain | A property block whose key is the `_classname` of a class in this document's inheritance chain (including the concrete class itself). Contents are described below. |
+| `document_class` | object  | yes      | Class-identity header. Sub-keys `class_name`, `class_version`, `superclasses` — see "Document-Class Header (in document instances)" below. |
+| `_depends_on`    | array   | yes      | Array of dependency-value objects (see "Dependency Values" below). Empty `[]` if the class chain declares no dependencies. Top-level, not under `document_class`, because dependency values are cross-document. |
+| `<class_name>`   | object  | one per class in the chain | A property block whose key is the `class_name` of a class in this document's inheritance chain (including the concrete class itself). Contents are described below. |
 
 No other top-level keys are permitted. Exactly one property block must
 appear for each class in `{concrete class} ∪ {transitive superclasses}`,
 with no extras and no omissions, even when a class declares zero fields
 (in which case its block is `{}`).
 
+### Document-Class Header (in document instances)
+
+```json
+"document_class": {
+    "class_name":    "probe_location",
+    "class_version": "2.0.0",
+    "superclasses": [
+        { "class_name": "base", "class_version": "1.0.0" }
+    ]
+}
+```
+
+| Key             | Type   | Required | Description |
+|-----------------|--------|----------|-------------|
+| `class_name`    | string | yes      | Concrete class this document instantiates. Must match `^[a-z][a-z0-9_]*$` and must not equal the `class_name` of any schema with `_abstract: true`. |
+| `class_version` | string | yes      | Semantic version of the concrete class's schema at write time. Must satisfy the MAJOR-version rule under "Versioning Rules" relative to the schema used at validation time. |
+| `superclasses`  | array  | yes      | Snapshot of the inheritance chain at write time. Each entry is a superclass reference object (see "Schema-Reference Forms" below) listing the superclass's `class_name` and `class_version`. Empty `[]` for `base`. |
+
 ### Schema-reference forms (in document instances vs. schema files)
 
 Schema files and document instances both reference superclasses, but they
 serve different purposes and so carry different keys.
 
-| Position                                    | Required keys                     | Optional keys             | Purpose |
-|---------------------------------------------|-----------------------------------|---------------------------|---------|
-| `_superclasses[i]` in a schema file         | `_classname`, `_schema`           | —                         | Resolve the superclass schema file at validation time. |
-| `_superclasses[i]` in a document instance   | `_classname`, `_class_version`    | —                         | Pin the inheritance chain as it stood when the document was written. No `_schema` path is required because the validator looks the class up by name. |
+| Position                                              | Required keys                  | Optional keys | Purpose |
+|-------------------------------------------------------|--------------------------------|---------------|---------|
+| `document_class.superclasses[i]` in a schema file     | `class_name`, `_schema`        | —             | Resolve the superclass schema file at validation time. |
+| `document_class.superclasses[i]` in a document instance | `class_name`, `class_version` | —             | Pin the inheritance chain as it stood when the document was written. No `_schema` path is required because the validator looks the class up by name. |
 
 ### Property block contents
 
@@ -814,8 +870,8 @@ Rules:
 - **Required vs. empty blocks.** A class with zero declared fields still
   contributes a block; that block is the empty object `{}`. This keeps
   the wire shape predictable: the set of top-level keys equals
-  `{_classname, _class_version, _superclasses, _depends_on}` plus the
-  class chain, with no implicit omissions.
+  `{document_class, _depends_on}` plus the class chain, with no implicit
+  omissions.
 - **No cross-block field movement.** A field declared in `base` is not
   copied into the subclass's block. Validators and query engines that
   need a flat view of all fields build it themselves by walking the
@@ -847,30 +903,33 @@ cross-document concern that does not belong to any one class's data, and
 The class-scoped wire shape is the **storage** layout. Internal tooling
 that wants a single flat view still has one:
 
-- **Validators** walk the `_superclasses` chain to collect the union of
-  required fields and dependencies, then check that each declared field
-  is present in the right block.
+- **Validators** walk the `document_class.superclasses` chain to collect
+  the union of required fields and dependencies, then check that each
+  declared field is present in the right block.
 - **Query engines** derive a flat set of indexed paths from the chain
   (e.g., `daqsystem.sample_rate.hertz`). Class-scoped storage does not
   change which paths are queryable — only that the leading segment is
   the declaring class's name. See `did_query_model.md`.
-- **`isa <classname>`** matches any document whose `_classname` is
-  `<classname>` or whose `_superclasses` chain transitively contains
-  `<classname>`. Class-scoped storage makes the chain explicit on every
+- **`isa <class_name>`** matches any document whose
+  `document_class.class_name` is `<class_name>` or whose
+  `document_class.superclasses` chain transitively contains
+  `<class_name>`. Class-scoped storage makes the chain explicit on every
   document; no separate inheritance index is required.
 
 ### Example document
 
-For a `daqsystem` class whose `_superclasses` is `[{"_classname":
-"base", "_class_version": "1.0.0"}]`:
+For a `daqsystem` class whose `superclasses` snapshot is
+`[{"class_name": "base", "class_version": "1.0.0"}]`:
 
 ```json
 {
-    "_classname":     "daqsystem",
-    "_class_version": "1.0.0",
-    "_superclasses": [
-        { "_classname": "base", "_class_version": "1.0.0" }
-    ],
+    "document_class": {
+        "class_name":    "daqsystem",
+        "class_version": "1.0.0",
+        "superclasses": [
+            { "class_name": "base", "class_version": "1.0.0" }
+        ]
+    },
     "_depends_on": [],
     "base": {
         "id":         "4126919195e6b5af_40d651024919a2e4",
@@ -898,15 +957,20 @@ Looking up the field definitions is a one-step path: open
 ### V_alpha → V_gamma migration (document instances)
 
 V_alpha already used class-scoped property blocks with a separate
-`property_list_name` per class. The V_gamma migration for a V_alpha
-document is mechanical:
+`property_list_name` per class and a top-level `document_class` header.
+The V_gamma migration for a V_alpha document is mechanical:
 
-1. Replace the V_alpha metadata header (`document_class`, etc.) with the
-   four V_gamma top-level keys (`_classname`, `_class_version`,
-   `_superclasses`, `_depends_on`).
-2. Rename each property block whose `property_list_name` differs from
-   the class's `class_name` so the block key equals `_classname`.
-3. Apply the V_alpha → V_gamma transformations to field values
+1. Keep the V_alpha `document_class` header in place; its three sub-keys
+   (`class_name`, `class_version`, `superclasses`) carry over verbatim.
+   Each entry of `superclasses` in an instance keeps `class_name` and
+   `class_version`; drop legacy `definition`/`property_list_name`
+   sub-keys.
+2. Rename `depends_on` (V_alpha) to `_depends_on` (V_gamma) — the
+   underscore prefix marks it as an NDI-extension key. Inside each
+   entry, the role key is `_name` (not `name`).
+3. Rename each property block whose `property_list_name` differs from
+   the class's `class_name` so the block key equals `class_name`.
+4. Apply the V_alpha → V_gamma transformations to field values
    themselves (e.g., named-composite refactors documented in
    `V_gamma_notes.md`).
 
@@ -994,7 +1058,7 @@ The validator must:
 
 ## JSON Format: Versioning Rules
 
-`_class_version` uses semantic versioning: `"MAJOR.MINOR.PATCH"`.
+`document_class.class_version` uses semantic versioning: `"MAJOR.MINOR.PATCH"`.
 
 | Part    | Increment when... | Effect on existing documents |
 |---------|-------------------|------------------------------|
@@ -1003,9 +1067,11 @@ The validator must:
 | PATCH   | Documentation text is corrected; `_default_value` is changed; formatting cleanup with no behavioural change | No change to validation behaviour. |
 
 Changes that affect only schema-file syntax (such as the V_beta → V_gamma
-transformation of the `_ontology` annotation shape from four keys to two)
-do **not** bump `_class_version`, because the validity of existing
-documents is unaffected. Such edits are recorded in `V_gamma_notes.md`.
+transformation of the `_ontology` annotation shape from four keys to two,
+or the move of class-identity fields under the `document_class` header)
+do **not** bump `document_class.class_version`, because the validity of
+existing documents is unaffected. Such edits are recorded in
+`V_gamma_notes.md`.
 
 ---
 
@@ -1021,14 +1087,15 @@ rules; consumer tooling enforces them.
 Checks that can be performed with only the document and its schema file(s):
 
 - The document's top-level keys are exactly
-  `{_classname, _class_version, _superclasses, _depends_on}` plus one
-  property block per class in the inheritance chain (concrete class plus
-  every transitive superclass). No extras and no omissions.
-- The document's `_classname` is not the `_classname` of a schema with
-  `_abstract: true`. (Documents must instantiate a concrete subclass.)
-- The `_superclasses` snapshot at the top of the document is consistent
-  with the class chain derived from the schema files (same set, same
-  order, classname-by-classname).
+  `{document_class, _depends_on}` plus one property block per class in
+  the inheritance chain (concrete class plus every transitive
+  superclass). No extras and no omissions.
+- The `document_class.class_name` is not the `class_name` of a schema
+  with `_abstract: true`. (Documents must instantiate a concrete
+  subclass.)
+- The `document_class.superclasses` snapshot at the top of the document
+  is consistent with the class chain derived from the schema files
+  (same set, same order, class-name-by-class-name).
 - Each property block contains exactly the fields declared in that
   class's `_fields`, with no extras. Fields declared by an ancestor
   live in the ancestor's block, not in the subclass's block.
@@ -1060,7 +1127,8 @@ Checks that can be performed with only the document and its schema file(s):
   canonical value; on `ontology_term`, `allowed_namespaces` restricts
   the permitted CURIE prefixes.
 - `_depends_on` entries with `_mustBeNonEmpty: true` have non-empty values.
-- `_class_version` compatibility (same MAJOR version as the schema).
+- `document_class.class_version` compatibility (same MAJOR version as
+  the schema's `document_class.class_version`).
 - `_directory` and `_file` record names are unique across both arrays.
 
 ### Phase 2 — Database-level validation (cross-document)
@@ -1089,16 +1157,19 @@ uses a prefix present in `CURIE_lookups_meta.json`. Prefixes flagged
 (standard JSON Schema) that validates any NDI schema file.
 
 The meta-schema must enforce:
-- Required top-level keys: `_classname`, `_class_version`,
-  `_maturity_level`, `_superclasses`, `_depends_on`, `_fields`.
+- Required top-level keys: `document_class`, `_maturity_level`,
+  `_depends_on`, `_fields`.
 - Optional top-level keys, if present, have correct structure: `_abstract`
   (boolean), `_file`, `_directory`.
-- `_classname` matches `^[a-z][a-z0-9_]*$`.
+- `document_class` is an object with exactly the keys `class_name`,
+  `class_version`, and `superclasses`.
+- `document_class.class_name` matches `^[a-z][a-z0-9_]*$`.
 - Every `_name` on a field, dependency, or record matches the appropriate
   snake_case pattern.
-- `_class_version` matches `^\d+\.\d+\.\d+$`.
+- `document_class.class_version` matches `^\d+\.\d+\.\d+$`.
 - `_maturity_level` is `"work_in_progress"` or `"mature"`.
-- `_superclasses` is an array of superclass references.
+- `document_class.superclasses` is an array of superclass references,
+  each with exactly the keys `class_name` and `_schema`.
 - `_depends_on` is an array of dependency objects.
 - `_file` / `_directory` (if present) are arrays of the correct shape.
 - `_fields` is an array of field definition objects.
@@ -1129,11 +1200,14 @@ meta-schema does not validate that CURIE prefixes appear in the registry.
 
 ```json
 {
-    "_classname":     "base",
-    "_class_version": "1.0.0",
-    "_superclasses":  [],
-    "_depends_on":    [],
-    "_file":          [],
+    "document_class": {
+        "class_name":    "base",
+        "class_version": "1.0.0",
+        "superclasses":  []
+    },
+    "_maturity_level": "work_in_progress",
+    "_depends_on":     [],
+    "_file":           [],
     "_fields": [
         {
             "_name":           "id",
@@ -1204,11 +1278,14 @@ meta-schema does not validate that CURIE prefixes appear in the registry.
 
 ```json
 {
-    "_classname":     "probe_location",
-    "_class_version": "2.0.0",
-    "_superclasses": [
-        { "_classname": "base", "_schema": "$NDISCHEMAPATH/base.json" }
-    ],
+    "document_class": {
+        "class_name":    "probe_location",
+        "class_version": "2.0.0",
+        "superclasses": [
+            { "class_name": "base", "_schema": "$NDISCHEMAPATH/base.json" }
+        ]
+    },
+    "_maturity_level": "work_in_progress",
     "_depends_on": [
         {
             "_name":           "probe_id",
@@ -1345,10 +1422,11 @@ pytest
 4. **Validation is a pull action, not a push action.**
 5. **Superclass fields are inherited by chain-walking, not by
    document-instance flattening.** Inheritance is resolved by walking
-   `_superclasses` at validation and query-planning time. Document
-   instances carry fields in class-scoped property blocks (one
-   top-level block per class in the chain, keyed by `_classname`), not
-   in a single flat namespace. See "JSON Format: Document Instances".
+   `document_class.superclasses` at validation and query-planning
+   time. Document instances carry fields in class-scoped property
+   blocks (one top-level block per class in the chain, keyed by
+   `class_name`), not in a single flat namespace. See "JSON Format:
+   Document Instances".
 6. **`_ontology` is required on every field, but may be `null`.**
    `_ontology` annotates what the field *means* (the concept the field
    represents); it is not a place to store an ontology-rooted value.
@@ -1393,16 +1471,28 @@ pytest
     `{_node, _name}` replaces V_beta's four-key
     `{_namespace, _term, _name, _uri}`. The `_uri` is derived from the
     registry.
-20. **Schema-file-syntax changes do not bump `_class_version`.**
-    Transforming `_ontology` annotation shape does not invalidate
+20. **Schema-file-syntax changes do not bump `class_version`.**
+    Transforming `_ontology` annotation shape, or relocating
+    class-identity keys under `document_class`, does not invalidate
     existing documents; only document-level changes bump the class
     version.
 21. **Class-scoped property blocks are the document-instance wire shape.**
     A document carries fields in per-class top-level blocks keyed by
-    `_classname`, restoring the V_alpha layout collapsed so that the
-    block key equals `_classname` exactly (no separate
+    `class_name`, restoring the V_alpha layout collapsed so that the
+    block key equals `class_name` exactly (no separate
     `property_list_name`). Provenance is structural: a field's
     declaring class is the block it sits in, and field identity is
     `(declaring_class, _name)` — same-named entries in two classes
     along a chain are simply two distinct fields, not a shadow or
     override of one another. See "JSON Format: Document Instances".
+
+22. **Class metadata lives under a top-level `document_class` header.**
+    `class_name`, `class_version`, and `superclasses` sit inside a
+    nested `document_class` block on both schema files and document
+    instances, restoring the V_alpha legacy NDI-matlab layout. The
+    `document_class` header and its sub-keys are deliberately *not*
+    underscore-prefixed; matching the V_alpha layout verbatim keeps
+    tooling migrations mechanical. `_depends_on` stays at the top
+    level because dependency *values* are cross-document and keeping
+    them out of the header lets a query engine answer
+    `isa X AND depends_on Y` without descending into the header.
