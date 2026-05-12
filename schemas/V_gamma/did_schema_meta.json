@@ -14,10 +14,6 @@
         "document_class": {
             "$ref": "#/$defs/document_class_header"
         },
-        "abstract": {
-            "type": "boolean",
-            "description": "If true, no document may have document_class.class_name equal to this class — only concrete subclasses may be instantiated. Default false when omitted. Does not affect inheritance, field flattening, or isa query matching."
-        },
         "depends_on": {
             "type": "array",
             "items": {
@@ -82,6 +78,10 @@
                         "mature"
                     ],
                     "description": "Maturity level of this schema: 'work_in_progress' for schemas still under development, 'mature' for stable schemas."
+                },
+                "abstract": {
+                    "type": "boolean",
+                    "description": "If true, no document may have document_class.class_name equal to this class — only concrete subclasses may be instantiated. Default false when omitted. Does not affect inheritance, field flattening, or isa query matching."
                 }
             }
         },

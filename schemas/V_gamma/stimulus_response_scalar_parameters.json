@@ -8,9 +8,9 @@
                 "schema": "$NDISCHEMAPATH/base/schema.json"
             }
         ],
-        "maturity_level": "work_in_progress"
+        "maturity_level": "work_in_progress",
+        "abstract": true
     },
-    "abstract": true,
     "depends_on": [
         {
             "name": "stimulus_response_scalar_id",
