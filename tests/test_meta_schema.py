@@ -180,8 +180,8 @@ def _minimal_schema(version, class_name):
                 "class_name": class_name,
                 "class_version": "1.0.0",
                 "superclasses": [],
+                keys["maturity_level"]: "work_in_progress",
             },
-            keys["maturity_level"]: "work_in_progress",
             keys["depends_on"]: [],
             keys["fields"]: [],
         }

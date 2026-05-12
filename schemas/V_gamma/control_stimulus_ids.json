@@ -7,9 +7,9 @@
                 "class_name": "base",
                 "schema": "$NDISCHEMAPATH/base/schema.json"
             }
-        ]
+        ],
+        "maturity_level": "work_in_progress"
     },
-    "maturity_level": "work_in_progress",
     "depends_on": [
         {
             "name": "stimulus_presentation_id",

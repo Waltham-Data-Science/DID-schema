@@ -69,13 +69,16 @@ V_gamma adds five related features on top of V_beta:
     toolbox.
 
 - **Class metadata under a top-level `document_class` header.** The
-  class-identity fields (`class_name`, `class_version`, `superclasses`)
-  live under a top-level `document_class` block on both schema files and
-  document instances, restoring the V_alpha legacy NDI-matlab layout.
-  Previously V_gamma kept these at the top level with underscore prefixes
-  (`_class_name`, `_class_version`, `_superclasses`); they are now nested
-  and unprefixed inside `document_class`. `depends_on` stays at the top
-  level (it is a cross-document concern, not a piece of class identity).
+  class-identity fields (`class_name`, `class_version`, `superclasses`,
+  `maturity_level`) live under a top-level `document_class` block on both
+  schema files and document instances, restoring the V_alpha legacy
+  NDI-matlab layout. Previously V_gamma kept these at the top level with
+  underscore prefixes (`_class_name`, `_class_version`, `_superclasses`);
+  they are now nested and unprefixed inside `document_class`.
+  `maturity_level`, which earlier V_gamma drafts also kept at the top
+  level, is part of class identity and so lives inside `document_class`
+  too. `depends_on` stays at the top level (it is a cross-document
+  concern, not a piece of class identity).
 
   Inside `document_class.superclasses[i]`:
   - Schema files use `class_name` plus `schema` (the schema-file path).

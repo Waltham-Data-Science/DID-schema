@@ -7,9 +7,9 @@
                 "class_name": "zarr",
                 "schema": "$NDISCHEMAPATH/zarr/schema.json"
             }
-        ]
+        ],
+        "maturity_level": "work_in_progress"
     },
-    "maturity_level": "work_in_progress",
     "depends_on": [
         {
             "name": "element_id",
