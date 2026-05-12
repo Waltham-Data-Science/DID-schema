@@ -11,9 +11,9 @@
                 "class_name": "epochid",
                 "schema": "$NDISCHEMAPATH/epochid/schema.json"
             }
-        ]
+        ],
+        "maturity_level": "work_in_progress"
     },
-    "maturity_level": "work_in_progress",
     "depends_on": [
         {
             "name": "element_id",

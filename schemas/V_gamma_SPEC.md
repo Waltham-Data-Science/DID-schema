@@ -212,8 +212,7 @@ meta-schema enforces this.
 
 | Key               | Type    | Required | May be empty? | Description |
 |-------------------|---------|----------|---------------|-------------|
-| `document_class`  | object  | yes      | no            | Class-identity header. Contains `class_name`, `class_version`, and `superclasses` — see "Document-Class Header" below. |
-| `maturity_level` | string  | yes      | no            | `"work_in_progress"` or `"mature"`. |
+| `document_class`  | object  | yes      | no            | Class-identity header. Contains `class_name`, `class_version`, `superclasses`, and `maturity_level` — see "Document-Class Header" below. |
 | `abstract`       | boolean | no       | n/a           | If `true`, no document may have `document_class.class_name` equal to this class — only concrete subclasses may be instantiated. Default `false` when omitted. Does not affect inheritance, field resolution, or `isa` query matching. |
 | `depends_on`     | array   | yes      | yes (`[]`)    | Array of dependency objects. Stays at the top level (not under `document_class`) because dependency *values* in document instances are cross-document; keeping the key at the top level mirrors the instance shape and lets a query engine answer `isa X AND depends_on Y` without descending into the header. |
 | `file`           | array   | no       | yes (`[]`)    | Array of file record objects. Omit for document types with no associated files. |
@@ -226,25 +225,26 @@ No other top-level keys are permitted.
 
 ```json
 "document_class": {
-    "class_name":    "probe_location",
-    "class_version": "2.0.0",
+    "class_name":      "probe_location",
+    "class_version":   "2.0.0",
     "superclasses": [
         { "class_name": "base", "schema": "$NDISCHEMAPATH/base.json" }
-    ]
+    ],
+    "maturity_level":  "work_in_progress"
 }
 ```
 
-| Key             | Type   | Required | Description |
-|-----------------|--------|----------|-------------|
-| `class_name`    | string | yes      | Unique name of the document type. Must match `^[a-z][a-z0-9_]*$` (snake_case). |
-| `class_version` | string | yes      | Semantic version string `"MAJOR.MINOR.PATCH"`. |
-| `superclasses`  | array  | yes      | Array of superclass reference objects (may be `[]`). |
+| Key              | Type   | Required | Description |
+|------------------|--------|----------|-------------|
+| `class_name`     | string | yes      | Unique name of the document type. Must match `^[a-z][a-z0-9_]*$` (snake_case). |
+| `class_version`  | string | yes      | Semantic version string `"MAJOR.MINOR.PATCH"`. |
+| `superclasses`   | array  | yes      | Array of superclass reference objects (may be `[]`). |
+| `maturity_level` | string | yes      | `"work_in_progress"` or `"mature"`. |
 
-**Naming-convention note.** `document_class` and its three sub-keys form
-the class-metadata header restored from the V_alpha legacy NDI-matlab
-layout. Their unprefixed names are reserved (see
-`ndi_reserved_keys.json`) and matching the V_alpha layout verbatim keeps
-tooling migrations mechanical.
+**Naming-convention note.** `document_class` and its sub-keys form the
+class-metadata header restored from the V_alpha legacy NDI-matlab layout.
+Their unprefixed names are reserved (see `ndi_reserved_keys.json`) and
+matching the V_alpha layout verbatim keeps tooling migrations mechanical.
 
 ### Abstract Classes (new in V_gamma)
 
@@ -1177,17 +1177,16 @@ uses a prefix present in `CURIE_lookups_meta.json`. Prefixes flagged
 (standard JSON Schema) that validates any NDI schema file.
 
 The meta-schema must enforce:
-- Required top-level keys: `document_class`, `maturity_level`,
-  `depends_on`, `fields`.
+- Required top-level keys: `document_class`, `depends_on`, `fields`.
 - Optional top-level keys, if present, have correct structure: `abstract`
   (boolean), `file`, `directory`.
 - `document_class` is an object with exactly the keys `class_name`,
-  `class_version`, and `superclasses`.
+  `class_version`, `superclasses`, and `maturity_level`.
 - `document_class.class_name` matches `^[a-z][a-z0-9_]*$`.
 - Every `name` on a field, dependency, or record matches the appropriate
   snake_case pattern.
 - `document_class.class_version` matches `^\d+\.\d+\.\d+$`.
-- `maturity_level` is `"work_in_progress"` or `"mature"`.
+- `document_class.maturity_level` is `"work_in_progress"` or `"mature"`.
 - `document_class.superclasses` is an array of superclass references,
   each with exactly the keys `class_name` and `schema`.
 - `depends_on` is an array of dependency objects.
@@ -1221,11 +1220,11 @@ meta-schema does not validate that CURIE prefixes appear in the registry.
 ```json
 {
     "document_class": {
-        "class_name":    "base",
-        "class_version": "1.0.0",
-        "superclasses":  []
+        "class_name":      "base",
+        "class_version":   "1.0.0",
+        "superclasses":    [],
+        "maturity_level":  "work_in_progress"
     },
-    "maturity_level": "work_in_progress",
     "depends_on":     [],
     "file":           [],
     "fields": [
@@ -1299,13 +1298,13 @@ meta-schema does not validate that CURIE prefixes appear in the registry.
 ```json
 {
     "document_class": {
-        "class_name":    "probe_location",
-        "class_version": "2.0.0",
+        "class_name":      "probe_location",
+        "class_version":   "2.0.0",
         "superclasses": [
             { "class_name": "base", "schema": "$NDISCHEMAPATH/base.json" }
-        ]
+        ],
+        "maturity_level":  "work_in_progress"
     },
-    "maturity_level": "work_in_progress",
     "depends_on": [
         {
             "name":           "probe_id",

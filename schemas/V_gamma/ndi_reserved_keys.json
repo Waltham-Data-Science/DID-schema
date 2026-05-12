@@ -9,7 +9,7 @@
         { "name": "class_version", "context": "inside document_class", "description": "Semantic version of the schema (MAJOR.MINOR.PATCH)." },
         { "name": "superclasses", "context": "inside document_class", "description": "Array of superclass reference objects." },
         { "name": "schema", "context": "inside document_class.superclasses entries", "description": "Path or token-substituted path to the superclass schema file." },
-        { "name": "maturity_level", "context": "top-level", "description": "\"work_in_progress\" or \"mature\"." },
+        { "name": "maturity_level", "context": "inside document_class", "description": "\"work_in_progress\" or \"mature\"." },
         { "name": "abstract", "context": "top-level", "description": "If true, this class cannot be instantiated directly; only concrete subclasses may be." },
         { "name": "depends_on", "context": "top-level", "description": "Array of dependency-declaration objects." },
         { "name": "file", "context": "top-level", "description": "Array of file-record objects." },
