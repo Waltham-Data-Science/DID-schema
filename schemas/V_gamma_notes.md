@@ -59,9 +59,11 @@ V_gamma adds four related features on top of V_beta:
     declared each value (it sits in that class's block), and find the
     field's `_documentation`/`_ontology`/`_constraints` by opening
     `schemas/V_gamma/<block_key>.json`.
-  - **No accidental shadowing.** A subclass cannot silently redefine an
-    inherited field; deliberate overrides use the new field key
-    `_overrides` and store the value in both blocks.
+  - **No shadowing by construction.** Field identity is
+    `(declaring_class, _name)`. A subclass can declare a `_name` that
+    an ancestor also declares — the two are simply distinct fields
+    living at distinct paths (e.g., `base.id` vs. `<subclass>.id`),
+    not an override or shadow of one another.
   - **NDI-matlab compatibility.** NDI-matlab — the largest consumer of
     did-schema — is built end-to-end on the class-scoped layout. Keeping
     it at the wire-shape level reduces the V_alpha → V_gamma transition

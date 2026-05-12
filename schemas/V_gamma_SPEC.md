@@ -294,7 +294,6 @@ following keys:
 | `_ontology`       | object or null  | yes      | CURIE-based annotation of what the field itself means (e.g., this field denotes the concept of "frequency"). Not a place to store an ontology-rooted value — that is the `ontology_term` type. See below, or `null` if no suitable term exists. |
 | `_documentation`  | string          | yes      | Human-readable description. |
 | `_constraints`    | object          | yes      | Type-specific constraint keywords. Use `{}` for unconstrained. |
-| `_overrides`      | string          | no       | If present, the `_classname` of an ancestor class that declares a field of the same `_name`. Marks this entry as an explicit override of the inherited field rather than silent shadowing. See "Field Overrides" under "JSON Format: Document Instances". Omit on fields that do not override an ancestor. |
 
 For `"type": "structure"` fields, an additional key is required, plus two
 optional keys for the array-of-structure and discriminated-union variants:
@@ -804,12 +803,14 @@ Rules:
   block of the class that *declared* it. A reader who wants to find a
   field's `_documentation`, `_ontology`, `_constraints`, or type opens
   `schemas/V_gamma/<block_key>.json` and looks the field up by `_name`.
-- **No accidental shadowing.** A subclass declaring `_name: "id"` does
-  not silently overwrite `base.id`; the subclass field lives in the
-  subclass's own block and is a distinct value. Validation rejects a
-  schema in which a subclass declares a `_name` already declared by an
-  ancestor unless the subclass marks the entry as an explicit override
-  (see "Field Overrides" below).
+- **No shadowing, by construction.** A subclass `_fields` entry named
+  `id` and the `base._fields` entry named `id` are not in conflict —
+  each lives in its own block, so the document paths `base.id` and
+  `<subclass>.id` are distinct values with distinct definitions. Field
+  identity is `(declaring_class, _name)`, not `_name` alone. There is
+  no override mechanism because there is nothing to override: if two
+  classes in a chain happen to declare the same `_name`, they simply
+  define two separate fields that happen to share a leaf name.
 - **Required vs. empty blocks.** A class with zero declared fields still
   contributes a block; that block is the empty object `{}`. This keeps
   the wire shape predictable: the set of top-level keys equals
@@ -819,46 +820,6 @@ Rules:
   copied into the subclass's block. Validators and query engines that
   need a flat view of all fields build it themselves by walking the
   chain (see "Field collection for validation and queries" below).
-
-### Field Overrides
-
-When a subclass genuinely needs to redefine an inherited field — for
-example, to narrow its `_constraints` or tighten `_mustBeNonEmpty` — the
-subclass's schema file re-declares the field by `_name` in its own
-`_fields` and sets the new field-definition key `_overrides` to the
-ancestor classname that originally declared it:
-
-```json
-{
-    "_name":           "name",
-    "_overrides":      "base",
-    "type":            "char",
-    ...
-}
-```
-
-Override semantics:
-
-- The override must agree with the ancestor field on `type`. Changing
-  `type` is not an override; it is a separate field and must use a
-  different `_name`.
-- The override's `_constraints` and `_mustBeNonEmpty`/`_mustBeScalar`/
-  `_mustNotHaveNaN` flags apply *in addition to* the ancestor's, i.e.,
-  the effective constraint is the intersection (the stricter of the
-  two). A subclass cannot loosen an ancestor's constraint via override.
-- In the document instance, the field value lives in **both** the
-  ancestor block and the subclass block, and the two values must be
-  identical. (Writers populate both; readers may consult either; the
-  validator checks equality.) This preserves the structural-provenance
-  guarantee — both classes legitimately claim the field — without
-  inventing override-only semantics that a reader would have to know
-  about to find the value.
-- A schema without `_overrides` that re-declares an inherited `_name`
-  is rejected by the meta-schema. Silent shadowing is not permitted.
-
-Most subclasses never need overrides. The feature exists so that the
-"subclass cannot accidentally shadow" rule has a deliberate escape
-hatch.
 
 ### Dependency Values
 
@@ -1069,11 +1030,8 @@ Checks that can be performed with only the document and its schema file(s):
   with the class chain derived from the schema files (same set, same
   order, classname-by-classname).
 - Each property block contains exactly the fields declared in that
-  class's `_fields` (after expansion of any `_overrides` re-declarations),
-  with no extras. Fields declared by an ancestor live in the ancestor's
-  block, not in the subclass's block.
-- For any field with `_overrides` set, the value in the subclass's block
-  equals the value in the overridden ancestor's block.
+  class's `_fields`, with no extras. Fields declared by an ancestor
+  live in the ancestor's block, not in the subclass's block.
 - `_mustBeNonEmpty` fields satisfy the per-type semantics above.
 - `_mustBeScalar` fields are single values, not arrays — **except** for
   `type: "structure"` fields where `_mustBeScalar: false` declares the
@@ -1145,11 +1103,6 @@ The meta-schema must enforce:
 - `_file` / `_directory` (if present) are arrays of the correct shape.
 - `_fields` is an array of field definition objects.
 - Each field definition has all required keys with correct types.
-- `_overrides`, if present on a field definition, is a string matching
-  `^[a-z][a-z0-9_]*$` (the `_classname` of an ancestor). Cross-file
-  resolution of the named ancestor — and the requirement that an
-  ancestor declared a field of the same `_name` and matching `type` —
-  is enforced by Phase 1 validation, not by the meta-schema.
 - `type` is one of: `did_uid`, `char`, `string`, `integer`, `double`,
   `matrix`, `timestamp`, `boolean`, `structure`, `duration`, `volume`,
   `mass`, `length`, `voltage`, `current`, `frequency`, `ontology_term`.
@@ -1449,7 +1402,7 @@ pytest
     `_classname`, restoring the V_alpha layout collapsed so that the
     block key equals `_classname` exactly (no separate
     `property_list_name`). Provenance is structural: a field's
-    declaring class is the block it sits in. Subclasses cannot
-    silently shadow inherited fields; deliberate overrides use the
-    `_overrides` field key and store the value in both blocks. See
-    "JSON Format: Document Instances".
+    declaring class is the block it sits in, and field identity is
+    `(declaring_class, _name)` — same-named entries in two classes
+    along a chain are simply two distinct fields, not a shadow or
+    override of one another. See "JSON Format: Document Instances".
