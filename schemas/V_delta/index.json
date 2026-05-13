@@ -554,7 +554,7 @@
     {
       "class_name": "ontology_image",
       "tier": "stable",
-      "class_version": "2.0.0",
+      "class_version": "1.0.0",
       "maturity_level": "stable",
       "superclasses": [
         "base"
@@ -565,7 +565,7 @@
     {
       "class_name": "ontology_label",
       "tier": "stable",
-      "class_version": "2.0.0",
+      "class_version": "1.0.0",
       "maturity_level": "stable",
       "superclasses": [
         "base"
@@ -676,7 +676,7 @@
     {
       "class_name": "probe_location",
       "tier": "stable",
-      "class_version": "2.0.0",
+      "class_version": "1.0.0",
       "maturity_level": "stable",
       "superclasses": [
         "base"
@@ -1057,7 +1057,7 @@
     {
       "class_name": "treatment",
       "tier": "stable",
-      "class_version": "2.0.0",
+      "class_version": "1.0.0",
       "maturity_level": "stable",
       "superclasses": [
         "base"
