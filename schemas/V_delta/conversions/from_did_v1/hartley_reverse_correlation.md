@@ -25,21 +25,16 @@ compute the kernel.
 |---|---|---|
 | `class_name: "hartley_reverse_correlation"` | same | identity |
 | `superclasses: [base, reverse_correlation]` | same | identity |
-| `hartley_reverse_correlation.stimulus_properties.{M,L_max,K_max,sf_max,fps}` | same | scalar `double` |
+| `hartley_reverse_correlation.stimulus_properties.{M,L_max,K_max,sf_max,fps}` | `stimulus_properties.{m,l_max,k_max,sf_max,fps}` | snake-case rename; scalar `double` |
 | `hartley_reverse_correlation.stimulus_properties.{color_high,color_low,rect}` | same | `matrix<double>` |
-| `hartley_reverse_correlation.reconstruction_properties.{T_coords,X_coords,Y_coords}` | same | `matrix<double>` |
+| `hartley_reverse_correlation.reconstruction_properties.{T_coords,X_coords,Y_coords}` | `reconstruction_properties.{t_coords,x_coords,y_coords}` | snake-case rename; `matrix<double>` |
 | `hartley_reverse_correlation.spiketimes` | same | `matrix<double>` |
-| `hartley_reverse_correlation.frameTimes` | same | `matrix<double>` (consider renaming to `frame_times` in a follow-up) |
-| `hartley_reverse_correlation.hartley_numbers` | same | `matrix<double>` (integer-valued; consider integer subtype) |
+| `hartley_reverse_correlation.frameTimes` | `hartley_reverse_correlation.frame_times` | snake-case rename; `matrix<double>` |
+| `hartley_reverse_correlation.hartley_numbers` | same | `matrix<double>` (integer-valued; integer subtype not introduced for V_delta) |
 
 ## Transformations in detail
 
-- **Field name `frameTimes`** is preserved verbatim from did_v1 even
-  though it is camelCase rather than snake_case. The V_gamma SPEC
-  requires snake_case for field names, so this is a known
-  spec-conformance issue that should be addressed by a follow-up rename
-  to `frame_times`. The conversion engine should support reading either
-  during the transition.
+- **Snake-case rename.** The did_v1 field `frameTimes` is renamed to `frame_times` to comply with the V_gamma SPEC's snake_case rule. The conversion engine should accept either spelling on read during the transition window. did_v1 `M`, `L_max`, `K_max`, `T_coords`, `X_coords`, `Y_coords` are similarly lowercased to `m`, `l_max`, `k_max`, `t_coords`, `x_coords`, `y_coords`.
 - **`hartley_numbers` semantics.** Indexed in parallel with `frameTimes`
   — each entry is the Hartley basis index of the frame presented at the
   corresponding time.
@@ -64,10 +59,8 @@ for generic rules.
 
 ## Open questions
 
-- **TODO-domain:** rename `frameTimes` to `frame_times` for snake-case
-  compliance, with a back-compat read path during the transition.
-- **TODO-domain:** introduce an integer subtype for `hartley_numbers`
-  rather than storing as `double`.
+
+
 - **TODO-domain:** ontology terms for `stimulus_properties` fields
   (cycles per degree, frames per second, RGB color).
 

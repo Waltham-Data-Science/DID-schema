@@ -3,99 +3,726 @@
         "class_name": "speed_tuning",
         "class_version": "1.0.0",
         "superclasses": [
-            { "class_name": "base", "schema": "$NDISCHEMAPATH/base/schema.json" }
+            {
+                "class_name": "base",
+                "schema": "$NDISCHEMAPATH/base/schema.json"
+            }
         ],
         "maturity_level": "work_in_progress"
     },
     "depends_on": [
-        { "name": "element_id", "mustBeNonEmpty": true, "documentation": "The document ID of the ndi.element whose speed tuning is described.", "must_refer_to_document_class": "element" },
-        { "name": "stimulus_tuningcurve_id", "mustBeNonEmpty": true, "documentation": "The document ID of the stimulus_tuningcurve from which this speed tuning was derived.", "must_refer_to_document_class": "stimulus_tuningcurve" }
+        {
+            "name": "element_id",
+            "mustBeNonEmpty": true,
+            "documentation": "The document ID of the ndi.element whose speed tuning is described.",
+            "must_refer_to_document_class": "element"
+        },
+        {
+            "name": "stimulus_tuningcurve_id",
+            "mustBeNonEmpty": true,
+            "documentation": "The document ID of the stimulus_tuningcurve from which this speed tuning was derived.",
+            "must_refer_to_document_class": "stimulus_tuningcurve"
+        }
     ],
     "file": [],
     "fields": [
         {
-            "name": "properties", "type": "structure", "blank_value": {}, "default_value": {}, "mustBeNonEmpty": false, "mustBeScalar": true, "mustNotHaveNaN": false, "queryable": false, "ontology": null,
+            "name": "properties",
+            "type": "structure",
+            "blank_value": {},
+            "default_value": {},
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": false,
+            "ontology": null,
             "documentation": "Bookkeeping properties describing how response values were measured.",
             "constraints": {},
             "fields": [
-                { "name": "response_units", "type": "char", "blank_value": "", "default_value": "", "mustBeNonEmpty": false, "mustBeScalar": true, "mustNotHaveNaN": false, "queryable": true, "ontology": null, "documentation": "Units of the response values.", "constraints": { "maxLength": 64 } },
-                { "name": "response_type", "type": "char", "blank_value": "", "default_value": "mean", "mustBeNonEmpty": false, "mustBeScalar": true, "mustNotHaveNaN": false, "queryable": true, "ontology": null, "documentation": "Reduction applied per trial to produce each response value.", "constraints": { "maxLength": 64 } }
+                {
+                    "name": "response_units",
+                    "type": "char",
+                    "blank_value": "",
+                    "default_value": "",
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Units of the response values.",
+                    "constraints": {
+                        "maxLength": 64
+                    }
+                },
+                {
+                    "name": "response_type",
+                    "type": "char",
+                    "blank_value": "",
+                    "default_value": "mean",
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Reduction applied per trial to produce each response value.",
+                    "constraints": {
+                        "maxLength": 64
+                    }
+                }
             ]
         },
         {
-            "name": "tuning_curve", "type": "structure", "blank_value": {}, "default_value": {}, "mustBeNonEmpty": false, "mustBeScalar": true, "mustNotHaveNaN": false, "queryable": false, "ontology": null,
+            "name": "tuning_curve",
+            "type": "structure",
+            "blank_value": {},
+            "default_value": {},
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": false,
+            "ontology": null,
             "documentation": "Empirical speed tuning curve in the (spatial frequency, temporal frequency) plane and per-point summary statistics.",
             "constraints": {},
             "fields": [
-                { "name": "spatial_frequency", "type": "matrix", "blank_value": [], "default_value": [], "mustBeNonEmpty": false, "mustBeScalar": false, "mustNotHaveNaN": false, "queryable": false, "ontology": null, "documentation": "Array of spatial frequencies (cycles per degree) sampled along the speed tuning curve.", "constraints": { "element_type": "double" } },
-                { "name": "temporal_frequency", "type": "matrix", "blank_value": [], "default_value": [], "mustBeNonEmpty": false, "mustBeScalar": false, "mustNotHaveNaN": false, "queryable": false, "ontology": null, "documentation": "Array of temporal frequencies (cycles per second) sampled along the speed tuning curve.", "constraints": { "element_type": "double" } },
-                { "name": "mean", "type": "matrix", "blank_value": [], "default_value": [], "mustBeNonEmpty": false, "mustBeScalar": false, "mustNotHaveNaN": false, "queryable": false, "ontology": null, "documentation": "Per-(SF, TF)-point mean response.", "constraints": { "element_type": "double" } },
-                { "name": "stddev", "type": "matrix", "blank_value": [], "default_value": [], "mustBeNonEmpty": false, "mustBeScalar": false, "mustNotHaveNaN": false, "queryable": false, "ontology": null, "documentation": "Per-(SF, TF)-point standard deviation.", "constraints": { "element_type": "double" } },
-                { "name": "stderr", "type": "matrix", "blank_value": [], "default_value": [], "mustBeNonEmpty": false, "mustBeScalar": false, "mustNotHaveNaN": false, "queryable": false, "ontology": null, "documentation": "Per-(SF, TF)-point standard error of the mean.", "constraints": { "element_type": "double" } },
-                { "name": "individual", "type": "structure", "blank_value": {}, "default_value": {}, "mustBeNonEmpty": false, "mustBeScalar": true, "mustNotHaveNaN": false, "queryable": false, "ontology": null, "documentation": "Per-trial individual responses. Shape needs domain confirmation.", "constraints": {}, "fields": [] },
-                { "name": "raw_individual", "type": "structure", "blank_value": {}, "default_value": {}, "mustBeNonEmpty": false, "mustBeScalar": true, "mustNotHaveNaN": false, "queryable": false, "ontology": null, "documentation": "Per-trial raw (un-baseline-corrected) individual responses. Shape needs domain confirmation.", "constraints": {}, "fields": [] },
-                { "name": "control_individual", "type": "structure", "blank_value": {}, "default_value": {}, "mustBeNonEmpty": false, "mustBeScalar": true, "mustNotHaveNaN": false, "queryable": false, "ontology": null, "documentation": "Per-trial control (no-stimulus / baseline) responses. Shape needs domain confirmation.", "constraints": {}, "fields": [] }
+                {
+                    "name": "spatial_frequency",
+                    "type": "matrix",
+                    "blank_value": [],
+                    "default_value": [],
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": false,
+                    "mustNotHaveNaN": false,
+                    "queryable": false,
+                    "ontology": null,
+                    "documentation": "Array of spatial frequencies (cycles per degree) sampled along the speed tuning curve.",
+                    "constraints": {
+                        "element_type": "double"
+                    }
+                },
+                {
+                    "name": "temporal_frequency",
+                    "type": "matrix",
+                    "blank_value": [],
+                    "default_value": [],
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": false,
+                    "mustNotHaveNaN": false,
+                    "queryable": false,
+                    "ontology": null,
+                    "documentation": "Array of temporal frequencies (cycles per second) sampled along the speed tuning curve.",
+                    "constraints": {
+                        "element_type": "double"
+                    }
+                },
+                {
+                    "name": "mean",
+                    "type": "matrix",
+                    "blank_value": [],
+                    "default_value": [],
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": false,
+                    "mustNotHaveNaN": false,
+                    "queryable": false,
+                    "ontology": null,
+                    "documentation": "Per-(SF, TF)-point mean response.",
+                    "constraints": {
+                        "element_type": "double"
+                    }
+                },
+                {
+                    "name": "stddev",
+                    "type": "matrix",
+                    "blank_value": [],
+                    "default_value": [],
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": false,
+                    "mustNotHaveNaN": false,
+                    "queryable": false,
+                    "ontology": null,
+                    "documentation": "Per-(SF, TF)-point standard deviation.",
+                    "constraints": {
+                        "element_type": "double"
+                    }
+                },
+                {
+                    "name": "stderr",
+                    "type": "matrix",
+                    "blank_value": [],
+                    "default_value": [],
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": false,
+                    "mustNotHaveNaN": false,
+                    "queryable": false,
+                    "ontology": null,
+                    "documentation": "Per-(SF, TF)-point standard error of the mean.",
+                    "constraints": {
+                        "element_type": "double"
+                    }
+                },
+                {
+                    "name": "individual",
+                    "type": "matrix",
+                    "blank_value": [],
+                    "default_value": [],
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": false,
+                    "mustNotHaveNaN": false,
+                    "queryable": false,
+                    "ontology": null,
+                    "documentation": "Per-trial individual responses. Rows index sampled points along the tuning axis; columns index trials.",
+                    "constraints": {
+                        "element_type": "double"
+                    }
+                },
+                {
+                    "name": "raw_individual",
+                    "type": "matrix",
+                    "blank_value": [],
+                    "default_value": [],
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": false,
+                    "mustNotHaveNaN": false,
+                    "queryable": false,
+                    "ontology": null,
+                    "documentation": "Per-trial raw (un-baseline-corrected) responses. Rows index sampled (SF, TF) points; columns index trials.",
+                    "constraints": {
+                        "element_type": "double"
+                    }
+                },
+                {
+                    "name": "control_individual",
+                    "type": "matrix",
+                    "blank_value": [],
+                    "default_value": [],
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": false,
+                    "mustNotHaveNaN": false,
+                    "queryable": false,
+                    "ontology": null,
+                    "documentation": "Per-trial control (no-stimulus / baseline) responses. Rows index sampled (SF, TF) points; columns index trials.",
+                    "constraints": {
+                        "element_type": "double"
+                    }
+                }
             ]
         },
         {
-            "name": "significance", "type": "structure", "blank_value": {}, "default_value": {}, "mustBeNonEmpty": false, "mustBeScalar": true, "mustNotHaveNaN": false, "queryable": false, "ontology": null,
+            "name": "significance",
+            "type": "structure",
+            "blank_value": {},
+            "default_value": {},
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": false,
+            "ontology": null,
             "documentation": "ANOVA-derived significance metrics for the speed tuning curve.",
             "constraints": {},
             "fields": [
-                { "name": "visual_response_anova_p", "type": "double", "blank_value": 0, "default_value": 1, "mustBeNonEmpty": false, "mustBeScalar": true, "mustNotHaveNaN": false, "queryable": true, "ontology": null, "documentation": "ANOVA p-value: is there a response distinguishable from control.", "constraints": {} },
-                { "name": "across_stimuli_anova_p", "type": "double", "blank_value": 0, "default_value": 1, "mustBeNonEmpty": false, "mustBeScalar": true, "mustNotHaveNaN": false, "queryable": true, "ontology": null, "documentation": "ANOVA p-value: are responses different across the sampled (SF, TF) points.", "constraints": {} }
+                {
+                    "name": "visual_response_anova_p",
+                    "type": "double",
+                    "blank_value": 0,
+                    "default_value": 1,
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "ANOVA p-value: is there a response distinguishable from control.",
+                    "constraints": {}
+                },
+                {
+                    "name": "across_stimuli_anova_p",
+                    "type": "double",
+                    "blank_value": 0,
+                    "default_value": 1,
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "ANOVA p-value: are responses different across the sampled (SF, TF) points.",
+                    "constraints": {}
+                }
             ]
         },
         {
-            "name": "fit", "type": "structure", "blank_value": {}, "default_value": {}, "mustBeNonEmpty": false, "mustBeScalar": true, "mustNotHaveNaN": false, "queryable": false, "ontology": null,
+            "name": "fit",
+            "type": "structure",
+            "blank_value": {},
+            "default_value": {},
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": false,
+            "ontology": null,
             "documentation": "Priebe-style joint SF/TF separable fit to the empirical surface.",
             "constraints": {},
             "fields": [
-                { "name": "priebe_fit_parameters", "type": "matrix", "blank_value": [], "default_value": [], "mustBeNonEmpty": false, "mustBeScalar": false, "mustNotHaveNaN": false, "queryable": false, "ontology": null, "documentation": "Fitted Priebe parameter vector.", "constraints": { "element_type": "double" } },
-                { "name": "priebe_fit_spatial_frequencies", "type": "matrix", "blank_value": [], "default_value": [], "mustBeNonEmpty": false, "mustBeScalar": false, "mustNotHaveNaN": false, "queryable": false, "ontology": null, "documentation": "Spatial frequencies at which the fit was evaluated.", "constraints": { "element_type": "double" } },
-                { "name": "priebe_fit_temporal_frequencies", "type": "matrix", "blank_value": [], "default_value": [], "mustBeNonEmpty": false, "mustBeScalar": false, "mustNotHaveNaN": false, "queryable": false, "ontology": null, "documentation": "Temporal frequencies at which the fit was evaluated.", "constraints": { "element_type": "double" } },
-                { "name": "priebe_fit_values", "type": "matrix", "blank_value": [], "default_value": [], "mustBeNonEmpty": false, "mustBeScalar": false, "mustNotHaveNaN": false, "queryable": false, "ontology": null, "documentation": "Fitted response values at the evaluated (SF, TF) points.", "constraints": { "element_type": "double" } },
-                { "name": "priebe_fit_speed_tuning_index", "type": "matrix", "blank_value": [], "default_value": [], "mustBeNonEmpty": false, "mustBeScalar": false, "mustNotHaveNaN": false, "queryable": false, "ontology": null, "documentation": "Priebe speed-tuning index (zeta) derived from the fit.", "constraints": { "element_type": "double" } },
-                { "name": "priebe_fit_spatial_frequency_preference", "type": "double", "blank_value": 0, "default_value": 0, "mustBeNonEmpty": false, "mustBeScalar": true, "mustNotHaveNaN": false, "queryable": true, "ontology": null, "documentation": "Preferred spatial frequency under the fit.", "constraints": {} },
-                { "name": "priebe_fit_temporal_frequency_preference", "type": "double", "blank_value": 0, "default_value": 0, "mustBeNonEmpty": false, "mustBeScalar": true, "mustNotHaveNaN": false, "queryable": true, "ontology": null, "documentation": "Preferred temporal frequency under the fit.", "constraints": {} },
-                { "name": "sse", "type": "double", "blank_value": 0, "default_value": 0, "mustBeNonEmpty": false, "mustBeScalar": true, "mustNotHaveNaN": false, "queryable": true, "ontology": null, "documentation": "Sum of squared errors of the fit.", "constraints": {} },
-                { "name": "r_squared", "type": "double", "blank_value": 0, "default_value": 0, "mustBeNonEmpty": false, "mustBeScalar": true, "mustNotHaveNaN": false, "queryable": true, "ontology": null, "documentation": "Coefficient of determination of the fit.", "constraints": {} }
+                {
+                    "name": "priebe_fit_parameters",
+                    "type": "matrix",
+                    "blank_value": [],
+                    "default_value": [],
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": false,
+                    "mustNotHaveNaN": false,
+                    "queryable": false,
+                    "ontology": null,
+                    "documentation": "Fitted Priebe parameter vector.",
+                    "constraints": {
+                        "element_type": "double"
+                    }
+                },
+                {
+                    "name": "priebe_fit_spatial_frequencies",
+                    "type": "matrix",
+                    "blank_value": [],
+                    "default_value": [],
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": false,
+                    "mustNotHaveNaN": false,
+                    "queryable": false,
+                    "ontology": null,
+                    "documentation": "Spatial frequencies at which the fit was evaluated.",
+                    "constraints": {
+                        "element_type": "double"
+                    }
+                },
+                {
+                    "name": "priebe_fit_temporal_frequencies",
+                    "type": "matrix",
+                    "blank_value": [],
+                    "default_value": [],
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": false,
+                    "mustNotHaveNaN": false,
+                    "queryable": false,
+                    "ontology": null,
+                    "documentation": "Temporal frequencies at which the fit was evaluated.",
+                    "constraints": {
+                        "element_type": "double"
+                    }
+                },
+                {
+                    "name": "priebe_fit_values",
+                    "type": "matrix",
+                    "blank_value": [],
+                    "default_value": [],
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": false,
+                    "mustNotHaveNaN": false,
+                    "queryable": false,
+                    "ontology": null,
+                    "documentation": "Fitted response values at the evaluated (SF, TF) points.",
+                    "constraints": {
+                        "element_type": "double"
+                    }
+                },
+                {
+                    "name": "priebe_fit_speed_tuning_index",
+                    "type": "matrix",
+                    "blank_value": [],
+                    "default_value": [],
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": false,
+                    "mustNotHaveNaN": false,
+                    "queryable": false,
+                    "ontology": null,
+                    "documentation": "Priebe speed-tuning index (zeta) derived from the fit.",
+                    "constraints": {
+                        "element_type": "double"
+                    }
+                },
+                {
+                    "name": "priebe_fit_spatial_frequency_preference",
+                    "type": "double",
+                    "blank_value": 0,
+                    "default_value": 0,
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Preferred spatial frequency under the fit.",
+                    "constraints": {}
+                },
+                {
+                    "name": "priebe_fit_temporal_frequency_preference",
+                    "type": "double",
+                    "blank_value": 0,
+                    "default_value": 0,
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Preferred temporal frequency under the fit.",
+                    "constraints": {}
+                },
+                {
+                    "name": "sse",
+                    "type": "double",
+                    "blank_value": 0,
+                    "default_value": 0,
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Sum of squared errors of the fit.",
+                    "constraints": {}
+                },
+                {
+                    "name": "r_squared",
+                    "type": "double",
+                    "blank_value": 0,
+                    "default_value": 0,
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Coefficient of determination of the fit.",
+                    "constraints": {}
+                }
             ]
         },
         {
-            "name": "fit_no_speed", "type": "structure", "blank_value": {}, "default_value": {}, "mustBeNonEmpty": false, "mustBeScalar": true, "mustNotHaveNaN": false, "queryable": false, "ontology": null,
+            "name": "fit_no_speed",
+            "type": "structure",
+            "blank_value": {},
+            "default_value": {},
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": false,
+            "ontology": null,
             "documentation": "Priebe fit constrained to no speed tuning (nested null model for F-test against the full fit).",
             "constraints": {},
             "fields": [
-                { "name": "priebe_fit_parameters", "type": "matrix", "blank_value": [], "default_value": [], "mustBeNonEmpty": false, "mustBeScalar": false, "mustNotHaveNaN": false, "queryable": false, "ontology": null, "documentation": "Fitted Priebe parameter vector under the no-speed constraint.", "constraints": { "element_type": "double" } },
-                { "name": "priebe_fit_spatial_frequencies", "type": "matrix", "blank_value": [], "default_value": [], "mustBeNonEmpty": false, "mustBeScalar": false, "mustNotHaveNaN": false, "queryable": false, "ontology": null, "documentation": "Spatial frequencies at which the fit was evaluated.", "constraints": { "element_type": "double" } },
-                { "name": "priebe_fit_temporal_frequencies", "type": "matrix", "blank_value": [], "default_value": [], "mustBeNonEmpty": false, "mustBeScalar": false, "mustNotHaveNaN": false, "queryable": false, "ontology": null, "documentation": "Temporal frequencies at which the fit was evaluated.", "constraints": { "element_type": "double" } },
-                { "name": "priebe_fit_values", "type": "matrix", "blank_value": [], "default_value": [], "mustBeNonEmpty": false, "mustBeScalar": false, "mustNotHaveNaN": false, "queryable": false, "ontology": null, "documentation": "Fitted response values.", "constraints": { "element_type": "double" } },
-                { "name": "priebe_fit_speed_tuning_index", "type": "matrix", "blank_value": [], "default_value": [], "mustBeNonEmpty": false, "mustBeScalar": false, "mustNotHaveNaN": false, "queryable": false, "ontology": null, "documentation": "Speed-tuning index (constrained).", "constraints": { "element_type": "double" } },
-                { "name": "priebe_fit_spatial_frequency_preference", "type": "double", "blank_value": 0, "default_value": 0, "mustBeNonEmpty": false, "mustBeScalar": true, "mustNotHaveNaN": false, "queryable": true, "ontology": null, "documentation": "Preferred spatial frequency under the fit.", "constraints": {} },
-                { "name": "priebe_fit_temporal_frequency_preference", "type": "double", "blank_value": 0, "default_value": 0, "mustBeNonEmpty": false, "mustBeScalar": true, "mustNotHaveNaN": false, "queryable": true, "ontology": null, "documentation": "Preferred temporal frequency under the fit.", "constraints": {} },
-                { "name": "sse", "type": "double", "blank_value": 0, "default_value": 0, "mustBeNonEmpty": false, "mustBeScalar": true, "mustNotHaveNaN": false, "queryable": true, "ontology": null, "documentation": "Sum of squared errors.", "constraints": {} },
-                { "name": "r_squared", "type": "double", "blank_value": 0, "default_value": 0, "mustBeNonEmpty": false, "mustBeScalar": true, "mustNotHaveNaN": false, "queryable": true, "ontology": null, "documentation": "Coefficient of determination.", "constraints": {} },
-                { "name": "partial_r2", "type": "double", "blank_value": 0, "default_value": 0, "mustBeNonEmpty": false, "mustBeScalar": true, "mustNotHaveNaN": false, "queryable": true, "ontology": null, "documentation": "Partial R^2 of the speed-tuning component, relative to the no-speed fit.", "constraints": {} },
-                { "name": "priebe_fit_nested_f_test_p_value", "type": "double", "blank_value": 0, "default_value": 0, "mustBeNonEmpty": false, "mustBeScalar": true, "mustNotHaveNaN": false, "queryable": true, "ontology": null, "documentation": "p-value from the nested F-test comparing the no-speed and full fits.", "constraints": {} }
+                {
+                    "name": "priebe_fit_parameters",
+                    "type": "matrix",
+                    "blank_value": [],
+                    "default_value": [],
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": false,
+                    "mustNotHaveNaN": false,
+                    "queryable": false,
+                    "ontology": null,
+                    "documentation": "Fitted Priebe parameter vector under the no-speed constraint.",
+                    "constraints": {
+                        "element_type": "double"
+                    }
+                },
+                {
+                    "name": "priebe_fit_spatial_frequencies",
+                    "type": "matrix",
+                    "blank_value": [],
+                    "default_value": [],
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": false,
+                    "mustNotHaveNaN": false,
+                    "queryable": false,
+                    "ontology": null,
+                    "documentation": "Spatial frequencies at which the fit was evaluated.",
+                    "constraints": {
+                        "element_type": "double"
+                    }
+                },
+                {
+                    "name": "priebe_fit_temporal_frequencies",
+                    "type": "matrix",
+                    "blank_value": [],
+                    "default_value": [],
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": false,
+                    "mustNotHaveNaN": false,
+                    "queryable": false,
+                    "ontology": null,
+                    "documentation": "Temporal frequencies at which the fit was evaluated.",
+                    "constraints": {
+                        "element_type": "double"
+                    }
+                },
+                {
+                    "name": "priebe_fit_values",
+                    "type": "matrix",
+                    "blank_value": [],
+                    "default_value": [],
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": false,
+                    "mustNotHaveNaN": false,
+                    "queryable": false,
+                    "ontology": null,
+                    "documentation": "Fitted response values.",
+                    "constraints": {
+                        "element_type": "double"
+                    }
+                },
+                {
+                    "name": "priebe_fit_speed_tuning_index",
+                    "type": "matrix",
+                    "blank_value": [],
+                    "default_value": [],
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": false,
+                    "mustNotHaveNaN": false,
+                    "queryable": false,
+                    "ontology": null,
+                    "documentation": "Speed-tuning index (constrained).",
+                    "constraints": {
+                        "element_type": "double"
+                    }
+                },
+                {
+                    "name": "priebe_fit_spatial_frequency_preference",
+                    "type": "double",
+                    "blank_value": 0,
+                    "default_value": 0,
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Preferred spatial frequency under the fit.",
+                    "constraints": {}
+                },
+                {
+                    "name": "priebe_fit_temporal_frequency_preference",
+                    "type": "double",
+                    "blank_value": 0,
+                    "default_value": 0,
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Preferred temporal frequency under the fit.",
+                    "constraints": {}
+                },
+                {
+                    "name": "sse",
+                    "type": "double",
+                    "blank_value": 0,
+                    "default_value": 0,
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Sum of squared errors.",
+                    "constraints": {}
+                },
+                {
+                    "name": "r_squared",
+                    "type": "double",
+                    "blank_value": 0,
+                    "default_value": 0,
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Coefficient of determination.",
+                    "constraints": {}
+                },
+                {
+                    "name": "partial_r2",
+                    "type": "double",
+                    "blank_value": 0,
+                    "default_value": 0,
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Partial R^2 of the speed-tuning component, relative to the no-speed fit.",
+                    "constraints": {}
+                },
+                {
+                    "name": "priebe_fit_nested_f_test_p_value",
+                    "type": "double",
+                    "blank_value": 0,
+                    "default_value": 0,
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "p-value from the nested F-test comparing the no-speed and full fits.",
+                    "constraints": {}
+                }
             ]
         },
         {
-            "name": "fit_fullspeed", "type": "structure", "blank_value": {}, "default_value": {}, "mustBeNonEmpty": false, "mustBeScalar": true, "mustNotHaveNaN": false, "queryable": false, "ontology": null,
+            "name": "fit_fullspeed",
+            "type": "structure",
+            "blank_value": {},
+            "default_value": {},
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": false,
+            "ontology": null,
             "documentation": "Priebe fit with a fully-free speed-tuning component (alternative model for F-test against fit_no_speed).",
             "constraints": {},
             "fields": [
-                { "name": "priebe_fit_parameters", "type": "matrix", "blank_value": [], "default_value": [], "mustBeNonEmpty": false, "mustBeScalar": false, "mustNotHaveNaN": false, "queryable": false, "ontology": null, "documentation": "Fitted Priebe parameter vector with full speed-tuning freedom.", "constraints": { "element_type": "double" } },
-                { "name": "priebe_fit_spatial_frequencies", "type": "matrix", "blank_value": [], "default_value": [], "mustBeNonEmpty": false, "mustBeScalar": false, "mustNotHaveNaN": false, "queryable": false, "ontology": null, "documentation": "Spatial frequencies at which the fit was evaluated.", "constraints": { "element_type": "double" } },
-                { "name": "priebe_fit_temporal_frequencies", "type": "matrix", "blank_value": [], "default_value": [], "mustBeNonEmpty": false, "mustBeScalar": false, "mustNotHaveNaN": false, "queryable": false, "ontology": null, "documentation": "Temporal frequencies at which the fit was evaluated.", "constraints": { "element_type": "double" } },
-                { "name": "priebe_fit_values", "type": "matrix", "blank_value": [], "default_value": [], "mustBeNonEmpty": false, "mustBeScalar": false, "mustNotHaveNaN": false, "queryable": false, "ontology": null, "documentation": "Fitted response values.", "constraints": { "element_type": "double" } },
-                { "name": "priebe_fit_speed_tuning_index", "type": "matrix", "blank_value": [], "default_value": [], "mustBeNonEmpty": false, "mustBeScalar": false, "mustNotHaveNaN": false, "queryable": false, "ontology": null, "documentation": "Speed-tuning index.", "constraints": { "element_type": "double" } },
-                { "name": "priebe_fit_spatial_frequency_preference", "type": "double", "blank_value": 0, "default_value": 0, "mustBeNonEmpty": false, "mustBeScalar": true, "mustNotHaveNaN": false, "queryable": true, "ontology": null, "documentation": "Preferred spatial frequency under the fit.", "constraints": {} },
-                { "name": "priebe_fit_temporal_frequency_preference", "type": "double", "blank_value": 0, "default_value": 0, "mustBeNonEmpty": false, "mustBeScalar": true, "mustNotHaveNaN": false, "queryable": true, "ontology": null, "documentation": "Preferred temporal frequency under the fit.", "constraints": {} },
-                { "name": "sse", "type": "double", "blank_value": 0, "default_value": 0, "mustBeNonEmpty": false, "mustBeScalar": true, "mustNotHaveNaN": false, "queryable": true, "ontology": null, "documentation": "Sum of squared errors.", "constraints": {} },
-                { "name": "r_squared", "type": "double", "blank_value": 0, "default_value": 0, "mustBeNonEmpty": false, "mustBeScalar": true, "mustNotHaveNaN": false, "queryable": true, "ontology": null, "documentation": "Coefficient of determination.", "constraints": {} },
-                { "name": "partial_r2", "type": "double", "blank_value": 0, "default_value": 0, "mustBeNonEmpty": false, "mustBeScalar": true, "mustNotHaveNaN": false, "queryable": true, "ontology": null, "documentation": "Partial R^2 of the speed-tuning component.", "constraints": {} },
-                { "name": "priebe_fit_nested_f_test_p_value", "type": "double", "blank_value": 0, "default_value": 0, "mustBeNonEmpty": false, "mustBeScalar": true, "mustNotHaveNaN": false, "queryable": true, "ontology": null, "documentation": "p-value from the nested F-test against fit_no_speed.", "constraints": {} }
+                {
+                    "name": "priebe_fit_parameters",
+                    "type": "matrix",
+                    "blank_value": [],
+                    "default_value": [],
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": false,
+                    "mustNotHaveNaN": false,
+                    "queryable": false,
+                    "ontology": null,
+                    "documentation": "Fitted Priebe parameter vector with full speed-tuning freedom.",
+                    "constraints": {
+                        "element_type": "double"
+                    }
+                },
+                {
+                    "name": "priebe_fit_spatial_frequencies",
+                    "type": "matrix",
+                    "blank_value": [],
+                    "default_value": [],
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": false,
+                    "mustNotHaveNaN": false,
+                    "queryable": false,
+                    "ontology": null,
+                    "documentation": "Spatial frequencies at which the fit was evaluated.",
+                    "constraints": {
+                        "element_type": "double"
+                    }
+                },
+                {
+                    "name": "priebe_fit_temporal_frequencies",
+                    "type": "matrix",
+                    "blank_value": [],
+                    "default_value": [],
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": false,
+                    "mustNotHaveNaN": false,
+                    "queryable": false,
+                    "ontology": null,
+                    "documentation": "Temporal frequencies at which the fit was evaluated.",
+                    "constraints": {
+                        "element_type": "double"
+                    }
+                },
+                {
+                    "name": "priebe_fit_values",
+                    "type": "matrix",
+                    "blank_value": [],
+                    "default_value": [],
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": false,
+                    "mustNotHaveNaN": false,
+                    "queryable": false,
+                    "ontology": null,
+                    "documentation": "Fitted response values.",
+                    "constraints": {
+                        "element_type": "double"
+                    }
+                },
+                {
+                    "name": "priebe_fit_speed_tuning_index",
+                    "type": "matrix",
+                    "blank_value": [],
+                    "default_value": [],
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": false,
+                    "mustNotHaveNaN": false,
+                    "queryable": false,
+                    "ontology": null,
+                    "documentation": "Speed-tuning index.",
+                    "constraints": {
+                        "element_type": "double"
+                    }
+                },
+                {
+                    "name": "priebe_fit_spatial_frequency_preference",
+                    "type": "double",
+                    "blank_value": 0,
+                    "default_value": 0,
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Preferred spatial frequency under the fit.",
+                    "constraints": {}
+                },
+                {
+                    "name": "priebe_fit_temporal_frequency_preference",
+                    "type": "double",
+                    "blank_value": 0,
+                    "default_value": 0,
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Preferred temporal frequency under the fit.",
+                    "constraints": {}
+                },
+                {
+                    "name": "sse",
+                    "type": "double",
+                    "blank_value": 0,
+                    "default_value": 0,
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Sum of squared errors.",
+                    "constraints": {}
+                },
+                {
+                    "name": "r_squared",
+                    "type": "double",
+                    "blank_value": 0,
+                    "default_value": 0,
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Coefficient of determination.",
+                    "constraints": {}
+                },
+                {
+                    "name": "partial_r2",
+                    "type": "double",
+                    "blank_value": 0,
+                    "default_value": 0,
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Partial R^2 of the speed-tuning component.",
+                    "constraints": {}
+                },
+                {
+                    "name": "priebe_fit_nested_f_test_p_value",
+                    "type": "double",
+                    "blank_value": 0,
+                    "default_value": 0,
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "p-value from the nested F-test against fit_no_speed.",
+                    "constraints": {}
+                }
             ]
         }
     ]

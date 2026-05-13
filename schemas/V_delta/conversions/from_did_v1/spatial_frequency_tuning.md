@@ -23,7 +23,7 @@ Conversion is primarily a structural reshaping: did_v1 declares each top-level g
 | `spatial_frequency_tuning.properties.{response_units,response_type}` | same | `char` types (response_units per user decision) |
 | `spatial_frequency_tuning.tuning_curve.spatial_frequency` | same | scalar placeholder → `matrix<double>` |
 | `spatial_frequency_tuning.tuning_curve.{mean,stddev,stderr}` | same | scalar placeholder → `matrix<double>` |
-| `spatial_frequency_tuning.tuning_curve.individual` (+ for `speed_tuning`: `raw_individual`, `control_individual`) | same | empty struct → `type: structure` with empty `fields` (shape TODO-domain) |
+| `spatial_frequency_tuning.tuning_curve.individual` (+ for `speed_tuning`: `raw_individual`, `control_individual`) | same | empty struct in v1 → `matrix<double>` (rows index sampled points along the tuning axis; columns index trials) |
 | `spatial_frequency_tuning.tuning_curve.{control_stddev,control_stderr}` (where present) | same | scalar placeholder → `matrix<double>` |
 | `spatial_frequency_tuning.significance.{visual_response_anova_p,across_stimuli_anova_p}` | same | identity (double) |
 | `spatial_frequency_tuning.fitless.*` (where present) | same | scalar placeholder → `double`; fields: L50, Pref, H50, low_pass_index, high_pass_index, bandwidth |
@@ -51,7 +51,7 @@ No file references. See [`_files.md`](_files.md) for generic rules.
 
 ## Open questions
 
-- **TODO-domain:** shape of `tuning_curve.individual` (and, for `speed_tuning`, `raw_individual` / `control_individual`). did_v1 leaves these as empty structs.
+
 - **TODO-domain:** ontology terms for fit-parameter fields.
 - **TODO-domain:** the `abs` placeholder block on `spatial_frequency_tuning` and `temporal_frequency_tuning` — purpose unknown; currently declared as an empty `structure`.
 

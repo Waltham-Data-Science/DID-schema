@@ -30,7 +30,7 @@ template (the schema file alone is insufficient).
 | `contrast_tuning.properties.response_type` | `contrast_tuning.properties.response_type` | identity (char) |
 | `contrast_tuning.tuning_curve.contrast` | `contrast_tuning.tuning_curve.contrast` | scalar placeholder → `matrix<double>` |
 | `contrast_tuning.tuning_curve.{mean,stddev,stderr}` | same | scalar placeholders → `matrix<double>` |
-| `contrast_tuning.tuning_curve.individual` | same | empty struct → `type: structure` with empty `fields` (shape TODO-domain) |
+| `contrast_tuning.tuning_curve.individual` | same | empty struct in v1 → `matrix<double>` (rows index sampled points along the tuning axis; columns index trials) |
 | `contrast_tuning.tuning_curve.{control_stddev,control_stderr}` | same | scalar placeholder → `matrix<double>` |
 | `contrast_tuning.significance.{visual_response_anova_p,across_stimuli_anova_p}` | same | identity (double) |
 | `contrast_tuning.fitless.interpolated_c50` | same | identity (double) |
@@ -79,9 +79,7 @@ rules in [`_files.md`](_files.md) do not apply.
 
 ## Open questions
 
-- **TODO-domain:** what is the actual shape of `tuning_curve.individual`?
-  The did_v1 template leaves it as an empty struct. Likely a
-  dynamic-keyed map of trial index → response array, but unconfirmed.
+
 - **TODO-domain:** ontology terms. Most field-level `ontology` slots are
   `null` pending a sweep through the V_gamma CURIE registry. Candidate
   CURIE families: `stato:` for statistical measures, `iao:` for data

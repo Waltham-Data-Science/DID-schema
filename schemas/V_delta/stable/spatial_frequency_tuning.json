@@ -3,136 +3,935 @@
         "class_name": "spatial_frequency_tuning",
         "class_version": "1.0.0",
         "superclasses": [
-            { "class_name": "base", "schema": "$NDISCHEMAPATH/base/schema.json" }
+            {
+                "class_name": "base",
+                "schema": "$NDISCHEMAPATH/base/schema.json"
+            }
         ],
         "maturity_level": "work_in_progress"
     },
     "depends_on": [
-        { "name": "element_id", "mustBeNonEmpty": true, "documentation": "The document ID of the ndi.element whose spatial frequency tuning is described.", "must_refer_to_document_class": "element" },
-        { "name": "stimulus_tuningcurve_id", "mustBeNonEmpty": true, "documentation": "The document ID of the stimulus_tuningcurve from which this tuning was derived.", "must_refer_to_document_class": "stimulus_tuningcurve" }
+        {
+            "name": "element_id",
+            "mustBeNonEmpty": true,
+            "documentation": "The document ID of the ndi.element whose spatial frequency tuning is described.",
+            "must_refer_to_document_class": "element"
+        },
+        {
+            "name": "stimulus_tuningcurve_id",
+            "mustBeNonEmpty": true,
+            "documentation": "The document ID of the stimulus_tuningcurve from which this tuning was derived.",
+            "must_refer_to_document_class": "stimulus_tuningcurve"
+        }
     ],
     "file": [],
     "fields": [
         {
-            "name": "properties", "type": "structure", "blank_value": {}, "default_value": {}, "mustBeNonEmpty": false, "mustBeScalar": true, "mustNotHaveNaN": false, "queryable": false, "ontology": null,
+            "name": "properties",
+            "type": "structure",
+            "blank_value": {},
+            "default_value": {},
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": false,
+            "ontology": null,
             "documentation": "Bookkeeping properties describing how response values were measured and reported.",
             "constraints": {},
             "fields": [
-                { "name": "response_units", "type": "char", "blank_value": "", "default_value": "", "mustBeNonEmpty": false, "mustBeScalar": true, "mustNotHaveNaN": false, "queryable": true, "ontology": null, "documentation": "Units of the response values.", "constraints": { "maxLength": 64 } },
-                { "name": "response_type", "type": "char", "blank_value": "", "default_value": "mean", "mustBeNonEmpty": false, "mustBeScalar": true, "mustNotHaveNaN": false, "queryable": true, "ontology": null, "documentation": "Reduction applied per trial to produce each response value.", "constraints": { "maxLength": 64 } }
+                {
+                    "name": "response_units",
+                    "type": "char",
+                    "blank_value": "",
+                    "default_value": "",
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Units of the response values.",
+                    "constraints": {
+                        "maxLength": 64
+                    }
+                },
+                {
+                    "name": "response_type",
+                    "type": "char",
+                    "blank_value": "",
+                    "default_value": "mean",
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Reduction applied per trial to produce each response value.",
+                    "constraints": {
+                        "maxLength": 64
+                    }
+                }
             ]
         },
         {
-            "name": "tuning_curve", "type": "structure", "blank_value": {}, "default_value": {}, "mustBeNonEmpty": false, "mustBeScalar": true, "mustNotHaveNaN": false, "queryable": false, "ontology": null,
+            "name": "tuning_curve",
+            "type": "structure",
+            "blank_value": {},
+            "default_value": {},
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": false,
+            "ontology": null,
             "documentation": "Empirical spatial-frequency tuning curve and per-point summary statistics.",
             "constraints": {},
             "fields": [
-                { "name": "spatial_frequency", "type": "matrix", "blank_value": [], "default_value": [], "mustBeNonEmpty": false, "mustBeScalar": false, "mustNotHaveNaN": false, "queryable": false, "ontology": null, "documentation": "Array of spatial frequencies (cycles per degree) sampled along the tuning curve.", "constraints": { "element_type": "double" } },
-                { "name": "mean", "type": "matrix", "blank_value": [], "default_value": [], "mustBeNonEmpty": false, "mustBeScalar": false, "mustNotHaveNaN": false, "queryable": false, "ontology": null, "documentation": "Per-frequency mean response.", "constraints": { "element_type": "double" } },
-                { "name": "stddev", "type": "matrix", "blank_value": [], "default_value": [], "mustBeNonEmpty": false, "mustBeScalar": false, "mustNotHaveNaN": false, "queryable": false, "ontology": null, "documentation": "Per-frequency standard deviation.", "constraints": { "element_type": "double" } },
-                { "name": "stderr", "type": "matrix", "blank_value": [], "default_value": [], "mustBeNonEmpty": false, "mustBeScalar": false, "mustNotHaveNaN": false, "queryable": false, "ontology": null, "documentation": "Per-frequency standard error of the mean.", "constraints": { "element_type": "double" } },
-                { "name": "individual", "type": "structure", "blank_value": {}, "default_value": {}, "mustBeNonEmpty": false, "mustBeScalar": true, "mustNotHaveNaN": false, "queryable": false, "ontology": null, "documentation": "Per-trial individual responses. Shape needs domain confirmation.", "constraints": {}, "fields": [] },
-                { "name": "control_stddev", "type": "matrix", "blank_value": [], "default_value": [], "mustBeNonEmpty": false, "mustBeScalar": false, "mustNotHaveNaN": false, "queryable": false, "ontology": null, "documentation": "Standard deviation of the control response, one value per frequency.", "constraints": { "element_type": "double" } },
-                { "name": "control_stderr", "type": "matrix", "blank_value": [], "default_value": [], "mustBeNonEmpty": false, "mustBeScalar": false, "mustNotHaveNaN": false, "queryable": false, "ontology": null, "documentation": "Standard error of the mean of the control response.", "constraints": { "element_type": "double" } }
+                {
+                    "name": "spatial_frequency",
+                    "type": "matrix",
+                    "blank_value": [],
+                    "default_value": [],
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": false,
+                    "mustNotHaveNaN": false,
+                    "queryable": false,
+                    "ontology": null,
+                    "documentation": "Array of spatial frequencies (cycles per degree) sampled along the tuning curve.",
+                    "constraints": {
+                        "element_type": "double"
+                    }
+                },
+                {
+                    "name": "mean",
+                    "type": "matrix",
+                    "blank_value": [],
+                    "default_value": [],
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": false,
+                    "mustNotHaveNaN": false,
+                    "queryable": false,
+                    "ontology": null,
+                    "documentation": "Per-frequency mean response.",
+                    "constraints": {
+                        "element_type": "double"
+                    }
+                },
+                {
+                    "name": "stddev",
+                    "type": "matrix",
+                    "blank_value": [],
+                    "default_value": [],
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": false,
+                    "mustNotHaveNaN": false,
+                    "queryable": false,
+                    "ontology": null,
+                    "documentation": "Per-frequency standard deviation.",
+                    "constraints": {
+                        "element_type": "double"
+                    }
+                },
+                {
+                    "name": "stderr",
+                    "type": "matrix",
+                    "blank_value": [],
+                    "default_value": [],
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": false,
+                    "mustNotHaveNaN": false,
+                    "queryable": false,
+                    "ontology": null,
+                    "documentation": "Per-frequency standard error of the mean.",
+                    "constraints": {
+                        "element_type": "double"
+                    }
+                },
+                {
+                    "name": "individual",
+                    "type": "matrix",
+                    "blank_value": [],
+                    "default_value": [],
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": false,
+                    "mustNotHaveNaN": false,
+                    "queryable": false,
+                    "ontology": null,
+                    "documentation": "Per-trial individual responses. Rows index sampled points along the tuning axis; columns index trials.",
+                    "constraints": {
+                        "element_type": "double"
+                    }
+                },
+                {
+                    "name": "control_stddev",
+                    "type": "matrix",
+                    "blank_value": [],
+                    "default_value": [],
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": false,
+                    "mustNotHaveNaN": false,
+                    "queryable": false,
+                    "ontology": null,
+                    "documentation": "Standard deviation of the control response, one value per frequency.",
+                    "constraints": {
+                        "element_type": "double"
+                    }
+                },
+                {
+                    "name": "control_stderr",
+                    "type": "matrix",
+                    "blank_value": [],
+                    "default_value": [],
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": false,
+                    "mustNotHaveNaN": false,
+                    "queryable": false,
+                    "ontology": null,
+                    "documentation": "Standard error of the mean of the control response.",
+                    "constraints": {
+                        "element_type": "double"
+                    }
+                }
             ]
         },
         {
-            "name": "significance", "type": "structure", "blank_value": {}, "default_value": {}, "mustBeNonEmpty": false, "mustBeScalar": true, "mustNotHaveNaN": false, "queryable": false, "ontology": null,
+            "name": "significance",
+            "type": "structure",
+            "blank_value": {},
+            "default_value": {},
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": false,
+            "ontology": null,
             "documentation": "ANOVA-derived significance metrics for the tuning curve.",
             "constraints": {},
             "fields": [
-                { "name": "visual_response_anova_p", "type": "double", "blank_value": 0, "default_value": 1, "mustBeNonEmpty": false, "mustBeScalar": true, "mustNotHaveNaN": false, "queryable": true, "ontology": null, "documentation": "ANOVA p-value: is there a response distinguishable from control.", "constraints": {} },
-                { "name": "across_stimuli_anova_p", "type": "double", "blank_value": 0, "default_value": 1, "mustBeNonEmpty": false, "mustBeScalar": true, "mustNotHaveNaN": false, "queryable": true, "ontology": null, "documentation": "ANOVA p-value: are responses different across the sampled frequencies.", "constraints": {} }
+                {
+                    "name": "visual_response_anova_p",
+                    "type": "double",
+                    "blank_value": 0,
+                    "default_value": 1,
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "ANOVA p-value: is there a response distinguishable from control.",
+                    "constraints": {}
+                },
+                {
+                    "name": "across_stimuli_anova_p",
+                    "type": "double",
+                    "blank_value": 0,
+                    "default_value": 1,
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "ANOVA p-value: are responses different across the sampled frequencies.",
+                    "constraints": {}
+                }
             ]
         },
         {
-            "name": "fitless", "type": "structure", "blank_value": {}, "default_value": {}, "mustBeNonEmpty": false, "mustBeScalar": true, "mustNotHaveNaN": false, "queryable": false, "ontology": null,
+            "name": "fitless",
+            "type": "structure",
+            "blank_value": {},
+            "default_value": {},
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": false,
+            "ontology": null,
             "documentation": "Fit-free summary measures derived directly from the empirical curve.",
             "constraints": {},
             "fields": [
-                { "name": "l50", "type": "double", "blank_value": 0, "default_value": 0, "mustBeNonEmpty": false, "mustBeScalar": true, "mustNotHaveNaN": false, "queryable": true, "ontology": null, "documentation": "Low-side spatial frequency at half-maximum response.", "constraints": {} },
-                { "name": "pref", "type": "double", "blank_value": 0, "default_value": 0, "mustBeNonEmpty": false, "mustBeScalar": true, "mustNotHaveNaN": false, "queryable": true, "ontology": null, "documentation": "Preferred (maximum-response) spatial frequency.", "constraints": {} },
-                { "name": "h50", "type": "double", "blank_value": 0, "default_value": 0, "mustBeNonEmpty": false, "mustBeScalar": true, "mustNotHaveNaN": false, "queryable": true, "ontology": null, "documentation": "High-side spatial frequency at half-maximum response.", "constraints": {} },
-                { "name": "low_pass_index", "type": "double", "blank_value": 0, "default_value": 0, "mustBeNonEmpty": false, "mustBeScalar": true, "mustNotHaveNaN": false, "queryable": true, "ontology": null, "documentation": "Low-pass selectivity index.", "constraints": {} },
-                { "name": "high_pass_index", "type": "double", "blank_value": 0, "default_value": 0, "mustBeNonEmpty": false, "mustBeScalar": true, "mustNotHaveNaN": false, "queryable": true, "ontology": null, "documentation": "High-pass selectivity index.", "constraints": {} },
-                { "name": "bandwidth", "type": "double", "blank_value": 0, "default_value": 0, "mustBeNonEmpty": false, "mustBeScalar": true, "mustNotHaveNaN": false, "queryable": true, "ontology": null, "documentation": "Bandwidth (octaves) at half-maximum response.", "constraints": {} }
+                {
+                    "name": "l50",
+                    "type": "double",
+                    "blank_value": 0,
+                    "default_value": 0,
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Low-side spatial frequency at half-maximum response.",
+                    "constraints": {}
+                },
+                {
+                    "name": "pref",
+                    "type": "double",
+                    "blank_value": 0,
+                    "default_value": 0,
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Preferred (maximum-response) spatial frequency.",
+                    "constraints": {}
+                },
+                {
+                    "name": "h50",
+                    "type": "double",
+                    "blank_value": 0,
+                    "default_value": 0,
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "High-side spatial frequency at half-maximum response.",
+                    "constraints": {}
+                },
+                {
+                    "name": "low_pass_index",
+                    "type": "double",
+                    "blank_value": 0,
+                    "default_value": 0,
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Low-pass selectivity index.",
+                    "constraints": {}
+                },
+                {
+                    "name": "high_pass_index",
+                    "type": "double",
+                    "blank_value": 0,
+                    "default_value": 0,
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "High-pass selectivity index.",
+                    "constraints": {}
+                },
+                {
+                    "name": "bandwidth",
+                    "type": "double",
+                    "blank_value": 0,
+                    "default_value": 0,
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Bandwidth (octaves) at half-maximum response.",
+                    "constraints": {}
+                }
             ]
         },
         {
-            "name": "fit_dog", "type": "structure", "blank_value": {}, "default_value": {}, "mustBeNonEmpty": false, "mustBeScalar": true, "mustNotHaveNaN": false, "queryable": false, "ontology": null,
+            "name": "fit_dog",
+            "type": "structure",
+            "blank_value": {},
+            "default_value": {},
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": false,
+            "ontology": null,
             "documentation": "Difference-of-Gaussians fit to the empirical curve.",
             "constraints": {},
             "fields": [
-                { "name": "parameters", "type": "matrix", "blank_value": [], "default_value": [], "mustBeNonEmpty": false, "mustBeScalar": false, "mustNotHaveNaN": false, "queryable": false, "ontology": null, "documentation": "Fitted parameter vector for the DoG form.", "constraints": { "element_type": "double" } },
-                { "name": "values", "type": "matrix", "blank_value": [], "default_value": [], "mustBeNonEmpty": false, "mustBeScalar": false, "mustNotHaveNaN": false, "queryable": false, "ontology": null, "documentation": "Fitted response values evaluated at fit-domain spatial frequencies.", "constraints": { "element_type": "double" } },
-                { "name": "fit", "type": "matrix", "blank_value": [], "default_value": [], "mustBeNonEmpty": false, "mustBeScalar": false, "mustNotHaveNaN": false, "queryable": false, "ontology": null, "documentation": "Spatial frequencies at which the fit was evaluated.", "constraints": { "element_type": "double" } },
-                { "name": "r2", "type": "double", "blank_value": 0, "default_value": 0, "mustBeNonEmpty": false, "mustBeScalar": true, "mustNotHaveNaN": false, "queryable": true, "ontology": null, "documentation": "Coefficient of determination of the fit.", "constraints": {} },
-                { "name": "l50", "type": "double", "blank_value": 0, "default_value": 0, "mustBeNonEmpty": false, "mustBeScalar": true, "mustNotHaveNaN": false, "queryable": true, "ontology": null, "documentation": "Low-side half-max spatial frequency under the fit.", "constraints": {} },
-                { "name": "pref", "type": "double", "blank_value": 0, "default_value": 0, "mustBeNonEmpty": false, "mustBeScalar": true, "mustNotHaveNaN": false, "queryable": true, "ontology": null, "documentation": "Preferred spatial frequency under the fit.", "constraints": {} },
-                { "name": "h50", "type": "double", "blank_value": 0, "default_value": 0, "mustBeNonEmpty": false, "mustBeScalar": true, "mustNotHaveNaN": false, "queryable": true, "ontology": null, "documentation": "High-side half-max spatial frequency under the fit.", "constraints": {} },
-                { "name": "bandwidth", "type": "double", "blank_value": 0, "default_value": 0, "mustBeNonEmpty": false, "mustBeScalar": true, "mustNotHaveNaN": false, "queryable": true, "ontology": null, "documentation": "Bandwidth under the fit.", "constraints": {} }
+                {
+                    "name": "parameters",
+                    "type": "matrix",
+                    "blank_value": [],
+                    "default_value": [],
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": false,
+                    "mustNotHaveNaN": false,
+                    "queryable": false,
+                    "ontology": null,
+                    "documentation": "Fitted parameter vector for the DoG form.",
+                    "constraints": {
+                        "element_type": "double"
+                    }
+                },
+                {
+                    "name": "values",
+                    "type": "matrix",
+                    "blank_value": [],
+                    "default_value": [],
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": false,
+                    "mustNotHaveNaN": false,
+                    "queryable": false,
+                    "ontology": null,
+                    "documentation": "Fitted response values evaluated at fit-domain spatial frequencies.",
+                    "constraints": {
+                        "element_type": "double"
+                    }
+                },
+                {
+                    "name": "fit",
+                    "type": "matrix",
+                    "blank_value": [],
+                    "default_value": [],
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": false,
+                    "mustNotHaveNaN": false,
+                    "queryable": false,
+                    "ontology": null,
+                    "documentation": "Spatial frequencies at which the fit was evaluated.",
+                    "constraints": {
+                        "element_type": "double"
+                    }
+                },
+                {
+                    "name": "r2",
+                    "type": "double",
+                    "blank_value": 0,
+                    "default_value": 0,
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Coefficient of determination of the fit.",
+                    "constraints": {}
+                },
+                {
+                    "name": "l50",
+                    "type": "double",
+                    "blank_value": 0,
+                    "default_value": 0,
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Low-side half-max spatial frequency under the fit.",
+                    "constraints": {}
+                },
+                {
+                    "name": "pref",
+                    "type": "double",
+                    "blank_value": 0,
+                    "default_value": 0,
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Preferred spatial frequency under the fit.",
+                    "constraints": {}
+                },
+                {
+                    "name": "h50",
+                    "type": "double",
+                    "blank_value": 0,
+                    "default_value": 0,
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "High-side half-max spatial frequency under the fit.",
+                    "constraints": {}
+                },
+                {
+                    "name": "bandwidth",
+                    "type": "double",
+                    "blank_value": 0,
+                    "default_value": 0,
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Bandwidth under the fit.",
+                    "constraints": {}
+                }
             ]
         },
         {
-            "name": "fit_movshon", "type": "structure", "blank_value": {}, "default_value": {}, "mustBeNonEmpty": false, "mustBeScalar": true, "mustNotHaveNaN": false, "queryable": false, "ontology": null,
+            "name": "fit_movshon",
+            "type": "structure",
+            "blank_value": {},
+            "default_value": {},
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": false,
+            "ontology": null,
             "documentation": "Movshon-style fit to the empirical curve (4 free parameters).",
             "constraints": {},
             "fields": [
-                { "name": "parameters", "type": "matrix", "blank_value": [], "default_value": [], "mustBeNonEmpty": false, "mustBeScalar": false, "mustNotHaveNaN": false, "queryable": false, "ontology": null, "documentation": "Fitted parameter vector.", "constraints": { "element_type": "double" } },
-                { "name": "values", "type": "matrix", "blank_value": [], "default_value": [], "mustBeNonEmpty": false, "mustBeScalar": false, "mustNotHaveNaN": false, "queryable": false, "ontology": null, "documentation": "Fitted response values evaluated at fit-domain spatial frequencies.", "constraints": { "element_type": "double" } },
-                { "name": "fit", "type": "matrix", "blank_value": [], "default_value": [], "mustBeNonEmpty": false, "mustBeScalar": false, "mustNotHaveNaN": false, "queryable": false, "ontology": null, "documentation": "Spatial frequencies at which the fit was evaluated.", "constraints": { "element_type": "double" } },
-                { "name": "r2", "type": "double", "blank_value": 0, "default_value": 0, "mustBeNonEmpty": false, "mustBeScalar": true, "mustNotHaveNaN": false, "queryable": true, "ontology": null, "documentation": "Coefficient of determination of the fit.", "constraints": {} },
-                { "name": "l50", "type": "double", "blank_value": 0, "default_value": 0, "mustBeNonEmpty": false, "mustBeScalar": true, "mustNotHaveNaN": false, "queryable": true, "ontology": null, "documentation": "Low-side half-max spatial frequency under the fit.", "constraints": {} },
-                { "name": "pref", "type": "double", "blank_value": 0, "default_value": 0, "mustBeNonEmpty": false, "mustBeScalar": true, "mustNotHaveNaN": false, "queryable": true, "ontology": null, "documentation": "Preferred spatial frequency under the fit.", "constraints": {} },
-                { "name": "h50", "type": "double", "blank_value": 0, "default_value": 0, "mustBeNonEmpty": false, "mustBeScalar": true, "mustNotHaveNaN": false, "queryable": true, "ontology": null, "documentation": "High-side half-max spatial frequency under the fit.", "constraints": {} },
-                { "name": "bandwidth", "type": "double", "blank_value": 0, "default_value": 0, "mustBeNonEmpty": false, "mustBeScalar": true, "mustNotHaveNaN": false, "queryable": true, "ontology": null, "documentation": "Bandwidth under the fit.", "constraints": {} }
+                {
+                    "name": "parameters",
+                    "type": "matrix",
+                    "blank_value": [],
+                    "default_value": [],
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": false,
+                    "mustNotHaveNaN": false,
+                    "queryable": false,
+                    "ontology": null,
+                    "documentation": "Fitted parameter vector.",
+                    "constraints": {
+                        "element_type": "double"
+                    }
+                },
+                {
+                    "name": "values",
+                    "type": "matrix",
+                    "blank_value": [],
+                    "default_value": [],
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": false,
+                    "mustNotHaveNaN": false,
+                    "queryable": false,
+                    "ontology": null,
+                    "documentation": "Fitted response values evaluated at fit-domain spatial frequencies.",
+                    "constraints": {
+                        "element_type": "double"
+                    }
+                },
+                {
+                    "name": "fit",
+                    "type": "matrix",
+                    "blank_value": [],
+                    "default_value": [],
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": false,
+                    "mustNotHaveNaN": false,
+                    "queryable": false,
+                    "ontology": null,
+                    "documentation": "Spatial frequencies at which the fit was evaluated.",
+                    "constraints": {
+                        "element_type": "double"
+                    }
+                },
+                {
+                    "name": "r2",
+                    "type": "double",
+                    "blank_value": 0,
+                    "default_value": 0,
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Coefficient of determination of the fit.",
+                    "constraints": {}
+                },
+                {
+                    "name": "l50",
+                    "type": "double",
+                    "blank_value": 0,
+                    "default_value": 0,
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Low-side half-max spatial frequency under the fit.",
+                    "constraints": {}
+                },
+                {
+                    "name": "pref",
+                    "type": "double",
+                    "blank_value": 0,
+                    "default_value": 0,
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Preferred spatial frequency under the fit.",
+                    "constraints": {}
+                },
+                {
+                    "name": "h50",
+                    "type": "double",
+                    "blank_value": 0,
+                    "default_value": 0,
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "High-side half-max spatial frequency under the fit.",
+                    "constraints": {}
+                },
+                {
+                    "name": "bandwidth",
+                    "type": "double",
+                    "blank_value": 0,
+                    "default_value": 0,
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Bandwidth under the fit.",
+                    "constraints": {}
+                }
             ]
         },
         {
-            "name": "fit_movshon_c", "type": "structure", "blank_value": {}, "default_value": {}, "mustBeNonEmpty": false, "mustBeScalar": true, "mustNotHaveNaN": false, "queryable": false, "ontology": null,
+            "name": "fit_movshon_c",
+            "type": "structure",
+            "blank_value": {},
+            "default_value": {},
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": false,
+            "ontology": null,
             "documentation": "Movshon-style fit with an additional constant term (5 free parameters).",
             "constraints": {},
             "fields": [
-                { "name": "parameters", "type": "matrix", "blank_value": [], "default_value": [], "mustBeNonEmpty": false, "mustBeScalar": false, "mustNotHaveNaN": false, "queryable": false, "ontology": null, "documentation": "Fitted parameter vector.", "constraints": { "element_type": "double" } },
-                { "name": "values", "type": "matrix", "blank_value": [], "default_value": [], "mustBeNonEmpty": false, "mustBeScalar": false, "mustNotHaveNaN": false, "queryable": false, "ontology": null, "documentation": "Fitted response values evaluated at fit-domain spatial frequencies.", "constraints": { "element_type": "double" } },
-                { "name": "fit", "type": "matrix", "blank_value": [], "default_value": [], "mustBeNonEmpty": false, "mustBeScalar": false, "mustNotHaveNaN": false, "queryable": false, "ontology": null, "documentation": "Spatial frequencies at which the fit was evaluated.", "constraints": { "element_type": "double" } },
-                { "name": "r2", "type": "double", "blank_value": 0, "default_value": 0, "mustBeNonEmpty": false, "mustBeScalar": true, "mustNotHaveNaN": false, "queryable": true, "ontology": null, "documentation": "Coefficient of determination of the fit.", "constraints": {} },
-                { "name": "l50", "type": "double", "blank_value": 0, "default_value": 0, "mustBeNonEmpty": false, "mustBeScalar": true, "mustNotHaveNaN": false, "queryable": true, "ontology": null, "documentation": "Low-side half-max spatial frequency under the fit.", "constraints": {} },
-                { "name": "pref", "type": "double", "blank_value": 0, "default_value": 0, "mustBeNonEmpty": false, "mustBeScalar": true, "mustNotHaveNaN": false, "queryable": true, "ontology": null, "documentation": "Preferred spatial frequency under the fit.", "constraints": {} },
-                { "name": "h50", "type": "double", "blank_value": 0, "default_value": 0, "mustBeNonEmpty": false, "mustBeScalar": true, "mustNotHaveNaN": false, "queryable": true, "ontology": null, "documentation": "High-side half-max spatial frequency under the fit.", "constraints": {} },
-                { "name": "bandwidth", "type": "double", "blank_value": 0, "default_value": 0, "mustBeNonEmpty": false, "mustBeScalar": true, "mustNotHaveNaN": false, "queryable": true, "ontology": null, "documentation": "Bandwidth under the fit.", "constraints": {} }
+                {
+                    "name": "parameters",
+                    "type": "matrix",
+                    "blank_value": [],
+                    "default_value": [],
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": false,
+                    "mustNotHaveNaN": false,
+                    "queryable": false,
+                    "ontology": null,
+                    "documentation": "Fitted parameter vector.",
+                    "constraints": {
+                        "element_type": "double"
+                    }
+                },
+                {
+                    "name": "values",
+                    "type": "matrix",
+                    "blank_value": [],
+                    "default_value": [],
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": false,
+                    "mustNotHaveNaN": false,
+                    "queryable": false,
+                    "ontology": null,
+                    "documentation": "Fitted response values evaluated at fit-domain spatial frequencies.",
+                    "constraints": {
+                        "element_type": "double"
+                    }
+                },
+                {
+                    "name": "fit",
+                    "type": "matrix",
+                    "blank_value": [],
+                    "default_value": [],
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": false,
+                    "mustNotHaveNaN": false,
+                    "queryable": false,
+                    "ontology": null,
+                    "documentation": "Spatial frequencies at which the fit was evaluated.",
+                    "constraints": {
+                        "element_type": "double"
+                    }
+                },
+                {
+                    "name": "r2",
+                    "type": "double",
+                    "blank_value": 0,
+                    "default_value": 0,
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Coefficient of determination of the fit.",
+                    "constraints": {}
+                },
+                {
+                    "name": "l50",
+                    "type": "double",
+                    "blank_value": 0,
+                    "default_value": 0,
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Low-side half-max spatial frequency under the fit.",
+                    "constraints": {}
+                },
+                {
+                    "name": "pref",
+                    "type": "double",
+                    "blank_value": 0,
+                    "default_value": 0,
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Preferred spatial frequency under the fit.",
+                    "constraints": {}
+                },
+                {
+                    "name": "h50",
+                    "type": "double",
+                    "blank_value": 0,
+                    "default_value": 0,
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "High-side half-max spatial frequency under the fit.",
+                    "constraints": {}
+                },
+                {
+                    "name": "bandwidth",
+                    "type": "double",
+                    "blank_value": 0,
+                    "default_value": 0,
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Bandwidth under the fit.",
+                    "constraints": {}
+                }
             ]
         },
         {
-            "name": "fit_spline", "type": "structure", "blank_value": {}, "default_value": {}, "mustBeNonEmpty": false, "mustBeScalar": true, "mustNotHaveNaN": false, "queryable": false, "ontology": null,
+            "name": "fit_spline",
+            "type": "structure",
+            "blank_value": {},
+            "default_value": {},
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": false,
+            "ontology": null,
             "documentation": "Smoothing-spline fit to the empirical curve.",
             "constraints": {},
             "fields": [
-                { "name": "values", "type": "matrix", "blank_value": [], "default_value": [], "mustBeNonEmpty": false, "mustBeScalar": false, "mustNotHaveNaN": false, "queryable": false, "ontology": null, "documentation": "Fitted response values evaluated at fit-domain spatial frequencies.", "constraints": { "element_type": "double" } },
-                { "name": "fit", "type": "matrix", "blank_value": [], "default_value": [], "mustBeNonEmpty": false, "mustBeScalar": false, "mustNotHaveNaN": false, "queryable": false, "ontology": null, "documentation": "Spatial frequencies at which the fit was evaluated.", "constraints": { "element_type": "double" } },
-                { "name": "l50", "type": "double", "blank_value": 0, "default_value": 0, "mustBeNonEmpty": false, "mustBeScalar": true, "mustNotHaveNaN": false, "queryable": true, "ontology": null, "documentation": "Low-side half-max spatial frequency under the spline.", "constraints": {} },
-                { "name": "pref", "type": "double", "blank_value": 0, "default_value": 0, "mustBeNonEmpty": false, "mustBeScalar": true, "mustNotHaveNaN": false, "queryable": true, "ontology": null, "documentation": "Preferred spatial frequency under the spline.", "constraints": {} },
-                { "name": "h50", "type": "double", "blank_value": 0, "default_value": 0, "mustBeNonEmpty": false, "mustBeScalar": true, "mustNotHaveNaN": false, "queryable": true, "ontology": null, "documentation": "High-side half-max spatial frequency under the spline.", "constraints": {} },
-                { "name": "bandwidth", "type": "double", "blank_value": 0, "default_value": 0, "mustBeNonEmpty": false, "mustBeScalar": true, "mustNotHaveNaN": false, "queryable": true, "ontology": null, "documentation": "Bandwidth under the spline.", "constraints": {} }
+                {
+                    "name": "values",
+                    "type": "matrix",
+                    "blank_value": [],
+                    "default_value": [],
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": false,
+                    "mustNotHaveNaN": false,
+                    "queryable": false,
+                    "ontology": null,
+                    "documentation": "Fitted response values evaluated at fit-domain spatial frequencies.",
+                    "constraints": {
+                        "element_type": "double"
+                    }
+                },
+                {
+                    "name": "fit",
+                    "type": "matrix",
+                    "blank_value": [],
+                    "default_value": [],
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": false,
+                    "mustNotHaveNaN": false,
+                    "queryable": false,
+                    "ontology": null,
+                    "documentation": "Spatial frequencies at which the fit was evaluated.",
+                    "constraints": {
+                        "element_type": "double"
+                    }
+                },
+                {
+                    "name": "l50",
+                    "type": "double",
+                    "blank_value": 0,
+                    "default_value": 0,
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Low-side half-max spatial frequency under the spline.",
+                    "constraints": {}
+                },
+                {
+                    "name": "pref",
+                    "type": "double",
+                    "blank_value": 0,
+                    "default_value": 0,
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Preferred spatial frequency under the spline.",
+                    "constraints": {}
+                },
+                {
+                    "name": "h50",
+                    "type": "double",
+                    "blank_value": 0,
+                    "default_value": 0,
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "High-side half-max spatial frequency under the spline.",
+                    "constraints": {}
+                },
+                {
+                    "name": "bandwidth",
+                    "type": "double",
+                    "blank_value": 0,
+                    "default_value": 0,
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Bandwidth under the spline.",
+                    "constraints": {}
+                }
             ]
         },
         {
-            "name": "fit_sgauss", "type": "structure", "blank_value": {}, "default_value": {}, "mustBeNonEmpty": false, "mustBeScalar": true, "mustNotHaveNaN": false, "queryable": false, "ontology": null,
+            "name": "fit_sgauss",
+            "type": "structure",
+            "blank_value": {},
+            "default_value": {},
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": false,
+            "ontology": null,
             "documentation": "Skewed-Gaussian fit to the empirical curve.",
             "constraints": {},
             "fields": [
-                { "name": "parameters", "type": "matrix", "blank_value": [], "default_value": [], "mustBeNonEmpty": false, "mustBeScalar": false, "mustNotHaveNaN": false, "queryable": false, "ontology": null, "documentation": "Fitted parameter vector.", "constraints": { "element_type": "double" } },
-                { "name": "values", "type": "matrix", "blank_value": [], "default_value": [], "mustBeNonEmpty": false, "mustBeScalar": false, "mustNotHaveNaN": false, "queryable": false, "ontology": null, "documentation": "Fitted response values evaluated at fit-domain spatial frequencies.", "constraints": { "element_type": "double" } },
-                { "name": "fit", "type": "matrix", "blank_value": [], "default_value": [], "mustBeNonEmpty": false, "mustBeScalar": false, "mustNotHaveNaN": false, "queryable": false, "ontology": null, "documentation": "Spatial frequencies at which the fit was evaluated.", "constraints": { "element_type": "double" } },
-                { "name": "r2", "type": "double", "blank_value": 0, "default_value": 0, "mustBeNonEmpty": false, "mustBeScalar": true, "mustNotHaveNaN": false, "queryable": true, "ontology": null, "documentation": "Coefficient of determination of the fit.", "constraints": {} },
-                { "name": "l50", "type": "double", "blank_value": 0, "default_value": 0, "mustBeNonEmpty": false, "mustBeScalar": true, "mustNotHaveNaN": false, "queryable": true, "ontology": null, "documentation": "Low-side half-max spatial frequency under the fit.", "constraints": {} },
-                { "name": "pref", "type": "double", "blank_value": 0, "default_value": 0, "mustBeNonEmpty": false, "mustBeScalar": true, "mustNotHaveNaN": false, "queryable": true, "ontology": null, "documentation": "Preferred spatial frequency under the fit.", "constraints": {} },
-                { "name": "h50", "type": "double", "blank_value": 0, "default_value": 0, "mustBeNonEmpty": false, "mustBeScalar": true, "mustNotHaveNaN": false, "queryable": true, "ontology": null, "documentation": "High-side half-max spatial frequency under the fit.", "constraints": {} },
-                { "name": "bandwidth", "type": "double", "blank_value": 0, "default_value": 0, "mustBeNonEmpty": false, "mustBeScalar": true, "mustNotHaveNaN": false, "queryable": true, "ontology": null, "documentation": "Bandwidth under the fit.", "constraints": {} }
+                {
+                    "name": "parameters",
+                    "type": "matrix",
+                    "blank_value": [],
+                    "default_value": [],
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": false,
+                    "mustNotHaveNaN": false,
+                    "queryable": false,
+                    "ontology": null,
+                    "documentation": "Fitted parameter vector.",
+                    "constraints": {
+                        "element_type": "double"
+                    }
+                },
+                {
+                    "name": "values",
+                    "type": "matrix",
+                    "blank_value": [],
+                    "default_value": [],
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": false,
+                    "mustNotHaveNaN": false,
+                    "queryable": false,
+                    "ontology": null,
+                    "documentation": "Fitted response values evaluated at fit-domain spatial frequencies.",
+                    "constraints": {
+                        "element_type": "double"
+                    }
+                },
+                {
+                    "name": "fit",
+                    "type": "matrix",
+                    "blank_value": [],
+                    "default_value": [],
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": false,
+                    "mustNotHaveNaN": false,
+                    "queryable": false,
+                    "ontology": null,
+                    "documentation": "Spatial frequencies at which the fit was evaluated.",
+                    "constraints": {
+                        "element_type": "double"
+                    }
+                },
+                {
+                    "name": "r2",
+                    "type": "double",
+                    "blank_value": 0,
+                    "default_value": 0,
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Coefficient of determination of the fit.",
+                    "constraints": {}
+                },
+                {
+                    "name": "l50",
+                    "type": "double",
+                    "blank_value": 0,
+                    "default_value": 0,
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Low-side half-max spatial frequency under the fit.",
+                    "constraints": {}
+                },
+                {
+                    "name": "pref",
+                    "type": "double",
+                    "blank_value": 0,
+                    "default_value": 0,
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Preferred spatial frequency under the fit.",
+                    "constraints": {}
+                },
+                {
+                    "name": "h50",
+                    "type": "double",
+                    "blank_value": 0,
+                    "default_value": 0,
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "High-side half-max spatial frequency under the fit.",
+                    "constraints": {}
+                },
+                {
+                    "name": "bandwidth",
+                    "type": "double",
+                    "blank_value": 0,
+                    "default_value": 0,
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Bandwidth under the fit.",
+                    "constraints": {}
+                }
             ]
         },
         {
-            "name": "abs", "type": "structure", "blank_value": {}, "default_value": {}, "mustBeNonEmpty": false, "mustBeScalar": true, "mustNotHaveNaN": false, "queryable": false, "ontology": null,
+            "name": "abs",
+            "type": "structure",
+            "blank_value": {},
+            "default_value": {},
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": false,
+            "ontology": null,
             "documentation": "Reserved placeholder structure (empty in NDIcalc-vis-matlab v1; purpose pending domain confirmation).",
             "constraints": {},
             "fields": []

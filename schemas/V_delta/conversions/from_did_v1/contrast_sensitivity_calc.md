@@ -36,7 +36,7 @@ did_v1 name `contrastsensitivity_calc` is normalized to
 | `saturation_index_{RB,RBN,RBNS}` | `saturation_index_{rb,rbn,rbns}` | same |
 | `parameters_{RB,RBN,RBNS}` | `parameters_{rb,rbn,rbns}` | same |
 | `fitless_interpolated_c50` | same | `matrix<double>` |
-| `is_modulated_response` | same | `double` (boolean stored as 0/1 for v1 compat) |
+| `is_modulated_response` | same | `boolean` (did_v1 stored as 0/1 double; promoted to boolean in V_delta) |
 | `visual_response_p_bonferroni` | same | `matrix<double>` |
 | `response_varies_p_bonferroni` | same | `matrix<double>` |
 | `response_type` | same | `char` |
@@ -47,15 +47,8 @@ did_v1 name `contrastsensitivity_calc` is normalized to
   lowercased to `_rb` / `_rbn` / `_rbns`.
 - **Inheritance.** Despite producing contrast-sensitivity outputs, this
   calc does NOT inherit from `contrast_tuning` in did_v1 — only from
-  `base`. V_delta preserves that choice. (A future refactor could
-  consider whether `contrast_sensitivity_calc` should inherit from
-  `contrast_tuning` so the per-frequency RB/RBN/RBNS fits are stored in
-  the inherited `contrast_tuning.fit` structure instead of as flat
-  per-metric arrays here; deferred to domain review.)
-- **`is_modulated_response` as 0/1 double.** did_v1 stores this as a
-  numeric scalar (`0`); V_delta declares it `type: double` to preserve
-  shape rather than `boolean`, on the assumption that legacy tooling
-  reads it as a number. Promote to `boolean` in a follow-up if appropriate.
+  `base`. V_delta preserves that choice. (Inheritance is confirmed `base`-only because this class aggregates across `contrast_tuning` documents rather than being a single one.)
+- **`is_modulated_response` promoted to boolean.** did_v1 stored this as a numeric scalar (0/1 double). V_delta declares it `type: boolean`. Migration tools must convert `0` → `false` / `1` → `true`.
 
 ## Default values for new fields
 
@@ -72,10 +65,7 @@ No file references. See [`_files.md`](_files.md) for generic rules.
 
 ## Open questions
 
-- **TODO-domain:** should `contrast_sensitivity_calc` inherit from
-  `contrast_tuning` so the per-frequency fit metrics ride the existing
-  `fit.naka_rushton_*` structure on the parent?
-- **TODO-domain:** `is_modulated_response` — promote to `boolean`?
+
 - **TODO-domain:** ontology terms for sensitivity / gain / c50 fields.
 
 ## Cross-references

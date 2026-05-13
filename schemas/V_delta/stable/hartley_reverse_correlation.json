@@ -25,7 +25,7 @@
             "constraints": {},
             "fields": [
                 {
-                    "name": "M",
+                    "name": "m",
                     "type": "double",
                     "blank_value": 0,
                     "default_value": 0,
@@ -38,7 +38,7 @@
                     "constraints": {}
                 },
                 {
-                    "name": "L_max",
+                    "name": "l_max",
                     "type": "double",
                     "blank_value": 0,
                     "default_value": 20,
@@ -51,7 +51,7 @@
                     "constraints": {}
                 },
                 {
-                    "name": "K_max",
+                    "name": "k_max",
                     "type": "double",
                     "blank_value": 0,
                     "default_value": 20,
@@ -144,7 +144,7 @@
             "constraints": {},
             "fields": [
                 {
-                    "name": "T_coords",
+                    "name": "t_coords",
                     "type": "matrix",
                     "blank_value": [],
                     "default_value": [],
@@ -157,7 +157,7 @@
                     "constraints": { "element_type": "double" }
                 },
                 {
-                    "name": "X_coords",
+                    "name": "x_coords",
                     "type": "matrix",
                     "blank_value": [],
                     "default_value": [],
@@ -170,7 +170,7 @@
                     "constraints": { "element_type": "double" }
                 },
                 {
-                    "name": "Y_coords",
+                    "name": "y_coords",
                     "type": "matrix",
                     "blank_value": [],
                     "default_value": [],
@@ -198,7 +198,7 @@
             "constraints": { "element_type": "double" }
         },
         {
-            "name": "frameTimes",
+            "name": "frame_times",
             "type": "matrix",
             "blank_value": [],
             "default_value": [],
