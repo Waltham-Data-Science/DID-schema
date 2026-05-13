@@ -1,8 +1,8 @@
 {
     "$schema": "http://json-schema.org/draft-07/schema#",
-    "$id": "https://did-schema.example.org/V_gamma/did_schema_meta.json",
-    "title": "DID/NDI Schema Meta-Schema (V_gamma)",
-    "description": "Validates the structure of DID/NDI schema files for V_gamma. V_gamma introduces named composite types 'duration', 'ontology_term', 'volume', 'mass', 'length', 'voltage', 'current', and 'frequency', and a redesigned field-level 'ontology' annotation shape with keys 'node' (CURIE) and 'name' (label); the CURIE prefix is resolved against CURIE_lookups_meta.json. The six SI-dimensioned types share the same sub-field layout as 'duration' (a canonical-unit double, 'approximate' boolean, 'source_unit' char, 'source_value' double); only the canonical sub-field name and the allowed source units differ. NAMING CONVENTION: V_gamma drops the V_beta underscore prefix on NDI-extension keys. Every reserved key — JSON Schema vocabulary or NDI extension — is used without an underscore prefix; the authoritative enumeration of NDI-reserved names lives in ndi_reserved_keys.json and is enforced by this meta-schema. Schema authors must not reuse a reserved name as their own data field name.",
+    "$id": "https://did-schema.example.org/V_delta/did_schema_meta.json",
+    "title": "DID/NDI Schema Meta-Schema (V_delta)",
+    "description": "Validates the structure of DID/NDI schema files for V_delta. V_delta introduces named composite types 'duration', 'ontology_term', 'volume', 'mass', 'length', 'voltage', 'current', and 'frequency', and a redesigned field-level 'ontology' annotation shape with keys 'node' (CURIE) and 'name' (label); the CURIE prefix is resolved against CURIE_lookups_meta.json. The six SI-dimensioned types share the same sub-field layout as 'duration' (a canonical-unit double, 'approximate' boolean, 'source_unit' char, 'source_value' double); only the canonical sub-field name and the allowed source units differ. NAMING CONVENTION: V_delta drops the V_beta underscore prefix on NDI-extension keys. Every reserved key \u2014 JSON Schema vocabulary or NDI extension \u2014 is used without an underscore prefix; the authoritative enumeration of NDI-reserved names lives in ndi_reserved_keys.json and is enforced by this meta-schema. Schema authors must not reuse a reserved name as their own data field name.",
     "type": "object",
     "required": [
         "document_class",
@@ -26,14 +26,14 @@
             "items": {
                 "$ref": "#/$defs/file_record"
             },
-            "description": "Array of file record objects. Optional — omit for document types that have no associated files."
+            "description": "Array of file record objects. Optional \u2014 omit for document types that have no associated files."
         },
         "directory": {
             "type": "array",
             "items": {
                 "$ref": "#/$defs/directory_record"
             },
-            "description": "Array of directory record objects. Optional — omit for document types that have no associated directories."
+            "description": "Array of directory record objects. Optional \u2014 omit for document types that have no associated directories."
         },
         "fields": {
             "type": "array",
@@ -74,32 +74,28 @@
                 "maturity_level": {
                     "type": "string",
                     "enum": [
-                        "work_in_progress",
-                        "mature"
+                        "stable",
+                        "draft",
+                        "deprecated"
                     ],
-                    "description": "Maturity level of this schema: 'work_in_progress' for schemas still under development, 'mature' for stable schemas."
+                    "description": "Maturity level of this schema. Must agree with the schema's tier folder (stable/draft/deprecated) under schemas/V_delta/."
                 },
                 "abstract": {
                     "type": "boolean",
-                    "description": "If true, no document may have document_class.class_name equal to this class — only concrete subclasses may be instantiated. Default false when omitted. Does not affect inheritance, field flattening, or isa query matching."
+                    "description": "If true, no document may have document_class.class_name equal to this class \u2014 only concrete subclasses may be instantiated. Default false when omitted. Does not affect inheritance, field flattening, or isa query matching."
                 }
             }
         },
         "superclass_reference": {
             "type": "object",
             "required": [
-                "class_name",
-                "schema"
+                "class_name"
             ],
             "additionalProperties": false,
             "properties": {
                 "class_name": {
                     "type": "string",
-                    "description": "Name of the parent class."
-                },
-                "schema": {
-                    "type": "string",
-                    "description": "Path or token-substituted path to the parent schema file."
+                    "description": "Name of the parent class. Path-based resolution is removed in V_delta; consumer tooling resolves superclass schemas by class_name via schemas/V_delta/index.json."
                 }
             }
         },

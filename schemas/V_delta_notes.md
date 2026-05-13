@@ -44,24 +44,22 @@ substantive schema content changes will land in follow-up PRs.
 
 ### Schema content
 
-- **Update `maturity_level` field values** in the copied schemas from
-  `"work_in_progress"` / `"mature"` to `"stable"` / `"draft"` /
-  `"deprecated"` to match V_delta's vocabulary, and re-tier (move
-  between folders) any schema whose current `stable/` placement is
-  wrong. Currently all schemas are placed in `stable/` as a default;
-  this needs domain review.
+- **`maturity_level` values updated.** All 101 V_delta document-class
+  schemas now declare `"maturity_level": "stable"` to match their
+  current `stable/` folder placement. The meta-schema enforces the new
+  `{stable, draft, deprecated}` enum. Re-tiering of specific schemas
+  (moving any from `stable/` to `draft/` or `deprecated/`) remains a
+  domain-review follow-up.
+- **`$NDISCHEMAPATH` references removed from superclass references.**
+  Superclass reference objects in V_delta are now `{"class_name": "<x>"}`
+  only; the `schema` path key is gone. The meta-schema enforces the new
+  shape (the legacy `schema` key is now forbidden via
+  `additionalProperties: false`). Consumer tooling must resolve
+  superclasses by `class_name` through `index.json`.
 - **Add the `schema_version` field** to `base.json` (and therefore to
   every inheriting document type) as a required `char` field with
   enumeration `["did_v1", "V_delta"]` (extend as new set versions are
-  added).
-- **Reconcile `$NDISCHEMAPATH` references in `superclasses`.** The
-  V_gamma schema files use `$NDISCHEMAPATH/<path>/schema.json`-style
-  references (e.g., `$NDISCHEMAPATH/base/schema.json`) which do not
-  match V_gamma's documented flat layout, and will not match V_delta's
-  tiered layout either. Either rewrite these to reflect the V_delta
-  layout, or — preferred — drop the `schema` path key entirely and let
-  resolution proceed via `class_name` + `index.json` lookup. This is a
-  V_delta SPEC decision; see `V_delta_SPEC.md` § 2.
+  added). Still a follow-up.
 
 ### Aggregation
 

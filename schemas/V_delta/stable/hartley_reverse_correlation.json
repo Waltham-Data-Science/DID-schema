@@ -3,10 +3,14 @@
         "class_name": "hartley_reverse_correlation",
         "class_version": "1.0.0",
         "superclasses": [
-            { "class_name": "base", "schema": "$NDISCHEMAPATH/base/schema.json" },
-            { "class_name": "reverse_correlation", "schema": "$NDISCHEMAPATH/reverse_correlation/schema.json" }
+            {
+                "class_name": "base"
+            },
+            {
+                "class_name": "reverse_correlation"
+            }
         ],
-        "maturity_level": "work_in_progress"
+        "maturity_level": "stable"
     },
     "depends_on": [],
     "file": [],
@@ -93,40 +97,59 @@
                     "name": "color_high",
                     "type": "matrix",
                     "blank_value": [],
-                    "default_value": [255, 255, 255],
+                    "default_value": [
+                        255,
+                        255,
+                        255
+                    ],
                     "mustBeNonEmpty": false,
                     "mustBeScalar": false,
                     "mustNotHaveNaN": false,
                     "queryable": false,
                     "ontology": null,
                     "documentation": "RGB triple for the 'high' (positive-coefficient) Hartley basis pixel value (0-255 per channel).",
-                    "constraints": { "element_type": "double" }
+                    "constraints": {
+                        "element_type": "double"
+                    }
                 },
                 {
                     "name": "color_low",
                     "type": "matrix",
                     "blank_value": [],
-                    "default_value": [0, 0, 0],
+                    "default_value": [
+                        0,
+                        0,
+                        0
+                    ],
                     "mustBeNonEmpty": false,
                     "mustBeScalar": false,
                     "mustNotHaveNaN": false,
                     "queryable": false,
                     "ontology": null,
                     "documentation": "RGB triple for the 'low' (negative-coefficient) Hartley basis pixel value (0-255 per channel).",
-                    "constraints": { "element_type": "double" }
+                    "constraints": {
+                        "element_type": "double"
+                    }
                 },
                 {
                     "name": "rect",
                     "type": "matrix",
                     "blank_value": [],
-                    "default_value": [0, 0, 800, 600],
+                    "default_value": [
+                        0,
+                        0,
+                        800,
+                        600
+                    ],
                     "mustBeNonEmpty": false,
                     "mustBeScalar": false,
                     "mustNotHaveNaN": false,
                     "queryable": false,
                     "ontology": null,
                     "documentation": "On-screen rectangle in which Hartley basis images were drawn, [x_left, y_top, x_right, y_bottom] in pixels.",
-                    "constraints": { "element_type": "double" }
+                    "constraints": {
+                        "element_type": "double"
+                    }
                 }
             ]
         },
@@ -154,7 +177,9 @@
                     "queryable": false,
                     "ontology": null,
                     "documentation": "Array of time-axis coordinates (seconds) at which the reverse-correlation kernel was reconstructed.",
-                    "constraints": { "element_type": "double" }
+                    "constraints": {
+                        "element_type": "double"
+                    }
                 },
                 {
                     "name": "x_coords",
@@ -167,7 +192,9 @@
                     "queryable": false,
                     "ontology": null,
                     "documentation": "Array of X-axis spatial coordinates at which the reverse-correlation kernel was reconstructed.",
-                    "constraints": { "element_type": "double" }
+                    "constraints": {
+                        "element_type": "double"
+                    }
                 },
                 {
                     "name": "y_coords",
@@ -180,7 +207,9 @@
                     "queryable": false,
                     "ontology": null,
                     "documentation": "Array of Y-axis spatial coordinates at which the reverse-correlation kernel was reconstructed.",
-                    "constraints": { "element_type": "double" }
+                    "constraints": {
+                        "element_type": "double"
+                    }
                 }
             ]
         },
@@ -195,7 +224,9 @@
             "queryable": false,
             "ontology": null,
             "documentation": "Spike times (seconds, in the element's local clock) used as the trigger events for the reverse correlation.",
-            "constraints": { "element_type": "double" }
+            "constraints": {
+                "element_type": "double"
+            }
         },
         {
             "name": "frame_times",
@@ -208,7 +239,9 @@
             "queryable": false,
             "ontology": null,
             "documentation": "Times (seconds) at which each Hartley basis frame was presented. Indexed in parallel with hartley_numbers.",
-            "constraints": { "element_type": "double" }
+            "constraints": {
+                "element_type": "double"
+            }
         },
         {
             "name": "hartley_numbers",
@@ -221,7 +254,9 @@
             "queryable": false,
             "ontology": null,
             "documentation": "Hartley basis index (integer) for each presented frame. Indexed in parallel with frameTimes.",
-            "constraints": { "element_type": "double" }
+            "constraints": {
+                "element_type": "double"
+            }
         }
     ]
 }

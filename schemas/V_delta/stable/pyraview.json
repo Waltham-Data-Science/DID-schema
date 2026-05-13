@@ -4,23 +4,19 @@
         "class_version": "1.0.0",
         "superclasses": [
             {
-                "class_name": "epochclocktimes",
-                "schema": "$NDISCHEMAPATH/epochclocktimes/schema.json"
+                "class_name": "epochclocktimes"
             },
             {
-                "class_name": "filter",
-                "schema": "$NDISCHEMAPATH/data/filter/schema.json"
+                "class_name": "filter"
             },
             {
-                "class_name": "base",
-                "schema": "$NDISCHEMAPATH/base/schema.json"
+                "class_name": "base"
             },
             {
-                "class_name": "epochid",
-                "schema": "$NDISCHEMAPATH/epochid/schema.json"
+                "class_name": "epochid"
             }
         ],
-        "maturity_level": "work_in_progress"
+        "maturity_level": "stable"
     },
     "depends_on": [
         {

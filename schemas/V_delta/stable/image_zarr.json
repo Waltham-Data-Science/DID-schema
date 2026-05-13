@@ -4,11 +4,10 @@
         "class_version": "1.0.0",
         "superclasses": [
             {
-                "class_name": "zarr",
-                "schema": "$NDISCHEMAPATH/zarr/schema.json"
+                "class_name": "zarr"
             }
         ],
-        "maturity_level": "work_in_progress"
+        "maturity_level": "stable"
     },
     "depends_on": [
         {

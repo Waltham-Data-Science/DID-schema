@@ -3,10 +3,14 @@
         "class_name": "hartley_calc",
         "class_version": "1.0.0",
         "superclasses": [
-            { "class_name": "base", "schema": "$NDISCHEMAPATH/base/schema.json" },
-            { "class_name": "hartley_reverse_correlation", "schema": "$NDISCHEMAPATH/hartley_reverse_correlation/schema.json" }
+            {
+                "class_name": "base"
+            },
+            {
+                "class_name": "hartley_reverse_correlation"
+            }
         ],
-        "maturity_level": "work_in_progress"
+        "maturity_level": "stable"
     },
     "depends_on": [],
     "file": [
@@ -34,14 +38,23 @@
                     "name": "t",
                     "type": "matrix",
                     "blank_value": [],
-                    "default_value": [0, 0.05, 0.10, 0.15, 0.20, 0.25],
+                    "default_value": [
+                        0,
+                        0.05,
+                        0.1,
+                        0.15,
+                        0.2,
+                        0.25
+                    ],
                     "mustBeNonEmpty": false,
                     "mustBeScalar": false,
                     "mustNotHaveNaN": false,
                     "queryable": false,
                     "ontology": null,
                     "documentation": "Time-lag coordinates (seconds) at which the reverse-correlation kernel is reconstructed.",
-                    "constraints": { "element_type": "double" }
+                    "constraints": {
+                        "element_type": "double"
+                    }
                 },
                 {
                     "name": "x_sampling",

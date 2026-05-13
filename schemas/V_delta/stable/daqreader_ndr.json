@@ -4,15 +4,13 @@
         "class_version": "1.0.0",
         "superclasses": [
             {
-                "class_name": "base",
-                "schema": "$NDISCHEMAPATH/base/schema.json"
+                "class_name": "base"
             },
             {
-                "class_name": "daqreader",
-                "schema": "$NDISCHEMAPATH/daq/daqreader/schema.json"
+                "class_name": "daqreader"
             }
         ],
-        "maturity_level": "work_in_progress"
+        "maturity_level": "stable"
     },
     "depends_on": [],
     "file": [],

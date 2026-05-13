@@ -3,10 +3,14 @@
         "class_name": "reverse_correlation",
         "class_version": "1.0.0",
         "superclasses": [
-            { "class_name": "base", "schema": "$NDISCHEMAPATH/base/schema.json" },
-            { "class_name": "ngrid", "schema": "$NDISCHEMAPATH/ngrid/schema.json" }
+            {
+                "class_name": "base"
+            },
+            {
+                "class_name": "ngrid"
+            }
         ],
-        "maturity_level": "work_in_progress"
+        "maturity_level": "stable"
     },
     "depends_on": [
         {
@@ -35,7 +39,9 @@
             "queryable": true,
             "ontology": null,
             "documentation": "Name of the reverse-correlation method used (e.g., 'spike-triggered average', 'STC'). Candidate for promotion to ontology_term.",
-            "constraints": { "maxLength": 256 }
+            "constraints": {
+                "maxLength": 256
+            }
         },
         {
             "name": "dimension_labels",
@@ -48,7 +54,9 @@
             "queryable": false,
             "ontology": null,
             "documentation": "Comma-separated names for the axes of the reverse-correlation kernel inherited from ngrid (e.g., 'Time, X, Y').",
-            "constraints": { "maxLength": 256 }
+            "constraints": {
+                "maxLength": 256
+            }
         }
     ]
 }

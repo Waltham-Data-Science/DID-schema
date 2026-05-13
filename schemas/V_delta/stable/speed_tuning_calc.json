@@ -3,10 +3,14 @@
         "class_name": "speed_tuning_calc",
         "class_version": "1.0.0",
         "superclasses": [
-            { "class_name": "base", "schema": "$NDISCHEMAPATH/base/schema.json" },
-            { "class_name": "speed_tuning", "schema": "$NDISCHEMAPATH/speed_tuning/schema.json" }
+            {
+                "class_name": "base"
+            },
+            {
+                "class_name": "speed_tuning"
+            }
         ],
-        "maturity_level": "work_in_progress"
+        "maturity_level": "stable"
     },
     "depends_on": [],
     "file": [],

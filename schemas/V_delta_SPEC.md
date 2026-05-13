@@ -68,30 +68,31 @@ schemas in the set. Each entry records:
 - `is_meta` (true for meta-schemas and registries that are not document
   classes)
 
-Consumer tooling SHOULD resolve schemas by `class_name` via `index.json`
-rather than by literal `$NDISCHEMAPATH/...` path. Resolution by path
-remains supported for backwards compatibility during the V_delta sandbox
-phase but is expected to be retired before V1.
+Consumer tooling resolves schemas by `class_name` via `index.json`. The
+superclass reference object in V_delta is `{"class_name": "<name>"}` —
+the `schema` path key that existed in V_gamma is removed. The meta-schema
+enforces this. There is no `$NDISCHEMAPATH` path-walking fallback.
 
-### 3. Expanded `maturity_level` values
+### 3. New `maturity_level` vocabulary
 
-V_gamma allows `maturity_level` ∈ `{"work_in_progress", "mature"}`.
+V_gamma allowed `maturity_level` ∈ `{"work_in_progress", "mature"}`.
 
-V_delta expands this to `{"stable", "draft", "deprecated"}` with the
-following intended mapping for migrated content:
+V_delta replaces this with `{"stable", "draft", "deprecated"}`. The
+value of a schema's `maturity_level` field must equal the name of the
+tier folder it lives in (`stable/`, `draft/`, or `deprecated/`). Schemas
+do not know where they live on disk; the field is the metadata they
+carry to communicate that status to consumers. Disk layout is a
+projection of the field for human navigation.
+
+The meta-schema (`did_schema_meta.json`) enforces the enum.
+
+Migration mapping for content carried over from V_gamma:
 
 | V_gamma `maturity_level` | V_delta target |
 |---|---|
 | `"mature"` | `"stable"` |
-| `"work_in_progress"` | `"draft"` |
+| `"work_in_progress"` | `"stable"` (default placement — re-tier to `draft` or `deprecated` per domain review) |
 | — | `"deprecated"` (new, no V_gamma analog) |
-
-The initial scaffolding commit copies schemas verbatim from V_gamma and
-places all of them under `stable/` regardless of their original
-`maturity_level` value, on the understanding that the V_gamma schemas
-represent the working set of types intended to reach V1. Re-tiering and
-updates to the in-schema `maturity_level` field will land as follow-up
-PRs and are tracked in `V_delta_notes.md`.
 
 ### 4. `schema_version` field on document instances (planned)
 

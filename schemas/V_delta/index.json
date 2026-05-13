@@ -10,7 +10,7 @@
   "legacy_schema_version_values": [
     "did_v1"
   ],
-  "notes": "Source of truth for class_name uniqueness and tier placement. Initial population by copy from V_gamma; subsequent additions land via PRs.",
+  "notes": "Source of truth for class_name uniqueness and tier placement. Resolution-by-class_name only; superclass references no longer carry $NDISCHEMAPATH paths.",
   "schemas": [
     {
       "class_name": "CURIE_lookups_meta",
@@ -25,7 +25,7 @@
       "class_name": "app",
       "tier": "stable",
       "class_version": "1.0.0",
-      "maturity_level": "work_in_progress",
+      "maturity_level": "stable",
       "superclasses": [
         "base"
       ],
@@ -36,7 +36,7 @@
       "class_name": "base",
       "tier": "stable",
       "class_version": "1.0.0",
-      "maturity_level": "work_in_progress",
+      "maturity_level": "stable",
       "superclasses": [],
       "path": "schemas/V_delta/stable/base.json",
       "is_meta": false
@@ -45,7 +45,7 @@
       "class_name": "binaryseries_parameters",
       "tier": "stable",
       "class_version": "1.0.0",
-      "maturity_level": "work_in_progress",
+      "maturity_level": "stable",
       "superclasses": [
         "base"
       ],
@@ -56,7 +56,7 @@
       "class_name": "binnedspikeratevm",
       "tier": "stable",
       "class_version": "1.0.0",
-      "maturity_level": "work_in_progress",
+      "maturity_level": "stable",
       "superclasses": [
         "base"
       ],
@@ -67,7 +67,7 @@
       "class_name": "contrast_sensitivity_calc",
       "tier": "stable",
       "class_version": "1.0.0",
-      "maturity_level": "work_in_progress",
+      "maturity_level": "stable",
       "superclasses": [
         "base"
       ],
@@ -78,7 +78,7 @@
       "class_name": "contrast_tuning",
       "tier": "stable",
       "class_version": "1.0.0",
-      "maturity_level": "work_in_progress",
+      "maturity_level": "stable",
       "superclasses": [
         "base"
       ],
@@ -89,7 +89,7 @@
       "class_name": "contrast_tuning_calc",
       "tier": "stable",
       "class_version": "1.0.0",
-      "maturity_level": "work_in_progress",
+      "maturity_level": "stable",
       "superclasses": [
         "base",
         "contrast_tuning"
@@ -101,7 +101,7 @@
       "class_name": "control_stimulus_ids",
       "tier": "stable",
       "class_version": "1.0.0",
-      "maturity_level": "work_in_progress",
+      "maturity_level": "stable",
       "superclasses": [
         "base"
       ],
@@ -112,7 +112,7 @@
       "class_name": "daqmetadatareader",
       "tier": "stable",
       "class_version": "1.0.0",
-      "maturity_level": "work_in_progress",
+      "maturity_level": "stable",
       "superclasses": [
         "base"
       ],
@@ -123,7 +123,7 @@
       "class_name": "daqmetadatareader_epochdata_ingested",
       "tier": "stable",
       "class_version": "1.0.0",
-      "maturity_level": "work_in_progress",
+      "maturity_level": "stable",
       "superclasses": [
         "base"
       ],
@@ -134,7 +134,7 @@
       "class_name": "daqreader",
       "tier": "stable",
       "class_version": "1.0.0",
-      "maturity_level": "work_in_progress",
+      "maturity_level": "stable",
       "superclasses": [
         "base"
       ],
@@ -145,7 +145,7 @@
       "class_name": "daqreader_epochdata_ingested",
       "tier": "stable",
       "class_version": "1.0.0",
-      "maturity_level": "work_in_progress",
+      "maturity_level": "stable",
       "superclasses": [
         "base"
       ],
@@ -156,7 +156,7 @@
       "class_name": "daqreader_mfdaq_epochdata_ingested",
       "tier": "stable",
       "class_version": "1.0.0",
-      "maturity_level": "work_in_progress",
+      "maturity_level": "stable",
       "superclasses": [
         "base"
       ],
@@ -167,7 +167,7 @@
       "class_name": "daqreader_ndr",
       "tier": "stable",
       "class_version": "1.0.0",
-      "maturity_level": "work_in_progress",
+      "maturity_level": "stable",
       "superclasses": [
         "base",
         "daqreader"
@@ -179,7 +179,7 @@
       "class_name": "daqsystem",
       "tier": "stable",
       "class_version": "1.0.0",
-      "maturity_level": "work_in_progress",
+      "maturity_level": "stable",
       "superclasses": [
         "base"
       ],
@@ -190,7 +190,7 @@
       "class_name": "dataset_remote",
       "tier": "stable",
       "class_version": "1.0.0",
-      "maturity_level": "work_in_progress",
+      "maturity_level": "stable",
       "superclasses": [
         "base"
       ],
@@ -201,7 +201,7 @@
       "class_name": "dataset_session_info",
       "tier": "stable",
       "class_version": "1.0.0",
-      "maturity_level": "work_in_progress",
+      "maturity_level": "stable",
       "superclasses": [
         "base"
       ],
@@ -212,7 +212,7 @@
       "class_name": "demo_ndi",
       "tier": "stable",
       "class_version": "1.0.0",
-      "maturity_level": "work_in_progress",
+      "maturity_level": "stable",
       "superclasses": [
         "base"
       ],
@@ -223,7 +223,7 @@
       "class_name": "demo_ndi_mock",
       "tier": "stable",
       "class_version": "1.0.0",
-      "maturity_level": "work_in_progress",
+      "maturity_level": "stable",
       "superclasses": [
         "base"
       ],
@@ -243,7 +243,7 @@
       "class_name": "directory",
       "tier": "stable",
       "class_version": "1.0.0",
-      "maturity_level": "work_in_progress",
+      "maturity_level": "stable",
       "superclasses": [
         "base"
       ],
@@ -254,7 +254,7 @@
       "class_name": "distance_metadata",
       "tier": "stable",
       "class_version": "1.0.0",
-      "maturity_level": "work_in_progress",
+      "maturity_level": "stable",
       "superclasses": [
         "base"
       ],
@@ -265,7 +265,7 @@
       "class_name": "electrode_offset_voltage",
       "tier": "stable",
       "class_version": "1.0.0",
-      "maturity_level": "work_in_progress",
+      "maturity_level": "stable",
       "superclasses": [
         "base"
       ],
@@ -276,7 +276,7 @@
       "class_name": "element",
       "tier": "stable",
       "class_version": "1.0.0",
-      "maturity_level": "work_in_progress",
+      "maturity_level": "stable",
       "superclasses": [
         "base"
       ],
@@ -287,7 +287,7 @@
       "class_name": "element_epoch",
       "tier": "stable",
       "class_version": "1.0.0",
-      "maturity_level": "work_in_progress",
+      "maturity_level": "stable",
       "superclasses": [
         "base",
         "epochid"
@@ -299,7 +299,7 @@
       "class_name": "ephys_zarr",
       "tier": "stable",
       "class_version": "1.0.0",
-      "maturity_level": "work_in_progress",
+      "maturity_level": "stable",
       "superclasses": [
         "zarr"
       ],
@@ -310,7 +310,7 @@
       "class_name": "epochclocktimes",
       "tier": "stable",
       "class_version": "1.0.0",
-      "maturity_level": "work_in_progress",
+      "maturity_level": "stable",
       "superclasses": [
         "base",
         "epochid"
@@ -322,7 +322,7 @@
       "class_name": "epochfiles_ingested",
       "tier": "stable",
       "class_version": "1.0.0",
-      "maturity_level": "work_in_progress",
+      "maturity_level": "stable",
       "superclasses": [
         "base"
       ],
@@ -333,7 +333,7 @@
       "class_name": "epochid",
       "tier": "stable",
       "class_version": "1.0.0",
-      "maturity_level": "work_in_progress",
+      "maturity_level": "stable",
       "superclasses": [
         "base"
       ],
@@ -344,7 +344,7 @@
       "class_name": "filenavigator",
       "tier": "stable",
       "class_version": "1.0.0",
-      "maturity_level": "work_in_progress",
+      "maturity_level": "stable",
       "superclasses": [
         "base"
       ],
@@ -355,7 +355,7 @@
       "class_name": "filter",
       "tier": "stable",
       "class_version": "1.0.0",
-      "maturity_level": "work_in_progress",
+      "maturity_level": "stable",
       "superclasses": [
         "base"
       ],
@@ -366,7 +366,7 @@
       "class_name": "fitcurve",
       "tier": "stable",
       "class_version": "1.0.0",
-      "maturity_level": "work_in_progress",
+      "maturity_level": "stable",
       "superclasses": [
         "base"
       ],
@@ -377,7 +377,7 @@
       "class_name": "generic_file",
       "tier": "stable",
       "class_version": "1.0.0",
-      "maturity_level": "work_in_progress",
+      "maturity_level": "stable",
       "superclasses": [
         "base"
       ],
@@ -388,7 +388,7 @@
       "class_name": "hartley_calc",
       "tier": "stable",
       "class_version": "1.0.0",
-      "maturity_level": "work_in_progress",
+      "maturity_level": "stable",
       "superclasses": [
         "base",
         "hartley_reverse_correlation"
@@ -400,7 +400,7 @@
       "class_name": "hartley_reverse_correlation",
       "tier": "stable",
       "class_version": "1.0.0",
-      "maturity_level": "work_in_progress",
+      "maturity_level": "stable",
       "superclasses": [
         "base",
         "reverse_correlation"
@@ -412,7 +412,7 @@
       "class_name": "image",
       "tier": "stable",
       "class_version": "1.0.0",
-      "maturity_level": "work_in_progress",
+      "maturity_level": "stable",
       "superclasses": [
         "base"
       ],
@@ -423,7 +423,7 @@
       "class_name": "image_collection",
       "tier": "stable",
       "class_version": "1.0.0",
-      "maturity_level": "work_in_progress",
+      "maturity_level": "stable",
       "superclasses": [
         "base"
       ],
@@ -434,7 +434,7 @@
       "class_name": "image_stack",
       "tier": "stable",
       "class_version": "1.0.0",
-      "maturity_level": "work_in_progress",
+      "maturity_level": "stable",
       "superclasses": [
         "base"
       ],
@@ -445,7 +445,7 @@
       "class_name": "image_stack_parameters",
       "tier": "stable",
       "class_version": "1.0.0",
-      "maturity_level": "work_in_progress",
+      "maturity_level": "stable",
       "superclasses": [
         "base"
       ],
@@ -456,7 +456,7 @@
       "class_name": "image_zarr",
       "tier": "stable",
       "class_version": "1.0.0",
-      "maturity_level": "work_in_progress",
+      "maturity_level": "stable",
       "superclasses": [
         "zarr"
       ],
@@ -467,7 +467,7 @@
       "class_name": "jrclust_clusters",
       "tier": "stable",
       "class_version": "1.0.0",
-      "maturity_level": "work_in_progress",
+      "maturity_level": "stable",
       "superclasses": [
         "base"
       ],
@@ -478,7 +478,7 @@
       "class_name": "measurement",
       "tier": "stable",
       "class_version": "1.0.0",
-      "maturity_level": "work_in_progress",
+      "maturity_level": "stable",
       "superclasses": [
         "base",
         "epochid"
@@ -490,7 +490,7 @@
       "class_name": "metadata_editor",
       "tier": "stable",
       "class_version": "1.0.0",
-      "maturity_level": "work_in_progress",
+      "maturity_level": "stable",
       "superclasses": [
         "base"
       ],
@@ -501,7 +501,7 @@
       "class_name": "mock",
       "tier": "stable",
       "class_version": "1.0.0",
-      "maturity_level": "work_in_progress",
+      "maturity_level": "stable",
       "superclasses": [
         "base"
       ],
@@ -521,7 +521,7 @@
       "class_name": "neuron_extracellular",
       "tier": "stable",
       "class_version": "1.0.0",
-      "maturity_level": "work_in_progress",
+      "maturity_level": "stable",
       "superclasses": [
         "base"
       ],
@@ -532,7 +532,7 @@
       "class_name": "ngrid",
       "tier": "stable",
       "class_version": "1.0.0",
-      "maturity_level": "work_in_progress",
+      "maturity_level": "stable",
       "superclasses": [
         "base"
       ],
@@ -543,7 +543,7 @@
       "class_name": "oneepoch",
       "tier": "stable",
       "class_version": "1.0.0",
-      "maturity_level": "work_in_progress",
+      "maturity_level": "stable",
       "superclasses": [
         "base",
         "epochid"
@@ -555,7 +555,7 @@
       "class_name": "ontology_image",
       "tier": "stable",
       "class_version": "2.0.0",
-      "maturity_level": "work_in_progress",
+      "maturity_level": "stable",
       "superclasses": [
         "base"
       ],
@@ -566,7 +566,7 @@
       "class_name": "ontology_label",
       "tier": "stable",
       "class_version": "2.0.0",
-      "maturity_level": "work_in_progress",
+      "maturity_level": "stable",
       "superclasses": [
         "base"
       ],
@@ -577,7 +577,7 @@
       "class_name": "ontology_table_row",
       "tier": "stable",
       "class_version": "1.0.0",
-      "maturity_level": "work_in_progress",
+      "maturity_level": "stable",
       "superclasses": [
         "base"
       ],
@@ -588,7 +588,7 @@
       "class_name": "openminds",
       "tier": "stable",
       "class_version": "1.0.0",
-      "maturity_level": "work_in_progress",
+      "maturity_level": "stable",
       "superclasses": [
         "base"
       ],
@@ -599,7 +599,7 @@
       "class_name": "openminds_element",
       "tier": "stable",
       "class_version": "1.0.0",
-      "maturity_level": "work_in_progress",
+      "maturity_level": "stable",
       "superclasses": [
         "base"
       ],
@@ -610,7 +610,7 @@
       "class_name": "openminds_stimulus",
       "tier": "stable",
       "class_version": "1.0.0",
-      "maturity_level": "work_in_progress",
+      "maturity_level": "stable",
       "superclasses": [
         "base"
       ],
@@ -621,7 +621,7 @@
       "class_name": "openminds_subject",
       "tier": "stable",
       "class_version": "1.0.0",
-      "maturity_level": "work_in_progress",
+      "maturity_level": "stable",
       "superclasses": [
         "base"
       ],
@@ -632,7 +632,7 @@
       "class_name": "orientation_direction_tuning",
       "tier": "stable",
       "class_version": "1.0.0",
-      "maturity_level": "work_in_progress",
+      "maturity_level": "stable",
       "superclasses": [
         "base"
       ],
@@ -643,7 +643,7 @@
       "class_name": "orientation_direction_tuning_calc",
       "tier": "stable",
       "class_version": "1.0.0",
-      "maturity_level": "work_in_progress",
+      "maturity_level": "stable",
       "superclasses": [
         "base",
         "orientation_direction_tuning"
@@ -655,7 +655,7 @@
       "class_name": "position_metadata",
       "tier": "stable",
       "class_version": "1.0.0",
-      "maturity_level": "work_in_progress",
+      "maturity_level": "stable",
       "superclasses": [
         "base"
       ],
@@ -666,7 +666,7 @@
       "class_name": "probe_geometry",
       "tier": "stable",
       "class_version": "1.0.0",
-      "maturity_level": "work_in_progress",
+      "maturity_level": "stable",
       "superclasses": [
         "base"
       ],
@@ -677,7 +677,7 @@
       "class_name": "probe_location",
       "tier": "stable",
       "class_version": "2.0.0",
-      "maturity_level": "work_in_progress",
+      "maturity_level": "stable",
       "superclasses": [
         "base"
       ],
@@ -688,7 +688,7 @@
       "class_name": "projectvar",
       "tier": "stable",
       "class_version": "1.0.0",
-      "maturity_level": "work_in_progress",
+      "maturity_level": "stable",
       "superclasses": [
         "base"
       ],
@@ -699,7 +699,7 @@
       "class_name": "pyraview",
       "tier": "stable",
       "class_version": "1.0.0",
-      "maturity_level": "work_in_progress",
+      "maturity_level": "stable",
       "superclasses": [
         "epochclocktimes",
         "filter",
@@ -713,7 +713,7 @@
       "class_name": "reverse_correlation",
       "tier": "stable",
       "class_version": "1.0.0",
-      "maturity_level": "work_in_progress",
+      "maturity_level": "stable",
       "superclasses": [
         "base",
         "ngrid"
@@ -725,7 +725,7 @@
       "class_name": "session",
       "tier": "stable",
       "class_version": "1.0.0",
-      "maturity_level": "work_in_progress",
+      "maturity_level": "stable",
       "superclasses": [
         "base"
       ],
@@ -736,7 +736,7 @@
       "class_name": "session_in_a_dataset",
       "tier": "stable",
       "class_version": "1.0.0",
-      "maturity_level": "work_in_progress",
+      "maturity_level": "stable",
       "superclasses": [
         "base"
       ],
@@ -747,7 +747,7 @@
       "class_name": "simple_calc",
       "tier": "stable",
       "class_version": "1.0.0",
-      "maturity_level": "work_in_progress",
+      "maturity_level": "stable",
       "superclasses": [
         "base"
       ],
@@ -758,7 +758,7 @@
       "class_name": "site2channelmap",
       "tier": "stable",
       "class_version": "1.0.0",
-      "maturity_level": "work_in_progress",
+      "maturity_level": "stable",
       "superclasses": [
         "base"
       ],
@@ -769,7 +769,7 @@
       "class_name": "sorting_parameters",
       "tier": "stable",
       "class_version": "1.0.0",
-      "maturity_level": "work_in_progress",
+      "maturity_level": "stable",
       "superclasses": [
         "base"
       ],
@@ -780,7 +780,7 @@
       "class_name": "spatial_frequency_tuning",
       "tier": "stable",
       "class_version": "1.0.0",
-      "maturity_level": "work_in_progress",
+      "maturity_level": "stable",
       "superclasses": [
         "base"
       ],
@@ -791,7 +791,7 @@
       "class_name": "spatial_frequency_tuning_calc",
       "tier": "stable",
       "class_version": "1.0.0",
-      "maturity_level": "work_in_progress",
+      "maturity_level": "stable",
       "superclasses": [
         "base",
         "spatial_frequency_tuning"
@@ -803,7 +803,7 @@
       "class_name": "speed_tuning",
       "tier": "stable",
       "class_version": "1.0.0",
-      "maturity_level": "work_in_progress",
+      "maturity_level": "stable",
       "superclasses": [
         "base"
       ],
@@ -814,7 +814,7 @@
       "class_name": "speed_tuning_calc",
       "tier": "stable",
       "class_version": "1.0.0",
-      "maturity_level": "work_in_progress",
+      "maturity_level": "stable",
       "superclasses": [
         "base",
         "speed_tuning"
@@ -826,7 +826,7 @@
       "class_name": "spike_clusters",
       "tier": "stable",
       "class_version": "1.0.0",
-      "maturity_level": "work_in_progress",
+      "maturity_level": "stable",
       "superclasses": [
         "base"
       ],
@@ -837,7 +837,7 @@
       "class_name": "spike_extraction_parameters",
       "tier": "stable",
       "class_version": "1.0.0",
-      "maturity_level": "work_in_progress",
+      "maturity_level": "stable",
       "superclasses": [
         "base"
       ],
@@ -848,7 +848,7 @@
       "class_name": "spike_extraction_parameters_modification",
       "tier": "stable",
       "class_version": "1.0.0",
-      "maturity_level": "work_in_progress",
+      "maturity_level": "stable",
       "superclasses": [
         "base"
       ],
@@ -859,7 +859,7 @@
       "class_name": "spike_interface_sorting_outputs",
       "tier": "stable",
       "class_version": "1.0.0",
-      "maturity_level": "work_in_progress",
+      "maturity_level": "stable",
       "superclasses": [
         "base"
       ],
@@ -870,7 +870,7 @@
       "class_name": "spikewaves",
       "tier": "stable",
       "class_version": "1.0.0",
-      "maturity_level": "work_in_progress",
+      "maturity_level": "stable",
       "superclasses": [
         "base"
       ],
@@ -881,7 +881,7 @@
       "class_name": "stimulus_bath",
       "tier": "stable",
       "class_version": "1.0.0",
-      "maturity_level": "work_in_progress",
+      "maturity_level": "stable",
       "superclasses": [
         "base"
       ],
@@ -892,7 +892,7 @@
       "class_name": "stimulus_parameter",
       "tier": "stable",
       "class_version": "1.0.0",
-      "maturity_level": "work_in_progress",
+      "maturity_level": "stable",
       "superclasses": [
         "base"
       ],
@@ -903,7 +903,7 @@
       "class_name": "stimulus_parameter_table",
       "tier": "stable",
       "class_version": "1.0.0",
-      "maturity_level": "work_in_progress",
+      "maturity_level": "stable",
       "superclasses": [
         "base"
       ],
@@ -914,7 +914,7 @@
       "class_name": "stimulus_presentation",
       "tier": "stable",
       "class_version": "1.0.0",
-      "maturity_level": "work_in_progress",
+      "maturity_level": "stable",
       "superclasses": [
         "base"
       ],
@@ -925,7 +925,7 @@
       "class_name": "stimulus_response",
       "tier": "stable",
       "class_version": "1.0.0",
-      "maturity_level": "work_in_progress",
+      "maturity_level": "stable",
       "superclasses": [
         "base"
       ],
@@ -936,7 +936,7 @@
       "class_name": "stimulus_response_scalar",
       "tier": "stable",
       "class_version": "1.0.0",
-      "maturity_level": "work_in_progress",
+      "maturity_level": "stable",
       "superclasses": [
         "base"
       ],
@@ -947,7 +947,7 @@
       "class_name": "stimulus_response_scalar_parameters",
       "tier": "stable",
       "class_version": "1.0.0",
-      "maturity_level": "work_in_progress",
+      "maturity_level": "stable",
       "superclasses": [
         "base"
       ],
@@ -958,7 +958,7 @@
       "class_name": "stimulus_response_scalar_parameters_basic",
       "tier": "stable",
       "class_version": "1.0.0",
-      "maturity_level": "work_in_progress",
+      "maturity_level": "stable",
       "superclasses": [
         "base"
       ],
@@ -969,7 +969,7 @@
       "class_name": "stimulus_tuningcurve",
       "tier": "stable",
       "class_version": "1.0.0",
-      "maturity_level": "work_in_progress",
+      "maturity_level": "stable",
       "superclasses": [
         "base"
       ],
@@ -980,7 +980,7 @@
       "class_name": "subject",
       "tier": "stable",
       "class_version": "1.0.0",
-      "maturity_level": "work_in_progress",
+      "maturity_level": "stable",
       "superclasses": [
         "base"
       ],
@@ -991,7 +991,7 @@
       "class_name": "subject_group",
       "tier": "stable",
       "class_version": "1.0.0",
-      "maturity_level": "work_in_progress",
+      "maturity_level": "stable",
       "superclasses": [
         "base"
       ],
@@ -1002,7 +1002,7 @@
       "class_name": "syncgraph",
       "tier": "stable",
       "class_version": "1.0.0",
-      "maturity_level": "work_in_progress",
+      "maturity_level": "stable",
       "superclasses": [
         "base"
       ],
@@ -1013,7 +1013,7 @@
       "class_name": "syncrule",
       "tier": "stable",
       "class_version": "1.0.0",
-      "maturity_level": "work_in_progress",
+      "maturity_level": "stable",
       "superclasses": [
         "base"
       ],
@@ -1024,7 +1024,7 @@
       "class_name": "syncrule_mapping",
       "tier": "stable",
       "class_version": "1.0.0",
-      "maturity_level": "work_in_progress",
+      "maturity_level": "stable",
       "superclasses": [
         "base"
       ],
@@ -1035,7 +1035,7 @@
       "class_name": "temporal_frequency_tuning",
       "tier": "stable",
       "class_version": "1.0.0",
-      "maturity_level": "work_in_progress",
+      "maturity_level": "stable",
       "superclasses": [
         "base"
       ],
@@ -1046,7 +1046,7 @@
       "class_name": "temporal_frequency_tuning_calc",
       "tier": "stable",
       "class_version": "1.0.0",
-      "maturity_level": "work_in_progress",
+      "maturity_level": "stable",
       "superclasses": [
         "base",
         "temporal_frequency_tuning"
@@ -1058,7 +1058,7 @@
       "class_name": "treatment",
       "tier": "stable",
       "class_version": "2.0.0",
-      "maturity_level": "work_in_progress",
+      "maturity_level": "stable",
       "superclasses": [
         "base"
       ],
@@ -1069,7 +1069,7 @@
       "class_name": "treatment_drug",
       "tier": "stable",
       "class_version": "1.0.0",
-      "maturity_level": "work_in_progress",
+      "maturity_level": "stable",
       "superclasses": [
         "base"
       ],
@@ -1080,7 +1080,7 @@
       "class_name": "tuningcurve_calc",
       "tier": "stable",
       "class_version": "1.0.0",
-      "maturity_level": "work_in_progress",
+      "maturity_level": "stable",
       "superclasses": [
         "base"
       ],
@@ -1091,7 +1091,7 @@
       "class_name": "valid_interval",
       "tier": "stable",
       "class_version": "1.0.0",
-      "maturity_level": "work_in_progress",
+      "maturity_level": "stable",
       "superclasses": [
         "base"
       ],
@@ -1102,7 +1102,7 @@
       "class_name": "virus_injection",
       "tier": "stable",
       "class_version": "1.0.0",
-      "maturity_level": "work_in_progress",
+      "maturity_level": "stable",
       "superclasses": [
         "base"
       ],
@@ -1113,7 +1113,7 @@
       "class_name": "vmneuralresponseresiduals",
       "tier": "stable",
       "class_version": "1.0.0",
-      "maturity_level": "work_in_progress",
+      "maturity_level": "stable",
       "superclasses": [
         "base"
       ],
@@ -1124,7 +1124,7 @@
       "class_name": "vmspikefilteringparameters",
       "tier": "stable",
       "class_version": "1.0.0",
-      "maturity_level": "work_in_progress",
+      "maturity_level": "stable",
       "superclasses": [
         "base"
       ],
@@ -1135,7 +1135,7 @@
       "class_name": "vmspikefit",
       "tier": "stable",
       "class_version": "1.0.0",
-      "maturity_level": "work_in_progress",
+      "maturity_level": "stable",
       "superclasses": [
         "base"
       ],
@@ -1146,7 +1146,7 @@
       "class_name": "vmspikesummary",
       "tier": "stable",
       "class_version": "1.0.0",
-      "maturity_level": "work_in_progress",
+      "maturity_level": "stable",
       "superclasses": [
         "base"
       ],
@@ -1157,7 +1157,7 @@
       "class_name": "zarr",
       "tier": "stable",
       "class_version": "1.0.0",
-      "maturity_level": "work_in_progress",
+      "maturity_level": "stable",
       "superclasses": [
         "base"
       ],
