@@ -1,0 +1,227 @@
+{
+    "document_class": {
+        "class_name": "hartley_reverse_correlation",
+        "class_version": "1.0.0",
+        "superclasses": [
+            { "class_name": "base", "schema": "$NDISCHEMAPATH/base/schema.json" },
+            { "class_name": "reverse_correlation", "schema": "$NDISCHEMAPATH/reverse_correlation/schema.json" }
+        ],
+        "maturity_level": "work_in_progress"
+    },
+    "depends_on": [],
+    "file": [],
+    "fields": [
+        {
+            "name": "stimulus_properties",
+            "type": "structure",
+            "blank_value": {},
+            "default_value": {},
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": false,
+            "ontology": null,
+            "documentation": "Hartley basis stimulus parameters used to generate the displayed images.",
+            "constraints": {},
+            "fields": [
+                {
+                    "name": "M",
+                    "type": "double",
+                    "blank_value": 0,
+                    "default_value": 0,
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Number of spatial samples per Hartley basis image (M x M grid).",
+                    "constraints": {}
+                },
+                {
+                    "name": "L_max",
+                    "type": "double",
+                    "blank_value": 0,
+                    "default_value": 20,
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Maximum Hartley index in the L (horizontal) dimension.",
+                    "constraints": {}
+                },
+                {
+                    "name": "K_max",
+                    "type": "double",
+                    "blank_value": 0,
+                    "default_value": 20,
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Maximum Hartley index in the K (vertical) dimension.",
+                    "constraints": {}
+                },
+                {
+                    "name": "sf_max",
+                    "type": "double",
+                    "blank_value": 0,
+                    "default_value": 2,
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Maximum spatial frequency represented in the Hartley basis (cycles per degree).",
+                    "constraints": {}
+                },
+                {
+                    "name": "fps",
+                    "type": "double",
+                    "blank_value": 0,
+                    "default_value": 10,
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Frames-per-second rate at which Hartley basis images were presented.",
+                    "constraints": {}
+                },
+                {
+                    "name": "color_high",
+                    "type": "matrix",
+                    "blank_value": [],
+                    "default_value": [255, 255, 255],
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": false,
+                    "mustNotHaveNaN": false,
+                    "queryable": false,
+                    "ontology": null,
+                    "documentation": "RGB triple for the 'high' (positive-coefficient) Hartley basis pixel value (0-255 per channel).",
+                    "constraints": { "element_type": "double" }
+                },
+                {
+                    "name": "color_low",
+                    "type": "matrix",
+                    "blank_value": [],
+                    "default_value": [0, 0, 0],
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": false,
+                    "mustNotHaveNaN": false,
+                    "queryable": false,
+                    "ontology": null,
+                    "documentation": "RGB triple for the 'low' (negative-coefficient) Hartley basis pixel value (0-255 per channel).",
+                    "constraints": { "element_type": "double" }
+                },
+                {
+                    "name": "rect",
+                    "type": "matrix",
+                    "blank_value": [],
+                    "default_value": [0, 0, 800, 600],
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": false,
+                    "mustNotHaveNaN": false,
+                    "queryable": false,
+                    "ontology": null,
+                    "documentation": "On-screen rectangle in which Hartley basis images were drawn, [x_left, y_top, x_right, y_bottom] in pixels.",
+                    "constraints": { "element_type": "double" }
+                }
+            ]
+        },
+        {
+            "name": "reconstruction_properties",
+            "type": "structure",
+            "blank_value": {},
+            "default_value": {},
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": false,
+            "ontology": null,
+            "documentation": "Coordinate grids at which the reverse-correlation kernel was reconstructed.",
+            "constraints": {},
+            "fields": [
+                {
+                    "name": "T_coords",
+                    "type": "matrix",
+                    "blank_value": [],
+                    "default_value": [],
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": false,
+                    "mustNotHaveNaN": false,
+                    "queryable": false,
+                    "ontology": null,
+                    "documentation": "Array of time-axis coordinates (seconds) at which the reverse-correlation kernel was reconstructed.",
+                    "constraints": { "element_type": "double" }
+                },
+                {
+                    "name": "X_coords",
+                    "type": "matrix",
+                    "blank_value": [],
+                    "default_value": [],
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": false,
+                    "mustNotHaveNaN": false,
+                    "queryable": false,
+                    "ontology": null,
+                    "documentation": "Array of X-axis spatial coordinates at which the reverse-correlation kernel was reconstructed.",
+                    "constraints": { "element_type": "double" }
+                },
+                {
+                    "name": "Y_coords",
+                    "type": "matrix",
+                    "blank_value": [],
+                    "default_value": [],
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": false,
+                    "mustNotHaveNaN": false,
+                    "queryable": false,
+                    "ontology": null,
+                    "documentation": "Array of Y-axis spatial coordinates at which the reverse-correlation kernel was reconstructed.",
+                    "constraints": { "element_type": "double" }
+                }
+            ]
+        },
+        {
+            "name": "spiketimes",
+            "type": "matrix",
+            "blank_value": [],
+            "default_value": [],
+            "mustBeNonEmpty": false,
+            "mustBeScalar": false,
+            "mustNotHaveNaN": false,
+            "queryable": false,
+            "ontology": null,
+            "documentation": "Spike times (seconds, in the element's local clock) used as the trigger events for the reverse correlation.",
+            "constraints": { "element_type": "double" }
+        },
+        {
+            "name": "frameTimes",
+            "type": "matrix",
+            "blank_value": [],
+            "default_value": [],
+            "mustBeNonEmpty": false,
+            "mustBeScalar": false,
+            "mustNotHaveNaN": false,
+            "queryable": false,
+            "ontology": null,
+            "documentation": "Times (seconds) at which each Hartley basis frame was presented. Indexed in parallel with hartley_numbers.",
+            "constraints": { "element_type": "double" }
+        },
+        {
+            "name": "hartley_numbers",
+            "type": "matrix",
+            "blank_value": [],
+            "default_value": [],
+            "mustBeNonEmpty": false,
+            "mustBeScalar": false,
+            "mustNotHaveNaN": false,
+            "queryable": false,
+            "ontology": null,
+            "documentation": "Hartley basis index (integer) for each presented frame. Indexed in parallel with frameTimes.",
+            "constraints": { "element_type": "double" }
+        }
+    ]
+}

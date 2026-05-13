@@ -1,0 +1,75 @@
+{
+    "document_class": {
+        "class_name": "hartley_calc",
+        "class_version": "1.0.0",
+        "superclasses": [
+            { "class_name": "base", "schema": "$NDISCHEMAPATH/base/schema.json" },
+            { "class_name": "hartley_reverse_correlation", "schema": "$NDISCHEMAPATH/hartley_reverse_correlation/schema.json" }
+        ],
+        "maturity_level": "work_in_progress"
+    },
+    "depends_on": [],
+    "file": [
+        {
+            "name": "hartley_results.ngrid",
+            "mustBeNonEmpty": true,
+            "documentation": "N-dimensional grid (ngrid) file holding the reverse-correlation kernel computed by this calculator."
+        }
+    ],
+    "fields": [
+        {
+            "name": "input_parameters",
+            "type": "structure",
+            "blank_value": {},
+            "default_value": {},
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": false,
+            "ontology": null,
+            "documentation": "Input parameters passed to the Hartley reverse-correlation calculator.",
+            "constraints": {},
+            "fields": [
+                {
+                    "name": "t",
+                    "type": "matrix",
+                    "blank_value": [],
+                    "default_value": [0, 0.05, 0.10, 0.15, 0.20, 0.25],
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": false,
+                    "mustNotHaveNaN": false,
+                    "queryable": false,
+                    "ontology": null,
+                    "documentation": "Time-lag coordinates (seconds) at which the reverse-correlation kernel is reconstructed.",
+                    "constraints": { "element_type": "double" }
+                },
+                {
+                    "name": "x_sampling",
+                    "type": "double",
+                    "blank_value": 0,
+                    "default_value": 1,
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Spatial X-axis sampling step used during reconstruction.",
+                    "constraints": {}
+                },
+                {
+                    "name": "y_sampling",
+                    "type": "double",
+                    "blank_value": 0,
+                    "default_value": 1,
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Spatial Y-axis sampling step used during reconstruction.",
+                    "constraints": {}
+                }
+            ]
+        }
+    ]
+}

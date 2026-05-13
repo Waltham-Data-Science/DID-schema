@@ -10,7 +10,7 @@
   "legacy_schema_version_values": [
     "did_v1"
   ],
-  "notes": "Source of truth for class_name uniqueness and tier placement. Generated initially by copying V_gamma; re-tier and re-curate as V_delta evolves.",
+  "notes": "Source of truth for class_name uniqueness and tier placement. Initial population by copy from V_gamma; subsequent additions land via PRs.",
   "schemas": [
     {
       "class_name": "CURIE_lookups_meta",
@@ -61,6 +61,40 @@
         "base"
       ],
       "path": "schemas/V_delta/stable/binnedspikeratevm.json",
+      "is_meta": false
+    },
+    {
+      "class_name": "contrast_sensitivity_calc",
+      "tier": "stable",
+      "class_version": "1.0.0",
+      "maturity_level": "work_in_progress",
+      "superclasses": [
+        "base"
+      ],
+      "path": "schemas/V_delta/stable/contrast_sensitivity_calc.json",
+      "is_meta": false
+    },
+    {
+      "class_name": "contrast_tuning",
+      "tier": "stable",
+      "class_version": "1.0.0",
+      "maturity_level": "work_in_progress",
+      "superclasses": [
+        "base"
+      ],
+      "path": "schemas/V_delta/stable/contrast_tuning.json",
+      "is_meta": false
+    },
+    {
+      "class_name": "contrast_tuning_calc",
+      "tier": "stable",
+      "class_version": "1.0.0",
+      "maturity_level": "work_in_progress",
+      "superclasses": [
+        "base",
+        "contrast_tuning"
+      ],
+      "path": "schemas/V_delta/stable/contrast_tuning_calc.json",
       "is_meta": false
     },
     {
@@ -351,6 +385,30 @@
       "is_meta": false
     },
     {
+      "class_name": "hartley_calc",
+      "tier": "stable",
+      "class_version": "1.0.0",
+      "maturity_level": "work_in_progress",
+      "superclasses": [
+        "base",
+        "hartley_reverse_correlation"
+      ],
+      "path": "schemas/V_delta/stable/hartley_calc.json",
+      "is_meta": false
+    },
+    {
+      "class_name": "hartley_reverse_correlation",
+      "tier": "stable",
+      "class_version": "1.0.0",
+      "maturity_level": "work_in_progress",
+      "superclasses": [
+        "base",
+        "reverse_correlation"
+      ],
+      "path": "schemas/V_delta/stable/hartley_reverse_correlation.json",
+      "is_meta": false
+    },
+    {
       "class_name": "image",
       "tier": "stable",
       "class_version": "1.0.0",
@@ -582,6 +640,18 @@
       "is_meta": false
     },
     {
+      "class_name": "orientation_direction_tuning_calc",
+      "tier": "stable",
+      "class_version": "1.0.0",
+      "maturity_level": "work_in_progress",
+      "superclasses": [
+        "base",
+        "orientation_direction_tuning"
+      ],
+      "path": "schemas/V_delta/stable/orientation_direction_tuning_calc.json",
+      "is_meta": false
+    },
+    {
       "class_name": "position_metadata",
       "tier": "stable",
       "class_version": "1.0.0",
@@ -640,6 +710,18 @@
       "is_meta": false
     },
     {
+      "class_name": "reverse_correlation",
+      "tier": "stable",
+      "class_version": "1.0.0",
+      "maturity_level": "work_in_progress",
+      "superclasses": [
+        "base",
+        "ngrid"
+      ],
+      "path": "schemas/V_delta/stable/reverse_correlation.json",
+      "is_meta": false
+    },
+    {
       "class_name": "session",
       "tier": "stable",
       "class_version": "1.0.0",
@@ -692,6 +774,52 @@
         "base"
       ],
       "path": "schemas/V_delta/stable/sorting_parameters.json",
+      "is_meta": false
+    },
+    {
+      "class_name": "spatial_frequency_tuning",
+      "tier": "stable",
+      "class_version": "1.0.0",
+      "maturity_level": "work_in_progress",
+      "superclasses": [
+        "base"
+      ],
+      "path": "schemas/V_delta/stable/spatial_frequency_tuning.json",
+      "is_meta": false
+    },
+    {
+      "class_name": "spatial_frequency_tuning_calc",
+      "tier": "stable",
+      "class_version": "1.0.0",
+      "maturity_level": "work_in_progress",
+      "superclasses": [
+        "base",
+        "spatial_frequency_tuning"
+      ],
+      "path": "schemas/V_delta/stable/spatial_frequency_tuning_calc.json",
+      "is_meta": false
+    },
+    {
+      "class_name": "speed_tuning",
+      "tier": "stable",
+      "class_version": "1.0.0",
+      "maturity_level": "work_in_progress",
+      "superclasses": [
+        "base"
+      ],
+      "path": "schemas/V_delta/stable/speed_tuning.json",
+      "is_meta": false
+    },
+    {
+      "class_name": "speed_tuning_calc",
+      "tier": "stable",
+      "class_version": "1.0.0",
+      "maturity_level": "work_in_progress",
+      "superclasses": [
+        "base",
+        "speed_tuning"
+      ],
+      "path": "schemas/V_delta/stable/speed_tuning_calc.json",
       "is_meta": false
     },
     {
@@ -901,6 +1029,29 @@
         "base"
       ],
       "path": "schemas/V_delta/stable/syncrule_mapping.json",
+      "is_meta": false
+    },
+    {
+      "class_name": "temporal_frequency_tuning",
+      "tier": "stable",
+      "class_version": "1.0.0",
+      "maturity_level": "work_in_progress",
+      "superclasses": [
+        "base"
+      ],
+      "path": "schemas/V_delta/stable/temporal_frequency_tuning.json",
+      "is_meta": false
+    },
+    {
+      "class_name": "temporal_frequency_tuning_calc",
+      "tier": "stable",
+      "class_version": "1.0.0",
+      "maturity_level": "work_in_progress",
+      "superclasses": [
+        "base",
+        "temporal_frequency_tuning"
+      ],
+      "path": "schemas/V_delta/stable/temporal_frequency_tuning_calc.json",
       "is_meta": false
     },
     {
