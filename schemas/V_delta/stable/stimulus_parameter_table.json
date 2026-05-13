@@ -1,0 +1,65 @@
+{
+    "document_class": {
+        "class_name": "stimulus_parameter_table",
+        "class_version": "1.0.0",
+        "superclasses": [
+            {
+                "class_name": "base"
+            }
+        ],
+        "maturity_level": "stable"
+    },
+    "depends_on": [
+        {
+            "name": "stimulus_presentation_id",
+            "mustBeNonEmpty": true,
+            "documentation": "The document ID of the stimulus presentation this parameter table belongs to.",
+            "must_refer_to_document_class": ""
+        }
+    ],
+    "file": [],
+    "fields": [
+        {
+            "name": "parameter_names",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": false,
+            "ontology": null,
+            "documentation": "Comma-separated list of parameter names (column headers) in the table (e.g., 'angle,spatial_frequency,contrast'). Number of entries determines the number of columns in table_data.",
+            "constraints": {}
+        },
+        {
+            "name": "table_data",
+            "type": "matrix",
+            "blank_value": [],
+            "default_value": [],
+            "mustBeNonEmpty": false,
+            "mustBeScalar": false,
+            "mustNotHaveNaN": false,
+            "queryable": false,
+            "ontology": null,
+            "documentation": "2D matrix of numeric parameter values with shape (num_stimuli x num_parameters), where num_parameters equals the number of entries in parameter_names.",
+            "constraints": {
+                "element_type": "double",
+                "shape": "num_stimuli x num_parameters"
+            }
+        },
+        {
+            "name": "num_stimuli",
+            "type": "integer",
+            "blank_value": 0,
+            "default_value": 0,
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": true,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "The number of stimulus conditions (rows) in the table.",
+            "constraints": {}
+        }
+    ]
+}

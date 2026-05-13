@@ -1,0 +1,49 @@
+{
+    "document_class": {
+        "class_name": "stimulus_response",
+        "class_version": "1.0.0",
+        "superclasses": [
+            {
+                "class_name": "base"
+            }
+        ],
+        "maturity_level": "stable"
+    },
+    "depends_on": [
+        {
+            "name": "stimulus_presentation_id",
+            "mustBeNonEmpty": true,
+            "documentation": "The document ID of the stimulus presentation.",
+            "must_refer_to_document_class": ""
+        },
+        {
+            "name": "element_id",
+            "mustBeNonEmpty": true,
+            "documentation": "The document ID of the element (e.g., neuron) whose response was measured.",
+            "must_refer_to_document_class": ""
+        }
+    ],
+    "file": [
+        {
+            "name": "response_file",
+            "documentation": "The file containing the stimulus response data."
+        }
+    ],
+    "fields": [
+        {
+            "name": "response_type",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "The type of response measured (e.g., 'spikes', 'calcium', 'voltage').",
+            "constraints": {
+                "maxLength": 128
+            }
+        }
+    ]
+}

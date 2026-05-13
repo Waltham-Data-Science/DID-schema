@@ -1,0 +1,142 @@
+{
+    "document_class": {
+        "class_name": "app",
+        "class_version": "1.0.0",
+        "superclasses": [
+            {
+                "class_name": "base"
+            }
+        ],
+        "maturity_level": "stable"
+    },
+    "depends_on": [],
+    "file": [],
+    "fields": [
+        {
+            "name": "app_name",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "ndi.app",
+            "mustBeNonEmpty": true,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": {
+                "node": "schema:name",
+                "name": "name"
+            },
+            "documentation": "The name of the application.",
+            "constraints": {
+                "maxLength": 256
+            }
+        },
+        {
+            "name": "app_version",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": {
+                "node": "schema:softwareVersion",
+                "name": "softwareVersion"
+            },
+            "documentation": "The version of the app (often a Git commit identifier).",
+            "constraints": {
+                "maxLength": 256
+            }
+        },
+        {
+            "name": "url",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": false,
+            "ontology": {
+                "node": "schema:url",
+                "name": "url"
+            },
+            "documentation": "The home page URL of the application.",
+            "constraints": {
+                "maxLength": 1024
+            }
+        },
+        {
+            "name": "os",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": false,
+            "ontology": {
+                "node": "schema:operatingSystem",
+                "name": "operatingSystem"
+            },
+            "documentation": "The operating system that ran the application.",
+            "constraints": {
+                "maxLength": 256
+            }
+        },
+        {
+            "name": "os_version",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": false,
+            "ontology": {
+                "node": "schema:softwareVersion",
+                "name": "softwareVersion"
+            },
+            "documentation": "The operating system version.",
+            "constraints": {
+                "maxLength": 256
+            }
+        },
+        {
+            "name": "interpreter",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": {
+                "node": "schema:runtimePlatform",
+                "name": "runtimePlatform"
+            },
+            "documentation": "The name of the interpreter (e.g., 'Matlab', 'python3').",
+            "constraints": {
+                "maxLength": 256
+            }
+        },
+        {
+            "name": "interpreter_version",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": false,
+            "ontology": {
+                "node": "schema:softwareVersion",
+                "name": "softwareVersion"
+            },
+            "documentation": "The version of the interpreter.",
+            "constraints": {
+                "maxLength": 256
+            }
+        }
+    ]
+}

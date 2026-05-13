@@ -1,0 +1,49 @@
+{
+    "document_class": {
+        "class_name": "daqreader_ndr",
+        "class_version": "1.0.0",
+        "superclasses": [
+            {
+                "class_name": "base"
+            },
+            {
+                "class_name": "daqreader"
+            }
+        ],
+        "maturity_level": "stable"
+    },
+    "depends_on": [],
+    "file": [],
+    "fields": [
+        {
+            "name": "file_type",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": true,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "The NDR file type this reader handles (e.g., 'SpikeGadgets', 'Intan', 'CED').",
+            "constraints": {
+                "maxLength": 256
+            }
+        },
+        {
+            "name": "file_extension",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "The file extension associated with this reader (e.g., '.rec', '.rhd', '.smr').",
+            "constraints": {
+                "maxLength": 32
+            }
+        }
+    ]
+}

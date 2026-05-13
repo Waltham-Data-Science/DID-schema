@@ -1,0 +1,96 @@
+{
+    "document_class": {
+        "class_name": "projectvar",
+        "class_version": "1.0.0",
+        "superclasses": [
+            {
+                "class_name": "base"
+            }
+        ],
+        "maturity_level": "stable"
+    },
+    "depends_on": [
+        {
+            "name": "element_id",
+            "mustBeNonEmpty": false,
+            "documentation": "The document ID of the element this project variable is associated with.",
+            "must_refer_to_document_class": ""
+        }
+    ],
+    "file": [],
+    "fields": [
+        {
+            "name": "project",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "The name of the project.",
+            "constraints": {
+                "maxLength": 256
+            }
+        },
+        {
+            "name": "user",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "The user who created this project variable.",
+            "constraints": {
+                "maxLength": 256
+            }
+        },
+        {
+            "name": "lab",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "The lab or group associated with this project variable.",
+            "constraints": {
+                "maxLength": 256
+            }
+        },
+        {
+            "name": "description",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": false,
+            "ontology": null,
+            "documentation": "A free-text description of the project variable.",
+            "constraints": {
+                "maxLength": 1024
+            }
+        },
+        {
+            "name": "data",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": false,
+            "ontology": null,
+            "documentation": "The data payload of the project variable, stored as a string.",
+            "constraints": {}
+        }
+    ]
+}

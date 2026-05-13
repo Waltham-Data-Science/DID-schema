@@ -1,0 +1,62 @@
+{
+    "document_class": {
+        "class_name": "openminds",
+        "class_version": "1.0.0",
+        "superclasses": [
+            {
+                "class_name": "base"
+            }
+        ],
+        "maturity_level": "stable"
+    },
+    "depends_on": [],
+    "file": [],
+    "fields": [
+        {
+            "name": "openminds_type",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": true,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "The openMINDS schema type (e.g., 'core.DatasetVersion', 'core.Person').",
+            "constraints": {
+                "maxLength": 256
+            }
+        },
+        {
+            "name": "openminds_data",
+            "type": "structure",
+            "blank_value": {},
+            "default_value": {},
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": false,
+            "ontology": null,
+            "documentation": "Structure containing the openMINDS metadata fields conforming to the schema type specified in openminds_type. Keys and value types follow the openMINDS specification for that type.",
+            "constraints": {
+                "conforms_to": "openminds_type"
+            },
+            "fields": []
+        },
+        {
+            "name": "openminds_version",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "v3",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "The version of the openMINDS specification used.",
+            "constraints": {
+                "maxLength": 16
+            }
+        }
+    ]
+}

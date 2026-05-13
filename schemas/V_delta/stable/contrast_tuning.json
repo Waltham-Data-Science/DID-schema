@@ -1,0 +1,692 @@
+{
+    "document_class": {
+        "class_name": "contrast_tuning",
+        "class_version": "1.0.0",
+        "superclasses": [
+            {
+                "class_name": "base"
+            }
+        ],
+        "maturity_level": "stable"
+    },
+    "depends_on": [
+        {
+            "name": "element_id",
+            "mustBeNonEmpty": true,
+            "documentation": "The document ID of the ndi.element whose contrast tuning is described.",
+            "must_refer_to_document_class": "element"
+        },
+        {
+            "name": "stimulus_tuningcurve_id",
+            "mustBeNonEmpty": true,
+            "documentation": "The document ID of the stimulus_tuningcurve from which this contrast tuning was derived.",
+            "must_refer_to_document_class": "stimulus_tuningcurve"
+        }
+    ],
+    "file": [],
+    "fields": [
+        {
+            "name": "properties",
+            "type": "structure",
+            "blank_value": {},
+            "default_value": {},
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": false,
+            "ontology": null,
+            "documentation": "Bookkeeping properties describing how response values were measured and reported.",
+            "constraints": {},
+            "fields": [
+                {
+                    "name": "response_units",
+                    "type": "char",
+                    "blank_value": "",
+                    "default_value": "",
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Units of the response values (e.g., 'spikes/s', 'dF/F').",
+                    "constraints": {
+                        "maxLength": 64
+                    }
+                },
+                {
+                    "name": "response_type",
+                    "type": "char",
+                    "blank_value": "",
+                    "default_value": "mean",
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Reduction applied to each stimulus presentation to yield a per-trial response (e.g., 'mean', 'peak', 'F1').",
+                    "constraints": {
+                        "maxLength": 64
+                    }
+                }
+            ]
+        },
+        {
+            "name": "tuning_curve",
+            "type": "structure",
+            "blank_value": {},
+            "default_value": {},
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": false,
+            "ontology": null,
+            "documentation": "The empirical contrast tuning curve and per-point summary statistics.",
+            "constraints": {},
+            "fields": [
+                {
+                    "name": "contrast",
+                    "type": "matrix",
+                    "blank_value": [],
+                    "default_value": [],
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": false,
+                    "mustNotHaveNaN": false,
+                    "queryable": false,
+                    "ontology": null,
+                    "documentation": "Array of contrast values (0-1 fraction) sampled along the tuning curve.",
+                    "constraints": {
+                        "element_type": "double"
+                    }
+                },
+                {
+                    "name": "mean",
+                    "type": "matrix",
+                    "blank_value": [],
+                    "default_value": [],
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": false,
+                    "mustNotHaveNaN": false,
+                    "queryable": false,
+                    "ontology": null,
+                    "documentation": "Per-contrast mean response, in response_units.",
+                    "constraints": {
+                        "element_type": "double"
+                    }
+                },
+                {
+                    "name": "stddev",
+                    "type": "matrix",
+                    "blank_value": [],
+                    "default_value": [],
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": false,
+                    "mustNotHaveNaN": false,
+                    "queryable": false,
+                    "ontology": null,
+                    "documentation": "Per-contrast standard deviation of responses.",
+                    "constraints": {
+                        "element_type": "double"
+                    }
+                },
+                {
+                    "name": "stderr",
+                    "type": "matrix",
+                    "blank_value": [],
+                    "default_value": [],
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": false,
+                    "mustNotHaveNaN": false,
+                    "queryable": false,
+                    "ontology": null,
+                    "documentation": "Per-contrast standard error of the mean response.",
+                    "constraints": {
+                        "element_type": "double"
+                    }
+                },
+                {
+                    "name": "individual",
+                    "type": "matrix",
+                    "blank_value": [],
+                    "default_value": [],
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": false,
+                    "mustNotHaveNaN": false,
+                    "queryable": false,
+                    "ontology": null,
+                    "documentation": "Per-trial individual responses. Rows index sampled points along the tuning axis; columns index trials.",
+                    "constraints": {
+                        "element_type": "double"
+                    }
+                },
+                {
+                    "name": "control_stddev",
+                    "type": "matrix",
+                    "blank_value": [],
+                    "default_value": [],
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": false,
+                    "mustNotHaveNaN": false,
+                    "queryable": false,
+                    "ontology": null,
+                    "documentation": "Standard deviation of the control (no-stimulus / baseline) response, one value per contrast point.",
+                    "constraints": {
+                        "element_type": "double"
+                    }
+                },
+                {
+                    "name": "control_stderr",
+                    "type": "matrix",
+                    "blank_value": [],
+                    "default_value": [],
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": false,
+                    "mustNotHaveNaN": false,
+                    "queryable": false,
+                    "ontology": null,
+                    "documentation": "Standard error of the mean of the control response, one value per contrast point.",
+                    "constraints": {
+                        "element_type": "double"
+                    }
+                }
+            ]
+        },
+        {
+            "name": "significance",
+            "type": "structure",
+            "blank_value": {},
+            "default_value": {},
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": false,
+            "ontology": null,
+            "documentation": "ANOVA-derived significance metrics for the tuning curve.",
+            "constraints": {},
+            "fields": [
+                {
+                    "name": "visual_response_anova_p",
+                    "type": "double",
+                    "blank_value": 0,
+                    "default_value": 1,
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "p-value of the ANOVA testing whether any stimulus produced a response distinguishable from control.",
+                    "constraints": {}
+                },
+                {
+                    "name": "across_stimuli_anova_p",
+                    "type": "double",
+                    "blank_value": 0,
+                    "default_value": 1,
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "p-value of the ANOVA testing whether responses differ across the sampled contrasts (tuning vs. flat).",
+                    "constraints": {}
+                }
+            ]
+        },
+        {
+            "name": "fitless",
+            "type": "structure",
+            "blank_value": {},
+            "default_value": {},
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": false,
+            "ontology": null,
+            "documentation": "Fit-free summary measures derived directly from the empirical curve.",
+            "constraints": {},
+            "fields": [
+                {
+                    "name": "interpolated_c50",
+                    "type": "double",
+                    "blank_value": 0,
+                    "default_value": 0.5,
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Contrast at which the empirical curve reaches half its maximum, found by linear interpolation.",
+                    "constraints": {}
+                }
+            ]
+        },
+        {
+            "name": "fit",
+            "type": "structure",
+            "blank_value": {},
+            "default_value": {},
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": false,
+            "ontology": null,
+            "documentation": "Naka-Rushton fits to the empirical contrast response curve. Three variants are stored: RB (response + baseline), RBN (RB + saturation exponent N), and RBNS (RBN + asymptotic saturation S).",
+            "constraints": {},
+            "fields": [
+                {
+                    "name": "naka_rushton_rb",
+                    "type": "structure",
+                    "blank_value": {},
+                    "default_value": {},
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": false,
+                    "ontology": null,
+                    "documentation": "Naka-Rushton fit with two free parameters (response gain and baseline).",
+                    "constraints": {},
+                    "fields": [
+                        {
+                            "name": "parameters",
+                            "type": "matrix",
+                            "blank_value": [],
+                            "default_value": [],
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": false,
+                            "mustNotHaveNaN": false,
+                            "queryable": false,
+                            "ontology": null,
+                            "documentation": "Fitted parameter vector for the Naka-Rushton RB form.",
+                            "constraints": {
+                                "element_type": "double"
+                            }
+                        },
+                        {
+                            "name": "contrast",
+                            "type": "matrix",
+                            "blank_value": [],
+                            "default_value": [],
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": false,
+                            "mustNotHaveNaN": false,
+                            "queryable": false,
+                            "ontology": null,
+                            "documentation": "Contrast values at which the fit was evaluated.",
+                            "constraints": {
+                                "element_type": "double"
+                            }
+                        },
+                        {
+                            "name": "values",
+                            "type": "matrix",
+                            "blank_value": [],
+                            "default_value": [],
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": false,
+                            "mustNotHaveNaN": false,
+                            "queryable": false,
+                            "ontology": null,
+                            "documentation": "Fitted response values at each contrast.",
+                            "constraints": {
+                                "element_type": "double"
+                            }
+                        },
+                        {
+                            "name": "pref",
+                            "type": "double",
+                            "blank_value": 0,
+                            "default_value": 0,
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "Preferred (maximum-response) contrast under the fit.",
+                            "constraints": {}
+                        },
+                        {
+                            "name": "empirical_c50",
+                            "type": "double",
+                            "blank_value": 0,
+                            "default_value": 0,
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "Contrast at half-maximum response under the fit.",
+                            "constraints": {}
+                        },
+                        {
+                            "name": "r2",
+                            "type": "double",
+                            "blank_value": 0,
+                            "default_value": 0,
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "Coefficient of determination (R^2) of the fit.",
+                            "constraints": {}
+                        },
+                        {
+                            "name": "relative_max_gain",
+                            "type": "double",
+                            "blank_value": 0,
+                            "default_value": 0,
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "Maximum slope of the fit, relative to its mean response.",
+                            "constraints": {}
+                        },
+                        {
+                            "name": "saturation_index",
+                            "type": "double",
+                            "blank_value": 0,
+                            "default_value": 0,
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "Dimensionless index quantifying how saturated the fit is at the highest sampled contrast.",
+                            "constraints": {}
+                        },
+                        {
+                            "name": "sensitivity",
+                            "type": "double",
+                            "blank_value": 0,
+                            "default_value": 0,
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "Contrast sensitivity (typically the inverse of the half-saturation contrast) derived from the fit.",
+                            "constraints": {}
+                        }
+                    ]
+                },
+                {
+                    "name": "naka_rushton_rbn",
+                    "type": "structure",
+                    "blank_value": {},
+                    "default_value": {},
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": false,
+                    "ontology": null,
+                    "documentation": "Naka-Rushton fit with three free parameters (RB plus saturation exponent N). Sub-field shape mirrors naka_rushton_rb.",
+                    "constraints": {},
+                    "fields": [
+                        {
+                            "name": "parameters",
+                            "type": "matrix",
+                            "blank_value": [],
+                            "default_value": [],
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": false,
+                            "mustNotHaveNaN": false,
+                            "queryable": false,
+                            "ontology": null,
+                            "documentation": "Fitted parameter vector for the Naka-Rushton RBN form.",
+                            "constraints": {
+                                "element_type": "double"
+                            }
+                        },
+                        {
+                            "name": "contrast",
+                            "type": "matrix",
+                            "blank_value": [],
+                            "default_value": [],
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": false,
+                            "mustNotHaveNaN": false,
+                            "queryable": false,
+                            "ontology": null,
+                            "documentation": "Contrast values at which the fit was evaluated.",
+                            "constraints": {
+                                "element_type": "double"
+                            }
+                        },
+                        {
+                            "name": "values",
+                            "type": "matrix",
+                            "blank_value": [],
+                            "default_value": [],
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": false,
+                            "mustNotHaveNaN": false,
+                            "queryable": false,
+                            "ontology": null,
+                            "documentation": "Fitted response values at each contrast.",
+                            "constraints": {
+                                "element_type": "double"
+                            }
+                        },
+                        {
+                            "name": "pref",
+                            "type": "double",
+                            "blank_value": 0,
+                            "default_value": 0,
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "Preferred contrast under the fit.",
+                            "constraints": {}
+                        },
+                        {
+                            "name": "empirical_c50",
+                            "type": "double",
+                            "blank_value": 0,
+                            "default_value": 0,
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "Contrast at half-maximum response under the fit.",
+                            "constraints": {}
+                        },
+                        {
+                            "name": "r2",
+                            "type": "double",
+                            "blank_value": 0,
+                            "default_value": 0,
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "Coefficient of determination of the fit.",
+                            "constraints": {}
+                        },
+                        {
+                            "name": "relative_max_gain",
+                            "type": "double",
+                            "blank_value": 0,
+                            "default_value": 0,
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "Maximum-gain measure derived from the fit.",
+                            "constraints": {}
+                        },
+                        {
+                            "name": "saturation_index",
+                            "type": "double",
+                            "blank_value": 0,
+                            "default_value": 0,
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "Saturation index derived from the fit.",
+                            "constraints": {}
+                        },
+                        {
+                            "name": "sensitivity",
+                            "type": "double",
+                            "blank_value": 0,
+                            "default_value": 0,
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "Contrast sensitivity derived from the fit.",
+                            "constraints": {}
+                        }
+                    ]
+                },
+                {
+                    "name": "naka_rushton_rbns",
+                    "type": "structure",
+                    "blank_value": {},
+                    "default_value": {},
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": false,
+                    "ontology": null,
+                    "documentation": "Naka-Rushton fit with four free parameters (RBN plus asymptotic saturation S). Sub-field shape mirrors naka_rushton_rb.",
+                    "constraints": {},
+                    "fields": [
+                        {
+                            "name": "parameters",
+                            "type": "matrix",
+                            "blank_value": [],
+                            "default_value": [],
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": false,
+                            "mustNotHaveNaN": false,
+                            "queryable": false,
+                            "ontology": null,
+                            "documentation": "Fitted parameter vector for the Naka-Rushton RBNS form.",
+                            "constraints": {
+                                "element_type": "double"
+                            }
+                        },
+                        {
+                            "name": "contrast",
+                            "type": "matrix",
+                            "blank_value": [],
+                            "default_value": [],
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": false,
+                            "mustNotHaveNaN": false,
+                            "queryable": false,
+                            "ontology": null,
+                            "documentation": "Contrast values at which the fit was evaluated.",
+                            "constraints": {
+                                "element_type": "double"
+                            }
+                        },
+                        {
+                            "name": "values",
+                            "type": "matrix",
+                            "blank_value": [],
+                            "default_value": [],
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": false,
+                            "mustNotHaveNaN": false,
+                            "queryable": false,
+                            "ontology": null,
+                            "documentation": "Fitted response values at each contrast.",
+                            "constraints": {
+                                "element_type": "double"
+                            }
+                        },
+                        {
+                            "name": "pref",
+                            "type": "double",
+                            "blank_value": 0,
+                            "default_value": 0,
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "Preferred contrast under the fit.",
+                            "constraints": {}
+                        },
+                        {
+                            "name": "empirical_c50",
+                            "type": "double",
+                            "blank_value": 0,
+                            "default_value": 0,
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "Contrast at half-maximum response under the fit.",
+                            "constraints": {}
+                        },
+                        {
+                            "name": "r2",
+                            "type": "double",
+                            "blank_value": 0,
+                            "default_value": 0,
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "Coefficient of determination of the fit.",
+                            "constraints": {}
+                        },
+                        {
+                            "name": "relative_max_gain",
+                            "type": "double",
+                            "blank_value": 0,
+                            "default_value": 0,
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "Maximum-gain measure derived from the fit.",
+                            "constraints": {}
+                        },
+                        {
+                            "name": "saturation_index",
+                            "type": "double",
+                            "blank_value": 0,
+                            "default_value": 0,
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "Saturation index derived from the fit.",
+                            "constraints": {}
+                        },
+                        {
+                            "name": "sensitivity",
+                            "type": "double",
+                            "blank_value": 0,
+                            "default_value": 0,
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "Contrast sensitivity derived from the fit.",
+                            "constraints": {}
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

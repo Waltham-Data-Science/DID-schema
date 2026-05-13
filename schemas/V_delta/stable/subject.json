@@ -1,0 +1,52 @@
+{
+    "document_class": {
+        "class_name": "subject",
+        "class_version": "1.0.0",
+        "superclasses": [
+            {
+                "class_name": "base"
+            }
+        ],
+        "maturity_level": "stable"
+    },
+    "depends_on": [],
+    "file": [],
+    "fields": [
+        {
+            "name": "local_identifier",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": {
+                "node": "iao:0000578",
+                "name": "centrally registered identifier"
+            },
+            "documentation": "A globally unique identifier meaningful to a local group (e.g., 'mouse123@vhlab.org').",
+            "constraints": {
+                "maxLength": 256
+            }
+        },
+        {
+            "name": "description",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": false,
+            "ontology": {
+                "node": "schema:description",
+                "name": "description"
+            },
+            "documentation": "A free-text description of the subject.",
+            "constraints": {
+                "maxLength": 1024
+            }
+        }
+    ]
+}

@@ -1,0 +1,103 @@
+{
+    "document_class": {
+        "class_name": "orientation_direction_tuning",
+        "class_version": "1.0.0",
+        "superclasses": [
+            {
+                "class_name": "base"
+            }
+        ],
+        "maturity_level": "stable"
+    },
+    "depends_on": [
+        {
+            "name": "stimulus_tuningcurve_id",
+            "mustBeNonEmpty": true,
+            "documentation": "The document ID of the stimulus_tuningcurve this orientation/direction tuning was computed from.",
+            "must_refer_to_document_class": ""
+        }
+    ],
+    "file": [],
+    "fields": [
+        {
+            "name": "preferred_direction",
+            "type": "double",
+            "blank_value": 0.0,
+            "default_value": 0.0,
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": {
+                "node": "placeholder:preferred_direction_of_motion",
+                "name": "preferred direction of motion"
+            },
+            "documentation": "The preferred direction of motion in degrees (0-360).",
+            "constraints": {}
+        },
+        {
+            "name": "preferred_orientation",
+            "type": "double",
+            "blank_value": 0.0,
+            "default_value": 0.0,
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": {
+                "node": "placeholder:preferred_orientation",
+                "name": "preferred orientation"
+            },
+            "documentation": "The preferred orientation in degrees (0-180).",
+            "constraints": {}
+        },
+        {
+            "name": "direction_selectivity_index",
+            "type": "double",
+            "blank_value": 0.0,
+            "default_value": 0.0,
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": {
+                "node": "placeholder:direction_selectivity_index",
+                "name": "direction selectivity index"
+            },
+            "documentation": "Direction selectivity index (DSI), range 0 to 1.",
+            "constraints": {}
+        },
+        {
+            "name": "orientation_selectivity_index",
+            "type": "double",
+            "blank_value": 0.0,
+            "default_value": 0.0,
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": {
+                "node": "placeholder:orientation_selectivity_index",
+                "name": "orientation selectivity index"
+            },
+            "documentation": "Orientation selectivity index (OSI), range 0 to 1.",
+            "constraints": {}
+        },
+        {
+            "name": "tuning_width",
+            "type": "double",
+            "blank_value": 0.0,
+            "default_value": 0.0,
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": false,
+            "ontology": {
+                "node": "placeholder:tuning_curve_half_width_at_half_height",
+                "name": "tuning curve half-width at half-height"
+            },
+            "documentation": "The half-width at half-height of the tuning curve in degrees.",
+            "constraints": {}
+        }
+    ]
+}

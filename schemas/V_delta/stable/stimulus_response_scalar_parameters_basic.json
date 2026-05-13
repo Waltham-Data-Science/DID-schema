@@ -1,0 +1,62 @@
+{
+    "document_class": {
+        "class_name": "stimulus_response_scalar_parameters_basic",
+        "class_version": "1.0.0",
+        "superclasses": [
+            {
+                "class_name": "base"
+            }
+        ],
+        "maturity_level": "stable"
+    },
+    "depends_on": [
+        {
+            "name": "stimulus_response_scalar_id",
+            "mustBeNonEmpty": true,
+            "documentation": "The document ID of the stimulus_response_scalar these basic parameters describe.",
+            "must_refer_to_document_class": ""
+        }
+    ],
+    "file": [],
+    "fields": [
+        {
+            "name": "response_window_start",
+            "type": "double",
+            "blank_value": 0.0,
+            "default_value": 0.0,
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": false,
+            "ontology": null,
+            "documentation": "Start of the response window in seconds after stimulus onset.",
+            "constraints": {}
+        },
+        {
+            "name": "response_window_end",
+            "type": "double",
+            "blank_value": 0.0,
+            "default_value": 0.0,
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": false,
+            "ontology": null,
+            "documentation": "End of the response window in seconds after stimulus onset.",
+            "constraints": {}
+        },
+        {
+            "name": "freq_response",
+            "type": "integer",
+            "blank_value": 0,
+            "default_value": 0,
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": true,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "The frequency component used for the response computation (0 = mean, 1 = F1, 2 = F2).",
+            "constraints": {}
+        }
+    ]
+}

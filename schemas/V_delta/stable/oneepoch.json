@@ -1,0 +1,60 @@
+{
+    "document_class": {
+        "class_name": "oneepoch",
+        "class_version": "1.0.0",
+        "superclasses": [
+            {
+                "class_name": "base"
+            },
+            {
+                "class_name": "epochid"
+            }
+        ],
+        "maturity_level": "stable"
+    },
+    "depends_on": [],
+    "file": [],
+    "fields": [
+        {
+            "name": "epoch_clock",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "dev_local_time",
+            "mustBeNonEmpty": true,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "The clock type for this single epoch.",
+            "constraints": {
+                "maxLength": 256
+            }
+        },
+        {
+            "name": "t0",
+            "type": "double",
+            "blank_value": 0.0,
+            "default_value": 0.0,
+            "mustBeNonEmpty": true,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": true,
+            "queryable": false,
+            "ontology": null,
+            "documentation": "Start time of the single epoch.",
+            "constraints": {}
+        },
+        {
+            "name": "t1",
+            "type": "double",
+            "blank_value": 1.0,
+            "default_value": 1.0,
+            "mustBeNonEmpty": true,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": true,
+            "queryable": false,
+            "ontology": null,
+            "documentation": "Stop time of the single epoch.",
+            "constraints": {}
+        }
+    ]
+}

@@ -1,0 +1,53 @@
+{
+    "document_class": {
+        "class_name": "site2channelmap",
+        "class_version": "1.0.0",
+        "superclasses": [
+            {
+                "class_name": "base"
+            }
+        ],
+        "maturity_level": "stable"
+    },
+    "depends_on": [
+        {
+            "name": "probe_id",
+            "mustBeNonEmpty": true,
+            "documentation": "The document ID of the probe this channel map belongs to.",
+            "must_refer_to_document_class": ""
+        }
+    ],
+    "file": [],
+    "fields": [
+        {
+            "name": "site_to_channel",
+            "type": "structure",
+            "blank_value": {},
+            "default_value": {},
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": false,
+            "ontology": null,
+            "documentation": "Structure mapping probe site identifiers (keys, as strings) to zero-based DAQ channel indices (values, integers). Number of entries equals num_sites.",
+            "constraints": {
+                "dynamic_keys": true,
+                "value_type": "integer"
+            },
+            "fields": []
+        },
+        {
+            "name": "num_sites",
+            "type": "integer",
+            "blank_value": 0,
+            "default_value": 0,
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": true,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "The number of recording sites in this mapping.",
+            "constraints": {}
+        }
+    ]
+}

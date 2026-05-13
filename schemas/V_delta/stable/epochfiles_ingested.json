@@ -1,0 +1,51 @@
+{
+    "document_class": {
+        "class_name": "epochfiles_ingested",
+        "class_version": "1.0.0",
+        "superclasses": [
+            {
+                "class_name": "base"
+            }
+        ],
+        "maturity_level": "stable"
+    },
+    "depends_on": [
+        {
+            "name": "epochid",
+            "mustBeNonEmpty": true,
+            "documentation": "The document ID of the epoch whose files were ingested.",
+            "must_refer_to_document_class": ""
+        }
+    ],
+    "file": [],
+    "fields": [
+        {
+            "name": "ingestion_status",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "complete",
+            "mustBeNonEmpty": true,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "The status of the epoch files ingestion ('complete', 'partial', 'failed').",
+            "constraints": {
+                "maxLength": 32
+            }
+        },
+        {
+            "name": "num_files_ingested",
+            "type": "integer",
+            "blank_value": 0,
+            "default_value": 0,
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": true,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "The number of files ingested for this epoch.",
+            "constraints": {}
+        }
+    ]
+}

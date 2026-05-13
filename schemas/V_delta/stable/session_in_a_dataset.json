@@ -1,0 +1,38 @@
+{
+    "document_class": {
+        "class_name": "session_in_a_dataset",
+        "class_version": "1.0.0",
+        "superclasses": [
+            {
+                "class_name": "base"
+            }
+        ],
+        "maturity_level": "stable"
+    },
+    "depends_on": [
+        {
+            "name": "session_id",
+            "mustBeNonEmpty": true,
+            "documentation": "The document ID of the session.",
+            "must_refer_to_document_class": ""
+        }
+    ],
+    "file": [],
+    "fields": [
+        {
+            "name": "dataset_id",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": true,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "The identifier of the dataset this session belongs to.",
+            "constraints": {
+                "maxLength": 256
+            }
+        }
+    ]
+}

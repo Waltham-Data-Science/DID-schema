@@ -1,0 +1,251 @@
+{
+    "document_class": {
+        "class_name": "image_zarr",
+        "class_version": "1.0.0",
+        "superclasses": [
+            {
+                "class_name": "zarr"
+            }
+        ],
+        "maturity_level": "stable"
+    },
+    "depends_on": [
+        {
+            "name": "element_id",
+            "mustBeNonEmpty": false,
+            "documentation": "The document ID of the element this image is associated with. Optional, since some image_zarr documents (e.g., raw acquisitions not yet bound to an experimental element) may not have an element at write time.",
+            "must_refer_to_document_class": ""
+        }
+    ],
+    "file": [],
+    "fields": [
+        {
+            "name": "omero_channels",
+            "type": "structure",
+            "blank_value": [],
+            "default_value": [],
+            "mustBeNonEmpty": false,
+            "mustBeScalar": false,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Per-channel rendering metadata in OMERO/OME-Zarr style. One element per imaging channel, ordered to match the channel axis of the native array. May be empty when the writer did not record OMERO metadata (channel labels/colors are then unknown). Most writers populate at least 'label' and 'active'; 'color', 'family', 'coefficient', and 'window' are commonly absent.",
+            "constraints": {},
+            "fields": [
+                {
+                    "name": "label",
+                    "type": "char",
+                    "blank_value": "",
+                    "default_value": "",
+                    "mustBeNonEmpty": true,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Human-readable channel name (e.g., 'GFP', 'DAPI', 'ch0', 'ch1'). Free-form string; writers conventionally use short identifiers.",
+                    "constraints": {
+                        "maxLength": 128
+                    }
+                },
+                {
+                    "name": "color",
+                    "type": "char",
+                    "blank_value": "",
+                    "default_value": "",
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": false,
+                    "ontology": null,
+                    "documentation": "RGB rendering color as a six-character hex string without leading '#' (e.g., 'FF0000' for red, '00FF00' for green). Empty when the writer did not record a color.",
+                    "constraints": {
+                        "pattern": "^$|^[0-9A-Fa-f]{6}$"
+                    }
+                },
+                {
+                    "name": "active",
+                    "type": "boolean",
+                    "blank_value": true,
+                    "default_value": true,
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Whether this channel is shown by default in OMERO/napari rendering. True if absent in the source writer.",
+                    "constraints": {}
+                },
+                {
+                    "name": "family",
+                    "type": "char",
+                    "blank_value": "",
+                    "default_value": "",
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": false,
+                    "ontology": null,
+                    "documentation": "Color-map family (e.g., 'linear', 'log', 'polynomial'). Empty when the writer did not record one.",
+                    "constraints": {
+                        "maxLength": 32
+                    }
+                },
+                {
+                    "name": "coefficient",
+                    "type": "double",
+                    "blank_value": null,
+                    "default_value": null,
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": true,
+                    "queryable": false,
+                    "ontology": null,
+                    "documentation": "Family-specific shaping parameter (typically gamma for 'linear' / 'polynomial'). Null when not recorded.",
+                    "constraints": {}
+                },
+                {
+                    "name": "window",
+                    "type": "structure",
+                    "blank_value": null,
+                    "default_value": null,
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Display window for this channel. 'min' and 'max' are the full data range; 'start' and 'end' are the initial display range (mapped to the rendered color ramp's endpoints). Null when not recorded.",
+                    "constraints": {},
+                    "fields": [
+                        {
+                            "name": "min",
+                            "type": "double",
+                            "blank_value": null,
+                            "default_value": null,
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": true,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "Full data range minimum for this channel.",
+                            "constraints": {}
+                        },
+                        {
+                            "name": "max",
+                            "type": "double",
+                            "blank_value": null,
+                            "default_value": null,
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": true,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "Full data range maximum for this channel.",
+                            "constraints": {}
+                        },
+                        {
+                            "name": "start",
+                            "type": "double",
+                            "blank_value": null,
+                            "default_value": null,
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": true,
+                            "queryable": false,
+                            "ontology": null,
+                            "documentation": "Initial display-window minimum for this channel.",
+                            "constraints": {}
+                        },
+                        {
+                            "name": "end",
+                            "type": "double",
+                            "blank_value": null,
+                            "default_value": null,
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": true,
+                            "queryable": false,
+                            "ontology": null,
+                            "documentation": "Initial display-window maximum for this channel.",
+                            "constraints": {}
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "num_channels",
+            "type": "integer",
+            "blank_value": 0,
+            "default_value": 1,
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": true,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Number of imaging channels. Denormalised for cheap querying ('find all multi-channel images'). Derivable from the native shape and the position of the channel axis; 0 when there is no channel axis. Consumer tooling populates this at ingest from the discovered channel axis.",
+            "constraints": {
+                "minimum": 0
+            }
+        },
+        {
+            "name": "num_timepoints",
+            "type": "integer",
+            "blank_value": 0,
+            "default_value": 1,
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": true,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Number of timepoints in the native array. Denormalised for cheap querying ('find time-lapse images with more than N frames'). 0 when there is no time axis (e.g., a single 3D volume). Consumer tooling populates this at ingest from the discovered time axis.",
+            "constraints": {
+                "minimum": 0
+            }
+        },
+        {
+            "name": "pixel_size_x",
+            "type": "length",
+            "blank_value": null,
+            "default_value": null,
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": true,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Physical pixel size along the x axis at the native level, as a length composite (canonical: meters). Denormalised from multiscales[0].datasets[0].scale and axes[*].unit so the typical query 'find images with sub-micrometer x resolution' is one operator. Null when there is no x axis or when the writer did not record a scale.",
+            "constraints": {
+                "minimum": 0
+            }
+        },
+        {
+            "name": "pixel_size_y",
+            "type": "length",
+            "blank_value": null,
+            "default_value": null,
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": true,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Physical pixel size along the y axis at the native level. Same conventions as pixel_size_x.",
+            "constraints": {
+                "minimum": 0
+            }
+        },
+        {
+            "name": "pixel_size_z",
+            "type": "length",
+            "blank_value": null,
+            "default_value": null,
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": true,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Physical pixel size along the z axis at the native level. Null for 2D images. Same conventions as pixel_size_x.",
+            "constraints": {
+                "minimum": 0
+            }
+        }
+    ]
+}

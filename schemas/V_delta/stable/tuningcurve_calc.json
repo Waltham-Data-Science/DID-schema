@@ -1,0 +1,54 @@
+{
+    "document_class": {
+        "class_name": "tuningcurve_calc",
+        "class_version": "1.0.0",
+        "superclasses": [
+            {
+                "class_name": "base"
+            }
+        ],
+        "maturity_level": "stable"
+    },
+    "depends_on": [
+        {
+            "name": "stimulus_tuningcurve_id",
+            "mustBeNonEmpty": true,
+            "documentation": "The document ID of the tuning curve this calculation was performed on.",
+            "must_refer_to_document_class": ""
+        }
+    ],
+    "file": [],
+    "fields": [
+        {
+            "name": "calculator_name",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": true,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "The name of the tuning curve calculator.",
+            "constraints": {
+                "maxLength": 256
+            }
+        },
+        {
+            "name": "result_data",
+            "type": "structure",
+            "blank_value": {},
+            "default_value": {},
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": false,
+            "ontology": null,
+            "documentation": "Structure containing the tuning curve calculation results. Keys and value types are specific to the calculator named in calculator_name (e.g., preferred direction, tuning width, modulation index).",
+            "constraints": {
+                "dynamic_keys_from": "calculator_name"
+            },
+            "fields": []
+        }
+    ]
+}

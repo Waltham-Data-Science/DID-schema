@@ -1,0 +1,29 @@
+{
+    "document_class": {
+        "class_name": "mock",
+        "class_version": "1.0.0",
+        "superclasses": [
+            {
+                "class_name": "base"
+            }
+        ],
+        "maturity_level": "stable"
+    },
+    "depends_on": [],
+    "file": [],
+    "fields": [
+        {
+            "name": "ismock",
+            "type": "integer",
+            "blank_value": 0,
+            "default_value": 1,
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "A parameter that denotes the document as a mock document.",
+            "constraints": {}
+        }
+    ]
+}

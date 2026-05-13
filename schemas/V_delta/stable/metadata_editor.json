@@ -1,0 +1,46 @@
+{
+    "document_class": {
+        "class_name": "metadata_editor",
+        "class_version": "1.0.0",
+        "superclasses": [
+            {
+                "class_name": "base"
+            }
+        ],
+        "maturity_level": "stable"
+    },
+    "depends_on": [],
+    "file": [],
+    "fields": [
+        {
+            "name": "editor_class",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": true,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "The class name of the metadata editor implementation.",
+            "constraints": {
+                "maxLength": 256
+            }
+        },
+        {
+            "name": "target_classname",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "The DID classname of the documents this editor can modify.",
+            "constraints": {
+                "maxLength": 256
+            }
+        }
+    ]
+}

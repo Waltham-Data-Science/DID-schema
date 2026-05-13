@@ -1,0 +1,33 @@
+{
+    "document_class": {
+        "class_name": "temporal_frequency_tuning_calc",
+        "class_version": "1.0.0",
+        "superclasses": [
+            {
+                "class_name": "base"
+            },
+            {
+                "class_name": "temporal_frequency_tuning"
+            }
+        ],
+        "maturity_level": "stable"
+    },
+    "depends_on": [],
+    "file": [],
+    "fields": [
+        {
+            "name": "input_parameters",
+            "type": "structure",
+            "blank_value": {},
+            "default_value": {},
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": false,
+            "ontology": null,
+            "documentation": "Input parameters passed to the temporal-frequency calculator. The original NDIcalc-vis-matlab class declared an empty structure; per-calculator parameters can be added as the calc implementation matures.",
+            "constraints": {},
+            "fields": []
+        }
+    ]
+}

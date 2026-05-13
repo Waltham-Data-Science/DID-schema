@@ -1,0 +1,56 @@
+{
+    "document_class": {
+        "class_name": "jrclust_clusters",
+        "class_version": "1.0.0",
+        "superclasses": [
+            {
+                "class_name": "base"
+            }
+        ],
+        "maturity_level": "stable"
+    },
+    "depends_on": [
+        {
+            "name": "element_id",
+            "mustBeNonEmpty": true,
+            "documentation": "The document ID of the element (e.g., probe) this JRCLUST sorting output is associated with.",
+            "must_refer_to_document_class": ""
+        }
+    ],
+    "file": [
+        {
+            "name": "jrclust_output_file",
+            "documentation": "The JRCLUST output file containing cluster data."
+        }
+    ],
+    "fields": [
+        {
+            "name": "num_clusters",
+            "type": "integer",
+            "blank_value": 0,
+            "default_value": 0,
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": true,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "The number of clusters found by JRCLUST.",
+            "constraints": {}
+        },
+        {
+            "name": "jrclust_version",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "The version of JRCLUST used for sorting.",
+            "constraints": {
+                "maxLength": 32
+            }
+        }
+    ]
+}
