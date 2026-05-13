@@ -1,0 +1,37 @@
+{
+    "document_class": {
+        "class_name": "ontology_label",
+        "class_version": "2.0.0",
+        "superclasses": [
+            {
+                "class_name": "base",
+                "schema": "$NDISCHEMAPATH/base/schema.json"
+            }
+        ],
+        "maturity_level": "work_in_progress"
+    },
+    "depends_on": [
+        {
+            "name": "element_id",
+            "mustBeNonEmpty": false,
+            "documentation": "The document ID of the element this ontology label is associated with.",
+            "must_refer_to_document_class": ""
+        }
+    ],
+    "file": [],
+    "fields": [
+        {
+            "name": "term",
+            "type": "ontology_term",
+            "blank_value": null,
+            "default_value": null,
+            "mustBeNonEmpty": true,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "The ontology term labelling this element. The CURIE prefix identifies the source ontology (e.g., 'allen_ccf_v3'), the local part is the numeric ID (e.g., 'allen_ccf_v3:12345'), and 'name' carries the human-readable label.",
+            "constraints": {}
+        }
+    ]
+}

@@ -1,0 +1,90 @@
+{
+    "document_class": {
+        "class_name": "neuron_extracellular",
+        "class_version": "1.0.0",
+        "superclasses": [
+            {
+                "class_name": "base",
+                "schema": "$NDISCHEMAPATH/base/schema.json"
+            }
+        ],
+        "maturity_level": "work_in_progress"
+    },
+    "depends_on": [
+        {
+            "name": "element_id",
+            "mustBeNonEmpty": true,
+            "documentation": "The document ID of the element (e.g., probe) this neuron was recorded from.",
+            "must_refer_to_document_class": ""
+        }
+    ],
+    "file": [],
+    "fields": [
+        {
+            "name": "cluster_id",
+            "type": "integer",
+            "blank_value": 0,
+            "default_value": 0,
+            "mustBeNonEmpty": true,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": true,
+            "queryable": true,
+            "ontology": {
+                "node": "iao:0000578",
+                "name": "centrally registered identifier"
+            },
+            "documentation": "The cluster identifier assigned to this neuron by a spike sorter.",
+            "constraints": {}
+        },
+        {
+            "name": "quality",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": {
+                "node": "placeholder:spike_sorting_quality_label",
+                "name": "spike-sorting quality label"
+            },
+            "documentation": "Quality label for this unit (e.g., 'good', 'mua', 'noise'). Candidate for promotion to ontology_term once a controlled vocabulary (e.g., a spike-sorting quality branch in NIFSTD) is registered.",
+            "constraints": {
+                "maxLength": 64
+            }
+        },
+        {
+            "name": "num_spikes",
+            "type": "integer",
+            "blank_value": 0,
+            "default_value": 0,
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": true,
+            "queryable": true,
+            "ontology": {
+                "node": "placeholder:action_potential_count",
+                "name": "action potential count"
+            },
+            "documentation": "The total number of spikes assigned to this neuron.",
+            "constraints": {}
+        },
+        {
+            "name": "mean_firing_rate",
+            "type": "double",
+            "blank_value": 0.0,
+            "default_value": 0.0,
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": false,
+            "ontology": {
+                "node": "pato:0000044",
+                "name": "frequency"
+            },
+            "documentation": "The mean firing rate of this neuron in Hz. Candidate for promotion to the V_gamma 'frequency' composite type.",
+            "constraints": {}
+        }
+    ]
+}

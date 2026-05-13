@@ -1,0 +1,24 @@
+{
+    "document_class": {
+        "class_name": "stimulus_response_scalar_parameters",
+        "class_version": "1.0.0",
+        "superclasses": [
+            {
+                "class_name": "base",
+                "schema": "$NDISCHEMAPATH/base/schema.json"
+            }
+        ],
+        "maturity_level": "work_in_progress",
+        "abstract": true
+    },
+    "depends_on": [
+        {
+            "name": "stimulus_response_scalar_id",
+            "mustBeNonEmpty": true,
+            "documentation": "The document ID of the stimulus_response_scalar these parameters describe.",
+            "must_refer_to_document_class": ""
+        }
+    ],
+    "file": [],
+    "fields": []
+}

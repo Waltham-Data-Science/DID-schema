@@ -1,0 +1,1017 @@
+{
+  "set_version": "V_delta",
+  "schema_version_value": "V_delta",
+  "based_on": "V_gamma",
+  "tiers": [
+    "stable",
+    "draft",
+    "deprecated"
+  ],
+  "legacy_schema_version_values": [
+    "did_v1"
+  ],
+  "notes": "Source of truth for class_name uniqueness and tier placement. Generated initially by copying V_gamma; re-tier and re-curate as V_delta evolves.",
+  "schemas": [
+    {
+      "class_name": "CURIE_lookups_meta",
+      "tier": "stable",
+      "class_version": null,
+      "maturity_level": null,
+      "superclasses": [],
+      "path": "schemas/V_delta/stable/CURIE_lookups_meta.json",
+      "is_meta": true
+    },
+    {
+      "class_name": "app",
+      "tier": "stable",
+      "class_version": "1.0.0",
+      "maturity_level": "work_in_progress",
+      "superclasses": [
+        "base"
+      ],
+      "path": "schemas/V_delta/stable/app.json",
+      "is_meta": false
+    },
+    {
+      "class_name": "base",
+      "tier": "stable",
+      "class_version": "1.0.0",
+      "maturity_level": "work_in_progress",
+      "superclasses": [],
+      "path": "schemas/V_delta/stable/base.json",
+      "is_meta": false
+    },
+    {
+      "class_name": "binaryseries_parameters",
+      "tier": "stable",
+      "class_version": "1.0.0",
+      "maturity_level": "work_in_progress",
+      "superclasses": [
+        "base"
+      ],
+      "path": "schemas/V_delta/stable/binaryseries_parameters.json",
+      "is_meta": false
+    },
+    {
+      "class_name": "binnedspikeratevm",
+      "tier": "stable",
+      "class_version": "1.0.0",
+      "maturity_level": "work_in_progress",
+      "superclasses": [
+        "base"
+      ],
+      "path": "schemas/V_delta/stable/binnedspikeratevm.json",
+      "is_meta": false
+    },
+    {
+      "class_name": "control_stimulus_ids",
+      "tier": "stable",
+      "class_version": "1.0.0",
+      "maturity_level": "work_in_progress",
+      "superclasses": [
+        "base"
+      ],
+      "path": "schemas/V_delta/stable/control_stimulus_ids.json",
+      "is_meta": false
+    },
+    {
+      "class_name": "daqmetadatareader",
+      "tier": "stable",
+      "class_version": "1.0.0",
+      "maturity_level": "work_in_progress",
+      "superclasses": [
+        "base"
+      ],
+      "path": "schemas/V_delta/stable/daqmetadatareader.json",
+      "is_meta": false
+    },
+    {
+      "class_name": "daqmetadatareader_epochdata_ingested",
+      "tier": "stable",
+      "class_version": "1.0.0",
+      "maturity_level": "work_in_progress",
+      "superclasses": [
+        "base"
+      ],
+      "path": "schemas/V_delta/stable/daqmetadatareader_epochdata_ingested.json",
+      "is_meta": false
+    },
+    {
+      "class_name": "daqreader",
+      "tier": "stable",
+      "class_version": "1.0.0",
+      "maturity_level": "work_in_progress",
+      "superclasses": [
+        "base"
+      ],
+      "path": "schemas/V_delta/stable/daqreader.json",
+      "is_meta": false
+    },
+    {
+      "class_name": "daqreader_epochdata_ingested",
+      "tier": "stable",
+      "class_version": "1.0.0",
+      "maturity_level": "work_in_progress",
+      "superclasses": [
+        "base"
+      ],
+      "path": "schemas/V_delta/stable/daqreader_epochdata_ingested.json",
+      "is_meta": false
+    },
+    {
+      "class_name": "daqreader_mfdaq_epochdata_ingested",
+      "tier": "stable",
+      "class_version": "1.0.0",
+      "maturity_level": "work_in_progress",
+      "superclasses": [
+        "base"
+      ],
+      "path": "schemas/V_delta/stable/daqreader_mfdaq_epochdata_ingested.json",
+      "is_meta": false
+    },
+    {
+      "class_name": "daqreader_ndr",
+      "tier": "stable",
+      "class_version": "1.0.0",
+      "maturity_level": "work_in_progress",
+      "superclasses": [
+        "base",
+        "daqreader"
+      ],
+      "path": "schemas/V_delta/stable/daqreader_ndr.json",
+      "is_meta": false
+    },
+    {
+      "class_name": "daqsystem",
+      "tier": "stable",
+      "class_version": "1.0.0",
+      "maturity_level": "work_in_progress",
+      "superclasses": [
+        "base"
+      ],
+      "path": "schemas/V_delta/stable/daqsystem.json",
+      "is_meta": false
+    },
+    {
+      "class_name": "dataset_remote",
+      "tier": "stable",
+      "class_version": "1.0.0",
+      "maturity_level": "work_in_progress",
+      "superclasses": [
+        "base"
+      ],
+      "path": "schemas/V_delta/stable/dataset_remote.json",
+      "is_meta": false
+    },
+    {
+      "class_name": "dataset_session_info",
+      "tier": "stable",
+      "class_version": "1.0.0",
+      "maturity_level": "work_in_progress",
+      "superclasses": [
+        "base"
+      ],
+      "path": "schemas/V_delta/stable/dataset_session_info.json",
+      "is_meta": false
+    },
+    {
+      "class_name": "demo_ndi",
+      "tier": "stable",
+      "class_version": "1.0.0",
+      "maturity_level": "work_in_progress",
+      "superclasses": [
+        "base"
+      ],
+      "path": "schemas/V_delta/stable/demo_ndi.json",
+      "is_meta": false
+    },
+    {
+      "class_name": "demo_ndi_mock",
+      "tier": "stable",
+      "class_version": "1.0.0",
+      "maturity_level": "work_in_progress",
+      "superclasses": [
+        "base"
+      ],
+      "path": "schemas/V_delta/stable/demo_ndi_mock.json",
+      "is_meta": false
+    },
+    {
+      "class_name": "did_schema_meta",
+      "tier": "stable",
+      "class_version": null,
+      "maturity_level": null,
+      "superclasses": [],
+      "path": "schemas/V_delta/stable/did_schema_meta.json",
+      "is_meta": true
+    },
+    {
+      "class_name": "directory",
+      "tier": "stable",
+      "class_version": "1.0.0",
+      "maturity_level": "work_in_progress",
+      "superclasses": [
+        "base"
+      ],
+      "path": "schemas/V_delta/stable/directory.json",
+      "is_meta": false
+    },
+    {
+      "class_name": "distance_metadata",
+      "tier": "stable",
+      "class_version": "1.0.0",
+      "maturity_level": "work_in_progress",
+      "superclasses": [
+        "base"
+      ],
+      "path": "schemas/V_delta/stable/distance_metadata.json",
+      "is_meta": false
+    },
+    {
+      "class_name": "electrode_offset_voltage",
+      "tier": "stable",
+      "class_version": "1.0.0",
+      "maturity_level": "work_in_progress",
+      "superclasses": [
+        "base"
+      ],
+      "path": "schemas/V_delta/stable/electrode_offset_voltage.json",
+      "is_meta": false
+    },
+    {
+      "class_name": "element",
+      "tier": "stable",
+      "class_version": "1.0.0",
+      "maturity_level": "work_in_progress",
+      "superclasses": [
+        "base"
+      ],
+      "path": "schemas/V_delta/stable/element.json",
+      "is_meta": false
+    },
+    {
+      "class_name": "element_epoch",
+      "tier": "stable",
+      "class_version": "1.0.0",
+      "maturity_level": "work_in_progress",
+      "superclasses": [
+        "base",
+        "epochid"
+      ],
+      "path": "schemas/V_delta/stable/element_epoch.json",
+      "is_meta": false
+    },
+    {
+      "class_name": "ephys_zarr",
+      "tier": "stable",
+      "class_version": "1.0.0",
+      "maturity_level": "work_in_progress",
+      "superclasses": [
+        "zarr"
+      ],
+      "path": "schemas/V_delta/stable/ephys_zarr.json",
+      "is_meta": false
+    },
+    {
+      "class_name": "epochclocktimes",
+      "tier": "stable",
+      "class_version": "1.0.0",
+      "maturity_level": "work_in_progress",
+      "superclasses": [
+        "base",
+        "epochid"
+      ],
+      "path": "schemas/V_delta/stable/epochclocktimes.json",
+      "is_meta": false
+    },
+    {
+      "class_name": "epochfiles_ingested",
+      "tier": "stable",
+      "class_version": "1.0.0",
+      "maturity_level": "work_in_progress",
+      "superclasses": [
+        "base"
+      ],
+      "path": "schemas/V_delta/stable/epochfiles_ingested.json",
+      "is_meta": false
+    },
+    {
+      "class_name": "epochid",
+      "tier": "stable",
+      "class_version": "1.0.0",
+      "maturity_level": "work_in_progress",
+      "superclasses": [
+        "base"
+      ],
+      "path": "schemas/V_delta/stable/epochid.json",
+      "is_meta": false
+    },
+    {
+      "class_name": "filenavigator",
+      "tier": "stable",
+      "class_version": "1.0.0",
+      "maturity_level": "work_in_progress",
+      "superclasses": [
+        "base"
+      ],
+      "path": "schemas/V_delta/stable/filenavigator.json",
+      "is_meta": false
+    },
+    {
+      "class_name": "filter",
+      "tier": "stable",
+      "class_version": "1.0.0",
+      "maturity_level": "work_in_progress",
+      "superclasses": [
+        "base"
+      ],
+      "path": "schemas/V_delta/stable/filter.json",
+      "is_meta": false
+    },
+    {
+      "class_name": "fitcurve",
+      "tier": "stable",
+      "class_version": "1.0.0",
+      "maturity_level": "work_in_progress",
+      "superclasses": [
+        "base"
+      ],
+      "path": "schemas/V_delta/stable/fitcurve.json",
+      "is_meta": false
+    },
+    {
+      "class_name": "generic_file",
+      "tier": "stable",
+      "class_version": "1.0.0",
+      "maturity_level": "work_in_progress",
+      "superclasses": [
+        "base"
+      ],
+      "path": "schemas/V_delta/stable/generic_file.json",
+      "is_meta": false
+    },
+    {
+      "class_name": "image",
+      "tier": "stable",
+      "class_version": "1.0.0",
+      "maturity_level": "work_in_progress",
+      "superclasses": [
+        "base"
+      ],
+      "path": "schemas/V_delta/stable/image.json",
+      "is_meta": false
+    },
+    {
+      "class_name": "image_collection",
+      "tier": "stable",
+      "class_version": "1.0.0",
+      "maturity_level": "work_in_progress",
+      "superclasses": [
+        "base"
+      ],
+      "path": "schemas/V_delta/stable/image_collection.json",
+      "is_meta": false
+    },
+    {
+      "class_name": "image_stack",
+      "tier": "stable",
+      "class_version": "1.0.0",
+      "maturity_level": "work_in_progress",
+      "superclasses": [
+        "base"
+      ],
+      "path": "schemas/V_delta/stable/image_stack.json",
+      "is_meta": false
+    },
+    {
+      "class_name": "image_stack_parameters",
+      "tier": "stable",
+      "class_version": "1.0.0",
+      "maturity_level": "work_in_progress",
+      "superclasses": [
+        "base"
+      ],
+      "path": "schemas/V_delta/stable/image_stack_parameters.json",
+      "is_meta": false
+    },
+    {
+      "class_name": "image_zarr",
+      "tier": "stable",
+      "class_version": "1.0.0",
+      "maturity_level": "work_in_progress",
+      "superclasses": [
+        "zarr"
+      ],
+      "path": "schemas/V_delta/stable/image_zarr.json",
+      "is_meta": false
+    },
+    {
+      "class_name": "jrclust_clusters",
+      "tier": "stable",
+      "class_version": "1.0.0",
+      "maturity_level": "work_in_progress",
+      "superclasses": [
+        "base"
+      ],
+      "path": "schemas/V_delta/stable/jrclust_clusters.json",
+      "is_meta": false
+    },
+    {
+      "class_name": "measurement",
+      "tier": "stable",
+      "class_version": "1.0.0",
+      "maturity_level": "work_in_progress",
+      "superclasses": [
+        "base",
+        "epochid"
+      ],
+      "path": "schemas/V_delta/stable/measurement.json",
+      "is_meta": false
+    },
+    {
+      "class_name": "metadata_editor",
+      "tier": "stable",
+      "class_version": "1.0.0",
+      "maturity_level": "work_in_progress",
+      "superclasses": [
+        "base"
+      ],
+      "path": "schemas/V_delta/stable/metadata_editor.json",
+      "is_meta": false
+    },
+    {
+      "class_name": "mock",
+      "tier": "stable",
+      "class_version": "1.0.0",
+      "maturity_level": "work_in_progress",
+      "superclasses": [
+        "base"
+      ],
+      "path": "schemas/V_delta/stable/mock.json",
+      "is_meta": false
+    },
+    {
+      "class_name": "ndi_reserved_keys",
+      "tier": "stable",
+      "class_version": null,
+      "maturity_level": null,
+      "superclasses": [],
+      "path": "schemas/V_delta/stable/ndi_reserved_keys.json",
+      "is_meta": true
+    },
+    {
+      "class_name": "neuron_extracellular",
+      "tier": "stable",
+      "class_version": "1.0.0",
+      "maturity_level": "work_in_progress",
+      "superclasses": [
+        "base"
+      ],
+      "path": "schemas/V_delta/stable/neuron_extracellular.json",
+      "is_meta": false
+    },
+    {
+      "class_name": "ngrid",
+      "tier": "stable",
+      "class_version": "1.0.0",
+      "maturity_level": "work_in_progress",
+      "superclasses": [
+        "base"
+      ],
+      "path": "schemas/V_delta/stable/ngrid.json",
+      "is_meta": false
+    },
+    {
+      "class_name": "oneepoch",
+      "tier": "stable",
+      "class_version": "1.0.0",
+      "maturity_level": "work_in_progress",
+      "superclasses": [
+        "base",
+        "epochid"
+      ],
+      "path": "schemas/V_delta/stable/oneepoch.json",
+      "is_meta": false
+    },
+    {
+      "class_name": "ontology_image",
+      "tier": "stable",
+      "class_version": "2.0.0",
+      "maturity_level": "work_in_progress",
+      "superclasses": [
+        "base"
+      ],
+      "path": "schemas/V_delta/stable/ontology_image.json",
+      "is_meta": false
+    },
+    {
+      "class_name": "ontology_label",
+      "tier": "stable",
+      "class_version": "2.0.0",
+      "maturity_level": "work_in_progress",
+      "superclasses": [
+        "base"
+      ],
+      "path": "schemas/V_delta/stable/ontology_label.json",
+      "is_meta": false
+    },
+    {
+      "class_name": "ontology_table_row",
+      "tier": "stable",
+      "class_version": "1.0.0",
+      "maturity_level": "work_in_progress",
+      "superclasses": [
+        "base"
+      ],
+      "path": "schemas/V_delta/stable/ontology_table_row.json",
+      "is_meta": false
+    },
+    {
+      "class_name": "openminds",
+      "tier": "stable",
+      "class_version": "1.0.0",
+      "maturity_level": "work_in_progress",
+      "superclasses": [
+        "base"
+      ],
+      "path": "schemas/V_delta/stable/openminds.json",
+      "is_meta": false
+    },
+    {
+      "class_name": "openminds_element",
+      "tier": "stable",
+      "class_version": "1.0.0",
+      "maturity_level": "work_in_progress",
+      "superclasses": [
+        "base"
+      ],
+      "path": "schemas/V_delta/stable/openminds_element.json",
+      "is_meta": false
+    },
+    {
+      "class_name": "openminds_stimulus",
+      "tier": "stable",
+      "class_version": "1.0.0",
+      "maturity_level": "work_in_progress",
+      "superclasses": [
+        "base"
+      ],
+      "path": "schemas/V_delta/stable/openminds_stimulus.json",
+      "is_meta": false
+    },
+    {
+      "class_name": "openminds_subject",
+      "tier": "stable",
+      "class_version": "1.0.0",
+      "maturity_level": "work_in_progress",
+      "superclasses": [
+        "base"
+      ],
+      "path": "schemas/V_delta/stable/openminds_subject.json",
+      "is_meta": false
+    },
+    {
+      "class_name": "orientation_direction_tuning",
+      "tier": "stable",
+      "class_version": "1.0.0",
+      "maturity_level": "work_in_progress",
+      "superclasses": [
+        "base"
+      ],
+      "path": "schemas/V_delta/stable/orientation_direction_tuning.json",
+      "is_meta": false
+    },
+    {
+      "class_name": "position_metadata",
+      "tier": "stable",
+      "class_version": "1.0.0",
+      "maturity_level": "work_in_progress",
+      "superclasses": [
+        "base"
+      ],
+      "path": "schemas/V_delta/stable/position_metadata.json",
+      "is_meta": false
+    },
+    {
+      "class_name": "probe_geometry",
+      "tier": "stable",
+      "class_version": "1.0.0",
+      "maturity_level": "work_in_progress",
+      "superclasses": [
+        "base"
+      ],
+      "path": "schemas/V_delta/stable/probe_geometry.json",
+      "is_meta": false
+    },
+    {
+      "class_name": "probe_location",
+      "tier": "stable",
+      "class_version": "2.0.0",
+      "maturity_level": "work_in_progress",
+      "superclasses": [
+        "base"
+      ],
+      "path": "schemas/V_delta/stable/probe_location.json",
+      "is_meta": false
+    },
+    {
+      "class_name": "projectvar",
+      "tier": "stable",
+      "class_version": "1.0.0",
+      "maturity_level": "work_in_progress",
+      "superclasses": [
+        "base"
+      ],
+      "path": "schemas/V_delta/stable/projectvar.json",
+      "is_meta": false
+    },
+    {
+      "class_name": "pyraview",
+      "tier": "stable",
+      "class_version": "1.0.0",
+      "maturity_level": "work_in_progress",
+      "superclasses": [
+        "epochclocktimes",
+        "filter",
+        "base",
+        "epochid"
+      ],
+      "path": "schemas/V_delta/stable/pyraview.json",
+      "is_meta": false
+    },
+    {
+      "class_name": "session",
+      "tier": "stable",
+      "class_version": "1.0.0",
+      "maturity_level": "work_in_progress",
+      "superclasses": [
+        "base"
+      ],
+      "path": "schemas/V_delta/stable/session.json",
+      "is_meta": false
+    },
+    {
+      "class_name": "session_in_a_dataset",
+      "tier": "stable",
+      "class_version": "1.0.0",
+      "maturity_level": "work_in_progress",
+      "superclasses": [
+        "base"
+      ],
+      "path": "schemas/V_delta/stable/session_in_a_dataset.json",
+      "is_meta": false
+    },
+    {
+      "class_name": "simple_calc",
+      "tier": "stable",
+      "class_version": "1.0.0",
+      "maturity_level": "work_in_progress",
+      "superclasses": [
+        "base"
+      ],
+      "path": "schemas/V_delta/stable/simple_calc.json",
+      "is_meta": false
+    },
+    {
+      "class_name": "site2channelmap",
+      "tier": "stable",
+      "class_version": "1.0.0",
+      "maturity_level": "work_in_progress",
+      "superclasses": [
+        "base"
+      ],
+      "path": "schemas/V_delta/stable/site2channelmap.json",
+      "is_meta": false
+    },
+    {
+      "class_name": "sorting_parameters",
+      "tier": "stable",
+      "class_version": "1.0.0",
+      "maturity_level": "work_in_progress",
+      "superclasses": [
+        "base"
+      ],
+      "path": "schemas/V_delta/stable/sorting_parameters.json",
+      "is_meta": false
+    },
+    {
+      "class_name": "spike_clusters",
+      "tier": "stable",
+      "class_version": "1.0.0",
+      "maturity_level": "work_in_progress",
+      "superclasses": [
+        "base"
+      ],
+      "path": "schemas/V_delta/stable/spike_clusters.json",
+      "is_meta": false
+    },
+    {
+      "class_name": "spike_extraction_parameters",
+      "tier": "stable",
+      "class_version": "1.0.0",
+      "maturity_level": "work_in_progress",
+      "superclasses": [
+        "base"
+      ],
+      "path": "schemas/V_delta/stable/spike_extraction_parameters.json",
+      "is_meta": false
+    },
+    {
+      "class_name": "spike_extraction_parameters_modification",
+      "tier": "stable",
+      "class_version": "1.0.0",
+      "maturity_level": "work_in_progress",
+      "superclasses": [
+        "base"
+      ],
+      "path": "schemas/V_delta/stable/spike_extraction_parameters_modification.json",
+      "is_meta": false
+    },
+    {
+      "class_name": "spike_interface_sorting_outputs",
+      "tier": "stable",
+      "class_version": "1.0.0",
+      "maturity_level": "work_in_progress",
+      "superclasses": [
+        "base"
+      ],
+      "path": "schemas/V_delta/stable/spike_interface_sorting_outputs.json",
+      "is_meta": false
+    },
+    {
+      "class_name": "spikewaves",
+      "tier": "stable",
+      "class_version": "1.0.0",
+      "maturity_level": "work_in_progress",
+      "superclasses": [
+        "base"
+      ],
+      "path": "schemas/V_delta/stable/spikewaves.json",
+      "is_meta": false
+    },
+    {
+      "class_name": "stimulus_bath",
+      "tier": "stable",
+      "class_version": "1.0.0",
+      "maturity_level": "work_in_progress",
+      "superclasses": [
+        "base"
+      ],
+      "path": "schemas/V_delta/stable/stimulus_bath.json",
+      "is_meta": false
+    },
+    {
+      "class_name": "stimulus_parameter",
+      "tier": "stable",
+      "class_version": "1.0.0",
+      "maturity_level": "work_in_progress",
+      "superclasses": [
+        "base"
+      ],
+      "path": "schemas/V_delta/stable/stimulus_parameter.json",
+      "is_meta": false
+    },
+    {
+      "class_name": "stimulus_parameter_table",
+      "tier": "stable",
+      "class_version": "1.0.0",
+      "maturity_level": "work_in_progress",
+      "superclasses": [
+        "base"
+      ],
+      "path": "schemas/V_delta/stable/stimulus_parameter_table.json",
+      "is_meta": false
+    },
+    {
+      "class_name": "stimulus_presentation",
+      "tier": "stable",
+      "class_version": "1.0.0",
+      "maturity_level": "work_in_progress",
+      "superclasses": [
+        "base"
+      ],
+      "path": "schemas/V_delta/stable/stimulus_presentation.json",
+      "is_meta": false
+    },
+    {
+      "class_name": "stimulus_response",
+      "tier": "stable",
+      "class_version": "1.0.0",
+      "maturity_level": "work_in_progress",
+      "superclasses": [
+        "base"
+      ],
+      "path": "schemas/V_delta/stable/stimulus_response.json",
+      "is_meta": false
+    },
+    {
+      "class_name": "stimulus_response_scalar",
+      "tier": "stable",
+      "class_version": "1.0.0",
+      "maturity_level": "work_in_progress",
+      "superclasses": [
+        "base"
+      ],
+      "path": "schemas/V_delta/stable/stimulus_response_scalar.json",
+      "is_meta": false
+    },
+    {
+      "class_name": "stimulus_response_scalar_parameters",
+      "tier": "stable",
+      "class_version": "1.0.0",
+      "maturity_level": "work_in_progress",
+      "superclasses": [
+        "base"
+      ],
+      "path": "schemas/V_delta/stable/stimulus_response_scalar_parameters.json",
+      "is_meta": false
+    },
+    {
+      "class_name": "stimulus_response_scalar_parameters_basic",
+      "tier": "stable",
+      "class_version": "1.0.0",
+      "maturity_level": "work_in_progress",
+      "superclasses": [
+        "base"
+      ],
+      "path": "schemas/V_delta/stable/stimulus_response_scalar_parameters_basic.json",
+      "is_meta": false
+    },
+    {
+      "class_name": "stimulus_tuningcurve",
+      "tier": "stable",
+      "class_version": "1.0.0",
+      "maturity_level": "work_in_progress",
+      "superclasses": [
+        "base"
+      ],
+      "path": "schemas/V_delta/stable/stimulus_tuningcurve.json",
+      "is_meta": false
+    },
+    {
+      "class_name": "subject",
+      "tier": "stable",
+      "class_version": "1.0.0",
+      "maturity_level": "work_in_progress",
+      "superclasses": [
+        "base"
+      ],
+      "path": "schemas/V_delta/stable/subject.json",
+      "is_meta": false
+    },
+    {
+      "class_name": "subject_group",
+      "tier": "stable",
+      "class_version": "1.0.0",
+      "maturity_level": "work_in_progress",
+      "superclasses": [
+        "base"
+      ],
+      "path": "schemas/V_delta/stable/subject_group.json",
+      "is_meta": false
+    },
+    {
+      "class_name": "syncgraph",
+      "tier": "stable",
+      "class_version": "1.0.0",
+      "maturity_level": "work_in_progress",
+      "superclasses": [
+        "base"
+      ],
+      "path": "schemas/V_delta/stable/syncgraph.json",
+      "is_meta": false
+    },
+    {
+      "class_name": "syncrule",
+      "tier": "stable",
+      "class_version": "1.0.0",
+      "maturity_level": "work_in_progress",
+      "superclasses": [
+        "base"
+      ],
+      "path": "schemas/V_delta/stable/syncrule.json",
+      "is_meta": false
+    },
+    {
+      "class_name": "syncrule_mapping",
+      "tier": "stable",
+      "class_version": "1.0.0",
+      "maturity_level": "work_in_progress",
+      "superclasses": [
+        "base"
+      ],
+      "path": "schemas/V_delta/stable/syncrule_mapping.json",
+      "is_meta": false
+    },
+    {
+      "class_name": "treatment",
+      "tier": "stable",
+      "class_version": "2.0.0",
+      "maturity_level": "work_in_progress",
+      "superclasses": [
+        "base"
+      ],
+      "path": "schemas/V_delta/stable/treatment.json",
+      "is_meta": false
+    },
+    {
+      "class_name": "treatment_drug",
+      "tier": "stable",
+      "class_version": "1.0.0",
+      "maturity_level": "work_in_progress",
+      "superclasses": [
+        "base"
+      ],
+      "path": "schemas/V_delta/stable/treatment_drug.json",
+      "is_meta": false
+    },
+    {
+      "class_name": "tuningcurve_calc",
+      "tier": "stable",
+      "class_version": "1.0.0",
+      "maturity_level": "work_in_progress",
+      "superclasses": [
+        "base"
+      ],
+      "path": "schemas/V_delta/stable/tuningcurve_calc.json",
+      "is_meta": false
+    },
+    {
+      "class_name": "valid_interval",
+      "tier": "stable",
+      "class_version": "1.0.0",
+      "maturity_level": "work_in_progress",
+      "superclasses": [
+        "base"
+      ],
+      "path": "schemas/V_delta/stable/valid_interval.json",
+      "is_meta": false
+    },
+    {
+      "class_name": "virus_injection",
+      "tier": "stable",
+      "class_version": "1.0.0",
+      "maturity_level": "work_in_progress",
+      "superclasses": [
+        "base"
+      ],
+      "path": "schemas/V_delta/stable/virus_injection.json",
+      "is_meta": false
+    },
+    {
+      "class_name": "vmneuralresponseresiduals",
+      "tier": "stable",
+      "class_version": "1.0.0",
+      "maturity_level": "work_in_progress",
+      "superclasses": [
+        "base"
+      ],
+      "path": "schemas/V_delta/stable/vmneuralresponseresiduals.json",
+      "is_meta": false
+    },
+    {
+      "class_name": "vmspikefilteringparameters",
+      "tier": "stable",
+      "class_version": "1.0.0",
+      "maturity_level": "work_in_progress",
+      "superclasses": [
+        "base"
+      ],
+      "path": "schemas/V_delta/stable/vmspikefilteringparameters.json",
+      "is_meta": false
+    },
+    {
+      "class_name": "vmspikefit",
+      "tier": "stable",
+      "class_version": "1.0.0",
+      "maturity_level": "work_in_progress",
+      "superclasses": [
+        "base"
+      ],
+      "path": "schemas/V_delta/stable/vmspikefit.json",
+      "is_meta": false
+    },
+    {
+      "class_name": "vmspikesummary",
+      "tier": "stable",
+      "class_version": "1.0.0",
+      "maturity_level": "work_in_progress",
+      "superclasses": [
+        "base"
+      ],
+      "path": "schemas/V_delta/stable/vmspikesummary.json",
+      "is_meta": false
+    },
+    {
+      "class_name": "zarr",
+      "tier": "stable",
+      "class_version": "1.0.0",
+      "maturity_level": "work_in_progress",
+      "superclasses": [
+        "base"
+      ],
+      "path": "schemas/V_delta/stable/zarr.json",
+      "is_meta": false
+    }
+  ]
+}

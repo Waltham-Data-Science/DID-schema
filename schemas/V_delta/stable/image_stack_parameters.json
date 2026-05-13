@@ -1,0 +1,93 @@
+{
+    "document_class": {
+        "class_name": "image_stack_parameters",
+        "class_version": "1.0.0",
+        "superclasses": [
+            {
+                "class_name": "base",
+                "schema": "$NDISCHEMAPATH/base/schema.json"
+            }
+        ],
+        "maturity_level": "work_in_progress"
+    },
+    "depends_on": [
+        {
+            "name": "imagestack_id",
+            "mustBeNonEmpty": true,
+            "documentation": "The document ID of the image stack these parameters describe.",
+            "must_refer_to_document_class": ""
+        }
+    ],
+    "file": [],
+    "fields": [
+        {
+            "name": "z_step",
+            "type": "double",
+            "blank_value": 0.0,
+            "default_value": 0.0,
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": false,
+            "ontology": null,
+            "documentation": "The step size in the z-dimension between frames.",
+            "constraints": {}
+        },
+        {
+            "name": "z_units",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "um",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": false,
+            "ontology": null,
+            "documentation": "The units for the z-step (e.g., 'um', 'mm').",
+            "constraints": {
+                "maxLength": 32
+            }
+        },
+        {
+            "name": "x_pixel_size",
+            "type": "double",
+            "blank_value": 0.0,
+            "default_value": 0.0,
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": false,
+            "ontology": null,
+            "documentation": "The physical size of a pixel in the x-dimension.",
+            "constraints": {}
+        },
+        {
+            "name": "y_pixel_size",
+            "type": "double",
+            "blank_value": 0.0,
+            "default_value": 0.0,
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": false,
+            "ontology": null,
+            "documentation": "The physical size of a pixel in the y-dimension.",
+            "constraints": {}
+        },
+        {
+            "name": "pixel_units",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "um",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": false,
+            "ontology": null,
+            "documentation": "The units for the pixel size (e.g., 'um', 'mm').",
+            "constraints": {
+                "maxLength": 32
+            }
+        }
+    ]
+}

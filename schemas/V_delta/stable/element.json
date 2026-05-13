@@ -1,0 +1,109 @@
+{
+    "document_class": {
+        "class_name": "element",
+        "class_version": "1.0.0",
+        "superclasses": [
+            {
+                "class_name": "base",
+                "schema": "$NDISCHEMAPATH/base/schema.json"
+            }
+        ],
+        "maturity_level": "work_in_progress"
+    },
+    "depends_on": [
+        {
+            "name": "underlying_element_id",
+            "mustBeNonEmpty": false,
+            "documentation": "The document ID of the underlying element, if this element derives from another.",
+            "must_refer_to_document_class": ""
+        },
+        {
+            "name": "subject_id",
+            "mustBeNonEmpty": false,
+            "documentation": "The document ID of the subject associated with this element.",
+            "must_refer_to_document_class": ""
+        }
+    ],
+    "file": [],
+    "fields": [
+        {
+            "name": "ndi_element_class",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "ndi_element",
+            "mustBeNonEmpty": true,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "The name of the NDI element class that is stored.",
+            "constraints": {
+                "maxLength": 256
+            }
+        },
+        {
+            "name": "element_name",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": true,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": {
+                "node": "schema:name",
+                "name": "name"
+            },
+            "documentation": "The name of the element. Elements are uniquely defined by name, reference, and type.",
+            "constraints": {
+                "maxLength": 256
+            }
+        },
+        {
+            "name": "reference",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "1",
+            "mustBeNonEmpty": true,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "The reference number of the element.",
+            "constraints": {
+                "maxLength": 256
+            }
+        },
+        {
+            "name": "element_type",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "The type of the element. Common probe types are defined in probetype2object.",
+            "constraints": {
+                "maxLength": 256
+            }
+        },
+        {
+            "name": "direct",
+            "type": "integer",
+            "blank_value": 0,
+            "default_value": 0,
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": true,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Does this element directly feed data from an underlying element? 0 for no, 1 for yes.",
+            "constraints": {
+                "min": 0,
+                "max": 1
+            }
+        }
+    ]
+}

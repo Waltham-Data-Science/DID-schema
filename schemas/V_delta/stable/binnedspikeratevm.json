@@ -1,0 +1,71 @@
+{
+    "document_class": {
+        "class_name": "binnedspikeratevm",
+        "class_version": "1.0.0",
+        "superclasses": [
+            {
+                "class_name": "base",
+                "schema": "$NDISCHEMAPATH/base/schema.json"
+            }
+        ],
+        "maturity_level": "work_in_progress"
+    },
+    "depends_on": [
+        {
+            "name": "element_id",
+            "mustBeNonEmpty": true,
+            "documentation": "The document ID of the neuron element this binned spike rate was computed from.",
+            "must_refer_to_document_class": ""
+        }
+    ],
+    "file": [
+        {
+            "name": "binnedspikeratevm_file",
+            "documentation": "The file containing binned spike rate and Vm data."
+        }
+    ],
+    "fields": [
+        {
+            "name": "bin_size",
+            "type": "duration",
+            "blank_value": null,
+            "default_value": {
+                "seconds": 0.001,
+                "approximate": false,
+                "source_unit": "millisecond",
+                "source_value": 1.0
+            },
+            "mustBeNonEmpty": true,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": true,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "The width of each bin used to compute the binned spike rate, expressed as a duration.",
+            "constraints": {
+                "minimum": 0,
+                "allowed_units": [
+                    "nanosecond",
+                    "microsecond",
+                    "millisecond",
+                    "second"
+                ]
+            }
+        },
+        {
+            "name": "num_bins",
+            "type": "integer",
+            "blank_value": 0,
+            "default_value": 0,
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": true,
+            "queryable": false,
+            "ontology": {
+                "node": "ncit:C25463",
+                "name": "Count"
+            },
+            "documentation": "The total number of bins.",
+            "constraints": {}
+        }
+    ]
+}

@@ -1,0 +1,45 @@
+{
+    "document_class": {
+        "class_name": "demo_ndi",
+        "class_version": "1.0.0",
+        "superclasses": [
+            {
+                "class_name": "base",
+                "schema": "$NDISCHEMAPATH/base/schema.json"
+            }
+        ],
+        "maturity_level": "work_in_progress"
+    },
+    "depends_on": [],
+    "file": [],
+    "fields": [
+        {
+            "name": "demo_param1",
+            "type": "double",
+            "blank_value": 0.0,
+            "default_value": 1.0,
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "A demonstration numeric parameter.",
+            "constraints": {}
+        },
+        {
+            "name": "demo_param2",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "hello",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "A demonstration string parameter.",
+            "constraints": {
+                "maxLength": 256
+            }
+        }
+    ]
+}

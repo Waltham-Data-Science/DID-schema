@@ -1,0 +1,55 @@
+{
+    "document_class": {
+        "class_name": "spike_extraction_parameters_modification",
+        "class_version": "1.0.0",
+        "superclasses": [
+            {
+                "class_name": "base",
+                "schema": "$NDISCHEMAPATH/base/schema.json"
+            }
+        ],
+        "maturity_level": "work_in_progress"
+    },
+    "depends_on": [
+        {
+            "name": "spike_extraction_parameters_id",
+            "mustBeNonEmpty": true,
+            "documentation": "The document ID of the spike_extraction_parameters being modified.",
+            "must_refer_to_document_class": ""
+        }
+    ],
+    "file": [],
+    "fields": [
+        {
+            "name": "modified_fields",
+            "type": "structure",
+            "blank_value": {},
+            "default_value": {},
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": false,
+            "ontology": null,
+            "documentation": "Structure whose keys are the names of the modified spike_extraction_parameters fields and whose values are the new values assigned to them. Dynamic keys: one entry per modified field.",
+            "constraints": {
+                "dynamic_keys": true
+            },
+            "fields": []
+        },
+        {
+            "name": "modification_reason",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": false,
+            "ontology": null,
+            "documentation": "A free-text reason for the parameter modification.",
+            "constraints": {
+                "maxLength": 1024
+            }
+        }
+    ]
+}

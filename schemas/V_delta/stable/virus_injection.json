@@ -1,0 +1,125 @@
+{
+    "document_class": {
+        "class_name": "virus_injection",
+        "class_version": "1.0.0",
+        "superclasses": [
+            {
+                "class_name": "base",
+                "schema": "$NDISCHEMAPATH/base/schema.json"
+            }
+        ],
+        "maturity_level": "work_in_progress"
+    },
+    "depends_on": [
+        {
+            "name": "subject_id",
+            "mustBeNonEmpty": true,
+            "documentation": "The document ID of the subject that received this virus injection.",
+            "must_refer_to_document_class": ""
+        }
+    ],
+    "file": [],
+    "fields": [
+        {
+            "name": "virus_name",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": true,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "The name of the virus construct (e.g., 'AAV2-CaMKII-GCaMP6f').",
+            "constraints": {
+                "maxLength": 512
+            }
+        },
+        {
+            "name": "serotype",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "The serotype of the viral vector (e.g., 'AAV2', 'AAV9', 'lentivirus').",
+            "constraints": {
+                "maxLength": 64
+            }
+        },
+        {
+            "name": "titer",
+            "type": "double",
+            "blank_value": 0.0,
+            "default_value": 0.0,
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": false,
+            "ontology": null,
+            "documentation": "The titer of the virus in titer_units.",
+            "constraints": {}
+        },
+        {
+            "name": "titer_units",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "gc/mL",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": false,
+            "ontology": null,
+            "documentation": "The units for the titer (e.g., 'gc/mL', 'vg/mL').",
+            "constraints": {
+                "maxLength": 32
+            }
+        },
+        {
+            "name": "volume",
+            "type": "double",
+            "blank_value": 0.0,
+            "default_value": 0.0,
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": false,
+            "ontology": null,
+            "documentation": "The volume injected in volume_units.",
+            "constraints": {}
+        },
+        {
+            "name": "volume_units",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "nL",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": false,
+            "ontology": null,
+            "documentation": "The units for the injected volume (e.g., 'nL', 'uL').",
+            "constraints": {
+                "maxLength": 16
+            }
+        },
+        {
+            "name": "injection_site",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "The anatomical location of the injection site.",
+            "constraints": {
+                "maxLength": 256
+            }
+        }
+    ]
+}

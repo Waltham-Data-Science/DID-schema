@@ -1,0 +1,40 @@
+{
+    "document_class": {
+        "class_name": "syncgraph",
+        "class_version": "1.0.0",
+        "superclasses": [
+            {
+                "class_name": "base",
+                "schema": "$NDISCHEMAPATH/base/schema.json"
+            }
+        ],
+        "maturity_level": "work_in_progress"
+    },
+    "depends_on": [
+        {
+            "name": "syncrule_id_#",
+            "mustBeNonEmpty": true,
+            "multiple": true,
+            "documentation": "The document ID of a synchronisation rule participating in this sync graph. Each instance is named 'syncrule_id_1', 'syncrule_id_2', etc. A sync graph may reference any number of sync rules.",
+            "must_refer_to_document_class": ""
+        }
+    ],
+    "file": [],
+    "fields": [
+        {
+            "name": "ndi_syncgraph_class",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": true,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "The class name of the synchronisation graph implementation.",
+            "constraints": {
+                "maxLength": 256
+            }
+        }
+    ]
+}

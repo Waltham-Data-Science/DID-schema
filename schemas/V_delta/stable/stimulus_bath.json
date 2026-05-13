@@ -1,0 +1,76 @@
+{
+    "document_class": {
+        "class_name": "stimulus_bath",
+        "class_version": "1.0.0",
+        "superclasses": [
+            {
+                "class_name": "base",
+                "schema": "$NDISCHEMAPATH/base/schema.json"
+            }
+        ],
+        "maturity_level": "work_in_progress"
+    },
+    "depends_on": [
+        {
+            "name": "element_id",
+            "mustBeNonEmpty": true,
+            "documentation": "The document ID of the element receiving this bath stimulus.",
+            "must_refer_to_document_class": ""
+        }
+    ],
+    "file": [],
+    "fields": [
+        {
+            "name": "solution_name",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": true,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": {
+                "node": "iao:0000219",
+                "name": "denotes"
+            },
+            "documentation": "The name of the bath solution (e.g., 'ACSF', 'TTX'). The field denotes a chemical entity / drug; candidate for promotion to ontology_term once a chemistry namespace (e.g., ChEBI, DrON) is registered.",
+            "constraints": {
+                "maxLength": 256
+            }
+        },
+        {
+            "name": "concentration",
+            "type": "double",
+            "blank_value": 0.0,
+            "default_value": 0.0,
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": false,
+            "ontology": {
+                "node": "pato:0000033",
+                "name": "concentration of"
+            },
+            "documentation": "The concentration of the active compound.",
+            "constraints": {}
+        },
+        {
+            "name": "concentration_units",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": {
+                "node": "iao:0000003",
+                "name": "measurement unit label"
+            },
+            "documentation": "The units of the concentration (e.g., 'mM', 'uM', 'nM').",
+            "constraints": {
+                "maxLength": 32
+            }
+        }
+    ]
+}

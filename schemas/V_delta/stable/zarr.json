@@ -1,0 +1,554 @@
+{
+    "document_class": {
+        "class_name": "zarr",
+        "class_version": "1.0.0",
+        "superclasses": [
+            {
+                "class_name": "base",
+                "schema": "$NDISCHEMAPATH/base/schema.json"
+            }
+        ],
+        "maturity_level": "work_in_progress",
+        "abstract": true
+    },
+    "depends_on": [],
+    "file": [],
+    "directory": [
+        {
+            "name": "store",
+            "documentation": "The zarr store: a directory tree (or remote URI tree) containing the group's .zgroup/.zattrs (v2) or zarr.json (v3) sidecars plus per-array .zarray/zarr.json and chunk binary files. May be local or remote (S3, HTTP); the directory document's manifest_format determines how chunk paths are enumerated."
+        }
+    ],
+    "fields": [
+        {
+            "name": "zarr_format",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "3",
+            "mustBeNonEmpty": true,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "The zarr format version the writer declared for the arrays in this store. '2' for the historical .zarray layout (single 'compressor' object, dtype like '<u2', dimension_separator on the array, order field). '3' for the modern zarr.json layout (codec pipeline, data_type like 'uint16', chunk_grid object, chunk_key_encoding object). Mixed-format stores (v3 group with v2 arrays, used by some napari-compatible writers) declare the array format here; consumer tooling normalises both formats to the canonical schema fields below.",
+            "constraints": {
+                "enum": [
+                    "2",
+                    "3"
+                ]
+            }
+        },
+        {
+            "name": "dimension_separator",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "/",
+            "mustBeNonEmpty": true,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Character that separates chunk indices in chunk file paths. '.' produces '0.0.0', '/' produces '0/0/0'. In v2 this is the top-level dimension_separator field. In v3 it is chunk_key_encoding.configuration.separator (when chunk_key_encoding.name is 'default' or 'v2').",
+            "constraints": {
+                "enum": [
+                    ".",
+                    "/"
+                ]
+            }
+        },
+        {
+            "name": "dtype",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "uint16",
+            "mustBeNonEmpty": true,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Canonical element data type, written in v3-style long form. Consumer tooling translates v2-style numpy dtype strings (e.g., '<u2', '<f4') by splitting off the byte-order prefix into the separate 'endianness' field and mapping the remainder to the long form. v2 '<u2' becomes dtype='uint16' + endianness='little'; v3 'uint16' is taken directly.",
+            "constraints": {
+                "enum": [
+                    "uint8",
+                    "uint16",
+                    "uint32",
+                    "uint64",
+                    "int8",
+                    "int16",
+                    "int32",
+                    "int64",
+                    "float16",
+                    "float32",
+                    "float64",
+                    "complex64",
+                    "complex128",
+                    "bool"
+                ]
+            }
+        },
+        {
+            "name": "endianness",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "little",
+            "mustBeNonEmpty": true,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Byte order of multi-byte numeric elements. 'little' (most common, x86-native) or 'big'; 'native' is permitted for storage-format-agnostic data such as single-byte dtypes (uint8, int8, bool). In v2 this is the prefix character of the dtype string ('<' little, '>' big, '|' native). In v3 it is codecs[bytes].configuration.endian. Validator should check consistency with any 'bytes' entry in 'codecs'.",
+            "constraints": {
+                "enum": [
+                    "little",
+                    "big",
+                    "native"
+                ]
+            }
+        },
+        {
+            "name": "shape",
+            "type": "matrix",
+            "blank_value": null,
+            "default_value": null,
+            "mustBeNonEmpty": true,
+            "mustBeScalar": false,
+            "mustNotHaveNaN": true,
+            "queryable": false,
+            "ontology": null,
+            "documentation": "Per-dimension size of the native (level 0) array as an Nx1 column vector of integers; row count equals num_dimensions. Whole-vector equality queries are supported but rarely useful; concrete subclasses typically denormalise frequently-queried sizes (pixels_x, num_samples) into their own scalar fields.",
+            "constraints": {
+                "cols": 1,
+                "element_type": "integer",
+                "minimum": 1
+            }
+        },
+        {
+            "name": "chunks",
+            "type": "matrix",
+            "blank_value": null,
+            "default_value": null,
+            "mustBeNonEmpty": true,
+            "mustBeScalar": false,
+            "mustNotHaveNaN": true,
+            "queryable": false,
+            "ontology": null,
+            "documentation": "Per-dimension chunk size of the native (level 0) array as an Nx1 column vector of integers; the chunk count along dimension i is ceil(shape[i] / chunks[i]). In v2 this is the top-level chunks field. In v3 it is chunk_grid.configuration.chunk_shape (when chunk_grid.name is 'regular' \u2014 the only grid type currently defined by the spec).",
+            "constraints": {
+                "cols": 1,
+                "element_type": "integer",
+                "minimum": 1
+            }
+        },
+        {
+            "name": "chunk_order",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "C",
+            "mustBeNonEmpty": true,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": false,
+            "ontology": null,
+            "documentation": "Byte order of elements within a chunk: 'C' for row-major (last axis fastest), 'F' for column-major (first axis fastest). v2 records this as the top-level 'order' field. v3 is implicitly 'C' (the spec does not carry an order field), so v3 documents always set 'C'.",
+            "constraints": {
+                "enum": [
+                    "C",
+                    "F"
+                ]
+            }
+        },
+        {
+            "name": "fill_value",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "0",
+            "mustBeNonEmpty": true,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Value returned for missing chunks, stored as a stringified scalar to accommodate the full range that zarr permits: integers ('0', '-1'), floats ('0.0', '3.14'), special floats ('NaN', 'Infinity', '-Infinity'), and booleans ('true', 'false'). Consumer tooling parses the string according to dtype. Numeric comparison queries are not supported on this field; equality queries are.",
+            "constraints": {
+                "maxLength": 64
+            }
+        },
+        {
+            "name": "num_dimensions",
+            "type": "integer",
+            "blank_value": 0,
+            "default_value": 1,
+            "mustBeNonEmpty": true,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": true,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Number of dimensions of the native (level 0) array. Equal to the length of shape and chunks. Denormalised for cheap querying ('find all 5D zarrs').",
+            "constraints": {
+                "minimum": 1
+            }
+        },
+        {
+            "name": "num_elements",
+            "type": "double",
+            "blank_value": 0.0,
+            "default_value": 1.0,
+            "mustBeNonEmpty": true,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": true,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Total number of elements in the native (level 0) array (product of shape). Stored as double rather than integer because lightsheet and EM volumes routinely exceed 2^31 elements. Denormalised for cheap querying ('find all zarrs with > 1e10 elements').",
+            "constraints": {
+                "minimum": 1
+            }
+        },
+        {
+            "name": "codecs",
+            "type": "structure",
+            "blank_value": [],
+            "default_value": [
+                {
+                    "name": "bytes",
+                    "endian": "little",
+                    "level": null,
+                    "checksum": null,
+                    "inner_codec": "",
+                    "shuffle": null,
+                    "blocksize": null
+                }
+            ],
+            "mustBeNonEmpty": false,
+            "mustBeScalar": false,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Ordered codec pipeline applied to chunks. v3 stores carry their codecs[] array directly. v2 stores have either no compressor (empty codecs array) or one compressor object that consumer tooling normalises to a single-element codecs array. The discriminator 'name' selects which sub-fields are meaningful per entry: 'bytes' uses 'endian'; 'blosc' uses 'level', 'inner_codec', 'shuffle', 'blocksize'; 'gzip' and 'zlib' use 'level'; 'zstd' uses 'level' and 'checksum'; 'lz4' uses no parameters. Other codec names (e.g., 'transpose', 'sharding_indexed', 'crc32c') are permitted but their parameters are not currently surfaced as queryable sub-fields; round-trip support for those is the responsibility of consumer tooling.",
+            "constraints": {},
+            "discriminator": "name",
+            "fields": [
+                {
+                    "name": "name",
+                    "type": "char",
+                    "blank_value": "",
+                    "default_value": "bytes",
+                    "mustBeNonEmpty": true,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Codec name. Selects which other sub-fields of this codec entry are meaningful.",
+                    "constraints": {
+                        "maxLength": 64
+                    }
+                },
+                {
+                    "name": "endian",
+                    "type": "char",
+                    "blank_value": "",
+                    "default_value": "",
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": false,
+                    "ontology": null,
+                    "documentation": "Byte order for the 'bytes' codec. Empty string when this entry is not a 'bytes' codec. Must equal the document-level 'endianness' field when populated.",
+                    "constraints": {
+                        "enum": [
+                            "",
+                            "little",
+                            "big",
+                            "native"
+                        ]
+                    }
+                },
+                {
+                    "name": "level",
+                    "type": "integer",
+                    "blank_value": null,
+                    "default_value": null,
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": true,
+                    "queryable": false,
+                    "ontology": null,
+                    "documentation": "Compression level. Codec-specific: 1-9 for gzip/zlib, 0-9 for blosc, 1-22 for zstd. Null when this entry's codec does not take a level.",
+                    "constraints": {
+                        "minimum": 0
+                    }
+                },
+                {
+                    "name": "checksum",
+                    "type": "boolean",
+                    "blank_value": null,
+                    "default_value": null,
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": false,
+                    "ontology": null,
+                    "documentation": "Whether the codec appends an integrity checksum to each compressed chunk. Used by zstd. Null when this entry's codec does not have a checksum option.",
+                    "constraints": {}
+                },
+                {
+                    "name": "inner_codec",
+                    "type": "char",
+                    "blank_value": "",
+                    "default_value": "",
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": false,
+                    "ontology": null,
+                    "documentation": "Inner codec used by blosc (its 'cname' parameter): typically 'lz4', 'zstd', 'blosclz', 'snappy'. Empty for non-blosc codecs.",
+                    "constraints": {
+                        "maxLength": 32
+                    }
+                },
+                {
+                    "name": "shuffle",
+                    "type": "integer",
+                    "blank_value": null,
+                    "default_value": null,
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": true,
+                    "queryable": false,
+                    "ontology": null,
+                    "documentation": "Pre-compression shuffle filter for blosc: 0 = none, 1 = byte shuffle, 2 = bit shuffle. Null for non-blosc codecs.",
+                    "constraints": {
+                        "enum": [
+                            null,
+                            0,
+                            1,
+                            2
+                        ]
+                    }
+                },
+                {
+                    "name": "blocksize",
+                    "type": "integer",
+                    "blank_value": null,
+                    "default_value": null,
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": true,
+                    "queryable": false,
+                    "ontology": null,
+                    "documentation": "Blosc internal block size in bytes. 0 means blosc chooses automatically. Null for non-blosc codecs.",
+                    "constraints": {
+                        "minimum": 0
+                    }
+                }
+            ]
+        },
+        {
+            "name": "multiscales",
+            "type": "structure",
+            "blank_value": [],
+            "default_value": [
+                {
+                    "name": "default",
+                    "downsampling_type": "none",
+                    "metadata_json": "",
+                    "axes": [],
+                    "datasets": [
+                        {
+                            "path": "0",
+                            "scale": null,
+                            "translation": null
+                        }
+                    ]
+                }
+            ],
+            "mustBeNonEmpty": true,
+            "mustBeScalar": false,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "One or more multiscale pyramid groups within the store. Each pyramid is a list of arrays at progressively coarser resolution sharing one set of axes and one downsampling method. A single store can carry several parallel pyramids (e.g., a 'mean' pyramid for averaged previews and a 'max' pyramid for max-projection previews) that share the same level-0 native array. Non-pyramidal arrays have one multiscales entry with one datasets entry at path '0'.",
+            "constraints": {},
+            "fields": [
+                {
+                    "name": "name",
+                    "type": "char",
+                    "blank_value": "",
+                    "default_value": "default",
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Identifier for this pyramid within the store. Examples: 'mean', 'max', 'default'. Free-form string; OME-Zarr writers conventionally use it to disambiguate parallel pyramids.",
+                    "constraints": {
+                        "maxLength": 128
+                    }
+                },
+                {
+                    "name": "downsampling_type",
+                    "type": "char",
+                    "blank_value": "",
+                    "default_value": "none",
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Name of the algorithm used to produce coarser levels of this pyramid from the native array. OME-Zarr maps this to the multiscales[i].type field. Domain-specific allowed values: image-domain pyramids typically use 'mean', 'gaussian', 'max', 'peak', 'nearest', 'mode'; ephys-domain pyramids typically use 'minmax_envelope', 'decimate', 'rms', 'mean'. 'none' for non-pyramidal data.",
+                    "constraints": {
+                        "maxLength": 64
+                    }
+                },
+                {
+                    "name": "metadata_json",
+                    "type": "char",
+                    "blank_value": "",
+                    "default_value": "",
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": false,
+                    "ontology": null,
+                    "documentation": "Free-form per-pyramid algorithm provenance, stored as a stringified JSON object. OME-Zarr writers fill this with information like {'method': 'dask.array.coarsen(np.mean, ...)', 'version': '...'}. Not queryable as a structured field; retained only for round-trip fidelity.",
+                    "constraints": {
+                        "maxLength": 4096
+                    }
+                },
+                {
+                    "name": "axes",
+                    "type": "structure",
+                    "blank_value": [],
+                    "default_value": [],
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": false,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Per-axis records ordered to match the corresponding dataset shape. Each element describes one dimension (its label, type, and physical unit). May be empty for non-OME-Zarr stores; OME-Zarr writers always populate it.",
+                    "constraints": {},
+                    "fields": [
+                        {
+                            "name": "name",
+                            "type": "char",
+                            "blank_value": "",
+                            "default_value": "",
+                            "mustBeNonEmpty": true,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "Axis label as the writer recorded it. Examples: 't', 'c', 'z', 'y', 'x', 'time', 'channel'. Free-form string; OME-Zarr typically uses single letters.",
+                            "constraints": {
+                                "maxLength": 64
+                            }
+                        },
+                        {
+                            "name": "type",
+                            "type": "char",
+                            "blank_value": "",
+                            "default_value": "space",
+                            "mustBeNonEmpty": true,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "Semantic class of this axis. OME-Zarr defines 'space', 'time', 'channel'; the schema also permits 'frequency' (e.g., spectrograms) and 'other' (writer-defined) for non-OME-Zarr stores.",
+                            "constraints": {
+                                "enum": [
+                                    "space",
+                                    "time",
+                                    "channel",
+                                    "frequency",
+                                    "other"
+                                ]
+                            }
+                        },
+                        {
+                            "name": "unit",
+                            "type": "char",
+                            "blank_value": "",
+                            "default_value": "",
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "Physical unit of this axis, written as a UDUNITS-2 string (e.g., 'micrometer', 'millisecond', 'hertz'). Empty for axes of type 'channel' (which has no physical unit) and for axes of type 'other' when no unit applies. The set of valid units depends on the axis type; the schema does not enforce that correlation structurally.",
+                            "constraints": {
+                                "maxLength": 64
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "datasets",
+                    "type": "structure",
+                    "blank_value": [],
+                    "default_value": [
+                        {
+                            "path": "0",
+                            "scale": null,
+                            "translation": null
+                        }
+                    ],
+                    "mustBeNonEmpty": true,
+                    "mustBeScalar": false,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Ordered list of pyramid levels for this multiscale group. Element 0 is the native (full-resolution) array; subsequent elements are progressively coarser. Each entry names a path within the store and the physical-coordinate transform from index space to world space at that level. A non-pyramidal multiscales entry has exactly one datasets element with path '0'.",
+                    "constraints": {},
+                    "fields": [
+                        {
+                            "name": "path",
+                            "type": "char",
+                            "blank_value": "",
+                            "default_value": "0",
+                            "mustBeNonEmpty": true,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "Path of this level's array within the zarr group, relative to the group root. Examples: '0' for the shared native array; 'mean/1' or 'max/2' for per-pyramid pyramid levels.",
+                            "constraints": {
+                                "maxLength": 256
+                            }
+                        },
+                        {
+                            "name": "scale",
+                            "type": "matrix",
+                            "blank_value": null,
+                            "default_value": null,
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": false,
+                            "mustNotHaveNaN": true,
+                            "queryable": false,
+                            "ontology": null,
+                            "documentation": "Per-axis scale coefficient that takes index coordinates to physical coordinates at this level, as an Nx1 column vector. For an axis with unit 'micrometer', a scale of 4 means each index step is 4 micrometers. Length equals num_dimensions; entry order matches the multiscales group's axes. OME-Zarr stores this as the 'scale' transform in coordinateTransformations. Null when no scale is declared.",
+                            "constraints": {
+                                "cols": 1,
+                                "element_type": "double",
+                                "minimum": 0
+                            }
+                        },
+                        {
+                            "name": "translation",
+                            "type": "matrix",
+                            "blank_value": null,
+                            "default_value": null,
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": false,
+                            "mustNotHaveNaN": true,
+                            "queryable": false,
+                            "ontology": null,
+                            "documentation": "Per-axis translation offset that shifts physical coordinates at this level, applied after the scale, as an Nx1 column vector in the same physical units as 'scale'. Length equals num_dimensions; entry order matches the multiscales group's axes. OME-Zarr stores this as an optional 'translation' transform following the 'scale' entry in coordinateTransformations. Null when no translation is declared (the common case for writers that align all levels to the origin).",
+                            "constraints": {
+                                "cols": 1,
+                                "element_type": "double"
+                            }
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

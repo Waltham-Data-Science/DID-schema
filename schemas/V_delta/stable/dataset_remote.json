@@ -1,0 +1,62 @@
+{
+    "document_class": {
+        "class_name": "dataset_remote",
+        "class_version": "1.0.0",
+        "superclasses": [
+            {
+                "class_name": "base",
+                "schema": "$NDISCHEMAPATH/base/schema.json"
+            }
+        ],
+        "maturity_level": "work_in_progress"
+    },
+    "depends_on": [],
+    "file": [],
+    "fields": [
+        {
+            "name": "remote_url",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": true,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "The URL of the remote dataset location.",
+            "constraints": {
+                "maxLength": 1024
+            }
+        },
+        {
+            "name": "remote_type",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "The type of remote storage (e.g., 's3', 'http', 'globus', 'git').",
+            "constraints": {
+                "maxLength": 64
+            }
+        },
+        {
+            "name": "dataset_id",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "The dataset identifier at the remote location.",
+            "constraints": {
+                "maxLength": 256
+            }
+        }
+    ]
+}

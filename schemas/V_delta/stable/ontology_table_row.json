@@ -1,0 +1,80 @@
+{
+    "document_class": {
+        "class_name": "ontology_table_row",
+        "class_version": "1.0.0",
+        "superclasses": [
+            {
+                "class_name": "base",
+                "schema": "$NDISCHEMAPATH/base/schema.json"
+            }
+        ],
+        "maturity_level": "work_in_progress"
+    },
+    "depends_on": [
+        {
+            "name": "element_id",
+            "mustBeNonEmpty": false,
+            "documentation": "The document ID of the element this ontology table row is associated with.",
+            "must_refer_to_document_class": ""
+        }
+    ],
+    "file": [],
+    "fields": [
+        {
+            "name": "names",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": true,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": false,
+            "ontology": null,
+            "documentation": "Comma-separated human-readable labels for each column in the table row. The number of entries must match variable_names and ontology_nodes.",
+            "constraints": {}
+        },
+        {
+            "name": "variable_names",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": true,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": false,
+            "ontology": null,
+            "documentation": "Comma-separated variable names that serve as the keys in the data structure. The number of entries must match names and ontology_nodes.",
+            "constraints": {}
+        },
+        {
+            "name": "ontology_nodes",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": true,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": false,
+            "ontology": null,
+            "documentation": "Comma-separated ontology node identifiers (e.g., 'EMPTY:0000103') for each column. The number of entries must match names and variable_names.",
+            "constraints": {}
+        },
+        {
+            "name": "data",
+            "type": "structure",
+            "blank_value": {},
+            "default_value": {},
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": false,
+            "ontology": null,
+            "documentation": "A structure whose keys are the entries of variable_names and whose values are the data for this table row. Values may be strings, numbers, or NaN. Requires a special evaluator: the keys must match the comma-separated entries in variable_names exactly, and the counts of names, variable_names, and ontology_nodes must all agree.",
+            "constraints": {
+                "dynamic_keys_from": "variable_names",
+                "requires_evaluator": true
+            },
+            "fields": []
+        }
+    ]
+}

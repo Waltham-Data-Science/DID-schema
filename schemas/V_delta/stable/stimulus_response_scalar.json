@@ -1,0 +1,69 @@
+{
+    "document_class": {
+        "class_name": "stimulus_response_scalar",
+        "class_version": "1.0.0",
+        "superclasses": [
+            {
+                "class_name": "base",
+                "schema": "$NDISCHEMAPATH/base/schema.json"
+            }
+        ],
+        "maturity_level": "work_in_progress"
+    },
+    "depends_on": [
+        {
+            "name": "stimulus_response_id",
+            "mustBeNonEmpty": true,
+            "documentation": "The document ID of the stimulus_response this scalar summary belongs to.",
+            "must_refer_to_document_class": ""
+        }
+    ],
+    "file": [],
+    "fields": [
+        {
+            "name": "stimulus_values",
+            "type": "matrix",
+            "blank_value": [],
+            "default_value": [],
+            "mustBeNonEmpty": false,
+            "mustBeScalar": false,
+            "mustNotHaveNaN": false,
+            "queryable": false,
+            "ontology": null,
+            "documentation": "Array of independent stimulus parameter values, one per stimulus condition. Must be the same length as response_values.",
+            "constraints": {
+                "element_type": "double"
+            }
+        },
+        {
+            "name": "response_values",
+            "type": "matrix",
+            "blank_value": [],
+            "default_value": [],
+            "mustBeNonEmpty": false,
+            "mustBeScalar": false,
+            "mustNotHaveNaN": false,
+            "queryable": false,
+            "ontology": null,
+            "documentation": "Array of scalar response values in response_units, one per stimulus condition. Must be the same length as stimulus_values.",
+            "constraints": {
+                "element_type": "double"
+            }
+        },
+        {
+            "name": "response_units",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "The units of the response values (e.g., 'spikes/s', 'dF/F').",
+            "constraints": {
+                "maxLength": 64
+            }
+        }
+    ]
+}

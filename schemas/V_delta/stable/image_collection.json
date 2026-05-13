@@ -1,0 +1,72 @@
+{
+    "document_class": {
+        "class_name": "image_collection",
+        "class_version": "1.0.0",
+        "superclasses": [
+            {
+                "class_name": "base",
+                "schema": "$NDISCHEMAPATH/base/schema.json"
+            }
+        ],
+        "maturity_level": "work_in_progress"
+    },
+    "depends_on": [
+        {
+            "name": "element_id",
+            "mustBeNonEmpty": false,
+            "documentation": "The document ID of the element this image collection is associated with.",
+            "must_refer_to_document_class": ""
+        }
+    ],
+    "file": [
+        {
+            "name": "collection_file",
+            "documentation": "The file containing the image collection data."
+        }
+    ],
+    "fields": [
+        {
+            "name": "num_images",
+            "type": "integer",
+            "blank_value": 0,
+            "default_value": 0,
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": true,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "The number of images in the collection.",
+            "constraints": {}
+        },
+        {
+            "name": "image_format",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "The file format of images in the collection (e.g., 'png', 'tiff').",
+            "constraints": {
+                "maxLength": 32
+            }
+        },
+        {
+            "name": "description",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": false,
+            "ontology": null,
+            "documentation": "A free-text description of this image collection.",
+            "constraints": {
+                "maxLength": 1024
+            }
+        }
+    ]
+}

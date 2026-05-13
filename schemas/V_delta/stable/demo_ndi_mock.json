@@ -1,0 +1,45 @@
+{
+    "document_class": {
+        "class_name": "demo_ndi_mock",
+        "class_version": "1.0.0",
+        "superclasses": [
+            {
+                "class_name": "base",
+                "schema": "$NDISCHEMAPATH/base/schema.json"
+            }
+        ],
+        "maturity_level": "work_in_progress"
+    },
+    "depends_on": [],
+    "file": [],
+    "fields": [
+        {
+            "name": "mock_value",
+            "type": "double",
+            "blank_value": 0.0,
+            "default_value": 42.0,
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "A mock numeric value for testing purposes.",
+            "constraints": {}
+        },
+        {
+            "name": "mock_label",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "mock",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "A mock string label for testing purposes.",
+            "constraints": {
+                "maxLength": 128
+            }
+        }
+    ]
+}

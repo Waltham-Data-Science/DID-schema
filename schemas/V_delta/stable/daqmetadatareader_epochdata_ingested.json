@@ -1,0 +1,45 @@
+{
+    "document_class": {
+        "class_name": "daqmetadatareader_epochdata_ingested",
+        "class_version": "1.0.0",
+        "superclasses": [
+            {
+                "class_name": "base",
+                "schema": "$NDISCHEMAPATH/base/schema.json"
+            }
+        ],
+        "maturity_level": "work_in_progress"
+    },
+    "depends_on": [
+        {
+            "name": "daqmetadatareader_id",
+            "mustBeNonEmpty": true,
+            "documentation": "The document ID of the DAQ metadata reader whose epoch data has been ingested.",
+            "must_refer_to_document_class": ""
+        },
+        {
+            "name": "epochid",
+            "mustBeNonEmpty": true,
+            "documentation": "The document ID of the epoch whose data was ingested.",
+            "must_refer_to_document_class": ""
+        }
+    ],
+    "file": [],
+    "fields": [
+        {
+            "name": "ingestion_status",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "complete",
+            "mustBeNonEmpty": true,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "The status of the ingestion ('complete', 'partial', 'failed').",
+            "constraints": {
+                "maxLength": 32
+            }
+        }
+    ]
+}

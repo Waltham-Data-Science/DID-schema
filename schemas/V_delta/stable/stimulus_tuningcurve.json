@@ -1,0 +1,96 @@
+{
+    "document_class": {
+        "class_name": "stimulus_tuningcurve",
+        "class_version": "1.0.0",
+        "superclasses": [
+            {
+                "class_name": "base",
+                "schema": "$NDISCHEMAPATH/base/schema.json"
+            }
+        ],
+        "maturity_level": "work_in_progress"
+    },
+    "depends_on": [
+        {
+            "name": "stimulus_response_scalar_id",
+            "mustBeNonEmpty": true,
+            "documentation": "The document ID of the stimulus_response_scalar this tuning curve was derived from.",
+            "must_refer_to_document_class": ""
+        }
+    ],
+    "file": [],
+    "fields": [
+        {
+            "name": "independent_variable",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": true,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": {
+                "node": "obi:0000750",
+                "name": "independent variable"
+            },
+            "documentation": "The name of the independent stimulus variable (e.g., 'angle', 'spatial_frequency'). Candidate for promotion to ontology_term.",
+            "constraints": {
+                "maxLength": 256
+            }
+        },
+        {
+            "name": "independent_values",
+            "type": "matrix",
+            "blank_value": [],
+            "default_value": [],
+            "mustBeNonEmpty": false,
+            "mustBeScalar": false,
+            "mustNotHaveNaN": false,
+            "queryable": false,
+            "ontology": {
+                "node": "iao:0000027",
+                "name": "data item"
+            },
+            "documentation": "Array of numeric values of the independent variable, one per tuning curve point. Must be the same length as response_mean and response_stderr.",
+            "constraints": {
+                "element_type": "double"
+            }
+        },
+        {
+            "name": "response_mean",
+            "type": "matrix",
+            "blank_value": [],
+            "default_value": [],
+            "mustBeNonEmpty": false,
+            "mustBeScalar": false,
+            "mustNotHaveNaN": false,
+            "queryable": false,
+            "ontology": {
+                "node": "ncit:C53319",
+                "name": "Arithmetic Mean"
+            },
+            "documentation": "Array of mean response values at each point in independent_values. Must be the same length as independent_values.",
+            "constraints": {
+                "element_type": "double"
+            }
+        },
+        {
+            "name": "response_stderr",
+            "type": "matrix",
+            "blank_value": [],
+            "default_value": [],
+            "mustBeNonEmpty": false,
+            "mustBeScalar": false,
+            "mustNotHaveNaN": false,
+            "queryable": false,
+            "ontology": {
+                "node": "stato:0000037",
+                "name": "standard error of the mean"
+            },
+            "documentation": "Array of standard error of the mean for each response value. Must be the same length as independent_values. Each element is itself a SEM; the array dimension is across independent_values.",
+            "constraints": {
+                "element_type": "double"
+            }
+        }
+    ]
+}
