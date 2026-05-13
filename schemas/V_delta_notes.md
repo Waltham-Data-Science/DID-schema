@@ -56,10 +56,13 @@ substantive schema content changes will land in follow-up PRs.
   shape (the legacy `schema` key is now forbidden via
   `additionalProperties: false`). Consumer tooling must resolve
   superclasses by `class_name` through `index.json`.
-- **Add the `schema_version` field** to `base.json` (and therefore to
+- ~~**Add the `schema_version` field** to `base.json` (and therefore to
   every inheriting document type) as a required `char` field with
   enumeration `["did_v1", "V_delta"]` (extend as new set versions are
-  added). Still a follow-up.
+  added).~~ **Done.** `schema_version` is declared on
+  `schemas/V_delta/stable/base.json` as a required `char` field with
+  `constraints.enum: ["did_v1", "V_delta"]`, and described in
+  `V_delta_SPEC.md` § 4.
 
 ### Aggregation
 

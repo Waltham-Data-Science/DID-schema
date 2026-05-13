@@ -94,9 +94,9 @@ Migration mapping for content carried over from V_gamma:
 | `"work_in_progress"` | `"stable"` (default placement — re-tier to `draft` or `deprecated` per domain review) |
 | — | `"deprecated"` (new, no V_gamma analog) |
 
-### 4. `schema_version` field on document instances (planned)
+### 4. `schema_version` field on document instances
 
-V_delta will add a required `schema_version` field to document instances,
+V_delta adds a required `schema_version` field to document instances,
 inherited via `base`, carrying the set-version string of the schema set
 under which the document was authored. Established values:
 
@@ -105,9 +105,14 @@ under which the document was authored. Established values:
   iterations; this value is used by the `conversions/from_did_v1/`
   migration path to recognize incoming legacy documents
 
-This field is **planned**, not yet present in the schemas in the initial
-scaffolding commit. The schema change will land as a follow-up PR; until
-then, the existing V_gamma document instance shape applies.
+The field is declared on `schemas/V_delta/stable/base.json` as a
+required `char` field with `constraints.enum: ["did_v1", "V_delta"]`.
+Extend the enum as new set versions ship. The field is inherited by
+every document type via the `base` superclass, so document instances
+carry it inside the `base` block at path `base.schema_version`. A
+migrated did_v1 document temporarily carrying the legacy shape may
+declare `"did_v1"`; a document authored against V_delta declares
+`"V_delta"`.
 
 ### 5. Conversion documentation lives alongside schemas
 

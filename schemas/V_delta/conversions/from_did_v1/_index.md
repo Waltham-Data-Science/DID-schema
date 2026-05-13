@@ -5,7 +5,13 @@ doc from `did_v1`, and tracks its status. Update this index whenever a
 new conversion doc is added or its status changes.
 
 The corresponding template is [`_TEMPLATE.md`](_TEMPLATE.md). The shared
-file-handling rules are in [`_files.md`](_files.md).
+file-handling rules are in [`_files.md`](_files.md). Cross-cutting renames
+that apply to **every** did_v1 → V_delta migration (underscore-prefix
+removal, snake_case, ontology-annotation reshape, superclass-reference
+reshape, class-scoped property blocks, maturity-level enum) are in
+[`_universal_renames.md`](_universal_renames.md). Per-class markdowns
+assume those renames have been applied and document only the per-class
+field-level changes on top.
 
 ## Status legend
 
@@ -36,6 +42,10 @@ file-handling rules are in [`_files.md`](_files.md).
 | `reverse_correlation` | NDIcalc-vis-matlab `neuro/reverse_correlation` | drafted | [reverse_correlation.md](reverse_correlation.md) |
 | `hartley_reverse_correlation` | NDIcalc-vis-matlab `neuro/hartley_reverse_correlation` | drafted | [hartley_reverse_correlation.md](hartley_reverse_correlation.md) |
 | `hartley_calc` | NDIcalc-vis-matlab `calc/hartley_calc` | drafted | [hartley_calc.md](hartley_calc.md) |
+| `probe_location` | legacy NDI/DID `probe_location` (V_alpha shape) | drafted | [probe_location.md](probe_location.md) |
+| `treatment` | legacy NDI/DID `treatment` (V_alpha shape) | drafted | [treatment.md](treatment.md) |
+| `ontology_image` | legacy NDI/DID `ontologyImage` (V_alpha shape) | drafted | [ontology_image.md](ontology_image.md) |
+| `ontology_label` | legacy NDI/DID `ontologyLabel` (V_alpha shape) | drafted | [ontology_label.md](ontology_label.md) |
 
 ## Notes
 
