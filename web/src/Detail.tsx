@@ -251,7 +251,7 @@ function TypeBadge({ type }: { type: string }) {
     return <code>{type}</code>;
   }
   return (
-    <span className="type-badge" tabIndex={0} title={desc}>
+    <span className="type-badge" tabIndex={0}>
       <code>{type}</code>
       <span className="type-tooltip" role="tooltip">
         {desc}
