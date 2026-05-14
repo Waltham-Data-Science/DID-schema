@@ -10,6 +10,9 @@ import {
 import { FlatList, Tree } from "./Tree";
 import { Detail } from "./Detail";
 import { Editor } from "./Editor";
+import { AuthPanel } from "./Auth";
+import { loadAuth } from "./auth";
+import type { AuthState } from "./auth";
 import { ErrorBoundary } from "./ErrorBoundary";
 import "./styles.css";
 
@@ -24,6 +27,7 @@ export default function App() {
     parseHash(window.location.hash),
   );
   const [editing, setEditing] = useState<boolean>(false);
+  const [auth, setAuth] = useState<AuthState | null>(() => loadAuth());
 
   useEffect(() => {
     loadIndex().then(setIndex).catch((e) => setError(String(e)));
@@ -71,6 +75,7 @@ export default function App() {
           <div className="set-version">
             set: <code>{index.set_version}</code>
           </div>
+          <AuthPanel auth={auth} onAuth={setAuth} />
         </div>
         <div className="sidebar-controls">
           <div className="view-toggle" role="tablist">

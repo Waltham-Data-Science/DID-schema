@@ -79,6 +79,121 @@ main {
   margin-top: 0.2rem;
 }
 
+.auth-panel {
+  margin-top: 0.5rem;
+  font-size: 0.85rem;
+}
+
+.auth-panel.signed-in {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  flex-wrap: wrap;
+}
+
+.auth-avatar {
+  border-radius: 50%;
+  display: block;
+}
+
+.auth-user {
+  color: var(--text);
+}
+
+.auth-signin,
+.auth-signout {
+  background: var(--bg-alt);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 0.2rem 0.6rem;
+  cursor: pointer;
+  font-size: 0.8rem;
+}
+
+.auth-signin:hover,
+.auth-signout:hover {
+  background: var(--selected-bg);
+}
+
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  padding: 0.5rem;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--bg-alt);
+}
+
+.auth-label {
+  font-weight: 600;
+  color: var(--text);
+}
+
+.auth-form input {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0.3rem 0.5rem;
+  background: var(--bg);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  font: inherit;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 0.8rem;
+}
+
+.auth-help {
+  margin: 0;
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  line-height: 1.4;
+}
+
+.auth-help code {
+  font-size: 0.85em;
+}
+
+.auth-help a {
+  color: var(--link);
+}
+
+.auth-error {
+  font-size: 0.75rem;
+  color: var(--maturity-deprecated);
+  padding: 0.25rem 0.4rem;
+  border: 1px solid var(--maturity-deprecated);
+  border-radius: 4px;
+  background: rgba(207, 34, 46, 0.08);
+}
+
+.auth-form-actions {
+  display: flex;
+  gap: 0.3rem;
+}
+
+.auth-form-actions button {
+  background: var(--bg);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 0.25rem 0.7rem;
+  cursor: pointer;
+  font-size: 0.8rem;
+}
+
+.auth-form-actions button[type="submit"] {
+  background: var(--link);
+  color: #fff;
+  border-color: var(--link);
+}
+
+.auth-form-actions button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
 .sidebar-controls {
   padding: 0.5rem 1rem;
   display: flex;
