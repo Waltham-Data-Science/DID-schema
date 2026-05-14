@@ -167,6 +167,41 @@ main {
   background: rgba(127, 127, 127, 0.12);
 }
 
+.tree-folder {
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+  padding: 0.1rem 0.35rem;
+  border-radius: 4px;
+  color: var(--text-muted);
+  font-family: inherit;
+  font-size: inherit;
+  text-align: left;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  font-size: 0.78rem;
+}
+
+.tree-folder:hover {
+  background: rgba(127, 127, 127, 0.12);
+}
+
+.tree-folder-count {
+  margin-left: 0.4rem;
+  color: var(--text-muted);
+  font-weight: 400;
+  text-transform: none;
+  letter-spacing: 0;
+  font-size: 0.75rem;
+}
+.tree-folder-count::before {
+  content: "(";
+}
+.tree-folder-count::after {
+  content: ")";
+}
+
 .tree-label.selected {
   background: var(--selected-bg);
   outline: 1px solid var(--selected-border);
