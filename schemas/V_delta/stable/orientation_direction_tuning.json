@@ -11,93 +11,497 @@
     },
     "depends_on": [
         {
+            "name": "element_id",
+            "mustBeNonEmpty": true,
+            "documentation": "The document ID of the ndi.element whose orientation/direction tuning is described.",
+            "must_refer_to_document_class": "element"
+        },
+        {
             "name": "stimulus_tuningcurve_id",
             "mustBeNonEmpty": true,
-            "documentation": "The document ID of the stimulus_tuningcurve this orientation/direction tuning was computed from.",
-            "must_refer_to_document_class": ""
+            "documentation": "The document ID of the stimulus_tuningcurve from which this orientation/direction tuning was derived.",
+            "must_refer_to_document_class": "stimulus_tuningcurve"
         }
     ],
     "file": [],
     "fields": [
         {
-            "name": "preferred_direction",
-            "type": "double",
-            "blank_value": 0.0,
-            "default_value": 0.0,
-            "mustBeNonEmpty": false,
-            "mustBeScalar": true,
-            "mustNotHaveNaN": false,
-            "queryable": true,
-            "ontology": {
-                "node": "placeholder:preferred_direction_of_motion",
-                "name": "preferred direction of motion"
-            },
-            "documentation": "The preferred direction of motion in degrees (0-360).",
-            "constraints": {}
-        },
-        {
-            "name": "preferred_orientation",
-            "type": "double",
-            "blank_value": 0.0,
-            "default_value": 0.0,
-            "mustBeNonEmpty": false,
-            "mustBeScalar": true,
-            "mustNotHaveNaN": false,
-            "queryable": true,
-            "ontology": {
-                "node": "placeholder:preferred_orientation",
-                "name": "preferred orientation"
-            },
-            "documentation": "The preferred orientation in degrees (0-180).",
-            "constraints": {}
-        },
-        {
-            "name": "direction_selectivity_index",
-            "type": "double",
-            "blank_value": 0.0,
-            "default_value": 0.0,
-            "mustBeNonEmpty": false,
-            "mustBeScalar": true,
-            "mustNotHaveNaN": false,
-            "queryable": true,
-            "ontology": {
-                "node": "placeholder:direction_selectivity_index",
-                "name": "direction selectivity index"
-            },
-            "documentation": "Direction selectivity index (DSI), range 0 to 1.",
-            "constraints": {}
-        },
-        {
-            "name": "orientation_selectivity_index",
-            "type": "double",
-            "blank_value": 0.0,
-            "default_value": 0.0,
-            "mustBeNonEmpty": false,
-            "mustBeScalar": true,
-            "mustNotHaveNaN": false,
-            "queryable": true,
-            "ontology": {
-                "node": "placeholder:orientation_selectivity_index",
-                "name": "orientation selectivity index"
-            },
-            "documentation": "Orientation selectivity index (OSI), range 0 to 1.",
-            "constraints": {}
-        },
-        {
-            "name": "tuning_width",
-            "type": "double",
-            "blank_value": 0.0,
-            "default_value": 0.0,
+            "name": "properties",
+            "type": "structure",
+            "blank_value": {},
+            "default_value": {},
             "mustBeNonEmpty": false,
             "mustBeScalar": true,
             "mustNotHaveNaN": false,
             "queryable": false,
-            "ontology": {
-                "node": "placeholder:tuning_curve_half_width_at_half_height",
-                "name": "tuning curve half-width at half-height"
-            },
-            "documentation": "The half-width at half-height of the tuning curve in degrees.",
-            "constraints": {}
+            "ontology": null,
+            "documentation": "Bookkeeping properties describing how the orientation/direction responses were measured and reported.",
+            "constraints": {},
+            "fields": [
+                {
+                    "name": "coordinates",
+                    "type": "char",
+                    "blank_value": "",
+                    "default_value": "compass",
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "The orientation/direction coordinate basis. One of 'compass' (0 deg = up, angles increase clockwise) or 'cartesian' (0 deg = right, angles increase counter-clockwise).",
+                    "constraints": {
+                        "enum": ["compass", "cartesian"]
+                    }
+                },
+                {
+                    "name": "response_units",
+                    "type": "char",
+                    "blank_value": "",
+                    "default_value": "",
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Units of the response values (e.g., 'spikes/s', 'dF/F').",
+                    "constraints": {
+                        "maxLength": 64
+                    }
+                },
+                {
+                    "name": "response_type",
+                    "type": "char",
+                    "blank_value": "",
+                    "default_value": "mean",
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Reduction applied to each stimulus presentation to yield a per-trial response (e.g., 'mean', 'peak', 'F1').",
+                    "constraints": {
+                        "maxLength": 64
+                    }
+                }
+            ]
+        },
+        {
+            "name": "tuning_curve",
+            "type": "structure",
+            "blank_value": {},
+            "default_value": {},
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": false,
+            "ontology": null,
+            "documentation": "The empirical orientation/direction tuning curve and per-direction summary statistics.",
+            "constraints": {},
+            "fields": [
+                {
+                    "name": "direction",
+                    "type": "matrix",
+                    "blank_value": [],
+                    "default_value": [],
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": false,
+                    "mustNotHaveNaN": false,
+                    "queryable": false,
+                    "ontology": null,
+                    "documentation": "The set of direction angles tested, in degrees (1xN vector).",
+                    "constraints": {
+                        "element_type": "double"
+                    }
+                },
+                {
+                    "name": "mean",
+                    "type": "matrix",
+                    "blank_value": [],
+                    "default_value": [],
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": false,
+                    "mustNotHaveNaN": false,
+                    "queryable": false,
+                    "ontology": null,
+                    "documentation": "Mean response to each direction. Responses may be normalized or control-subtracted.",
+                    "constraints": {
+                        "element_type": "double"
+                    }
+                },
+                {
+                    "name": "stddev",
+                    "type": "matrix",
+                    "blank_value": [],
+                    "default_value": [],
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": false,
+                    "mustNotHaveNaN": false,
+                    "queryable": false,
+                    "ontology": null,
+                    "documentation": "Standard deviation of the response to each direction.",
+                    "constraints": {
+                        "element_type": "double"
+                    }
+                },
+                {
+                    "name": "stderr",
+                    "type": "matrix",
+                    "blank_value": [],
+                    "default_value": [],
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": false,
+                    "mustNotHaveNaN": false,
+                    "queryable": false,
+                    "ontology": null,
+                    "documentation": "Standard error of the mean of the response to each direction.",
+                    "constraints": {
+                        "element_type": "double"
+                    }
+                },
+                {
+                    "name": "individual",
+                    "type": "matrix",
+                    "blank_value": [],
+                    "default_value": [],
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": false,
+                    "mustNotHaveNaN": false,
+                    "queryable": false,
+                    "ontology": null,
+                    "documentation": "Individual per-trial response values for each direction. Responses may be normalized or control-subtracted. Rows index directions; columns index trials.",
+                    "constraints": {
+                        "element_type": "double"
+                    }
+                },
+                {
+                    "name": "raw_individual",
+                    "type": "matrix",
+                    "blank_value": [],
+                    "default_value": [],
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": false,
+                    "mustNotHaveNaN": false,
+                    "queryable": false,
+                    "ontology": null,
+                    "documentation": "Unprocessed per-trial response values for each direction (no blank subtraction or normalization). Rows index directions; columns index trials.",
+                    "constraints": {
+                        "element_type": "double"
+                    }
+                },
+                {
+                    "name": "control_individual",
+                    "type": "matrix",
+                    "blank_value": [],
+                    "default_value": [],
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": false,
+                    "mustNotHaveNaN": false,
+                    "queryable": false,
+                    "ontology": null,
+                    "documentation": "Per-trial response values to the control stimulus (e.g., a blank screen with the same duration as the stimuli).",
+                    "constraints": {
+                        "element_type": "double"
+                    }
+                }
+            ]
+        },
+        {
+            "name": "significance",
+            "type": "structure",
+            "blank_value": {},
+            "default_value": {},
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": false,
+            "ontology": null,
+            "documentation": "ANOVA-derived significance metrics for the tuning curve.",
+            "constraints": {},
+            "fields": [
+                {
+                    "name": "visual_response_anova_p",
+                    "type": "double",
+                    "blank_value": 0,
+                    "default_value": 1,
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "p-value of the ANOVA relating the mean response values between the raw (stimulus) and control groups.",
+                    "constraints": {}
+                },
+                {
+                    "name": "across_stimuli_anova_p",
+                    "type": "double",
+                    "blank_value": 0,
+                    "default_value": 1,
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "p-value of the ANOVA relating the mean response values generated by different stimuli (tuning vs. flat).",
+                    "constraints": {}
+                }
+            ]
+        },
+        {
+            "name": "vector",
+            "type": "structure",
+            "blank_value": {},
+            "default_value": {},
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": false,
+            "ontology": null,
+            "documentation": "Vector-based summary measures of orientation and direction selectivity derived from the empirical tuning curve via circular statistics.",
+            "constraints": {},
+            "fields": [
+                {
+                    "name": "circular_variance",
+                    "type": "double",
+                    "blank_value": 0,
+                    "default_value": 1,
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Classic circular variance in orientation space, related to selectivity and tuning width.",
+                    "constraints": {}
+                },
+                {
+                    "name": "direction_circular_variance",
+                    "type": "double",
+                    "blank_value": 0,
+                    "default_value": 1,
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Circular variance computed in direction space; related to selectivity and tuning width and differs from the classic orientation-space definition.",
+                    "constraints": {}
+                },
+                {
+                    "name": "hotelling2test",
+                    "type": "double",
+                    "blank_value": 0,
+                    "default_value": 1,
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "p-value of Hotelling's T-squared test of whether the orientation vectors and [0,0] are different.",
+                    "constraints": {}
+                },
+                {
+                    "name": "orientation_preference",
+                    "type": "double",
+                    "blank_value": 0,
+                    "default_value": 0,
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "The orientation with the highest response in orientation vector space, in degrees.",
+                    "constraints": {}
+                },
+                {
+                    "name": "direction_preference",
+                    "type": "double",
+                    "blank_value": 0,
+                    "default_value": 0,
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "The direction with the highest response in direction vector space, in degrees.",
+                    "constraints": {}
+                },
+                {
+                    "name": "direction_hotelling2test",
+                    "type": "double",
+                    "blank_value": 0,
+                    "default_value": 1,
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "p-value of Hotelling's T-squared test on the direction vector (insensitive in practice).",
+                    "constraints": {}
+                },
+                {
+                    "name": "dot_direction_significance",
+                    "type": "double",
+                    "blank_value": 0,
+                    "default_value": 1,
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "p-value of the 'direction dot product test' which uses both orientation and direction vectors to assess the direction selectivity of a cell (Mazurek et al. 2014).",
+                    "constraints": {}
+                }
+            ]
+        },
+        {
+            "name": "fit",
+            "type": "structure",
+            "blank_value": {},
+            "default_value": {},
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": false,
+            "ontology": null,
+            "documentation": "Double-Gaussian fit to the empirical tuning curve and the scalar metrics derived from it.",
+            "constraints": {},
+            "fields": [
+                {
+                    "name": "double_gaussian_parameters",
+                    "type": "matrix",
+                    "blank_value": [],
+                    "default_value": [],
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": false,
+                    "mustNotHaveNaN": false,
+                    "queryable": false,
+                    "ontology": null,
+                    "documentation": "Fitted parameter vector for the double-Gaussian function: [Rsp Rp theta_pref sigma Rn].",
+                    "constraints": {
+                        "element_type": "double"
+                    }
+                },
+                {
+                    "name": "double_gaussian_fit_angles",
+                    "type": "matrix",
+                    "blank_value": [],
+                    "default_value": [],
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": false,
+                    "mustNotHaveNaN": false,
+                    "queryable": false,
+                    "ontology": null,
+                    "documentation": "Angle axis (in degrees) at which the fit function was evaluated (typically 0:359).",
+                    "constraints": {
+                        "element_type": "double"
+                    }
+                },
+                {
+                    "name": "double_gaussian_fit_values",
+                    "type": "matrix",
+                    "blank_value": [],
+                    "default_value": [],
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": false,
+                    "mustNotHaveNaN": false,
+                    "queryable": false,
+                    "ontology": null,
+                    "documentation": "Value of the response fit at each angle in double_gaussian_fit_angles.",
+                    "constraints": {
+                        "element_type": "double"
+                    }
+                },
+                {
+                    "name": "orientation_preferred_orthogonal_ratio",
+                    "type": "double",
+                    "blank_value": 0,
+                    "default_value": 0,
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Ratio of the fit response at the preferred orientation to the response at the orthogonal orientation (90 degrees away).",
+                    "constraints": {}
+                },
+                {
+                    "name": "direction_preferred_null_ratio",
+                    "type": "double",
+                    "blank_value": 0,
+                    "default_value": 0,
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Ratio of the fit response at the preferred direction to the response at the null direction (180 degrees away).",
+                    "constraints": {}
+                },
+                {
+                    "name": "orientation_preferred_orthogonal_ratio_rectified",
+                    "type": "double",
+                    "blank_value": 0,
+                    "default_value": 0,
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "orientation_preferred_orthogonal_ratio computed with each response rectified at 0 (no negative values even after blank subtraction).",
+                    "constraints": {}
+                },
+                {
+                    "name": "direction_preferred_null_ratio_rectified",
+                    "type": "double",
+                    "blank_value": 0,
+                    "default_value": 0,
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "direction_preferred_null_ratio computed with each response rectified at 0 (no negative values even after blank subtraction).",
+                    "constraints": {}
+                },
+                {
+                    "name": "orientation_angle_preference",
+                    "type": "double",
+                    "blank_value": 0,
+                    "default_value": 0,
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Stimulus orientation angle (degrees) that evokes the maximum response under the fit.",
+                    "constraints": {}
+                },
+                {
+                    "name": "direction_angle_preference",
+                    "type": "double",
+                    "blank_value": 0,
+                    "default_value": 0,
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Stimulus direction angle (degrees) that evokes the maximum response under the fit.",
+                    "constraints": {}
+                },
+                {
+                    "name": "hwhh",
+                    "type": "double",
+                    "blank_value": 0,
+                    "default_value": 0,
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Half-width at half-height of the fit (degrees): the angular distance from the preferred direction at which the response is half of the maximum.",
+                    "constraints": {}
+                }
+            ]
         }
     ]
 }

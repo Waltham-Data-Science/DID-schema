@@ -48,7 +48,7 @@
                     "mustNotHaveNaN": false,
                     "queryable": true,
                     "ontology": null,
-                    "documentation": "Units of the response values.",
+                    "documentation": "Units of the response values (e.g., 'spikes/s', 'dF/F').",
                     "constraints": {
                         "maxLength": 64
                     }
@@ -63,7 +63,7 @@
                     "mustNotHaveNaN": false,
                     "queryable": true,
                     "ontology": null,
-                    "documentation": "Reduction applied per trial to produce each response value.",
+                    "documentation": "Reduction applied to each stimulus presentation to yield a per-trial response (e.g., 'mean', 'F1').",
                     "constraints": {
                         "maxLength": 64
                     }
@@ -93,7 +93,7 @@
                     "mustNotHaveNaN": false,
                     "queryable": false,
                     "ontology": null,
-                    "documentation": "Array of spatial frequencies (cycles per degree) sampled along the tuning curve.",
+                    "documentation": "The set of spatial frequencies tested, in cycles per degree (1xN vector).",
                     "constraints": {
                         "element_type": "double"
                     }
@@ -108,7 +108,7 @@
                     "mustNotHaveNaN": false,
                     "queryable": false,
                     "ontology": null,
-                    "documentation": "Per-frequency mean response.",
+                    "documentation": "Mean response to each spatial frequency. Responses may be normalized and are usually control-subtracted.",
                     "constraints": {
                         "element_type": "double"
                     }
@@ -123,7 +123,7 @@
                     "mustNotHaveNaN": false,
                     "queryable": false,
                     "ontology": null,
-                    "documentation": "Per-frequency standard deviation.",
+                    "documentation": "Standard deviation of the response to each spatial frequency.",
                     "constraints": {
                         "element_type": "double"
                     }
@@ -138,7 +138,7 @@
                     "mustNotHaveNaN": false,
                     "queryable": false,
                     "ontology": null,
-                    "documentation": "Per-frequency standard error of the mean.",
+                    "documentation": "Standard error of the mean of the response to each spatial frequency.",
                     "constraints": {
                         "element_type": "double"
                     }
@@ -153,7 +153,7 @@
                     "mustNotHaveNaN": false,
                     "queryable": false,
                     "ontology": null,
-                    "documentation": "Per-trial individual responses. Rows index sampled points along the tuning axis; columns index trials.",
+                    "documentation": "Individual per-trial response values for each spatial frequency. Responses may be normalized and are usually control-subtracted. Rows index spatial frequencies; columns index trials.",
                     "constraints": {
                         "element_type": "double"
                     }
@@ -168,7 +168,7 @@
                     "mustNotHaveNaN": false,
                     "queryable": false,
                     "ontology": null,
-                    "documentation": "Standard deviation of the control response, one value per frequency.",
+                    "documentation": "Standard deviation of the control-group response values at each spatial frequency.",
                     "constraints": {
                         "element_type": "double"
                     }
@@ -183,7 +183,7 @@
                     "mustNotHaveNaN": false,
                     "queryable": false,
                     "ontology": null,
-                    "documentation": "Standard error of the mean of the control response.",
+                    "documentation": "Standard error of the mean of the control-group response values at each spatial frequency.",
                     "constraints": {
                         "element_type": "double"
                     }
@@ -213,7 +213,7 @@
                     "mustNotHaveNaN": false,
                     "queryable": true,
                     "ontology": null,
-                    "documentation": "ANOVA p-value: is there a response distinguishable from control.",
+                    "documentation": "p-value of the ANOVA relating the mean response values between the raw (stimulus) and control groups.",
                     "constraints": {}
                 },
                 {
@@ -226,7 +226,7 @@
                     "mustNotHaveNaN": false,
                     "queryable": true,
                     "ontology": null,
-                    "documentation": "ANOVA p-value: are responses different across the sampled frequencies.",
+                    "documentation": "p-value of the ANOVA relating the mean response values generated by different stimuli (across the sampled spatial frequencies).",
                     "constraints": {}
                 }
             ]
@@ -254,7 +254,7 @@
                     "mustNotHaveNaN": false,
                     "queryable": true,
                     "ontology": null,
-                    "documentation": "Low-side spatial frequency at half-maximum response.",
+                    "documentation": "The spatial frequency below the peak where the empirical (unfitted) response drops below half the maximum, if any; -Inf if no such point exists.",
                     "constraints": {}
                 },
                 {
@@ -267,7 +267,7 @@
                     "mustNotHaveNaN": false,
                     "queryable": true,
                     "ontology": null,
-                    "documentation": "Preferred (maximum-response) spatial frequency.",
+                    "documentation": "The spatial frequency at which the empirical (unfitted) peak response occurs.",
                     "constraints": {}
                 },
                 {
@@ -280,7 +280,7 @@
                     "mustNotHaveNaN": false,
                     "queryable": true,
                     "ontology": null,
-                    "documentation": "High-side spatial frequency at half-maximum response.",
+                    "documentation": "The spatial frequency above the peak where the empirical (unfitted) response drops below half the maximum, if any; +Inf if no such point exists.",
                     "constraints": {}
                 },
                 {
@@ -293,7 +293,7 @@
                     "mustNotHaveNaN": false,
                     "queryable": true,
                     "ontology": null,
-                    "documentation": "Low-pass selectivity index.",
+                    "documentation": "Response at the lowest tested spatial frequency divided by the response at the peak spatial frequency. Responses are rectified to be non-negative; possible values are in 0..1 or NaN (if 0/0).",
                     "constraints": {}
                 },
                 {
@@ -306,7 +306,7 @@
                     "mustNotHaveNaN": false,
                     "queryable": true,
                     "ontology": null,
-                    "documentation": "High-pass selectivity index.",
+                    "documentation": "Response at the highest tested spatial frequency divided by the response at the peak spatial frequency. Responses are rectified to be non-negative; possible values are in 0..1 or NaN (if 0/0).",
                     "constraints": {}
                 },
                 {
@@ -319,7 +319,7 @@
                     "mustNotHaveNaN": false,
                     "queryable": true,
                     "ontology": null,
-                    "documentation": "Bandwidth (octaves) at half-maximum response.",
+                    "documentation": "Bandwidth between l50 and h50 in octaves: log2(h50 / l50). Inf if either l50 or h50 is +/-Inf.",
                     "constraints": {}
                 }
             ]
@@ -347,7 +347,7 @@
                     "mustNotHaveNaN": false,
                     "queryable": false,
                     "ontology": null,
-                    "documentation": "Fitted parameter vector for the DoG form.",
+                    "documentation": "Difference-of-Gaussians fit parameters [b a1 b1 a2 b2] (see vis.frequency.dog_fit).",
                     "constraints": {
                         "element_type": "double"
                     }
@@ -362,7 +362,7 @@
                     "mustNotHaveNaN": false,
                     "queryable": false,
                     "ontology": null,
-                    "documentation": "Fitted response values evaluated at fit-domain spatial frequencies.",
+                    "documentation": "The spatial frequencies used to calculate a filled-in fit response curve.",
                     "constraints": {
                         "element_type": "double"
                     }
@@ -377,7 +377,7 @@
                     "mustNotHaveNaN": false,
                     "queryable": false,
                     "ontology": null,
-                    "documentation": "Spatial frequencies at which the fit was evaluated.",
+                    "documentation": "Response of the fit at each spatial frequency in values above.",
                     "constraints": {
                         "element_type": "double"
                     }
@@ -392,7 +392,7 @@
                     "mustNotHaveNaN": false,
                     "queryable": true,
                     "ontology": null,
-                    "documentation": "Coefficient of determination of the fit.",
+                    "documentation": "The uncorrected r^2 value between the responses and the fit.",
                     "constraints": {}
                 },
                 {
@@ -405,7 +405,7 @@
                     "mustNotHaveNaN": false,
                     "queryable": true,
                     "ontology": null,
-                    "documentation": "Low-side half-max spatial frequency under the fit.",
+                    "documentation": "The spatial frequency below the peak where the fit response drops below half the maximum, if any; -Inf if no such point exists.",
                     "constraints": {}
                 },
                 {
@@ -418,7 +418,7 @@
                     "mustNotHaveNaN": false,
                     "queryable": true,
                     "ontology": null,
-                    "documentation": "Preferred spatial frequency under the fit.",
+                    "documentation": "The spatial frequency at which the fit peak response occurs.",
                     "constraints": {}
                 },
                 {
@@ -431,7 +431,7 @@
                     "mustNotHaveNaN": false,
                     "queryable": true,
                     "ontology": null,
-                    "documentation": "High-side half-max spatial frequency under the fit.",
+                    "documentation": "The spatial frequency above the peak where the fit response drops below half the maximum, if any; +Inf if no such point exists.",
                     "constraints": {}
                 },
                 {
@@ -444,7 +444,7 @@
                     "mustNotHaveNaN": false,
                     "queryable": true,
                     "ontology": null,
-                    "documentation": "Bandwidth under the fit.",
+                    "documentation": "Bandwidth between l50 and h50 in octaves under the fit: log2(h50 / l50). Inf if either l50 or h50 is +/-Inf.",
                     "constraints": {}
                 }
             ]
@@ -459,7 +459,7 @@
             "mustNotHaveNaN": false,
             "queryable": false,
             "ontology": null,
-            "documentation": "Movshon-style fit to the empirical curve (4 free parameters).",
+            "documentation": "Movshon 2005 fit to the empirical curve (4 free parameters).",
             "constraints": {},
             "fields": [
                 {
@@ -472,7 +472,7 @@
                     "mustNotHaveNaN": false,
                     "queryable": false,
                     "ontology": null,
-                    "documentation": "Fitted parameter vector.",
+                    "documentation": "Movshon 2005 fit parameters [k f fc B] (see vis.frequency.movshon2005_fit).",
                     "constraints": {
                         "element_type": "double"
                     }
@@ -487,7 +487,7 @@
                     "mustNotHaveNaN": false,
                     "queryable": false,
                     "ontology": null,
-                    "documentation": "Fitted response values evaluated at fit-domain spatial frequencies.",
+                    "documentation": "The spatial frequencies used to calculate a filled-in fit response curve.",
                     "constraints": {
                         "element_type": "double"
                     }
@@ -502,7 +502,7 @@
                     "mustNotHaveNaN": false,
                     "queryable": false,
                     "ontology": null,
-                    "documentation": "Spatial frequencies at which the fit was evaluated.",
+                    "documentation": "Response of the fit at each spatial frequency in values above.",
                     "constraints": {
                         "element_type": "double"
                     }
@@ -517,7 +517,7 @@
                     "mustNotHaveNaN": false,
                     "queryable": true,
                     "ontology": null,
-                    "documentation": "Coefficient of determination of the fit.",
+                    "documentation": "The uncorrected r^2 value between the responses and the fit.",
                     "constraints": {}
                 },
                 {
@@ -530,7 +530,7 @@
                     "mustNotHaveNaN": false,
                     "queryable": true,
                     "ontology": null,
-                    "documentation": "Low-side half-max spatial frequency under the fit.",
+                    "documentation": "The spatial frequency below the peak where the fit response drops below half the maximum, if any; -Inf if no such point exists.",
                     "constraints": {}
                 },
                 {
@@ -543,7 +543,7 @@
                     "mustNotHaveNaN": false,
                     "queryable": true,
                     "ontology": null,
-                    "documentation": "Preferred spatial frequency under the fit.",
+                    "documentation": "The spatial frequency at which the fit peak response occurs.",
                     "constraints": {}
                 },
                 {
@@ -556,7 +556,7 @@
                     "mustNotHaveNaN": false,
                     "queryable": true,
                     "ontology": null,
-                    "documentation": "High-side half-max spatial frequency under the fit.",
+                    "documentation": "The spatial frequency above the peak where the fit response drops below half the maximum, if any; +Inf if no such point exists.",
                     "constraints": {}
                 },
                 {
@@ -569,7 +569,7 @@
                     "mustNotHaveNaN": false,
                     "queryable": true,
                     "ontology": null,
-                    "documentation": "Bandwidth under the fit.",
+                    "documentation": "Bandwidth between l50 and h50 in octaves under the fit: log2(h50 / l50). Inf if either l50 or h50 is +/-Inf.",
                     "constraints": {}
                 }
             ]
@@ -584,7 +584,7 @@
             "mustNotHaveNaN": false,
             "queryable": false,
             "ontology": null,
-            "documentation": "Movshon-style fit with an additional constant term (5 free parameters).",
+            "documentation": "Movshon 2005 fit with an additional constant term (5 free parameters).",
             "constraints": {},
             "fields": [
                 {
@@ -597,7 +597,7 @@
                     "mustNotHaveNaN": false,
                     "queryable": false,
                     "ontology": null,
-                    "documentation": "Fitted parameter vector.",
+                    "documentation": "Movshon 2005 fit parameters with a constant term [k f fc B C] (see vis.frequency.movshon2005_fit).",
                     "constraints": {
                         "element_type": "double"
                     }
@@ -612,7 +612,7 @@
                     "mustNotHaveNaN": false,
                     "queryable": false,
                     "ontology": null,
-                    "documentation": "Fitted response values evaluated at fit-domain spatial frequencies.",
+                    "documentation": "The spatial frequencies used to calculate a filled-in fit response curve.",
                     "constraints": {
                         "element_type": "double"
                     }
@@ -627,7 +627,7 @@
                     "mustNotHaveNaN": false,
                     "queryable": false,
                     "ontology": null,
-                    "documentation": "Spatial frequencies at which the fit was evaluated.",
+                    "documentation": "Response of the fit at each spatial frequency in values above.",
                     "constraints": {
                         "element_type": "double"
                     }
@@ -642,7 +642,7 @@
                     "mustNotHaveNaN": false,
                     "queryable": true,
                     "ontology": null,
-                    "documentation": "Coefficient of determination of the fit.",
+                    "documentation": "The uncorrected r^2 value between the responses and the fit.",
                     "constraints": {}
                 },
                 {
@@ -655,7 +655,7 @@
                     "mustNotHaveNaN": false,
                     "queryable": true,
                     "ontology": null,
-                    "documentation": "Low-side half-max spatial frequency under the fit.",
+                    "documentation": "The spatial frequency below the peak where the fit response drops below half the maximum, if any; -Inf if no such point exists.",
                     "constraints": {}
                 },
                 {
@@ -668,7 +668,7 @@
                     "mustNotHaveNaN": false,
                     "queryable": true,
                     "ontology": null,
-                    "documentation": "Preferred spatial frequency under the fit.",
+                    "documentation": "The spatial frequency at which the fit peak response occurs.",
                     "constraints": {}
                 },
                 {
@@ -681,7 +681,7 @@
                     "mustNotHaveNaN": false,
                     "queryable": true,
                     "ontology": null,
-                    "documentation": "High-side half-max spatial frequency under the fit.",
+                    "documentation": "The spatial frequency above the peak where the fit response drops below half the maximum, if any; +Inf if no such point exists.",
                     "constraints": {}
                 },
                 {
@@ -694,7 +694,7 @@
                     "mustNotHaveNaN": false,
                     "queryable": true,
                     "ontology": null,
-                    "documentation": "Bandwidth under the fit.",
+                    "documentation": "Bandwidth between l50 and h50 in octaves under the fit: log2(h50 / l50). Inf if either l50 or h50 is +/-Inf.",
                     "constraints": {}
                 }
             ]
@@ -722,7 +722,7 @@
                     "mustNotHaveNaN": false,
                     "queryable": false,
                     "ontology": null,
-                    "documentation": "Fitted response values evaluated at fit-domain spatial frequencies.",
+                    "documentation": "The spatial frequencies used to calculate a filled-in fit response curve.",
                     "constraints": {
                         "element_type": "double"
                     }
@@ -737,7 +737,7 @@
                     "mustNotHaveNaN": false,
                     "queryable": false,
                     "ontology": null,
-                    "documentation": "Spatial frequencies at which the fit was evaluated.",
+                    "documentation": "Response of the fit at each spatial frequency in values above.",
                     "constraints": {
                         "element_type": "double"
                     }
@@ -752,7 +752,7 @@
                     "mustNotHaveNaN": false,
                     "queryable": true,
                     "ontology": null,
-                    "documentation": "Low-side half-max spatial frequency under the spline.",
+                    "documentation": "The spatial frequency below the peak where the spline response drops below half the maximum, if any; -Inf if no such point exists.",
                     "constraints": {}
                 },
                 {
@@ -765,7 +765,7 @@
                     "mustNotHaveNaN": false,
                     "queryable": true,
                     "ontology": null,
-                    "documentation": "Preferred spatial frequency under the spline.",
+                    "documentation": "The spatial frequency at which the spline peak response occurs.",
                     "constraints": {}
                 },
                 {
@@ -778,7 +778,7 @@
                     "mustNotHaveNaN": false,
                     "queryable": true,
                     "ontology": null,
-                    "documentation": "High-side half-max spatial frequency under the spline.",
+                    "documentation": "The spatial frequency above the peak where the spline response drops below half the maximum, if any; +Inf if no such point exists.",
                     "constraints": {}
                 },
                 {
@@ -791,7 +791,7 @@
                     "mustNotHaveNaN": false,
                     "queryable": true,
                     "ontology": null,
-                    "documentation": "Bandwidth under the spline.",
+                    "documentation": "Bandwidth between l50 and h50 in octaves under the spline: log2(h50 / l50). Inf if either l50 or h50 is +/-Inf.",
                     "constraints": {}
                 }
             ]
@@ -819,7 +819,7 @@
                     "mustNotHaveNaN": false,
                     "queryable": false,
                     "ontology": null,
-                    "documentation": "Fitted parameter vector.",
+                    "documentation": "Fitted parameter vector for the skewed-Gaussian function.",
                     "constraints": {
                         "element_type": "double"
                     }
@@ -834,7 +834,7 @@
                     "mustNotHaveNaN": false,
                     "queryable": false,
                     "ontology": null,
-                    "documentation": "Fitted response values evaluated at fit-domain spatial frequencies.",
+                    "documentation": "The spatial frequencies used to calculate a filled-in fit response curve.",
                     "constraints": {
                         "element_type": "double"
                     }
@@ -849,7 +849,7 @@
                     "mustNotHaveNaN": false,
                     "queryable": false,
                     "ontology": null,
-                    "documentation": "Spatial frequencies at which the fit was evaluated.",
+                    "documentation": "Response of the fit at each spatial frequency in values above.",
                     "constraints": {
                         "element_type": "double"
                     }
@@ -864,7 +864,7 @@
                     "mustNotHaveNaN": false,
                     "queryable": true,
                     "ontology": null,
-                    "documentation": "Coefficient of determination of the fit.",
+                    "documentation": "The uncorrected r^2 value between the responses and the fit.",
                     "constraints": {}
                 },
                 {
@@ -877,7 +877,7 @@
                     "mustNotHaveNaN": false,
                     "queryable": true,
                     "ontology": null,
-                    "documentation": "Low-side half-max spatial frequency under the fit.",
+                    "documentation": "The spatial frequency below the peak where the fit response drops below half the maximum, if any; -Inf if no such point exists.",
                     "constraints": {}
                 },
                 {
@@ -890,7 +890,7 @@
                     "mustNotHaveNaN": false,
                     "queryable": true,
                     "ontology": null,
-                    "documentation": "Preferred spatial frequency under the fit.",
+                    "documentation": "The spatial frequency at which the fit peak response occurs.",
                     "constraints": {}
                 },
                 {
@@ -903,7 +903,7 @@
                     "mustNotHaveNaN": false,
                     "queryable": true,
                     "ontology": null,
-                    "documentation": "High-side half-max spatial frequency under the fit.",
+                    "documentation": "The spatial frequency above the peak where the fit response drops below half the maximum, if any; +Inf if no such point exists.",
                     "constraints": {}
                 },
                 {
@@ -916,7 +916,7 @@
                     "mustNotHaveNaN": false,
                     "queryable": true,
                     "ontology": null,
-                    "documentation": "Bandwidth under the fit.",
+                    "documentation": "Bandwidth between l50 and h50 in octaves under the fit: log2(h50 / l50). Inf if either l50 or h50 is +/-Inf.",
                     "constraints": {}
                 }
             ]
@@ -931,7 +931,7 @@
             "mustNotHaveNaN": false,
             "queryable": false,
             "ontology": null,
-            "documentation": "Reserved placeholder structure (empty in NDIcalc-vis-matlab v1; purpose pending domain confirmation).",
+            "documentation": "Mirror of all preceding blocks (tuning_curve, significance, fitless, fit_dog, fit_movshon, fit_movshon_c, fit_spline, fit_sgauss) recomputed on the absolute value of the responses. Empty in NDIcalc-vis-matlab v1; sub-fields to be populated as the calc implementation matures.",
             "constraints": {},
             "fields": []
         }

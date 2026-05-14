@@ -35,7 +35,7 @@
             "mustNotHaveNaN": false,
             "queryable": false,
             "ontology": null,
-            "documentation": "Bookkeeping properties describing how response values were measured.",
+            "documentation": "Bookkeeping properties describing how response values were measured and reported.",
             "constraints": {},
             "fields": [
                 {
@@ -48,7 +48,7 @@
                     "mustNotHaveNaN": false,
                     "queryable": true,
                     "ontology": null,
-                    "documentation": "Units of the response values.",
+                    "documentation": "Units of the response values (e.g., 'spikes/s', 'dF/F').",
                     "constraints": {
                         "maxLength": 64
                     }
@@ -63,7 +63,7 @@
                     "mustNotHaveNaN": false,
                     "queryable": true,
                     "ontology": null,
-                    "documentation": "Reduction applied per trial to produce each response value.",
+                    "documentation": "Reduction applied to each stimulus presentation to yield a per-trial response (e.g., 'mean', 'peak', 'F1').",
                     "constraints": {
                         "maxLength": 64
                     }
@@ -80,7 +80,7 @@
             "mustNotHaveNaN": false,
             "queryable": false,
             "ontology": null,
-            "documentation": "Empirical speed tuning curve in the (spatial frequency, temporal frequency) plane and per-point summary statistics.",
+            "documentation": "The empirical speed tuning curve in the (spatial frequency, temporal frequency) plane and per-point summary statistics.",
             "constraints": {},
             "fields": [
                 {
@@ -93,7 +93,7 @@
                     "mustNotHaveNaN": false,
                     "queryable": false,
                     "ontology": null,
-                    "documentation": "Array of spatial frequencies (cycles per degree) sampled along the speed tuning curve.",
+                    "documentation": "The set of spatial frequency values (cycles per degree) sampled along the speed tuning curve.",
                     "constraints": {
                         "element_type": "double"
                     }
@@ -108,7 +108,7 @@
                     "mustNotHaveNaN": false,
                     "queryable": false,
                     "ontology": null,
-                    "documentation": "Array of temporal frequencies (cycles per second) sampled along the speed tuning curve.",
+                    "documentation": "The set of temporal frequency values (cycles per second) sampled along the speed tuning curve.",
                     "constraints": {
                         "element_type": "double"
                     }
@@ -123,7 +123,7 @@
                     "mustNotHaveNaN": false,
                     "queryable": false,
                     "ontology": null,
-                    "documentation": "Per-(SF, TF)-point mean response.",
+                    "documentation": "Mean response at each sampled (spatial frequency, temporal frequency) point, in response_units.",
                     "constraints": {
                         "element_type": "double"
                     }
@@ -138,7 +138,7 @@
                     "mustNotHaveNaN": false,
                     "queryable": false,
                     "ontology": null,
-                    "documentation": "Per-(SF, TF)-point standard deviation.",
+                    "documentation": "Standard deviation of the responses at each sampled (spatial frequency, temporal frequency) point.",
                     "constraints": {
                         "element_type": "double"
                     }
@@ -153,7 +153,7 @@
                     "mustNotHaveNaN": false,
                     "queryable": false,
                     "ontology": null,
-                    "documentation": "Per-(SF, TF)-point standard error of the mean.",
+                    "documentation": "Standard error of the mean response at each sampled (spatial frequency, temporal frequency) point.",
                     "constraints": {
                         "element_type": "double"
                     }
@@ -168,7 +168,7 @@
                     "mustNotHaveNaN": false,
                     "queryable": false,
                     "ontology": null,
-                    "documentation": "Per-trial individual responses. Rows index sampled points along the tuning axis; columns index trials.",
+                    "documentation": "Individual per-trial response values. Responses may be normalized or control-subtracted. Rows index sampled (SF, TF) points; columns index trials.",
                     "constraints": {
                         "element_type": "double"
                     }
@@ -183,7 +183,7 @@
                     "mustNotHaveNaN": false,
                     "queryable": false,
                     "ontology": null,
-                    "documentation": "Per-trial raw (un-baseline-corrected) responses. Rows index sampled (SF, TF) points; columns index trials.",
+                    "documentation": "Unprocessed per-trial response values (no blank subtraction or normalization). Rows index sampled (SF, TF) points; columns index trials.",
                     "constraints": {
                         "element_type": "double"
                     }
@@ -198,7 +198,7 @@
                     "mustNotHaveNaN": false,
                     "queryable": false,
                     "ontology": null,
-                    "documentation": "Per-trial control (no-stimulus / baseline) responses. Rows index sampled (SF, TF) points; columns index trials.",
+                    "documentation": "Per-trial response values to the control stimulus (e.g., a blank screen with the same duration as the stimuli). Rows index sampled (SF, TF) points; columns index trials.",
                     "constraints": {
                         "element_type": "double"
                     }
@@ -228,7 +228,7 @@
                     "mustNotHaveNaN": false,
                     "queryable": true,
                     "ontology": null,
-                    "documentation": "ANOVA p-value: is there a response distinguishable from control.",
+                    "documentation": "p-value of the ANOVA relating the mean response values between the raw (stimulus) and control groups.",
                     "constraints": {}
                 },
                 {
@@ -241,7 +241,7 @@
                     "mustNotHaveNaN": false,
                     "queryable": true,
                     "ontology": null,
-                    "documentation": "ANOVA p-value: are responses different across the sampled (SF, TF) points.",
+                    "documentation": "p-value of the ANOVA relating the mean response values generated by different stimuli (tuning vs. flat).",
                     "constraints": {}
                 }
             ]
@@ -256,7 +256,7 @@
             "mustNotHaveNaN": false,
             "queryable": false,
             "ontology": null,
-            "documentation": "Priebe-style joint SF/TF separable fit to the empirical surface.",
+            "documentation": "Priebe-style joint spatial-frequency / temporal-frequency fit to the empirical surface, using a modified two-dimensional Gaussian function with seven free parameters.",
             "constraints": {},
             "fields": [
                 {
@@ -269,7 +269,7 @@
                     "mustNotHaveNaN": false,
                     "queryable": false,
                     "ontology": null,
-                    "documentation": "Fitted Priebe parameter vector.",
+                    "documentation": "Fitted parameter vector for the Priebe modified two-dimensional Gaussian (seven free parameters).",
                     "constraints": {
                         "element_type": "double"
                     }
@@ -284,7 +284,7 @@
                     "mustNotHaveNaN": false,
                     "queryable": false,
                     "ontology": null,
-                    "documentation": "Spatial frequencies at which the fit was evaluated.",
+                    "documentation": "The range of spatial frequency values at which the fit was evaluated.",
                     "constraints": {
                         "element_type": "double"
                     }
@@ -299,7 +299,7 @@
                     "mustNotHaveNaN": false,
                     "queryable": false,
                     "ontology": null,
-                    "documentation": "Temporal frequencies at which the fit was evaluated.",
+                    "documentation": "The range of temporal frequency values at which the fit was evaluated.",
                     "constraints": {
                         "element_type": "double"
                     }
@@ -314,25 +314,23 @@
                     "mustNotHaveNaN": false,
                     "queryable": false,
                     "ontology": null,
-                    "documentation": "Fitted response values at the evaluated (SF, TF) points.",
+                    "documentation": "Fitted response values at each (spatial frequency, temporal frequency) point in priebe_fit_spatial_frequencies x priebe_fit_temporal_frequencies.",
                     "constraints": {
                         "element_type": "double"
                     }
                 },
                 {
                     "name": "priebe_fit_speed_tuning_index",
-                    "type": "matrix",
-                    "blank_value": [],
-                    "default_value": [],
+                    "type": "double",
+                    "blank_value": 0,
+                    "default_value": 0,
                     "mustBeNonEmpty": false,
-                    "mustBeScalar": false,
+                    "mustBeScalar": true,
                     "mustNotHaveNaN": false,
-                    "queryable": false,
+                    "queryable": true,
                     "ontology": null,
-                    "documentation": "Priebe speed-tuning index (zeta) derived from the fit.",
-                    "constraints": {
-                        "element_type": "double"
-                    }
+                    "documentation": "Index describing the relationship between preferred speed and spatial frequency under the fit (Priebe et al.).",
+                    "constraints": {}
                 },
                 {
                     "name": "priebe_fit_spatial_frequency_preference",
@@ -344,7 +342,7 @@
                     "mustNotHaveNaN": false,
                     "queryable": true,
                     "ontology": null,
-                    "documentation": "Preferred spatial frequency under the fit.",
+                    "documentation": "Spatial frequency, averaged across temporal frequencies, at which the neuron optimally responds under the fit.",
                     "constraints": {}
                 },
                 {
@@ -357,7 +355,7 @@
                     "mustNotHaveNaN": false,
                     "queryable": true,
                     "ontology": null,
-                    "documentation": "Preferred temporal frequency under the fit.",
+                    "documentation": "Temporal frequency, averaged across spatial frequencies, at which the neuron optimally responds under the fit.",
                     "constraints": {}
                 },
                 {
@@ -383,7 +381,7 @@
                     "mustNotHaveNaN": false,
                     "queryable": true,
                     "ontology": null,
-                    "documentation": "Coefficient of determination of the fit.",
+                    "documentation": "Coefficient of determination (R^2) of the fit.",
                     "constraints": {}
                 }
             ]
@@ -398,7 +396,7 @@
             "mustNotHaveNaN": false,
             "queryable": false,
             "ontology": null,
-            "documentation": "Priebe fit constrained to no speed tuning (nested null model for F-test against the full fit).",
+            "documentation": "Priebe fit constrained to no speed tuning (nested null model for the F-test against the full fit). Sub-field shape mirrors the fit block.",
             "constraints": {},
             "fields": [
                 {
@@ -426,7 +424,7 @@
                     "mustNotHaveNaN": false,
                     "queryable": false,
                     "ontology": null,
-                    "documentation": "Spatial frequencies at which the fit was evaluated.",
+                    "documentation": "The range of spatial frequency values at which the fit was evaluated.",
                     "constraints": {
                         "element_type": "double"
                     }
@@ -441,7 +439,7 @@
                     "mustNotHaveNaN": false,
                     "queryable": false,
                     "ontology": null,
-                    "documentation": "Temporal frequencies at which the fit was evaluated.",
+                    "documentation": "The range of temporal frequency values at which the fit was evaluated.",
                     "constraints": {
                         "element_type": "double"
                     }
@@ -456,25 +454,23 @@
                     "mustNotHaveNaN": false,
                     "queryable": false,
                     "ontology": null,
-                    "documentation": "Fitted response values.",
+                    "documentation": "Fitted response values under the no-speed-tuning constraint.",
                     "constraints": {
                         "element_type": "double"
                     }
                 },
                 {
                     "name": "priebe_fit_speed_tuning_index",
-                    "type": "matrix",
-                    "blank_value": [],
-                    "default_value": [],
+                    "type": "double",
+                    "blank_value": 0,
+                    "default_value": 0,
                     "mustBeNonEmpty": false,
-                    "mustBeScalar": false,
+                    "mustBeScalar": true,
                     "mustNotHaveNaN": false,
-                    "queryable": false,
+                    "queryable": true,
                     "ontology": null,
-                    "documentation": "Speed-tuning index (constrained).",
-                    "constraints": {
-                        "element_type": "double"
-                    }
+                    "documentation": "Speed-tuning index under the no-speed-tuning constraint.",
+                    "constraints": {}
                 },
                 {
                     "name": "priebe_fit_spatial_frequency_preference",
@@ -486,7 +482,7 @@
                     "mustNotHaveNaN": false,
                     "queryable": true,
                     "ontology": null,
-                    "documentation": "Preferred spatial frequency under the fit.",
+                    "documentation": "Spatial frequency, averaged across temporal frequencies, at which the neuron optimally responds under the fit.",
                     "constraints": {}
                 },
                 {
@@ -499,7 +495,7 @@
                     "mustNotHaveNaN": false,
                     "queryable": true,
                     "ontology": null,
-                    "documentation": "Preferred temporal frequency under the fit.",
+                    "documentation": "Temporal frequency, averaged across spatial frequencies, at which the neuron optimally responds under the fit.",
                     "constraints": {}
                 },
                 {
@@ -512,7 +508,7 @@
                     "mustNotHaveNaN": false,
                     "queryable": true,
                     "ontology": null,
-                    "documentation": "Sum of squared errors.",
+                    "documentation": "Sum of squared errors of the fit.",
                     "constraints": {}
                 },
                 {
@@ -525,7 +521,7 @@
                     "mustNotHaveNaN": false,
                     "queryable": true,
                     "ontology": null,
-                    "documentation": "Coefficient of determination.",
+                    "documentation": "Coefficient of determination (R^2) of the fit.",
                     "constraints": {}
                 },
                 {
@@ -551,7 +547,7 @@
                     "mustNotHaveNaN": false,
                     "queryable": true,
                     "ontology": null,
-                    "documentation": "p-value from the nested F-test comparing the no-speed and full fits.",
+                    "documentation": "p-value from the nested F-test comparing the no-speed-tuning and full-speed-tuning fits.",
                     "constraints": {}
                 }
             ]
@@ -566,7 +562,7 @@
             "mustNotHaveNaN": false,
             "queryable": false,
             "ontology": null,
-            "documentation": "Priebe fit with a fully-free speed-tuning component (alternative model for F-test against fit_no_speed).",
+            "documentation": "Priebe fit with a fully-free speed-tuning component (alternative model for the F-test against fit_no_speed). Sub-field shape mirrors the fit block.",
             "constraints": {},
             "fields": [
                 {
@@ -579,7 +575,7 @@
                     "mustNotHaveNaN": false,
                     "queryable": false,
                     "ontology": null,
-                    "documentation": "Fitted Priebe parameter vector with full speed-tuning freedom.",
+                    "documentation": "Fitted parameter vector for the Priebe modified two-dimensional Gaussian (seven free parameters) with full speed-tuning freedom.",
                     "constraints": {
                         "element_type": "double"
                     }
@@ -594,7 +590,7 @@
                     "mustNotHaveNaN": false,
                     "queryable": false,
                     "ontology": null,
-                    "documentation": "Spatial frequencies at which the fit was evaluated.",
+                    "documentation": "The range of spatial frequency values at which the fit was evaluated.",
                     "constraints": {
                         "element_type": "double"
                     }
@@ -609,7 +605,7 @@
                     "mustNotHaveNaN": false,
                     "queryable": false,
                     "ontology": null,
-                    "documentation": "Temporal frequencies at which the fit was evaluated.",
+                    "documentation": "The range of temporal frequency values at which the fit was evaluated.",
                     "constraints": {
                         "element_type": "double"
                     }
@@ -624,25 +620,23 @@
                     "mustNotHaveNaN": false,
                     "queryable": false,
                     "ontology": null,
-                    "documentation": "Fitted response values.",
+                    "documentation": "Fitted response values under the full-speed-tuning model.",
                     "constraints": {
                         "element_type": "double"
                     }
                 },
                 {
                     "name": "priebe_fit_speed_tuning_index",
-                    "type": "matrix",
-                    "blank_value": [],
-                    "default_value": [],
+                    "type": "double",
+                    "blank_value": 0,
+                    "default_value": 0,
                     "mustBeNonEmpty": false,
-                    "mustBeScalar": false,
+                    "mustBeScalar": true,
                     "mustNotHaveNaN": false,
-                    "queryable": false,
+                    "queryable": true,
                     "ontology": null,
-                    "documentation": "Speed-tuning index.",
-                    "constraints": {
-                        "element_type": "double"
-                    }
+                    "documentation": "Speed-tuning index under the full-speed-tuning model.",
+                    "constraints": {}
                 },
                 {
                     "name": "priebe_fit_spatial_frequency_preference",
@@ -654,7 +648,7 @@
                     "mustNotHaveNaN": false,
                     "queryable": true,
                     "ontology": null,
-                    "documentation": "Preferred spatial frequency under the fit.",
+                    "documentation": "Spatial frequency, averaged across temporal frequencies, at which the neuron optimally responds under the fit.",
                     "constraints": {}
                 },
                 {
@@ -667,7 +661,7 @@
                     "mustNotHaveNaN": false,
                     "queryable": true,
                     "ontology": null,
-                    "documentation": "Preferred temporal frequency under the fit.",
+                    "documentation": "Temporal frequency, averaged across spatial frequencies, at which the neuron optimally responds under the fit.",
                     "constraints": {}
                 },
                 {
@@ -680,7 +674,7 @@
                     "mustNotHaveNaN": false,
                     "queryable": true,
                     "ontology": null,
-                    "documentation": "Sum of squared errors.",
+                    "documentation": "Sum of squared errors of the fit.",
                     "constraints": {}
                 },
                 {
@@ -693,7 +687,7 @@
                     "mustNotHaveNaN": false,
                     "queryable": true,
                     "ontology": null,
-                    "documentation": "Coefficient of determination.",
+                    "documentation": "Coefficient of determination (R^2) of the fit.",
                     "constraints": {}
                 },
                 {
@@ -706,7 +700,7 @@
                     "mustNotHaveNaN": false,
                     "queryable": true,
                     "ontology": null,
-                    "documentation": "Partial R^2 of the speed-tuning component.",
+                    "documentation": "Partial R^2 of the speed-tuning component, relative to the no-speed fit.",
                     "constraints": {}
                 },
                 {

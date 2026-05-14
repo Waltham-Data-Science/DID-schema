@@ -93,7 +93,7 @@
                     "mustNotHaveNaN": false,
                     "queryable": false,
                     "ontology": null,
-                    "documentation": "Array of contrast values (0-1 fraction) sampled along the tuning curve.",
+                    "documentation": "The set of contrast values (1xN vector, 0-1 fraction) sampled along the tuning curve.",
                     "constraints": {
                         "element_type": "double"
                     }
@@ -108,7 +108,7 @@
                     "mustNotHaveNaN": false,
                     "queryable": false,
                     "ontology": null,
-                    "documentation": "Per-contrast mean response, in response_units.",
+                    "documentation": "Mean response at each contrast, in response_units (1xN vector).",
                     "constraints": {
                         "element_type": "double"
                     }
@@ -123,7 +123,7 @@
                     "mustNotHaveNaN": false,
                     "queryable": false,
                     "ontology": null,
-                    "documentation": "Per-contrast standard deviation of responses.",
+                    "documentation": "Standard deviation of the responses at each contrast.",
                     "constraints": {
                         "element_type": "double"
                     }
@@ -138,7 +138,7 @@
                     "mustNotHaveNaN": false,
                     "queryable": false,
                     "ontology": null,
-                    "documentation": "Per-contrast standard error of the mean response.",
+                    "documentation": "Standard error of the mean response at each contrast.",
                     "constraints": {
                         "element_type": "double"
                     }
@@ -153,7 +153,7 @@
                     "mustNotHaveNaN": false,
                     "queryable": false,
                     "ontology": null,
-                    "documentation": "Per-trial individual responses. Rows index sampled points along the tuning axis; columns index trials.",
+                    "documentation": "Individual per-trial response values for each contrast. Rows index sampled contrasts; columns index trials.",
                     "constraints": {
                         "element_type": "double"
                     }
@@ -168,7 +168,7 @@
                     "mustNotHaveNaN": false,
                     "queryable": false,
                     "ontology": null,
-                    "documentation": "Standard deviation of the control (no-stimulus / baseline) response, one value per contrast point.",
+                    "documentation": "Standard deviation of the control-group response values at each contrast point.",
                     "constraints": {
                         "element_type": "double"
                     }
@@ -183,7 +183,7 @@
                     "mustNotHaveNaN": false,
                     "queryable": false,
                     "ontology": null,
-                    "documentation": "Standard error of the mean of the control response, one value per contrast point.",
+                    "documentation": "Standard error of the mean of the control-group response values at each contrast point.",
                     "constraints": {
                         "element_type": "double"
                     }
@@ -213,7 +213,7 @@
                     "mustNotHaveNaN": false,
                     "queryable": true,
                     "ontology": null,
-                    "documentation": "p-value of the ANOVA testing whether any stimulus produced a response distinguishable from control.",
+                    "documentation": "p-value of the ANOVA across visual stimuli and the blank (control) stimulus. Indicates whether there is any evidence of visual responsiveness.",
                     "constraints": {}
                 },
                 {
@@ -226,7 +226,7 @@
                     "mustNotHaveNaN": false,
                     "queryable": true,
                     "ontology": null,
-                    "documentation": "p-value of the ANOVA testing whether responses differ across the sampled contrasts (tuning vs. flat).",
+                    "documentation": "p-value of the ANOVA across the visual stimuli. Indicates whether there is any evidence of differences in mean responses across the sampled contrasts.",
                     "constraints": {}
                 }
             ]
@@ -254,7 +254,7 @@
                     "mustNotHaveNaN": false,
                     "queryable": true,
                     "ontology": null,
-                    "documentation": "Contrast at which the empirical curve reaches half its maximum, found by linear interpolation.",
+                    "documentation": "The contrast that produces half of the maximum response value, found by linear interpolation of the empirical (unfitted) responses.",
                     "constraints": {}
                 }
             ]
@@ -269,7 +269,7 @@
             "mustNotHaveNaN": false,
             "queryable": false,
             "ontology": null,
-            "documentation": "Naka-Rushton fits to the empirical contrast response curve. Three variants are stored: RB (response + baseline), RBN (RB + saturation exponent N), and RBNS (RBN + asymptotic saturation S).",
+            "documentation": "Naka-Rushton fits to the empirical contrast response curve. Three variants are stored, with progressively richer parameter vectors: RB ([Rm, C50], 2 parameters), RBN ([Rm, C50, N], 3 parameters, adds the saturation exponent N), and RBNS ([Rm, C50, N, S], 4 parameters, adds the asymptotic saturation S).",
             "constraints": {},
             "fields": [
                 {
@@ -282,7 +282,7 @@
                     "mustNotHaveNaN": false,
                     "queryable": false,
                     "ontology": null,
-                    "documentation": "Naka-Rushton fit with two free parameters (response gain and baseline).",
+                    "documentation": "Two-parameter Naka-Rushton fit with parameter vector [Rm, C50]: Rm is the maximum response and C50 is the contrast at half-Rm.",
                     "constraints": {},
                     "fields": [
                         {
@@ -295,7 +295,7 @@
                             "mustNotHaveNaN": false,
                             "queryable": false,
                             "ontology": null,
-                            "documentation": "Fitted parameter vector for the Naka-Rushton RB form.",
+                            "documentation": "Fitted parameter vector [Rm, C50] for the 2-parameter Naka-Rushton function.",
                             "constraints": {
                                 "element_type": "double"
                             }
@@ -310,7 +310,7 @@
                             "mustNotHaveNaN": false,
                             "queryable": false,
                             "ontology": null,
-                            "documentation": "Contrast values at which the fit was evaluated.",
+                            "documentation": "The range of contrast values at which the fit was evaluated.",
                             "constraints": {
                                 "element_type": "double"
                             }
@@ -325,7 +325,7 @@
                             "mustNotHaveNaN": false,
                             "queryable": false,
                             "ontology": null,
-                            "documentation": "Fitted response values at each contrast.",
+                            "documentation": "Fitted response values at each contrast in the contrast field.",
                             "constraints": {
                                 "element_type": "double"
                             }
@@ -340,7 +340,7 @@
                             "mustNotHaveNaN": false,
                             "queryable": true,
                             "ontology": null,
-                            "documentation": "Preferred (maximum-response) contrast under the fit.",
+                            "documentation": "The contrast with the maximum response under the fit.",
                             "constraints": {}
                         },
                         {
@@ -353,7 +353,7 @@
                             "mustNotHaveNaN": false,
                             "queryable": true,
                             "ontology": null,
-                            "documentation": "Contrast at half-maximum response under the fit.",
+                            "documentation": "Empirical fit contrast that gives 50% of the response to 100% contrast. This generally differs from the C50 parameter of the fit, because the maximum response is not usually at 100% contrast.",
                             "constraints": {}
                         },
                         {
@@ -366,7 +366,7 @@
                             "mustNotHaveNaN": false,
                             "queryable": true,
                             "ontology": null,
-                            "documentation": "Coefficient of determination (R^2) of the fit.",
+                            "documentation": "The fit r^2 value.",
                             "constraints": {}
                         },
                         {
@@ -379,7 +379,7 @@
                             "mustNotHaveNaN": false,
                             "queryable": true,
                             "ontology": null,
-                            "documentation": "Maximum slope of the fit, relative to its mean response.",
+                            "documentation": "Relative maximum gain: the maximum slope of the fit when the maximum response is normalized to 1.",
                             "constraints": {}
                         },
                         {
@@ -392,21 +392,23 @@
                             "mustNotHaveNaN": false,
                             "queryable": true,
                             "ontology": null,
-                            "documentation": "Dimensionless index quantifying how saturated the fit is at the highest sampled contrast.",
+                            "documentation": "Saturation index (R(Cmax) - R(1)) / (R(Cmax) - R(0)). Always 0 for the 2-parameter (RB) version.",
                             "constraints": {}
                         },
                         {
                             "name": "sensitivity",
-                            "type": "double",
-                            "blank_value": 0,
-                            "default_value": 0,
+                            "type": "matrix",
+                            "blank_value": [],
+                            "default_value": [],
                             "mustBeNonEmpty": false,
-                            "mustBeScalar": true,
+                            "mustBeScalar": false,
                             "mustNotHaveNaN": false,
-                            "queryable": true,
+                            "queryable": false,
                             "ontology": null,
-                            "documentation": "Contrast sensitivity (typically the inverse of the half-saturation contrast) derived from the fit.",
-                            "constraints": {}
+                            "documentation": "Contrast sensitivity vector (1x10): for each i in 1..10, sensitivity = 1/Cthreshold where R(Cthreshold) is the first response value greater than i standard deviations of the control response. If the standard deviation of the control response is 0, it is recalculated assuming the response is 1 unit per trial.",
+                            "constraints": {
+                                "element_type": "double"
+                            }
                         }
                     ]
                 },
@@ -420,7 +422,7 @@
                     "mustNotHaveNaN": false,
                     "queryable": false,
                     "ontology": null,
-                    "documentation": "Naka-Rushton fit with three free parameters (RB plus saturation exponent N). Sub-field shape mirrors naka_rushton_rb.",
+                    "documentation": "Three-parameter Naka-Rushton fit with parameter vector [Rm, C50, N]: RB plus the saturation exponent N. Sub-field shape mirrors naka_rushton_rb.",
                     "constraints": {},
                     "fields": [
                         {
@@ -433,7 +435,7 @@
                             "mustNotHaveNaN": false,
                             "queryable": false,
                             "ontology": null,
-                            "documentation": "Fitted parameter vector for the Naka-Rushton RBN form.",
+                            "documentation": "Fitted parameter vector [Rm, C50, N] for the 3-parameter Naka-Rushton function.",
                             "constraints": {
                                 "element_type": "double"
                             }
@@ -448,7 +450,7 @@
                             "mustNotHaveNaN": false,
                             "queryable": false,
                             "ontology": null,
-                            "documentation": "Contrast values at which the fit was evaluated.",
+                            "documentation": "The range of contrast values at which the fit was evaluated.",
                             "constraints": {
                                 "element_type": "double"
                             }
@@ -463,7 +465,7 @@
                             "mustNotHaveNaN": false,
                             "queryable": false,
                             "ontology": null,
-                            "documentation": "Fitted response values at each contrast.",
+                            "documentation": "Fitted response values at each contrast in the contrast field.",
                             "constraints": {
                                 "element_type": "double"
                             }
@@ -478,7 +480,7 @@
                             "mustNotHaveNaN": false,
                             "queryable": true,
                             "ontology": null,
-                            "documentation": "Preferred contrast under the fit.",
+                            "documentation": "The contrast with the maximum response under the fit.",
                             "constraints": {}
                         },
                         {
@@ -491,7 +493,7 @@
                             "mustNotHaveNaN": false,
                             "queryable": true,
                             "ontology": null,
-                            "documentation": "Contrast at half-maximum response under the fit.",
+                            "documentation": "Empirical fit contrast that gives 50% of the response to 100% contrast. This generally differs from the C50 parameter of the fit, because the maximum response is not usually at 100% contrast.",
                             "constraints": {}
                         },
                         {
@@ -504,7 +506,7 @@
                             "mustNotHaveNaN": false,
                             "queryable": true,
                             "ontology": null,
-                            "documentation": "Coefficient of determination of the fit.",
+                            "documentation": "The fit r^2 value.",
                             "constraints": {}
                         },
                         {
@@ -517,7 +519,7 @@
                             "mustNotHaveNaN": false,
                             "queryable": true,
                             "ontology": null,
-                            "documentation": "Maximum-gain measure derived from the fit.",
+                            "documentation": "Relative maximum gain: the maximum slope of the fit when the maximum response is normalized to 1.",
                             "constraints": {}
                         },
                         {
@@ -530,21 +532,23 @@
                             "mustNotHaveNaN": false,
                             "queryable": true,
                             "ontology": null,
-                            "documentation": "Saturation index derived from the fit.",
+                            "documentation": "Saturation index (R(Cmax) - R(1)) / (R(Cmax) - R(0)).",
                             "constraints": {}
                         },
                         {
                             "name": "sensitivity",
-                            "type": "double",
-                            "blank_value": 0,
-                            "default_value": 0,
+                            "type": "matrix",
+                            "blank_value": [],
+                            "default_value": [],
                             "mustBeNonEmpty": false,
-                            "mustBeScalar": true,
+                            "mustBeScalar": false,
                             "mustNotHaveNaN": false,
-                            "queryable": true,
+                            "queryable": false,
                             "ontology": null,
-                            "documentation": "Contrast sensitivity derived from the fit.",
-                            "constraints": {}
+                            "documentation": "Contrast sensitivity vector (1x10): for each i in 1..10, sensitivity = 1/Cthreshold where R(Cthreshold) is the first response value greater than i standard deviations of the control response. If the standard deviation of the control response is 0, it is recalculated assuming the response is 1 unit per trial.",
+                            "constraints": {
+                                "element_type": "double"
+                            }
                         }
                     ]
                 },
@@ -558,7 +562,7 @@
                     "mustNotHaveNaN": false,
                     "queryable": false,
                     "ontology": null,
-                    "documentation": "Naka-Rushton fit with four free parameters (RBN plus asymptotic saturation S). Sub-field shape mirrors naka_rushton_rb.",
+                    "documentation": "Four-parameter Naka-Rushton fit with parameter vector [Rm, C50, N, S]: RBN plus the asymptotic-saturation term S. Sub-field shape mirrors naka_rushton_rb.",
                     "constraints": {},
                     "fields": [
                         {
@@ -571,7 +575,7 @@
                             "mustNotHaveNaN": false,
                             "queryable": false,
                             "ontology": null,
-                            "documentation": "Fitted parameter vector for the Naka-Rushton RBNS form.",
+                            "documentation": "Fitted parameter vector [Rm, C50, N, S] for the 4-parameter Naka-Rushton-with-saturation function.",
                             "constraints": {
                                 "element_type": "double"
                             }
@@ -586,7 +590,7 @@
                             "mustNotHaveNaN": false,
                             "queryable": false,
                             "ontology": null,
-                            "documentation": "Contrast values at which the fit was evaluated.",
+                            "documentation": "The range of contrast values at which the fit was evaluated.",
                             "constraints": {
                                 "element_type": "double"
                             }
@@ -601,7 +605,7 @@
                             "mustNotHaveNaN": false,
                             "queryable": false,
                             "ontology": null,
-                            "documentation": "Fitted response values at each contrast.",
+                            "documentation": "Fitted response values at each contrast in the contrast field.",
                             "constraints": {
                                 "element_type": "double"
                             }
@@ -616,7 +620,7 @@
                             "mustNotHaveNaN": false,
                             "queryable": true,
                             "ontology": null,
-                            "documentation": "Preferred contrast under the fit.",
+                            "documentation": "The contrast with the maximum response under the fit.",
                             "constraints": {}
                         },
                         {
@@ -629,7 +633,7 @@
                             "mustNotHaveNaN": false,
                             "queryable": true,
                             "ontology": null,
-                            "documentation": "Contrast at half-maximum response under the fit.",
+                            "documentation": "Empirical fit contrast that gives 50% of the response to 100% contrast. This generally differs from the C50 parameter of the fit, because the maximum response is not usually at 100% contrast.",
                             "constraints": {}
                         },
                         {
@@ -642,7 +646,7 @@
                             "mustNotHaveNaN": false,
                             "queryable": true,
                             "ontology": null,
-                            "documentation": "Coefficient of determination of the fit.",
+                            "documentation": "The fit r^2 value.",
                             "constraints": {}
                         },
                         {
@@ -655,7 +659,7 @@
                             "mustNotHaveNaN": false,
                             "queryable": true,
                             "ontology": null,
-                            "documentation": "Maximum-gain measure derived from the fit.",
+                            "documentation": "Relative maximum gain: the maximum slope of the fit when the maximum response is normalized to 1.",
                             "constraints": {}
                         },
                         {
@@ -668,21 +672,23 @@
                             "mustNotHaveNaN": false,
                             "queryable": true,
                             "ontology": null,
-                            "documentation": "Saturation index derived from the fit.",
+                            "documentation": "Saturation index (R(Cmax) - R(1)) / (R(Cmax) - R(0)).",
                             "constraints": {}
                         },
                         {
                             "name": "sensitivity",
-                            "type": "double",
-                            "blank_value": 0,
-                            "default_value": 0,
+                            "type": "matrix",
+                            "blank_value": [],
+                            "default_value": [],
                             "mustBeNonEmpty": false,
-                            "mustBeScalar": true,
+                            "mustBeScalar": false,
                             "mustNotHaveNaN": false,
-                            "queryable": true,
+                            "queryable": false,
                             "ontology": null,
-                            "documentation": "Contrast sensitivity derived from the fit.",
-                            "constraints": {}
+                            "documentation": "Contrast sensitivity vector (1x10): for each i in 1..10, sensitivity = 1/Cthreshold where R(Cthreshold) is the first response value greater than i standard deviations of the control response. If the standard deviation of the control response is 0, it is recalculated assuming the response is 1 unit per trial.",
+                            "constraints": {
+                                "element_type": "double"
+                            }
                         }
                     ]
                 }

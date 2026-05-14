@@ -34,7 +34,7 @@ template (the schema file alone is insufficient).
 | `contrast_tuning.tuning_curve.{control_stddev,control_stderr}` | same | scalar placeholder → `matrix<double>` |
 | `contrast_tuning.significance.{visual_response_anova_p,across_stimuli_anova_p}` | same | identity (double) |
 | `contrast_tuning.fitless.interpolated_c50` | same | identity (double) |
-| `contrast_tuning.fit.naka_rushton_RB_*` (9 fields) | `contrast_tuning.fit.naka_rushton_rb.*` | regrouped into nested struct + snake-cased; scalar metrics → `double`, array metrics → `matrix<double>` |
+| `contrast_tuning.fit.naka_rushton_RB_*` (9 fields) | `contrast_tuning.fit.naka_rushton_rb.*` | regrouped into nested struct + snake-cased; scalar metrics → `double`, array metrics → `matrix<double>`; `sensitivity` is a 1x10 `matrix<double>` (see below) |
 | `contrast_tuning.fit.naka_rushton_RBN_*` | `contrast_tuning.fit.naka_rushton_rbn.*` | same |
 | `contrast_tuning.fit.naka_rushton_RBNS_*` | `contrast_tuning.fit.naka_rushton_rbns.*` | same |
 | (top-level) `depends_on: [element_id, stimulus_tuningcurve_id]` | top-level `depends_on` array | identity (named refs declared on the schema, value carried on document instances) |
@@ -48,12 +48,25 @@ template (the schema file alone is insufficient).
   each carrying nine identically-named metrics. Migration is a name split
   on the second underscore (after `naka_rushton_`).
 - **Scalar metrics stored as 1-element arrays.** Several did_v1 fields
-  (e.g., `naka_rushton_RB_pref`, `_empirical_c50`, `_r2`) appear as `[0]`
-  in the template. The conversion *unwraps* these to plain `double` scalars
-  in V_delta — the V_delta schema declares them as `type: double` /
+  (e.g., `naka_rushton_RB_pref`, `_empirical_c50`, `_r2`,
+  `_relative_max_gain`, `_saturation_index`) appear as `[0]` in the
+  template. The conversion *unwraps* these to plain `double` scalars in
+  V_delta — the V_delta schema declares them as `type: double` /
   `mustBeScalar: true`. Migration tools must extract `arr[0]` and verify
   the array has exactly one element.
+- **`sensitivity` is genuinely a vector, not a scalar.** The did_v1
+  template stores `naka_rushton_<VARIANT>_sensitivity` as `[0]` like the
+  other scalar metrics, but the user-supplied field documentation
+  describes it as a 1x10 vector: for each i in 1..10, an inverse-threshold
+  sensitivity at i standard deviations of the control response. V_delta
+  declares `sensitivity` as `matrix<double>` in all three Naka-Rushton
+  blocks (do **not** unwrap to scalar). Migration tools must preserve the
+  full vector rather than extracting `arr[0]`.
 - **Snake-case.** Variant tags are lowercased (`RB` → `rb`).
+- **RB-specific `saturation_index`.** The RB form has 2 free parameters
+  with no saturation-controlling term, so `saturation_index` is always 0
+  under the RB fit. V_delta encodes that note in the field documentation
+  on `naka_rushton_rb.saturation_index`.
 
 ## Default values for new fields
 
