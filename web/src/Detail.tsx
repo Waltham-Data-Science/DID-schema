@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import type { IndexEntry, FieldDef, SchemaDocument } from "./types";
+import { superclassName } from "./types";
 import { loadSchema } from "./schemaIndex";
 
 interface Props {
@@ -61,14 +62,17 @@ export function Detail({ entry, onSelect }: Props) {
           <dt>Superclasses</dt>
           <dd>
             {dc.superclasses && dc.superclasses.length > 0 ? (
-              dc.superclasses.map((s, i) => (
-                <span key={s}>
-                  {i > 0 && ", "}
-                  <button className="link" onClick={() => onSelect(s)}>
-                    {s}
-                  </button>
-                </span>
-              ))
+              dc.superclasses.map((ref, i) => {
+                const name = superclassName(ref);
+                return (
+                  <span key={name}>
+                    {i > 0 && ", "}
+                    <button className="link" onClick={() => onSelect(name)}>
+                      {name}
+                    </button>
+                  </span>
+                );
+              })
             ) : (
               <em>none</em>
             )}

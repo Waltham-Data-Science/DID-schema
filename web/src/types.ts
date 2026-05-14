@@ -49,7 +49,7 @@ export interface SchemaDocument {
   document_class?: {
     class_name: string;
     class_version?: string;
-    superclasses?: string[];
+    superclasses?: SuperclassRef[];
     maturity_level?: Maturity;
   };
   depends_on?: DependsOnEntry[];
@@ -57,4 +57,14 @@ export interface SchemaDocument {
   fields?: FieldDef[];
   // Meta-schemas and registries may have arbitrary other shapes; keep open.
   [key: string]: unknown;
+}
+
+// Inside a schema file, `superclasses` is an array of objects with at least
+// a `class_name` key. The repo-level index.json normalizes these to plain
+// strings, so callers may see either shape -- always pass through
+// `superclassName()` to extract the string.
+export type SuperclassRef = string | { class_name: string; [k: string]: unknown };
+
+export function superclassName(ref: SuperclassRef): string {
+  return typeof ref === "string" ? ref : ref.class_name;
 }
