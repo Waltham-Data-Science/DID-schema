@@ -107,12 +107,7 @@ export default function App() {
         </div>
         <nav className="sidebar-scroll">
           {view === "topic" ? (
-            <Tree
-              nodes={topicTree}
-              selected={selected}
-              onSelect={select}
-              defaultOpen
-            />
+            <Tree nodes={topicTree} selected={selected} onSelect={select} />
           ) : view === "class" ? (
             <Tree nodes={classTree} selected={selected} onSelect={select} />
           ) : (

@@ -6,7 +6,6 @@ interface Props {
   nodes: TreeNode[];
   selected: string | null;
   onSelect: (className: string) => void;
-  // Topic-tree folder nodes start expanded; class-hierarchy nodes collapsed.
   defaultOpen?: boolean;
 }
 
@@ -38,8 +37,6 @@ function TreeItem({
   defaultOpen: boolean;
 }) {
   const isFolder = node.entry === null;
-  // Topic-folder rows are roomier than schema-leaf rows so the hierarchy
-  // reads at a glance; default-open keeps the topic tree usable on load.
   const [open, setOpen] = useState(isFolder ? defaultOpen : false);
   const hasChildren = node.children.length > 0;
   return (
