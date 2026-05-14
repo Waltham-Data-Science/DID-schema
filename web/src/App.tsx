@@ -9,6 +9,7 @@ import {
 } from "./schemaIndex";
 import { FlatList, Tree } from "./Tree";
 import { Detail } from "./Detail";
+import { Editor } from "./Editor";
 import { ErrorBoundary } from "./ErrorBoundary";
 import "./styles.css";
 
@@ -22,6 +23,7 @@ export default function App() {
   const [selected, setSelected] = useState<string | null>(
     parseHash(window.location.hash),
   );
+  const [editing, setEditing] = useState<boolean>(false);
 
   useEffect(() => {
     loadIndex().then(setIndex).catch((e) => setError(String(e)));
@@ -99,8 +101,9 @@ export default function App() {
           </div>
           <button
             className="btn-add"
-            disabled
-            title="Wires up in Step 5 of issue #28"
+            onClick={() => setEditing(true)}
+            aria-pressed={editing}
+            title="Open the editor for a new schema"
           >
             + Add new schema
           </button>
@@ -117,7 +120,14 @@ export default function App() {
         <Legend />
       </aside>
       <main className="content">
-        {selectedEntry ? (
+        {editing ? (
+          <ErrorBoundary resetKey="editor">
+            <Editor
+              index={index.schemas}
+              onCancel={() => setEditing(false)}
+            />
+          </ErrorBoundary>
+        ) : selectedEntry ? (
           <ErrorBoundary resetKey={selectedEntry.class_name}>
             <Detail entry={selectedEntry} />
           </ErrorBoundary>
