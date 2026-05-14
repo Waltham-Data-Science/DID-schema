@@ -10,5 +10,8 @@ test = [
     "jsonschema>=4.0",
 ]
 
+[tool.setuptools]
+packages = []
+
 [tool.pytest.ini_options]
 testpaths = ["tests"]
