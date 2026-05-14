@@ -20,6 +20,25 @@ export interface SchemaIndex {
   schemas: IndexEntry[];
 }
 
+// Topic tree (purely a viewer affordance). Lives in
+// schemas/V_delta/topics.json. Interior nodes have a `name`; leaves are
+// referenced by class_name in `classes`. Children may be omitted.
+export interface TopicCategory {
+  name: string;
+  description?: string;
+  classes?: string[];
+  children?: TopicCategory[];
+}
+
+export interface TopicsFile {
+  set_version: string;
+  notes?: string;
+  // Top-level bare leaf classes (rendered without a folder at the root of
+  // the topic tree). Example: `base`.
+  classes?: string[];
+  topics: TopicCategory[];
+}
+
 export interface FieldDef {
   name: string;
   type: string;

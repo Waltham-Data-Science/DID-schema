@@ -1,4 +1,10 @@
-import type { IndexEntry, SchemaDocument, SchemaIndex } from "./types";
+import type {
+  IndexEntry,
+  SchemaDocument,
+  SchemaIndex,
+  TopicCategory,
+  TopicsFile,
+} from "./types";
 
 const BASE = import.meta.env.BASE_URL;
 
@@ -8,6 +14,19 @@ export async function loadIndex(): Promise<SchemaIndex> {
   return res.json();
 }
 
+// Topics live alongside the schema set but have no semantic relationship
+// to validation -- they are purely a viewer affordance. Missing or malformed
+// files are non-fatal: the viewer falls back to a single Uncategorized node.
+export async function loadTopics(): Promise<TopicsFile | null> {
+  try {
+    const res = await fetch(`${BASE}schemas/V_delta/topics.json`);
+    if (!res.ok) return null;
+    return await res.json();
+  } catch {
+    return null;
+  }
+}
+
 export async function loadSchema(entry: IndexEntry): Promise<SchemaDocument> {
   // entry.path is repo-relative, e.g. "schemas/V_delta/stable/base.json".
   const res = await fetch(`${BASE}${entry.path}`);
@@ -15,13 +34,13 @@ export async function loadSchema(entry: IndexEntry): Promise<SchemaDocument> {
   return res.json();
 }
 
-// A tree node for the left-pane superclass view. The same class_name may
-// appear under multiple parents -- one TreeNode per occurrence -- so users
-// can find a class via any of its parents.
+// A tree node used by both the superclass view and the topic view.
+// Leaf nodes carry an `entry` and are clickable; folder/category nodes
+// have `entry: null` and are pure grouping headers.
 export interface TreeNode {
-  entry: IndexEntry;
-  // Unique key (path-from-root) for React.
   key: string;
+  label: string;
+  entry: IndexEntry | null;
   children: TreeNode[];
 }
 
@@ -50,7 +69,7 @@ export function buildTree(entries: IndexEntry[]): TreeNode[] {
     const key = `${keyPrefix}/${entry.class_name}`;
     // Cycle guard: a class cannot be its own ancestor.
     if (seen.has(entry.class_name)) {
-      return { entry, key, children: [] };
+      return { entry, key, label: entry.class_name, children: [] };
     }
     const nextSeen = new Set(seen);
     nextSeen.add(entry.class_name);
@@ -58,7 +77,7 @@ export function buildTree(entries: IndexEntry[]): TreeNode[] {
       .slice()
       .sort(sortByName)
       .map((child) => buildNode(child, key, nextSeen));
-    return { entry, key, children: kids };
+    return { entry, key, label: entry.class_name, children: kids };
   };
 
   return roots.map((r) => buildNode(r, "", new Set()));
@@ -66,4 +85,91 @@ export function buildTree(entries: IndexEntry[]): TreeNode[] {
 
 export function sortedFlat(entries: IndexEntry[]): IndexEntry[] {
   return entries.slice().sort((a, b) => a.class_name.localeCompare(b.class_name));
+}
+
+// Build a topic tree: folder nodes from the topics file, with leaves
+// resolved against the live index by class_name. A class listed in topics
+// but not present in the index is dropped (with a warning). Any class
+// present in the index but not referenced anywhere in the topics file is
+// gathered under a synthesized "Uncategorized" root so nothing disappears
+// from the viewer.
+export function buildTopicTree(
+  entries: IndexEntry[],
+  topics: TopicsFile | null,
+): TreeNode[] {
+  const byName = new Map(entries.map((e) => [e.class_name, e]));
+  const referenced = new Set<string>();
+
+  const buildCategory = (cat: TopicCategory, keyPrefix: string): TreeNode => {
+    const key = `${keyPrefix}/${cat.name}`;
+    const leafChildren: TreeNode[] = [];
+    for (const className of cat.classes ?? []) {
+      const entry = byName.get(className);
+      if (!entry) {
+        console.warn(
+          `topics.json references unknown class "${className}" under "${cat.name}"`,
+        );
+        continue;
+      }
+      referenced.add(className);
+      leafChildren.push({
+        entry,
+        key: `${key}/${className}`,
+        label: className,
+        children: [],
+      });
+    }
+    leafChildren.sort((a, b) => a.label.localeCompare(b.label));
+
+    const subCategories = (cat.children ?? []).map((c) =>
+      buildCategory(c, key),
+    );
+    // Folders before leaves so the tree groups subtopics at the top of
+    // each category.
+    return {
+      entry: null,
+      key,
+      label: cat.name,
+      children: [...subCategories, ...leafChildren],
+    };
+  };
+
+  const roots: TreeNode[] = [];
+  for (const className of topics?.classes ?? []) {
+    const entry = byName.get(className);
+    if (!entry) {
+      console.warn(
+        `topics.json references unknown top-level class "${className}"`,
+      );
+      continue;
+    }
+    referenced.add(className);
+    roots.push({
+      entry,
+      key: `/${className}`,
+      label: className,
+      children: [],
+    });
+  }
+  for (const t of topics?.topics ?? []) {
+    roots.push(buildCategory(t, ""));
+  }
+
+  const uncategorized = entries
+    .filter((e) => !referenced.has(e.class_name))
+    .sort((a, b) => a.class_name.localeCompare(b.class_name));
+  if (uncategorized.length > 0) {
+    roots.push({
+      entry: null,
+      key: "/Uncategorized",
+      label: "Uncategorized",
+      children: uncategorized.map((e) => ({
+        entry: e,
+        key: `/Uncategorized/${e.class_name}`,
+        label: e.class_name,
+        children: [],
+      })),
+    });
+  }
+  return roots;
 }

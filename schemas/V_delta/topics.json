@@ -1,0 +1,206 @@
+{
+  "set_version": "V_delta",
+  "notes": "Topic tree for human navigation in the viewer. Independent of the class/superclass hierarchy and of any schema semantics; intended only to group related schemas by subject area, mirroring the directory layout used by the original NDI-matlab document_data tree. Editing this file does not affect schema validation or document classes. Classes not listed below appear under 'Uncategorized' in the viewer. The top-level 'classes' array holds classes that should appear as bare leaves at the root (no folder); 'topics' holds folder categories.",
+  "classes": [
+    "base"
+  ],
+  "topics": [
+    {
+      "name": "meta",
+      "description": "Meta-schemas and reserved-keyword registries that describe the schema framework itself.",
+      "classes": [
+        "CURIE_lookups_meta",
+        "did_schema_meta",
+        "ndi_reserved_keys"
+      ]
+    },
+    {
+      "name": "daq",
+      "description": "Data acquisition systems, readers, file navigation, sync, and epoch bookkeeping.",
+      "classes": [
+        "daqsystem",
+        "daqreader",
+        "daqreader_epochdata_ingested",
+        "daqreader_mfdaq_epochdata_ingested",
+        "daqreader_ndr",
+        "daqmetadatareader",
+        "daqmetadatareader_epochdata_ingested",
+        "filenavigator",
+        "syncgraph",
+        "syncrule",
+        "syncrule_mapping",
+        "epochfiles_ingested",
+        "epochclocktimes",
+        "epochid",
+        "oneepoch"
+      ]
+    },
+    {
+      "name": "probe",
+      "description": "Probe geometry, electrode mapping, and physical placement.",
+      "classes": [
+        "probe_geometry",
+        "probe_location",
+        "site2channelmap",
+        "electrode_offset_voltage"
+      ]
+    },
+    {
+      "name": "subject",
+      "description": "Subjects, subject groups, treatments, and interventions.",
+      "classes": [
+        "subject",
+        "subject_group",
+        "virus_injection",
+        "treatment",
+        "treatment_drug"
+      ]
+    },
+    {
+      "name": "session",
+      "description": "Sessions, datasets, and project-scope variables.",
+      "classes": [
+        "session",
+        "session_in_a_dataset",
+        "dataset_remote",
+        "dataset_session_info",
+        "projectvar"
+      ]
+    },
+    {
+      "name": "element",
+      "description": "Logical recorded elements (channels, neurons) and their epoch data.",
+      "classes": [
+        "element",
+        "element_epoch",
+        "neuron_extracellular"
+      ]
+    },
+    {
+      "name": "data",
+      "description": "Generic data containers: time series, grids, images, fits, measurements, and generic file/directory wrappers.",
+      "classes": [
+        "binaryseries_parameters",
+        "binnedspikeratevm",
+        "directory",
+        "distance_metadata",
+        "ephys_zarr",
+        "filter",
+        "fitcurve",
+        "generic_file",
+        "image",
+        "image_collection",
+        "image_stack",
+        "image_stack_parameters",
+        "image_zarr",
+        "measurement",
+        "ngrid",
+        "ontology_table_row",
+        "position_metadata",
+        "zarr"
+      ]
+    },
+    {
+      "name": "metadata",
+      "description": "External-ontology bindings (openMINDS, ontology lookups) and metadata editing.",
+      "classes": [
+        "metadata_editor",
+        "ontology_image",
+        "ontology_label",
+        "openminds",
+        "openminds_element",
+        "openminds_stimulus",
+        "openminds_subject"
+      ]
+    },
+    {
+      "name": "stimulus",
+      "description": "Stimulus descriptions, presentations, and stimulus-locked responses.",
+      "classes": [
+        "control_stimulus_ids",
+        "reverse_correlation",
+        "stimulus_bath",
+        "stimulus_parameter",
+        "stimulus_parameter_table",
+        "stimulus_presentation",
+        "stimulus_response",
+        "stimulus_response_scalar",
+        "stimulus_response_scalar_parameters",
+        "stimulus_response_scalar_parameters_basic",
+        "stimulus_tuningcurve"
+      ],
+      "children": [
+        {
+          "name": "visual",
+          "description": "Visual-stimulus tuning curves and reverse correlation.",
+          "classes": [
+            "contrast_tuning",
+            "hartley_reverse_correlation",
+            "orientation_direction_tuning",
+            "spatial_frequency_tuning",
+            "speed_tuning",
+            "temporal_frequency_tuning"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "sorting",
+      "description": "Spike extraction, sorting, clusters, and waveforms.",
+      "classes": [
+        "jrclust_clusters",
+        "sorting_parameters",
+        "spike_clusters",
+        "spike_extraction_parameters",
+        "spike_extraction_parameters_modification",
+        "spike_interface_sorting_outputs",
+        "spikewaves"
+      ]
+    },
+    {
+      "name": "calculators",
+      "description": "Derived-quantity calculator documents (_calc). Most pair with a stimulus-response schema in stimulus/.",
+      "classes": [
+        "contrast_sensitivity_calc",
+        "contrast_tuning_calc",
+        "hartley_calc",
+        "orientation_direction_tuning_calc",
+        "simple_calc",
+        "spatial_frequency_tuning_calc",
+        "speed_tuning_calc",
+        "temporal_frequency_tuning_calc",
+        "tuningcurve_calc"
+      ]
+    },
+    {
+      "name": "apps",
+      "description": "Application-specific documents and demos.",
+      "classes": [
+        "app",
+        "demo_ndi",
+        "demo_ndi_mock",
+        "mock",
+        "pyraview"
+      ],
+      "children": [
+        {
+          "name": "markgarbage",
+          "description": "Valid-interval annotations from the markgarbage app.",
+          "classes": [
+            "valid_interval"
+          ]
+        },
+        {
+          "name": "vhlab_voltage2firingrate",
+          "description": "Vm-to-firing-rate fitting and residuals (vhlab voltage2firingrate app).",
+          "classes": [
+            "vmneuralresponseresiduals",
+            "vmspikefilteringparameters",
+            "vmspikefit",
+            "vmspikesummary"
+          ]
+        }
+      ]
+    }
+  ]
+}
