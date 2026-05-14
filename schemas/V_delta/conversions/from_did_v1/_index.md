@@ -38,6 +38,7 @@ field-level changes on top.
 | `temporal_frequency_tuning_calc` | NDIcalc-vis-matlab `calc/temporal_frequency_tuning_calc` | drafted | [temporal_frequency_tuning_calc.md](temporal_frequency_tuning_calc.md) |
 | `speed_tuning` | NDIcalc-vis-matlab `vision/speed_tuning` | drafted | [speed_tuning.md](speed_tuning.md) |
 | `speed_tuning_calc` | NDIcalc-vis-matlab `calc/speedtuning_calc` (renamed) | drafted | [speed_tuning_calc.md](speed_tuning_calc.md) |
+| `orientation_direction_tuning` | NDIcalc-vis-matlab `stimulus/vision/oridir/orientation_direction_tuning` | drafted | [orientation_direction_tuning.md](orientation_direction_tuning.md) |
 | `orientation_direction_tuning_calc` | NDIcalc-vis-matlab `calc/oridirtuning_calc` (renamed) | drafted | [orientation_direction_tuning_calc.md](orientation_direction_tuning_calc.md) |
 | `reverse_correlation` | NDIcalc-vis-matlab `neuro/reverse_correlation` | drafted | [reverse_correlation.md](reverse_correlation.md) |
 | `hartley_reverse_correlation` | NDIcalc-vis-matlab `neuro/hartley_reverse_correlation` | drafted | [hartley_reverse_correlation.md](hartley_reverse_correlation.md) |
@@ -52,11 +53,10 @@ field-level changes on top.
 - **Not migrated:** `stimloopsplitter_calc` (deprecated per domain owner
   decision; not added to V_delta).
 - **Already in V_delta from earlier set versions** (no `did_v1` conversion
-  added in this PR): `orientation_direction_tuning` (the result type that
-  `orientation_direction_tuning_calc` inherits from), `tuningcurve_calc`,
-  `stimulus_tuningcurve`, `ngrid`. These have no NDIcalc-vis-matlab v1
-  predecessor in `ndi_common/`; if any need a separate `did_v1` source
-  resurrected later, add their conversions then.
+  added in this PR): `tuningcurve_calc`, `stimulus_tuningcurve`, `ngrid`.
+  These have no NDIcalc-vis-matlab v1 predecessor in `ndi_common/`; if any
+  need a separate `did_v1` source resurrected later, add their conversions
+  then.
 
 ## Conventions
 
