@@ -623,3 +623,32 @@ main {
   margin: 0.25rem 0 0 1rem;
   padding: 0;
 }
+
+.json-value-field {
+  margin-top: 0.5rem;
+}
+
+.json-value-field .req {
+  color: var(--maturity-deprecated);
+  margin-left: 0.15rem;
+}
+
+.json-value-field input {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0.3rem 0.5rem;
+  margin-top: 0.2rem;
+  background: var(--bg);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  font: inherit;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 0.85rem;
+}
+
+.json-value-error {
+  margin-top: 0.2rem;
+  color: var(--maturity-deprecated);
+  font-size: 0.8rem;
+}

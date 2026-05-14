@@ -1,8 +1,8 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import Form from "@rjsf/core";
 import type { IChangeEvent } from "@rjsf/core";
 import validator from "@rjsf/validator-ajv8";
-import type { RJSFSchema, UiSchema } from "@rjsf/utils";
+import type { FieldProps, RJSFSchema, UiSchema } from "@rjsf/utils";
 import type { IndexEntry } from "./types";
 
 const BASE = import.meta.env.BASE_URL;
@@ -131,6 +131,7 @@ export function Editor({ index, onCancel }: EditorProps) {
           uiSchema={UI_SCHEMA}
           formData={formData}
           validator={validator}
+          fields={{ JsonValue: JsonValueField }}
           onChange={handleChange}
           liveValidate
           showErrorList="bottom"
@@ -148,6 +149,8 @@ export function Editor({ index, onCancel }: EditorProps) {
 //     `superclass_reference.class_name` so users get a dropdown of real
 //     superclasses instead of free-text. Submitters can still propose
 //     a new superclass by editing the JSON directly after download.
+//   * Inject a `default: true` on `field_definition.queryable` so newly
+//     added fields start queryable -- the common case for V_delta schemas.
 //   * Otherwise leave the meta-schema untouched -- rjsf understands the
 //     standard JSON Schema vocabulary used here.
 function prepareMetaSchema(
@@ -168,7 +171,115 @@ function prepareMetaSchema(
       .sort();
     classNameField.enum = names;
   }
+  const fieldDef = cloned.$defs?.field_definition as
+    | { properties?: Record<string, RJSFSchema> }
+    | undefined;
+  const queryable = fieldDef?.properties?.queryable;
+  if (queryable) {
+    queryable.default = true;
+  }
   return cloned;
+}
+
+// Custom field for `blank_value` and `default_value`: the meta-schema
+// places no `type` constraint on these (they accept any JSON value), and
+// rjsf's default renderer bails on "no type" with an "Unsupported field
+// schema" message. This field renders a text input that holds a JSON
+// literal; the value flows back as a parsed JSON value on every keystroke
+// that successfully parses. Empty input clears the value to undefined.
+function JsonValueField(props: FieldProps) {
+  const { formData, onChange, schema, name, required } = props;
+  // Local text buffer so partial edits ("[1, ") don't get overwritten by
+  // round-trip serialization of an old formData. We sync from formData
+  // only when formData changed from a source other than our own keystroke.
+  const [text, setText] = useState<string>(() => serializeJsonValue(formData));
+  const [parseError, setParseError] = useState<string | null>(null);
+  const lastEmittedRef = useRef<string>(text);
+
+  useEffect(() => {
+    const incoming = serializeJsonValue(formData);
+    if (incoming !== lastEmittedRef.current) {
+      setText(incoming);
+      setParseError(null);
+      lastEmittedRef.current = incoming;
+    }
+  }, [formData]);
+
+  const handle = (raw: string) => {
+    setText(raw);
+    lastEmittedRef.current = raw;
+    if (raw.trim() === "") {
+      setParseError(null);
+      onChange(undefined, []);
+      return;
+    }
+    try {
+      const parsed = JSON.parse(raw);
+      setParseError(null);
+      onChange(parsed, []);
+    } catch (err) {
+      setParseError((err as Error).message);
+      // Don't propagate; leave formData at its previous valid value
+      // so meta-schema validation reflects last good state.
+    }
+  };
+
+  const label = humanLabel(name);
+  return (
+    <div className="json-value-field">
+      <label>
+        {label}
+        {required ? <span className="req">*</span> : null}
+      </label>
+      <input
+        type="text"
+        value={text}
+        spellCheck={false}
+        placeholder='e.g. "" or 0 or null or [] or {}'
+        onChange={(e) => handle(e.target.value)}
+      />
+      {parseError ? (
+        <div className="json-value-error">Invalid JSON: {parseError}</div>
+      ) : null}
+      {schema.description ? (
+        <div className="field-description">
+          {schema.description} Enter as a JSON literal (strings in quotes,
+          arrays as <code>[...]</code>, objects as <code>{`{...}`}</code>).
+        </div>
+      ) : null}
+    </div>
+  );
+}
+
+function serializeJsonValue(v: unknown): string {
+  if (v === undefined) return "";
+  try {
+    return JSON.stringify(v);
+  } catch {
+    return "";
+  }
+}
+
+function humanLabel(name: string): string {
+  return name
+    .split("_")
+    .map((s) => (s ? s[0].toUpperCase() + s.slice(1) : ""))
+    .join(" ");
+}
+
+// Recursive uiSchema fragment for `fields`. Applied at the top level of
+// the document and inside any nested `structure`-type field, up to a fixed
+// depth that comfortably covers realistic schema nesting.
+function buildFieldsUiSchema(depth: number): UiSchema {
+  if (depth <= 0) return {};
+  return {
+    "ui:options": { addable: true, removable: true, orderable: true },
+    items: {
+      blank_value: { "ui:field": "JsonValue" },
+      default_value: { "ui:field": "JsonValue" },
+      fields: buildFieldsUiSchema(depth - 1),
+    },
+  };
 }
 
 const UI_SCHEMA: UiSchema = {
@@ -196,11 +307,5 @@ const UI_SCHEMA: UiSchema = {
       orderable: false,
     },
   },
-  fields: {
-    "ui:options": {
-      addable: true,
-      removable: true,
-      orderable: true,
-    },
-  },
+  fields: buildFieldsUiSchema(6),
 };
