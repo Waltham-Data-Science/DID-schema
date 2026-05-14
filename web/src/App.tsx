@@ -3,6 +3,7 @@ import type { SchemaIndex } from "./types";
 import { buildTree, loadIndex, sortedFlat } from "./schemaIndex";
 import { FlatList, Tree } from "./Tree";
 import { Detail } from "./Detail";
+import { ErrorBoundary } from "./ErrorBoundary";
 import "./styles.css";
 
 type ViewMode = "tree" | "flat";
@@ -95,7 +96,9 @@ export default function App() {
       </aside>
       <main className="content">
         {selectedEntry ? (
-          <Detail entry={selectedEntry} onSelect={select} />
+          <ErrorBoundary resetKey={selectedEntry.class_name}>
+            <Detail entry={selectedEntry} onSelect={select} />
+          </ErrorBoundary>
         ) : (
           <div className="placeholder">
             <h2>Select a schema from the left to view its definition.</h2>
