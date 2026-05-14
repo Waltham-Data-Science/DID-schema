@@ -290,6 +290,43 @@ main {
   color: var(--text-muted);
 }
 
+.type-badge {
+  position: relative;
+  display: inline-block;
+  cursor: help;
+  border-bottom: 1px dotted var(--text-muted);
+}
+
+.type-tooltip {
+  visibility: hidden;
+  opacity: 0;
+  position: absolute;
+  left: 0;
+  top: 100%;
+  z-index: 10;
+  margin-top: 0.25rem;
+  padding: 0.5rem 0.7rem;
+  width: max-content;
+  max-width: 24rem;
+  background: var(--bg);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.18);
+  font-size: 0.8rem;
+  line-height: 1.35;
+  white-space: normal;
+  pointer-events: none;
+  transition: opacity 0.1s ease;
+}
+
+.type-badge:hover .type-tooltip,
+.type-badge:focus .type-tooltip,
+.type-badge:focus-within .type-tooltip {
+  visibility: visible;
+  opacity: 1;
+}
+
 .flag-tag {
   display: inline-block;
   margin: 0 0.2rem 0.2rem 0;
