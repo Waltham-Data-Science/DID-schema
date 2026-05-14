@@ -134,7 +134,7 @@ export function buildTopicTree(
     };
   };
 
-  const roots: TreeNode[] = [];
+  const rootLeaves: TreeNode[] = [];
   for (const className of topics?.classes ?? []) {
     const entry = byName.get(className);
     if (!entry) {
@@ -144,16 +144,31 @@ export function buildTopicTree(
       continue;
     }
     referenced.add(className);
-    roots.push({
+    rootLeaves.push({
       entry,
       key: `/${className}`,
       label: className,
       children: [],
     });
   }
-  for (const t of topics?.topics ?? []) {
-    roots.push(buildCategory(t, ""));
-  }
+  const rootCategories = (topics?.topics ?? []).map((t) =>
+    buildCategory(t, ""),
+  );
+
+  // Display order: the "meta" category first, "base" leaf second, then the
+  // remaining top-level categories alphabetized. Any other root leaves slot
+  // in alphabetically alongside categories after base.
+  const metaCategory = rootCategories.find((n) => n.label === "meta") ?? null;
+  const baseLeaf = rootLeaves.find((n) => n.label === "base") ?? null;
+  const remaining: TreeNode[] = [
+    ...rootCategories.filter((n) => n !== metaCategory),
+    ...rootLeaves.filter((n) => n !== baseLeaf),
+  ].sort((a, b) => a.label.localeCompare(b.label));
+
+  const roots: TreeNode[] = [];
+  if (metaCategory) roots.push(metaCategory);
+  if (baseLeaf) roots.push(baseLeaf);
+  roots.push(...remaining);
 
   const uncategorized = entries
     .filter((e) => !referenced.has(e.class_name))
