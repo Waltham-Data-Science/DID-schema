@@ -1,3 +1,4 @@
+import type { ReactElement } from "react";
 import { useEffect, useState } from "react";
 import type { IndexEntry, FieldDef, SchemaDocument } from "./types";
 import { superclassName } from "./types";
@@ -152,36 +153,55 @@ function FieldsTable({ fields }: { fields: FieldDef[] }) {
         </tr>
       </thead>
       <tbody>
-        {fields.map((f) => (
-          <tr key={f.name}>
-            <td>
-              <code>{f.name}</code>
-            </td>
-            <td>
-              <code>{f.type}</code>
-            </td>
-            <td>
-              <code>{formatValue(f.default_value)}</code>
-            </td>
-            <td>
-              <FlagList field={f} />
-            </td>
-            <td>
-              <Constraints value={f.constraints} />
-              {f.ontology && (
-                <div className="ontology">
-                  <span className="ontology-label">ontology:</span>{" "}
-                  <code>{f.ontology.node}</code>
-                  {f.ontology.name ? ` (${f.ontology.name})` : ""}
-                </div>
-              )}
-            </td>
-            <td className="doc-cell">{f.documentation ?? ""}</td>
-          </tr>
-        ))}
+        {fields.flatMap((f) => renderFieldRows(f, 0, ""))}
       </tbody>
     </table>
   );
+}
+
+function renderFieldRows(
+  field: FieldDef,
+  depth: number,
+  parentKey: string,
+): ReactElement[] {
+  const key = parentKey ? `${parentKey}.${field.name}` : field.name;
+  const row = (
+    <tr key={key} className={depth > 0 ? "field-row-nested" : undefined}>
+      <td>
+        <span
+          className="field-name"
+          style={{ paddingLeft: `${depth * 1.25}rem` }}
+        >
+          {depth > 0 && <span className="field-tree-prefix">└ </span>}
+          <code>{field.name}</code>
+        </span>
+      </td>
+      <td>
+        <code>{field.type}</code>
+      </td>
+      <td>
+        <code>{formatValue(field.default_value)}</code>
+      </td>
+      <td>
+        <FlagList field={field} />
+      </td>
+      <td>
+        <Constraints value={field.constraints} />
+        {field.ontology && (
+          <div className="ontology">
+            <span className="ontology-label">ontology:</span>{" "}
+            <code>{field.ontology.node}</code>
+            {field.ontology.name ? ` (${field.ontology.name})` : ""}
+          </div>
+        )}
+      </td>
+      <td className="doc-cell">{field.documentation ?? ""}</td>
+    </tr>
+  );
+  const childRows = (field.fields ?? []).flatMap((sub) =>
+    renderFieldRows(sub, depth + 1, key),
+  );
+  return [row, ...childRows];
 }
 
 function FlagList({ field }: { field: FieldDef }) {

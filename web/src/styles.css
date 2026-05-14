@@ -278,6 +278,18 @@ main {
   max-width: 26rem;
 }
 
+.field-row-nested > td {
+  background: var(--bg-alt);
+}
+
+.field-name {
+  display: inline-block;
+}
+
+.field-tree-prefix {
+  color: var(--text-muted);
+}
+
 .flag-tag {
   display: inline-block;
   margin: 0 0.2rem 0.2rem 0;
