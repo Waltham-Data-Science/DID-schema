@@ -32,6 +32,7 @@ export interface FieldDef {
   ontology?: { node?: string; name?: string } | null;
   documentation?: string;
   constraints?: Record<string, unknown> | null;
+  fields?: FieldDef[];
 }
 
 export interface DependsOnEntry {
