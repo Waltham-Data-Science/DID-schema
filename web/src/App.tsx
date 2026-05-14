@@ -97,7 +97,7 @@ export default function App() {
       <main className="content">
         {selectedEntry ? (
           <ErrorBoundary resetKey={selectedEntry.class_name}>
-            <Detail entry={selectedEntry} onSelect={select} />
+            <Detail entry={selectedEntry} />
           </ErrorBoundary>
         ) : (
           <div className="placeholder">
