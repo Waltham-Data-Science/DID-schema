@@ -26,24 +26,30 @@ does not appear in the NDI calculator hierarchy
 | did_v1 location | V_delta location | Transformation |
 |---|---|---|
 | `document_class.class_name: "oridirtuning_calc"` | `document_class.class_name: "oridirtuning_calc"` | identity |
-| `superclasses: [base, orientation_direction_tuning]` | `superclasses: [base, orientation_direction_tuning, tuning_fit]` | added `tuning_fit` (and transitively `calculator`) so the calculator interface lives on the shared base, not on each subclass |
+| `superclasses: [base, orientation_direction_tuning]` | `superclasses: [base, orientation_direction_tuning, tuning_fit]` | added `tuning_fit` (and transitively `calculator` and `app`) so the calculator interface lives on the shared base, not on each subclass |
 | `oridirtuning_calc.input_parameters` | `calculator.input_parameters` | moved up to the abstract `calculator` base (field is now inherited, not declared per-subclass) |
-| (absent in did_v1) | `calculator.calculator_name: "ndi.calc.vis.oridir_tuning"` | the migrator populates this required field from the v1 class name; the value identifies the concrete NDI calculator class |
+| `app.name`, `app.version` (top-level v1 block) | `app.app_name`, `app.app_version` (same block) | universal app-block field rename in did2.convert.universalRenames; the v1 source already carries the canonical NDI calculator class name in `app.name` (e.g., "ndi.calc.vis.oridir_tuning"), so V_delta does not need a separate `calculator_name` field |
 | `oridirtuning_calc.depends_on` (internal struct with `stimulus_tuningcurve_id`) | (removed — inherited from `orientation_direction_tuning`) | redundant in did_v1; V_delta does not re-declare an already-inherited dependency |
 
 ## Transformations in detail
 
 - **Calculator base.** V_delta introduces a new abstract `calculator` class
-  declaring `calculator_name` (required, char) and `input_parameters`
-  (structure). Every `*_calc` schema inherits from it (directly, or via the
-  intermediate abstract `tuning_fit` base when the calculator is a tuning
-  fit). `oridirtuning_calc` reaches `calculator` through `tuning_fit`.
-- **calculator_name origin.** did_v1 calc documents do not carry a
-  `calculator_name` field; the v1 class name was the calculator identity.
-  The migrator hard-codes the V_delta value
-  `ndi.calc.vis.oridir_tuning` for every document migrating out of v1
-  `oridirtuning_calc`. The lookup table for all calc classes lives in the
-  did-matlab migrator under `+did2.+convert.+migrators.+_calc/`.
+  whose superclasses are `base` and `app`. It declares one field
+  (`input_parameters`, structure, optional). The required calculator
+  identity comes from the inherited `app.app_name` -- there is no
+  `calculator.calculator_name` in V_delta, because that field would
+  duplicate `app.app_name`. Every `*_calc` schema inherits from
+  `calculator` (directly, or via the intermediate abstract `tuning_fit`
+  base when the calculator is a tuning fit). `oridirtuning_calc`
+  reaches `calculator` (and therefore `app`) through `tuning_fit`.
+- **app block migration.** did_v1 calc documents already ship a top-level
+  `app` block whose `name` field holds the NDI calculator class identity
+  (e.g., `ndi.calc.vis.oridir_tuning`). V_delta renames `app.name ->
+  app.app_name` and `app.version -> app.app_version`; the rename is
+  applied universally by `did2.convert.universalRenames` to any
+  document carrying an `app` block, not just calc docs. The other app
+  fields (`url`, `os`, `os_version`, `interpreter`, `interpreter_version`)
+  match V_delta verbatim.
 - **Inherited dependency.** did_v1 redundantly listed
   `stimulus_tuningcurve_id` as an internal `depends_on` entry even though
   the parent class `orientation_direction_tuning` already declared it.
@@ -53,7 +59,7 @@ does not appear in the NDI calculator hierarchy
 
 | Field | Default |
 |---|---|
-| `calculator.calculator_name` | `"ndi.calc.vis.oridir_tuning"` (set by the migrator; cannot be defaulted by the schema because the value is per-subclass) |
+| `app.app_name` | derived from v1 `app.name` (the universal rename); never defaulted by the migrator |
 | `calculator.input_parameters` | `{}` if v1 had no `input_parameters` |
 
 ## Worked example

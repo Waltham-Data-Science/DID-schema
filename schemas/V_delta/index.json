@@ -69,7 +69,8 @@
       "class_version": "1.0.0",
       "maturity_level": "stable",
       "superclasses": [
-        "base"
+        "base",
+        "app"
       ],
       "path": "schemas/V_delta/stable/calculator.json",
       "is_meta": false
