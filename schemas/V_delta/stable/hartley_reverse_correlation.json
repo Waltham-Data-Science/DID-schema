@@ -245,18 +245,17 @@
         },
         {
             "name": "hartley_numbers",
-            "type": "matrix",
-            "blank_value": [],
-            "default_value": [],
+            "type": "structure",
+            "blank_value": {},
+            "default_value": {},
             "mustBeNonEmpty": false,
-            "mustBeScalar": false,
+            "mustBeScalar": true,
             "mustNotHaveNaN": false,
             "queryable": false,
             "ontology": null,
-            "documentation": "Hartley basis index (integer) for each presented frame. Indexed in parallel with frameTimes.",
-            "constraints": {
-                "element_type": "double"
-            }
+            "documentation": "Hartley basis stimulus parameters: parallel-indexed arrays (one entry per presented frame) describing the basis-function coefficients. Concrete subfields used by NDIcalc-vis-matlab include `S` (sign), `KXV` (horizontal index), `KYV` (vertical index), and `ORDER` (presentation order). All arrays are the same length; indexed in parallel with frame_times.",
+            "constraints": {},
+            "fields": []
         }
     ]
 }

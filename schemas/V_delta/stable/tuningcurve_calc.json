@@ -5,6 +5,9 @@
         "superclasses": [
             {
                 "class_name": "base"
+            },
+            {
+                "class_name": "calculator"
             }
         ],
         "maturity_level": "stable"
@@ -20,21 +23,6 @@
     "file": [],
     "fields": [
         {
-            "name": "calculator_name",
-            "type": "char",
-            "blank_value": "",
-            "default_value": "",
-            "mustBeNonEmpty": true,
-            "mustBeScalar": true,
-            "mustNotHaveNaN": false,
-            "queryable": true,
-            "ontology": null,
-            "documentation": "The name of the tuning curve calculator.",
-            "constraints": {
-                "maxLength": 256
-            }
-        },
-        {
             "name": "result_data",
             "type": "structure",
             "blank_value": {},
@@ -44,7 +32,7 @@
             "mustNotHaveNaN": false,
             "queryable": false,
             "ontology": null,
-            "documentation": "Structure containing the tuning curve calculation results. Keys and value types are specific to the calculator named in calculator_name (e.g., preferred direction, tuning width, modulation index).",
+            "documentation": "Structure containing the tuning curve calculation results. Keys and value types are specific to the calculator named in calculator.calculator_name (e.g., preferred direction, tuning width, modulation index).",
             "constraints": {
                 "dynamic_keys_from": "calculator_name"
             },

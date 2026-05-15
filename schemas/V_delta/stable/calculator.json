@@ -1,16 +1,17 @@
 {
     "document_class": {
-        "class_name": "orientation_direction_tuning_calc",
+        "class_name": "calculator",
         "class_version": "1.0.0",
         "superclasses": [
             {
                 "class_name": "base"
             },
             {
-                "class_name": "orientation_direction_tuning"
+                "class_name": "app"
             }
         ],
-        "maturity_level": "stable"
+        "maturity_level": "stable",
+        "abstract": true
     },
     "depends_on": [],
     "file": [],
@@ -25,7 +26,7 @@
             "mustNotHaveNaN": false,
             "queryable": false,
             "ontology": null,
-            "documentation": "Input parameters passed to the orientation/direction-tuning calculator. The original NDIcalc-vis-matlab class declared an empty structure; per-calculator parameters can be added as the calc implementation matures.",
+            "documentation": "Calculator-specific input parameters. The concrete shape is determined by the calculator named in the inherited app.app_name field; the abstract calculator base does not constrain the contents.",
             "constraints": {},
             "fields": []
         }
