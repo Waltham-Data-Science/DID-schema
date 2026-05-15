@@ -9,30 +9,148 @@
         ],
         "maturity_level": "stable"
     },
-    "depends_on": [
-        {
-            "name": "session_id",
-            "mustBeNonEmpty": true,
-            "documentation": "The document ID of the session.",
-            "must_refer_to_document_class": ""
-        }
-    ],
+    "depends_on": [],
     "file": [],
     "fields": [
         {
-            "name": "dataset_id",
-            "type": "char",
+            "name": "session_id",
+            "type": "did_uid",
             "blank_value": "",
             "default_value": "",
             "mustBeNonEmpty": true,
             "mustBeScalar": true,
             "mustNotHaveNaN": false,
             "queryable": true,
+            "ontology": {
+                "node": "iao:0000578",
+                "name": "centrally registered identifier"
+            },
+            "documentation": "Document ID of the session referenced by this record. Note: this is the *referenced* session, not the dataset's session (which lives on base.session_id and serves as the dataset identifier).",
+            "constraints": {}
+        },
+        {
+            "name": "session_reference",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
             "ontology": null,
-            "documentation": "The identifier of the dataset this session belongs to.",
+            "documentation": "Human-readable label for the session (e.g., a recording date string like '2008-05-22').",
             "constraints": {
                 "maxLength": 256
             }
+        },
+        {
+            "name": "is_linked",
+            "type": "integer",
+            "blank_value": 0,
+            "default_value": 0,
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": true,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "1 if the session is linked into the dataset (i.e., its underlying directory or remote is currently reachable); 0 if it is only referenced by metadata.",
+            "constraints": {
+                "min": 0,
+                "max": 1
+            }
+        },
+        {
+            "name": "session_creator",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Fully-qualified name of the NDI session class that produced this session (e.g., 'ndi.session.dir', 'ndi.session.cloud'). Used together with session_creator_input1..6 to reconstitute the session object.",
+            "constraints": {
+                "maxLength": 256
+            }
+        },
+        {
+            "name": "session_creator_input1",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": false,
+            "ontology": null,
+            "documentation": "First positional argument passed to session_creator when reconstituting the session.",
+            "constraints": {}
+        },
+        {
+            "name": "session_creator_input2",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": false,
+            "ontology": null,
+            "documentation": "Second positional argument passed to session_creator when reconstituting the session.",
+            "constraints": {}
+        },
+        {
+            "name": "session_creator_input3",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": false,
+            "ontology": null,
+            "documentation": "Third positional argument passed to session_creator when reconstituting the session.",
+            "constraints": {}
+        },
+        {
+            "name": "session_creator_input4",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": false,
+            "ontology": null,
+            "documentation": "Fourth positional argument passed to session_creator when reconstituting the session.",
+            "constraints": {}
+        },
+        {
+            "name": "session_creator_input5",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": false,
+            "ontology": null,
+            "documentation": "Fifth positional argument passed to session_creator when reconstituting the session.",
+            "constraints": {}
+        },
+        {
+            "name": "session_creator_input6",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": false,
+            "ontology": null,
+            "documentation": "Sixth positional argument passed to session_creator when reconstituting the session.",
+            "constraints": {}
         }
     ]
 }

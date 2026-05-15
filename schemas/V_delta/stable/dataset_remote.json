@@ -13,21 +13,6 @@
     "file": [],
     "fields": [
         {
-            "name": "remote_url",
-            "type": "char",
-            "blank_value": "",
-            "default_value": "",
-            "mustBeNonEmpty": true,
-            "mustBeScalar": true,
-            "mustNotHaveNaN": false,
-            "queryable": true,
-            "ontology": null,
-            "documentation": "The URL of the remote dataset location.",
-            "constraints": {
-                "maxLength": 1024
-            }
-        },
-        {
             "name": "remote_type",
             "type": "char",
             "blank_value": "",

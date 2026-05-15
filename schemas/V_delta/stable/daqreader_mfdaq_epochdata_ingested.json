@@ -24,21 +24,5 @@
         }
     ],
     "file": [],
-    "fields": [
-        {
-            "name": "ingestion_status",
-            "type": "char",
-            "blank_value": "",
-            "default_value": "complete",
-            "mustBeNonEmpty": true,
-            "mustBeScalar": true,
-            "mustNotHaveNaN": false,
-            "queryable": true,
-            "ontology": null,
-            "documentation": "The status of the ingestion ('complete', 'partial', 'failed').",
-            "constraints": {
-                "maxLength": 32
-            }
-        }
-    ]
+    "fields": []
 }
