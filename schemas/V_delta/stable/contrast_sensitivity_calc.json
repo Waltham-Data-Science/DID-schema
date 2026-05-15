@@ -5,6 +5,9 @@
         "superclasses": [
             {
                 "class_name": "base"
+            },
+            {
+                "class_name": "calculator"
             }
         ],
         "maturity_level": "stable"
@@ -31,20 +34,6 @@
     ],
     "file": [],
     "fields": [
-        {
-            "name": "input_parameters",
-            "type": "structure",
-            "blank_value": {},
-            "default_value": {},
-            "mustBeNonEmpty": false,
-            "mustBeScalar": true,
-            "mustNotHaveNaN": false,
-            "queryable": false,
-            "ontology": null,
-            "documentation": "Input parameters passed to the contrast-sensitivity calculator.",
-            "constraints": {},
-            "fields": []
-        },
         {
             "name": "spatial_frequencies",
             "type": "matrix",

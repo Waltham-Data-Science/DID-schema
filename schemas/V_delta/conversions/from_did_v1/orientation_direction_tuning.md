@@ -16,7 +16,7 @@
 This is the **result type** for empirical and fit-derived orientation /
 direction tuning of a visual element. The class is independent of how the
 tuning was computed; calculator types (e.g.,
-`orientation_direction_tuning_calc`) inherit from it.
+`oridirtuning_calc`) inherit from it.
 
 Conversion is primarily a structural reshaping: did_v1 declares every
 top-level grouping (`properties`, `tuning_curve`, `significance`, `vector`,
@@ -113,6 +113,5 @@ rules in [`_files.md`](_files.md) do not apply.
 ## Cross-references
 
 - General file-handling rules: [`_files.md`](_files.md)
-- Calculator that produces this result type:
-  `orientation_direction_tuning_calc` (see
-  [`orientation_direction_tuning_calc.md`](orientation_direction_tuning_calc.md))
+- Calculator that produces this result type: `oridirtuning_calc` (see
+  [`oridirtuning_calc.md`](oridirtuning_calc.md))

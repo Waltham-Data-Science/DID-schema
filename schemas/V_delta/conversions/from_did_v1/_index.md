@@ -39,7 +39,7 @@ field-level changes on top.
 | `speed_tuning` | NDIcalc-vis-matlab `vision/speed_tuning` | drafted | [speed_tuning.md](speed_tuning.md) |
 | `speed_tuning_calc` | NDIcalc-vis-matlab `calc/speedtuning_calc` (renamed) | drafted | [speed_tuning_calc.md](speed_tuning_calc.md) |
 | `orientation_direction_tuning` | NDIcalc-vis-matlab `stimulus/vision/oridir/orientation_direction_tuning` | drafted | [orientation_direction_tuning.md](orientation_direction_tuning.md) |
-| `orientation_direction_tuning_calc` | NDIcalc-vis-matlab `calc/oridirtuning_calc` (renamed) | drafted | [orientation_direction_tuning_calc.md](orientation_direction_tuning_calc.md) |
+| `oridirtuning_calc` | NDIcalc-vis-matlab `calc/oridirtuning_calc` | drafted | [oridirtuning_calc.md](oridirtuning_calc.md) |
 | `reverse_correlation` | NDIcalc-vis-matlab `neuro/reverse_correlation` | drafted | [reverse_correlation.md](reverse_correlation.md) |
 | `hartley_reverse_correlation` | NDIcalc-vis-matlab `neuro/hartley_reverse_correlation` | drafted | [hartley_reverse_correlation.md](hartley_reverse_correlation.md) |
 | `hartley_calc` | NDIcalc-vis-matlab `calc/hartley_calc` | drafted | [hartley_calc.md](hartley_calc.md) |

@@ -5,6 +5,9 @@
         "superclasses": [
             {
                 "class_name": "base"
+            },
+            {
+                "class_name": "calculator"
             }
         ],
         "maturity_level": "stable"
@@ -19,21 +22,6 @@
     ],
     "file": [],
     "fields": [
-        {
-            "name": "calculator_name",
-            "type": "char",
-            "blank_value": "",
-            "default_value": "",
-            "mustBeNonEmpty": true,
-            "mustBeScalar": true,
-            "mustNotHaveNaN": false,
-            "queryable": true,
-            "ontology": null,
-            "documentation": "The name of the calculator that produced this result.",
-            "constraints": {
-                "maxLength": 256
-            }
-        },
         {
             "name": "result_value",
             "type": "double",

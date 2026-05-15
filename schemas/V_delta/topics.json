@@ -48,14 +48,16 @@
       "name": "calculators",
       "description": "Derived-quantity calculator documents (_calc). Most pair with a stimulus-response schema in stimulus/.",
       "classes": [
+        "calculator",
         "contrast_sensitivity_calc",
         "contrast_tuning_calc",
         "hartley_calc",
-        "orientation_direction_tuning_calc",
+        "oridirtuning_calc",
         "simple_calc",
         "spatial_frequency_tuning_calc",
         "speed_tuning_calc",
         "temporal_frequency_tuning_calc",
+        "tuning_fit",
         "tuningcurve_calc"
       ]
     },

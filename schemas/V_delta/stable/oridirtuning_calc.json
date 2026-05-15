@@ -1,13 +1,13 @@
 {
     "document_class": {
-        "class_name": "speed_tuning_calc",
+        "class_name": "oridirtuning_calc",
         "class_version": "1.0.0",
         "superclasses": [
             {
                 "class_name": "base"
             },
             {
-                "class_name": "speed_tuning"
+                "class_name": "orientation_direction_tuning"
             },
             {
                 "class_name": "tuning_fit"

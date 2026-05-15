@@ -20,24 +20,6 @@
     "file": [],
     "fields": [
         {
-            "name": "stimulus_type",
-            "type": "char",
-            "blank_value": "",
-            "default_value": "",
-            "mustBeNonEmpty": true,
-            "mustBeScalar": true,
-            "mustNotHaveNaN": false,
-            "queryable": true,
-            "ontology": {
-                "node": "iao:0000219",
-                "name": "denotes"
-            },
-            "documentation": "The type of stimulus presented (e.g., 'grating', 'noise', 'natural_image'). The field denotes a value drawn from a stimulus-type vocabulary; candidate for promotion to ontology_term.",
-            "constraints": {
-                "maxLength": 256
-            }
-        },
-        {
             "name": "presentation_order",
             "type": "matrix",
             "blank_value": [],
