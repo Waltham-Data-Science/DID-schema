@@ -20,25 +20,23 @@
     "file": [],
     "fields": [
         {
-            "name": "independent_variable",
-            "type": "char",
+            "name": "independent_variable_label",
+            "type": "string",
             "blank_value": "",
             "default_value": "",
-            "mustBeNonEmpty": true,
-            "mustBeScalar": true,
+            "mustBeNonEmpty": false,
+            "mustBeScalar": false,
             "mustNotHaveNaN": false,
             "queryable": true,
             "ontology": {
                 "node": "obi:0000750",
                 "name": "independent variable"
             },
-            "documentation": "The name of the independent stimulus variable (e.g., 'angle', 'spatial_frequency'). Candidate for promotion to ontology_term.",
-            "constraints": {
-                "maxLength": 256
-            }
+            "documentation": "String label(s) for the independent variable(s) the tuning curve was computed across. v1 ships this as a 1-element list whose single entry is a comma-separated list of variable names when more than one variable was crossed (e.g., 'spatial_frequency,temporal_frequency'). V_delta keeps it as a string array; callers split the comma-separated form themselves if needed.",
+            "constraints": {}
         },
         {
-            "name": "independent_values",
+            "name": "independent_variable_value",
             "type": "matrix",
             "blank_value": [],
             "default_value": [],
@@ -46,13 +44,23 @@
             "mustBeScalar": false,
             "mustNotHaveNaN": false,
             "queryable": false,
-            "ontology": {
-                "node": "iao:0000027",
-                "name": "data item"
-            },
-            "documentation": "Array of numeric values of the independent variable, one per tuning curve point. Must be the same length as response_mean and response_stderr.",
+            "ontology": null,
+            "documentation": "Matrix of independent-variable values, one row per stimulus condition. Shape is (N_stimuli x N_independent_variables). For a single-variable tuning curve each row is length 1; for the 2D case (e.g., spatial-by-temporal frequency) each row is length 2.",
+            "constraints": {}
+        },
+        {
+            "name": "stimid",
+            "type": "matrix",
+            "blank_value": [],
+            "default_value": [],
+            "mustBeNonEmpty": false,
+            "mustBeScalar": false,
+            "mustNotHaveNaN": true,
+            "queryable": false,
+            "ontology": null,
+            "documentation": "Integer stimulus identifiers (1-based) for each row of independent_variable_value. Length equals number of stimulus conditions.",
             "constraints": {
-                "element_type": "double"
+                "element_type": "integer"
             }
         },
         {
@@ -68,10 +76,21 @@
                 "node": "ncit:C53319",
                 "name": "Arithmetic Mean"
             },
-            "documentation": "Array of mean response values at each point in independent_values. Must be the same length as independent_values.",
-            "constraints": {
-                "element_type": "double"
-            }
+            "documentation": "Per-stimulus mean of the scalar responses (length equals number of stimuli).",
+            "constraints": {}
+        },
+        {
+            "name": "response_stddev",
+            "type": "matrix",
+            "blank_value": [],
+            "default_value": [],
+            "mustBeNonEmpty": false,
+            "mustBeScalar": false,
+            "mustNotHaveNaN": false,
+            "queryable": false,
+            "ontology": null,
+            "documentation": "Per-stimulus standard deviation of the scalar responses.",
+            "constraints": {}
         },
         {
             "name": "response_stderr",
@@ -86,10 +105,142 @@
                 "node": "stato:0000037",
                 "name": "standard error of the mean"
             },
-            "documentation": "Array of standard error of the mean for each response value. Must be the same length as independent_values. Each element is itself a SEM; the array dimension is across independent_values.",
+            "documentation": "Per-stimulus standard error of the mean (length equals number of stimuli).",
+            "constraints": {}
+        },
+        {
+            "name": "response_units",
+            "type": "string",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": false,
+            "mustNotHaveNaN": false,
+            "queryable": false,
+            "ontology": null,
+            "documentation": "Units of the scalar response values. v1 often ships an empty array; populated when the source recording's units are known.",
+            "constraints": {}
+        },
+        {
+            "name": "individual_responses_real",
+            "type": "matrix",
+            "blank_value": [],
+            "default_value": [],
+            "mustBeNonEmpty": false,
+            "mustBeScalar": false,
+            "mustNotHaveNaN": false,
+            "queryable": false,
+            "ontology": null,
+            "documentation": "Real component of each individual trial response. Shape (N_trials x N_stimuli). Paired with individual_responses_imaginary for complex-valued responses; for real-valued responses individual_responses_imaginary is zero or absent.",
+            "constraints": {}
+        },
+        {
+            "name": "individual_responses_imaginary",
+            "type": "matrix",
+            "blank_value": [],
+            "default_value": [],
+            "mustBeNonEmpty": false,
+            "mustBeScalar": false,
+            "mustNotHaveNaN": false,
+            "queryable": false,
+            "ontology": null,
+            "documentation": "Imaginary component of each individual trial response. Same shape as individual_responses_real.",
+            "constraints": {}
+        },
+        {
+            "name": "stimulus_presentation_number",
+            "type": "matrix",
+            "blank_value": [],
+            "default_value": [],
+            "mustBeNonEmpty": false,
+            "mustBeScalar": false,
+            "mustNotHaveNaN": true,
+            "queryable": false,
+            "ontology": null,
+            "documentation": "Per-trial, per-stimulus index of the original stimulus presentation. Shape (N_trials x N_stimuli). Lets callers map an individual_responses_real[t,s] back to the original stimulus_presentation document.",
             "constraints": {
-                "element_type": "double"
+                "element_type": "integer"
             }
+        },
+        {
+            "name": "control_stimid",
+            "type": "matrix",
+            "blank_value": [],
+            "default_value": [],
+            "mustBeNonEmpty": false,
+            "mustBeScalar": false,
+            "mustNotHaveNaN": true,
+            "queryable": false,
+            "ontology": null,
+            "documentation": "Stimulus identifiers for the control (blank/baseline) condition(s). Often empty when no control was recorded.",
+            "constraints": {
+                "element_type": "integer"
+            }
+        },
+        {
+            "name": "control_response_mean",
+            "type": "matrix",
+            "blank_value": [],
+            "default_value": [],
+            "mustBeNonEmpty": false,
+            "mustBeScalar": false,
+            "mustNotHaveNaN": false,
+            "queryable": false,
+            "ontology": null,
+            "documentation": "Mean response on the control condition(s). Same length as response_mean (typically broadcasts a single control value across stimuli).",
+            "constraints": {}
+        },
+        {
+            "name": "control_response_stddev",
+            "type": "matrix",
+            "blank_value": [],
+            "default_value": [],
+            "mustBeNonEmpty": false,
+            "mustBeScalar": false,
+            "mustNotHaveNaN": false,
+            "queryable": false,
+            "ontology": null,
+            "documentation": "Standard deviation of the response on the control condition(s).",
+            "constraints": {}
+        },
+        {
+            "name": "control_response_stderr",
+            "type": "matrix",
+            "blank_value": [],
+            "default_value": [],
+            "mustBeNonEmpty": false,
+            "mustBeScalar": false,
+            "mustNotHaveNaN": false,
+            "queryable": false,
+            "ontology": null,
+            "documentation": "Standard error of the mean for the response on the control condition(s).",
+            "constraints": {}
+        },
+        {
+            "name": "control_individual_responses_real",
+            "type": "matrix",
+            "blank_value": [],
+            "default_value": [],
+            "mustBeNonEmpty": false,
+            "mustBeScalar": false,
+            "mustNotHaveNaN": false,
+            "queryable": false,
+            "ontology": null,
+            "documentation": "Real component of individual trial responses on the control condition(s). Same shape conventions as individual_responses_real.",
+            "constraints": {}
+        },
+        {
+            "name": "control_individual_responses_imaginary",
+            "type": "matrix",
+            "blank_value": [],
+            "default_value": [],
+            "mustBeNonEmpty": false,
+            "mustBeScalar": false,
+            "mustNotHaveNaN": false,
+            "queryable": false,
+            "ontology": null,
+            "documentation": "Imaginary component of individual trial responses on the control condition(s).",
+            "constraints": {}
         }
     ]
 }

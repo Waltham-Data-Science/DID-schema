@@ -8,6 +8,9 @@
             },
             {
                 "class_name": "calculator"
+            },
+            {
+                "class_name": "stimulus_tuningcurve"
             }
         ],
         "maturity_level": "stable"
