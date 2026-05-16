@@ -12,7 +12,7 @@
     "depends_on": [
         {
             "name": "imagestack_id",
-            "mustBeNonEmpty": true,
+            "mustBeNonEmpty": false,
             "documentation": "The document ID of the image stack these parameters describe.",
             "must_refer_to_document_class": ""
         }
@@ -20,72 +20,132 @@
     "file": [],
     "fields": [
         {
-            "name": "z_step",
-            "type": "double",
-            "blank_value": 0.0,
-            "default_value": 0.0,
+            "name": "dimension_order",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "",
             "mustBeNonEmpty": false,
             "mustBeScalar": true,
             "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "String encoding the spatial dimension order of the stack, one character per axis (e.g., 'YX' for a 2-D height-by-width image, 'ZYX' or 'TZYX' for higher-dimensional stacks).",
+            "constraints": {
+                "maxLength": 16
+            }
+        },
+        {
+            "name": "dimension_labels",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Comma-separated human-readable labels for each axis (e.g., 'height,width', 'depth,height,width'). One label per character in dimension_order.",
+            "constraints": {
+                "maxLength": 256
+            }
+        },
+        {
+            "name": "dimension_size",
+            "type": "matrix",
+            "blank_value": [],
+            "default_value": [],
+            "mustBeNonEmpty": false,
+            "mustBeScalar": false,
+            "mustNotHaveNaN": true,
             "queryable": false,
             "ontology": null,
-            "documentation": "The step size in the z-dimension between frames.",
+            "documentation": "Pixel/sample count along each axis. Length equals number of characters in dimension_order (e.g., [2208, 2752] for a 'YX' stack).",
+            "constraints": {
+                "element_type": "integer"
+            }
+        },
+        {
+            "name": "dimension_scale",
+            "type": "matrix",
+            "blank_value": [],
+            "default_value": [],
+            "mustBeNonEmpty": false,
+            "mustBeScalar": false,
+            "mustNotHaveNaN": false,
+            "queryable": false,
+            "ontology": null,
+            "documentation": "Physical scale per axis (e.g., 94.89 micrometers per Y pixel). Same length as dimension_size; units captured in dimension_scale_units.",
             "constraints": {}
         },
         {
-            "name": "z_units",
+            "name": "dimension_scale_units",
             "type": "char",
             "blank_value": "",
-            "default_value": "um",
+            "default_value": "",
             "mustBeNonEmpty": false,
             "mustBeScalar": true,
             "mustNotHaveNaN": false,
-            "queryable": false,
+            "queryable": true,
             "ontology": null,
-            "documentation": "The units for the z-step (e.g., 'um', 'mm').",
+            "documentation": "Comma-separated unit names for each axis (e.g., 'micrometer,micrometer', 'micrometer,micrometer,micrometer').",
+            "constraints": {
+                "maxLength": 256
+            }
+        },
+        {
+            "name": "data_type",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "The numeric data type of pixel values (e.g., 'uint16', 'single', 'double').",
             "constraints": {
                 "maxLength": 32
             }
         },
         {
-            "name": "x_pixel_size",
+            "name": "data_limits",
+            "type": "matrix",
+            "blank_value": [],
+            "default_value": [],
+            "mustBeNonEmpty": false,
+            "mustBeScalar": false,
+            "mustNotHaveNaN": false,
+            "queryable": false,
+            "ontology": null,
+            "documentation": "2-element [min, max] range of valid pixel values for the declared data_type (e.g., [0, 65535] for uint16).",
+            "constraints": {}
+        },
+        {
+            "name": "timestamp",
             "type": "double",
             "blank_value": 0.0,
             "default_value": 0.0,
             "mustBeNonEmpty": false,
             "mustBeScalar": true,
             "mustNotHaveNaN": false,
-            "queryable": false,
+            "queryable": true,
             "ontology": null,
-            "documentation": "The physical size of a pixel in the x-dimension.",
+            "documentation": "Acquisition timestamp of this image stack in the units of clocktype.",
             "constraints": {}
         },
         {
-            "name": "y_pixel_size",
-            "type": "double",
-            "blank_value": 0.0,
-            "default_value": 0.0,
-            "mustBeNonEmpty": false,
-            "mustBeScalar": true,
-            "mustNotHaveNaN": false,
-            "queryable": false,
-            "ontology": null,
-            "documentation": "The physical size of a pixel in the y-dimension.",
-            "constraints": {}
-        },
-        {
-            "name": "pixel_units",
+            "name": "clocktype",
             "type": "char",
             "blank_value": "",
-            "default_value": "um",
+            "default_value": "",
             "mustBeNonEmpty": false,
             "mustBeScalar": true,
             "mustNotHaveNaN": false,
-            "queryable": false,
+            "queryable": true,
             "ontology": null,
-            "documentation": "The units for the pixel size (e.g., 'um', 'mm').",
+            "documentation": "Clock identifier in whose units `timestamp` is expressed (e.g., 'exp_global_time', 'dev_local_time'). Same vocabulary as the epochclocktimes/element_epoch clock names.",
             "constraints": {
-                "maxLength": 32
+                "maxLength": 256
             }
         }
     ]
