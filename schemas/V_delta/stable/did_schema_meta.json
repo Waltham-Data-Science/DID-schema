@@ -2,7 +2,7 @@
     "$schema": "http://json-schema.org/draft-07/schema#",
     "$id": "https://did-schema.example.org/V_delta/did_schema_meta.json",
     "title": "DID/NDI Schema Meta-Schema (V_delta)",
-    "description": "Validates the structure of DID/NDI schema files for V_delta. V_delta introduces named composite types 'duration', 'ontology_term', 'volume', 'mass', 'length', 'voltage', 'current', and 'frequency', and a redesigned field-level 'ontology' annotation shape with keys 'node' (CURIE) and 'name' (label); the CURIE prefix is resolved against CURIE_lookups_meta.json. The six SI-dimensioned types share the same sub-field layout as 'duration' (a canonical-unit double, 'approximate' boolean, 'source_unit' char, 'source_value' double); only the canonical sub-field name and the allowed source units differ. NAMING CONVENTION: V_delta drops the V_beta underscore prefix on NDI-extension keys. Every reserved key \u2014 JSON Schema vocabulary or NDI extension \u2014 is used without an underscore prefix; the authoritative enumeration of NDI-reserved names lives in ndi_reserved_keys.json and is enforced by this meta-schema. Schema authors must not reuse a reserved name as their own data field name.",
+    "description": "Validates the structure of DID/NDI schema files for V_delta. V_delta introduces named composite types 'duration', 'ontology_term', 'volume', 'mass', 'length', 'voltage', 'current', 'frequency', and 'concentration', and a redesigned field-level 'ontology' annotation shape with keys 'node' (CURIE) and 'name' (label); the CURIE prefix is resolved against CURIE_lookups_meta.json. The six SI-dimensioned types ('duration', 'volume', 'mass', 'length', 'voltage', 'current', 'frequency') share the same sub-field layout (a canonical-unit double, 'approximate' boolean, 'source_unit' char, 'source_value' double); only the canonical sub-field name and the allowed source units differ. 'concentration' breaks the single-canonical pattern because concentration units do not collapse to a single canonical (mass/volume cannot be converted to molar without molecular weight, and vice versa); instead it offers multiple OPTIONAL canonical sub-fields ('molar', 'grams_per_liter', 'mass_fraction', 'volume_fraction') and the migrator populates whichever the source unit is computable into, alongside the same 'approximate' / 'source_unit' / 'source_value' triple. NAMING CONVENTION: V_delta drops the V_beta underscore prefix on NDI-extension keys. Every reserved key \u2014 JSON Schema vocabulary or NDI extension \u2014 is used without an underscore prefix; the authoritative enumeration of NDI-reserved names lives in ndi_reserved_keys.json and is enforced by this meta-schema. Schema authors must not reuse a reserved name as their own data field name.",
     "type": "object",
     "required": [
         "document_class",
@@ -227,7 +227,8 @@
                         "length",
                         "voltage",
                         "current",
-                        "frequency"
+                        "frequency",
+                        "concentration"
                     ],
                     "description": "Data type of the field. Uses the standard JSON Schema keyword 'type'; values are NDI-specific."
                 },
