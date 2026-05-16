@@ -18,5 +18,50 @@
         }
     ],
     "file": [],
-    "fields": []
+    "fields": [
+        {
+            "name": "epoch_id",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": {
+                "node": "iao:0000578",
+                "name": "centrally registered identifier"
+            },
+            "documentation": "Epoch identifier within the owning session (e.g., 't00001'). v1-faithful inline copy of the epoch's local name; the document-id link to the epoch lives in `depends_on[epochid]`.",
+            "constraints": {
+                "maxLength": 256
+            }
+        },
+        {
+            "name": "files",
+            "type": "string",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": false,
+            "mustNotHaveNaN": false,
+            "queryable": false,
+            "ontology": null,
+            "documentation": "List of file references ingested for this epoch. Entries are either NDI-scheme URIs (e.g., 'epochid://t00001') or absolute filesystem paths to the source files. Length varies per epoch (3-6 entries seen in the discovery corpora).",
+            "constraints": {}
+        },
+        {
+            "name": "epochprobemap",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": false,
+            "ontology": null,
+            "documentation": "Tab-separated epoch-probe-map text describing the probe configuration at ingest time. Free-form pass-through from v1; structure is `name\\treference\\ttype\\tdevicestring\\tsubjectstring\\n<row>\\n...`.",
+            "constraints": {}
+        }
+    ]
 }

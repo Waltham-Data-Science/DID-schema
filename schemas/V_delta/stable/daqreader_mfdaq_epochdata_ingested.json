@@ -24,5 +24,53 @@
         }
     ],
     "file": [],
-    "fields": []
+    "fields": [
+        {
+            "name": "parameters",
+            "type": "structure",
+            "blank_value": {
+                "sample_analog_segment":  0.0,
+                "sample_digital_segment": 0.0
+            },
+            "default_value": {
+                "sample_analog_segment":  0.0,
+                "sample_digital_segment": 0.0
+            },
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Reader-specific parameters captured at the time the epoch was ingested. The two sub-fields seen in the v1 corpora are sample-count cutoffs the MFDAQ reader used to slice the source recording.",
+            "constraints": {},
+            "fields": [
+                {
+                    "name": "sample_analog_segment",
+                    "type": "double",
+                    "blank_value": 0.0,
+                    "default_value": 0.0,
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Maximum sample count per analog segment used during ingestion.",
+                    "constraints": {}
+                },
+                {
+                    "name": "sample_digital_segment",
+                    "type": "double",
+                    "blank_value": 0.0,
+                    "default_value": 0.0,
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Maximum sample count per digital segment used during ingestion.",
+                    "constraints": {}
+                }
+            ]
+        }
+    ]
 }
