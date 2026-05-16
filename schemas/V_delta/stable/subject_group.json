@@ -17,7 +17,7 @@
             "type": "char",
             "blank_value": "",
             "default_value": "",
-            "mustBeNonEmpty": true,
+            "mustBeNonEmpty": false,
             "mustBeScalar": true,
             "mustNotHaveNaN": false,
             "queryable": true,
@@ -25,7 +25,7 @@
                 "node": "schema:name",
                 "name": "name"
             },
-            "documentation": "The name of the subject group (e.g., 'control', 'treatment'). Candidate for promotion to ontology_term once a study-arm vocabulary (e.g., NCIT 'Study Arm' branch) is registered.",
+            "documentation": "Optional human-readable name for this subject group (e.g., 'control', 'treatment'). v1 docs did not carry a name and migrate with this field absent; new documents may populate it for ad-hoc labeling. Candidate for promotion to ontology_term once a study-arm vocabulary (e.g., NCIT 'Study Arm' branch) is registered.",
             "constraints": {
                 "maxLength": 256
             }
@@ -43,26 +43,10 @@
                 "node": "schema:description",
                 "name": "description"
             },
-            "documentation": "A free-text description of this subject group.",
+            "documentation": "Optional free-text description of this subject group.",
             "constraints": {
                 "maxLength": 1024
             }
-        },
-        {
-            "name": "subject_ids",
-            "type": "char",
-            "blank_value": "",
-            "default_value": "",
-            "mustBeNonEmpty": false,
-            "mustBeScalar": true,
-            "mustNotHaveNaN": false,
-            "queryable": false,
-            "ontology": {
-                "node": "iao:0000578",
-                "name": "centrally registered identifier"
-            },
-            "documentation": "Comma-separated list of subject document IDs belonging to this group (e.g., 'id1,id2,id3').",
-            "constraints": {}
         }
     ]
 }
