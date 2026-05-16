@@ -13,34 +13,18 @@
     "file": [],
     "fields": [
         {
-            "name": "editor_class",
-            "type": "char",
-            "blank_value": "",
-            "default_value": "",
-            "mustBeNonEmpty": true,
-            "mustBeScalar": true,
-            "mustNotHaveNaN": false,
-            "queryable": true,
-            "ontology": null,
-            "documentation": "The class name of the metadata editor implementation.",
-            "constraints": {
-                "maxLength": 256
-            }
-        },
-        {
-            "name": "target_classname",
-            "type": "char",
-            "blank_value": "",
-            "default_value": "",
+            "name": "metadata_structure",
+            "type": "structure",
+            "blank_value": {},
+            "default_value": {},
             "mustBeNonEmpty": false,
             "mustBeScalar": true,
             "mustNotHaveNaN": false,
-            "queryable": true,
+            "queryable": false,
             "ontology": null,
-            "documentation": "The DID classname of the documents this editor can modify.",
-            "constraints": {
-                "maxLength": 256
-            }
+            "documentation": "Arbitrary key/value metadata describing the dataset this document was authored against. v1 documents in the Soph corpus carry dataset-level descriptors here (VersionIdentifier, License, DataType, and others). The shape is intentionally open: keys and inner structure depend on the editor and the dataset.",
+            "constraints": {},
+            "fields": []
         }
     ]
 }
