@@ -20,31 +20,47 @@
     "file": [],
     "fields": [
         {
-            "name": "ingestion_status",
+            "name": "epoch_id",
             "type": "char",
             "blank_value": "",
-            "default_value": "complete",
-            "mustBeNonEmpty": true,
+            "default_value": "",
+            "mustBeNonEmpty": false,
             "mustBeScalar": true,
             "mustNotHaveNaN": false,
             "queryable": true,
-            "ontology": null,
-            "documentation": "The status of the epoch files ingestion ('complete', 'partial', 'failed').",
+            "ontology": {
+                "node": "iao:0000578",
+                "name": "centrally registered identifier"
+            },
+            "documentation": "Epoch identifier within the owning session (e.g., 't00001'). v1-faithful inline copy of the epoch's local name; the document-id link to the epoch lives in `depends_on[epochid]`.",
             "constraints": {
-                "maxLength": 32
+                "maxLength": 256
             }
         },
         {
-            "name": "num_files_ingested",
-            "type": "integer",
-            "blank_value": 0,
-            "default_value": 0,
+            "name": "files",
+            "type": "string",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": false,
+            "mustNotHaveNaN": false,
+            "queryable": false,
+            "ontology": null,
+            "documentation": "List of file references ingested for this epoch. Entries are either NDI-scheme URIs (e.g., 'epochid://t00001') or absolute filesystem paths to the source files. Length varies per epoch (3-6 entries seen in the discovery corpora).",
+            "constraints": {}
+        },
+        {
+            "name": "epochprobemap",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "",
             "mustBeNonEmpty": false,
             "mustBeScalar": true,
-            "mustNotHaveNaN": true,
-            "queryable": true,
+            "mustNotHaveNaN": false,
+            "queryable": false,
             "ontology": null,
-            "documentation": "The number of files ingested for this epoch.",
+            "documentation": "Tab-separated epoch-probe-map text describing the probe configuration at ingest time. Free-form pass-through from v1; structure is `name\\treference\\ttype\\tdevicestring\\tsubjectstring\\n<row>\\n...`.",
             "constraints": {}
         }
     ]

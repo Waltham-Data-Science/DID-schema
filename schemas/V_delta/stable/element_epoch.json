@@ -23,45 +23,60 @@
     "file": [],
     "fields": [
         {
-            "name": "epoch_clock",
-            "type": "char",
-            "blank_value": "",
-            "default_value": "dev_local_time",
+            "name": "clocks",
+            "type": "structure",
+            "blank_value": [],
+            "default_value": [],
             "mustBeNonEmpty": true,
-            "mustBeScalar": true,
-            "mustNotHaveNaN": false,
+            "mustBeScalar": false,
+            "mustNotHaveNaN": true,
             "queryable": true,
             "ontology": null,
-            "documentation": "The clock type that describes this epoch (e.g., 'dev_local_time', 'utc', 'exp_global_time').",
-            "constraints": {
-                "maxLength": 256
-            }
-        },
-        {
-            "name": "t0",
-            "type": "double",
-            "blank_value": 0.0,
-            "default_value": 0.0,
-            "mustBeNonEmpty": true,
-            "mustBeScalar": true,
-            "mustNotHaveNaN": true,
-            "queryable": false,
-            "ontology": null,
-            "documentation": "The start time of this epoch, in time units of epoch_clock.",
-            "constraints": {}
-        },
-        {
-            "name": "t1",
-            "type": "double",
-            "blank_value": 1.0,
-            "default_value": 1.0,
-            "mustBeNonEmpty": true,
-            "mustBeScalar": true,
-            "mustNotHaveNaN": true,
-            "queryable": false,
-            "ontology": null,
-            "documentation": "The stop time of this epoch, in time units of epoch_clock.",
-            "constraints": {}
+            "documentation": "Array-of-records: one entry per clock reference frame in which this element's epoch is timed. Each entry carries the clock identifier (`name`) and the start/stop times (`t0`, `t1`) in that clock's units. The single-clock case (most v1 documents) is a 1-element array; v1 documents that recorded the same epoch in multiple clocks (e.g., 'dev_local_time' + 'exp_global_time') become multi-element arrays. Comma-separated v1 `epoch_clock` strings split on `,` to populate clocks[i].name; v1's N×2 `t0_t1` splits row-wise to populate clocks[i].t0 and clocks[i].t1.",
+            "constraints": {},
+            "fields": [
+                {
+                    "name": "name",
+                    "type": "char",
+                    "blank_value": "",
+                    "default_value": "dev_local_time",
+                    "mustBeNonEmpty": true,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Clock identifier (e.g., 'dev_local_time', 'utc', 'exp_global_time').",
+                    "constraints": {
+                        "maxLength": 256
+                    }
+                },
+                {
+                    "name": "t0",
+                    "type": "double",
+                    "blank_value": 0.0,
+                    "default_value": 0.0,
+                    "mustBeNonEmpty": true,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": true,
+                    "queryable": false,
+                    "ontology": null,
+                    "documentation": "Start time of this epoch in the units of the clock named in this record.",
+                    "constraints": {}
+                },
+                {
+                    "name": "t1",
+                    "type": "double",
+                    "blank_value": 1.0,
+                    "default_value": 1.0,
+                    "mustBeNonEmpty": true,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": true,
+                    "queryable": false,
+                    "ontology": null,
+                    "documentation": "Stop time of this epoch in the units of the clock named in this record.",
+                    "constraints": {}
+                }
+            ]
         }
     ]
 }

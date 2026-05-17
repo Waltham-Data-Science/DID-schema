@@ -5,6 +5,9 @@
         "superclasses": [
             {
                 "class_name": "base"
+            },
+            {
+                "class_name": "app"
             }
         ],
         "maturity_level": "stable"
@@ -32,11 +35,63 @@
                 "node": "iao:0000578",
                 "name": "centrally registered identifier"
             },
-            "documentation": "The cluster index assigned to this neuron by a spike sorter. Matches the did_v1 field name; an earlier V_delta draft renamed it to `cluster_id` but the v1 source uses `cluster_index`, so the original name is preserved.",
+            "documentation": "The cluster index assigned to this neuron by a spike sorter.",
             "constraints": {}
         },
         {
-            "name": "quality",
+            "name": "number_of_channels",
+            "type": "integer",
+            "blank_value": 0,
+            "default_value": 0,
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": true,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Number of recording channels contributing to this unit's waveform (e.g., the tetrode/probe channel count).",
+            "constraints": {}
+        },
+        {
+            "name": "number_of_samples_per_channel",
+            "type": "integer",
+            "blank_value": 0,
+            "default_value": 0,
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": true,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Number of time samples per channel in mean_waveform / waveform_sample_times.",
+            "constraints": {}
+        },
+        {
+            "name": "mean_waveform",
+            "type": "matrix",
+            "blank_value": [],
+            "default_value": [],
+            "mustBeNonEmpty": false,
+            "mustBeScalar": false,
+            "mustNotHaveNaN": false,
+            "queryable": false,
+            "ontology": null,
+            "documentation": "Mean spike-waveform matrix shaped (number_of_samples_per_channel x number_of_channels) -- samples down rows, channels across columns. Recorded in the original A/D units of the source data.",
+            "constraints": {}
+        },
+        {
+            "name": "waveform_sample_times",
+            "type": "matrix",
+            "blank_value": [],
+            "default_value": [],
+            "mustBeNonEmpty": false,
+            "mustBeScalar": false,
+            "mustNotHaveNaN": false,
+            "queryable": false,
+            "ontology": null,
+            "documentation": "Time stamp of each sample in mean_waveform (seconds, in the element's local clock); length equals number_of_samples_per_channel.",
+            "constraints": {}
+        },
+        {
+            "name": "quality_label",
             "type": "char",
             "blank_value": "",
             "default_value": "",
@@ -48,13 +103,13 @@
                 "node": "placeholder:spike_sorting_quality_label",
                 "name": "spike-sorting quality label"
             },
-            "documentation": "Quality label for this unit (e.g., 'good', 'mua', 'noise'). Candidate for promotion to ontology_term once a controlled vocabulary (e.g., a spike-sorting quality branch in NIFSTD) is registered.",
+            "documentation": "Human-readable spike-sorting quality label (e.g., 'good', 'multi', 'noise'). Candidate for promotion to ontology_term once a controlled vocabulary (e.g., a spike-sorting quality branch in NIFSTD) is registered.",
             "constraints": {
                 "maxLength": 64
             }
         },
         {
-            "name": "num_spikes",
+            "name": "quality_number",
             "type": "integer",
             "blank_value": 0,
             "default_value": 0,
@@ -62,27 +117,8 @@
             "mustBeScalar": true,
             "mustNotHaveNaN": true,
             "queryable": true,
-            "ontology": {
-                "node": "placeholder:action_potential_count",
-                "name": "action potential count"
-            },
-            "documentation": "The total number of spikes assigned to this neuron.",
-            "constraints": {}
-        },
-        {
-            "name": "mean_firing_rate",
-            "type": "double",
-            "blank_value": 0.0,
-            "default_value": 0.0,
-            "mustBeNonEmpty": false,
-            "mustBeScalar": true,
-            "mustNotHaveNaN": false,
-            "queryable": false,
-            "ontology": {
-                "node": "pato:0000044",
-                "name": "frequency"
-            },
-            "documentation": "The mean firing rate of this neuron in Hz. Candidate for promotion to the V_gamma 'frequency' composite type.",
+            "ontology": null,
+            "documentation": "Numeric spike-sorting quality grade (e.g., 1-4) paired with quality_label. Sorter-specific scale.",
             "constraints": {}
         }
     ]

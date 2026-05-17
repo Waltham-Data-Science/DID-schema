@@ -5,6 +5,12 @@
         "superclasses": [
             {
                 "class_name": "base"
+            },
+            {
+                "class_name": "openminds"
+            },
+            {
+                "class_name": "epochid"
             }
         ],
         "maturity_level": "stable"

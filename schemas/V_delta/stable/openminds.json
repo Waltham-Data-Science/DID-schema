@@ -22,13 +22,46 @@
             "mustNotHaveNaN": false,
             "queryable": true,
             "ontology": null,
-            "documentation": "The openMINDS schema type (e.g., 'core.DatasetVersion', 'core.Person').",
+            "documentation": "Full openMINDS type IRI identifying which openMINDS schema this document carries (e.g., 'https://openminds.om-i.org/types/GeneticStrainType').",
             "constraints": {
-                "maxLength": 256
+                "maxLength": 1024
             }
         },
         {
-            "name": "openminds_data",
+            "name": "matlab_type",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Fully-qualified MATLAB class name of the corresponding openMINDS object (e.g., 'openminds.controlledterms.GeneticStrainType'). Paired with openminds_type for tooling that needs to reconstitute the MATLAB object.",
+            "constraints": {
+                "maxLength": 512
+            }
+        },
+        {
+            "name": "openminds_id",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": {
+                "node": "iao:0000578",
+                "name": "centrally registered identifier"
+            },
+            "documentation": "openMINDS instance IRI (e.g., 'https://openminds.om-i.org/instances/geneticStrainType/wildtype'). Identifies a particular openMINDS object instance rather than its type.",
+            "constraints": {
+                "maxLength": 1024
+            }
+        },
+        {
+            "name": "fields",
             "type": "structure",
             "blank_value": {},
             "default_value": {},
@@ -37,26 +70,9 @@
             "mustNotHaveNaN": false,
             "queryable": false,
             "ontology": null,
-            "documentation": "Structure containing the openMINDS metadata fields conforming to the schema type specified in openminds_type. Keys and value types follow the openMINDS specification for that type.",
-            "constraints": {
-                "conforms_to": "openminds_type"
-            },
+            "documentation": "Open-shape struct carrying the openMINDS object's payload fields. Keys are openMINDS-type-specific (e.g., GeneticStrainType uses {definition, description, interlexIdentifier, knowledgeSpaceLink, name}); V_delta does not constrain them so each openMINDS type can contribute its own.",
+            "constraints": {},
             "fields": []
-        },
-        {
-            "name": "openminds_version",
-            "type": "char",
-            "blank_value": "",
-            "default_value": "v3",
-            "mustBeNonEmpty": false,
-            "mustBeScalar": true,
-            "mustNotHaveNaN": false,
-            "queryable": true,
-            "ontology": null,
-            "documentation": "The version of the openMINDS specification used.",
-            "constraints": {
-                "maxLength": 16
-            }
         }
     ]
 }

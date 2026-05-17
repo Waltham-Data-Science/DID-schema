@@ -11,47 +11,122 @@
     },
     "depends_on": [
         {
-            "name": "element_id_1",
+            "name": "element_id",
             "mustBeNonEmpty": true,
-            "documentation": "The document ID of the first element.",
-            "must_refer_to_document_class": ""
-        },
-        {
-            "name": "element_id_2",
-            "mustBeNonEmpty": true,
-            "documentation": "The document ID of the second element.",
+            "documentation": "The document ID of the element whose endpoints' distance is described by this metadata.",
             "must_refer_to_document_class": ""
         }
     ],
     "file": [],
     "fields": [
         {
-            "name": "distance",
-            "type": "double",
-            "blank_value": 0.0,
-            "default_value": 0.0,
+            "name": "endpoints",
+            "type": "structure",
+            "blank_value": [],
+            "default_value": [],
             "mustBeNonEmpty": true,
-            "mustBeScalar": true,
-            "mustNotHaveNaN": true,
-            "queryable": false,
+            "mustBeScalar": false,
+            "mustNotHaveNaN": false,
+            "queryable": true,
             "ontology": null,
-            "documentation": "The distance between the two elements, in distance_units.",
-            "constraints": {}
+            "documentation": "Array of per-endpoint records describing the entities whose pairwise distance is being measured. v1 stored exactly two endpoints labelled 'A' and 'B'; V_delta keeps those labels explicit on each record's `label` field but generalises the container to an array so future N-endpoint distance schemes can reuse the same shape. Each endpoint carries: an ontology classification (`measurement`), a set of integer indices and document-id strings identifying which items at the linked element the endpoint covers, and an optional numeric-values vector. v1's `ontologyStringValues_X` (comma-separated did_uid list) becomes `string_ids` as a string array; v1's `integerIDs_X` (scalar or array) becomes `integer_ids` as a matrix.",
+            "constraints": {},
+            "fields": [
+                {
+                    "name": "label",
+                    "type": "char",
+                    "blank_value": "",
+                    "default_value": "A",
+                    "mustBeNonEmpty": true,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Per-endpoint identifier preserved verbatim from v1 (e.g., 'A', 'B'). Consumers can filter by label without resolving the ontology classification.",
+                    "constraints": {
+                        "maxLength": 64
+                    }
+                },
+                {
+                    "name": "measurement",
+                    "type": "ontology_term",
+                    "blank_value": {
+                        "node": "",
+                        "name": ""
+                    },
+                    "default_value": {
+                        "node": "",
+                        "name": ""
+                    },
+                    "mustBeNonEmpty": true,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Ontology term classifying what kind of entity this endpoint refers to (e.g., a probe contact, a stimulation site). `node` is the v1 `ontologyNode_X` CURIE verbatim; `name` is resolved via ndi.ontology.lookup at conversion time.",
+                    "constraints": {}
+                },
+                {
+                    "name": "integer_ids",
+                    "type": "matrix",
+                    "blank_value": [],
+                    "default_value": [],
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": false,
+                    "mustNotHaveNaN": true,
+                    "queryable": false,
+                    "ontology": null,
+                    "documentation": "Per-endpoint integer indices (e.g., contact numbers, item indices). v1 stored this as a scalar or array of integers; V_delta keeps it as a flat matrix of integers.",
+                    "constraints": {
+                        "element_type": "integer"
+                    }
+                },
+                {
+                    "name": "string_ids",
+                    "type": "string",
+                    "blank_value": "",
+                    "default_value": "",
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": false,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Per-endpoint document-id strings identifying the items the endpoint covers. v1 stored this as a single comma-separated did_uid string; V_delta represents it as a string array (one entry per id). Indexed in parallel with `integer_ids` when both are populated.",
+                    "constraints": {}
+                },
+                {
+                    "name": "numeric_values",
+                    "type": "matrix",
+                    "blank_value": [],
+                    "default_value": [],
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": false,
+                    "mustNotHaveNaN": false,
+                    "queryable": false,
+                    "ontology": null,
+                    "documentation": "Optional per-endpoint numeric values (often empty in v1 corpora; reserved for calibrations or per-item measurements that the endpoint definition needs to carry inline).",
+                    "constraints": {}
+                }
+            ]
         },
         {
-            "name": "distance_units",
-            "type": "char",
-            "blank_value": "",
-            "default_value": "um",
+            "name": "units",
+            "type": "ontology_term",
+            "blank_value": {
+                "node": "",
+                "name": ""
+            },
+            "default_value": {
+                "node": "",
+                "name": ""
+            },
             "mustBeNonEmpty": true,
             "mustBeScalar": true,
             "mustNotHaveNaN": false,
             "queryable": true,
             "ontology": null,
-            "documentation": "The units for the distance value (e.g., 'um', 'mm', 'cm').",
-            "constraints": {
-                "maxLength": 32
-            }
+            "documentation": "Ontology term naming the measurement unit for the distance (e.g., 'micrometer'). Resolved via ndi.ontology.lookup.",
+            "constraints": {}
         }
     ]
 }

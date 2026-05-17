@@ -5,6 +5,12 @@
         "superclasses": [
             {
                 "class_name": "base"
+            },
+            {
+                "class_name": "app"
+            },
+            {
+                "class_name": "epochid"
             }
         ],
         "maturity_level": "stable"
@@ -32,26 +38,41 @@
                 "node": "placeholder:stimulus_presentation_order",
                 "name": "stimulus presentation order"
             },
-            "documentation": "Array of integer stimulus indices (1-based) in the order they were presented. Length equals num_trials.",
-            "constraints": {
-                "element_type": "integer"
-            }
+            "documentation": "Stimulus presentation index/order. v1 commonly ships a scalar 1; consumers that need a per-trial array fill it as a 1-based integer vector whose length equals the number of trials.",
+            "constraints": {}
         },
         {
-            "name": "num_trials",
-            "type": "integer",
-            "blank_value": 0,
-            "default_value": 0,
+            "name": "stimuli",
+            "type": "structure",
+            "blank_value": {
+                "parameters": {}
+            },
+            "default_value": {
+                "parameters": {}
+            },
             "mustBeNonEmpty": false,
             "mustBeScalar": true,
-            "mustNotHaveNaN": true,
-            "queryable": true,
-            "ontology": {
-                "node": "placeholder:trial_count",
-                "name": "trial count"
-            },
-            "documentation": "The total number of stimulus trials.",
-            "constraints": {}
+            "mustNotHaveNaN": false,
+            "queryable": false,
+            "ontology": null,
+            "documentation": "Stimulus configuration captured at presentation time. The sole sub-field that all v1 corpora ship is `parameters`, an open-shape struct whose keys depend on the stimulus type (Hartley basis, sparse-noise grid, oriented gratings, etc.) and on the generating library version. V_delta does not constrain inner field names because each stimulus type contributes its own; the validator only verifies that `stimuli` is itself a struct. Consumers that need to interpret specific parameter values should branch on the stimulus class context (e.g., the linked `app.app_name`) before reading.",
+            "constraints": {},
+            "fields": [
+                {
+                    "name": "parameters",
+                    "type": "structure",
+                    "blank_value": {},
+                    "default_value": {},
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": false,
+                    "ontology": null,
+                    "documentation": "Stimulus-type-specific parameter object. Open-shape: keys and value types depend on the stimulus generator. v1 corpora include Hartley-basis (rect, windowShape, M, K_absmax, randState, ...), sparse-noise (BG, value, random, repeat, pixSize, randState, ...), and many other variants.",
+                    "constraints": {},
+                    "fields": []
+                }
+            ]
         }
     ]
 }

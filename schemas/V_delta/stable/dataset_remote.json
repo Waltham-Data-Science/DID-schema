@@ -13,21 +13,6 @@
     "file": [],
     "fields": [
         {
-            "name": "remote_url",
-            "type": "char",
-            "blank_value": "",
-            "default_value": "",
-            "mustBeNonEmpty": true,
-            "mustBeScalar": true,
-            "mustNotHaveNaN": false,
-            "queryable": true,
-            "ontology": null,
-            "documentation": "The URL of the remote dataset location.",
-            "constraints": {
-                "maxLength": 1024
-            }
-        },
-        {
             "name": "remote_type",
             "type": "char",
             "blank_value": "",
@@ -53,6 +38,21 @@
             "queryable": true,
             "ontology": null,
             "documentation": "The dataset identifier at the remote location.",
+            "constraints": {
+                "maxLength": 256
+            }
+        },
+        {
+            "name": "organization_id",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Organization identifier at the remote service (e.g., the lab or owning group whose namespace the dataset lives under).",
             "constraints": {
                 "maxLength": 256
             }

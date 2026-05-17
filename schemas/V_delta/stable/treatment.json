@@ -32,17 +32,34 @@
     "file": [],
     "fields": [
         {
-            "name": "treatment_name",
-            "type": "ontology_term",
-            "blank_value": null,
-            "default_value": null,
+            "name": "ontology_name",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "",
             "mustBeNonEmpty": false,
             "mustBeScalar": true,
             "mustNotHaveNaN": false,
             "queryable": true,
             "ontology": null,
-            "documentation": "The treatment, identified as an ontology term.",
-            "constraints": {}
+            "documentation": "Ontology identifier of the treatment (e.g., 'EMPTY:0000074'). v1 ships this as a flat char field alongside `name`.",
+            "constraints": {
+                "maxLength": 128
+            }
+        },
+        {
+            "name": "name",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Human-readable name for the treatment. Paired with `ontology_name`.",
+            "constraints": {
+                "maxLength": 256
+            }
         },
         {
             "name": "numeric_value",

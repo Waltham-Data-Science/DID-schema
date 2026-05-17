@@ -797,7 +797,7 @@
             ]
         },
         {
-            "name": "fit_sgauss",
+            "name": "fit_gausslog",
             "type": "structure",
             "blank_value": {},
             "default_value": {},
@@ -931,7 +931,7 @@
             "mustNotHaveNaN": false,
             "queryable": false,
             "ontology": null,
-            "documentation": "Mirror of all preceding blocks (tuning_curve, significance, fitless, fit_dog, fit_movshon, fit_movshon_c, fit_spline, fit_sgauss) recomputed on the absolute value of the responses. Empty in NDIcalc-vis-matlab v1; sub-fields to be populated as the calc implementation matures.",
+            "documentation": "Mirror of all preceding blocks (tuning_curve, significance, fitless, fit_dog, fit_movshon, fit_movshon_c, fit_spline, fit_gausslog) recomputed on the absolute value of the responses. Empty in NDIcalc-vis-matlab v1; sub-fields to be populated as the calc implementation matures.",
             "constraints": {},
             "fields": []
         }

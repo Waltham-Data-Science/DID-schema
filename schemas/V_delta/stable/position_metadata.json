@@ -13,80 +13,110 @@
         {
             "name": "element_id",
             "mustBeNonEmpty": true,
-            "documentation": "The document ID of the element whose position is described.",
+            "documentation": "The document ID of the element whose position is described by this metadata.",
             "must_refer_to_document_class": ""
         }
     ],
     "file": [],
     "fields": [
         {
-            "name": "x",
-            "type": "double",
-            "blank_value": 0.0,
-            "default_value": 0.0,
+            "name": "measurement",
+            "type": "ontology_term",
+            "blank_value": {
+                "node": "",
+                "name": ""
+            },
+            "default_value": {
+                "node": "",
+                "name": ""
+            },
             "mustBeNonEmpty": true,
             "mustBeScalar": true,
-            "mustNotHaveNaN": true,
-            "queryable": false,
-            "ontology": null,
-            "documentation": "The x-coordinate of the element position.",
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": {
+                "node": "schema:location",
+                "name": "location"
+            },
+            "documentation": "Ontology term classifying what kind of position is recorded by the linked element (e.g., a midpoint position, an anatomical landmark, a probe tip). The `node` is the v1 `ontologyNode` CURIE verbatim; `name` is resolved via ndi.ontology.lookup at conversion time.",
             "constraints": {}
         },
         {
-            "name": "y",
-            "type": "double",
-            "blank_value": 0.0,
-            "default_value": 0.0,
-            "mustBeNonEmpty": true,
-            "mustBeScalar": true,
-            "mustNotHaveNaN": true,
-            "queryable": false,
-            "ontology": null,
-            "documentation": "The y-coordinate of the element position.",
-            "constraints": {}
-        },
-        {
-            "name": "z",
-            "type": "double",
-            "blank_value": 0.0,
-            "default_value": 0.0,
-            "mustBeNonEmpty": true,
-            "mustBeScalar": true,
-            "mustNotHaveNaN": true,
-            "queryable": false,
-            "ontology": null,
-            "documentation": "The z-coordinate of the element position.",
-            "constraints": {}
-        },
-        {
-            "name": "position_units",
-            "type": "char",
-            "blank_value": "",
-            "default_value": "um",
+            "name": "units",
+            "type": "ontology_term",
+            "blank_value": {
+                "node": "",
+                "name": ""
+            },
+            "default_value": {
+                "node": "",
+                "name": ""
+            },
             "mustBeNonEmpty": true,
             "mustBeScalar": true,
             "mustNotHaveNaN": false,
             "queryable": true,
             "ontology": null,
-            "documentation": "The units for the position coordinates (e.g., 'um', 'mm', 'cm').",
-            "constraints": {
-                "maxLength": 32
-            }
+            "documentation": "Ontology term naming the measurement unit for the position values (e.g., 'micrometer'). Resolved via ndi.ontology.lookup.",
+            "constraints": {}
         },
         {
-            "name": "coordinate_system",
-            "type": "char",
-            "blank_value": "",
-            "default_value": "",
+            "name": "dimensions",
+            "type": "structure",
+            "blank_value": [],
+            "default_value": [],
             "mustBeNonEmpty": false,
-            "mustBeScalar": true,
+            "mustBeScalar": false,
             "mustNotHaveNaN": false,
             "queryable": true,
             "ontology": null,
-            "documentation": "The coordinate system or reference frame for this position.",
-            "constraints": {
-                "maxLength": 256
-            }
+            "documentation": "Array of per-axis records describing each spatial dimension of the position measurement. v1 stored dimensions as a comma-separated CURIE list with implicit positional ordering; V_delta makes the ordering explicit via the `axis` field while preserving the ontology classification. The migrator labels axes as `axis_1`, `axis_2`, ... by default; an explicit `x`/`y`/`z` convention can be applied per-document where the spatial mapping is known.",
+            "constraints": {},
+            "fields": [
+                {
+                    "name": "axis",
+                    "type": "char",
+                    "blank_value": "",
+                    "default_value": "axis_1",
+                    "mustBeNonEmpty": true,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Per-record axis identifier. Defaults to positional labels (`axis_1`, `axis_2`, ...); consumers may rewrite to a spatial convention (e.g., `x`, `y`, `z`) when known.",
+                    "constraints": {
+                        "maxLength": 64
+                    }
+                },
+                {
+                    "name": "node",
+                    "type": "char",
+                    "blank_value": "",
+                    "default_value": "",
+                    "mustBeNonEmpty": true,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Ontology CURIE classifying this axis (e.g., a directional or anatomical-axis ontology node).",
+                    "constraints": {
+                        "maxLength": 256
+                    }
+                },
+                {
+                    "name": "name",
+                    "type": "char",
+                    "blank_value": "",
+                    "default_value": "",
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": false,
+                    "ontology": null,
+                    "documentation": "Human-readable label resolved from `node` via ndi.ontology.lookup at conversion time. Empty when the lookup is unavailable.",
+                    "constraints": {}
+                }
+            ]
         }
     ]
 }

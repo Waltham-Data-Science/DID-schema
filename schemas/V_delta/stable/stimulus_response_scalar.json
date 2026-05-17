@@ -5,6 +5,9 @@
         "superclasses": [
             {
                 "class_name": "base"
+            },
+            {
+                "class_name": "stimulus_response"
             }
         ],
         "maturity_level": "stable"
@@ -12,45 +15,15 @@
     "depends_on": [
         {
             "name": "stimulus_response_id",
-            "mustBeNonEmpty": true,
-            "documentation": "The document ID of the stimulus_response this scalar summary belongs to.",
+            "mustBeNonEmpty": false,
+            "documentation": "Optional pointer to the underlying stimulus_response document.",
             "must_refer_to_document_class": ""
         }
     ],
     "file": [],
     "fields": [
         {
-            "name": "stimulus_values",
-            "type": "matrix",
-            "blank_value": [],
-            "default_value": [],
-            "mustBeNonEmpty": false,
-            "mustBeScalar": false,
-            "mustNotHaveNaN": false,
-            "queryable": false,
-            "ontology": null,
-            "documentation": "Array of independent stimulus parameter values, one per stimulus condition. Must be the same length as response_values.",
-            "constraints": {
-                "element_type": "double"
-            }
-        },
-        {
-            "name": "response_values",
-            "type": "matrix",
-            "blank_value": [],
-            "default_value": [],
-            "mustBeNonEmpty": false,
-            "mustBeScalar": false,
-            "mustNotHaveNaN": false,
-            "queryable": false,
-            "ontology": null,
-            "documentation": "Array of scalar response values in response_units, one per stimulus condition. Must be the same length as stimulus_values.",
-            "constraints": {
-                "element_type": "double"
-            }
-        },
-        {
-            "name": "response_units",
+            "name": "response_type",
             "type": "char",
             "blank_value": "",
             "default_value": "",
@@ -59,10 +32,24 @@
             "mustNotHaveNaN": false,
             "queryable": true,
             "ontology": null,
-            "documentation": "The units of the response values (e.g., 'spikes/s', 'dF/F').",
+            "documentation": "How the per-trial scalar response was reduced from the source signal (e.g., 'mean', 'peak', 'frequency'). v1 ships this directly on the stimulus_response_scalar block; declared here so per-class queries see it without joining to the parent.",
             "constraints": {
                 "maxLength": 64
             }
+        },
+        {
+            "name": "responses",
+            "type": "structure",
+            "blank_value": {},
+            "default_value": {},
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": false,
+            "ontology": null,
+            "documentation": "Per-trial scalar responses. v1 ships this as a struct with sub-fields {stimid (integer), response_real, response_imaginary, control_response_real, control_response_imaginary}; V_delta keeps the open-shape convention so callers can add bookkeeping fields without a schema bump.",
+            "constraints": {},
+            "fields": []
         }
     ]
 }

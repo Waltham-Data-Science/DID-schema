@@ -8,6 +8,9 @@
             },
             {
                 "class_name": "calculator"
+            },
+            {
+                "class_name": "stimulus_tuningcurve"
             }
         ],
         "maturity_level": "stable"
@@ -37,6 +40,66 @@
                 "dynamic_keys_from": "calculator_name"
             },
             "fields": []
+        },
+        {
+            "name": "log",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": false,
+            "ontology": null,
+            "documentation": "Free-text log entry summarising the tuning-curve calculation (e.g., 'angle best value is 135.', 'sFrequency = 0.04'). Captured verbatim from v1 documents that carried a `log` field.",
+            "constraints": {}
+        },
+        {
+            "name": "stim_property_list",
+            "type": "structure",
+            "blank_value": {
+                "names":  [],
+                "values": []
+            },
+            "default_value": {
+                "names":  [],
+                "values": []
+            },
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": false,
+            "ontology": null,
+            "documentation": "Stimulus-property name/value pairs that conditioned this tuning-curve calculation. v1 stored this as `{names: [<param_name>, ...], values: <scalar or array>}`; V_delta preserves the same shape. `names` is the list of independent stimulus parameter names selected for the curve (most commonly a single name such as 'sFrequency'); `values` is the corresponding value(s).",
+            "constraints": {},
+            "fields": [
+                {
+                    "name": "names",
+                    "type": "string",
+                    "blank_value": "",
+                    "default_value": "",
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": false,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Array of stimulus parameter names (e.g., {'sFrequency', 'tFrequency'}). Empty array when no stimulus property was held; v1 most often ships a 1-element array.",
+                    "constraints": {}
+                },
+                {
+                    "name": "values",
+                    "type": "matrix",
+                    "blank_value": [],
+                    "default_value": [],
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": false,
+                    "mustNotHaveNaN": false,
+                    "queryable": false,
+                    "ontology": null,
+                    "documentation": "Numeric value(s) paralleling `names`. v1 ships either a scalar (when names is 1-element) or an empty array.",
+                    "constraints": {}
+                }
+            ]
         }
     ]
 }

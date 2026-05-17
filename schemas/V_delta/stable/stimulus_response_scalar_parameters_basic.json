@@ -5,45 +5,30 @@
         "superclasses": [
             {
                 "class_name": "base"
+            },
+            {
+                "class_name": "stimulus_response_scalar_parameters"
             }
         ],
         "maturity_level": "stable"
     },
-    "depends_on": [
-        {
-            "name": "stimulus_response_scalar_id",
-            "mustBeNonEmpty": true,
-            "documentation": "The document ID of the stimulus_response_scalar these basic parameters describe.",
-            "must_refer_to_document_class": ""
-        }
-    ],
+    "depends_on": [],
     "file": [],
     "fields": [
         {
-            "name": "response_window_start",
-            "type": "double",
-            "blank_value": 0.0,
-            "default_value": 0.0,
+            "name": "temporalfreqfunc",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "",
             "mustBeNonEmpty": false,
             "mustBeScalar": true,
             "mustNotHaveNaN": false,
-            "queryable": false,
+            "queryable": true,
             "ontology": null,
-            "documentation": "Start of the response window in seconds after stimulus onset.",
-            "constraints": {}
-        },
-        {
-            "name": "response_window_end",
-            "type": "double",
-            "blank_value": 0.0,
-            "default_value": 0.0,
-            "mustBeNonEmpty": false,
-            "mustBeScalar": true,
-            "mustNotHaveNaN": false,
-            "queryable": false,
-            "ontology": null,
-            "documentation": "End of the response window in seconds after stimulus onset.",
-            "constraints": {}
+            "documentation": "Fully-qualified NDI function name that produced the temporal-frequency component of the scalar response (e.g., 'ndi.fun.stimulustemporalfrequency'). Identifies the analysis routine.",
+            "constraints": {
+                "maxLength": 256
+            }
         },
         {
             "name": "freq_response",
@@ -55,7 +40,65 @@
             "mustNotHaveNaN": true,
             "queryable": true,
             "ontology": null,
-            "documentation": "The frequency component used for the response computation (0 = mean, 1 = F1, 2 = F2).",
+            "documentation": "1 if this scalar response is a frequency-domain measurement, 0 otherwise. v1 corpora ship integer flags here.",
+            "constraints": {
+                "min": 0,
+                "max": 1
+            }
+        },
+        {
+            "name": "prestimulus_time",
+            "type": "matrix",
+            "blank_value": [],
+            "default_value": [],
+            "mustBeNonEmpty": false,
+            "mustBeScalar": false,
+            "mustNotHaveNaN": false,
+            "queryable": false,
+            "ontology": null,
+            "documentation": "Optional pre-stimulus baseline window. v1 ships either an empty array (no baseline subtraction) or a [start, stop] pair in seconds before stimulus onset.",
+            "constraints": {}
+        },
+        {
+            "name": "prestimulus_normalization",
+            "type": "matrix",
+            "blank_value": [],
+            "default_value": [],
+            "mustBeNonEmpty": false,
+            "mustBeScalar": false,
+            "mustNotHaveNaN": false,
+            "queryable": false,
+            "ontology": null,
+            "documentation": "Optional normalization vector applied during the prestimulus baseline computation. v1 commonly ships an empty array; populated when a non-trivial baseline scheme is in use.",
+            "constraints": {}
+        },
+        {
+            "name": "isspike",
+            "type": "integer",
+            "blank_value": 0,
+            "default_value": 0,
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": true,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "1 if the source signal is a spike train (analysed at spiketrain_dt resolution), 0 if it is a continuous signal.",
+            "constraints": {
+                "min": 0,
+                "max": 1
+            }
+        },
+        {
+            "name": "spiketrain_dt",
+            "type": "double",
+            "blank_value": 0.0,
+            "default_value": 0.001,
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": false,
+            "ontology": null,
+            "documentation": "Time step (seconds) at which a spike train is discretised before computing the scalar response (e.g., 0.001 for 1 ms bins). Only meaningful when isspike == 1.",
             "constraints": {}
         }
     ]

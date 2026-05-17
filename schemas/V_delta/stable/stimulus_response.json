@@ -31,7 +31,7 @@
     ],
     "fields": [
         {
-            "name": "response_type",
+            "name": "stimulator_epochid",
             "type": "char",
             "blank_value": "",
             "default_value": "",
@@ -40,9 +40,24 @@
             "mustNotHaveNaN": false,
             "queryable": true,
             "ontology": null,
-            "documentation": "The type of response measured (e.g., 'spikes', 'calcium', 'voltage').",
+            "documentation": "Epoch identifier on the stimulator element whose presentation produced this response (e.g., 't00002'). Mirrors the v1 stimulus_response field.",
             "constraints": {
-                "maxLength": 128
+                "maxLength": 64
+            }
+        },
+        {
+            "name": "element_epochid",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Epoch identifier on the responding element (the element_id this document depends on) that aligns with the stimulator epoch above.",
+            "constraints": {
+                "maxLength": 64
             }
         }
     ]

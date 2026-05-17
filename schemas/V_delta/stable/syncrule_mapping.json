@@ -26,33 +26,226 @@
     "file": [],
     "fields": [
         {
-            "name": "mapping_data",
-            "type": "structure",
-            "blank_value": {},
-            "default_value": {},
+            "name": "cost",
+            "type": "double",
+            "blank_value": 0,
+            "default_value": 0,
             "mustBeNonEmpty": false,
-            "mustBeScalar": true,
-            "mustNotHaveNaN": false,
-            "queryable": false,
-            "ontology": null,
-            "documentation": "Structure representing the time mapping between clocks for this epoch. Keys are implementation-defined by the sync rule; typically includes the clock names being mapped and the corresponding sample timestamps.",
-            "constraints": {},
-            "fields": []
-        },
-        {
-            "name": "mapping_status",
-            "type": "char",
-            "blank_value": "",
-            "default_value": "complete",
-            "mustBeNonEmpty": true,
             "mustBeScalar": true,
             "mustNotHaveNaN": false,
             "queryable": true,
             "ontology": null,
-            "documentation": "The status of the mapping computation ('complete', 'failed').",
-            "constraints": {
-                "maxLength": 32
-            }
+            "documentation": "Numeric cost / score of this mapping (lower is typically better). v1 ships an integer; V_delta uses `double` to admit fractional costs from future rules.",
+            "constraints": {}
+        },
+        {
+            "name": "mapping",
+            "type": "matrix",
+            "blank_value": [],
+            "default_value": [],
+            "mustBeNonEmpty": false,
+            "mustBeScalar": false,
+            "mustNotHaveNaN": false,
+            "queryable": false,
+            "ontology": null,
+            "documentation": "Numeric mapping vector relating the two endpoints in clock space. v1 ships a 2-element numeric vector (int or float depending on the rule); V_delta keeps the shape open as a matrix.",
+            "constraints": {}
+        },
+        {
+            "name": "epochnode_a",
+            "type": "structure",
+            "blank_value": {
+                "epoch_clock":      "",
+                "epoch_id":         "",
+                "epoch_session_id": "",
+                "epochprobemap":    "",
+                "objectclass":      ""
+            },
+            "default_value": {
+                "epoch_clock":      "",
+                "epoch_id":         "",
+                "epoch_session_id": "",
+                "epochprobemap":    "",
+                "objectclass":      ""
+            },
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "First endpoint of the mapping. Identifies the source epoch in clock space. Preserved verbatim from v1; the same shape applies to epochnode_b.",
+            "constraints": {},
+            "fields": [
+                {
+                    "name": "epoch_clock",
+                    "type": "char",
+                    "blank_value": "",
+                    "default_value": "",
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Clock identifier for this endpoint (e.g., 'dev_local_time').",
+                    "constraints": {
+                        "maxLength": 256
+                    }
+                },
+                {
+                    "name": "epoch_id",
+                    "type": "char",
+                    "blank_value": "",
+                    "default_value": "",
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Epoch identifier within the endpoint's session (e.g., 't00001').",
+                    "constraints": {
+                        "maxLength": 256
+                    }
+                },
+                {
+                    "name": "epoch_session_id",
+                    "type": "did_uid",
+                    "blank_value": "",
+                    "default_value": "",
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Document id of the session this endpoint's epoch lives in.",
+                    "constraints": {}
+                },
+                {
+                    "name": "epochprobemap",
+                    "type": "char",
+                    "blank_value": "",
+                    "default_value": "",
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": false,
+                    "ontology": null,
+                    "documentation": "Tab-separated epoch-probe-map text describing the probe configuration at this endpoint. Free-form pass-through from v1.",
+                    "constraints": {}
+                },
+                {
+                    "name": "objectclass",
+                    "type": "char",
+                    "blank_value": "",
+                    "default_value": "",
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Fully-qualified NDI epochprobemap class name (e.g., 'ndi.epoch.epochprobemap_daqsystem').",
+                    "constraints": {
+                        "maxLength": 256
+                    }
+                }
+            ]
+        },
+        {
+            "name": "epochnode_b",
+            "type": "structure",
+            "blank_value": {
+                "epoch_clock":      "",
+                "epoch_id":         "",
+                "epoch_session_id": "",
+                "epochprobemap":    "",
+                "objectclass":      ""
+            },
+            "default_value": {
+                "epoch_clock":      "",
+                "epoch_id":         "",
+                "epoch_session_id": "",
+                "epochprobemap":    "",
+                "objectclass":      ""
+            },
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Second endpoint of the mapping. Same shape as epochnode_a.",
+            "constraints": {},
+            "fields": [
+                {
+                    "name": "epoch_clock",
+                    "type": "char",
+                    "blank_value": "",
+                    "default_value": "",
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Clock identifier for this endpoint.",
+                    "constraints": {
+                        "maxLength": 256
+                    }
+                },
+                {
+                    "name": "epoch_id",
+                    "type": "char",
+                    "blank_value": "",
+                    "default_value": "",
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Epoch identifier within the endpoint's session.",
+                    "constraints": {
+                        "maxLength": 256
+                    }
+                },
+                {
+                    "name": "epoch_session_id",
+                    "type": "did_uid",
+                    "blank_value": "",
+                    "default_value": "",
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Document id of the session this endpoint's epoch lives in.",
+                    "constraints": {}
+                },
+                {
+                    "name": "epochprobemap",
+                    "type": "char",
+                    "blank_value": "",
+                    "default_value": "",
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": false,
+                    "ontology": null,
+                    "documentation": "Tab-separated epoch-probe-map text. Free-form pass-through from v1.",
+                    "constraints": {}
+                },
+                {
+                    "name": "objectclass",
+                    "type": "char",
+                    "blank_value": "",
+                    "default_value": "",
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Fully-qualified NDI epochprobemap class name.",
+                    "constraints": {
+                        "maxLength": 256
+                    }
+                }
+            ]
         }
     ]
 }

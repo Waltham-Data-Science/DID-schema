@@ -5,71 +5,99 @@
         "superclasses": [
             {
                 "class_name": "base"
+            },
+            {
+                "class_name": "epochid"
             }
         ],
         "maturity_level": "stable"
     },
     "depends_on": [
         {
-            "name": "element_id",
+            "name": "stimulus_element_id",
             "mustBeNonEmpty": true,
-            "documentation": "The document ID of the element receiving this bath stimulus.",
+            "documentation": "The document ID of the stimulus element this bath records.",
             "must_refer_to_document_class": ""
         }
     ],
     "file": [],
     "fields": [
         {
-            "name": "solution_name",
-            "type": "char",
-            "blank_value": "",
-            "default_value": "",
+            "name": "location",
+            "type": "ontology_term",
+            "blank_value": {
+                "node": "",
+                "name": ""
+            },
+            "default_value": {
+                "node": "",
+                "name": ""
+            },
             "mustBeNonEmpty": true,
             "mustBeScalar": true,
             "mustNotHaveNaN": false,
             "queryable": true,
             "ontology": {
-                "node": "iao:0000219",
-                "name": "denotes"
+                "node": "schema:location",
+                "name": "location"
             },
-            "documentation": "The name of the bath solution (e.g., 'ACSF', 'TTX'). The field denotes a chemical entity / drug; candidate for promotion to ontology_term once a chemistry namespace (e.g., ChEBI, DrON) is registered.",
-            "constraints": {
-                "maxLength": 256
-            }
-        },
-        {
-            "name": "concentration",
-            "type": "double",
-            "blank_value": 0.0,
-            "default_value": 0.0,
-            "mustBeNonEmpty": false,
-            "mustBeScalar": true,
-            "mustNotHaveNaN": false,
-            "queryable": false,
-            "ontology": {
-                "node": "pato:0000033",
-                "name": "concentration of"
-            },
-            "documentation": "The concentration of the active compound.",
+            "documentation": "Ontology term naming the type of bath the stimulus was applied in (e.g., NCIm:C0179246, 'Baths, Water, Laboratory'). v1 already stored this as an ontology-term-shaped sub-object; the migrator renames `ontologyNode` -> `node` in lockstep with the V_delta ontology_term convention.",
             "constraints": {}
         },
         {
-            "name": "concentration_units",
-            "type": "char",
-            "blank_value": "",
-            "default_value": "",
+            "name": "mixture",
+            "type": "structure",
+            "blank_value": [],
+            "default_value": [],
             "mustBeNonEmpty": false,
-            "mustBeScalar": true,
+            "mustBeScalar": false,
             "mustNotHaveNaN": false,
             "queryable": true,
-            "ontology": {
-                "node": "iao:0000003",
-                "name": "measurement unit label"
-            },
-            "documentation": "The units of the concentration (e.g., 'mM', 'uM', 'nM').",
-            "constraints": {
-                "maxLength": 32
-            }
+            "ontology": null,
+            "documentation": "Array of per-chemical records describing the chemical mixture the bath delivered. v1 stored this as an inline CSV (`mixture_table`) with header row `ontologyName,name,value,ontologyUnit,unitName`; V_delta parses each data row into a structured record. Each record carries the chemical identity as an ontology_term and the concentration as a `concentration` composite (multiple optional canonical sub-fields plus source-unit/source-value tracking).",
+            "constraints": {},
+            "fields": [
+                {
+                    "name": "chemical",
+                    "type": "ontology_term",
+                    "blank_value": {
+                        "node": "",
+                        "name": ""
+                    },
+                    "default_value": {
+                        "node": "",
+                        "name": ""
+                    },
+                    "mustBeNonEmpty": true,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Ontology term identifying this chemical species. `node` comes from v1 `ontologyName`; `name` comes from v1 `name`.",
+                    "constraints": {}
+                },
+                {
+                    "name": "amount",
+                    "type": "concentration",
+                    "blank_value": {
+                        "approximate": false,
+                        "source_unit": "",
+                        "source_value": 0.0
+                    },
+                    "default_value": {
+                        "approximate": false,
+                        "source_unit": "",
+                        "source_value": 0.0
+                    },
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Concentration of this chemical in the bath. Carries source_unit / source_value (v1 `unitName` and `value`) and zero or more canonical sub-fields (`molar`, `grams_per_liter`, `mass_fraction`, `volume_fraction`) populated whenever the source unit is computable into them. For v1 docs in the Dab corpus the source unit is uniformly 'Molar' so `molar = source_value`.",
+                    "constraints": {}
+                }
+            ]
         }
     ]
 }

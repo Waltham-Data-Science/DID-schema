@@ -20,20 +20,34 @@
     "file": [],
     "fields": [
         {
-            "name": "location",
-            "type": "ontology_term",
-            "blank_value": null,
-            "default_value": null,
+            "name": "ontology_name",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "",
             "mustBeNonEmpty": false,
             "mustBeScalar": true,
             "mustNotHaveNaN": false,
             "queryable": true,
-            "ontology": {
-                "node": "schema:location",
-                "name": "location"
-            },
-            "documentation": "Anatomical or functional location where the probe is sampling, as an ontology term (e.g., UBERON:0002436 'primary visual cortex').",
-            "constraints": {}
+            "ontology": null,
+            "documentation": "Ontology identifier of the probe's anatomical/functional location (e.g., 'UBERON:0002436', 'UBERON:0001880'). v1 ships this as a flat char field alongside `name`.",
+            "constraints": {
+                "maxLength": 128
+            }
+        },
+        {
+            "name": "name",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Human-readable name for the location (e.g., 'primary visual cortex', 'bed nucleus of stria terminalis (BNST)'). Paired with `ontology_name`.",
+            "constraints": {
+                "maxLength": 256
+            }
         }
     ]
 }

@@ -5,6 +5,9 @@
         "superclasses": [
             {
                 "class_name": "base"
+            },
+            {
+                "class_name": "openminds"
             }
         ],
         "maturity_level": "stable"
