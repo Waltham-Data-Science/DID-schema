@@ -5,6 +5,9 @@
         "superclasses": [
             {
                 "class_name": "base"
+            },
+            {
+                "class_name": "app"
             }
         ],
         "maturity_level": "stable"
@@ -25,20 +28,7 @@
     ],
     "fields": [
         {
-            "name": "num_clusters",
-            "type": "integer",
-            "blank_value": 0,
-            "default_value": 0,
-            "mustBeNonEmpty": false,
-            "mustBeScalar": true,
-            "mustNotHaveNaN": true,
-            "queryable": true,
-            "ontology": null,
-            "documentation": "The number of clusters found by JRCLUST.",
-            "constraints": {}
-        },
-        {
-            "name": "jrclust_version",
+            "name": "res_mat_md5_checksum",
             "type": "char",
             "blank_value": "",
             "default_value": "",
@@ -47,9 +37,9 @@
             "mustNotHaveNaN": false,
             "queryable": true,
             "ontology": null,
-            "documentation": "The version of JRCLUST used for sorting.",
+            "documentation": "MD5 checksum of the JRCLUST *_res.mat results file, recorded at ingestion so downstream consumers can detect resort/reanalysis.",
             "constraints": {
-                "maxLength": 32
+                "maxLength": 64
             }
         }
     ]

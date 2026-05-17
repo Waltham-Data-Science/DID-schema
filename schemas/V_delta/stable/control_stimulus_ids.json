@@ -5,6 +5,9 @@
         "superclasses": [
             {
                 "class_name": "base"
+            },
+            {
+                "class_name": "app"
             }
         ],
         "maturity_level": "stable"
@@ -12,38 +15,91 @@
     "depends_on": [
         {
             "name": "stimulus_presentation_id",
-            "mustBeNonEmpty": true,
-            "documentation": "The document ID of the stimulus presentation these control IDs describe.",
+            "mustBeNonEmpty": false,
+            "documentation": "Optional pointer to the stimulus_presentation document these control IDs annotate.",
             "must_refer_to_document_class": ""
         }
     ],
     "file": [],
     "fields": [
         {
-            "name": "control_ids",
-            "type": "char",
-            "blank_value": "",
-            "default_value": "",
+            "name": "control_stimulus_ids",
+            "type": "matrix",
+            "blank_value": [],
+            "default_value": [],
             "mustBeNonEmpty": false,
-            "mustBeScalar": true,
+            "mustBeScalar": false,
             "mustNotHaveNaN": false,
             "queryable": false,
             "ontology": null,
-            "documentation": "Comma-separated list of control stimulus identifiers (e.g., 'blank,gray_screen'). These identify which stimulus conditions serve as controls.",
+            "documentation": "Integer identifier(s) of the stimulus condition(s) that serve as the control reference for the linked stimulus_presentation. v1 sometimes ships NaN when no control was recorded; sometimes a scalar; sometimes an array.",
             "constraints": {}
         },
         {
-            "name": "num_control_ids",
-            "type": "integer",
-            "blank_value": 0,
-            "default_value": 0,
+            "name": "control_stimulus_id_method",
+            "type": "structure",
+            "blank_value": {
+                "method":          "",
+                "controlid":       "",
+                "controlid_value": 0
+            },
+            "default_value": {
+                "method":          "",
+                "controlid":       "",
+                "controlid_value": 0
+            },
             "mustBeNonEmpty": false,
             "mustBeScalar": true,
-            "mustNotHaveNaN": true,
+            "mustNotHaveNaN": false,
             "queryable": true,
             "ontology": null,
-            "documentation": "The number of unique control stimulus identifiers.",
-            "constraints": {}
+            "documentation": "How the control_stimulus_ids were derived. v1 uniformly ships a 3-field struct: method (e.g., 'pseudorandom'), controlid (e.g., 'isblank'), and controlid_value (numeric tag, e.g., 1).",
+            "constraints": {},
+            "fields": [
+                {
+                    "name": "method",
+                    "type": "char",
+                    "blank_value": "",
+                    "default_value": "",
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Name of the algorithm used to identify which stimuli are controls (e.g., 'pseudorandom', 'explicit_list').",
+                    "constraints": {
+                        "maxLength": 64
+                    }
+                },
+                {
+                    "name": "controlid",
+                    "type": "char",
+                    "blank_value": "",
+                    "default_value": "",
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Name of the per-stimulus key that flags control trials (e.g., 'isblank').",
+                    "constraints": {
+                        "maxLength": 64
+                    }
+                },
+                {
+                    "name": "controlid_value",
+                    "type": "double",
+                    "blank_value": 0,
+                    "default_value": 0,
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Value of `controlid` that marks a trial as a control (e.g., 1).",
+                    "constraints": {}
+                }
+            ]
         }
     ]
 }

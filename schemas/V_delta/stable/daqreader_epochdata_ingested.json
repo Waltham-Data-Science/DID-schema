@@ -26,19 +26,51 @@
     "file": [],
     "fields": [
         {
-            "name": "ingestion_status",
-            "type": "char",
-            "blank_value": "",
-            "default_value": "complete",
-            "mustBeNonEmpty": true,
+            "name": "epochtable",
+            "type": "structure",
+            "blank_value": {
+                "epochclock": [],
+                "t0_t1": []
+            },
+            "default_value": {
+                "epochclock": [],
+                "t0_t1": []
+            },
+            "mustBeNonEmpty": false,
             "mustBeScalar": true,
             "mustNotHaveNaN": false,
-            "queryable": true,
+            "queryable": false,
             "ontology": null,
-            "documentation": "The status of the ingestion ('complete', 'partial', 'failed').",
-            "constraints": {
-                "maxLength": 32
-            }
+            "documentation": "Captured epoch-table snapshot for the ingested epoch. v1 ships {epochclock: [<clock_name>], t0_t1: [t0, t1]} — clock identifier(s) and the corresponding start/stop time pair, both in the units of that clock.",
+            "constraints": {},
+            "fields": [
+                {
+                    "name": "epochclock",
+                    "type": "string",
+                    "blank_value": [],
+                    "default_value": [],
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": false,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Cell array of clock identifier strings (e.g., {'dev_local_time'}) that index the t0_t1 row(s).",
+                    "constraints": {}
+                },
+                {
+                    "name": "t0_t1",
+                    "type": "matrix",
+                    "blank_value": [],
+                    "default_value": [],
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": false,
+                    "mustNotHaveNaN": false,
+                    "queryable": false,
+                    "ontology": null,
+                    "documentation": "Two-element [t0, t1] start/stop time pair in the units of the matching epochclock entry.",
+                    "constraints": {}
+                }
+            ]
         }
     ]
 }

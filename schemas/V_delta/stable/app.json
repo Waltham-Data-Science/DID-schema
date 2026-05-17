@@ -17,7 +17,7 @@
             "type": "char",
             "blank_value": "",
             "default_value": "ndi.app",
-            "mustBeNonEmpty": true,
+            "mustBeNonEmpty": false,
             "mustBeScalar": true,
             "mustNotHaveNaN": false,
             "queryable": true,
