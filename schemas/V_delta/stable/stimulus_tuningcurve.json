@@ -154,10 +154,10 @@
             "default_value": [],
             "mustBeNonEmpty": false,
             "mustBeScalar": false,
-            "mustNotHaveNaN": true,
+            "mustNotHaveNaN": false,
             "queryable": false,
             "ontology": null,
-            "documentation": "Per-trial, per-stimulus index of the original stimulus presentation. Shape (N_trials x N_stimuli). Lets callers map an individual_responses_real[t,s] back to the original stimulus_presentation document.",
+            "documentation": "Per-trial, per-stimulus index of the original stimulus presentation. Shape (N_trials x N_stimuli). Lets callers map an individual_responses_real[t,s] back to the original stimulus_presentation document. Cells may be NaN where the corresponding trial slot held no presentation (v1 corpora use NaN as the missing-trial sentinel).",
             "constraints": {
                 "element_type": "integer"
             }

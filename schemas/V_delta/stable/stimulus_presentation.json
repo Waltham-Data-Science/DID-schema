@@ -51,11 +51,11 @@
                 "parameters": {}
             },
             "mustBeNonEmpty": false,
-            "mustBeScalar": true,
+            "mustBeScalar": false,
             "mustNotHaveNaN": false,
             "queryable": false,
             "ontology": null,
-            "documentation": "Stimulus configuration captured at presentation time. The sole sub-field that all v1 corpora ship is `parameters`, an open-shape struct whose keys depend on the stimulus type (Hartley basis, sparse-noise grid, oriented gratings, etc.) and on the generating library version. V_delta does not constrain inner field names because each stimulus type contributes its own; the validator only verifies that `stimuli` is itself a struct. Consumers that need to interpret specific parameter values should branch on the stimulus class context (e.g., the linked `app.app_name`) before reading.",
+            "documentation": "Stimulus configuration(s) captured at presentation time. v1 ships this as either a scalar struct (one stimulus configuration) or a struct array (one entry per presented stimulus, e.g., a 225-element array for a Hartley basis). The sole sub-field that all v1 corpora ship is `parameters`, an open-shape struct whose keys depend on the stimulus type (Hartley basis, sparse-noise grid, oriented gratings, etc.) and on the generating library version. V_delta does not constrain inner field names because each stimulus type contributes its own; the validator only verifies that `stimuli` is itself a struct (or struct array). Consumers that need to interpret specific parameter values should branch on the stimulus class context (e.g., the linked `app.app_name`) before reading.",
             "constraints": {},
             "fields": [
                 {
