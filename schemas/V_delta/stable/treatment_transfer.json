@@ -1,0 +1,120 @@
+{
+    "document_class": {
+        "class_name": "treatment_transfer",
+        "class_version": "1.0.0",
+        "superclasses": [
+            {
+                "class_name": "base"
+            }
+        ],
+        "maturity_level": "stable"
+    },
+    "depends_on": [
+        {
+            "name": "recipient_id",
+            "mustBeNonEmpty": true,
+            "documentation": "The document ID of the subject that received the transferred entity.",
+            "must_refer_to_document_class": ""
+        },
+        {
+            "name": "donor_id",
+            "mustBeNonEmpty": false,
+            "documentation": "The document ID of the subject from which the entity was transferred, if applicable.",
+            "must_refer_to_document_class": ""
+        }
+    ],
+    "file": [],
+    "fields": [
+        {
+            "name": "timestamp",
+            "type": "double",
+            "blank_value": 0.0,
+            "default_value": 0.0,
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": true,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "The time that the transfer occurred, specified as a datenum (if global clock) or in seconds (if local clock).",
+            "constraints": {
+                "min": -10000000,
+                "max": 10000000
+            }
+        },
+        {
+            "name": "clocktype",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "The clock type of the timestamp. Use a global clock if available.",
+            "constraints": {
+                "maxLength": 128
+            }
+        },
+        {
+            "name": "entity_name",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "The human-readable name of the entity that was transferred (e.g., 'blood' or 'medium'). Paired with `entity_ontology_node`.",
+            "constraints": {
+                "maxLength": 256
+            }
+        },
+        {
+            "name": "entity_ontology_node",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Ontology node identifier of the entity that was transferred, as a CURIE (e.g., 'EMPTY:0000002', 'UBERON:3373'). Paired with `entity_name`.",
+            "constraints": {
+                "maxLength": 128
+            }
+        },
+        {
+            "name": "method_name",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "The human-readable name of the method used to transfer the entity (e.g., 'blood transfusion' or 'titanium pick'). Paired with `method_ontology_node`.",
+            "constraints": {
+                "maxLength": 256
+            }
+        },
+        {
+            "name": "method_ontology_node",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Ontology node identifier of the transfer method, as a CURIE (e.g., 'EMPTY:0000002', 'UBERON:3373'). Paired with `method_name`.",
+            "constraints": {
+                "maxLength": 128
+            }
+        }
+    ]
+}
