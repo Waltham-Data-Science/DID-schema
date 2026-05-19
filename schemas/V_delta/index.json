@@ -1097,6 +1097,17 @@
       "is_meta": false
     },
     {
+      "class_name": "treatment_transfer",
+      "tier": "stable",
+      "class_version": "1.0.0",
+      "maturity_level": "stable",
+      "superclasses": [
+        "base"
+      ],
+      "path": "schemas/V_delta/stable/treatment_transfer.json",
+      "is_meta": false
+    },
+    {
       "class_name": "tuning_fit",
       "tier": "stable",
       "class_version": "1.0.0",
