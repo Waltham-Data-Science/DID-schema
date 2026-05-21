@@ -46,6 +46,21 @@
             "ontology": null,
             "documentation": "Comma-separated list of metadata field names this reader can extract (e.g., 'sample_rate,num_channels,device_name').",
             "constraints": {}
+        },
+        {
+            "name": "tab_separated_file_parameter",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Optional 'lazy hook' field: if the metadata for each epoch is a tab-separated file, the base ndi.daq.metadatareader uses this field to identify the per-epoch file without requiring a subclass. Preserved as a v1 → V_delta pass-through; new code should prefer a dedicated subclass (e.g., daqmetadatareader_tsv) when one exists.",
+            "constraints": {
+                "maxLength": 1024
+            }
         }
     ]
 }
