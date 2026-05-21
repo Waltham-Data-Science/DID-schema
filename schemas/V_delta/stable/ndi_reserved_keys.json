@@ -35,9 +35,9 @@
         { "name": "class_name", "context": "inside document_class and inside document_class.superclasses entries", "description": "Concrete-class or superclass identifier." },
         { "name": "class_version", "context": "inside document_class and inside document_class.superclasses entries", "description": "Semantic version at write time." },
         { "name": "superclasses", "context": "inside document_class", "description": "Snapshot of the inheritance chain at write time." },
-        { "name": "depends_on", "context": "top-level", "description": "Array of dependency-value objects." },
+        { "name": "depends_on", "context": "top-level", "description": "Array of dependency-id objects." },
         { "name": "name", "context": "inside depends_on entries", "description": "Role name matching a dependency declaration (after numbered-dependency expansion)." },
-        { "name": "value", "context": "inside depends_on entries", "description": "DID UID of the referenced document." }
+        { "name": "document_id", "context": "inside depends_on entries", "description": "DID UID of the referenced document. Renamed from V_alpha's `id` and the earlier V_delta draft `value`: the field is always a did_uid string referring to another document, and the explicit name signals that." }
     ],
     "notes": [
         "Property-block keys in a document instance equal the `class_name` of a class in the document's inheritance chain. These are reserved by virtue of being class names; they are not enumerated here because they are not fixed strings.",

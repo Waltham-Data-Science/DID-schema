@@ -98,7 +98,7 @@ new field).
         ]
     },
     "depends_on": [
-        { "name": "element_id", "value": "" }
+        { "name": "element_id", "document_id": "" }
     ],
     "base": {
         "id":         "aabb1122ccdd3344_1122334455667788",
@@ -126,7 +126,7 @@ new field).
         ]
     },
     "depends_on": [
-        { "name": "element_id", "value": "" }
+        { "name": "element_id", "document_id": "" }
     ],
     "base": {
         "id":         "aabb1122ccdd3344_1122334455667788",

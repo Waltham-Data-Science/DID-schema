@@ -37,7 +37,7 @@ template (the schema file alone is insufficient).
 | `contrast_tuning.fit.naka_rushton_RB_*` (9 fields) | `contrast_tuning.fit.naka_rushton_rb.*` | regrouped into nested struct + snake-cased; scalar metrics → `double`, array metrics → `matrix<double>`; `sensitivity` is a 1x10 `matrix<double>` (see below) |
 | `contrast_tuning.fit.naka_rushton_RBN_*` | `contrast_tuning.fit.naka_rushton_rbn.*` | same |
 | `contrast_tuning.fit.naka_rushton_RBNS_*` | `contrast_tuning.fit.naka_rushton_rbns.*` | same |
-| (top-level) `depends_on: [element_id, stimulus_tuningcurve_id]` | top-level `depends_on` array | identity (named refs declared on the schema, value carried on document instances) |
+| (top-level) `depends_on: [element_id, stimulus_tuningcurve_id]` | top-level `depends_on` array | identity (named refs declared on the schema, document_id carried on document instances) |
 
 ## Transformations in detail
 
