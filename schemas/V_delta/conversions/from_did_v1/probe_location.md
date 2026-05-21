@@ -33,7 +33,7 @@ class-scoped property block keyed by `probe_location`).
 | `probe_location.ontology_name` (char) | `probe_location.location.node` | composed into `ontology_term` | CURIE (e.g., `uberon:0002436`). See "Transformations in detail". |
 | `probe_location.name` (char) | `probe_location.location.name` | composed into `ontology_term` | Human-readable label snapshot (e.g., `primary visual cortex`). |
 | — | `probe_location.location` (ontology_term) | new composite field | Created by composing the two did_v1 chars above. |
-| `depends_on[probe_id]` | `depends_on[probe_id]` | identity | Declared on the schema; the value travels with each document. |
+| `depends_on[probe_id]` | `depends_on[probe_id]` | identity | Declared on the schema; the document_id travels with each document. |
 
 ## Transformations in detail
 
@@ -85,7 +85,7 @@ once it ships; until then no migrated document needs to carry it.
         ]
     },
     "depends_on": [
-        { "name": "probe_id", "value": "aabb1122ccdd3344_aabb1122ccdd3344" }
+        { "name": "probe_id", "document_id": "aabb1122ccdd3344_aabb1122ccdd3344" }
     ],
     "base": {
         "id":         "aabb1122ccdd3344_1122334455667788",
@@ -112,7 +112,7 @@ once it ships; until then no migrated document needs to carry it.
         ]
     },
     "depends_on": [
-        { "name": "probe_id", "value": "aabb1122ccdd3344_aabb1122ccdd3344" }
+        { "name": "probe_id", "document_id": "aabb1122ccdd3344_aabb1122ccdd3344" }
     ],
     "base": {
         "id":         "aabb1122ccdd3344_1122334455667788",

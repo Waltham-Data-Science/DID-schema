@@ -96,9 +96,9 @@ will be inherited from `base` when it ships.
         ]
     },
     "depends_on": [
-        { "name": "subject_id",      "value": "aabb1122ccdd3344_aabb1122ccdd3344" },
-        { "name": "manipulation_id", "value": "" },
-        { "name": "protocol_id",     "value": "" }
+        { "name": "subject_id",      "document_id": "aabb1122ccdd3344_aabb1122ccdd3344" },
+        { "name": "manipulation_id", "document_id": "" },
+        { "name": "protocol_id",     "document_id": "" }
     ],
     "base": {
         "id":         "aabb1122ccdd3344_1122334455667788",
@@ -127,9 +127,9 @@ will be inherited from `base` when it ships.
         ]
     },
     "depends_on": [
-        { "name": "subject_id",      "value": "aabb1122ccdd3344_aabb1122ccdd3344" },
-        { "name": "manipulation_id", "value": "" },
-        { "name": "protocol_id",     "value": "" }
+        { "name": "subject_id",      "document_id": "aabb1122ccdd3344_aabb1122ccdd3344" },
+        { "name": "manipulation_id", "document_id": "" },
+        { "name": "protocol_id",     "document_id": "" }
     ],
     "base": {
         "id":         "aabb1122ccdd3344_1122334455667788",

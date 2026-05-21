@@ -44,6 +44,17 @@ substantive schema content changes will land in follow-up PRs.
 
 ### Schema content
 
+- **`depends_on(k).document_id` (renamed from `value`).** The
+  `depends_on` array entries on every V_delta document instance carry
+  the keys `name` (role) and `document_id` (DID UID of the referenced
+  document). This replaces the earlier V_delta draft choice of `value`,
+  which was generic but uninformative — every entry's value in practice
+  always is a `did_uid` referring to another document. The rename lets
+  the field name signal its semantics. V_alpha → V_delta migration in
+  `did2.convert.universalRenames` now produces `document_id` (was
+  `value`); existing V_delta corpora with `value` are accepted by the
+  universal-rename pass and converted forward. See
+  `ndi_reserved_keys.json` for the registry entry.
 - **`maturity_level` values updated.** All 101 V_delta document-class
   schemas now declare `"maturity_level": "stable"` to match their
   current `stable/` folder placement. The meta-schema enforces the new

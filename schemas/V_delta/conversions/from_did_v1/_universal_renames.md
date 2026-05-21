@@ -247,7 +247,55 @@ directory (one markdown per class) rather than in a version flag.
 This rule is purely V_delta-side bookkeeping; it imposes no
 transformation on the did_v1 document being migrated.
 
-## 9. Planned: `schema_version` on every document
+## 9. `depends_on(k).id` → `depends_on(k).document_id`
+
+Every did_v1 document carries cross-document references as an array of
+two-key (sometimes three-key) entries:
+
+```json
+"_depends_on": [
+    { "_name": "probe_id", "_id": "aabb...", "_version": "..." },
+    ...
+]
+```
+
+After rule §1 strips the underscore prefix the keys are `name`, `id`,
+and optionally `version`. V_delta renames `id` → `document_id` and
+drops `version` entirely. The result on every V_delta document
+instance is:
+
+```json
+"depends_on": [
+    { "name": "probe_id", "document_id": "aabb..." },
+    ...
+]
+```
+
+The rename motivation: `id` collided with the top-level
+`base.id` field for the documents themselves; the earlier V_delta
+draft used `value`, which avoided the collision but was uninformative
+("a value of what?"). `document_id` says exactly what the field is —
+a `did_uid` referring to another document — and the explicit
+`document_` prefix disambiguates from any future id-shaped fields the
+schema may add.
+
+`version` is dropped because V_delta does not support per-document
+version branches; cross-document references resolve to whichever
+version of the target document is current in the database.
+
+| did_v1 entry key | V_delta entry key |
+|---|---|
+| `id` | `document_id` |
+| `version` | _(dropped)_ |
+| `name` | `name` *(unchanged)* |
+
+The universal-rename pass in `did2.convert.universalRenames`
+(`renameDependsOnEntries`) implements this rule. It also tolerates
+the earlier V_delta-draft key `value` as a synonym for `id` so
+already-migrated corpora convert forward to `document_id` on next
+read.
+
+## 10. Planned: `schema_version` on every document
 
 V_delta plans to add a required `schema_version` field on `base` (and
 therefore on every inheriting document). Established values:

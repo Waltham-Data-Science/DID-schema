@@ -49,7 +49,7 @@ field-level typing in V_delta is recovered from the paired db_doc template
 | `orientation_direction_tuning.fit.orientation_angle_preference` | same | identity (double) |
 | `orientation_direction_tuning.fit.direction_angle_preference` | same | identity (double) |
 | `orientation_direction_tuning.fit.hwhh` | same | identity (double) |
-| (top-level) `depends_on: [element_id, stimulus_tuningcurve_id]` | top-level `depends_on` array | identity (named refs declared on the schema, value carried on document instances) |
+| (top-level) `depends_on: [element_id, stimulus_tuningcurve_id]` | top-level `depends_on` array | identity (named refs declared on the schema, document_id carried on document instances) |
 
 ## Transformations in detail
 
