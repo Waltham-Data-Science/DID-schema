@@ -20,7 +20,7 @@
     "file": [],
     "fields": [
         {
-            "name": "reader_class",
+            "name": "ndi_daqmetadatareader_class",
             "type": "char",
             "blank_value": "",
             "default_value": "",

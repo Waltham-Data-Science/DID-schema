@@ -41,7 +41,7 @@
             }
         },
         {
-            "name": "element_name",
+            "name": "name",
             "type": "char",
             "blank_value": "",
             "default_value": "",
@@ -74,7 +74,7 @@
             }
         },
         {
-            "name": "element_type",
+            "name": "type",
             "type": "char",
             "blank_value": "",
             "default_value": "",
