@@ -30,7 +30,6 @@ field-level changes on top.
 | V_delta class_name | did_v1 source | Status | Doc |
 |---|---|---|---|
 | `contrast_tuning` | NDIcalc-vis-matlab `vision/contrast_tuning` | drafted | [contrast_tuning.md](contrast_tuning.md) |
-| `daqmetadatareader` | NDI-matlab `ndi_common/database_documents/daq/daqmetadatareader.json` | applied-in-tooling | [daqmetadatareader.md](daqmetadatareader.md) |
 | `contrast_tuning_calc` | NDIcalc-vis-matlab `calc/contrasttuning_calc` (renamed) | drafted | [contrast_tuning_calc.md](contrast_tuning_calc.md) |
 | `contrast_sensitivity_calc` | NDIcalc-vis-matlab `calc/contrastsensitivity_calc` (renamed) | drafted | [contrast_sensitivity_calc.md](contrast_sensitivity_calc.md) |
 | `spatial_frequency_tuning` | NDIcalc-vis-matlab `vision/spatial_frequency_tuning` | drafted | [spatial_frequency_tuning.md](spatial_frequency_tuning.md) |

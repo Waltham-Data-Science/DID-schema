@@ -16,7 +16,22 @@
     "file": [],
     "fields": [
         {
-            "name": "file_type",
+            "name": "ndi_daqreader_ndr_class",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "ndi.daq.reader.mfdaq.ndr",
+            "mustBeNonEmpty": true,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "The NDI reader class that implements this NDR-backed daqreader.",
+            "constraints": {
+                "maxLength": 256
+            }
+        },
+        {
+            "name": "ndr_reader_string",
             "type": "char",
             "blank_value": "",
             "default_value": "",
