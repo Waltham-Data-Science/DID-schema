@@ -75,8 +75,10 @@ template.
 
 ## Default values for new fields
 
-None added by this PR. The planned global `schema_version` field will
-land via a follow-up that updates `base`.
+None added by this PR. The global `schema_version` tag lives at
+`document_class.schema_version` (see `_universal_renames.md` § 10) and
+is set to `"V_delta"` by the dispatcher rather than the per-class
+migrator.
 
 ## Worked example
 

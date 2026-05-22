@@ -19,8 +19,9 @@ The substantive differences are listed in `V_delta_SPEC.md`. In summary:
 2. **`index.json`** as the resolution source of truth.
 3. **Expanded `maturity_level` values** — `stable` / `draft` /
    `deprecated`.
-4. **`schema_version` field on document instances** (planned, not yet
-   in the schemas).
+4. **`schema_version` on document instances**, carried at
+   `document_class.schema_version` (set-version metadata, not a
+   class-scoped field).
 5. **Conversion docs from `did_v1`** colocated with the schemas.
 
 Schema *content* in V_delta begins as a verbatim copy of V_gamma. The
@@ -70,10 +71,16 @@ substantive schema content changes will land in follow-up PRs.
 - ~~**Add the `schema_version` field** to `base.json` (and therefore to
   every inheriting document type) as a required `char` field with
   enumeration `["did_v1", "V_delta"]` (extend as new set versions are
-  added).~~ **Done.** `schema_version` is declared on
-  `schemas/V_delta/stable/base.json` as a required `char` field with
-  `constraints.enum: ["did_v1", "V_delta"]`, and described in
-  `V_delta_SPEC.md` § 4.
+  added).~~ **Resolved differently.** `schema_version` is the version
+  of the overarching schema set, not a payload field on any class. It
+  is carried on document instances at `document_class.schema_version`
+  (a sibling of `class_name`, `class_version`, `superclasses`), not in
+  `base`, and is not declared in any per-class `fields` array. The
+  enumerated values live in `schemas/V_delta/index.json` as
+  `schema_version_value` and `legacy_schema_version_values`; the
+  validator treats `document_class.schema_version` as a structural
+  key. See `V_delta_SPEC.md` § 4 and
+  `conversions/from_did_v1/_universal_renames.md` § 10.
 
 ### Aggregation
 

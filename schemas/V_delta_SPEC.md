@@ -94,23 +94,29 @@ Migration mapping for content carried over from V_gamma:
 | `"work_in_progress"` | `"stable"` (default placement — re-tier to `draft` or `deprecated` per domain review) |
 | — | `"deprecated"` (new, no V_gamma analog) |
 
-### 4. `schema_version` field on document instances
+### 4. `schema_version` on document instances
 
-V_delta adds a required `schema_version` field to document instances,
-inherited via `base`, carrying the set-version string of the schema set
-under which the document was authored. Established values:
+V_delta tags every document instance with a `schema_version` string
+naming the schema set under which the document is interpreted.
+Established values:
 
 - `"V_delta"` — documents authored against V_delta
 - `"did_v1"` — legacy DID/NDI documents predating the V_alpha→V_gamma
   iterations; this value is used by the `conversions/from_did_v1/`
   migration path to recognize incoming legacy documents
 
-The field is declared on `schemas/V_delta/stable/base.json` as a
-required `char` field with `constraints.enum: ["did_v1", "V_delta"]`.
-Extend the enum as new set versions ship. The field is inherited by
-every document type via the `base` superclass, so document instances
-carry it inside the `base` block at path `base.schema_version`. A
-migrated did_v1 document temporarily carrying the legacy shape may
+`schema_version` is the version of the overarching schema set the
+document was authored against, not a payload field belonging to any
+particular class. It therefore lives at `document_class.schema_version`
+on document instances, alongside class-level metadata (`class_name`,
+`class_version`, `superclasses`) — never as a `base` field. It is not
+declared in any per-class `fields` array; the validator treats it as a
+structural key on the `document_class` block. Enumerated values are
+authoritative in `schemas/V_delta/index.json`
+(`schema_version_value`, `legacy_schema_version_values`); extend that
+list as new set versions ship.
+
+A migrated did_v1 document temporarily carrying the legacy shape may
 declare `"did_v1"`; a document authored against V_delta declares
 `"V_delta"`.
 

@@ -295,21 +295,26 @@ the earlier V_delta-draft key `value` as a synonym for `id` so
 already-migrated corpora convert forward to `document_id` on next
 read.
 
-## 10. Planned: `schema_version` on every document
+## 10. `schema_version` on every document
 
-V_delta plans to add a required `schema_version` field on `base` (and
-therefore on every inheriting document). Established values:
+Every V_delta document carries a `schema_version` string naming the
+schema set under which it is interpreted. Established values:
 
 - `"V_delta"` — documents authored against V_delta
 - `"did_v1"` — legacy documents still carrying the did_v1 shape, or
   documents in a holding state during migration
 
-The migrator sets `base.schema_version = "V_delta"` on every output
-document once the field exists. Whether the field is present in this
-PR's `base.json` is tracked under "open follow-ups" in
-`V_delta_notes.md`; conversion logic that relies on its existence
-should branch on schema-introspection, not on a hard-coded
-expectation.
+`schema_version` lives at `document_class.schema_version` (a sibling
+of `class_name`, `class_version`, `superclasses`), not as a `base`
+field. It identifies the overarching schema set, not a property of
+any one class, so it isn't declared in any per-class `fields` array
+and isn't validated by class-field validation.
+
+The migrator sets `body.document_class.schema_version = "V_delta"`
+on every output document. It is the dispatcher short-circuit signal:
+a document whose `document_class.schema_version` is already
+`"V_delta"` is left untouched (modulo the structural padding in
+`ensureClassBlocks`).
 
 ## Cross-references
 

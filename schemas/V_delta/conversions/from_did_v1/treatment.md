@@ -79,8 +79,10 @@ property block keyed by `treatment`).
 ## Default values for new fields
 
 V_delta introduces no required field on this class beyond what did_v1
-documents already supply. The planned global `schema_version` field
-will be inherited from `base` when it ships.
+documents already supply. The global `schema_version` tag lives at
+`document_class.schema_version` (see `_universal_renames.md` § 10) and
+is set to `"V_delta"` by the dispatcher rather than the per-class
+migrator.
 
 ## Worked example
 

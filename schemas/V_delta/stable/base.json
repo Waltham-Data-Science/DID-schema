@@ -9,24 +9,6 @@
     "file": [],
     "fields": [
         {
-            "name": "schema_version",
-            "type": "char",
-            "blank_value": "",
-            "default_value": "V_delta",
-            "mustBeNonEmpty": true,
-            "mustBeScalar": true,
-            "mustNotHaveNaN": false,
-            "queryable": true,
-            "ontology": null,
-            "documentation": "Set-version string identifying the schema set under which this document is interpreted. 'V_delta' for documents authored against the V_delta set; 'did_v1' for legacy documents still carrying the pre-V_alpha-iteration shape (e.g., during staged migration). Extend this enum as new set versions ship. The field is inherited by every document type via base, making documents self-identifying without requiring out-of-band metadata.",
-            "constraints": {
-                "enum": [
-                    "did_v1",
-                    "V_delta"
-                ]
-            }
-        },
-        {
             "name": "id",
             "type": "did_uid",
             "blank_value": "",

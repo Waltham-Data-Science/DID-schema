@@ -67,9 +67,10 @@ class-scoped property block keyed by `probe_location`).
 ## Default values for new fields
 
 V_delta introduces no required field on this class that did_v1 documents
-do not already supply. The planned global `schema_version` field
-(landing in this PR, or a follow-up, on `base.json`) will be inherited
-once it ships; until then no migrated document needs to carry it.
+do not already supply. The global `schema_version` tag lives on every
+document at `document_class.schema_version` (see `_universal_renames.md`
+§10) and is set to `"V_delta"` by the dispatcher rather than the
+per-class migrator.
 
 ## Worked example
 

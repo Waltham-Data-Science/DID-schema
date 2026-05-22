@@ -57,7 +57,7 @@ read by eye.
 
 ```json
 {
-  "schema_version": "did_v1",
+  "document_class": { "class_name": "<class_name>", "schema_version": "did_v1", ... },
   ...
 }
 ```
@@ -66,8 +66,7 @@ read by eye.
 
 ```json
 {
-  "schema_version": "V_delta",
-  "document_class": { "class_name": "<class_name>", "class_version": "..." },
+  "document_class": { "class_name": "<class_name>", "class_version": "...", "schema_version": "V_delta", ... },
   ...
 }
 ```
