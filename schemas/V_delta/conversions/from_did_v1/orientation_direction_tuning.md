@@ -79,10 +79,9 @@ field-level typing in V_delta is recovered from the paired db_doc template
 ## Default values for new fields
 
 V_delta does not introduce new required fields on this class beyond what
-existed in did_v1. The planned global `schema_version` field will land via
-a follow-up PR that updates `base`; once it does, migrated
-`orientation_direction_tuning` documents will carry
-`schema_version: "V_delta"` inherited from base.
+existed in did_v1. The global `schema_version` tag lives at
+`document_class.schema_version` (see `_universal_renames.md` § 10) and is
+set to `"V_delta"` by the dispatcher rather than the per-class migrator.
 
 ## Worked example
 
