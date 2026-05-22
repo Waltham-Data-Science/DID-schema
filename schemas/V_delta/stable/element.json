@@ -60,17 +60,18 @@
         },
         {
             "name": "reference",
-            "type": "char",
-            "blank_value": "",
-            "default_value": "1",
+            "type": "integer",
+            "blank_value": 0,
+            "default_value": 1,
             "mustBeNonEmpty": true,
             "mustBeScalar": true,
-            "mustNotHaveNaN": false,
+            "mustNotHaveNaN": true,
             "queryable": true,
             "ontology": null,
             "documentation": "The reference number of the element.",
             "constraints": {
-                "maxLength": 256
+                "min": 0,
+                "max": 100000
             }
         },
         {
