@@ -132,6 +132,29 @@ Conversion **from V_gamma** is not provided. V_gamma was an internal
 sandbox with no external consumers; documents authored against V_gamma
 are expected to be regenerated against V_delta rather than migrated.
 
+### 6. Field placement is used by `calculator.input_parameters`
+
+V_delta inherits the V_gamma per-field `placement` mechanism (see
+[`V_gamma_SPEC.md`](V_gamma_SPEC.md), "Field placement" under "Field
+Definition Object"). V_delta is the first set version to make use of
+it: the abstract `calculator` superclass declares
+`input_parameters` with `"placement": "concrete_class"`, so concrete
+calculator subclasses (`simple_calc`, `tuningcurve_calc`,
+`oridirtuning_calc`, `contrast_tuning_calc`,
+`contrast_sensitivity_calc`, `spatial_frequency_tuning_calc`,
+`speed_tuning_calc`, `temporal_frequency_tuning_calc`,
+`hartley_calc`, …) carry the field as
+`<subclass_class_name>.input_parameters` on instance bodies — and the
+abstract `calculator` block is omitted from those bodies entirely
+since it has no other declared field to host. This matches the did_v1
+on-disk layout: legacy NDI calculator documents already stored
+`<class>.input_parameters` on the concrete class block, so no
+structural move is required during the `did_v1 -> V_delta` conversion.
+This also makes the inheritance-driven required-field contract read
+naturally — "every `calculator` subclass instance must supply
+`input_parameters`" is satisfied by a field on the subclass block,
+not a phantom `calculator` block.
+
 ---
 
 ## Promotion to V1

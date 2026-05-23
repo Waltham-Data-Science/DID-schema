@@ -264,8 +264,12 @@ Everything else about an abstract class behaves like a normal schema:
   a concrete class. The validator walks the class chain to collect the
   full set of required fields and dependencies; in a document instance,
   fields declared by an abstract class live in that class's own property
-  block (see "JSON Format: Document Instances"), not in a subclass's
-  block.
+  block by default (see "JSON Format: Document Instances"), but a
+  field declaration may opt into placement on the concrete subclass's
+  block instead by setting the `placement` key — see "Field placement"
+  under "Field Definition Object" below. An abstract class whose
+  fields are *all* placed on the concrete subclass contributes no
+  property block to instance bodies.
 - `isa <abstract_class_name>` queries match every document whose class
   chain includes the abstract class.
 - The meta-schema permits the key but does not enforce the instantiation
@@ -355,6 +359,7 @@ following keys:
 | `ontology`       | object or null  | yes      | CURIE-based annotation of what the field itself means (e.g., this field denotes the concept of "frequency"). Not a place to store an ontology-rooted value — that is the `ontology_term` type. See below, or `null` if no suitable term exists. |
 | `documentation`  | string          | yes      | Human-readable description. |
 | `constraints`    | object          | yes      | Type-specific constraint keywords. Use `{}` for unconstrained. |
+| `placement`      | string          | no       | Per-field opt-in to placement on the concrete subclass's block instead of the declaring class's block. Allowed values: `"declaring_class"` (default when omitted) and `"concrete_class"`. Only meaningful when the declaring class has `document_class.abstract: true`; a schema that sets `placement: "concrete_class"` on a field declared by a concrete class is invalid. See "Field placement" below. |
 
 For `"type": "structure"` fields, an additional key is required, plus two
 optional keys for the array-of-structure and discriminated-union variants:
@@ -385,6 +390,69 @@ The `matrix` type continues to be the right choice for numeric tabular data
 (2D arrays of doubles or integers). The `structure` type with
 `mustBeScalar: false` is the right choice for record-like repetition where
 each element has named sub-fields.
+
+#### Field placement (new in V_gamma)
+
+Default field placement in V_gamma is **on the block of the class that
+declared the field** ("provenance is structural", as restated in the
+"Property block contents" rules under "JSON Format: Document
+Instances"). The optional `placement` key on a field declaration
+overrides that default for a single field:
+
+| `placement` value         | Where the field lives in a document instance |
+|---------------------------|-----------------------------------------------|
+| `"declaring_class"` (default) | In the property block named after the declaring class, exactly as the default V_gamma rule. |
+| `"concrete_class"`        | In the property block named after the document's *concrete* class — the class named by `document_class.class_name`. The declaring class does not host the field on the instance body. |
+
+`placement: "concrete_class"` is **only valid on fields declared by an
+abstract class** (`document_class.abstract: true`). A field declared by
+a concrete class has no meaningful "concrete subclass" to flatten into
+— its declaring block *is* the concrete instance block — and so a
+concrete-class field declaration that sets `placement: "concrete_class"`
+is a schema error. The meta-schema rejects this at load time.
+
+**Why per-field, not per-class.** Different fields on the same abstract
+class can have different placement: `calc_base.input_parameters` may
+flatten into the concrete subclass while `calc_base.metadata` (if it
+existed) stayed on `calc_base`. Encoding placement at the field level
+keeps the choice local to the declaration that motivates it.
+
+**Effect on the abstract class's block.** An abstract class whose
+declared fields are *all* `placement: "concrete_class"` does not host
+any field on instance bodies, and therefore does not contribute a
+property block to instance bodies — see "Top-level keys of a document
+instance" and "Property block contents". An abstract class whose
+fields are a mix of `"declaring_class"` and `"concrete_class"` does
+contribute a block on instance bodies, containing only its
+`"declaring_class"` fields.
+
+**Collisions are a hard error.** When the validator (or class-cache
+build step) walks a concrete class's chain and resolves placement for
+every field, two fields that land in the same block under the same
+`name` are a schema error reported at schema-load time, not at
+document-validation time. Specifically:
+
+1. **Two ancestors both place into the concrete-class block.** If
+   abstract `A` and abstract `B` both declare a field named `x` with
+   `placement: "concrete_class"`, any concrete class `C` whose chain
+   contains both `A` and `B` is invalid until the schema author
+   renames one declaration or redesigns the inheritance.
+2. **Ancestor places into concrete-class block, concrete redeclares
+   the same name.** A concrete subclass's own field named `x`
+   collides with an ancestor's `x` placed at `"concrete_class"`. The
+   subclass's `fields` list must not redeclare a name an ancestor has
+   already placed into the concrete-class block.
+3. **Ancestor places into concrete-class block, intermediate
+   ancestor redeclares with different placement.** Only the topmost
+   ancestor's `placement` value participates in routing; intermediate
+   redeclarations of the same `name` are themselves a collision
+   unless they share the topmost declaration's `placement` and shape.
+   In practice, schema authors should not redeclare placed fields
+   down the chain.
+
+The collisions above can be detected statically from the class-chain
+schema graph, so the validator reports them once at cache build, not
+per-document.
 
 ### Ontology Annotation Object (new in V_gamma)
 
@@ -827,12 +895,18 @@ validation and query-indexing step.
 |------------------|---------|----------|-------------|
 | `document_class` | object  | yes      | Class-identity header. Sub-keys `class_name`, `class_version`, `superclasses` — see "Document-Class Header (in document instances)" below. |
 | `depends_on`    | array   | yes      | Array of dependency-value objects (see "Dependency Values" below). Empty `[]` if the class chain declares no dependencies. Top-level, not under `document_class`, because dependency values are cross-document. |
-| `<class_name>`   | object  | one per class in the chain | A property block whose key is the `class_name` of a class in this document's inheritance chain (including the concrete class itself). Contents are described below. |
+| `<class_name>`   | object  | one per chain class that contributes a block | A property block whose key is the `class_name` of a class in this document's inheritance chain (including the concrete class itself). Contents are described below. |
 
 No other top-level keys are permitted. Exactly one property block must
-appear for each class in `{concrete class} ∪ {transitive superclasses}`,
-with no extras and no omissions, even when a class declares zero fields
-(in which case its block is `{}`).
+appear for each class in `{concrete class} ∪ {transitive superclasses}`
+that contributes a property block, with no extras and no omissions. A
+class contributes a property block unless it is `abstract: true` *and*
+all of its declared fields use `placement: "concrete_class"` — in which
+case the class has nothing to host on the instance body, and its block
+is omitted. A class that declares zero fields (and contributes nothing
+via placement) still contributes a block, which is the empty object
+`{}`. See "Field placement" under "Field Definition Object" for the
+placement mechanism.
 
 ### Document-Class Header (in document instances)
 
@@ -878,27 +952,44 @@ schema, keyed by `name`:
 
 Rules:
 
-- **Provenance is structural.** Every field value sits inside the property
-  block of the class that *declared* it. A reader who wants to find a
-  field's `documentation`, `ontology`, `constraints`, or type opens
-  `schemas/V_gamma/<block_key>.json` and looks the field up by `name`.
-- **No shadowing, by construction.** A subclass `fields` entry named
-  `id` and the `base.fields` entry named `id` are not in conflict —
-  each lives in its own block, so the document paths `base.id` and
-  `<subclass>.id` are distinct values with distinct definitions. Field
-  identity is `(declaring_class, name)`, not `name` alone. There is
-  no override mechanism because there is nothing to override: if two
-  classes in a chain happen to declare the same `name`, they simply
-  define two separate fields that happen to share a leaf name.
-- **Required vs. empty blocks.** A class with zero declared fields still
-  contributes a block; that block is the empty object `{}`. This keeps
-  the wire shape predictable: the set of top-level keys equals
-  `{document_class, depends_on}` plus the class chain, with no implicit
-  omissions.
-- **No cross-block field movement.** A field declared in `base` is not
-  copied into the subclass's block. Validators and query engines that
-  need a flat view of all fields build it themselves by walking the
-  chain (see "Field collection for validation and queries" below).
+- **Provenance is structural by default.** Every field value sits
+  inside the property block of the class that *declared* it, unless
+  the declaration opts into a different block via the `placement` key
+  (see "Field placement" under "Field Definition Object"). The
+  default placement is `placement: "declaring_class"`. A reader who
+  wants to find a field's `documentation`, `ontology`, `constraints`,
+  or type opens `schemas/V_gamma/<declaring_class>.json` and looks
+  the field up by `name`; the declaring class is the field's
+  authoritative spec source regardless of which block hosts the
+  value on the instance body.
+- **No shadowing within a block, by construction.** A subclass
+  `fields` entry named `id` and the `base.fields` entry named `id`
+  are not in conflict — each lives in its own block by default, so
+  the document paths `base.id` and `<subclass>.id` are distinct
+  values with distinct definitions. Field identity is
+  `(declaring_class, name)`, not `name` alone. Two leaf names that
+  end up in the *same* block (because of an ancestor's
+  `placement: "concrete_class"` routing or a same-block redeclaration)
+  are a schema-load-time collision error — see "Field placement"
+  for the rules.
+- **Required vs. empty blocks.** A non-abstract class with zero
+  declared fields still contributes a block; that block is the empty
+  object `{}`. An abstract class with all declared fields placed at
+  `"concrete_class"` contributes no block at all (and an abstract
+  class with zero declared fields also contributes no block).
+  Everything else (concrete classes; abstract classes with at least
+  one `"declaring_class"` field) contributes a block, possibly `{}`.
+  This keeps the wire shape predictable: the set of top-level keys
+  equals `{document_class, depends_on}` plus the subset of the class
+  chain that hosts on the instance body.
+- **Cross-block field movement only via explicit `placement`.** A
+  field declared in `base` is not copied into the subclass's block.
+  The only way a field declared by class `A` appears in class `B`'s
+  block on an instance body is if `A` is abstract and the field
+  declaration sets `placement: "concrete_class"` and `B` is the
+  concrete leaf of the instance's chain. Validators and query engines
+  that need a flat view of all fields build it themselves by walking
+  the chain (see "Field collection for validation and queries" below).
 
 ### Dependency Values
 

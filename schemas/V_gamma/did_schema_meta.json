@@ -287,6 +287,14 @@
                     "type": "string",
                     "pattern": "^[a-zA-Z][a-zA-Z0-9_]*$",
                     "description": "Optional, only meaningful for type: 'structure'. Names a sub-field within fields whose value tags discriminated-union element variants. The discriminator sub-field is conventionally a char field with an enum constraint. The meta-schema does not enforce variant-specific required-field rules; consumer tooling and per-schema documentation define those."
+                },
+                "placement": {
+                    "type": "string",
+                    "enum": [
+                        "declaring_class",
+                        "concrete_class"
+                    ],
+                    "description": "Optional per-field opt-in to placement on the concrete subclass's block instead of the declaring class's block on document instances. Default when omitted is 'declaring_class', which matches the V_gamma per-class block default. Setting 'concrete_class' is only meaningful on a field declared by an abstract class (document_class.abstract: true); a concrete class's field with 'placement: concrete_class' is a schema error. See V_gamma_SPEC.md 'Field placement' under 'Field Definition Object'. Cross-block placement collisions (two ancestors placing the same field name into the concrete-class block, or a concrete subclass redeclaring a name already placed by an ancestor) are detected at class-cache build time as a hard schema error."
                 }
             },
             "if": {
