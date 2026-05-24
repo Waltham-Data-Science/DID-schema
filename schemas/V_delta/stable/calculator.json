@@ -26,7 +26,8 @@
             "mustNotHaveNaN": false,
             "queryable": false,
             "ontology": null,
-            "documentation": "Calculator-specific input parameters. The concrete shape is determined by the calculator named in the inherited app.app_name field; the abstract calculator base does not constrain the contents.",
+            "placement": "concrete_class",
+            "documentation": "Calculator-specific input parameters. The concrete shape is determined by the calculator named in the inherited app.app_name field; the abstract calculator base does not constrain the contents. Placement is `concrete_class`: this field lives in the property block of the concrete calculator subclass (e.g., `simple_calc.input_parameters`, `tuningcurve_calc.input_parameters`), not in a `calculator` block, and the abstract `calculator` class contributes no property block to instance bodies. See V_gamma_SPEC.md \"Field placement\" under \"Field Definition Object\".",
             "constraints": {},
             "fields": []
         }
