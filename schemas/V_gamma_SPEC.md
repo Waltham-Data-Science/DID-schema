@@ -437,18 +437,16 @@ document-validation time. Specifically:
    `placement: "concrete_class"`, any concrete class `C` whose chain
    contains both `A` and `B` is invalid until the schema author
    renames one declaration or redesigns the inheritance.
-2. **Ancestor places into concrete-class block, concrete redeclares
-   the same name.** A concrete subclass's own field named `x`
-   collides with an ancestor's `x` placed at `"concrete_class"`. The
-   subclass's `fields` list must not redeclare a name an ancestor has
-   already placed into the concrete-class block.
-3. **Ancestor places into concrete-class block, intermediate
-   ancestor redeclares with different placement.** Only the topmost
-   ancestor's `placement` value participates in routing; intermediate
-   redeclarations of the same `name` are themselves a collision
-   unless they share the topmost declaration's `placement` and shape.
-   In practice, schema authors should not redeclare placed fields
-   down the chain.
+2. **No subclass redeclaration of a placed name.** Once any ancestor
+   declares a field with `placement: "concrete_class"`, no other class
+   in the chain — abstract or concrete, higher or lower — may declare
+   a field with the same `name`. The placed declaration is
+   authoritative for that name everywhere in the chain. Authors who
+   want the inherited field simply inherit it; renaming one of the
+   declarations is the disambiguation tool. The rule applies whether
+   the would-be redeclaration restates the same `placement` and shape
+   or differs — same-name match is the bright line, with no
+   "verbatim restatement" carve-out.
 
 The collisions above can be detected statically from the class-chain
 schema graph, so the validator reports them once at cache build, not

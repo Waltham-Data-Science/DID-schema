@@ -291,7 +291,7 @@
                         "declaring_class",
                         "concrete_class"
                     ],
-                    "description": "Optional per-field opt-in to placement on the concrete subclass's block instead of the declaring class's block on document instances. Default when omitted is 'declaring_class', which matches the V_gamma per-class block default. Setting 'concrete_class' is only meaningful on a field declared by an abstract class (document_class.abstract: true); a concrete class's field with 'placement: concrete_class' is a schema error. See V_gamma_SPEC.md 'Field placement' under 'Field Definition Object'. Cross-block placement collisions (two ancestors placing the same field name into the concrete-class block, or a concrete subclass redeclaring a name already placed by an ancestor) are detected at class-cache build time as a hard schema error."
+                    "description": "Optional per-field opt-in to placement on the concrete subclass's block instead of the declaring class's block on document instances. Default when omitted is 'declaring_class', which matches the V_gamma per-class block default. Setting 'concrete_class' is only meaningful on a field declared by an abstract class (document_class.abstract: true); a concrete class's field with 'placement: concrete_class' is a schema error. See V_gamma_SPEC.md 'Field placement' under 'Field Definition Object'. Collisions are a hard error reported at class-cache build time: (a) two ancestors that both place the same field name into the concrete-class block, or (b) any class in the chain (abstract or concrete) that declares a field whose name matches a placement: concrete_class declaration on any ancestor."
                 }
             },
             "if": {
