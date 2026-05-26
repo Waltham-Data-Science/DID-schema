@@ -1,0 +1,41 @@
+{
+  "classname": "analysis_output",
+  "class_version": "0.1.0",
+  "id": "ndi-analysis-mixed-effects-DCV-v1",
+  "session_id": "ndi-analysis-cross-session",
+  "name": "Linear mixed-effects model of direction selectivity (1-DCV) across all groups and animals",
+  "datestamp": "2025-02-12T09:00:00-05:00",
+  "method": "linear_mixed_effects",
+  "method_software": "MATLAB fitlme",
+  "method_documentation": "Fixed effect: treatment group (control, EO1contra, EO1ipsi, EO2). Random effect: animal identity. Response: 1-DCV (direction selectivity index) per unit.",
+  "model_formula": "OneMinusDCV ~ Group + (1 | AnimalID)",
+  "fixed_effects": [
+    {"name": "Intercept_control", "estimate": 0.155, "stderr": 0.022, "p_value": 3.2e-12},
+    {"name": "Group_EO1contra", "estimate": 0.036, "stderr": 0.031, "p_value": 0.24},
+    {"name": "Group_EO1ipsi", "estimate": -0.048, "stderr": 0.024, "p_value": 0.047},
+    {"name": "Group_EO2", "estimate": 0.021, "stderr": 0.041, "p_value": 0.61}
+  ],
+  "random_effects": {
+    "grouping_variable": "AnimalID",
+    "variance_component": 0.0042
+  },
+  "included_subjects": [
+    "openminds:griswold-subject-EO1-01",
+    "openminds:griswold-subject-control-01",
+    "openminds:griswold-subject-EO2-01"
+  ],
+  "included_sessions": [
+    "ndi-session-griswold-EO1-01",
+    "ndi-session-griswold-control-01",
+    "ndi-session-griswold-EO2-01"
+  ],
+  "n_units_per_group": {
+    "control": 147,
+    "EO1contra": 203,
+    "EO1ipsi": 184,
+    "EO2": 58
+  },
+  "depends_on": [
+    {"name": "dataset_version", "value": "openminds:griswold-dataset-version-v1"}
+  ]
+}

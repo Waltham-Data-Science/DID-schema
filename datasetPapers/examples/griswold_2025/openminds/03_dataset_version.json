@@ -1,0 +1,28 @@
+{
+  "@type": "core:DatasetVersion",
+  "@id": "openminds:griswold-dataset-version-v1",
+  "versionIdentifier": "v1.0.0",
+  "versionInnovation": "Initial public release on NDI Cloud.",
+  "releaseDate": "2025-10-08",
+  "digitalIdentifier": {"@id": "openminds:doi-ndicloud-griswold"},
+  "license": {"@id": "controlledTerms:License/CC-BY-4.0"},
+  "fullDocumentation": {"@id": "openminds:doi-elife-106513"},
+  "isPartOf": {"@id": "openminds:griswold-dataset-premature-vision"},
+  "studiedSpecimen": [
+    {"@id": "openminds:griswold-subject-group-control"},
+    {"@id": "openminds:griswold-subject-group-EO1"},
+    {"@id": "openminds:griswold-subject-group-EO2"}
+  ],
+  "repository": {
+    "name": "NDI Cloud",
+    "iri": "https://www.ndi-cloud.com/datasets/28xb47y1"
+  },
+  "technique": [
+    {"@id": "controlledTerms:Technique/extracellular-electrophysiology"},
+    {"@id": "controlledTerms:Technique/multichannel-recording"}
+  ],
+  "experimentalApproach": [
+    {"@id": "controlledTerms:ExperimentalApproach/electrophysiology"},
+    {"@id": "controlledTerms:ExperimentalApproach/developmental-neuroscience"}
+  ]
+}

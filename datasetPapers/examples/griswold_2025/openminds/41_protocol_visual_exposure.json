@@ -1,0 +1,15 @@
+{
+  "@type": "core:Protocol",
+  "@id": "openminds:griswold-protocol-visual-exposure",
+  "name": "Unguided visual exposure, 2 h/day x 4 days, P25-P28",
+  "description": "Starting at P25, ferret kits are placed in a rat cage on a heating pad in the lab for 2 h per day over 4 consecutive days. Kits are gently manipulated to prevent sleep. No guided stimuli; exposure is to the ambient laboratory environment. This standardises the amount of patterned visual experience (for animals with prematurely opened eyes) or low-resolution lid-filtered experience (for control animals with lids still closed).",
+  "technique": [
+    {"@id": "controlledTerms:Technique/visual-stimulation"}
+  ],
+  "stimulusType": [
+    {"@id": "controlledTerms:VisualStimulusType/ambient-scene"}
+  ],
+  "describedIn": [
+    {"@id": "openminds:doi-elife-106513"}
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "classname": "session",
+  "class_version": "1.0.0",
+  "id": "ndi-session-griswold-control-01",
+  "session_id": "ndi-session-griswold-control-01",
+  "name": "control-01 session 01",
+  "datestamp": "2024-12-02T13:30:00-05:00",
+  "reference": "griswold_2025_control-01_S01",
+  "type": "acute",
+  "date": "2024-12-02",
+  "purpose": "Monocular V1 multichannel recording in a control ferret (both eyes opened naturally at P30-P33); same stimulus sets as EO1 and EO2 animals.",
+  "depends_on": [
+    {"name": "subject_state", "value": "openminds:griswold-subject-state-control-01-P55-terminal"},
+    {"name": "dataset_version", "value": "openminds:griswold-dataset-version-v1"}
+  ]
+}

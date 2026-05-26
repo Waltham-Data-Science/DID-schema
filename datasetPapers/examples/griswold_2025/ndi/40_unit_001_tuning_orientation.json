@@ -1,0 +1,24 @@
+{
+  "classname": "stimulus_tuningcurve",
+  "class_version": "1.0.0",
+  "id": "ndi-tuning-unit-001-orientation",
+  "session_id": "ndi-session-griswold-EO1-01",
+  "name": "Orientation tuning, unit-001, at preferred SF and contrast 1 (set 1)",
+  "datestamp": "2024-11-20T12:00:00-05:00",
+  "unit_id": "unit-001",
+  "tuning_axis": "orientation",
+  "independent_values": [0, 45, 90, 135],
+  "independent_unit": "degree",
+  "response_type": "mean_firing_rate_F0",
+  "response_unit": "spikes_per_second",
+  "response_mean": [4.2, 8.7, 22.9, 11.3],
+  "response_stderr": [0.6, 0.9, 1.4, 1.1],
+  "num_repetitions": 5,
+  "blank_response_mean": 3.1,
+  "blank_response_stderr": 0.4,
+  "depends_on": [
+    {"name": "spikesort_output", "value": "ndi-spikesort-griswold-EO1-01-session-01"},
+    {"name": "factor_design", "value": "ndi-factor-design-griswold-set1"},
+    {"name": "stimulation_activity", "value": "openminds:griswold-stimact-EO1-01-set1"}
+  ]
+}

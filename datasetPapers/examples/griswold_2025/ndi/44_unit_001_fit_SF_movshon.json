@@ -1,0 +1,28 @@
+{
+  "classname": "fit_curve",
+  "class_version": "1.0.0",
+  "id": "ndi-fit-unit-001-SF-movshon",
+  "session_id": "ndi-session-griswold-EO1-01",
+  "name": "Movshon SF fit for unit-001",
+  "datestamp": "2024-11-20T12:30:00-05:00",
+  "fit_function": "movshon_sf_tf_2005",
+  "fit_parameters": {
+    "k": 23.6,
+    "f_c": 0.18,
+    "f_h": 0.85,
+    "beta": 2.1
+  },
+  "fit_parameter_documentation": "Movshon et al. 2005 model: R(f) = k * exp(-(f/f_c)^2) / (1 + (f_h/f)^beta). k = peak amplitude; f_c = center frequency; f_h = high-frequency cutoff control; beta = high-frequency roll-off exponent.",
+  "derived": {
+    "preferred_value": 0.16,
+    "preferred_unit": "cycles_per_degree",
+    "low_cutoff_L50": 0.05,
+    "high_cutoff_H50": 0.58,
+    "bandwidth_octaves": 3.53
+  },
+  "residual_sum_of_squares": 4.82,
+  "num_data_points": 8,
+  "depends_on": [
+    {"name": "tuning_curve", "value": "ndi-tuning-unit-001-SF"}
+  ]
+}

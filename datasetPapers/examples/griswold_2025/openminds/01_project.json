@@ -1,0 +1,12 @@
+{
+  "@type": "core:Project",
+  "@id": "openminds:griswold-project-premature-vision",
+  "name": "Impact of premature visual experience on ferret V1",
+  "description": "Longitudinal study in ferret visual cortex examining how inappropriately early onset of patterned visual input alters receptive-field development.",
+  "hasResearchProducts": [
+    {"@id": "openminds:griswold-dataset-premature-vision"}
+  ],
+  "coordinator": [
+    {"@id": "openminds:person-van-hooser-stephen"}
+  ]
+}

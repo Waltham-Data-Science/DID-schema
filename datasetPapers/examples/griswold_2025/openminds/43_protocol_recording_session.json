@@ -1,0 +1,14 @@
+{
+  "@type": "core:Protocol",
+  "@id": "openminds:griswold-protocol-recording-session",
+  "name": "Monocular V1 multichannel recording in ferret",
+  "description": "Plexon S probe inserted into V1 at 30-45 degrees from cortical surface, starting from minimum depth 200 um; advance electrode until monocular neurons found (receptive fields in periphery of eye contralateral to recording hemisphere, verified by absence of response to central/ipsilateral stimulation); map RF manually with drifting-grating patches; run Stimulus Set 1 (orientation x SF x contrast, TF=4 Hz) and Stimulus Set 2 (direction x TF, SF=0.1, contrast=1); advance electrode at least 640 um before next site; DiI-coated marking electrode inserted post-hoc for track reconstruction.",
+  "technique": [
+    {"@id": "controlledTerms:Technique/extracellular-electrophysiology"},
+    {"@id": "controlledTerms:Technique/multichannel-recording"},
+    {"@id": "controlledTerms:Technique/receptive-field-mapping"}
+  ],
+  "describedIn": [
+    {"@id": "openminds:doi-elife-106513"}
+  ]
+}

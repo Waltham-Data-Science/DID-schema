@@ -1,0 +1,21 @@
+{
+  "@type": "stimulation:VisualStimulus",
+  "@id": "openminds:griswold-stim-set1-ori0-sf0p16-c1",
+  "internalIdentifier": "set1-ori0-sf0.16-c1",
+  "description": "Example stimulus from Set 1: drifting sinusoidal grating, orientation=0 deg (horizontal), spatial frequency=0.16 cpd, contrast=1, temporal frequency=4 Hz. Drifts back-and-forth every 4 cycles. 4 s duration, 3.5 s ISI (gray screen).",
+  "deliveredBy": {"@id": "openminds:griswold-device-usage-crt-monitor"},
+  "generatedBy": {"@id": "openminds:griswold-software-psychtoolbox"},
+  "specification": [
+    {
+      "@type": "core:PropertyValueList",
+      "property": [
+        {"@type": "core:NumericalProperty", "name": "orientation", "value": 0, "unit": {"@id": "controlledTerms:UnitOfMeasurement/degree"}},
+        {"@type": "core:NumericalProperty", "name": "spatialFrequency", "value": 0.16, "unit": {"@id": "controlledTerms:UnitOfMeasurement/cycles-per-degree"}},
+        {"@type": "core:NumericalProperty", "name": "temporalFrequency", "value": 4, "unit": {"@id": "controlledTerms:UnitOfMeasurement/hertz"}},
+        {"@type": "core:NumericalProperty", "name": "contrast", "value": 1},
+        {"@type": "core:NumericalProperty", "name": "durationSeconds", "value": 4, "unit": {"@id": "controlledTerms:UnitOfMeasurement/second"}},
+        {"@type": "core:StringProperty", "name": "motionType", "value": "drift-back-and-forth-every-4-cycles"}
+      ]
+    }
+  ]
+}

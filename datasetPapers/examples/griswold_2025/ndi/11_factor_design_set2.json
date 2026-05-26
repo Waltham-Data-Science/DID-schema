@@ -1,0 +1,38 @@
+{
+  "classname": "factor_design",
+  "class_version": "0.1.0",
+  "id": "ndi-factor-design-griswold-set2",
+  "session_id": "ndi-session-griswold-EO1-01",
+  "name": "Stimulus Set 2 factorial (direction x temporal frequency, SF fixed at 0.1 cpd, contrast=1)",
+  "datestamp": "2024-11-14T16:20:00-05:00",
+  "factors": [
+    {
+      "name": "direction",
+      "unit": "degree",
+      "levels": [0, 45, 90, 135, 180, 225, 270, 315]
+    },
+    {
+      "name": "temporal_frequency",
+      "unit": "hertz",
+      "levels": [0.5, 1, 2, 4, 8, 16, 32]
+    }
+  ],
+  "fixed_parameters": {
+    "spatial_frequency": {"value": 0.1, "unit": "cycles_per_degree"},
+    "contrast": {"value": 1, "unit": "dimensionless"},
+    "duration": {"value": 4, "unit": "second"},
+    "inter_stimulus_interval": {"value": 3.5, "unit": "second"},
+    "motion_type": "unidirectional"
+  },
+  "blank_control": {
+    "stimulus_ref": "openminds:griswold-stim-blank",
+    "per_set_block": true
+  },
+  "repetitions": 7,
+  "ordering": "pseudo-random-within-repetition",
+  "total_unique_stimuli": 56,
+  "total_trials": 392,
+  "depends_on": [
+    {"name": "stimulation_activity", "value": "openminds:griswold-stimact-EO1-01-set2"}
+  ]
+}

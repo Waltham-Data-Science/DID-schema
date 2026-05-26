@@ -1,0 +1,16 @@
+{
+  "@type": "core:SubjectState",
+  "@id": "openminds:griswold-subject-state-EO2-01-P55-terminal",
+  "lookupLabel": "EO2-01 at P55 for terminal recording",
+  "ageCategory": [{"@id": "controlledTerms:AgeCategory/juvenile"}],
+  "age": {
+    "@type": "core:QuantitativeValue",
+    "value": 55,
+    "unit": {"@id": "controlledTerms:UnitOfMeasurement/postnatal-day"}
+  },
+  "attribute": [
+    {"@id": "controlledTerms:SubjectAttribute/anesthetized"},
+    {"@id": "controlledTerms:SubjectAttribute/paralyzed"},
+    {"@id": "controlledTerms:SubjectAttribute/artificially-ventilated"}
+  ]
+}

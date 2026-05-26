@@ -1,0 +1,32 @@
+{
+  "@type": "core:ProtocolExecution",
+  "@id": "openminds:griswold-protex-eyeopen-EO1-01",
+  "lookupLabel": "EO1-01, right-eye forceps opening at P25",
+  "protocol": [
+    {"@id": "openminds:griswold-protocol-premature-eye-opening"}
+  ],
+  "startTime": "2024-10-15T09:30:00-04:00",
+  "endTime": "2024-10-15T09:35:00-04:00",
+  "input": [
+    {"@id": "openminds:griswold-subject-state-EO1-01-P25-pre"}
+  ],
+  "output": [
+    {"@id": "openminds:griswold-subject-state-EO1-01-P25-postopen"}
+  ],
+  "performedBy": [
+    {"@id": "openminds:person-griswold-sophie"}
+  ],
+  "isPartOf": {"@id": "openminds:griswold-dataset-version-v1"},
+  "customPropertySet": [
+    {
+      "@type": "core:CustomPropertySet",
+      "context": "per-eye outcome",
+      "dataLocation": [],
+      "property": [
+        {"@type": "core:StringProperty", "name": "rightEye", "value": "opened-with-forceps"},
+        {"@type": "core:StringProperty", "name": "leftEye", "value": "closed-allowed-to-open-naturally"},
+        {"@type": "core:StringProperty", "name": "leftEyeNaturalOpeningDate", "value": "2024-10-23"}
+      ]
+    }
+  ]
+}

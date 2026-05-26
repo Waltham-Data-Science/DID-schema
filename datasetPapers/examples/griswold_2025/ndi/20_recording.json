@@ -1,0 +1,24 @@
+{
+  "classname": "recording",
+  "class_version": "0.1.0",
+  "id": "ndi-recording-griswold-EO1-01-session-01",
+  "session_id": "ndi-session-griswold-EO1-01",
+  "name": "Raw 32-channel ephys, EO1-01 session 01",
+  "datestamp": "2024-11-14T14:00:00-05:00",
+  "sampling_rate_hz": 30000,
+  "num_channels": 32,
+  "channel_map": [
+    {"channel_id": "ch01", "electrode_identifier": "ch01", "gain": 1.0, "unit": "microvolt"},
+    {"channel_id": "ch02", "electrode_identifier": "ch02", "gain": 1.0, "unit": "microvolt"}
+  ],
+  "channel_map_note": "Channels 1-32 map one-to-one onto electrode identifiers ch01-ch32 of the Plexon S probe; see openMINDS ephys:ElectrodeArrayUsage for spatial arrangement. Only 2 channels shown above for brevity.",
+  "duration_samples": 594000000,
+  "duration_seconds": 19800,
+  "file_format": "intan-rhd-raw-binary",
+  "clock_reference": "recording_start",
+  "depends_on": [
+    {"name": "recording_activity", "value": "openminds:griswold-recact-EO1-01-session-01"},
+    {"name": "electrode_array_usage", "value": "openminds:griswold-device-usage-EO1-01-session-01"},
+    {"name": "raw_file", "value": "openminds:griswold-file-raw-ephys-EO1-01"}
+  ]
+}

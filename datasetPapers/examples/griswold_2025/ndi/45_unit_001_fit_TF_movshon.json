@@ -1,0 +1,27 @@
+{
+  "classname": "fit_curve",
+  "class_version": "1.0.0",
+  "id": "ndi-fit-unit-001-TF-movshon",
+  "session_id": "ndi-session-griswold-EO1-01",
+  "name": "Movshon TF fit for unit-001",
+  "datestamp": "2024-11-20T12:32:00-05:00",
+  "fit_function": "movshon_sf_tf_2005",
+  "fit_parameters": {
+    "k": 24.0,
+    "f_c": 2.3,
+    "f_h": 9.1,
+    "beta": 1.6
+  },
+  "derived": {
+    "preferred_value": 2.0,
+    "preferred_unit": "hertz",
+    "low_cutoff_L50": 0.6,
+    "high_cutoff_H50": 11.4,
+    "bandwidth_octaves": 4.25
+  },
+  "residual_sum_of_squares": 3.14,
+  "num_data_points": 7,
+  "depends_on": [
+    {"name": "tuning_curve", "value": "ndi-tuning-unit-001-TF"}
+  ]
+}

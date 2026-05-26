@@ -1,0 +1,24 @@
+{
+  "classname": "analysis_output",
+  "class_version": "0.1.0",
+  "id": "ndi-indices-unit-001",
+  "session_id": "ndi-session-griswold-EO1-01",
+  "name": "Selectivity indices for unit-001",
+  "datestamp": "2024-11-20T12:40:00-05:00",
+  "method": "selectivity_indices_v1",
+  "method_documentation": "1-CV = 1 - |sum(r_k * exp(i*2*theta_k)) / sum(r_k)| (orientation circular variance). 1-DCV = same in direction space. LPI = R(TF=0.5) / max(R). Bandwidth = log2(H50/L50) from Movshon fit.",
+  "outputs": {
+    "orientation_selectivity_1_minus_CV": 0.52,
+    "direction_selectivity_1_minus_DCV": 0.11,
+    "low_pass_index_LPI": 0.77,
+    "temporal_frequency_bandwidth_octaves": 4.25,
+    "spatial_frequency_bandwidth_octaves": 3.53
+  },
+  "depends_on": [
+    {"name": "tuning_curve_orientation", "value": "ndi-tuning-unit-001-orientation"},
+    {"name": "tuning_curve_direction", "value": "ndi-tuning-unit-001-direction"},
+    {"name": "tuning_curve_TF", "value": "ndi-tuning-unit-001-TF"},
+    {"name": "fit_curve_TF", "value": "ndi-fit-unit-001-TF-movshon"},
+    {"name": "fit_curve_SF", "value": "ndi-fit-unit-001-SF-movshon"}
+  ]
+}

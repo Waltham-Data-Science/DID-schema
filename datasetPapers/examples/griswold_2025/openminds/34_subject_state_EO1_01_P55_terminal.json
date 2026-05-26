@@ -1,0 +1,20 @@
+{
+  "@type": "core:SubjectState",
+  "@id": "openminds:griswold-subject-state-EO1-01-P55-terminal",
+  "lookupLabel": "EO1-01 at P55 for terminal recording",
+  "descendedFrom": [
+    {"@id": "openminds:griswold-subject-state-EO1-01-P28-postexposure"}
+  ],
+  "ageCategory": [{"@id": "controlledTerms:AgeCategory/juvenile"}],
+  "age": {
+    "@type": "core:QuantitativeValue",
+    "value": 55,
+    "unit": {"@id": "controlledTerms:UnitOfMeasurement/postnatal-day"}
+  },
+  "pathology": [],
+  "attribute": [
+    {"@id": "controlledTerms:SubjectAttribute/anesthetized"},
+    {"@id": "controlledTerms:SubjectAttribute/paralyzed"},
+    {"@id": "controlledTerms:SubjectAttribute/artificially-ventilated"}
+  ]
+}

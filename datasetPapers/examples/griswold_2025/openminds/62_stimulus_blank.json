@@ -1,0 +1,16 @@
+{
+  "@type": "stimulation:VisualStimulus",
+  "@id": "openminds:griswold-stim-blank",
+  "internalIdentifier": "blank",
+  "description": "Blank (gray-screen) control stimulus, mean luminance matched to gratings, 4 s duration.",
+  "deliveredBy": {"@id": "openminds:griswold-device-usage-crt-monitor"},
+  "specification": [
+    {
+      "@type": "core:PropertyValueList",
+      "property": [
+        {"@type": "core:StringProperty", "name": "screenContent", "value": "uniform-gray"},
+        {"@type": "core:NumericalProperty", "name": "durationSeconds", "value": 4, "unit": {"@id": "controlledTerms:UnitOfMeasurement/second"}}
+      ]
+    }
+  ]
+}

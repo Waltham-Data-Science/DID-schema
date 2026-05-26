@@ -1,0 +1,21 @@
+{
+  "@type": "core:ProtocolExecution",
+  "@id": "openminds:griswold-protex-surgery-EO1-01",
+  "lookupLabel": "EO1-01, terminal surgery and recording preparation at P55",
+  "protocol": [
+    {"@id": "openminds:griswold-protocol-terminal-surgery"}
+  ],
+  "startTime": "2024-11-14T07:00:00-05:00",
+  "endTime": "2024-11-14T22:30:00-05:00",
+  "input": [
+    {"@id": "openminds:griswold-subject-state-EO1-01-P28-postexposure"}
+  ],
+  "output": [
+    {"@id": "openminds:griswold-subject-state-EO1-01-P55-terminal"}
+  ],
+  "performedBy": [
+    {"@id": "openminds:person-griswold-sophie"},
+    {"@id": "openminds:person-van-hooser-stephen"}
+  ],
+  "isPartOf": {"@id": "openminds:griswold-dataset-version-v1"}
+}
