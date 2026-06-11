@@ -1,0 +1,125 @@
+{
+    "document_class": {
+        "class_name": "expression_observation",
+        "class_version": "1.0.0",
+        "superclasses": [
+            {
+                "class_name": "observation"
+            }
+        ],
+        "maturity_level": "draft"
+    },
+    "depends_on": [
+        {
+            "name": "data_id",
+            "mustBeNonEmpty": true,
+            "documentation": "The expression matrix body-of-record.",
+            "must_refer_to_document_class": "expression_matrix_data"
+        }
+    ],
+    "file": [],
+    "fields": [
+        {
+            "name": "method",
+            "type": "ontology_term",
+            "blank_value": {
+                "node": "",
+                "name": ""
+            },
+            "default_value": {
+                "node": "",
+                "name": ""
+            },
+            "mustBeNonEmpty": true,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "How the matrix was produced (sequencing | mass_spec | microarray | ...).",
+            "constraints": {}
+        },
+        {
+            "name": "analyte",
+            "type": "ontology_term",
+            "blank_value": {
+                "node": "",
+                "name": ""
+            },
+            "default_value": {
+                "node": "",
+                "name": ""
+            },
+            "mustBeNonEmpty": true,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Molecular class profiled (transcriptome | proteome | ...).",
+            "constraints": {}
+        },
+        {
+            "name": "feature_id_type",
+            "type": "ontology_term",
+            "blank_value": {
+                "node": "",
+                "name": ""
+            },
+            "default_value": {
+                "node": "",
+                "name": ""
+            },
+            "mustBeNonEmpty": true,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Feature-axis namespace (Ensembl | gene symbol | UniProt | ...).",
+            "constraints": {}
+        },
+        {
+            "name": "n_features",
+            "type": "integer",
+            "blank_value": 0,
+            "default_value": 0,
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Number of features (genes/proteins).",
+            "constraints": {}
+        },
+        {
+            "name": "n_observations",
+            "type": "integer",
+            "blank_value": 0,
+            "default_value": 0,
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Number of samples/cells/locations.",
+            "constraints": {}
+        },
+        {
+            "name": "normalization",
+            "type": "ontology_term",
+            "blank_value": {
+                "node": "",
+                "name": ""
+            },
+            "default_value": {
+                "node": "",
+                "name": ""
+            },
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Normalization applied (raw_counts | tpm | cpm | log1p | lfq | ...).",
+            "constraints": {}
+        }
+    ]
+}

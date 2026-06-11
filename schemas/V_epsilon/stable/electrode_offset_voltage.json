@@ -1,0 +1,53 @@
+{
+    "document_class": {
+        "class_name": "electrode_offset_voltage",
+        "class_version": "1.0.0",
+        "superclasses": [
+            {
+                "class_name": "base"
+            }
+        ],
+        "maturity_level": "stable"
+    },
+    "depends_on": [
+        {
+            "name": "probe_id",
+            "mustBeNonEmpty": true,
+            "documentation": "The document ID of the probe this offset voltage data belongs to.",
+            "must_refer_to_document_class": ""
+        }
+    ],
+    "file": [],
+    "fields": [
+        {
+            "name": "offset_voltages",
+            "type": "matrix",
+            "blank_value": [],
+            "default_value": [],
+            "mustBeNonEmpty": false,
+            "mustBeScalar": false,
+            "mustNotHaveNaN": false,
+            "queryable": false,
+            "ontology": null,
+            "documentation": "Array of DC offset voltage values, one per electrode channel, in voltage_units. Length must match the number of channels on the probe.",
+            "constraints": {
+                "element_type": "double"
+            }
+        },
+        {
+            "name": "voltage_units",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "V",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": false,
+            "ontology": null,
+            "documentation": "The units of the offset voltage values (e.g., 'V', 'mV', 'uV').",
+            "constraints": {
+                "maxLength": 16
+            }
+        }
+    ]
+}

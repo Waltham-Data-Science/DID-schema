@@ -1,0 +1,58 @@
+{
+    "document_class": {
+        "class_name": "epoch_bounded_reference",
+        "class_version": "1.0.0",
+        "superclasses": [
+            {
+                "class_name": "time_reference"
+            },
+            {
+                "class_name": "epochid"
+            }
+        ],
+        "maturity_level": "draft"
+    },
+    "depends_on": [
+        {
+            "name": "element_id",
+            "mustBeNonEmpty": true,
+            "documentation": "The element whose epoch defines this reference's extent.",
+            "must_refer_to_document_class": "element"
+        }
+    ],
+    "file": [],
+    "fields": [
+        {
+            "name": "epoch_clock",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": true,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Which device clock defines the epoch's extent (NDI-matlab clocktype set).",
+            "constraints": {
+                "binding": {
+                    "root": "did_clocktype",
+                    "expansion": "value_set",
+                    "values": [
+                        "utc",
+                        "dev_local_time",
+                        "dev_global_time",
+                        "exp_global_time",
+                        "approx_utc",
+                        "approx_exp_global_time",
+                        "approx_dev_global_time",
+                        "no_time",
+                        "inherited"
+                    ],
+                    "strength": "required",
+                    "source": "value_set"
+                },
+                "maxLength": 64
+            }
+        }
+    ]
+}

@@ -1,0 +1,88 @@
+{
+    "document_class": {
+        "class_name": "session",
+        "class_version": "1.0.0",
+        "superclasses": [
+            {
+                "class_name": "base"
+            }
+        ],
+        "maturity_level": "stable"
+    },
+    "depends_on": [],
+    "file": [],
+    "fields": [
+        {
+            "name": "reference",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": true,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": {
+                "node": "ncit:C169028",
+                "name": "Study Unique Identifier"
+            },
+            "documentation": "A unique reference string for this experimental session.",
+            "constraints": {
+                "maxLength": 256
+            }
+        },
+        {
+            "name": "type",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": {
+                "node": "iao:0000219",
+                "name": "denotes"
+            },
+            "documentation": "The session type (e.g., 'acute', 'chronic'). The field denotes a value drawn from a session-type vocabulary; candidate for promotion to ontology_term.",
+            "constraints": {
+                "maxLength": 128
+            }
+        },
+        {
+            "name": "date",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": {
+                "node": "schema:startDate",
+                "name": "startDate"
+            },
+            "documentation": "The date of the session in ISO 8601 format (YYYY-MM-DD).",
+            "constraints": {
+                "maxLength": 32
+            }
+        },
+        {
+            "name": "purpose",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": false,
+            "ontology": {
+                "node": "schema:description",
+                "name": "description"
+            },
+            "documentation": "A free-text description of the purpose of this session.",
+            "constraints": {
+                "maxLength": 1024
+            }
+        }
+    ]
+}

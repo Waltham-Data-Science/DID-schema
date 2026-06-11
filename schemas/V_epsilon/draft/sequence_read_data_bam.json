@@ -1,0 +1,28 @@
+{
+    "document_class": {
+        "class_name": "sequence_read_data_bam",
+        "class_version": "1.0.0",
+        "superclasses": [
+            {
+                "class_name": "sequence_read_data"
+            }
+        ],
+        "maturity_level": "draft"
+    },
+    "depends_on": [
+        {
+            "name": "aligned_to",
+            "mustBeNonEmpty": false,
+            "documentation": "The reference sequence these reads are aligned to.",
+            "must_refer_to_document_class": "reference_sequence_data"
+        },
+        {
+            "name": "reads_from",
+            "mustBeNonEmpty": false,
+            "documentation": "The specimen subject these reads were obtained from.",
+            "must_refer_to_document_class": "subject"
+        }
+    ],
+    "file": [],
+    "fields": []
+}

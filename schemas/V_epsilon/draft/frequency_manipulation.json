@@ -1,0 +1,37 @@
+{
+    "document_class": {
+        "class_name": "frequency_manipulation",
+        "class_version": "1.0.0",
+        "superclasses": [
+            {
+                "class_name": "scalar_manipulation"
+            }
+        ],
+        "maturity_level": "draft"
+    },
+    "depends_on": [],
+    "file": [],
+    "fields": [
+        {
+            "name": "value",
+            "type": "frequency",
+            "blank_value": {
+                "approximate": false,
+                "source_unit": "",
+                "source_value": 0.0
+            },
+            "default_value": {
+                "approximate": false,
+                "source_unit": "",
+                "source_value": 0.0
+            },
+            "mustBeNonEmpty": true,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "The imposed frequency magnitude.",
+            "constraints": {}
+        }
+    ]
+}

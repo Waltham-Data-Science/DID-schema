@@ -1,0 +1,65 @@
+{
+    "document_class": {
+        "class_name": "event_relative_reference",
+        "class_version": "1.0.0",
+        "superclasses": [
+            {
+                "class_name": "time_reference"
+            }
+        ],
+        "maturity_level": "draft"
+    },
+    "depends_on": [
+        {
+            "name": "reference_event",
+            "mustBeNonEmpty": true,
+            "documentation": "The interaction event that the offsets are measured from.",
+            "must_refer_to_document_class": "subject_interaction"
+        }
+    ],
+    "file": [],
+    "fields": [
+        {
+            "name": "start",
+            "type": "duration",
+            "blank_value": {
+                "approximate": false,
+                "source_unit": "",
+                "source_value": 0.0
+            },
+            "default_value": {
+                "approximate": false,
+                "source_unit": "",
+                "source_value": 0.0
+            },
+            "mustBeNonEmpty": true,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Signed offset from the reference event (e.g. +25 days, -2 days).",
+            "constraints": {}
+        },
+        {
+            "name": "end",
+            "type": "duration",
+            "blank_value": {
+                "approximate": false,
+                "source_unit": "",
+                "source_value": 0.0
+            },
+            "default_value": {
+                "approximate": false,
+                "source_unit": "",
+                "source_value": 0.0
+            },
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Signed offset from the reference event; present means an interval.",
+            "constraints": {}
+        }
+    ]
+}

@@ -1,0 +1,73 @@
+{
+    "document_class": {
+        "class_name": "generic_file",
+        "class_version": "1.0.0",
+        "superclasses": [
+            {
+                "class_name": "base"
+            }
+        ],
+        "maturity_level": "stable"
+    },
+    "depends_on": [
+        {
+            "name": "element_id",
+            "mustBeNonEmpty": false,
+            "documentation": "The document ID of the element this file is associated with.",
+            "must_refer_to_document_class": ""
+        }
+    ],
+    "file": [
+        {
+            "name": "data_file",
+            "documentation": "The generic data file."
+        }
+    ],
+    "fields": [
+        {
+            "name": "filename",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "The original filename of the data file.",
+            "constraints": {
+                "maxLength": 512
+            }
+        },
+        {
+            "name": "mimetype",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "application/octet-stream",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "The MIME type of the data file.",
+            "constraints": {
+                "maxLength": 128
+            }
+        },
+        {
+            "name": "description",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": false,
+            "ontology": null,
+            "documentation": "A free-text description of the file contents.",
+            "constraints": {
+                "maxLength": 1024
+            }
+        }
+    ]
+}

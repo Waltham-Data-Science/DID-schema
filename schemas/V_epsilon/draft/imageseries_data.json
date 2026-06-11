@@ -1,0 +1,16 @@
+{
+    "document_class": {
+        "class_name": "imageseries_data",
+        "class_version": "1.0.0",
+        "superclasses": [
+            {
+                "class_name": "dataseries_data"
+            }
+        ],
+        "maturity_level": "draft",
+        "abstract": true
+    },
+    "depends_on": [],
+    "file": [],
+    "fields": []
+}
