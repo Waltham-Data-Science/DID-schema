@@ -44,9 +44,26 @@ field-level changes on top.
 | `hartley_reverse_correlation` | NDIcalc-vis-matlab `neuro/hartley_reverse_correlation` | drafted | [hartley_reverse_correlation.md](hartley_reverse_correlation.md) |
 | `hartley_calc` | NDIcalc-vis-matlab `calc/hartley_calc` | drafted | [hartley_calc.md](hartley_calc.md) |
 | `probe_location` | legacy NDI/DID `probe_location` (V_alpha shape) | drafted | [probe_location.md](probe_location.md) |
-| `treatment` | legacy NDI/DID `treatment` (V_alpha shape) | drafted | [treatment.md](treatment.md) |
 | `ontology_image` | legacy NDI/DID `ontologyImage` (V_alpha shape) | drafted | [ontology_image.md](ontology_image.md) |
 | `ontology_label` | legacy NDI/DID `ontologyLabel` (V_alpha shape) | drafted | [ontology_label.md](ontology_label.md) |
+
+## V_epsilon subject_interaction-family conversions (active)
+
+V_epsilon converts the five deprecated families **actively** into the new
+observation / manipulation / annotation classes (not passively into their
+deprecated shapes). These conversions fan out — one did_v1 document can
+mint several V_epsilon documents (a manipulation plus a `time_reference`,
+a `subject` plus a `group_assignment`, etc.). They are implemented in
+DID-matlab's `+did2/+convert/+migrators/`.
+
+| did_v1 source | V_epsilon target(s) | Status | Doc |
+|---|---|---|---|
+| `treatment` | `temperature_` / `procedural_` / `environmental_manipulation` (+ companion `generic_scalar_observation`) | applied-in-tooling | [treatment.md](treatment.md) |
+| `treatment_drug` | `injection` (kind=drug) (+ `utc_reference`) | applied-in-tooling | [treatment_drug.md](treatment_drug.md) |
+| `virus_injection` | `injection` (kind=virus) (+ `utc_reference`) | applied-in-tooling | [virus_injection.md](virus_injection.md) |
+| `treatment_transfer` | `biological_transfer` (+ `utc_reference`) | applied-in-tooling | [treatment_transfer.md](treatment_transfer.md) |
+| `subject_group` | `subject` (is_group) (+ `group_assignment`) | applied-in-tooling | [subject_group.md](subject_group.md) |
+| `stimulus_bath` | `stimulus_bath` v2 (re-rooted under `bath`) | applied-in-tooling | [stimulus_bath.md](stimulus_bath.md) |
 
 ## Notes
 
