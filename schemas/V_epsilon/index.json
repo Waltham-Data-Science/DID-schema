@@ -1278,13 +1278,13 @@
     },
     {
       "class_name": "projectvar",
-      "tier": "stable",
+      "tier": "deprecated",
       "class_version": "1.0.0",
-      "maturity_level": "stable",
+      "maturity_level": "deprecated",
       "superclasses": [
         "base"
       ],
-      "path": "schemas/V_epsilon/stable/projectvar.json",
+      "path": "schemas/V_epsilon/deprecated/projectvar.json",
       "is_meta": false
     },
     {
