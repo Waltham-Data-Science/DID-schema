@@ -1,21 +1,57 @@
-// Copies schemas/V_delta into web/public/schemas/V_delta so they ship with
-// the static bundle. Runs automatically before `npm run dev` and `npm run build`.
-import { cp, rm, mkdir } from "node:fs/promises";
+// Copies every versioned schema set (schemas/V_*) that has an index.json into
+// web/public/schemas/<set>, and writes a versions.json manifest the app uses
+// to populate the set-version selector. Runs automatically before `npm run
+// dev` and `npm run build`.
+import { cp, rm, mkdir, readdir, writeFile } from "node:fs/promises";
 import { existsSync } from "node:fs";
 import { resolve, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const here = dirname(fileURLToPath(import.meta.url));
 const repoRoot = resolve(here, "..", "..");
-const src = resolve(repoRoot, "schemas", "V_delta");
-const dst = resolve(here, "..", "public", "schemas", "V_delta");
+const schemasDir = resolve(repoRoot, "schemas");
+const publicSchemas = resolve(here, "..", "public", "schemas");
 
-if (!existsSync(src)) {
-  console.error(`sync-schemas: source not found: ${src}`);
+// Set versions are named after Greek letters; order them so the newest set is
+// the default. Unknown names sort after the known ones, then alphabetically.
+const GREEK = [
+  "alpha", "beta", "gamma", "delta", "epsilon", "zeta", "eta", "theta",
+  "iota", "kappa", "lambda", "mu", "nu", "xi", "omicron", "pi",
+];
+function rank(name) {
+  const m = /^V_([a-z]+)$/.exec(name);
+  const i = m ? GREEK.indexOf(m[1]) : -1;
+  return i === -1 ? 999 : i;
+}
+
+const entries = await readdir(schemasDir, { withFileTypes: true });
+const versions = entries
+  .filter(
+    (d) =>
+      d.isDirectory() &&
+      /^V_/.test(d.name) &&
+      existsSync(resolve(schemasDir, d.name, "index.json")),
+  )
+  .map((d) => d.name)
+  .sort((a, b) => rank(a) - rank(b) || a.localeCompare(b));
+
+if (versions.length === 0) {
+  console.error(`sync-schemas: no V_* schema sets with index.json under ${schemasDir}`);
   process.exit(1);
 }
 
-await rm(dst, { recursive: true, force: true });
-await mkdir(dirname(dst), { recursive: true });
-await cp(src, dst, { recursive: true });
-console.log(`sync-schemas: copied ${src} -> ${dst}`);
+await rm(publicSchemas, { recursive: true, force: true });
+await mkdir(publicSchemas, { recursive: true });
+for (const v of versions) {
+  await cp(resolve(schemasDir, v), resolve(publicSchemas, v), { recursive: true });
+  console.log(`sync-schemas: copied ${v}`);
+}
+
+const defaultVersion = versions[versions.length - 1];
+await writeFile(
+  resolve(publicSchemas, "versions.json"),
+  JSON.stringify({ versions, default: defaultVersion }, null, 2) + "\n",
+);
+console.log(
+  `sync-schemas: ${versions.length} set(s) [${versions.join(", ")}], default ${defaultVersion}`,
+);
