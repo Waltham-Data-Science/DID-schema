@@ -159,11 +159,12 @@
       "name": "deprecated",
       "description": "Classes deprecated in V_epsilon, retained for migration of legacy instances.",
       "classes": [
+        "projectvar",
+        "subject_group",
         "treatment",
         "treatment_drug",
         "treatment_transfer",
-        "virus_injection",
-        "subject_group"
+        "virus_injection"
       ]
     },
     {
@@ -272,6 +273,7 @@
       "classes": [
         "control_stimulus_ids",
         "reverse_correlation",
+        "stimulus_approach",
         "stimulus_bath",
         "stimulus_parameter",
         "stimulus_parameter_table",
