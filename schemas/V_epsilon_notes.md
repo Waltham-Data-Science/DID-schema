@@ -132,15 +132,20 @@ and coherent, but they are the most likely to change:
   indexer/adapter, out of scope for the schema set.
 - **`element` channel-identity list** and the full daqless-element rewrite
   — deferred with the provisional channel model above.
-- **Conversion docs.** Per-class `conversions/from_did_v1/` and
-  `from_v_delta/` migration markdowns for the new and deprecated classes
-  are not written. The deprecation→replacement mapping in
-  `V_epsilon_SPEC.md` §8 and the per-proposal migration notes are the
-  current reference. A follow-up should populate `conversions/` and add a
-  `from_v_delta/` path for the treatment-family split, the
-  `virus_injection`/`treatment_drug` → `injection` merge, the
-  `treatment_transfer` → `biological_transfer` move, and the
-  `subject_group` → `group_assignment` migration.
+- **Conversion docs.** The deprecated-family conversions are now
+  authored and **applied in tooling** as a direct did_v1 → V_epsilon
+  active conversion (the team chose to retarget the did_v1 → V_delta
+  pipeline straight to V_epsilon rather than build a separate
+  V_delta → V_epsilon pass, since V_delta was a sandbox with no frozen
+  corpora). `conversions/from_did_v1/` now carries `treatment.md` (the
+  split routing table), `treatment_drug.md`, `virus_injection.md`,
+  `treatment_transfer.md`, `subject_group.md`, and `stimulus_bath.md`,
+  each cross-referenced to its DID-matlab migrator under
+  `+did2/+convert/+migrators/`. No `from_v_delta/` path is needed.
+  Remaining: conversion docs for the *new* (non-deprecated) draft
+  classes that have a did_v1 analog, and per-corpus finalization of the
+  `treatment` keyword routing (the migrator runs report-only-first and
+  quarantines unresolvable / non-manipulation records).
 - **CI checks.** An `index.json` ↔ disk consistency check, a
   superclass/`must_refer_to` resolution check, and a tier/`maturity_level`
   agreement check (all of which were run manually for this PR and pass)
