@@ -1,0 +1,28 @@
+{
+    "document_class": {
+        "class_name": "openminds_stimulus",
+        "class_version": "1.0.0",
+        "superclasses": [
+            {
+                "class_name": "base"
+            },
+            {
+                "class_name": "openminds"
+            },
+            {
+                "class_name": "epochid"
+            }
+        ],
+        "maturity_level": "stable"
+    },
+    "depends_on": [
+        {
+            "name": "stimulus_id",
+            "mustBeNonEmpty": true,
+            "documentation": "The document ID of the stimulus this openMINDS metadata describes.",
+            "must_refer_to_document_class": ""
+        }
+    ],
+    "file": [],
+    "fields": []
+}

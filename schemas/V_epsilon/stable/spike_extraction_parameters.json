@@ -1,0 +1,77 @@
+{
+    "document_class": {
+        "class_name": "spike_extraction_parameters",
+        "class_version": "1.0.0",
+        "superclasses": [
+            {
+                "class_name": "base"
+            }
+        ],
+        "maturity_level": "stable"
+    },
+    "depends_on": [
+        {
+            "name": "element_id",
+            "mustBeNonEmpty": true,
+            "documentation": "The document ID of the element (e.g., probe) these extraction parameters apply to.",
+            "must_refer_to_document_class": ""
+        }
+    ],
+    "file": [],
+    "fields": [
+        {
+            "name": "threshold",
+            "type": "double",
+            "blank_value": 0.0,
+            "default_value": -4.0,
+            "mustBeNonEmpty": true,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": true,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "The threshold value used for spike detection (in multiples of standard deviation or absolute voltage).",
+            "constraints": {}
+        },
+        {
+            "name": "threshold_type",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "std",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "The type of threshold ('std' for standard deviation multiples, 'absolute' for voltage).",
+            "constraints": {
+                "maxLength": 32
+            }
+        },
+        {
+            "name": "filter_low",
+            "type": "double",
+            "blank_value": 0.0,
+            "default_value": 300.0,
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": false,
+            "ontology": null,
+            "documentation": "The low-pass cutoff frequency of the bandpass filter in Hz.",
+            "constraints": {}
+        },
+        {
+            "name": "filter_high",
+            "type": "double",
+            "blank_value": 0.0,
+            "default_value": 6000.0,
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": false,
+            "ontology": null,
+            "documentation": "The high-pass cutoff frequency of the bandpass filter in Hz.",
+            "constraints": {}
+        }
+    ]
+}

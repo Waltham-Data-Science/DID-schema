@@ -5,6 +5,7 @@ import {
   buildTree,
   loadIndex,
   loadTopics,
+  loadVersions,
   sortedFlat,
 } from "./schemaIndex";
 import { FlatList, Tree } from "./Tree";
@@ -18,9 +19,14 @@ import "./styles.css";
 
 type ViewMode = "topic" | "class" | "flat";
 
+// sessionStorage key remembering which schema set the user last viewed.
+const VERSION_KEY = "did-schema-set-version";
+
 export default function App() {
   const [index, setIndex] = useState<SchemaIndex | null>(null);
   const [topics, setTopics] = useState<TopicsFile | null>(null);
+  const [versions, setVersions] = useState<string[]>([]);
+  const [version, setVersion] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [view, setView] = useState<ViewMode>("topic");
   const [selected, setSelected] = useState<string | null>(
@@ -29,10 +35,36 @@ export default function App() {
   const [editing, setEditing] = useState<boolean>(false);
   const [auth, setAuth] = useState<AuthState | null>(() => loadAuth());
 
+  // Load the manifest of available schema sets, then pick the initial set:
+  // a previously chosen set (if it still exists) else the manifest default.
   useEffect(() => {
-    loadIndex().then(setIndex).catch((e) => setError(String(e)));
-    loadTopics().then(setTopics);
+    loadVersions()
+      .then((m) => {
+        setVersions(m.versions);
+        const remembered = sessionStorage.getItem(VERSION_KEY);
+        setVersion(
+          remembered && m.versions.includes(remembered) ? remembered : m.default,
+        );
+      })
+      .catch((e) => setError(String(e)));
   }, []);
+
+  // (Re)load the index and topics whenever the selected set changes.
+  useEffect(() => {
+    if (!version) return;
+    let cancelled = false;
+    setIndex(null);
+    setTopics(null);
+    setError(null);
+    sessionStorage.setItem(VERSION_KEY, version);
+    loadIndex(version)
+      .then((idx) => !cancelled && setIndex(idx))
+      .catch((e) => !cancelled && setError(String(e)));
+    loadTopics(version).then((t) => !cancelled && setTopics(t));
+    return () => {
+      cancelled = true;
+    };
+  }, [version]);
 
   useEffect(() => {
     const onHash = () => setSelected(parseHash(window.location.hash));
@@ -73,7 +105,19 @@ export default function App() {
         <div className="sidebar-header">
           <h1>DID schemas</h1>
           <div className="set-version">
-            set: <code>{index.set_version}</code>
+            <label htmlFor="set-version-select">set: </label>
+            <select
+              id="set-version-select"
+              value={version ?? ""}
+              onChange={(e) => setVersion(e.target.value)}
+              title="Schema set version to browse"
+            >
+              {versions.map((v) => (
+                <option key={v} value={v}>
+                  {v}
+                </option>
+              ))}
+            </select>
           </div>
           <AuthPanel auth={auth} onAuth={setAuth} />
         </div>

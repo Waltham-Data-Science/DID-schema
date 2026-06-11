@@ -4,22 +4,44 @@ import type {
   SchemaIndex,
   TopicCategory,
   TopicsFile,
+  VersionsManifest,
 } from "./types";
 
 const BASE = import.meta.env.BASE_URL;
 
-export async function loadIndex(): Promise<SchemaIndex> {
-  const res = await fetch(`${BASE}schemas/V_delta/index.json`);
-  if (!res.ok) throw new Error(`Failed to load index.json: ${res.status}`);
+// The set shown if the versions manifest can't be loaded (e.g. an older
+// bundle without versions.json).
+const FALLBACK_VERSION = "V_delta";
+
+// The list of schema sets the viewer can switch between. Written by
+// scripts/sync-schemas.mjs. Falls back to a single historical default so an
+// older deployment without the manifest still works.
+export async function loadVersions(): Promise<VersionsManifest> {
+  try {
+    const res = await fetch(`${BASE}schemas/versions.json`);
+    if (!res.ok) throw new Error(String(res.status));
+    const manifest = (await res.json()) as VersionsManifest;
+    if (Array.isArray(manifest.versions) && manifest.versions.length > 0) {
+      return manifest;
+    }
+  } catch {
+    // fall through to the historical default
+  }
+  return { versions: [FALLBACK_VERSION], default: FALLBACK_VERSION };
+}
+
+export async function loadIndex(version: string): Promise<SchemaIndex> {
+  const res = await fetch(`${BASE}schemas/${version}/index.json`);
+  if (!res.ok) throw new Error(`Failed to load ${version}/index.json: ${res.status}`);
   return res.json();
 }
 
 // Topics live alongside the schema set but have no semantic relationship
 // to validation -- they are purely a viewer affordance. Missing or malformed
 // files are non-fatal: the viewer falls back to a single Uncategorized node.
-export async function loadTopics(): Promise<TopicsFile | null> {
+export async function loadTopics(version: string): Promise<TopicsFile | null> {
   try {
-    const res = await fetch(`${BASE}schemas/V_delta/topics.json`);
+    const res = await fetch(`${BASE}schemas/${version}/topics.json`);
     if (!res.ok) return null;
     return await res.json();
   } catch {

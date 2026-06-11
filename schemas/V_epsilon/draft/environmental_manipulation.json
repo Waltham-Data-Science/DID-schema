@@ -1,0 +1,63 @@
+{
+    "document_class": {
+        "class_name": "environmental_manipulation",
+        "class_version": "1.0.0",
+        "superclasses": [
+            {
+                "class_name": "manipulation"
+            }
+        ],
+        "maturity_level": "draft"
+    },
+    "depends_on": [],
+    "file": [],
+    "fields": [
+        {
+            "name": "factor",
+            "type": "ontology_term",
+            "blank_value": {
+                "node": "",
+                "name": ""
+            },
+            "default_value": {
+                "node": "",
+                "name": ""
+            },
+            "mustBeNonEmpty": true,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "The environmental factor/regime (dark rearing, deprivation, enrichment, restriction, training, ...).",
+            "constraints": {}
+        },
+        {
+            "name": "target_structure",
+            "type": "ontology_term",
+            "blank_value": [],
+            "default_value": [],
+            "mustBeNonEmpty": false,
+            "mustBeScalar": false,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Affected structure(s); populated only for lateralized regimes (deprived eye, trimmed pad).",
+            "constraints": {}
+        },
+        {
+            "name": "notes",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": false,
+            "ontology": null,
+            "documentation": "Irreducible human prose describing this event. Documentation, not queryable structured data.",
+            "constraints": {
+                "maxLength": 4096
+            }
+        }
+    ]
+}

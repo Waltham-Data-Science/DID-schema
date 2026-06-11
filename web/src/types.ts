@@ -20,6 +20,13 @@ export interface SchemaIndex {
   schemas: IndexEntry[];
 }
 
+// Manifest of the schema sets available to the viewer, written by
+// scripts/sync-schemas.mjs. `default` is the set shown on first load.
+export interface VersionsManifest {
+  versions: string[];
+  default: string;
+}
+
 // Topic tree (purely a viewer affordance). Lives in
 // schemas/V_delta/topics.json. Interior nodes have a `name`; leaves are
 // referenced by class_name in `classes`. Children may be omitted.

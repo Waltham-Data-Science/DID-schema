@@ -1,0 +1,30 @@
+{
+    "document_class": {
+        "class_name": "subject_interaction",
+        "class_version": "1.0.0",
+        "superclasses": [
+            {
+                "class_name": "base"
+            }
+        ],
+        "maturity_level": "draft",
+        "abstract": true
+    },
+    "depends_on": [
+        {
+            "name": "subject_id",
+            "mustBeNonEmpty": true,
+            "documentation": "The subject this interaction involves.",
+            "must_refer_to_document_class": "subject"
+        },
+        {
+            "name": "time_reference_#",
+            "mustBeNonEmpty": true,
+            "documentation": "When the interaction happened, as one or more time_reference documents (the same moment may be expressed in multiple reference frames).",
+            "must_refer_to_document_class": "time_reference",
+            "multiple": true
+        }
+    ],
+    "file": [],
+    "fields": []
+}

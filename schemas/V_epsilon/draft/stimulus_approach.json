@@ -1,0 +1,75 @@
+{
+    "document_class": {
+        "class_name": "stimulus_approach",
+        "class_version": "2.0.0",
+        "superclasses": [
+            {
+                "class_name": "base"
+            }
+        ],
+        "maturity_level": "draft"
+    },
+    "depends_on": [
+        {
+            "name": "subject_id",
+            "mustBeNonEmpty": true,
+            "documentation": "The subject receiving stimulation. Held directly for 0-hop subject search.",
+            "must_refer_to_document_class": "subject"
+        },
+        {
+            "name": "stimulator_id",
+            "mustBeNonEmpty": true,
+            "documentation": "The stimulator apparatus; with epoch_id forms the self-contained epoch key.",
+            "must_refer_to_document_class": "element"
+        },
+        {
+            "name": "stimulus_presentation_id",
+            "mustBeNonEmpty": true,
+            "documentation": "The parameter body of the stimulus presentation.",
+            "must_refer_to_document_class": "stimulus_presentation"
+        },
+        {
+            "name": "stimulus_manipulation_id",
+            "mustBeNonEmpty": true,
+            "documentation": "The subject-linked stimulus_manipulation event node.",
+            "must_refer_to_document_class": "stimulus_manipulation"
+        }
+    ],
+    "file": [],
+    "fields": [
+        {
+            "name": "epoch_id",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": true,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Mirrors stimulus_presentation.epochid; with stimulator_id identifies the epoch at 0 hops.",
+            "constraints": {
+                "maxLength": 256
+            }
+        },
+        {
+            "name": "condition",
+            "type": "ontology_term",
+            "blank_value": {
+                "node": "",
+                "name": ""
+            },
+            "default_value": {
+                "node": "",
+                "name": ""
+            },
+            "mustBeNonEmpty": true,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "The out-of-band condition present during the epoch (e.g. 'left eye occluded'). One condition per document.",
+            "constraints": {}
+        }
+    ]
+}

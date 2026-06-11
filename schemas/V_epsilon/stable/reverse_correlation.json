@@ -1,0 +1,62 @@
+{
+    "document_class": {
+        "class_name": "reverse_correlation",
+        "class_version": "1.0.0",
+        "superclasses": [
+            {
+                "class_name": "base"
+            },
+            {
+                "class_name": "ngrid"
+            }
+        ],
+        "maturity_level": "stable"
+    },
+    "depends_on": [
+        {
+            "name": "element_id",
+            "mustBeNonEmpty": true,
+            "documentation": "The document ID of the ndi.element this reverse correlation was computed for.",
+            "must_refer_to_document_class": "element"
+        },
+        {
+            "name": "stimulus_presentation_id",
+            "mustBeNonEmpty": true,
+            "documentation": "The document ID of the stimulus_presentation that drove the responses.",
+            "must_refer_to_document_class": "stimulus_presentation"
+        }
+    ],
+    "file": [],
+    "fields": [
+        {
+            "name": "method",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Name of the reverse-correlation method used (e.g., 'spike-triggered average', 'STC'). Candidate for promotion to ontology_term.",
+            "constraints": {
+                "maxLength": 256
+            }
+        },
+        {
+            "name": "dimension_labels",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": false,
+            "ontology": null,
+            "documentation": "Comma-separated names for the axes of the reverse-correlation kernel inherited from ngrid (e.g., 'Time, X, Y').",
+            "constraints": {
+                "maxLength": 256
+            }
+        }
+    ]
+}
