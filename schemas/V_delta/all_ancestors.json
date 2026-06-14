@@ -1,0 +1,379 @@
+{
+  "CURIE_lookups_meta": [],
+  "app": [
+    "base"
+  ],
+  "base": [],
+  "binaryseries_parameters": [
+    "base"
+  ],
+  "binnedspikeratevm": [
+    "base"
+  ],
+  "calculator": [
+    "app",
+    "base"
+  ],
+  "contrast_sensitivity_calc": [
+    "app",
+    "base",
+    "calculator"
+  ],
+  "contrast_tuning": [
+    "base"
+  ],
+  "contrast_tuning_calc": [
+    "app",
+    "base",
+    "calculator",
+    "contrast_tuning",
+    "tuning_fit"
+  ],
+  "control_stimulus_ids": [
+    "app",
+    "base"
+  ],
+  "daqmetadatareader": [
+    "base"
+  ],
+  "daqmetadatareader_epochdata_ingested": [
+    "base",
+    "epochid"
+  ],
+  "daqreader": [
+    "base"
+  ],
+  "daqreader_epochdata_ingested": [
+    "base"
+  ],
+  "daqreader_mfdaq_epochdata_ingested": [
+    "base",
+    "daqreader_epochdata_ingested",
+    "epochid"
+  ],
+  "daqreader_ndr": [
+    "base",
+    "daqreader"
+  ],
+  "daqsystem": [
+    "base"
+  ],
+  "dataset_remote": [
+    "base"
+  ],
+  "dataset_session_info": [
+    "base"
+  ],
+  "demo_ndi": [
+    "base"
+  ],
+  "demo_ndi_mock": [
+    "base"
+  ],
+  "did_schema_meta": [],
+  "directory": [
+    "base"
+  ],
+  "distance_metadata": [
+    "base"
+  ],
+  "electrode_offset_voltage": [
+    "base"
+  ],
+  "element": [
+    "base"
+  ],
+  "element_epoch": [
+    "base",
+    "epochid"
+  ],
+  "ephys_zarr": [
+    "base",
+    "zarr"
+  ],
+  "epochclocktimes": [
+    "base",
+    "epochid"
+  ],
+  "epochfiles_ingested": [
+    "base"
+  ],
+  "epochid": [
+    "base"
+  ],
+  "filenavigator": [
+    "base"
+  ],
+  "filter": [
+    "base"
+  ],
+  "fitcurve": [
+    "base"
+  ],
+  "generic_file": [
+    "base"
+  ],
+  "hartley_calc": [
+    "app",
+    "base",
+    "calculator",
+    "hartley_reverse_correlation",
+    "ngrid",
+    "reverse_correlation"
+  ],
+  "hartley_reverse_correlation": [
+    "base",
+    "ngrid",
+    "reverse_correlation"
+  ],
+  "image": [
+    "base"
+  ],
+  "image_collection": [
+    "base"
+  ],
+  "image_stack": [
+    "base",
+    "image_stack_parameters"
+  ],
+  "image_stack_parameters": [
+    "base"
+  ],
+  "image_zarr": [
+    "base",
+    "zarr"
+  ],
+  "jrclust_clusters": [
+    "app",
+    "base"
+  ],
+  "measurement": [
+    "base",
+    "epochid"
+  ],
+  "metadata_editor": [
+    "base"
+  ],
+  "mock": [
+    "base"
+  ],
+  "ndi_reserved_keys": [],
+  "neuron_extracellular": [
+    "app",
+    "base"
+  ],
+  "ngrid": [
+    "base"
+  ],
+  "oneepoch": [
+    "base",
+    "epochid"
+  ],
+  "ontology_image": [
+    "base"
+  ],
+  "ontology_label": [
+    "base"
+  ],
+  "ontology_table_row": [
+    "base"
+  ],
+  "openminds": [
+    "base"
+  ],
+  "openminds_element": [
+    "base",
+    "openminds"
+  ],
+  "openminds_stimulus": [
+    "base",
+    "epochid",
+    "openminds"
+  ],
+  "openminds_subject": [
+    "base",
+    "openminds"
+  ],
+  "oridirtuning_calc": [
+    "app",
+    "base",
+    "calculator",
+    "orientation_direction_tuning",
+    "tuning_fit"
+  ],
+  "orientation_direction_tuning": [
+    "base"
+  ],
+  "position_metadata": [
+    "base"
+  ],
+  "probe_geometry": [
+    "base"
+  ],
+  "probe_location": [
+    "base"
+  ],
+  "projectvar": [
+    "base"
+  ],
+  "pyraview": [
+    "base",
+    "epochclocktimes",
+    "epochid",
+    "filter"
+  ],
+  "reverse_correlation": [
+    "base",
+    "ngrid"
+  ],
+  "session": [
+    "base"
+  ],
+  "session_in_a_dataset": [
+    "base"
+  ],
+  "simple_calc": [
+    "app",
+    "base",
+    "calculator"
+  ],
+  "site2channelmap": [
+    "base"
+  ],
+  "sorting_parameters": [
+    "base"
+  ],
+  "spatial_frequency_tuning": [
+    "base"
+  ],
+  "spatial_frequency_tuning_calc": [
+    "app",
+    "base",
+    "calculator",
+    "spatial_frequency_tuning",
+    "tuning_fit"
+  ],
+  "speed_tuning": [
+    "base"
+  ],
+  "speed_tuning_calc": [
+    "app",
+    "base",
+    "calculator",
+    "speed_tuning",
+    "tuning_fit"
+  ],
+  "spike_clusters": [
+    "base"
+  ],
+  "spike_extraction_parameters": [
+    "base"
+  ],
+  "spike_extraction_parameters_modification": [
+    "base"
+  ],
+  "spike_interface_sorting_outputs": [
+    "base"
+  ],
+  "spikewaves": [
+    "base"
+  ],
+  "stimulus_bath": [
+    "base",
+    "epochid"
+  ],
+  "stimulus_parameter": [
+    "base"
+  ],
+  "stimulus_parameter_table": [
+    "base"
+  ],
+  "stimulus_presentation": [
+    "app",
+    "base",
+    "epochid"
+  ],
+  "stimulus_response": [
+    "base"
+  ],
+  "stimulus_response_scalar": [
+    "base",
+    "stimulus_response"
+  ],
+  "stimulus_response_scalar_parameters": [
+    "base"
+  ],
+  "stimulus_response_scalar_parameters_basic": [
+    "base",
+    "stimulus_response_scalar_parameters"
+  ],
+  "stimulus_tuningcurve": [
+    "base"
+  ],
+  "subject": [
+    "base"
+  ],
+  "subject_group": [
+    "base"
+  ],
+  "syncgraph": [
+    "base"
+  ],
+  "syncrule": [
+    "base"
+  ],
+  "syncrule_mapping": [
+    "base"
+  ],
+  "temporal_frequency_tuning": [
+    "base"
+  ],
+  "temporal_frequency_tuning_calc": [
+    "app",
+    "base",
+    "calculator",
+    "temporal_frequency_tuning",
+    "tuning_fit"
+  ],
+  "treatment": [
+    "base"
+  ],
+  "treatment_drug": [
+    "base"
+  ],
+  "treatment_transfer": [
+    "base"
+  ],
+  "tuning_fit": [
+    "app",
+    "base",
+    "calculator"
+  ],
+  "tuningcurve_calc": [
+    "app",
+    "base",
+    "calculator",
+    "stimulus_tuningcurve"
+  ],
+  "valid_interval": [
+    "base"
+  ],
+  "virus_injection": [
+    "base"
+  ],
+  "vmneuralresponseresiduals": [
+    "base"
+  ],
+  "vmspikefilteringparameters": [
+    "base"
+  ],
+  "vmspikefit": [
+    "base"
+  ],
+  "vmspikesummary": [
+    "base"
+  ],
+  "zarr": [
+    "base"
+  ]
+}
