@@ -1,0 +1,47 @@
+{
+    "document_class": {
+        "class_name": "behavioral_score_observation",
+        "class_version": "1.0.0",
+        "superclasses": [
+            {
+                "class_name": "scalar_observation"
+            }
+        ],
+        "maturity_level": "draft"
+    },
+    "depends_on": [],
+    "file": [],
+    "fields": [
+        {
+            "name": "value",
+            "type": "score",
+            "blank_value": {
+                "value": 0.0,
+                "scale": {
+                    "node": "",
+                    "name": ""
+                },
+                "scale_min": 0.0,
+                "scale_max": 0.0,
+                "approximate": false
+            },
+            "default_value": {
+                "value": 0.0,
+                "scale": {
+                    "node": "",
+                    "name": ""
+                },
+                "scale_min": 0.0,
+                "scale_max": 0.0,
+                "approximate": false
+            },
+            "mustBeNonEmpty": true,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "A scored behavioral assessment (open-field anxiety, Likert, ...); value is a typed score composite.",
+            "constraints": {}
+        }
+    ]
+}

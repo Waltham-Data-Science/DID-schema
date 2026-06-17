@@ -1,6 +1,6 @@
 {
     "document_class": {
-        "class_name": "duration_observation",
+        "class_name": "body_length_observation",
         "class_version": "1.0.0",
         "superclasses": [
             {
@@ -14,7 +14,7 @@
     "fields": [
         {
             "name": "value",
-            "type": "duration",
+            "type": "length",
             "blank_value": {
                 "approximate": false,
                 "source_unit": "",
@@ -30,7 +30,7 @@
             "mustNotHaveNaN": false,
             "queryable": true,
             "ontology": null,
-            "documentation": "The measured scalar quantity as a typed duration composite.",
+            "documentation": "A length reading of the subject (body, tail, tibia, ...); value is a typed length composite. The specific length property rides measured_property; structure rides target_structure.",
             "constraints": {}
         }
     ]

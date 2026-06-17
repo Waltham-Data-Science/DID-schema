@@ -1,6 +1,6 @@
 {
     "document_class": {
-        "class_name": "length_observation",
+        "class_name": "core_temperature_observation",
         "class_version": "1.0.0",
         "superclasses": [
             {
@@ -14,7 +14,7 @@
     "fields": [
         {
             "name": "value",
-            "type": "length",
+            "type": "temperature",
             "blank_value": {
                 "approximate": false,
                 "source_unit": "",
@@ -30,7 +30,7 @@
             "mustNotHaveNaN": false,
             "queryable": true,
             "ontology": null,
-            "documentation": "The measured scalar quantity as a typed length composite.",
+            "documentation": "A body or tissue temperature reading; value is a typed temperature composite (canonical celsius). Site (core, brain, ...) rides measured_property/target_structure.",
             "constraints": {}
         }
     ]

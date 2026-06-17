@@ -1,6 +1,6 @@
 {
     "document_class": {
-        "class_name": "mass_observation",
+        "class_name": "heart_rate_observation",
         "class_version": "1.0.0",
         "superclasses": [
             {
@@ -14,7 +14,7 @@
     "fields": [
         {
             "name": "value",
-            "type": "mass",
+            "type": "frequency",
             "blank_value": {
                 "approximate": false,
                 "source_unit": "",
@@ -30,7 +30,7 @@
             "mustNotHaveNaN": false,
             "queryable": true,
             "ontology": null,
-            "documentation": "The measured scalar quantity as a typed mass composite.",
+            "documentation": "Heart rate; value is a typed frequency composite (canonical hertz; enter bpm as the source unit).",
             "constraints": {}
         }
     ]

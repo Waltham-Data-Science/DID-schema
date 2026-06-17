@@ -1,6 +1,6 @@
 {
     "document_class": {
-        "class_name": "count_observation",
+        "class_name": "respiration_rate_observation",
         "class_version": "1.0.0",
         "superclasses": [
             {
@@ -14,29 +14,23 @@
     "fields": [
         {
             "name": "value",
-            "type": "count",
+            "type": "frequency",
             "blank_value": {
-                "value": 0,
-                "unit": {
-                    "node": "",
-                    "name": ""
-                },
-                "approximate": false
+                "approximate": false,
+                "source_unit": "",
+                "source_value": 0.0
             },
             "default_value": {
-                "value": 0,
-                "unit": {
-                    "node": "",
-                    "name": ""
-                },
-                "approximate": false
+                "approximate": false,
+                "source_unit": "",
+                "source_value": 0.0
             },
             "mustBeNonEmpty": true,
             "mustBeScalar": true,
             "mustNotHaveNaN": false,
             "queryable": true,
             "ontology": null,
-            "documentation": "The measured scalar quantity as a typed count composite.",
+            "documentation": "Respiration rate; value is a typed frequency composite.",
             "constraints": {}
         }
     ]

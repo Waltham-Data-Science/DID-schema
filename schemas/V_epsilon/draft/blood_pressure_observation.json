@@ -1,6 +1,6 @@
 {
     "document_class": {
-        "class_name": "pressure_observation",
+        "class_name": "blood_pressure_observation",
         "class_version": "1.0.0",
         "superclasses": [
             {
@@ -30,7 +30,7 @@
             "mustNotHaveNaN": false,
             "queryable": true,
             "ontology": null,
-            "documentation": "The measured scalar quantity as a typed pressure composite.",
+            "documentation": "A blood-pressure or related pressure reading (systolic/diastolic, intraocular, partial pressure); value is a typed pressure composite (canonical mmhg). Which pressure rides measured_property; site rides target_structure.",
             "constraints": {}
         }
     ]

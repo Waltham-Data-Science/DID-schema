@@ -97,16 +97,25 @@ two epoch reference classes.
 
 ### 3. Observation families (new, `draft/`)
 
-- `scalar_observation` (abstract, ← `observation`) with one typed-composite
-  concrete subclass per quantity: `mass_observation`, `length_observation`,
-  `duration_observation`, `temperature_observation`, `pressure_observation`,
-  `count_observation`, `score_observation`, `frequency_observation`,
-  `volume_observation`, `concentration_observation`, plus the escape hatch
-  `generic_scalar_observation` (untyped `{source_unit, source_value,
-  approximate}`).
-- `categorical_observation` (concrete, ← `observation`): one generic class
-  whose `value` is an `ontology_term`, admissible set governed by the
-  binding registry keyed on `measured_property`.
+- `scalar_observation` (abstract genus, ← `observation`) — shape is now only
+  an `isa` umbrella; the concrete classes under it are named by the **property
+  observed** (Brainstorm E), each pinning the typed composite its `value`
+  requires: `body_weight_observation`/`organ_volume_observation` (mass/volume),
+  `body_length_observation` (length), `age_observation` (duration),
+  `core_temperature_observation` (temperature), `heart_rate_observation`/
+  `respiration_rate_observation` (frequency), `blood_pressure_observation`
+  (pressure), `litter_size_observation`/`cell_count_observation` (count),
+  `body_condition_observation`/`behavioral_score_observation` (score),
+  `concentration_observation` (concentration), `membrane_potential_observation`
+  (voltage), plus the escape hatch `generic_scalar_observation` (untyped
+  `{source_unit, source_value, approximate}`).
+- `categorical_observation` (abstract genus, ← `observation`): concrete classes
+  named by the **property observed**, each with an `ontology_term` `value`
+  governed by the binding registry — `developmental_stage_observation` (pinned
+  root `UBERON:0000105`), `health_status_observation`,
+  `behavioral_phenotype_observation`, `pigmentation_observation`,
+  `estrous_stage_observation`, plus the escape hatch
+  `generic_categorical_observation` (free `ontology_term`, no binding).
 - `dataseries_observation` (abstract genus, ← `observation`) carrying the
   `axes[]` + `channels[]` header, with two **concrete** sub-genera:
   `timeseries_observation` (ordering-only axes → traces) and

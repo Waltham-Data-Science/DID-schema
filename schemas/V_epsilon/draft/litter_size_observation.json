@@ -1,6 +1,6 @@
 {
     "document_class": {
-        "class_name": "volume_observation",
+        "class_name": "litter_size_observation",
         "class_version": "1.0.0",
         "superclasses": [
             {
@@ -14,23 +14,29 @@
     "fields": [
         {
             "name": "value",
-            "type": "volume",
+            "type": "count",
             "blank_value": {
-                "approximate": false,
-                "source_unit": "",
-                "source_value": 0.0
+                "value": 0,
+                "unit": {
+                    "node": "",
+                    "name": ""
+                },
+                "approximate": false
             },
             "default_value": {
-                "approximate": false,
-                "source_unit": "",
-                "source_value": 0.0
+                "value": 0,
+                "unit": {
+                    "node": "",
+                    "name": ""
+                },
+                "approximate": false
             },
             "mustBeNonEmpty": true,
             "mustBeScalar": true,
             "mustNotHaveNaN": false,
             "queryable": true,
             "ontology": null,
-            "documentation": "The measured scalar quantity as a typed volume composite.",
+            "documentation": "Litter size; value is a typed count composite (unit = individuals).",
             "constraints": {}
         }
     ]

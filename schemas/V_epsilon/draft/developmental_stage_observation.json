@@ -1,0 +1,43 @@
+{
+    "document_class": {
+        "class_name": "developmental_stage_observation",
+        "class_version": "1.0.0",
+        "superclasses": [
+            {
+                "class_name": "categorical_observation"
+            }
+        ],
+        "maturity_level": "draft"
+    },
+    "depends_on": [],
+    "file": [],
+    "fields": [
+        {
+            "name": "value",
+            "type": "ontology_term",
+            "blank_value": {
+                "node": "",
+                "name": ""
+            },
+            "default_value": {
+                "node": "",
+                "name": ""
+            },
+            "mustBeNonEmpty": true,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Observed developmental / life-cycle stage of the subject; value is a bound concept under UBERON:0000105 (life cycle stage) and its species-specific descendants (FBdv, ZFS, HsapDv, ...).",
+            "constraints": {
+                "binding": {
+                    "root": "UBERON:0000105",
+                    "expansion": "self_and_descendants",
+                    "node_kind": "class",
+                    "strength": "preferred",
+                    "source": "ontology"
+                }
+            }
+        }
+    ]
+}

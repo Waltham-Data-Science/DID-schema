@@ -1,6 +1,6 @@
 {
     "document_class": {
-        "class_name": "concentration_observation",
+        "class_name": "cell_count_observation",
         "class_version": "1.0.0",
         "superclasses": [
             {
@@ -14,23 +14,29 @@
     "fields": [
         {
             "name": "value",
-            "type": "concentration",
+            "type": "count",
             "blank_value": {
-                "approximate": false,
-                "source_unit": "",
-                "source_value": 0.0
+                "value": 0,
+                "unit": {
+                    "node": "",
+                    "name": ""
+                },
+                "approximate": false
             },
             "default_value": {
-                "approximate": false,
-                "source_unit": "",
-                "source_value": 0.0
+                "value": 0,
+                "unit": {
+                    "node": "",
+                    "name": ""
+                },
+                "approximate": false
             },
             "mustBeNonEmpty": true,
             "mustBeScalar": true,
             "mustNotHaveNaN": false,
             "queryable": true,
             "ontology": null,
-            "documentation": "Concentration of an analyte in a sample (blood glucose, serum cortisol, CSF protein, viral titer); value is a typed concentration composite. The analyte rides measured_property.",
+            "documentation": "A cell or particle count in a region; value is a typed count composite. Region rides target_structure.",
             "constraints": {}
         }
     ]

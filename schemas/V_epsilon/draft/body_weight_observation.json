@@ -1,6 +1,6 @@
 {
     "document_class": {
-        "class_name": "frequency_observation",
+        "class_name": "body_weight_observation",
         "class_version": "1.0.0",
         "superclasses": [
             {
@@ -14,7 +14,7 @@
     "fields": [
         {
             "name": "value",
-            "type": "frequency",
+            "type": "mass",
             "blank_value": {
                 "approximate": false,
                 "source_unit": "",
@@ -30,7 +30,7 @@
             "mustNotHaveNaN": false,
             "queryable": true,
             "ontology": null,
-            "documentation": "The measured scalar quantity as a typed frequency composite.",
+            "documentation": "Body weight or other body-mass reading; value is a typed mass composite. The specific mass property (body weight, wet brain mass, tumor mass) rides measured_property; anatomical localization rides target_structure.",
             "constraints": {}
         }
     ]

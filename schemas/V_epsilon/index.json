@@ -1,2111 +1,2221 @@
 {
-  "set_version": "V_epsilon",
-  "schema_version_value": "V_epsilon",
-  "based_on": "V_delta",
-  "tiers": [
-    "stable",
-    "draft",
-    "deprecated"
-  ],
-  "legacy_schema_version_values": [
-    "did_v1",
-    "V_delta"
-  ],
-  "notes": "Source of truth for class_name uniqueness and tier placement. V_epsilon implements the subject_interaction redesign (observation/manipulation/annotation families, time_reference family, dataseries bodies, reference/expression bodies) as draft/ additions, deprecates the treatment family and virus_injection/subject_group, and re-scopes stimulus_approach/stimulus_bath. Resolution-by-class_name only.",
-  "schemas": [
-    {
-      "class_name": "CURIE_lookups_meta",
-      "tier": "stable",
-      "class_version": null,
-      "maturity_level": null,
-      "superclasses": [],
-      "path": "schemas/V_epsilon/stable/CURIE_lookups_meta.json",
-      "is_meta": true
-    },
-    {
-      "class_name": "annotation",
-      "tier": "draft",
-      "class_version": "1.0.0",
-      "maturity_level": "draft",
-      "superclasses": [
-        "subject_interaction"
-      ],
-      "path": "schemas/V_epsilon/draft/annotation.json",
-      "is_meta": false
-    },
-    {
-      "class_name": "app",
-      "tier": "stable",
-      "class_version": "1.0.0",
-      "maturity_level": "stable",
-      "superclasses": [
-        "base"
-      ],
-      "path": "schemas/V_epsilon/stable/app.json",
-      "is_meta": false
-    },
-    {
-      "class_name": "base",
-      "tier": "stable",
-      "class_version": "1.0.0",
-      "maturity_level": "stable",
-      "superclasses": [],
-      "path": "schemas/V_epsilon/stable/base.json",
-      "is_meta": false
-    },
-    {
-      "class_name": "bath",
-      "tier": "draft",
-      "class_version": "1.0.0",
-      "maturity_level": "draft",
-      "superclasses": [
-        "pharmacological_manipulation"
-      ],
-      "path": "schemas/V_epsilon/draft/bath.json",
-      "is_meta": false
-    },
-    {
-      "class_name": "binaryseries_parameters",
-      "tier": "stable",
-      "class_version": "1.0.0",
-      "maturity_level": "stable",
-      "superclasses": [
-        "base"
-      ],
-      "path": "schemas/V_epsilon/stable/binaryseries_parameters.json",
-      "is_meta": false
-    },
-    {
-      "class_name": "binnedspikeratevm",
-      "tier": "stable",
-      "class_version": "1.0.0",
-      "maturity_level": "stable",
-      "superclasses": [
-        "base"
-      ],
-      "path": "schemas/V_epsilon/stable/binnedspikeratevm.json",
-      "is_meta": false
-    },
-    {
-      "class_name": "biological_transfer",
-      "tier": "draft",
-      "class_version": "1.0.0",
-      "maturity_level": "draft",
-      "superclasses": [
-        "procedural_manipulation"
-      ],
-      "path": "schemas/V_epsilon/draft/biological_transfer.json",
-      "is_meta": false
-    },
-    {
-      "class_name": "calculator",
-      "tier": "stable",
-      "class_version": "1.0.0",
-      "maturity_level": "stable",
-      "superclasses": [
-        "base",
-        "app"
-      ],
-      "path": "schemas/V_epsilon/stable/calculator.json",
-      "is_meta": false
-    },
-    {
-      "class_name": "categorical_observation",
-      "tier": "draft",
-      "class_version": "1.0.0",
-      "maturity_level": "draft",
-      "superclasses": [
-        "observation"
-      ],
-      "path": "schemas/V_epsilon/draft/categorical_observation.json",
-      "is_meta": false
-    },
-    {
-      "class_name": "concentration_observation",
-      "tier": "draft",
-      "class_version": "1.0.0",
-      "maturity_level": "draft",
-      "superclasses": [
-        "scalar_observation"
-      ],
-      "path": "schemas/V_epsilon/draft/concentration_observation.json",
-      "is_meta": false
-    },
-    {
-      "class_name": "contrast_sensitivity_calc",
-      "tier": "stable",
-      "class_version": "1.0.0",
-      "maturity_level": "stable",
-      "superclasses": [
-        "base",
-        "calculator"
-      ],
-      "path": "schemas/V_epsilon/stable/contrast_sensitivity_calc.json",
-      "is_meta": false
-    },
-    {
-      "class_name": "contrast_tuning",
-      "tier": "stable",
-      "class_version": "1.0.0",
-      "maturity_level": "stable",
-      "superclasses": [
-        "base"
-      ],
-      "path": "schemas/V_epsilon/stable/contrast_tuning.json",
-      "is_meta": false
-    },
-    {
-      "class_name": "contrast_tuning_calc",
-      "tier": "stable",
-      "class_version": "1.0.0",
-      "maturity_level": "stable",
-      "superclasses": [
-        "base",
-        "contrast_tuning",
-        "tuning_fit"
-      ],
-      "path": "schemas/V_epsilon/stable/contrast_tuning_calc.json",
-      "is_meta": false
-    },
-    {
-      "class_name": "control_stimulus_ids",
-      "tier": "stable",
-      "class_version": "1.0.0",
-      "maturity_level": "stable",
-      "superclasses": [
-        "base",
-        "app"
-      ],
-      "path": "schemas/V_epsilon/stable/control_stimulus_ids.json",
-      "is_meta": false
-    },
-    {
-      "class_name": "count_observation",
-      "tier": "draft",
-      "class_version": "1.0.0",
-      "maturity_level": "draft",
-      "superclasses": [
-        "scalar_observation"
-      ],
-      "path": "schemas/V_epsilon/draft/count_observation.json",
-      "is_meta": false
-    },
-    {
-      "class_name": "daqmetadatareader",
-      "tier": "stable",
-      "class_version": "1.0.0",
-      "maturity_level": "stable",
-      "superclasses": [
-        "base"
-      ],
-      "path": "schemas/V_epsilon/stable/daqmetadatareader.json",
-      "is_meta": false
-    },
-    {
-      "class_name": "daqmetadatareader_epochdata_ingested",
-      "tier": "stable",
-      "class_version": "1.0.0",
-      "maturity_level": "stable",
-      "superclasses": [
-        "base",
-        "epochid"
-      ],
-      "path": "schemas/V_epsilon/stable/daqmetadatareader_epochdata_ingested.json",
-      "is_meta": false
-    },
-    {
-      "class_name": "daqreader",
-      "tier": "stable",
-      "class_version": "1.0.0",
-      "maturity_level": "stable",
-      "superclasses": [
-        "base"
-      ],
-      "path": "schemas/V_epsilon/stable/daqreader.json",
-      "is_meta": false
-    },
-    {
-      "class_name": "daqreader_epochdata_ingested",
-      "tier": "stable",
-      "class_version": "1.0.0",
-      "maturity_level": "stable",
-      "superclasses": [
-        "base"
-      ],
-      "path": "schemas/V_epsilon/stable/daqreader_epochdata_ingested.json",
-      "is_meta": false
-    },
-    {
-      "class_name": "daqreader_mfdaq_epochdata_ingested",
-      "tier": "stable",
-      "class_version": "1.0.0",
-      "maturity_level": "stable",
-      "superclasses": [
-        "base",
-        "daqreader_epochdata_ingested",
-        "epochid"
-      ],
-      "path": "schemas/V_epsilon/stable/daqreader_mfdaq_epochdata_ingested.json",
-      "is_meta": false
-    },
-    {
-      "class_name": "daqreader_ndr",
-      "tier": "stable",
-      "class_version": "1.0.0",
-      "maturity_level": "stable",
-      "superclasses": [
-        "base",
-        "daqreader"
-      ],
-      "path": "schemas/V_epsilon/stable/daqreader_ndr.json",
-      "is_meta": false
-    },
-    {
-      "class_name": "daqsystem",
-      "tier": "stable",
-      "class_version": "1.0.0",
-      "maturity_level": "stable",
-      "superclasses": [
-        "base"
-      ],
-      "path": "schemas/V_epsilon/stable/daqsystem.json",
-      "is_meta": false
-    },
-    {
-      "class_name": "dataseries_channel_map",
-      "tier": "draft",
-      "class_version": "1.0.0",
-      "maturity_level": "draft",
-      "superclasses": [
-        "base"
-      ],
-      "path": "schemas/V_epsilon/draft/dataseries_channel_map.json",
-      "is_meta": false
-    },
-    {
-      "class_name": "dataseries_data",
-      "tier": "draft",
-      "class_version": "1.0.0",
-      "maturity_level": "draft",
-      "superclasses": [
-        "base"
-      ],
-      "path": "schemas/V_epsilon/draft/dataseries_data.json",
-      "is_meta": false
-    },
-    {
-      "class_name": "dataseries_observation",
-      "tier": "draft",
-      "class_version": "1.0.0",
-      "maturity_level": "draft",
-      "superclasses": [
-        "observation"
-      ],
-      "path": "schemas/V_epsilon/draft/dataseries_observation.json",
-      "is_meta": false
-    },
-    {
-      "class_name": "dataseries_pyramid",
-      "tier": "draft",
-      "class_version": "1.0.0",
-      "maturity_level": "draft",
-      "superclasses": [
-        "base",
-        "epochid"
-      ],
-      "path": "schemas/V_epsilon/draft/dataseries_pyramid.json",
-      "is_meta": false
-    },
-    {
-      "class_name": "dataset_remote",
-      "tier": "stable",
-      "class_version": "1.0.0",
-      "maturity_level": "stable",
-      "superclasses": [
-        "base"
-      ],
-      "path": "schemas/V_epsilon/stable/dataset_remote.json",
-      "is_meta": false
-    },
-    {
-      "class_name": "dataset_session_info",
-      "tier": "stable",
-      "class_version": "1.0.0",
-      "maturity_level": "stable",
-      "superclasses": [
-        "base"
-      ],
-      "path": "schemas/V_epsilon/stable/dataset_session_info.json",
-      "is_meta": false
-    },
-    {
-      "class_name": "demo_ndi",
-      "tier": "stable",
-      "class_version": "1.0.0",
-      "maturity_level": "stable",
-      "superclasses": [
-        "base"
-      ],
-      "path": "schemas/V_epsilon/stable/demo_ndi.json",
-      "is_meta": false
-    },
-    {
-      "class_name": "demo_ndi_mock",
-      "tier": "stable",
-      "class_version": "1.0.0",
-      "maturity_level": "stable",
-      "superclasses": [
-        "base"
-      ],
-      "path": "schemas/V_epsilon/stable/demo_ndi_mock.json",
-      "is_meta": false
-    },
-    {
-      "class_name": "derivation",
-      "tier": "draft",
-      "class_version": "1.0.0",
-      "maturity_level": "draft",
-      "superclasses": [
-        "manipulation"
-      ],
-      "path": "schemas/V_epsilon/draft/derivation.json",
-      "is_meta": false
-    },
-    {
-      "class_name": "did_schema_meta",
-      "tier": "stable",
-      "class_version": null,
-      "maturity_level": null,
-      "superclasses": [],
-      "path": "schemas/V_epsilon/stable/did_schema_meta.json",
-      "is_meta": true
-    },
-    {
-      "class_name": "directory",
-      "tier": "stable",
-      "class_version": "1.0.0",
-      "maturity_level": "stable",
-      "superclasses": [
-        "base"
-      ],
-      "path": "schemas/V_epsilon/stable/directory.json",
-      "is_meta": false
-    },
-    {
-      "class_name": "distance_metadata",
-      "tier": "stable",
-      "class_version": "1.0.0",
-      "maturity_level": "stable",
-      "superclasses": [
-        "base"
-      ],
-      "path": "schemas/V_epsilon/stable/distance_metadata.json",
-      "is_meta": false
-    },
-    {
-      "class_name": "duration_observation",
-      "tier": "draft",
-      "class_version": "1.0.0",
-      "maturity_level": "draft",
-      "superclasses": [
-        "scalar_observation"
-      ],
-      "path": "schemas/V_epsilon/draft/duration_observation.json",
-      "is_meta": false
-    },
-    {
-      "class_name": "electrode_offset_voltage",
-      "tier": "stable",
-      "class_version": "1.0.0",
-      "maturity_level": "stable",
-      "superclasses": [
-        "base"
-      ],
-      "path": "schemas/V_epsilon/stable/electrode_offset_voltage.json",
-      "is_meta": false
-    },
-    {
-      "class_name": "element",
-      "tier": "stable",
-      "class_version": "1.0.0",
-      "maturity_level": "stable",
-      "superclasses": [
-        "base"
-      ],
-      "path": "schemas/V_epsilon/stable/element.json",
-      "is_meta": false
-    },
-    {
-      "class_name": "element_epoch",
-      "tier": "stable",
-      "class_version": "2.0.0",
-      "maturity_level": "stable",
-      "superclasses": [
-        "base",
-        "epochid"
-      ],
-      "path": "schemas/V_epsilon/stable/element_epoch.json",
-      "is_meta": false
-    },
-    {
-      "class_name": "environmental_manipulation",
-      "tier": "draft",
-      "class_version": "1.0.0",
-      "maturity_level": "draft",
-      "superclasses": [
-        "manipulation"
-      ],
-      "path": "schemas/V_epsilon/draft/environmental_manipulation.json",
-      "is_meta": false
-    },
-    {
-      "class_name": "ephys_zarr",
-      "tier": "stable",
-      "class_version": "1.0.0",
-      "maturity_level": "stable",
-      "superclasses": [
-        "zarr"
-      ],
-      "path": "schemas/V_epsilon/stable/ephys_zarr.json",
-      "is_meta": false
-    },
-    {
-      "class_name": "epoch_bounded_reference",
-      "tier": "draft",
-      "class_version": "1.0.0",
-      "maturity_level": "draft",
-      "superclasses": [
-        "time_reference",
-        "epochid"
-      ],
-      "path": "schemas/V_epsilon/draft/epoch_bounded_reference.json",
-      "is_meta": false
-    },
-    {
-      "class_name": "epoch_relative_reference",
-      "tier": "draft",
-      "class_version": "1.0.0",
-      "maturity_level": "draft",
-      "superclasses": [
-        "time_reference",
-        "epochid"
-      ],
-      "path": "schemas/V_epsilon/draft/epoch_relative_reference.json",
-      "is_meta": false
-    },
-    {
-      "class_name": "epochclocktimes",
-      "tier": "stable",
-      "class_version": "1.0.0",
-      "maturity_level": "stable",
-      "superclasses": [
-        "base",
-        "epochid"
-      ],
-      "path": "schemas/V_epsilon/stable/epochclocktimes.json",
-      "is_meta": false
-    },
-    {
-      "class_name": "epochfiles_ingested",
-      "tier": "stable",
-      "class_version": "1.0.0",
-      "maturity_level": "stable",
-      "superclasses": [
-        "base"
-      ],
-      "path": "schemas/V_epsilon/stable/epochfiles_ingested.json",
-      "is_meta": false
-    },
-    {
-      "class_name": "epochid",
-      "tier": "stable",
-      "class_version": "1.0.0",
-      "maturity_level": "stable",
-      "superclasses": [
-        "base"
-      ],
-      "path": "schemas/V_epsilon/stable/epochid.json",
-      "is_meta": false
-    },
-    {
-      "class_name": "event_bounded_reference",
-      "tier": "draft",
-      "class_version": "1.0.0",
-      "maturity_level": "draft",
-      "superclasses": [
-        "time_reference"
-      ],
-      "path": "schemas/V_epsilon/draft/event_bounded_reference.json",
-      "is_meta": false
-    },
-    {
-      "class_name": "event_relative_reference",
-      "tier": "draft",
-      "class_version": "1.0.0",
-      "maturity_level": "draft",
-      "superclasses": [
-        "time_reference"
-      ],
-      "path": "schemas/V_epsilon/draft/event_relative_reference.json",
-      "is_meta": false
-    },
-    {
-      "class_name": "expression_matrix_data",
-      "tier": "draft",
-      "class_version": "1.0.0",
-      "maturity_level": "draft",
-      "superclasses": [
-        "base"
-      ],
-      "path": "schemas/V_epsilon/draft/expression_matrix_data.json",
-      "is_meta": false
-    },
-    {
-      "class_name": "expression_matrix_data_cellranger_h5",
-      "tier": "draft",
-      "class_version": "1.0.0",
-      "maturity_level": "draft",
-      "superclasses": [
-        "expression_matrix_data"
-      ],
-      "path": "schemas/V_epsilon/draft/expression_matrix_data_cellranger_h5.json",
-      "is_meta": false
-    },
-    {
-      "class_name": "expression_matrix_data_counts_table",
-      "tier": "draft",
-      "class_version": "1.0.0",
-      "maturity_level": "draft",
-      "superclasses": [
-        "expression_matrix_data"
-      ],
-      "path": "schemas/V_epsilon/draft/expression_matrix_data_counts_table.json",
-      "is_meta": false
-    },
-    {
-      "class_name": "expression_matrix_data_dia_report",
-      "tier": "draft",
-      "class_version": "1.0.0",
-      "maturity_level": "draft",
-      "superclasses": [
-        "expression_matrix_data"
-      ],
-      "path": "schemas/V_epsilon/draft/expression_matrix_data_dia_report.json",
-      "is_meta": false
-    },
-    {
-      "class_name": "expression_matrix_data_gef",
-      "tier": "draft",
-      "class_version": "1.0.0",
-      "maturity_level": "draft",
-      "superclasses": [
-        "expression_matrix_data"
-      ],
-      "path": "schemas/V_epsilon/draft/expression_matrix_data_gef.json",
-      "is_meta": false
-    },
-    {
-      "class_name": "expression_matrix_data_gem",
-      "tier": "draft",
-      "class_version": "1.0.0",
-      "maturity_level": "draft",
-      "superclasses": [
-        "expression_matrix_data"
-      ],
-      "path": "schemas/V_epsilon/draft/expression_matrix_data_gem.json",
-      "is_meta": false
-    },
-    {
-      "class_name": "expression_matrix_data_h5ad",
-      "tier": "draft",
-      "class_version": "1.0.0",
-      "maturity_level": "draft",
-      "superclasses": [
-        "expression_matrix_data"
-      ],
-      "path": "schemas/V_epsilon/draft/expression_matrix_data_h5ad.json",
-      "is_meta": false
-    },
-    {
-      "class_name": "expression_matrix_data_imzml",
-      "tier": "draft",
-      "class_version": "1.0.0",
-      "maturity_level": "draft",
-      "superclasses": [
-        "expression_matrix_data"
-      ],
-      "path": "schemas/V_epsilon/draft/expression_matrix_data_imzml.json",
-      "is_meta": false
-    },
-    {
-      "class_name": "expression_matrix_data_loom",
-      "tier": "draft",
-      "class_version": "1.0.0",
-      "maturity_level": "draft",
-      "superclasses": [
-        "expression_matrix_data"
-      ],
-      "path": "schemas/V_epsilon/draft/expression_matrix_data_loom.json",
-      "is_meta": false
-    },
-    {
-      "class_name": "expression_matrix_data_maxquant",
-      "tier": "draft",
-      "class_version": "1.0.0",
-      "maturity_level": "draft",
-      "superclasses": [
-        "expression_matrix_data"
-      ],
-      "path": "schemas/V_epsilon/draft/expression_matrix_data_maxquant.json",
-      "is_meta": false
-    },
-    {
-      "class_name": "expression_matrix_data_mtx",
-      "tier": "draft",
-      "class_version": "1.0.0",
-      "maturity_level": "draft",
-      "superclasses": [
-        "expression_matrix_data"
-      ],
-      "path": "schemas/V_epsilon/draft/expression_matrix_data_mtx.json",
-      "is_meta": false
-    },
-    {
-      "class_name": "expression_matrix_data_mzml",
-      "tier": "draft",
-      "class_version": "1.0.0",
-      "maturity_level": "draft",
-      "superclasses": [
-        "expression_matrix_data"
-      ],
-      "path": "schemas/V_epsilon/draft/expression_matrix_data_mzml.json",
-      "is_meta": false
-    },
-    {
-      "class_name": "expression_matrix_data_mztab",
-      "tier": "draft",
-      "class_version": "1.0.0",
-      "maturity_level": "draft",
-      "superclasses": [
-        "expression_matrix_data"
-      ],
-      "path": "schemas/V_epsilon/draft/expression_matrix_data_mztab.json",
-      "is_meta": false
-    },
-    {
-      "class_name": "expression_matrix_data_visium",
-      "tier": "draft",
-      "class_version": "1.0.0",
-      "maturity_level": "draft",
-      "superclasses": [
-        "expression_matrix_data"
-      ],
-      "path": "schemas/V_epsilon/draft/expression_matrix_data_visium.json",
-      "is_meta": false
-    },
-    {
-      "class_name": "expression_observation",
-      "tier": "draft",
-      "class_version": "1.0.0",
-      "maturity_level": "draft",
-      "superclasses": [
-        "observation"
-      ],
-      "path": "schemas/V_epsilon/draft/expression_observation.json",
-      "is_meta": false
-    },
-    {
-      "class_name": "filenavigator",
-      "tier": "stable",
-      "class_version": "1.0.0",
-      "maturity_level": "stable",
-      "superclasses": [
-        "base"
-      ],
-      "path": "schemas/V_epsilon/stable/filenavigator.json",
-      "is_meta": false
-    },
-    {
-      "class_name": "filter",
-      "tier": "stable",
-      "class_version": "1.0.0",
-      "maturity_level": "stable",
-      "superclasses": [
-        "base"
-      ],
-      "path": "schemas/V_epsilon/stable/filter.json",
-      "is_meta": false
-    },
-    {
-      "class_name": "fitcurve",
-      "tier": "stable",
-      "class_version": "1.0.0",
-      "maturity_level": "stable",
-      "superclasses": [
-        "base"
-      ],
-      "path": "schemas/V_epsilon/stable/fitcurve.json",
-      "is_meta": false
-    },
-    {
-      "class_name": "frequency_manipulation",
-      "tier": "draft",
-      "class_version": "1.0.0",
-      "maturity_level": "draft",
-      "superclasses": [
-        "scalar_manipulation"
-      ],
-      "path": "schemas/V_epsilon/draft/frequency_manipulation.json",
-      "is_meta": false
-    },
-    {
-      "class_name": "frequency_observation",
-      "tier": "draft",
-      "class_version": "1.0.0",
-      "maturity_level": "draft",
-      "superclasses": [
-        "scalar_observation"
-      ],
-      "path": "schemas/V_epsilon/draft/frequency_observation.json",
-      "is_meta": false
-    },
-    {
-      "class_name": "generic_file",
-      "tier": "stable",
-      "class_version": "1.0.0",
-      "maturity_level": "stable",
-      "superclasses": [
-        "base"
-      ],
-      "path": "schemas/V_epsilon/stable/generic_file.json",
-      "is_meta": false
-    },
-    {
-      "class_name": "generic_scalar_manipulation",
-      "tier": "draft",
-      "class_version": "1.0.0",
-      "maturity_level": "draft",
-      "superclasses": [
-        "scalar_manipulation"
-      ],
-      "path": "schemas/V_epsilon/draft/generic_scalar_manipulation.json",
-      "is_meta": false
-    },
-    {
-      "class_name": "generic_scalar_observation",
-      "tier": "draft",
-      "class_version": "1.0.0",
-      "maturity_level": "draft",
-      "superclasses": [
-        "scalar_observation"
-      ],
-      "path": "schemas/V_epsilon/draft/generic_scalar_observation.json",
-      "is_meta": false
-    },
-    {
-      "class_name": "group_assignment",
-      "tier": "draft",
-      "class_version": "1.0.0",
-      "maturity_level": "draft",
-      "superclasses": [
-        "annotation"
-      ],
-      "path": "schemas/V_epsilon/draft/group_assignment.json",
-      "is_meta": false
-    },
-    {
-      "class_name": "hartley_calc",
-      "tier": "stable",
-      "class_version": "1.0.0",
-      "maturity_level": "stable",
-      "superclasses": [
-        "base",
-        "hartley_reverse_correlation",
-        "calculator"
-      ],
-      "path": "schemas/V_epsilon/stable/hartley_calc.json",
-      "is_meta": false
-    },
-    {
-      "class_name": "hartley_reverse_correlation",
-      "tier": "stable",
-      "class_version": "1.0.0",
-      "maturity_level": "stable",
-      "superclasses": [
-        "base",
-        "reverse_correlation"
-      ],
-      "path": "schemas/V_epsilon/stable/hartley_reverse_correlation.json",
-      "is_meta": false
-    },
-    {
-      "class_name": "image",
-      "tier": "stable",
-      "class_version": "1.0.0",
-      "maturity_level": "stable",
-      "superclasses": [
-        "base"
-      ],
-      "path": "schemas/V_epsilon/stable/image.json",
-      "is_meta": false
-    },
-    {
-      "class_name": "image_collection",
-      "tier": "stable",
-      "class_version": "1.0.0",
-      "maturity_level": "stable",
-      "superclasses": [
-        "base"
-      ],
-      "path": "schemas/V_epsilon/stable/image_collection.json",
-      "is_meta": false
-    },
-    {
-      "class_name": "image_stack",
-      "tier": "stable",
-      "class_version": "1.0.0",
-      "maturity_level": "stable",
-      "superclasses": [
-        "base",
-        "image_stack_parameters"
-      ],
-      "path": "schemas/V_epsilon/stable/image_stack.json",
-      "is_meta": false
-    },
-    {
-      "class_name": "image_stack_parameters",
-      "tier": "stable",
-      "class_version": "1.0.0",
-      "maturity_level": "stable",
-      "superclasses": [
-        "base"
-      ],
-      "path": "schemas/V_epsilon/stable/image_stack_parameters.json",
-      "is_meta": false
-    },
-    {
-      "class_name": "image_zarr",
-      "tier": "stable",
-      "class_version": "1.0.0",
-      "maturity_level": "stable",
-      "superclasses": [
-        "zarr"
-      ],
-      "path": "schemas/V_epsilon/stable/image_zarr.json",
-      "is_meta": false
-    },
-    {
-      "class_name": "imageseries_data",
-      "tier": "draft",
-      "class_version": "1.0.0",
-      "maturity_level": "draft",
-      "superclasses": [
-        "dataseries_data"
-      ],
-      "path": "schemas/V_epsilon/draft/imageseries_data.json",
-      "is_meta": false
-    },
-    {
-      "class_name": "imageseries_observation",
-      "tier": "draft",
-      "class_version": "1.0.0",
-      "maturity_level": "draft",
-      "superclasses": [
-        "dataseries_observation"
-      ],
-      "path": "schemas/V_epsilon/draft/imageseries_observation.json",
-      "is_meta": false
-    },
-    {
-      "class_name": "injection",
-      "tier": "draft",
-      "class_version": "1.0.0",
-      "maturity_level": "draft",
-      "superclasses": [
-        "pharmacological_manipulation"
-      ],
-      "path": "schemas/V_epsilon/draft/injection.json",
-      "is_meta": false
-    },
-    {
-      "class_name": "instrument",
-      "tier": "draft",
-      "class_version": "1.0.0",
-      "maturity_level": "draft",
-      "superclasses": [
-        "base"
-      ],
-      "path": "schemas/V_epsilon/draft/instrument.json",
-      "is_meta": false
-    },
-    {
-      "class_name": "interaction_purpose",
-      "tier": "draft",
-      "class_version": "1.0.0",
-      "maturity_level": "draft",
-      "superclasses": [
-        "base"
-      ],
-      "path": "schemas/V_epsilon/draft/interaction_purpose.json",
-      "is_meta": false
-    },
-    {
-      "class_name": "jrclust_clusters",
-      "tier": "stable",
-      "class_version": "1.0.0",
-      "maturity_level": "stable",
-      "superclasses": [
-        "base",
-        "app"
-      ],
-      "path": "schemas/V_epsilon/stable/jrclust_clusters.json",
-      "is_meta": false
-    },
-    {
-      "class_name": "length_observation",
-      "tier": "draft",
-      "class_version": "1.0.0",
-      "maturity_level": "draft",
-      "superclasses": [
-        "scalar_observation"
-      ],
-      "path": "schemas/V_epsilon/draft/length_observation.json",
-      "is_meta": false
-    },
-    {
-      "class_name": "manipulation",
-      "tier": "draft",
-      "class_version": "1.0.0",
-      "maturity_level": "draft",
-      "superclasses": [
-        "subject_interaction"
-      ],
-      "path": "schemas/V_epsilon/draft/manipulation.json",
-      "is_meta": false
-    },
-    {
-      "class_name": "mass_observation",
-      "tier": "draft",
-      "class_version": "1.0.0",
-      "maturity_level": "draft",
-      "superclasses": [
-        "scalar_observation"
-      ],
-      "path": "schemas/V_epsilon/draft/mass_observation.json",
-      "is_meta": false
-    },
-    {
-      "class_name": "measurement",
-      "tier": "stable",
-      "class_version": "1.0.0",
-      "maturity_level": "stable",
-      "superclasses": [
-        "base",
-        "epochid"
-      ],
-      "path": "schemas/V_epsilon/stable/measurement.json",
-      "is_meta": false
-    },
-    {
-      "class_name": "metadata_editor",
-      "tier": "stable",
-      "class_version": "1.0.0",
-      "maturity_level": "stable",
-      "superclasses": [
-        "base"
-      ],
-      "path": "schemas/V_epsilon/stable/metadata_editor.json",
-      "is_meta": false
-    },
-    {
-      "class_name": "mock",
-      "tier": "stable",
-      "class_version": "1.0.0",
-      "maturity_level": "stable",
-      "superclasses": [
-        "base"
-      ],
-      "path": "schemas/V_epsilon/stable/mock.json",
-      "is_meta": false
-    },
-    {
-      "class_name": "ndi_reserved_keys",
-      "tier": "stable",
-      "class_version": null,
-      "maturity_level": null,
-      "superclasses": [],
-      "path": "schemas/V_epsilon/stable/ndi_reserved_keys.json",
-      "is_meta": true
-    },
-    {
-      "class_name": "neuron_extracellular",
-      "tier": "stable",
-      "class_version": "1.0.0",
-      "maturity_level": "stable",
-      "superclasses": [
-        "base",
-        "app"
-      ],
-      "path": "schemas/V_epsilon/stable/neuron_extracellular.json",
-      "is_meta": false
-    },
-    {
-      "class_name": "ngrid",
-      "tier": "stable",
-      "class_version": "1.0.0",
-      "maturity_level": "stable",
-      "superclasses": [
-        "base"
-      ],
-      "path": "schemas/V_epsilon/stable/ngrid.json",
-      "is_meta": false
-    },
-    {
-      "class_name": "observation",
-      "tier": "draft",
-      "class_version": "1.0.0",
-      "maturity_level": "draft",
-      "superclasses": [
-        "subject_interaction"
-      ],
-      "path": "schemas/V_epsilon/draft/observation.json",
-      "is_meta": false
-    },
-    {
-      "class_name": "oneepoch",
-      "tier": "stable",
-      "class_version": "1.0.0",
-      "maturity_level": "stable",
-      "superclasses": [
-        "base",
-        "epochid"
-      ],
-      "path": "schemas/V_epsilon/stable/oneepoch.json",
-      "is_meta": false
-    },
-    {
-      "class_name": "ontology_image",
-      "tier": "stable",
-      "class_version": "1.0.0",
-      "maturity_level": "stable",
-      "superclasses": [
-        "base"
-      ],
-      "path": "schemas/V_epsilon/stable/ontology_image.json",
-      "is_meta": false
-    },
-    {
-      "class_name": "ontology_label",
-      "tier": "stable",
-      "class_version": "1.0.0",
-      "maturity_level": "stable",
-      "superclasses": [
-        "base"
-      ],
-      "path": "schemas/V_epsilon/stable/ontology_label.json",
-      "is_meta": false
-    },
-    {
-      "class_name": "ontology_table_row",
-      "tier": "stable",
-      "class_version": "1.0.0",
-      "maturity_level": "stable",
-      "superclasses": [
-        "base"
-      ],
-      "path": "schemas/V_epsilon/stable/ontology_table_row.json",
-      "is_meta": false
-    },
-    {
-      "class_name": "openminds",
-      "tier": "stable",
-      "class_version": "1.0.0",
-      "maturity_level": "stable",
-      "superclasses": [
-        "base"
-      ],
-      "path": "schemas/V_epsilon/stable/openminds.json",
-      "is_meta": false
-    },
-    {
-      "class_name": "openminds_element",
-      "tier": "stable",
-      "class_version": "1.0.0",
-      "maturity_level": "stable",
-      "superclasses": [
-        "base",
-        "openminds"
-      ],
-      "path": "schemas/V_epsilon/stable/openminds_element.json",
-      "is_meta": false
-    },
-    {
-      "class_name": "openminds_stimulus",
-      "tier": "stable",
-      "class_version": "1.0.0",
-      "maturity_level": "stable",
-      "superclasses": [
-        "base",
-        "openminds",
-        "epochid"
-      ],
-      "path": "schemas/V_epsilon/stable/openminds_stimulus.json",
-      "is_meta": false
-    },
-    {
-      "class_name": "openminds_subject",
-      "tier": "stable",
-      "class_version": "1.0.0",
-      "maturity_level": "stable",
-      "superclasses": [
-        "base",
-        "openminds"
-      ],
-      "path": "schemas/V_epsilon/stable/openminds_subject.json",
-      "is_meta": false
-    },
-    {
-      "class_name": "oridirtuning_calc",
-      "tier": "stable",
-      "class_version": "1.0.0",
-      "maturity_level": "stable",
-      "superclasses": [
-        "base",
-        "orientation_direction_tuning",
-        "tuning_fit"
-      ],
-      "path": "schemas/V_epsilon/stable/oridirtuning_calc.json",
-      "is_meta": false
-    },
-    {
-      "class_name": "orientation_direction_tuning",
-      "tier": "stable",
-      "class_version": "1.0.0",
-      "maturity_level": "stable",
-      "superclasses": [
-        "base"
-      ],
-      "path": "schemas/V_epsilon/stable/orientation_direction_tuning.json",
-      "is_meta": false
-    },
-    {
-      "class_name": "pharmacological_manipulation",
-      "tier": "draft",
-      "class_version": "1.0.0",
-      "maturity_level": "draft",
-      "superclasses": [
-        "manipulation"
-      ],
-      "path": "schemas/V_epsilon/draft/pharmacological_manipulation.json",
-      "is_meta": false
-    },
-    {
-      "class_name": "placement",
-      "tier": "draft",
-      "class_version": "1.0.0",
-      "maturity_level": "draft",
-      "superclasses": [
-        "manipulation"
-      ],
-      "path": "schemas/V_epsilon/draft/placement.json",
-      "is_meta": false
-    },
-    {
-      "class_name": "position_metadata",
-      "tier": "stable",
-      "class_version": "1.0.0",
-      "maturity_level": "stable",
-      "superclasses": [
-        "base"
-      ],
-      "path": "schemas/V_epsilon/stable/position_metadata.json",
-      "is_meta": false
-    },
-    {
-      "class_name": "pressure_manipulation",
-      "tier": "draft",
-      "class_version": "1.0.0",
-      "maturity_level": "draft",
-      "superclasses": [
-        "scalar_manipulation"
-      ],
-      "path": "schemas/V_epsilon/draft/pressure_manipulation.json",
-      "is_meta": false
-    },
-    {
-      "class_name": "pressure_observation",
-      "tier": "draft",
-      "class_version": "1.0.0",
-      "maturity_level": "draft",
-      "superclasses": [
-        "scalar_observation"
-      ],
-      "path": "schemas/V_epsilon/draft/pressure_observation.json",
-      "is_meta": false
-    },
-    {
-      "class_name": "probe_geometry",
-      "tier": "stable",
-      "class_version": "1.0.0",
-      "maturity_level": "stable",
-      "superclasses": [
-        "base"
-      ],
-      "path": "schemas/V_epsilon/stable/probe_geometry.json",
-      "is_meta": false
-    },
-    {
-      "class_name": "probe_location",
-      "tier": "stable",
-      "class_version": "1.0.0",
-      "maturity_level": "stable",
-      "superclasses": [
-        "base"
-      ],
-      "path": "schemas/V_epsilon/stable/probe_location.json",
-      "is_meta": false
-    },
-    {
-      "class_name": "procedural_manipulation",
-      "tier": "draft",
-      "class_version": "1.0.0",
-      "maturity_level": "draft",
-      "superclasses": [
-        "manipulation"
-      ],
-      "path": "schemas/V_epsilon/draft/procedural_manipulation.json",
-      "is_meta": false
-    },
-    {
-      "class_name": "projectvar",
-      "tier": "deprecated",
-      "class_version": "1.0.0",
-      "maturity_level": "deprecated",
-      "superclasses": [
-        "base"
-      ],
-      "path": "schemas/V_epsilon/deprecated/projectvar.json",
-      "is_meta": false
-    },
-    {
-      "class_name": "pyraview",
-      "tier": "stable",
-      "class_version": "1.0.0",
-      "maturity_level": "stable",
-      "superclasses": [
-        "epochclocktimes",
-        "filter",
-        "base",
-        "epochid"
-      ],
-      "path": "schemas/V_epsilon/stable/pyraview.json",
-      "is_meta": false
-    },
-    {
-      "class_name": "reference_annotation_data",
-      "tier": "draft",
-      "class_version": "1.0.0",
-      "maturity_level": "draft",
-      "superclasses": [
-        "reference_data"
-      ],
-      "path": "schemas/V_epsilon/draft/reference_annotation_data.json",
-      "is_meta": false
-    },
-    {
-      "class_name": "reference_annotation_data_gff3",
-      "tier": "draft",
-      "class_version": "1.0.0",
-      "maturity_level": "draft",
-      "superclasses": [
-        "reference_annotation_data"
-      ],
-      "path": "schemas/V_epsilon/draft/reference_annotation_data_gff3.json",
-      "is_meta": false
-    },
-    {
-      "class_name": "reference_annotation_data_gtf",
-      "tier": "draft",
-      "class_version": "1.0.0",
-      "maturity_level": "draft",
-      "superclasses": [
-        "reference_annotation_data"
-      ],
-      "path": "schemas/V_epsilon/draft/reference_annotation_data_gtf.json",
-      "is_meta": false
-    },
-    {
-      "class_name": "reference_data",
-      "tier": "draft",
-      "class_version": "1.0.0",
-      "maturity_level": "draft",
-      "superclasses": [
-        "base"
-      ],
-      "path": "schemas/V_epsilon/draft/reference_data.json",
-      "is_meta": false
-    },
-    {
-      "class_name": "reference_sequence_data",
-      "tier": "draft",
-      "class_version": "1.0.0",
-      "maturity_level": "draft",
-      "superclasses": [
-        "reference_data"
-      ],
-      "path": "schemas/V_epsilon/draft/reference_sequence_data.json",
-      "is_meta": false
-    },
-    {
-      "class_name": "reference_sequence_data_fasta_genome",
-      "tier": "draft",
-      "class_version": "1.0.0",
-      "maturity_level": "draft",
-      "superclasses": [
-        "reference_sequence_data"
-      ],
-      "path": "schemas/V_epsilon/draft/reference_sequence_data_fasta_genome.json",
-      "is_meta": false
-    },
-    {
-      "class_name": "reference_sequence_data_fasta_protein",
-      "tier": "draft",
-      "class_version": "1.0.0",
-      "maturity_level": "draft",
-      "superclasses": [
-        "reference_sequence_data"
-      ],
-      "path": "schemas/V_epsilon/draft/reference_sequence_data_fasta_protein.json",
-      "is_meta": false
-    },
-    {
-      "class_name": "reference_sequence_data_fasta_transcriptome",
-      "tier": "draft",
-      "class_version": "1.0.0",
-      "maturity_level": "draft",
-      "superclasses": [
-        "reference_sequence_data"
-      ],
-      "path": "schemas/V_epsilon/draft/reference_sequence_data_fasta_transcriptome.json",
-      "is_meta": false
-    },
-    {
-      "class_name": "reverse_correlation",
-      "tier": "stable",
-      "class_version": "1.0.0",
-      "maturity_level": "stable",
-      "superclasses": [
-        "base",
-        "ngrid"
-      ],
-      "path": "schemas/V_epsilon/stable/reverse_correlation.json",
-      "is_meta": false
-    },
-    {
-      "class_name": "scalar_manipulation",
-      "tier": "draft",
-      "class_version": "1.0.0",
-      "maturity_level": "draft",
-      "superclasses": [
-        "manipulation"
-      ],
-      "path": "schemas/V_epsilon/draft/scalar_manipulation.json",
-      "is_meta": false
-    },
-    {
-      "class_name": "scalar_observation",
-      "tier": "draft",
-      "class_version": "1.0.0",
-      "maturity_level": "draft",
-      "superclasses": [
-        "observation"
-      ],
-      "path": "schemas/V_epsilon/draft/scalar_observation.json",
-      "is_meta": false
-    },
-    {
-      "class_name": "score_observation",
-      "tier": "draft",
-      "class_version": "1.0.0",
-      "maturity_level": "draft",
-      "superclasses": [
-        "scalar_observation"
-      ],
-      "path": "schemas/V_epsilon/draft/score_observation.json",
-      "is_meta": false
-    },
-    {
-      "class_name": "sequence_read_data",
-      "tier": "draft",
-      "class_version": "1.0.0",
-      "maturity_level": "draft",
-      "superclasses": [
-        "base"
-      ],
-      "path": "schemas/V_epsilon/draft/sequence_read_data.json",
-      "is_meta": false
-    },
-    {
-      "class_name": "sequence_read_data_bam",
-      "tier": "draft",
-      "class_version": "1.0.0",
-      "maturity_level": "draft",
-      "superclasses": [
-        "sequence_read_data"
-      ],
-      "path": "schemas/V_epsilon/draft/sequence_read_data_bam.json",
-      "is_meta": false
-    },
-    {
-      "class_name": "sequence_read_data_cram",
-      "tier": "draft",
-      "class_version": "1.0.0",
-      "maturity_level": "draft",
-      "superclasses": [
-        "sequence_read_data"
-      ],
-      "path": "schemas/V_epsilon/draft/sequence_read_data_cram.json",
-      "is_meta": false
-    },
-    {
-      "class_name": "sequence_read_data_fastq",
-      "tier": "draft",
-      "class_version": "1.0.0",
-      "maturity_level": "draft",
-      "superclasses": [
-        "sequence_read_data"
-      ],
-      "path": "schemas/V_epsilon/draft/sequence_read_data_fastq.json",
-      "is_meta": false
-    },
-    {
-      "class_name": "session",
-      "tier": "stable",
-      "class_version": "1.0.0",
-      "maturity_level": "stable",
-      "superclasses": [
-        "base"
-      ],
-      "path": "schemas/V_epsilon/stable/session.json",
-      "is_meta": false
-    },
-    {
-      "class_name": "session_in_a_dataset",
-      "tier": "stable",
-      "class_version": "1.0.0",
-      "maturity_level": "stable",
-      "superclasses": [
-        "base"
-      ],
-      "path": "schemas/V_epsilon/stable/session_in_a_dataset.json",
-      "is_meta": false
-    },
-    {
-      "class_name": "simple_calc",
-      "tier": "stable",
-      "class_version": "1.0.0",
-      "maturity_level": "stable",
-      "superclasses": [
-        "base",
-        "calculator"
-      ],
-      "path": "schemas/V_epsilon/stable/simple_calc.json",
-      "is_meta": false
-    },
-    {
-      "class_name": "site2channelmap",
-      "tier": "stable",
-      "class_version": "1.0.0",
-      "maturity_level": "stable",
-      "superclasses": [
-        "base"
-      ],
-      "path": "schemas/V_epsilon/stable/site2channelmap.json",
-      "is_meta": false
-    },
-    {
-      "class_name": "sorting_parameters",
-      "tier": "stable",
-      "class_version": "1.0.0",
-      "maturity_level": "stable",
-      "superclasses": [
-        "base"
-      ],
-      "path": "schemas/V_epsilon/stable/sorting_parameters.json",
-      "is_meta": false
-    },
-    {
-      "class_name": "spatial_expression_observation",
-      "tier": "draft",
-      "class_version": "1.0.0",
-      "maturity_level": "draft",
-      "superclasses": [
-        "expression_observation"
-      ],
-      "path": "schemas/V_epsilon/draft/spatial_expression_observation.json",
-      "is_meta": false
-    },
-    {
-      "class_name": "spatial_frequency_tuning",
-      "tier": "stable",
-      "class_version": "1.0.0",
-      "maturity_level": "stable",
-      "superclasses": [
-        "base"
-      ],
-      "path": "schemas/V_epsilon/stable/spatial_frequency_tuning.json",
-      "is_meta": false
-    },
-    {
-      "class_name": "spatial_frequency_tuning_calc",
-      "tier": "stable",
-      "class_version": "1.0.0",
-      "maturity_level": "stable",
-      "superclasses": [
-        "base",
-        "spatial_frequency_tuning",
-        "tuning_fit"
-      ],
-      "path": "schemas/V_epsilon/stable/spatial_frequency_tuning_calc.json",
-      "is_meta": false
-    },
-    {
-      "class_name": "speed_tuning",
-      "tier": "stable",
-      "class_version": "1.0.0",
-      "maturity_level": "stable",
-      "superclasses": [
-        "base"
-      ],
-      "path": "schemas/V_epsilon/stable/speed_tuning.json",
-      "is_meta": false
-    },
-    {
-      "class_name": "speed_tuning_calc",
-      "tier": "stable",
-      "class_version": "1.0.0",
-      "maturity_level": "stable",
-      "superclasses": [
-        "base",
-        "speed_tuning",
-        "tuning_fit"
-      ],
-      "path": "schemas/V_epsilon/stable/speed_tuning_calc.json",
-      "is_meta": false
-    },
-    {
-      "class_name": "spike_clusters",
-      "tier": "stable",
-      "class_version": "1.0.0",
-      "maturity_level": "stable",
-      "superclasses": [
-        "base"
-      ],
-      "path": "schemas/V_epsilon/stable/spike_clusters.json",
-      "is_meta": false
-    },
-    {
-      "class_name": "spike_extraction_parameters",
-      "tier": "stable",
-      "class_version": "1.0.0",
-      "maturity_level": "stable",
-      "superclasses": [
-        "base"
-      ],
-      "path": "schemas/V_epsilon/stable/spike_extraction_parameters.json",
-      "is_meta": false
-    },
-    {
-      "class_name": "spike_extraction_parameters_modification",
-      "tier": "stable",
-      "class_version": "1.0.0",
-      "maturity_level": "stable",
-      "superclasses": [
-        "base"
-      ],
-      "path": "schemas/V_epsilon/stable/spike_extraction_parameters_modification.json",
-      "is_meta": false
-    },
-    {
-      "class_name": "spike_interface_sorting_outputs",
-      "tier": "stable",
-      "class_version": "1.0.0",
-      "maturity_level": "stable",
-      "superclasses": [
-        "base"
-      ],
-      "path": "schemas/V_epsilon/stable/spike_interface_sorting_outputs.json",
-      "is_meta": false
-    },
-    {
-      "class_name": "spikewaves",
-      "tier": "stable",
-      "class_version": "1.0.0",
-      "maturity_level": "stable",
-      "superclasses": [
-        "base"
-      ],
-      "path": "schemas/V_epsilon/stable/spikewaves.json",
-      "is_meta": false
-    },
-    {
-      "class_name": "stimulus_approach",
-      "tier": "draft",
-      "class_version": "2.0.0",
-      "maturity_level": "draft",
-      "superclasses": [
-        "base"
-      ],
-      "path": "schemas/V_epsilon/draft/stimulus_approach.json",
-      "is_meta": false
-    },
-    {
-      "class_name": "stimulus_bath",
-      "tier": "draft",
-      "class_version": "2.0.0",
-      "maturity_level": "draft",
-      "superclasses": [
-        "bath"
-      ],
-      "path": "schemas/V_epsilon/draft/stimulus_bath.json",
-      "is_meta": false
-    },
-    {
-      "class_name": "stimulus_manipulation",
-      "tier": "draft",
-      "class_version": "1.0.0",
-      "maturity_level": "draft",
-      "superclasses": [
-        "manipulation"
-      ],
-      "path": "schemas/V_epsilon/draft/stimulus_manipulation.json",
-      "is_meta": false
-    },
-    {
-      "class_name": "stimulus_parameter",
-      "tier": "stable",
-      "class_version": "1.0.0",
-      "maturity_level": "stable",
-      "superclasses": [
-        "base"
-      ],
-      "path": "schemas/V_epsilon/stable/stimulus_parameter.json",
-      "is_meta": false
-    },
-    {
-      "class_name": "stimulus_parameter_table",
-      "tier": "stable",
-      "class_version": "1.0.0",
-      "maturity_level": "stable",
-      "superclasses": [
-        "base"
-      ],
-      "path": "schemas/V_epsilon/stable/stimulus_parameter_table.json",
-      "is_meta": false
-    },
-    {
-      "class_name": "stimulus_presentation",
-      "tier": "stable",
-      "class_version": "1.0.0",
-      "maturity_level": "stable",
-      "superclasses": [
-        "base",
-        "app",
-        "epochid"
-      ],
-      "path": "schemas/V_epsilon/stable/stimulus_presentation.json",
-      "is_meta": false
-    },
-    {
-      "class_name": "stimulus_response",
-      "tier": "stable",
-      "class_version": "1.0.0",
-      "maturity_level": "stable",
-      "superclasses": [
-        "base"
-      ],
-      "path": "schemas/V_epsilon/stable/stimulus_response.json",
-      "is_meta": false
-    },
-    {
-      "class_name": "stimulus_response_scalar",
-      "tier": "stable",
-      "class_version": "1.0.0",
-      "maturity_level": "stable",
-      "superclasses": [
-        "base",
-        "stimulus_response"
-      ],
-      "path": "schemas/V_epsilon/stable/stimulus_response_scalar.json",
-      "is_meta": false
-    },
-    {
-      "class_name": "stimulus_response_scalar_parameters",
-      "tier": "stable",
-      "class_version": "1.0.0",
-      "maturity_level": "stable",
-      "superclasses": [
-        "base"
-      ],
-      "path": "schemas/V_epsilon/stable/stimulus_response_scalar_parameters.json",
-      "is_meta": false
-    },
-    {
-      "class_name": "stimulus_response_scalar_parameters_basic",
-      "tier": "stable",
-      "class_version": "1.0.0",
-      "maturity_level": "stable",
-      "superclasses": [
-        "base",
-        "stimulus_response_scalar_parameters"
-      ],
-      "path": "schemas/V_epsilon/stable/stimulus_response_scalar_parameters_basic.json",
-      "is_meta": false
-    },
-    {
-      "class_name": "stimulus_tuningcurve",
-      "tier": "stable",
-      "class_version": "1.0.0",
-      "maturity_level": "stable",
-      "superclasses": [
-        "base"
-      ],
-      "path": "schemas/V_epsilon/stable/stimulus_tuningcurve.json",
-      "is_meta": false
-    },
-    {
-      "class_name": "subject",
-      "tier": "stable",
-      "class_version": "2.0.0",
-      "maturity_level": "stable",
-      "superclasses": [
-        "base"
-      ],
-      "path": "schemas/V_epsilon/stable/subject.json",
-      "is_meta": false
-    },
-    {
-      "class_name": "subject_group",
-      "tier": "deprecated",
-      "class_version": "1.0.0",
-      "maturity_level": "deprecated",
-      "superclasses": [
-        "base"
-      ],
-      "path": "schemas/V_epsilon/deprecated/subject_group.json",
-      "is_meta": false
-    },
-    {
-      "class_name": "subject_interaction",
-      "tier": "draft",
-      "class_version": "1.0.0",
-      "maturity_level": "draft",
-      "superclasses": [
-        "base"
-      ],
-      "path": "schemas/V_epsilon/draft/subject_interaction.json",
-      "is_meta": false
-    },
-    {
-      "class_name": "syncgraph",
-      "tier": "stable",
-      "class_version": "1.0.0",
-      "maturity_level": "stable",
-      "superclasses": [
-        "base"
-      ],
-      "path": "schemas/V_epsilon/stable/syncgraph.json",
-      "is_meta": false
-    },
-    {
-      "class_name": "syncrule",
-      "tier": "stable",
-      "class_version": "1.0.0",
-      "maturity_level": "stable",
-      "superclasses": [
-        "base"
-      ],
-      "path": "schemas/V_epsilon/stable/syncrule.json",
-      "is_meta": false
-    },
-    {
-      "class_name": "syncrule_mapping",
-      "tier": "stable",
-      "class_version": "1.0.0",
-      "maturity_level": "stable",
-      "superclasses": [
-        "base"
-      ],
-      "path": "schemas/V_epsilon/stable/syncrule_mapping.json",
-      "is_meta": false
-    },
-    {
-      "class_name": "temperature_manipulation",
-      "tier": "draft",
-      "class_version": "1.0.0",
-      "maturity_level": "draft",
-      "superclasses": [
-        "scalar_manipulation"
-      ],
-      "path": "schemas/V_epsilon/draft/temperature_manipulation.json",
-      "is_meta": false
-    },
-    {
-      "class_name": "temperature_observation",
-      "tier": "draft",
-      "class_version": "1.0.0",
-      "maturity_level": "draft",
-      "superclasses": [
-        "scalar_observation"
-      ],
-      "path": "schemas/V_epsilon/draft/temperature_observation.json",
-      "is_meta": false
-    },
-    {
-      "class_name": "temporal_frequency_tuning",
-      "tier": "stable",
-      "class_version": "1.0.0",
-      "maturity_level": "stable",
-      "superclasses": [
-        "base"
-      ],
-      "path": "schemas/V_epsilon/stable/temporal_frequency_tuning.json",
-      "is_meta": false
-    },
-    {
-      "class_name": "temporal_frequency_tuning_calc",
-      "tier": "stable",
-      "class_version": "1.0.0",
-      "maturity_level": "stable",
-      "superclasses": [
-        "base",
-        "temporal_frequency_tuning",
-        "tuning_fit"
-      ],
-      "path": "schemas/V_epsilon/stable/temporal_frequency_tuning_calc.json",
-      "is_meta": false
-    },
-    {
-      "class_name": "time_reference",
-      "tier": "draft",
-      "class_version": "1.0.0",
-      "maturity_level": "draft",
-      "superclasses": [
-        "base"
-      ],
-      "path": "schemas/V_epsilon/draft/time_reference.json",
-      "is_meta": false
-    },
-    {
-      "class_name": "timeseries_data",
-      "tier": "draft",
-      "class_version": "1.0.0",
-      "maturity_level": "draft",
-      "superclasses": [
-        "dataseries_data"
-      ],
-      "path": "schemas/V_epsilon/draft/timeseries_data.json",
-      "is_meta": false
-    },
-    {
-      "class_name": "timeseries_data_binary",
-      "tier": "draft",
-      "class_version": "1.0.0",
-      "maturity_level": "draft",
-      "superclasses": [
-        "timeseries_data"
-      ],
-      "path": "schemas/V_epsilon/draft/timeseries_data_binary.json",
-      "is_meta": false
-    },
-    {
-      "class_name": "timeseries_data_csv",
-      "tier": "draft",
-      "class_version": "1.0.0",
-      "maturity_level": "draft",
-      "superclasses": [
-        "timeseries_data"
-      ],
-      "path": "schemas/V_epsilon/draft/timeseries_data_csv.json",
-      "is_meta": false
-    },
-    {
-      "class_name": "timeseries_data_edf",
-      "tier": "draft",
-      "class_version": "1.0.0",
-      "maturity_level": "draft",
-      "superclasses": [
-        "timeseries_data"
-      ],
-      "path": "schemas/V_epsilon/draft/timeseries_data_edf.json",
-      "is_meta": false
-    },
-    {
-      "class_name": "timeseries_observation",
-      "tier": "draft",
-      "class_version": "1.0.0",
-      "maturity_level": "draft",
-      "superclasses": [
-        "dataseries_observation"
-      ],
-      "path": "schemas/V_epsilon/draft/timeseries_observation.json",
-      "is_meta": false
-    },
-    {
-      "class_name": "treatment",
-      "tier": "deprecated",
-      "class_version": "1.0.0",
-      "maturity_level": "deprecated",
-      "superclasses": [
-        "base"
-      ],
-      "path": "schemas/V_epsilon/deprecated/treatment.json",
-      "is_meta": false
-    },
-    {
-      "class_name": "treatment_drug",
-      "tier": "deprecated",
-      "class_version": "1.0.0",
-      "maturity_level": "deprecated",
-      "superclasses": [
-        "base"
-      ],
-      "path": "schemas/V_epsilon/deprecated/treatment_drug.json",
-      "is_meta": false
-    },
-    {
-      "class_name": "treatment_transfer",
-      "tier": "deprecated",
-      "class_version": "1.0.0",
-      "maturity_level": "deprecated",
-      "superclasses": [
-        "base"
-      ],
-      "path": "schemas/V_epsilon/deprecated/treatment_transfer.json",
-      "is_meta": false
-    },
-    {
-      "class_name": "tuning_fit",
-      "tier": "stable",
-      "class_version": "1.0.0",
-      "maturity_level": "stable",
-      "superclasses": [
-        "calculator"
-      ],
-      "path": "schemas/V_epsilon/stable/tuning_fit.json",
-      "is_meta": false
-    },
-    {
-      "class_name": "tuningcurve_calc",
-      "tier": "stable",
-      "class_version": "1.0.0",
-      "maturity_level": "stable",
-      "superclasses": [
-        "base",
-        "calculator",
-        "stimulus_tuningcurve"
-      ],
-      "path": "schemas/V_epsilon/stable/tuningcurve_calc.json",
-      "is_meta": false
-    },
-    {
-      "class_name": "utc_reference",
-      "tier": "draft",
-      "class_version": "1.0.0",
-      "maturity_level": "draft",
-      "superclasses": [
-        "time_reference"
-      ],
-      "path": "schemas/V_epsilon/draft/utc_reference.json",
-      "is_meta": false
-    },
-    {
-      "class_name": "valid_interval",
-      "tier": "stable",
-      "class_version": "1.0.0",
-      "maturity_level": "stable",
-      "superclasses": [
-        "base"
-      ],
-      "path": "schemas/V_epsilon/stable/valid_interval.json",
-      "is_meta": false
-    },
-    {
-      "class_name": "virus_injection",
-      "tier": "deprecated",
-      "class_version": "1.0.0",
-      "maturity_level": "deprecated",
-      "superclasses": [
-        "base"
-      ],
-      "path": "schemas/V_epsilon/deprecated/virus_injection.json",
-      "is_meta": false
-    },
-    {
-      "class_name": "vmneuralresponseresiduals",
-      "tier": "stable",
-      "class_version": "1.0.0",
-      "maturity_level": "stable",
-      "superclasses": [
-        "base"
-      ],
-      "path": "schemas/V_epsilon/stable/vmneuralresponseresiduals.json",
-      "is_meta": false
-    },
-    {
-      "class_name": "vmspikefilteringparameters",
-      "tier": "stable",
-      "class_version": "1.0.0",
-      "maturity_level": "stable",
-      "superclasses": [
-        "base"
-      ],
-      "path": "schemas/V_epsilon/stable/vmspikefilteringparameters.json",
-      "is_meta": false
-    },
-    {
-      "class_name": "vmspikefit",
-      "tier": "stable",
-      "class_version": "1.0.0",
-      "maturity_level": "stable",
-      "superclasses": [
-        "base"
-      ],
-      "path": "schemas/V_epsilon/stable/vmspikefit.json",
-      "is_meta": false
-    },
-    {
-      "class_name": "vmspikesummary",
-      "tier": "stable",
-      "class_version": "1.0.0",
-      "maturity_level": "stable",
-      "superclasses": [
-        "base"
-      ],
-      "path": "schemas/V_epsilon/stable/vmspikesummary.json",
-      "is_meta": false
-    },
-    {
-      "class_name": "volume_observation",
-      "tier": "draft",
-      "class_version": "1.0.0",
-      "maturity_level": "draft",
-      "superclasses": [
-        "scalar_observation"
-      ],
-      "path": "schemas/V_epsilon/draft/volume_observation.json",
-      "is_meta": false
-    },
-    {
-      "class_name": "zarr",
-      "tier": "stable",
-      "class_version": "1.0.0",
-      "maturity_level": "stable",
-      "superclasses": [
-        "base"
-      ],
-      "path": "schemas/V_epsilon/stable/zarr.json",
-      "is_meta": false
-    }
-  ]
+    "set_version": "V_epsilon",
+    "schema_version_value": "V_epsilon",
+    "based_on": "V_delta",
+    "tiers": [
+        "stable",
+        "draft",
+        "deprecated"
+    ],
+    "legacy_schema_version_values": [
+        "did_v1",
+        "V_delta"
+    ],
+    "notes": "Source of truth for class_name uniqueness and tier placement. V_epsilon implements the subject_interaction redesign (observation/manipulation/annotation families, time_reference family, dataseries bodies, reference/expression bodies) as draft/ additions, deprecates the treatment family and virus_injection/subject_group, and re-scopes stimulus_approach/stimulus_bath. Resolution-by-class_name only.",
+    "schemas": [
+        {
+            "class_name": "CURIE_lookups_meta",
+            "tier": "stable",
+            "class_version": null,
+            "maturity_level": null,
+            "superclasses": [],
+            "path": "schemas/V_epsilon/stable/CURIE_lookups_meta.json",
+            "is_meta": true
+        },
+        {
+            "class_name": "age_observation",
+            "tier": "draft",
+            "class_version": "1.0.0",
+            "maturity_level": "draft",
+            "superclasses": [
+                "scalar_observation"
+            ],
+            "path": "schemas/V_epsilon/draft/age_observation.json",
+            "is_meta": false
+        },
+        {
+            "class_name": "annotation",
+            "tier": "draft",
+            "class_version": "1.0.0",
+            "maturity_level": "draft",
+            "superclasses": [
+                "subject_interaction"
+            ],
+            "path": "schemas/V_epsilon/draft/annotation.json",
+            "is_meta": false
+        },
+        {
+            "class_name": "app",
+            "tier": "stable",
+            "class_version": "1.0.0",
+            "maturity_level": "stable",
+            "superclasses": [
+                "base"
+            ],
+            "path": "schemas/V_epsilon/stable/app.json",
+            "is_meta": false
+        },
+        {
+            "class_name": "base",
+            "tier": "stable",
+            "class_version": "1.0.0",
+            "maturity_level": "stable",
+            "superclasses": [],
+            "path": "schemas/V_epsilon/stable/base.json",
+            "is_meta": false
+        },
+        {
+            "class_name": "bath",
+            "tier": "draft",
+            "class_version": "1.0.0",
+            "maturity_level": "draft",
+            "superclasses": [
+                "pharmacological_manipulation"
+            ],
+            "path": "schemas/V_epsilon/draft/bath.json",
+            "is_meta": false
+        },
+        {
+            "class_name": "behavioral_phenotype_observation",
+            "tier": "draft",
+            "class_version": "1.0.0",
+            "maturity_level": "draft",
+            "superclasses": [
+                "categorical_observation"
+            ],
+            "path": "schemas/V_epsilon/draft/behavioral_phenotype_observation.json",
+            "is_meta": false
+        },
+        {
+            "class_name": "behavioral_score_observation",
+            "tier": "draft",
+            "class_version": "1.0.0",
+            "maturity_level": "draft",
+            "superclasses": [
+                "scalar_observation"
+            ],
+            "path": "schemas/V_epsilon/draft/behavioral_score_observation.json",
+            "is_meta": false
+        },
+        {
+            "class_name": "binaryseries_parameters",
+            "tier": "stable",
+            "class_version": "1.0.0",
+            "maturity_level": "stable",
+            "superclasses": [
+                "base"
+            ],
+            "path": "schemas/V_epsilon/stable/binaryseries_parameters.json",
+            "is_meta": false
+        },
+        {
+            "class_name": "binnedspikeratevm",
+            "tier": "stable",
+            "class_version": "1.0.0",
+            "maturity_level": "stable",
+            "superclasses": [
+                "base"
+            ],
+            "path": "schemas/V_epsilon/stable/binnedspikeratevm.json",
+            "is_meta": false
+        },
+        {
+            "class_name": "biological_transfer",
+            "tier": "draft",
+            "class_version": "1.0.0",
+            "maturity_level": "draft",
+            "superclasses": [
+                "procedural_manipulation"
+            ],
+            "path": "schemas/V_epsilon/draft/biological_transfer.json",
+            "is_meta": false
+        },
+        {
+            "class_name": "blood_pressure_observation",
+            "tier": "draft",
+            "class_version": "1.0.0",
+            "maturity_level": "draft",
+            "superclasses": [
+                "scalar_observation"
+            ],
+            "path": "schemas/V_epsilon/draft/blood_pressure_observation.json",
+            "is_meta": false
+        },
+        {
+            "class_name": "body_condition_observation",
+            "tier": "draft",
+            "class_version": "1.0.0",
+            "maturity_level": "draft",
+            "superclasses": [
+                "scalar_observation"
+            ],
+            "path": "schemas/V_epsilon/draft/body_condition_observation.json",
+            "is_meta": false
+        },
+        {
+            "class_name": "body_length_observation",
+            "tier": "draft",
+            "class_version": "1.0.0",
+            "maturity_level": "draft",
+            "superclasses": [
+                "scalar_observation"
+            ],
+            "path": "schemas/V_epsilon/draft/body_length_observation.json",
+            "is_meta": false
+        },
+        {
+            "class_name": "body_weight_observation",
+            "tier": "draft",
+            "class_version": "1.0.0",
+            "maturity_level": "draft",
+            "superclasses": [
+                "scalar_observation"
+            ],
+            "path": "schemas/V_epsilon/draft/body_weight_observation.json",
+            "is_meta": false
+        },
+        {
+            "class_name": "calculator",
+            "tier": "stable",
+            "class_version": "1.0.0",
+            "maturity_level": "stable",
+            "superclasses": [
+                "base",
+                "app"
+            ],
+            "path": "schemas/V_epsilon/stable/calculator.json",
+            "is_meta": false
+        },
+        {
+            "class_name": "categorical_observation",
+            "tier": "draft",
+            "class_version": "1.0.0",
+            "maturity_level": "draft",
+            "superclasses": [
+                "observation"
+            ],
+            "path": "schemas/V_epsilon/draft/categorical_observation.json",
+            "is_meta": false
+        },
+        {
+            "class_name": "cell_count_observation",
+            "tier": "draft",
+            "class_version": "1.0.0",
+            "maturity_level": "draft",
+            "superclasses": [
+                "scalar_observation"
+            ],
+            "path": "schemas/V_epsilon/draft/cell_count_observation.json",
+            "is_meta": false
+        },
+        {
+            "class_name": "concentration_observation",
+            "tier": "draft",
+            "class_version": "1.0.0",
+            "maturity_level": "draft",
+            "superclasses": [
+                "scalar_observation"
+            ],
+            "path": "schemas/V_epsilon/draft/concentration_observation.json",
+            "is_meta": false
+        },
+        {
+            "class_name": "contrast_sensitivity_calc",
+            "tier": "stable",
+            "class_version": "1.0.0",
+            "maturity_level": "stable",
+            "superclasses": [
+                "base",
+                "calculator"
+            ],
+            "path": "schemas/V_epsilon/stable/contrast_sensitivity_calc.json",
+            "is_meta": false
+        },
+        {
+            "class_name": "contrast_tuning",
+            "tier": "stable",
+            "class_version": "1.0.0",
+            "maturity_level": "stable",
+            "superclasses": [
+                "base"
+            ],
+            "path": "schemas/V_epsilon/stable/contrast_tuning.json",
+            "is_meta": false
+        },
+        {
+            "class_name": "contrast_tuning_calc",
+            "tier": "stable",
+            "class_version": "1.0.0",
+            "maturity_level": "stable",
+            "superclasses": [
+                "base",
+                "contrast_tuning",
+                "tuning_fit"
+            ],
+            "path": "schemas/V_epsilon/stable/contrast_tuning_calc.json",
+            "is_meta": false
+        },
+        {
+            "class_name": "control_stimulus_ids",
+            "tier": "stable",
+            "class_version": "1.0.0",
+            "maturity_level": "stable",
+            "superclasses": [
+                "base",
+                "app"
+            ],
+            "path": "schemas/V_epsilon/stable/control_stimulus_ids.json",
+            "is_meta": false
+        },
+        {
+            "class_name": "core_temperature_observation",
+            "tier": "draft",
+            "class_version": "1.0.0",
+            "maturity_level": "draft",
+            "superclasses": [
+                "scalar_observation"
+            ],
+            "path": "schemas/V_epsilon/draft/core_temperature_observation.json",
+            "is_meta": false
+        },
+        {
+            "class_name": "daqmetadatareader",
+            "tier": "stable",
+            "class_version": "1.0.0",
+            "maturity_level": "stable",
+            "superclasses": [
+                "base"
+            ],
+            "path": "schemas/V_epsilon/stable/daqmetadatareader.json",
+            "is_meta": false
+        },
+        {
+            "class_name": "daqmetadatareader_epochdata_ingested",
+            "tier": "stable",
+            "class_version": "1.0.0",
+            "maturity_level": "stable",
+            "superclasses": [
+                "base",
+                "epochid"
+            ],
+            "path": "schemas/V_epsilon/stable/daqmetadatareader_epochdata_ingested.json",
+            "is_meta": false
+        },
+        {
+            "class_name": "daqreader",
+            "tier": "stable",
+            "class_version": "1.0.0",
+            "maturity_level": "stable",
+            "superclasses": [
+                "base"
+            ],
+            "path": "schemas/V_epsilon/stable/daqreader.json",
+            "is_meta": false
+        },
+        {
+            "class_name": "daqreader_epochdata_ingested",
+            "tier": "stable",
+            "class_version": "1.0.0",
+            "maturity_level": "stable",
+            "superclasses": [
+                "base"
+            ],
+            "path": "schemas/V_epsilon/stable/daqreader_epochdata_ingested.json",
+            "is_meta": false
+        },
+        {
+            "class_name": "daqreader_mfdaq_epochdata_ingested",
+            "tier": "stable",
+            "class_version": "1.0.0",
+            "maturity_level": "stable",
+            "superclasses": [
+                "base",
+                "daqreader_epochdata_ingested",
+                "epochid"
+            ],
+            "path": "schemas/V_epsilon/stable/daqreader_mfdaq_epochdata_ingested.json",
+            "is_meta": false
+        },
+        {
+            "class_name": "daqreader_ndr",
+            "tier": "stable",
+            "class_version": "1.0.0",
+            "maturity_level": "stable",
+            "superclasses": [
+                "base",
+                "daqreader"
+            ],
+            "path": "schemas/V_epsilon/stable/daqreader_ndr.json",
+            "is_meta": false
+        },
+        {
+            "class_name": "daqsystem",
+            "tier": "stable",
+            "class_version": "1.0.0",
+            "maturity_level": "stable",
+            "superclasses": [
+                "base"
+            ],
+            "path": "schemas/V_epsilon/stable/daqsystem.json",
+            "is_meta": false
+        },
+        {
+            "class_name": "dataseries_channel_map",
+            "tier": "draft",
+            "class_version": "1.0.0",
+            "maturity_level": "draft",
+            "superclasses": [
+                "base"
+            ],
+            "path": "schemas/V_epsilon/draft/dataseries_channel_map.json",
+            "is_meta": false
+        },
+        {
+            "class_name": "dataseries_data",
+            "tier": "draft",
+            "class_version": "1.0.0",
+            "maturity_level": "draft",
+            "superclasses": [
+                "base"
+            ],
+            "path": "schemas/V_epsilon/draft/dataseries_data.json",
+            "is_meta": false
+        },
+        {
+            "class_name": "dataseries_observation",
+            "tier": "draft",
+            "class_version": "1.0.0",
+            "maturity_level": "draft",
+            "superclasses": [
+                "observation"
+            ],
+            "path": "schemas/V_epsilon/draft/dataseries_observation.json",
+            "is_meta": false
+        },
+        {
+            "class_name": "dataseries_pyramid",
+            "tier": "draft",
+            "class_version": "1.0.0",
+            "maturity_level": "draft",
+            "superclasses": [
+                "base",
+                "epochid"
+            ],
+            "path": "schemas/V_epsilon/draft/dataseries_pyramid.json",
+            "is_meta": false
+        },
+        {
+            "class_name": "dataset_remote",
+            "tier": "stable",
+            "class_version": "1.0.0",
+            "maturity_level": "stable",
+            "superclasses": [
+                "base"
+            ],
+            "path": "schemas/V_epsilon/stable/dataset_remote.json",
+            "is_meta": false
+        },
+        {
+            "class_name": "dataset_session_info",
+            "tier": "stable",
+            "class_version": "1.0.0",
+            "maturity_level": "stable",
+            "superclasses": [
+                "base"
+            ],
+            "path": "schemas/V_epsilon/stable/dataset_session_info.json",
+            "is_meta": false
+        },
+        {
+            "class_name": "demo_ndi",
+            "tier": "stable",
+            "class_version": "1.0.0",
+            "maturity_level": "stable",
+            "superclasses": [
+                "base"
+            ],
+            "path": "schemas/V_epsilon/stable/demo_ndi.json",
+            "is_meta": false
+        },
+        {
+            "class_name": "demo_ndi_mock",
+            "tier": "stable",
+            "class_version": "1.0.0",
+            "maturity_level": "stable",
+            "superclasses": [
+                "base"
+            ],
+            "path": "schemas/V_epsilon/stable/demo_ndi_mock.json",
+            "is_meta": false
+        },
+        {
+            "class_name": "derivation",
+            "tier": "draft",
+            "class_version": "1.0.0",
+            "maturity_level": "draft",
+            "superclasses": [
+                "manipulation"
+            ],
+            "path": "schemas/V_epsilon/draft/derivation.json",
+            "is_meta": false
+        },
+        {
+            "class_name": "developmental_stage_observation",
+            "tier": "draft",
+            "class_version": "1.0.0",
+            "maturity_level": "draft",
+            "superclasses": [
+                "categorical_observation"
+            ],
+            "path": "schemas/V_epsilon/draft/developmental_stage_observation.json",
+            "is_meta": false
+        },
+        {
+            "class_name": "did_schema_meta",
+            "tier": "stable",
+            "class_version": null,
+            "maturity_level": null,
+            "superclasses": [],
+            "path": "schemas/V_epsilon/stable/did_schema_meta.json",
+            "is_meta": true
+        },
+        {
+            "class_name": "directory",
+            "tier": "stable",
+            "class_version": "1.0.0",
+            "maturity_level": "stable",
+            "superclasses": [
+                "base"
+            ],
+            "path": "schemas/V_epsilon/stable/directory.json",
+            "is_meta": false
+        },
+        {
+            "class_name": "distance_metadata",
+            "tier": "stable",
+            "class_version": "1.0.0",
+            "maturity_level": "stable",
+            "superclasses": [
+                "base"
+            ],
+            "path": "schemas/V_epsilon/stable/distance_metadata.json",
+            "is_meta": false
+        },
+        {
+            "class_name": "electrode_offset_voltage",
+            "tier": "stable",
+            "class_version": "1.0.0",
+            "maturity_level": "stable",
+            "superclasses": [
+                "base"
+            ],
+            "path": "schemas/V_epsilon/stable/electrode_offset_voltage.json",
+            "is_meta": false
+        },
+        {
+            "class_name": "element",
+            "tier": "stable",
+            "class_version": "1.0.0",
+            "maturity_level": "stable",
+            "superclasses": [
+                "base"
+            ],
+            "path": "schemas/V_epsilon/stable/element.json",
+            "is_meta": false
+        },
+        {
+            "class_name": "element_epoch",
+            "tier": "stable",
+            "class_version": "2.0.0",
+            "maturity_level": "stable",
+            "superclasses": [
+                "base",
+                "epochid"
+            ],
+            "path": "schemas/V_epsilon/stable/element_epoch.json",
+            "is_meta": false
+        },
+        {
+            "class_name": "environmental_manipulation",
+            "tier": "draft",
+            "class_version": "1.0.0",
+            "maturity_level": "draft",
+            "superclasses": [
+                "manipulation"
+            ],
+            "path": "schemas/V_epsilon/draft/environmental_manipulation.json",
+            "is_meta": false
+        },
+        {
+            "class_name": "ephys_zarr",
+            "tier": "stable",
+            "class_version": "1.0.0",
+            "maturity_level": "stable",
+            "superclasses": [
+                "zarr"
+            ],
+            "path": "schemas/V_epsilon/stable/ephys_zarr.json",
+            "is_meta": false
+        },
+        {
+            "class_name": "epoch_bounded_reference",
+            "tier": "draft",
+            "class_version": "1.0.0",
+            "maturity_level": "draft",
+            "superclasses": [
+                "time_reference",
+                "epochid"
+            ],
+            "path": "schemas/V_epsilon/draft/epoch_bounded_reference.json",
+            "is_meta": false
+        },
+        {
+            "class_name": "epoch_relative_reference",
+            "tier": "draft",
+            "class_version": "1.0.0",
+            "maturity_level": "draft",
+            "superclasses": [
+                "time_reference",
+                "epochid"
+            ],
+            "path": "schemas/V_epsilon/draft/epoch_relative_reference.json",
+            "is_meta": false
+        },
+        {
+            "class_name": "epochclocktimes",
+            "tier": "stable",
+            "class_version": "1.0.0",
+            "maturity_level": "stable",
+            "superclasses": [
+                "base",
+                "epochid"
+            ],
+            "path": "schemas/V_epsilon/stable/epochclocktimes.json",
+            "is_meta": false
+        },
+        {
+            "class_name": "epochfiles_ingested",
+            "tier": "stable",
+            "class_version": "1.0.0",
+            "maturity_level": "stable",
+            "superclasses": [
+                "base"
+            ],
+            "path": "schemas/V_epsilon/stable/epochfiles_ingested.json",
+            "is_meta": false
+        },
+        {
+            "class_name": "epochid",
+            "tier": "stable",
+            "class_version": "1.0.0",
+            "maturity_level": "stable",
+            "superclasses": [
+                "base"
+            ],
+            "path": "schemas/V_epsilon/stable/epochid.json",
+            "is_meta": false
+        },
+        {
+            "class_name": "estrous_stage_observation",
+            "tier": "draft",
+            "class_version": "1.0.0",
+            "maturity_level": "draft",
+            "superclasses": [
+                "categorical_observation"
+            ],
+            "path": "schemas/V_epsilon/draft/estrous_stage_observation.json",
+            "is_meta": false
+        },
+        {
+            "class_name": "event_bounded_reference",
+            "tier": "draft",
+            "class_version": "1.0.0",
+            "maturity_level": "draft",
+            "superclasses": [
+                "time_reference"
+            ],
+            "path": "schemas/V_epsilon/draft/event_bounded_reference.json",
+            "is_meta": false
+        },
+        {
+            "class_name": "event_relative_reference",
+            "tier": "draft",
+            "class_version": "1.0.0",
+            "maturity_level": "draft",
+            "superclasses": [
+                "time_reference"
+            ],
+            "path": "schemas/V_epsilon/draft/event_relative_reference.json",
+            "is_meta": false
+        },
+        {
+            "class_name": "expression_matrix_data",
+            "tier": "draft",
+            "class_version": "1.0.0",
+            "maturity_level": "draft",
+            "superclasses": [
+                "base"
+            ],
+            "path": "schemas/V_epsilon/draft/expression_matrix_data.json",
+            "is_meta": false
+        },
+        {
+            "class_name": "expression_matrix_data_cellranger_h5",
+            "tier": "draft",
+            "class_version": "1.0.0",
+            "maturity_level": "draft",
+            "superclasses": [
+                "expression_matrix_data"
+            ],
+            "path": "schemas/V_epsilon/draft/expression_matrix_data_cellranger_h5.json",
+            "is_meta": false
+        },
+        {
+            "class_name": "expression_matrix_data_counts_table",
+            "tier": "draft",
+            "class_version": "1.0.0",
+            "maturity_level": "draft",
+            "superclasses": [
+                "expression_matrix_data"
+            ],
+            "path": "schemas/V_epsilon/draft/expression_matrix_data_counts_table.json",
+            "is_meta": false
+        },
+        {
+            "class_name": "expression_matrix_data_dia_report",
+            "tier": "draft",
+            "class_version": "1.0.0",
+            "maturity_level": "draft",
+            "superclasses": [
+                "expression_matrix_data"
+            ],
+            "path": "schemas/V_epsilon/draft/expression_matrix_data_dia_report.json",
+            "is_meta": false
+        },
+        {
+            "class_name": "expression_matrix_data_gef",
+            "tier": "draft",
+            "class_version": "1.0.0",
+            "maturity_level": "draft",
+            "superclasses": [
+                "expression_matrix_data"
+            ],
+            "path": "schemas/V_epsilon/draft/expression_matrix_data_gef.json",
+            "is_meta": false
+        },
+        {
+            "class_name": "expression_matrix_data_gem",
+            "tier": "draft",
+            "class_version": "1.0.0",
+            "maturity_level": "draft",
+            "superclasses": [
+                "expression_matrix_data"
+            ],
+            "path": "schemas/V_epsilon/draft/expression_matrix_data_gem.json",
+            "is_meta": false
+        },
+        {
+            "class_name": "expression_matrix_data_h5ad",
+            "tier": "draft",
+            "class_version": "1.0.0",
+            "maturity_level": "draft",
+            "superclasses": [
+                "expression_matrix_data"
+            ],
+            "path": "schemas/V_epsilon/draft/expression_matrix_data_h5ad.json",
+            "is_meta": false
+        },
+        {
+            "class_name": "expression_matrix_data_imzml",
+            "tier": "draft",
+            "class_version": "1.0.0",
+            "maturity_level": "draft",
+            "superclasses": [
+                "expression_matrix_data"
+            ],
+            "path": "schemas/V_epsilon/draft/expression_matrix_data_imzml.json",
+            "is_meta": false
+        },
+        {
+            "class_name": "expression_matrix_data_loom",
+            "tier": "draft",
+            "class_version": "1.0.0",
+            "maturity_level": "draft",
+            "superclasses": [
+                "expression_matrix_data"
+            ],
+            "path": "schemas/V_epsilon/draft/expression_matrix_data_loom.json",
+            "is_meta": false
+        },
+        {
+            "class_name": "expression_matrix_data_maxquant",
+            "tier": "draft",
+            "class_version": "1.0.0",
+            "maturity_level": "draft",
+            "superclasses": [
+                "expression_matrix_data"
+            ],
+            "path": "schemas/V_epsilon/draft/expression_matrix_data_maxquant.json",
+            "is_meta": false
+        },
+        {
+            "class_name": "expression_matrix_data_mtx",
+            "tier": "draft",
+            "class_version": "1.0.0",
+            "maturity_level": "draft",
+            "superclasses": [
+                "expression_matrix_data"
+            ],
+            "path": "schemas/V_epsilon/draft/expression_matrix_data_mtx.json",
+            "is_meta": false
+        },
+        {
+            "class_name": "expression_matrix_data_mzml",
+            "tier": "draft",
+            "class_version": "1.0.0",
+            "maturity_level": "draft",
+            "superclasses": [
+                "expression_matrix_data"
+            ],
+            "path": "schemas/V_epsilon/draft/expression_matrix_data_mzml.json",
+            "is_meta": false
+        },
+        {
+            "class_name": "expression_matrix_data_mztab",
+            "tier": "draft",
+            "class_version": "1.0.0",
+            "maturity_level": "draft",
+            "superclasses": [
+                "expression_matrix_data"
+            ],
+            "path": "schemas/V_epsilon/draft/expression_matrix_data_mztab.json",
+            "is_meta": false
+        },
+        {
+            "class_name": "expression_matrix_data_visium",
+            "tier": "draft",
+            "class_version": "1.0.0",
+            "maturity_level": "draft",
+            "superclasses": [
+                "expression_matrix_data"
+            ],
+            "path": "schemas/V_epsilon/draft/expression_matrix_data_visium.json",
+            "is_meta": false
+        },
+        {
+            "class_name": "expression_observation",
+            "tier": "draft",
+            "class_version": "1.0.0",
+            "maturity_level": "draft",
+            "superclasses": [
+                "observation"
+            ],
+            "path": "schemas/V_epsilon/draft/expression_observation.json",
+            "is_meta": false
+        },
+        {
+            "class_name": "filenavigator",
+            "tier": "stable",
+            "class_version": "1.0.0",
+            "maturity_level": "stable",
+            "superclasses": [
+                "base"
+            ],
+            "path": "schemas/V_epsilon/stable/filenavigator.json",
+            "is_meta": false
+        },
+        {
+            "class_name": "filter",
+            "tier": "stable",
+            "class_version": "1.0.0",
+            "maturity_level": "stable",
+            "superclasses": [
+                "base"
+            ],
+            "path": "schemas/V_epsilon/stable/filter.json",
+            "is_meta": false
+        },
+        {
+            "class_name": "fitcurve",
+            "tier": "stable",
+            "class_version": "1.0.0",
+            "maturity_level": "stable",
+            "superclasses": [
+                "base"
+            ],
+            "path": "schemas/V_epsilon/stable/fitcurve.json",
+            "is_meta": false
+        },
+        {
+            "class_name": "frequency_manipulation",
+            "tier": "draft",
+            "class_version": "1.0.0",
+            "maturity_level": "draft",
+            "superclasses": [
+                "scalar_manipulation"
+            ],
+            "path": "schemas/V_epsilon/draft/frequency_manipulation.json",
+            "is_meta": false
+        },
+        {
+            "class_name": "generic_categorical_observation",
+            "tier": "draft",
+            "class_version": "1.0.0",
+            "maturity_level": "draft",
+            "superclasses": [
+                "categorical_observation"
+            ],
+            "path": "schemas/V_epsilon/draft/generic_categorical_observation.json",
+            "is_meta": false
+        },
+        {
+            "class_name": "generic_file",
+            "tier": "stable",
+            "class_version": "1.0.0",
+            "maturity_level": "stable",
+            "superclasses": [
+                "base"
+            ],
+            "path": "schemas/V_epsilon/stable/generic_file.json",
+            "is_meta": false
+        },
+        {
+            "class_name": "generic_scalar_manipulation",
+            "tier": "draft",
+            "class_version": "1.0.0",
+            "maturity_level": "draft",
+            "superclasses": [
+                "scalar_manipulation"
+            ],
+            "path": "schemas/V_epsilon/draft/generic_scalar_manipulation.json",
+            "is_meta": false
+        },
+        {
+            "class_name": "generic_scalar_observation",
+            "tier": "draft",
+            "class_version": "1.0.0",
+            "maturity_level": "draft",
+            "superclasses": [
+                "scalar_observation"
+            ],
+            "path": "schemas/V_epsilon/draft/generic_scalar_observation.json",
+            "is_meta": false
+        },
+        {
+            "class_name": "group_assignment",
+            "tier": "draft",
+            "class_version": "1.0.0",
+            "maturity_level": "draft",
+            "superclasses": [
+                "annotation"
+            ],
+            "path": "schemas/V_epsilon/draft/group_assignment.json",
+            "is_meta": false
+        },
+        {
+            "class_name": "hartley_calc",
+            "tier": "stable",
+            "class_version": "1.0.0",
+            "maturity_level": "stable",
+            "superclasses": [
+                "base",
+                "hartley_reverse_correlation",
+                "calculator"
+            ],
+            "path": "schemas/V_epsilon/stable/hartley_calc.json",
+            "is_meta": false
+        },
+        {
+            "class_name": "hartley_reverse_correlation",
+            "tier": "stable",
+            "class_version": "1.0.0",
+            "maturity_level": "stable",
+            "superclasses": [
+                "base",
+                "reverse_correlation"
+            ],
+            "path": "schemas/V_epsilon/stable/hartley_reverse_correlation.json",
+            "is_meta": false
+        },
+        {
+            "class_name": "health_status_observation",
+            "tier": "draft",
+            "class_version": "1.0.0",
+            "maturity_level": "draft",
+            "superclasses": [
+                "categorical_observation"
+            ],
+            "path": "schemas/V_epsilon/draft/health_status_observation.json",
+            "is_meta": false
+        },
+        {
+            "class_name": "heart_rate_observation",
+            "tier": "draft",
+            "class_version": "1.0.0",
+            "maturity_level": "draft",
+            "superclasses": [
+                "scalar_observation"
+            ],
+            "path": "schemas/V_epsilon/draft/heart_rate_observation.json",
+            "is_meta": false
+        },
+        {
+            "class_name": "image",
+            "tier": "stable",
+            "class_version": "1.0.0",
+            "maturity_level": "stable",
+            "superclasses": [
+                "base"
+            ],
+            "path": "schemas/V_epsilon/stable/image.json",
+            "is_meta": false
+        },
+        {
+            "class_name": "image_collection",
+            "tier": "stable",
+            "class_version": "1.0.0",
+            "maturity_level": "stable",
+            "superclasses": [
+                "base"
+            ],
+            "path": "schemas/V_epsilon/stable/image_collection.json",
+            "is_meta": false
+        },
+        {
+            "class_name": "image_stack",
+            "tier": "stable",
+            "class_version": "1.0.0",
+            "maturity_level": "stable",
+            "superclasses": [
+                "base",
+                "image_stack_parameters"
+            ],
+            "path": "schemas/V_epsilon/stable/image_stack.json",
+            "is_meta": false
+        },
+        {
+            "class_name": "image_stack_parameters",
+            "tier": "stable",
+            "class_version": "1.0.0",
+            "maturity_level": "stable",
+            "superclasses": [
+                "base"
+            ],
+            "path": "schemas/V_epsilon/stable/image_stack_parameters.json",
+            "is_meta": false
+        },
+        {
+            "class_name": "image_zarr",
+            "tier": "stable",
+            "class_version": "1.0.0",
+            "maturity_level": "stable",
+            "superclasses": [
+                "zarr"
+            ],
+            "path": "schemas/V_epsilon/stable/image_zarr.json",
+            "is_meta": false
+        },
+        {
+            "class_name": "imageseries_data",
+            "tier": "draft",
+            "class_version": "1.0.0",
+            "maturity_level": "draft",
+            "superclasses": [
+                "dataseries_data"
+            ],
+            "path": "schemas/V_epsilon/draft/imageseries_data.json",
+            "is_meta": false
+        },
+        {
+            "class_name": "imageseries_observation",
+            "tier": "draft",
+            "class_version": "1.0.0",
+            "maturity_level": "draft",
+            "superclasses": [
+                "dataseries_observation"
+            ],
+            "path": "schemas/V_epsilon/draft/imageseries_observation.json",
+            "is_meta": false
+        },
+        {
+            "class_name": "injection",
+            "tier": "draft",
+            "class_version": "1.0.0",
+            "maturity_level": "draft",
+            "superclasses": [
+                "pharmacological_manipulation"
+            ],
+            "path": "schemas/V_epsilon/draft/injection.json",
+            "is_meta": false
+        },
+        {
+            "class_name": "instrument",
+            "tier": "draft",
+            "class_version": "1.0.0",
+            "maturity_level": "draft",
+            "superclasses": [
+                "base"
+            ],
+            "path": "schemas/V_epsilon/draft/instrument.json",
+            "is_meta": false
+        },
+        {
+            "class_name": "interaction_purpose",
+            "tier": "draft",
+            "class_version": "1.0.0",
+            "maturity_level": "draft",
+            "superclasses": [
+                "base"
+            ],
+            "path": "schemas/V_epsilon/draft/interaction_purpose.json",
+            "is_meta": false
+        },
+        {
+            "class_name": "jrclust_clusters",
+            "tier": "stable",
+            "class_version": "1.0.0",
+            "maturity_level": "stable",
+            "superclasses": [
+                "base",
+                "app"
+            ],
+            "path": "schemas/V_epsilon/stable/jrclust_clusters.json",
+            "is_meta": false
+        },
+        {
+            "class_name": "litter_size_observation",
+            "tier": "draft",
+            "class_version": "1.0.0",
+            "maturity_level": "draft",
+            "superclasses": [
+                "scalar_observation"
+            ],
+            "path": "schemas/V_epsilon/draft/litter_size_observation.json",
+            "is_meta": false
+        },
+        {
+            "class_name": "manipulation",
+            "tier": "draft",
+            "class_version": "1.0.0",
+            "maturity_level": "draft",
+            "superclasses": [
+                "subject_interaction"
+            ],
+            "path": "schemas/V_epsilon/draft/manipulation.json",
+            "is_meta": false
+        },
+        {
+            "class_name": "measurement",
+            "tier": "stable",
+            "class_version": "1.0.0",
+            "maturity_level": "stable",
+            "superclasses": [
+                "base",
+                "epochid"
+            ],
+            "path": "schemas/V_epsilon/stable/measurement.json",
+            "is_meta": false
+        },
+        {
+            "class_name": "membrane_potential_observation",
+            "tier": "draft",
+            "class_version": "1.0.0",
+            "maturity_level": "draft",
+            "superclasses": [
+                "scalar_observation"
+            ],
+            "path": "schemas/V_epsilon/draft/membrane_potential_observation.json",
+            "is_meta": false
+        },
+        {
+            "class_name": "metadata_editor",
+            "tier": "stable",
+            "class_version": "1.0.0",
+            "maturity_level": "stable",
+            "superclasses": [
+                "base"
+            ],
+            "path": "schemas/V_epsilon/stable/metadata_editor.json",
+            "is_meta": false
+        },
+        {
+            "class_name": "mock",
+            "tier": "stable",
+            "class_version": "1.0.0",
+            "maturity_level": "stable",
+            "superclasses": [
+                "base"
+            ],
+            "path": "schemas/V_epsilon/stable/mock.json",
+            "is_meta": false
+        },
+        {
+            "class_name": "ndi_reserved_keys",
+            "tier": "stable",
+            "class_version": null,
+            "maturity_level": null,
+            "superclasses": [],
+            "path": "schemas/V_epsilon/stable/ndi_reserved_keys.json",
+            "is_meta": true
+        },
+        {
+            "class_name": "neuron_extracellular",
+            "tier": "stable",
+            "class_version": "1.0.0",
+            "maturity_level": "stable",
+            "superclasses": [
+                "base",
+                "app"
+            ],
+            "path": "schemas/V_epsilon/stable/neuron_extracellular.json",
+            "is_meta": false
+        },
+        {
+            "class_name": "ngrid",
+            "tier": "stable",
+            "class_version": "1.0.0",
+            "maturity_level": "stable",
+            "superclasses": [
+                "base"
+            ],
+            "path": "schemas/V_epsilon/stable/ngrid.json",
+            "is_meta": false
+        },
+        {
+            "class_name": "observation",
+            "tier": "draft",
+            "class_version": "1.0.0",
+            "maturity_level": "draft",
+            "superclasses": [
+                "subject_interaction"
+            ],
+            "path": "schemas/V_epsilon/draft/observation.json",
+            "is_meta": false
+        },
+        {
+            "class_name": "oneepoch",
+            "tier": "stable",
+            "class_version": "1.0.0",
+            "maturity_level": "stable",
+            "superclasses": [
+                "base",
+                "epochid"
+            ],
+            "path": "schemas/V_epsilon/stable/oneepoch.json",
+            "is_meta": false
+        },
+        {
+            "class_name": "ontology_image",
+            "tier": "stable",
+            "class_version": "1.0.0",
+            "maturity_level": "stable",
+            "superclasses": [
+                "base"
+            ],
+            "path": "schemas/V_epsilon/stable/ontology_image.json",
+            "is_meta": false
+        },
+        {
+            "class_name": "ontology_label",
+            "tier": "stable",
+            "class_version": "1.0.0",
+            "maturity_level": "stable",
+            "superclasses": [
+                "base"
+            ],
+            "path": "schemas/V_epsilon/stable/ontology_label.json",
+            "is_meta": false
+        },
+        {
+            "class_name": "ontology_table_row",
+            "tier": "stable",
+            "class_version": "1.0.0",
+            "maturity_level": "stable",
+            "superclasses": [
+                "base"
+            ],
+            "path": "schemas/V_epsilon/stable/ontology_table_row.json",
+            "is_meta": false
+        },
+        {
+            "class_name": "openminds",
+            "tier": "stable",
+            "class_version": "1.0.0",
+            "maturity_level": "stable",
+            "superclasses": [
+                "base"
+            ],
+            "path": "schemas/V_epsilon/stable/openminds.json",
+            "is_meta": false
+        },
+        {
+            "class_name": "openminds_element",
+            "tier": "stable",
+            "class_version": "1.0.0",
+            "maturity_level": "stable",
+            "superclasses": [
+                "base",
+                "openminds"
+            ],
+            "path": "schemas/V_epsilon/stable/openminds_element.json",
+            "is_meta": false
+        },
+        {
+            "class_name": "openminds_stimulus",
+            "tier": "stable",
+            "class_version": "1.0.0",
+            "maturity_level": "stable",
+            "superclasses": [
+                "base",
+                "openminds",
+                "epochid"
+            ],
+            "path": "schemas/V_epsilon/stable/openminds_stimulus.json",
+            "is_meta": false
+        },
+        {
+            "class_name": "openminds_subject",
+            "tier": "stable",
+            "class_version": "1.0.0",
+            "maturity_level": "stable",
+            "superclasses": [
+                "base",
+                "openminds"
+            ],
+            "path": "schemas/V_epsilon/stable/openminds_subject.json",
+            "is_meta": false
+        },
+        {
+            "class_name": "organ_volume_observation",
+            "tier": "draft",
+            "class_version": "1.0.0",
+            "maturity_level": "draft",
+            "superclasses": [
+                "scalar_observation"
+            ],
+            "path": "schemas/V_epsilon/draft/organ_volume_observation.json",
+            "is_meta": false
+        },
+        {
+            "class_name": "oridirtuning_calc",
+            "tier": "stable",
+            "class_version": "1.0.0",
+            "maturity_level": "stable",
+            "superclasses": [
+                "base",
+                "orientation_direction_tuning",
+                "tuning_fit"
+            ],
+            "path": "schemas/V_epsilon/stable/oridirtuning_calc.json",
+            "is_meta": false
+        },
+        {
+            "class_name": "orientation_direction_tuning",
+            "tier": "stable",
+            "class_version": "1.0.0",
+            "maturity_level": "stable",
+            "superclasses": [
+                "base"
+            ],
+            "path": "schemas/V_epsilon/stable/orientation_direction_tuning.json",
+            "is_meta": false
+        },
+        {
+            "class_name": "pharmacological_manipulation",
+            "tier": "draft",
+            "class_version": "1.0.0",
+            "maturity_level": "draft",
+            "superclasses": [
+                "manipulation"
+            ],
+            "path": "schemas/V_epsilon/draft/pharmacological_manipulation.json",
+            "is_meta": false
+        },
+        {
+            "class_name": "pigmentation_observation",
+            "tier": "draft",
+            "class_version": "1.0.0",
+            "maturity_level": "draft",
+            "superclasses": [
+                "categorical_observation"
+            ],
+            "path": "schemas/V_epsilon/draft/pigmentation_observation.json",
+            "is_meta": false
+        },
+        {
+            "class_name": "placement",
+            "tier": "draft",
+            "class_version": "1.0.0",
+            "maturity_level": "draft",
+            "superclasses": [
+                "manipulation"
+            ],
+            "path": "schemas/V_epsilon/draft/placement.json",
+            "is_meta": false
+        },
+        {
+            "class_name": "position_metadata",
+            "tier": "stable",
+            "class_version": "1.0.0",
+            "maturity_level": "stable",
+            "superclasses": [
+                "base"
+            ],
+            "path": "schemas/V_epsilon/stable/position_metadata.json",
+            "is_meta": false
+        },
+        {
+            "class_name": "pressure_manipulation",
+            "tier": "draft",
+            "class_version": "1.0.0",
+            "maturity_level": "draft",
+            "superclasses": [
+                "scalar_manipulation"
+            ],
+            "path": "schemas/V_epsilon/draft/pressure_manipulation.json",
+            "is_meta": false
+        },
+        {
+            "class_name": "probe_geometry",
+            "tier": "stable",
+            "class_version": "1.0.0",
+            "maturity_level": "stable",
+            "superclasses": [
+                "base"
+            ],
+            "path": "schemas/V_epsilon/stable/probe_geometry.json",
+            "is_meta": false
+        },
+        {
+            "class_name": "probe_location",
+            "tier": "stable",
+            "class_version": "1.0.0",
+            "maturity_level": "stable",
+            "superclasses": [
+                "base"
+            ],
+            "path": "schemas/V_epsilon/stable/probe_location.json",
+            "is_meta": false
+        },
+        {
+            "class_name": "procedural_manipulation",
+            "tier": "draft",
+            "class_version": "1.0.0",
+            "maturity_level": "draft",
+            "superclasses": [
+                "manipulation"
+            ],
+            "path": "schemas/V_epsilon/draft/procedural_manipulation.json",
+            "is_meta": false
+        },
+        {
+            "class_name": "projectvar",
+            "tier": "deprecated",
+            "class_version": "1.0.0",
+            "maturity_level": "deprecated",
+            "superclasses": [
+                "base"
+            ],
+            "path": "schemas/V_epsilon/deprecated/projectvar.json",
+            "is_meta": false
+        },
+        {
+            "class_name": "pyraview",
+            "tier": "stable",
+            "class_version": "1.0.0",
+            "maturity_level": "stable",
+            "superclasses": [
+                "epochclocktimes",
+                "filter",
+                "base",
+                "epochid"
+            ],
+            "path": "schemas/V_epsilon/stable/pyraview.json",
+            "is_meta": false
+        },
+        {
+            "class_name": "reference_annotation_data",
+            "tier": "draft",
+            "class_version": "1.0.0",
+            "maturity_level": "draft",
+            "superclasses": [
+                "reference_data"
+            ],
+            "path": "schemas/V_epsilon/draft/reference_annotation_data.json",
+            "is_meta": false
+        },
+        {
+            "class_name": "reference_annotation_data_gff3",
+            "tier": "draft",
+            "class_version": "1.0.0",
+            "maturity_level": "draft",
+            "superclasses": [
+                "reference_annotation_data"
+            ],
+            "path": "schemas/V_epsilon/draft/reference_annotation_data_gff3.json",
+            "is_meta": false
+        },
+        {
+            "class_name": "reference_annotation_data_gtf",
+            "tier": "draft",
+            "class_version": "1.0.0",
+            "maturity_level": "draft",
+            "superclasses": [
+                "reference_annotation_data"
+            ],
+            "path": "schemas/V_epsilon/draft/reference_annotation_data_gtf.json",
+            "is_meta": false
+        },
+        {
+            "class_name": "reference_data",
+            "tier": "draft",
+            "class_version": "1.0.0",
+            "maturity_level": "draft",
+            "superclasses": [
+                "base"
+            ],
+            "path": "schemas/V_epsilon/draft/reference_data.json",
+            "is_meta": false
+        },
+        {
+            "class_name": "reference_sequence_data",
+            "tier": "draft",
+            "class_version": "1.0.0",
+            "maturity_level": "draft",
+            "superclasses": [
+                "reference_data"
+            ],
+            "path": "schemas/V_epsilon/draft/reference_sequence_data.json",
+            "is_meta": false
+        },
+        {
+            "class_name": "reference_sequence_data_fasta_genome",
+            "tier": "draft",
+            "class_version": "1.0.0",
+            "maturity_level": "draft",
+            "superclasses": [
+                "reference_sequence_data"
+            ],
+            "path": "schemas/V_epsilon/draft/reference_sequence_data_fasta_genome.json",
+            "is_meta": false
+        },
+        {
+            "class_name": "reference_sequence_data_fasta_protein",
+            "tier": "draft",
+            "class_version": "1.0.0",
+            "maturity_level": "draft",
+            "superclasses": [
+                "reference_sequence_data"
+            ],
+            "path": "schemas/V_epsilon/draft/reference_sequence_data_fasta_protein.json",
+            "is_meta": false
+        },
+        {
+            "class_name": "reference_sequence_data_fasta_transcriptome",
+            "tier": "draft",
+            "class_version": "1.0.0",
+            "maturity_level": "draft",
+            "superclasses": [
+                "reference_sequence_data"
+            ],
+            "path": "schemas/V_epsilon/draft/reference_sequence_data_fasta_transcriptome.json",
+            "is_meta": false
+        },
+        {
+            "class_name": "respiration_rate_observation",
+            "tier": "draft",
+            "class_version": "1.0.0",
+            "maturity_level": "draft",
+            "superclasses": [
+                "scalar_observation"
+            ],
+            "path": "schemas/V_epsilon/draft/respiration_rate_observation.json",
+            "is_meta": false
+        },
+        {
+            "class_name": "reverse_correlation",
+            "tier": "stable",
+            "class_version": "1.0.0",
+            "maturity_level": "stable",
+            "superclasses": [
+                "base",
+                "ngrid"
+            ],
+            "path": "schemas/V_epsilon/stable/reverse_correlation.json",
+            "is_meta": false
+        },
+        {
+            "class_name": "scalar_manipulation",
+            "tier": "draft",
+            "class_version": "1.0.0",
+            "maturity_level": "draft",
+            "superclasses": [
+                "manipulation"
+            ],
+            "path": "schemas/V_epsilon/draft/scalar_manipulation.json",
+            "is_meta": false
+        },
+        {
+            "class_name": "scalar_observation",
+            "tier": "draft",
+            "class_version": "1.0.0",
+            "maturity_level": "draft",
+            "superclasses": [
+                "observation"
+            ],
+            "path": "schemas/V_epsilon/draft/scalar_observation.json",
+            "is_meta": false
+        },
+        {
+            "class_name": "sequence_read_data",
+            "tier": "draft",
+            "class_version": "1.0.0",
+            "maturity_level": "draft",
+            "superclasses": [
+                "base"
+            ],
+            "path": "schemas/V_epsilon/draft/sequence_read_data.json",
+            "is_meta": false
+        },
+        {
+            "class_name": "sequence_read_data_bam",
+            "tier": "draft",
+            "class_version": "1.0.0",
+            "maturity_level": "draft",
+            "superclasses": [
+                "sequence_read_data"
+            ],
+            "path": "schemas/V_epsilon/draft/sequence_read_data_bam.json",
+            "is_meta": false
+        },
+        {
+            "class_name": "sequence_read_data_cram",
+            "tier": "draft",
+            "class_version": "1.0.0",
+            "maturity_level": "draft",
+            "superclasses": [
+                "sequence_read_data"
+            ],
+            "path": "schemas/V_epsilon/draft/sequence_read_data_cram.json",
+            "is_meta": false
+        },
+        {
+            "class_name": "sequence_read_data_fastq",
+            "tier": "draft",
+            "class_version": "1.0.0",
+            "maturity_level": "draft",
+            "superclasses": [
+                "sequence_read_data"
+            ],
+            "path": "schemas/V_epsilon/draft/sequence_read_data_fastq.json",
+            "is_meta": false
+        },
+        {
+            "class_name": "session",
+            "tier": "stable",
+            "class_version": "1.0.0",
+            "maturity_level": "stable",
+            "superclasses": [
+                "base"
+            ],
+            "path": "schemas/V_epsilon/stable/session.json",
+            "is_meta": false
+        },
+        {
+            "class_name": "session_in_a_dataset",
+            "tier": "stable",
+            "class_version": "1.0.0",
+            "maturity_level": "stable",
+            "superclasses": [
+                "base"
+            ],
+            "path": "schemas/V_epsilon/stable/session_in_a_dataset.json",
+            "is_meta": false
+        },
+        {
+            "class_name": "simple_calc",
+            "tier": "stable",
+            "class_version": "1.0.0",
+            "maturity_level": "stable",
+            "superclasses": [
+                "base",
+                "calculator"
+            ],
+            "path": "schemas/V_epsilon/stable/simple_calc.json",
+            "is_meta": false
+        },
+        {
+            "class_name": "site2channelmap",
+            "tier": "stable",
+            "class_version": "1.0.0",
+            "maturity_level": "stable",
+            "superclasses": [
+                "base"
+            ],
+            "path": "schemas/V_epsilon/stable/site2channelmap.json",
+            "is_meta": false
+        },
+        {
+            "class_name": "sorting_parameters",
+            "tier": "stable",
+            "class_version": "1.0.0",
+            "maturity_level": "stable",
+            "superclasses": [
+                "base"
+            ],
+            "path": "schemas/V_epsilon/stable/sorting_parameters.json",
+            "is_meta": false
+        },
+        {
+            "class_name": "spatial_expression_observation",
+            "tier": "draft",
+            "class_version": "1.0.0",
+            "maturity_level": "draft",
+            "superclasses": [
+                "expression_observation"
+            ],
+            "path": "schemas/V_epsilon/draft/spatial_expression_observation.json",
+            "is_meta": false
+        },
+        {
+            "class_name": "spatial_frequency_tuning",
+            "tier": "stable",
+            "class_version": "1.0.0",
+            "maturity_level": "stable",
+            "superclasses": [
+                "base"
+            ],
+            "path": "schemas/V_epsilon/stable/spatial_frequency_tuning.json",
+            "is_meta": false
+        },
+        {
+            "class_name": "spatial_frequency_tuning_calc",
+            "tier": "stable",
+            "class_version": "1.0.0",
+            "maturity_level": "stable",
+            "superclasses": [
+                "base",
+                "spatial_frequency_tuning",
+                "tuning_fit"
+            ],
+            "path": "schemas/V_epsilon/stable/spatial_frequency_tuning_calc.json",
+            "is_meta": false
+        },
+        {
+            "class_name": "speed_tuning",
+            "tier": "stable",
+            "class_version": "1.0.0",
+            "maturity_level": "stable",
+            "superclasses": [
+                "base"
+            ],
+            "path": "schemas/V_epsilon/stable/speed_tuning.json",
+            "is_meta": false
+        },
+        {
+            "class_name": "speed_tuning_calc",
+            "tier": "stable",
+            "class_version": "1.0.0",
+            "maturity_level": "stable",
+            "superclasses": [
+                "base",
+                "speed_tuning",
+                "tuning_fit"
+            ],
+            "path": "schemas/V_epsilon/stable/speed_tuning_calc.json",
+            "is_meta": false
+        },
+        {
+            "class_name": "spike_clusters",
+            "tier": "stable",
+            "class_version": "1.0.0",
+            "maturity_level": "stable",
+            "superclasses": [
+                "base"
+            ],
+            "path": "schemas/V_epsilon/stable/spike_clusters.json",
+            "is_meta": false
+        },
+        {
+            "class_name": "spike_extraction_parameters",
+            "tier": "stable",
+            "class_version": "1.0.0",
+            "maturity_level": "stable",
+            "superclasses": [
+                "base"
+            ],
+            "path": "schemas/V_epsilon/stable/spike_extraction_parameters.json",
+            "is_meta": false
+        },
+        {
+            "class_name": "spike_extraction_parameters_modification",
+            "tier": "stable",
+            "class_version": "1.0.0",
+            "maturity_level": "stable",
+            "superclasses": [
+                "base"
+            ],
+            "path": "schemas/V_epsilon/stable/spike_extraction_parameters_modification.json",
+            "is_meta": false
+        },
+        {
+            "class_name": "spike_interface_sorting_outputs",
+            "tier": "stable",
+            "class_version": "1.0.0",
+            "maturity_level": "stable",
+            "superclasses": [
+                "base"
+            ],
+            "path": "schemas/V_epsilon/stable/spike_interface_sorting_outputs.json",
+            "is_meta": false
+        },
+        {
+            "class_name": "spikewaves",
+            "tier": "stable",
+            "class_version": "1.0.0",
+            "maturity_level": "stable",
+            "superclasses": [
+                "base"
+            ],
+            "path": "schemas/V_epsilon/stable/spikewaves.json",
+            "is_meta": false
+        },
+        {
+            "class_name": "stimulus_approach",
+            "tier": "draft",
+            "class_version": "2.0.0",
+            "maturity_level": "draft",
+            "superclasses": [
+                "base"
+            ],
+            "path": "schemas/V_epsilon/draft/stimulus_approach.json",
+            "is_meta": false
+        },
+        {
+            "class_name": "stimulus_bath",
+            "tier": "draft",
+            "class_version": "2.0.0",
+            "maturity_level": "draft",
+            "superclasses": [
+                "bath"
+            ],
+            "path": "schemas/V_epsilon/draft/stimulus_bath.json",
+            "is_meta": false
+        },
+        {
+            "class_name": "stimulus_manipulation",
+            "tier": "draft",
+            "class_version": "1.0.0",
+            "maturity_level": "draft",
+            "superclasses": [
+                "manipulation"
+            ],
+            "path": "schemas/V_epsilon/draft/stimulus_manipulation.json",
+            "is_meta": false
+        },
+        {
+            "class_name": "stimulus_parameter",
+            "tier": "stable",
+            "class_version": "1.0.0",
+            "maturity_level": "stable",
+            "superclasses": [
+                "base"
+            ],
+            "path": "schemas/V_epsilon/stable/stimulus_parameter.json",
+            "is_meta": false
+        },
+        {
+            "class_name": "stimulus_parameter_table",
+            "tier": "stable",
+            "class_version": "1.0.0",
+            "maturity_level": "stable",
+            "superclasses": [
+                "base"
+            ],
+            "path": "schemas/V_epsilon/stable/stimulus_parameter_table.json",
+            "is_meta": false
+        },
+        {
+            "class_name": "stimulus_presentation",
+            "tier": "stable",
+            "class_version": "1.0.0",
+            "maturity_level": "stable",
+            "superclasses": [
+                "base",
+                "app",
+                "epochid"
+            ],
+            "path": "schemas/V_epsilon/stable/stimulus_presentation.json",
+            "is_meta": false
+        },
+        {
+            "class_name": "stimulus_response",
+            "tier": "stable",
+            "class_version": "1.0.0",
+            "maturity_level": "stable",
+            "superclasses": [
+                "base"
+            ],
+            "path": "schemas/V_epsilon/stable/stimulus_response.json",
+            "is_meta": false
+        },
+        {
+            "class_name": "stimulus_response_scalar",
+            "tier": "stable",
+            "class_version": "1.0.0",
+            "maturity_level": "stable",
+            "superclasses": [
+                "base",
+                "stimulus_response"
+            ],
+            "path": "schemas/V_epsilon/stable/stimulus_response_scalar.json",
+            "is_meta": false
+        },
+        {
+            "class_name": "stimulus_response_scalar_parameters",
+            "tier": "stable",
+            "class_version": "1.0.0",
+            "maturity_level": "stable",
+            "superclasses": [
+                "base"
+            ],
+            "path": "schemas/V_epsilon/stable/stimulus_response_scalar_parameters.json",
+            "is_meta": false
+        },
+        {
+            "class_name": "stimulus_response_scalar_parameters_basic",
+            "tier": "stable",
+            "class_version": "1.0.0",
+            "maturity_level": "stable",
+            "superclasses": [
+                "base",
+                "stimulus_response_scalar_parameters"
+            ],
+            "path": "schemas/V_epsilon/stable/stimulus_response_scalar_parameters_basic.json",
+            "is_meta": false
+        },
+        {
+            "class_name": "stimulus_tuningcurve",
+            "tier": "stable",
+            "class_version": "1.0.0",
+            "maturity_level": "stable",
+            "superclasses": [
+                "base"
+            ],
+            "path": "schemas/V_epsilon/stable/stimulus_tuningcurve.json",
+            "is_meta": false
+        },
+        {
+            "class_name": "subject",
+            "tier": "stable",
+            "class_version": "2.0.0",
+            "maturity_level": "stable",
+            "superclasses": [
+                "base"
+            ],
+            "path": "schemas/V_epsilon/stable/subject.json",
+            "is_meta": false
+        },
+        {
+            "class_name": "subject_group",
+            "tier": "deprecated",
+            "class_version": "1.0.0",
+            "maturity_level": "deprecated",
+            "superclasses": [
+                "base"
+            ],
+            "path": "schemas/V_epsilon/deprecated/subject_group.json",
+            "is_meta": false
+        },
+        {
+            "class_name": "subject_interaction",
+            "tier": "draft",
+            "class_version": "1.0.0",
+            "maturity_level": "draft",
+            "superclasses": [
+                "base"
+            ],
+            "path": "schemas/V_epsilon/draft/subject_interaction.json",
+            "is_meta": false
+        },
+        {
+            "class_name": "syncgraph",
+            "tier": "stable",
+            "class_version": "1.0.0",
+            "maturity_level": "stable",
+            "superclasses": [
+                "base"
+            ],
+            "path": "schemas/V_epsilon/stable/syncgraph.json",
+            "is_meta": false
+        },
+        {
+            "class_name": "syncrule",
+            "tier": "stable",
+            "class_version": "1.0.0",
+            "maturity_level": "stable",
+            "superclasses": [
+                "base"
+            ],
+            "path": "schemas/V_epsilon/stable/syncrule.json",
+            "is_meta": false
+        },
+        {
+            "class_name": "syncrule_mapping",
+            "tier": "stable",
+            "class_version": "1.0.0",
+            "maturity_level": "stable",
+            "superclasses": [
+                "base"
+            ],
+            "path": "schemas/V_epsilon/stable/syncrule_mapping.json",
+            "is_meta": false
+        },
+        {
+            "class_name": "temperature_manipulation",
+            "tier": "draft",
+            "class_version": "1.0.0",
+            "maturity_level": "draft",
+            "superclasses": [
+                "scalar_manipulation"
+            ],
+            "path": "schemas/V_epsilon/draft/temperature_manipulation.json",
+            "is_meta": false
+        },
+        {
+            "class_name": "temporal_frequency_tuning",
+            "tier": "stable",
+            "class_version": "1.0.0",
+            "maturity_level": "stable",
+            "superclasses": [
+                "base"
+            ],
+            "path": "schemas/V_epsilon/stable/temporal_frequency_tuning.json",
+            "is_meta": false
+        },
+        {
+            "class_name": "temporal_frequency_tuning_calc",
+            "tier": "stable",
+            "class_version": "1.0.0",
+            "maturity_level": "stable",
+            "superclasses": [
+                "base",
+                "temporal_frequency_tuning",
+                "tuning_fit"
+            ],
+            "path": "schemas/V_epsilon/stable/temporal_frequency_tuning_calc.json",
+            "is_meta": false
+        },
+        {
+            "class_name": "time_reference",
+            "tier": "draft",
+            "class_version": "1.0.0",
+            "maturity_level": "draft",
+            "superclasses": [
+                "base"
+            ],
+            "path": "schemas/V_epsilon/draft/time_reference.json",
+            "is_meta": false
+        },
+        {
+            "class_name": "timeseries_data",
+            "tier": "draft",
+            "class_version": "1.0.0",
+            "maturity_level": "draft",
+            "superclasses": [
+                "dataseries_data"
+            ],
+            "path": "schemas/V_epsilon/draft/timeseries_data.json",
+            "is_meta": false
+        },
+        {
+            "class_name": "timeseries_data_binary",
+            "tier": "draft",
+            "class_version": "1.0.0",
+            "maturity_level": "draft",
+            "superclasses": [
+                "timeseries_data"
+            ],
+            "path": "schemas/V_epsilon/draft/timeseries_data_binary.json",
+            "is_meta": false
+        },
+        {
+            "class_name": "timeseries_data_csv",
+            "tier": "draft",
+            "class_version": "1.0.0",
+            "maturity_level": "draft",
+            "superclasses": [
+                "timeseries_data"
+            ],
+            "path": "schemas/V_epsilon/draft/timeseries_data_csv.json",
+            "is_meta": false
+        },
+        {
+            "class_name": "timeseries_data_edf",
+            "tier": "draft",
+            "class_version": "1.0.0",
+            "maturity_level": "draft",
+            "superclasses": [
+                "timeseries_data"
+            ],
+            "path": "schemas/V_epsilon/draft/timeseries_data_edf.json",
+            "is_meta": false
+        },
+        {
+            "class_name": "timeseries_observation",
+            "tier": "draft",
+            "class_version": "1.0.0",
+            "maturity_level": "draft",
+            "superclasses": [
+                "dataseries_observation"
+            ],
+            "path": "schemas/V_epsilon/draft/timeseries_observation.json",
+            "is_meta": false
+        },
+        {
+            "class_name": "treatment",
+            "tier": "deprecated",
+            "class_version": "1.0.0",
+            "maturity_level": "deprecated",
+            "superclasses": [
+                "base"
+            ],
+            "path": "schemas/V_epsilon/deprecated/treatment.json",
+            "is_meta": false
+        },
+        {
+            "class_name": "treatment_drug",
+            "tier": "deprecated",
+            "class_version": "1.0.0",
+            "maturity_level": "deprecated",
+            "superclasses": [
+                "base"
+            ],
+            "path": "schemas/V_epsilon/deprecated/treatment_drug.json",
+            "is_meta": false
+        },
+        {
+            "class_name": "treatment_transfer",
+            "tier": "deprecated",
+            "class_version": "1.0.0",
+            "maturity_level": "deprecated",
+            "superclasses": [
+                "base"
+            ],
+            "path": "schemas/V_epsilon/deprecated/treatment_transfer.json",
+            "is_meta": false
+        },
+        {
+            "class_name": "tuning_fit",
+            "tier": "stable",
+            "class_version": "1.0.0",
+            "maturity_level": "stable",
+            "superclasses": [
+                "calculator"
+            ],
+            "path": "schemas/V_epsilon/stable/tuning_fit.json",
+            "is_meta": false
+        },
+        {
+            "class_name": "tuningcurve_calc",
+            "tier": "stable",
+            "class_version": "1.0.0",
+            "maturity_level": "stable",
+            "superclasses": [
+                "base",
+                "calculator",
+                "stimulus_tuningcurve"
+            ],
+            "path": "schemas/V_epsilon/stable/tuningcurve_calc.json",
+            "is_meta": false
+        },
+        {
+            "class_name": "utc_reference",
+            "tier": "draft",
+            "class_version": "1.0.0",
+            "maturity_level": "draft",
+            "superclasses": [
+                "time_reference"
+            ],
+            "path": "schemas/V_epsilon/draft/utc_reference.json",
+            "is_meta": false
+        },
+        {
+            "class_name": "valid_interval",
+            "tier": "stable",
+            "class_version": "1.0.0",
+            "maturity_level": "stable",
+            "superclasses": [
+                "base"
+            ],
+            "path": "schemas/V_epsilon/stable/valid_interval.json",
+            "is_meta": false
+        },
+        {
+            "class_name": "virus_injection",
+            "tier": "deprecated",
+            "class_version": "1.0.0",
+            "maturity_level": "deprecated",
+            "superclasses": [
+                "base"
+            ],
+            "path": "schemas/V_epsilon/deprecated/virus_injection.json",
+            "is_meta": false
+        },
+        {
+            "class_name": "vmneuralresponseresiduals",
+            "tier": "stable",
+            "class_version": "1.0.0",
+            "maturity_level": "stable",
+            "superclasses": [
+                "base"
+            ],
+            "path": "schemas/V_epsilon/stable/vmneuralresponseresiduals.json",
+            "is_meta": false
+        },
+        {
+            "class_name": "vmspikefilteringparameters",
+            "tier": "stable",
+            "class_version": "1.0.0",
+            "maturity_level": "stable",
+            "superclasses": [
+                "base"
+            ],
+            "path": "schemas/V_epsilon/stable/vmspikefilteringparameters.json",
+            "is_meta": false
+        },
+        {
+            "class_name": "vmspikefit",
+            "tier": "stable",
+            "class_version": "1.0.0",
+            "maturity_level": "stable",
+            "superclasses": [
+                "base"
+            ],
+            "path": "schemas/V_epsilon/stable/vmspikefit.json",
+            "is_meta": false
+        },
+        {
+            "class_name": "vmspikesummary",
+            "tier": "stable",
+            "class_version": "1.0.0",
+            "maturity_level": "stable",
+            "superclasses": [
+                "base"
+            ],
+            "path": "schemas/V_epsilon/stable/vmspikesummary.json",
+            "is_meta": false
+        },
+        {
+            "class_name": "zarr",
+            "tier": "stable",
+            "class_version": "1.0.0",
+            "maturity_level": "stable",
+            "superclasses": [
+                "base"
+            ],
+            "path": "schemas/V_epsilon/stable/zarr.json",
+            "is_meta": false
+        }
+    ]
 }

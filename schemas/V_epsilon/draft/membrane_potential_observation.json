@@ -1,6 +1,6 @@
 {
     "document_class": {
-        "class_name": "temperature_observation",
+        "class_name": "membrane_potential_observation",
         "class_version": "1.0.0",
         "superclasses": [
             {
@@ -14,7 +14,7 @@
     "fields": [
         {
             "name": "value",
-            "type": "temperature",
+            "type": "voltage",
             "blank_value": {
                 "approximate": false,
                 "source_unit": "",
@@ -30,7 +30,7 @@
             "mustNotHaveNaN": false,
             "queryable": true,
             "ontology": null,
-            "documentation": "The measured scalar quantity as a typed temperature composite.",
+            "documentation": "A transcribed membrane-potential or other voltage reading; value is a typed voltage composite. DAQ voltage traces stay on element + measurement.",
             "constraints": {}
         }
     ]

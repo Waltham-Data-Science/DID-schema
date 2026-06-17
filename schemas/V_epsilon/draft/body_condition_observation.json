@@ -1,6 +1,6 @@
 {
     "document_class": {
-        "class_name": "score_observation",
+        "class_name": "body_condition_observation",
         "class_version": "1.0.0",
         "superclasses": [
             {
@@ -40,7 +40,7 @@
             "mustNotHaveNaN": false,
             "queryable": true,
             "ontology": null,
-            "documentation": "The measured scalar quantity as a typed score composite.",
+            "documentation": "Body condition score; value is a typed score composite (rubric named in value.scale).",
             "constraints": {}
         }
     ]

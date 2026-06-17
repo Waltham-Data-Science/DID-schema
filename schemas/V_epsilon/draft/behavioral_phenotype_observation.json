@@ -1,0 +1,43 @@
+{
+    "document_class": {
+        "class_name": "behavioral_phenotype_observation",
+        "class_version": "1.0.0",
+        "superclasses": [
+            {
+                "class_name": "categorical_observation"
+            }
+        ],
+        "maturity_level": "draft"
+    },
+    "depends_on": [],
+    "file": [],
+    "fields": [
+        {
+            "name": "value",
+            "type": "ontology_term",
+            "blank_value": {
+                "node": "",
+                "name": ""
+            },
+            "default_value": {
+                "node": "",
+                "name": ""
+            },
+            "mustBeNonEmpty": true,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "An observed (labeled) behavioral phenotype or state; value is a bound concept (e.g. NBO) governed by the binding registry keyed on measured_property. Scored behavior goes to behavioral_score_observation; behavioral traces go to a series observation.",
+            "constraints": {
+                "binding": {
+                    "keyed_by": "measured_property",
+                    "expansion": "descendants",
+                    "node_kind": "class",
+                    "strength": "preferred",
+                    "source": "ontology"
+                }
+            }
+        }
+    ]
+}

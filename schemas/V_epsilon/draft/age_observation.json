@@ -1,6 +1,6 @@
 {
     "document_class": {
-        "class_name": "concentration_observation",
+        "class_name": "age_observation",
         "class_version": "1.0.0",
         "superclasses": [
             {
@@ -14,7 +14,7 @@
     "fields": [
         {
             "name": "value",
-            "type": "concentration",
+            "type": "duration",
             "blank_value": {
                 "approximate": false,
                 "source_unit": "",
@@ -30,7 +30,7 @@
             "mustNotHaveNaN": false,
             "queryable": true,
             "ontology": null,
-            "documentation": "Concentration of an analyte in a sample (blood glucose, serum cortisol, CSF protein, viral titer); value is a typed concentration composite. The analyte rides measured_property.",
+            "documentation": "Age of the subject at the moment of measurement; value is a typed duration composite.",
             "constraints": {}
         }
     ]
