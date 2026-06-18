@@ -1,0 +1,44 @@
+{
+    "document_class": {
+        "class_name": "scalar_count",
+        "class_version": "1.0.0",
+        "superclasses": [
+            {
+                "class_name": "base"
+            }
+        ],
+        "maturity_level": "draft",
+        "abstract": true
+    },
+    "depends_on": [],
+    "file": [],
+    "fields": [
+        {
+            "name": "value",
+            "type": "count",
+            "blank_value": {
+                "value": 0,
+                "unit": {
+                    "node": "",
+                    "name": ""
+                },
+                "approximate": false
+            },
+            "default_value": {
+                "value": 0,
+                "unit": {
+                    "node": "",
+                    "name": ""
+                },
+                "approximate": false
+            },
+            "mustBeNonEmpty": true,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "A typed count value (shape-library mixin); value.unit names what is counted.",
+            "constraints": {}
+        }
+    ]
+}

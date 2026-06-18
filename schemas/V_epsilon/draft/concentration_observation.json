@@ -5,33 +5,14 @@
         "superclasses": [
             {
                 "class_name": "scalar_observation"
+            },
+            {
+                "class_name": "scalar_concentration"
             }
         ],
         "maturity_level": "draft"
     },
     "depends_on": [],
     "file": [],
-    "fields": [
-        {
-            "name": "value",
-            "type": "concentration",
-            "blank_value": {
-                "approximate": false,
-                "source_unit": "",
-                "source_value": 0.0
-            },
-            "default_value": {
-                "approximate": false,
-                "source_unit": "",
-                "source_value": 0.0
-            },
-            "mustBeNonEmpty": true,
-            "mustBeScalar": true,
-            "mustNotHaveNaN": false,
-            "queryable": true,
-            "ontology": null,
-            "documentation": "Concentration of an analyte in a sample (blood glucose, serum cortisol, CSF protein, viral titer); value is a typed concentration composite. The analyte rides measured_property.",
-            "constraints": {}
-        }
-    ]
+    "fields": []
 }

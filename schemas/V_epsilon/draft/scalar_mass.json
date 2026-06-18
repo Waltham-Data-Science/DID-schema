@@ -1,37 +1,37 @@
 {
     "document_class": {
-        "class_name": "generic_categorical_observation",
+        "class_name": "scalar_mass",
         "class_version": "1.0.0",
         "superclasses": [
             {
-                "class_name": "categorical_observation"
-            },
-            {
-                "class_name": "categorical_concept"
+                "class_name": "base"
             }
         ],
-        "maturity_level": "draft"
+        "maturity_level": "draft",
+        "abstract": true
     },
     "depends_on": [],
     "file": [],
     "fields": [
         {
             "name": "value",
-            "type": "ontology_term",
+            "type": "mass",
             "blank_value": {
-                "node": "",
-                "name": ""
+                "approximate": false,
+                "source_unit": "",
+                "source_value": 0.0
             },
             "default_value": {
-                "node": "",
-                "name": ""
+                "approximate": false,
+                "source_unit": "",
+                "source_value": 0.0
             },
             "mustBeNonEmpty": true,
             "mustBeScalar": true,
             "mustNotHaveNaN": false,
             "queryable": true,
             "ontology": null,
-            "documentation": "Escape hatch for an observed categorical property with no minted class yet; value is a free ontology_term (no binding).",
+            "documentation": "A typed mass value (shape-library mixin). Identity classes that read or impose a mass inherit this `value`.",
             "constraints": {}
         }
     ]

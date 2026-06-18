@@ -5,6 +5,9 @@
         "superclasses": [
             {
                 "class_name": "categorical_observation"
+            },
+            {
+                "class_name": "categorical_concept"
             }
         ],
         "maturity_level": "draft"
@@ -28,7 +31,7 @@
             "mustNotHaveNaN": false,
             "queryable": true,
             "ontology": null,
-            "documentation": "Observed developmental / life-cycle stage of the subject; value is a bound concept under UBERON:0000105 (life cycle stage) and its species-specific descendants (FBdv, ZFS, HsapDv, ...).",
+            "documentation": "Observed developmental / life-cycle stage; value is a bound concept under UBERON:0000105 (life cycle stage) and its species-specific descendants (FBdv, ZFS, HsapDv, ...).",
             "constraints": {
                 "binding": {
                     "root": "UBERON:0000105",

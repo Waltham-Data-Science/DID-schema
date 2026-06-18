@@ -1,16 +1,14 @@
 {
     "document_class": {
-        "class_name": "generic_categorical_observation",
+        "class_name": "categorical_concept",
         "class_version": "1.0.0",
         "superclasses": [
             {
-                "class_name": "categorical_observation"
-            },
-            {
-                "class_name": "categorical_concept"
+                "class_name": "base"
             }
         ],
-        "maturity_level": "draft"
+        "maturity_level": "draft",
+        "abstract": true
     },
     "depends_on": [],
     "file": [],
@@ -31,8 +29,16 @@
             "mustNotHaveNaN": false,
             "queryable": true,
             "ontology": null,
-            "documentation": "Escape hatch for an observed categorical property with no minted class yet; value is a free ontology_term (no binding).",
-            "constraints": {}
+            "documentation": "A bound concept value (shape-library mixin); admissible terms governed by the binding registry keyed on measured_property.",
+            "constraints": {
+                "binding": {
+                    "keyed_by": "measured_property",
+                    "expansion": "descendants",
+                    "node_kind": "class",
+                    "strength": "preferred",
+                    "source": "ontology"
+                }
+            }
         }
     ]
 }

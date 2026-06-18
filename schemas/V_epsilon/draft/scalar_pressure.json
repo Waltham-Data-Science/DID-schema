@@ -1,0 +1,38 @@
+{
+    "document_class": {
+        "class_name": "scalar_pressure",
+        "class_version": "1.0.0",
+        "superclasses": [
+            {
+                "class_name": "base"
+            }
+        ],
+        "maturity_level": "draft",
+        "abstract": true
+    },
+    "depends_on": [],
+    "file": [],
+    "fields": [
+        {
+            "name": "value",
+            "type": "pressure",
+            "blank_value": {
+                "approximate": false,
+                "source_unit": "",
+                "source_value": 0.0
+            },
+            "default_value": {
+                "approximate": false,
+                "source_unit": "",
+                "source_value": 0.0
+            },
+            "mustBeNonEmpty": true,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "A typed pressure value (shape-library mixin). Identity classes that read or impose a pressure inherit this `value`.",
+            "constraints": {}
+        }
+    ]
+}

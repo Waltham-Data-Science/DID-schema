@@ -5,33 +5,14 @@
         "superclasses": [
             {
                 "class_name": "scalar_observation"
+            },
+            {
+                "class_name": "scalar_mass"
             }
         ],
         "maturity_level": "draft"
     },
     "depends_on": [],
     "file": [],
-    "fields": [
-        {
-            "name": "value",
-            "type": "mass",
-            "blank_value": {
-                "approximate": false,
-                "source_unit": "",
-                "source_value": 0.0
-            },
-            "default_value": {
-                "approximate": false,
-                "source_unit": "",
-                "source_value": 0.0
-            },
-            "mustBeNonEmpty": true,
-            "mustBeScalar": true,
-            "mustNotHaveNaN": false,
-            "queryable": true,
-            "ontology": null,
-            "documentation": "Body weight or other body-mass reading; value is a typed mass composite. The specific mass property (body weight, wet brain mass, tumor mass) rides measured_property; anatomical localization rides target_structure.",
-            "constraints": {}
-        }
-    ]
+    "fields": []
 }

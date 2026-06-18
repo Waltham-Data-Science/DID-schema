@@ -5,39 +5,14 @@
         "superclasses": [
             {
                 "class_name": "categorical_observation"
+            },
+            {
+                "class_name": "categorical_concept"
             }
         ],
         "maturity_level": "draft"
     },
     "depends_on": [],
     "file": [],
-    "fields": [
-        {
-            "name": "value",
-            "type": "ontology_term",
-            "blank_value": {
-                "node": "",
-                "name": ""
-            },
-            "default_value": {
-                "node": "",
-                "name": ""
-            },
-            "mustBeNonEmpty": true,
-            "mustBeScalar": true,
-            "mustNotHaveNaN": false,
-            "queryable": true,
-            "ontology": null,
-            "documentation": "Observed coat / pigmentation state; value is a bound concept governed by the binding registry keyed on measured_property.",
-            "constraints": {
-                "binding": {
-                    "keyed_by": "measured_property",
-                    "expansion": "descendants",
-                    "node_kind": "class",
-                    "strength": "preferred",
-                    "source": "ontology"
-                }
-            }
-        }
-    ]
+    "fields": []
 }

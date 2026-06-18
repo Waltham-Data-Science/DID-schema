@@ -97,18 +97,31 @@ two epoch reference classes.
 
 ### 3. Observation families (new, `draft/`)
 
-- `scalar_observation` (abstract genus, ← `observation`) — shape is now only
-  an `isa` umbrella; the concrete classes under it are named by the **property
-  observed** (Brainstorm E), each pinning the typed composite its `value`
-  requires: `body_weight_observation`/`organ_volume_observation` (mass/volume),
+- **Shape library (Brainstorm E, abstract mixins ← `base`).** The typed
+  value-composites are promoted to named classes that *own* the `value` field
+  and are mixed into the identity classes as a second superclass:
+  `scalar_mass`, `scalar_length`, `scalar_duration`, `scalar_volume`,
+  `scalar_temperature`, `scalar_pressure`, `scalar_frequency`, `scalar_voltage`,
+  `scalar_current`, `scalar_concentration`, `scalar_count`, `scalar_score`,
+  `generic_scalar` (source-only struct), and `categorical_concept`
+  (`ontology_term` + advisory binding). The **same** shape class is inherited by
+  the observation that reads it and the manipulation that imposes it (e.g.
+  `scalar_temperature` ← `core_temperature_observation` *and*
+  `temperature_manipulation`), so `value` is defined once and
+  `isa scalar_temperature` sweeps both tiers.
+- `scalar_observation` (abstract genus, ← `observation`) — shape is only an
+  `isa` umbrella; the concrete classes under it are named by the **property
+  observed** (Brainstorm E) and acquire their typed `value` by also inheriting
+  the matching shape mixin (`class isa scalar_observation, scalar_<unit>`):
+  `body_weight_observation`/`organ_volume_observation` (mass/volume),
   `body_length_observation` (length), `age_observation` (duration),
   `core_temperature_observation` (temperature), `heart_rate_observation`/
   `respiration_rate_observation` (frequency), `blood_pressure_observation`
   (pressure), `litter_size_observation`/`cell_count_observation` (count),
   `body_condition_observation`/`behavioral_score_observation` (score),
   `concentration_observation` (concentration), `membrane_potential_observation`
-  (voltage), plus the escape hatch `generic_scalar_observation` (untyped
-  `{source_unit, source_value, approximate}`).
+  (voltage), plus the escape hatch `generic_scalar_observation`
+  (← `generic_scalar`).
 - `categorical_observation` (abstract genus, ← `observation`): concrete classes
   named by the **property observed**, each with an `ontology_term` `value`
   governed by the binding registry — `developmental_stage_observation` (pinned

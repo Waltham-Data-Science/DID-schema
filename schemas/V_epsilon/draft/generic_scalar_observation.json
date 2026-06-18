@@ -5,66 +5,14 @@
         "superclasses": [
             {
                 "class_name": "scalar_observation"
+            },
+            {
+                "class_name": "generic_scalar"
             }
         ],
         "maturity_level": "draft"
     },
     "depends_on": [],
     "file": [],
-    "fields": [
-        {
-            "name": "value",
-            "type": "structure",
-            "blank_value": {},
-            "default_value": {},
-            "mustBeNonEmpty": true,
-            "mustBeScalar": true,
-            "mustNotHaveNaN": false,
-            "queryable": true,
-            "ontology": null,
-            "documentation": "Escape-hatch scalar value when no typed composite exists yet (source_unit/source_value only).",
-            "constraints": {},
-            "fields": [
-                {
-                    "name": "source_unit",
-                    "type": "char",
-                    "blank_value": "",
-                    "default_value": "",
-                    "mustBeNonEmpty": true,
-                    "mustBeScalar": true,
-                    "mustNotHaveNaN": false,
-                    "queryable": true,
-                    "ontology": null,
-                    "documentation": "Source unit as recorded.",
-                    "constraints": {}
-                },
-                {
-                    "name": "source_value",
-                    "type": "double",
-                    "blank_value": 0.0,
-                    "default_value": 0.0,
-                    "mustBeNonEmpty": true,
-                    "mustBeScalar": true,
-                    "mustNotHaveNaN": false,
-                    "queryable": true,
-                    "ontology": null,
-                    "documentation": "Source value as recorded.",
-                    "constraints": {}
-                },
-                {
-                    "name": "approximate",
-                    "type": "boolean",
-                    "blank_value": false,
-                    "default_value": false,
-                    "mustBeNonEmpty": false,
-                    "mustBeScalar": true,
-                    "mustNotHaveNaN": false,
-                    "queryable": true,
-                    "ontology": null,
-                    "documentation": "True if the value is a rough estimate.",
-                    "constraints": {}
-                }
-            ]
-        }
-    ]
+    "fields": []
 }

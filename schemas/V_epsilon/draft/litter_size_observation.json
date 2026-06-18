@@ -5,39 +5,14 @@
         "superclasses": [
             {
                 "class_name": "scalar_observation"
+            },
+            {
+                "class_name": "scalar_count"
             }
         ],
         "maturity_level": "draft"
     },
     "depends_on": [],
     "file": [],
-    "fields": [
-        {
-            "name": "value",
-            "type": "count",
-            "blank_value": {
-                "value": 0,
-                "unit": {
-                    "node": "",
-                    "name": ""
-                },
-                "approximate": false
-            },
-            "default_value": {
-                "value": 0,
-                "unit": {
-                    "node": "",
-                    "name": ""
-                },
-                "approximate": false
-            },
-            "mustBeNonEmpty": true,
-            "mustBeScalar": true,
-            "mustNotHaveNaN": false,
-            "queryable": true,
-            "ontology": null,
-            "documentation": "Litter size; value is a typed count composite (unit = individuals).",
-            "constraints": {}
-        }
-    ]
+    "fields": []
 }

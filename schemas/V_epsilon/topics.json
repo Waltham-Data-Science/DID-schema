@@ -210,6 +210,26 @@
             ]
         },
         {
+            "name": "shape_library",
+            "description": "Brainstorm E shared shape library: typed value-composite mixin classes. Identity classes (observations by property, scalar manipulations by action) inherit one of these as a superclass to acquire their typed `value` field.",
+            "classes": [
+                "scalar_mass",
+                "scalar_length",
+                "scalar_duration",
+                "scalar_volume",
+                "scalar_temperature",
+                "scalar_pressure",
+                "scalar_frequency",
+                "scalar_voltage",
+                "scalar_current",
+                "scalar_concentration",
+                "scalar_count",
+                "scalar_score",
+                "generic_scalar",
+                "categorical_concept"
+            ]
+        },
+        {
             "name": "observations",
             "description": "Observation families (Brainstorm E): scalar observations named by property, categorical observations named by property, dataseries/image/expression measurements of subjects.",
             "classes": [

@@ -5,33 +5,14 @@
         "superclasses": [
             {
                 "class_name": "scalar_manipulation"
+            },
+            {
+                "class_name": "scalar_frequency"
             }
         ],
         "maturity_level": "draft"
     },
     "depends_on": [],
     "file": [],
-    "fields": [
-        {
-            "name": "value",
-            "type": "frequency",
-            "blank_value": {
-                "approximate": false,
-                "source_unit": "",
-                "source_value": 0.0
-            },
-            "default_value": {
-                "approximate": false,
-                "source_unit": "",
-                "source_value": 0.0
-            },
-            "mustBeNonEmpty": true,
-            "mustBeScalar": true,
-            "mustNotHaveNaN": false,
-            "queryable": true,
-            "ontology": null,
-            "documentation": "The imposed frequency magnitude.",
-            "constraints": {}
-        }
-    ]
+    "fields": []
 }

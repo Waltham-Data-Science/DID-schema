@@ -5,33 +5,14 @@
         "superclasses": [
             {
                 "class_name": "scalar_observation"
+            },
+            {
+                "class_name": "scalar_duration"
             }
         ],
         "maturity_level": "draft"
     },
     "depends_on": [],
     "file": [],
-    "fields": [
-        {
-            "name": "value",
-            "type": "duration",
-            "blank_value": {
-                "approximate": false,
-                "source_unit": "",
-                "source_value": 0.0
-            },
-            "default_value": {
-                "approximate": false,
-                "source_unit": "",
-                "source_value": 0.0
-            },
-            "mustBeNonEmpty": true,
-            "mustBeScalar": true,
-            "mustNotHaveNaN": false,
-            "queryable": true,
-            "ontology": null,
-            "documentation": "Age of the subject at the moment of measurement; value is a typed duration composite.",
-            "constraints": {}
-        }
-    ]
+    "fields": []
 }

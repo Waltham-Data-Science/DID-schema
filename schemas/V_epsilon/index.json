@@ -28,7 +28,8 @@
             "class_version": "1.0.0",
             "maturity_level": "draft",
             "superclasses": [
-                "scalar_observation"
+                "scalar_observation",
+                "scalar_duration"
             ],
             "path": "schemas/V_epsilon/draft/age_observation.json",
             "is_meta": false
@@ -81,7 +82,8 @@
             "class_version": "1.0.0",
             "maturity_level": "draft",
             "superclasses": [
-                "categorical_observation"
+                "categorical_observation",
+                "categorical_concept"
             ],
             "path": "schemas/V_epsilon/draft/behavioral_phenotype_observation.json",
             "is_meta": false
@@ -92,7 +94,8 @@
             "class_version": "1.0.0",
             "maturity_level": "draft",
             "superclasses": [
-                "scalar_observation"
+                "scalar_observation",
+                "scalar_score"
             ],
             "path": "schemas/V_epsilon/draft/behavioral_score_observation.json",
             "is_meta": false
@@ -136,7 +139,8 @@
             "class_version": "1.0.0",
             "maturity_level": "draft",
             "superclasses": [
-                "scalar_observation"
+                "scalar_observation",
+                "scalar_pressure"
             ],
             "path": "schemas/V_epsilon/draft/blood_pressure_observation.json",
             "is_meta": false
@@ -147,7 +151,8 @@
             "class_version": "1.0.0",
             "maturity_level": "draft",
             "superclasses": [
-                "scalar_observation"
+                "scalar_observation",
+                "scalar_score"
             ],
             "path": "schemas/V_epsilon/draft/body_condition_observation.json",
             "is_meta": false
@@ -158,7 +163,8 @@
             "class_version": "1.0.0",
             "maturity_level": "draft",
             "superclasses": [
-                "scalar_observation"
+                "scalar_observation",
+                "scalar_length"
             ],
             "path": "schemas/V_epsilon/draft/body_length_observation.json",
             "is_meta": false
@@ -169,7 +175,8 @@
             "class_version": "1.0.0",
             "maturity_level": "draft",
             "superclasses": [
-                "scalar_observation"
+                "scalar_observation",
+                "scalar_mass"
             ],
             "path": "schemas/V_epsilon/draft/body_weight_observation.json",
             "is_meta": false
@@ -184,6 +191,17 @@
                 "app"
             ],
             "path": "schemas/V_epsilon/stable/calculator.json",
+            "is_meta": false
+        },
+        {
+            "class_name": "categorical_concept",
+            "tier": "draft",
+            "class_version": "1.0.0",
+            "maturity_level": "draft",
+            "superclasses": [
+                "base"
+            ],
+            "path": "schemas/V_epsilon/draft/categorical_concept.json",
             "is_meta": false
         },
         {
@@ -203,7 +221,8 @@
             "class_version": "1.0.0",
             "maturity_level": "draft",
             "superclasses": [
-                "scalar_observation"
+                "scalar_observation",
+                "scalar_count"
             ],
             "path": "schemas/V_epsilon/draft/cell_count_observation.json",
             "is_meta": false
@@ -214,7 +233,8 @@
             "class_version": "1.0.0",
             "maturity_level": "draft",
             "superclasses": [
-                "scalar_observation"
+                "scalar_observation",
+                "scalar_concentration"
             ],
             "path": "schemas/V_epsilon/draft/concentration_observation.json",
             "is_meta": false
@@ -273,7 +293,8 @@
             "class_version": "1.0.0",
             "maturity_level": "draft",
             "superclasses": [
-                "scalar_observation"
+                "scalar_observation",
+                "scalar_temperature"
             ],
             "path": "schemas/V_epsilon/draft/core_temperature_observation.json",
             "is_meta": false
@@ -465,7 +486,8 @@
             "class_version": "1.0.0",
             "maturity_level": "draft",
             "superclasses": [
-                "categorical_observation"
+                "categorical_observation",
+                "categorical_concept"
             ],
             "path": "schemas/V_epsilon/draft/developmental_stage_observation.json",
             "is_meta": false
@@ -621,7 +643,8 @@
             "class_version": "1.0.0",
             "maturity_level": "draft",
             "superclasses": [
-                "categorical_observation"
+                "categorical_observation",
+                "categorical_concept"
             ],
             "path": "schemas/V_epsilon/draft/estrous_stage_observation.json",
             "is_meta": false
@@ -852,7 +875,8 @@
             "class_version": "1.0.0",
             "maturity_level": "draft",
             "superclasses": [
-                "scalar_manipulation"
+                "scalar_manipulation",
+                "scalar_frequency"
             ],
             "path": "schemas/V_epsilon/draft/frequency_manipulation.json",
             "is_meta": false
@@ -863,7 +887,8 @@
             "class_version": "1.0.0",
             "maturity_level": "draft",
             "superclasses": [
-                "categorical_observation"
+                "categorical_observation",
+                "categorical_concept"
             ],
             "path": "schemas/V_epsilon/draft/generic_categorical_observation.json",
             "is_meta": false
@@ -880,12 +905,24 @@
             "is_meta": false
         },
         {
+            "class_name": "generic_scalar",
+            "tier": "draft",
+            "class_version": "1.0.0",
+            "maturity_level": "draft",
+            "superclasses": [
+                "base"
+            ],
+            "path": "schemas/V_epsilon/draft/generic_scalar.json",
+            "is_meta": false
+        },
+        {
             "class_name": "generic_scalar_manipulation",
             "tier": "draft",
             "class_version": "1.0.0",
             "maturity_level": "draft",
             "superclasses": [
-                "scalar_manipulation"
+                "scalar_manipulation",
+                "generic_scalar"
             ],
             "path": "schemas/V_epsilon/draft/generic_scalar_manipulation.json",
             "is_meta": false
@@ -896,7 +933,8 @@
             "class_version": "1.0.0",
             "maturity_level": "draft",
             "superclasses": [
-                "scalar_observation"
+                "scalar_observation",
+                "generic_scalar"
             ],
             "path": "schemas/V_epsilon/draft/generic_scalar_observation.json",
             "is_meta": false
@@ -943,7 +981,8 @@
             "class_version": "1.0.0",
             "maturity_level": "draft",
             "superclasses": [
-                "categorical_observation"
+                "categorical_observation",
+                "categorical_concept"
             ],
             "path": "schemas/V_epsilon/draft/health_status_observation.json",
             "is_meta": false
@@ -954,7 +993,8 @@
             "class_version": "1.0.0",
             "maturity_level": "draft",
             "superclasses": [
-                "scalar_observation"
+                "scalar_observation",
+                "scalar_frequency"
             ],
             "path": "schemas/V_epsilon/draft/heart_rate_observation.json",
             "is_meta": false
@@ -1088,7 +1128,8 @@
             "class_version": "1.0.0",
             "maturity_level": "draft",
             "superclasses": [
-                "scalar_observation"
+                "scalar_observation",
+                "scalar_count"
             ],
             "path": "schemas/V_epsilon/draft/litter_size_observation.json",
             "is_meta": false
@@ -1122,7 +1163,8 @@
             "class_version": "1.0.0",
             "maturity_level": "draft",
             "superclasses": [
-                "scalar_observation"
+                "scalar_observation",
+                "scalar_voltage"
             ],
             "path": "schemas/V_epsilon/draft/membrane_potential_observation.json",
             "is_meta": false
@@ -1291,7 +1333,8 @@
             "class_version": "1.0.0",
             "maturity_level": "draft",
             "superclasses": [
-                "scalar_observation"
+                "scalar_observation",
+                "scalar_volume"
             ],
             "path": "schemas/V_epsilon/draft/organ_volume_observation.json",
             "is_meta": false
@@ -1337,7 +1380,8 @@
             "class_version": "1.0.0",
             "maturity_level": "draft",
             "superclasses": [
-                "categorical_observation"
+                "categorical_observation",
+                "categorical_concept"
             ],
             "path": "schemas/V_epsilon/draft/pigmentation_observation.json",
             "is_meta": false
@@ -1370,7 +1414,8 @@
             "class_version": "1.0.0",
             "maturity_level": "draft",
             "superclasses": [
-                "scalar_manipulation"
+                "scalar_manipulation",
+                "scalar_pressure"
             ],
             "path": "schemas/V_epsilon/draft/pressure_manipulation.json",
             "is_meta": false
@@ -1527,7 +1572,8 @@
             "class_version": "1.0.0",
             "maturity_level": "draft",
             "superclasses": [
-                "scalar_observation"
+                "scalar_observation",
+                "scalar_frequency"
             ],
             "path": "schemas/V_epsilon/draft/respiration_rate_observation.json",
             "is_meta": false
@@ -1545,6 +1591,72 @@
             "is_meta": false
         },
         {
+            "class_name": "scalar_concentration",
+            "tier": "draft",
+            "class_version": "1.0.0",
+            "maturity_level": "draft",
+            "superclasses": [
+                "base"
+            ],
+            "path": "schemas/V_epsilon/draft/scalar_concentration.json",
+            "is_meta": false
+        },
+        {
+            "class_name": "scalar_count",
+            "tier": "draft",
+            "class_version": "1.0.0",
+            "maturity_level": "draft",
+            "superclasses": [
+                "base"
+            ],
+            "path": "schemas/V_epsilon/draft/scalar_count.json",
+            "is_meta": false
+        },
+        {
+            "class_name": "scalar_current",
+            "tier": "draft",
+            "class_version": "1.0.0",
+            "maturity_level": "draft",
+            "superclasses": [
+                "base"
+            ],
+            "path": "schemas/V_epsilon/draft/scalar_current.json",
+            "is_meta": false
+        },
+        {
+            "class_name": "scalar_duration",
+            "tier": "draft",
+            "class_version": "1.0.0",
+            "maturity_level": "draft",
+            "superclasses": [
+                "base"
+            ],
+            "path": "schemas/V_epsilon/draft/scalar_duration.json",
+            "is_meta": false
+        },
+        {
+            "class_name": "scalar_frequency",
+            "tier": "draft",
+            "class_version": "1.0.0",
+            "maturity_level": "draft",
+            "superclasses": [
+                "base"
+            ],
+            "path": "schemas/V_epsilon/draft/scalar_frequency.json",
+            "is_meta": false
+        },
+        {
+            "class_name": "scalar_length",
+            "tier": "draft",
+            "class_version": "1.0.0",
+            "maturity_level": "draft",
+            "superclasses": [
+                "base"
+            ],
+            "path": "schemas/V_epsilon/draft/scalar_length.json",
+            "is_meta": false
+        },
+        {
             "class_name": "scalar_manipulation",
             "tier": "draft",
             "class_version": "1.0.0",
@@ -1556,6 +1668,17 @@
             "is_meta": false
         },
         {
+            "class_name": "scalar_mass",
+            "tier": "draft",
+            "class_version": "1.0.0",
+            "maturity_level": "draft",
+            "superclasses": [
+                "base"
+            ],
+            "path": "schemas/V_epsilon/draft/scalar_mass.json",
+            "is_meta": false
+        },
+        {
             "class_name": "scalar_observation",
             "tier": "draft",
             "class_version": "1.0.0",
@@ -1564,6 +1687,61 @@
                 "observation"
             ],
             "path": "schemas/V_epsilon/draft/scalar_observation.json",
+            "is_meta": false
+        },
+        {
+            "class_name": "scalar_pressure",
+            "tier": "draft",
+            "class_version": "1.0.0",
+            "maturity_level": "draft",
+            "superclasses": [
+                "base"
+            ],
+            "path": "schemas/V_epsilon/draft/scalar_pressure.json",
+            "is_meta": false
+        },
+        {
+            "class_name": "scalar_score",
+            "tier": "draft",
+            "class_version": "1.0.0",
+            "maturity_level": "draft",
+            "superclasses": [
+                "base"
+            ],
+            "path": "schemas/V_epsilon/draft/scalar_score.json",
+            "is_meta": false
+        },
+        {
+            "class_name": "scalar_temperature",
+            "tier": "draft",
+            "class_version": "1.0.0",
+            "maturity_level": "draft",
+            "superclasses": [
+                "base"
+            ],
+            "path": "schemas/V_epsilon/draft/scalar_temperature.json",
+            "is_meta": false
+        },
+        {
+            "class_name": "scalar_voltage",
+            "tier": "draft",
+            "class_version": "1.0.0",
+            "maturity_level": "draft",
+            "superclasses": [
+                "base"
+            ],
+            "path": "schemas/V_epsilon/draft/scalar_voltage.json",
+            "is_meta": false
+        },
+        {
+            "class_name": "scalar_volume",
+            "tier": "draft",
+            "class_version": "1.0.0",
+            "maturity_level": "draft",
+            "superclasses": [
+                "base"
+            ],
+            "path": "schemas/V_epsilon/draft/scalar_volume.json",
             "is_meta": false
         },
         {
@@ -1977,7 +2155,8 @@
             "class_version": "1.0.0",
             "maturity_level": "draft",
             "superclasses": [
-                "scalar_manipulation"
+                "scalar_manipulation",
+                "scalar_temperature"
             ],
             "path": "schemas/V_epsilon/draft/temperature_manipulation.json",
             "is_meta": false
