@@ -1,0 +1,36 @@
+{
+    "document_class": {
+        "class_name": "core_temperature_observation",
+        "class_version": "1.0.0",
+        "superclasses": [
+            { "class_name": "scalar_observation" },
+            { "class_name": "scalar_temperature" }
+        ]
+    },
+    "depends_on": [
+        { "name": "subject_id", "value": "aabb1122ccdd3344_aabb1122ccdd3344" },
+        { "name": "time_reference_1", "value": "aabb1122ccdd3344_1100220033004400" }
+    ],
+    "base": {
+        "id":         "aabb1122ccdd3344_1122334455667788",
+        "session_id": "aabb1122ccdd3344_9900aabbccddeeff",
+        "name":       "mouse042_cooling_curve",
+        "datestamp":  "2024-06-01T12:00:00.000Z"
+    },
+    "observation": {
+        "measured_property": { "node": "ncit:C174446", "name": "core body temperature" },
+        "target_structure": []
+    },
+    "core_temperature_observation": {
+        "value": [
+            { "celsius": 37.1, "source_unit": "°C", "source_value": 37.1, "approximate": false },
+            { "celsius": 36.4, "source_unit": "°C", "source_value": 36.4, "approximate": false },
+            { "celsius": 35.0, "source_unit": "°C", "source_value": 35.0, "approximate": false }
+        ],
+        "sample_time": [
+            { "seconds": 0,    "source_unit": "min", "source_value": 0,  "approximate": false },
+            { "seconds": 600,  "source_unit": "min", "source_value": 10, "approximate": false },
+            { "seconds": 1200, "source_unit": "min", "source_value": 20, "approximate": false }
+        ]
+    }
+}
