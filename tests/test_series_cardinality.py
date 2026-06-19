@@ -13,8 +13,6 @@ See Series_As_Cardinality_Proposal.md for the design.
 import json
 import os
 
-import pytest
-
 REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DRAFT = os.path.join(REPO_ROOT, "schemas", "V_epsilon", "draft")
 EXAMPLES = os.path.join(REPO_ROOT, "schemas", "V_epsilon", "examples")
