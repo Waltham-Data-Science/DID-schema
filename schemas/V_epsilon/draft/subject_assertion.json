@@ -1,0 +1,73 @@
+{
+    "document_class": {
+        "class_name": "subject_assertion",
+        "class_version": "1.0.0",
+        "superclasses": [
+            {
+                "class_name": "subject_statement"
+            }
+        ],
+        "maturity_level": "draft"
+    },
+    "depends_on": [],
+    "file": [],
+    "fields": [
+        {
+            "name": "asserted_property",
+            "type": "ontology_term",
+            "blank_value": {
+                "node": "",
+                "name": ""
+            },
+            "default_value": {
+                "node": "",
+                "name": ""
+            },
+            "mustBeNonEmpty": true,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Semantic identity of the asserted, timeless property (e.g. species, strain, sex, genotype).",
+            "constraints": {}
+        },
+        {
+            "name": "value",
+            "type": "ontology_term",
+            "blank_value": {
+                "node": "",
+                "name": ""
+            },
+            "default_value": {
+                "node": "",
+                "name": ""
+            },
+            "mustBeNonEmpty": true,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "The asserted value as a bound concept (e.g. an NCBITaxon species term). Typed/date values are a follow-up.",
+            "constraints": {}
+        },
+        {
+            "name": "source",
+            "type": "ontology_term",
+            "blank_value": {
+                "node": "",
+                "name": ""
+            },
+            "default_value": {
+                "node": "",
+                "name": ""
+            },
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Provenance/authority of the assertion (e.g. curator, vendor, openMINDS record). Optional.",
+            "constraints": {}
+        }
+    ]
+}

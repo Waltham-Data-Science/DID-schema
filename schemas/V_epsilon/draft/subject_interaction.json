@@ -4,19 +4,13 @@
         "class_version": "1.0.0",
         "superclasses": [
             {
-                "class_name": "base"
+                "class_name": "subject_statement"
             }
         ],
         "maturity_level": "draft",
         "abstract": true
     },
     "depends_on": [
-        {
-            "name": "subject_id",
-            "mustBeNonEmpty": true,
-            "documentation": "The subject this interaction involves.",
-            "must_refer_to_document_class": "subject"
-        },
         {
             "name": "time_reference_#",
             "mustBeNonEmpty": true,

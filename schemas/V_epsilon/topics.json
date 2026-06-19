@@ -342,6 +342,14 @@
             ]
         },
         {
+            "name": "subject_statement",
+            "description": "Timeless documented claims about a subject (Subject_Statement_Decision): the abstract subject_statement supertype and the concrete subject_assertion (asserted_property + value + source).",
+            "classes": [
+                "subject_statement",
+                "subject_assertion"
+            ]
+        },
+        {
             "name": "subject_interaction",
             "description": "The unified subject_interaction spine and its observation/manipulation/annotation tiers.",
             "classes": [
@@ -360,7 +368,8 @@
                 "event_relative_reference",
                 "epoch_relative_reference",
                 "epoch_bounded_reference",
-                "event_bounded_reference"
+                "event_bounded_reference",
+                "session_relative_reference"
             ]
         }
     ]

@@ -54,20 +54,28 @@ while V_epsilon remains a sandbox.
 
 ### 1. The `subject_interaction` spine (new, `draft/`)
 
-A three-tier abstract hierarchy unifying everything that happens to a
-subject:
+A hierarchy unifying everything documented about a subject. The shared
+anchor is lifted to an abstract **`subject_statement`** supertype
+(`Subject_Statement_Decision.md`), so timeless claims and timed events
+share `subject_id` and one `isa subject_statement` query:
 
 ```
-subject_interaction   (abstract)   depends_on: subject_id, time_reference (>=1)
-├── observation        (abstract)   fields: measured_property, target_structure
-├── manipulation       (abstract)
-└── annotation         (abstract)
+subject_statement     (abstract)   depends_on: subject_id          ← any claim about a subject
+├── subject_assertion  (concrete)   fields: asserted_property, value, source   ← timeless facts
+└── subject_interaction(abstract)   depends_on: time_reference (>=1)           ← timed events
+    ├── observation    (abstract)   fields: measured_property, target_structure
+    ├── manipulation   (abstract)
+    └── annotation     (abstract)
 ```
 
-- `subject_interaction` inherits from `base`. Its dependencies are
-  `subject_id` (required, → `subject`) and `time_reference_#` (required,
-  `multiple: true`, → the abstract `time_reference` class — the same
-  moment may be expressed in several reference frames).
+- `subject_statement` owns `subject_id` (required, → `subject`). Timing is
+  the split between the two subtrees: `subject_assertion` is **timeless**
+  (no `time_reference`); `subject_interaction` adds `time_reference_#`
+  (required, `multiple: true`). Subclasses tighten, never relax — so the
+  timeless concept lives on the parent, the timed one on the child.
+- `subject_assertion` is the home for timeless asserted facts (species,
+  strain, sex, genotype). One generic class: `asserted_property` + `value`
+  + `source`. (Typed/date values are a follow-up.)
 - There is **no `direction` field**: class membership in
   `observation` / `manipulation` / `annotation` carries that information,
   and `isa` queries replace `direction`-filter queries.
@@ -78,16 +86,17 @@ subject_interaction   (abstract)   depends_on: subject_id, time_reference (>=1)
 ### 2. Timing as a dependency: the `time_reference` family (new, `draft/`)
 
 Timing is a referenced document, not an inline field. The abstract
-`time_reference` (← `base`, field `is_approximate`) has five concrete
+`time_reference` (← `base`, field `is_approximate`) has these concrete
 subclasses:
 
 | class | extends | carries |
 |---|---|---|
 | `utc_reference` | `time_reference` | `start` (timestamp, req), `end` (timestamp, opt ⇒ interval) |
-| `event_relative_reference` | `time_reference` | dep `reference_event` → `subject_interaction`; `start`/`end` as signed `duration` offsets |
+| `event_relative_reference` | `time_reference` | dep `reference_event` → `subject_interaction`; `start`/`end` as signed `duration` offsets (metric) |
 | `epoch_relative_reference` | `time_reference`, `epochid` | dep `element_id` → `element`; `epoch_clock`, `t0`, `start`, `end` |
 | `epoch_bounded_reference` | `time_reference`, `epochid` | dep `element_id` → `element`; `epoch_clock` (extent = the named epoch) |
 | `event_bounded_reference` | `time_reference` | dep `bounding_event` → `subject_interaction` |
+| `session_relative_reference` | `time_reference` | dep `session_id` → `session`; `relation` enum {before, after, at_start_of, at_end_of, concurrent_with, during} — **ordinal, no metric**; for interactions with neither a device clock nor a wall-clock date (e.g. an awake behavioral test "at the end of the session") |
 
 `epoch_clock` is a `char` constrained to the NDI-matlab clocktype set
 (carried as an advisory `binding` in `constraints`). The former

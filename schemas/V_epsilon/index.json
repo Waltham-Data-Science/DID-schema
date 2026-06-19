@@ -1811,6 +1811,17 @@
             "is_meta": false
         },
         {
+            "class_name": "session_relative_reference",
+            "tier": "draft",
+            "class_version": "1.0.0",
+            "maturity_level": "draft",
+            "superclasses": [
+                "time_reference"
+            ],
+            "path": "schemas/V_epsilon/draft/session_relative_reference.json",
+            "is_meta": false
+        },
+        {
             "class_name": "simple_calc",
             "tier": "stable",
             "class_version": "1.0.0",
@@ -2095,6 +2106,17 @@
             "is_meta": false
         },
         {
+            "class_name": "subject_assertion",
+            "tier": "draft",
+            "class_version": "1.0.0",
+            "maturity_level": "draft",
+            "superclasses": [
+                "subject_statement"
+            ],
+            "path": "schemas/V_epsilon/draft/subject_assertion.json",
+            "is_meta": false
+        },
+        {
             "class_name": "subject_group",
             "tier": "deprecated",
             "class_version": "1.0.0",
@@ -2111,9 +2133,20 @@
             "class_version": "1.0.0",
             "maturity_level": "draft",
             "superclasses": [
-                "base"
+                "subject_statement"
             ],
             "path": "schemas/V_epsilon/draft/subject_interaction.json",
+            "is_meta": false
+        },
+        {
+            "class_name": "subject_statement",
+            "tier": "draft",
+            "class_version": "1.0.0",
+            "maturity_level": "draft",
+            "superclasses": [
+                "base"
+            ],
+            "path": "schemas/V_epsilon/draft/subject_statement.json",
             "is_meta": false
         },
         {
