@@ -50,11 +50,11 @@ First match wins, on the row's property term (branch) and value shape.
 | anatomical qualifier (if any) | `target_structure` | `ontology_term[]`; else `[]` |
 | row value (+ unit) | `value` on the destination shape block | typed composite (scalar) or bound `ontology_term` (categorical) per shape |
 | source `subject_id` | inherited `subject_id` | identity, shared by all generated docs |
-| source time anchor | inherited `time_reference_#` | shared by all generated docs (the whole row burst is one moment) |
+| source time anchor | inherited `time_reference_#` | one **`session_relative_reference`** (`relation: during`, → `session` from `base.session_id`) is emitted and **shared** by all observations from the table (the whole row burst is one session); each obs `time_reference_1` points at it |
 
 ## Engine note
 
-This conversion is **1 → N** and so requires the converter to support a migrator that **returns multiple bodies** (the current `+did2.+convert.+migrators.<class>` contract returns one body). The migrator emits one destination document per row, all sharing the source `subject_id` + synthesized `time_reference`, and routes non-observation rows out of tier. See [DID-matlab] `+did2/+convert/` for where the pipeline fans out. Until the 1→N capability lands, this conversion stays `drafted`.
+This conversion is **1 → N+1** (N observations + one shared session anchor). The 1→N capability **is implemented**: `did2.convert.v1_to_v2` (under `TargetVersion='V_epsilon'`) routes the class to `+did2.+convert.+migrators_e.ontology_table_row`, which may return a cell of bodies; the dispatcher lands each. The migrator emits one observation per row (each with a fresh `did.ido.unique_id()`), all sharing the source `subject_id` and one `session_relative_reference` anchor, and routes non-observation rows out of tier.
 
 ## Worked example — a 2-row intake burst → two observations
 

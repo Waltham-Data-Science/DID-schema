@@ -41,7 +41,7 @@ First match wins; resolved against the term's ontology branch, not a string matc
 | `treatment.numeric_value` | typed `value` **or** companion `scalar_observation` **or** flagged | per dispatch; thermal/pressure/etc. → typed `value`; measured quantity → companion; else flag |
 | `treatment.string_value` | `notes` (prose) **or** `target_structure` (Dab case) | default prose → `notes`; CURIE/Target-Location → `target_structure` |
 | `depends_on[subject_id]` | inherited `subject_id` | identity |
-| — | inherited `time_reference_#` | **synthesized** from session/epoch metadata (point-in-time for procedures; bounded for regimes/imposed quantities); curator widens |
+| — | inherited `time_reference_#` | **emits a `session_relative_reference`** document (`relation: during`, `depends_on session_id → session` from `base.session_id`) and points `time_reference_1` at it. v1 treatment rows have no epoch and (often) no UTC date, so the honest anchor is ordinal-against-the-session; `during` is the universal fallback (the act happened within the session), `at_end_of` reserved for known-terminal cases. Makes the migration **1 → 2**. |
 | `depends_on[manipulation_id]` | — | **dropped** (stale in v1) |
 | `depends_on[protocol_id]` | — | **dropped + flagged** for the tier-level `protocol_id` commonality (issue #8 Option C / #10) |
 
