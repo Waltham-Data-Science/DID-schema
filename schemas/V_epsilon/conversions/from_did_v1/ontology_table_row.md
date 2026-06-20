@@ -103,9 +103,9 @@ This conversion is **1 → N+1** (N observations + one shared session anchor). T
 ]
 ```
 
-## Real v1 row layout (follow-up)
+## Real v1 row layout (implemented)
 
-Corpus discovery showed the dominant `ontology_table_row` form is **not** a `rows` array but **parallel char fields** (`names`, `variable_names`, `ontology_nodes`, `data`). The migrator currently parses the `rows`/single-row shapes and, for the char-field layout it doesn't yet split, **falls back to migrating the document unchanged** as an `ontology_table_row` (the class still exists in V_epsilon, so it validates) rather than quarantining. Parsing the `names`/`variable_names`/`ontology_nodes`/`data` layout into per-row observations is the remaining work.
+The dominant `ontology_table_row` form is **parallel char fields** — comma-separated `names`, `variable_names`, `ontology_nodes` plus a `data` struct keyed by `variable_names`. One document is one table **row**; each **column** is a measured property. The migrator splits it accordingly: column *i* → one observation (`measured_property` = `ontology_nodes[i]` + `names[i]`; value = `data.(variable_names[i])`), dispatched scalar-vs-categorical on the value type. Columns with no usable value (missing key, empty, `NaN`) are skipped. Anything whose layout still isn't recognised falls back to migrating unchanged as an `ontology_table_row` (the class exists in V_epsilon) rather than quarantining.
 
 ## Open questions
 
