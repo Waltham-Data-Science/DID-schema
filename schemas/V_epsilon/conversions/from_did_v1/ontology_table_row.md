@@ -103,6 +103,10 @@ This conversion is **1 → N+1** (N observations + one shared session anchor). T
 ]
 ```
 
+## Real v1 row layout (follow-up)
+
+Corpus discovery showed the dominant `ontology_table_row` form is **not** a `rows` array but **parallel char fields** (`names`, `variable_names`, `ontology_nodes`, `data`). The migrator currently parses the `rows`/single-row shapes and, for the char-field layout it doesn't yet split, **falls back to migrating the document unchanged** as an `ontology_table_row` (the class still exists in V_epsilon, so it validates) rather than quarantining. Parsing the `names`/`variable_names`/`ontology_nodes`/`data` layout into per-row observations is the remaining work.
+
 ## Open questions
 
 - **Per-term dispatch table** — the property-term → property-class map is finalized in discovery mode against real corpora (the same report-only loop as `treatment`). Terms with no minted class fall to the generic escape hatches.
