@@ -1800,6 +1800,17 @@
             "is_meta": false
         },
         {
+            "class_name": "session_extent",
+            "tier": "draft",
+            "class_version": "1.0.0",
+            "maturity_level": "draft",
+            "superclasses": [
+                "base"
+            ],
+            "path": "schemas/V_epsilon/draft/session_extent.json",
+            "is_meta": false
+        },
+        {
             "class_name": "session_in_a_dataset",
             "tier": "stable",
             "class_version": "1.0.0",

@@ -282,7 +282,8 @@
                 "dataset_session_info",
                 "projectvar",
                 "session",
-                "session_in_a_dataset"
+                "session_in_a_dataset",
+                "session_extent"
             ]
         },
         {
