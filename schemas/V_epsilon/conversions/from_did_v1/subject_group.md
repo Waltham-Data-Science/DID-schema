@@ -24,12 +24,16 @@ group `subject`.
 
 ## Membership → `group_assignment` (relational, NDI layer)
 
-The member→group edges become `group_assignment` events. Those are
-**relational**: they require the member subjects that point at this group,
-which a single `subject_group` document does not carry. They are therefore
-assembled in the NDI layer (`ndi.migrate.local`), the same boundary used
-for `stimulus_bath → bath`, not manufactured here. This per-document
-migrator emits the group `subject` only; the assignments are a follow-up.
+In V_epsilon, member→group membership is event-sourced as `group_assignment`
+annotations (member `subject_id` + `group_id`). **However, did_v1 does not
+record group membership anywhere**: the `subject_group` body is empty and no
+v1 document depends on a `subject_group` (verified across the did_v1 document
+set). There is therefore **no v1 source to migrate into `group_assignment`**
+— synthesizing edges would invent data. The migration is complete with the
+group `subject` alone; `group_assignment` is a forward-looking class for
+newly authored data, not a migration target. If a specific corpus turns out
+to encode membership out-of-band (e.g., a lab-specific table), that becomes
+a targeted, corpus-specific NDI-layer pass at that time.
 
 ## Engine
 
