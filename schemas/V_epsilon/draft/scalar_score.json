@@ -16,32 +16,25 @@
         {
             "name": "value",
             "type": "score",
-            "blank_value": {
-                "value": 0.0,
-                "scale": {
-                    "node": "",
-                    "name": ""
-                },
-                "scale_min": 0.0,
-                "scale_max": 0.0,
-                "approximate": false
-            },
-            "default_value": {
-                "value": 0.0,
-                "scale": {
-                    "node": "",
-                    "name": ""
-                },
-                "scale_min": 0.0,
-                "scale_max": 0.0,
-                "approximate": false
-            },
+            "blank_value": [],
+            "default_value": [
+                {
+                    "value": 0.0,
+                    "scale": {
+                        "node": "",
+                        "name": ""
+                    },
+                    "scale_min": 0.0,
+                    "scale_max": 0.0,
+                    "approximate": false
+                }
+            ],
             "mustBeNonEmpty": true,
-            "mustBeScalar": true,
+            "mustBeScalar": false,
             "mustNotHaveNaN": false,
             "queryable": true,
             "ontology": null,
-            "documentation": "A typed score value (shape-library mixin); value.scale names the rubric.",
+            "documentation": "A typed score value (shape-library mixin); value.scale names the rubric. Series-as-cardinality (Brainstorm E Part 2): an ARRAY of the composite; a single reading is the length-1 case, element-aligned with scalar_observation.sample_time.",
             "constraints": {}
         }
     ]

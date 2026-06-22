@@ -21,16 +21,18 @@
         "measured_property": { "node": "ncit:C174446", "name": "core body temperature" },
         "target_structure": []
     },
-    "core_temperature_observation": {
-        "value": [
-            { "celsius": 37.1, "source_unit": "°C", "source_value": 37.1, "approximate": false },
-            { "celsius": 36.4, "source_unit": "°C", "source_value": 36.4, "approximate": false },
-            { "celsius": 35.0, "source_unit": "°C", "source_value": 35.0, "approximate": false }
-        ],
+    "scalar_observation": {
         "sample_time": [
             { "seconds": 0,    "source_unit": "min", "source_value": 0,  "approximate": false },
             { "seconds": 600,  "source_unit": "min", "source_value": 10, "approximate": false },
             { "seconds": 1200, "source_unit": "min", "source_value": 20, "approximate": false }
+        ]
+    },
+    "scalar_temperature": {
+        "value": [
+            { "celsius": 37.1, "source_unit": "°C", "source_value": 37.1, "approximate": false },
+            { "celsius": 36.4, "source_unit": "°C", "source_value": 36.4, "approximate": false },
+            { "celsius": 35.0, "source_unit": "°C", "source_value": 35.0, "approximate": false }
         ]
     }
 }

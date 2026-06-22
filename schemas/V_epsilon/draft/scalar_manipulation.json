@@ -59,6 +59,19 @@
             "constraints": {
                 "maxLength": 4096
             }
+        },
+        {
+            "name": "sample_time",
+            "type": "duration",
+            "blank_value": [],
+            "default_value": [],
+            "mustBeNonEmpty": false,
+            "mustBeScalar": false,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Per-sample time offsets from the anchoring time_reference, as an ARRAY of the duration composite, element-aligned with the shape value (len(sample_time) == len(value); enforced as a consumer/tooling check, Series-as-cardinality D3). Empty/absent => a single reading at the anchor (the length-1, offset-0 case).",
+            "constraints": {}
         }
     ]
 }

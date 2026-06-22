@@ -14,46 +14,5 @@
     },
     "depends_on": [],
     "file": [],
-    "fields": [
-        {
-            "name": "value",
-            "type": "temperature",
-            "blank_value": [],
-            "default_value": [
-                {
-                    "approximate": false,
-                    "source_unit": "",
-                    "source_value": 0.0,
-                    "celsius": 0.0
-                }
-            ],
-            "mustBeNonEmpty": true,
-            "mustBeScalar": false,
-            "mustNotHaveNaN": false,
-            "queryable": true,
-            "ontology": null,
-            "documentation": "Series-as-cardinality (Brainstorm E Part 2): an array of the temperature shape composite. A single reading is the length-1 case; a curve is length N. Element-aligned with sample_time. value[i] observed at time_reference + sample_time[i].",
-            "constraints": {}
-        },
-        {
-            "name": "sample_time",
-            "type": "duration",
-            "blank_value": [],
-            "default_value": [
-                {
-                    "approximate": false,
-                    "source_unit": "",
-                    "source_value": 0.0,
-                    "seconds": 0.0
-                }
-            ],
-            "mustBeNonEmpty": true,
-            "mustBeScalar": false,
-            "mustNotHaveNaN": false,
-            "queryable": true,
-            "ontology": null,
-            "documentation": "Per-sample time offsets from the anchoring time_reference, as an array of the duration composite, element-aligned with value (len(sample_time) == len(value); enforced as a consumer/tooling check). For a single reading, a length-1 array with offset 0.",
-            "constraints": {}
-        }
-    ]
+    "fields": []
 }

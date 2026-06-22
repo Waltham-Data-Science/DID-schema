@@ -118,9 +118,16 @@ two epoch reference classes.
   `scalar_temperature` ← `core_temperature_observation` *and*
   `temperature_manipulation`), so `value` is defined once and
   `isa scalar_temperature` sweeps both tiers. The scalar mixins host `value` in
-  their own block (default placement). `categorical_concept` is the one
-  exception: its `value` declares `placement: concrete_class`, so each
-  categorical observation carries `value` in its **own** block and
+  their own block (default placement). **Series-as-cardinality (Part 2, rolled
+  out):** every scalar mixin's `value` is an **array** of its composite
+  (`mustBeScalar: false`) — a single reading is the length-1 case, a curve is
+  length N of the *same* class — and the `scalar_observation` /
+  `scalar_manipulation` genera carry a parallel `sample_time` array (offsets
+  from the anchoring `time_reference`, element-aligned with `value`; the
+  `len(value) == len(sample_time)` invariant is a consumer/tooling check, not a
+  meta-schema keyword). `categorical_concept` is the one
+  exception to the hosting rule: its `value` declares `placement: concrete_class`,
+  so each categorical observation carries `value` in its **own** block and
   `categorical_concept` contributes no block — this keeps a single `value` per
   concrete class even when a class wants to narrow the term's admissible root.
 - `scalar_observation` (abstract genus, ← `observation`) — shape is only an

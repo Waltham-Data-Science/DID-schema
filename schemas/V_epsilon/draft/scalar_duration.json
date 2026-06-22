@@ -16,22 +16,20 @@
         {
             "name": "value",
             "type": "duration",
-            "blank_value": {
-                "approximate": false,
-                "source_unit": "",
-                "source_value": 0.0
-            },
-            "default_value": {
-                "approximate": false,
-                "source_unit": "",
-                "source_value": 0.0
-            },
+            "blank_value": [],
+            "default_value": [
+                {
+                    "approximate": false,
+                    "source_unit": "",
+                    "source_value": 0.0
+                }
+            ],
             "mustBeNonEmpty": true,
-            "mustBeScalar": true,
+            "mustBeScalar": false,
             "mustNotHaveNaN": false,
             "queryable": true,
             "ontology": null,
-            "documentation": "A typed duration value (shape-library mixin). Identity classes that read or impose a duration inherit this `value`.",
+            "documentation": "A typed duration value (shape-library mixin). Identity classes that read or impose a duration inherit this `value`. Series-as-cardinality (Brainstorm E Part 2): an ARRAY of the composite; a single reading is the length-1 case, element-aligned with scalar_observation.sample_time.",
             "constraints": {}
         }
     ]

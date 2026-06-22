@@ -1,11 +1,16 @@
-"""Series-as-cardinality prototype tests (Brainstorm E, Part 2).
+"""Series-as-cardinality tests (Brainstorm E, Part 2).
 
-Exercises the prototype on `core_temperature_observation`:
-- the schema declares `value` and `sample_time` as arrays (mustBeScalar: false)
-  of typed composites (D1/D4), and
-- the worked example document satisfies the element-aligned-length invariant
-  `len(value) == len(sample_time)` (D3) — which JSON Schema cannot express on a
-  single field, so it ships here as the consumer/tooling check.
+After the step-2 rollout, series-as-cardinality is a property of the SHAPE
+MIXINS, not a single prototype class:
+- every scalar shape mixin (`scalar_temperature`, `scalar_mass`, ...) declares
+  `value` as an array of typed composites (mustBeScalar: false, D1/D4), and
+- the `scalar_observation` / `scalar_manipulation` genera carry the parallel
+  `sample_time` array.
+So a concrete class like `core_temperature_observation` inherits the
+cardinality form (its own `fields` are empty); a single reading is the length-1
+case. The element-aligned-length invariant `len(value) == len(sample_time)`
+(D3) is a consumer/tooling check (JSON Schema cannot express it on one field),
+shipped here.
 
 See Series_As_Cardinality_Proposal.md for the design.
 """
@@ -17,6 +22,13 @@ REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DRAFT = os.path.join(REPO_ROOT, "schemas", "V_epsilon", "draft")
 EXAMPLES = os.path.join(REPO_ROOT, "schemas", "V_epsilon", "examples")
 EXAMPLE_DOC = os.path.join(EXAMPLES, "core_temperature_observation_series.json")
+
+SCALAR_MIXINS = [
+    "scalar_mass", "scalar_length", "scalar_duration", "scalar_volume",
+    "scalar_temperature", "scalar_pressure", "scalar_frequency", "scalar_voltage",
+    "scalar_current", "scalar_concentration", "scalar_count", "scalar_score",
+    "generic_scalar",
+]
 
 
 def _load(path):
@@ -31,12 +43,14 @@ def _field(schema, name):
     return None
 
 
-def check_series_lengths(doc, value_path=("core_temperature_observation", "value"),
-                         time_path=("core_temperature_observation", "sample_time")):
+def check_series_lengths(doc, value_path=("scalar_temperature", "value"),
+                         time_path=("scalar_observation", "sample_time")):
     """Consumer/tooling check for D3: the per-sample arrays are element-aligned.
 
     Returns a list of error strings (empty == valid). This is the validator
-    JSON Schema cannot express, because it spans two fields.
+    JSON Schema cannot express, because it spans two fields. sample_time is
+    optional (a single reading may omit it); the length check applies only
+    when it is present.
     """
     errors = []
     vblock, vname = value_path
@@ -45,10 +59,10 @@ def check_series_lengths(doc, value_path=("core_temperature_observation", "value
     sample_time = doc.get(tblock, {}).get(tname)
     if not isinstance(value, list):
         errors.append(f"{vblock}.{vname} must be an array (series-as-cardinality)")
-    if not isinstance(sample_time, list):
-        errors.append(f"{tblock}.{tname} must be an array (series-as-cardinality)")
-    if isinstance(value, list) and isinstance(sample_time, list):
-        if len(value) != len(sample_time):
+    if sample_time is not None:
+        if not isinstance(sample_time, list):
+            errors.append(f"{tblock}.{tname} must be an array (series-as-cardinality)")
+        elif isinstance(value, list) and len(value) != len(sample_time):
             errors.append(
                 f"len({vname})={len(value)} != len({tname})={len(sample_time)} "
                 "(arrays must be element-aligned)"
@@ -57,19 +71,28 @@ def check_series_lengths(doc, value_path=("core_temperature_observation", "value
 
 
 class TestSeriesSchema:
-    def test_value_is_array_of_temperature(self):
-        schema = _load(os.path.join(DRAFT, "core_temperature_observation.json"))
-        value = _field(schema, "value")
-        assert value is not None, "core_temperature_observation must declare value"
-        assert value["type"] == "temperature"
-        assert value["mustBeScalar"] is False, "value must be an array (cardinality)"
+    def test_every_scalar_mixin_value_is_an_array(self):
+        for m in SCALAR_MIXINS:
+            schema = _load(os.path.join(DRAFT, m + ".json"))
+            value = _field(schema, "value")
+            assert value is not None, f"{m} must declare value"
+            assert value["mustBeScalar"] is False, \
+                f"{m}.value must be an array (series-as-cardinality)"
 
-    def test_sample_time_is_array_of_duration(self):
+    def test_sample_time_is_array_of_duration_on_genus(self):
+        for genus in ("scalar_observation", "scalar_manipulation"):
+            schema = _load(os.path.join(DRAFT, genus + ".json"))
+            st = _field(schema, "sample_time")
+            assert st is not None, f"{genus} must declare sample_time"
+            assert st["type"] == "duration"
+            assert st["mustBeScalar"] is False, "sample_time must be an array"
+
+    def test_concrete_temperature_class_inherits_the_shape(self):
+        # The concrete property class no longer overrides value/sample_time;
+        # it inherits the array form from scalar_temperature / scalar_observation.
         schema = _load(os.path.join(DRAFT, "core_temperature_observation.json"))
-        st = _field(schema, "sample_time")
-        assert st is not None, "core_temperature_observation must declare sample_time"
-        assert st["type"] == "duration"
-        assert st["mustBeScalar"] is False, "sample_time must be an array (cardinality)"
+        assert _field(schema, "value") is None
+        assert _field(schema, "sample_time") is None
 
 
 class TestSeriesExampleDocument:
@@ -79,7 +102,7 @@ class TestSeriesExampleDocument:
 
     def test_example_is_array_of_structures(self):
         doc = _load(EXAMPLE_DOC)
-        value = doc["core_temperature_observation"]["value"]
+        value = doc["scalar_temperature"]["value"]
         assert isinstance(value, list) and len(value) >= 1
         for sample in value:
             assert isinstance(sample, dict) and "celsius" in sample, (
@@ -93,13 +116,13 @@ class TestSeriesExampleDocument:
 
     def test_length_mismatch_is_caught(self):
         doc = _load(EXAMPLE_DOC)
-        doc["core_temperature_observation"]["sample_time"].pop()  # break alignment
+        doc["scalar_observation"]["sample_time"].pop()  # break alignment
         errors = check_series_lengths(doc)
         assert errors and "element-aligned" in errors[0]
 
     def test_single_reading_is_cardinality_one(self):
         """A spot reading is the length-1 case of the same class."""
         doc = _load(EXAMPLE_DOC)
-        doc["core_temperature_observation"]["value"] = [{"celsius": 37.0}]
-        doc["core_temperature_observation"]["sample_time"] = [{"seconds": 0}]
+        doc["scalar_temperature"]["value"] = [{"celsius": 37.0}]
+        doc["scalar_observation"]["sample_time"] = [{"seconds": 0}]
         assert check_series_lengths(doc) == []
