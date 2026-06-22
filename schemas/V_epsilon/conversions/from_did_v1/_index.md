@@ -47,6 +47,7 @@ field-level changes on top.
 | `treatment` | legacy NDI/DID `treatment` (V_alpha shape) | drafted | [treatment.md](treatment.md) |
 | `treatment` → manipulation tiers (Brainstorm E **split**) | legacy `treatment` → `injection`/`bath`/`procedural_manipulation`/`temperature_manipulation`/`environmental_manipulation` (+ out-of-tier) | drafted | [treatment.md](treatment.md) |
 | `ontology_table_row` → observation tiers (Brainstorm E **split**, 1→N) | legacy `ontology_table_row` → scalar/categorical observation property classes (+ out-of-tier) | drafted | [ontology_table_row.md](ontology_table_row.md) |
+| `subject_group` → `subject` (`is_group`) (Brainstorm E **fold**) | legacy `subject_group` → `subject` flagged `is_group` (+ `group_assignment` in NDI layer) | drafted | [subject_group.md](subject_group.md) |
 | `ontology_image` | legacy NDI/DID `ontologyImage` (V_alpha shape) | drafted | [ontology_image.md](ontology_image.md) |
 | `ontology_label` | legacy NDI/DID `ontologyLabel` (V_alpha shape) | drafted | [ontology_label.md](ontology_label.md) |
 
