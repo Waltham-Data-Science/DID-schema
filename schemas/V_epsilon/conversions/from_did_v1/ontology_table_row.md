@@ -35,7 +35,7 @@ First match wins, on the row's property term (branch) and value shape.
 | Concentration (glucose, cortisol, titer) | `concentration_observation` (`scalar_concentration`) | |
 | Voltage (transcribed Vm) | `membrane_potential_observation` (`scalar_voltage`) | |
 | **Scalar with no minted property class** | `generic_scalar_observation` (`generic_scalar`) | value → `{source_unit, source_value, approximate}`; promote later |
-| Categorical: developmental/life stage | `developmental_stage_observation` (bound under `UBERON:0000105`) | term → `value`; property → `measured_property` |
+| Categorical: developmental/life stage | `developmental_stage_observation` (life/developmental stage under `UBERON:0000105`, by convention — not schema-enforced) | term → `value`; property → `measured_property` |
 | Categorical: health status / coat / estrous / behavioral label | `health_status_observation` / `pigmentation_observation` / `estrous_stage_observation` / `behavioral_phenotype_observation` | term → `value` |
 | **Categorical with no minted property class** | `generic_categorical_observation` (free `ontology_term`, no binding) | term → `value`; promote later |
 | **Subject-intrinsic, set-once** (species, strain, sex, DOB) | **out of tier** → `subject` / `openminds_subject` (merge) | not an observation |
@@ -48,7 +48,7 @@ First match wins, on the row's property term (branch) and value shape.
 |---|---|---|
 | row property term | `measured_property` (inherited from `observation`) | `ontology_term` |
 | anatomical qualifier (if any) | `target_structure` | `ontology_term[]`; else `[]` |
-| row value (+ unit) | `value` on the destination shape block | typed composite (scalar) or bound `ontology_term` (categorical) per shape |
+| row value (+ unit) | `value` on the destination block | scalar: typed composite in the shape-mixin block (`scalar_mass`, …). categorical: bound `ontology_term` in the **concrete class's own block** (`categorical_concept.value` has `placement: concrete_class`, so `categorical_concept` contributes no block) |
 | source `subject_id` | inherited `subject_id` | identity, shared by all generated docs |
 | source time anchor | inherited `time_reference_#` | one **`session_relative_reference`** (`relation: during`, → `session` from `base.session_id`) is emitted and **shared** by all observations from the table (the whole row burst is one session); each obs `time_reference_1` points at it |
 

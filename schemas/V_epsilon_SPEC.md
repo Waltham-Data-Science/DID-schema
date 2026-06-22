@@ -117,7 +117,12 @@ two epoch reference classes.
   the observation that reads it and the manipulation that imposes it (e.g.
   `scalar_temperature` ← `core_temperature_observation` *and*
   `temperature_manipulation`), so `value` is defined once and
-  `isa scalar_temperature` sweeps both tiers.
+  `isa scalar_temperature` sweeps both tiers. The scalar mixins host `value` in
+  their own block (default placement). `categorical_concept` is the one
+  exception: its `value` declares `placement: concrete_class`, so each
+  categorical observation carries `value` in its **own** block and
+  `categorical_concept` contributes no block — this keeps a single `value` per
+  concrete class even when a class wants to narrow the term's admissible root.
 - `scalar_observation` (abstract genus, ← `observation`) — shape is only an
   `isa` umbrella; the concrete classes under it are named by the **property
   observed** (Brainstorm E) and acquire their typed `value` by also inheriting
@@ -133,8 +138,9 @@ two epoch reference classes.
   (← `generic_scalar`).
 - `categorical_observation` (abstract genus, ← `observation`): concrete classes
   named by the **property observed**, each with an `ontology_term` `value`
-  governed by the binding registry — `developmental_stage_observation` (pinned
-  root `UBERON:0000105`), `health_status_observation`,
+  governed by the binding registry — `developmental_stage_observation` (life /
+  developmental stage under `UBERON:0000105`, by convention),
+  `health_status_observation`,
   `behavioral_phenotype_observation`, `pigmentation_observation`,
   `estrous_stage_observation`, plus the escape hatch
   `generic_categorical_observation` (free `ontology_term`, no binding).

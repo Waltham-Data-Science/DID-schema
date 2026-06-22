@@ -14,25 +14,5 @@
     },
     "depends_on": [],
     "file": [],
-    "fields": [
-        {
-            "name": "value",
-            "type": "ontology_term",
-            "blank_value": {
-                "node": "",
-                "name": ""
-            },
-            "default_value": {
-                "node": "",
-                "name": ""
-            },
-            "mustBeNonEmpty": true,
-            "mustBeScalar": true,
-            "mustNotHaveNaN": false,
-            "queryable": true,
-            "ontology": null,
-            "documentation": "Escape hatch for an observed categorical property with no minted class yet; value is a free ontology_term (no binding).",
-            "constraints": {}
-        }
-    ]
+    "fields": []
 }
