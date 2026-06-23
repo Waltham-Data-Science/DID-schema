@@ -1,0 +1,18 @@
+{
+    "document_class": {
+        "class_name": "developmental_stage_observation",
+        "class_version": "1.0.0",
+        "superclasses": [
+            {
+                "class_name": "categorical_observation"
+            },
+            {
+                "class_name": "categorical_concept"
+            }
+        ],
+        "maturity_level": "stable"
+    },
+    "depends_on": [],
+    "file": [],
+    "fields": []
+}

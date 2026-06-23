@@ -1,0 +1,16 @@
+{
+    "document_class": {
+        "class_name": "manipulation",
+        "class_version": "1.0.0",
+        "superclasses": [
+            {
+                "class_name": "subject_interaction"
+            }
+        ],
+        "maturity_level": "stable",
+        "abstract": true
+    },
+    "depends_on": [],
+    "file": [],
+    "fields": []
+}

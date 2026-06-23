@@ -20,8 +20,22 @@ import os
 
 REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DRAFT = os.path.join(REPO_ROOT, "schemas", "V_epsilon", "draft")
+STABLE = os.path.join(REPO_ROOT, "schemas", "V_epsilon", "stable")
 EXAMPLES = os.path.join(REPO_ROOT, "schemas", "V_epsilon", "examples")
 EXAMPLE_DOC = os.path.join(EXAMPLES, "core_temperature_observation_series.json")
+
+
+def _schema_path(name):
+    """Locate a class schema by name across tiers (stable or draft).
+
+    The series classes were promoted draft -> stable; resolving by tier
+    keeps this test correct regardless of which tier a class lives in.
+    """
+    for tier in (STABLE, DRAFT):
+        p = os.path.join(tier, name + ".json")
+        if os.path.exists(p):
+            return p
+    raise FileNotFoundError(name + ".json (stable or draft)")
 
 SCALAR_MIXINS = [
     "scalar_mass", "scalar_length", "scalar_duration", "scalar_volume",
@@ -73,7 +87,7 @@ def check_series_lengths(doc, value_path=("scalar_temperature", "value"),
 class TestSeriesSchema:
     def test_every_scalar_mixin_value_is_an_array(self):
         for m in SCALAR_MIXINS:
-            schema = _load(os.path.join(DRAFT, m + ".json"))
+            schema = _load(_schema_path(m))
             value = _field(schema, "value")
             assert value is not None, f"{m} must declare value"
             assert value["mustBeScalar"] is False, \
@@ -81,7 +95,7 @@ class TestSeriesSchema:
 
     def test_sample_time_is_array_of_duration_on_genus(self):
         for genus in ("scalar_observation", "scalar_manipulation"):
-            schema = _load(os.path.join(DRAFT, genus + ".json"))
+            schema = _load(_schema_path(genus))
             st = _field(schema, "sample_time")
             assert st is not None, f"{genus} must declare sample_time"
             assert st["type"] == "duration"
@@ -90,7 +104,7 @@ class TestSeriesSchema:
     def test_concrete_temperature_class_inherits_the_shape(self):
         # The concrete property class no longer overrides value/sample_time;
         # it inherits the array form from scalar_temperature / scalar_observation.
-        schema = _load(os.path.join(DRAFT, "core_temperature_observation.json"))
+        schema = _load(_schema_path("core_temperature_observation"))
         assert _field(schema, "value") is None
         assert _field(schema, "sample_time") is None
 

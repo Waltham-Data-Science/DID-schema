@@ -1,0 +1,18 @@
+{
+    "document_class": {
+        "class_name": "generic_scalar_manipulation",
+        "class_version": "1.0.0",
+        "superclasses": [
+            {
+                "class_name": "scalar_manipulation"
+            },
+            {
+                "class_name": "generic_scalar"
+            }
+        ],
+        "maturity_level": "stable"
+    },
+    "depends_on": [],
+    "file": [],
+    "fields": []
+}

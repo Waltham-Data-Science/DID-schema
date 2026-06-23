@@ -278,3 +278,17 @@ copy `schemas/V_epsilon/` to `schemas/V1/`, freeze it, replace the
 `"V_epsilon"` value in `schema_version` fields and `index.json`, and tag
 the repository. Before promotion, the `draft/` families are expected to be
 exercised against real curations and re-tiered to `stable/`.
+
+**Tier status.** The Brainstorm-E migration families — the
+`subject_interaction` spine, the `time_reference` family, the scalar/
+categorical observation tiers and their shape mixins, the manipulation
+tiers, and the annotation/event classes (`group_assignment`, `placement`,
+`derivation`, `session_extent`, `interaction_purpose`, `stimulus_approach`)
+— have been **promoted to `stable/`** after running clean against the
+discovery corpora (0 quarantine). The section headers below still read
+"new, `draft/`" to record where each family was *added*; `index.json` is
+the authoritative tier placement. The genomics/omics + file-backed
+dataseries data-format families (`expression_*`, `sequence_read_data_*`,
+`reference_sequence_data_*` / `reference_annotation_data_*`, `dataseries_*`
+/ `timeseries_*` / `imageseries_*`, `instrument`) remain in `draft/` as a
+separate effort not exercised by the physiology corpora.

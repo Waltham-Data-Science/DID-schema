@@ -1,0 +1,45 @@
+{
+    "document_class": {
+        "class_name": "categorical_concept",
+        "class_version": "1.0.0",
+        "superclasses": [
+            {
+                "class_name": "base"
+            }
+        ],
+        "maturity_level": "stable",
+        "abstract": true
+    },
+    "depends_on": [],
+    "file": [],
+    "fields": [
+        {
+            "name": "value",
+            "type": "ontology_term",
+            "placement": "concrete_class",
+            "blank_value": {
+                "node": "",
+                "name": ""
+            },
+            "default_value": {
+                "node": "",
+                "name": ""
+            },
+            "mustBeNonEmpty": true,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "A bound concept value (shape-library mixin). Placed on the concrete observation class's block (placement: concrete_class), so each categorical observation carries `value` in its own block and categorical_concept contributes no block. Admissible terms governed by the binding registry keyed on measured_property.",
+            "constraints": {
+                "binding": {
+                    "keyed_by": "measured_property",
+                    "expansion": "descendants",
+                    "node_kind": "class",
+                    "strength": "preferred",
+                    "source": "ontology"
+                }
+            }
+        }
+    ]
+}
