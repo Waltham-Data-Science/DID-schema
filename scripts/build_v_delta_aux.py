@@ -28,8 +28,16 @@ import json
 import os
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-INDEX = os.path.join(ROOT, "schemas", "V_delta", "index.json")
-ALL_ANCESTORS = os.path.join(ROOT, "schemas", "V_delta", "all_ancestors.json")
+DEFAULT_SCHEMA_SET = "V_delta"
+
+
+def _paths(schema_set):
+    """``(index.json, all_ancestors.json)`` paths for a schema set, e.g.
+    ``V_delta`` or ``V_epsilon``. The closure logic is schema-set-agnostic —
+    only the directory differs — so a single ``--schema-set`` flag retargets
+    the whole builder at the next set without touching the algorithm."""
+    base = os.path.join(ROOT, "schemas", schema_set)
+    return os.path.join(base, "index.json"), os.path.join(base, "all_ancestors.json")
 
 
 def superclass_names(superclasses):
@@ -43,8 +51,8 @@ def superclass_names(superclasses):
     return names
 
 
-def load_index():
-    with open(INDEX, encoding="utf-8") as fh:
+def load_index(index_path):
+    with open(index_path, encoding="utf-8") as fh:
         return json.load(fh)
 
 
@@ -69,8 +77,9 @@ def write_json(path, obj):
         fh.write("\n")
 
 
-def fix_index():
-    index = load_index()
+def fix_index(schema_set=DEFAULT_SCHEMA_SET):
+    index_path, _ = _paths(schema_set)
+    index = load_index(index_path)
     changed = []
     for entry in index["schemas"]:
         want = file_superclasses(entry)
@@ -78,17 +87,21 @@ def fix_index():
         if set(have) != set(want):
             entry["superclasses"] = want
             changed.append(entry["class_name"])
-    write_json(INDEX, index)
+    write_json(index_path, index)
     print(f"fix-index: rewrote {len(changed)} entries: {sorted(changed)}")
     return changed
 
 
-def build_all_ancestors():
-    index = load_index()
+def build_all_ancestors(schema_set=DEFAULT_SCHEMA_SET):
+    index_path, all_ancestors_path = _paths(schema_set)
+    index = load_index(index_path)
     direct = {e["class_name"]: file_superclasses(e) for e in index["schemas"]}
     out = {cn: sorted(_closure(cn, direct, set())) for cn in sorted(direct)}
-    write_json(ALL_ANCESTORS, out)
-    print(f"all_ancestors: wrote {len(out)} classes -> {os.path.relpath(ALL_ANCESTORS, ROOT)}")
+    write_json(all_ancestors_path, out)
+    print(
+        f"all_ancestors: wrote {len(out)} classes -> "
+        f"{os.path.relpath(all_ancestors_path, ROOT)}"
+    )
 
 
 if __name__ == "__main__":
@@ -98,7 +111,12 @@ if __name__ == "__main__":
         action="store_true",
         help="rewrite index.json superclasses from the per-class schema files",
     )
+    parser.add_argument(
+        "--schema-set",
+        default=DEFAULT_SCHEMA_SET,
+        help="schema set to build, e.g. V_delta (default) or V_epsilon",
+    )
     args = parser.parse_args()
     if args.fix_index:
-        fix_index()
-    build_all_ancestors()
+        fix_index(args.schema_set)
+    build_all_ancestors(args.schema_set)
