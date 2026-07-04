@@ -1,0 +1,62 @@
+{
+    "document_class": {
+        "class_name": "biological_transfer",
+        "class_version": "1.0.0",
+        "superclasses": [
+            {
+                "class_name": "procedural_manipulation"
+            }
+        ],
+        "maturity_level": "stable"
+    },
+    "depends_on": [
+        {
+            "name": "donor_id",
+            "mustBeNonEmpty": false,
+            "documentation": "The donor subject, when there is one. Optional (donorless transfers like cultured cells are real).",
+            "must_refer_to_document_class": "subject"
+        }
+    ],
+    "file": [],
+    "fields": [
+        {
+            "name": "entity",
+            "type": "ontology_term",
+            "blank_value": {
+                "node": "",
+                "name": ""
+            },
+            "default_value": {
+                "node": "",
+                "name": ""
+            },
+            "mustBeNonEmpty": true,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "The biological material transferred (UBERON/CL/NDIC).",
+            "constraints": {}
+        },
+        {
+            "name": "kind",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": true,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Coarse material bucket.",
+            "constraints": {
+                "enum": [
+                    "blood",
+                    "cells",
+                    "tissue_graft",
+                    "lysate"
+                ]
+            }
+        }
+    ]
+}

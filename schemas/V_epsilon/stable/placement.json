@@ -1,0 +1,38 @@
+{
+    "document_class": {
+        "class_name": "placement",
+        "class_version": "1.0.0",
+        "superclasses": [
+            {
+                "class_name": "manipulation"
+            }
+        ],
+        "maturity_level": "stable"
+    },
+    "depends_on": [
+        {
+            "name": "container_id",
+            "mustBeNonEmpty": true,
+            "documentation": "The container (plate/chamber/cage) the subject is placed in. Itself a subject.",
+            "must_refer_to_document_class": "subject"
+        }
+    ],
+    "file": [],
+    "fields": [
+        {
+            "name": "batch_id",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Optional grouping handle linking placements minted as one curatorial act.",
+            "constraints": {
+                "maxLength": 256
+            }
+        }
+    ]
+}

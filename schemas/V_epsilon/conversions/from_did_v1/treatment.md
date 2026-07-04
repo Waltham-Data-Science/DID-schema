@@ -1,187 +1,108 @@
-# Conversion: did_v1 → V_delta — `treatment`
+# Conversion: did_v1 → V_epsilon — `treatment` → manipulation tiers (Brainstorm E split)
+
+> **Supersedes the conservative class-preserving `treatment` → V_delta `treatment` conversion** (kept in git history). Under Brainstorm E the legacy `treatment` catch-all is **retired** and **split** across the manipulation tier (and, for non-manipulation rows, out of the tier entirely). This doc is the dispatch spec for that split. Companion: [`ontology_table_row.md`](ontology_table_row.md) (the observation-tier split).
 
 ## Identity
 
-- **V_delta `class_name`:** `treatment`
-- **V_delta tier:** `stable`
-- **V_delta schema path:** `schemas/V_delta/stable/treatment.json`
-- **did_v1 source:** legacy NDI/DID `treatment` document type
-  (`_classname: "treatment"`). Schema-shape ancestor in this repository
-  is `schemas/V_alpha/treatment.json`; `schemas/V_beta/treatment.json`
-  is the same shape with naming-convention housekeeping applied
-  (`ontologyName` → `ontology_name`).
-- **Status:** `drafted`
+- **Target tier:** V_epsilon manipulation families (`schemas/V_epsilon/draft/`).
+- **did_v1 source:** legacy NDI/DID `treatment` (`_classname: "treatment"`; shape ancestor `schemas/V_alpha/treatment.json`). Fields: `treatment.ontologyName` + `treatment.name` (ontology identity), `treatment.numeric_value` (matrix), `treatment.string_value` (char); `depends_on`: `subject_id`, `manipulation_id`, `protocol_id`.
+- **Status:** `drafted` (dispatch table seeded from real corpora; per-term branch list finalized in discovery mode — see [Open questions](#open-questions)).
+- **Cardinality:** **1 → 1** in the common case (one `treatment` → one manipulation document), **1 → 2** when a recognizable `numeric_value` spawns a companion `scalar_observation`. Genuinely-not-a-manipulation rows route **out of tier** (1 → 1 into observation/annotation/session metadata).
 
 ## Summary
 
-`treatment` records a treatment applied to a subject (drug, stimulation,
-etc.) keyed by ontology term and carrying an optional numeric value and
-an optional free-form string value. did_v1 stored the ontology identity
-as a pair of `char` fields (`ontologyName` + `name`); V_delta collapses
-those into a single `treatment_name` field of the `ontology_term`
-composite type. The `numeric_value` and `string_value` fields carry over
-unchanged.
+A `treatment` row carries an ontology identity + an optional number + optional prose. Brainstorm E reads that identity and dispatches the row to the manipulation family whose **action** it names — substance delivery → `injection`/`bath`; physical operation on the body → `procedural_manipulation`; imposed typed quantity → a `scalar_manipulation` (e.g. `temperature_manipulation`); changed condition/regime → `environmental_manipulation` — with focal-vs-ambient and structure carried as **data** (`target_structure`), not as classes. Rows that are not manipulations at all (date of birth, experiment time) are routed out of the manipulation tier.
 
-## Field mapping
+## Dispatch table (on `treatment.ontologyName` branch)
 
-Beyond these fields, the universal renames listed in
-[`_universal_renames.md`](_universal_renames.md) apply (snake-case
-ontology-annotation reshape, superclass-reference reshape, class-scoped
-property block keyed by `treatment`).
+First match wins; resolved against the term's ontology branch, not a string match.
 
-| did_v1 field | V_delta field | Transformation | Notes |
-|---|---|---|---|
-| `treatment.ontologyName` (char) | `treatment.treatment_name.node` | composed into `ontology_term`; snake-case rename of the carrier field | CURIE. See "Transformations in detail". |
-| `treatment.name` (char) | `treatment.treatment_name.name` | composed into `ontology_term` | Human-readable label snapshot. |
-| — | `treatment.treatment_name` (ontology_term) | new composite field | Created by composing the two did_v1 chars above. |
-| `treatment.numeric_value` (matrix) | `treatment.numeric_value` (matrix) | identity | |
-| `treatment.string_value` (char) | `treatment.string_value` (char) | identity | |
-| `depends_on[subject_id]` | `depends_on[subject_id]` | identity | |
-| `depends_on[manipulation_id]` | `depends_on[manipulation_id]` | identity | |
-| `depends_on[protocol_id]` | `depends_on[protocol_id]` | identity | |
+| `ontologyName` branch | Destination class | Key field mapping |
+|---|---|---|
+| Drug / vehicle / virus / tracer / contrast **delivered by injection** (CHEBI drug branch; OBI injection) | **`injection`** (← `pharmacological_manipulation`) | identity → `mixture` agent; `numeric_value` (if volume) → `volume`; route/coords → curator backfill; `kind` ∈ {drug,virus,tracer,vehicle,contrast} |
+| Substance applied **as a bath** | **`bath`** / **`stimulus_bath`** | identity → `mixture`; `location` from prose/backfill |
+| Surgical / minor physical **operation on the body** (OBI/NCIT procedure branch — craniotomy, implant, lesion, eye-opening, ear-notch, perfusion) | **`procedural_manipulation`** | identity → `procedure`; structure → `target_structure`; prose → `notes` |
+| **Heating / cooling** (thermal) | **`temperature_manipulation`** (← `scalar_manipulation`, `scalar_temperature`) | identity → `applied_property`; thermal `numeric_value` → `value` (typed temperature); focal site → `target_structure` (empty ⇒ ambient) |
+| Other **imposed typed quantity** (applied pressure/force, field, frequency) | matching `scalar_manipulation` subclass (`pressure_manipulation`, …) or `generic_scalar_manipulation` | identity → `applied_property`; `numeric_value` → `value` |
+| **Environmental / husbandry / behavioral regime** with no typed value (dark rearing, deprivation regime, social isolation, enrichment, light cycle, diet/water restriction, training) | **`environmental_manipulation`** | identity → `factor`; structure (lateralized) → `target_structure`; prose → `notes`; duration → bounded `time_reference` |
+| **Not a manipulation** (`Treatment: Date of birth`, `Treatment: Non-survival experiment time`, …) | **out of tier** → `age_observation`/`categorical_observation` (DOB) or session metadata/annotation | per [`ontology_table_row.md`](ontology_table_row.md) routing |
+| Empty / unresolvable `ontologyName` | **curator review queue** (default routing **off**) | flagged, never silently forced into a residual family |
 
-## Transformations in detail
+### Edge cases captured from real corpora
 
-- **Collapse two coordinated chars into one `ontology_term`.** did_v1's
-  `ontologyName` (the ontology CURIE-or-name) and `name` (the
-  human-readable label) merge into V_delta's `treatment_name` composite:
+- **`string_value` carrying an ontology target, not prose** (the `Dab` treeshrew optogenetic-tetanus rows: `ontologyName = EMPTY:0000074`, `name = "…Target Location"`, `string_value = UBERON CURIE`). Route `string_value` → **`target_structure`** (as `ontology_term`), strip the "Target Location" role-suffix from the procedure/action name, register an NDIC term for the `EMPTY:` placeholder (curator backfill until then). Detection rule: `name` ends in "Target Location" **and/or** `string_value` matches a CURIE pattern.
+- **`numeric_value` → companion observation.** A recognizable typed quantity that is *measured*, not the manipulation's own payload (e.g. a training-exposure duration), becomes a companion `scalar_observation` sharing `subject_id` + `time_reference`. Unrecognizable numbers are **flagged, never silently kept** (the `numeric_value` grab-bag is exactly what E retires).
 
-      treatment_name = {
-          "node": <did_v1 treatment.ontologyName>,
-          "name": <did_v1 treatment.name>
-      }
+## Common field mapping (all manipulation destinations)
 
-  This is the same merge rule as `probe_location` (see
-  [`probe_location.md`](probe_location.md)); the *carrier* field is
-  renamed from `<class>.name` to `<class>.treatment_name` so it does
-  not collide with `base.name`. (Under V_delta's class-scoped property
-  blocks, `base.name` and `treatment.name` would in principle be
-  distinct, but renaming the carrier here makes the migrated documents
-  easier to read and matches the V_gamma `class_version: 2.0.0` shape
-  the V_delta schemas inherit — see `V_gamma_notes.md` § "Class-version
-  bumps".)
-
-- **camelCase → snake_case of the source field name.** did_v1's
-  `ontologyName` is camelCase; the V_beta-era housekeeping snake-cased
-  field names. The migrator reads the value from either spelling and
-  writes it to `treatment_name.node`. See
-  [`_universal_renames.md`](_universal_renames.md) for the
-  cross-cutting snake_case rule.
-
-- **`numeric_value` and `string_value` are identity passes.** Both are
-  declared identically in did_v1 and V_delta (matrix and char,
-  respectively). No type or semantic change.
-
-- **Document-instance shape.** V_delta uses class-scoped property
-  blocks. The three carrier fields live at `treatment.treatment_name`,
-  `treatment.numeric_value`, `treatment.string_value`.
+| did_v1 field | V_epsilon field | Transformation |
+|---|---|---|
+| `treatment.ontologyName` + `treatment.name` | the family identity slot (`procedure` / `factor` / `applied_property`; or `mixture` agent) | collapse the two chars into one `ontology_term` (same merge rule as `probe_location`), then place per the dispatch table |
+| `treatment.numeric_value` | typed `value` **or** companion `scalar_observation` **or** flagged | per dispatch; thermal/pressure/etc. → typed `value`; measured quantity → companion; else flag |
+| `treatment.string_value` | `notes` (prose) **or** `target_structure` (Dab case) | default prose → `notes`; CURIE/Target-Location → `target_structure` |
+| `depends_on[subject_id]` | inherited `subject_id` | identity |
+| — | inherited `time_reference_#` | **emits a `session_relative_reference`** document (`relation: during`, `depends_on session_id → session` from `base.session_id`) and points `time_reference_1` at it. v1 treatment rows have no epoch and (often) no UTC date, so the honest anchor is ordinal-against-the-session; `during` is the universal fallback (the act happened within the session), `at_end_of` reserved for known-terminal cases. Makes the migration **1 → 2**. |
+| `depends_on[manipulation_id]` | — | **dropped** (stale in v1) |
+| `depends_on[protocol_id]` | — | **dropped + flagged** for the tier-level `protocol_id` commonality (issue #8 Option C / #10) |
 
 ## Default values for new fields
 
-V_delta introduces no required field on this class beyond what did_v1
-documents already supply. The global `schema_version` tag lives at
-`document_class.schema_version` (see `_universal_renames.md` § 10) and
-is set to `"V_delta"` by the dispatcher rather than the per-class
-migrator.
+- `target_structure`: `[]` (empty ⇒ whole-subject/ambient) unless recoverable.
+- `kind` (injection): inferred from the agent branch where possible; else curator backfill.
+- `time_reference_#`: synthesized; required, so the migrator must produce at least one (a point-in-time reference anchored to the session) and flag for widening.
 
-## Worked example
+## Worked example — thermal `treatment` → `temperature_manipulation`
 
 ### Before (did_v1)
-
 ```json
 {
-    "document_class": {
-        "class_name": "treatment",
-        "class_version": "1.0.0",
-        "superclasses": [
-            { "class_name": "base", "class_version": "1.0.0" }
-        ]
-    },
+    "document_class": { "class_name": "treatment", "class_version": "1.0.0",
+        "superclasses": [ { "class_name": "base", "class_version": "1.0.0" } ] },
     "depends_on": [
         { "name": "subject_id",      "document_id": "aabb1122ccdd3344_aabb1122ccdd3344" },
         { "name": "manipulation_id", "document_id": "" },
-        { "name": "protocol_id",     "document_id": "" }
+        { "name": "protocol_id",     "document_id": "ccdd_protocol" }
     ],
-    "base": {
-        "id":         "aabb1122ccdd3344_1122334455667788",
-        "session_id": "aabb1122ccdd3344_9900aabbccddeeff",
-        "name":       "isoflurane_induction",
-        "datestamp":  "2024-06-01T12:00:00.000Z"
-    },
-    "treatment": {
-        "ontologyName":  "chebi:6015",
-        "name":          "isoflurane",
-        "numeric_value": [2.0],
-        "string_value":  "2 percent in O2"
-    }
+    "base": { "id": "aabb1122ccdd3344_1122334455667788", "session_id": "aabb1122ccdd3344_9900aabbccddeeff",
+        "name": "v1_cooling", "datestamp": "2024-06-01T12:00:00.000Z" },
+    "treatment": { "ontologyName": "ndic:0000nnnn", "name": "focal cortical cooling",
+        "numeric_value": [12.0], "string_value": "Peltier, V1" }
 }
 ```
 
-### After (V_delta)
-
+### After (V_epsilon)
 ```json
 {
-    "document_class": {
-        "class_name": "treatment",
-        "class_version": "1.0.0",
-        "superclasses": [
-            { "class_name": "base", "class_version": "1.0.0" }
-        ]
-    },
+    "document_class": { "class_name": "temperature_manipulation", "class_version": "1.0.0",
+        "superclasses": [ { "class_name": "scalar_manipulation" }, { "class_name": "scalar_temperature" } ] },
     "depends_on": [
-        { "name": "subject_id",      "document_id": "aabb1122ccdd3344_aabb1122ccdd3344" },
-        { "name": "manipulation_id", "document_id": "" },
-        { "name": "protocol_id",     "document_id": "" }
+        { "name": "subject_id",       "value": "aabb1122ccdd3344_aabb1122ccdd3344" },
+        { "name": "time_reference_1", "value": "aabb1122ccdd3344_synthesized" }
     ],
-    "base": {
-        "id":         "aabb1122ccdd3344_1122334455667788",
-        "session_id": "aabb1122ccdd3344_9900aabbccddeeff",
-        "name":       "isoflurane_induction",
-        "datestamp":  "2024-06-01T12:00:00.000Z"
+    "base": { "id": "aabb1122ccdd3344_1122334455667788", "session_id": "aabb1122ccdd3344_9900aabbccddeeff",
+        "name": "v1_cooling", "datestamp": "2024-06-01T12:00:00.000Z" },
+    "scalar_manipulation": {
+        "applied_property": { "node": "ndic:0000nnnn", "name": "focal cortical cooling" },
+        "target_structure": [ { "node": "uberon:0002436", "name": "primary visual cortex" } ],
+        "notes": "Peltier, V1"
     },
-    "treatment": {
-        "treatment_name": {
-            "node": "chebi:6015",
-            "name": "isoflurane"
-        },
-        "numeric_value": [2.0],
-        "string_value":  "2 percent in O2"
-    }
+    "scalar_temperature": { "value": { "celsius": 12.0, "source_unit": "°C", "source_value": 12.0, "approximate": false } }
 }
 ```
+(`target_structure` here was recovered from `string_value`; `protocol_id`/`manipulation_id` dropped; `time_reference` synthesized.)
 
 ## File handling
 
-This document type does not reference files. The generic file-handling
-rules in [`_files.md`](_files.md) do not apply.
+`treatment` references no files. [`_files.md`](_files.md) does not apply.
 
 ## Open questions
 
-- **TODO-domain:** what is the canonical CURIE prefix family for
-  treatments? Drugs typically resolve under `chebi:` or `drugbank:`;
-  stimulation protocols may not have a single canonical source. The
-  V_delta schema's `ontology` slot for `treatment_name` is `null`,
-  leaving the choice to documents.
-- **TODO-domain:** `numeric_value` is a matrix and `mustBeScalar:
-  false`. Confirm whether did_v1 documents in the wild ever carry
-  multi-element matrices here, or only scalars / 1-element arrays. The
-  migrator should pass the value through unchanged in either case, but
-  knowing the shape distribution affects downstream tooling
-  assumptions.
-- **TODO-domain:** the relationship between `numeric_value` /
-  `string_value` and `treatment_name` is not enforced (any of the
-  three can be empty). Confirm whether the V1 freeze should add a
-  semantic constraint (at least one non-empty), or leave it to
-  consumer policy.
+- **Per-term branch list.** The dispatch table is branch-level; the concrete `ontologyName` → destination mapping per corpus is finalized in **discovery mode** (run the corpus through the converter, read the quarantine/review report, extend the branch list). Report-only before any rewrite.
+- **`time_reference` synthesis fidelity.** What session/epoch anchor each corpus exposes; bounded vs point default per family.
+- **`protocol_id` carryover.** Dropped now; belongs to the tier-level commonality decision (#8 Option C / #10).
 
 ## Cross-references
 
-- General file-handling rules: [`_files.md`](_files.md)
-- Universal did_v1 → V_delta renames: [`_universal_renames.md`](_universal_renames.md)
-- V_delta schema file: [`schemas/V_delta/stable/treatment.json`](../../stable/treatment.json)
-- Related conversions that follow the same two-char-to-`ontology_term`
-  pattern: [`probe_location.md`](probe_location.md),
-  [`ontology_image.md`](ontology_image.md),
-  [`ontology_label.md`](ontology_label.md)
-- Subclass: `treatment_drug` (still at `class_version: 1.0.0`; this
-  conversion doc's rules apply to its `treatment` block).
+- Observation-tier split: [`ontology_table_row.md`](ontology_table_row.md)
+- Universal renames: [`_universal_renames.md`](_universal_renames.md)
+- Design sources (ndi-next-steps): `Procedural_Manipulation_Proposal.md`, `Environmental_Manipulation_Proposal.md`, `Scalar_Manipulation_Proposal.md`, `Injection_Proposal.md`, `Bath_Proposal.md`, `20260615/Brainstorm_E_Class_Catalog.md` §4.

@@ -1,0 +1,23 @@
+{
+    "document_class": {
+        "class_name": "subject_statement",
+        "class_version": "1.0.0",
+        "superclasses": [
+            {
+                "class_name": "base"
+            }
+        ],
+        "maturity_level": "stable",
+        "abstract": true
+    },
+    "depends_on": [
+        {
+            "name": "subject_id",
+            "mustBeNonEmpty": true,
+            "documentation": "The subject this statement is about.",
+            "must_refer_to_document_class": "subject"
+        }
+    ],
+    "file": [],
+    "fields": []
+}

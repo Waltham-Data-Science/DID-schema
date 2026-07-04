@@ -54,20 +54,28 @@ while V_epsilon remains a sandbox.
 
 ### 1. The `subject_interaction` spine (new, `draft/`)
 
-A three-tier abstract hierarchy unifying everything that happens to a
-subject:
+A hierarchy unifying everything documented about a subject. The shared
+anchor is lifted to an abstract **`subject_statement`** supertype
+(`Subject_Statement_Decision.md`), so timeless claims and timed events
+share `subject_id` and one `isa subject_statement` query:
 
 ```
-subject_interaction   (abstract)   depends_on: subject_id, time_reference (>=1)
-├── observation        (abstract)   fields: measured_property, target_structure
-├── manipulation       (abstract)
-└── annotation         (abstract)
+subject_statement     (abstract)   depends_on: subject_id          ← any claim about a subject
+├── subject_assertion  (concrete)   fields: asserted_property, value, source   ← timeless facts
+└── subject_interaction(abstract)   depends_on: time_reference (>=1)           ← timed events
+    ├── observation    (abstract)   fields: measured_property, target_structure
+    ├── manipulation   (abstract)
+    └── annotation     (abstract)
 ```
 
-- `subject_interaction` inherits from `base`. Its dependencies are
-  `subject_id` (required, → `subject`) and `time_reference_#` (required,
-  `multiple: true`, → the abstract `time_reference` class — the same
-  moment may be expressed in several reference frames).
+- `subject_statement` owns `subject_id` (required, → `subject`). Timing is
+  the split between the two subtrees: `subject_assertion` is **timeless**
+  (no `time_reference`); `subject_interaction` adds `time_reference_#`
+  (required, `multiple: true`). Subclasses tighten, never relax — so the
+  timeless concept lives on the parent, the timed one on the child.
+- `subject_assertion` is the home for timeless asserted facts (species,
+  strain, sex, genotype). One generic class: `asserted_property` + `value`
+  + `source`. (Typed/date values are a follow-up.)
 - There is **no `direction` field**: class membership in
   `observation` / `manipulation` / `annotation` carries that information,
   and `isa` queries replace `direction`-filter queries.
@@ -78,16 +86,17 @@ subject_interaction   (abstract)   depends_on: subject_id, time_reference (>=1)
 ### 2. Timing as a dependency: the `time_reference` family (new, `draft/`)
 
 Timing is a referenced document, not an inline field. The abstract
-`time_reference` (← `base`, field `is_approximate`) has five concrete
+`time_reference` (← `base`, field `is_approximate`) has these concrete
 subclasses:
 
 | class | extends | carries |
 |---|---|---|
 | `utc_reference` | `time_reference` | `start` (timestamp, req), `end` (timestamp, opt ⇒ interval) |
-| `event_relative_reference` | `time_reference` | dep `reference_event` → `subject_interaction`; `start`/`end` as signed `duration` offsets |
+| `event_relative_reference` | `time_reference` | dep `reference_event` → `subject_interaction`; `start`/`end` as signed `duration` offsets (metric) |
 | `epoch_relative_reference` | `time_reference`, `epochid` | dep `element_id` → `element`; `epoch_clock`, `t0`, `start`, `end` |
 | `epoch_bounded_reference` | `time_reference`, `epochid` | dep `element_id` → `element`; `epoch_clock` (extent = the named epoch) |
 | `event_bounded_reference` | `time_reference` | dep `bounding_event` → `subject_interaction` |
+| `session_relative_reference` | `time_reference` | dep `session_id` → `session`; `relation` enum {before, after, at_start_of, at_end_of, concurrent_with, during} — **ordinal, no metric**; for interactions with neither a device clock nor a wall-clock date (e.g. an awake behavioral test "at the end of the session") |
 
 `epoch_clock` is a `char` constrained to the NDI-matlab clocktype set
 (carried as an advisory `binding` in `constraints`). The former
@@ -97,16 +106,51 @@ two epoch reference classes.
 
 ### 3. Observation families (new, `draft/`)
 
-- `scalar_observation` (abstract, ← `observation`) with one typed-composite
-  concrete subclass per quantity: `mass_observation`, `length_observation`,
-  `duration_observation`, `temperature_observation`, `pressure_observation`,
-  `count_observation`, `score_observation`, `frequency_observation`,
-  `volume_observation`, `concentration_observation`, plus the escape hatch
-  `generic_scalar_observation` (untyped `{source_unit, source_value,
-  approximate}`).
-- `categorical_observation` (concrete, ← `observation`): one generic class
-  whose `value` is an `ontology_term`, admissible set governed by the
-  binding registry keyed on `measured_property`.
+- **Shape library (Brainstorm E, abstract mixins ← `base`).** The typed
+  value-composites are promoted to named classes that *own* the `value` field
+  and are mixed into the identity classes as a second superclass:
+  `scalar_mass`, `scalar_length`, `scalar_duration`, `scalar_volume`,
+  `scalar_temperature`, `scalar_pressure`, `scalar_frequency`, `scalar_voltage`,
+  `scalar_current`, `scalar_concentration`, `scalar_count`, `scalar_score`,
+  `generic_scalar` (source-only struct), and `categorical_concept`
+  (`ontology_term` + advisory binding). The **same** shape class is inherited by
+  the observation that reads it and the manipulation that imposes it (e.g.
+  `scalar_temperature` ← `core_temperature_observation` *and*
+  `temperature_manipulation`), so `value` is defined once and
+  `isa scalar_temperature` sweeps both tiers. The scalar mixins host `value` in
+  their own block (default placement). **Series-as-cardinality (Part 2, rolled
+  out):** every scalar mixin's `value` is an **array** of its composite
+  (`mustBeScalar: false`) — a single reading is the length-1 case, a curve is
+  length N of the *same* class — and the `scalar_observation` /
+  `scalar_manipulation` genera carry a parallel `sample_time` array (offsets
+  from the anchoring `time_reference`, element-aligned with `value`; the
+  `len(value) == len(sample_time)` invariant is a consumer/tooling check, not a
+  meta-schema keyword). `categorical_concept` is the one
+  exception to the hosting rule: its `value` declares `placement: concrete_class`,
+  so each categorical observation carries `value` in its **own** block and
+  `categorical_concept` contributes no block — this keeps a single `value` per
+  concrete class even when a class wants to narrow the term's admissible root.
+- `scalar_observation` (abstract genus, ← `observation`) — shape is only an
+  `isa` umbrella; the concrete classes under it are named by the **property
+  observed** (Brainstorm E) and acquire their typed `value` by also inheriting
+  the matching shape mixin (`class isa scalar_observation, scalar_<unit>`):
+  `body_weight_observation`/`organ_volume_observation` (mass/volume),
+  `body_length_observation` (length), `age_observation` (duration),
+  `core_temperature_observation` (temperature), `heart_rate_observation`/
+  `respiration_rate_observation` (frequency), `blood_pressure_observation`
+  (pressure), `litter_size_observation`/`cell_count_observation` (count),
+  `body_condition_observation`/`behavioral_score_observation` (score),
+  `concentration_observation` (concentration), `membrane_potential_observation`
+  (voltage), plus the escape hatch `generic_scalar_observation`
+  (← `generic_scalar`).
+- `categorical_observation` (abstract genus, ← `observation`): concrete classes
+  named by the **property observed**, each with an `ontology_term` `value`
+  governed by the binding registry — `developmental_stage_observation` (life /
+  developmental stage under `UBERON:0000105`, by convention),
+  `health_status_observation`,
+  `behavioral_phenotype_observation`, `pigmentation_observation`,
+  `estrous_stage_observation`, plus the escape hatch
+  `generic_categorical_observation` (free `ontology_term`, no binding).
 - `dataseries_observation` (abstract genus, ← `observation`) carrying the
   `axes[]` + `channels[]` header, with two **concrete** sub-genera:
   `timeseries_observation` (ordering-only axes → traces) and
@@ -234,3 +278,17 @@ copy `schemas/V_epsilon/` to `schemas/V1/`, freeze it, replace the
 `"V_epsilon"` value in `schema_version` fields and `index.json`, and tag
 the repository. Before promotion, the `draft/` families are expected to be
 exercised against real curations and re-tiered to `stable/`.
+
+**Tier status.** The Brainstorm-E migration families — the
+`subject_interaction` spine, the `time_reference` family, the scalar/
+categorical observation tiers and their shape mixins, the manipulation
+tiers, and the annotation/event classes (`group_assignment`, `placement`,
+`derivation`, `session_extent`, `interaction_purpose`, `stimulus_approach`)
+— have been **promoted to `stable/`** after running clean against the
+discovery corpora (0 quarantine). The section headers below still read
+"new, `draft/`" to record where each family was *added*; `index.json` is
+the authoritative tier placement. The genomics/omics + file-backed
+dataseries data-format families (`expression_*`, `sequence_read_data_*`,
+`reference_sequence_data_*` / `reference_annotation_data_*`, `dataseries_*`
+/ `timeseries_*` / `imageseries_*`, `instrument`) remain in `draft/` as a
+separate effort not exercised by the physiology corpora.

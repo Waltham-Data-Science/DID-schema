@@ -45,6 +45,12 @@ field-level changes on top.
 | `hartley_calc` | NDIcalc-vis-matlab `calc/hartley_calc` | drafted | [hartley_calc.md](hartley_calc.md) |
 | `probe_location` | legacy NDI/DID `probe_location` (V_alpha shape) | drafted | [probe_location.md](probe_location.md) |
 | `treatment` | legacy NDI/DID `treatment` (V_alpha shape) | drafted | [treatment.md](treatment.md) |
+| `treatment` → manipulation tiers (Brainstorm E **split**) | legacy `treatment` → `injection`/`bath`/`procedural_manipulation`/`temperature_manipulation`/`environmental_manipulation` (+ out-of-tier) | drafted | [treatment.md](treatment.md) |
+| `ontology_table_row` → observation tiers (Brainstorm E **split**, 1→N) | legacy `ontology_table_row` → scalar/categorical observation property classes (+ out-of-tier) | drafted | [ontology_table_row.md](ontology_table_row.md) |
+| `subject_group` → `subject` (`is_group`) (Brainstorm E **fold**) | legacy `subject_group` → `subject` flagged `is_group` (+ `group_assignment` in NDI layer) | drafted | [subject_group.md](subject_group.md) |
+| `treatment_drug` → `injection` (`kind: drug`) (Brainstorm E **fold**) | legacy `treatment_drug` → `injection` (mixture from `mixture_table`) | drafted | [treatment_drug.md](treatment_drug.md) |
+| `virus_injection` → `injection` (`kind: virus`) (Brainstorm E **fold**) | legacy `virus_injection` → `injection` (virus+dilution in mixture) | drafted | [virus_injection.md](virus_injection.md) |
+| `treatment_transfer` → `biological_transfer` (Brainstorm E **fold**) | legacy `treatment_transfer` → `biological_transfer` (recipient→subject, donor carried) | drafted | [treatment_transfer.md](treatment_transfer.md) |
 | `ontology_image` | legacy NDI/DID `ontologyImage` (V_alpha shape) | drafted | [ontology_image.md](ontology_image.md) |
 | `ontology_label` | legacy NDI/DID `ontologyLabel` (V_alpha shape) | drafted | [ontology_label.md](ontology_label.md) |
 

@@ -1,0 +1,22 @@
+{
+    "document_class": {
+        "class_name": "event_bounded_reference",
+        "class_version": "1.0.0",
+        "superclasses": [
+            {
+                "class_name": "time_reference"
+            }
+        ],
+        "maturity_level": "stable"
+    },
+    "depends_on": [
+        {
+            "name": "bounding_event",
+            "mustBeNonEmpty": true,
+            "documentation": "The interaction event whose extent bounds this reference. Must have interval extent.",
+            "must_refer_to_document_class": "subject_interaction"
+        }
+    ],
+    "file": [],
+    "fields": []
+}
