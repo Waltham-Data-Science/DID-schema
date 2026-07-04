@@ -1,7 +1,7 @@
 {
     "document_class": {
         "class_name": "biological_transfer",
-        "class_version": "2.0.0",
+        "class_version": "3.0.0",
         "superclasses": [
             {
                 "class_name": "manipulation"
@@ -19,25 +19,6 @@
     ],
     "file": [],
     "fields": [
-        {
-            "name": "entity",
-            "type": "ontology_term",
-            "blank_value": {
-                "node": "",
-                "name": ""
-            },
-            "default_value": {
-                "node": "",
-                "name": ""
-            },
-            "mustBeNonEmpty": true,
-            "mustBeScalar": true,
-            "mustNotHaveNaN": false,
-            "queryable": true,
-            "ontology": null,
-            "documentation": "The biological material transferred (UBERON/CL/NDIC).",
-            "constraints": {}
-        },
         {
             "name": "kind",
             "type": "char",

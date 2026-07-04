@@ -13,7 +13,7 @@ Status: **drafted**
 | (class) `treatment_transfer` | (class) `biological_transfer` | class fold |
 | `recipient_id` (depends_on) | `subject_id` | the recipient is the subject |
 | `donor_id` (depends_on) | `biological_transfer` donor dependency (`donor_id`) | carried |
-| `entity_ontologyNode` / `entity_name` | `biological_transfer.entity` | ontology_term |
+| `entity_ontologyNode` / `entity_name` | spine `variable` (the transferred material) | ontology_term |
 | `method_ontologyNode` / `method_name` | spine `variable` (the transfer act) / spine `method` | ontology_term |
 | `method_name` | `biological_transfer.kind` | char (fallback `"transfer"`) |
 | `timestamp` / `clocktype` | (timing) | ordinal `session_relative_reference` (`during`) for now; UTC/event refinement is a follow-up |
