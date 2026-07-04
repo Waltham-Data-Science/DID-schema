@@ -9,14 +9,7 @@
         ],
         "maturity_level": "stable"
     },
-    "depends_on": [
-        {
-            "name": "session_id",
-            "mustBeNonEmpty": true,
-            "documentation": "The session this reference is ordinally relative to.",
-            "must_refer_to_document_class": "session"
-        }
-    ],
+    "depends_on": [],
     "file": [],
     "fields": [
         {

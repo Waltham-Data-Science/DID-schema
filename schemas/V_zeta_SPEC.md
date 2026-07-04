@@ -71,6 +71,8 @@ subject_interaction    (abstract, isa base)
   method           { node, name }      the verb: what was done (measure, inject, heat)   [optional]
   variable         { node, name }      the noun: what it is about (temperature, a drug)  [required]
   target_structure { node, name }[]    (optional) the locus on the subject (§3, Path T)
+  element_id       → element           (optional) the specific individuated part /
+                                       derived entity this is about (§3.1)
 ```
 
 - **Direction is two empty classes.** `observation` and `manipulation` (and the
@@ -129,6 +131,38 @@ objective annotation rule and the imaging-FOV convention from
 `Choosing_the_Subject_Guide.md` govern curation. `target_structure` is a **list**
 (bilateral/multi-structure); the multi-structure-image rule is FOV-container +
 derived observations.
+
+### 3.1 The individuated referent: optional `element_id` on the spine
+
+`target_structure` names the *ontological KIND* of locus (a place — "CA1",
+"layer 5 pyramidal"). It cannot point at a **specific individuated entity that is
+part of the subject** and has its own document identity but is neither a
+`subject_group` nor reducible to an anatomy term — the canonical case being an
+`ndi` element (an `ndi.neuron`, a probe, a derived signal). "Neuron #47 that I
+recorded from" is a *thing*, not a *place*, and Path T had no slot for it.
+
+V_zeta adds an **optional `element_id → element`** dependency on the spine,
+completing the referent set every `subject_interaction` can express:
+
+| slot | question it answers | type |
+|---|---|---|
+| `subject_id` | the whole specimen (mandatory objective anchor) | ref → `subject` |
+| `target_structure` | the ontological KIND of locus ("a place") | ontology_term[] |
+| `element_id` | THIS specific individuated part / derived entity ("which one") | ref → `element` |
+
+The three are orthogonal and co-occur (an interaction may name a specimen, an
+anatomy term, *and* the exact element). `element_id` is **optional** — whole-subject
+records (a bath, a body weight) leave it empty — and `subject_id` stays mandatory,
+so "everything about subject X" queries are unchanged. Identity stays **off the
+class** (the EPM lesson): this is a reference edge, not a `neuron_observation`
+subclass. Since an `element` already carries its own `subject_id`, the invariant
+`element_id.subject == subject_id` is a **binding-registry nudge**, not a class
+weld. The restored dataseries event-graph handle (§4, `depends_on element_id →
+element`) is this same spine edge; its "the handle must point at an element"
+requiredness is a per-leaf / binding-registry concern layered on the optional
+spine slot. (Migrators do not yet populate `element_id`; preserving source
+element references from element-scoped `did_v1` observations is a deliberate
+per-migrator follow-up.)
 
 ### 4. Observation leaves named by DATA-TYPE (shape), not property (§4)
 

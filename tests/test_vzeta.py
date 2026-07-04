@@ -121,6 +121,33 @@ def test_spine_composes_onto_every_interaction():
         assert ft.get("target_structure") == "ontology_term", f"{name} missing target_structure"
 
 
+def test_element_id_is_optional_individuated_referent_on_spine():
+    """Brainstorm I completes the referent set on the spine: subject_id is the
+    whole specimen, target_structure the ontological KIND of locus, and
+    element_id the specific individuated part / derived entity (an ndi element
+    that is part of the subject but is neither a group nor an anatomical
+    ontology term). It is an OPTIONAL dependency, not a class -- identity stays
+    OFF the class (the EPM lesson)."""
+    deps = {d["name"]: d for d in RECORDS["subject_interaction"][1]["depends_on"]}
+    assert "element_id" in deps, "subject_interaction must offer element_id"
+    assert deps["element_id"]["mustBeNonEmpty"] is False, "element_id must be optional"
+    assert deps["element_id"]["must_refer_to_document_class"] == "element"
+    assert deps["element_id"].get("multiple", False) is False, "element_id is single"
+    # every interaction leaf (observation and manipulation) inherits it
+    for name in RECORDS:
+        if "subject_interaction" in _chain(name):
+            assert "element_id" in _flat_dep_names(name), f"{name} missing element_id"
+
+
+def test_session_relative_reference_has_no_redundant_session_edge():
+    """session_id rides on base.session_id (every DID document carries it), so
+    the ordinal anchor declares no session_id depends_on edge -- the redundant
+    edge only produced discovery-mode reference-integrity orphans (the session
+    document is not part of a corpus dump)."""
+    assert "session_id" not in _flat_dep_names("session_relative_reference"), \
+        "session_relative_reference should not declare a redundant session_id edge"
+
+
 def test_shape_typed_scalar_leaves_present():
     """Brainstorm I names observation leaves by data-type (shape), not property."""
     for dim, vtype in {

@@ -45,6 +45,15 @@ restorations."* Concretely, versus V_epsilon:
    the act is named by the spine `variable`. Shared `notes` prose moves up to the
    abstract `manipulation` base; `biological_transfer` re-parents onto
    `manipulation` (it earns its class via the `donor_id` dependency).
+7. **Individuated referent on the spine.** `subject_interaction` gains an
+   **optional** `element_id → element` dependency (SPEC §3.1): the specific
+   element that is part of the subject (an `ndi.neuron`, a probe, a derived
+   signal) that an interaction is about, when that entity has its own document
+   identity and is neither a `subject_group` nor an anatomy term. Completes the
+   spine referent set — `subject_id` (whole specimen) / `target_structure`
+   (ontological KIND of locus) / `element_id` (which specific one). Optional;
+   identity stays off the class. (Added after the initial build, per maintainer
+   feedback on element-scoped observations; migrators don't populate it yet.)
 
 The typed manipulation families (`injection`/`bath`/`scalar_manipulation` tier),
 `time_reference` reference frames, dataseries/expression bodies, the
@@ -92,6 +101,19 @@ confirmed with the maintainer for the two spine-shaping forks:
 - **`annotation` kept as a third direction** for curatorial/relational events
   (`group_assignment`). Brainstorm I foregrounds observation/manipulation
   symmetry but does not preclude it; it is carried from V_epsilon.
+- **Optional `element_id` on the spine** (individuated referent, §3.1) —
+  confirmed with the maintainer for element-scoped observations that Path T's
+  ontology `target_structure` cannot address.
+- **`session_relative_reference` declares no `session_id` edge.** Session
+  identity rides on `base.session_id` (every DID document carries it), so the
+  ordinal fallback anchor needs no `session_id` dependency. The edge was
+  redundant with `base` and produced only discovery-mode reference-integrity
+  orphans — the migrators synthesize thousands of these anchors (one per
+  timeless treatment / ontology_table_row / resolved bath), and the `session`
+  document is not part of a corpus dump, so every one dangled (~41k on JH, ~8k
+  on Dab). Dropping the edge removes the orphans at the source; the real
+  `ndi.migrate.local` path is unaffected (it referenced the session the same way
+  via `base`).
 
 ## Provisional / still open (from Brainstorm I)
 

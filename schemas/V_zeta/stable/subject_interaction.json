@@ -23,6 +23,13 @@
             "documentation": "When the interaction happened, as one or more time_reference documents (Brainstorm I \u00a71.2: the reference is SHAPED like the data \u2014 point / grid / enumerated \u2014 so per-sample times are derived, not stored).",
             "must_refer_to_document_class": "time_reference",
             "multiple": true
+        },
+        {
+            "name": "element_id",
+            "mustBeNonEmpty": false,
+            "documentation": "Optional individuated referent: the specific element (an ndi element document \u2014 e.g. an ndi.neuron or a probe) that is part of the subject and that this interaction concerns, when that entity has its own document identity and is neither a subject_group nor reducible to an anatomical ontology term. Completes the referent set on the spine: subject_id is the whole specimen (mandatory objective anchor), target_structure is the ontological KIND of locus (a place), and element_id is THIS specific individuated part / derived entity (which one). Empty for whole-subject records. Since an element already carries its own subject_id, element_id.subject == subject_id is a soft binding-registry invariant, not a class weld (identity stays OFF the class \u2014 the EPM lesson).",
+            "must_refer_to_document_class": "element",
+            "multiple": false
         }
     ],
     "file": [],
