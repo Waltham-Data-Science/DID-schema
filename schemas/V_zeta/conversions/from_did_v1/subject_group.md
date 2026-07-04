@@ -1,15 +1,15 @@
-# `subject_group` → `subject` (`is_group: true`)  [Brainstorm E]
+# `subject_group` → `subject` (`is_group: true`)  [Brainstorm I]
 
 Status: **drafted**
 
-`subject_group` is **deprecated** in V_epsilon (see `V_epsilon_SPEC.md`,
+`subject_group` is **deprecated** in V_zeta (see `V_zeta_SPEC.md`,
 "Deprecated / folded" table). A group of subjects is modeled as a
 `subject` flagged `is_group: true`, and membership becomes
 `group_assignment` events.
 
 ## Mapping (per document, 1 → 1)
 
-| did_v1 `subject_group` | V_epsilon `subject` | Transformation |
+| did_v1 `subject_group` | V_zeta `subject` | Transformation |
 |---|---|---|
 | (class) `subject_group` | (class) `subject`, `is_group: true` | class fold |
 | `subject_group.group_name` (optional; absent in v1 corpus) | `subject.local_identifier` | char copy |
@@ -24,7 +24,7 @@ group `subject`.
 
 ## Membership → `group_assignment` (relational, NDI layer)
 
-In V_epsilon, member→group membership is event-sourced as `group_assignment`
+In V_zeta, member→group membership is event-sourced as `group_assignment`
 annotations (member `subject_id` + `group_id`). **However, did_v1 does not
 record group membership anywhere**: the `subject_group` body is empty and no
 v1 document depends on a `subject_group` (verified across the did_v1 document
@@ -37,6 +37,6 @@ a targeted, corpus-specific NDI-layer pass at that time.
 
 ## Engine
 
-Routed by `did2.convert.v1_to_v2` under `TargetVersion='V_epsilon'` to
+Routed by `did2.convert.v1_to_v2` under `TargetVersion='V_zeta'` to
 `+did2/+convert/+migrators_e/subject_group.m`. A 1 → 1 fold; the default
-`V_delta` target is unaffected (it keeps `subject_group` as-is).
+`V_zeta` target is unaffected (it keeps `subject_group` as-is).

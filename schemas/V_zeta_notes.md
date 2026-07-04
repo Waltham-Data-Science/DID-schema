@@ -47,7 +47,10 @@ the five deprecated classes carry over from V_epsilon (design-neutral for I).
   transform (above) was applied.
 - **202 document classes**: 156 `stable`, 40 `draft`, 6 `deprecated`, + 3 meta.
   `index.json` `set_version`/`schema_version_value` = `"V_zeta"`; `based_on` =
-  `"V_delta"`; `legacy_schema_version_values` = `["did_v1", "V_delta"]`.
+  `"V_delta"` (the format/content ancestor V_zeta's files were copied from);
+  `legacy_schema_version_values` = `["did_v1"]` — did_v1 is the only production
+  document version, so it is the sole migration source (V_alpha..V_epsilon never
+  shipped).
 - 23 Brainstorm-E classes removed (the property-named observation leaves,
   `categorical_concept`, `subject_statement`); 13 shape-typed scalar observation
   leaves authored; `categorical_observation` made concrete; `time_reference`
@@ -108,12 +111,18 @@ revisitable while V_zeta is a sandbox:
   fields; the registry meta-file + `value_set` class are not added.
 - **`dataSeriesType` registry** (a `probetype2object`-style type→template) and
   per-element channel-identity materialization — registry/tooling artifacts.
-- **Conversion docs.** The `conversions/` tree carries over from V_epsilon
-  (treatment split, `virus_injection`/`treatment_drug` → `injection`,
-  `treatment_transfer` → `biological_transfer`, `subject_group` folds). A
-  `from_v_epsilon/` (or `from_v_delta/`) path documenting the E→I observation-tier
-  remap (property leaf → shape leaf + `variable`; `measured_property` → `variable`;
-  `sample_time` → `sampling`) should be added.
+- **Conversion docs.** The only production document version is **`did_v1`** (our
+  first version); V_alpha..V_epsilon were sandbox iterations that never shipped,
+  so there is nothing to migrate *from* them — `conversions/from_did_v1/` is the
+  sole conversion tree. It has been **retargeted from V_epsilon (Brainstorm E) to
+  V_zeta (Brainstorm I)**: the `treatment` split and the `ontology_table_row`
+  1→N split now target the shape-typed observation tier + the `(method, variable)`
+  spine (property leaf → shape leaf + `variable`; the retired `measured_property`/
+  `applied_property` → spine `variable`; `sample_time` → the shaped `time_reference`),
+  and the four folds (`treatment_drug`/`virus_injection` → `injection`,
+  `treatment_transfer` → `biological_transfer`, `subject_group` → `subject(is_group)`)
+  target the V_zeta classes. Remaining: finalize each corpus's per-term dispatch in
+  discovery mode; the migrator itself lands in DID-matlab.
 - **NDI-matlab / DID-matlab consumer tooling** — resolve V_zeta via `index.json`;
   emit the shaped `time_reference`; write the record/array channel model +
   `dataseries_channel_map`; the E→I observation migrator.

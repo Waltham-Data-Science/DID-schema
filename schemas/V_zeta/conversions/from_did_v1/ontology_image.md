@@ -1,10 +1,10 @@
-# Conversion: did_v1 → V_delta — `ontology_image`
+# Conversion: did_v1 → V_zeta — `ontology_image`
 
 ## Identity
 
-- **V_delta `class_name`:** `ontology_image`
-- **V_delta tier:** `stable`
-- **V_delta schema path:** `schemas/V_delta/stable/ontology_image.json`
+- **V_zeta `class_name`:** `ontology_image`
+- **V_zeta tier:** `stable`
+- **V_zeta schema path:** `schemas/V_zeta/stable/ontology_image.json`
 - **did_v1 source:** legacy NDI/DID `ontologyImage` document type
   (`_classname: "ontologyImage"` — camelCase). Schema-shape ancestor in
   this repository is `schemas/V_alpha/ontologyImage.json`;
@@ -18,7 +18,7 @@
 `ontology_image` carries a labelled image of an anatomical or
 functional region (e.g., a brain-atlas slice for a given Allen CCF
 region). did_v1 stored the ontology identity as a pair of `char` fields
-(`ontology_name` + `ontology_region`); V_delta collapses them into a
+(`ontology_name` + `ontology_region`); V_zeta collapses them into a
 single `region` field of `ontology_term` composite type. The image
 file reference (`ontology_image_file`) is unchanged.
 
@@ -30,7 +30,7 @@ classname `ontologyImage` → `ontology_image`, ontology-annotation
 reshape, superclass-reference reshape, class-scoped property block
 keyed by `ontology_image`).
 
-| did_v1 field | V_delta field | Transformation | Notes |
+| did_v1 field | V_zeta field | Transformation | Notes |
 |---|---|---|---|
 | `ontologyImage.ontology_name` (char) | `ontology_image.region.node` | composed into `ontology_term` | CURIE (e.g., `allen_ccf_v3:12345`). See "Transformations in detail". |
 | `ontologyImage.ontology_region` (char) | `ontology_image.region.name` | composed into `ontology_term` | Human-readable label snapshot. |
@@ -43,7 +43,7 @@ keyed by `ontology_image`).
 - **Collapse two coordinated chars into one `ontology_term`.** Same
   pattern as `probe_location` and `treatment`. did_v1's `ontology_name`
   (the ontology CURIE-or-name) and `ontology_region` (the
-  human-readable region label) merge into V_delta's `region`
+  human-readable region label) merge into V_zeta's `region`
   composite:
 
       region = {
@@ -51,7 +51,7 @@ keyed by `ontology_image`).
           "name": <did_v1 ontologyImage.ontology_region>
       }
 
-  V_delta's schema declares this field `mustBeNonEmpty: true`. Migrated
+  V_zeta's schema declares this field `mustBeNonEmpty: true`. Migrated
   documents that have empty inputs for either part fail validation
   until the missing value is supplied — see "Open questions".
 
@@ -60,7 +60,7 @@ keyed by `ontology_image`).
   migrator rewrites `document_class.class_name` and the property-block
   key.
 
-- **Document-instance shape.** V_delta uses class-scoped property
+- **Document-instance shape.** V_zeta uses class-scoped property
   blocks; the `region` value lives at `ontology_image.region`.
 
 - **File reference.** The schema-level `_file` array (V_alpha) is
@@ -71,7 +71,7 @@ keyed by `ontology_image`).
 
 ## Default values for new fields
 
-V_delta introduces no required field on this class beyond what did_v1
+V_zeta introduces no required field on this class beyond what did_v1
 documents already supply, modulo the `mustBeNonEmpty: true` tightening
 on `region` (which is a stricter validation of an existing input, not
 a new field).
@@ -105,7 +105,7 @@ a new field).
 }
 ```
 
-### After (V_delta)
+### After (V_zeta)
 
 ```json
 {
@@ -138,7 +138,7 @@ a new field).
 
 `ontology_image` carries one file slot, `ontology_image_file`, declared
 at the schema level. The slot's name and semantics are unchanged
-between did_v1 and V_delta; only the underscore-prefix stripping
+between did_v1 and V_zeta; only the underscore-prefix stripping
 applies to the surrounding structural keys. The per-document file
 reference itself follows the generic rules in
 [`_files.md`](_files.md). No `ontology_image`-specific file-handling
@@ -146,10 +146,10 @@ rules apply.
 
 ## Open questions
 
-- **TODO-domain:** the V_delta schema requires `region` to be
+- **TODO-domain:** the V_zeta schema requires `region` to be
   non-empty. did_v1 made `ontology_region` optional (`_mustBeNonEmpty:
   false`). Migrated documents that lack a region label cannot satisfy
-  the V_delta constraint as written. Options: (a) tighten by demoting
+  the V_zeta constraint as written. Options: (a) tighten by demoting
   to `mustBeNonEmpty: false` to preserve migration completeness; (b)
   populate `region.name` from a fallback (e.g., the resolved
   CURIE-registry label for `region.node`) and emit a warning; (c)
@@ -165,8 +165,8 @@ rules apply.
 ## Cross-references
 
 - General file-handling rules: [`_files.md`](_files.md)
-- Universal did_v1 → V_delta renames: [`_universal_renames.md`](_universal_renames.md)
-- V_delta schema file: [`schemas/V_delta/stable/ontology_image.json`](../../stable/ontology_image.json)
+- Universal did_v1 → V_zeta renames: [`_universal_renames.md`](_universal_renames.md)
+- V_zeta schema file: [`schemas/V_zeta/stable/ontology_image.json`](../../stable/ontology_image.json)
 - Sibling ontology-annotation type: [`ontology_label.md`](ontology_label.md)
 - Same two-char-to-`ontology_term` pattern:
   [`probe_location.md`](probe_location.md),

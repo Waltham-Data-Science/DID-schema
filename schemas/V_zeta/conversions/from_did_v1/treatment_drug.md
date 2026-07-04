@@ -1,13 +1,13 @@
-# `treatment_drug` → `injection` (`kind: "drug"`)  [Brainstorm E]
+# `treatment_drug` → `injection` (`kind: "drug"`)  [Brainstorm I]
 
 Status: **drafted**
 
-`treatment_drug` is **deprecated** in V_epsilon and folds into `injection`
+`treatment_drug` is **deprecated** in V_zeta and folds into `injection`
 (a `pharmacological_manipulation`).
 
 ## Mapping (per document, 1 → 2)
 
-| did_v1 `treatment_drug` | V_epsilon | Transformation |
+| did_v1 `treatment_drug` | V_zeta | Transformation |
 |---|---|---|
 | (class) `treatment_drug` | (class) `injection`, `injection.kind = "drug"` | class fold |
 | `mixture_table` (CSV) | `pharmacological_manipulation.mixture[]` (`{chemical, amount}`) | best-effort CSV parse; ≥1 record (blank if unparseable) |
@@ -24,6 +24,6 @@ are emitted as blank composites (curator-fillable). Branch/field mapping is
 a **heuristic seed**, finalised in discovery mode.
 
 ## Engine
-Routed by `did2.convert.v1_to_v2` under `TargetVersion='V_epsilon'` to
-`+did2/+convert/+migrators_e/treatment_drug.m`. Default `V_delta` target is
+Routed by `did2.convert.v1_to_v2` under `TargetVersion='V_zeta'` to
+`+did2/+convert/+migrators_e/treatment_drug.m`. Default `V_zeta` target is
 unaffected.

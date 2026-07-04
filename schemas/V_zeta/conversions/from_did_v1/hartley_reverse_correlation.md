@@ -1,10 +1,10 @@
-# Conversion: did_v1 → V_delta — `hartley_reverse_correlation`
+# Conversion: did_v1 → V_zeta — `hartley_reverse_correlation`
 
 ## Identity
 
-- **V_delta `class_name`:** `hartley_reverse_correlation`
-- **V_delta tier:** `stable`
-- **V_delta schema path:** `schemas/V_delta/stable/hartley_reverse_correlation.json`
+- **V_zeta `class_name`:** `hartley_reverse_correlation`
+- **V_zeta tier:** `stable`
+- **V_zeta schema path:** `schemas/V_zeta/stable/hartley_reverse_correlation.json`
 - **did_v1 source:** `VH-Lab/NDIcalc-vis-matlab` —
   `ndi_common/schema_documents/neuro/hartley_reverse_correlation_schema.json`
   plus
@@ -21,7 +21,7 @@ compute the kernel.
 
 ## Field mapping
 
-| did_v1 location | V_delta location | Transformation |
+| did_v1 location | V_zeta location | Transformation |
 |---|---|---|
 | `class_name: "hartley_reverse_correlation"` | same | identity |
 | `superclasses: [base, reverse_correlation]` | same | identity |
@@ -30,7 +30,7 @@ compute the kernel.
 | `hartley_reverse_correlation.reconstruction_properties.{T_coords,X_coords,Y_coords}` | `reconstruction_properties.{t_coords,x_coords,y_coords}` | snake-case rename; `matrix<double>` |
 | `hartley_reverse_correlation.spiketimes` | same | `matrix<double>` |
 | `hartley_reverse_correlation.frameTimes` | `hartley_reverse_correlation.frame_times` | snake-case rename; `matrix<double>` |
-| `hartley_reverse_correlation.hartley_numbers` | same | `matrix<double>` (integer-valued; integer subtype not introduced for V_delta) |
+| `hartley_reverse_correlation.hartley_numbers` | same | `matrix<double>` (integer-valued; integer subtype not introduced for V_zeta) |
 
 ## Transformations in detail
 
@@ -43,13 +43,13 @@ compute the kernel.
 
 The did_v1 template carries non-empty defaults for several
 `stimulus_properties` fields (e.g., `L_max: 20`, `fps: 10`, `rect: [0, 0,
-800, 600]`). V_delta preserves those as the `default_value` of each
+800, 600]`). V_zeta preserves those as the `default_value` of each
 field.
 
 ## Worked example
 
 - **Before (did_v1):** [`NDIcalc-vis-matlab/ndi_common/database_documents/neuro/hartley_reverse_correlation.json`](https://github.com/VH-Lab/NDIcalc-vis-matlab/blob/main/ndi_common/database_documents/neuro/hartley_reverse_correlation.json)
-- **After (V_delta):** to be added under `schemas/V_delta/examples/`.
+- **After (V_zeta):** to be added under `schemas/V_zeta/examples/`.
 
 ## File handling
 

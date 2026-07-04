@@ -1,10 +1,10 @@
-# Conversion: did_v1 → V_delta — `speed_tuning`
+# Conversion: did_v1 → V_zeta — `speed_tuning`
 
 ## Identity
 
-- **V_delta `class_name`:** `speed_tuning`
-- **V_delta tier:** `stable`
-- **V_delta schema path:** `schemas/V_delta/stable/speed_tuning.json`
+- **V_zeta `class_name`:** `speed_tuning`
+- **V_zeta tier:** `stable`
+- **V_zeta schema path:** `schemas/V_zeta/stable/speed_tuning.json`
 - **did_v1 source:** `VH-Lab/NDIcalc-vis-matlab` —
   `ndi_common/schema_documents/vision/speed_tuning_schema.json` plus
   the paired template
@@ -19,12 +19,12 @@ calculators (e.g., `speed_tuning_calc`) inherit from this class.
 
 Conversion is primarily a structural reshaping: did_v1 declares each
 top-level grouping as an unconstrained `type: "structure"`, so all
-field-level typing in V_delta is recovered from the paired db_doc
+field-level typing in V_zeta is recovered from the paired db_doc
 template.
 
 ## Field mapping
 
-| did_v1 location | V_delta location | Transformation |
+| did_v1 location | V_zeta location | Transformation |
 |---|---|---|
 | `speed_tuning.properties.{response_units,response_type}` | same | `char` types (response_units per user decision) |
 | `speed_tuning.tuning_curve.{spatial_frequency,temporal_frequency}` | same | scalar placeholder → `matrix<double>` (1xN sampled values) |
@@ -45,7 +45,7 @@ template.
   `Priebe_fit_speed_tuning_index` as a 1-element array `[0]` in all three
   fit blocks. The user-supplied documentation describes it as a singular
   index ("Provides an index of the relationship between preferred speed
-  and spatial frequency"), so V_delta declares it as scalar `double` /
+  and spatial frequency"), so V_zeta declares it as scalar `double` /
   `mustBeScalar: true`. Migration tools must extract `arr[0]` and verify
   the array has exactly one element. This is the same unwrap convention
   applied to the scalar `[0]` placeholders in `contrast_tuning` and
@@ -54,10 +54,10 @@ template.
   (`fit`, `fit_no_speed`, `fit_fullspeed`) with overlapping field sets.
   `fit_no_speed` and `fit_fullspeed` add `partial_r2` and
   `priebe_fit_nested_f_test_p_value` for the nested F-test comparison;
-  `fit` does not. V_delta preserves all three blocks and the
+  `fit` does not. V_zeta preserves all three blocks and the
   field-membership difference between them.
 - **Trial-axis convention.** For the per-trial matrices (`individual`,
-  `raw_individual`, `control_individual`) V_delta documents the
+  `raw_individual`, `control_individual`) V_zeta documents the
   row-vs-column convention explicitly: rows index sampled (SF, TF) points,
   columns index trials.
 
@@ -65,13 +65,13 @@ template.
 
 None added by this PR. The global `schema_version` tag lives at
 `document_class.schema_version` (see `_universal_renames.md` § 10) and
-is set to `"V_delta"` by the dispatcher rather than the per-class
+is set to `"V_zeta"` by the dispatcher rather than the per-class
 migrator.
 
 ## Worked example
 
 - **Before (did_v1):** [`NDIcalc-vis-matlab/ndi_common/database_documents/vision/speed_tuning.json`](https://github.com/VH-Lab/NDIcalc-vis-matlab/blob/main/ndi_common/database_documents/vision/speed_tuning.json)
-- **After (V_delta):** to be added under `schemas/V_delta/examples/`.
+- **After (V_zeta):** to be added under `schemas/V_zeta/examples/`.
 
 ## File handling
 

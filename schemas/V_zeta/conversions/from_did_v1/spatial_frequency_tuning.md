@@ -1,10 +1,10 @@
-# Conversion: did_v1 → V_delta — `spatial_frequency_tuning`
+# Conversion: did_v1 → V_zeta — `spatial_frequency_tuning`
 
 ## Identity
 
-- **V_delta `class_name`:** `spatial_frequency_tuning`
-- **V_delta tier:** `stable`
-- **V_delta schema path:** `schemas/V_delta/stable/spatial_frequency_tuning.json`
+- **V_zeta `class_name`:** `spatial_frequency_tuning`
+- **V_zeta tier:** `stable`
+- **V_zeta schema path:** `schemas/V_zeta/stable/spatial_frequency_tuning.json`
 - **did_v1 source:** `VH-Lab/NDIcalc-vis-matlab` —
   `ndi_common/schema_documents/vision/spatial_frequency_tuning_schema.json` plus
   the paired template
@@ -20,12 +20,12 @@ from this class.
 
 Conversion is primarily a structural reshaping: did_v1 declares each
 top-level grouping as an unconstrained `type: "structure"`, so all
-field-level typing in V_delta is recovered from the paired db_doc
+field-level typing in V_zeta is recovered from the paired db_doc
 template.
 
 ## Field mapping
 
-| did_v1 location | V_delta location | Transformation |
+| did_v1 location | V_zeta location | Transformation |
 |---|---|---|
 | `spatial_frequency_tuning.properties.{response_units,response_type}` | same | `char` types (response_units per user decision) |
 | `spatial_frequency_tuning.tuning_curve.spatial_frequency` | same | scalar placeholder → `matrix<double>` |
@@ -57,7 +57,7 @@ template.
   corrected.
 - **Mixed scalar/array fields in did_v1 are normalized.** For example,
   `fit_movshon.values` is declared as scalar `0` while `fit_dog.values`
-  is `[0]`; V_delta unifies these as `matrix<double>` per user direction
+  is `[0]`; V_zeta unifies these as `matrix<double>` per user direction
   ("double arrays for this").
 - **Per-fit parameter vectors are documented.** Each fit block's
   `parameters` documentation now records the canonical parameter layout
@@ -70,20 +70,20 @@ template.
   value range; `bandwidth` documents the `log2(h50 / l50)` definition
   and the Inf propagation.
 - **`abs` block** is a documented mirror of all preceding blocks,
-  recomputed on absolute-valued responses. Empty in did_v1; V_delta
+  recomputed on absolute-valued responses. Empty in did_v1; V_zeta
   retains it as an empty structure pending domain confirmation.
 
 ## Default values for new fields
 
 None added by this PR. The global `schema_version` tag lives at
 `document_class.schema_version` (see `_universal_renames.md` § 10) and
-is set to `"V_delta"` by the dispatcher rather than the per-class
+is set to `"V_zeta"` by the dispatcher rather than the per-class
 migrator.
 
 ## Worked example
 
 - **Before (did_v1):** [`NDIcalc-vis-matlab/ndi_common/database_documents/vision/spatial_frequency_tuning.json`](https://github.com/VH-Lab/NDIcalc-vis-matlab/blob/main/ndi_common/database_documents/vision/spatial_frequency_tuning.json)
-- **After (V_delta):** to be added under `schemas/V_delta/examples/`.
+- **After (V_zeta):** to be added under `schemas/V_zeta/examples/`.
 
 ## File handling
 
