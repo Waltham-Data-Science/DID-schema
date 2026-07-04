@@ -44,7 +44,7 @@ field-level changes on top.
 | `hartley_reverse_correlation` | NDIcalc-vis-matlab `neuro/hartley_reverse_correlation` | drafted | [hartley_reverse_correlation.md](hartley_reverse_correlation.md) |
 | `hartley_calc` | NDIcalc-vis-matlab `calc/hartley_calc` | drafted | [hartley_calc.md](hartley_calc.md) |
 | `probe_location` | legacy NDI/DID `probe_location` (V_alpha shape) | drafted | [probe_location.md](probe_location.md) |
-| `treatment` → manipulation tiers (Brainstorm I **split**) | legacy `treatment` → `injection`/`bath`/`procedural_manipulation`/`temperature_manipulation`/`environmental_manipulation` (+ out-of-tier) | drafted | [treatment.md](treatment.md) |
+| `treatment` → manipulation tiers (Brainstorm I **split**) | legacy `treatment` → `injection`/`bath`/`temperature_manipulation` (typed) / `generic_manipulation` (procedures & regimes) (+ out-of-tier) | drafted | [treatment.md](treatment.md) |
 | `ontology_table_row` → observation tiers (Brainstorm I **split**, 1→N) | legacy `ontology_table_row` → shape-typed scalar/categorical observation classes (+ out-of-tier) | drafted | [ontology_table_row.md](ontology_table_row.md) |
 | `subject_group` → `subject` (`is_group`) (Brainstorm I **fold**) | legacy `subject_group` → `subject` flagged `is_group` (+ `group_assignment` in NDI layer) | drafted | [subject_group.md](subject_group.md) |
 | `treatment_drug` → `injection` (`kind: drug`) (Brainstorm I **fold**) | legacy `treatment_drug` → `injection` (mixture from `mixture_table`) | drafted | [treatment_drug.md](treatment_drug.md) |

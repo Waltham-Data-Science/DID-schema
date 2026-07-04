@@ -170,17 +170,36 @@ class; the property is the `variable` term.
   channel-model decision. `expression_observation` / `spatial_expression_observation`
   (omics endpoints) carry over.
 
-### 5. Manipulation, annotation, and event classes (carried, retargeted)
+### 5. Manipulation tier — classes earn their place by STRUCTURE
 
-The manipulation families are already action/shape-named in H/I and carry over
-unchanged except that the spine-owned `target_structure` field is stripped from
-those that declared it (it is now inherited): `scalar_manipulation` →
-`temperature_manipulation` / `pressure_manipulation` / `frequency_manipulation`
-/ `generic_scalar_manipulation`; `procedural_manipulation` → `biological_transfer`;
-`environmental_manipulation`; `pharmacological_manipulation` → `injection` /
-`bath` (+ `stimulus_bath`); `stimulus_manipulation`. Event-sourced relations
-`placement`, `derivation`, `group_assignment`, and the standalone
-`interaction_purpose` / `instrument` / re-scoped `stimulus_approach` carry over.
+Symmetric with the observation tier: a manipulation is a class only when it adds
+**structure** (a typed value, a dependency, or an invariant), never for identity
+alone — the identity is the spine `variable` term. The abstract `manipulation`
+direction class hosts a shared `notes` prose field; concrete leaves:
+
+- `scalar_manipulation` (abstract) → `temperature_manipulation` /
+  `pressure_manipulation` / `frequency_manipulation` /
+  `generic_scalar_manipulation` — impose a **typed value**.
+- `pharmacological_manipulation` (abstract) → `injection` / `bath`
+  (+ `stimulus_bath`) — carry a `mixture` + delivery structure.
+- `biological_transfer` — earns its class via the `donor_id` **dependency**
+  (re-parented directly onto `manipulation`).
+- `stimulus_manipulation` — a `stimulus_presentation_id` dependency.
+- `generic_manipulation` (concrete) — the escape-hatch leaf for payload-free
+  acts: surgical/physical procedures, environmental/husbandry regimes,
+  behavioral training. No typed value, no extra structure; the specific act is
+  the spine `variable`, its ontology branch (OBI/NCIT procedure vs husbandry)
+  carrying the coarse kind. This is the manipulation-side analog of
+  `generic_scalar_observation`.
+
+**`procedural_manipulation` and `environmental_manipulation` do NOT exist** —
+they were pure-identity classes (only an ontology `procedure`/`factor` + `notes`,
+no distinct structure), which the framework forbids; they fold into
+`generic_manipulation` with the act named by `variable`. The spine-owned
+`target_structure` is stripped from every family that declared it (now
+inherited). Event-sourced relations `placement`, `derivation`,
+`group_assignment` (← `annotation`), and the standalone `interaction_purpose` /
+`instrument` / re-scoped `stimulus_approach` carry over.
 
 ### 6. Preserved infrastructure
 

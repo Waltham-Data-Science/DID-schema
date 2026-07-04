@@ -143,6 +143,24 @@ def test_no_brainstorm_e_property_leaves():
         assert gone not in RECORDS, f"{gone} should not exist in V_zeta"
 
 
+def test_no_pure_identity_manipulation_classes():
+    """A manipulation is a class only when it adds STRUCTURE; the pure-identity
+    procedural_/environmental_manipulation classes fold into generic_manipulation."""
+    for gone in ["procedural_manipulation", "environmental_manipulation"]:
+        assert gone not in RECORDS, f"{gone} is pure-identity; must not exist"
+    # the payload-free escape hatch exists and is a concrete manipulation leaf
+    assert "generic_manipulation" in RECORDS
+    assert "manipulation" in _chain("generic_manipulation")
+    assert RECORDS["generic_manipulation"][1]["document_class"].get("abstract") is not True
+    # biological_transfer earns its class via donor_id and re-parents onto manipulation
+    assert RECORDS["biological_transfer"][1]["document_class"]["superclasses"] == \
+        [{"class_name": "manipulation"}]
+    assert "donor_id" in _flat_dep_names("biological_transfer")
+    # shared prose lives on the abstract manipulation base (inherited by all leaves)
+    assert _flat_field_types("generic_manipulation").get("notes") == "char"
+    assert _flat_field_types("injection").get("notes") == "char"
+
+
 def test_sample_time_retired():
     """Series timing lives in the shaped time_reference, not a sample_time array."""
     for name in ["scalar_observation", "scalar_manipulation"]:

@@ -108,10 +108,10 @@
         {
             "class_name": "biological_transfer",
             "tier": "stable",
-            "class_version": "1.0.0",
+            "class_version": "2.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                "procedural_manipulation"
+                "manipulation"
             ],
             "path": "schemas/V_zeta/stable/biological_transfer.json",
             "is_meta": false
@@ -428,17 +428,6 @@
             "is_meta": false
         },
         {
-            "class_name": "environmental_manipulation",
-            "tier": "stable",
-            "class_version": "1.0.0",
-            "maturity_level": "stable",
-            "superclasses": [
-                "manipulation"
-            ],
-            "path": "schemas/V_zeta/stable/environmental_manipulation.json",
-            "is_meta": false
-        },
-        {
             "class_name": "ephys_zarr",
             "tier": "stable",
             "class_version": "1.0.0",
@@ -752,6 +741,17 @@
             "is_meta": false
         },
         {
+            "class_name": "generic_manipulation",
+            "tier": "stable",
+            "class_version": "1.0.0",
+            "maturity_level": "stable",
+            "superclasses": [
+                "manipulation"
+            ],
+            "path": "schemas/V_zeta/stable/generic_manipulation.json",
+            "is_meta": false
+        },
+        {
             "class_name": "generic_scalar",
             "tier": "stable",
             "class_version": "1.0.0",
@@ -950,7 +950,7 @@
         {
             "class_name": "manipulation",
             "tier": "stable",
-            "class_version": "1.0.0",
+            "class_version": "2.0.0",
             "maturity_level": "stable",
             "superclasses": [
                 "subject_interaction"
@@ -1211,17 +1211,6 @@
                 "base"
             ],
             "path": "schemas/V_zeta/stable/probe_location.json",
-            "is_meta": false
-        },
-        {
-            "class_name": "procedural_manipulation",
-            "tier": "stable",
-            "class_version": "1.0.0",
-            "maturity_level": "stable",
-            "superclasses": [
-                "manipulation"
-            ],
-            "path": "schemas/V_zeta/stable/procedural_manipulation.json",
             "is_meta": false
         },
         {
@@ -1499,7 +1488,7 @@
         {
             "class_name": "scalar_manipulation",
             "tier": "stable",
-            "class_version": "2.0.0",
+            "class_version": "3.0.0",
             "maturity_level": "stable",
             "superclasses": [
                 "manipulation"

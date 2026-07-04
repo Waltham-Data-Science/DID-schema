@@ -11,7 +11,7 @@
 
 ## Summary
 
-A `treatment` row carries an ontology identity + an optional number + optional prose. Brainstorm I reads that identity and dispatches the row to the manipulation family whose **action** it names — substance delivery → `injection`/`bath`; physical operation on the body → `procedural_manipulation`; imposed typed quantity → a `scalar_manipulation` (e.g. `temperature_manipulation`); changed condition/regime → `environmental_manipulation`. In the I model the identity itself lands on the **spine** `variable` term (the queryable "what"), the verb on the spine `method`; focal-vs-ambient structure is the spine `target_structure`; and the value/agent is the family's typed data. Rows that are not manipulations at all (date of birth, experiment time) are routed out of the manipulation tier.
+A `treatment` row carries an ontology identity + an optional number + optional prose. Brainstorm I reads that identity and dispatches the row by the **structure** its data needs — substance delivery → `injection`/`bath`; imposed typed quantity → a `scalar_manipulation` (e.g. `temperature_manipulation`); a payload-free physical procedure or an environmental/husbandry regime → **`generic_manipulation`** (no structural class of its own — a procedure and a regime differ only in identity, which the framework keeps off the class). In the I model the identity always lands on the **spine** `variable` term (the queryable "what"), the verb on the spine `method`; focal-vs-ambient structure is the spine `target_structure`; and the value/agent is the family's typed data. Rows that are not manipulations at all (date of birth, experiment time) are routed out of the manipulation tier.
 
 ## Dispatch table (on `treatment.ontologyName` branch)
 
@@ -21,10 +21,10 @@ First match wins; resolved against the term's ontology branch, not a string matc
 |---|---|---|
 | Drug / vehicle / virus / tracer / contrast **delivered by injection** (CHEBI drug branch; OBI injection) | **`injection`** (← `pharmacological_manipulation`) | identity → spine `variable`; agent → `mixture`; `numeric_value` (if volume) → `volume`; route/coords → curator backfill; `kind` ∈ {drug,virus,tracer,vehicle,contrast} |
 | Substance applied **as a bath** | **`bath`** / **`stimulus_bath`** | identity → spine `variable`; agent → `mixture`; `location` from prose/backfill |
-| Surgical / minor physical **operation on the body** (OBI/NCIT procedure branch — craniotomy, implant, lesion, eye-opening, ear-notch, perfusion) | **`procedural_manipulation`** | identity → spine `variable` (mirrored in the family `procedure` slot); structure → spine `target_structure`; prose → `notes` |
+| Surgical / minor physical **operation on the body** (OBI/NCIT procedure branch — craniotomy, implant, lesion, eye-opening, ear-notch, perfusion) | **`generic_manipulation`** | identity → spine `variable`; structure → spine `target_structure`; prose → inherited `notes` |
 | **Heating / cooling** (thermal) | **`temperature_manipulation`** (← `scalar_manipulation`, `scalar_temperature`) | identity → spine `variable`; verb → spine `method`; thermal `numeric_value` → `value` (typed temperature array); focal site → spine `target_structure` (empty ⇒ ambient) |
 | Other **imposed typed quantity** (applied pressure/force, field, frequency) | matching `scalar_manipulation` subclass (`pressure_manipulation`, …) or `generic_scalar_manipulation` | identity → spine `variable`; `numeric_value` → `value` |
-| **Environmental / husbandry / behavioral regime** with no typed value (dark rearing, deprivation regime, social isolation, enrichment, light cycle, diet/water restriction, training) | **`environmental_manipulation`** | identity → spine `variable` (mirrored in the family `factor` slot); structure (lateralized) → spine `target_structure`; prose → `notes`; duration → bounded `time_reference` |
+| **Environmental / husbandry / behavioral regime** with no typed value (dark rearing, deprivation regime, social isolation, enrichment, light cycle, diet/water restriction, training) | **`generic_manipulation`** | identity → spine `variable`; structure (lateralized) → spine `target_structure`; prose → inherited `notes`; duration → bounded `time_reference` |
 | **Not a manipulation** (`Treatment: Date of birth`, `Treatment: Non-survival experiment time`, …) | **out of tier** → `scalar_duration_observation`/`categorical_observation` (DOB/age) or session metadata/annotation | per [`ontology_table_row.md`](ontology_table_row.md) routing |
 | Empty / unresolvable `ontologyName` | **curator review queue** (default routing **off**) | flagged, never silently forced into a residual family |
 
@@ -37,7 +37,7 @@ First match wins; resolved against the term's ontology branch, not a string matc
 
 | did_v1 field | V_zeta destination | Transformation |
 |---|---|---|
-| `treatment.ontologyName` + `treatment.name` | spine **`variable`** (the queryable identity), + the family's structured slot where one exists (`procedure` for procedural, `factor` for environmental, `mixture` agent for injection/bath) | collapse the two chars into one `ontology_term` (same merge rule as `probe_location`), place on `variable`, and mirror into the family slot per the dispatch table |
+| `treatment.ontologyName` + `treatment.name` | spine **`variable`** (the queryable identity); the `mixture` agent for injection/bath | collapse the two chars into one `ontology_term` (same merge rule as `probe_location`) and place on `variable`; for injection/bath the agent term also seeds `mixture` |
 | — (the verb) | spine **`method`** | the action verb (apply, inject, heat, lesion); optional, defaulted from the family |
 | `treatment.numeric_value` | typed `value` **or** companion observation **or** flagged | per dispatch; thermal/pressure/etc. → typed `value` (an array); measured quantity → companion; else flag |
 | `treatment.string_value` | `notes` (prose) **or** spine `target_structure` (Dab case) | default prose → `notes`; CURIE/Target-Location → `target_structure` |
@@ -103,7 +103,7 @@ First match wins; resolved against the term's ontology branch, not a string matc
 - **Per-term branch list.** The dispatch table is branch-level; the concrete `ontologyName` → destination mapping per corpus is finalized in **discovery mode** (run the corpus through the converter, read the quarantine/review report, extend the branch list). Report-only before any rewrite.
 - **`time_reference` synthesis fidelity.** What session/epoch anchor each corpus exposes; bounded vs point default per family.
 - **`protocol_id` carryover.** Dropped now; belongs to the tier-level commonality decision (#8 Option C / #10).
-- **Family identity slots.** `procedure` / `factor` currently mirror the spine `variable` on the procedural/environmental families; whether to keep them as structured detail or drop them in favour of `variable` alone is an open V_zeta schema question (identity is off-class in Brainstorm I).
+- **`generic_manipulation` coarse kind.** Procedures and environmental regimes both land in `generic_manipulation`, distinguished only by the `variable` ontology branch. Whether a coarse queryable `kind` facet (procedure vs regime vs husbandry) is worth adding — vs. relying on `variable`'s branch — is open; the default is to rely on the branch (no facet).
 
 ## Cross-references
 

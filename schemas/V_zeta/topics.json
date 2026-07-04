@@ -12,7 +12,8 @@
                 "CURIE_lookups_meta",
                 "did_schema_meta",
                 "ndi_reserved_keys"
-            ]
+            ],
+            "topics": []
         },
         {
             "name": "annotations",
@@ -20,7 +21,8 @@
             "classes": [
                 "group_assignment",
                 "interaction_purpose"
-            ]
+            ],
+            "topics": []
         },
         {
             "name": "apps",
@@ -50,7 +52,8 @@
                         "vmspikesummary"
                     ]
                 }
-            ]
+            ],
+            "topics": []
         },
         {
             "name": "calculators",
@@ -67,7 +70,8 @@
                 "temporal_frequency_tuning_calc",
                 "tuning_fit",
                 "tuningcurve_calc"
-            ]
+            ],
+            "topics": []
         },
         {
             "name": "daq",
@@ -88,7 +92,8 @@
                 "syncgraph",
                 "syncrule",
                 "syncrule_mapping"
-            ]
+            ],
+            "topics": []
         },
         {
             "name": "data",
@@ -111,49 +116,52 @@
                 "ngrid",
                 "ontology_table_row",
                 "position_metadata",
+                "valid_interval",
                 "zarr"
-            ]
+            ],
+            "topics": []
         },
         {
             "name": "dataseries_bodies",
             "description": "Body-of-record documents carrying dataseries and expression/reference payloads.",
             "classes": [
-                "dataseries_data",
-                "timeseries_data",
-                "imageseries_data",
-                "timeseries_data_csv",
-                "timeseries_data_binary",
-                "timeseries_data_edf",
                 "dataseries_channel_map",
+                "dataseries_data",
                 "dataseries_pyramid",
-                "instrument",
                 "expression_matrix_data",
-                "expression_matrix_data_h5ad",
-                "expression_matrix_data_mtx",
                 "expression_matrix_data_cellranger_h5",
-                "expression_matrix_data_loom",
                 "expression_matrix_data_counts_table",
+                "expression_matrix_data_dia_report",
                 "expression_matrix_data_gef",
                 "expression_matrix_data_gem",
-                "expression_matrix_data_visium",
+                "expression_matrix_data_h5ad",
+                "expression_matrix_data_imzml",
+                "expression_matrix_data_loom",
+                "expression_matrix_data_maxquant",
+                "expression_matrix_data_mtx",
                 "expression_matrix_data_mzml",
                 "expression_matrix_data_mztab",
-                "expression_matrix_data_maxquant",
-                "expression_matrix_data_dia_report",
-                "expression_matrix_data_imzml",
+                "expression_matrix_data_visium",
+                "imageseries_data",
+                "instrument",
+                "reference_annotation_data",
+                "reference_annotation_data_gff3",
+                "reference_annotation_data_gtf",
                 "reference_data",
                 "reference_sequence_data",
                 "reference_sequence_data_fasta_genome",
-                "reference_sequence_data_fasta_transcriptome",
                 "reference_sequence_data_fasta_protein",
-                "reference_annotation_data",
-                "reference_annotation_data_gtf",
-                "reference_annotation_data_gff3",
+                "reference_sequence_data_fasta_transcriptome",
                 "sequence_read_data",
                 "sequence_read_data_bam",
                 "sequence_read_data_cram",
-                "sequence_read_data_fastq"
-            ]
+                "sequence_read_data_fastq",
+                "timeseries_data",
+                "timeseries_data_binary",
+                "timeseries_data_csv",
+                "timeseries_data_edf"
+            ],
+            "topics": []
         },
         {
             "name": "deprecated",
@@ -165,7 +173,8 @@
                 "treatment_drug",
                 "treatment_transfer",
                 "virus_injection"
-            ]
+            ],
+            "topics": []
         },
         {
             "name": "element",
@@ -174,27 +183,28 @@
                 "element",
                 "element_epoch",
                 "neuron_extracellular"
-            ]
+            ],
+            "topics": []
         },
         {
             "name": "manipulations",
             "description": "Manipulation families: scalar, procedural, pharmacological, environmental, stimulus, placement, and derivation events.",
             "classes": [
-                "scalar_manipulation",
-                "temperature_manipulation",
-                "pressure_manipulation",
-                "frequency_manipulation",
-                "generic_scalar_manipulation",
-                "procedural_manipulation",
-                "biological_transfer",
-                "environmental_manipulation",
-                "pharmacological_manipulation",
-                "injection",
                 "bath",
-                "stimulus_manipulation",
+                "biological_transfer",
+                "derivation",
+                "frequency_manipulation",
+                "generic_manipulation",
+                "generic_scalar_manipulation",
+                "injection",
+                "pharmacological_manipulation",
                 "placement",
-                "derivation"
-            ]
+                "pressure_manipulation",
+                "scalar_manipulation",
+                "stimulus_manipulation",
+                "temperature_manipulation"
+            ],
+            "topics": []
         },
         {
             "name": "metadata",
@@ -207,7 +217,8 @@
                 "openminds_element",
                 "openminds_stimulus",
                 "openminds_subject"
-            ]
+            ],
+            "topics": []
         },
         {
             "name": "shape_library",
@@ -246,22 +257,36 @@
                 "scalar_volume_observation",
                 "spatial_expression_observation",
                 "timeseries_observation"
-            ]
+            ],
+            "topics": []
         },
         {
             "name": "observations",
             "description": "Observation families (Brainstorm E): scalar observations named by property, categorical observations named by property, dataseries/image/expression measurements of subjects.",
             "classes": [
-                "observation",
-                "scalar_observation",
-                "generic_scalar_observation",
                 "categorical_observation",
                 "dataseries_observation",
-                "timeseries_observation",
-                "imageseries_observation",
                 "expression_observation",
-                "spatial_expression_observation"
-            ]
+                "generic_scalar_observation",
+                "imageseries_observation",
+                "observation",
+                "scalar_concentration_observation",
+                "scalar_count_observation",
+                "scalar_current_observation",
+                "scalar_duration_observation",
+                "scalar_frequency_observation",
+                "scalar_length_observation",
+                "scalar_mass_observation",
+                "scalar_observation",
+                "scalar_pressure_observation",
+                "scalar_score_observation",
+                "scalar_temperature_observation",
+                "scalar_voltage_observation",
+                "scalar_volume_observation",
+                "spatial_expression_observation",
+                "timeseries_observation"
+            ],
+            "topics": []
         },
         {
             "name": "probe",
@@ -271,7 +296,8 @@
                 "probe_geometry",
                 "probe_location",
                 "site2channelmap"
-            ]
+            ],
+            "topics": []
         },
         {
             "name": "session",
@@ -281,9 +307,10 @@
                 "dataset_session_info",
                 "projectvar",
                 "session",
-                "session_in_a_dataset",
-                "session_extent"
-            ]
+                "session_extent",
+                "session_in_a_dataset"
+            ],
+            "topics": []
         },
         {
             "name": "sorting",
@@ -295,15 +322,25 @@
                 "spike_extraction_parameters",
                 "spike_extraction_parameters_modification",
                 "spike_interface_sorting_outputs",
-                "spikewaves"
-            ]
+                "spikewaves",
+                "vmneuralresponseresiduals",
+                "vmspikefilteringparameters",
+                "vmspikefit",
+                "vmspikesummary"
+            ],
+            "topics": []
         },
         {
             "name": "stimulus",
             "description": "Stimulus descriptions, presentations, and stimulus-locked responses.",
             "classes": [
+                "contrast_tuning",
                 "control_stimulus_ids",
+                "hartley_reverse_correlation",
+                "orientation_direction_tuning",
                 "reverse_correlation",
+                "spatial_frequency_tuning",
+                "speed_tuning",
                 "stimulus_approach",
                 "stimulus_bath",
                 "stimulus_parameter",
@@ -313,7 +350,8 @@
                 "stimulus_response_scalar",
                 "stimulus_response_scalar_parameters",
                 "stimulus_response_scalar_parameters_basic",
-                "stimulus_tuningcurve"
+                "stimulus_tuningcurve",
+                "temporal_frequency_tuning"
             ],
             "children": [
                 {
@@ -328,7 +366,8 @@
                         "temporal_frequency_tuning"
                     ]
                 }
-            ]
+            ],
+            "topics": []
         },
         {
             "name": "subject",
@@ -339,54 +378,41 @@
                 "treatment",
                 "treatment_drug",
                 "virus_injection"
-            ]
+            ],
+            "topics": []
         },
         {
             "name": "subject_statement",
             "description": "Timeless documented claims about a subject (Subject_Statement_Decision): the abstract subject_statement supertype and the concrete subject_assertion (asserted_property + value + source).",
             "classes": [
                 "subject_assertion"
-            ]
+            ],
+            "topics": []
         },
         {
             "name": "subject_interaction",
             "description": "The unified subject_interaction spine and its observation/manipulation/annotation tiers.",
             "classes": [
-                "subject_interaction",
-                "observation",
+                "annotation",
                 "manipulation",
-                "annotation"
-            ]
+                "observation",
+                "subject_interaction"
+            ],
+            "topics": []
         },
         {
             "name": "time_reference",
             "description": "Time reference documents that locate interactions in time.",
             "classes": [
-                "time_reference",
-                "utc_reference",
-                "event_relative_reference",
-                "epoch_relative_reference",
                 "epoch_bounded_reference",
+                "epoch_relative_reference",
                 "event_bounded_reference",
-                "session_relative_reference"
-            ]
-        },
-        {
-            "name": "unfiled_vzeta",
-            "description": "Classes added/renamed in V_zeta not yet hand-placed in the topic tree.",
-            "classes": [
-                "contrast_tuning",
-                "hartley_reverse_correlation",
-                "orientation_direction_tuning",
-                "spatial_frequency_tuning",
-                "speed_tuning",
-                "temporal_frequency_tuning",
-                "valid_interval",
-                "vmneuralresponseresiduals",
-                "vmspikefilteringparameters",
-                "vmspikefit",
-                "vmspikesummary"
-            ]
+                "event_relative_reference",
+                "session_relative_reference",
+                "time_reference",
+                "utc_reference"
+            ],
+            "topics": []
         }
     ]
 }

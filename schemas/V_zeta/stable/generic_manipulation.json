@@ -1,14 +1,13 @@
 {
     "document_class": {
-        "class_name": "scalar_manipulation",
-        "class_version": "3.0.0",
+        "class_name": "generic_manipulation",
+        "class_version": "1.0.0",
         "superclasses": [
             {
                 "class_name": "manipulation"
             }
         ],
-        "maturity_level": "stable",
-        "abstract": true
+        "maturity_level": "stable"
     },
     "depends_on": [],
     "file": [],

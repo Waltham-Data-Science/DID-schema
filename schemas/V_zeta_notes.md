@@ -36,16 +36,26 @@ restorations."* Concretely, versus V_epsilon:
 5. **Dataseries branch** (`dataseries_observation` → `timeseries_` /
    `imageseries_observation`) is retained from the E draft as the observation-tier
    handle for acquired data.
+6. **Manipulation tier by structure, not identity.** The same off-class rule is
+   applied to manipulations: a class exists only when it adds structure (a typed
+   value, a dependency, an invariant). The pure-identity `procedural_manipulation`
+   and `environmental_manipulation` (only an ontology `procedure`/`factor` + prose)
+   are **removed** and fold into a new concrete `generic_manipulation`
+   escape-hatch leaf (the manipulation-side analog of `generic_scalar_observation`);
+   the act is named by the spine `variable`. Shared `notes` prose moves up to the
+   abstract `manipulation` base; `biological_transfer` re-parents onto
+   `manipulation` (it earns its class via the `donor_id` dependency).
 
-The manipulation families, `time_reference` reference frames, dataseries/
-expression bodies, the scalar/categorical shape library, all infrastructure, and
-the five deprecated classes carry over from V_epsilon (design-neutral for I).
+The typed manipulation families (`injection`/`bath`/`scalar_manipulation` tier),
+`time_reference` reference frames, dataseries/expression bodies, the
+scalar/categorical shape library, all infrastructure, and the five deprecated
+classes carry over from V_epsilon (design-neutral for I).
 
 ## Initial state
 
 - V_zeta content began as a verbatim copy of V_epsilon, then the Brainstorm-I
   transform (above) was applied.
-- **202 document classes**: 156 `stable`, 40 `draft`, 6 `deprecated`, + 3 meta.
+- **201 document classes**: 155 `stable`, 40 `draft`, 6 `deprecated`, + 3 meta.
   `index.json` `set_version`/`schema_version_value` = `"V_zeta"`; `based_on` =
   `"V_delta"` (the format/content ancestor V_zeta's files were copied from);
   `legacy_schema_version_values` = `["did_v1"]` — did_v1 is the only production
@@ -59,8 +69,7 @@ the five deprecated classes carry over from V_epsilon (design-neutral for I).
 - Every schema validates against `did_schema_meta.json`; `index.json` agrees
   with disk (tier/maturity/path); every superclass and `must_refer_to_document_class`
   resolves; the spine composes onto every interaction leaf; no
-  `placement:concrete_class` collisions. Enforced by `tests/test_vzeta.py`
-  (411 parametrized cases) and validated by the full suite (515 tests pass).
+  `placement:concrete_class` collisions. Enforced by `tests/test_vzeta.py` and validated by the full suite (515 tests pass).
 
 ## Decisions taken where the source proposals were open
 
