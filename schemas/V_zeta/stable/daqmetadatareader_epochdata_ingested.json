@@ -1,0 +1,25 @@
+{
+    "document_class": {
+        "class_name": "daqmetadatareader_epochdata_ingested",
+        "class_version": "1.0.0",
+        "superclasses": [
+            {
+                "class_name": "base"
+            },
+            {
+                "class_name": "epochid"
+            }
+        ],
+        "maturity_level": "stable"
+    },
+    "depends_on": [
+        {
+            "name": "daqmetadatareader_id",
+            "mustBeNonEmpty": true,
+            "documentation": "The document ID of the DAQ metadata reader whose epoch data has been ingested.",
+            "must_refer_to_document_class": ""
+        }
+    ],
+    "file": [],
+    "fields": []
+}

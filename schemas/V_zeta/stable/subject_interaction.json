@@ -1,0 +1,82 @@
+{
+    "document_class": {
+        "class_name": "subject_interaction",
+        "class_version": "2.0.0",
+        "superclasses": [
+            {
+                "class_name": "base"
+            }
+        ],
+        "maturity_level": "stable",
+        "abstract": true
+    },
+    "depends_on": [
+        {
+            "name": "subject_id",
+            "mustBeNonEmpty": true,
+            "documentation": "The subject this interaction is about \u2014 the whole specimen whose property was measured or that was acted on (objective annotation rule).",
+            "must_refer_to_document_class": "subject"
+        },
+        {
+            "name": "time_reference_#",
+            "mustBeNonEmpty": true,
+            "documentation": "When the interaction happened, as one or more time_reference documents (Brainstorm I \u00a71.2: the reference is SHAPED like the data \u2014 point / grid / enumerated \u2014 so per-sample times are derived, not stored).",
+            "must_refer_to_document_class": "time_reference",
+            "multiple": true
+        }
+    ],
+    "file": [],
+    "fields": [
+        {
+            "name": "method",
+            "type": "ontology_term",
+            "blank_value": {
+                "node": "",
+                "name": ""
+            },
+            "default_value": {
+                "node": "",
+                "name": ""
+            },
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "The verb: what was done (measure, inject, heat, lesion, stimulate). Half of the (method, variable) identity pair (Brainstorm I \u00a71.1, settled). Optional at the schema level because on the observation tier the verb is nearly always 'measurement'; the binding registry is the soft correctness check.",
+            "constraints": {}
+        },
+        {
+            "name": "variable",
+            "type": "ontology_term",
+            "blank_value": {
+                "node": "",
+                "name": ""
+            },
+            "default_value": {
+                "node": "",
+                "name": ""
+            },
+            "mustBeNonEmpty": true,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "The noun: what the interaction is about \u2014 the quantity observed or the entity/factor applied (temperature, body weight, a drug). The queryable fine identity; correctness of variable vs the value's shape is a binding-registry nudge, not a class weld (Brainstorm I, the EPM lesson).",
+            "constraints": {}
+        },
+        {
+            "name": "target_structure",
+            "type": "ontology_term",
+            "blank_value": [],
+            "default_value": [],
+            "mustBeNonEmpty": false,
+            "mustBeScalar": false,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Optional locus on the subject: the anatomical structure(s) the act was about, as an ontology term or list (Path T, Locus_Encoding_Paths_Summary #69). Empty for whole-subject records; the subject stays the whole specimen.",
+            "constraints": {}
+        }
+    ]
+}

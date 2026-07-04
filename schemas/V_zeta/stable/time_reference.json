@@ -1,0 +1,106 @@
+{
+    "document_class": {
+        "class_name": "time_reference",
+        "class_version": "2.0.0",
+        "superclasses": [
+            {
+                "class_name": "base"
+            }
+        ],
+        "maturity_level": "stable",
+        "abstract": true
+    },
+    "depends_on": [],
+    "file": [],
+    "fields": [
+        {
+            "name": "is_approximate",
+            "type": "boolean",
+            "blank_value": false,
+            "default_value": false,
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Binary precision tier. False ~ precise (within 0.1 ms); True ~ approximate (within ~5 s).",
+            "constraints": {}
+        },
+        {
+            "name": "sampling",
+            "type": "structure",
+            "blank_value": {},
+            "default_value": {
+                "kind": "point"
+            },
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Shape of the sample layout along time (Brainstorm I \u00a71.2). 'point': a single moment at the anchor (the scalar case). 'grid': a regular series \u2014 sample i occurs at the anchor + i / sample_rate, i in 0..n-1 (O(1); a week of samples is three numbers). 'enumerated': an irregular series \u2014 per-sample offsets from the anchor. Replaces the retired sample_time array; the anchoring instant (t0) is supplied by the concrete reference-frame subclass. len(value) must match the sampling extent (a consumer/tooling check).",
+            "constraints": {},
+            "discriminator": "kind",
+            "fields": [
+                {
+                    "name": "kind",
+                    "type": "char",
+                    "blank_value": "",
+                    "default_value": "",
+                    "mustBeNonEmpty": true,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "point | grid | enumerated.",
+                    "constraints": {
+                        "enum": [
+                            "point",
+                            "grid",
+                            "enumerated"
+                        ]
+                    }
+                },
+                {
+                    "name": "sample_rate",
+                    "type": "frequency",
+                    "blank_value": {},
+                    "default_value": {},
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Grid only: samples per second (regular spacing).",
+                    "constraints": {}
+                },
+                {
+                    "name": "n",
+                    "type": "integer",
+                    "blank_value": 0,
+                    "default_value": 1,
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Grid only: number of samples.",
+                    "constraints": {}
+                },
+                {
+                    "name": "offsets",
+                    "type": "matrix",
+                    "blank_value": [],
+                    "default_value": [],
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": false,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Enumerated only: per-sample time offsets from the anchor, in seconds, element-aligned with the value array.",
+                    "constraints": {}
+                }
+            ]
+        }
+    ]
+}

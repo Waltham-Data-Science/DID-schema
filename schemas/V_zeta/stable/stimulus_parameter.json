@@ -1,0 +1,68 @@
+{
+    "document_class": {
+        "class_name": "stimulus_parameter",
+        "class_version": "1.0.0",
+        "superclasses": [
+            {
+                "class_name": "base"
+            }
+        ],
+        "maturity_level": "stable"
+    },
+    "depends_on": [
+        {
+            "name": "stimulus_presentation_id",
+            "mustBeNonEmpty": true,
+            "documentation": "The document ID of the stimulus presentation this parameter belongs to.",
+            "must_refer_to_document_class": ""
+        }
+    ],
+    "file": [],
+    "fields": [
+        {
+            "name": "parameter_name",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": true,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "The name of the stimulus parameter (e.g., 'angle', 'spatial_frequency').",
+            "constraints": {
+                "maxLength": 256
+            }
+        },
+        {
+            "name": "parameter_values",
+            "type": "matrix",
+            "blank_value": [],
+            "default_value": [],
+            "mustBeNonEmpty": false,
+            "mustBeScalar": false,
+            "mustNotHaveNaN": false,
+            "queryable": false,
+            "ontology": null,
+            "documentation": "Array of numeric parameter values used across stimulus presentations, in parameter_units. One value per unique stimulus condition.",
+            "constraints": {
+                "element_type": "double"
+            }
+        },
+        {
+            "name": "parameter_units",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "The units of the parameter values (e.g., 'degrees', 'cpd', 'Hz').",
+            "constraints": {
+                "maxLength": 64
+            }
+        }
+    ]
+}

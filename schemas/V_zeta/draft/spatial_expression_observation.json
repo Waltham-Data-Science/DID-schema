@@ -1,0 +1,63 @@
+{
+    "document_class": {
+        "class_name": "spatial_expression_observation",
+        "class_version": "1.0.0",
+        "superclasses": [
+            {
+                "class_name": "expression_observation"
+            }
+        ],
+        "maturity_level": "draft"
+    },
+    "depends_on": [],
+    "file": [],
+    "fields": [
+        {
+            "name": "coordinate_registration",
+            "type": "structure",
+            "blank_value": {},
+            "default_value": {},
+            "mustBeNonEmpty": true,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Maps the file's internal spatial frame to subject/anatomy/atlas.",
+            "constraints": {},
+            "fields": [
+                {
+                    "name": "reference_frame",
+                    "type": "ontology_term",
+                    "blank_value": {
+                        "node": "",
+                        "name": ""
+                    },
+                    "default_value": {
+                        "node": "",
+                        "name": ""
+                    },
+                    "mustBeNonEmpty": true,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "The frame the spatial coordinates are registered to.",
+                    "constraints": {}
+                },
+                {
+                    "name": "transform",
+                    "type": "matrix",
+                    "blank_value": [],
+                    "default_value": [],
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": false,
+                    "ontology": null,
+                    "documentation": "Affine/orientation transform into the reference frame.",
+                    "constraints": {}
+                }
+            ]
+        }
+    ]
+}

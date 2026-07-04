@@ -1,0 +1,72 @@
+{
+    "document_class": {
+        "class_name": "dataseries_pyramid",
+        "class_version": "1.0.0",
+        "superclasses": [
+            {
+                "class_name": "base"
+            },
+            {
+                "class_name": "epochid"
+            }
+        ],
+        "maturity_level": "draft"
+    },
+    "depends_on": [
+        {
+            "name": "element_id",
+            "mustBeNonEmpty": true,
+            "documentation": "The element whose epoch data this pyramid accelerates.",
+            "must_refer_to_document_class": "element"
+        }
+    ],
+    "file": [
+        {
+            "name": "pyramid_level_files",
+            "documentation": "Per-level downsampled locator files (derived .vhsb or native pointers)."
+        }
+    ],
+    "fields": [
+        {
+            "name": "representation_levels",
+            "type": "structure",
+            "blank_value": [],
+            "default_value": [],
+            "mustBeNonEmpty": false,
+            "mustBeScalar": false,
+            "mustNotHaveNaN": false,
+            "queryable": false,
+            "ontology": null,
+            "documentation": "Disposable multiresolution read-acceleration levels. Nothing depends_on this document.",
+            "constraints": {},
+            "fields": [
+                {
+                    "name": "representation",
+                    "type": "char",
+                    "blank_value": "",
+                    "default_value": "",
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Representation name (e.g. broadband | LFP | MUA).",
+                    "constraints": {}
+                },
+                {
+                    "name": "levels",
+                    "type": "matrix",
+                    "blank_value": [],
+                    "default_value": [],
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Per-level descriptors {factor, summary, source, file}.",
+                    "constraints": {}
+                }
+            ]
+        }
+    ]
+}

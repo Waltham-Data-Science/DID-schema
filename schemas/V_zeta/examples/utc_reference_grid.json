@@ -1,0 +1,27 @@
+{
+    "document_class": {
+        "class_name": "utc_reference",
+        "class_version": "2.0.0",
+        "superclasses": [ { "class_name": "time_reference" } ]
+    },
+    "depends_on": [],
+    "base": {
+        "id":         "aabb1122ccdd3344_1100220033004400",
+        "session_id": "aabb1122ccdd3344_9900aabbccddeeff",
+        "name":       "mouse042_cooling_curve_clock",
+        "datestamp":  "2024-06-01T12:00:00.000Z"
+    },
+    "time_reference": {
+        "is_approximate": false,
+        "sampling": {
+            "kind":        "grid",
+            "sample_rate": { "hertz": 0.0016667, "source_unit": "1/min", "source_value": 0.1, "approximate": false },
+            "n":           3,
+            "offsets":     []
+        }
+    },
+    "utc_reference": {
+        "start": "2024-06-01T12:00:00.000Z",
+        "end":   ""
+    }
+}

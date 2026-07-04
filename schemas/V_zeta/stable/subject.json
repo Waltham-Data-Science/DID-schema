@@ -1,0 +1,78 @@
+{
+    "document_class": {
+        "class_name": "subject",
+        "class_version": "2.0.0",
+        "superclasses": [
+            {
+                "class_name": "base"
+            }
+        ],
+        "maturity_level": "stable"
+    },
+    "depends_on": [],
+    "file": [],
+    "fields": [
+        {
+            "name": "local_identifier",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": {
+                "node": "iao:0000578",
+                "name": "centrally registered identifier"
+            },
+            "documentation": "A globally unique identifier meaningful to a local group (e.g., 'mouse123@vhlab.org').",
+            "constraints": {
+                "maxLength": 256
+            }
+        },
+        {
+            "name": "description",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": false,
+            "ontology": {
+                "node": "schema:description",
+                "name": "description"
+            },
+            "documentation": "A free-text description of the subject.",
+            "constraints": {
+                "maxLength": 1024
+            }
+        },
+        {
+            "name": "is_biological",
+            "type": "boolean",
+            "blank_value": false,
+            "default_value": false,
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "True if the subject is the kind of thing for which biological metadata (species, strain, sex, developmental stage) is expected. Curation-expectation flag, not an ontological claim.",
+            "constraints": {}
+        },
+        {
+            "name": "is_group",
+            "type": "boolean",
+            "blank_value": false,
+            "default_value": false,
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "True if the subject represents a collection treated as plural (a group of one is still a group). Membership is recorded via group_assignment events, not enumerated here.",
+            "constraints": {}
+        }
+    ]
+}

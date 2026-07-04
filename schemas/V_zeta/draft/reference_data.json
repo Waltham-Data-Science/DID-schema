@@ -1,0 +1,184 @@
+{
+    "document_class": {
+        "class_name": "reference_data",
+        "class_version": "1.0.0",
+        "superclasses": [
+            {
+                "class_name": "base"
+            }
+        ],
+        "maturity_level": "draft",
+        "abstract": true
+    },
+    "depends_on": [],
+    "file": [
+        {
+            "name": "reference_file",
+            "documentation": "The reference payload (sequence or annotation); format pinned by subtype."
+        }
+    ],
+    "fields": [
+        {
+            "name": "species",
+            "type": "ontology_term",
+            "blank_value": {
+                "node": "",
+                "name": ""
+            },
+            "default_value": {
+                "node": "",
+                "name": ""
+            },
+            "mustBeNonEmpty": true,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Organism the assembly describes (NCBITaxon).",
+            "constraints": {
+                "binding": {
+                    "root": "NCBITaxon:1",
+                    "expansion": "descendants",
+                    "strength": "preferred",
+                    "source": "ontology"
+                }
+            }
+        },
+        {
+            "name": "assembly",
+            "type": "structure",
+            "blank_value": {},
+            "default_value": {},
+            "mustBeNonEmpty": true,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Assembly identity.",
+            "constraints": {},
+            "fields": [
+                {
+                    "name": "accession",
+                    "type": "char",
+                    "blank_value": "",
+                    "default_value": "",
+                    "mustBeNonEmpty": true,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "INSDC/NCBI accession (e.g. GCF_011764305.1).",
+                    "constraints": {}
+                },
+                {
+                    "name": "name",
+                    "type": "char",
+                    "blank_value": "",
+                    "default_value": "",
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Assembly name (e.g. MusPutFur1.0).",
+                    "constraints": {}
+                },
+                {
+                    "name": "source",
+                    "type": "char",
+                    "blank_value": "",
+                    "default_value": "",
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Assembly source.",
+                    "constraints": {
+                        "enum": [
+                            "NCBI",
+                            "Ensembl",
+                            "GENCODE",
+                            "lab-derived"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "version",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": true,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Version/revision label within a lineage.",
+            "constraints": {
+                "maxLength": 128
+            }
+        },
+        {
+            "name": "series_id",
+            "type": "did_uid",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": false,
+            "ontology": null,
+            "documentation": "The lineage this revision belongs to.",
+            "constraints": {}
+        },
+        {
+            "name": "feature_id_type",
+            "type": "ontology_term",
+            "blank_value": {
+                "node": "",
+                "name": ""
+            },
+            "default_value": {
+                "node": "",
+                "name": ""
+            },
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Namespace the feature IDs are drawn from.",
+            "constraints": {}
+        },
+        {
+            "name": "source_uri",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": false,
+            "ontology": null,
+            "documentation": "Where a stock external resource is published.",
+            "constraints": {
+                "maxLength": 1024
+            }
+        },
+        {
+            "name": "content_hash",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": true,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": false,
+            "ontology": null,
+            "documentation": "Dedup key and exact-version anchor.",
+            "constraints": {}
+        }
+    ]
+}

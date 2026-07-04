@@ -1,0 +1,43 @@
+{
+    "document_class": {
+        "class_name": "categorical_observation",
+        "class_version": "2.0.0",
+        "superclasses": [
+            {
+                "class_name": "observation"
+            }
+        ],
+        "maturity_level": "stable"
+    },
+    "depends_on": [],
+    "file": [],
+    "fields": [
+        {
+            "name": "value",
+            "type": "ontology_term",
+            "blank_value": {
+                "node": "",
+                "name": ""
+            },
+            "default_value": {
+                "node": "",
+                "name": ""
+            },
+            "mustBeNonEmpty": true,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "The observed concept as a bound term (developmental stage, health status, behavioral phenotype, coat colour). One concept per document; the property observed is the spine `variable`, and the admissible root is a binding-registry nudge keyed on variable.",
+            "constraints": {
+                "binding": {
+                    "keyed_by": "variable",
+                    "expansion": "descendants",
+                    "node_kind": "class",
+                    "strength": "preferred",
+                    "source": "ontology"
+                }
+            }
+        }
+    ]
+}
