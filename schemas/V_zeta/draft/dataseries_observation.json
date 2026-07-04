@@ -267,6 +267,19 @@
                     "constraints": {}
                 }
             ]
+        },
+        {
+            "name": "label",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Optional free-text caption for the series (e.g. 'fluorescently labeled bacterial patches, processed'). Folded from the retired image_stack.label.",
+            "constraints": {}
         }
     ]
 }

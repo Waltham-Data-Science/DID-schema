@@ -170,6 +170,28 @@ def test_no_brainstorm_e_property_leaves():
         assert gone not in RECORDS, f"{gone} should not exist in V_zeta"
 
 
+def test_image_stack_folded_into_imageseries():
+    """image_stack / image_stack_parameters are legacy standalone image docs.
+    V_zeta folds imaging onto the dataseries branch (matching NDI main's
+    ndi.element.image / ndi.probe.image epoch-clock model): imageseries_observation
+    is the discoverable spine handle, imageseries_data / element_epoch carry the
+    bytes+geometry. The two old classes are retired to deprecated (migration only)."""
+    for cls in ("image_stack", "image_stack_parameters"):
+        assert cls in RECORDS, f"{cls} should remain for migration"
+        assert RECORDS[cls][0] == "deprecated", f"{cls} must be in the deprecated tier"
+        assert RECORDS[cls][1]["document_class"]["maturity_level"] == "deprecated"
+    # the imaging home is the dataseries branch on the spine
+    assert "imageseries_observation" in RECORDS
+    assert "subject_interaction" in _chain("imageseries_observation")
+    assert _flat_field_types("imageseries_observation").get("kind") == "ontology_term"
+    # nothing folds the geometry loss: storage carries dtype/limits; series a caption
+    st = {s["name"] for s in
+          [f for f in RECORDS["dataseries_data"][1]["fields"] if f["name"] == "storage"][0]["fields"]}
+    assert {"data_type", "data_limits"} <= st, "dataseries_data.storage must carry dtype/limits"
+    assert _flat_field_types("imageseries_observation").get("label") == "char", \
+        "the folded image_stack.label caption must be inherited from dataseries_observation"
+
+
 def test_no_pure_identity_manipulation_classes():
     """A manipulation is a class only when it adds STRUCTURE; the pure-identity
     procedural_/environmental_manipulation classes fold into generic_manipulation."""

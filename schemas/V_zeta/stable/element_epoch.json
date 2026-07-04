@@ -333,6 +333,34 @@
                     "ontology": null,
                     "documentation": "Compression/filter pipeline.",
                     "constraints": {}
+                },
+                {
+                    "name": "data_type",
+                    "type": "char",
+                    "blank_value": "",
+                    "default_value": "",
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Numeric pixel/sample storage type (e.g. 'uint16', 'single', 'double'). Folded from the retired image_stack_parameters.data_type.",
+                    "constraints": {
+                        "maxLength": 32
+                    }
+                },
+                {
+                    "name": "data_limits",
+                    "type": "matrix",
+                    "blank_value": [],
+                    "default_value": [],
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": false,
+                    "mustNotHaveNaN": false,
+                    "queryable": false,
+                    "ontology": null,
+                    "documentation": "2-element [min, max] range of valid stored values for data_type (e.g. [0, 65535] for uint16). Folded from image_stack_parameters.data_limits.",
+                    "constraints": {}
                 }
             ]
         }

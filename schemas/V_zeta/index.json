@@ -247,6 +247,19 @@
             "is_meta": false
         },
         {
+            "class_name": "daqreader_image_epochdata_ingested",
+            "tier": "stable",
+            "class_version": "1.0.0",
+            "maturity_level": "stable",
+            "superclasses": [
+                "base",
+                "daqreader_epochdata_ingested",
+                "epochid"
+            ],
+            "path": "schemas/V_zeta/stable/daqreader_image_epochdata_ingested.json",
+            "is_meta": false
+        },
+        {
             "class_name": "daqreader_ndr",
             "tier": "stable",
             "class_version": "1.0.0",
@@ -847,25 +860,25 @@
         },
         {
             "class_name": "image_stack",
-            "tier": "stable",
+            "tier": "deprecated",
             "class_version": "1.0.0",
-            "maturity_level": "stable",
+            "maturity_level": "deprecated",
             "superclasses": [
                 "base",
                 "image_stack_parameters"
             ],
-            "path": "schemas/V_zeta/stable/image_stack.json",
+            "path": "schemas/V_zeta/deprecated/image_stack.json",
             "is_meta": false
         },
         {
             "class_name": "image_stack_parameters",
-            "tier": "stable",
+            "tier": "deprecated",
             "class_version": "1.0.0",
-            "maturity_level": "stable",
+            "maturity_level": "deprecated",
             "superclasses": [
                 "base"
             ],
-            "path": "schemas/V_zeta/stable/image_stack_parameters.json",
+            "path": "schemas/V_zeta/deprecated/image_stack_parameters.json",
             "is_meta": false
         },
         {

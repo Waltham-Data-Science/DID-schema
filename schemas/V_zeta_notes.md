@@ -104,6 +104,16 @@ confirmed with the maintainer for the two spine-shaping forks:
 - **Optional `element_id` on the spine** (individuated referent, §3.1) —
   confirmed with the maintainer for element-scoped observations that Path T's
   ontology `target_structure` cannot address.
+- **Imaging folded onto the ingested imageseries** (§4.1) — confirmed. The
+  standalone `image_stack` / `image_stack_parameters` are retired to
+  `deprecated/`; images become `imageseries_observation` (handle) +
+  `daqreader_image_epochdata_ingested` (the digital, in-database `frames.bin` +
+  YXCZT header — newly **ported into V_zeta** from NDI's `ndi_common`, which is
+  what `ndi.daq.reader.image.ingest_epochfiles` writes) + `ndi.element.image` /
+  `element_epoch`. `data_type`/`data_limits` were added to the `storage`
+  descriptor and `dataseries_data` gained the `element_id` link that its
+  siblings (ngrid / image_zarr / dataseries_pyramid) already carry. Migrator:
+  `did2.convert.migrators_i.image_stack` (1→6).
 - **`session_relative_reference` declares no `session_id` edge.** Session
   identity rides on `base.session_id` (every DID document carries it), so the
   ordinal fallback anchor needs no `session_id` dependency. The edge was

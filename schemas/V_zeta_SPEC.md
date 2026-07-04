@@ -204,6 +204,31 @@ class; the property is the `variable` term.
   channel-model decision. `expression_observation` / `spatial_expression_observation`
   (omics endpoints) carry over.
 
+#### 4.1 Imaging: `image_stack` retired onto the ingested imageseries
+
+The legacy standalone `image_stack` / `image_stack_parameters` (a file-backed
+pixel blob + geometry bundle, tied to a subject but off the spine) are **retired
+to `deprecated/`** and folded onto NDI's imaging stack — the same model NDI-main
+ships in code (`ndi.element.image` / `ndi.probe.image`, whose frames are timed
+through the epoch clock / syncgraph, `'no_time'` for a clockless stack). Three
+roles replace the one document:
+
+| role | class |
+|---|---|
+| discoverable subject-facing handle | `imageseries_observation` (spine: `subject_id` + shaped `time_reference` + `variable`/`kind` = modality + `element_id`; the caption is `dataseries_observation.label`) |
+| the **digital, in-database** pixels | **`daqreader_image_epochdata_ingested`** — a `frames.bin` raw binary + a queryable YXCZT header (`dimension_order`/`size`, `data_type`, `num_frames`, `frametimes`, `clocktype`). This is exactly what `ndi.daq.reader.image.ingest_epochfiles` writes: once ingested, the image is digital data resident in the database with no external file dependency. **Newly ported into V_zeta** (it was in NDI's `ndi_common` but absent from did-schema). |
+| the element the frames belong to | `ndi.element.image` (non-direct = ingested), with `element_epoch` as the epoch record |
+
+The geometry that lived in `image_stack_parameters` (`dimension_order`/`size`/
+`scale`/`units`) becomes the dataseries `axes[]` and the ingested header;
+`data_type`/`data_limits` are added to the `element_epoch`/`dataseries_data`
+`storage` descriptor; `timestamp`+`clocktype` become the epoch clock. A did_v1
+`image_stack` migrates 1→6 (`did2.convert.migrators_i.image_stack`): the handle,
+the ingested frames, the element, its epoch, a minimal `daqreader`, and the
+ordinal time anchor — dropping the legacy `document_id` edge (the corpus
+reference-integrity orphan). Discovery-mode fallback: an un-migrated `image_stack`
+still resolves 1→1 to the deprecated class.
+
 ### 5. Manipulation tier — classes earn their place by STRUCTURE
 
 Symmetric with the observation tier: a manipulation is a class only when it adds

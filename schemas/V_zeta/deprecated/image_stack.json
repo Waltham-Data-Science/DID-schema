@@ -10,7 +10,7 @@
                 "class_name": "image_stack_parameters"
             }
         ],
-        "maturity_level": "stable"
+        "maturity_level": "deprecated"
     },
     "depends_on": [
         {
