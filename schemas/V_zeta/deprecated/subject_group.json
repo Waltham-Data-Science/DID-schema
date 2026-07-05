@@ -1,0 +1,52 @@
+{
+    "document_class": {
+        "class_name": "subject_group",
+        "class_version": "1.0.0",
+        "superclasses": [
+            {
+                "class_name": "base"
+            }
+        ],
+        "maturity_level": "deprecated"
+    },
+    "depends_on": [],
+    "file": [],
+    "fields": [
+        {
+            "name": "group_name",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": {
+                "node": "schema:name",
+                "name": "name"
+            },
+            "documentation": "Optional human-readable name for this subject group (e.g., 'control', 'treatment'). v1 docs did not carry a name and migrate with this field absent; new documents may populate it for ad-hoc labeling. Candidate for promotion to ontology_term once a study-arm vocabulary (e.g., NCIT 'Study Arm' branch) is registered.",
+            "constraints": {
+                "maxLength": 256
+            }
+        },
+        {
+            "name": "description",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": false,
+            "ontology": {
+                "node": "schema:description",
+                "name": "description"
+            },
+            "documentation": "Optional free-text description of this subject group.",
+            "constraints": {
+                "maxLength": 1024
+            }
+        }
+    ]
+}

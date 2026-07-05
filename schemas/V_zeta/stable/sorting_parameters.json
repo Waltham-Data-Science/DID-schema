@@ -1,0 +1,129 @@
+{
+    "document_class": {
+        "class_name": "sorting_parameters",
+        "class_version": "1.0.0",
+        "superclasses": [
+            {
+                "class_name": "base"
+            }
+        ],
+        "maturity_level": "stable"
+    },
+    "depends_on": [
+        {
+            "name": "element_id",
+            "mustBeNonEmpty": true,
+            "documentation": "The document ID of the element (e.g., probe) these sorting parameters apply to.",
+            "must_refer_to_document_class": ""
+        }
+    ],
+    "file": [],
+    "fields": [
+        {
+            "name": "sorter_name",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": true,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "The name of the spike sorting algorithm.",
+            "constraints": {
+                "maxLength": 128
+            }
+        },
+        {
+            "name": "graphical_mode",
+            "type": "integer",
+            "blank_value": 0,
+            "default_value": 0,
+            "mustBeNonEmpty": true,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": true,
+            "queryable": false,
+            "ontology": null,
+            "documentation": "Whether to use a graphical presentation during sorting (0 = no, 1 = yes).",
+            "constraints": {
+                "min": 0,
+                "max": 1
+            }
+        },
+        {
+            "name": "num_pca_features",
+            "type": "integer",
+            "blank_value": 10,
+            "default_value": 10,
+            "mustBeNonEmpty": true,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": true,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Number of principal component features to use in clustering.",
+            "constraints": {
+                "min": 1
+            }
+        },
+        {
+            "name": "interpolation",
+            "type": "integer",
+            "blank_value": 3,
+            "default_value": 3,
+            "mustBeNonEmpty": true,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": true,
+            "queryable": false,
+            "ontology": null,
+            "documentation": "Interpolation factor for spike waveforms. Waveforms are upsampled by this integer factor to provide extra resolution during alignment and clustering (e.g., 3 means 3x upsampling). Set to 1 for no interpolation.",
+            "constraints": {
+                "min": 1
+            }
+        },
+        {
+            "name": "min_clusters",
+            "type": "integer",
+            "blank_value": 3,
+            "default_value": 3,
+            "mustBeNonEmpty": true,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": true,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Minimum number of clusters (units) to produce.",
+            "constraints": {
+                "min": 1
+            }
+        },
+        {
+            "name": "max_clusters",
+            "type": "integer",
+            "blank_value": 10,
+            "default_value": 10,
+            "mustBeNonEmpty": true,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": true,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Maximum number of clusters (units) to produce. Must be >= min_clusters.",
+            "constraints": {
+                "min": 1
+            }
+        },
+        {
+            "name": "num_start",
+            "type": "integer",
+            "blank_value": 5,
+            "default_value": 5,
+            "mustBeNonEmpty": true,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": true,
+            "queryable": false,
+            "ontology": null,
+            "documentation": "Initial number of clusters to seed the clustering algorithm with.",
+            "constraints": {
+                "min": 1
+            }
+        }
+    ]
+}

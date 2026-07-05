@@ -1,0 +1,115 @@
+{
+    "document_class": {
+        "class_name": "timeseries_observation",
+        "class_version": "1.0.0",
+        "superclasses": [
+            {
+                "class_name": "dataseries_observation"
+            }
+        ],
+        "maturity_level": "draft"
+    },
+    "depends_on": [],
+    "file": [],
+    "fields": [
+        {
+            "name": "kind",
+            "type": "ontology_term",
+            "blank_value": {
+                "node": "",
+                "name": ""
+            },
+            "default_value": {
+                "node": "",
+                "name": ""
+            },
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Modality facet (electrophysiology | imaging | behavior | physiology | clinical | environmental | ...).",
+            "constraints": {}
+        },
+        {
+            "name": "acquisition_type",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "How the series was acquired.",
+            "constraints": {
+                "enum": [
+                    "manual",
+                    "device_export",
+                    "daq",
+                    "simulation",
+                    "derived"
+                ]
+            }
+        },
+        {
+            "name": "temporal_extent",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Temporal extent of the series.",
+            "constraints": {
+                "enum": [
+                    "bounded",
+                    "open_start",
+                    "open_end",
+                    "unbounded"
+                ]
+            }
+        },
+        {
+            "name": "regularity",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Whether samples are regularly spaced.",
+            "constraints": {
+                "enum": [
+                    "regular",
+                    "irregular"
+                ]
+            }
+        },
+        {
+            "name": "sample_rate",
+            "type": "frequency",
+            "blank_value": {
+                "approximate": false,
+                "source_unit": "",
+                "source_value": 0.0
+            },
+            "default_value": {
+                "approximate": false,
+                "source_unit": "",
+                "source_value": 0.0
+            },
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Sampling rate of the series.",
+            "constraints": {}
+        }
+    ]
+}

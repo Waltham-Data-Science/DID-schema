@@ -1,0 +1,116 @@
+{
+    "document_class": {
+        "class_name": "daqreader_image_epochdata_ingested",
+        "class_version": "1.0.0",
+        "superclasses": [
+            {
+                "class_name": "base"
+            },
+            {
+                "class_name": "daqreader_epochdata_ingested"
+            },
+            {
+                "class_name": "epochid"
+            }
+        ],
+        "maturity_level": "stable"
+    },
+    "depends_on": [],
+    "file": [
+        {
+            "name": "frames.bin",
+            "documentation": "The ingested image frames as a flat raw binary (column-major, in the numeric class named by data_type). Once ingested, the pixels are digital data resident in the database -- there is no external file dependency. Empty is permitted for a header-only record."
+        }
+    ],
+    "fields": [
+        {
+            "name": "dimension_order",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "YXCZT",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Dimension order of the stored frames over {Y,X,C,Z,T} (height, width, channel, plane, time). Default 'YXCZT'.",
+            "constraints": {
+                "maxLength": 16
+            }
+        },
+        {
+            "name": "dimension_size",
+            "type": "matrix",
+            "blank_value": [],
+            "default_value": [],
+            "mustBeNonEmpty": false,
+            "mustBeScalar": false,
+            "mustNotHaveNaN": true,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "The [Y X C Z T] extent of the image data (height, width, channels, planes, timepoints).",
+            "constraints": {
+                "element_type": "integer"
+            }
+        },
+        {
+            "name": "data_type",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Underlying numeric class of the stored pixel data (e.g. 'uint16', 'single').",
+            "constraints": {
+                "maxLength": 32
+            }
+        },
+        {
+            "name": "num_frames",
+            "type": "integer",
+            "blank_value": 0,
+            "default_value": 0,
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": true,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Number of frames stored, along the ordering axes (T, and Z when present).",
+            "constraints": {
+                "min": 0,
+                "max": 1000000000
+            }
+        },
+        {
+            "name": "frametimes",
+            "type": "matrix",
+            "blank_value": [],
+            "default_value": [],
+            "mustBeNonEmpty": false,
+            "mustBeScalar": false,
+            "mustNotHaveNaN": false,
+            "queryable": false,
+            "ontology": null,
+            "documentation": "Time of each frame in epoch-clock units, as a 1xN row (NaN for clockless epochs).",
+            "constraints": {}
+        },
+        {
+            "name": "clocktype",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "The epoch clock type ('dev_local_time' for a movie, 'no_time' for a clockless slide-scan / z-stack).",
+            "constraints": {
+                "maxLength": 256
+            }
+        }
+    ]
+}

@@ -19,6 +19,8 @@ Each field definition object contains: `name`, `type`, `blank_value`, `default_v
 
 See [schemas/V_alpha_SPEC.md](schemas/V_alpha_SPEC.md) for the V_alpha specification and [schemas/V_beta_SPEC.md](schemas/V_beta_SPEC.md) for the V_beta specification (V_alpha plus snake_case naming requirements).
 
+The current sandbox iteration is **V_zeta** (see [schemas/V_zeta_SPEC.md](schemas/V_zeta_SPEC.md)), which implements **Brainstorm I** from the `ndi-next-steps` "Summer 2026 / 1_Ingestion" thread: a single `subject_interaction` spine (`subject_id`, a shaped `time_reference`, `method`, `variable`, `target_structure`), direction carried by the empty `observation` / `manipulation` classes, observation leaves named by data-type (shape) with identity on the `variable` ontology term, and the `dataseries_observation` branch. V_zeta supersedes V_epsilon (Brainstorm E, retained as an archived reference). Within each `V_*` directory, `index.json` is the resolution source of truth.
+
 ## Directory layout
 
 Each document type is a directory under `schemas/` containing its schema definition:

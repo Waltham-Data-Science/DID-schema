@@ -1,0 +1,46 @@
+{
+    "document_class": {
+        "class_name": "jrclust_clusters",
+        "class_version": "1.0.0",
+        "superclasses": [
+            {
+                "class_name": "base"
+            },
+            {
+                "class_name": "app"
+            }
+        ],
+        "maturity_level": "stable"
+    },
+    "depends_on": [
+        {
+            "name": "element_id",
+            "mustBeNonEmpty": true,
+            "documentation": "The document ID of the element (e.g., probe) this JRCLUST sorting output is associated with.",
+            "must_refer_to_document_class": ""
+        }
+    ],
+    "file": [
+        {
+            "name": "jrclust_output_file",
+            "documentation": "The JRCLUST output file containing cluster data."
+        }
+    ],
+    "fields": [
+        {
+            "name": "res_mat_md5_checksum",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "MD5 checksum of the JRCLUST *_res.mat results file, recorded at ingestion so downstream consumers can detect resort/reanalysis.",
+            "constraints": {
+                "maxLength": 64
+            }
+        }
+    ]
+}
