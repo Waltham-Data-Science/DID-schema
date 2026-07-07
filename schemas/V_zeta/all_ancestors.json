@@ -1,0 +1,833 @@
+{
+  "CURIE_lookups_meta": [],
+  "annotation": [
+    "base",
+    "subject_interaction"
+  ],
+  "app": [
+    "base"
+  ],
+  "base": [],
+  "bath": [
+    "base",
+    "manipulation",
+    "pharmacological_manipulation",
+    "subject_interaction"
+  ],
+  "binaryseries_parameters": [
+    "base"
+  ],
+  "binnedspikeratevm": [
+    "base"
+  ],
+  "biological_transfer": [
+    "base",
+    "manipulation",
+    "subject_interaction"
+  ],
+  "calculator": [
+    "app",
+    "base"
+  ],
+  "categorical_observation": [
+    "base",
+    "observation",
+    "subject_interaction"
+  ],
+  "contrast_sensitivity_calc": [
+    "app",
+    "base",
+    "calculator"
+  ],
+  "contrast_tuning": [
+    "base"
+  ],
+  "contrast_tuning_calc": [
+    "app",
+    "base",
+    "calculator",
+    "contrast_tuning",
+    "tuning_fit"
+  ],
+  "control_stimulus_ids": [
+    "app",
+    "base"
+  ],
+  "daqmetadatareader": [
+    "base"
+  ],
+  "daqmetadatareader_epochdata_ingested": [
+    "base",
+    "epochid"
+  ],
+  "daqreader": [
+    "base"
+  ],
+  "daqreader_epochdata_ingested": [
+    "base"
+  ],
+  "daqreader_image_epochdata_ingested": [
+    "base",
+    "daqreader_epochdata_ingested",
+    "epochid"
+  ],
+  "daqreader_mfdaq_epochdata_ingested": [
+    "base",
+    "daqreader_epochdata_ingested",
+    "epochid"
+  ],
+  "daqreader_ndr": [
+    "base",
+    "daqreader"
+  ],
+  "daqsystem": [
+    "base"
+  ],
+  "dataseries_channel_map": [
+    "base"
+  ],
+  "dataseries_data": [
+    "base"
+  ],
+  "dataseries_observation": [
+    "base",
+    "observation",
+    "subject_interaction"
+  ],
+  "dataseries_pyramid": [
+    "base",
+    "epochid"
+  ],
+  "dataset_remote": [
+    "base"
+  ],
+  "dataset_session_info": [
+    "base"
+  ],
+  "demo_ndi": [
+    "base"
+  ],
+  "demo_ndi_mock": [
+    "base"
+  ],
+  "derivation": [
+    "base",
+    "manipulation",
+    "subject_interaction"
+  ],
+  "did_schema_meta": [],
+  "directory": [
+    "base"
+  ],
+  "distance_metadata": [
+    "base"
+  ],
+  "electrode_offset_voltage": [
+    "base"
+  ],
+  "element": [
+    "base"
+  ],
+  "element_epoch": [
+    "base",
+    "epochid"
+  ],
+  "ephys_zarr": [
+    "base",
+    "zarr"
+  ],
+  "epoch_bounded_reference": [
+    "base",
+    "epochid",
+    "time_reference"
+  ],
+  "epoch_relative_reference": [
+    "base",
+    "epochid",
+    "time_reference"
+  ],
+  "epochclocktimes": [
+    "base",
+    "epochid"
+  ],
+  "epochfiles_ingested": [
+    "base"
+  ],
+  "epochid": [
+    "base"
+  ],
+  "event_bounded_reference": [
+    "base",
+    "time_reference"
+  ],
+  "event_relative_reference": [
+    "base",
+    "time_reference"
+  ],
+  "expression_matrix_data": [
+    "base"
+  ],
+  "expression_matrix_data_cellranger_h5": [
+    "base",
+    "expression_matrix_data"
+  ],
+  "expression_matrix_data_counts_table": [
+    "base",
+    "expression_matrix_data"
+  ],
+  "expression_matrix_data_dia_report": [
+    "base",
+    "expression_matrix_data"
+  ],
+  "expression_matrix_data_gef": [
+    "base",
+    "expression_matrix_data"
+  ],
+  "expression_matrix_data_gem": [
+    "base",
+    "expression_matrix_data"
+  ],
+  "expression_matrix_data_h5ad": [
+    "base",
+    "expression_matrix_data"
+  ],
+  "expression_matrix_data_imzml": [
+    "base",
+    "expression_matrix_data"
+  ],
+  "expression_matrix_data_loom": [
+    "base",
+    "expression_matrix_data"
+  ],
+  "expression_matrix_data_maxquant": [
+    "base",
+    "expression_matrix_data"
+  ],
+  "expression_matrix_data_mtx": [
+    "base",
+    "expression_matrix_data"
+  ],
+  "expression_matrix_data_mzml": [
+    "base",
+    "expression_matrix_data"
+  ],
+  "expression_matrix_data_mztab": [
+    "base",
+    "expression_matrix_data"
+  ],
+  "expression_matrix_data_visium": [
+    "base",
+    "expression_matrix_data"
+  ],
+  "expression_observation": [
+    "base",
+    "observation",
+    "subject_interaction"
+  ],
+  "filenavigator": [
+    "base"
+  ],
+  "filter": [
+    "base"
+  ],
+  "fitcurve": [
+    "base"
+  ],
+  "frequency_manipulation": [
+    "base",
+    "manipulation",
+    "scalar_frequency",
+    "scalar_manipulation",
+    "subject_interaction"
+  ],
+  "generic_file": [
+    "base"
+  ],
+  "generic_manipulation": [
+    "base",
+    "manipulation",
+    "subject_interaction"
+  ],
+  "generic_scalar": [
+    "base"
+  ],
+  "generic_scalar_manipulation": [
+    "base",
+    "generic_scalar",
+    "manipulation",
+    "scalar_manipulation",
+    "subject_interaction"
+  ],
+  "generic_scalar_observation": [
+    "base",
+    "generic_scalar",
+    "observation",
+    "scalar_observation",
+    "subject_interaction"
+  ],
+  "group_assignment": [
+    "annotation",
+    "base",
+    "subject_interaction"
+  ],
+  "hartley_calc": [
+    "app",
+    "base",
+    "calculator",
+    "hartley_reverse_correlation",
+    "ngrid",
+    "reverse_correlation"
+  ],
+  "hartley_reverse_correlation": [
+    "base",
+    "ngrid",
+    "reverse_correlation"
+  ],
+  "image": [
+    "base"
+  ],
+  "image_collection": [
+    "base"
+  ],
+  "image_stack": [
+    "base",
+    "image_stack_parameters"
+  ],
+  "image_stack_parameters": [
+    "base"
+  ],
+  "image_zarr": [
+    "base",
+    "zarr"
+  ],
+  "imageseries_data": [
+    "base",
+    "dataseries_data"
+  ],
+  "imageseries_observation": [
+    "base",
+    "dataseries_observation",
+    "observation",
+    "subject_interaction"
+  ],
+  "injection": [
+    "base",
+    "manipulation",
+    "pharmacological_manipulation",
+    "subject_interaction"
+  ],
+  "instrument": [
+    "base"
+  ],
+  "interaction_purpose": [
+    "base"
+  ],
+  "jrclust_clusters": [
+    "app",
+    "base"
+  ],
+  "manipulation": [
+    "base",
+    "subject_interaction"
+  ],
+  "measurement": [
+    "base",
+    "epochid"
+  ],
+  "metadata_editor": [
+    "base"
+  ],
+  "mock": [
+    "base"
+  ],
+  "ndi_reserved_keys": [],
+  "neuron_extracellular": [
+    "app",
+    "base"
+  ],
+  "ngrid": [
+    "base"
+  ],
+  "observation": [
+    "base",
+    "subject_interaction"
+  ],
+  "oneepoch": [
+    "base",
+    "epochid"
+  ],
+  "ontology_image": [
+    "base"
+  ],
+  "ontology_label": [
+    "base"
+  ],
+  "ontology_table_row": [
+    "base"
+  ],
+  "openminds": [
+    "base"
+  ],
+  "openminds_element": [
+    "base",
+    "openminds"
+  ],
+  "openminds_stimulus": [
+    "base",
+    "epochid",
+    "openminds"
+  ],
+  "openminds_subject": [
+    "base",
+    "openminds"
+  ],
+  "oridirtuning_calc": [
+    "app",
+    "base",
+    "calculator",
+    "orientation_direction_tuning",
+    "tuning_fit"
+  ],
+  "orientation_direction_tuning": [
+    "base"
+  ],
+  "pharmacological_manipulation": [
+    "base",
+    "manipulation",
+    "subject_interaction"
+  ],
+  "placement": [
+    "base",
+    "manipulation",
+    "subject_interaction"
+  ],
+  "position_metadata": [
+    "base"
+  ],
+  "pressure_manipulation": [
+    "base",
+    "manipulation",
+    "scalar_manipulation",
+    "scalar_pressure",
+    "subject_interaction"
+  ],
+  "probe_geometry": [
+    "base"
+  ],
+  "probe_location": [
+    "base"
+  ],
+  "projectvar": [
+    "base"
+  ],
+  "pyraview": [
+    "base",
+    "epochclocktimes",
+    "epochid",
+    "filter"
+  ],
+  "reference_annotation_data": [
+    "base",
+    "reference_data"
+  ],
+  "reference_annotation_data_gff3": [
+    "base",
+    "reference_annotation_data",
+    "reference_data"
+  ],
+  "reference_annotation_data_gtf": [
+    "base",
+    "reference_annotation_data",
+    "reference_data"
+  ],
+  "reference_data": [
+    "base"
+  ],
+  "reference_sequence_data": [
+    "base",
+    "reference_data"
+  ],
+  "reference_sequence_data_fasta_genome": [
+    "base",
+    "reference_data",
+    "reference_sequence_data"
+  ],
+  "reference_sequence_data_fasta_protein": [
+    "base",
+    "reference_data",
+    "reference_sequence_data"
+  ],
+  "reference_sequence_data_fasta_transcriptome": [
+    "base",
+    "reference_data",
+    "reference_sequence_data"
+  ],
+  "reverse_correlation": [
+    "base",
+    "ngrid"
+  ],
+  "scalar_concentration": [
+    "base"
+  ],
+  "scalar_concentration_observation": [
+    "base",
+    "observation",
+    "scalar_concentration",
+    "scalar_observation",
+    "subject_interaction"
+  ],
+  "scalar_count": [
+    "base"
+  ],
+  "scalar_count_observation": [
+    "base",
+    "observation",
+    "scalar_count",
+    "scalar_observation",
+    "subject_interaction"
+  ],
+  "scalar_current": [
+    "base"
+  ],
+  "scalar_current_observation": [
+    "base",
+    "observation",
+    "scalar_current",
+    "scalar_observation",
+    "subject_interaction"
+  ],
+  "scalar_duration": [
+    "base"
+  ],
+  "scalar_duration_observation": [
+    "base",
+    "observation",
+    "scalar_duration",
+    "scalar_observation",
+    "subject_interaction"
+  ],
+  "scalar_frequency": [
+    "base"
+  ],
+  "scalar_frequency_observation": [
+    "base",
+    "observation",
+    "scalar_frequency",
+    "scalar_observation",
+    "subject_interaction"
+  ],
+  "scalar_length": [
+    "base"
+  ],
+  "scalar_length_observation": [
+    "base",
+    "observation",
+    "scalar_length",
+    "scalar_observation",
+    "subject_interaction"
+  ],
+  "scalar_manipulation": [
+    "base",
+    "manipulation",
+    "subject_interaction"
+  ],
+  "scalar_mass": [
+    "base"
+  ],
+  "scalar_mass_observation": [
+    "base",
+    "observation",
+    "scalar_mass",
+    "scalar_observation",
+    "subject_interaction"
+  ],
+  "scalar_observation": [
+    "base",
+    "observation",
+    "subject_interaction"
+  ],
+  "scalar_pressure": [
+    "base"
+  ],
+  "scalar_pressure_observation": [
+    "base",
+    "observation",
+    "scalar_observation",
+    "scalar_pressure",
+    "subject_interaction"
+  ],
+  "scalar_score": [
+    "base"
+  ],
+  "scalar_score_observation": [
+    "base",
+    "observation",
+    "scalar_observation",
+    "scalar_score",
+    "subject_interaction"
+  ],
+  "scalar_temperature": [
+    "base"
+  ],
+  "scalar_temperature_observation": [
+    "base",
+    "observation",
+    "scalar_observation",
+    "scalar_temperature",
+    "subject_interaction"
+  ],
+  "scalar_voltage": [
+    "base"
+  ],
+  "scalar_voltage_observation": [
+    "base",
+    "observation",
+    "scalar_observation",
+    "scalar_voltage",
+    "subject_interaction"
+  ],
+  "scalar_volume": [
+    "base"
+  ],
+  "scalar_volume_observation": [
+    "base",
+    "observation",
+    "scalar_observation",
+    "scalar_volume",
+    "subject_interaction"
+  ],
+  "sequence_read_data": [
+    "base"
+  ],
+  "sequence_read_data_bam": [
+    "base",
+    "sequence_read_data"
+  ],
+  "sequence_read_data_cram": [
+    "base",
+    "sequence_read_data"
+  ],
+  "sequence_read_data_fastq": [
+    "base",
+    "sequence_read_data"
+  ],
+  "session": [
+    "base"
+  ],
+  "session_extent": [
+    "base"
+  ],
+  "session_in_a_dataset": [
+    "base"
+  ],
+  "session_relative_reference": [
+    "base",
+    "time_reference"
+  ],
+  "simple_calc": [
+    "app",
+    "base",
+    "calculator"
+  ],
+  "site2channelmap": [
+    "base"
+  ],
+  "sorting_parameters": [
+    "base"
+  ],
+  "spatial_expression_observation": [
+    "base",
+    "expression_observation",
+    "observation",
+    "subject_interaction"
+  ],
+  "spatial_frequency_tuning": [
+    "base"
+  ],
+  "spatial_frequency_tuning_calc": [
+    "app",
+    "base",
+    "calculator",
+    "spatial_frequency_tuning",
+    "tuning_fit"
+  ],
+  "speed_tuning": [
+    "base"
+  ],
+  "speed_tuning_calc": [
+    "app",
+    "base",
+    "calculator",
+    "speed_tuning",
+    "tuning_fit"
+  ],
+  "spike_clusters": [
+    "base"
+  ],
+  "spike_extraction_parameters": [
+    "base"
+  ],
+  "spike_extraction_parameters_modification": [
+    "base"
+  ],
+  "spike_interface_sorting_outputs": [
+    "base"
+  ],
+  "spikewaves": [
+    "base"
+  ],
+  "stimulus_approach": [
+    "base"
+  ],
+  "stimulus_bath": [
+    "base",
+    "bath",
+    "manipulation",
+    "pharmacological_manipulation",
+    "subject_interaction"
+  ],
+  "stimulus_manipulation": [
+    "base",
+    "manipulation",
+    "subject_interaction"
+  ],
+  "stimulus_parameter": [
+    "base"
+  ],
+  "stimulus_parameter_table": [
+    "base"
+  ],
+  "stimulus_presentation": [
+    "app",
+    "base",
+    "epochid"
+  ],
+  "stimulus_response": [
+    "base"
+  ],
+  "stimulus_response_scalar": [
+    "base",
+    "stimulus_response"
+  ],
+  "stimulus_response_scalar_parameters": [
+    "base"
+  ],
+  "stimulus_response_scalar_parameters_basic": [
+    "base",
+    "stimulus_response_scalar_parameters"
+  ],
+  "stimulus_tuningcurve": [
+    "base"
+  ],
+  "subject": [
+    "base"
+  ],
+  "subject_assertion": [
+    "base"
+  ],
+  "subject_group": [
+    "base"
+  ],
+  "subject_interaction": [
+    "base"
+  ],
+  "syncgraph": [
+    "base"
+  ],
+  "syncrule": [
+    "base"
+  ],
+  "syncrule_mapping": [
+    "base"
+  ],
+  "temperature_manipulation": [
+    "base",
+    "manipulation",
+    "scalar_manipulation",
+    "scalar_temperature",
+    "subject_interaction"
+  ],
+  "temporal_frequency_tuning": [
+    "base"
+  ],
+  "temporal_frequency_tuning_calc": [
+    "app",
+    "base",
+    "calculator",
+    "temporal_frequency_tuning",
+    "tuning_fit"
+  ],
+  "time_reference": [
+    "base"
+  ],
+  "timeseries_data": [
+    "base",
+    "dataseries_data"
+  ],
+  "timeseries_data_binary": [
+    "base",
+    "dataseries_data",
+    "timeseries_data"
+  ],
+  "timeseries_data_csv": [
+    "base",
+    "dataseries_data",
+    "timeseries_data"
+  ],
+  "timeseries_data_edf": [
+    "base",
+    "dataseries_data",
+    "timeseries_data"
+  ],
+  "timeseries_observation": [
+    "base",
+    "dataseries_observation",
+    "observation",
+    "subject_interaction"
+  ],
+  "treatment": [
+    "base"
+  ],
+  "treatment_drug": [
+    "base"
+  ],
+  "treatment_transfer": [
+    "base"
+  ],
+  "tuning_fit": [
+    "app",
+    "base",
+    "calculator"
+  ],
+  "tuningcurve_calc": [
+    "app",
+    "base",
+    "calculator",
+    "stimulus_tuningcurve"
+  ],
+  "utc_reference": [
+    "base",
+    "time_reference"
+  ],
+  "valid_interval": [
+    "base"
+  ],
+  "virus_injection": [
+    "base"
+  ],
+  "vmneuralresponseresiduals": [
+    "base"
+  ],
+  "vmspikefilteringparameters": [
+    "base"
+  ],
+  "vmspikefit": [
+    "base"
+  ],
+  "vmspikesummary": [
+    "base"
+  ],
+  "zarr": [
+    "base"
+  ]
+}
