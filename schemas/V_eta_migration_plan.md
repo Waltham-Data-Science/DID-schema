@@ -59,13 +59,17 @@ base
         └── subject_manipulation   (abstract)   ◄ RENAMED   (was manipulation)
 ```
 
-*Leaf classes (examples, not exhaustive):* **assertions** — `term_assertion`,
-`date_assertion`, `numeric_assertion` → `scalar_mass_assertion`,
-`scalar_temperature_assertion`, …; **observations** — `scalar_<dim>_observation`,
-`term_observation` / `categorical_observation`, `dataseries_observation`, …;
-**manipulations** — `injection`, `bath`, `<dim>_manipulation`,
-`biological_transfer`, `generic_manipulation`. The `◄` markers are relative to
-V_zeta; any class not marked carries over unchanged.
+*Leaf classes (examples, not exhaustive) — a leaf = a direction + a data type,
+named after the data type (one word, no `scalar_` prefix):* **assertions** —
+`term_assertion`, `date_assertion`, `numeric_assertion` → `mass_assertion`,
+`temperature_assertion`, …; **observations** — `temperature_observation`,
+`mass_observation`, …, the single `term_observation` (every `{node, name}`
+value), and body-backed `image_observation` / `matrix_observation` for large
+data; **manipulations** — `temperature_manipulation`, `dose_manipulation`,
+`term_manipulation`, …. The `◄` markers are relative to V_zeta; any class not
+marked carries over unchanged. There is **no** `scalar_`/`dataseries` class split
+and **no** `injection` / `bath` / `categorical_observation` — those are V_zeta
+(Brainstorm I) names; the leaf tier is rebuilt per J in §A.9.
 
 `subject_relation` and `subject_statement` are **siblings** (a relation has no
 `variable`/`value`; a statement has no `from`/`to`). What unifies "everything
@@ -119,8 +123,9 @@ V_zeta's `subject_assertion` is a single concrete class under `base` with
 
 - `term_assertion` (any `{node, name}` — species, sex, strain, a UBERON region),
   `date_assertion` (date of birth — a real `date`, not a duration),
-  `numeric_assertion` (abstract) → dimensioned `scalar_mass_assertion`, … using
-  the **scalar subset** of the shape library (no series, no body).
+  `numeric_assertion` (abstract) → dimensioned `mass_assertion`,
+  `temperature_assertion`, … using the **atomic (non-series) subset** of the
+  data-type library. One-word data-type names, **no `scalar_` prefix** (§A.9).
 - An assertion has a `variable` + `value` and **no `method`, no series**; its
   time is optional. It is the untimed sibling of `subject_observation`.
 - The bundled openMINDS subject is **not** stored — it decomposes into component
@@ -185,19 +190,53 @@ J replaces V_zeta's several body/epoch classes with one axis:
   encoding, not committed to N-length arrays), and to treat `sampled_body`'s
   internal `sample_time` axis as the body-local timeline. Flagged for the team.
 
-### A.9 What carries over from V_zeta verbatim (design-neutral for J)
+### A.9 The leaf tier — one class per data type (restructured, **not** carried from V_zeta)
 
-The shape library (`scalar_<dim>` value mixins, `generic_scalar`, `score`,
-`date`), the `time_reference` frames, the `injection`/`bath`/`biological_transfer`/
-`generic_manipulation` typed manipulation families, `categorical_observation` /
-`term_observation`, and **all non-subject infrastructure** — `base`, session/
-dataset, `element`/`epoch*`, `daqsystem`/`daqreader*`, `stimulus_*`, the tuning/
-response calculators, `openminds*`, `ontology_*`, `zarr`/`image*`, `probe_*`.
-The five V_zeta deprecations stay deprecated. The relational event classes
-V_zeta introduced (`group_assignment`, `placement`, `derivation`) are **re-cast
-as `subject_relation` documents** in V_eta (they were already "relations as
-events"); they have no `did_v1` source, so this is a forward-looking rename, not
-a migration.
+This is the biggest thing V_eta inherits *conceptually* from I but must
+**rebuild** structurally. J keeps I's "identity is off the class" insight and
+pushes it one step further: **a leaf class = a direction + a data type**, and the
+data type is the *only* thing that makes a class (J §5, §7). Three rules follow,
+and each undoes a V_zeta habit:
+
+- **Named after the physical quantity, one word, no `scalar_` prefix.** A body
+  weight is a `mass_observation` (with `variable = "body weight"`), a temperature
+  a `temperature_observation`. V_zeta's `scalar_mass_observation`, … are renamed.
+- **Cardinality and storage are *not* class distinctions.** J §8: "`temperature`
+  is one class whether it is one reading, a series, reused, or file-backed." There
+  is **no** `scalar_<dim>` vs `dataseries_observation` split — a series is a
+  length-N `value` list and where it lives is `storage_mode` (§A.7), not a class.
+  V_zeta's whole `dataseries_`/`timeseries_`/`imageseries_observation` branch
+  collapses into the data-type leaves + `sampled_body`.
+- **One `term` type; no `injection`/`bath`/`pharmacological` family.** Every
+  ontology-term value is the single `term` type, so V_zeta's
+  `categorical_observation` becomes `term_observation`. Delivery *method* is not a
+  data type, so it cannot be a class: a drug delivery is a data-type-named
+  manipulation (e.g. `dose_manipulation`) whose substance is a composite `value`
+  (`dose` = formulation + volume, from J §7's named composites
+  `chemical`/`formulation`/`dose`), the route rides on the spine `method` verb,
+  and the site is Path S. **Nothing is lost** — the structured fields V_zeta
+  welded onto `injection`/`bath` (volume, formulation, route, coordinates, kind)
+  re-home into composite values, `method`, and part-subjects.
+
+Payload-free acts (a craniotomy, a rearing regime) have no measured value; under
+strict J they are a `term_manipulation` (the imposed value is the act's term) or
+a value-less interaction — V_zeta's `generic_manipulation` escape-hatch class
+does **not** survive. **This is Decision D8.**
+
+### A.10 What carries over verbatim (design-neutral for J)
+
+The **value-cell composites themselves** (the dimensioned `mass`/`temperature`/…
+cells, `term`, `date`, `score`, and the named composites
+`dose`/`formulation`/`chemical`), the `time_reference` frames, and **all
+non-subject infrastructure** — `base`, session/dataset, `element`/`epoch*`,
+`daqsystem`/`daqreader*`, `stimulus_*`, the tuning/response calculators,
+`openminds*`, `ontology_*`, `zarr`/`image*`, `probe_*`. The five V_zeta
+deprecations stay deprecated. The relational event classes V_zeta introduced
+(`group_assignment`, `placement`, `derivation`) are **re-cast as
+`subject_relation` documents** (they were already "relations as events"); they
+have no `did_v1` source, so this is a forward-looking rename, not a migration.
+Note the boundary with §A.9: the *value shapes* carry over; the
+*observation/manipulation leaf classes* that wrapped them are renamed and de-split.
 
 **Individuated referents (`element_id`).** V_zeta's optional spine
 `element_id → element` (an `ndi.neuron`, a probe, a derived signal) is **kept**
@@ -295,8 +334,9 @@ splits the destination by **timelessness**:
   `term_assertion`; date of birth → `date_assertion` (a real date, an
   improvement over V_zeta's duration-since-epoch); a timeless numeric → a
   `numeric_assertion` leaf.
-- **Timed measurement** → `subject_observation` as before (body weight →
-  `scalar_mass_observation`, etc.).
+- **Timed measurement** → `subject_observation`, a quantity-named leaf (body
+  weight → `mass_observation`; term-valued label → `term_observation`) — see §A.9
+  for the naming.
 
 The classifier is a **per-property table** keyed on the column's `variable`
 term (seeded in discovery mode). Because `subject_statement` owns `variable`,
@@ -312,13 +352,14 @@ forward-looking):
   derived. `did_v1` records **no membership** (the body is an empty marker), so
   **no `member_of` edges are synthesized** — inventing them would fabricate
   data (unchanged conclusion from V_zeta, new destination shape).
-- **`treatment_transfer` donor.** V_zeta keeps `donor_id` as a dependency on
-  `biological_transfer`. In J the transferred material's provenance is naturally
-  a `derived_from`/`sample_of` `directed_relation` (recipient material ← donor).
-  **Decision D4:** keep the manipulation-with-`donor_id` shape, *or* additionally
-  emit a provenance relation, *or* both. Provisional default: keep the
-  `biological_transfer` + `donor_id` edge (least invasive; the relation can be
-  derived later) and flag for review.
+- **`treatment_transfer` donor.** V_zeta kept a dedicated `biological_transfer`
+  class carrying a `donor_id` dependency. Under strict J that class does not
+  survive (a transfer is not a data type): the act becomes a data-type-named
+  manipulation (term-valued) and the donor relationship becomes a **provenance
+  `directed_relation`** — recipient material `derived_from`/`sample_of` donor.
+  **Decision D4:** confirm the provenance-relation modeling (recommended, faithful
+  to J) vs. carrying a `donor_id` dependency on the manipulation. Provisional
+  default: emit the provenance relation.
 - **Attributed anatomical parts** (C.1) — the one place relations are minted at
   volume.
 
@@ -326,12 +367,12 @@ forward-looking):
 
 - **`image_stack`** (V_zeta's most elaborate fold, `1 → 6`: imageseries handle +
   element + `element_epoch` + `daqreader_image_epochdata_ingested` + `daqreader`
-  + anchor) re-targets in V_eta to: a **`subject_observation`** imageseries
-  handle + an **`element`** + a **`sampled_body`** (or `opaque_body` for an
-  un-decodable stack) holding the frames, carrying `storage_mode: body`. Net
-  fold likely `1 → 4/5` (the `element_epoch` + ingested-frames pair collapses
-  into one `sampled_body`). This is the main `did_v1` class exercising the new
-  storage model.
+  + anchor) re-targets in V_eta to: a **`subject_observation`** on an image/matrix
+  data-type leaf (body-backed — there is **no** `imageseries_observation` class in
+  J, §A.9) + an **`element`** + a **`sampled_body`** (or `opaque_body` for an
+  un-decodable stack) holding the frames, carrying `storage_mode: body`. Net fold
+  likely `1 → 4/5` (the `element_epoch` + ingested-frames pair collapses into one
+  `sampled_body`). This is the main `did_v1` class exercising the new storage model.
 - Every emitted value field gets its **`storage_mode`** set mechanically by type
   and size (scalars/terms/dates → `inline`; large/opaque → `body`). Curators
   never choose; the migrator sets it.
@@ -356,12 +397,12 @@ output (fan-out), which the framework already supports.
 
 | `did_v1` source | V_eta destination(s) | What changes vs V_zeta | Card. |
 |---|---|---|---|
-| `treatment` | `injection` / `bath` / `<dim>_manipulation` / `generic_manipulation` (all `subject_manipulation`) **+ time anchor**, **+ part-`subject` + `part_of`** when the focal site is attributed, **or** a `term_observation` location value when merely located | dispatch table carries over; **`target_structure` → Path S mint-or-locate (C.1)** instead of a spine field; direction class is `subject_manipulation` | 1→2…4 |
-| `ontology_table_row` | per column: `subject_assertion` leaf (timeless) **or** `subject_observation` leaf (timed) + shared anchor; anatomy column → Path S (C.1) | **timeless columns now → `subject_assertion` (C.2)**, DOB → `date_assertion`; shape-typed value leaves carry over | 1→N(+1) |
+| `treatment` | a data-type-named `subject_manipulation` — `dose_manipulation` (substance), `temperature_manipulation` (thermal), another `<quantity>_manipulation`, or `term_manipulation` (payload-free procedure/regime) **+ time anchor**, **+ part-`subject` + `part_of`** when the site is attributed, **or** a `term_observation` location value when merely located | **no `injection`/`bath`/`generic_manipulation` (§A.9)** — route → `method`, substance → `dose` composite value; **`target_structure` → Path S (C.1)** | 1→2…4 |
+| `ontology_table_row` | per column: a `subject_assertion` leaf (timeless) **or** a `subject_observation` leaf (timed) + shared anchor; anatomy column → Path S (C.1) | **timeless columns → `subject_assertion` (C.2)**; scalar columns → quantity-named `mass_observation`/`temperature_observation`/… (**no `scalar_` prefix**); term columns → `term_observation` (**not `categorical_observation`**); DOB → `date_assertion` | 1→N(+1) |
 | `subject_group` | bare `subject` (v3.0.0) | **`is_group`/`is_biological` removed (A.2)**; no membership edges | 1→1 |
-| `treatment_drug` | `injection` (`kind: drug`) + anchor; anatomy → C.1 | mixture/CSV parse carries over; `subject_manipulation`; locus → Path S | 1→2…3 |
-| `virus_injection` | `injection` (`kind: virus`) + anchor; anatomy → C.1 | as above | 1→2…3 |
-| `treatment_transfer` | `biological_transfer` (`donor_id`) + anchor; **± provenance `directed_relation` (D4)** | donor may also become a relation | 1→2…3 |
+| `treatment_drug` | `dose_manipulation` (substance = `dose`/`formulation` composite; drug identity on the chemical term) + anchor; site → C.1 | **not `injection`** — `mixture`/CSV parse feeds the `formulation` composite; route → `method` | 1→2…3 |
+| `virus_injection` | `dose_manipulation` / `formulation_manipulation` (virus on the chemical term; titer/dilution in the composite) + anchor; site → C.1 | as above; **not `injection` (`kind: virus`)** | 1→2…3 |
+| `treatment_transfer` | a `term_manipulation` for the transfer act **+ a provenance `directed_relation`** (recipient material `derived_from`/`sample_of` donor) + anchor | **not `biological_transfer`** — donor → relation, transferred material → value/term (D4) | 1→3…4 |
 
 ### D.2 Semi-mechanical (composite-collapse; element/probe-scoped — subject redesign does **not** touch them)
 
@@ -395,12 +436,14 @@ default we can quietly pick.
   search holds), use `sampled_body.sample_time` for body-local timelines. (A.8)
 - **D2 — `element_id` vs part-subjects.** Confirm the split: anatomical/biological
   parts → part-`subject` (Path S); NDI elements backing acquired data → keep the
-  optional `element_id` handle + a `sampled_body`. (A.9)
+  optional `element_id` handle + a `sampled_body`. (A.10)
 - **D3 — Path S scope for the first pass.** After discovery reports quantify how
   many `did_v1` rows carry an attributed anatomical locus: full mint-and-dedup
   service, or a narrower "located-by-default, mint only on an allowlist"? (C.1)
-- **D4 — `treatment_transfer` donor.** `biological_transfer` + `donor_id` edge
-  only, a provenance `directed_relation` only, or both? (C.3)
+- **D4 — `treatment_transfer` donor.** Under strict J, a provenance
+  `directed_relation` (recipient `derived_from`/`sample_of` donor) + a term-valued
+  manipulation, vs. carrying a `donor_id` dependency on the manipulation.
+  *Provisional:* provenance relation. (C.3)
 - **D5 — Element/probe location terms.** Leave `probe_location`/`ontology_image`/
   `ontology_label` as composite terms, or re-read as `term_observation`s under
   J's "any level is a subject"? *Provisional:* leave as-is. (D.2)
@@ -414,6 +457,12 @@ default we can quietly pick.
   consumer-side index (NDI framework), declared but not schema-enforced, and the
   fallback is a bounded reverse-`depends_on` walk. Confirm this stays out of the
   schema layer.
+- **D8 — Payload-free manipulations.** Strict J drops V_zeta's
+  `generic_manipulation` escape hatch (not a data type). A surgical procedure or a
+  husbandry regime becomes a `term_manipulation` (imposed value = the act's
+  ontology term), or a value-less interaction. Confirm `term_manipulation` as the
+  home, vs. reviving a generic escape-hatch leaf. *Provisional:* `term_manipulation`.
+  (A.9)
 
 ---
 
@@ -423,9 +472,14 @@ default we can quietly pick.
    `schemas/V_eta/` as a copy of V_zeta with the Part-A transform applied
    (subject → bare identity; add `subject_relation`/`directed_`/`undirected_`;
    restore `subject_statement`; re-root + rename `subject_observation`/
-   `_manipulation`; assertion genus + leaves; `storage_mode` + `data_body`/
-   `sampled_body`/`opaque_body`, retiring the superseded body classes; drop
-   `target_structure`). Add `tests/test_veta.py` (meta-validation, index/disk
+   `_manipulation`; **rebuild the leaf tier per §A.9** — rename the shape leaves
+   to one-word data-type names (drop the `scalar_` prefix), collapse the
+   `scalar_`/`dataseries_`/`timeseries_`/`imageseries_` split into one class per
+   type, fold `categorical_observation`→`term_observation`, and retire the
+   `injection`/`bath`/`pharmacological`/`biological_transfer`/`generic_manipulation`
+   families into data-type-named manipulations + composites; assertion genus +
+   leaves; `storage_mode` + `data_body`/`sampled_body`/`opaque_body`, retiring the
+   superseded body classes; drop `target_structure`). Add `tests/test_veta.py` (meta-validation, index/disk
    agreement, superclass + `must_refer_to_document_class` resolution, spine
    composition). Seed `schemas/V_eta/conversions/from_did_v1/` (`_index.md`,
    `_universal_renames.md` = V_zeta's with the stamp value changed, per-class
