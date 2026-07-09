@@ -179,16 +179,20 @@ J replaces V_zeta's several body/epoch classes with one axis:
 - The **value cell** (canonical working unit + lossless `source_value`/
   `source_unit`/`approximate`) and **series-as-cardinality** (`value` is a list;
   a scalar is a length-1 list) carry over from V_zeta unchanged.
-- **Timing is the one place J and I genuinely differ.** J §7 writes the per-
-  sample timeline as an explicit **`sample_time`** list parallel to `value`;
-  V_zeta *retired* `sample_time` in favour of a **shaped `time_reference`**
-  (`sampling: point | grid | enumerated`), which is O(1) for regular grids and
-  makes same-sample search hold by construction. This is a real fork, not a
-  detail — see **Decision D1**. The plan's provisional default is to **keep
-  V_zeta's shaped `time_reference`** (strictly better for regular grids; J's
-  `sample_time` prose predates that refinement and I read J as agnostic on the
-  encoding, not committed to N-length arrays), and to treat `sampled_body`'s
-  internal `sample_time` axis as the body-local timeline. Flagged for the team.
+- **Timing is where J and I differ, and it is really two questions** (D1):
+  **(A) shape** — a literal per-sample array vs a compressible descriptor
+  (`point` / `{t0, dt, n}` grid / `offsets[]`); and **(B) location** — does the
+  per-sample cadence live *inside* the referenced `time_reference` (V_zeta) or in
+  a field *beside the value* on the statement (J's `sample_time`)? On **(A)** both
+  agree: always compress (three numbers for a regular grid; an array only when
+  genuinely irregular). On **(B)** the plan now leans **J's location + I's
+  compression** — the **anchor** (frame + t0, the queryable min/max) stays in the
+  shared `time_reference`; the **cadence** is a compressed descriptor co-located
+  with the value (on the statement inline, in the body when body-backed). Chiefly
+  because co-locating value + cadence makes length-consistency a *single-document*
+  check, and a cadence-free anchor stays shareable across values of different
+  rates under one clock (multi-rate under one epoch). Pending confirmation — see
+  the D1 discussion.
 
 ### A.9 The leaf tier — one class per data type (restructured, **not** carried from V_zeta)
 
@@ -436,16 +440,25 @@ as V_zeta reused them from V_epsilon.
 Approve or redirect these before implementation; each is a genuine fork, not a
 default we can quietly pick.
 
-- **D1 — Timing model.** Keep V_zeta's shaped `time_reference`
-  (`point/grid/enumerated`), or adopt J's explicit parallel `sample_time` list?
-  *Provisional:* keep shaped `time_reference` (O(1) regular grids; same-sample
-  search holds), use `sampled_body.sample_time` for body-local timelines. (A.8)
-- **D2 — `element_id` vs part-subjects.** Confirm the split: anatomical/biological
-  parts → part-`subject` (Path S); NDI elements backing acquired data → keep the
-  optional `element_id` handle + a `sampled_body`. (A.10)
-- **D3 — Path S scope for the first pass.** After discovery reports quantify how
-  many `did_v1` rows carry an attributed anatomical locus: full mint-and-dedup
-  service, or a narrower "located-by-default, mint only on an allowlist"? (C.1)
+- **D1 — Timing model (two axes).** **(A) shape:** always compress (`point` /
+  `{t0, dt, n}` grid / `offsets[]`), never a literal N-array when regular —
+  *agreed*. **(B) location:** anchor in the shared `time_reference`; compressed
+  **cadence beside the value** (statement inline / body when body-backed), *not*
+  welded into `time_reference`. *Leaning* per the D1 discussion (single-document
+  length-consistency; cadence-free anchor is shareable across rates). Confirm (B).
+  (A.8)
+- **D2 — Individuated referent: `element_id`, part-subject, or an `instrument`?**
+  Anatomical/biological parts → part-`subject` (Path S). For the *device that did
+  the measuring*, three options: keep `element_id → element` (the NDI acquisition
+  handle; simplest, migration-ready); promote the existing draft **`instrument`**
+  class + an `instrument_id` edge on `subject_interaction` (OBI-style device role);
+  or model the device as a `subject` + a "measured_with" relation (pure J). No
+  `did_v1` corpus needs an explicit instrument, so *provisional:* keep `element_id`
+  for pass 1 and treat `instrument` promotion as a parallel design thread. (A.10)
+- **D3 — Path S scope for the first pass. Resolved:** *measure before we build.*
+  Discovery mode counts attributed anatomical loci per corpus first; default
+  **located-by-default** (emit a `term_observation` value, mint no subject), and
+  build the full find-or-create/dedup service only if the volume warrants it. (C.1)
 - **D4 — `treatment_transfer` donor. Resolved:** a provenance `directed_relation`
   (recipient material `derived_from`/`sample_of` donor); the transfer act is a
   term-valued manipulation. No `donor_id`-on-manipulation, no `biological_transfer`
@@ -453,9 +466,16 @@ default we can quietly pick.
 - **D5 — Element/probe location terms. Resolved:** → `term_observation`
   (`probe_location`/`ontology_image`/`ontology_label`): element = subject,
   spatial/labeling relation = `variable`, term = `value`. (D.2)
-- **D6 — Relation vocabulary starting set.** Confirm the enumerated `relation`
-  terms per grouping (containment / provenance / association) and their RO
-  backing (J §10-Q3).
+- **D6 — Relation vocabulary — measure before building (same reports as D3).**
+  The migration only *mints* relations for `part_of` (Path S) and one provenance
+  term (`sample_of`/`derived_from`, from `treatment_transfer`); `member_of` has no
+  `did_v1` source (empty `subject_group`), and J's remaining terms
+  (`contained_in`, `aliquot_of`, `passage_of`, `paired_with`, `same_as`) have no
+  migration source at all. So the **corpus-exercised set is expected to be ~2
+  terms**, confirmed by the same discovery reports as D3. Open sub-choice: declare
+  J's full designed 9-term set now (closed, cheap, forward-looking authoring uses
+  `member_of` etc.) vs. declare only the measured subset. *Leaning:* declare the
+  full J set (RO-backed), wire migrator + tests only for the measured subset.
 - **D7 — Closure index is tooling, not schema.** J's "everything under X"
   closure index is a materialized view over `directed_relation` documents. The
   current abstract query model (`did_query_model.md`) has **no cross-document
