@@ -219,9 +219,10 @@ and each undoes a V_zeta habit:
   re-home into composite values, `method`, and part-subjects.
 
 Payload-free acts (a craniotomy, a rearing regime) have no measured value; under
-strict J they are a `term_manipulation` (the imposed value is the act's term) or
-a value-less interaction — V_zeta's `generic_manipulation` escape-hatch class
-does **not** survive. **This is Decision D8.**
+strict J they are a `term_manipulation` (the imposed value is the act's ontology
+term). There is **no** generic escape hatch — `generic_manipulation` and
+`generic_scalar_observation` do not survive; an un-typed value is flagged in
+discovery mode, never dumped into a generic bin (**Resolved, D8**).
 
 ### A.10 What carries over verbatim (design-neutral for J)
 
@@ -357,9 +358,9 @@ forward-looking):
   survive (a transfer is not a data type): the act becomes a data-type-named
   manipulation (term-valued) and the donor relationship becomes a **provenance
   `directed_relation`** — recipient material `derived_from`/`sample_of` donor.
-  **Decision D4:** confirm the provenance-relation modeling (recommended, faithful
-  to J) vs. carrying a `donor_id` dependency on the manipulation. Provisional
-  default: emit the provenance relation.
+  **Resolved (D4):** the donor is a provenance `directed_relation`; the transfer
+  act is a term-valued manipulation — no `donor_id`-on-manipulation and no
+  `biological_transfer` class.
 - **Attributed anatomical parts** (C.1) — the one place relations are minted at
   volume.
 
@@ -404,14 +405,19 @@ output (fan-out), which the framework already supports.
 | `virus_injection` | `dose_manipulation` / `formulation_manipulation` (virus on the chemical term; titer/dilution in the composite) + anchor; site → C.1 | as above; **not `injection` (`kind: virus`)** | 1→2…3 |
 | `treatment_transfer` | a `term_manipulation` for the transfer act **+ a provenance `directed_relation`** (recipient material `derived_from`/`sample_of` donor) + anchor | **not `biological_transfer`** — donor → relation, transferred material → value/term (D4) | 1→3…4 |
 
-### D.2 Semi-mechanical (composite-collapse; element/probe-scoped — subject redesign does **not** touch them)
+### D.2 Locus / label terms → `term_observation` (Decision D5)
 
-`probe_location`, `ontology_image`, `ontology_label` — the `ontology_name`+`name`
-(or 3-field) collapse into one `ontology_term` carries over from V_zeta
-unchanged. These describe elements/probes, not subject loci, so Path S does not
-apply. **Open nuance (D5):** in J "any level is a subject," so a probe's location
-term *could* be re-read as a `term_observation`; the plan keeps them as-is for
-V_eta (infrastructure, out of scope for the subject-model migration).
+`probe_location`, `ontology_image`, `ontology_label` each attach an ontology term
+to an element (a probe's anatomical location; a region term on an image; a label
+on an element). Per **Decision D5**, these become **`term_observation`s** rather
+than carried-over composite-term classes: `element_id`/`subject_id` = the element,
+`variable` = the spatial/labeling relation (`location`, `field_of_view_contains`,
+`annotated_as`, …), `value` = the atlas/label term (the same `ontology_name`+`name`
+collapse, now landing in the observation's `value`). Each needs a time anchor
+(synthesized `session_relative_reference`, as elsewhere), so 1→1 becomes 1→2; any
+associated file (e.g. `ontology_image`'s image) becomes an `opaque_body` /
+`sampled_body` (§A.7). A genuinely timeless label may instead be a
+`term_assertion`; the default per D5 is `term_observation`.
 
 ### D.3 Mechanical (renames / snake_case / type-tightening — design-neutral)
 
@@ -440,13 +446,13 @@ default we can quietly pick.
 - **D3 — Path S scope for the first pass.** After discovery reports quantify how
   many `did_v1` rows carry an attributed anatomical locus: full mint-and-dedup
   service, or a narrower "located-by-default, mint only on an allowlist"? (C.1)
-- **D4 — `treatment_transfer` donor.** Under strict J, a provenance
-  `directed_relation` (recipient `derived_from`/`sample_of` donor) + a term-valued
-  manipulation, vs. carrying a `donor_id` dependency on the manipulation.
-  *Provisional:* provenance relation. (C.3)
-- **D5 — Element/probe location terms.** Leave `probe_location`/`ontology_image`/
-  `ontology_label` as composite terms, or re-read as `term_observation`s under
-  J's "any level is a subject"? *Provisional:* leave as-is. (D.2)
+- **D4 — `treatment_transfer` donor. Resolved:** a provenance `directed_relation`
+  (recipient material `derived_from`/`sample_of` donor); the transfer act is a
+  term-valued manipulation. No `donor_id`-on-manipulation, no `biological_transfer`
+  class. (C.3)
+- **D5 — Element/probe location terms. Resolved:** → `term_observation`
+  (`probe_location`/`ontology_image`/`ontology_label`): element = subject,
+  spatial/labeling relation = `variable`, term = `value`. (D.2)
 - **D6 — Relation vocabulary starting set.** Confirm the enumerated `relation`
   terms per grouping (containment / provenance / association) and their RO
   backing (J §10-Q3).
@@ -455,14 +461,16 @@ default we can quietly pick.
   current abstract query model (`did_query_model.md`) has **no cross-document
   join beyond `depends_on` and no closure** — so the closure index is a
   consumer-side index (NDI framework), declared but not schema-enforced, and the
-  fallback is a bounded reverse-`depends_on` walk. Confirm this stays out of the
+  fallback is a bounded reverse-`depends_on` walk. **Resolved:** yes — this is an
+  **ingestion / consumer-layer** materialised view, built and incrementally
+  maintained at ingest by the NDI framework; it is **not** schema-enforced and not
+  part of the abstract query model (which has no join/closure). Stays out of the
   schema layer.
-- **D8 — Payload-free manipulations.** Strict J drops V_zeta's
-  `generic_manipulation` escape hatch (not a data type). A surgical procedure or a
-  husbandry regime becomes a `term_manipulation` (imposed value = the act's
-  ontology term), or a value-less interaction. Confirm `term_manipulation` as the
-  home, vs. reviving a generic escape-hatch leaf. *Provisional:* `term_manipulation`.
-  (A.9)
+- **D8 — Payload-free manipulations. Resolved:** `term_manipulation` (imposed
+  value = the act's ontology term). **No escape hatch** — strict J resolves every
+  act to a data type; an un-typed numeric is flagged/quarantined in discovery
+  mode, never dumped into a generic bin. `generic_manipulation` and
+  `generic_scalar_observation` do not exist in V_eta. (A.9)
 
 ---
 
