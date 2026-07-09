@@ -44,21 +44,28 @@ not listed carries over from V_zeta verbatim (§A.9).
 
 ```
 base
-├── time_reference        (abstract)   utc / epoch / event / session frames  [from V_zeta]
-├── subject                            bare identity — a name, nothing more   ◄ CHANGED
-├── subject_relation      (abstract)   a claim relating two subjects          ◄ NEW branch
-│   ├── directed_relation              ordered child → parent (containment, provenance)
-│   └── undirected_relation            unordered { a, b } (association)
-└── subject_statement     (abstract)   carries variable + value (+ optional time)  ◄ RESTORED
-    ├── subject_assertion (abstract)   a timeless fact — no act, no series     ◄ RE-ROOTED + genus
-    │   ├── term_assertion · date_assertion
-    │   └── numeric_assertion (abstract genus) → scalar_mass_assertion, …      ◄ NEW leaves
-    └── subject_interaction (abstract) tightens time to required; ADDS method  ◄ RE-ROOTED
-        ├── subject_observation  (abstract)   value read off the subject       ◄ RENAMED
-        │     scalar_<dim>_observation · categorical/term_observation · dataseries…
-        └── subject_manipulation (abstract)   value imposed on the subject     ◄ RENAMED
-              injection · bath · <dim>_manipulation · biological_transfer · generic_manipulation
+├── time_reference          (abstract)
+├── subject                                ◄ CHANGED    bare identity (drop is_group / is_biological)
+├── subject_relation        (abstract)     ◄ NEW        relationships are documents
+│   ├── directed_relation                  ◄ NEW        ordered child → parent (containment, provenance)
+│   └── undirected_relation                ◄ NEW        unordered { a, b } (association)
+└── subject_statement       (abstract)     ◄ RESTORED   owns variable + value (+ optional time)
+    ├── subject_assertion    (abstract)    ◄ RE-ROOTED  timeless facts, now a data-typed genus
+    │   ├── term_assertion
+    │   ├── date_assertion
+    │   └── numeric_assertion (abstract)
+    └── subject_interaction  (abstract)    ◄ RE-ROOTED  timed; adds method, time required
+        ├── subject_observation    (abstract)   ◄ RENAMED   (was observation)
+        └── subject_manipulation   (abstract)   ◄ RENAMED   (was manipulation)
 ```
+
+*Leaf classes (examples, not exhaustive):* **assertions** — `term_assertion`,
+`date_assertion`, `numeric_assertion` → `scalar_mass_assertion`,
+`scalar_temperature_assertion`, …; **observations** — `scalar_<dim>_observation`,
+`term_observation` / `categorical_observation`, `dataseries_observation`, …;
+**manipulations** — `injection`, `bath`, `<dim>_manipulation`,
+`biological_transfer`, `generic_manipulation`. The `◄` markers are relative to
+V_zeta; any class not marked carries over unchanged.
 
 `subject_relation` and `subject_statement` are **siblings** (a relation has no
 `variable`/`value`; a statement has no `from`/`to`). What unifies "everything
