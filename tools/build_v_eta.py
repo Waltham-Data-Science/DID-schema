@@ -477,6 +477,16 @@ opaque = doc("opaque_body", ["data_body"], maturity="draft")
 opaque["file"] = BODY_FILE
 write("draft", "opaque_body", opaque)
 
+# image_observation: the body-backed data-type leaf the did_v1 `image_stack`
+# (7,007 docs in JH) folds onto (§C.4). The pixel frames live in a
+# sampled_body/opaque_body (storage_mode: body); the stable `image` mixin carries
+# the inline geometry/format metadata (image_type/format/resolution). Draft: the
+# broader imageseries/dataseries/timeseries_observation branch this begins to
+# supersede is retired WITH the NDI-side ingest work (see the header note), not
+# here -- so this addition is purely additive and does not touch that branch.
+write("draft", "image_observation",
+      doc("image_observation", ["subject_observation", "image"], maturity="draft"))
+
 
 # ---------- 11b. pre-seed J §7's comprehensive numeric set ----------
 # V_zeta shipped only 12 dimensioned numerics. J §7 prescribes a comprehensive

@@ -1549,6 +1549,21 @@
             "path": "schemas/V_eta/stable/image_collection.json"
         },
         {
+            "class_name": "image_observation",
+            "tier": "draft",
+            "class_version": "1.0.0",
+            "maturity_level": "draft",
+            "superclasses": [
+                {
+                    "class_name": "subject_observation"
+                },
+                {
+                    "class_name": "image"
+                }
+            ],
+            "path": "schemas/V_eta/draft/image_observation.json"
+        },
+        {
             "class_name": "image_stack",
             "tier": "deprecated",
             "class_version": "1.0.0",
