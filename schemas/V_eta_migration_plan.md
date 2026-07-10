@@ -87,6 +87,13 @@ every statement records its subject, so it is one reverse-`depends_on` lookup.
   from whether that term sits under an organism branch.
 - **Any level is a subject** — organism, slice, neuron, region, group. There is
   no privileged level. This is the premise Path S (A.6) rests on.
+- **Kind is a bound `term_assertion`, not a field** (D9). A subject's kind
+  (species, device type, cell type, material) is a `term_assertion` whose `value`
+  is constrained to a suitable ontology subtree by a `variable`-keyed binding
+  (species → NCBITaxon, instrument → OBI device, …). Its **presence is an
+  ingestion-layer invariant**, not a schema field-requirement — a separate
+  document's existence can't be required by the subject's own per-document
+  validation, and some subjects' kind is derived (groups) or learned later.
 
 ### A.3 `subject_relation` — relationships are documents  ◄ NEW
 
@@ -200,8 +207,10 @@ J replaces V_zeta's several body/epoch classes with one axis:
   with the value (on the statement inline, in the body when body-backed). Chiefly
   because co-locating value + cadence makes length-consistency a *single-document*
   check, and a cadence-free anchor stays shareable across values of different
-  rates under one clock (multi-rate under one epoch). Pending confirmation — see
-  the D1 discussion.
+  rates under one clock (multi-rate under one epoch). **Resolved (D1):** anchor in
+  the shared `time_reference`; compressed cadence beside the value (statement
+  inline / body when body-backed); the body is the single home of a body-backed
+  timeline (§A.7).
 
 ### A.9 The leaf tier — one class per data type (restructured, **not** carried from V_zeta)
 
@@ -452,13 +461,12 @@ as V_zeta reused them from V_epsilon.
 Approve or redirect these before implementation; each is a genuine fork, not a
 default we can quietly pick.
 
-- **D1 — Timing model (two axes).** **(A) shape:** always compress (`point` /
-  `{t0, dt, n}` grid / `offsets[]`), never a literal N-array when regular —
-  *agreed*. **(B) location:** anchor in the shared `time_reference`; compressed
+- **D1 — Timing model (two axes). Resolved.** **(A) shape:** always compress
+  (`point` / `{t0, dt, n}` grid / `offsets[]`), never a literal N-array when
+  regular. **(B) location:** anchor in the shared `time_reference`; compressed
   **cadence beside the value** (statement inline / body when body-backed), *not*
-  welded into `time_reference`. *Leaning* per the D1 discussion (single-document
-  length-consistency; cadence-free anchor is shareable across rates). Confirm (B).
-  (A.8)
+  welded into `time_reference` — single-document length-consistency, cadence-free
+  shareable anchor, body owns its own timeline (§A.7, A.8). (A.8)
 - **D2 — The measuring/manipulating device: an instrument-as-subject (replacing
   `element_id`).** *Brainstorm direction (supersedes "keep element_id"):* a device
   (probe, electrode, microscope, Peltier, pump, stimulator) is a **`subject`**
@@ -483,9 +491,12 @@ default we can quietly pick.
   usually a `formulation` **value**, a region an address value, a group derived from
   edges). The one narrow exception worth a class is a single **`instrument`
   subclass of `subject`** (the one kind referenced by a typed edge and wanting a
-  cheap `isa` filter). Open: confirm device-as-subject + `instrument_id`;
-  `instrument` subclass vs. assertion-only; and how far to dissolve `element` at the
-  schema layer (`ndi.element` survives in NDI-matlab regardless). (A.10)
+  cheap `isa` filter). **Resolved:** device-as-subject + optional typed
+  `instrument_id → subject`; **no kind-subclasses** (kind via `term_assertion`,
+  role via the typed edges); `element_id` retired. Kind requiredness + vocabulary
+  → **D9**. `element` dissolution at the schema layer is deferred (`ndi.element`
+  stays an NDI-matlab implementation detail; migrators populate no individuated
+  referent in pass 1). (A.10)
 - **D3 — Path S scope for the first pass. Resolved:** *measure before we build.*
   Discovery mode counts attributed anatomical loci per corpus first; default
   **located-by-default** (emit a `term_observation` value, mint no subject), and
@@ -514,6 +525,24 @@ default we can quietly pick.
   maintained at ingest by the NDI framework; it is **not** schema-enforced and not
   part of the abstract query model (which has no join/closure). Stays out of the
   schema layer.
+- **D9 — Subject kind: requiredness + controlled vocabulary.** Kind stays a
+  `term_assertion` (per J — provenance-blind, refinable, multi-valued), **not** a
+  field on the bare `subject`. **(i) Requiredness:** a subject cannot require, via
+  its own per-document validation, that a separate kind-assertion *exist* — a
+  reverse-existence / cross-document constraint neither the meta-schema nor the
+  query model expresses. So "every subject has a kind" is an **ingestion-layer
+  invariant** (consumer tooling, like the D7 closure index), applied to primary
+  entities (organisms, devices, samples) and *not* to derived-kind subjects
+  (groups) or genuinely-unknown ones. **(ii) Vocabulary:** the kind assertion's
+  `value` is constrained to an ontology subtree by a `variable`-keyed **binding**
+  (the same soft-nudge machinery as `categorical`/`term_observation` in V_zeta) —
+  `variable = species` → NCBITaxon descendants, `variable = instrument type` → OBI
+  device descendants, etc. **(iii)** Optionally enumerate a small set of
+  **kind-defining variables** (species, instrument type, cell type, material type,
+  developmental stage, …) so the (i) invariant is precise. *Provisional:* ingestion
+  invariant + soft inline bindings + an enumerated kind-variable set; **defer** the
+  full binding-registry / `value_set` meta-file (V_zeta punted it) unless you want
+  hard enforcement now. Open for your call. (A.2, A.5)
 - **D8 — Payload-free manipulations. Resolved:** `term_manipulation` (imposed
   value = the act's ontology term). **No escape hatch** — strict J resolves every
   act to a data type; an un-typed numeric is flagged/quarantined in discovery
