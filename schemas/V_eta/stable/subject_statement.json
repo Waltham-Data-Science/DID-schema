@@ -38,6 +38,25 @@
             "ontology": null,
             "documentation": "The noun the statement concerns \u2014 the quantity/entity (temperature, body weight, a drug, species). One name across assertions, observations and manipulations, so identity search is uniform.",
             "constraints": {}
+        },
+        {
+            "name": "storage_mode",
+            "type": "char",
+            "blank_value": "inline",
+            "default_value": "inline",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "How the value is supplied: inline | reference | body. Machine-set at ingest by type and size (\u00a78); assertions are always inline.",
+            "constraints": {
+                "enum": [
+                    "inline",
+                    "reference",
+                    "body"
+                ]
+            }
         }
     ]
 }

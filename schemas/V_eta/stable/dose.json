@@ -1,0 +1,126 @@
+{
+    "document_class": {
+        "class_name": "dose",
+        "class_version": "1.0.0",
+        "superclasses": [
+            {
+                "class_name": "base"
+            }
+        ],
+        "maturity_level": "stable",
+        "abstract": true
+    },
+    "depends_on": [],
+    "file": [],
+    "fields": [
+        {
+            "name": "value",
+            "type": "structure",
+            "blank_value": {},
+            "default_value": {},
+            "mustBeNonEmpty": true,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "A dose: a formulation delivered at a volume/route.",
+            "constraints": {},
+            "fields": [
+                {
+                    "name": "formulation",
+                    "type": "structure",
+                    "blank_value": {},
+                    "default_value": {},
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "The substances delivered.",
+                    "constraints": {},
+                    "fields": [
+                        {
+                            "name": "chemicals",
+                            "type": "structure",
+                            "blank_value": [],
+                            "default_value": [],
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": false,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "Agents.",
+                            "constraints": {},
+                            "fields": [
+                                {
+                                    "name": "substance",
+                                    "type": "ontology_term",
+                                    "blank_value": {
+                                        "node": "",
+                                        "name": ""
+                                    },
+                                    "default_value": {
+                                        "node": "",
+                                        "name": ""
+                                    },
+                                    "mustBeNonEmpty": true,
+                                    "mustBeScalar": true,
+                                    "mustNotHaveNaN": false,
+                                    "queryable": true,
+                                    "ontology": null,
+                                    "documentation": "The chemical/biological agent (CHEBI/NCBITaxon/\u2026).",
+                                    "constraints": {}
+                                },
+                                {
+                                    "name": "amount",
+                                    "type": "concentration",
+                                    "blank_value": 0.0,
+                                    "default_value": 0.0,
+                                    "mustBeNonEmpty": false,
+                                    "mustBeScalar": true,
+                                    "mustNotHaveNaN": false,
+                                    "queryable": true,
+                                    "ontology": null,
+                                    "documentation": "Optional amount/concentration.",
+                                    "constraints": {}
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "name": "volume",
+                    "type": "volume",
+                    "blank_value": 0.0,
+                    "default_value": 0.0,
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Delivered volume (optional).",
+                    "constraints": {}
+                },
+                {
+                    "name": "route",
+                    "type": "ontology_term",
+                    "blank_value": {
+                        "node": "",
+                        "name": ""
+                    },
+                    "default_value": {
+                        "node": "",
+                        "name": ""
+                    },
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Route of administration (optional; else on method).",
+                    "constraints": {}
+                }
+            ]
+        }
+    ]
+}

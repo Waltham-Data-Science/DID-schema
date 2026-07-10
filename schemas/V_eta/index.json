@@ -23,6 +23,15 @@
             "is_meta": true
         },
         {
+            "class_name": "binding_registry_meta",
+            "tier": "stable",
+            "class_version": null,
+            "maturity_level": null,
+            "superclasses": [],
+            "path": "schemas/V_eta/stable/binding_registry_meta.json",
+            "is_meta": true
+        },
+        {
             "class_name": "did_schema_meta",
             "tier": "stable",
             "class_version": null,
@@ -61,18 +70,6 @@
             "path": "schemas/V_eta/stable/base.json"
         },
         {
-            "class_name": "bath",
-            "tier": "stable",
-            "class_version": "1.0.0",
-            "maturity_level": "stable",
-            "superclasses": [
-                {
-                    "class_name": "pharmacological_manipulation"
-                }
-            ],
-            "path": "schemas/V_eta/stable/bath.json"
-        },
-        {
             "class_name": "binaryseries_parameters",
             "tier": "stable",
             "class_version": "1.0.0",
@@ -97,18 +94,6 @@
             "path": "schemas/V_eta/stable/binnedspikeratevm.json"
         },
         {
-            "class_name": "biological_transfer",
-            "tier": "stable",
-            "class_version": "3.0.0",
-            "maturity_level": "stable",
-            "superclasses": [
-                {
-                    "class_name": "subject_manipulation"
-                }
-            ],
-            "path": "schemas/V_eta/stable/biological_transfer.json"
-        },
-        {
             "class_name": "calculator",
             "tier": "stable",
             "class_version": "1.0.0",
@@ -122,6 +107,18 @@
                 }
             ],
             "path": "schemas/V_eta/stable/calculator.json"
+        },
+        {
+            "class_name": "chemical",
+            "tier": "stable",
+            "class_version": "1.0.0",
+            "maturity_level": "stable",
+            "superclasses": [
+                {
+                    "class_name": "base"
+                }
+            ],
+            "path": "schemas/V_eta/stable/chemical.json"
         },
         {
             "class_name": "concentration",
@@ -415,6 +412,18 @@
             "path": "schemas/V_eta/stable/daqsystem.json"
         },
         {
+            "class_name": "data_body",
+            "tier": "draft",
+            "class_version": "1.0.0",
+            "maturity_level": "draft",
+            "superclasses": [
+                {
+                    "class_name": "base"
+                }
+            ],
+            "path": "schemas/V_eta/draft/data_body.json"
+        },
+        {
             "class_name": "dataseries_channel_map",
             "tier": "draft",
             "class_version": "1.0.0",
@@ -572,6 +581,33 @@
                 }
             ],
             "path": "schemas/V_eta/stable/distance_metadata.json"
+        },
+        {
+            "class_name": "dose",
+            "tier": "stable",
+            "class_version": "1.0.0",
+            "maturity_level": "stable",
+            "superclasses": [
+                {
+                    "class_name": "base"
+                }
+            ],
+            "path": "schemas/V_eta/stable/dose.json"
+        },
+        {
+            "class_name": "dose_manipulation",
+            "tier": "stable",
+            "class_version": "1.0.0",
+            "maturity_level": "stable",
+            "superclasses": [
+                {
+                    "class_name": "subject_manipulation"
+                },
+                {
+                    "class_name": "dose"
+                }
+            ],
+            "path": "schemas/V_eta/stable/dose_manipulation.json"
         },
         {
             "class_name": "duration",
@@ -973,6 +1009,33 @@
             "path": "schemas/V_eta/stable/fitcurve.json"
         },
         {
+            "class_name": "formulation",
+            "tier": "stable",
+            "class_version": "1.0.0",
+            "maturity_level": "stable",
+            "superclasses": [
+                {
+                    "class_name": "base"
+                }
+            ],
+            "path": "schemas/V_eta/stable/formulation.json"
+        },
+        {
+            "class_name": "formulation_manipulation",
+            "tier": "stable",
+            "class_version": "1.0.0",
+            "maturity_level": "stable",
+            "superclasses": [
+                {
+                    "class_name": "subject_manipulation"
+                },
+                {
+                    "class_name": "formulation"
+                }
+            ],
+            "path": "schemas/V_eta/stable/formulation_manipulation.json"
+        },
+        {
             "class_name": "frequency",
             "tier": "stable",
             "class_version": "1.0.0",
@@ -1037,60 +1100,6 @@
                 }
             ],
             "path": "schemas/V_eta/stable/generic_file.json"
-        },
-        {
-            "class_name": "generic_manipulation",
-            "tier": "stable",
-            "class_version": "1.0.0",
-            "maturity_level": "stable",
-            "superclasses": [
-                {
-                    "class_name": "subject_manipulation"
-                }
-            ],
-            "path": "schemas/V_eta/stable/generic_manipulation.json"
-        },
-        {
-            "class_name": "generic_scalar",
-            "tier": "stable",
-            "class_version": "1.0.0",
-            "maturity_level": "stable",
-            "superclasses": [
-                {
-                    "class_name": "base"
-                }
-            ],
-            "path": "schemas/V_eta/stable/generic_scalar.json"
-        },
-        {
-            "class_name": "generic_scalar_manipulation",
-            "tier": "stable",
-            "class_version": "1.0.0",
-            "maturity_level": "stable",
-            "superclasses": [
-                {
-                    "class_name": "subject_manipulation"
-                },
-                {
-                    "class_name": "generic_scalar"
-                }
-            ],
-            "path": "schemas/V_eta/stable/generic_scalar_manipulation.json"
-        },
-        {
-            "class_name": "generic_scalar_observation",
-            "tier": "stable",
-            "class_version": "1.0.0",
-            "maturity_level": "stable",
-            "superclasses": [
-                {
-                    "class_name": "subject_observation"
-                },
-                {
-                    "class_name": "generic_scalar"
-                }
-            ],
-            "path": "schemas/V_eta/stable/generic_scalar_observation.json"
         },
         {
             "class_name": "hartley_calc",
@@ -1211,18 +1220,6 @@
                 }
             ],
             "path": "schemas/V_eta/draft/imageseries_observation.json"
-        },
-        {
-            "class_name": "injection",
-            "tier": "stable",
-            "class_version": "1.0.0",
-            "maturity_level": "stable",
-            "superclasses": [
-                {
-                    "class_name": "pharmacological_manipulation"
-                }
-            ],
-            "path": "schemas/V_eta/stable/injection.json"
         },
         {
             "class_name": "instrument",
@@ -1471,6 +1468,18 @@
             "path": "schemas/V_eta/stable/ontology_table_row.json"
         },
         {
+            "class_name": "opaque_body",
+            "tier": "draft",
+            "class_version": "1.0.0",
+            "maturity_level": "draft",
+            "superclasses": [
+                {
+                    "class_name": "data_body"
+                }
+            ],
+            "path": "schemas/V_eta/draft/opaque_body.json"
+        },
+        {
             "class_name": "openminds",
             "tier": "stable",
             "class_version": "1.0.0",
@@ -1559,18 +1568,6 @@
                 }
             ],
             "path": "schemas/V_eta/stable/orientation_direction_tuning.json"
-        },
-        {
-            "class_name": "pharmacological_manipulation",
-            "tier": "stable",
-            "class_version": "1.0.0",
-            "maturity_level": "stable",
-            "superclasses": [
-                {
-                    "class_name": "subject_manipulation"
-                }
-            ],
-            "path": "schemas/V_eta/stable/pharmacological_manipulation.json"
         },
         {
             "class_name": "placement",
@@ -1817,6 +1814,18 @@
                 }
             ],
             "path": "schemas/V_eta/stable/reverse_correlation.json"
+        },
+        {
+            "class_name": "sampled_body",
+            "tier": "draft",
+            "class_version": "1.0.0",
+            "maturity_level": "draft",
+            "superclasses": [
+                {
+                    "class_name": "data_body"
+                }
+            ],
+            "path": "schemas/V_eta/draft/sampled_body.json"
         },
         {
             "class_name": "score",
@@ -2135,18 +2144,6 @@
                 }
             ],
             "path": "schemas/V_eta/stable/stimulus_approach.json"
-        },
-        {
-            "class_name": "stimulus_bath",
-            "tier": "stable",
-            "class_version": "2.0.0",
-            "maturity_level": "stable",
-            "superclasses": [
-                {
-                    "class_name": "bath"
-                }
-            ],
-            "path": "schemas/V_eta/stable/stimulus_bath.json"
         },
         {
             "class_name": "stimulus_manipulation",
@@ -2495,6 +2492,18 @@
                 }
             ],
             "path": "schemas/V_eta/stable/term_assertion.json"
+        },
+        {
+            "class_name": "term_manipulation",
+            "tier": "stable",
+            "class_version": "1.0.0",
+            "maturity_level": "stable",
+            "superclasses": [
+                {
+                    "class_name": "subject_manipulation"
+                }
+            ],
+            "path": "schemas/V_eta/stable/term_manipulation.json"
         },
         {
             "class_name": "term_observation",

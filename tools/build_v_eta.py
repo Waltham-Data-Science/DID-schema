@@ -4,12 +4,21 @@
 Runs IN PLACE on schemas/V_eta (a fresh copy of schemas/V_zeta). Re-runnable:
 it reads the pristine V_zeta tree for anything it needs and rewrites V_eta.
 
-This increment implements the SUBJECT-SIDE core of Brainstorm J (V_eta_SPEC
-sections 1-6, plus the value_set of section 7 and the timing relocation of
-section 8). The deeper leaf-tier work (dose/formulation composites replacing the
-pharmacological family, the dataseries -> data_body consolidation, and the
-meta-schema `binding` formalization) is a tracked follow-up; those V_zeta classes
-are carried unchanged for now so the set still validates.
+Implements V_eta_SPEC sections 1-8: the subject-side core (bare subject,
+subject_relation, restored subject_statement, subject_assertion genus,
+subject_interaction re-root + subject_observation/subject_manipulation, Path S,
+timing relocation), the strict-J leaf tier (data-type-named manipulations +
+dose/formulation/chemical composites + term_manipulation; no delivery-method
+family, no escape hatch), storage_mode + data_body/sampled_body/opaque_body, and
+the hard-validated binding registry (formalized `binding` block + value_set +
+binding_registry_meta with the kind-variable set).
+
+Still carried unchanged (a tracked follow-up, so the set validates): the V_zeta
+dataseries_/timeseries_/imageseries_ observation + *_data body classes and
+element_epoch/generic_file/expression_matrix_data are NOT yet collapsed onto the
+data-type leaves + sampled_body (that consolidation is entangled with NDI-side
+infrastructure and lands with the NDI-matlab work). The did_v1 -> V_eta
+conversion docs are still V_zeta-targeted pending retarget.
 
 Usage:  python3 tools/build_v_eta.py
 """
@@ -22,7 +31,8 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 VZETA = os.path.join(ROOT, "schemas", "V_zeta")
 VETA = os.path.join(ROOT, "schemas", "V_eta")
 TIERS = ["stable", "draft", "deprecated"]
-META_FILES = {"did_schema_meta.json", "CURIE_lookups_meta.json", "ndi_reserved_keys.json"}
+META_FILES = {"did_schema_meta.json", "CURIE_lookups_meta.json", "ndi_reserved_keys.json",
+              "binding_registry_meta.json"}
 
 DIMS = ["mass", "length", "volume", "duration", "temperature", "pressure",
         "frequency", "voltage", "current", "concentration", "count", "score"]
@@ -31,14 +41,20 @@ DIMS = ["mass", "length", "volume", "duration", "temperature", "pressure",
 # ---------- helpers ----------
 
 def subfield(name, ftype, doc, *, non_empty=False, scalar=True, blank=None,
-             constraints=None):
+             constraints=None, sub_fields=None):
     if blank is None:
-        blank = "" if ftype in ("char", "string") else (
-            [] if ftype == "matrix" else (0 if ftype == "integer" else 0.0))
-    return {"name": name, "type": ftype, "blank_value": blank, "default_value": blank,
-            "mustBeNonEmpty": non_empty, "mustBeScalar": scalar, "mustNotHaveNaN": False,
-            "queryable": True, "ontology": None, "documentation": doc,
-            "constraints": constraints or {}}
+        blank = {"node": "", "name": ""} if ftype == "ontology_term" else (
+            "" if ftype in ("char", "string") else (
+                [] if ftype == "matrix" or not scalar else (
+                    0 if ftype == "integer" else (
+                        {} if ftype == "structure" else 0.0))))
+    obj = {"name": name, "type": ftype, "blank_value": blank, "default_value": blank,
+           "mustBeNonEmpty": non_empty, "mustBeScalar": scalar, "mustNotHaveNaN": False,
+           "queryable": True, "ontology": None, "documentation": doc,
+           "constraints": constraints or {}}
+    if ftype == "structure":
+        obj["fields"] = sub_fields or []
+    return obj
 
 
 def field(name, ftype, doc, *, non_empty=False, scalar=True, queryable=True,
@@ -357,6 +373,175 @@ tr = load(os.path.join(VETA, "stable", "time_reference.json"))
 tr["fields"] = [f for f in tr["fields"] if f["name"] != "sampling"]
 tr["document_class"]["class_version"] = "3.0.0"
 write("stable", "time_reference", tr)
+
+
+# ---------- 10. manipulation tier: strict J (D4, D8) ----------
+# Retire the delivery-method family and the escape hatches; a manipulation is a
+# data-type-named leaf imposing a composite/term value. Route -> method, site ->
+# Path S. biological_transfer -> term_manipulation + provenance relation (migrator).
+
+for name in ["injection", "bath", "stimulus_bath", "pharmacological_manipulation",
+             "generic_manipulation", "generic_scalar", "generic_scalar_observation",
+             "generic_scalar_manipulation", "biological_transfer"]:
+    tier, p = path_of(name)
+    if p:
+        os.remove(p)
+
+# composite value mixins (structure-typed cells; J §7 named composites)
+CHEM_SUBS = [subfield("substance", "ontology_term", "The chemical/biological agent "
+                      "(CHEBI/NCBITaxon/…).", non_empty=True),
+             subfield("amount", "concentration", "Optional amount/concentration.")]
+write("stable", "chemical",
+      doc("chemical", ["base"], abstract=True, fields=[field(
+          "value", "structure", "A single agent: a substance term + optional amount.",
+          non_empty=True, blank={}, sub_fields=CHEM_SUBS)]))
+write("stable", "formulation",
+      doc("formulation", ["base"], abstract=True, fields=[field(
+          "value", "structure", "A formulation: one or more chemicals.",
+          non_empty=True, blank={}, sub_fields=[
+              subfield("chemicals", "structure", "The agents in this formulation.",
+                       non_empty=True, scalar=False, sub_fields=CHEM_SUBS)])]))
+write("stable", "dose",
+      doc("dose", ["base"], abstract=True, fields=[field(
+          "value", "structure", "A dose: a formulation delivered at a volume/route.",
+          non_empty=True, blank={}, sub_fields=[
+              subfield("formulation", "structure", "The substances delivered.",
+                       sub_fields=[subfield("chemicals", "structure", "Agents.",
+                                            scalar=False, sub_fields=CHEM_SUBS)]),
+              subfield("volume", "volume", "Delivered volume (optional)."),
+              subfield("route", "ontology_term",
+                       "Route of administration (optional; else on method).")])]))
+
+# data-type-named manipulation leaves
+write("stable", "dose_manipulation",
+      doc("dose_manipulation", ["subject_manipulation", "dose"]))
+write("stable", "formulation_manipulation",
+      doc("formulation_manipulation", ["subject_manipulation", "formulation"]))
+write("stable", "term_manipulation",
+      doc("term_manipulation", ["subject_manipulation"], fields=[field(
+          "value", "ontology_term",
+          "The imposed act/agent as a bound term — a procedure (craniotomy), a "
+          "regime (dark rearing), or a transferred material. Payload-free acts "
+          "live here; there is NO generic escape hatch (D8).", non_empty=True,
+          constraints={"binding": {"keyed_by": "variable", "expansion": "descendants",
+                                   "node_kind": "class", "strength": "required",
+                                   "source": "ontology"}})]))
+
+
+# ---------- 11. storage_mode + data_body (sampled_/opaque_) ----------
+
+ss = load(os.path.join(VETA, "stable", "subject_statement.json"))
+ss["fields"].append(field(
+    "storage_mode", "char",
+    "How the value is supplied: inline | reference | body. Machine-set at ingest "
+    "by type and size (§8); assertions are always inline.",
+    non_empty=False, blank="inline", default="inline",
+    constraints={"enum": ["inline", "reference", "body"]}))
+write("stable", "subject_statement", ss)
+
+STATEMENT_DEP = dep("statement", "subject_statement",
+                    "The one statement this body belongs to (reverse pointer); a "
+                    "stream appends more bodies without rewriting the anchor.")
+BODY_FILE = [{"name": "body_data", "documentation": "The byte payload (>=1 file)."}]
+data_body = doc("data_body", ["base"], abstract=True, maturity="draft", deps=[STATEMENT_DEP])
+data_body["file"] = BODY_FILE
+write("draft", "data_body", data_body)
+
+sampled = doc("sampled_body", ["data_body"], maturity="draft", fields=[
+    field("datum", "structure", "The per-sample value type (kind/dtype/unit/shape).",
+          blank={}, sub_fields=[
+              subfield("kind", "char", "scalar | array | record.", non_empty=True,
+                       blank="scalar",
+                       constraints={"enum": ["scalar", "array", "record"]}),
+              subfield("dtype", "char", "Numeric dtype (float64, int16, …)."),
+              subfield("unit", "char", "The per-sample value unit."),
+              subfield("shape", "matrix", "array only: intra-datum dims.")]),
+    field("sample_time", "structure",
+          "The body-local timeline (D1 — the single home for a body-backed value).",
+          blank={}, sub_fields=[
+              subfield("regular", "boolean", "Regular grid vs enumerated.",
+                       blank=True),
+              subfield("t0", "duration", "Local start offset from the anchor."),
+              subfield("dt", "duration", "regular: sample spacing."),
+              subfield("n", "integer", "Sample count.")]),
+    field("summary", "structure", "The searchable value + time rollup.",
+          blank={}, sub_fields=[
+              subfield("value", "structure", "Per-type value rollup.", blank={}),
+              subfield("time", "structure", "min/max/n over sample_time.",
+                       blank={})]),
+])
+sampled["file"] = BODY_FILE
+write("draft", "sampled_body", sampled)
+
+opaque = doc("opaque_body", ["data_body"], maturity="draft")
+opaque["file"] = BODY_FILE
+write("draft", "opaque_body", opaque)
+
+
+# ---------- 12. formalize `binding` in the meta-schema (D9) ----------
+# The constraints subschema is an open object; add a `binding` property so binding
+# blocks are structurally validated (require keyed_by) without constraining the
+# other constraint keywords (maxLength, enum, …).
+
+meta = load(os.path.join(VETA, "stable", "did_schema_meta.json"))
+constraints_schema = meta["$defs"]["field_definition"]["properties"]["constraints"]
+constraints_schema["properties"] = {
+    "binding": {
+        "type": "object",
+        "description": "Controlled-vocabulary binding for a term value: either "
+                       "keyed on another field (usually `variable`, ontology "
+                       "expansion) or a static enumerated value_set (root+values). "
+                       "Enforced by the ontology-aware validator (D9).",
+        "properties": {
+            "keyed_by": {"type": "string"},
+            "expansion": {"type": "string"},
+            "node_kind": {"type": "string"},
+            "strength": {"type": "string",
+                         "enum": ["required", "preferred", "suggested"]},
+            "source": {"type": "string"},
+            "root": {"type": "string"},
+            "value_set": {"type": "string"},
+            "values": {"type": "array"},
+        },
+    }
+}
+with open(os.path.join(VETA, "stable", "did_schema_meta.json"), "w") as f:
+    json.dump(meta, f, indent=4)
+    f.write("\n")
+
+
+# ---------- 13. binding-registry meta-file + kind-variable set (D9) ----------
+
+binding_registry = {
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "$id": "https://did-schema.example.org/meta/binding_registry_meta.json",
+    "title": "Binding registry for DID/NDI V_eta",
+    "description": "Maps a statement's `variable` (and, on interactions, "
+                   "method+variable) to the admissible value_set for its term "
+                   "value, and declares the kind-defining variables whose presence "
+                   "marks a subject's kind (D9). Consumer tooling resolves a term "
+                   "value against the bound value_set at validation time.",
+    "kind_variables": [
+        {"variable": "species", "value_set": "organism_species",
+         "root": "NCBITaxon:1", "source": "NCBITaxon"},
+        {"variable": "instrument type", "value_set": "device_types",
+         "root": "OBI:0000968", "source": "OBI"},
+        {"variable": "cell type", "value_set": "cell_types",
+         "root": "CL:0000000", "source": "CL"},
+        {"variable": "material type", "value_set": "materials",
+         "root": "CHEBI:24431", "source": "CHEBI"},
+        {"variable": "developmental stage", "value_set": "dev_stages",
+         "root": "UBERON:0000105", "source": "UBERON"},
+    ],
+    "bindings": [],
+    "notes": "Corpus-derived variable->value_set bindings are added during "
+             "discovery (D3/D6). The kind_variables list makes the subject-kind "
+             "ingestion invariant precise; a subject is expected to carry >=1 "
+             "term_assertion whose variable is in this set (checked at ingest).",
+}
+with open(os.path.join(VETA, "stable", "binding_registry_meta.json"), "w") as f:
+    json.dump(binding_registry, f, indent=4)
+    f.write("\n")
 
 
 # ---------- 9. regenerate index.json ----------

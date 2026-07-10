@@ -1,0 +1,40 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "$id": "https://did-schema.example.org/meta/binding_registry_meta.json",
+    "title": "Binding registry for DID/NDI V_eta",
+    "description": "Maps a statement's `variable` (and, on interactions, method+variable) to the admissible value_set for its term value, and declares the kind-defining variables whose presence marks a subject's kind (D9). Consumer tooling resolves a term value against the bound value_set at validation time.",
+    "kind_variables": [
+        {
+            "variable": "species",
+            "value_set": "organism_species",
+            "root": "NCBITaxon:1",
+            "source": "NCBITaxon"
+        },
+        {
+            "variable": "instrument type",
+            "value_set": "device_types",
+            "root": "OBI:0000968",
+            "source": "OBI"
+        },
+        {
+            "variable": "cell type",
+            "value_set": "cell_types",
+            "root": "CL:0000000",
+            "source": "CL"
+        },
+        {
+            "variable": "material type",
+            "value_set": "materials",
+            "root": "CHEBI:24431",
+            "source": "CHEBI"
+        },
+        {
+            "variable": "developmental stage",
+            "value_set": "dev_stages",
+            "root": "UBERON:0000105",
+            "source": "UBERON"
+        }
+    ],
+    "bindings": [],
+    "notes": "Corpus-derived variable->value_set bindings are added during discovery (D3/D6). The kind_variables list makes the subject-kind ingestion invariant precise; a subject is expected to carry >=1 term_assertion whose variable is in this set (checked at ingest)."
+}

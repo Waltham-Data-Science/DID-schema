@@ -22,7 +22,8 @@ import pytest
 REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 VETA = os.path.join(REPO_ROOT, "schemas", "V_eta")
 TIERS = ["stable", "draft", "deprecated"]
-META_FILES = {"did_schema_meta.json", "CURIE_lookups_meta.json", "ndi_reserved_keys.json"}
+META_FILES = {"did_schema_meta.json", "CURIE_lookups_meta.json", "ndi_reserved_keys.json",
+              "binding_registry_meta.json"}
 
 
 def _load(path):
@@ -217,3 +218,63 @@ def test_timing_cadence_moved_off_time_reference():
     tr_fields = {f["name"] for f in RECORDS["time_reference"][1]["fields"]}
     assert "sampling" not in tr_fields
     assert _flat_field_types("subject_interaction").get("sample_time") == "structure"
+
+
+# ---- increment 2: leaf-tier depth ----
+
+def test_manipulation_tier_is_strict_j():
+    """No delivery-method family, no escape hatch (D8); data-type-named leaves."""
+    for gone in ("injection", "bath", "stimulus_bath", "pharmacological_manipulation",
+                 "generic_manipulation", "generic_scalar", "generic_scalar_observation",
+                 "generic_scalar_manipulation", "biological_transfer"):
+        assert gone not in RECORDS, f"{gone} must be retired in strict J"
+    for leaf in ("dose_manipulation", "formulation_manipulation", "term_manipulation",
+                 "temperature_manipulation"):
+        assert leaf in RECORDS and "subject_manipulation" in _chain(leaf)
+    # composites are structure-typed value mixins
+    for comp in ("dose", "formulation", "chemical"):
+        assert comp in RECORDS
+        assert _flat_field_types(comp).get("value") == "structure"
+    assert "dose" in _chain("dose_manipulation")
+    # term_manipulation carries a bound term value (payload-free acts live here)
+    assert _flat_field_types("term_manipulation").get("value") == "ontology_term"
+
+
+def test_storage_mode_on_statement():
+    ft = _flat_field_types("subject_statement")
+    assert ft.get("storage_mode") == "char"
+    sm = [f for f in RECORDS["subject_statement"][1]["fields"]
+          if f["name"] == "storage_mode"][0]
+    assert set(sm["constraints"]["enum"]) == {"inline", "reference", "body"}
+
+
+def test_data_body_classes():
+    assert RECORDS["data_body"][1]["document_class"].get("abstract") is True
+    assert "statement" in _flat_dep_names("data_body")
+    for body in ("sampled_body", "opaque_body"):
+        assert "data_body" in _chain(body)
+        assert RECORDS[body][0] == "draft"
+    sft = _flat_field_types("sampled_body")
+    assert sft.get("datum") == "structure" and sft.get("sample_time") == "structure"
+    assert sft.get("summary") == "structure"
+    # opaque_body is a pure marker (adds no fields of its own)
+    assert RECORDS["opaque_body"][1]["fields"] == []
+
+
+def test_binding_is_formalized_in_meta_schema():
+    """D9: the `binding` block is a validated property of `constraints`, not an
+    advisory free-form key."""
+    binding = META["$defs"]["field_definition"]["properties"]["constraints"] \
+        .get("properties", {}).get("binding")
+    assert binding is not None and binding["type"] == "object"
+    assert "keyed_by" in binding["properties"] and "value_set" in binding["properties"]
+
+
+def test_binding_registry_meta_present():
+    """D9: the binding registry ships in Phase 1 (kind-variable set + bindings)."""
+    reg = _load(os.path.join(VETA, "stable", "binding_registry_meta.json"))
+    kv = {k["variable"] for k in reg["kind_variables"]}
+    assert {"species", "instrument type"} <= kv
+    assert all("root" in k and "value_set" in k for k in reg["kind_variables"])
+    in_index = {e["class_name"]: e for e in INDEX["schemas"]}
+    assert in_index["binding_registry_meta"].get("is_meta") is True

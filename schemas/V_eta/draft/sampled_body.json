@@ -1,0 +1,204 @@
+{
+    "document_class": {
+        "class_name": "sampled_body",
+        "class_version": "1.0.0",
+        "superclasses": [
+            {
+                "class_name": "data_body"
+            }
+        ],
+        "maturity_level": "draft"
+    },
+    "depends_on": [],
+    "file": [
+        {
+            "name": "body_data",
+            "documentation": "The byte payload (>=1 file)."
+        }
+    ],
+    "fields": [
+        {
+            "name": "datum",
+            "type": "structure",
+            "blank_value": {},
+            "default_value": {},
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "The per-sample value type (kind/dtype/unit/shape).",
+            "constraints": {},
+            "fields": [
+                {
+                    "name": "kind",
+                    "type": "char",
+                    "blank_value": "scalar",
+                    "default_value": "scalar",
+                    "mustBeNonEmpty": true,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "scalar | array | record.",
+                    "constraints": {
+                        "enum": [
+                            "scalar",
+                            "array",
+                            "record"
+                        ]
+                    }
+                },
+                {
+                    "name": "dtype",
+                    "type": "char",
+                    "blank_value": "",
+                    "default_value": "",
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Numeric dtype (float64, int16, \u2026).",
+                    "constraints": {}
+                },
+                {
+                    "name": "unit",
+                    "type": "char",
+                    "blank_value": "",
+                    "default_value": "",
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "The per-sample value unit.",
+                    "constraints": {}
+                },
+                {
+                    "name": "shape",
+                    "type": "matrix",
+                    "blank_value": [],
+                    "default_value": [],
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "array only: intra-datum dims.",
+                    "constraints": {}
+                }
+            ]
+        },
+        {
+            "name": "sample_time",
+            "type": "structure",
+            "blank_value": {},
+            "default_value": {},
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "The body-local timeline (D1 \u2014 the single home for a body-backed value).",
+            "constraints": {},
+            "fields": [
+                {
+                    "name": "regular",
+                    "type": "boolean",
+                    "blank_value": true,
+                    "default_value": true,
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Regular grid vs enumerated.",
+                    "constraints": {}
+                },
+                {
+                    "name": "t0",
+                    "type": "duration",
+                    "blank_value": 0.0,
+                    "default_value": 0.0,
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Local start offset from the anchor.",
+                    "constraints": {}
+                },
+                {
+                    "name": "dt",
+                    "type": "duration",
+                    "blank_value": 0.0,
+                    "default_value": 0.0,
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "regular: sample spacing.",
+                    "constraints": {}
+                },
+                {
+                    "name": "n",
+                    "type": "integer",
+                    "blank_value": 0,
+                    "default_value": 0,
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Sample count.",
+                    "constraints": {}
+                }
+            ]
+        },
+        {
+            "name": "summary",
+            "type": "structure",
+            "blank_value": {},
+            "default_value": {},
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "The searchable value + time rollup.",
+            "constraints": {},
+            "fields": [
+                {
+                    "name": "value",
+                    "type": "structure",
+                    "blank_value": {},
+                    "default_value": {},
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Per-type value rollup.",
+                    "constraints": {},
+                    "fields": []
+                },
+                {
+                    "name": "time",
+                    "type": "structure",
+                    "blank_value": {},
+                    "default_value": {},
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "min/max/n over sample_time.",
+                    "constraints": {},
+                    "fields": []
+                }
+            ]
+        }
+    ]
+}

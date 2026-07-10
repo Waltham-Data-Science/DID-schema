@@ -1,13 +1,13 @@
 {
     "document_class": {
-        "class_name": "generic_scalar_observation",
+        "class_name": "formulation_manipulation",
         "class_version": "1.0.0",
         "superclasses": [
             {
-                "class_name": "subject_observation"
+                "class_name": "subject_manipulation"
             },
             {
-                "class_name": "generic_scalar"
+                "class_name": "formulation"
             }
         ],
         "maturity_level": "stable"

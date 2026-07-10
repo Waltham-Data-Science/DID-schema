@@ -1,10 +1,10 @@
 {
     "document_class": {
-        "class_name": "pharmacological_manipulation",
+        "class_name": "chemical",
         "class_version": "1.0.0",
         "superclasses": [
             {
-                "class_name": "subject_manipulation"
+                "class_name": "base"
             }
         ],
         "maturity_level": "stable",
@@ -14,20 +14,20 @@
     "file": [],
     "fields": [
         {
-            "name": "mixture",
+            "name": "value",
             "type": "structure",
-            "blank_value": [],
-            "default_value": [],
+            "blank_value": {},
+            "default_value": {},
             "mustBeNonEmpty": true,
-            "mustBeScalar": false,
+            "mustBeScalar": true,
             "mustNotHaveNaN": false,
             "queryable": true,
             "ontology": null,
-            "documentation": "Array of per-chemical records describing the administered mixture. Each record carries the chemical identity as an ontology_term and the amount as a concentration composite.",
+            "documentation": "A single agent: a substance term + optional amount.",
             "constraints": {},
             "fields": [
                 {
-                    "name": "chemical",
+                    "name": "substance",
                     "type": "ontology_term",
                     "blank_value": {
                         "node": "",
@@ -42,28 +42,20 @@
                     "mustNotHaveNaN": false,
                     "queryable": true,
                     "ontology": null,
-                    "documentation": "Ontology term identifying this chemical species.",
+                    "documentation": "The chemical/biological agent (CHEBI/NCBITaxon/\u2026).",
                     "constraints": {}
                 },
                 {
                     "name": "amount",
                     "type": "concentration",
-                    "blank_value": {
-                        "approximate": false,
-                        "source_unit": "",
-                        "source_value": 0.0
-                    },
-                    "default_value": {
-                        "approximate": false,
-                        "source_unit": "",
-                        "source_value": 0.0
-                    },
+                    "blank_value": 0.0,
+                    "default_value": 0.0,
                     "mustBeNonEmpty": false,
                     "mustBeScalar": true,
                     "mustNotHaveNaN": false,
                     "queryable": true,
                     "ontology": null,
-                    "documentation": "Concentration of this chemical in the mixture (canonical sub-fields plus source_unit/source_value).",
+                    "documentation": "Optional amount/concentration.",
                     "constraints": {}
                 }
             ]

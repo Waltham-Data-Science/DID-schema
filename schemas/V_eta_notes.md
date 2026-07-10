@@ -97,22 +97,32 @@ Increment 1 — the subject-side core — **done**:
 - [x] `tests/test_veta.py` (meta-validation, index/disk, superclass + dependency
   resolution, spine composition, subject-side structure).
 
-Increment 2 — leaf-tier depth — **pending** (V_zeta-shaped classes carried
-unchanged for now so the set validates):
+Increment 2 — leaf-tier depth — **done** (manipulation tier, storage model,
+binding registry). Full suite 975 passing (`test_veta.py` 456 checks):
 
-- [ ] Retire the delivery-method family (`injection` / `bath` /
-  `pharmacological_manipulation` / `stimulus_bath`) and the escape hatches
-  (`generic_manipulation` / `generic_scalar_*`) → data-type-named manipulations +
-  `dose` / `formulation` / `chemical` composites + `term_manipulation` (D8).
-- [ ] `biological_transfer` → `term_manipulation` + provenance `directed_relation`
-  (D4).
-- [ ] Collapse the `dataseries_` / `timeseries_` / `imageseries_` split into the
-  data-type leaves; add `storage_mode` + `sampled_body` / `opaque_body`; retire
-  the superseded body classes (D-storage).
-- [ ] Harden the binding registry: the binding-registry meta-file, the
-  meta-schema `binding` formalization, the ontology-aware validator, and the
-  enumerated kind-variable set (D9).
-- [ ] `schemas/V_eta/conversions/from_did_v1/` seed (mirrors migration-plan Part D).
+- [x] Retired the delivery-method family (`injection` / `bath` / `stimulus_bath` /
+  `pharmacological_manipulation`) and the escape hatches (`generic_manipulation` /
+  `generic_scalar_*`) → `dose_manipulation` / `formulation_manipulation` +
+  `dose` / `formulation` / `chemical` composite mixins + `term_manipulation` for
+  payload-free acts (D8). `biological_transfer` retired (→ `term_manipulation` +
+  a provenance `directed_relation` minted by the migrator, D4).
+- [x] `storage_mode` on `subject_statement` + `data_body` / `sampled_body` /
+  `opaque_body` (draft tier); the body carries the value's timeline (D1).
+- [x] Binding registry hardened (D9): the `binding` block is **formalized in the
+  meta-schema** (validated `constraints.binding`), and `binding_registry_meta.json`
+  ships the enumerated kind-variable set (species, instrument type, cell type,
+  material type, developmental stage) + their ontology roots.
+
+Increment 3 — remaining (entangled with NDI-side infra; needs the NDI-matlab work):
+
+- [ ] Collapse the `dataseries_` / `timeseries_` / `imageseries_` observation +
+  `*_data` body classes and `element_epoch` / `generic_file` /
+  `expression_matrix_data` onto the data-type leaves + `sampled_body` (they are
+  carried unchanged for now so the set validates).
+- [ ] The **ontology-aware binding validator** (consumer tooling — DID-matlab /
+  DID-python; resolves a term value against its bound `value_set`).
+- [ ] `schemas/V_eta/conversions/from_did_v1/` retarget to the J targets (mirrors
+  migration-plan Part D); the copied docs are still V_zeta-targeted.
 
 ## Not implemented in this pass (open follow-ups)
 
