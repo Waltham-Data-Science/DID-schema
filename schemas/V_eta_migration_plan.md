@@ -168,6 +168,15 @@ J replaces V_zeta's several body/epoch classes with one axis:
   value-searchable) and **`opaque_body`** (uninterpreted bytes; descriptor-only,
   load-only). A body reverse-`depends_on`s its statement, so a stream appends
   bodies without rewriting the anchor.
+- **The body is the single home of a body-backed value's timeline** (D1). For
+  `storage_mode: body` the statement carries **no** `sample_time` (only the anchor
+  `time_reference`); the cadence lives in `sampled_body.sample_time`. That is what
+  lets a body be read in windows and **appended as a stream** without joining back
+  to — or rewriting — the immutable statement. It is not a duplicate of the
+  statement's timeline (the statement has none for body values); it is the one
+  copy. Each appended body owns its own time slice, so streaming never rewrites the
+  anchor. The absolute anchor (t0, clock) still comes from the shared
+  `time_reference`; the body restates only the cadence + its local offset.
 - **Supersession:** `sampled_body` ← V_zeta's `dataseries_data` (+ its
   `timeseries_/imageseries_` leaves) and the DAQ-path `element_epoch`;
   `opaque_body` ← `generic_file` and `expression_matrix_data`.
@@ -462,10 +471,21 @@ default we can quietly pick.
   `ndi.neuron` role → a subject. No new top-level class is required (pure J: kind
   is an assertion, not a class); an optional `instrument` **subclass** of `subject`
   is available only if a cheap class-level "list all devices" filter is wanted, in
-  which case the draft V_zeta `instrument` class becomes that subclass. Open:
-  confirm device-as-subject + `instrument_id`; subclass vs. assertion-only; and how
-  far to dissolve `element` at the schema layer (`ndi.element` survives in
-  NDI-matlab as an implementation detail regardless). (A.10)
+  which case the draft V_zeta `instrument` class becomes that subclass.
+  **Roles are carried by the typed edges, not by a subclass:** `subject_id` is the
+  patient (measured/acted on), `instrument_id` is the agent (the device that
+  performed the `method`), `method` is the verb, observation-vs-manipulation is the
+  direction — so "the instrument performed the method on the subject" is explicit
+  with no kind-class. On **kind-subclasses** (organism / cell / instrument / medium
+  / …): *lean against a taxonomy* — J keeps `subject` bare and puts kind in a
+  `term_assertion` (finer than a class: *Mus musculus*, not "organism"; refinable
+  and multi-valued; and kinds don't map to classes cleanly — a substance/medium is
+  usually a `formulation` **value**, a region an address value, a group derived from
+  edges). The one narrow exception worth a class is a single **`instrument`
+  subclass of `subject`** (the one kind referenced by a typed edge and wanting a
+  cheap `isa` filter). Open: confirm device-as-subject + `instrument_id`;
+  `instrument` subclass vs. assertion-only; and how far to dissolve `element` at the
+  schema layer (`ndi.element` survives in NDI-matlab regardless). (A.10)
 - **D3 — Path S scope for the first pass. Resolved:** *measure before we build.*
   Discovery mode counts attributed anatomical loci per corpus first; default
   **located-by-default** (emit a `term_observation` value, mint no subject), and
