@@ -562,6 +562,44 @@ default we can quietly pick.
   act to a data type; an un-typed numeric is flagged/quarantined in discovery
   mode, never dumped into a generic bin. `generic_manipulation` and
   `generic_scalar_observation` do not exist in V_eta. (A.9)
+- **D10 — Qualifiers, and the roles of columns in a flat table.** A `did_v1`
+  `ontology_table_row` is **not** N independent subject facts — it is a mini-record
+  whose columns play distinct ROLES, and a naive per-column → `subject_observation`
+  split mis-models most of them (e.g. it makes "trial type = 95 dB" an *observation
+  of the subject* when it is a **qualifier of** the amplitude measurement).
+  Discovery over **all 11 distinct table signatures** (Dab fear-potentiated-startle
+  and elevated-plus-maze; JH *C. elegans* encounter, bacterial-patch
+  fluorescence/geometry, plate-prep conditions, and subject↔plate link tables)
+  shows columns fall into at least four roles:
+  - **response measurement** — a value about an entity (startle amplitude, arm
+    entries, patch fluorescence) → `subject_observation`;
+  - **qualifier / condition** — the context the measurement was taken under (trial
+    type, phase, chamber, CNO-vs-saline treatment, exclusion flag, OD600, ambient
+    temperature) → the **qualifier** concept this decision adds;
+  - **entity reference / foreign key** — a pointer to another document/entity
+    (`BacterialPatchDocumentIdentifier`, `MicroscopyImageIdentifier`) → a
+    `depends_on` / `subject_relation`, not a value;
+  - **identity** — the row's subject/entity key → the anchor, not an observation.
+
+  Two consequences: **(a)** measurements need a qualifier slot. Options —
+  **(1)** an optional `qualifiers` list of `{variable, value}` on
+  `subject_observation` (*recommended:* self-contained, denormalized into the
+  index, directly queryable — "amplitude WHERE trial_type = 95 dB AND phase =
+  test"); **(2)** a trial/condition event the responses `depend_on`; **(3)** the
+  `stimulus_presentation` / `stimulus_response` model for stimulus-driven assays.
+  **(b)** the measured entity is often **NOT the animal** — the bacterial-patch
+  tables (13k+ rows) measure a *bacterial patch* (its own subject), the plate-prep
+  tables measure a *plate/session*, and two tables are pure **relations** (a worm
+  *encountered* a patch; a subject *is on* a plate) with no measurements at all. So
+  the migrator cannot blindly anchor every column on the row's
+  `SubjectLocalIdentifier`; "which subject/entity does this column describe" is a
+  per-table discovery call (a likely follow-on **D11**).
+
+  *Provisional:* option 1 for qualifiers (a `qualifiers` list on
+  `subject_observation`), plus a discovery-tuned **column-role classifier**
+  (measurement / qualifier / reference / identity) and per-table subject
+  resolution. Connects to the Experimental Design Module thread in
+  `ndi-next-steps`. Confirm option 1 and whether to split out D11. (A.9, C.2)
 
 ---
 

@@ -147,6 +147,37 @@ depends_on: probe_id
   (D5); `stimulus_bath` deferral; everything else falls through. `subject_group`
   and `treatment_transfer` (already implemented) are not exercised by B/Dab.
 
+## The 11 ontology_table_row tables — column roles (grounds D10)
+
+Grouping every `ontology_table_row` across the corpora by its column signature
+gives **11 distinct tables**. They are NOT bags of subject facts — each is a
+mini-record, and columns play four roles (**M** measurement · **Q** qualifier ·
+**R** reference/foreign-key · **I** identity):
+
+| rows | table | measured entity | role mix |
+|---|---|---|---|
+| 20,411 | JH *C. elegans* encounter (onset/offset, velocities, deceleration, exploit/sense probabilities, bacteria density) | the **worm** (behavior) + the encounter event | M responses + **R** `BacterialPatchDocumentIdentifier` + I |
+| 7,204 | JH bacterial-patch fluorescence (radius, circularity, border/mean/center intensity + amplitudes, ratio) | the **bacterial patch** (not the worm!) | M + R image/patch ids |
+| 6,206 | JH bacterial-patch geometry (OD600 target, volume, centre X/Y, radius, circularity) | the **patch** | M + R plate/patch ids |
+| 6,160 | Dab fear-potentiated startle (onset/max/avg amplitude, time-to-max) | the **rat** (startle response) | M responses + **Q** trial type / chamber / phase / group / rate / #samples / timestamp + I |
+| 3,312 | JH subject↔plate | — | **pure relation** (no measurements) |
+| 1,656 | JH subject identity (identifier / local id / doc id) | — | **pure identity** |
+| 1,521 | JH plate/image growth (growth duration, exposure time) | plate / image | M + R |
+| 597 · 100 · 88 | JH plate-prep / session conditions (OD600, CFU, ambient temp/humidity, growth durations, dev stage, peptone/exclusion flags, seeding/storage timestamps) | **plate / session / environment** | mostly **Q** conditions + a few M (OD600, CFU, ambient) |
+| 45 | Dab elevated plus maze — **51 columns** (per-arm entries / head-entries / time / %time / latency / time-moving / time-freezing for N/S/W/E/centre/totals) | the **rat** (behavior) | M responses + **Q** test id / **CNO-vs-saline treatment** / test duration / group / exclusion + I |
+
+Takeaways that drive D10 (and a likely D11):
+- **Qualifiers are pervasive** (trial type, phase, chamber, CNO/saline, exclusion
+  flag, OD600, ambient temp) and are conditions *of* a measurement, not facts about
+  the subject.
+- **The measured entity is frequently not the animal** — 13k+ rows measure a
+  *bacterial patch*; the plate-prep tables measure a *plate/session/environment*.
+- **Two tables are pure relations / identity** and produce **no** observations.
+- So the migrator needs a **column-role classifier** (M/Q/R/I) and **per-table
+  subject resolution**, both discovery-tuned — the naive per-column→observation
+  split (current `+migrators_j/ontology_table_row.m`) is wrong for most tables and
+  will be revised once D10/D11 land.
+
 *Method: `did_v1` JSON downloaded from the public S3 corpus prefix and analyzed in
 Python. The MATLAB migrator + `Validate=true` end-to-end run is validated in CI;
 this analysis grounds its dispatch tables in the real data.*
