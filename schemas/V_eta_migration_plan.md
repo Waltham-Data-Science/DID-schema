@@ -250,6 +250,9 @@ from Path S. The split we propose (**Decision D2**): *anatomical/biological
 parts* use the part-subject model (A.6); *NDI elements that back acquired data*
 keep the `element_id` handle and their data lives in a `sampled_body`. Migrators
 do not populate `element_id` today and will not in the first V_eta pass either.
+**Under revision (D2):** the device role is likely to become an
+`instrument_id → subject` edge (device-as-subject), retiring `element_id` — see
+Part E D2.
 
 ---
 
@@ -447,14 +450,22 @@ default we can quietly pick.
   welded into `time_reference`. *Leaning* per the D1 discussion (single-document
   length-consistency; cadence-free anchor is shareable across rates). Confirm (B).
   (A.8)
-- **D2 — Individuated referent: `element_id`, part-subject, or an `instrument`?**
-  Anatomical/biological parts → part-`subject` (Path S). For the *device that did
-  the measuring*, three options: keep `element_id → element` (the NDI acquisition
-  handle; simplest, migration-ready); promote the existing draft **`instrument`**
-  class + an `instrument_id` edge on `subject_interaction` (OBI-style device role);
-  or model the device as a `subject` + a "measured_with" relation (pure J). No
-  `did_v1` corpus needs an explicit instrument, so *provisional:* keep `element_id`
-  for pass 1 and treat `instrument` promotion as a parallel design thread. (A.10)
+- **D2 — The measuring/manipulating device: an instrument-as-subject (replacing
+  `element_id`).** *Brainstorm direction (supersedes "keep element_id"):* a device
+  (probe, electrode, microscope, Peltier, pump, stimulator) is a **`subject`**
+  (bare identity; its kind asserted via a `term_assertion` = an OBI/NCIT device
+  term — J's "a subject is a *tungsten electrode*" case), and a measurement or
+  manipulation links to it by an **optional typed `instrument_id → subject`**
+  dependency on `subject_interaction`. This **retires `element_id`**: the device
+  role → an instrument-subject; the derived-signal role of `element` (spikes, LFP)
+  → a body-backed `subject_observation` + `derived_from` provenance; the
+  `ndi.neuron` role → a subject. No new top-level class is required (pure J: kind
+  is an assertion, not a class); an optional `instrument` **subclass** of `subject`
+  is available only if a cheap class-level "list all devices" filter is wanted, in
+  which case the draft V_zeta `instrument` class becomes that subclass. Open:
+  confirm device-as-subject + `instrument_id`; subclass vs. assertion-only; and how
+  far to dissolve `element` at the schema layer (`ndi.element` survives in
+  NDI-matlab as an implementation detail regardless). (A.10)
 - **D3 — Path S scope for the first pass. Resolved:** *measure before we build.*
   Discovery mode counts attributed anatomical loci per corpus first; default
   **located-by-default** (emit a `term_observation` value, mint no subject), and
@@ -466,16 +477,13 @@ default we can quietly pick.
 - **D5 — Element/probe location terms. Resolved:** → `term_observation`
   (`probe_location`/`ontology_image`/`ontology_label`): element = subject,
   spatial/labeling relation = `variable`, term = `value`. (D.2)
-- **D6 — Relation vocabulary — measure before building (same reports as D3).**
-  The migration only *mints* relations for `part_of` (Path S) and one provenance
-  term (`sample_of`/`derived_from`, from `treatment_transfer`); `member_of` has no
-  `did_v1` source (empty `subject_group`), and J's remaining terms
-  (`contained_in`, `aliquot_of`, `passage_of`, `paired_with`, `same_as`) have no
-  migration source at all. So the **corpus-exercised set is expected to be ~2
-  terms**, confirmed by the same discovery reports as D3. Open sub-choice: declare
-  J's full designed 9-term set now (closed, cheap, forward-looking authoring uses
-  `member_of` etc.) vs. declare only the measured subset. *Leaning:* declare the
-  full J set (RO-backed), wire migrator + tests only for the measured subset.
+- **D6 — Relation vocabulary. Resolved: declare the minimum now.** Declare only
+  the corpus-exercised terms — `part_of` (Path S) + one provenance term
+  (`sample_of`/`derived_from`, `treatment_transfer`) — confirmed by the D3
+  discovery reports, RO-backed. J's remaining designed terms (`member_of`,
+  `contained_in`, `aliquot_of`, `passage_of`, `paired_with`, `same_as`) have no
+  `did_v1` source and are **added only when a source or authoring need appears** (a
+  closed-set addition is a cheap version bump). (A.3)
 - **D7 — Closure index is tooling, not schema.** J's "everything under X"
   closure index is a materialized view over `directed_relation` documents. The
   current abstract query model (`did_query_model.md`) has **no cross-document
