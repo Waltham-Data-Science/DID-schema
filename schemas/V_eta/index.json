@@ -1234,6 +1234,60 @@
             "path": "schemas/V_eta/draft/instrument.json"
         },
         {
+            "class_name": "intensity",
+            "tier": "stable",
+            "class_version": "1.0.0",
+            "maturity_level": "stable",
+            "superclasses": [
+                {
+                    "class_name": "base"
+                }
+            ],
+            "path": "schemas/V_eta/stable/intensity.json"
+        },
+        {
+            "class_name": "intensity_assertion",
+            "tier": "stable",
+            "class_version": "1.0.0",
+            "maturity_level": "stable",
+            "superclasses": [
+                {
+                    "class_name": "numeric_assertion"
+                }
+            ],
+            "path": "schemas/V_eta/stable/intensity_assertion.json"
+        },
+        {
+            "class_name": "intensity_manipulation",
+            "tier": "stable",
+            "class_version": "1.0.0",
+            "maturity_level": "stable",
+            "superclasses": [
+                {
+                    "class_name": "subject_manipulation"
+                },
+                {
+                    "class_name": "intensity"
+                }
+            ],
+            "path": "schemas/V_eta/stable/intensity_manipulation.json"
+        },
+        {
+            "class_name": "intensity_observation",
+            "tier": "stable",
+            "class_version": "1.0.0",
+            "maturity_level": "stable",
+            "superclasses": [
+                {
+                    "class_name": "subject_observation"
+                },
+                {
+                    "class_name": "intensity"
+                }
+            ],
+            "path": "schemas/V_eta/stable/intensity_observation.json"
+        },
+        {
             "class_name": "interaction_purpose",
             "tier": "stable",
             "class_version": "1.0.0",

@@ -107,12 +107,12 @@ depends_on: probe_id
   **absent** from B/Dab. So `part_of`/provenance relations are exercised only if
   the mint allowlist fires or JH carries transfers — declare the minimum, wire on
   demand.
-- **A real gap surfaced:** the startle **amplitude** columns are dimensionless
-  (a.u.), and the meta-schema has no `intensity`/dimensionless numeric type
-  (enum: mass/length/…/count/score). Brainstorm J §7 names `intensity` as "the
-  one dimensionless numeric." **Add an `intensity` value type + leaf** (or route
-  a.u. numerics to `score`/`count`) before the FPS assay migrates cleanly — a
-  small, tracked schema follow-up.
+- **A real gap surfaced — now closed.** The startle **amplitude** columns are
+  dimensionless (a.u.), and the meta-schema had no dimensionless numeric type.
+  Per Brainstorm J §7 (`intensity` = "the one dimensionless numeric"), V_eta now
+  ships an **`intensity`** type in the meta-schema enum plus `intensity`,
+  `intensity_observation`, `intensity_manipulation`, and `intensity_assertion`
+  — so the FPS amplitudes migrate to `intensity_observation`.
 - **Migrators needed for full Dab coverage:** `treatment` (the Target-Location
   pattern), `ontology_table_row` (int/str/date shape dispatch), `probe_location`
   (D5); `stimulus_bath` deferral; everything else falls through. `subject_group`

@@ -1,0 +1,36 @@
+{
+    "document_class": {
+        "class_name": "intensity",
+        "class_version": "1.0.0",
+        "superclasses": [
+            {
+                "class_name": "base"
+            }
+        ],
+        "maturity_level": "stable",
+        "abstract": true
+    },
+    "depends_on": [],
+    "file": [],
+    "fields": [
+        {
+            "name": "value",
+            "type": "intensity",
+            "blank_value": [],
+            "default_value": [
+                {
+                    "approximate": false,
+                    "source_unit": "",
+                    "source_value": 0.0
+                }
+            ],
+            "mustBeNonEmpty": true,
+            "mustBeScalar": false,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "A dimensionless numeric value (a.u.) \u2014 the home for dF/F, fluorescence, ratios, and instrument amplitudes (J \u00a77). Series-as-cardinality: an array of the cell; per-sample timing is the statement's sample_time.",
+            "constraints": {}
+        }
+    ]
+}

@@ -478,12 +478,36 @@ opaque["file"] = BODY_FILE
 write("draft", "opaque_body", opaque)
 
 
+# ---------- 11b. intensity: the one dimensionless numeric (J §7) ----------
+# Surfaced by discovery: Dab fear-potentiated-startle amplitudes are a.u. J §7
+# names `intensity` the single dimensionless numeric (dF/F, fluorescence, ratios).
+INTENSITY_CELL = {"approximate": False, "source_unit": "", "source_value": 0.0}
+write("stable", "intensity",
+      doc("intensity", ["base"], abstract=True, fields=[field(
+          "value", "intensity",
+          "A dimensionless numeric value (a.u.) — the home for dF/F, fluorescence, "
+          "ratios, and instrument amplitudes (J §7). Series-as-cardinality: an array "
+          "of the cell; per-sample timing is the statement's sample_time.",
+          non_empty=True, scalar=False, blank=[], default=[INTENSITY_CELL])]))
+write("stable", "intensity_observation",
+      doc("intensity_observation", ["subject_observation", "intensity"]))
+write("stable", "intensity_manipulation",
+      doc("intensity_manipulation", ["subject_manipulation", "intensity"]))
+write("stable", "intensity_assertion",
+      doc("intensity_assertion", ["numeric_assertion"], fields=[field(
+          "value", "intensity", "A scalar dimensionless (a.u.) value cell.",
+          non_empty=True, scalar=True, blank=INTENSITY_CELL, default=INTENSITY_CELL)]))
+
+
 # ---------- 12. formalize `binding` in the meta-schema (D9) ----------
 # The constraints subschema is an open object; add a `binding` property so binding
 # blocks are structurally validated (require keyed_by) without constraining the
 # other constraint keywords (maxLength, enum, …).
 
 meta = load(os.path.join(VETA, "stable", "did_schema_meta.json"))
+type_enum = meta["$defs"]["field_definition"]["properties"]["type"]["enum"]
+if "intensity" not in type_enum:            # J §7: the one dimensionless numeric
+    type_enum.append("intensity")
 constraints_schema = meta["$defs"]["field_definition"]["properties"]["constraints"]
 constraints_schema["properties"] = {
     "binding": {

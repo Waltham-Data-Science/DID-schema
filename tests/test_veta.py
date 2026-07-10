@@ -176,7 +176,8 @@ def test_direction_classes_renamed():
 def test_leaf_tier_named_by_data_type_no_scalar_prefix():
     """Observation leaves are <dim>_observation (one word, no scalar_ prefix)."""
     for dim in ("mass", "temperature", "length", "duration", "volume", "pressure",
-                "frequency", "voltage", "current", "concentration", "count", "score"):
+                "frequency", "voltage", "current", "concentration", "count", "score",
+                "intensity"):
         leaf = f"{dim}_observation"
         assert leaf in RECORDS, f"missing {leaf}"
         assert f"scalar_{dim}_observation" not in RECORDS
