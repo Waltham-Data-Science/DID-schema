@@ -497,10 +497,12 @@ default we can quietly pick.
   → **D9**. `element` dissolution at the schema layer is deferred (`ndi.element`
   stays an NDI-matlab implementation detail; migrators populate no individuated
   referent in pass 1). (A.10)
-- **D3 — Path S scope for the first pass. Resolved:** *measure before we build.*
-  Discovery mode counts attributed anatomical loci per corpus first; default
-  **located-by-default** (emit a `term_observation` value, mint no subject), and
-  build the full find-or-create/dedup service only if the volume warrants it. (C.1)
+- **D3 — Path S scope for the first pass. Resolved + measured.** *Measure before
+  we build.* Discovery on B/Dab (`V_eta_discovery_notes.md`) found the
+  attributed-locus volume is **small — 49 loci in Dab (all distinct subjects), 0
+  in B** — so **located-by-default** (emit a `term_observation` value, mint no
+  subject) + a mint allowlist is sufficient; the full find-or-create/dedup service
+  is **not warranted** for these corpora. Re-confirm against JH before locking. (C.1)
 - **D4 — `treatment_transfer` donor. Resolved:** a provenance `directed_relation`
   (recipient material `derived_from`/`sample_of` donor); the transfer act is a
   term-valued manipulation. No `donor_id`-on-manipulation, no `biological_transfer`
