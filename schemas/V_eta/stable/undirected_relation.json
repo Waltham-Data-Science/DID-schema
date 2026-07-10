@@ -1,0 +1,43 @@
+{
+    "document_class": {
+        "class_name": "undirected_relation",
+        "class_version": "1.0.0",
+        "superclasses": [
+            {
+                "class_name": "subject_relation"
+            }
+        ],
+        "maturity_level": "stable"
+    },
+    "depends_on": [
+        {
+            "name": "subjects",
+            "mustBeNonEmpty": true,
+            "documentation": "The unordered pair of subjects (exactly two); order is meaningless.",
+            "must_refer_to_document_class": "subject",
+            "multiple": true
+        }
+    ],
+    "file": [],
+    "fields": [
+        {
+            "name": "relation",
+            "type": "ontology_term",
+            "blank_value": {
+                "node": "",
+                "name": ""
+            },
+            "default_value": {
+                "node": "",
+                "name": ""
+            },
+            "mustBeNonEmpty": true,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "An association term (paired_with, same_as).",
+            "constraints": {}
+        }
+    ]
+}

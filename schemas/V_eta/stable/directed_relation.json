@@ -1,0 +1,48 @@
+{
+    "document_class": {
+        "class_name": "directed_relation",
+        "class_version": "1.0.0",
+        "superclasses": [
+            {
+                "class_name": "subject_relation"
+            }
+        ],
+        "maturity_level": "stable"
+    },
+    "depends_on": [
+        {
+            "name": "child",
+            "mustBeNonEmpty": true,
+            "documentation": "The finer/subordinate subject (a part, member, or derivative).",
+            "must_refer_to_document_class": "subject"
+        },
+        {
+            "name": "parent",
+            "mustBeNonEmpty": true,
+            "documentation": "The whole, group, or source subject.",
+            "must_refer_to_document_class": "subject"
+        }
+    ],
+    "file": [],
+    "fields": [
+        {
+            "name": "relation",
+            "type": "ontology_term",
+            "blank_value": {
+                "node": "",
+                "name": ""
+            },
+            "default_value": {
+                "node": "",
+                "name": ""
+            },
+            "mustBeNonEmpty": true,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "The specific relationship as an enumerated ontology term (RO-backed). directed: part_of/contained_in/member_of (containment) or derived_from/aliquot_of/sample_of/passage_of (provenance). V_eta declares the corpus-exercised minimum (D6).",
+            "constraints": {}
+        }
+    ]
+}

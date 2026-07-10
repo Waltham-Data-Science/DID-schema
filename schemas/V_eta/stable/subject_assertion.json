@@ -1,0 +1,24 @@
+{
+    "document_class": {
+        "class_name": "subject_assertion",
+        "class_version": "3.0.0",
+        "superclasses": [
+            {
+                "class_name": "subject_statement"
+            }
+        ],
+        "maturity_level": "stable",
+        "abstract": true
+    },
+    "depends_on": [
+        {
+            "name": "time_reference_#",
+            "mustBeNonEmpty": false,
+            "documentation": "Optional anchor(s): an assertion is timeless, but a claim may carry a date it was established.",
+            "must_refer_to_document_class": "time_reference",
+            "multiple": true
+        }
+    ],
+    "file": [],
+    "fields": []
+}

@@ -1,0 +1,150 @@
+{
+    "document_class": {
+        "class_name": "injection",
+        "class_version": "1.0.0",
+        "superclasses": [
+            {
+                "class_name": "pharmacological_manipulation"
+            }
+        ],
+        "maturity_level": "stable"
+    },
+    "depends_on": [],
+    "file": [],
+    "fields": [
+        {
+            "name": "kind",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": true,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Coarse purpose bucket.",
+            "constraints": {
+                "enum": [
+                    "drug",
+                    "virus",
+                    "tracer",
+                    "vehicle",
+                    "contrast"
+                ]
+            }
+        },
+        {
+            "name": "volume",
+            "type": "volume",
+            "blank_value": {
+                "approximate": false,
+                "source_unit": "",
+                "source_value": 0.0
+            },
+            "default_value": {
+                "approximate": false,
+                "source_unit": "",
+                "source_value": 0.0
+            },
+            "mustBeNonEmpty": true,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Total volume delivered at this site by this event.",
+            "constraints": {}
+        },
+        {
+            "name": "route",
+            "type": "ontology_term",
+            "blank_value": {
+                "node": "",
+                "name": ""
+            },
+            "default_value": {
+                "node": "",
+                "name": ""
+            },
+            "mustBeNonEmpty": true,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Route of administration (IP/IV/IM/SC/oral/intracortical/...; NCIT Route of Administration branch).",
+            "constraints": {}
+        },
+        {
+            "name": "coordinates",
+            "type": "structure",
+            "blank_value": {},
+            "default_value": {},
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": false,
+            "ontology": null,
+            "documentation": "Stereotaxic coordinates (optional).",
+            "constraints": {},
+            "fields": [
+                {
+                    "name": "ap",
+                    "type": "double",
+                    "blank_value": 0.0,
+                    "default_value": 0.0,
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Anterior-posterior coordinate.",
+                    "constraints": {}
+                },
+                {
+                    "name": "ml",
+                    "type": "double",
+                    "blank_value": 0.0,
+                    "default_value": 0.0,
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Medial-lateral coordinate.",
+                    "constraints": {}
+                },
+                {
+                    "name": "dv",
+                    "type": "double",
+                    "blank_value": 0.0,
+                    "default_value": 0.0,
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Dorsal-ventral coordinate.",
+                    "constraints": {}
+                },
+                {
+                    "name": "reference_frame",
+                    "type": "ontology_term",
+                    "blank_value": {
+                        "node": "",
+                        "name": ""
+                    },
+                    "default_value": {
+                        "node": "",
+                        "name": ""
+                    },
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Reference frame for the coordinates (e.g. bregma).",
+                    "constraints": {}
+                }
+            ]
+        }
+    ]
+}

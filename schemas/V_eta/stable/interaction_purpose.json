@@ -1,0 +1,58 @@
+{
+    "document_class": {
+        "class_name": "interaction_purpose",
+        "class_version": "1.0.0",
+        "superclasses": [
+            {
+                "class_name": "base"
+            }
+        ],
+        "maturity_level": "stable"
+    },
+    "depends_on": [
+        {
+            "name": "interaction_id_#",
+            "mustBeNonEmpty": true,
+            "documentation": "The interaction(s) this purpose applies to.",
+            "must_refer_to_document_class": "subject_interaction",
+            "multiple": true
+        }
+    ],
+    "file": [],
+    "fields": [
+        {
+            "name": "purpose",
+            "type": "ontology_term",
+            "blank_value": {
+                "node": "",
+                "name": ""
+            },
+            "default_value": {
+                "node": "",
+                "name": ""
+            },
+            "mustBeNonEmpty": true,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "The ontology-based 'why' of the interaction(s).",
+            "constraints": {}
+        },
+        {
+            "name": "comment",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": false,
+            "ontology": null,
+            "documentation": "Curator free-text note (genuinely new info, not a denormalized ontology description).",
+            "constraints": {
+                "maxLength": 2048
+            }
+        }
+    ]
+}

@@ -1,0 +1,177 @@
+{
+    "document_class": {
+        "class_name": "pyraview",
+        "class_version": "1.0.0",
+        "superclasses": [
+            {
+                "class_name": "epochclocktimes"
+            },
+            {
+                "class_name": "filter"
+            },
+            {
+                "class_name": "base"
+            },
+            {
+                "class_name": "epochid"
+            }
+        ],
+        "maturity_level": "stable"
+    },
+    "depends_on": [
+        {
+            "name": "element_id",
+            "mustBeNonEmpty": true,
+            "documentation": "The document ID of the element this pyraview is associated with.",
+            "must_refer_to_document_class": ""
+        }
+    ],
+    "file": [
+        {
+            "name": "level1.bin",
+            "documentation": "Binary data for decimation level 1."
+        },
+        {
+            "name": "level2.bin",
+            "documentation": "Binary data for decimation level 2."
+        },
+        {
+            "name": "level3.bin",
+            "documentation": "Binary data for decimation level 3."
+        },
+        {
+            "name": "level4.bin",
+            "documentation": "Binary data for decimation level 4."
+        },
+        {
+            "name": "level5.bin",
+            "documentation": "Binary data for decimation level 5."
+        },
+        {
+            "name": "level6.bin",
+            "documentation": "Binary data for decimation level 6."
+        },
+        {
+            "name": "level7.bin",
+            "documentation": "Binary data for decimation level 7."
+        },
+        {
+            "name": "level8.bin",
+            "documentation": "Binary data for decimation level 8."
+        },
+        {
+            "name": "level9.bin",
+            "documentation": "Binary data for decimation level 9."
+        },
+        {
+            "name": "level10.bin",
+            "documentation": "Binary data for decimation level 10."
+        }
+    ],
+    "fields": [
+        {
+            "name": "label",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "A string label.",
+            "constraints": {}
+        },
+        {
+            "name": "native_rate",
+            "type": "double",
+            "blank_value": 0.0,
+            "default_value": 0.0,
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Native sampling rate.",
+            "constraints": {}
+        },
+        {
+            "name": "native_start_time",
+            "type": "double",
+            "blank_value": 0.0,
+            "default_value": 0.0,
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Native start time (t0).",
+            "constraints": {}
+        },
+        {
+            "name": "channels",
+            "type": "integer",
+            "blank_value": 0,
+            "default_value": 0,
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Number of channels in the probe.",
+            "constraints": {}
+        },
+        {
+            "name": "data_type",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Data type: 'int8', 'uint8', 'int16', 'uint16', 'int32', 'uint32', 'int64', 'uint64', 'single', 'double'.",
+            "constraints": {}
+        },
+        {
+            "name": "decimation_levels",
+            "type": "matrix",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": false,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Vector of decimation levels (integers).",
+            "constraints": {}
+        },
+        {
+            "name": "decimation_sampling_rates",
+            "type": "matrix",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": false,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Vector of decimation sampling rates (doubles).",
+            "constraints": {}
+        },
+        {
+            "name": "decimation_start_times",
+            "type": "matrix",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": false,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Vector of decimation start times (doubles).",
+            "constraints": {}
+        }
+    ]
+}

@@ -1,0 +1,43 @@
+{
+    "document_class": {
+        "class_name": "term_assertion",
+        "class_version": "1.0.0",
+        "superclasses": [
+            {
+                "class_name": "subject_assertion"
+            }
+        ],
+        "maturity_level": "stable"
+    },
+    "depends_on": [],
+    "file": [],
+    "fields": [
+        {
+            "name": "value",
+            "type": "ontology_term",
+            "blank_value": {
+                "node": "",
+                "name": ""
+            },
+            "default_value": {
+                "node": "",
+                "name": ""
+            },
+            "mustBeNonEmpty": true,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "The asserted concept as a bound term (species, sex, strain, instrument type). The admissible vocabulary is a variable-keyed binding (D9).",
+            "constraints": {
+                "binding": {
+                    "keyed_by": "variable",
+                    "expansion": "descendants",
+                    "node_kind": "class",
+                    "strength": "required",
+                    "source": "ontology"
+                }
+            }
+        }
+    ]
+}

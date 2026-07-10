@@ -1,0 +1,22 @@
+{
+    "document_class": {
+        "class_name": "stimulus_manipulation",
+        "class_version": "1.0.0",
+        "superclasses": [
+            {
+                "class_name": "subject_manipulation"
+            }
+        ],
+        "maturity_level": "stable"
+    },
+    "depends_on": [
+        {
+            "name": "stimulus_presentation_id",
+            "mustBeNonEmpty": true,
+            "documentation": "The stimulus_presentation body-of-record this event is generated from.",
+            "must_refer_to_document_class": "stimulus_presentation"
+        }
+    ],
+    "file": [],
+    "fields": []
+}

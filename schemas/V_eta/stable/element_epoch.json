@@ -1,0 +1,368 @@
+{
+    "document_class": {
+        "class_name": "element_epoch",
+        "class_version": "2.0.0",
+        "superclasses": [
+            {
+                "class_name": "base"
+            },
+            {
+                "class_name": "epochid"
+            }
+        ],
+        "maturity_level": "stable"
+    },
+    "depends_on": [
+        {
+            "name": "element_id",
+            "mustBeNonEmpty": true,
+            "documentation": "The document ID of the element associated with this epoch.",
+            "must_refer_to_document_class": ""
+        }
+    ],
+    "file": [],
+    "fields": [
+        {
+            "name": "clocks",
+            "type": "structure",
+            "blank_value": [],
+            "default_value": [],
+            "mustBeNonEmpty": true,
+            "mustBeScalar": false,
+            "mustNotHaveNaN": true,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Array-of-records: one entry per clock reference frame in which this element's epoch is timed. Each entry carries the clock identifier (`name`) and the start/stop times (`t0`, `t1`) in that clock's units. The single-clock case (most v1 documents) is a 1-element array; v1 documents that recorded the same epoch in multiple clocks (e.g., 'dev_local_time' + 'exp_global_time') become multi-element arrays. Comma-separated v1 `epoch_clock` strings split on `,` to populate clocks[i].name; v1's N\u00d72 `t0_t1` splits row-wise to populate clocks[i].t0 and clocks[i].t1.",
+            "constraints": {},
+            "fields": [
+                {
+                    "name": "name",
+                    "type": "char",
+                    "blank_value": "",
+                    "default_value": "dev_local_time",
+                    "mustBeNonEmpty": true,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Clock identifier (e.g., 'dev_local_time', 'utc', 'exp_global_time').",
+                    "constraints": {
+                        "maxLength": 256
+                    }
+                },
+                {
+                    "name": "t0",
+                    "type": "double",
+                    "blank_value": 0.0,
+                    "default_value": 0.0,
+                    "mustBeNonEmpty": true,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": true,
+                    "queryable": false,
+                    "ontology": null,
+                    "documentation": "Start time of this epoch in the units of the clock named in this record.",
+                    "constraints": {}
+                },
+                {
+                    "name": "t1",
+                    "type": "double",
+                    "blank_value": 1.0,
+                    "default_value": 1.0,
+                    "mustBeNonEmpty": true,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": true,
+                    "queryable": false,
+                    "ontology": null,
+                    "documentation": "Stop time of this epoch in the units of the clock named in this record.",
+                    "constraints": {}
+                }
+            ]
+        },
+        {
+            "name": "axes",
+            "type": "structure",
+            "blank_value": [],
+            "default_value": [],
+            "mustBeNonEmpty": false,
+            "mustBeScalar": false,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Optional self-describing sampled/index dimensions of this epoch's data (V_epsilon dataseries header). Each axis describes one grid dimension.",
+            "constraints": {},
+            "fields": [
+                {
+                    "name": "name",
+                    "type": "char",
+                    "blank_value": "",
+                    "default_value": "",
+                    "mustBeNonEmpty": true,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Axis name (e.g. 'time', 'x', 'y').",
+                    "constraints": {}
+                },
+                {
+                    "name": "kind",
+                    "type": "ontology_term",
+                    "blank_value": {
+                        "node": "",
+                        "name": ""
+                    },
+                    "default_value": {
+                        "node": "",
+                        "name": ""
+                    },
+                    "mustBeNonEmpty": true,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Axis kind (time | space_x | space_y | space_z | section | index | wavelength | ...).",
+                    "constraints": {}
+                },
+                {
+                    "name": "length",
+                    "type": "integer",
+                    "blank_value": 0,
+                    "default_value": 0,
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Number of samples/pixels along this axis. Use -1 or 0 for open/unbounded.",
+                    "constraints": {}
+                },
+                {
+                    "name": "regularity",
+                    "type": "char",
+                    "blank_value": "",
+                    "default_value": "",
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Whether the axis is regularly sampled.",
+                    "constraints": {
+                        "enum": [
+                            "regular",
+                            "irregular"
+                        ]
+                    }
+                },
+                {
+                    "name": "spacing",
+                    "type": "double",
+                    "blank_value": 0.0,
+                    "default_value": 0.0,
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Sample interval when regular.",
+                    "constraints": {}
+                },
+                {
+                    "name": "unit",
+                    "type": "ontology_term",
+                    "blank_value": {
+                        "node": "",
+                        "name": ""
+                    },
+                    "default_value": {
+                        "node": "",
+                        "name": ""
+                    },
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Unit of the axis coordinate.",
+                    "constraints": {}
+                },
+                {
+                    "name": "sample_rate",
+                    "type": "frequency",
+                    "blank_value": {
+                        "approximate": false,
+                        "source_unit": "",
+                        "source_value": 0.0
+                    },
+                    "default_value": {
+                        "approximate": false,
+                        "source_unit": "",
+                        "source_value": 0.0
+                    },
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Sampling rate for a regular time axis.",
+                    "constraints": {}
+                }
+            ]
+        },
+        {
+            "name": "channels",
+            "type": "structure",
+            "blank_value": [],
+            "default_value": [],
+            "mustBeNonEmpty": false,
+            "mustBeScalar": false,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Optional intrinsic channel descriptors (count, native unit, storage relationship). Channel meaning lives in a dataseries_channel_map sidecar.",
+            "constraints": {},
+            "fields": [
+                {
+                    "name": "name",
+                    "type": "char",
+                    "blank_value": "",
+                    "default_value": "",
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Channel name/identity (optional for homogeneous array bundles).",
+                    "constraints": {}
+                },
+                {
+                    "name": "native_unit",
+                    "type": "ontology_term",
+                    "blank_value": {
+                        "node": "",
+                        "name": ""
+                    },
+                    "default_value": {
+                        "node": "",
+                        "name": ""
+                    },
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Unit of the stored signal (volt | microvolt | digital_count | arbitrary_unit | dimensionless | ...).",
+                    "constraints": {}
+                },
+                {
+                    "name": "gain",
+                    "type": "double",
+                    "blank_value": 0.0,
+                    "default_value": 0.0,
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Scale factor: native = (stored - offset) * gain.",
+                    "constraints": {}
+                },
+                {
+                    "name": "offset",
+                    "type": "double",
+                    "blank_value": 0.0,
+                    "default_value": 0.0,
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Offset applied before gain.",
+                    "constraints": {}
+                }
+            ]
+        },
+        {
+            "name": "storage",
+            "type": "structure",
+            "blank_value": [],
+            "default_value": [],
+            "mustBeNonEmpty": false,
+            "mustBeScalar": false,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Physical storage descriptor for the epoch's bulk data.",
+            "constraints": {},
+            "fields": [
+                {
+                    "name": "format",
+                    "type": "char",
+                    "blank_value": "",
+                    "default_value": "",
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Physical encoding (vhsb | zarr | ome_ngff | ...).",
+                    "constraints": {}
+                },
+                {
+                    "name": "chunk_shape",
+                    "type": "matrix",
+                    "blank_value": [],
+                    "default_value": [],
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": false,
+                    "ontology": null,
+                    "documentation": "Per-axis chunk sizes enabling partial/ROI reads.",
+                    "constraints": {}
+                },
+                {
+                    "name": "codec",
+                    "type": "char",
+                    "blank_value": "",
+                    "default_value": "",
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": false,
+                    "ontology": null,
+                    "documentation": "Compression/filter pipeline.",
+                    "constraints": {}
+                },
+                {
+                    "name": "data_type",
+                    "type": "char",
+                    "blank_value": "",
+                    "default_value": "",
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Numeric pixel/sample storage type (e.g. 'uint16', 'single', 'double'). Folded from the retired image_stack_parameters.data_type.",
+                    "constraints": {
+                        "maxLength": 32
+                    }
+                },
+                {
+                    "name": "data_limits",
+                    "type": "matrix",
+                    "blank_value": [],
+                    "default_value": [],
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": false,
+                    "mustNotHaveNaN": false,
+                    "queryable": false,
+                    "ontology": null,
+                    "documentation": "2-element [min, max] range of valid stored values for data_type (e.g. [0, 65535] for uint16). Folded from image_stack_parameters.data_limits.",
+                    "constraints": {}
+                }
+            ]
+        }
+    ]
+}

@@ -1,0 +1,285 @@
+{
+    "document_class": {
+        "class_name": "dataseries_observation",
+        "class_version": "1.0.0",
+        "superclasses": [
+            {
+                "class_name": "subject_observation"
+            }
+        ],
+        "maturity_level": "draft",
+        "abstract": true
+    },
+    "depends_on": [],
+    "file": [],
+    "fields": [
+        {
+            "name": "axes",
+            "type": "structure",
+            "blank_value": [],
+            "default_value": [],
+            "mustBeNonEmpty": false,
+            "mustBeScalar": false,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Sampled/index dimensions of the series. Each axis describes one grid dimension (time, space, section, wavelength, index, ...).",
+            "constraints": {},
+            "fields": [
+                {
+                    "name": "name",
+                    "type": "char",
+                    "blank_value": "",
+                    "default_value": "",
+                    "mustBeNonEmpty": true,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Axis name (e.g. 'time', 'x', 'y', 'z', 'section').",
+                    "constraints": {}
+                },
+                {
+                    "name": "kind",
+                    "type": "ontology_term",
+                    "blank_value": {
+                        "node": "",
+                        "name": ""
+                    },
+                    "default_value": {
+                        "node": "",
+                        "name": ""
+                    },
+                    "mustBeNonEmpty": true,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Axis kind (time | space_x | space_y | space_z | section | index | wavelength | ...).",
+                    "constraints": {}
+                },
+                {
+                    "name": "length",
+                    "type": "integer",
+                    "blank_value": 0,
+                    "default_value": 0,
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Number of samples/pixels along this axis. Use -1 or 0 for open/unbounded.",
+                    "constraints": {}
+                },
+                {
+                    "name": "regularity",
+                    "type": "char",
+                    "blank_value": "",
+                    "default_value": "",
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Whether the axis is regularly sampled.",
+                    "constraints": {
+                        "enum": [
+                            "regular",
+                            "irregular"
+                        ]
+                    }
+                },
+                {
+                    "name": "spacing",
+                    "type": "double",
+                    "blank_value": 0.0,
+                    "default_value": 0.0,
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Sample interval when the axis is regular.",
+                    "constraints": {}
+                },
+                {
+                    "name": "unit",
+                    "type": "ontology_term",
+                    "blank_value": {
+                        "node": "",
+                        "name": ""
+                    },
+                    "default_value": {
+                        "node": "",
+                        "name": ""
+                    },
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Unit of the axis coordinate (e.g. second, micrometer).",
+                    "constraints": {}
+                },
+                {
+                    "name": "sample_rate",
+                    "type": "frequency",
+                    "blank_value": {
+                        "approximate": false,
+                        "source_unit": "",
+                        "source_value": 0.0
+                    },
+                    "default_value": {
+                        "approximate": false,
+                        "source_unit": "",
+                        "source_value": 0.0
+                    },
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Sampling rate for a regular time axis (= 1/spacing).",
+                    "constraints": {}
+                }
+            ]
+        },
+        {
+            "name": "channels",
+            "type": "structure",
+            "blank_value": [],
+            "default_value": [],
+            "mustBeNonEmpty": false,
+            "mustBeScalar": false,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Value vector recorded at each grid point. Each channel describes one component of the stored signal.",
+            "constraints": {},
+            "fields": [
+                {
+                    "name": "name",
+                    "type": "char",
+                    "blank_value": "",
+                    "default_value": "",
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Channel name/identity (required for heterogeneous record channels, optional for homogeneous array bundles).",
+                    "constraints": {}
+                },
+                {
+                    "name": "native_unit",
+                    "type": "ontology_term",
+                    "blank_value": {
+                        "node": "",
+                        "name": ""
+                    },
+                    "default_value": {
+                        "node": "",
+                        "name": ""
+                    },
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Unit of the stored signal (volt | microvolt | digital_count | arbitrary_unit | dimensionless | ...).",
+                    "constraints": {}
+                },
+                {
+                    "name": "gain",
+                    "type": "double",
+                    "blank_value": 0.0,
+                    "default_value": 0.0,
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Scale factor: native = (stored - offset) * gain.",
+                    "constraints": {}
+                },
+                {
+                    "name": "offset",
+                    "type": "double",
+                    "blank_value": 0.0,
+                    "default_value": 0.0,
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Offset applied before gain.",
+                    "constraints": {}
+                },
+                {
+                    "name": "measured_quantity",
+                    "type": "ontology_term",
+                    "blank_value": {
+                        "node": "",
+                        "name": ""
+                    },
+                    "default_value": {
+                        "node": "",
+                        "name": ""
+                    },
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Physical quantity the channel measures (may be empty when unknown).",
+                    "constraints": {}
+                },
+                {
+                    "name": "quantity_relationship",
+                    "type": "char",
+                    "blank_value": "",
+                    "default_value": "",
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Relationship of stored signal to the physical quantity.",
+                    "constraints": {
+                        "enum": [
+                            "calibrated",
+                            "proportional",
+                            "unknown"
+                        ]
+                    }
+                },
+                {
+                    "name": "bad",
+                    "type": "boolean",
+                    "blank_value": false,
+                    "default_value": false,
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "True if the channel is known to be bad.",
+                    "constraints": {}
+                }
+            ]
+        },
+        {
+            "name": "label",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Optional free-text caption for the series (e.g. 'fluorescently labeled bacterial patches, processed'). Folded from the retired image_stack.label.",
+            "constraints": {}
+        }
+    ]
+}

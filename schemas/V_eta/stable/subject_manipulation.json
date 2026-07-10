@@ -1,0 +1,32 @@
+{
+    "document_class": {
+        "class_name": "subject_manipulation",
+        "class_version": "2.0.0",
+        "superclasses": [
+            {
+                "class_name": "subject_interaction"
+            }
+        ],
+        "maturity_level": "stable",
+        "abstract": true
+    },
+    "depends_on": [],
+    "file": [],
+    "fields": [
+        {
+            "name": "notes",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": false,
+            "ontology": null,
+            "documentation": "Irreducible human prose describing this event. Documentation, not queryable structured data.",
+            "constraints": {
+                "maxLength": 4096
+            }
+        }
+    ]
+}

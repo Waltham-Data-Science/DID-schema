@@ -1,0 +1,87 @@
+{
+    "document_class": {
+        "class_name": "value_set",
+        "class_version": "1.0.0",
+        "superclasses": [
+            {
+                "class_name": "base"
+            }
+        ],
+        "maturity_level": "stable"
+    },
+    "depends_on": [],
+    "file": [],
+    "fields": [
+        {
+            "name": "name",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": true,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Human-readable name of this admissible set.",
+            "constraints": {}
+        },
+        {
+            "name": "root",
+            "type": "ontology_term",
+            "blank_value": {
+                "node": "",
+                "name": ""
+            },
+            "default_value": {
+                "node": "",
+                "name": ""
+            },
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "The ontology root; admissible values are its descendants when expansion=descendants.",
+            "constraints": {}
+        },
+        {
+            "name": "expansion",
+            "type": "char",
+            "blank_value": "descendants",
+            "default_value": "descendants",
+            "mustBeNonEmpty": true,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "descendants | self_and_descendants | enumerated.",
+            "constraints": {}
+        },
+        {
+            "name": "members",
+            "type": "ontology_term",
+            "blank_value": [],
+            "default_value": [],
+            "mustBeNonEmpty": false,
+            "mustBeScalar": false,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Explicit admissible terms when expansion=enumerated.",
+            "constraints": {}
+        },
+        {
+            "name": "source",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "The backing ontology/authority (NCBITaxon, OBI, CL, CHEBI, UBERON, RO).",
+            "constraints": {}
+        }
+    ]
+}

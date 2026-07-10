@@ -1,0 +1,16 @@
+{
+    "document_class": {
+        "class_name": "numeric_assertion",
+        "class_version": "1.0.0",
+        "superclasses": [
+            {
+                "class_name": "subject_assertion"
+            }
+        ],
+        "maturity_level": "stable",
+        "abstract": true
+    },
+    "depends_on": [],
+    "file": [],
+    "fields": []
+}

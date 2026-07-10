@@ -1,0 +1,66 @@
+{
+    "document_class": {
+        "class_name": "dataset_session_info",
+        "class_version": "1.0.0",
+        "superclasses": [
+            {
+                "class_name": "base"
+            }
+        ],
+        "maturity_level": "stable"
+    },
+    "depends_on": [
+        {
+            "name": "session_id",
+            "mustBeNonEmpty": true,
+            "documentation": "The document ID of the session this info describes.",
+            "must_refer_to_document_class": ""
+        }
+    ],
+    "file": [],
+    "fields": [
+        {
+            "name": "dataset_id",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": true,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "The identifier of the dataset this session belongs to.",
+            "constraints": {
+                "maxLength": 256
+            }
+        },
+        {
+            "name": "session_index",
+            "type": "integer",
+            "blank_value": 0,
+            "default_value": 0,
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": true,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "The zero-based index of this session within the dataset.",
+            "constraints": {}
+        },
+        {
+            "name": "reference_path",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": false,
+            "ontology": null,
+            "documentation": "The file-system path or reference for this session's data.",
+            "constraints": {
+                "maxLength": 1024
+            }
+        }
+    ]
+}

@@ -1,0 +1,123 @@
+{
+    "document_class": {
+        "class_name": "subject_interaction",
+        "class_version": "3.0.0",
+        "superclasses": [
+            {
+                "class_name": "subject_statement"
+            }
+        ],
+        "maturity_level": "stable",
+        "abstract": true
+    },
+    "depends_on": [
+        {
+            "name": "time_reference_#",
+            "mustBeNonEmpty": true,
+            "documentation": "When the interaction happened, as one or more time_reference anchor documents. Required on interactions (Brainstorm J: an interaction tightens time to required).",
+            "must_refer_to_document_class": "time_reference",
+            "multiple": true
+        },
+        {
+            "name": "instrument_id",
+            "mustBeNonEmpty": false,
+            "documentation": "Optional: the device that performed the method \u2014 an instrument modeled as a subject (kind asserted via a term_assertion). The agent role; subject_id is the patient. Empty for hand measurements (D2).",
+            "must_refer_to_document_class": "subject"
+        }
+    ],
+    "file": [],
+    "fields": [
+        {
+            "name": "method",
+            "type": "ontology_term",
+            "blank_value": {
+                "node": "",
+                "name": ""
+            },
+            "default_value": {
+                "node": "",
+                "name": ""
+            },
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "The verb: what was done (measure, inject, heat, stimulate). Present only on interactions; optional (the observation verb is nearly always 'measurement').",
+            "constraints": {}
+        },
+        {
+            "name": "sample_time",
+            "type": "structure",
+            "blank_value": {},
+            "default_value": {},
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "The per-sample cadence beside the value (Brainstorm J / D1): a compressed descriptor. The absolute anchor (t0, clock) comes from time_reference; this restates only the cadence. For body-backed values the cadence lives in sampled_body.sample_time instead.",
+            "constraints": {},
+            "fields": [
+                {
+                    "name": "kind",
+                    "type": "char",
+                    "blank_value": "point",
+                    "default_value": "point",
+                    "mustBeNonEmpty": true,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "point | grid | enumerated.",
+                    "constraints": {
+                        "enum": [
+                            "point",
+                            "grid",
+                            "enumerated"
+                        ]
+                    }
+                },
+                {
+                    "name": "dt",
+                    "type": "duration",
+                    "blank_value": 0.0,
+                    "default_value": 0.0,
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "grid only: sample spacing.",
+                    "constraints": {}
+                },
+                {
+                    "name": "n",
+                    "type": "integer",
+                    "blank_value": 0,
+                    "default_value": 0,
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "grid only: sample count.",
+                    "constraints": {}
+                },
+                {
+                    "name": "offsets",
+                    "type": "matrix",
+                    "blank_value": [],
+                    "default_value": [],
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "enumerated only: explicit per-sample offsets from the anchor.",
+                    "constraints": {}
+                }
+            ]
+        }
+    ]
+}

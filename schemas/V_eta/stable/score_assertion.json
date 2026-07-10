@@ -1,0 +1,37 @@
+{
+    "document_class": {
+        "class_name": "score_assertion",
+        "class_version": "1.0.0",
+        "superclasses": [
+            {
+                "class_name": "numeric_assertion"
+            }
+        ],
+        "maturity_level": "stable"
+    },
+    "depends_on": [],
+    "file": [],
+    "fields": [
+        {
+            "name": "value",
+            "type": "score",
+            "blank_value": {
+                "approximate": false,
+                "source_unit": "",
+                "source_value": 0.0
+            },
+            "default_value": {
+                "approximate": false,
+                "source_unit": "",
+                "source_value": 0.0
+            },
+            "mustBeNonEmpty": true,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "A scalar score value cell (canonical + lossless source). An assertion is scalar \u2014 one cell, no series (J \u00a75).",
+            "constraints": {}
+        }
+    ]
+}

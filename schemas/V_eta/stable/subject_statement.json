@@ -1,0 +1,43 @@
+{
+    "document_class": {
+        "class_name": "subject_statement",
+        "class_version": "1.0.0",
+        "superclasses": [
+            {
+                "class_name": "base"
+            }
+        ],
+        "maturity_level": "stable",
+        "abstract": true
+    },
+    "depends_on": [
+        {
+            "name": "subject_id",
+            "mustBeNonEmpty": true,
+            "documentation": "The subject this statement is about (the finest entity the value directly describes; Brainstorm J objective-annotation rule).",
+            "must_refer_to_document_class": "subject"
+        }
+    ],
+    "file": [],
+    "fields": [
+        {
+            "name": "variable",
+            "type": "ontology_term",
+            "blank_value": {
+                "node": "",
+                "name": ""
+            },
+            "default_value": {
+                "node": "",
+                "name": ""
+            },
+            "mustBeNonEmpty": true,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "The noun the statement concerns \u2014 the quantity/entity (temperature, body weight, a drug, species). One name across assertions, observations and manipulations, so identity search is uniform.",
+            "constraints": {}
+        }
+    ]
+}

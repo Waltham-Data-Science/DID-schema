@@ -1,0 +1,30 @@
+{
+    "document_class": {
+        "class_name": "time_reference",
+        "class_version": "3.0.0",
+        "superclasses": [
+            {
+                "class_name": "base"
+            }
+        ],
+        "maturity_level": "stable",
+        "abstract": true
+    },
+    "depends_on": [],
+    "file": [],
+    "fields": [
+        {
+            "name": "is_approximate",
+            "type": "boolean",
+            "blank_value": false,
+            "default_value": false,
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Binary precision tier. False ~ precise (within 0.1 ms); True ~ approximate (within ~5 s).",
+            "constraints": {}
+        }
+    ]
+}

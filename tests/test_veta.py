@@ -1,0 +1,219 @@
+"""V_eta (Brainstorm J) schema-set integrity tests.
+
+Validate the V_eta set on its own terms: every schema file passes the
+meta-schema, index.json agrees with disk, superclass and dependency references
+resolve, the tier folder matches maturity_level, and the Brainstorm-J subject
+model composes (bare-identity subject, restored subject_statement, the
+subject_relation branch, the subject_assertion genus, and the renamed
+subject_observation / subject_manipulation direction classes).
+
+Scope note: the leaf-tier depth (dose/formulation composites replacing the
+pharmacological family, the dataseries -> data_body consolidation, and the
+meta-schema `binding` formalization) is an in-progress follow-up; those tests
+land with that increment.
+"""
+import glob
+import json
+import os
+
+import jsonschema
+import pytest
+
+REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+VETA = os.path.join(REPO_ROOT, "schemas", "V_eta")
+TIERS = ["stable", "draft", "deprecated"]
+META_FILES = {"did_schema_meta.json", "CURIE_lookups_meta.json", "ndi_reserved_keys.json"}
+
+
+def _load(path):
+    with open(path) as f:
+        return json.load(f)
+
+
+META = _load(os.path.join(VETA, "stable", "did_schema_meta.json"))
+INDEX = _load(os.path.join(VETA, "index.json"))
+
+
+def _doc_files():
+    out = []
+    for tier in TIERS:
+        for p in sorted(glob.glob(os.path.join(VETA, tier, "*.json"))):
+            if os.path.basename(p) not in META_FILES:
+                out.append((tier, p))
+    return out
+
+
+def _records():
+    recs = {}
+    for tier, p in _doc_files():
+        d = _load(p)
+        recs[d["document_class"]["class_name"]] = (tier, d)
+    return recs
+
+
+DOC_FILES = _doc_files()
+RECORDS = _records()
+
+
+@pytest.mark.parametrize("tier,path", DOC_FILES, ids=[os.path.basename(p) for _, p in DOC_FILES])
+def test_file_passes_meta_schema(tier, path):
+    jsonschema.validate(instance=_load(path), schema=META)
+
+
+@pytest.mark.parametrize("tier,path", DOC_FILES, ids=[os.path.basename(p) for _, p in DOC_FILES])
+def test_filename_matches_class_and_tier(tier, path):
+    dc = _load(path)["document_class"]
+    assert dc["class_name"] + ".json" == os.path.basename(path)
+    assert dc["maturity_level"] == tier
+
+
+def test_index_agrees_with_disk():
+    on_disk = set(RECORDS) | {f[:-5] for f in META_FILES}
+    in_index = {e["class_name"] for e in INDEX["schemas"]}
+    assert on_disk == in_index, f"index/disk drift: {on_disk ^ in_index}"
+    assert INDEX["set_version"] == "V_eta"
+    assert INDEX["based_on"] == "V_zeta"
+
+
+def test_superclasses_resolve():
+    names = set(RECORDS)
+    for name, (_, d) in RECORDS.items():
+        for s in d["document_class"]["superclasses"]:
+            assert s["class_name"] in names, f"{name} -> missing superclass {s['class_name']}"
+
+
+def test_dependencies_resolve():
+    names = set(RECORDS)
+    for name, (_, d) in RECORDS.items():
+        for dep in d.get("depends_on", []):
+            for tok in [t for t in dep["must_refer_to_document_class"].split(",") if t]:
+                assert tok in names, f"{name}.{dep['name']} -> missing class {tok}"
+
+
+def _chain(name):
+    out = [name]
+    for s in RECORDS[name][1]["document_class"]["superclasses"]:
+        out += _chain(s["class_name"])
+    return out
+
+
+def _flat_field_types(name):
+    types = {}
+    for c in reversed(_chain(name)):
+        for f in RECORDS[c][1].get("fields", []):
+            types[f["name"]] = f["type"]
+    return types
+
+
+def _flat_dep_names(name):
+    deps = set()
+    for c in _chain(name):
+        for dep in RECORDS[c][1].get("depends_on", []):
+            deps.add(dep["name"])
+    return deps
+
+
+# ---- Brainstorm J: subject side ----
+
+def test_subject_is_bare_identity():
+    """is_group / is_biological removed; kind is a term_assertion, not a flag."""
+    fields = {f["name"] for f in RECORDS["subject"][1]["fields"]}
+    assert fields == {"local_identifier", "description"}, fields
+    assert RECORDS["subject"][1]["document_class"]["class_version"] == "3.0.0"
+    assert RECORDS["subject"][1]["depends_on"] == []
+
+
+def test_subject_statement_restored_and_owns_variable():
+    """subject_statement is the abstract parent owning subject_id + variable."""
+    assert "subject_statement" in RECORDS
+    dc = RECORDS["subject_statement"][1]["document_class"]
+    assert dc.get("abstract") is True
+    assert dc["superclasses"] == [{"class_name": "base"}]
+    assert _flat_field_types("subject_statement").get("variable") == "ontology_term"
+    assert "subject_id" in _flat_dep_names("subject_statement")
+
+
+def test_interaction_and_assertion_are_statement_children():
+    for child in ("subject_interaction", "subject_assertion"):
+        assert "subject_statement" in _chain(child), f"{child} not under subject_statement"
+
+
+def test_spine_composes_onto_every_interaction():
+    """Every interaction leaf inherits subject_id, variable, required time, method."""
+    for name in RECORDS:
+        if "subject_interaction" not in _chain(name):
+            continue
+        ft, deps = _flat_field_types(name), _flat_dep_names(name)
+        assert "subject_id" in deps, f"{name} missing subject_id"
+        assert "time_reference_#" in deps, f"{name} missing time_reference"
+        assert ft.get("variable") == "ontology_term", f"{name} missing variable"
+        assert ft.get("method") == "ontology_term", f"{name} missing method"
+        assert ft.get("sample_time") == "structure", f"{name} missing sample_time"
+
+
+def test_path_t_removed_and_element_id_retired():
+    """Path T target_structure and V_zeta's element_id are gone from the spine."""
+    ft = _flat_field_types("subject_interaction")
+    assert "target_structure" not in ft
+    assert "element_id" not in _flat_dep_names("subject_interaction")
+
+
+def test_instrument_id_is_optional_device_edge():
+    deps = {d["name"]: d for d in RECORDS["subject_interaction"][1]["depends_on"]}
+    assert "instrument_id" in deps
+    assert deps["instrument_id"]["mustBeNonEmpty"] is False
+    assert deps["instrument_id"]["must_refer_to_document_class"] == "subject"
+
+
+def test_direction_classes_renamed():
+    for new in ("subject_observation", "subject_manipulation"):
+        assert new in RECORDS
+    for old in ("observation", "manipulation", "annotation", "group_assignment"):
+        assert old not in RECORDS, f"{old} should be gone in V_eta"
+
+
+def test_leaf_tier_named_by_data_type_no_scalar_prefix():
+    """Observation leaves are <dim>_observation (one word, no scalar_ prefix)."""
+    for dim in ("mass", "temperature", "length", "duration", "volume", "pressure",
+                "frequency", "voltage", "current", "concentration", "count", "score"):
+        leaf = f"{dim}_observation"
+        assert leaf in RECORDS, f"missing {leaf}"
+        assert f"scalar_{dim}_observation" not in RECORDS
+        assert "subject_observation" in _chain(leaf)
+        assert _flat_field_types(leaf).get("value") == dim
+    # categorical -> the single term_observation; no scalar umbrella
+    assert "term_observation" in RECORDS and "categorical_observation" not in RECORDS
+    assert "scalar_observation" not in RECORDS and "scalar_manipulation" not in RECORDS
+
+
+def test_subject_assertion_is_genus_with_typed_leaves():
+    dc = RECORDS["subject_assertion"][1]["document_class"]
+    assert dc.get("abstract") is True and "subject_statement" in _chain("subject_assertion")
+    assert "term_assertion" in RECORDS and "date_assertion" in RECORDS
+    assert RECORDS["numeric_assertion"][1]["document_class"].get("abstract") is True
+    # a dimensioned assertion leaf carries a scalar value cell (one cell, no series)
+    mass = RECORDS["mass_assertion"][1]
+    v = [f for f in mass["fields"] if f["name"] == "value"][0]
+    assert v["type"] == "mass" and v["mustBeScalar"] is True
+
+
+def test_subject_relation_branch():
+    assert RECORDS["subject_relation"][1]["document_class"].get("abstract") is True
+    for cls, endpoints in (("directed_relation", {"child", "parent"}),
+                           ("undirected_relation", {"subjects"})):
+        assert "subject_relation" in _chain(cls)
+        assert endpoints <= _flat_dep_names(cls), f"{cls} endpoints {endpoints}"
+        assert _flat_field_types(cls).get("relation") == "ontology_term"
+
+
+def test_value_set_present():
+    assert "value_set" in RECORDS
+    ft = _flat_field_types("value_set")
+    assert ft.get("expansion") == "char" and ft.get("root") == "ontology_term"
+
+
+def test_timing_cadence_moved_off_time_reference():
+    """time_reference.sampling removed; the cadence lives in sample_time (D1)."""
+    tr_fields = {f["name"] for f in RECORDS["time_reference"][1]["fields"]}
+    assert "sampling" not in tr_fields
+    assert _flat_field_types("subject_interaction").get("sample_time") == "structure"

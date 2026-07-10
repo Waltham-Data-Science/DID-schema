@@ -1,0 +1,15 @@
+{
+    "document_class": {
+        "class_name": "timeseries_data_csv",
+        "class_version": "1.0.0",
+        "superclasses": [
+            {
+                "class_name": "timeseries_data"
+            }
+        ],
+        "maturity_level": "draft"
+    },
+    "depends_on": [],
+    "file": [],
+    "fields": []
+}

@@ -71,25 +71,48 @@ All resolved with the maintainer; recorded in `V_eta_migration_plan.md` Part E.
 
 ## Build status
 
-**In progress.** V_eta is being built from a copy of V_zeta with the §§1–8
-transform applied. Tracked increments:
+**In progress.** V_eta is built deterministically from V_zeta by
+`tools/build_v_eta.py` (re-runnable); the tree validates and
+`tests/test_veta.py` (451 checks) passes alongside the full suite (970 total).
 
-- [ ] Tree stood up (`schemas/V_eta/` copied from V_zeta; `index.json`
-  `set_version`/`schema_version_value` = `"V_eta"`, `based_on` = `"V_zeta"`).
-- [ ] Subject side: bare `subject`; `subject_relation`/`directed_`/`undirected_`;
-  `subject_statement`; `subject_assertion` genus + leaves; `subject_interaction`
-  re-root + `subject_observation`/`subject_manipulation`; drop `target_structure`;
-  add `instrument_id`.
-- [ ] Leaf tier: one-word data-type names, drop `scalar_` prefix, collapse the
-  `dataseries_` split, `categorical_observation` → `term_observation`, retire the
-  delivery-method / escape-hatch families.
-- [ ] `storage_mode` + `sampled_body`/`opaque_body`; retire superseded body
-  classes; relocate timing cadence.
-- [ ] Binding registry: `value_set` class + binding-registry meta-file +
-  meta-schema `binding` formalization + kind-variable set.
-- [ ] `tests/test_veta.py` (meta-validation, index/disk agreement, superclass +
-  `must_refer_to_document_class` resolution, spine composition, binding integrity).
-- [ ] `schemas/V_eta/conversions/from_did_v1/` seed.
+Increment 1 — the subject-side core — **done**:
+
+- [x] Tree stood up (`schemas/V_eta/`; `index.json` `set_version` /
+  `schema_version_value` = `"V_eta"`, `based_on` = `"V_zeta"`; 218 classes + 3 meta).
+- [x] Subject side: bare `subject` (v3.0.0); `subject_relation` /
+  `directed_relation` / `undirected_relation`; restored `subject_statement`
+  (owns `subject_id` + `variable`); `subject_assertion` genus + `term_assertion` /
+  `date_assertion` / `numeric_assertion` + 12 dimensioned scalar assertion leaves;
+  `subject_interaction` re-rooted under `subject_statement` (adds `method`,
+  `sample_time`, optional `instrument_id`; required time); direction renamed to
+  `subject_observation` / `subject_manipulation`; `target_structure` and
+  `element_id` dropped; `annotation` / `group_assignment` retired.
+- [x] Leaf renames: `<dim>_observation` (one word, no `scalar_` prefix), the
+  `scalar_observation` / `scalar_manipulation` umbrellas removed,
+  `categorical_observation` → `term_observation`, shape mixins `scalar_<dim>` →
+  `<dim>`.
+- [x] Timing relocation (D1): `time_reference.sampling` removed; the cadence is
+  `sample_time` on `subject_interaction`.
+- [x] `value_set` class (binding-registry primitive).
+- [x] `tests/test_veta.py` (meta-validation, index/disk, superclass + dependency
+  resolution, spine composition, subject-side structure).
+
+Increment 2 — leaf-tier depth — **pending** (V_zeta-shaped classes carried
+unchanged for now so the set validates):
+
+- [ ] Retire the delivery-method family (`injection` / `bath` /
+  `pharmacological_manipulation` / `stimulus_bath`) and the escape hatches
+  (`generic_manipulation` / `generic_scalar_*`) → data-type-named manipulations +
+  `dose` / `formulation` / `chemical` composites + `term_manipulation` (D8).
+- [ ] `biological_transfer` → `term_manipulation` + provenance `directed_relation`
+  (D4).
+- [ ] Collapse the `dataseries_` / `timeseries_` / `imageseries_` split into the
+  data-type leaves; add `storage_mode` + `sampled_body` / `opaque_body`; retire
+  the superseded body classes (D-storage).
+- [ ] Harden the binding registry: the binding-registry meta-file, the
+  meta-schema `binding` formalization, the ontology-aware validator, and the
+  enumerated kind-variable set (D9).
+- [ ] `schemas/V_eta/conversions/from_did_v1/` seed (mirrors migration-plan Part D).
 
 ## Not implemented in this pass (open follow-ups)
 
