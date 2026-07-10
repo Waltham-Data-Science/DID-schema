@@ -1,6 +1,6 @@
 {
     "document_class": {
-        "class_name": "intensity",
+        "class_name": "angle",
         "class_version": "1.0.0",
         "superclasses": [
             {
@@ -15,7 +15,7 @@
     "fields": [
         {
             "name": "value",
-            "type": "intensity",
+            "type": "angle",
             "blank_value": [],
             "default_value": [
                 {
@@ -29,7 +29,7 @@
             "mustNotHaveNaN": false,
             "queryable": true,
             "ontology": null,
-            "documentation": "A dimensionless (a.u.) \u2014 dF/F, fluorescence, ratios, amplitudes value cell (canonical + lossless source). Series-as-cardinality: an array of the cell; per-sample timing is the statement's sample_time.",
+            "documentation": "A rad value cell (canonical + lossless source). Series-as-cardinality: an array of the cell; per-sample timing is the statement's sample_time.",
             "constraints": {}
         }
     ]

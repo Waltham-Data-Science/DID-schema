@@ -233,7 +233,21 @@
                         "pressure",
                         "count",
                         "score",
-                        "intensity"
+                        "intensity",
+                        "velocity",
+                        "acceleration",
+                        "area",
+                        "angle",
+                        "angular_velocity",
+                        "force",
+                        "energy",
+                        "power",
+                        "charge",
+                        "resistance",
+                        "conductance",
+                        "capacitance",
+                        "amount",
+                        "ph"
                     ],
                     "description": "Data type of the field. Uses the standard JSON Schema keyword 'type'; values are NDI-specific."
                 },

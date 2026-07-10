@@ -6,9 +6,35 @@ tables in **real corpus data**, not guesses. The corpora are public JSON on S3
 not in any repo — so this analysis was done directly in Python on the `did_v1`
 documents (no MATLAB needed; MATLAB is only for *running* the migrator, via CI).
 
-Corpora analyzed so far: **B** (12,917 docs, 18 classes) and **Dab** (27,561
-docs, 26 classes). B is DAQ/ephys infrastructure only; Dab carries the
-subject-side hard transforms.
+Corpora analyzed: **B** (12,917 docs), **Dab** (27,561 docs), and **JH** (78,688
+docs, 15 classes). B is DAQ/ephys infrastructure only; Dab and JH carry the
+subject-side hard transforms at volume.
+
+## JH (78,688 docs) — the largest, and it confirms/extends the picture
+
+| class | n | migration |
+|---|---|---|
+| `ontologyTableRow` | **41,095** | the bulk — a *C. elegans* bacterial-encounter behavioral assay |
+| `openminds_subject` | 9,032 | default fall-through |
+| `ontologyLabel` | **7,007** | → `term_observation` (D5) — high volume |
+| `imageStack` | **7,007** | → `data_body`/`subject_observation` (the storage case; increment 3) |
+| `element`/`element_epoch` | 4,156 ea | carried (NDI infra) |
+| `subject_group` | **353** | → bare `subject` (the migrator I implemented **is** exercised here) |
+| `treatment` | 56 | food-restriction **onset/offset times** (a husbandry regime + time), `EMPTY:` nodes, **0 loci, 0 numeric_value** |
+
+- **D3 confirmed at scale:** JH has **0** anatomical loci. Total across B+Dab+JH =
+  **49** (all Dab optogenetic). Located-by-default is firmly the right call.
+- **`treatment_drug` / `virus_injection` / `treatment_transfer` are absent from
+  all three corpora** — those `+migrators_j/` migrators are unexercised; keep the
+  classes, deprioritize the migrators.
+- **`treatment` has two real patterns, no substances/thermal:** Dab = the
+  Target-Location locus; JH = a husbandry regime (food restriction) with an
+  onset/offset time → `term_manipulation` (variable = "food restriction") + a
+  bounded time anchor. The dose/`<quantity>`_manipulation branches of the plan's
+  dispatch table are **not** exercised by these corpora.
+- **New numeric-type gaps (JH C. elegans):** velocities and decelerations
+  (`velocity`, `acceleration`), plus radii (`length`), probabilities/circularity
+  (`score`), bacterial density (`concentration`/`intensity`). See "gap" below.
 
 ## Class coverage
 
@@ -107,12 +133,15 @@ depends_on: probe_id
   **absent** from B/Dab. So `part_of`/provenance relations are exercised only if
   the mint allowlist fires or JH carries transfers — declare the minimum, wire on
   demand.
-- **A real gap surfaced — now closed.** The startle **amplitude** columns are
-  dimensionless (a.u.), and the meta-schema had no dimensionless numeric type.
-  Per Brainstorm J §7 (`intensity` = "the one dimensionless numeric"), V_eta now
-  ships an **`intensity`** type in the meta-schema enum plus `intensity`,
-  `intensity_observation`, `intensity_manipulation`, and `intensity_assertion`
-  — so the FPS amplitudes migrate to `intensity_observation`.
+- **Numeric-type gaps surfaced — now closed.** V_zeta seeded only 12 dimensioned
+  numerics; discovery showed that is insufficient (Dab a.u. amplitudes; JH
+  velocities/decelerations), and Brainstorm J §7 prescribes a *comprehensive*
+  pre-seeded set anyway. V_eta now ships J §7's fuller set — added `intensity`,
+  `velocity`, `acceleration`, `area`, `angle`, `angular_velocity`, `force`,
+  `energy`, `power`, `charge`, `resistance`, `conductance`, `capacitance`,
+  `amount`, `ph` (each with a value mixin + `_observation` + `_assertion` leaf;
+  `intensity` also gets a `_manipulation`). So the FPS amplitudes →
+  `intensity_observation` and the C. elegans velocities → `velocity_observation`.
 - **Migrators needed for full Dab coverage:** `treatment` (the Target-Location
   pattern), `ontology_table_row` (int/str/date shape dispatch), `probe_location`
   (D5); `stimulus_bath` deferral; everything else falls through. `subject_group`

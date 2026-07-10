@@ -1,6 +1,6 @@
 {
     "document_class": {
-        "class_name": "intensity_assertion",
+        "class_name": "charge_assertion",
         "class_version": "1.0.0",
         "superclasses": [
             {
@@ -14,7 +14,7 @@
     "fields": [
         {
             "name": "value",
-            "type": "intensity",
+            "type": "charge",
             "blank_value": {
                 "approximate": false,
                 "source_unit": "",
@@ -30,7 +30,7 @@
             "mustNotHaveNaN": false,
             "queryable": true,
             "ontology": null,
-            "documentation": "A scalar dimensionless (a.u.) \u2014 dF/F, fluorescence, ratios, amplitudes value cell.",
+            "documentation": "A scalar C value cell.",
             "constraints": {}
         }
     ]

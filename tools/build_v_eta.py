@@ -478,25 +478,38 @@ opaque["file"] = BODY_FILE
 write("draft", "opaque_body", opaque)
 
 
-# ---------- 11b. intensity: the one dimensionless numeric (J §7) ----------
-# Surfaced by discovery: Dab fear-potentiated-startle amplitudes are a.u. J §7
-# names `intensity` the single dimensionless numeric (dF/F, fluorescence, ratios).
-INTENSITY_CELL = {"approximate": False, "source_unit": "", "source_value": 0.0}
-write("stable", "intensity",
-      doc("intensity", ["base"], abstract=True, fields=[field(
-          "value", "intensity",
-          "A dimensionless numeric value (a.u.) — the home for dF/F, fluorescence, "
-          "ratios, and instrument amplitudes (J §7). Series-as-cardinality: an array "
-          "of the cell; per-sample timing is the statement's sample_time.",
-          non_empty=True, scalar=False, blank=[], default=[INTENSITY_CELL])]))
-write("stable", "intensity_observation",
-      doc("intensity_observation", ["subject_observation", "intensity"]))
+# ---------- 11b. pre-seed J §7's comprehensive numeric set ----------
+# V_zeta shipped only 12 dimensioned numerics. J §7 prescribes a comprehensive
+# pre-seeded set; discovery confirmed the gap (Dab startle amplitudes = a.u. ->
+# intensity; JH C. elegans velocities/decelerations -> velocity/acceleration).
+# Each new numeric gets a value mixin + an _observation + an _assertion leaf
+# (a _manipulation is added only for a quantity something is imposed as; the
+# existing temperature/pressure/frequency manipulations carry over from V_zeta).
+CELL = {"approximate": False, "source_unit": "", "source_value": 0.0}
+NUMERIC_SEED = [
+    ("intensity", "dimensionless (a.u.) — dF/F, fluorescence, ratios, amplitudes"),
+    ("velocity", "m/s"), ("acceleration", "m/s^2"), ("area", "m^2"),
+    ("angle", "rad"), ("angular_velocity", "rad/s"), ("force", "N"),
+    ("energy", "J"), ("power", "W"), ("charge", "C"), ("resistance", "ohm"),
+    ("conductance", "S"), ("capacitance", "F"), ("amount", "mol"),
+    ("ph", "pH (log scale)"),
+]
+for name, unit in NUMERIC_SEED:
+    write("stable", name,
+          doc(name, ["base"], abstract=True, fields=[field(
+              "value", name,
+              "A %s value cell (canonical + lossless source). Series-as-cardinality: "
+              "an array of the cell; per-sample timing is the statement's sample_time."
+              % unit, non_empty=True, scalar=False, blank=[], default=[CELL])]))
+    write("stable", name + "_observation",
+          doc(name + "_observation", ["subject_observation", name]))
+    write("stable", name + "_assertion",
+          doc(name + "_assertion", ["numeric_assertion"], fields=[field(
+              "value", name, "A scalar %s value cell." % unit,
+              non_empty=True, scalar=True, blank=CELL, default=CELL)]))
+# intensity is also imposable (e.g. a stimulus a.u. level)
 write("stable", "intensity_manipulation",
       doc("intensity_manipulation", ["subject_manipulation", "intensity"]))
-write("stable", "intensity_assertion",
-      doc("intensity_assertion", ["numeric_assertion"], fields=[field(
-          "value", "intensity", "A scalar dimensionless (a.u.) value cell.",
-          non_empty=True, scalar=True, blank=INTENSITY_CELL, default=INTENSITY_CELL)]))
 
 
 # ---------- 12. formalize `binding` in the meta-schema (D9) ----------
@@ -506,8 +519,9 @@ write("stable", "intensity_assertion",
 
 meta = load(os.path.join(VETA, "stable", "did_schema_meta.json"))
 type_enum = meta["$defs"]["field_definition"]["properties"]["type"]["enum"]
-if "intensity" not in type_enum:            # J §7: the one dimensionless numeric
-    type_enum.append("intensity")
+for _seed_name, _ in NUMERIC_SEED:          # J §7 comprehensive numeric set
+    if _seed_name not in type_enum:
+        type_enum.append(_seed_name)
 constraints_schema = meta["$defs"]["field_definition"]["properties"]["constraints"]
 constraints_schema["properties"] = {
     "binding": {
