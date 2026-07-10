@@ -557,49 +557,123 @@ default we can quietly pick.
   UBERON, RO). The (i) subject-kind *presence* check stays an ingestion invariant
   (still cross-document); day-1 hard validation covers the *vocabulary* (ii). (A.2,
   A.5, Part F)
+
+  **OPEN extension — the registry as a general type oracle for open parameters.**
+  The Phase-1 registry types *closed* things (kind assertions, `categorical`/
+  `term_observation` values, the `(method, variable) → leaf` nudge). D10/D11 surface
+  a broader use the registry was not yet scoped for: **open, author-supplied
+  parameters** — trial parameters, qualifier variables, and value-axis labels have
+  no schema-fixed leaf, yet still need a data type and admissible set. The proposed
+  (not adopted) extension keys the registry on the parameter's `variable` and returns
+  a **data type + `value_set`**, so an open `arm type`, `OD600`, or `trial type`
+  validates exactly like a bound term value would. Two invariants come with it: an
+  axis label list must itself bind to a `value_set`, and a value array's length must
+  equal its axis's label count. This is what lets D10 claim "every field is validated
+  by data type" even for the open columns. *Status:* OPEN — pending the D10 shape
+  choice (an axis-based or trial-event-based encoding changes exactly what gets
+  registry-typed). No change to the Phase-1 closed-binding machinery, which ships as
+  Resolved above. (A.2, A.5, D10, D11)
 - **D8 — Payload-free manipulations. Resolved:** `term_manipulation` (imposed
   value = the act's ontology term). **No escape hatch** — strict J resolves every
   act to a data type; an un-typed numeric is flagged/quarantined in discovery
   mode, never dumped into a generic bin. `generic_manipulation` and
   `generic_scalar_observation` do not exist in V_eta. (A.9)
-- **D10 — Qualifiers, and the roles of columns in a flat table.** A `did_v1`
-  `ontology_table_row` is **not** N independent subject facts — it is a mini-record
-  whose columns play distinct ROLES, and a naive per-column → `subject_observation`
-  split mis-models most of them (e.g. it makes "trial type = 95 dB" an *observation
-  of the subject* when it is a **qualifier of** the amplitude measurement).
-  Discovery over **all 11 distinct table signatures** (Dab fear-potentiated-startle
-  and elevated-plus-maze; JH *C. elegans* encounter, bacterial-patch
-  fluorescence/geometry, plate-prep conditions, and subject↔plate link tables)
-  shows columns fall into at least four roles:
-  - **response measurement** — a value about an entity (startle amplitude, arm
-    entries, patch fluorescence) → `subject_observation`;
-  - **qualifier / condition** — the context the measurement was taken under (trial
-    type, phase, chamber, CNO-vs-saline treatment, exclusion flag, OD600, ambient
-    temperature) → the **qualifier** concept this decision adds;
-  - **entity reference / foreign key** — a pointer to another document/entity
-    (`BacterialPatchDocumentIdentifier`, `MicroscopyImageIdentifier`) → a
-    `depends_on` / `subject_relation`, not a value;
-  - **identity** — the row's subject/entity key → the anchor, not an observation.
+- **D10 — Flat tables: column roles and where a qualifier lives. OPEN — under
+  discussion, no option locked.** A `did_v1` `ontology_table_row` is **not** N
+  independent subject facts — it is a mini-record whose columns play distinct ROLES,
+  and the naive per-column → `subject_observation` split (what
+  `+migrators_j/ontology_table_row.m` does today) mis-models most of them: it makes
+  "trial type = 95 dB" an *observation of the subject* when it is a **qualifier of**
+  the startle-amplitude measurement, and in Dab's elevated-plus-maze it inherits the
+  source table's mistake of pre-splitting one measurement across arm types (51
+  columns) instead of carrying `arm type` as a covariate. So D10 asks two coupled
+  questions — *what role does each column play* and *where does the answer to that
+  role get stored* — and both stay open.
 
-  Two consequences: **(a)** measurements need a qualifier slot. Options —
-  **(1)** an optional `qualifiers` list of `{variable, value}` on
-  `subject_observation` (*recommended:* self-contained, denormalized into the
-  index, directly queryable — "amplitude WHERE trial_type = 95 dB AND phase =
-  test"); **(2)** a trial/condition event the responses `depend_on`; **(3)** the
-  `stimulus_presentation` / `stimulus_response` model for stimulus-driven assays.
-  **(b)** the measured entity is often **NOT the animal** — the bacterial-patch
-  tables (13k+ rows) measure a *bacterial patch* (its own subject), the plate-prep
-  tables measure a *plate/session*, and two tables are pure **relations** (a worm
-  *encountered* a patch; a subject *is on* a plate) with no measurements at all. So
-  the migrator cannot blindly anchor every column on the row's
-  `SubjectLocalIdentifier`; "which subject/entity does this column describe" is a
-  per-table discovery call (a likely follow-on **D11**).
+  **The column-role rule (the deterministic part we agree on).** Discovery over
+  **all 11 distinct table signatures** (Dab fear-potentiated-startle and
+  elevated-plus-maze; JH *C. elegans* encounter, bacterial-patch
+  fluorescence/geometry, plate-prep conditions, subject↔plate link tables) shows
+  every column resolves to exactly one of five roles by a rule a migrator can apply
+  without per-table hand-tuning:
+  - **Measurement** (a value read off an entity: startle amplitude, arm entries,
+    patch fluorescence) → a `subject_observation` leaf, typed by data shape;
+  - **Qualifier / condition** (the context the measurement was taken under: trial
+    type, phase, chamber, CNO-vs-saline, exclusion flag, OD600, ambient temperature,
+    *and the pre-split `arm type`*) → a **trial parameter**, not an observation;
+  - **Reference / foreign key** (`BacterialPatchDocumentIdentifier`,
+    `MicroscopyImageIdentifier`) → a `directed_relation` / `depends_on`, not a value;
+  - **Identity** (the row's subject/entity key) → the anchor, not an observation;
+  - **Total / derived** (a row/column sum reconstructable from the others) →
+    dropped, not stored.
 
-  *Provisional:* option 1 for qualifiers (a `qualifiers` list on
-  `subject_observation`), plus a discovery-tuned **column-role classifier**
-  (measurement / qualifier / reference / identity) and per-table subject
-  resolution. Connects to the Experimental Design Module thread in
-  `ndi-next-steps`. Confirm option 1 and whether to split out D11. (A.9, C.2)
+  The rule is deterministic *given a per-column role label*; producing that label is
+  the D11 question below. This is the one piece we treat as settled enough to build
+  the classifier against.
+
+  **Where the qualifier lives — the option space (all OPEN).** Eight shapes were
+  surveyed against ease-of-curation ("is there exactly one correct way to encode
+  this?"), ease-of-analysis, and honesty about the science:
+  1. `qualifiers` list of `{variable, value}` bolted onto each
+     `subject_observation` — self-contained and directly queryable, but denormalizes
+     the condition onto every response and gives two authors two ways to encode the
+     same trial;
+  2. a **trial/epoch event** document the responses and manipulations `depend_on` —
+     owns the shared `time_reference` and the conditions once, links
+     observations↔manipulations, and can span multiple entities;
+  3. **covariate → value axis** — a multi-dimensional reading keeps the varying
+     condition as an *axis* of the value cell (J-native: the arm-type split collapses
+     back into one `entries` measurement indexed by an `arm type` axis);
+  4. reuse `stimulus_presentation` / `stimulus_response` for stimulus-driven assays;
+  5. condition-as-subject (a `subject` per condition, measurements relate to it);
+  6. a free `conditions` block on the session/epoch anchor only;
+  7. per-condition document sets keyed by a shared tag;
+  8. leave it flat (status quo) and push disambiguation entirely to the consumer.
+  The **leading synthesis** (not a decision) is **3 + 2 governed by the column-role
+  rule**: within one entity a qualifier that indexes a measurement becomes a **value
+  axis** (shape 3); a qualifier that scopes a *set* of measurements/manipulations
+  across time or entities becomes a **trial/epoch event** (shape 2); the rule decides
+  which. Worked mock-ups exist for both — the EPM 51-column table collapsing to ~8
+  axis-bearing documents, and the *C. elegans* multi-entity encounter (worm + patch +
+  plate) resolving through a trial/epoch that no single row-subject could anchor.
+  Neither is adopted; both live in the EDM design note (`ndi-next-steps`) for
+  critique.
+
+  **How every field still gets validated by data type (the tie to D9).** Whichever
+  shape wins, the concern is that qualifier/trial-parameter values are *open*
+  (author-supplied `variable`s, not schema-fixed leaves). The answer is the **D9
+  binding registry acting as a type oracle**: an open parameter keyed on its
+  `variable` resolves through the registry to a data-type + `value_set`, so
+  `arm type ∈ {open, closed, center}`, `OD600 ∈ non-negative real`,
+  `trial type ∈ <startle-protocol value_set>` are all checkable at validation time —
+  the same machinery that types kind-assertions, just pointed at parameters. Axis
+  labels bind to a `value_set` and the value-array length must equal the axis label
+  count. See the D9 extension below.
+
+  *Status:* OPEN. Nothing adopted. The column-role rule is agreed as the
+  classifier's backbone; the qualifier-placement shape (options 1–8, synthesis 3+2)
+  and the per-entity resolution (D11) are for the EDM design note and a later
+  decision. Until then `ontology_table_row.m` is knowingly-wrong and stays flagged.
+  (A.9, C.2)
+- **D11 — Which entity a column describes (subject-of-column / multi-entity rows).
+  OPEN — split out of D10.** The column-role rule (D10) says *what* a column is; D11
+  asks *whose* it is. The migrator cannot blindly anchor every column on the row's
+  `SubjectLocalIdentifier`, because in the JH corpus the measured entity is routinely
+  **not the animal**: the bacterial-patch tables (13k+ rows) measure a *bacterial
+  patch* (its own `subject`), the plate-prep tables measure a *plate/session*, and
+  two tables are pure **relations** (a worm *encountered* a patch; a subject *is on* a
+  plate) carrying no measurements at all. A single flat row can therefore mint
+  observations about several distinct entities plus edges between them. Open
+  questions: **(i)** how is per-column subject resolved — a per-table discovery map
+  (like the +migrators_i seeding), a heuristic on column-name prefixes
+  (`BacterialPatch*` → the patch entity), or an explicit author-supplied binding?
+  **(ii)** when the row has no natural single subject (encounter/link tables), does
+  the trial/epoch event (D10 shape 2) become the anchor, or do we mint the relation
+  directly with no anchor? **(iii)** how do reference columns (D10 role 3) get
+  paired with the entity they point at so the `directed_relation` is well-formed?
+  This is tightly coupled to D10's shape choice (a trial/epoch anchor answers much of
+  (ii)) and to D2 (instrument-as-subject) — resolve alongside them. *Status:* OPEN.
+  (A.9, A.10, C.2)
 
 ---
 
