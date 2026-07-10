@@ -539,10 +539,22 @@ default we can quietly pick.
   `variable = species` → NCBITaxon descendants, `variable = instrument type` → OBI
   device descendants, etc. **(iii)** Optionally enumerate a small set of
   **kind-defining variables** (species, instrument type, cell type, material type,
-  developmental stage, …) so the (i) invariant is precise. *Provisional:* ingestion
-  invariant + soft inline bindings + an enumerated kind-variable set; **defer** the
-  full binding-registry / `value_set` meta-file (V_zeta punted it) unless you want
-  hard enforcement now. Open for your call. (A.2, A.5)
+  developmental stage, …) so the (i) invariant is precise. **Resolved: hard
+  validation from day 1 — do not defer the registry.** V_eta ships the
+  **binding-registry / `value_set`** machinery in Phase 1 (V_zeta deferred it):
+  a **`value_set`** class (a named admissible set = an ontology root + `expansion:
+  descendants`, or an enumerated list), a **binding-registry meta-file** mapping
+  `variable` (and, on interactions, `method`+`variable`) → `value_set` / leaf, the
+  **`binding` block formalized in the meta-schema** (no longer advisory in the open
+  `constraints` object), and an **ontology-aware validator** that resolves a
+  document's term `value` against the bound `value_set` at validation time.
+  **Scope note:** this hardens *every* binding, not just kind — the
+  `categorical`/`term_observation` value binding and the `(method, variable) → leaf`
+  nudge all become validated, and the validator gains an ontology-resolution
+  dependency (a cached/queryable term hierarchy for NCBITaxon, OBI, CL, CHEBI,
+  UBERON, RO). The (i) subject-kind *presence* check stays an ingestion invariant
+  (still cross-document); day-1 hard validation covers the *vocabulary* (ii). (A.2,
+  A.5, Part F)
 - **D8 — Payload-free manipulations. Resolved:** `term_manipulation` (imposed
   value = the act's ontology term). **No escape hatch** — strict J resolves every
   act to a data type; an un-typed numeric is flagged/quarantined in discovery
@@ -564,15 +576,23 @@ default we can quietly pick.
    `injection`/`bath`/`pharmacological`/`biological_transfer`/`generic_manipulation`
    families into data-type-named manipulations + composites; assertion genus +
    leaves; `storage_mode` + `data_body`/`sampled_body`/`opaque_body`, retiring the
-   superseded body classes; drop `target_structure`). Add `tests/test_veta.py` (meta-validation, index/disk
-   agreement, superclass + `must_refer_to_document_class` resolution, spine
-   composition). Seed `schemas/V_eta/conversions/from_did_v1/` (`_index.md`,
+   superseded body classes; drop `target_structure`). **Build the binding registry
+   (D9):** a `value_set` class, a binding-registry meta-file (`variable` /
+   `method`+`variable` → `value_set` / leaf), the `binding` block formalized in the
+   meta-schema, and the enumerated kind-variable set. Add `tests/test_veta.py`
+   (meta-validation, index/disk agreement, superclass +
+   `must_refer_to_document_class` resolution, spine composition, **plus binding
+   integrity: every `binding` names a real `value_set`, every `value_set` root
+   resolves**). Seed `schemas/V_eta/conversions/from_did_v1/` (`_index.md`,
    `_universal_renames.md` = V_zeta's with the stamp value changed, per-class
    docs mirroring Part D).
 2. **DID-matlab.** Add `+did2/+convert/+migrators_j/` (one `.m` per source class
    in Part D + `Contents.m`); wire the `V_eta` branch in `v1_to_v2.m`. Transform-
    level tests `tests/+did2/+unittest/testMigratorsJ.m` (no schema needed,
-   `Validate=false`).
+   `Validate=false`). **Add the ontology-aware binding validator (D9)** — resolve a
+   term `value` against its bound `value_set` at validation time (a cached/queryable
+   NCBITaxon/OBI/CL/CHEBI/UBERON/RO hierarchy); wire it into
+   `did2.schema.cache.validateDocument` so `Validate=true` enforces the vocabulary.
 3. **NDI-matlab.** Extend `ndi.migrate.internal` with the part-subject
    find-or-create/dedup service (C.1) and the assertion/observation +
    attributed/located routing tables (C.2/C.1); add the `assembleDeferred` cases.
@@ -582,16 +602,18 @@ default we can quietly pick.
    zero orphans and an empty (or explained) quarantine. **The corpora are the
    spec** — the dispatch tables in Part C/D are seeds, finalized here.
 
-**Non-goals for this plan / first pass.** The binding-registry meta-file and
-`value_set` class; the `dataSeriesType` registry; live-correction/supersession
-of shared `reference` value documents (immutable references need none); populating
-`element_id`; and any relation surface with no `did_v1` source (forward-looking
-`member_of`/`placement`/`derivation` authoring).
+**Non-goals for this plan / first pass.** The `dataSeriesType` registry;
+live-correction/supersession of shared `reference` value documents (immutable
+references need none); populating the individuated referent (`instrument_id` /
+`element_id`); and any relation surface with no `did_v1` source (forward-looking
+`member_of`/`placement`/`derivation` authoring). *(The binding-registry meta-file
+and `value_set` class are now **in scope** for Phase 1 — see D9.)*
 
 ---
 
 *V_eta migration plan · implements Brainstorm J · proposal for issue #69 ·
 provisional until approved. The subject-model change (bare-identity subjects +
-relations-as-documents + Path S) has been accepted by the team per Brainstorm J;
-the migration mechanics, cardinality, and Decisions D1–D7 above are what this
-document asks the team to approve before code is written.*
+relations-as-documents + Path S) has been accepted by the team per Brainstorm J.
+Decisions D1–D9 are resolved (D3/D6 gate final term lists on the discovery
+reports); the migration mechanics and cardinality are what remain for the team to
+sign off before Phase 1 begins.*
