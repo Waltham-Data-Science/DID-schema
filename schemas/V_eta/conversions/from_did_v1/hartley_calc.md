@@ -1,10 +1,10 @@
-# Conversion: did_v1 → V_zeta — `hartley_calc`
+# Conversion: did_v1 → V_eta — `hartley_calc`
 
 ## Identity
 
-- **V_zeta `class_name`:** `hartley_calc`
-- **V_zeta tier:** `stable`
-- **V_zeta schema path:** `schemas/V_zeta/stable/hartley_calc.json`
+- **V_eta `class_name`:** `hartley_calc`
+- **V_eta tier:** `stable`
+- **V_eta schema path:** `schemas/V_eta/stable/hartley_calc.json`
 - **did_v1 source:** `VH-Lab/NDIcalc-vis-matlab` —
   `ndi_common/schema_documents/calc/hartley_calc_schema.json` plus
   `ndi_common/database_documents/calc/hartley_calc.json`.
@@ -20,11 +20,11 @@ a file reference to the produced kernel.
 
 ## Field mapping
 
-| did_v1 location | V_zeta location | Transformation |
+| did_v1 location | V_eta location | Transformation |
 |---|---|---|
 | `class_name: "hartley_calc"` | same | identity |
 | `superclasses: [base, hartley_reverse_correlation]` | same | identity |
-| (top-level) `files.file_list: ["hartley_results.ngrid"]` | top-level `file` array, one entry `name: "hartley_results.ngrid"` | structural rename: did_v1 `files.file_list` → V_zeta top-level `file` |
+| (top-level) `files.file_list: ["hartley_results.ngrid"]` | top-level `file` array, one entry `name: "hartley_results.ngrid"` | structural rename: did_v1 `files.file_list` → V_eta top-level `file` |
 | `hartley_calc.input_parameters.T` | `hartley_calc.input_parameters.t` | snake-case rename; type `matrix<double>` |
 | `hartley_calc.input_parameters.X_sampling` | `hartley_calc.input_parameters.x_sampling` | snake-case rename; `double` |
 | `hartley_calc.input_parameters.Y_sampling` | `hartley_calc.input_parameters.y_sampling` | snake-case rename; `double` |
@@ -33,7 +33,7 @@ a file reference to the produced kernel.
 ## Transformations in detail
 
 - **`files.file_list` → top-level `file`.** did_v1 carries a class-block
-  `files.file_list` array; V_zeta has a dedicated top-level `file` field
+  `files.file_list` array; V_eta has a dedicated top-level `file` field
   on schemas (file record objects with `name`, `mustBeNonEmpty`,
   `documentation`). Migration must move and reshape this list.
 - **Capital-letter inputs renamed.** `T` / `X_sampling` / `Y_sampling`
@@ -45,13 +45,13 @@ a file reference to the produced kernel.
 ## Default values for new fields
 
 The did_v1 template carries `T: [0, 0.05, 0.10, 0.15, 0.20, 0.25]`,
-`X_sampling: 1`, `Y_sampling: 1`. V_zeta preserves these as
+`X_sampling: 1`, `Y_sampling: 1`. V_eta preserves these as
 `default_value` on the respective fields.
 
 ## Worked example
 
 - **Before (did_v1):** [`NDIcalc-vis-matlab/ndi_common/database_documents/calc/hartley_calc.json`](https://github.com/VH-Lab/NDIcalc-vis-matlab/blob/main/ndi_common/database_documents/calc/hartley_calc.json)
-- **After (V_zeta):** to be added under `schemas/V_zeta/examples/`.
+- **After (V_eta):** to be added under `schemas/V_eta/examples/`.
 
 ## File handling
 

@@ -544,6 +544,144 @@ with open(os.path.join(VETA, "stable", "binding_registry_meta.json"), "w") as f:
     f.write("\n")
 
 
+# ---------- 14. retarget the did_v1 conversion docs to V_eta (Brainstorm J) ----------
+# The conversions/ tree was copied from V_zeta. Retarget: bulk-rename safe tokens
+# (handles the design-neutral tuning/calc docs), prepend strict-J banners to the
+# hard/semi docs, rewrite the index, and add the fan-out note. Authoritative
+# field-level mapping stays in V_eta_migration_plan.md Part D.
+
+import re as _re
+CONV = os.path.join(VETA, "conversions", "from_did_v1")
+_dims_re = "|".join(DIMS)
+
+for p in sorted(glob.glob(os.path.join(CONV, "*.md"))):
+    b = os.path.basename(p)
+    if b in ("_index.md",):
+        continue
+    s = open(p).read()
+    s = _re.sub(rf"scalar_({_dims_re})_observation", r"\1_observation", s)
+    s = _re.sub(rf"`scalar_({_dims_re})`", r"`\1`", s)
+    s = _re.sub(rf"\bscalar_({_dims_re})\b", r"\1", s)
+    s = s.replace("scalar_observation", "subject_observation")
+    s = s.replace("scalar_manipulation", "subject_manipulation")
+    s = s.replace("categorical_observation", "term_observation")
+    s = s.replace("V_zeta", "V_eta").replace("Brainstorm I", "Brainstorm J")
+    s = s.replace("Brainstorm-I", "Brainstorm-J")
+    open(p, "w").write(s)
+
+BANNERS = {
+    "treatment.md": "> **V_eta retarget (Brainstorm J).** Target: data-type-named "
+    "`subject_manipulation` leaves — `dose_manipulation` (substance; `dose`/`formulation`/"
+    "`chemical` composite value), `temperature_manipulation` (thermal), another "
+    "`<quantity>_manipulation`, or `term_manipulation` (payload-free procedure/regime). "
+    "**No `injection`/`bath`/`generic_manipulation`** (retired in strict J, D8): route → "
+    "`method`, substance → the `dose` composite. The focal site is **Path S** — an "
+    "attributed structure becomes a part-`subject` + a `part_of` `directed_relation`; a "
+    "merely-located structure is a `term_observation` value (no `target_structure`). "
+    "Authoritative mapping: `V_eta_migration_plan.md` Parts C–D. Body below is retained "
+    "V_zeta reference (token-retargeted).",
+    "ontology_table_row.md": "> **V_eta retarget (Brainstorm J).** Each column → a "
+    "`subject_assertion` leaf (timeless — `term_assertion`/`date_assertion`/`<dim>_assertion`) "
+    "**or** a `subject_observation` leaf (timed — `<dim>_observation`/`term_observation`), by "
+    "timelessness (D9/C.2). One-word quantity names (no `scalar_`); term columns → "
+    "`term_observation`; DOB → `date_assertion`. Anatomy → Path S. See "
+    "`V_eta_migration_plan.md` Part D.",
+    "treatment_drug.md": "> **V_eta retarget.** → `dose_manipulation` (substance = `dose`/"
+    "`formulation` composite; drug identity on the chemical term); route → `method`; site → "
+    "Path S. Not `injection`.",
+    "virus_injection.md": "> **V_eta retarget.** → `dose_manipulation`/`formulation_manipulation` "
+    "(virus on the chemical term; titer/dilution in the composite); site → Path S. Not "
+    "`injection (kind:virus)`.",
+    "treatment_transfer.md": "> **V_eta retarget (D4).** → a `term_manipulation` for the "
+    "transfer act **+ a provenance `directed_relation`** (recipient material "
+    "`derived_from`/`sample_of` donor). No `biological_transfer` class; the donor is a "
+    "relation, not a dependency.",
+    "subject_group.md": "> **V_eta retarget.** → a **bare** `subject` (v3.0.0; "
+    "`is_group`/`is_biological` removed — group-ness is derived from `member_of` edges). "
+    "did_v1 records no membership, so no relations are synthesized.",
+    "probe_location.md": "> **V_eta retarget (D5).** → a `term_observation` about the "
+    "probe(-subject): `variable` = a spatial relation, `value` = the atlas term, + a "
+    "synthesized time anchor.",
+    "ontology_image.md": "> **V_eta retarget (D5).** → a `term_observation` about the imaged "
+    "element/subject (region term as `value`, spatial-relation `variable`); any image file → "
+    "an `opaque_body`/`sampled_body`.",
+    "ontology_label.md": "> **V_eta retarget (D5).** → a `term_observation` (or "
+    "`term_assertion` if genuinely timeless) about the labeled element/subject.",
+}
+for fn, banner in BANNERS.items():
+    p = os.path.join(CONV, fn)
+    s = open(p).read()
+    if "V_eta retarget" not in s.split("\n\n")[0]:
+        open(p, "w").write(banner + "\n\n" + s)
+
+# fan-out note in _universal_renames.md
+ur = os.path.join(CONV, "_universal_renames.md")
+s = open(ur).read()
+if "## 11. V_eta fan-out" not in s:
+    marker = "## Cross-references"
+    note = ("## 11. V_eta fan-out (Brainstorm J)\n\n"
+            "Beyond the field-level renames above, a V_eta migrator may **emit "
+            "additional documents alongside** the primary output (the 1→N "
+            "cell-of-bodies mechanism):\n\n"
+            "- a **part-`subject`** + a **`directed_relation`** (`part_of`) for an "
+            "attributed anatomical locus under Path S (find-or-create, deduplicated "
+            "per animal — Part C.1);\n"
+            "- a **`subject_assertion`** for a timeless column split out of an "
+            "`ontology_table_row` (Part C.2);\n"
+            "- a **provenance `directed_relation`** for a `treatment_transfer` donor "
+            "(D4); a **synthesized time anchor** for clockless rows.\n\n"
+            "These are new destination shapes, not new rename rules.\n\n")
+    s = s.replace(marker, note + marker, 1)
+    open(ur, "w").write(s)
+
+# rewrite the index (authoritative V_eta status table)
+INDEX_MD = """# did_v1 -> V_eta conversion index
+
+Enumerates every `did_v1` document class a migrator must convert to **V_eta**
+(Brainstorm J), with status. The **authoritative field-level mapping** is
+`schemas/V_eta_migration_plan.md` (Part D per-class + Part C new machinery);
+these per-class docs carry the detailed field moves and each hard/semi doc opens
+with a strict-J retarget banner (the body below is retained V_zeta reference).
+Cross-cutting renames: [`_universal_renames.md`](_universal_renames.md); file
+handling: [`_files.md`](_files.md).
+
+## Hard transforms (subject-side restructuring)
+
+| did_v1 source | V_eta target(s) | Status | Doc |
+|---|---|---|---|
+| `treatment` | `dose_manipulation` / `temperature_manipulation` / `<quantity>_manipulation` / `term_manipulation` (+ anchor; + part-`subject` + `part_of` when attributed, else a `term_observation` location value) | drafted | [treatment.md](treatment.md) |
+| `ontology_table_row` | per column -> a `subject_assertion` (timeless) or `subject_observation` (timed) leaf + anchor; anatomy -> Path S (1->N) | drafted | [ontology_table_row.md](ontology_table_row.md) |
+| `subject_group` | bare `subject` (v3.0.0; no `is_group`) | drafted | [subject_group.md](subject_group.md) |
+| `treatment_drug` | `dose_manipulation` (drug on the chemical term) + anchor | drafted | [treatment_drug.md](treatment_drug.md) |
+| `virus_injection` | `dose_manipulation` / `formulation_manipulation` (virus on the chemical term) + anchor | drafted | [virus_injection.md](virus_injection.md) |
+| `treatment_transfer` | `term_manipulation` + a provenance `directed_relation` (D4) | drafted | [treatment_transfer.md](treatment_transfer.md) |
+
+## Semi-mechanical (D5 -> `term_observation`)
+
+| did_v1 source | V_eta target | Status | Doc |
+|---|---|---|---|
+| `probe_location` | `term_observation` (probe-subject; spatial-relation `variable`) | drafted | [probe_location.md](probe_location.md) |
+| `ontology_image` | `term_observation` (region term; image file -> body) | drafted | [ontology_image.md](ontology_image.md) |
+| `ontology_label` | `term_observation` / `term_assertion` (label term) | drafted | [ontology_label.md](ontology_label.md) |
+
+## Mechanical (design-neutral; carry over unchanged, token-retargeted)
+
+`contrast_tuning`(+`_calc`), `contrast_sensitivity_calc`,
+`orientation_direction_tuning`/`oridirtuning_calc`,
+`spatial_frequency_tuning`(+`_calc`), `speed_tuning`(+`_calc`),
+`temporal_frequency_tuning`(+`_calc`), `reverse_correlation`,
+`hartley_reverse_correlation`, `hartley_calc` -- no subject-side surface.
+
+## Notes
+
+- **Not migrated:** `stimloopsplitter_calc` (deprecated per domain owner).
+- **Relations minted (D6):** only `part_of` (Path S) + one provenance term
+  (`sample_of`/`derived_from`, `treatment_transfer`); confirmed in discovery mode.
+"""
+with open(os.path.join(CONV, "_index.md"), "w") as f:
+    f.write(INDEX_MD)
+
+
 # ---------- 9. regenerate index.json ----------
 
 idx = load(os.path.join(VETA, "index.json"))

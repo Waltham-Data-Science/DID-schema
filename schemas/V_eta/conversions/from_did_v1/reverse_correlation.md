@@ -1,10 +1,10 @@
-# Conversion: did_v1 → V_zeta — `reverse_correlation`
+# Conversion: did_v1 → V_eta — `reverse_correlation`
 
 ## Identity
 
-- **V_zeta `class_name`:** `reverse_correlation`
-- **V_zeta tier:** `stable`
-- **V_zeta schema path:** `schemas/V_zeta/stable/reverse_correlation.json`
+- **V_eta `class_name`:** `reverse_correlation`
+- **V_eta tier:** `stable`
+- **V_eta schema path:** `schemas/V_eta/stable/reverse_correlation.json`
 - **did_v1 source:** `VH-Lab/NDIcalc-vis-matlab` —
   `ndi_common/schema_documents/neuro/reverse_correlation_schema.json` plus
   `ndi_common/database_documents/neuro/reverse_correlation.json`.
@@ -13,13 +13,13 @@
 ## Summary
 
 Generic reverse-correlation result type. Inherits from `base` and `ngrid`
-(an existing V_zeta type) — the n-dimensional grid carries the
+(an existing V_eta type) — the n-dimensional grid carries the
 reverse-correlation kernel itself, and this class adds the metadata
 describing the method and axis labels.
 
 ## Field mapping
 
-| did_v1 location | V_zeta location | Transformation |
+| did_v1 location | V_eta location | Transformation |
 |---|---|---|
 | `class_name: "reverse_correlation"` | same | identity |
 | `superclasses: [base, ngrid]` | same | identity |
@@ -39,7 +39,7 @@ None.
 ## Worked example
 
 - **Before (did_v1):** [`NDIcalc-vis-matlab/ndi_common/database_documents/neuro/reverse_correlation.json`](https://github.com/VH-Lab/NDIcalc-vis-matlab/blob/main/ndi_common/database_documents/neuro/reverse_correlation.json)
-- **After (V_zeta):** to be added under `schemas/V_zeta/examples/`.
+- **After (V_eta):** to be added under `schemas/V_eta/examples/`.
 
 ## File handling
 
@@ -58,7 +58,7 @@ govern how the inherited file references migrate.
 
 ## Cross-references
 
-- Inherited type: `ngrid` (existing V_zeta type — not migrated by this
+- Inherited type: `ngrid` (existing V_eta type — not migrated by this
   PR; conversion doc not required here)
 - Specialization: [`hartley_reverse_correlation.md`](hartley_reverse_correlation.md)
 - General file-handling rules: [`_files.md`](_files.md)

@@ -1,7 +1,7 @@
-# Universal renames: did_v1 → V_zeta
+# Universal renames: did_v1 → V_eta
 
 > These transformations apply to **every** did_v1 document and to
-> **every** schema file as it is migrated to V_zeta. Per-class
+> **every** schema file as it is migrated to V_eta. Per-class
 > conversion markdowns (under `conversions/from_did_v1/<class_name>.md`)
 > assume these renames have been applied and document only the
 > per-class field-level changes on top.
@@ -9,7 +9,7 @@
 > `_files.md` is a sibling document covering generic file-reference
 > handling, which is a separate concern from these renames.
 
-For each rule below the arrow direction is `did_v1 → V_zeta`.
+For each rule below the arrow direction is `did_v1 → V_eta`.
 
 ## 1. Underscore-prefix structural keys are unprefixed
 
@@ -22,10 +22,10 @@ structural key with a leading underscore: `_classname`,
 `_constraints`. The leading underscore was a sigil to distinguish
 DID structural keys from user payload.
 
-V_gamma dropped the sigil from every structural key and V_zeta
+V_gamma dropped the sigil from every structural key and V_eta
 inherits that convention. The rename is mechanical:
 
-| did_v1 (V_alpha) key | V_zeta key |
+| did_v1 (V_alpha) key | V_eta key |
 |---|---|
 | `_classname` | `class_name` *(also moved under `document_class`; see §3)* |
 | `_class_version` | `class_version` *(also moved under `document_class`; see §3)* |
@@ -59,7 +59,7 @@ the class-identity keys into a nested `document_class` block. The full
 rewrite is:
 
 ```text
-did_v1                                V_zeta
+did_v1                                V_eta
 ------                                -------
 "_classname":      "x"          →    "document_class": {
 "_class_version":  "1.0.0"      →        "class_name":      "x",
@@ -84,7 +84,7 @@ require all class names, field names, and filenames to match
 `^[a-z][a-z0-9_]*$`. The per-class conversion markdowns list any
 identifier renames they trigger. Common cases inherited from V_beta:
 
-| did_v1 identifier | V_zeta identifier |
+| did_v1 identifier | V_eta identifier |
 |---|---|
 | `ontologyImage` (class) | `ontology_image` |
 | `ontologyLabel` (class) | `ontology_label` |
@@ -120,14 +120,14 @@ key was a `$NDISCHEMAPATH`-prefixed path string:
 
 V_gamma renamed the keys (§1) and dropped the `$NDISCHEMAPATH` prefix
 convention while still permitting an explicit `schema` path key.
-V_zeta removes the `schema` key entirely: a superclass reference in a
+V_eta removes the `schema` key entirely: a superclass reference in a
 **schema file** is `{"class_name": "<x>"}` only. The validator
 resolves the superclass by `class_name` through
-`schemas/V_zeta/index.json`. The meta-schema enforces this via
+`schemas/V_eta/index.json`. The meta-schema enforces this via
 `additionalProperties: false` on superclass references.
 
 ```text
-did_v1                                                 V_zeta
+did_v1                                                 V_eta
 { "_classname": "base",                                { "class_name": "base" }
   "_schema":    "$NDISCHEMAPATH/base/schema.json" }
 ```
@@ -135,25 +135,25 @@ did_v1                                                 V_zeta
 In **document instances**, the superclass-reference key set is
 different — `class_name` plus `class_version` (a pinned snapshot of
 the inheritance chain). That convention was set in V_gamma and is
-unchanged in V_zeta. See `V_gamma_SPEC.md` § "Schema-reference forms".
+unchanged in V_eta. See `V_gamma_SPEC.md` § "Schema-reference forms".
 
 ## 5. `maturity_level` enum is `{stable, draft, deprecated}`
 
 V_alpha allowed `_maturity_level ∈ {"work_in_progress", "mature"}`.
-V_zeta replaces the vocabulary with `{stable, draft, deprecated}`
+V_eta replaces the vocabulary with `{stable, draft, deprecated}`
 and additionally requires that the value match the tier-folder a
-schema file lives in (`schemas/V_zeta/<tier>/`).
+schema file lives in (`schemas/V_eta/<tier>/`).
 
 Migration mapping for did_v1 documents and schemas carried into
-V_zeta:
+V_eta:
 
-| did_v1 `_maturity_level` | V_zeta `maturity_level` |
+| did_v1 `_maturity_level` | V_eta `maturity_level` |
 |---|---|
 | `"mature"` | `"stable"` |
 | `"work_in_progress"` | `"stable"` *(default placement; a separate domain-review pass may re-tier specific schemas to `draft` or `deprecated`)* |
 
-The meta-schema (`did_schema_meta.json`) enforces the V_zeta enum.
-See `V_zeta_SPEC.md` § 3.
+The meta-schema (`did_schema_meta.json`) enforces the V_eta enum.
+See `V_eta_SPEC.md` § 3.
 
 ## 6. Ontology annotation reshape (4-key → 2-key)
 
@@ -177,7 +177,7 @@ V_gamma collapsed this to a two-key CURIE-based shape:
 }
 ```
 
-V_zeta inherits the V_gamma shape. The rewrite rule is:
+V_eta inherits the V_gamma shape. The rewrite rule is:
 
       node = "<lowercased _namespace>:<_term>"
       name = <_name>
@@ -193,7 +193,7 @@ describes the *field*, not the documents validated against the field
 
 ## 7. Class-scoped property blocks (document instances)
 
-V_gamma re-established and V_zeta inherits the **class-scoped
+V_gamma re-established and V_eta inherits the **class-scoped
 property block** wire shape for document instances. A document is
 structured as:
 
@@ -215,7 +215,7 @@ block `{}`.
 
 V_alpha already used class-scoped blocks (with a separate
 `property_listname` knob); V_gamma collapsed that down so the block
-key is the `class_name` verbatim. V_zeta keeps the V_gamma form.
+key is the `class_name` verbatim. V_eta keeps the V_gamma form.
 
 Migration consequences:
 
@@ -235,16 +235,16 @@ Migration consequences:
 See `V_gamma_SPEC.md` § "JSON Format: Document Instances" for the
 authoritative description.
 
-## 8. `class_version` semantics under V_zeta sandbox
+## 8. `class_version` semantics under V_eta sandbox
 
-V_zeta is a sandbox set version (like V_gamma was); `class_version`
+V_eta is a sandbox set version (like V_gamma was); `class_version`
 bumps are deferred until the V1 freeze. Schemas in
-`schemas/V_zeta/stable/` whose document shape differs from did_v1
+`schemas/V_eta/stable/` whose document shape differs from did_v1
 nonetheless declare `class_version: "1.0.0"`. The
 non-triviality of the migration for those classes is captured in this
 directory (one markdown per class) rather than in a version flag.
 
-This rule is purely V_zeta-side bookkeeping; it imposes no
+This rule is purely V_eta-side bookkeeping; it imposes no
 transformation on the did_v1 document being migrated.
 
 ## 9. `depends_on(k).id` → `depends_on(k).document_id`
@@ -260,8 +260,8 @@ two-key (sometimes three-key) entries:
 ```
 
 After rule §1 strips the underscore prefix the keys are `name`, `id`,
-and optionally `version`. V_zeta renames `id` → `document_id` and
-drops `version` entirely. The result on every V_zeta document
+and optionally `version`. V_eta renames `id` → `document_id` and
+drops `version` entirely. The result on every V_eta document
 instance is:
 
 ```json
@@ -272,18 +272,18 @@ instance is:
 ```
 
 The rename motivation: `id` collided with the top-level
-`base.id` field for the documents themselves; the earlier V_zeta
+`base.id` field for the documents themselves; the earlier V_eta
 draft used `value`, which avoided the collision but was uninformative
 ("a value of what?"). `document_id` says exactly what the field is —
 a `did_uid` referring to another document — and the explicit
 `document_` prefix disambiguates from any future id-shaped fields the
 schema may add.
 
-`version` is dropped because V_zeta does not support per-document
+`version` is dropped because V_eta does not support per-document
 version branches; cross-document references resolve to whichever
 version of the target document is current in the database.
 
-| did_v1 entry key | V_zeta entry key |
+| did_v1 entry key | V_eta entry key |
 |---|---|
 | `id` | `document_id` |
 | `version` | _(dropped)_ |
@@ -291,16 +291,16 @@ version of the target document is current in the database.
 
 The universal-rename pass in `did2.convert.universalRenames`
 (`renameDependsOnEntries`) implements this rule. It also tolerates
-the earlier V_zeta-draft key `value` as a synonym for `id` so
+the earlier V_eta-draft key `value` as a synonym for `id` so
 already-migrated corpora convert forward to `document_id` on next
 read.
 
 ## 10. `schema_version` on every document
 
-Every V_zeta document carries a `schema_version` string naming the
+Every V_eta document carries a `schema_version` string naming the
 schema set under which it is interpreted. Established values:
 
-- `"V_zeta"` — documents authored against V_zeta
+- `"V_eta"` — documents authored against V_eta
 - `"did_v1"` — legacy documents still carrying the did_v1 shape, or
   documents in a holding state during migration
 
@@ -310,16 +310,26 @@ field. It identifies the overarching schema set, not a property of
 any one class, so it isn't declared in any per-class `fields` array
 and isn't validated by class-field validation.
 
-The migrator sets `body.document_class.schema_version = "V_zeta"`
+The migrator sets `body.document_class.schema_version = "V_eta"`
 on every output document. It is the dispatcher short-circuit signal:
 a document whose `document_class.schema_version` is already
-`"V_zeta"` is left untouched (modulo the structural padding in
+`"V_eta"` is left untouched (modulo the structural padding in
 `ensureClassBlocks`).
+
+## 11. V_eta fan-out (Brainstorm J)
+
+Beyond the field-level renames above, a V_eta migrator may **emit additional documents alongside** the primary output (the 1→N cell-of-bodies mechanism):
+
+- a **part-`subject`** + a **`directed_relation`** (`part_of`) for an attributed anatomical locus under Path S (find-or-create, deduplicated per animal — Part C.1);
+- a **`subject_assertion`** for a timeless column split out of an `ontology_table_row` (Part C.2);
+- a **provenance `directed_relation`** for a `treatment_transfer` donor (D4); a **synthesized time anchor** for clockless rows.
+
+These are new destination shapes, not new rename rules.
 
 ## Cross-references
 
 - File-reference handling (generic): [`_files.md`](_files.md)
 - Conversion index: [`_index.md`](_index.md)
 - Conversion template: [`_TEMPLATE.md`](_TEMPLATE.md)
-- V_zeta differences from V_gamma: [`V_zeta_SPEC.md`](../../V_zeta_SPEC.md)
+- V_eta differences from V_gamma: [`V_eta_SPEC.md`](../../V_eta_SPEC.md)
 - V_alpha → V_gamma rename history: `V_beta_notes.md`, `V_gamma_notes.md`

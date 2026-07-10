@@ -1,10 +1,10 @@
-# Conversion: did_v1 → V_zeta — `orientation_direction_tuning`
+# Conversion: did_v1 → V_eta — `orientation_direction_tuning`
 
 ## Identity
 
-- **V_zeta `class_name`:** `orientation_direction_tuning`
-- **V_zeta tier:** `stable`
-- **V_zeta schema path:** `schemas/V_zeta/stable/orientation_direction_tuning.json`
+- **V_eta `class_name`:** `orientation_direction_tuning`
+- **V_eta tier:** `stable`
+- **V_eta schema path:** `schemas/V_eta/stable/orientation_direction_tuning.json`
 - **did_v1 source:** `VH-Lab/NDIcalc-vis-matlab` —
   `ndi_common/schema_documents/stimulus/vision/oridir/orientation_direction_tuning_schema.json`
   plus the paired template
@@ -21,12 +21,12 @@ tuning was computed; calculator types (e.g.,
 Conversion is primarily a structural reshaping: did_v1 declares every
 top-level grouping (`properties`, `tuning_curve`, `significance`, `vector`,
 `fit`) as `type: "structure"` with no inner declarations, so all
-field-level typing in V_zeta is recovered from the paired db_doc template
+field-level typing in V_eta is recovered from the paired db_doc template
 (the schema file alone is insufficient).
 
 ## Field mapping
 
-| did_v1 location | V_zeta location | Transformation |
+| did_v1 location | V_eta location | Transformation |
 |---|---|---|
 | `orientation_direction_tuning.properties.coordinates` | same | char placeholder → `char` with enum `{compass, cartesian}` |
 | `orientation_direction_tuning.properties.response_units` | same | type `0` placeholder → `char` (per user decision) |
@@ -54,7 +54,7 @@ field-level typing in V_zeta is recovered from the paired db_doc template
 ## Transformations in detail
 
 - **`coordinates` enum.** did_v1 stores `coordinates` as a free-form
-  string placeholder. V_zeta constrains it to the documented vocabulary
+  string placeholder. V_eta constrains it to the documented vocabulary
   `{"compass", "cartesian"}`. Migration tools must lower-case any
   legacy capitalisations.
 - **Scalar metrics stored as 1-element arrays.** Four fit-derived ratio
@@ -63,7 +63,7 @@ field-level typing in V_zeta is recovered from the paired db_doc template
   `direction_preferred_null_ratio`,
   `orientation_preferred_orthogonal_ratio_rectified`,
   `direction_preferred_null_ratio_rectified`. The conversion *unwraps*
-  these to plain `double` scalars in V_zeta — the V_zeta schema declares
+  these to plain `double` scalars in V_eta — the V_eta schema declares
   them as `type: double` / `mustBeScalar: true`. Migration tools must
   extract `arr[0]` and verify the array has exactly one element.
 - **Vector-space preferences.** `vector.orientation_preference` and
@@ -72,16 +72,16 @@ field-level typing in V_zeta is recovered from the paired db_doc template
   sums respectively. Tools that represent these as complex numbers
   internally must convert to angle-in-degrees on output.
 - **Trial-axis convention.** For the per-trial matrices (`individual`,
-  `raw_individual`, `control_individual`) V_zeta documents the
+  `raw_individual`, `control_individual`) V_eta documents the
   row-vs-column convention explicitly: rows index sampled directions,
   columns index trials. did_v1 did not commit to a layout.
 
 ## Default values for new fields
 
-V_zeta does not introduce new required fields on this class beyond what
+V_eta does not introduce new required fields on this class beyond what
 existed in did_v1. The global `schema_version` tag lives at
 `document_class.schema_version` (see `_universal_renames.md` § 10) and is
-set to `"V_zeta"` by the dispatcher rather than the per-class migrator.
+set to `"V_eta"` by the dispatcher rather than the per-class migrator.
 
 ## Worked example
 
@@ -89,8 +89,8 @@ The before-and-after pair is large; rather than inline the entire document,
 see:
 
 - **Before (did_v1):** [`NDIcalc-vis-matlab/ndi_common/database_documents/stimulus/vision/oridir/orientation_direction_tuning.json`](https://github.com/VH-Lab/NDIcalc-vis-matlab/blob/main/ndi_common/database_documents/stimulus/vision/oridir/orientation_direction_tuning.json)
-- **After (V_zeta):** an example will be added to
-  `schemas/V_zeta/examples/orientation_direction_tuning_minimal.json` in a
+- **After (V_eta):** an example will be added to
+  `schemas/V_eta/examples/orientation_direction_tuning_minimal.json` in a
   follow-up PR once the migration engine produces one.
 
 ## File handling
@@ -106,7 +106,7 @@ rules in [`_files.md`](_files.md) do not apply.
   `iao:` for data items, `efo:` / `obi:` for the stimulus-direction axis.
 - **TODO-domain:** confirm whether `vector.orientation_preference` and
   `vector.direction_preference` should be kept as scalar angles (current
-  V_zeta choice) or expanded to a 2-element `[real, imag]` matrix to
+  V_eta choice) or expanded to a 2-element `[real, imag]` matrix to
   preserve vector-sum magnitude alongside the angle.
 
 ## Cross-references

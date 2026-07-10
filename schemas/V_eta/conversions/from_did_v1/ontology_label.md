@@ -1,10 +1,12 @@
-# Conversion: did_v1 → V_zeta — `ontology_label`
+> **V_eta retarget (D5).** → a `term_observation` (or `term_assertion` if genuinely timeless) about the labeled element/subject.
+
+# Conversion: did_v1 → V_eta — `ontology_label`
 
 ## Identity
 
-- **V_zeta `class_name`:** `ontology_label`
-- **V_zeta tier:** `stable`
-- **V_zeta schema path:** `schemas/V_zeta/stable/ontology_label.json`
+- **V_eta `class_name`:** `ontology_label`
+- **V_eta tier:** `stable`
+- **V_eta schema path:** `schemas/V_eta/stable/ontology_label.json`
 - **did_v1 source:** legacy NDI/DID `ontologyLabel` document type
   (`_classname: "ontologyLabel"` — camelCase). Schema-shape ancestor in
   this repository is `schemas/V_alpha/ontologyLabel.json`;
@@ -19,7 +21,7 @@
 (e.g., a brain-region label from Allen CCF). did_v1 stored three
 coordinated fields — `ontology_name` (the source ontology),
 `label` (the human-readable region name), and `label_id` (a numeric
-id within that ontology). V_zeta collapses these into a single
+id within that ontology). V_eta collapses these into a single
 `term` field of `ontology_term` composite type, where the CURIE
 `<ontology_name>:<label_id>` becomes the node and `label` becomes the
 label snapshot.
@@ -32,7 +34,7 @@ classname `ontologyLabel` → `ontology_label`, ontology-annotation
 reshape, superclass-reference reshape, class-scoped property block
 keyed by `ontology_label`).
 
-| did_v1 field | V_zeta field | Transformation | Notes |
+| did_v1 field | V_eta field | Transformation | Notes |
 |---|---|---|---|
 | `ontologyLabel.ontology_name` (char) | `ontology_label.term.node` (CURIE prefix) | composed into `ontology_term`; combined with `label_id` | See "Transformations in detail". |
 | `ontologyLabel.label_id` (integer) | `ontology_label.term.node` (CURIE local part) | composed into `ontology_term`; combined with `ontology_name` | See "Transformations in detail". |
@@ -54,13 +56,13 @@ keyed by `ontology_label`).
 
   The CURIE is built by concatenating the source-ontology name (the
   CURIE prefix), a colon, and the string form of `label_id`. The
-  V_zeta schema's `documentation` for `term` describes this layout
+  V_eta schema's `documentation` for `term` describes this layout
   explicitly: "The CURIE prefix identifies the source ontology (e.g.,
   'allen_ccf_v3'), the local part is the numeric ID (e.g.,
   'allen_ccf_v3:12345'), and 'name' carries the human-readable label."
 
 - **CURIE prefix normalization.** did_v1's `ontology_name` is a
-  free-form string (e.g., `Allen CCF v3`). For V_zeta the prefix must
+  free-form string (e.g., `Allen CCF v3`). For V_eta the prefix must
   match a registered CURIE prefix in `CURIE_lookups_meta.json` (or at
   least follow that file's conventions). The migrator should
   lower-case the prefix and replace spaces with underscores; the
@@ -74,12 +76,12 @@ keyed by `ontology_label`).
   migrator rewrites `document_class.class_name` and the property-block
   key.
 
-- **Document-instance shape.** V_zeta uses class-scoped property
+- **Document-instance shape.** V_eta uses class-scoped property
   blocks; the `term` value lives at `ontology_label.term`.
 
 ## Default values for new fields
 
-V_zeta introduces no required field on this class beyond what did_v1
+V_eta introduces no required field on this class beyond what did_v1
 documents already supply, modulo the `mustBeNonEmpty: true` tightening
 on `term` (which is a stricter validation of an existing input, not a
 new field).
@@ -114,7 +116,7 @@ new field).
 }
 ```
 
-### After (V_zeta)
+### After (V_eta)
 
 ```json
 {
@@ -150,7 +152,7 @@ rules in [`_files.md`](_files.md) do not apply.
 
 ## Open questions
 
-- **TODO-domain:** the V_zeta `term.node` is documented as
+- **TODO-domain:** the V_eta `term.node` is documented as
   "<prefix>:<numeric ID>". did_v1's `label_id` is declared `integer`
   with `mustBeNonEmpty: false` and `_default_value: 0`. Documents that
   carry the default `0` (or no `label_id`) cannot form a meaningful
@@ -164,7 +166,7 @@ rules in [`_files.md`](_files.md) do not apply.
   labels), what should the migrator do — fail, emit a TODO-marked
   CURIE, or write to a side-channel? Mirrors the open question in
   [`ontology_image.md`](ontology_image.md).
-- **TODO-domain:** the V_zeta schema declares `term` as
+- **TODO-domain:** the V_eta schema declares `term` as
   `mustBeNonEmpty: true`. did_v1 made each of the three input fields
   individually nullable. Whether to demote `term` to `mustBeNonEmpty:
   false` to preserve migration completeness, or to enforce non-empty
@@ -174,11 +176,11 @@ rules in [`_files.md`](_files.md) do not apply.
 ## Cross-references
 
 - General file-handling rules: [`_files.md`](_files.md)
-- Universal did_v1 → V_zeta renames: [`_universal_renames.md`](_universal_renames.md)
-- V_zeta schema file: [`schemas/V_zeta/stable/ontology_label.json`](../../stable/ontology_label.json)
+- Universal did_v1 → V_eta renames: [`_universal_renames.md`](_universal_renames.md)
+- V_eta schema file: [`schemas/V_eta/stable/ontology_label.json`](../../stable/ontology_label.json)
 - Sibling ontology-annotation type: [`ontology_image.md`](ontology_image.md)
 - Same composite-collapse pattern (two-input variant):
   [`probe_location.md`](probe_location.md),
   [`treatment.md`](treatment.md)
-- CURIE prefix registry (V_zeta):
-  [`schemas/V_zeta/stable/CURIE_lookups_meta.json`](../../stable/CURIE_lookups_meta.json)
+- CURIE prefix registry (V_eta):
+  [`schemas/V_eta/stable/CURIE_lookups_meta.json`](../../stable/CURIE_lookups_meta.json)

@@ -1,10 +1,10 @@
-# Conversion: did_v1 → V_zeta — `contrast_tuning_calc`
+# Conversion: did_v1 → V_eta — `contrast_tuning_calc`
 
 ## Identity
 
-- **V_zeta `class_name`:** `contrast_tuning_calc`
-- **V_zeta tier:** `stable`
-- **V_zeta schema path:** `schemas/V_zeta/stable/contrast_tuning_calc.json`
+- **V_eta `class_name`:** `contrast_tuning_calc`
+- **V_eta tier:** `stable`
+- **V_eta schema path:** `schemas/V_eta/stable/contrast_tuning_calc.json`
 - **did_v1 source:** `VH-Lab/NDIcalc-vis-matlab` —
   `ndi_common/schema_documents/calc/contrasttuning_calc_schema.json` plus
   `ndi_common/database_documents/calc/contrasttuning_calc.json`.
@@ -16,17 +16,17 @@ A calculator type that computes a `contrast_tuning` result and stores the
 calculator's own input parameters alongside the inherited result fields.
 
 The did_v1 name `contrasttuning_calc` is normalized to `contrast_tuning_calc`
-in V_zeta to match the snake-cased naming of the result type it inherits
+in V_eta to match the snake-cased naming of the result type it inherits
 from.
 
 ## Field mapping
 
-| did_v1 location | V_zeta location | Transformation |
+| did_v1 location | V_eta location | Transformation |
 |---|---|---|
 | `document_class.class_name: "contrasttuning_calc"` | `document_class.class_name: "contrast_tuning_calc"` | rename (snake-case normalization) |
 | `superclasses: [base, contrast_tuning]` | `superclasses: [base, contrast_tuning]` | identity (inherited fields stay in their declaring classes) |
 | `contrasttuning_calc.input_parameters` | `contrast_tuning_calc.input_parameters` | empty struct → `type: structure` with empty `fields`; calculators may extend in subclasses |
-| `contrasttuning_calc.depends_on` (internal struct with `stimulus_tuningcurve_id`) | (removed — inherited from `contrast_tuning`) | the inner `depends_on` referenced `stimulus_tuningcurve_id` which is already declared on `contrast_tuning`. V_zeta does not re-declare it. |
+| `contrasttuning_calc.depends_on` (internal struct with `stimulus_tuningcurve_id`) | (removed — inherited from `contrast_tuning`) | the inner `depends_on` referenced `stimulus_tuningcurve_id` which is already declared on `contrast_tuning`. V_eta does not re-declare it. |
 
 ## Transformations in detail
 
@@ -35,7 +35,7 @@ from.
   enclosing block key in document instances.
 - **Inherited dependency.** did_v1 redundantly listed `stimulus_tuningcurve_id`
   as an internal `depends_on` entry even though the parent class already
-  declared it. V_zeta drops the redundancy; the dependency exists
+  declared it. V_eta drops the redundancy; the dependency exists
   exactly once, on `contrast_tuning`.
 
 ## Default values for new fields
@@ -46,7 +46,7 @@ empty struct.
 ## Worked example
 
 - **Before (did_v1):** [`NDIcalc-vis-matlab/ndi_common/database_documents/calc/contrasttuning_calc.json`](https://github.com/VH-Lab/NDIcalc-vis-matlab/blob/main/ndi_common/database_documents/calc/contrasttuning_calc.json)
-- **After (V_zeta):** to be added under `schemas/V_zeta/examples/` once
+- **After (V_eta):** to be added under `schemas/V_eta/examples/` once
   the migration engine produces one.
 
 ## File handling

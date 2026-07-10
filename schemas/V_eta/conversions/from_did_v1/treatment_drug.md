@@ -1,13 +1,15 @@
-# `treatment_drug` → `injection` (`kind: "drug"`)  [Brainstorm I]
+> **V_eta retarget.** → `dose_manipulation` (substance = `dose`/`formulation` composite; drug identity on the chemical term); route → `method`; site → Path S. Not `injection`.
+
+# `treatment_drug` → `injection` (`kind: "drug"`)  [Brainstorm J]
 
 Status: **drafted**
 
-`treatment_drug` is **deprecated** in V_zeta and folds into `injection`
+`treatment_drug` is **deprecated** in V_eta and folds into `injection`
 (a `pharmacological_manipulation`).
 
 ## Mapping (per document, 1 → 2)
 
-| did_v1 `treatment_drug` | V_zeta | Transformation |
+| did_v1 `treatment_drug` | V_eta | Transformation |
 |---|---|---|
 | (class) `treatment_drug` | (class) `injection`, `injection.kind = "drug"` | class fold |
 | `mixture_table` (CSV) | `pharmacological_manipulation.mixture[]` (`{chemical, amount}`) | best-effort CSV parse; ≥1 record (blank if unparseable) |
@@ -24,6 +26,6 @@ are emitted as blank composites (curator-fillable). Branch/field mapping is
 a **heuristic seed**, finalised in discovery mode.
 
 ## Engine
-Routed by `did2.convert.v1_to_v2` under `TargetVersion='V_zeta'` to
-`+did2/+convert/+migrators_e/treatment_drug.m`. Default `V_zeta` target is
+Routed by `did2.convert.v1_to_v2` under `TargetVersion='V_eta'` to
+`+did2/+convert/+migrators_e/treatment_drug.m`. Default `V_eta` target is
 unaffected.

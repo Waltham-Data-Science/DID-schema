@@ -121,8 +121,13 @@ Increment 3 — remaining (entangled with NDI-side infra; needs the NDI-matlab w
   carried unchanged for now so the set validates).
 - [ ] The **ontology-aware binding validator** (consumer tooling — DID-matlab /
   DID-python; resolves a term value against its bound `value_set`).
-- [ ] `schemas/V_eta/conversions/from_did_v1/` retarget to the J targets (mirrors
-  migration-plan Part D); the copied docs are still V_zeta-targeted.
+
+Conversions — **done**: `schemas/V_eta/conversions/from_did_v1/` retargeted to the
+J targets (mechanical docs token-retargeted; hard/semi docs carry a strict-J
+retarget banner; `_index.md` rewritten with the J status table; `_universal_renames.md`
+gains the V_eta fan-out note). The retarget is part of `build_v_eta.py`, so a
+rebuild reproduces it. The authoritative field-level mapping remains
+`V_eta_migration_plan.md` Part D; full per-class rewrites land with `+migrators_j/`.
 
 ## Not implemented in this pass (open follow-ups)
 

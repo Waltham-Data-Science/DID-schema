@@ -1,7 +1,7 @@
-# File handling: did_v1 → V_zeta
+# File handling: did_v1 → V_eta
 
 > This is the **generalized** file-handling specification for the
-> did_v1 → V_zeta migration. Per-document-type conversion docs should
+> did_v1 → V_eta migration. Per-document-type conversion docs should
 > link here for anything that follows these generic rules, and only
 > document type-specific behavior locally.
 
@@ -24,10 +24,10 @@ TODO: describe how did_v1 documents reference files today — field names,
 path formats (absolute? relative? hash-addressed?), whether integrity is
 verified, and what container/database layout assumptions exist.
 
-## V_zeta file-reference shape
+## V_eta file-reference shape
 
-TODO: describe the target file-reference shape under V_zeta. Anchor
-choices in `V_zeta_SPEC.md` once finalized.
+TODO: describe the target file-reference shape under V_eta. Anchor
+choices in `V_eta_SPEC.md` once finalized.
 
 ## Migration rules
 
@@ -35,13 +35,13 @@ For each migration scenario, specify the rule. Stubs follow.
 
 ### Path rewriting
 
-TODO: when did_v1 paths are absolute and the V_zeta layout requires
+TODO: when did_v1 paths are absolute and the V_eta layout requires
 relative or hash-addressed paths, how are old paths translated? What
 happens if the original file is no longer on disk?
 
 ### Integrity verification
 
-TODO: does V_zeta require a hash on file references? If so, how is it
+TODO: does V_eta require a hash on file references? If so, how is it
 computed during migration, and what happens on hash mismatch (fail,
 warn, or annotate)?
 
@@ -54,12 +54,12 @@ for each.
 ### Large file handling
 
 TODO: any size-based branching (e.g., inline vs. external) at the
-V_zeta layer.
+V_eta layer.
 
 ### Container/database boundaries
 
 TODO: when a document is migrated across databases (or out of one and
-into a fresh V_zeta container), how are file references rewritten?
+into a fresh V_eta container), how are file references rewritten?
 
 ## Open questions
 
@@ -68,4 +68,4 @@ into a fresh V_zeta container), how are file references rewritten?
 - Should the migration engine ever copy file content, or only update
   references?
 - What is the policy for files referenced by both a did_v1 document and
-  a V_zeta document during a transitional period?
+  a V_eta document during a transitional period?

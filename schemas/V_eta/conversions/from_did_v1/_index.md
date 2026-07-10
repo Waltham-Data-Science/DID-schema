@@ -1,75 +1,42 @@
-# did_v1 → V_zeta conversion index
+# did_v1 -> V_eta conversion index
 
-This file enumerates every V_zeta document type that needs a conversion
-doc from `did_v1`, and tracks its status. Update this index whenever a
-new conversion doc is added or its status changes.
+Enumerates every `did_v1` document class a migrator must convert to **V_eta**
+(Brainstorm J), with status. The **authoritative field-level mapping** is
+`schemas/V_eta_migration_plan.md` (Part D per-class + Part C new machinery);
+these per-class docs carry the detailed field moves and each hard/semi doc opens
+with a strict-J retarget banner (the body below is retained V_zeta reference).
+Cross-cutting renames: [`_universal_renames.md`](_universal_renames.md); file
+handling: [`_files.md`](_files.md).
 
-The corresponding template is [`_TEMPLATE.md`](_TEMPLATE.md). The shared
-file-handling rules are in [`_files.md`](_files.md). Cross-cutting renames
-that apply to **every** did_v1 → V_zeta migration (underscore-prefix
-removal, snake_case, ontology-annotation reshape, superclass-reference
-reshape, class-scoped property blocks, maturity-level enum) are in
-[`_universal_renames.md`](_universal_renames.md). Per-class markdowns
-assume those renames have been applied and document only the per-class
-field-level changes on top.
+## Hard transforms (subject-side restructuring)
 
-## Status legend
-
-- **none** — no conversion doc exists yet
-- **drafted** — markdown exists, awaiting domain review
-- **reviewed** — domain-reviewed, awaiting implementation
-- **applied-in-tooling** — implemented in the migration engine in
-  `DID-matlab`, but not yet locked
-- **frozen** — implemented, tested against real datasets, locked for
-  V_zeta
-- **no-conversion-needed** — explicitly marked as having no did_v1
-  predecessor
-
-## Conversions
-
-| V_zeta class_name | did_v1 source | Status | Doc |
+| did_v1 source | V_eta target(s) | Status | Doc |
 |---|---|---|---|
-| `contrast_tuning` | NDIcalc-vis-matlab `vision/contrast_tuning` | drafted | [contrast_tuning.md](contrast_tuning.md) |
-| `contrast_tuning_calc` | NDIcalc-vis-matlab `calc/contrasttuning_calc` (renamed) | drafted | [contrast_tuning_calc.md](contrast_tuning_calc.md) |
-| `contrast_sensitivity_calc` | NDIcalc-vis-matlab `calc/contrastsensitivity_calc` (renamed) | drafted | [contrast_sensitivity_calc.md](contrast_sensitivity_calc.md) |
-| `spatial_frequency_tuning` | NDIcalc-vis-matlab `vision/spatial_frequency_tuning` | drafted | [spatial_frequency_tuning.md](spatial_frequency_tuning.md) |
-| `spatial_frequency_tuning_calc` | NDIcalc-vis-matlab `calc/spatial_frequency_tuning_calc` | drafted | [spatial_frequency_tuning_calc.md](spatial_frequency_tuning_calc.md) |
-| `temporal_frequency_tuning` | NDIcalc-vis-matlab `vision/temporal_frequency_tuning` | drafted | [temporal_frequency_tuning.md](temporal_frequency_tuning.md) |
-| `temporal_frequency_tuning_calc` | NDIcalc-vis-matlab `calc/temporal_frequency_tuning_calc` | drafted | [temporal_frequency_tuning_calc.md](temporal_frequency_tuning_calc.md) |
-| `speed_tuning` | NDIcalc-vis-matlab `vision/speed_tuning` | drafted | [speed_tuning.md](speed_tuning.md) |
-| `speed_tuning_calc` | NDIcalc-vis-matlab `calc/speedtuning_calc` (renamed) | drafted | [speed_tuning_calc.md](speed_tuning_calc.md) |
-| `orientation_direction_tuning` | NDIcalc-vis-matlab `stimulus/vision/oridir/orientation_direction_tuning` | drafted | [orientation_direction_tuning.md](orientation_direction_tuning.md) |
-| `oridirtuning_calc` | NDIcalc-vis-matlab `calc/oridirtuning_calc` | drafted | [oridirtuning_calc.md](oridirtuning_calc.md) |
-| `reverse_correlation` | NDIcalc-vis-matlab `neuro/reverse_correlation` | drafted | [reverse_correlation.md](reverse_correlation.md) |
-| `hartley_reverse_correlation` | NDIcalc-vis-matlab `neuro/hartley_reverse_correlation` | drafted | [hartley_reverse_correlation.md](hartley_reverse_correlation.md) |
-| `hartley_calc` | NDIcalc-vis-matlab `calc/hartley_calc` | drafted | [hartley_calc.md](hartley_calc.md) |
-| `probe_location` | legacy NDI/DID `probe_location` (V_alpha shape) | drafted | [probe_location.md](probe_location.md) |
-| `treatment` → manipulation tiers (Brainstorm I **split**) | legacy `treatment` → `injection`/`bath`/`temperature_manipulation` (typed) / `generic_manipulation` (procedures & regimes) (+ out-of-tier) | drafted | [treatment.md](treatment.md) |
-| `ontology_table_row` → observation tiers (Brainstorm I **split**, 1→N) | legacy `ontology_table_row` → shape-typed scalar/categorical observation classes (+ out-of-tier) | drafted | [ontology_table_row.md](ontology_table_row.md) |
-| `subject_group` → `subject` (`is_group`) (Brainstorm I **fold**) | legacy `subject_group` → `subject` flagged `is_group` (+ `group_assignment` in NDI layer) | drafted | [subject_group.md](subject_group.md) |
-| `treatment_drug` → `injection` (`kind: drug`) (Brainstorm I **fold**) | legacy `treatment_drug` → `injection` (mixture from `mixture_table`) | drafted | [treatment_drug.md](treatment_drug.md) |
-| `virus_injection` → `injection` (`kind: virus`) (Brainstorm I **fold**) | legacy `virus_injection` → `injection` (virus+dilution in mixture) | drafted | [virus_injection.md](virus_injection.md) |
-| `treatment_transfer` → `biological_transfer` (Brainstorm I **fold**) | legacy `treatment_transfer` → `biological_transfer` (recipient→subject, donor carried) | drafted | [treatment_transfer.md](treatment_transfer.md) |
-| `ontology_image` | legacy NDI/DID `ontologyImage` (V_alpha shape) | drafted | [ontology_image.md](ontology_image.md) |
-| `ontology_label` | legacy NDI/DID `ontologyLabel` (V_alpha shape) | drafted | [ontology_label.md](ontology_label.md) |
+| `treatment` | `dose_manipulation` / `temperature_manipulation` / `<quantity>_manipulation` / `term_manipulation` (+ anchor; + part-`subject` + `part_of` when attributed, else a `term_observation` location value) | drafted | [treatment.md](treatment.md) |
+| `ontology_table_row` | per column -> a `subject_assertion` (timeless) or `subject_observation` (timed) leaf + anchor; anatomy -> Path S (1->N) | drafted | [ontology_table_row.md](ontology_table_row.md) |
+| `subject_group` | bare `subject` (v3.0.0; no `is_group`) | drafted | [subject_group.md](subject_group.md) |
+| `treatment_drug` | `dose_manipulation` (drug on the chemical term) + anchor | drafted | [treatment_drug.md](treatment_drug.md) |
+| `virus_injection` | `dose_manipulation` / `formulation_manipulation` (virus on the chemical term) + anchor | drafted | [virus_injection.md](virus_injection.md) |
+| `treatment_transfer` | `term_manipulation` + a provenance `directed_relation` (D4) | drafted | [treatment_transfer.md](treatment_transfer.md) |
+
+## Semi-mechanical (D5 -> `term_observation`)
+
+| did_v1 source | V_eta target | Status | Doc |
+|---|---|---|---|
+| `probe_location` | `term_observation` (probe-subject; spatial-relation `variable`) | drafted | [probe_location.md](probe_location.md) |
+| `ontology_image` | `term_observation` (region term; image file -> body) | drafted | [ontology_image.md](ontology_image.md) |
+| `ontology_label` | `term_observation` / `term_assertion` (label term) | drafted | [ontology_label.md](ontology_label.md) |
+
+## Mechanical (design-neutral; carry over unchanged, token-retargeted)
+
+`contrast_tuning`(+`_calc`), `contrast_sensitivity_calc`,
+`orientation_direction_tuning`/`oridirtuning_calc`,
+`spatial_frequency_tuning`(+`_calc`), `speed_tuning`(+`_calc`),
+`temporal_frequency_tuning`(+`_calc`), `reverse_correlation`,
+`hartley_reverse_correlation`, `hartley_calc` -- no subject-side surface.
 
 ## Notes
 
-- **Not migrated:** `stimloopsplitter_calc` (deprecated per domain owner
-  decision; not added to V_zeta).
-- **Already in V_zeta from earlier set versions** (no `did_v1` conversion
-  added in this PR): `tuningcurve_calc`, `stimulus_tuningcurve`, `ngrid`.
-  These have no NDIcalc-vis-matlab v1 predecessor in `ndi_common/`; if any
-  need a separate `did_v1` source resurrected later, add their conversions
-  then.
-
-## Conventions
-
-- One conversion markdown per V_zeta document type. If a V_zeta class
-  has multiple did_v1 sources, document the merge in a single file
-  rather than splitting.
-- If a V_zeta class is genuinely new (no did_v1 ancestor), create
-  `<class_name>_no_conversion_needed.md` with a one-line reason and add
-  the row with status `no-conversion-needed`.
-- File-handling behavior that follows the generic rules in `_files.md`
-  should be linked, not restated.
+- **Not migrated:** `stimloopsplitter_calc` (deprecated per domain owner).
+- **Relations minted (D6):** only `part_of` (Path S) + one provenance term
+  (`sample_of`/`derived_from`, `treatment_transfer`); confirmed in discovery mode.

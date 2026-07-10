@@ -1,10 +1,12 @@
-# Conversion: did_v1 → V_zeta — `probe_location`
+> **V_eta retarget (D5).** → a `term_observation` about the probe(-subject): `variable` = a spatial relation, `value` = the atlas term, + a synthesized time anchor.
+
+# Conversion: did_v1 → V_eta — `probe_location`
 
 ## Identity
 
-- **V_zeta `class_name`:** `probe_location`
-- **V_zeta tier:** `stable`
-- **V_zeta schema path:** `schemas/V_zeta/stable/probe_location.json`
+- **V_eta `class_name`:** `probe_location`
+- **V_eta tier:** `stable`
+- **V_eta schema path:** `schemas/V_eta/stable/probe_location.json`
 - **did_v1 source:** legacy NDI/DID `probe_location` document type
   (`_classname: "probe_location"`). The schema-shape ancestor in this
   repository is `schemas/V_alpha/probe_location.json`; the
@@ -16,19 +18,19 @@
 
 `probe_location` records the anatomical or functional location at which a
 probe is sampling. did_v1 carried this as a pair of coordinated `char`
-fields (`ontology_name` + `name`); V_zeta collapses them into a single
+fields (`ontology_name` + `name`); V_eta collapses them into a single
 `location` field of the V_gamma-introduced `ontology_term` composite
 type, which packages a CURIE node and a label snapshot under one key.
 
 ## Field mapping
 
-One row per field across the V_alpha/V_beta-era shape and the V_zeta
+One row per field across the V_alpha/V_beta-era shape and the V_eta
 target. Beyond these fields, the universal renames listed in
 [`_universal_renames.md`](_universal_renames.md) apply (snake-case
 classname, ontology-annotation reshape, superclass-reference reshape,
 class-scoped property block keyed by `probe_location`).
 
-| did_v1 field | V_zeta field | Transformation | Notes |
+| did_v1 field | V_eta field | Transformation | Notes |
 |---|---|---|---|
 | `probe_location.ontology_name` (char) | `probe_location.location.node` | composed into `ontology_term` | CURIE (e.g., `uberon:0002436`). See "Transformations in detail". |
 | `probe_location.name` (char) | `probe_location.location.name` | composed into `ontology_term` | Human-readable label snapshot (e.g., `primary visual cortex`). |
@@ -39,7 +41,7 @@ class-scoped property block keyed by `probe_location`).
 
 - **Collapse two coordinated chars into one `ontology_term`.** did_v1
   stored the ontology identifier and its human-readable label as two
-  separate `char` fields. V_zeta declares a single `location` field of
+  separate `char` fields. V_eta declares a single `location` field of
   type `ontology_term` (introduced in V_gamma — see `V_gamma_notes.md`
   § "Class-version bumps (2.0.0)"). The composite value carries two
   sub-keys: `node` (the CURIE) and `name` (the label snapshot). The
@@ -54,22 +56,22 @@ class-scoped property block keyed by `probe_location`).
   input is empty, the corresponding sub-field is the empty string.
 
 - **CURIE normalization.** did_v1's `ontology_name` was a free-form
-  string; V_zeta's `node` is a CURIE. If the did_v1 value already looks
+  string; V_eta's `node` is a CURIE. If the did_v1 value already looks
   like `<prefix>:<term>` (e.g., `uberon:0002436`), it carries over
   verbatim. If it carries only a prefix name (e.g., `UBERON`) with the
   term elsewhere, the migrator must reconstruct the CURIE. See "Open
   questions" for the under-specified cases.
 
-- **Document-instance shape.** V_zeta uses class-scoped property
+- **Document-instance shape.** V_eta uses class-scoped property
   blocks; the migrated `location` value lives under the
   `probe_location` block at path `probe_location.location`.
 
 ## Default values for new fields
 
-V_zeta introduces no required field on this class that did_v1 documents
+V_eta introduces no required field on this class that did_v1 documents
 do not already supply. The global `schema_version` tag lives on every
 document at `document_class.schema_version` (see `_universal_renames.md`
-§10) and is set to `"V_zeta"` by the dispatcher rather than the
+§10) and is set to `"V_eta"` by the dispatcher rather than the
 per-class migrator.
 
 ## Worked example
@@ -101,7 +103,7 @@ per-class migrator.
 }
 ```
 
-### After (V_zeta)
+### After (V_eta)
 
 ```json
 {
@@ -149,15 +151,15 @@ rules in [`_files.md`](_files.md) do not apply.
   prefixes; the conservative behavior is to lowercase only the prefix
   segment.
 - **TODO-domain:** the `mustBeNonEmpty` for `location` is `false` in
-  the V_zeta schema. If a did_v1 document has both inputs empty, the
+  the V_eta schema. If a did_v1 document has both inputs empty, the
   migrator can emit an empty composite (`{"node": "", "name": ""}`),
   or it can omit the field entirely. Confirm the preferred behavior.
 
 ## Cross-references
 
 - General file-handling rules: [`_files.md`](_files.md)
-- Universal did_v1 → V_zeta renames: [`_universal_renames.md`](_universal_renames.md)
-- V_zeta schema file: [`schemas/V_zeta/stable/probe_location.json`](../../stable/probe_location.json)
+- Universal did_v1 → V_eta renames: [`_universal_renames.md`](_universal_renames.md)
+- V_eta schema file: [`schemas/V_eta/stable/probe_location.json`](../../stable/probe_location.json)
 - Related conversions that follow the same two-char-to-`ontology_term`
   pattern: [`treatment.md`](treatment.md),
   [`ontology_image.md`](ontology_image.md),

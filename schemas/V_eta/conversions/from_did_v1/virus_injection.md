@@ -1,14 +1,16 @@
-# `virus_injection` → `injection` (`kind: "virus"`)  [Brainstorm I]
+> **V_eta retarget.** → `dose_manipulation`/`formulation_manipulation` (virus on the chemical term; titer/dilution in the composite); site → Path S. Not `injection (kind:virus)`.
+
+# `virus_injection` → `injection` (`kind: "virus"`)  [Brainstorm J]
 
 Status: **drafted**
 
-`virus_injection` is **deprecated** in V_zeta and folds into `injection`
+`virus_injection` is **deprecated** in V_eta and folds into `injection`
 (a `pharmacological_manipulation`). Serotype/identity ride in the mixture
 ontology term; dilution rides in its concentration amount.
 
 ## Mapping (per document, 1 → 2)
 
-| did_v1 `virus_injection` | V_zeta | Transformation |
+| did_v1 `virus_injection` | V_eta | Transformation |
 |---|---|---|
 | (class) `virus_injection` | (class) `injection`, `injection.kind = "virus"` | class fold |
 | `virus_OntologyName` / `virus_name` | `mixture[1].chemical` | ontology_term |
@@ -23,6 +25,6 @@ The second emitted document is the shared `session_relative_reference`
 anchor. `injection.volume` / `route` are emitted blank (curator-fillable).
 
 ## Engine
-Routed by `did2.convert.v1_to_v2` under `TargetVersion='V_zeta'` to
-`+did2/+convert/+migrators_e/virus_injection.m`. Default `V_zeta` target
+Routed by `did2.convert.v1_to_v2` under `TargetVersion='V_eta'` to
+`+did2/+convert/+migrators_e/virus_injection.m`. Default `V_eta` target
 is unaffected.
