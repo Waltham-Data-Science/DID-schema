@@ -249,6 +249,26 @@ def test_storage_mode_on_statement():
     assert set(sm["constraints"]["enum"]) == {"inline", "reference", "body"}
 
 
+def test_parameters_on_statement():
+    """subject_statement carries a `parameters` list (D10 qualifiers) of typed
+    {variable, value} entries — each with a variable plus nested term/count/quantity
+    data-type blocks (exactly-one is an ingest validator, provisional)."""
+    ft = _flat_field_types("subject_statement")
+    assert ft.get("parameters") == "structure"
+    params = [f for f in RECORDS["subject_statement"][1]["fields"]
+              if f["name"] == "parameters"][0]
+    # a list (non-scalar), not a single struct
+    assert params["mustBeScalar"] is False
+    sub = {f["name"]: f for f in params["fields"]}
+    assert sub["variable"]["type"] == "ontology_term"
+    # the three nested typed value blocks, each holding an array `value`
+    for block in ("term", "count", "quantity"):
+        assert block in sub, f"parameters missing {block} block"
+        val = [f for f in sub[block]["fields"] if f["name"] == "value"][0]
+        assert val["mustBeScalar"] is False, f"{block}.value must be an array"
+    assert sub["term"]["fields"][0]["type"] == "ontology_term"
+
+
 def test_data_body_classes():
     assert RECORDS["data_body"][1]["document_class"].get("abstract") is True
     assert "statement" in _flat_dep_names("data_body")

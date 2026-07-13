@@ -40,6 +40,212 @@
             "constraints": {}
         },
         {
+            "name": "parameters",
+            "type": "structure",
+            "blank_value": [],
+            "default_value": [],
+            "mustBeNonEmpty": false,
+            "mustBeScalar": false,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "D10 qualifiers: the conditions a statement was taken under, as a list of typed {variable, value} entries. Each names its `variable` and carries exactly one nested data-type block (term / count / quantity). 'Exactly one populated' is an ingest validator (the closed meta-schema has no oneOf); the full per-dimension type set is a provisional extension (D10). Value cardinality: length 1 (a constant condition) or the measurement's value length (one per reading). Typed by data type via the D9 registry keyed on `variable`.",
+            "constraints": {},
+            "fields": [
+                {
+                    "name": "variable",
+                    "type": "ontology_term",
+                    "blank_value": {
+                        "node": "",
+                        "name": ""
+                    },
+                    "default_value": {
+                        "node": "",
+                        "name": ""
+                    },
+                    "mustBeNonEmpty": true,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "The condition's name (arm direction, OD600, trial type); registry-keyed for its value_set (D9).",
+                    "constraints": {}
+                },
+                {
+                    "name": "term",
+                    "type": "structure",
+                    "blank_value": {},
+                    "default_value": {},
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Categorical value(s): an ontology-term array.",
+                    "constraints": {},
+                    "fields": [
+                        {
+                            "name": "value",
+                            "type": "ontology_term",
+                            "blank_value": [],
+                            "default_value": [],
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": false,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "Typed value(s); an array \u2014 length 1 (a constant condition) or the measurement's value length (one label per reading).",
+                            "constraints": {}
+                        }
+                    ]
+                },
+                {
+                    "name": "count",
+                    "type": "structure",
+                    "blank_value": {},
+                    "default_value": {},
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Integer count value(s).",
+                    "constraints": {},
+                    "fields": [
+                        {
+                            "name": "value",
+                            "type": "structure",
+                            "blank_value": [],
+                            "default_value": [],
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": false,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "Typed value(s); an array \u2014 length 1 (a constant condition) or the measurement's value length (one label per reading).",
+                            "constraints": {},
+                            "fields": [
+                                {
+                                    "name": "value",
+                                    "type": "integer",
+                                    "blank_value": 0,
+                                    "default_value": 0,
+                                    "mustBeNonEmpty": false,
+                                    "mustBeScalar": true,
+                                    "mustNotHaveNaN": false,
+                                    "queryable": true,
+                                    "ontology": null,
+                                    "documentation": "The count.",
+                                    "constraints": {}
+                                },
+                                {
+                                    "name": "unit",
+                                    "type": "ontology_term",
+                                    "blank_value": {
+                                        "node": "",
+                                        "name": ""
+                                    },
+                                    "default_value": {
+                                        "node": "",
+                                        "name": ""
+                                    },
+                                    "mustBeNonEmpty": false,
+                                    "mustBeScalar": true,
+                                    "mustNotHaveNaN": false,
+                                    "queryable": true,
+                                    "ontology": null,
+                                    "documentation": "Optional unit.",
+                                    "constraints": {}
+                                },
+                                {
+                                    "name": "approximate",
+                                    "type": "boolean",
+                                    "blank_value": false,
+                                    "default_value": false,
+                                    "mustBeNonEmpty": false,
+                                    "mustBeScalar": true,
+                                    "mustNotHaveNaN": false,
+                                    "queryable": true,
+                                    "ontology": null,
+                                    "documentation": "Approximate flag.",
+                                    "constraints": {}
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "name": "quantity",
+                    "type": "structure",
+                    "blank_value": {},
+                    "default_value": {},
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Dimensioned numeric value(s); the dimension is carried by `variable` + the D9 registry.",
+                    "constraints": {},
+                    "fields": [
+                        {
+                            "name": "value",
+                            "type": "structure",
+                            "blank_value": [],
+                            "default_value": [],
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": false,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "Typed value(s); an array \u2014 length 1 (a constant condition) or the measurement's value length (one label per reading).",
+                            "constraints": {},
+                            "fields": [
+                                {
+                                    "name": "source_unit",
+                                    "type": "char",
+                                    "blank_value": "",
+                                    "default_value": "",
+                                    "mustBeNonEmpty": false,
+                                    "mustBeScalar": true,
+                                    "mustNotHaveNaN": false,
+                                    "queryable": true,
+                                    "ontology": null,
+                                    "documentation": "As-recorded unit.",
+                                    "constraints": {}
+                                },
+                                {
+                                    "name": "source_value",
+                                    "type": "double",
+                                    "blank_value": 0.0,
+                                    "default_value": 0.0,
+                                    "mustBeNonEmpty": false,
+                                    "mustBeScalar": true,
+                                    "mustNotHaveNaN": false,
+                                    "queryable": true,
+                                    "ontology": null,
+                                    "documentation": "As-recorded value.",
+                                    "constraints": {}
+                                },
+                                {
+                                    "name": "approximate",
+                                    "type": "boolean",
+                                    "blank_value": false,
+                                    "default_value": false,
+                                    "mustBeNonEmpty": false,
+                                    "mustBeScalar": true,
+                                    "mustNotHaveNaN": false,
+                                    "queryable": true,
+                                    "ontology": null,
+                                    "documentation": "Approximate flag.",
+                                    "constraints": {}
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
             "name": "storage_mode",
             "type": "char",
             "blank_value": "inline",

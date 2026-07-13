@@ -210,9 +210,53 @@ VARIABLE = field("variable", "ontology_term",
                  "assertions, observations and manipulations, so identity search "
                  "is uniform.", non_empty=True)
 
+
+# --- parameters (D10 qualifiers): conditions the statement was taken under ---
+# A list of typed {variable, value}. Each parameter names its `variable` and
+# carries exactly ONE nested data-type block (term / count / quantity). The
+# "exactly one populated" rule is an INGEST validator, not meta-schema-enforced
+# (the closed meta-schema has no oneOf); the full per-dimension type set is a
+# provisional extension (D10, open for future review). Value cardinality: an
+# array of length 1 (a constant condition) or the measurement's value length
+# (one label per reading). Typed by data type via the D9 registry keyed on
+# `variable`.
+def _param_block(name, doc_text, value_type, value_subs=None):
+    return subfield(name, "structure", doc_text, blank={}, sub_fields=[
+        subfield("value", value_type,
+                 "Typed value(s); an array — length 1 (a constant condition) or the "
+                 "measurement's value length (one label per reading).",
+                 scalar=False, blank=[], sub_fields=value_subs)])
+
+PARAMETERS = field(
+    "parameters", "structure",
+    "D10 qualifiers: the conditions a statement was taken under, as a list of typed "
+    "{variable, value} entries. Each names its `variable` and carries exactly one "
+    "nested data-type block (term / count / quantity). 'Exactly one populated' is an "
+    "ingest validator (the closed meta-schema has no oneOf); the full per-dimension "
+    "type set is a provisional extension (D10). Value cardinality: length 1 (a "
+    "constant condition) or the measurement's value length (one per reading). Typed "
+    "by data type via the D9 registry keyed on `variable`.",
+    non_empty=False, scalar=False, blank=[], default=[], sub_fields=[
+        subfield("variable", "ontology_term",
+                 "The condition's name (arm direction, OD600, trial type); "
+                 "registry-keyed for its value_set (D9).", non_empty=True),
+        _param_block("term", "Categorical value(s): an ontology-term array.",
+                     "ontology_term"),
+        _param_block("count", "Integer count value(s).", "structure", value_subs=[
+            subfield("value", "integer", "The count.", blank=0),
+            subfield("unit", "ontology_term", "Optional unit."),
+            subfield("approximate", "boolean", "Approximate flag.", blank=False)]),
+        _param_block("quantity",
+                     "Dimensioned numeric value(s); the dimension is carried by "
+                     "`variable` + the D9 registry.", "structure", value_subs=[
+            subfield("source_unit", "char", "As-recorded unit."),
+            subfield("source_value", "double", "As-recorded value.", blank=0.0),
+            subfield("approximate", "boolean", "Approximate flag.", blank=False)]),
+    ])
+
 write("stable", "subject_statement",
       doc("subject_statement", ["base"], abstract=True, version="1.0.0",
-          deps=[SUBJECT_ID], fields=[VARIABLE]))
+          deps=[SUBJECT_ID], fields=[VARIABLE, PARAMETERS]))
 
 # subject_interaction: re-root under subject_statement; drop subject_id/variable
 # (inherited), target_structure, element_id; add method, sample_time, instrument_id;
