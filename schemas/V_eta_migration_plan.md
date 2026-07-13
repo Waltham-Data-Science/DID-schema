@@ -643,17 +643,22 @@ default we can quietly pick.
   label per reading — the old option-3 "axis" case; the EPM `entries` value
   `[8,4,12,9,15]` carries an `arm direction` parameter `[north,south,east,west,center]`
   and an `arm state` parameter alongside). **"Axis" is retired as a separate term** —
-  it is just a per-element parameter. The **trial/epoch event (shape 2) is DEFERRED**:
-  shared context is handled by copying the parameter onto each measurement plus a
-  `directed_relation` for inter-entity ties. In the *C. elegans* encounter (verbatim
-  JH columns) the `CElegansBehavioralAssay_EncounterIdentifier` is the encounter's
-  *identity* (it rides as a parameter on each worm reading, not as its own doc), OD600
-  lives on the referenced patch document (`BacterialPatchDocumentIdentifier`), and a
-  `worm --encountered--> patch` `directed_relation` carries the cross-entity tie.
-  Revisit a trial/epoch hub only if per-measurement copying of shared context becomes
-  painful, or when cross-entity trial-based analysis wants a first-class trial. The
-  deferred trial model and the worked mock-ups live in the EDM design note
-  (`ndi-next-steps`).
+  it is just a per-element parameter. **The trial/epoch event (shape 2) is NOT used.** A
+  multi-party event binds through a **timestamped `directed_relation` + one shared
+  bounded `time_reference` per event** — no reifying document. In the *C. elegans*
+  encounter (verbatim JH columns) the migrator mints **one bounded `time_reference`**
+  for the encounter window (`EncounterOnsetTime`..`EncounterOffsetTime`); the
+  `worm --encountered--> patch` `directed_relation` and every worm-behavior leaf
+  `depend_on` that same reference, so the encounter is exactly *"everything on that
+  `time_reference`"*. The relation already carries the whole record — **who**
+  (`child`/`parent` = worm × patch), **kind** (`relation: encountered`), and **when**
+  (its `time_reference`). The `CElegansBehavioralAssay_EncounterIdentifier` and the
+  **encounter duration** are both **derived** (the # by onset order, the duration =
+  offset − onset) and are *not* stored; OD600 lives on the referenced patch document
+  (`BacterialPatchDocumentIdentifier`). A reifying trial/epoch hub is the documented
+  escalation — warranted only for events with *multiple* relations, *no* relation, or
+  genuine trial-level conditions, none of which the encounter has. The trial model and
+  the worked mock-ups live in the EDM design note (`ndi-next-steps`).
 
   **How every field still gets validated by data type (the tie to D9).** Parameter
   values are *open* (author-supplied `variable`s, not schema-fixed leaves). The answer
@@ -667,7 +672,10 @@ default we can quietly pick.
 
   *Status:* **DECIDED (for now)** — qualifier placement is a typed `parameters` field
   on `subject_statement` (cardinality rule; options 1+3 unified); the trial/epoch
-  (survey option 2) is **deferred**. The parameter **value representation** is a
+  (survey option 2) is **not used** — a multi-party event binds via a timestamped
+  `directed_relation` + one shared bounded `time_reference` per event (encounter #,
+  participants, and duration all derived), with a trial hub kept as the documented
+  escalation. The parameter **value representation** is a
   **nested typed block** per parameter — each parameter carries `variable` + one
   data-type block (`term`/`count`/`duration`/…), mirroring the leaf value cells, so the
   data type is self-describing in the document — **provisional, open for future review**
