@@ -558,21 +558,20 @@ default we can quietly pick.
   (still cross-document); day-1 hard validation covers the *vocabulary* (ii). (A.2,
   A.5, Part F)
 
-  **OPEN extension — the registry as a general type oracle for open parameters.**
+  **Extension — the registry as a general type oracle for open parameters.**
   The Phase-1 registry types *closed* things (kind assertions, `categorical`/
-  `term_observation` values, the `(method, variable) → leaf` nudge). D10/D11 surface
-  a broader use the registry was not yet scoped for: **open, author-supplied
-  parameters** — trial parameters, qualifier variables, and value-axis labels have
-  no schema-fixed leaf, yet still need a data type and admissible set. The proposed
-  (not adopted) extension keys the registry on the parameter's `variable` and returns
-  a **data type + `value_set`**, so an open `arm type`, `OD600`, or `trial type`
-  validates exactly like a bound term value would. Two invariants come with it: an
-  axis label list must itself bind to a `value_set`, and a value array's length must
-  equal its axis's label count. This is what lets D10 claim "every field is validated
-  by data type" even for the open columns. *Status:* OPEN — pending the D10 shape
-  choice (an axis-based or trial-event-based encoding changes exactly what gets
-  registry-typed). No change to the Phase-1 closed-binding machinery, which ships as
-  Resolved above. (A.2, A.5, D10, D11)
+  `term_observation` values, the `(method, variable) → leaf` nudge). D10 adds **open,
+  author-supplied parameters** (the `parameters` field on `subject_statement`): they
+  have no schema-fixed leaf, yet still need a data type and admissible set. The
+  extension keys the registry on the parameter's `variable` and returns a **data type
+  + `value_set`**, so an open `arm direction`, `OD600`, or `trial type` validates
+  exactly like a bound term value would. The one invariant is the cardinality rule: a
+  parameter's value length is 1 or the measurement's value length. This is what lets
+  D10 claim "every field is validated by data type" even for the open columns.
+  *Status:* **needed now that D10 adopts parameters** — the remaining choice is the
+  parameter **value representation** (uniform `{variable, value}` resolved by the
+  registry vs a nested typed block). No change to the Phase-1 closed-binding
+  machinery, which ships as Resolved above. (A.2, A.5, D10, D11)
 - **D8 — Payload-free manipulations. Resolved:** `term_manipulation` (imposed
   value = the act's ontology term). **No escape hatch** — strict J resolves every
   act to a data type; an un-typed numeric is flagged/quarantined in discovery
@@ -587,8 +586,9 @@ default we can quietly pick.
   the startle-amplitude measurement, and in Dab's elevated-plus-maze it inherits the
   source table's mistake of pre-splitting one measurement across arm types (51
   columns) instead of carrying `arm type` as a covariate. So D10 asks two coupled
-  questions — *what role does each column play* and *where does the answer to that
-  role get stored* — and both stay open.
+  questions — *what role does each column play* (the column-role rule below —
+  settled) and *where does the answer get stored* (**decided for now:** a typed
+  `parameters` field on `subject_statement`).
 
   **The column-role rule (the deterministic part we agree on).** Discovery over
   **all 11 distinct table signatures** (Dab fear-potentiated-startle and
@@ -629,32 +629,44 @@ default we can quietly pick.
   6. a free `conditions` block on the session/epoch anchor only;
   7. per-condition document sets keyed by a shared tag;
   8. leave it flat (status quo) and push disambiguation entirely to the consumer.
-  The **leading synthesis** (not a decision) is **3 + 2 governed by the column-role
-  rule**: within one entity a qualifier that indexes a measurement becomes a **value
-  axis** (shape 3); a qualifier that scopes a *set* of measurements/manipulations
-  across time or entities becomes a **trial/epoch event** (shape 2); the rule decides
-  which. Worked mock-ups exist for both — the EPM 51-column table collapsing to ~8
-  axis-bearing documents, and the *C. elegans* multi-entity encounter (worm + patch +
-  plate) resolving through a trial/epoch that no single row-subject could anchor.
-  Neither is adopted; both live in the EDM design note (`ndi-next-steps`) for
-  critique.
+  **Decided (for now): one `parameters` field on `subject_statement`.** Options 1 and
+  3 unify into a single mechanism — a `parameters` list of typed `{variable, value}`
+  where the value is a data-typed array (term/count/duration/…, the same value cells a
+  leaf uses). A **cardinality rule** distinguishes the two cases without a second
+  construct: a parameter's value length is **1** (a constant condition — the old
+  option-1 "qualifiers list" case) or **equal to the measurement's value length** (one
+  label per reading — the old option-3 "axis" case; the EPM `entries` value
+  `[8,4,12,9,15]` carries an `arm direction` parameter `[north,south,east,west,center]`
+  and an `arm state` parameter alongside). **"Axis" is retired as a separate term** —
+  it is just a per-element parameter. The **trial/epoch event (shape 2) is DEFERRED**:
+  shared context is handled by copying the parameter onto each measurement plus a
+  `directed_relation` for inter-entity ties. In the *C. elegans* encounter (verbatim
+  JH columns) the `CElegansBehavioralAssay_EncounterIdentifier` is the encounter's
+  *identity* (it rides as a parameter on each worm reading, not as its own doc), OD600
+  lives on the referenced patch document (`BacterialPatchDocumentIdentifier`), and a
+  `worm --encountered--> patch` `directed_relation` carries the cross-entity tie.
+  Revisit a trial/epoch hub only if per-measurement copying of shared context becomes
+  painful, or when cross-entity trial-based analysis wants a first-class trial. The
+  deferred trial model and the worked mock-ups live in the EDM design note
+  (`ndi-next-steps`).
 
-  **How every field still gets validated by data type (the tie to D9).** Whichever
-  shape wins, the concern is that qualifier/trial-parameter values are *open*
-  (author-supplied `variable`s, not schema-fixed leaves). The answer is the **D9
-  binding registry acting as a type oracle**: an open parameter keyed on its
+  **How every field still gets validated by data type (the tie to D9).** Parameter
+  values are *open* (author-supplied `variable`s, not schema-fixed leaves). The answer
+  is the **D9 binding registry acting as a type oracle**: a parameter keyed on its
   `variable` resolves through the registry to a data-type + `value_set`, so
-  `arm type ∈ {open, closed, center}`, `OD600 ∈ non-negative real`,
+  `arm direction ∈ {north, south, east, west, center}`, `OD600 ∈ non-negative real`,
   `trial type ∈ <startle-protocol value_set>` are all checkable at validation time —
-  the same machinery that types kind-assertions, just pointed at parameters. Axis
-  labels bind to a `value_set` and the value-array length must equal the axis label
-  count. See the D9 extension below.
+  the same machinery that types kind-assertions, just pointed at parameters. The one
+  invariant is the cardinality rule: a parameter's value length is 1 or the
+  measurement's value length. See the D9 extension below.
 
-  *Status:* OPEN. Nothing adopted. The column-role rule is agreed as the
-  classifier's backbone; the qualifier-placement shape (options 1–8, synthesis 3+2)
-  and the per-entity resolution (D11) are for the EDM design note and a later
-  decision. Until then `ontology_table_row.m` is knowingly-wrong and stays flagged.
-  (A.9, C.2)
+  *Status:* **DECIDED (for now)** — qualifier placement is a typed `parameters` field
+  on `subject_statement` (cardinality rule; options 1+3 unified); the trial/epoch
+  (option 2) is **deferred**. Still open: the parameter **value representation** (one
+  uniform `{variable, value}` resolved by the registry vs a nested typed block per
+  parameter), and the per-entity resolution (**D11**). The column-role rule is the
+  classifier backbone. `ontology_table_row.m` stays flagged (knowingly-wrong) until it
+  is rewritten to this shape. (A.9, C.2)
 - **D11 — Which entity a column describes (subject-of-column / multi-entity rows).
   OPEN — split out of D10.** The column-role rule (D10) says *what* a column is; D11
   asks *whose* it is. The migrator cannot blindly anchor every column on the row's
@@ -667,13 +679,13 @@ default we can quietly pick.
   questions: **(i)** how is per-column subject resolved — a per-table discovery map
   (like the +migrators_i seeding), a heuristic on column-name prefixes
   (`BacterialPatch*` → the patch entity), or an explicit author-supplied binding?
-  **(ii)** when the row has no natural single subject (encounter/link tables), does
-  the trial/epoch event (D10 shape 2) become the anchor, or do we mint the relation
-  directly with no anchor? **(iii)** how do reference columns (D10 role 3) get
-  paired with the entity they point at so the `directed_relation` is well-formed?
-  This is tightly coupled to D10's shape choice (a trial/epoch anchor answers much of
-  (ii)) and to D2 (instrument-as-subject) — resolve alongside them. *Status:* OPEN.
-  (A.9, A.10, C.2)
+  **(ii)** when the row has no natural single subject (encounter/link tables), we mint
+  the `directed_relation`(s) directly with **no trial anchor** — the trial/epoch is
+  deferred (D10) — so confirm bare relations are sufficient for the link tables.
+  **(iii)** how do reference columns (D10 role 3) get paired with the entity they point
+  at so the `directed_relation` is well-formed? With D10 decided (parameters, trial
+  deferred), (ii) resolves to bare relations for now; **(i)** and **(iii)** remain and
+  couple to D2 (instrument-as-subject). *Status:* OPEN — (i)/(iii). (A.9, A.10, C.2)
 
 ---
 
