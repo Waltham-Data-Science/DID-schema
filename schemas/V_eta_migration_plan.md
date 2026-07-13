@@ -568,10 +568,15 @@ default we can quietly pick.
   exactly like a bound term value would. The one invariant is the cardinality rule: a
   parameter's value length is 1 or the measurement's value length. This is what lets
   D10 claim "every field is validated by data type" even for the open columns.
-  *Status:* **needed now that D10 adopts parameters** — the remaining choice is the
-  parameter **value representation** (uniform `{variable, value}` resolved by the
-  registry vs a nested typed block). No change to the Phase-1 closed-binding
-  machinery, which ships as Resolved above. (A.2, A.5, D10, D11)
+  *Status:* **needed now that D10 adopts parameters.** The parameter value uses a
+  **nested typed block** (provisional — open for future review), so the data *type* is
+  self-describing in the document; the registry still supplies the **`value_set`**
+  constraint per `variable` (e.g. `arm direction ∈ {north, south, east, west,
+  center}`). The nested-block shape needs the meta-schema to permit one data-type block
+  per parameter (a `oneOf`-style choice) — **for now** via optional type blocks with a
+  validator "exactly one populated" check, deferring proper `oneOf` support. No change
+  to the Phase-1 closed-binding machinery, which ships as Resolved above.
+  (A.2, A.5, D10, D11)
 - **D8 — Payload-free manipulations. Resolved:** `term_manipulation` (imposed
   value = the act's ontology term). **No escape hatch** — strict J resolves every
   act to a data type; an un-typed numeric is flagged/quarantined in discovery
@@ -662,9 +667,12 @@ default we can quietly pick.
 
   *Status:* **DECIDED (for now)** — qualifier placement is a typed `parameters` field
   on `subject_statement` (cardinality rule; options 1+3 unified); the trial/epoch
-  (option 2) is **deferred**. Still open: the parameter **value representation** (one
-  uniform `{variable, value}` resolved by the registry vs a nested typed block per
-  parameter), and the per-entity resolution (**D11**). The column-role rule is the
+  (survey option 2) is **deferred**. The parameter **value representation** is a
+  **nested typed block** per parameter — each parameter carries `variable` + one
+  data-type block (`term`/`count`/`duration`/…), mirroring the leaf value cells, so the
+  data type is self-describing in the document — **provisional, open for future review**
+  (the uniform registry-typed `{variable, value}` alternative stays on the table).
+  Still open: the per-entity resolution (**D11**). The column-role rule is the
   classifier backbone. `ontology_table_row.m` stays flagged (knowingly-wrong) until it
   is rewritten to this shape. (A.9, C.2)
 - **D11 — Which entity a column describes (subject-of-column / multi-entity rows).
