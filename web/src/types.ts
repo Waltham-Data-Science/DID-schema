@@ -86,6 +86,36 @@ export interface SchemaDocument {
   [key: string]: unknown;
 }
 
+// The binding registry meta-file (schemas/V_*/stable/binding_registry_meta.json).
+// Maps a statement's `variable` to the admissible value_set for its term value,
+// and declares the kind-defining variables whose presence marks a subject's kind
+// (D9). Only present from V_eta on; absent sets simply have no registry to browse.
+export interface KindVariable {
+  variable: string;
+  value_set: string;
+  root?: string;
+  source?: string;
+}
+
+// A corpus-derived variable->value_set binding. The shape is intentionally open:
+// bindings are added during discovery (D3/D6) and may carry method/context keys
+// beyond the core three, so the browser renders whatever columns are present.
+export interface Binding {
+  variable?: string;
+  value_set?: string;
+  method?: string;
+  [k: string]: unknown;
+}
+
+export interface BindingRegistryMeta {
+  title?: string;
+  description?: string;
+  kind_variables?: KindVariable[];
+  bindings?: Binding[];
+  notes?: string;
+  [k: string]: unknown;
+}
+
 // Inside a schema file, `superclasses` is an array of objects with at least
 // a `class_name` key. The repo-level index.json normalizes these to plain
 // strings, so callers may see either shape -- always pass through

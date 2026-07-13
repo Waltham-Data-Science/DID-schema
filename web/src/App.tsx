@@ -3,6 +3,7 @@ import type { SchemaIndex, TopicsFile } from "./types";
 import {
   buildTopicTree,
   buildTree,
+  isBindingRegistry,
   loadIndex,
   loadTopics,
   loadVersions,
@@ -10,6 +11,7 @@ import {
 } from "./schemaIndex";
 import { FlatList, Tree } from "./Tree";
 import { Detail } from "./Detail";
+import { BindingRegistry } from "./BindingRegistry";
 import { Editor } from "./Editor";
 import { AuthPanel } from "./Auth";
 import { loadAuth } from "./auth";
@@ -178,7 +180,11 @@ export default function App() {
           </ErrorBoundary>
         ) : selectedEntry ? (
           <ErrorBoundary resetKey={selectedEntry.class_name}>
-            <Detail entry={selectedEntry} />
+            {isBindingRegistry(selectedEntry) ? (
+              <BindingRegistry entry={selectedEntry} />
+            ) : (
+              <Detail entry={selectedEntry} />
+            )}
           </ErrorBoundary>
         ) : (
           <div className="placeholder">

@@ -1,4 +1,5 @@
 import type {
+  BindingRegistryMeta,
   IndexEntry,
   SchemaDocument,
   SchemaIndex,
@@ -51,6 +52,21 @@ export async function loadTopics(version: string): Promise<TopicsFile | null> {
 
 export async function loadSchema(entry: IndexEntry): Promise<SchemaDocument> {
   // entry.path is repo-relative, e.g. "schemas/V_delta/stable/base.json".
+  const res = await fetch(`${BASE}${entry.path}`);
+  if (!res.ok) throw new Error(`Failed to load ${entry.path}: ${res.status}`);
+  return res.json();
+}
+
+// The binding_registry_meta entry is a meta-file, not a document class: it has
+// no document_class/fields for the generic Detail view to render, so the app
+// routes it to the dedicated BindingRegistry view instead.
+export function isBindingRegistry(entry: IndexEntry): boolean {
+  return entry.class_name === "binding_registry_meta";
+}
+
+export async function loadBindingRegistry(
+  entry: IndexEntry,
+): Promise<BindingRegistryMeta> {
   const res = await fetch(`${BASE}${entry.path}`);
   if (!res.ok) throw new Error(`Failed to load ${entry.path}: ${res.status}`);
   return res.json();
