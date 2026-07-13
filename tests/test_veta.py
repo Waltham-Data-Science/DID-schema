@@ -269,6 +269,28 @@ def test_parameters_on_statement():
     assert sub["term"]["fields"][0]["type"] == "ontology_term"
 
 
+def test_session_bounded_reference():
+    """A bounded [start, end] window relative to the session/assay (D10 multi-party
+    binding) — no parent interaction/epoch required."""
+    assert "session_bounded_reference" in RECORDS
+    assert "time_reference" in _chain("session_bounded_reference")
+    ft = _flat_field_types("session_bounded_reference")
+    assert ft.get("start") == "duration" and ft.get("end") == "duration"
+    # no required deps (session rides on base.session_id)
+    deps = RECORDS["session_bounded_reference"][1]["depends_on"]
+    assert all(not d.get("mustBeNonEmpty") for d in deps)
+
+
+def test_directed_relation_optional_time_reference():
+    """An event-relation (e.g. encountered) can carry when — an optional
+    time_reference dep so the relation is the timestamped record (D10)."""
+    deps = {d["name"]: d for d in RECORDS["directed_relation"][1]["depends_on"]}
+    assert "time_reference_#" in deps
+    assert deps["time_reference_#"]["mustBeNonEmpty"] is False
+    # child/parent stay required
+    assert deps["child"]["mustBeNonEmpty"] is True
+
+
 def test_data_body_classes():
     assert RECORDS["data_body"][1]["document_class"].get("abstract") is True
     assert "statement" in _flat_dep_names("data_body")

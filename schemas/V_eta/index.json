@@ -2503,6 +2503,18 @@
             "path": "schemas/V_eta/stable/session.json"
         },
         {
+            "class_name": "session_bounded_reference",
+            "tier": "stable",
+            "class_version": "1.0.0",
+            "maturity_level": "stable",
+            "superclasses": [
+                {
+                    "class_name": "time_reference"
+                }
+            ],
+            "path": "schemas/V_eta/stable/session_bounded_reference.json"
+        },
+        {
             "class_name": "session_extent",
             "tier": "stable",
             "class_version": "1.0.0",

@@ -21,6 +21,13 @@
             "mustBeNonEmpty": true,
             "documentation": "The whole, group, or source subject.",
             "must_refer_to_document_class": "subject"
+        },
+        {
+            "name": "time_reference_#",
+            "mustBeNonEmpty": false,
+            "documentation": "Optional: when an EVENT relation happened (e.g. `encountered`), as one or more time_reference anchors \u2014 so an event-relation can be the timestamped record. Empty for timeless relations (part_of, derived_from). (D10 multi-party binding.)",
+            "must_refer_to_document_class": "time_reference",
+            "multiple": true
         }
     ],
     "file": [],

@@ -364,7 +364,13 @@ write("stable", "directed_relation",
       doc("directed_relation", ["subject_relation"],
           deps=[dep("child", "subject", "The finer/subordinate subject (a part, "
                     "member, or derivative)."),
-                dep("parent", "subject", "The whole, group, or source subject.")],
+                dep("parent", "subject", "The whole, group, or source subject."),
+                dep("time_reference_#", "time_reference",
+                    "Optional: when an EVENT relation happened (e.g. `encountered`), "
+                    "as one or more time_reference anchors — so an event-relation can "
+                    "be the timestamped record. Empty for timeless relations "
+                    "(part_of, derived_from). (D10 multi-party binding.)",
+                    non_empty=False, multiple=True)],
           fields=[REL_TERM]))
 write("stable", "undirected_relation",
       doc("undirected_relation", ["subject_relation"],
@@ -417,6 +423,26 @@ tr = load(os.path.join(VETA, "stable", "time_reference.json"))
 tr["fields"] = [f for f in tr["fields"] if f["name"] != "sampling"]
 tr["document_class"]["class_version"] = "3.0.0"
 write("stable", "time_reference", tr)
+
+# session_bounded_reference (D10 multi-party binding): a bounded [start, end]
+# window relative to the session/assay origin, needing NO parent interaction or
+# epoch. This is the shared hub a multi-party event's measurements (and its
+# event-relation) depend on — e.g. one C. elegans encounter window
+# (onset..offset). Session identity rides on base.session_id, so no dep is
+# required. Fills the gap between session_relative_reference (ordinal, no metric)
+# and event_/epoch_relative_reference (which require a parent event/epoch).
+_DUR = {"approximate": False, "source_unit": "", "source_value": 0.0}
+write("stable", "session_bounded_reference",
+      doc("session_bounded_reference", ["time_reference"], fields=[
+          field("relation", "char",
+                "Ordinal relation to the session (default 'during').",
+                non_empty=False, blank="during", default="during"),
+          field("start", "duration",
+                "Window start, relative to the session/assay origin.",
+                non_empty=False, blank=_DUR, default=_DUR),
+          field("end", "duration",
+                "Window end, relative to the session/assay origin.",
+                non_empty=False, blank=_DUR, default=_DUR)]))
 
 
 # ---------- 10. manipulation tier: strict J (D4, D8) ----------
