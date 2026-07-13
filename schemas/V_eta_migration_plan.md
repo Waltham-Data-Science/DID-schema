@@ -684,24 +684,27 @@ default we can quietly pick.
   classifier backbone. `ontology_table_row.m` stays flagged (knowingly-wrong) until it
   is rewritten to this shape. (A.9, C.2)
 - **D11 — Which entity a column describes (subject-of-column / multi-entity rows).
-  OPEN — split out of D10.** The column-role rule (D10) says *what* a column is; D11
-  asks *whose* it is. The migrator cannot blindly anchor every column on the row's
-  `SubjectLocalIdentifier`, because in the JH corpus the measured entity is routinely
-  **not the animal**: the bacterial-patch tables (13k+ rows) measure a *bacterial
-  patch* (its own `subject`), the plate-prep tables measure a *plate/session*, and
-  two tables are pure **relations** (a worm *encountered* a patch; a subject *is on* a
-  plate) carrying no measurements at all. A single flat row can therefore mint
-  observations about several distinct entities plus edges between them. Open
-  questions: **(i)** how is per-column subject resolved — a per-table discovery map
-  (like the +migrators_i seeding), a heuristic on column-name prefixes
-  (`BacterialPatch*` → the patch entity), or an explicit author-supplied binding?
-  **(ii)** when the row has no natural single subject (encounter/link tables), we mint
-  the `directed_relation`(s) directly with **no trial anchor** — the trial/epoch is
-  deferred (D10) — so confirm bare relations are sufficient for the link tables.
-  **(iii)** how do reference columns (D10 role 3) get paired with the entity they point
-  at so the `directed_relation` is well-formed? With D10 decided (parameters, trial
-  deferred), (ii) resolves to bare relations for now; **(i)** and **(iii)** remain and
-  couple to D2 (instrument-as-subject). *Status:* OPEN — (i)/(iii). (A.9, A.10, C.2)
+  DECIDED (for now) — a per-table subject map.** The column-role rule (D10) says *what*
+  a column is; D11 says *whose* it is. The migrator cannot anchor every column on the
+  row's `SubjectLocalIdentifier`, because in JH the measured entity is routinely **not
+  the animal**: the bacterial-patch tables (13k+ rows) measure a *bacterial patch* (its
+  own `subject`), the plate-prep tables a *plate/session*, and two tables are pure
+  **relations**. A single flat row can therefore mint observations about several
+  distinct entities plus edges between them. **Resolution:** for each of the 11 table
+  signatures a **per-table subject map** names (a) the **subject column(s)**; (b) which
+  **measurement** columns attribute to which subject; (c) which columns are
+  **references** → `directed_relation`s and their direction (the row's subject is the
+  `child`, the referenced entity the `parent`, relation term per table — e.g. `worm
+  --encountered--> patch`); and (d) which are **qualifiers** → parameters (D10). A
+  column-name-prefix heuristic (`BacterialPatch*` → the patch, `Subject*`/`CElegans*` →
+  the worm) **drafts** the map; a curator **confirms** it and adjudicates the handful of
+  ambiguous columns (e.g. `RelativeDensityOfEncounteredBacteria` — the worm's reading vs
+  a patch property). This is the same discovery-tuned seeding the `+migrators_i`/`_j`
+  migrators already use. Rows with **no natural single subject** (encounter/link tables)
+  mint bare `directed_relation`(s) bound to the shared event `time_reference` (D10,
+  multi-party) — no trial anchor. Couples to **D2** (is a `MicroscopyImage` a minted
+  subject or only a reference target?). *Status:* DECIDED (for now) — per-table map; the
+  residue is the per-table curator adjudication of ambiguous columns. (A.9, A.10, C.2)
 
 ---
 
