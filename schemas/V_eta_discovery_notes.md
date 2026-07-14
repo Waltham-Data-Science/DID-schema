@@ -178,6 +178,37 @@ Takeaways that drive D10 (and a likely D11):
   split (current `+migrators_j/ontology_table_row.m`) is wrong for most tables and
   will be revised once D10/D11 land.
 
+## `imageStack` → `image_observation` + `sampled_body` (JH: 7,007 docs)
+
+Grounded in the real JH `imageStack` docs. Each is `{label, formatOntology}` +
+an `imageStack_parameters` mixin (dimension_order/size/scale, data_type,
+clocktype, timestamp) + a `document_id` dependency, with **`subject_id` empty**.
+The correct J mapping (only partly implementable per-document; the rest is a
+second-pass join):
+
+| source field | is | disposition |
+|---|---|---|
+| `formatOntology` (e.g. `NCIT:C85437`) | the **file type** (TIFF/MP4-like) | **dropped** — a container format is derivable from the stored bytes (and the short form already rides on `image.image_format`); an ontology term for it is a redundant projection |
+| `label` (84–352 char prose) | the **definition** of the variable's ontology term | **dropped** — reconstructable as a projection; it is a description, not a name (1,299/6,000 exceed the 256 name cap) |
+| `imageStack_parameters` | geometry/clock/dtype | `image` mixin + `sampled_body` (datum/sample_time) |
+| files | the pixel bytes | `sampled_body` body_data |
+
+**Two pieces need a second-pass cross-document join (deferred to discovery
+curation), because the per-document migrator sees only one doc:**
+
+- **`variable`** (the observed quantity) is the **linked `ontologyLabel`** — the
+  image's `document_id` resolves to an `ontologyTableRow`/`ontologyLabel` whose
+  `ontologyNode` is the "what". The per-doc migrator emits a non-empty
+  **placeholder** (`{name: "image"}`) so the statement validates; the second pass
+  replaces it with the label's term.
+- **`subject`** should be the **plate or bacterial patch** the image depicts.
+  `subject_id` is empty on the source; the subject is reachable only via
+  `image.document_id → ontologyTableRow → BacterialPlate/PatchIdentifier` (a
+  **local** id string), so it needs the local-id → subject-document mapping **and**
+  minted **plate** subjects (the patch-geometry map already mints patch subjects;
+  plate subjects are not minted yet). Until then the image_observation carries an
+  empty `subject_id` (unattributed — the F1 pattern).
+
 *Method: `did_v1` JSON downloaded from the public S3 corpus prefix and analyzed in
 Python. The MATLAB migrator + `Validate=true` end-to-end run is validated in CI;
 this analysis grounds its dispatch tables in the real data.*
