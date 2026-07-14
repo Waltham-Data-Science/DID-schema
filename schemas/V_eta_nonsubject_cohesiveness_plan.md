@@ -97,46 +97,106 @@ file-backed blobs into `opaque_body` under `storage_mode: opaque`.
 
 ---
 
-## Part 2 — Silent families (proposals — need decisions)
+## Part 2 — Silent families (resolved this session)
 
-J does not specify these. Proposed J-cohesive dispositions to react to:
-
-### 2.A Acquisition provenance — DAQ / sync / navigator  *(~20k docs)*
+### 2.A Acquisition provenance — DAQ / sync / navigator  *(~20k docs)*  — **KEEP as infra + governance pass**
 
 `daqsystem`, `daqreader*`, `daqmetadatareader*`, `filenavigator`, `syncrule`,
 `syncgraph`, `syncrule_mapping`, `epochfiles_ingested`, `*_epochdata_ingested`,
-`epoch*`. These describe *how the dataset was acquired/assembled*, not a subject.
+`epoch*` describe *how the dataset was acquired/assembled*, not a subject.
+**Decision (D-A):** they stay as a legitimate acquisition-provenance
+**infrastructure layer** (provenance isn't "about a subject"; forcing a sync
+rule to be a subject is a category error). The physical **instrument** becomes a
+`subject` (device-as-subject) via the element retirement (1.2); the reader / nav
+/ sync *configs* remain infra that reference it.
 
-> **Proposal A1 (recommended):** keep a thin **acquisition-provenance layer** as
-> legitimate infrastructure (not everything is a subject; provenance isn't). But
-> reconcile: the physical **instrument** becomes a `subject` (device-as-subject);
-> the reader/nav/sync *configs* stay as infra that reference it.
-> **Proposal A2:** model the DAQ device as a `subject` and each epoch as an
-> `interaction`, dissolving the layer entirely (maximally J, largest rework).
+**But they are pre-J carry-overs and do NOT meet J governance.** An audit of the
+retained classes found (see §Governance findings below): none of their
+dependencies declare `must_refer_to_document_class` (untyped references — a
+`daqreader_id` could point at anything and validate); structured payloads are
+stored as raw `char` (`fileparameters`, `epochprobemap`, `parameters`,
+`tab_separated_file_parameter`); the schema stores MATLAB class paths
+(`ndi_<x>_class`); time is free strings (`epoch_clock: char`) not the
+`time_reference` model; `files` is a string blob not the `data_body` model. A
+**governance pass** brings them up to J standard — see the do-now vs needs-NDI
+split in §Governance findings and Phase 7.
 
-### 2.B Stimulus  *(~5.5k docs)*
+### 2.B Stimulus  *(~5.5k docs)*  — **LOCKED (D-B)**
 
-> **Proposal:** `stimulus_presentation` (+ `control_stimulus_ids`) → a
-> **`subject_manipulation`** (the stimulus is delivered *to* the subject; its
-> parameters are the manipulation value) — consistent with `stimulus_bath →
-> dose_manipulation`. `stimulus_response_scalar*` (a computed response) → a
-> **derived `*_observation`** with a `derived_from` edge to the presentation.
+`stimulus_presentation` (+ `control_stimulus_ids`) → a **`subject_manipulation`**
+(the stimulus is delivered *to* the subject; its parameters are the manipulation
+value) — consistent with `stimulus_bath → dose_manipulation`.
+`stimulus_response_scalar*` (a computed response) → a **derived `*_observation`**
+with a `derived_from` edge to the presentation.
 
-### 2.C Analysis / calc  *(~0.9k docs)*
+### 2.C Analysis / calc  *(~0.9k docs)*  — **DECOMPOSE (D-C)**
 
-`*_calc`, `*_tuning`, `stimulus_response`, `hartley`, `reverse_correlation`, fits.
+`*_calc`, `*_tuning`, `stimulus_response`, `hartley`, `reverse_correlation`,
+`fitcurve`, `tuning_fit`. Exhibit: `orientation_direction_tuning` jams three
+different kinds of thing into one doc. **Decision:** decompose, don't flatten and
+don't defer wholesale:
 
-> **Proposal:** keep a **derived-analysis layer** (these are *computed* products,
-> not raw statements — collapsing them into observations would lose the
-> computed-from provenance), but reconcile inputs (`element_id`→subject) and add
-> `derived_from` relations. Open question: how much of this is in-scope for V_eta
-> vs the NDI calculation layer.
+1. **Interpretable scalar results → `*_observation`s on the subject.**
+   `orientation_preference` (→ `angle_observation`), OSI / `hwhh` bandwidth (→
+   `score_`/`angle_observation`), the ANOVA p-values (→ `score_observation`).
+   These are *measured properties of the neuron-subject*; today they are bare
+   `double`s buried in a nested `structure` with **no units, no ontology, no
+   discoverability**. Promoting them to observations puts the biology on the
+   queryable spine.
+2. **The derived function (the tuning curve matrices) → a `data_body`** (a
+   `sampled_body`/dataseries indexed by the independent variable), or a recompute
+   **projection** if not stored.
+3. **The computation itself → ONE generic `derivation` genus** — `derived_from`
+   edges to inputs + the algorithm as an ontology term + a parameters block + the
+   body-backed output. This carries the irreducible provenance (algorithm,
+   parameters, measured-vs-fitted) an observation has no slot for.
 
-### 2.D Genomics / data-format  *(dataseries, timeseries, imageseries, expression_matrix, sequence_read, reference_\*)*
+**Retire the per-analysis class zoo** (`tuningcurve_calc`, `oridirtuning_calc`,
+`contrast_/speed_/spatial_/temporal_frequency_tuning_calc`, `hartley_calc`,
+`tuning_fit`, `fitcurve`, …) → the single `derivation` shape parameterized by the
+algorithm *term*. This is the same anti-proliferation move J made on the
+observation leaf tier (the `scalar_`/`dataseries_`/`imageseries_` split → one
+class per data type). New V_eta class: **`derivation`** (a `data_body`-adjacent
+provenance genus).
 
-> **Proposal (low-controversy):** fold all under the **`data_body`** model —
-> `sampled_body` (regular index axis), `opaque_body` (file blob), `table_body`
-> deferred (J:193). Several are already drafted this way. Mostly mechanical.
+### 2.D Genomics / data-format  *(dataseries, timeseries, imageseries, expression_matrix, sequence_read, reference_\*)*  — **FOLD to `data_body`**
+
+Fold all under the **`data_body`** model — `sampled_body` (regular index axis),
+`opaque_body` (file blob), `table_body` deferred (J:193). Several are already
+drafted this way. Mostly mechanical.
+
+## Governance findings — the retained acquisition-infra classes
+
+The classes kept in 2.A carry pre-J shapes. Bringing them to J standard:
+
+**Do-now (schema-side, no NDI dependency):**
+- **Type every dependency** — add `must_refer_to_document_class` to
+  `daqsystem.{filenavigator_id, daqreader_id}`, `daqmetadatareader.daqsystem_id`,
+  `syncgraph.syncrule_id_#`, `syncrule_mapping.{syncrule_id, epochid}`,
+  `daqmetadatareader_epochdata_ingested.daqmetadatareader_id`. Currently all
+  unset, so references are unvalidated.
+- **Declare the shapes** — `filenavigator.fileparameters` /
+  `epochprobemap_fileparameters` / `epochprobemap`, `syncrule.parameters`,
+  `daqmetadatareader.{metadata_names, tab_separated_file_parameter}`,
+  `tuningcurve_calc.result_data`, `stimulus_response_scalar.responses`,
+  `fitcurve.fit_parameters` → structured sub-fields, or a typed `opaque_body`
+  when genuinely opaque file config.
+- **Route time through `time_reference`** — `syncrule_mapping.epochnode_*.epoch_clock`
+  and `epoch_id`, not bare `char`.
+- **`epochfiles_ingested.files`** (string blob) → the `data_body`/`file` model.
+- **Fix questionable ontology tags** — `epochid.epochid`,
+  `epochfiles_ingested.epoch_id` are annotated `ONTOLOGY`, but an epoch id is not
+  an ontology term.
+- **De-encode subtypes from class names** — `daqreader_mfdaq_epochdata_ingested`
+  puts the reader subtype in the class name; move it to a field/discriminator.
+
+**Needs-NDI (coordinate with NDI-matlab):**
+- **`ndi_<x>_class` MATLAB class-path fields** (`ndi_daqreader_class`,
+  `ndi_syncrule_class`, `ndi_filenavigator_class`, `ndi_daqsystem_class`, …).
+  These are load-bearing — NDI reconstructs the reader/rule *object* from them.
+  Dropping/reshaping them (→ a typed enum or ontology term, no `ndi_` namespace)
+  requires a coordinated NDI object-model change, so it is scheduled with NDI
+  input, not as a pure schema edit.
 
 ---
 
@@ -155,9 +215,14 @@ by dependency:
 4. **element_epoch → sampled_body; position/distance → observations.** *(1.3, 1.4)*
 5. **data-format fold** — generic_file/expression_matrix → opaque_body; the
    genomics/series families → data_body. *(1.5, 2.D)*
-6. **stimulus + calc** — per the Part 2 decisions. *(2.B, 2.C)*
-7. **acquisition-provenance** — per the 2.A decision (keep-as-infra reconcile, or
-   dissolve). *(2.A)*
+6. **stimulus → manipulation/observation** *(2.B)*; **analysis → decompose**
+   *(2.C)*: add the `derivation` genus, promote interpretable scalars to
+   `*_observation`s, curve → body/projection, retire the per-analysis class zoo.
+7. **acquisition-infra governance pass** *(2.A / Governance findings)*: do-now
+   schema fixes (type every dep with `must_refer_to_document_class`; declare the
+   `char`/`structure` payloads; time → `time_reference`; `files` → `data_body`;
+   fix ontology tags; de-encode subtypes from class names). The `ndi_<x>_class`
+   redesign is split out to coordinate with NDI-matlab.
 8. **schema cleanup** — delete every retired class from `V_eta/`; update
    `index.json`, `topics.json`, `test_veta.py`; re-run the full corpus with the
    orphan gate to confirm cohesive + green.
@@ -165,16 +230,22 @@ by dependency:
 Each phase = one commit set across DID-schema (target classes / retirements) +
 DID-matlab (migrators) + tests, validated by the quick CI then the full corpus.
 
-## Part 4 — Open decisions (for sign-off)
+## Part 4 — Decisions (resolved this session)
 
-- **D-A** Acquisition provenance: layer-as-infra (A1) or dissolve-to-subjects (A2)?
-- **D-B** Stimulus: `stimulus_presentation` → `subject_manipulation`? responses →
-  derived observations?
-- **D-C** Analysis/calc: keep a derived layer, or push into observations / defer to
-  the NDI calc layer?
-- **D-D** Round-trip: is a lossless `did_v1` reconstruction a requirement (it
-  constrains how aggressively we drop bundles), or is a forward-only migration
-  acceptable?
+- **D-A** Acquisition provenance — **RESOLVED:** keep as an infrastructure layer
+  (not subjects), instrument→subject via 1.2, **plus a governance pass** to bring
+  the classes to J standard (§Governance findings). `ndi_<x>_class` redesign
+  deferred to coordinate with NDI-matlab.
+- **D-B** Stimulus — **RESOLVED:** `stimulus_presentation` → `subject_manipulation`;
+  `stimulus_response*` → derived `*_observation` (+ `derived_from`).
+- **D-C** Analysis/calc — **RESOLVED:** decompose — interpretable scalars →
+  `*_observation`s on the subject; curve → `data_body`/projection; provenance →
+  ONE generic `derivation` genus; retire the per-analysis class zoo.
+- **D-D** Round-trip — **RESOLVED (principle):** adopt J's *drop-fully-with-projection*
+  — decompose bundles, store no provenance copy, reconstruct openMINDS/element
+  *views* as query-time projections. The stricter "byte-exact `did_v1`
+  reconstruction required?" question is **deferred** until something demands it;
+  it does not block any phase.
 
 ---
 

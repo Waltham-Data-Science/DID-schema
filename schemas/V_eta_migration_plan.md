@@ -248,6 +248,23 @@ discovery mode, never dumped into a generic bin (**Resolved, D8**).
 
 ### A.10 What carries over verbatim (design-neutral for J)
 
+> **⚠️ SUPERSEDED (in part) by `V_eta_nonsubject_cohesiveness_plan.md`.** This
+> section originally listed `openminds*` and `element`/`epoch*` as verbatim
+> carry-overs — which contradicts Brainstorm J itself (openMINDS is **not
+> stored** → decomposed to assertions, J:92; `element_epoch` / `generic_file` /
+> `expression_matrix_data` are **superseded** by the body model, J:194; the
+> recording-side `element` is disfavored, J:214). The first migration followed
+> this section literally (1→1 fall-through), so the corpus run migrated ~24k docs
+> into classes J retires. The team has since decided to make the non-subject half
+> cohesive: **openMINDS → assertions, `element` fully retired → subjects,
+> `element_epoch` → `sampled_body`, `position/distance_metadata` → observations,
+> `generic_file`/`expression_matrix_data` → `opaque_body`, the analysis class zoo
+> → one `derivation` genus + observations, and a governance pass on the retained
+> acquisition-infra classes.** See the cohesiveness plan for the target models and
+> phasing. What genuinely *does* carry over unchanged is narrower than the list
+> below: the value-cell composites, the `time_reference` frames, and the
+> acquisition-provenance **layer** (kept, but re-governed).
+
 The **value-cell composites themselves** (the dimensioned `mass`/`temperature`/…
 cells, `term`, `date`, `score`, and the named composites
 `dose`/`formulation`/`chemical`), the `time_reference` frames, and **all
