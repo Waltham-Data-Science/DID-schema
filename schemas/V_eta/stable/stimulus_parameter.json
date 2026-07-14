@@ -14,7 +14,7 @@
             "name": "stimulus_presentation_id",
             "mustBeNonEmpty": true,
             "documentation": "The document ID of the stimulus presentation this parameter belongs to.",
-            "must_refer_to_document_class": ""
+            "must_refer_to_document_class": "stimulus_presentation"
         }
     ],
     "file": [],

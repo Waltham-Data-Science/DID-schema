@@ -121,13 +121,44 @@ stored as raw `char` (`fileparameters`, `epochprobemap`, `parameters`,
 **governance pass** brings them up to J standard — see the do-now vs needs-NDI
 split in §Governance findings and Phase 7.
 
-### 2.B Stimulus  *(~5.5k docs)*  — **LOCKED (D-B)**
+### 2.B Stimulus  *(~5.5k docs)*  — **RESOLVED (D-B); pass-1 = bodies-of-record, minting deferred**
 
-`stimulus_presentation` (+ `control_stimulus_ids`) → a **`subject_manipulation`**
-(the stimulus is delivered *to* the subject; its parameters are the manipulation
-value) — consistent with `stimulus_bath → dose_manipulation`.
-`stimulus_response_scalar*` (a computed response) → a **derived `*_observation`**
-with a `derived_from` edge to the presentation.
+The subject-side model is: `stimulus_presentation` (+ `control_stimulus_ids`) is
+the manipulation's *value*, surfaced to the subject as a **`stimulus_manipulation`**
+(a thin `subject_manipulation` that carries `subject_id` + `stimulus_presentation_id`
+— the class already exists in `V_eta/stable`); `stimulus_response_scalar*` (a
+computed response) is surfaced as a **derived `*_observation`**.
+
+**Where each half runs (decided this session):**
+
+- **`stimulus_presentation` / `control_stimulus_ids` → kept as bodies-of-record**
+  in DID pass-1 (they already migrate 1→1 at **0 quarantine**). Minting the
+  subject-side `stimulus_manipulation` is **deferred to the NDI second pass**
+  (`ndi.migrate.local`, a sibling of `stimulusBathToBath`): the manipulation's
+  true subject is the *animal recorded during the presentation's epochs*, which is
+  **not in the presentation document** (it names only the stimulus system via
+  `element_id`, now a subject). Resolving it is a recording-graph fact NDI owns.
+  The NDI pass mints the `stimulus_manipulation` on the correct animal subject and
+  a `presented_to`/`during` relation to the stimulus system. Minting it in pass-1
+  on the in-document stimulus-system subject was rejected: it would hang the
+  manipulation off the *deliverer*, not the recipient — an anti-cohesive handle.
+- **`stimulus_response_scalar*` → kept as a body-of-record** in DID pass-1; the
+  derived `*_observation` is **folded into the D-C analysis decomposition** (§2.C).
+  The response payload is a complex-valued vector over stimulus index — the *raw
+  tuning data* — so it shares D-C's decomposition and provenance model rather than
+  getting a second, divergent shape here. (Its subject *is* resolvable in pass-1:
+  `stimulus_response.element_id` → the recorded-neuron subject.)
+- **Correction to the original phrasing:** a "`derived_from` edge to the
+  presentation" does **not** typecheck — `directed_relation` is subject→subject and
+  a `stimulus_presentation` is not a subject. The stimulus context therefore rides
+  on the kept response body-of-record's `stimulus_presentation_id`, not a relation.
+
+**Governance done now (D-B has settled the family):** `build_v_eta.py` §8d types the
+one unambiguous edge — every empty `stimulus_presentation_id`
+(`control_stimulus_ids`, `stimulus_response`, `stimulus_parameter[_table]`) →
+`stimulus_presentation`. `stimulus_response_scalar.stimulus_response_id` stays
+untyped pending referent-class review (its v1 antecedent pointed at a *parameters*
+doc, not a response).
 
 ### 2.C Analysis / calc  *(~0.9k docs)*  — **DECOMPOSE (D-C)**
 
@@ -202,6 +233,15 @@ The classes kept in 2.A carry pre-J shapes. Bringing them to J standard:
   puts the reader subtype in the class name; move it to a field/discriminator.
 
 **Needs-NDI (coordinate with NDI-matlab):**
+- **`stimulus_presentation` → `stimulus_manipulation` resolver** (D-B). A new
+  `ndi.migrate.internal` function, sibling of `stimulusBathToBath`: for each kept
+  `stimulus_presentation`, resolve the **animal recorded during its epochs** via
+  the recording graph (presentation epochs → the element(s) recorded in them →
+  `subjectOfElement`), then mint a `stimulus_manipulation` (`subject_id` = that
+  animal, `stimulus_presentation_id` = the presentation, `variable` = the stimulus
+  term) + a `presented_to`/`during` relation to the stimulus-system subject. The
+  epoch→element→subject resolution is exactly the graph NDI already carries and
+  the single-document DID migrator lacks.
 - **`ndi_<x>_class` MATLAB class-path fields** (`ndi_daqreader_class`,
   `ndi_syncrule_class`, `ndi_filenavigator_class`, `ndi_daqsystem_class`, …).
   These are load-bearing — NDI reconstructs the reader/rule *object* from them.
@@ -247,8 +287,15 @@ DID-matlab (migrators) + tests, validated by the quick CI then the full corpus.
   (not subjects), instrument→subject via 1.2, **plus a governance pass** to bring
   the classes to J standard (§Governance findings). `ndi_<x>_class` redesign
   deferred to coordinate with NDI-matlab.
-- **D-B** Stimulus — **RESOLVED:** `stimulus_presentation` → `subject_manipulation`;
-  `stimulus_response*` → derived `*_observation` (+ `derived_from`).
+- **D-B** Stimulus — **RESOLVED + dispositioned:** `stimulus_presentation` →
+  `stimulus_manipulation` and `stimulus_response*` → derived `*_observation` remain
+  the target model, but the **minting is deferred**: the manipulation to the **NDI
+  second pass** (the animal subject is a recording-graph fact absent from the
+  presentation doc), the response observation into **D-C** (it is the raw tuning
+  data). DID pass-1 keeps `stimulus_presentation` / `stimulus_response_scalar` as
+  bodies-of-record (already 0-quarantine) and types the settled
+  `stimulus_presentation_id` edge (§8d). Note: `derived_from` cannot point at a
+  presentation (not a subject); stimulus context rides on `stimulus_presentation_id`.
 - **D-C** Analysis/calc — **RESOLVED:** decompose — interpretable scalars →
   `*_observation`s on the subject; curve → `data_body`/projection; provenance →
   ONE generic `derivation` genus; retire the per-analysis class zoo.

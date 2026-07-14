@@ -861,6 +861,41 @@ for tier in TIERS:
                 f.write("\n")
 
 
+# ---------- 8d. governance: type the now-settled stimulus family -------------
+# 8c deliberately left the stimulus family untyped ("still being restructured").
+# D-B (V_eta_nonsubject_cohesiveness_plan §2.B) has now settled it: the stimulus
+# documents are KEPT as bodies-of-record (stimulus_presentation carries the raw
+# params; stimulus_response_scalar carries the computed responses), and the
+# subject-side statements are minted downstream -- stimulus_manipulation by the
+# NDI second pass (the animal subject is a recording-graph fact, not in the
+# presentation doc), and the response -> observation by the D-C analysis
+# decomposition. With the family settled, its one unambiguous edge can be typed:
+# every empty `stimulus_presentation_id` genuinely points at a stimulus_presentation
+# (control_stimulus_ids, stimulus_response, stimulus_parameter[_table]). The
+# already-typed carriers (stimulus_manipulation, reverse_correlation, ...) are
+# left as-is (fill-empties-only). `stimulus_response_scalar.stimulus_response_id`
+# is left untyped: its v1 antecedent was stimulus_response_scalar_parameters_id
+# (a parameters doc, not a response), so its referent class needs review first.
+GOV_REF_STIM = {
+    "stimulus_presentation_id": "stimulus_presentation",
+}
+for tier in TIERS:
+    for p in sorted(glob.glob(os.path.join(VETA, tier, "*.json"))):
+        if os.path.basename(p) in META_FILES:
+            continue
+        d = load(p)
+        dirty = False
+        for dep_ in d.get("depends_on", []):
+            if not dep_.get("must_refer_to_document_class", "") \
+                    and dep_.get("name") in GOV_REF_STIM:
+                dep_["must_refer_to_document_class"] = GOV_REF_STIM[dep_["name"]]
+                dirty = True
+        if dirty:
+            with open(p, "w") as f:
+                json.dump(d, f, indent=4)
+                f.write("\n")
+
+
 # ---------- 9. regenerate index.json ----------
 
 idx = load(os.path.join(VETA, "index.json"))
