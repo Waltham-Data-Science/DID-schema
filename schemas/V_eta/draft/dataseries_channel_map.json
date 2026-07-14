@@ -14,7 +14,7 @@
             "name": "element_id",
             "mustBeNonEmpty": false,
             "documentation": "The element this channel map describes (default; stable per rig, covers all epochs). Provide this OR element_epoch_id.",
-            "must_refer_to_document_class": "element"
+            "must_refer_to_document_class": "subject"
         },
         {
             "name": "element_epoch_id",

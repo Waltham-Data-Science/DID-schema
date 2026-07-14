@@ -15,7 +15,7 @@
             "name": "element_id",
             "mustBeNonEmpty": false,
             "documentation": "The element whose acquired data this payload holds (the ndi.element.image / timeseries element). Mirrors ngrid / image_zarr / dataseries_pyramid, which all carry element_id; lets a dataseries payload be tied to its element and, through it, to the imageseries/timeseries observation handle.",
-            "must_refer_to_document_class": "element"
+            "must_refer_to_document_class": "subject"
         }
     ],
     "file": [

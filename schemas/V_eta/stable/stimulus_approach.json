@@ -20,7 +20,7 @@
             "name": "stimulator_id",
             "mustBeNonEmpty": true,
             "documentation": "The stimulator apparatus; with epoch_id forms the self-contained epoch key.",
-            "must_refer_to_document_class": "element"
+            "must_refer_to_document_class": "subject"
         },
         {
             "name": "stimulus_presentation_id",

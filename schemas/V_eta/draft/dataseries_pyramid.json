@@ -17,7 +17,7 @@
             "name": "element_id",
             "mustBeNonEmpty": true,
             "documentation": "The element whose epoch data this pyramid accelerates.",
-            "must_refer_to_document_class": "element"
+            "must_refer_to_document_class": "subject"
         }
     ],
     "file": [

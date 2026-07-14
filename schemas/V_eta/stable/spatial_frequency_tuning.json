@@ -14,7 +14,7 @@
             "name": "element_id",
             "mustBeNonEmpty": true,
             "documentation": "The document ID of the ndi.element whose spatial frequency tuning is described.",
-            "must_refer_to_document_class": "element"
+            "must_refer_to_document_class": "subject"
         },
         {
             "name": "stimulus_tuningcurve_id",

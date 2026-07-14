@@ -800,6 +800,32 @@ with open(os.path.join(CONV, "_index.md"), "w") as f:
     f.write(INDEX_MD)
 
 
+# ---------- 8b. element retirement: must_refer element -> subject (D2) --------
+# Brainstorm J fully retires the recording-side `element` class: everything it
+# represented is a `subject` (device / part / derived signal). The DID-matlab
+# migrator emits element -> subject (id preserved) + kind assertions + a lineage
+# relation, so every dependency that pointed at `element` now resolves to the
+# subject it became; retarget those must_refer tokens so the reference also
+# type-checks. (The `element` class file itself is removed in the Phase-8
+# cleanup, once the element_epoch / position / distance folds land.)
+for tier in TIERS:
+    for p in sorted(glob.glob(os.path.join(VETA, tier, "*.json"))):
+        if os.path.basename(p) in META_FILES:
+            continue
+        d = load(p)
+        dirty = False
+        for dep_ in d.get("depends_on", []):
+            toks = [t for t in dep_["must_refer_to_document_class"].split(",") if t]
+            new_toks = ["subject" if t == "element" else t for t in toks]
+            if new_toks != toks:
+                dep_["must_refer_to_document_class"] = ",".join(new_toks)
+                dirty = True
+        if dirty:
+            with open(p, "w") as f:
+                json.dump(d, f, indent=4)
+                f.write("\n")
+
+
 # ---------- 9. regenerate index.json ----------
 
 idx = load(os.path.join(VETA, "index.json"))
