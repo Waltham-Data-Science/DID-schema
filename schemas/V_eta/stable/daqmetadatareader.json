@@ -14,7 +14,7 @@
             "name": "daqsystem_id",
             "mustBeNonEmpty": true,
             "documentation": "The document ID of the DAQ system this metadata reader is associated with.",
-            "must_refer_to_document_class": ""
+            "must_refer_to_document_class": "daqsystem"
         }
     ],
     "file": [],

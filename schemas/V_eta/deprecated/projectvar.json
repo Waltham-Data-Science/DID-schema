@@ -14,7 +14,7 @@
             "name": "element_id",
             "mustBeNonEmpty": false,
             "documentation": "The document ID of the element this project variable is associated with.",
-            "must_refer_to_document_class": ""
+            "must_refer_to_document_class": "subject"
         }
     ],
     "file": [],

@@ -14,7 +14,7 @@
             "name": "syncrule_id",
             "mustBeNonEmpty": true,
             "documentation": "The document ID of the sync rule this mapping was computed from.",
-            "must_refer_to_document_class": ""
+            "must_refer_to_document_class": "syncrule"
         },
         {
             "name": "epochid",

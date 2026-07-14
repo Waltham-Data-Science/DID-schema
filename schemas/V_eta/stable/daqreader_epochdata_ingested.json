@@ -14,7 +14,7 @@
             "name": "daqreader_id",
             "mustBeNonEmpty": true,
             "documentation": "The document ID of the DAQ reader whose epoch data has been ingested.",
-            "must_refer_to_document_class": ""
+            "must_refer_to_document_class": "daqreader"
         },
         {
             "name": "epochid",

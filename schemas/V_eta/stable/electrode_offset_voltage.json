@@ -14,7 +14,7 @@
             "name": "probe_id",
             "mustBeNonEmpty": true,
             "documentation": "The document ID of the probe this offset voltage data belongs to.",
-            "must_refer_to_document_class": ""
+            "must_refer_to_document_class": "subject"
         }
     ],
     "file": [],

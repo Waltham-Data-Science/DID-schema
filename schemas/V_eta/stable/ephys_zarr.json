@@ -14,13 +14,13 @@
             "name": "probe_id",
             "mustBeNonEmpty": true,
             "documentation": "The document ID of the probe geometry document whose channels this recording samples. Required: an ephys recording is only meaningful in the context of a specific probe.",
-            "must_refer_to_document_class": ""
+            "must_refer_to_document_class": "subject"
         },
         {
             "name": "element_id",
             "mustBeNonEmpty": false,
             "documentation": "The document ID of the NDI element this recording is associated with (e.g., a specific tetrode, shank, or probe segment). Optional; matches the image_zarr convention.",
-            "must_refer_to_document_class": ""
+            "must_refer_to_document_class": "subject"
         }
     ],
     "file": [],

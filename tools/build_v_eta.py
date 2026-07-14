@@ -826,6 +826,41 @@ for tier in TIERS:
                 f.write("\n")
 
 
+# ---------- 8c. governance: type unset _id references -------------------------
+# Acquisition-infra and element-family dependencies shipped with an empty
+# must_refer_to_document_class, so their reference type was unvalidated (a
+# daqreader_id could point at anything and validate). Type the unambiguous ones.
+# element / probe / device / agent references resolve to `subject` (element
+# retired, device-as-subject -- this also catches the element_id deps the 8b
+# rename missed because they were empty rather than "element"); the surviving
+# acquisition classes get their own class. References into families still being
+# restructured (stimulus, analysis/calc, spike sorting) are intentionally left
+# untyped for now -- typing them would only need re-typing when those retire.
+GOV_REF = {
+    "element_id": "subject", "underlying_element_id": "subject",
+    "probe_id": "subject", "stimulator_id": "subject",
+    "recipient_id": "subject", "donor_id": "subject",
+    "filenavigator_id": "filenavigator", "daqreader_id": "daqreader",
+    "daqsystem_id": "daqsystem", "daqmetadatareader_id": "daqmetadatareader",
+    "syncrule_id": "syncrule", "syncrule_id_#": "syncrule",
+}
+for tier in TIERS:
+    for p in sorted(glob.glob(os.path.join(VETA, tier, "*.json"))):
+        if os.path.basename(p) in META_FILES:
+            continue
+        d = load(p)
+        dirty = False
+        for dep_ in d.get("depends_on", []):
+            if not dep_.get("must_refer_to_document_class", "") \
+                    and dep_.get("name") in GOV_REF:
+                dep_["must_refer_to_document_class"] = GOV_REF[dep_["name"]]
+                dirty = True
+        if dirty:
+            with open(p, "w") as f:
+                json.dump(d, f, indent=4)
+                f.write("\n")
+
+
 # ---------- 9. regenerate index.json ----------
 
 idx = load(os.path.join(VETA, "index.json"))

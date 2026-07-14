@@ -14,13 +14,13 @@
             "name": "recipient_id",
             "mustBeNonEmpty": true,
             "documentation": "The document ID of the subject that received the transferred entity.",
-            "must_refer_to_document_class": ""
+            "must_refer_to_document_class": "subject"
         },
         {
             "name": "donor_id",
             "mustBeNonEmpty": false,
             "documentation": "The document ID of the subject from which the entity was transferred, if applicable.",
-            "must_refer_to_document_class": ""
+            "must_refer_to_document_class": "subject"
         }
     ],
     "file": [],

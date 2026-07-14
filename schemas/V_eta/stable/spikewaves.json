@@ -14,7 +14,7 @@
             "name": "element_id",
             "mustBeNonEmpty": true,
             "documentation": "The document ID of the element (e.g., probe) from which spikes were extracted.",
-            "must_refer_to_document_class": ""
+            "must_refer_to_document_class": "subject"
         },
         {
             "name": "spike_extraction_parameters_id",

@@ -17,7 +17,7 @@
             "name": "daqmetadatareader_id",
             "mustBeNonEmpty": true,
             "documentation": "The document ID of the DAQ metadata reader whose epoch data has been ingested.",
-            "must_refer_to_document_class": ""
+            "must_refer_to_document_class": "daqmetadatareader"
         }
     ],
     "file": [],

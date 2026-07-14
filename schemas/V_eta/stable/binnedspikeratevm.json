@@ -14,7 +14,7 @@
             "name": "element_id",
             "mustBeNonEmpty": true,
             "documentation": "The document ID of the neuron element this binned spike rate was computed from.",
-            "must_refer_to_document_class": ""
+            "must_refer_to_document_class": "subject"
         }
     ],
     "file": [

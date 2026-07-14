@@ -14,7 +14,7 @@
             "name": "underlying_element_id",
             "mustBeNonEmpty": false,
             "documentation": "The document ID of the underlying element, if this element derives from another.",
-            "must_refer_to_document_class": ""
+            "must_refer_to_document_class": "subject"
         },
         {
             "name": "subject_id",

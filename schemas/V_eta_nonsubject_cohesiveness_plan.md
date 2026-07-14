@@ -170,11 +170,22 @@ drafted this way. Mostly mechanical.
 The classes kept in 2.A carry pre-J shapes. Bringing them to J standard:
 
 **Do-now (schema-side, no NDI dependency):**
-- **Type every dependency** — add `must_refer_to_document_class` to
-  `daqsystem.{filenavigator_id, daqreader_id}`, `daqmetadatareader.daqsystem_id`,
-  `syncgraph.syncrule_id_#`, `syncrule_mapping.{syncrule_id, epochid}`,
-  `daqmetadatareader_epochdata_ingested.daqmetadatareader_id`. Currently all
-  unset, so references are unvalidated.
+- **Type every dependency** — ✅ **DONE** (`build_v_eta.py` §8c). Typed the unset
+  `must_refer_to_document_class` on the unambiguous references: element / probe /
+  device / agent refs (`element_id`, `underlying_element_id`, `probe_id`,
+  `stimulator_id`, `recipient_id`, `donor_id`) → **`subject`** (44 deps —
+  completing the element retirement, since the 8b rename only caught the ones
+  already typed `element`), and the surviving acquisition classes
+  (`filenavigator_id`, `daqreader_id`, `daqsystem_id`, `daqmetadatareader_id`,
+  `syncrule_id[_#]`) → their class. References into families still being
+  restructured (stimulus, calc, spike sorting) are left untyped until those
+  settle. `syncrule_mapping.epochid` has no clean document target (epoch is not a
+  standalone doc) and is left untyped.
+- ~~Fix questionable ontology tags~~ — **withdrawn (false alarm):**
+  `epochid.epochid` / `epochfiles_ingested.epoch_id` carry `iao:0000578`
+  ("centrally registered identifier"), which is a correct *field-concept*
+  annotation (the field holds an identifier), not a claim that the value is an
+  ontology term. No change.
 - **Declare the shapes** — `filenavigator.fileparameters` /
   `epochprobemap_fileparameters` / `epochprobemap`, `syncrule.parameters`,
   `daqmetadatareader.{metadata_names, tab_separated_file_parameter}`,
