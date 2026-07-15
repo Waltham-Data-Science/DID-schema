@@ -481,6 +481,21 @@ write("stable", "dataset", doc("dataset", ["entity"], fields=[
     field("license", "char", "License.", non_empty=False),
     field("release_date", "char", "Release date.", non_empty=False)]))
 
+# session JOINS the entity genus. A recording session is the most-referenced
+# identity in the schema (base.session_id is on nearly every document) and is
+# exactly a "referenceable identity other docs point at" — so it belongs with
+# subject/dataset/person as an `entity`, gaining `global_identifier` (a cloud /
+# DANDI session id has a home) and, crucially, becoming a valid directed_relation
+# endpoint. That is what lets the session<->dataset membership (the legacy
+# `session_in_a_dataset` / `dataset_session_info` bundles) become a first-class
+# `directed_relation` (session -part_of-> dataset) rather than a loose char id, and
+# session provenance (session -derived_from-> session) become a relation too. Only
+# the superclass changes — every existing `session_id` dep still resolves
+# (must_refer is declarative), so there is no blast radius.
+sess = load(os.path.join(VETA, "stable", "session.json"))
+sess["document_class"]["superclasses"] = [{"class_name": "entity"}]
+write("stable", "session", sess)
+
 
 # ---------- 6. (value_set removed) ----------
 # The `value_set` document class is DROPPED: it was orphaned (nothing referenced
@@ -718,6 +733,49 @@ with open(os.path.join(VETA, "stable", "did_schema_meta.json"), "w") as f:
 
 # ---------- 13. binding-registry meta-file + kind-variable set (D9) ----------
 
+# ---------- D6 relation vocabulary ----------
+# The admissible directed_relation / undirected_relation terms. `directed_relation.
+# relation` carries an ontology_term whose `name` is one of these; the schema field
+# is free-form (validated as an ontology_term, not against this list), so this
+# registry is the SINGLE enumerated source of truth for consumer tooling and the D6
+# curation. `node` = backing CURIE (RO/BFO where a standard term exists; "" = open
+# curation slot). `child`/`parent` gloss the edge (child --name--> parent).
+def _rel(name, node, category, child, parent, *, timed=False, ordered=False):
+    return {"name": name, "node": node, "category": category,
+            "child": child, "parent": parent, "timed": timed, "ordered": ordered}
+
+RELATION_VOCABULARY = [
+    # containment / structure
+    _rel("part_of", "BFO:0000050", "containment", "the part", "the whole"),
+    _rel("contained_in", "RO:0001018", "containment", "the contained", "the container"),
+    _rel("member_of", "RO:0002350", "containment", "the member", "the group"),
+    # provenance / creation (timed: the creation event may carry a time_reference)
+    _rel("derived_from", "RO:0001000", "provenance", "the derivative", "the source",
+         timed=True),
+    _rel("sample_of", "", "provenance", "the sample", "the sampled source", timed=True),
+    _rel("aliquot_of", "", "provenance", "the aliquot", "the parent quantity", timed=True),
+    _rel("passage_of", "", "provenance", "the passage", "the parent culture", timed=True),
+    # agent / instrument role
+    _rel("observes", "", "agent_role", "the instrument-subject", "the observed specimen"),
+    # event
+    _rel("encountered", "", "event", "the encountering subject",
+         "the encountered subject", timed=True),
+    # bibliographic (entity layer)
+    _rel("has_author", "", "bibliographic", "the dataset", "the author (person)",
+         ordered=True),
+    _rel("cites", "", "bibliographic", "the citing dataset", "the cited publication"),
+    # funding (entity layer)
+    _rel("funded_by", "", "funding", "the funded dataset", "the award"),
+    _rel("issued_by", "", "funding", "the award", "the issuing organization"),
+    # affiliation (entity layer)
+    _rel("affiliated_with", "", "affiliation", "the person", "the organization"),
+    # reference / storage (entity layer)
+    _rel("documented_by", "", "reference", "the documented entity", "the web_resource"),
+    _rel("stored_at", "", "storage", "the stored dataset",
+         "the web_resource location of the remote copy"),
+    _rel("hosted_by", "", "storage", "the web_resource", "the hosting organization"),
+]
+
 binding_registry = {
     "$schema": "http://json-schema.org/draft-07/schema#",
     "$id": "https://did-schema.example.org/meta/binding_registry_meta.json",
@@ -740,10 +798,17 @@ binding_registry = {
          "root": "UBERON:0000105", "source": "UBERON"},
     ],
     "bindings": [],
+    "relation_vocabulary": RELATION_VOCABULARY,
     "notes": "Corpus-derived variable->value_set bindings are added during "
              "discovery (D3/D6). The kind_variables list makes the subject-kind "
              "ingestion invariant precise; a subject is expected to carry >=1 "
-             "term_assertion whose variable is in this set (checked at ingest).",
+             "term_assertion whose variable is in this set (checked at ingest). "
+             "relation_vocabulary enumerates the admissible directed_relation / "
+             "undirected_relation terms (D6): the value carried on "
+             "`directed_relation.relation` is a member of this set. `node` is the "
+             "backing ontology CURIE (RO/BFO where one exists; \"\" = an open D6 "
+             "curation slot, not yet mapped). `child`/`parent` gloss the edge "
+             "direction (child --name--> parent).",
 }
 with open(os.path.join(VETA, "stable", "binding_registry_meta.json"), "w") as f:
     json.dump(binding_registry, f, indent=4)

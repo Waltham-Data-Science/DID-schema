@@ -213,7 +213,7 @@ def test_relation_branch():
 def test_entity_genus():
     assert RECORDS["entity"][1]["document_class"].get("abstract") is True
     for e in ("subject", "person", "organization", "publication", "award",
-              "dataset", "web_resource"):
+              "dataset", "web_resource", "session"):
         assert "entity" in _chain(e), f"{e} should descend from entity"
     # directed_relation endpoints are entities now, not just subjects
     dr = {d["name"]: d for d in RECORDS["directed_relation"][1]["depends_on"]}
@@ -343,3 +343,17 @@ def test_binding_registry_meta_present():
     assert all("root" in k and "value_set" in k for k in reg["kind_variables"])
     in_index = {e["class_name"]: e for e in INDEX["schemas"]}
     assert in_index["binding_registry_meta"].get("is_meta") is True
+
+
+def test_relation_vocabulary_present():
+    """D6: the binding registry enumerates the admissible directed/undirected
+    relation terms — the single source of truth for `directed_relation.relation`
+    values (subject-side + entity-side), each with a category and edge gloss."""
+    reg = _load(os.path.join(VETA, "stable", "binding_registry_meta.json"))
+    vocab = {r["name"]: r for r in reg["relation_vocabulary"]}
+    # the subject-side terms the migrators already emit + the new entity-layer terms
+    for term in ("part_of", "member_of", "derived_from", "observes", "encountered",
+                 "has_author", "funded_by", "issued_by", "affiliated_with", "cites",
+                 "documented_by", "stored_at", "hosted_by"):
+        assert term in vocab, f"{term} missing from relation_vocabulary"
+    assert all({"node", "category", "child", "parent"} <= set(r) for r in vocab.values())

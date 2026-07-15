@@ -36,5 +36,160 @@
         }
     ],
     "bindings": [],
-    "notes": "Corpus-derived variable->value_set bindings are added during discovery (D3/D6). The kind_variables list makes the subject-kind ingestion invariant precise; a subject is expected to carry >=1 term_assertion whose variable is in this set (checked at ingest)."
+    "relation_vocabulary": [
+        {
+            "name": "part_of",
+            "node": "BFO:0000050",
+            "category": "containment",
+            "child": "the part",
+            "parent": "the whole",
+            "timed": false,
+            "ordered": false
+        },
+        {
+            "name": "contained_in",
+            "node": "RO:0001018",
+            "category": "containment",
+            "child": "the contained",
+            "parent": "the container",
+            "timed": false,
+            "ordered": false
+        },
+        {
+            "name": "member_of",
+            "node": "RO:0002350",
+            "category": "containment",
+            "child": "the member",
+            "parent": "the group",
+            "timed": false,
+            "ordered": false
+        },
+        {
+            "name": "derived_from",
+            "node": "RO:0001000",
+            "category": "provenance",
+            "child": "the derivative",
+            "parent": "the source",
+            "timed": true,
+            "ordered": false
+        },
+        {
+            "name": "sample_of",
+            "node": "",
+            "category": "provenance",
+            "child": "the sample",
+            "parent": "the sampled source",
+            "timed": true,
+            "ordered": false
+        },
+        {
+            "name": "aliquot_of",
+            "node": "",
+            "category": "provenance",
+            "child": "the aliquot",
+            "parent": "the parent quantity",
+            "timed": true,
+            "ordered": false
+        },
+        {
+            "name": "passage_of",
+            "node": "",
+            "category": "provenance",
+            "child": "the passage",
+            "parent": "the parent culture",
+            "timed": true,
+            "ordered": false
+        },
+        {
+            "name": "observes",
+            "node": "",
+            "category": "agent_role",
+            "child": "the instrument-subject",
+            "parent": "the observed specimen",
+            "timed": false,
+            "ordered": false
+        },
+        {
+            "name": "encountered",
+            "node": "",
+            "category": "event",
+            "child": "the encountering subject",
+            "parent": "the encountered subject",
+            "timed": true,
+            "ordered": false
+        },
+        {
+            "name": "has_author",
+            "node": "",
+            "category": "bibliographic",
+            "child": "the dataset",
+            "parent": "the author (person)",
+            "timed": false,
+            "ordered": true
+        },
+        {
+            "name": "cites",
+            "node": "",
+            "category": "bibliographic",
+            "child": "the citing dataset",
+            "parent": "the cited publication",
+            "timed": false,
+            "ordered": false
+        },
+        {
+            "name": "funded_by",
+            "node": "",
+            "category": "funding",
+            "child": "the funded dataset",
+            "parent": "the award",
+            "timed": false,
+            "ordered": false
+        },
+        {
+            "name": "issued_by",
+            "node": "",
+            "category": "funding",
+            "child": "the award",
+            "parent": "the issuing organization",
+            "timed": false,
+            "ordered": false
+        },
+        {
+            "name": "affiliated_with",
+            "node": "",
+            "category": "affiliation",
+            "child": "the person",
+            "parent": "the organization",
+            "timed": false,
+            "ordered": false
+        },
+        {
+            "name": "documented_by",
+            "node": "",
+            "category": "reference",
+            "child": "the documented entity",
+            "parent": "the web_resource",
+            "timed": false,
+            "ordered": false
+        },
+        {
+            "name": "stored_at",
+            "node": "",
+            "category": "storage",
+            "child": "the stored dataset",
+            "parent": "the web_resource location of the remote copy",
+            "timed": false,
+            "ordered": false
+        },
+        {
+            "name": "hosted_by",
+            "node": "",
+            "category": "storage",
+            "child": "the web_resource",
+            "parent": "the hosting organization",
+            "timed": false,
+            "ordered": false
+        }
+    ],
+    "notes": "Corpus-derived variable->value_set bindings are added during discovery (D3/D6). The kind_variables list makes the subject-kind ingestion invariant precise; a subject is expected to carry >=1 term_assertion whose variable is in this set (checked at ingest). relation_vocabulary enumerates the admissible directed_relation / undirected_relation terms (D6): the value carried on `directed_relation.relation` is a member of this set. `node` is the backing ontology CURIE (RO/BFO where one exists; \"\" = an open D6 curation slot, not yet mapped). `child`/`parent` gloss the edge direction (child --name--> parent)."
 }

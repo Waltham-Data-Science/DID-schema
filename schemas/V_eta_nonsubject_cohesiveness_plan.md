@@ -390,7 +390,7 @@ references, covered by pattern), the undiscussed holdovers and their disposition
 | **spike-sorting** (`spikewaves`, `spike_clusters`, `vmspikesummary`, `binnedspikeratevm`, `*_extraction/sorting_parameters`, `vmneuralresponseresiduals`, `site2channelmap`, …) | 11 | **→ D-C (analysis tier).** Same decomposition: scalars (`mean_firing_rate`→`frequency_observation`, `mean_vm`→`voltage_observation`) → observations; `spikewaves`/`binnedspikeratevm` → `data_body`; a sorted **cluster → a derived subject** (grain B); `*_parameters` → `method`/D10 `parameters`. |
 | data-representation (`ephys_zarr`, `image_zarr`, `image_collection`, `dataseries_pyramid`, `dataseries_channel_map`, `binaryseries_parameters`, `ngrid`, `pyraview`) | 8 | array/blob reps → `data_body`/`opaque_body` (**2.D**); `ngrid`/`*_channel_map`/`binaryseries_parameters` → kept **index/geometry infra** (governance-only). |
 | acquisition/epoch infra (`daq*_epochdata_ingested`, `daqreader_ndr`, `epochclocktimes`, `oneepoch`, `valid_interval`, `session_extent`) | 7 | **→ D-A** governance umbrella (kept as infra; type deps, declare shapes). Enumerated here so they are no longer implicit. |
-| dataset/session infra (`dataset_remote`, `dataset_session_info`, `session_in_a_dataset`) | 3 | **→ D-A** (kept as infra, like `session`). |
+| dataset/session infra (`dataset_remote`, `dataset_session_info`, `session_in_a_dataset`) | 3 | **→ DISSOLVE to relations (D-F).** `session` joins the `entity` genus, so session↔dataset membership is a first-class `directed_relation` (`session -part_of-> dataset`, `sequence`=index), and the remote copy is `dataset -stored_at-> web_resource -hosted_by-> organization`. See §D-F. |
 | misc NDI | 11 | **triage — on inspection, ZERO safe deletions** (the audit's "delete cruft" was wrong; all are load-bearing): `demo_ndi`/`demo_ndi_mock` are recognized `did_v1` source classes (`demoNDI`/`demoNDIMock` renames) **and** migration-test fixtures (`testConvertV1ToV2`); `projectvar` is a **live NDI class** (`projectvardef.m`); `image_stack_parameters` is read by the **active `image_stack` migrator** + tests → **KEEP all four**. **J-ify measurements → needs-NDI** (not cleanup): `electrode_offset_voltage` (→ `voltage_observation`) and `probe_geometry` (→ observation/`data_body`) are **live NDI classes** (`makeVoltageOffsets.m`, `plotProbeGeometry.m`, `site2channelmap`); reshaping needs a coordinated NDI writer + migrator change → moved to the needs-NDI list. Keep true infra (`directory`, `ndi_reserved_keys`, `metadata_editor`, `interaction_purpose`). |
 | genomics/data-format (`expression_matrix_data_*`, `reference_*`, `sequence_read_data_*`, `timeseries_data_*`, …) | 32 | already **= 2.D** (draft `data_body` subtypes). |
 
@@ -402,9 +402,48 @@ all are kept. **Open items** left: the D3/D6 term mapping; the two probe-measure
 J-ifications (`electrode_offset_voltage`, `probe_geometry` → needs-NDI); and the
 per-class spike-sorting decomposition detail (to be written when D-C is implemented).
 
+## D-F — Entity model: dataset metadata + the dataset/session containers
+
+The metadata redesign (this session) makes referenceable identities a genus,
+`entity`, over `subject`, `person`, `organization`, `publication`, `award`,
+`dataset`, `web_resource`, and now **`session`**. Each carries a
+`global_identifier[]` {scheme, value}; all cross-entity relationships are
+`directed_relation`s at the entity layer, enumerated in the D6 **relation
+vocabulary** (`binding_registry_meta.json → relation_vocabulary`).
+
+**Decided target models:**
+
+- **`metadata_editor` → dataset entity + relations** — DONE (`migrators_j/
+  metadata_editor.m`): the NDIMetaDataEditorApp `metadata_structure` blob → a
+  `dataset` + `person`/`organization`/`award`/`publication`/`web_resource` entities
+  + `has_author`(seq)/`affiliated_with`/`funded_by`/`issued_by`/`cites`/
+  `documented_by` edges. Projections (species/technique lists) and GUI state dropped.
+- **`session` ⊂ `entity`** — DONE (schema): the most-referenced identity gains
+  `global_identifier` and becomes a valid relation endpoint. No blast radius —
+  existing `session_id` deps still resolve (must_refer is declarative).
+- **`session_in_a_dataset` / `dataset_session_info` → `session -part_of-> dataset`**
+  — DECIDED, migrator DEFERRED. The membership is a `directed_relation`
+  (`sequence`=session index); `is_linked` rides the edge; `session_creator*` is
+  session-construction provenance. Deferred because the `dataset` parent must
+  resolve to a real `dataset` entity, and today only editor-metadata datasets mint
+  one → needs the **bare-`dataset`-per-dataset** decision + a cross-doc second-pass
+  resolver (same shape as Path-S subject minting / the deferred-bath pass).
+- **`dataset_remote` → `dataset -stored_at-> web_resource -hosted_by-> organization`**
+  — DECIDED, migrator DEFERRED. The cloud id + `remote_type` become the
+  web_resource's `global_identifier` {scheme, value}; the remote org is a
+  `hosted_by` edge. Deferred for the same cross-doc reason (`dataset_remote`
+  carries no dep on its local dataset — the link is by co-location, so a second
+  pass supplies the `stored_at` parent).
+
+**Blocking sub-decision for the two deferred dissolutions:** does *every* dataset
+get a minted bare `dataset` entity (so session/remote edges always resolve), or
+only datasets with editor metadata (leaving editor-less datasets' containers as
+un-dissolved infra)? This is separable and is the next call on this track.
+
 ---
 
 *Companion to `V_eta_migration_plan.md`. The subject-side work (the original plan
 D1–D11) is unaffected; this plan extends cohesiveness to the non-subject half so
-V_eta can be promoted to `V1` as one coherent schema. Decisions D-A…D-E resolved;
-Part 5 closes full-schema coverage.*
+V_eta can be promoted to `V1` as one coherent schema. Decisions D-A…D-F resolved
+(D-F migrators partially deferred on the bare-dataset-entity call); Part 5 closes
+full-schema coverage.*

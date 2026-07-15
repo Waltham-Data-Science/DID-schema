@@ -2257,7 +2257,7 @@
             "maturity_level": "stable",
             "superclasses": [
                 {
-                    "class_name": "base"
+                    "class_name": "entity"
                 }
             ],
             "path": "schemas/V_eta/stable/session.json"
