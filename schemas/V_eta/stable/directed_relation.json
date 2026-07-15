@@ -25,7 +25,7 @@
         {
             "name": "time_reference_#",
             "mustBeNonEmpty": false,
-            "documentation": "Optional: when an EVENT relation happened (e.g. `encountered`), as one or more time_reference anchors \u2014 so an event-relation can be the timestamped record. Empty for timeless relations (part_of, derived_from). (D10 multi-party binding.)",
+            "documentation": "Optional: when an EVENT relation happened (e.g. `encountered`, or a `derived_from` creation event), as one or more time_reference anchors \u2014 so an event-relation can be the timestamped record you anchor other times against (an `event_relative_reference`). Empty for timeless relations (part_of). (D10 multi-party binding.)",
             "must_refer_to_document_class": "time_reference",
             "multiple": true
         }
@@ -49,6 +49,25 @@
             "queryable": true,
             "ontology": null,
             "documentation": "The specific relationship as an enumerated ontology term (RO-backed). directed: part_of/contained_in/member_of (containment) or derived_from/aliquot_of/sample_of/passage_of (provenance). V_eta declares the corpus-exercised minimum (D6).",
+            "constraints": {}
+        },
+        {
+            "name": "method",
+            "type": "ontology_term",
+            "blank_value": {
+                "node": "",
+                "name": ""
+            },
+            "default_value": {
+                "node": "",
+                "name": ""
+            },
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Optional: the procedure that produced a provenance/creation relation \u2014 the `how` (surgical_dissection, cell_culture_passage, biological_pooling, biological_reproduction, aliquoting, \u2026). This absorbs the retired `derivation` class's `derivation_method`: a timed `derived_from`/`sample_of`/\u2026 relation with a `method` and a `time_reference` IS the creation event (e.g. a birth = `derived_from` + method `biological_reproduction`), so there is no separate manipulation-tier derivation document. Empty for standing structural relations (part_of, member_of).",
             "constraints": {}
         }
     ]

@@ -847,18 +847,6 @@
             "path": "schemas/V_eta/stable/demo_ndi_mock.json"
         },
         {
-            "class_name": "derivation",
-            "tier": "stable",
-            "class_version": "1.0.0",
-            "maturity_level": "stable",
-            "superclasses": [
-                {
-                    "class_name": "subject_manipulation"
-                }
-            ],
-            "path": "schemas/V_eta/stable/derivation.json"
-        },
-        {
             "class_name": "directed_relation",
             "tier": "stable",
             "class_version": "1.0.0",

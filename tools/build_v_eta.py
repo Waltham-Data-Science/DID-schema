@@ -138,7 +138,8 @@ for d in DIMS:
     RENAME[f"scalar_{d}_observation"] = f"{d}_observation"
 
 # classes deleted outright; when they appear as a superclass, replace per SUPER_SUB
-DELETE = {"scalar_observation", "scalar_manipulation", "annotation", "group_assignment"}
+DELETE = {"scalar_observation", "scalar_manipulation", "annotation", "group_assignment",
+          "derivation"}
 SUPER_SUB = {"scalar_observation": "subject_observation",
              "scalar_manipulation": "subject_manipulation"}
 
@@ -360,18 +361,29 @@ REL_TERM = field("relation", "ontology_term",
                  "(containment) or derived_from/aliquot_of/sample_of/passage_of "
                  "(provenance). V_eta declares the corpus-exercised minimum (D6).",
                  non_empty=True)
+REL_METHOD = field("method", "ontology_term",
+                   "Optional: the procedure that produced a provenance/creation "
+                   "relation — the `how` (surgical_dissection, cell_culture_passage, "
+                   "biological_pooling, biological_reproduction, aliquoting, …). This "
+                   "absorbs the retired `derivation` class's `derivation_method`: a "
+                   "timed `derived_from`/`sample_of`/… relation with a `method` and a "
+                   "`time_reference` IS the creation event (e.g. a birth = "
+                   "`derived_from` + method `biological_reproduction`), so there is no "
+                   "separate manipulation-tier derivation document. Empty for standing "
+                   "structural relations (part_of, member_of).", non_empty=False)
 write("stable", "directed_relation",
       doc("directed_relation", ["subject_relation"],
           deps=[dep("child", "subject", "The finer/subordinate subject (a part, "
                     "member, or derivative)."),
                 dep("parent", "subject", "The whole, group, or source subject."),
                 dep("time_reference_#", "time_reference",
-                    "Optional: when an EVENT relation happened (e.g. `encountered`), "
-                    "as one or more time_reference anchors — so an event-relation can "
-                    "be the timestamped record. Empty for timeless relations "
-                    "(part_of, derived_from). (D10 multi-party binding.)",
+                    "Optional: when an EVENT relation happened (e.g. `encountered`, or "
+                    "a `derived_from` creation event), as one or more time_reference "
+                    "anchors — so an event-relation can be the timestamped record you "
+                    "anchor other times against (an `event_relative_reference`). Empty "
+                    "for timeless relations (part_of). (D10 multi-party binding.)",
                     non_empty=False, multiple=True)],
-          fields=[REL_TERM]))
+          fields=[REL_TERM, REL_METHOD]))
 write("stable", "undirected_relation",
       doc("undirected_relation", ["subject_relation"],
           deps=[dep("subjects", "subject", "The unordered pair of subjects "
@@ -894,6 +906,37 @@ for tier in TIERS:
             with open(p, "w") as f:
                 json.dump(d, f, indent=4)
                 f.write("\n")
+
+
+# ---------- 8e. broaden event anchors for the derivation fold ----------------
+# Retiring `derivation` (folded into directed_relation) means a creation/birth
+# event is now a `directed_relation` (a subject_relation), NOT a subject_interaction.
+# The event_* references anchor to `subject_interaction`; broaden them to also
+# accept a `directed_relation` so developmental anchoring (e.g. "P25" =
+# event_relative against the biological_reproduction event) still resolves.
+# must_refer_to_document_class is comma-separated (a union of accepted classes).
+EVENT_ANCHOR = {
+    "event_relative_reference": "reference_event",
+    "event_bounded_reference": "bounding_event",
+}
+for cls, depname in EVENT_ANCHOR.items():
+    tier, p = path_of(cls)
+    if not p:
+        continue
+    d = load(p)
+    changed = False
+    for dep_ in d.get("depends_on", []):
+        if dep_.get("name") == depname:
+            cur = dep_.get("must_refer_to_document_class", "")
+            toks = [t for t in cur.split(",") if t]
+            if "directed_relation" not in toks:
+                toks.append("directed_relation")
+                dep_["must_refer_to_document_class"] = ",".join(toks)
+                changed = True
+    if changed:
+        with open(p, "w") as f:
+            json.dump(d, f, indent=4)
+            f.write("\n")
 
 
 # ---------- 9. regenerate index.json ----------

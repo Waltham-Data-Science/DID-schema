@@ -14,7 +14,7 @@
             "name": "reference_event",
             "mustBeNonEmpty": true,
             "documentation": "The interaction event that the offsets are measured from.",
-            "must_refer_to_document_class": "subject_interaction"
+            "must_refer_to_document_class": "subject_interaction,directed_relation"
         }
     ],
     "file": [],

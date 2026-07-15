@@ -184,47 +184,47 @@ don't defer wholesale:
 
 **Retire the per-analysis class zoo** (`tuningcurve_calc`, `oridirtuning_calc`,
 `contrast_/speed_/spatial_/temporal_frequency_tuning_calc`, `hartley_calc`,
-`tuning_fit`, `fitcurve`, …) → the single provenance shape parameterized by the
-algorithm *term*. This is the same anti-proliferation move J made on the
-observation leaf tier (the `scalar_`/`dataseries_`/`imageseries_` split → one
-class per data type).
+`tuning_fit`, `fitcurve`, …) → observations + `data_body` + the existing relation
+primitive. This is the same anti-proliferation move J made on the observation leaf
+tier (the `scalar_`/`dataseries_`/`imageseries_` split → one class per data type).
 
-#### D-C scope — **PROPOSED (pending final approval)**
+#### D-C scope — **PROPOSED (partly settled; grain still open)**
 
-*Locked this session:* store the **full curves as `data_body`** in this pass (not
-projections); do the **tuning family first** (`tuningcurve_calc`, `oridirtuning_calc`
-+ the `*_tuning` result classes, ~130 corpus docs — the shared `orientation_direction_tuning`
+*Locked this session:* store the **full curves as `data_body`** (not projections);
+do the **tuning family first** (`tuningcurve_calc`, `oridirtuning_calc` + the
+`*_tuning` result classes, ~130 corpus docs — the shared `orientation_direction_tuning`
 shape), deferring `hartley_calc` / `reverse_correlation` (RF maps = big spatial
 data, → the 2.D data-fold) and the generic fits (`fitcurve` / `vmspikefit`).
 
-*Correction — the genus is NOT `derivation`.* The existing `derivation` class is
-**subject** provenance (`⊂ subject_manipulation`, `source_subject_id_#` → **subject**,
-`derivation_method`; a slice cut from an animal). A computation's output is a
-*measurement* (not a subject) and its inputs are *documents* (a `stimulus_response_scalar`,
-not a subject), so `directed_relation`/`derived_from` (subject→subject) cannot
-express it. **Proposed genus (name pending):** a concrete leaf **under the existing
-abstract `calculator`** (`base + app`) — provisionally **`calculation`** (alt:
-`analysis` / `derived_measure`):
+*No provenance genus — superseded.* An earlier proposal minted a `calculation` leaf
+(under the pre-J NDI `calculator`) to hold `source_document_id_#` links. **Rejected:**
+that reinvents `directed_relation`/`derived_from`, which is J's provenance primitive
+(see **D-E**). And `calculator` is itself a pre-J NDI-app artifact J means to
+dissolve, not a genus to build on. So the decomposition uses **only** existing
+primitives:
 
-```
-calculation  ⊂ calculator                      // base + app (app_name = the software)
-  depends_on: source_document_id_#  → ""        // the input docs (heterogeneous), required
-  fields:     algorithm : ontology_term          // empirical_maximum | double_gaussian_fit | …
-              input_parameters : structure        // (inherited) params, log, fit_equation, sse
-```
+- **Interpretable scalars → `*_observation`s** (`angle_`/`score_observation`), with
+  `subject_interaction.method` = the algorithm term (`empirical_maximum`,
+  `double_gaussian_fit`). No new class; "computed, not directly measured" is the
+  `method`. Qualifiers (`coordinates`, `response_type`) → D10 `parameters`.
+- **Curves → `data_body`** (a `dataseries_observation` + `sampled_body` indexed by
+  the independent variable): the empirical tuning curve and the fit curve.
+- **Provenance → `directed_relation(derived_from)`** — but only at the *subject*
+  grain, which is the open decision below.
 
-*Fan-out of one jammed doc* (`oridirtuning_calc`, 42 docs):
-`1 calculation` (algorithm + params + `source_document_id →` `stimulus_response_scalar`)
-`+ angle_observation ×3` (orientation/direction preference, `hwhh`)
-`+ score_observation ×N` (circular variance, OSI/DSI, the ANOVA p-values, hotelling²,
-ratios) — all on the neuron-subject —
-`+ data_body ×2` (raw tuning curve + double-gaussian fit curve).
-Each observation links to its `calculation` via a proposed optional
-`derived_by_id → calculation` on `subject_interaction` (parallel to `instrument_id`);
-each `data_body` points back at the `calculation`. **Open:** confirm the genus name
-and this shape; the scalar→ontology-term mapping (which term for OSI, circular
-variance, the p-values) is D3/D6 term curation, seeded heuristically then refined
-in discovery.
+*Open — the grain (shown to the user both ways on `oridirtuning_calc`):*
+  - **(A) observations on the neuron** — the scalars/curves hang off the existing
+    neuron subject; `method` marks them computed; **no** relation (one subject).
+    Leanest; fits "measured property of the neuron." ~14 docs.
+  - **(B) a derived subject + `derived_from`** — mint the tuning result as its own
+    subject `T`, `directed_relation(child=T, parent=neuron, relation=derived_from)`;
+    scalars/curves hang off `T`. First-class identity, explicit provenance edge;
+    +3 docs/result, biology one hop off the neuron.
+  Recommendation: **A by default, escalate to B only when the result earns identity**
+  (referenced downstream / published) — J's own "cheap representation until it earns
+  full identity" ladder (`Multiresolution_Read_Proposal`). The scalar→ontology-term
+  mapping (OSI, circular variance, the p-values) is D3/D6 term curation, seeded
+  heuristically then refined in discovery.
 
 ### 2.D Genomics / data-format  *(dataseries, timeseries, imageseries, expression_matrix, sequence_read, reference_\*)*  — **FOLD to `data_body`**
 
@@ -332,13 +332,27 @@ DID-matlab (migrators) + tests, validated by the quick CI then the full corpus.
   bodies-of-record (already 0-quarantine) and types the settled
   `stimulus_presentation_id` edge (§8d). Note: `derived_from` cannot point at a
   presentation (not a subject); stimulus context rides on `stimulus_presentation_id`.
-- **D-C** Analysis/calc — **RESOLVED + scoped (impl pending approval):** decompose —
-  interpretable scalars → `*_observation`s on the subject; curves → **`data_body`**
-  (full, not projection); provenance → ONE generic genus **under `calculator`**
-  (provisionally **`calculation`**, name pending — NOT `derivation`, which is
-  subject-lineage); retire the per-analysis class zoo. Scope: **tuning family
-  first** (~130 docs); `hartley`/`reverse_correlation` + generic fits deferred. See
-  §2.C "D-C scope". Open: genus name + shape confirmation; scalar→term mapping (D3/D6).
+- **D-C** Analysis/calc — **RESOLVED + scoped (grain open):** decompose —
+  interpretable scalars → `*_observation`s (with `method` = the algorithm); curves →
+  **`data_body`** (full, not projection); provenance → **`directed_relation(derived_from)`**
+  (per D-E — **no** `calculation`/`calculator` genus; that was rejected as reinventing
+  the relation primitive and building on pre-J NDI cruft); retire the per-analysis
+  class zoo. Scope: **tuning family first** (~130 docs); `hartley`/`reverse_correlation`
+  + generic fits deferred. See §2.C "D-C scope". Open: the **grain** — observations
+  on the neuron (default) vs. a derived subject + `derived_from` (on escalation); and
+  the scalar→term mapping (D3/D6).
+- **D-E** `derivation` ↔ `directed_relation` redundancy — **RESOLVED (fold):**
+  `derivation` (a V_epsilon/Brainstorm-E holdover) duplicated
+  `directed_relation`'s provenance verbs (`derived_from`/`sample_of`/`aliquot_of`/
+  `passage_of`) — a derivation doc was just a timed `derived_from` edge plus a
+  `method`. **Retire `derivation`; fold into `directed_relation`** (`build_v_eta.py`:
+  add to DELETE; add optional `method` field carrying the ex-`derivation_method`
+  vocabulary; broaden `event_relative_reference`/`event_bounded_reference` anchors to
+  `subject_interaction,directed_relation` so developmental anchoring — "P25" against
+  the `biological_reproduction` event — still resolves now that the birth event is a
+  relation, not an interaction). Zero corpus impact (nothing minted `derivation`).
+  `test_veta` 553 pass. A birth is now `derived_from` + `method: biological_reproduction`
+  + a `time_reference`; a dissection `sample_of` + `method: surgical_dissection`.
 - **D-D** Round-trip — **RESOLVED (principle):** adopt J's *drop-fully-with-projection*
   — decompose bundles, store no provenance copy, reconstruct openMINDS/element
   *views* as query-time projections. The stricter "byte-exact `did_v1`

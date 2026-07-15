@@ -14,7 +14,7 @@
             "name": "bounding_event",
             "mustBeNonEmpty": true,
             "documentation": "The interaction event whose extent bounds this reference. Must have interval extent.",
-            "must_refer_to_document_class": "subject_interaction"
+            "must_refer_to_document_class": "subject_interaction,directed_relation"
         }
     ],
     "file": [],
