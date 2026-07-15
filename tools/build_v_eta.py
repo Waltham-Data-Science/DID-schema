@@ -939,6 +939,43 @@ for cls, depname in EVENT_ANCHOR.items():
             f.write("\n")
 
 
+# ---------- 12. data genus (Q2): data -> {data_type, data_body} ---------------
+# The quantity composites (angle, voltage, …) were flat `⊂ base`, and the data
+# families (data_body vs the ⊂base genomics/series families) were fragmented.
+# Introduce a `data` genus: data_type (the value-type composites) and data_body
+# (bulk storage) both descend from it. Reparent the numeric composites under
+# data_type and data_body under data. (Folding the genomics/series families under
+# data_body is deferred pending the reference-role redesign — Q3.)
+write("stable", "data", doc("data", ["base"], abstract=True, fields=[]))
+write("stable", "data_type",
+      doc("data_type", ["data"], abstract=True, fields=[]))
+DATA_TYPES = list(DIMS) + [n for n, _ in NUMERIC_SEED]
+for name in DATA_TYPES:
+    p = os.path.join(VETA, "stable", name + ".json")
+    if not os.path.exists(p):
+        continue
+    d = load(p)
+    d["document_class"]["superclasses"] = [{"class_name": "data_type"}]
+    with open(p, "w") as f:
+        json.dump(d, f, indent=4); f.write("\n")
+for tier in ("stable", "draft"):
+    p = os.path.join(VETA, tier, "data_body.json")
+    if os.path.exists(p):
+        d = load(p)
+        d["document_class"]["superclasses"] = [{"class_name": "data"}]
+        with open(p, "w") as f:
+            json.dump(d, f, indent=4); f.write("\n")
+
+# manipulation leaves for the IMPOSABLE subset of data_types (Q2). Observations /
+# assertions apply to any measurable quantity; a manipulation only exists for a
+# quantity an experimenter can IMPOSE. V_zeta shipped temperature/pressure/
+# frequency/intensity; add the electrophysiology/mechanics imposables. (velocity,
+# power, ph, angular_velocity are candidates left off pending confirmation.)
+for name in ["voltage", "current", "force", "concentration"]:
+    write("stable", name + "_manipulation",
+          doc(name + "_manipulation", ["subject_manipulation", name]))
+
+
 # ---------- 9. regenerate index.json ----------
 
 idx = load(os.path.join(VETA, "index.json"))

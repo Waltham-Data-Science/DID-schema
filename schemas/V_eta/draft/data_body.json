@@ -4,7 +4,7 @@
         "class_version": "1.0.0",
         "superclasses": [
             {
-                "class_name": "base"
+                "class_name": "data"
             }
         ],
         "maturity_level": "draft",

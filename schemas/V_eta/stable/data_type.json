@@ -1,0 +1,16 @@
+{
+    "document_class": {
+        "class_name": "data_type",
+        "class_version": "1.0.0",
+        "superclasses": [
+            {
+                "class_name": "data"
+            }
+        ],
+        "maturity_level": "stable",
+        "abstract": true
+    },
+    "depends_on": [],
+    "file": [],
+    "fields": []
+}
