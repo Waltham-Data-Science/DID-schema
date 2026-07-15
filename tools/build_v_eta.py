@@ -140,7 +140,12 @@ for d in DIMS:
 # classes deleted outright; when they appear as a superclass, replace per SUPER_SUB
 DELETE = {"scalar_observation", "scalar_manipulation", "annotation", "group_assignment",
           "derivation", "placement", "stimulus_manipulation", "stimulus_approach",
-          "oneepoch", "epochclocktimes", "valid_interval", "session_extent"}
+          "oneepoch", "epochclocktimes", "valid_interval", "session_extent",
+          "mock"}
+# `mock` (a bare `ismock` integer flag) is test-only scaffolding — nothing in the
+# corpora or NDI constructs it (`ndi.document('mock')` appears nowhere; the
+# +ndi/+mock/ package is a helper namespace, not this class). A production
+# go-forward schema shouldn't carry a "this document is fake" class. Dropped.
 SUPER_SUB = {"scalar_observation": "subject_observation",
              "scalar_manipulation": "subject_manipulation"}
 
@@ -451,16 +456,28 @@ write("stable", "award", doc("award", ["entity"], fields=[
     field("title", "char", "Award/grant title; award number / grant DOI via "
           "global_identifier. Its funder is a `directed_relation` -> organization.",
           non_empty=False)]))
+# web_resource IS an entity: a referenceable external resource (a documentation
+# page, a data repository, a protocol, a code repo, a homepage). Its identity IS
+# its URL (carried on global_identifier, scheme="URL"), so it needs no extra
+# fields beyond an optional human label. A dataset's documentation/repository/
+# homepage links are NOT string fields on the dataset — they are references, and
+# in this model references are relations: dataset -documented_by-> web_resource,
+# dataset -stored_at-> web_resource. (A DOI reference to a paper is a
+# `directed_relation -> publication`; a DOI/URI to a resource is one -> web_resource.)
+write("stable", "web_resource", doc("web_resource", ["entity"], fields=[
+    field("label", "char", "Optional human-readable label for the resource "
+          "(e.g. 'full documentation', 'GitHub repo'); the URL rides on "
+          "global_identifier (scheme='URL').", non_empty=False)]))
 # dataset IS the entity (target of the metadata_editor decomposition — a follow-up
 # migrator reshapes the Soph metadata_structure blob into this + person/award/
 # publication entities + relations; metadata_editor is kept as the source until then).
+# Documentation/homepage/repository links are NOT fields here — they are
+# `directed_relation`s -> web_resource / -> publication (references are relations).
 write("stable", "dataset", doc("dataset", ["entity"], fields=[
     field("full_name", "char", "Full dataset name."),
     field("short_name", "char", "Short dataset name.", non_empty=False),
     field("version", "char", "Version identifier.", non_empty=False),
     field("description", "char", "Dataset description / abstract.", non_empty=False),
-    field("documentation", "char", "URI/DOI to the dataset's full documentation "
-          "(openMINDS fullDocumentation).", non_empty=False),
     field("license", "char", "License.", non_empty=False),
     field("release_date", "char", "Release date.", non_empty=False)]))
 

@@ -212,11 +212,21 @@ def test_relation_branch():
 
 def test_entity_genus():
     assert RECORDS["entity"][1]["document_class"].get("abstract") is True
-    for e in ("subject", "person", "organization", "publication", "award", "dataset"):
+    for e in ("subject", "person", "organization", "publication", "award",
+              "dataset", "web_resource"):
         assert "entity" in _chain(e), f"{e} should descend from entity"
     # directed_relation endpoints are entities now, not just subjects
     dr = {d["name"]: d for d in RECORDS["directed_relation"][1]["depends_on"]}
     assert dr["child"]["must_refer_to_document_class"] == "entity"
+    # dataset documentation/homepage links are relations -> web_resource, not fields
+    dataset_fields = {f["name"] for f in RECORDS["dataset"][1]["fields"]}
+    assert "documentation" not in dataset_fields
+
+
+def test_mock_class_dropped():
+    """`mock` (a bare ismock flag) is test-only scaffolding — nothing constructs
+    it; a production go-forward schema should not carry a 'this is fake' class."""
+    assert "mock" not in RECORDS
 
 
 def test_value_set_class_dropped():

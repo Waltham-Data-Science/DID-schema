@@ -1,10 +1,10 @@
 {
     "document_class": {
-        "class_name": "mock",
+        "class_name": "web_resource",
         "class_version": "1.0.0",
         "superclasses": [
             {
-                "class_name": "base"
+                "class_name": "entity"
             }
         ],
         "maturity_level": "stable"
@@ -13,16 +13,16 @@
     "file": [],
     "fields": [
         {
-            "name": "ismock",
-            "type": "integer",
-            "blank_value": 0,
-            "default_value": 1,
+            "name": "label",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "",
             "mustBeNonEmpty": false,
             "mustBeScalar": true,
             "mustNotHaveNaN": false,
             "queryable": true,
             "ontology": null,
-            "documentation": "A parameter that denotes the document as a mock document.",
+            "documentation": "Optional human-readable label for the resource (e.g. 'full documentation', 'GitHub repo'); the URL rides on global_identifier (scheme='URL').",
             "constraints": {}
         }
     ]

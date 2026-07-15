@@ -65,19 +65,6 @@
             "constraints": {}
         },
         {
-            "name": "documentation",
-            "type": "char",
-            "blank_value": "",
-            "default_value": "",
-            "mustBeNonEmpty": false,
-            "mustBeScalar": true,
-            "mustNotHaveNaN": false,
-            "queryable": true,
-            "ontology": null,
-            "documentation": "URI/DOI to the dataset's full documentation (openMINDS fullDocumentation).",
-            "constraints": {}
-        },
-        {
             "name": "license",
             "type": "char",
             "blank_value": "",

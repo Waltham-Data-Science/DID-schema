@@ -1723,18 +1723,6 @@
             "path": "schemas/V_eta/stable/metadata_editor.json"
         },
         {
-            "class_name": "mock",
-            "tier": "stable",
-            "class_version": "1.0.0",
-            "maturity_level": "stable",
-            "superclasses": [
-                {
-                    "class_name": "base"
-                }
-            ],
-            "path": "schemas/V_eta/stable/mock.json"
-        },
-        {
             "class_name": "neuron_extracellular",
             "tier": "stable",
             "class_version": "1.0.0",
@@ -3170,6 +3158,18 @@
                 }
             ],
             "path": "schemas/V_eta/stable/volume_observation.json"
+        },
+        {
+            "class_name": "web_resource",
+            "tier": "stable",
+            "class_version": "1.0.0",
+            "maturity_level": "stable",
+            "superclasses": [
+                {
+                    "class_name": "entity"
+                }
+            ],
+            "path": "schemas/V_eta/stable/web_resource.json"
         },
         {
             "class_name": "zarr",
