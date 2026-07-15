@@ -208,10 +208,11 @@ def test_subject_relation_branch():
         assert _flat_field_types(cls).get("relation") == "ontology_term"
 
 
-def test_value_set_present():
-    assert "value_set" in RECORDS
-    ft = _flat_field_types("value_set")
-    assert ft.get("expansion") == "char" and ft.get("root") == "ontology_term"
+def test_value_set_class_dropped():
+    """value_set is dropped (Q1): orphaned + redundant with the binding registry,
+    which carries the admissible-set definition inline. The registry META still
+    uses value_set as a string key (see the binding-registry test below)."""
+    assert "value_set" not in RECORDS
 
 
 def test_timing_cadence_moved_off_time_reference():

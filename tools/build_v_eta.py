@@ -139,7 +139,7 @@ for d in DIMS:
 
 # classes deleted outright; when they appear as a superclass, replace per SUPER_SUB
 DELETE = {"scalar_observation", "scalar_manipulation", "annotation", "group_assignment",
-          "derivation"}
+          "derivation", "placement"}
 SUPER_SUB = {"scalar_observation": "subject_observation",
              "scalar_manipulation": "subject_manipulation"}
 
@@ -393,26 +393,13 @@ write("stable", "undirected_relation",
                         non_empty=True)]))
 
 
-# ---------- 6. value_set (binding registry, D9) ----------
-
-write("stable", "value_set",
-      doc("value_set", ["base"],
-          fields=[
-              field("name", "char", "Human-readable name of this admissible set.",
-                    non_empty=True, blank="", default=""),
-              field("root", "ontology_term",
-                    "The ontology root; admissible values are its descendants "
-                    "when expansion=descendants.", non_empty=False),
-              field("expansion", "char",
-                    "descendants | self_and_descendants | enumerated.",
-                    non_empty=True, blank="descendants", default="descendants"),
-              field("members", "ontology_term",
-                    "Explicit admissible terms when expansion=enumerated.",
-                    non_empty=False, scalar=False, blank=[], default=[]),
-              field("source", "char",
-                    "The backing ontology/authority (NCBITaxon, OBI, CL, CHEBI, "
-                    "UBERON, RO).", non_empty=False, blank="", default=""),
-          ]))
+# ---------- 6. (value_set removed) ----------
+# The `value_set` document class is DROPPED: it was orphaned (nothing referenced
+# it as a document; no `must_refer -> value_set`) and redundant with the binding
+# registry, which already carries the admissible-set definition inline per
+# variable (root/expansion/source/members). The registry
+# (binding_registry_meta.json) is the single source of admissible-value sets; an
+# admissible set is a registry entry, not a stored document. (Q1.)
 
 
 # ---------- 7. value mixins: refresh doc (series timing note) ----------

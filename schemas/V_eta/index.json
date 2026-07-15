@@ -2125,18 +2125,6 @@
             "path": "schemas/V_eta/stable/ph_observation.json"
         },
         {
-            "class_name": "placement",
-            "tier": "stable",
-            "class_version": "1.0.0",
-            "maturity_level": "stable",
-            "superclasses": [
-                {
-                    "class_name": "subject_manipulation"
-                }
-            ],
-            "path": "schemas/V_eta/stable/placement.json"
-        },
-        {
             "class_name": "position_metadata",
             "tier": "stable",
             "class_version": "1.0.0",
@@ -3335,18 +3323,6 @@
                 }
             ],
             "path": "schemas/V_eta/stable/valid_interval.json"
-        },
-        {
-            "class_name": "value_set",
-            "tier": "stable",
-            "class_version": "1.0.0",
-            "maturity_level": "stable",
-            "superclasses": [
-                {
-                    "class_name": "base"
-                }
-            ],
-            "path": "schemas/V_eta/stable/value_set.json"
         },
         {
             "class_name": "velocity",
