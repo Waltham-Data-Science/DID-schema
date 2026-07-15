@@ -139,7 +139,8 @@ for d in DIMS:
 
 # classes deleted outright; when they appear as a superclass, replace per SUPER_SUB
 DELETE = {"scalar_observation", "scalar_manipulation", "annotation", "group_assignment",
-          "derivation", "placement", "stimulus_manipulation", "stimulus_approach"}
+          "derivation", "placement", "stimulus_manipulation", "stimulus_approach",
+          "oneepoch", "epochclocktimes", "valid_interval", "session_extent"}
 SUPER_SUB = {"scalar_observation": "subject_observation",
              "scalar_manipulation": "subject_manipulation"}
 

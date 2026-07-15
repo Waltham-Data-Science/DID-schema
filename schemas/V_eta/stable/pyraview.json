@@ -4,9 +4,6 @@
         "class_version": "1.0.0",
         "superclasses": [
             {
-                "class_name": "epochclocktimes"
-            },
-            {
                 "class_name": "filter"
             },
             {

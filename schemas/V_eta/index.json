@@ -1123,21 +1123,6 @@
             "path": "schemas/V_eta/stable/epoch_relative_reference.json"
         },
         {
-            "class_name": "epochclocktimes",
-            "tier": "stable",
-            "class_version": "1.0.0",
-            "maturity_level": "stable",
-            "superclasses": [
-                {
-                    "class_name": "base"
-                },
-                {
-                    "class_name": "epochid"
-                }
-            ],
-            "path": "schemas/V_eta/stable/epochclocktimes.json"
-        },
-        {
             "class_name": "epochfiles_ingested",
             "tier": "stable",
             "class_version": "1.0.0",
@@ -1753,21 +1738,6 @@
             "path": "schemas/V_eta/stable/numeric_assertion.json"
         },
         {
-            "class_name": "oneepoch",
-            "tier": "stable",
-            "class_version": "1.0.0",
-            "maturity_level": "stable",
-            "superclasses": [
-                {
-                    "class_name": "base"
-                },
-                {
-                    "class_name": "epochid"
-                }
-            ],
-            "path": "schemas/V_eta/stable/oneepoch.json"
-        },
-        {
             "class_name": "ontology_image",
             "tier": "stable",
             "class_version": "1.0.0",
@@ -2092,9 +2062,6 @@
             "maturity_level": "stable",
             "superclasses": [
                 {
-                    "class_name": "epochclocktimes"
-                },
-                {
                     "class_name": "filter"
                 },
                 {
@@ -2234,18 +2201,6 @@
                 }
             ],
             "path": "schemas/V_eta/stable/session_bounded_reference.json"
-        },
-        {
-            "class_name": "session_extent",
-            "tier": "stable",
-            "class_version": "1.0.0",
-            "maturity_level": "stable",
-            "superclasses": [
-                {
-                    "class_name": "base"
-                }
-            ],
-            "path": "schemas/V_eta/stable/session_extent.json"
         },
         {
             "class_name": "session_in_a_dataset",
@@ -2951,18 +2906,6 @@
                 }
             ],
             "path": "schemas/V_eta/stable/utc_reference.json"
-        },
-        {
-            "class_name": "valid_interval",
-            "tier": "stable",
-            "class_version": "1.0.0",
-            "maturity_level": "stable",
-            "superclasses": [
-                {
-                    "class_name": "base"
-                }
-            ],
-            "path": "schemas/V_eta/stable/valid_interval.json"
         },
         {
             "class_name": "velocity",
