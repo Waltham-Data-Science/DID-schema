@@ -160,71 +160,78 @@ one unambiguous edge — every empty `stimulus_presentation_id`
 untyped pending referent-class review (its v1 antecedent pointed at a *parameters*
 doc, not a response).
 
-### 2.C Analysis / calc  *(~0.9k docs)*  — **DECOMPOSE (D-C)**
+### 2.C The analysis tier — calc **and** spike-sorting  *(~0.9k + spike-sorting docs)*  — **DECOMPOSE (D-C, generalized)**
 
-`*_calc`, `*_tuning`, `stimulus_response`, `hartley`, `reverse_correlation`,
-`fitcurve`, `tuning_fit`. Exhibit: `orientation_direction_tuning` jams three
-different kinds of thing into one doc. **Decision:** decompose, don't flatten and
-don't defer wholesale:
+**D-C is not "calc" — it is the whole analysis tier.** The holdover audit found the
+spike-sorting family (`spikewaves`, `spike_clusters`, `spike_extraction_parameters`,
+`sorting_parameters`, `vmspikesummary`, `binnedspikeratevm`, `vmneuralresponseresiduals`,
+`site2channelmap`, …, 11 classes) is the **same pattern** as the calc/tuning zoo —
+a computation over raw data emitting scalars + signals + provenance — and had no J
+disposition. Both are covered by one decomposition rule.
 
-1. **Interpretable scalar results → `*_observation`s on the subject.**
-   `orientation_preference` (→ `angle_observation`), OSI / `hwhh` bandwidth (→
+Calc exhibit: `orientation_direction_tuning` jams three kinds of thing into one doc.
+Spike exhibit: `vmspikesummary` carries `mean_firing_rate`/`mean_vm` (scalars) while
+`spikewaves` carries the waveform blob (a signal). **Decision:** decompose the whole
+tier by output kind, don't flatten and don't defer wholesale:
+
+1. **Interpretable scalars → `*_observation`s on the subject, `method` = algorithm.**
+   Calc: `orientation_preference` (→ `angle_observation`), OSI/`hwhh` (→
    `score_`/`angle_observation`), the ANOVA p-values (→ `score_observation`).
-   These are *measured properties of the neuron-subject*; today they are bare
-   `double`s buried in a nested `structure` with **no units, no ontology, no
-   discoverability**. Promoting them to observations puts the biology on the
-   queryable spine.
-2. **The derived function (the tuning curve matrices) → a `data_body`** (a
-   `sampled_body`/dataseries indexed by the independent variable), or a recompute
-   **projection** if not stored.
-3. **The computation itself → ONE generic provenance genus** — source-document
-   links + the algorithm as an ontology term + a parameters block + the
-   body-backed output. This carries the irreducible provenance (algorithm,
-   parameters, measured-vs-fitted) an observation has no slot for.
+   Spike: `mean_firing_rate` (→ `frequency_observation`), `mean_vm` (→
+   `voltage_observation`). Measured properties of the neuron-subject; today bare
+   `double`s in a nested `structure` with no units/ontology/discoverability.
+   `subject_interaction.method` = the algorithm marks them *computed*.
+2. **Derived signals → `data_body`.** The tuning curve / fit curve; the spike
+   `spikewaves` blob; `binnedspikeratevm`; `vmneuralresponseresiduals` → a
+   `dataseries_observation` + `sampled_body` on the neuron.
+3. **A derived *unit that earns identity* → a derived subject.** A spike-sorted
+   cluster IS a neuron (you record tuning from it): mint a `subject`, linked by
+   `directed_relation(child=unit, parent=electrode-subject, relation=derived_from,
+   method=spike_sorting)` — the folded provenance primitive (D-E), no bespoke class.
+   A tuning result does **not** earn this (grain A, below).
+4. **The computation itself → NO genus.** Provenance is `method` (on the outputs) +
+   `directed_relation(derived_from)` (for derived units) + the extraction/sorting
+   `*_parameters` carried as `method`/D10 `parameters`. There is no `calculation`
+   class (rejected — see the scope note).
 
-**Retire the per-analysis class zoo** (`tuningcurve_calc`, `oridirtuning_calc`,
+**Retire the analysis-tier zoo** — calc (`tuningcurve_calc`, `oridirtuning_calc`,
 `contrast_/speed_/spatial_/temporal_frequency_tuning_calc`, `hartley_calc`,
-`tuning_fit`, `fitcurve`, …) → observations + `data_body` + the existing relation
-primitive. This is the same anti-proliferation move J made on the observation leaf
-tier (the `scalar_`/`dataseries_`/`imageseries_` split → one class per data type).
+`tuning_fit`, `fitcurve`, `simple_calc`, …) **and** spike-sorting (`spikewaves`,
+`spike_clusters`, `vmspikesummary`, `binnedspikeratevm`, `*_parameters`, …) →
+observations + `data_body` + relations. The same anti-proliferation move J made on
+the observation leaf tier (the `scalar_`/`dataseries_` split → one class per data type).
 
-#### D-C scope — **PROPOSED (partly settled; grain still open)**
+#### D-C scope — **SETTLED (grain locked; impl pending)**
 
-*Locked this session:* store the **full curves as `data_body`** (not projections);
-do the **tuning family first** (`tuningcurve_calc`, `oridirtuning_calc` + the
-`*_tuning` result classes, ~130 corpus docs — the shared `orientation_direction_tuning`
-shape), deferring `hartley_calc` / `reverse_correlation` (RF maps = big spatial
-data, → the 2.D data-fold) and the generic fits (`fitcurve` / `vmspikefit`).
+*Locked:* full curves as `data_body` (not projections); **grain A** for computed
+*properties* (below); **tuning family first** (`tuningcurve_calc`, `oridirtuning_calc`
++ the `*_tuning` result classes, ~130 corpus docs), then the **spike-sorting family**
+(same pattern), deferring `hartley_calc` / `reverse_correlation` (RF maps = big
+spatial data → 2.D) and generic fits (`fitcurve` / `vmspikefit`).
 
-*No provenance genus — superseded.* An earlier proposal minted a `calculation` leaf
-(under the pre-J NDI `calculator`) to hold `source_document_id_#` links. **Rejected:**
-that reinvents `directed_relation`/`derived_from`, which is J's provenance primitive
-(see **D-E**). And `calculator` is itself a pre-J NDI-app artifact J means to
-dissolve, not a genus to build on. So the decomposition uses **only** existing
-primitives:
+*No provenance genus.* An earlier proposal minted a `calculation` leaf (under the
+pre-J NDI `calculator`) to hold `source_document_id_#` links. **Rejected:** it
+reinvents `directed_relation`/`derived_from`, J's provenance primitive (D-E); and
+`calculator` is a pre-J NDI-app artifact J dissolves, not a genus to build on. The
+decomposition uses **only** existing primitives — observations (`method` = algorithm),
+`data_body`, and `directed_relation(derived_from)` for derived units.
 
-- **Interpretable scalars → `*_observation`s** (`angle_`/`score_observation`), with
-  `subject_interaction.method` = the algorithm term (`empirical_maximum`,
-  `double_gaussian_fit`). No new class; "computed, not directly measured" is the
-  `method`. Qualifiers (`coordinates`, `response_type`) → D10 `parameters`.
-- **Curves → `data_body`** (a `dataseries_observation` + `sampled_body` indexed by
-  the independent variable): the empirical tuning curve and the fit curve.
-- **Provenance → `directed_relation(derived_from)`** — but only at the *subject*
-  grain, which is the open decision below.
+*Grain — **LOCKED to A** for computed properties.* A tuning result / spike summary
+is a **property of the neuron**, not a new entity: scalars → `*_observation`s on the
+neuron with `method` = algorithm; curves/waveforms → `data_body` on the neuron; **no**
+derived subject, **no** relation. Grain **B** (a derived subject + `derived_from`) is
+**reserved for units that earn independent identity** — the canonical case being a
+**spike-sorted cluster** (a neuron you then record tuning from): mint the subject,
+link `derived_from` the electrode with `method=spike_sorting`. This is J's "cheap
+representation until it earns full identity" ladder (`Multiresolution_Read_Proposal`).
 
-*Open — the grain (shown to the user both ways on `oridirtuning_calc`):*
-  - **(A) observations on the neuron** — the scalars/curves hang off the existing
-    neuron subject; `method` marks them computed; **no** relation (one subject).
-    Leanest; fits "measured property of the neuron." ~14 docs.
-  - **(B) a derived subject + `derived_from`** — mint the tuning result as its own
-    subject `T`, `directed_relation(child=T, parent=neuron, relation=derived_from)`;
-    scalars/curves hang off `T`. First-class identity, explicit provenance edge;
-    +3 docs/result, biology one hop off the neuron.
-  Recommendation: **A by default, escalate to B only when the result earns identity**
-  (referenced downstream / published) — J's own "cheap representation until it earns
-  full identity" ladder (`Multiresolution_Read_Proposal`). The scalar→ontology-term
-  mapping (OSI, circular variance, the p-values) is D3/D6 term curation, seeded
-  heuristically then refined in discovery.
+*Honest boundary:* `directed_relation` is subject→subject, so "which *response
+documents* fed this fit" is **not** an expressible edge — inputs are bodies-of-record;
+their tie to the result is co-location on the same neuron + `method`. Accepted.
+
+*Remaining open:* the scalar→ontology-term mapping (OSI, circular variance, the
+p-values; `mean_firing_rate`, `mean_vm`) is D3/D6 term curation — seeded heuristically,
+refined in discovery.
 
 ### 2.D Genomics / data-format  *(dataseries, timeseries, imageseries, expression_matrix, sequence_read, reference_\*)*  — **FOLD to `data_body`**
 
@@ -332,15 +339,18 @@ DID-matlab (migrators) + tests, validated by the quick CI then the full corpus.
   bodies-of-record (already 0-quarantine) and types the settled
   `stimulus_presentation_id` edge (§8d). Note: `derived_from` cannot point at a
   presentation (not a subject); stimulus context rides on `stimulus_presentation_id`.
-- **D-C** Analysis/calc — **RESOLVED + scoped (grain open):** decompose —
-  interpretable scalars → `*_observation`s (with `method` = the algorithm); curves →
-  **`data_body`** (full, not projection); provenance → **`directed_relation(derived_from)`**
-  (per D-E — **no** `calculation`/`calculator` genus; that was rejected as reinventing
-  the relation primitive and building on pre-J NDI cruft); retire the per-analysis
-  class zoo. Scope: **tuning family first** (~130 docs); `hartley`/`reverse_correlation`
-  + generic fits deferred. See §2.C "D-C scope". Open: the **grain** — observations
-  on the neuron (default) vs. a derived subject + `derived_from` (on escalation); and
-  the scalar→term mapping (D3/D6).
+- **D-C** The analysis tier (calc **+ spike-sorting**) — **RESOLVED (grain locked):**
+  D-C is generalized from "calc" to the whole analysis tier — the spike-sorting
+  family (`spikewaves`/`spike_clusters`/`vmspikesummary`/`binnedspikeratevm`/
+  `*_parameters`, found by the holdover audit) is the same pattern and shares this
+  decomposition. Computed **scalars → `*_observation`s** (`method` = algorithm);
+  **signals → `data_body`**; **derived units that earn identity → a derived subject**
+  + `directed_relation(derived_from, method=…)` (per D-E — **no** `calculation`/
+  `calculator` genus). **Grain LOCKED to A** for computed properties (a tuning result
+  / spike summary is a property of the neuron, not a new entity); grain B (derived
+  subject) reserved for spike-sorted units. Scope: tuning first, then spike-sorting;
+  `hartley`/`reverse_correlation` + generic fits deferred. Open: scalar→term mapping
+  (D3/D6). See §2.C.
 - **D-E** `derivation` ↔ `directed_relation` redundancy — **RESOLVED (fold):**
   `derivation` (a V_epsilon/Brainstorm-E holdover) duplicated
   `directed_relation`'s provenance verbs (`derived_from`/`sample_of`/`aliquot_of`/
@@ -361,7 +371,30 @@ DID-matlab (migrators) + tests, validated by the quick CI then the full corpus.
 
 ---
 
-*Companion to `V_eta_migration_plan.md`. Decisions 1–3 locked; Part 2 proposals
-and Part 4 questions open. The subject-side work (the original plan D1–D11) is
-unaffected; this plan extends cohesiveness to the non-subject half so V_eta can
-be promoted to `V1` as one coherent schema.*
+## Part 5 — Holdover audit (full-schema coverage sweep)
+
+Every V_eta `class_name` (266) was cross-referenced against all three plan docs to
+find classes carried over from V_zeta with **no explicit J disposition**. Excluding
+the ~130 J-native leaves (the `*_observation`/`*_assertion` data-type tier + time
+references, covered by pattern), the undiscussed holdovers and their dispositions:
+
+| Family | n | Disposition |
+|---|--:|---|
+| **spike-sorting** (`spikewaves`, `spike_clusters`, `vmspikesummary`, `binnedspikeratevm`, `*_extraction/sorting_parameters`, `vmneuralresponseresiduals`, `site2channelmap`, …) | 11 | **→ D-C (analysis tier).** Same decomposition: scalars (`mean_firing_rate`→`frequency_observation`, `mean_vm`→`voltage_observation`) → observations; `spikewaves`/`binnedspikeratevm` → `data_body`; a sorted **cluster → a derived subject** (grain B); `*_parameters` → `method`/D10 `parameters`. |
+| data-representation (`ephys_zarr`, `image_zarr`, `image_collection`, `dataseries_pyramid`, `dataseries_channel_map`, `binaryseries_parameters`, `ngrid`, `pyraview`) | 8 | array/blob reps → `data_body`/`opaque_body` (**2.D**); `ngrid`/`*_channel_map`/`binaryseries_parameters` → kept **index/geometry infra** (governance-only). |
+| acquisition/epoch infra (`daq*_epochdata_ingested`, `daqreader_ndr`, `epochclocktimes`, `oneepoch`, `valid_interval`, `session_extent`) | 7 | **→ D-A** governance umbrella (kept as infra; type deps, declare shapes). Enumerated here so they are no longer implicit. |
+| dataset/session infra (`dataset_remote`, `dataset_session_info`, `session_in_a_dataset`) | 3 | **→ D-A** (kept as infra, like `session`). |
+| misc NDI | 11 | **triage:** delete cruft (`demo_ndi`/`demo_ndi_mock`, `projectvar`, deprecated `image_stack_parameters`); **J-ify measurements** (`electrode_offset_voltage` → `voltage_observation`; `probe_geometry` → observation/`data_body`); keep true infra (`directory`, `ndi_reserved_keys`, `metadata_editor`, `interaction_purpose`). |
+| genomics/data-format (`expression_matrix_data_*`, `reference_*`, `sequence_read_data_*`, `timeseries_data_*`, …) | 32 | already **= 2.D** (draft `data_body` subtypes). |
+
+After this sweep, every non-leaf class has a disposition: an analysis-tier decompose
+(D-C), a `data_body` fold (2.D), a D-A infra/governance keep, or explicit deletion.
+**Open items** left: the D3/D6 term mapping, the misc J-ify/delete triage, and the
+per-class spike-sorting decomposition detail (to be written when D-C is implemented).
+
+---
+
+*Companion to `V_eta_migration_plan.md`. The subject-side work (the original plan
+D1–D11) is unaffected; this plan extends cohesiveness to the non-subject half so
+V_eta can be promoted to `V1` as one coherent schema. Decisions D-A…D-E resolved;
+Part 5 closes full-schema coverage.*
