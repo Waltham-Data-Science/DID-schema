@@ -2107,102 +2107,6 @@
             "path": "schemas/V_eta/stable/pyraview.json"
         },
         {
-            "class_name": "reference_annotation_data",
-            "tier": "draft",
-            "class_version": "1.0.0",
-            "maturity_level": "draft",
-            "superclasses": [
-                {
-                    "class_name": "reference_data"
-                }
-            ],
-            "path": "schemas/V_eta/draft/reference_annotation_data.json"
-        },
-        {
-            "class_name": "reference_annotation_data_gff3",
-            "tier": "draft",
-            "class_version": "1.0.0",
-            "maturity_level": "draft",
-            "superclasses": [
-                {
-                    "class_name": "reference_annotation_data"
-                }
-            ],
-            "path": "schemas/V_eta/draft/reference_annotation_data_gff3.json"
-        },
-        {
-            "class_name": "reference_annotation_data_gtf",
-            "tier": "draft",
-            "class_version": "1.0.0",
-            "maturity_level": "draft",
-            "superclasses": [
-                {
-                    "class_name": "reference_annotation_data"
-                }
-            ],
-            "path": "schemas/V_eta/draft/reference_annotation_data_gtf.json"
-        },
-        {
-            "class_name": "reference_data",
-            "tier": "draft",
-            "class_version": "1.0.0",
-            "maturity_level": "draft",
-            "superclasses": [
-                {
-                    "class_name": "base"
-                }
-            ],
-            "path": "schemas/V_eta/draft/reference_data.json"
-        },
-        {
-            "class_name": "reference_sequence_data",
-            "tier": "draft",
-            "class_version": "1.0.0",
-            "maturity_level": "draft",
-            "superclasses": [
-                {
-                    "class_name": "reference_data"
-                }
-            ],
-            "path": "schemas/V_eta/draft/reference_sequence_data.json"
-        },
-        {
-            "class_name": "reference_sequence_data_fasta_genome",
-            "tier": "draft",
-            "class_version": "1.0.0",
-            "maturity_level": "draft",
-            "superclasses": [
-                {
-                    "class_name": "reference_sequence_data"
-                }
-            ],
-            "path": "schemas/V_eta/draft/reference_sequence_data_fasta_genome.json"
-        },
-        {
-            "class_name": "reference_sequence_data_fasta_protein",
-            "tier": "draft",
-            "class_version": "1.0.0",
-            "maturity_level": "draft",
-            "superclasses": [
-                {
-                    "class_name": "reference_sequence_data"
-                }
-            ],
-            "path": "schemas/V_eta/draft/reference_sequence_data_fasta_protein.json"
-        },
-        {
-            "class_name": "reference_sequence_data_fasta_transcriptome",
-            "tier": "draft",
-            "class_version": "1.0.0",
-            "maturity_level": "draft",
-            "superclasses": [
-                {
-                    "class_name": "reference_sequence_data"
-                }
-            ],
-            "path": "schemas/V_eta/draft/reference_sequence_data_fasta_transcriptome.json"
-        },
-        {
             "class_name": "resistance",
             "tier": "stable",
             "class_version": "1.0.0",
@@ -2306,54 +2210,6 @@
                 }
             ],
             "path": "schemas/V_eta/stable/score_observation.json"
-        },
-        {
-            "class_name": "sequence_read_data",
-            "tier": "draft",
-            "class_version": "1.0.0",
-            "maturity_level": "draft",
-            "superclasses": [
-                {
-                    "class_name": "base"
-                }
-            ],
-            "path": "schemas/V_eta/draft/sequence_read_data.json"
-        },
-        {
-            "class_name": "sequence_read_data_bam",
-            "tier": "draft",
-            "class_version": "1.0.0",
-            "maturity_level": "draft",
-            "superclasses": [
-                {
-                    "class_name": "sequence_read_data"
-                }
-            ],
-            "path": "schemas/V_eta/draft/sequence_read_data_bam.json"
-        },
-        {
-            "class_name": "sequence_read_data_cram",
-            "tier": "draft",
-            "class_version": "1.0.0",
-            "maturity_level": "draft",
-            "superclasses": [
-                {
-                    "class_name": "sequence_read_data"
-                }
-            ],
-            "path": "schemas/V_eta/draft/sequence_read_data_cram.json"
-        },
-        {
-            "class_name": "sequence_read_data_fastq",
-            "tier": "draft",
-            "class_version": "1.0.0",
-            "maturity_level": "draft",
-            "superclasses": [
-                {
-                    "class_name": "sequence_read_data"
-                }
-            ],
-            "path": "schemas/V_eta/draft/sequence_read_data_fastq.json"
         },
         {
             "class_name": "session",
@@ -2573,30 +2429,6 @@
                 }
             ],
             "path": "schemas/V_eta/stable/spikewaves.json"
-        },
-        {
-            "class_name": "stimulus_approach",
-            "tier": "stable",
-            "class_version": "2.0.0",
-            "maturity_level": "stable",
-            "superclasses": [
-                {
-                    "class_name": "base"
-                }
-            ],
-            "path": "schemas/V_eta/stable/stimulus_approach.json"
-        },
-        {
-            "class_name": "stimulus_manipulation",
-            "tier": "stable",
-            "class_version": "1.0.0",
-            "maturity_level": "stable",
-            "superclasses": [
-                {
-                    "class_name": "subject_manipulation"
-                }
-            ],
-            "path": "schemas/V_eta/stable/stimulus_manipulation.json"
         },
         {
             "class_name": "stimulus_parameter",

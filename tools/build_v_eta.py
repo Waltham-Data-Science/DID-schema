@@ -139,7 +139,7 @@ for d in DIMS:
 
 # classes deleted outright; when they appear as a superclass, replace per SUPER_SUB
 DELETE = {"scalar_observation", "scalar_manipulation", "annotation", "group_assignment",
-          "derivation", "placement"}
+          "derivation", "placement", "stimulus_manipulation", "stimulus_approach"}
 SUPER_SUB = {"scalar_observation": "subject_observation",
              "scalar_manipulation": "subject_manipulation"}
 
@@ -169,12 +169,17 @@ for name in DELETE:
     if p:
         os.remove(p)
 
-# Remove the expression/transcriptomics family entirely (not corpus-exercised;
-# "don't draft what we have no use for"). Covers expression_observation,
-# spatial_expression_observation, expression_matrix_data + all 13 format variants.
-for _p in (glob.glob(os.path.join(VETA, "*", "expression*.json"))
-           + glob.glob(os.path.join(VETA, "*", "spatial_expression*.json"))):
-    os.remove(_p)
+# Remove the genomics families entirely (not corpus-exercised; "don't draft what
+# we have no use for"). Expression (expression_observation,
+# spatial_expression_observation, expression_matrix_data + 13 variants) AND the
+# reference/sequence families (reference_data, reference_sequence_data + fasta,
+# reference_annotation_data + gff3/gtf, sequence_read_data + bam/cram/fastq). The
+# "reference" concept is deferred to a general tag class (Option B) added when
+# there is an actual data_body to tag; the bespoke genomics data classes go now.
+for _pat in ("expression*.json", "spatial_expression*.json",
+             "reference_*.json", "sequence_read*.json"):
+    for _p in glob.glob(os.path.join(VETA, "*", _pat)):
+        os.remove(_p)
 
 # apply renames + superclass rewrites across every remaining file
 for tier in TIERS:
