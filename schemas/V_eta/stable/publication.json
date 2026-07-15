@@ -1,0 +1,55 @@
+{
+    "document_class": {
+        "class_name": "publication",
+        "class_version": "1.0.0",
+        "superclasses": [
+            {
+                "class_name": "entity"
+            }
+        ],
+        "maturity_level": "stable"
+    },
+    "depends_on": [],
+    "file": [],
+    "fields": [
+        {
+            "name": "title",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Publication title.",
+            "constraints": {}
+        },
+        {
+            "name": "date",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Publication date/year.",
+            "constraints": {}
+        },
+        {
+            "name": "authors",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Author citation string \u2014 external, NOT decomposed into person entities (cited papers' authors stay coarse).",
+            "constraints": {}
+        }
+    ]
+}

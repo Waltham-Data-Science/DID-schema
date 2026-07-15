@@ -4,7 +4,7 @@
         "class_version": "3.0.0",
         "superclasses": [
             {
-                "class_name": "base"
+                "class_name": "entity"
             }
         ],
         "maturity_level": "stable"

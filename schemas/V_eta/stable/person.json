@@ -1,0 +1,55 @@
+{
+    "document_class": {
+        "class_name": "person",
+        "class_version": "1.0.0",
+        "superclasses": [
+            {
+                "class_name": "entity"
+            }
+        ],
+        "maturity_level": "stable"
+    },
+    "depends_on": [],
+    "file": [],
+    "fields": [
+        {
+            "name": "given_name",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Given (personal) name; may include middle names/initials (given/family per the international convention).",
+            "constraints": {}
+        },
+        {
+            "name": "family_name",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Family (sur)name.",
+            "constraints": {}
+        },
+        {
+            "name": "email",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Contact email; meaningful when acting as a contact.",
+            "constraints": {}
+        }
+    ]
+}

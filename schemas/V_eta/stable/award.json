@@ -1,0 +1,29 @@
+{
+    "document_class": {
+        "class_name": "award",
+        "class_version": "1.0.0",
+        "superclasses": [
+            {
+                "class_name": "entity"
+            }
+        ],
+        "maturity_level": "stable"
+    },
+    "depends_on": [],
+    "file": [],
+    "fields": [
+        {
+            "name": "title",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Award/grant title; award number / grant DOI via global_identifier. Its funder is a `directed_relation` -> organization.",
+            "constraints": {}
+        }
+    ]
+}

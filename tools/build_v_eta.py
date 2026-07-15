@@ -208,6 +208,7 @@ for tier in TIERS:
 
 sub = load(os.path.join(VETA, "stable", "subject.json"))
 sub["document_class"]["class_version"] = "3.0.0"
+sub["document_class"]["superclasses"] = [{"class_name": "entity"}]   # re-root under entity
 sub["fields"] = [f for f in sub["fields"]
                  if f["name"] in ("local_identifier", "description")]
 write("stable", "subject", sub)
@@ -365,8 +366,8 @@ for d in DIMS:
 
 # ---------- 5. subject_relation branch ----------
 
-write("stable", "subject_relation",
-      doc("subject_relation", ["base"], abstract=True, fields=[]))
+write("stable", "relation",
+      doc("relation", ["base"], abstract=True, fields=[]))
 
 REL_TERM = field("relation", "ontology_term",
                  "The specific relationship as an enumerated ontology term "
@@ -385,10 +386,10 @@ REL_METHOD = field("method", "ontology_term",
                    "separate manipulation-tier derivation document. Empty for standing "
                    "structural relations (part_of, member_of).", non_empty=False)
 write("stable", "directed_relation",
-      doc("directed_relation", ["subject_relation"],
-          deps=[dep("child", "subject", "The finer/subordinate subject (a part, "
-                    "member, or derivative)."),
-                dep("parent", "subject", "The whole, group, or source subject."),
+      doc("directed_relation", ["relation"],
+          deps=[dep("child", "entity", "The finer/subordinate/derived ENTITY (any "
+                    "entity — subject part, dataset, award, …)."),
+                dep("parent", "entity", "The whole/group/source/target ENTITY."),
                 dep("time_reference_#", "time_reference",
                     "Optional: when an EVENT relation happened (e.g. `encountered`, or "
                     "a `derived_from` creation event), as one or more time_reference "
@@ -396,14 +397,72 @@ write("stable", "directed_relation",
                     "anchor other times against (an `event_relative_reference`). Empty "
                     "for timeless relations (part_of). (D10 multi-party binding.)",
                     non_empty=False, multiple=True)],
-          fields=[REL_TERM, REL_METHOD]))
+          fields=[REL_TERM, REL_METHOD,
+                  field("sequence", "integer",
+                        "Optional ordinal for ordered relations (e.g. author "
+                        "position on a dataset `has_author` edge). Empty for "
+                        "unordered relations.", non_empty=False)]))
 write("stable", "undirected_relation",
-      doc("undirected_relation", ["subject_relation"],
-          deps=[dep("subjects", "subject", "The unordered pair of subjects "
+      doc("undirected_relation", ["relation"],
+          deps=[dep("entities", "entity", "The unordered pair of entities "
                     "(exactly two); order is meaningless.", multiple=True)],
           fields=[field("relation", "ontology_term",
                         "An association term (paired_with, same_as).",
                         non_empty=True)]))
+
+
+# ---------- 5b. entity genus + identity entities (dataset metadata redesign) ----
+# Referenceable identities share a genus: subject, person, organization,
+# publication, award, dataset. They carry a cross-reference `global_identifier`
+# and are the *things* other docs point at. Non-subject entities use TYPED
+# identity fields (not statements): their attributes are intrinsic identity, not
+# provenanced measurements, and names/titles/DOIs are not ontology terms, so
+# term_assertion does not fit. Everything relational (authorship, funding,
+# citation, affiliation) is a `directed_relation` at the entity layer (generalized
+# above): dataset -has_author-> person (+ sequence), dataset -funded_by-> award,
+# award -issued_by-> organization, person -affiliated_with-> organization,
+# dataset -cites-> publication.
+GLOBAL_ID = field(
+    "global_identifier", "structure",
+    "Cross-reference identifier(s) for this entity (ORCID | ROR | DOI | PMID | "
+    "PMCID | RRID | UDI | …). Array — e.g. a publication carries DOI+PMID+PMCID.",
+    non_empty=False, scalar=False, blank=[], default=[],
+    sub_fields=[subfield("scheme", "char", "Identifier scheme."),
+                subfield("value", "char", "Identifier value within the scheme.")])
+write("stable", "entity",
+      doc("entity", ["base"], abstract=True, fields=[GLOBAL_ID]))
+
+write("stable", "person", doc("person", ["entity"], fields=[
+    field("given_name", "char", "Given (personal) name; may include middle "
+          "names/initials (given/family per the international convention)."),
+    field("family_name", "char", "Family (sur)name."),
+    field("email", "char", "Contact email; meaningful when acting as a contact.",
+          non_empty=False)]))
+write("stable", "organization", doc("organization", ["entity"], fields=[
+    field("name", "char", "Organization name (funder or affiliation); ROR via "
+          "global_identifier. Location is not stored — it lives in the ROR record.")]))
+write("stable", "publication", doc("publication", ["entity"], fields=[
+    field("title", "char", "Publication title."),
+    field("date", "char", "Publication date/year.", non_empty=False),
+    field("authors", "char", "Author citation string — external, NOT decomposed "
+          "into person entities (cited papers' authors stay coarse).",
+          non_empty=False)]))
+write("stable", "award", doc("award", ["entity"], fields=[
+    field("title", "char", "Award/grant title; award number / grant DOI via "
+          "global_identifier. Its funder is a `directed_relation` -> organization.",
+          non_empty=False)]))
+# dataset IS the entity (target of the metadata_editor decomposition — a follow-up
+# migrator reshapes the Soph metadata_structure blob into this + person/award/
+# publication entities + relations; metadata_editor is kept as the source until then).
+write("stable", "dataset", doc("dataset", ["entity"], fields=[
+    field("full_name", "char", "Full dataset name."),
+    field("short_name", "char", "Short dataset name.", non_empty=False),
+    field("version", "char", "Version identifier.", non_empty=False),
+    field("description", "char", "Dataset description / abstract.", non_empty=False),
+    field("documentation", "char", "URI/DOI to the dataset's full documentation "
+          "(openMINDS fullDocumentation).", non_empty=False),
+    field("license", "char", "License.", non_empty=False),
+    field("release_date", "char", "Release date.", non_empty=False)]))
 
 
 # ---------- 6. (value_set removed) ----------

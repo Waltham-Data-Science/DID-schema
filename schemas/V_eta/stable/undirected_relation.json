@@ -4,17 +4,17 @@
         "class_version": "1.0.0",
         "superclasses": [
             {
-                "class_name": "subject_relation"
+                "class_name": "relation"
             }
         ],
         "maturity_level": "stable"
     },
     "depends_on": [
         {
-            "name": "subjects",
+            "name": "entities",
             "mustBeNonEmpty": true,
-            "documentation": "The unordered pair of subjects (exactly two); order is meaningless.",
-            "must_refer_to_document_class": "subject",
+            "documentation": "The unordered pair of entities (exactly two); order is meaningless.",
+            "must_refer_to_document_class": "entity",
             "multiple": true
         }
     ],

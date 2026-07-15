@@ -1,0 +1,29 @@
+{
+    "document_class": {
+        "class_name": "organization",
+        "class_version": "1.0.0",
+        "superclasses": [
+            {
+                "class_name": "entity"
+            }
+        ],
+        "maturity_level": "stable"
+    },
+    "depends_on": [],
+    "file": [],
+    "fields": [
+        {
+            "name": "name",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Organization name (funder or affiliation); ROR via global_identifier. Location is not stored \u2014 it lives in the ROR record.",
+            "constraints": {}
+        }
+    ]
+}

@@ -4,7 +4,7 @@
         "class_version": "1.0.0",
         "superclasses": [
             {
-                "class_name": "subject_relation"
+                "class_name": "relation"
             }
         ],
         "maturity_level": "stable"
@@ -13,14 +13,14 @@
         {
             "name": "child",
             "mustBeNonEmpty": true,
-            "documentation": "The finer/subordinate subject (a part, member, or derivative).",
-            "must_refer_to_document_class": "subject"
+            "documentation": "The finer/subordinate/derived ENTITY (any entity \u2014 subject part, dataset, award, \u2026).",
+            "must_refer_to_document_class": "entity"
         },
         {
             "name": "parent",
             "mustBeNonEmpty": true,
-            "documentation": "The whole, group, or source subject.",
-            "must_refer_to_document_class": "subject"
+            "documentation": "The whole/group/source/target ENTITY.",
+            "must_refer_to_document_class": "entity"
         },
         {
             "name": "time_reference_#",
@@ -68,6 +68,19 @@
             "queryable": true,
             "ontology": null,
             "documentation": "Optional: the procedure that produced a provenance/creation relation \u2014 the `how` (surgical_dissection, cell_culture_passage, biological_pooling, biological_reproduction, aliquoting, \u2026). This absorbs the retired `derivation` class's `derivation_method`: a timed `derived_from`/`sample_of`/\u2026 relation with a `method` and a `time_reference` IS the creation event (e.g. a birth = `derived_from` + method `biological_reproduction`), so there is no separate manipulation-tier derivation document. Empty for standing structural relations (part_of, member_of).",
+            "constraints": {}
+        },
+        {
+            "name": "sequence",
+            "type": "integer",
+            "blank_value": 0.0,
+            "default_value": 0.0,
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Optional ordinal for ordered relations (e.g. author position on a dataset `has_author` edge). Empty for unordered relations.",
             "constraints": {}
         }
     ]

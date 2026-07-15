@@ -257,6 +257,18 @@
             "path": "schemas/V_eta/stable/area_observation.json"
         },
         {
+            "class_name": "award",
+            "tier": "stable",
+            "class_version": "1.0.0",
+            "maturity_level": "stable",
+            "superclasses": [
+                {
+                    "class_name": "entity"
+                }
+            ],
+            "path": "schemas/V_eta/stable/award.json"
+        },
+        {
             "class_name": "base",
             "tier": "stable",
             "class_version": "1.0.0",
@@ -841,6 +853,18 @@
             "path": "schemas/V_eta/draft/dataseries_pyramid.json"
         },
         {
+            "class_name": "dataset",
+            "tier": "stable",
+            "class_version": "1.0.0",
+            "maturity_level": "stable",
+            "superclasses": [
+                {
+                    "class_name": "entity"
+                }
+            ],
+            "path": "schemas/V_eta/stable/dataset.json"
+        },
+        {
             "class_name": "dataset_remote",
             "tier": "stable",
             "class_version": "1.0.0",
@@ -907,7 +931,7 @@
             "maturity_level": "stable",
             "superclasses": [
                 {
-                    "class_name": "subject_relation"
+                    "class_name": "relation"
                 }
             ],
             "path": "schemas/V_eta/stable/directed_relation.json"
@@ -1079,6 +1103,18 @@
                 }
             ],
             "path": "schemas/V_eta/stable/energy_observation.json"
+        },
+        {
+            "class_name": "entity",
+            "tier": "stable",
+            "class_version": "1.0.0",
+            "maturity_level": "stable",
+            "superclasses": [
+                {
+                    "class_name": "base"
+                }
+            ],
+            "path": "schemas/V_eta/stable/entity.json"
         },
         {
             "class_name": "ephys_zarr",
@@ -1846,6 +1882,18 @@
             "path": "schemas/V_eta/stable/openminds_subject.json"
         },
         {
+            "class_name": "organization",
+            "tier": "stable",
+            "class_version": "1.0.0",
+            "maturity_level": "stable",
+            "superclasses": [
+                {
+                    "class_name": "entity"
+                }
+            ],
+            "path": "schemas/V_eta/stable/organization.json"
+        },
+        {
             "class_name": "oridirtuning_calc",
             "tier": "stable",
             "class_version": "1.0.0",
@@ -1874,6 +1922,18 @@
                 }
             ],
             "path": "schemas/V_eta/stable/orientation_direction_tuning.json"
+        },
+        {
+            "class_name": "person",
+            "tier": "stable",
+            "class_version": "1.0.0",
+            "maturity_level": "stable",
+            "superclasses": [
+                {
+                    "class_name": "entity"
+                }
+            ],
+            "path": "schemas/V_eta/stable/person.json"
         },
         {
             "class_name": "ph",
@@ -2056,6 +2116,18 @@
             "path": "schemas/V_eta/deprecated/projectvar.json"
         },
         {
+            "class_name": "publication",
+            "tier": "stable",
+            "class_version": "1.0.0",
+            "maturity_level": "stable",
+            "superclasses": [
+                {
+                    "class_name": "entity"
+                }
+            ],
+            "path": "schemas/V_eta/stable/publication.json"
+        },
+        {
             "class_name": "pyraview",
             "tier": "stable",
             "class_version": "1.0.0",
@@ -2072,6 +2144,18 @@
                 }
             ],
             "path": "schemas/V_eta/stable/pyraview.json"
+        },
+        {
+            "class_name": "relation",
+            "tier": "stable",
+            "class_version": "1.0.0",
+            "maturity_level": "stable",
+            "superclasses": [
+                {
+                    "class_name": "base"
+                }
+            ],
+            "path": "schemas/V_eta/stable/relation.json"
         },
         {
             "class_name": "resistance",
@@ -2500,7 +2584,7 @@
             "maturity_level": "stable",
             "superclasses": [
                 {
-                    "class_name": "base"
+                    "class_name": "entity"
                 }
             ],
             "path": "schemas/V_eta/stable/subject.json"
@@ -2564,18 +2648,6 @@
                 }
             ],
             "path": "schemas/V_eta/stable/subject_observation.json"
-        },
-        {
-            "class_name": "subject_relation",
-            "tier": "stable",
-            "class_version": "1.0.0",
-            "maturity_level": "stable",
-            "superclasses": [
-                {
-                    "class_name": "base"
-                }
-            ],
-            "path": "schemas/V_eta/stable/subject_relation.json"
         },
         {
             "class_name": "subject_statement",
@@ -2890,7 +2962,7 @@
             "maturity_level": "stable",
             "superclasses": [
                 {
-                    "class_name": "subject_relation"
+                    "class_name": "relation"
                 }
             ],
             "path": "schemas/V_eta/stable/undirected_relation.json"

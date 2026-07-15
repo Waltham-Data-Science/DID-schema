@@ -199,13 +199,24 @@ def test_subject_assertion_is_genus_with_typed_leaves():
     assert v["type"] == "mass" and v["mustBeScalar"] is True
 
 
-def test_subject_relation_branch():
-    assert RECORDS["subject_relation"][1]["document_class"].get("abstract") is True
+def test_relation_branch():
+    # subject_relation was renamed to `relation` and generalized to entity<->entity.
+    assert "subject_relation" not in RECORDS
+    assert RECORDS["relation"][1]["document_class"].get("abstract") is True
     for cls, endpoints in (("directed_relation", {"child", "parent"}),
-                           ("undirected_relation", {"subjects"})):
-        assert "subject_relation" in _chain(cls)
+                           ("undirected_relation", {"entities"})):
+        assert "relation" in _chain(cls)
         assert endpoints <= _flat_dep_names(cls), f"{cls} endpoints {endpoints}"
         assert _flat_field_types(cls).get("relation") == "ontology_term"
+
+
+def test_entity_genus():
+    assert RECORDS["entity"][1]["document_class"].get("abstract") is True
+    for e in ("subject", "person", "organization", "publication", "award", "dataset"):
+        assert "entity" in _chain(e), f"{e} should descend from entity"
+    # directed_relation endpoints are entities now, not just subjects
+    dr = {d["name"]: d for d in RECORDS["directed_relation"][1]["depends_on"]}
+    assert dr["child"]["must_refer_to_document_class"] == "entity"
 
 
 def test_value_set_class_dropped():
