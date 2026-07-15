@@ -94,9 +94,19 @@ source shape retained for input recognition.
 | Class | Role | Verdict |
 |---|---|---|
 | `directory` | storage descriptor (`base_uri`, `manifest_format`); referenced by `zarr` | legit **storage infra** — keep (owes D-A governance) |
-| `ndi_reserved_keys`, `mock` | meta files (no `document_class`) | keep (schema machinery) |
-| `metadata_editor` | app metadata blob | keep (app infra); minor governance |
+| `ndi_reserved_keys` | meta file (no `document_class`) | keep (schema machinery) |
+| `mock` | bare `ismock` test-flag `document_class` | ~~keep~~ **DROPPED** — test-only scaffolding, nothing constructs it; a production go-forward schema should not carry a "this is fake" class |
+| `metadata_editor` | app metadata blob (the NDIMetaDataEditorApp `metadata_structure`) | **decomposed** → `dataset` + `person`/`organization`/`award`/`publication`/`web_resource` entities + `directed_relation`s (`migrators_j/metadata_editor.m`). Kept as the SOURCE class (Phase-8 deletion deferred, same as `element`/openMINDS) |
 | `demo_ndi`, `demo_ndi_mock` | recognized `did_v1` source classes + migration-test fixtures | keep (not cruft — load-bearing for tests) |
+
+**Entity model (new go-forward genus, §1-adjacent):** `entity` (abstract) roots the
+referenceable-identity classes — `subject`, `person`, `organization`, `publication`,
+`award`, `dataset`, `web_resource` — each carrying a `global_identifier[]`
+{scheme, value} (ORCID/ROR/DOI/PMID/PMCID/RRID/UDI/URL). All cross-entity
+relationships (authorship, funding, citation, affiliation, documentation) are
+`directed_relation`s generalized to `entity ↔ entity`, distinguished by the relation
+term. `subject_relation` was renamed `relation`; `value_set` was dropped (redundant
+with the binding registry).
 
 ## Ontology / flat-table family (D10/D11 — separate track)
 
