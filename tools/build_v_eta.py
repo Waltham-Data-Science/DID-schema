@@ -169,6 +169,13 @@ for name in DELETE:
     if p:
         os.remove(p)
 
+# Remove the expression/transcriptomics family entirely (not corpus-exercised;
+# "don't draft what we have no use for"). Covers expression_observation,
+# spatial_expression_observation, expression_matrix_data + all 13 format variants.
+for _p in (glob.glob(os.path.join(VETA, "*", "expression*.json"))
+           + glob.glob(os.path.join(VETA, "*", "spatial_expression*.json"))):
+    os.remove(_p)
+
 # apply renames + superclass rewrites across every remaining file
 for tier in TIERS:
     for p in sorted(glob.glob(os.path.join(VETA, tier, "*.json"))):
