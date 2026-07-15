@@ -1,62 +1,71 @@
-# V_eta — The Final Class Set (191)
+# V_eta — The Final Class Set (161 persist)
 
-*The classes that will exist in the finished V_eta schema, once the phase-outs are
-decomposed/retired. Companion to `V_eta_go_forward_class_audit.md` (dispositions) and
-`V_eta_class_provenance.md` (origins). Counts: **191 keep · 49 phase-out · 18 undecided**
-of 258 current go-forward classes.*
+*The classes that survive to V1. Generated from the built schema (`tools/build_v_eta.py`
+→ `schemas/V_eta/`), NOT hand-typed — regenerate rather than edit by memory. Category order:
+spine → entities → **composites (data_type) before leaves** → time_reference → data_body (exactly 2)
+→ infra. Companion: `V_eta_6_7_walkthrough_STATE.md` (the ⑥/⑦ audit + chunk status).*
 
-## ① Statement spine & genus (15)
-base, app, subject, subject_statement, subject_assertion, numeric_assertion,
-subject_interaction, subject_observation, subject_manipulation, subject_relation,
-directed_relation, undirected_relation, time_reference, data_body, value_set
+| Category | n |
+|---|--:|
+| ① Statement spine & genus | 14 |
+| ② Entities | 8 |
+| ③ Quantity & substance composites (data_type) | 30 |
+| ④ Data-type leaf tier | 73 |
+| ⑤ time_reference family | 8 |
+| ⑥ data_body family | 2 |
+| ⑦ Acquisition & infra (keep) | 26 |
+| **Persist total** | **161** |
 
-## ② Data-type leaf tier (72) — one class per quantity × statement kind
-**observation + assertion** (23 dims): acceleration, amount, angle, angular_velocity,
-area, capacitance, charge, concentration, conductance, count, current, duration,
-energy, force, length, mass, ph, power, resistance, score, velocity, voltage, volume
-**observation + assertion + manipulation** (4 dims): frequency, intensity, pressure, temperature
-**non-dimensional leaves:** term_observation, image_observation, dataseries_observation,
-timeseries_observation, imageseries_observation, expression_observation,
-spatial_expression_observation, term_assertion, date_assertion, dose_manipulation,
-formulation_manipulation, term_manipulation, stimulus_manipulation, placement
+## ① Statement spine & genus (14)
+`app`, `base`, `data`, `data_body`, `data_type`, `directed_relation`, `entity`, `relation`, `subject_assertion`, `subject_interaction`, `subject_manipulation`, `subject_observation`, `subject_statement`, `undirected_relation`
 
-## ③ Quantity & substance composites (30)
-the 27 dimension abstracts (angle, voltage, frequency, …) + dose, formulation, chemical
+## ② Entities (8) — the referenceable-identity genus (each carries `global_identifier`)
+`subject`, `person`, `organization`, `publication`, `award`, `dataset`, `web_resource`, `session`
 
-## ④ time_reference family (7)
-utc_reference, epoch_bounded_reference, epoch_relative_reference, event_bounded_reference,
-event_relative_reference, session_bounded_reference, session_relative_reference
+## ③ Quantity & substance composites (30) — the building blocks the leaves carry
 
-## ⑤ data_body family (34)
-sampled_body, opaque_body, dataseries_data, timeseries_data(+_binary/_csv/_edf),
-imageseries_data, expression_matrix_data (+13 format variants), reference_data,
-reference_annotation_data(+_gff3/_gtf), reference_sequence_data(+3 fasta),
-sequence_read_data(+_bam/_cram/_fastq)
+**Dimensional (27):** `acceleration`, `amount`, `angle`, `angular_velocity`, `area`, `capacitance`, `charge`, `concentration`, `conductance`, `count`, `current`, `duration`, `energy`, `force`, `frequency`, `intensity`, `length`, `mass`, `ph`, `power`, `pressure`, `resistance`, `score`, `temperature`, `velocity`, `voltage`, `volume`
 
-## ⑥ Acquisition / session infra — D-A (23)
-daqsystem, daqreader(+_ndr/_epochdata_ingested/_mfdaq_epochdata_ingested/_image_epochdata_ingested),
-daqmetadatareader(+_epochdata_ingested), filenavigator, epochid, epochfiles_ingested,
-epochclocktimes, element_epoch, oneepoch, valid_interval, syncgraph, syncrule,
-syncrule_mapping, session, session_extent, session_in_a_dataset, dataset_remote, dataset_session_info
+**Substance (3, currently ⊂ base — candidate to reparent under `data_type`):** `chemical`, `dose`, `formulation`
 
-## ⑦ Stimulus bodies-of-record (2)
-stimulus_presentation, control_stimulus_ids
+## ④ Data-type leaf tier (73) — one class per quantity × statement kind
+`acceleration_assertion`, `acceleration_observation`, `amount_assertion`, `amount_observation`, `angle_assertion`, `angle_observation`, `angular_velocity_assertion`, `angular_velocity_observation`, `area_assertion`, `area_observation`, `capacitance_assertion`, `capacitance_observation`, `charge_assertion`, `charge_observation`, `concentration_assertion`, `concentration_manipulation`, `concentration_observation`, `conductance_assertion`, `conductance_observation`, `count_assertion`, `count_observation`, `current_assertion`, `current_manipulation`, `current_observation`, `dataseries_observation`, `date_assertion`, `dose_manipulation`, `duration_assertion`, `duration_observation`, `energy_assertion`, `energy_observation`, `force_assertion`, `force_manipulation`, `force_observation`, `formulation_manipulation`, `frequency_assertion`, `frequency_manipulation`, `frequency_observation`, `image_observation`, `imageseries_observation`, `intensity_assertion`, `intensity_manipulation`, `intensity_observation`, `length_assertion`, `length_observation`, `mass_assertion`, `mass_observation`, `numeric_assertion`, `ph_assertion`, `ph_observation`, `power_assertion`, `power_observation`, `pressure_assertion`, `pressure_manipulation`, `pressure_observation`, `resistance_assertion`, `resistance_observation`, `score_assertion`, `score_observation`, `temperature_assertion`, `temperature_manipulation`, `temperature_observation`, `term_assertion`, `term_manipulation`, `term_observation`, `timeseries_observation`, `velocity_assertion`, `velocity_observation`, `voltage_assertion`, `voltage_manipulation`, `voltage_observation`, `volume_assertion`, `volume_observation`
 
-## ⑧ Infra / meta (8)
-directory, metadata_editor, mock, ndi_reserved_keys, zarr, demo_ndi, demo_ndi_mock, interaction_purpose
+## ⑤ time_reference family (8)
+`time_reference`, `event_relative_reference`, `epoch_relative_reference`, `session_bounded_reference`, `utc_reference`, `session_relative_reference`, `epoch_bounded_reference`, `event_bounded_reference`
+
+## ⑥ data_body family (2) — EXACTLY two; all format/series carriers phase out (2.D fold)
+`sampled_body`, `opaque_body`
+
+## ⑦ Acquisition & infrastructure — KEEP (26)
+
+DAQ/sync/epoch/navigator, storage descriptor, index/geometry, stimulus bodies-of-record, test fixtures:
+
+`daqsystem`, `daqreader`, `daqmetadatareader`, `daqreader_ndr`, `daqreader_epochdata_ingested`, `daqreader_image_epochdata_ingested`, `daqreader_mfdaq_epochdata_ingested`, `daqmetadatareader_epochdata_ingested`, `epochfiles_ingested`, `epochid`, `element_epoch`, `filenavigator`, `syncgraph`, `syncrule`, `syncrule_mapping`, `directory`, `ngrid`, `dataseries_channel_map`, `binaryseries_parameters`, `filter`, `stimulus_presentation`, `control_stimulus_ids`, `demo_ndi`, `demo_ndi_mock`, `interaction_purpose`, `instrument`
+
+*Pending transforms within ⑦ (see walkthrough STATE doc): `element_epoch` rename (e); `daqreader_ndr`/`daqreader_mfdaq_epochdata_ingested` subtype de-encode (c); `daqreader_image_epochdata_ingested`/`epochfiles_ingested` → sampled_body (b); governance sweep. `instrument`/`interaction_purpose` subject-domain — keep-or-fold call open.*
 
 ---
 
 ## NOT in the final set
 
-**Phase-out (49)** — decomposed/retired then deleted: element + openMINDS(×4); the
-analysis zoo (calc/tuning ×20, spike-sorting ×13, stimulus_response ×4); probe/spatial
-measurements ×5; `ontology_label`; `measurement` (redundant with the observation tier;
-carries an ndi_ class-path + JSON blob → needs-NDI).
+**Sources to delete (Phase-8, 9)** — dissolved by migrators, deleted once corpora prove them:
 
-**Undecided (18)** — data/file representation (generic_file, image, image_collection,
-image_zarr, ephys_zarr, ngrid, binaryseries_parameters, filter, pyraview,
-dataseries_channel_map, dataseries_pyramid: → data_body vs kept index/DSP infra);
-`instrument` (redundant with device-as-subject + term_assertion?); `neuron_extracellular`;
-`ontology_table_row`, `ontology_image`; `stimulus_parameter`, `stimulus_parameter_table`,
-`stimulus_approach`.
+`dataset_remote`, `dataset_session_info`, `element`, `metadata_editor`, `openminds`, `openminds_element`, `openminds_stimulus`, `openminds_subject`, `session_in_a_dataset`
+
+**Analysis tier to decompose (D-C, 39)** — → `*_observation`s + `data_body` + `derived_from`:
+
+`binnedspikeratevm`, `contrast_sensitivity_calc`, `contrast_tuning`, `contrast_tuning_calc`, `fitcurve`, `hartley_calc`, `hartley_reverse_correlation`, `jrclust_clusters`, `neuron_extracellular`, `oridirtuning_calc`, `orientation_direction_tuning`, `reverse_correlation`, `simple_calc`, `site2channelmap`, `sorting_parameters`, `spatial_frequency_tuning`, `spatial_frequency_tuning_calc`, `speed_tuning`, `speed_tuning_calc`, `spike_clusters`, `spike_extraction_parameters`, `spike_extraction_parameters_modification`, `spike_interface_sorting_outputs`, `spikewaves`, `stimulus_parameter`, `stimulus_parameter_table`, `stimulus_response`, `stimulus_response_scalar`, `stimulus_response_scalar_parameters`, `stimulus_response_scalar_parameters_basic`, `stimulus_tuningcurve`, `temporal_frequency_tuning`, `temporal_frequency_tuning_calc`, `tuning_fit`, `tuningcurve_calc`, `vmneuralresponseresiduals`, `vmspikefilteringparameters`, `vmspikefit`, `vmspikesummary`
+
+**Phase out → `data_body` (2.D fold, 14):**
+
+`dataseries_data`, `dataseries_pyramid`, `ephys_zarr`, `generic_file`, `image`, `image_collection`, `image_zarr`, `imageseries_data`, `pyraview`, `timeseries_data`, `timeseries_data_binary`, `timeseries_data_csv`, `timeseries_data_edf`, `zarr`
+
+**Phase out → observations, needs-NDI / D10-11 (8):**
+
+`probe_location`, `probe_geometry`, `electrode_offset_voltage`, `position_metadata`, `distance_metadata`, `ontology_label`, `ontology_table_row`, `ontology_image`
+
+**Pre-J holdovers → phase out (2):**
+
+`calculator`, `measurement`
+
