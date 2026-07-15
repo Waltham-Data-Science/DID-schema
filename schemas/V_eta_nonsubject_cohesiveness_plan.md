@@ -291,6 +291,13 @@ The classes kept in 2.A carry pre-J shapes. Bringing them to J standard:
   Dropping/reshaping them (→ a typed enum or ontology term, no `ndi_` namespace)
   requires a coordinated NDI object-model change, so it is scheduled with NDI
   input, not as a pure schema edit.
+- **Probe-measurement J-ifications** (from the Part 5 misc triage):
+  `electrode_offset_voltage` (`offset_voltages`/`voltage_units` on `probe_id`) →
+  a `voltage_observation` on the probe-subject; `probe_geometry`
+  (`channel_positions`/`num_channels`) → an observation / `data_body`. Both are
+  **live NDI classes** actively written/read by NDI (`makeVoltageOffsets.m`,
+  `plotProbeGeometry.m`, `site2channelmap`), so reshaping needs a coordinated NDI
+  writer + migrator change, not a pure schema edit.
 
 ---
 
@@ -384,12 +391,15 @@ references, covered by pattern), the undiscussed holdovers and their disposition
 | data-representation (`ephys_zarr`, `image_zarr`, `image_collection`, `dataseries_pyramid`, `dataseries_channel_map`, `binaryseries_parameters`, `ngrid`, `pyraview`) | 8 | array/blob reps → `data_body`/`opaque_body` (**2.D**); `ngrid`/`*_channel_map`/`binaryseries_parameters` → kept **index/geometry infra** (governance-only). |
 | acquisition/epoch infra (`daq*_epochdata_ingested`, `daqreader_ndr`, `epochclocktimes`, `oneepoch`, `valid_interval`, `session_extent`) | 7 | **→ D-A** governance umbrella (kept as infra; type deps, declare shapes). Enumerated here so they are no longer implicit. |
 | dataset/session infra (`dataset_remote`, `dataset_session_info`, `session_in_a_dataset`) | 3 | **→ D-A** (kept as infra, like `session`). |
-| misc NDI | 11 | **triage:** delete cruft (`demo_ndi`/`demo_ndi_mock`, `projectvar`, deprecated `image_stack_parameters`); **J-ify measurements** (`electrode_offset_voltage` → `voltage_observation`; `probe_geometry` → observation/`data_body`); keep true infra (`directory`, `ndi_reserved_keys`, `metadata_editor`, `interaction_purpose`). |
+| misc NDI | 11 | **triage — on inspection, ZERO safe deletions** (the audit's "delete cruft" was wrong; all are load-bearing): `demo_ndi`/`demo_ndi_mock` are recognized `did_v1` source classes (`demoNDI`/`demoNDIMock` renames) **and** migration-test fixtures (`testConvertV1ToV2`); `projectvar` is a **live NDI class** (`projectvardef.m`); `image_stack_parameters` is read by the **active `image_stack` migrator** + tests → **KEEP all four**. **J-ify measurements → needs-NDI** (not cleanup): `electrode_offset_voltage` (→ `voltage_observation`) and `probe_geometry` (→ observation/`data_body`) are **live NDI classes** (`makeVoltageOffsets.m`, `plotProbeGeometry.m`, `site2channelmap`); reshaping needs a coordinated NDI writer + migrator change → moved to the needs-NDI list. Keep true infra (`directory`, `ndi_reserved_keys`, `metadata_editor`, `interaction_purpose`). |
 | genomics/data-format (`expression_matrix_data_*`, `reference_*`, `sequence_read_data_*`, `timeseries_data_*`, …) | 32 | already **= 2.D** (draft `data_body` subtypes). |
 
 After this sweep, every non-leaf class has a disposition: an analysis-tier decompose
-(D-C), a `data_body` fold (2.D), a D-A infra/governance keep, or explicit deletion.
-**Open items** left: the D3/D6 term mapping, the misc J-ify/delete triage, and the
+(D-C), a `data_body` fold (2.D), or a D-A infra/governance **keep**. The misc-triage
+inspection found **no safe deletions** — every "cruft" candidate is a recognized
+source class, a test fixture, a live NDI class, or an active migrator dependency, so
+all are kept. **Open items** left: the D3/D6 term mapping; the two probe-measurement
+J-ifications (`electrode_offset_voltage`, `probe_geometry` → needs-NDI); and the
 per-class spike-sorting decomposition detail (to be written when D-C is implemented).
 
 ---
