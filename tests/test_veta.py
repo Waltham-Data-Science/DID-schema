@@ -356,15 +356,29 @@ def test_assertion_is_timeless():
 
 def test_data_body_classes():
     assert RECORDS["data_body"][1]["document_class"].get("abstract") is True
-    assert "statement" in _flat_dep_names("data_body")
+    # `statement` is declared per child, not on the abstract parent (placement
+    # pattern): required on sampled_body (a statement's stream), optional on
+    # opaque_body (may be a standalone attachment).
+    assert "statement" not in _flat_dep_names("data_body")
     for body in ("sampled_body", "opaque_body"):
         assert "data_body" in _chain(body)
         assert RECORDS[body][0] == "draft"
+    sampled_deps = {d["name"]: d for d in RECORDS["sampled_body"][1]["depends_on"]}
+    assert sampled_deps["statement"]["mustBeNonEmpty"] is True
+    opaque_deps = {d["name"]: d for d in RECORDS["opaque_body"][1]["depends_on"]}
+    assert opaque_deps["statement"]["mustBeNonEmpty"] is False
     sft = _flat_field_types("sampled_body")
     assert sft.get("datum") == "structure" and sft.get("sample_time") == "structure"
     assert sft.get("summary") == "structure"
-    # opaque_body is a pure marker (adds no fields of its own)
-    assert RECORDS["opaque_body"][1]["fields"] == []
+    # opaque_body carries a small descriptor (generic_file folds onto it, 2.D slice A)
+    of = {f["name"] for f in RECORDS["opaque_body"][1]["fields"]}
+    assert {"format", "filename", "description"} <= of
+
+
+def test_generic_file_folded_to_opaque_body():
+    """2.D slice A: generic_file dissolves into opaque_body (no class of its own)."""
+    assert "generic_file" not in RECORDS
+    assert "opaque_body" in RECORDS
 
 
 def test_binding_is_formalized_in_meta_schema():

@@ -141,7 +141,14 @@ for d in DIMS:
 DELETE = {"scalar_observation", "scalar_manipulation", "annotation", "group_assignment",
           "derivation", "placement", "stimulus_manipulation", "stimulus_approach",
           "oneepoch", "epochclocktimes", "valid_interval", "session_extent",
-          "mock"}
+          "mock",
+          # 2.D opaque fold (slice A): generic_file dissolves into opaque_body
+          # (uninterpreted bytes + a small format/filename descriptor). No class
+          # references it (checked), so deletion is clean; DID-matlab
+          # migrators_j.generic_file folds v1 docs. (image stays -- it is the
+          # image_observation geometry mixin, part of the NDI-side sampled fold;
+          # image_collection is a separate per-class call.)
+          "generic_file"}
 # `mock` (a bare `ismock` integer flag) is test-only scaffolding — nothing in the
 # corpora or NDI constructs it (`ndi.document('mock')` appears nowhere; the
 # +ndi/+mock/ package is a helper namespace, not this class). A production
@@ -638,15 +645,23 @@ ss["fields"].append(field(
     constraints={"enum": ["inline", "reference", "body"]}))
 write("stable", "subject_statement", ss)
 
-STATEMENT_DEP = dep("statement", "subject_statement",
+# `statement` is declared by the CHILDREN, not the abstract parent: a sampled_body
+# is always the value stream of a statement (REQUIRED), but an opaque_body may be a
+# statement's opaque value OR a standalone attached file (OPTIONAL). Placing it per
+# child (parent neutral) expresses that without a forbidden parent-optional /
+# child-required override -- the same pattern used for local_identifier / time_reference.
+STATEMENT_REQ = dep("statement", "subject_statement",
                     "The one statement this body belongs to (reverse pointer); a "
                     "stream appends more bodies without rewriting the anchor.")
+STATEMENT_OPT = dep("statement", "subject_statement",
+                    "The statement this body is the opaque value of, if any; a "
+                    "free-standing attachment leaves it empty.", non_empty=False)
 BODY_FILE = [{"name": "body_data", "documentation": "The byte payload (>=1 file)."}]
-data_body = doc("data_body", ["base"], abstract=True, maturity="draft", deps=[STATEMENT_DEP])
+data_body = doc("data_body", ["base"], abstract=True, maturity="draft")
 data_body["file"] = BODY_FILE
 write("draft", "data_body", data_body)
 
-sampled = doc("sampled_body", ["data_body"], maturity="draft", fields=[
+sampled = doc("sampled_body", ["data_body"], maturity="draft", deps=[STATEMENT_REQ], fields=[
     field("datum", "structure", "The per-sample value type (kind/dtype/unit/shape).",
           blank={}, sub_fields=[
               subfield("kind", "char", "scalar | array | record.", non_empty=True,
@@ -672,7 +687,17 @@ sampled = doc("sampled_body", ["data_body"], maturity="draft", fields=[
 sampled["file"] = BODY_FILE
 write("draft", "sampled_body", sampled)
 
-opaque = doc("opaque_body", ["data_body"], maturity="draft")
+opaque = doc("opaque_body", ["data_body"], maturity="draft", deps=[STATEMENT_OPT], fields=[
+    field("format", "char",
+          "Container / MIME format of the bytes (e.g. 'application/pdf', "
+          "'image/tiff'). A descriptor only -- the payload is uninterpreted; a "
+          "container format is otherwise derivable from the stored bytes.",
+          non_empty=False),
+    field("filename", "char", "Original filename of the payload, if any.",
+          non_empty=False),
+    field("description", "char", "Human description of the opaque payload.",
+          non_empty=False),
+])
 opaque["file"] = BODY_FILE
 write("draft", "opaque_body", opaque)
 
@@ -1288,8 +1313,8 @@ _RET_SOURCES = {"element", "openminds", "openminds_subject", "openminds_element"
     "session_in_a_dataset", "dataset_session_info"}
 _RET_CARRIERS = {"timeseries_data", "timeseries_data_binary", "timeseries_data_csv",
     "timeseries_data_edf", "dataseries_data", "dataseries_pyramid", "imageseries_data",
-    "ephys_zarr", "image_zarr", "zarr", "image", "image_collection", "generic_file",
-    "pyraview"}
+    "ephys_zarr", "image_zarr", "zarr", "image", "image_collection",
+    "pyraview"}  # generic_file folded to opaque_body (2.D slice A) -> now in DELETE
 _RET_TOOBS = {"probe_location", "probe_geometry", "electrode_offset_voltage",
     "position_metadata", "distance_metadata", "ontology_label", "ontology_table_row",
     "ontology_image"}

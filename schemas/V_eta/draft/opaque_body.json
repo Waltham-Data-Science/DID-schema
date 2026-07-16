@@ -9,12 +9,59 @@
         ],
         "maturity_level": "draft"
     },
-    "depends_on": [],
+    "depends_on": [
+        {
+            "name": "statement",
+            "mustBeNonEmpty": false,
+            "documentation": "The statement this body is the opaque value of, if any; a free-standing attachment leaves it empty.",
+            "must_refer_to_document_class": "subject_statement"
+        }
+    ],
     "file": [
         {
             "name": "body_data",
             "documentation": "The byte payload (>=1 file)."
         }
     ],
-    "fields": []
+    "fields": [
+        {
+            "name": "format",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Container / MIME format of the bytes (e.g. 'application/pdf', 'image/tiff'). A descriptor only -- the payload is uninterpreted; a container format is otherwise derivable from the stored bytes.",
+            "constraints": {}
+        },
+        {
+            "name": "filename",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Original filename of the payload, if any.",
+            "constraints": {}
+        },
+        {
+            "name": "description",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Human description of the opaque payload.",
+            "constraints": {}
+        }
+    ]
 }

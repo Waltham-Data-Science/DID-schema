@@ -10,14 +10,7 @@
         "maturity_level": "draft",
         "abstract": true
     },
-    "depends_on": [
-        {
-            "name": "statement",
-            "mustBeNonEmpty": true,
-            "documentation": "The one statement this body belongs to (reverse pointer); a stream appends more bodies without rewriting the anchor.",
-            "must_refer_to_document_class": "subject_statement"
-        }
-    ],
+    "depends_on": [],
     "file": [
         {
             "name": "body_data",
