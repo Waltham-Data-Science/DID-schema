@@ -55,9 +55,7 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                {
-                    "class_name": "data_type"
-                }
+                "data_type"
             ],
             "path": "schemas/V_eta/stable/acceleration.json"
         },
@@ -67,9 +65,7 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                {
-                    "class_name": "numeric_assertion"
-                }
+                "numeric_assertion"
             ],
             "path": "schemas/V_eta/stable/acceleration_assertion.json"
         },
@@ -79,12 +75,8 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                {
-                    "class_name": "subject_observation"
-                },
-                {
-                    "class_name": "acceleration"
-                }
+                "subject_observation",
+                "acceleration"
             ],
             "path": "schemas/V_eta/stable/acceleration_observation.json"
         },
@@ -94,9 +86,7 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                {
-                    "class_name": "data_type"
-                }
+                "data_type"
             ],
             "path": "schemas/V_eta/stable/amount.json"
         },
@@ -106,9 +96,7 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                {
-                    "class_name": "numeric_assertion"
-                }
+                "numeric_assertion"
             ],
             "path": "schemas/V_eta/stable/amount_assertion.json"
         },
@@ -118,12 +106,8 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                {
-                    "class_name": "subject_observation"
-                },
-                {
-                    "class_name": "amount"
-                }
+                "subject_observation",
+                "amount"
             ],
             "path": "schemas/V_eta/stable/amount_observation.json"
         },
@@ -133,9 +117,7 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                {
-                    "class_name": "data_type"
-                }
+                "data_type"
             ],
             "path": "schemas/V_eta/stable/angle.json"
         },
@@ -145,9 +127,7 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                {
-                    "class_name": "numeric_assertion"
-                }
+                "numeric_assertion"
             ],
             "path": "schemas/V_eta/stable/angle_assertion.json"
         },
@@ -157,12 +137,8 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                {
-                    "class_name": "subject_observation"
-                },
-                {
-                    "class_name": "angle"
-                }
+                "subject_observation",
+                "angle"
             ],
             "path": "schemas/V_eta/stable/angle_observation.json"
         },
@@ -172,9 +148,7 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                {
-                    "class_name": "data_type"
-                }
+                "data_type"
             ],
             "path": "schemas/V_eta/stable/angular_velocity.json"
         },
@@ -184,9 +158,7 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                {
-                    "class_name": "numeric_assertion"
-                }
+                "numeric_assertion"
             ],
             "path": "schemas/V_eta/stable/angular_velocity_assertion.json"
         },
@@ -196,12 +168,8 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                {
-                    "class_name": "subject_observation"
-                },
-                {
-                    "class_name": "angular_velocity"
-                }
+                "subject_observation",
+                "angular_velocity"
             ],
             "path": "schemas/V_eta/stable/angular_velocity_observation.json"
         },
@@ -211,9 +179,7 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                {
-                    "class_name": "base"
-                }
+                "base"
             ],
             "path": "schemas/V_eta/stable/app.json"
         },
@@ -223,9 +189,7 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                {
-                    "class_name": "data_type"
-                }
+                "data_type"
             ],
             "path": "schemas/V_eta/stable/area.json"
         },
@@ -235,9 +199,7 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                {
-                    "class_name": "numeric_assertion"
-                }
+                "numeric_assertion"
             ],
             "path": "schemas/V_eta/stable/area_assertion.json"
         },
@@ -247,12 +209,8 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                {
-                    "class_name": "subject_observation"
-                },
-                {
-                    "class_name": "area"
-                }
+                "subject_observation",
+                "area"
             ],
             "path": "schemas/V_eta/stable/area_observation.json"
         },
@@ -262,9 +220,7 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                {
-                    "class_name": "entity"
-                }
+                "entity"
             ],
             "path": "schemas/V_eta/stable/award.json"
         },
@@ -282,9 +238,7 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                {
-                    "class_name": "base"
-                }
+                "base"
             ],
             "path": "schemas/V_eta/stable/binaryseries_parameters.json"
         },
@@ -294,9 +248,7 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                {
-                    "class_name": "base"
-                }
+                "base"
             ],
             "path": "schemas/V_eta/stable/binnedspikeratevm.json"
         },
@@ -306,12 +258,8 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                {
-                    "class_name": "base"
-                },
-                {
-                    "class_name": "app"
-                }
+                "base",
+                "app"
             ],
             "path": "schemas/V_eta/stable/calculator.json"
         },
@@ -321,9 +269,7 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                {
-                    "class_name": "data_type"
-                }
+                "data_type"
             ],
             "path": "schemas/V_eta/stable/capacitance.json"
         },
@@ -333,9 +279,7 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                {
-                    "class_name": "numeric_assertion"
-                }
+                "numeric_assertion"
             ],
             "path": "schemas/V_eta/stable/capacitance_assertion.json"
         },
@@ -345,12 +289,8 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                {
-                    "class_name": "subject_observation"
-                },
-                {
-                    "class_name": "capacitance"
-                }
+                "subject_observation",
+                "capacitance"
             ],
             "path": "schemas/V_eta/stable/capacitance_observation.json"
         },
@@ -360,9 +300,7 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                {
-                    "class_name": "data_type"
-                }
+                "data_type"
             ],
             "path": "schemas/V_eta/stable/charge.json"
         },
@@ -372,9 +310,7 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                {
-                    "class_name": "numeric_assertion"
-                }
+                "numeric_assertion"
             ],
             "path": "schemas/V_eta/stable/charge_assertion.json"
         },
@@ -384,12 +320,8 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                {
-                    "class_name": "subject_observation"
-                },
-                {
-                    "class_name": "charge"
-                }
+                "subject_observation",
+                "charge"
             ],
             "path": "schemas/V_eta/stable/charge_observation.json"
         },
@@ -399,9 +331,7 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                {
-                    "class_name": "base"
-                }
+                "base"
             ],
             "path": "schemas/V_eta/stable/chemical.json"
         },
@@ -411,9 +341,7 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                {
-                    "class_name": "data_type"
-                }
+                "data_type"
             ],
             "path": "schemas/V_eta/stable/concentration.json"
         },
@@ -423,9 +351,7 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                {
-                    "class_name": "numeric_assertion"
-                }
+                "numeric_assertion"
             ],
             "path": "schemas/V_eta/stable/concentration_assertion.json"
         },
@@ -435,12 +361,8 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                {
-                    "class_name": "subject_manipulation"
-                },
-                {
-                    "class_name": "concentration"
-                }
+                "subject_manipulation",
+                "concentration"
             ],
             "path": "schemas/V_eta/stable/concentration_manipulation.json"
         },
@@ -450,12 +372,8 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                {
-                    "class_name": "subject_observation"
-                },
-                {
-                    "class_name": "concentration"
-                }
+                "subject_observation",
+                "concentration"
             ],
             "path": "schemas/V_eta/stable/concentration_observation.json"
         },
@@ -465,9 +383,7 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                {
-                    "class_name": "data_type"
-                }
+                "data_type"
             ],
             "path": "schemas/V_eta/stable/conductance.json"
         },
@@ -477,9 +393,7 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                {
-                    "class_name": "numeric_assertion"
-                }
+                "numeric_assertion"
             ],
             "path": "schemas/V_eta/stable/conductance_assertion.json"
         },
@@ -489,12 +403,8 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                {
-                    "class_name": "subject_observation"
-                },
-                {
-                    "class_name": "conductance"
-                }
+                "subject_observation",
+                "conductance"
             ],
             "path": "schemas/V_eta/stable/conductance_observation.json"
         },
@@ -504,12 +414,8 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                {
-                    "class_name": "base"
-                },
-                {
-                    "class_name": "calculator"
-                }
+                "base",
+                "calculator"
             ],
             "path": "schemas/V_eta/stable/contrast_sensitivity_calc.json"
         },
@@ -519,9 +425,7 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                {
-                    "class_name": "base"
-                }
+                "base"
             ],
             "path": "schemas/V_eta/stable/contrast_tuning.json"
         },
@@ -531,15 +435,9 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                {
-                    "class_name": "base"
-                },
-                {
-                    "class_name": "contrast_tuning"
-                },
-                {
-                    "class_name": "tuning_fit"
-                }
+                "base",
+                "contrast_tuning",
+                "tuning_fit"
             ],
             "path": "schemas/V_eta/stable/contrast_tuning_calc.json"
         },
@@ -549,12 +447,8 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                {
-                    "class_name": "base"
-                },
-                {
-                    "class_name": "app"
-                }
+                "base",
+                "app"
             ],
             "path": "schemas/V_eta/stable/control_stimulus_ids.json"
         },
@@ -564,9 +458,7 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                {
-                    "class_name": "data_type"
-                }
+                "data_type"
             ],
             "path": "schemas/V_eta/stable/count.json"
         },
@@ -576,9 +468,7 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                {
-                    "class_name": "numeric_assertion"
-                }
+                "numeric_assertion"
             ],
             "path": "schemas/V_eta/stable/count_assertion.json"
         },
@@ -588,12 +478,8 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                {
-                    "class_name": "subject_observation"
-                },
-                {
-                    "class_name": "count"
-                }
+                "subject_observation",
+                "count"
             ],
             "path": "schemas/V_eta/stable/count_observation.json"
         },
@@ -603,9 +489,7 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                {
-                    "class_name": "data_type"
-                }
+                "data_type"
             ],
             "path": "schemas/V_eta/stable/current.json"
         },
@@ -615,9 +499,7 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                {
-                    "class_name": "numeric_assertion"
-                }
+                "numeric_assertion"
             ],
             "path": "schemas/V_eta/stable/current_assertion.json"
         },
@@ -627,12 +509,8 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                {
-                    "class_name": "subject_manipulation"
-                },
-                {
-                    "class_name": "current"
-                }
+                "subject_manipulation",
+                "current"
             ],
             "path": "schemas/V_eta/stable/current_manipulation.json"
         },
@@ -642,12 +520,8 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                {
-                    "class_name": "subject_observation"
-                },
-                {
-                    "class_name": "current"
-                }
+                "subject_observation",
+                "current"
             ],
             "path": "schemas/V_eta/stable/current_observation.json"
         },
@@ -657,9 +531,7 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                {
-                    "class_name": "base"
-                }
+                "base"
             ],
             "path": "schemas/V_eta/stable/daqmetadatareader.json"
         },
@@ -669,12 +541,8 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                {
-                    "class_name": "base"
-                },
-                {
-                    "class_name": "epochid"
-                }
+                "base",
+                "epochid"
             ],
             "path": "schemas/V_eta/stable/daqmetadatareader_epochdata_ingested.json"
         },
@@ -684,9 +552,7 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                {
-                    "class_name": "base"
-                }
+                "base"
             ],
             "path": "schemas/V_eta/stable/daqreader.json"
         },
@@ -696,9 +562,7 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                {
-                    "class_name": "base"
-                }
+                "base"
             ],
             "path": "schemas/V_eta/stable/daqreader_epochdata_ingested.json"
         },
@@ -708,15 +572,9 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                {
-                    "class_name": "base"
-                },
-                {
-                    "class_name": "daqreader_epochdata_ingested"
-                },
-                {
-                    "class_name": "epochid"
-                }
+                "base",
+                "daqreader_epochdata_ingested",
+                "epochid"
             ],
             "path": "schemas/V_eta/stable/daqreader_image_epochdata_ingested.json"
         },
@@ -726,15 +584,9 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                {
-                    "class_name": "base"
-                },
-                {
-                    "class_name": "daqreader_epochdata_ingested"
-                },
-                {
-                    "class_name": "epochid"
-                }
+                "base",
+                "daqreader_epochdata_ingested",
+                "epochid"
             ],
             "path": "schemas/V_eta/stable/daqreader_mfdaq_epochdata_ingested.json"
         },
@@ -744,12 +596,8 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                {
-                    "class_name": "base"
-                },
-                {
-                    "class_name": "daqreader"
-                }
+                "base",
+                "daqreader"
             ],
             "path": "schemas/V_eta/stable/daqreader_ndr.json"
         },
@@ -759,9 +607,7 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                {
-                    "class_name": "base"
-                }
+                "base"
             ],
             "path": "schemas/V_eta/stable/daqsystem.json"
         },
@@ -771,9 +617,7 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                {
-                    "class_name": "base"
-                }
+                "base"
             ],
             "path": "schemas/V_eta/stable/data.json"
         },
@@ -783,9 +627,7 @@
             "class_version": "1.0.0",
             "maturity_level": "draft",
             "superclasses": [
-                {
-                    "class_name": "data"
-                }
+                "data"
             ],
             "path": "schemas/V_eta/draft/data_body.json"
         },
@@ -795,9 +637,7 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                {
-                    "class_name": "data"
-                }
+                "data"
             ],
             "path": "schemas/V_eta/stable/data_type.json"
         },
@@ -807,9 +647,7 @@
             "class_version": "1.0.0",
             "maturity_level": "draft",
             "superclasses": [
-                {
-                    "class_name": "base"
-                }
+                "base"
             ],
             "path": "schemas/V_eta/draft/dataseries_channel_map.json"
         },
@@ -819,9 +657,7 @@
             "class_version": "1.0.0",
             "maturity_level": "draft",
             "superclasses": [
-                {
-                    "class_name": "base"
-                }
+                "base"
             ],
             "path": "schemas/V_eta/draft/dataseries_data.json"
         },
@@ -831,9 +667,7 @@
             "class_version": "1.0.0",
             "maturity_level": "draft",
             "superclasses": [
-                {
-                    "class_name": "subject_observation"
-                }
+                "subject_observation"
             ],
             "path": "schemas/V_eta/draft/dataseries_observation.json"
         },
@@ -843,12 +677,8 @@
             "class_version": "1.0.0",
             "maturity_level": "draft",
             "superclasses": [
-                {
-                    "class_name": "base"
-                },
-                {
-                    "class_name": "epochid"
-                }
+                "base",
+                "epochid"
             ],
             "path": "schemas/V_eta/draft/dataseries_pyramid.json"
         },
@@ -858,9 +688,7 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                {
-                    "class_name": "entity"
-                }
+                "entity"
             ],
             "path": "schemas/V_eta/stable/dataset.json"
         },
@@ -870,9 +698,7 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                {
-                    "class_name": "base"
-                }
+                "base"
             ],
             "path": "schemas/V_eta/stable/dataset_remote.json"
         },
@@ -882,9 +708,7 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                {
-                    "class_name": "base"
-                }
+                "base"
             ],
             "path": "schemas/V_eta/stable/dataset_session_info.json"
         },
@@ -894,9 +718,7 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                {
-                    "class_name": "subject_assertion"
-                }
+                "subject_assertion"
             ],
             "path": "schemas/V_eta/stable/date_assertion.json"
         },
@@ -906,9 +728,7 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                {
-                    "class_name": "base"
-                }
+                "base"
             ],
             "path": "schemas/V_eta/stable/demo_ndi.json"
         },
@@ -918,9 +738,7 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                {
-                    "class_name": "base"
-                }
+                "base"
             ],
             "path": "schemas/V_eta/stable/demo_ndi_mock.json"
         },
@@ -930,9 +748,7 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                {
-                    "class_name": "relation"
-                }
+                "relation"
             ],
             "path": "schemas/V_eta/stable/directed_relation.json"
         },
@@ -942,9 +758,7 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                {
-                    "class_name": "base"
-                }
+                "base"
             ],
             "path": "schemas/V_eta/stable/directory.json"
         },
@@ -954,9 +768,7 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                {
-                    "class_name": "base"
-                }
+                "base"
             ],
             "path": "schemas/V_eta/stable/distance_metadata.json"
         },
@@ -966,9 +778,7 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                {
-                    "class_name": "base"
-                }
+                "base"
             ],
             "path": "schemas/V_eta/stable/dose.json"
         },
@@ -978,12 +788,8 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                {
-                    "class_name": "subject_manipulation"
-                },
-                {
-                    "class_name": "dose"
-                }
+                "subject_manipulation",
+                "dose"
             ],
             "path": "schemas/V_eta/stable/dose_manipulation.json"
         },
@@ -993,9 +799,7 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                {
-                    "class_name": "data_type"
-                }
+                "data_type"
             ],
             "path": "schemas/V_eta/stable/duration.json"
         },
@@ -1005,9 +809,7 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                {
-                    "class_name": "numeric_assertion"
-                }
+                "numeric_assertion"
             ],
             "path": "schemas/V_eta/stable/duration_assertion.json"
         },
@@ -1017,12 +819,8 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                {
-                    "class_name": "subject_observation"
-                },
-                {
-                    "class_name": "duration"
-                }
+                "subject_observation",
+                "duration"
             ],
             "path": "schemas/V_eta/stable/duration_observation.json"
         },
@@ -1032,9 +830,7 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                {
-                    "class_name": "base"
-                }
+                "base"
             ],
             "path": "schemas/V_eta/stable/electrode_offset_voltage.json"
         },
@@ -1044,9 +840,7 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                {
-                    "class_name": "base"
-                }
+                "base"
             ],
             "path": "schemas/V_eta/stable/element.json"
         },
@@ -1056,12 +850,8 @@
             "class_version": "2.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                {
-                    "class_name": "base"
-                },
-                {
-                    "class_name": "epochid"
-                }
+                "base",
+                "epochid"
             ],
             "path": "schemas/V_eta/stable/element_epoch.json"
         },
@@ -1071,9 +861,7 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                {
-                    "class_name": "data_type"
-                }
+                "data_type"
             ],
             "path": "schemas/V_eta/stable/energy.json"
         },
@@ -1083,9 +871,7 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                {
-                    "class_name": "numeric_assertion"
-                }
+                "numeric_assertion"
             ],
             "path": "schemas/V_eta/stable/energy_assertion.json"
         },
@@ -1095,12 +881,8 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                {
-                    "class_name": "subject_observation"
-                },
-                {
-                    "class_name": "energy"
-                }
+                "subject_observation",
+                "energy"
             ],
             "path": "schemas/V_eta/stable/energy_observation.json"
         },
@@ -1110,9 +892,7 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                {
-                    "class_name": "base"
-                }
+                "base"
             ],
             "path": "schemas/V_eta/stable/entity.json"
         },
@@ -1122,9 +902,7 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                {
-                    "class_name": "zarr"
-                }
+                "zarr"
             ],
             "path": "schemas/V_eta/stable/ephys_zarr.json"
         },
@@ -1134,12 +912,8 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                {
-                    "class_name": "time_reference"
-                },
-                {
-                    "class_name": "epochid"
-                }
+                "time_reference",
+                "epochid"
             ],
             "path": "schemas/V_eta/stable/epoch_bounded_reference.json"
         },
@@ -1149,12 +923,8 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                {
-                    "class_name": "time_reference"
-                },
-                {
-                    "class_name": "epochid"
-                }
+                "time_reference",
+                "epochid"
             ],
             "path": "schemas/V_eta/stable/epoch_relative_reference.json"
         },
@@ -1164,9 +934,7 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                {
-                    "class_name": "base"
-                }
+                "base"
             ],
             "path": "schemas/V_eta/stable/epochfiles_ingested.json"
         },
@@ -1176,9 +944,7 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                {
-                    "class_name": "base"
-                }
+                "base"
             ],
             "path": "schemas/V_eta/stable/epochid.json"
         },
@@ -1188,9 +954,7 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                {
-                    "class_name": "time_reference"
-                }
+                "time_reference"
             ],
             "path": "schemas/V_eta/stable/event_bounded_reference.json"
         },
@@ -1200,9 +964,7 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                {
-                    "class_name": "time_reference"
-                }
+                "time_reference"
             ],
             "path": "schemas/V_eta/stable/event_relative_reference.json"
         },
@@ -1212,9 +974,7 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                {
-                    "class_name": "base"
-                }
+                "base"
             ],
             "path": "schemas/V_eta/stable/filenavigator.json"
         },
@@ -1224,9 +984,7 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                {
-                    "class_name": "base"
-                }
+                "base"
             ],
             "path": "schemas/V_eta/stable/filter.json"
         },
@@ -1236,9 +994,7 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                {
-                    "class_name": "base"
-                }
+                "base"
             ],
             "path": "schemas/V_eta/stable/fitcurve.json"
         },
@@ -1248,9 +1004,7 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                {
-                    "class_name": "data_type"
-                }
+                "data_type"
             ],
             "path": "schemas/V_eta/stable/force.json"
         },
@@ -1260,9 +1014,7 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                {
-                    "class_name": "numeric_assertion"
-                }
+                "numeric_assertion"
             ],
             "path": "schemas/V_eta/stable/force_assertion.json"
         },
@@ -1272,12 +1024,8 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                {
-                    "class_name": "subject_manipulation"
-                },
-                {
-                    "class_name": "force"
-                }
+                "subject_manipulation",
+                "force"
             ],
             "path": "schemas/V_eta/stable/force_manipulation.json"
         },
@@ -1287,12 +1035,8 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                {
-                    "class_name": "subject_observation"
-                },
-                {
-                    "class_name": "force"
-                }
+                "subject_observation",
+                "force"
             ],
             "path": "schemas/V_eta/stable/force_observation.json"
         },
@@ -1302,9 +1046,7 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                {
-                    "class_name": "base"
-                }
+                "base"
             ],
             "path": "schemas/V_eta/stable/formulation.json"
         },
@@ -1314,12 +1056,8 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                {
-                    "class_name": "subject_manipulation"
-                },
-                {
-                    "class_name": "formulation"
-                }
+                "subject_manipulation",
+                "formulation"
             ],
             "path": "schemas/V_eta/stable/formulation_manipulation.json"
         },
@@ -1329,9 +1067,7 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                {
-                    "class_name": "data_type"
-                }
+                "data_type"
             ],
             "path": "schemas/V_eta/stable/frequency.json"
         },
@@ -1341,9 +1077,7 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                {
-                    "class_name": "numeric_assertion"
-                }
+                "numeric_assertion"
             ],
             "path": "schemas/V_eta/stable/frequency_assertion.json"
         },
@@ -1353,12 +1087,8 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                {
-                    "class_name": "subject_manipulation"
-                },
-                {
-                    "class_name": "frequency"
-                }
+                "subject_manipulation",
+                "frequency"
             ],
             "path": "schemas/V_eta/stable/frequency_manipulation.json"
         },
@@ -1368,12 +1098,8 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                {
-                    "class_name": "subject_observation"
-                },
-                {
-                    "class_name": "frequency"
-                }
+                "subject_observation",
+                "frequency"
             ],
             "path": "schemas/V_eta/stable/frequency_observation.json"
         },
@@ -1383,9 +1109,7 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                {
-                    "class_name": "base"
-                }
+                "base"
             ],
             "path": "schemas/V_eta/stable/generic_file.json"
         },
@@ -1395,15 +1119,9 @@
             "class_version": "2.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                {
-                    "class_name": "base"
-                },
-                {
-                    "class_name": "hartley_reverse_correlation"
-                },
-                {
-                    "class_name": "calculator"
-                }
+                "base",
+                "hartley_reverse_correlation",
+                "calculator"
             ],
             "path": "schemas/V_eta/stable/hartley_calc.json"
         },
@@ -1413,12 +1131,8 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                {
-                    "class_name": "base"
-                },
-                {
-                    "class_name": "reverse_correlation"
-                }
+                "base",
+                "reverse_correlation"
             ],
             "path": "schemas/V_eta/stable/hartley_reverse_correlation.json"
         },
@@ -1428,9 +1142,7 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                {
-                    "class_name": "base"
-                }
+                "base"
             ],
             "path": "schemas/V_eta/stable/image.json"
         },
@@ -1440,9 +1152,7 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                {
-                    "class_name": "base"
-                }
+                "base"
             ],
             "path": "schemas/V_eta/stable/image_collection.json"
         },
@@ -1452,12 +1162,8 @@
             "class_version": "1.0.0",
             "maturity_level": "draft",
             "superclasses": [
-                {
-                    "class_name": "subject_observation"
-                },
-                {
-                    "class_name": "image"
-                }
+                "subject_observation",
+                "image"
             ],
             "path": "schemas/V_eta/draft/image_observation.json"
         },
@@ -1467,12 +1173,8 @@
             "class_version": "1.0.0",
             "maturity_level": "deprecated",
             "superclasses": [
-                {
-                    "class_name": "base"
-                },
-                {
-                    "class_name": "image_stack_parameters"
-                }
+                "base",
+                "image_stack_parameters"
             ],
             "path": "schemas/V_eta/deprecated/image_stack.json"
         },
@@ -1482,9 +1184,7 @@
             "class_version": "1.0.0",
             "maturity_level": "deprecated",
             "superclasses": [
-                {
-                    "class_name": "base"
-                }
+                "base"
             ],
             "path": "schemas/V_eta/deprecated/image_stack_parameters.json"
         },
@@ -1494,9 +1194,7 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                {
-                    "class_name": "zarr"
-                }
+                "zarr"
             ],
             "path": "schemas/V_eta/stable/image_zarr.json"
         },
@@ -1506,9 +1204,7 @@
             "class_version": "1.0.0",
             "maturity_level": "draft",
             "superclasses": [
-                {
-                    "class_name": "dataseries_data"
-                }
+                "dataseries_data"
             ],
             "path": "schemas/V_eta/draft/imageseries_data.json"
         },
@@ -1518,9 +1214,7 @@
             "class_version": "1.0.0",
             "maturity_level": "draft",
             "superclasses": [
-                {
-                    "class_name": "dataseries_observation"
-                }
+                "dataseries_observation"
             ],
             "path": "schemas/V_eta/draft/imageseries_observation.json"
         },
@@ -1530,9 +1224,7 @@
             "class_version": "1.0.0",
             "maturity_level": "draft",
             "superclasses": [
-                {
-                    "class_name": "base"
-                }
+                "base"
             ],
             "path": "schemas/V_eta/draft/instrument.json"
         },
@@ -1542,9 +1234,7 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                {
-                    "class_name": "data_type"
-                }
+                "data_type"
             ],
             "path": "schemas/V_eta/stable/intensity.json"
         },
@@ -1554,9 +1244,7 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                {
-                    "class_name": "numeric_assertion"
-                }
+                "numeric_assertion"
             ],
             "path": "schemas/V_eta/stable/intensity_assertion.json"
         },
@@ -1566,12 +1254,8 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                {
-                    "class_name": "subject_manipulation"
-                },
-                {
-                    "class_name": "intensity"
-                }
+                "subject_manipulation",
+                "intensity"
             ],
             "path": "schemas/V_eta/stable/intensity_manipulation.json"
         },
@@ -1581,12 +1265,8 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                {
-                    "class_name": "subject_observation"
-                },
-                {
-                    "class_name": "intensity"
-                }
+                "subject_observation",
+                "intensity"
             ],
             "path": "schemas/V_eta/stable/intensity_observation.json"
         },
@@ -1596,9 +1276,7 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                {
-                    "class_name": "base"
-                }
+                "base"
             ],
             "path": "schemas/V_eta/stable/interaction_purpose.json"
         },
@@ -1608,12 +1286,8 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                {
-                    "class_name": "base"
-                },
-                {
-                    "class_name": "app"
-                }
+                "base",
+                "app"
             ],
             "path": "schemas/V_eta/stable/jrclust_clusters.json"
         },
@@ -1623,9 +1297,7 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                {
-                    "class_name": "data_type"
-                }
+                "data_type"
             ],
             "path": "schemas/V_eta/stable/length.json"
         },
@@ -1635,9 +1307,7 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                {
-                    "class_name": "numeric_assertion"
-                }
+                "numeric_assertion"
             ],
             "path": "schemas/V_eta/stable/length_assertion.json"
         },
@@ -1647,12 +1317,8 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                {
-                    "class_name": "subject_observation"
-                },
-                {
-                    "class_name": "length"
-                }
+                "subject_observation",
+                "length"
             ],
             "path": "schemas/V_eta/stable/length_observation.json"
         },
@@ -1662,9 +1328,7 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                {
-                    "class_name": "data_type"
-                }
+                "data_type"
             ],
             "path": "schemas/V_eta/stable/mass.json"
         },
@@ -1674,9 +1338,7 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                {
-                    "class_name": "numeric_assertion"
-                }
+                "numeric_assertion"
             ],
             "path": "schemas/V_eta/stable/mass_assertion.json"
         },
@@ -1686,12 +1348,8 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                {
-                    "class_name": "subject_observation"
-                },
-                {
-                    "class_name": "mass"
-                }
+                "subject_observation",
+                "mass"
             ],
             "path": "schemas/V_eta/stable/mass_observation.json"
         },
@@ -1701,12 +1359,8 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                {
-                    "class_name": "base"
-                },
-                {
-                    "class_name": "epochid"
-                }
+                "base",
+                "epochid"
             ],
             "path": "schemas/V_eta/stable/measurement.json"
         },
@@ -1716,9 +1370,7 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                {
-                    "class_name": "base"
-                }
+                "base"
             ],
             "path": "schemas/V_eta/stable/metadata_editor.json"
         },
@@ -1728,12 +1380,8 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                {
-                    "class_name": "base"
-                },
-                {
-                    "class_name": "app"
-                }
+                "base",
+                "app"
             ],
             "path": "schemas/V_eta/stable/neuron_extracellular.json"
         },
@@ -1743,9 +1391,7 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                {
-                    "class_name": "base"
-                }
+                "base"
             ],
             "path": "schemas/V_eta/stable/ngrid.json"
         },
@@ -1755,9 +1401,7 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                {
-                    "class_name": "subject_assertion"
-                }
+                "subject_assertion"
             ],
             "path": "schemas/V_eta/stable/numeric_assertion.json"
         },
@@ -1767,9 +1411,7 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                {
-                    "class_name": "base"
-                }
+                "base"
             ],
             "path": "schemas/V_eta/stable/ontology_image.json"
         },
@@ -1779,9 +1421,7 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                {
-                    "class_name": "base"
-                }
+                "base"
             ],
             "path": "schemas/V_eta/stable/ontology_label.json"
         },
@@ -1791,9 +1431,7 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                {
-                    "class_name": "base"
-                }
+                "base"
             ],
             "path": "schemas/V_eta/stable/ontology_table_row.json"
         },
@@ -1803,9 +1441,7 @@
             "class_version": "1.0.0",
             "maturity_level": "draft",
             "superclasses": [
-                {
-                    "class_name": "data_body"
-                }
+                "data_body"
             ],
             "path": "schemas/V_eta/draft/opaque_body.json"
         },
@@ -1815,9 +1451,7 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                {
-                    "class_name": "base"
-                }
+                "base"
             ],
             "path": "schemas/V_eta/stable/openminds.json"
         },
@@ -1827,12 +1461,8 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                {
-                    "class_name": "base"
-                },
-                {
-                    "class_name": "openminds"
-                }
+                "base",
+                "openminds"
             ],
             "path": "schemas/V_eta/stable/openminds_element.json"
         },
@@ -1842,15 +1472,9 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                {
-                    "class_name": "base"
-                },
-                {
-                    "class_name": "openminds"
-                },
-                {
-                    "class_name": "epochid"
-                }
+                "base",
+                "openminds",
+                "epochid"
             ],
             "path": "schemas/V_eta/stable/openminds_stimulus.json"
         },
@@ -1860,12 +1484,8 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                {
-                    "class_name": "base"
-                },
-                {
-                    "class_name": "openminds"
-                }
+                "base",
+                "openminds"
             ],
             "path": "schemas/V_eta/stable/openminds_subject.json"
         },
@@ -1875,9 +1495,7 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                {
-                    "class_name": "entity"
-                }
+                "entity"
             ],
             "path": "schemas/V_eta/stable/organization.json"
         },
@@ -1887,15 +1505,9 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                {
-                    "class_name": "base"
-                },
-                {
-                    "class_name": "orientation_direction_tuning"
-                },
-                {
-                    "class_name": "tuning_fit"
-                }
+                "base",
+                "orientation_direction_tuning",
+                "tuning_fit"
             ],
             "path": "schemas/V_eta/stable/oridirtuning_calc.json"
         },
@@ -1905,9 +1517,7 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                {
-                    "class_name": "base"
-                }
+                "base"
             ],
             "path": "schemas/V_eta/stable/orientation_direction_tuning.json"
         },
@@ -1917,9 +1527,7 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                {
-                    "class_name": "entity"
-                }
+                "entity"
             ],
             "path": "schemas/V_eta/stable/person.json"
         },
@@ -1929,9 +1537,7 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                {
-                    "class_name": "data_type"
-                }
+                "data_type"
             ],
             "path": "schemas/V_eta/stable/ph.json"
         },
@@ -1941,9 +1547,7 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                {
-                    "class_name": "numeric_assertion"
-                }
+                "numeric_assertion"
             ],
             "path": "schemas/V_eta/stable/ph_assertion.json"
         },
@@ -1953,12 +1557,8 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                {
-                    "class_name": "subject_observation"
-                },
-                {
-                    "class_name": "ph"
-                }
+                "subject_observation",
+                "ph"
             ],
             "path": "schemas/V_eta/stable/ph_observation.json"
         },
@@ -1968,9 +1568,7 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                {
-                    "class_name": "base"
-                }
+                "base"
             ],
             "path": "schemas/V_eta/stable/position_metadata.json"
         },
@@ -1980,9 +1578,7 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                {
-                    "class_name": "data_type"
-                }
+                "data_type"
             ],
             "path": "schemas/V_eta/stable/power.json"
         },
@@ -1992,9 +1588,7 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                {
-                    "class_name": "numeric_assertion"
-                }
+                "numeric_assertion"
             ],
             "path": "schemas/V_eta/stable/power_assertion.json"
         },
@@ -2004,12 +1598,8 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                {
-                    "class_name": "subject_observation"
-                },
-                {
-                    "class_name": "power"
-                }
+                "subject_observation",
+                "power"
             ],
             "path": "schemas/V_eta/stable/power_observation.json"
         },
@@ -2019,9 +1609,7 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                {
-                    "class_name": "data_type"
-                }
+                "data_type"
             ],
             "path": "schemas/V_eta/stable/pressure.json"
         },
@@ -2031,9 +1619,7 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                {
-                    "class_name": "numeric_assertion"
-                }
+                "numeric_assertion"
             ],
             "path": "schemas/V_eta/stable/pressure_assertion.json"
         },
@@ -2043,12 +1629,8 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                {
-                    "class_name": "subject_manipulation"
-                },
-                {
-                    "class_name": "pressure"
-                }
+                "subject_manipulation",
+                "pressure"
             ],
             "path": "schemas/V_eta/stable/pressure_manipulation.json"
         },
@@ -2058,12 +1640,8 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                {
-                    "class_name": "subject_observation"
-                },
-                {
-                    "class_name": "pressure"
-                }
+                "subject_observation",
+                "pressure"
             ],
             "path": "schemas/V_eta/stable/pressure_observation.json"
         },
@@ -2073,9 +1651,7 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                {
-                    "class_name": "base"
-                }
+                "base"
             ],
             "path": "schemas/V_eta/stable/probe_geometry.json"
         },
@@ -2085,9 +1661,7 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                {
-                    "class_name": "base"
-                }
+                "base"
             ],
             "path": "schemas/V_eta/stable/probe_location.json"
         },
@@ -2097,9 +1671,7 @@
             "class_version": "1.0.0",
             "maturity_level": "deprecated",
             "superclasses": [
-                {
-                    "class_name": "base"
-                }
+                "base"
             ],
             "path": "schemas/V_eta/deprecated/projectvar.json"
         },
@@ -2109,9 +1681,7 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                {
-                    "class_name": "entity"
-                }
+                "entity"
             ],
             "path": "schemas/V_eta/stable/publication.json"
         },
@@ -2121,15 +1691,9 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                {
-                    "class_name": "filter"
-                },
-                {
-                    "class_name": "base"
-                },
-                {
-                    "class_name": "epochid"
-                }
+                "filter",
+                "base",
+                "epochid"
             ],
             "path": "schemas/V_eta/stable/pyraview.json"
         },
@@ -2139,9 +1703,7 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                {
-                    "class_name": "base"
-                }
+                "base"
             ],
             "path": "schemas/V_eta/stable/relation.json"
         },
@@ -2151,9 +1713,7 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                {
-                    "class_name": "data_type"
-                }
+                "data_type"
             ],
             "path": "schemas/V_eta/stable/resistance.json"
         },
@@ -2163,9 +1723,7 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                {
-                    "class_name": "numeric_assertion"
-                }
+                "numeric_assertion"
             ],
             "path": "schemas/V_eta/stable/resistance_assertion.json"
         },
@@ -2175,12 +1733,8 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                {
-                    "class_name": "subject_observation"
-                },
-                {
-                    "class_name": "resistance"
-                }
+                "subject_observation",
+                "resistance"
             ],
             "path": "schemas/V_eta/stable/resistance_observation.json"
         },
@@ -2190,12 +1744,8 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                {
-                    "class_name": "base"
-                },
-                {
-                    "class_name": "ngrid"
-                }
+                "base",
+                "ngrid"
             ],
             "path": "schemas/V_eta/stable/reverse_correlation.json"
         },
@@ -2205,9 +1755,7 @@
             "class_version": "1.0.0",
             "maturity_level": "draft",
             "superclasses": [
-                {
-                    "class_name": "data_body"
-                }
+                "data_body"
             ],
             "path": "schemas/V_eta/draft/sampled_body.json"
         },
@@ -2217,9 +1765,7 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                {
-                    "class_name": "data_type"
-                }
+                "data_type"
             ],
             "path": "schemas/V_eta/stable/score.json"
         },
@@ -2229,9 +1775,7 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                {
-                    "class_name": "numeric_assertion"
-                }
+                "numeric_assertion"
             ],
             "path": "schemas/V_eta/stable/score_assertion.json"
         },
@@ -2241,12 +1785,8 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                {
-                    "class_name": "subject_observation"
-                },
-                {
-                    "class_name": "score"
-                }
+                "subject_observation",
+                "score"
             ],
             "path": "schemas/V_eta/stable/score_observation.json"
         },
@@ -2256,9 +1796,7 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                {
-                    "class_name": "entity"
-                }
+                "entity"
             ],
             "path": "schemas/V_eta/stable/session.json"
         },
@@ -2268,9 +1806,7 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                {
-                    "class_name": "time_reference"
-                }
+                "time_reference"
             ],
             "path": "schemas/V_eta/stable/session_bounded_reference.json"
         },
@@ -2280,9 +1816,7 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                {
-                    "class_name": "base"
-                }
+                "base"
             ],
             "path": "schemas/V_eta/stable/session_in_a_dataset.json"
         },
@@ -2292,9 +1826,7 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                {
-                    "class_name": "time_reference"
-                }
+                "time_reference"
             ],
             "path": "schemas/V_eta/stable/session_relative_reference.json"
         },
@@ -2304,12 +1836,8 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                {
-                    "class_name": "base"
-                },
-                {
-                    "class_name": "calculator"
-                }
+                "base",
+                "calculator"
             ],
             "path": "schemas/V_eta/stable/simple_calc.json"
         },
@@ -2319,9 +1847,7 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                {
-                    "class_name": "base"
-                }
+                "base"
             ],
             "path": "schemas/V_eta/stable/site2channelmap.json"
         },
@@ -2331,9 +1857,7 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                {
-                    "class_name": "base"
-                }
+                "base"
             ],
             "path": "schemas/V_eta/stable/sorting_parameters.json"
         },
@@ -2343,9 +1867,7 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                {
-                    "class_name": "base"
-                }
+                "base"
             ],
             "path": "schemas/V_eta/stable/spatial_frequency_tuning.json"
         },
@@ -2355,15 +1877,9 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                {
-                    "class_name": "base"
-                },
-                {
-                    "class_name": "spatial_frequency_tuning"
-                },
-                {
-                    "class_name": "tuning_fit"
-                }
+                "base",
+                "spatial_frequency_tuning",
+                "tuning_fit"
             ],
             "path": "schemas/V_eta/stable/spatial_frequency_tuning_calc.json"
         },
@@ -2373,9 +1889,7 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                {
-                    "class_name": "base"
-                }
+                "base"
             ],
             "path": "schemas/V_eta/stable/speed_tuning.json"
         },
@@ -2385,15 +1899,9 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                {
-                    "class_name": "base"
-                },
-                {
-                    "class_name": "speed_tuning"
-                },
-                {
-                    "class_name": "tuning_fit"
-                }
+                "base",
+                "speed_tuning",
+                "tuning_fit"
             ],
             "path": "schemas/V_eta/stable/speed_tuning_calc.json"
         },
@@ -2403,9 +1911,7 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                {
-                    "class_name": "base"
-                }
+                "base"
             ],
             "path": "schemas/V_eta/stable/spike_clusters.json"
         },
@@ -2415,9 +1921,7 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                {
-                    "class_name": "base"
-                }
+                "base"
             ],
             "path": "schemas/V_eta/stable/spike_extraction_parameters.json"
         },
@@ -2427,9 +1931,7 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                {
-                    "class_name": "base"
-                }
+                "base"
             ],
             "path": "schemas/V_eta/stable/spike_extraction_parameters_modification.json"
         },
@@ -2439,9 +1941,7 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                {
-                    "class_name": "base"
-                }
+                "base"
             ],
             "path": "schemas/V_eta/stable/spike_interface_sorting_outputs.json"
         },
@@ -2451,9 +1951,7 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                {
-                    "class_name": "base"
-                }
+                "base"
             ],
             "path": "schemas/V_eta/stable/spikewaves.json"
         },
@@ -2463,9 +1961,7 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                {
-                    "class_name": "base"
-                }
+                "base"
             ],
             "path": "schemas/V_eta/stable/stimulus_parameter.json"
         },
@@ -2475,9 +1971,7 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                {
-                    "class_name": "base"
-                }
+                "base"
             ],
             "path": "schemas/V_eta/stable/stimulus_parameter_table.json"
         },
@@ -2487,15 +1981,9 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                {
-                    "class_name": "base"
-                },
-                {
-                    "class_name": "app"
-                },
-                {
-                    "class_name": "epochid"
-                }
+                "base",
+                "app",
+                "epochid"
             ],
             "path": "schemas/V_eta/stable/stimulus_presentation.json"
         },
@@ -2505,9 +1993,7 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                {
-                    "class_name": "base"
-                }
+                "base"
             ],
             "path": "schemas/V_eta/stable/stimulus_response.json"
         },
@@ -2517,12 +2003,8 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                {
-                    "class_name": "base"
-                },
-                {
-                    "class_name": "stimulus_response"
-                }
+                "base",
+                "stimulus_response"
             ],
             "path": "schemas/V_eta/stable/stimulus_response_scalar.json"
         },
@@ -2532,9 +2014,7 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                {
-                    "class_name": "base"
-                }
+                "base"
             ],
             "path": "schemas/V_eta/stable/stimulus_response_scalar_parameters.json"
         },
@@ -2544,12 +2024,8 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                {
-                    "class_name": "base"
-                },
-                {
-                    "class_name": "stimulus_response_scalar_parameters"
-                }
+                "base",
+                "stimulus_response_scalar_parameters"
             ],
             "path": "schemas/V_eta/stable/stimulus_response_scalar_parameters_basic.json"
         },
@@ -2559,9 +2035,7 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                {
-                    "class_name": "base"
-                }
+                "base"
             ],
             "path": "schemas/V_eta/stable/stimulus_tuningcurve.json"
         },
@@ -2571,9 +2045,7 @@
             "class_version": "3.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                {
-                    "class_name": "entity"
-                }
+                "entity"
             ],
             "path": "schemas/V_eta/stable/subject.json"
         },
@@ -2583,9 +2055,7 @@
             "class_version": "3.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                {
-                    "class_name": "subject_statement"
-                }
+                "subject_statement"
             ],
             "path": "schemas/V_eta/stable/subject_assertion.json"
         },
@@ -2595,9 +2065,7 @@
             "class_version": "1.0.0",
             "maturity_level": "deprecated",
             "superclasses": [
-                {
-                    "class_name": "base"
-                }
+                "base"
             ],
             "path": "schemas/V_eta/deprecated/subject_group.json"
         },
@@ -2607,9 +2075,7 @@
             "class_version": "3.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                {
-                    "class_name": "subject_statement"
-                }
+                "subject_statement"
             ],
             "path": "schemas/V_eta/stable/subject_interaction.json"
         },
@@ -2619,9 +2085,7 @@
             "class_version": "2.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                {
-                    "class_name": "subject_interaction"
-                }
+                "subject_interaction"
             ],
             "path": "schemas/V_eta/stable/subject_manipulation.json"
         },
@@ -2631,9 +2095,7 @@
             "class_version": "2.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                {
-                    "class_name": "subject_interaction"
-                }
+                "subject_interaction"
             ],
             "path": "schemas/V_eta/stable/subject_observation.json"
         },
@@ -2643,9 +2105,7 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                {
-                    "class_name": "base"
-                }
+                "base"
             ],
             "path": "schemas/V_eta/stable/subject_statement.json"
         },
@@ -2655,9 +2115,7 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                {
-                    "class_name": "base"
-                }
+                "base"
             ],
             "path": "schemas/V_eta/stable/syncgraph.json"
         },
@@ -2667,9 +2125,7 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                {
-                    "class_name": "base"
-                }
+                "base"
             ],
             "path": "schemas/V_eta/stable/syncrule.json"
         },
@@ -2679,9 +2135,7 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                {
-                    "class_name": "base"
-                }
+                "base"
             ],
             "path": "schemas/V_eta/stable/syncrule_mapping.json"
         },
@@ -2691,9 +2145,7 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                {
-                    "class_name": "data_type"
-                }
+                "data_type"
             ],
             "path": "schemas/V_eta/stable/temperature.json"
         },
@@ -2703,9 +2155,7 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                {
-                    "class_name": "numeric_assertion"
-                }
+                "numeric_assertion"
             ],
             "path": "schemas/V_eta/stable/temperature_assertion.json"
         },
@@ -2715,12 +2165,8 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                {
-                    "class_name": "subject_manipulation"
-                },
-                {
-                    "class_name": "temperature"
-                }
+                "subject_manipulation",
+                "temperature"
             ],
             "path": "schemas/V_eta/stable/temperature_manipulation.json"
         },
@@ -2730,12 +2176,8 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                {
-                    "class_name": "subject_observation"
-                },
-                {
-                    "class_name": "temperature"
-                }
+                "subject_observation",
+                "temperature"
             ],
             "path": "schemas/V_eta/stable/temperature_observation.json"
         },
@@ -2745,9 +2187,7 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                {
-                    "class_name": "base"
-                }
+                "base"
             ],
             "path": "schemas/V_eta/stable/temporal_frequency_tuning.json"
         },
@@ -2757,15 +2197,9 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                {
-                    "class_name": "base"
-                },
-                {
-                    "class_name": "temporal_frequency_tuning"
-                },
-                {
-                    "class_name": "tuning_fit"
-                }
+                "base",
+                "temporal_frequency_tuning",
+                "tuning_fit"
             ],
             "path": "schemas/V_eta/stable/temporal_frequency_tuning_calc.json"
         },
@@ -2775,9 +2209,7 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                {
-                    "class_name": "subject_assertion"
-                }
+                "subject_assertion"
             ],
             "path": "schemas/V_eta/stable/term_assertion.json"
         },
@@ -2787,9 +2219,7 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                {
-                    "class_name": "subject_manipulation"
-                }
+                "subject_manipulation"
             ],
             "path": "schemas/V_eta/stable/term_manipulation.json"
         },
@@ -2799,9 +2229,7 @@
             "class_version": "2.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                {
-                    "class_name": "subject_observation"
-                }
+                "subject_observation"
             ],
             "path": "schemas/V_eta/stable/term_observation.json"
         },
@@ -2811,9 +2239,7 @@
             "class_version": "3.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                {
-                    "class_name": "base"
-                }
+                "base"
             ],
             "path": "schemas/V_eta/stable/time_reference.json"
         },
@@ -2823,9 +2249,7 @@
             "class_version": "1.0.0",
             "maturity_level": "draft",
             "superclasses": [
-                {
-                    "class_name": "dataseries_data"
-                }
+                "dataseries_data"
             ],
             "path": "schemas/V_eta/draft/timeseries_data.json"
         },
@@ -2835,9 +2259,7 @@
             "class_version": "1.0.0",
             "maturity_level": "draft",
             "superclasses": [
-                {
-                    "class_name": "timeseries_data"
-                }
+                "timeseries_data"
             ],
             "path": "schemas/V_eta/draft/timeseries_data_binary.json"
         },
@@ -2847,9 +2269,7 @@
             "class_version": "1.0.0",
             "maturity_level": "draft",
             "superclasses": [
-                {
-                    "class_name": "timeseries_data"
-                }
+                "timeseries_data"
             ],
             "path": "schemas/V_eta/draft/timeseries_data_csv.json"
         },
@@ -2859,9 +2279,7 @@
             "class_version": "1.0.0",
             "maturity_level": "draft",
             "superclasses": [
-                {
-                    "class_name": "timeseries_data"
-                }
+                "timeseries_data"
             ],
             "path": "schemas/V_eta/draft/timeseries_data_edf.json"
         },
@@ -2871,9 +2289,7 @@
             "class_version": "1.0.0",
             "maturity_level": "draft",
             "superclasses": [
-                {
-                    "class_name": "dataseries_observation"
-                }
+                "dataseries_observation"
             ],
             "path": "schemas/V_eta/draft/timeseries_observation.json"
         },
@@ -2883,9 +2299,7 @@
             "class_version": "1.0.0",
             "maturity_level": "deprecated",
             "superclasses": [
-                {
-                    "class_name": "base"
-                }
+                "base"
             ],
             "path": "schemas/V_eta/deprecated/treatment.json"
         },
@@ -2895,9 +2309,7 @@
             "class_version": "1.0.0",
             "maturity_level": "deprecated",
             "superclasses": [
-                {
-                    "class_name": "base"
-                }
+                "base"
             ],
             "path": "schemas/V_eta/deprecated/treatment_drug.json"
         },
@@ -2907,9 +2319,7 @@
             "class_version": "1.0.0",
             "maturity_level": "deprecated",
             "superclasses": [
-                {
-                    "class_name": "base"
-                }
+                "base"
             ],
             "path": "schemas/V_eta/deprecated/treatment_transfer.json"
         },
@@ -2919,9 +2329,7 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                {
-                    "class_name": "calculator"
-                }
+                "calculator"
             ],
             "path": "schemas/V_eta/stable/tuning_fit.json"
         },
@@ -2931,15 +2339,9 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                {
-                    "class_name": "base"
-                },
-                {
-                    "class_name": "calculator"
-                },
-                {
-                    "class_name": "stimulus_tuningcurve"
-                }
+                "base",
+                "calculator",
+                "stimulus_tuningcurve"
             ],
             "path": "schemas/V_eta/stable/tuningcurve_calc.json"
         },
@@ -2949,9 +2351,7 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                {
-                    "class_name": "relation"
-                }
+                "relation"
             ],
             "path": "schemas/V_eta/stable/undirected_relation.json"
         },
@@ -2961,9 +2361,7 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                {
-                    "class_name": "time_reference"
-                }
+                "time_reference"
             ],
             "path": "schemas/V_eta/stable/utc_reference.json"
         },
@@ -2973,9 +2371,7 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                {
-                    "class_name": "data_type"
-                }
+                "data_type"
             ],
             "path": "schemas/V_eta/stable/velocity.json"
         },
@@ -2985,9 +2381,7 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                {
-                    "class_name": "numeric_assertion"
-                }
+                "numeric_assertion"
             ],
             "path": "schemas/V_eta/stable/velocity_assertion.json"
         },
@@ -2997,12 +2391,8 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                {
-                    "class_name": "subject_observation"
-                },
-                {
-                    "class_name": "velocity"
-                }
+                "subject_observation",
+                "velocity"
             ],
             "path": "schemas/V_eta/stable/velocity_observation.json"
         },
@@ -3012,9 +2402,7 @@
             "class_version": "1.0.0",
             "maturity_level": "deprecated",
             "superclasses": [
-                {
-                    "class_name": "base"
-                }
+                "base"
             ],
             "path": "schemas/V_eta/deprecated/virus_injection.json"
         },
@@ -3024,9 +2412,7 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                {
-                    "class_name": "base"
-                }
+                "base"
             ],
             "path": "schemas/V_eta/stable/vmneuralresponseresiduals.json"
         },
@@ -3036,9 +2422,7 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                {
-                    "class_name": "base"
-                }
+                "base"
             ],
             "path": "schemas/V_eta/stable/vmspikefilteringparameters.json"
         },
@@ -3048,9 +2432,7 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                {
-                    "class_name": "base"
-                }
+                "base"
             ],
             "path": "schemas/V_eta/stable/vmspikefit.json"
         },
@@ -3060,9 +2442,7 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                {
-                    "class_name": "base"
-                }
+                "base"
             ],
             "path": "schemas/V_eta/stable/vmspikesummary.json"
         },
@@ -3072,9 +2452,7 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                {
-                    "class_name": "data_type"
-                }
+                "data_type"
             ],
             "path": "schemas/V_eta/stable/voltage.json"
         },
@@ -3084,9 +2462,7 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                {
-                    "class_name": "numeric_assertion"
-                }
+                "numeric_assertion"
             ],
             "path": "schemas/V_eta/stable/voltage_assertion.json"
         },
@@ -3096,12 +2472,8 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                {
-                    "class_name": "subject_manipulation"
-                },
-                {
-                    "class_name": "voltage"
-                }
+                "subject_manipulation",
+                "voltage"
             ],
             "path": "schemas/V_eta/stable/voltage_manipulation.json"
         },
@@ -3111,12 +2483,8 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                {
-                    "class_name": "subject_observation"
-                },
-                {
-                    "class_name": "voltage"
-                }
+                "subject_observation",
+                "voltage"
             ],
             "path": "schemas/V_eta/stable/voltage_observation.json"
         },
@@ -3126,9 +2494,7 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                {
-                    "class_name": "data_type"
-                }
+                "data_type"
             ],
             "path": "schemas/V_eta/stable/volume.json"
         },
@@ -3138,9 +2504,7 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                {
-                    "class_name": "numeric_assertion"
-                }
+                "numeric_assertion"
             ],
             "path": "schemas/V_eta/stable/volume_assertion.json"
         },
@@ -3150,12 +2514,8 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                {
-                    "class_name": "subject_observation"
-                },
-                {
-                    "class_name": "volume"
-                }
+                "subject_observation",
+                "volume"
             ],
             "path": "schemas/V_eta/stable/volume_observation.json"
         },
@@ -3165,9 +2525,7 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                {
-                    "class_name": "entity"
-                }
+                "entity"
             ],
             "path": "schemas/V_eta/stable/web_resource.json"
         },
@@ -3177,9 +2535,7 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                {
-                    "class_name": "base"
-                }
+                "base"
             ],
             "path": "schemas/V_eta/stable/zarr.json"
         }

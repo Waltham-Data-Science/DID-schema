@@ -1149,7 +1149,10 @@ for tier in TIERS:
         schemas.append({"class_name": dc["class_name"], "tier": tier,
                         "class_version": dc["class_version"],
                         "maturity_level": dc["maturity_level"],
-                        "superclasses": dc["superclasses"],
+                        # flatten to bare class-name strings (matching V_zeta and
+                        # earlier index.json); the web viewer's buildTree keys the
+                        # superclass map on these strings, so objects break nesting.
+                        "superclasses": [sc["class_name"] for sc in dc["superclasses"]],
                         "path": f"schemas/V_eta/{tier}/{base}"})
 schemas.sort(key=lambda e: (0 if e.get("is_meta") else 1, e["class_name"]))
 idx["schemas"] = schemas
