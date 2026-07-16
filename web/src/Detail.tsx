@@ -84,6 +84,12 @@ export function Detail({ entry }: Props) {
         <h2>
           {dc.class_name}
           {entry.is_meta && <span className="badge-meta">meta</span>}
+          {entry.disposition === "retire" && (
+            <span className="badge-retire">retire</span>
+          )}
+          {entry.disposition === "in_progress" && (
+            <span className="badge-wip">wip</span>
+          )}
         </h2>
         <dl className="detail-meta">
           <dt>Version</dt>
@@ -93,6 +99,11 @@ export function Detail({ entry }: Props) {
             <span className={`maturity-${maturity ?? "meta"}`}>
               {maturity ?? "(none)"}
             </span>
+          </dd>
+          <dt>Disposition</dt>
+          <dd>
+            {entry.disposition ?? "persist"}
+            {entry.disposition_note ? ` — ${entry.disposition_note}` : ""}
           </dd>
           <dt>Tier</dt>
           <dd>{entry.tier}</dd>

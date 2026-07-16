@@ -20,7 +20,8 @@
             "maturity_level": null,
             "superclasses": [],
             "path": "schemas/V_eta/stable/CURIE_lookups_meta.json",
-            "is_meta": true
+            "is_meta": true,
+            "disposition": "persist"
         },
         {
             "class_name": "binding_registry_meta",
@@ -29,7 +30,8 @@
             "maturity_level": null,
             "superclasses": [],
             "path": "schemas/V_eta/stable/binding_registry_meta.json",
-            "is_meta": true
+            "is_meta": true,
+            "disposition": "persist"
         },
         {
             "class_name": "did_schema_meta",
@@ -38,7 +40,8 @@
             "maturity_level": null,
             "superclasses": [],
             "path": "schemas/V_eta/stable/did_schema_meta.json",
-            "is_meta": true
+            "is_meta": true,
+            "disposition": "persist"
         },
         {
             "class_name": "ndi_reserved_keys",
@@ -47,7 +50,8 @@
             "maturity_level": null,
             "superclasses": [],
             "path": "schemas/V_eta/stable/ndi_reserved_keys.json",
-            "is_meta": true
+            "is_meta": true,
+            "disposition": "persist"
         },
         {
             "class_name": "acceleration",
@@ -57,7 +61,8 @@
             "superclasses": [
                 "data_type"
             ],
-            "path": "schemas/V_eta/stable/acceleration.json"
+            "path": "schemas/V_eta/stable/acceleration.json",
+            "disposition": "persist"
         },
         {
             "class_name": "acceleration_assertion",
@@ -67,7 +72,8 @@
             "superclasses": [
                 "numeric_assertion"
             ],
-            "path": "schemas/V_eta/stable/acceleration_assertion.json"
+            "path": "schemas/V_eta/stable/acceleration_assertion.json",
+            "disposition": "persist"
         },
         {
             "class_name": "acceleration_observation",
@@ -78,7 +84,8 @@
                 "subject_observation",
                 "acceleration"
             ],
-            "path": "schemas/V_eta/stable/acceleration_observation.json"
+            "path": "schemas/V_eta/stable/acceleration_observation.json",
+            "disposition": "persist"
         },
         {
             "class_name": "amount",
@@ -88,7 +95,8 @@
             "superclasses": [
                 "data_type"
             ],
-            "path": "schemas/V_eta/stable/amount.json"
+            "path": "schemas/V_eta/stable/amount.json",
+            "disposition": "persist"
         },
         {
             "class_name": "amount_assertion",
@@ -98,7 +106,8 @@
             "superclasses": [
                 "numeric_assertion"
             ],
-            "path": "schemas/V_eta/stable/amount_assertion.json"
+            "path": "schemas/V_eta/stable/amount_assertion.json",
+            "disposition": "persist"
         },
         {
             "class_name": "amount_observation",
@@ -109,7 +118,8 @@
                 "subject_observation",
                 "amount"
             ],
-            "path": "schemas/V_eta/stable/amount_observation.json"
+            "path": "schemas/V_eta/stable/amount_observation.json",
+            "disposition": "persist"
         },
         {
             "class_name": "angle",
@@ -119,7 +129,8 @@
             "superclasses": [
                 "data_type"
             ],
-            "path": "schemas/V_eta/stable/angle.json"
+            "path": "schemas/V_eta/stable/angle.json",
+            "disposition": "persist"
         },
         {
             "class_name": "angle_assertion",
@@ -129,7 +140,8 @@
             "superclasses": [
                 "numeric_assertion"
             ],
-            "path": "schemas/V_eta/stable/angle_assertion.json"
+            "path": "schemas/V_eta/stable/angle_assertion.json",
+            "disposition": "persist"
         },
         {
             "class_name": "angle_observation",
@@ -140,7 +152,8 @@
                 "subject_observation",
                 "angle"
             ],
-            "path": "schemas/V_eta/stable/angle_observation.json"
+            "path": "schemas/V_eta/stable/angle_observation.json",
+            "disposition": "persist"
         },
         {
             "class_name": "angular_velocity",
@@ -150,7 +163,8 @@
             "superclasses": [
                 "data_type"
             ],
-            "path": "schemas/V_eta/stable/angular_velocity.json"
+            "path": "schemas/V_eta/stable/angular_velocity.json",
+            "disposition": "persist"
         },
         {
             "class_name": "angular_velocity_assertion",
@@ -160,7 +174,8 @@
             "superclasses": [
                 "numeric_assertion"
             ],
-            "path": "schemas/V_eta/stable/angular_velocity_assertion.json"
+            "path": "schemas/V_eta/stable/angular_velocity_assertion.json",
+            "disposition": "persist"
         },
         {
             "class_name": "angular_velocity_observation",
@@ -171,7 +186,8 @@
                 "subject_observation",
                 "angular_velocity"
             ],
-            "path": "schemas/V_eta/stable/angular_velocity_observation.json"
+            "path": "schemas/V_eta/stable/angular_velocity_observation.json",
+            "disposition": "persist"
         },
         {
             "class_name": "app",
@@ -181,7 +197,8 @@
             "superclasses": [
                 "base"
             ],
-            "path": "schemas/V_eta/stable/app.json"
+            "path": "schemas/V_eta/stable/app.json",
+            "disposition": "persist"
         },
         {
             "class_name": "area",
@@ -191,7 +208,8 @@
             "superclasses": [
                 "data_type"
             ],
-            "path": "schemas/V_eta/stable/area.json"
+            "path": "schemas/V_eta/stable/area.json",
+            "disposition": "persist"
         },
         {
             "class_name": "area_assertion",
@@ -201,7 +219,8 @@
             "superclasses": [
                 "numeric_assertion"
             ],
-            "path": "schemas/V_eta/stable/area_assertion.json"
+            "path": "schemas/V_eta/stable/area_assertion.json",
+            "disposition": "persist"
         },
         {
             "class_name": "area_observation",
@@ -212,7 +231,8 @@
                 "subject_observation",
                 "area"
             ],
-            "path": "schemas/V_eta/stable/area_observation.json"
+            "path": "schemas/V_eta/stable/area_observation.json",
+            "disposition": "persist"
         },
         {
             "class_name": "award",
@@ -222,7 +242,8 @@
             "superclasses": [
                 "entity"
             ],
-            "path": "schemas/V_eta/stable/award.json"
+            "path": "schemas/V_eta/stable/award.json",
+            "disposition": "persist"
         },
         {
             "class_name": "base",
@@ -230,7 +251,8 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [],
-            "path": "schemas/V_eta/stable/base.json"
+            "path": "schemas/V_eta/stable/base.json",
+            "disposition": "persist"
         },
         {
             "class_name": "binaryseries_parameters",
@@ -240,7 +262,9 @@
             "superclasses": [
                 "base"
             ],
-            "path": "schemas/V_eta/stable/binaryseries_parameters.json"
+            "path": "schemas/V_eta/stable/binaryseries_parameters.json",
+            "disposition": "in_progress",
+            "disposition_note": "\u2465/\u2466 walkthrough pending"
         },
         {
             "class_name": "binnedspikeratevm",
@@ -250,7 +274,9 @@
             "superclasses": [
                 "base"
             ],
-            "path": "schemas/V_eta/stable/binnedspikeratevm.json"
+            "path": "schemas/V_eta/stable/binnedspikeratevm.json",
+            "disposition": "retire",
+            "disposition_note": "D-C analysis-tier decompose"
         },
         {
             "class_name": "calculator",
@@ -261,7 +287,9 @@
                 "base",
                 "app"
             ],
-            "path": "schemas/V_eta/stable/calculator.json"
+            "path": "schemas/V_eta/stable/calculator.json",
+            "disposition": "retire",
+            "disposition_note": "D-C analysis-tier decompose"
         },
         {
             "class_name": "capacitance",
@@ -271,7 +299,8 @@
             "superclasses": [
                 "data_type"
             ],
-            "path": "schemas/V_eta/stable/capacitance.json"
+            "path": "schemas/V_eta/stable/capacitance.json",
+            "disposition": "persist"
         },
         {
             "class_name": "capacitance_assertion",
@@ -281,7 +310,8 @@
             "superclasses": [
                 "numeric_assertion"
             ],
-            "path": "schemas/V_eta/stable/capacitance_assertion.json"
+            "path": "schemas/V_eta/stable/capacitance_assertion.json",
+            "disposition": "persist"
         },
         {
             "class_name": "capacitance_observation",
@@ -292,7 +322,8 @@
                 "subject_observation",
                 "capacitance"
             ],
-            "path": "schemas/V_eta/stable/capacitance_observation.json"
+            "path": "schemas/V_eta/stable/capacitance_observation.json",
+            "disposition": "persist"
         },
         {
             "class_name": "charge",
@@ -302,7 +333,8 @@
             "superclasses": [
                 "data_type"
             ],
-            "path": "schemas/V_eta/stable/charge.json"
+            "path": "schemas/V_eta/stable/charge.json",
+            "disposition": "persist"
         },
         {
             "class_name": "charge_assertion",
@@ -312,7 +344,8 @@
             "superclasses": [
                 "numeric_assertion"
             ],
-            "path": "schemas/V_eta/stable/charge_assertion.json"
+            "path": "schemas/V_eta/stable/charge_assertion.json",
+            "disposition": "persist"
         },
         {
             "class_name": "charge_observation",
@@ -323,7 +356,8 @@
                 "subject_observation",
                 "charge"
             ],
-            "path": "schemas/V_eta/stable/charge_observation.json"
+            "path": "schemas/V_eta/stable/charge_observation.json",
+            "disposition": "persist"
         },
         {
             "class_name": "chemical",
@@ -333,7 +367,8 @@
             "superclasses": [
                 "data_type"
             ],
-            "path": "schemas/V_eta/stable/chemical.json"
+            "path": "schemas/V_eta/stable/chemical.json",
+            "disposition": "persist"
         },
         {
             "class_name": "concentration",
@@ -343,7 +378,8 @@
             "superclasses": [
                 "data_type"
             ],
-            "path": "schemas/V_eta/stable/concentration.json"
+            "path": "schemas/V_eta/stable/concentration.json",
+            "disposition": "persist"
         },
         {
             "class_name": "concentration_assertion",
@@ -353,7 +389,8 @@
             "superclasses": [
                 "numeric_assertion"
             ],
-            "path": "schemas/V_eta/stable/concentration_assertion.json"
+            "path": "schemas/V_eta/stable/concentration_assertion.json",
+            "disposition": "persist"
         },
         {
             "class_name": "concentration_manipulation",
@@ -364,7 +401,8 @@
                 "subject_manipulation",
                 "concentration"
             ],
-            "path": "schemas/V_eta/stable/concentration_manipulation.json"
+            "path": "schemas/V_eta/stable/concentration_manipulation.json",
+            "disposition": "persist"
         },
         {
             "class_name": "concentration_observation",
@@ -375,7 +413,8 @@
                 "subject_observation",
                 "concentration"
             ],
-            "path": "schemas/V_eta/stable/concentration_observation.json"
+            "path": "schemas/V_eta/stable/concentration_observation.json",
+            "disposition": "persist"
         },
         {
             "class_name": "conductance",
@@ -385,7 +424,8 @@
             "superclasses": [
                 "data_type"
             ],
-            "path": "schemas/V_eta/stable/conductance.json"
+            "path": "schemas/V_eta/stable/conductance.json",
+            "disposition": "persist"
         },
         {
             "class_name": "conductance_assertion",
@@ -395,7 +435,8 @@
             "superclasses": [
                 "numeric_assertion"
             ],
-            "path": "schemas/V_eta/stable/conductance_assertion.json"
+            "path": "schemas/V_eta/stable/conductance_assertion.json",
+            "disposition": "persist"
         },
         {
             "class_name": "conductance_observation",
@@ -406,7 +447,8 @@
                 "subject_observation",
                 "conductance"
             ],
-            "path": "schemas/V_eta/stable/conductance_observation.json"
+            "path": "schemas/V_eta/stable/conductance_observation.json",
+            "disposition": "persist"
         },
         {
             "class_name": "contrast_sensitivity_calc",
@@ -417,7 +459,9 @@
                 "base",
                 "calculator"
             ],
-            "path": "schemas/V_eta/stable/contrast_sensitivity_calc.json"
+            "path": "schemas/V_eta/stable/contrast_sensitivity_calc.json",
+            "disposition": "retire",
+            "disposition_note": "D-C analysis-tier decompose"
         },
         {
             "class_name": "contrast_tuning",
@@ -427,7 +471,9 @@
             "superclasses": [
                 "base"
             ],
-            "path": "schemas/V_eta/stable/contrast_tuning.json"
+            "path": "schemas/V_eta/stable/contrast_tuning.json",
+            "disposition": "retire",
+            "disposition_note": "D-C analysis-tier decompose"
         },
         {
             "class_name": "contrast_tuning_calc",
@@ -439,7 +485,9 @@
                 "contrast_tuning",
                 "tuning_fit"
             ],
-            "path": "schemas/V_eta/stable/contrast_tuning_calc.json"
+            "path": "schemas/V_eta/stable/contrast_tuning_calc.json",
+            "disposition": "retire",
+            "disposition_note": "D-C analysis-tier decompose"
         },
         {
             "class_name": "control_stimulus_ids",
@@ -450,7 +498,8 @@
                 "base",
                 "app"
             ],
-            "path": "schemas/V_eta/stable/control_stimulus_ids.json"
+            "path": "schemas/V_eta/stable/control_stimulus_ids.json",
+            "disposition": "persist"
         },
         {
             "class_name": "count",
@@ -460,7 +509,8 @@
             "superclasses": [
                 "data_type"
             ],
-            "path": "schemas/V_eta/stable/count.json"
+            "path": "schemas/V_eta/stable/count.json",
+            "disposition": "persist"
         },
         {
             "class_name": "count_assertion",
@@ -470,7 +520,8 @@
             "superclasses": [
                 "numeric_assertion"
             ],
-            "path": "schemas/V_eta/stable/count_assertion.json"
+            "path": "schemas/V_eta/stable/count_assertion.json",
+            "disposition": "persist"
         },
         {
             "class_name": "count_observation",
@@ -481,7 +532,8 @@
                 "subject_observation",
                 "count"
             ],
-            "path": "schemas/V_eta/stable/count_observation.json"
+            "path": "schemas/V_eta/stable/count_observation.json",
+            "disposition": "persist"
         },
         {
             "class_name": "current",
@@ -491,7 +543,8 @@
             "superclasses": [
                 "data_type"
             ],
-            "path": "schemas/V_eta/stable/current.json"
+            "path": "schemas/V_eta/stable/current.json",
+            "disposition": "persist"
         },
         {
             "class_name": "current_assertion",
@@ -501,7 +554,8 @@
             "superclasses": [
                 "numeric_assertion"
             ],
-            "path": "schemas/V_eta/stable/current_assertion.json"
+            "path": "schemas/V_eta/stable/current_assertion.json",
+            "disposition": "persist"
         },
         {
             "class_name": "current_manipulation",
@@ -512,7 +566,8 @@
                 "subject_manipulation",
                 "current"
             ],
-            "path": "schemas/V_eta/stable/current_manipulation.json"
+            "path": "schemas/V_eta/stable/current_manipulation.json",
+            "disposition": "persist"
         },
         {
             "class_name": "current_observation",
@@ -523,7 +578,8 @@
                 "subject_observation",
                 "current"
             ],
-            "path": "schemas/V_eta/stable/current_observation.json"
+            "path": "schemas/V_eta/stable/current_observation.json",
+            "disposition": "persist"
         },
         {
             "class_name": "daqmetadatareader",
@@ -533,7 +589,9 @@
             "superclasses": [
                 "base"
             ],
-            "path": "schemas/V_eta/stable/daqmetadatareader.json"
+            "path": "schemas/V_eta/stable/daqmetadatareader.json",
+            "disposition": "in_progress",
+            "disposition_note": "\u2465/\u2466 walkthrough pending"
         },
         {
             "class_name": "daqmetadatareader_epochdata_ingested",
@@ -544,7 +602,9 @@
                 "base",
                 "epochid"
             ],
-            "path": "schemas/V_eta/stable/daqmetadatareader_epochdata_ingested.json"
+            "path": "schemas/V_eta/stable/daqmetadatareader_epochdata_ingested.json",
+            "disposition": "in_progress",
+            "disposition_note": "\u2465/\u2466 walkthrough pending"
         },
         {
             "class_name": "daqreader",
@@ -554,7 +614,9 @@
             "superclasses": [
                 "base"
             ],
-            "path": "schemas/V_eta/stable/daqreader.json"
+            "path": "schemas/V_eta/stable/daqreader.json",
+            "disposition": "in_progress",
+            "disposition_note": "\u2465/\u2466 walkthrough pending"
         },
         {
             "class_name": "daqreader_epochdata_ingested",
@@ -564,7 +626,9 @@
             "superclasses": [
                 "base"
             ],
-            "path": "schemas/V_eta/stable/daqreader_epochdata_ingested.json"
+            "path": "schemas/V_eta/stable/daqreader_epochdata_ingested.json",
+            "disposition": "in_progress",
+            "disposition_note": "\u2465/\u2466 walkthrough pending"
         },
         {
             "class_name": "daqreader_image_epochdata_ingested",
@@ -576,7 +640,9 @@
                 "daqreader_epochdata_ingested",
                 "epochid"
             ],
-            "path": "schemas/V_eta/stable/daqreader_image_epochdata_ingested.json"
+            "path": "schemas/V_eta/stable/daqreader_image_epochdata_ingested.json",
+            "disposition": "in_progress",
+            "disposition_note": "\u2465/\u2466 walkthrough pending"
         },
         {
             "class_name": "daqreader_mfdaq_epochdata_ingested",
@@ -588,7 +654,9 @@
                 "daqreader_epochdata_ingested",
                 "epochid"
             ],
-            "path": "schemas/V_eta/stable/daqreader_mfdaq_epochdata_ingested.json"
+            "path": "schemas/V_eta/stable/daqreader_mfdaq_epochdata_ingested.json",
+            "disposition": "in_progress",
+            "disposition_note": "\u2465/\u2466 walkthrough pending"
         },
         {
             "class_name": "daqreader_ndr",
@@ -599,7 +667,9 @@
                 "base",
                 "daqreader"
             ],
-            "path": "schemas/V_eta/stable/daqreader_ndr.json"
+            "path": "schemas/V_eta/stable/daqreader_ndr.json",
+            "disposition": "in_progress",
+            "disposition_note": "\u2465/\u2466 walkthrough pending"
         },
         {
             "class_name": "daqsystem",
@@ -609,7 +679,9 @@
             "superclasses": [
                 "base"
             ],
-            "path": "schemas/V_eta/stable/daqsystem.json"
+            "path": "schemas/V_eta/stable/daqsystem.json",
+            "disposition": "in_progress",
+            "disposition_note": "\u2465/\u2466 walkthrough pending"
         },
         {
             "class_name": "data",
@@ -619,7 +691,8 @@
             "superclasses": [
                 "base"
             ],
-            "path": "schemas/V_eta/stable/data.json"
+            "path": "schemas/V_eta/stable/data.json",
+            "disposition": "persist"
         },
         {
             "class_name": "data_body",
@@ -629,7 +702,8 @@
             "superclasses": [
                 "data"
             ],
-            "path": "schemas/V_eta/draft/data_body.json"
+            "path": "schemas/V_eta/draft/data_body.json",
+            "disposition": "persist"
         },
         {
             "class_name": "data_type",
@@ -639,7 +713,8 @@
             "superclasses": [
                 "data"
             ],
-            "path": "schemas/V_eta/stable/data_type.json"
+            "path": "schemas/V_eta/stable/data_type.json",
+            "disposition": "persist"
         },
         {
             "class_name": "dataseries_channel_map",
@@ -649,7 +724,9 @@
             "superclasses": [
                 "base"
             ],
-            "path": "schemas/V_eta/draft/dataseries_channel_map.json"
+            "path": "schemas/V_eta/draft/dataseries_channel_map.json",
+            "disposition": "in_progress",
+            "disposition_note": "\u2465/\u2466 walkthrough pending"
         },
         {
             "class_name": "dataseries_data",
@@ -659,7 +736,9 @@
             "superclasses": [
                 "base"
             ],
-            "path": "schemas/V_eta/draft/dataseries_data.json"
+            "path": "schemas/V_eta/draft/dataseries_data.json",
+            "disposition": "retire",
+            "disposition_note": "2.D \u2192 data_body fold"
         },
         {
             "class_name": "dataseries_observation",
@@ -669,7 +748,8 @@
             "superclasses": [
                 "subject_observation"
             ],
-            "path": "schemas/V_eta/draft/dataseries_observation.json"
+            "path": "schemas/V_eta/draft/dataseries_observation.json",
+            "disposition": "persist"
         },
         {
             "class_name": "dataseries_pyramid",
@@ -680,7 +760,9 @@
                 "base",
                 "epochid"
             ],
-            "path": "schemas/V_eta/draft/dataseries_pyramid.json"
+            "path": "schemas/V_eta/draft/dataseries_pyramid.json",
+            "disposition": "retire",
+            "disposition_note": "2.D \u2192 data_body fold"
         },
         {
             "class_name": "dataset",
@@ -690,7 +772,8 @@
             "superclasses": [
                 "entity"
             ],
-            "path": "schemas/V_eta/stable/dataset.json"
+            "path": "schemas/V_eta/stable/dataset.json",
+            "disposition": "persist"
         },
         {
             "class_name": "dataset_remote",
@@ -700,7 +783,9 @@
             "superclasses": [
                 "base"
             ],
-            "path": "schemas/V_eta/stable/dataset_remote.json"
+            "path": "schemas/V_eta/stable/dataset_remote.json",
+            "disposition": "retire",
+            "disposition_note": "Phase-8 source (migrator \u2192 delete)"
         },
         {
             "class_name": "dataset_session_info",
@@ -710,7 +795,9 @@
             "superclasses": [
                 "base"
             ],
-            "path": "schemas/V_eta/stable/dataset_session_info.json"
+            "path": "schemas/V_eta/stable/dataset_session_info.json",
+            "disposition": "retire",
+            "disposition_note": "Phase-8 source (migrator \u2192 delete)"
         },
         {
             "class_name": "date_assertion",
@@ -720,7 +807,8 @@
             "superclasses": [
                 "subject_assertion"
             ],
-            "path": "schemas/V_eta/stable/date_assertion.json"
+            "path": "schemas/V_eta/stable/date_assertion.json",
+            "disposition": "persist"
         },
         {
             "class_name": "demo_ndi",
@@ -730,7 +818,8 @@
             "superclasses": [
                 "base"
             ],
-            "path": "schemas/V_eta/stable/demo_ndi.json"
+            "path": "schemas/V_eta/stable/demo_ndi.json",
+            "disposition": "persist"
         },
         {
             "class_name": "demo_ndi_mock",
@@ -740,7 +829,8 @@
             "superclasses": [
                 "base"
             ],
-            "path": "schemas/V_eta/stable/demo_ndi_mock.json"
+            "path": "schemas/V_eta/stable/demo_ndi_mock.json",
+            "disposition": "persist"
         },
         {
             "class_name": "directed_relation",
@@ -750,7 +840,8 @@
             "superclasses": [
                 "relation"
             ],
-            "path": "schemas/V_eta/stable/directed_relation.json"
+            "path": "schemas/V_eta/stable/directed_relation.json",
+            "disposition": "persist"
         },
         {
             "class_name": "directory",
@@ -760,7 +851,9 @@
             "superclasses": [
                 "base"
             ],
-            "path": "schemas/V_eta/stable/directory.json"
+            "path": "schemas/V_eta/stable/directory.json",
+            "disposition": "in_progress",
+            "disposition_note": "\u2465/\u2466 walkthrough pending"
         },
         {
             "class_name": "distance_metadata",
@@ -770,7 +863,9 @@
             "superclasses": [
                 "base"
             ],
-            "path": "schemas/V_eta/stable/distance_metadata.json"
+            "path": "schemas/V_eta/stable/distance_metadata.json",
+            "disposition": "retire",
+            "disposition_note": "\u2192 observations (needs-NDI / D10-11)"
         },
         {
             "class_name": "dose",
@@ -780,7 +875,8 @@
             "superclasses": [
                 "data_type"
             ],
-            "path": "schemas/V_eta/stable/dose.json"
+            "path": "schemas/V_eta/stable/dose.json",
+            "disposition": "persist"
         },
         {
             "class_name": "dose_manipulation",
@@ -791,7 +887,8 @@
                 "subject_manipulation",
                 "dose"
             ],
-            "path": "schemas/V_eta/stable/dose_manipulation.json"
+            "path": "schemas/V_eta/stable/dose_manipulation.json",
+            "disposition": "persist"
         },
         {
             "class_name": "duration",
@@ -801,7 +898,8 @@
             "superclasses": [
                 "data_type"
             ],
-            "path": "schemas/V_eta/stable/duration.json"
+            "path": "schemas/V_eta/stable/duration.json",
+            "disposition": "persist"
         },
         {
             "class_name": "duration_assertion",
@@ -811,7 +909,8 @@
             "superclasses": [
                 "numeric_assertion"
             ],
-            "path": "schemas/V_eta/stable/duration_assertion.json"
+            "path": "schemas/V_eta/stable/duration_assertion.json",
+            "disposition": "persist"
         },
         {
             "class_name": "duration_observation",
@@ -822,7 +921,8 @@
                 "subject_observation",
                 "duration"
             ],
-            "path": "schemas/V_eta/stable/duration_observation.json"
+            "path": "schemas/V_eta/stable/duration_observation.json",
+            "disposition": "persist"
         },
         {
             "class_name": "electrode_offset_voltage",
@@ -832,7 +932,9 @@
             "superclasses": [
                 "base"
             ],
-            "path": "schemas/V_eta/stable/electrode_offset_voltage.json"
+            "path": "schemas/V_eta/stable/electrode_offset_voltage.json",
+            "disposition": "retire",
+            "disposition_note": "\u2192 observations (needs-NDI / D10-11)"
         },
         {
             "class_name": "element",
@@ -842,7 +944,9 @@
             "superclasses": [
                 "base"
             ],
-            "path": "schemas/V_eta/stable/element.json"
+            "path": "schemas/V_eta/stable/element.json",
+            "disposition": "retire",
+            "disposition_note": "Phase-8 source (migrator \u2192 delete)"
         },
         {
             "class_name": "element_epoch",
@@ -853,7 +957,9 @@
                 "base",
                 "epochid"
             ],
-            "path": "schemas/V_eta/stable/element_epoch.json"
+            "path": "schemas/V_eta/stable/element_epoch.json",
+            "disposition": "in_progress",
+            "disposition_note": "\u2465/\u2466 walkthrough pending"
         },
         {
             "class_name": "energy",
@@ -863,7 +969,8 @@
             "superclasses": [
                 "data_type"
             ],
-            "path": "schemas/V_eta/stable/energy.json"
+            "path": "schemas/V_eta/stable/energy.json",
+            "disposition": "persist"
         },
         {
             "class_name": "energy_assertion",
@@ -873,7 +980,8 @@
             "superclasses": [
                 "numeric_assertion"
             ],
-            "path": "schemas/V_eta/stable/energy_assertion.json"
+            "path": "schemas/V_eta/stable/energy_assertion.json",
+            "disposition": "persist"
         },
         {
             "class_name": "energy_observation",
@@ -884,7 +992,8 @@
                 "subject_observation",
                 "energy"
             ],
-            "path": "schemas/V_eta/stable/energy_observation.json"
+            "path": "schemas/V_eta/stable/energy_observation.json",
+            "disposition": "persist"
         },
         {
             "class_name": "entity",
@@ -894,7 +1003,8 @@
             "superclasses": [
                 "base"
             ],
-            "path": "schemas/V_eta/stable/entity.json"
+            "path": "schemas/V_eta/stable/entity.json",
+            "disposition": "persist"
         },
         {
             "class_name": "ephys_zarr",
@@ -904,7 +1014,9 @@
             "superclasses": [
                 "zarr"
             ],
-            "path": "schemas/V_eta/stable/ephys_zarr.json"
+            "path": "schemas/V_eta/stable/ephys_zarr.json",
+            "disposition": "retire",
+            "disposition_note": "2.D \u2192 data_body fold"
         },
         {
             "class_name": "epoch_bounded_reference",
@@ -915,7 +1027,8 @@
                 "time_reference",
                 "epochid"
             ],
-            "path": "schemas/V_eta/stable/epoch_bounded_reference.json"
+            "path": "schemas/V_eta/stable/epoch_bounded_reference.json",
+            "disposition": "persist"
         },
         {
             "class_name": "epoch_relative_reference",
@@ -926,7 +1039,8 @@
                 "time_reference",
                 "epochid"
             ],
-            "path": "schemas/V_eta/stable/epoch_relative_reference.json"
+            "path": "schemas/V_eta/stable/epoch_relative_reference.json",
+            "disposition": "persist"
         },
         {
             "class_name": "epochfiles_ingested",
@@ -936,7 +1050,9 @@
             "superclasses": [
                 "base"
             ],
-            "path": "schemas/V_eta/stable/epochfiles_ingested.json"
+            "path": "schemas/V_eta/stable/epochfiles_ingested.json",
+            "disposition": "in_progress",
+            "disposition_note": "\u2465/\u2466 walkthrough pending"
         },
         {
             "class_name": "epochid",
@@ -946,7 +1062,9 @@
             "superclasses": [
                 "base"
             ],
-            "path": "schemas/V_eta/stable/epochid.json"
+            "path": "schemas/V_eta/stable/epochid.json",
+            "disposition": "in_progress",
+            "disposition_note": "\u2465/\u2466 walkthrough pending"
         },
         {
             "class_name": "event_bounded_reference",
@@ -956,7 +1074,8 @@
             "superclasses": [
                 "time_reference"
             ],
-            "path": "schemas/V_eta/stable/event_bounded_reference.json"
+            "path": "schemas/V_eta/stable/event_bounded_reference.json",
+            "disposition": "persist"
         },
         {
             "class_name": "event_relative_reference",
@@ -966,7 +1085,8 @@
             "superclasses": [
                 "time_reference"
             ],
-            "path": "schemas/V_eta/stable/event_relative_reference.json"
+            "path": "schemas/V_eta/stable/event_relative_reference.json",
+            "disposition": "persist"
         },
         {
             "class_name": "filenavigator",
@@ -976,7 +1096,9 @@
             "superclasses": [
                 "base"
             ],
-            "path": "schemas/V_eta/stable/filenavigator.json"
+            "path": "schemas/V_eta/stable/filenavigator.json",
+            "disposition": "in_progress",
+            "disposition_note": "\u2465/\u2466 walkthrough pending"
         },
         {
             "class_name": "filter",
@@ -986,7 +1108,9 @@
             "superclasses": [
                 "base"
             ],
-            "path": "schemas/V_eta/stable/filter.json"
+            "path": "schemas/V_eta/stable/filter.json",
+            "disposition": "in_progress",
+            "disposition_note": "\u2465/\u2466 walkthrough pending"
         },
         {
             "class_name": "fitcurve",
@@ -996,7 +1120,9 @@
             "superclasses": [
                 "base"
             ],
-            "path": "schemas/V_eta/stable/fitcurve.json"
+            "path": "schemas/V_eta/stable/fitcurve.json",
+            "disposition": "retire",
+            "disposition_note": "D-C analysis-tier decompose"
         },
         {
             "class_name": "force",
@@ -1006,7 +1132,8 @@
             "superclasses": [
                 "data_type"
             ],
-            "path": "schemas/V_eta/stable/force.json"
+            "path": "schemas/V_eta/stable/force.json",
+            "disposition": "persist"
         },
         {
             "class_name": "force_assertion",
@@ -1016,7 +1143,8 @@
             "superclasses": [
                 "numeric_assertion"
             ],
-            "path": "schemas/V_eta/stable/force_assertion.json"
+            "path": "schemas/V_eta/stable/force_assertion.json",
+            "disposition": "persist"
         },
         {
             "class_name": "force_manipulation",
@@ -1027,7 +1155,8 @@
                 "subject_manipulation",
                 "force"
             ],
-            "path": "schemas/V_eta/stable/force_manipulation.json"
+            "path": "schemas/V_eta/stable/force_manipulation.json",
+            "disposition": "persist"
         },
         {
             "class_name": "force_observation",
@@ -1038,7 +1167,8 @@
                 "subject_observation",
                 "force"
             ],
-            "path": "schemas/V_eta/stable/force_observation.json"
+            "path": "schemas/V_eta/stable/force_observation.json",
+            "disposition": "persist"
         },
         {
             "class_name": "formulation",
@@ -1048,7 +1178,8 @@
             "superclasses": [
                 "data_type"
             ],
-            "path": "schemas/V_eta/stable/formulation.json"
+            "path": "schemas/V_eta/stable/formulation.json",
+            "disposition": "persist"
         },
         {
             "class_name": "formulation_manipulation",
@@ -1059,7 +1190,8 @@
                 "subject_manipulation",
                 "formulation"
             ],
-            "path": "schemas/V_eta/stable/formulation_manipulation.json"
+            "path": "schemas/V_eta/stable/formulation_manipulation.json",
+            "disposition": "persist"
         },
         {
             "class_name": "frequency",
@@ -1069,7 +1201,8 @@
             "superclasses": [
                 "data_type"
             ],
-            "path": "schemas/V_eta/stable/frequency.json"
+            "path": "schemas/V_eta/stable/frequency.json",
+            "disposition": "persist"
         },
         {
             "class_name": "frequency_assertion",
@@ -1079,7 +1212,8 @@
             "superclasses": [
                 "numeric_assertion"
             ],
-            "path": "schemas/V_eta/stable/frequency_assertion.json"
+            "path": "schemas/V_eta/stable/frequency_assertion.json",
+            "disposition": "persist"
         },
         {
             "class_name": "frequency_manipulation",
@@ -1090,7 +1224,8 @@
                 "subject_manipulation",
                 "frequency"
             ],
-            "path": "schemas/V_eta/stable/frequency_manipulation.json"
+            "path": "schemas/V_eta/stable/frequency_manipulation.json",
+            "disposition": "persist"
         },
         {
             "class_name": "frequency_observation",
@@ -1101,7 +1236,8 @@
                 "subject_observation",
                 "frequency"
             ],
-            "path": "schemas/V_eta/stable/frequency_observation.json"
+            "path": "schemas/V_eta/stable/frequency_observation.json",
+            "disposition": "persist"
         },
         {
             "class_name": "generic_file",
@@ -1111,7 +1247,9 @@
             "superclasses": [
                 "base"
             ],
-            "path": "schemas/V_eta/stable/generic_file.json"
+            "path": "schemas/V_eta/stable/generic_file.json",
+            "disposition": "retire",
+            "disposition_note": "2.D \u2192 data_body fold"
         },
         {
             "class_name": "hartley_calc",
@@ -1123,7 +1261,9 @@
                 "hartley_reverse_correlation",
                 "calculator"
             ],
-            "path": "schemas/V_eta/stable/hartley_calc.json"
+            "path": "schemas/V_eta/stable/hartley_calc.json",
+            "disposition": "retire",
+            "disposition_note": "D-C analysis-tier decompose"
         },
         {
             "class_name": "hartley_reverse_correlation",
@@ -1134,7 +1274,9 @@
                 "base",
                 "reverse_correlation"
             ],
-            "path": "schemas/V_eta/stable/hartley_reverse_correlation.json"
+            "path": "schemas/V_eta/stable/hartley_reverse_correlation.json",
+            "disposition": "retire",
+            "disposition_note": "D-C analysis-tier decompose"
         },
         {
             "class_name": "image",
@@ -1144,7 +1286,9 @@
             "superclasses": [
                 "base"
             ],
-            "path": "schemas/V_eta/stable/image.json"
+            "path": "schemas/V_eta/stable/image.json",
+            "disposition": "retire",
+            "disposition_note": "2.D \u2192 data_body fold"
         },
         {
             "class_name": "image_collection",
@@ -1154,7 +1298,9 @@
             "superclasses": [
                 "base"
             ],
-            "path": "schemas/V_eta/stable/image_collection.json"
+            "path": "schemas/V_eta/stable/image_collection.json",
+            "disposition": "retire",
+            "disposition_note": "2.D \u2192 data_body fold"
         },
         {
             "class_name": "image_observation",
@@ -1165,7 +1311,8 @@
                 "subject_observation",
                 "image"
             ],
-            "path": "schemas/V_eta/draft/image_observation.json"
+            "path": "schemas/V_eta/draft/image_observation.json",
+            "disposition": "persist"
         },
         {
             "class_name": "image_stack",
@@ -1176,7 +1323,8 @@
                 "base",
                 "image_stack_parameters"
             ],
-            "path": "schemas/V_eta/deprecated/image_stack.json"
+            "path": "schemas/V_eta/deprecated/image_stack.json",
+            "disposition": "persist"
         },
         {
             "class_name": "image_stack_parameters",
@@ -1186,7 +1334,8 @@
             "superclasses": [
                 "base"
             ],
-            "path": "schemas/V_eta/deprecated/image_stack_parameters.json"
+            "path": "schemas/V_eta/deprecated/image_stack_parameters.json",
+            "disposition": "persist"
         },
         {
             "class_name": "image_zarr",
@@ -1196,7 +1345,9 @@
             "superclasses": [
                 "zarr"
             ],
-            "path": "schemas/V_eta/stable/image_zarr.json"
+            "path": "schemas/V_eta/stable/image_zarr.json",
+            "disposition": "retire",
+            "disposition_note": "2.D \u2192 data_body fold"
         },
         {
             "class_name": "imageseries_data",
@@ -1206,7 +1357,9 @@
             "superclasses": [
                 "dataseries_data"
             ],
-            "path": "schemas/V_eta/draft/imageseries_data.json"
+            "path": "schemas/V_eta/draft/imageseries_data.json",
+            "disposition": "retire",
+            "disposition_note": "2.D \u2192 data_body fold"
         },
         {
             "class_name": "imageseries_observation",
@@ -1216,7 +1369,8 @@
             "superclasses": [
                 "dataseries_observation"
             ],
-            "path": "schemas/V_eta/draft/imageseries_observation.json"
+            "path": "schemas/V_eta/draft/imageseries_observation.json",
+            "disposition": "persist"
         },
         {
             "class_name": "instrument",
@@ -1226,7 +1380,9 @@
             "superclasses": [
                 "base"
             ],
-            "path": "schemas/V_eta/draft/instrument.json"
+            "path": "schemas/V_eta/draft/instrument.json",
+            "disposition": "in_progress",
+            "disposition_note": "\u2465/\u2466 walkthrough pending"
         },
         {
             "class_name": "intensity",
@@ -1236,7 +1392,8 @@
             "superclasses": [
                 "data_type"
             ],
-            "path": "schemas/V_eta/stable/intensity.json"
+            "path": "schemas/V_eta/stable/intensity.json",
+            "disposition": "persist"
         },
         {
             "class_name": "intensity_assertion",
@@ -1246,7 +1403,8 @@
             "superclasses": [
                 "numeric_assertion"
             ],
-            "path": "schemas/V_eta/stable/intensity_assertion.json"
+            "path": "schemas/V_eta/stable/intensity_assertion.json",
+            "disposition": "persist"
         },
         {
             "class_name": "intensity_manipulation",
@@ -1257,7 +1415,8 @@
                 "subject_manipulation",
                 "intensity"
             ],
-            "path": "schemas/V_eta/stable/intensity_manipulation.json"
+            "path": "schemas/V_eta/stable/intensity_manipulation.json",
+            "disposition": "persist"
         },
         {
             "class_name": "intensity_observation",
@@ -1268,7 +1427,8 @@
                 "subject_observation",
                 "intensity"
             ],
-            "path": "schemas/V_eta/stable/intensity_observation.json"
+            "path": "schemas/V_eta/stable/intensity_observation.json",
+            "disposition": "persist"
         },
         {
             "class_name": "interaction_purpose",
@@ -1278,7 +1438,9 @@
             "superclasses": [
                 "base"
             ],
-            "path": "schemas/V_eta/stable/interaction_purpose.json"
+            "path": "schemas/V_eta/stable/interaction_purpose.json",
+            "disposition": "in_progress",
+            "disposition_note": "\u2465/\u2466 walkthrough pending"
         },
         {
             "class_name": "jrclust_clusters",
@@ -1289,7 +1451,9 @@
                 "base",
                 "app"
             ],
-            "path": "schemas/V_eta/stable/jrclust_clusters.json"
+            "path": "schemas/V_eta/stable/jrclust_clusters.json",
+            "disposition": "retire",
+            "disposition_note": "D-C analysis-tier decompose"
         },
         {
             "class_name": "length",
@@ -1299,7 +1463,8 @@
             "superclasses": [
                 "data_type"
             ],
-            "path": "schemas/V_eta/stable/length.json"
+            "path": "schemas/V_eta/stable/length.json",
+            "disposition": "persist"
         },
         {
             "class_name": "length_assertion",
@@ -1309,7 +1474,8 @@
             "superclasses": [
                 "numeric_assertion"
             ],
-            "path": "schemas/V_eta/stable/length_assertion.json"
+            "path": "schemas/V_eta/stable/length_assertion.json",
+            "disposition": "persist"
         },
         {
             "class_name": "length_observation",
@@ -1320,7 +1486,8 @@
                 "subject_observation",
                 "length"
             ],
-            "path": "schemas/V_eta/stable/length_observation.json"
+            "path": "schemas/V_eta/stable/length_observation.json",
+            "disposition": "persist"
         },
         {
             "class_name": "mass",
@@ -1330,7 +1497,8 @@
             "superclasses": [
                 "data_type"
             ],
-            "path": "schemas/V_eta/stable/mass.json"
+            "path": "schemas/V_eta/stable/mass.json",
+            "disposition": "persist"
         },
         {
             "class_name": "mass_assertion",
@@ -1340,7 +1508,8 @@
             "superclasses": [
                 "numeric_assertion"
             ],
-            "path": "schemas/V_eta/stable/mass_assertion.json"
+            "path": "schemas/V_eta/stable/mass_assertion.json",
+            "disposition": "persist"
         },
         {
             "class_name": "mass_observation",
@@ -1351,7 +1520,8 @@
                 "subject_observation",
                 "mass"
             ],
-            "path": "schemas/V_eta/stable/mass_observation.json"
+            "path": "schemas/V_eta/stable/mass_observation.json",
+            "disposition": "persist"
         },
         {
             "class_name": "measurement",
@@ -1362,7 +1532,9 @@
                 "base",
                 "epochid"
             ],
-            "path": "schemas/V_eta/stable/measurement.json"
+            "path": "schemas/V_eta/stable/measurement.json",
+            "disposition": "retire",
+            "disposition_note": "D-C analysis-tier decompose"
         },
         {
             "class_name": "metadata_editor",
@@ -1372,7 +1544,9 @@
             "superclasses": [
                 "base"
             ],
-            "path": "schemas/V_eta/stable/metadata_editor.json"
+            "path": "schemas/V_eta/stable/metadata_editor.json",
+            "disposition": "retire",
+            "disposition_note": "Phase-8 source (migrator \u2192 delete)"
         },
         {
             "class_name": "neuron_extracellular",
@@ -1383,7 +1557,9 @@
                 "base",
                 "app"
             ],
-            "path": "schemas/V_eta/stable/neuron_extracellular.json"
+            "path": "schemas/V_eta/stable/neuron_extracellular.json",
+            "disposition": "retire",
+            "disposition_note": "D-C analysis-tier decompose"
         },
         {
             "class_name": "ngrid",
@@ -1393,7 +1569,9 @@
             "superclasses": [
                 "base"
             ],
-            "path": "schemas/V_eta/stable/ngrid.json"
+            "path": "schemas/V_eta/stable/ngrid.json",
+            "disposition": "in_progress",
+            "disposition_note": "\u2465/\u2466 walkthrough pending"
         },
         {
             "class_name": "numeric_assertion",
@@ -1403,7 +1581,8 @@
             "superclasses": [
                 "subject_assertion"
             ],
-            "path": "schemas/V_eta/stable/numeric_assertion.json"
+            "path": "schemas/V_eta/stable/numeric_assertion.json",
+            "disposition": "persist"
         },
         {
             "class_name": "ontology_image",
@@ -1413,7 +1592,9 @@
             "superclasses": [
                 "base"
             ],
-            "path": "schemas/V_eta/stable/ontology_image.json"
+            "path": "schemas/V_eta/stable/ontology_image.json",
+            "disposition": "retire",
+            "disposition_note": "\u2192 observations (needs-NDI / D10-11)"
         },
         {
             "class_name": "ontology_label",
@@ -1423,7 +1604,9 @@
             "superclasses": [
                 "base"
             ],
-            "path": "schemas/V_eta/stable/ontology_label.json"
+            "path": "schemas/V_eta/stable/ontology_label.json",
+            "disposition": "retire",
+            "disposition_note": "\u2192 observations (needs-NDI / D10-11)"
         },
         {
             "class_name": "ontology_table_row",
@@ -1433,7 +1616,9 @@
             "superclasses": [
                 "base"
             ],
-            "path": "schemas/V_eta/stable/ontology_table_row.json"
+            "path": "schemas/V_eta/stable/ontology_table_row.json",
+            "disposition": "retire",
+            "disposition_note": "\u2192 observations (needs-NDI / D10-11)"
         },
         {
             "class_name": "opaque_body",
@@ -1443,7 +1628,8 @@
             "superclasses": [
                 "data_body"
             ],
-            "path": "schemas/V_eta/draft/opaque_body.json"
+            "path": "schemas/V_eta/draft/opaque_body.json",
+            "disposition": "persist"
         },
         {
             "class_name": "openminds",
@@ -1453,7 +1639,9 @@
             "superclasses": [
                 "base"
             ],
-            "path": "schemas/V_eta/stable/openminds.json"
+            "path": "schemas/V_eta/stable/openminds.json",
+            "disposition": "retire",
+            "disposition_note": "Phase-8 source (migrator \u2192 delete)"
         },
         {
             "class_name": "openminds_element",
@@ -1464,7 +1652,9 @@
                 "base",
                 "openminds"
             ],
-            "path": "schemas/V_eta/stable/openminds_element.json"
+            "path": "schemas/V_eta/stable/openminds_element.json",
+            "disposition": "retire",
+            "disposition_note": "Phase-8 source (migrator \u2192 delete)"
         },
         {
             "class_name": "openminds_stimulus",
@@ -1476,7 +1666,9 @@
                 "openminds",
                 "epochid"
             ],
-            "path": "schemas/V_eta/stable/openminds_stimulus.json"
+            "path": "schemas/V_eta/stable/openminds_stimulus.json",
+            "disposition": "retire",
+            "disposition_note": "Phase-8 source (migrator \u2192 delete)"
         },
         {
             "class_name": "openminds_subject",
@@ -1487,7 +1679,9 @@
                 "base",
                 "openminds"
             ],
-            "path": "schemas/V_eta/stable/openminds_subject.json"
+            "path": "schemas/V_eta/stable/openminds_subject.json",
+            "disposition": "retire",
+            "disposition_note": "Phase-8 source (migrator \u2192 delete)"
         },
         {
             "class_name": "organization",
@@ -1497,7 +1691,8 @@
             "superclasses": [
                 "entity"
             ],
-            "path": "schemas/V_eta/stable/organization.json"
+            "path": "schemas/V_eta/stable/organization.json",
+            "disposition": "persist"
         },
         {
             "class_name": "oridirtuning_calc",
@@ -1509,7 +1704,9 @@
                 "orientation_direction_tuning",
                 "tuning_fit"
             ],
-            "path": "schemas/V_eta/stable/oridirtuning_calc.json"
+            "path": "schemas/V_eta/stable/oridirtuning_calc.json",
+            "disposition": "retire",
+            "disposition_note": "D-C analysis-tier decompose"
         },
         {
             "class_name": "orientation_direction_tuning",
@@ -1519,7 +1716,9 @@
             "superclasses": [
                 "base"
             ],
-            "path": "schemas/V_eta/stable/orientation_direction_tuning.json"
+            "path": "schemas/V_eta/stable/orientation_direction_tuning.json",
+            "disposition": "retire",
+            "disposition_note": "D-C analysis-tier decompose"
         },
         {
             "class_name": "person",
@@ -1529,7 +1728,8 @@
             "superclasses": [
                 "entity"
             ],
-            "path": "schemas/V_eta/stable/person.json"
+            "path": "schemas/V_eta/stable/person.json",
+            "disposition": "persist"
         },
         {
             "class_name": "ph",
@@ -1539,7 +1739,8 @@
             "superclasses": [
                 "data_type"
             ],
-            "path": "schemas/V_eta/stable/ph.json"
+            "path": "schemas/V_eta/stable/ph.json",
+            "disposition": "persist"
         },
         {
             "class_name": "ph_assertion",
@@ -1549,7 +1750,8 @@
             "superclasses": [
                 "numeric_assertion"
             ],
-            "path": "schemas/V_eta/stable/ph_assertion.json"
+            "path": "schemas/V_eta/stable/ph_assertion.json",
+            "disposition": "persist"
         },
         {
             "class_name": "ph_observation",
@@ -1560,7 +1762,8 @@
                 "subject_observation",
                 "ph"
             ],
-            "path": "schemas/V_eta/stable/ph_observation.json"
+            "path": "schemas/V_eta/stable/ph_observation.json",
+            "disposition": "persist"
         },
         {
             "class_name": "position_metadata",
@@ -1570,7 +1773,9 @@
             "superclasses": [
                 "base"
             ],
-            "path": "schemas/V_eta/stable/position_metadata.json"
+            "path": "schemas/V_eta/stable/position_metadata.json",
+            "disposition": "retire",
+            "disposition_note": "\u2192 observations (needs-NDI / D10-11)"
         },
         {
             "class_name": "power",
@@ -1580,7 +1785,8 @@
             "superclasses": [
                 "data_type"
             ],
-            "path": "schemas/V_eta/stable/power.json"
+            "path": "schemas/V_eta/stable/power.json",
+            "disposition": "persist"
         },
         {
             "class_name": "power_assertion",
@@ -1590,7 +1796,8 @@
             "superclasses": [
                 "numeric_assertion"
             ],
-            "path": "schemas/V_eta/stable/power_assertion.json"
+            "path": "schemas/V_eta/stable/power_assertion.json",
+            "disposition": "persist"
         },
         {
             "class_name": "power_observation",
@@ -1601,7 +1808,8 @@
                 "subject_observation",
                 "power"
             ],
-            "path": "schemas/V_eta/stable/power_observation.json"
+            "path": "schemas/V_eta/stable/power_observation.json",
+            "disposition": "persist"
         },
         {
             "class_name": "pressure",
@@ -1611,7 +1819,8 @@
             "superclasses": [
                 "data_type"
             ],
-            "path": "schemas/V_eta/stable/pressure.json"
+            "path": "schemas/V_eta/stable/pressure.json",
+            "disposition": "persist"
         },
         {
             "class_name": "pressure_assertion",
@@ -1621,7 +1830,8 @@
             "superclasses": [
                 "numeric_assertion"
             ],
-            "path": "schemas/V_eta/stable/pressure_assertion.json"
+            "path": "schemas/V_eta/stable/pressure_assertion.json",
+            "disposition": "persist"
         },
         {
             "class_name": "pressure_manipulation",
@@ -1632,7 +1842,8 @@
                 "subject_manipulation",
                 "pressure"
             ],
-            "path": "schemas/V_eta/stable/pressure_manipulation.json"
+            "path": "schemas/V_eta/stable/pressure_manipulation.json",
+            "disposition": "persist"
         },
         {
             "class_name": "pressure_observation",
@@ -1643,7 +1854,8 @@
                 "subject_observation",
                 "pressure"
             ],
-            "path": "schemas/V_eta/stable/pressure_observation.json"
+            "path": "schemas/V_eta/stable/pressure_observation.json",
+            "disposition": "persist"
         },
         {
             "class_name": "probe_geometry",
@@ -1653,7 +1865,9 @@
             "superclasses": [
                 "base"
             ],
-            "path": "schemas/V_eta/stable/probe_geometry.json"
+            "path": "schemas/V_eta/stable/probe_geometry.json",
+            "disposition": "retire",
+            "disposition_note": "\u2192 observations (needs-NDI / D10-11)"
         },
         {
             "class_name": "probe_location",
@@ -1663,7 +1877,9 @@
             "superclasses": [
                 "base"
             ],
-            "path": "schemas/V_eta/stable/probe_location.json"
+            "path": "schemas/V_eta/stable/probe_location.json",
+            "disposition": "retire",
+            "disposition_note": "\u2192 observations (needs-NDI / D10-11)"
         },
         {
             "class_name": "projectvar",
@@ -1673,7 +1889,8 @@
             "superclasses": [
                 "base"
             ],
-            "path": "schemas/V_eta/deprecated/projectvar.json"
+            "path": "schemas/V_eta/deprecated/projectvar.json",
+            "disposition": "persist"
         },
         {
             "class_name": "publication",
@@ -1683,7 +1900,8 @@
             "superclasses": [
                 "entity"
             ],
-            "path": "schemas/V_eta/stable/publication.json"
+            "path": "schemas/V_eta/stable/publication.json",
+            "disposition": "persist"
         },
         {
             "class_name": "pyraview",
@@ -1695,7 +1913,9 @@
                 "base",
                 "epochid"
             ],
-            "path": "schemas/V_eta/stable/pyraview.json"
+            "path": "schemas/V_eta/stable/pyraview.json",
+            "disposition": "retire",
+            "disposition_note": "2.D \u2192 data_body fold"
         },
         {
             "class_name": "relation",
@@ -1705,7 +1925,8 @@
             "superclasses": [
                 "base"
             ],
-            "path": "schemas/V_eta/stable/relation.json"
+            "path": "schemas/V_eta/stable/relation.json",
+            "disposition": "persist"
         },
         {
             "class_name": "resistance",
@@ -1715,7 +1936,8 @@
             "superclasses": [
                 "data_type"
             ],
-            "path": "schemas/V_eta/stable/resistance.json"
+            "path": "schemas/V_eta/stable/resistance.json",
+            "disposition": "persist"
         },
         {
             "class_name": "resistance_assertion",
@@ -1725,7 +1947,8 @@
             "superclasses": [
                 "numeric_assertion"
             ],
-            "path": "schemas/V_eta/stable/resistance_assertion.json"
+            "path": "schemas/V_eta/stable/resistance_assertion.json",
+            "disposition": "persist"
         },
         {
             "class_name": "resistance_observation",
@@ -1736,7 +1959,8 @@
                 "subject_observation",
                 "resistance"
             ],
-            "path": "schemas/V_eta/stable/resistance_observation.json"
+            "path": "schemas/V_eta/stable/resistance_observation.json",
+            "disposition": "persist"
         },
         {
             "class_name": "reverse_correlation",
@@ -1747,7 +1971,9 @@
                 "base",
                 "ngrid"
             ],
-            "path": "schemas/V_eta/stable/reverse_correlation.json"
+            "path": "schemas/V_eta/stable/reverse_correlation.json",
+            "disposition": "retire",
+            "disposition_note": "D-C analysis-tier decompose"
         },
         {
             "class_name": "sampled_body",
@@ -1757,7 +1983,8 @@
             "superclasses": [
                 "data_body"
             ],
-            "path": "schemas/V_eta/draft/sampled_body.json"
+            "path": "schemas/V_eta/draft/sampled_body.json",
+            "disposition": "persist"
         },
         {
             "class_name": "score",
@@ -1767,7 +1994,8 @@
             "superclasses": [
                 "data_type"
             ],
-            "path": "schemas/V_eta/stable/score.json"
+            "path": "schemas/V_eta/stable/score.json",
+            "disposition": "persist"
         },
         {
             "class_name": "score_assertion",
@@ -1777,7 +2005,8 @@
             "superclasses": [
                 "numeric_assertion"
             ],
-            "path": "schemas/V_eta/stable/score_assertion.json"
+            "path": "schemas/V_eta/stable/score_assertion.json",
+            "disposition": "persist"
         },
         {
             "class_name": "score_observation",
@@ -1788,7 +2017,8 @@
                 "subject_observation",
                 "score"
             ],
-            "path": "schemas/V_eta/stable/score_observation.json"
+            "path": "schemas/V_eta/stable/score_observation.json",
+            "disposition": "persist"
         },
         {
             "class_name": "session",
@@ -1798,7 +2028,8 @@
             "superclasses": [
                 "entity"
             ],
-            "path": "schemas/V_eta/stable/session.json"
+            "path": "schemas/V_eta/stable/session.json",
+            "disposition": "persist"
         },
         {
             "class_name": "session_bounded_reference",
@@ -1808,7 +2039,8 @@
             "superclasses": [
                 "time_reference"
             ],
-            "path": "schemas/V_eta/stable/session_bounded_reference.json"
+            "path": "schemas/V_eta/stable/session_bounded_reference.json",
+            "disposition": "persist"
         },
         {
             "class_name": "session_in_a_dataset",
@@ -1818,7 +2050,9 @@
             "superclasses": [
                 "base"
             ],
-            "path": "schemas/V_eta/stable/session_in_a_dataset.json"
+            "path": "schemas/V_eta/stable/session_in_a_dataset.json",
+            "disposition": "retire",
+            "disposition_note": "Phase-8 source (migrator \u2192 delete)"
         },
         {
             "class_name": "session_relative_reference",
@@ -1828,7 +2062,8 @@
             "superclasses": [
                 "time_reference"
             ],
-            "path": "schemas/V_eta/stable/session_relative_reference.json"
+            "path": "schemas/V_eta/stable/session_relative_reference.json",
+            "disposition": "persist"
         },
         {
             "class_name": "simple_calc",
@@ -1839,7 +2074,9 @@
                 "base",
                 "calculator"
             ],
-            "path": "schemas/V_eta/stable/simple_calc.json"
+            "path": "schemas/V_eta/stable/simple_calc.json",
+            "disposition": "retire",
+            "disposition_note": "D-C analysis-tier decompose"
         },
         {
             "class_name": "site2channelmap",
@@ -1849,7 +2086,9 @@
             "superclasses": [
                 "base"
             ],
-            "path": "schemas/V_eta/stable/site2channelmap.json"
+            "path": "schemas/V_eta/stable/site2channelmap.json",
+            "disposition": "retire",
+            "disposition_note": "D-C analysis-tier decompose"
         },
         {
             "class_name": "sorting_parameters",
@@ -1859,7 +2098,9 @@
             "superclasses": [
                 "base"
             ],
-            "path": "schemas/V_eta/stable/sorting_parameters.json"
+            "path": "schemas/V_eta/stable/sorting_parameters.json",
+            "disposition": "retire",
+            "disposition_note": "D-C analysis-tier decompose"
         },
         {
             "class_name": "spatial_frequency_tuning",
@@ -1869,7 +2110,9 @@
             "superclasses": [
                 "base"
             ],
-            "path": "schemas/V_eta/stable/spatial_frequency_tuning.json"
+            "path": "schemas/V_eta/stable/spatial_frequency_tuning.json",
+            "disposition": "retire",
+            "disposition_note": "D-C analysis-tier decompose"
         },
         {
             "class_name": "spatial_frequency_tuning_calc",
@@ -1881,7 +2124,9 @@
                 "spatial_frequency_tuning",
                 "tuning_fit"
             ],
-            "path": "schemas/V_eta/stable/spatial_frequency_tuning_calc.json"
+            "path": "schemas/V_eta/stable/spatial_frequency_tuning_calc.json",
+            "disposition": "retire",
+            "disposition_note": "D-C analysis-tier decompose"
         },
         {
             "class_name": "speed_tuning",
@@ -1891,7 +2136,9 @@
             "superclasses": [
                 "base"
             ],
-            "path": "schemas/V_eta/stable/speed_tuning.json"
+            "path": "schemas/V_eta/stable/speed_tuning.json",
+            "disposition": "retire",
+            "disposition_note": "D-C analysis-tier decompose"
         },
         {
             "class_name": "speed_tuning_calc",
@@ -1903,7 +2150,9 @@
                 "speed_tuning",
                 "tuning_fit"
             ],
-            "path": "schemas/V_eta/stable/speed_tuning_calc.json"
+            "path": "schemas/V_eta/stable/speed_tuning_calc.json",
+            "disposition": "retire",
+            "disposition_note": "D-C analysis-tier decompose"
         },
         {
             "class_name": "spike_clusters",
@@ -1913,7 +2162,9 @@
             "superclasses": [
                 "base"
             ],
-            "path": "schemas/V_eta/stable/spike_clusters.json"
+            "path": "schemas/V_eta/stable/spike_clusters.json",
+            "disposition": "retire",
+            "disposition_note": "D-C analysis-tier decompose"
         },
         {
             "class_name": "spike_extraction_parameters",
@@ -1923,7 +2174,9 @@
             "superclasses": [
                 "base"
             ],
-            "path": "schemas/V_eta/stable/spike_extraction_parameters.json"
+            "path": "schemas/V_eta/stable/spike_extraction_parameters.json",
+            "disposition": "retire",
+            "disposition_note": "D-C analysis-tier decompose"
         },
         {
             "class_name": "spike_extraction_parameters_modification",
@@ -1933,7 +2186,9 @@
             "superclasses": [
                 "base"
             ],
-            "path": "schemas/V_eta/stable/spike_extraction_parameters_modification.json"
+            "path": "schemas/V_eta/stable/spike_extraction_parameters_modification.json",
+            "disposition": "retire",
+            "disposition_note": "D-C analysis-tier decompose"
         },
         {
             "class_name": "spike_interface_sorting_outputs",
@@ -1943,7 +2198,9 @@
             "superclasses": [
                 "base"
             ],
-            "path": "schemas/V_eta/stable/spike_interface_sorting_outputs.json"
+            "path": "schemas/V_eta/stable/spike_interface_sorting_outputs.json",
+            "disposition": "retire",
+            "disposition_note": "D-C analysis-tier decompose"
         },
         {
             "class_name": "spikewaves",
@@ -1953,7 +2210,9 @@
             "superclasses": [
                 "base"
             ],
-            "path": "schemas/V_eta/stable/spikewaves.json"
+            "path": "schemas/V_eta/stable/spikewaves.json",
+            "disposition": "retire",
+            "disposition_note": "D-C analysis-tier decompose"
         },
         {
             "class_name": "stimulus_parameter",
@@ -1963,7 +2222,9 @@
             "superclasses": [
                 "base"
             ],
-            "path": "schemas/V_eta/stable/stimulus_parameter.json"
+            "path": "schemas/V_eta/stable/stimulus_parameter.json",
+            "disposition": "retire",
+            "disposition_note": "D-C analysis-tier decompose"
         },
         {
             "class_name": "stimulus_parameter_table",
@@ -1973,7 +2234,9 @@
             "superclasses": [
                 "base"
             ],
-            "path": "schemas/V_eta/stable/stimulus_parameter_table.json"
+            "path": "schemas/V_eta/stable/stimulus_parameter_table.json",
+            "disposition": "retire",
+            "disposition_note": "D-C analysis-tier decompose"
         },
         {
             "class_name": "stimulus_presentation",
@@ -1985,7 +2248,8 @@
                 "app",
                 "epochid"
             ],
-            "path": "schemas/V_eta/stable/stimulus_presentation.json"
+            "path": "schemas/V_eta/stable/stimulus_presentation.json",
+            "disposition": "persist"
         },
         {
             "class_name": "stimulus_response",
@@ -1995,7 +2259,9 @@
             "superclasses": [
                 "base"
             ],
-            "path": "schemas/V_eta/stable/stimulus_response.json"
+            "path": "schemas/V_eta/stable/stimulus_response.json",
+            "disposition": "retire",
+            "disposition_note": "D-C analysis-tier decompose"
         },
         {
             "class_name": "stimulus_response_scalar",
@@ -2006,7 +2272,9 @@
                 "base",
                 "stimulus_response"
             ],
-            "path": "schemas/V_eta/stable/stimulus_response_scalar.json"
+            "path": "schemas/V_eta/stable/stimulus_response_scalar.json",
+            "disposition": "retire",
+            "disposition_note": "D-C analysis-tier decompose"
         },
         {
             "class_name": "stimulus_response_scalar_parameters",
@@ -2016,7 +2284,9 @@
             "superclasses": [
                 "base"
             ],
-            "path": "schemas/V_eta/stable/stimulus_response_scalar_parameters.json"
+            "path": "schemas/V_eta/stable/stimulus_response_scalar_parameters.json",
+            "disposition": "retire",
+            "disposition_note": "D-C analysis-tier decompose"
         },
         {
             "class_name": "stimulus_response_scalar_parameters_basic",
@@ -2027,7 +2297,9 @@
                 "base",
                 "stimulus_response_scalar_parameters"
             ],
-            "path": "schemas/V_eta/stable/stimulus_response_scalar_parameters_basic.json"
+            "path": "schemas/V_eta/stable/stimulus_response_scalar_parameters_basic.json",
+            "disposition": "retire",
+            "disposition_note": "D-C analysis-tier decompose"
         },
         {
             "class_name": "stimulus_tuningcurve",
@@ -2037,7 +2309,9 @@
             "superclasses": [
                 "base"
             ],
-            "path": "schemas/V_eta/stable/stimulus_tuningcurve.json"
+            "path": "schemas/V_eta/stable/stimulus_tuningcurve.json",
+            "disposition": "retire",
+            "disposition_note": "D-C analysis-tier decompose"
         },
         {
             "class_name": "subject",
@@ -2047,7 +2321,8 @@
             "superclasses": [
                 "entity"
             ],
-            "path": "schemas/V_eta/stable/subject.json"
+            "path": "schemas/V_eta/stable/subject.json",
+            "disposition": "persist"
         },
         {
             "class_name": "subject_assertion",
@@ -2057,7 +2332,8 @@
             "superclasses": [
                 "subject_statement"
             ],
-            "path": "schemas/V_eta/stable/subject_assertion.json"
+            "path": "schemas/V_eta/stable/subject_assertion.json",
+            "disposition": "persist"
         },
         {
             "class_name": "subject_group",
@@ -2067,7 +2343,8 @@
             "superclasses": [
                 "base"
             ],
-            "path": "schemas/V_eta/deprecated/subject_group.json"
+            "path": "schemas/V_eta/deprecated/subject_group.json",
+            "disposition": "persist"
         },
         {
             "class_name": "subject_interaction",
@@ -2077,7 +2354,8 @@
             "superclasses": [
                 "subject_statement"
             ],
-            "path": "schemas/V_eta/stable/subject_interaction.json"
+            "path": "schemas/V_eta/stable/subject_interaction.json",
+            "disposition": "persist"
         },
         {
             "class_name": "subject_manipulation",
@@ -2087,7 +2365,8 @@
             "superclasses": [
                 "subject_interaction"
             ],
-            "path": "schemas/V_eta/stable/subject_manipulation.json"
+            "path": "schemas/V_eta/stable/subject_manipulation.json",
+            "disposition": "persist"
         },
         {
             "class_name": "subject_observation",
@@ -2097,7 +2376,8 @@
             "superclasses": [
                 "subject_interaction"
             ],
-            "path": "schemas/V_eta/stable/subject_observation.json"
+            "path": "schemas/V_eta/stable/subject_observation.json",
+            "disposition": "persist"
         },
         {
             "class_name": "subject_statement",
@@ -2107,7 +2387,8 @@
             "superclasses": [
                 "base"
             ],
-            "path": "schemas/V_eta/stable/subject_statement.json"
+            "path": "schemas/V_eta/stable/subject_statement.json",
+            "disposition": "persist"
         },
         {
             "class_name": "syncgraph",
@@ -2117,7 +2398,9 @@
             "superclasses": [
                 "base"
             ],
-            "path": "schemas/V_eta/stable/syncgraph.json"
+            "path": "schemas/V_eta/stable/syncgraph.json",
+            "disposition": "in_progress",
+            "disposition_note": "\u2465/\u2466 walkthrough pending"
         },
         {
             "class_name": "syncrule",
@@ -2127,7 +2410,9 @@
             "superclasses": [
                 "base"
             ],
-            "path": "schemas/V_eta/stable/syncrule.json"
+            "path": "schemas/V_eta/stable/syncrule.json",
+            "disposition": "in_progress",
+            "disposition_note": "\u2465/\u2466 walkthrough pending"
         },
         {
             "class_name": "syncrule_mapping",
@@ -2137,7 +2422,9 @@
             "superclasses": [
                 "base"
             ],
-            "path": "schemas/V_eta/stable/syncrule_mapping.json"
+            "path": "schemas/V_eta/stable/syncrule_mapping.json",
+            "disposition": "in_progress",
+            "disposition_note": "\u2465/\u2466 walkthrough pending"
         },
         {
             "class_name": "temperature",
@@ -2147,7 +2434,8 @@
             "superclasses": [
                 "data_type"
             ],
-            "path": "schemas/V_eta/stable/temperature.json"
+            "path": "schemas/V_eta/stable/temperature.json",
+            "disposition": "persist"
         },
         {
             "class_name": "temperature_assertion",
@@ -2157,7 +2445,8 @@
             "superclasses": [
                 "numeric_assertion"
             ],
-            "path": "schemas/V_eta/stable/temperature_assertion.json"
+            "path": "schemas/V_eta/stable/temperature_assertion.json",
+            "disposition": "persist"
         },
         {
             "class_name": "temperature_manipulation",
@@ -2168,7 +2457,8 @@
                 "subject_manipulation",
                 "temperature"
             ],
-            "path": "schemas/V_eta/stable/temperature_manipulation.json"
+            "path": "schemas/V_eta/stable/temperature_manipulation.json",
+            "disposition": "persist"
         },
         {
             "class_name": "temperature_observation",
@@ -2179,7 +2469,8 @@
                 "subject_observation",
                 "temperature"
             ],
-            "path": "schemas/V_eta/stable/temperature_observation.json"
+            "path": "schemas/V_eta/stable/temperature_observation.json",
+            "disposition": "persist"
         },
         {
             "class_name": "temporal_frequency_tuning",
@@ -2189,7 +2480,9 @@
             "superclasses": [
                 "base"
             ],
-            "path": "schemas/V_eta/stable/temporal_frequency_tuning.json"
+            "path": "schemas/V_eta/stable/temporal_frequency_tuning.json",
+            "disposition": "retire",
+            "disposition_note": "D-C analysis-tier decompose"
         },
         {
             "class_name": "temporal_frequency_tuning_calc",
@@ -2201,7 +2494,9 @@
                 "temporal_frequency_tuning",
                 "tuning_fit"
             ],
-            "path": "schemas/V_eta/stable/temporal_frequency_tuning_calc.json"
+            "path": "schemas/V_eta/stable/temporal_frequency_tuning_calc.json",
+            "disposition": "retire",
+            "disposition_note": "D-C analysis-tier decompose"
         },
         {
             "class_name": "term_assertion",
@@ -2211,7 +2506,8 @@
             "superclasses": [
                 "subject_assertion"
             ],
-            "path": "schemas/V_eta/stable/term_assertion.json"
+            "path": "schemas/V_eta/stable/term_assertion.json",
+            "disposition": "persist"
         },
         {
             "class_name": "term_manipulation",
@@ -2221,7 +2517,8 @@
             "superclasses": [
                 "subject_manipulation"
             ],
-            "path": "schemas/V_eta/stable/term_manipulation.json"
+            "path": "schemas/V_eta/stable/term_manipulation.json",
+            "disposition": "persist"
         },
         {
             "class_name": "term_observation",
@@ -2231,7 +2528,8 @@
             "superclasses": [
                 "subject_observation"
             ],
-            "path": "schemas/V_eta/stable/term_observation.json"
+            "path": "schemas/V_eta/stable/term_observation.json",
+            "disposition": "persist"
         },
         {
             "class_name": "time_reference",
@@ -2241,7 +2539,8 @@
             "superclasses": [
                 "base"
             ],
-            "path": "schemas/V_eta/stable/time_reference.json"
+            "path": "schemas/V_eta/stable/time_reference.json",
+            "disposition": "persist"
         },
         {
             "class_name": "timeseries_data",
@@ -2251,7 +2550,9 @@
             "superclasses": [
                 "dataseries_data"
             ],
-            "path": "schemas/V_eta/draft/timeseries_data.json"
+            "path": "schemas/V_eta/draft/timeseries_data.json",
+            "disposition": "retire",
+            "disposition_note": "2.D \u2192 data_body fold"
         },
         {
             "class_name": "timeseries_data_binary",
@@ -2261,7 +2562,9 @@
             "superclasses": [
                 "timeseries_data"
             ],
-            "path": "schemas/V_eta/draft/timeseries_data_binary.json"
+            "path": "schemas/V_eta/draft/timeseries_data_binary.json",
+            "disposition": "retire",
+            "disposition_note": "2.D \u2192 data_body fold"
         },
         {
             "class_name": "timeseries_data_csv",
@@ -2271,7 +2574,9 @@
             "superclasses": [
                 "timeseries_data"
             ],
-            "path": "schemas/V_eta/draft/timeseries_data_csv.json"
+            "path": "schemas/V_eta/draft/timeseries_data_csv.json",
+            "disposition": "retire",
+            "disposition_note": "2.D \u2192 data_body fold"
         },
         {
             "class_name": "timeseries_data_edf",
@@ -2281,7 +2586,9 @@
             "superclasses": [
                 "timeseries_data"
             ],
-            "path": "schemas/V_eta/draft/timeseries_data_edf.json"
+            "path": "schemas/V_eta/draft/timeseries_data_edf.json",
+            "disposition": "retire",
+            "disposition_note": "2.D \u2192 data_body fold"
         },
         {
             "class_name": "timeseries_observation",
@@ -2291,7 +2598,8 @@
             "superclasses": [
                 "dataseries_observation"
             ],
-            "path": "schemas/V_eta/draft/timeseries_observation.json"
+            "path": "schemas/V_eta/draft/timeseries_observation.json",
+            "disposition": "persist"
         },
         {
             "class_name": "treatment",
@@ -2301,7 +2609,8 @@
             "superclasses": [
                 "base"
             ],
-            "path": "schemas/V_eta/deprecated/treatment.json"
+            "path": "schemas/V_eta/deprecated/treatment.json",
+            "disposition": "persist"
         },
         {
             "class_name": "treatment_drug",
@@ -2311,7 +2620,8 @@
             "superclasses": [
                 "base"
             ],
-            "path": "schemas/V_eta/deprecated/treatment_drug.json"
+            "path": "schemas/V_eta/deprecated/treatment_drug.json",
+            "disposition": "persist"
         },
         {
             "class_name": "treatment_transfer",
@@ -2321,7 +2631,8 @@
             "superclasses": [
                 "base"
             ],
-            "path": "schemas/V_eta/deprecated/treatment_transfer.json"
+            "path": "schemas/V_eta/deprecated/treatment_transfer.json",
+            "disposition": "persist"
         },
         {
             "class_name": "tuning_fit",
@@ -2331,7 +2642,9 @@
             "superclasses": [
                 "calculator"
             ],
-            "path": "schemas/V_eta/stable/tuning_fit.json"
+            "path": "schemas/V_eta/stable/tuning_fit.json",
+            "disposition": "retire",
+            "disposition_note": "D-C analysis-tier decompose"
         },
         {
             "class_name": "tuningcurve_calc",
@@ -2343,7 +2656,9 @@
                 "calculator",
                 "stimulus_tuningcurve"
             ],
-            "path": "schemas/V_eta/stable/tuningcurve_calc.json"
+            "path": "schemas/V_eta/stable/tuningcurve_calc.json",
+            "disposition": "retire",
+            "disposition_note": "D-C analysis-tier decompose"
         },
         {
             "class_name": "undirected_relation",
@@ -2353,7 +2668,8 @@
             "superclasses": [
                 "relation"
             ],
-            "path": "schemas/V_eta/stable/undirected_relation.json"
+            "path": "schemas/V_eta/stable/undirected_relation.json",
+            "disposition": "persist"
         },
         {
             "class_name": "utc_reference",
@@ -2363,7 +2679,8 @@
             "superclasses": [
                 "time_reference"
             ],
-            "path": "schemas/V_eta/stable/utc_reference.json"
+            "path": "schemas/V_eta/stable/utc_reference.json",
+            "disposition": "persist"
         },
         {
             "class_name": "velocity",
@@ -2373,7 +2690,8 @@
             "superclasses": [
                 "data_type"
             ],
-            "path": "schemas/V_eta/stable/velocity.json"
+            "path": "schemas/V_eta/stable/velocity.json",
+            "disposition": "persist"
         },
         {
             "class_name": "velocity_assertion",
@@ -2383,7 +2701,8 @@
             "superclasses": [
                 "numeric_assertion"
             ],
-            "path": "schemas/V_eta/stable/velocity_assertion.json"
+            "path": "schemas/V_eta/stable/velocity_assertion.json",
+            "disposition": "persist"
         },
         {
             "class_name": "velocity_observation",
@@ -2394,7 +2713,8 @@
                 "subject_observation",
                 "velocity"
             ],
-            "path": "schemas/V_eta/stable/velocity_observation.json"
+            "path": "schemas/V_eta/stable/velocity_observation.json",
+            "disposition": "persist"
         },
         {
             "class_name": "virus_injection",
@@ -2404,7 +2724,8 @@
             "superclasses": [
                 "base"
             ],
-            "path": "schemas/V_eta/deprecated/virus_injection.json"
+            "path": "schemas/V_eta/deprecated/virus_injection.json",
+            "disposition": "persist"
         },
         {
             "class_name": "vmneuralresponseresiduals",
@@ -2414,7 +2735,9 @@
             "superclasses": [
                 "base"
             ],
-            "path": "schemas/V_eta/stable/vmneuralresponseresiduals.json"
+            "path": "schemas/V_eta/stable/vmneuralresponseresiduals.json",
+            "disposition": "retire",
+            "disposition_note": "D-C analysis-tier decompose"
         },
         {
             "class_name": "vmspikefilteringparameters",
@@ -2424,7 +2747,9 @@
             "superclasses": [
                 "base"
             ],
-            "path": "schemas/V_eta/stable/vmspikefilteringparameters.json"
+            "path": "schemas/V_eta/stable/vmspikefilteringparameters.json",
+            "disposition": "retire",
+            "disposition_note": "D-C analysis-tier decompose"
         },
         {
             "class_name": "vmspikefit",
@@ -2434,7 +2759,9 @@
             "superclasses": [
                 "base"
             ],
-            "path": "schemas/V_eta/stable/vmspikefit.json"
+            "path": "schemas/V_eta/stable/vmspikefit.json",
+            "disposition": "retire",
+            "disposition_note": "D-C analysis-tier decompose"
         },
         {
             "class_name": "vmspikesummary",
@@ -2444,7 +2771,9 @@
             "superclasses": [
                 "base"
             ],
-            "path": "schemas/V_eta/stable/vmspikesummary.json"
+            "path": "schemas/V_eta/stable/vmspikesummary.json",
+            "disposition": "retire",
+            "disposition_note": "D-C analysis-tier decompose"
         },
         {
             "class_name": "voltage",
@@ -2454,7 +2783,8 @@
             "superclasses": [
                 "data_type"
             ],
-            "path": "schemas/V_eta/stable/voltage.json"
+            "path": "schemas/V_eta/stable/voltage.json",
+            "disposition": "persist"
         },
         {
             "class_name": "voltage_assertion",
@@ -2464,7 +2794,8 @@
             "superclasses": [
                 "numeric_assertion"
             ],
-            "path": "schemas/V_eta/stable/voltage_assertion.json"
+            "path": "schemas/V_eta/stable/voltage_assertion.json",
+            "disposition": "persist"
         },
         {
             "class_name": "voltage_manipulation",
@@ -2475,7 +2806,8 @@
                 "subject_manipulation",
                 "voltage"
             ],
-            "path": "schemas/V_eta/stable/voltage_manipulation.json"
+            "path": "schemas/V_eta/stable/voltage_manipulation.json",
+            "disposition": "persist"
         },
         {
             "class_name": "voltage_observation",
@@ -2486,7 +2818,8 @@
                 "subject_observation",
                 "voltage"
             ],
-            "path": "schemas/V_eta/stable/voltage_observation.json"
+            "path": "schemas/V_eta/stable/voltage_observation.json",
+            "disposition": "persist"
         },
         {
             "class_name": "volume",
@@ -2496,7 +2829,8 @@
             "superclasses": [
                 "data_type"
             ],
-            "path": "schemas/V_eta/stable/volume.json"
+            "path": "schemas/V_eta/stable/volume.json",
+            "disposition": "persist"
         },
         {
             "class_name": "volume_assertion",
@@ -2506,7 +2840,8 @@
             "superclasses": [
                 "numeric_assertion"
             ],
-            "path": "schemas/V_eta/stable/volume_assertion.json"
+            "path": "schemas/V_eta/stable/volume_assertion.json",
+            "disposition": "persist"
         },
         {
             "class_name": "volume_observation",
@@ -2517,7 +2852,8 @@
                 "subject_observation",
                 "volume"
             ],
-            "path": "schemas/V_eta/stable/volume_observation.json"
+            "path": "schemas/V_eta/stable/volume_observation.json",
+            "disposition": "persist"
         },
         {
             "class_name": "web_resource",
@@ -2527,7 +2863,8 @@
             "superclasses": [
                 "entity"
             ],
-            "path": "schemas/V_eta/stable/web_resource.json"
+            "path": "schemas/V_eta/stable/web_resource.json",
+            "disposition": "persist"
         },
         {
             "class_name": "zarr",
@@ -2537,7 +2874,9 @@
             "superclasses": [
                 "base"
             ],
-            "path": "schemas/V_eta/stable/zarr.json"
+            "path": "schemas/V_eta/stable/zarr.json",
+            "disposition": "retire",
+            "disposition_note": "2.D \u2192 data_body fold"
         }
     ]
 }

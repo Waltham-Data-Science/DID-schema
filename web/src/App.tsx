@@ -209,6 +209,9 @@ function Legend() {
       <span className="legend-item maturity-draft">draft</span>
       <span className="legend-item maturity-deprecated">deprecated</span>
       <span className="legend-item maturity-meta">meta</span>
+      <span className="legend-sep" />
+      <span className="legend-item badge-retire" title="decided to dissolve/delete; not in final V1">retire</span>
+      <span className="legend-item badge-wip" title="persists but its 6/7 disposition is not yet finalized">wip</span>
     </div>
   );
 }

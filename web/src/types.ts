@@ -1,5 +1,10 @@
 export type Tier = "stable" | "draft" | "deprecated";
 export type Maturity = "stable" | "draft" | "deprecated" | null;
+// Migration disposition (written into index.json by build_v_eta.py):
+//   persist     — settled go-forward class (in the final V1 set)
+//   retire      — decided to dissolve/delete; not in final V1 (see disposition_note)
+//   in_progress — persists but its ⑥/⑦ disposition is not yet finalized
+export type Disposition = "persist" | "retire" | "in_progress";
 
 export interface IndexEntry {
   class_name: string;
@@ -9,6 +14,8 @@ export interface IndexEntry {
   superclasses: string[];
   path: string;
   is_meta?: boolean;
+  disposition?: Disposition;
+  disposition_note?: string;
 }
 
 export interface SchemaIndex {

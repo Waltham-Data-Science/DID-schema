@@ -1138,6 +1138,45 @@ idx["notes"] = ("Source of truth for class_name uniqueness and tier placement. "
                 "V_zeta (Brainstorm I). NOTE: leaf-tier depth (dose composites, "
                 "data_body, binding meta-schema) is an in-progress follow-up.")
 
+# ---- disposition: an auditable 3-state marker the viewer badges, so the tree
+# distinguishes the FINAL go-forward set from what is leaving / not yet resolved.
+#   persist     — settled go-forward class (the ~161 final set).
+#   retire      — decided to dissolve/delete; NOT in final V1 (with a track note).
+#   in_progress — persists in some form but its ⑥/⑦ disposition is NOT yet
+#                 finalized (owes the governance sweep + pending walkthrough
+#                 chunks b/c/e) — i.e. the acquisition/infra we have not walked yet.
+# Keep these lists in sync with V_eta_final_class_set.md / the ⑥/⑦ walkthrough.
+_RET_SOURCES = {"element", "openminds", "openminds_subject", "openminds_element",
+    "openminds_stimulus", "metadata_editor", "dataset_remote",
+    "session_in_a_dataset", "dataset_session_info"}
+_RET_CARRIERS = {"timeseries_data", "timeseries_data_binary", "timeseries_data_csv",
+    "timeseries_data_edf", "dataseries_data", "dataseries_pyramid", "imageseries_data",
+    "ephys_zarr", "image_zarr", "zarr", "image", "image_collection", "generic_file",
+    "pyraview"}
+_RET_TOOBS = {"probe_location", "probe_geometry", "electrode_offset_voltage",
+    "position_metadata", "distance_metadata", "ontology_label", "ontology_table_row",
+    "ontology_image"}
+_RET_HOLDOVER = {"calculator", "measurement"}
+_ANALYSIS_RE = _re.compile(r"(_calc$|_calc_|tuning|stimulus_response|spike|cluster|"
+    r"vmspike|binnedspikerate|jrclust|sorting_param|neuron_extracellular|hartley|"
+    r"oridir|reverse_correlation|fitcurve|tuning_fit|simple_calc|contrast_sensitivity|"
+    r"site2channelmap|vmneuralresponse|stimulus_parameter)")
+_IN_PROGRESS = {"daqsystem", "daqreader", "daqmetadatareader", "daqreader_ndr",
+    "daqreader_epochdata_ingested", "daqreader_image_epochdata_ingested",
+    "daqreader_mfdaq_epochdata_ingested", "daqmetadatareader_epochdata_ingested",
+    "epochfiles_ingested", "epochid", "element_epoch", "filenavigator", "syncgraph",
+    "syncrule", "syncrule_mapping", "directory", "ngrid", "dataseries_channel_map",
+    "binaryseries_parameters", "filter", "instrument", "interaction_purpose"}
+
+def _disposition(name):
+    if name in _RET_SOURCES:  return ("retire", "Phase-8 source (migrator → delete)")
+    if name in _RET_HOLDOVER or _ANALYSIS_RE.search(name):
+        return ("retire", "D-C analysis-tier decompose")
+    if name in _RET_CARRIERS: return ("retire", "2.D → data_body fold")
+    if name in _RET_TOOBS:    return ("retire", "→ observations (needs-NDI / D10-11)")
+    if name in _IN_PROGRESS:  return ("in_progress", "⑥/⑦ walkthrough pending")
+    return ("persist", None)
+
 schemas = []
 for tier in TIERS:
     for p in sorted(glob.glob(os.path.join(VETA, tier, "*.json"))):
@@ -1147,17 +1186,21 @@ for tier in TIERS:
             schemas.append({"class_name": base[:-5], "tier": tier,
                             "class_version": None, "maturity_level": None,
                             "superclasses": [], "path": f"schemas/V_eta/{tier}/{base}",
-                            "is_meta": True})
+                            "is_meta": True, "disposition": "persist"})
             continue
         dc = d["document_class"]
-        schemas.append({"class_name": dc["class_name"], "tier": tier,
-                        "class_version": dc["class_version"],
-                        "maturity_level": dc["maturity_level"],
-                        # flatten to bare class-name strings (matching V_zeta and
-                        # earlier index.json); the web viewer's buildTree keys the
-                        # superclass map on these strings, so objects break nesting.
-                        "superclasses": [sc["class_name"] for sc in dc["superclasses"]],
-                        "path": f"schemas/V_eta/{tier}/{base}"})
+        disp, track = _disposition(dc["class_name"])
+        entry = {"class_name": dc["class_name"], "tier": tier,
+                 "class_version": dc["class_version"],
+                 "maturity_level": dc["maturity_level"],
+                 # flatten to bare class-name strings (matching V_zeta and earlier
+                 # index.json); the web viewer's buildTree keys the superclass map
+                 # on these strings, so objects break nesting.
+                 "superclasses": [sc["class_name"] for sc in dc["superclasses"]],
+                 "path": f"schemas/V_eta/{tier}/{base}", "disposition": disp}
+        if track:
+            entry["disposition_note"] = track
+        schemas.append(entry)
 schemas.sort(key=lambda e: (0 if e.get("is_meta") else 1, e["class_name"]))
 idx["schemas"] = schemas
 with open(os.path.join(VETA, "index.json"), "w") as f:

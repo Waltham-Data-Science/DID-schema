@@ -363,6 +363,38 @@ main {
   vertical-align: middle;
 }
 
+/* migration-disposition badges (index.json `disposition`) */
+.badge-retire,
+.badge-wip {
+  margin-left: 0.4rem;
+  padding: 0 0.3rem;
+  border-radius: 4px;
+  font-size: 0.7rem;
+  vertical-align: middle;
+  color: var(--bg);
+}
+.badge-retire {
+  background: var(--maturity-deprecated);
+}
+.badge-wip {
+  background: #d29922; /* amber: not yet finalized */
+}
+/* dim classes that are leaving so the persist set reads as the primary tree */
+.tree-label.disposition-retire {
+  opacity: 0.62;
+  text-decoration: line-through;
+  text-decoration-thickness: 1px;
+}
+.tree-label.disposition-in_progress {
+  font-style: italic;
+}
+.legend-sep {
+  width: 1px;
+  align-self: stretch;
+  background: var(--border);
+  margin: 0 0.2rem;
+}
+
 .legend {
   display: flex;
   flex-wrap: wrap;
