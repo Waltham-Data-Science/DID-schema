@@ -1090,7 +1090,11 @@ for cls, depname in EVENT_ANCHOR.items():
 write("stable", "data", doc("data", ["base"], abstract=True, fields=[]))
 write("stable", "data_type",
       doc("data_type", ["data"], abstract=True, fields=[]))
-DATA_TYPES = list(DIMS) + [n for n, _ in NUMERIC_SEED]
+# dimensional composites + numeric seeds + the substance composites (dose /
+# formulation / chemical): all are value TYPES a statement's leaf carries, so they
+# belong under data_type alongside the dimensional ones (they were previously left
+# ⊂ base — the inconsistency this closes).
+DATA_TYPES = list(DIMS) + [n for n, _ in NUMERIC_SEED] + ["dose", "formulation", "chemical"]
 for name in DATA_TYPES:
     p = os.path.join(VETA, "stable", name + ".json")
     if not os.path.exists(p):
