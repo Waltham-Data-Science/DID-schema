@@ -317,14 +317,13 @@ write("stable", "subject_interaction", si)
 
 # ---------- 4. subject_assertion genus + leaves ----------
 
-TIME_REF_OPT = dep("time_reference_#", "time_reference",
-                   "Optional anchor(s): an assertion is timeless, but a claim may "
-                   "carry a date it was established.", non_empty=False, multiple=True)
-
-# genus: abstract, isa subject_statement, adds optional time; value on leaves
+# genus: abstract, isa subject_statement, value on leaves. An assertion is a
+# TIMELESS fact, so it declares NO time_reference at all -- timelessness is a schema
+# guarantee, not a convention. (A claim that needs a date IS a date_assertion, whose
+# date is its value; the required time anchor lives on subject_interaction instead.)
 write("stable", "subject_assertion",
       doc("subject_assertion", ["subject_statement"], abstract=True, version="3.0.0",
-          deps=[TIME_REF_OPT], fields=[]))
+          deps=[], fields=[]))
 
 # term_assertion: one bound ontology term (species, sex, strain, region, kind)
 TERM_VALUE = field(

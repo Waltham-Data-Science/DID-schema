@@ -313,6 +313,23 @@ def test_directed_relation_optional_time_reference():
     assert deps["child"]["mustBeNonEmpty"] is True
 
 
+def test_assertion_is_timeless():
+    """Timing model: requiredness is expressed by WHERE time_reference is declared.
+    subject_interaction REQUIRES it (event); subject_assertion declares NONE at all
+    (a timeless fact cannot even carry a clock anchor); the shared subject_statement
+    parent stays neutral. So it is never a uniform parent-optional flag."""
+    for name in RECORDS:
+        chain = _chain(name)
+        if "subject_assertion" not in chain and name != "subject_assertion":
+            continue
+        deps = _flat_dep_names(name)
+        assert "time_reference_#" not in deps, \
+            f"{name} is an assertion — it must not declare time_reference"
+    # the parent declares no time either; only the interaction branch requires it
+    assert "time_reference_#" not in _flat_dep_names("subject_statement")
+    assert _flat_dep_names("subject_interaction")  # (interaction side checked above)
+
+
 def test_data_body_classes():
     assert RECORDS["data_body"][1]["document_class"].get("abstract") is True
     assert "statement" in _flat_dep_names("data_body")
