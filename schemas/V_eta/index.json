@@ -198,7 +198,8 @@
                 "base"
             ],
             "path": "schemas/V_eta/stable/app.json",
-            "disposition": "persist"
+            "disposition": "in_progress",
+            "disposition_note": "\u2465/\u2466 walkthrough pending"
         },
         {
             "class_name": "area",
@@ -499,7 +500,8 @@
                 "app"
             ],
             "path": "schemas/V_eta/stable/control_stimulus_ids.json",
-            "disposition": "persist"
+            "disposition": "in_progress",
+            "disposition_note": "\u2465/\u2466 walkthrough pending"
         },
         {
             "class_name": "count",
@@ -819,7 +821,8 @@
                 "base"
             ],
             "path": "schemas/V_eta/stable/demo_ndi.json",
-            "disposition": "persist"
+            "disposition": "in_progress",
+            "disposition_note": "\u2465/\u2466 walkthrough pending"
         },
         {
             "class_name": "demo_ndi_mock",
@@ -830,7 +833,8 @@
                 "base"
             ],
             "path": "schemas/V_eta/stable/demo_ndi_mock.json",
-            "disposition": "persist"
+            "disposition": "in_progress",
+            "disposition_note": "\u2465/\u2466 walkthrough pending"
         },
         {
             "class_name": "directed_relation",
@@ -2249,7 +2253,8 @@
                 "epochid"
             ],
             "path": "schemas/V_eta/stable/stimulus_presentation.json",
-            "disposition": "persist"
+            "disposition": "in_progress",
+            "disposition_note": "\u2465/\u2466 walkthrough pending"
         },
         {
             "class_name": "stimulus_response",

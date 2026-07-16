@@ -1166,7 +1166,13 @@ _IN_PROGRESS = {"daqsystem", "daqreader", "daqmetadatareader", "daqreader_ndr",
     "daqreader_mfdaq_epochdata_ingested", "daqmetadatareader_epochdata_ingested",
     "epochfiles_ingested", "epochid", "element_epoch", "filenavigator", "syncgraph",
     "syncrule", "syncrule_mapping", "directory", "ngrid", "dataseries_channel_map",
-    "binaryseries_parameters", "filter", "instrument", "interaction_purpose"}
+    "binaryseries_parameters", "filter", "instrument", "interaction_purpose",
+    # `app` genus (parents a mix of retiring analysis classes + the stimulus
+    # bodies — its survival is unresolved) and its non-retiring children; the
+    # D-B stimulus bodies-of-record whose sampled_body fate is still open; and the
+    # demo/test fixtures whose place in the final V1 set is not settled.
+    "app", "stimulus_presentation", "control_stimulus_ids",
+    "demo_ndi", "demo_ndi_mock"}
 
 def _disposition(name):
     if name in _RET_SOURCES:  return ("retire", "Phase-8 source (migrator → delete)")
