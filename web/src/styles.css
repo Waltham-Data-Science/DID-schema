@@ -540,6 +540,19 @@ main {
   font-size: 0.75rem;
 }
 
+/* An ontology CURIE shown alongside a human label. */
+.node-curie {
+  color: var(--text-muted);
+  font-family: var(--mono, monospace);
+  font-size: 0.78rem;
+}
+
+/* The directed-edge arrow between child and parent endpoint types. */
+.rel-arrow {
+  color: var(--text-muted);
+  font-weight: 600;
+}
+
 /* Binding registry view */
 .registry-description {
   margin: 0.25rem 0 0;

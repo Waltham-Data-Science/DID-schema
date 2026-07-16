@@ -332,15 +332,22 @@ def test_binding_is_formalized_in_meta_schema():
     binding = META["$defs"]["field_definition"]["properties"]["constraints"] \
         .get("properties", {}).get("binding")
     assert binding is not None and binding["type"] == "object"
-    assert "keyed_by" in binding["properties"] and "value_set" in binding["properties"]
+    # inline admissible-set spec: keyed_by / values / ontology+root_node (Q: the
+    # separately-named value_set is dropped; source->ontology, root->root_node).
+    assert "keyed_by" in binding["properties"] and "values" in binding["properties"]
+    assert "ontology" in binding["properties"] and "root_node" in binding["properties"]
+    assert "value_set" not in binding["properties"]
+    assert "source" not in binding["properties"] and "root" not in binding["properties"]
 
 
 def test_binding_registry_meta_present():
     """D9: the binding registry ships in Phase 1 (kind-variable set + bindings)."""
     reg = _load(os.path.join(VETA, "stable", "binding_registry_meta.json"))
-    kv = {k["variable"] for k in reg["kind_variables"]}
+    kv = {k["variable"]["name"] for k in reg["kind_variables"]}
     assert {"species", "instrument type"} <= kv
-    assert all("root" in k and "value_set" in k for k in reg["kind_variables"])
+    # kind variables are subtree value bindings: ontology + root_node, no value_set.
+    assert all("root_node" in k and "ontology" in k for k in reg["kind_variables"])
+    assert all("value_set" not in k for k in reg["kind_variables"])
     in_index = {e["class_name"]: e for e in INDEX["schemas"]}
     assert in_index["binding_registry_meta"].get("is_meta") is True
 
@@ -348,7 +355,8 @@ def test_binding_registry_meta_present():
 def test_relation_vocabulary_present():
     """D6: the binding registry enumerates the admissible directed/undirected
     relation terms — the single source of truth for `directed_relation.relation`
-    values (subject-side + entity-side), each with a category and edge gloss."""
+    values (subject-side + entity-side), each pinned to its carrier `class` with
+    typed endpoints."""
     reg = _load(os.path.join(VETA, "stable", "binding_registry_meta.json"))
     vocab = {r["name"]: r for r in reg["relation_vocabulary"]}
     # the subject-side terms the migrators already emit + the new entity-layer terms
@@ -356,4 +364,12 @@ def test_relation_vocabulary_present():
                  "has_author", "funded_by", "issued_by", "affiliated_with", "cites",
                  "documented_by", "stored_at", "hosted_by"):
         assert term in vocab, f"{term} missing from relation_vocabulary"
-    assert all({"node", "category", "child", "parent"} <= set(r) for r in vocab.values())
+    # class replaces the old advisory `category`; endpoints are typed lists.
+    assert all({"node", "class", "child_types", "parent_types"} <= set(r)
+               for r in vocab.values())
+    assert all(r["class"] in ("directed_relation", "undirected_relation")
+               for r in vocab.values())
+    assert "category" not in vocab["part_of"]
+    # the entity-layer endpoint types match what the migrators mint
+    assert vocab["has_author"]["parent_types"] == ["person"]
+    assert vocab["has_author"]["child_types"] == ["dataset"]

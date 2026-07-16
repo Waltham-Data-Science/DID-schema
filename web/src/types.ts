@@ -97,20 +97,48 @@ export interface SchemaDocument {
 // Maps a statement's `variable` to the admissible value_set for its term value,
 // and declares the kind-defining variables whose presence marks a subject's kind
 // (D9). Only present from V_eta on; absent sets simply have no registry to browse.
-export interface KindVariable {
-  variable: string;
-  value_set: string;
-  root?: string;
-  source?: string;
+// An ontology node reference: a CURIE plus a human-readable label snapshot.
+export interface NodeRef {
+  node: string;
+  name: string;
 }
 
-// A corpus-derived variable->value_set binding. The shape is intentionally open:
-// bindings are added during discovery (D3/D6) and may carry method/context keys
-// beyond the core three, so the browser renders whatever columns are present.
+// A kind-defining variable: a subtree value binding (variable -> ontology +
+// root_node). No enumerated value_set — the admissible set is always the subtree.
+export interface KindVariable {
+  variable: NodeRef;
+  ontology?: string;
+  root_node?: string;
+}
+
+// A corpus-derived VALUE binding. The shape is intentionally open: bindings are
+// added during discovery (D3/D6), keyed on variable.node (+ method.node) within a
+// carrier class, with an inline admissible-set spec (data_type | values |
+// ontology+root_node). The browser renders whatever columns are present.
 export interface Binding {
-  variable?: string;
-  value_set?: string;
-  method?: string;
+  variable?: NodeRef;
+  method?: NodeRef;
+  class?: string;
+  data_type?: string;
+  values?: unknown[];
+  ontology?: string;
+  root_node?: string;
+  [k: string]: unknown;
+}
+
+// A D6 relation-vocabulary term: the admissible value on directed_relation.relation
+// / undirected_relation.relation, pinned to its carrier `class` and typed endpoints.
+export interface RelationTerm {
+  name: string;
+  node: string;
+  class: string; // "directed_relation" | "undirected_relation"
+  child_role?: string;
+  parent_role?: string;
+  child_types?: string[];
+  parent_types?: string[];
+  member_types?: string[];
+  ordered?: boolean;
+  timed?: boolean;
   [k: string]: unknown;
 }
 
@@ -119,6 +147,7 @@ export interface BindingRegistryMeta {
   description?: string;
   kind_variables?: KindVariable[];
   bindings?: Binding[];
+  relation_vocabulary?: RelationTerm[];
   notes?: string;
   [k: string]: unknown;
 }

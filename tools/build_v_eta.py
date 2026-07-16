@@ -711,17 +711,18 @@ constraints_schema["properties"] = {
         "type": "object",
         "description": "Controlled-vocabulary binding for a term value: either "
                        "keyed on another field (usually `variable`, ontology "
-                       "expansion) or a static enumerated value_set (root+values). "
-                       "Enforced by the ontology-aware validator (D9).",
+                       "expansion) or an inline admissible set given as a static "
+                       "enumeration (`values`) or an ontology subtree "
+                       "(`ontology` + `root_node`). Enforced by the "
+                       "ontology-aware validator (D9).",
         "properties": {
             "keyed_by": {"type": "string"},
             "expansion": {"type": "string"},
             "node_kind": {"type": "string"},
             "strength": {"type": "string",
                          "enum": ["required", "preferred", "suggested"]},
-            "source": {"type": "string"},
-            "root": {"type": "string"},
-            "value_set": {"type": "string"},
+            "ontology": {"type": "string"},
+            "root_node": {"type": "string"},
             "values": {"type": "array"},
         },
     }
@@ -734,81 +735,143 @@ with open(os.path.join(VETA, "stable", "did_schema_meta.json"), "w") as f:
 # ---------- 13. binding-registry meta-file + kind-variable set (D9) ----------
 
 # ---------- D6 relation vocabulary ----------
-# The admissible directed_relation / undirected_relation terms. `directed_relation.
-# relation` carries an ontology_term whose `name` is one of these; the schema field
-# is free-form (validated as an ontology_term, not against this list), so this
-# registry is the SINGLE enumerated source of truth for consumer tooling and the D6
-# curation. `node` = backing CURIE (RO/BFO where a standard term exists; "" = open
-# curation slot). `child`/`parent` gloss the edge (child --name--> parent).
-def _rel(name, node, category, child, parent, *, timed=False, ordered=False):
-    return {"name": name, "node": node, "category": category,
-            "child": child, "parent": parent, "timed": timed, "ordered": ordered}
+# The admissible relation terms carried on `directed_relation.relation` /
+# `undirected_relation.relation` (an ontology_term whose `name` is one of these).
+# The schema field is free-form (validated as an ontology_term, not against this
+# list), so this registry is the SINGLE enumerated source of truth for consumer
+# tooling and the D6 curation.
+#
+#   node          backing CURIE (RO/BFO where a standard term exists; "" = an open
+#                 D6 curation slot, not yet mapped).
+#   class         the carrier document class the term is minted as -- the fact that
+#                 governs endpoint symmetry and which optional fields are meaningful:
+#                   directed_relation   -> asymmetric (parent != child); may carry
+#                                          `sequence` (see ordered) and `method`.
+#                   undirected_relation -> symmetric member set (`member_types`).
+#                 This pins term -> class (a `part_of` minted as undirected is an
+#                 error the validator can catch). All current terms are directed.
+#   child_types /
+#   parent_types  the entity/data classes admissible at each endpoint of a directed
+#                 edge (child --name--> parent). [] = an open slot pending D6.
+#                 (An undirected term would use `member_types` instead.)
+#   *_role        human gloss of each endpoint.
+#   ordered       the directed_relation `sequence` field is semantically meaningful
+#                 (e.g. author order). class alone does not imply this -- every
+#                 directed edge *has* an optional sequence; ordered marks the ones
+#                 where it carries meaning.
+#   timed         the edge denotes an event that may carry a `method` / time anchor.
+def _rel(name, node, child_role, parent_role, child_types, parent_types,
+         *, cls="directed_relation", timed=False, ordered=False):
+    return {"name": name, "node": node, "class": cls,
+            "child_role": child_role, "parent_role": parent_role,
+            "child_types": child_types, "parent_types": parent_types,
+            "timed": timed, "ordered": ordered}
 
 RELATION_VOCABULARY = [
     # containment / structure
-    _rel("part_of", "BFO:0000050", "containment", "the part", "the whole"),
-    _rel("contained_in", "RO:0001018", "containment", "the contained", "the container"),
-    _rel("member_of", "RO:0002350", "containment", "the member", "the group"),
+    _rel("part_of", "BFO:0000050", "the part", "the whole",
+         ["session"], ["dataset"]),
+    _rel("contained_in", "RO:0001018", "the contained", "the container",
+         [], []),
+    _rel("member_of", "RO:0002350", "the member", "the group",
+         ["subject"], ["subject_group"]),
     # provenance / creation (timed: the creation event may carry a time_reference)
-    _rel("derived_from", "RO:0001000", "provenance", "the derivative", "the source",
-         timed=True),
-    _rel("sample_of", "", "provenance", "the sample", "the sampled source", timed=True),
-    _rel("aliquot_of", "", "provenance", "the aliquot", "the parent quantity", timed=True),
-    _rel("passage_of", "", "provenance", "the passage", "the parent culture", timed=True),
+    _rel("derived_from", "RO:0001000", "the derivative", "the source",
+         [], [], timed=True),
+    _rel("sample_of", "", "the sample", "the sampled source",
+         ["subject"], ["subject"], timed=True),
+    _rel("aliquot_of", "", "the aliquot", "the parent quantity",
+         ["subject"], ["subject"], timed=True),
+    _rel("passage_of", "", "the passage", "the parent culture",
+         ["subject"], ["subject"], timed=True),
     # agent / instrument role
-    _rel("observes", "", "agent_role", "the instrument-subject", "the observed specimen"),
+    _rel("observes", "", "the instrument-subject", "the observed specimen",
+         ["subject"], ["subject"]),
     # event
-    _rel("encountered", "", "event", "the encountering subject",
-         "the encountered subject", timed=True),
+    _rel("encountered", "", "the encountering subject", "the encountered subject",
+         ["subject"], ["subject"], timed=True),
     # bibliographic (entity layer)
-    _rel("has_author", "", "bibliographic", "the dataset", "the author (person)",
-         ordered=True),
-    _rel("cites", "", "bibliographic", "the citing dataset", "the cited publication"),
+    _rel("has_author", "", "the dataset", "the author (person)",
+         ["dataset"], ["person"], ordered=True),
+    _rel("cites", "", "the citing dataset", "the cited publication",
+         ["dataset"], ["publication"]),
     # funding (entity layer)
-    _rel("funded_by", "", "funding", "the funded dataset", "the award"),
-    _rel("issued_by", "", "funding", "the award", "the issuing organization"),
+    _rel("funded_by", "", "the funded dataset", "the award",
+         ["dataset"], ["award"]),
+    _rel("issued_by", "", "the award", "the issuing organization",
+         ["award"], ["organization"]),
     # affiliation (entity layer)
-    _rel("affiliated_with", "", "affiliation", "the person", "the organization"),
+    _rel("affiliated_with", "", "the person", "the organization",
+         ["person"], ["organization"]),
     # reference / storage (entity layer)
-    _rel("documented_by", "", "reference", "the documented entity", "the web_resource"),
-    _rel("stored_at", "", "storage", "the stored dataset",
-         "the web_resource location of the remote copy"),
-    _rel("hosted_by", "", "storage", "the web_resource", "the hosting organization"),
+    _rel("documented_by", "", "the documented entity", "the web_resource",
+         ["entity"], ["web_resource"]),
+    _rel("stored_at", "", "the stored dataset",
+         "the web_resource location of the remote copy",
+         ["dataset"], ["web_resource"]),
+    _rel("hosted_by", "", "the web_resource", "the hosting organization",
+         ["web_resource"], ["organization"]),
 ]
 
 binding_registry = {
     "$schema": "http://json-schema.org/draft-07/schema#",
     "$id": "https://did-schema.example.org/meta/binding_registry_meta.json",
     "title": "Binding registry for DID/NDI V_eta",
-    "description": "Maps a statement's `variable` (and, on interactions, "
-                   "method+variable) to the admissible value_set for its term "
-                   "value, and declares the kind-defining variables whose presence "
-                   "marks a subject's kind (D9). Consumer tooling resolves a term "
-                   "value against the bound value_set at validation time.",
+    "description": "Two coordinated registries keyed on ontology nodes. VALUE "
+                   "bindings map a statement's `variable.node` (and, on "
+                   "interactions, `method.node`) within a carrier `class` to the "
+                   "admissible set for its term value, given inline as either a "
+                   "`data_type`, an enumerated `values` list, or an ontology "
+                   "subtree (`ontology` + `root_node`). RELATION bindings "
+                   "(`relation_vocabulary`) map a `relation.node` to its carrier "
+                   "`class` (directed_relation / undirected_relation) and the "
+                   "admissible endpoint entity types. `kind_variables` declares the "
+                   "kind-defining variables whose presence marks a subject's kind "
+                   "(D9). Consumer tooling resolves a value or endpoint against the "
+                   "matching binding at validation time.",
+    # kind_variables: variable -> admissible ontology subtree. Each is a value
+    # binding whose set is always a subtree (ontology + root_node), so no inline
+    # `values`/`data_type`. `variable.node` is the property CURIE (\"\" = open slot).
     "kind_variables": [
-        {"variable": "species", "value_set": "organism_species",
-         "root": "NCBITaxon:1", "source": "NCBITaxon"},
-        {"variable": "instrument type", "value_set": "device_types",
-         "root": "OBI:0000968", "source": "OBI"},
-        {"variable": "cell type", "value_set": "cell_types",
-         "root": "CL:0000000", "source": "CL"},
-        {"variable": "material type", "value_set": "materials",
-         "root": "CHEBI:24431", "source": "CHEBI"},
-        {"variable": "developmental stage", "value_set": "dev_stages",
-         "root": "UBERON:0000105", "source": "UBERON"},
+        {"variable": {"node": "", "name": "species"},
+         "ontology": "NCBITaxon", "root_node": "NCBITaxon:1"},
+        {"variable": {"node": "", "name": "instrument type"},
+         "ontology": "OBI", "root_node": "OBI:0000968"},
+        {"variable": {"node": "", "name": "cell type"},
+         "ontology": "CL", "root_node": "CL:0000000"},
+        {"variable": {"node": "", "name": "material type"},
+         "ontology": "CHEBI", "root_node": "CHEBI:24431"},
+        {"variable": {"node": "", "name": "developmental stage"},
+         "ontology": "UBERON", "root_node": "UBERON:0000105"},
     ],
+    # Populated by the D3/D6 corpus sweep. Each row (a VALUE binding) has shape:
+    #   {"variable": {"node", "name"}, "method"?: {"node", "name"},
+    #    "class": "subject_observation" | "subject_manipulation" | "subject_assertion",
+    #    then EXACTLY ONE admissible-set spec:
+    #      "data_type": "<numeric composite>"      (e.g. mass, voltage) OR
+    #      "values": [ ... ]                       (static enumeration) OR
+    #      "ontology": "<prefix>", "root_node": "<CURIE>"   (subtree)}
     "bindings": [],
     "relation_vocabulary": RELATION_VOCABULARY,
-    "notes": "Corpus-derived variable->value_set bindings are added during "
-             "discovery (D3/D6). The kind_variables list makes the subject-kind "
-             "ingestion invariant precise; a subject is expected to carry >=1 "
-             "term_assertion whose variable is in this set (checked at ingest). "
-             "relation_vocabulary enumerates the admissible directed_relation / "
-             "undirected_relation terms (D6): the value carried on "
-             "`directed_relation.relation` is a member of this set. `node` is the "
+    "notes": "VALUE bindings (`bindings`) are keyed on `variable.node` (+ "
+             "`method.node` on interactions) within a carrier `class` "
+             "(subject_observation / subject_manipulation / subject_assertion); "
+             "the admissible set is given inline as `data_type`, `values`, or "
+             "`ontology`+`root_node` (there is no separately-named value_set). They "
+             "are populated by the D3/D6 corpus sweep. `kind_variables` makes the "
+             "subject-kind ingestion invariant precise; a subject is expected to "
+             "carry >=1 term_assertion whose variable is in this set (checked at "
+             "ingest). RELATION bindings (`relation_vocabulary`) enumerate the "
+             "admissible relation terms (D6): the value carried on "
+             "`directed_relation.relation` / `undirected_relation.relation` is a "
+             "member of this set. `class` pins the term to its carrier "
+             "(directed_relation / undirected_relation) and thus its endpoint "
+             "symmetry; `child_types`/`parent_types` (directed) or `member_types` "
+             "(undirected) constrain the endpoint entity classes. `node` is the "
              "backing ontology CURIE (RO/BFO where one exists; \"\" = an open D6 "
-             "curation slot, not yet mapped). `child`/`parent` gloss the edge "
-             "direction (child --name--> parent).",
+             "curation slot). `ordered` marks terms where the directed `sequence` "
+             "field is meaningful; `timed` marks event edges that may carry a "
+             "`method`/time anchor.",
 }
 with open(os.path.join(VETA, "stable", "binding_registry_meta.json"), "w") as f:
     json.dump(binding_registry, f, indent=4)

@@ -294,7 +294,7 @@
                     "properties": {
                         "binding": {
                             "type": "object",
-                            "description": "Controlled-vocabulary binding for a term value: either keyed on another field (usually `variable`, ontology expansion) or a static enumerated value_set (root+values). Enforced by the ontology-aware validator (D9).",
+                            "description": "Controlled-vocabulary binding for a term value: either keyed on another field (usually `variable`, ontology expansion) or an inline admissible set given as a static enumeration (`values`) or an ontology subtree (`ontology` + `root_node`). Enforced by the ontology-aware validator (D9).",
                             "properties": {
                                 "keyed_by": {
                                     "type": "string"
@@ -313,13 +313,10 @@
                                         "suggested"
                                     ]
                                 },
-                                "source": {
+                                "ontology": {
                                     "type": "string"
                                 },
-                                "root": {
-                                    "type": "string"
-                                },
-                                "value_set": {
+                                "root_node": {
                                     "type": "string"
                                 },
                                 "values": {
