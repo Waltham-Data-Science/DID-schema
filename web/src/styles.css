@@ -629,6 +629,40 @@ main {
 .legend-item {
   font-weight: 600;
 }
+/* interactive filter toggles in the legend */
+button.legend-item {
+  cursor: pointer;
+  background: transparent;
+  border: 1px solid currentColor;
+  border-radius: 4px;
+  padding: 0 0.35rem;
+  font: inherit;
+  font-weight: 600;
+  line-height: 1.5;
+}
+button.legend-item:hover {
+  filter: brightness(1.25);
+}
+/* the badge-* legend items normally paint via background; as buttons keep text-color coding */
+button.badge-retire,
+button.badge-wip,
+button.badge-persist {
+  background: transparent;
+  color: inherit;
+}
+button.badge-retire {
+  color: var(--maturity-deprecated);
+}
+button.badge-wip {
+  color: #d29922;
+}
+button.badge-persist {
+  color: var(--maturity-stable);
+}
+.legend-off {
+  opacity: 0.4;
+  text-decoration: line-through;
+}
 
 .loading,
 .fatal {

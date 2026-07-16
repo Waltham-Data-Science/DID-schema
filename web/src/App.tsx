@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import type { SchemaIndex, TopicsFile } from "./types";
+import type { IndexEntry, SchemaIndex, TopicsFile } from "./types";
 import {
   buildTopicTree,
   buildTree,
@@ -9,6 +9,7 @@ import {
   loadVersions,
   sortedFlat,
 } from "./schemaIndex";
+import type { TreeNode } from "./schemaIndex";
 import { FlatList, Tree } from "./Tree";
 import { Detail } from "./Detail";
 import { BindingRegistry } from "./BindingRegistry";
@@ -20,6 +21,36 @@ import { ErrorBoundary } from "./ErrorBoundary";
 import "./styles.css";
 
 type ViewMode = "topic" | "class" | "flat";
+
+// The toggleable filter tags shown in the legend: a class is visible only when
+// BOTH its maturity tag and its disposition tag are active (meta files are
+// governed by the single "meta" tag). All on by default.
+const MATURITY_TAGS = ["stable", "draft", "deprecated", "meta"] as const;
+const DISPOSITION_TAGS = ["persist", "retire", "in_progress"] as const;
+const ALL_TAGS: string[] = [...MATURITY_TAGS, ...DISPOSITION_TAGS];
+
+function entryVisible(e: IndexEntry, active: Set<string>): boolean {
+  if (e.is_meta) return active.has("meta");
+  const maturity = e.maturity_level ?? "meta";
+  const disposition = e.disposition ?? "persist";
+  return active.has(maturity) && active.has(disposition);
+}
+
+// Prune a tree to nodes that pass the predicate OR have a surviving descendant,
+// so an ancestor stays visible as the path to a visible class (and folders keep
+// only non-empty branches). Works for both the class tree and the topic tree.
+function pruneTree(
+  nodes: TreeNode[],
+  keep: (e: IndexEntry) => boolean,
+): TreeNode[] {
+  const out: TreeNode[] = [];
+  for (const n of nodes) {
+    const kids = pruneTree(n.children, keep);
+    const selfKept = n.entry ? keep(n.entry) : false;
+    if (selfKept || kids.length > 0) out.push({ ...n, children: kids });
+  }
+  return out;
+}
 
 // sessionStorage key remembering which schema set the user last viewed.
 const VERSION_KEY = "did-schema-set-version";
@@ -36,6 +67,16 @@ export default function App() {
   );
   const [editing, setEditing] = useState<boolean>(false);
   const [auth, setAuth] = useState<AuthState | null>(() => loadAuth());
+  const [activeTags, setActiveTags] = useState<Set<string>>(
+    () => new Set(ALL_TAGS),
+  );
+  const toggleTag = (tag: string) =>
+    setActiveTags((prev) => {
+      const next = new Set(prev);
+      if (next.has(tag)) next.delete(tag);
+      else next.add(tag);
+      return next;
+    });
 
   // Load the manifest of available schema sets, then pick the initial set:
   // a previously chosen set (if it still exists) else the manifest default.
@@ -78,17 +119,21 @@ export default function App() {
     window.location.hash = `#/${encodeURIComponent(className)}`;
   };
 
+  const keep = useMemo(
+    () => (e: IndexEntry) => entryVisible(e, activeTags),
+    [activeTags],
+  );
   const classTree = useMemo(
-    () => (index ? buildTree(index.schemas) : []),
-    [index],
+    () => (index ? pruneTree(buildTree(index.schemas), keep) : []),
+    [index, keep],
   );
   const topicTree = useMemo(
-    () => (index ? buildTopicTree(index.schemas, topics) : []),
-    [index, topics],
+    () => (index ? pruneTree(buildTopicTree(index.schemas, topics), keep) : []),
+    [index, topics, keep],
   );
   const flat = useMemo(
-    () => (index ? sortedFlat(index.schemas) : []),
-    [index],
+    () => (index ? sortedFlat(index.schemas).filter(keep) : []),
+    [index, keep],
   );
   const selectedEntry = useMemo(
     () =>
@@ -168,7 +213,7 @@ export default function App() {
             <FlatList entries={flat} selected={selected} onSelect={select} />
           )}
         </nav>
-        <Legend />
+        <Legend activeTags={activeTags} onToggle={toggleTag} />
       </aside>
       <main className="content">
         {editing ? (
@@ -202,16 +247,42 @@ export default function App() {
   );
 }
 
-function Legend() {
+function Legend({
+  activeTags,
+  onToggle,
+}: {
+  activeTags: Set<string>;
+  onToggle: (tag: string) => void;
+}) {
+  // tag -> [css class, visible label, tooltip]
+  const items: Array<[string, string, string, string]> = [
+    ["stable", "maturity-stable", "stable", "maturity: stable"],
+    ["draft", "maturity-draft", "draft", "maturity: draft"],
+    ["deprecated", "maturity-deprecated", "deprecated", "maturity: deprecated"],
+    ["meta", "maturity-meta", "meta", "schema-machinery meta files"],
+    ["persist", "badge-persist", "persist", "settled go-forward class (final V1)"],
+    ["retire", "badge-retire", "retire", "decided to dissolve/delete; not in final V1"],
+    ["in_progress", "badge-wip", "wip", "persists but its 6/7 disposition is not yet finalized"],
+  ];
   return (
-    <div className="legend">
-      <span className="legend-item maturity-stable">stable</span>
-      <span className="legend-item maturity-draft">draft</span>
-      <span className="legend-item maturity-deprecated">deprecated</span>
-      <span className="legend-item maturity-meta">meta</span>
-      <span className="legend-sep" />
-      <span className="legend-item badge-retire" title="decided to dissolve/delete; not in final V1">retire</span>
-      <span className="legend-item badge-wip" title="persists but its 6/7 disposition is not yet finalized">wip</span>
+    <div className="legend" role="group" aria-label="Filter classes by tag">
+      {items.map(([tag, cls, label, tip]) => {
+        const on = activeTags.has(tag);
+        return (
+          <span key={tag} style={{ display: "contents" }}>
+            {tag === "persist" && <span className="legend-sep" />}
+            <button
+              type="button"
+              className={`legend-item ${cls} ${on ? "" : "legend-off"}`}
+              aria-pressed={on}
+              title={`${tip} — click to ${on ? "hide" : "show"}`}
+              onClick={() => onToggle(tag)}
+            >
+              {label}
+            </button>
+          </span>
+        );
+      })}
     </div>
   );
 }
