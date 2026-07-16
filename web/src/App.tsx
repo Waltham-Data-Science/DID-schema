@@ -13,7 +13,7 @@ import { FlatList, Tree } from "./Tree";
 import { Detail } from "./Detail";
 import { BindingRegistry } from "./BindingRegistry";
 import { Editor } from "./Editor";
-import { AuthPanel } from "./Auth";
+import { AuthPanel } from "./AuthPanel";
 import { loadAuth } from "./auth";
 import type { AuthState } from "./auth";
 import { ErrorBoundary } from "./ErrorBoundary";
