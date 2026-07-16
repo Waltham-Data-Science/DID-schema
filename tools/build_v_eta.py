@@ -762,7 +762,9 @@ with open(os.path.join(VETA, "stable", "did_schema_meta.json"), "w") as f:
 #   timed         the edge denotes an event that may carry a `method` / time anchor.
 def _rel(name, node, child_role, parent_role, child_types, parent_types,
          *, cls="directed_relation", timed=False, ordered=False):
-    return {"name": name, "node": node, "class": cls,
+    # `relation` is a {node, name} NodeRef -- the same shape value bindings use
+    # for `variable`/`method`, so every term-identity in the registry is uniform.
+    return {"relation": {"node": node, "name": name}, "class": cls,
             "child_role": child_role, "parent_role": parent_role,
             "child_types": child_types, "parent_types": parent_types,
             "timed": timed, "ordered": ordered}
@@ -817,22 +819,28 @@ binding_registry = {
     "$schema": "http://json-schema.org/draft-07/schema#",
     "$id": "https://did-schema.example.org/meta/binding_registry_meta.json",
     "title": "Binding registry for DID/NDI V_eta",
-    "description": "Two coordinated registries keyed on ontology nodes. VALUE "
-                   "bindings map a statement's `variable.node` (and, on "
-                   "interactions, `method.node`) within a carrier `class` to the "
-                   "admissible set for its term value, given inline as either a "
-                   "`data_type`, an enumerated `values` list, or an ontology "
-                   "subtree (`ontology` + `root_node`). RELATION bindings "
+    "description": "Two coordinated registries keyed on ontology nodes. "
+                   "subject_statement bindings map a statement's `variable.node` "
+                   "(and, on interactions, `method.node`) to the concrete "
+                   "subject_statement leaf `class` that carries it (e.g. "
+                   "mass_observation, dose_manipulation, term_assertion). The leaf "
+                   "fixes the value type, so there is no `data_type`; a term-valued "
+                   "leaf additionally pins the admissible term set inline as an "
+                   "enumerated `values` list or an ontology subtree (`ontology` + "
+                   "`root_node`). RELATION bindings "
                    "(`relation_vocabulary`) map a `relation.node` to its carrier "
                    "`class` (directed_relation / undirected_relation) and the "
-                   "admissible endpoint entity types. `kind_variables` declares the "
-                   "kind-defining variables whose presence marks a subject's kind "
-                   "(D9). Consumer tooling resolves a value or endpoint against the "
-                   "matching binding at validation time.",
-    # kind_variables: variable -> admissible ontology subtree. Each is a value
-    # binding whose set is always a subtree (ontology + root_node), so no inline
-    # `values`/`data_type`. `variable.node` is the property CURIE (\"\" = open slot).
-    "kind_variables": [
+                   "admissible endpoint entity types. `subject_kind_variables` "
+                   "declares the kind-defining variables whose presence marks a "
+                   "subject's kind (D9). Consumer tooling resolves a value or "
+                   "endpoint against the matching binding at validation time.",
+    # subject_kind_variables: the SUBSET of subject variables that define a
+    # subject's kind (not every variable a subject may carry -- body mass, sex, etc.
+    # are subject variables too, but not kind-defining). Each is a value binding
+    # whose admissible set is always an ontology subtree (ontology + root_node), so
+    # no inline `values`/`data_type`. `variable.node` is the property CURIE
+    # (\"\" = open slot).
+    "subject_kind_variables": [
         {"variable": {"node": "", "name": "species"},
          "ontology": "NCBITaxon", "root_node": "NCBITaxon:1"},
         {"variable": {"node": "", "name": "instrument type"},
@@ -844,55 +852,62 @@ binding_registry = {
         {"variable": {"node": "", "name": "developmental stage"},
          "ontology": "UBERON", "root_node": "UBERON:0000105"},
     ],
-    # Seeded with illustrative examples (marked in `notes`) that show each spec
-    # form; the full set is populated by the D3/D6 corpus sweep. Each row (a VALUE
-    # binding) has shape:
+    # Seeded with illustrative examples (marked in `notes`) that show the binding
+    # shapes; the full set is populated by the D3/D6 corpus sweep. Each row (a
+    # subject_statement binding) has shape:
     #   {"variable": {"node", "name"}, "method"?: {"node", "name"},
-    #    "class": "subject_observation" | "subject_manipulation" | "subject_assertion",
-    #    then EXACTLY ONE admissible-set spec:
-    #      "data_type": "<numeric composite>"      (e.g. mass, voltage) OR
+    #    "class": <concrete subject_statement leaf>, ...}
+    # The `class` is the actual leaf document (e.g. mass_observation,
+    # dose_manipulation, term_assertion) -- and because every dimensional leaf
+    # already fixes its value type, there is NO separate `data_type`. An
+    # admissible-set spec is present ONLY for the term-valued leaves
+    # (term_observation / term_assertion / term_manipulation), where the class says
+    # "the value is an ontology term" but not WHICH terms; give either:
     #      "values": [ ... ]                       (static enumeration) OR
-    #      "ontology": "<prefix>", "root_node": "<CURIE>"   (subtree)}
-    "bindings": [
-        # subtree spec: a strain assertion draws from the NCBITaxon subtree.
+    #      "ontology": "<prefix>", "root_node": "<CURIE>"   (subtree).
+    # A dimensional/numeric leaf (mass_observation, ...) needs no spec: the leaf is
+    # the type. The binding then just maps a variable to the leaf that carries it.
+    "subject_statement_bindings": [
+        # term leaf + subtree: a strain assertion draws from the NCBITaxon subtree.
         {"variable": {"node": "", "name": "strain"},
-         "class": "subject_assertion",
+         "class": "term_assertion",
          "ontology": "NCBITaxon", "root_node": "NCBITaxon:1",
-         "notes": "example (subtree): a term_assertion of strain resolves against "
-                  "the NCBITaxon subtree"},
-        # enumeration spec: biological sex is a small closed set (hermaphrodite
-        # covers the C. elegans corpus).
+         "notes": "example (term leaf, subtree): the value resolves against the "
+                  "NCBITaxon subtree"},
+        # term leaf + enumeration: biological sex is a small closed set
+        # (hermaphrodite covers the C. elegans corpus).
         {"variable": {"node": "PATO:0000047", "name": "biological sex"},
-         "class": "subject_assertion",
+         "class": "term_assertion",
          "values": ["male", "female", "hermaphrodite", "unknown"],
-         "notes": "example (values): a fixed enumeration rather than an ontology "
-                  "subtree"},
-        # data_type spec: a body-mass observation carries a `mass` composite value.
+         "notes": "example (term leaf, values): a fixed enumeration rather than an "
+                  "ontology subtree"},
+        # dimensional leaf, no spec: mass_observation already fixes the value type.
         {"variable": {"node": "", "name": "body mass"},
-         "class": "subject_observation",
-         "data_type": "mass",
-         "notes": "example (data_type): the value is a numeric `mass` composite, "
-                  "not a controlled term"},
+         "class": "mass_observation",
+         "notes": "example (dimensional leaf): the leaf class is the `mass` type, "
+                  "so no data_type / admissible-set spec is needed"},
         # method + variable (interaction): the (method, variable) pair keys the
-        # binding on a manipulation -- the pairing granularity you asked for.
+        # binding on a dose_manipulation leaf -- the pairing granularity you asked
+        # for; again no data_type, the leaf is the `dose` type.
         {"variable": {"node": "", "name": "dose"},
          "method": {"node": "", "name": "drug administration"},
-         "class": "subject_manipulation",
-         "data_type": "dose",
+         "class": "dose_manipulation",
          "notes": "example (method+variable): on an interaction the binding is "
                   "keyed by both the method and the variable"},
     ],
     "relation_vocabulary": RELATION_VOCABULARY,
-    "notes": "VALUE bindings (`bindings`) are keyed on `variable.node` (+ "
-             "`method.node` on interactions) within a carrier `class` "
-             "(subject_observation / subject_manipulation / subject_assertion); "
-             "the admissible set is given inline as `data_type`, `values`, or "
-             "`ontology`+`root_node` (there is no separately-named value_set). They "
-             "are populated by the D3/D6 corpus sweep. `kind_variables` makes the "
-             "subject-kind ingestion invariant precise; a subject is expected to "
-             "carry >=1 term_assertion whose variable is in this set (checked at "
-             "ingest). RELATION bindings (`relation_vocabulary`) enumerate the "
-             "admissible relation terms (D6): the value carried on "
+    "notes": "subject_statement bindings (`subject_statement_bindings`) are keyed "
+             "on `variable.node` (+ `method.node` on interactions) and name the "
+             "concrete leaf `class` that carries the statement (e.g. "
+             "mass_observation, dose_manipulation, term_assertion). The leaf fixes "
+             "the value type -- there is no `data_type` and no separately-named "
+             "value_set. Only a term-valued leaf carries an admissible-set spec "
+             "(`values` or `ontology`+`root_node`); a dimensional leaf needs none. "
+             "They are populated by the D3/D6 corpus sweep. `subject_kind_variables` "
+             "makes the subject-kind ingestion invariant precise; a subject is "
+             "expected to carry >=1 term_assertion whose variable is in this set "
+             "(checked at ingest). RELATION bindings (`relation_vocabulary`) "
+             "enumerate the admissible relation terms (D6): the value carried on "
              "`directed_relation.relation` / `undirected_relation.relation` is a "
              "member of this set. `class` pins the term to its carrier "
              "(directed_relation / undirected_relation) and thus its endpoint "

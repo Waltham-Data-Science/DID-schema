@@ -111,15 +111,16 @@ export interface KindVariable {
   root_node?: string;
 }
 
-// A corpus-derived VALUE binding. The shape is intentionally open: bindings are
-// added during discovery (D3/D6), keyed on variable.node (+ method.node) within a
-// carrier class, with an inline admissible-set spec (data_type | values |
-// ontology+root_node). The browser renders whatever columns are present.
+// A corpus-derived subject_statement binding. The shape is intentionally open:
+// bindings are added during discovery (D3/D6), keyed on variable.node (+
+// method.node) and naming the concrete subject_statement-leaf `class` that carries
+// the statement. The leaf fixes the value type, so there is no data_type; a
+// term-valued leaf additionally pins an admissible set (values | ontology+
+// root_node). The browser renders whatever columns are present.
 export interface Binding {
   variable?: NodeRef;
   method?: NodeRef;
   class?: string;
-  data_type?: string;
   values?: unknown[];
   ontology?: string;
   root_node?: string;
@@ -128,9 +129,9 @@ export interface Binding {
 
 // A D6 relation-vocabulary term: the admissible value on directed_relation.relation
 // / undirected_relation.relation, pinned to its carrier `class` and typed endpoints.
+// `relation` is a {node, name} NodeRef, the same shape as a binding's variable/method.
 export interface RelationTerm {
-  name: string;
-  node: string;
+  relation: NodeRef;
   class: string; // "directed_relation" | "undirected_relation"
   child_role?: string;
   parent_role?: string;
@@ -145,8 +146,8 @@ export interface RelationTerm {
 export interface BindingRegistryMeta {
   title?: string;
   description?: string;
-  kind_variables?: KindVariable[];
-  bindings?: Binding[];
+  subject_kind_variables?: KindVariable[];
+  subject_statement_bindings?: Binding[];
   relation_vocabulary?: RelationTerm[];
   notes?: string;
   [k: string]: unknown;

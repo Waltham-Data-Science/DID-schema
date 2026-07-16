@@ -18,7 +18,6 @@ const PREFERRED_COLUMNS = [
   "variable",
   "method",
   "class",
-  "data_type",
   "values",
   "ontology",
   "root_node",
@@ -44,15 +43,15 @@ export function BindingRegistry({ entry }: Props) {
   }, [entry.path]);
 
   const bindingColumns = useMemo(
-    () => bindingKeys(reg?.bindings ?? []),
+    () => bindingKeys(reg?.subject_statement_bindings ?? []),
     [reg],
   );
 
   if (error) return <div className="detail-error">Error: {error}</div>;
   if (!reg) return <div className="detail-loading">Loading...</div>;
 
-  const kinds = reg.kind_variables ?? [];
-  const bindings = reg.bindings ?? [];
+  const kinds = reg.subject_kind_variables ?? [];
+  const bindings = reg.subject_statement_bindings ?? [];
   const relations = reg.relation_vocabulary ?? [];
 
   return (
@@ -73,7 +72,8 @@ export function BindingRegistry({ entry }: Props) {
 
       <section>
         <h3>
-          Kind variables <span className="count-pill">{kinds.length}</span>
+          Subject kind variables{" "}
+          <span className="count-pill">{kinds.length}</span>
         </h3>
         <p className="section-note">
           The kind-defining variables (D9): a subject is expected to carry at
@@ -125,21 +125,24 @@ export function BindingRegistry({ entry }: Props) {
 
       <section>
         <h3>
-          Bindings <span className="count-pill">{bindings.length}</span>
+          Subject statement bindings{" "}
+          <span className="count-pill">{bindings.length}</span>
         </h3>
         <p className="section-note">
-          Corpus-derived value bindings, added during discovery (D3/D6). Each is
-          keyed on <code>variable.node</code> (and <code>method.node</code> on
-          interactions) within a carrier <code>class</code>, with an inline
-          admissible-set spec: a <code>data_type</code>, an enumerated{" "}
-          <code>values</code> list, or an ontology subtree (<code>ontology</code>{" "}
-          + <code>root_node</code>). Consumer tooling resolves a term value against
-          the matching binding at validation time.
+          Corpus-derived bindings, added during discovery (D3/D6). Each is keyed on{" "}
+          <code>variable.node</code> (and <code>method.node</code> on interactions)
+          and names the concrete subject_statement leaf <code>class</code> that
+          carries the statement (e.g. <code>mass_observation</code>,{" "}
+          <code>dose_manipulation</code>, <code>term_assertion</code>). The leaf
+          fixes the value type — no <code>data_type</code> — and a term-valued leaf
+          additionally pins its admissible term set as an enumerated{" "}
+          <code>values</code> list or an ontology subtree (<code>ontology</code> +{" "}
+          <code>root_node</code>).
         </p>
         {bindings.length === 0 ? (
           <p className="muted">
-            No bindings yet — the registry is seeded with the kind variables
-            above; per-variable value bindings are populated as the corpus is
+            No bindings yet — the registry is seeded with the subject kind
+            variables above; per-variable bindings are populated as the corpus is
             surveyed.
           </p>
         ) : (
@@ -194,7 +197,7 @@ export function BindingRegistry({ entry }: Props) {
             </thead>
             <tbody>
               {relations.map((r) => (
-                <RelationRow key={r.name} term={r} />
+                <RelationRow key={r.relation.name} term={r} />
               ))}
             </tbody>
           </table>
@@ -248,7 +251,7 @@ function BindingCell({ value, column }: { value: unknown; column: string }) {
       </>
     );
   }
-  if (column === "data_type" && typeof value === "string") {
+  if (column === "class" && typeof value === "string") {
     return <span className="enum-chip">{value}</span>;
   }
   if (typeof value === "string" || typeof value === "number" || typeof value === "boolean") {
@@ -277,19 +280,17 @@ function RelationRow({ term }: { term: RelationTerm }) {
   return (
     <tr>
       <td>
-        <code>{term.name}</code>
+        <code>{term.relation.name}</code>
       </td>
       <td>
-        {term.node ? (
-          <span className="node-curie">{term.node}</span>
+        {term.relation.node ? (
+          <span className="node-curie">{term.relation.node}</span>
         ) : (
           <span className="muted">— open</span>
         )}
       </td>
       <td>
-        <span className="enum-chip">
-          {directed ? "directed" : "undirected"}
-        </span>
+        <code>{term.class}</code>
       </td>
       <td>
         {directed ? (

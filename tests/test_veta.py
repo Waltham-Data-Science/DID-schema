@@ -343,37 +343,49 @@ def test_binding_is_formalized_in_meta_schema():
 def test_binding_registry_meta_present():
     """D9: the binding registry ships in Phase 1 (kind-variable set + bindings)."""
     reg = _load(os.path.join(VETA, "stable", "binding_registry_meta.json"))
-    kv = {k["variable"]["name"] for k in reg["kind_variables"]}
+    assert "kind_variables" not in reg  # renamed -> subject_kind_variables
+    kvs = reg["subject_kind_variables"]
+    kv = {k["variable"]["name"] for k in kvs}
     assert {"species", "instrument type"} <= kv
     # kind variables are subtree value bindings: ontology + root_node, no value_set.
-    assert all("root_node" in k and "ontology" in k for k in reg["kind_variables"])
-    assert all("value_set" not in k for k in reg["kind_variables"])
+    assert all("root_node" in k and "ontology" in k for k in kvs)
+    assert all("value_set" not in k for k in kvs)
     in_index = {e["class_name"]: e for e in INDEX["schemas"]}
     assert in_index["binding_registry_meta"].get("is_meta") is True
 
 
 def test_binding_examples_well_formed():
-    """The seeded example value bindings show every spec form and validate: each
-    carries a NodeRef `variable`, a known carrier `class`, and EXACTLY ONE
-    admissible-set spec (data_type | values | ontology+root_node)."""
+    """The seeded example subject_statement bindings validate: each carries a
+    NodeRef `variable` and a concrete subject_statement-leaf `class`. There is no
+    `data_type` (the leaf fixes the type); a term-valued leaf additionally pins an
+    admissible set (values | ontology+root_node), a dimensional leaf carries none."""
     reg = _load(os.path.join(VETA, "stable", "binding_registry_meta.json"))
-    bindings = reg["bindings"]
+    assert "bindings" not in reg  # renamed -> subject_statement_bindings
+    bindings = reg["subject_statement_bindings"]
     assert bindings, "expected seeded example bindings"
-    classes = {"subject_observation", "subject_manipulation", "subject_assertion"}
+    # class must be a concrete (non-abstract) leaf of subject_statement's genera
+    concrete = {r[1]["document_class"]["class_name"]: r[1]["document_class"]
+                for r in RECORDS.values()}
     forms = set()
     for b in bindings:
         assert set(b["variable"]) >= {"node", "name"}
-        assert b["class"] in classes
-        has_dt = "data_type" in b
+        cls = concrete.get(b["class"])
+        assert cls is not None and not cls.get("abstract", False), \
+            f"class {b['class']} must be a concrete leaf"
+        assert "data_type" not in b, "the leaf class replaces data_type"
         has_vals = "values" in b
         has_sub = "ontology" in b and "root_node" in b
-        assert has_dt + has_vals + has_sub == 1, f"one spec form only: {b}"
-        forms.add("data_type" if has_dt else "values" if has_vals else "subtree")
-        # a method, when present, is itself a NodeRef
+        is_term = b["class"].startswith("term_")
+        if is_term:
+            assert has_vals ^ has_sub, f"term leaf needs one set spec: {b}"
+            forms.add("values" if has_vals else "subtree")
+        else:
+            assert not has_vals and not has_sub, \
+                f"dimensional leaf {b['class']} needs no spec"
         if "method" in b:
             assert set(b["method"]) >= {"node", "name"}
-    # all three spec forms are demonstrated, plus at least one method+variable row
-    assert forms == {"data_type", "values", "subtree"}
+    # both term-set forms demonstrated, plus at least one method+variable row
+    assert forms == {"values", "subtree"}
     assert any("method" in b for b in bindings)
 
 
@@ -383,18 +395,21 @@ def test_relation_vocabulary_present():
     values (subject-side + entity-side), each pinned to its carrier `class` with
     typed endpoints."""
     reg = _load(os.path.join(VETA, "stable", "binding_registry_meta.json"))
-    vocab = {r["name"]: r for r in reg["relation_vocabulary"]}
+    vocab = {r["relation"]["name"]: r for r in reg["relation_vocabulary"]}
     # the subject-side terms the migrators already emit + the new entity-layer terms
     for term in ("part_of", "member_of", "derived_from", "observes", "encountered",
                  "has_author", "funded_by", "issued_by", "affiliated_with", "cites",
                  "documented_by", "stored_at", "hosted_by"):
         assert term in vocab, f"{term} missing from relation_vocabulary"
-    # class replaces the old advisory `category`; endpoints are typed lists.
-    assert all({"node", "class", "child_types", "parent_types"} <= set(r)
+    # term identity is a {node, name} NodeRef, mirroring variable/method.
+    assert all({"node", "name"} <= set(r["relation"]) for r in vocab.values())
+    # class (full class name) replaces the old advisory `category`; typed endpoints.
+    assert all({"relation", "class", "child_types", "parent_types"} <= set(r)
                for r in vocab.values())
     assert all(r["class"] in ("directed_relation", "undirected_relation")
                for r in vocab.values())
     assert "category" not in vocab["part_of"]
+    assert vocab["part_of"]["relation"]["node"] == "BFO:0000050"
     # the entity-layer endpoint types match what the migrators mint
     assert vocab["has_author"]["parent_types"] == ["person"]
     assert vocab["has_author"]["child_types"] == ["dataset"]
