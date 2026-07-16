@@ -103,40 +103,36 @@ export interface NodeRef {
   name: string;
 }
 
-// A kind-defining variable: a subtree value binding (variable -> ontology +
-// root_node). No enumerated value_set — the admissible set is always the subtree.
-export interface KindVariable {
-  variable: NodeRef;
-  ontology?: string;
-  root_node?: string;
-}
-
-// A corpus-derived subject_statement binding. The shape is intentionally open:
-// bindings are added during discovery (D3/D6), keyed on variable.node (+
-// method.node) and naming the concrete subject_statement-leaf `class` that carries
-// the statement. The leaf fixes the value type, so there is no data_type; a
-// term-valued leaf additionally pins an admissible set (values | ontology+
-// root_node). The browser renders whatever columns are present.
+// A subject_statement binding: variable (+ method) -> the concrete leaf `class`
+// that carries the statement. The leaf fixes the value type (no data_type); a
+// term-valued leaf additionally pins an admissible set — `values` (each an ontology
+// term NodeRef) or an ontology subtree (ontology + root_node). `subject_defining`
+// flags the kind-defining rows (the D9 ingest invariant). Shape is intentionally
+// open; the browser renders whatever columns are present.
 export interface Binding {
   variable?: NodeRef;
   method?: NodeRef;
   class?: string;
-  values?: unknown[];
+  values?: Array<NodeRef | string>;
   ontology?: string;
   root_node?: string;
+  subject_defining?: boolean;
+  notes?: string;
   [k: string]: unknown;
 }
 
-// A D6 relation-vocabulary term: the admissible value on directed_relation.relation
-// / undirected_relation.relation, pinned to its carrier `class` and typed endpoints.
-// `relation` is a {node, name} NodeRef, the same shape as a binding's variable/method.
+// A D6 relation binding: the admissible value on directed_relation.relation /
+// undirected_relation.relation, pinned to its carrier `class` with typed endpoints.
+// `relation` is a {node, name} NodeRef (same shape as a binding's variable/method).
+// Endpoints are `from`/`to` for directed edges (from -> to; these map to the schema
+// child/parent deps) or `member_types` for undirected.
 export interface RelationTerm {
   relation: NodeRef;
   class: string; // "directed_relation" | "undirected_relation"
-  child_role?: string;
-  parent_role?: string;
-  child_types?: string[];
-  parent_types?: string[];
+  from_role?: string;
+  to_role?: string;
+  from_types?: string[];
+  to_types?: string[];
   member_types?: string[];
   ordered?: boolean;
   timed?: boolean;
@@ -146,9 +142,9 @@ export interface RelationTerm {
 export interface BindingRegistryMeta {
   title?: string;
   description?: string;
-  subject_kind_variables?: KindVariable[];
   subject_statement_bindings?: Binding[];
-  relation_vocabulary?: RelationTerm[];
+  binding_examples?: Binding[];
+  relation_bindings?: RelationTerm[];
   notes?: string;
   [k: string]: unknown;
 }

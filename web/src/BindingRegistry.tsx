@@ -1,8 +1,9 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import type {
   Binding,
   BindingRegistryMeta,
   IndexEntry,
+  NodeRef,
   RelationTerm,
 } from "./types";
 import { loadBindingRegistry } from "./schemaIndex";
@@ -11,9 +12,10 @@ interface Props {
   entry: IndexEntry;
 }
 
-// Columns shown first (in this order) when a binding carries them; any other
-// keys a corpus-derived binding introduces are appended alphabetically so the
-// browser keeps rendering new binding shapes without a code change.
+// Columns shown first (in this order) when a binding carries them; any other keys
+// a corpus-derived binding introduces are appended alphabetically so the browser
+// keeps rendering new binding shapes without a code change. `subject_defining` is
+// handled specially (a badge on the variable cell), so it is not a column here.
 const PREFERRED_COLUMNS = [
   "variable",
   "method",
@@ -23,6 +25,20 @@ const PREFERRED_COLUMNS = [
   "root_node",
   "notes",
 ];
+
+// Raw key -> human column header (so the bindings table matches the Title-Case
+// headers of the other tables instead of showing raw snake_case keys).
+const COLUMN_LABELS: Record<string, string> = {
+  variable: "Variable",
+  method: "Method",
+  class: "Class",
+  values: "Values",
+  ontology: "Ontology",
+  root_node: "Root node",
+  notes: "Notes",
+};
+
+const DASH = "—";
 
 export function BindingRegistry({ entry }: Props) {
   const [reg, setReg] = useState<BindingRegistryMeta | null>(null);
@@ -42,17 +58,12 @@ export function BindingRegistry({ entry }: Props) {
     };
   }, [entry.path]);
 
-  const bindingColumns = useMemo(
-    () => bindingKeys(reg?.subject_statement_bindings ?? []),
-    [reg],
-  );
-
   if (error) return <div className="detail-error">Error: {error}</div>;
   if (!reg) return <div className="detail-loading">Loading...</div>;
 
-  const kinds = reg.subject_kind_variables ?? [];
   const bindings = reg.subject_statement_bindings ?? [];
-  const relations = reg.relation_vocabulary ?? [];
+  const examples = reg.binding_examples ?? [];
+  const relations = reg.relation_bindings ?? [];
 
   return (
     <div className="detail">
@@ -61,7 +72,11 @@ export function BindingRegistry({ entry }: Props) {
           {reg.title ?? "Binding registry"}
           <span className="badge-meta">meta</span>
         </h2>
-        {reg.description && <p className="registry-description">{reg.description}</p>}
+        {reg.description && (
+          <p className="registry-description">
+            <RichText text={reg.description} />
+          </p>
+        )}
         <dl className="detail-meta">
           <dt>Path</dt>
           <dd>
@@ -72,106 +87,40 @@ export function BindingRegistry({ entry }: Props) {
 
       <section>
         <h3>
-          Subject kind variables{" "}
-          <span className="count-pill">{kinds.length}</span>
-        </h3>
-        <p className="section-note">
-          The kind-defining variables (D9): a subject is expected to carry at
-          least one <code>term_assertion</code> whose <code>variable</code> is in
-          this set (checked at ingest). Each is a subtree value binding — the
-          admissible term value is drawn from the given <code>ontology</code>{" "}
-          subtree rooted at <code>root_node</code>.
-        </p>
-        {kinds.length === 0 ? (
-          <p className="muted">No kind variables declared.</p>
-        ) : (
-          <table className="fields-table">
-            <thead>
-              <tr>
-                <th>Variable</th>
-                <th>Ontology</th>
-                <th>Root node</th>
-              </tr>
-            </thead>
-            <tbody>
-              {kinds.map((k) => (
-                <tr key={k.variable.name}>
-                  <td>
-                    <code>{k.variable.name}</code>
-                    {k.variable.node ? (
-                      <span className="node-curie"> {k.variable.node}</span>
-                    ) : null}
-                  </td>
-                  <td>
-                    {k.ontology ? (
-                      <span className="enum-chip">{k.ontology}</span>
-                    ) : (
-                      <span className="muted">—</span>
-                    )}
-                  </td>
-                  <td>
-                    {k.root_node ? (
-                      <code>{k.root_node}</code>
-                    ) : (
-                      <span className="muted">—</span>
-                    )}
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        )}
-      </section>
-
-      <section>
-        <h3>
           Subject statement bindings{" "}
           <span className="count-pill">{bindings.length}</span>
         </h3>
         <p className="section-note">
-          Corpus-derived bindings, added during discovery (D3/D6). Each is keyed on{" "}
-          <code>variable.node</code> (and <code>method.node</code> on interactions)
-          and names the concrete subject_statement leaf <code>class</code> that
-          carries the statement (e.g. <code>mass_observation</code>,{" "}
-          <code>dose_manipulation</code>, <code>term_assertion</code>). The leaf
-          fixes the value type — no <code>data_type</code> — and a term-valued leaf
-          additionally pins its admissible term set as an enumerated{" "}
-          <code>values</code> list or an ontology subtree (<code>ontology</code> +{" "}
-          <code>root_node</code>).
+          Each maps a variable (and, on interactions, a method) to the concrete
+          subject_statement leaf <code>class</code> that carries the statement
+          (e.g. <code>mass_observation</code>, <code>dose_manipulation</code>,{" "}
+          <code>term_assertion</code>). The leaf fixes the value type — no{" "}
+          <code>data_type</code> — and a term-valued leaf additionally pins its
+          admissible term set (<code>values</code> or an <code>ontology</code>{" "}
+          subtree). Rows flagged <span className="flag-tag">subject-defining</span>{" "}
+          are the kind ingestion invariant (D9): a subject is expected to carry ≥1
+          assertion whose variable matches one. The rest are populated by the
+          D3/D6 corpus sweep.
         </p>
-        {bindings.length === 0 ? (
-          <p className="muted">
-            No bindings yet — the registry is seeded with the subject kind
-            variables above; per-variable bindings are populated as the corpus is
-            surveyed.
-          </p>
-        ) : (
-          <table className="fields-table">
-            <thead>
-              <tr>
-                {bindingColumns.map((c) => (
-                  <th key={c}>{c}</th>
-                ))}
-              </tr>
-            </thead>
-            <tbody>
-              {bindings.map((b, i) => (
-                <tr key={i}>
-                  {bindingColumns.map((c) => (
-                    <td key={c}>
-                      <BindingCell value={b[c]} column={c} />
-                    </td>
-                  ))}
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        )}
+        <BindingTable bindings={bindings} emptyLabel="No bindings declared." />
       </section>
 
       <section>
         <h3>
-          Relation vocabulary{" "}
+          Binding examples <span className="count-pill">{examples.length}</span>
+        </h3>
+        <p className="section-note">
+          Illustrative only — <em>not</em> swept data. These show the binding
+          shapes: a term leaf with an ontology subtree, a term leaf with an
+          enumerated set of ontology terms, a dimensional leaf (no spec), and a
+          method+variable interaction.
+        </p>
+        <BindingTable bindings={examples} emptyLabel="No examples." />
+      </section>
+
+      <section>
+        <h3>
+          Relation bindings{" "}
           <span className="count-pill">{relations.length}</span>
         </h3>
         <p className="section-note">
@@ -179,8 +128,10 @@ export function BindingRegistry({ entry }: Props) {
           <code>directed_relation.relation</code> /{" "}
           <code>undirected_relation.relation</code> (D6). <code>class</code> pins
           each term to its carrier — <code>directed_relation</code> (asymmetric
-          child → parent) or <code>undirected_relation</code> (symmetric members)
-          — and thus which endpoint types and optional fields apply.
+          from → to) or <code>undirected_relation</code> (symmetric members) — and
+          thus which endpoint types and optional fields apply. Abstract endpoint
+          types (<code>entity</code>, <code>subject</code>) mean “any of that
+          genus”; an empty endpoint is unconstrained.
         </p>
         {relations.length === 0 ? (
           <p className="muted">No relation terms declared.</p>
@@ -191,7 +142,7 @@ export function BindingRegistry({ entry }: Props) {
                 <th>Term</th>
                 <th>Node</th>
                 <th>Class</th>
-                <th>Child → Parent types</th>
+                <th>From → To types</th>
                 <th>Flags</th>
               </tr>
             </thead>
@@ -207,7 +158,9 @@ export function BindingRegistry({ entry }: Props) {
       {reg.notes && (
         <section>
           <h3>Notes</h3>
-          <p className="docline">{reg.notes}</p>
+          <p className="docline">
+            <RichText text={reg.notes} />
+          </p>
         </section>
       )}
 
@@ -221,33 +174,95 @@ export function BindingRegistry({ entry }: Props) {
   );
 }
 
-function BindingCell({ value, column }: { value: unknown; column: string }) {
-  if (value === undefined || value === null || value === "") {
-    return <span className="muted">—</span>;
-  }
-  // variable/method are NodeRef objects {node, name}.
-  if (
-    (column === "variable" || column === "method") &&
-    typeof value === "object" &&
-    value !== null &&
-    "name" in value
-  ) {
-    const ref = value as { node?: string; name?: string };
+function BindingTable({
+  bindings,
+  emptyLabel,
+}: {
+  bindings: Binding[];
+  emptyLabel: string;
+}) {
+  if (bindings.length === 0) return <p className="muted">{emptyLabel}</p>;
+  const columns = bindingKeys(bindings);
+  return (
+    <table className="fields-table">
+      <thead>
+        <tr>
+          {columns.map((c) => (
+            <th key={c}>{COLUMN_LABELS[c] ?? c}</th>
+          ))}
+        </tr>
+      </thead>
+      <tbody>
+        {bindings.map((b, i) => (
+          <tr key={i}>
+            {columns.map((c) => (
+              <td key={c}>
+                <BindingCell value={b[c]} column={c} binding={b} />
+              </td>
+            ))}
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  );
+}
+
+function isNodeRef(v: unknown): v is NodeRef {
+  return typeof v === "object" && v !== null && "name" in v;
+}
+
+function NodeRefView({ value }: { value: NodeRef }) {
+  return (
+    <span>
+      <code>{value.name}</code>
+      {value.node ? <span className="node-curie"> {value.node}</span> : null}
+    </span>
+  );
+}
+
+function BindingCell({
+  value,
+  column,
+  binding,
+}: {
+  value: unknown;
+  column: string;
+  binding: Binding;
+}) {
+  // The variable cell also carries the subject-defining badge.
+  if (column === "variable") {
     return (
       <span>
-        <code>{ref.name}</code>
-        {ref.node ? <span className="node-curie"> {ref.node}</span> : null}
+        {isNodeRef(value) ? <NodeRefView value={value} /> : <span className="muted">{DASH}</span>}
+        {binding.subject_defining && (
+          <span className="flag-tag" title="kind-defining variable (D9)">
+            subject-defining
+          </span>
+        )}
       </span>
     );
   }
+  if (value === undefined || value === null || value === "") {
+    return <span className="muted">{DASH}</span>;
+  }
+  if (column === "method" && isNodeRef(value)) {
+    return <NodeRefView value={value} />;
+  }
+  // values are an enumeration of ontology-term NodeRefs (or, defensively, strings).
   if (column === "values" && Array.isArray(value)) {
     return (
       <>
-        {value.map((v, i) => (
-          <span key={i} className="enum-chip">
-            {String(v)}
-          </span>
-        ))}
+        {value.map((v, i) =>
+          isNodeRef(v) ? (
+            <span key={i} className="enum-chip" title={v.node || undefined}>
+              {v.name}
+            </span>
+          ) : (
+            <span key={i} className="enum-chip">
+              {String(v)}
+            </span>
+          ),
+        )}
       </>
     );
   }
@@ -260,10 +275,11 @@ function BindingCell({ value, column }: { value: unknown; column: string }) {
   return <code>{JSON.stringify(value)}</code>;
 }
 
-// One row of the relation vocabulary: term, backing node, carrier class, typed
-// endpoints (child -> parent for directed; members for undirected), and flags.
+// One row of the relation bindings: term, backing node, carrier class, typed
+// endpoints (from -> to for directed; members for undirected), and flags. The
+// endpoint roles show as a tooltip on the type group.
 function RelationRow({ term }: { term: RelationTerm }) {
-  const directed = term.class !== "undirected_relation";
+  const directed = term.class === "directed_relation";
   const flags: string[] = [];
   if (term.ordered) flags.push("ordered");
   if (term.timed) flags.push("timed");
@@ -275,7 +291,7 @@ function RelationRow({ term }: { term: RelationTerm }) {
         </span>
       ))
     ) : (
-      <span className="muted">open</span>
+      <span className="muted">any</span>
     );
   return (
     <tr>
@@ -286,7 +302,7 @@ function RelationRow({ term }: { term: RelationTerm }) {
         {term.relation.node ? (
           <span className="node-curie">{term.relation.node}</span>
         ) : (
-          <span className="muted">— open</span>
+          <span className="muted">{DASH}</span>
         )}
       </td>
       <td>
@@ -294,10 +310,10 @@ function RelationRow({ term }: { term: RelationTerm }) {
       </td>
       <td>
         {directed ? (
-          <span>
-            {typeChips(term.child_types)}
+          <span title={roleHint(term)}>
+            {typeChips(term.from_types)}
             <span className="rel-arrow"> → </span>
-            {typeChips(term.parent_types)}
+            {typeChips(term.to_types)}
           </span>
         ) : (
           typeChips(term.member_types)
@@ -305,7 +321,7 @@ function RelationRow({ term }: { term: RelationTerm }) {
       </td>
       <td>
         {flags.length === 0 ? (
-          <span className="muted">—</span>
+          <span className="muted">{DASH}</span>
         ) : (
           flags.map((f) => (
             <span key={f} className="flag-tag">
@@ -318,12 +334,38 @@ function RelationRow({ term }: { term: RelationTerm }) {
   );
 }
 
-// Union of keys across all bindings, PREFERRED_COLUMNS first (in order), the
-// rest alphabetized. Guarantees stable columns even for heterogeneous rows.
+function roleHint(term: RelationTerm): string | undefined {
+  if (!term.from_role && !term.to_role) return undefined;
+  return `from: ${term.from_role ?? "?"} → to: ${term.to_role ?? "?"}`;
+}
+
+// Render a string with backtick-delimited `code` spans and turn " -- " into an
+// em dash, so meta prose that uses lightweight markup renders instead of showing
+// the raw backticks.
+function RichText({ text }: { text: string }) {
+  const parts = text.split(/(`[^`]+`)/g);
+  return (
+    <>
+      {parts.map((p, i) =>
+        p.length > 1 && p.startsWith("`") && p.endsWith("`") ? (
+          <code key={i}>{p.slice(1, -1)}</code>
+        ) : (
+          <span key={i}>{p.replace(/ -- /g, " — ")}</span>
+        ),
+      )}
+    </>
+  );
+}
+
+// Union of keys across all bindings, PREFERRED_COLUMNS first (in order), the rest
+// alphabetized. `subject_defining` is rendered as a badge on the variable cell, so
+// it is never a column. Guarantees stable columns even for heterogeneous rows.
 function bindingKeys(bindings: Binding[]): string[] {
   const seen = new Set<string>();
   for (const b of bindings) {
-    for (const k of Object.keys(b)) seen.add(k);
+    for (const k of Object.keys(b)) {
+      if (k !== "subject_defining") seen.add(k);
+    }
   }
   const preferred = PREFERRED_COLUMNS.filter((c) => seen.has(c));
   const rest = [...seen].filter((k) => !PREFERRED_COLUMNS.includes(k)).sort();
