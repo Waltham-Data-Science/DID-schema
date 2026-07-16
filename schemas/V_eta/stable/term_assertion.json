@@ -34,8 +34,7 @@
                     "keyed_by": "variable",
                     "expansion": "descendants",
                     "node_kind": "class",
-                    "strength": "required",
-                    "source": "ontology"
+                    "strength": "required"
                 }
             }
         }

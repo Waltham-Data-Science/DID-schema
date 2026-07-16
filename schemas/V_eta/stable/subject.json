@@ -17,7 +17,7 @@
             "type": "char",
             "blank_value": "",
             "default_value": "",
-            "mustBeNonEmpty": false,
+            "mustBeNonEmpty": true,
             "mustBeScalar": true,
             "mustNotHaveNaN": false,
             "queryable": true,
@@ -25,7 +25,7 @@
                 "node": "iao:0000578",
                 "name": "centrally registered identifier"
             },
-            "documentation": "A globally unique identifier meaningful to a local group (e.g., 'mouse123@vhlab.org').",
+            "documentation": "Human-facing handle for this subject, unique within its dataset. REQUIRED on subjects; the same field is optional on every other entity (see local_identifier there).",
             "constraints": {
                 "maxLength": 256
             }

@@ -223,6 +223,30 @@ def test_entity_genus():
     assert "documentation" not in dataset_fields
 
 
+def _local_id(cls):
+    fs = {f["name"]: f for f in RECORDS[cls][1].get("fields", [])}
+    return fs.get("local_identifier")
+
+
+def test_local_identifier_required_on_subject_optional_elsewhere():
+    """local_identifier is a schema-enforced handle: REQUIRED on subject, OPTIONAL
+    on every other entity, and NOT declared on the abstract `entity` parent (so
+    subject *adds* a required field rather than illegally overriding a
+    parent-optional one). Requiredness is expressed by placement, like the timing
+    model — not an ingest convention."""
+    # the parent stays neutral (no local_identifier -> no forbidden override)
+    assert _local_id("entity") is None
+    # subject requires it
+    sub = _local_id("subject")
+    assert sub is not None and sub["mustBeNonEmpty"] is True
+    # every other entity carries it, optional
+    for e in ("dataset", "person", "organization", "publication", "award",
+              "web_resource", "session"):
+        f = _local_id(e)
+        assert f is not None, f"{e} should carry an optional local_identifier"
+        assert f["mustBeNonEmpty"] is False, f"{e}.local_identifier must be optional"
+
+
 def test_mock_class_dropped():
     """`mock` (a bare ismock flag) is test-only scaffolding — nothing constructs
     it; a production go-forward schema should not carry a 'this is fake' class."""

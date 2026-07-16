@@ -216,6 +216,18 @@ sub["document_class"]["class_version"] = "3.0.0"
 sub["document_class"]["superclasses"] = [{"class_name": "entity"}]   # re-root under entity
 sub["fields"] = [f for f in sub["fields"]
                  if f["name"] in ("local_identifier", "description")]
+# local_identifier is REQUIRED on subject -- schema-enforced (a subject must be
+# nameable), not an ingest convention. This is legal because `entity` (the parent)
+# declares no local_identifier, so subject is *adding* a required field, not
+# overriding a parent-optional one (which DID placement forbids). The same field is
+# declared OPTIONAL on the other entities below.
+for _f in sub["fields"]:
+    if _f["name"] == "local_identifier":
+        _f["mustBeNonEmpty"] = True
+        _f["documentation"] = (
+            "Human-facing handle for this subject, unique within its dataset. "
+            "REQUIRED on subjects; the same field is optional on every other "
+            "entity (see local_identifier there).")
 write("stable", "subject", sub)
 
 
@@ -332,8 +344,7 @@ TERM_VALUE = field(
     "type). The admissible vocabulary is a variable-keyed binding (D9).",
     non_empty=True, scalar=True,
     constraints={"binding": {"keyed_by": "variable", "expansion": "descendants",
-                             "node_kind": "class", "strength": "required",
-                             "source": "ontology"}})
+                             "node_kind": "class", "strength": "required"}})
 write("stable", "term_assertion",
       doc("term_assertion", ["subject_assertion"], fields=[TERM_VALUE]))
 
@@ -436,25 +447,39 @@ GLOBAL_ID = field(
 write("stable", "entity",
       doc("entity", ["base"], abstract=True, fields=[GLOBAL_ID]))
 
+# The human-facing local handle. Declared OPTIONAL on each entity below and
+# REQUIRED on subject (above). It is NOT on `entity` itself: a parent-optional +
+# child-required override is forbidden by DID placement, and requiredness is
+# instead expressed by WHERE it is declared (subject: required; others: optional) --
+# the same pattern the timing model uses for time_reference. Distinct from an
+# entity's domain name/title (person name, dataset short_name, …): this is the
+# stable cross-reference key within a dataset.
+LOCAL_ID_OPT = field(
+    "local_identifier", "char",
+    "Optional human-facing handle for this entity, used to cross-reference it "
+    "within its dataset (distinct from any display name/title). Required on "
+    "subject; optional here.", non_empty=False)
+
 write("stable", "person", doc("person", ["entity"], fields=[
     field("given_name", "char", "Given (personal) name; may include middle "
           "names/initials (given/family per the international convention)."),
     field("family_name", "char", "Family (sur)name."),
     field("email", "char", "Contact email; meaningful when acting as a contact.",
-          non_empty=False)]))
+          non_empty=False), LOCAL_ID_OPT]))
 write("stable", "organization", doc("organization", ["entity"], fields=[
     field("name", "char", "Organization name (funder or affiliation); ROR via "
-          "global_identifier. Location is not stored — it lives in the ROR record.")]))
+          "global_identifier. Location is not stored — it lives in the ROR record."),
+    LOCAL_ID_OPT]))
 write("stable", "publication", doc("publication", ["entity"], fields=[
     field("title", "char", "Publication title."),
     field("date", "char", "Publication date/year.", non_empty=False),
     field("authors", "char", "Author citation string — external, NOT decomposed "
           "into person entities (cited papers' authors stay coarse).",
-          non_empty=False)]))
+          non_empty=False), LOCAL_ID_OPT]))
 write("stable", "award", doc("award", ["entity"], fields=[
     field("title", "char", "Award/grant title; award number / grant DOI via "
           "global_identifier. Its funder is a `directed_relation` -> organization.",
-          non_empty=False)]))
+          non_empty=False), LOCAL_ID_OPT]))
 # web_resource IS an entity: a referenceable external resource (a documentation
 # page, a data repository, a protocol, a code repo, a homepage). Its identity IS
 # its URL (carried on global_identifier, scheme="URL"), so it needs no extra
@@ -466,7 +491,7 @@ write("stable", "award", doc("award", ["entity"], fields=[
 write("stable", "web_resource", doc("web_resource", ["entity"], fields=[
     field("label", "char", "Optional human-readable label for the resource "
           "(e.g. 'full documentation', 'GitHub repo'); the URL rides on "
-          "global_identifier (scheme='URL').", non_empty=False)]))
+          "global_identifier (scheme='URL').", non_empty=False), LOCAL_ID_OPT]))
 # dataset IS the entity (target of the metadata_editor decomposition — a follow-up
 # migrator reshapes the Soph metadata_structure blob into this + person/award/
 # publication entities + relations; metadata_editor is kept as the source until then).
@@ -478,7 +503,7 @@ write("stable", "dataset", doc("dataset", ["entity"], fields=[
     field("version", "char", "Version identifier.", non_empty=False),
     field("description", "char", "Dataset description / abstract.", non_empty=False),
     field("license", "char", "License.", non_empty=False),
-    field("release_date", "char", "Release date.", non_empty=False)]))
+    field("release_date", "char", "Release date.", non_empty=False), LOCAL_ID_OPT]))
 
 # session JOINS the entity genus. A recording session is the most-referenced
 # identity in the schema (base.session_id is on nearly every document) and is
@@ -493,6 +518,8 @@ write("stable", "dataset", doc("dataset", ["entity"], fields=[
 # (must_refer is declarative), so there is no blast radius.
 sess = load(os.path.join(VETA, "stable", "session.json"))
 sess["document_class"]["superclasses"] = [{"class_name": "entity"}]
+if not any(f["name"] == "local_identifier" for f in sess.get("fields", [])):
+    sess.setdefault("fields", []).append(LOCAL_ID_OPT)
 write("stable", "session", sess)
 
 
