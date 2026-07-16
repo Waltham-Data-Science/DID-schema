@@ -844,14 +844,44 @@ binding_registry = {
         {"variable": {"node": "", "name": "developmental stage"},
          "ontology": "UBERON", "root_node": "UBERON:0000105"},
     ],
-    # Populated by the D3/D6 corpus sweep. Each row (a VALUE binding) has shape:
+    # Seeded with illustrative examples (marked in `notes`) that show each spec
+    # form; the full set is populated by the D3/D6 corpus sweep. Each row (a VALUE
+    # binding) has shape:
     #   {"variable": {"node", "name"}, "method"?: {"node", "name"},
     #    "class": "subject_observation" | "subject_manipulation" | "subject_assertion",
     #    then EXACTLY ONE admissible-set spec:
     #      "data_type": "<numeric composite>"      (e.g. mass, voltage) OR
     #      "values": [ ... ]                       (static enumeration) OR
     #      "ontology": "<prefix>", "root_node": "<CURIE>"   (subtree)}
-    "bindings": [],
+    "bindings": [
+        # subtree spec: a strain assertion draws from the NCBITaxon subtree.
+        {"variable": {"node": "", "name": "strain"},
+         "class": "subject_assertion",
+         "ontology": "NCBITaxon", "root_node": "NCBITaxon:1",
+         "notes": "example (subtree): a term_assertion of strain resolves against "
+                  "the NCBITaxon subtree"},
+        # enumeration spec: biological sex is a small closed set (hermaphrodite
+        # covers the C. elegans corpus).
+        {"variable": {"node": "PATO:0000047", "name": "biological sex"},
+         "class": "subject_assertion",
+         "values": ["male", "female", "hermaphrodite", "unknown"],
+         "notes": "example (values): a fixed enumeration rather than an ontology "
+                  "subtree"},
+        # data_type spec: a body-mass observation carries a `mass` composite value.
+        {"variable": {"node": "", "name": "body mass"},
+         "class": "subject_observation",
+         "data_type": "mass",
+         "notes": "example (data_type): the value is a numeric `mass` composite, "
+                  "not a controlled term"},
+        # method + variable (interaction): the (method, variable) pair keys the
+        # binding on a manipulation -- the pairing granularity you asked for.
+        {"variable": {"node": "", "name": "dose"},
+         "method": {"node": "", "name": "drug administration"},
+         "class": "subject_manipulation",
+         "data_type": "dose",
+         "notes": "example (method+variable): on an interaction the binding is "
+                  "keyed by both the method and the variable"},
+    ],
     "relation_vocabulary": RELATION_VOCABULARY,
     "notes": "VALUE bindings (`bindings`) are keyed on `variable.node` (+ "
              "`method.node` on interactions) within a carrier `class` "

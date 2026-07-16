@@ -45,7 +45,54 @@
             "root_node": "UBERON:0000105"
         }
     ],
-    "bindings": [],
+    "bindings": [
+        {
+            "variable": {
+                "node": "",
+                "name": "strain"
+            },
+            "class": "subject_assertion",
+            "ontology": "NCBITaxon",
+            "root_node": "NCBITaxon:1",
+            "notes": "example (subtree): a term_assertion of strain resolves against the NCBITaxon subtree"
+        },
+        {
+            "variable": {
+                "node": "PATO:0000047",
+                "name": "biological sex"
+            },
+            "class": "subject_assertion",
+            "values": [
+                "male",
+                "female",
+                "hermaphrodite",
+                "unknown"
+            ],
+            "notes": "example (values): a fixed enumeration rather than an ontology subtree"
+        },
+        {
+            "variable": {
+                "node": "",
+                "name": "body mass"
+            },
+            "class": "subject_observation",
+            "data_type": "mass",
+            "notes": "example (data_type): the value is a numeric `mass` composite, not a controlled term"
+        },
+        {
+            "variable": {
+                "node": "",
+                "name": "dose"
+            },
+            "method": {
+                "node": "",
+                "name": "drug administration"
+            },
+            "class": "subject_manipulation",
+            "data_type": "dose",
+            "notes": "example (method+variable): on an interaction the binding is keyed by both the method and the variable"
+        }
+    ],
     "relation_vocabulary": [
         {
             "name": "part_of",

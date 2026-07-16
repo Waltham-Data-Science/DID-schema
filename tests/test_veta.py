@@ -352,6 +352,31 @@ def test_binding_registry_meta_present():
     assert in_index["binding_registry_meta"].get("is_meta") is True
 
 
+def test_binding_examples_well_formed():
+    """The seeded example value bindings show every spec form and validate: each
+    carries a NodeRef `variable`, a known carrier `class`, and EXACTLY ONE
+    admissible-set spec (data_type | values | ontology+root_node)."""
+    reg = _load(os.path.join(VETA, "stable", "binding_registry_meta.json"))
+    bindings = reg["bindings"]
+    assert bindings, "expected seeded example bindings"
+    classes = {"subject_observation", "subject_manipulation", "subject_assertion"}
+    forms = set()
+    for b in bindings:
+        assert set(b["variable"]) >= {"node", "name"}
+        assert b["class"] in classes
+        has_dt = "data_type" in b
+        has_vals = "values" in b
+        has_sub = "ontology" in b and "root_node" in b
+        assert has_dt + has_vals + has_sub == 1, f"one spec form only: {b}"
+        forms.add("data_type" if has_dt else "values" if has_vals else "subtree")
+        # a method, when present, is itself a NodeRef
+        if "method" in b:
+            assert set(b["method"]) >= {"node", "name"}
+    # all three spec forms are demonstrated, plus at least one method+variable row
+    assert forms == {"data_type", "values", "subtree"}
+    assert any("method" in b for b in bindings)
+
+
 def test_relation_vocabulary_present():
     """D6: the binding registry enumerates the admissible directed/undirected
     relation terms — the single source of truth for `directed_relation.relation`
