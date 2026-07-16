@@ -415,21 +415,23 @@ def test_relation_bindings_present():
         assert term in vocab, f"{term} missing from relation_bindings"
     # term identity is a {node, name} NodeRef, mirroring variable/method.
     assert all({"node", "name"} <= set(r["relation"]) for r in vocab.values())
-    # endpoints are from/to (not the old child/parent containment metaphor).
-    assert all({"relation", "class", "from_types", "to_types"} <= set(r)
-               for r in vocab.values())
-    assert all("child_types" not in r and "parent_types" not in r
+    # directed endpoints are child/parent, matching the schema directed_relation
+    # child/parent deps (not the old advisory `category`).
+    assert all({"relation", "class", "child_types", "parent_types"} <= set(r)
                for r in vocab.values())
     assert all(r["class"] in ("directed_relation", "undirected_relation")
                for r in vocab.values())
+    # every current term is directed (undirected/member_types reserved but unused)
+    assert all(r["class"] == "directed_relation" for r in vocab.values())
+    assert all("member_types" not in r for r in vocab.values())
     assert vocab["part_of"]["relation"]["node"] == "BFO:0000050"
     # every endpoint type is a real class OR an abstract genus (entity/subject)
-    concrete = {r[1]["document_class"]["class_name"] for r in RECORDS.values()}
+    known = {r[1]["document_class"]["class_name"] for r in RECORDS.values()}
     for r in vocab.values():
-        for t in r["from_types"] + r["to_types"]:
-            assert t in concrete, f"{r['relation']['name']} endpoint {t} unknown"
+        for t in r["child_types"] + r["parent_types"]:
+            assert t in known, f"{r['relation']['name']} endpoint {t} unknown"
     # member_of retargets to subject (a group is a subject; subject_group is gone)
-    assert vocab["member_of"]["to_types"] == ["subject"]
+    assert vocab["member_of"]["parent_types"] == ["subject"]
     # entity-layer endpoint types match what the migrators mint
-    assert vocab["has_author"]["from_types"] == ["dataset"]
-    assert vocab["has_author"]["to_types"] == ["person"]
+    assert vocab["has_author"]["child_types"] == ["dataset"]
+    assert vocab["has_author"]["parent_types"] == ["person"]

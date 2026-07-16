@@ -124,15 +124,16 @@ export interface Binding {
 // A D6 relation binding: the admissible value on directed_relation.relation /
 // undirected_relation.relation, pinned to its carrier `class` with typed endpoints.
 // `relation` is a {node, name} NodeRef (same shape as a binding's variable/method).
-// Endpoints are `from`/`to` for directed edges (from -> to; these map to the schema
-// child/parent deps) or `member_types` for undirected.
+// A directed_relation carries child_types/parent_types (matching the schema
+// child/parent deps); an undirected_relation carries a symmetric member_types
+// (reserved — no undirected term exists yet).
 export interface RelationTerm {
   relation: NodeRef;
   class: string; // "directed_relation" | "undirected_relation"
-  from_role?: string;
-  to_role?: string;
-  from_types?: string[];
-  to_types?: string[];
+  child_role?: string;
+  parent_role?: string;
+  child_types?: string[];
+  parent_types?: string[];
   member_types?: string[];
   ordered?: boolean;
   timed?: boolean;

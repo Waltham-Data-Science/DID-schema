@@ -752,25 +752,27 @@ with open(os.path.join(VETA, "stable", "did_schema_meta.json"), "w") as f:
 #                   undirected_relation -> symmetric member set (`member_types`).
 #                 This pins term -> class (a `part_of` minted as undirected is an
 #                 error the validator can catch). All current terms are directed.
-#   from_types /
-#   to_types      the entity/data classes admissible at each endpoint of a directed
-#                 edge; abstract types (`entity`, `subject`) mean "any of that
-#                 genus". [] = unconstrained (open, pending D6). `from` maps to the
-#                 schema `directed_relation.child` dep, `to` maps to `.parent` (the
-#                 dep names stay child/parent; the neutral from/to naming here
-#                 avoids the containment metaphor for bibliographic/funding edges).
-#                 (An undirected term would use `member_types` instead.)
+#   child_types /
+#   parent_types  the entity/data classes admissible at each endpoint of a directed
+#                 edge (child --name--> parent). These name the same fields as the
+#                 schema `directed_relation.child` / `.parent` deps, so the registry
+#                 matches the document exactly. Abstract types (`entity`, `subject`)
+#                 mean "any of that genus"; [] = unconstrained (open, pending D6).
+#                 Undirected relations do NOT use these -- see `member_types`.
 #   *_role        human gloss of each endpoint.
 #   ordered       the directed_relation `sequence` field is semantically meaningful
 #                 (e.g. author order). class alone does not imply this -- every
 #                 directed edge *has* an optional sequence; ordered marks the ones
 #                 where it carries meaning.
 #   timed         the edge denotes an event that may carry a `method` / time anchor.
-def _rel(name, node, from_role, to_role, from_types, to_types,
+def _rel(name, node, child_role, parent_role, child_types, parent_types,
          *, cls="directed_relation", timed=False, ordered=False):
+    # Endpoints are `child`/`parent` for a directed edge, matching the schema deps.
+    # An undirected term (none yet) would instead carry `member_types` (symmetric),
+    # mirroring undirected_relation's single `entities` dep -- see the notes.
     return {"relation": {"node": node, "name": name}, "class": cls,
-            "from_role": from_role, "to_role": to_role,
-            "from_types": from_types, "to_types": to_types,
+            "child_role": child_role, "parent_role": parent_role,
+            "child_types": child_types, "parent_types": parent_types,
             "timed": timed, "ordered": ordered}
 
 RELATION_VOCABULARY = [
@@ -881,8 +883,9 @@ binding_registry = {
                    "values list (each an ontology term) or an ontology subtree "
                    "(ontology + root_node). Rows flagged subject_defining are the "
                    "kind-defining variables (D9). relation_bindings map a relation "
-                   "term to its carrier class (directed_relation / "
-                   "undirected_relation) and the admissible endpoint entity types. "
+                   "term to its carrier class (directed_relation, with child -> "
+                   "parent endpoints, / undirected_relation, with a symmetric "
+                   "member set) and the admissible endpoint entity types. "
                    "Both registries are keyed on the term; an ontology node is "
                    "attached as the backing CURIE where a standard term exists, "
                    "otherwise the name is the key until one is assigned. Consumer "
@@ -905,15 +908,18 @@ binding_registry = {
              "illustrative rows only and is not swept data. relation_bindings "
              "enumerate the admissible relation terms (D6): the value carried on "
              "directed_relation.relation / undirected_relation.relation is a member "
-             "of this set. class pins the term to its carrier (directed_relation / "
-             "undirected_relation) and thus its endpoint symmetry; from_types/"
-             "to_types (directed) or member_types (undirected) constrain the "
-             "endpoint entity classes, and abstract types (entity, subject) mean "
-             "'any of that genus'. from/to map to the schema child/parent deps. A "
-             "relation `node` is the backing ontology CURIE (RO/BFO where one "
-             "exists; \"\" = an open D6 slot). ordered marks terms where the "
-             "directed sequence field is meaningful; timed marks event edges that "
-             "may carry a method/time anchor.",
+             "of this set. class pins the term to its carrier and thus its endpoint "
+             "symmetry: a directed_relation carries child_types -> parent_types "
+             "(matching the schema child/parent deps), an undirected_relation "
+             "carries a symmetric member_types (matching its single entities dep). "
+             "Abstract types (entity, subject) mean 'any of that genus'; [] = "
+             "unconstrained. NOTE: every term today is directed_relation, so "
+             "undirected_relation / member_types are reserved but currently unused "
+             "-- the first symmetric relation added will exercise them. A relation "
+             "`node` is the backing ontology CURIE (RO/BFO where one exists; "
+             "\"\" = an open D6 slot). ordered marks terms where the directed "
+             "sequence field is meaningful; timed marks event edges that may carry "
+             "a method/time anchor.",
 }
 with open(os.path.join(VETA, "stable", "binding_registry_meta.json"), "w") as f:
     json.dump(binding_registry, f, indent=4)

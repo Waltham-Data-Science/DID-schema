@@ -128,10 +128,11 @@ export function BindingRegistry({ entry }: Props) {
           <code>directed_relation.relation</code> /{" "}
           <code>undirected_relation.relation</code> (D6). <code>class</code> pins
           each term to its carrier — <code>directed_relation</code> (asymmetric
-          from → to) or <code>undirected_relation</code> (symmetric members) — and
-          thus which endpoint types and optional fields apply. Abstract endpoint
-          types (<code>entity</code>, <code>subject</code>) mean “any of that
-          genus”; an empty endpoint is unconstrained.
+          child → parent) or <code>undirected_relation</code> (symmetric members,
+          reserved — no undirected term exists yet) — and thus which endpoint types
+          and optional fields apply. Abstract endpoint types (<code>entity</code>,{" "}
+          <code>subject</code>) mean “any of that genus”; an empty endpoint is
+          unconstrained.
         </p>
         {relations.length === 0 ? (
           <p className="muted">No relation terms declared.</p>
@@ -142,7 +143,7 @@ export function BindingRegistry({ entry }: Props) {
                 <th>Term</th>
                 <th>Node</th>
                 <th>Class</th>
-                <th>From → To types</th>
+                <th>Child → Parent types</th>
                 <th>Flags</th>
               </tr>
             </thead>
@@ -311,9 +312,9 @@ function RelationRow({ term }: { term: RelationTerm }) {
       <td>
         {directed ? (
           <span title={roleHint(term)}>
-            {typeChips(term.from_types)}
+            {typeChips(term.child_types)}
             <span className="rel-arrow"> → </span>
-            {typeChips(term.to_types)}
+            {typeChips(term.parent_types)}
           </span>
         ) : (
           typeChips(term.member_types)
@@ -335,8 +336,8 @@ function RelationRow({ term }: { term: RelationTerm }) {
 }
 
 function roleHint(term: RelationTerm): string | undefined {
-  if (!term.from_role && !term.to_role) return undefined;
-  return `from: ${term.from_role ?? "?"} → to: ${term.to_role ?? "?"}`;
+  if (!term.child_role && !term.parent_role) return undefined;
+  return `child: ${term.child_role ?? "?"} → parent: ${term.parent_role ?? "?"}`;
 }
 
 // Render a string with backtick-delimited `code` spans and turn " -- " into an

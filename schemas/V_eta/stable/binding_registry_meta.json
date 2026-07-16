@@ -2,7 +2,7 @@
     "$schema": "http://json-schema.org/draft-07/schema#",
     "$id": "https://did-schema.example.org/meta/binding_registry_meta.json",
     "title": "Binding registry for DID/NDI V_eta",
-    "description": "Two coordinated registries. subject_statement_bindings map a statement's variable (and, on interactions, method) to the concrete subject_statement leaf class that carries it (e.g. mass_observation, dose_manipulation, term_assertion). The leaf fixes the value type, so there is no data_type; a term-valued leaf additionally pins the admissible term set as an enumerated values list (each an ontology term) or an ontology subtree (ontology + root_node). Rows flagged subject_defining are the kind-defining variables (D9). relation_bindings map a relation term to its carrier class (directed_relation / undirected_relation) and the admissible endpoint entity types. Both registries are keyed on the term; an ontology node is attached as the backing CURIE where a standard term exists, otherwise the name is the key until one is assigned. Consumer tooling resolves a value or endpoint against the matching binding at validation time.",
+    "description": "Two coordinated registries. subject_statement_bindings map a statement's variable (and, on interactions, method) to the concrete subject_statement leaf class that carries it (e.g. mass_observation, dose_manipulation, term_assertion). The leaf fixes the value type, so there is no data_type; a term-valued leaf additionally pins the admissible term set as an enumerated values list (each an ontology term) or an ontology subtree (ontology + root_node). Rows flagged subject_defining are the kind-defining variables (D9). relation_bindings map a relation term to its carrier class (directed_relation, with child -> parent endpoints, / undirected_relation, with a symmetric member set) and the admissible endpoint entity types. Both registries are keyed on the term; an ontology node is attached as the backing CURIE where a standard term exists, otherwise the name is the key until one is assigned. Consumer tooling resolves a value or endpoint against the matching binding at validation time.",
     "subject_statement_bindings": [
         {
             "variable": {
@@ -116,13 +116,13 @@
                 "name": "part_of"
             },
             "class": "directed_relation",
-            "from_role": "the part",
-            "to_role": "the whole",
-            "from_types": [
+            "child_role": "the part",
+            "parent_role": "the whole",
+            "child_types": [
                 "subject",
                 "session"
             ],
-            "to_types": [
+            "parent_types": [
                 "subject",
                 "dataset"
             ],
@@ -135,10 +135,10 @@
                 "name": "contained_in"
             },
             "class": "directed_relation",
-            "from_role": "the contained",
-            "to_role": "the container",
-            "from_types": [],
-            "to_types": [],
+            "child_role": "the contained",
+            "parent_role": "the container",
+            "child_types": [],
+            "parent_types": [],
             "timed": false,
             "ordered": false
         },
@@ -148,12 +148,12 @@
                 "name": "member_of"
             },
             "class": "directed_relation",
-            "from_role": "the member",
-            "to_role": "the group",
-            "from_types": [
+            "child_role": "the member",
+            "parent_role": "the group",
+            "child_types": [
                 "subject"
             ],
-            "to_types": [
+            "parent_types": [
                 "subject"
             ],
             "timed": false,
@@ -165,10 +165,10 @@
                 "name": "derived_from"
             },
             "class": "directed_relation",
-            "from_role": "the derivative",
-            "to_role": "the source",
-            "from_types": [],
-            "to_types": [],
+            "child_role": "the derivative",
+            "parent_role": "the source",
+            "child_types": [],
+            "parent_types": [],
             "timed": true,
             "ordered": false
         },
@@ -178,12 +178,12 @@
                 "name": "sample_of"
             },
             "class": "directed_relation",
-            "from_role": "the sample",
-            "to_role": "the sampled source",
-            "from_types": [
+            "child_role": "the sample",
+            "parent_role": "the sampled source",
+            "child_types": [
                 "subject"
             ],
-            "to_types": [
+            "parent_types": [
                 "subject"
             ],
             "timed": true,
@@ -195,12 +195,12 @@
                 "name": "aliquot_of"
             },
             "class": "directed_relation",
-            "from_role": "the aliquot",
-            "to_role": "the parent quantity",
-            "from_types": [
+            "child_role": "the aliquot",
+            "parent_role": "the parent quantity",
+            "child_types": [
                 "subject"
             ],
-            "to_types": [
+            "parent_types": [
                 "subject"
             ],
             "timed": true,
@@ -212,12 +212,12 @@
                 "name": "passage_of"
             },
             "class": "directed_relation",
-            "from_role": "the passage",
-            "to_role": "the parent culture",
-            "from_types": [
+            "child_role": "the passage",
+            "parent_role": "the parent culture",
+            "child_types": [
                 "subject"
             ],
-            "to_types": [
+            "parent_types": [
                 "subject"
             ],
             "timed": true,
@@ -229,12 +229,12 @@
                 "name": "observes"
             },
             "class": "directed_relation",
-            "from_role": "the instrument-subject",
-            "to_role": "the observed specimen",
-            "from_types": [
+            "child_role": "the instrument-subject",
+            "parent_role": "the observed specimen",
+            "child_types": [
                 "subject"
             ],
-            "to_types": [
+            "parent_types": [
                 "subject"
             ],
             "timed": false,
@@ -246,12 +246,12 @@
                 "name": "encountered"
             },
             "class": "directed_relation",
-            "from_role": "the encountering subject",
-            "to_role": "the encountered subject",
-            "from_types": [
+            "child_role": "the encountering subject",
+            "parent_role": "the encountered subject",
+            "child_types": [
                 "subject"
             ],
-            "to_types": [
+            "parent_types": [
                 "subject"
             ],
             "timed": true,
@@ -263,12 +263,12 @@
                 "name": "has_author"
             },
             "class": "directed_relation",
-            "from_role": "the dataset",
-            "to_role": "the author (person)",
-            "from_types": [
+            "child_role": "the dataset",
+            "parent_role": "the author (person)",
+            "child_types": [
                 "dataset"
             ],
-            "to_types": [
+            "parent_types": [
                 "person"
             ],
             "timed": false,
@@ -280,12 +280,12 @@
                 "name": "cites"
             },
             "class": "directed_relation",
-            "from_role": "the citing dataset",
-            "to_role": "the cited publication",
-            "from_types": [
+            "child_role": "the citing dataset",
+            "parent_role": "the cited publication",
+            "child_types": [
                 "dataset"
             ],
-            "to_types": [
+            "parent_types": [
                 "publication"
             ],
             "timed": false,
@@ -297,12 +297,12 @@
                 "name": "funded_by"
             },
             "class": "directed_relation",
-            "from_role": "the funded dataset",
-            "to_role": "the award",
-            "from_types": [
+            "child_role": "the funded dataset",
+            "parent_role": "the award",
+            "child_types": [
                 "dataset"
             ],
-            "to_types": [
+            "parent_types": [
                 "award"
             ],
             "timed": false,
@@ -314,12 +314,12 @@
                 "name": "issued_by"
             },
             "class": "directed_relation",
-            "from_role": "the award",
-            "to_role": "the issuing organization",
-            "from_types": [
+            "child_role": "the award",
+            "parent_role": "the issuing organization",
+            "child_types": [
                 "award"
             ],
-            "to_types": [
+            "parent_types": [
                 "organization"
             ],
             "timed": false,
@@ -331,12 +331,12 @@
                 "name": "affiliated_with"
             },
             "class": "directed_relation",
-            "from_role": "the person",
-            "to_role": "the organization",
-            "from_types": [
+            "child_role": "the person",
+            "parent_role": "the organization",
+            "child_types": [
                 "person"
             ],
-            "to_types": [
+            "parent_types": [
                 "organization"
             ],
             "timed": false,
@@ -348,12 +348,12 @@
                 "name": "documented_by"
             },
             "class": "directed_relation",
-            "from_role": "the documented entity",
-            "to_role": "the web_resource",
-            "from_types": [
+            "child_role": "the documented entity",
+            "parent_role": "the web_resource",
+            "child_types": [
                 "entity"
             ],
-            "to_types": [
+            "parent_types": [
                 "web_resource"
             ],
             "timed": false,
@@ -365,12 +365,12 @@
                 "name": "stored_at"
             },
             "class": "directed_relation",
-            "from_role": "the stored dataset",
-            "to_role": "the web_resource (remote copy)",
-            "from_types": [
+            "child_role": "the stored dataset",
+            "parent_role": "the web_resource (remote copy)",
+            "child_types": [
                 "dataset"
             ],
-            "to_types": [
+            "parent_types": [
                 "web_resource"
             ],
             "timed": false,
@@ -382,17 +382,17 @@
                 "name": "hosted_by"
             },
             "class": "directed_relation",
-            "from_role": "the web_resource",
-            "to_role": "the hosting organization",
-            "from_types": [
+            "child_role": "the web_resource",
+            "parent_role": "the hosting organization",
+            "child_types": [
                 "web_resource"
             ],
-            "to_types": [
+            "parent_types": [
                 "organization"
             ],
             "timed": false,
             "ordered": false
         }
     ],
-    "notes": "subject_statement_bindings are keyed on the variable (+ method on interactions) and name the concrete leaf class that carries the statement (e.g. mass_observation, dose_manipulation, term_assertion). The leaf fixes the value type -- there is no data_type and no separately-named value_set. Only a term-valued leaf carries an admissible-set spec (values or ontology+root_node); a dimensional leaf needs none. Rows flagged subject_defining make the subject-kind ingestion invariant precise: a subject is expected to carry >=1 term_assertion whose variable matches a subject_defining binding (checked at ingest). The remaining (non-defining) bindings are populated by the D3/D6 corpus sweep; binding_examples holds illustrative rows only and is not swept data. relation_bindings enumerate the admissible relation terms (D6): the value carried on directed_relation.relation / undirected_relation.relation is a member of this set. class pins the term to its carrier (directed_relation / undirected_relation) and thus its endpoint symmetry; from_types/to_types (directed) or member_types (undirected) constrain the endpoint entity classes, and abstract types (entity, subject) mean 'any of that genus'. from/to map to the schema child/parent deps. A relation `node` is the backing ontology CURIE (RO/BFO where one exists; \"\" = an open D6 slot). ordered marks terms where the directed sequence field is meaningful; timed marks event edges that may carry a method/time anchor."
+    "notes": "subject_statement_bindings are keyed on the variable (+ method on interactions) and name the concrete leaf class that carries the statement (e.g. mass_observation, dose_manipulation, term_assertion). The leaf fixes the value type -- there is no data_type and no separately-named value_set. Only a term-valued leaf carries an admissible-set spec (values or ontology+root_node); a dimensional leaf needs none. Rows flagged subject_defining make the subject-kind ingestion invariant precise: a subject is expected to carry >=1 term_assertion whose variable matches a subject_defining binding (checked at ingest). The remaining (non-defining) bindings are populated by the D3/D6 corpus sweep; binding_examples holds illustrative rows only and is not swept data. relation_bindings enumerate the admissible relation terms (D6): the value carried on directed_relation.relation / undirected_relation.relation is a member of this set. class pins the term to its carrier and thus its endpoint symmetry: a directed_relation carries child_types -> parent_types (matching the schema child/parent deps), an undirected_relation carries a symmetric member_types (matching its single entities dep). Abstract types (entity, subject) mean 'any of that genus'; [] = unconstrained. NOTE: every term today is directed_relation, so undirected_relation / member_types are reserved but currently unused -- the first symmetric relation added will exercise them. A relation `node` is the backing ontology CURIE (RO/BFO where one exists; \"\" = an open D6 slot). ordered marks terms where the directed sequence field is meaningful; timed marks event edges that may carry a method/time anchor."
 }
