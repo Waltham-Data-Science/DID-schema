@@ -239,6 +239,38 @@ Fold all under the **`data_body`** model — `sampled_body` (regular index axis)
 `opaque_body` (file blob), `table_body` deferred (J:193). Several are already
 drafted this way. Mostly mechanical.
 
+**DECISION — the header/payload split (Option 1, locked).** The two parallel data
+models (`sampled_body`'s `datum`/`sample_time`/`summary`/bytes vs.
+`dataseries_data`/`zarr`'s `axes`/`channels`/`storage` header) merge by SPLITTING,
+not by fattening the body:
+- **`sampled_body` stays LEAN** — `datum` + `sample_time` + `summary` + payload
+  file, and (new) an **optional `axes`** for the non-time dims of a *multi-dimensional*
+  body. That is the complete shape of a body that arrives **without a daq** (a
+  derived/imported signal: the timeline is self-contained in `sample_time`, the
+  value type in `datum`; there are no hardware channels, no native storage
+  encoding, no acquisition axes). The #9 analysis tier mints huge numbers of these,
+  so the common case must not carry empty header fields.
+- **The acquisition header** — physical `channels`/gains, native `storage`/`codec`
+  (incl. `zarr`), device `clocks`, the recording's `axes` — lives on
+  **`acquisition_epoch`** (ex-`element_epoch`, which already carries axes/channels/
+  storage), present exactly when there IS a daq and absent otherwise.
+- **Fold each carrier** by routing its header → `acquisition_epoch` and its bytes
+  → `sampled_body` (`opaque_body` for uninterpreted blobs: `image`,
+  `image_collection`). `zarr` stays a storage-format descriptor (⊂ base); its
+  format/codec becomes `acquisition_epoch.storage`. Worked example: `ephys_zarr`.
+- The rationale is the "no daq" test: everything Option 1 moves onto the epoch is
+  precisely *acquisition context*, which does not exist for derived/imported data —
+  so it was never intrinsic to sampled data, and the lean body is the universal shape.
+
+**Slices:** (A) `generic_file` → `opaque_body` ✅. (B) dissolve
+`timeseries_data_{binary,csv,edf}` encoding-in-name subtypes ✅ (format is
+`storage.format`). (C, next) fold the draft series/zarr family
+(`dataseries_data`/`timeseries_data`/`imageseries_data`/`dataseries_pyramid`/`zarr`/
+`ephys_zarr`/`image_zarr`) — 0 migrator refs / 0 corpus presence, schema-only.
+(D, NDI-coordinated) `image`/`image_collection`/`pyraview` — active migrators
+(`image_stack`, `migrators_j.pyraview`), need a coordinated migrator change.
+`sampled_body.axes` (opt-in, multi-dim) landed.
+
 ## Governance findings — the retained acquisition-infra classes
 
 The classes kept in 2.A carry pre-J shapes. Bringing them to J standard:

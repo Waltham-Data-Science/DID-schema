@@ -370,6 +370,15 @@ def test_data_body_classes():
     sft = _flat_field_types("sampled_body")
     assert sft.get("datum") == "structure" and sft.get("sample_time") == "structure"
     assert sft.get("summary") == "structure"
+    # 2.D Option 1: sampled_body stays LEAN (a no-daq derived body needs only
+    # datum + sample_time + bytes). The acquisition header lives on
+    # acquisition_epoch. The ONE opt-in addition is `axes` for multi-dim derived
+    # data with no epoch -- optional (array-of-records), so it never burdens the
+    # common scalar/time-series case.
+    sampled_axes = next(f for f in RECORDS["sampled_body"][1]["fields"]
+                        if f["name"] == "axes")
+    assert sampled_axes["mustBeNonEmpty"] is False
+    assert sampled_axes["mustBeScalar"] is False
     # opaque_body carries a small descriptor (generic_file folds onto it, 2.D slice A)
     of = {f["name"] for f in RECORDS["opaque_body"][1]["fields"]}
     assert {"format", "filename", "description"} <= of

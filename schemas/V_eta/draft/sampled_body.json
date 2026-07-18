@@ -206,6 +206,104 @@
                     "fields": []
                 }
             ]
+        },
+        {
+            "name": "axes",
+            "type": "structure",
+            "blank_value": [],
+            "default_value": [],
+            "mustBeNonEmpty": false,
+            "mustBeScalar": false,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Optional non-time index dimensions for a multi-dimensional body (the time axis is sample_time). Populated only for multi-dim derived data that has no acquisition_epoch to carry axes; empty otherwise.",
+            "constraints": {},
+            "fields": [
+                {
+                    "name": "name",
+                    "type": "char",
+                    "blank_value": "",
+                    "default_value": "",
+                    "mustBeNonEmpty": true,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Axis name (e.g. 'contrast', 'orientation').",
+                    "constraints": {}
+                },
+                {
+                    "name": "kind",
+                    "type": "char",
+                    "blank_value": "",
+                    "default_value": "",
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Axis kind (index | space_x | space_y | wavelength | ...).",
+                    "constraints": {}
+                },
+                {
+                    "name": "length",
+                    "type": "integer",
+                    "blank_value": 0,
+                    "default_value": 0,
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Number of coordinates along this axis.",
+                    "constraints": {}
+                },
+                {
+                    "name": "regularity",
+                    "type": "char",
+                    "blank_value": "",
+                    "default_value": "",
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "regular | irregular.",
+                    "constraints": {
+                        "enum": [
+                            "regular",
+                            "irregular"
+                        ]
+                    }
+                },
+                {
+                    "name": "spacing",
+                    "type": "double",
+                    "blank_value": 0.0,
+                    "default_value": 0.0,
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Coordinate spacing when regular.",
+                    "constraints": {}
+                },
+                {
+                    "name": "unit",
+                    "type": "char",
+                    "blank_value": "",
+                    "default_value": "",
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Unit of the axis coordinate.",
+                    "constraints": {}
+                }
+            ]
         }
     ]
 }

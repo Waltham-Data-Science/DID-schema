@@ -761,6 +761,28 @@ sampled = doc("sampled_body", ["data_body"], maturity="draft", deps=[STATEMENT_R
               subfield("value", "structure", "Per-type value rollup.", blank={}),
               subfield("time", "structure", "min/max/n over sample_time.",
                        blank={})]),
+    # Optional NON-time index axes for a multi-dimensional body (e.g. a derived
+    # tuning curve over [contrast x orientation]). The TIME axis is sample_time;
+    # this describes the OTHER dims. Absent for plain scalar/time series and for
+    # device data whose acquisition axes/channels live on acquisition_epoch --
+    # keeping the body lean is the whole point of the no-daq case (a bare derived
+    # signal needs none of the acquisition header). 2.D Option 1.
+    field("axes", "structure",
+          "Optional non-time index dimensions for a multi-dimensional body "
+          "(the time axis is sample_time). Populated only for multi-dim derived "
+          "data that has no acquisition_epoch to carry axes; empty otherwise.",
+          non_empty=False, scalar=False, blank=[], sub_fields=[
+              subfield("name", "char", "Axis name (e.g. 'contrast', 'orientation').",
+                       non_empty=True),
+              subfield("kind", "char",
+                       "Axis kind (index | space_x | space_y | wavelength | ...)."),
+              subfield("length", "integer", "Number of coordinates along this axis.",
+                       scalar=True, blank=0),
+              subfield("regularity", "char", "regular | irregular.",
+                       constraints={"enum": ["regular", "irregular"]}),
+              subfield("spacing", "double", "Coordinate spacing when regular.",
+                       scalar=True, blank=0.0),
+              subfield("unit", "char", "Unit of the axis coordinate.")]),
 ])
 sampled["file"] = BODY_FILE
 write("draft", "sampled_body", sampled)
