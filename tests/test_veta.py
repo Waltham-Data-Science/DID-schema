@@ -397,11 +397,18 @@ def test_timeseries_encoding_subtypes_dissolved():
     dissolve; the timeseries_data parent (the series carrier) is retained."""
     for enc in ("timeseries_data_binary", "timeseries_data_csv", "timeseries_data_edf"):
         assert enc not in RECORDS
-    assert "timeseries_data" in RECORDS
-    # the encoding home still exists on the dataseries_data ancestor
-    ds = {f["name"]: f for f in RECORDS["dataseries_data"][1]["fields"]}
-    storage_sub = {f["name"] for f in ds["storage"].get("fields", [])}
-    assert "format" in storage_sub
+
+
+def test_dataseries_carrier_family_dissolved():
+    """2.D slice C: the draft dataseries carrier family dissolves under Option 1 --
+    header (axes/channels/storage) -> acquisition_epoch, payload -> sampled_body.
+    content_hash is preserved onto sampled_body. zarr SURVIVES as the storage-recipe
+    descriptor (load-bearing for directory's zarr_implicit manifest)."""
+    for c in ("dataseries_data", "timeseries_data", "imageseries_data"):
+        assert c not in RECORDS
+    assert "zarr" in RECORDS  # kept: storage descriptor
+    sampled_fields = {f["name"] for f in RECORDS["sampled_body"][1]["fields"]}
+    assert "content_hash" in sampled_fields
 
 
 def test_daqreader_ndr_de_encoded():

@@ -703,18 +703,6 @@
             "disposition_note": "\u2465/\u2466 walkthrough pending"
         },
         {
-            "class_name": "dataseries_data",
-            "tier": "draft",
-            "class_version": "1.0.0",
-            "maturity_level": "draft",
-            "superclasses": [
-                "base"
-            ],
-            "path": "schemas/V_eta/draft/dataseries_data.json",
-            "disposition": "retire",
-            "disposition_note": "2.D \u2192 data_body fold"
-        },
-        {
             "class_name": "dataseries_observation",
             "tier": "draft",
             "class_version": "1.0.0",
@@ -1310,18 +1298,6 @@
                 "zarr"
             ],
             "path": "schemas/V_eta/stable/image_zarr.json",
-            "disposition": "retire",
-            "disposition_note": "2.D \u2192 data_body fold"
-        },
-        {
-            "class_name": "imageseries_data",
-            "tier": "draft",
-            "class_version": "1.0.0",
-            "maturity_level": "draft",
-            "superclasses": [
-                "dataseries_data"
-            ],
-            "path": "schemas/V_eta/draft/imageseries_data.json",
             "disposition": "retire",
             "disposition_note": "2.D \u2192 data_body fold"
         },
@@ -2506,18 +2482,6 @@
             ],
             "path": "schemas/V_eta/stable/time_reference.json",
             "disposition": "persist"
-        },
-        {
-            "class_name": "timeseries_data",
-            "tier": "draft",
-            "class_version": "1.0.0",
-            "maturity_level": "draft",
-            "superclasses": [
-                "dataseries_data"
-            ],
-            "path": "schemas/V_eta/draft/timeseries_data.json",
-            "disposition": "retire",
-            "disposition_note": "2.D \u2192 data_body fold"
         },
         {
             "class_name": "timeseries_observation",

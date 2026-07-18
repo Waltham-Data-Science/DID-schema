@@ -264,12 +264,17 @@ not by fattening the body:
 
 **Slices:** (A) `generic_file` → `opaque_body` ✅. (B) dissolve
 `timeseries_data_{binary,csv,edf}` encoding-in-name subtypes ✅ (format is
-`storage.format`). (C, next) fold the draft series/zarr family
-(`dataseries_data`/`timeseries_data`/`imageseries_data`/`dataseries_pyramid`/`zarr`/
-`ephys_zarr`/`image_zarr`) — 0 migrator refs / 0 corpus presence, schema-only.
-(D, NDI-coordinated) `image`/`image_collection`/`pyraview` — active migrators
-(`image_stack`, `migrators_j.pyraview`), need a coordinated migrator change.
-`sampled_body.axes` (opt-in, multi-dim) landed.
+`storage.format`). (C) ✅ dissolve the draft dataseries carrier family
+(`dataseries_data`/`timeseries_data`/`imageseries_data`) — 0 migrator refs / 0
+corpus presence, schema-only; `content_hash` preserved onto `sampled_body`;
+`sampled_body.axes` (opt-in, multi-dim) landed. **`zarr` KEPT** — the references
+showed it is the ⊂ base storage-recipe descriptor, load-bearing for `directory`'s
+`zarr_implicit` manifest mode (derives chunk paths from the zarr recipe), matching
+the hard-won fact. (D, NDI-coordinated / corpus-risky) `ephys_zarr`/`image_zarr`
+(STABLE, possible corpus presence, 0 migrators), `dataseries_pyramid` +
+`pyraview` (multi-resolution pyramid — decide the representation together),
+`image`/`image_collection` (active `image_stack` migrator) — each needs a
+coordinated migrator change, not a pure schema edit.
 
 ## Governance findings — the retained acquisition-infra classes
 

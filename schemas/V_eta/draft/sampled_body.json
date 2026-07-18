@@ -304,6 +304,19 @@
                     "constraints": {}
                 }
             ]
+        },
+        {
+            "name": "content_hash",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Optional content hash of the payload bytes; a natural dedup / integrity key. Formerly dataseries_data.content_hash.",
+            "constraints": {}
         }
     ]
 }

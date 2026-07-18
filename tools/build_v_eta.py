@@ -156,7 +156,17 @@ DELETE = {"scalar_observation", "scalar_manipulation", "annotation", "group_assi
           # subtypes are redundant and dissolve. They are forward-looking draft
           # classes with no v1 source (0 migrator refs, 0 corpus presence, nothing
           # subclasses them -- checked), so deletion is schema-only.
-          "timeseries_data_binary", "timeseries_data_csv", "timeseries_data_edf"}
+          "timeseries_data_binary", "timeseries_data_csv", "timeseries_data_edf",
+          # 2.D slice C: the draft dataseries carrier family dissolves under
+          # Option 1 -- its header (axes/channels/storage) is carried by
+          # acquisition_epoch and its payload by sampled_body (content_hash
+          # preserved onto sampled_body). Forward-looking draft classes with no v1
+          # source (0 migrator refs, 0 corpus presence; nothing outside the family
+          # references them -- checked), so deletion is schema-only. (zarr SURVIVES
+          # as the ⊂ base storage-recipe descriptor -- load-bearing for directory's
+          # zarr_implicit manifest; ephys_zarr/image_zarr are stable/corpus-risky
+          # and dataseries_pyramid pairs with pyraview -> slice D.)
+          "dataseries_data", "timeseries_data", "imageseries_data"}
 # `mock` (a bare `ismock` integer flag) is test-only scaffolding — nothing in the
 # corpora or NDI constructs it (`ndi.document('mock')` appears nowhere; the
 # +ndi/+mock/ package is a helper namespace, not this class). A production
@@ -783,6 +793,13 @@ sampled = doc("sampled_body", ["data_body"], maturity="draft", deps=[STATEMENT_R
               subfield("spacing", "double", "Coordinate spacing when regular.",
                        scalar=True, blank=0.0),
               subfield("unit", "char", "Unit of the axis coordinate.")]),
+    # Preserved from the dissolved dataseries_data carrier (2.D slice C): a
+    # content hash of the payload bytes, usable as a natural dedup / integrity
+    # key. Optional -- absent when not computed.
+    field("content_hash", "char",
+          "Optional content hash of the payload bytes; a natural dedup / "
+          "integrity key. Formerly dataseries_data.content_hash.",
+          non_empty=False),
 ])
 sampled["file"] = BODY_FILE
 write("draft", "sampled_body", sampled)
@@ -1411,9 +1428,10 @@ idx["notes"] = ("Source of truth for class_name uniqueness and tier placement. "
 _RET_SOURCES = {"element", "openminds", "openminds_subject", "openminds_element",
     "openminds_stimulus", "metadata_editor", "dataset_remote",
     "session_in_a_dataset", "dataset_session_info"}
-_RET_CARRIERS = {"timeseries_data", "dataseries_data", "dataseries_pyramid",
-    "imageseries_data", "ephys_zarr", "image_zarr", "zarr", "image", "image_collection",
-    "pyraview"}  # generic_file + timeseries_data_{binary,csv,edf} dissolved -> DELETE
+_RET_CARRIERS = {"dataseries_pyramid", "ephys_zarr", "image_zarr", "zarr",
+    "image", "image_collection", "pyraview"}  # slice D remainder. generic_file +
+    # timeseries_data_{binary,csv,edf} + the draft dataseries_data/timeseries_data/
+    # imageseries_data family dissolved -> DELETE. zarr KEPT (storage descriptor).
 _RET_TOOBS = {"probe_location", "probe_geometry", "electrode_offset_voltage",
     "position_metadata", "distance_metadata", "ontology_label", "ontology_table_row",
     "ontology_image"}
