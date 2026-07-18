@@ -623,7 +623,7 @@
         {
             "class_name": "daqreader_epochdata_ingested",
             "tier": "stable",
-            "class_version": "1.0.0",
+            "class_version": "2.0.0",
             "maturity_level": "stable",
             "superclasses": [
                 "base"
@@ -635,28 +635,13 @@
         {
             "class_name": "daqreader_image_epochdata_ingested",
             "tier": "stable",
-            "class_version": "1.0.0",
+            "class_version": "2.0.0",
             "maturity_level": "stable",
             "superclasses": [
                 "base",
-                "daqreader_epochdata_ingested",
-                "epochid"
+                "daqreader_epochdata_ingested"
             ],
             "path": "schemas/V_eta/stable/daqreader_image_epochdata_ingested.json",
-            "disposition": "in_progress",
-            "disposition_note": "\u2465/\u2466 walkthrough pending"
-        },
-        {
-            "class_name": "daqreader_mfdaq_epochdata_ingested",
-            "tier": "stable",
-            "class_version": "1.0.0",
-            "maturity_level": "stable",
-            "superclasses": [
-                "base",
-                "daqreader_epochdata_ingested",
-                "epochid"
-            ],
-            "path": "schemas/V_eta/stable/daqreader_mfdaq_epochdata_ingested.json",
             "disposition": "in_progress",
             "disposition_note": "\u2465/\u2466 walkthrough pending"
         },

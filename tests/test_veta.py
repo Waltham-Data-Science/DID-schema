@@ -385,13 +385,37 @@ def test_daqreader_ndr_de_encoded():
     """Chunk c: daqreader_ndr encoded a reader subtype in the CLASS NAME. It
     dissolves; its distinguishing fields de-encode onto the generic daqreader as
     OPTIONAL (the subtype is discriminated by ndi_daqreader_class), and the
-    subtype-prefixed field name (ndr_reader_string) is dropped -> reader_string.
-    (daqreader_mfdaq_epochdata_ingested is deferred -- epochid mixin, with chunk b.)"""
+    subtype-prefixed field name (ndr_reader_string) is dropped -> reader_string."""
     assert "daqreader_ndr" not in RECORDS
     dr = {f["name"]: f for f in RECORDS["daqreader"][1]["fields"]}
     assert dr.get("reader_string", {}).get("mustBeNonEmpty") is False
     assert dr.get("file_extension", {}).get("mustBeNonEmpty") is False
     assert "ndr_reader_string" not in dr and "ndi_daqreader_ndr_class" not in dr
+
+
+def test_mfdaq_ingested_de_encoded():
+    """Chunk c: daqreader_mfdaq_epochdata_ingested encoded the reader subtype
+    (`mfdaq`) in its CLASS NAME. It dissolves onto the generic
+    daqreader_epochdata_ingested -- its only distinguishing content, `parameters`,
+    becomes an OPTIONAL field (empty for readers that do not slice by segment)."""
+    assert "daqreader_mfdaq_epochdata_ingested" not in RECORDS
+    dri = {f["name"]: f for f in RECORDS["daqreader_epochdata_ingested"][1]["fields"]}
+    assert "parameters" in dri
+    assert dri["parameters"].get("mustBeNonEmpty") is False
+
+
+def test_ingested_caches_epochid_dep_only():
+    """Chunk b (Option A): the epochdata_ingested caches stay device-layer ⑦ infra
+    (NOT folded to sampled_body -- they carry no subject). Their epoch link is the
+    inherited required `epochid` DEP (-> element_epoch); the redundant `epochid`
+    SUPERCLASS mixin is dropped from the image cache (dep-only, one home for the
+    epoch identity)."""
+    img = RECORDS["daqreader_image_epochdata_ingested"][1]
+    supers = {s.get("class_name") for s in img["document_class"]["superclasses"]}
+    assert "epochid" not in supers
+    assert "daqreader_epochdata_ingested" in supers
+    # the caches are NOT collapsed into the data_body genus
+    assert "sampled_body" not in supers
 
 
 def test_binding_is_formalized_in_meta_schema():

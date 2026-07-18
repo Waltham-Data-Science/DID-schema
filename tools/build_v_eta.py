@@ -640,13 +640,6 @@ write("stable", "term_manipulation",
 # distinguishing fields de-encode onto the generic `daqreader` as OPTIONAL fields
 # (only populated for the readers that need them). Nothing references it (checked);
 # DID-matlab migrators_j.daqreader_ndr folds existing v1 docs onto daqreader.
-#
-# `daqreader_mfdaq_epochdata_ingested` is the OTHER subtype-in-name class, but it
-# mixes in `epochid` (a superclass its parent daqreader_epochdata_ingested lacks),
-# so folding it onto the parent would orphan the epochid block -- and it shares that
-# epochid mixin with its sibling daqreader_image_epochdata_ingested (chunk b). It is
-# therefore deferred to a combined chunk-b/c pass that handles the epochid mixin
-# across both epochdata_ingested subtypes together.
 _drn = load(os.path.join(VETA, "stable", "daqreader_ndr.json"))
 _drn_f = {f["name"]: f for f in _drn["fields"]}
 _dr = load(os.path.join(VETA, "stable", "daqreader.json"))
@@ -663,6 +656,52 @@ _rs["documentation"] = ("Reader/file-type string (e.g. 'intan', 'SpikeGadgets') 
 _dr["fields"] += [_rs, _drn_f["file_extension"]]
 write("stable", "daqreader", _dr)
 os.remove(os.path.join(VETA, "stable", "daqreader_ndr.json"))
+
+
+# ---------- 10c'. de-encode the epochdata_ingested subtype pair (chunks b + c) ----
+# The two epochdata_ingested subtypes are DEVICE-LAYER ingested caches (a daqreader's
+# verbatim snapshot of an epoch's bytes, keyed by {daqreader, epoch}). They carry NO
+# subject -- one raw cache feeds many downstream ROI/channel elements, and the
+# subject enters one layer down on the observation/element (Option A: caches stay ⑦
+# infra, NOT folded into sampled_body, which would force a subject_statement the
+# device layer does not have). Two tidies:
+#
+#  (c) `daqreader_mfdaq_epochdata_ingested` encodes the reader subtype (`mfdaq`) in
+#      its CLASS NAME; its only distinguishing content is a `parameters` block. The
+#      class dissolves onto the generic `daqreader_epochdata_ingested` (parameters
+#      becomes an OPTIONAL field, empty for readers that do not slice by segment).
+#  (b) both subtypes redundantly re-mix `epochid` as a SUPERCLASS on top of
+#      `daqreader_epochdata_ingested`, which already links the epoch via its required
+#      `epochid` DEP (-> element_epoch, where the epoch name lives). The inline
+#      epochid block duplicates that name, so the mixin is dropped (dep-only): one
+#      home for the epoch link. daqreader_id + epochid deps carry all identity.
+#
+# DID-matlab migrators_j.daqreader_mfdaq_epochdata_ingested folds v1 mfdaq docs onto
+# daqreader_epochdata_ingested; migrators_i.image_stack mints the image cache without
+# the epochid mixin. Both cannot regress the corpus: a v1 subtype doc lacking the
+# inherited required epochid dep already quarantines before this change.
+_dri = load(os.path.join(VETA, "stable", "daqreader_epochdata_ingested.json"))
+_drm = load(os.path.join(VETA, "stable", "daqreader_mfdaq_epochdata_ingested.json"))
+_drm_f = {f["name"]: f for f in _drm["fields"]}
+_params = _drm_f["parameters"]
+_params["documentation"] = (
+    "Reader-specific parameters captured when the epoch was ingested. Optional --"
+    " empty for readers that do not slice the source recording. The sub-fields seen"
+    " in the v1 corpora are the MFDAQ reader's per-segment sample-count cutoffs;"
+    " formerly the standalone daqreader_mfdaq_epochdata_ingested class.")
+_dri["document_class"]["class_version"] = "2.0.0"
+_dri["fields"].append(_params)
+write("stable", "daqreader_epochdata_ingested", _dri)
+os.remove(os.path.join(VETA, "stable", "daqreader_mfdaq_epochdata_ingested.json"))
+
+# dep-only: strip the redundant `epochid` superclass mixin from the image cache
+# (its epoch identity is carried by the inherited required `epochid` dep).
+_dimg = load(os.path.join(VETA, "stable", "daqreader_image_epochdata_ingested.json"))
+_dimg["document_class"]["superclasses"] = [
+    s for s in _dimg["document_class"]["superclasses"]
+    if s.get("class_name") != "epochid"]
+_dimg["document_class"]["class_version"] = "2.0.0"
+write("stable", "daqreader_image_epochdata_ingested", _dimg)
 
 
 # ---------- 11. storage_mode + data_body (sampled_/opaque_) ----------
@@ -1356,9 +1395,10 @@ _ANALYSIS_RE = _re.compile(r"(_calc$|_calc_|tuning|stimulus_response|spike|clust
     r"site2channelmap|vmneuralresponse|stimulus_parameter)")
 _IN_PROGRESS = {"daqsystem", "daqreader", "daqmetadatareader",
     "daqreader_epochdata_ingested", "daqreader_image_epochdata_ingested",
-    "daqreader_mfdaq_epochdata_ingested", "daqmetadatareader_epochdata_ingested",
-    # daqreader_ndr de-encoded into daqreader (chunk c) -- no longer a class;
-    # daqreader_mfdaq_epochdata_ingested deferred (epochid mixin, with chunk b).
+    "daqmetadatareader_epochdata_ingested",
+    # daqreader_ndr and daqreader_mfdaq_epochdata_ingested de-encoded (chunks c/b) --
+    # no longer classes; the epochid superclass mixin dropped from the ingested
+    # caches (dep-only). Caches stay ⑦ infra (Option A), not folded to sampled_body.
     "epochfiles_ingested", "epochid", "element_epoch", "filenavigator", "syncgraph",
     "syncrule", "syncrule_mapping", "directory", "ngrid", "dataseries_channel_map",
     "binaryseries_parameters", "filter", "instrument", "interaction_purpose",

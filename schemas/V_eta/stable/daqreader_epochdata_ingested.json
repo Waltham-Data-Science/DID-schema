@@ -1,7 +1,7 @@
 {
     "document_class": {
         "class_name": "daqreader_epochdata_ingested",
-        "class_version": "1.0.0",
+        "class_version": "2.0.0",
         "superclasses": [
             {
                 "class_name": "base"
@@ -68,6 +68,53 @@
                     "queryable": false,
                     "ontology": null,
                     "documentation": "Two-element [t0, t1] start/stop time pair in the units of the matching epochclock entry.",
+                    "constraints": {}
+                }
+            ]
+        },
+        {
+            "name": "parameters",
+            "type": "structure",
+            "blank_value": {
+                "sample_analog_segment": 0.0,
+                "sample_digital_segment": 0.0
+            },
+            "default_value": {
+                "sample_analog_segment": 0.0,
+                "sample_digital_segment": 0.0
+            },
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Reader-specific parameters captured when the epoch was ingested. Optional -- empty for readers that do not slice the source recording. The sub-fields seen in the v1 corpora are the MFDAQ reader's per-segment sample-count cutoffs; formerly the standalone daqreader_mfdaq_epochdata_ingested class.",
+            "constraints": {},
+            "fields": [
+                {
+                    "name": "sample_analog_segment",
+                    "type": "double",
+                    "blank_value": 0.0,
+                    "default_value": 0.0,
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Maximum sample count per analog segment used during ingestion.",
+                    "constraints": {}
+                },
+                {
+                    "name": "sample_digital_segment",
+                    "type": "double",
+                    "blank_value": 0.0,
+                    "default_value": 0.0,
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Maximum sample count per digital segment used during ingestion.",
                     "constraints": {}
                 }
             ]
