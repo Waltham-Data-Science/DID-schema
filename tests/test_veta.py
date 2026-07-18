@@ -381,6 +381,20 @@ def test_generic_file_folded_to_opaque_body():
     assert "opaque_body" in RECORDS
 
 
+def test_timeseries_encoding_subtypes_dissolved():
+    """2.D encoding-in-name slice: timeseries_data_{binary,csv,edf} were EMPTY
+    subtypes whose only content was the FORMAT in the class name. The format is
+    already carried by the dataseries_data ancestor's storage.format, so they
+    dissolve; the timeseries_data parent (the series carrier) is retained."""
+    for enc in ("timeseries_data_binary", "timeseries_data_csv", "timeseries_data_edf"):
+        assert enc not in RECORDS
+    assert "timeseries_data" in RECORDS
+    # the encoding home still exists on the dataseries_data ancestor
+    ds = {f["name"]: f for f in RECORDS["dataseries_data"][1]["fields"]}
+    storage_sub = {f["name"] for f in ds["storage"].get("fields", [])}
+    assert "format" in storage_sub
+
+
 def test_daqreader_ndr_de_encoded():
     """Chunk c: daqreader_ndr encoded a reader subtype in the CLASS NAME. It
     dissolves; its distinguishing fields de-encode onto the generic daqreader as

@@ -148,7 +148,15 @@ DELETE = {"scalar_observation", "scalar_manipulation", "annotation", "group_assi
           # migrators_j.generic_file folds v1 docs. (image stays -- it is the
           # image_observation geometry mixin, part of the NDI-side sampled fold;
           # image_collection is a separate per-class call.)
-          "generic_file"}
+          "generic_file",
+          # 2.D encoding-in-name slice: timeseries_data_{binary,csv,edf} are EMPTY
+          # subtypes of timeseries_data whose only content is the FORMAT encoded in
+          # the class name. Per "encoding becomes a field", the format is already
+          # carried by the dataseries_data ancestor's `storage.format` -- so the
+          # subtypes are redundant and dissolve. They are forward-looking draft
+          # classes with no v1 source (0 migrator refs, 0 corpus presence, nothing
+          # subclasses them -- checked), so deletion is schema-only.
+          "timeseries_data_binary", "timeseries_data_csv", "timeseries_data_edf"}
 # `mock` (a bare `ismock` integer flag) is test-only scaffolding — nothing in the
 # corpora or NDI constructs it (`ndi.document('mock')` appears nowhere; the
 # +ndi/+mock/ package is a helper namespace, not this class). A production
@@ -1381,10 +1389,9 @@ idx["notes"] = ("Source of truth for class_name uniqueness and tier placement. "
 _RET_SOURCES = {"element", "openminds", "openminds_subject", "openminds_element",
     "openminds_stimulus", "metadata_editor", "dataset_remote",
     "session_in_a_dataset", "dataset_session_info"}
-_RET_CARRIERS = {"timeseries_data", "timeseries_data_binary", "timeseries_data_csv",
-    "timeseries_data_edf", "dataseries_data", "dataseries_pyramid", "imageseries_data",
-    "ephys_zarr", "image_zarr", "zarr", "image", "image_collection",
-    "pyraview"}  # generic_file folded to opaque_body (2.D slice A) -> now in DELETE
+_RET_CARRIERS = {"timeseries_data", "dataseries_data", "dataseries_pyramid",
+    "imageseries_data", "ephys_zarr", "image_zarr", "zarr", "image", "image_collection",
+    "pyraview"}  # generic_file + timeseries_data_{binary,csv,edf} dissolved -> DELETE
 _RET_TOOBS = {"probe_location", "probe_geometry", "electrode_offset_voltage",
     "position_metadata", "distance_metadata", "ontology_label", "ontology_table_row",
     "ontology_image"}

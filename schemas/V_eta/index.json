@@ -2520,42 +2520,6 @@
             "disposition_note": "2.D \u2192 data_body fold"
         },
         {
-            "class_name": "timeseries_data_binary",
-            "tier": "draft",
-            "class_version": "1.0.0",
-            "maturity_level": "draft",
-            "superclasses": [
-                "timeseries_data"
-            ],
-            "path": "schemas/V_eta/draft/timeseries_data_binary.json",
-            "disposition": "retire",
-            "disposition_note": "2.D \u2192 data_body fold"
-        },
-        {
-            "class_name": "timeseries_data_csv",
-            "tier": "draft",
-            "class_version": "1.0.0",
-            "maturity_level": "draft",
-            "superclasses": [
-                "timeseries_data"
-            ],
-            "path": "schemas/V_eta/draft/timeseries_data_csv.json",
-            "disposition": "retire",
-            "disposition_note": "2.D \u2192 data_body fold"
-        },
-        {
-            "class_name": "timeseries_data_edf",
-            "tier": "draft",
-            "class_version": "1.0.0",
-            "maturity_level": "draft",
-            "superclasses": [
-                "timeseries_data"
-            ],
-            "path": "schemas/V_eta/draft/timeseries_data_edf.json",
-            "disposition": "retire",
-            "disposition_note": "2.D \u2192 data_body fold"
-        },
-        {
             "class_name": "timeseries_observation",
             "tier": "draft",
             "class_version": "1.0.0",
