@@ -634,6 +634,37 @@ write("stable", "term_manipulation",
                                    "source": "ontology"}})]))
 
 
+# ---------- 10c. de-encode daqreader subtype-in-name classes (chunk c) ----------
+# `daqreader_ndr` encodes a reader subtype in the CLASS NAME. That subtype is
+# already discriminated by `ndi_daqreader_class`, so the class dissolves: its
+# distinguishing fields de-encode onto the generic `daqreader` as OPTIONAL fields
+# (only populated for the readers that need them). Nothing references it (checked);
+# DID-matlab migrators_j.daqreader_ndr folds existing v1 docs onto daqreader.
+#
+# `daqreader_mfdaq_epochdata_ingested` is the OTHER subtype-in-name class, but it
+# mixes in `epochid` (a superclass its parent daqreader_epochdata_ingested lacks),
+# so folding it onto the parent would orphan the epochid block -- and it shares that
+# epochid mixin with its sibling daqreader_image_epochdata_ingested (chunk b). It is
+# therefore deferred to a combined chunk-b/c pass that handles the epochid mixin
+# across both epochdata_ingested subtypes together.
+_drn = load(os.path.join(VETA, "stable", "daqreader_ndr.json"))
+_drn_f = {f["name"]: f for f in _drn["fields"]}
+_dr = load(os.path.join(VETA, "stable", "daqreader.json"))
+_dr["document_class"]["class_version"] = "2.0.0"
+# ndr_reader_string -> reader_string (drop the subtype prefix), now optional;
+# carry file_extension; drop ndi_daqreader_ndr_class (redundant with the parent's
+# ndi_daqreader_class discriminator).
+_rs = _drn_f["ndr_reader_string"]
+_rs["name"] = "reader_string"
+_rs["mustBeNonEmpty"] = False
+_rs["documentation"] = ("Reader/file-type string (e.g. 'intan', 'SpikeGadgets') "
+    "for a reader that needs one; formerly daqreader_ndr.ndr_reader_string. "
+    "Optional -- the concrete reader is discriminated by ndi_daqreader_class.")
+_dr["fields"] += [_rs, _drn_f["file_extension"]]
+write("stable", "daqreader", _dr)
+os.remove(os.path.join(VETA, "stable", "daqreader_ndr.json"))
+
+
 # ---------- 11. storage_mode + data_body (sampled_/opaque_) ----------
 
 ss = load(os.path.join(VETA, "stable", "subject_statement.json"))
@@ -1323,9 +1354,11 @@ _ANALYSIS_RE = _re.compile(r"(_calc$|_calc_|tuning|stimulus_response|spike|clust
     r"vmspike|binnedspikerate|jrclust|sorting_param|neuron_extracellular|hartley|"
     r"oridir|reverse_correlation|fitcurve|tuning_fit|simple_calc|contrast_sensitivity|"
     r"site2channelmap|vmneuralresponse|stimulus_parameter)")
-_IN_PROGRESS = {"daqsystem", "daqreader", "daqmetadatareader", "daqreader_ndr",
+_IN_PROGRESS = {"daqsystem", "daqreader", "daqmetadatareader",
     "daqreader_epochdata_ingested", "daqreader_image_epochdata_ingested",
     "daqreader_mfdaq_epochdata_ingested", "daqmetadatareader_epochdata_ingested",
+    # daqreader_ndr de-encoded into daqreader (chunk c) -- no longer a class;
+    # daqreader_mfdaq_epochdata_ingested deferred (epochid mixin, with chunk b).
     "epochfiles_ingested", "epochid", "element_epoch", "filenavigator", "syncgraph",
     "syncrule", "syncrule_mapping", "directory", "ngrid", "dataseries_channel_map",
     "binaryseries_parameters", "filter", "instrument", "interaction_purpose",

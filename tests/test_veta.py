@@ -381,6 +381,19 @@ def test_generic_file_folded_to_opaque_body():
     assert "opaque_body" in RECORDS
 
 
+def test_daqreader_ndr_de_encoded():
+    """Chunk c: daqreader_ndr encoded a reader subtype in the CLASS NAME. It
+    dissolves; its distinguishing fields de-encode onto the generic daqreader as
+    OPTIONAL (the subtype is discriminated by ndi_daqreader_class), and the
+    subtype-prefixed field name (ndr_reader_string) is dropped -> reader_string.
+    (daqreader_mfdaq_epochdata_ingested is deferred -- epochid mixin, with chunk b.)"""
+    assert "daqreader_ndr" not in RECORDS
+    dr = {f["name"]: f for f in RECORDS["daqreader"][1]["fields"]}
+    assert dr.get("reader_string", {}).get("mustBeNonEmpty") is False
+    assert dr.get("file_extension", {}).get("mustBeNonEmpty") is False
+    assert "ndr_reader_string" not in dr and "ndi_daqreader_ndr_class" not in dr
+
+
 def test_binding_is_formalized_in_meta_schema():
     """D9: the `binding` block is a validated property of `constraints`, not an
     advisory free-form key."""

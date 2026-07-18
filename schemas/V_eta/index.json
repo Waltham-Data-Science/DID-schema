@@ -611,7 +611,7 @@
         {
             "class_name": "daqreader",
             "tier": "stable",
-            "class_version": "1.0.0",
+            "class_version": "2.0.0",
             "maturity_level": "stable",
             "superclasses": [
                 "base"
@@ -657,19 +657,6 @@
                 "epochid"
             ],
             "path": "schemas/V_eta/stable/daqreader_mfdaq_epochdata_ingested.json",
-            "disposition": "in_progress",
-            "disposition_note": "\u2465/\u2466 walkthrough pending"
-        },
-        {
-            "class_name": "daqreader_ndr",
-            "tier": "stable",
-            "class_version": "1.0.0",
-            "maturity_level": "stable",
-            "superclasses": [
-                "base",
-                "daqreader"
-            ],
-            "path": "schemas/V_eta/stable/daqreader_ndr.json",
             "disposition": "in_progress",
             "disposition_note": "\u2465/\u2466 walkthrough pending"
         },
