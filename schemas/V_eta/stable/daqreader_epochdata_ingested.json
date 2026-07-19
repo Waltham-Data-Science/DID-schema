@@ -20,7 +20,7 @@
             "name": "epochid",
             "mustBeNonEmpty": true,
             "documentation": "The document ID of the epoch whose data was ingested.",
-            "must_refer_to_document_class": ""
+            "must_refer_to_document_class": "acquisition_epoch"
         }
     ],
     "file": [],

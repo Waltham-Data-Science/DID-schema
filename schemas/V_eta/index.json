@@ -738,30 +738,6 @@
             "disposition": "persist"
         },
         {
-            "class_name": "dataset_remote",
-            "tier": "stable",
-            "class_version": "1.0.0",
-            "maturity_level": "stable",
-            "superclasses": [
-                "base"
-            ],
-            "path": "schemas/V_eta/stable/dataset_remote.json",
-            "disposition": "retire",
-            "disposition_note": "Phase-8 source (migrator \u2192 delete)"
-        },
-        {
-            "class_name": "dataset_session_info",
-            "tier": "stable",
-            "class_version": "1.0.0",
-            "maturity_level": "stable",
-            "superclasses": [
-                "base"
-            ],
-            "path": "schemas/V_eta/stable/dataset_session_info.json",
-            "disposition": "retire",
-            "disposition_note": "Phase-8 source (migrator \u2192 delete)"
-        },
-        {
             "class_name": "date_assertion",
             "tier": "stable",
             "class_version": "1.0.0",
@@ -1428,18 +1404,6 @@
             "disposition_note": "D-C analysis-tier decompose"
         },
         {
-            "class_name": "metadata_editor",
-            "tier": "stable",
-            "class_version": "1.0.0",
-            "maturity_level": "stable",
-            "superclasses": [
-                "base"
-            ],
-            "path": "schemas/V_eta/stable/metadata_editor.json",
-            "disposition": "retire",
-            "disposition_note": "Phase-8 source (migrator \u2192 delete)"
-        },
-        {
             "class_name": "neuron_extracellular",
             "tier": "stable",
             "class_version": "1.0.0",
@@ -1932,18 +1896,6 @@
             ],
             "path": "schemas/V_eta/stable/session_bounded_reference.json",
             "disposition": "persist"
-        },
-        {
-            "class_name": "session_in_a_dataset",
-            "tier": "stable",
-            "class_version": "1.0.0",
-            "maturity_level": "stable",
-            "superclasses": [
-                "base"
-            ],
-            "path": "schemas/V_eta/stable/session_in_a_dataset.json",
-            "disposition": "retire",
-            "disposition_note": "Phase-8 source (migrator \u2192 delete)"
         },
         {
             "class_name": "session_relative_reference",

@@ -52,7 +52,8 @@ DAQ/sync/epoch/navigator, storage descriptor, index/geometry, stimulus bodies-of
 
 **Sources to delete (Phase-8, 9)** — dissolved by migrators, deleted once corpora prove them:
 
-`dataset_remote`, `dataset_session_info`, `element`, `metadata_editor`, `openminds`, `openminds_element`, `openminds_stimulus`, `openminds_subject`, `session_in_a_dataset`
+- ✅ **DELETED (Phase 1):** `dataset_remote`, `dataset_session_info`, `session_in_a_dataset`, `metadata_editor` (have J dissolvers; no surviving referencer).
+- ⏳ **HELD:** `openminds`, `openminds_stimulus`, `openminds_element` — still lack migrators (only `openminds_subject` is dissolved); the openMINDS decomposition must be completed before they can go. `element` — retired but still a superclass of live things (check usage). `measurement` — entangled with #9 (referenced by the analysis tier); phases out there.
 
 **Analysis tier to decompose (D-C, 39)** — → `*_observation`s + `data_body` + `derived_from`:
 

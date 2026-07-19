@@ -189,7 +189,18 @@ DELETE = {"scalar_observation", "scalar_manipulation", "annotation", "group_assi
           # recipe via the KEPT `zarr` descriptor. `pyraview` is NOT here -- it has
           # real presence (NDI writes it, migrators_j.pyraview) and is a genuine
           # observation-tier fold (with #9).
-          "ephys_zarr", "image_zarr", "dataseries_pyramid"}
+          "ephys_zarr", "image_zarr", "dataseries_pyramid",
+          # Phase 1 source-class cleanup: these are dissolved by J migrators
+          # (dataset_remote/dataset_session_info/session_in_a_dataset ->
+          # directed_relations per ⑥-E; metadata_editor -> dataset + entities +
+          # relations), so no V_eta doc is of these classes -- they linger only as
+          # v1 SOURCE names. Each has a migrators_j.* dissolver (checked) and no
+          # surviving class references it (checked), so deletion is clean; the
+          # corpus run is the 0-presence probe. (openminds/openminds_stimulus/
+          # openminds_element are NOT here -- they still lack migrators; measurement
+          # is entangled with #9 -- both held.)
+          "dataset_remote", "dataset_session_info", "session_in_a_dataset",
+          "metadata_editor"}
 # `mock` (a bare `ismock` integer flag) is test-only scaffolding — nothing in the
 # corpora or NDI constructs it (`ndi.document('mock')` appears nowhere; the
 # +ndi/+mock/ package is a helper namespace, not this class). A production
@@ -1298,6 +1309,9 @@ GOV_REF = {
     "filenavigator_id": "filenavigator", "daqreader_id": "daqreader",
     "daqsystem_id": "daqsystem", "daqmetadatareader_id": "daqmetadatareader",
     "syncrule_id": "syncrule", "syncrule_id_#": "syncrule",
+    # directory nesting (Phase 1): the parent directory is a directory; the
+    # generic parent document is any doc (root `base`).
+    "parent_directory_id": "directory", "parent_doc_id": "base",
 }
 for tier in TIERS:
     for p in sorted(glob.glob(os.path.join(VETA, tier, "*.json"))):
@@ -1314,6 +1328,20 @@ for tier in TIERS:
             with open(p, "w") as f:
                 json.dump(d, f, indent=4)
                 f.write("\n")
+
+# The epoch document is now a real standalone class (acquisition_epoch), so the
+# ingested caches' `epochid` dep gets a target. Done PER-CLASS (not via GOV_REF):
+# syncrule_mapping.epochid holds an epoch NAME, not a document id, so it stays
+# untyped -- typing it would impose a doc-existence check its value can't satisfy.
+for _c in ("daqreader_epochdata_ingested", "epochfiles_ingested"):
+    _t, _p = path_of(_c)
+    if _p:
+        _d = load(_p)
+        for _dep in _d.get("depends_on", []):
+            if _dep.get("name") == "epochid" \
+                    and not _dep.get("must_refer_to_document_class", ""):
+                _dep["must_refer_to_document_class"] = "acquisition_epoch"
+        write(_t, _c, _d)
 
 
 # ---------- 8d. governance: type the now-settled stimulus family -------------

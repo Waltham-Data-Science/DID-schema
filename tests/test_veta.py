@@ -430,6 +430,23 @@ def test_zarr_pyramid_orphans_dissolved():
     assert "zarr" in RECORDS and "pyraview" in RECORDS
 
 
+def test_phase1_source_cleanup_and_dep_typing():
+    """Phase 1: dissolved source classes deleted (they have J dissolvers + no
+    surviving referencer); and the surviving-infra deps get their now-settled
+    targets (epochid -> acquisition_epoch on the ingested caches; directory
+    nesting). openminds*/measurement are intentionally NOT deleted yet."""
+    for gone in ("dataset_remote", "dataset_session_info", "session_in_a_dataset",
+                 "metadata_editor"):
+        assert gone not in RECORDS
+    # still present (held): need migrators / entangled with #9
+    assert "openminds" in RECORDS and "measurement" in RECORDS
+    def _dep(cls, name):
+        return next(d for d in RECORDS[cls][1]["depends_on"] if d["name"] == name)
+    assert _dep("daqreader_epochdata_ingested", "epochid")["must_refer_to_document_class"] == "acquisition_epoch"
+    assert _dep("epochfiles_ingested", "epochid")["must_refer_to_document_class"] == "acquisition_epoch"
+    assert _dep("directory", "parent_directory_id")["must_refer_to_document_class"] == "directory"
+
+
 def test_daqreader_ndr_de_encoded():
     """Chunk c: daqreader_ndr encoded a reader subtype in the CLASS NAME. It
     dissolves; its distinguishing fields de-encode onto the generic daqreader as

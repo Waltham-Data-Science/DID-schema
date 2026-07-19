@@ -14,13 +14,13 @@
             "name": "parent_doc_id",
             "mustBeNonEmpty": true,
             "documentation": "The document ID of the parent document that owns this directory. For subdirectories, this is still the root owning document (not the parent directory), enabling a single query to retrieve the entire directory tree for a document.",
-            "must_refer_to_document_class": ""
+            "must_refer_to_document_class": "base"
         },
         {
             "name": "parent_directory_id",
             "mustBeNonEmpty": false,
             "documentation": "The document ID of the parent directory document. Empty for top-level directories (those directly attached to the owning document's directory slot). Non-empty for subdirectories.",
-            "must_refer_to_document_class": ""
+            "must_refer_to_document_class": "directory"
         }
     ],
     "file": [
