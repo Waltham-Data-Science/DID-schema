@@ -727,19 +727,6 @@
             "disposition": "persist"
         },
         {
-            "class_name": "dataseries_pyramid",
-            "tier": "draft",
-            "class_version": "1.0.0",
-            "maturity_level": "draft",
-            "superclasses": [
-                "base",
-                "epochid"
-            ],
-            "path": "schemas/V_eta/draft/dataseries_pyramid.json",
-            "disposition": "retire",
-            "disposition_note": "2.D \u2192 data_body fold"
-        },
-        {
             "class_name": "dataset",
             "tier": "stable",
             "class_version": "1.0.0",
@@ -969,18 +956,6 @@
             ],
             "path": "schemas/V_eta/stable/entity.json",
             "disposition": "persist"
-        },
-        {
-            "class_name": "ephys_zarr",
-            "tier": "stable",
-            "class_version": "1.0.0",
-            "maturity_level": "stable",
-            "superclasses": [
-                "zarr"
-            ],
-            "path": "schemas/V_eta/stable/ephys_zarr.json",
-            "disposition": "retire",
-            "disposition_note": "2.D \u2192 data_body fold"
         },
         {
             "class_name": "epoch_bounded_reference",
@@ -1276,18 +1251,6 @@
             ],
             "path": "schemas/V_eta/deprecated/image_stack_parameters.json",
             "disposition": "persist"
-        },
-        {
-            "class_name": "image_zarr",
-            "tier": "stable",
-            "class_version": "1.0.0",
-            "maturity_level": "stable",
-            "superclasses": [
-                "zarr"
-            ],
-            "path": "schemas/V_eta/stable/image_zarr.json",
-            "disposition": "retire",
-            "disposition_note": "2.D \u2192 data_body fold"
         },
         {
             "class_name": "imageseries_observation",

@@ -179,7 +179,17 @@ DELETE = {"scalar_observation", "scalar_manipulation", "annotation", "group_assi
           # (a historical corpus carries one), add a migrators_j split that mints an
           # image_observation of its element_id subject + an opaque_body. `image`
           # itself STAYS (it is image_observation's geometry mixin -- checked).
-          "image_collection"}
+          "image_collection",
+          # 2.D slice D orphans: ephys_zarr / image_zarr / dataseries_pyramid are
+          # forward-looking zarr/pyramid subtypes with NO source -- 0 refs in NDI,
+          # 0 migrators, no v1 doc definition -- so 0 corpus presence. Like
+          # image_collection they dissolve schema-only (corpus run is the probe).
+          # Intended fold if ever present: -> sampled_body (the sampled ephys/image
+          # signal) with the acquisition header on acquisition_epoch and the zarr
+          # recipe via the KEPT `zarr` descriptor. `pyraview` is NOT here -- it has
+          # real presence (NDI writes it, migrators_j.pyraview) and is a genuine
+          # observation-tier fold (with #9).
+          "ephys_zarr", "image_zarr", "dataseries_pyramid"}
 # `mock` (a bare `ismock` integer flag) is test-only scaffolding — nothing in the
 # corpora or NDI constructs it (`ndi.document('mock')` appears nowhere; the
 # +ndi/+mock/ package is a helper namespace, not this class). A production
@@ -1441,11 +1451,12 @@ idx["notes"] = ("Source of truth for class_name uniqueness and tier placement. "
 _RET_SOURCES = {"element", "openminds", "openminds_subject", "openminds_element",
     "openminds_stimulus", "metadata_editor", "dataset_remote",
     "session_in_a_dataset", "dataset_session_info"}
-_RET_CARRIERS = {"dataseries_pyramid", "ephys_zarr", "image_zarr", "zarr",
-    "image", "pyraview"}  # slice D remainder (observation-tier folds). Dissolved
-    # -> DELETE: generic_file, timeseries_data_{binary,csv,edf}, the draft
-    # dataseries_data/timeseries_data/imageseries_data family, image_collection.
-    # KEPT: zarr (storage descriptor), image (image_observation geometry mixin).
+_RET_CARRIERS = {"zarr", "image", "pyraview"}  # KEPT: zarr (storage descriptor),
+    # image (image_observation geometry mixin). pyraview = the one real
+    # observation-tier fold left (has NDI presence), folds with #9. Everything
+    # else dissolved -> DELETE: generic_file, timeseries_data_{binary,csv,edf},
+    # dataseries_data/timeseries_data/imageseries_data, image_collection, and the
+    # ephys_zarr/image_zarr/dataseries_pyramid orphans.
 _RET_TOOBS = {"probe_location", "probe_geometry", "electrode_offset_voltage",
     "position_metadata", "distance_metadata", "ontology_label", "ontology_table_row",
     "ontology_image"}

@@ -276,16 +276,17 @@ the hard-won fact. (D) — the OBSERVATION-TIER remainder. **`image` STAYS** (it
 (created by nothing — 0 refs in NDI/DID, not a did_v1 source class; intended fold →
 `opaque_body`; corpus run is the presence probe, mirroring `generic_file`; if a
 historical corpus carries one, add a split that mints an `image_observation` of its
-`element_id` subject + `opaque_body`). **Still open (design-gated, NDI-coordinated):**
-`ephys_zarr`/`image_zarr` (STABLE, possible corpus presence) and `pyraview`/
-`dataseries_pyramid` are NOT mechanical — each carries an `element_id`→subject edge,
-so folding = minting the OBSERVATION it is the value of (ephys → `voltage_observation`
-of the probe-subject + `sampled_body`; imaging → `imageseries_observation` +
-`sampled_body`; pyramid = a multi-resolution representation decision). This is the
-same observation-tier fold as the imaging model captured under #9 — the subject is
-already on the doc (element retirement), so a DID-side 1→N split can do it, but the
-per-carrier target (variable term, single-vs-collection, which sampled_body shape,
-pyramid levels) is a modeling call. Fold these WITH #9's observation tier.
+`element_id` subject + `opaque_body`). **`ephys_zarr` / `image_zarr` / `dataseries_pyramid` dissolved schema-only** ✅ —
+the presence check settled it: all three have NO source (0 NDI refs, 0 migrators,
+no v1 doc def) → 0 corpus presence, so they are orphans, not live carriers. Like
+`image_collection` they dissolve schema-only (corpus run probes; intended fold if
+ever present → `sampled_body` with the header on `acquisition_epoch` and the recipe
+via the KEPT `zarr` descriptor). **`pyraview` is the ONE genuine observation-tier
+fold left** (real NDI presence: NDI writes it, `migrators_j.pyraview`, v1 doc def) —
+it carries an `element_id`→subject edge, so folding = minting the observation it is
+the value of (a decimated multi-resolution signal → a `voltage`/`dataseries`
+observation of the subject + `sampled_body`, pyramid levels as the representation
+decision). Fold `pyraview` WITH #9's observation tier (needs its real corpus shape).
 
 ## Governance findings — the retained acquisition-infra classes
 

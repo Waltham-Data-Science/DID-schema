@@ -420,6 +420,16 @@ def test_image_collection_dissolved_image_kept():
     assert "image" in _chain("image_observation")
 
 
+def test_zarr_pyramid_orphans_dissolved():
+    """2.D slice D: ephys_zarr / image_zarr / dataseries_pyramid are forward-looking
+    subtypes with NO source (0 NDI refs, 0 migrators, no v1 doc def) -> 0 corpus
+    presence -> dissolve schema-only. zarr STAYS (storage descriptor); pyraview
+    STAYS (real NDI presence -> observation-tier fold with #9)."""
+    for c in ("ephys_zarr", "image_zarr", "dataseries_pyramid"):
+        assert c not in RECORDS
+    assert "zarr" in RECORDS and "pyraview" in RECORDS
+
+
 def test_daqreader_ndr_de_encoded():
     """Chunk c: daqreader_ndr encoded a reader subtype in the CLASS NAME. It
     dissolves; its distinguishing fields de-encode onto the generic daqreader as
