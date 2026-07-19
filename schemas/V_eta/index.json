@@ -88,6 +88,19 @@
             "disposition": "persist"
         },
         {
+            "class_name": "acquisition_epoch",
+            "tier": "stable",
+            "class_version": "2.0.0",
+            "maturity_level": "stable",
+            "superclasses": [
+                "base",
+                "epochid"
+            ],
+            "path": "schemas/V_eta/stable/acquisition_epoch.json",
+            "disposition": "in_progress",
+            "disposition_note": "\u2465/\u2466 walkthrough pending"
+        },
+        {
             "class_name": "amount",
             "tier": "stable",
             "class_version": "1.0.0",
@@ -911,19 +924,6 @@
             "path": "schemas/V_eta/stable/element.json",
             "disposition": "retire",
             "disposition_note": "Phase-8 source (migrator \u2192 delete)"
-        },
-        {
-            "class_name": "element_epoch",
-            "tier": "stable",
-            "class_version": "2.0.0",
-            "maturity_level": "stable",
-            "superclasses": [
-                "base",
-                "epochid"
-            ],
-            "path": "schemas/V_eta/stable/element_epoch.json",
-            "disposition": "in_progress",
-            "disposition_note": "\u2465/\u2466 walkthrough pending"
         },
         {
             "class_name": "energy",

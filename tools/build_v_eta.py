@@ -132,6 +132,10 @@ RENAME = {
     "observation": "subject_observation",
     "manipulation": "subject_manipulation",
     "categorical_observation": "term_observation",
+    # ⑥/⑦ chunk (e): `element` is retired (subjects replaced elements), so the
+    # epoch document's name is stale. It is an epoch of a data ACQUISITION. The
+    # rename loop propagates this across class_name + superclasses + must_refer.
+    "element_epoch": "acquisition_epoch",
 }
 for d in DIMS:
     RENAME[f"scalar_{d}"] = d                       # shape mixin
@@ -1456,7 +1460,7 @@ _IN_PROGRESS = {"daqsystem", "daqreader", "daqmetadatareader",
     # daqreader_ndr and daqreader_mfdaq_epochdata_ingested de-encoded (chunks c/b) --
     # no longer classes; the epochid superclass mixin dropped from the ingested
     # caches (dep-only). Caches stay ⑦ infra (Option A), not folded to sampled_body.
-    "epochfiles_ingested", "epochid", "element_epoch", "filenavigator", "syncgraph",
+    "epochfiles_ingested", "epochid", "acquisition_epoch", "filenavigator", "syncgraph",
     "syncrule", "syncrule_mapping", "directory", "ngrid", "dataseries_channel_map",
     "binaryseries_parameters", "filter", "instrument", "interaction_purpose",
     # `app` genus (parents a mix of retiring analysis classes + the stimulus

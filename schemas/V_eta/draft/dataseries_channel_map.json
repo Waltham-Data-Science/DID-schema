@@ -20,7 +20,7 @@
             "name": "element_epoch_id",
             "mustBeNonEmpty": false,
             "documentation": "A specific element_epoch this channel map overrides. Provide this OR element_id.",
-            "must_refer_to_document_class": "element_epoch"
+            "must_refer_to_document_class": "acquisition_epoch"
         }
     ],
     "file": [],
