@@ -270,11 +270,22 @@ corpus presence, schema-only; `content_hash` preserved onto `sampled_body`;
 `sampled_body.axes` (opt-in, multi-dim) landed. **`zarr` KEPT** — the references
 showed it is the ⊂ base storage-recipe descriptor, load-bearing for `directory`'s
 `zarr_implicit` manifest mode (derives chunk paths from the zarr recipe), matching
-the hard-won fact. (D, NDI-coordinated / corpus-risky) `ephys_zarr`/`image_zarr`
-(STABLE, possible corpus presence, 0 migrators), `dataseries_pyramid` +
-`pyraview` (multi-resolution pyramid — decide the representation together),
-`image`/`image_collection` (active `image_stack` migrator) — each needs a
-coordinated migrator change, not a pure schema edit.
+the hard-won fact. (D) — the OBSERVATION-TIER remainder. **`image` STAYS** (it is
+`image_observation`'s geometry mixin — `image_observation` ⊂ `subject_observation`
++ `image`; referenced by 5 classes). **`image_collection` dissolved schema-only** ✅
+(created by nothing — 0 refs in NDI/DID, not a did_v1 source class; intended fold →
+`opaque_body`; corpus run is the presence probe, mirroring `generic_file`; if a
+historical corpus carries one, add a split that mints an `image_observation` of its
+`element_id` subject + `opaque_body`). **Still open (design-gated, NDI-coordinated):**
+`ephys_zarr`/`image_zarr` (STABLE, possible corpus presence) and `pyraview`/
+`dataseries_pyramid` are NOT mechanical — each carries an `element_id`→subject edge,
+so folding = minting the OBSERVATION it is the value of (ephys → `voltage_observation`
+of the probe-subject + `sampled_body`; imaging → `imageseries_observation` +
+`sampled_body`; pyramid = a multi-resolution representation decision). This is the
+same observation-tier fold as the imaging model captured under #9 — the subject is
+already on the doc (element retirement), so a DID-side 1→N split can do it, but the
+per-carrier target (variable term, single-vs-collection, which sampled_body shape,
+pyramid levels) is a modeling call. Fold these WITH #9's observation tier.
 
 ## Governance findings — the retained acquisition-infra classes
 

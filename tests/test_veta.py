@@ -411,6 +411,15 @@ def test_dataseries_carrier_family_dissolved():
     assert "content_hash" in sampled_fields
 
 
+def test_image_collection_dissolved_image_kept():
+    """2.D slice D: image_collection (a bag of image files, created by nothing)
+    dissolves schema-only (intended fold -> opaque_body). image itself STAYS --
+    it is image_observation's geometry mixin."""
+    assert "image_collection" not in RECORDS
+    assert "image" in RECORDS
+    assert "image" in _chain("image_observation")
+
+
 def test_daqreader_ndr_de_encoded():
     """Chunk c: daqreader_ndr encoded a reader subtype in the CLASS NAME. It
     dissolves; its distinguishing fields de-encode onto the generic daqreader as

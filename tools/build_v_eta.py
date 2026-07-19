@@ -166,7 +166,16 @@ DELETE = {"scalar_observation", "scalar_manipulation", "annotation", "group_assi
           # as the ⊂ base storage-recipe descriptor -- load-bearing for directory's
           # zarr_implicit manifest; ephys_zarr/image_zarr are stable/corpus-risky
           # and dataseries_pyramid pairs with pyraview -> slice D.)
-          "dataseries_data", "timeseries_data", "imageseries_data"}
+          "dataseries_data", "timeseries_data", "imageseries_data",
+          # 2.D slice D (image_collection): a bag of image files. Nothing creates
+          # it -- 0 references in NDI-matlab or DID-matlab, not a did_v1 source
+          # class -- so like generic_file it dissolves schema-only, with the corpus
+          # run as the presence probe. Intended fold: -> opaque_body (the image
+          # bytes as an uninterpreted attachment). If the probe ever quarantines
+          # (a historical corpus carries one), add a migrators_j split that mints an
+          # image_observation of its element_id subject + an opaque_body. `image`
+          # itself STAYS (it is image_observation's geometry mixin -- checked).
+          "image_collection"}
 # `mock` (a bare `ismock` integer flag) is test-only scaffolding — nothing in the
 # corpora or NDI constructs it (`ndi.document('mock')` appears nowhere; the
 # +ndi/+mock/ package is a helper namespace, not this class). A production
@@ -1429,9 +1438,10 @@ _RET_SOURCES = {"element", "openminds", "openminds_subject", "openminds_element"
     "openminds_stimulus", "metadata_editor", "dataset_remote",
     "session_in_a_dataset", "dataset_session_info"}
 _RET_CARRIERS = {"dataseries_pyramid", "ephys_zarr", "image_zarr", "zarr",
-    "image", "image_collection", "pyraview"}  # slice D remainder. generic_file +
-    # timeseries_data_{binary,csv,edf} + the draft dataseries_data/timeseries_data/
-    # imageseries_data family dissolved -> DELETE. zarr KEPT (storage descriptor).
+    "image", "pyraview"}  # slice D remainder (observation-tier folds). Dissolved
+    # -> DELETE: generic_file, timeseries_data_{binary,csv,edf}, the draft
+    # dataseries_data/timeseries_data/imageseries_data family, image_collection.
+    # KEPT: zarr (storage descriptor), image (image_observation geometry mixin).
 _RET_TOOBS = {"probe_location", "probe_geometry", "electrode_offset_voltage",
     "position_metadata", "distance_metadata", "ontology_label", "ontology_table_row",
     "ontology_image"}

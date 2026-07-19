@@ -1243,18 +1243,6 @@
             "disposition_note": "2.D \u2192 data_body fold"
         },
         {
-            "class_name": "image_collection",
-            "tier": "stable",
-            "class_version": "1.0.0",
-            "maturity_level": "stable",
-            "superclasses": [
-                "base"
-            ],
-            "path": "schemas/V_eta/stable/image_collection.json",
-            "disposition": "retire",
-            "disposition_note": "2.D \u2192 data_body fold"
-        },
-        {
             "class_name": "image_observation",
             "tier": "draft",
             "class_version": "1.0.0",
