@@ -5,8 +5,12 @@ The conversation gets compacted and loses fine-grained state. The durable record
 lives in these files — read them instead of re-deriving from memory:
 
 - **`schemas/V_eta_final_class_set.md`** — the authoritative persist set (7
-  categories). REGENERATE it from the built schema (the script that wrote it),
-  never hand-edit from memory. Category order is fixed:
+  categories). REGENERATE with `python3 tools/regen_final_class_set.py` (reads the
+  built `V_eta/index.json` disposition markers) after every `build_v_eta.py`; never
+  hand-edit. NOTE: its counts are only as good as the `disposition` markers in
+  build_v_eta.py (`_RET_SOURCES`/`_RET_CARRIERS`/`_IN_PROGRESS`) — dissolved source
+  classes not listed there (treatment-family, image_stack, subject_group) still show
+  as `persist`; fix the markers, not the doc. Category order is fixed:
   ① spine → ② entities → ③ **composites (data_type)** → ④ leaf tier →
   ⑤ time_reference → ⑥ **data_body (EXACTLY 2: sampled_body, opaque_body)** → ⑦ infra.
 - **`schemas/V_eta_6_7_walkthrough_STATE.md`** — the ⑥/⑦ (infra) walkthrough with

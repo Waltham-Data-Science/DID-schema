@@ -5,7 +5,7 @@ on:
     branches: [main]
     paths:
       - "web/**"
-      - "schemas/V_delta/**"
+      - "schemas/V_*/**"
       - ".github/workflows/deploy-web.yml"
   workflow_dispatch:
 
