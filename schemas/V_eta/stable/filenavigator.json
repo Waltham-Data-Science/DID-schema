@@ -25,7 +25,8 @@
             "documentation": "The class name of the file navigator implementation.",
             "constraints": {
                 "maxLength": 256
-            }
+            },
+            "needs_ndi": true
         },
         {
             "name": "fileparameters",

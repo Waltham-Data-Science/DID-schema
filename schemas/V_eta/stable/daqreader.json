@@ -25,7 +25,8 @@
             "documentation": "The class name of the DAQ reader implementation.",
             "constraints": {
                 "maxLength": 256
-            }
+            },
+            "needs_ndi": true
         },
         {
             "name": "reader_string",

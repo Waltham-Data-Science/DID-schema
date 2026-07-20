@@ -25,7 +25,8 @@
             "documentation": "The class name of the synchronisation rule implementation.",
             "constraints": {
                 "maxLength": 256
-            }
+            },
+            "needs_ndi": true
         },
         {
             "name": "parameters",

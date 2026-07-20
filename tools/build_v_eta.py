@@ -1037,6 +1037,17 @@ type_enum = meta["$defs"]["field_definition"]["properties"]["type"]["enum"]
 for _seed_name, _ in NUMERIC_SEED:          # J §7 comprehensive numeric set
     if _seed_name not in type_enum:
         type_enum.append(_seed_name)
+# Governance: `needs_ndi` marks a field whose value is an NDI-runtime class handle
+# (e.g. ndi_daqreader_class = 'ndi.daq.reader.mfdaq') that DID cannot resolve or
+# validate on its own -- the concrete class lives in NDI-matlab. An advisory boolean
+# (optional, absent == false); downstream NDI tooling keys off it. Declared here
+# because field_definition is additionalProperties:false.
+meta["$defs"]["field_definition"]["properties"]["needs_ndi"] = {
+    "type": "boolean",
+    "description": "True when this field carries an NDI-runtime class handle that "
+                   "DID cannot resolve on its own (governance marker; the concrete "
+                   "class is defined in NDI-matlab).",
+}
 constraints_schema = meta["$defs"]["field_definition"]["properties"]["constraints"]
 constraints_schema["properties"] = {
     "binding": {
@@ -1520,6 +1531,33 @@ for _c in ("daqreader_epochdata_ingested", "epochfiles_ingested"):
                     and not _dep.get("must_refer_to_document_class", ""):
                 _dep["must_refer_to_document_class"] = "acquisition_epoch"
         write(_t, _c, _d)
+
+# Governance: mark the `ndi_<x>_class` handles needs-NDI. Each of these kept device/
+# sync infra classes discriminates its concrete implementation by an NDI-runtime
+# class name it stores in an `ndi_<x>_class` field. DID keeps the field (round-trip)
+# but cannot resolve or validate the class -- that lives in NDI-matlab -- so the
+# field is flagged `needs_ndi` for downstream tooling. (The `epochid` on
+# syncrule_mapping deliberately stays untyped above: it is an epoch NAME, not a doc
+# id. Routing the epochnode_a/b + acquisition_epoch.clocks structures through
+# time_reference is the remaining gov item -- a sync-layer change coordinated with
+# NDI-matlab; see V_eta_6_7_walkthrough_STATE.md.)
+NDI_CLASS_FIELDS = {
+    "daqsystem": "ndi_daqsystem_class",
+    "daqreader": "ndi_daqreader_class",
+    "daqmetadatareader": "ndi_daqmetadatareader_class",
+    "filenavigator": "ndi_filenavigator_class",
+    "syncgraph": "ndi_syncgraph_class",
+    "syncrule": "ndi_syncrule_class",
+}
+for _cls, _fname in NDI_CLASS_FIELDS.items():
+    _t, _p = path_of(_cls)
+    if not _p:
+        continue
+    _d = load(_p)
+    for _f in _d.get("fields", []):
+        if _f.get("name") == _fname:
+            _f["needs_ndi"] = True
+    write(_t, _cls, _d)
 
 
 # ---------- 8d. governance: type the now-settled stimulus family -------------

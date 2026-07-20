@@ -38,7 +38,8 @@
             "documentation": "The class name of the DAQ system implementation.",
             "constraints": {
                 "maxLength": 256
-            }
+            },
+            "needs_ndi": true
         }
     ]
 }

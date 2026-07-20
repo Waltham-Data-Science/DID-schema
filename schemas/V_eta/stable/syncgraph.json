@@ -33,7 +33,8 @@
             "documentation": "The class name of the synchronisation graph implementation.",
             "constraints": {
                 "maxLength": 256
-            }
+            },
+            "needs_ndi": true
         }
     ]
 }

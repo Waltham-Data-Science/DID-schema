@@ -622,6 +622,31 @@ def test_openminds_crosswalk_round_trips():
         assert props[hit[0]]["term_set"] == row["term_set"]
 
 
+def test_ndi_class_handles_marked_needs_ndi():
+    """Governance sweep: each kept device/sync infra class that discriminates its
+    implementation by an NDI-runtime class name flags that `ndi_<x>_class` field
+    `needs_ndi` -- DID keeps the value for round-trip but cannot resolve the class
+    (it lives in NDI-matlab). The marker is a declared, meta-schema-valid property."""
+    assert "needs_ndi" in META["$defs"]["field_definition"]["properties"]
+    expected = {
+        "daqsystem": "ndi_daqsystem_class",
+        "daqreader": "ndi_daqreader_class",
+        "daqmetadatareader": "ndi_daqmetadatareader_class",
+        "filenavigator": "ndi_filenavigator_class",
+        "syncgraph": "ndi_syncgraph_class",
+        "syncrule": "ndi_syncrule_class",
+    }
+    for cls, fname in expected.items():
+        d = RECORDS[cls][1]
+        f = next(f for f in d["fields"] if f["name"] == fname)
+        assert f.get("needs_ndi") is True, f"{cls}.{fname} not marked needs_ndi"
+    # every needs_ndi field is an ndi_<x>_class handle (no over-marking)
+    for _tier, d in RECORDS.values():
+        for f in d.get("fields", []):
+            if f.get("needs_ndi"):
+                assert f["name"].startswith("ndi_") and f["name"].endswith("_class")
+
+
 def test_openminds_import_provenance_class():
     """The import-provenance doc pins the openMINDS release + crosswalk version per
     import -- the single source of truth controlled_vocabularies.openMINDS.version
