@@ -24,7 +24,7 @@
                     "source_value": 0.0
                 }
             ],
-            "mustBeNonEmpty": true,
+            "mustBeNonEmpty": false,
             "mustBeScalar": false,
             "mustNotHaveNaN": false,
             "queryable": true,

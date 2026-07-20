@@ -29,7 +29,7 @@
                     "approximate": false
                 }
             ],
-            "mustBeNonEmpty": true,
+            "mustBeNonEmpty": false,
             "mustBeScalar": false,
             "mustNotHaveNaN": false,
             "queryable": true,

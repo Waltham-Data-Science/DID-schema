@@ -430,6 +430,17 @@ def test_zarr_pyramid_orphans_dissolved():
     assert "zarr" in RECORDS and "pyraview" in RECORDS
 
 
+def test_data_type_value_is_body_backable():
+    """§A.7/§A.9: a value's location is storage_mode (inline | body), not a class, so
+    a data-type leaf (voltage_observation, ...) can be body-backed (value in a
+    sampled_body). The composites' `value` must therefore NOT be unconditionally
+    required -- otherwise a body-backed quantity observation quarantines on the empty
+    inline value. Inline-requiredness is an ingest validator, not the meta-schema."""
+    for comp in ("voltage", "frequency", "mass", "current", "temperature"):
+        fields = {f["name"]: f for f in RECORDS[comp][1]["fields"]}
+        assert fields["value"]["mustBeNonEmpty"] is False, comp
+
+
 def test_phase1_source_cleanup_and_dep_typing():
     """Phase 1: dissolved source classes deleted (they have J dissolvers + no
     surviving referencer); and the surviving-infra deps get their now-settled

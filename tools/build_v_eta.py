@@ -1431,6 +1431,20 @@ for name in DATA_TYPES:
         continue
     d = load(p)
     d["document_class"]["superclasses"] = [{"class_name": "data_type"}]
+    # §A.7/§A.9 body-compat: a value's LOCATION is storage_mode (inline | reference
+    # | body), NOT a class -- a data-type leaf (voltage_observation, ...) is
+    # body-backed for a SERIES (value in a sampled_body) or inline for a SCALAR. The
+    # closed meta-schema's mustBeNonEmpty is unconditional, so a required inline
+    # `value` would quarantine every body-backed quantity observation
+    # (image_observation only escapes this because `image` has no value field).
+    # Relax `value` to optional (the leaves inherit it); inline-requiredness (value
+    # present when storage_mode=inline) is an ingest validator (the D10 pattern),
+    # not a closed-meta-schema constraint. This is what lets the #9 signal folds
+    # (spikewaves->voltage_observation, binnedspikeratevm->frequency_observation)
+    # be body-backed, per the J decision.
+    for f in d.get("fields", []):
+        if f.get("name") == "value":
+            f["mustBeNonEmpty"] = False
     with open(p, "w") as f:
         json.dump(d, f, indent=4); f.write("\n")
 for tier in ("stable", "draft"):
