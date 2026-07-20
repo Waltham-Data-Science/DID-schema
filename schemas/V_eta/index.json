@@ -1191,8 +1191,7 @@
                 "base"
             ],
             "path": "schemas/V_eta/stable/image.json",
-            "disposition": "retire",
-            "disposition_note": "2.D \u2192 data_body fold"
+            "disposition": "persist"
         },
         {
             "class_name": "image_observation",

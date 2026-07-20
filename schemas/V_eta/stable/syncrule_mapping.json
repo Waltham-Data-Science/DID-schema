@@ -54,61 +54,73 @@
         {
             "name": "epochnode_a",
             "type": "structure",
-            "blank_value": {
-                "epoch_clock": "",
-                "epoch_id": "",
-                "epoch_session_id": "",
-                "epochprobemap": "",
-                "objectclass": ""
-            },
-            "default_value": {
-                "epoch_clock": "",
-                "epoch_id": "",
-                "epoch_session_id": "",
-                "epochprobemap": "",
-                "objectclass": ""
-            },
+            "blank_value": {},
+            "default_value": {},
             "mustBeNonEmpty": false,
             "mustBeScalar": true,
             "mustNotHaveNaN": false,
             "queryable": true,
             "ontology": null,
-            "documentation": "First endpoint of the mapping. Identifies the source epoch in clock space. Preserved verbatim from v1; the same shape applies to epochnode_b.",
+            "documentation": "Sync endpoint A: the epoch whose clock this mapping relates. Its time flows through the time_reference model (an embedded epoch_bounded_reference), not bare char.",
             "constraints": {},
             "fields": [
                 {
-                    "name": "epoch_clock",
-                    "type": "char",
-                    "blank_value": "",
-                    "default_value": "",
+                    "name": "time_reference",
+                    "type": "structure",
+                    "blank_value": {},
+                    "default_value": {},
                     "mustBeNonEmpty": false,
                     "mustBeScalar": true,
                     "mustNotHaveNaN": false,
                     "queryable": true,
                     "ontology": null,
-                    "documentation": "Clock identifier for this endpoint (e.g., 'dev_local_time').",
-                    "constraints": {
-                        "maxLength": 256
-                    }
-                },
-                {
-                    "name": "epoch_id",
-                    "type": "char",
-                    "blank_value": "",
-                    "default_value": "",
-                    "mustBeNonEmpty": false,
-                    "mustBeScalar": true,
-                    "mustNotHaveNaN": false,
-                    "queryable": true,
-                    "ontology": null,
-                    "documentation": "Epoch identifier within the endpoint's session (e.g., 't00001').",
-                    "constraints": {
-                        "maxLength": 256
-                    }
+                    "documentation": "The epoch-clock reference this endpoint's times are stated in (epoch_bounded_reference shape).",
+                    "constraints": {},
+                    "fields": [
+                        {
+                            "name": "kind",
+                            "type": "char",
+                            "blank_value": "",
+                            "default_value": "",
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "The time_reference subclass modeled (epoch_bounded_reference).",
+                            "constraints": {}
+                        },
+                        {
+                            "name": "epoch_clock",
+                            "type": "char",
+                            "blank_value": "",
+                            "default_value": "",
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "The clock on the epoch (e.g. 'dev_local_time').",
+                            "constraints": {}
+                        },
+                        {
+                            "name": "epoch_id",
+                            "type": "char",
+                            "blank_value": "",
+                            "default_value": "",
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "The epoch NAME (an epoch is not a standalone doc, so a name, not a dep).",
+                            "constraints": {}
+                        }
+                    ]
                 },
                 {
                     "name": "epoch_session_id",
-                    "type": "did_uid",
+                    "type": "char",
                     "blank_value": "",
                     "default_value": "",
                     "mustBeNonEmpty": false,
@@ -116,21 +128,22 @@
                     "mustNotHaveNaN": false,
                     "queryable": true,
                     "ontology": null,
-                    "documentation": "Document id of the session this endpoint's epoch lives in.",
+                    "documentation": "The session the epoch belongs to.",
                     "constraints": {}
                 },
                 {
                     "name": "epochprobemap",
-                    "type": "char",
-                    "blank_value": "",
-                    "default_value": "",
+                    "type": "structure",
+                    "blank_value": {},
+                    "default_value": {},
                     "mustBeNonEmpty": false,
                     "mustBeScalar": true,
                     "mustNotHaveNaN": false,
-                    "queryable": false,
+                    "queryable": true,
                     "ontology": null,
-                    "documentation": "Tab-separated epoch-probe-map text describing the probe configuration at this endpoint. Free-form pass-through from v1.",
-                    "constraints": {}
+                    "documentation": "The probe map at this epoch (NDI epoch-node metadata).",
+                    "constraints": {},
+                    "fields": []
                 },
                 {
                     "name": "objectclass",
@@ -142,71 +155,81 @@
                     "mustNotHaveNaN": false,
                     "queryable": true,
                     "ontology": null,
-                    "documentation": "Fully-qualified NDI epochprobemap class name (e.g., 'ndi.epoch.epochprobemap_daqsystem').",
-                    "constraints": {
-                        "maxLength": 256
-                    }
+                    "documentation": "The NDI object class of this epoch node.",
+                    "constraints": {}
                 }
             ]
         },
         {
             "name": "epochnode_b",
             "type": "structure",
-            "blank_value": {
-                "epoch_clock": "",
-                "epoch_id": "",
-                "epoch_session_id": "",
-                "epochprobemap": "",
-                "objectclass": ""
-            },
-            "default_value": {
-                "epoch_clock": "",
-                "epoch_id": "",
-                "epoch_session_id": "",
-                "epochprobemap": "",
-                "objectclass": ""
-            },
+            "blank_value": {},
+            "default_value": {},
             "mustBeNonEmpty": false,
             "mustBeScalar": true,
             "mustNotHaveNaN": false,
             "queryable": true,
             "ontology": null,
-            "documentation": "Second endpoint of the mapping. Same shape as epochnode_a.",
+            "documentation": "Sync endpoint B: the epoch whose clock this mapping relates. Its time flows through the time_reference model (an embedded epoch_bounded_reference), not bare char.",
             "constraints": {},
             "fields": [
                 {
-                    "name": "epoch_clock",
-                    "type": "char",
-                    "blank_value": "",
-                    "default_value": "",
+                    "name": "time_reference",
+                    "type": "structure",
+                    "blank_value": {},
+                    "default_value": {},
                     "mustBeNonEmpty": false,
                     "mustBeScalar": true,
                     "mustNotHaveNaN": false,
                     "queryable": true,
                     "ontology": null,
-                    "documentation": "Clock identifier for this endpoint.",
-                    "constraints": {
-                        "maxLength": 256
-                    }
-                },
-                {
-                    "name": "epoch_id",
-                    "type": "char",
-                    "blank_value": "",
-                    "default_value": "",
-                    "mustBeNonEmpty": false,
-                    "mustBeScalar": true,
-                    "mustNotHaveNaN": false,
-                    "queryable": true,
-                    "ontology": null,
-                    "documentation": "Epoch identifier within the endpoint's session.",
-                    "constraints": {
-                        "maxLength": 256
-                    }
+                    "documentation": "The epoch-clock reference this endpoint's times are stated in (epoch_bounded_reference shape).",
+                    "constraints": {},
+                    "fields": [
+                        {
+                            "name": "kind",
+                            "type": "char",
+                            "blank_value": "",
+                            "default_value": "",
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "The time_reference subclass modeled (epoch_bounded_reference).",
+                            "constraints": {}
+                        },
+                        {
+                            "name": "epoch_clock",
+                            "type": "char",
+                            "blank_value": "",
+                            "default_value": "",
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "The clock on the epoch (e.g. 'dev_local_time').",
+                            "constraints": {}
+                        },
+                        {
+                            "name": "epoch_id",
+                            "type": "char",
+                            "blank_value": "",
+                            "default_value": "",
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "The epoch NAME (an epoch is not a standalone doc, so a name, not a dep).",
+                            "constraints": {}
+                        }
+                    ]
                 },
                 {
                     "name": "epoch_session_id",
-                    "type": "did_uid",
+                    "type": "char",
                     "blank_value": "",
                     "default_value": "",
                     "mustBeNonEmpty": false,
@@ -214,21 +237,22 @@
                     "mustNotHaveNaN": false,
                     "queryable": true,
                     "ontology": null,
-                    "documentation": "Document id of the session this endpoint's epoch lives in.",
+                    "documentation": "The session the epoch belongs to.",
                     "constraints": {}
                 },
                 {
                     "name": "epochprobemap",
-                    "type": "char",
-                    "blank_value": "",
-                    "default_value": "",
+                    "type": "structure",
+                    "blank_value": {},
+                    "default_value": {},
                     "mustBeNonEmpty": false,
                     "mustBeScalar": true,
                     "mustNotHaveNaN": false,
-                    "queryable": false,
+                    "queryable": true,
                     "ontology": null,
-                    "documentation": "Tab-separated epoch-probe-map text. Free-form pass-through from v1.",
-                    "constraints": {}
+                    "documentation": "The probe map at this epoch (NDI epoch-node metadata).",
+                    "constraints": {},
+                    "fields": []
                 },
                 {
                     "name": "objectclass",
@@ -240,10 +264,8 @@
                     "mustNotHaveNaN": false,
                     "queryable": true,
                     "ontology": null,
-                    "documentation": "Fully-qualified NDI epochprobemap class name.",
-                    "constraints": {
-                        "maxLength": 256
-                    }
+                    "documentation": "The NDI object class of this epoch node.",
+                    "constraints": {}
                 }
             ]
         }

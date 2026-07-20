@@ -1592,6 +1592,52 @@ for _cls, _fname in NDI_CLASS_FIELDS.items():
             _f["needs_ndi"] = True
     write(_t, _cls, _d)
 
+# Governance (gov part 3): route syncrule_mapping's epoch-node clock times through
+# the time_reference model. Each epochnode_* embedded the epoch's clock as bare
+# `epoch_clock` + `epoch_id` char fields -- a hand-rolled epoch reference duplicating
+# epoch_bounded_reference. Nest them under a `time_reference` sub-structure shaped as
+# an epoch_bounded_reference (kind + epoch_clock + epoch_id) so the sync layer states
+# time in the canonical model, not bare strings. epoch_id stays a NAME (an epoch is
+# not a standalone doc -- the same reason syncrule_mapping.epochid is left untyped
+# above), so this is an embedded-shape normalization, NOT a doc dependency.
+# epoch_session_id / epochprobemap / objectclass stay as node metadata. The
+# reshape is applied to the corpus by DID-matlab migrators_j.syncrule_mapping.
+def _epochnode(name, which):
+    return field(name, "structure",
+                 "Sync endpoint " + which + ": the epoch whose clock this mapping "
+                 "relates. Its time flows through the time_reference model (an "
+                 "embedded epoch_bounded_reference), not bare char.",
+                 non_empty=False, sub_fields=[
+                     subfield("time_reference", "structure",
+                              "The epoch-clock reference this endpoint's times are "
+                              "stated in (epoch_bounded_reference shape).",
+                              sub_fields=[
+                                  subfield("kind", "char", "The time_reference "
+                                           "subclass modeled (epoch_bounded_reference)."),
+                                  subfield("epoch_clock", "char", "The clock on the "
+                                           "epoch (e.g. 'dev_local_time')."),
+                                  subfield("epoch_id", "char", "The epoch NAME (an "
+                                           "epoch is not a standalone doc, so a name, "
+                                           "not a dep)."),
+                              ]),
+                     subfield("epoch_session_id", "char",
+                              "The session the epoch belongs to."),
+                     subfield("epochprobemap", "structure",
+                              "The probe map at this epoch (NDI epoch-node metadata)."),
+                     subfield("objectclass", "char",
+                              "The NDI object class of this epoch node."),
+                 ])
+
+_t, _p = path_of("syncrule_mapping")
+if _p:
+    _d = load(_p)
+    _d["fields"] = [
+        _epochnode("epochnode_a", "A") if _f.get("name") == "epochnode_a" else
+        _epochnode("epochnode_b", "B") if _f.get("name") == "epochnode_b" else _f
+        for _f in _d.get("fields", [])
+    ]
+    write(_t, "syncrule_mapping", _d)
+
 
 # ---------- 8d. governance: type the now-settled stimulus family -------------
 # 8c deliberately left the stimulus family untyped ("still being restructured").
@@ -1754,12 +1800,16 @@ _RET_SOURCES = {"element", "openminds", "openminds_subject", "openminds_element"
 # abstract (uninstantiable); timeseries_/imageseries_observation are unminted in J.
 _RET_SERIES_OBS = {"dataseries_observation", "timeseries_observation",
     "imageseries_observation"}
-_RET_CARRIERS = {"zarr", "image", "pyraview"}  # KEPT: zarr (storage descriptor),
-    # image (image_observation geometry mixin). pyraview = the one real
-    # observation-tier fold left (has NDI presence), folds with #9. Everything
-    # else dissolved -> DELETE: generic_file, timeseries_data_{binary,csv,edf},
-    # dataseries_data/timeseries_data/imageseries_data, image_collection, and the
-    # ephys_zarr/image_zarr/dataseries_pyramid orphans.
+# 2.D data_body collapse: data_body has EXACTLY 2 members (sampled_body,
+# opaque_body); every format/series carrier has been folded/placed. What LEAVES:
+#   - zarr     an orphaned abstract storage-format descriptor (nothing subclasses
+#              or deps it); it exits with the carrier fold -- an encoding is a field,
+#              not a standalone class -- pending the corpus confirming no zarr docs.
+#   - pyraview the one real observation-tier fold left (has NDI presence); folds to a
+#              body-backed observation with #9 (deferred, needs the NDI second pass).
+# `image` is NOT here: image_observation subclasses `image` (its geometry mixin), so
+# image is a KEPT superclass -- retiring it would orphan a persisting class.
+_RET_CARRIERS = {"zarr", "pyraview"}
 _RET_TOOBS = {"probe_location", "probe_geometry", "electrode_offset_voltage",
     "position_metadata", "distance_metadata", "ontology_label", "ontology_table_row",
     "ontology_image"}

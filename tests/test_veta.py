@@ -652,6 +652,53 @@ def test_ndi_class_handles_marked_needs_ndi():
                 assert f["name"].startswith("ndi_") and f["name"].endswith("_class")
 
 
+def test_syncrule_mapping_epochnode_routed_through_time_reference():
+    """Governance part 3: the sync epoch nodes state their clock time through the
+    time_reference model -- each epochnode_* carries a `time_reference` sub-structure
+    (epoch_bounded_reference shape: kind + epoch_clock + epoch_id), not bare
+    epoch_clock/epoch_id char fields. epoch_id stays a name (epoch is not a doc), so
+    it is an embedded reference, not a dep."""
+    d = RECORDS["syncrule_mapping"][1]
+    for node in ("epochnode_a", "epochnode_b"):
+        f = next(f for f in d["fields"] if f["name"] == node)
+        subs = {s["name"]: s for s in f["fields"]}
+        # the bare clock fields are gone from the top level of the node
+        assert "epoch_clock" not in subs and "epoch_id" not in subs
+        tr = subs["time_reference"]
+        assert tr["type"] == "structure"
+        tr_subs = {s["name"] for s in tr["fields"]}
+        assert {"kind", "epoch_clock", "epoch_id"} <= tr_subs
+        # node metadata is retained
+        assert {"epoch_session_id", "epochprobemap", "objectclass"} <= set(subs)
+    # the epochid dep remains untyped by design (epoch is a name, not a doc)
+    epochid = next(x for x in d["depends_on"] if x["name"] == "epochid")
+    assert not epochid.get("must_refer_to_document_class")
+
+
+def test_data_body_carrier_dispositions():
+    """2.D collapse: data_body has EXACTLY 2 members; the format/series carriers are
+    folded/placed. `image` is KEPT (image_observation's geometry mixin, so it must
+    persist); zarr (orphaned descriptor) and pyraview (folds with #9) are leaving."""
+    bodies = {r[1]["document_class"]["class_name"]
+              for r in RECORDS.values()
+              if "data_body" in {s["class_name"]
+                                 for s in r[1]["document_class"].get("superclasses", [])}}
+    assert bodies == {"sampled_body", "opaque_body"}
+    disp = {e["class_name"]: e.get("disposition") for e in INDEX["schemas"]}
+    assert disp["image"] == "persist", "image is a kept geometry mixin"
+    assert disp["image_observation"] == "persist"
+    assert disp["zarr"] == "retire" and disp["pyraview"] == "retire"
+    # a persisting class never has a RETIRING superclass (the image bug: a kept
+    # class whose mixin was marked retire). in_progress supers are fine -- they are
+    # kept infra whose ⑥/⑦ disposition is just not finalized.
+    for _tier, d in RECORDS.values():
+        if disp.get(d["document_class"]["class_name"]) == "persist":
+            for s in d["document_class"].get("superclasses", []):
+                assert disp.get(s["class_name"], "persist") != "retire", \
+                    f"{d['document_class']['class_name']} persists but super " \
+                    f"{s['class_name']} is retiring"
+
+
 def test_openminds_import_provenance_class():
     """The import-provenance doc pins the openMINDS release + crosswalk version per
     import -- the single source of truth controlled_vocabularies.openMINDS.version
