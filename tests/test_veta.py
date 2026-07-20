@@ -526,6 +526,39 @@ def test_binding_is_formalized_in_meta_schema():
     assert "ontology" in binding["properties"] and "root_node" in binding["properties"]
     assert "value_set" not in binding["properties"]
     assert "source" not in binding["properties"] and "root" not in binding["properties"]
+    # controlled-vocabulary (openMINDS) binding: a directly-named term set
+    assert {"vocabulary", "term_set", "vocabulary_version"} <= set(binding["properties"])
+
+
+def test_openminds_controlled_term_fields_bound():
+    """openMINDS controlled-term fields on dataset (accessibility / ethics_assessment /
+    experimental_approach) are ontology_term-typed and carry an inline `binding` that
+    names the openMINDS term set DIRECTLY (not keyed by a sibling `variable`). The
+    (class, field) -> term_set mapping is cataloged in entity_field_bindings, and the
+    referenced instance library is pinned once in controlled_vocabularies -- never
+    copied inline as `values`."""
+    ds = _load(os.path.join(VETA, "stable", "dataset.json"))
+    fields = {f["name"]: f for f in ds["fields"]}
+    reg = _load(os.path.join(VETA, "stable", "binding_registry_meta.json"))
+    efb = {(r["class"], r["field"]): r for r in reg["entity_field_bindings"]}
+    assert reg["controlled_vocabularies"]["openMINDS"]["iri_base"]
+    expected = {
+        "accessibility": ("ProductAccessibility", "required", True),
+        "ethics_assessment": ("EthicsAssessment", "required", True),
+        "experimental_approach": ("ExperimentalApproach", "preferred", False),
+    }
+    for name, (term_set, strength, closed) in expected.items():
+        f = fields[name]
+        assert f["type"] == "ontology_term", name
+        b = f["constraints"]["binding"]
+        assert b["vocabulary"] == "openMINDS" and b["term_set"] == term_set
+        assert b["strength"] == strength
+        assert "keyed_by" not in b and "values" not in b   # named directly, not copied
+        row = efb[("dataset", name)]
+        assert row["term_set"] == term_set and row["closed"] is closed
+        assert row["strength"] == strength
+    # experimental_approach is the open/growing set -> repeatable (list-valued)
+    assert fields["experimental_approach"]["mustBeScalar"] is False
 
 
 def _leaf_ok(concrete, cls):

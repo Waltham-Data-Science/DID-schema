@@ -2,7 +2,7 @@
     "$schema": "http://json-schema.org/draft-07/schema#",
     "$id": "https://did-schema.example.org/meta/binding_registry_meta.json",
     "title": "Binding registry for DID/NDI V_eta",
-    "description": "Two coordinated registries. subject_statement_bindings map a statement's variable (and, on interactions, method) to the concrete subject_statement leaf class that carries it (e.g. mass_observation, dose_manipulation, term_assertion). The leaf fixes the value type, so there is no data_type; a term-valued leaf additionally pins the admissible term set as an enumerated values list (each an ontology term) or an ontology subtree (ontology + root_node). Rows flagged subject_defining are the kind-defining variables (D9). relation_bindings map a relation term to its carrier class (directed_relation, with child -> parent endpoints, / undirected_relation, with a symmetric member set) and the admissible endpoint entity types. Both registries are keyed on the term; an ontology node is attached as the backing CURIE where a standard term exists, otherwise the name is the key until one is assigned. Consumer tooling resolves a value or endpoint against the matching binding at validation time.",
+    "description": "Three coordinated registries, one per binding shape: subject_statement_bindings (keyed by variable, for statement leaves), relation_bindings (keyed by relation term, for edges), and entity_field_bindings (keyed by class+field, for a controlled-term field named directly on an entity -- e.g. the openMINDS ProductAccessibility/EthicsAssessment/ExperimentalApproach terms on dataset; the referenced instance libraries are pinned once in controlled_vocabularies, not copied inline). subject_statement_bindings map a statement's variable (and, on interactions, method) to the concrete subject_statement leaf class that carries it (e.g. mass_observation, dose_manipulation, term_assertion). The leaf fixes the value type, so there is no data_type; a term-valued leaf additionally pins the admissible term set as an enumerated values list (each an ontology term) or an ontology subtree (ontology + root_node). Rows flagged subject_defining are the kind-defining variables (D9). relation_bindings map a relation term to its carrier class (directed_relation, with child -> parent endpoints, / undirected_relation, with a symmetric member set) and the admissible endpoint entity types. Both registries are keyed on the term; an ontology node is attached as the backing CURIE where a standard term exists, otherwise the name is the key until one is assigned. Consumer tooling resolves a value or endpoint against the matching binding at validation time.",
     "subject_statement_bindings": [
         {
             "variable": {
@@ -392,6 +392,39 @@
             ],
             "timed": false,
             "ordered": false
+        }
+    ],
+    "controlled_vocabularies": {
+        "openMINDS": {
+            "version": null,
+            "iri_base": "https://openminds.ebrains.eu/instances/",
+            "notes": "openMINDS controlled-term instance libraries; each term_set is a flat instance library (IRI + label), not an ontology subtree."
+        }
+    },
+    "entity_field_bindings": [
+        {
+            "class": "dataset",
+            "field": "accessibility",
+            "vocabulary": "openMINDS",
+            "term_set": "ProductAccessibility",
+            "strength": "required",
+            "closed": true
+        },
+        {
+            "class": "dataset",
+            "field": "ethics_assessment",
+            "vocabulary": "openMINDS",
+            "term_set": "EthicsAssessment",
+            "strength": "required",
+            "closed": true
+        },
+        {
+            "class": "dataset",
+            "field": "experimental_approach",
+            "vocabulary": "openMINDS",
+            "term_set": "ExperimentalApproach",
+            "strength": "preferred",
+            "closed": false
         }
     ],
     "notes": "subject_statement_bindings are keyed on the variable (+ method on interactions) and name the concrete leaf class that carries the statement (e.g. mass_observation, dose_manipulation, term_assertion). The leaf fixes the value type -- there is no data_type and no separately-named value_set. Only a term-valued leaf carries an admissible-set spec (values or ontology+root_node); a dimensional leaf needs none. Rows flagged subject_defining make the subject-kind ingestion invariant precise: a subject is expected to carry >=1 term_assertion whose variable matches a subject_defining binding (checked at ingest). The remaining (non-defining) bindings are populated by the D3/D6 corpus sweep; binding_examples holds illustrative rows only and is not swept data. relation_bindings enumerate the admissible relation terms (D6): the value carried on directed_relation.relation / undirected_relation.relation is a member of this set. class pins the term to its carrier and thus its endpoint symmetry: a directed_relation carries child_types -> parent_types (matching the schema child/parent deps), an undirected_relation carries a symmetric member_types (matching its single entities dep). Abstract types (entity, subject) mean 'any of that genus'; [] = unconstrained. NOTE: every term today is directed_relation, so undirected_relation / member_types are reserved but currently unused -- the first symmetric relation added will exercise them. A relation `node` is the backing ontology CURIE (RO/BFO where one exists; \"\" = an open D6 slot). ordered marks terms where the directed sequence field is meaningful; timed marks event edges that may carry a method/time anchor."

@@ -321,6 +321,15 @@
                                 },
                                 "values": {
                                     "type": "array"
+                                },
+                                "vocabulary": {
+                                    "type": "string"
+                                },
+                                "term_set": {
+                                    "type": "string"
+                                },
+                                "vocabulary_version": {
+                                    "type": "string"
                                 }
                             }
                         }

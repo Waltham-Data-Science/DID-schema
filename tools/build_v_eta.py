@@ -635,18 +635,31 @@ write("stable", "dataset", doc("dataset", ["entity"], fields=[
           non_empty=False, scalar=False),
     field("license", "char", "License (openMINDS DatasetVersion.license, a SPDX "
           "license identifier).", non_empty=False),
-    field("accessibility", "char", "Access level of the data -- e.g. free access / "
-          "controlled access / restricted access (openMINDS "
+    # Controlled-term fields: ontology_term (node = openMINDS instance IRI, name =
+    # label) with an inline `binding` naming the openMINDS term set directly (NOT
+    # keyed by a sibling `variable` the way statement leaves are). See
+    # V_eta_openminds_controlled_terms_binding_plan.md; cataloged in
+    # binding_registry_meta.entity_field_bindings. CLOSED sets -> strength required;
+    # the open/growing ExperimentalApproach -> preferred.
+    field("accessibility", "ontology_term", "Access level of the data -- e.g. free "
+          "access / controlled access / under embargo (openMINDS "
           "DatasetVersion.accessibility, controlled term ProductAccessibility).",
-          non_empty=False),
-    field("ethics_assessment", "char", "Whether/how the work required ethics review "
-          "-- e.g. not required / EU compliant / EU non-compliant (openMINDS "
+          non_empty=False, constraints={"binding": {
+              "vocabulary": "openMINDS", "term_set": "ProductAccessibility",
+              "strength": "required"}}),
+    field("ethics_assessment", "ontology_term", "Whether/how the work required ethics "
+          "review -- e.g. not required / EU compliant / EU non-compliant (openMINDS "
           "DatasetVersion.ethicsAssessment, controlled term EthicsAssessment).",
-          non_empty=False),
-    field("experimental_approach", "char", "Scientific method/approach used to acquire "
-          "the data -- e.g. electrophysiology, behavior (openMINDS "
-          "DatasetVersion.experimentalApproach, controlled term "
-          "ExperimentalApproach); repeatable.", non_empty=False, scalar=False),
+          non_empty=False, constraints={"binding": {
+              "vocabulary": "openMINDS", "term_set": "EthicsAssessment",
+              "strength": "required"}}),
+    field("experimental_approach", "ontology_term", "Scientific method/approach used "
+          "to acquire the data -- e.g. electrophysiology, behavior (openMINDS "
+          "DatasetVersion.experimentalApproach, controlled term ExperimentalApproach); "
+          "repeatable, open/growing set.", non_empty=False, scalar=False,
+          constraints={"binding": {
+              "vocabulary": "openMINDS", "term_set": "ExperimentalApproach",
+              "strength": "preferred"}}),
     field("support_channel", "char", "Where to get support for this dataset -- an email "
           "address or discussion channel (openMINDS DatasetVersion.supportChannel); "
           "a support URL is instead a directed_relation -> web_resource. Repeatable.",
@@ -1017,6 +1030,12 @@ constraints_schema["properties"] = {
             "ontology": {"type": "string"},
             "root_node": {"type": "string"},
             "values": {"type": "array"},
+            # Controlled-vocabulary (openMINDS) binding: a directly-named term set
+            # rather than an ontology subtree or a variable-keyed lookup. See
+            # entity_field_bindings in binding_registry_meta.json.
+            "vocabulary": {"type": "string"},
+            "term_set": {"type": "string"},
+            "vocabulary_version": {"type": "string"},
         },
     }
 }
@@ -1135,6 +1154,38 @@ SUBJECT_STATEMENT_BINDINGS = [
     # The D3/D6 corpus sweep appends the non-defining bindings here.
 ]
 
+# ---------- controlled-vocabulary (openMINDS) entity-field bindings ----------
+# The THIRD binding shape: a controlled-term FIELD named directly on an entity
+# (not keyed by a sibling `variable` like a statement leaf, and not a relation
+# term). Each row pins a (class, field) to an openMINDS controlled-term set. The
+# field itself is ontology_term-typed with an inline `binding` naming the same
+# term_set; this registry is the single catalog so consumer tooling can enumerate
+# every controlled vocabulary in one place (parity with relation_bindings). The
+# instance library is NOT copied inline (drift) -- it is referenced by name and its
+# release is pinned once in controlled_vocabularies. `closed` marks fixed sets
+# (strength required) vs open/growing sets (strength preferred).
+CONTROLLED_VOCABULARIES = {
+    "openMINDS": {
+        "version": None,   # concrete openMINDS release pinned by the import-provenance
+                           # document (single source of truth); round-trip CI asserts it
+        "iri_base": "https://openminds.ebrains.eu/instances/",
+        "notes": "openMINDS controlled-term instance libraries; each term_set is a "
+                 "flat instance library (IRI + label), not an ontology subtree.",
+    },
+}
+
+ENTITY_FIELD_BINDINGS = [
+    {"class": "dataset", "field": "accessibility",
+     "vocabulary": "openMINDS", "term_set": "ProductAccessibility",
+     "strength": "required", "closed": True},
+    {"class": "dataset", "field": "ethics_assessment",
+     "vocabulary": "openMINDS", "term_set": "EthicsAssessment",
+     "strength": "required", "closed": True},
+    {"class": "dataset", "field": "experimental_approach",
+     "vocabulary": "openMINDS", "term_set": "ExperimentalApproach",
+     "strength": "preferred", "closed": False},
+]
+
 # Illustrative examples kept OUT of the live binding list so they never collide
 # with or get mistaken for swept data. Each shows one shape (term leaf + subtree,
 # term leaf + enumerated NodeRef values, dimensional leaf with no spec, and a
@@ -1167,7 +1218,15 @@ binding_registry = {
     "$schema": "http://json-schema.org/draft-07/schema#",
     "$id": "https://did-schema.example.org/meta/binding_registry_meta.json",
     "title": "Binding registry for DID/NDI V_eta",
-    "description": "Two coordinated registries. subject_statement_bindings map a "
+    "description": "Three coordinated registries, one per binding shape: "
+                   "subject_statement_bindings (keyed by variable, for statement "
+                   "leaves), relation_bindings (keyed by relation term, for edges), "
+                   "and entity_field_bindings (keyed by class+field, for a "
+                   "controlled-term field named directly on an entity -- e.g. the "
+                   "openMINDS ProductAccessibility/EthicsAssessment/ExperimentalApproach "
+                   "terms on dataset; the referenced instance libraries are pinned "
+                   "once in controlled_vocabularies, not copied inline). "
+                   "subject_statement_bindings map a "
                    "statement's variable (and, on interactions, method) to the "
                    "concrete subject_statement leaf class that carries it (e.g. "
                    "mass_observation, dose_manipulation, term_assertion). The leaf "
@@ -1187,6 +1246,8 @@ binding_registry = {
     "subject_statement_bindings": SUBJECT_STATEMENT_BINDINGS,
     "binding_examples": BINDING_EXAMPLES,
     "relation_bindings": RELATION_VOCABULARY,
+    "controlled_vocabularies": CONTROLLED_VOCABULARIES,
+    "entity_field_bindings": ENTITY_FIELD_BINDINGS,
     "notes": "subject_statement_bindings are keyed on the variable (+ method on "
              "interactions) and name the concrete leaf class that carries the "
              "statement (e.g. mass_observation, dose_manipulation, term_assertion). "

@@ -118,42 +118,78 @@
         },
         {
             "name": "accessibility",
-            "type": "char",
-            "blank_value": "",
-            "default_value": "",
+            "type": "ontology_term",
+            "blank_value": {
+                "node": "",
+                "name": ""
+            },
+            "default_value": {
+                "node": "",
+                "name": ""
+            },
             "mustBeNonEmpty": false,
             "mustBeScalar": true,
             "mustNotHaveNaN": false,
             "queryable": true,
             "ontology": null,
-            "documentation": "Access level of the data -- e.g. free access / controlled access / restricted access (openMINDS DatasetVersion.accessibility, controlled term ProductAccessibility).",
-            "constraints": {}
+            "documentation": "Access level of the data -- e.g. free access / controlled access / under embargo (openMINDS DatasetVersion.accessibility, controlled term ProductAccessibility).",
+            "constraints": {
+                "binding": {
+                    "vocabulary": "openMINDS",
+                    "term_set": "ProductAccessibility",
+                    "strength": "required"
+                }
+            }
         },
         {
             "name": "ethics_assessment",
-            "type": "char",
-            "blank_value": "",
-            "default_value": "",
+            "type": "ontology_term",
+            "blank_value": {
+                "node": "",
+                "name": ""
+            },
+            "default_value": {
+                "node": "",
+                "name": ""
+            },
             "mustBeNonEmpty": false,
             "mustBeScalar": true,
             "mustNotHaveNaN": false,
             "queryable": true,
             "ontology": null,
             "documentation": "Whether/how the work required ethics review -- e.g. not required / EU compliant / EU non-compliant (openMINDS DatasetVersion.ethicsAssessment, controlled term EthicsAssessment).",
-            "constraints": {}
+            "constraints": {
+                "binding": {
+                    "vocabulary": "openMINDS",
+                    "term_set": "EthicsAssessment",
+                    "strength": "required"
+                }
+            }
         },
         {
             "name": "experimental_approach",
-            "type": "char",
-            "blank_value": [],
-            "default_value": [],
+            "type": "ontology_term",
+            "blank_value": {
+                "node": "",
+                "name": ""
+            },
+            "default_value": {
+                "node": "",
+                "name": ""
+            },
             "mustBeNonEmpty": false,
             "mustBeScalar": false,
             "mustNotHaveNaN": false,
             "queryable": true,
             "ontology": null,
-            "documentation": "Scientific method/approach used to acquire the data -- e.g. electrophysiology, behavior (openMINDS DatasetVersion.experimentalApproach, controlled term ExperimentalApproach); repeatable.",
-            "constraints": {}
+            "documentation": "Scientific method/approach used to acquire the data -- e.g. electrophysiology, behavior (openMINDS DatasetVersion.experimentalApproach, controlled term ExperimentalApproach); repeatable, open/growing set.",
+            "constraints": {
+                "binding": {
+                    "vocabulary": "openMINDS",
+                    "term_set": "ExperimentalApproach",
+                    "strength": "preferred"
+                }
+            }
         },
         {
             "name": "support_channel",
