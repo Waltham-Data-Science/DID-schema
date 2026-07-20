@@ -724,7 +724,8 @@
                 "subject_observation"
             ],
             "path": "schemas/V_eta/draft/dataseries_observation.json",
-            "disposition": "persist"
+            "disposition": "retire",
+            "disposition_note": "\u00a7A.9: series-observation branch \u2192 quantity leaves + data_body"
         },
         {
             "class_name": "dataset",
@@ -1215,7 +1216,8 @@
                 "image_stack_parameters"
             ],
             "path": "schemas/V_eta/deprecated/image_stack.json",
-            "disposition": "persist"
+            "disposition": "retire",
+            "disposition_note": "Phase-8 source (migrator \u2192 delete)"
         },
         {
             "class_name": "image_stack_parameters",
@@ -1226,7 +1228,8 @@
                 "base"
             ],
             "path": "schemas/V_eta/deprecated/image_stack_parameters.json",
-            "disposition": "persist"
+            "disposition": "retire",
+            "disposition_note": "Phase-8 source (migrator \u2192 delete)"
         },
         {
             "class_name": "imageseries_observation",
@@ -1237,7 +1240,8 @@
                 "dataseries_observation"
             ],
             "path": "schemas/V_eta/draft/imageseries_observation.json",
-            "disposition": "persist"
+            "disposition": "retire",
+            "disposition_note": "\u00a7A.9: series-observation branch \u2192 quantity leaves + data_body"
         },
         {
             "class_name": "instrument",
@@ -2188,7 +2192,8 @@
                 "base"
             ],
             "path": "schemas/V_eta/deprecated/subject_group.json",
-            "disposition": "persist"
+            "disposition": "retire",
+            "disposition_note": "Phase-8 source (migrator \u2192 delete)"
         },
         {
             "class_name": "subject_interaction",
@@ -2395,7 +2400,8 @@
                 "dataseries_observation"
             ],
             "path": "schemas/V_eta/draft/timeseries_observation.json",
-            "disposition": "persist"
+            "disposition": "retire",
+            "disposition_note": "\u00a7A.9: series-observation branch \u2192 quantity leaves + data_body"
         },
         {
             "class_name": "treatment",
@@ -2406,7 +2412,8 @@
                 "base"
             ],
             "path": "schemas/V_eta/deprecated/treatment.json",
-            "disposition": "persist"
+            "disposition": "retire",
+            "disposition_note": "Phase-8 source (migrator \u2192 delete)"
         },
         {
             "class_name": "treatment_drug",
@@ -2417,7 +2424,8 @@
                 "base"
             ],
             "path": "schemas/V_eta/deprecated/treatment_drug.json",
-            "disposition": "persist"
+            "disposition": "retire",
+            "disposition_note": "Phase-8 source (migrator \u2192 delete)"
         },
         {
             "class_name": "treatment_transfer",
@@ -2428,7 +2436,8 @@
                 "base"
             ],
             "path": "schemas/V_eta/deprecated/treatment_transfer.json",
-            "disposition": "persist"
+            "disposition": "retire",
+            "disposition_note": "Phase-8 source (migrator \u2192 delete)"
         },
         {
             "class_name": "tuning_fit",
@@ -2521,7 +2530,8 @@
                 "base"
             ],
             "path": "schemas/V_eta/deprecated/virus_injection.json",
-            "disposition": "persist"
+            "disposition": "retire",
+            "disposition_note": "Phase-8 source (migrator \u2192 delete)"
         },
         {
             "class_name": "vmneuralresponseresiduals",

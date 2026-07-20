@@ -1492,7 +1492,19 @@ idx["notes"] = ("Source of truth for class_name uniqueness and tier placement. "
 # Keep these lists in sync with V_eta_final_class_set.md / the ⑥/⑦ walkthrough.
 _RET_SOURCES = {"element", "openminds", "openminds_subject", "openminds_element",
     "openminds_stimulus", "metadata_editor", "dataset_remote",
-    "session_in_a_dataset", "dataset_session_info"}
+    "session_in_a_dataset", "dataset_session_info",
+    # v1 SOURCE classes dissolved by migrators_j (kept in-schema only until the
+    # corpus proves the fold, then deleted -- NOT in the final set): the treatment
+    # family -> manipulations, subject_group -> bare subject, image_stack(+params)
+    # -> image_observation + sampled_body.
+    "treatment", "treatment_drug", "treatment_transfer", "virus_injection",
+    "subject_group", "image_stack", "image_stack_parameters"}
+# The abstract dataseries_observation branch collapses into the quantity data-type
+# leaves + data_body (§A.9): a body-backed series is <quantity>_observation +
+# storage_mode:body, not a series-observation class. dataseries_observation is
+# abstract (uninstantiable); timeseries_/imageseries_observation are unminted in J.
+_RET_SERIES_OBS = {"dataseries_observation", "timeseries_observation",
+    "imageseries_observation"}
 _RET_CARRIERS = {"zarr", "image", "pyraview"}  # KEPT: zarr (storage descriptor),
     # image (image_observation geometry mixin). pyraview = the one real
     # observation-tier fold left (has NDI presence), folds with #9. Everything
@@ -1525,6 +1537,8 @@ _IN_PROGRESS = {"daqsystem", "daqreader", "daqmetadatareader",
 
 def _disposition(name):
     if name in _RET_SOURCES:  return ("retire", "Phase-8 source (migrator → delete)")
+    if name in _RET_SERIES_OBS:
+        return ("retire", "§A.9: series-observation branch → quantity leaves + data_body")
     if name in _RET_HOLDOVER or _ANALYSIS_RE.search(name):
         return ("retire", "D-C analysis-tier decompose")
     if name in _RET_CARRIERS: return ("retire", "2.D → data_body fold")
