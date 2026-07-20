@@ -22,7 +22,7 @@
             "mustNotHaveNaN": false,
             "queryable": true,
             "ontology": null,
-            "documentation": "Given (personal) name; may include middle names/initials (given/family per the international convention).",
+            "documentation": "Given (personal) name; may include middle names/initials (given/family per the international convention). (openMINDS Person.givenName.)",
             "constraints": {}
         },
         {
@@ -35,7 +35,7 @@
             "mustNotHaveNaN": false,
             "queryable": true,
             "ontology": null,
-            "documentation": "Family (sur)name.",
+            "documentation": "Family (sur)name. (openMINDS Person.familyName.)",
             "constraints": {}
         },
         {
@@ -48,7 +48,7 @@
             "mustNotHaveNaN": false,
             "queryable": true,
             "ontology": null,
-            "documentation": "Contact email; meaningful when acting as a contact.",
+            "documentation": "Contact email; meaningful when acting as a contact. (openMINDS Person.contactInformation -> ContactInformation.email.)",
             "constraints": {}
         },
         {

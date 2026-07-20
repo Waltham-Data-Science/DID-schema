@@ -22,7 +22,7 @@
             "mustNotHaveNaN": false,
             "queryable": true,
             "ontology": null,
-            "documentation": "Full dataset name.",
+            "documentation": "Full dataset name (openMINDS DatasetVersion.fullName).",
             "constraints": {}
         },
         {
@@ -35,7 +35,7 @@
             "mustNotHaveNaN": false,
             "queryable": true,
             "ontology": null,
-            "documentation": "Short dataset name.",
+            "documentation": "Short dataset name / acronym (openMINDS DatasetVersion.shortName).",
             "constraints": {}
         },
         {
@@ -48,7 +48,20 @@
             "mustNotHaveNaN": false,
             "queryable": true,
             "ontology": null,
-            "documentation": "Version identifier.",
+            "documentation": "Version identifier (openMINDS DatasetVersion.versionIdentifier).",
+            "constraints": {}
+        },
+        {
+            "name": "version_innovation",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "What changed relative to the previous version -- the changelog note (openMINDS DatasetVersion.versionInnovation).",
             "constraints": {}
         },
         {
@@ -61,7 +74,33 @@
             "mustNotHaveNaN": false,
             "queryable": true,
             "ontology": null,
-            "documentation": "Dataset description / abstract.",
+            "documentation": "Dataset description / abstract (openMINDS DatasetVersion.description).",
+            "constraints": {}
+        },
+        {
+            "name": "how_to_cite",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Preferred citation string for this dataset version (openMINDS DatasetVersion.howToCite).",
+            "constraints": {}
+        },
+        {
+            "name": "keyword",
+            "type": "char",
+            "blank_value": [],
+            "default_value": [],
+            "mustBeNonEmpty": false,
+            "mustBeScalar": false,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Free-text keywords/tags describing the dataset (openMINDS DatasetVersion.keyword); repeatable.",
             "constraints": {}
         },
         {
@@ -74,7 +113,59 @@
             "mustNotHaveNaN": false,
             "queryable": true,
             "ontology": null,
-            "documentation": "License.",
+            "documentation": "License (openMINDS DatasetVersion.license, a SPDX license identifier).",
+            "constraints": {}
+        },
+        {
+            "name": "accessibility",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Access level of the data -- e.g. free access / controlled access / restricted access (openMINDS DatasetVersion.accessibility, controlled term ProductAccessibility).",
+            "constraints": {}
+        },
+        {
+            "name": "ethics_assessment",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Whether/how the work required ethics review -- e.g. not required / EU compliant / EU non-compliant (openMINDS DatasetVersion.ethicsAssessment, controlled term EthicsAssessment).",
+            "constraints": {}
+        },
+        {
+            "name": "experimental_approach",
+            "type": "char",
+            "blank_value": [],
+            "default_value": [],
+            "mustBeNonEmpty": false,
+            "mustBeScalar": false,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Scientific method/approach used to acquire the data -- e.g. electrophysiology, behavior (openMINDS DatasetVersion.experimentalApproach, controlled term ExperimentalApproach); repeatable.",
+            "constraints": {}
+        },
+        {
+            "name": "support_channel",
+            "type": "char",
+            "blank_value": [],
+            "default_value": [],
+            "mustBeNonEmpty": false,
+            "mustBeScalar": false,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Where to get support for this dataset -- an email address or discussion channel (openMINDS DatasetVersion.supportChannel); a support URL is instead a directed_relation -> web_resource. Repeatable.",
             "constraints": {}
         },
         {
@@ -87,7 +178,7 @@
             "mustNotHaveNaN": false,
             "queryable": true,
             "ontology": null,
-            "documentation": "Release date.",
+            "documentation": "Release date (openMINDS DatasetVersion.releaseDate).",
             "constraints": {}
         },
         {

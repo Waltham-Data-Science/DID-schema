@@ -555,11 +555,16 @@ LOCAL_ID_OPT = field(
     "within its dataset (distinct from any display name/title). Required on "
     "subject; optional here.", non_empty=False)
 
+# openMINDS Person: givenName/familyName -> fields; contactInformation(email) -> field;
+# digitalIdentifier(ORCID) -> entity.global_identifier{scheme='ORCID'}; affiliation ->
+# directed_relation -> organization (member_of). No scalar properties are dropped.
 write("stable", "person", doc("person", ["entity"], fields=[
     field("given_name", "char", "Given (personal) name; may include middle "
-          "names/initials (given/family per the international convention)."),
-    field("family_name", "char", "Family (sur)name."),
-    field("email", "char", "Contact email; meaningful when acting as a contact.",
+          "names/initials (given/family per the international convention). "
+          "(openMINDS Person.givenName.)"),
+    field("family_name", "char", "Family (sur)name. (openMINDS Person.familyName.)"),
+    field("email", "char", "Contact email; meaningful when acting as a contact. "
+          "(openMINDS Person.contactInformation -> ContactInformation.email.)",
           non_empty=False), LOCAL_ID_OPT]))
 write("stable", "organization", doc("organization", ["entity"], fields=[
     field("full_name", "char", "Organization full name (funder or affiliation); "
@@ -595,15 +600,60 @@ write("stable", "web_resource", doc("web_resource", ["entity"], fields=[
 # dataset IS the entity (target of the metadata_editor decomposition — a follow-up
 # migrator reshapes the Soph metadata_structure blob into this + person/funding/
 # publication entities + relations; metadata_editor is kept as the source until then).
-# Documentation/homepage/repository links are NOT fields here — they are
-# `directed_relation`s -> web_resource / -> publication (references are relations).
+#
+# openMINDS parity (Dataset + DatasetVersion collapsed into this one entity). Every
+# openMINDS DatasetVersion property has a home so the object round-trips with no loss:
+#   * SCALAR properties -> optional fields below, named inline (snake_case) with the
+#     openMINDS property noted on each.
+#   * REFERENCE properties are NOT fields — references are relations here:
+#       author / custodian / otherContribution -> directed_relation -> person|organization
+#           (the openMINDS contributor ROLE rides on the relation type: author vs custodian)
+#       funding                                -> directed_relation -> funding
+#       relatedPublication                     -> directed_relation -> publication
+#       fullDocumentation / homepage / repository / protocol / supportChannel(url)
+#                                              -> directed_relation -> web_resource
+#       studiedSpecimen                        -> directed_relation -> subject
+#       inputData                              -> directed_relation -> dataset|web_resource
+#       isNewVersionOf / isAlternativeVersionOf -> directed_relation -> dataset
+#       digitalIdentifier (DOI)                -> entity.global_identifier{scheme='DOI'}
+#       type                                   -> implied by class (not stored per-instance)
 write("stable", "dataset", doc("dataset", ["entity"], fields=[
-    field("full_name", "char", "Full dataset name."),
-    field("short_name", "char", "Short dataset name.", non_empty=False),
-    field("version", "char", "Version identifier.", non_empty=False),
-    field("description", "char", "Dataset description / abstract.", non_empty=False),
-    field("license", "char", "License.", non_empty=False),
-    field("release_date", "char", "Release date.", non_empty=False), LOCAL_ID_OPT]))
+    field("full_name", "char", "Full dataset name (openMINDS DatasetVersion.fullName)."),
+    field("short_name", "char", "Short dataset name / acronym "
+          "(openMINDS DatasetVersion.shortName).", non_empty=False),
+    field("version", "char", "Version identifier "
+          "(openMINDS DatasetVersion.versionIdentifier).", non_empty=False),
+    field("version_innovation", "char", "What changed relative to the previous version "
+          "-- the changelog note (openMINDS DatasetVersion.versionInnovation).",
+          non_empty=False),
+    field("description", "char", "Dataset description / abstract "
+          "(openMINDS DatasetVersion.description).", non_empty=False),
+    field("how_to_cite", "char", "Preferred citation string for this dataset version "
+          "(openMINDS DatasetVersion.howToCite).", non_empty=False),
+    field("keyword", "char", "Free-text keywords/tags describing the dataset "
+          "(openMINDS DatasetVersion.keyword); repeatable.",
+          non_empty=False, scalar=False),
+    field("license", "char", "License (openMINDS DatasetVersion.license, a SPDX "
+          "license identifier).", non_empty=False),
+    field("accessibility", "char", "Access level of the data -- e.g. free access / "
+          "controlled access / restricted access (openMINDS "
+          "DatasetVersion.accessibility, controlled term ProductAccessibility).",
+          non_empty=False),
+    field("ethics_assessment", "char", "Whether/how the work required ethics review "
+          "-- e.g. not required / EU compliant / EU non-compliant (openMINDS "
+          "DatasetVersion.ethicsAssessment, controlled term EthicsAssessment).",
+          non_empty=False),
+    field("experimental_approach", "char", "Scientific method/approach used to acquire "
+          "the data -- e.g. electrophysiology, behavior (openMINDS "
+          "DatasetVersion.experimentalApproach, controlled term "
+          "ExperimentalApproach); repeatable.", non_empty=False, scalar=False),
+    field("support_channel", "char", "Where to get support for this dataset -- an email "
+          "address or discussion channel (openMINDS DatasetVersion.supportChannel); "
+          "a support URL is instead a directed_relation -> web_resource. Repeatable.",
+          non_empty=False, scalar=False),
+    field("release_date", "char", "Release date "
+          "(openMINDS DatasetVersion.releaseDate).", non_empty=False),
+    LOCAL_ID_OPT]))
 
 # session JOINS the entity genus. A recording session is the most-referenced
 # identity in the schema (base.session_id is on nearly every document) and is
