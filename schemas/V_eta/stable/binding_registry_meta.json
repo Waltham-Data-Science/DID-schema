@@ -298,12 +298,12 @@
             },
             "class": "directed_relation",
             "child_role": "the funded dataset",
-            "parent_role": "the award",
+            "parent_role": "the funding",
             "child_types": [
                 "dataset"
             ],
             "parent_types": [
-                "award"
+                "funding"
             ],
             "timed": false,
             "ordered": false
@@ -314,10 +314,10 @@
                 "name": "issued_by"
             },
             "class": "directed_relation",
-            "child_role": "the award",
+            "child_role": "the funding",
             "parent_role": "the issuing organization",
             "child_types": [
-                "award"
+                "funding"
             ],
             "parent_types": [
                 "organization"

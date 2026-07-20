@@ -17,7 +17,7 @@
 `base`, `data`, `data_body`, `data_type`, `directed_relation`, `entity`, `relation`, `subject_assertion`, `subject_interaction`, `subject_manipulation`, `subject_observation`, `subject_statement`, `undirected_relation`
 
 ## ② Entities (8)
-`award`, `dataset`, `organization`, `person`, `publication`, `session`, `subject`, `web_resource`
+`dataset`, `funding`, `organization`, `person`, `publication`, `session`, `subject`, `web_resource`
 
 ## ③ Quantity & substance composites (data_type) (30)
 `acceleration`, `amount`, `angle`, `angular_velocity`, `area`, `capacitance`, `charge`, `chemical`, `concentration`, `conductance`, `count`, `current`, `dose`, `duration`, `energy`, `force`, `formulation`, `frequency`, `intensity`, `length`, `mass`, `ph`, `power`, `pressure`, `resistance`, `score`, `temperature`, `velocity`, `voltage`, `volume`

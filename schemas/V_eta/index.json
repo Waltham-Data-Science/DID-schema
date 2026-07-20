@@ -249,17 +249,6 @@
             "disposition": "persist"
         },
         {
-            "class_name": "award",
-            "tier": "stable",
-            "class_version": "1.0.0",
-            "maturity_level": "stable",
-            "superclasses": [
-                "entity"
-            ],
-            "path": "schemas/V_eta/stable/award.json",
-            "disposition": "persist"
-        },
-        {
             "class_name": "base",
             "tier": "stable",
             "class_version": "1.0.0",
@@ -1153,6 +1142,17 @@
                 "frequency"
             ],
             "path": "schemas/V_eta/stable/frequency_observation.json",
+            "disposition": "persist"
+        },
+        {
+            "class_name": "funding",
+            "tier": "stable",
+            "class_version": "1.0.0",
+            "maturity_level": "stable",
+            "superclasses": [
+                "entity"
+            ],
+            "path": "schemas/V_eta/stable/funding.json",
             "disposition": "persist"
         },
         {

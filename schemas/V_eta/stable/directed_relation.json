@@ -13,7 +13,7 @@
         {
             "name": "child",
             "mustBeNonEmpty": true,
-            "documentation": "The finer/subordinate/derived ENTITY (any entity \u2014 subject part, dataset, award, \u2026).",
+            "documentation": "The finer/subordinate/derived ENTITY (any entity \u2014 subject part, dataset, funding, \u2026).",
             "must_refer_to_document_class": "entity"
         },
         {

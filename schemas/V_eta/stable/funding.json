@@ -1,6 +1,6 @@
 {
     "document_class": {
-        "class_name": "award",
+        "class_name": "funding",
         "class_version": "1.0.0",
         "superclasses": [
             {
@@ -22,7 +22,7 @@
             "mustNotHaveNaN": false,
             "queryable": true,
             "ontology": null,
-            "documentation": "Award/grant title; award number / grant DOI via global_identifier. Its funder is a `directed_relation` -> organization.",
+            "documentation": "Award/grant title (openMINDS Funding.awardTitle); the award number / grant DOI rides on global_identifier{scheme='AwardNumber'} (openMINDS Funding.awardNumber). Its funder is a `directed_relation` -> organization (openMINDS Funding.funder).",
             "constraints": {}
         },
         {

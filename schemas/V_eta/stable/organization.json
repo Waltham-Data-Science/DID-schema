@@ -13,7 +13,7 @@
     "file": [],
     "fields": [
         {
-            "name": "name",
+            "name": "full_name",
             "type": "char",
             "blank_value": "",
             "default_value": "",
@@ -22,7 +22,20 @@
             "mustNotHaveNaN": false,
             "queryable": true,
             "ontology": null,
-            "documentation": "Organization name (funder or affiliation); ROR via global_identifier. Location is not stored \u2014 it lives in the ROR record.",
+            "documentation": "Organization full name (funder or affiliation); ROR via global_identifier. Location is not stored \u2014 it lives in the ROR record. (openMINDS Organization.fullName.)",
+            "constraints": {}
+        },
+        {
+            "name": "short_name",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Organization short name / acronym (e.g. 'NIH'); openMINDS Organization.shortName.",
             "constraints": {}
         },
         {

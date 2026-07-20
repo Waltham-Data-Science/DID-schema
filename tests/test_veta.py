@@ -231,7 +231,7 @@ def test_relation_branch():
 
 def test_entity_genus():
     assert RECORDS["entity"][1]["document_class"].get("abstract") is True
-    for e in ("subject", "person", "organization", "publication", "award",
+    for e in ("subject", "person", "organization", "publication", "funding",
               "dataset", "web_resource", "session"):
         assert "entity" in _chain(e), f"{e} should descend from entity"
     # directed_relation endpoints are entities now, not just subjects
@@ -259,7 +259,7 @@ def test_local_identifier_required_on_subject_optional_elsewhere():
     sub = _local_id("subject")
     assert sub is not None and sub["mustBeNonEmpty"] is True
     # every other entity carries it, optional
-    for e in ("dataset", "person", "organization", "publication", "award",
+    for e in ("dataset", "person", "organization", "publication", "funding",
               "web_resource", "session"):
         f = _local_id(e)
         assert f is not None, f"{e} should carry an optional local_identifier"

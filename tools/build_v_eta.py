@@ -136,6 +136,11 @@ RENAME = {
     # epoch document's name is stale. It is an epoch of a data ACQUISITION. The
     # rename loop propagates this across class_name + superclasses + must_refer.
     "element_epoch": "acquisition_epoch",
+    # entity rename for openMINDS alignment: our grant entity is openMINDS `Funding`
+    # (awardTitle + awardNumber + funder). Propagates class_name + superclasses +
+    # must_refer across any inherited references; the fresh V_eta defs already say
+    # `funding`, so this only catches stragglers.
+    "award": "funding",
 }
 for d in DIMS:
     RENAME[f"scalar_{d}"] = d                       # shape mixin
@@ -485,7 +490,7 @@ REL_METHOD = field("method", "ontology_term",
 write("stable", "directed_relation",
       doc("directed_relation", ["relation"],
           deps=[dep("child", "entity", "The finer/subordinate/derived ENTITY (any "
-                    "entity — subject part, dataset, award, …)."),
+                    "entity — subject part, dataset, funding, …)."),
                 dep("parent", "entity", "The whole/group/source/target ENTITY."),
                 dep("time_reference_#", "time_reference",
                     "Optional: when an EVENT relation happened (e.g. `encountered`, or "
@@ -510,14 +515,14 @@ write("stable", "undirected_relation",
 
 # ---------- 5b. entity genus + identity entities (dataset metadata redesign) ----
 # Referenceable identities share a genus: subject, person, organization,
-# publication, award, dataset. They carry a cross-reference `global_identifier`
+# publication, funding, dataset. They carry a cross-reference `global_identifier`
 # and are the *things* other docs point at. Non-subject entities use TYPED
 # identity fields (not statements): their attributes are intrinsic identity, not
 # provenanced measurements, and names/titles/DOIs are not ontology terms, so
 # term_assertion does not fit. Everything relational (authorship, funding,
 # citation, affiliation) is a `directed_relation` at the entity layer (generalized
-# above): dataset -has_author-> person (+ sequence), dataset -funded_by-> award,
-# award -issued_by-> organization, person -affiliated_with-> organization,
+# above): dataset -has_author-> person (+ sequence), dataset -funded_by-> funding,
+# funding -issued_by-> organization, person -affiliated_with-> organization,
 # dataset -cites-> publication.
 GLOBAL_ID = field(
     "global_identifier", "structure",
@@ -549,8 +554,11 @@ write("stable", "person", doc("person", ["entity"], fields=[
     field("email", "char", "Contact email; meaningful when acting as a contact.",
           non_empty=False), LOCAL_ID_OPT]))
 write("stable", "organization", doc("organization", ["entity"], fields=[
-    field("name", "char", "Organization name (funder or affiliation); ROR via "
-          "global_identifier. Location is not stored — it lives in the ROR record."),
+    field("full_name", "char", "Organization full name (funder or affiliation); "
+          "ROR via global_identifier. Location is not stored — it lives in the ROR "
+          "record. (openMINDS Organization.fullName.)"),
+    field("short_name", "char", "Organization short name / acronym (e.g. 'NIH'); "
+          "openMINDS Organization.shortName.", non_empty=False),
     LOCAL_ID_OPT]))
 write("stable", "publication", doc("publication", ["entity"], fields=[
     field("title", "char", "Publication title."),
@@ -558,9 +566,11 @@ write("stable", "publication", doc("publication", ["entity"], fields=[
     field("authors", "char", "Author citation string — external, NOT decomposed "
           "into person entities (cited papers' authors stay coarse).",
           non_empty=False), LOCAL_ID_OPT]))
-write("stable", "award", doc("award", ["entity"], fields=[
-    field("title", "char", "Award/grant title; award number / grant DOI via "
-          "global_identifier. Its funder is a `directed_relation` -> organization.",
+write("stable", "funding", doc("funding", ["entity"], fields=[
+    field("title", "char", "Award/grant title (openMINDS Funding.awardTitle); the "
+          "award number / grant DOI rides on global_identifier{scheme='AwardNumber'} "
+          "(openMINDS Funding.awardNumber). Its funder is a `directed_relation` -> "
+          "organization (openMINDS Funding.funder).",
           non_empty=False), LOCAL_ID_OPT]))
 # web_resource IS an entity: a referenceable external resource (a documentation
 # page, a data repository, a protocol, a code repo, a homepage). Its identity IS
@@ -575,7 +585,7 @@ write("stable", "web_resource", doc("web_resource", ["entity"], fields=[
           "(e.g. 'full documentation', 'GitHub repo'); the URL rides on "
           "global_identifier (scheme='URL').", non_empty=False), LOCAL_ID_OPT]))
 # dataset IS the entity (target of the metadata_editor decomposition — a follow-up
-# migrator reshapes the Soph metadata_structure blob into this + person/award/
+# migrator reshapes the Soph metadata_structure blob into this + person/funding/
 # publication entities + relations; metadata_editor is kept as the source until then).
 # Documentation/homepage/repository links are NOT fields here — they are
 # `directed_relation`s -> web_resource / -> publication (references are relations).
@@ -1030,10 +1040,10 @@ RELATION_VOCABULARY = [
     _rel("cites", "", "the citing dataset", "the cited publication",
          ["dataset"], ["publication"]),
     # funding (entity layer)
-    _rel("funded_by", "", "the funded dataset", "the award",
-         ["dataset"], ["award"]),
-    _rel("issued_by", "", "the award", "the issuing organization",
-         ["award"], ["organization"]),
+    _rel("funded_by", "", "the funded dataset", "the funding",
+         ["dataset"], ["funding"]),
+    _rel("issued_by", "", "the funding", "the issuing organization",
+         ["funding"], ["organization"]),
     # affiliation (entity layer)
     _rel("affiliated_with", "", "the person", "the organization",
          ["person"], ["organization"]),
