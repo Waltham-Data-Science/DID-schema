@@ -47,6 +47,20 @@
             "constraints": {}
         },
         {
+            "name": "method_parameters",
+            "type": "structure",
+            "blank_value": {},
+            "default_value": {},
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Optional configuration of a COMPUTED value's algorithm -- the calculator input_parameters that produced it (D-C analysis tier). Present only when `method` names an algorithm; free-form (the knob set varies per calculator). Retaining it keeps the computation reproducible from the observation packet (paper Fig. 3E). Lives on the packet-head observation, once per calculation.",
+            "constraints": {},
+            "fields": []
+        },
+        {
             "name": "sample_time",
             "type": "structure",
             "blank_value": {},

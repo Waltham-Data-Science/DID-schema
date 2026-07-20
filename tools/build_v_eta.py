@@ -370,6 +370,14 @@ METHOD = field("method", "ontology_term",
                "The verb: what was done (measure, inject, heat, stimulate). "
                "Present only on interactions; optional (the observation verb is "
                "nearly always 'measurement').", non_empty=False)
+METHOD_PARAMS = field(
+    "method_parameters", "structure",
+    "Optional configuration of a COMPUTED value's algorithm -- the calculator "
+    "input_parameters that produced it (D-C analysis tier). Present only when "
+    "`method` names an algorithm; free-form (the knob set varies per calculator). "
+    "Retaining it keeps the computation reproducible from the observation packet "
+    "(paper Fig. 3E). Lives on the packet-head observation, once per calculation.",
+    non_empty=False, scalar=True, blank={}, default={})
 SAMPLE_TIME = field(
     "sample_time", "structure",
     "The per-sample cadence beside the value (Brainstorm J / D1): a compressed "
@@ -387,7 +395,7 @@ SAMPLE_TIME = field(
     ])
 
 si = doc("subject_interaction", ["subject_statement"], abstract=True, version="3.0.0",
-         deps=[TIME_REF_REQ, INSTRUMENT], fields=[METHOD, SAMPLE_TIME])
+         deps=[TIME_REF_REQ, INSTRUMENT], fields=[METHOD, METHOD_PARAMS, SAMPLE_TIME])
 write("stable", "subject_interaction", si)
 
 # derived_from: computation provenance on OBSERVATIONS (D-C analysis tier). A
