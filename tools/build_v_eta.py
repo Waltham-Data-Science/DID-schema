@@ -385,6 +385,29 @@ si = doc("subject_interaction", ["subject_statement"], abstract=True, version="3
          deps=[TIME_REF_REQ, INSTRUMENT], fields=[METHOD, SAMPLE_TIME])
 write("stable", "subject_interaction", si)
 
+# derived_from: computation provenance on OBSERVATIONS (D-C analysis tier). A
+# COMPUTED observation -- one whose subject_interaction.method names the algorithm
+# -- records the input statement(s) it was derived from (e.g. an OSI
+# score_observation derived_from the raw tuning-curve frequency_observation). This
+# is the provenance INVERSE of directed_relation: directed_relation is
+# entity->entity (child/parent), derived_from is statement->statement. It is typed
+# to a `subject_statement` leaf and MUST NOT point at an `entity`. It lives on
+# subject_observation only -- a manipulation is imposed and an assertion is
+# declared, neither is "derived". Optional and repeatable (_#): a single fit has
+# one input, an aggregate calc (contrast_sensitivity) has many. Reference typing
+# is declarative (did2.validate.references is existence-only); a type-enforcing
+# check would be a separate validator.
+DERIVED_FROM = dep(
+    "derived_from_#", "subject_statement",
+    "The subject_statement leaf(s) this value was COMPUTED from (its inputs). "
+    "Present only on computed observations, whose subject_interaction.method names "
+    "the algorithm. Typed to a statement leaf -- never an entity; the provenance "
+    "inverse of directed_relation's entity->entity child/parent.",
+    non_empty=False)
+so = load(os.path.join(VETA, "stable", "subject_observation.json"))
+so.setdefault("depends_on", []).append(DERIVED_FROM)
+write("stable", "subject_observation", so)
+
 
 # ---------- 4. subject_assertion genus + leaves ----------
 

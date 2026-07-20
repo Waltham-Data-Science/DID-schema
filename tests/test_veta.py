@@ -166,6 +166,25 @@ def test_instrument_id_is_optional_device_edge():
     assert deps["instrument_id"]["must_refer_to_document_class"] == "subject"
 
 
+def test_derived_from_is_statement_typed_provenance():
+    # A computed observation records its inputs via derived_from_#, typed to a
+    # subject_statement leaf (NEVER an entity) -- the provenance inverse of
+    # directed_relation's entity->entity child/parent.
+    deps = {d["name"]: d for d in RECORDS["subject_observation"][1]["depends_on"]}
+    assert "derived_from_#" in deps
+    df = deps["derived_from_#"]
+    assert df["must_refer_to_document_class"] == "subject_statement"
+    assert df["must_refer_to_document_class"] != "entity"
+    assert df["mustBeNonEmpty"] is False
+    # inherited by the value leaves (a computed observation is a leaf)...
+    assert "derived_from_#" in _flat_dep_names("angle_observation")
+    assert "derived_from_#" in _flat_dep_names("score_observation")
+    # ...but NOT on manipulations or assertions: computation is an observation mode
+    # (a manipulation is imposed, an assertion is declared -- neither is derived).
+    assert "derived_from_#" not in _flat_dep_names("subject_manipulation")
+    assert "derived_from_#" not in _flat_dep_names("term_assertion")
+
+
 def test_direction_classes_renamed():
     for new in ("subject_observation", "subject_manipulation"):
         assert new in RECORDS
