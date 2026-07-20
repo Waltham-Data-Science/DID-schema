@@ -561,6 +561,80 @@ def test_openminds_controlled_term_fields_bound():
     assert fields["experimental_approach"]["mustBeScalar"] is False
 
 
+# openMINDS DatasetVersion property surface (openMINDS core, the release the crosswalk
+# is authored against). The crosswalk must give EVERY one an explicit home so nothing
+# is silently dropped -- that is the round-trip guarantee.
+OPENMINDS_DATASETVERSION_PROPS = {
+    "accessibility", "author", "copyright", "custodian", "description",
+    "digitalIdentifier", "ethicsAssessment", "experimentalApproach",
+    "fullDocumentation", "fullName", "funding", "homepage", "howToCite", "inputData",
+    "isAlternativeVersionOf", "isNewVersionOf", "keyword", "license",
+    "otherContribution", "protocol", "relatedPublication", "releaseDate", "repository",
+    "shortName", "studiedSpecimen", "supportChannel", "type", "versionIdentifier",
+    "versionInnovation",
+}
+
+
+def test_openminds_crosswalk_round_trips():
+    """Round-trip guarantee: every openMINDS property has an EXPLICIT crosswalk entry
+    whose target resolves to a real V_eta field / relation term / global_identifier --
+    or is explicitly implied/projection/deferred (visible, never silently dropped).
+    This is the enforcement point behind the openMINDS field parity."""
+    xw = _load(os.path.join(REPO_ROOT, "schemas", "V_eta_openminds_crosswalk.json"))
+    reg = _load(os.path.join(VETA, "stable", "binding_registry_meta.json"))
+    relation_terms = {r["relation"]["name"] for r in reg["relation_bindings"]}
+
+    # 1. completeness: the crosswalk covers the full DatasetVersion surface, exactly.
+    dv = xw["types"]["DatasetVersion"]["properties"]
+    assert set(dv) == OPENMINDS_DATASETVERSION_PROPS, (
+        "crosswalk DatasetVersion drift: "
+        f"missing={OPENMINDS_DATASETVERSION_PROPS - set(dv)} "
+        f"extra={set(dv) - OPENMINDS_DATASETVERSION_PROPS}")
+
+    # 2. every entry resolves to a real target for its kind.
+    valid_kinds = {"field", "relation", "global_identifier", "implied",
+                   "projection", "deferred"}
+    for type_name, spec in xw["types"].items():
+        entity_cls = spec["ndi_entity"]
+        ent = _load(os.path.join(VETA, "stable", entity_cls + ".json"))
+        field_names = {f["name"] for f in ent["fields"]}
+        for prop, e in spec["properties"].items():
+            kind = e["target_kind"]
+            assert kind in valid_kinds, f"{type_name}.{prop}: bad kind {kind}"
+            if kind == "field":
+                assert e["ndi_target"] in field_names, \
+                    f"{type_name}.{prop} -> field {e['ndi_target']} absent on {entity_cls}"
+            elif kind == "relation":
+                assert e["ndi_target"] in relation_terms, \
+                    f"{type_name}.{prop} -> unknown relation term {e['ndi_target']}"
+            elif kind in ("global_identifier", "implied", "projection", "deferred"):
+                # explicit, non-silent: must carry a target or an explaining note.
+                assert e.get("ndi_target") or e.get("notes"), \
+                    f"{type_name}.{prop}: {kind} entry must be explained"
+
+    # 3. every controlled-term field binding is reflected in the crosswalk as a field
+    #    with the matching term_set (registry <-> crosswalk agreement).
+    for row in reg["entity_field_bindings"]:
+        props = xw["types"]["DatasetVersion"]["properties"]
+        hit = [p for p, e in props.items()
+               if e.get("ndi_target") == row["field"] and e.get("term_set")]
+        assert hit, f"binding {row['field']} not crosswalked as a term field"
+        assert props[hit[0]]["term_set"] == row["term_set"]
+
+
+def test_openminds_import_provenance_class():
+    """The import-provenance doc pins the openMINDS release + crosswalk version per
+    import -- the single source of truth controlled_vocabularies.openMINDS.version
+    defers to (it stays null in the registry, resolved from this doc at import)."""
+    imp = RECORDS["openminds_import"][1]
+    assert [s["class_name"] for s in imp["document_class"]["superclasses"]] == ["base"]
+    fnames = {f["name"] for f in imp["fields"]}
+    assert {"openminds_version", "crosswalk_version"} <= fnames
+    assert imp["depends_on"][0]["must_refer_to_document_class"] == "dataset"
+    reg = _load(os.path.join(VETA, "stable", "binding_registry_meta.json"))
+    assert reg["controlled_vocabularies"]["openMINDS"]["version"] is None
+
+
 def _leaf_ok(concrete, cls):
     """A binding `class` must be a concrete (non-abstract) subject_statement leaf."""
     dc = concrete.get(cls)

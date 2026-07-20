@@ -1516,6 +1516,17 @@
             "disposition_note": "Phase-8 source (migrator \u2192 delete)"
         },
         {
+            "class_name": "openminds_import",
+            "tier": "stable",
+            "class_version": "1.0.0",
+            "maturity_level": "stable",
+            "superclasses": [
+                "base"
+            ],
+            "path": "schemas/V_eta/stable/openminds_import.json",
+            "disposition": "persist"
+        },
+        {
             "class_name": "openminds_stimulus",
             "tier": "stable",
             "class_version": "1.0.0",

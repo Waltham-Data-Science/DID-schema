@@ -685,6 +685,32 @@ if not any(f["name"] == "local_identifier" for f in sess.get("fields", [])):
     sess.setdefault("fields", []).append(LOCAL_ID_OPT)
 write("stable", "session", sess)
 
+# openMINDS import provenance. Records, per import, the exact openMINDS release and
+# crosswalk version the metadata was decomposed under -- the SINGLE source of truth
+# that controlled_vocabularies.openMINDS.version (binding registry) points at. A
+# dataset's controlled-term field values (accessibility / ethics_assessment /
+# experimental_approach) resolve their term-set IRIs against THIS release, and the
+# round-trip CI test asserts consistency. One document per import event, tied to the
+# dataset it populated (declarative dep). Not itself an entity -- it is provenance
+# metadata about an import, not a referenceable identity.
+write("stable", "openminds_import",
+      doc("openminds_import", ["base"],
+          deps=[dep("dataset", "dataset",
+                    "The dataset entity this import populated.", non_empty=False)],
+          fields=[
+              field("openminds_version", "char",
+                    "The openMINDS release the source metadata was imported from "
+                    "(e.g. 'v4'). Pins the controlled-term instance libraries the "
+                    "dataset's accessibility / ethics_assessment / experimental_approach "
+                    "values resolve against."),
+              field("crosswalk_version", "char",
+                    "Version of the openMINDS<->NDI crosswalk "
+                    "(V_eta_openminds_crosswalk.json) used for the decomposition."),
+              field("source_iri", "char",
+                    "The openMINDS object/dataset IRI the import came from, where one "
+                    "exists.", non_empty=False),
+          ]))
+
 
 # ---------- 6. (value_set removed) ----------
 # The `value_set` document class is DROPPED: it was orphaned (nothing referenced
