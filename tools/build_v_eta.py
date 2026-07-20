@@ -555,14 +555,17 @@ LOCAL_ID_OPT = field(
     "within its dataset (distinct from any display name/title). Required on "
     "subject; optional here.", non_empty=False)
 
-# openMINDS Person: givenName/familyName -> fields; contactInformation(email) -> field;
-# digitalIdentifier(ORCID) -> entity.global_identifier{scheme='ORCID'}; affiliation ->
-# directed_relation -> organization (member_of). No scalar properties are dropped.
+# openMINDS Person: givenName/familyName/alternateName/contactInformation(email) ->
+# fields; digitalIdentifier(ORCID) -> entity.global_identifier{scheme='ORCID'};
+# affiliation -> directed_relation -> organization (affiliated_with). Nothing dropped.
 write("stable", "person", doc("person", ["entity"], fields=[
     field("given_name", "char", "Given (personal) name; may include middle "
           "names/initials (given/family per the international convention). "
           "(openMINDS Person.givenName.)"),
     field("family_name", "char", "Family (sur)name. (openMINDS Person.familyName.)"),
+    field("alternate_name", "char", "Alternate name(s) / aliases for the person "
+          "(openMINDS Person.alternateName); repeatable.",
+          non_empty=False, scalar=False),
     field("email", "char", "Contact email; meaningful when acting as a contact. "
           "(openMINDS Person.contactInformation -> ContactInformation.email.)",
           non_empty=False), LOCAL_ID_OPT]))

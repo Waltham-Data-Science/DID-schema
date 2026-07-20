@@ -49,7 +49,7 @@
                 "contactInformation":{"target_kind": "field", "ndi_target": "email", "notes": "ContactInformation.email."},
                 "digitalIdentifier": {"target_kind": "global_identifier", "ndi_target": "ORCID"},
                 "affiliation":       {"target_kind": "relation", "ndi_target": "affiliated_with", "endpoint": "organization"},
-                "alternateName":     {"target_kind": "deferred", "notes": "rarely populated; no field yet."}
+                "alternateName":     {"target_kind": "field", "ndi_target": "alternate_name"}
             }
         },
         "Organization": {

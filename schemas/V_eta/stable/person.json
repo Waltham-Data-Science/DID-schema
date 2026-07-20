@@ -39,6 +39,19 @@
             "constraints": {}
         },
         {
+            "name": "alternate_name",
+            "type": "char",
+            "blank_value": [],
+            "default_value": [],
+            "mustBeNonEmpty": false,
+            "mustBeScalar": false,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Alternate name(s) / aliases for the person (openMINDS Person.alternateName); repeatable.",
+            "constraints": {}
+        },
+        {
             "name": "email",
             "type": "char",
             "blank_value": "",

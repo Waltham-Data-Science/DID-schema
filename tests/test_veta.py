@@ -591,9 +591,14 @@ def test_openminds_crosswalk_round_trips():
         f"missing={OPENMINDS_DATASETVERSION_PROPS - set(dv)} "
         f"extra={set(dv) - OPENMINDS_DATASETVERSION_PROPS}")
 
-    # 2. every entry resolves to a real target for its kind.
-    valid_kinds = {"field", "relation", "global_identifier", "implied",
-                   "projection", "deferred"}
+    # 2. no property is deferred -- every one has a concrete home (field / relation /
+    #    global_identifier) or an explicit non-stored disposition (implied /
+    #    projection). "deferred" (a designed-but-unbuilt home) is not allowed.
+    for type_name, spec in xw["types"].items():
+        for prop, e in spec["properties"].items():
+            assert e["target_kind"] != "deferred", \
+                f"{type_name}.{prop} is deferred -- give it a home"
+    valid_kinds = {"field", "relation", "global_identifier", "implied", "projection"}
     for type_name, spec in xw["types"].items():
         entity_cls = spec["ndi_entity"]
         ent = _load(os.path.join(VETA, "stable", entity_cls + ".json"))
