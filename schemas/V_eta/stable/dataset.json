@@ -218,6 +218,19 @@
             "constraints": {}
         },
         {
+            "name": "copyright_year",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Copyright year (openMINDS DatasetVersion.copyright -> Copyright.year); the holder is a directed_relation -> organization|person (copyright_holder).",
+            "constraints": {}
+        },
+        {
             "name": "local_identifier",
             "type": "char",
             "blank_value": "",

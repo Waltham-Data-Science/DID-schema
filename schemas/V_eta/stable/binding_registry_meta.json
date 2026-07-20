@@ -392,6 +392,147 @@
             ],
             "timed": false,
             "ordered": false
+        },
+        {
+            "relation": {
+                "node": "",
+                "name": "has_custodian"
+            },
+            "class": "directed_relation",
+            "child_role": "the dataset",
+            "parent_role": "the custodian (person/org)",
+            "child_types": [
+                "dataset"
+            ],
+            "parent_types": [
+                "person",
+                "organization"
+            ],
+            "timed": false,
+            "ordered": false
+        },
+        {
+            "relation": {
+                "node": "",
+                "name": "contributed_by"
+            },
+            "class": "directed_relation",
+            "child_role": "the dataset",
+            "parent_role": "the contributor (person/org)",
+            "child_types": [
+                "dataset"
+            ],
+            "parent_types": [
+                "person",
+                "organization"
+            ],
+            "timed": false,
+            "ordered": false
+        },
+        {
+            "relation": {
+                "node": "",
+                "name": "copyright_holder"
+            },
+            "class": "directed_relation",
+            "child_role": "the dataset",
+            "parent_role": "the copyright holder (org/person)",
+            "child_types": [
+                "dataset"
+            ],
+            "parent_types": [
+                "organization",
+                "person"
+            ],
+            "timed": false,
+            "ordered": false
+        },
+        {
+            "relation": {
+                "node": "",
+                "name": "alternative_of"
+            },
+            "class": "directed_relation",
+            "child_role": "the dataset version",
+            "parent_role": "the alternative version",
+            "child_types": [
+                "dataset"
+            ],
+            "parent_types": [
+                "dataset"
+            ],
+            "timed": false,
+            "ordered": false
+        },
+        {
+            "relation": {
+                "node": "",
+                "name": "input_data"
+            },
+            "class": "directed_relation",
+            "child_role": "the derived dataset",
+            "parent_role": "the input dataset/resource",
+            "child_types": [
+                "dataset"
+            ],
+            "parent_types": [
+                "dataset",
+                "web_resource"
+            ],
+            "timed": true,
+            "ordered": false
+        },
+        {
+            "relation": {
+                "node": "",
+                "name": "has_homepage"
+            },
+            "class": "directed_relation",
+            "child_role": "the entity",
+            "parent_role": "the homepage (web_resource)",
+            "child_types": [
+                "dataset",
+                "organization"
+            ],
+            "parent_types": [
+                "web_resource"
+            ],
+            "timed": false,
+            "ordered": false
+        },
+        {
+            "relation": {
+                "node": "",
+                "name": "follows_protocol"
+            },
+            "class": "directed_relation",
+            "child_role": "the dataset",
+            "parent_role": "the protocol (web_resource)",
+            "child_types": [
+                "dataset"
+            ],
+            "parent_types": [
+                "web_resource"
+            ],
+            "timed": false,
+            "ordered": false
+        },
+        {
+            "relation": {
+                "node": "",
+                "name": "suborganization_of"
+            },
+            "class": "directed_relation",
+            "child_role": "the child organization",
+            "parent_role": "the parent organization",
+            "child_types": [
+                "organization"
+            ],
+            "parent_types": [
+                "organization"
+            ],
+            "timed": false,
+            "ordered": false
         }
     ],
     "controlled_vocabularies": {

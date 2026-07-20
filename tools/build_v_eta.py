@@ -666,6 +666,10 @@ write("stable", "dataset", doc("dataset", ["entity"], fields=[
           non_empty=False, scalar=False),
     field("release_date", "char", "Release date "
           "(openMINDS DatasetVersion.releaseDate).", non_empty=False),
+    field("copyright_year", "char", "Copyright year (openMINDS "
+          "DatasetVersion.copyright -> Copyright.year); the holder is a "
+          "directed_relation -> organization|person (copyright_holder).",
+          non_empty=False),
     LOCAL_ID_OPT]))
 
 # session JOINS the entity genus. A recording session is the most-referenced
@@ -1168,6 +1172,32 @@ RELATION_VOCABULARY = [
          ["dataset"], ["web_resource"]),
     _rel("hosted_by", "", "the web_resource", "the hosting organization",
          ["web_resource"], ["organization"]),
+    # openMINDS DatasetVersion contributor / reference terms (crosswalk parity).
+    # Contributor ROLE is the term: has_author vs has_custodian vs contributed_by
+    # (openMINDS author / custodian / otherContribution). Endpoints accept person OR
+    # organization where openMINDS does.
+    _rel("has_custodian", "", "the dataset", "the custodian (person/org)",
+         ["dataset"], ["person", "organization"]),
+    _rel("contributed_by", "", "the dataset", "the contributor (person/org)",
+         ["dataset"], ["person", "organization"]),
+    _rel("copyright_holder", "", "the dataset", "the copyright holder (org/person)",
+         ["dataset"], ["organization", "person"]),
+    # version lineage / inputs (openMINDS isAlternativeVersionOf / inputData;
+    # isNewVersionOf reuses derived_from).
+    _rel("alternative_of", "", "the dataset version", "the alternative version",
+         ["dataset"], ["dataset"]),
+    _rel("input_data", "", "the derived dataset", "the input dataset/resource",
+         ["dataset"], ["dataset", "web_resource"], timed=True),
+    # typed reference edges to web_resources (openMINDS homepage / protocol), distinct
+    # from the generic documented_by so the reference kind is not lost.
+    _rel("has_homepage", "", "the entity", "the homepage (web_resource)",
+         ["dataset", "organization"], ["web_resource"]),
+    _rel("follows_protocol", "", "the dataset", "the protocol (web_resource)",
+         ["dataset"], ["web_resource"]),
+    # organization hierarchy (openMINDS Organization.hasParent), kept distinct from
+    # the subject/session part_of rather than widening that term's endpoints.
+    _rel("suborganization_of", "", "the child organization", "the parent organization",
+         ["organization"], ["organization"]),
 ]
 
 # ---------- subject_statement bindings ----------

@@ -32,13 +32,13 @@
 
                 "studiedSpecimen":       {"target_kind": "projection", "notes": "the studied subjects; recomputed from the dataset's session -part_of-> dataset membership + subject entities, not restated here."},
 
-                "custodian":             {"target_kind": "deferred", "ndi_target": "has_custodian", "endpoint": "person", "notes": "steward role; needs a has_custodian relation term (distinct contributor role from has_author)."},
-                "otherContribution":     {"target_kind": "deferred", "ndi_target": "contributed_by", "endpoint": "person", "notes": "typed contribution (role on the relation); relation term not yet minted."},
-                "copyright":             {"target_kind": "deferred", "ndi_target": "copyright_holder", "endpoint": "organization", "notes": "openMINDS Copyright{year, holder}: holder -> relation, year -> a copyright_year field; neither built yet."},
-                "homepage":              {"target_kind": "deferred", "ndi_target": "documented_by", "endpoint": "web_resource", "notes": "a web_resource reference; reuses documented_by with label='homepage' or a dedicated has_homepage term (TBD)."},
-                "protocol":              {"target_kind": "deferred", "ndi_target": "documented_by", "endpoint": "web_resource", "notes": "protocol reference; documented_by (label='protocol') or a follows_protocol term (TBD)."},
-                "inputData":             {"target_kind": "deferred", "ndi_target": "derived_from", "endpoint": "dataset", "notes": "input datasets/resources; derived_from or an input_data term (TBD)."},
-                "isAlternativeVersionOf":{"target_kind": "deferred", "ndi_target": "alternative_of", "endpoint": "dataset", "notes": "sibling-version link; relation term not yet minted."}
+                "custodian":             {"target_kind": "relation", "ndi_target": "has_custodian", "endpoint": "person", "notes": "steward role (person or organization); distinct contributor role from has_author."},
+                "otherContribution":     {"target_kind": "relation", "ndi_target": "contributed_by", "endpoint": "person", "notes": "typed contribution (person or organization)."},
+                "copyright":             {"target_kind": "relation", "ndi_target": "copyright_holder", "endpoint": "organization", "notes": "openMINDS Copyright{year, holder}: holder -> copyright_holder relation, year -> dataset.copyright_year field."},
+                "homepage":              {"target_kind": "relation", "ndi_target": "has_homepage", "endpoint": "web_resource"},
+                "protocol":              {"target_kind": "relation", "ndi_target": "follows_protocol", "endpoint": "web_resource"},
+                "inputData":             {"target_kind": "relation", "ndi_target": "input_data", "endpoint": "dataset", "notes": "input datasets/resources (dataset or web_resource)."},
+                "isAlternativeVersionOf":{"target_kind": "relation", "ndi_target": "alternative_of", "endpoint": "dataset"}
             }
         },
         "Person": {
@@ -58,8 +58,8 @@
                 "fullName":          {"target_kind": "field", "ndi_target": "full_name"},
                 "shortName":         {"target_kind": "field", "ndi_target": "short_name"},
                 "digitalIdentifier": {"target_kind": "global_identifier", "ndi_target": "RORID"},
-                "homepage":          {"target_kind": "relation", "ndi_target": "documented_by", "endpoint": "web_resource"},
-                "hasParent":         {"target_kind": "deferred", "ndi_target": "part_of", "endpoint": "organization", "notes": "org hierarchy; part_of is entity-typed for subject/session today -- endpoint widening TBD."}
+                "homepage":          {"target_kind": "relation", "ndi_target": "has_homepage", "endpoint": "web_resource"},
+                "hasParent":         {"target_kind": "relation", "ndi_target": "suborganization_of", "endpoint": "organization", "notes": "org hierarchy, kept distinct from subject/session part_of."}
             }
         },
         "Funding": {

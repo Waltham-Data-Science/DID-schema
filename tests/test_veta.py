@@ -731,7 +731,11 @@ def test_relation_bindings_present():
     # the subject-side terms the migrators already emit + the new entity-layer terms
     for term in ("part_of", "member_of", "derived_from", "observes", "encountered",
                  "has_author", "funded_by", "issued_by", "affiliated_with", "cites",
-                 "documented_by", "stored_at", "hosted_by"):
+                 "documented_by", "stored_at", "hosted_by",
+                 # openMINDS crosswalk-parity terms (deferred -> minted)
+                 "has_custodian", "contributed_by", "copyright_holder",
+                 "alternative_of", "input_data", "has_homepage", "follows_protocol",
+                 "suborganization_of"):
         assert term in vocab, f"{term} missing from relation_bindings"
     # term identity is a {node, name} NodeRef, mirroring variable/method.
     assert all({"node", "name"} <= set(r["relation"]) for r in vocab.values())
