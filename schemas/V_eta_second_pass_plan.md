@@ -18,15 +18,21 @@ Status: design. Grounded in the existing harness (`ndi.migrate.local`,
 `bodyResolver` today: `subjectOfElement(elementId)`,
 `epochClockOfElement(elementId, epochId)`.
 
-## NOT a second-pass item: stimulus_presentation (it is a BODY OF RECORD)
-DECISION (architect): `stimulus_presentation` is a **body of record** — it is KEPT
-as-is, holding the raw stimulus params (`stimuli.parameters`), `presentation_order`,
-and `presentation_time`. It does NOT decompose into a subject-side manipulation, and
-there is no `stimulus_manipulation` class. Any subject-side statements about the animal
-come DOWNSTREAM from the derived responses (`stimulus_response_scalar` → observations,
-the analysis tier), not from the presentation. So the old D-B "stimulus_presentation →
-stimulus_manipulation" item is WITHDRAWN. (`stimulus_bath` is different — it IS a
-manipulation and its second-pass resolver `stimulusBathToBath` stays.)
+## Item 1: stimulus_presentation → a body-backed subject_manipulation leaf
+DECISION (architect): a `stimulus_presentation` becomes a **body-backed
+`subject_manipulation` leaf** on the ANIMAL. The stimulus's time-varying data is a
+`data_body` (`storage_mode: body` + a `sampled_body` holding the waveform); the
+statement itself is one of the EXISTING typed `subject_manipulation` leaves
+(`current_`, `voltage_`, `intensity_`, `frequency_`, …) — there is NO
+`stimulus_manipulation` class. The LEAF is chosen by the stimulus's data type (an
+electrical stimulus → `current_`/`voltage_manipulation`; a luminance/contrast stimulus
+→ `intensity_manipulation`; etc.). Needs the second pass for two reasons:
+  - **subject** = the animal stimulated, resolved via the recording graph (the
+    presentation only names the stimulator element).
+  - **body** = the stimulus data → `sampled_body` (the element-data → data_body
+    machinery).
+OPEN: the stimulus-type → manipulation-leaf mapping (fixed table? read from
+`stimuli.parameters`?). (`stimulus_bath` stays its own `stimulusBathToBath` resolver.)
 
 **Blocker / decision needed — how to identify the co-recorded ANIMAL.**
 `stimulus_presentation.element_id` is the STIMULATOR (its own subject is the stimulus
