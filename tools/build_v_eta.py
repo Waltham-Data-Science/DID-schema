@@ -1155,6 +1155,12 @@ RELATION_VOCABULARY = [
     # event
     _rel("encountered", "", "the encountering subject", "the encountered subject",
          ["subject"], ["subject"], timed=True),
+    # spatial measurement: the distance between two loci was measured (the values
+    # live on the distance element's observation; this names the endpoints). Both
+    # endpoints are id-preserved subjects (animal, patch). See
+    # V_eta_distance_metadata_plan.md.
+    _rel("measured_distance_to", "", "the measured-from subject",
+         "the reference subject", ["subject"], ["subject"], timed=True),
     # bibliographic (entity layer)
     _rel("has_author", "", "the dataset", "the author (person)",
          ["dataset"], ["person"], ordered=True),

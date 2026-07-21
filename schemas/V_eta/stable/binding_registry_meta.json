@@ -260,6 +260,23 @@
         {
             "relation": {
                 "node": "",
+                "name": "measured_distance_to"
+            },
+            "class": "directed_relation",
+            "child_role": "the measured-from subject",
+            "parent_role": "the reference subject",
+            "child_types": [
+                "subject"
+            ],
+            "parent_types": [
+                "subject"
+            ],
+            "timed": true,
+            "ordered": false
+        },
+        {
+            "relation": {
+                "node": "",
                 "name": "has_author"
             },
             "class": "directed_relation",
