@@ -18,21 +18,33 @@ Status: design. Grounded in the existing harness (`ndi.migrate.local`,
 `bodyResolver` today: `subjectOfElement(elementId)`,
 `epochClockOfElement(elementId, epochId)`.
 
-## Item 1: stimulus_presentation → a body-backed subject_manipulation leaf
-DECISION (architect): a `stimulus_presentation` becomes a **body-backed
-`subject_manipulation` leaf** on the ANIMAL. The stimulus's time-varying data is a
-`data_body` (`storage_mode: body` + a `sampled_body` holding the waveform); the
-statement itself is one of the EXISTING typed `subject_manipulation` leaves
-(`current_`, `voltage_`, `intensity_`, `frequency_`, …) — there is NO
-`stimulus_manipulation` class. The LEAF is chosen by the stimulus's data type (an
-electrical stimulus → `current_`/`voltage_manipulation`; a luminance/contrast stimulus
-→ `intensity_manipulation`; etc.). Needs the second pass for two reasons:
-  - **subject** = the animal stimulated, resolved via the recording graph (the
-    presentation only names the stimulator element).
-  - **body** = the stimulus data → `sampled_body` (the element-data → data_body
-    machinery).
-OPEN: the stimulus-type → manipulation-leaf mapping (fixed table? read from
-`stimuli.parameters`?). (`stimulus_bath` stays its own `stimulusBathToBath` resolver.)
+## Item 1: stimulus_presentation → visual_grating_manipulation (body-backed)
+DECISION (architect): a visual `stimulus_presentation` becomes a body-backed
+`visual_grating_manipulation` on the ANIMAL. The target leaf is the new
+`visual_grating` composite (angle, spatial_frequency, temporal_frequency, contrast,
+size, position, duration, is_blank) — a grating is inherently multi-parameter, so it is
+its own data_type, NOT one of the single-quantity leaves and NOT a `stimulus_manipulation`
+class (which doesn't exist).
+
+**Animal resolution — SOLVED (no syncgraph needed):**
+`stimulus_response` carries BOTH `stimulus_presentation_id` and `element_id` (the
+responding element). So: presentation ← stimulus_response (stimulus_presentation_id) →
+element_id → `resolver.subjectOfElement` → the animal. That is the semantic link (the
+stimulus was presented and this element responded). Add
+`bodyResolver.subjectsForPresentation(presentationId)`.
+
+**Body of data — the stimulus TIMELINE.** A presentation shows MANY stimuli
+(`presentation_order` + the `stimuli[i].parameters` array + `presentation_time`), so the
+manipulation's value is the sequence of gratings over time → a `sampled_body`
+(`storage_mode: body`), NOT one inline grating. This is the substantive remaining build
+(element-data → data_body construction for the stimulus timeline).
+
+**Build:** (1) pass-1 defers `stimulus_presentation` with `needsSessionContext`;
+(2) a second-pass resolver reads `stimuli.parameters` → `visual_grating` values (angle,
+sFrequency→spatial_frequency, tFrequency→temporal_frequency, contrast, size, isblank→
+is_blank), resolves the animal via the response link, wraps the timeline as a
+`sampled_body`, and emits `visual_grating_manipulation` on the animal.
+(`stimulus_bath` keeps its own `stimulusBathToBath` resolver.)
 
 **Blocker / decision needed — how to identify the co-recorded ANIMAL.**
 `stimulus_presentation.element_id` is the STIMULATOR (its own subject is the stimulus
