@@ -53,10 +53,16 @@ lives in these files — read them instead of re-deriving from memory:
   casing tweak — a first camelCase attempt was WRONG and was reverted): map the flat
   A/B fields into the V_eta `endpoints` shape (integer_ids ← integerIDs_A/_B,
   string_ids ← ontologyStringValues_A/_B, node ← ontologyNode_A/_B) so it validates;
-  the numeric distance is empty, so it CANNOT be a length_observation — the endpoint
-  relation + timeseries linkage is NDI-second-pass work. Design call pending. Corpus
-  is GREEN with these quarantines (JH's test does not gate quarantine), so this is a
-  data-completeness follow-up, not a gate.
+  the numeric distance is empty, so it CANNOT be a length_observation from the metadata
+  doc alone. DECISION: the correct rep is the NDI SECOND PASS (TaskList #18) —
+  decompose the distance timeseries ELEMENT into a length_observation of the
+  graph-resolved animal subject (endpoint A), patch (endpoint B) as a spatial relation,
+  consuming distance_metadata for the endpoint identities. The single-doc DID migrator
+  lacks the element→subject graph + the timeseries values, so it CANNOT do this; it is
+  left as-is (quarantine). Optional DID interim to clear the quarantines early: mint a
+  directed_relation between the two endpoint DOC IDS (both resolve in-batch). Corpus is
+  GREEN with these quarantines (JH's test does not gate quarantine) — data-completeness
+  follow-up, not a gate.
 - General migrator lesson: any NESTED sub-field a migrator reads needs a
   snake+camelCase fallback. AUDIT (this session) of every +migrators_j nested read:
   live nested multi-word reads were `syncrule_mapping.epochnode_*` (fixed) and
