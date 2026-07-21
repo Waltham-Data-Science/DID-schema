@@ -18,11 +18,17 @@ Status: design. Grounded in the existing harness (`ndi.migrate.local`,
 `bodyResolver` today: `subjectOfElement(elementId)`,
 `epochClockOfElement(elementId, epochId)`.
 
-## Item 1 (flagship): stimulus_presentation → stimulus_manipulation (D-B)
-Goal: for each kept `stimulus_presentation`, mint a `stimulus_manipulation`
-(`subject_id` = the ANIMAL stimulated, `stimulus_presentation_id` = the presentation,
-`variable` = the stimulus term) + a `presented_to`/`during` relation to the
-stimulus-system subject.
+## Item 1 (flagship): stimulus_presentation → a subject-side manipulation (D-B)
+CORRECTION: `stimulus_manipulation` is NOT a class (it was in a stale D-B note; do
+not use it). The real subject_manipulation leaves are the typed quantities
+(`current_`, `voltage_`, `intensity_`, `frequency_`, `dose_`, `temperature_`, …) and
+`term_manipulation` (an imposed act/agent as a bound term). The correct target for a
+presented stimulus is UNDECIDED and is the architect's call — likely `term_manipulation`
+(variable = the stimulus term) for a generic stimulus, or a typed leaf when the stimulus
+IS a quantity (a current/voltage/intensity level). Goal shape (once the target class is
+settled): for each kept `stimulus_presentation`, mint the manipulation on the ANIMAL
+stimulated (`subject_id` = animal, `stimulus_presentation_id` = the presentation) +
+a relation to the stimulus-system subject.
 
 **Blocker / decision needed — how to identify the co-recorded ANIMAL.**
 `stimulus_presentation.element_id` is the STIMULATOR (its own subject is the stimulus
