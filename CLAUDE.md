@@ -54,7 +54,13 @@ lives in these files — read them instead of re-deriving from memory:
   A/B fields into the V_eta `endpoints` shape (integer_ids ← integerIDs_A/_B,
   string_ids ← ontologyStringValues_A/_B, node ← ontologyNode_A/_B) so it validates;
   the numeric distance is empty, so it CANNOT be a length_observation from the metadata
-  doc alone. DECISION: the correct rep is the NDI SECOND PASS (TaskList #18) —
+  doc alone. Part A (mint a measured_distance_to relation between the endpoint doc ids)
+  was TRIED and REVERTED — the endpoint ids do NOT resolve in JH (4156 orphans = 2078×2,
+  both endpoints dangle; the JH animal is likely an openminds_subject minting a NEW id,
+  so the stored ontologyNode_A/_B are pre-migration ids), and it turned a non-gating
+  quarantine into a GATING orphan failure. A single-doc migrator CANNOT mint a
+  resolvable endpoint relation. DECISION: the correct rep is the NDI SECOND PASS
+  (TaskList #18), which sees the migrated-id graph —
   decompose the distance timeseries ELEMENT into a length_observation of the
   graph-resolved animal subject (endpoint A), patch (endpoint B) as a spatial relation,
   consuming distance_metadata for the endpoint identities. The single-doc DID migrator

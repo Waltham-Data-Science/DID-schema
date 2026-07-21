@@ -30,7 +30,21 @@ measurement, not the distance itself:
   (JH's test does not gate quarantine), so corpus is green regardless.
 
 ## The decomposition, split by difficulty
-**Part A — the endpoint relation (small, but has an orphan trap).**
+### UPDATE — Part A (endpoint relation) was TRIED and REVERTED (corpus 946faf95)
+Emitting the `measured_distance_to` relation produced **4156 JH orphans = 2078 × 2**:
+BOTH endpoints (`ontologyNode_A` animal AND `ontologyNode_B` patch) DANGLE in the JH
+migrated set. The id-preservation assumption is FALSE for JH — the endpoint doc ids
+stored in `ontologyNode_A/_B` are NOT the ids the referenced docs migrate to (the JH
+animal is likely an `openminds_subject` whose migrator mints a NEW subject id; the
+stored subjectDocID/patchDocID are pre-migration ids). Worse, this turned a
+NON-gating quarantine into a GATING orphan failure (JH orphans gate; JH quarantine
+does not). CONCLUSION: the endpoints can only be resolved by the SECOND PASS, which
+sees the migrated-id graph — a single-doc DID migrator cannot mint a resolvable
+endpoint relation. distance_metadata is left as PASSTHROUGH (quarantine, non-gating,
+green) until Part B. The `measured_distance_to` term stays in the registry for Part
+B's use.
+
+**Part A (superseded) — the endpoint relation (does NOT work single-doc; see UPDATE).**
 Mint a `directed_relation` between the two endpoint doc ids:
 `ontologyNode_A` (animal) --`measured_distance_to`--> `ontologyNode_B` (patch).
 This captures the real semantics and clears the quarantine. It needs NO graph, so
