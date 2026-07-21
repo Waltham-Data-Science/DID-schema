@@ -39,24 +39,31 @@ lives in these files — read them instead of re-deriving from memory:
   of `_calc` docs validates against the RETAINED `_calc` schemas and keeps refs
   intact — that is the deferred-calculator green state. Un-defer only when the
   downstream calc CONSUMERS are migrated in the same pass.
-- distance_metadata ~2078 JH quarantines ("required `endpoints` missing"): the JH
-  files DO carry distance values — an empty read is a BUG, not real missing data.
-  Root cause (suspected): `endpoints.numeric_values` is NESTED, so universalRenames
-  leaves its raw v1 casing untouched; a camelCase source (`numericValues`) read
-  snake-only comes back empty → the migrator's no-vals passthrough branch → the raw
-  doc fails the required non-empty `endpoints` → quarantine. Fix applied: read
-  numeric_values snake-first + camelCase fallback (like jGetCharAny). CONFIRM via the
-  next corpus (the quarantine count should drop ~2078; JH's test does not gate
-  quarantine, so watch the discovery report, not just pass/fail). General lesson:
-  any NESTED sub-field a migrator reads needs the snake+camelCase fallback.
-  AUDIT (this session) of every +migrators_j nested read: the only live nested
-  multi-word reads were `distance_metadata.endpoints.numeric_values` and
-  `syncrule_mapping.epochnode_*` — both now snake+camel. `ontology_table_row`'s
-  `row.numeric_value` has the same pattern but sits in the knowingly-wrong naive-
-  per-column migrator pending D10/D11 — fix it WITH that redesign, not piecemeal.
-  Everything else reads BLOCK-level fields (snake-cased by universalRenames, safe) or
-  PascalCase-by-design (metadata_editor's metadata_structure). So the corpus should be
-  clean of this bug class after the two fixes land.
+- distance_metadata ~2078 JH quarantines ("required `endpoints` missing"): ROOT
+  CAUSE (confirmed from the writer NDI-matlab `+setup/+conv/+haley/doImport.m` and
+  the v1 template `ndi_common/database_documents/element/distance_metadata.json`):
+  the v1 doc is FLAT — `ontologyNode_A/_B`, `integerIDs_A/_B`,
+  `ontologyNumericValues_A/_B`, `ontologyStringValues_A/_B`, `units` — with NO nested
+  `endpoints` and the numeric values genuinely `[]` (the distance lives in the
+  associated `distance` timeseries ELEMENT, not the metadata doc). The migrator was
+  written against an ASSUMED nested `endpoints.numeric_values` that does not exist in
+  real docs → it always hits the no-vals passthrough → the flat doc fails the V_eta
+  schema's required nested `endpoints` → quarantine. So the migrator NEVER worked on
+  real corpus docs (its unit test used a wrong-shaped fixture). CORRECT FIX (NOT a
+  casing tweak — a first camelCase attempt was WRONG and was reverted): map the flat
+  A/B fields into the V_eta `endpoints` shape (integer_ids ← integerIDs_A/_B,
+  string_ids ← ontologyStringValues_A/_B, node ← ontologyNode_A/_B) so it validates;
+  the numeric distance is empty, so it CANNOT be a length_observation — the endpoint
+  relation + timeseries linkage is NDI-second-pass work. Design call pending. Corpus
+  is GREEN with these quarantines (JH's test does not gate quarantine), so this is a
+  data-completeness follow-up, not a gate.
+- General migrator lesson: any NESTED sub-field a migrator reads needs a
+  snake+camelCase fallback. AUDIT (this session) of every +migrators_j nested read:
+  live nested multi-word reads were `syncrule_mapping.epochnode_*` (fixed) and
+  `ontology_table_row.row.numeric_value` (defer WITH the D10/D11 redesign). Everything
+  else reads BLOCK-level fields (snake-cased by universalRenames, safe) or PascalCase-
+  by-design (metadata_editor's metadata_structure). NOTE distance_metadata is NOT a
+  casing bug (see above) — it is a wrong-assumed-shape bug.
 
 ## Build / test
 - `python3 tools/build_v_eta.py` rebuilds `schemas/V_eta/` (copytree V_zeta→V_eta
