@@ -812,6 +812,40 @@ write("stable", "dose_manipulation",
       doc("dose_manipulation", ["subject_manipulation", "dose"]))
 write("stable", "formulation_manipulation",
       doc("formulation_manipulation", ["subject_manipulation", "formulation"]))
+
+# visual_stimulus: a presented visual stimulus (periodic-grating family) as a
+# STRUCTURED multi-parameter value. Unlike a single-quantity leaf, a visual stimulus
+# is inherently multi-parameter (orientation + spatial/temporal frequency + contrast
+# + size), so it is its own data_type composite. A `stimulus_presentation` becomes a
+# body-backed `visual_stimulus_manipulation` on the animal (the second pass resolves
+# the animal; the time-varying stimulus rides in a sampled_body via storage_mode:body,
+# the fixed parameters inline). NDI/vhlab source param names noted in ().
+VIS_SUBS = [
+    subfield("angle", "double", "Orientation/direction of the grating, degrees "
+             "(NDI 'angle')."),
+    subfield("spatial_frequency", "double", "Spatial frequency, cycles/degree "
+             "(NDI 'sFrequency')."),
+    subfield("temporal_frequency", "double", "Temporal (drift) frequency, Hz "
+             "(NDI 'tFrequency')."),
+    subfield("contrast", "double", "Michelson contrast, 0-1 (NDI 'contrast')."),
+    subfield("size", "double", "Stimulus size / aperture, degrees of visual angle "
+             "(NDI 'size')."),
+    subfield("position", "structure",
+             "Screen position of the stimulus centre, degrees.", sub_fields=[
+                 subfield("x", "double", "Horizontal position, degrees."),
+                 subfield("y", "double", "Vertical position, degrees.")]),
+    subfield("duration", "double", "Presentation duration, seconds."),
+    subfield("is_blank", "boolean",
+             "True for a control/blank (no-stimulus) trial (NDI 'isblank')."),
+]
+write("stable", "visual_stimulus",
+      doc("visual_stimulus", ["base"], abstract=True, fields=[field(
+          "value", "structure",
+          "A presented visual stimulus (periodic-grating family) and its "
+          "presentation parameters.", non_empty=True, blank={}, sub_fields=VIS_SUBS)]))
+write("stable", "visual_stimulus_manipulation",
+      doc("visual_stimulus_manipulation",
+          ["subject_manipulation", "visual_stimulus"]))
 write("stable", "term_manipulation",
       doc("term_manipulation", ["subject_manipulation"], fields=[field(
           "value", "ontology_term",
@@ -1725,7 +1759,8 @@ write("stable", "data_type",
 # formulation / chemical): all are value TYPES a statement's leaf carries, so they
 # belong under data_type alongside the dimensional ones (they were previously left
 # ⊂ base — the inconsistency this closes).
-DATA_TYPES = list(DIMS) + [n for n, _ in NUMERIC_SEED] + ["dose", "formulation", "chemical"]
+DATA_TYPES = list(DIMS) + [n for n, _ in NUMERIC_SEED] + ["dose", "formulation", "chemical",
+    "visual_stimulus"]
 for name in DATA_TYPES:
     p = os.path.join(VETA, "stable", name + ".json")
     if not os.path.exists(p):

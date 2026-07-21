@@ -2544,6 +2544,29 @@
             "disposition_note": "Phase-8 source (migrator \u2192 delete)"
         },
         {
+            "class_name": "visual_stimulus",
+            "tier": "stable",
+            "class_version": "1.0.0",
+            "maturity_level": "stable",
+            "superclasses": [
+                "data_type"
+            ],
+            "path": "schemas/V_eta/stable/visual_stimulus.json",
+            "disposition": "persist"
+        },
+        {
+            "class_name": "visual_stimulus_manipulation",
+            "tier": "stable",
+            "class_version": "1.0.0",
+            "maturity_level": "stable",
+            "superclasses": [
+                "subject_manipulation",
+                "visual_stimulus"
+            ],
+            "path": "schemas/V_eta/stable/visual_stimulus_manipulation.json",
+            "disposition": "persist"
+        },
+        {
             "class_name": "vmneuralresponseresiduals",
             "tier": "stable",
             "class_version": "1.0.0",

@@ -1,0 +1,164 @@
+{
+    "document_class": {
+        "class_name": "visual_stimulus",
+        "class_version": "1.0.0",
+        "superclasses": [
+            {
+                "class_name": "data_type"
+            }
+        ],
+        "maturity_level": "stable",
+        "abstract": true
+    },
+    "depends_on": [],
+    "file": [],
+    "fields": [
+        {
+            "name": "value",
+            "type": "structure",
+            "blank_value": {},
+            "default_value": {},
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "A presented visual stimulus (periodic-grating family) and its presentation parameters.",
+            "constraints": {},
+            "fields": [
+                {
+                    "name": "angle",
+                    "type": "double",
+                    "blank_value": 0.0,
+                    "default_value": 0.0,
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Orientation/direction of the grating, degrees (NDI 'angle').",
+                    "constraints": {}
+                },
+                {
+                    "name": "spatial_frequency",
+                    "type": "double",
+                    "blank_value": 0.0,
+                    "default_value": 0.0,
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Spatial frequency, cycles/degree (NDI 'sFrequency').",
+                    "constraints": {}
+                },
+                {
+                    "name": "temporal_frequency",
+                    "type": "double",
+                    "blank_value": 0.0,
+                    "default_value": 0.0,
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Temporal (drift) frequency, Hz (NDI 'tFrequency').",
+                    "constraints": {}
+                },
+                {
+                    "name": "contrast",
+                    "type": "double",
+                    "blank_value": 0.0,
+                    "default_value": 0.0,
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Michelson contrast, 0-1 (NDI 'contrast').",
+                    "constraints": {}
+                },
+                {
+                    "name": "size",
+                    "type": "double",
+                    "blank_value": 0.0,
+                    "default_value": 0.0,
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Stimulus size / aperture, degrees of visual angle (NDI 'size').",
+                    "constraints": {}
+                },
+                {
+                    "name": "position",
+                    "type": "structure",
+                    "blank_value": {},
+                    "default_value": {},
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Screen position of the stimulus centre, degrees.",
+                    "constraints": {},
+                    "fields": [
+                        {
+                            "name": "x",
+                            "type": "double",
+                            "blank_value": 0.0,
+                            "default_value": 0.0,
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "Horizontal position, degrees.",
+                            "constraints": {}
+                        },
+                        {
+                            "name": "y",
+                            "type": "double",
+                            "blank_value": 0.0,
+                            "default_value": 0.0,
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "Vertical position, degrees.",
+                            "constraints": {}
+                        }
+                    ]
+                },
+                {
+                    "name": "duration",
+                    "type": "double",
+                    "blank_value": 0.0,
+                    "default_value": 0.0,
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Presentation duration, seconds.",
+                    "constraints": {}
+                },
+                {
+                    "name": "is_blank",
+                    "type": "boolean",
+                    "blank_value": 0.0,
+                    "default_value": 0.0,
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "True for a control/blank (no-stimulus) trial (NDI 'isblank').",
+                    "constraints": {}
+                }
+            ]
+        }
+    ]
+}
