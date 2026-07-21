@@ -2544,26 +2544,26 @@
             "disposition_note": "Phase-8 source (migrator \u2192 delete)"
         },
         {
-            "class_name": "visual_stimulus",
+            "class_name": "visual_grating",
             "tier": "stable",
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
                 "data_type"
             ],
-            "path": "schemas/V_eta/stable/visual_stimulus.json",
+            "path": "schemas/V_eta/stable/visual_grating.json",
             "disposition": "persist"
         },
         {
-            "class_name": "visual_stimulus_manipulation",
+            "class_name": "visual_grating_manipulation",
             "tier": "stable",
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
                 "subject_manipulation",
-                "visual_stimulus"
+                "visual_grating"
             ],
-            "path": "schemas/V_eta/stable/visual_stimulus_manipulation.json",
+            "path": "schemas/V_eta/stable/visual_grating_manipulation.json",
             "disposition": "persist"
         },
         {

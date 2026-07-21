@@ -699,20 +699,20 @@ def test_data_body_carrier_dispositions():
                     f"{s['class_name']} is retiring"
 
 
-def test_visual_stimulus_manipulation_leaf():
+def test_visual_grating_manipulation_leaf():
     """A presented visual stimulus is a body-backable subject_manipulation leaf whose
-    data type is a structured multi-parameter `visual_stimulus` composite (a grating
+    data type is a structured multi-parameter `visual_grating` composite (a grating
     is orientation + spatial/temporal freq + contrast at once, so not a single-quantity
     leaf). stimulus_presentation folds to this on the animal in the second pass."""
-    comp = RECORDS["visual_stimulus"][1]
-    assert "data_type" in _chain("visual_stimulus")
+    comp = RECORDS["visual_grating"][1]
+    assert "data_type" in _chain("visual_grating")
     val = next(f for f in comp["fields"] if f["name"] == "value")
     subs = {s["name"] for s in val["fields"]}
     assert {"angle", "spatial_frequency", "temporal_frequency", "contrast",
             "size", "position", "duration", "is_blank"} <= subs
-    leaf = RECORDS["visual_stimulus_manipulation"][1]
+    leaf = RECORDS["visual_grating_manipulation"][1]
     supers = {s["class_name"] for s in leaf["document_class"]["superclasses"]}
-    assert supers == {"subject_manipulation", "visual_stimulus"}
+    assert supers == {"subject_manipulation", "visual_grating"}
 
 
 def test_openminds_import_provenance_class():

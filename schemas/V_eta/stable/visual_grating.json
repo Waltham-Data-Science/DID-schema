@@ -1,6 +1,6 @@
 {
     "document_class": {
-        "class_name": "visual_stimulus",
+        "class_name": "visual_grating",
         "class_version": "1.0.0",
         "superclasses": [
             {
@@ -23,7 +23,7 @@
             "mustNotHaveNaN": false,
             "queryable": true,
             "ontology": null,
-            "documentation": "A presented visual stimulus (periodic-grating family) and its presentation parameters.",
+            "documentation": "A presented visual grating (static or drifting) and its presentation parameters.",
             "constraints": {},
             "fields": [
                 {

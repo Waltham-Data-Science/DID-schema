@@ -1,13 +1,13 @@
 {
     "document_class": {
-        "class_name": "visual_stimulus_manipulation",
+        "class_name": "visual_grating_manipulation",
         "class_version": "1.0.0",
         "superclasses": [
             {
                 "class_name": "subject_manipulation"
             },
             {
-                "class_name": "visual_stimulus"
+                "class_name": "visual_grating"
             }
         ],
         "maturity_level": "stable"

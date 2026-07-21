@@ -813,14 +813,14 @@ write("stable", "dose_manipulation",
 write("stable", "formulation_manipulation",
       doc("formulation_manipulation", ["subject_manipulation", "formulation"]))
 
-# visual_stimulus: a presented visual stimulus (periodic-grating family) as a
-# STRUCTURED multi-parameter value. Unlike a single-quantity leaf, a visual stimulus
+# visual_grating: a presented visual GRATING (periodic pattern; static or
+# drifting) as a STRUCTURED multi-parameter value. Unlike a single-quantity leaf, a grating
 # is inherently multi-parameter (orientation + spatial/temporal frequency + contrast
 # + size), so it is its own data_type composite. A `stimulus_presentation` becomes a
-# body-backed `visual_stimulus_manipulation` on the animal (the second pass resolves
+# body-backed `visual_grating_manipulation` on the animal (the second pass resolves
 # the animal; the time-varying stimulus rides in a sampled_body via storage_mode:body,
 # the fixed parameters inline). NDI/vhlab source param names noted in ().
-VIS_SUBS = [
+GRATING_SUBS = [
     subfield("angle", "double", "Orientation/direction of the grating, degrees "
              "(NDI 'angle')."),
     subfield("spatial_frequency", "double", "Spatial frequency, cycles/degree "
@@ -838,14 +838,14 @@ VIS_SUBS = [
     subfield("is_blank", "boolean",
              "True for a control/blank (no-stimulus) trial (NDI 'isblank')."),
 ]
-write("stable", "visual_stimulus",
-      doc("visual_stimulus", ["base"], abstract=True, fields=[field(
+write("stable", "visual_grating",
+      doc("visual_grating", ["base"], abstract=True, fields=[field(
           "value", "structure",
-          "A presented visual stimulus (periodic-grating family) and its "
-          "presentation parameters.", non_empty=True, blank={}, sub_fields=VIS_SUBS)]))
-write("stable", "visual_stimulus_manipulation",
-      doc("visual_stimulus_manipulation",
-          ["subject_manipulation", "visual_stimulus"]))
+          "A presented visual grating (static or drifting) and its "
+          "presentation parameters.", non_empty=True, blank={}, sub_fields=GRATING_SUBS)]))
+write("stable", "visual_grating_manipulation",
+      doc("visual_grating_manipulation",
+          ["subject_manipulation", "visual_grating"]))
 write("stable", "term_manipulation",
       doc("term_manipulation", ["subject_manipulation"], fields=[field(
           "value", "ontology_term",
@@ -1760,7 +1760,7 @@ write("stable", "data_type",
 # belong under data_type alongside the dimensional ones (they were previously left
 # ⊂ base — the inconsistency this closes).
 DATA_TYPES = list(DIMS) + [n for n, _ in NUMERIC_SEED] + ["dose", "formulation", "chemical",
-    "visual_stimulus"]
+    "visual_grating"]
 for name in DATA_TYPES:
     p = os.path.join(VETA, "stable", name + ".json")
     if not os.path.exists(p):
