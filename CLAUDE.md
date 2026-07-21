@@ -30,6 +30,20 @@ lives in these files — read them instead of re-deriving from memory:
 - must_refer is DECLARATIVE (existence-only validation), not type-checked.
 - Corpus gate: 0 quarantine + 0 orphans; per-class counts shift as classes
   dissolve, total-doc counts are the invariant. Soph needs DID_RUN_SOPH_TEST=1.
+- CALCULATORS ARE DEFERRED. Do NOT register `_calc` decomposition migrators
+  (`<x>_calc.m` that split a calc doc into observations). The corpus stores calc
+  outputs as `<x>_calc` docs that DOWNSTREAM calcs reference (e.g.
+  `contrast_sensitivity_calc.contrasttuning_id_* -> contrast_tuning_calc`).
+  Decomposing a `_calc` doc changes/removes its id, so every downstream reference
+  DANGLES -> orphans (Soph went red with 11448 such orphans, 5445377). Passthrough
+  of `_calc` docs validates against the RETAINED `_calc` schemas and keeps refs
+  intact — that is the deferred-calculator green state. Un-defer only when the
+  downstream calc CONSUMERS are migrated in the same pass.
+- distance_metadata no-value docs (endpoint labels only, no `numeric_values`) are a
+  LONG-STANDING TOLERATED quarantine (~2078 in JH): the migrator can make no
+  `length_observation` and the endpoint-relation is deferred to the NDI second pass,
+  so the raw doc passes through and fails the required non-empty `endpoints`. JH's
+  test does not gate quarantine; resolving it belongs to the NDI-endpoint track.
 
 ## Build / test
 - `python3 tools/build_v_eta.py` rebuilds `schemas/V_eta/` (copytree V_zeta→V_eta
