@@ -49,6 +49,14 @@ lives in these files — read them instead of re-deriving from memory:
   next corpus (the quarantine count should drop ~2078; JH's test does not gate
   quarantine, so watch the discovery report, not just pass/fail). General lesson:
   any NESTED sub-field a migrator reads needs the snake+camelCase fallback.
+  AUDIT (this session) of every +migrators_j nested read: the only live nested
+  multi-word reads were `distance_metadata.endpoints.numeric_values` and
+  `syncrule_mapping.epochnode_*` — both now snake+camel. `ontology_table_row`'s
+  `row.numeric_value` has the same pattern but sits in the knowingly-wrong naive-
+  per-column migrator pending D10/D11 — fix it WITH that redesign, not piecemeal.
+  Everything else reads BLOCK-level fields (snake-cased by universalRenames, safe) or
+  PascalCase-by-design (metadata_editor's metadata_structure). So the corpus should be
+  clean of this bug class after the two fixes land.
 
 ## Build / test
 - `python3 tools/build_v_eta.py` rebuilds `schemas/V_eta/` (copytree V_zeta→V_eta
