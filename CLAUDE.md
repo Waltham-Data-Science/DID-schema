@@ -39,11 +39,16 @@ lives in these files — read them instead of re-deriving from memory:
   of `_calc` docs validates against the RETAINED `_calc` schemas and keeps refs
   intact — that is the deferred-calculator green state. Un-defer only when the
   downstream calc CONSUMERS are migrated in the same pass.
-- distance_metadata no-value docs (endpoint labels only, no `numeric_values`) are a
-  LONG-STANDING TOLERATED quarantine (~2078 in JH): the migrator can make no
-  `length_observation` and the endpoint-relation is deferred to the NDI second pass,
-  so the raw doc passes through and fails the required non-empty `endpoints`. JH's
-  test does not gate quarantine; resolving it belongs to the NDI-endpoint track.
+- distance_metadata ~2078 JH quarantines ("required `endpoints` missing"): the JH
+  files DO carry distance values — an empty read is a BUG, not real missing data.
+  Root cause (suspected): `endpoints.numeric_values` is NESTED, so universalRenames
+  leaves its raw v1 casing untouched; a camelCase source (`numericValues`) read
+  snake-only comes back empty → the migrator's no-vals passthrough branch → the raw
+  doc fails the required non-empty `endpoints` → quarantine. Fix applied: read
+  numeric_values snake-first + camelCase fallback (like jGetCharAny). CONFIRM via the
+  next corpus (the quarantine count should drop ~2078; JH's test does not gate
+  quarantine, so watch the discovery report, not just pass/fail). General lesson:
+  any NESTED sub-field a migrator reads needs the snake+camelCase fallback.
 
 ## Build / test
 - `python3 tools/build_v_eta.py` rebuilds `schemas/V_eta/` (copytree V_zeta→V_eta
