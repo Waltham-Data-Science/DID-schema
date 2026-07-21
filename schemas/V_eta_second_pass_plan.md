@@ -18,17 +18,15 @@ Status: design. Grounded in the existing harness (`ndi.migrate.local`,
 `bodyResolver` today: `subjectOfElement(elementId)`,
 `epochClockOfElement(elementId, epochId)`.
 
-## Item 1 (flagship): stimulus_presentation → a subject-side manipulation (D-B)
-CORRECTION: `stimulus_manipulation` is NOT a class (it was in a stale D-B note; do
-not use it). The real subject_manipulation leaves are the typed quantities
-(`current_`, `voltage_`, `intensity_`, `frequency_`, `dose_`, `temperature_`, …) and
-`term_manipulation` (an imposed act/agent as a bound term). The correct target for a
-presented stimulus is UNDECIDED and is the architect's call — likely `term_manipulation`
-(variable = the stimulus term) for a generic stimulus, or a typed leaf when the stimulus
-IS a quantity (a current/voltage/intensity level). Goal shape (once the target class is
-settled): for each kept `stimulus_presentation`, mint the manipulation on the ANIMAL
-stimulated (`subject_id` = animal, `stimulus_presentation_id` = the presentation) +
-a relation to the stimulus-system subject.
+## NOT a second-pass item: stimulus_presentation (it is a BODY OF RECORD)
+DECISION (architect): `stimulus_presentation` is a **body of record** — it is KEPT
+as-is, holding the raw stimulus params (`stimuli.parameters`), `presentation_order`,
+and `presentation_time`. It does NOT decompose into a subject-side manipulation, and
+there is no `stimulus_manipulation` class. Any subject-side statements about the animal
+come DOWNSTREAM from the derived responses (`stimulus_response_scalar` → observations,
+the analysis tier), not from the presentation. So the old D-B "stimulus_presentation →
+stimulus_manipulation" item is WITHDRAWN. (`stimulus_bath` is different — it IS a
+manipulation and its second-pass resolver `stimulusBathToBath` stays.)
 
 **Blocker / decision needed — how to identify the co-recorded ANIMAL.**
 `stimulus_presentation.element_id` is the STIMULATOR (its own subject is the stimulus
