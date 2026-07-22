@@ -35,7 +35,8 @@ lives in these files — read them instead of re-deriving from memory:
   `origin/main` via git, NOT the working tree, because the V_eta NDI feature branch
   lags main and silently drops classes main added after the fork (ensemble,
   kilosort_clusters, kiasort_clusters, daqreader_image_epochdata_ingested — the
-  first 3 still have NO V_eta home, task #21). (B) vhlab app/calculator classes with
+  first 3 now HOMED passthrough-retained, task #21 done: ensemble in_progress,
+  kilosort/kiasort_clusters retire; D-C decomposition deferred to #9). (B) vhlab app/calculator classes with
   no NDI template = 11 (contrast_tuning, the 3 other `*_tuning`, 7 `*_calc`), footprint
   = a bespoke migrator consuming them. Do NOT add post-v1 DID intermediate/target
   classes (zarr, directory, `*_observation`, data_body, openminds_import) to the v1
