@@ -1191,7 +1191,8 @@
                 "base"
             ],
             "path": "schemas/V_eta/stable/image.json",
-            "disposition": "persist"
+            "disposition": "in_progress",
+            "disposition_note": "\u2465/\u2466 walkthrough pending"
         },
         {
             "class_name": "image_observation",
@@ -1523,7 +1524,8 @@
                 "base"
             ],
             "path": "schemas/V_eta/stable/openminds_import.json",
-            "disposition": "persist"
+            "disposition": "in_progress",
+            "disposition_note": "\u2465/\u2466 walkthrough pending"
         },
         {
             "class_name": "openminds_stimulus",
@@ -1759,7 +1761,8 @@
                 "base"
             ],
             "path": "schemas/V_eta/deprecated/projectvar.json",
-            "disposition": "persist"
+            "disposition": "in_progress",
+            "disposition_note": "\u2465/\u2466 walkthrough pending"
         },
         {
             "class_name": "publication",

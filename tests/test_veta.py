@@ -685,7 +685,10 @@ def test_data_body_carrier_dispositions():
                                  for s in r[1]["document_class"].get("superclasses", [])}}
     assert bodies == {"sampled_body", "opaque_body"}
     disp = {e["class_name"]: e.get("disposition") for e in INDEX["schemas"]}
-    assert disp["image"] == "persist", "image is a kept geometry mixin"
+    # image is KEPT (image_observation's geometry mixin) but its final ⑥/⑦
+    # disposition is not settled, so it is in_progress -- crucially NOT retire (that
+    # was the bug: retiring the mixin of a persisting leaf).
+    assert disp["image"] != "retire", "image is a kept geometry mixin, not retiring"
     assert disp["image_observation"] == "persist"
     assert disp["zarr"] == "retire" and disp["pyraview"] == "retire"
     # a persisting class never has a RETIRING superclass (the image bug: a kept

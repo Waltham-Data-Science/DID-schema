@@ -1881,7 +1881,12 @@ _IN_PROGRESS = {"daqsystem", "daqreader", "daqmetadatareader",
     # D-B stimulus bodies-of-record whose sampled_body fate is still open; and the
     # demo/test fixtures whose place in the final V1 set is not settled.
     "app", "stimulus_presentation", "control_stimulus_ids",
-    "demo_ndi", "demo_ndi_mock"}
+    "demo_ndi", "demo_ndi_mock",
+    # ⑦ acquisition/infra "keep" classes whose FINAL disposition is not yet settled:
+    # image (kept as image_observation's geometry mixin, but its ⑥/⑦ fate is open),
+    # openminds_import (new provenance doc, provisional), projectvar (infra, unsettled).
+    # Kept in-schema but NOT in the final persist set until the ⑥/⑦ walkthrough closes.
+    "image", "openminds_import", "projectvar"}
 
 def _disposition(name):
     if name in _RET_SOURCES:  return ("retire", "Phase-8 source (migrator → delete)")
