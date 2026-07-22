@@ -705,18 +705,6 @@
             "disposition_note": "\u2465/\u2466 walkthrough pending"
         },
         {
-            "class_name": "dataseries_observation",
-            "tier": "draft",
-            "class_version": "1.0.0",
-            "maturity_level": "draft",
-            "superclasses": [
-                "subject_observation"
-            ],
-            "path": "schemas/V_eta/draft/dataseries_observation.json",
-            "disposition": "retire",
-            "disposition_note": "\u00a7A.9: series-observation branch \u2192 quantity leaves + data_body"
-        },
-        {
             "class_name": "dataset",
             "tier": "stable",
             "class_version": "1.0.0",
@@ -1205,43 +1193,6 @@
             ],
             "path": "schemas/V_eta/draft/image_observation.json",
             "disposition": "persist"
-        },
-        {
-            "class_name": "image_stack",
-            "tier": "deprecated",
-            "class_version": "1.0.0",
-            "maturity_level": "deprecated",
-            "superclasses": [
-                "base",
-                "image_stack_parameters"
-            ],
-            "path": "schemas/V_eta/deprecated/image_stack.json",
-            "disposition": "retire",
-            "disposition_note": "Phase-8 source (migrator \u2192 delete)"
-        },
-        {
-            "class_name": "image_stack_parameters",
-            "tier": "deprecated",
-            "class_version": "1.0.0",
-            "maturity_level": "deprecated",
-            "superclasses": [
-                "base"
-            ],
-            "path": "schemas/V_eta/deprecated/image_stack_parameters.json",
-            "disposition": "retire",
-            "disposition_note": "Phase-8 source (migrator \u2192 delete)"
-        },
-        {
-            "class_name": "imageseries_observation",
-            "tier": "draft",
-            "class_version": "1.0.0",
-            "maturity_level": "draft",
-            "superclasses": [
-                "dataseries_observation"
-            ],
-            "path": "schemas/V_eta/draft/imageseries_observation.json",
-            "disposition": "retire",
-            "disposition_note": "\u00a7A.9: series-observation branch \u2192 quantity leaves + data_body"
         },
         {
             "class_name": "instrument",
@@ -2197,18 +2148,6 @@
             "disposition": "persist"
         },
         {
-            "class_name": "subject_group",
-            "tier": "deprecated",
-            "class_version": "1.0.0",
-            "maturity_level": "deprecated",
-            "superclasses": [
-                "base"
-            ],
-            "path": "schemas/V_eta/deprecated/subject_group.json",
-            "disposition": "retire",
-            "disposition_note": "Phase-8 source (migrator \u2192 delete)"
-        },
-        {
             "class_name": "subject_interaction",
             "tier": "stable",
             "class_version": "3.0.0",
@@ -2405,54 +2344,6 @@
             "disposition": "persist"
         },
         {
-            "class_name": "timeseries_observation",
-            "tier": "draft",
-            "class_version": "1.0.0",
-            "maturity_level": "draft",
-            "superclasses": [
-                "dataseries_observation"
-            ],
-            "path": "schemas/V_eta/draft/timeseries_observation.json",
-            "disposition": "retire",
-            "disposition_note": "\u00a7A.9: series-observation branch \u2192 quantity leaves + data_body"
-        },
-        {
-            "class_name": "treatment",
-            "tier": "deprecated",
-            "class_version": "1.0.0",
-            "maturity_level": "deprecated",
-            "superclasses": [
-                "base"
-            ],
-            "path": "schemas/V_eta/deprecated/treatment.json",
-            "disposition": "retire",
-            "disposition_note": "Phase-8 source (migrator \u2192 delete)"
-        },
-        {
-            "class_name": "treatment_drug",
-            "tier": "deprecated",
-            "class_version": "1.0.0",
-            "maturity_level": "deprecated",
-            "superclasses": [
-                "base"
-            ],
-            "path": "schemas/V_eta/deprecated/treatment_drug.json",
-            "disposition": "retire",
-            "disposition_note": "Phase-8 source (migrator \u2192 delete)"
-        },
-        {
-            "class_name": "treatment_transfer",
-            "tier": "deprecated",
-            "class_version": "1.0.0",
-            "maturity_level": "deprecated",
-            "superclasses": [
-                "base"
-            ],
-            "path": "schemas/V_eta/deprecated/treatment_transfer.json",
-            "disposition": "retire",
-            "disposition_note": "Phase-8 source (migrator \u2192 delete)"
-        },
-        {
             "class_name": "tuning_fit",
             "tier": "stable",
             "class_version": "1.0.0",
@@ -2533,18 +2424,6 @@
             ],
             "path": "schemas/V_eta/stable/velocity_observation.json",
             "disposition": "persist"
-        },
-        {
-            "class_name": "virus_injection",
-            "tier": "deprecated",
-            "class_version": "1.0.0",
-            "maturity_level": "deprecated",
-            "superclasses": [
-                "base"
-            ],
-            "path": "schemas/V_eta/deprecated/virus_injection.json",
-            "disposition": "retire",
-            "disposition_note": "Phase-8 source (migrator \u2192 delete)"
         },
         {
             "class_name": "visual_grating",

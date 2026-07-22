@@ -1899,6 +1899,50 @@ def _disposition(name):
     if name in _IN_PROGRESS:  return ("in_progress", "⑥/⑦ walkthrough pending")
     return ("persist", None)
 
+# ---- Phase-8 deletion: physically drop the fully-consumed v1 SOURCE schemas that
+# are carried only as V_zeta copytree tombstones (they made the coverage ledger show
+# a retiring class as if it were a V_eta "home"). A class qualifies ONLY when its
+# docs cannot survive migration:
+#   (a) it has a COMPLETED migrators_i dissolver that decomposes every doc into other
+#       classes (treatment family, virus_injection, subject_group, image_stack+params
+#       -> manipulations / bare subject / image_observation + sampled_body), OR
+#   (b) it is abstract / unminted in J, so no doc can exist (the series-observation
+#       branch: dataseries_ is abstract; timeseries_/imageseries_ are never minted).
+# All 10 are verified (coverage-style scan) unreferenced by any kept schema and
+# unemitted by any migrator.
+# DELIBERATELY HELD (NOT deleted), despite being in _RET_SOURCES -- their docs are
+# not provably consumed yet, so deleting the schema would strand live docs:
+#   - element    : the most common NDI doc; its J dissolver is not corpus-confirmed
+#                  to leave zero survivors. Delete only after a corpus per-class count
+#                  shows 0 migrated `element` docs (blast radius is the whole corpus).
+#   - openminds* : need migrators / entangled with the #9 analysis-tier work
+#                  (guarded by test_phase1_source_cleanup_and_dep_typing).
+# The DEFERRED calculators / analysis tier (_ANALYSIS_RE, _RET_HOLDOVER), the 2.D
+# carriers (_RET_CARRIERS: zarr, pyraview) and the to-observation holdovers
+# (_RET_TOOBS: distance_metadata, ontology_*, ...) also stay -- their docs pass
+# through and MUST keep a schema. Un-defer those first, then extend this set.
+_DELETE_PHASE8 = {
+    "treatment", "treatment_drug", "treatment_transfer", "virus_injection",
+    "subject_group", "image_stack", "image_stack_parameters",
+    "dataseries_observation", "timeseries_observation", "imageseries_observation",
+}
+_deleted = []
+for tier in TIERS:
+    for p in glob.glob(os.path.join(VETA, tier, "*.json")):
+        base = os.path.basename(p)
+        if base in META_FILES:
+            continue
+        try:
+            cn = load(p)["document_class"]["class_name"]
+        except Exception:
+            continue
+        if cn in _DELETE_PHASE8:
+            os.remove(p)
+            _deleted.append(cn)
+if _deleted:
+    print(f"V_eta Phase-8 delete: removed {len(_deleted)} consumed source schemas: "
+          + ", ".join(sorted(_deleted)))
+
 schemas = []
 for tier in TIERS:
     for p in sorted(glob.glob(os.path.join(VETA, tier, "*.json"))):
