@@ -1,0 +1,201 @@
+#!/usr/bin/env python3
+"""V_eta migration coverage ledger + guardrail.
+
+Answers two questions fast (no MATLAB, no 2-hour corpus):
+
+  1. LEDGER  -- for every did_v1 source class, what is its V_eta fate (disposition +
+     migrator)? Written to schemas/V_eta_coverage_ledger.md so "migrate every v1
+     class" becomes a visible checklist.
+
+  2. GUARDRAIL -- every class_name a V_eta migrator EMITS must exist in the built
+     V_eta schema. Catches "reviving a dead class" / "inventing a non-existent class"
+     (the stimulus_manipulation / bath class of error) in <1s. Exits non-zero on a
+     violation so CI fails.
+
+Reads the sibling repos (NDI-matlab for the v1 class templates + second-pass
+functions; DID-matlab for the migrators_j package). Discover order: env vars
+NDI_MATLAB / DID_MATLAB, then /home/user/<repo>, then ../<repo>. Degrades
+gracefully (skips a section) when a sibling is absent.
+
+Usage:  python3 tools/coverage.py [--check]
+  (no args) regenerate the ledger + print the guardrail report.
+  --check   guardrail only; exit non-zero on any violation (for CI).
+"""
+import json
+import glob
+import os
+import re
+import sys
+
+HERE = os.path.dirname(os.path.abspath(__file__))
+SCHEMA_ROOT = os.path.dirname(HERE)
+INDEX = os.path.join(SCHEMA_ROOT, "schemas", "V_eta", "index.json")
+LEDGER = os.path.join(SCHEMA_ROOT, "schemas", "V_eta_coverage_ledger.md")
+
+
+def find_repo(name, env):
+    for cand in (os.environ.get(env), os.path.join("/home/user", name),
+                 os.path.join(os.path.dirname(SCHEMA_ROOT), name)):
+        if cand and os.path.isdir(cand):
+            return cand
+    return None
+
+
+NDI = find_repo("NDI-matlab", "NDI_MATLAB")
+DIDM = find_repo("DID-matlab", "DID_MATLAB")
+
+
+def snake(name):
+    """Mirror universalRenames' camelCase -> snake_case (block/class field names)."""
+    s = re.sub(r"(.)([A-Z][a-z]+)", r"\1_\2", name)
+    s = re.sub(r"([a-z0-9])([A-Z])", r"\1_\2", s)
+    return s.lower()
+
+
+def veta_index():
+    idx = json.load(open(INDEX))
+    return {e["class_name"]: e.get("disposition", "?") for e in idx["schemas"]}
+
+
+def v1_classes():
+    """The ground-truth did_v1 class names, from the NDI v1 document templates."""
+    if not NDI:
+        return {}
+    out = {}
+    for p in glob.glob(os.path.join(
+            NDI, "src/ndi/ndi_common/database_documents/**/*.json"), recursive=True):
+        try:
+            d = json.load(open(p))
+        except Exception:
+            continue
+        cn = d.get("document_class", {}).get("class_name")
+        if cn:
+            out[cn] = os.path.relpath(p, NDI)
+    return out
+
+
+def migrator_files():
+    """migrators_j.<class> bespoke migrators (DID-matlab)."""
+    if not DIDM:
+        return set()
+    base = os.path.join(DIDM, "src/did/+did2/+convert/+migrators_j")
+    return {os.path.basename(p)[:-2]
+            for p in glob.glob(os.path.join(base, "*.m"))
+            if os.path.basename(p) != "Contents.m"}
+
+
+_CLASS_EMIT = [re.compile(r"'class_name'\s*,\s*'([A-Za-z_]\w*)'"),
+               re.compile(r'"class_name"\s*,\s*"([A-Za-z_]\w*)"')]
+
+
+def emitted_classes():
+    """class_name values emitted by the V_eta migrators + V_eta second pass.
+    Maps class_name -> set of files. stimulusBathToBath is multi-version (also emits
+    V_zeta bath/pharmacological_manipulation); those show as violations against the
+    V_eta schema -- which is the point (the live V_eta path must not emit them)."""
+    out = {}
+    roots = []
+    if DIDM:
+        roots.append(os.path.join(DIDM, "src/did/+did2/+convert/+migrators_j"))
+    if NDI:
+        roots.append(os.path.join(NDI, "src/ndi/+ndi/+migrate/+internal"))
+    for root in roots:
+        for p in glob.glob(os.path.join(root, "**/*.m"), recursive=True):
+            txt = open(p).read()
+            for pat in _CLASS_EMIT:
+                for m in pat.finditer(txt):
+                    out.setdefault(m.group(1), set()).add(os.path.basename(p))
+    return out
+
+
+# Known emissions of NON-V_eta classes, with a tracked reason. These are NOT
+# clean -- each is a real issue to fix -- but they are explicitly acknowledged so
+# the guardrail fails on NEW (unacknowledged) revived/invented classes.
+#   bath / pharmacological_manipulation: stimulusBathToBath is the V_zeta/V_epsilon
+#     assembler and emits these V_zeta classes. Under a LIVE V_eta migration
+#     assembleDeferred still routes a deferred stimulus_bath through it, so the V_eta
+#     path would emit a `bath` V_eta lacks (the corpus is unaffected -- it uses the
+#     coarse resolveDeferredBaths -> dose_manipulation). FIX: make the V_eta stimulus
+#     _bath assembly emit dose_manipulation (TaskList: stimulusBathToBath V_eta path).
+KNOWN_NON_VETA = {"bath", "pharmacological_manipulation"}
+
+
+def guardrail(veta, emitted):
+    """Emitted classes that exist in neither the V_eta schema nor the known set.
+    Returns (new_violations, acknowledged)."""
+    missing = [(c, sorted(f)) for c, f in emitted.items() if c not in veta]
+    new = sorted((c, f) for c, f in missing if c not in KNOWN_NON_VETA)
+    ack = sorted((c, f) for c, f in missing if c in KNOWN_NON_VETA)
+    return new, ack
+
+
+def build_ledger():
+    veta = veta_index()
+    v1 = v1_classes()
+    migs = migrator_files()
+    rows = []
+    for cn in sorted(v1):
+        sn = snake(cn)
+        # find its V_eta disposition: by snake name, else by raw name
+        vname = sn if sn in veta else (cn if cn in veta else None)
+        disp = veta.get(vname, "—") if vname else "(renamed/decomposed/deleted)"
+        mig = "yes" if (cn in migs or sn in migs) else ""
+        rows.append((cn, vname or "", disp, mig))
+    return veta, v1, rows
+
+
+def write_ledger(veta, v1, rows):
+    from collections import Counter
+    dispc = Counter(r[2] for r in rows)
+    with_mig = sum(1 for r in rows if r[3])
+    lines = [
+        "# V_eta migration coverage ledger",
+        "",
+        "*Generated by `tools/coverage.py` -- do NOT hand-edit; re-run after a schema "
+        "or migrator change. One row per did_v1 source class (from the NDI v1 document "
+        "templates) with its V_eta disposition and whether a bespoke migrators_j "
+        "migrator handles it (else base/passthrough).*",
+        "",
+        f"**{len(v1)} v1 source classes** | by V_eta disposition: "
+        + ", ".join(f"{k}={v}" for k, v in sorted(dispc.items()))
+        + f" | {with_mig} have a bespoke migrator.",
+        "",
+        "| v1 class | V_eta class | disposition | migrator |",
+        "|---|---|---|---|",
+    ]
+    for cn, vname, disp, mig in rows:
+        lines.append(f"| `{cn}` | {('`'+vname+'`') if vname else '—'} | {disp} | {mig} |")
+    lines.append("")
+    open(LEDGER, "w").write("\n".join(lines))
+
+
+def main():
+    check_only = "--check" in sys.argv
+    veta = veta_index()
+    emitted = emitted_classes()
+    new, ack = guardrail(veta, emitted)
+
+    print(f"guardrail: {len(emitted)} emitted class_names checked against V_eta schema")
+    for c, f in ack:
+        print(f"  [known] {c:30} <- {', '.join(f)}")
+    if new:
+        print("  NEW VIOLATIONS (emitted but not in V_eta schema -- revived/invented):")
+        for c, f in new:
+            print(f"    {c:30} <- {', '.join(f)}")
+    else:
+        print("  OK: no new revived/invented classes.")
+
+    if check_only:
+        sys.exit(1 if new else 0)
+
+    veta, v1, rows = build_ledger()
+    if v1:
+        write_ledger(veta, v1, rows)
+        print(f"ledger: wrote {os.path.relpath(LEDGER, SCHEMA_ROOT)} "
+              f"({len(v1)} v1 classes)")
+    else:
+        print("ledger: SKIPPED (NDI-matlab sibling not found)")
+
+
+if __name__ == "__main__":
+    main()

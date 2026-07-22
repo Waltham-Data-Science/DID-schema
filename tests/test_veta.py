@@ -702,6 +702,23 @@ def test_data_body_carrier_dispositions():
                     f"{s['class_name']} is retiring"
 
 
+def test_no_revived_classes_in_migrators():
+    """Guardrail (tools/coverage.py): every class_name a V_eta migrator EMITS must
+    exist in the built schema (or the tracked known-non-V_eta allow-list). Catches
+    reviving a dead class / inventing a non-existent one -- the stimulus_manipulation
+    / bath error class -- in <1s. Skips when the sibling migrator repos are absent."""
+    import importlib.util
+    spec = importlib.util.spec_from_file_location(
+        "coverage_tool", os.path.join(REPO_ROOT, "tools", "coverage.py"))
+    cov = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(cov)
+    emitted = cov.emitted_classes()
+    if not emitted:
+        pytest.skip("migrator sibling repos not checked out")
+    new, _ack = cov.guardrail(cov.veta_index(), emitted)
+    assert not new, f"migrators emit classes absent from the V_eta schema: {new}"
+
+
 def test_visual_grating_manipulation_leaf():
     """A presented visual stimulus is a body-backable subject_manipulation leaf whose
     data type is a structured multi-parameter `visual_grating` composite (a grating
