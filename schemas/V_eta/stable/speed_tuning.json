@@ -4,10 +4,11 @@
         "class_version": "1.0.0",
         "superclasses": [
             {
-                "class_name": "base"
+                "class_name": "data_type"
             }
         ],
-        "maturity_level": "stable"
+        "maturity_level": "stable",
+        "abstract": true
     },
     "depends_on": [
         {

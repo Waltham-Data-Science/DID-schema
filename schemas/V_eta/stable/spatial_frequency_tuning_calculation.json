@@ -1,0 +1,18 @@
+{
+    "document_class": {
+        "class_name": "spatial_frequency_tuning_calculation",
+        "class_version": "1.0.0",
+        "superclasses": [
+            {
+                "class_name": "subject_calculation"
+            },
+            {
+                "class_name": "spatial_frequency_tuning"
+            }
+        ],
+        "maturity_level": "stable"
+    },
+    "depends_on": [],
+    "file": [],
+    "fields": []
+}

@@ -928,13 +928,18 @@ write("stable", "visual_grating",
 # fit) as a base-bag; reparent it to `data_type` (making it the composite) and add
 # the `<composite>_calculation` leaf. The old oridirtuning_calc CLASS is retained for
 # now (its docs migrate 1->1 to the leaf; retire/phase-8-delete is a follow-up).
-_odt = load(os.path.join(VETA, "stable", "orientation_direction_tuning.json"))
-_odt["document_class"]["superclasses"] = [{"class_name": "data_type"}]
-_odt["document_class"]["abstract"] = True
-write("stable", "orientation_direction_tuning", _odt)
-write("stable", "orientation_direction_tuning_calculation",
-      doc("orientation_direction_tuning_calculation",
-          ["subject_calculation", "orientation_direction_tuning"]))
+# The tuning "result" classes each reparent from a base-bag to a `data_type`
+# COMPOSITE (abstract, result blocks kept) + gain a `<composite>_calculation` leaf.
+# Safe: each is consumed by a migrator, never instantiated concretely.
+for _tune in ("orientation_direction_tuning", "contrast_tuning",
+              "spatial_frequency_tuning", "temporal_frequency_tuning",
+              "speed_tuning"):
+    _t = load(os.path.join(VETA, "stable", _tune + ".json"))
+    _t["document_class"]["superclasses"] = [{"class_name": "data_type"}]
+    _t["document_class"]["abstract"] = True
+    write("stable", _tune, _t)
+    write("stable", _tune + "_calculation",
+          doc(_tune + "_calculation", ["subject_calculation", _tune]))
 
 write("stable", "visual_grating_manipulation",
       doc("visual_grating_manipulation",
