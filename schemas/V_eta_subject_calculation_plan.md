@@ -1,14 +1,48 @@
 # V_eta — `subject_calculation` composite-leaf family (scoping)
 
 Status: **SCOPING / proposal — not implemented.** Requested by the team following
-the [paper fed 2 sessions ago — cite here]: keep calculators as **composite leafs**
-rather than (a) deferring them as passthrough `*_calc` bags or (b) dissolving them
-into bare `*_observation`s (D-C grain A). This doc scopes a `subject_calculation`
-direction + a set of composite `data_type`s, mirroring
-`visual_grating_manipulation = subject_manipulation + visual_grating`.
+Lepsky, Severson, Wang, Cheng, Rodriguez, Gong & Van Hooser, *"A motif for
+domain-specific analysis applets … application to vision science"* (bioRxiv
+2026.04.27.721136): keep calculators as **composite leafs** rather than (a) deferring
+them as passthrough `*_calc` bags or (b) dissolving them into bare `*_observation`s
+(D-C grain A). This doc scopes a `subject_calculation` direction + a set of composite
+`data_type`s, mirroring `visual_grating_manipulation = subject_manipulation +
+visual_grating`.
 
 > ⚠️ This **revises two settled D-C decisions** (see §6). It needs team sign-off
-> before implementation, and the composite field schemas need the paper's specifics.
+> before implementation. The biggest open call is **naming** (§7): the paper makes
+> the output document *type* the pipeline-composition contract, so renaming a `*_calc`
+> class is not free.
+
+## 0. What the paper prescribes (grounding)
+
+The motif's hard constraints, and how each lands in V_eta:
+
+- **One calculator → exactly one output document type** ("a calculator object can only
+  produce a single type of output document whose form is rigorously specified", §3.2).
+  ⇒ **one `subject_calculation` leaf class per calculator.** The leaf set is the
+  calculator set: oridir, contrast, spatial-freq, temporal-freq, speed, tuningcurve,
+  (contrast-sensitivity), hartley.
+- **The output document is the pipeline interface.** Pipelines are not wired; a
+  downstream calculator *searches the database for the output document type* of an
+  upstream one (e.g. the Direction-Fit calc searches for `stimulus_tuningcurve` docs;
+  Fig 5). ⇒ the leaf's **class name and searchable fields are a contract**, not
+  incidental — this drives the naming decision (§7).
+- **Document shape** (Fig 4, `oridirtuning_calc`): top-level `app` (program version),
+  `depends_on` (the input documents used), `document_class`, `base`; a **provenance
+  block** `<calc>` = `input_parameters` + an in-block `depends_on` naming the specific
+  input (e.g. `stimulus_tuningcurve_id`); and a **result block** `<result>` (e.g.
+  `orientation_direction_tuning` = properties / tuning_curve / significance / vector /
+  fit). "All fields are exposed to search." ⇒ the two blocks map exactly to
+  **`subject_calculation` (provenance: app→method, input_parameters→method_parameters,
+  input refs→depends_on) + the result composite `data_type`.**
+- **Everything a calculator emits is a *calculation*** (a computed output), including
+  the raw tuning curve (`stimulus_tuningcurve`, the output of `ndi.calc.tuningcurve`,
+  and itself an *input* to the fit calcs). The measured `stimulus_response` is the
+  observation; tuning curves and fits are calculations. ⇒ resolves the
+  calculation-vs-observation question (old §7.1) in favor of *calculation*.
+- **FAIR at every stage** via provenance carried in `depends_on`. ⇒ the migration MUST
+  preserve `depends_on` verbatim (it already must, for zero-orphan).
 
 ## 1. Why this is the right shape (and why it un-defers calculators)
 
@@ -132,21 +166,46 @@ observation leaf tier.
 Both are deliberate team calls from the paper — recording them here so the durable
 record (CLAUDE.md, the cohesiveness plan) can be updated in lockstep when this lands.
 
-## 7. Open questions (paper-informed)
+## 7. Open questions
 
-- **Are tuning *results* calculations or observations?** A tuning curve is measured
-  data reduced by an algorithm — arguably a `subject_observation` with method, not a
-  `subject_calculation`. The team's choice (leaf family) says *calculation*; confirm
-  the boundary (e.g. raw `stimulus_tuningcurve` = observation, the *fit* = calculation?).
-- **Composite `value` schemas** — the per-composite field lists above are lifted from
-  the current classes; the paper should confirm which fields are first-class
-  (queryable) vs. carried-opaque, and the ontology terms for `variable`/`method`.
+### 7.0 THE decision: leaf class naming (paper-driven)
+The paper makes the output document *type* the pipeline-composition contract
+(downstream calcs `ndi.query` for it by class). So renaming a `*_calc` class is not
+a free schema cleanup — it can break NDIcalc-vis searches. Two options:
+
+- **(A) Preserve the type names** — keep `oridirtuning_calc`, `contrast_tuning_calc`,
+  `tuningcurve_calc`, … as the leaf class names; only *re-parent* them onto
+  `subject_calculation` + the result composite and reshape the block. Migration is
+  1→1 with **no class rename** (strongest ref/search preservation) and NDIcalc-vis
+  keeps working unchanged. Cost: the `_calc` suffix stays (mildly against V_eta's
+  de-encode-names philosophy, since the `subject_calculation` direction already says
+  "computed").
+- **(B) Clean `<composite>_calculation` names** — `orientation_direction_tuning_calculation`,
+  … V_eta-idiomatic, but requires migrating NDIcalc-vis search queries to the new
+  types (and possibly a class alias for back-compat). More disruptive.
+
+**Recommendation: (A)** — the paper's whole thesis is that the output document type is
+a durable, searchable contract other code depends on; preserving it honors the motif
+and makes this the least-risky un-deferral. (B) can be a later cosmetic pass with an
+alias. **Team: confirm A vs B before implementation.**
+
+### 7.1 Resolved / remaining
+- ~~Are tuning results calculations or observations?~~ **RESOLVED (§0): calculation.**
+  Everything a calculator emits is a computed output; the measured `stimulus_response`
+  is the observation.
+- **Composite `value` schemas** — field lists are lifted from the current classes +
+  Fig 4/6; confirm which fields are first-class (queryable) vs. carried-opaque, and the
+  ontology terms for `variable`/`method` (the `ndi.calc.vis.*` app identity).
 - **Provenance representation** — keep input `*_id` links as `depends_on` (zero-orphan,
-  minimal) or also mint `directed_relation(derived_from)` (queryable graph, D-E)? The
-  former is the safe default; the latter is a follow-up.
-- **`scalar_calculation` vs. reuse** — does `simple_calc` earn its own leaf, or map to
-  an existing scalar composite leaf (`score`/`frequency`/…) with the calculation
-  direction?
+  minimal, and what the paper shows — both top-level and in-block) or ALSO mint
+  `directed_relation(derived_from)` (queryable graph, D-E)? Keep `depends_on` as the
+  default; the relation is an optional follow-up.
+- **`app` / `input_parameters`** — map `app`→`subject_interaction.method` (ontology_term
+  of the `ndi.calc.*` applet) + `input_parameters`→`method_parameters`, or keep a
+  literal `app` block for version fidelity? Fig 4 keeps `app` top-level; leaning
+  method+method_parameters with `app` retained for the program version.
+- **`simple_calc`** — its own `scalar_calculation` leaf, or map to an existing scalar
+  composite (`score`/`frequency`/…) with the calculation direction?
 - **Subject grain** — calc is about the neuron-subject (element→subject). Same
   `element_id`→`subject_id` carry as the observation migrators; confirm.
 
