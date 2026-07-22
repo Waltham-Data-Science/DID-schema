@@ -35,15 +35,18 @@ lives in these files — read them instead of re-deriving from memory:
   `origin/main` via git, NOT the working tree, because the V_eta NDI feature branch
   lags main and silently drops classes main added after the fork (ensemble,
   kilosort_clusters, kiasort_clusters, daqreader_image_epochdata_ingested — the
-  first 3 now HOMED passthrough-retained, task #21 done: ensemble in_progress,
-  kilosort/kiasort_clusters retire; D-C decomposition deferred to #9). (B) vhlab app/calculator classes with
+  first 3 now HOMED, task #21 done. D-C (#9): kilosort/kiasort_clusters now
+  DECOMPOSE (count_observation + opaque_body + session anchor via
+  migrators_j.private.jSorterOutput; schemas retained as a non-gating safety net,
+  not yet phase-8-deleted); ensemble stays in_progress passthrough (grain TBD).
+  (B) vhlab app/calculator classes with
   no NDI template = 11 (contrast_tuning, the 3 other `*_tuning`, 7 `*_calc`), footprint
   = a bespoke migrator consuming them. Do NOT add post-v1 DID intermediate/target
   classes (zarr, directory, `*_observation`, data_body, openminds_import) to the v1
   side — provenance `origin` (`V_eta_class_provenance.md`) is the arbiter; only
   `did_v1`-origin (+ the 11 app classes) are sources. `coverage.py` also flags GAPS
   (no V_eta home + no migrator + absent from the V_zeta base = never reviewed):
-  currently `ensemble`, `kilosort_clusters`, `kiasort_clusters` (task #21).
+  currently NONE (0 gaps; the 3 ex-gap classes are homed — task #21).
   `V_eta_coverage_ledger.md` AND `.json` are generated — re-run
   `python3 tools/coverage.py` after schema/migrator changes. The web viewer's
   **Coverage ledger** panel (`web/src/Coverage.tsx`) renders the `.json`

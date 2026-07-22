@@ -722,11 +722,16 @@ write("stable", "openminds_import",
 # ---------- new-on-main NDI app outputs (D-C analysis tier, decomposition deferred) --
 # ensemble / kilosort_clusters / kiasort_clusters were added to NDI-matlab main AFTER
 # V_eta forked from V_zeta, so they had no V_eta home (coverage-ledger GAPS). They are
-# D-C analysis-tier app outputs (spike sorting + neuron grouping). Principled
-# decomposition -- like spike_clusters -> count_observation + body -- is deferred to the
-# D-C track (#9); for now carry them PASSTHROUGH-retained (in_progress) so they validate
-# and the migration is complete. `element_id` -> subject and `element_epoch_id` ->
-# acquisition_epoch (elements/epochs were retargeted in strict J).
+# D-C analysis-tier app outputs (spike sorting + neuron grouping).
+#   kilosort_clusters / kiasort_clusters -- DECOMPOSED (#9/D-C): migrators_j fold each
+#     sorter RUN into a count_observation (id-preserved handle) + opaque_body (the
+#     external output directory) + session anchor. The schema below is RETAINED (not
+#     yet phase-8-deleted) as a safety net -- an unmigratable edge-case doc quarantines
+#     (non-gating) against it rather than erroring on an unknown class.
+#   ensemble -- still PASSTHROUGH-retained (in_progress): its grain (a neuron grouping)
+#     is a separate decision.
+# `element_id` -> subject and `element_epoch_id` -> acquisition_epoch (elements/epochs
+# were retargeted in strict J).
 for _name, _dir in (("kilosort_clusters", "kilosort_directory"),
                     ("kiasort_clusters", "kiasort_directory")):
     write("stable", _name,

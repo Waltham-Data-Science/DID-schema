@@ -16,7 +16,7 @@
       "ndi": 91,
       "app": 11
     },
-    "with_migrator": 56,
+    "with_migrator": 58,
     "gaps": 0
   },
   "rows": [
@@ -687,7 +687,7 @@
       "v1_class": "kiasort_clusters",
       "veta_class": "kiasort_clusters",
       "disposition": "retire",
-      "migrator": false,
+      "migrator": true,
       "source": "ndi",
       "nonprod": false,
       "gap": false,
@@ -703,7 +703,7 @@
       "v1_class": "kilosort_clusters",
       "veta_class": "kilosort_clusters",
       "disposition": "retire",
-      "migrator": false,
+      "migrator": true,
       "source": "ndi",
       "nonprod": false,
       "gap": false,
