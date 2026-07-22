@@ -13,6 +13,7 @@ import type { TreeNode } from "./schemaIndex";
 import { FlatList, Tree } from "./Tree";
 import { Detail } from "./Detail";
 import { BindingRegistry } from "./BindingRegistry";
+import { Coverage } from "./Coverage";
 import { Editor } from "./Editor";
 import { AuthPanel } from "./AuthPanel";
 import { loadAuth } from "./auth";
@@ -66,6 +67,7 @@ export default function App() {
     parseHash(window.location.hash),
   );
   const [editing, setEditing] = useState<boolean>(false);
+  const [showCoverage, setShowCoverage] = useState<boolean>(false);
   const [auth, setAuth] = useState<AuthState | null>(() => loadAuth());
   const [activeTags, setActiveTags] = useState<Set<string>>(
     () => new Set(ALL_TAGS),
@@ -116,6 +118,9 @@ export default function App() {
   }, []);
 
   const select = (className: string) => {
+    // Selecting a class always returns to the detail view.
+    setShowCoverage(false);
+    setEditing(false);
     window.location.hash = `#/${encodeURIComponent(className)}`;
   };
 
@@ -203,6 +208,17 @@ export default function App() {
           >
             + Add new schema
           </button>
+          <button
+            className="btn-coverage"
+            onClick={() => {
+              setShowCoverage(true);
+              setEditing(false);
+            }}
+            aria-pressed={showCoverage}
+            title="V_eta migration coverage: every did_v1 class and its V_eta fate"
+          >
+            ⛿ Coverage ledger
+          </button>
         </div>
         <nav className="sidebar-scroll">
           {view === "topic" ? (
@@ -222,6 +238,10 @@ export default function App() {
               index={index.schemas}
               onCancel={() => setEditing(false)}
             />
+          </ErrorBoundary>
+        ) : showCoverage ? (
+          <ErrorBoundary resetKey="coverage">
+            <Coverage onSelect={select} />
           </ErrorBoundary>
         ) : selectedEntry ? (
           <ErrorBoundary resetKey={selectedEntry.class_name}>

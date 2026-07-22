@@ -57,6 +57,28 @@ def veta_index():
     return {e["class_name"]: e.get("disposition", "?") for e in idx["schemas"]}
 
 
+# NDI ships test/demo scaffolding as production templates; these are NOT real v1
+# corpus data, so they never count as an unmapped coverage gap (they stay in the
+# ledger, tagged nonprod, for completeness).
+_NONPROD_CLASSES = {"mock", "oneepoch", "demoNDI", "demoNDIMock"}
+
+# did_v1 classes dissolved into their modern form BEFORE the V_zeta base V_eta was
+# copied from (hence absent from V_zeta): the legacy subject/measurement spellings.
+# Reviewed and dissolved long ago -- not gaps. Value = where they went.
+_PRE_ZETA_DISSOLVED = {"animalsubject": "subject", "subjectmeasurement": "measurement"}
+
+
+def vzeta_classes():
+    """Class names present in the V_zeta base (the set V_eta was copied from).
+    A v1 class absent here AND without a V_eta home/migrator was never reviewed by
+    the migration -> a genuine gap (vs. one V_zeta reviewed and chose to dissolve)."""
+    out = set()
+    for p in glob.glob(os.path.join(SCHEMA_ROOT, "schemas", "V_zeta", "**", "*.json"),
+                       recursive=True):
+        out.add(os.path.basename(p)[:-5])
+    return out
+
+
 # Migrator files that are NOT per-class consumers (shared helpers / default
 # passthrough / second-pass reshapers) -- excluded when a migrator filename is
 # read as a v1 source-class name.
@@ -162,13 +184,21 @@ def v1_classes():
 
 
 def migrator_files():
-    """migrators_j.<class> bespoke migrators (DID-matlab)."""
+    """Bespoke per-class migrators across ALL three convert packages (DID-matlab):
+    +migrators_j (V_eta), +migrators (V_zeta/older), +migrators_i (intermediate).
+    Each file is named after the SOURCE class it consumes; shared helpers are
+    excluded. Scanning all three (not just migrators_j) is why e.g. epochclocktimes
+    -- handled in +migrators -- is not mis-flagged as an unmapped gap."""
     if not DIDM:
         return set()
-    base = os.path.join(DIDM, "src/did/+did2/+convert/+migrators_j")
-    return {os.path.basename(p)[:-2]
-            for p in glob.glob(os.path.join(base, "*.m"))
-            if os.path.basename(p) != "Contents.m"}
+    out = set()
+    for pkg in ("migrators_j", "migrators", "migrators_i"):
+        base = os.path.join(DIDM, "src/did/+did2/+convert/+" + pkg)
+        for p in glob.glob(os.path.join(base, "*.m")):
+            cn = os.path.basename(p)[:-2]
+            if cn not in _MIG_HELPERS:
+                out.add(cn)
+    return out
 
 
 _CLASS_EMIT = [re.compile(r"'class_name'\s*,\s*'([A-Za-z_]\w*)'"),
@@ -216,48 +246,113 @@ def guardrail(veta, emitted):
     return new, ack
 
 
+LEDGER_JSON = os.path.join(SCHEMA_ROOT, "schemas", "V_eta_coverage_ledger.json")
+
+LEDGER_BLURB = (
+    "One row per did_v1 SOURCE class, from BOTH v1 writers: the NDI production "
+    "templates (read from NDI-matlab `origin/main`, not a lagging feature branch) "
+    "AND the vhlab app/calculator classes that appear in real corpora but ship no "
+    "NDI template (footprint = a bespoke migrator that consumes them). Post-v1 DID "
+    "intermediate classes (zarr, directory, the `*_observation` leaves, ...) are "
+    "V_eta TARGETS, not v1 sources, and are excluded."
+)
+
+
 def build_ledger():
+    """Return (veta_index, v1_dict, rows) where each row is a dict:
+    {v1_class, veta_class|None, disposition, migrator(bool), source(ndi|app), gap(bool)}.
+    A `gap` is a v1 class with NO V_eta class and NO bespoke migrator -- unmapped,
+    the actionable coverage hole (e.g. classes NDI/main added after V_eta forked)."""
     veta = veta_index()
     v1 = v1_classes()
     migs = migrator_files()
+    vz = vzeta_classes()
     rows = []
     for cn in sorted(v1):
         sn = snake(cn)
-        # find its V_eta disposition: by snake name, else by raw name
+        # find its V_eta class: by snake name, else by raw name
         vname = sn if sn in veta else (cn if cn in veta else None)
-        disp = veta.get(vname, "—") if vname else "(renamed/decomposed/deleted)"
-        mig = "yes" if (cn in migs or sn in migs) else ""
-        rows.append((cn, vname or "", disp, mig))
+        mig = bool(cn in migs or sn in migs)
+        note = v1[cn]
+        source = "app" if str(note).startswith("app-generated") else "ndi"
+        nonprod = cn in _NONPROD_CLASSES
+        reviewed = (cn in vz or sn in vz or cn in _PRE_ZETA_DISSOLVED)
+        # A genuine gap: no V_eta home, no migrator, never reviewed (absent from the
+        # V_zeta base), and not test/demo scaffolding. Catches classes NDI added
+        # after V_eta forked (ensemble, kilosort_clusters, ...) without false-flagging
+        # the many classes the migration reviewed and deliberately dissolved.
+        gap = vname is None and not mig and not reviewed and not nonprod
+        if vname:
+            disp = veta[vname]
+        elif gap:
+            disp = "UNMAPPED (needs a V_eta home)"
+        elif cn in _PRE_ZETA_DISSOLVED:
+            disp = "dissolved → " + _PRE_ZETA_DISSOLVED[cn]
+        elif nonprod:
+            disp = "test/demo fixture (non-production)"
+        else:
+            disp = "dissolved (rename/decompose)"
+        rows.append({
+            "v1_class": cn,
+            "veta_class": vname,
+            "disposition": disp,
+            "migrator": mig,
+            "source": source,
+            "nonprod": nonprod,
+            "gap": gap,
+        })
     return veta, v1, rows
 
 
-def write_ledger(veta, v1, rows):
+def _summary(rows):
     from collections import Counter
-    dispc = Counter(r[2] for r in rows)
-    with_mig = sum(1 for r in rows if r[3])
+    return {
+        "total": len(rows),
+        "by_disposition": dict(Counter(r["disposition"] for r in rows)),
+        "by_source": dict(Counter(r["source"] for r in rows)),
+        "with_migrator": sum(1 for r in rows if r["migrator"]),
+        "gaps": sum(1 for r in rows if r["gap"]),
+    }
+
+
+def write_ledger(veta, v1, rows):
+    s = _summary(rows)
     lines = [
         "# V_eta migration coverage ledger",
         "",
         "*Generated by `tools/coverage.py` -- do NOT hand-edit; re-run after a schema "
-        "or migrator change. One row per did_v1 SOURCE class, from BOTH v1 writers: "
-        "the NDI production templates (`ndi_common/database_documents`) AND the vhlab "
-        "app/calculator classes that appear in real corpora but ship no NDI template "
-        "(footprint = a bespoke migrator that consumes them). Post-v1 DID intermediate "
-        "classes (zarr, directory, the `*_observation` leaves, ...) are V_eta TARGETS, "
-        "not v1 sources, and are excluded. Each row shows the V_eta disposition and "
-        "whether a bespoke migrator handles it (else base/passthrough).*",
+        "or migrator change. " + LEDGER_BLURB + " Each row shows the V_eta disposition "
+        "and whether a bespoke migrator handles it (else base/passthrough).*",
         "",
-        f"**{len(v1)} v1 source classes** | by V_eta disposition: "
-        + ", ".join(f"{k}={v}" for k, v in sorted(dispc.items()))
-        + f" | {with_mig} have a bespoke migrator.",
+        f"**{s['total']} v1 source classes** ({s['by_source'].get('ndi', 0)} NDI/main "
+        f"+ {s['by_source'].get('app', 0)} vhlab app) | by V_eta disposition: "
+        + ", ".join(f"{k}={v}" for k, v in sorted(s["by_disposition"].items()))
+        + f" | {s['with_migrator']} have a bespoke migrator"
+        + (f" | ⚠ {s['gaps']} UNMAPPED (no V_eta class, no migrator)" if s["gaps"] else "")
+        + ".",
         "",
-        "| v1 class | V_eta class | disposition | migrator |",
-        "|---|---|---|---|",
+        "| v1 class | V_eta class | disposition | migrator | source |",
+        "|---|---|---|---|---|",
     ]
-    for cn, vname, disp, mig in rows:
-        lines.append(f"| `{cn}` | {('`'+vname+'`') if vname else '—'} | {disp} | {mig} |")
+    for r in rows:
+        v = ("`" + r["veta_class"] + "`") if r["veta_class"] else (
+            "⚠ **unmapped**" if r["gap"] else "—")
+        lines.append(
+            f"| `{r['v1_class']}` | {v} | {r['disposition']} | "
+            f"{'yes' if r['migrator'] else ''} | {r['source']} |")
     lines.append("")
     open(LEDGER, "w").write("\n".join(lines))
+
+
+def write_ledger_json(rows):
+    """Machine-readable ledger for the web viewer (Coverage panel)."""
+    doc = {
+        "title": "V_eta migration coverage ledger",
+        "description": LEDGER_BLURB.replace(" -- ", " — "),
+        "summary": _summary(rows),
+        "rows": rows,
+    }
+    open(LEDGER_JSON, "w").write(json.dumps(doc, indent=2) + "\n")
 
 
 def main():
@@ -282,8 +377,11 @@ def main():
     veta, v1, rows = build_ledger()
     if v1:
         write_ledger(veta, v1, rows)
-        print(f"ledger: wrote {os.path.relpath(LEDGER, SCHEMA_ROOT)} "
-              f"({len(v1)} v1 classes)")
+        write_ledger_json(rows)
+        s = _summary(rows)
+        print(f"ledger: wrote {os.path.relpath(LEDGER, SCHEMA_ROOT)} + "
+              f"{os.path.relpath(LEDGER_JSON, SCHEMA_ROOT)} ({len(v1)} v1 classes"
+              + (f", {s['gaps']} UNMAPPED" if s["gaps"] else "") + ")")
     else:
         print("ledger: SKIPPED (NDI-matlab sibling not found)")
 

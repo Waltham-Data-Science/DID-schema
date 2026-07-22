@@ -1,0 +1,943 @@
+{
+  "title": "V_eta migration coverage ledger",
+  "description": "One row per did_v1 SOURCE class, from BOTH v1 writers: the NDI production templates (read from NDI-matlab `origin/main`, not a lagging feature branch) AND the vhlab app/calculator classes that appear in real corpora but ship no NDI template (footprint = a bespoke migrator that consumes them). Post-v1 DID intermediate classes (zarr, directory, the `*_observation` leaves, ...) are V_eta TARGETS, not v1 sources, and are excluded.",
+  "summary": {
+    "total": 102,
+    "by_disposition": {
+      "retire": 58,
+      "dissolved \u2192 subject": 1,
+      "in_progress": 22,
+      "persist": 3,
+      "dissolved (rename/decompose)": 12,
+      "UNMAPPED (needs a V_eta home)": 3,
+      "test/demo fixture (non-production)": 2,
+      "dissolved \u2192 measurement": 1
+    },
+    "by_source": {
+      "ndi": 91,
+      "app": 11
+    },
+    "with_migrator": 56,
+    "gaps": 3
+  },
+  "rows": [
+    {
+      "v1_class": "SpikeInterfaceSortingOutputs",
+      "veta_class": "spike_interface_sorting_outputs",
+      "disposition": "retire",
+      "migrator": true,
+      "source": "ndi",
+      "nonprod": false,
+      "gap": false
+    },
+    {
+      "v1_class": "animalsubject",
+      "veta_class": null,
+      "disposition": "dissolved \u2192 subject",
+      "migrator": false,
+      "source": "ndi",
+      "nonprod": false,
+      "gap": false
+    },
+    {
+      "v1_class": "app",
+      "veta_class": "app",
+      "disposition": "in_progress",
+      "migrator": false,
+      "source": "ndi",
+      "nonprod": false,
+      "gap": false
+    },
+    {
+      "v1_class": "base",
+      "veta_class": "base",
+      "disposition": "persist",
+      "migrator": false,
+      "source": "ndi",
+      "nonprod": false,
+      "gap": false
+    },
+    {
+      "v1_class": "binaryseries_parameters",
+      "veta_class": "binaryseries_parameters",
+      "disposition": "in_progress",
+      "migrator": false,
+      "source": "ndi",
+      "nonprod": false,
+      "gap": false
+    },
+    {
+      "v1_class": "binnedspikeratevm",
+      "veta_class": "binnedspikeratevm",
+      "disposition": "retire",
+      "migrator": true,
+      "source": "ndi",
+      "nonprod": false,
+      "gap": false
+    },
+    {
+      "v1_class": "contrast_sensitivity_calc",
+      "veta_class": "contrast_sensitivity_calc",
+      "disposition": "retire",
+      "migrator": true,
+      "source": "app",
+      "nonprod": false,
+      "gap": false
+    },
+    {
+      "v1_class": "contrast_tuning",
+      "veta_class": "contrast_tuning",
+      "disposition": "retire",
+      "migrator": true,
+      "source": "app",
+      "nonprod": false,
+      "gap": false
+    },
+    {
+      "v1_class": "contrast_tuning_calc",
+      "veta_class": "contrast_tuning_calc",
+      "disposition": "retire",
+      "migrator": true,
+      "source": "app",
+      "nonprod": false,
+      "gap": false
+    },
+    {
+      "v1_class": "control_stimulus_ids",
+      "veta_class": "control_stimulus_ids",
+      "disposition": "in_progress",
+      "migrator": false,
+      "source": "ndi",
+      "nonprod": false,
+      "gap": false
+    },
+    {
+      "v1_class": "daqmetadatareader",
+      "veta_class": "daqmetadatareader",
+      "disposition": "in_progress",
+      "migrator": false,
+      "source": "ndi",
+      "nonprod": false,
+      "gap": false
+    },
+    {
+      "v1_class": "daqmetadatareader_epochdata_ingested",
+      "veta_class": "daqmetadatareader_epochdata_ingested",
+      "disposition": "in_progress",
+      "migrator": false,
+      "source": "ndi",
+      "nonprod": false,
+      "gap": false
+    },
+    {
+      "v1_class": "daqreader",
+      "veta_class": "daqreader",
+      "disposition": "in_progress",
+      "migrator": false,
+      "source": "ndi",
+      "nonprod": false,
+      "gap": false
+    },
+    {
+      "v1_class": "daqreader_epochdata_ingested",
+      "veta_class": "daqreader_epochdata_ingested",
+      "disposition": "in_progress",
+      "migrator": false,
+      "source": "ndi",
+      "nonprod": false,
+      "gap": false
+    },
+    {
+      "v1_class": "daqreader_image_epochdata_ingested",
+      "veta_class": "daqreader_image_epochdata_ingested",
+      "disposition": "in_progress",
+      "migrator": false,
+      "source": "ndi",
+      "nonprod": false,
+      "gap": false
+    },
+    {
+      "v1_class": "daqreader_mfdaq_epochdata_ingested",
+      "veta_class": null,
+      "disposition": "dissolved (rename/decompose)",
+      "migrator": true,
+      "source": "ndi",
+      "nonprod": false,
+      "gap": false
+    },
+    {
+      "v1_class": "daqreader_ndr",
+      "veta_class": null,
+      "disposition": "dissolved (rename/decompose)",
+      "migrator": true,
+      "source": "ndi",
+      "nonprod": false,
+      "gap": false
+    },
+    {
+      "v1_class": "daqsystem",
+      "veta_class": "daqsystem",
+      "disposition": "in_progress",
+      "migrator": false,
+      "source": "ndi",
+      "nonprod": false,
+      "gap": false
+    },
+    {
+      "v1_class": "dataset_remote",
+      "veta_class": null,
+      "disposition": "dissolved (rename/decompose)",
+      "migrator": true,
+      "source": "ndi",
+      "nonprod": false,
+      "gap": false
+    },
+    {
+      "v1_class": "dataset_session_info",
+      "veta_class": null,
+      "disposition": "dissolved (rename/decompose)",
+      "migrator": true,
+      "source": "ndi",
+      "nonprod": false,
+      "gap": false
+    },
+    {
+      "v1_class": "demoNDI",
+      "veta_class": "demo_ndi",
+      "disposition": "in_progress",
+      "migrator": false,
+      "source": "ndi",
+      "nonprod": true,
+      "gap": false
+    },
+    {
+      "v1_class": "demoNDIMock",
+      "veta_class": "demo_ndi_mock",
+      "disposition": "in_progress",
+      "migrator": false,
+      "source": "ndi",
+      "nonprod": true,
+      "gap": false
+    },
+    {
+      "v1_class": "distance_metadata",
+      "veta_class": "distance_metadata",
+      "disposition": "retire",
+      "migrator": true,
+      "source": "ndi",
+      "nonprod": false,
+      "gap": false
+    },
+    {
+      "v1_class": "electrode_offset_voltage",
+      "veta_class": "electrode_offset_voltage",
+      "disposition": "retire",
+      "migrator": true,
+      "source": "ndi",
+      "nonprod": false,
+      "gap": false
+    },
+    {
+      "v1_class": "element",
+      "veta_class": "element",
+      "disposition": "retire",
+      "migrator": true,
+      "source": "ndi",
+      "nonprod": false,
+      "gap": false
+    },
+    {
+      "v1_class": "element_epoch",
+      "veta_class": null,
+      "disposition": "dissolved (rename/decompose)",
+      "migrator": true,
+      "source": "ndi",
+      "nonprod": false,
+      "gap": false
+    },
+    {
+      "v1_class": "ensemble",
+      "veta_class": null,
+      "disposition": "UNMAPPED (needs a V_eta home)",
+      "migrator": false,
+      "source": "ndi",
+      "nonprod": false,
+      "gap": true
+    },
+    {
+      "v1_class": "epochclocktimes",
+      "veta_class": null,
+      "disposition": "dissolved (rename/decompose)",
+      "migrator": true,
+      "source": "ndi",
+      "nonprod": false,
+      "gap": false
+    },
+    {
+      "v1_class": "epochfiles_ingested",
+      "veta_class": "epochfiles_ingested",
+      "disposition": "in_progress",
+      "migrator": false,
+      "source": "ndi",
+      "nonprod": false,
+      "gap": false
+    },
+    {
+      "v1_class": "epochid",
+      "veta_class": "epochid",
+      "disposition": "in_progress",
+      "migrator": false,
+      "source": "ndi",
+      "nonprod": false,
+      "gap": false
+    },
+    {
+      "v1_class": "filenavigator",
+      "veta_class": "filenavigator",
+      "disposition": "in_progress",
+      "migrator": false,
+      "source": "ndi",
+      "nonprod": false,
+      "gap": false
+    },
+    {
+      "v1_class": "filter",
+      "veta_class": "filter",
+      "disposition": "in_progress",
+      "migrator": true,
+      "source": "ndi",
+      "nonprod": false,
+      "gap": false
+    },
+    {
+      "v1_class": "fitcurve",
+      "veta_class": "fitcurve",
+      "disposition": "retire",
+      "migrator": true,
+      "source": "ndi",
+      "nonprod": false,
+      "gap": false
+    },
+    {
+      "v1_class": "generic_file",
+      "veta_class": null,
+      "disposition": "dissolved (rename/decompose)",
+      "migrator": false,
+      "source": "ndi",
+      "nonprod": false,
+      "gap": false
+    },
+    {
+      "v1_class": "hartley_calc",
+      "veta_class": "hartley_calc",
+      "disposition": "retire",
+      "migrator": true,
+      "source": "app",
+      "nonprod": false,
+      "gap": false
+    },
+    {
+      "v1_class": "image",
+      "veta_class": "image",
+      "disposition": "in_progress",
+      "migrator": false,
+      "source": "ndi",
+      "nonprod": false,
+      "gap": false
+    },
+    {
+      "v1_class": "imageCollection",
+      "veta_class": null,
+      "disposition": "dissolved (rename/decompose)",
+      "migrator": false,
+      "source": "ndi",
+      "nonprod": false,
+      "gap": false
+    },
+    {
+      "v1_class": "imageStack",
+      "veta_class": "image_stack",
+      "disposition": "retire",
+      "migrator": true,
+      "source": "ndi",
+      "nonprod": false,
+      "gap": false
+    },
+    {
+      "v1_class": "imageStack_parameters",
+      "veta_class": "image_stack_parameters",
+      "disposition": "retire",
+      "migrator": false,
+      "source": "ndi",
+      "nonprod": false,
+      "gap": false
+    },
+    {
+      "v1_class": "jrclust_clusters",
+      "veta_class": "jrclust_clusters",
+      "disposition": "retire",
+      "migrator": true,
+      "source": "ndi",
+      "nonprod": false,
+      "gap": false
+    },
+    {
+      "v1_class": "kiasort_clusters",
+      "veta_class": null,
+      "disposition": "UNMAPPED (needs a V_eta home)",
+      "migrator": false,
+      "source": "ndi",
+      "nonprod": false,
+      "gap": true
+    },
+    {
+      "v1_class": "kilosort_clusters",
+      "veta_class": null,
+      "disposition": "UNMAPPED (needs a V_eta home)",
+      "migrator": false,
+      "source": "ndi",
+      "nonprod": false,
+      "gap": true
+    },
+    {
+      "v1_class": "measurement",
+      "veta_class": "measurement",
+      "disposition": "retire",
+      "migrator": false,
+      "source": "ndi",
+      "nonprod": false,
+      "gap": false
+    },
+    {
+      "v1_class": "metadata_editor",
+      "veta_class": null,
+      "disposition": "dissolved (rename/decompose)",
+      "migrator": true,
+      "source": "ndi",
+      "nonprod": false,
+      "gap": false
+    },
+    {
+      "v1_class": "mock",
+      "veta_class": null,
+      "disposition": "test/demo fixture (non-production)",
+      "migrator": false,
+      "source": "ndi",
+      "nonprod": true,
+      "gap": false
+    },
+    {
+      "v1_class": "neuron_extracellular",
+      "veta_class": "neuron_extracellular",
+      "disposition": "retire",
+      "migrator": true,
+      "source": "ndi",
+      "nonprod": false,
+      "gap": false
+    },
+    {
+      "v1_class": "ngrid",
+      "veta_class": "ngrid",
+      "disposition": "in_progress",
+      "migrator": true,
+      "source": "ndi",
+      "nonprod": false,
+      "gap": false
+    },
+    {
+      "v1_class": "oneepoch",
+      "veta_class": null,
+      "disposition": "test/demo fixture (non-production)",
+      "migrator": false,
+      "source": "ndi",
+      "nonprod": true,
+      "gap": false
+    },
+    {
+      "v1_class": "ontologyImage",
+      "veta_class": "ontology_image",
+      "disposition": "retire",
+      "migrator": true,
+      "source": "ndi",
+      "nonprod": false,
+      "gap": false
+    },
+    {
+      "v1_class": "ontologyLabel",
+      "veta_class": "ontology_label",
+      "disposition": "retire",
+      "migrator": true,
+      "source": "ndi",
+      "nonprod": false,
+      "gap": false
+    },
+    {
+      "v1_class": "ontologyTableRow",
+      "veta_class": "ontology_table_row",
+      "disposition": "retire",
+      "migrator": true,
+      "source": "ndi",
+      "nonprod": false,
+      "gap": false
+    },
+    {
+      "v1_class": "openminds",
+      "veta_class": "openminds",
+      "disposition": "retire",
+      "migrator": false,
+      "source": "ndi",
+      "nonprod": false,
+      "gap": false
+    },
+    {
+      "v1_class": "openminds_element",
+      "veta_class": "openminds_element",
+      "disposition": "retire",
+      "migrator": true,
+      "source": "ndi",
+      "nonprod": false,
+      "gap": false
+    },
+    {
+      "v1_class": "openminds_stimulus",
+      "veta_class": "openminds_stimulus",
+      "disposition": "retire",
+      "migrator": true,
+      "source": "ndi",
+      "nonprod": false,
+      "gap": false
+    },
+    {
+      "v1_class": "openminds_subject",
+      "veta_class": "openminds_subject",
+      "disposition": "retire",
+      "migrator": true,
+      "source": "ndi",
+      "nonprod": false,
+      "gap": false
+    },
+    {
+      "v1_class": "oridirtuning_calc",
+      "veta_class": "oridirtuning_calc",
+      "disposition": "retire",
+      "migrator": true,
+      "source": "app",
+      "nonprod": false,
+      "gap": false
+    },
+    {
+      "v1_class": "orientation_direction_tuning",
+      "veta_class": "orientation_direction_tuning",
+      "disposition": "retire",
+      "migrator": true,
+      "source": "ndi",
+      "nonprod": false,
+      "gap": false
+    },
+    {
+      "v1_class": "position_metadata",
+      "veta_class": "position_metadata",
+      "disposition": "retire",
+      "migrator": true,
+      "source": "ndi",
+      "nonprod": false,
+      "gap": false
+    },
+    {
+      "v1_class": "probe_geometry",
+      "veta_class": "probe_geometry",
+      "disposition": "retire",
+      "migrator": true,
+      "source": "ndi",
+      "nonprod": false,
+      "gap": false
+    },
+    {
+      "v1_class": "probe_location",
+      "veta_class": "probe_location",
+      "disposition": "retire",
+      "migrator": true,
+      "source": "ndi",
+      "nonprod": false,
+      "gap": false
+    },
+    {
+      "v1_class": "projectvar",
+      "veta_class": "projectvar",
+      "disposition": "in_progress",
+      "migrator": false,
+      "source": "ndi",
+      "nonprod": false,
+      "gap": false
+    },
+    {
+      "v1_class": "pyraview",
+      "veta_class": "pyraview",
+      "disposition": "retire",
+      "migrator": true,
+      "source": "ndi",
+      "nonprod": false,
+      "gap": false
+    },
+    {
+      "v1_class": "session",
+      "veta_class": "session",
+      "disposition": "persist",
+      "migrator": false,
+      "source": "ndi",
+      "nonprod": false,
+      "gap": false
+    },
+    {
+      "v1_class": "session_in_a_dataset",
+      "veta_class": null,
+      "disposition": "dissolved (rename/decompose)",
+      "migrator": true,
+      "source": "ndi",
+      "nonprod": false,
+      "gap": false
+    },
+    {
+      "v1_class": "simple_calc",
+      "veta_class": "simple_calc",
+      "disposition": "retire",
+      "migrator": true,
+      "source": "ndi",
+      "nonprod": false,
+      "gap": false
+    },
+    {
+      "v1_class": "site2channelmap",
+      "veta_class": "site2channelmap",
+      "disposition": "retire",
+      "migrator": true,
+      "source": "ndi",
+      "nonprod": false,
+      "gap": false
+    },
+    {
+      "v1_class": "sorting_parameters",
+      "veta_class": "sorting_parameters",
+      "disposition": "retire",
+      "migrator": false,
+      "source": "ndi",
+      "nonprod": false,
+      "gap": false
+    },
+    {
+      "v1_class": "spatial_frequency_tuning",
+      "veta_class": "spatial_frequency_tuning",
+      "disposition": "retire",
+      "migrator": true,
+      "source": "app",
+      "nonprod": false,
+      "gap": false
+    },
+    {
+      "v1_class": "spatial_frequency_tuning_calc",
+      "veta_class": "spatial_frequency_tuning_calc",
+      "disposition": "retire",
+      "migrator": true,
+      "source": "app",
+      "nonprod": false,
+      "gap": false
+    },
+    {
+      "v1_class": "speed_tuning",
+      "veta_class": "speed_tuning",
+      "disposition": "retire",
+      "migrator": true,
+      "source": "app",
+      "nonprod": false,
+      "gap": false
+    },
+    {
+      "v1_class": "speed_tuning_calc",
+      "veta_class": "speed_tuning_calc",
+      "disposition": "retire",
+      "migrator": true,
+      "source": "app",
+      "nonprod": false,
+      "gap": false
+    },
+    {
+      "v1_class": "spike_clusters",
+      "veta_class": "spike_clusters",
+      "disposition": "retire",
+      "migrator": true,
+      "source": "ndi",
+      "nonprod": false,
+      "gap": false
+    },
+    {
+      "v1_class": "spike_extraction_parameters",
+      "veta_class": "spike_extraction_parameters",
+      "disposition": "retire",
+      "migrator": false,
+      "source": "ndi",
+      "nonprod": false,
+      "gap": false
+    },
+    {
+      "v1_class": "spike_extraction_parameters_modification",
+      "veta_class": "spike_extraction_parameters_modification",
+      "disposition": "retire",
+      "migrator": false,
+      "source": "ndi",
+      "nonprod": false,
+      "gap": false
+    },
+    {
+      "v1_class": "spikewaves",
+      "veta_class": "spikewaves",
+      "disposition": "retire",
+      "migrator": true,
+      "source": "ndi",
+      "nonprod": false,
+      "gap": false
+    },
+    {
+      "v1_class": "stimulus_bath",
+      "veta_class": null,
+      "disposition": "dissolved (rename/decompose)",
+      "migrator": true,
+      "source": "ndi",
+      "nonprod": false,
+      "gap": false
+    },
+    {
+      "v1_class": "stimulus_parameter",
+      "veta_class": "stimulus_parameter",
+      "disposition": "retire",
+      "migrator": false,
+      "source": "ndi",
+      "nonprod": false,
+      "gap": false
+    },
+    {
+      "v1_class": "stimulus_parameter_table",
+      "veta_class": "stimulus_parameter_table",
+      "disposition": "retire",
+      "migrator": false,
+      "source": "ndi",
+      "nonprod": false,
+      "gap": false
+    },
+    {
+      "v1_class": "stimulus_presentation",
+      "veta_class": "stimulus_presentation",
+      "disposition": "in_progress",
+      "migrator": false,
+      "source": "ndi",
+      "nonprod": false,
+      "gap": false
+    },
+    {
+      "v1_class": "stimulus_response",
+      "veta_class": "stimulus_response",
+      "disposition": "retire",
+      "migrator": false,
+      "source": "ndi",
+      "nonprod": false,
+      "gap": false
+    },
+    {
+      "v1_class": "stimulus_response_scalar",
+      "veta_class": "stimulus_response_scalar",
+      "disposition": "retire",
+      "migrator": false,
+      "source": "ndi",
+      "nonprod": false,
+      "gap": false
+    },
+    {
+      "v1_class": "stimulus_response_scalar_parameters",
+      "veta_class": "stimulus_response_scalar_parameters",
+      "disposition": "retire",
+      "migrator": false,
+      "source": "ndi",
+      "nonprod": false,
+      "gap": false
+    },
+    {
+      "v1_class": "stimulus_response_scalar_parameters_basic",
+      "veta_class": "stimulus_response_scalar_parameters_basic",
+      "disposition": "retire",
+      "migrator": false,
+      "source": "ndi",
+      "nonprod": false,
+      "gap": false
+    },
+    {
+      "v1_class": "stimulus_tuningcurve",
+      "veta_class": "stimulus_tuningcurve",
+      "disposition": "retire",
+      "migrator": false,
+      "source": "ndi",
+      "nonprod": false,
+      "gap": false
+    },
+    {
+      "v1_class": "subject",
+      "veta_class": "subject",
+      "disposition": "persist",
+      "migrator": true,
+      "source": "ndi",
+      "nonprod": false,
+      "gap": false
+    },
+    {
+      "v1_class": "subject_group",
+      "veta_class": "subject_group",
+      "disposition": "retire",
+      "migrator": true,
+      "source": "ndi",
+      "nonprod": false,
+      "gap": false
+    },
+    {
+      "v1_class": "subjectmeasurement",
+      "veta_class": null,
+      "disposition": "dissolved \u2192 measurement",
+      "migrator": false,
+      "source": "ndi",
+      "nonprod": false,
+      "gap": false
+    },
+    {
+      "v1_class": "syncgraph",
+      "veta_class": "syncgraph",
+      "disposition": "in_progress",
+      "migrator": false,
+      "source": "ndi",
+      "nonprod": false,
+      "gap": false
+    },
+    {
+      "v1_class": "syncrule",
+      "veta_class": "syncrule",
+      "disposition": "in_progress",
+      "migrator": false,
+      "source": "ndi",
+      "nonprod": false,
+      "gap": false
+    },
+    {
+      "v1_class": "syncrule_mapping",
+      "veta_class": "syncrule_mapping",
+      "disposition": "in_progress",
+      "migrator": false,
+      "source": "ndi",
+      "nonprod": false,
+      "gap": false
+    },
+    {
+      "v1_class": "temporal_frequency_tuning",
+      "veta_class": "temporal_frequency_tuning",
+      "disposition": "retire",
+      "migrator": true,
+      "source": "app",
+      "nonprod": false,
+      "gap": false
+    },
+    {
+      "v1_class": "temporal_frequency_tuning_calc",
+      "veta_class": "temporal_frequency_tuning_calc",
+      "disposition": "retire",
+      "migrator": true,
+      "source": "app",
+      "nonprod": false,
+      "gap": false
+    },
+    {
+      "v1_class": "treatment",
+      "veta_class": "treatment",
+      "disposition": "retire",
+      "migrator": true,
+      "source": "ndi",
+      "nonprod": false,
+      "gap": false
+    },
+    {
+      "v1_class": "treatment_drug",
+      "veta_class": "treatment_drug",
+      "disposition": "retire",
+      "migrator": true,
+      "source": "ndi",
+      "nonprod": false,
+      "gap": false
+    },
+    {
+      "v1_class": "treatment_transfer",
+      "veta_class": "treatment_transfer",
+      "disposition": "retire",
+      "migrator": true,
+      "source": "ndi",
+      "nonprod": false,
+      "gap": false
+    },
+    {
+      "v1_class": "tuningcurve_calc",
+      "veta_class": "tuningcurve_calc",
+      "disposition": "retire",
+      "migrator": true,
+      "source": "ndi",
+      "nonprod": false,
+      "gap": false
+    },
+    {
+      "v1_class": "valid_interval",
+      "veta_class": null,
+      "disposition": "dissolved (rename/decompose)",
+      "migrator": false,
+      "source": "ndi",
+      "nonprod": false,
+      "gap": false
+    },
+    {
+      "v1_class": "virus_injection",
+      "veta_class": "virus_injection",
+      "disposition": "retire",
+      "migrator": true,
+      "source": "ndi",
+      "nonprod": false,
+      "gap": false
+    },
+    {
+      "v1_class": "vmneuralresponseresiduals",
+      "veta_class": "vmneuralresponseresiduals",
+      "disposition": "retire",
+      "migrator": true,
+      "source": "ndi",
+      "nonprod": false,
+      "gap": false
+    },
+    {
+      "v1_class": "vmspikefilteringparameters",
+      "veta_class": "vmspikefilteringparameters",
+      "disposition": "retire",
+      "migrator": false,
+      "source": "ndi",
+      "nonprod": false,
+      "gap": false
+    },
+    {
+      "v1_class": "vmspikefit",
+      "veta_class": "vmspikefit",
+      "disposition": "retire",
+      "migrator": true,
+      "source": "ndi",
+      "nonprod": false,
+      "gap": false
+    },
+    {
+      "v1_class": "vmspikesummary",
+      "veta_class": "vmspikesummary",
+      "disposition": "retire",
+      "migrator": true,
+      "source": "ndi",
+      "nonprod": false,
+      "gap": false
+    }
+  ]
+}

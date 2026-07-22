@@ -873,3 +873,183 @@ button.badge-persist {
   color: var(--maturity-deprecated);
   font-size: 0.8rem;
 }
+
+/* ============================ Coverage ledger ============================ */
+.btn-coverage {
+  background: transparent;
+  border: 1px dashed var(--border);
+  color: var(--text);
+  padding: 0.35rem 0.5rem;
+  border-radius: 6px;
+  cursor: pointer;
+  text-align: left;
+  font-size: 0.85rem;
+  margin-top: 0.4rem;
+}
+.btn-coverage:hover {
+  border-color: var(--link);
+  color: var(--link);
+}
+.btn-coverage[aria-pressed="true"] {
+  border-style: solid;
+  border-color: var(--link);
+  color: var(--link);
+}
+
+.coverage .cov-stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin: 0.75rem 0 0.25rem;
+}
+.cov-stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 5.5rem;
+  padding: 0.5rem 0.75rem;
+  background: var(--bg-alt);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+}
+.cov-stat-n {
+  font-size: 1.5rem;
+  font-weight: 700;
+  line-height: 1.1;
+}
+.cov-stat-label {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  text-align: center;
+}
+.cov-stat-warn {
+  border-color: var(--maturity-deprecated);
+}
+.cov-stat-warn .cov-stat-n {
+  color: var(--maturity-deprecated);
+}
+
+.cov-gap-banner {
+  margin: 0.5rem 0 0;
+  padding: 0.5rem 0.7rem;
+  background: color-mix(in srgb, var(--maturity-deprecated) 12%, var(--bg));
+  border: 1px solid var(--maturity-deprecated);
+  border-radius: 6px;
+  font-size: 0.85rem;
+}
+
+.cov-controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.6rem;
+  margin: 1rem 0 0.4rem;
+}
+.cov-search {
+  flex: 1 1 12rem;
+  min-width: 10rem;
+  padding: 0.35rem 0.5rem;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--bg);
+  color: var(--text);
+  font-size: 0.85rem;
+}
+.cov-kind-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+}
+.cov-chip {
+  padding: 0.2rem 0.5rem;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: var(--bg-alt);
+  color: var(--text);
+  cursor: pointer;
+  font-size: 0.78rem;
+}
+.cov-chip .cov-chip-n {
+  opacity: 0.7;
+  font-variant-numeric: tabular-nums;
+}
+.cov-chip-off {
+  opacity: 0.4;
+  text-decoration: line-through;
+}
+.cov-chip.cov-gap {
+  border-color: var(--maturity-deprecated);
+}
+
+.cov-source-toggle {
+  display: inline-flex;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  overflow: hidden;
+}
+.cov-source-toggle button {
+  padding: 0.25rem 0.55rem;
+  border: none;
+  background: var(--bg);
+  color: var(--text);
+  cursor: pointer;
+  font-size: 0.78rem;
+}
+.cov-source-toggle button + button {
+  border-left: 1px solid var(--border);
+}
+.cov-source-toggle button.active {
+  background: var(--selected-bg);
+  color: var(--link);
+}
+
+.cov-table td {
+  vertical-align: middle;
+}
+.cov-row-gap {
+  background: color-mix(in srgb, var(--maturity-deprecated) 8%, transparent);
+}
+.cov-link {
+  border: none;
+  cursor: pointer;
+  font: inherit;
+}
+.cov-link:hover {
+  outline: 1px solid var(--link);
+}
+.cov-yes {
+  color: var(--maturity-stable);
+  font-weight: 600;
+}
+.cov-writer {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+}
+.cov-dissolved-target {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+}
+
+/* fate badges */
+.cov-badge {
+  display: inline-block;
+  padding: 0 0.4rem;
+  border-radius: 4px;
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--bg);
+  white-space: nowrap;
+}
+.cov-persist { background: var(--maturity-stable); }
+.cov-retire { background: var(--maturity-deprecated); }
+.cov-wip { background: #d29922; }
+.cov-dissolved { background: var(--maturity-meta); }
+.cov-nonprod { background: var(--maturity-meta); opacity: 0.75; }
+.cov-gap { background: var(--maturity-deprecated); }
+.cov-badge.cov-gap {
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--maturity-deprecated) 40%, transparent);
+}
+/* chips reuse the same fills but as tinted outlines when active */
+.cov-chip.cov-persist { border-color: var(--maturity-stable); }
+.cov-chip.cov-retire { border-color: var(--maturity-deprecated); }
+.cov-chip.cov-wip { border-color: #d29922; }

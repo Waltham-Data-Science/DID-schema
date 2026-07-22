@@ -40,8 +40,13 @@ lives in these files — read them instead of re-deriving from memory:
   = a bespoke migrator consuming them. Do NOT add post-v1 DID intermediate/target
   classes (zarr, directory, `*_observation`, data_body, openminds_import) to the v1
   side — provenance `origin` (`V_eta_class_provenance.md`) is the arbiter; only
-  `did_v1`-origin (+ the 11 app classes) are sources. `V_eta_coverage_ledger.md` is
-  generated — re-run `python3 tools/coverage.py` after schema/migrator changes.
+  `did_v1`-origin (+ the 11 app classes) are sources. `coverage.py` also flags GAPS
+  (no V_eta home + no migrator + absent from the V_zeta base = never reviewed):
+  currently `ensemble`, `kilosort_clusters`, `kiasort_clusters` (task #21).
+  `V_eta_coverage_ledger.md` AND `.json` are generated — re-run
+  `python3 tools/coverage.py` after schema/migrator changes. The web viewer's
+  **Coverage ledger** panel (`web/src/Coverage.tsx`) renders the `.json`
+  (sync-schemas copies it to `public/coverage.json`).
 - CALCULATORS ARE DEFERRED. Do NOT register `_calc` decomposition migrators
   (`<x>_calc.m` that split a calc doc into observations). The corpus stores calc
   outputs as `<x>_calc` docs that DOWNSTREAM calcs reference (e.g.
