@@ -1069,3 +1069,11 @@ button.badge-persist {
   font-size: 0.72rem;
   color: var(--maturity-deprecated);
 }
+
+/* target cell: emitted V_eta class chips */
+.cov-targets { display: inline-flex; flex-wrap: wrap; gap: 0.25rem; align-items: center; }
+.cov-target-emit { border-color: var(--maturity-stable); }
+.cov-target-2pass { border-color: var(--link); border-style: dashed; }
+.cov-target-carried { opacity: 0.75; border-style: dotted; }
+.cov-carried { display: inline-flex; flex-wrap: wrap; gap: 0.25rem; align-items: center; color: var(--text-muted); font-size: 0.8rem; }
+.cov-target-flag { cursor: help; color: var(--maturity-draft); font-size: 0.85rem; }

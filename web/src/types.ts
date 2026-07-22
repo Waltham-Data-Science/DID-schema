@@ -44,6 +44,12 @@ export interface CoverageRow {
   source: "ndi" | "app"; // NDI production template vs vhlab app/calculator class
   nonprod: boolean; // NDI test/demo scaffolding, not real corpus data
   gap: boolean; // no V_eta home, no migrator, never reviewed -> actionable hole
+  // Migration TARGETS: the V_eta document class(es) the migrator emits.
+  targets: string[]; // pass-1 emitted classes (or [same-name] for passthrough/rename)
+  carried: string[]; // pre-existing classes the emitted statements attach to (not minted)
+  second_pass: string[]; // classes minted in the NDI second pass
+  how: string; // one-line authored intent
+  target_flags: string; // caveats: dynamic emit, header/code mismatch, deferrals
 }
 
 export interface CoverageSummary {

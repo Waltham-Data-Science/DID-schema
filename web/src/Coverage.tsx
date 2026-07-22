@@ -168,15 +168,20 @@ export function Coverage({ onSelect }: Props) {
       </div>
 
       <p className="section-note">
-        Showing {filtered.length} of {rows.length}. The <strong>V_eta class</strong>{" "}
-        column links to the class definition when a same-named class exists.
+        Showing {filtered.length} of {rows.length}. The{" "}
+        <strong>→ V_eta target(s)</strong> column lists the V_eta document class(es)
+        each v1 class migrates into (click a chip to open it). A{" "}
+        <span className="cov-target-2pass enum-chip">class✦</span> is minted in the
+        NDI second pass; <em>· on</em> <span className="cov-target-carried enum-chip">
+        subject</span> is the pre-existing class the statements attach to; ⓘ marks a
+        caveat (dynamic emit / deferral).
       </p>
 
       <table className="fields-table cov-table">
         <thead>
           <tr>
             <th>v1 class</th>
-            <th>V_eta class</th>
+            <th>→ V_eta target(s)</th>
             <th>fate</th>
             <th>migrator</th>
             <th>writer</th>
@@ -192,28 +197,7 @@ export function Coverage({ onSelect }: Props) {
                   <code>{r.v1_class}</code>
                 </td>
                 <td>
-                  {r.veta_class ? (
-                    <>
-                      <button
-                        className={`cov-link enum-chip cov-target-${kind}`}
-                        onClick={() => onSelect(r.veta_class!)}
-                        title={
-                          kind === "retire"
-                            ? `${r.veta_class} is retiring (tombstone until Phase-8 deletion) — not a go-forward home`
-                            : `Open ${r.veta_class}`
-                        }
-                      >
-                        {r.veta_class}
-                      </button>
-                      {kind === "retire" && (
-                        <span className="cov-target-note" title="dissolving; kept until Phase-8 deletion">
-                          {" "}retiring
-                        </span>
-                      )}
-                    </>
-                  ) : (
-                    <span className="muted">{DASH}</span>
-                  )}
+                  <TargetCell row={r} onSelect={onSelect} />
                 </td>
                 <td>
                   <span className={`cov-badge ${m.cls}`} title={m.tip}>
@@ -249,6 +233,54 @@ export function Coverage({ onSelect }: Props) {
         </tbody>
       </table>
     </div>
+  );
+}
+
+// The migration-target cell: the V_eta class(es) the migrator emits, as clickable
+// chips. Second-pass classes carry a ✦ marker; carried (pre-existing) classes are
+// shown after "· on"; the authored "how" + caveats are a tooltip on the row.
+function TargetCell({
+  row,
+  onSelect,
+}: {
+  row: CoverageRow;
+  onSelect: (c: string) => void;
+}) {
+  const chip = (c: string, cls: string, marker?: string, key?: string) => (
+    <button
+      key={key ?? c}
+      className={`cov-link enum-chip ${cls}`}
+      onClick={() => onSelect(c)}
+      title={`Open ${c}`}
+    >
+      {c}
+      {marker}
+    </button>
+  );
+  const empty = row.targets.length === 0 && row.second_pass.length === 0;
+  if (empty) {
+    return row.gap ? (
+      <span className="cov-badge cov-gap">unmapped</span>
+    ) : (
+      <span className="muted">{DASH}</span>
+    );
+  }
+  return (
+    <span className="cov-targets" title={row.how || undefined}>
+      {row.targets.map((t) => chip(t, "cov-target-emit"))}
+      {row.second_pass.map((t) => chip(t, "cov-target-2pass", "✦", "2p-" + t))}
+      {row.carried.length > 0 && (
+        <span className="cov-carried">
+          {" · on "}
+          {row.carried.map((c) => chip(c, "cov-target-carried", undefined, "c-" + c))}
+        </span>
+      )}
+      {row.target_flags && (
+        <span className="cov-target-flag" title={row.target_flags}>
+          ⓘ
+        </span>
+      )}
+    </span>
   );
 }
 
