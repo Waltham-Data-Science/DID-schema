@@ -47,6 +47,19 @@ lives in these files — read them instead of re-deriving from memory:
   `python3 tools/coverage.py` after schema/migrator changes. The web viewer's
   **Coverage ledger** panel (`web/src/Coverage.tsx`) renders the `.json`
   (sync-schemas copies it to `public/coverage.json`).
+- PHASE-8 DELETION (started): `build_v_eta.py` `_DELETE_PHASE8` physically removes
+  fully-consumed source tombstones from the built set (231→221). A class qualifies
+  ONLY if its docs cannot survive migration: (a) a COMPLETED migrators_i dissolver
+  (treatment family, virus_injection, subject_group, image_stack+params) or (b)
+  abstract/unminted in J (the 3 series-observation classes). All 10 verified
+  unreferenced by any kept schema + unemitted by any migrator. HELD despite being in
+  `_RET_SOURCES` (docs NOT provably consumed — deleting strands live docs):
+  `element` (highest blast radius; needs a corpus per-class 0-survivor count) and
+  `openminds*` (needs migrators / #9-entangled; guarded by
+  test_phase1_source_cleanup_and_dep_typing — this test CAUGHT an over-eager delete).
+  Deferred-calculator/carrier/to-observation retire classes STAY (docs pass through).
+  The DID-matlab corpus CI (test-code.yml) is the final gate that no migrated doc
+  still validates against a deleted class.
 - CALCULATORS ARE DEFERRED. Do NOT register `_calc` decomposition migrators
   (`<x>_calc.m` that split a calc doc into observations). The corpus stores calc
   outputs as `<x>_calc` docs that DOWNSTREAM calcs reference (e.g.
