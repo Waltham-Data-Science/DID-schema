@@ -187,7 +187,20 @@ a free schema cleanup — it can break NDIcalc-vis searches. Two options:
 **Recommendation: (A)** — the paper's whole thesis is that the output document type is
 a durable, searchable contract other code depends on; preserving it honors the motif
 and makes this the least-risky un-deferral. (B) can be a later cosmetic pass with an
-alias. **Team: confirm A vs B before implementation.**
+alias.
+
+**DECISION (team, 2026-07): (B) — clean `<composite>_calculation` names.** Required
+follow-up (separate, NDIcalc-vis repo, out of this schema's scope): migrate the
+`ndi.query` calls in the `ndi.calc.vis.*` calculators to the new leaf class names;
+consider a back-compat class alias so old queries keep resolving during transition.
+`method`/`method_parameters` default (below) also decided by delegation.
+
+**DECISION (app / input_parameters):** keep `app` verbatim (the program+version
+reproducibility record, paper Fig 4/§4.2 FAIR) AND surface the algorithm identity in
+`subject_interaction.method` (queryable) with `input_parameters` →
+`subject_interaction.method_parameters` (the slot already documents itself as the
+calculator input_parameters, Fig 3E). So provenance is both preserved (`app`) and
+spine-queryable (`method`/`method_parameters`).
 
 ### 7.1 Resolved / remaining
 - ~~Are tuning results calculations or observations?~~ **RESOLVED (§0): calculation.**
