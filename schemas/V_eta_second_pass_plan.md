@@ -46,6 +46,38 @@ is_blank), resolves the animal via the response link, wraps the timeline as a
 `sampled_body`, and emits `visual_grating_manipulation` on the animal.
 (`stimulus_bath` keeps its own `stimulusBathToBath` resolver.)
 
+### DRAFT — the stimulus-timeline sampled_body datum layout
+A presentation is an ordered list of stimulus EVENTS (`presentation_order` indexes into
+`stimuli[]`; `presentation_time` gives per-event onset/offset). One body-backed
+`visual_grating_manipulation` per presentation-epoch, on the animal:
+
+- **`visual_grating_manipulation`** (the statement): `subject_id` = the animal;
+  `time_reference_#` = an epoch anchor on the presentation's epoch; `storage_mode` =
+  `body`; inline value blank (the data is in the body); `method` = "visual stimulus
+  presentation"; `variable` = "visual grating".
+- **`sampled_body`** (`statement` → that manipulation) describing an external payload
+  that is a RECORD-PER-EVENT table, one row per entry of `presentation_order`:
+    `[ onset, offset, stimid, angle, spatial_frequency, temporal_frequency,
+       contrast, size, is_blank ]`
+  (grating columns from `gratingValueFromParameters(stimuli(stimid).parameters)`).
+  Descriptor fields:
+    - `datum`: kind = `visual_grating_series`, dtype = `double`, unit = "",
+      shape = `[N_events, 9]` (or a named record).
+    - `sample_time`: `regular = false`, `t0` = first onset, `n = N_events`. The events
+      are IRREGULAR, so the actual onset/offset live as COLUMNS in the payload (the
+      `{regular,t0,dt,n}` model can't hold an irregular time vector). ← KEY QUESTION.
+    - `axes`: one axis `{name:'presentation', kind:'event', length:N_events,
+      regularity:'irregular'}`.
+    - `content_hash`: hash of the payload.
+
+OPEN QUESTIONS for the architect:
+  1. Irregular event times — carry `onset`/`offset` as payload COLUMNS (this draft), or
+     does `sample_time` need an irregular-times representation?
+  2. One manipulation per presentation with the full timeline body (this draft), vs one
+     `visual_grating_manipulation` per DISTINCT stimulus condition (fewer, param-only,
+     no body) — the latter loses the trial timeline but avoids the body entirely.
+  3. Do control/blank events (`is_blank`) stay as rows, or get dropped?
+
 **Blocker / decision needed — how to identify the co-recorded ANIMAL.**
 `stimulus_presentation.element_id` is the STIMULATOR (its own subject is the stimulus
 system, not the animal). Getting the animal needs epoch → co-recorded animal element →
