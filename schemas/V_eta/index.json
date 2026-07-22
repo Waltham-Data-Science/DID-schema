@@ -1576,9 +1576,22 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                "base"
+                "data_type"
             ],
             "path": "schemas/V_eta/stable/orientation_direction_tuning.json",
+            "disposition": "retire",
+            "disposition_note": "D-C analysis-tier decompose"
+        },
+        {
+            "class_name": "orientation_direction_tuning_calculation",
+            "tier": "stable",
+            "class_version": "1.0.0",
+            "maturity_level": "stable",
+            "superclasses": [
+                "subject_calculation",
+                "orientation_direction_tuning"
+            ],
+            "path": "schemas/V_eta/stable/orientation_direction_tuning_calculation.json",
             "disposition": "retire",
             "disposition_note": "D-C analysis-tier decompose"
         },
@@ -2185,6 +2198,18 @@
                 "subject_statement"
             ],
             "path": "schemas/V_eta/stable/subject_assertion.json",
+            "disposition": "persist"
+        },
+        {
+            "class_name": "subject_calculation",
+            "tier": "stable",
+            "class_version": "1.0.0",
+            "maturity_level": "stable",
+            "superclasses": [
+                "subject_interaction",
+                "app"
+            ],
+            "path": "schemas/V_eta/stable/subject_calculation.json",
             "disposition": "persist"
         },
         {
