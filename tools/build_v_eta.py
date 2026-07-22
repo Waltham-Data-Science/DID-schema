@@ -434,6 +434,23 @@ so = load(os.path.join(VETA, "stable", "subject_observation.json"))
 so.setdefault("depends_on", []).append(DERIVED_FROM)
 write("stable", "subject_observation", so)
 
+# subject_calculation: the COMPUTED statement direction (Lepsky et al., the
+# calculator-motif paper). A calculator produces ONE output document type; in V_eta
+# that output is a subject_calculation LEAF pairing this direction with a result
+# composite data_type -- exactly as visual_grating_manipulation pairs
+# subject_manipulation with visual_grating. It inherits from subject_interaction the
+# algorithm identity (`method`), the calculator input_parameters
+# (`method_parameters`, Fig 3E), `sample_time`, and the required `time_reference`;
+# from `app` the program+version reproducibility record (paper Fig 4 / FAIR §4.2);
+# and it carries `derived_from_#` -- the input statement(s) the calculation consumed
+# (what the paper stores in the output document's depends_on). Distinct direction,
+# NOT an observation: the measured stimulus_response is the observation, a tuning
+# curve / fit is a calculation (paper §3.2-3.3). Experimental conditions (the tuning
+# axis + covariates) ride on the inherited subject_statement.conditions.
+write("stable", "subject_calculation",
+      doc("subject_calculation", ["subject_interaction", "app"], abstract=True,
+          deps=[DERIVED_FROM]))
+
 
 # ---------- 4. subject_assertion genus + leaves ----------
 
@@ -903,6 +920,22 @@ write("stable", "visual_grating",
           "value", "structure",
           "A presented visual grating (static or drifting) and its "
           "presentation parameters.", non_empty=True, blank={}, sub_fields=GRATING_SUBS)]))
+# ---------- subject_calculation family (VERTICAL SLICE: oridir) ----------
+# Reframe the tuning "result" classes into data_type COMPOSITES + subject_calculation
+# LEAFS, exactly like visual_grating -> visual_grating_manipulation. FIRST SLICE:
+# orientation_direction_tuning (the paper's Fig 4 exemplar). The result class already
+# carries the structured output (properties / tuning_curve / significance / vector /
+# fit) as a base-bag; reparent it to `data_type` (making it the composite) and add
+# the `<composite>_calculation` leaf. The old oridirtuning_calc CLASS is retained for
+# now (its docs migrate 1->1 to the leaf; retire/phase-8-delete is a follow-up).
+_odt = load(os.path.join(VETA, "stable", "orientation_direction_tuning.json"))
+_odt["document_class"]["superclasses"] = [{"class_name": "data_type"}]
+_odt["document_class"]["abstract"] = True
+write("stable", "orientation_direction_tuning", _odt)
+write("stable", "orientation_direction_tuning_calculation",
+      doc("orientation_direction_tuning_calculation",
+          ["subject_calculation", "orientation_direction_tuning"]))
+
 write("stable", "visual_grating_manipulation",
       doc("visual_grating_manipulation",
           ["subject_manipulation", "visual_grating"]))

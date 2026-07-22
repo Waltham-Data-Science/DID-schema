@@ -1,0 +1,26 @@
+{
+    "document_class": {
+        "class_name": "subject_calculation",
+        "class_version": "1.0.0",
+        "superclasses": [
+            {
+                "class_name": "subject_interaction"
+            },
+            {
+                "class_name": "app"
+            }
+        ],
+        "maturity_level": "stable",
+        "abstract": true
+    },
+    "depends_on": [
+        {
+            "name": "derived_from_#",
+            "mustBeNonEmpty": false,
+            "documentation": "The subject_statement leaf(s) this value was COMPUTED from (its inputs). Present only on computed observations, whose subject_interaction.method names the algorithm. Typed to a statement leaf -- never an entity; the provenance inverse of directed_relation's entity->entity child/parent.",
+            "must_refer_to_document_class": "subject_statement"
+        }
+    ],
+    "file": [],
+    "fields": []
+}
