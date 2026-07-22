@@ -193,13 +193,24 @@ export function Coverage({ onSelect }: Props) {
                 </td>
                 <td>
                   {r.veta_class ? (
-                    <button
-                      className="cov-link enum-chip"
-                      onClick={() => onSelect(r.veta_class!)}
-                      title={`Open ${r.veta_class}`}
-                    >
-                      {r.veta_class}
-                    </button>
+                    <>
+                      <button
+                        className={`cov-link enum-chip cov-target-${kind}`}
+                        onClick={() => onSelect(r.veta_class!)}
+                        title={
+                          kind === "retire"
+                            ? `${r.veta_class} is retiring (tombstone until Phase-8 deletion) — not a go-forward home`
+                            : `Open ${r.veta_class}`
+                        }
+                      >
+                        {r.veta_class}
+                      </button>
+                      {kind === "retire" && (
+                        <span className="cov-target-note" title="dissolving; kept until Phase-8 deletion">
+                          {" "}retiring
+                        </span>
+                      )}
+                    </>
                   ) : (
                     <span className="muted">{DASH}</span>
                   )}

@@ -1053,3 +1053,19 @@ button.badge-persist {
 .cov-chip.cov-persist { border-color: var(--maturity-stable); }
 .cov-chip.cov-retire { border-color: var(--maturity-deprecated); }
 .cov-chip.cov-wip { border-color: #d29922; }
+
+/* V_eta-class chip styled by the TARGET class's disposition, matching the
+   sidebar tree: a retiring/deprecated same-name class is a tombstone, not a
+   real go-forward home, so strike it through; in-progress reads italic. */
+.cov-target-retire {
+  text-decoration: line-through;
+  text-decoration-thickness: 1px;
+  opacity: 0.7;
+}
+.cov-target-in_progress {
+  font-style: italic;
+}
+.cov-target-note {
+  font-size: 0.72rem;
+  color: var(--maturity-deprecated);
+}
