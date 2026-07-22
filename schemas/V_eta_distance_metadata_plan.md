@@ -1,11 +1,19 @@
 # V_eta — distance_metadata decomposition plan (TaskList #18)
 
-Status: design. Grounded in the writer (NDI-matlab
-`+setup/+conv/+haley/doImport.m`), the v1 template
+Status: **reshape landed; Part B deferred.** The safe, orphan-free step is DONE —
+`migrators_j.distance_metadata` now reshapes the FLAT v1 A/B endpoint fields into
+the nested `endpoints` array the V_eta schema requires, so the retained
+distance_metadata passthrough VALIDATES (clears the ~2078 JH quarantines). It emits
+NO length_observation and mints NO endpoint relation (both need the second-pass
+migrated-id graph; see below). Covered by `testMigratorsJ`
+(testDistanceMetadataReshapesFlatEndpoints, transform) + `testFixtureCorpus`
+(fx_distance_metadata, real flat shape, under schema validation). Part A stays
+superseded; Part B (the body-backed length_observation with values) stays deferred
+with the element-data -> observation tier (#9).
+
+Grounded in the writer (NDI-matlab `+setup/+conv/+haley/doImport.m`), the v1 template
 (`ndi_common/database_documents/element/distance_metadata.json`), the pass-1
-`element` migrator, and the second-pass `bodyResolver`. NOT yet implemented — the
-patch-endpoint orphan risk (below) must be corpus-validated before any migrator
-change lands.
+`element` migrator, and the second-pass `bodyResolver`.
 
 ## What the v1 data is
 A `distance_metadata` doc is FLAT and records the two ENDPOINTS of a distance
