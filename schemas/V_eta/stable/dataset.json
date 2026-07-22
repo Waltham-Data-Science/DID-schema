@@ -92,7 +92,7 @@
         },
         {
             "name": "keyword",
-            "type": "char",
+            "type": "string",
             "blank_value": [],
             "default_value": [],
             "mustBeNonEmpty": false,
@@ -193,7 +193,7 @@
         },
         {
             "name": "support_channel",
-            "type": "char",
+            "type": "string",
             "blank_value": [],
             "default_value": [],
             "mustBeNonEmpty": false,

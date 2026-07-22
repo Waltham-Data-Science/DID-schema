@@ -563,7 +563,7 @@ write("stable", "person", doc("person", ["entity"], fields=[
           "names/initials (given/family per the international convention). "
           "(openMINDS Person.givenName.)"),
     field("family_name", "char", "Family (sur)name. (openMINDS Person.familyName.)"),
-    field("alternate_name", "char", "Alternate name(s) / aliases for the person "
+    field("alternate_name", "string", "Alternate name(s) / aliases for the person "
           "(openMINDS Person.alternateName); repeatable.",
           non_empty=False, scalar=False),
     field("email", "char", "Contact email; meaningful when acting as a contact. "
@@ -633,7 +633,7 @@ write("stable", "dataset", doc("dataset", ["entity"], fields=[
           "(openMINDS DatasetVersion.description).", non_empty=False),
     field("how_to_cite", "char", "Preferred citation string for this dataset version "
           "(openMINDS DatasetVersion.howToCite).", non_empty=False),
-    field("keyword", "char", "Free-text keywords/tags describing the dataset "
+    field("keyword", "string", "Free-text keywords/tags describing the dataset "
           "(openMINDS DatasetVersion.keyword); repeatable.",
           non_empty=False, scalar=False),
     field("license", "char", "License (openMINDS DatasetVersion.license, a SPDX "
@@ -663,7 +663,7 @@ write("stable", "dataset", doc("dataset", ["entity"], fields=[
           constraints={"binding": {
               "vocabulary": "openMINDS", "term_set": "ExperimentalApproach",
               "strength": "preferred"}}),
-    field("support_channel", "char", "Where to get support for this dataset -- an email "
+    field("support_channel", "string", "Where to get support for this dataset -- an email "
           "address or discussion channel (openMINDS DatasetVersion.supportChannel); "
           "a support URL is instead a directed_relation -> web_resource. Repeatable.",
           non_empty=False, scalar=False),
