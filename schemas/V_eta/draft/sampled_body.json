@@ -107,7 +107,7 @@
             "mustNotHaveNaN": false,
             "queryable": true,
             "ontology": null,
-            "documentation": "The body-local timeline (D1 \u2014 the single home for a body-backed value).",
+            "documentation": "The body-local timeline (D1 \u2014 the single home for a body-backed value). Regular grid (regular=true: t0 + k*dt, n samples) OR enumerated (regular=false: explicit per-sample times in `offsets`) -- mirroring the spine sample_time's grid/enumerated split, so an irregular series (e.g. a stimulus presentation's trial onsets) states its times as an array.",
             "constraints": {},
             "fields": [
                 {
@@ -160,6 +160,19 @@
                     "queryable": true,
                     "ontology": null,
                     "documentation": "Sample count.",
+                    "constraints": {}
+                },
+                {
+                    "name": "offsets",
+                    "type": "matrix",
+                    "blank_value": [],
+                    "default_value": [],
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "enumerated (regular=false): the explicit per-sample times from the anchor -- the array of sample times (e.g. trial onsets).",
                     "constraints": {}
                 }
             ]

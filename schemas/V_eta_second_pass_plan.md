@@ -55,28 +55,24 @@ A presentation is an ordered list of stimulus EVENTS (`presentation_order` index
   `time_reference_#` = an epoch anchor on the presentation's epoch; `storage_mode` =
   `body`; inline value blank (the data is in the body); `method` = "visual stimulus
   presentation"; `variable` = "visual grating".
-- **`sampled_body`** (`statement` → that manipulation) describing an external payload
-  that is a RECORD-PER-EVENT table, one row per entry of `presentation_order`:
-    `[ onset, offset, stimid, angle, spatial_frequency, temporal_frequency,
-       contrast, size, is_blank ]`
-  (grating columns from `gratingValueFromParameters(stimuli(stimid).parameters)`).
-  Descriptor fields:
-    - `datum`: kind = `visual_grating_series`, dtype = `double`, unit = "",
-      shape = `[N_events, 9]` (or a named record).
-    - `sample_time`: `regular = false`, `t0` = first onset, `n = N_events`. The events
-      are IRREGULAR, so the actual onset/offset live as COLUMNS in the payload (the
-      `{regular,t0,dt,n}` model can't hold an irregular time vector). ← KEY QUESTION.
-    - `axes`: one axis `{name:'presentation', kind:'event', length:N_events,
-      regularity:'irregular'}`.
+- **`sampled_body`** (`statement` → that manipulation): a sample-per-TRIAL series.
+    - **`sample_time`**: `regular = false`, **`offsets`** = the trial ONSET times (the
+      array of sample times — the schema gap is now closed: `sample_time.offsets` is a
+      matrix of explicit per-sample times), `n = N_trials`. So onset IS the sample time.
+    - **`datum`**: kind = `record`, one record per trial = the trial's grating value
+      (`angle, spatial_frequency, temporal_frequency, contrast, size, is_blank`) from
+      `gratingValueFromParameters(stimuli(stimid).parameters)` + a `duration`
+      (offset − onset). `stimid` DROPPED (redundant once params are expanded; keep only
+      if a grouping key is wanted). shape = `[N_trials, n_fields]`.
+    - `axes`: (none needed — the trial axis IS sample_time).
     - `content_hash`: hash of the payload.
 
-OPEN QUESTIONS for the architect:
-  1. Irregular event times — carry `onset`/`offset` as payload COLUMNS (this draft), or
-     does `sample_time` need an irregular-times representation?
-  2. One manipulation per presentation with the full timeline body (this draft), vs one
-     `visual_grating_manipulation` per DISTINCT stimulus condition (fewer, param-only,
-     no body) — the latter loses the trial timeline but avoids the body entirely.
-  3. Do control/blank events (`is_blank`) stay as rows, or get dropped?
+RESOLVED: irregular event times → `sample_time.offsets` (the array of onsets). `stimid`
+dropped. OPEN (architect):
+  1. One body-backed manipulation per presentation with the full trial series (this
+     draft), vs one `visual_grating_manipulation` per DISTINCT condition (param-only,
+     inline, no body) — pivot on how you query it (trial-by-trial vs by-condition).
+  2. Do `is_blank` control trials stay as rows, or get dropped?
 
 **Blocker / decision needed — how to identify the co-recorded ANIMAL.**
 `stimulus_presentation.element_id` is the STIMULATOR (its own subject is the stimulus

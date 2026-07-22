@@ -964,13 +964,21 @@ sampled = doc("sampled_body", ["data_body"], maturity="draft", deps=[STATEMENT_R
               subfield("unit", "char", "The per-sample value unit."),
               subfield("shape", "matrix", "array only: intra-datum dims.")]),
     field("sample_time", "structure",
-          "The body-local timeline (D1 — the single home for a body-backed value).",
+          "The body-local timeline (D1 — the single home for a body-backed value). "
+          "Regular grid (regular=true: t0 + k*dt, n samples) OR enumerated "
+          "(regular=false: explicit per-sample times in `offsets`) -- mirroring the "
+          "spine sample_time's grid/enumerated split, so an irregular series (e.g. a "
+          "stimulus presentation's trial onsets) states its times as an array.",
           blank={}, sub_fields=[
               subfield("regular", "boolean", "Regular grid vs enumerated.",
                        blank=True),
               subfield("t0", "duration", "Local start offset from the anchor."),
               subfield("dt", "duration", "regular: sample spacing."),
-              subfield("n", "integer", "Sample count.")]),
+              subfield("n", "integer", "Sample count."),
+              subfield("offsets", "matrix",
+                       "enumerated (regular=false): the explicit per-sample times "
+                       "from the anchor -- the array of sample times (e.g. trial "
+                       "onsets).")]),
     field("summary", "structure", "The searchable value + time rollup.",
           blank={}, sub_fields=[
               subfield("value", "structure", "Per-type value rollup.", blank={}),
