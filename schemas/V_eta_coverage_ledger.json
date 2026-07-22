@@ -4,12 +4,11 @@
   "summary": {
     "total": 102,
     "by_disposition": {
-      "retire": 51,
+      "retire": 53,
       "dissolved \u2192 subject": 1,
-      "in_progress": 22,
+      "in_progress": 23,
       "persist": 3,
       "dissolved (rename/decompose)": 19,
-      "UNMAPPED (needs a V_eta home)": 3,
       "test/demo fixture (non-production)": 2,
       "dissolved \u2192 measurement": 1
     },
@@ -18,7 +17,7 @@
       "app": 11
     },
     "with_migrator": 56,
-    "gaps": 3
+    "gaps": 0
   },
   "rows": [
     {
@@ -461,13 +460,15 @@
     },
     {
       "v1_class": "ensemble",
-      "veta_class": null,
-      "disposition": "UNMAPPED (needs a V_eta home)",
+      "veta_class": "ensemble",
+      "disposition": "in_progress",
       "migrator": false,
       "source": "ndi",
       "nonprod": false,
-      "gap": true,
-      "targets": [],
+      "gap": false,
+      "targets": [
+        "ensemble"
+      ],
       "carried": [],
       "second_pass": [],
       "how": "",
@@ -684,13 +685,15 @@
     },
     {
       "v1_class": "kiasort_clusters",
-      "veta_class": null,
-      "disposition": "UNMAPPED (needs a V_eta home)",
+      "veta_class": "kiasort_clusters",
+      "disposition": "retire",
       "migrator": false,
       "source": "ndi",
       "nonprod": false,
-      "gap": true,
-      "targets": [],
+      "gap": false,
+      "targets": [
+        "kiasort_clusters"
+      ],
       "carried": [],
       "second_pass": [],
       "how": "",
@@ -698,13 +701,15 @@
     },
     {
       "v1_class": "kilosort_clusters",
-      "veta_class": null,
-      "disposition": "UNMAPPED (needs a V_eta home)",
+      "veta_class": "kilosort_clusters",
+      "disposition": "retire",
       "migrator": false,
       "source": "ndi",
       "nonprod": false,
-      "gap": true,
-      "targets": [],
+      "gap": false,
+      "targets": [
+        "kilosort_clusters"
+      ],
       "carried": [],
       "second_pass": [],
       "how": "",

@@ -901,6 +901,20 @@
             "disposition": "persist"
         },
         {
+            "class_name": "ensemble",
+            "tier": "stable",
+            "class_version": "1.0.0",
+            "maturity_level": "stable",
+            "superclasses": [
+                "base",
+                "epochid",
+                "app"
+            ],
+            "path": "schemas/V_eta/stable/ensemble.json",
+            "disposition": "in_progress",
+            "disposition_note": "\u2465/\u2466 walkthrough pending"
+        },
+        {
             "class_name": "entity",
             "tier": "stable",
             "class_version": "1.0.0",
@@ -1274,6 +1288,32 @@
                 "app"
             ],
             "path": "schemas/V_eta/stable/jrclust_clusters.json",
+            "disposition": "retire",
+            "disposition_note": "D-C analysis-tier decompose"
+        },
+        {
+            "class_name": "kiasort_clusters",
+            "tier": "stable",
+            "class_version": "1.0.0",
+            "maturity_level": "stable",
+            "superclasses": [
+                "base",
+                "app"
+            ],
+            "path": "schemas/V_eta/stable/kiasort_clusters.json",
+            "disposition": "retire",
+            "disposition_note": "D-C analysis-tier decompose"
+        },
+        {
+            "class_name": "kilosort_clusters",
+            "tier": "stable",
+            "class_version": "1.0.0",
+            "maturity_level": "stable",
+            "superclasses": [
+                "base",
+                "app"
+            ],
+            "path": "schemas/V_eta/stable/kilosort_clusters.json",
             "disposition": "retire",
             "disposition_note": "D-C analysis-tier decompose"
         },

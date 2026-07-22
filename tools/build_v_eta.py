@@ -719,6 +719,48 @@ write("stable", "openminds_import",
           ]))
 
 
+# ---------- new-on-main NDI app outputs (D-C analysis tier, decomposition deferred) --
+# ensemble / kilosort_clusters / kiasort_clusters were added to NDI-matlab main AFTER
+# V_eta forked from V_zeta, so they had no V_eta home (coverage-ledger GAPS). They are
+# D-C analysis-tier app outputs (spike sorting + neuron grouping). Principled
+# decomposition -- like spike_clusters -> count_observation + body -- is deferred to the
+# D-C track (#9); for now carry them PASSTHROUGH-retained (in_progress) so they validate
+# and the migration is complete. `element_id` -> subject and `element_epoch_id` ->
+# acquisition_epoch (elements/epochs were retargeted in strict J).
+for _name, _dir in (("kilosort_clusters", "kilosort_directory"),
+                    ("kiasort_clusters", "kiasort_directory")):
+    write("stable", _name,
+          doc(_name, ["base", "app"],
+              deps=[dep("element_id", "subject",
+                        "The recording element (a subject in V_eta) these sorted "
+                        "clusters were computed from.")],
+              fields=[
+                  field(_dir, "char",
+                        "Path to the sorter output directory (session-relative)."),
+                  field("curated_output_md5_checksum", "char",
+                        "MD5 checksum of the curated sorter output.", non_empty=False),
+              ]))
+
+write("stable", "ensemble",
+      doc("ensemble", ["base", "epochid", "app"],
+          deps=[dep("element_id", "subject",
+                    "The recording element (a subject in V_eta) the ensemble was "
+                    "computed from."),
+                dep("element_epoch_id", "acquisition_epoch",
+                    "The epoch over which the ensemble was defined.", non_empty=False)],
+          fields=[
+              field("ensemble_name", "char", "Name of the neuron ensemble."),
+              field("value_type", "char",
+                    "Type of the ensemble's value/activity representation.",
+                    non_empty=False),
+              field("value_description", "char",
+                    "Free-text description of the ensemble value.", non_empty=False),
+              field("num_neurons", "integer", "Number of neurons in the ensemble."),
+              field("clocktype", "char",
+                    "Clock type for the ensemble's epoch times.", non_empty=False),
+          ]))
+
+
 # ---------- 6. (value_set removed) ----------
 # The `value_set` document class is DROPPED: it was orphaned (nothing referenced
 # it as a document; no `must_refer -> value_set`) and redundant with the binding
@@ -1886,7 +1928,12 @@ _IN_PROGRESS = {"daqsystem", "daqreader", "daqmetadatareader",
     # image (kept as image_observation's geometry mixin, but its ⑥/⑦ fate is open),
     # openminds_import (new provenance doc, provisional), projectvar (infra, unsettled).
     # Kept in-schema but NOT in the final persist set until the ⑥/⑦ walkthrough closes.
-    "image", "openminds_import", "projectvar"}
+    "image", "openminds_import", "projectvar",
+    # new-on-main NDI app output, carried passthrough (disposition unsettled) until
+    # the D-C track (#9) models neuron ensembles. kilosort_clusters/kiasort_clusters
+    # are analysis-tier (matched by _ANALYSIS_RE 'cluster') -> retire, same as the rest
+    # of the spike-sorting family; both are carried passthrough (no migrator yet).
+    "ensemble"}
 
 def _disposition(name):
     if name in _RET_SOURCES:  return ("retire", "Phase-8 source (migrator → delete)")

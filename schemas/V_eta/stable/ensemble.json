@@ -1,0 +1,100 @@
+{
+    "document_class": {
+        "class_name": "ensemble",
+        "class_version": "1.0.0",
+        "superclasses": [
+            {
+                "class_name": "base"
+            },
+            {
+                "class_name": "epochid"
+            },
+            {
+                "class_name": "app"
+            }
+        ],
+        "maturity_level": "stable"
+    },
+    "depends_on": [
+        {
+            "name": "element_id",
+            "mustBeNonEmpty": true,
+            "documentation": "The recording element (a subject in V_eta) the ensemble was computed from.",
+            "must_refer_to_document_class": "subject"
+        },
+        {
+            "name": "element_epoch_id",
+            "mustBeNonEmpty": false,
+            "documentation": "The epoch over which the ensemble was defined.",
+            "must_refer_to_document_class": "acquisition_epoch"
+        }
+    ],
+    "file": [],
+    "fields": [
+        {
+            "name": "ensemble_name",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Name of the neuron ensemble.",
+            "constraints": {}
+        },
+        {
+            "name": "value_type",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Type of the ensemble's value/activity representation.",
+            "constraints": {}
+        },
+        {
+            "name": "value_description",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Free-text description of the ensemble value.",
+            "constraints": {}
+        },
+        {
+            "name": "num_neurons",
+            "type": "integer",
+            "blank_value": 0.0,
+            "default_value": 0.0,
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Number of neurons in the ensemble.",
+            "constraints": {}
+        },
+        {
+            "name": "clocktype",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Clock type for the ensemble's epoch times.",
+            "constraints": {}
+        }
+    ]
+}
