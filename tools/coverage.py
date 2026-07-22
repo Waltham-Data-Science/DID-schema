@@ -67,6 +67,56 @@ _MIG_HELPERS = {
 }
 
 
+def _ndi_main_templates():
+    """NDI production v1 templates read from `origin/main` (falling back to `main`)
+    via git, NOT the checked-out working tree -- a V_eta feature branch of NDI can
+    lag main and silently drop classes main has since added (ensemble,
+    kilosort_clusters, ...). Returns ({class_name: 'path @ref'}, ref) or (None, None)
+    if git/main is unavailable, so the caller falls back to the working tree."""
+    if not NDI:
+        return None, None
+    import subprocess
+    ddir = "src/ndi/ndi_common/database_documents"
+    for ref in ("origin/main", "main"):
+        try:
+            files = subprocess.run(
+                ["git", "-C", NDI, "ls-tree", "-r", "--name-only", ref, "--", ddir],
+                capture_output=True, text=True, check=True).stdout.splitlines()
+        except Exception:
+            continue
+        out = {}
+        for f in files:
+            if not f.endswith(".json"):
+                continue
+            try:
+                blob = subprocess.run(["git", "-C", NDI, "show", "%s:%s" % (ref, f)],
+                                      capture_output=True, text=True, check=True).stdout
+                d = json.loads(blob)
+            except Exception:
+                continue
+            cn = d.get("document_class", {}).get("class_name")
+            if cn:
+                out[cn] = "%s @%s" % (f, ref)
+        if out:
+            return out, ref
+    return None, None
+
+
+def _ndi_worktree_templates():
+    """Fallback: NDI templates from the checked-out working tree."""
+    out = {}
+    for p in glob.glob(os.path.join(
+            NDI, "src/ndi/ndi_common/database_documents/**/*.json"), recursive=True):
+        try:
+            d = json.load(open(p))
+        except Exception:
+            continue
+        cn = d.get("document_class", {}).get("class_name")
+        if cn:
+            out[cn] = os.path.relpath(p, NDI) + " @worktree"
+    return out
+
+
 def v1_classes():
     """The complete did_v1 SOURCE-class universe, keyed to its provenance.
 
@@ -91,18 +141,11 @@ def v1_classes():
 
     Returns {class_name: provenance_note}."""
     out = {}
-    # A. NDI shipped templates
+    # A. NDI shipped templates -- from origin/main so a lagging NDI feature branch
+    #    can't silently shrink the v1 universe (working tree is the fallback).
     if NDI:
-        for p in glob.glob(os.path.join(
-                NDI, "src/ndi/ndi_common/database_documents/**/*.json"),
-                recursive=True):
-            try:
-                d = json.load(open(p))
-            except Exception:
-                continue
-            cn = d.get("document_class", {}).get("class_name")
-            if cn:
-                out[cn] = os.path.relpath(p, NDI)
+        main, ref = _ndi_main_templates()
+        out.update(main if main is not None else _ndi_worktree_templates())
     # B. vhlab app/calculator classes: a bespoke migrator consumes them but NDI
     #    ships no template. Match on class name AND its snake form.
     if DIDM:

@@ -30,6 +30,18 @@ lives in these files — read them instead of re-deriving from memory:
 - must_refer is DECLARATIVE (existence-only validation), not type-checked.
 - Corpus gate: 0 quarantine + 0 orphans; per-class counts shift as classes
   dissolve, total-doc counts are the invariant. Soph needs DID_RUN_SOPH_TEST=1.
+- V1 SOURCE UNIVERSE = 102 (NOT 87, NOT 91). Two writers: (A) NDI production
+  templates = **91 on NDI-matlab origin/main** — `tools/coverage.py` reads them from
+  `origin/main` via git, NOT the working tree, because the V_eta NDI feature branch
+  lags main and silently drops classes main added after the fork (ensemble,
+  kilosort_clusters, kiasort_clusters, daqreader_image_epochdata_ingested — the
+  first 3 still have NO V_eta home, task #21). (B) vhlab app/calculator classes with
+  no NDI template = 11 (contrast_tuning, the 3 other `*_tuning`, 7 `*_calc`), footprint
+  = a bespoke migrator consuming them. Do NOT add post-v1 DID intermediate/target
+  classes (zarr, directory, `*_observation`, data_body, openminds_import) to the v1
+  side — provenance `origin` (`V_eta_class_provenance.md`) is the arbiter; only
+  `did_v1`-origin (+ the 11 app classes) are sources. `V_eta_coverage_ledger.md` is
+  generated — re-run `python3 tools/coverage.py` after schema/migrator changes.
 - CALCULATORS ARE DEFERRED. Do NOT register `_calc` decomposition migrators
   (`<x>_calc.m` that split a calc doc into observations). The corpus stores calc
   outputs as `<x>_calc` docs that DOWNSTREAM calcs reference (e.g.
