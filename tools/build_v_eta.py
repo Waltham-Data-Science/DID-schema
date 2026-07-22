@@ -307,8 +307,16 @@ VARIABLE = field("variable", "ontology_term",
                  "is uniform.", non_empty=True)
 
 
-# --- parameters (D10 qualifiers): conditions the statement was taken under ---
-# A list of typed {variable, value}. Each parameter names its `variable` and
+# --- conditions (D10 qualifiers): conditions the statement was taken under ---
+# Renamed from `parameters` (2026-07) for clarity: it holds the EXPERIMENTAL
+# conditions of each reading -- both the varied condition (its value is the per-reading
+# array, i.e. the independent-variable axis) and the held-fixed conditions (length-1
+# covariates); an independent variable is just the condition whose value varies. This
+# is distinct from `subject_interaction.method_parameters` (the algorithm's config /
+# calculator input_parameters -- HOW it was computed, not the conditions it was taken
+# under). The unrelated `parameters` blocks on daqreader/syncrule/filter are separate
+# fields and keep their name.
+# A list of typed {variable, value}. Each condition names its `variable` and
 # carries exactly ONE nested data-type block (term / count / quantity). The
 # "exactly one populated" rule is an INGEST validator, not meta-schema-enforced
 # (the closed meta-schema has no oneOf); the full per-dimension type set is a
@@ -323,15 +331,20 @@ def _param_block(name, doc_text, value_type, value_subs=None):
                  "measurement's value length (one label per reading).",
                  scalar=False, blank=[], sub_fields=value_subs)])
 
-PARAMETERS = field(
-    "parameters", "structure",
-    "D10 qualifiers: the conditions a statement was taken under, as a list of typed "
-    "{variable, value} entries. Each names its `variable` and carries exactly one "
-    "nested data-type block (term / count / quantity). 'Exactly one populated' is an "
-    "ingest validator (the closed meta-schema has no oneOf); the full per-dimension "
-    "type set is a provisional extension (D10). Value cardinality: length 1 (a "
-    "constant condition) or the measurement's value length (one per reading). Typed "
-    "by data type via the D9 registry keyed on `variable`.",
+CONDITIONS = field(
+    "conditions", "structure",
+    "D10 qualifiers: the experimental conditions a statement was taken under, as a "
+    "list of typed {variable, value} entries. Each names its `variable` and carries "
+    "exactly one nested data-type block (term / count / quantity). A condition whose "
+    "value is a per-reading ARRAY is the independent-variable axis (e.g. a tuning "
+    "curve's direction); a length-1 value is a held-fixed covariate -- same kind of "
+    "thing, distinguished only by cardinality. Distinct from "
+    "`subject_interaction.method_parameters` (the algorithm's config -- how it was "
+    "computed). 'Exactly one populated' is an ingest validator (the closed "
+    "meta-schema has no oneOf); the full per-dimension type set is a provisional "
+    "extension (D10). Value cardinality: length 1 (a constant condition) or the "
+    "measurement's value length (one per reading). Typed by data type via the D9 "
+    "registry keyed on `variable`.",
     non_empty=False, scalar=False, blank=[], default=[], sub_fields=[
         subfield("variable", "ontology_term",
                  "The condition's name (arm direction, OD600, trial type); "
@@ -352,7 +365,7 @@ PARAMETERS = field(
 
 write("stable", "subject_statement",
       doc("subject_statement", ["base"], abstract=True, version="1.0.0",
-          deps=[SUBJECT_ID], fields=[VARIABLE, PARAMETERS]))
+          deps=[SUBJECT_ID], fields=[VARIABLE, CONDITIONS]))
 
 # subject_interaction: re-root under subject_statement; drop subject_id/variable
 # (inherited), target_structure, element_id; add method, sample_time, instrument_id;

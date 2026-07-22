@@ -40,7 +40,7 @@
             "constraints": {}
         },
         {
-            "name": "parameters",
+            "name": "conditions",
             "type": "structure",
             "blank_value": [],
             "default_value": [],
@@ -49,7 +49,7 @@
             "mustNotHaveNaN": false,
             "queryable": true,
             "ontology": null,
-            "documentation": "D10 qualifiers: the conditions a statement was taken under, as a list of typed {variable, value} entries. Each names its `variable` and carries exactly one nested data-type block (term / count / quantity). 'Exactly one populated' is an ingest validator (the closed meta-schema has no oneOf); the full per-dimension type set is a provisional extension (D10). Value cardinality: length 1 (a constant condition) or the measurement's value length (one per reading). Typed by data type via the D9 registry keyed on `variable`.",
+            "documentation": "D10 qualifiers: the experimental conditions a statement was taken under, as a list of typed {variable, value} entries. Each names its `variable` and carries exactly one nested data-type block (term / count / quantity). A condition whose value is a per-reading ARRAY is the independent-variable axis (e.g. a tuning curve's direction); a length-1 value is a held-fixed covariate -- same kind of thing, distinguished only by cardinality. Distinct from `subject_interaction.method_parameters` (the algorithm's config -- how it was computed). 'Exactly one populated' is an ingest validator (the closed meta-schema has no oneOf); the full per-dimension type set is a provisional extension (D10). Value cardinality: length 1 (a constant condition) or the measurement's value length (one per reading). Typed by data type via the D9 registry keyed on `variable`.",
             "constraints": {},
             "fields": [
                 {

@@ -314,21 +314,24 @@ def test_storage_mode_on_statement():
     assert set(sm["constraints"]["enum"]) == {"inline", "reference", "body"}
 
 
-def test_parameters_on_statement():
-    """subject_statement carries a `parameters` list (D10 qualifiers) of typed
-    {variable, value} entries — each with a variable plus nested term/count/quantity
-    data-type blocks (exactly-one is an ingest validator, provisional)."""
+def test_conditions_on_statement():
+    """subject_statement carries a `conditions` list (D10 qualifiers, renamed from
+    `parameters`) of typed {variable, value} entries — each with a variable plus
+    nested term/count/quantity data-type blocks (exactly-one is an ingest validator,
+    provisional). A per-reading array value is the independent-variable axis; a
+    length-1 value is a held-fixed covariate."""
     ft = _flat_field_types("subject_statement")
-    assert ft.get("parameters") == "structure"
+    assert ft.get("conditions") == "structure"
+    assert ft.get("parameters") is None, "old `parameters` name must be gone"
     params = [f for f in RECORDS["subject_statement"][1]["fields"]
-              if f["name"] == "parameters"][0]
+              if f["name"] == "conditions"][0]
     # a list (non-scalar), not a single struct
     assert params["mustBeScalar"] is False
     sub = {f["name"]: f for f in params["fields"]}
     assert sub["variable"]["type"] == "ontology_term"
     # the three nested typed value blocks, each holding an array `value`
     for block in ("term", "count", "quantity"):
-        assert block in sub, f"parameters missing {block} block"
+        assert block in sub, f"conditions missing {block} block"
         val = [f for f in sub[block]["fields"] if f["name"] == "value"][0]
         assert val["mustBeScalar"] is False, f"{block}.value must be an array"
     assert sub["term"]["fields"][0]["type"] == "ontology_term"
