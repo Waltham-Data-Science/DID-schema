@@ -2001,31 +2001,37 @@ _ANALYSIS_RE = _re.compile(r"(_calc$|_calc_|tuning|stimulus_response|spike|clust
     r"vmspike|binnedspikerate|jrclust|sorting_param|neuron_extracellular|hartley|"
     r"oridir|reverse_correlation|fitcurve|tuning_fit|simple_calc|contrast_sensitivity|"
     r"site2channelmap|vmneuralresponse|stimulus_parameter)")
-_IN_PROGRESS = {"daqsystem", "daqreader", "daqmetadatareader",
+# ⑦ acquisition/infra classes the ⑥/⑦ walkthrough (V_eta_6_7_walkthrough_STATE.md,
+# all chunks a-e + gov ✅) DECIDED to KEEP -- they graduate from in_progress to persist
+# (⑦ infra) now that the walkthrough is closed. Each was held in-schema pending that
+# closure; the decision is recorded here. Disposition-only (does not affect corpus
+# validation). Groups: ⑥-A daq readers/systems (needs-NDI), ⑥-B ingested caches (Option
+# A: device-layer infra, NOT folded to sampled_body), ⑥-C epoch/time, ⑥-D sync,
+# ⑦ directory, and the index/geometry infra (ngrid, dataseries_channel_map,
+# binaryseries_parameters, filter).
+_KEEP_INFRA = {"daqsystem", "daqreader", "daqmetadatareader",
     "daqreader_epochdata_ingested", "daqreader_image_epochdata_ingested",
-    "daqmetadatareader_epochdata_ingested",
-    # daqreader_ndr and daqreader_mfdaq_epochdata_ingested de-encoded (chunks c/b) --
-    # no longer classes; the epochid superclass mixin dropped from the ingested
-    # caches (dep-only). Caches stay ⑦ infra (Option A), not folded to sampled_body.
-    "epochfiles_ingested", "epochid", "acquisition_epoch", "filenavigator", "syncgraph",
-    "syncrule", "syncrule_mapping", "directory", "ngrid", "dataseries_channel_map",
-    "binaryseries_parameters", "filter", "instrument", "interaction_purpose",
-    # `app` genus (parents a mix of retiring analysis classes + the stimulus
-    # bodies — its survival is unresolved) and its non-retiring children; the
-    # D-B stimulus bodies-of-record whose sampled_body fate is still open; and the
-    # demo/test fixtures whose place in the final V1 set is not settled.
-    "app", "stimulus_presentation", "control_stimulus_ids",
-    "demo_ndi", "demo_ndi_mock",
-    # ⑦ acquisition/infra "keep" classes whose FINAL disposition is not yet settled:
-    # image (kept as image_observation's geometry mixin, but its ⑥/⑦ fate is open),
-    # openminds_import (new provenance doc, provisional), projectvar (infra, unsettled).
-    # Kept in-schema but NOT in the final persist set until the ⑥/⑦ walkthrough closes.
-    "image", "openminds_import", "projectvar",
-    # new-on-main NDI app output, carried passthrough (disposition unsettled) until
-    # the D-C track (#9) models neuron ensembles. kilosort_clusters/kiasort_clusters
-    # are analysis-tier (matched by _ANALYSIS_RE 'cluster') -> retire, same as the rest
-    # of the spike-sorting family; both are carried passthrough (no migrator yet).
-    "ensemble"}
+    "daqmetadatareader_epochdata_ingested", "epochfiles_ingested", "epochid",
+    "acquisition_epoch", "filenavigator", "syncgraph", "syncrule", "syncrule_mapping",
+    "directory", "ngrid", "dataseries_channel_map", "binaryseries_parameters", "filter"}
+
+# Genuinely-unsettled classes that STAY in_progress -- each needs a team call the
+# walkthrough deliberately left open:
+#   - instrument, interaction_purpose : subject-domain, "needs a call".
+#   - app                             : genus parenting a mix of retiring analysis +
+#                                       stimulus bodies; survival unresolved.
+#   - stimulus_presentation, control_stimulus_ids : D-B stimulus bodies-of-record whose
+#                                       sampled_body fate is still open.
+#   - demo_ndi, demo_ndi_mock         : demo/test fixtures, place in the final set unsettled.
+#   - image                           : kept as image_observation's geometry mixin; ⑥/⑦ fate open.
+#   - openminds_import                : new provenance doc, provisional.
+#   - projectvar                      : infra, unsettled.
+#   - ensemble                        : grain A (acquisition-infra) decided, but its NDI
+#                                       second-pass member_of relations are pending
+#                                       (V_eta_ensemble_plan.md) -- kept in_progress until then.
+_IN_PROGRESS = {"instrument", "interaction_purpose", "app", "stimulus_presentation",
+    "control_stimulus_ids", "demo_ndi", "demo_ndi_mock", "image", "openminds_import",
+    "projectvar", "ensemble"}
 
 def _disposition(name, doc=None):
     # V_eta TARGET classes are built EXPLICITLY (write()/doc()), not carried as v1
@@ -2050,6 +2056,7 @@ def _disposition(name, doc=None):
             return ("persist", None)
         if _dc.get("abstract") and "data_type" in _chain:
             return ("persist", None)
+    if name in _KEEP_INFRA:   return ("persist", None)   # ⑥/⑦ walkthrough KEEP (closed)
     if name in _RET_SOURCES:  return ("retire", "Phase-8 source (migrator → delete)")
     if name in _RET_SERIES_OBS:
         return ("retire", "§A.9: series-observation branch → quantity leaves + data_body")

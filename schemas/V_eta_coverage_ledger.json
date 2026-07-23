@@ -6,8 +6,8 @@
     "by_disposition": {
       "retire": 40,
       "dissolved \u2192 subject": 1,
-      "in_progress": 23,
-      "persist": 9,
+      "in_progress": 8,
+      "persist": 24,
       "dissolved (rename/decompose)": 26,
       "test/demo fixture (non-production)": 2,
       "dissolved \u2192 measurement": 1
@@ -88,7 +88,7 @@
     {
       "v1_class": "binaryseries_parameters",
       "veta_class": "binaryseries_parameters",
-      "disposition": "in_progress",
+      "disposition": "persist",
       "migrator": false,
       "source": "ndi",
       "nonprod": false,
@@ -197,7 +197,7 @@
     {
       "v1_class": "daqmetadatareader",
       "veta_class": "daqmetadatareader",
-      "disposition": "in_progress",
+      "disposition": "persist",
       "migrator": false,
       "source": "ndi",
       "nonprod": false,
@@ -213,7 +213,7 @@
     {
       "v1_class": "daqmetadatareader_epochdata_ingested",
       "veta_class": "daqmetadatareader_epochdata_ingested",
-      "disposition": "in_progress",
+      "disposition": "persist",
       "migrator": false,
       "source": "ndi",
       "nonprod": false,
@@ -229,7 +229,7 @@
     {
       "v1_class": "daqreader",
       "veta_class": "daqreader",
-      "disposition": "in_progress",
+      "disposition": "persist",
       "migrator": false,
       "source": "ndi",
       "nonprod": false,
@@ -245,7 +245,7 @@
     {
       "v1_class": "daqreader_epochdata_ingested",
       "veta_class": "daqreader_epochdata_ingested",
-      "disposition": "in_progress",
+      "disposition": "persist",
       "migrator": false,
       "source": "ndi",
       "nonprod": false,
@@ -261,7 +261,7 @@
     {
       "v1_class": "daqreader_image_epochdata_ingested",
       "veta_class": "daqreader_image_epochdata_ingested",
-      "disposition": "in_progress",
+      "disposition": "persist",
       "migrator": false,
       "source": "ndi",
       "nonprod": false,
@@ -309,7 +309,7 @@
     {
       "v1_class": "daqsystem",
       "veta_class": "daqsystem",
-      "disposition": "in_progress",
+      "disposition": "persist",
       "migrator": false,
       "source": "ndi",
       "nonprod": false,
@@ -495,7 +495,7 @@
     {
       "v1_class": "epochfiles_ingested",
       "veta_class": "epochfiles_ingested",
-      "disposition": "in_progress",
+      "disposition": "persist",
       "migrator": false,
       "source": "ndi",
       "nonprod": false,
@@ -511,7 +511,7 @@
     {
       "v1_class": "epochid",
       "veta_class": "epochid",
-      "disposition": "in_progress",
+      "disposition": "persist",
       "migrator": false,
       "source": "ndi",
       "nonprod": false,
@@ -527,7 +527,7 @@
     {
       "v1_class": "filenavigator",
       "veta_class": "filenavigator",
-      "disposition": "in_progress",
+      "disposition": "persist",
       "migrator": false,
       "source": "ndi",
       "nonprod": false,
@@ -543,7 +543,7 @@
     {
       "v1_class": "filter",
       "veta_class": "filter",
-      "disposition": "in_progress",
+      "disposition": "persist",
       "migrator": true,
       "source": "ndi",
       "nonprod": false,
@@ -795,7 +795,7 @@
     {
       "v1_class": "ngrid",
       "veta_class": "ngrid",
-      "disposition": "in_progress",
+      "disposition": "persist",
       "migrator": true,
       "source": "ndi",
       "nonprod": false,
@@ -1538,7 +1538,7 @@
     {
       "v1_class": "syncgraph",
       "veta_class": "syncgraph",
-      "disposition": "in_progress",
+      "disposition": "persist",
       "migrator": false,
       "source": "ndi",
       "nonprod": false,
@@ -1554,7 +1554,7 @@
     {
       "v1_class": "syncrule",
       "veta_class": "syncrule",
-      "disposition": "in_progress",
+      "disposition": "persist",
       "migrator": false,
       "source": "ndi",
       "nonprod": false,
@@ -1570,7 +1570,7 @@
     {
       "v1_class": "syncrule_mapping",
       "veta_class": "syncrule_mapping",
-      "disposition": "in_progress",
+      "disposition": "persist",
       "migrator": false,
       "source": "ndi",
       "nonprod": false,

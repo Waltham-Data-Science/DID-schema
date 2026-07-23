@@ -20,6 +20,25 @@ reconciled with what actually shipped this session.
 | **(e)** | `element_epoch` → **`acquisition_epoch`** (element retired; keep `storage` for now — the data_body fold is deferred). ATOMIC 3-repo rename (a LIVE class: NDI writes v1 `element_epoch`, DID migrates it, the NDI V_eta second pass READS it by class name). Surface: **DID-schema** — `RENAME["element_epoch"]="acquisition_epoch"` (propagates class file + superclass + must_refer across `stimulus_response`/`dataseries_channel_map`/`image_stack_parameters`) + prose/`topics.json`. **DID-matlab** — the `element_epoch` migrator, `image_stack.m` (mints it), `pyraview.m`, tests (`testMigrators*`); v1 source defs `*_document_element_epoch.json` stay v1-named. **NDI-matlab** — ONLY the `+migrate/+internal/` V_eta-read refs (`bodyResolver.m` classNameOf/subField, ~4 refs); NDI runtime writers (`timeseries.m`/`tuning_response.m`/`f0_f1_responses.m`/`element.m`) stay `element_epoch` (they write v1). Safety nets: DID corpus run + NDI run-tests. **RESOLVED to DID-ONLY:** NDI's `bodyResolver` refs read the v1 INPUT shape (`element_epoch.epoch_clock`, `epochclocktimes`) to resolve subjects/clocks — v1-read, unchanged; no V_eta consumer of `acquisition_epoch` in NDI. `image_stack` mints element_epoch only for V_zeta (V_eta migration is single-stage → migrators_j + base fallback; migrators_i does not run). So: DID-schema `RENAME` (done) + DID-matlab `migrators_j/element_epoch.m` (reuse base clocks transform, rename class+block) + test. `storage`→data_body deferred. | ✅ DONE (pending corpus) | (this batch) |
 | **gov** | Governance sweep across the kept infra. **(1) Type untyped `*_id` deps — DONE:** the ingested-cache `epochid` deps → `acquisition_epoch`; the only remaining untyped dep, `syncrule_mapping.epochid`, is INTENTIONALLY untyped (it holds an epoch NAME, not a doc id — typing it would impose an unsatisfiable existence check). **(2) `ndi_<x>_class` handles → needs-NDI — DONE:** the 6 kept device/sync infra fields (`daqsystem`/`daqreader`/`daqmetadatareader`/`filenavigator`/`syncgraph`/`syncrule`) carry `needs_ndi: true`; `needs_ndi` declared as a meta-schema field property; test `test_ndi_class_handles_marked_needs_ndi`. **(3) Route embedded clock times through `time_reference` — DONE:** `syncrule_mapping.epochnode_a/b` now nest `epoch_clock` + `epoch_id` under a `time_reference` sub-structure (epoch_bounded_reference shape: kind + epoch_clock + epoch_id); `epoch_session_id`/`epochprobemap`/`objectclass` stay as node metadata. epoch_id stays a NAME (embedded ref, not a dep — epoch is not a standalone doc). Applied by DID-matlab `migrators_j.syncrule_mapping`. `acquisition_epoch.clocks` is intentionally left alone — it is the epoch's clock DEFINITION (the referent every epoch_bounded_reference points at), not a reference to route. | ✅ (1)+(2)+(3) DONE (pending corpus) | (this batch) |
 
+## WALKTHROUGH CLOSED — disposition graduated (this batch)
+
+All chunks (a–e + gov) are ✅ DONE, so the walkthrough is CLOSED. The 18 decided-KEEP
+infra classes graduated from `in_progress` → **persist (⑦)** via `build_v_eta.py`
+`_KEEP_INFRA` (persist total 148→166; ⑦ infra 1→19; in_progress 29→11):
+`daqsystem`, `daqreader`, `daqmetadatareader`, `daqreader_epochdata_ingested`,
+`daqreader_image_epochdata_ingested`, `daqmetadatareader_epochdata_ingested`,
+`epochfiles_ingested`, `epochid`, `acquisition_epoch`, `filenavigator`, `syncgraph`,
+`syncrule`, `syncrule_mapping`, `directory`, `ngrid`, `dataseries_channel_map`,
+`binaryseries_parameters`, `filter`.
+
+STILL `in_progress` — 11 classes that need a team call the walkthrough left open:
+`instrument`, `interaction_purpose` (subject-domain, "needs a call"); `app` (genus,
+survival unresolved); `stimulus_presentation`, `control_stimulus_ids` (D-B stimulus
+bodies-of-record, sampled_body fate open); `demo_ndi`, `demo_ndi_mock` (test fixtures);
+`image` (image_observation geometry mixin, ⑥/⑦ fate open); `openminds_import`
+(provisional); `projectvar` (infra, unsettled); `ensemble` (grain A decided, NDI
+second-pass member_of pending — `V_eta_ensemble_plan.md`).
+
 ## ⑥/⑦ sub-groups (the original grouping, for context)
 
 - **⑥-A DAQ readers/systems** — KEEP infra, each carries `ndi_<x>_class` (needs-NDI):

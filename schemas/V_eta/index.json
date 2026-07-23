@@ -97,8 +97,7 @@
                 "epochid"
             ],
             "path": "schemas/V_eta/stable/acquisition_epoch.json",
-            "disposition": "in_progress",
-            "disposition_note": "\u2465/\u2466 walkthrough pending"
+            "disposition": "persist"
         },
         {
             "class_name": "amount",
@@ -266,8 +265,7 @@
                 "base"
             ],
             "path": "schemas/V_eta/stable/binaryseries_parameters.json",
-            "disposition": "in_progress",
-            "disposition_note": "\u2465/\u2466 walkthrough pending"
+            "disposition": "persist"
         },
         {
             "class_name": "binnedspikeratevm",
@@ -601,8 +599,7 @@
                 "base"
             ],
             "path": "schemas/V_eta/stable/daqmetadatareader.json",
-            "disposition": "in_progress",
-            "disposition_note": "\u2465/\u2466 walkthrough pending"
+            "disposition": "persist"
         },
         {
             "class_name": "daqmetadatareader_epochdata_ingested",
@@ -614,8 +611,7 @@
                 "epochid"
             ],
             "path": "schemas/V_eta/stable/daqmetadatareader_epochdata_ingested.json",
-            "disposition": "in_progress",
-            "disposition_note": "\u2465/\u2466 walkthrough pending"
+            "disposition": "persist"
         },
         {
             "class_name": "daqreader",
@@ -626,8 +622,7 @@
                 "base"
             ],
             "path": "schemas/V_eta/stable/daqreader.json",
-            "disposition": "in_progress",
-            "disposition_note": "\u2465/\u2466 walkthrough pending"
+            "disposition": "persist"
         },
         {
             "class_name": "daqreader_epochdata_ingested",
@@ -638,8 +633,7 @@
                 "base"
             ],
             "path": "schemas/V_eta/stable/daqreader_epochdata_ingested.json",
-            "disposition": "in_progress",
-            "disposition_note": "\u2465/\u2466 walkthrough pending"
+            "disposition": "persist"
         },
         {
             "class_name": "daqreader_image_epochdata_ingested",
@@ -651,8 +645,7 @@
                 "daqreader_epochdata_ingested"
             ],
             "path": "schemas/V_eta/stable/daqreader_image_epochdata_ingested.json",
-            "disposition": "in_progress",
-            "disposition_note": "\u2465/\u2466 walkthrough pending"
+            "disposition": "persist"
         },
         {
             "class_name": "daqsystem",
@@ -663,8 +656,7 @@
                 "base"
             ],
             "path": "schemas/V_eta/stable/daqsystem.json",
-            "disposition": "in_progress",
-            "disposition_note": "\u2465/\u2466 walkthrough pending"
+            "disposition": "persist"
         },
         {
             "class_name": "data",
@@ -708,8 +700,7 @@
                 "base"
             ],
             "path": "schemas/V_eta/draft/dataseries_channel_map.json",
-            "disposition": "in_progress",
-            "disposition_note": "\u2465/\u2466 walkthrough pending"
+            "disposition": "persist"
         },
         {
             "class_name": "dataset",
@@ -777,8 +768,7 @@
                 "base"
             ],
             "path": "schemas/V_eta/stable/directory.json",
-            "disposition": "in_progress",
-            "disposition_note": "\u2465/\u2466 walkthrough pending"
+            "disposition": "persist"
         },
         {
             "class_name": "distance_metadata",
@@ -965,8 +955,7 @@
                 "base"
             ],
             "path": "schemas/V_eta/stable/epochfiles_ingested.json",
-            "disposition": "in_progress",
-            "disposition_note": "\u2465/\u2466 walkthrough pending"
+            "disposition": "persist"
         },
         {
             "class_name": "epochid",
@@ -977,8 +966,7 @@
                 "base"
             ],
             "path": "schemas/V_eta/stable/epochid.json",
-            "disposition": "in_progress",
-            "disposition_note": "\u2465/\u2466 walkthrough pending"
+            "disposition": "persist"
         },
         {
             "class_name": "event_bounded_reference",
@@ -1011,8 +999,7 @@
                 "base"
             ],
             "path": "schemas/V_eta/stable/filenavigator.json",
-            "disposition": "in_progress",
-            "disposition_note": "\u2465/\u2466 walkthrough pending"
+            "disposition": "persist"
         },
         {
             "class_name": "filter",
@@ -1023,8 +1010,7 @@
                 "base"
             ],
             "path": "schemas/V_eta/stable/filter.json",
-            "disposition": "in_progress",
-            "disposition_note": "\u2465/\u2466 walkthrough pending"
+            "disposition": "persist"
         },
         {
             "class_name": "fitcurve",
@@ -1427,8 +1413,7 @@
                 "base"
             ],
             "path": "schemas/V_eta/stable/ngrid.json",
-            "disposition": "in_progress",
-            "disposition_note": "\u2465/\u2466 walkthrough pending"
+            "disposition": "persist"
         },
         {
             "class_name": "numeric_assertion",
@@ -2261,8 +2246,7 @@
                 "base"
             ],
             "path": "schemas/V_eta/stable/syncgraph.json",
-            "disposition": "in_progress",
-            "disposition_note": "\u2465/\u2466 walkthrough pending"
+            "disposition": "persist"
         },
         {
             "class_name": "syncrule",
@@ -2273,8 +2257,7 @@
                 "base"
             ],
             "path": "schemas/V_eta/stable/syncrule.json",
-            "disposition": "in_progress",
-            "disposition_note": "\u2465/\u2466 walkthrough pending"
+            "disposition": "persist"
         },
         {
             "class_name": "syncrule_mapping",
@@ -2285,8 +2268,7 @@
                 "base"
             ],
             "path": "schemas/V_eta/stable/syncrule_mapping.json",
-            "disposition": "in_progress",
-            "disposition_note": "\u2465/\u2466 walkthrough pending"
+            "disposition": "persist"
         },
         {
             "class_name": "temperature",
