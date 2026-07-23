@@ -16,7 +16,7 @@
       "ndi": 91,
       "app": 11
     },
-    "with_migrator": 58,
+    "with_migrator": 59,
     "gaps": 0
   },
   "rows": [
@@ -1467,7 +1467,7 @@
       "v1_class": "stimulus_tuningcurve",
       "veta_class": "stimulus_tuningcurve",
       "disposition": "retire",
-      "migrator": false,
+      "migrator": true,
       "source": "ndi",
       "nonprod": false,
       "gap": false,

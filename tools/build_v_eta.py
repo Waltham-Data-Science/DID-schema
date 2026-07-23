@@ -942,13 +942,17 @@ for _tune in ("orientation_direction_tuning", "contrast_tuning",
           doc(_tune + "_calculation", ["subject_calculation", _tune]))
 
 # tuning_curve: the ndi.calc.tuningcurve output (tuningcurve_calc) -- the raw curve
-# every fit calc searches for. The composite + leaf SCAFFOLD is ready here (reparent
-# stimulus_tuningcurve into a `data_type` composite -- it is a superclass, not a v1
-# source, so no standalone docs to strand -- and add the leaf). The MIGRATOR is
-# DEFERRED to the NDI session-aware second pass: tuningcurve_calc carries NO subject on
-# the document (only stimulus_tuningcurve_id / stimulus_response_scalar_id), so the
-# neuron must be resolved from the response->element graph, exactly like stimulus_bath
-# / stimulus_presentation. Until then tuningcurve_calc passes through (deferred, green).
+# every fit calc searches for. Reparent stimulus_tuningcurve into an ABSTRACT
+# `data_type` composite (it becomes a superclass; the concrete migrated docs are the
+# leaf) and add the stimulus_tuningcurve_calculation leaf. The MIGRATOR is single-doc
+# (migrators_j.tuningcurve_calc + migrators_j.stimulus_tuningcurve): an earlier note
+# claimed tuningcurve_calc carried no subject, but a real doc IS-A stimulus_tuningcurve
+# and so inherits a POPULATED element_id (the writer sets it from the consumed
+# stimulus_response_scalar, ndi.app.stimulus.tuning_response.tuning_curve line 499), so
+# element_id -> subject_id, id-preserved, exactly like the other vision calculators. Both
+# the calculator-framework doc (tuningcurve_calc) and the raw app curve
+# (stimulus_tuningcurve) fold to the same leaf so downstream stimulus_tuningcurve_id refs
+# resolve to either.
 _st = load(os.path.join(VETA, "stable", "stimulus_tuningcurve.json"))
 _st["document_class"]["superclasses"] = [{"class_name": "data_type"}]
 _st["document_class"]["abstract"] = True
@@ -2023,7 +2027,29 @@ _IN_PROGRESS = {"daqsystem", "daqreader", "daqmetadatareader",
     # of the spike-sorting family; both are carried passthrough (no migrator yet).
     "ensemble"}
 
-def _disposition(name):
+def _disposition(name, doc=None):
+    # V_eta TARGET classes are built EXPLICITLY (write()/doc()), not carried as v1
+    # source tombstones, so they always persist -- even when their name matches the
+    # _ANALYSIS_RE source-tombstone heuristic (the calc family shares stems like
+    # "tuning"/"contrast_sensitivity" with the v1 sources it consumes). Detect them
+    # structurally so the rule self-maintains as the family grows:
+    #   ④ a subject_calculation LEAF (e.g. orientation_direction_tuning_calculation,
+    #      stimulus_tuningcurve_calculation) -- subject_calculation is a V_eta-native
+    #      genus, never a retiring source; and
+    #   ③ an ABSTRACT data_type COMPOSITE (e.g. orientation_direction_tuning,
+    #      contrast_sensitivity, stimulus_tuningcurve) -- audited: every abstract
+    #      data_type composite is a real ③ class, none retire.
+    # The v1 CALC source tombstones still carried as a safety net (oridirtuning_calc,
+    # tuningcurve_calc, contrast_sensitivity_calc, ...) keep the v1 `base` shape
+    # (concrete, no data_type/subject_calculation chain), so _ANALYSIS_RE still retires
+    # them below -- correct, their docs migrate into the leaf.
+    if doc is not None:
+        _dc = doc.get("document_class", {})
+        _chain = [sc.get("class_name") for sc in _dc.get("superclasses", [])]
+        if "subject_calculation" in _chain:
+            return ("persist", None)
+        if _dc.get("abstract") and "data_type" in _chain:
+            return ("persist", None)
     if name in _RET_SOURCES:  return ("retire", "Phase-8 source (migrator → delete)")
     if name in _RET_SERIES_OBS:
         return ("retire", "§A.9: series-observation branch → quantity leaves + data_body")
@@ -2090,7 +2116,7 @@ for tier in TIERS:
                             "is_meta": True, "disposition": "persist"})
             continue
         dc = d["document_class"]
-        disp, track = _disposition(dc["class_name"])
+        disp, track = _disposition(dc["class_name"], d)
         entry = {"class_name": dc["class_name"], "tier": tier,
                  "class_version": dc["class_version"],
                  "maturity_level": dc["maturity_level"],

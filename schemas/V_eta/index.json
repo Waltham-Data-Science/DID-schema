@@ -462,8 +462,7 @@
                 "data_type"
             ],
             "path": "schemas/V_eta/stable/contrast_sensitivity.json",
-            "disposition": "retire",
-            "disposition_note": "D-C analysis-tier decompose"
+            "disposition": "persist"
         },
         {
             "class_name": "contrast_sensitivity_calc",
@@ -488,8 +487,7 @@
                 "contrast_sensitivity"
             ],
             "path": "schemas/V_eta/stable/contrast_sensitivity_calculation.json",
-            "disposition": "retire",
-            "disposition_note": "D-C analysis-tier decompose"
+            "disposition": "persist"
         },
         {
             "class_name": "contrast_tuning",
@@ -500,8 +498,7 @@
                 "data_type"
             ],
             "path": "schemas/V_eta/stable/contrast_tuning.json",
-            "disposition": "retire",
-            "disposition_note": "D-C analysis-tier decompose"
+            "disposition": "persist"
         },
         {
             "class_name": "contrast_tuning_calc",
@@ -527,8 +524,7 @@
                 "contrast_tuning"
             ],
             "path": "schemas/V_eta/stable/contrast_tuning_calculation.json",
-            "disposition": "retire",
-            "disposition_note": "D-C analysis-tier decompose"
+            "disposition": "persist"
         },
         {
             "class_name": "control_stimulus_ids",
@@ -1617,8 +1613,7 @@
                 "data_type"
             ],
             "path": "schemas/V_eta/stable/orientation_direction_tuning.json",
-            "disposition": "retire",
-            "disposition_note": "D-C analysis-tier decompose"
+            "disposition": "persist"
         },
         {
             "class_name": "orientation_direction_tuning_calculation",
@@ -1630,8 +1625,7 @@
                 "orientation_direction_tuning"
             ],
             "path": "schemas/V_eta/stable/orientation_direction_tuning_calculation.json",
-            "disposition": "retire",
-            "disposition_note": "D-C analysis-tier decompose"
+            "disposition": "persist"
         },
         {
             "class_name": "person",
@@ -2013,8 +2007,7 @@
                 "data_type"
             ],
             "path": "schemas/V_eta/stable/spatial_frequency_tuning.json",
-            "disposition": "retire",
-            "disposition_note": "D-C analysis-tier decompose"
+            "disposition": "persist"
         },
         {
             "class_name": "spatial_frequency_tuning_calc",
@@ -2040,8 +2033,7 @@
                 "spatial_frequency_tuning"
             ],
             "path": "schemas/V_eta/stable/spatial_frequency_tuning_calculation.json",
-            "disposition": "retire",
-            "disposition_note": "D-C analysis-tier decompose"
+            "disposition": "persist"
         },
         {
             "class_name": "speed_tuning",
@@ -2052,8 +2044,7 @@
                 "data_type"
             ],
             "path": "schemas/V_eta/stable/speed_tuning.json",
-            "disposition": "retire",
-            "disposition_note": "D-C analysis-tier decompose"
+            "disposition": "persist"
         },
         {
             "class_name": "speed_tuning_calc",
@@ -2079,8 +2070,7 @@
                 "speed_tuning"
             ],
             "path": "schemas/V_eta/stable/speed_tuning_calculation.json",
-            "disposition": "retire",
-            "disposition_note": "D-C analysis-tier decompose"
+            "disposition": "persist"
         },
         {
             "class_name": "spike_clusters",
@@ -2239,8 +2229,7 @@
                 "data_type"
             ],
             "path": "schemas/V_eta/stable/stimulus_tuningcurve.json",
-            "disposition": "retire",
-            "disposition_note": "D-C analysis-tier decompose"
+            "disposition": "persist"
         },
         {
             "class_name": "stimulus_tuningcurve_calculation",
@@ -2252,8 +2241,7 @@
                 "stimulus_tuningcurve"
             ],
             "path": "schemas/V_eta/stable/stimulus_tuningcurve_calculation.json",
-            "disposition": "retire",
-            "disposition_note": "D-C analysis-tier decompose"
+            "disposition": "persist"
         },
         {
             "class_name": "subject",
@@ -2424,8 +2412,7 @@
                 "data_type"
             ],
             "path": "schemas/V_eta/stable/temporal_frequency_tuning.json",
-            "disposition": "retire",
-            "disposition_note": "D-C analysis-tier decompose"
+            "disposition": "persist"
         },
         {
             "class_name": "temporal_frequency_tuning_calc",
@@ -2451,8 +2438,7 @@
                 "temporal_frequency_tuning"
             ],
             "path": "schemas/V_eta/stable/temporal_frequency_tuning_calculation.json",
-            "disposition": "retire",
-            "disposition_note": "D-C analysis-tier decompose"
+            "disposition": "persist"
         },
         {
             "class_name": "term_assertion",

@@ -10,7 +10,13 @@ lives in these files — read them instead of re-deriving from memory:
   hand-edit. NOTE: its counts are only as good as the `disposition` markers in
   build_v_eta.py (`_RET_SOURCES`/`_RET_CARRIERS`/`_IN_PROGRESS`) — dissolved source
   classes not listed there (treatment-family, image_stack, subject_group) still show
-  as `persist`; fix the markers, not the doc. Category order is fixed:
+  as `persist`; fix the markers, not the doc. CONVERSELY, `_disposition` now persists
+  V_eta TARGET classes STRUCTURALLY (a `subject_calculation` leaf, or an abstract
+  `data_type` composite) BEFORE the `_ANALYSIS_RE` name heuristic can retire them — the
+  calc family's composites (orientation_direction_tuning, contrast_sensitivity,
+  stimulus_tuningcurve, …) and `*_calculation` leaves share stems ("tuning") with the v1
+  sources they consume, and were being wrongly retired. regen also routes a
+  `subject_calculation`-chain class to the ④ leaf tier (not ③). Category order is fixed:
   ① spine → ② entities → ③ **composites (data_type)** → ④ leaf tier →
   ⑤ time_reference → ⑥ **data_body (EXACTLY 2: sampled_body, opaque_body)** → ⑦ infra.
 - **`schemas/V_eta_6_7_walkthrough_STATE.md`** — the ⑥/⑦ (infra) walkthrough with
@@ -82,12 +88,18 @@ lives in these files — read them instead of re-deriving from memory:
   spatial_/temporal_frequency_tuning_calc, speed_tuning_calc), AND contrast_sensitivity
   (new composite+leaf, folds single-doc — its doc HAS element_id) — all via the shared
   `migrators_j.private.jCalculation` (result composite verbatim; input_parameters ->
-  method_parameters; app kept; input -> derived_from_1). LAST CALCULATOR TODO:
-  `tuning_curve` (tuningcurve_calc/stimulus_tuningcurve) — its doc carries NO
-  subject/element_id, so a single-doc DID migrator CANNOT resolve the subject; DEFERRED
-  to the NDI second pass (resolve subject via response->element graph, like stimulus_bath).
-  Composite+leaf scaffold `stimulus_tuningcurve_calculation` is already minted in
-  DID-schema (migrator deferred). Also: NDIcalc-vis `ndi.query` rename to the leaf names
+  method_parameters; app kept; input -> derived_from_1). ALL 12 vision calculators now
+  fold single-doc — `tuning_curve` (tuningcurve_calc + raw stimulus_tuningcurve) landed
+  as migrators_j.tuningcurve_calc + migrators_j.stimulus_tuningcurve, both -> the
+  `stimulus_tuningcurve_calculation` leaf (so downstream stimulus_tuningcurve_id refs
+  resolve to either). CORRECTION of an earlier "hard-won fact": tuningcurve_calc does
+  NOT lack a subject — it IS-A stimulus_tuningcurve (v1 superclass) and inherits a
+  POPULATED element_id (the writer sets it from the consumed stimulus_response_scalar,
+  NDI-matlab +app/+stimulus/tuning_response.m line 499; verified against the calc mock
+  doc). So element_id -> subject_id, id-preserved, NO NDI second pass needed. The raw
+  stimulus_tuningcurve is the pre-calculator-framework curve (from ndi.app.stimulus.
+  tuning_response); it also has element_id and folds the same way. Also: NDIcalc-vis
+  `ndi.query` rename to the leaf names
   (naming B, separate repo, out of scope); `hartley`/RF -> 2.D data_body (stays deferred).
   The Soph gate (`test-soph-corpus.yml`) was repointed V_zeta->V_eta + this branch so it
   actually validates the fold. NOTE the D10

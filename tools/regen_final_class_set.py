@@ -55,7 +55,8 @@ def main():
             cats["timeref"].append(name)
         elif "data_body" in ch:
             cats["body"].append(name)
-        elif ch & {"subject_observation", "subject_manipulation", "subject_assertion"}:
+        elif ch & {"subject_observation", "subject_manipulation", "subject_assertion",
+                   "subject_calculation"}:
             cats["leaf"].append(name)
         elif "data_type" in ch:
             cats["composite"].append(name)

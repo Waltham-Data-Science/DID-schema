@@ -1,14 +1,18 @@
 # V_eta — `subject_calculation` composite-leaf family (scoping)
 
-Status: **IMPLEMENTED — 11/12 vision calculators green** (CI gates #17–#21). Done:
-`parameters→conditions` rename; the `subject_calculation` direction + composites/leafs;
-the 5 tuning result classes + their 5 `*_calc` wrappers + `contrast_sensitivity_calc`
-all fold id-preserved via `migrators_j.private.jCalculation`. DEFERRED (legit):
-`tuningcurve_calc` needs the NDI session-aware second pass (no subject on the doc —
-resolve the neuron from the response→element graph); its composite/leaf scaffold is
-ready and it passes through meanwhile. Follow-ups: NDIcalc-vis `ndi.query` rename
-(naming B, separate repo) + optional alias; `hartley`/RF → 2.D; the full-corpus run to
-lock the un-deferral. Original scoping (below) requested by the team following
+Status: **IMPLEMENTED — 12/12 vision calculators green** (CI gates #17–#21; Soph
+~101k-doc corpus green — 0 orphans). Done: `parameters→conditions` rename; the
+`subject_calculation` direction + composites/leafs; the 5 tuning result classes + their
+5 `*_calc` wrappers + `contrast_sensitivity_calc` + `tuningcurve_calc` (and the raw
+`stimulus_tuningcurve` app curve) all fold id-preserved via
+`migrators_j.private.jCalculation`. `tuningcurve_calc` is single-doc after all: it IS-A
+`stimulus_tuningcurve` and inherits a populated `element_id` (writer sets it from the
+consumed stimulus_response_scalar), so NO NDI second pass is needed — the earlier
+"deferred, no subject" belief was a misread. Both it and the raw `stimulus_tuningcurve`
+fold to the shared `stimulus_tuningcurve_calculation` leaf so downstream
+`stimulus_tuningcurve_id` refs resolve to either. Follow-ups: NDIcalc-vis `ndi.query`
+rename (naming B, separate repo) + optional alias; `hartley`/RF → 2.D; the full-corpus
+run to lock the un-deferral end-to-end. Original scoping (below) requested by the team following
 Lepsky, Severson, Wang, Cheng, Rodriguez, Gong & Van Hooser, *"A motif for
 domain-specific analysis applets … application to vision science"* (bioRxiv
 2026.04.27.721136): keep calculators as **composite leafs** rather than (a) deferring
