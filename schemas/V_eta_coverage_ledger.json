@@ -4,10 +4,10 @@
   "summary": {
     "total": 102,
     "by_disposition": {
-      "retire": 53,
+      "retire": 47,
       "dissolved \u2192 subject": 1,
       "in_progress": 23,
-      "persist": 3,
+      "persist": 9,
       "dissolved (rename/decompose)": 19,
       "test/demo fixture (non-production)": 2,
       "dissolved \u2192 measurement": 1
@@ -130,33 +130,34 @@
       "nonprod": false,
       "gap": false,
       "targets": [
-        "contrast_sensitivity_calc"
-      ],
-      "carried": [],
-      "second_pass": [],
-      "how": "DEFERRED calculator: calcCommon passthrough, class retained (downstream calc references stay intact)",
-      "target_flags": "calculators deferred (CLAUDE.md); no V_eta observation decomposition"
-    },
-    {
-      "v1_class": "contrast_tuning",
-      "veta_class": "contrast_tuning",
-      "disposition": "retire",
-      "migrator": true,
-      "source": "app",
-      "nonprod": false,
-      "gap": false,
-      "targets": [
-        "frequency_observation",
-        "score_observation",
-        "directed_relation",
+        "contrast_sensitivity_calculation",
         "session_relative_reference"
       ],
       "carried": [
         "subject"
       ],
       "second_pass": [],
-      "how": "response curve -> a tuning frequency_observation (via jTuningFold) + derived_from edge; interpretable scalars (ANOVA p, C50, Naka-Rushton fit) each -> a score_observation of the same neuron (grain A)",
-      "target_flags": "curve leaf DYNAMIC (jTuningFold from response_units); directed_relation conditional on a stimulus_tuningcurve_id dep"
+      "how": "aggregate calculator OUTPUT (flat matrices on its own block) -> contrast_sensitivity_calculation (HAS element_id -> single-doc; sourceBlock is the concrete *_calc block; input_parameters -> method_parameters) + session anchor",
+      "target_flags": "calculator composite-leaf fold (Lepsky et al.); un-defers with 0 orphans (id-preserved)"
+    },
+    {
+      "v1_class": "contrast_tuning",
+      "veta_class": "contrast_tuning",
+      "disposition": "persist",
+      "migrator": true,
+      "source": "app",
+      "nonprod": false,
+      "gap": false,
+      "targets": [
+        "contrast_tuning_calculation",
+        "session_relative_reference"
+      ],
+      "carried": [
+        "subject"
+      ],
+      "second_pass": [],
+      "how": "result class -> the contrast_tuning_calculation subject_calculation LEAF (id-preserved 1->1; element_id -> subject_id; result composite kept verbatim) + session anchor",
+      "target_flags": "calculator composite-leaf fold (Lepsky et al.); un-defers with 0 orphans (id-preserved)"
     },
     {
       "v1_class": "contrast_tuning_calc",
@@ -167,12 +168,15 @@
       "nonprod": false,
       "gap": false,
       "targets": [
-        "contrast_tuning_calc"
+        "contrast_tuning_calculation",
+        "session_relative_reference"
       ],
-      "carried": [],
+      "carried": [
+        "subject"
+      ],
       "second_pass": [],
-      "how": "DEFERRED calculator: calcCommon passthrough, class retained",
-      "target_flags": "calculators deferred"
+      "how": "calculator OUTPUT -> the contrast_tuning_calculation subject_calculation LEAF (id-preserved; input_parameters -> method_parameters; app kept; raw input -> derived_from_1) + session anchor",
+      "target_flags": "calculator composite-leaf fold (Lepsky et al.); un-defers with 0 orphans (id-preserved)"
     },
     {
       "v1_class": "control_stimulus_ids",
@@ -972,34 +976,34 @@
       "nonprod": false,
       "gap": false,
       "targets": [
-        "oridirtuning_calc"
-      ],
-      "carried": [],
-      "second_pass": [],
-      "how": "DEFERRED calculator: calcCommon passthrough, class retained",
-      "target_flags": "calculators deferred"
-    },
-    {
-      "v1_class": "orientation_direction_tuning",
-      "veta_class": "orientation_direction_tuning",
-      "disposition": "retire",
-      "migrator": true,
-      "source": "ndi",
-      "nonprod": false,
-      "gap": false,
-      "targets": [
-        "frequency_observation",
-        "angle_observation",
-        "score_observation",
-        "directed_relation",
+        "orientation_direction_tuning_calculation",
         "session_relative_reference"
       ],
       "carried": [
         "subject"
       ],
       "second_pass": [],
-      "how": "response curve -> frequency_observation + derived_from; orientation/direction preference + HWHH -> angle_observation; circular variance/OSI/DSI/ANOVA p -> score_observation",
-      "target_flags": "curve leaf DYNAMIC; directed_relation conditional; double-gaussian fit CURVE deferred"
+      "how": "calculator OUTPUT -> the orientation_direction_tuning_calculation subject_calculation LEAF (id-preserved; input_parameters -> method_parameters; app kept; raw input -> derived_from_1) + session anchor",
+      "target_flags": "calculator composite-leaf fold (Lepsky et al.); un-defers with 0 orphans (id-preserved)"
+    },
+    {
+      "v1_class": "orientation_direction_tuning",
+      "veta_class": "orientation_direction_tuning",
+      "disposition": "persist",
+      "migrator": true,
+      "source": "ndi",
+      "nonprod": false,
+      "gap": false,
+      "targets": [
+        "orientation_direction_tuning_calculation",
+        "session_relative_reference"
+      ],
+      "carried": [
+        "subject"
+      ],
+      "second_pass": [],
+      "how": "result class -> the orientation_direction_tuning_calculation subject_calculation LEAF (id-preserved 1->1; element_id -> subject_id; result composite kept verbatim) + session anchor",
+      "target_flags": "calculator composite-leaf fold (Lepsky et al.); un-defers with 0 orphans (id-preserved)"
     },
     {
       "v1_class": "position_metadata",
@@ -1188,23 +1192,21 @@
     {
       "v1_class": "spatial_frequency_tuning",
       "veta_class": "spatial_frequency_tuning",
-      "disposition": "retire",
+      "disposition": "persist",
       "migrator": true,
       "source": "app",
       "nonprod": false,
       "gap": false,
       "targets": [
-        "frequency_observation",
-        "score_observation",
-        "directed_relation",
+        "spatial_frequency_tuning_calculation",
         "session_relative_reference"
       ],
       "carried": [
         "subject"
       ],
       "second_pass": [],
-      "how": "response curve -> frequency_observation (spatial-frequency axis) + derived_from; preferred/50% cutoffs -> frequency_observation; bandwidth/pass indices/ANOVA p/r2 -> score_observation",
-      "target_flags": "spatial frequency (1/angle) mapped onto the frequency composite; non-canonical fits + fit CURVES deferred"
+      "how": "result class -> the spatial_frequency_tuning_calculation subject_calculation LEAF (id-preserved 1->1; element_id -> subject_id; result composite kept verbatim) + session anchor",
+      "target_flags": "calculator composite-leaf fold (Lepsky et al.); un-defers with 0 orphans (id-preserved)"
     },
     {
       "v1_class": "spatial_frequency_tuning_calc",
@@ -1215,33 +1217,34 @@
       "nonprod": false,
       "gap": false,
       "targets": [
-        "spatial_frequency_tuning_calc"
-      ],
-      "carried": [],
-      "second_pass": [],
-      "how": "DEFERRED calculator: calcCommon passthrough, class retained",
-      "target_flags": "calculators deferred"
-    },
-    {
-      "v1_class": "speed_tuning",
-      "veta_class": "speed_tuning",
-      "disposition": "retire",
-      "migrator": true,
-      "source": "app",
-      "nonprod": false,
-      "gap": false,
-      "targets": [
-        "frequency_observation",
-        "score_observation",
-        "directed_relation",
+        "spatial_frequency_tuning_calculation",
         "session_relative_reference"
       ],
       "carried": [
         "subject"
       ],
       "second_pass": [],
-      "how": "response vs derived stimulus SPEED -> a tuning frequency_observation (speed axis) + derived_from; Priebe fit scalars -> score_observation; preferred SF/TF -> frequency_observation",
-      "target_flags": "speed axis falls back to temporal-frequency when the SF/TF pair is unusable; separable SF/TF surface deferred"
+      "how": "calculator OUTPUT -> the spatial_frequency_tuning_calculation subject_calculation LEAF (id-preserved; input_parameters -> method_parameters; app kept; raw input -> derived_from_1) + session anchor",
+      "target_flags": "calculator composite-leaf fold (Lepsky et al.); un-defers with 0 orphans (id-preserved)"
+    },
+    {
+      "v1_class": "speed_tuning",
+      "veta_class": "speed_tuning",
+      "disposition": "persist",
+      "migrator": true,
+      "source": "app",
+      "nonprod": false,
+      "gap": false,
+      "targets": [
+        "speed_tuning_calculation",
+        "session_relative_reference"
+      ],
+      "carried": [
+        "subject"
+      ],
+      "second_pass": [],
+      "how": "result class -> the speed_tuning_calculation subject_calculation LEAF (id-preserved 1->1; element_id -> subject_id; result composite kept verbatim) + session anchor",
+      "target_flags": "calculator composite-leaf fold (Lepsky et al.); un-defers with 0 orphans (id-preserved)"
     },
     {
       "v1_class": "speed_tuning_calc",
@@ -1252,12 +1255,15 @@
       "nonprod": false,
       "gap": false,
       "targets": [
-        "speed_tuning_calc"
+        "speed_tuning_calculation",
+        "session_relative_reference"
       ],
-      "carried": [],
+      "carried": [
+        "subject"
+      ],
       "second_pass": [],
-      "how": "DEFERRED calculator: calcCommon passthrough, class retained",
-      "target_flags": "calculators deferred"
+      "how": "calculator OUTPUT -> the speed_tuning_calculation subject_calculation LEAF (id-preserved; input_parameters -> method_parameters; app kept; raw input -> derived_from_1) + session anchor",
+      "target_flags": "calculator composite-leaf fold (Lepsky et al.); un-defers with 0 orphans (id-preserved)"
     },
     {
       "v1_class": "spike_clusters",
@@ -1466,18 +1472,21 @@
     {
       "v1_class": "stimulus_tuningcurve",
       "veta_class": "stimulus_tuningcurve",
-      "disposition": "retire",
+      "disposition": "persist",
       "migrator": true,
       "source": "ndi",
       "nonprod": false,
       "gap": false,
       "targets": [
-        "stimulus_tuningcurve"
+        "stimulus_tuningcurve_calculation",
+        "session_relative_reference"
       ],
-      "carried": [],
+      "carried": [
+        "subject"
+      ],
       "second_pass": [],
-      "how": "",
-      "target_flags": ""
+      "how": "raw ndi.app.stimulus.tuning_response curve -> stimulus_tuningcurve_calculation (element_id -> subject_id; result verbatim; no calc input_parameters/app) + session anchor",
+      "target_flags": "calculator composite-leaf fold (Lepsky et al.); un-defers with 0 orphans (id-preserved)"
     },
     {
       "v1_class": "subject",
@@ -1577,23 +1586,21 @@
     {
       "v1_class": "temporal_frequency_tuning",
       "veta_class": "temporal_frequency_tuning",
-      "disposition": "retire",
+      "disposition": "persist",
       "migrator": true,
       "source": "app",
       "nonprod": false,
       "gap": false,
       "targets": [
-        "frequency_observation",
-        "score_observation",
-        "directed_relation",
+        "temporal_frequency_tuning_calculation",
         "session_relative_reference"
       ],
       "carried": [
         "subject"
       ],
       "second_pass": [],
-      "how": "response curve -> frequency_observation (temporal-frequency axis) + derived_from; preferred/50% cutoffs -> frequency_observation (Hz); bandwidth/pass indices/ANOVA p/r2 -> score_observation",
-      "target_flags": "curve leaf DYNAMIC; directed_relation conditional"
+      "how": "result class -> the temporal_frequency_tuning_calculation subject_calculation LEAF (id-preserved 1->1; element_id -> subject_id; result composite kept verbatim) + session anchor",
+      "target_flags": "calculator composite-leaf fold (Lepsky et al.); un-defers with 0 orphans (id-preserved)"
     },
     {
       "v1_class": "temporal_frequency_tuning_calc",
@@ -1604,12 +1611,15 @@
       "nonprod": false,
       "gap": false,
       "targets": [
-        "temporal_frequency_tuning_calc"
+        "temporal_frequency_tuning_calculation",
+        "session_relative_reference"
       ],
-      "carried": [],
+      "carried": [
+        "subject"
+      ],
       "second_pass": [],
-      "how": "DEFERRED calculator: calcCommon passthrough, class retained",
-      "target_flags": "calculators deferred"
+      "how": "calculator OUTPUT -> the temporal_frequency_tuning_calculation subject_calculation LEAF (id-preserved; input_parameters -> method_parameters; app kept; raw input -> derived_from_1) + session anchor",
+      "target_flags": "calculator composite-leaf fold (Lepsky et al.); un-defers with 0 orphans (id-preserved)"
     },
     {
       "v1_class": "treatment",
@@ -1690,12 +1700,15 @@
       "nonprod": false,
       "gap": false,
       "targets": [
-        "tuningcurve_calc"
+        "stimulus_tuningcurve_calculation",
+        "session_relative_reference"
       ],
-      "carried": [],
+      "carried": [
+        "subject"
+      ],
       "second_pass": [],
-      "how": "DEFERRED calculator: calcCommon passthrough, class retained",
-      "target_flags": "calculators deferred"
+      "how": "IS-A stimulus_tuningcurve so inherits a populated element_id -> single-doc fold to stimulus_tuningcurve_calculation (result on the inherited stimulus_tuningcurve block; input_parameters -> method_parameters) + session anchor",
+      "target_flags": "calculator composite-leaf fold (Lepsky et al.); un-defers with 0 orphans (id-preserved)"
     },
     {
       "v1_class": "valid_interval",
