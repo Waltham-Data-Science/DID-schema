@@ -1,6 +1,14 @@
 # V_eta — `subject_calculation` composite-leaf family (scoping)
 
-Status: **SCOPING / proposal — not implemented.** Requested by the team following
+Status: **IMPLEMENTED — 11/12 vision calculators green** (CI gates #17–#21). Done:
+`parameters→conditions` rename; the `subject_calculation` direction + composites/leafs;
+the 5 tuning result classes + their 5 `*_calc` wrappers + `contrast_sensitivity_calc`
+all fold id-preserved via `migrators_j.private.jCalculation`. DEFERRED (legit):
+`tuningcurve_calc` needs the NDI session-aware second pass (no subject on the doc —
+resolve the neuron from the response→element graph); its composite/leaf scaffold is
+ready and it passes through meanwhile. Follow-ups: NDIcalc-vis `ndi.query` rename
+(naming B, separate repo) + optional alias; `hartley`/RF → 2.D; the full-corpus run to
+lock the un-deferral. Original scoping (below) requested by the team following
 Lepsky, Severson, Wang, Cheng, Rodriguez, Gong & Van Hooser, *"A motif for
 domain-specific analysis applets … application to vision science"* (bioRxiv
 2026.04.27.721136): keep calculators as **composite leafs** rather than (a) deferring
