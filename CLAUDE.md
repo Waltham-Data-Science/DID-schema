@@ -65,10 +65,15 @@ lives in these files — read them instead of re-deriving from memory:
   **Coverage ledger** panel (`web/src/Coverage.tsx`) renders the `.json`
   (sync-schemas copies it to `public/coverage.json`).
 - PHASE-8 DELETION (started): `build_v_eta.py` `_DELETE_PHASE8` physically removes
-  fully-consumed source tombstones from the built set (231→221). A class qualifies
+  fully-consumed source tombstones from the built set (now 17 deleted). A class qualifies
   ONLY if its docs cannot survive migration: (a) a COMPLETED migrators_i dissolver
-  (treatment family, virus_injection, subject_group, image_stack+params) or (b)
-  abstract/unminted in J (the 3 series-observation classes). All 10 verified
+  (treatment family, virus_injection, subject_group, image_stack+params), (b)
+  abstract/unminted in J (the 3 series-observation classes), or (c) a COMPLETED
+  calculator composite-leaf fold — the 7 vision-calculator WRAPPERS (oridirtuning_calc,
+  contrast_tuning_calc, spatial_/temporal_frequency_tuning_calc, speed_tuning_calc,
+  contrast_sensitivity_calc, tuningcurve_calc) each migrate 1->1 into a `*_calculation`
+  leaf (class changes), Soph+fixtures green; the RESULT class names + `stimulus_tuningcurve`
+  are REUSED as persisting composites so are NOT deleted. All 17 verified
   unreferenced by any kept schema + unemitted by any migrator. HELD despite being in
   `_RET_SOURCES` (docs NOT provably consumed — deleting strands live docs):
   `element` (highest blast radius; needs a corpus per-class 0-survivor count) and
