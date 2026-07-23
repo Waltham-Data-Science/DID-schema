@@ -2078,14 +2078,26 @@ def _disposition(name, doc=None):
 #                  shows 0 migrated `element` docs (blast radius is the whole corpus).
 #   - openminds* : need migrators / entangled with the #9 analysis-tier work
 #                  (guarded by test_phase1_source_cleanup_and_dep_typing).
-# The DEFERRED calculators / analysis tier (_ANALYSIS_RE, _RET_HOLDOVER), the 2.D
-# carriers (_RET_CARRIERS: zarr, pyraview) and the to-observation holdovers
-# (_RET_TOOBS: distance_metadata, ontology_*, ...) also stay -- their docs pass
+# The remaining 2.D carriers (_RET_CARRIERS: zarr, pyraview) and the to-observation
+# holdovers (_RET_TOOBS: distance_metadata, ontology_*, ...) stay -- their docs pass
 # through and MUST keep a schema. Un-defer those first, then extend this set.
+#
+# The 7 vision-calculator WRAPPER tombstones below graduated from "held" once the
+# calculator composite-leaf fold landed (migrators_j.private.jCalculation; Soph corpus
+# + fast fixtures GREEN, 0 orphans): each has a completed migrator that folds it 1->1,
+# id-preserved, into a `*_calculation` subject_calculation leaf (its class changes), so
+# no migrated doc keeps the wrapper class. All 7 verified unreferenced by any kept V_eta
+# schema (no superclass / typed dep) and unemitted by any migrator. NOTE the RESULT
+# class NAMES (orientation_direction_tuning, contrast_sensitivity, stimulus_tuningcurve)
+# are REUSED as persisting ③ composites and are NOT deleted; only the wrapper names,
+# which nothing reuses, qualify.
 _DELETE_PHASE8 = {
     "treatment", "treatment_drug", "treatment_transfer", "virus_injection",
     "subject_group", "image_stack", "image_stack_parameters",
     "dataseries_observation", "timeseries_observation", "imageseries_observation",
+    "oridirtuning_calc", "contrast_tuning_calc", "spatial_frequency_tuning_calc",
+    "temporal_frequency_tuning_calc", "speed_tuning_calc", "contrast_sensitivity_calc",
+    "tuningcurve_calc",
 }
 _deleted = []
 for tier in TIERS:

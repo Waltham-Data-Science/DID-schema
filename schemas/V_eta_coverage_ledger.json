@@ -4,11 +4,11 @@
   "summary": {
     "total": 102,
     "by_disposition": {
-      "retire": 47,
+      "retire": 40,
       "dissolved \u2192 subject": 1,
       "in_progress": 23,
       "persist": 9,
-      "dissolved (rename/decompose)": 19,
+      "dissolved (rename/decompose)": 26,
       "test/demo fixture (non-production)": 2,
       "dissolved \u2192 measurement": 1
     },
@@ -123,8 +123,8 @@
     },
     {
       "v1_class": "contrast_sensitivity_calc",
-      "veta_class": "contrast_sensitivity_calc",
-      "disposition": "retire",
+      "veta_class": null,
+      "disposition": "dissolved (rename/decompose)",
       "migrator": true,
       "source": "app",
       "nonprod": false,
@@ -161,8 +161,8 @@
     },
     {
       "v1_class": "contrast_tuning_calc",
-      "veta_class": "contrast_tuning_calc",
-      "disposition": "retire",
+      "veta_class": null,
+      "disposition": "dissolved (rename/decompose)",
       "migrator": true,
       "source": "app",
       "nonprod": false,
@@ -969,8 +969,8 @@
     },
     {
       "v1_class": "oridirtuning_calc",
-      "veta_class": "oridirtuning_calc",
-      "disposition": "retire",
+      "veta_class": null,
+      "disposition": "dissolved (rename/decompose)",
       "migrator": true,
       "source": "app",
       "nonprod": false,
@@ -1210,8 +1210,8 @@
     },
     {
       "v1_class": "spatial_frequency_tuning_calc",
-      "veta_class": "spatial_frequency_tuning_calc",
-      "disposition": "retire",
+      "veta_class": null,
+      "disposition": "dissolved (rename/decompose)",
       "migrator": true,
       "source": "app",
       "nonprod": false,
@@ -1248,8 +1248,8 @@
     },
     {
       "v1_class": "speed_tuning_calc",
-      "veta_class": "speed_tuning_calc",
-      "disposition": "retire",
+      "veta_class": null,
+      "disposition": "dissolved (rename/decompose)",
       "migrator": true,
       "source": "app",
       "nonprod": false,
@@ -1604,8 +1604,8 @@
     },
     {
       "v1_class": "temporal_frequency_tuning_calc",
-      "veta_class": "temporal_frequency_tuning_calc",
-      "disposition": "retire",
+      "veta_class": null,
+      "disposition": "dissolved (rename/decompose)",
       "migrator": true,
       "source": "app",
       "nonprod": false,
@@ -1693,8 +1693,8 @@
     },
     {
       "v1_class": "tuningcurve_calc",
-      "veta_class": "tuningcurve_calc",
-      "disposition": "retire",
+      "veta_class": null,
+      "disposition": "dissolved (rename/decompose)",
       "migrator": true,
       "source": "ndi",
       "nonprod": false,
