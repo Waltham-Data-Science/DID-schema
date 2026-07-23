@@ -4,19 +4,13 @@
         "class_version": "1.0.0",
         "superclasses": [
             {
-                "class_name": "base"
+                "class_name": "data_type"
             }
         ],
-        "maturity_level": "stable"
+        "maturity_level": "stable",
+        "abstract": true
     },
-    "depends_on": [
-        {
-            "name": "stimulus_response_scalar_id",
-            "mustBeNonEmpty": true,
-            "documentation": "The document ID of the stimulus_response_scalar this tuning curve was derived from.",
-            "must_refer_to_document_class": ""
-        }
-    ],
+    "depends_on": [],
     "file": [],
     "fields": [
         {

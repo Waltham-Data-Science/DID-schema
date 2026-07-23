@@ -454,6 +454,18 @@
             "disposition": "persist"
         },
         {
+            "class_name": "contrast_sensitivity",
+            "tier": "stable",
+            "class_version": "1.0.0",
+            "maturity_level": "stable",
+            "superclasses": [
+                "data_type"
+            ],
+            "path": "schemas/V_eta/stable/contrast_sensitivity.json",
+            "disposition": "retire",
+            "disposition_note": "D-C analysis-tier decompose"
+        },
+        {
             "class_name": "contrast_sensitivity_calc",
             "tier": "stable",
             "class_version": "1.0.0",
@@ -463,6 +475,19 @@
                 "calculator"
             ],
             "path": "schemas/V_eta/stable/contrast_sensitivity_calc.json",
+            "disposition": "retire",
+            "disposition_note": "D-C analysis-tier decompose"
+        },
+        {
+            "class_name": "contrast_sensitivity_calculation",
+            "tier": "stable",
+            "class_version": "1.0.0",
+            "maturity_level": "stable",
+            "superclasses": [
+                "subject_calculation",
+                "contrast_sensitivity"
+            ],
+            "path": "schemas/V_eta/stable/contrast_sensitivity_calculation.json",
             "disposition": "retire",
             "disposition_note": "D-C analysis-tier decompose"
         },
@@ -2211,9 +2236,22 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                "base"
+                "data_type"
             ],
             "path": "schemas/V_eta/stable/stimulus_tuningcurve.json",
+            "disposition": "retire",
+            "disposition_note": "D-C analysis-tier decompose"
+        },
+        {
+            "class_name": "stimulus_tuningcurve_calculation",
+            "tier": "stable",
+            "class_version": "1.0.0",
+            "maturity_level": "stable",
+            "superclasses": [
+                "subject_calculation",
+                "stimulus_tuningcurve"
+            ],
+            "path": "schemas/V_eta/stable/stimulus_tuningcurve_calculation.json",
             "disposition": "retire",
             "disposition_note": "D-C analysis-tier decompose"
         },

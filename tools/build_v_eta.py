@@ -941,6 +941,38 @@ for _tune in ("orientation_direction_tuning", "contrast_tuning",
     write("stable", _tune + "_calculation",
           doc(_tune + "_calculation", ["subject_calculation", _tune]))
 
+# tuning_curve: the ndi.calc.tuningcurve output (tuningcurve_calc) -- the raw curve
+# every fit calc searches for. The composite + leaf SCAFFOLD is ready here (reparent
+# stimulus_tuningcurve into a `data_type` composite -- it is a superclass, not a v1
+# source, so no standalone docs to strand -- and add the leaf). The MIGRATOR is
+# DEFERRED to the NDI session-aware second pass: tuningcurve_calc carries NO subject on
+# the document (only stimulus_tuningcurve_id / stimulus_response_scalar_id), so the
+# neuron must be resolved from the response->element graph, exactly like stimulus_bath
+# / stimulus_presentation. Until then tuningcurve_calc passes through (deferred, green).
+_st = load(os.path.join(VETA, "stable", "stimulus_tuningcurve.json"))
+_st["document_class"]["superclasses"] = [{"class_name": "data_type"}]
+_st["document_class"]["abstract"] = True
+_st["depends_on"] = []
+write("stable", "stimulus_tuningcurve", _st)
+write("stable", "stimulus_tuningcurve_calculation",
+      doc("stimulus_tuningcurve_calculation",
+          ["subject_calculation", "stimulus_tuningcurve"]))
+
+# contrast_sensitivity: the ndi.calc.vis.contrast_sensitivity output
+# (contrast_sensitivity_calc) is a FLAT bag of sensitivity/gain/c50/p-value matrices
+# with NO result-composite superclass -- so AUTHOR a `contrast_sensitivity` data_type
+# composite from the calc's own result fields (input_parameters is inherited from
+# `calculator`, not one of them, so it is naturally excluded), and add the leaf.
+# Unlike tuningcurve_calc, contrast_sensitivity_calc HAS element_id -> it folds
+# single-doc (migrators_j.contrast_sensitivity_calc).
+_cs_src = load(os.path.join(VETA, "stable", "contrast_sensitivity_calc.json"))
+write("stable", "contrast_sensitivity",
+      doc("contrast_sensitivity", ["data_type"], abstract=True,
+          fields=_cs_src.get("fields", [])))
+write("stable", "contrast_sensitivity_calculation",
+      doc("contrast_sensitivity_calculation",
+          ["subject_calculation", "contrast_sensitivity"]))
+
 write("stable", "visual_grating_manipulation",
       doc("visual_grating_manipulation",
           ["subject_manipulation", "visual_grating"]))
