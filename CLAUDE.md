@@ -64,15 +64,27 @@ lives in these files — read them instead of re-deriving from memory:
   Deferred-calculator/carrier/to-observation retire classes STAY (docs pass through).
   The DID-matlab corpus CI (test-code.yml) is the final gate that no migrated doc
   still validates against a deleted class.
-- CALCULATORS ARE DEFERRED. Do NOT register `_calc` decomposition migrators
-  (`<x>_calc.m` that split a calc doc into observations). The corpus stores calc
-  outputs as `<x>_calc` docs that DOWNSTREAM calcs reference (e.g.
-  `contrast_sensitivity_calc.contrasttuning_id_* -> contrast_tuning_calc`).
-  Decomposing a `_calc` doc changes/removes its id, so every downstream reference
-  DANGLES -> orphans (Soph went red with 11448 such orphans, 5445377). Passthrough
-  of `_calc` docs validates against the RETAINED `_calc` schemas and keeps refs
-  intact — that is the deferred-calculator green state. Un-defer only when the
-  downstream calc CONSUMERS are migrated in the same pass.
+- CALCULATORS: keep as COMPOSITE LEAFS (team decision from Lepsky et al., the
+  calculator-motif paper; scope: `V_eta_subject_calculation_plan.md`). Do NOT
+  DISSOLVE a `_calc` doc into observations — dissolution changes/removes its id, so
+  every downstream reference DANGLES -> orphans (Soph went red with 11448 such
+  orphans, 5445377; e.g. `contrast_sensitivity_calc.contrasttuning_id_* ->
+  contrast_tuning_calc`). INSTEAD, a calculator output migrates 1->1, id- AND
+  deps-PRESERVED, into a `subject_calculation` LEAF (`<result>_calculation` =
+  `subject_calculation` + a result `data_type` composite; the fourth statement
+  direction, ⊂ subject_interaction + app). Because the id is preserved and must_refer
+  is existence-only, downstream refs resolve -> calculators un-defer with 0 orphans.
+  DONE + green (gates #18/#19, fixture #-oridirtuning_calc): the 5 tuning result
+  classes AND their 5 `*_calc` wrappers (oridirtuning_calc, contrast_tuning_calc,
+  spatial_/temporal_frequency_tuning_calc, speed_tuning_calc) fold via the shared
+  `migrators_j.private.jCalculation` (result composite verbatim; input_parameters ->
+  method_parameters; app kept; stimulus_tuningcurve -> derived_from_1). STILL TODO:
+  `tuning_curve` (tuningcurve_calc/stimulus_tuningcurve) + `contrast_sensitivity_calc`
+  (new composite+leaf each); NDIcalc-vis `ndi.query` rename to the leaf names (naming
+  B, separate repo); `hartley`/RF -> 2.D data_body (stays deferred). NOTE the D10
+  statement-conditions field was renamed `parameters` -> `conditions` (axis =
+  per-reading array, covariate = length-1); `method_parameters` holds the algorithm
+  config (calculator input_parameters), a distinct slot.
 - distance_metadata ~2078 JH quarantines ("required `endpoints` missing"): ROOT
   CAUSE (confirmed from the writer NDI-matlab `+setup/+conv/+haley/doImport.m` and
   the v1 template `ndi_common/database_documents/element/distance_metadata.json`):
