@@ -74,14 +74,23 @@ lives in these files — read them instead of re-deriving from memory:
   `subject_calculation` + a result `data_type` composite; the fourth statement
   direction, ⊂ subject_interaction + app). Because the id is preserved and must_refer
   is existence-only, downstream refs resolve -> calculators un-defer with 0 orphans.
-  DONE + green (gates #18/#19, fixture #-oridirtuning_calc): the 5 tuning result
-  classes AND their 5 `*_calc` wrappers (oridirtuning_calc, contrast_tuning_calc,
-  spatial_/temporal_frequency_tuning_calc, speed_tuning_calc) fold via the shared
+  DONE + green (fast fixture gates #17-#21, + the REAL orphan gate: Soph corpus
+  run #2 / b3e2e10 SUCCESS 2026-07-23, ~101k docs, 0 orphans — the 11448-orphan
+  dissolution failure does NOT recur): 11 of 12 vision calculators fold to
+  `subject_calculation` composite leafs — the 5 tuning result classes, their 5 `*_calc`
+  wrappers (oridirtuning_calc, contrast_tuning_calc,
+  spatial_/temporal_frequency_tuning_calc, speed_tuning_calc), AND contrast_sensitivity
+  (new composite+leaf, folds single-doc — its doc HAS element_id) — all via the shared
   `migrators_j.private.jCalculation` (result composite verbatim; input_parameters ->
-  method_parameters; app kept; stimulus_tuningcurve -> derived_from_1). STILL TODO:
-  `tuning_curve` (tuningcurve_calc/stimulus_tuningcurve) + `contrast_sensitivity_calc`
-  (new composite+leaf each); NDIcalc-vis `ndi.query` rename to the leaf names (naming
-  B, separate repo); `hartley`/RF -> 2.D data_body (stays deferred). NOTE the D10
+  method_parameters; app kept; input -> derived_from_1). LAST CALCULATOR TODO:
+  `tuning_curve` (tuningcurve_calc/stimulus_tuningcurve) — its doc carries NO
+  subject/element_id, so a single-doc DID migrator CANNOT resolve the subject; DEFERRED
+  to the NDI second pass (resolve subject via response->element graph, like stimulus_bath).
+  Composite+leaf scaffold `stimulus_tuningcurve_calculation` is already minted in
+  DID-schema (migrator deferred). Also: NDIcalc-vis `ndi.query` rename to the leaf names
+  (naming B, separate repo, out of scope); `hartley`/RF -> 2.D data_body (stays deferred).
+  The Soph gate (`test-soph-corpus.yml`) was repointed V_zeta->V_eta + this branch so it
+  actually validates the fold. NOTE the D10
   statement-conditions field was renamed `parameters` -> `conditions` (axis =
   per-reading array, covariate = length-1); `method_parameters` holds the algorithm
   config (calculator input_parameters), a distinct slot.
