@@ -44,7 +44,14 @@ lives in these files — read them instead of re-deriving from memory:
   first 3 now HOMED, task #21 done. D-C (#9): kilosort/kiasort_clusters now
   DECOMPOSE (count_observation + opaque_body + session anchor via
   migrators_j.private.jSorterOutput; schemas retained as a non-gating safety net,
-  not yet phase-8-deleted); ensemble stays in_progress passthrough (grain TBD).
+  not yet phase-8-deleted); ensemble GRAIN DECIDED (`V_eta_ensemble_plan.md`): the
+  per-epoch ensemble MAP doc = acquisition-infra (grain A), kept as its current green
+  passthrough (⑦); its constituent neuron ids live in a `neuron_names.txt` FILE (NOT
+  depends_on), so `member_of` relations to the neuron-subjects CANNOT be minted
+  single-doc — DEFERRED to the NDI second pass (grain B, like stimulus_presentation /
+  distance_metadata). Stays in_progress only because that second-pass step is pending;
+  the grain is no longer TBD. (The ensemble ELEMENT itself → subject via the element
+  migrator; the marked-point-process binary → sampled_body.)
   (B) vhlab app/calculator classes with
   no NDI template = 11 (contrast_tuning, the 3 other `*_tuning`, 7 `*_calc`), footprint
   = a bespoke migrator consuming them. Do NOT add post-v1 DID intermediate/target
