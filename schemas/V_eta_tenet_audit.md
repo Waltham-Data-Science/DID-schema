@@ -1,7 +1,7 @@
 # V_eta — tenet audit of the class set
 
 *Audits every persisting + in-progress V_eta class against the tenets in
-`V_eta_tenets.md` (T1–T12). Three buckets: **✅ fully conceived** (clean under all
+`V_eta_tenets.md` (T1–T13). Three buckets: **✅ fully conceived** (clean under all
 tenets), **⚠️ needs reconsidering** (a tenet tension/violation to resolve), **❓ needs
 deciding** (a genuinely open modeling call). Retired/consumed source classes are audited
 only for "is the retirement decided" at the end. Snapshot: 166 persist + 11 in_progress;
@@ -12,7 +12,7 @@ tiers per `V_eta_final_class_set.md`.*
 | Bucket | Count | Where |
 |---|--:|---|
 | ✅ Fully conceived | ~140 | spine core, entities, dimensioned-quantity composites + their leaves, substances, time_reference family, data_body, the decided acquisition/infra |
-| ⚠️ Needs reconsidering | 7 findings | `subject_calculation` placement + `app` coupling; the 5-way tuning-composite family; `stimulus_tuningcurve` raw-vs-fitted overlap; `ngrid`; `daqreader_image_epochdata_ingested`; `image`→`image_observation` coupling |
+| ⚠️ Needs reconsidering | 6 (R1–R6) | `subject_calculation` placement + `app` coupling; the 5-way tuning-composite family; `stimulus_tuningcurve` raw-vs-fitted overlap; `ngrid` bulk-data carrier; infra naming smells (T11/T13); `image`→`image_observation` coupling |
 | ❓ Needs deciding | 11 in_progress + the deferred-retire migrations | the model's boundary classes + unfinished source folds |
 
 ---
@@ -101,12 +101,20 @@ N-dimensional array in a **file** (`ngrid_file`). By T6, a grid of sampled data 
 (it currently does). This also **blocks the hartley/RF calculator fold** (its receptive
 field is an `ngrid`), so resolving R4 unblocks that deferral.
 
-### R5 — `daqreader_image_epochdata_ingested` encodes a subtype in the name. (T11)
-Chunk (c) de-encoded `_ndr` and `_mfdaq`, but the `_image` variant remains a named class.
-T11 forbids a device/modality subtype in the name. **Reconsider:** fold the `_image`
-variant into `daqreader_epochdata_ingested` with a modality field/parameter, OR confirm it
-is a genuinely distinct cache *shape* (not just a modality label) and record why it earns
-its own class.
+### R5 — Naming smells in the kept infra. (T11, T13)
+- **Subtype-in-name (T11):** `daqreader_image_epochdata_ingested` — chunk (c) de-encoded
+  `_ndr`/`_mfdaq` but the `_image` modality variant remains a named class. Fold it into
+  `daqreader_epochdata_ingested` with a modality field, OR confirm it is a genuinely
+  distinct cache *shape* (not just a modality label) and record why it earns its own class.
+- **Container words (T13):** `binaryseries_parameters`, the `*_epochdata_ingested`
+  caches (`data`/`ingested`), and `dataseries_channel_map` carry wrapper/altitude-noise
+  words (`parameters`, `data`, `map`) — T13 says name the content, not the box. These are
+  **needs_ndi acquisition infra whose names mirror the NDI implementation**, so the bar is
+  lower and a rename is cross-repo (NDI writes these class names); treat as low-priority
+  and only rename in lockstep with NDI, or accept the NDI-mirroring exception and note it.
+  The high-value T13 wins are already banked (the v1 `stimulus_parameter_table` /
+  `stimulus_response_scalar_parameters` container names are retired, not carried forward;
+  `parameters` → `conditions`/`method_parameters`).
 
 ### R6 — `image_observation` (persist) depends on `image` (in_progress). (coherence)
 `image_observation` is a finished leaf, but `image` — its geometry mixin — is unsettled.

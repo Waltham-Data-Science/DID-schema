@@ -134,6 +134,43 @@ downstream contract requires the split (e.g. T10's "one calculator → one docum
 If you split for such a contract, **record the reason** next to the classes; an
 unexplained look-alike family is a T12 violation to revisit.
 
+### T13 — Name at the concept's altitude: snake_case, wrapper-free, honestly stanced.
+T11 fixes the *grammar* of a name (which slots, what must not appear); T13 governs the
+*words and case* you actually choose — for both **class/`data_type` names and field
+names**. A good name lets a reader predict its content and scope **without a qualifier or
+a footnote**.
+
+- **Case.** Every name we author — classes, `data_type`s, fields — is **`snake_case`**,
+  lowercase. The *only* verbatim-cased strings are **external identifiers carried as
+  values**: ontology CURIEs (`obi:0000750`), openMINDS term-set names. PascalCase/camelCase
+  in a document block is a migration smell (snake-case it) unless it is such an external id.
+- **Right altitude — the `visual_grating` rule.** Pitch the name at the level a domain
+  expert names the thing. Two failure modes, both detectable by their tell:
+  - **Too generic → needs a rescue qualifier.** If a base name only becomes usable with a
+    bolted-on `_<type>` (`stimulus_parameters_grating`, `stimulus_parameters_bar`), the
+    base was under-specified. Name the concept directly: **`visual_grating`**, not
+    `stimulus_parameters_visual_grating`. A `_<qualifier>` added to make a vague base
+    specific is the signal you named the *container*, not the *content*.
+  - **Too specific → near-duplicate fragmentation.** If you would mint a separate class per
+    minor variant, lift to the shared concept and push the variant onto a `variable`/field
+    (T12). "As simple as possible, but no simpler": the shortest name that stays
+    unambiguous and does not over-claim scope.
+- **Name the content, not the container.** Drop altitude-noise wrapper words —
+  `parameters`, `data`, `info`, `struct`, `table`, `record`, `metadata`, `object`,
+  `properties`. They describe the box, not what is in it (`stimulus_parameter_table`,
+  `stimulus_response_scalar_parameters` are v1 smells). A field holds a **role** — name the
+  role: v1's generic `parameters` split into **`conditions`** (the experimental conditions
+  on a statement) and **`method_parameters`** (the algorithm config on an interaction);
+  a per-stimulus mean is `response_mean`, not `value`.
+- **The stance word must be TRUE, not convenient.** The direction suffix —
+  `_observation` (measured *from*), `_manipulation` (done *to*), `_assertion` (declared),
+  `_calculation` (computed) — carries meaning, so a wrong one lies. Choose the suffix that
+  matches the actual epistemic act; likewise a field's noun must match its semantics.
+
+**Litmus:** could a reader who does not know this project's history *predict what the doc
+holds and guess it's not something adjacent*, from the name alone? If they'd need to open
+it, or if the name only works once you append a qualifier, re-pitch it.
+
 ---
 
 ## The meta-principle
