@@ -4,17 +4,17 @@
 
 | Category | n |
 |---|--:|
-| ① Statement spine & genus | 13 |
+| ① Statement spine & genus | 14 |
 | ② Entities | 8 |
 | ③ Quantity & substance composites (data_type) | 38 |
 | ④ Data-type leaf tier | 78 |
 | ⑤ time_reference family | 8 |
 | ⑥ data_body family | 2 |
-| ⑦ Acquisition & infra (keep) | 19 |
+| ⑦ Acquisition & infra (keep) | 18 |
 | **Persist total** | **166** |
 
-## ① Statement spine & genus (13)
-`base`, `data`, `data_body`, `data_type`, `directed_relation`, `entity`, `relation`, `subject_assertion`, `subject_interaction`, `subject_manipulation`, `subject_observation`, `subject_statement`, `undirected_relation`
+## ① Statement spine & genus (14)
+`base`, `data`, `data_body`, `data_type`, `directed_relation`, `entity`, `relation`, `subject_assertion`, `subject_calculation`, `subject_interaction`, `subject_manipulation`, `subject_observation`, `subject_statement`, `undirected_relation`
 
 ## ② Entities (8)
 `dataset`, `funding`, `organization`, `person`, `publication`, `session`, `subject`, `web_resource`
@@ -31,8 +31,8 @@
 ## ⑥ data_body family (2)
 `opaque_body`, `sampled_body`
 
-## ⑦ Acquisition & infra (keep) (19)
-`acquisition_epoch`, `binaryseries_parameters`, `daqmetadatareader`, `daqmetadatareader_epochdata_ingested`, `daqreader`, `daqreader_epochdata_ingested`, `daqreader_image_epochdata_ingested`, `daqsystem`, `dataseries_channel_map`, `directory`, `epochfiles_ingested`, `epochid`, `filenavigator`, `filter`, `ngrid`, `subject_calculation`, `syncgraph`, `syncrule`, `syncrule_mapping`
+## ⑦ Acquisition & infra (keep) (18)
+`acquisition_epoch`, `binaryseries_parameters`, `daqmetadatareader`, `daqmetadatareader_epochdata_ingested`, `daqreader`, `daqreader_epochdata_ingested`, `daqreader_image_epochdata_ingested`, `daqsystem`, `dataseries_channel_map`, `directory`, `epochfiles_ingested`, `epochid`, `filenavigator`, `filter`, `ngrid`, `syncgraph`, `syncrule`, `syncrule_mapping`
 
 ---
 

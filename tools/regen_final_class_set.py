@@ -20,8 +20,9 @@ OUT = os.path.join(ROOT, "schemas", "V_eta_final_class_set.md")
 # classified by its superclass chain.
 SPINE = {
     "app", "base", "data", "data_body", "data_type", "directed_relation", "entity",
-    "relation", "subject_assertion", "subject_interaction", "subject_manipulation",
-    "subject_observation", "subject_statement", "undirected_relation",
+    "relation", "subject_assertion", "subject_calculation", "subject_interaction",
+    "subject_manipulation", "subject_observation", "subject_statement",
+    "undirected_relation",
 }
 
 

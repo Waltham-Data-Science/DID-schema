@@ -4,6 +4,12 @@
 The conversation gets compacted and loses fine-grained state. The durable record
 lives in these files — read them instead of re-deriving from memory:
 
+- **`schemas/V_eta_tenets.md`** — the NORTH STAR: Brainstorm J's thesis + the 12 tenets
+  (T1–T12, incl. T11 naming grammar + T12 "when is a new data_type warranted"). Answer
+  design/naming/disposition questions FROM these, not from the class list.
+- **`schemas/V_eta_tenet_audit.md`** — every persist/in_progress class bucketed vs the
+  tenets: ✅ fully conceived / ⚠️ reconsider (R1–R6) / ❓ decide (the 11 boundary classes
+  + deferred source folds). The go-forward worklist for closing V_eta.
 - **`schemas/V_eta_final_class_set.md`** — the authoritative persist set (7
   categories). REGENERATE with `python3 tools/regen_final_class_set.py` (reads the
   built `V_eta/index.json` disposition markers) after every `build_v_eta.py`; never
