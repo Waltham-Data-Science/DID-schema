@@ -162,6 +162,12 @@ a footnote**.
   role: v1's generic `parameters` split into **`conditions`** (the experimental conditions
   on a statement) and **`method_parameters`** (the algorithm config on an interaction);
   a per-stimulus mean is `response_mean`, not `value`.
+- **Abbreviate only when the short form is the *more* recognizable one.** `id`, `url`,
+  `daq` earn it — the expansion is rarely spoken and the short form is unambiguous. `app`
+  does not: prefer the clear full word (`software`). Expand whenever the full word removes
+  ambiguity — and note that a longer word is not automatically clearer: `application` is
+  *worse* than both, because in a neuroscience corpus it collides with "applying" a
+  stimulus or drug. Pick the term that is shortest **among those that are unambiguous**.
 - **The stance word must be TRUE, not convenient.** The direction suffix —
   `_observation` (measured *from*), `_manipulation` (done *to*), `_assertion` (declared),
   `_calculation` (computed) — carries meaning, so a wrong one lies. Choose the suffix that

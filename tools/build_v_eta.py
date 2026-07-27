@@ -407,8 +407,43 @@ SAMPLE_TIME = field(
                  "enumerated only: explicit per-sample offsets from the anchor."),
     ])
 
+# software_id + execution_environment: document-GENERATION provenance for a value a
+# program produced (supersedes the v1 `app` mixin; Item-1 decision in
+# V_eta_tenet_audit.md R1). The software is a citable FAIR ENTITY (T9, ≈ openMINDS
+# SoftwareVersion) referenced by a typed edge (T7 -- the agent role, like instrument_id),
+# NOT an inherited block: one `software` doc, many lightweight refs (dedup). Optional and
+# available to EVERY interaction direction (calculation ~always; computed observation /
+# software-delivered manipulation optionally) -- so it lives here on the shared parent,
+# not baked into one direction. The per-RUN environment (the actual os/interpreter this
+# run used -- provenance of THIS execution, distinct from the software's identity and from
+# openMINDS SoftwareVersion.operatingSystem, which is the SUPPORTED os) rides beside it as
+# an optional descriptor block.
+SOFTWARE_ID = dep("software_id", "software",
+                  "Optional: the software that produced this value, modeled as a "
+                  "`software` entity (name + version + citation id). The agent for a "
+                  "computation; distinct from instrument_id (a measuring device) and "
+                  "from derived_from (the input data). Empty for hand/DAQ measurements; "
+                  "populated on calculations, optional on computed observations. "
+                  "Supersedes the v1 `app` block.", non_empty=False)
+EXEC_ENV = field(
+    "execution_environment", "structure",
+    "Optional per-run provenance of a software-produced value: the actual OS + "
+    "interpreter the producing run used. This is provenance of THIS execution, distinct "
+    "from the software's identity (the `software` entity) and from the SUPPORTED os "
+    "(openMINDS SoftwareVersion.operatingSystem). Empty for hand/DAQ measurements.",
+    non_empty=False, scalar=True, blank={}, default={},
+    sub_fields=[
+        subfield("os", "char", "Operating system the run executed on.", non_empty=False),
+        subfield("os_version", "char", "Operating-system version.", non_empty=False),
+        subfield("interpreter", "char",
+                 "Language/interpreter the run used (e.g. MATLAB, Python).",
+                 non_empty=False),
+        subfield("interpreter_version", "char", "Interpreter version.", non_empty=False),
+    ])
+
 si = doc("subject_interaction", ["subject_statement"], abstract=True, version="3.0.0",
-         deps=[TIME_REF_REQ, INSTRUMENT], fields=[METHOD, METHOD_PARAMS, SAMPLE_TIME])
+         deps=[TIME_REF_REQ, INSTRUMENT, SOFTWARE_ID],
+         fields=[METHOD, METHOD_PARAMS, SAMPLE_TIME, EXEC_ENV])
 write("stable", "subject_interaction", si)
 
 # derived_from: computation provenance on OBSERVATIONS (D-C analysis tier). A
@@ -440,15 +475,16 @@ write("stable", "subject_observation", so)
 # composite data_type -- exactly as visual_grating_manipulation pairs
 # subject_manipulation with visual_grating. It inherits from subject_interaction the
 # algorithm identity (`method`), the calculator input_parameters
-# (`method_parameters`, Fig 3E), `sample_time`, and the required `time_reference`;
-# from `app` the program+version reproducibility record (paper Fig 4 / FAIR §4.2);
-# and it carries `derived_from_#` -- the input statement(s) the calculation consumed
-# (what the paper stores in the output document's depends_on). Distinct direction,
-# NOT an observation: the measured stimulus_response is the observation, a tuning
-# curve / fit is a calculation (paper §3.2-3.3). Experimental conditions (the tuning
-# axis + covariates) ride on the inherited subject_statement.conditions.
+# (`method_parameters`, Fig 3E), `sample_time`, the required `time_reference`, and the
+# generating-software provenance (`software_id` -> `software` entity + the optional
+# `execution_environment`, Item-1 decision -- supersedes the old `app` superclass; paper
+# Fig 4 / FAIR §4.2). It carries `derived_from_#` -- the input statement(s) the
+# calculation consumed (what the paper stores in the output document's depends_on).
+# Distinct direction, NOT an observation: the measured stimulus_response is the
+# observation, a tuning curve / fit is a calculation (paper §3.2-3.3). Experimental
+# conditions (the tuning axis + covariates) ride on the inherited subject_statement.conditions.
 write("stable", "subject_calculation",
-      doc("subject_calculation", ["subject_interaction", "app"], abstract=True,
+      doc("subject_calculation", ["subject_interaction"], abstract=True,
           deps=[DERIVED_FROM]))
 
 
@@ -630,6 +666,24 @@ write("stable", "web_resource", doc("web_resource", ["entity"], fields=[
     field("label", "char", "Optional human-readable label for the resource "
           "(e.g. 'full documentation', 'GitHub repo'); the URL rides on "
           "global_identifier (scheme='URL').", non_empty=False), LOCAL_ID_OPT]))
+# software IS an entity (Item-1 decision, V_eta_tenet_audit.md R1): a citable FAIR
+# program (≈ openMINDS SoftwareVersion), the AGENT that produced a computed value.
+# Referenced by a typed `software_id` edge on subject_interaction (T7), not embedded as
+# the v1 `app` mixin -- one doc, many refs (dedup). Identity fields are TYPED (name /
+# version), not statements (they are intrinsic identity, not provenanced measurements).
+# The citation id (RRID | SWHID | DOI) and the homepage/repository URL ride on the
+# inherited `global_identifier` (scheme='RRID'|'SWHID'|'DOI'|'URL'), same as the other
+# entities. Fuller openMINDS parity (developer -> person, funding -> funding, supported
+# operatingSystem/programmingLanguage as bound terms) is the openMINDS-crosswalk step.
+# The per-RUN environment is NOT here -- it is provenance of the producing act, on
+# subject_interaction.execution_environment.
+write("stable", "software", doc("software", ["entity"], fields=[
+    field("name", "char", "Software name/title (openMINDS SoftwareVersion.fullName / "
+          "shortName)."),
+    field("version", "char", "Version identifier (openMINDS "
+          "SoftwareVersion.versionIdentifier); the citation id and homepage/repository "
+          "URL ride on global_identifier.", non_empty=False),
+    LOCAL_ID_OPT]))
 # dataset IS the entity (target of the metadata_editor decomposition — a follow-up
 # migrator reshapes the Soph metadata_structure blob into this + person/funding/
 # publication entities + relations; metadata_editor is kept as the source until then).
@@ -2018,8 +2072,12 @@ _KEEP_INFRA = {"daqsystem", "daqreader", "daqmetadatareader",
 # Genuinely-unsettled classes that STAY in_progress -- each needs a team call the
 # walkthrough deliberately left open:
 #   - instrument, interaction_purpose : subject-domain, "needs a call".
-#   - app                             : genus parenting a mix of retiring analysis +
-#                                       stimulus bodies; survival unresolved.
+#   - app                             : SUPERSEDED by the `software` entity + the
+#                                       `software_id` edge (Item-1 decision, R1). Retires
+#                                       once every generator (calc done; clusters/ensemble/
+#                                       stimulus_presentation pending) extracts its app
+#                                       block -> a software entity. Kept meanwhile because
+#                                       those generator docs still embed an `app` block.
 #   - stimulus_presentation, control_stimulus_ids : D-B stimulus bodies-of-record whose
 #                                       sampled_body fate is still open.
 #   - demo_ndi, demo_ndi_mock         : demo/test fixtures, place in the final set unsettled.

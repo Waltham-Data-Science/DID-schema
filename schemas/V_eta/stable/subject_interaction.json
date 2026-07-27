@@ -23,6 +23,12 @@
             "mustBeNonEmpty": false,
             "documentation": "Optional: the device that performed the method \u2014 an instrument modeled as a subject (kind asserted via a term_assertion). The agent role; subject_id is the patient. Empty for hand measurements (D2).",
             "must_refer_to_document_class": "subject"
+        },
+        {
+            "name": "software_id",
+            "mustBeNonEmpty": false,
+            "documentation": "Optional: the software that produced this value, modeled as a `software` entity (name + version + citation id). The agent for a computation; distinct from instrument_id (a measuring device) and from derived_from (the input data). Empty for hand/DAQ measurements; populated on calculations, optional on computed observations. Supersedes the v1 `app` block.",
+            "must_refer_to_document_class": "software"
         }
     ],
     "file": [],
@@ -129,6 +135,73 @@
                     "queryable": true,
                     "ontology": null,
                     "documentation": "enumerated only: explicit per-sample offsets from the anchor.",
+                    "constraints": {}
+                }
+            ]
+        },
+        {
+            "name": "execution_environment",
+            "type": "structure",
+            "blank_value": {},
+            "default_value": {},
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Optional per-run provenance of a software-produced value: the actual OS + interpreter the producing run used. This is provenance of THIS execution, distinct from the software's identity (the `software` entity) and from the SUPPORTED os (openMINDS SoftwareVersion.operatingSystem). Empty for hand/DAQ measurements.",
+            "constraints": {},
+            "fields": [
+                {
+                    "name": "os",
+                    "type": "char",
+                    "blank_value": "",
+                    "default_value": "",
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Operating system the run executed on.",
+                    "constraints": {}
+                },
+                {
+                    "name": "os_version",
+                    "type": "char",
+                    "blank_value": "",
+                    "default_value": "",
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Operating-system version.",
+                    "constraints": {}
+                },
+                {
+                    "name": "interpreter",
+                    "type": "char",
+                    "blank_value": "",
+                    "default_value": "",
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Language/interpreter the run used (e.g. MATLAB, Python).",
+                    "constraints": {}
+                },
+                {
+                    "name": "interpreter_version",
+                    "type": "char",
+                    "blank_value": "",
+                    "default_value": "",
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Interpreter version.",
                     "constraints": {}
                 }
             ]

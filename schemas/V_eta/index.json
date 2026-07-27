@@ -1931,6 +1931,17 @@
             "disposition_note": "D-C analysis-tier decompose"
         },
         {
+            "class_name": "software",
+            "tier": "stable",
+            "class_version": "1.0.0",
+            "maturity_level": "stable",
+            "superclasses": [
+                "entity"
+            ],
+            "path": "schemas/V_eta/stable/software.json",
+            "disposition": "persist"
+        },
+        {
             "class_name": "sorting_parameters",
             "tier": "stable",
             "class_version": "1.0.0",
@@ -2187,8 +2198,7 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                "subject_interaction",
-                "app"
+                "subject_interaction"
             ],
             "path": "schemas/V_eta/stable/subject_calculation.json",
             "disposition": "persist"

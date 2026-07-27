@@ -5,9 +5,6 @@
         "superclasses": [
             {
                 "class_name": "subject_interaction"
-            },
-            {
-                "class_name": "app"
             }
         ],
         "maturity_level": "stable",

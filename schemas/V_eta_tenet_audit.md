@@ -58,18 +58,19 @@ These conform to the tenets by construction; no open questions.
 
 Each is a concrete tenet tension with a recommended resolution.
 
-### R1 — `subject_calculation` is built on `app` and mis-shelved as infra. (T2, T7, T11)
-`subject_calculation ⊂ [subject_interaction, app]` (abstract). Two problems:
-- It is the **4th statement direction** (sibling of observation/manipulation/assertion),
-  so it belongs in **① spine**, not ⑦ infra. It lands in ⑦ only because
-  `regen_final_class_set.py`'s hardcoded `SPINE` set omits it. **Fix:** add
-  `subject_calculation` to that SPINE set.
-- Inheriting **`app`** couples every calculation leaf to a class that is itself
-  `in_progress` (fate unresolved). A persist direction should not superclass an unsettled
-  infra class. **Decide `app` first** (see D-app below); if `app` becomes a kept
-  provenance block, make that explicit; if it dissolves, move the program/version record
-  to fields on the calculation. Until then this is the one structural coupling from the
-  finished calculator arc into an open class.
+### R1 — `subject_calculation` built on `app` + mis-shelved as infra. ✅ RESOLVED (Item 1)
+`subject_calculation ⊂ [subject_interaction, app]` (abstract) had two problems, both now fixed:
+- **Mis-shelved:** it is the 4th statement direction, so it belongs in ① spine, not ⑦
+  infra — it landed in ⑦ only because `regen_final_class_set.py`'s `SPINE` set omitted it.
+  Added to that set (spine 13→14).
+- **`app` coupling:** decided `app` (D-app) → **`app` becomes a `software` ENTITY** (T9,
+  ≈ openMINDS SoftwareVersion) referenced by a typed optional `software_id` edge on
+  `subject_interaction` (T7 — the agent role, like `instrument_id`), plus an optional
+  `execution_environment` block for the per-run os/interpreter. `subject_calculation`
+  drops `app` from its superclasses (→ just `subject_interaction`), so the coupling to the
+  open class is gone; `jCalculation` mints/dedups a `software` and sets `software_id`.
+  Dedup by (name, version) across the corpus is a follow-up second pass. `app` itself is
+  now superseded (retires once every generator extracts its block → a software entity).
 
 ### R2 — The five tuning composites are a look-alike family without a recorded T12 exception. (T12)
 `orientation_direction_tuning`, `contrast_tuning`, `spatial_frequency_tuning`,
@@ -134,7 +135,7 @@ cleanly adjudicate. Each is framed as its open question.
 
 | Class | The open question (tenet) |
 |---|---|
-| `app` | Kept ⑦ provenance/reproducibility block (persist), or dissolve into fields on the calculation? **Blocks R1** — calc leaves superclass it. (T7/T10) |
+| ~~`app`~~ | ✅ **RESOLVED (Item 1):** becomes a `software` ENTITY + typed `software_id` edge + `execution_environment` block (T7/T9). Retires once every generator extracts its block. |
 | `image` | ⑦ geometry mixin (persist), or fold raster → data_body (T6)? **Blocks R6.** |
 | `instrument` | T7 says devices are subjects + an `instrument_id` edge → does the `instrument` *class* survive at all, or retire into `subject` + `term_assertion`? (leaning retire) |
 | `interaction_purpose` | Is "purpose" a field/`method` qualifier on the interaction, a `term_assertion`, or a kept class? (T2/T11) |
