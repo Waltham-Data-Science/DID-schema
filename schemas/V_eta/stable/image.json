@@ -14,66 +14,33 @@
     "file": [],
     "fields": [
         {
-            "name": "dtype",
-            "type": "char",
-            "blank_value": "",
-            "default_value": "",
-            "mustBeNonEmpty": false,
-            "mustBeScalar": true,
-            "mustNotHaveNaN": false,
-            "queryable": true,
-            "ontology": null,
-            "documentation": "Pixel data type (uint16 | uint8 | single | \u2026). NOT recoverable from an inline matrix, so always explicit (image model decision 4).",
-            "constraints": {}
-        },
-        {
-            "name": "axes",
+            "name": "value",
             "type": "structure",
-            "blank_value": [],
-            "default_value": [],
-            "mustBeNonEmpty": false,
-            "mustBeScalar": false,
-            "mustNotHaveNaN": false,
-            "queryable": true,
-            "ontology": null,
-            "documentation": "Per-axis descriptor {name, length, spacing, unit} (Y,X,C,Z,T) \u2014 the full N-D calibration the old x/y_resolution lost.",
-            "constraints": {},
-            "fields": []
-        },
-        {
-            "name": "color_model",
-            "type": "ontology_term",
-            "blank_value": {
-                "node": "",
-                "name": ""
-            },
-            "default_value": {
-                "node": "",
-                "name": ""
-            },
-            "mustBeNonEmpty": false,
+            "blank_value": {},
+            "default_value": {},
+            "mustBeNonEmpty": true,
             "mustBeScalar": true,
             "mustNotHaveNaN": false,
             "queryable": true,
             "ontology": null,
-            "documentation": "grayscale | rgb | multichannel (T8-bound).",
+            "documentation": "The raster cell: the pixels plus the descriptors needed to interpret them. Self-describing, so the cell can be read without consulting the producer.",
             "constraints": {},
             "fields": [
                 {
-                    "name": "node",
-                    "type": "char",
-                    "blank_value": "",
-                    "default_value": "",
+                    "name": "pixels",
+                    "type": "matrix",
+                    "blank_value": [],
+                    "default_value": [],
                     "mustBeNonEmpty": false,
-                    "mustBeScalar": true,
+                    "mustBeScalar": false,
                     "mustNotHaveNaN": false,
                     "queryable": true,
                     "ontology": null,
-                    "documentation": "The CURIE (prefix resolved via CURIE_lookups_meta.json).",
+                    "documentation": "The raster; populated iff storage_mode:inline, else empty (the pixels live in a data_body). N-D, never scalar.",
                     "constraints": {}
                 },
                 {
-                    "name": "name",
+                    "name": "dtype",
                     "type": "char",
                     "blank_value": "",
                     "default_value": "",
@@ -82,36 +49,137 @@
                     "mustNotHaveNaN": false,
                     "queryable": true,
                     "ontology": null,
-                    "documentation": "The human-readable label.",
+                    "documentation": "Pixel data type (uint16 | uint8 | single | \u2026). NOT recoverable from an inline matrix, so always explicit (R6 decision 4).",
+                    "constraints": {}
+                },
+                {
+                    "name": "axes",
+                    "type": "structure",
+                    "blank_value": [],
+                    "default_value": [],
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": false,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Per-axis descriptor {name, length, spacing, unit} (Y,X,C,Z,T) \u2014 the full N-D calibration the old x/y_resolution lost.",
+                    "constraints": {},
+                    "fields": [
+                        {
+                            "name": "name",
+                            "type": "char",
+                            "blank_value": "",
+                            "default_value": "",
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "Axis label (Y|X|C|Z|T).",
+                            "constraints": {}
+                        },
+                        {
+                            "name": "length",
+                            "type": "integer",
+                            "blank_value": 0,
+                            "default_value": 0,
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "Samples along this axis.",
+                            "constraints": {}
+                        },
+                        {
+                            "name": "spacing",
+                            "type": "double",
+                            "blank_value": 0.0,
+                            "default_value": 0.0,
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "Physical spacing per sample.",
+                            "constraints": {}
+                        },
+                        {
+                            "name": "unit",
+                            "type": "char",
+                            "blank_value": "",
+                            "default_value": "",
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "Unit of `spacing`.",
+                            "constraints": {}
+                        }
+                    ]
+                },
+                {
+                    "name": "color_model",
+                    "type": "ontology_term",
+                    "blank_value": {
+                        "node": "",
+                        "name": ""
+                    },
+                    "default_value": {
+                        "node": "",
+                        "name": ""
+                    },
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "grayscale | rgb | multichannel (T8-bound).",
+                    "constraints": {},
+                    "fields": [
+                        {
+                            "name": "node",
+                            "type": "char",
+                            "blank_value": "",
+                            "default_value": "",
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "The CURIE (prefix resolved via CURIE_lookups_meta.json).",
+                            "constraints": {}
+                        },
+                        {
+                            "name": "name",
+                            "type": "char",
+                            "blank_value": "",
+                            "default_value": "",
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "The human-readable label.",
+                            "constraints": {}
+                        }
+                    ]
+                },
+                {
+                    "name": "channels",
+                    "type": "string",
+                    "blank_value": [],
+                    "default_value": [],
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": false,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Per-channel labels (e.g. ['GCaMP','tdTomato']).",
                     "constraints": {}
                 }
             ]
-        },
-        {
-            "name": "channels",
-            "type": "string",
-            "blank_value": [],
-            "default_value": [],
-            "mustBeNonEmpty": false,
-            "mustBeScalar": false,
-            "mustNotHaveNaN": false,
-            "queryable": true,
-            "ontology": null,
-            "documentation": "Per-channel labels (e.g. ['GCaMP','tdTomato']).",
-            "constraints": {}
-        },
-        {
-            "name": "value",
-            "type": "matrix",
-            "blank_value": [],
-            "default_value": [],
-            "mustBeNonEmpty": false,
-            "mustBeScalar": false,
-            "mustNotHaveNaN": false,
-            "queryable": true,
-            "ontology": null,
-            "documentation": "The pixels; populated iff storage_mode:inline, else empty (they live in a data_body). A raster is N-D, never scalar.",
-            "constraints": {}
         }
     ]
 }

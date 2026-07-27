@@ -1331,22 +1331,38 @@ _img["file"] = []
 # composite (dtype is NOT recoverable from an inline matrix). image is a STANDALONE
 # data_type -- `array` is KILLED, so image does NOT subclass anything and carries its own
 # N-D descriptors + picture semantics. Replaces the old image_type/format/x_/y_resolution.
+# ONE payload slot, like every other data_type: the descriptors ride INSIDE the cell,
+# beside the pixels -- exactly as `source_unit` rides beside `source_value` in a dimensioned
+# cell. (image previously hoisted dtype/axes/color_model/channels alongside `value`, making
+# it 1 of only 2 composites that broke the single-`value` convention. Placement only: R6's
+# "descriptors ALWAYS explicit" still holds, they are just declared one level in.)
 _img["fields"] = [
-    field("dtype", "char",
-          "Pixel data type (uint16 | uint8 | single | …). NOT recoverable from an inline "
-          "matrix, so always explicit (image model decision 4)."),
-    field("axes", "structure",
-          "Per-axis descriptor {name, length, spacing, unit} (Y,X,C,Z,T) — the full N-D "
-          "calibration the old x/y_resolution lost.", scalar=False, blank=[]),
-    field("color_model", "ontology_term",
-          "grayscale | rgb | multichannel (T8-bound).", non_empty=False),
-    field("channels", "string",
-          "Per-channel labels (e.g. ['GCaMP','tdTomato']).", scalar=False, blank=[],
-          non_empty=False),
-    field("value", "matrix",
-          "The pixels; populated iff storage_mode:inline, else empty (they live in a "
-          "data_body). A raster is N-D, never scalar.", scalar=False, blank=[],
-          non_empty=False),
+    field("value", "structure",
+          "The raster cell: the pixels plus the descriptors needed to interpret them. "
+          "Self-describing, so the cell can be read without consulting the producer.",
+          non_empty=True, blank={}, sub_fields=[
+              subfield("pixels", "matrix",
+                       "The raster; populated iff storage_mode:inline, else empty (the "
+                       "pixels live in a data_body). N-D, never scalar.", scalar=False,
+                       blank=[]),
+              subfield("dtype", "char",
+                       "Pixel data type (uint16 | uint8 | single | …). NOT recoverable "
+                       "from an inline matrix, so always explicit (R6 decision 4)."),
+              subfield("axes", "structure",
+                       "Per-axis descriptor {name, length, spacing, unit} (Y,X,C,Z,T) — "
+                       "the full N-D calibration the old x/y_resolution lost.",
+                       scalar=False, blank=[], sub_fields=[
+                           subfield("name", "char", "Axis label (Y|X|C|Z|T)."),
+                           subfield("length", "integer", "Samples along this axis."),
+                           subfield("spacing", "double", "Physical spacing per sample."),
+                           subfield("unit", "char", "Unit of `spacing`."),
+                       ]),
+              subfield("color_model", "ontology_term",
+                       "grayscale | rgb | multichannel (T8-bound)."),
+              subfield("channels", "string",
+                       "Per-channel labels (e.g. ['GCaMP','tdTomato']).", scalar=False,
+                       blank=[]),
+          ]),
 ]
 write("stable", "image", _img)
 

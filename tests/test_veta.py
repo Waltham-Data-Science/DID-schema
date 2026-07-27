@@ -850,3 +850,88 @@ def test_relation_bindings_present():
     # entity-layer endpoint types match what the migrators mint
     assert vocab["has_author"]["child_types"] == ["dataset"]
     assert vocab["has_author"]["parent_types"] == ["person"]
+
+
+# ---------------------------------------------------------------- T14 conformance
+# Every `data_type` composite exposes its payload at ONE predictable slot, `value`.
+# That is what makes T3's `direction x data_type` factoring mechanical: `mass.value`
+# means the same under mass_observation and mass_assertion. The rule was unwritten for
+# most of the project's life and two classes silently drifted off it, so it is a test
+# now rather than a convention.
+_VALUE_SLOT_EXCEPTIONS = {
+    # Decided: reshape to the tuning model (typed sub-blocks + model_fit.coefficients;
+    # _rb/_rbn/_rbns -> a variant field). Marked in_progress in the build; the flat v1
+    # field bag it still carries is exactly why. Remove from this set when it lands.
+    "contrast_sensitivity",
+}
+
+
+def _data_type_composites():
+    for name, (tier, d) in RECORDS.items():
+        chain = [s["class_name"] for s in d["document_class"].get("superclasses", [])]
+        if "data_type" in chain:
+            yield name, d
+
+
+def test_data_type_composites_expose_one_value_slot():
+    offenders = {}
+    for name, d in _data_type_composites():
+        if name in _VALUE_SLOT_EXCEPTIONS:
+            continue
+        names = [f["name"] for f in d.get("fields", [])]
+        if names != ["value"]:
+            offenders[name] = names
+    assert not offenders, (
+        "data_type composites must expose exactly one payload field named `value` "
+        "(descriptors ride INSIDE the cell, beside the payload): %r" % offenders)
+
+
+def test_value_slot_exceptions_are_still_real():
+    # Guard the guard: if an exception has been fixed, it must leave this set, so the
+    # allowlist cannot quietly outlive the problem it documents.
+    for name in _VALUE_SLOT_EXCEPTIONS:
+        assert name in RECORDS, f"{name} is no longer a class; drop it from the allowlist"
+        names = [f["name"] for f in RECORDS[name][1].get("fields", [])]
+        assert names != ["value"], (
+            f"{name} now conforms — remove it from _VALUE_SLOT_EXCEPTIONS")
+
+
+def test_named_composite_cells_declare_their_layout():
+    # A named composite type must declare its sub-fields inline: a type that is only an
+    # enum string is undeclared, and undeclared internals are an opaque blob to the
+    # validator, the query-path generator and the viewer alike.
+    named = set(META["$defs"]["field_definition"]["properties"]["type"]["enum"]) - {
+        "did_uid", "char", "string", "integer", "double", "matrix", "timestamp",
+        "boolean", "structure"}
+    missing = []
+
+    def walk(cls, fields, prefix):
+        for f in fields or []:
+            path = f"{prefix}.{f['name']}"
+            if f["type"] in named and not f.get("fields"):
+                missing.append(f"{cls}:{path} (type {f['type']})")
+            walk(cls, f.get("fields"), path)
+
+    for name, (tier, d) in RECORDS.items():
+        walk(name, d.get("fields"), name)
+    assert not missing, (
+        "named composite cells missing declared sub_fields: %r" % missing[:20])
+
+
+def test_dimensioned_cells_carry_source_provenance():
+    # Every dimensioned cell keeps the raw input losslessly beside the canonical, so a
+    # unit conversion is never destructive. (count/score/ontology_term are the
+    # documented exceptions: a count has no dimensional scaling, a score is
+    # scale-relative, a term is an identity.)
+    exempt = {"count", "score", "ontology_term"}
+    bad = []
+    for name, (tier, d) in RECORDS.items():
+        for f in d.get("fields", []):
+            t = f["type"]
+            if t in exempt or not f.get("fields"):
+                continue
+            subs = {sf["name"] for sf in f["fields"]}
+            if "source_unit" in subs or "source_value" in subs:
+                if not {"source_unit", "source_value", "approximate"} <= subs:
+                    bad.append(f"{name}.{f['name']} ({t}): {sorted(subs)}")
+    assert not bad, "dimensioned cells missing the source triple: %r" % bad
