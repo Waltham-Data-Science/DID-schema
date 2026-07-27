@@ -38,8 +38,8 @@
 
 ## NOT in the final set (by disposition)
 
-**in_progress (10):**
-`app`, `control_stimulus_ids`, `demo_ndi`, `demo_ndi_mock`, `ensemble`, `instrument`, `interaction_purpose`, `openminds_import`, `projectvar`, `stimulus_presentation`
+**in_progress (9):**
+`app`, `control_stimulus_ids`, `demo_ndi`, `demo_ndi_mock`, `ensemble`, `interaction_purpose`, `openminds_import`, `projectvar`, `stimulus_presentation`
 
 **retire (45):**
 `binnedspikeratevm`, `calculator`, `distance_metadata`, `electrode_offset_voltage`, `element`, `fitcurve`, `hartley_calc`, `hartley_reverse_correlation`, `jrclust_clusters`, `kiasort_clusters`, `kilosort_clusters`, `measurement`, `neuron_extracellular`, `ontology_image`, `ontology_label`, `ontology_table_row`, `openminds`, `openminds_element`, `openminds_stimulus`, `openminds_subject`, `position_metadata`, `probe_geometry`, `probe_location`, `pyraview`, `reverse_correlation`, `simple_calc`, `site2channelmap`, `sorting_parameters`, `spike_clusters`, `spike_extraction_parameters`, `spike_extraction_parameters_modification`, `spike_interface_sorting_outputs`, `spikewaves`, `stimulus_parameter`, `stimulus_parameter_table`, `stimulus_response`, `stimulus_response_scalar`, `stimulus_response_scalar_parameters`, `stimulus_response_scalar_parameters_basic`, `tuning_fit`, `vmneuralresponseresiduals`, `vmspikefilteringparameters`, `vmspikefit`, `vmspikesummary`, `zarr`

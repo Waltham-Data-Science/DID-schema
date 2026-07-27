@@ -784,8 +784,8 @@ write("stable", "session", sess)
 # round-trip CI test asserts consistency. One document per import event, tied to the
 # dataset it populated (declarative dep). Not itself an entity -- it is provenance
 # metadata about an import, not a referenceable identity.
-write("stable", "openminds_import",
-      doc("openminds_import", ["base"],
+write("draft", "openminds_import",
+      doc("openminds_import", ["base"], maturity="draft",
           deps=[dep("dataset", "dataset",
                     "The dataset entity this import populated.", non_empty=False)],
           fields=[
@@ -801,6 +801,15 @@ write("stable", "openminds_import",
                     "The openMINDS object/dataset IRI the import came from, where one "
                     "exists.", non_empty=False),
           ]))
+
+# ---------- instrument: RETIRE (boundary re-audit) -------------------------------------
+# `instrument` is a V_epsilon "review/infra" stub (base-only, no fields/deps) -- NOT a
+# did_v1 source (absent from the coverage ledger), no migrator emits it. T7 already models
+# a device as a `subject` + an `instrument_id` edge on `subject_interaction`, so the class
+# carries nothing and strands nothing. Delete the copytree'd draft stub.
+_instrument_p = os.path.join(VETA, "draft", "instrument.json")
+if os.path.exists(_instrument_p):
+    os.remove(_instrument_p)
 
 
 # ---------- new-on-main NDI app outputs (D-C analysis tier, decomposition deferred) --
@@ -2102,7 +2111,10 @@ _KEEP_INFRA = {"daqsystem", "daqreader", "daqmetadatareader",
 #   - ensemble                        : grain A (acquisition-infra) decided, but its NDI
 #                                       second-pass member_of relations are pending
 #                                       (V_eta_ensemble_plan.md) -- kept in_progress until then.
-_IN_PROGRESS = {"instrument", "interaction_purpose", "app", "stimulus_presentation",
+# NOTE: `instrument` RETIRED (deleted above, boundary re-audit). openminds_import is now
+# draft (persist + emitter gap). projectvar/demo_ndi = green passthrough (re-audit: their
+# retire evidence was false -- they ARE ndi v1 sources; corpus 0-doc check before any drop).
+_IN_PROGRESS = {"interaction_purpose", "app", "stimulus_presentation",
     "control_stimulus_ids", "demo_ndi", "demo_ndi_mock", "openminds_import",
     "projectvar", "ensemble"}
 
