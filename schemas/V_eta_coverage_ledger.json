@@ -6,9 +6,9 @@
     "by_disposition": {
       "retire": 40,
       "dissolved \u2192 subject": 1,
-      "in_progress": 8,
-      "persist": 24,
-      "dissolved (rename/decompose)": 26,
+      "in_progress": 7,
+      "persist": 19,
+      "dissolved (rename/decompose)": 32,
       "test/demo fixture (non-production)": 2,
       "dissolved \u2192 measurement": 1
     },
@@ -142,21 +142,21 @@
     },
     {
       "v1_class": "contrast_tuning",
-      "veta_class": "contrast_tuning",
-      "disposition": "persist",
+      "veta_class": null,
+      "disposition": "dissolved (rename/decompose)",
       "migrator": true,
       "source": "app",
       "nonprod": false,
       "gap": false,
       "targets": [
-        "contrast_tuning_calculation",
+        "tuning_curve_calculation",
         "session_relative_reference"
       ],
       "carried": [
         "subject"
       ],
       "second_pass": [],
-      "how": "result class -> the contrast_tuning_calculation subject_calculation LEAF (id-preserved 1->1; element_id -> subject_id; result composite kept verbatim) + session anchor",
+      "how": "result class -> the tuning_curve_calculation subject_calculation LEAF (id-preserved 1->1; element_id -> subject_id; result composite kept verbatim) + session anchor",
       "target_flags": "calculator composite-leaf fold (Lepsky et al.); un-defers with 0 orphans (id-preserved)"
     },
     {
@@ -168,14 +168,14 @@
       "nonprod": false,
       "gap": false,
       "targets": [
-        "contrast_tuning_calculation",
+        "tuning_curve_calculation",
         "session_relative_reference"
       ],
       "carried": [
         "subject"
       ],
       "second_pass": [],
-      "how": "calculator OUTPUT -> the contrast_tuning_calculation subject_calculation LEAF (id-preserved; input_parameters -> method_parameters; app kept; raw input -> derived_from_1) + session anchor",
+      "how": "calculator OUTPUT -> the tuning_curve_calculation subject_calculation LEAF (id-preserved; input_parameters -> method_parameters; app kept; raw input -> derived_from_1) + session anchor",
       "target_flags": "calculator composite-leaf fold (Lepsky et al.); un-defers with 0 orphans (id-preserved)"
     },
     {
@@ -606,7 +606,7 @@
     {
       "v1_class": "image",
       "veta_class": "image",
-      "disposition": "in_progress",
+      "disposition": "persist",
       "migrator": false,
       "source": "ndi",
       "nonprod": false,
@@ -976,33 +976,33 @@
       "nonprod": false,
       "gap": false,
       "targets": [
-        "orientation_direction_tuning_calculation",
+        "tuning_curve_calculation",
         "session_relative_reference"
       ],
       "carried": [
         "subject"
       ],
       "second_pass": [],
-      "how": "calculator OUTPUT -> the orientation_direction_tuning_calculation subject_calculation LEAF (id-preserved; input_parameters -> method_parameters; app kept; raw input -> derived_from_1) + session anchor",
+      "how": "calculator OUTPUT -> the tuning_curve_calculation subject_calculation LEAF (id-preserved; input_parameters -> method_parameters; app kept; raw input -> derived_from_1) + session anchor",
       "target_flags": "calculator composite-leaf fold (Lepsky et al.); un-defers with 0 orphans (id-preserved)"
     },
     {
       "v1_class": "orientation_direction_tuning",
-      "veta_class": "orientation_direction_tuning",
-      "disposition": "persist",
+      "veta_class": null,
+      "disposition": "dissolved (rename/decompose)",
       "migrator": true,
       "source": "ndi",
       "nonprod": false,
       "gap": false,
       "targets": [
-        "orientation_direction_tuning_calculation",
+        "tuning_curve_calculation",
         "session_relative_reference"
       ],
       "carried": [
         "subject"
       ],
       "second_pass": [],
-      "how": "result class -> the orientation_direction_tuning_calculation subject_calculation LEAF (id-preserved 1->1; element_id -> subject_id; result composite kept verbatim) + session anchor",
+      "how": "result class -> the tuning_curve_calculation subject_calculation LEAF (id-preserved 1->1; element_id -> subject_id; result composite kept verbatim) + session anchor",
       "target_flags": "calculator composite-leaf fold (Lepsky et al.); un-defers with 0 orphans (id-preserved)"
     },
     {
@@ -1191,21 +1191,21 @@
     },
     {
       "v1_class": "spatial_frequency_tuning",
-      "veta_class": "spatial_frequency_tuning",
-      "disposition": "persist",
+      "veta_class": null,
+      "disposition": "dissolved (rename/decompose)",
       "migrator": true,
       "source": "app",
       "nonprod": false,
       "gap": false,
       "targets": [
-        "spatial_frequency_tuning_calculation",
+        "tuning_curve_calculation",
         "session_relative_reference"
       ],
       "carried": [
         "subject"
       ],
       "second_pass": [],
-      "how": "result class -> the spatial_frequency_tuning_calculation subject_calculation LEAF (id-preserved 1->1; element_id -> subject_id; result composite kept verbatim) + session anchor",
+      "how": "result class -> the tuning_curve_calculation subject_calculation LEAF (id-preserved 1->1; element_id -> subject_id; result composite kept verbatim) + session anchor",
       "target_flags": "calculator composite-leaf fold (Lepsky et al.); un-defers with 0 orphans (id-preserved)"
     },
     {
@@ -1217,33 +1217,33 @@
       "nonprod": false,
       "gap": false,
       "targets": [
-        "spatial_frequency_tuning_calculation",
+        "tuning_curve_calculation",
         "session_relative_reference"
       ],
       "carried": [
         "subject"
       ],
       "second_pass": [],
-      "how": "calculator OUTPUT -> the spatial_frequency_tuning_calculation subject_calculation LEAF (id-preserved; input_parameters -> method_parameters; app kept; raw input -> derived_from_1) + session anchor",
+      "how": "calculator OUTPUT -> the tuning_curve_calculation subject_calculation LEAF (id-preserved; input_parameters -> method_parameters; app kept; raw input -> derived_from_1) + session anchor",
       "target_flags": "calculator composite-leaf fold (Lepsky et al.); un-defers with 0 orphans (id-preserved)"
     },
     {
       "v1_class": "speed_tuning",
-      "veta_class": "speed_tuning",
-      "disposition": "persist",
+      "veta_class": null,
+      "disposition": "dissolved (rename/decompose)",
       "migrator": true,
       "source": "app",
       "nonprod": false,
       "gap": false,
       "targets": [
-        "speed_tuning_calculation",
+        "tuning_curve_calculation",
         "session_relative_reference"
       ],
       "carried": [
         "subject"
       ],
       "second_pass": [],
-      "how": "result class -> the speed_tuning_calculation subject_calculation LEAF (id-preserved 1->1; element_id -> subject_id; result composite kept verbatim) + session anchor",
+      "how": "result class -> the tuning_curve_calculation subject_calculation LEAF (id-preserved 1->1; element_id -> subject_id; result composite kept verbatim) + session anchor",
       "target_flags": "calculator composite-leaf fold (Lepsky et al.); un-defers with 0 orphans (id-preserved)"
     },
     {
@@ -1255,14 +1255,14 @@
       "nonprod": false,
       "gap": false,
       "targets": [
-        "speed_tuning_calculation",
+        "tuning_curve_calculation",
         "session_relative_reference"
       ],
       "carried": [
         "subject"
       ],
       "second_pass": [],
-      "how": "calculator OUTPUT -> the speed_tuning_calculation subject_calculation LEAF (id-preserved; input_parameters -> method_parameters; app kept; raw input -> derived_from_1) + session anchor",
+      "how": "calculator OUTPUT -> the tuning_curve_calculation subject_calculation LEAF (id-preserved; input_parameters -> method_parameters; app kept; raw input -> derived_from_1) + session anchor",
       "target_flags": "calculator composite-leaf fold (Lepsky et al.); un-defers with 0 orphans (id-preserved)"
     },
     {
@@ -1471,21 +1471,21 @@
     },
     {
       "v1_class": "stimulus_tuningcurve",
-      "veta_class": "stimulus_tuningcurve",
-      "disposition": "persist",
+      "veta_class": null,
+      "disposition": "dissolved (rename/decompose)",
       "migrator": true,
       "source": "ndi",
       "nonprod": false,
       "gap": false,
       "targets": [
-        "stimulus_tuningcurve_calculation",
+        "tuning_curve_calculation",
         "session_relative_reference"
       ],
       "carried": [
         "subject"
       ],
       "second_pass": [],
-      "how": "raw ndi.app.stimulus.tuning_response curve -> stimulus_tuningcurve_calculation (element_id -> subject_id; result verbatim; no calc input_parameters/app) + session anchor",
+      "how": "raw ndi.app.stimulus.tuning_response curve -> tuning_curve_calculation (element_id -> subject_id; result verbatim; no calc input_parameters/app) + session anchor",
       "target_flags": "calculator composite-leaf fold (Lepsky et al.); un-defers with 0 orphans (id-preserved)"
     },
     {
@@ -1585,21 +1585,21 @@
     },
     {
       "v1_class": "temporal_frequency_tuning",
-      "veta_class": "temporal_frequency_tuning",
-      "disposition": "persist",
+      "veta_class": null,
+      "disposition": "dissolved (rename/decompose)",
       "migrator": true,
       "source": "app",
       "nonprod": false,
       "gap": false,
       "targets": [
-        "temporal_frequency_tuning_calculation",
+        "tuning_curve_calculation",
         "session_relative_reference"
       ],
       "carried": [
         "subject"
       ],
       "second_pass": [],
-      "how": "result class -> the temporal_frequency_tuning_calculation subject_calculation LEAF (id-preserved 1->1; element_id -> subject_id; result composite kept verbatim) + session anchor",
+      "how": "result class -> the tuning_curve_calculation subject_calculation LEAF (id-preserved 1->1; element_id -> subject_id; result composite kept verbatim) + session anchor",
       "target_flags": "calculator composite-leaf fold (Lepsky et al.); un-defers with 0 orphans (id-preserved)"
     },
     {
@@ -1611,14 +1611,14 @@
       "nonprod": false,
       "gap": false,
       "targets": [
-        "temporal_frequency_tuning_calculation",
+        "tuning_curve_calculation",
         "session_relative_reference"
       ],
       "carried": [
         "subject"
       ],
       "second_pass": [],
-      "how": "calculator OUTPUT -> the temporal_frequency_tuning_calculation subject_calculation LEAF (id-preserved; input_parameters -> method_parameters; app kept; raw input -> derived_from_1) + session anchor",
+      "how": "calculator OUTPUT -> the tuning_curve_calculation subject_calculation LEAF (id-preserved; input_parameters -> method_parameters; app kept; raw input -> derived_from_1) + session anchor",
       "target_flags": "calculator composite-leaf fold (Lepsky et al.); un-defers with 0 orphans (id-preserved)"
     },
     {
@@ -1700,14 +1700,14 @@
       "nonprod": false,
       "gap": false,
       "targets": [
-        "stimulus_tuningcurve_calculation",
+        "tuning_curve_calculation",
         "session_relative_reference"
       ],
       "carried": [
         "subject"
       ],
       "second_pass": [],
-      "how": "IS-A stimulus_tuningcurve so inherits a populated element_id -> single-doc fold to stimulus_tuningcurve_calculation (result on the inherited stimulus_tuningcurve block; input_parameters -> method_parameters) + session anchor",
+      "how": "IS-A stimulus_tuningcurve so inherits a populated element_id -> single-doc fold to tuning_curve_calculation (result on the inherited stimulus_tuningcurve block; input_parameters -> method_parameters) + session anchor",
       "target_flags": "calculator composite-leaf fold (Lepsky et al.); un-defers with 0 orphans (id-preserved)"
     },
     {

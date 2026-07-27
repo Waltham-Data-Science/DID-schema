@@ -983,47 +983,19 @@ write("stable", "visual_grating",
           "value", "structure",
           "A presented visual grating (static or drifting) and its "
           "presentation parameters.", non_empty=True, blank={}, sub_fields=GRATING_SUBS)]))
-# ---------- subject_calculation family (VERTICAL SLICE: oridir) ----------
-# Reframe the tuning "result" classes into data_type COMPOSITES + subject_calculation
-# LEAFS, exactly like visual_grating -> visual_grating_manipulation. FIRST SLICE:
-# orientation_direction_tuning (the paper's Fig 4 exemplar). The result class already
-# carries the structured output (properties / tuning_curve / significance / vector /
-# fit) as a base-bag; reparent it to `data_type` (making it the composite) and add
-# the `<composite>_calculation` leaf. The old oridirtuning_calc CLASS is retained for
-# now (its docs migrate 1->1 to the leaf; retire/phase-8-delete is a follow-up).
-# The tuning "result" classes each reparent from a base-bag to a `data_type`
-# COMPOSITE (abstract, result blocks kept) + gain a `<composite>_calculation` leaf.
-# Safe: each is consumed by a migrator, never instantiated concretely.
-for _tune in ("orientation_direction_tuning", "contrast_tuning",
-              "spatial_frequency_tuning", "temporal_frequency_tuning",
-              "speed_tuning"):
-    _t = load(os.path.join(VETA, "stable", _tune + ".json"))
-    _t["document_class"]["superclasses"] = [{"class_name": "data_type"}]
-    _t["document_class"]["abstract"] = True
-    write("stable", _tune, _t)
-    write("stable", _tune + "_calculation",
-          doc(_tune + "_calculation", ["subject_calculation", _tune]))
-
-# tuning_curve: the ndi.calc.tuningcurve output (tuningcurve_calc) -- the raw curve
-# every fit calc searches for. Reparent stimulus_tuningcurve into an ABSTRACT
-# `data_type` composite (it becomes a superclass; the concrete migrated docs are the
-# leaf) and add the stimulus_tuningcurve_calculation leaf. The MIGRATOR is single-doc
-# (migrators_j.tuningcurve_calc + migrators_j.stimulus_tuningcurve): an earlier note
-# claimed tuningcurve_calc carried no subject, but a real doc IS-A stimulus_tuningcurve
-# and so inherits a POPULATED element_id (the writer sets it from the consumed
-# stimulus_response_scalar, ndi.app.stimulus.tuning_response.tuning_curve line 499), so
-# element_id -> subject_id, id-preserved, exactly like the other vision calculators. Both
-# the calculator-framework doc (tuningcurve_calc) and the raw app curve
-# (stimulus_tuningcurve) fold to the same leaf so downstream stimulus_tuningcurve_id refs
-# resolve to either.
-_st = load(os.path.join(VETA, "stable", "stimulus_tuningcurve.json"))
-_st["document_class"]["superclasses"] = [{"class_name": "data_type"}]
-_st["document_class"]["abstract"] = True
-_st["depends_on"] = []
-write("stable", "stimulus_tuningcurve", _st)
-write("stable", "stimulus_tuningcurve_calculation",
-      doc("stimulus_tuningcurve_calculation",
-          ["subject_calculation", "stimulus_tuningcurve"]))
+# ---------- tuning collapse (R2/R3): the 6 old composites are CONSUMED ----------
+# The 5 tuning "result" classes + the raw `stimulus_tuningcurve` no longer become their
+# own composites/leaves -- they COLLAPSE to the one `tuning_curve` + `tuning_curve_calculation`
+# (added below, V_eta_tuning_model_plan.md). Each is now a CONSUMED source: the tuning
+# migrators (migrators_j, retargeted) reshape its v1 block into the `tuning_curve` value and
+# fold it 1->1 (id-preserved) into `tuning_curve_calculation`. So delete the copytree'd
+# source composites here (their docs migrate; downstream refs resolve to the preserved id).
+for _old in ("orientation_direction_tuning", "contrast_tuning",
+             "spatial_frequency_tuning", "temporal_frequency_tuning",
+             "speed_tuning", "stimulus_tuningcurve"):
+    _op = os.path.join(VETA, "stable", _old + ".json")
+    if os.path.exists(_op):
+        os.remove(_op)
 
 # ---------- tuning_curve: the R2/R3 collapse TARGET (re-audit) ----------------------
 # V_eta_tuning_model_plan.md: the 6 overlapping tuning composites collapse to ONE
