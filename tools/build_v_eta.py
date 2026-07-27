@@ -2191,13 +2191,31 @@ _ANALYSIS_RE = _re.compile(r"(_calc$|_calc_|tuning|stimulus_response|spike|clust
 # closure; the decision is recorded here. Disposition-only (does not affect corpus
 # validation). Groups: ⑥-A daq readers/systems (needs-NDI), ⑥-B ingested caches (Option
 # A: device-layer infra, NOT folded to sampled_body), ⑥-C epoch/time, ⑥-D sync,
-# ⑦ directory, and the index/geometry infra (ngrid, dataseries_channel_map,
-# binaryseries_parameters, filter).
+# ⑦ directory, and `filter`. (The R4/R5-superseded index/geometry + ingested-cache classes
+# -- ngrid, dataseries_channel_map, binaryseries_parameters, the *_epochdata_ingested caches
+# -- moved OUT of KEEP into _DECIDED_PENDING below: decided to fold/rename, build deferred.)
 _KEEP_INFRA = {"daqsystem", "daqreader", "daqmetadatareader",
-    "daqreader_epochdata_ingested", "daqreader_image_epochdata_ingested",
-    "daqmetadatareader_epochdata_ingested", "epochfiles_ingested", "epochid",
+    "epochfiles_ingested", "epochid",
     "acquisition_epoch", "filenavigator", "syncgraph", "syncrule", "syncrule_mapping",
-    "directory", "ngrid", "dataseries_channel_map", "binaryseries_parameters", "filter"}
+    "directory", "filter"}
+
+# DECIDED but BUILD-DEFERRED. The ⑥/⑦ walkthrough KEEP (above) was SUPERSEDED for these
+# classes by later decisions -- R4 (`ngrid`/RF map fold into `sampled_body`) and R5 (infra
+# renames, T11/T13). They still PHYSICALLY persist in the current build (so corpus validation
+# is unaffected), but their fate is DECIDED: they fold or rename. Report `in_progress` with the
+# decided target so the ledger/viewer stops reading a bare `persist` for a class we have
+# already voted to change. The BUILD is coupled/cross-repo work, hence deferred:
+#   - `ngrid` -> `sampled_body` is coupled to `reverse_correlation` (its only consumer, already
+#     `retire`/D-C): the RF map becomes a `sampled_body` value, then `ngrid` has no consumer.
+#   - the R5 renames land in cross-repo lockstep with the NDI writers (they emit these strings).
+_DECIDED_PENDING = {
+    "ngrid": "R4: folds into sampled_body (coupled to reverse_correlation RF map)",
+    "binaryseries_parameters": "R5 rename → acquisition_layout (NDI lockstep)",
+    "dataseries_channel_map": "R5 rename → channel_assignment (NDI lockstep)",
+    "daqreader_epochdata_ingested": "R5 rename → daqreader_epoch_cache (NDI lockstep)",
+    "daqmetadatareader_epochdata_ingested": "R5 rename → daqmetadatareader_epoch_cache (NDI lockstep)",
+    "daqreader_image_epochdata_ingested": "R5: fold → daqreader_epoch_cache + modality field (NDI confirm)",
+}
 
 # Genuinely-unsettled classes that STAY in_progress -- each needs a team call the
 # walkthrough deliberately left open:
@@ -2246,6 +2264,8 @@ def _disposition(name, doc=None):
             return ("persist", None)
         if _dc.get("abstract") and "data_type" in _chain:
             return ("persist", None)
+    if name in _DECIDED_PENDING:                          # R4/R5 decided, build deferred
+        return ("in_progress", _DECIDED_PENDING[name])
     if name in _KEEP_INFRA:   return ("persist", None)   # ⑥/⑦ walkthrough KEEP (closed)
     if name in _RET_SOURCES:  return ("retire", "Phase-8 source (migrator → delete)")
     if name in _RET_SERIES_OBS:

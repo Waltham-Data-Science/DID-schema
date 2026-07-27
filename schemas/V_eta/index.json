@@ -265,7 +265,8 @@
                 "base"
             ],
             "path": "schemas/V_eta/stable/binaryseries_parameters.json",
-            "disposition": "persist"
+            "disposition": "in_progress",
+            "disposition_note": "R5 rename \u2192 acquisition_layout (NDI lockstep)"
         },
         {
             "class_name": "binnedspikeratevm",
@@ -599,7 +600,8 @@
                 "epochid"
             ],
             "path": "schemas/V_eta/stable/daqmetadatareader_epochdata_ingested.json",
-            "disposition": "persist"
+            "disposition": "in_progress",
+            "disposition_note": "R5 rename \u2192 daqmetadatareader_epoch_cache (NDI lockstep)"
         },
         {
             "class_name": "daqreader",
@@ -621,7 +623,8 @@
                 "base"
             ],
             "path": "schemas/V_eta/stable/daqreader_epochdata_ingested.json",
-            "disposition": "persist"
+            "disposition": "in_progress",
+            "disposition_note": "R5 rename \u2192 daqreader_epoch_cache (NDI lockstep)"
         },
         {
             "class_name": "daqreader_image_epochdata_ingested",
@@ -633,7 +636,8 @@
                 "daqreader_epochdata_ingested"
             ],
             "path": "schemas/V_eta/stable/daqreader_image_epochdata_ingested.json",
-            "disposition": "persist"
+            "disposition": "in_progress",
+            "disposition_note": "R5: fold \u2192 daqreader_epoch_cache + modality field (NDI confirm)"
         },
         {
             "class_name": "daqsystem",
@@ -688,7 +692,8 @@
                 "base"
             ],
             "path": "schemas/V_eta/draft/dataseries_channel_map.json",
-            "disposition": "persist"
+            "disposition": "in_progress",
+            "disposition_note": "R5 rename \u2192 channel_assignment (NDI lockstep)"
         },
         {
             "class_name": "dataset",
@@ -1400,7 +1405,8 @@
                 "base"
             ],
             "path": "schemas/V_eta/stable/ngrid.json",
-            "disposition": "persist"
+            "disposition": "in_progress",
+            "disposition_note": "R4: folds into sampled_body (coupled to reverse_correlation RF map)"
         },
         {
             "class_name": "numeric_assertion",

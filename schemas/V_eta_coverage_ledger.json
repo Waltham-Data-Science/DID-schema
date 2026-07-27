@@ -6,8 +6,8 @@
     "by_disposition": {
       "retire": 40,
       "dissolved \u2192 subject": 1,
-      "in_progress": 7,
-      "persist": 19,
+      "in_progress": 12,
+      "persist": 14,
       "dissolved (rename/decompose)": 32,
       "test/demo fixture (non-production)": 2,
       "dissolved \u2192 measurement": 1
@@ -88,7 +88,7 @@
     {
       "v1_class": "binaryseries_parameters",
       "veta_class": "binaryseries_parameters",
-      "disposition": "persist",
+      "disposition": "in_progress",
       "migrator": false,
       "source": "ndi",
       "nonprod": false,
@@ -213,7 +213,7 @@
     {
       "v1_class": "daqmetadatareader_epochdata_ingested",
       "veta_class": "daqmetadatareader_epochdata_ingested",
-      "disposition": "persist",
+      "disposition": "in_progress",
       "migrator": false,
       "source": "ndi",
       "nonprod": false,
@@ -245,7 +245,7 @@
     {
       "v1_class": "daqreader_epochdata_ingested",
       "veta_class": "daqreader_epochdata_ingested",
-      "disposition": "persist",
+      "disposition": "in_progress",
       "migrator": false,
       "source": "ndi",
       "nonprod": false,
@@ -261,7 +261,7 @@
     {
       "v1_class": "daqreader_image_epochdata_ingested",
       "veta_class": "daqreader_image_epochdata_ingested",
-      "disposition": "persist",
+      "disposition": "in_progress",
       "migrator": false,
       "source": "ndi",
       "nonprod": false,
@@ -795,7 +795,7 @@
     {
       "v1_class": "ngrid",
       "veta_class": "ngrid",
-      "disposition": "persist",
+      "disposition": "in_progress",
       "migrator": true,
       "source": "ndi",
       "nonprod": false,
