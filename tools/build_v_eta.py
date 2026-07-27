@@ -2215,6 +2215,18 @@ _DECIDED_PENDING = {
     "daqreader_epochdata_ingested": "R5 rename → daqreader_epoch_cache (NDI lockstep)",
     "daqmetadatareader_epochdata_ingested": "R5 rename → daqmetadatareader_epoch_cache (NDI lockstep)",
     "daqreader_image_epochdata_ingested": "R5: fold → daqreader_epoch_cache + modality field (NDI confirm)",
+    # The ONE calc composite the R2/R3 collapse did not reshape. Excluded from the tuning
+    # collapse for a good reason (it is an aggregate ACROSS spatial frequencies, not one
+    # curve) -- but that justified a separate CLASS, not keeping the unreshaped v1 bag. Its
+    # 21 flat fields violate T11 (`_rb`/`_rbn`/`_rbns` encode a response-type VARIANT in the
+    # field name -- the same smell as `_ndr`/`_mfdaq`) and T13 (`parameters_*` is the banned
+    # container word; the tuning pass renamed exactly this to `coefficients`), and diverge
+    # from the sibling `tuning_curve` (which got typed sub-blocks + a `model_fit` array):
+    # `fitless_interpolated_c50` ≈ interpolated_values, the two `*_p_bonferroni` ≈
+    # significance, `parameters_*` ≈ model_fit.coefficients.
+    "contrast_sensitivity": "reshape to the tuning model: typed sub-blocks (significance / "
+                            "interpolated_values) + model_fit.coefficients; _rb/_rbn/_rbns → a variant field",
+    "contrast_sensitivity_calculation": "leaf of the contrast_sensitivity reshape (see composite)",
 }
 
 # Genuinely-unsettled classes that STAY in_progress -- each needs a team call the
@@ -2242,6 +2254,11 @@ _IN_PROGRESS = {"interaction_purpose", "app", "stimulus_presentation",
     "projectvar", "ensemble"}
 
 def _disposition(name, doc=None):
+    # An EXPLICIT decided-pending marker wins over every heuristic below (including the
+    # structural persist rules): we have already voted to fold/rename/reshape these, so a
+    # bare `persist` from the structure would misreport a settled decision as done.
+    if name in _DECIDED_PENDING:
+        return ("in_progress", _DECIDED_PENDING[name])
     # V_eta TARGET classes are built EXPLICITLY (write()/doc()), not carried as v1
     # source tombstones, so they always persist -- even when their name matches the
     # _ANALYSIS_RE source-tombstone heuristic (the calc family shares stems like
@@ -2264,8 +2281,6 @@ def _disposition(name, doc=None):
             return ("persist", None)
         if _dc.get("abstract") and "data_type" in _chain:
             return ("persist", None)
-    if name in _DECIDED_PENDING:                          # R4/R5 decided, build deferred
-        return ("in_progress", _DECIDED_PENDING[name])
     if name in _KEEP_INFRA:   return ("persist", None)   # ⑥/⑦ walkthrough KEEP (closed)
     if name in _RET_SOURCES:  return ("retire", "Phase-8 source (migrator → delete)")
     if name in _RET_SERIES_OBS:
