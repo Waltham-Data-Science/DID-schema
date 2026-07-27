@@ -13,8 +13,16 @@ lives in these files — read them instead of re-deriving from memory:
   + deferred source folds). The go-forward worklist for closing V_eta. Its top
   **"Walkthrough decisions & build queue"** table is the live record of the item-by-item
   audit walkthrough — we DECIDE now and BATCH builds (team's request), so a decision can be
-  FINAL while its build is deferred. R1 (app→software) built+green; R6 (image) decided,
-  build deferred.
+  FINAL while its build is deferred. R1 (app→software) built+green; R6 (image), R4 (array),
+  R2/R3 (tuning) decided, builds deferred.
+- **`schemas/V_eta_tuning_model_plan.md`** — the FINAL tuning-composite model (decided in the
+  R2/R3 walkthrough; build deferred, TaskList #26). The 6 overlapping v1 tuning classes +
+  5 fit shapes collapse to ONE `tuning_curve` `data_type` (independent variable = a
+  `variable` per T11, not a name suffix) + ONE flexible `model_fit` sub-block (`model_name`
+  T8 term + named `parameters`; NOT a class per fit — option A, parsimony over per-model
+  schema enforcement) + ONE `tuning_curve_calculation` leaf. `stimulus_tuningcurve` = the
+  fit-less `tuning_curve`. RE-TARGETS the already-shipped 12-calculator folds, so a corpus
+  0-orphan re-verify is required (not assumed).
 - **`schemas/V_eta_image_model_plan.md`** — the FINAL `image` model (decided in the R6
   walkthrough; build deferred, TaskList #24). image = a `data_type` (raster value) across
   image_observation (measured) + image_manipulation (shown-as-stimulus); storage_mode governs

@@ -27,13 +27,16 @@ batched** (per the team's request) so we amass several before touching code.
 | **R1** `app` → `software` entity + `software_id` edge + `execution_environment` | FINAL | ✅ built + green |
 | **R6/`image`** full model | FINAL → `V_eta_image_model_plan.md` | ⏳ **build deferred** (5 tasks + a strand-bug fix) |
 | **R4** `ngrid` → rename `array`, generic N-D-array `data_type` (image model); RF family folds to calc leaves | FINAL | ⏳ **build deferred** (batched w/ image; also un-defers the RF fold) |
-| **R2/R3** tuning-composite parsimony | open (next big call) | — |
+| **R2/R3** tuning composites → one `tuning_curve` data_type + flexible `model_fit` + one `tuning_curve_calculation` leaf | FINAL → `V_eta_tuning_model_plan.md` | ⏳ **build deferred** (7 tasks; re-targets the shipped calc folds — corpus re-verify required) |
 | **R5** infra naming smells | open (low-priority) | — |
 | boundary classes (instrument, interaction_purpose, stimulus_presentation, control_stimulus_ids, demo_ndi(_mock), openminds_import, projectvar, ensemble) | open | — |
 
 **Deferred-build queue (what to build once we batch):** the `image` model
 (`V_eta_image_model_plan.md`, tasks 1–6, incl. the `image` migrator that fixes the strand
-risk) + `software` follow-ups (dedup pass; openMINDS `software` crosswalk). See the TaskList.
+risk) + the `array`/RF fold (R4, same batch) + the tuning-curve collapse
+(`V_eta_tuning_model_plan.md`, tasks 1–7, re-targets the shipped calc folds + corpus
+re-verify) + `software` follow-ups (dedup pass; openMINDS `software` crosswalk). See the
+TaskList.
 
 ## ✅ Fully conceived
 
@@ -90,26 +93,28 @@ Each is a concrete tenet tension with a recommended resolution.
   Dedup by (name, version) across the corpus is a follow-up second pass. `app` itself is
   now superseded (retires once every generator extracts its block → a software entity).
 
-### R2 — The five tuning composites are a look-alike family without a recorded T12 exception. (T12)
+### R2 — The five tuning composites collapse to one `tuning_curve` + a flexible `model_fit`. 🟡 DECIDED, build deferred (T12/T8/T10)
 `orientation_direction_tuning`, `contrast_tuning`, `spatial_frequency_tuning`,
 `temporal_frequency_tuning`, `speed_tuning` all share the skeleton
 `{properties, tuning_curve, significance, fit}` and differ only in the fit form
-(`vector` / `fitless` / `fit_no_speed` + `fit_fullspeed` / …). Under T12 this is the
-canonical "prefer one parameterized composite" case — a single `tuning_curve` composite
-whose independent variable is a field, with the fit as a variant sub-block. **The split is
-defensible under T10** (one calculator → one document type), **but that rationale is not
-recorded next to the classes**, which T12 requires. **Resolve one of:** (a) collapse to a
-parameterized `tuning_curve` composite (+ keep the per-calculator *leaves* if T10 needs
-distinct document types), or (b) keep the split and write the T10 rationale into each
-composite's documentation. Recommendation: (a) — collapse the composites, keep the leaves.
+(double-gaussian / Naka-Rushton / DoG-Movshon-spline / Priebe). **Decision** (see
+`V_eta_tuning_model_plan.md`): collapse to **one parameterized `tuning_curve` `data_type`**
+(the independent variable is a `variable` per T11, not a name suffix), with the fit as **one
+flexible `model_fit` sub-block** — `{model_name (T8 controlled term), parameters (named
+array), goodness}` — NOT a class per model (the user's call, option A). New fits extend the
+`model_name` `value_set`, not the class list. **T12 trade-off recorded:** T8 validates the
+term but not that parameters match it (by-convention); accepted for parsimony, escalate to
+typed `*_fit` data_types only if a corpus need arises. **T10:** the calculators keep folding
+id-preserving 1→1, but onto **one `tuning_curve_calculation` leaf** (not five) — re-targets
+the already-shipped folds, so a corpus re-verify (0-orphan invariant) is required.
 
-### R3 — `stimulus_tuningcurve` (raw) overlaps the fitted tuning composites. (T3, T12)
+### R3 — `stimulus_tuningcurve` (raw) IS the fit-less `tuning_curve`. 🟡 DECIDED, build deferred (T3, T12)
 `stimulus_tuningcurve` is a flat raw-curve shape (`independent_variable_*` +
-`response_mean/stddev/stderr` + `control_*`); the five fitted composites re-express the
-same curve as `tuning_curve` + add fits. Both fold to `*_calculation` leaves. This is the
-raw-vs-analyzed overlap. If R2 collapses to a parameterized `tuning_curve`, **`stimulus_tuningcurve`
-should be that shared base** (the raw curve) and the fitted composites should *reference/
-extend* it, not re-declare it. Reconsider together with R2.
+`response_mean/stddev/stderr` + `control_*`) — the pre-calculator-framework curve. **Decision
+(with R2):** it is a `tuning_curve` with `model_fit` empty; its migrator maps the flat fields
+into the `tuning_curve` composite. It does not re-declare the shape and the fitted composites
+do not re-declare it either — all six are instances of the single `tuning_curve`
+`data_type`. Recorded in `V_eta_tuning_model_plan.md`.
 
 ### R4 — `ngrid` → rename `array`, a generic N-D-array `data_type`. 🟡 DECIDED, build deferred
 `ngrid` is the image model minus picture semantics: a labeled N-D numeric grid
