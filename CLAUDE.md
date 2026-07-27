@@ -94,8 +94,10 @@ lives in these files — read them instead of re-deriving from memory:
   not yet phase-8-deleted); ensemble MODEL RE-DECIDED (`V_eta_ensemble_plan.md`,
   SUPERSEDES the old grain-A "carry the MAP doc as ⑦ infra"): per-neuron spike times =
   PRIMARY archival data (each neuron-subject, event times→sampled_body); the ensemble is
-  a GROUP SUBJECT (id preserved, NO own data body) whose members are `member_of` edges
-  (T1 group-ness); the combined (times,ids) marked-point-process = an explicitly-DERIVED,
+  a GROUP SUBJECT (id preserved, NO own data body) whose members are **EPOCH-SCOPED**
+  `member_of` edges (T1 group-ness; re-audit: the recorded neuron set changes epoch-to-epoch,
+  so each edge carries its epoch + column order — the per-epoch roster is preserved as edges,
+  NOT lost to the cache); the combined (times,ids) marked-point-process = an explicitly-DERIVED,
   REBUILDABLE CACHE (`sampled_body` + `derived_from` the neurons, T10; user asked to keep
   it for fast windowed population reads, NOT as source of truth). The per-epoch MAP/legend
   doc DISSOLVES (column indices unnecessary once each train is keyed by its neuron-subject

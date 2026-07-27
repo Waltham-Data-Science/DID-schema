@@ -34,9 +34,13 @@ you never need both as source-of-truth; storing both would be duplication (T12).
 
 2. **The ensemble is a GROUP SUBJECT** — kept (id PRESERVED, so any doc that references the
    ensemble by id still resolves), but it **carries no primary data body of its own**. Its
-   membership is expressed by `member_of` `directed_relation`s from each constituent
-   neuron-subject to the ensemble-subject (T1: "group-ness comes from incoming `member_of`
-   edges"). Its joint activity is *projected* from the members on demand.
+   membership is expressed by **EPOCH-SCOPED** `member_of` `directed_relation`s from each
+   constituent neuron-subject to the ensemble-subject (T1: "group-ness comes from incoming
+   `member_of` edges"; T4: relations are documents). **Each `member_of` edge carries the epoch
+   it holds in** — because the recorded neuron set *changes epoch-to-epoch* (`ensemble.m`:
+   "the set of recorded neurons may change from epoch to epoch"). The per-epoch roster is
+   therefore the set of `member_of` edges for that epoch (durable, graph-native), NOT something
+   that lives only in the cache. Joint activity is *projected* from the members on demand.
 
 3. **The combined marked-point-process = an explicitly-DERIVED CACHE** (INCLUDED — user
    request). Materialize the (time, neuron) stream as a `sampled_body` attached to the
@@ -50,13 +54,16 @@ you never need both as source-of-truth; storing both would be duplication (T12).
    - **self-identifying**: the cache stores neuron-**subject ids** (or carries its own inline
      column→id ordering as part of the cache body), so it needs no external legend document.
 
-4. **The per-epoch MAP / legend document DISSOLVES.** Column indices exist only to read the
-   combined binary; once each train is attached to its neuron-subject id and the cache carries
-   its own ordering, the standalone "column 1 = neuron_A" legend is unnecessary. Its residual
-   content (which neurons, in which order, this epoch) is carried by the `member_of` edges +
-   the cache's inline ordering. `num_neurons` is derivable (count the members) — dropped
-   (T11). `value_type`/`value_description` container fields collapse into the spike-time
-   observation's `variable`/description. The stray `app` superclass is dropped (R1).
+4. **The per-epoch MAP / legend document DISSOLVES INTO the epoch-scoped `member_of` edges.**
+   Column indices exist only to read the combined binary; once each train is attached to its
+   neuron-subject id, the standalone "column 1 = neuron_A" legend is unnecessary **as a
+   document** — but its content (which neurons, this epoch, in column order) is **preserved
+   durably as the epoch-scoped `member_of` edges** (decision 2), with column order carried on
+   the edges (or the cache's inline ordering). So "dissolves" = re-expressed as edges, **not
+   discarded** — per-epoch membership survives even if the cache is deleted. `num_neurons` is
+   derivable (count the epoch's members) — dropped (T11). `value_type`/`value_description`
+   container fields collapse into the spike-time observation's `variable`/description. The
+   stray `app` superclass is dropped (R1).
 
 ## Naming (revisit outcome)
 
@@ -102,9 +109,10 @@ you never need both as source-of-truth; storing both would be duplication (T12).
    not, add it.
 2. **Ensemble group-subject**: keep the element→subject fold (id preserved); add the `ensemble`
    kind `term_assertion`; remove any primary data body.
-3. **Second pass** (`ndi.migrate` / NDI-matlab): read `neuron_names.txt`, resolve neuron ids →
-   subjects, mint `member_of` edges, materialize the derived cache (`sampled_body` +
-   `derived_from` the members, marked rebuildable), and drop the map/legend document.
+3. **Second pass** (`ndi.migrate` / NDI-matlab): read `neuron_names.txt` **per epoch**, resolve
+   neuron ids → subjects, mint **epoch-scoped** `member_of` edges (carrying the epoch + column
+   order), materialize the derived cache (`sampled_body` + `derived_from` + `is_cache`), and
+   dissolve the map/legend document into those edges (per-epoch roster preserved as edges).
 4. **Verify-before-delete gate** on the corpus (0 stranded per-neuron trains).
 5. **Retire the v1 `ensemble` MAP class** from the persist set once the second pass lands
    (until then it stays a green passthrough — do NOT phase-8-delete early).
