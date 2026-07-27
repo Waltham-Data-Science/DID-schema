@@ -69,14 +69,19 @@ lives in these files — read them instead of re-deriving from memory:
   first 3 now HOMED, task #21 done. D-C (#9): kilosort/kiasort_clusters now
   DECOMPOSE (count_observation + opaque_body + session anchor via
   migrators_j.private.jSorterOutput; schemas retained as a non-gating safety net,
-  not yet phase-8-deleted); ensemble GRAIN DECIDED (`V_eta_ensemble_plan.md`): the
-  per-epoch ensemble MAP doc = acquisition-infra (grain A), kept as its current green
-  passthrough (⑦); its constituent neuron ids live in a `neuron_names.txt` FILE (NOT
-  depends_on), so `member_of` relations to the neuron-subjects CANNOT be minted
-  single-doc — DEFERRED to the NDI second pass (grain B, like stimulus_presentation /
-  distance_metadata). Stays in_progress only because that second-pass step is pending;
-  the grain is no longer TBD. (The ensemble ELEMENT itself → subject via the element
-  migrator; the marked-point-process binary → sampled_body.)
+  not yet phase-8-deleted); ensemble MODEL RE-DECIDED (`V_eta_ensemble_plan.md`,
+  SUPERSEDES the old grain-A "carry the MAP doc as ⑦ infra"): per-neuron spike times =
+  PRIMARY archival data (each neuron-subject, event times→sampled_body); the ensemble is
+  a GROUP SUBJECT (id preserved, NO own data body) whose members are `member_of` edges
+  (T1 group-ness); the combined (times,ids) marked-point-process = an explicitly-DERIVED,
+  REBUILDABLE CACHE (`sampled_body` + `derived_from` the neurons, T10; user asked to keep
+  it for fast windowed population reads, NOT as source of truth). The per-epoch MAP/legend
+  doc DISSOLVES (column indices unnecessary once each train is keyed by its neuron-subject
+  id; drop num_neurons/`app` superclass). `member_of` + cache = NDI SECOND PASS (needs the
+  `neuron_names.txt` file read + neuron-id→subject resolution; single-doc migrators carry
+  files but do NOT read their bytes — confirmed via pyraview). Pass-1 keeps it a green
+  passthrough; VERIFY-BEFORE-DELETE (0 stranded per-neuron trains) before dropping the
+  combined bytes. (The ensemble ELEMENT → group-subject via the element migrator.)
   (B) vhlab app/calculator classes with
   no NDI template = 11 (contrast_tuning, the 3 other `*_tuning`, 7 `*_calc`), footprint
   = a bespoke migrator consuming them. Do NOT add post-v1 DID intermediate/target

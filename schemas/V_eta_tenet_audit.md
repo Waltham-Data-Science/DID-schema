@@ -34,7 +34,7 @@ batched** (per the team's request) so we amass several before touching code.
 | **boundary: interaction_purpose** → retire; `purpose` = T8 term field on `subject_interaction` | FINAL | ⏳ **build deferred** (add field + retire class + migrator) |
 | **boundary: stimulus_presentation** → always `subject_manipulation`; **control_stimulus_ids** folds in as a role field + drop `app` superclass | FINAL | ⏳ **build deferred** (extends the 2nd-pass work, TaskList #19) |
 | **boundary: openminds_import** → PERSIST + close emitter gap | FINAL (evidence-audited) | ⏳ **build deferred** (openMINDS import path must stamp it) |
-| **boundary: ensemble** | 🔄 REOPENED (naming + whole class) | — |
+| **boundary: ensemble** → per-neuron primary + group-subject membership + derived cache; map doc dissolves | FINAL → `V_eta_ensemble_plan.md` | ⏳ **build deferred** (2nd pass: member_of + cache; verify-before-delete) |
 
 **Deferred-build queue (what to build once we batch):** the `image` model
 (`V_eta_image_model_plan.md`, tasks 1–6, incl. the `image` migrator that fixes the strand
@@ -198,7 +198,7 @@ it changed the `openminds_import` call). Builds deferred to the batch.
 | `demo_ndi`, `demo_ndi_mock` | ✅ **Move to `examples/`, drop from production set.** | **Audited:** `testConvertV1ToV2.m:385` already asserts `demo_ndi` is ABSENT from converted output — the drop is what the test enforces, not a risk to it. |
 | `openminds_import` | ✅ **PERSIST as ⑦ + CLOSE THE EMITTER GAP** (T9). | **Audited — this is where the audit changed the call:** the schema exists (commit 4a20b46) but **NOTHING emits it** — no migrator, no NDI importer, not even the round-trip CI test. Persisting is right (crosswalk/version provenance is reproducibility-critical) ONLY paired with a build task so the openMINDS import path actually stamps it. Otherwise it validates nothing. |
 | `projectvar` | ✅ **RETIRE / drop.** | **Audited:** not a v1 source, `deprecated` maturity, no migrator touches it, no kept class depends on it. Nothing to strand. |
-| `ensemble` | 🔄 **REOPENED** (naming + whole-class revisit, user request). | Prior lean was "graduate to ⑦ persist" (grain A green passthrough, `V_eta_ensemble_plan.md`), but the user reopened the entire class incl. its name. See the "ensemble revisit" section below. |
+| `ensemble` | ✅ **RE-DECIDED** (supersedes grain A) → `V_eta_ensemble_plan.md`. | Per-neuron spike times = PRIMARY data (each neuron-subject); the ensemble is a **group subject** (id preserved, no own body) whose members are `member_of` edges (T1); the combined (times,ids) stream = an explicitly-**derived, rebuildable CACHE** (`sampled_body` + `derived_from` the neurons, T10; user asked to keep it). The per-epoch MAP/legend doc **dissolves** (column indices unnecessary once trains are keyed by subject id). `ensemble` kept for the group; `member_of` + cache built in the 2nd pass (needs file read + id resolution); verify-before-delete gate. |
 
 ### Also open — deferred source migrations still carried as passthrough (disposition `retire`, not yet done)
 These are marked `retire` but their schemas still exist and their docs pass through; they
