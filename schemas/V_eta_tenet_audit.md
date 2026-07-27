@@ -26,7 +26,7 @@ batched** (per the team's request) so we amass several before touching code.
 |---|---|---|
 | **R1** `app` → `software` entity + `software_id` edge + `execution_environment` | FINAL | ✅ built + green |
 | **R6/`image`** full model | FINAL → `V_eta_image_model_plan.md` | ⏳ **build deferred** (5 tasks + a strand-bug fix) |
-| **R4** `ngrid` → rename `array`, N-D-array `data_type`; **`image ⊂ array`** (re-audit: subclass, not parallel); RF family folds to calc leaves | FINAL (re-audit revised) | ⏳ **build deferred** (batched w/ image; also un-defers the RF fold) |
+| **R4** `ngrid`/`array` → **`array` KILLED** (re-audit): `ngrid` **phases into `sampled_body`** (a carrier, T6; a generic array duplicates the body + names a container, T13); **`image` is standalone** (reverses `image ⊂ array`); RF family folds to calc leaves w/ **`sampled_body`-valued** maps | FINAL (re-audit revised) | ⏳ **build deferred** (batched w/ image) |
 | **R2/R3** tuning composites → one `tuning_curve` data_type + **ARRAY** of `model_fit` + **typed queryable** summary scalars + one `tuning_curve_calculation` leaf | FINAL (re-audit revised: array + typed, not single bag) → `V_eta_tuning_model_plan.md` | ⏳ **build deferred** (7 tasks; re-targets the shipped calc folds — corpus re-verify required) |
 | **R5** infra naming smells → RENAME in lockstep with NDI (not an accepted exception) | FINAL (targets to confirm w/ NDI) | ⏳ **build deferred** (cross-repo: DID-schema + NDI-matlab writers, landed together) |
 | **boundary: instrument** → RETIRE | FINAL (evidence-audited: V_epsilon review class, no emitter) | ⏳ mark retire in `build_v_eta` markers |
@@ -36,11 +36,11 @@ batched** (per the team's request) so we amass several before touching code.
 | **boundary/stimulus: stimulus_presentation** → **`timed_sequence` model** (data_type + `timed_sequence_manipulation` leaf; references stimulus data_type docs; storage_mode multi-subject) — SUPERSEDES the dissolve | FINAL (re-audit) → `V_eta_stimulus_model_plan.md` | ⏳ **build deferred** (2nd-pass decompose; supersedes #19) |
 | **boundary: openminds_import** → PERSIST + close emitter gap; **maturity → `draft`** (re-audit) | FINAL | ⏳ **build deferred** (demote to draft; openMINDS import path must stamp it → then promote). Provenance row added. |
 | **boundary: ensemble** → per-neuron primary + group-subject membership + derived cache; map doc dissolves | FINAL → `V_eta_ensemble_plan.md` | ⏳ **build deferred** (2nd pass: member_of + cache; verify-before-delete) |
-| **raw-recording model** (voltage-attribution gap) → a `<modality>_observation` of the specimen (`instrument_id`→electrode), not device-attached data. Re-audit: **multi-channel = one obs w/ channel axis**; **unknown modality = generic `array` + `modality_unresolved` flag (Guard A, never a `timeseries_observation`), gated to 0 fallbacks** | FINAL → `V_eta_recording_observation_plan.md` | ⏳ **build deferred** (assembler migrator + modality map; 0-orphan AND 0-fallback re-verify) |
+| **raw-recording model** (voltage-attribution gap) → a `<modality>_observation` of the specimen (`instrument_id`→electrode), not device-attached data. Re-audit: **multi-channel = one obs w/ channel axis**; **unknown modality = bare self-describing `sampled_body` value + `modality_unresolved` flag (Guard A, never a `timeseries_observation`/`array`), gated to 0 fallbacks** | FINAL → `V_eta_recording_observation_plan.md` | ⏳ **build deferred** (assembler migrator + modality map; 0-orphan AND 0-fallback re-verify) |
 
 **Deferred-build queue (what to build once we batch):** the `image` model
 (`V_eta_image_model_plan.md`, tasks 1–6, incl. the `image` migrator that fixes the strand
-risk) + the `array`/RF fold (R4, same batch) + the tuning-curve collapse
+risk) + the `ngrid`→`sampled_body` / RF fold (R4, same batch; `array` killed) + the tuning-curve collapse
 (`V_eta_tuning_model_plan.md`, tasks 1–7, re-targets the shipped calc folds + corpus
 re-verify) + `software` follow-ups (dedup pass; openMINDS `software` crosswalk). See the
 TaskList.
@@ -126,22 +126,22 @@ into the `tuning_curve` composite. It does not re-declare the shape and the fitt
 do not re-declare it either — all six are instances of the single `tuning_curve`
 `data_type`. Recorded in `V_eta_tuning_model_plan.md`.
 
-### R4 — `ngrid` → rename `array`, a generic N-D-array `data_type`. 🟡 DECIDED, build deferred
-`ngrid` is the image model minus picture semantics: a labeled N-D numeric grid
-(`ndims`/`dim_sizes`/`dim_labels`/`data_type`) whose bulk data was a file (`ngrid_file`),
-`element_id`-scoped. Only `reverse_correlation` (→ `hartley_reverse_correlation` →
-`hartley_calc`, the RF family) builds on it. **Decision** (applies the `image` model, T6;
-`V_eta_image_model_plan.md`): rename `ngrid` → **`array`**, an abstract N-D-numeric-array
-`data_type` composite, and make **`image ⊂ array`** *(re-audit revised the earlier "parallel,
-not nested": `array` defines the shared N-D core once, `image` specializes it with
-color/channels — parallel siblings would define the core twice, a T12 duplication)*; grid data
-governed by `storage_mode` (inline small / body large: `opaque_body` default, `sampled_body`
-for chunked reads);
-descriptors always explicit (`dtype` ← `data_type`, `axes` ← `dim_sizes`/`dim_labels`); drop
-`ngrid_file` + `element_id` (D2). **Payoff:** un-blocks the deferred RF fold —
-`reverse_correlation`/`hartley_*` fold to `subject_calculation` leaves (like the 12 tuning
-calculators; id-preserved, `software_id`, `derived_from`), RF map = the body-backed `array`
-value. Build batched with the image build (TaskList #24).
+### R4 — `ngrid`/`array`: **`array` KILLED**; `ngrid` → `sampled_body`. 🟡 DECIDED (re-audit REVISED), build deferred
+`ngrid` is a labeled N-D numeric grid (`ndims`/`dim_sizes`/`dim_labels`/`data_type`) whose bulk
+data was a file (`ngrid_file`), `element_id`-scoped. Only `reverse_correlation` (→
+`hartley_reverse_correlation` → `hartley_calc`, the RF family) builds on it. **Decision (final
+re-audit):** do **NOT** mint an `array` `data_type` — a bare N-D numeric grid is a *storage*
+concept that (a) duplicates `sampled_body` (T6: `sampled_body` is already "self-describing —
+axis + typed datum"), and (b) names a container, not content (T13). So:
+- **`ngrid` phases into `sampled_body`** like every other carrier (T6); drop `ngrid_file` +
+  `element_id` (D2). Not a `data_type`.
+- **`image` is a STANDALONE `data_type`** (reverses the earlier `image ⊂ array` — with no
+  `array` parent there is nothing to duplicate; `image` is a meaningful raster).
+- **RF fold:** `reverse_correlation`/`hartley_*` fold to `subject_calculation` leaves
+  (id-preserved, `software_id`, `derived_from`), the RF map = a **`sampled_body`** value (meaning
+  on the leaf's `variable`), **not** an `array`.
+- Meaningful numeric arrays (`kernel`, a specific RF type) → their own named `data_type` only
+  when T12 warrants; never a generic `array`. Build batched with the image build (TaskList #24).
 
 ### R5 — Naming smells in the kept infra. 🟡 DECIDED = RENAME IN LOCKSTEP, build deferred (T11, T13)
 **Decision (user's call): do NOT accept the NDI-mirroring exception — RENAME these to T11/T13

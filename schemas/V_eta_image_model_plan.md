@@ -81,8 +81,8 @@ stimulus, multi-subject FOV, tiny inline filter/thumbnail).
   migrator (below) — or, if standalone `image` docs are confirmed absent from corpora,
   record that.** This is the top build item.
 - **`image_stack` migrator stamps `data_type` (uint16) into `image_type`** — dtype in the
-  wrong (misnamed) slot, *duplicating* the body's `datum.dtype`. Route it to the array's home
-  instead.
+  wrong (misnamed) slot, *duplicating* the body's `datum.dtype`. Route it to the `image`
+  composite's `dtype` descriptor (decision 4) instead.
 - **N-D calibration loss:** the migrator maps only `dimension_scale` X/Y into
   `x/y_resolution`; the Z/channel/time scale is dropped. `axes` recovers it.
 
@@ -104,22 +104,29 @@ stimulus, multi-subject FOV, tiny inline filter/thumbnail).
    a **reference** multi-subject FOV.
 6. **openMINDS crosswalk**: `format`/`color_model` ≈ openMINDS `ContentType`; note it.
 
-## Sibling: `array` (ex-`ngrid`) — same model, no picture semantics (audit R4, DECIDED)
+## `ngrid` / `array` — KILLED as a data_type; `ngrid` → `sampled_body` (audit R4, re-audit REVISED)
 
-`ngrid` is the same shape as `image` minus the picture semantics — a labeled N-D **numeric
-array**. Decision (R4, **revised in the fresh-eyes re-audit**): rename `ngrid` → **`array`**,
-an abstract N-D-numeric-array `data_type` composite, and make **`image ⊂ array`** — `array`
-defines the shared N-D core (`dtype`, `axes`, `storage_mode`, `value`) **once**; `image`
-*specializes* it by adding the picture fields (`color_model`, `channels`). *(This reverses the
-earlier "parallel, not nested" note: that rationale — "image adds color/channels an array
-shouldn't carry" — is exactly the "B is A plus fields" case for subclassing, and parallel
-siblings would define the N-D core twice, a T12 duplication.)* Same rules for `array`:
-descriptors explicit (`dtype` ← `data_type`, `axes` ← `dim_sizes`/`dim_labels`); grid data by
-`storage_mode` (inline / opaque_body / sampled_body-for-chunked); drop `ngrid_file` +
-`element_id`. **This un-defers the receptive-field fold:** `reverse_correlation` /
-`hartley_reverse_correlation` / `hartley_calc` fold to `subject_calculation` leaves (like the
-12 tuning calculators), the RF map = a body-backed `array` value. Built in the same batch
-(TaskList #24).
+**`array` is KILLED (final re-audit decision) — there is no `array` data_type.** `ngrid` is a
+labeled N-D **numeric grid** whose bulk data was a file (`ngrid_file`) — i.e. a **format
+carrier**, not a value type. By T6, every carrier (timeseries/dataseries/zarr/image-as-file/
+generic_file/pyraview/…) **phases into the two data_bodies**, and `sampled_body` is *already*
+"self-describing — sample-time axis + typed datum," which is exactly what a bare N-D numeric
+grid is. So a generic `array` composite would **duplicate `sampled_body`** (T6) and **name a
+container, not content** (T13, the dumping-ground smell). Decisions:
+- **`ngrid` → phases into `sampled_body`** like every other carrier (drop `ngrid_file` +
+  `element_id`). NOT a `data_type`.
+- **`image` stays a STANDALONE `data_type`** — this **reverses the earlier `image ⊂ array`**;
+  with no `array` parent there is nothing to duplicate, and `image` is genuinely meaningful (a
+  raster *picture*: `dtype`/`axes`/`color_model`/`channels`), storing its pixels in a body.
+- **Receptive-field fold:** `reverse_correlation` / `hartley_reverse_correlation` /
+  `hartley_calc` still fold to `subject_calculation` leaves, but the RF map = a **`sampled_body`
+  value** (meaning rides on the leaf's `variable`), **not** an `array` value.
+- A **genuinely meaningful** numeric array (a `kernel`, a specific RF type) is minted as its
+  *own named* `data_type` only when T12 warrants — never a generic `array`.
+- **Principle this rests on:** a raw-numeric observation with no dimensioned meaning is valued
+  by a **bare self-describing `sampled_body`** (its `dtype`/`axes` live on the body; the
+  `variable` carries the label) — the dimensioned data_types (`voltage`, …) just *add* units on
+  top. Built in the same batch (TaskList #24).
 
 ## Deferred / out of scope
 

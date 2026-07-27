@@ -13,8 +13,8 @@ lives in these files — read them instead of re-deriving from memory:
   + deferred source folds). The go-forward worklist for closing V_eta. Its top
   **"Walkthrough decisions & build queue"** table is the live record of the item-by-item
   audit walkthrough — we DECIDE now and BATCH builds (team's request), so a decision can be
-  FINAL while its build is deferred. R1 (app→software) built+green; R6 (image), R4 (array),
-  R2/R3 (tuning) decided, builds deferred.
+  FINAL while its build is deferred. R1 (app→software) built+green; R6 (image standalone),
+  R4 (`array` KILLED → ngrid phases into sampled_body), R2/R3 (tuning) decided, builds deferred.
 - **`schemas/V_eta_tuning_model_plan.md`** — the FINAL tuning-composite model (decided in the
   R2/R3 walkthrough; build deferred, TaskList #26). The 6 overlapping v1 tuning classes +
   5 fit shapes collapse to ONE `tuning_curve` `data_type` (independent variable = a
@@ -44,10 +44,12 @@ lives in these files — read them instead of re-deriving from memory:
   preserved id, NOT dissolved. Moots the Hartley/sparse-noise per-type-composite question
   (stimulus type lives in the referenced doc). Names provisional (naming pass).
 - **`schemas/V_eta_image_model_plan.md`** — the FINAL `image` model (decided in the R6
-  walkthrough; build deferred, TaskList #24). image = a `data_type` (raster value), **`image ⊂
-  array`** (re-audit: subclass of the N-D-array core, adds color_model/channels — NOT a
-  parallel sibling) across image_observation (measured) + image_manipulation
-  (shown-as-stimulus); storage_mode governs only pixels (inline/opaque-body/reference);
+  walkthrough; build deferred, TaskList #24). image = a **standalone** `data_type` (raster
+  value) — **`array` is KILLED** (re-audit: a bare N-D numeric grid duplicates sampled_body
+  (T6) + names a container (T13), so `ngrid` phases into `sampled_body` and there is no `array`
+  data_type; `image` does NOT subclass anything) across image_observation (measured) +
+  image_manipulation (shown-as-stimulus); storage_mode governs only pixels
+  (inline/opaque-body/reference);
   descriptors ALWAYS explicit on the composite (dtype/axes/color_model/channels) because dtype
   is NOT recoverable from an inline matrix; modality→variable; NOT an entity. Includes the
   strand-bug the build must fix.
