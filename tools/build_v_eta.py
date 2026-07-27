@@ -1025,6 +1025,60 @@ write("stable", "stimulus_tuningcurve_calculation",
       doc("stimulus_tuningcurve_calculation",
           ["subject_calculation", "stimulus_tuningcurve"]))
 
+# ---------- tuning_curve: the R2/R3 collapse TARGET (re-audit) ----------------------
+# V_eta_tuning_model_plan.md: the 6 overlapping tuning composites collapse to ONE
+# `tuning_curve` data_type (independent variable rides `subject_statement.variable`, T11)
+# + an ARRAY of `model_fit` entries {model (T8 term), coefficients, goodness} + TYPED,
+# queryable metric sub-blocks (significance / circular_statistics / interpolated_values --
+# NOT a {name,value} bag, T13) + ONE `tuning_curve_calculation` leaf. Added ADDITIVELY
+# alongside the shipped per-tuning composites; the calculator RE-TARGET (migrators_j
+# jCalculation → this leaf) + removal of the 6 old composites is the coupled DID-matlab
+# + corpus step (0-orphan re-verify). Abstract data_type composite so _disposition
+# persists it structurally (the "tuning" stem would otherwise hit the retire heuristic).
+_TUNING_MODEL_FIT_SUBS = [
+    subfield("model", "ontology_term",
+             "The fitted model as a controlled term (T8): double_gaussian | naka_rushton | "
+             "difference_of_gaussians | movshon | spline | gausslog | priebe | …."),
+    subfield("coefficients", "structure",
+             "The fit coefficients (named, per the `model`).", non_empty=False),
+    subfield("goodness", "structure",
+             "Fit-quality scalars (r², residual, …).", non_empty=False),
+]
+_TUNING_CURVE_SUBS = [
+    subfield("independent_values", "matrix",
+             "The independent-variable axis samples.", scalar=False),
+    subfield("response_mean", "matrix", "Per-sample mean response.", scalar=False),
+    subfield("response_stddev", "matrix", "Per-sample response stddev.", scalar=False),
+    subfield("response_stderr", "matrix", "Per-sample response stderr.", scalar=False),
+    subfield("individual_responses", "matrix",
+             "Trial-level responses (real/imaginary preserved where present).", scalar=False),
+    subfield("control_response", "structure",
+             "The control/blank response block.", non_empty=False),
+    subfield("response_units", "char", "Units of the response."),
+    subfield("model_fit", "structure",
+             "ARRAY of fitted models, each {model, coefficients, goodness}; a curve may carry "
+             "several co-existing fits.", scalar=False, non_empty=False,
+             sub_fields=_TUNING_MODEL_FIT_SUBS),
+    subfield("significance", "structure",
+             "Statistical significance sub-block (visual-response / across-stimuli ANOVA p) — "
+             "typed, queryable fields.", non_empty=False),
+    subfield("circular_statistics", "structure",
+             "Circular-statistics sub-block (circular_variance, orientation/direction "
+             "preference, Hotelling) — typed, queryable fields.", non_empty=False),
+    subfield("interpolated_values", "structure",
+             "Fitless interpolated summaries (c50, l50, h50, pref, bandwidth, low/high-pass "
+             "index) — typed, queryable fields.", non_empty=False),
+]
+write("draft", "tuning_curve",
+      doc("tuning_curve", ["data_type"], abstract=True, maturity="draft",
+          fields=[field("value", "structure",
+                        "A response-vs-independent-variable tuning curve, with an ARRAY of "
+                        "model fits and typed summary-statistic sub-blocks.",
+                        non_empty=True, blank={}, sub_fields=_TUNING_CURVE_SUBS)]))
+write("draft", "tuning_curve_calculation",
+      doc("tuning_curve_calculation", ["subject_calculation", "tuning_curve"],
+          maturity="draft"))
+
 # contrast_sensitivity: the ndi.calc.vis.contrast_sensitivity output
 # (contrast_sensitivity_calc) is a FLAT bag of sensitivity/gain/c50/p-value matrices
 # with NO result-composite superclass -- so AUTHOR a `contrast_sensitivity` data_type

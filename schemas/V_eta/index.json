@@ -2393,6 +2393,29 @@
             "disposition": "persist"
         },
         {
+            "class_name": "tuning_curve",
+            "tier": "draft",
+            "class_version": "1.0.0",
+            "maturity_level": "draft",
+            "superclasses": [
+                "data_type"
+            ],
+            "path": "schemas/V_eta/draft/tuning_curve.json",
+            "disposition": "persist"
+        },
+        {
+            "class_name": "tuning_curve_calculation",
+            "tier": "draft",
+            "class_version": "1.0.0",
+            "maturity_level": "draft",
+            "superclasses": [
+                "subject_calculation",
+                "tuning_curve"
+            ],
+            "path": "schemas/V_eta/draft/tuning_curve_calculation.json",
+            "disposition": "persist"
+        },
+        {
             "class_name": "tuning_fit",
             "tier": "stable",
             "class_version": "1.0.0",
