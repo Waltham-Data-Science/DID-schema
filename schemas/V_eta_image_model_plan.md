@@ -107,14 +107,19 @@ stimulus, multi-subject FOV, tiny inline filter/thumbnail).
 ## Sibling: `array` (ex-`ngrid`) — same model, no picture semantics (audit R4, DECIDED)
 
 `ngrid` is the same shape as `image` minus the picture semantics — a labeled N-D **numeric
-array**. Decision (R4): rename `ngrid` → **`array`**, reparent `base` → an abstract
-`data_type` composite **parallel** to `image` (not `image ⊂ array` and not the reverse —
-`image` adds color/channels an `array` shouldn't carry). Same rules: descriptors explicit
-(`dtype` ← `data_type`, `axes` ← `dim_sizes`/`dim_labels`); grid data by `storage_mode`
-(inline / opaque_body / sampled_body-for-chunked); drop `ngrid_file` + `element_id`. **This
-un-defers the receptive-field fold:** `reverse_correlation` / `hartley_reverse_correlation`
-/ `hartley_calc` fold to `subject_calculation` leaves (like the 12 tuning calculators), the
-RF map = a body-backed `array` value. Built in the same batch (TaskList #24).
+array**. Decision (R4, **revised in the fresh-eyes re-audit**): rename `ngrid` → **`array`**,
+an abstract N-D-numeric-array `data_type` composite, and make **`image ⊂ array`** — `array`
+defines the shared N-D core (`dtype`, `axes`, `storage_mode`, `value`) **once**; `image`
+*specializes* it by adding the picture fields (`color_model`, `channels`). *(This reverses the
+earlier "parallel, not nested" note: that rationale — "image adds color/channels an array
+shouldn't carry" — is exactly the "B is A plus fields" case for subclassing, and parallel
+siblings would define the N-D core twice, a T12 duplication.)* Same rules for `array`:
+descriptors explicit (`dtype` ← `data_type`, `axes` ← `dim_sizes`/`dim_labels`); grid data by
+`storage_mode` (inline / opaque_body / sampled_body-for-chunked); drop `ngrid_file` +
+`element_id`. **This un-defers the receptive-field fold:** `reverse_correlation` /
+`hartley_reverse_correlation` / `hartley_calc` fold to `subject_calculation` leaves (like the
+12 tuning calculators), the RF map = a body-backed `array` value. Built in the same batch
+(TaskList #24).
 
 ## Deferred / out of scope
 

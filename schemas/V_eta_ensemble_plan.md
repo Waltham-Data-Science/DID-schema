@@ -43,8 +43,10 @@ you never need both as source-of-truth; storing both would be duplication (T12).
    ensemble group-subject, so windowed *population* reads ("what was the whole group doing in
    [t0,t1]?") stay fast — this is exactly why NDI keeps the binary. Properties:
    - **`derived_from` the member neuron-subjects** (T10 derived motif; provenance explicit).
-   - **marked as a rebuildable cache, NOT source of truth** — it can be regenerated from the
-     per-neuron trains at any time; deleting it loses nothing.
+   - **marked as a rebuildable cache, NOT source of truth** — carries the T6 **`is_cache`**
+     marker (+ `derived_from`); it can be regenerated from the per-neuron trains at any time;
+     deleting it loses nothing. (Satisfies the T6 cache-warrant test: lossless, real
+     population-read need, marked+regenerable, reason recorded here.)
    - **self-identifying**: the cache stores neuron-**subject ids** (or carries its own inline
      column→id ordering as part of the cache body), so it needs no external legend document.
 

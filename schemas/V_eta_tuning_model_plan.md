@@ -9,10 +9,11 @@ Cross-refs: `V_eta_tenets.md` (T3/T8/T10/T12), `V_eta_tenet_audit.md` (R2/R3),
 ## The one-line model
 
 > **There is ONE tuning value: a `tuning_curve` `data_type` — a response-vs-independent-
-> variable curve. The independent variable is a `variable` (T11), not a name suffix. The fit
-> is ONE flexible `model_fit` sub-block identified by a controlled term (T8), not a class per
-> model. The six overlapping v1 classes and five fit shapes collapse to `tuning_curve` +
-> `tuning_curve_calculation` (one leaf).**
+> variable curve. The independent variable is a `variable` (T11), not a name suffix. The fits
+> are an ARRAY of `model_fit` entries, each identified by a controlled `model` term (T8) with
+> a coefficient block — not a class per fit; the empirical summary scalars (circular variance,
+> ANOVA p, c50/pref/bandwidth) stay TYPED, queryable fields. The six overlapping v1 classes and
+> five fit shapes collapse to `tuning_curve` + `tuning_curve_calculation` (one leaf).**
 
 ## What was in the v1 classes (the grounding)
 
@@ -43,28 +44,41 @@ is identical in all six; only the fitted model differs.
      present).
    - `control_response` (structure) — the flat `control_*` block.
    - `response_units` (char).
-   - `model_fit` (structure, optional) — decision 2.
-   - `derived_summary` (structure[], optional) — the fitless scalars (c50, l50, h50, pref,
-     bandwidth, low/high-pass index) as named `{name, value, units}` entries, so a
-     fitless composite carries them without a fit.
+   - `model_fit` (structure**[]**, optional) — decision 2. **An ARRAY** (a curve may carry
+     several co-existing fits).
+   - a **typed metrics block** (fields, `queryable: true`) for the empirical/fitless summary
+     scalars — circular_variance, orientation/direction preference, Hotelling test
+     (`vector`-family); visual_response / across-stimuli ANOVA p (`significance`-family);
+     c50, l50, h50, pref, bandwidth, low/high-pass index (`fitless`-family). **Kept as typed,
+     queryable fields — NOT a `{name,value}` bag** (decision 2). *(Field/block NAMES —
+     `derived_summary` vs `curve_metrics`, etc. — are pending the T11/T13 naming pass; the
+     STRUCTURE, typed+queryable, is decided.)*
 
-2. **R2 — ONE flexible `model_fit` sub-block, NOT a class per model** (T8/T12; the user's
-   call, option A). The fitted models (double-gaussian, Naka-Rushton, DoG/Movshon/spline,
-   Priebe) are genuinely different *structures*, but they are all "parameters of a fitted
-   model," so they are distinguished by a **controlled term + a named parameter array**, not
-   by minting `*_fit` data_types. `model_fit` fields:
-   - `model_name` (ontology_term, T8 binding) — `double_gaussian` | `naka_rushton` |
-     `difference_of_gaussians` | `movshon` | `spline` | `gausslog` | `priebe` | … (a
-     controlled `value_set`; extend the set, not the class list, for a new fit).
-   - `parameters` (structure[]) — `{name, value}` coefficient entries (e.g. Naka-Rushton
-     `rb`/`rbn`/`rbns`; double-gaussian center/width/amplitudes).
-   - `goodness` (structure, optional) — fit-quality scalars (r², residual, …).
-   - **Trade-off recorded (T12 requires it):** a free-form `parameters` array is *less*
-     self-validating than five typed fit structures — T8 enforces "`model_name` is a valid
-     term," but NOT "the parameters match the term" (a Naka-Rushton having exactly rb/rbn/rbns
-     is by-convention, not schema-enforced). Accepted for parsimony. If a corpus need for
-     per-model schema enforcement arises later, escalate to option B (typed `*_fit`
-     data_types) — the curve collapse (decision 1) is unaffected either way.
+2. **R2 — `model_fit` is an ARRAY of typed fits; the summary scalars stay typed & queryable**
+   (the re-audit fix; revises the earlier "single flexible bag, option A"). Two defects the
+   fresh-eyes audit caught in the first draft, now corrected:
+   - **`model_fit` MUST be `structure[]` (an array).** `spatial_frequency_tuning` and
+     `temporal_frequency_tuning` each carry **five co-existing fits** (`fit_dog`,
+     `fit_movshon`, `fit_movshon_c`, `fit_spline`, `fit_gausslog`); `speed_tuning` carries
+     three. A single `model_fit` slot would silently drop all but one. Each array entry:
+     `{ model (ontology_term, T8 — double_gaussian | naka_rushton | difference_of_gaussians |
+     movshon | spline | gausslog | priebe | …; extend the value_set, not the class list),
+     coefficients (the fit params), goodness (r²/residual) }`. *(Names `model` vs
+     `model_name`, `coefficients` vs `parameters` — pending the naming pass; note `parameters`
+     is a T13-flagged word so `coefficients` is favored.)*
+   - **The queryable summary scalars stay TYPED fields, not name/value bags.** In the shipped
+     schemas, `vector.circular_variance`, `significance.visual_response_anova_p`,
+     `fitless.pref/l50/bandwidth`, `fit_dog.r2` are all `queryable: true`. Flattening them into
+     an unordered `{name,value}` array would make them non-queryable — a real regression
+     (scientists filter on exactly these: "circular_variance < 0.5 AND anova_p < 0.01"). So
+     they remain typed, queryable fields (decision 1's metrics block). This was the earlier
+     draft's mistake (it logged only "less self-validating" and missed the query regression).
+   - **`vector`/`significance` are NOT `model_fit`.** They are empirical/circular-statistics
+     summaries of the measured curve, not fitted models — labeling them `model_fit` would be a
+     false stance-name (T13). They live in the typed metrics block.
+   - **T12 note:** distinguishing fits by a controlled `model` term + a coefficient block (not
+     a class per fit) is still the parsimony choice; the array + typed-summary shape keeps
+     per-model queryability without minting `*_fit` classes.
 
 3. **T10 — ONE `tuning_curve_calculation` leaf** (id-preserving 1→1 fold), NOT five
    `*_tuning_calculation` leaves. `tuning_curve_calculation` = `subject_calculation` +
@@ -95,20 +109,23 @@ be re-verified on the corpus after the re-target, not assumed.
 1. **Add `tuning_curve` composite** (decision-1 fields) as an abstract `data_type`; wire
    `_disposition` so it persists structurally (it shares the "tuning" stem with v1 sources —
    same guard the existing calc composites needed).
-2. **Add `model_fit`** as a shared sub-structure + a `model_name` `value_set` (T8) with the
-   fit-model terms; seed bindings.
+2. **Add `model_fit` as an ARRAY sub-structure** + a `model` (T8) `value_set` of fit-model
+   terms; seed bindings. Add the typed, queryable metrics block for the summary scalars.
+   *(Field/block names finalized in the naming pass.)*
 3. **Add `tuning_curve_calculation` leaf** = `subject_calculation` + `tuning_curve`.
 4. **Re-target the 12 calculator migrators** (`migrators_j.*_calc`, `tuningcurve_calc`,
    `stimulus_tuningcurve`) onto `tuning_curve_calculation` + `tuning_curve`; map each v1
-   fit block (`vector`/`fit`/`fit_dog`/`fit_movshon`/`priebe_fit_*`/…) into `model_fit`
-   (`model_name` + `parameters`) and the fitless scalars into `derived_summary`.
+   fit block (`fit`/`fit_dog`/`fit_movshon`/`fit_spline`/`priebe_fit_*`/…) into a `model_fit`
+   ARRAY entry (`model` term + coefficients + goodness); map the `vector`/`significance`/
+   `fitless` scalars into the TYPED metrics block (queryable), NOT into `model_fit`.
 5. **Retire the five per-tuning composite class names + `stimulus_tuningcurve`** as distinct
    composites (they become instances of `tuning_curve`); update `V_eta_migration_targets.json`
    (the 13 calc-family entries) to point at `tuning_curve_calculation`; update
    `_DELETE_PHASE8` / `_RET_*` markers so the doc counts follow.
 6. **Fixtures/tests**: a raw `tuning_curve` (no fit), a double-gaussian orientation fit, a
-   Naka-Rushton contrast fit, a Priebe speed fit — assert id-preserved, `model_fit.model_name`
-   bound, `derived_summary` populated for a fitless case.
+   Naka-Rushton contrast fit, a Priebe speed fit, and a frequency case with **multiple
+   co-existing fits** (assert the `model_fit` array holds all of them, none dropped) —
+   assert id-preserved, each entry's `model` term bound, the typed metrics block queryable.
 7. **Corpus re-verify**: re-run the Soph gate after the re-target; the 0-orphan invariant must
    hold (id preserved). This is the real gate, not the fast fixtures.
 

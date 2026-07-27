@@ -26,14 +26,15 @@ batched** (per the team's request) so we amass several before touching code.
 |---|---|---|
 | **R1** `app` → `software` entity + `software_id` edge + `execution_environment` | FINAL | ✅ built + green |
 | **R6/`image`** full model | FINAL → `V_eta_image_model_plan.md` | ⏳ **build deferred** (5 tasks + a strand-bug fix) |
-| **R4** `ngrid` → rename `array`, generic N-D-array `data_type` (image model); RF family folds to calc leaves | FINAL | ⏳ **build deferred** (batched w/ image; also un-defers the RF fold) |
-| **R2/R3** tuning composites → one `tuning_curve` data_type + flexible `model_fit` + one `tuning_curve_calculation` leaf | FINAL → `V_eta_tuning_model_plan.md` | ⏳ **build deferred** (7 tasks; re-targets the shipped calc folds — corpus re-verify required) |
+| **R4** `ngrid` → rename `array`, N-D-array `data_type`; **`image ⊂ array`** (re-audit: subclass, not parallel); RF family folds to calc leaves | FINAL (re-audit revised) | ⏳ **build deferred** (batched w/ image; also un-defers the RF fold) |
+| **R2/R3** tuning composites → one `tuning_curve` data_type + **ARRAY** of `model_fit` + **typed queryable** summary scalars + one `tuning_curve_calculation` leaf | FINAL (re-audit revised: array + typed, not single bag) → `V_eta_tuning_model_plan.md` | ⏳ **build deferred** (7 tasks; re-targets the shipped calc folds — corpus re-verify required) |
 | **R5** infra naming smells → RENAME in lockstep with NDI (not an accepted exception) | FINAL (targets to confirm w/ NDI) | ⏳ **build deferred** (cross-repo: DID-schema + NDI-matlab writers, landed together) |
-| **boundary: instrument / projectvar** → RETIRE | FINAL (evidence-audited) | ⏳ mark retire in `build_v_eta` markers |
-| **boundary: demo_ndi(_mock)** → examples/, drop from production | FINAL (evidence-audited) | ⏳ move + drop from persist set |
-| **boundary: interaction_purpose** → retire; `purpose` = T8 term field on `subject_interaction` | FINAL | ⏳ **build deferred** (add field + retire class + migrator) |
-| **boundary: stimulus_presentation** → always `subject_manipulation`; **control_stimulus_ids** folds in as a role field + drop `app` superclass | FINAL | ⏳ **build deferred** (extends the 2nd-pass work, TaskList #19) |
-| **boundary: openminds_import** → PERSIST + close emitter gap | FINAL (evidence-audited) | ⏳ **build deferred** (openMINDS import path must stamp it) |
+| **boundary: instrument** → RETIRE | FINAL (evidence-audited: V_epsilon review class, no emitter) | ⏳ mark retire in `build_v_eta` markers |
+| **boundary: projectvar** → **PASSTHROUGH** (re-audit: retire evidence was FALSE — it IS an ndi v1 source) | FINAL (re-audit corrected) | ⏳ keep green passthrough; corpus 0-doc check before any future retire |
+| **boundary: demo_ndi(_mock)** → **PASSTHROUGH** (re-audit: drop evidence was FALSE — ndi sources; the cited test was misread) | FINAL (re-audit corrected) | ⏳ keep green passthrough; corpus 0-doc check before any drop |
+| **boundary: interaction_purpose** → **KEEP as a standalone repeatable annotation class** (re-audit: reversed the retire→field call) | FINAL (re-audit revised) | ⏳ **build deferred** (standalone class: `purpose` term + comment; `interaction_id` multiple ≥1) |
+| **boundary/stimulus: stimulus_presentation** → **`timed_sequence` model** (data_type + `timed_sequence_manipulation` leaf; references stimulus data_type docs; storage_mode multi-subject) — SUPERSEDES the dissolve | FINAL (re-audit) → `V_eta_stimulus_model_plan.md` | ⏳ **build deferred** (2nd-pass decompose; supersedes #19) |
+| **boundary: openminds_import** → PERSIST + close emitter gap | FINAL (evidence-audited: nothing emits it) | ⏳ **build deferred** (maturity draft-vs-stable OPEN; openMINDS import path must stamp it) |
 | **boundary: ensemble** → per-neuron primary + group-subject membership + derived cache; map doc dissolves | FINAL → `V_eta_ensemble_plan.md` | ⏳ **build deferred** (2nd pass: member_of + cache; verify-before-delete) |
 | **raw-recording model** (voltage-attribution gap) → a `<modality>_observation` of the specimen (`instrument_id`→electrode), not device-attached data | FINAL → `V_eta_recording_observation_plan.md` | ⏳ **build deferred** (assembler migrator + modality map; 0-orphan re-verify) |
 
@@ -99,20 +100,23 @@ Each is a concrete tenet tension with a recommended resolution.
   Dedup by (name, version) across the corpus is a follow-up second pass. `app` itself is
   now superseded (retires once every generator extracts its block → a software entity).
 
-### R2 — The five tuning composites collapse to one `tuning_curve` + a flexible `model_fit`. 🟡 DECIDED, build deferred (T12/T8/T10)
+### R2 — The five tuning composites collapse to one `tuning_curve` + an ARRAY of `model_fit`. 🟡 DECIDED (re-audit revised), build deferred (T12/T8/T10)
 `orientation_direction_tuning`, `contrast_tuning`, `spatial_frequency_tuning`,
 `temporal_frequency_tuning`, `speed_tuning` all share the skeleton
 `{properties, tuning_curve, significance, fit}` and differ only in the fit form
 (double-gaussian / Naka-Rushton / DoG-Movshon-spline / Priebe). **Decision** (see
 `V_eta_tuning_model_plan.md`): collapse to **one parameterized `tuning_curve` `data_type`**
-(the independent variable is a `variable` per T11, not a name suffix), with the fit as **one
-flexible `model_fit` sub-block** — `{model_name (T8 controlled term), parameters (named
-array), goodness}` — NOT a class per model (the user's call, option A). New fits extend the
-`model_name` `value_set`, not the class list. **T12 trade-off recorded:** T8 validates the
-term but not that parameters match it (by-convention); accepted for parsimony, escalate to
-typed `*_fit` data_types only if a corpus need arises. **T10:** the calculators keep folding
-id-preserving 1→1, but onto **one `tuning_curve_calculation` leaf** (not five) — re-targets
-the already-shipped folds, so a corpus re-verify (0-orphan invariant) is required.
+(the independent variable is a `variable` per T11, not a name suffix), with the fits as an
+**ARRAY of `model_fit` entries** — each `{model (T8 controlled term), coefficients, goodness}`
+— NOT a class per fit; new fits extend the `model` `value_set`. **Re-audit corrected two
+defects in the first draft:** (1) `model_fit` MUST be an array — spatial/temporal-freq tunings
+carry FIVE co-existing fits, a single slot would drop four; (2) the empirical summary scalars
+(circular_variance, ANOVA p, c50/pref/bandwidth — all `queryable:true` today) stay **TYPED,
+queryable fields**, NOT a `{name,value}` bag (flattening them was a real query regression), and
+`vector`/`significance` are summaries, not `model_fit` entries (false stance otherwise, T13).
+**T10:** the calculators keep folding id-preserving 1→1, but onto **one
+`tuning_curve_calculation` leaf** (not five) — re-targets the already-shipped folds, so a
+corpus re-verify (0-orphan invariant) is required.
 
 ### R3 — `stimulus_tuningcurve` (raw) IS the fit-less `tuning_curve`. 🟡 DECIDED, build deferred (T3, T12)
 `stimulus_tuningcurve` is a flat raw-curve shape (`independent_variable_*` +
@@ -127,10 +131,12 @@ do not re-declare it either — all six are instances of the single `tuning_curv
 (`ndims`/`dim_sizes`/`dim_labels`/`data_type`) whose bulk data was a file (`ngrid_file`),
 `element_id`-scoped. Only `reverse_correlation` (→ `hartley_reverse_correlation` →
 `hartley_calc`, the RF family) builds on it. **Decision** (applies the `image` model, T6;
-`V_eta_image_model_plan.md`): rename `ngrid` → **`array`**, reparent `base` → an abstract
-`data_type` composite (the generic N-D numeric array — image's picture-free sibling; the two
-are **parallel** data_types, not one ⊂ the other); grid data governed by `storage_mode`
-(inline small / body large: `opaque_body` default, `sampled_body` for chunked reads);
+`V_eta_image_model_plan.md`): rename `ngrid` → **`array`**, an abstract N-D-numeric-array
+`data_type` composite, and make **`image ⊂ array`** *(re-audit revised the earlier "parallel,
+not nested": `array` defines the shared N-D core once, `image` specializes it with
+color/channels — parallel siblings would define the core twice, a T12 duplication)*; grid data
+governed by `storage_mode` (inline small / body large: `opaque_body` default, `sampled_body`
+for chunked reads);
 descriptors always explicit (`dtype` ← `data_type`, `axes` ← `dim_sizes`/`dim_labels`); drop
 `ngrid_file` + `element_id` (D2). **Payoff:** un-blocks the deferred RF fold —
 `reverse_correlation`/`hartley_*` fold to `subject_calculation` leaves (like the 12 tuning
@@ -184,21 +190,23 @@ migrator). Still **sets the pattern for R4** (`ngrid` → same treatment).
 
 ## ❓→✅ The boundary classes — ALL DECIDED (walkthrough, evidence-audited)
 
-The 11 `in_progress` classes were the *edges of the model*. All are now decided; the five
-"clear-cut" ones were **evidence-audited** (not rubber-stamped — the user asked for this, and
-it changed the `openminds_import` call). Builds deferred to the batch.
+The 11 `in_progress` classes were the *edges of the model*. All are now decided. The
+"clear-cut" ones were **evidence-audited**, and a later **fresh-eyes re-audit** (3 independent
+adversarial reviewers + a check of the coverage ledger) **corrected two false-evidence calls**
+(`projectvar`, `demo_ndi`) and **revised two more** (`interaction_purpose`, `stimulus_presentation`).
+Builds deferred to the batch.
 
 | Class | Decision (tenet) | Evidence / note |
 |---|---|---|
 | ~~`app`~~ | ✅ **Item 1:** `software` ENTITY + typed `software_id` edge + `execution_environment` block (T7/T9). | Built + green. |
-| ~~`image`~~ | ✅ **Item 2/R6:** abstract `data_type` composite; raster by `storage_mode`; not an entity. | `V_eta_image_model_plan.md`. |
-| `instrument` | ✅ **RETIRE** (T7). | **Audited:** provenance = V_epsilon "review/infra" — **not a did_v1 source**; no migrator emits it (only comments about the instrument_id→subject role); the `instrument_id` edge already exists in `subject_interaction`. Retiring strands nothing. |
-| `interaction_purpose` | ✅ **RETIRE → `purpose` becomes an optional T8-bound `ontology_term` field on `subject_interaction`** (T2/T11). | Each interaction carries its own purpose term; a shared purpose is the same term on each — no grouping class needed. |
-| `stimulus_presentation` | ✅ **Always a `subject_manipulation`** (option A, T3). | Presenting a stimulus *is* manipulating the subject's environment; a no-response presentation is a manipulation with no paired observation. Avoids a class whose disposition flips on whether *other* docs exist. |
-| `control_stimulus_ids` | ✅ **Fold into the manipulation as a role field** (which presented stimuli were controls); **drop its stray `app` superclass** (R1 cleanup). | Coupled to `stimulus_presentation`=A. It still carries `app` in the schema today — a straggler the build removes. |
-| `demo_ndi`, `demo_ndi_mock` | ✅ **Move to `examples/`, drop from production set.** | **Audited:** `testConvertV1ToV2.m:385` already asserts `demo_ndi` is ABSENT from converted output — the drop is what the test enforces, not a risk to it. |
-| `openminds_import` | ✅ **PERSIST as ⑦ + CLOSE THE EMITTER GAP** (T9). | **Audited — this is where the audit changed the call:** the schema exists (commit 4a20b46) but **NOTHING emits it** — no migrator, no NDI importer, not even the round-trip CI test. Persisting is right (crosswalk/version provenance is reproducibility-critical) ONLY paired with a build task so the openMINDS import path actually stamps it. Otherwise it validates nothing. |
-| `projectvar` | ✅ **RETIRE / drop.** | **Audited:** not a v1 source, `deprecated` maturity, no migrator touches it, no kept class depends on it. Nothing to strand. |
+| ~~`image`~~ | ✅ **Item 2/R6:** `data_type` composite, **`image ⊂ array`** (re-audit); raster by `storage_mode`; not an entity. | `V_eta_image_model_plan.md`. |
+| `instrument` | ✅ **RETIRE** (T7). | **Audited (held up in re-audit):** provenance = V_epsilon "review/infra" — **not a did_v1 source**; no migrator emits it; the `instrument_id` edge already exists in `subject_interaction`. Retiring strands nothing. |
+| `interaction_purpose` | ✅ **KEEP as a standalone repeatable annotation class** (`purpose` ontology_term + `comment`; `interaction_id → subject_interaction`, multiple ≥1). *(Re-audit REVERSED the earlier retire→field call.)* | A field loses: instance-level grouping (one purpose spanning several interactions), per-group comment, and immutability-safety (a field mutates a possibly machine-generated interaction). Standalone doc is J-compatible (annotation-as-document, T4). Corroborated by the ndi-next-steps `Interaction_Purpose_Proposal.md` + a reviewer. |
+| `stimulus_presentation` | ✅ **`timed_sequence` model** → `V_eta_stimulus_model_plan.md`. *(Re-audit SUPERSEDED "always subject_manipulation / dissolve".)* | `timed_sequence` (data_type: ordered+timed refs to stimulus data_type docs) + `timed_sequence_manipulation` (leaf). Presentation is decomposed around its preserved id (not dissolved); multi-subject via `storage_mode`; stimulator → `instrument_id` (T7). Value-by-reference, same as recording/ensemble. |
+| `control_stimulus_ids` | 🔄 **RE-OPENED** — how control-stimulus annotation attaches to a `timed_sequence_manipulation` (and vs the `stimulus_approach` curator class) is a pending walkthrough item. | Confirmed: it IS an ndi v1 source (not a cleanup); `app` superclass present (drop); `stimulus_presentation_id` is optional (presentation-less docs need a home); the `control_stimulus_id_method` struct must be carried. |
+| `demo_ndi`, `demo_ndi_mock` | ✅ **PASSTHROUGH** (green, in_progress). *(Re-audit CORRECTED the earlier "drop from production".)* | The earlier evidence was FALSE: the coverage ledger lists `demoNDI`/`demoNDIMock` as **ndi v1 sources** (`in_progress`), and the cited `testConvertV1ToV2.m:385` is a `RenameClassNames=false` test (asserts `demo_ndi` absent because the rename was OFF), NOT a drop-safety proof. Corpus 0-doc check required before any future drop. |
+| `openminds_import` | ✅ **PERSIST as ⑦ + CLOSE THE EMITTER GAP** (T9). Maturity `draft`-vs-`stable` still OPEN (re-audit flagged `stable` while it validates 0 docs). | **Audited:** schema exists (commit 4a20b46) but **NOTHING emits it** — no migrator, no importer, not even the round-trip CI test. Persisting is right (crosswalk/version provenance) ONLY paired with a *scheduled* emitter task; add to `V_eta_class_provenance.md`. |
+| `projectvar` | ✅ **PASSTHROUGH** (green, in_progress). *(Re-audit CORRECTED the earlier "retire".)* | The earlier evidence was FALSE: the coverage ledger lists `projectvar` as an **ndi v1 source** (`in_progress`). Its `deprecated/` schema + no DID migrator is consistent with "vestigial," but "not a source" is disproven by the arbiter. Corpus 0-doc check required before any future retire. |
 | `ensemble` | ✅ **RE-DECIDED** (supersedes grain A) → `V_eta_ensemble_plan.md`. | Per-neuron spike times = PRIMARY data (each neuron-subject); the ensemble is a **group subject** (id preserved, no own body) whose members are `member_of` edges (T1); the combined (times,ids) stream = an explicitly-**derived, rebuildable CACHE** (`sampled_body` + `derived_from` the neurons, T10; user asked to keep it). The per-epoch MAP/legend doc **dissolves** (column indices unnecessary once trains are keyed by subject id). `ensemble` kept for the group; `member_of` + cache built in the 2nd pass (needs file read + id resolution); verify-before-delete gate. |
 
 ### Also open — deferred source migrations still carried as passthrough (disposition `retire`, not yet done)

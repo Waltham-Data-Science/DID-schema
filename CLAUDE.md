@@ -18,11 +18,15 @@ lives in these files — read them instead of re-deriving from memory:
 - **`schemas/V_eta_tuning_model_plan.md`** — the FINAL tuning-composite model (decided in the
   R2/R3 walkthrough; build deferred, TaskList #26). The 6 overlapping v1 tuning classes +
   5 fit shapes collapse to ONE `tuning_curve` `data_type` (independent variable = a
-  `variable` per T11, not a name suffix) + ONE flexible `model_fit` sub-block (`model_name`
-  T8 term + named `parameters`; NOT a class per fit — option A, parsimony over per-model
-  schema enforcement) + ONE `tuning_curve_calculation` leaf. `stimulus_tuningcurve` = the
-  fit-less `tuning_curve`. RE-TARGETS the already-shipped 12-calculator folds, so a corpus
-  0-orphan re-verify is required (not assumed).
+  `variable` per T11, not a name suffix) + an **ARRAY of `model_fit` entries** (each `{model`
+  T8 term`, coefficients, goodness}`; NOT a class per fit) + ONE `tuning_curve_calculation`
+  leaf. RE-AUDIT REVISED the first "single flexible bag, option A" draft: `model_fit` MUST be
+  an array (freq tunings carry 5 co-existing fits), and the empirical summary scalars
+  (circular_variance, ANOVA p, c50/pref/bandwidth) stay TYPED, queryable fields — NOT a
+  `{name,value}` bag (flattening them was a real query regression). `stimulus_tuningcurve` =
+  the fit-less `tuning_curve`. RE-TARGETS the already-shipped 12-calculator folds, so a corpus
+  0-orphan re-verify is required (not assumed). Field NAMES (`model` vs `model_name`,
+  `coefficients` vs `parameters`, the metrics-block name) pending the T11/T13 naming pass.
 - **`schemas/V_eta_recording_observation_plan.md`** — the FINAL raw-recording model (decided
   in the "voltage-attribution gap" walkthrough; build deferred, TaskList #30). A raw continuous
   recording = a `<modality>_observation` of the SPECIMEN (`subject_id`=specimen,
@@ -30,12 +34,23 @@ lives in these files — read them instead of re-deriving from memory:
   image/…, body=`sampled_body`); REPLACES the loose `probe observes specimen` relation +
   bare-body path the migrators emit today. Closes the gap where raw signal was migrated as
   device-attached pieces with no typed observation + dropped modality/units.
+- **`schemas/V_eta_stimulus_model_plan.md`** — the FINAL stimulus model (fresh-eyes re-audit;
+  build deferred, SUPERSEDES #19). `timed_sequence` = a `data_type` (ordered+timed list of
+  references to stimulus `data_type` docs — `presented_id → data_type`, broad; distinct refs +
+  index-array playlist) + `timed_sequence_manipulation` leaf (`subject_manipulation` +
+  `timed_sequence`; stimulator → `instrument_id` per T7). Distinct stimuli = standalone
+  `visual_grating`/`image`/… docs (deduped, referenced — ensemble pattern). Multi-subject via
+  `storage_mode` (shared `timed_sequence` reference). Presentation is DECOMPOSED around its
+  preserved id, NOT dissolved. Moots the Hartley/sparse-noise per-type-composite question
+  (stimulus type lives in the referenced doc). Names provisional (naming pass).
 - **`schemas/V_eta_image_model_plan.md`** — the FINAL `image` model (decided in the R6
-  walkthrough; build deferred, TaskList #24). image = a `data_type` (raster value) across
-  image_observation (measured) + image_manipulation (shown-as-stimulus); storage_mode governs
-  only pixels (inline/opaque-body/reference); descriptors ALWAYS explicit on the composite
-  (dtype/axes/color_model/channels) because dtype is NOT recoverable from an inline matrix;
-  modality→variable; NOT an entity. Includes the strand-bug the build must fix.
+  walkthrough; build deferred, TaskList #24). image = a `data_type` (raster value), **`image ⊂
+  array`** (re-audit: subclass of the N-D-array core, adds color_model/channels — NOT a
+  parallel sibling) across image_observation (measured) + image_manipulation
+  (shown-as-stimulus); storage_mode governs only pixels (inline/opaque-body/reference);
+  descriptors ALWAYS explicit on the composite (dtype/axes/color_model/channels) because dtype
+  is NOT recoverable from an inline matrix; modality→variable; NOT an entity. Includes the
+  strand-bug the build must fix.
 - **`schemas/V_eta_final_class_set.md`** — the authoritative persist set (7
   categories). REGENERATE with `python3 tools/regen_final_class_set.py` (reads the
   built `V_eta/index.json` disposition markers) after every `build_v_eta.py`; never

@@ -82,6 +82,25 @@ derived cache for fast population reads, not primary data (see `V_eta_ensemble_p
 This is the storage-side face of T12 parsimony: never store the same information twice, but
 a *marked, disposable* cache is a permitted performance exception, not a duplicate source.
 
+**The cache marker (required).** `derived_from` alone is overloaded — T10 uses it for
+*authoritative* analysis outputs (a calculation result IS the science), while a cache is
+*disposable*. A consumer must be able to tell them apart, so a materialized cache carries an
+explicit **`is_cache: true`** marker (distinct from a plain `derived_from` provenance edge).
+`is_cache` ⇒ regenerable, no authority, safe to drop and rebuild; absent ⇒ the `derived_from`
+product is authoritative (a T10 calculation). Never infer cache-ness from `derived_from` presence.
+
+**The cache-warrant test (parallel to T12's data_type-warrant).** Materializing a cache is the
+*exception*; before minting one, all of the following must hold — else store only the source
+and project on read:
+  1. *Losslessly derivable* — the cache adds **no information** the source lacks (else it's a
+     source, not a cache).
+  2. *A real access need* — a concrete query/read pattern is materially cheaper against the
+     cache than against the source at the expected scale (e.g. windowed population reads).
+  3. *Marked & regenerable* — it carries `is_cache` + `derived_from`, and a deterministic
+     rebuild from the source exists.
+  4. *Recorded reason* — the warranting access need is written next to it (as T12 requires for
+     a new data_type). No silent caches.
+
 ### T7 — Roles are edges, not subclasses.
 The measuring/manipulating device is a subject (kind asserted), linked by a typed
 `instrument_id`. `subject_id` = patient, `instrument_id` = agent, `method` = verb. No
