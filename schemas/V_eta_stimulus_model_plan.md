@@ -115,8 +115,14 @@ first-class typed doc — no dictionary-digging.
 - **Naming** `timed_sequence` is provisional pending the T11/T13 naming pass (neutral by
   design; the leaf `timed_sequence_manipulation` reads a little flat for "a stimulus
   presentation" — accepted cost of neutrality).
-- **`control_stimulus_ids` / `stimulus_approach`**: how control-stimulus annotation and
-  out-of-band conditions attach to a `timed_sequence_manipulation` — next walkthrough items.
+- **`control_stimulus_ids` → `control_designation` — RESOLVED.** A separate **derived**
+  annotation doc (option c): references the `timed_sequence` + the control stimulus `data_type`
+  doc(s), carries the `method` (how derived), marked `derived_from`/`software_id` (T10 — it is
+  computed by the `tuning_response` app, `tuning_response.m:653–656`). NOT baked into the
+  immutable body. Renamed off the `ids` container word (T13); `app` straggler dropped. The
+  app always sets `stimulus_presentation_id`, so presentation-less docs are a non-issue.
+- **`stimulus_approach`** (out-of-band curator conditions, e.g. "left eye occluded"): how it
+  attaches to a `timed_sequence_manipulation` — still a pending walkthrough item.
 - **`visual_grating_manipulation`** reconciliation (keep for presentation-less single gratings,
   or retire) — build-time.
 - **Hartley/sparse-noise data_types**: MOOT for this path (stimulus type lives in the
