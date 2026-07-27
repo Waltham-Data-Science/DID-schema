@@ -50,6 +50,17 @@ Instead of hundreds of classes, **factor**: data-type composites (`mass`, `dose`
 `orientation_direction_tuning_calculation`). A new measurement is a new composite or a
 new `variable`; it is **not** a new hand-written class. (SPEC §6)
 
+**Undimensioned values ride a bare self-describing body (no generic numeric data_type).**
+`direction × data_type` is the norm — the data_type carries the meaning (`voltage`, `image`,
+`tuning_curve`). But when a value is **raw numeric with no dimensioned meaning** (an
+unknown-modality recording; a receptive-field map), do **not** invent a generic `array` /
+`numeric` data_type — that would only duplicate `sampled_body` (T6, which is already
+"self-describing: axis + typed datum"). Instead the value **is** a bare self-describing
+`sampled_body`: its `dtype`/`axes` live on the body, and the `variable` carries the label.
+The dimensioned data_types just *add* units on top. So: type it when you can (a modality → a
+composite); otherwise the self-describing body is the value. *(This is why `array` was killed
+and `ngrid` phases into `sampled_body`.)*
+
 ### T4 — Relationships are first-class documents; the graph carries structure.
 `subject_relation` → `directed_relation` (ordered child→parent: `part_of`, `member_of`,
 `derived_from`, …) + `undirected_relation` (`paired_with`, `same_as`). Relations are
@@ -220,6 +231,21 @@ a footnote**.
 **Litmus:** could a reader who does not know this project's history *predict what the doc
 holds and guess it's not something adjacent*, from the name alone? If they'd need to open
 it, or if the name only works once you append a qualifier, re-pitch it.
+
+- **No untyped `{name, value}` bags inside a composite.** A composite's fields must be
+  **typed and named for their content**. A generic `{name, value}` (or `{name, value, units}`)
+  array names nothing, is not queryable, and is the *field-level* form of the container-word
+  smell this tenet forbids at the class level. A per-stimulus mean is `response_mean`, not a
+  `{name:"mean", value:…}` entry; fit coefficients are a named `coefficients` block, not a
+  `parameters` bag. When a set of things varies, distinguish by a controlled **term + a typed
+  slot** (T8/T12), never by an unordered kv-bag. *(This killed the `derived_summary` bag and
+  the `model_fit.parameters`-as-bag draft.)*
+- **Infra reach.** The grammar (T11 + T13) applies to **⑦ acquisition/infra plumbing too**
+  (`daqreader`, `syncgraph`, ingested caches) — infra is **not exempt** from "name the content,
+  no container/format/cardinality/subtype words." The *only* concession: when an infra class
+  name mirrors an external writer's string (NDI), the rename is a **cross-repo lockstep** change
+  batched with the owning repo — same bar, coordinated landing (this is R5). Mirroring an
+  implementation is not a license to keep a smelly name.
 
 ---
 
