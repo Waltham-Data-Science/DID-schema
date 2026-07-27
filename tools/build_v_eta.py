@@ -1327,6 +1327,26 @@ _img["document_class"]["superclasses"] = [{"class_name": "data_type"}]
 _img["document_class"]["abstract"] = True
 _img["depends_on"] = []
 _img["file"] = []
+# image model decision 4 (V_eta_image_model_plan.md): descriptors ALWAYS explicit on the
+# composite (dtype is NOT recoverable from an inline matrix). image is a STANDALONE
+# data_type -- `array` is KILLED, so image does NOT subclass anything and carries its own
+# N-D descriptors + picture semantics. Replaces the old image_type/format/x_/y_resolution.
+_img["fields"] = [
+    field("dtype", "char",
+          "Pixel data type (uint16 | uint8 | single | …). NOT recoverable from an inline "
+          "matrix, so always explicit (image model decision 4)."),
+    field("axes", "structure",
+          "Per-axis descriptor {name, length, spacing, unit} (Y,X,C,Z,T) — the full N-D "
+          "calibration the old x/y_resolution lost.", scalar=False, blank=[]),
+    field("color_model", "ontology_term",
+          "grayscale | rgb | multichannel (T8-bound).", non_empty=False),
+    field("channels", "string",
+          "Per-channel labels (e.g. ['GCaMP','tdTomato']).", scalar=False, blank=[],
+          non_empty=False),
+    field("value", "matrix",
+          "The pixels; populated iff storage_mode:inline, else empty (they live in a "
+          "data_body).", non_empty=False),
+]
 write("stable", "image", _img)
 
 write("draft", "image_observation",

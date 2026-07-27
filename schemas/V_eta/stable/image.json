@@ -14,7 +14,7 @@
     "file": [],
     "fields": [
         {
-            "name": "image_type",
+            "name": "dtype",
             "type": "char",
             "blank_value": "",
             "default_value": "",
@@ -23,66 +23,67 @@
             "mustNotHaveNaN": false,
             "queryable": true,
             "ontology": null,
-            "documentation": "The type or modality of the image (e.g., 'brightfield', 'fluorescence', 'confocal').",
-            "constraints": {
-                "maxLength": 256
-            }
+            "documentation": "Pixel data type (uint16 | uint8 | single | \u2026). NOT recoverable from an inline matrix, so always explicit (image model decision 4).",
+            "constraints": {}
         },
         {
-            "name": "image_format",
-            "type": "char",
-            "blank_value": "",
-            "default_value": "",
+            "name": "axes",
+            "type": "structure",
+            "blank_value": [],
+            "default_value": [],
+            "mustBeNonEmpty": false,
+            "mustBeScalar": false,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Per-axis descriptor {name, length, spacing, unit} (Y,X,C,Z,T) \u2014 the full N-D calibration the old x/y_resolution lost.",
+            "constraints": {},
+            "fields": []
+        },
+        {
+            "name": "color_model",
+            "type": "ontology_term",
+            "blank_value": {
+                "node": "",
+                "name": ""
+            },
+            "default_value": {
+                "node": "",
+                "name": ""
+            },
             "mustBeNonEmpty": false,
             "mustBeScalar": true,
             "mustNotHaveNaN": false,
             "queryable": true,
             "ontology": null,
-            "documentation": "The file format of the image (e.g., 'png', 'tiff', 'jpeg').",
-            "constraints": {
-                "maxLength": 32
-            }
+            "documentation": "grayscale | rgb | multichannel (T8-bound).",
+            "constraints": {}
         },
         {
-            "name": "x_resolution",
-            "type": "double",
+            "name": "channels",
+            "type": "string",
+            "blank_value": [],
+            "default_value": [],
+            "mustBeNonEmpty": false,
+            "mustBeScalar": false,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Per-channel labels (e.g. ['GCaMP','tdTomato']).",
+            "constraints": {}
+        },
+        {
+            "name": "value",
+            "type": "matrix",
             "blank_value": 0.0,
             "default_value": 0.0,
             "mustBeNonEmpty": false,
             "mustBeScalar": true,
             "mustNotHaveNaN": false,
-            "queryable": false,
+            "queryable": true,
             "ontology": null,
-            "documentation": "The x-axis resolution (pixels per unit).",
+            "documentation": "The pixels; populated iff storage_mode:inline, else empty (they live in a data_body).",
             "constraints": {}
-        },
-        {
-            "name": "y_resolution",
-            "type": "double",
-            "blank_value": 0.0,
-            "default_value": 0.0,
-            "mustBeNonEmpty": false,
-            "mustBeScalar": true,
-            "mustNotHaveNaN": false,
-            "queryable": false,
-            "ontology": null,
-            "documentation": "The y-axis resolution (pixels per unit).",
-            "constraints": {}
-        },
-        {
-            "name": "resolution_units",
-            "type": "char",
-            "blank_value": "",
-            "default_value": "um",
-            "mustBeNonEmpty": false,
-            "mustBeScalar": true,
-            "mustNotHaveNaN": false,
-            "queryable": false,
-            "ontology": null,
-            "documentation": "The units for x_resolution and y_resolution (e.g., 'um', 'mm').",
-            "constraints": {
-                "maxLength": 32
-            }
         }
     ]
 }
