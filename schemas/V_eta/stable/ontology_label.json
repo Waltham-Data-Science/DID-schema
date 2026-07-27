@@ -30,7 +30,35 @@
             "queryable": true,
             "ontology": null,
             "documentation": "The ontology term labelling this element. The CURIE prefix identifies the source ontology (e.g., 'allen_ccf_v3'), the local part is the numeric ID (e.g., 'allen_ccf_v3:12345'), and 'name' carries the human-readable label.",
-            "constraints": {}
+            "constraints": {},
+            "fields": [
+                {
+                    "name": "node",
+                    "type": "char",
+                    "blank_value": "",
+                    "default_value": "",
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "The CURIE (prefix resolved via CURIE_lookups_meta.json).",
+                    "constraints": {}
+                },
+                {
+                    "name": "name",
+                    "type": "char",
+                    "blank_value": "",
+                    "default_value": "",
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "The human-readable label.",
+                    "constraints": {}
+                }
+            ]
         }
     ]
 }

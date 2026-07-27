@@ -38,7 +38,61 @@
             "queryable": true,
             "ontology": null,
             "documentation": "Signed offset from the reference event (e.g. +25 days, -2 days).",
-            "constraints": {}
+            "constraints": {},
+            "fields": [
+                {
+                    "name": "seconds",
+                    "type": "double",
+                    "blank_value": 0.0,
+                    "default_value": 0.0,
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Canonical duration value -- the normalised, cross-document comparable number.",
+                    "constraints": {}
+                },
+                {
+                    "name": "source_unit",
+                    "type": "char",
+                    "blank_value": "",
+                    "default_value": "",
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "The unit exactly as given by the source (lossless provenance).",
+                    "constraints": {}
+                },
+                {
+                    "name": "source_value",
+                    "type": "double",
+                    "blank_value": 0.0,
+                    "default_value": 0.0,
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "The number as given by the source, in `source_unit`.",
+                    "constraints": {}
+                },
+                {
+                    "name": "approximate",
+                    "type": "boolean",
+                    "blank_value": 0.0,
+                    "default_value": 0.0,
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "True when the value is approximate.",
+                    "constraints": {}
+                }
+            ]
         },
         {
             "name": "end",
@@ -59,7 +113,61 @@
             "queryable": true,
             "ontology": null,
             "documentation": "Signed offset from the reference event; present means an interval.",
-            "constraints": {}
+            "constraints": {},
+            "fields": [
+                {
+                    "name": "seconds",
+                    "type": "double",
+                    "blank_value": 0.0,
+                    "default_value": 0.0,
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Canonical duration value -- the normalised, cross-document comparable number.",
+                    "constraints": {}
+                },
+                {
+                    "name": "source_unit",
+                    "type": "char",
+                    "blank_value": "",
+                    "default_value": "",
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "The unit exactly as given by the source (lossless provenance).",
+                    "constraints": {}
+                },
+                {
+                    "name": "source_value",
+                    "type": "double",
+                    "blank_value": 0.0,
+                    "default_value": 0.0,
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "The number as given by the source, in `source_unit`.",
+                    "constraints": {}
+                },
+                {
+                    "name": "approximate",
+                    "type": "boolean",
+                    "blank_value": 0.0,
+                    "default_value": 0.0,
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "True when the value is approximate.",
+                    "constraints": {}
+                }
+            ]
         }
     ]
 }

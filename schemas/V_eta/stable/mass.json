@@ -30,7 +30,61 @@
             "queryable": true,
             "ontology": null,
             "documentation": "A typed mass value (shape-library mixin). Identity classes that read or impose a mass inherit this `value`. Series-as-cardinality (Brainstorm I): an ARRAY of the composite; a single reading is the length-1 case. Per-sample timing is the statement's sample_time cadence (D1).",
-            "constraints": {}
+            "constraints": {},
+            "fields": [
+                {
+                    "name": "kilograms",
+                    "type": "double",
+                    "blank_value": 0.0,
+                    "default_value": 0.0,
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Canonical mass value -- the normalised, cross-document comparable number.",
+                    "constraints": {}
+                },
+                {
+                    "name": "source_unit",
+                    "type": "char",
+                    "blank_value": "",
+                    "default_value": "",
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "The unit exactly as given by the source (lossless provenance).",
+                    "constraints": {}
+                },
+                {
+                    "name": "source_value",
+                    "type": "double",
+                    "blank_value": 0.0,
+                    "default_value": 0.0,
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "The number as given by the source, in `source_unit`.",
+                    "constraints": {}
+                },
+                {
+                    "name": "approximate",
+                    "type": "boolean",
+                    "blank_value": 0.0,
+                    "default_value": 0.0,
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "True when the value is approximate.",
+                    "constraints": {}
+                }
+            ]
         }
     ]
 }

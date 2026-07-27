@@ -2144,6 +2144,128 @@ idx["notes"] = ("Source of truth for class_name uniqueness and tier placement. "
                 "V_zeta (Brainstorm I). NOTE: leaf-tier depth (dose composites, "
                 "data_body, binding meta-schema) is an in-progress follow-up.")
 
+# ---------- 15. expand the named-composite types into DECLARED sub_fields -------------
+# The named types (`voltage`, `duration`, `ontology_term`, ...) were an ENUM STRING and
+# nothing more: `field("value", "voltage", ...)` declared no sub-fields, the blank omitted
+# the canonical key, and the real layout lived only in the meta-schema's PROSE plus string
+# literals in migrator code (`struct('celsius', ..., 'source_unit', ...)`). Consequences:
+# the validator could only check `isstruct` inside a cell, the query-path generator could
+# emit NOTHING for any measured value (26 of 35 composites emitted no path at all), and the
+# convention was unenforceable. Declare the layout ONCE, inline, so every consumer --
+# validator, query paths, viewer, docs -- reads the schema instead of hardcoding it.
+#
+# Canonical names for the 9 single-canonical types + concentration are ATTESTED in migrator
+# code (canonicalComposite('celsius'|'hertz'|'seconds'|'liters'|'kilograms'|'meters'|'volts'|
+# 'amperes'|'mmhg'), 'molar'), so those are RECORDED, not invented. The J §7 pre-seeded
+# numerics have no attested canonical (nothing populates them yet), so their canonical key is
+# named here from the documented SI unit, following the same spelled-out-plural convention.
+_DIM_CANON = {
+    # --- attested in migrator code (do NOT rename without a coupled migrator change) ---
+    "duration": ["seconds"], "volume": ["liters"], "mass": ["kilograms"],
+    "length": ["meters"], "voltage": ["volts"], "current": ["amperes"],
+    "frequency": ["hertz"], "temperature": ["celsius"], "pressure": ["mmhg"],
+    # multi-canonical BY DESIGN: concentration units do not collapse to one canonical
+    # (mass/volume <-> molar needs molecular weight). All OPTIONAL; the migrator fills
+    # whichever the source unit is computable into.
+    "concentration": ["molar", "grams_per_liter", "mass_fraction", "volume_fraction",
+                      "particles_per_liter"],
+    # --- J §7 pre-seeded set: canonical named from the documented SI unit ---
+    "velocity": ["meters_per_second"], "acceleration": ["meters_per_second_squared"],
+    "area": ["square_meters"], "angle": ["radians"],
+    "angular_velocity": ["radians_per_second"], "force": ["newtons"],
+    "energy": ["joules"], "power": ["watts"], "charge": ["coulombs"],
+    "resistance": ["ohms"], "conductance": ["siemens"], "capacitance": ["farads"],
+    "amount": ["moles"],
+    # dimensionless: nothing to canonicalise, but the cell keeps the family shape so the
+    # set stays uniform (source_unit carries the a.u. label / pH scale note).
+    "intensity": ["arbitrary_units"], "ph": ["ph"],
+}
+# count / score are the documented EXCEPTIONS to the canonical+source triple: a count has no
+# dimensional scaling (its unit is semantic, not convertible) and a score is scale-relative.
+# ontology_term is the third named composite -- {node, name} -- declared so the IDENTITY
+# field of every statement (`variable.node`, T2) becomes a real typed, queryable path.
+_DIM_SPECIAL = {
+    "count": [
+        subfield("value", "integer", "The discrete count."),
+        subfield("unit", "ontology_term",
+                 "What is counted (cells / individuals / spikes / events) -- semantic, "
+                 "NOT dimensional: counts do not normalise across units."),
+        subfield("approximate", "boolean", "True when the count is approximate."),
+    ],
+    "score": [
+        subfield("value", "double", "The score (double, so half-integer steps are legal)."),
+        subfield("scale", "ontology_term",
+                 "The scoring rubric (e.g. Murine Body Condition Score)."),
+        subfield("scale_min", "double", "Lower bound of the scale."),
+        subfield("scale_max", "double", "Upper bound of the scale."),
+        subfield("approximate", "boolean", "True when the score is approximate."),
+    ],
+    "ontology_term": [
+        subfield("node", "char", "The CURIE (prefix resolved via CURIE_lookups_meta.json)."),
+        subfield("name", "char", "The human-readable label."),
+    ],
+}
+
+def _named_type_subfields(tname):
+    """Declared sub-fields for a named composite type, or None if not a named type."""
+    if tname in _DIM_SPECIAL:
+        return [dict(sf) for sf in _DIM_SPECIAL[tname]]
+    if tname in _DIM_CANON:
+        canon = _DIM_CANON[tname]
+        multi = len(canon) > 1
+        note = (" (OPTIONAL -- filled when the source unit is computable into it; "
+                "concentration has no single canonical)") if multi else \
+               " -- the normalised, cross-document comparable number"
+        subs = [subfield(c, "double", "Canonical %s value%s." % (tname, note))
+                for c in canon]
+        subs += [
+            subfield("source_unit", "char",
+                     "The unit exactly as given by the source (lossless provenance)."),
+            subfield("source_value", "double",
+                     "The number as given by the source, in `source_unit`."),
+            subfield("approximate", "boolean", "True when the value is approximate."),
+        ]
+        return subs
+    return None
+
+def _expand_named_types(fields):
+    """Recursively attach declared sub_fields to every named-composite-typed field."""
+    n = 0
+    for f in fields or []:
+        subs = _named_type_subfields(f.get("type"))
+        if subs is not None and not f.get("fields"):
+            f["fields"] = subs
+            n += 1
+        if f.get("fields"):
+            n += _expand_named_types(f["fields"])
+    return n
+
+_expanded = 0
+for _tier in ("stable", "draft", "deprecated"):
+    _dir = os.path.join(VETA, _tier)
+    if not os.path.isdir(_dir):
+        continue
+    for _fn in sorted(os.listdir(_dir)):
+        if not _fn.endswith(".json") or _fn.endswith("_meta.json"):
+            continue
+        _obj = load(os.path.join(_dir, _fn))
+        if "fields" not in _obj:
+            continue
+        if _expand_named_types(_obj["fields"]):
+            _expanded += 1
+            write(_tier, _fn[:-5], _obj)
+print(f"V_eta named-type expansion: declared sub_fields in {_expanded} schema(s)")
+
+# the meta-schema's `fields` description predates this use ("structure type fields")
+_m = load(os.path.join(VETA, "stable", "did_schema_meta.json"))
+_m["$defs"]["field_definition"]["properties"]["fields"]["description"] = (
+    "Nested field definitions. Used for `structure` fields AND for the named composite "
+    "types (duration/voltage/count/score/ontology_term/...), whose canonical + "
+    "source-provenance layout is declared inline so validators, query-path generation and "
+    "docs read one source of truth instead of hardcoding it.")
+write("stable", "did_schema_meta", _m)
+
+
 # ---- disposition: an auditable 3-state marker the viewer badges, so the tree
 # distinguishes the FINAL go-forward set from what is leaving / not yet resolved.
 #   persist     — settled go-forward class (the ~161 final set).

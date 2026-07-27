@@ -340,7 +340,7 @@
                     "items": {
                         "$ref": "#/$defs/field_definition"
                     },
-                    "description": "Nested field definitions for structure type fields."
+                    "description": "Nested field definitions. Used for `structure` fields AND for the named composite types (duration/voltage/count/score/ontology_term/...), whose canonical + source-provenance layout is declared inline so validators, query-path generation and docs read one source of truth instead of hardcoding it."
                 },
                 "discriminator": {
                     "type": "string",

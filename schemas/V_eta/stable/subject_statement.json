@@ -37,7 +37,35 @@
             "queryable": true,
             "ontology": null,
             "documentation": "The noun the statement concerns \u2014 the quantity/entity (temperature, body weight, a drug, species). One name across assertions, observations and manipulations, so identity search is uniform.",
-            "constraints": {}
+            "constraints": {},
+            "fields": [
+                {
+                    "name": "node",
+                    "type": "char",
+                    "blank_value": "",
+                    "default_value": "",
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "The CURIE (prefix resolved via CURIE_lookups_meta.json).",
+                    "constraints": {}
+                },
+                {
+                    "name": "name",
+                    "type": "char",
+                    "blank_value": "",
+                    "default_value": "",
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "The human-readable label.",
+                    "constraints": {}
+                }
+            ]
         },
         {
             "name": "conditions",
@@ -69,7 +97,35 @@
                     "queryable": true,
                     "ontology": null,
                     "documentation": "The condition's name (arm direction, OD600, trial type); registry-keyed for its value_set (D9).",
-                    "constraints": {}
+                    "constraints": {},
+                    "fields": [
+                        {
+                            "name": "node",
+                            "type": "char",
+                            "blank_value": "",
+                            "default_value": "",
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "The CURIE (prefix resolved via CURIE_lookups_meta.json).",
+                            "constraints": {}
+                        },
+                        {
+                            "name": "name",
+                            "type": "char",
+                            "blank_value": "",
+                            "default_value": "",
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "The human-readable label.",
+                            "constraints": {}
+                        }
+                    ]
                 },
                 {
                     "name": "term",
@@ -95,7 +151,35 @@
                             "queryable": true,
                             "ontology": null,
                             "documentation": "Typed value(s); an array \u2014 length 1 (a constant condition) or the measurement's value length (one label per reading).",
-                            "constraints": {}
+                            "constraints": {},
+                            "fields": [
+                                {
+                                    "name": "node",
+                                    "type": "char",
+                                    "blank_value": "",
+                                    "default_value": "",
+                                    "mustBeNonEmpty": false,
+                                    "mustBeScalar": true,
+                                    "mustNotHaveNaN": false,
+                                    "queryable": true,
+                                    "ontology": null,
+                                    "documentation": "The CURIE (prefix resolved via CURIE_lookups_meta.json).",
+                                    "constraints": {}
+                                },
+                                {
+                                    "name": "name",
+                                    "type": "char",
+                                    "blank_value": "",
+                                    "default_value": "",
+                                    "mustBeNonEmpty": false,
+                                    "mustBeScalar": true,
+                                    "mustNotHaveNaN": false,
+                                    "queryable": true,
+                                    "ontology": null,
+                                    "documentation": "The human-readable label.",
+                                    "constraints": {}
+                                }
+                            ]
                         }
                     ]
                 },
@@ -155,7 +239,35 @@
                                     "queryable": true,
                                     "ontology": null,
                                     "documentation": "Optional unit.",
-                                    "constraints": {}
+                                    "constraints": {},
+                                    "fields": [
+                                        {
+                                            "name": "node",
+                                            "type": "char",
+                                            "blank_value": "",
+                                            "default_value": "",
+                                            "mustBeNonEmpty": false,
+                                            "mustBeScalar": true,
+                                            "mustNotHaveNaN": false,
+                                            "queryable": true,
+                                            "ontology": null,
+                                            "documentation": "The CURIE (prefix resolved via CURIE_lookups_meta.json).",
+                                            "constraints": {}
+                                        },
+                                        {
+                                            "name": "name",
+                                            "type": "char",
+                                            "blank_value": "",
+                                            "default_value": "",
+                                            "mustBeNonEmpty": false,
+                                            "mustBeScalar": true,
+                                            "mustNotHaveNaN": false,
+                                            "queryable": true,
+                                            "ontology": null,
+                                            "documentation": "The human-readable label.",
+                                            "constraints": {}
+                                        }
+                                    ]
                                 },
                                 {
                                     "name": "approximate",
