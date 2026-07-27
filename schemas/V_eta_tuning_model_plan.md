@@ -46,13 +46,13 @@ is identical in all six; only the fitted model differs.
    - `response_units` (char).
    - `model_fit` (structure**[]**, optional) — decision 2. **An ARRAY** (a curve may carry
      several co-existing fits).
-   - a **typed metrics block** (fields, `queryable: true`) for the empirical/fitless summary
-     scalars — circular_variance, orientation/direction preference, Hotelling test
-     (`vector`-family); visual_response / across-stimuli ANOVA p (`significance`-family);
-     c50, l50, h50, pref, bandwidth, low/high-pass index (`fitless`-family). **Kept as typed,
-     queryable fields — NOT a `{name,value}` bag** (decision 2). *(Field/block NAMES —
-     `derived_summary` vs `curve_metrics`, etc. — are pending the T11/T13 naming pass; the
-     STRUCTURE, typed+queryable, is decided.)*
+   - **typed, queryable metric sub-blocks** for the empirical/fitless summary scalars, named by
+     content (NAMING PASS — final): **`significance`** (visual_response / across-stimuli ANOVA
+     p — keep, it's meaningful); **`circular_statistics`** (was v1 `vector` — circular_variance,
+     orientation/direction preference, Hotelling test); **`interpolated_values`** (was v1
+     `fitless` — c50, l50, h50, pref, bandwidth, low/high-pass index). **Typed, `queryable:
+     true` fields — NOT a `{name,value}` bag, and NOT one `derived_summary` bag** (that name
+     failed T13's "predict the content" test and overloaded "derived"; killed).
 
 2. **R2 — `model_fit` is an ARRAY of typed fits; the summary scalars stay typed & queryable**
    (the re-audit fix; revises the earlier "single flexible bag, option A"). Two defects the
@@ -63,9 +63,10 @@ is identical in all six; only the fitted model differs.
      three. A single `model_fit` slot would silently drop all but one. Each array entry:
      `{ model (ontology_term, T8 — double_gaussian | naka_rushton | difference_of_gaussians |
      movshon | spline | gausslog | priebe | …; extend the value_set, not the class list),
-     coefficients (the fit params), goodness (r²/residual) }`. *(Names `model` vs
-     `model_name`, `coefficients` vs `parameters` — pending the naming pass; note `parameters`
-     is a T13-flagged word so `coefficients` is favored.)*
+     coefficients (the fit params), goodness (r²/residual) }`. **NAMING PASS (final): `model`**
+     (bare bound term, matching the `color_model` convention — NOT `model_name`, whose `_name`
+     suffix reads as a free string); **`coefficients`** (NOT `parameters` — a T13-flagged v1
+     smell); metric sub-blocks `significance` / `circular_statistics` / `interpolated_values`.
    - **The queryable summary scalars stay TYPED fields, not name/value bags.** In the shipped
      schemas, `vector.circular_variance`, `significance.visual_response_anova_p`,
      `fitless.pref/l50/bandwidth`, `fit_dog.r2` are all `queryable: true`. Flattening them into

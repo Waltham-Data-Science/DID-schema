@@ -25,8 +25,10 @@ lives in these files — read them instead of re-deriving from memory:
   (circular_variance, ANOVA p, c50/pref/bandwidth) stay TYPED, queryable fields — NOT a
   `{name,value}` bag (flattening them was a real query regression). `stimulus_tuningcurve` =
   the fit-less `tuning_curve`. RE-TARGETS the already-shipped 12-calculator folds, so a corpus
-  0-orphan re-verify is required (not assumed). Field NAMES (`model` vs `model_name`,
-  `coefficients` vs `parameters`, the metrics-block name) pending the T11/T13 naming pass.
+  0-orphan re-verify is required (not assumed). NAMING PASS (final): fit entry = `{model`
+  (bare bound term, not `model_name`)`, coefficients` (not `parameters`)`, goodness}`; metric
+  sub-blocks `significance` / `circular_statistics` / `interpolated_values` (the `derived_summary`
+  bag is killed).
 - **`schemas/V_eta_recording_observation_plan.md`** — the FINAL raw-recording model (decided
   in the "voltage-attribution gap" walkthrough; build deferred, TaskList #30). A raw continuous
   recording = a `<modality>_observation` of the SPECIMEN (`subject_id`=specimen,

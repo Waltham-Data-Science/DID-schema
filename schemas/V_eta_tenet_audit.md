@@ -28,7 +28,7 @@ batched** (per the team's request) so we amass several before touching code.
 | **R6/`image`** full model | FINAL → `V_eta_image_model_plan.md` | ⏳ **build deferred** (5 tasks + a strand-bug fix) |
 | **R4** `ngrid`/`array` → **`array` KILLED** (re-audit): `ngrid` **phases into `sampled_body`** (a carrier, T6; a generic array duplicates the body + names a container, T13); **`image` is standalone** (reverses `image ⊂ array`); RF family folds to calc leaves w/ **`sampled_body`-valued** maps | FINAL (re-audit revised) | ⏳ **build deferred** (batched w/ image) |
 | **R2/R3** tuning composites → one `tuning_curve` data_type + **ARRAY** of `model_fit` + **typed queryable** summary scalars + one `tuning_curve_calculation` leaf | FINAL (re-audit revised: array + typed, not single bag) → `V_eta_tuning_model_plan.md` | ⏳ **build deferred** (7 tasks; re-targets the shipped calc folds — corpus re-verify required) |
-| **R5** infra naming smells → RENAME in lockstep with NDI (not an accepted exception) | FINAL (targets to confirm w/ NDI) | ⏳ **build deferred** (cross-repo: DID-schema + NDI-matlab writers, landed together) |
+| **R5** infra naming smells → RENAME in lockstep with NDI; **targets decided** (naming pass): `binaryseries_parameters`→`acquisition_layout`, `dataseries_channel_map`→`channel_assignment`, `*_epochdata_ingested`→`<device>_epoch_cache`, `daqreader_image_*`→fold+modality field | FINAL (targets DECIDED; NDI co-signs the landing) | ⏳ **build deferred** (cross-repo: DID-schema + NDI-matlab writers, landed together) |
 | **boundary: instrument** → RETIRE | FINAL (evidence-audited: V_epsilon review class, no emitter) | ⏳ mark retire in `build_v_eta` markers |
 | **boundary: projectvar** → **PASSTHROUGH** (re-audit: retire evidence was FALSE — it IS an ndi v1 source) | FINAL (re-audit corrected) | ⏳ keep green passthrough; corpus 0-doc check before any future retire |
 | **boundary: demo_ndi(_mock)** → **PASSTHROUGH** (re-audit: drop evidence was FALSE — ndi sources; the cited test was misread) | FINAL (re-audit corrected) | ⏳ keep green passthrough; corpus 0-doc check before any drop |
@@ -44,6 +44,29 @@ risk) + the `ngrid`→`sampled_body` / RF fold (R4, same batch; `array` killed) 
 (`V_eta_tuning_model_plan.md`, tasks 1–7, re-targets the shipped calc folds + corpus
 re-verify) + `software` follow-ups (dedup pass; openMINDS `software` crosswalk). See the
 TaskList.
+
+## Naming pass — FINAL decisions (T11/T12/T13)
+
+All names below are decided (no longer "provisional"):
+- **Tuning** (`V_eta_tuning_model_plan.md`): fit entry = `{model` (bare bound term, matching
+  `color_model` — NOT `model_name`), `coefficients` (NOT `parameters`, a T13 v1 smell),
+  `goodness}`; metric sub-blocks **`significance` / `circular_statistics` / `interpolated_values`**
+  (the `derived_summary` bag is KILLED — failed the T13 "predict the content" test, overloaded
+  "derived").
+- **Stimulus** (`V_eta_stimulus_model_plan.md`): data_type **`timed_sequence`** + leaf
+  **`timed_sequence_manipulation`** (neutral so a future `_observation` leaf is possible);
+  control annotation **`control_designation`** (was `control_stimulus_ids` — drops the `ids`
+  container word).
+- **`software`** (R1): **KEEP `software`** (not `software_version`). It's the reusable entity;
+  `version` is a *field*, not part of the name (T13 — name the thing, not a coordinate). The
+  openMINDS crosswalk maps it to `SoftwareVersion`; parity is a crosswalk-entry concern, not a
+  rename.
+- **R5 infra** (cross-repo, NDI lockstep): `binaryseries_parameters` → **`acquisition_layout`**;
+  `dataseries_channel_map` → **`channel_assignment`**; `*_epochdata_ingested` →
+  **`<device>_epoch_cache`**; `daqreader_image_epochdata_ingested` → **fold** + modality field.
+  (Kills every T11/T13-banned word: `binary`/`series`/`data`/`map`/`parameters`/`ingested`/`_image`.)
+- **`array`** — N/A (KILLED; not a data_type). `image` stays `image`.
+- **`ngrid`** — retired (phases into `sampled_body`), so no go-forward name.
 
 ## ✅ Fully conceived
 
@@ -157,19 +180,26 @@ PROPOSALS to confirm with the NDI side (they own the writers and know the cache 
   `daqreader_epochdata_ingested` + a modality field (T11). **If distinct shape → keep the
   class but still drop `_image`** and name the shape it actually is. Default assumption pending
   NDI confirmation: modality variant → fold.
-- **Container words (T13):** name the content, not the box —
-  - `binaryseries_parameters` → drop `parameters` (it's the binary-series read/layout spec);
-    propose `binaryseries` or `binaryseries_layout` (confirm which is the content with NDI).
-  - `dataseries_channel_map` → drop `map`; propose `dataseries_channel` (the channel
-    assignment IS the content; `map` is the container word).
-  - the `*_epochdata_ingested` caches (`data`/`ingested`) — hardest: `epochdata`/`data` is a
-    container word and `_ingested` encodes provenance-state in the name. Propose naming the
-    cache by what it holds; exact target to be agreed with NDI (these are the most
-    implementation-mirroring names, so most likely to need the writer changed in lockstep).
+- **Container/format/cardinality words (T11/T13) — apply the grammar FULLY** (the re-audit
+  flagged the first-round targets as half-renames that left `binary`/`series`/`data` alive).
+  **NAMING PASS final proposals** (kill every banned word; confirm + land in lockstep with NDI):
+  - `binaryseries_parameters` → **`acquisition_layout`** (drops `binary`=format, `series`=
+    cardinality, `parameters`=container; the content is the read/byte-layout spec for a raw
+    acquired stream).
+  - `dataseries_channel_map` → **`channel_assignment`** (drops `data`+`series`+`map`; the
+    content is which channel is what).
+  - the `*_epochdata_ingested` caches → **`<device>_epoch_cache`** (e.g.
+    `daqreader_epoch_cache`; drops `data`/`ingested` — "cache" honestly names what it is per
+    the new T6 cache concept, `epoch` is the legitimate scope).
+  - `daqreader_image_epochdata_ingested` → **fold** into `daqreader_epoch_cache` + a modality
+    field (default: `_image` is a modality variant, T11), unless NDI confirms a genuinely
+    distinct cache *shape* (then keep a distinct class but still drop `_image`).
 
   The high-value T13 wins are already banked (the v1 `stimulus_parameter_table` /
   `stimulus_response_scalar_parameters` container names are retired, not carried forward;
-  `parameters` → `conditions`/`method_parameters`).
+  `parameters` → `conditions`/`method_parameters`). **These target names are DECIDED
+  (T11/T13-clean); the only NDI dependency is the cross-repo lockstep landing + confirming the
+  `_image` shape question — a build-coordination fact, not a deferred decision.**
 
 ### R6 — `image` model. 🟡 DECIDED (full model), BUILD DEFERRED → `V_eta_image_model_plan.md`
 The walkthrough went well past "R6 coupling": it worked out the whole `image` model. Item-2's
