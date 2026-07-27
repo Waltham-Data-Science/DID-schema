@@ -28,7 +28,7 @@ batched** (per the team's request) so we amass several before touching code.
 | **R6/`image`** full model | FINAL → `V_eta_image_model_plan.md` | ⏳ **build deferred** (5 tasks + a strand-bug fix) |
 | **R4** `ngrid` → rename `array`, generic N-D-array `data_type` (image model); RF family folds to calc leaves | FINAL | ⏳ **build deferred** (batched w/ image; also un-defers the RF fold) |
 | **R2/R3** tuning composites → one `tuning_curve` data_type + flexible `model_fit` + one `tuning_curve_calculation` leaf | FINAL → `V_eta_tuning_model_plan.md` | ⏳ **build deferred** (7 tasks; re-targets the shipped calc folds — corpus re-verify required) |
-| **R5** infra naming smells | open (low-priority) | — |
+| **R5** infra naming smells → RENAME in lockstep with NDI (not an accepted exception) | FINAL (targets to confirm w/ NDI) | ⏳ **build deferred** (cross-repo: DID-schema + NDI-matlab writers, landed together) |
 | boundary classes (instrument, interaction_purpose, stimulus_presentation, control_stimulus_ids, demo_ndi(_mock), openminds_import, projectvar, ensemble) | open | — |
 
 **Deferred-build queue (what to build once we batch):** the `image` model
@@ -131,17 +131,30 @@ descriptors always explicit (`dtype` ← `data_type`, `axes` ← `dim_sizes`/`di
 calculators; id-preserved, `software_id`, `derived_from`), RF map = the body-backed `array`
 value. Build batched with the image build (TaskList #24).
 
-### R5 — Naming smells in the kept infra. (T11, T13)
-- **Subtype-in-name (T11):** `daqreader_image_epochdata_ingested` — chunk (c) de-encoded
-  `_ndr`/`_mfdaq` but the `_image` modality variant remains a named class. Fold it into
-  `daqreader_epochdata_ingested` with a modality field, OR confirm it is a genuinely
-  distinct cache *shape* (not just a modality label) and record why it earns its own class.
-- **Container words (T13):** `binaryseries_parameters`, the `*_epochdata_ingested`
-  caches (`data`/`ingested`), and `dataseries_channel_map` carry wrapper/altitude-noise
-  words (`parameters`, `data`, `map`) — T13 says name the content, not the box. These are
-  **needs_ndi acquisition infra whose names mirror the NDI implementation**, so the bar is
-  lower and a rename is cross-repo (NDI writes these class names); treat as low-priority
-  and only rename in lockstep with NDI, or accept the NDI-mirroring exception and note it.
+### R5 — Naming smells in the kept infra. 🟡 DECIDED = RENAME IN LOCKSTEP, build deferred (T11, T13)
+**Decision (user's call): do NOT accept the NDI-mirroring exception — RENAME these to T11/T13
+compliance, coordinated with NDI-matlab so the class strings stay in sync.** Because NDI
+writes these exact class strings, the rename is a **single cross-repo change** (DID-schema
+class rename + `build_v_eta` markers + NDI-matlab writer strings + any migrator that reads the
+old name), landed together. Build deferred to the batch; concrete target names below are
+PROPOSALS to confirm with the NDI side (they own the writers and know the cache shapes).
+
+- **Subtype-in-name (T11):** `daqreader_image_epochdata_ingested`. First resolve the FACTUAL
+  question with NDI: is `_image` a genuinely distinct cache *shape*, or just a modality label
+  on the same shape as `daqreader_epochdata_ingested`? **If modality variant → fold** into
+  `daqreader_epochdata_ingested` + a modality field (T11). **If distinct shape → keep the
+  class but still drop `_image`** and name the shape it actually is. Default assumption pending
+  NDI confirmation: modality variant → fold.
+- **Container words (T13):** name the content, not the box —
+  - `binaryseries_parameters` → drop `parameters` (it's the binary-series read/layout spec);
+    propose `binaryseries` or `binaryseries_layout` (confirm which is the content with NDI).
+  - `dataseries_channel_map` → drop `map`; propose `dataseries_channel` (the channel
+    assignment IS the content; `map` is the container word).
+  - the `*_epochdata_ingested` caches (`data`/`ingested`) — hardest: `epochdata`/`data` is a
+    container word and `_ingested` encodes provenance-state in the name. Propose naming the
+    cache by what it holds; exact target to be agreed with NDI (these are the most
+    implementation-mirroring names, so most likely to need the writer changed in lockstep).
+
   The high-value T13 wins are already banked (the v1 `stimulus_parameter_table` /
   `stimulus_response_scalar_parameters` container names are retired, not carried forward;
   `parameters` → `conditions`/`method_parameters`).
