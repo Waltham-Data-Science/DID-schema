@@ -4,9 +4,9 @@
   "summary": {
     "total": 102,
     "by_disposition": {
-      "retire": 40,
+      "retire": 41,
       "dissolved \u2192 subject": 1,
-      "in_progress": 12,
+      "in_progress": 11,
       "persist": 14,
       "dissolved (rename/decompose)": 32,
       "test/demo fixture (non-production)": 2,
@@ -181,7 +181,7 @@
     {
       "v1_class": "control_stimulus_ids",
       "veta_class": "control_stimulus_ids",
-      "disposition": "in_progress",
+      "disposition": "retire",
       "migrator": true,
       "source": "ndi",
       "nonprod": false,

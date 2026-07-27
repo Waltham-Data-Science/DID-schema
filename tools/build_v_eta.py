@@ -2299,6 +2299,9 @@ _RET_SERIES_OBS = {"dataseries_observation", "timeseries_observation",
 # `image` is NOT here: image_observation subclasses `image` (its geometry mixin), so
 # image is a KEPT superclass -- retiring it would orphan a persisting class.
 _RET_CARRIERS = {"zarr", "pyraview"}
+# consumed v1 source: migrators_j.control_stimulus_ids emits `control_designation`
+# (renamed per T13 -- the `ids` container word is dropped), so its docs migrate away.
+_RET_RENAMED_SOURCES = {"control_stimulus_ids"}
 _RET_TOOBS = {"probe_location", "probe_geometry", "electrode_offset_voltage",
     "position_metadata", "distance_metadata", "ontology_label", "ontology_table_row",
     "ontology_image"}
@@ -2371,8 +2374,14 @@ _DECIDED_PENDING = {
 # NOTE: `instrument` RETIRED (deleted above, boundary re-audit). openminds_import is now
 # draft (persist + emitter gap). projectvar/demo_ndi = green passthrough (re-audit: their
 # retire evidence was false -- they ARE ndi v1 sources; corpus 0-doc check before any drop).
-_IN_PROGRESS = {"interaction_purpose", "app", "stimulus_presentation",
-    "control_stimulus_ids", "demo_ndi", "demo_ndi_mock", "openminds_import",
+# WALKTHROUGH (this session): `interaction_purpose` -> PERSIST (re-audit KEPT it as a
+# standalone annotation class and it is already built to that shape: purpose term +
+# comment + interaction_id_# -> subject_interaction, so "pending" was stale).
+# `control_stimulus_ids` -> RETIRE: it is a CONSUMED v1 source; migrators_j
+# control_stimulus_ids.m emits the renamed `control_designation` target, so its docs
+# migrate away. projectvar / demo_ndi(_mock) STAY in_progress by explicit call.
+_IN_PROGRESS = {"app", "stimulus_presentation",
+    "demo_ndi", "demo_ndi_mock", "openminds_import",
     "projectvar", "ensemble"}
 
 def _disposition(name, doc=None):
@@ -2410,6 +2419,8 @@ def _disposition(name, doc=None):
     if name in _RET_HOLDOVER or _ANALYSIS_RE.search(name):
         return ("retire", "D-C analysis-tier decompose")
     if name in _RET_CARRIERS: return ("retire", "2.D → data_body fold")
+    if name in _RET_RENAMED_SOURCES:
+        return ("retire", "consumed → control_designation (renamed target)")
     if name in _RET_TOOBS:    return ("retire", "→ observations (needs-NDI / D10-11)")
     if name in _IN_PROGRESS:  return ("in_progress", "⑥/⑦ walkthrough pending")
     return ("persist", None)

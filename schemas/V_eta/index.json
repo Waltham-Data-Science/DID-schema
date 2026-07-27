@@ -498,8 +498,8 @@
                 "app"
             ],
             "path": "schemas/V_eta/stable/control_stimulus_ids.json",
-            "disposition": "in_progress",
-            "disposition_note": "\u2465/\u2466 walkthrough pending"
+            "disposition": "retire",
+            "disposition_note": "consumed \u2192 control_designation (renamed target)"
         },
         {
             "class_name": "count",
@@ -1262,8 +1262,7 @@
                 "base"
             ],
             "path": "schemas/V_eta/stable/interaction_purpose.json",
-            "disposition": "in_progress",
-            "disposition_note": "\u2465/\u2466 walkthrough pending"
+            "disposition": "persist"
         },
         {
             "class_name": "jrclust_clusters",
