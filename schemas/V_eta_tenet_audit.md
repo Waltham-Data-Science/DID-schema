@@ -17,6 +17,24 @@ tiers per `V_eta_final_class_set.md`.*
 
 ---
 
+## Walkthrough decisions & build queue (batching — decide now, build later)
+
+The audit is being walked item-by-item; **decisions are recorded as we go and builds are
+batched** (per the team's request) so we amass several before touching code.
+
+| item | decision | built? |
+|---|---|---|
+| **R1** `app` → `software` entity + `software_id` edge + `execution_environment` | FINAL | ✅ built + green |
+| **R6/`image`** full model | FINAL → `V_eta_image_model_plan.md` | ⏳ **build deferred** (5 tasks + a strand-bug fix) |
+| **R4** `ngrid` → `sampled_body` (keep descriptor) | pattern set by R6, not yet ratified | ⏳ pending decision + build |
+| **R2/R3** tuning-composite parsimony | open (next big call) | — |
+| **R5** infra naming smells | open (low-priority) | — |
+| boundary classes (instrument, interaction_purpose, stimulus_presentation, control_stimulus_ids, demo_ndi(_mock), openminds_import, projectvar, ensemble) | open | — |
+
+**Deferred-build queue (what to build once we batch):** the `image` model
+(`V_eta_image_model_plan.md`, tasks 1–6, incl. the `image` migrator that fixes the strand
+risk) + `software` follow-ups (dedup pass; openMINDS `software` crosswalk). See the TaskList.
+
 ## ✅ Fully conceived
 
 These conform to the tenets by construction; no open questions.
@@ -117,17 +135,20 @@ field is an `ngrid`), so resolving R4 unblocks that deferral.
   `stimulus_response_scalar_parameters` container names are retired, not carried forward;
   `parameters` → `conditions`/`method_parameters`).
 
-### R6 — `image_observation` depends on `image` (in_progress). ✅ RESOLVED (Item 2)
-Decided `image` (D-image): it is **not** an entity (openMINDS has no Image type — an image
-is a File = DATA, so its raster is a `sampled_body`, T6, unlike the citable `software`
-agent). Reparented `image` from `base` → an **abstract `data_type` composite** (③) — the
-geometry/format descriptor `image_observation` pairs with, exactly as `visual_grating` is
-for `visual_grating_manipulation`. Dropped the redundant `image_file` (pixels already live
-in the `sampled_body`: the `image_stack` migrator emits `storage_mode: body` + a
-`sampled_body` and sets only the geometry block — zero `image_file` refs in any migrator)
-and the dead `element_id` dep (D2). `image` now persists ③ via the abstract-data_type rule,
-so `image_observation` couples to a settled composite. This also **sets the pattern for R4**
-(`ngrid` → fold its grid to `sampled_body`, keep the grid descriptor).
+### R6 — `image` model. 🟡 DECIDED (full model), BUILD DEFERRED → `V_eta_image_model_plan.md`
+The walkthrough went well past "R6 coupling": it worked out the whole `image` model. Item-2's
+reparent (`image` `base` → abstract `data_type`, drop `image_file`/`element_id`) is COMMITTED
+and correct as far as it goes, but the FINAL model changes the *fields* and adds a direction —
+so R6 is **decided, not built**. Decisions (final; spec in `V_eta_image_model_plan.md`):
+`image` is a `data_type` (a raster value) used across `image_observation` (measured) and a
+NEW `image_manipulation` (shown as a visual stimulus); `storage_mode` governs only the pixels
+(`inline` small / `body` opaque-default, sampled for huge chunked / `reference` opt-in for a
+shared multi-subject FOV); **descriptors are always explicit on the composite** (`dtype`,
+`axes`, `color_model`, `channels`, `value`) because `dtype` is *not* recoverable from an
+inline matrix; modality → the `variable`; `image` is NOT an entity (openMINDS = File).
+**Known bug to fix in the build:** the abstract reparent + no `image` migrator can strand
+standalone encoded-`image` docs (needs an `image` → `image_observation` + `opaque_body`
+migrator). Still **sets the pattern for R4** (`ngrid` → same treatment).
 
 ---
 

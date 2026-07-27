@@ -10,7 +10,17 @@ lives in these files — read them instead of re-deriving from memory:
   design/naming/disposition questions FROM these, not from the class list.
 - **`schemas/V_eta_tenet_audit.md`** — every persist/in_progress class bucketed vs the
   tenets: ✅ fully conceived / ⚠️ reconsider (R1–R6) / ❓ decide (the 11 boundary classes
-  + deferred source folds). The go-forward worklist for closing V_eta.
+  + deferred source folds). The go-forward worklist for closing V_eta. Its top
+  **"Walkthrough decisions & build queue"** table is the live record of the item-by-item
+  audit walkthrough — we DECIDE now and BATCH builds (team's request), so a decision can be
+  FINAL while its build is deferred. R1 (app→software) built+green; R6 (image) decided,
+  build deferred.
+- **`schemas/V_eta_image_model_plan.md`** — the FINAL `image` model (decided in the R6
+  walkthrough; build deferred, TaskList #24). image = a `data_type` (raster value) across
+  image_observation (measured) + image_manipulation (shown-as-stimulus); storage_mode governs
+  only pixels (inline/opaque-body/reference); descriptors ALWAYS explicit on the composite
+  (dtype/axes/color_model/channels) because dtype is NOT recoverable from an inline matrix;
+  modality→variable; NOT an entity. Includes the strand-bug the build must fix.
 - **`schemas/V_eta_final_class_set.md`** — the authoritative persist set (7
   categories). REGENERATE with `python3 tools/regen_final_class_set.py` (reads the
   built `V_eta/index.json` disposition markers) after every `build_v_eta.py`; never
