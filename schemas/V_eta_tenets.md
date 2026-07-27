@@ -76,6 +76,20 @@ The measuring/manipulating device is a subject (kind asserted), linked by a type
 `instrument_id`. `subject_id` = patient, `instrument_id` = agent, `method` = verb. No
 organism/cell/instrument/medium subclasses. (SPEC §8, D2)
 
+**Worked example (instrument vs. subject).** Extracellular voltage recorded from a brain
+slice with an electrode: the *slice* is the `subject` of the `voltage_observation` (the
+**patient** — its voltage is what's measured); the *electrode* is a subject too (T1), but
+here it plays the **instrument role**, referenced by `instrument_id` — it is *not* the
+subject of the recording.
+
+**The trap (do not fall in):** a device is its own subject, but it is **never the observed
+subject of the value it helps measure**. Ask two questions: "Whose value is this?" → the
+patient (`subject_id`); "What tool produced it?" → the instrument edge (`instrument_id`).
+The same electrode is the *patient* only when the statement is *about the electrode itself*
+(e.g., its measured impedance is a `voltage`/`resistance` observation whose `subject_id` is
+the electrode). This is the difference between *observing with* a device and *observing* the
+device.
+
 ### T8 — Controlled vocabularies are hard-validated, not advisory.
 A `value_set` declares an admissible set (ontology root + descendants, or an enum); a
 binding registry maps `variable` (and `method`+`variable`) → a value_set or a leaf; an
