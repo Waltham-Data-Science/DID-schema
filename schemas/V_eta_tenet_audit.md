@@ -29,7 +29,12 @@ batched** (per the team's request) so we amass several before touching code.
 | **R4** `ngrid` → rename `array`, generic N-D-array `data_type` (image model); RF family folds to calc leaves | FINAL | ⏳ **build deferred** (batched w/ image; also un-defers the RF fold) |
 | **R2/R3** tuning composites → one `tuning_curve` data_type + flexible `model_fit` + one `tuning_curve_calculation` leaf | FINAL → `V_eta_tuning_model_plan.md` | ⏳ **build deferred** (7 tasks; re-targets the shipped calc folds — corpus re-verify required) |
 | **R5** infra naming smells → RENAME in lockstep with NDI (not an accepted exception) | FINAL (targets to confirm w/ NDI) | ⏳ **build deferred** (cross-repo: DID-schema + NDI-matlab writers, landed together) |
-| boundary classes (instrument, interaction_purpose, stimulus_presentation, control_stimulus_ids, demo_ndi(_mock), openminds_import, projectvar, ensemble) | open | — |
+| **boundary: instrument / projectvar** → RETIRE | FINAL (evidence-audited) | ⏳ mark retire in `build_v_eta` markers |
+| **boundary: demo_ndi(_mock)** → examples/, drop from production | FINAL (evidence-audited) | ⏳ move + drop from persist set |
+| **boundary: interaction_purpose** → retire; `purpose` = T8 term field on `subject_interaction` | FINAL | ⏳ **build deferred** (add field + retire class + migrator) |
+| **boundary: stimulus_presentation** → always `subject_manipulation`; **control_stimulus_ids** folds in as a role field + drop `app` superclass | FINAL | ⏳ **build deferred** (extends the 2nd-pass work, TaskList #19) |
+| **boundary: openminds_import** → PERSIST + close emitter gap | FINAL (evidence-audited) | ⏳ **build deferred** (openMINDS import path must stamp it) |
+| **boundary: ensemble** | 🔄 REOPENED (naming + whole class) | — |
 
 **Deferred-build queue (what to build once we batch):** the `image` model
 (`V_eta_image_model_plan.md`, tasks 1–6, incl. the `image` migrator that fixes the strand
@@ -176,23 +181,24 @@ migrator). Still **sets the pattern for R4** (`ngrid` → same treatment).
 
 ---
 
-## ❓ Needs deciding — the boundary classes
+## ❓→✅ The boundary classes — ALL DECIDED (walkthrough, evidence-audited)
 
-The 11 `in_progress` classes are the *edges of the model*: where a tenet does not yet
-cleanly adjudicate. Each is framed as its open question.
+The 11 `in_progress` classes were the *edges of the model*. All are now decided; the five
+"clear-cut" ones were **evidence-audited** (not rubber-stamped — the user asked for this, and
+it changed the `openminds_import` call). Builds deferred to the batch.
 
-| Class | The open question (tenet) |
-|---|---|
-| ~~`app`~~ | ✅ **RESOLVED (Item 1):** becomes a `software` ENTITY + typed `software_id` edge + `execution_environment` block (T7/T9). Retires once every generator extracts its block. |
-| ~~`image`~~ | ✅ **RESOLVED (Item 2):** reparented to an abstract `data_type` composite (③, geometry descriptor); raster stays in `sampled_body` (T6); not an entity. |
-| `instrument` | T7 says devices are subjects + an `instrument_id` edge → does the `instrument` *class* survive at all, or retire into `subject` + `term_assertion`? (leaning retire) |
-| `interaction_purpose` | Is "purpose" a field/`method` qualifier on the interaction, a `term_assertion`, or a kept class? (T2/T11) |
-| `stimulus_presentation` | The 2nd pass turns a *responded-to* presentation into `visual_grating_manipulation`; the rest passes through. Is a raw presentation always a `subject_manipulation`, or acquisition infra when nothing responds? (T3/T5) |
-| `control_stimulus_ids` | A stimulus body-of-record; fate tied to `stimulus_presentation`. Field, edge, or kept? |
-| `demo_ndi`, `demo_ndi_mock` | Test/demo fixtures — persist as `examples/`, or drop from the production set? |
-| `openminds_import` | Provenance doc pinning the openMINDS release + crosswalk version — persist as ⑦/entity infra (likely yes), or fold into `dataset` provenance? (T9) |
-| `projectvar` | Session/project key–value infra — persist as ⑦, or retire? |
-| `ensemble` | Grain A (acquisition-infra map) is **decided** (`V_eta_ensemble_plan.md`); `member_of` is a runtime reconstruction, not migration. Arguably ready to **graduate to ⑦ persist** now — the only reason it is still in_progress is bookkeeping on the runtime step. |
+| Class | Decision (tenet) | Evidence / note |
+|---|---|---|
+| ~~`app`~~ | ✅ **Item 1:** `software` ENTITY + typed `software_id` edge + `execution_environment` block (T7/T9). | Built + green. |
+| ~~`image`~~ | ✅ **Item 2/R6:** abstract `data_type` composite; raster by `storage_mode`; not an entity. | `V_eta_image_model_plan.md`. |
+| `instrument` | ✅ **RETIRE** (T7). | **Audited:** provenance = V_epsilon "review/infra" — **not a did_v1 source**; no migrator emits it (only comments about the instrument_id→subject role); the `instrument_id` edge already exists in `subject_interaction`. Retiring strands nothing. |
+| `interaction_purpose` | ✅ **RETIRE → `purpose` becomes an optional T8-bound `ontology_term` field on `subject_interaction`** (T2/T11). | Each interaction carries its own purpose term; a shared purpose is the same term on each — no grouping class needed. |
+| `stimulus_presentation` | ✅ **Always a `subject_manipulation`** (option A, T3). | Presenting a stimulus *is* manipulating the subject's environment; a no-response presentation is a manipulation with no paired observation. Avoids a class whose disposition flips on whether *other* docs exist. |
+| `control_stimulus_ids` | ✅ **Fold into the manipulation as a role field** (which presented stimuli were controls); **drop its stray `app` superclass** (R1 cleanup). | Coupled to `stimulus_presentation`=A. It still carries `app` in the schema today — a straggler the build removes. |
+| `demo_ndi`, `demo_ndi_mock` | ✅ **Move to `examples/`, drop from production set.** | **Audited:** `testConvertV1ToV2.m:385` already asserts `demo_ndi` is ABSENT from converted output — the drop is what the test enforces, not a risk to it. |
+| `openminds_import` | ✅ **PERSIST as ⑦ + CLOSE THE EMITTER GAP** (T9). | **Audited — this is where the audit changed the call:** the schema exists (commit 4a20b46) but **NOTHING emits it** — no migrator, no NDI importer, not even the round-trip CI test. Persisting is right (crosswalk/version provenance is reproducibility-critical) ONLY paired with a build task so the openMINDS import path actually stamps it. Otherwise it validates nothing. |
+| `projectvar` | ✅ **RETIRE / drop.** | **Audited:** not a v1 source, `deprecated` maturity, no migrator touches it, no kept class depends on it. Nothing to strand. |
+| `ensemble` | 🔄 **REOPENED** (naming + whole-class revisit, user request). | Prior lean was "graduate to ⑦ persist" (grain A green passthrough, `V_eta_ensemble_plan.md`), but the user reopened the entire class incl. its name. See the "ensemble revisit" section below. |
 
 ### Also open — deferred source migrations still carried as passthrough (disposition `retire`, not yet done)
 These are marked `retire` but their schemas still exist and their docs pass through; they
