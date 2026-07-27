@@ -852,7 +852,7 @@ def test_relation_bindings_present():
     assert vocab["has_author"]["parent_types"] == ["person"]
 
 
-# ---------------------------------------------------------------- T14 conformance
+# ------------------------------------------------- value-cell convention conformance
 # Every `data_type` composite exposes its payload at ONE predictable slot, `value`.
 # That is what makes T3's `direction x data_type` factoring mechanical: `mass.value`
 # means the same under mass_observation and mass_assertion. The rule was unwritten for
