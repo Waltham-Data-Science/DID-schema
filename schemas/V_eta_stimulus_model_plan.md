@@ -121,11 +121,24 @@ first-class typed doc — no dictionary-digging.
   computed by the `tuning_response` app, `tuning_response.m:653–656`). NOT baked into the
   immutable body. Renamed off the `ids` container word (T13); `app` straggler dropped. The
   app always sets `stimulus_presentation_id`, so presentation-less docs are a non-issue.
-- **`stimulus_approach`** (out-of-band curator conditions, e.g. "left eye occluded"): how it
-  attaches to a `timed_sequence_manipulation` — still a pending walkthrough item.
+- **`stimulus_approach` — RESOLVED: no such class in V_eta.** Investigated the writer
+  (`add_stimulus_approach.m`): it creates **openMINDS `StimulationApproach` controlled terms**
+  per epoch (looked up from the ontology, e.g. "spatial frequency tuning") — i.e. an *approach/
+  purpose term tagging an interaction*, not a bespoke condition class (matching the proposal's
+  own note that it drifted onto purpose content). So: a stimulus "approach" **folds into
+  `interaction_purpose`** (an approach term on the epoch's interaction, via the openMINDS
+  controlled-term path); genuine out-of-band *subject conditions* ("left eye occluded"), if ever
+  needed, are a **`term_observation` of the subject** (epoch-scoped). No new class; the stale
+  `stimulus_approach` provenance row is corrected to RETIRE.
 - **`visual_grating_manipulation`** reconciliation (keep for presentation-less single gratings,
   or retire) — build-time.
-- **Hartley/sparse-noise data_types**: MOOT for this path (stimulus type lives in the
-  referenced data_type doc); the only residual is confirming whether a Hartley basis function
-  is literally a `visual_grating` (kx,ky) or wants its own composite — pending a check of the
-  vhlab stimulus code (NDIcalc-vis, out of scope here).
+- **Hartley/sparse-noise data_types — RESOLVED.** A **Hartley basis function IS a
+  `visual_grating`** (the Ringach basis = 2-D sinusoidal gratings indexed by `(kx,ky,sign)`,
+  inter-convertible with `(orientation,sf,phase)`; the proposal itself calls the dictionary
+  "the 225 Hartley basis functions"). So each is a referenced `visual_grating` doc — **no
+  `hartley` data_type**. The only residual is a **build-time param-mapping check** against the
+  vhlab code (NDIcalc-vis, out of scope here) — a verification, not a design fork.
+  **`sparse_noise`** earns its own `data_type` **only if/when a real corpus needs it**
+  (mint-when-warranted, T12, like `kernel`); until then it's just another referenced
+  `data_type` doc. The "dispatch by stimulus type" branch stays moot (stimulus type lives in
+  the referenced doc).

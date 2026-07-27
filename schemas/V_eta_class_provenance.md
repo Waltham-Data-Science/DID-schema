@@ -208,7 +208,7 @@
 | `spike_extraction_parameters_modification` | stable | **did_v1** | D-C analysis tier |
 | `spike_interface_sorting_outputs` | stable | **V_gamma** | D-C analysis tier |
 | `spikewaves` | stable | **did_v1** | D-C analysis tier |
-| `stimulus_approach` | stable | **V_epsilon** | D-C analysis tier |
+| `stimulus_approach` | — (no V_eta schema) | **V_epsilon** | RETIRE — not a V_eta class; "approach" = a `StimulationApproach` ontology term → `interaction_purpose`; conditions → `term_observation` of the subject |
 | `stimulus_manipulation` | stable | **V_epsilon** | J leaf |
 | `stimulus_parameter` | stable | **did_v1** | D-C analysis tier |
 | `stimulus_parameter_table` | stable | **did_v1** | D-C analysis tier |
