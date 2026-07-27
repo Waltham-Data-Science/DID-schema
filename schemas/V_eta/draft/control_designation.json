@@ -1,0 +1,56 @@
+{
+    "document_class": {
+        "class_name": "control_designation",
+        "class_version": "1.0.0",
+        "superclasses": [
+            {
+                "class_name": "base"
+            }
+        ],
+        "maturity_level": "draft"
+    },
+    "depends_on": [
+        {
+            "name": "timed_sequence_id",
+            "mustBeNonEmpty": false,
+            "documentation": "The presentation whose stimuli these controls annotate.",
+            "must_refer_to_document_class": "timed_sequence"
+        },
+        {
+            "name": "derived_from_1",
+            "mustBeNonEmpty": false,
+            "documentation": "Provenance: the analysis/interaction this designation was derived from (T10).",
+            "must_refer_to_document_class": "subject_interaction"
+        }
+    ],
+    "file": [],
+    "fields": [
+        {
+            "name": "control_stimulus",
+            "type": "matrix",
+            "blank_value": [],
+            "default_value": [],
+            "mustBeNonEmpty": false,
+            "mustBeScalar": false,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Indices/ids (into the timed_sequence) of the presented stimuli that serve as the control reference.",
+            "constraints": {}
+        },
+        {
+            "name": "method",
+            "type": "structure",
+            "blank_value": {},
+            "default_value": {},
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "How the control designation was derived (method / controlid / controlid_value).",
+            "constraints": {},
+            "fields": []
+        }
+    ]
+}

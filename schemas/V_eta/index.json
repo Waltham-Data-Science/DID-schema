@@ -498,6 +498,17 @@
             "disposition": "persist"
         },
         {
+            "class_name": "control_designation",
+            "tier": "draft",
+            "class_version": "1.0.0",
+            "maturity_level": "draft",
+            "superclasses": [
+                "base"
+            ],
+            "path": "schemas/V_eta/draft/control_designation.json",
+            "disposition": "persist"
+        },
+        {
             "class_name": "control_stimulus_ids",
             "tier": "stable",
             "class_version": "1.0.0",
@@ -2390,6 +2401,29 @@
                 "base"
             ],
             "path": "schemas/V_eta/stable/time_reference.json",
+            "disposition": "persist"
+        },
+        {
+            "class_name": "timed_sequence",
+            "tier": "draft",
+            "class_version": "1.0.0",
+            "maturity_level": "draft",
+            "superclasses": [
+                "data_type"
+            ],
+            "path": "schemas/V_eta/draft/timed_sequence.json",
+            "disposition": "persist"
+        },
+        {
+            "class_name": "timed_sequence_manipulation",
+            "tier": "draft",
+            "class_version": "1.0.0",
+            "maturity_level": "draft",
+            "superclasses": [
+                "subject_manipulation",
+                "timed_sequence"
+            ],
+            "path": "schemas/V_eta/draft/timed_sequence_manipulation.json",
             "disposition": "persist"
         },
         {

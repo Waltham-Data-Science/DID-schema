@@ -1,0 +1,53 @@
+{
+    "document_class": {
+        "class_name": "timed_sequence",
+        "class_version": "1.0.0",
+        "superclasses": [
+            {
+                "class_name": "data_type"
+            }
+        ],
+        "maturity_level": "draft",
+        "abstract": true
+    },
+    "depends_on": [
+        {
+            "name": "presented_id",
+            "mustBeNonEmpty": false,
+            "documentation": "References to the DISTINCT presented stimulus data_type docs (deduped); the playlist indexes these.",
+            "must_refer_to_document_class": "data_type",
+            "multiple": true
+        }
+    ],
+    "file": [],
+    "fields": [
+        {
+            "name": "value",
+            "type": "structure",
+            "blank_value": {},
+            "default_value": {},
+            "mustBeNonEmpty": true,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "An ordered, timed list of references to presented data_type docs.",
+            "constraints": {},
+            "fields": [
+                {
+                    "name": "presentation_order",
+                    "type": "matrix",
+                    "blank_value": [],
+                    "default_value": [],
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": false,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Playlist: an index array into the `presented_id` references, one entry per trial (distinct-refs + index-array encoding).",
+                    "constraints": {}
+                }
+            ]
+        }
+    ]
+}

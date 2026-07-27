@@ -1079,6 +1079,58 @@ write("draft", "tuning_curve_calculation",
       doc("tuning_curve_calculation", ["subject_calculation", "tuning_curve"],
           maturity="draft"))
 
+# ---------- timed_sequence: the stimulus-presentation TARGET (re-audit) --------------
+# V_eta_stimulus_model_plan.md: a stimulus presentation = an ordered, timed list of
+# references to stimulus `data_type` docs. `timed_sequence` (data_type; neutral name so a
+# future `_observation` leaf is possible) references the DISTINCT presented data_type docs
+# (`presented_id → data_type`, broad) + a `presentation_order` index-array playlist;
+# `timed_sequence_manipulation` (leaf) adds subject + instrument (stimulator, T7) + time.
+# storage_mode governs inline-vs-shared (multi-subject → a shared timed_sequence doc
+# referenced by N manipulations). Decompose of v1 stimulus_presentation (around its
+# preserved id) is the coupled DID-matlab 2nd-pass step. Additive here.
+write("draft", "timed_sequence",
+      doc("timed_sequence", ["data_type"], abstract=True, maturity="draft",
+          deps=[dep("presented_id", "data_type",
+                    "References to the DISTINCT presented stimulus data_type docs "
+                    "(deduped); the playlist indexes these.", non_empty=False, multiple=True)],
+          fields=[field("value", "structure",
+                        "An ordered, timed list of references to presented data_type docs.",
+                        non_empty=True, blank={}, sub_fields=[
+              subfield("presentation_order", "matrix",
+                       "Playlist: an index array into the `presented_id` references, one "
+                       "entry per trial (distinct-refs + index-array encoding).", scalar=False),
+          ])]))
+write("draft", "timed_sequence_manipulation",
+      doc("timed_sequence_manipulation", ["subject_manipulation", "timed_sequence"],
+          maturity="draft",
+          deps=[dep("timed_sequence_id", "timed_sequence",
+                    "For storage_mode:reference (multi-subject) — the shared timed_sequence "
+                    "body this manipulation presents.", non_empty=False)]))
+
+# ---------- control_designation: derived control-stimulus annotation (re-audit) ------
+# Was `control_stimulus_ids` (drops the `ids` container word, T13). A DERIVED annotation
+# (the tuning_response app computes it): references the timed_sequence + carries which
+# presented stimuli are the control reference + the derivation method; marked derived
+# (derived_from). NOT baked into the immutable stimulus body. Additive target; the
+# migrator (control_stimulus_ids → control_designation) is the coupled DID-matlab step.
+write("draft", "control_designation",
+      doc("control_designation", ["base"], maturity="draft",
+          deps=[
+              dep("timed_sequence_id", "timed_sequence",
+                  "The presentation whose stimuli these controls annotate.", non_empty=False),
+              dep("derived_from_1", "subject_interaction",
+                  "Provenance: the analysis/interaction this designation was derived from "
+                  "(T10).", non_empty=False),
+          ],
+          fields=[
+              field("control_stimulus", "matrix",
+                    "Indices/ids (into the timed_sequence) of the presented stimuli that "
+                    "serve as the control reference.", scalar=False),
+              field("method", "structure",
+                    "How the control designation was derived "
+                    "(method / controlid / controlid_value).", non_empty=False),
+          ]))
+
 # contrast_sensitivity: the ndi.calc.vis.contrast_sensitivity output
 # (contrast_sensitivity_calc) is a FLAT bag of sensitivity/gain/c50/p-value matrices
 # with NO result-composite superclass -- so AUTHOR a `contrast_sensitivity` data_type
