@@ -110,11 +110,11 @@ first-class typed doc — no dictionary-digging.
 - **Retire** the v1 `stimulus_presentation` class only after the decomposition lands; until
   then it is a green passthrough. Supersedes #19 (visual_grating_manipulation dissolve).
 
-## Open / deferred
+## Resolved (naming pass + walkthrough) / build-deferred
 
-- **Naming** `timed_sequence` is provisional pending the T11/T13 naming pass (neutral by
-  design; the leaf `timed_sequence_manipulation` reads a little flat for "a stimulus
-  presentation" — accepted cost of neutrality).
+- **Naming — FINAL.** `timed_sequence` + `timed_sequence_manipulation` confirmed in the naming
+  pass (neutral by design so a future `_observation` leaf is possible; the leaf reads a little
+  flat for "a stimulus presentation" — accepted cost of neutrality). Not provisional.
 - **`control_stimulus_ids` → `control_designation` — RESOLVED.** A separate **derived**
   annotation doc (option c): references the `timed_sequence` + the control stimulus `data_type`
   doc(s), carries the `method` (how derived), marked `derived_from`/`software_id` (T10 — it is
