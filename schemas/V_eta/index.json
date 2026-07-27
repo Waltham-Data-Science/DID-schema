@@ -1189,6 +1189,18 @@
             "disposition": "persist"
         },
         {
+            "class_name": "image_manipulation",
+            "tier": "draft",
+            "class_version": "1.0.0",
+            "maturity_level": "draft",
+            "superclasses": [
+                "subject_manipulation",
+                "image"
+            ],
+            "path": "schemas/V_eta/draft/image_manipulation.json",
+            "disposition": "persist"
+        },
+        {
             "class_name": "image_observation",
             "tier": "draft",
             "class_version": "1.0.0",

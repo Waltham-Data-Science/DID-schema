@@ -1253,6 +1253,12 @@ write("stable", "image", _img)
 
 write("draft", "image_observation",
       doc("image_observation", ["subject_observation", "image"], maturity="draft"))
+# image_manipulation: an image/video SHOWN to the subject as a visual stimulus (raster
+# sibling of visual_grating_manipulation, which is a parametric stimulus). image model
+# decision 2 (V_eta_image_model_plan.md). Referenced by a timed_sequence as one presented
+# `data_type` doc (the stimulus model), or used standalone.
+write("draft", "image_manipulation",
+      doc("image_manipulation", ["subject_manipulation", "image"], maturity="draft"))
 
 
 # ---------- 11b. pre-seed J §7's comprehensive numeric set ----------
