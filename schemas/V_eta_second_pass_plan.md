@@ -19,6 +19,14 @@ Status: design. Grounded in the existing harness (`ndi.migrate.local`,
 `epochClockOfElement(elementId, epochId)`.
 
 ## Item 1: stimulus_presentation → visual_grating_manipulation (body-backed)
+> **SUPERSEDED — see `V_eta_stimulus_model_plan.md`.** The stimulus-presentation model
+> was re-decided: a presentation is now a `timed_sequence` (a `data_type` — an ordered,
+> timed list of `presented_id → data_type` references to standalone stimulus docs) +
+> a `timed_sequence_manipulation` leaf; `control_stimulus_ids` → `control_designation`.
+> The `visual_grating_manipulation`-as-the-whole-timeline approach below is retained only
+> as historical context (`visual_grating` still exists as one referenced distinct-stimulus
+> `data_type`). Read the stimulus plan for the current design.
+
 DECISION (architect): a visual `stimulus_presentation` becomes a body-backed
 `visual_grating_manipulation` on the ANIMAL. The target leaf is the new
 `visual_grating` composite (angle, spatial_frequency, temporal_frequency, contrast,

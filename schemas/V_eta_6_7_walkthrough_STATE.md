@@ -31,13 +31,19 @@ infra classes graduated from `in_progress` → **persist (⑦)** via `build_v_et
 `syncrule`, `syncrule_mapping`, `directory`, `ngrid`, `dataseries_channel_map`,
 `binaryseries_parameters`, `filter`.
 
-STILL `in_progress` — 11 classes that need a team call the walkthrough left open:
-`instrument`, `interaction_purpose` (subject-domain, "needs a call"); `app` (genus,
-survival unresolved); `stimulus_presentation`, `control_stimulus_ids` (D-B stimulus
-bodies-of-record, sampled_body fate open); `demo_ndi`, `demo_ndi_mock` (test fixtures);
-`image` (image_observation geometry mixin, ⑥/⑦ fate open); `openminds_import`
-(provisional); `projectvar` (infra, unsettled); `ensemble` (grain A decided, NDI
-second-pass member_of pending — `V_eta_ensemble_plan.md`).
+RESOLVED SINCE this walkthrough (were `in_progress`, now decided):
+`instrument` → **RETIRED** (roles are edges, T7; absent from disk); `app` → **`software`
+entity + `software_id` edge** (R1); `image` → **standalone `image` `data_type`** (R6;
+`array` killed); `stimulus_presentation` + `control_stimulus_ids` → **`timed_sequence` /
+`timed_sequence_manipulation` / `control_designation`** (`V_eta_stimulus_model_plan.md`,
+supersedes D-B); `ensemble` → **per-neuron-primary + group-subject + epoch-scoped
+`member_of` + rebuildable cache** (`V_eta_ensemble_plan.md`, supersedes the old "grain A /
+MAP-doc-as-infra" reading); `openminds_import` → **draft** maturity.
+
+STILL `in_progress` — the genuinely-open classes the walkthrough left for a team call:
+`interaction_purpose` (kept as a standalone subject-domain class — see the boundary-class
+row in `V_eta_tenet_audit.md`); `demo_ndi`, `demo_ndi_mock` (test fixtures — passthrough);
+`projectvar` (infra, passthrough).
 
 ## ⑥/⑦ sub-groups (the original grouping, for context)
 
@@ -55,9 +61,12 @@ second-pass member_of pending — `V_eta_ensemble_plan.md`).
 ## Also surfaced by the ⑦ audit (this session) — belongs to OTHER tracks, not ⑥/⑦:
 
 - **→ data_body (2.D fold):** `timeseries_data*`, `dataseries_data`, `dataseries_pyramid`,
-  `imageseries_data`, `ephys_zarr`, `image_zarr`, `zarr`, `image`, `image_collection`,
-  `generic_file`, `pyraview`. Index/geometry infra KEPT: `ngrid`, `dataseries_channel_map`,
+  `imageseries_data`, `ephys_zarr`, `image_zarr`, `zarr`, `image_collection`,
+  `generic_file`, `pyraview`. Index/geometry infra KEPT: `dataseries_channel_map`,
   `binaryseries_parameters`, `filter`.
+  (**R6 update:** bare `image` is NOT in this list — it is now a ③ standalone `image`
+  `data_type` composite; only its *pixels* phase into a `sampled_body` via `storage_mode`.
+  `ngrid` likewise phases INTO `sampled_body` per R4 — it is no longer "kept index infra".)
 - **→ observations (needs-NDI):** `probe_location`, `probe_geometry`, `electrode_offset_voltage`,
   `position_metadata`, `distance_metadata`.
 - **→ observations (D10/D11):** `ontology_label`, `ontology_table_row`, `ontology_image`.

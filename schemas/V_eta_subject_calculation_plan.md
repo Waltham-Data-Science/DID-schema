@@ -1,5 +1,15 @@
 # V_eta — `subject_calculation` composite-leaf family (scoping)
 
+> **SUPERSEDED for the tuning leaves — see `V_eta_tuning_model_plan.md` (R2/R3).** The
+> `subject_calculation` DIRECTION + calculator-motif fold (the core of this doc) is CURRENT.
+> But the per-tuning enumeration below (§3/§4, and the `stimulus_tuningcurve_calculation`
+> leaf named in the status block) is stale: the 6 v1 tuning composites collapsed to ONE
+> `tuning_curve` `data_type`, and ALL tuning-family calcs now fold to the ONE
+> `tuning_curve_calculation` leaf — there are no per-tuning `*_calculation` leaves and no
+> `stimulus_tuningcurve_calculation` leaf. `contrast_sensitivity_calc` is the exception:
+> it stays on its own `contrast_sensitivity_calculation`. Read those sections for the
+> motif; take the concrete class list from the tuning plan.
+
 Status: **IMPLEMENTED — 12/12 vision calculators green** (CI gates #17–#21; Soph
 ~101k-doc corpus green — 0 orphans). Done: `parameters→conditions` rename; the
 `subject_calculation` direction + composites/leafs; the 5 tuning result classes + their

@@ -2,6 +2,20 @@
 
 *Every go-forward (`stable`+`draft`) class, its **origin** (earliest schema version the class name first appears, rename-aware; `did_v1` = present in the NDI production document set), and its J-disposition. NOTE: origin = when the NAME appeared, not 'unchanged since' — many `did_v1`-origin classes (e.g. `subject`, `measurement`) were fully reshaped by J; the true unexamined holdovers are `did_v1`-origin classes NOT in a decided track.*
 
+> **⚠️ PARTIALLY STALE snapshot (hand-maintained; not tool-consumed).** The **origin** column
+> still serves as the source-vs-target arbiter, but the class list + **disposition** column
+> predate the post-J builds. For the authoritative CURRENT class set + dispositions use the
+> generated **`V_eta_final_class_set.md`** (re-run `tools/regen_final_class_set.py`) and the
+> **`V_eta_coverage_ledger`**. Known-stale rows here: the 6 v1 tuning composites + their
+> `*_calc` wrappers + `tuningcurve_calc`/`stimulus_tuningcurve` (COLLAPSED to `tuning_curve` /
+> `tuning_curve_calculation`, T10/R2/R3); `app` (→ `software`, R1); `instrument` (RETIRED);
+> `image` (standalone `data_type`, R6); `control_stimulus_ids` (→ `control_designation`);
+> `stimulus_presentation` (→ `timed_sequence`); `subject_relation` (→ `relation`);
+> `stimulus_manipulation` (never built); `zarr` (a storage format ⊂ `base`, NOT a
+> quantity/dimension composite). Missing target rows: `software`, `tuning_curve(_calculation)`,
+> `contrast_sensitivity(_calculation)`, `timed_sequence(_manipulation)`, `control_designation`,
+> `image_manipulation`, `ensemble`.
+
 | class | tier | origin | disposition |
 |---|---|---|---|
 | `acceleration` | stable | **V_eta** | J dim abstract |

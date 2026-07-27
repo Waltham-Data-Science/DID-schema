@@ -4,7 +4,7 @@
 The conversation gets compacted and loses fine-grained state. The durable record
 lives in these files — read them instead of re-deriving from memory:
 
-- **`schemas/V_eta_tenets.md`** — the NORTH STAR: Brainstorm J's thesis + the 12 tenets
+- **`schemas/V_eta_tenets.md`** — the NORTH STAR: Brainstorm J's thesis + the 13 tenets
   (T1–T13, incl. T11 naming grammar, T12 "when is a new data_type warranted", T13 naming
   altitude/case). Answer
   design/naming/disposition questions FROM these, not from the class list.
@@ -13,8 +13,13 @@ lives in these files — read them instead of re-deriving from memory:
   + deferred source folds). The go-forward worklist for closing V_eta. Its top
   **"Walkthrough decisions & build queue"** table is the live record of the item-by-item
   audit walkthrough — we DECIDE now and BATCH builds (team's request), so a decision can be
-  FINAL while its build is deferred. R1 (app→software) built+green; R6 (image standalone),
-  R4 (`array` KILLED → ngrid phases into sampled_body), R2/R3 (tuning) decided, builds deferred.
+  FINAL while its build is deferred. R1 (app→software) built+green; R2/R3 (tuning collapse)
+  + R6 (image standalone) now BUILT schema-side (tuning_curve/tuning_curve_calculation,
+  image data_type + image_observation/_manipulation) + migrators — quick fixture gate GREEN,
+  full-corpus 0-orphan re-verify PENDING (test-code.yml). STILL deferred: R4's ngrid→sampled_body
+  fold (ngrid still in stable/), software dedup + openMINDS crosswalk, R5 renames, and the
+  NDI second-pass assemblers (ensemble member_of+cache, raw-recording observation, timed_sequence
+  decompose).
 - **`schemas/V_eta_tuning_model_plan.md`** — the FINAL tuning-composite model (decided in the
   R2/R3 walkthrough; build deferred, TaskList #26). The 6 overlapping v1 tuning classes +
   5 fit shapes collapse to ONE `tuning_curve` `data_type` (independent variable = a
@@ -162,7 +167,11 @@ lives in these files — read them instead of re-deriving from memory:
   fold single-doc — `tuning_curve` (tuningcurve_calc + raw stimulus_tuningcurve) landed
   as migrators_j.tuningcurve_calc + migrators_j.stimulus_tuningcurve, both -> the
   `stimulus_tuningcurve_calculation` leaf (so downstream stimulus_tuningcurve_id refs
-  resolve to either). CORRECTION of an earlier "hard-won fact": tuningcurve_calc does
+  resolve to either). **[SUPERSEDED by R2/R3 — see `V_eta_tuning_model_plan.md`: the per-tuning
+  result classes + the `stimulus_tuningcurve_calculation` leaf named in this block COLLAPSED to
+  the ONE `tuning_curve_calculation` leaf (+ `tuning_curve` composite); `contrast_sensitivity`
+  stays on its own `contrast_sensitivity_calculation`. The id-preserving 1→1 fold mechanism +
+  the 0-orphan result are unchanged — only the target leaf/composite NAMES changed.]** CORRECTION of an earlier "hard-won fact": tuningcurve_calc does
   NOT lack a subject — it IS-A stimulus_tuningcurve (v1 superclass) and inherits a
   POPULATED element_id (the writer sets it from the consumed stimulus_response_scalar,
   NDI-matlab +app/+stimulus/tuning_response.m line 499; verified against the calc mock

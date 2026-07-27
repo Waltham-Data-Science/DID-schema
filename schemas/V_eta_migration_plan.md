@@ -463,13 +463,18 @@ associated file (e.g. `ontology_image`'s image) becomes an `opaque_body` /
 
 ### D.3 Mechanical (renames / snake_case / type-tightening — design-neutral)
 
-All 14 tuning/calculator classes (`contrast_tuning`(+`_calc`),
-`contrast_sensitivity_calc`, `orientation_direction_tuning`/`oridirtuning_calc`,
-`spatial_frequency_tuning`(+`_calc`), `speed_tuning`(+`_calc`),
-`temporal_frequency_tuning`(+`_calc`), `reverse_correlation`,
-`hartley_reverse_correlation`, `hartley_calc`) **carry over verbatim** from the
-V_zeta conversions — they are infrastructure with no subject-side surface, just
-as V_zeta reused them from V_epsilon.
+The tuning/calculator classes do **NOT** carry over verbatim (this superseded an
+earlier "infrastructure with no subject-side surface" reading). Per T10 (the
+calculator motif) and R2/R3 (the tuning collapse): every calculator output is a
+`subject_calculation` LEAF, migrated 1→1 with `base.id` + `depends_on` preserved.
+The 6 v1 tuning composites (`contrast_tuning`, `orientation_direction_tuning`,
+`spatial_frequency_tuning`, `speed_tuning`, `temporal_frequency_tuning`,
+`stimulus_tuningcurve`) collapse to ONE `tuning_curve` `data_type`, and all their
+migrators + `*_calc` wrappers + `tuningcurve_calc` fold to the ONE
+`tuning_curve_calculation` leaf. `contrast_sensitivity_calc` folds to its own
+`contrast_sensitivity_calculation`. `hartley`/`reverse_correlation` (RF) → a
+`sampled_body`-valued map (2.D), still deferred. See `V_eta_tuning_model_plan.md`
+and `V_eta_subject_calculation_plan.md`.
 
 ---
 

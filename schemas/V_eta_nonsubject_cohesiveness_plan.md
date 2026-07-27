@@ -122,6 +122,10 @@ stored as raw `char` (`fileparameters`, `epochprobemap`, `parameters`,
 split in §Governance findings and Phase 7.
 
 ### 2.B Stimulus  *(~5.5k docs)*  — **RESOLVED (D-B); pass-1 = bodies-of-record, minting deferred**
+> **SUPERSEDED — see `V_eta_stimulus_model_plan.md`.** The D-B `stimulus_presentation` →
+> `stimulus_manipulation` (NDI-2nd-pass-minted) model is replaced by `timed_sequence`
+> (`data_type`) + `timed_sequence_manipulation` (leaf); `control_stimulus_ids` →
+> `control_designation`. There is no `stimulus_manipulation` class on disk.
 
 The subject-side model is: `stimulus_presentation` (+ `control_stimulus_ids`) is
 the manipulation's *value*, surfaced to the subject as a **`stimulus_manipulation`**
@@ -161,6 +165,12 @@ untyped pending referent-class review (its v1 antecedent pointed at a *parameter
 doc, not a response).
 
 ### 2.C The analysis tier — calc **and** spike-sorting  *(~0.9k + spike-sorting docs)*  — **DECOMPOSE (D-C, generalized)**
+> **SUPERSEDED for calculators — see `V_eta_subject_calculation_plan.md` + tenet T10.** The
+> "no `calculation` genus / dissolve calcs → observations + `data_body`" position below was
+> reversed: dissolving a calc dangles every downstream ref (the 11,448-orphan lesson). A
+> `subject_calculation` DIRECTION was added and calculators are kept as id-preserved
+> `subject_calculation` composite LEAFS (1→1). Spike-sorting decomposition (D-C's other half)
+> still holds. `subject_calculation.json` is on disk.
 
 **D-C is not "calc" — it is the whole analysis tier.** The holdover audit found the
 spike-sorting family (`spikewaves`, `spike_clusters`, `spike_extraction_parameters`,

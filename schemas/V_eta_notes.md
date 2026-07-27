@@ -43,6 +43,12 @@ which keeps I's "identity off the class" and rebuilds the subject side. Concrete
 The value-cell composites, the `time_reference` frames (minus `sampling`), and all
 non-subject infrastructure carry over verbatim.
 
+> **PARTIALLY SUPERSEDED (post-J builds).** "Verbatim" no longer holds for the tuning/
+> response calculators (folded to `tuning_curve`/`tuning_curve_calculation`, R2/R3+T10),
+> `image*` (restructured to a standalone `image` `data_type`, R6; `array` killed),
+> `openminds*` (decompose to assertions), `element`/`instrument` (retired), and `app`
+> (→ `software`, R1). See `V_eta_tenets.md` + `V_eta_tenet_audit.md`.
+
 ## Decisions taken (D1–D9)
 
 All resolved with the maintainer; recorded in `V_eta_migration_plan.md` Part E.

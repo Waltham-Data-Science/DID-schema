@@ -5,6 +5,16 @@
 **every** one a J-disposition so the whole set can be reviewed for Brainstorm-J
 cohesiveness — not just the families touched piecemeal (D-A…D-E).*
 
+> **⚠️ STALE point-in-time snapshot (hand-maintained).** The class count (**258**) and several
+> dispositions predate the post-J builds — the current build is ~200 classes; use the generated
+> **`V_eta_final_class_set.md`** for the authoritative set. Known-stale entries: the D-C
+> "calc/`*_tuning` zoo → observations + `data_body`, no genus" position was REVERSED —
+> calculators are kept as id-preserved `subject_calculation` LEAFS (a `subject_calculation`
+> direction was added), and the 6 tuning composites COLLAPSED to `tuning_curve` /
+> `tuning_curve_calculation` (T10/R2/R3); the D-B `stimulus_presentation` model → `timed_sequence`;
+> `app` → `software` (R1); `instrument` RETIRED; `zarr` is a storage format ⊂ `base` (not a
+> dimension abstract); `value_set` was dropped (absent from disk).
+
 **J-cohesiveness test:** a go-forward class must be one of — a `subject`; a
 `subject_statement` (assertion / observation / manipulation); a `subject_relation`;
 a `time_reference`; a `data_body`; a legitimate **acquisition/storage-infra** class;

@@ -188,7 +188,7 @@ second-pass join):
 
 | source field | is | disposition |
 |---|---|---|
-| `formatOntology` (e.g. `NCIT:C85437`) | the **file type** (TIFF/MP4-like) | **dropped** — a container format is derivable from the stored bytes (and the short form already rides on `image.image_format`); an ontology term for it is a redundant projection |
+| `formatOntology` (e.g. `NCIT:C85437`) | the **file type** (TIFF/MP4-like) | **dropped** — a container format is derivable from the stored bytes (and the format is derivable from `image.dtype`/`color_model`); an ontology term for it is a redundant projection |
 | `label` (84–352 char prose) | the **definition** of the variable's ontology term | **dropped** — reconstructable as a projection; it is a description, not a name (1,299/6,000 exceed the 256 name cap) |
 | `imageStack_parameters` | geometry/clock/dtype | `image` mixin + `sampled_body` (datum/sample_time) |
 | files | the pixel bytes | `sampled_body` body_data |

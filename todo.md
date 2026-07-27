@@ -1,5 +1,11 @@
 # Schemas with Undefined Sub-field Structure
 
+> **Historical (pre-Brainstorm-J) work-log — all items DONE.** This targets the pre-V_eta
+> base schema; several classes named below were since killed or renamed in V_eta
+> (`subject_group`, `valid_interval`, `stimulus_tuningcurve`/`tuningcurve_calc` → `tuning_curve`,
+> `control_stimulus_ids` → `control_designation`, `stimulus_presentation` → `timed_sequence`).
+> No open items remain; kept as a record.
+
 These schemas contain fields typed as `char` that actually hold serialised JSON
 (objects or arrays). The current schemas truncate at that level — the internal
 structure of these fields is not yet defined. Examples are needed so the

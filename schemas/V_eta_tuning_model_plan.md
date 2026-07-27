@@ -114,14 +114,19 @@ be re-verified on the corpus after the re-target, not assumed.
    terms; seed bindings. Add the typed, queryable metrics block for the summary scalars.
    *(Field/block names finalized in the naming pass.)*
 3. **Add `tuning_curve_calculation` leaf** = `subject_calculation` + `tuning_curve`.
-4. **Re-target the 12 calculator migrators** (`migrators_j.*_calc`, `tuningcurve_calc`,
-   `stimulus_tuningcurve`) onto `tuning_curve_calculation` + `tuning_curve`; map each v1
+4. **Re-target the 12 tuning-family calculator migrators** — the 5 `*_tuning` result
+   classes, their 5 `*_tuning_calc`/`oridirtuning_calc` wrappers, `tuningcurve_calc`, and
+   the raw `stimulus_tuningcurve` — onto `tuning_curve_calculation` + `tuning_curve`.
+   NOT `contrast_sensitivity_calc`: it is a distinct aggregate that stays on
+   `contrast_sensitivity_calculation` (the tuning collapse does not touch it). Map each v1
    fit block (`fit`/`fit_dog`/`fit_movshon`/`fit_spline`/`priebe_fit_*`/…) into a `model_fit`
    ARRAY entry (`model` term + coefficients + goodness); map the `vector`/`significance`/
    `fitless` scalars into the TYPED metrics block (queryable), NOT into `model_fit`.
 5. **Retire the five per-tuning composite class names + `stimulus_tuningcurve`** as distinct
    composites (they become instances of `tuning_curve`); update `V_eta_migration_targets.json`
-   (the 13 calc-family entries) to point at `tuning_curve_calculation`; update
+   (the 12 tuning-family entries) to point at `tuning_curve_calculation` — the 13th
+   calc-family entry, `contrast_sensitivity_calc`, stays on `contrast_sensitivity_calculation`;
+   update
    `_DELETE_PHASE8` / `_RET_*` markers so the doc counts follow.
 6. **Fixtures/tests**: a raw `tuning_curve` (no fit), a double-gaussian orientation fit, a
    Naka-Rushton contrast fit, a Priebe speed fit, and a frequency case with **multiple

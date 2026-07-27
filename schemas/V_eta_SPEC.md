@@ -217,6 +217,15 @@ The value-cell composites (`mass`/`temperature`/… cells, `term`, `date`,
 tuning/response calculators, `openminds*`, `ontology_*`, `zarr`/`image*`,
 `probe_*` — carry over from V_zeta. The V_zeta deprecations stay deprecated.
 
+> **PARTIALLY SUPERSEDED (post-J builds).** "Verbatim carryover" no longer holds for
+> several items above: the tuning/response calculators FOLDED to `tuning_curve` +
+> `tuning_curve_calculation` (+ `contrast_sensitivity_calculation`) per R2/R3 & T10;
+> `image*` was RESTRUCTURED to a standalone `image` `data_type` (R6; `array` killed);
+> `openminds*` DECOMPOSE to `term_assertion`s; `element`/`instrument` RETIRED; `app` →
+> `software` entity (R1). Only the value-cell composites, the `time_reference` frames, and
+> the (re-governed) acquisition infra truly carry over verbatim. See `V_eta_tenets.md` and
+> the R-series in `V_eta_tenet_audit.md`.
+
 ---
 
 ## Resolved decisions

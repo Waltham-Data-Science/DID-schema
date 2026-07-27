@@ -4,7 +4,7 @@
 `V_eta_tenets.md` (T1–T13). Three buckets: **✅ fully conceived** (clean under all
 tenets), **⚠️ needs reconsidering** (a tenet tension/violation to resolve), **❓ needs
 deciding** (a genuinely open modeling call). Retired/consumed source classes are audited
-only for "is the retirement decided" at the end. Snapshot: 166 persist + 11 in_progress;
+only for "is the retirement decided" at the end. Snapshot: 162 persist + 9 in_progress;
 tiers per `V_eta_final_class_set.md`.*
 
 ## Summary
@@ -13,7 +13,7 @@ tiers per `V_eta_final_class_set.md`.*
 |---|--:|---|
 | ✅ Fully conceived | ~140 | spine core, entities, dimensioned-quantity composites + their leaves, substances, time_reference family, data_body, the decided acquisition/infra |
 | ⚠️ Needs reconsidering | 6 (R1–R6) | `subject_calculation` placement + `app` coupling; the 5-way tuning-composite family; `stimulus_tuningcurve` raw-vs-fitted overlap; `ngrid` bulk-data carrier; infra naming smells (T11/T13); `image`→`image_observation` coupling |
-| ❓ Needs deciding | 11 in_progress + the deferred-retire migrations | the model's boundary classes + unfinished source folds |
+| ❓ Needs deciding | 9 in_progress + the deferred-retire migrations | the model's boundary classes + unfinished source folds |
 
 ---
 
@@ -90,7 +90,7 @@ These conform to the tenets by construction; no open questions.
   under T11 (name = data type + stance, nothing else) and T3. Includes the one `term`
   family (`term_observation/manipulation/assertion`, T11), `date_assertion`,
   `numeric_assertion` (abstract parent), `dose_manipulation`, `visual_grating_manipulation`.
-  (The 6 `*_calculation` leaves inherit the ③ tuning ⚠️; `image_observation` is ⚠️.)
+  (The one `tuning_curve_calculation` leaf inherits the ③ tuning ⚠️; `image_observation` is ⚠️.)
 - **⑤ time_reference family (8/8):** `time_reference` + `epoch_/event_/session_bounded_`
   and `_relative_reference` + `utc_reference` — regular `<origin>_<mode>_reference`
   naming (T11), the T6 timing model. Clean.
@@ -229,7 +229,7 @@ Builds deferred to the batch.
 | Class | Decision (tenet) | Evidence / note |
 |---|---|---|
 | ~~`app`~~ | ✅ **Item 1:** `software` ENTITY + typed `software_id` edge + `execution_environment` block (T7/T9). | Built + green. |
-| ~~`image`~~ | ✅ **Item 2/R6:** `data_type` composite, **`image ⊂ array`** (re-audit); raster by `storage_mode`; not an entity. | `V_eta_image_model_plan.md`. |
+| ~~`image`~~ | ✅ **Item 2/R6:** standalone `data_type` composite (**`array` KILLED** — image does not subclass anything); raster by `storage_mode`; not an entity. | `V_eta_image_model_plan.md`. |
 | `instrument` | ✅ **RETIRE** (T7). | **Audited (held up in re-audit):** provenance = V_epsilon "review/infra" — **not a did_v1 source**; no migrator emits it; the `instrument_id` edge already exists in `subject_interaction`. Retiring strands nothing. |
 | `interaction_purpose` | ✅ **KEEP as a standalone repeatable annotation class** (`purpose` ontology_term + `comment`; `interaction_id → subject_interaction`, multiple ≥1). *(Re-audit REVERSED the earlier retire→field call.)* | A field loses: instance-level grouping (one purpose spanning several interactions), per-group comment, and immutability-safety (a field mutates a possibly machine-generated interaction). Standalone doc is J-compatible (annotation-as-document, T4). Corroborated by the ndi-next-steps `Interaction_Purpose_Proposal.md` + a reviewer. |
 | `stimulus_presentation` | ✅ **`timed_sequence` model** → `V_eta_stimulus_model_plan.md`. *(Re-audit SUPERSEDED "always subject_manipulation / dissolve".)* | `timed_sequence` (data_type: ordered+timed refs to stimulus data_type docs) + `timed_sequence_manipulation` (leaf). Presentation is decomposed around its preserved id (not dissolved); multi-subject via `storage_mode`; stimulator → `instrument_id` (T7). Value-by-reference, same as recording/ensemble. |
