@@ -26,7 +26,7 @@ batched** (per the team's request) so we amass several before touching code.
 |---|---|---|
 | **R1** `app` → `software` entity + `software_id` edge + `execution_environment` | FINAL | ✅ built + green |
 | **R6/`image`** full model | FINAL → `V_eta_image_model_plan.md` | ⏳ **build deferred** (5 tasks + a strand-bug fix) |
-| **R4** `ngrid` → `sampled_body` (keep descriptor) | pattern set by R6, not yet ratified | ⏳ pending decision + build |
+| **R4** `ngrid` → rename `array`, generic N-D-array `data_type` (image model); RF family folds to calc leaves | FINAL | ⏳ **build deferred** (batched w/ image; also un-defers the RF fold) |
 | **R2/R3** tuning-composite parsimony | open (next big call) | — |
 | **R5** infra naming smells | open (low-priority) | — |
 | boundary classes (instrument, interaction_purpose, stimulus_presentation, control_stimulus_ids, demo_ndi(_mock), openminds_import, projectvar, ensemble) | open | — |
@@ -111,14 +111,20 @@ raw-vs-analyzed overlap. If R2 collapses to a parameterized `tuning_curve`, **`s
 should be that shared base** (the raw curve) and the fitted composites should *reference/
 extend* it, not re-declare it. Reconsider together with R2.
 
-### R4 — `ngrid` is shelved as infra but carries bulk data. (T6)
-`ngrid` keeps grid metadata (`ndims`, `dim_sizes`, `data_type`) in the body and the actual
-N-dimensional array in a **file** (`ngrid_file`). By T6, a grid of sampled data is a
-`sampled_body` (a multi-dimensional `datum` + descriptor), not a distinct infra carrier —
-"encoding/format is a field, not a class." **Reconsider:** fold `ngrid` → `sampled_body`
-(N-dim datum), OR justify it as a pure index/geometry descriptor that never holds the data
-(it currently does). This also **blocks the hartley/RF calculator fold** (its receptive
-field is an `ngrid`), so resolving R4 unblocks that deferral.
+### R4 — `ngrid` → rename `array`, a generic N-D-array `data_type`. 🟡 DECIDED, build deferred
+`ngrid` is the image model minus picture semantics: a labeled N-D numeric grid
+(`ndims`/`dim_sizes`/`dim_labels`/`data_type`) whose bulk data was a file (`ngrid_file`),
+`element_id`-scoped. Only `reverse_correlation` (→ `hartley_reverse_correlation` →
+`hartley_calc`, the RF family) builds on it. **Decision** (applies the `image` model, T6;
+`V_eta_image_model_plan.md`): rename `ngrid` → **`array`**, reparent `base` → an abstract
+`data_type` composite (the generic N-D numeric array — image's picture-free sibling; the two
+are **parallel** data_types, not one ⊂ the other); grid data governed by `storage_mode`
+(inline small / body large: `opaque_body` default, `sampled_body` for chunked reads);
+descriptors always explicit (`dtype` ← `data_type`, `axes` ← `dim_sizes`/`dim_labels`); drop
+`ngrid_file` + `element_id` (D2). **Payoff:** un-blocks the deferred RF fold —
+`reverse_correlation`/`hartley_*` fold to `subject_calculation` leaves (like the 12 tuning
+calculators; id-preserved, `software_id`, `derived_from`), RF map = the body-backed `array`
+value. Build batched with the image build (TaskList #24).
 
 ### R5 — Naming smells in the kept infra. (T11, T13)
 - **Subtype-in-name (T11):** `daqreader_image_epochdata_ingested` — chunk (c) de-encoded

@@ -104,6 +104,18 @@ stimulus, multi-subject FOV, tiny inline filter/thumbnail).
    a **reference** multi-subject FOV.
 6. **openMINDS crosswalk**: `format`/`color_model` ≈ openMINDS `ContentType`; note it.
 
+## Sibling: `array` (ex-`ngrid`) — same model, no picture semantics (audit R4, DECIDED)
+
+`ngrid` is the same shape as `image` minus the picture semantics — a labeled N-D **numeric
+array**. Decision (R4): rename `ngrid` → **`array`**, reparent `base` → an abstract
+`data_type` composite **parallel** to `image` (not `image ⊂ array` and not the reverse —
+`image` adds color/channels an `array` shouldn't carry). Same rules: descriptors explicit
+(`dtype` ← `data_type`, `axes` ← `dim_sizes`/`dim_labels`); grid data by `storage_mode`
+(inline / opaque_body / sampled_body-for-chunked); drop `ngrid_file` + `element_id`. **This
+un-defers the receptive-field fold:** `reverse_correlation` / `hartley_reverse_correlation`
+/ `hartley_calc` fold to `subject_calculation` leaves (like the 12 tuning calculators), the
+RF map = a body-backed `array` value. Built in the same batch (TaskList #24).
+
 ## Deferred / out of scope
 
 - **`kernel` / small-matrix data_type** (e.g. a 3×3 conv filter): a kernel is *not* a
