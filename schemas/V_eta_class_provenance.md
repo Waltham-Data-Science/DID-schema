@@ -150,6 +150,7 @@
 | `opaque_body` | draft | **V_eta** | 2.D data_body |
 | `openminds` | stable | **did_v1** | RETIRE (Phase 8) |
 | `openminds_element` | stable | **did_v1** | RETIRE (Phase 8) |
+| `openminds_import` | draft | **V_eta** | PERSIST ⑦ provenance (emitter gap: openMINDS import path must stamp it; draft until exercised) |
 | `openminds_stimulus` | stable | **did_v1** | RETIRE (Phase 8) |
 | `openminds_subject` | stable | **did_v1** | RETIRE (Phase 8) |
 | `oridirtuning_calc` | stable | **V_delta** | D-C analysis tier |
