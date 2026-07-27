@@ -1345,7 +1345,8 @@ _img["fields"] = [
           non_empty=False),
     field("value", "matrix",
           "The pixels; populated iff storage_mode:inline, else empty (they live in a "
-          "data_body).", non_empty=False),
+          "data_body). A raster is N-D, never scalar.", scalar=False, blank=[],
+          non_empty=False),
 ]
 write("stable", "image", _img)
 

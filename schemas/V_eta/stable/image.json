@@ -75,14 +75,14 @@
         {
             "name": "value",
             "type": "matrix",
-            "blank_value": 0.0,
-            "default_value": 0.0,
+            "blank_value": [],
+            "default_value": [],
             "mustBeNonEmpty": false,
-            "mustBeScalar": true,
+            "mustBeScalar": false,
             "mustNotHaveNaN": false,
             "queryable": true,
             "ontology": null,
-            "documentation": "The pixels; populated iff storage_mode:inline, else empty (they live in a data_body).",
+            "documentation": "The pixels; populated iff storage_mode:inline, else empty (they live in a data_body). A raster is N-D, never scalar.",
             "constraints": {}
         }
     ]
