@@ -16,7 +16,7 @@
       "ndi": 91,
       "app": 11
     },
-    "with_migrator": 59,
+    "with_migrator": 60,
     "gaps": 0
   },
   "rows": [
@@ -182,7 +182,7 @@
       "v1_class": "control_stimulus_ids",
       "veta_class": "control_stimulus_ids",
       "disposition": "in_progress",
-      "migrator": false,
+      "migrator": true,
       "source": "ndi",
       "nonprod": false,
       "gap": false,
