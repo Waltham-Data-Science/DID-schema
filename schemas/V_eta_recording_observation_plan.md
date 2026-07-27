@@ -40,9 +40,28 @@ specimen S, taken with electrode E"), and captures modality/units that the bare-
 
 ## Consequences / open sub-points (for the build + re-audit)
 
-- **Modality→variable mapping.** Needs a small map from element/probe `type` (or
-  `ndi_element_class`) to the modality term (voltage/current/image/…). Where the type is
-  unknown, fall back to a generic `signal`/`timeseries` modality rather than guessing.
+- **Modality→variable mapping + the unknown-modality guard (Guard A — DECIDED).** A map from
+  element/probe `type` (or `ndi_element_class`) to the modality data_type
+  (voltage/current/image/…) drives the typed leaf. **Never mint a `timeseries_observation` /
+  `signal_observation` class** (T11-banned words). For an element type NOT in the map, the
+  recording is STILL a typed observation — its data_type is the generic **`array`** (an N-D
+  numeric-over-time value, `dtype`/`axes` explicit, no units) with `variable` carrying the
+  best-known label + a **queryable `modality_unresolved` flag**; re-type to the specific
+  `<modality>_observation` when the modality is identified. **So there are NO untyped docs**
+  (`array` is a real data_type), and unresolved-modality is a *tracked, terminal* state, not a
+  ragged edge:
+  1. Populate the map for **every element type present in the corpus** (a finite, enumerable
+     set) → `array` is a safety net, not the normal path.
+  2. **Build gate: 0 fallbacks.** On the real corpus, assert **zero recordings fell to the
+     `array` fallback** (same discipline as the 0-orphan gate). Any that did ⇒ the map is
+     incomplete ⇒ add the type ⇒ re-migrate. Drives the count to zero.
+  3. The `array` fallback + `modality_unresolved` flag then only ever catch *unexpected future*
+     element types — surfaced as a queryable worklist, resolved by extending the map (+ re-run)
+     or in the NDI second pass (element/instrument graph), never silently.
+- **Multi-channel (DECIDED).** A multi-channel recording (e.g. a 32-site probe) is **ONE**
+  observation whose `sampled_body` carries a **channel axis** (a dimension + per-channel labels,
+  T6) — not N per-channel observations. Path-S (below) can split into per-site part-subjects
+  later only if a real need arises.
 - **Specimen granularity (T5/Path-S).** Attributing to the whole specimen is faithful to v1
   but coarse (a probe records a *locus*, not the whole animal). Path-S can later promote a
   recording-locus part-subject if a real query need arises; not now.
@@ -57,11 +76,18 @@ specimen S, taken with electrode E"), and captures modality/units that the bare-
 
 1. **Recording-observation assembler.** A migrator step that, for a direct recording element,
    emits a `<modality>_observation`: `subject_id`=specimen, `instrument_id`=element-subject,
-   `variable`=modality (via the mapping), body=the `sampled_body`, timing=the acquisition
-   epoch. Retire the redundant `observes` relation for direct devices.
-2. **Modality map** (element type → modality term), with a generic fallback.
+   `variable`=modality (via the map), body=the `sampled_body` (multi-channel → a channel axis
+   on the body), timing=the acquisition epoch. Retire the redundant `observes` relation for
+   direct devices. (Also handles spike-train elements → the per-neuron spike-time bodies the
+   ensemble model depends on.)
+2. **Modality map** (element type → modality data_type) covering every element type in the
+   corpus; the **`array` fallback + `modality_unresolved` flag** (Guard A) for anything else;
+   **NEVER** a `timeseries_observation` class.
 3. **Fixtures/tests**: an extracellular `voltage_observation` (specimen subject, electrode
-   instrument, voltage variable, sampled_body); assert the `observes` relation is gone and the
-   body is now wrapped + typed.
+   instrument, voltage variable, multi-channel sampled_body); a multi-channel body with a
+   channel axis; an `array`-fallback case (assert typed, `modality_unresolved` flagged, no
+   `timeseries_observation` minted); assert the `observes` relation is gone and the body is
+   wrapped + typed.
 4. **Corpus re-verify**: the reshape must stay 0-orphan (the sampled_body's referrers now
-   resolve through the observation; ids preserved where they were).
+   resolve through the observation; ids preserved where they were) **AND 0 `array`-fallbacks**
+   (the map covers every corpus element type).
