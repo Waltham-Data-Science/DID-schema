@@ -71,6 +71,17 @@ dataseries, zarr, image, generic_file — phases into those; **encoding/format i
 not a class**. Timing splits: the anchor lives in `time_reference`, the per-sample
 cadence rides beside the value. (SPEC §8)
 
+**Primary vs. derived (the cache rule; cross-ref T10/T12).** When representation *B* is
+**losslessly derivable** from representation *A*, store *A* once at the **finest grain** and
+treat *B* as a **rebuildable cache**, never as a second source of truth. A materialized cache
+is still one of the two bodies (usually `sampled_body`), but it is marked `derived_from` its
+source subjects (T10) and carries no authority — deleting it loses nothing, because it
+regenerates from *A*. Store the source, project the view. *Example:* per-neuron spike trains
+are the source of truth; an ensemble's combined (time, neuron) marked-point-process is a
+derived cache for fast population reads, not primary data (see `V_eta_ensemble_plan.md`).
+This is the storage-side face of T12 parsimony: never store the same information twice, but
+a *marked, disposable* cache is a permitted performance exception, not a duplicate source.
+
 ### T7 — Roles are edges, not subclasses.
 The measuring/manipulating device is a subject (kind asserted), linked by a typed
 `instrument_id`. `subject_id` = patient, `instrument_id` = agent, `method` = verb. No

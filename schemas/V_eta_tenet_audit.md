@@ -35,6 +35,7 @@ batched** (per the team's request) so we amass several before touching code.
 | **boundary: stimulus_presentation** → always `subject_manipulation`; **control_stimulus_ids** folds in as a role field + drop `app` superclass | FINAL | ⏳ **build deferred** (extends the 2nd-pass work, TaskList #19) |
 | **boundary: openminds_import** → PERSIST + close emitter gap | FINAL (evidence-audited) | ⏳ **build deferred** (openMINDS import path must stamp it) |
 | **boundary: ensemble** → per-neuron primary + group-subject membership + derived cache; map doc dissolves | FINAL → `V_eta_ensemble_plan.md` | ⏳ **build deferred** (2nd pass: member_of + cache; verify-before-delete) |
+| **raw-recording model** (voltage-attribution gap) → a `<modality>_observation` of the specimen (`instrument_id`→electrode), not device-attached data | FINAL → `V_eta_recording_observation_plan.md` | ⏳ **build deferred** (assembler migrator + modality map; 0-orphan re-verify) |
 
 **Deferred-build queue (what to build once we batch):** the `image` model
 (`V_eta_image_model_plan.md`, tasks 1–6, incl. the `image` migrator that fixes the strand

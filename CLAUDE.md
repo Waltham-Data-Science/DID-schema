@@ -23,6 +23,13 @@ lives in these files — read them instead of re-deriving from memory:
   schema enforcement) + ONE `tuning_curve_calculation` leaf. `stimulus_tuningcurve` = the
   fit-less `tuning_curve`. RE-TARGETS the already-shipped 12-calculator folds, so a corpus
   0-orphan re-verify is required (not assumed).
+- **`schemas/V_eta_recording_observation_plan.md`** — the FINAL raw-recording model (decided
+  in the "voltage-attribution gap" walkthrough; build deferred, TaskList #30). A raw continuous
+  recording = a `<modality>_observation` of the SPECIMEN (`subject_id`=specimen,
+  `instrument_id`=the electrode/element-subject per T7, `variable`=modality voltage/current/
+  image/…, body=`sampled_body`); REPLACES the loose `probe observes specimen` relation +
+  bare-body path the migrators emit today. Closes the gap where raw signal was migrated as
+  device-attached pieces with no typed observation + dropped modality/units.
 - **`schemas/V_eta_image_model_plan.md`** — the FINAL `image` model (decided in the R6
   walkthrough; build deferred, TaskList #24). image = a `data_type` (raster value) across
   image_observation (measured) + image_manipulation (shown-as-stimulus); storage_mode governs
