@@ -1183,11 +1183,10 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                "base"
+                "data_type"
             ],
             "path": "schemas/V_eta/stable/image.json",
-            "disposition": "in_progress",
-            "disposition_note": "\u2465/\u2466 walkthrough pending"
+            "disposition": "persist"
         },
         {
             "class_name": "image_observation",

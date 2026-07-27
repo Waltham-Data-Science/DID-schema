@@ -1226,6 +1226,22 @@ write("draft", "opaque_body", opaque)
 # broader imageseries/dataseries/timeseries_observation branch this begins to
 # supersede is retired WITH the NDI-side ingest work (see the header note), not
 # here -- so this addition is purely additive and does not touch that branch.
+# image: reparent base -> an abstract data_type COMPOSITE (Item-2 decision, R6). `image`
+# is image_observation's geometry/format descriptor -- the "image" data_type, exactly as
+# visual_grating is for visual_grating_manipulation. It is NOT an entity: openMINDS has no
+# Image type (an image is a File = DATA), so the raster is a sampled_body (T6), not a
+# citable agent like `software`. Drop the redundant `image_file` (the pixels live in the
+# sampled_body -- the image_stack migrator emits storage_mode:body + a sampled_body, and
+# sets only the geometry block, never image_file) and the dead `element_id` dep (element
+# retired, D2); keep the geometry/format fields. Graduates to persist ③ via the
+# abstract-data_type rule.
+_img = load(os.path.join(VETA, "stable", "image.json"))
+_img["document_class"]["superclasses"] = [{"class_name": "data_type"}]
+_img["document_class"]["abstract"] = True
+_img["depends_on"] = []
+_img["file"] = []
+write("stable", "image", _img)
+
 write("draft", "image_observation",
       doc("image_observation", ["subject_observation", "image"], maturity="draft"))
 
@@ -2081,14 +2097,13 @@ _KEEP_INFRA = {"daqsystem", "daqreader", "daqmetadatareader",
 #   - stimulus_presentation, control_stimulus_ids : D-B stimulus bodies-of-record whose
 #                                       sampled_body fate is still open.
 #   - demo_ndi, demo_ndi_mock         : demo/test fixtures, place in the final set unsettled.
-#   - image                           : kept as image_observation's geometry mixin; ⑥/⑦ fate open.
 #   - openminds_import                : new provenance doc, provisional.
 #   - projectvar                      : infra, unsettled.
 #   - ensemble                        : grain A (acquisition-infra) decided, but its NDI
 #                                       second-pass member_of relations are pending
 #                                       (V_eta_ensemble_plan.md) -- kept in_progress until then.
 _IN_PROGRESS = {"instrument", "interaction_purpose", "app", "stimulus_presentation",
-    "control_stimulus_ids", "demo_ndi", "demo_ndi_mock", "image", "openminds_import",
+    "control_stimulus_ids", "demo_ndi", "demo_ndi_mock", "openminds_import",
     "projectvar", "ensemble"}
 
 def _disposition(name, doc=None):

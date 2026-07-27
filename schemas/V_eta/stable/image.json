@@ -4,25 +4,14 @@
         "class_version": "1.0.0",
         "superclasses": [
             {
-                "class_name": "base"
+                "class_name": "data_type"
             }
         ],
-        "maturity_level": "stable"
+        "maturity_level": "stable",
+        "abstract": true
     },
-    "depends_on": [
-        {
-            "name": "element_id",
-            "mustBeNonEmpty": false,
-            "documentation": "The document ID of the element this image is associated with.",
-            "must_refer_to_document_class": "subject"
-        }
-    ],
-    "file": [
-        {
-            "name": "image_file",
-            "documentation": "The image file (e.g., PNG, TIFF, JPEG)."
-        }
-    ],
+    "depends_on": [],
+    "file": [],
     "fields": [
         {
             "name": "image_type",

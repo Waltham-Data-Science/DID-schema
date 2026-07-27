@@ -117,14 +117,17 @@ field is an `ngrid`), so resolving R4 unblocks that deferral.
   `stimulus_response_scalar_parameters` container names are retired, not carried forward;
   `parameters` → `conditions`/`method_parameters`).
 
-### R6 — `image_observation` (persist) depends on `image` (in_progress). (coherence)
-`image_observation` is a finished leaf, but `image` — its geometry mixin — is unsettled.
-A persist class should not rest on an in_progress one. **Decide `image`** (D-image below):
-keep it as a ⑦ geometry mixin, or fold its raster to `sampled_body`/`opaque_body` (T6) and
-leave `image_observation` carrying only geometry fields.
-
-*(R1/R6 share a root: two finished tiers (calculations, image observations) each rest on
-one still-open infra class — `app`, `image`. Settling those two classes closes both.)*
+### R6 — `image_observation` depends on `image` (in_progress). ✅ RESOLVED (Item 2)
+Decided `image` (D-image): it is **not** an entity (openMINDS has no Image type — an image
+is a File = DATA, so its raster is a `sampled_body`, T6, unlike the citable `software`
+agent). Reparented `image` from `base` → an **abstract `data_type` composite** (③) — the
+geometry/format descriptor `image_observation` pairs with, exactly as `visual_grating` is
+for `visual_grating_manipulation`. Dropped the redundant `image_file` (pixels already live
+in the `sampled_body`: the `image_stack` migrator emits `storage_mode: body` + a
+`sampled_body` and sets only the geometry block — zero `image_file` refs in any migrator)
+and the dead `element_id` dep (D2). `image` now persists ③ via the abstract-data_type rule,
+so `image_observation` couples to a settled composite. This also **sets the pattern for R4**
+(`ngrid` → fold its grid to `sampled_body`, keep the grid descriptor).
 
 ---
 
@@ -136,7 +139,7 @@ cleanly adjudicate. Each is framed as its open question.
 | Class | The open question (tenet) |
 |---|---|
 | ~~`app`~~ | ✅ **RESOLVED (Item 1):** becomes a `software` ENTITY + typed `software_id` edge + `execution_environment` block (T7/T9). Retires once every generator extracts its block. |
-| `image` | ⑦ geometry mixin (persist), or fold raster → data_body (T6)? **Blocks R6.** |
+| ~~`image`~~ | ✅ **RESOLVED (Item 2):** reparented to an abstract `data_type` composite (③, geometry descriptor); raster stays in `sampled_body` (T6); not an entity. |
 | `instrument` | T7 says devices are subjects + an `instrument_id` edge → does the `instrument` *class* survive at all, or retire into `subject` + `term_assertion`? (leaning retire) |
 | `interaction_purpose` | Is "purpose" a field/`method` qualifier on the interaction, a `term_assertion`, or a kept class? (T2/T11) |
 | `stimulus_presentation` | The 2nd pass turns a *responded-to* presentation into `visual_grating_manipulation`; the rest passes through. Is a raw presentation always a `subject_manipulation`, or acquisition infra when nothing responds? (T3/T5) |
