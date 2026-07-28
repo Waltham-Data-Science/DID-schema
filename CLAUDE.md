@@ -61,6 +61,19 @@ lives in these files — read them instead of re-deriving from memory:
   descriptors ALWAYS explicit on the composite (dtype/axes/color_model/channels) because dtype
   is NOT recoverable from an inline matrix; modality→variable; NOT an entity. Includes the
   strand-bug the build must fix.
+- **BINDING GOVERNANCE (T8) — deferred follow-up, AFTER the current WIP items.** Recorded in
+  `V_eta_tenet_audit.md` ("Deferred follow-up — binding governance"). Two open questions,
+  evidence already gathered: (1) `subject_statement.variable`, `subject_interaction.method`
+  and `interaction_purpose.purpose` are **completely unbound** (`constraints = {}`) even
+  though T8 says the registry maps `variable` (and `method`+`variable`) to a value_set —
+  `variable` is the key the whole system pivots on (`term.value` is `keyed_by: variable`)
+  yet nothing requires `variable` itself to resolve. (2) Strength lives on the FIELD, not
+  the registry: all 5 registry entries have `strength: null` while the field constraint does
+  the work — decide which is authoritative before adding entries. Only SIX fields carry a
+  binding at all (term.value, dataset.accessibility/ethics_assessment/experimental_approach,
+  the two epoch_clock fields). `binding` is NOT enforced by the validator yet
+  (validateConstraints handles only maxLength/minLength/minimum/maximum/enum), so these are
+  declarative — cheap to fix now, expensive once a validator reads them.
 - **`schemas/V_eta_final_class_set.md`** — the authoritative persist set (7
   categories). REGENERATE with `python3 tools/regen_final_class_set.py` (reads the
   built `V_eta/index.json` disposition markers) after every `build_v_eta.py`; never

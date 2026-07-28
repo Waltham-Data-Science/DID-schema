@@ -349,6 +349,50 @@ viewer says *why* something is WIP.
   (`value = {pixels, dtype, axes, color_model, channels}`), so every `data_type` now
   exposes exactly one payload slot. Query paths went 2 → 7.
 
+### Deferred follow-up — binding governance (T8) — AFTER the current WIP items
+
+Surfaced while resolving finding B, and deliberately **not** folded into it: the `term`
+composite's binding is one field, but the binding *system* has two unresolved questions.
+Evidence as built (re-derive with a walk over `constraints.binding`):
+
+**Only SIX fields in the whole schema carry a binding at all:**
+
+| class | field | strength |
+|---|---|---|
+| `term` | `value` | required *(set in the finding-B work)* |
+| `dataset` | `accessibility` | required |
+| `dataset` | `ethics_assessment` | required |
+| `dataset` | `experimental_approach` | preferred |
+| `epoch_bounded_reference` | `epoch_clock` | required |
+| `epoch_relative_reference` | `epoch_clock` | required |
+
+The dimensioned leaves carry none, correctly — their values are numbers, nothing to bind.
+
+**(1) `variable` and `method` are completely unbound.**
+```
+subject_statement.variable   ontology_term   constraints = {}
+subject_interaction.method   ontology_term   constraints = {}
+interaction_purpose.purpose  ontology_term   constraints = {}
+```
+This is backwards from T8, which says the registry maps **`variable`** (and
+`method`+`variable`) to a value_set — and `term.value`'s binding is literally
+`keyed_by: variable`. So `variable` is the key the entire binding system pivots on, and
+nothing declares that `variable` itself must resolve to a controlled term. `method` is
+named explicitly by T8 and is equally unbound. These are the identity and the verb of
+every statement (T2); if anything deserves a hard-validated vocabulary, they do.
+
+**(2) Strength lives on the field, not in the registry.**
+All five `subject_statement_bindings` entries are keyed `(variable, class)`, every one is
+`class: term_assertion`, and **every `strength` is null** — the field constraint has been
+doing the job the registry was designed for. Decide which is authoritative before adding
+more entries, or the two will drift.
+
+*Also note: nothing enforces `binding` yet at all — `validateConstraints` handles only
+maxLength / minLength / minimum / maximum / enum, so every binding above is declarative
+pending the ontology-aware validator T8 describes. That does not make the questions
+academic; it means the declarations are cheap to get right now and expensive to correct
+after a validator starts reading them.*
+
 ### What the walkthrough produced beyond markers
 
 The ③ review surfaced that the **named composite types were undeclared** — enum strings
