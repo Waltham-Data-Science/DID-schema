@@ -6,8 +6,8 @@
     "by_disposition": {
       "retire": 41,
       "dissolved \u2192 subject": 1,
-      "in_progress": 11,
-      "persist": 14,
+      "in_progress": 21,
+      "persist": 4,
       "dissolved (rename/decompose)": 32,
       "test/demo fixture (non-production)": 2,
       "dissolved \u2192 measurement": 1
@@ -197,7 +197,7 @@
     {
       "v1_class": "daqmetadatareader",
       "veta_class": "daqmetadatareader",
-      "disposition": "persist",
+      "disposition": "in_progress",
       "migrator": false,
       "source": "ndi",
       "nonprod": false,
@@ -229,7 +229,7 @@
     {
       "v1_class": "daqreader",
       "veta_class": "daqreader",
-      "disposition": "persist",
+      "disposition": "in_progress",
       "migrator": false,
       "source": "ndi",
       "nonprod": false,
@@ -309,7 +309,7 @@
     {
       "v1_class": "daqsystem",
       "veta_class": "daqsystem",
-      "disposition": "persist",
+      "disposition": "in_progress",
       "migrator": false,
       "source": "ndi",
       "nonprod": false,
@@ -495,7 +495,7 @@
     {
       "v1_class": "epochfiles_ingested",
       "veta_class": "epochfiles_ingested",
-      "disposition": "persist",
+      "disposition": "in_progress",
       "migrator": false,
       "source": "ndi",
       "nonprod": false,
@@ -511,7 +511,7 @@
     {
       "v1_class": "epochid",
       "veta_class": "epochid",
-      "disposition": "persist",
+      "disposition": "in_progress",
       "migrator": false,
       "source": "ndi",
       "nonprod": false,
@@ -527,7 +527,7 @@
     {
       "v1_class": "filenavigator",
       "veta_class": "filenavigator",
-      "disposition": "persist",
+      "disposition": "in_progress",
       "migrator": false,
       "source": "ndi",
       "nonprod": false,
@@ -543,7 +543,7 @@
     {
       "v1_class": "filter",
       "veta_class": "filter",
-      "disposition": "persist",
+      "disposition": "in_progress",
       "migrator": true,
       "source": "ndi",
       "nonprod": false,
@@ -1538,7 +1538,7 @@
     {
       "v1_class": "syncgraph",
       "veta_class": "syncgraph",
-      "disposition": "persist",
+      "disposition": "in_progress",
       "migrator": false,
       "source": "ndi",
       "nonprod": false,
@@ -1554,7 +1554,7 @@
     {
       "v1_class": "syncrule",
       "veta_class": "syncrule",
-      "disposition": "persist",
+      "disposition": "in_progress",
       "migrator": false,
       "source": "ndi",
       "nonprod": false,
@@ -1570,7 +1570,7 @@
     {
       "v1_class": "syncrule_mapping",
       "veta_class": "syncrule_mapping",
-      "disposition": "persist",
+      "disposition": "in_progress",
       "migrator": false,
       "source": "ndi",
       "nonprod": false,

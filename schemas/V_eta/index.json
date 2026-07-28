@@ -98,7 +98,8 @@
                 "epochid"
             ],
             "path": "schemas/V_eta/stable/acquisition_epoch.json",
-            "disposition": "persist"
+            "disposition": "in_progress",
+            "disposition_note": "\u2466 infra tier re-opened: the KEEP predated T11/T13 scrutiny (R5 found 5 of its siblings needed renames/folds); needs a naming + governance confirmation, NDI lockstep where the writers own the class string"
         },
         {
             "class_name": "amount",
@@ -495,7 +496,8 @@
                 "base"
             ],
             "path": "schemas/V_eta/draft/control_designation.json",
-            "disposition": "persist"
+            "disposition": "in_progress",
+            "disposition_note": "\u2466 infra tier re-opened: the KEEP predated T11/T13 scrutiny (R5 found 5 of its siblings needed renames/folds); needs a naming + governance confirmation, NDI lockstep where the writers own the class string"
         },
         {
             "class_name": "control_stimulus_ids",
@@ -601,7 +603,8 @@
                 "base"
             ],
             "path": "schemas/V_eta/stable/daqmetadatareader.json",
-            "disposition": "persist"
+            "disposition": "in_progress",
+            "disposition_note": "\u2466 infra tier re-opened: the KEEP predated T11/T13 scrutiny (R5 found 5 of its siblings needed renames/folds); needs a naming + governance confirmation, NDI lockstep where the writers own the class string"
         },
         {
             "class_name": "daqmetadatareader_epochdata_ingested",
@@ -625,7 +628,8 @@
                 "base"
             ],
             "path": "schemas/V_eta/stable/daqreader.json",
-            "disposition": "persist"
+            "disposition": "in_progress",
+            "disposition_note": "\u2466 infra tier re-opened: the KEEP predated T11/T13 scrutiny (R5 found 5 of its siblings needed renames/folds); needs a naming + governance confirmation, NDI lockstep where the writers own the class string"
         },
         {
             "class_name": "daqreader_epochdata_ingested",
@@ -661,7 +665,8 @@
                 "base"
             ],
             "path": "schemas/V_eta/stable/daqsystem.json",
-            "disposition": "persist"
+            "disposition": "in_progress",
+            "disposition_note": "\u2466 infra tier re-opened: the KEEP predated T11/T13 scrutiny (R5 found 5 of its siblings needed renames/folds); needs a naming + governance confirmation, NDI lockstep where the writers own the class string"
         },
         {
             "class_name": "data",
@@ -775,7 +780,8 @@
                 "base"
             ],
             "path": "schemas/V_eta/stable/directory.json",
-            "disposition": "persist"
+            "disposition": "in_progress",
+            "disposition_note": "\u2466 infra tier re-opened: the KEEP predated T11/T13 scrutiny (R5 found 5 of its siblings needed renames/folds); needs a naming + governance confirmation, NDI lockstep where the writers own the class string"
         },
         {
             "class_name": "distance_metadata",
@@ -941,7 +947,8 @@
                 "epochid"
             ],
             "path": "schemas/V_eta/stable/epoch_bounded_reference.json",
-            "disposition": "persist"
+            "disposition": "in_progress",
+            "disposition_note": "time_reference family consistency pass: `element_id` dep names the retired `element` (must_refer=subject, should be acquisition_epoch); bounded/relative suffixes carry different shapes across session/epoch/event (T11); `relation` enum-bound on one sibling, bare char on the other (T8)"
         },
         {
             "class_name": "epoch_relative_reference",
@@ -953,7 +960,8 @@
                 "epochid"
             ],
             "path": "schemas/V_eta/stable/epoch_relative_reference.json",
-            "disposition": "persist"
+            "disposition": "in_progress",
+            "disposition_note": "time_reference family consistency pass: `element_id` dep names the retired `element` (must_refer=subject, should be acquisition_epoch); bounded/relative suffixes carry different shapes across session/epoch/event (T11); `relation` enum-bound on one sibling, bare char on the other (T8)"
         },
         {
             "class_name": "epochfiles_ingested",
@@ -964,7 +972,8 @@
                 "base"
             ],
             "path": "schemas/V_eta/stable/epochfiles_ingested.json",
-            "disposition": "persist"
+            "disposition": "in_progress",
+            "disposition_note": "\u2466 infra tier re-opened: the KEEP predated T11/T13 scrutiny (R5 found 5 of its siblings needed renames/folds); needs a naming + governance confirmation, NDI lockstep where the writers own the class string"
         },
         {
             "class_name": "epochid",
@@ -975,7 +984,8 @@
                 "base"
             ],
             "path": "schemas/V_eta/stable/epochid.json",
-            "disposition": "persist"
+            "disposition": "in_progress",
+            "disposition_note": "\u2466 infra tier re-opened: the KEEP predated T11/T13 scrutiny (R5 found 5 of its siblings needed renames/folds); needs a naming + governance confirmation, NDI lockstep where the writers own the class string"
         },
         {
             "class_name": "event_bounded_reference",
@@ -986,7 +996,8 @@
                 "time_reference"
             ],
             "path": "schemas/V_eta/stable/event_bounded_reference.json",
-            "disposition": "persist"
+            "disposition": "in_progress",
+            "disposition_note": "time_reference family consistency pass: `element_id` dep names the retired `element` (must_refer=subject, should be acquisition_epoch); bounded/relative suffixes carry different shapes across session/epoch/event (T11); `relation` enum-bound on one sibling, bare char on the other (T8)"
         },
         {
             "class_name": "event_relative_reference",
@@ -997,7 +1008,8 @@
                 "time_reference"
             ],
             "path": "schemas/V_eta/stable/event_relative_reference.json",
-            "disposition": "persist"
+            "disposition": "in_progress",
+            "disposition_note": "time_reference family consistency pass: `element_id` dep names the retired `element` (must_refer=subject, should be acquisition_epoch); bounded/relative suffixes carry different shapes across session/epoch/event (T11); `relation` enum-bound on one sibling, bare char on the other (T8)"
         },
         {
             "class_name": "filenavigator",
@@ -1008,7 +1020,8 @@
                 "base"
             ],
             "path": "schemas/V_eta/stable/filenavigator.json",
-            "disposition": "persist"
+            "disposition": "in_progress",
+            "disposition_note": "\u2466 infra tier re-opened: the KEEP predated T11/T13 scrutiny (R5 found 5 of its siblings needed renames/folds); needs a naming + governance confirmation, NDI lockstep where the writers own the class string"
         },
         {
             "class_name": "filter",
@@ -1019,7 +1032,8 @@
                 "base"
             ],
             "path": "schemas/V_eta/stable/filter.json",
-            "disposition": "persist"
+            "disposition": "in_progress",
+            "disposition_note": "\u2466 infra tier re-opened: the KEEP predated T11/T13 scrutiny (R5 found 5 of its siblings needed renames/folds); needs a naming + governance confirmation, NDI lockstep where the writers own the class string"
         },
         {
             "class_name": "fitcurve",
@@ -1279,7 +1293,8 @@
                 "base"
             ],
             "path": "schemas/V_eta/stable/interaction_purpose.json",
-            "disposition": "persist"
+            "disposition": "in_progress",
+            "disposition_note": "\u2466 infra tier re-opened: the KEEP predated T11/T13 scrutiny (R5 found 5 of its siblings needed renames/folds); needs a naming + governance confirmation, NDI lockstep where the writers own the class string"
         },
         {
             "class_name": "jrclust_clusters",
@@ -1888,7 +1903,8 @@
                 "time_reference"
             ],
             "path": "schemas/V_eta/stable/session_bounded_reference.json",
-            "disposition": "persist"
+            "disposition": "in_progress",
+            "disposition_note": "time_reference family consistency pass: `element_id` dep names the retired `element` (must_refer=subject, should be acquisition_epoch); bounded/relative suffixes carry different shapes across session/epoch/event (T11); `relation` enum-bound on one sibling, bare char on the other (T8)"
         },
         {
             "class_name": "session_relative_reference",
@@ -1899,7 +1915,8 @@
                 "time_reference"
             ],
             "path": "schemas/V_eta/stable/session_relative_reference.json",
-            "disposition": "persist"
+            "disposition": "in_progress",
+            "disposition_note": "time_reference family consistency pass: `element_id` dep names the retired `element` (must_refer=subject, should be acquisition_epoch); bounded/relative suffixes carry different shapes across session/epoch/event (T11); `relation` enum-bound on one sibling, bare char on the other (T8)"
         },
         {
             "class_name": "simple_calc",
@@ -2183,7 +2200,8 @@
                 "base"
             ],
             "path": "schemas/V_eta/stable/syncgraph.json",
-            "disposition": "persist"
+            "disposition": "in_progress",
+            "disposition_note": "\u2466 infra tier re-opened: the KEEP predated T11/T13 scrutiny (R5 found 5 of its siblings needed renames/folds); needs a naming + governance confirmation, NDI lockstep where the writers own the class string"
         },
         {
             "class_name": "syncrule",
@@ -2194,7 +2212,8 @@
                 "base"
             ],
             "path": "schemas/V_eta/stable/syncrule.json",
-            "disposition": "persist"
+            "disposition": "in_progress",
+            "disposition_note": "\u2466 infra tier re-opened: the KEEP predated T11/T13 scrutiny (R5 found 5 of its siblings needed renames/folds); needs a naming + governance confirmation, NDI lockstep where the writers own the class string"
         },
         {
             "class_name": "syncrule_mapping",
@@ -2205,7 +2224,8 @@
                 "base"
             ],
             "path": "schemas/V_eta/stable/syncrule_mapping.json",
-            "disposition": "persist"
+            "disposition": "in_progress",
+            "disposition_note": "\u2466 infra tier re-opened: the KEEP predated T11/T13 scrutiny (R5 found 5 of its siblings needed renames/folds); needs a naming + governance confirmation, NDI lockstep where the writers own the class string"
         },
         {
             "class_name": "temperature",
@@ -2299,7 +2319,8 @@
                 "base"
             ],
             "path": "schemas/V_eta/stable/time_reference.json",
-            "disposition": "persist"
+            "disposition": "in_progress",
+            "disposition_note": "time_reference family consistency pass: `element_id` dep names the retired `element` (must_refer=subject, should be acquisition_epoch); bounded/relative suffixes carry different shapes across session/epoch/event (T11); `relation` enum-bound on one sibling, bare char on the other (T8)"
         },
         {
             "class_name": "timed_sequence",
@@ -2379,7 +2400,8 @@
                 "time_reference"
             ],
             "path": "schemas/V_eta/stable/utc_reference.json",
-            "disposition": "persist"
+            "disposition": "in_progress",
+            "disposition_note": "time_reference family consistency pass: `element_id` dep names the retired `element` (must_refer=subject, should be acquisition_epoch); bounded/relative suffixes carry different shapes across session/epoch/event (T11); `relation` enum-bound on one sibling, bare char on the other (T8)"
         },
         {
             "class_name": "velocity",

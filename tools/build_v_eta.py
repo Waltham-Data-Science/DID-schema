@@ -2401,6 +2401,43 @@ for _l in ("term_observation", "term_manipulation", "term_assertion", "date_asse
                             "data_types) → the leaf declares its value locally, unlike "
                             "every other leaf family")
 
+# ---- ⑤ time_reference: family consistency pass (walkthrough) ------------------------
+# Three findings, so the whole family is re-opened rather than patched piecemeal:
+#  1. BUG: `epoch_bounded_reference` / `epoch_relative_reference` carry a dep literally
+#     named `element_id` -- naming the RETIRED `element` class -- and its must_refer is
+#     `subject`, not `acquisition_epoch`. An epoch reference names a dead class and points
+#     at the wrong target; the element_epoch → acquisition_epoch rename missed these deps.
+#  2. `bounded` vs `relative` do not denote the same shape across the family (T11 says the
+#     name encodes the shape): session_bounded has start/end but session_relative does not;
+#     epoch_bounded has NO bounds while epoch_relative has t0+start+end; event_bounded has
+#     no fields at all. Same suffix, different shapes -- inverted between session and epoch.
+#  3. `relation` is governed inconsistently (T8 "hard-validated, not advisory"):
+#     session_relative_reference.relation carries a proper enum; its sibling
+#     session_bounded_reference.relation is a bare `char` with NO constraints.
+for _t in ("time_reference", "utc_reference", "session_bounded_reference",
+           "session_relative_reference", "epoch_bounded_reference",
+           "epoch_relative_reference", "event_bounded_reference",
+           "event_relative_reference"):
+    _DECIDED_PENDING[_t] = ("time_reference family consistency pass: `element_id` dep "
+                            "names the retired `element` (must_refer=subject, should be "
+                            "acquisition_epoch); bounded/relative suffixes carry different "
+                            "shapes across session/epoch/event (T11); `relation` enum-bound "
+                            "on one sibling, bare char on the other (T8)")
+
+# ---- ⑦ acquisition/infra: tier re-opened (walkthrough) ------------------------------
+# The ⑥/⑦ walkthrough closed this tier as "reviewed, KEEP", but R5 then showed that
+# decision predated T11/T13 scrutiny -- five of the kept classes turned out to need
+# renames or a fold. Re-open the rest for the same naming/governance confirmation rather
+# than trusting a KEEP that has already proven incomplete. Several are NDI-owned (the
+# writers emit these class strings), so any rename lands as a cross-repo lockstep.
+for _i in ("acquisition_epoch", "control_designation", "daqmetadatareader", "daqreader",
+           "daqsystem", "directory", "epochfiles_ingested", "epochid", "filenavigator",
+           "filter", "interaction_purpose", "syncgraph", "syncrule", "syncrule_mapping"):
+    _DECIDED_PENDING[_i] = ("⑦ infra tier re-opened: the KEEP predated T11/T13 scrutiny "
+                            "(R5 found 5 of its siblings needed renames/folds); needs a "
+                            "naming + governance confirmation, NDI lockstep where the "
+                            "writers own the class string")
+
 # Genuinely-unsettled classes that STAY in_progress -- each needs a team call the
 # walkthrough deliberately left open:
 #   - instrument, interaction_purpose : subject-domain, "needs a call".
