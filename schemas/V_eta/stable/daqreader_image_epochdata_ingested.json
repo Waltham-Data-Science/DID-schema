@@ -7,7 +7,7 @@
                 "class_name": "base"
             },
             {
-                "class_name": "daqreader_epochdata_ingested"
+                "class_name": "daqreader_epoch_cache"
             }
         ],
         "maturity_level": "stable"

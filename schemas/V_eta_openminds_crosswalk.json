@@ -1,74 +1,269 @@
 {
-    "$comment": "openMINDS <-> NDI V_eta crosswalk. The single machine-readable source of truth behind the inline crosswalk comments in build_v_eta.py. Consumed by the round-trip CI test (tests/test_veta.py::test_openminds_crosswalk_round_trips), which asserts every openMINDS property has an explicit entry whose target resolves to a real V_eta field / relation term / global_identifier scheme -- so nothing is SILENTLY dropped. `target_kind`: field (scalar/term field on the entity) | relation (directed_relation term; `endpoint` = parent entity) | global_identifier (rides on entity.global_identifier{scheme}) | implied (recoverable from class/relations, not stored per-instance) | projection (a dataset-level summary recomputed from per-subject statements; deliberately not stored) | deferred (has a designed home not yet built; visible, not silently dropped).",
-    "crosswalk_version": "1.0.0",
-    "vocabulary": "openMINDS",
-    "types": {
-        "DatasetVersion": {
-            "ndi_entity": "dataset",
-            "properties": {
-                "fullName":              {"target_kind": "field", "ndi_target": "full_name"},
-                "shortName":             {"target_kind": "field", "ndi_target": "short_name"},
-                "versionIdentifier":     {"target_kind": "field", "ndi_target": "version"},
-                "versionInnovation":     {"target_kind": "field", "ndi_target": "version_innovation"},
-                "description":           {"target_kind": "field", "ndi_target": "description"},
-                "howToCite":             {"target_kind": "field", "ndi_target": "how_to_cite"},
-                "keyword":               {"target_kind": "field", "ndi_target": "keyword"},
-                "license":               {"target_kind": "field", "ndi_target": "license"},
-                "releaseDate":           {"target_kind": "field", "ndi_target": "release_date"},
-                "accessibility":         {"target_kind": "field", "ndi_target": "accessibility", "term_set": "ProductAccessibility"},
-                "ethicsAssessment":      {"target_kind": "field", "ndi_target": "ethics_assessment", "term_set": "EthicsAssessment"},
-                "experimentalApproach":  {"target_kind": "field", "ndi_target": "experimental_approach", "term_set": "ExperimentalApproach"},
-                "supportChannel":        {"target_kind": "field", "ndi_target": "support_channel", "notes": "email/discussion form -> field; a support URL is instead documented_by -> web_resource."},
-
-                "author":                {"target_kind": "relation", "ndi_target": "has_author", "endpoint": "person", "notes": "contributor role = author, carried by the relation term."},
-                "funding":               {"target_kind": "relation", "ndi_target": "funded_by", "endpoint": "funding"},
-                "relatedPublication":    {"target_kind": "relation", "ndi_target": "cites", "endpoint": "publication"},
-                "fullDocumentation":     {"target_kind": "relation", "ndi_target": "documented_by", "endpoint": "web_resource"},
-                "repository":            {"target_kind": "relation", "ndi_target": "stored_at", "endpoint": "web_resource"},
-                "isNewVersionOf":        {"target_kind": "relation", "ndi_target": "derived_from", "endpoint": "dataset", "notes": "version lineage as generic provenance (dataset -derived_from-> dataset)."},
-
-                "digitalIdentifier":     {"target_kind": "global_identifier", "ndi_target": "DOI"},
-                "type":                  {"target_kind": "implied", "notes": "'DatasetVersion' is implied by the dataset class; not stored per-instance."},
-
-                "studiedSpecimen":       {"target_kind": "projection", "notes": "the studied subjects; recomputed from the dataset's session -part_of-> dataset membership + subject entities, not restated here."},
-
-                "custodian":             {"target_kind": "relation", "ndi_target": "has_custodian", "endpoint": "person", "notes": "steward role (person or organization); distinct contributor role from has_author."},
-                "otherContribution":     {"target_kind": "relation", "ndi_target": "contributed_by", "endpoint": "person", "notes": "typed contribution (person or organization)."},
-                "copyright":             {"target_kind": "relation", "ndi_target": "copyright_holder", "endpoint": "organization", "notes": "openMINDS Copyright{year, holder}: holder -> copyright_holder relation, year -> dataset.copyright_year field."},
-                "homepage":              {"target_kind": "relation", "ndi_target": "has_homepage", "endpoint": "web_resource"},
-                "protocol":              {"target_kind": "relation", "ndi_target": "follows_protocol", "endpoint": "web_resource"},
-                "inputData":             {"target_kind": "relation", "ndi_target": "input_data", "endpoint": "dataset", "notes": "input datasets/resources (dataset or web_resource)."},
-                "isAlternativeVersionOf":{"target_kind": "relation", "ndi_target": "alternative_of", "endpoint": "dataset"}
-            }
+  "$comment": "openMINDS <-> NDI V_eta crosswalk. The single machine-readable source of truth behind the inline crosswalk comments in build_v_eta.py. Consumed by the round-trip CI test (tests/test_veta.py::test_openminds_crosswalk_round_trips), which asserts every openMINDS property has an explicit entry whose target resolves to a real V_eta field / relation term / global_identifier scheme -- so nothing is SILENTLY dropped. `target_kind`: field (scalar/term field on the entity) | relation (directed_relation term; `endpoint` = parent entity) | global_identifier (rides on entity.global_identifier{scheme}) | implied (recoverable from class/relations, not stored per-instance) | projection (a dataset-level summary recomputed from per-subject statements; deliberately not stored) | deferred (has a designed home not yet built; visible, not silently dropped).",
+  "crosswalk_version": "1.1.0",
+  "vocabulary": "openMINDS",
+  "types": {
+    "DatasetVersion": {
+      "ndi_entity": "dataset",
+      "properties": {
+        "fullName": {
+          "target_kind": "field",
+          "ndi_target": "full_name"
         },
-        "Person": {
-            "ndi_entity": "person",
-            "properties": {
-                "givenName":         {"target_kind": "field", "ndi_target": "given_name"},
-                "familyName":        {"target_kind": "field", "ndi_target": "family_name"},
-                "contactInformation":{"target_kind": "field", "ndi_target": "email", "notes": "ContactInformation.email."},
-                "digitalIdentifier": {"target_kind": "global_identifier", "ndi_target": "ORCID"},
-                "affiliation":       {"target_kind": "relation", "ndi_target": "affiliated_with", "endpoint": "organization"},
-                "alternateName":     {"target_kind": "field", "ndi_target": "alternate_name"}
-            }
+        "shortName": {
+          "target_kind": "field",
+          "ndi_target": "short_name"
         },
-        "Organization": {
-            "ndi_entity": "organization",
-            "properties": {
-                "fullName":          {"target_kind": "field", "ndi_target": "full_name"},
-                "shortName":         {"target_kind": "field", "ndi_target": "short_name"},
-                "digitalIdentifier": {"target_kind": "global_identifier", "ndi_target": "RORID"},
-                "homepage":          {"target_kind": "relation", "ndi_target": "has_homepage", "endpoint": "web_resource"},
-                "hasParent":         {"target_kind": "relation", "ndi_target": "suborganization_of", "endpoint": "organization", "notes": "org hierarchy, kept distinct from subject/session part_of."}
-            }
+        "versionIdentifier": {
+          "target_kind": "field",
+          "ndi_target": "version"
         },
-        "Funding": {
-            "ndi_entity": "funding",
-            "properties": {
-                "awardTitle":  {"target_kind": "field", "ndi_target": "title"},
-                "awardNumber": {"target_kind": "global_identifier", "ndi_target": "AwardNumber"},
-                "funder":      {"target_kind": "relation", "ndi_target": "issued_by", "endpoint": "organization"}
-            }
+        "versionInnovation": {
+          "target_kind": "field",
+          "ndi_target": "version_innovation"
+        },
+        "description": {
+          "target_kind": "field",
+          "ndi_target": "description"
+        },
+        "howToCite": {
+          "target_kind": "field",
+          "ndi_target": "how_to_cite"
+        },
+        "keyword": {
+          "target_kind": "field",
+          "ndi_target": "keyword"
+        },
+        "license": {
+          "target_kind": "field",
+          "ndi_target": "license"
+        },
+        "releaseDate": {
+          "target_kind": "field",
+          "ndi_target": "release_date"
+        },
+        "accessibility": {
+          "target_kind": "field",
+          "ndi_target": "accessibility",
+          "term_set": "ProductAccessibility"
+        },
+        "ethicsAssessment": {
+          "target_kind": "field",
+          "ndi_target": "ethics_assessment",
+          "term_set": "EthicsAssessment"
+        },
+        "experimentalApproach": {
+          "target_kind": "field",
+          "ndi_target": "experimental_approach",
+          "term_set": "ExperimentalApproach"
+        },
+        "supportChannel": {
+          "target_kind": "field",
+          "ndi_target": "support_channel",
+          "notes": "email/discussion form -> field; a support URL is instead documented_by -> web_resource."
+        },
+        "author": {
+          "target_kind": "relation",
+          "ndi_target": "has_author",
+          "endpoint": "person",
+          "notes": "contributor role = author, carried by the relation term."
+        },
+        "funding": {
+          "target_kind": "relation",
+          "ndi_target": "funded_by",
+          "endpoint": "funding"
+        },
+        "relatedPublication": {
+          "target_kind": "relation",
+          "ndi_target": "cites",
+          "endpoint": "publication"
+        },
+        "fullDocumentation": {
+          "target_kind": "relation",
+          "ndi_target": "documented_by",
+          "endpoint": "web_resource"
+        },
+        "repository": {
+          "target_kind": "relation",
+          "ndi_target": "stored_at",
+          "endpoint": "web_resource"
+        },
+        "isNewVersionOf": {
+          "target_kind": "relation",
+          "ndi_target": "derived_from",
+          "endpoint": "dataset",
+          "notes": "version lineage as generic provenance (dataset -derived_from-> dataset)."
+        },
+        "digitalIdentifier": {
+          "target_kind": "global_identifier",
+          "ndi_target": "DOI"
+        },
+        "type": {
+          "target_kind": "implied",
+          "notes": "'DatasetVersion' is implied by the dataset class; not stored per-instance."
+        },
+        "studiedSpecimen": {
+          "target_kind": "projection",
+          "notes": "the studied subjects; recomputed from the dataset's session -part_of-> dataset membership + subject entities, not restated here."
+        },
+        "custodian": {
+          "target_kind": "relation",
+          "ndi_target": "has_custodian",
+          "endpoint": "person",
+          "notes": "steward role (person or organization); distinct contributor role from has_author."
+        },
+        "otherContribution": {
+          "target_kind": "relation",
+          "ndi_target": "contributed_by",
+          "endpoint": "person",
+          "notes": "typed contribution (person or organization)."
+        },
+        "copyright": {
+          "target_kind": "relation",
+          "ndi_target": "copyright_holder",
+          "endpoint": "organization",
+          "notes": "openMINDS Copyright{year, holder}: holder -> copyright_holder relation, year -> dataset.copyright_year field."
+        },
+        "homepage": {
+          "target_kind": "relation",
+          "ndi_target": "has_homepage",
+          "endpoint": "web_resource"
+        },
+        "protocol": {
+          "target_kind": "relation",
+          "ndi_target": "follows_protocol",
+          "endpoint": "web_resource"
+        },
+        "inputData": {
+          "target_kind": "relation",
+          "ndi_target": "input_data",
+          "endpoint": "dataset",
+          "notes": "input datasets/resources (dataset or web_resource)."
+        },
+        "isAlternativeVersionOf": {
+          "target_kind": "relation",
+          "ndi_target": "alternative_of",
+          "endpoint": "dataset"
         }
+      }
+    },
+    "Person": {
+      "ndi_entity": "person",
+      "properties": {
+        "givenName": {
+          "target_kind": "field",
+          "ndi_target": "given_name"
+        },
+        "familyName": {
+          "target_kind": "field",
+          "ndi_target": "family_name"
+        },
+        "contactInformation": {
+          "target_kind": "field",
+          "ndi_target": "email",
+          "notes": "ContactInformation.email."
+        },
+        "digitalIdentifier": {
+          "target_kind": "global_identifier",
+          "ndi_target": "ORCID"
+        },
+        "affiliation": {
+          "target_kind": "relation",
+          "ndi_target": "affiliated_with",
+          "endpoint": "organization"
+        },
+        "alternateName": {
+          "target_kind": "field",
+          "ndi_target": "alternate_name"
+        }
+      }
+    },
+    "Organization": {
+      "ndi_entity": "organization",
+      "properties": {
+        "fullName": {
+          "target_kind": "field",
+          "ndi_target": "full_name"
+        },
+        "shortName": {
+          "target_kind": "field",
+          "ndi_target": "short_name"
+        },
+        "digitalIdentifier": {
+          "target_kind": "global_identifier",
+          "ndi_target": "RORID"
+        },
+        "homepage": {
+          "target_kind": "relation",
+          "ndi_target": "has_homepage",
+          "endpoint": "web_resource"
+        },
+        "hasParent": {
+          "target_kind": "relation",
+          "ndi_target": "suborganization_of",
+          "endpoint": "organization",
+          "notes": "org hierarchy, kept distinct from subject/session part_of."
+        }
+      }
+    },
+    "Funding": {
+      "ndi_entity": "funding",
+      "properties": {
+        "awardTitle": {
+          "target_kind": "field",
+          "ndi_target": "title"
+        },
+        "awardNumber": {
+          "target_kind": "global_identifier",
+          "ndi_target": "AwardNumber"
+        },
+        "funder": {
+          "target_kind": "relation",
+          "ndi_target": "issued_by",
+          "endpoint": "organization"
+        }
+      }
+    },
+    "SoftwareVersion": {
+      "ndi_entity": "software",
+      "properties": {
+        "fullName": {
+          "target_kind": "field",
+          "ndi_target": "name"
+        },
+        "shortName": {
+          "target_kind": "field",
+          "ndi_target": "name",
+          "notes": "the entity keeps ONE name field; per its own documentation software.name carries the fullName/shortName pair. A separate short form would be a coordinate, not a thing (T13)."
+        },
+        "versionIdentifier": {
+          "target_kind": "field",
+          "ndi_target": "version"
+        },
+        "homepage": {
+          "target_kind": "global_identifier",
+          "ndi_target": "URL",
+          "notes": "populated by the app->software fold from the v1 app.url."
+        },
+        "repository": {
+          "target_kind": "global_identifier",
+          "ndi_target": "URL",
+          "notes": "same URL scheme as homepage; the two are distinguished by the stored value, not by separate slots."
+        },
+        "digitalIdentifier": {
+          "target_kind": "global_identifier",
+          "ndi_target": "DOI",
+          "notes": "DOI or SWHID, whichever the source supplies."
+        },
+        "operatingSystem": {
+          "target_kind": "projection",
+          "notes": "openMINDS means the SUPPORTED os, which the entity does not store. The per-RUN os is captured one layer out, on subject_interaction.execution_environment.os (R1) -- a property of the run, not of the software."
+        },
+        "programmingLanguage": {
+          "target_kind": "projection",
+          "notes": "likewise per-run: subject_interaction.execution_environment.interpreter (R1)."
+        }
+      }
     }
+  }
 }

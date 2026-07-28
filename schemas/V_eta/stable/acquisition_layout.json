@@ -1,6 +1,6 @@
 {
     "document_class": {
-        "class_name": "binaryseries_parameters",
+        "class_name": "acquisition_layout",
         "class_version": "1.0.0",
         "superclasses": [
             {

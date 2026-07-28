@@ -136,6 +136,24 @@ RENAME = {
     # epoch document's name is stale. It is an epoch of a data ACQUISITION. The
     # rename loop propagates this across class_name + superclasses + must_refer.
     "element_epoch": "acquisition_epoch",
+    # R5 (T11/T13): kill the banned words in the kept acquisition infra. Targets were
+    # decided in the naming pass; these four are uncontested and land here. The rename
+    # loop propagates class_name + superclasses + must_refer, so the `_image` subtype
+    # follows its parent automatically.
+    #   binary = format, series = cardinality, parameters = container -> the content is
+    #   the read/byte-layout spec for a raw acquired stream:
+    "binaryseries_parameters": "acquisition_layout",
+    #   data + series + map are all banned; the content is which channel is what:
+    "dataseries_channel_map": "channel_assignment",
+    #   data/ingested dropped; "cache" honestly names what it is (the new T6 cache
+    #   concept) and `epoch` is the legitimate scope:
+    "daqreader_epochdata_ingested": "daqreader_epoch_cache",
+    "daqmetadatareader_epochdata_ingested": "daqmetadatareader_epoch_cache",
+    # NOT renamed yet: daqreader_image_epochdata_ingested. Dropping `_epochdata_ingested`
+    # is decided, but whether `_image` is a distinct cache SHAPE or just a modality label
+    # (-> fold into the parent + a modality field) is a factual question for the NDI side.
+    # Renaming half of it would be exactly the half-rename R5's re-audit called out, so it
+    # keeps its old name and its in_progress marker until that is answered.
     # entity rename for openMINDS alignment: our grant entity is openMINDS `Funding`
     # (awardTitle + awardNumber + funder). Propagates class_name + superclasses +
     # must_refer across any inherited references; the fresh V_eta defs already say
@@ -1290,7 +1308,7 @@ os.remove(os.path.join(VETA, "stable", "daqreader_ndr.json"))
 # daqreader_epochdata_ingested; migrators_i.image_stack mints the image cache without
 # the epochid mixin. Both cannot regress the corpus: a v1 subtype doc lacking the
 # inherited required epochid dep already quarantines before this change.
-_dri = load(os.path.join(VETA, "stable", "daqreader_epochdata_ingested.json"))
+_dri = load(os.path.join(VETA, "stable", "daqreader_epoch_cache.json"))
 _drm = load(os.path.join(VETA, "stable", "daqreader_mfdaq_epochdata_ingested.json"))
 _drm_f = {f["name"]: f for f in _drm["fields"]}
 _params = _drm_f["parameters"]
@@ -1301,7 +1319,7 @@ _params["documentation"] = (
     " formerly the standalone daqreader_mfdaq_epochdata_ingested class.")
 _dri["document_class"]["class_version"] = "2.0.0"
 _dri["fields"].append(_params)
-write("stable", "daqreader_epochdata_ingested", _dri)
+write("stable", "daqreader_epoch_cache", _dri)
 os.remove(os.path.join(VETA, "stable", "daqreader_mfdaq_epochdata_ingested.json"))
 
 # dep-only: strip the redundant `epochid` superclass mixin from the image cache
@@ -2047,7 +2065,7 @@ for tier in TIERS:
 # ingested caches' `epochid` dep gets a target. Done PER-CLASS (not via GOV_REF):
 # syncrule_mapping.epochid holds an epoch NAME, not a document id, so it stays
 # untyped -- typing it would impose a doc-existence check its value can't satisfy.
-for _c in ("daqreader_epochdata_ingested", "epochfiles_ingested"):
+for _c in ("daqreader_epoch_cache", "epochfiles_ingested"):
     _t, _p = path_of(_c)
     if _p:
         _d = load(_p)
@@ -2461,11 +2479,12 @@ _KEEP_INFRA = {"daqsystem", "daqreader", "daqmetadatareader",
 #   - the R5 renames land in cross-repo lockstep with the NDI writers (they emit these strings).
 _DECIDED_PENDING = {
     "ngrid": "R4: folds into sampled_body (coupled to reverse_correlation RF map)",
-    "binaryseries_parameters": "R5 rename → acquisition_layout (NDI lockstep)",
-    "dataseries_channel_map": "R5 rename → channel_assignment (NDI lockstep)",
-    "daqreader_epochdata_ingested": "R5 rename → daqreader_epoch_cache (NDI lockstep)",
-    "daqmetadatareader_epochdata_ingested": "R5 rename → daqmetadatareader_epoch_cache (NDI lockstep)",
-    "daqreader_image_epochdata_ingested": "R5: fold → daqreader_epoch_cache + modality field (NDI confirm)",
+    # (the four uncontested R5 renames are BUILT -- see RENAME above -- so they carry no
+    # marker; the class names themselves are now T11/T13-clean.)
+    "daqreader_image_epochdata_ingested":
+        "R5: `_epochdata_ingested` → `_epoch_cache` is decided, but whether `_image` is a "
+        "distinct cache SHAPE or a modality label (→ fold into daqreader_epoch_cache + a "
+        "modality field) is a factual question for NDI. Held whole rather than half-renamed.",
 }
 
 # ---- ④ leaf-tier walkthrough findings (this session) --------------------------------

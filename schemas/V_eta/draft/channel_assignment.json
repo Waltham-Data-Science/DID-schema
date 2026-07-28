@@ -1,6 +1,6 @@
 {
     "document_class": {
-        "class_name": "dataseries_channel_map",
+        "class_name": "channel_assignment",
         "class_version": "1.0.0",
         "superclasses": [
             {

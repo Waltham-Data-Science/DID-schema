@@ -483,7 +483,7 @@ def test_phase1_source_cleanup_and_dep_typing():
     assert "openminds" in RECORDS and "measurement" in RECORDS
     def _dep(cls, name):
         return next(d for d in RECORDS[cls][1]["depends_on"] if d["name"] == name)
-    assert _dep("daqreader_epochdata_ingested", "epochid")["must_refer_to_document_class"] == "acquisition_epoch"
+    assert _dep("daqreader_epoch_cache", "epochid")["must_refer_to_document_class"] == "acquisition_epoch"
     assert _dep("epochfiles_ingested", "epochid")["must_refer_to_document_class"] == "acquisition_epoch"
     assert _dep("directory", "parent_directory_id")["must_refer_to_document_class"] == "directory"
 
@@ -503,10 +503,10 @@ def test_daqreader_ndr_de_encoded():
 def test_mfdaq_ingested_de_encoded():
     """Chunk c: daqreader_mfdaq_epochdata_ingested encoded the reader subtype
     (`mfdaq`) in its CLASS NAME. It dissolves onto the generic
-    daqreader_epochdata_ingested -- its only distinguishing content, `parameters`,
+    daqreader_epoch_cache -- its only distinguishing content, `parameters`,
     becomes an OPTIONAL field (empty for readers that do not slice by segment)."""
     assert "daqreader_mfdaq_epochdata_ingested" not in RECORDS
-    dri = {f["name"]: f for f in RECORDS["daqreader_epochdata_ingested"][1]["fields"]}
+    dri = {f["name"]: f for f in RECORDS["daqreader_epoch_cache"][1]["fields"]}
     assert "parameters" in dri
     assert dri["parameters"].get("mustBeNonEmpty") is False
 
@@ -520,7 +520,7 @@ def test_ingested_caches_epochid_dep_only():
     img = RECORDS["daqreader_image_epochdata_ingested"][1]
     supers = {s.get("class_name") for s in img["document_class"]["superclasses"]}
     assert "epochid" not in supers
-    assert "daqreader_epochdata_ingested" in supers
+    assert "daqreader_epoch_cache" in supers
     # the caches are NOT collapsed into the data_body genus
     assert "sampled_body" not in supers
 
@@ -636,6 +636,24 @@ def test_openminds_crosswalk_round_trips():
                if e.get("ndi_target") == row["field"] and e.get("term_set")]
         assert hit, f"binding {row['field']} not crosswalked as a term field"
         assert props[hit[0]]["term_set"] == row["term_set"]
+
+
+def test_software_crosswalks_to_openminds_softwareversion():
+    """R1 kept the entity named `software` (not `software_version`) -- version is a
+    field, not part of the name (T13). openMINDS parity is therefore a crosswalk-entry
+    concern, and this is that entry."""
+    xw = _load(os.path.join(REPO_ROOT, "schemas", "V_eta_openminds_crosswalk.json"))
+    sv = xw["types"]["SoftwareVersion"]
+    assert sv["ndi_entity"] == "software"
+    props = sv["properties"]
+    assert props["fullName"]["ndi_target"] == "name"
+    assert props["versionIdentifier"]["ndi_target"] == "version"
+    # the per-run environment is NOT on the entity: openMINDS operatingSystem /
+    # programmingLanguage describe the software, ours describe the run, so they are
+    # explicitly projections onto subject_interaction.execution_environment (R1).
+    for prop in ("operatingSystem", "programmingLanguage"):
+        assert props[prop]["target_kind"] == "projection"
+        assert "execution_environment" in props[prop]["notes"]
 
 
 def test_ndi_class_handles_marked_needs_ndi():
