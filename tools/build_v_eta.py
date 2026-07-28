@@ -560,18 +560,28 @@ write("stable", "date",
 write("stable", "date_assertion",
       doc("date_assertion", ["subject_assertion", "date"]))
 
-# numeric_assertion: abstract genus; dimensioned scalar leaves
-write("stable", "numeric_assertion",
-      doc("numeric_assertion", ["subject_assertion"], abstract=True, fields=[]))
+# The dimensioned assertions pair with their composite, exactly like the observations
+# (walkthrough finding A). They previously hung off a `numeric_assertion` genus and
+# REDECLARED `value` locally -- same name, same type, differing ONLY in `mustBeScalar`
+# (true vs the composite's false, per J §5 "an assertion is one cell, no series"). That
+# one flag cost an `isa <data_type>` lineage query: it returned observations and silently
+# missed every assertion, because the chain had no `voltage` in it. It also sat against
+# T12 rule 3 (cardinality is not a class distinction).
+#
+# `mustBeScalar: false` PERMITS a scalar, it does not require an array -- so pairing
+# changes no document's shape, it only stops the schema from GUARANTEEING one cell. That
+# guarantee is prospective anyway: nothing emits a dimensioned assertion (across all 102
+# v1 sources the only assertion targets are term_assertion and date_assertion), so these
+# are pre-seeded scaffolding. Whether "one cell" should be re-enforceable -- a subclass
+# TIGHTENING a constraint rather than redeclaring it -- is deferred to the binding
+# governance pass (TaskList #32), which is already the "make declarations enforced"
+# workstream.
+#
+# `numeric_assertion` is therefore deleted: 0 fields, 0 remaining members, and it existed
+# only to host the cardinality flag.
 for d in DIMS:
-    val = field("value", d,
-                f"A scalar {d} value cell (canonical + lossless source). An "
-                f"assertion is scalar — one cell, no series (J §5).",
-                non_empty=True, scalar=True,
-                blank={"approximate": False, "source_unit": "", "source_value": 0.0},
-                default={"approximate": False, "source_unit": "", "source_value": 0.0})
     write("stable", f"{d}_assertion",
-          doc(f"{d}_assertion", ["numeric_assertion"], fields=[val]))
+          doc(f"{d}_assertion", ["subject_assertion", d]))
 
 
 # ---------- 5. subject_relation branch ----------
@@ -1504,9 +1514,7 @@ for name, unit in NUMERIC_SEED:
     write("stable", name + "_observation",
           doc(name + "_observation", ["subject_observation", name]))
     write("stable", name + "_assertion",
-          doc(name + "_assertion", ["numeric_assertion"], fields=[field(
-              "value", name, "A scalar %s value cell." % unit,
-              non_empty=True, scalar=True, blank=CELL, default=CELL)]))
+          doc(name + "_assertion", ["subject_assertion", name]))
 # intensity is also imposable (e.g. a stimulus a.u. level)
 write("stable", "intensity_manipulation",
       doc("intensity_manipulation", ["subject_manipulation", "intensity"]))
@@ -2475,12 +2483,9 @@ _DECIDED_PENDING = {
 # a constraint, not a genus), or the split stays and the reason gets recorded next to the
 # classes -- which is what T12 requires of a look-alike family either way.
 # Derived from the numeric lists so the marking self-maintains as the family grows.
-_ASSERTION_BYPASS = {"numeric_assertion"} | {
-    "%s_assertion" % d for d in list(DIMS) + [n for n, _ in NUMERIC_SEED]}
-for _a in _ASSERTION_BYPASS:
-    _DECIDED_PENDING[_a] = ("assertion bypasses its data_type (numeric_assertion genus, "
-                            "local scalar `value`) → `isa <data_type>` misses assertions; "
-                            "T12 rule 3 (cardinality is not a class distinction)")
+# (A) RESOLVED: the dimensioned assertions now pair with their composite and the
+# `numeric_assertion` genus is deleted (finding A closed). The one-cell guarantee it
+# carried is a constraint-tightening question, deferred to TaskList #32.
 
 # (B) `term` and `date` have NO ③ composite, so their leaves declare `value` locally --
 # the only leaf families without a composite partner. Given T8/T12 make `term_*` the

@@ -211,11 +211,19 @@ def test_subject_assertion_is_genus_with_typed_leaves():
     dc = RECORDS["subject_assertion"][1]["document_class"]
     assert dc.get("abstract") is True and "subject_statement" in _chain("subject_assertion")
     assert "term_assertion" in RECORDS and "date_assertion" in RECORDS
-    assert RECORDS["numeric_assertion"][1]["document_class"].get("abstract") is True
-    # a dimensioned assertion leaf carries a scalar value cell (one cell, no series)
-    mass = RECORDS["mass_assertion"][1]
-    v = [f for f in mass["fields"] if f["name"] == "value"][0]
-    assert v["type"] == "mass" and v["mustBeScalar"] is True
+    # Every assertion leaf is direction x data_type, like every other leaf (finding A).
+    # The `numeric_assertion` genus is gone: it held no fields and existed only to carry
+    # a `mustBeScalar` flag, which cost an `isa <data_type>` query the assertions.
+    assert "numeric_assertion" not in RECORDS
+    for leaf, composite in (("mass_assertion", "mass"), ("voltage_assertion", "voltage"),
+                            ("term_assertion", "term"), ("date_assertion", "date")):
+        chain = [s["class_name"]
+                 for s in RECORDS[leaf][1]["document_class"]["superclasses"]]
+        assert chain == ["subject_assertion", composite], f"{leaf} chain {chain}"
+        assert not RECORDS[leaf][1].get("fields"), f"{leaf} should own no fields"
+    # the value is inherited from the composite, so `isa <data_type>` spans directions
+    assert _flat_field_types("mass_assertion").get("value") == "mass"
+    assert "mass" in _chain("mass_assertion") and "mass" in _chain("mass_observation")
 
 
 def test_relation_branch():

@@ -282,15 +282,23 @@ viewer says *why* something is WIP.
 
 ### ④ leaf tier
 
-- **(A) The assertion family bypasses its data_type** — 27 leaves + the `numeric_assertion`
-  genus. `voltage_assertion` is a `numeric_assertion`, **not** `subject_assertion` +
-  `voltage`, and redeclares `value` locally as a scalar. The reason is real (J §5: an
-  assertion is one cell, no series; the composites declare `value` array-valued, so it
-  cannot be inherited as-is), but it costs two things: an **`isa <data_type>` lineage query
-  silently misses every assertion**, and it sits against **T12 rule 3** (cardinality is not
-  a class distinction). Resolution: either the leaves pair with their composite and
-  scalar-ness becomes a *constraint*, or the split stays **and the reason is recorded next
-  to the classes** — T12 requires one or the other of a look-alike family.
+- **(A) The assertion family bypassed its data_type** — ✅ **RESOLVED.** 27 leaves + the
+  `numeric_assertion` genus. `voltage_assertion` was a `numeric_assertion`, **not**
+  `subject_assertion` + `voltage`, and redeclared `value` locally. The difference was
+  exactly **one flag**: same field name, same type, `mustBeScalar` true vs the composite's
+  false (J §5, "an assertion is one cell, no series"). That flag cost an
+  **`isa <data_type>` lineage query** — it returned observations and silently missed every
+  assertion — and sat against **T12 rule 3** (cardinality is not a class distinction).
+  The 27 now pair with their composite and own no fields; `numeric_assertion` is deleted
+  (0 fields, 0 remaining members, existed only to host the flag).
+  **Why this was nearly free:** `mustBeScalar: false` *permits* a scalar, it does not
+  require an array, so no document's shape changes — and nothing emits a dimensioned
+  assertion in the first place (across all 102 v1 sources the only assertion targets are
+  `term_assertion` and `date_assertion`). Schema-only: no migrator work, no corpus risk.
+  **Deferred with it:** whether "one cell" should be re-enforceable — i.e. whether a
+  subclass may *tighten* a constraint rather than redeclare it (redeclaration currently
+  raises) — goes to the binding-governance pass (TaskList #32), which is already the
+  "make declarations actually enforced" workstream.
 - **(B) `term` and `date` had no ③ composite at all** — ✅ **RESOLVED.** They were the only
   leaf families without a composite partner, so each declared its value locally and an
   `isa term` query could not span them. `term` and `date` are now real ③ composites and
@@ -380,6 +388,13 @@ This is backwards from T8, which says the registry maps **`variable`** (and
 nothing declares that `variable` itself must resolve to a controlled term. `method` is
 named explicitly by T8 and is equally unbound. These are the identity and the verb of
 every statement (T2); if anything deserves a hard-validated vocabulary, they do.
+
+**(3) Should a subclass be able to TIGHTEN a constraint?** Raised by finding A: the
+dimensioned assertions used to enforce "one cell, no series" (J §5) with a locally
+redeclared `mustBeScalar`. Pairing them with their composite dropped that guarantee,
+because subclass redeclaration raises and there is no tightening mechanism. Same shape of
+problem as the binding strengths above — a leaf wanting to narrow what it inherits — so
+decide it here rather than twice.
 
 **(2) Strength lives on the field, not in the registry.**
 All five `subject_statement_bindings` entries are keyed `(variable, class)`, every one is

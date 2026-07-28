@@ -4,135 +4,15 @@
         "class_version": "1.0.0",
         "superclasses": [
             {
-                "class_name": "numeric_assertion"
+                "class_name": "subject_assertion"
+            },
+            {
+                "class_name": "score"
             }
         ],
         "maturity_level": "stable"
     },
     "depends_on": [],
     "file": [],
-    "fields": [
-        {
-            "name": "value",
-            "type": "score",
-            "blank_value": {
-                "approximate": false,
-                "source_unit": "",
-                "source_value": 0.0
-            },
-            "default_value": {
-                "approximate": false,
-                "source_unit": "",
-                "source_value": 0.0
-            },
-            "mustBeNonEmpty": true,
-            "mustBeScalar": true,
-            "mustNotHaveNaN": false,
-            "queryable": true,
-            "ontology": null,
-            "documentation": "A scalar score value cell (canonical + lossless source). An assertion is scalar \u2014 one cell, no series (J \u00a75).",
-            "constraints": {},
-            "fields": [
-                {
-                    "name": "value",
-                    "type": "double",
-                    "blank_value": 0.0,
-                    "default_value": 0.0,
-                    "mustBeNonEmpty": false,
-                    "mustBeScalar": true,
-                    "mustNotHaveNaN": false,
-                    "queryable": true,
-                    "ontology": null,
-                    "documentation": "The score (double, so half-integer steps are legal).",
-                    "constraints": {}
-                },
-                {
-                    "name": "scale",
-                    "type": "ontology_term",
-                    "blank_value": {
-                        "node": "",
-                        "name": ""
-                    },
-                    "default_value": {
-                        "node": "",
-                        "name": ""
-                    },
-                    "mustBeNonEmpty": false,
-                    "mustBeScalar": true,
-                    "mustNotHaveNaN": false,
-                    "queryable": true,
-                    "ontology": null,
-                    "documentation": "The scoring rubric (e.g. Murine Body Condition Score).",
-                    "constraints": {},
-                    "fields": [
-                        {
-                            "name": "node",
-                            "type": "char",
-                            "blank_value": "",
-                            "default_value": "",
-                            "mustBeNonEmpty": false,
-                            "mustBeScalar": true,
-                            "mustNotHaveNaN": false,
-                            "queryable": true,
-                            "ontology": null,
-                            "documentation": "The CURIE (prefix resolved via CURIE_lookups_meta.json).",
-                            "constraints": {}
-                        },
-                        {
-                            "name": "name",
-                            "type": "char",
-                            "blank_value": "",
-                            "default_value": "",
-                            "mustBeNonEmpty": false,
-                            "mustBeScalar": true,
-                            "mustNotHaveNaN": false,
-                            "queryable": true,
-                            "ontology": null,
-                            "documentation": "The human-readable label.",
-                            "constraints": {}
-                        }
-                    ]
-                },
-                {
-                    "name": "scale_min",
-                    "type": "double",
-                    "blank_value": 0.0,
-                    "default_value": 0.0,
-                    "mustBeNonEmpty": false,
-                    "mustBeScalar": true,
-                    "mustNotHaveNaN": false,
-                    "queryable": true,
-                    "ontology": null,
-                    "documentation": "Lower bound of the scale.",
-                    "constraints": {}
-                },
-                {
-                    "name": "scale_max",
-                    "type": "double",
-                    "blank_value": 0.0,
-                    "default_value": 0.0,
-                    "mustBeNonEmpty": false,
-                    "mustBeScalar": true,
-                    "mustNotHaveNaN": false,
-                    "queryable": true,
-                    "ontology": null,
-                    "documentation": "Upper bound of the scale.",
-                    "constraints": {}
-                },
-                {
-                    "name": "approximate",
-                    "type": "boolean",
-                    "blank_value": 0.0,
-                    "default_value": 0.0,
-                    "mustBeNonEmpty": false,
-                    "mustBeScalar": true,
-                    "mustNotHaveNaN": false,
-                    "queryable": true,
-                    "ontology": null,
-                    "documentation": "True when the score is approximate.",
-                    "constraints": {}
-                }
-            ]
-        }
-    ]
+    "fields": []
 }

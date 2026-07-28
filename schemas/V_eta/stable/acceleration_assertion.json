@@ -4,88 +4,15 @@
         "class_version": "1.0.0",
         "superclasses": [
             {
-                "class_name": "numeric_assertion"
+                "class_name": "subject_assertion"
+            },
+            {
+                "class_name": "acceleration"
             }
         ],
         "maturity_level": "stable"
     },
     "depends_on": [],
     "file": [],
-    "fields": [
-        {
-            "name": "value",
-            "type": "acceleration",
-            "blank_value": {
-                "approximate": false,
-                "source_unit": "",
-                "source_value": 0.0
-            },
-            "default_value": {
-                "approximate": false,
-                "source_unit": "",
-                "source_value": 0.0
-            },
-            "mustBeNonEmpty": true,
-            "mustBeScalar": true,
-            "mustNotHaveNaN": false,
-            "queryable": true,
-            "ontology": null,
-            "documentation": "A scalar m/s^2 value cell.",
-            "constraints": {},
-            "fields": [
-                {
-                    "name": "meters_per_second_squared",
-                    "type": "double",
-                    "blank_value": 0.0,
-                    "default_value": 0.0,
-                    "mustBeNonEmpty": false,
-                    "mustBeScalar": true,
-                    "mustNotHaveNaN": false,
-                    "queryable": true,
-                    "ontology": null,
-                    "documentation": "Canonical acceleration value -- the normalised, cross-document comparable number.",
-                    "constraints": {}
-                },
-                {
-                    "name": "source_unit",
-                    "type": "char",
-                    "blank_value": "",
-                    "default_value": "",
-                    "mustBeNonEmpty": false,
-                    "mustBeScalar": true,
-                    "mustNotHaveNaN": false,
-                    "queryable": true,
-                    "ontology": null,
-                    "documentation": "The unit exactly as given by the source (lossless provenance).",
-                    "constraints": {}
-                },
-                {
-                    "name": "source_value",
-                    "type": "double",
-                    "blank_value": 0.0,
-                    "default_value": 0.0,
-                    "mustBeNonEmpty": false,
-                    "mustBeScalar": true,
-                    "mustNotHaveNaN": false,
-                    "queryable": true,
-                    "ontology": null,
-                    "documentation": "The number as given by the source, in `source_unit`.",
-                    "constraints": {}
-                },
-                {
-                    "name": "approximate",
-                    "type": "boolean",
-                    "blank_value": 0.0,
-                    "default_value": 0.0,
-                    "mustBeNonEmpty": false,
-                    "mustBeScalar": true,
-                    "mustNotHaveNaN": false,
-                    "queryable": true,
-                    "ontology": null,
-                    "documentation": "True when the value is approximate.",
-                    "constraints": {}
-                }
-            ]
-        }
-    ]
+    "fields": []
 }
