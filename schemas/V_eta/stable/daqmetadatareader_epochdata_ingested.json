@@ -1,6 +1,6 @@
 {
     "document_class": {
-        "class_name": "daqmetadatareader_epoch_cache",
+        "class_name": "daqmetadatareader_epochdata_ingested",
         "class_version": "1.0.0",
         "superclasses": [
             {

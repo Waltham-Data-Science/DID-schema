@@ -1,6 +1,6 @@
 {
     "document_class": {
-        "class_name": "daqreader_epoch_cache",
+        "class_name": "daqreader_epochdata_ingested",
         "class_version": "2.0.0",
         "superclasses": [
             {

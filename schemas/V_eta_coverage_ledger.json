@@ -6,9 +6,9 @@
     "by_disposition": {
       "retire": 41,
       "dissolved \u2192 subject": 1,
-      "in_progress": 18,
+      "in_progress": 21,
       "persist": 4,
-      "dissolved (rename/decompose)": 35,
+      "dissolved (rename/decompose)": 32,
       "test/demo fixture (non-production)": 2,
       "dissolved \u2192 measurement": 1
     },
@@ -87,13 +87,15 @@
     },
     {
       "v1_class": "binaryseries_parameters",
-      "veta_class": null,
-      "disposition": "dissolved (rename/decompose)",
+      "veta_class": "binaryseries_parameters",
+      "disposition": "in_progress",
       "migrator": false,
       "source": "ndi",
       "nonprod": false,
       "gap": false,
-      "targets": [],
+      "targets": [
+        "binaryseries_parameters"
+      ],
       "carried": [],
       "second_pass": [],
       "how": "",
@@ -210,13 +212,15 @@
     },
     {
       "v1_class": "daqmetadatareader_epochdata_ingested",
-      "veta_class": null,
-      "disposition": "dissolved (rename/decompose)",
+      "veta_class": "daqmetadatareader_epochdata_ingested",
+      "disposition": "in_progress",
       "migrator": false,
       "source": "ndi",
       "nonprod": false,
       "gap": false,
-      "targets": [],
+      "targets": [
+        "daqmetadatareader_epochdata_ingested"
+      ],
       "carried": [],
       "second_pass": [],
       "how": "",
@@ -240,13 +244,15 @@
     },
     {
       "v1_class": "daqreader_epochdata_ingested",
-      "veta_class": null,
-      "disposition": "dissolved (rename/decompose)",
+      "veta_class": "daqreader_epochdata_ingested",
+      "disposition": "in_progress",
       "migrator": false,
       "source": "ndi",
       "nonprod": false,
       "gap": false,
-      "targets": [],
+      "targets": [
+        "daqreader_epochdata_ingested"
+      ],
       "carried": [],
       "second_pass": [],
       "how": "",

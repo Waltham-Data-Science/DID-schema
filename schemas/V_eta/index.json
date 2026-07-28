@@ -102,17 +102,6 @@
             "disposition_note": "\u2466 infra tier re-opened: the KEEP predated T11/T13 scrutiny (R5 found 5 of its siblings needed renames/folds); needs a naming + governance confirmation, NDI lockstep where the writers own the class string"
         },
         {
-            "class_name": "acquisition_layout",
-            "tier": "stable",
-            "class_version": "1.0.0",
-            "maturity_level": "stable",
-            "superclasses": [
-                "base"
-            ],
-            "path": "schemas/V_eta/stable/acquisition_layout.json",
-            "disposition": "persist"
-        },
-        {
             "class_name": "amount",
             "tier": "stable",
             "class_version": "1.0.0",
@@ -274,6 +263,18 @@
             "disposition": "persist"
         },
         {
+            "class_name": "binaryseries_parameters",
+            "tier": "stable",
+            "class_version": "1.0.0",
+            "maturity_level": "stable",
+            "superclasses": [
+                "base"
+            ],
+            "path": "schemas/V_eta/stable/binaryseries_parameters.json",
+            "disposition": "in_progress",
+            "disposition_note": "R5 proposed \u2192 acquisition_layout (awaiting review)"
+        },
+        {
             "class_name": "binnedspikeratevm",
             "tier": "stable",
             "class_version": "1.0.0",
@@ -331,17 +332,6 @@
                 "capacitance"
             ],
             "path": "schemas/V_eta/stable/capacitance_observation.json",
-            "disposition": "persist"
-        },
-        {
-            "class_name": "channel_assignment",
-            "tier": "draft",
-            "class_version": "1.0.0",
-            "maturity_level": "draft",
-            "superclasses": [
-                "base"
-            ],
-            "path": "schemas/V_eta/draft/channel_assignment.json",
             "disposition": "persist"
         },
         {
@@ -615,7 +605,7 @@
             "disposition_note": "\u2466 infra tier re-opened: the KEEP predated T11/T13 scrutiny (R5 found 5 of its siblings needed renames/folds); needs a naming + governance confirmation, NDI lockstep where the writers own the class string"
         },
         {
-            "class_name": "daqmetadatareader_epoch_cache",
+            "class_name": "daqmetadatareader_epochdata_ingested",
             "tier": "stable",
             "class_version": "1.0.0",
             "maturity_level": "stable",
@@ -623,8 +613,9 @@
                 "base",
                 "epochid"
             ],
-            "path": "schemas/V_eta/stable/daqmetadatareader_epoch_cache.json",
-            "disposition": "persist"
+            "path": "schemas/V_eta/stable/daqmetadatareader_epochdata_ingested.json",
+            "disposition": "in_progress",
+            "disposition_note": "R5 proposed \u2192 daqmetadatareader_epoch_cache (awaiting review)"
         },
         {
             "class_name": "daqreader",
@@ -639,15 +630,16 @@
             "disposition_note": "\u2466 infra tier re-opened: the KEEP predated T11/T13 scrutiny (R5 found 5 of its siblings needed renames/folds); needs a naming + governance confirmation, NDI lockstep where the writers own the class string"
         },
         {
-            "class_name": "daqreader_epoch_cache",
+            "class_name": "daqreader_epochdata_ingested",
             "tier": "stable",
             "class_version": "2.0.0",
             "maturity_level": "stable",
             "superclasses": [
                 "base"
             ],
-            "path": "schemas/V_eta/stable/daqreader_epoch_cache.json",
-            "disposition": "persist"
+            "path": "schemas/V_eta/stable/daqreader_epochdata_ingested.json",
+            "disposition": "in_progress",
+            "disposition_note": "R5 proposed \u2192 daqreader_epoch_cache (awaiting review)"
         },
         {
             "class_name": "daqreader_image_epochdata_ingested",
@@ -656,11 +648,11 @@
             "maturity_level": "stable",
             "superclasses": [
                 "base",
-                "daqreader_epoch_cache"
+                "daqreader_epochdata_ingested"
             ],
             "path": "schemas/V_eta/stable/daqreader_image_epochdata_ingested.json",
             "disposition": "in_progress",
-            "disposition_note": "R5: `_epochdata_ingested` \u2192 `_epoch_cache` is decided, but whether `_image` is a distinct cache SHAPE or a modality label (\u2192 fold into daqreader_epoch_cache + a modality field) is a factual question for NDI. Held whole rather than half-renamed."
+            "disposition_note": "R5 proposed \u2192 fold into the daqreader cache + a modality field; ALSO needs the factual `_image` question answered by NDI (distinct cache shape, or modality label?) (awaiting review)"
         },
         {
             "class_name": "daqsystem",
@@ -706,6 +698,18 @@
             ],
             "path": "schemas/V_eta/stable/data_type.json",
             "disposition": "persist"
+        },
+        {
+            "class_name": "dataseries_channel_map",
+            "tier": "draft",
+            "class_version": "1.0.0",
+            "maturity_level": "draft",
+            "superclasses": [
+                "base"
+            ],
+            "path": "schemas/V_eta/draft/dataseries_channel_map.json",
+            "disposition": "in_progress",
+            "disposition_note": "R5 proposed \u2192 channel_assignment (awaiting review)"
         },
         {
             "class_name": "dataset",

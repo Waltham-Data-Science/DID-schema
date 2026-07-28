@@ -483,7 +483,7 @@ def test_phase1_source_cleanup_and_dep_typing():
     assert "openminds" in RECORDS and "measurement" in RECORDS
     def _dep(cls, name):
         return next(d for d in RECORDS[cls][1]["depends_on"] if d["name"] == name)
-    assert _dep("daqreader_epoch_cache", "epochid")["must_refer_to_document_class"] == "acquisition_epoch"
+    assert _dep("daqreader_epochdata_ingested", "epochid")["must_refer_to_document_class"] == "acquisition_epoch"
     assert _dep("epochfiles_ingested", "epochid")["must_refer_to_document_class"] == "acquisition_epoch"
     assert _dep("directory", "parent_directory_id")["must_refer_to_document_class"] == "directory"
 
@@ -503,10 +503,10 @@ def test_daqreader_ndr_de_encoded():
 def test_mfdaq_ingested_de_encoded():
     """Chunk c: daqreader_mfdaq_epochdata_ingested encoded the reader subtype
     (`mfdaq`) in its CLASS NAME. It dissolves onto the generic
-    daqreader_epoch_cache -- its only distinguishing content, `parameters`,
+    daqreader_epochdata_ingested -- its only distinguishing content, `parameters`,
     becomes an OPTIONAL field (empty for readers that do not slice by segment)."""
     assert "daqreader_mfdaq_epochdata_ingested" not in RECORDS
-    dri = {f["name"]: f for f in RECORDS["daqreader_epoch_cache"][1]["fields"]}
+    dri = {f["name"]: f for f in RECORDS["daqreader_epochdata_ingested"][1]["fields"]}
     assert "parameters" in dri
     assert dri["parameters"].get("mustBeNonEmpty") is False
 
@@ -520,7 +520,7 @@ def test_ingested_caches_epochid_dep_only():
     img = RECORDS["daqreader_image_epochdata_ingested"][1]
     supers = {s.get("class_name") for s in img["document_class"]["superclasses"]}
     assert "epochid" not in supers
-    assert "daqreader_epoch_cache" in supers
+    assert "daqreader_epochdata_ingested" in supers
     # the caches are NOT collapsed into the data_body genus
     assert "sampled_body" not in supers
 
