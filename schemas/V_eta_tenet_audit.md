@@ -25,9 +25,9 @@ batched** (per the team's request) so we amass several before touching code.
 | item | decision | built? |
 |---|---|---|
 | **R1** `app` → `software` entity + `software_id` edge + `execution_environment` | FINAL | ✅ built + green |
-| **R6/`image`** full model | FINAL → `V_eta_image_model_plan.md` | ⏳ **build deferred** (5 tasks + a strand-bug fix) |
+| **R6/`image`** full model | FINAL → `V_eta_image_model_plan.md` | ✅ **built + corpus-green** (run #251, see gate record below). `image` is a standalone `data_type` with one `value` cell (T14). |
 | **R4** `ngrid`/`array` → **`array` KILLED** (re-audit): `ngrid` **phases into `sampled_body`** (a carrier, T6; a generic array duplicates the body + names a container, T13); **`image` is standalone** (reverses `image ⊂ array`); RF family folds to calc leaves w/ **`sampled_body`-valued** maps | FINAL (re-audit revised) | ⏳ **build deferred** (batched w/ image) |
-| **R2/R3** tuning composites → one `tuning_curve` data_type + **ARRAY** of `model_fit` + **typed queryable** summary scalars + one `tuning_curve_calculation` leaf | FINAL (re-audit revised: array + typed, not single bag) → `V_eta_tuning_model_plan.md` | ⏳ **build deferred** (7 tasks; re-targets the shipped calc folds — corpus re-verify required) |
+| **R2/R3** tuning composites → one `tuning_curve` data_type + **ARRAY** of `model_fit` + **typed queryable** summary scalars + one `tuning_curve_calculation` leaf | FINAL (re-audit revised: array + typed, not single bag) → `V_eta_tuning_model_plan.md` | ✅ **built + corpus-green** (run #251). The required re-verify of the re-targeted calc folds is DONE: 0 orphans on all 5 corpora, so the id-preserving 1→1 fold survived the re-target. |
 | **R5** infra naming smells → RENAME (T11/T13). Proposed targets: `binaryseries_parameters`→`acquisition_layout`, `dataseries_channel_map`→`channel_assignment`, `*_epochdata_ingested`→`<device>_epoch_cache`, `daqreader_image_*`→fold+modality field | **RE-OPENED — awaiting review.** An earlier naming pass marked these FINAL, but the ⑦ walkthrough re-opened the whole infra tier ("the KEEP predated T11/T13 scrutiny; needs a naming + governance confirmation"), which covers four of these five classes. A build was started on the strength of the old FINAL marking and **reverted** — the targets need confirming first. | ⏳ **not built** (all five back to `in_progress`). Useful finding kept from the attempt: the rename is **DID-only**, NOT a cross-repo lockstep — every NDI hit is a v1 WRITER and `+migrate/` has no V_eta-side reader of these strings, same as `element_epoch`. Also still open: the factual `_image` question for NDI. |
 | **boundary: instrument** → RETIRE | FINAL (evidence-audited: V_epsilon review class, no emitter) | ⏳ mark retire in `build_v_eta` markers |
 | **boundary: projectvar** → **PASSTHROUGH** (re-audit: retire evidence was FALSE — it IS an ndi v1 source) | FINAL (re-audit corrected) | ⏳ keep green passthrough; corpus 0-doc check before any future retire |
@@ -38,12 +38,36 @@ batched** (per the team's request) so we amass several before touching code.
 | **boundary: ensemble** → per-neuron primary + group-subject membership + derived cache; map doc dissolves | FINAL → `V_eta_ensemble_plan.md` | ⏳ **build deferred** (2nd pass: member_of + cache; verify-before-delete) |
 | **raw-recording model** (voltage-attribution gap) → a `<modality>_observation` of the specimen (`instrument_id`→electrode), not device-attached data. Re-audit: **multi-channel = one obs w/ channel axis**; **unknown modality = bare self-describing `sampled_body` value + `modality_unresolved` flag (Guard A, never a `timeseries_observation`/`array`), gated to 0 fallbacks** | FINAL → `V_eta_recording_observation_plan.md` | ⏳ **build deferred** (assembler migrator + modality map; 0-orphan AND 0-fallback re-verify) |
 
-**Deferred-build queue (what to build once we batch):** the `image` model
-(`V_eta_image_model_plan.md`, tasks 1–6, incl. the `image` migrator that fixes the strand
-risk) + the `ngrid`→`sampled_body` / RF fold (R4, same batch; `array` killed) + the tuning-curve collapse
-(`V_eta_tuning_model_plan.md`, tasks 1–7, re-targets the shipped calc folds + corpus
-re-verify) + `software` follow-ups (dedup pass; openMINDS `software` crosswalk). See the
-TaskList.
+**Deferred-build queue (what to build once we batch):** the `ngrid`→`sampled_body` / RF fold
+(R4; `array` killed) + `software` follow-ups (dedup pass; the openMINDS `software` crosswalk
+is partially landed — `SoftwareVersion` mapped, exhaustive property parity still blocked on
+access to the authoritative openMINDS property surface). See the TaskList. *(The `image` model
+and the tuning-curve collapse have LEFT this queue — both are built and corpus-verified.)*
+
+### Corpus gate record — run #251 (2026-07-28)
+
+DID-matlab `test-code.yml` run **#251**, DID-matlab `324b776` / DID-schema `4b4f81d`,
+branch `claude/v-eta-migration-plan-35jj1z`. Duration 145 min. **373/373 tests passed,
+0 failed, 0 incomplete.**
+
+| corpus | source docs | migrated | edges | orphans | quarantine |
+|---|---|---|---|---|---|
+| 20211116 | 1,220 | 1,484 | 2,644 | **0** | **0** |
+| B | 12,917 | 13,778 | 17,424 | **0** | **0** |
+| Dab | 27,561 | 110,086 | 102,167 | **0** | **0** |
+| JH | 78,688 | 435,881 | 615,005 | **0** | **0** |
+| Soph | 101,427 | 181,760 | 280,969 | **0** | **0** |
+
+This is the first full-corpus gate covering, in one run: the tuning-collapse re-target, the
+`image` `value`-cell normalization (T14), the `contrast_sensitivity` reshape (RB/RBN/RBNS →
+`model_fit` array), the `term`/`date` composites across all 17 emission sites (incl.
+`resolveDeferredBaths`), and group A (27 assertions repointed, `numeric_assertion` deleted).
+R5 is NOT in this run — it was reverted pending review.
+
+Two things worth flagging beyond the pass/fail: **(1)** JH quarantine is now **0** — the
+~2078 `distance_metadata` "required `endpoints` missing" quarantines are gone, cleared by the
+flat→nested `endpoints` reshape. **(2)** Routing inventory reports **0 unmatched term routes
+to `generic_*`** on every corpus, so no document fell through to a generic class.
 
 ## Naming pass — FINAL decisions (T11/T12/T13)
 

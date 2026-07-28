@@ -17,7 +17,8 @@ lives in these files — read them instead of re-deriving from memory:
   FINAL while its build is deferred. R1 (app→software) built+green; R2/R3 (tuning collapse)
   + R6 (image standalone) now BUILT schema-side (tuning_curve/tuning_curve_calculation,
   image data_type + image_observation/_manipulation) + migrators — quick fixture gate GREEN,
-  full-corpus 0-orphan re-verify PENDING (test-code.yml). STILL deferred: R4's ngrid→sampled_body
+  full-corpus 0-orphan re-verify **DONE + GREEN** (test-code.yml run #251 / 324b776, 2026-07-28:
+  all 5 corpora 0 orphans AND 0 quarantine, 373/373 tests). STILL deferred: R4's ngrid→sampled_body
   fold (ngrid still in stable/), software dedup + openMINDS crosswalk, R5 renames, and the
   NDI second-pass assemblers (ensemble member_of+cache, raw-recording observation, timed_sequence
   decompose).
@@ -224,11 +225,12 @@ lives in these files — read them instead of re-deriving from memory:
   decompose the distance timeseries ELEMENT into a length_observation of the
   graph-resolved animal subject (endpoint A), patch (endpoint B) as a spatial relation,
   consuming distance_metadata for the endpoint identities. The single-doc DID migrator
-  lacks the element→subject graph + the timeseries values, so it CANNOT do this; it is
-  left as-is (quarantine). Optional DID interim to clear the quarantines early: mint a
-  directed_relation between the two endpoint DOC IDS (both resolve in-batch). Corpus is
-  GREEN with these quarantines (JH's test does not gate quarantine) — data-completeness
-  follow-up, not a gate.
+  lacks the element→subject graph + the timeseries values, so it CANNOT do this. STATUS:
+  the flat→nested `endpoints` reshape (Part B of #18) SHIPPED and the ~2078 JH quarantines
+  are GONE — corpus run #251 (2026-07-28) reports JH `quarantine_count: 0`, so this is no
+  longer a standing quarantine. What REMAINS deferred is only the length_observation /
+  spatial-relation modelling (the numeric distance still lives in the `distance` timeseries
+  ELEMENT and needs the NDI second pass) — a data-completeness follow-up, not a gate.
 - General migrator lesson: any NESTED sub-field a migrator reads needs a
   snake+camelCase fallback. AUDIT (this session) of every +migrators_j nested read:
   live nested multi-word reads were `syncrule_mapping.epochnode_*` (fixed) and
