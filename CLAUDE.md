@@ -4,8 +4,9 @@
 The conversation gets compacted and loses fine-grained state. The durable record
 lives in these files — read them instead of re-deriving from memory:
 
-- **`schemas/V_eta_tenets.md`** — the NORTH STAR: Brainstorm J's thesis + the 13 tenets
-  (T1–T13, incl. T11 naming grammar, T12 "when is a new data_type warranted", T13 naming
+- **`schemas/V_eta_tenets.md`** — the NORTH STAR: Brainstorm J's thesis + the 14 tenets
+  (T1–T14, incl. T11 naming grammar, T12 "when is a new data_type warranted", T14
+  "structure is declared, not conventional" — one `value` slot + inline cell layouts, T13 naming
   altitude/case). Answer
   design/naming/disposition questions FROM these, not from the class list.
 - **`schemas/V_eta_tenet_audit.md`** — every persist/in_progress class bucketed vs the

@@ -1110,10 +1110,76 @@ write("draft", "control_designation",
 # `calculator`, not one of them, so it is naturally excluded), and add the leaf.
 # Unlike tuningcurve_calc, contrast_sensitivity_calc HAS element_id -> it folds
 # single-doc (migrators_j.contrast_sensitivity_calc).
-_cs_src = load(os.path.join(VETA, "stable", "contrast_sensitivity_calc.json"))
+# RESHAPED (walkthrough): the first cut copied the v1 fields VERBATIM, which carried the
+# flat bag forward -- 21 top-level fields, five metric families each suffixed
+# _rb/_rbn/_rbns, plus `parameters_*`. Two tenet breaks: T11 (the suffixes encode a
+# VARIANT in the field name -- the same smell as `_ndr`/`_mfdaq` in a class name) and T13
+# (`parameters` is a banned container word; the tuning pass renamed exactly this concept
+# to `coefficients`). The conversion doc settles what the suffixes ARE: RB / RBN / RBNS
+# are three **Naka-Rushton fit variants**. So they are FITS, and the tuning model already
+# has the right shape for that -- a `model_fit` ARRAY. Each variant becomes one entry
+# carrying its own coefficients AND the per-spatial-frequency metrics derived from that
+# fit; the fit-less and significance scalars become the same TYPED sub-blocks
+# `interpolated_values` / `significance` that tuning_curve uses. Every v1 field is
+# preserved. contrast_sensitivity stays its OWN class (it aggregates ACROSS spatial
+# frequencies rather than being one curve) -- the collapse was never the issue, the
+# unreshaped bag was.
+_CS_FIT_SUBS = [
+    subfield("model", "ontology_term",
+             "The fitted Naka-Rushton variant as a controlled term (T8): "
+             "naka_rushton_rb | naka_rushton_rbn | naka_rushton_rbns."),
+    # v1 stores `parameters_<variant>` as a bare double VECTOR, not a named struct (unlike
+    # the tuning fits, whose coefficients arrive already named) -- so this is a matrix, and
+    # the element names stay a follow-up: naming them requires the NDIcalc-vis Naka-Rushton
+    # parameter ORDER, and inventing Rmax/C50/n/offset without checking would be a guess.
+    subfield("coefficients", "matrix",
+             "Fitted Naka-Rushton coefficients, as the v1 `parameters_<variant>` vector. "
+             "Element naming is a follow-up (needs the NDIcalc-vis parameter order).",
+             scalar=False),
+    subfield("goodness", "structure",
+             "Fit-quality scalars (r², residual, …).", non_empty=False),
+    subfield("sensitivity", "matrix",
+             "Contrast sensitivity per spatial frequency, from THIS fit.", scalar=False),
+    subfield("relative_max_gain", "matrix",
+             "Relative maximum gain per spatial frequency, from THIS fit.", scalar=False),
+    subfield("empirical_c50", "matrix",
+             "Empirical C50 per spatial frequency, from THIS fit.", scalar=False),
+    subfield("saturation_index", "matrix",
+             "Saturation index per spatial frequency, from THIS fit.", scalar=False),
+]
+_CS_SUBS = [
+    subfield("spatial_frequencies", "matrix",
+             "The independent axis: the spatial frequencies the profile is over.",
+             scalar=False),
+    subfield("model_fit", "structure",
+             "ARRAY of fitted models, one entry per Naka-Rushton variant (RB / RBN / "
+             "RBNS), each carrying its coefficients and the metrics derived from it.",
+             scalar=False, non_empty=False, sub_fields=_CS_FIT_SUBS),
+    subfield("interpolated_values", "structure",
+             "Fit-less interpolated summaries — typed, queryable.", non_empty=False,
+             sub_fields=[subfield("c50", "matrix",
+                                  "Fit-less interpolated C50 per spatial frequency "
+                                  "(v1 `fitless_interpolated_c50`).", scalar=False)]),
+    subfield("significance", "structure",
+             "Statistical significance sub-block — typed, queryable.", non_empty=False,
+             sub_fields=[
+                 subfield("visual_response_p_bonferroni", "matrix",
+                          "Bonferroni-corrected visual-response p per spatial frequency.",
+                          scalar=False),
+                 subfield("response_varies_p_bonferroni", "matrix",
+                          "Bonferroni-corrected response-varies p per spatial frequency.",
+                          scalar=False),
+             ]),
+    subfield("is_modulated_response", "boolean",
+             "True when the response is modulated (F1) rather than mean (F0)."),
+    subfield("response_type", "char", "Which response measure the profile was built on."),
+]
 write("stable", "contrast_sensitivity",
       doc("contrast_sensitivity", ["data_type"], abstract=True,
-          fields=_cs_src.get("fields", [])))
+          fields=[field("value", "structure",
+                        "A contrast-sensitivity profile across spatial frequencies, with "
+                        "an ARRAY of Naka-Rushton fit variants and typed summary "
+                        "sub-blocks.", non_empty=True, blank={}, sub_fields=_CS_SUBS)]))
 write("stable", "contrast_sensitivity_calculation",
       doc("contrast_sensitivity_calculation",
           ["subject_calculation", "contrast_sensitivity"]))
@@ -2356,18 +2422,6 @@ _DECIDED_PENDING = {
     "daqreader_epochdata_ingested": "R5 rename → daqreader_epoch_cache (NDI lockstep)",
     "daqmetadatareader_epochdata_ingested": "R5 rename → daqmetadatareader_epoch_cache (NDI lockstep)",
     "daqreader_image_epochdata_ingested": "R5: fold → daqreader_epoch_cache + modality field (NDI confirm)",
-    # The ONE calc composite the R2/R3 collapse did not reshape. Excluded from the tuning
-    # collapse for a good reason (it is an aggregate ACROSS spatial frequencies, not one
-    # curve) -- but that justified a separate CLASS, not keeping the unreshaped v1 bag. Its
-    # 21 flat fields violate T11 (`_rb`/`_rbn`/`_rbns` encode a response-type VARIANT in the
-    # field name -- the same smell as `_ndr`/`_mfdaq`) and T13 (`parameters_*` is the banned
-    # container word; the tuning pass renamed exactly this to `coefficients`), and diverge
-    # from the sibling `tuning_curve` (which got typed sub-blocks + a `model_fit` array):
-    # `fitless_interpolated_c50` ≈ interpolated_values, the two `*_p_bonferroni` ≈
-    # significance, `parameters_*` ≈ model_fit.coefficients.
-    "contrast_sensitivity": "reshape to the tuning model: typed sub-blocks (significance / "
-                            "interpolated_values) + model_fit.coefficients; _rb/_rbn/_rbns → a variant field",
-    "contrast_sensitivity_calculation": "leaf of the contrast_sensitivity reshape (see composite)",
 }
 
 # ---- ④ leaf-tier walkthrough findings (this session) --------------------------------

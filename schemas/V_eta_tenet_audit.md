@@ -261,6 +261,96 @@ need their migrator finished (or confirmation of consumption) before phase-8 del
 
 ---
 
+## Seven-tier WIP walkthrough — findings (class-by-class review)
+
+A full pass over **every** class, tier by tier, asking one question: *is this settled, or
+is it work-in-progress?* Its purpose was to stop the ledger reporting a blanket `persist`
+for classes we had already decided to change, or had never really scrutinised. Result:
+**persist 162 → 101, in_progress 9 → 69** — all disposition-only, no class shape changed
+in the pass itself. The markers carry the decided target in `disposition_note`, so the
+viewer says *why* something is WIP.
+
+| Tier | Verdict |
+|---|---|
+| ① Spine & genus (14) | **persist** — reviewed, nothing flagged |
+| ② Entities (9) | **persist** — reviewed, nothing flagged |
+| ③ Composites (35) | 34 persist; **`contrast_sensitivity` → WIP**, since RESHAPED (below) |
+| ④ Leaves (74) | 42 persist; **32 → WIP** (findings A + B below) |
+| ⑤ time_reference (8) | **all 8 → WIP** (findings C, D, E below) |
+| ⑥ data_body (2) | **persist — CLEAN.** Exactly two members per T6, both with a `statement` dep |
+| ⑦ Infra (14, + the 6 already-marked R5 targets) | **all → WIP** (finding F) |
+
+### ④ leaf tier
+
+- **(A) The assertion family bypasses its data_type** — 27 leaves + the `numeric_assertion`
+  genus. `voltage_assertion` is a `numeric_assertion`, **not** `subject_assertion` +
+  `voltage`, and redeclares `value` locally as a scalar. The reason is real (J §5: an
+  assertion is one cell, no series; the composites declare `value` array-valued, so it
+  cannot be inherited as-is), but it costs two things: an **`isa <data_type>` lineage query
+  silently misses every assertion**, and it sits against **T12 rule 3** (cardinality is not
+  a class distinction). Resolution: either the leaves pair with their composite and
+  scalar-ness becomes a *constraint*, or the split stays **and the reason is recorded next
+  to the classes** — T12 requires one or the other of a look-alike family.
+- **(B) `term` and `date` have no ③ composite at all** — `term_observation` /
+  `term_manipulation` / `term_assertion` / `date_assertion` are the only leaf families
+  without a composite partner, so they declare their value locally. Given T8/T12 make
+  `term_*` the standard answer for every controlled vocabulary, `term` is plausibly the
+  most-used value kind in the model and the one missing its composite.
+
+### ⑤ time_reference — the family re-opened as a whole, on three findings
+
+- **(C) BUG: a retired class survives in two deps.** `epoch_bounded_reference` and
+  `epoch_relative_reference` each carry a dep literally named **`element_id`** — naming the
+  **retired** `element` — whose `must_refer` is `subject`, not `acquisition_epoch`. So an
+  *epoch* reference names a dead class **and points at the wrong target**; the
+  `element_epoch → acquisition_epoch` rename missed these two.
+- **(D) `bounded` vs `relative` do not denote the same shape** (T11 says the name encodes
+  the shape). `session_bounded` has start/end but `session_relative` does not;
+  `epoch_bounded` has **no bounds at all** while `epoch_relative` has t0+start+end;
+  `event_bounded` has no fields. Session and epoch are effectively inverted.
+- **(E) `relation` is governed inconsistently** (T8 *hard-validated, not advisory*):
+  `session_relative_reference.relation` carries a proper enum; its sibling
+  `session_bounded_reference.relation` is a bare `char` with **no constraints**.
+
+### ⑦ acquisition & infra
+
+- **(F) The KEEP predated T11/T13 scrutiny.** The ⑥/⑦ walkthrough closed this tier as
+  "reviewed, KEEP" — then R5 found **five of its siblings** needed renames or a fold. A
+  KEEP that has already proven incomplete is not evidence of settledness, so the remaining
+  classes are re-opened for the same naming + governance confirmation. Several are
+  NDI-owned (the writers emit these class strings), so any rename lands as a cross-repo
+  lockstep.
+
+### Resolved during the walkthrough (no longer WIP)
+
+- `interaction_purpose` → **persist**: the re-audit KEPT it as a standalone annotation
+  class and it is already built to that shape; "pending" was stale.
+- `control_stimulus_ids` → **retire**: a consumed v1 source — `migrators_j` emits the
+  renamed `control_designation`, so its docs migrate away.
+- `contrast_sensitivity` → **RESHAPED and back to persist.** The flat 21-field v1 bag now
+  sits on a `value` cell. The conversion doc settled what the suffixes are: RB / RBN / RBNS
+  are three **Naka-Rushton fit variants**, so each becomes one `model_fit` entry carrying
+  its coefficients *and* the per-spatial-frequency metrics derived from that fit;
+  `fitless_interpolated_c50` → `interpolated_values`, the two `*_p_bonferroni` →
+  `significance`, `parameters_*` → `coefficients` (T13). It stays its **own class** — it
+  aggregates *across* spatial frequencies rather than being one curve; the collapse was
+  never the issue, the unreshaped bag was.
+- `image` → **normalized and persist**: descriptors moved inside the cell
+  (`value = {pixels, dtype, axes, color_model, channels}`), so every `data_type` now
+  exposes exactly one payload slot. Query paths went 2 → 7.
+
+### What the walkthrough produced beyond markers
+
+The ③ review surfaced that the **named composite types were undeclared** — enum strings
+whose real layout lived in prose and in migrator string literals — which meant **26 of 35
+composites emitted no query path at all**. That is now fixed (layouts declared inline; the
+DID-matlab path generator recurses through them) and generalised into **T14 — "structure is
+declared, not conventional"**. Four pytest guards enforce it: one payload slot per
+composite, a self-expiring exception allowlist, named cells must declare sub_fields, and
+dimensioned cells must carry the full source triple.
+
+---
+
 ## Reading this audit
 
 - **✅** classes need no action; they are the tenets realized.

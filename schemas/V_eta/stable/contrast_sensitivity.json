@@ -14,317 +14,268 @@
     "file": [],
     "fields": [
         {
-            "name": "spatial_frequencies",
-            "type": "matrix",
-            "blank_value": [],
-            "default_value": [],
-            "mustBeNonEmpty": false,
-            "mustBeScalar": false,
-            "mustNotHaveNaN": false,
-            "queryable": false,
-            "ontology": null,
-            "documentation": "Spatial frequencies (cycles per degree) at which contrast sensitivity is reported. One element per per-frequency value below.",
-            "constraints": {
-                "element_type": "double"
-            }
-        },
-        {
-            "name": "sensitivity_rb",
-            "type": "matrix",
-            "blank_value": [],
-            "default_value": [],
-            "mustBeNonEmpty": false,
-            "mustBeScalar": false,
-            "mustNotHaveNaN": false,
-            "queryable": false,
-            "ontology": null,
-            "documentation": "Per-frequency contrast sensitivity derived from a Naka-Rushton RB fit at that frequency.",
-            "constraints": {
-                "element_type": "double"
-            }
-        },
-        {
-            "name": "sensitivity_rbn",
-            "type": "matrix",
-            "blank_value": [],
-            "default_value": [],
-            "mustBeNonEmpty": false,
-            "mustBeScalar": false,
-            "mustNotHaveNaN": false,
-            "queryable": false,
-            "ontology": null,
-            "documentation": "Per-frequency contrast sensitivity derived from a Naka-Rushton RBN fit at that frequency.",
-            "constraints": {
-                "element_type": "double"
-            }
-        },
-        {
-            "name": "sensitivity_rbns",
-            "type": "matrix",
-            "blank_value": [],
-            "default_value": [],
-            "mustBeNonEmpty": false,
-            "mustBeScalar": false,
-            "mustNotHaveNaN": false,
-            "queryable": false,
-            "ontology": null,
-            "documentation": "Per-frequency contrast sensitivity derived from a Naka-Rushton RBNS fit at that frequency.",
-            "constraints": {
-                "element_type": "double"
-            }
-        },
-        {
-            "name": "relative_max_gain_rb",
-            "type": "matrix",
-            "blank_value": [],
-            "default_value": [],
-            "mustBeNonEmpty": false,
-            "mustBeScalar": false,
-            "mustNotHaveNaN": false,
-            "queryable": false,
-            "ontology": null,
-            "documentation": "Per-frequency relative maximum gain from the RB fit.",
-            "constraints": {
-                "element_type": "double"
-            }
-        },
-        {
-            "name": "relative_max_gain_rbn",
-            "type": "matrix",
-            "blank_value": [],
-            "default_value": [],
-            "mustBeNonEmpty": false,
-            "mustBeScalar": false,
-            "mustNotHaveNaN": false,
-            "queryable": false,
-            "ontology": null,
-            "documentation": "Per-frequency relative maximum gain from the RBN fit.",
-            "constraints": {
-                "element_type": "double"
-            }
-        },
-        {
-            "name": "relative_max_gain_rbns",
-            "type": "matrix",
-            "blank_value": [],
-            "default_value": [],
-            "mustBeNonEmpty": false,
-            "mustBeScalar": false,
-            "mustNotHaveNaN": false,
-            "queryable": false,
-            "ontology": null,
-            "documentation": "Per-frequency relative maximum gain from the RBNS fit.",
-            "constraints": {
-                "element_type": "double"
-            }
-        },
-        {
-            "name": "empirical_c50_rb",
-            "type": "matrix",
-            "blank_value": [],
-            "default_value": [],
-            "mustBeNonEmpty": false,
-            "mustBeScalar": false,
-            "mustNotHaveNaN": false,
-            "queryable": false,
-            "ontology": null,
-            "documentation": "Per-frequency empirical c50 from the RB fit.",
-            "constraints": {
-                "element_type": "double"
-            }
-        },
-        {
-            "name": "empirical_c50_rbn",
-            "type": "matrix",
-            "blank_value": [],
-            "default_value": [],
-            "mustBeNonEmpty": false,
-            "mustBeScalar": false,
-            "mustNotHaveNaN": false,
-            "queryable": false,
-            "ontology": null,
-            "documentation": "Per-frequency empirical c50 from the RBN fit.",
-            "constraints": {
-                "element_type": "double"
-            }
-        },
-        {
-            "name": "empirical_c50_rbns",
-            "type": "matrix",
-            "blank_value": [],
-            "default_value": [],
-            "mustBeNonEmpty": false,
-            "mustBeScalar": false,
-            "mustNotHaveNaN": false,
-            "queryable": false,
-            "ontology": null,
-            "documentation": "Per-frequency empirical c50 from the RBNS fit.",
-            "constraints": {
-                "element_type": "double"
-            }
-        },
-        {
-            "name": "saturation_index_rb",
-            "type": "matrix",
-            "blank_value": [],
-            "default_value": [],
-            "mustBeNonEmpty": false,
-            "mustBeScalar": false,
-            "mustNotHaveNaN": false,
-            "queryable": false,
-            "ontology": null,
-            "documentation": "Per-frequency saturation index from the RB fit.",
-            "constraints": {
-                "element_type": "double"
-            }
-        },
-        {
-            "name": "saturation_index_rbn",
-            "type": "matrix",
-            "blank_value": [],
-            "default_value": [],
-            "mustBeNonEmpty": false,
-            "mustBeScalar": false,
-            "mustNotHaveNaN": false,
-            "queryable": false,
-            "ontology": null,
-            "documentation": "Per-frequency saturation index from the RBN fit.",
-            "constraints": {
-                "element_type": "double"
-            }
-        },
-        {
-            "name": "saturation_index_rbns",
-            "type": "matrix",
-            "blank_value": [],
-            "default_value": [],
-            "mustBeNonEmpty": false,
-            "mustBeScalar": false,
-            "mustNotHaveNaN": false,
-            "queryable": false,
-            "ontology": null,
-            "documentation": "Per-frequency saturation index from the RBNS fit.",
-            "constraints": {
-                "element_type": "double"
-            }
-        },
-        {
-            "name": "parameters_rb",
-            "type": "matrix",
-            "blank_value": [],
-            "default_value": [],
-            "mustBeNonEmpty": false,
-            "mustBeScalar": false,
-            "mustNotHaveNaN": false,
-            "queryable": false,
-            "ontology": null,
-            "documentation": "Per-frequency fitted parameters from the RB model (one parameter set per frequency).",
-            "constraints": {
-                "element_type": "double"
-            }
-        },
-        {
-            "name": "parameters_rbn",
-            "type": "matrix",
-            "blank_value": [],
-            "default_value": [],
-            "mustBeNonEmpty": false,
-            "mustBeScalar": false,
-            "mustNotHaveNaN": false,
-            "queryable": false,
-            "ontology": null,
-            "documentation": "Per-frequency fitted parameters from the RBN model.",
-            "constraints": {
-                "element_type": "double"
-            }
-        },
-        {
-            "name": "parameters_rbns",
-            "type": "matrix",
-            "blank_value": [],
-            "default_value": [],
-            "mustBeNonEmpty": false,
-            "mustBeScalar": false,
-            "mustNotHaveNaN": false,
-            "queryable": false,
-            "ontology": null,
-            "documentation": "Per-frequency fitted parameters from the RBNS model.",
-            "constraints": {
-                "element_type": "double"
-            }
-        },
-        {
-            "name": "fitless_interpolated_c50",
-            "type": "matrix",
-            "blank_value": [],
-            "default_value": [],
-            "mustBeNonEmpty": false,
-            "mustBeScalar": false,
-            "mustNotHaveNaN": false,
-            "queryable": false,
-            "ontology": null,
-            "documentation": "Per-frequency interpolated c50 derived from the empirical curve (no model fit).",
-            "constraints": {
-                "element_type": "double"
-            }
-        },
-        {
-            "name": "is_modulated_response",
-            "type": "boolean",
-            "blank_value": false,
-            "default_value": false,
-            "mustBeNonEmpty": false,
+            "name": "value",
+            "type": "structure",
+            "blank_value": {},
+            "default_value": {},
+            "mustBeNonEmpty": true,
             "mustBeScalar": true,
             "mustNotHaveNaN": false,
             "queryable": true,
             "ontology": null,
-            "documentation": "Indicates whether responses were treated as modulated (F1) rather than mean (F0).",
-            "constraints": {}
-        },
-        {
-            "name": "visual_response_p_bonferroni",
-            "type": "matrix",
-            "blank_value": [],
-            "default_value": [],
-            "mustBeNonEmpty": false,
-            "mustBeScalar": false,
-            "mustNotHaveNaN": false,
-            "queryable": false,
-            "ontology": null,
-            "documentation": "Per-frequency Bonferroni-corrected p-values for the visual-response ANOVA.",
-            "constraints": {
-                "element_type": "double"
-            }
-        },
-        {
-            "name": "response_varies_p_bonferroni",
-            "type": "matrix",
-            "blank_value": [],
-            "default_value": [],
-            "mustBeNonEmpty": false,
-            "mustBeScalar": false,
-            "mustNotHaveNaN": false,
-            "queryable": false,
-            "ontology": null,
-            "documentation": "Per-frequency Bonferroni-corrected p-values for the response-varies-across-contrasts ANOVA.",
-            "constraints": {
-                "element_type": "double"
-            }
-        },
-        {
-            "name": "response_type",
-            "type": "char",
-            "blank_value": "",
-            "default_value": "",
-            "mustBeNonEmpty": false,
-            "mustBeScalar": true,
-            "mustNotHaveNaN": false,
-            "queryable": true,
-            "ontology": null,
-            "documentation": "Reduction applied per trial to produce each response value.",
-            "constraints": {
-                "maxLength": 64
-            }
+            "documentation": "A contrast-sensitivity profile across spatial frequencies, with an ARRAY of Naka-Rushton fit variants and typed summary sub-blocks.",
+            "constraints": {},
+            "fields": [
+                {
+                    "name": "spatial_frequencies",
+                    "type": "matrix",
+                    "blank_value": [],
+                    "default_value": [],
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": false,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "The independent axis: the spatial frequencies the profile is over.",
+                    "constraints": {}
+                },
+                {
+                    "name": "model_fit",
+                    "type": "structure",
+                    "blank_value": [],
+                    "default_value": [],
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": false,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "ARRAY of fitted models, one entry per Naka-Rushton variant (RB / RBN / RBNS), each carrying its coefficients and the metrics derived from it.",
+                    "constraints": {},
+                    "fields": [
+                        {
+                            "name": "model",
+                            "type": "ontology_term",
+                            "blank_value": {
+                                "node": "",
+                                "name": ""
+                            },
+                            "default_value": {
+                                "node": "",
+                                "name": ""
+                            },
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "The fitted Naka-Rushton variant as a controlled term (T8): naka_rushton_rb | naka_rushton_rbn | naka_rushton_rbns.",
+                            "constraints": {},
+                            "fields": [
+                                {
+                                    "name": "node",
+                                    "type": "char",
+                                    "blank_value": "",
+                                    "default_value": "",
+                                    "mustBeNonEmpty": false,
+                                    "mustBeScalar": true,
+                                    "mustNotHaveNaN": false,
+                                    "queryable": true,
+                                    "ontology": null,
+                                    "documentation": "The CURIE (prefix resolved via CURIE_lookups_meta.json).",
+                                    "constraints": {}
+                                },
+                                {
+                                    "name": "name",
+                                    "type": "char",
+                                    "blank_value": "",
+                                    "default_value": "",
+                                    "mustBeNonEmpty": false,
+                                    "mustBeScalar": true,
+                                    "mustNotHaveNaN": false,
+                                    "queryable": true,
+                                    "ontology": null,
+                                    "documentation": "The human-readable label.",
+                                    "constraints": {}
+                                }
+                            ]
+                        },
+                        {
+                            "name": "coefficients",
+                            "type": "matrix",
+                            "blank_value": [],
+                            "default_value": [],
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": false,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "Fitted Naka-Rushton coefficients, as the v1 `parameters_<variant>` vector. Element naming is a follow-up (needs the NDIcalc-vis parameter order).",
+                            "constraints": {}
+                        },
+                        {
+                            "name": "goodness",
+                            "type": "structure",
+                            "blank_value": {},
+                            "default_value": {},
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "Fit-quality scalars (r\u00b2, residual, \u2026).",
+                            "constraints": {},
+                            "fields": []
+                        },
+                        {
+                            "name": "sensitivity",
+                            "type": "matrix",
+                            "blank_value": [],
+                            "default_value": [],
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": false,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "Contrast sensitivity per spatial frequency, from THIS fit.",
+                            "constraints": {}
+                        },
+                        {
+                            "name": "relative_max_gain",
+                            "type": "matrix",
+                            "blank_value": [],
+                            "default_value": [],
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": false,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "Relative maximum gain per spatial frequency, from THIS fit.",
+                            "constraints": {}
+                        },
+                        {
+                            "name": "empirical_c50",
+                            "type": "matrix",
+                            "blank_value": [],
+                            "default_value": [],
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": false,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "Empirical C50 per spatial frequency, from THIS fit.",
+                            "constraints": {}
+                        },
+                        {
+                            "name": "saturation_index",
+                            "type": "matrix",
+                            "blank_value": [],
+                            "default_value": [],
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": false,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "Saturation index per spatial frequency, from THIS fit.",
+                            "constraints": {}
+                        }
+                    ]
+                },
+                {
+                    "name": "interpolated_values",
+                    "type": "structure",
+                    "blank_value": {},
+                    "default_value": {},
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Fit-less interpolated summaries \u2014 typed, queryable.",
+                    "constraints": {},
+                    "fields": [
+                        {
+                            "name": "c50",
+                            "type": "matrix",
+                            "blank_value": [],
+                            "default_value": [],
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": false,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "Fit-less interpolated C50 per spatial frequency (v1 `fitless_interpolated_c50`).",
+                            "constraints": {}
+                        }
+                    ]
+                },
+                {
+                    "name": "significance",
+                    "type": "structure",
+                    "blank_value": {},
+                    "default_value": {},
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Statistical significance sub-block \u2014 typed, queryable.",
+                    "constraints": {},
+                    "fields": [
+                        {
+                            "name": "visual_response_p_bonferroni",
+                            "type": "matrix",
+                            "blank_value": [],
+                            "default_value": [],
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": false,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "Bonferroni-corrected visual-response p per spatial frequency.",
+                            "constraints": {}
+                        },
+                        {
+                            "name": "response_varies_p_bonferroni",
+                            "type": "matrix",
+                            "blank_value": [],
+                            "default_value": [],
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": false,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "Bonferroni-corrected response-varies p per spatial frequency.",
+                            "constraints": {}
+                        }
+                    ]
+                },
+                {
+                    "name": "is_modulated_response",
+                    "type": "boolean",
+                    "blank_value": 0.0,
+                    "default_value": 0.0,
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "True when the response is modulated (F1) rather than mean (F0).",
+                    "constraints": {}
+                },
+                {
+                    "name": "response_type",
+                    "type": "char",
+                    "blank_value": "",
+                    "default_value": "",
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Which response measure the profile was built on.",
+                    "constraints": {}
+                }
+            ]
         }
     ]
 }

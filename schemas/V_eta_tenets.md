@@ -247,6 +247,40 @@ it, or if the name only works once you append a qualifier, re-pitch it.
   batched with the owning repo — same bar, coordinated landing (this is R5). Mirroring an
   implementation is not a license to keep a smelly name.
 
+### T14 — Structure is declared, not conventional.
+A convention that lives in prose, in examples, or in code literals is not a convention —
+it is drift waiting to happen. **Anything a consumer must know in order to read a value is
+declared in the schema.** This is T8's *"hard-validated, not advisory"* applied one level
+down: T8 governs the vocabulary a value may take, T14 governs the value's own shape.
+
+- **One payload slot.** Every `data_type` composite exposes its payload at exactly one
+  field: **`value`**. This is what makes T3's `direction × data_type` factoring mechanical
+  — `mass.value` means the same thing under `mass_observation` and `mass_assertion`, so one
+  query spans both. Descriptors needed to *interpret* the payload (unit, dtype, axes,
+  colour model) ride **inside** the cell, beside the value — never hoisted alongside it.
+  *(A `voltage` cell carries `source_unit` next to `source_value`; by the same rule an
+  `image` cell carries `dtype`/`axes` next to its pixels.)*
+- **The cell layout is declared inline.** A named composite type (`voltage`, `count`,
+  `ontology_term`, …) declares its sub-fields in the schema — the canonical value plus
+  lossless source provenance — so the validator, the query-path generator, the viewer and
+  the docs all read one source of truth. **A type that is only an enum string is
+  undeclared**, and its internals are then known solely to whoever wrote the migrator.
+- **Declaration is what makes a field queryable.** A value is indexable exactly to the
+  depth its structure is declared; undeclared internals are an opaque blob no matter how
+  well named. "Typed" must mean *machine-readable*, not *documented*.
+
+**The failure this names is not hypothetical.** The named types shipped for most of the
+project as enum strings whose real layout lived in the meta-schema's prose and in
+`struct('celsius', …)` literals inside migrators. The result: the validator could only
+check `isstruct` inside a cell, and **26 of 35 `data_type` composites emitted no query
+path at all** — no measured value in the corpus was indexable, silently, for as long as
+the convention went unwritten. Two composites (`image`, `contrast_sensitivity`) had also
+drifted off the one-payload-slot rule for exactly the same reason: nothing checked it.
+
+**Litmus:** could a consumer that has never read our migrator code — a validator, an
+indexer, a third-party reader — get the value out and know what it means, from the schema
+alone? If it needs prose, an example, or our source, the structure is not declared.
+
 ---
 
 ## The meta-principle

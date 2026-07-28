@@ -858,12 +858,10 @@ def test_relation_bindings_present():
 # means the same under mass_observation and mass_assertion. The rule was unwritten for
 # most of the project's life and two classes silently drifted off it, so it is a test
 # now rather than a convention.
-_VALUE_SLOT_EXCEPTIONS = {
-    # Decided: reshape to the tuning model (typed sub-blocks + model_fit.coefficients;
-    # _rb/_rbn/_rbns -> a variant field). Marked in_progress in the build; the flat v1
-    # field bag it still carries is exactly why. Remove from this set when it lands.
-    "contrast_sensitivity",
-}
+# Empty: every data_type composite conforms. (contrast_sensitivity was the last
+# exception -- its flat v1 bag is now reshaped onto a `value` cell with a model_fit
+# array. Keep this set empty; a new entry needs a recorded reason and an exit plan.)
+_VALUE_SLOT_EXCEPTIONS = set()
 
 
 def _data_type_composites():

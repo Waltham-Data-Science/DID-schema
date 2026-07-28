@@ -471,8 +471,7 @@
                 "data_type"
             ],
             "path": "schemas/V_eta/stable/contrast_sensitivity.json",
-            "disposition": "in_progress",
-            "disposition_note": "reshape to the tuning model: typed sub-blocks (significance / interpolated_values) + model_fit.coefficients; _rb/_rbn/_rbns \u2192 a variant field"
+            "disposition": "persist"
         },
         {
             "class_name": "contrast_sensitivity_calculation",
@@ -484,8 +483,7 @@
                 "contrast_sensitivity"
             ],
             "path": "schemas/V_eta/stable/contrast_sensitivity_calculation.json",
-            "disposition": "in_progress",
-            "disposition_note": "leaf of the contrast_sensitivity reshape (see composite)"
+            "disposition": "persist"
         },
         {
             "class_name": "control_designation",
