@@ -291,11 +291,20 @@ viewer says *why* something is WIP.
   a class distinction). Resolution: either the leaves pair with their composite and
   scalar-ness becomes a *constraint*, or the split stays **and the reason is recorded next
   to the classes** — T12 requires one or the other of a look-alike family.
-- **(B) `term` and `date` have no ③ composite at all** — `term_observation` /
-  `term_manipulation` / `term_assertion` / `date_assertion` are the only leaf families
-  without a composite partner, so they declare their value locally. Given T8/T12 make
-  `term_*` the standard answer for every controlled vocabulary, `term` is plausibly the
-  most-used value kind in the model and the one missing its composite.
+- **(B) `term` and `date` had no ③ composite at all** — ✅ **RESOLVED.** They were the only
+  leaf families without a composite partner, so each declared its value locally and an
+  `isa term` query could not span them. `term` and `date` are now real ③ composites and
+  the four leaves pair with them (`term_observation` = `subject_observation` × `term`, and
+  so on), owning no fields of their own.
+  **One wrinkle worth recording:** the three term leaves carried *different* binding
+  strengths — observation `preferred`, manipulation and assertion `required` (you may
+  legitimately OBSERVE a concept outside the vocabulary; an ASSERTED or IMPOSED one should
+  be bound). Subclass field redeclaration is forbidden, so the hoisted value takes one
+  binding: the permissive **`preferred`**, which never over-rejects. Per-(variable, class)
+  tightening belongs in the binding **registry** (D9) — already keyed by `variable` + `class`
+  and already supporting `strength`. Operationally nothing changed: `binding` is not
+  enforced by the validator at all (only maxLength/minLength/minimum/maximum/enum are), so
+  strength is advisory pending the ontology-aware validator T8 describes.
 
 ### ⑤ time_reference — the family re-opened as a whole, on three findings
 

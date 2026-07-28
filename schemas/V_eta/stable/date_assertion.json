@@ -5,75 +5,14 @@
         "superclasses": [
             {
                 "class_name": "subject_assertion"
+            },
+            {
+                "class_name": "date"
             }
         ],
         "maturity_level": "stable"
     },
     "depends_on": [],
     "file": [],
-    "fields": [
-        {
-            "name": "value",
-            "type": "structure",
-            "blank_value": {},
-            "default_value": {},
-            "mustBeNonEmpty": true,
-            "mustBeScalar": true,
-            "mustNotHaveNaN": false,
-            "queryable": true,
-            "ontology": null,
-            "documentation": "A date value cell (a real date, not a duration).",
-            "constraints": {},
-            "fields": [
-                {
-                    "name": "instant",
-                    "type": "char",
-                    "blank_value": "",
-                    "default_value": "",
-                    "mustBeNonEmpty": true,
-                    "mustBeScalar": true,
-                    "mustNotHaveNaN": false,
-                    "queryable": true,
-                    "ontology": null,
-                    "documentation": "ISO-8601 UTC instant (sorts and ranges).",
-                    "constraints": {}
-                },
-                {
-                    "name": "precision",
-                    "type": "char",
-                    "blank_value": "day",
-                    "default_value": "day",
-                    "mustBeNonEmpty": true,
-                    "mustBeScalar": true,
-                    "mustNotHaveNaN": false,
-                    "queryable": true,
-                    "ontology": null,
-                    "documentation": "year|month|day|hour|minute|second.",
-                    "constraints": {
-                        "enum": [
-                            "year",
-                            "month",
-                            "day",
-                            "hour",
-                            "minute",
-                            "second"
-                        ]
-                    }
-                },
-                {
-                    "name": "source",
-                    "type": "char",
-                    "blank_value": "",
-                    "default_value": "",
-                    "mustBeNonEmpty": false,
-                    "mustBeScalar": true,
-                    "mustNotHaveNaN": false,
-                    "queryable": true,
-                    "ontology": null,
-                    "documentation": "The raw input string, preserved.",
-                    "constraints": {}
-                }
-            ]
-        }
-    ]
+    "fields": []
 }

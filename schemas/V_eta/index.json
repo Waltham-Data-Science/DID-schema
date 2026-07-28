@@ -723,16 +723,27 @@
             "disposition": "persist"
         },
         {
+            "class_name": "date",
+            "tier": "stable",
+            "class_version": "1.0.0",
+            "maturity_level": "stable",
+            "superclasses": [
+                "data_type"
+            ],
+            "path": "schemas/V_eta/stable/date.json",
+            "disposition": "persist"
+        },
+        {
             "class_name": "date_assertion",
             "tier": "stable",
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                "subject_assertion"
+                "subject_assertion",
+                "date"
             ],
             "path": "schemas/V_eta/stable/date_assertion.json",
-            "disposition": "in_progress",
-            "disposition_note": "no \u2462 composite partner (`term`/`date` do not exist as data_types) \u2192 the leaf declares its value locally, unlike every other leaf family"
+            "disposition": "persist"
         },
         {
             "class_name": "demo_ndi",
@@ -2273,16 +2284,27 @@
             "disposition": "persist"
         },
         {
+            "class_name": "term",
+            "tier": "stable",
+            "class_version": "1.0.0",
+            "maturity_level": "stable",
+            "superclasses": [
+                "data_type"
+            ],
+            "path": "schemas/V_eta/stable/term.json",
+            "disposition": "persist"
+        },
+        {
             "class_name": "term_assertion",
             "tier": "stable",
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                "subject_assertion"
+                "subject_assertion",
+                "term"
             ],
             "path": "schemas/V_eta/stable/term_assertion.json",
-            "disposition": "in_progress",
-            "disposition_note": "no \u2462 composite partner (`term`/`date` do not exist as data_types) \u2192 the leaf declares its value locally, unlike every other leaf family"
+            "disposition": "persist"
         },
         {
             "class_name": "term_manipulation",
@@ -2290,23 +2312,23 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                "subject_manipulation"
+                "subject_manipulation",
+                "term"
             ],
             "path": "schemas/V_eta/stable/term_manipulation.json",
-            "disposition": "in_progress",
-            "disposition_note": "no \u2462 composite partner (`term`/`date` do not exist as data_types) \u2192 the leaf declares its value locally, unlike every other leaf family"
+            "disposition": "persist"
         },
         {
             "class_name": "term_observation",
             "tier": "stable",
-            "class_version": "2.0.0",
+            "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                "subject_observation"
+                "subject_observation",
+                "term"
             ],
             "path": "schemas/V_eta/stable/term_observation.json",
-            "disposition": "in_progress",
-            "disposition_note": "no \u2462 composite partner (`term`/`date` do not exist as data_types) \u2192 the leaf declares its value locally, unlike every other leaf family"
+            "disposition": "persist"
         },
         {
             "class_name": "time_reference",

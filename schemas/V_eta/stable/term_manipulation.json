@@ -5,67 +5,14 @@
         "superclasses": [
             {
                 "class_name": "subject_manipulation"
+            },
+            {
+                "class_name": "term"
             }
         ],
         "maturity_level": "stable"
     },
     "depends_on": [],
     "file": [],
-    "fields": [
-        {
-            "name": "value",
-            "type": "ontology_term",
-            "blank_value": {
-                "node": "",
-                "name": ""
-            },
-            "default_value": {
-                "node": "",
-                "name": ""
-            },
-            "mustBeNonEmpty": true,
-            "mustBeScalar": true,
-            "mustNotHaveNaN": false,
-            "queryable": true,
-            "ontology": null,
-            "documentation": "The imposed act/agent as a bound term \u2014 a procedure (craniotomy), a regime (dark rearing), or a transferred material. Payload-free acts live here; there is NO generic escape hatch (D8).",
-            "constraints": {
-                "binding": {
-                    "keyed_by": "variable",
-                    "expansion": "descendants",
-                    "node_kind": "class",
-                    "strength": "required",
-                    "source": "ontology"
-                }
-            },
-            "fields": [
-                {
-                    "name": "node",
-                    "type": "char",
-                    "blank_value": "",
-                    "default_value": "",
-                    "mustBeNonEmpty": false,
-                    "mustBeScalar": true,
-                    "mustNotHaveNaN": false,
-                    "queryable": true,
-                    "ontology": null,
-                    "documentation": "The CURIE (prefix resolved via CURIE_lookups_meta.json).",
-                    "constraints": {}
-                },
-                {
-                    "name": "name",
-                    "type": "char",
-                    "blank_value": "",
-                    "default_value": "",
-                    "mustBeNonEmpty": false,
-                    "mustBeScalar": true,
-                    "mustNotHaveNaN": false,
-                    "queryable": true,
-                    "ontology": null,
-                    "documentation": "The human-readable label.",
-                    "constraints": {}
-                }
-            ]
-        }
-    ]
+    "fields": []
 }

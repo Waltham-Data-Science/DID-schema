@@ -506,8 +506,40 @@ TERM_VALUE = field(
     non_empty=True, scalar=True,
     constraints={"binding": {"keyed_by": "variable", "expansion": "descendants",
                              "node_kind": "class", "strength": "required"}})
+# `term` — the ③ composite the term leaves were missing. Every other leaf family pairs a
+# direction with a data_type; term_observation / term_manipulation / term_assertion each
+# declared their own `value` instead, which is why an `isa term` query could not span them
+# (walkthrough finding B). Given T8/T12 make `term_*` the standard answer for every
+# controlled vocabulary, this is the most-used value kind in the model -- it earns a
+# composite. One payload slot, T14.
+#
+# NOTE ON THE BINDING STRENGTH. The three leaves carried slightly different bindings:
+# observation `preferred`, manipulation + assertion `required` (you may OBSERVE a concept
+# outside the vocabulary; an ASSERTED or IMPOSED one should be bound). Subclass field
+# redeclaration is forbidden, so a hoisted value takes ONE binding. This uses the
+# permissive `preferred`, which never over-rejects; per-(variable, class) tightening
+# belongs in the binding REGISTRY (D9), which is already keyed by `variable`+`class` and
+# already supports `strength`. Operationally this changes nothing today: `binding` is not
+# enforced by the validator at all (validateConstraints handles only maxLength/minLength/
+# minimum/maximum/enum), so strength is advisory pending the ontology-aware validator T8
+# describes.
+TERM_VALUE = field(
+    "value", "ontology_term",
+    "The bound term this statement is about — asserted (species, sex, strain, instrument "
+    "type), observed (developmental stage, health status, behaviour, anatomical site), or "
+    "imposed (a procedure, a regime, a transferred material). The admissible vocabulary is "
+    "a variable-keyed binding (D9). Strength is `preferred` here because an OBSERVED "
+    "concept may legitimately fall outside the vocabulary; tightening to `required` for "
+    "assertions/manipulations is a per-(variable, class) registry entry, not a field "
+    "redeclaration.",
+    non_empty=True, scalar=True,
+    constraints={"binding": {"keyed_by": "variable", "expansion": "descendants",
+                             "node_kind": "class", "strength": "preferred",
+                             "source": "ontology"}})
+write("stable", "term",
+      doc("term", ["data_type"], abstract=True, fields=[TERM_VALUE]))
 write("stable", "term_assertion",
-      doc("term_assertion", ["subject_assertion"], fields=[TERM_VALUE]))
+      doc("term_assertion", ["subject_assertion", "term"]))
 
 # date_assertion: a timestamp value cell (instant + precision + source)
 DATE_VALUE = field(
@@ -523,8 +555,11 @@ DATE_VALUE = field(
                                        "second"]}),
         subfield("source", "char", "The raw input string, preserved."),
     ])
+# `date` — the ③ composite for a real date (walkthrough finding B, same as `term`).
+write("stable", "date",
+      doc("date", ["data_type"], abstract=True, fields=[DATE_VALUE]))
 write("stable", "date_assertion",
-      doc("date_assertion", ["subject_assertion"], fields=[DATE_VALUE]))
+      doc("date_assertion", ["subject_assertion", "date"]))
 
 # numeric_assertion: abstract genus; dimensioned scalar leaves
 write("stable", "numeric_assertion",
@@ -1187,15 +1222,17 @@ write("stable", "contrast_sensitivity_calculation",
 write("stable", "visual_grating_manipulation",
       doc("visual_grating_manipulation",
           ["subject_manipulation", "visual_grating"]))
+# term_manipulation: the imposed act/agent — a procedure (craniotomy), a regime (dark
+# rearing), or a transferred material. Payload-free acts live here; there is NO generic
+# escape hatch (D8). Value now inherited from the `term` composite (finding B).
 write("stable", "term_manipulation",
-      doc("term_manipulation", ["subject_manipulation"], fields=[field(
-          "value", "ontology_term",
-          "The imposed act/agent as a bound term — a procedure (craniotomy), a "
-          "regime (dark rearing), or a transferred material. Payload-free acts "
-          "live here; there is NO generic escape hatch (D8).", non_empty=True,
-          constraints={"binding": {"keyed_by": "variable", "expansion": "descendants",
-                                   "node_kind": "class", "strength": "required",
-                                   "source": "ontology"}})]))
+      doc("term_manipulation", ["subject_manipulation", "term"]))
+# term_observation arrives via the copytree (RENAME categorical_observation ->
+# term_observation), so repoint it here rather than at a write site: pair it with the
+# `term` composite and drop its locally-declared value (finding B). Its binding was the
+# `preferred` one, which is exactly what the hoisted TERM_VALUE carries.
+write("stable", "term_observation",
+      doc("term_observation", ["subject_observation", "term"]))
 
 
 # ---------- 10c. de-encode daqreader subtype-in-name classes (chunk c) ----------
@@ -2450,10 +2487,8 @@ for _a in _ASSERTION_BYPASS:
 # the only leaf families without a composite partner. Given T8/T12 make `term_*` the
 # standard answer for every controlled vocabulary, `term` is arguably the most-used value
 # kind in the model and the one missing its composite.
-for _l in ("term_observation", "term_manipulation", "term_assertion", "date_assertion"):
-    _DECIDED_PENDING[_l] = ("no ③ composite partner (`term`/`date` do not exist as "
-                            "data_types) → the leaf declares its value locally, unlike "
-                            "every other leaf family")
+# (B) RESOLVED: `term` and `date` composites now exist and the four leaves pair with them
+# (finding B closed). Left here as a marker of what was fixed, not as a pending item.
 
 # ---- ⑤ time_reference: family consistency pass (walkthrough) ------------------------
 # Three findings, so the whole family is re-opened rather than patched piecemeal:
