@@ -2370,6 +2370,37 @@ _DECIDED_PENDING = {
     "contrast_sensitivity_calculation": "leaf of the contrast_sensitivity reshape (see composite)",
 }
 
+# ---- ④ leaf-tier walkthrough findings (this session) --------------------------------
+# (A) The ASSERTION family bypasses its data_type. `voltage_assertion` is a
+# `numeric_assertion`, NOT `subject_assertion` + `voltage`; it redeclares `value` locally
+# as a scalar rather than inheriting the composite. The reason is real -- J §5 makes an
+# assertion one cell, no series, while the composites declare `value` array-valued, so it
+# cannot be inherited as-is. But it costs two things:
+#   * `isa <data_type>` MISSES assertions -- the chain has no `voltage` in it, so a
+#     "every voltage statement" lineage query returns observations only. A real asymmetry.
+#   * T12 rule 3 says cardinality is NOT a class distinction ("same quantity, different
+#     cardinality -> same composite, length-N value"). A `numeric_assertion` genus that
+#     exists ONLY to host the scalar case is close to the split T12 forbids.
+# Marked in_progress: either the leaves pair with their composite (and scalar-ness becomes
+# a constraint, not a genus), or the split stays and the reason gets recorded next to the
+# classes -- which is what T12 requires of a look-alike family either way.
+# Derived from the numeric lists so the marking self-maintains as the family grows.
+_ASSERTION_BYPASS = {"numeric_assertion"} | {
+    "%s_assertion" % d for d in list(DIMS) + [n for n, _ in NUMERIC_SEED]}
+for _a in _ASSERTION_BYPASS:
+    _DECIDED_PENDING[_a] = ("assertion bypasses its data_type (numeric_assertion genus, "
+                            "local scalar `value`) → `isa <data_type>` misses assertions; "
+                            "T12 rule 3 (cardinality is not a class distinction)")
+
+# (B) `term` and `date` have NO ③ composite, so their leaves declare `value` locally --
+# the only leaf families without a composite partner. Given T8/T12 make `term_*` the
+# standard answer for every controlled vocabulary, `term` is arguably the most-used value
+# kind in the model and the one missing its composite.
+for _l in ("term_observation", "term_manipulation", "term_assertion", "date_assertion"):
+    _DECIDED_PENDING[_l] = ("no ③ composite partner (`term`/`date` do not exist as "
+                            "data_types) → the leaf declares its value locally, unlike "
+                            "every other leaf family")
+
 # Genuinely-unsettled classes that STAY in_progress -- each needs a team call the
 # walkthrough deliberately left open:
 #   - instrument, interaction_purpose : subject-domain, "needs a call".

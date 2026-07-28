@@ -73,7 +73,8 @@
                 "numeric_assertion"
             ],
             "path": "schemas/V_eta/stable/acceleration_assertion.json",
-            "disposition": "persist"
+            "disposition": "in_progress",
+            "disposition_note": "assertion bypasses its data_type (numeric_assertion genus, local scalar `value`) \u2192 `isa <data_type>` misses assertions; T12 rule 3 (cardinality is not a class distinction)"
         },
         {
             "class_name": "acceleration_observation",
@@ -119,7 +120,8 @@
                 "numeric_assertion"
             ],
             "path": "schemas/V_eta/stable/amount_assertion.json",
-            "disposition": "persist"
+            "disposition": "in_progress",
+            "disposition_note": "assertion bypasses its data_type (numeric_assertion genus, local scalar `value`) \u2192 `isa <data_type>` misses assertions; T12 rule 3 (cardinality is not a class distinction)"
         },
         {
             "class_name": "amount_observation",
@@ -153,7 +155,8 @@
                 "numeric_assertion"
             ],
             "path": "schemas/V_eta/stable/angle_assertion.json",
-            "disposition": "persist"
+            "disposition": "in_progress",
+            "disposition_note": "assertion bypasses its data_type (numeric_assertion genus, local scalar `value`) \u2192 `isa <data_type>` misses assertions; T12 rule 3 (cardinality is not a class distinction)"
         },
         {
             "class_name": "angle_observation",
@@ -187,7 +190,8 @@
                 "numeric_assertion"
             ],
             "path": "schemas/V_eta/stable/angular_velocity_assertion.json",
-            "disposition": "persist"
+            "disposition": "in_progress",
+            "disposition_note": "assertion bypasses its data_type (numeric_assertion genus, local scalar `value`) \u2192 `isa <data_type>` misses assertions; T12 rule 3 (cardinality is not a class distinction)"
         },
         {
             "class_name": "angular_velocity_observation",
@@ -233,7 +237,8 @@
                 "numeric_assertion"
             ],
             "path": "schemas/V_eta/stable/area_assertion.json",
-            "disposition": "persist"
+            "disposition": "in_progress",
+            "disposition_note": "assertion bypasses its data_type (numeric_assertion genus, local scalar `value`) \u2192 `isa <data_type>` misses assertions; T12 rule 3 (cardinality is not a class distinction)"
         },
         {
             "class_name": "area_observation",
@@ -313,7 +318,8 @@
                 "numeric_assertion"
             ],
             "path": "schemas/V_eta/stable/capacitance_assertion.json",
-            "disposition": "persist"
+            "disposition": "in_progress",
+            "disposition_note": "assertion bypasses its data_type (numeric_assertion genus, local scalar `value`) \u2192 `isa <data_type>` misses assertions; T12 rule 3 (cardinality is not a class distinction)"
         },
         {
             "class_name": "capacitance_observation",
@@ -347,7 +353,8 @@
                 "numeric_assertion"
             ],
             "path": "schemas/V_eta/stable/charge_assertion.json",
-            "disposition": "persist"
+            "disposition": "in_progress",
+            "disposition_note": "assertion bypasses its data_type (numeric_assertion genus, local scalar `value`) \u2192 `isa <data_type>` misses assertions; T12 rule 3 (cardinality is not a class distinction)"
         },
         {
             "class_name": "charge_observation",
@@ -392,7 +399,8 @@
                 "numeric_assertion"
             ],
             "path": "schemas/V_eta/stable/concentration_assertion.json",
-            "disposition": "persist"
+            "disposition": "in_progress",
+            "disposition_note": "assertion bypasses its data_type (numeric_assertion genus, local scalar `value`) \u2192 `isa <data_type>` misses assertions; T12 rule 3 (cardinality is not a class distinction)"
         },
         {
             "class_name": "concentration_manipulation",
@@ -438,7 +446,8 @@
                 "numeric_assertion"
             ],
             "path": "schemas/V_eta/stable/conductance_assertion.json",
-            "disposition": "persist"
+            "disposition": "in_progress",
+            "disposition_note": "assertion bypasses its data_type (numeric_assertion genus, local scalar `value`) \u2192 `isa <data_type>` misses assertions; T12 rule 3 (cardinality is not a class distinction)"
         },
         {
             "class_name": "conductance_observation",
@@ -521,7 +530,8 @@
                 "numeric_assertion"
             ],
             "path": "schemas/V_eta/stable/count_assertion.json",
-            "disposition": "persist"
+            "disposition": "in_progress",
+            "disposition_note": "assertion bypasses its data_type (numeric_assertion genus, local scalar `value`) \u2192 `isa <data_type>` misses assertions; T12 rule 3 (cardinality is not a class distinction)"
         },
         {
             "class_name": "count_observation",
@@ -555,7 +565,8 @@
                 "numeric_assertion"
             ],
             "path": "schemas/V_eta/stable/current_assertion.json",
-            "disposition": "persist"
+            "disposition": "in_progress",
+            "disposition_note": "assertion bypasses its data_type (numeric_assertion genus, local scalar `value`) \u2192 `isa <data_type>` misses assertions; T12 rule 3 (cardinality is not a class distinction)"
         },
         {
             "class_name": "current_manipulation",
@@ -717,7 +728,8 @@
                 "subject_assertion"
             ],
             "path": "schemas/V_eta/stable/date_assertion.json",
-            "disposition": "persist"
+            "disposition": "in_progress",
+            "disposition_note": "no \u2462 composite partner (`term`/`date` do not exist as data_types) \u2192 the leaf declares its value locally, unlike every other leaf family"
         },
         {
             "class_name": "demo_ndi",
@@ -820,7 +832,8 @@
                 "numeric_assertion"
             ],
             "path": "schemas/V_eta/stable/duration_assertion.json",
-            "disposition": "persist"
+            "disposition": "in_progress",
+            "disposition_note": "assertion bypasses its data_type (numeric_assertion genus, local scalar `value`) \u2192 `isa <data_type>` misses assertions; T12 rule 3 (cardinality is not a class distinction)"
         },
         {
             "class_name": "duration_observation",
@@ -878,7 +891,8 @@
                 "numeric_assertion"
             ],
             "path": "schemas/V_eta/stable/energy_assertion.json",
-            "disposition": "persist"
+            "disposition": "in_progress",
+            "disposition_note": "assertion bypasses its data_type (numeric_assertion genus, local scalar `value`) \u2192 `isa <data_type>` misses assertions; T12 rule 3 (cardinality is not a class distinction)"
         },
         {
             "class_name": "energy_observation",
@@ -1039,7 +1053,8 @@
                 "numeric_assertion"
             ],
             "path": "schemas/V_eta/stable/force_assertion.json",
-            "disposition": "persist"
+            "disposition": "in_progress",
+            "disposition_note": "assertion bypasses its data_type (numeric_assertion genus, local scalar `value`) \u2192 `isa <data_type>` misses assertions; T12 rule 3 (cardinality is not a class distinction)"
         },
         {
             "class_name": "force_manipulation",
@@ -1108,7 +1123,8 @@
                 "numeric_assertion"
             ],
             "path": "schemas/V_eta/stable/frequency_assertion.json",
-            "disposition": "persist"
+            "disposition": "in_progress",
+            "disposition_note": "assertion bypasses its data_type (numeric_assertion genus, local scalar `value`) \u2192 `isa <data_type>` misses assertions; T12 rule 3 (cardinality is not a class distinction)"
         },
         {
             "class_name": "frequency_manipulation",
@@ -1227,7 +1243,8 @@
                 "numeric_assertion"
             ],
             "path": "schemas/V_eta/stable/intensity_assertion.json",
-            "disposition": "persist"
+            "disposition": "in_progress",
+            "disposition_note": "assertion bypasses its data_type (numeric_assertion genus, local scalar `value`) \u2192 `isa <data_type>` misses assertions; T12 rule 3 (cardinality is not a class distinction)"
         },
         {
             "class_name": "intensity_manipulation",
@@ -1323,7 +1340,8 @@
                 "numeric_assertion"
             ],
             "path": "schemas/V_eta/stable/length_assertion.json",
-            "disposition": "persist"
+            "disposition": "in_progress",
+            "disposition_note": "assertion bypasses its data_type (numeric_assertion genus, local scalar `value`) \u2192 `isa <data_type>` misses assertions; T12 rule 3 (cardinality is not a class distinction)"
         },
         {
             "class_name": "length_observation",
@@ -1357,7 +1375,8 @@
                 "numeric_assertion"
             ],
             "path": "schemas/V_eta/stable/mass_assertion.json",
-            "disposition": "persist"
+            "disposition": "in_progress",
+            "disposition_note": "assertion bypasses its data_type (numeric_assertion genus, local scalar `value`) \u2192 `isa <data_type>` misses assertions; T12 rule 3 (cardinality is not a class distinction)"
         },
         {
             "class_name": "mass_observation",
@@ -1418,7 +1437,8 @@
                 "subject_assertion"
             ],
             "path": "schemas/V_eta/stable/numeric_assertion.json",
-            "disposition": "persist"
+            "disposition": "in_progress",
+            "disposition_note": "assertion bypasses its data_type (numeric_assertion genus, local scalar `value`) \u2192 `isa <data_type>` misses assertions; T12 rule 3 (cardinality is not a class distinction)"
         },
         {
             "class_name": "ontology_image",
@@ -1573,7 +1593,8 @@
                 "numeric_assertion"
             ],
             "path": "schemas/V_eta/stable/ph_assertion.json",
-            "disposition": "persist"
+            "disposition": "in_progress",
+            "disposition_note": "assertion bypasses its data_type (numeric_assertion genus, local scalar `value`) \u2192 `isa <data_type>` misses assertions; T12 rule 3 (cardinality is not a class distinction)"
         },
         {
             "class_name": "ph_observation",
@@ -1619,7 +1640,8 @@
                 "numeric_assertion"
             ],
             "path": "schemas/V_eta/stable/power_assertion.json",
-            "disposition": "persist"
+            "disposition": "in_progress",
+            "disposition_note": "assertion bypasses its data_type (numeric_assertion genus, local scalar `value`) \u2192 `isa <data_type>` misses assertions; T12 rule 3 (cardinality is not a class distinction)"
         },
         {
             "class_name": "power_observation",
@@ -1653,7 +1675,8 @@
                 "numeric_assertion"
             ],
             "path": "schemas/V_eta/stable/pressure_assertion.json",
-            "disposition": "persist"
+            "disposition": "in_progress",
+            "disposition_note": "assertion bypasses its data_type (numeric_assertion genus, local scalar `value`) \u2192 `isa <data_type>` misses assertions; T12 rule 3 (cardinality is not a class distinction)"
         },
         {
             "class_name": "pressure_manipulation",
@@ -1771,7 +1794,8 @@
                 "numeric_assertion"
             ],
             "path": "schemas/V_eta/stable/resistance_assertion.json",
-            "disposition": "persist"
+            "disposition": "in_progress",
+            "disposition_note": "assertion bypasses its data_type (numeric_assertion genus, local scalar `value`) \u2192 `isa <data_type>` misses assertions; T12 rule 3 (cardinality is not a class distinction)"
         },
         {
             "class_name": "resistance_observation",
@@ -1829,7 +1853,8 @@
                 "numeric_assertion"
             ],
             "path": "schemas/V_eta/stable/score_assertion.json",
-            "disposition": "persist"
+            "disposition": "in_progress",
+            "disposition_note": "assertion bypasses its data_type (numeric_assertion genus, local scalar `value`) \u2192 `isa <data_type>` misses assertions; T12 rule 3 (cardinality is not a class distinction)"
         },
         {
             "class_name": "score_observation",
@@ -2202,7 +2227,8 @@
                 "numeric_assertion"
             ],
             "path": "schemas/V_eta/stable/temperature_assertion.json",
-            "disposition": "persist"
+            "disposition": "in_progress",
+            "disposition_note": "assertion bypasses its data_type (numeric_assertion genus, local scalar `value`) \u2192 `isa <data_type>` misses assertions; T12 rule 3 (cardinality is not a class distinction)"
         },
         {
             "class_name": "temperature_manipulation",
@@ -2237,7 +2263,8 @@
                 "subject_assertion"
             ],
             "path": "schemas/V_eta/stable/term_assertion.json",
-            "disposition": "persist"
+            "disposition": "in_progress",
+            "disposition_note": "no \u2462 composite partner (`term`/`date` do not exist as data_types) \u2192 the leaf declares its value locally, unlike every other leaf family"
         },
         {
             "class_name": "term_manipulation",
@@ -2248,7 +2275,8 @@
                 "subject_manipulation"
             ],
             "path": "schemas/V_eta/stable/term_manipulation.json",
-            "disposition": "persist"
+            "disposition": "in_progress",
+            "disposition_note": "no \u2462 composite partner (`term`/`date` do not exist as data_types) \u2192 the leaf declares its value locally, unlike every other leaf family"
         },
         {
             "class_name": "term_observation",
@@ -2259,7 +2287,8 @@
                 "subject_observation"
             ],
             "path": "schemas/V_eta/stable/term_observation.json",
-            "disposition": "persist"
+            "disposition": "in_progress",
+            "disposition_note": "no \u2462 composite partner (`term`/`date` do not exist as data_types) \u2192 the leaf declares its value locally, unlike every other leaf family"
         },
         {
             "class_name": "time_reference",
@@ -2372,7 +2401,8 @@
                 "numeric_assertion"
             ],
             "path": "schemas/V_eta/stable/velocity_assertion.json",
-            "disposition": "persist"
+            "disposition": "in_progress",
+            "disposition_note": "assertion bypasses its data_type (numeric_assertion genus, local scalar `value`) \u2192 `isa <data_type>` misses assertions; T12 rule 3 (cardinality is not a class distinction)"
         },
         {
             "class_name": "velocity_observation",
@@ -2477,7 +2507,8 @@
                 "numeric_assertion"
             ],
             "path": "schemas/V_eta/stable/voltage_assertion.json",
-            "disposition": "persist"
+            "disposition": "in_progress",
+            "disposition_note": "assertion bypasses its data_type (numeric_assertion genus, local scalar `value`) \u2192 `isa <data_type>` misses assertions; T12 rule 3 (cardinality is not a class distinction)"
         },
         {
             "class_name": "voltage_manipulation",
@@ -2523,7 +2554,8 @@
                 "numeric_assertion"
             ],
             "path": "schemas/V_eta/stable/volume_assertion.json",
-            "disposition": "persist"
+            "disposition": "in_progress",
+            "disposition_note": "assertion bypasses its data_type (numeric_assertion genus, local scalar `value`) \u2192 `isa <data_type>` misses assertions; T12 rule 3 (cardinality is not a class distinction)"
         },
         {
             "class_name": "volume_observation",
