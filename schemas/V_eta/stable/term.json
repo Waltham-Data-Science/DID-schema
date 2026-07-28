@@ -29,13 +29,13 @@
             "mustNotHaveNaN": false,
             "queryable": true,
             "ontology": null,
-            "documentation": "The bound term this statement is about \u2014 asserted (species, sex, strain, instrument type), observed (developmental stage, health status, behaviour, anatomical site), or imposed (a procedure, a regime, a transferred material). The admissible vocabulary is a variable-keyed binding (D9). Strength is `preferred` here because an OBSERVED concept may legitimately fall outside the vocabulary; tightening to `required` for assertions/manipulations is a per-(variable, class) registry entry, not a field redeclaration.",
+            "documentation": "The bound term this statement is about \u2014 asserted (species, sex, strain, instrument type), observed (developmental stage, health status, behaviour, anatomical site), or imposed (a procedure, a regime, a transferred material). The admissible vocabulary is a variable-keyed binding (D9), REQUIRED for every direction: a term must resolve against the registry whether it is observed, imposed or asserted. An unrepresentable concept is a reason to extend the vocabulary, not to weaken the binding (T8).",
             "constraints": {
                 "binding": {
                     "keyed_by": "variable",
                     "expansion": "descendants",
                     "node_kind": "class",
-                    "strength": "preferred",
+                    "strength": "required",
                     "source": "ontology"
                 }
             },

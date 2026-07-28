@@ -296,15 +296,16 @@ viewer says *why* something is WIP.
   `isa term` query could not span them. `term` and `date` are now real ③ composites and
   the four leaves pair with them (`term_observation` = `subject_observation` × `term`, and
   so on), owning no fields of their own.
-  **One wrinkle worth recording:** the three term leaves carried *different* binding
-  strengths — observation `preferred`, manipulation and assertion `required` (you may
-  legitimately OBSERVE a concept outside the vocabulary; an ASSERTED or IMPOSED one should
-  be bound). Subclass field redeclaration is forbidden, so the hoisted value takes one
-  binding: the permissive **`preferred`**, which never over-rejects. Per-(variable, class)
-  tightening belongs in the binding **registry** (D9) — already keyed by `variable` + `class`
-  and already supporting `strength`. Operationally nothing changed: `binding` is not
-  enforced by the validator at all (only maxLength/minLength/minimum/maximum/enum are), so
-  strength is advisory pending the ontology-aware validator T8 describes.
+  **Binding strength is now uniform: `required`.** The v1 leaves had drifted apart —
+  observation `preferred`, manipulation and assertion `required` — but there is no reason
+  the strength should vary by statement *direction*: a term is a term, and every one must
+  resolve against the binding registry. If a vocabulary cannot express something observed,
+  the fix is to extend the vocabulary, not to weaken the constraint on the observation
+  (T8: controlled vocabularies are hard-validated, **not** advisory). Hoisting to the
+  shared composite makes that uniformity structural rather than something three leaves
+  have to agree on. Note the validator does not enforce `binding` yet (only
+  maxLength/minLength/minimum/maximum/enum), so this is declarative until the
+  ontology-aware validator T8 describes exists — but it declares the right rule.
 
 ### ⑤ time_reference — the family re-opened as a whole, on three findings
 

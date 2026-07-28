@@ -513,28 +513,27 @@ TERM_VALUE = field(
 # controlled vocabulary, this is the most-used value kind in the model -- it earns a
 # composite. One payload slot, T14.
 #
-# NOTE ON THE BINDING STRENGTH. The three leaves carried slightly different bindings:
-# observation `preferred`, manipulation + assertion `required` (you may OBSERVE a concept
-# outside the vocabulary; an ASSERTED or IMPOSED one should be bound). Subclass field
-# redeclaration is forbidden, so a hoisted value takes ONE binding. This uses the
-# permissive `preferred`, which never over-rejects; per-(variable, class) tightening
-# belongs in the binding REGISTRY (D9), which is already keyed by `variable`+`class` and
-# already supports `strength`. Operationally this changes nothing today: `binding` is not
-# enforced by the validator at all (validateConstraints handles only maxLength/minLength/
-# minimum/maximum/enum), so strength is advisory pending the ontology-aware validator T8
-# describes.
+# BINDING STRENGTH: `required`, uniformly. The v1 leaves had drifted apart -- observation
+# `preferred`, manipulation + assertion `required` -- but there is no reason the strength
+# should vary by statement DIRECTION: a term is a term, and every one of them must resolve
+# against the binding registry. If a vocabulary cannot express something observed, the fix
+# is to extend the vocabulary, not to weaken the constraint on the observation (T8:
+# controlled vocabularies are hard-validated, NOT advisory). Hoisting to the shared `term`
+# composite makes that uniformity structural rather than a thing three leaves have to agree
+# on. Note the validator does not enforce `binding` yet (validateConstraints handles only
+# maxLength/minLength/minimum/maximum/enum), so this is declarative until the
+# ontology-aware validator T8 describes exists -- but it declares the right rule.
 TERM_VALUE = field(
     "value", "ontology_term",
     "The bound term this statement is about — asserted (species, sex, strain, instrument "
     "type), observed (developmental stage, health status, behaviour, anatomical site), or "
     "imposed (a procedure, a regime, a transferred material). The admissible vocabulary is "
-    "a variable-keyed binding (D9). Strength is `preferred` here because an OBSERVED "
-    "concept may legitimately fall outside the vocabulary; tightening to `required` for "
-    "assertions/manipulations is a per-(variable, class) registry entry, not a field "
-    "redeclaration.",
+    "a variable-keyed binding (D9), REQUIRED for every direction: a term must resolve "
+    "against the registry whether it is observed, imposed or asserted. An unrepresentable "
+    "concept is a reason to extend the vocabulary, not to weaken the binding (T8).",
     non_empty=True, scalar=True,
     constraints={"binding": {"keyed_by": "variable", "expansion": "descendants",
-                             "node_kind": "class", "strength": "preferred",
+                             "node_kind": "class", "strength": "required",
                              "source": "ontology"}})
 write("stable", "term",
       doc("term", ["data_type"], abstract=True, fields=[TERM_VALUE]))
