@@ -8,16 +8,17 @@
       "dissolved \u2192 subject": 1,
       "in_progress": 21,
       "persist": 4,
-      "dissolved (rename/decompose)": 32,
+      "consumed by migrator (no tombstone)": 28,
+      "no V_eta home, no migrator -- UNVERIFIED": 4,
       "test/demo fixture (non-production)": 2,
-      "dissolved \u2192 measurement": 1
+      "UNMAPPED (needs a V_eta home)": 1
     },
     "by_source": {
       "ndi": 91,
       "app": 11
     },
     "with_migrator": 61,
-    "gaps": 0
+    "gaps": 1
   },
   "rows": [
     {
@@ -124,7 +125,7 @@
     {
       "v1_class": "contrast_sensitivity_calc",
       "veta_class": null,
-      "disposition": "dissolved (rename/decompose)",
+      "disposition": "consumed by migrator (no tombstone)",
       "migrator": true,
       "source": "app",
       "nonprod": false,
@@ -143,7 +144,7 @@
     {
       "v1_class": "contrast_tuning",
       "veta_class": null,
-      "disposition": "dissolved (rename/decompose)",
+      "disposition": "consumed by migrator (no tombstone)",
       "migrator": true,
       "source": "app",
       "nonprod": false,
@@ -162,7 +163,7 @@
     {
       "v1_class": "contrast_tuning_calc",
       "veta_class": null,
-      "disposition": "dissolved (rename/decompose)",
+      "disposition": "consumed by migrator (no tombstone)",
       "migrator": true,
       "source": "app",
       "nonprod": false,
@@ -277,7 +278,7 @@
     {
       "v1_class": "daqreader_mfdaq_epochdata_ingested",
       "veta_class": null,
-      "disposition": "dissolved (rename/decompose)",
+      "disposition": "consumed by migrator (no tombstone)",
       "migrator": true,
       "source": "ndi",
       "nonprod": false,
@@ -293,7 +294,7 @@
     {
       "v1_class": "daqreader_ndr",
       "veta_class": null,
-      "disposition": "dissolved (rename/decompose)",
+      "disposition": "consumed by migrator (no tombstone)",
       "migrator": true,
       "source": "ndi",
       "nonprod": false,
@@ -325,7 +326,7 @@
     {
       "v1_class": "dataset_remote",
       "veta_class": null,
-      "disposition": "dissolved (rename/decompose)",
+      "disposition": "consumed by migrator (no tombstone)",
       "migrator": true,
       "source": "ndi",
       "nonprod": false,
@@ -344,7 +345,7 @@
     {
       "v1_class": "dataset_session_info",
       "veta_class": null,
-      "disposition": "dissolved (rename/decompose)",
+      "disposition": "consumed by migrator (no tombstone)",
       "migrator": true,
       "source": "ndi",
       "nonprod": false,
@@ -449,7 +450,7 @@
     {
       "v1_class": "element_epoch",
       "veta_class": null,
-      "disposition": "dissolved (rename/decompose)",
+      "disposition": "consumed by migrator (no tombstone)",
       "migrator": true,
       "source": "ndi",
       "nonprod": false,
@@ -481,7 +482,7 @@
     {
       "v1_class": "epochclocktimes",
       "veta_class": null,
-      "disposition": "dissolved (rename/decompose)",
+      "disposition": "consumed by migrator (no tombstone)",
       "migrator": true,
       "source": "ndi",
       "nonprod": false,
@@ -576,7 +577,7 @@
     {
       "v1_class": "generic_file",
       "veta_class": null,
-      "disposition": "dissolved (rename/decompose)",
+      "disposition": "no V_eta home, no migrator -- UNVERIFIED",
       "migrator": false,
       "source": "ndi",
       "nonprod": false,
@@ -622,7 +623,7 @@
     {
       "v1_class": "imageCollection",
       "veta_class": null,
-      "disposition": "dissolved (rename/decompose)",
+      "disposition": "no V_eta home, no migrator -- UNVERIFIED",
       "migrator": false,
       "source": "ndi",
       "nonprod": false,
@@ -636,7 +637,7 @@
     {
       "v1_class": "imageStack",
       "veta_class": null,
-      "disposition": "dissolved (rename/decompose)",
+      "disposition": "consumed by migrator (no tombstone)",
       "migrator": true,
       "source": "ndi",
       "nonprod": false,
@@ -656,7 +657,7 @@
     {
       "v1_class": "imageStack_parameters",
       "veta_class": null,
-      "disposition": "dissolved (rename/decompose)",
+      "disposition": "no V_eta home, no migrator -- UNVERIFIED",
       "migrator": false,
       "source": "ndi",
       "nonprod": false,
@@ -738,7 +739,7 @@
     {
       "v1_class": "metadata_editor",
       "veta_class": null,
-      "disposition": "dissolved (rename/decompose)",
+      "disposition": "consumed by migrator (no tombstone)",
       "migrator": true,
       "source": "ndi",
       "nonprod": false,
@@ -972,7 +973,7 @@
     {
       "v1_class": "oridirtuning_calc",
       "veta_class": null,
-      "disposition": "dissolved (rename/decompose)",
+      "disposition": "consumed by migrator (no tombstone)",
       "migrator": true,
       "source": "app",
       "nonprod": false,
@@ -991,7 +992,7 @@
     {
       "v1_class": "orientation_direction_tuning",
       "veta_class": null,
-      "disposition": "dissolved (rename/decompose)",
+      "disposition": "consumed by migrator (no tombstone)",
       "migrator": true,
       "source": "ndi",
       "nonprod": false,
@@ -1120,7 +1121,7 @@
     {
       "v1_class": "session_in_a_dataset",
       "veta_class": null,
-      "disposition": "dissolved (rename/decompose)",
+      "disposition": "consumed by migrator (no tombstone)",
       "migrator": true,
       "source": "ndi",
       "nonprod": false,
@@ -1188,7 +1189,7 @@
     {
       "v1_class": "spatial_frequency_tuning",
       "veta_class": null,
-      "disposition": "dissolved (rename/decompose)",
+      "disposition": "consumed by migrator (no tombstone)",
       "migrator": true,
       "source": "app",
       "nonprod": false,
@@ -1207,7 +1208,7 @@
     {
       "v1_class": "spatial_frequency_tuning_calc",
       "veta_class": null,
-      "disposition": "dissolved (rename/decompose)",
+      "disposition": "consumed by migrator (no tombstone)",
       "migrator": true,
       "source": "app",
       "nonprod": false,
@@ -1226,7 +1227,7 @@
     {
       "v1_class": "speed_tuning",
       "veta_class": null,
-      "disposition": "dissolved (rename/decompose)",
+      "disposition": "consumed by migrator (no tombstone)",
       "migrator": true,
       "source": "app",
       "nonprod": false,
@@ -1245,7 +1246,7 @@
     {
       "v1_class": "speed_tuning_calc",
       "veta_class": null,
-      "disposition": "dissolved (rename/decompose)",
+      "disposition": "consumed by migrator (no tombstone)",
       "migrator": true,
       "source": "app",
       "nonprod": false,
@@ -1336,7 +1337,7 @@
     {
       "v1_class": "stimulus_bath",
       "veta_class": null,
-      "disposition": "dissolved (rename/decompose)",
+      "disposition": "consumed by migrator (no tombstone)",
       "migrator": true,
       "source": "ndi",
       "nonprod": false,
@@ -1468,7 +1469,7 @@
     {
       "v1_class": "stimulus_tuningcurve",
       "veta_class": null,
-      "disposition": "dissolved (rename/decompose)",
+      "disposition": "consumed by migrator (no tombstone)",
       "migrator": true,
       "source": "ndi",
       "nonprod": false,
@@ -1503,7 +1504,7 @@
     {
       "v1_class": "subject_group",
       "veta_class": null,
-      "disposition": "dissolved (rename/decompose)",
+      "disposition": "consumed by migrator (no tombstone)",
       "migrator": true,
       "source": "ndi",
       "nonprod": false,
@@ -1520,11 +1521,11 @@
     {
       "v1_class": "subjectmeasurement",
       "veta_class": null,
-      "disposition": "dissolved \u2192 measurement",
+      "disposition": "UNMAPPED (needs a V_eta home)",
       "migrator": false,
       "source": "ndi",
       "nonprod": false,
-      "gap": false,
+      "gap": true,
       "targets": [],
       "carried": [],
       "second_pass": [],
@@ -1582,7 +1583,7 @@
     {
       "v1_class": "temporal_frequency_tuning",
       "veta_class": null,
-      "disposition": "dissolved (rename/decompose)",
+      "disposition": "consumed by migrator (no tombstone)",
       "migrator": true,
       "source": "app",
       "nonprod": false,
@@ -1601,7 +1602,7 @@
     {
       "v1_class": "temporal_frequency_tuning_calc",
       "veta_class": null,
-      "disposition": "dissolved (rename/decompose)",
+      "disposition": "consumed by migrator (no tombstone)",
       "migrator": true,
       "source": "app",
       "nonprod": false,
@@ -1620,7 +1621,7 @@
     {
       "v1_class": "treatment",
       "veta_class": null,
-      "disposition": "dissolved (rename/decompose)",
+      "disposition": "consumed by migrator (no tombstone)",
       "migrator": true,
       "source": "ndi",
       "nonprod": false,
@@ -1646,7 +1647,7 @@
     {
       "v1_class": "treatment_drug",
       "veta_class": null,
-      "disposition": "dissolved (rename/decompose)",
+      "disposition": "consumed by migrator (no tombstone)",
       "migrator": true,
       "source": "ndi",
       "nonprod": false,
@@ -1670,7 +1671,7 @@
     {
       "v1_class": "treatment_transfer",
       "veta_class": null,
-      "disposition": "dissolved (rename/decompose)",
+      "disposition": "consumed by migrator (no tombstone)",
       "migrator": true,
       "source": "ndi",
       "nonprod": false,
@@ -1690,7 +1691,7 @@
     {
       "v1_class": "tuningcurve_calc",
       "veta_class": null,
-      "disposition": "dissolved (rename/decompose)",
+      "disposition": "consumed by migrator (no tombstone)",
       "migrator": true,
       "source": "ndi",
       "nonprod": false,
@@ -1709,7 +1710,7 @@
     {
       "v1_class": "valid_interval",
       "veta_class": null,
-      "disposition": "dissolved (rename/decompose)",
+      "disposition": "no V_eta home, no migrator -- UNVERIFIED",
       "migrator": false,
       "source": "ndi",
       "nonprod": false,
@@ -1723,7 +1724,7 @@
     {
       "v1_class": "virus_injection",
       "veta_class": null,
-      "disposition": "dissolved (rename/decompose)",
+      "disposition": "consumed by migrator (no tombstone)",
       "migrator": true,
       "source": "ndi",
       "nonprod": false,

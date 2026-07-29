@@ -51,7 +51,10 @@ lives in these files — read them instead of re-deriving from memory:
   `visual_grating`/`image`/… docs (deduped, referenced — ensemble pattern). Multi-subject via
   `storage_mode` (shared `timed_sequence` reference). Presentation is DECOMPOSED around its
   preserved id, NOT dissolved. Moots the Hartley/sparse-noise per-type-composite question
-  (stimulus type lives in the referenced doc). Names provisional (naming pass).
+  (stimulus type lives in the referenced doc). **Naming is FINAL, not provisional** — the
+  plan's own "Resolved" section records `timed_sequence` + `timed_sequence_manipulation` as
+  confirmed by the naming pass (neutral by design so a future `_observation` leaf is possible).
+  This line said "provisional" long after the plan settled it; do not re-open on its word.
 - **`schemas/V_eta_image_model_plan.md`** — the FINAL `image` model (decided in the R6
   walkthrough; build deferred, TaskList #24). image = a **standalone** `data_type` (raster
   value) — **`array` is KILLED** (re-audit: a bare N-D numeric grid duplicates sampled_body
@@ -172,7 +175,18 @@ lives in these files — read them instead of re-deriving from memory:
   side — provenance `origin` (`V_eta_class_provenance.md`) is the arbiter; only
   `did_v1`-origin (+ the 11 app classes) are sources. `coverage.py` also flags GAPS
   (no V_eta home + no migrator + absent from the V_zeta base = never reviewed):
-  currently NONE (0 gaps; the 3 ex-gap classes are homed — task #21).
+  **1 UNMAPPED (`subjectmeasurement`) + 4 UNVERIFIED.** This line used to read "currently
+  NONE (0 gaps)", which was true only because the ledger asserted a conclusion it had no
+  evidence for: every class with no V_eta home was labelled "dissolved (rename/decompose)"
+  — 32 rows — turning each unknown into a reassuring claim. That is now split by whether a
+  migrator actually CONSUMES the class (28 rows, genuinely accounted for) versus no home and
+  no migrator (4 rows — `generic_file`, `imageCollection`, `imageStack_parameters`,
+  `valid_interval` — labelled UNVERIFIED; the last two are probably already resolved but
+  unrecorded). Separately, `_PRE_ZETA_DISSOLVED` carried a FALSE entry claiming
+  `subjectmeasurement` dissolved into `measurement`. NDI never did that: it is still a
+  shipped template with FOUR in-tree emitters, and `measurement` is a NEWER PARALLEL class
+  (added 2026-01-05). Every entry in that dict is an assertion about NDI and must be
+  verified against `origin/main` before it is added.
   `V_eta_coverage_ledger.md` AND `.json` are generated — re-run
   `python3 tools/coverage.py` after schema/migrator changes. The web viewer's
   **Coverage ledger** panel (`web/src/Coverage.tsx`) renders the `.json`

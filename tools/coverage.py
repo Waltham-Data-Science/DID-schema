@@ -75,9 +75,22 @@ def veta_index():
 _NONPROD_CLASSES = {"mock", "oneepoch", "demoNDI", "demoNDIMock"}
 
 # did_v1 classes dissolved into their modern form BEFORE the V_zeta base V_eta was
-# copied from (hence absent from V_zeta): the legacy subject/measurement spellings.
-# Reviewed and dissolved long ago -- not gaps. Value = where they went.
-_PRE_ZETA_DISSOLVED = {"animalsubject": "subject", "subjectmeasurement": "measurement"}
+# copied from (hence absent from V_zeta). Reviewed and dissolved long ago -- not
+# gaps. Value = where they went.
+#
+# EVERY ENTRY HERE IS AN ASSERTION ABOUT NDI, so it must be checked against NDI
+# `origin/main` before being added, and re-checked when NDI moves. Verified:
+#   animalsubject -- template still shipped, but ZERO .m files reference it, so
+#                    nothing writes one. Dissolution not contradicted.
+#
+# REMOVED, because it was FALSE: `subjectmeasurement: measurement`. NDI never
+# performed that dissolution. `subjectmeasurement` is still a shipped template
+# with FOUR in-tree emitters (build_intan_flat_exp.m and three session builders),
+# and `measurement` is a NEWER PARALLEL class added 2026-01-05, not a
+# replacement. The false entry made the ledger report those documents as
+# deliberately retired when in fact they have no V_eta home and no migrator --
+# the exact silent loss this ledger exists to surface.
+_PRE_ZETA_DISSOLVED = {"animalsubject": "subject"}
 
 
 def vzeta_classes():
@@ -313,8 +326,29 @@ def build_ledger():
             disp = "dissolved → " + _PRE_ZETA_DISSOLVED[cn]
         elif nonprod:
             disp = "test/demo fixture (non-production)"
+        elif mig:
+            # No V_eta class, but a bespoke migrator CONSUMES this class -- the
+            # documents are transformed into other classes and the source schema is
+            # deliberately phase-8 deleted. Genuinely accounted for; the migrator is
+            # the evidence (treatment, virus_injection, image_stack, subject_group...).
+            disp = "consumed by migrator (no tombstone)"
         else:
-            disp = "dissolved (rename/decompose)"
+            # No V_eta class AND no migrator, but present in the V_zeta base -- so the
+            # migration SAW this class at some point. That is ALL we know: nothing
+            # here says the documents went anywhere.
+            #
+            # This used to read "dissolved (rename/decompose)" for both this case and
+            # the `mig` case above, which asserted a deliberate decision from the mere
+            # absence of evidence and turned an unknown into a reassuring claim. It
+            # was wrong at least twice: `imageCollection` (no class, no migrator, and
+            # `image.imageCollection_id` still points at it) and `subjectmeasurement`
+            # (still actively written by four NDI emitters). Both read as
+            # accounted-for while in fact having nowhere to go.
+            #
+            # The honest label names the evidence, not a conclusion. Promote a row out
+            # of this state by recording WHERE the class went -- in _PRE_ZETA_DISSOLVED
+            # with a verification note -- or by giving it a home or a migrator.
+            disp = "no V_eta home, no migrator -- UNVERIFIED"
         rows.append({
             "v1_class": cn,
             "veta_class": vname,

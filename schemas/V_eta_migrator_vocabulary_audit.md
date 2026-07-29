@@ -194,6 +194,39 @@ templates. Coverage of unmigrated passthrough classes belongs to `tools/coverage
 
 ---
 
+## Loss modes the vocabulary checker STRUCTURALLY CANNOT SEE
+
+This tool looks for migrators READING field names that no document has. Three defects found
+since fall outside that definition while sharing its root cause — an artifact written from
+DID-schema's `V_alpha` snapshot instead of from NDI. The checker is not broken; its scope was
+narrower than the problem.
+
+1. **A migrator DELETING real data on a false premise.**
+   `+migrators_j/daqreader_mfdaq_epochdata_ingested.m` ends with
+   `if isfield(v2Body,'epochid'); v2Body = rmfield(v2Body,'epochid'); end`, commented
+   *"the epoch link is the epochid dep"*. **There is no `epochid` dependency in did_v1** — all
+   three NDI templates declare only `daqreader_id`, and `epochid` is a SUPERCLASS block holding
+   the epoch-id string. So it deletes the only record of which epoch the bytes belong to, and
+   the document still validates. Traced to ⑥/⑦ walkthrough chunk (b), decided from the DID-side
+   schema rather than the NDI template; corrected in `V_eta_6_7_walkthrough_STATE.md`.
+
+2. **A migrator DESTROYING the source id on its success path.**
+   `+migrators_j/fitcurve.m` mints `did.ido.unique_id()` for its observation instead of
+   preserving `base.id` via `jStartInteraction`, as its three sibling migrators do. Anything
+   referring to a `fitcurve` document dangles. This is the id-preservation rule that cost 11,448
+   orphans, broken again in one place.
+
+3. **A coverage document asserting a conclusion from absent evidence.**
+   `tools/coverage.py` labelled every class with no V_eta home "dissolved (rename/decompose)" —
+   32 rows — which read as accounted-for. Split by whether a migrator actually consumes the
+   class, only 28 are; the rest had nowhere to go. `_PRE_ZETA_DISSOLVED` also carried a FALSE
+   claim that `subjectmeasurement` dissolved into `measurement` (NDI never did; it has four live
+   emitters). Fixed; the ledger now reports 1 UNMAPPED + 4 UNVERIFIED instead of 0 gaps.
+
+**The generalisation worth keeping:** a checker that asks "does this read a name that exists?"
+cannot catch a wrong DELETE, a discarded id, or a document that lies about coverage. Each needed
+its own check, and each was found by reading source rather than by any gate.
+
 ## Open questions — NOT resolved
 
 1. **The `vhlab_voltage2firingrate` writer does not exist — SEARCH CLOSED.** NDI-matlab has its

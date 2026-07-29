@@ -210,3 +210,77 @@ This tool only sees classes that **have** an NDI template. The 11 vhlab app/calc
 tombstones are unchecked by any mechanical means. Their ground truth is the **writer**, which
 lives in `NDIcalc-vis-matlab` — a comparison that would have to read MATLAB source rather than
 JSON, and is a separate piece of work.
+
+---
+
+# Round 2 — parallel research pass (evidence gathered, NOT applied)
+
+Five agents were run against the BLOCKING tier and the migrator-fallback rows. Every finding
+below is evidence for a decision, not a decision taken. Recorded here so the next session does
+not re-derive it.
+
+## The migrator-fallback five — only ONE is live
+
+Ranked by real risk. The question for each was narrow: *can the migrator's fallback fire, and
+would the document quarantine if it did?*
+
+| class | verdict | why |
+|---|---|---|
+| **`electrode_offset_voltage`** | **NEEDS FIX — live** | Its fallback fires on ordinary writer output. `makeVoltageOffsets.m` sets `offset` straight from `readtable('MEoffset.txt')` with no validation, so a blank/`NA` cell gives `NaN` → `[]` after a JSON round-trip, and **one** non-numeric entry types the whole column as text, taking out every row of the file. Then the passthrough hits `undeclaredField` on `offset` — the migrator was corrected to the real names while the tombstone still declares only the two invented ones. |
+| `probe_geometry` | unreachable, but worst tombstone | Held shut only by an `error()` in NDI's `fromStruct`. If ever reached: required-but-invented `num_channels` plus **15** undeclared real fields, zero name overlap. Fix opportunistically. |
+| `position_metadata` | unreachable | Sole writer resolves the node via `ndi.ontology.lookup`, which errors rather than returning empty. Tombstone is a pure V_delta *output* shape (required invented `measurement`, plus `units` typed `ontology_term` against a bare CURIE char, and `dimensions` typed `structure` against a comma-joined char). |
+| `ngrid` | **FALSE ALARM** | The tombstone correctly describes the **superclass migrator's output**, not the v1 template. `applySuperclassMigrators` runs *before* the concrete migrator for every target version, rewriting `data_dim`→`dim_sizes` and synthesising `ndims`, so the block validates on both live passthrough routes (`ontology_image` vintage B, the `hartley_calc` family). Same category as `distance_metadata`. |
+| `fitcurve` | unreachable | The migrator structurally cannot hand the body back — there is no `{preBody}` path at all. |
+
+**Two findings from that dig that are worse than the tombstones they came from:**
+
+- **NDI's `data/fitcurve_schema.json` types `fit_sse` as `"string"` with `default_value: "y"`** — a
+  visible copy-paste of the `fit_dependent_variable_names` entry above it. Only the
+  `database_documents` template has it numeric. If any writer honoured the validation schema,
+  `isnumeric(sse)` is false and **every** `fitcurve` collapses to a bare session anchor: the
+  FRAGMENT mode, seen by no counter.
+- **`fitcurve.m` mints `did.ido.unique_id()` for its observation instead of preserving the
+  source id** — unlike `probe_geometry`/`electrode_offset_voltage`/`position_metadata`, which
+  keep it via `jStartInteraction`. The source id is destroyed on the SUCCESS path, so anything
+  referring to a `fitcurve` document dangles. This is the id-preservation rule that cost 11,448
+  orphans, broken again in one migrator.
+
+## Class shapes established (for the BLOCKING tier)
+
+- **`sorting_parameters`** — 6 flat scalars (`graphical_mode`, `num_pca_features`,
+  `interpolation`, `min_clusters`, `max_clusters`, `num_start`), **no dependencies**, no files,
+  `base`+`app`. An NDI schema file DOES exist and is authoritative for types (`interpolation` is
+  `double`, the rest integer). Writer pins the field set to exactly those 6, all scalar.
+  Tombstone-only; its id is load-bearing (`spike_clusters.sorting_parameters_id`).
+- **`binaryseries_parameters`** — **a dead template.** No `.m` file has ever written, read or
+  subclassed it; zero commits in all NDI history. Its 6 fields paraphrase the `.vhsb` header —
+  a format-descriptor mixin that was never wired up. The real binary-series carrier is
+  `acquisition_epoch` (ex-`element_epoch`), which does **not** list it as a superclass. Bears on
+  the R5 proposal to rename it `acquisition_layout`: **retire** looks more likely than rename,
+  and is cheap because nothing can be stranded. Two side facts: the template gives `""` for three
+  fields the schema types integer (so a template-built fixture is type-invalid), and the schema
+  documents `time_size`/`data_size` as *bytes* with default 32 and type `float32` — 32 bytes is
+  not float32, 32 **bits** is, and the `vhsb` reference implementation uses bits.
+- **`projectvar`** — the NDI **schema declares a `date` timestamp that does not exist**; template
+  and writer both have `data`, an untyped payload. Not a casing typo: each file is missing the
+  other's field entirely. **Writer wins — it is `data`.** A shape built from the schema would read
+  a field no document has and drop the only field carrying payload. Its sole writer also never
+  sets `element_id`, so every real doc has an empty required edge.
+- **The `daqreader_*_epochdata_ingested` family** — see the correction in
+  `V_eta_6_7_walkthrough_STATE.md`. `epochid` is a **superclass block holding a string**, never a
+  dependency; the base class is effectively abstract (its only writer is dead code calling an
+  undefined variable and a misspelled method). Corrected tombstones for pass 1; real modelling
+  needs the epoch→element→subject graph, i.e. the second pass.
+
+## Two classes need MIGRATORS, not tombstones
+
+- **`measurement`** is byte-for-byte the shape of `treatment` — same four fields, same three
+  dependency names, same superclass — and `treatment` already has a dissolving migrator. It is
+  the observation-direction twin: a bound ontology CURIE (the writer resolves it via
+  `ndi.ontology.lookup` and errors if lookup fails) plus a typed value about a `subject_id` the
+  writer always populates. `manipulation_id`/`protocol_id` are never set by any writer. Note
+  `string_value` is polymorphic — the consumer dispatches it as numeric, datetime, nested CURIE,
+  or prose.
+- **`subjectmeasurement`** carries the same semantics with an **unbound** free-text `measurement`
+  field, and `subjectmeasurement.datestamp` **shadows** `base.datestamp`. Real Babu/Hunsberger
+  DOB-and-weight rows flow through this pair.
