@@ -1604,6 +1604,119 @@ _tombstone(
            "The ontology node id as ontology:nodeID (e.g. 'UBERON:3373')."
            " Spelled `ontologyNode` in did_v1; snake_cased by universalRenames.")])
 
+# ---- the last two vhlab_voltage2firingrate classes ----------------------
+# Found by re-checking the detector's "mentions only" bucket, which had been
+# taken on trust. Both are the same story as their three siblings above, and
+# neither had ever been confirmed against a template.
+#
+# WHY THEY HID: all five classes of this app are template-and-schema only --
+# there is no writer in NDI-matlab, NDIcalc-vis/-ephys/-marder/-birren or
+# vhlab-toolbox -- so almost certainly NO CORPUS HAS A SINGLE DOCUMENT of any of
+# them. Three separately broken classes never tripped a gate because nothing
+# ever exercised them. That makes this latent risk rather than active loss, and
+# it is exactly why "the corpus is green" cannot stand in for reading the source.
+
+# vmspikesummary -- the migrator read mean_vm / mean_firing_rate / num_spikes /
+# recording_duration and emitted one inline scalar observation per hit. The real
+# class shares NO field name with that, and everything it does have is an ARRAY,
+# so even the near-miss num_spikes -> number_of_spikes would have failed the
+# migrator's isscalar guard. All four reads missed, so the document already fell
+# through to the carry-unchanged branch -- a passthrough the counter can see,
+# which is how it stayed merely wrong rather than destructive.
+#
+# The content is a mean spike waveform plus eight spike-shape medians. Modelling
+# those needs units and array semantics (per channel? per epoch?) that only a
+# writer could settle, and there is none. Deferred with the document intact.
+_tombstone(
+    "vmspikesummary", ["base", "epochid"],
+    [dep("element_id", "subject",
+         "The recording element, promoted to a subject with its id preserved.",
+         non_empty=False),
+     dep("spike_extraction_id", "spike_extraction_parameters",
+         "The extraction this summary was computed from. The tombstone declared"
+         " only element_id before; this edge was being dropped.",
+         non_empty=False)],
+    [field("mean_spikewave", "matrix",
+           "The mean spike waveform.", scalar=False),
+     field("sample_times", "matrix",
+           "Sample times for mean_spikewave.", scalar=False),
+     field("number_of_spikes", "matrix",
+           "How many spikes the mean was taken over. An ARRAY, not a scalar --"
+           " the old `num_spikes` read required a scalar and would have failed"
+           " even with the name corrected.", scalar=False),
+     field("median_spikekink_vm", "matrix",
+           "Median membrane potential at the spike kink.", scalar=False),
+     field("median_voltageofhalfmaximum", "matrix",
+           "Median voltage at half maximum.", scalar=False),
+     field("median_fullwidthhalfmaximum", "matrix",
+           "Median full width at half maximum.", scalar=False),
+     field("median_presk_halfwidthmaximum", "matrix",
+           "Median pre-spike half-width at maximum.", scalar=False),
+     field("median_postsk_halfwidthmaximum", "matrix",
+           "Median post-spike half-width at maximum. Present in the NDI"
+           " TEMPLATE but absent from the NDI schema, which instead repeats"
+           " median_fullwidthhalfmaximum and median_presk_halfwidthmaximum --"
+           " a copy-paste slip on the schema side. The template is the"
+           " authority for field names, so it is declared here.", scalar=False),
+     field("median_max_dvdt", "matrix",
+           "Median maximum dV/dt.", scalar=False),
+     field("median_kink_index", "matrix",
+           "Median kink index.", scalar=False),
+     field("slope_criterion", "string",
+           "The slope criterion used. NDI types this string-or-number; the"
+           " meta-schema has no union type, so it is declared string (which"
+           " also accepts an empty numeric).", scalar=False)])
+
+# vmspikefilteringparameters -- the worst of the three, because there is NO
+# migrator at all: the document passes through by default, straight into a
+# tombstone that declared `filter_type` and `filter_window`. Neither exists, and
+# `undeclaredField` would have rejected every real field it carries. No migrator
+# is needed -- a correct tombstone IS the whole fix.
+#
+# Types follow the NDI schema, which disagrees with its own template on two
+# fields: `threshold` and `spiketimes` are typed `number` there while the
+# template's literal values are the strings "0.030" and "". The schema is the
+# declared type authority (same call made for binnedspikeratevm.parameters.binsize).
+_tombstone(
+    "vmspikefilteringparameters", ["base", "epochid", "app"],
+    [dep("element_id", "subject",
+         "The recording element, promoted to a subject with its id preserved.",
+         non_empty=False)],
+    [field("sampling_rate", "double", "The source sampling rate."),
+     field("new_sampling_rate", "double", "The resampled rate."),
+     field("threshold", "double",
+           "The spike-detection threshold. Typed `number` by the NDI schema;"
+           " the template's literal value is the string \"0.030\"."),
+     field("spiketimes", "double",
+           "Typed `number` by the NDI schema; the template's literal value is"
+           " an empty string. With no writer, neither can be confirmed."),
+     field("filter_algorithm", "string", "The filter algorithm used."),
+     field("filter_algorithm_parameters", "structure",
+           "Name/value pairs configuring the filter algorithm.", scalar=False,
+           sub_fields=[
+               field("filter_algorithm_parameter_name", "string",
+                     "The parameter's name."),
+               field("filter_algorithm_parameter_value", "string",
+                     "The parameter's value."),
+           ]),
+     field("rm60_hz", "double",
+           "Whether 60 Hz line noise was removed. Spelled `rm60Hz` in did_v1;"
+           " snake_cased by universalRenames."),
+     field("refract", "double", "The refractory period, in seconds.")])
+
+# neuron_extracellular -- NOT an offender: its migrator reads the real
+# `cluster_index` and `quality_number` (the detector's `quality` hit was a local
+# MATLAB variable name, not a field read), and the tombstone's field list already
+# matches the template exactly. Only the dependency list was short: the real
+# class also carries spike_clusters_id, which was silently unreachable.
+_nx = load(os.path.join(VETA, "stable", "neuron_extracellular.json"))
+_nx["depends_on"].append(
+    dep("spike_clusters_id", "spike_clusters",
+        "The sorted-cluster document this unit came from. Declared by the NDI"
+        " template; the tombstone previously listed only element_id.",
+        non_empty=False))
+write("stable", "neuron_extracellular", _nx)
+
 
 # ---------- 11. storage_mode + data_body (sampled_/opaque_) ----------
 

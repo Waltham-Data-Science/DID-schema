@@ -2490,10 +2490,12 @@
         {
             "class_name": "vmspikefilteringparameters",
             "tier": "stable",
-            "class_version": "1.0.0",
+            "class_version": "2.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                "base"
+                "base",
+                "epochid",
+                "app"
             ],
             "path": "schemas/V_eta/stable/vmspikefilteringparameters.json",
             "disposition": "retire",
@@ -2514,10 +2516,11 @@
         {
             "class_name": "vmspikesummary",
             "tier": "stable",
-            "class_version": "1.0.0",
+            "class_version": "2.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                "base"
+                "base",
+                "epochid"
             ],
             "path": "schemas/V_eta/stable/vmspikesummary.json",
             "disposition": "retire",

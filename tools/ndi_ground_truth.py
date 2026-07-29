@@ -224,6 +224,38 @@ def migrator_reads(truth, did_path):
         # field). Precision matters more than recall here -- tier 2 is the safety net.
         read = set(re.findall(r"(?:isfield|isstruct)\(\s*\w+\s*,\s*'([a-z0-9_]+)'", src))
         read |= set(re.findall(r"jGet\w*\(\s*\w+\s*,\s*'([a-z0-9_]+)'", src))
+
+        # TIER 1b: the same idiom, but through a LOCAL accessor helper. Several
+        # migrators define their own `getField(block, name)` / `numScalar(...)`
+        # wrappers, and reads through those were invisible to the two patterns
+        # above -- which is how vmspikesummary sat in tier 2 (see below) while
+        # reading four names that do not exist. Any local function whose body
+        # calls isfield or uses dynamic field access is treated as an accessor.
+        local_fns = re.findall(r"^\s*function\s+(?:[\[\]\w,\s~]+=\s*)?(\w+)\s*\(",
+                               src, re.MULTILINE)
+        accessors = set()
+        for fn in local_fns:
+            body = re.search(r"^\s*function\s+(?:[\[\]\w,\s~]+=\s*)?"
+                             + re.escape(fn) + r"\s*\(.*?(?=^\s*function\s|\Z)",
+                             src, re.MULTILINE | re.DOTALL)
+            if body and re.search(r"isfield\s*\(|\.\(\s*\w+\s*\)", body.group(0)):
+                accessors.add(fn)
+        for fn in accessors:
+            read |= set(re.findall(re.escape(fn) + r"\(\s*\w+\s*,\s*'([a-z0-9_]+)'",
+                                   src))
+
+        # TIER 1c: the accessor is called with a name we CANNOT resolve statically
+        # -- a cell-table lookup like getField(blk, spec{k, 1}), which is exactly
+        # what vmspikesummary does. The field names then live in a literal table
+        # that no call-site pattern can follow. When that happens, every quoted
+        # candidate name in the file is treated as read: we can no longer prove
+        # which ones flow in, and under-reporting here is what let a whole class
+        # be modelled against fields that do not exist.
+        dynamic = any(re.search(re.escape(fn) + r"\(\s*\w+\s*,\s*\w+\s*[\{\(]", src)
+                      for fn in accessors)
+        if dynamic:
+            read |= set(re.findall(r"'([a-z0-9_]+)'", src))
+
         tier1 = sorted(r for r in read if r in alpha_only)
 
         # TIER 2 (possible): the name occurs anywhere in the source. Catches reads

@@ -6,7 +6,7 @@
     "v_alpha_classes_compared": 80,
     "v_alpha_divergences": 67,
     "migrator_suspects": 16,
-    "migrator_suspects_confirmed_vocabulary": 12,
+    "migrator_suspects_confirmed_vocabulary": 14,
     "writer_divergences": 3,
     "provenance": {
       "DID-INVENTED": 36,
@@ -1619,12 +1619,12 @@
     {
       "migrator": "subject_group.m",
       "ndi_class": "subject_group",
-      "confidence": "possible",
-      "reads_names_absent_from_template": [],
-      "mentions_names_absent_from_template": [
+      "confidence": "confirmed-vocabulary",
+      "reads_names_absent_from_template": [
         "description",
         "group_name"
       ],
+      "mentions_names_absent_from_template": [],
       "template_fields": []
     },
     {
@@ -1664,14 +1664,14 @@
     {
       "migrator": "vmspikesummary.m",
       "ndi_class": "vmspikesummary",
-      "confidence": "possible",
-      "reads_names_absent_from_template": [],
-      "mentions_names_absent_from_template": [
+      "confidence": "confirmed-vocabulary",
+      "reads_names_absent_from_template": [
         "mean_firing_rate",
         "mean_vm",
         "num_spikes",
         "recording_duration"
       ],
+      "mentions_names_absent_from_template": [],
       "template_fields": [
         "mean_spikewave",
         "median_fullwidthhalfmaximum",

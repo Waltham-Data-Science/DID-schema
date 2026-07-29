@@ -1,10 +1,16 @@
 {
     "document_class": {
         "class_name": "vmspikefilteringparameters",
-        "class_version": "1.0.0",
+        "class_version": "2.0.0",
         "superclasses": [
             {
                 "class_name": "base"
+            },
+            {
+                "class_name": "epochid"
+            },
+            {
+                "class_name": "app"
             }
         ],
         "maturity_level": "stable"
@@ -12,39 +18,143 @@
     "depends_on": [
         {
             "name": "element_id",
-            "mustBeNonEmpty": true,
-            "documentation": "The document ID of the neuron element these filtering parameters apply to.",
+            "mustBeNonEmpty": false,
+            "documentation": "The recording element, promoted to a subject with its id preserved.",
             "must_refer_to_document_class": "subject"
         }
     ],
     "file": [],
     "fields": [
         {
-            "name": "filter_type",
-            "type": "char",
-            "blank_value": "",
-            "default_value": "median",
-            "mustBeNonEmpty": true,
+            "name": "sampling_rate",
+            "type": "double",
+            "blank_value": 0.0,
+            "default_value": 0.0,
+            "mustBeNonEmpty": false,
             "mustBeScalar": true,
             "mustNotHaveNaN": false,
             "queryable": true,
             "ontology": null,
-            "documentation": "The type of spike filtering applied to the Vm signal (e.g., 'median', 'interpolation').",
-            "constraints": {
-                "maxLength": 64
-            }
+            "documentation": "The source sampling rate.",
+            "constraints": {}
         },
         {
-            "name": "filter_window",
+            "name": "new_sampling_rate",
             "type": "double",
             "blank_value": 0.0,
-            "default_value": 0.001,
+            "default_value": 0.0,
             "mustBeNonEmpty": false,
             "mustBeScalar": true,
             "mustNotHaveNaN": false,
-            "queryable": false,
+            "queryable": true,
             "ontology": null,
-            "documentation": "The time window in seconds used for spike filtering.",
+            "documentation": "The resampled rate.",
+            "constraints": {}
+        },
+        {
+            "name": "threshold",
+            "type": "double",
+            "blank_value": 0.0,
+            "default_value": 0.0,
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "The spike-detection threshold. Typed `number` by the NDI schema; the template's literal value is the string \"0.030\".",
+            "constraints": {}
+        },
+        {
+            "name": "spiketimes",
+            "type": "double",
+            "blank_value": 0.0,
+            "default_value": 0.0,
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Typed `number` by the NDI schema; the template's literal value is an empty string. With no writer, neither can be confirmed.",
+            "constraints": {}
+        },
+        {
+            "name": "filter_algorithm",
+            "type": "string",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "The filter algorithm used.",
+            "constraints": {}
+        },
+        {
+            "name": "filter_algorithm_parameters",
+            "type": "structure",
+            "blank_value": [],
+            "default_value": [],
+            "mustBeNonEmpty": false,
+            "mustBeScalar": false,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Name/value pairs configuring the filter algorithm.",
+            "constraints": {},
+            "fields": [
+                {
+                    "name": "filter_algorithm_parameter_name",
+                    "type": "string",
+                    "blank_value": "",
+                    "default_value": "",
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "The parameter's name.",
+                    "constraints": {}
+                },
+                {
+                    "name": "filter_algorithm_parameter_value",
+                    "type": "string",
+                    "blank_value": "",
+                    "default_value": "",
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "The parameter's value.",
+                    "constraints": {}
+                }
+            ]
+        },
+        {
+            "name": "rm60_hz",
+            "type": "double",
+            "blank_value": 0.0,
+            "default_value": 0.0,
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Whether 60 Hz line noise was removed. Spelled `rm60Hz` in did_v1; snake_cased by universalRenames.",
+            "constraints": {}
+        },
+        {
+            "name": "refract",
+            "type": "double",
+            "blank_value": 0.0,
+            "default_value": 0.0,
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "The refractory period, in seconds.",
             "constraints": {}
         }
     ]

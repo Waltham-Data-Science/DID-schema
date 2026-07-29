@@ -139,6 +139,44 @@ Keeps both facts (the term, and what it was about) and asserts nothing false. Re
 **Cheap confirmation available:** a corpus run's `silent_loss.empty_required_dependency` should
 show ≈7,007 empty `subject_id` edges on `term_observation`.
 
+### THE "MENTIONS ONLY" BUCKET WAS NEVER CHECKED — 2 more offenders, 1 false positive
+
+The detector splits its hits into names read through a recognised idiom (tier 1) and names that
+merely *occur* in the source (tier 2). The 15 above were all tier 1. **Tier 2 was taken on trust,
+and it was hiding real defects.**
+
+| class | verdict |
+|---|---|
+| `vmspikesummary` | **16th offender.** Reads `mean_vm`, `mean_firing_rate`, `num_spikes`, `recording_duration`. The real class is a **mean spike waveform + eight spike-shape medians** — `mean_spikewave`, `sample_times`, `number_of_spikes`, `median_spikekink_vm`, `median_voltageofhalfmaximum`, `median_fullwidthhalfmaximum`, `median_presk_halfwidthmaximum`, `median_postsk_halfwidthmaximum`, `median_max_dvdt`, `median_kink_index`, `slope_criterion`. It was modelling a **different document than the one that exists**. → guarded passthrough |
+| `vmspikefilteringparameters` | **17th, and the worst-hidden: it has NO MIGRATOR**, so it passes through by default — into a tombstone declaring `filter_type`/`filter_window`, neither of which exists. Real: `sampling_rate`, `new_sampling_rate`, `threshold`, `spiketimes`, `filter_algorithm`, `filter_algorithm_parameters[]`, `rm60Hz`, `refract`. → correct tombstone, **no migrator needed** |
+| `neuron_extracellular` | **FALSE POSITIVE, confirmed clean.** Reads the real `cluster_index` and `quality_number`; the `quality` hit is a local MATLAB variable name. Tombstone matched the template already. Only fix: its `spike_clusters_id` dependency was undeclared. |
+
+`num_spikes` → `number_of_spikes` looks like a near-miss rename, but **correcting the name would
+still not have worked**: the real field is an **array**, and the migrator required `isscalar`.
+
+**Why three broken classes never tripped a gate.** All five `vhlab_voltage2firingrate` classes
+are template-and-schema only, with **no writer in any repository** — so almost certainly **no
+corpus holds a single document of any of them**. This is latent risk, not active loss, and it is
+the clearest evidence in this whole audit that *"the corpus is green" cannot substitute for
+reading the source.*
+
+**The detector defect is fixed** (`tools/ndi_ground_truth.py`). Tier 1 now also recognises:
+- reads through a **local accessor helper** (a same-file function whose body uses `isfield` or
+  dynamic field access) — several migrators define their own `getField`, and those reads were
+  invisible;
+- **unresolvable dispatch**: when an accessor is called with a cell-table lookup like
+  `getField(blk, spec{k,1})`, the names live in a literal table no call-site pattern can follow,
+  so every quoted candidate in the file is treated as read. Under-reporting here is precisely
+  what let a whole class be modelled against fields that do not exist.
+
+That moved `vmspikesummary` and `subject_group` from tier 2 to tier 1, and left
+`neuron_extracellular` and `treatment_drug` in tier 2 — both already confirmed false positives.
+
+**A blind spot that remains, recorded so it is not mistaken for coverage:** a class with **no
+migrator** never appears in this tool's report at all, because there is no source file to scan.
+That is how `vmspikefilteringparameters` stayed invisible; it was found by reading the app's
+templates. Coverage of unmigrated passthrough classes belongs to `tools/coverage.py`.
+
 ### BENIGN — CONFIRMED (2)
 
 - **`daqreader_ndr`** — reads the real `ndr_reader_string`; the `file_extension` branch is

@@ -127,7 +127,16 @@ RESOLVED_BY_GUARD = {
     "binnedspikeratevm.m":              "guarded passthrough -- no writer exists in any repository",
     "vmneuralresponseresiduals.m":      "guarded passthrough -- no writer; goodness_of_fit unspecified",
     "ontology_label.m":                 "guarded passthrough -- referent needs the migrated-id graph",
+    "vmspikesummary.m":                 "guarded passthrough -- real class is a spike WAVEFORM + shape medians",
 }
+
+# A blind spot this tool structurally cannot cover, recorded so it is not
+# mistaken for a clean bill: a class with NO migrator never appears here at all,
+# because there is no source file to scan. `vmspikefilteringparameters` was
+# exactly that -- no migrator, so it passed through by default into a tombstone
+# declaring `filter_type`/`filter_window`, neither of which exists. It was found
+# by reading the app's templates, not by any check. Coverage of unmigrated
+# passthrough classes belongs to tools/coverage.py, not to this one.
 
 # Also fixed, but WITHOUT a guard, so they correctly disappear from the report
 # entirely. Recorded here only so the two resolution routes are both visible:
