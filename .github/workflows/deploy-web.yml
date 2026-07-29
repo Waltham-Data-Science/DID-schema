@@ -6,6 +6,13 @@ on:
     paths:
       - "web/**"
       - "schemas/V_*/**"
+      # `schemas/V_*/**` needs a directory segment, so it matches
+      # schemas/V_eta/stable/foo.json but NOT the generated ledger, which is a
+      # file sitting directly under schemas/. Without this line a commit that
+      # only re-runs tools/coverage.py updates the ledger and deploys nothing,
+      # and the viewer's Coverage panel drifts behind the schemas with no signal
+      # that it has.
+      - "schemas/V_*_coverage_ledger.json"
       - ".github/workflows/deploy-web.yml"
   workflow_dispatch:
 
