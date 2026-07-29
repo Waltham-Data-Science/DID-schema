@@ -14,12 +14,34 @@ for each model; this board owns *how much is left and what exactly*.
 | settled (retire) | 47 |
 | **still open** | **35** |
 | open **decision families** | **15** |
-| &nbsp;&nbsp;of which decided, awaiting build | 9 |
-| &nbsp;&nbsp;of which genuinely undecided | 6 |
+| &nbsp;&nbsp;DECIDED by the team, awaiting build | 4 |
+| &nbsp;&nbsp;**PROPOSED by Claude, NOT yet reviewed** | **5** |
+| &nbsp;&nbsp;nobody has proposed anything yet | 6 |
 
 The class count is not the work count. 35 open classes are 15 decisions, because most open classes move as a family.
 
-## Genuinely undecided -- this is what closing V_eta means
+**11 of those 15 still need a team decision** (5 proposed and awaiting review, 6 with nothing proposed yet). Only 4 are settled.
+
+## AWAITING TEAM REVIEW -- proposed by Claude, NOT decided
+
+Each has a written rationale and template evidence, and **none of it is
+settled**. These are counted as OPEN work until the team signs off.
+
+| family | classes | proposal | written up in |
+|---|---|---|---|
+| **daq configuration** | 3 | ndi_<x>_class + params -- runtime config, not archival | `V_eta_daq_family_decisions.md` |
+| **daq ingested payloads** | 3 | -> relative_reference / opaque_body / image model; no new class | `V_eta_daq_family_decisions.md` |
+| **sync configuration** | 2 | runtime config (ndi_<x>_class + parameters), not archival | `V_eta_infra_family_decisions.md` |
+| **sync mapping** | 1 | folds into relative_reference -- it IS an epoch-to-epoch time relation | `V_eta_infra_family_decisions.md` |
+| **file navigation** | 2 | runtime, machine-specific paths; not archival | `V_eta_infra_family_decisions.md` |
+
+- **daq configuration**: `daqmetadatareader`, `daqreader`, `daqsystem`
+- **daq ingested payloads**: `daqmetadatareader_epochdata_ingested`, `daqreader_epochdata_ingested`, `daqreader_image_epochdata_ingested`
+- **sync configuration**: `syncgraph`, `syncrule`
+- **sync mapping**: `syncrule_mapping`
+- **file navigation**: `directory`, `filenavigator`
+
+## Nobody has proposed anything yet
 
 | family | classes | the call to make |
 |---|---|---|
@@ -37,7 +59,7 @@ The class count is not the work count. 35 open classes are 15 decisions, because
 - **misc singletons**: `binaryseries_parameters`, `control_designation`, `interaction_purpose`, `projectvar`
 - **demo / mock**: `demo_ndi`, `demo_ndi_mock`
 
-## Decided, awaiting build
+## DECIDED by the team, awaiting build
 
 The model is settled and recorded; the schema has not changed yet. Every
 one of these re-targets migrators that are already written, which is why
@@ -49,11 +71,6 @@ migrator work before the target closes is rework.
 | **stimulus** | 1 | timed_sequence data_type + timed_sequence_manipulation leaf | `V_eta_stimulus_model_plan.md` |
 | **ensemble** | 1 | group subject + epoch-scoped member_of edges + rebuildable cache | `V_eta_ensemble_plan.md` |
 | **image / ngrid** | 1 | ngrid phases into sampled_body; image is a standalone data_type | `V_eta_image_model_plan.md` |
-| **daq configuration** | 3 | ndi_<x>_class + params -- runtime config, not archival | `V_eta_daq_family_decisions.md` |
-| **daq ingested payloads** | 3 | -> relative_reference / opaque_body / image model; no new class | `V_eta_daq_family_decisions.md` |
-| **sync configuration** | 2 | runtime config (ndi_<x>_class + parameters), not archival | `V_eta_infra_family_decisions.md` |
-| **sync mapping** | 1 | folds into relative_reference -- it IS an epoch-to-epoch time relation | `V_eta_infra_family_decisions.md` |
-| **file navigation** | 2 | runtime, machine-specific paths; not archival | `V_eta_infra_family_decisions.md` |
 
 ## v1 source side (from the coverage ledger)
 
