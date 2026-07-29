@@ -1,6 +1,13 @@
 # Ground-truth repair plan — migrate FROM the current NDI templates, TO V_eta
 
-**Status: Phase 0 DONE. Phases 1-4 are NOT authorised to build — decide first.**
+**Status (updated):** Phase 0 DONE. Phase 1 REPORT-ONLY landed, **1.3 and 1.4 BUILT** (the
+vocabulary sweep now enforces in CI; `did2.validate.isFragment` closes the third failure mode).
+**1.1 and 1.2 are blocked on the census**, which was itself broken until now — `silentLoss`
+reported `total_docs=0` on all five corpora because `asStruct` asked `did2.document` for
+`document_properties` when the property is `documentProperties`, so every document resolved to
+`[]` and `toBodies` silently dropped them. Fixed; the census must be re-taken.
+Phase 2 CLOSED as scoped (17 offenders). **Phase 2b (source tombstones) is new** — not in the
+original plan; see `V_eta_tombstone_audit.md`. Phases 3-4 NOT authorised — decide first.
 
 ## The problem in one paragraph
 

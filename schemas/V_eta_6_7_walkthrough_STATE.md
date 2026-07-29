@@ -12,7 +12,7 @@ reconciled with what actually shipped this session.
 
 | Chunk | Scope | Status | Commit |
 |---|---|---|---|
-| **(a)** | Delete the 4 time-redundant classes: `oneepoch`, `epochclocktimes`, `valid_interval`, `session_extent` (all 0-usage; `epochclocktimes` was a did_v1 superclass, `pyraview` auto-reparented) | ✅ DONE | `68fba28` |
+| **(a)** | Delete 4 classes as "time-redundant, all 0-usage" | ⚠️ **3 OF 4 WERE WRONG — see below** | `68fba28` |
 | **(d)** | "Earns its keep?": `metadata_editor` → **decomposed** to `dataset` + person/org/award/publication/web_resource + relations (went further than keep/kill); `mock` → **dropped** | ✅ DONE | `517db1a`, `172c0b1` |
 | **⑥-E** | Session/dataset infra: `session` → ⊂ entity; `dataset_remote` / `dataset_session_info` / `session_in_a_dataset` → **dissolved** to `directed_relation`s (`part_of` / `stored_at` / `hosted_by`) + bare `dataset` entity; `resolveDatasetEntities` post-pass | ✅ DONE | `d650301`, `ddb3071` |
 | **(b)** | **Option A (decided):** the `*_epochdata_ingested` caches are DEVICE-LAYER infra (keyed `{daqreader, epoch}`, NO subject — one raw cache feeds many downstream ROI/channel observations, the subject enters one layer down on the observation/element). They are NOT folded into `sampled_body` (that would force a `subject_statement` the device layer lacks). `epochfiles_ingested` stays infra untouched. The imaging *observation* tier is separate NDI-side work → #9 (D-C). <br>⚠️ **THE "TIDY" HALF WAS BUILT ON A FALSE PREMISE — see the correction below.** | ⚠️ PARTLY WRONG | (this batch) |
@@ -72,7 +72,49 @@ classes**, including the infra ones listed as graduated below.
 Read the index (`schemas/V_eta/index.json` disposition markers), not this section, for the
 live count. Kept for the decision history.
 
-## WALKTHROUGH CLOSED — disposition graduated (this batch) — SUPERSEDED, see above
+## ⚠️ CHUNK (a) WAS WRONG ON 3 OF ITS 4 DELETIONS
+
+Chunk (a) deleted `oneepoch`, `epochclocktimes`, `valid_interval` and `session_extent` as
+"time-redundant, all 0-usage". **"0-usage" was true of the DID schema, not of NDI.** Checking
+NDI `origin/main` for writers:
+
+| class | claim | reality |
+|---|---|---|
+| `session_extent` | 0-usage | ✅ **correct** — no NDI template at all |
+| `valid_interval` | 0-usage | ❌ written by **`ndi.app.markgarbage`** |
+| `epochclocktimes` | 0-usage | ❌ **superclass of `pyraview`** |
+| `oneepoch` | 0-usage | ❌ template exists, `⊂ element_epoch`, real `+ndi/+element/oneepoch.m` — **unverified** |
+
+**`valid_interval`** is `ndi.app.markgarbage`'s output — *"an application for marking portions of
+recordings as 'garbage' that shouldn't be analyzed"*. `markvalidinterval(E, t0, timeref, t1,
+timeref)` marks an interval as usable; the rest is garbage. That is **experimenter curation of
+which data is analysable**, with `element_id`, `t0`/`t1` and two `timeref_struct` blocks. Losing
+it means an analysis can silently include intervals the experimenter excluded. It needs a home;
+its shape maps onto the time_reference model (a subject assertion bounded by a reference).
+
+**`epochclocktimes`** (`{clocktype, t0_t1}`) is a **superclass of `pyraview`**, so real pyraview
+documents carry that block. `tools/check_tombstones.py` flagged the consequence independently
+(`LOSSY migrated pyraview — superclasses the real document has: epochclocktimes`). It should NOT
+be restored as a class — its content is the same fact `element_epoch` carries
+(`epoch_clock`/`t0_t1`) — but pyraview's copy must be routed, and today it is dropped. See
+`V_eta_time_reference_model_plan.md`.
+
+**`oneepoch`** has a template and a real `+ndi/+element/oneepoch.m` (a function that concatenates
+an element's epochs). Whether documents are actually written is **unverified**. `coverage.py`
+also lists it in `_NONPROD_CLASSES`, which may be equally unfounded.
+
+**THE PATTERN:** this is the same error as ⑥/⑦ chunk (b)'s `epochid` premise and the coverage
+ledger's "dissolved (rename/decompose)" label — *treating "we don't see it used" as "it isn't
+used."* Three separate places, each producing a confident deletion or a reassuring label. The
+rule this establishes: **a deletion needs a writer check against NDI `origin/main`, not an
+absence of references in our own schema.**
+
+## WALKTHROUGH CLOSED — then RE-OPENED by R5 (this section is historical)
+
+> **STALE AS WRITTEN.** R5 re-opened the ⑦ infra tier: the KEEP predated T11/T13 scrutiny, and
+> the 18 classes below are back at `in_progress` in the built index (35 in_progress total). Read
+> the index, not this list, for current disposition.
+ — SUPERSEDED, see above
 
 All chunks (a–e + gov) are ✅ DONE, so the walkthrough is CLOSED. The 18 decided-KEEP
 infra classes graduated from `in_progress` → **persist (⑦)** via `build_v_eta.py`

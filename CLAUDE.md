@@ -101,10 +101,27 @@ lives in these files — read them instead of re-deriving from memory:
   documents that pass every gate. RULE: **NDI `origin/main` templates are the did_v1 truth; where
   template and WRITER disagree the WRITER wins; fixtures are built from the writer, never from a
   DID-side schema.** Phase 0 (ground truth extract, `tools/ndi_ground_truth.py` →
-  `V_eta_ndi_ground_truth.json`) and Phase 1 (report-only census: `did2.validate.silentLoss`,
-  `summary.unconverted_by_class`, `tools/check_migrator_vocabulary.py`) are DONE. The audit doc
-  has per-class evidence for all 15 offenders: **6 FIXED**, **7 approved for guarded passthrough
-  (decided, NOT built)**, 2 benign. THREE failure modes — hollow / passthrough / **fragment**
+  `V_eta_ndi_ground_truth.json`) is DONE. Phase 1 is REPORT-ONLY-landed with **1.3 + 1.4
+  BUILT** (the vocabulary sweep ENFORCES in DID-schema CI; `did2.validate.isFragment` closes the
+  FRAGMENT mode). **1.1/1.2 are blocked on the census — which was measuring NOTHING**:
+  `silentLoss` reported `total_docs=0` on all 5 corpora because `asStruct` asked `did2.document`
+  for `document_properties` (the property is `documentProperties`), so every doc became `[]` and
+  `toBodies` silently dropped them; `total_docs` was then taken from the survivors, making total
+  failure and an empty batch identical. FIXED + tested (`testSilentLoss.m`); census must be
+  RE-TAKEN. **17 offenders, not 15** — `vmspikesummary` (models a different document than exists:
+  the real class is a mean spike WAVEFORM + 8 shape medians) and `vmspikefilteringparameters`
+  (NO migrator at all, so it passed through into a tombstone declaring `filter_type`/`filter_window`,
+  neither of which exists) were found by re-checking the detector's "mentions only" bucket. All
+  BUILT: 6 fixed, 8 guarded passthroughs, 1 tombstone-only, 2 allow-listed benign.
+- **`tools/check_tombstones.py`** + **`schemas/V_eta_tombstone_audit.md`** — PHASE 2b, NOT in the
+  original plan. Every V_eta SOURCE TOMBSTONE compared against its NDI template: the tombstones
+  were written from V_alpha too, so a passthrough would have QUARANTINED the documents it exists
+  to preserve (the validator is strict BOTH ways — `undeclaredField` and `mustBeNonEmpty`).
+  First run: 36 of 60 diverged. Now **BLOCKING 9 → 3** (the 3 left are `stimulus_parameter`,
+  `stimulus_parameter_table`, `stimulus_presentation`, held for #31 deliberately). It reads the
+  `RENAME` map, so renamed classes are compared instead of silently skipped — that hole hid
+  `element_epoch`→`acquisition_epoch`, which declares `axes`/`channels`/`storage` that no NDI
+  template has. THREE failure modes — hollow / passthrough / **fragment**
   (fragment is seen by NO counter). Biggest find: **`ontology_label` is NOT benign** — it
   discards the `document_id` edge (its only referent) and emits an empty `subject_id`, ~7,007
   docs, currently graded ✅ in the coverage audit. RECURRING TRAP: research agents keep claiming
@@ -113,6 +130,24 @@ lives in these files — read them instead of re-deriving from memory:
   (blocks `binnedspikeratevm`'s Hz-vs-spikes-per-bin, a silent 33× risk), and the 102-class v1
   universe may be too small (`NDIcalc-ephys-matlab` ships `spike_shape_calc`, absent from the
   ledger entirely).
+- **`schemas/V_eta_time_reference_model_plan.md`** — the FINAL time model (decided in the ⑤
+  walkthrough; build deferred). **8 classes collapse to 2**: `absolute_reference` +
+  `relative_reference` under an abstract root. `origin` is a RELATION (an edge, T4/T7), `mode` is
+  CARDINALITY (T12) — and `mode` meant TWO DIFFERENT THINGS (session = with/without metric; event
+  = whole-extent/offset). T11's `<origin>_<mode>_reference` grammar is a NAMING RULE describing
+  the old family, not a mandate it exist; amend T11 with the change. Both follow T14 one-`value`
+  (canonical + source provenance, like `voltage`/`duration`), so `is_approximate` moves INTO the
+  cell. `relation` → `ontology_term` bound to **OWL-Time** (the enum was bare char, 6 of Allen's
+  13, `concurrent_with` ambiguous). `frame` not `clock` (it selects conception/birth for an
+  organism as readily as dev_local_time for an epoch). `relative_to` not `event_id` (3 of 4
+  referent kinds are not events). **`acquisition_epoch.clocks` DISSOLVES into time_references.**
+  **NO TIMES ⇒ NO REFERENCE** (a NaN reference is a hollow document — the exact thing silentLoss
+  + isFragment exist to catch). CORRECTION recorded there: `dev_local_time.t0` is NOT always 0 —
+  `blackrock.m` sets it from the device hardware Timestamp; NDI's prose says the clock is SCOPED
+  to epochs, not that it STARTS at zero. Volumes: 107,308 `session_relative_reference` + 20,411
+  `session_bounded_reference`; epoch/event/utc classes have ZERO docs and **no migrator has ever
+  emitted one**, so all epoch timing collapses to "during the session, approximately" while
+  11,118 `acquisition_epoch` docs carry clock data nothing points at.
 - **`schemas/V_eta_final_class_set.md`** — the authoritative persist set (7
   categories). REGENERATE with `python3 tools/regen_final_class_set.py` (reads the
   built `V_eta/index.json` disposition markers) after every `build_v_eta.py`; never
@@ -175,7 +210,7 @@ lives in these files — read them instead of re-deriving from memory:
   side — provenance `origin` (`V_eta_class_provenance.md`) is the arbiter; only
   `did_v1`-origin (+ the 11 app classes) are sources. `coverage.py` also flags GAPS
   (no V_eta home + no migrator + absent from the V_zeta base = never reviewed):
-  **1 UNMAPPED (`subjectmeasurement`) + 4 UNVERIFIED.** This line used to read "currently
+  **0 UNMAPPED + 4 UNVERIFIED** (`subjectmeasurement` now has a tombstone). This line used to read "currently
   NONE (0 gaps)", which was true only because the ledger asserted a conclusion it had no
   evidence for: every class with no V_eta home was labelled "dissolved (rename/decompose)"
   — 32 rows — turning each unknown into a reassuring claim. That is now split by whether a
@@ -287,6 +322,42 @@ lives in these files — read them instead of re-deriving from memory:
   else reads BLOCK-level fields (snake-cased by universalRenames, safe) or PascalCase-
   by-design (metadata_editor's metadata_structure). NOTE distance_metadata is NOT a
   casing bug (see above) — it is a wrong-assumed-shape bug.
+
+## Findings recorded here because they have no other home yet
+
+- **`generic_file` needs `opaque_body` + a statement** (agreed in walkthrough). It is a REAL,
+  PRODUCTION class — written by `+ndi/+setup/+conv/+babu/import.m` for plasmid and LCMS
+  documents, read by `+ndi/+cloud/+download/downloadGenericFiles.m` — with `filename`,
+  `formatOntology`, `dateCreated`, `dateUpdated`, `checksum` and a `generic_file.ext` file. It
+  has NO V_eta home and NO migrator: a Babu dataset migrating today strands these. Note V_eta
+  already folded a `generic_file` concept into `opaque_body` (`test_generic_file_folded_to_opaque_body`),
+  so the class name is taken — reconcile before building.
+- **The 4 UNVERIFIED coverage rows** (no V_eta home, no migrator, fate never recorded):
+  `generic_file` (above), `imageCollection` (ZERO emitters in NDI, yet `image.imageCollection_id`
+  points at it — genuinely unknown), `valid_interval` (see the chunk-(a) correction in
+  `V_eta_6_7_walkthrough_STATE.md`), `imageStack_parameters` (**false alarm** — it is a
+  SUPERCLASS of `image.json`/`imageStack.json` whose block `image_stack.m` consumes; the ledger
+  flags it only because no migrator is *named* after it).
+- **DATE OF BIRTH has no home** (TaskList #41). There is no `date_observation` leaf, and a birth
+  date is arguably a property of the subject ENTITY rather than an observation of it —
+  `treatment.m` already routes DOB out of its tier for that reason. Real Babu/Hunsberger DOB rows
+  flow through `measurement` and currently pass through unmodelled. A team modelling call.
+- **THE RECURRING EPISTEMIC ERROR, stated once so it stops recurring.** Four separate places
+  turned *absence of evidence* into a reassuring claim: the coverage ledger's "dissolved
+  (rename/decompose)" label (32 rows), ⑥/⑦ chunk (a)'s "all 0-usage" deletions (3 of 4 wrong),
+  chunk (b)'s "the epoch link is the epochid dep" (there is no such dep), and my own "latent
+  risk, not active loss" for the vhlab_voltage2firingrate family. **THE CORPORA ARE A SAMPLE OF
+  DATASETS, NOT THE UNIVERSE** — a class absent from the five we test may be well represented in
+  a dataset still waiting to migrate, which is what this migration is FOR. Nothing may be
+  deferred, retired or half-repaired on the grounds that no corpus we looked at holds it. A
+  deletion needs a WRITER CHECK against NDI `origin/main`.
+- **A TEST WRITTEN FROM THE SAME PREMISE AS THE CODE CANNOT CATCH THE CODE.** Three tests
+  asserted the `epochid` bug (`test_phase1_source_cleanup_and_dep_typing`,
+  `test_ingested_caches_epochid_dep_only`, `testMfdaqIngestedDeEncodesToDaqreaderEpochdataIngested`)
+  and had to be INVERTED, not updated. The `silentLoss` counter had NO tests at all and shipped
+  measuring nothing. `testFragmentCensus`'s first draft drove the detector through two migrators
+  that had since been repaired, and failed correctly. Same shape as fixtures built from our own
+  schema, one level up.
 
 ## Build / test
 - `python3 tools/build_v_eta.py` rebuilds `schemas/V_eta/` (copytree V_zeta→V_eta
