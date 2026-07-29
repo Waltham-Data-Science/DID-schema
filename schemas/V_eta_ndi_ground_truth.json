@@ -572,13 +572,13 @@
         "num_clusters"
       ],
       "only_in_ndi_template": [
-        "res_mat_m_d5_checksum"
+        "res_mat_md5_checksum"
       ],
       "provenance": {
         "verdict": "DID-INVENTED",
         "why": "first NDI version 2020-11-04",
         "first_version_fields": [
-          "res_mat_m_d5_checksum"
+          "res_mat_md5_checksum"
         ]
       }
     },
@@ -1316,7 +1316,7 @@
         "diluent_ontology_name",
         "dilution",
         "virus_administration_date",
-        "virus_administration_p_n_d",
+        "virus_administration_pnd",
         "virus_location_name",
         "virus_location_ontology_name",
         "virus_ontology_name"
@@ -1329,7 +1329,7 @@
           "diluent_ontology_name",
           "dilution",
           "virus_administration_date",
-          "virus_administration_p_n_d",
+          "virus_administration_pnd",
           "virus_location_name",
           "virus_location_ontology_name",
           "virus_name",
@@ -1768,7 +1768,7 @@
     },
     "jrclust_clusters": {
       "fields": [
-        "res_mat_m_d5_checksum"
+        "res_mat_md5_checksum"
       ],
       "raw_fields": [
         "res_mat_MD5_checksum"
@@ -1785,7 +1785,7 @@
     },
     "kiasort_clusters": {
       "fields": [
-        "curated_output_m_d5_checksum",
+        "curated_output_md5_checksum",
         "kiasort_directory"
       ],
       "raw_fields": [
@@ -1804,7 +1804,7 @@
     },
     "kilosort_clusters": {
       "fields": [
-        "curated_output_m_d5_checksum",
+        "curated_output_md5_checksum",
         "kilosort_directory"
       ],
       "raw_fields": [
@@ -3722,7 +3722,7 @@
         "diluent_ontology_name",
         "dilution",
         "virus_administration_date",
-        "virus_administration_p_n_d",
+        "virus_administration_pnd",
         "virus_location_name",
         "virus_location_ontology_name",
         "virus_name",

@@ -83,7 +83,37 @@ WRITER_DIVERGENCE = [
 
 
 def snake(n):
-    return re.sub(r"(?<!^)(?=[A-Z])", "_", n).lower().replace("__", "_")
+    """EXACT port of universalRenames.m's snakeCase -- acronym-aware.
+
+    The previous one-liner inserted `_` before every uppercase letter, which is
+    NOT what the migration pipeline does and produced field names no document
+    ever has: `curated_output_MD5_checksum` came out `curated_output_m_d5_checksum`
+    and `integerIDs_A` came out `integer_i_ds_a`. Any comparison against those is
+    a false positive, and the whole point of this file is to be the thing that is
+    trusted, so it has to match the real transform character for character.
+
+    A run of two or more uppercase letters is one acronym: lowercased with no
+    internal separator ('MD5' -> 'md5', 'XMLParser' -> 'xml_parser'). A separator
+    goes in before an uppercase letter when the previous character is NOT
+    uppercase (the classic camelCase boundary), or when the previous IS uppercase
+    and the next is lowercase (acronym-to-word). Never doubled after an existing
+    underscore."""
+    n = str(n)
+    if not n:
+        return n
+    out = n[0].lower()
+    for k in range(1, len(n)):
+        c = n[k]
+        if not c.isupper():
+            out += c
+            continue
+        prev_upper = n[k - 1].isupper()
+        next_lower = k + 1 < len(n) and n[k + 1].islower()
+        if (not prev_upper or next_lower) and out[-1] != "_":
+            out += "_" + c.lower()
+        else:
+            out += c.lower()
+    return out
 
 
 def ndi_templates(ndi_path):
