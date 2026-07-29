@@ -163,9 +163,22 @@ declares vintage B faithfully — `ngrid` back as a superclass, `ontology_nodes`
 `ontology_table_row_id` — alongside vintage A's two chars. This is a second reason retiring
 `ngrid` is gated on both consumers (F4).
 
-**Still deferred with vintage B:** the raster (the `ngrid` block + `.ngrid` file) and the
-`ontologyTableRow_id` provenance edge. Under R6 the natural target is an `image_observation`
-beside the term observations — that belongs to the `ngrid` work.
+**The `ontologyTableRow_id` edge — DECIDED: preserve the row's id.** Passing the document
+through keeps its edge to the `ontologyTableRow`, and the second pass has to follow that edge to
+reach the subject. But `ontology_table_row` dissolves 1→N and gave **every** emitted body a fresh
+id, so nothing carried the row's id afterwards and the edge pointed at something that no longer
+existed. There is **no old-id → new-id map anywhere in the converter**, so id preservation is the
+only mechanism that can make such an edge resolve — the same lesson the calculator fold paid
+11,448 orphans for (T10). `ontology_table_row` now keeps the source id on **exactly one** emitted
+body: the first, with siblings keeping fresh ids (the primary/sibling convention
+`jStartInteraction` already uses). Every body it emits carries `subject_id`, so a follower lands
+on one document and reads the subject straight off it. `makePatchSubject` already preserved the
+id deliberately, so the step detects an existing preservation and leaves it alone rather than
+minting two documents with one id. **Needs a full corpus run** — it changes ids corpus-wide, which
+a fast gate cannot confirm.
+
+**Still deferred:** the raster (the `ngrid` block + `.ngrid` file). Under R6 the natural target is
+an `image_observation` beside the term observations — that belongs to the `ngrid` work.
 
 **Not confirmed against a real corpus document.** The reasoning is from writer + template +
 rename rules + routing. The guard is what will settle it: if any corpus holds a
