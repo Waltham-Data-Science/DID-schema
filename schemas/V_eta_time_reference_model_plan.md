@@ -181,16 +181,130 @@ exercised, which is why all epoch timing currently collapses to *"during the ses
 approximately"* while 11,118 `acquisition_epoch` documents carry real clock data nothing points
 at.
 
+## EVIDENCE PASS — NDI already has this model (read from the writers)
+
+Everything below was read from `NDI-matlab origin/main`, not inferred. It **confirms the two-class
+model** and **closes three of the five open items** with facts rather than guesses. It also opens
+two new forks that the model as drafted cannot express.
+
+### NDI's own runtime time reference is (referent, frame, epoch, origin)
+
+`+ndi/+time/timereference.m`:
+
+```
+referent    the ndi.daq.system / ndi.probe / ndi.element the time is measured against
+clocktype   utc | exp_global_time | dev_global_time | dev_local_time
+epoch       required iff clocktype.needsepoch()  (i.e. dev_local_time)
+time        "the time of the referent that is referred to"   <-- the ORIGIN
+session_ID
+```
+
+Serialised as `ndi_timereference_struct()` = `{referent_epochsetname, referent_classname,
+clocktypestring, epoch, time}`, and stored inline by the `valid_interval` template.
+
+The decided model was arrived at independently and lands on the same decomposition:
+
+| NDI `timereference` | V_eta `relative_reference` |
+|---|---|
+| `referent` | `relative_to` (edge) |
+| `clocktype` | `frame` |
+| `epoch` | *folded into `relative_to`* — see below |
+| `time` | **no home yet** — fork B |
+| `session_ID` | `base.session_id` |
+
+**`referent` + `epoch` collapse to ONE edge in V_eta, and the collapse is earned.** NDI needs two
+slots because its referent is a live MATLAB object and the epoch is a string inside it. V_eta
+reifies the epoch as an `acquisition_epoch` document, and that document already knows which
+element it belongs to — so `relative_to → acquisition_epoch` carries both. This is a real
+simplification, not an assumption, and it is a second reason `acquisition_epoch` must exist.
+
+### Item 3 is CLOSED — `epoch_relative_reference.t0` is not a mystery
+
+It is NDI's `timeref_struct.time`: the **curator-chosen origin** within the frame, from which
+`start`/`end` are measured. The V_eta field's own documentation already says so — *"Curator's
+reference origin within the epoch_clock (commonly 0; e.g. stimulus onset)"* — and it matches
+`markgarbage.markvalidinterval(epochset, t0, timeref_t0, t1, timeref_t1)`, where the timerefs
+supply the origin and `t0`/`t1` the offsets from it.
+
+The earlier guess — *"likely the epoch's own origin, which would make it the epoch's property"* —
+is **wrong**. It is not the epoch's intrinsic origin; it is a point the curator picked. It cannot
+be moved onto `acquisition_epoch`, because two references into the same epoch may pick different
+origins. What remains open is only its *representation* (fork B).
+
+### The two classes that have documents differ ONLY by cardinality
+
+Read from the live emitters, `migrators_j.private.jSessionAnchor` and
+`ontology_table_row.makeEncounterWindow`:
+
+```
+session_relative_reference  { is_approximate: true,  relation: 'during' }
+session_bounded_reference   { is_approximate: false, relation: 'during', start, end }
+```
+
+`relation` takes exactly **one** value — `during` — across all 14 emitter call sites and both
+classes. So the sole difference between the 107,308 documents of one class and the 20,411 of the
+other is *whether `start`/`end` are populated*. That is T12 item 3 verbatim, now measured rather
+than argued. The collapse is empirically confirmed.
+
+### NEITHER live emitter carries a dependency — fork A
+
+Both build `depends_on` empty and let session identity ride on `base.session_id`. `jSessionAnchor`
+records why:
+
+> *"Session identity rides on base.session_id — no redundant session_id edge (it only produced
+> discovery-mode orphans)."*
+
+So a **required** `relative_to` would either strand all 127,719 existing anchors or force back the
+session edge that was already tried and reverted.
+
+### `valid_interval` gives start and end INDEPENDENT references — fork C
+
+`markvalidinterval(epochset, t0, timeref_t0, t1, timeref_t1)` takes **two** timerefs, and the
+template stores both (`timeref_structt0`, `timeref_structt1`). The drafted model has one
+`relative_to` and one `frame` covering both ends. This is a genuine expressiveness gap with a real
+API behind it. The template is also an **array** — one document holds N intervals.
+
+*(Incidental, and it answers a standing question: `valid_interval` is `ndi.app.markgarbage`'s
+record of which stretches of an epoch are good data, everything else being garbage. It is one of
+the 4 UNVERIFIED coverage rows — no V_eta home, no migrator — so those documents strand today.)*
+
 ## Open
 
 1. **Chaining and termination.** `relative_to` → an event → itself located by another reference.
-   Depth, cycles, and whether resolution must terminate at a timeline-defining referent. Untested
-   — zero documents exercise it.
-2. **Multiple references per statement.** `time_reference_1` is numbered, so multiples are
-   structurally allowed; what two references *mean* has never been decided. The natural reading,
-   given an epoch is timed in several frames, is *the same instant in different frames*.
-3. **`epoch_relative_reference.t0`** — a third offset alongside `start`/`end` that nothing
-   explains. Likely the epoch's own origin, which would make it the epoch's property.
+   Depth, cycles, and whether resolution must terminate at a timeline-defining referent. **No
+   longer hypothetical**: if fork B resolves to chaining, `valid_interval` exercises depth 2 on
+   real documents.
+2. **Multiple references per statement.** `time_reference_#` is numbered, so multiples are
+   structurally allowed; what two references *mean* has never been decided. There are now **three**
+   live readings, not one — same instant in different frames; a start anchor and an end anchor
+   (fork C); and recurrence. A bare number cannot distinguish them, which argues the role belongs
+   in the **edge name** (T4/T7) rather than an index.
+3. ~~`epoch_relative_reference.t0`~~ — **CLOSED**, see the evidence pass. Representation only,
+   now fork B.
 4. **Frame validation** once `frame` is a term rather than a dependency on the epoch's own
    reference — `must_refer` is existence-only, so a cross-document field check has no mechanism.
 5. **`approx_*` frames vs `approximate`** — two encodings of one fact.
+
+## Forks opened by the evidence pass
+
+**A. Is `relative_to` required?** 127,719 live anchors have no referent edge at all.
+ - **A1** optional; absent means *the session named by `base.session_id`*. Zero migration risk,
+   but the referent is then implicit for the overwhelming majority of references — the exact
+   "structure is conventional, not declared" smell T14 exists to kill.
+ - **A2** required; migrators resolve the session document id. Honest, and needs the second pass;
+   the session edge has already been tried once and reverted for orphans.
+
+**B. Where does the curator's origin live?**
+ - **B1** chain — the origin is its own `relative_reference`, and the interval is `relative_to`
+   it. Structurally pure, no new field, and it makes item 1 real at depth 2.
+ - **B2** a third `origin` duration alongside `start`/`end`. Flat, maps 1:1 to NDI, one extra
+   field; the drafted model's "start/end, not start/duration" argument applies here too.
+ - **B3** flatten at migration (`start := time + t0`). Cheapest, and **lossy** — it discards
+   which point the curator chose, which is the only thing `time` records.
+
+**C. May `start` and `end` have different referents/frames?**
+ - **C1** no — one referent + one frame per reference; a `valid_interval` whose endpoints differ
+   becomes **two** references on the statement. Keeps the class simple and gives item 2 a concrete
+   meaning, but only if the edges are role-named rather than numbered.
+ - **C2** yes — but that nests a whole reference inside a reference, which is the bespoke inline
+   structure this track has been removing everywhere else.
