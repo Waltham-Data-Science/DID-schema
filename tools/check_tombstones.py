@@ -85,6 +85,29 @@ def snake(name):
     return out
 
 
+def rename_map():
+    """did_v1 class name -> V_eta class name, read from build_v_eta.py's RENAME.
+
+    WITHOUT THIS THE CHECKER HAS A HOLE EXACTLY WHERE IT MATTERS. It resolves an
+    NDI class to its V_eta counterpart BY NAME, so any class V_eta renamed simply
+    fails to resolve and drops into the "no tombstone" skip list -- silently, and
+    counted as nothing to check.
+
+    `element_epoch` -> `acquisition_epoch` is the case that exposed it. The did_v1
+    class has TWO scalar fields (`epoch_clock`, `t0_t1`); the V_eta class has four
+    structured groups (`clocks`, `axes`, `channels`, `storage`). A deliberately
+    reshaped, live v1 class -- the single thing most worth comparing -- was the one
+    the tool could not see.
+
+    Parsed from the source rather than duplicated here, so the two cannot drift.
+    """
+    src = open(os.path.join(REPO, "tools", "build_v_eta.py")).read()
+    m = re.search(r"^RENAME = \{(.*?)^\}", src, re.M | re.S)
+    if not m:
+        return {}
+    return dict(re.findall(r'"([A-Za-z0-9_]+)"\s*:\s*"([A-Za-z0-9_]+)"', m.group(1)))
+
+
 def veta_dispositions():
     """{class_name: disposition} from the built index -- 'persist' marks a class
     the go-forward schema KEEPS, which is how a name collision is spotted."""
@@ -228,6 +251,7 @@ def main():
     disp = veta_dispositions()
     migs = migrators()
     pt = passthrough_migrators()
+    renames = rename_map()
 
     rows, reused = [], []
     skipped = {"nonprod": 0, "chain": 0, "no_tombstone": 0}
@@ -238,7 +262,13 @@ def main():
         if cls in CHAIN:
             skipped["chain"] += 1
             continue
+        # Resolve through the RENAME map as well as by name, so a class V_eta
+        # renamed is still compared instead of vanishing into the skip list.
         name = cls if cls in veta else snake(cls)
+        if name not in veta and snake(cls) in renames:
+            name = renames[snake(cls)]
+        if name not in veta and cls in renames:
+            name = renames[cls]
         if name not in veta:
             # No tombstone at all. Either phase-8 deleted (the class is provably
             # consumed) or never homed -- coverage.py owns that question, not us.
@@ -296,8 +326,10 @@ def main():
     for level, tier, cls, name, div in rows:
         if level == "COSMETIC" and not a.all:
             continue
-        print("%-9s %-9s %s%s" % (level, tier, cls,
-                                  "" if cls == name else "  (-> %s)" % name))
+        arrow = "" if cls == name else "  (-> %s)" % name
+        if snake(cls) in renames or cls in renames:
+            arrow += "  [RENAMED]"
+        print("%-9s %-9s %s%s" % (level, tier, cls, arrow))
         if div["invented_required"]:
             print("    REQUIRED but absent from the real document: %s"
                   % ", ".join(div["invented_required"]))
