@@ -13,11 +13,11 @@ for each model; this board owns *how much is left and what exactly*.
 | settled (persist) | 140 |
 | settled (retire) | 47 |
 | **still open** | **35** |
-| open **decision families** | **12** |
-| &nbsp;&nbsp;of which decided, awaiting build | 4 |
-| &nbsp;&nbsp;of which genuinely undecided | 8 |
+| open **decision families** | **13** |
+| &nbsp;&nbsp;of which decided, awaiting build | 7 |
+| &nbsp;&nbsp;of which genuinely undecided | 6 |
 
-The class count is not the work count. 35 open classes are 12 decisions, because most open classes move as a family.
+The class count is not the work count. 35 open classes are 13 decisions, because most open classes move as a family.
 
 ## Genuinely undecided -- this is what closing V_eta means
 
@@ -25,19 +25,15 @@ The class count is not the work count. 35 open classes are 12 decisions, because
 |---|---|---|
 | **acquisition epoch** | 3 | epoch header contents + whether clocks dissolve into time_references |
 | **daq ingestion** | 7 | do the ingested-cache classes persist, fold, or become opaque_body |
-| **sync** | 3 | is the sync graph V_eta data or NDI runtime state |
-| **file navigation** | 3 | do path/navigation classes belong in an archival schema at all |
 | **openMINDS** | 1 | import provenance vs crosswalk; entangled with the openminds_* sources |
-| **software** | 1 | app -> software rename landed; dedup + openMINDS crosswalk outstanding |
+| **software / method** | 2 | dedup + crosswalk after the app rename; filter is algorithm+parameters |
 | **misc singletons** | 4 | four unrelated classes, each its own small call |
 | **demo / mock** | 2 | test fixtures; decide whether they ship in the set |
 
 - **acquisition epoch**: `acquisition_epoch`, `epochfiles_ingested`, `epochid`
 - **daq ingestion**: `daqmetadatareader`, `daqmetadatareader_epochdata_ingested`, `daqreader`, `daqreader_epochdata_ingested`, `daqreader_image_epochdata_ingested`, `daqsystem`, `dataseries_channel_map`
-- **sync**: `syncgraph`, `syncrule`, `syncrule_mapping`
-- **file navigation**: `directory`, `filenavigator`, `filter`
 - **openMINDS**: `openminds_import`
-- **software**: `app`
+- **software / method**: `app`, `filter`
 - **misc singletons**: `binaryseries_parameters`, `control_designation`, `interaction_purpose`, `projectvar`
 - **demo / mock**: `demo_ndi`, `demo_ndi_mock`
 
@@ -53,6 +49,9 @@ migrator work before the target closes is rework.
 | **stimulus** | 1 | timed_sequence data_type + timed_sequence_manipulation leaf | `V_eta_stimulus_model_plan.md` |
 | **ensemble** | 1 | group subject + epoch-scoped member_of edges + rebuildable cache | `V_eta_ensemble_plan.md` |
 | **image / ngrid** | 1 | ngrid phases into sampled_body; image is a standalone data_type | `V_eta_image_model_plan.md` |
+| **sync configuration** | 2 | runtime config (ndi_<x>_class + parameters), not archival | `V_eta_infra_family_decisions.md` |
+| **sync mapping** | 1 | folds into relative_reference -- it IS an epoch-to-epoch time relation | `V_eta_infra_family_decisions.md` |
+| **file navigation** | 2 | runtime, machine-specific paths; not archival | `V_eta_infra_family_decisions.md` |
 
 ## v1 source side (from the coverage ledger)
 

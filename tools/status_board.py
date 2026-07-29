@@ -72,21 +72,32 @@ FAMILIES = [
      None,
      "do the ingested-cache classes persist, fold, or become opaque_body"),
 
-    ("sync", ["syncgraph", "syncrule", "syncrule_mapping"],
-     None,
-     "is the sync graph V_eta data or NDI runtime state"),
+    # The templates split this: syncgraph/syncrule are a MATLAB class name plus
+    # parameters (runtime configuration), while syncrule_mapping carries the
+    # COMPUTED epoch-to-epoch clock relationship -- real data, and the shape the
+    # time model already covers.
+    ("sync configuration", ["syncgraph", "syncrule"],
+     "V_eta_infra_family_decisions.md",
+     "runtime config (ndi_<x>_class + parameters), not archival"),
 
-    ("file navigation", ["filenavigator", "directory", "filter"],
-     None,
-     "do path/navigation classes belong in an archival schema at all"),
+    ("sync mapping", ["syncrule_mapping"],
+     "V_eta_infra_family_decisions.md",
+     "folds into relative_reference -- it IS an epoch-to-epoch time relation"),
+
+    # `filter` was grouped here by a guess at its name. It is data/filter.json --
+    # label/type/algorithm/parameters, a signal-processing description -- and
+    # belongs with software/method, not with file paths.
+    ("file navigation", ["filenavigator", "directory"],
+     "V_eta_infra_family_decisions.md",
+     "runtime, machine-specific paths; not archival"),
 
     ("openMINDS", ["openminds_import"],
      None,
      "import provenance vs crosswalk; entangled with the openminds_* sources"),
 
-    ("software", ["app"],
+    ("software / method", ["app", "filter"],
      None,
-     "app -> software rename landed; dedup + openMINDS crosswalk outstanding"),
+     "dedup + crosswalk after the app rename; filter is algorithm+parameters"),
 
     ("misc singletons", [
         "binaryseries_parameters", "control_designation", "interaction_purpose",
