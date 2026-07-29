@@ -835,9 +835,11 @@
       "carried": [
         "subject"
       ],
-      "second_pass": [],
-      "how": "imaged-region tag -> a term_observation about the imaged subject (variable 'imaged region') + anchor",
-      "target_flags": ""
+      "second_pass": [
+        "ontology_image"
+      ],
+      "how": "VINTAGE-AWARE. NDI redefined ontologyImage upstream, so two shapes are both did_v1. Vintage A (legacy: ontology_name + ontology_region, depends_on element_id) MIGRATES here -> term_observation ('imaged region') + anchor. Vintage B (current NDI production: ontology_nodes = a comma-joined CURIE list, depends_on ontologyTableRow_id, ngrid superclass) is DEFERRED to the NDI second pass and PASSES THROUGH UNCHANGED -- a table row is not a subject, so the subject is reachable only via the migrated-id graph",
+      "target_flags": "guarded: errors (quarantines) on the V_delta `region` shape or any unknown shape rather than emitting a husk; the old `region` read matched NEITHER vintage (it is V_delta migrator output) and silently emitted an empty observation about nobody; vintage B passthrough requires the ontology_image tombstone to declare ngrid + ontology_nodes"
     },
     {
       "v1_class": "ontologyLabel",

@@ -1455,10 +1455,11 @@
         {
             "class_name": "ontology_image",
             "tier": "stable",
-            "class_version": "1.0.0",
+            "class_version": "2.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                "base"
+                "base",
+                "ngrid"
             ],
             "path": "schemas/V_eta/stable/ontology_image.json",
             "disposition": "retire",

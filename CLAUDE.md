@@ -81,11 +81,17 @@ lives in these files — read them instead of re-deriving from memory:
   invention), its payload is a **two-plane** `[T×X×Y×2]` volume (STA + p-value), `element_id` IS
   populated so no NDI pass is needed for subject attribution, `ngrid` has a **second consumer**
   (`ontologyImage`) so retiring it is gated on both, `ngrid.coordinates` carries real data and is
-  being **deleted** by the migrator, and **`ontology_image.region` is a wrong-assumed-shape bug**
-  (real field = `ontology_nodes`, a comma-joined multi-CURIE string) that silently emits an empty
-  term — same class as `distance_metadata`, same cause (unit fixture built to the wrong shape).
+  being **deleted** by the migrator. **`ontology_image` (F5) is FIXED**: NDI *redefined*
+  `ontologyImage`, so TWO vintages are both did_v1 — A (legacy `ontology_name`+`ontology_region`,
+  dep `element_id`) and B (current NDI `ontology_nodes` = comma-joined multi-CURIE, dep
+  `ontologyTableRow_id`, `ngrid` superclass). The old `region` read matched NEITHER (it is the
+  V_DELTA migrator's OUTPUT, and `migrators_j` runs INSTEAD of the V_delta migrator on a
+  universalRenames-only body), so every doc became a silent husk. Now: A migrates, B PASSES
+  THROUGH for the NDI second pass (a table row is not a subject), and anything else ERRORS.
+  Also surfaced a systemic gap: `mustBeNonEmpty` on `depends_on` is declared everywhere and
+  **enforced nowhere** (`validate/references.m` skips empty edges) — sibling to #32.
   Evidence came from `VH-Lab/NDIcalc-vis-matlab` (added to scope; the clone is EPHEMERAL — re-add
-  to re-check).
+  to re-check). **PROCESS: every remaining item in that doc is DECIDED BEFORE ANY BUILD.**
 - **`schemas/V_eta_final_class_set.md`** — the authoritative persist set (7
   categories). REGENERATE with `python3 tools/regen_final_class_set.py` (reads the
   built `V_eta/index.json` disposition markers) after every `build_v_eta.py`; never

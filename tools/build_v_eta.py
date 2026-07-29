@@ -1313,6 +1313,53 @@ _dimg["document_class"]["superclasses"] = [
 _dimg["document_class"]["class_version"] = "2.0.0"
 write("stable", "daqreader_image_epochdata_ingested", _dimg)
 
+# ---- ontology_image: make the SOURCE TOMBSTONE hold real v1 documents ----
+# NDI redefined `ontologyImage` upstream, so two incompatible vintages are both
+# "did_v1":
+#   A (legacy, DID-schema V_alpha/V_beta ancestry): {ontology_name, ontology_region},
+#     depends_on element_id, file ontology_image_file, superclasses [base].
+#   B (current NDI production, ndi_common/database_documents/data/ontologyImage.json
+#     + +ndi/+setup/+NDIMaker/imageDocMaker): {ontologyNodes} -- a COMMA-JOINED list
+#     of one or more CURIEs (the template's singular `ontologyNode` is stale; the
+#     writer and its own lookup query both use the plural) -- depends_on
+#     ontologyTableRow_id, file ontologyImage.ngrid, superclasses [base, ngrid].
+# The class carried neither: it declared `region`, which is the V_DELTA MIGRATOR'S
+# OUTPUT (composed from vintage A's two chars), not a v1 field at all.
+# migrators_j.ontology_image MIGRATES vintage A (element_id gives it a subject) and
+# DEFERS vintage B to the NDI second pass -- vintage B's only edge is
+# ontologyTableRow_id, and a table row is not a subject, so the subject is reachable
+# only through the migrated-id graph. A deferred document is passed through
+# UNCHANGED, so this tombstone must declare vintage B faithfully or the passthrough
+# would quarantine on the undeclared `ngrid` block. `ngrid` returns as a superclass
+# for that reason -- it is also why retiring `ngrid` is gated on BOTH its consumers
+# (hartley_calc and ontologyImage). See V_eta_ngrid_family_findings.md.
+_oimg = load(os.path.join(VETA, "stable", "ontology_image.json"))
+_oimg["document_class"]["superclasses"] = [
+    {"class_name": "base"}, {"class_name": "ngrid"}]
+_oimg["document_class"]["class_version"] = "2.0.0"
+_oimg["depends_on"] = [
+    dep("element_id", "subject",
+        "Vintage A only: the element/subject this image depicts. Absent on current"
+        " NDI production documents.", non_empty=False),
+    dep("ontology_table_row_id", "ontology_table_row",
+        "Vintage B only: the metadata table row giving this image its data context."
+        " NOT a subject -- resolving the subject through it is the NDI second pass's"
+        " job, which is why vintage B is deferred rather than migrated here.",
+        non_empty=False),
+]
+_oimg["fields"] = [
+    field("ontology_nodes", "char",
+          "Vintage B (current NDI production): one or more ontology CURIEs for what"
+          " the image depicts, comma-joined and sorted, each normalised through"
+          " ndi.ontology.lookup. The v1 template's singular `ontologyNode` is stale;"
+          " the writer and its own lookup query both use the plural."),
+    field("ontology_name", "char",
+          "Vintage A (legacy): the CURIE of the depicted region."),
+    field("ontology_region", "char",
+          "Vintage A (legacy): the human-readable label of the depicted region."),
+]
+write("stable", "ontology_image", _oimg)
+
 
 # ---------- 11. storage_mode + data_body (sampled_/opaque_) ----------
 

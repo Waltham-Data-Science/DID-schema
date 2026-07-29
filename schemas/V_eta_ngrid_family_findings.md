@@ -99,37 +99,88 @@ writer, so it is empty in every real document despite the template default `"Tim
 **Retiring `ngrid` is therefore gated on folding both**, not on the RF family alone. This is
 the coupling that made `ngrid` look like a one-class item when it is not.
 
-## F5 — `ontology_image.region` is a wrong-assumed-shape bug (same class as `distance_metadata`)
+## F5 — `ontology_image` had TWO v1 vintages and the migrator matched NEITHER — **FIXED**
 
-`+migrators_j/ontology_image.m` reads `preBody.ontology_image.region`. That field **does not
-exist in any real v1 document.**
+### The two vintages
 
-Evidence chain:
+NDI **redefined** `ontologyImage` upstream, so two incompatible shapes are both "did_v1":
 
-- The v1 NDI template declares `ontologyImage: { ontologyNode: "" }` (singular).
-- The actual writer sets `struct('ontologyNodes', ontologyNodes)` (**plural**), and the class's
-  own lookup query is `ndi.query('ontologyImage.ontologyNodes', 'exact_string', …)`. So the
-  **template is stale and `ontologyNodes` is authoritative** — NDI disagrees with itself here.
-- `ontologyNodes` is **a comma-joined, sorted string of one *or more* CURIEs**, each normalised
-  through `ndi.ontology.lookup` (`imageDocMaker.m:80-85`).
-- `universalRenames` snake-cases block and field names, so a real migrated body presents
-  `ontology_image.ontology_nodes` — never `region`.
-- `region` is a **DID-side invention**: it exists only in `V_eta/stable/ontology_image.json`.
-  The migrator was written against our schema instead of the real v1 document.
+| | **A — legacy** (DID-schema `V_alpha`/`V_beta` ancestry) | **B — current NDI production** |
+|---|---|---|
+| fields | `ontology_name`, `ontology_region` | `ontologyNode` (template) / `ontologyNodes` (writer) |
+| depends_on | `element_id` | `ontologyTableRow_id` |
+| file | `ontology_image_file` | `ontologyImage.ngrid` |
+| superclasses | `base` | `base, ngrid` |
 
-**Effect:** every `ontologyImage` document migrates to a `term_observation` whose region term
-is **empty**, silently — the code falls back to a blank term rather than quarantining, which is
-why the corpus gate is green. The `.ngrid` block and the image file are not carried either, so
-the picture is dropped as well.
+For vintage B the **template is stale and the plural is authoritative**: the writer sets
+`struct('ontologyNodes', …)` and the class's own lookup is
+`ndi.query('ontologyImage.ontologyNodes', 'exact_string', …)`. The value is a **comma-joined,
+sorted string of one _or more_ CURIEs**, each normalised through `ndi.ontology.lookup`
+(`imageDocMaker.m:80-85`).
 
-**Why it survived:** `testMigratorsJ.m:1658` builds the fixture as
-`v1.ontology_image = struct('region', struct('node', …, 'name', …))` — a shape no real document
-has. Identical failure mode to `distance_metadata`, minus the quarantine that made that one
-visible.
+### The bug
 
-**Not yet confirmed against a real corpus document.** The reasoning is from writer + template +
-rename rules; a corpus spot-check would settle it, and the plural/multi-term shape means the
-fix is not a one-word rename (see below).
+`+migrators_j/ontology_image.m` read `preBody.ontology_image.region`. `region` is **not a v1
+field at all** — it is the *output* of the V_delta migrator
+(`+did2/+convert/+migrators/ontology_image.m`), which composes it from vintage A's two chars.
+But `v1_to_v2.m` routes a class to `migrators_j` **instead of** the V_delta migrator (the
+`splitPackage` branch), so a J migrator receives a body that has been through
+`universalRenames` **only**. The read therefore matched neither vintage — only the unit fixture,
+which had been built to the V_delta output shape (`testMigratorsJ.m:1658`).
+
+**Effect — a silent husk.** Every `ontologyImage` document became a `term_observation` with an
+empty term and (vintage B) an empty `subject_id`, plus the raster and the provenance edge
+dropped. Neither gate could see it:
+
+- `isEmptyValue` (`cache.m:947`) calls a struct empty only if it has **no fieldnames**, so
+  `{node:'',name:''}` satisfies `mustBeNonEmpty: true`.
+- `depends_on` non-emptiness is **never validated anywhere**; `+did2/+validate/references.m`
+  explicitly **skips empty edges**. So `subject_statement.subject_id`, declared
+  `mustBeNonEmpty: true`, is unenforced.
+
+Same failure mode as `distance_metadata` — a migrator written against an assumed shape, with a
+fixture built to match the assumption — minus the quarantine that made that one visible.
+
+### The fix (built)
+
+**Vintage A → migrated here.** Everything needed is on the document: term from the two
+coordinated chars (the `ontology_label` idiom), subject from `element_id`. 1 → 2.
+
+**Vintage B → deferred to the NDI second pass, passed through UNCHANGED.** The terms are
+resolvable, but the **subject is not**: the only edge is `ontologyTableRow_id`, and a table row
+is not a subject (`subject_statement.subject_id` declares
+`must_refer_to_document_class: subject`). The subject is reachable only *through* the table row,
+which needs the migrated-id graph. Emitting an observation with an empty subject is precisely
+the husk this fix exists to stop, so we emit nothing and leave the document intact — the same
+strategy `stimulus_presentation` uses.
+
+**The guard.** Any block matching neither vintage **errors**, so it quarantines visibly instead
+of migrating to a husk. A body presenting `region` is rejected **by name**, since that shape can
+only come from V_delta output or from a fixture built against our own schema.
+
+**Schema consequence.** A passthrough must validate, so the `ontology_image` tombstone now
+declares vintage B faithfully — `ngrid` back as a superclass, `ontology_nodes`,
+`ontology_table_row_id` — alongside vintage A's two chars. This is a second reason retiring
+`ngrid` is gated on both consumers (F4).
+
+**Still deferred with vintage B:** the raster (the `ngrid` block + `.ngrid` file) and the
+`ontologyTableRow_id` provenance edge. Under R6 the natural target is an `image_observation`
+beside the term observations — that belongs to the `ngrid` work.
+
+**Not confirmed against a real corpus document.** The reasoning is from writer + template +
+rename rules + routing. The guard is what will settle it: if any corpus holds a
+neither-vintage document, the next run will quarantine it loudly instead of hiding it.
+
+### Not affected
+
+`ontology_label` reads `ontology_node` (its idiom 2), which **matches** the real
+`ontologyLabel: {ontologyNode: ""}` template. It is correct as written.
+
+### Left open — a systemic gap
+
+`mustBeNonEmpty` on `depends_on` is declared across the schema and **enforced nowhere**. This
+migrator is one instance; others could be hiding the same way. Sibling to task #32 (binding
+declared but not validated).
 
 ## F6 — Two of the RF document's blocks duplicate data that lives elsewhere
 
@@ -144,14 +195,17 @@ either needs the migrated-id graph, i.e. an NDI second pass.
 
 ---
 
-## Open — to be designed with the team, in this order
+## Open — DECIDE FIRST, THEN BUILD
 
-1. **`ontology_image.region` fix.** Not a rename: the real field is `ontology_nodes`, a
-   comma-joined string of possibly several CURIEs, against a migrator that emits one term.
-   Multi-term handling, the stale singular template, and the wrong unit fixture all have to be
-   settled together.
+> Standing process rule: every item below is **decided with the team before any code is
+> written**. F5 was built because it was explicitly authorised; nothing else here is.
+
+1. ~~**`ontology_image` fix.**~~ ✅ **DONE** — see F5.
 2. **`ngrid`.** Gated on both consumers (F4). The live question is `coordinates` (F3) — where
    per-axis coordinates live in V_eta, given `sampled_body.axes[]` currently has `regularity`
-   and `spacing` but **no explicit coordinate array**.
+   and `spacing` but **no explicit coordinate array**. Note vintage B's raster (`ngrid` block +
+   `.ngrid` file) is now parked on the passthrough and needs a home here too.
 3. **The RF fold itself** (group F), now known to be a single-document job (F1) whose value is
    a two-plane volume (F2) with two duplicated input blocks (F6).
+4. **The unenforced-dependency gap** (F5, "Left open"): `mustBeNonEmpty` on `depends_on` is
+   declared everywhere and validated nowhere. Scope unknown — this migrator is one instance.

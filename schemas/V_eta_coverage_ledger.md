@@ -54,7 +54,7 @@
 | `neuron_extracellular` | `subject` + `directed_relation` + `score_observation` + `session_relative_reference` · on `subject` | retire | ndi |
 | `ngrid` | — | in_progress | ndi |
 | `oneepoch` | — | test/demo fixture (non-production) | ndi |
-| `ontologyImage` | `term_observation` + `session_relative_reference` · on `subject` | retire | ndi |
+| `ontologyImage` | `term_observation` + `session_relative_reference` + `ontology_image`* · on `subject` | retire | ndi |
 | `ontologyLabel` | `term_observation` + `session_relative_reference` · on `subject` | retire | ndi |
 | `ontologyTableRow` | `term_assertion` + `date_assertion` + `term_observation` + `mass_observation` + `length_observation` + `frequency_observation` + `acceleration_observation` + `velocity_observation` + `duration_observation` + `volume_observation` + `temperature_observation` + `pressure_observation` + `voltage_observation` + `current_observation` + `concentration_observation` + `count_observation` + `score_observation` + `intensity_observation` + `subject` + `session_bounded_reference` + `directed_relation` + `session_relative_reference` · on `subject` | retire | ndi |
 | `openminds` | `openminds` | retire | ndi |

@@ -1,10 +1,13 @@
 {
     "document_class": {
         "class_name": "ontology_image",
-        "class_version": "1.0.0",
+        "class_version": "2.0.0",
         "superclasses": [
             {
                 "class_name": "base"
+            },
+            {
+                "class_name": "ngrid"
             }
         ],
         "maturity_level": "stable"
@@ -13,8 +16,14 @@
         {
             "name": "element_id",
             "mustBeNonEmpty": false,
-            "documentation": "The document ID of the element this ontology image is associated with.",
+            "documentation": "Vintage A only: the element/subject this image depicts. Absent on current NDI production documents.",
             "must_refer_to_document_class": "subject"
+        },
+        {
+            "name": "ontology_table_row_id",
+            "mustBeNonEmpty": false,
+            "documentation": "Vintage B only: the metadata table row giving this image its data context. NOT a subject -- resolving the subject through it is the NDI second pass's job, which is why vintage B is deferred rather than migrated here.",
+            "must_refer_to_document_class": "ontology_table_row"
         }
     ],
     "file": [
@@ -25,45 +34,43 @@
     ],
     "fields": [
         {
-            "name": "region",
-            "type": "ontology_term",
-            "blank_value": null,
-            "default_value": null,
-            "mustBeNonEmpty": true,
+            "name": "ontology_nodes",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
             "mustBeScalar": true,
             "mustNotHaveNaN": false,
             "queryable": true,
             "ontology": null,
-            "documentation": "The brain region or structure this image depicts, as an ontology term (e.g., 'allen_ccf_v3:12345').",
-            "constraints": {},
-            "fields": [
-                {
-                    "name": "node",
-                    "type": "char",
-                    "blank_value": "",
-                    "default_value": "",
-                    "mustBeNonEmpty": false,
-                    "mustBeScalar": true,
-                    "mustNotHaveNaN": false,
-                    "queryable": true,
-                    "ontology": null,
-                    "documentation": "The CURIE (prefix resolved via CURIE_lookups_meta.json).",
-                    "constraints": {}
-                },
-                {
-                    "name": "name",
-                    "type": "char",
-                    "blank_value": "",
-                    "default_value": "",
-                    "mustBeNonEmpty": false,
-                    "mustBeScalar": true,
-                    "mustNotHaveNaN": false,
-                    "queryable": true,
-                    "ontology": null,
-                    "documentation": "The human-readable label.",
-                    "constraints": {}
-                }
-            ]
+            "documentation": "Vintage B (current NDI production): one or more ontology CURIEs for what the image depicts, comma-joined and sorted, each normalised through ndi.ontology.lookup. The v1 template's singular `ontologyNode` is stale; the writer and its own lookup query both use the plural.",
+            "constraints": {}
+        },
+        {
+            "name": "ontology_name",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Vintage A (legacy): the CURIE of the depicted region.",
+            "constraints": {}
+        },
+        {
+            "name": "ontology_region",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Vintage A (legacy): the human-readable label of the depicted region.",
+            "constraints": {}
         }
     ]
 }
