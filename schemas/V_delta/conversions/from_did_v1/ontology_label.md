@@ -5,13 +5,24 @@
 - **V_delta `class_name`:** `ontology_label`
 - **V_delta tier:** `stable`
 - **V_delta schema path:** `schemas/V_delta/stable/ontology_label.json`
-- **did_v1 source:** legacy NDI/DID `ontologyLabel` document type
-  (`_classname: "ontologyLabel"` — camelCase). Schema-shape ancestor in
-  this repository is `schemas/V_alpha/ontologyLabel.json`;
-  `schemas/V_beta/ontology_label.json` is the same shape after the
-  V_alpha → V_beta snake-case housekeeping
-  (`ontologyLabel` → `ontology_label`).
-- **Status:** `drafted`
+- **did_v1 source:** `VH-Lab/NDI-matlab` —
+  `src/ndi/ndi_common/database_documents/data/ontologyLabel.json`, whose block is
+  `{ ontologyNode: "" }` with a `document_id` dependency.
+- **Status:** `CORRECTED — the three-field idiom below is WRONG, see the warning`
+
+
+> ⚠️ **PROVENANCE CORRECTED (see `V_eta_ground_truth_plan.md`).** This document
+> previously cited `schemas/V_alpha/ontologyLabel.json` as its did_v1 "schema-shape
+> ancestor". **`V_alpha` is a DID-side snapshot, not evidence of what NDI ships.**
+> The authoritative did_v1 source is the NDI template below, and where a template
+> and its WRITER disagree the writer wins — the data follows the writer.
+
+> **THE THREE-FIELD IDIOM IN THIS DOCUMENT IS FALSE.** `ontology_name`,
+> `label_id` and `label` **have never existed** on `ontologyLabel`. NDI created
+> the class on 2025-08-01 and every version has been `{ ontologyNode: "" }`.
+> `+migrators_j/ontology_label.m` happens to work anyway, because it prefers the
+> real node-only idiom — its three-field branch is dead code, not a live bug.
+> NDI's `ndi.compat.fieldAliases` carried the same false rows and is now fixed.
 
 ## Summary
 
