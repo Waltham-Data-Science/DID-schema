@@ -287,12 +287,28 @@ the 4 UNVERIFIED coverage rows — no V_eta home, no migrator — so those docum
 
 ## Forks opened by the evidence pass
 
-**A. Is `relative_to` required?** 127,719 live anchors have no referent edge at all.
- - **A1** optional; absent means *the session named by `base.session_id`*. Zero migration risk,
-   but the referent is then implicit for the overwhelming majority of references — the exact
-   "structure is conventional, not declared" smell T14 exists to kill.
- - **A2** required; migrators resolve the session document id. Honest, and needs the second pass;
-   the session edge has already been tried once and reverted for orphans.
+**A. Is `relative_to` required?** — **DECIDED: REQUIRED.**
+
+127,719 live anchors have no referent edge at all. The team's call is that a reference must name
+what it is measured against; an implicit referent is the "structure is conventional, not declared"
+smell T14 exists to kill.
+
+**Deciding this exposed a real hole, and it is bigger than an edge.** Chasing what a required
+`relative_to` would point AT:
+
+- **NDI never writes a `session` document.** `session.json` is a template, but the only thing any
+  writer emits is `session_in_a_dataset` (`ndi.dataset.m`), and only when a session is added to a
+  dataset. A plain `ndi.session` has no document representing itself.
+- **No migrator emits one either** — nothing in `+did2/+convert/` mints a `session` document.
+
+So `base.session_id`, a **required** field on **every** document in the corpus, holds an id for
+which no document exists. The "discovery-mode orphans" that caused the session edge to be reverted
+were therefore **not a validation-mode artifact** — the referent genuinely is not there.
+
+Consequence: required `relative_to` cannot be built as-is. It forces a prerequisite — **mint the
+session document** — which is defensible on its own terms (every document claims membership in a
+session and nothing describes that session) but is separate, scoped work with its own gate. Recorded
+as its own item rather than smuggled into this build.
 
 **B. Where does the curator's origin live?**
  - **B1** chain — the origin is its own `relative_reference`, and the interval is `relative_to`
