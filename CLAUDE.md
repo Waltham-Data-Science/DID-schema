@@ -1,5 +1,38 @@
 # DID-schema — working context for Claude
 
+## START HERE — the generated state artifacts (read these FIRST, before any prose)
+
+Everything below this section is PROSE, and prose in this project has been wrong
+often enough to be dangerous: "no session document exists anywhere", "all 0-usage,
+safe to delete" (3 of 4 wrong), "dissolved (rename/decompose)" (32 rows asserted,
+never verified), "the epoch link is the epochid dep" (no such dep). Each was
+written down confidently and cost real time. **When prose and a generated artifact
+disagree, the artifact wins. When prose makes a claim about NDI or a migrator, do
+not repeat it — re-derive it with the tool.**
+
+| artifact | what it answers | regenerate |
+|---|---|---|
+| **`schemas/V_eta_STATUS.md`** | **how much of V_eta is left, and exactly what** | `python3 tools/status_board.py` |
+| `schemas/V_eta_coverage_ledger.md` / `.json` | every v1 source class → its V_eta target | `python3 tools/coverage.py` |
+| `schemas/V_eta_final_class_set.md` | the authoritative persist set | `python3 tools/regen_final_class_set.py` |
+| `schemas/V_eta_ndi_ground_truth.json` | what NDI templates + writers actually declare | `python3 tools/ndi_ground_truth.py` |
+
+All four are CHECKED IN CI and fail when stale, so they cannot drift while
+unattended. `tools/status_board.py --check` additionally fails when an
+`in_progress` class belongs to no decision family (an open question nobody is
+tracking), when two families claim one class, or when a family cites a decision
+document that does not exist.
+
+**The status board is the answer to "where are we".** Do not reconstruct that from
+the task list or from the plan documents — they disagree with each other. The plan
+documents are RATIONALE (why a model was chosen); the board is STATE.
+
+The DID-matlab side has the same rule: `tools/census_digest.py` renders the corpus
+census and `tools/test_census_digest.py` tests it in ~5 ms on the fast gate. The
+census itself (`did2.validate.silentLoss`) is the instrument that finds hollow
+documents; it reported zeros for two days because it was reading nothing, so
+**always check `total_docs` is non-zero before believing any census number.**
+
 ## READ THESE BEFORE answering about V_eta class structure or the migration walkthrough
 The conversation gets compacted and loses fine-grained state. The durable record
 lives in these files — read them instead of re-deriving from memory:
