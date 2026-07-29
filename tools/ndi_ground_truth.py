@@ -205,16 +205,25 @@ def migrator_reads(truth, did_path):
         if not key:
             continue
         src = open(os.path.join(mdir, n), errors="replace").read()
+        # Strip MATLAB comments and superclass/mixin cell literals before matching.
+        # Both produced false positives on the first pass: `image_stack` was flagged
+        # for `image_format` occurring only in a comment, and `treatment_drug` for
+        # `{'dose'}` -- which is a V_eta data_type mixin passed to jStartInteraction,
+        # not a did_v1 field read at all.
+        src = "\n".join(re.sub(r"(?<!\.)%.*$", "", ln) for ln in src.splitlines())
+        src = re.sub(r"\{\s*'[a-z0-9_']*(?:'\s*,\s*'[a-z0-9_]*)*'\s*\}", " ", src)
         theirs = set(truth[key]["fields"])
         alpha_only = _alpha_names(key) - theirs
 
-        # TIER 1 (confident): the name appears in an explicit read idiom AND is a
-        # field our V_alpha snapshot claims but no NDI template has -- i.e. the
-        # migrator provably picked its vocabulary up from the snapshot.
-        read = set(re.findall(r"(?:isfield\(\s*\w+\s*,\s*'([a-z0-9_]+)'"
-                              r"|jGetChar\(\s*\w+\s*,\s*'([a-z0-9_]+)'"
-                              r"|\.([a-z][a-z0-9_]{2,}))", src))
-        read = {a or b or c for a, b, c in read}
+        # TIER 1 (confident): the name appears in an idiom that can only be a READ
+        # OF THE SOURCE BLOCK, and is a field our V_alpha snapshot claims but no NDI
+        # template has -- i.e. the migrator provably took its vocabulary from the
+        # snapshot. Deliberately NOT matching bare `x.field`: that cannot distinguish
+        # reading the source from WRITING the emitted body, and it produced a false
+        # positive on treatment_drug (`dose` is the V_eta output mixin, not a v1
+        # field). Precision matters more than recall here -- tier 2 is the safety net.
+        read = set(re.findall(r"(?:isfield|isstruct)\(\s*\w+\s*,\s*'([a-z0-9_]+)'", src))
+        read |= set(re.findall(r"jGet\w*\(\s*\w+\s*,\s*'([a-z0-9_]+)'", src))
         tier1 = sorted(r for r in read if r in alpha_only)
 
         # TIER 2 (possible): the name occurs anywhere in the source. Catches reads

@@ -34,9 +34,38 @@ GT = os.path.join(REPO, "schemas", "V_eta_ndi_ground_truth.json")
 # known-broken versus newly appeared: a name showing up outside this set is a
 # REGRESSION, and that is what --enforce should eventually catch first.
 KNOWN_BROKEN = {
-    "probe_geometry.m",       # none of channel_positions/position_units/probe_type exists
-    "ontology_image.m",       # legacy path is dead code (Phase 0: DID-INVENTED)
-    "ontology_label.m",       # ontologyLabel has only ever been {ontologyNode}
+    # Each verdict below was reached by reading the NDI template AND the writer,
+    # not by trusting this tool. Two distinct failure modes turned up:
+    #
+    #   HOLLOW    -- the migrator emits a document with blank content
+    #                (did2.validate.silentLoss counts these)
+    #   PASSTHROUGH -- the read finds nothing, so the migrator falls to its
+    #                "carry unchanged" branch and the document is NEVER MIGRATED.
+    #                silentLoss CANNOT see this one: the carried document is a
+    #                perfectly valid v1-class document. It is camouflaged because
+    #                the codebase has *intentional* passthroughs too, so an
+    #                accidental one looks exactly like a deliberate deferral.
+    "probe_geometry.m",
+    #   PASSTHROUGH. Reads channel_positions/position_units/probe_type; the real
+    #   template has site_locations_{leftright,frontback,depth}, unit, probe_model,
+    #   manufacturer, contact_shape*, contour_*. Not one name overlaps.
+    "electrode_offset_voltage.m",
+    #   PASSTHROUGH. Reads offset_voltages; the real field is `offset`. Also reads
+    #   voltage_units, which does not exist (template has offset, temperature), so
+    #   units are lost even once the value is found.
+    "site2channelmap.m",
+    #   PASSTHROUGH. Reads num_sites; the real template has only `map`.
+    "spike_interface_sorting_outputs.m",
+    #   PASSTHROUGH. Reads num_units; the real template has sample_rate,
+    #   sorter_name, unit -- the count presumably comes from numel(unit).
+    "ontology_image.m",
+    #   HOLLOW (fixed) -- legacy path is dead code, Phase 0 says DID-INVENTED.
+    "ontology_label.m",
+    #   ontologyLabel has only ever been {ontologyNode}. The migrator prefers the
+    #   real ontology_node idiom, so it WORKS; the invented branch is dead code.
+    "daqreader_ndr.m",
+    #   BENIGN. Reads the real ndr_reader_string correctly; the file_extension
+    #   branch is guarded by isfield and simply never fires. Dead, not lossy.
 }
 
 

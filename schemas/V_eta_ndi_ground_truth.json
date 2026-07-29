@@ -5,8 +5,8 @@
     "ndi_classes": 91,
     "v_alpha_classes_compared": 80,
     "v_alpha_divergences": 67,
-    "migrator_suspects": 22,
-    "migrator_suspects_confirmed_vocabulary": 9,
+    "migrator_suspects": 18,
+    "migrator_suspects_confirmed_vocabulary": 7,
     "writer_divergences": 3,
     "provenance": {
       "DID-INVENTED": 36,
@@ -1459,26 +1459,6 @@
       ]
     },
     {
-      "migrator": "distance_metadata.m",
-      "ndi_class": "distance_metadata",
-      "confidence": "possible",
-      "reads_names_absent_from_template": [],
-      "mentions_names_absent_from_template": [
-        "distance"
-      ],
-      "template_fields": [
-        "integer_i_ds_a",
-        "integer_i_ds_b",
-        "ontology_node_a",
-        "ontology_node_b",
-        "ontology_numeric_values_a",
-        "ontology_numeric_values_b",
-        "ontology_string_values_a",
-        "ontology_string_values_b",
-        "units"
-      ]
-    },
-    {
       "migrator": "electrode_offset_voltage.m",
       "ndi_class": "electrode_offset_voltage",
       "confidence": "confirmed-vocabulary",
@@ -1511,31 +1491,6 @@
         "fit_parameter_names",
         "fit_parameters",
         "fit_sse"
-      ]
-    },
-    {
-      "migrator": "image_stack.m",
-      "ndi_class": "imageStack",
-      "confidence": "confirmed-vocabulary",
-      "reads_names_absent_from_template": [
-        "image_format"
-      ],
-      "mentions_names_absent_from_template": [],
-      "template_fields": [
-        "format_ontology",
-        "label"
-      ]
-    },
-    {
-      "migrator": "jrclust_clusters.m",
-      "ndi_class": "jrclust_clusters",
-      "confidence": "possible",
-      "reads_names_absent_from_template": [],
-      "mentions_names_absent_from_template": [
-        "num_clusters"
-      ],
-      "template_fields": [
-        "res_mat_m_d5_checksum"
       ]
     },
     {
@@ -1592,9 +1547,7 @@
         "position_units",
         "probe_type"
       ],
-      "mentions_names_absent_from_template": [
-        "num_channels"
-      ],
+      "mentions_names_absent_from_template": [],
       "template_fields": [
         "contact_shape",
         "contact_shape_height",
@@ -1634,9 +1587,7 @@
       "reads_names_absent_from_template": [
         "num_sites"
       ],
-      "mentions_names_absent_from_template": [
-        "site_to_channel"
-      ],
+      "mentions_names_absent_from_template": [],
       "template_fields": [
         "map"
       ]
@@ -1662,9 +1613,7 @@
       "reads_names_absent_from_template": [
         "num_units"
       ],
-      "mentions_names_absent_from_template": [
-        "sorter_parameters"
-      ],
+      "mentions_names_absent_from_template": [],
       "template_fields": [
         "sample_rate",
         "sorter_name",
@@ -1698,12 +1647,10 @@
     {
       "migrator": "treatment_drug.m",
       "ndi_class": "treatment_drug",
-      "confidence": "confirmed-vocabulary",
-      "reads_names_absent_from_template": [
-        "dose"
-      ],
+      "confidence": "possible",
+      "reads_names_absent_from_template": [],
       "mentions_names_absent_from_template": [
-        "route"
+        "dose"
       ],
       "template_fields": [
         "administration_duration",
@@ -1712,27 +1659,6 @@
         "location_name",
         "location_ontology_node",
         "mixture_table"
-      ]
-    },
-    {
-      "migrator": "virus_injection.m",
-      "ndi_class": "virus_injection",
-      "confidence": "possible",
-      "reads_names_absent_from_template": [],
-      "mentions_names_absent_from_template": [
-        "serotype",
-        "titer"
-      ],
-      "template_fields": [
-        "diluent_name",
-        "diluent_ontology_name",
-        "dilution",
-        "virus_administration_date",
-        "virus_administration_p_n_d",
-        "virus_location_name",
-        "virus_location_ontology_name",
-        "virus_name",
-        "virus_ontology_name"
       ]
     },
     {
