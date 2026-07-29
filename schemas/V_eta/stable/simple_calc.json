@@ -1,54 +1,67 @@
 {
     "document_class": {
         "class_name": "simple_calc",
-        "class_version": "1.0.0",
+        "class_version": "2.0.0",
         "superclasses": [
             {
                 "class_name": "base"
             },
             {
-                "class_name": "calculator"
+                "class_name": "app"
             }
         ],
         "maturity_level": "stable"
     },
     "depends_on": [
         {
-            "name": "element_id",
-            "mustBeNonEmpty": true,
-            "documentation": "The document ID of the element this calculation is associated with.",
-            "must_refer_to_document_class": "subject"
+            "name": "document_id",
+            "mustBeNonEmpty": false,
+            "documentation": "The input document this calculation was run on. NOT a subject -- resolving the subject through it needs the migrated-id graph, which is why this class is deferred to the NDI second pass rather than migrated here.",
+            "must_refer_to_document_class": "base"
         }
     ],
     "file": [],
     "fields": [
         {
-            "name": "result_value",
+            "name": "answer",
             "type": "double",
             "blank_value": 0.0,
             "default_value": 0.0,
             "mustBeNonEmpty": false,
             "mustBeScalar": true,
             "mustNotHaveNaN": false,
-            "queryable": false,
+            "queryable": true,
             "ontology": null,
-            "documentation": "The scalar result value of the calculation.",
+            "documentation": "The calculation result. The v1 example calculator copies it straight from input_parameters.answer. Dimensionless -- the class carries no units field at all.",
             "constraints": {}
         },
         {
-            "name": "result_units",
-            "type": "char",
-            "blank_value": "",
-            "default_value": "",
+            "name": "input_parameters",
+            "type": "structure",
+            "blank_value": {},
+            "default_value": {},
             "mustBeNonEmpty": false,
             "mustBeScalar": true,
             "mustNotHaveNaN": false,
             "queryable": true,
             "ontology": null,
-            "documentation": "The units of the result value.",
-            "constraints": {
-                "maxLength": 64
-            }
+            "documentation": "The calculator's input configuration, as supplied by the v1 writer.",
+            "constraints": {},
+            "fields": [
+                {
+                    "name": "answer",
+                    "type": "double",
+                    "blank_value": 0.0,
+                    "default_value": 0.0,
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "The input value the example calculator echoes as its answer.",
+                    "constraints": {}
+                }
+            ]
         }
     ]
 }

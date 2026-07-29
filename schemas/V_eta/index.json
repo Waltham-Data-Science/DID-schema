@@ -1919,11 +1919,11 @@
         {
             "class_name": "simple_calc",
             "tier": "stable",
-            "class_version": "1.0.0",
+            "class_version": "2.0.0",
             "maturity_level": "stable",
             "superclasses": [
                 "base",
-                "calculator"
+                "app"
             ],
             "path": "schemas/V_eta/stable/simple_calc.json",
             "disposition": "retire",

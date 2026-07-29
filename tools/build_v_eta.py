@@ -1360,6 +1360,47 @@ _oimg["fields"] = [
 ]
 write("stable", "ontology_image", _oimg)
 
+# ---- simple_calc: make the SOURCE TOMBSTONE hold real v1 documents -------
+# Every part of this class was wrong. It declared `result_value` + `result_units`,
+# a REQUIRED `element_id` edge to a subject, and a `calculator` parent. The real
+# NDI template (ndi_common/database_documents/apps/calculations/simple_calc.json,
+# written by +ndi/+calc/+example/simple.m) is:
+#     simple_calc: { input_parameters: {answer: N}, answer: N }
+#     depends_on:  document_id      <- the INPUT DOCUMENT, not a subject
+#     superclasses: base, app       <- `calculator` is a V_delta invention
+# There are NO UNITS anywhere in the class, so the migrator's unit-dispatch
+# (Hz -> frequency, V -> voltage, ...) had nothing to dispatch on, and there is
+# no subject-bearing edge, so a single-document migrator cannot say who the
+# result is about. migrators_j.simple_calc therefore DEFERS to the NDI second
+# pass and passes the document through unchanged -- which means this tombstone
+# must declare the real shape or the passthrough would quarantine on the
+# undeclared `answer`/`input_parameters` fields and the undeclared `app` block.
+# See V_eta_ground_truth_plan.md.
+_scalc = load(os.path.join(VETA, "stable", "simple_calc.json"))
+_scalc["document_class"]["superclasses"] = [
+    {"class_name": "base"}, {"class_name": "app"}]
+_scalc["document_class"]["class_version"] = "2.0.0"
+_scalc["depends_on"] = [
+    dep("document_id", "base",
+        "The input document this calculation was run on. NOT a subject -- resolving"
+        " the subject through it needs the migrated-id graph, which is why this"
+        " class is deferred to the NDI second pass rather than migrated here.",
+        non_empty=False),
+]
+_scalc["fields"] = [
+    field("answer", "double",
+          "The calculation result. The v1 example calculator copies it straight"
+          " from input_parameters.answer. Dimensionless -- the class carries no"
+          " units field at all."),
+    field("input_parameters", "structure",
+          "The calculator's input configuration, as supplied by the v1 writer.",
+          sub_fields=[
+              field("answer", "double",
+                    "The input value the example calculator echoes as its answer."),
+          ]),
+]
+write("stable", "simple_calc", _scalc)
+
 
 # ---------- 11. storage_mode + data_body (sampled_/opaque_) ----------
 

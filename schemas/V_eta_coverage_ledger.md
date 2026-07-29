@@ -70,7 +70,7 @@
 | `pyraview` | `voltage_observation` + `sampled_body` + `session_relative_reference` · on `subject` | retire | ndi |
 | `session` | `session` | persist | ndi |
 | `session_in_a_dataset` | `dataset` + `directed_relation` | dissolved (rename/decompose) | ndi |
-| `simple_calc` | `frequency_observation` + `voltage_observation` + `duration_observation` + `score_observation` + `session_relative_reference` · on `subject` | retire | ndi |
+| `simple_calc` | `simple_calc`* | retire | ndi |
 | `site2channelmap` | `count_observation` + `session_relative_reference` · on `subject` | retire | ndi |
 | `sorting_parameters` | `sorting_parameters` | retire | ndi |
 | `spatial_frequency_tuning` | `tuning_curve_calculation` + `session_relative_reference` · on `subject` | dissolved (rename/decompose) | app |

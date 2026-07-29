@@ -1142,19 +1142,13 @@
       "source": "ndi",
       "nonprod": false,
       "gap": false,
-      "targets": [
-        "frequency_observation",
-        "voltage_observation",
-        "duration_observation",
-        "score_observation",
-        "session_relative_reference"
+      "targets": [],
+      "carried": [],
+      "second_pass": [
+        "simple_calc"
       ],
-      "carried": [
-        "subject"
-      ],
-      "second_pass": [],
-      "how": "generic scalar calc result -> ONE inline quantity observation typed by result_units (Hz->frequency, V/mV->voltage, s->duration, dimensionless->score) + anchor",
-      "target_flags": "DYNAMIC leaf (quantityForUnit); the migrators_j simple_calc decomposes, unlike the base +migrators calcCommon passthrough -- tension with the calculators-deferred rule"
+      "how": "DEFERRED to the NDI second pass; PASSES THROUGH UNCHANGED. The real NDI template is {input_parameters, answer} with a single document_id edge pointing at the INPUT DOCUMENT and an `app` parent -- there is NO subject-bearing edge and NO units field at all. The previous migrator read result_value/result_units (V_alpha inventions), so the unit-dispatch had nothing to dispatch on and, both reads failing, it emitted only a bare session anchor -- the result was dropped",
+      "target_flags": "guarded: errors on the invented result_value/result_units shape rather than emitting a subjectless observation; passthrough requires the simple_calc tombstone to declare base+app, document_id, answer, input_parameters"
     },
     {
       "v1_class": "site2channelmap",
