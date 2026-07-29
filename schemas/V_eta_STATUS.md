@@ -14,18 +14,27 @@ for each model; this board owns *how much is left and what exactly*.
 | settled (retire) | 47 |
 | **still open** | **35** |
 | open **decision families** | **15** |
-| &nbsp;&nbsp;DECIDED by the team, awaiting build | 4 |
-| &nbsp;&nbsp;**PROPOSED by Claude, NOT yet reviewed** | **5** |
+| &nbsp;&nbsp;DECIDED by the team, awaiting build | 0 |
+| &nbsp;&nbsp;**PROPOSED by Claude, NOT yet reviewed** | **9** |
 | &nbsp;&nbsp;nobody has proposed anything yet | 6 |
 
 The class count is not the work count. 35 open classes are 15 decisions, because most open classes move as a family.
 
-**11 of those 15 still need a team decision** (5 proposed and awaiting review, 6 with nothing proposed yet). Only 4 are settled.
+**15 of those 15 still need a team decision** (9 proposed and awaiting review, 6 with nothing proposed yet). Only 0 are settled.
 
 ## AWAITING TEAM REVIEW -- proposed by Claude, NOT decided
 
 Each has a written rationale and template evidence, and **none of it is
 settled**. These are counted as OPEN work until the team signs off.
+
+To sign one off, add a line to its document:
+
+```
+TEAM-SIGN-OFF: <who/when> -- <what was decided>
+```
+
+Until that line exists the family shows here regardless of what
+`tools/status_board.py` claims -- Claude cannot promote its own work.
 
 | family | classes | proposal | written up in |
 |---|---|---|---|
@@ -34,12 +43,20 @@ settled**. These are counted as OPEN work until the team signs off.
 | **sync configuration** | 2 | runtime config (ndi_<x>_class + parameters), not archival | `V_eta_infra_family_decisions.md` |
 | **sync mapping** | 1 | folds into relative_reference -- it IS an epoch-to-epoch time relation | `V_eta_infra_family_decisions.md` |
 | **file navigation** | 2 | runtime, machine-specific paths; not archival | `V_eta_infra_family_decisions.md` |
+| **time_reference** | 8 | 8 classes collapse to absolute_reference + relative_reference | `V_eta_time_reference_model_plan.md` |
+| **stimulus** | 1 | timed_sequence data_type + timed_sequence_manipulation leaf | `V_eta_stimulus_model_plan.md` |
+| **ensemble** | 1 | group subject + epoch-scoped member_of edges + rebuildable cache | `V_eta_ensemble_plan.md` |
+| **image / ngrid** | 1 | ngrid phases into sampled_body; image is a standalone data_type | `V_eta_image_model_plan.md` |
 
 - **daq configuration**: `daqmetadatareader`, `daqreader`, `daqsystem`
 - **daq ingested payloads**: `daqmetadatareader_epochdata_ingested`, `daqreader_epochdata_ingested`, `daqreader_image_epochdata_ingested`
 - **sync configuration**: `syncgraph`, `syncrule`
 - **sync mapping**: `syncrule_mapping`
 - **file navigation**: `directory`, `filenavigator`
+- **time_reference**: `epoch_bounded_reference`, `epoch_relative_reference`, `event_bounded_reference`, `event_relative_reference`, `session_bounded_reference`, `session_relative_reference`, `time_reference`, `utc_reference`
+- **stimulus**: `stimulus_presentation`
+- **ensemble**: `ensemble`
+- **image / ngrid**: `ngrid`
 
 ## Nobody has proposed anything yet
 
@@ -67,10 +84,6 @@ migrator work before the target closes is rework.
 
 | family | classes | decision | recorded in |
 |---|---|---|---|
-| **time_reference** | 8 | 8 classes collapse to absolute_reference + relative_reference | `V_eta_time_reference_model_plan.md` |
-| **stimulus** | 1 | timed_sequence data_type + timed_sequence_manipulation leaf | `V_eta_stimulus_model_plan.md` |
-| **ensemble** | 1 | group subject + epoch-scoped member_of edges + rebuildable cache | `V_eta_ensemble_plan.md` |
-| **image / ngrid** | 1 | ngrid phases into sampled_body; image is a standalone data_type | `V_eta_image_model_plan.md` |
 
 ## v1 source side (from the coverage ledger)
 

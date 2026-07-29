@@ -1,5 +1,50 @@
 # DID-schema — working context for Claude
 
+# OPERATING RULES — read before doing anything, no exceptions
+
+These exist because on 2026-07-29 a series of mistakes shared one property:
+**they were biased toward things looking fine, or toward looking like progress
+had been made.** All-zero counts read as clean. All-decided read as done. A grep
+that could not have matched was reported as "this does not exist anywhere". An
+error that is random is a nuisance; an error that always points at *we are
+further along than we are* makes every report unusable. These five rules remove
+the mechanisms, because a documented warning does not work — the "recurring
+epistemic error" section below was READ and then committed again within the hour.
+
+**1. DO NOT WRITE TO `schemas/`.** Not schema files, not plan documents, not
+notes. Findings go to the chat or a scratch file. Nothing enters the record until
+the user says "commit that". Research quietly becoming the record is how five
+V_eta families Claude wrote up alone ended up reported to the team as decided.
+
+**2. EVERY factual claim about NDI, a migrator, or a corpus ships with the
+command output that proves it, in the same message.** If the output cannot be
+pasted, the sentence is not written. "No session document exists anywhere" dies
+instantly under this rule: the grep that produced it plainly did not show that.
+
+**3. CONTRADICTING an existing comment, decision or document requires POSITIVE
+EVIDENCE. Never absence.** `jSessionAnchor`'s note that its orphans were
+discovery-mode was correct and was overridden with a failed search. Not finding
+something is not evidence it is not there.
+
+**4. ONLY THE TEAM DECIDES A V_eta DISPOSITION.** Claude may research and
+propose; it may not record a decision. Enforced in `tools/status_board.py`: a
+family counts as decided ONLY if its plan document carries a line
+
+        TEAM-SIGN-OFF: <who/when> -- <what was decided>
+
+Claude must never add that line. Without it the family renders as
+"awaiting review" no matter what the FAMILIES table says.
+
+**5. AN INSTRUMENT MUST REPORT ITS DENOMINATOR.** Any counter, census or report
+states how many things it inspected, first and unconditionally. `silentLoss`
+printed "0 empty edges" while reading nothing for two days, and the digest that
+rendered it repeated the omission. A count without a denominator is not evidence.
+
+**Scope: do exactly what was asked, and stop.** "Look at X if you like" is not
+authorisation to change X. Ambiguity is resolved by asking, not by doing more.
+
+---
+
 ## START HERE — the generated state artifacts (read these FIRST, before any prose)
 
 Everything below this section is PROSE, and prose in this project has been wrong

@@ -40,7 +40,10 @@ OUT = os.path.join(REPO, "schemas", "V_eta_STATUS.md")
 #
 # STATUS IS THREE-VALUED, and the distinction is the point:
 #
-#   "team"     DECIDED BY THE TEAM in a walkthrough. Settled. Build when ready.
+#   "team"     DECIDED BY THE TEAM. Only counts as decided if the cited plan
+#              document carries a TEAM-SIGN-OFF line (see SIGNOFF below). A
+#              family marked "team" WITHOUT one is silently DOWNGRADED to
+#              "proposed" -- Claude cannot promote its own work to a decision.
 #   "proposed" WRITTEN UP BY CLAUDE WITH EVIDENCE, NOT YET REVIEWED. This is NOT
 #              a decision and must never be counted as one.
 #   "open"     nobody has proposed anything yet.
@@ -139,6 +142,37 @@ FAMILIES = [
 ]
 
 
+SIGNOFF = "TEAM-SIGN-OFF:"
+
+
+def has_signoff(plan):
+    """True when the plan document carries an explicit team sign-off line.
+
+    THE RULE THIS ENFORCES. Claude may research a family and write up a
+    proposal; it may not record that proposal as the team's decision. On
+    2026-07-29 the board had only two states, so attaching a document to a
+    family promoted it to "decided" -- five families Claude wrote up alone were
+    reported to the team as settled, along with a remaining-work count built on
+    them.
+
+    A decision now requires a line the TEAM writes, in the plan document:
+
+        TEAM-SIGN-OFF: <who/when> -- <what was decided>
+
+    Absent that line the family is displayed as awaiting review, no matter what
+    the FAMILIES table claims. This is deliberately not a CI failure: a false
+    RED is as useless as a false GREEN, and the honest state is simply "not
+    signed off yet".
+    """
+    if not plan:
+        return False
+    path = os.path.join(REPO, "schemas", plan)
+    if not os.path.exists(path):
+        return False
+    with open(path) as fh:
+        return any(line.lstrip().startswith(SIGNOFF) for line in fh)
+
+
 def load():
     with open(INDEX) as fh:
         idx = json.load(fh)
@@ -203,8 +237,11 @@ def build():
     # Tuple is (name, members, plan, question, status) -- status is index 4.
     # Indexed [3] on the first attempt and every count rendered 0, which is how
     # a status board lies quietly. Guarded below so an unknown status is loud.
-    decided   = [f for f in FAMILIES if f[4] == "team"]
-    proposed  = [f for f in FAMILIES if f[4] == "proposed"]
+    # A "team" claim is only honoured when the cited document carries the
+    # sign-off line. Otherwise it is a proposal, whatever the table says.
+    decided   = [f for f in FAMILIES if f[4] == "team" and has_signoff(f[2])]
+    unsigned  = [f for f in FAMILIES if f[4] == "team" and not has_signoff(f[2])]
+    proposed  = [f for f in FAMILIES if f[4] == "proposed"] + unsigned
     undecided = [f for f in FAMILIES if f[4] == "open"]
     bad_status = [f[0] for f in FAMILIES
                   if f[4] not in ("team", "proposed", "open")]
@@ -240,6 +277,15 @@ def build():
     p("")
     p("Each has a written rationale and template evidence, and **none of it is")
     p("settled**. These are counted as OPEN work until the team signs off.")
+    p("")
+    p("To sign one off, add a line to its document:")
+    p("")
+    p("```")
+    p("%s <who/when> -- <what was decided>" % SIGNOFF)
+    p("```")
+    p("")
+    p("Until that line exists the family shows here regardless of what")
+    p("`tools/status_board.py` claims -- Claude cannot promote its own work.")
     p("")
     p("| family | classes | proposal | written up in |")
     p("|---|---|---|---|")
