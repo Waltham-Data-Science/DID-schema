@@ -483,7 +483,16 @@ def test_phase1_source_cleanup_and_dep_typing():
     assert "openminds" in RECORDS and "measurement" in RECORDS
     def _dep(cls, name):
         return next(d for d in RECORDS[cls][1]["depends_on"] if d["name"] == name)
-    assert _dep("daqreader_epochdata_ingested", "epochid")["must_refer_to_document_class"] == "acquisition_epoch"
+    # `daqreader_epochdata_ingested` USED to be asserted here as carrying an
+    # `epochid` DEPENDENCY typed to acquisition_epoch. It has none, and never did:
+    # all three NDI ingest templates declare exactly ONE dependency, daqreader_id,
+    # and `epochid` is a SUPERCLASS contributing a block that holds the epoch-id
+    # STRING. This test was asserting the invented shape. See the correction in
+    # V_eta_6_7_walkthrough_STATE.md.
+    assert not any(d["name"] == "epochid"
+                   for d in RECORDS["daqreader_epochdata_ingested"][1]["depends_on"]), \
+        "did_v1 has no epochid dependency -- epochid is a superclass block"
+    assert _dep("daqreader_epochdata_ingested", "daqreader_id") is not None
     assert _dep("epochfiles_ingested", "epochid")["must_refer_to_document_class"] == "acquisition_epoch"
     assert _dep("directory", "parent_directory_id")["must_refer_to_document_class"] == "directory"
 
@@ -512,14 +521,21 @@ def test_mfdaq_ingested_de_encoded():
 
 
 def test_ingested_caches_epochid_dep_only():
-    """Chunk b (Option A): the epochdata_ingested caches stay device-layer ⑦ infra
-    (NOT folded to sampled_body -- they carry no subject). Their epoch link is the
-    inherited required `epochid` DEP (-> element_epoch); the redundant `epochid`
-    SUPERCLASS mixin is dropped from the image cache (dep-only, one home for the
-    epoch identity)."""
+    """The epochdata_ingested caches stay device-layer ⑦ infra (NOT folded to
+    sampled_body -- they carry no subject). That half of chunk (b) stands.
+
+    THE OTHER HALF DID NOT. This test used to assert `epochid not in supers`,
+    on the premise that "the epoch link is the inherited required epochid DEP".
+    There is no such dependency in did_v1 -- `epochid` is a SUPERCLASS whose
+    block holds the epoch-id STRING (`t00001`), set explicitly by both concrete
+    writers. Dropping the mixin left the epoch identity with nowhere to land,
+    and the same false premise shipped as an rmfield() in the mfdaq migrator
+    that deleted it outright. The assertion is inverted here so the superclass
+    is required, not forbidden."""
     img = RECORDS["daqreader_image_epochdata_ingested"][1]
     supers = {s.get("class_name") for s in img["document_class"]["superclasses"]}
-    assert "epochid" not in supers
+    assert "epochid" in supers, \
+        "epochid is a did_v1 superclass of the ingest caches, not a dependency"
     assert "daqreader_epochdata_ingested" in supers
     # the caches are NOT collapsed into the data_body genus
     assert "sampled_body" not in supers

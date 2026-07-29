@@ -5,6 +5,9 @@
         "superclasses": [
             {
                 "class_name": "base"
+            },
+            {
+                "class_name": "epochid"
             }
         ],
         "maturity_level": "stable"
@@ -12,15 +15,9 @@
     "depends_on": [
         {
             "name": "daqreader_id",
-            "mustBeNonEmpty": true,
-            "documentation": "The document ID of the DAQ reader whose epoch data has been ingested.",
+            "mustBeNonEmpty": false,
+            "documentation": "The DAQ reader whose epoch this caches.",
             "must_refer_to_document_class": "daqreader"
-        },
-        {
-            "name": "epochid",
-            "mustBeNonEmpty": true,
-            "documentation": "The document ID of the epoch whose data was ingested.",
-            "must_refer_to_document_class": "acquisition_epoch"
         }
     ],
     "file": [],
@@ -28,67 +25,28 @@
         {
             "name": "epochtable",
             "type": "structure",
-            "blank_value": {
-                "epochclock": [],
-                "t0_t1": []
-            },
-            "default_value": {
-                "epochclock": [],
-                "t0_t1": []
-            },
-            "mustBeNonEmpty": false,
-            "mustBeScalar": true,
-            "mustNotHaveNaN": false,
-            "queryable": false,
-            "ontology": null,
-            "documentation": "Captured epoch-table snapshot for the ingested epoch. v1 ships {epochclock: [<clock_name>], t0_t1: [t0, t1]} \u2014 clock identifier(s) and the corresponding start/stop time pair, both in the units of that clock.",
-            "constraints": {},
-            "fields": [
-                {
-                    "name": "epochclock",
-                    "type": "string",
-                    "blank_value": [],
-                    "default_value": [],
-                    "mustBeNonEmpty": false,
-                    "mustBeScalar": false,
-                    "mustNotHaveNaN": false,
-                    "queryable": true,
-                    "ontology": null,
-                    "documentation": "Cell array of clock identifier strings (e.g., {'dev_local_time'}) that index the t0_t1 row(s).",
-                    "constraints": {}
-                },
-                {
-                    "name": "t0_t1",
-                    "type": "matrix",
-                    "blank_value": [],
-                    "default_value": [],
-                    "mustBeNonEmpty": false,
-                    "mustBeScalar": false,
-                    "mustNotHaveNaN": false,
-                    "queryable": false,
-                    "ontology": null,
-                    "documentation": "Two-element [t0, t1] start/stop time pair in the units of the matching epochclock entry.",
-                    "constraints": {}
-                }
-            ]
-        },
-        {
-            "name": "parameters",
-            "type": "structure",
-            "blank_value": {
-                "sample_analog_segment": 0.0,
-                "sample_digital_segment": 0.0
-            },
-            "default_value": {
-                "sample_analog_segment": 0.0,
-                "sample_digital_segment": 0.0
-            },
+            "blank_value": {},
+            "default_value": {},
             "mustBeNonEmpty": false,
             "mustBeScalar": true,
             "mustNotHaveNaN": false,
             "queryable": true,
             "ontology": null,
-            "documentation": "Reader-specific parameters captured when the epoch was ingested. Optional -- empty for readers that do not slice the source recording. The sub-fields seen in the v1 corpora are the MFDAQ reader's per-segment sample-count cutoffs; formerly the standalone daqreader_mfdaq_epochdata_ingested class.",
+            "documentation": "Epoch-table snapshot. Nested (not renamed -- universalRenames leaves nested struct values alone): `epochclock` = clock-type strings, `t0_t1` = a 2xN matrix, one COLUMN per epochclock.",
+            "constraints": {},
+            "fields": []
+        },
+        {
+            "name": "parameters",
+            "type": "structure",
+            "blank_value": {},
+            "default_value": {},
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "OPTIONAL, and not a did_v1 field of this class -- it is the de-encode target from \u2465/\u2466 chunk (c), which dissolved `daqreader_mfdaq_epochdata_ingested` (subtype encoded in the class NAME) by folding its one mfdaq-specific field onto this generic parent. Kept when restating this tombstone from the NDI template: the template does not have it, but the migrator emits it, so dropping it would quarantine every migrated mfdaq cache.",
             "constraints": {},
             "fields": [
                 {
@@ -101,7 +59,7 @@
                     "mustNotHaveNaN": false,
                     "queryable": true,
                     "ontology": null,
-                    "documentation": "Maximum sample count per analog segment used during ingestion.",
+                    "documentation": "Analog segmentation cutoff. Template default 1e6.",
                     "constraints": {}
                 },
                 {
@@ -114,7 +72,7 @@
                     "mustNotHaveNaN": false,
                     "queryable": true,
                     "ontology": null,
-                    "documentation": "Maximum sample count per digital segment used during ingestion.",
+                    "documentation": "Digital segmentation cutoff. The WRITER uses 1e7 while the template says 1e6 -- writer wins.",
                     "constraints": {}
                 }
             ]

@@ -1,53 +1,86 @@
 {
     "document_class": {
         "class_name": "measurement",
-        "class_version": "1.0.0",
+        "class_version": "2.0.0",
         "superclasses": [
             {
                 "class_name": "base"
-            },
-            {
-                "class_name": "epochid"
             }
         ],
         "maturity_level": "stable"
     },
     "depends_on": [
         {
-            "name": "element_id",
-            "mustBeNonEmpty": true,
-            "documentation": "The document ID of the element this measurement belongs to.",
+            "name": "subject_id",
+            "mustBeNonEmpty": false,
+            "documentation": "The subject measured. The writer always populates this.",
             "must_refer_to_document_class": "subject"
+        },
+        {
+            "name": "manipulation_id",
+            "mustBeNonEmpty": false,
+            "documentation": "Optional link to a manipulation. NEVER set by any writer on origin/main.",
+            "must_refer_to_document_class": "subject_manipulation"
+        },
+        {
+            "name": "protocol_id",
+            "mustBeNonEmpty": false,
+            "documentation": "Optional link to a protocol. NEVER set by any writer on origin/main.",
+            "must_refer_to_document_class": "base"
         }
     ],
     "file": [],
     "fields": [
         {
-            "name": "measurement_class",
-            "type": "char",
-            "blank_value": "",
-            "default_value": "",
-            "mustBeNonEmpty": true,
-            "mustBeScalar": true,
-            "mustNotHaveNaN": false,
-            "queryable": true,
-            "ontology": null,
-            "documentation": "The class name of the measurement type (e.g., 'ndi_timeseries_measurement').",
-            "constraints": {
-                "maxLength": 256
-            }
-        },
-        {
-            "name": "parameters",
-            "type": "char",
+            "name": "ontology_name",
+            "type": "string",
             "blank_value": "",
             "default_value": "",
             "mustBeNonEmpty": false,
             "mustBeScalar": true,
             "mustNotHaveNaN": false,
-            "queryable": false,
+            "queryable": true,
             "ontology": null,
-            "documentation": "Measurement parameters, serialised as a JSON string.",
+            "documentation": "The CURIE of the measured quantity (e.g. NCIT:C81328 = weight). Spelled `ontologyName` in did_v1. ALWAYS a resolved CURIE -- the writer gets it from ndi.ontology.lookup and errors if lookup fails, so this binding is genuine.",
+            "constraints": {}
+        },
+        {
+            "name": "name",
+            "type": "string",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "The human label of that ontology node.",
+            "constraints": {}
+        },
+        {
+            "name": "numeric_value",
+            "type": "matrix",
+            "blank_value": [],
+            "default_value": [],
+            "mustBeNonEmpty": false,
+            "mustBeScalar": false,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "The numeric value of the measurement.",
+            "constraints": {}
+        },
+        {
+            "name": "string_value",
+            "type": "string",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "The string value. POLYMORPHIC -- the consumer (ndi +fun/+docTable/treatment.m) dispatches it as numeric, datetime, a nested ontology CURIE, or plain prose, based on the dataType the ontology lookup returns for the node.",
             "constraints": {}
         }
     ]

@@ -1,7 +1,7 @@
 {
     "document_class": {
         "class_name": "projectvar",
-        "class_version": "1.0.0",
+        "class_version": "2.0.0",
         "superclasses": [
             {
                 "class_name": "base"
@@ -13,7 +13,7 @@
         {
             "name": "element_id",
             "mustBeNonEmpty": false,
-            "documentation": "The document ID of the element this project variable is associated with.",
+            "documentation": "The element this variable is about. The sole writer never populates it, so it is empty on every real document.",
             "must_refer_to_document_class": "subject"
         }
     ],
@@ -21,7 +21,7 @@
     "fields": [
         {
             "name": "project",
-            "type": "char",
+            "type": "string",
             "blank_value": "",
             "default_value": "",
             "mustBeNonEmpty": false,
@@ -29,14 +29,25 @@
             "mustNotHaveNaN": false,
             "queryable": true,
             "ontology": null,
-            "documentation": "The name of the project.",
-            "constraints": {
-                "maxLength": 256
-            }
+            "documentation": "Name of the project. Never set by the writer.",
+            "constraints": {}
+        },
+        {
+            "name": "type",
+            "type": "string",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Free user-chosen type string.",
+            "constraints": {}
         },
         {
             "name": "user",
-            "type": "char",
+            "type": "string",
             "blank_value": "",
             "default_value": "",
             "mustBeNonEmpty": false,
@@ -44,14 +55,12 @@
             "mustNotHaveNaN": false,
             "queryable": true,
             "ontology": null,
-            "documentation": "The user who created this project variable.",
-            "constraints": {
-                "maxLength": 256
-            }
+            "documentation": "Free user-chosen user string. Never set by the writer.",
+            "constraints": {}
         },
         {
             "name": "lab",
-            "type": "char",
+            "type": "string",
             "blank_value": "",
             "default_value": "",
             "mustBeNonEmpty": false,
@@ -59,37 +68,33 @@
             "mustNotHaveNaN": false,
             "queryable": true,
             "ontology": null,
-            "documentation": "The lab or group associated with this project variable.",
-            "constraints": {
-                "maxLength": 256
-            }
+            "documentation": "Free user-chosen lab string. Never set by the writer.",
+            "constraints": {}
         },
         {
             "name": "description",
-            "type": "char",
+            "type": "string",
             "blank_value": "",
             "default_value": "",
             "mustBeNonEmpty": false,
             "mustBeScalar": true,
             "mustNotHaveNaN": false,
-            "queryable": false,
+            "queryable": true,
             "ontology": null,
-            "documentation": "A free-text description of the project variable.",
-            "constraints": {
-                "maxLength": 1024
-            }
+            "documentation": "Free user-chosen description of the work.",
+            "constraints": {}
         },
         {
             "name": "data",
-            "type": "char",
+            "type": "string",
             "blank_value": "",
             "default_value": "",
             "mustBeNonEmpty": false,
             "mustBeScalar": true,
             "mustNotHaveNaN": false,
-            "queryable": false,
+            "queryable": true,
             "ontology": null,
-            "documentation": "The data payload of the project variable, stored as a string.",
+            "documentation": "The variable's payload -- an ARBITRARY value passed by the caller. Declared `string` because that is the template's literal (`\"\"`) and `string` also accepts an empty numeric; the meta-schema has no union or any type, so a non-empty NUMERIC payload would fail. Same limitation as vmneuralresponseresiduals.goodness_of_fit.",
             "constraints": {}
         }
     ]

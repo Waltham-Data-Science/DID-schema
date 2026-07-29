@@ -8,32 +8,40 @@
             },
             {
                 "class_name": "daqreader_epochdata_ingested"
+            },
+            {
+                "class_name": "epochid"
             }
         ],
         "maturity_level": "stable"
     },
-    "depends_on": [],
+    "depends_on": [
+        {
+            "name": "daqreader_id",
+            "mustBeNonEmpty": false,
+            "documentation": "The DAQ reader whose epoch this caches. Declared mustbenotempty by NDI; the tombstone previously declared no dependencies at all.",
+            "must_refer_to_document_class": "daqreader"
+        }
+    ],
     "file": [
         {
             "name": "frames.bin",
-            "documentation": "The ingested image frames as a flat raw binary (column-major, in the numeric class named by data_type). Once ingested, the pixels are digital data resident in the database -- there is no external file dependency. Empty is permitted for a header-only record."
+            "documentation": "Flat raw binary, column-major, in `data_type`. The NDI schema marks it optional but the writer always writes it."
         }
     ],
     "fields": [
         {
             "name": "dimension_order",
-            "type": "char",
+            "type": "string",
             "blank_value": "",
-            "default_value": "YXCZT",
+            "default_value": "",
             "mustBeNonEmpty": false,
             "mustBeScalar": true,
             "mustNotHaveNaN": false,
             "queryable": true,
             "ontology": null,
-            "documentation": "Dimension order of the stored frames over {Y,X,C,Z,T} (height, width, channel, plane, time). Default 'YXCZT'.",
-            "constraints": {
-                "maxLength": 16
-            }
+            "documentation": "Axis order over {Y,X,C,Z,T}.",
+            "constraints": {}
         },
         {
             "name": "dimension_size",
@@ -42,17 +50,15 @@
             "default_value": [],
             "mustBeNonEmpty": false,
             "mustBeScalar": false,
-            "mustNotHaveNaN": true,
+            "mustNotHaveNaN": false,
             "queryable": true,
             "ontology": null,
-            "documentation": "The [Y X C Z T] extent of the image data (height, width, channels, planes, timepoints).",
-            "constraints": {
-                "element_type": "integer"
-            }
+            "documentation": "[Y X C Z T] extent.",
+            "constraints": {}
         },
         {
             "name": "data_type",
-            "type": "char",
+            "type": "string",
             "blank_value": "",
             "default_value": "",
             "mustBeNonEmpty": false,
@@ -60,26 +66,21 @@
             "mustNotHaveNaN": false,
             "queryable": true,
             "ontology": null,
-            "documentation": "Underlying numeric class of the stored pixel data (e.g. 'uint16', 'single').",
-            "constraints": {
-                "maxLength": 32
-            }
+            "documentation": "Numeric class of the stored pixels.",
+            "constraints": {}
         },
         {
             "name": "num_frames",
             "type": "integer",
-            "blank_value": 0,
-            "default_value": 0,
+            "blank_value": 0.0,
+            "default_value": 0.0,
             "mustBeNonEmpty": false,
             "mustBeScalar": true,
-            "mustNotHaveNaN": true,
+            "mustNotHaveNaN": false,
             "queryable": true,
             "ontology": null,
-            "documentation": "Number of frames stored, along the ordering axes (T, and Z when present).",
-            "constraints": {
-                "min": 0,
-                "max": 1000000000
-            }
+            "documentation": "Frames stored along T (and Z when present).",
+            "constraints": {}
         },
         {
             "name": "frametimes",
@@ -89,14 +90,14 @@
             "mustBeNonEmpty": false,
             "mustBeScalar": false,
             "mustNotHaveNaN": false,
-            "queryable": false,
+            "queryable": true,
             "ontology": null,
-            "documentation": "Time of each frame in epoch-clock units, as a 1xN row (NaN for clockless epochs).",
+            "documentation": "Per-frame time in epoch-clock units. The writer forces a 1xN row and uses NaN for clockless epochs -- an empty [] fails validation.",
             "constraints": {}
         },
         {
             "name": "clocktype",
-            "type": "char",
+            "type": "string",
             "blank_value": "",
             "default_value": "",
             "mustBeNonEmpty": false,
@@ -104,10 +105,114 @@
             "mustNotHaveNaN": false,
             "queryable": true,
             "ontology": null,
-            "documentation": "The epoch clock type ('dev_local_time' for a movie, 'no_time' for a clockless slide-scan / z-stack).",
-            "constraints": {
-                "maxLength": 256
-            }
+            "documentation": "Epoch clock, e.g. 'dev_local_time', 'no_time'.",
+            "constraints": {}
+        },
+        {
+            "name": "metadata",
+            "type": "structure",
+            "blank_value": {},
+            "default_value": {},
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Standardized image-acquisition metadata. Added by NDI after the V_eta fork, which is why the tombstone lacked it.",
+            "constraints": {},
+            "fields": [
+                {
+                    "name": "israster",
+                    "type": "boolean",
+                    "blank_value": false,
+                    "default_value": false,
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Whether acquisition was raster-scanned.",
+                    "constraints": {}
+                },
+                {
+                    "name": "frame_period",
+                    "type": "double",
+                    "blank_value": 0.0,
+                    "default_value": 0.0,
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Seconds per frame.",
+                    "constraints": {}
+                },
+                {
+                    "name": "line_period",
+                    "type": "double",
+                    "blank_value": 0.0,
+                    "default_value": 0.0,
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Seconds per line.",
+                    "constraints": {}
+                },
+                {
+                    "name": "dwell_time",
+                    "type": "double",
+                    "blank_value": 0.0,
+                    "default_value": 0.0,
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Per-pixel dwell time, in seconds.",
+                    "constraints": {}
+                },
+                {
+                    "name": "lines_per_frame",
+                    "type": "double",
+                    "blank_value": 0.0,
+                    "default_value": 0.0,
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Lines per frame.",
+                    "constraints": {}
+                },
+                {
+                    "name": "pixels_per_line",
+                    "type": "double",
+                    "blank_value": 0.0,
+                    "default_value": 0.0,
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Pixels per line.",
+                    "constraints": {}
+                },
+                {
+                    "name": "bidirectional",
+                    "type": "boolean",
+                    "blank_value": false,
+                    "default_value": false,
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Whether scanning was bidirectional.",
+                    "constraints": {}
+                }
+            ]
         }
     ]
 }

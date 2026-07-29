@@ -1,7 +1,7 @@
 {
     "document_class": {
         "class_name": "binaryseries_parameters",
-        "class_version": "1.0.0",
+        "class_version": "2.0.0",
         "superclasses": [
             {
                 "class_name": "base"
@@ -9,95 +9,85 @@
         ],
         "maturity_level": "stable"
     },
-    "depends_on": [
-        {
-            "name": "element_id",
-            "mustBeNonEmpty": false,
-            "documentation": "The document ID of the element this binary series is associated with.",
-            "must_refer_to_document_class": "subject"
-        }
-    ],
+    "depends_on": [],
     "file": [],
     "fields": [
         {
-            "name": "data_type",
-            "type": "char",
-            "blank_value": "",
-            "default_value": "double",
-            "mustBeNonEmpty": true,
-            "mustBeScalar": true,
-            "mustNotHaveNaN": false,
-            "queryable": true,
-            "ontology": {
-                "node": "ncit:C42645",
-                "name": "Data Type"
-            },
-            "documentation": "The numeric data type of the binary series (e.g., 'double', 'single', 'int16', 'uint8').",
-            "constraints": {
-                "maxLength": 32
-            }
-        },
-        {
-            "name": "sample_rate",
-            "type": "double",
+            "name": "time_size",
+            "type": "integer",
             "blank_value": 0.0,
             "default_value": 0.0,
-            "mustBeNonEmpty": true,
-            "mustBeScalar": true,
-            "mustNotHaveNaN": true,
-            "queryable": true,
-            "ontology": {
-                "node": "pato:0000044",
-                "name": "frequency"
-            },
-            "documentation": "The sampling rate in samples per second (Hz).",
-            "constraints": {}
-        },
-        {
-            "name": "num_channels",
-            "type": "integer",
-            "blank_value": 0,
-            "default_value": 1,
-            "mustBeNonEmpty": true,
-            "mustBeScalar": true,
-            "mustNotHaveNaN": true,
-            "queryable": true,
-            "ontology": {
-                "node": "ncit:C25463",
-                "name": "Count"
-            },
-            "documentation": "The number of channels in the binary series.",
-            "constraints": {}
-        },
-        {
-            "name": "byte_order",
-            "type": "char",
-            "blank_value": "",
-            "default_value": "little-endian",
             "mustBeNonEmpty": false,
             "mustBeScalar": true,
             "mustNotHaveNaN": false,
-            "queryable": false,
-            "ontology": {
-                "node": "ncit:C181701",
-                "name": "Byte Order"
-            },
-            "documentation": "Byte order of the binary data ('little-endian' or 'big-endian').",
-            "constraints": {
-                "maxLength": 32
-            }
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Size of each time (independent-variable) sample, in BITS (the NDI schema says bytes, which cannot be right at default 32 with type float32; the vhsb reference implementation uses bits).",
+            "constraints": {}
         },
         {
-            "name": "header_bytes",
-            "type": "integer",
-            "blank_value": 0,
-            "default_value": 0,
+            "name": "time_type",
+            "type": "string",
+            "blank_value": "",
+            "default_value": "",
             "mustBeNonEmpty": false,
             "mustBeScalar": true,
-            "mustNotHaveNaN": true,
-            "queryable": false,
+            "mustNotHaveNaN": false,
+            "queryable": true,
             "ontology": null,
-            "documentation": "The number of header bytes to skip before reading binary data.",
+            "documentation": "Data type of the time sample (uint32, float32, ...).",
+            "constraints": {}
+        },
+        {
+            "name": "data_size",
+            "type": "integer",
+            "blank_value": 0.0,
+            "default_value": 0.0,
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Size of each data (dependent-variable) sample, in BITS -- see time_size.",
+            "constraints": {}
+        },
+        {
+            "name": "data_type",
+            "type": "string",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Data type of the data sample. NOTE this field name collides with V_eta's `data_type` CATEGORY name; it survives universalRenames unchanged and is unrelated.",
+            "constraints": {}
+        },
+        {
+            "name": "data_dim",
+            "type": "integer",
+            "blank_value": 0.0,
+            "default_value": 0.0,
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Dimension of each data sample.",
+            "constraints": {}
+        },
+        {
+            "name": "samples_regular_intervals",
+            "type": "integer",
+            "blank_value": 0.0,
+            "default_value": 0.0,
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "0/1 -- whether samples are at regular intervals.",
             "constraints": {}
         }
     ]

@@ -1,129 +1,97 @@
 {
     "document_class": {
         "class_name": "sorting_parameters",
-        "class_version": "1.0.0",
+        "class_version": "2.0.0",
         "superclasses": [
             {
                 "class_name": "base"
+            },
+            {
+                "class_name": "app"
             }
         ],
         "maturity_level": "stable"
     },
-    "depends_on": [
-        {
-            "name": "element_id",
-            "mustBeNonEmpty": true,
-            "documentation": "The document ID of the element (e.g., probe) these sorting parameters apply to.",
-            "must_refer_to_document_class": "subject"
-        }
-    ],
+    "depends_on": [],
     "file": [],
     "fields": [
         {
-            "name": "sorter_name",
-            "type": "char",
-            "blank_value": "",
-            "default_value": "",
-            "mustBeNonEmpty": true,
+            "name": "graphical_mode",
+            "type": "integer",
+            "blank_value": 0.0,
+            "default_value": 0.0,
+            "mustBeNonEmpty": false,
             "mustBeScalar": true,
             "mustNotHaveNaN": false,
             "queryable": true,
             "ontology": null,
-            "documentation": "The name of the spike sorting algorithm.",
-            "constraints": {
-                "maxLength": 128
-            }
-        },
-        {
-            "name": "graphical_mode",
-            "type": "integer",
-            "blank_value": 0,
-            "default_value": 0,
-            "mustBeNonEmpty": true,
-            "mustBeScalar": true,
-            "mustNotHaveNaN": true,
-            "queryable": false,
-            "ontology": null,
-            "documentation": "Whether to use a graphical presentation during sorting (0 = no, 1 = yes).",
-            "constraints": {
-                "min": 0,
-                "max": 1
-            }
+            "documentation": "0/1 -- interactive GUI clustering vs automatic KlustaKwik.",
+            "constraints": {}
         },
         {
             "name": "num_pca_features",
             "type": "integer",
-            "blank_value": 10,
-            "default_value": 10,
-            "mustBeNonEmpty": true,
+            "blank_value": 0.0,
+            "default_value": 0.0,
+            "mustBeNonEmpty": false,
             "mustBeScalar": true,
-            "mustNotHaveNaN": true,
+            "mustNotHaveNaN": false,
             "queryable": true,
             "ontology": null,
-            "documentation": "Number of principal component features to use in clustering.",
-            "constraints": {
-                "min": 1
-            }
+            "documentation": "PCA features fed to clustering (automatic mode only).",
+            "constraints": {}
         },
         {
             "name": "interpolation",
-            "type": "integer",
-            "blank_value": 3,
-            "default_value": 3,
-            "mustBeNonEmpty": true,
+            "type": "double",
+            "blank_value": 0.0,
+            "default_value": 0.0,
+            "mustBeNonEmpty": false,
             "mustBeScalar": true,
-            "mustNotHaveNaN": true,
-            "queryable": false,
+            "mustNotHaveNaN": false,
+            "queryable": true,
             "ontology": null,
-            "documentation": "Interpolation factor for spike waveforms. Waveforms are upsampled by this integer factor to provide extra resolution during alignment and clustering (e.g., 3 means 3x upsampling). Set to 1 for no interpolation.",
-            "constraints": {
-                "min": 1
-            }
+            "documentation": "Spline oversampling factor for spike waveforms; >1 triggers resampling. Typed double by the NDI schema while its default and all five siblings are integers; the writer rounds it. The schema's [1,10000] bound is contradicted by the writer's clamp to [1,10] -- writer wins for semantics, neither changes the shape.",
+            "constraints": {}
         },
         {
             "name": "min_clusters",
             "type": "integer",
-            "blank_value": 3,
-            "default_value": 3,
-            "mustBeNonEmpty": true,
+            "blank_value": 0.0,
+            "default_value": 0.0,
+            "mustBeNonEmpty": false,
             "mustBeScalar": true,
-            "mustNotHaveNaN": true,
+            "mustNotHaveNaN": false,
             "queryable": true,
             "ontology": null,
-            "documentation": "Minimum number of clusters (units) to produce.",
-            "constraints": {
-                "min": 1
-            }
+            "documentation": "KlustaKwik minimum cluster count.",
+            "constraints": {}
         },
         {
             "name": "max_clusters",
             "type": "integer",
-            "blank_value": 10,
-            "default_value": 10,
-            "mustBeNonEmpty": true,
+            "blank_value": 0.0,
+            "default_value": 0.0,
+            "mustBeNonEmpty": false,
             "mustBeScalar": true,
-            "mustNotHaveNaN": true,
+            "mustNotHaveNaN": false,
             "queryable": true,
             "ontology": null,
-            "documentation": "Maximum number of clusters (units) to produce. Must be >= min_clusters.",
-            "constraints": {
-                "min": 1
-            }
+            "documentation": "KlustaKwik maximum cluster count.",
+            "constraints": {}
         },
         {
             "name": "num_start",
             "type": "integer",
-            "blank_value": 5,
-            "default_value": 5,
-            "mustBeNonEmpty": true,
+            "blank_value": 0.0,
+            "default_value": 0.0,
+            "mustBeNonEmpty": false,
             "mustBeScalar": true,
-            "mustNotHaveNaN": true,
-            "queryable": false,
+            "mustNotHaveNaN": false,
+            "queryable": true,
             "ontology": null,
-            "documentation": "Initial number of clusters to seed the clustering algorithm with.",
-            "constraints": {
-                "min": 1
-            }
+            "documentation": "Random restarts for KlustaKwik.",
+            "constraints": {}
         }
     ]
 }

@@ -17,7 +17,7 @@
       "ndi": 91,
       "app": 11
     },
-    "with_migrator": 61,
+    "with_migrator": 62,
     "gaps": 1
   },
   "rows": [
@@ -724,7 +724,7 @@
       "v1_class": "measurement",
       "veta_class": "measurement",
       "disposition": "retire",
-      "migrator": false,
+      "migrator": true,
       "source": "ndi",
       "nonprod": false,
       "gap": false,

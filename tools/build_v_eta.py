@@ -1422,14 +1422,21 @@ write("stable", "simple_calc", _scalc)
 # V_eta_migrator_vocabulary_audit.md for the per-class evidence.
 
 def _tombstone(name, supers, deps, fields, files=()):
-    """Restate a source tombstone from the real did_v1 template + schema."""
-    t = load(os.path.join(VETA, "stable", name + ".json"))
+    """Restate a source tombstone from the real did_v1 template + schema.
+
+    Resolves the class's OWN tier rather than assuming `stable` -- `projectvar`
+    lives in `deprecated/`, and hardcoding the tier crashed the build partway
+    through, leaving a half-written V_eta behind."""
+    tier, path = path_of(name)
+    if tier is None:
+        raise SystemExit("_tombstone: no V_eta schema named %r in any tier" % name)
+    t = load(path)
     t["document_class"]["superclasses"] = [{"class_name": s} for s in supers]
     t["document_class"]["class_version"] = "2.0.0"
     t["depends_on"] = deps
     t["fields"] = fields
     t["file"] = [{"name": n, "documentation": d} for n, d in files]
-    write("stable", name, t)
+    write(tier, name, t)
 
 
 # spike_clusters -- the sorter's per-spike cluster assignments. The payload is
@@ -1786,6 +1793,224 @@ _tombstone(
          "The recording element the revision applies to, promoted to a subject"
          " with its id preserved (device-as-subject, D2).", non_empty=False)],
     list(_SPIKE_EXTRACTION_FIELDS))
+
+# ---- BLOCKING tombstones from the check_tombstones.py first run -----------
+# Each of these would have quarantined a real did_v1 document. Shapes established
+# by the round-2 research pass; evidence in V_eta_tombstone_audit.md.
+
+# sorting_parameters -- 6 flat scalars, NO dependencies (the tombstone invented
+# `element_id`), no files, base+app. Unlike its spike_extraction_parameters
+# sibling an NDI schema file DOES exist and is authoritative for types. The
+# tombstone required `sorter_name`, which is not a field of this class at all.
+# Its id is load-bearing: spike_clusters.sorting_parameters_id points at it.
+_tombstone(
+    "sorting_parameters", ["base", "app"], [],
+    [field("graphical_mode", "integer",
+           "0/1 -- interactive GUI clustering vs automatic KlustaKwik."),
+     field("num_pca_features", "integer",
+           "PCA features fed to clustering (automatic mode only)."),
+     field("interpolation", "double",
+           "Spline oversampling factor for spike waveforms; >1 triggers"
+           " resampling. Typed double by the NDI schema while its default and"
+           " all five siblings are integers; the writer rounds it. The schema's"
+           " [1,10000] bound is contradicted by the writer's clamp to [1,10] --"
+           " writer wins for semantics, neither changes the shape."),
+     field("min_clusters", "integer", "KlustaKwik minimum cluster count."),
+     field("max_clusters", "integer", "KlustaKwik maximum cluster count."),
+     field("num_start", "integer", "Random restarts for KlustaKwik.")])
+
+# binaryseries_parameters -- A DEAD TEMPLATE. No .m file in NDI has ever written,
+# read or subclassed it; zero commits in all history. Its six fields paraphrase
+# the .vhsb header -- a format-descriptor mixin that was never wired up. The real
+# binary-series carrier is acquisition_epoch, which does NOT list it as a
+# superclass. Kept (not deleted) pending the R5 disposition call, but recorded
+# truthfully: the tombstone required num_channels + sample_rate, neither of which
+# exists.
+#
+# TYPES come from the NDI schema. The template supplies `""` for the three
+# integer fields, so a fixture built from the template alone would be
+# type-invalid against the schema -- a disagreement worth knowing, not resolving.
+# The schema also documents time_size/data_size as BYTES with default 32 and type
+# float32; 32 bytes is not float32, 32 BITS is, and the vhsb reference
+# implementation uses bits. The doc strings below say bits.
+_tombstone(
+    "binaryseries_parameters", ["base"], [],
+    [field("time_size", "integer",
+           "Size of each time (independent-variable) sample, in BITS (the NDI"
+           " schema says bytes, which cannot be right at default 32 with type"
+           " float32; the vhsb reference implementation uses bits)."),
+     field("time_type", "string",
+           "Data type of the time sample (uint32, float32, ...)."),
+     field("data_size", "integer",
+           "Size of each data (dependent-variable) sample, in BITS -- see"
+           " time_size."),
+     field("data_type", "string",
+           "Data type of the data sample. NOTE this field name collides with"
+           " V_eta's `data_type` CATEGORY name; it survives universalRenames"
+           " unchanged and is unrelated."),
+     field("data_dim", "integer", "Dimension of each data sample."),
+     field("samples_regular_intervals", "integer",
+           "0/1 -- whether samples are at regular intervals.")])
+
+# projectvar -- a project-scoped scratch key/value variable.
+#
+# THE NDI SCHEMA DECLARES A FIELD THAT DOES NOT EXIST. It has `date` (timestamp);
+# the template AND the writer both have `data` (the payload). This is not a
+# casing typo -- each file is missing the other's field entirely. WRITER WINS: it
+# is `data`. A shape built from the schema would read a field no document has and
+# drop the only field carrying payload.
+#
+# The sole writer (+ndi/+database/+fun/projectvardef.m) sets only base.name,
+# type, description and data -- never project, user or lab, and never any
+# dependency, so element_id is empty on every real document despite the schema
+# marking it mustbenotempty (consistent with the known fact that depends_on
+# non-emptiness is enforced nowhere).
+_tombstone(
+    "projectvar", ["base"],
+    [dep("element_id", "subject",
+         "The element this variable is about. The sole writer never populates"
+         " it, so it is empty on every real document.", non_empty=False)],
+    [field("project", "string", "Name of the project. Never set by the writer."),
+     field("type", "string", "Free user-chosen type string."),
+     field("user", "string", "Free user-chosen user string. Never set by the writer."),
+     field("lab", "string", "Free user-chosen lab string. Never set by the writer."),
+     field("description", "string", "Free user-chosen description of the work."),
+     field("data", "string",
+           "The variable's payload -- an ARBITRARY value passed by the caller."
+           " Declared `string` because that is the template's literal (`\"\"`)"
+           " and `string` also accepts an empty numeric; the meta-schema has no"
+           " union or any type, so a non-empty NUMERIC payload would fail. Same"
+           " limitation as vmneuralresponseresiduals.goodness_of_fit.")])
+
+# The daqreader ingest cache family. `epochid` is a SUPERCLASS contributing a
+# block that holds the epoch-id STRING -- it is NOT a dependency, and the old
+# tombstone declared exactly that invented edge (typed to acquisition_epoch)
+# while omitting the superclass, so the epoch string had nowhere to land. See the
+# correction in V_eta_6_7_walkthrough_STATE.md; the same false premise shipped as
+# an rmfield() in the mfdaq migrator.
+#
+# These carry no subject and no scientific quantity: their entire referent is
+# daqreader_id plus an epoch-id string that is meaningless without the
+# epoch/element graph. Promoting them to observations in pass 1 would repeat the
+# distance_metadata mistake -- minting unresolvable edges. Keep the bytes and the
+# header intact; model them in the second pass.
+_tombstone(
+    "daqreader_epochdata_ingested", ["base", "epochid"],
+    [dep("daqreader_id", "daqreader",
+         "The DAQ reader whose epoch this caches.", non_empty=False)],
+    [field("epochtable", "structure",
+           "Epoch-table snapshot. Nested (not renamed -- universalRenames leaves"
+           " nested struct values alone): `epochclock` = clock-type strings,"
+           " `t0_t1` = a 2xN matrix, one COLUMN per epochclock."),
+     field("parameters", "structure",
+           "OPTIONAL, and not a did_v1 field of this class -- it is the"
+           " de-encode target from ⑥/⑦ chunk (c), which dissolved"
+           " `daqreader_mfdaq_epochdata_ingested` (subtype encoded in the class"
+           " NAME) by folding its one mfdaq-specific field onto this generic"
+           " parent. Kept when restating this tombstone from the NDI template:"
+           " the template does not have it, but the migrator emits it, so"
+           " dropping it would quarantine every migrated mfdaq cache.",
+           sub_fields=[
+               field("sample_analog_segment", "double",
+                     "Analog segmentation cutoff. Template default 1e6."),
+               field("sample_digital_segment", "double",
+                     "Digital segmentation cutoff. The WRITER uses 1e7 while the"
+                     " template says 1e6 -- writer wins."),
+           ])])
+
+# daqreader_image_epochdata_ingested -- the tombstone had depends_on: [] (dropping
+# the real mustbenotempty daqreader_id) and omitted `metadata` entirely, which NDI
+# added after the V_eta fork (commit fa30f2903).
+_tombstone(
+    "daqreader_image_epochdata_ingested",
+    ["base", "daqreader_epochdata_ingested", "epochid"],
+    [dep("daqreader_id", "daqreader",
+         "The DAQ reader whose epoch this caches. Declared mustbenotempty by"
+         " NDI; the tombstone previously declared no dependencies at all.",
+         non_empty=False)],
+    [field("dimension_order", "string", "Axis order over {Y,X,C,Z,T}."),
+     field("dimension_size", "matrix",
+           "[Y X C Z T] extent.", scalar=False),
+     field("data_type", "string", "Numeric class of the stored pixels."),
+     field("num_frames", "integer",
+           "Frames stored along T (and Z when present)."),
+     field("frametimes", "matrix",
+           "Per-frame time in epoch-clock units. The writer forces a 1xN row and"
+           " uses NaN for clockless epochs -- an empty [] fails validation.",
+           scalar=False),
+     field("clocktype", "string", "Epoch clock, e.g. 'dev_local_time', 'no_time'."),
+     field("metadata", "structure",
+           "Standardized image-acquisition metadata. Added by NDI after the"
+           " V_eta fork, which is why the tombstone lacked it.",
+           sub_fields=[
+               field("israster", "boolean", "Whether acquisition was raster-scanned."),
+               field("frame_period", "double", "Seconds per frame."),
+               field("line_period", "double", "Seconds per line."),
+               field("dwell_time", "double", "Per-pixel dwell time, in seconds."),
+               field("lines_per_frame", "double", "Lines per frame."),
+               field("pixels_per_line", "double", "Pixels per line."),
+               field("bidirectional", "boolean", "Whether scanning was bidirectional."),
+           ])],
+    files=[("frames.bin",
+            "Flat raw binary, column-major, in `data_type`. The NDI schema marks"
+            " it optional but the writer always writes it.")])
+
+# electrode_offset_voltage -- the ONE genuinely live fallback of the five audited.
+# Its migrator was corrected to the real field names; the tombstone was not, so a
+# document taking the discovery fallback quarantines on undeclared `offset`.
+#
+# The fallback is reachable from ordinary writer output: makeVoltageOffsets.m
+# sets offset straight from readtable('MEoffset.txt') with no validation, so a
+# blank/NA cell becomes NaN -> [] after a JSON round-trip, and ONE non-numeric
+# entry types the whole column as text, taking out every row of the file.
+_tombstone(
+    "electrode_offset_voltage", ["base"],
+    [dep("probe_id", "subject",
+         "The probe, promoted to a subject with its id preserved"
+         " (device-as-subject, D2).", non_empty=False)],
+    [field("offset", "double",
+           "The DC offset, a SCALAR (one document per CSV row, not a per-channel"
+           " array). Volts, inferred from the writer's `offsetV` column name."),
+     field("temperature", "double",
+           "The temperature the offset was measured at. The NDI schema"
+           " explicitly documents this as able to be NaN or empty, so it is"
+           " neither required nor NaN-checked.")])
+
+# measurement -- byte-for-byte the shape of `treatment` (same four fields, same
+# three dependency names, same superclass), and treatment already has a
+# dissolving migrator. This is its OBSERVATION-direction twin. The tombstone
+# required `measurement_class`, which does not exist, and declared an
+# `element_id` edge the class does not have while omitting all three real ones.
+#
+# It gets a migrator (migrators_j/measurement.m) AND a correct tombstone: the
+# migrator folds only the rows it can type honestly and carries the rest
+# through, so the tombstone is the landing place for everything unresolved --
+# notably date-of-birth, which `treatment.m` explicitly routes OUT of its tier
+# and which has no V_eta observation leaf (there is no date_observation).
+_tombstone(
+    "measurement", ["base"],
+    [dep("subject_id", "subject",
+         "The subject measured. The writer always populates this.",
+         non_empty=False),
+     dep("manipulation_id", "subject_manipulation",
+         "Optional link to a manipulation. NEVER set by any writer on"
+         " origin/main.", non_empty=False),
+     dep("protocol_id", "base",
+         "Optional link to a protocol. NEVER set by any writer on origin/main.",
+         non_empty=False)],
+    [field("ontology_name", "string",
+           "The CURIE of the measured quantity (e.g. NCIT:C81328 = weight)."
+           " Spelled `ontologyName` in did_v1. ALWAYS a resolved CURIE -- the"
+           " writer gets it from ndi.ontology.lookup and errors if lookup"
+           " fails, so this binding is genuine."),
+     field("name", "string", "The human label of that ontology node."),
+     field("numeric_value", "matrix",
+           "The numeric value of the measurement.", scalar=False),
+     field("string_value", "string",
+           "The string value. POLYMORPHIC -- the consumer (ndi +fun/+docTable/"
+           "treatment.m) dispatches it as numeric, datetime, a nested ontology"
+           " CURIE, or plain prose, based on the dataType the ontology lookup"
+           " returns for the node.")])
 
 # neuron_extracellular -- NOT an offender: its migrator reads the real
 # `cluster_index` and `quality_number` (the detector's `quality` hit was a local

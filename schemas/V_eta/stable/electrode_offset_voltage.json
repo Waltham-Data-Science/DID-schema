@@ -1,7 +1,7 @@
 {
     "document_class": {
         "class_name": "electrode_offset_voltage",
-        "class_version": "1.0.0",
+        "class_version": "2.0.0",
         "superclasses": [
             {
                 "class_name": "base"
@@ -12,42 +12,38 @@
     "depends_on": [
         {
             "name": "probe_id",
-            "mustBeNonEmpty": true,
-            "documentation": "The document ID of the probe this offset voltage data belongs to.",
+            "mustBeNonEmpty": false,
+            "documentation": "The probe, promoted to a subject with its id preserved (device-as-subject, D2).",
             "must_refer_to_document_class": "subject"
         }
     ],
     "file": [],
     "fields": [
         {
-            "name": "offset_voltages",
-            "type": "matrix",
-            "blank_value": [],
-            "default_value": [],
-            "mustBeNonEmpty": false,
-            "mustBeScalar": false,
-            "mustNotHaveNaN": false,
-            "queryable": false,
-            "ontology": null,
-            "documentation": "Array of DC offset voltage values, one per electrode channel, in voltage_units. Length must match the number of channels on the probe.",
-            "constraints": {
-                "element_type": "double"
-            }
-        },
-        {
-            "name": "voltage_units",
-            "type": "char",
-            "blank_value": "",
-            "default_value": "V",
+            "name": "offset",
+            "type": "double",
+            "blank_value": 0.0,
+            "default_value": 0.0,
             "mustBeNonEmpty": false,
             "mustBeScalar": true,
             "mustNotHaveNaN": false,
-            "queryable": false,
+            "queryable": true,
             "ontology": null,
-            "documentation": "The units of the offset voltage values (e.g., 'V', 'mV', 'uV').",
-            "constraints": {
-                "maxLength": 16
-            }
+            "documentation": "The DC offset, a SCALAR (one document per CSV row, not a per-channel array). Volts, inferred from the writer's `offsetV` column name.",
+            "constraints": {}
+        },
+        {
+            "name": "temperature",
+            "type": "double",
+            "blank_value": 0.0,
+            "default_value": 0.0,
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "The temperature the offset was measured at. The NDI schema explicitly documents this as able to be NaN or empty, so it is neither required nor NaN-checked.",
+            "constraints": {}
         }
     ]
 }
