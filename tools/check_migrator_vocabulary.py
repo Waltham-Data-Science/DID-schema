@@ -148,6 +148,38 @@ RESOLVED_BY_GUARD = {
 #   writing it as an r-squared would have inverted every downstream comparison.)
 
 
+# VERIFIED BENIGN -- reads an invented name, but nothing is lost, and the
+# evidence says so. `--enforce` does NOT fail on these.
+#
+# THIS IS NOT AN ESCAPE HATCH, and it must not become one. Every entry states
+# (a) why the read is harmless and (b) WHAT WOULD MAKE IT STOP BEING HARMLESS,
+# so a later reader can re-check instead of trusting the label -- the exact
+# mistake that let `ontology_label` sit graded as benign while discarding the
+# only edge to the thing it labelled.
+#
+# The bar: the read must be an ADDITIONAL, guarded read with a correct fallback,
+# never a wrong read standing in for a right one. A migrator that reads the
+# wrong name INSTEAD of the real one belongs in KNOWN_BROKEN and gets fixed.
+VERIFIED_BENIGN = {
+    "daqreader_ndr.m": (
+        "`file_extension` is an isfield-guarded EXTRA carry alongside the real "
+        "`ndr_reader_string`, which IS read correctly. The branch never fires "
+        "on an origin/main document. Kept rather than deleted so an older "
+        "corpus vintage carrying the field would still have it carried. "
+        "STOPS BEING BENIGN IF: the real read (`ndr_reader_string`) is ever "
+        "removed or renamed, leaving this as the only read."),
+    "subject_group.m": (
+        "`group_name`/`description` are isfield-guarded reads of a block NDI "
+        "ships as literally `{}` -- all three writers construct subject_group "
+        "with no property arguments at all -- and both fall back correctly "
+        "(groupName via jEnsureLocalId, desc to ''). Nothing is lost because "
+        "there is nothing there. NOTE the fallback means every migrated group "
+        "satisfies a field documented 'Human-facing handle... REQUIRED' with a "
+        "raw UUID (~353x); that is a quality-floor issue, not vocabulary loss. "
+        "STOPS BEING BENIGN IF: NDI populates the subject_group block, at "
+        "which point these become real reads and the fallback would mask them."),
+}
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--enforce", action="store_true",
@@ -166,8 +198,15 @@ def main():
     # A guarded migrator still MENTIONS the invented name -- in the isfield that
     # rejects it. That is the opposite of the defect, so it is not an offender.
     guarded = [r for r in hits if r["migrator"] in RESOLVED_BY_GUARD]
-    confirmed = [r for r in hits if r["migrator"] not in RESOLVED_BY_GUARD]
+    benign = [r for r in hits if r["migrator"] in VERIFIED_BENIGN
+              and r["migrator"] not in RESOLVED_BY_GUARD]
+    confirmed = [r for r in hits if r["migrator"] not in RESOLVED_BY_GUARD
+                 and r["migrator"] not in VERIFIED_BENIGN]
     new = [r for r in confirmed if r["migrator"] not in KNOWN_BROKEN]
+    # An allow-listed migrator that no longer reads the name has been fixed or
+    # rewritten. Say so, so the entry can be retired instead of lingering.
+    stale_benign = sorted(set(VERIFIED_BENIGN)
+                          - {r["migrator"] for r in hits})
     missing_guard = sorted(set(RESOLVED_BY_GUARD)
                            - {r["migrator"] for r in hits})
 
@@ -175,6 +214,7 @@ def main():
           % (gt.get("ndi_ref", "?"), gt["summary"]["ndi_classes"]))
     print()
     print("  still CONSUME invented names               : %d" % len(confirmed))
+    print("  verified benign (allow-listed, with reason) : %d" % len(benign))
     print("  name present only in a rejection guard     : %d" % len(guarded))
     print("  mentions invented names only               : %d" % len(possible))
     print("  NOT on the known-broken list (regressions) : %d" % len(new))
@@ -192,6 +232,19 @@ def main():
         for r in sorted(guarded, key=lambda x: x["migrator"]):
             print("      %-34s %s" % (r["migrator"],
                                       RESOLVED_BY_GUARD[r["migrator"]]))
+        print()
+    if benign:
+        print("VERIFIED BENIGN (allow-listed -- read is harmless, reason recorded):")
+        for r in sorted(benign, key=lambda x: x["migrator"]):
+            print("      %-34s %s" % (r["migrator"],
+                                      r["reads_names_absent_from_template"]))
+            print("          %s" % VERIFIED_BENIGN[r["migrator"]])
+        print()
+    if stale_benign:
+        print("ALLOW-LIST STALE -- listed as verified benign, but the name is "
+              "no longer read at all. The migrator was fixed; retire the entry:")
+        for m in stale_benign:
+            print("      %s" % m)
         print()
     if possible:
         print("MENTIONS invented vocabulary (may be a comment -- verify by hand):")
