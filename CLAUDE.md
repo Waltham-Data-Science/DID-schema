@@ -75,6 +75,17 @@ lives in these files — read them instead of re-deriving from memory:
   the two epoch_clock fields). `binding` is NOT enforced by the validator yet
   (validateConstraints handles only maxLength/minLength/minimum/maximum/enum), so these are
   declarative — cheap to fix now, expensive once a validator reads them.
+- **`schemas/V_eta_ngrid_family_findings.md`** — FACTS (not decisions) for group F, read from
+  the real v1 writers: the RF family is **ONE** document class (`hartley_calc`; `reverse_correlation`
+  + `hartley_reverse_correlation` are superclass-only, no docs, and `calculator` is a V_delta
+  invention), its payload is a **two-plane** `[T×X×Y×2]` volume (STA + p-value), `element_id` IS
+  populated so no NDI pass is needed for subject attribution, `ngrid` has a **second consumer**
+  (`ontologyImage`) so retiring it is gated on both, `ngrid.coordinates` carries real data and is
+  being **deleted** by the migrator, and **`ontology_image.region` is a wrong-assumed-shape bug**
+  (real field = `ontology_nodes`, a comma-joined multi-CURIE string) that silently emits an empty
+  term — same class as `distance_metadata`, same cause (unit fixture built to the wrong shape).
+  Evidence came from `VH-Lab/NDIcalc-vis-matlab` (added to scope; the clone is EPHEMERAL — re-add
+  to re-check).
 - **`schemas/V_eta_final_class_set.md`** — the authoritative persist set (7
   categories). REGENERATE with `python3 tools/regen_final_class_set.py` (reads the
   built `V_eta/index.json` disposition markers) after every `build_v_eta.py`; never
