@@ -1618,10 +1618,16 @@ _tombstone(
 #
 # WHY THEY HID: all five classes of this app are template-and-schema only --
 # there is no writer in NDI-matlab, NDIcalc-vis/-ephys/-marder/-birren or
-# vhlab-toolbox -- so almost certainly NO CORPUS HAS A SINGLE DOCUMENT of any of
-# them. Three separately broken classes never tripped a gate because nothing
-# ever exercised them. That makes this latent risk rather than active loss, and
-# it is exactly why "the corpus is green" cannot stand in for reading the source.
+# vhlab-toolbox -- and none of their documents appears in the five corpora under
+# test. Three separately broken classes never tripped a gate because the corpora
+# do not exercise these paths.
+#
+# THAT IS NOT A CLAIM THAT NO DOCUMENTS EXIST. The corpora are a SAMPLE OF
+# DATASETS, not the universe of them; a class absent from what we test may be
+# well represented in a dataset still waiting to migrate, which is precisely what
+# this migration is for. So these tombstones must be correct IF documents exist,
+# because we cannot show they do not -- "no corpus we looked at has one" is not
+# grounds to defer, retire, or half-repair anything.
 
 # vmspikesummary -- the migrator read mean_vm / mean_firing_rate / num_spikes /
 # recording_duration and emitted one inline scalar observation per hit. The real

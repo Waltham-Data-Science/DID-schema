@@ -155,10 +155,23 @@ and it was hiding real defects.**
 still not have worked**: the real field is an **array**, and the migrator required `isscalar`.
 
 **Why three broken classes never tripped a gate.** All five `vhlab_voltage2firingrate` classes
-are template-and-schema only, with **no writer in any repository** — so almost certainly **no
-corpus holds a single document of any of them**. This is latent risk, not active loss, and it is
-the clearest evidence in this whole audit that *"the corpus is green" cannot substitute for
-reading the source.*
+are template-and-schema only, with **no writer in any repository we can reach**, and none of
+their documents appears in the five corpora under test.
+
+**THAT IS NOT A CLAIM THAT NO DOCUMENTS EXIST.** The corpora are a *sample of datasets*, not the
+universe of them. A class absent from what we happen to test may be well represented in a dataset
+that has not been migrated yet, and those datasets are exactly what this migration is for. An
+earlier version of this section called the situation "latent risk, not active loss" — that was
+the same error as the ledger labelling every unmapped class "dissolved": turning absence of
+evidence into a reassuring claim.
+
+The correct reading is narrower and less comforting: **the corpora do not exercise these paths,
+so the corpora could never have caught these defects.** Every fix here has to be correct *if
+documents exist*, because we cannot show they do not. Nothing may be deferred, retired, or left
+half-repaired on the grounds that no corpus happens to hold it.
+
+That is the clearest evidence in this whole audit that *"the corpus is green" cannot substitute
+for reading the source* — and the sampling limit is the second half of the same point.
 
 **The detector defect is fixed** (`tools/ndi_ground_truth.py`). Tier 1 now also recognises:
 - reads through a **local accessor helper** (a same-file function whose body uses `isfield` or
