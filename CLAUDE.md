@@ -166,10 +166,19 @@ lives in these files — read them instead of re-deriving from memory:
   either 0 (nothing to store) or an event that already has a document — point at it. My `origin`
   field recommendation was WRONG. This also CLOSES chaining: chains are normal and well-founded
   (observation → stimulus → epoch, every link a real document), terminating at an
-  `acquisition_epoch`, a session, or an `absolute_reference`. **STILL OPEN — fork C**: may one
-  reference have different anchors at each end? `markvalidinterval(epochset, t0, timeref_t0, t1,
-  timeref_t1)` takes a SEPARATE reference per end. Also identifies `valid_interval` (an UNVERIFIED
-  coverage row) = `ndi.app.markgarbage`'s record of which stretches of an epoch are good data.
+  `acquisition_epoch`, a session, or an `absolute_reference`. **C: ONE ANCHOR PER DOCUMENT** — one
+  `relative_to` + one `frame` govern both `start` and `end`; an interval whose ends are anchored
+  differently (which `markvalidinterval(epochset, t0, timeref_t0, t1, timeref_t1)` permits) becomes
+  TWO reference documents on the statement. Rejected nesting an anchor block per end — that is the
+  inline structure removed from `acquisition_epoch.clocks`, `epochclocktimes`, `distance_metadata`
+  and the tuning bag. **The model is now FULLY DECIDED; the remaining work is two DEFERRED,
+  TRACKED items, not open design**: TaskList **#51** mint a session document (GATES the build —
+  see fork A) and TaskList **#52** role-name the `time_reference_#` statement edges (a bare index
+  cannot distinguish start-anchor vs same-instant-other-frame vs recurrence; touches
+  subject_interaction + directed_relation + every migrator writing them). Until #52 lands,
+  multiple references on one statement are UNDEFINED in meaning — open item 2, recorded not
+  overlooked. Also identifies `valid_interval` (an UNVERIFIED coverage row) =
+  `ndi.app.markgarbage`'s record of which stretches of an epoch are good data.
 - **`schemas/V_eta_final_class_set.md`** — the authoritative persist set (7
   categories). REGENERATE with `python3 tools/regen_final_class_set.py` (reads the
   built `V_eta/index.json` disposition markers) after every `build_v_eta.py`; never

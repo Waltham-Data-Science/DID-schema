@@ -378,9 +378,32 @@ hold a number. Under this model every link is a real document with independent m
 **Termination rule:** a chain ends at something that defines a timeline — an `acquisition_epoch`,
 a session, or an `absolute_reference`.
 
-**C. May `start` and `end` have different referents/frames?**
- - **C1** no — one referent + one frame per reference; a `valid_interval` whose endpoints differ
-   becomes **two** references on the statement. Keeps the class simple and gives item 2 a concrete
-   meaning, but only if the edges are role-named rather than numbered.
- - **C2** yes — but that nests a whole reference inside a reference, which is the bespoke inline
-   structure this track has been removing everywhere else.
+**C. May `start` and `end` have different referents/frames?** — **DECIDED: NO. One anchor per
+document. The edge renaming is DEFERRED as its own item.**
+
+One `relative_to` + one `frame` govern both `start` and `end`. An interval whose two ends are
+anchored differently — which `markvalidinterval(epochset, t0, timeref_t0, t1, timeref_t1)` permits
+— becomes **two reference documents** that the statement points at.
+
+The rejected alternative was a `start`/`end` pair each carrying its own anchor block. That nests a
+whole reference inside a reference: the bespoke inline structure this track has removed from
+`acquisition_epoch.clocks`, `epochclocktimes`, `distance_metadata` and the tuning bag. Matching
+NDI's API shape is not worth reintroducing it, especially when the split case is rare and the
+ordinary case — both ends off one anchor — is one clean document.
+
+**The consequence, and it is deferred deliberately.** The statement edges are `time_reference_#` —
+numbered, not named. With two references on one statement a bare index cannot say which document
+is which, and there are **three** live readings it must distinguish:
+
+1. the start anchor vs the end anchor (this fork),
+2. the same instant expressed in two frames (an epoch is timed in several at once),
+3. recurrence — it happened more than once.
+
+A number cannot carry that; the role belongs in the edge name (T4/T7). But renaming touches
+`subject_interaction` and `directed_relation` plus every migrator that writes them, so it is
+**tracked separately with its own blast-radius check** rather than folded into this build. Until
+it lands, multiple references on one statement remain undefined in meaning — a known, recorded
+gap, not an oversight.
+
+*Open item 2 stays open for that reason, and it is now the only thing between this model and a
+complete design.*
