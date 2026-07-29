@@ -1,0 +1,62 @@
+{
+    "document_class": {
+        "class_name": "subjectmeasurement",
+        "class_version": "1.0.0",
+        "superclasses": [
+            {
+                "class_name": "base"
+            }
+        ],
+        "maturity_level": "stable"
+    },
+    "depends_on": [
+        {
+            "name": "subject_id",
+            "mustBeNonEmpty": false,
+            "documentation": "The subject measured. Declared mustbenotempty by NDI.",
+            "must_refer_to_document_class": "subject"
+        }
+    ],
+    "file": [],
+    "fields": [
+        {
+            "name": "measurement",
+            "type": "string",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "The name of the measurement taken (e.g. 'age'). FREE TEXT -- unbound, with no ontology term, unlike measurement.ontology_name which is always a resolved CURIE.",
+            "constraints": {}
+        },
+        {
+            "name": "value",
+            "type": "matrix",
+            "blank_value": [],
+            "default_value": [],
+            "mustBeNonEmpty": false,
+            "mustBeScalar": false,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "The value of the measurement. NO UNIT is recorded anywhere in the class, its template, or its writer, so the number is not interpretable on its own.",
+            "constraints": {}
+        },
+        {
+            "name": "datestamp",
+            "type": "timestamp",
+            "blank_value": 0.0,
+            "default_value": 0.0,
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "When the measurement was taken. SHADOWS base.datestamp -- a migrator must disambiguate.",
+            "constraints": {}
+        }
+    ]
+}

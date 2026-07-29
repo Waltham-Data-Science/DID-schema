@@ -2199,6 +2199,18 @@
             "disposition": "persist"
         },
         {
+            "class_name": "subjectmeasurement",
+            "tier": "stable",
+            "class_version": "1.0.0",
+            "maturity_level": "stable",
+            "superclasses": [
+                "base"
+            ],
+            "path": "schemas/V_eta/stable/subjectmeasurement.json",
+            "disposition": "retire",
+            "disposition_note": "Phase-8 source (migrator \u2192 delete)"
+        },
+        {
             "class_name": "syncgraph",
             "tier": "stable",
             "class_version": "1.0.0",

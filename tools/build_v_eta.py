@@ -2018,6 +2018,58 @@ _tombstone(
            " CURIE, or plain prose, based on the dataType the ontology lookup"
            " returns for the node.")])
 
+# ---- subjectmeasurement: the ledger's last UNMAPPED class gets a home -----
+#
+# THE CLASS HAD NO V_eta SCHEMA AT ALL. `coverage.py` asserted, in
+# `_PRE_ZETA_DISSOLVED`, that `subjectmeasurement` had dissolved into
+# `measurement`. NDI NEVER DID THAT: subjectmeasurement is still a shipped
+# template with four in-tree emitters, and `measurement` is a NEWER PARALLEL
+# class added 2026-01-05, not a replacement. The false entry made the row read
+# as deliberately retired while it in fact had nowhere to go. Removing it (this
+# session) surfaced the gap; this closes it.
+#
+# TOMBSTONE ONLY, NO MIGRATOR, and both halves of that are deliberate.
+#
+# Not retired: none of the five corpora under test holds one of these, and all
+# four emitters are test/demo builders writing the same hardcoded fixture
+# (`measurement='age'`, `value=30`). It would be easy to call the class dead --
+# and wrong. THE CORPORA ARE A SAMPLE OF DATASETS, not the universe; a dataset
+# still waiting to migrate may be full of these, and those datasets are what the
+# migration is for. Retiring on "we saw none" is the same inference that put the
+# false dissolution claim in the ledger to begin with.
+#
+# Not modelled: `measurement` is FREE TEXT ('age') with no ontology binding --
+# unlike measurement.ontology_name, which its writer resolves through
+# ndi.ontology.lookup and errors if lookup fails -- and `value` carries NO UNIT
+# anywhere in the class, template, or writer. `age = 30` is 30 of what? Days,
+# weeks, years? Nothing says, and that is unknowable however many documents
+# exist. A typed observation would have to invent the unit, which is precisely
+# the failure this repair track exists to undo. So the document is preserved
+# intact and lands in unconverted_by_class, where it is visible, until something
+# real needs it modelled.
+#
+# NOTE FOR WHOEVER WRITES THE MIGRATOR: `subjectmeasurement.datestamp` SHADOWS
+# `base.datestamp`. Harmless at validation (blocks are namespaced), but a
+# migrator reading "the datestamp" must say which one it means.
+write("stable", "subjectmeasurement", doc(
+    "subjectmeasurement", ["base"],
+    deps=[dep("subject_id", "subject",
+              "The subject measured. Declared mustbenotempty by NDI.",
+              non_empty=False)],
+    fields=[
+        field("measurement", "string",
+              "The name of the measurement taken (e.g. 'age'). FREE TEXT --"
+              " unbound, with no ontology term, unlike measurement.ontology_name"
+              " which is always a resolved CURIE."),
+        field("value", "matrix",
+              "The value of the measurement. NO UNIT is recorded anywhere in the"
+              " class, its template, or its writer, so the number is not"
+              " interpretable on its own.", scalar=False),
+        field("datestamp", "timestamp",
+              "When the measurement was taken. SHADOWS base.datestamp -- a"
+              " migrator must disambiguate."),
+    ]))
+
 # neuron_extracellular -- NOT an offender: its migrator reads the real
 # `cluster_index` and `quality_number` (the detector's `quality` hit was a local
 # MATLAB variable name, not a field read), and the tombstone's field list already
@@ -3126,7 +3178,11 @@ _RET_SOURCES = {"element", "openminds", "openminds_subject", "openminds_element"
     # family -> manipulations, subject_group -> bare subject, image_stack(+params)
     # -> image_observation + sampled_body.
     "treatment", "treatment_drug", "treatment_transfer", "virus_injection",
-    "subject_group", "image_stack", "image_stack_parameters"}
+    "subject_group", "image_stack", "image_stack_parameters",
+    # A did_v1 SOURCE class with a tombstone but no migrator: it passes through
+    # intact, awaiting a model. Marked here so it is not counted as a go-forward
+    # V_eta class in the final set.
+    "subjectmeasurement"}
 # The abstract dataseries_observation branch collapses into the quantity data-type
 # leaves + data_body (§A.9): a body-backed series is <quantity>_observation +
 # storage_mode:body, not a series-observation class. dataseries_observation is

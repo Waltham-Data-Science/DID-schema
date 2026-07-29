@@ -4,21 +4,20 @@
   "summary": {
     "total": 102,
     "by_disposition": {
-      "retire": 41,
+      "retire": 42,
       "dissolved \u2192 subject": 1,
       "in_progress": 21,
       "persist": 4,
       "consumed by migrator (no tombstone)": 28,
       "no V_eta home, no migrator -- UNVERIFIED": 4,
-      "test/demo fixture (non-production)": 2,
-      "UNMAPPED (needs a V_eta home)": 1
+      "test/demo fixture (non-production)": 2
     },
     "by_source": {
       "ndi": 91,
       "app": 11
     },
     "with_migrator": 62,
-    "gaps": 1
+    "gaps": 0
   },
   "rows": [
     {
@@ -1520,13 +1519,15 @@
     },
     {
       "v1_class": "subjectmeasurement",
-      "veta_class": null,
-      "disposition": "UNMAPPED (needs a V_eta home)",
+      "veta_class": "subjectmeasurement",
+      "disposition": "retire",
       "migrator": false,
       "source": "ndi",
       "nonprod": false,
-      "gap": true,
-      "targets": [],
+      "gap": false,
+      "targets": [
+        "subjectmeasurement"
+      ],
       "carried": [],
       "second_pass": [],
       "how": "",
