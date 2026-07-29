@@ -92,6 +92,24 @@ lives in these files — read them instead of re-deriving from memory:
   **enforced nowhere** (`validate/references.m` skips empty edges) — sibling to #32.
   Evidence came from `VH-Lab/NDIcalc-vis-matlab` (added to scope; the clone is EPHEMERAL — re-add
   to re-check). **PROCESS: every remaining item in that doc is DECIDED BEFORE ANY BUILD.**
+- **`schemas/V_eta_ground_truth_plan.md`** + **`schemas/V_eta_migrator_vocabulary_audit.md`** —
+  THE REPAIR TRACK. Migrators were written against DID-schema's own `V_alpha` snapshot instead of
+  the real NDI templates, so many read fields NO REAL DOCUMENT HAS and emit empty-but-valid
+  documents that pass every gate. RULE: **NDI `origin/main` templates are the did_v1 truth; where
+  template and WRITER disagree the WRITER wins; fixtures are built from the writer, never from a
+  DID-side schema.** Phase 0 (ground truth extract, `tools/ndi_ground_truth.py` →
+  `V_eta_ndi_ground_truth.json`) and Phase 1 (report-only census: `did2.validate.silentLoss`,
+  `summary.unconverted_by_class`, `tools/check_migrator_vocabulary.py`) are DONE. The audit doc
+  has per-class evidence for all 15 offenders: **6 FIXED**, **7 approved for guarded passthrough
+  (decided, NOT built)**, 2 benign. THREE failure modes — hollow / passthrough / **fragment**
+  (fragment is seen by NO counter). Biggest find: **`ontology_label` is NOT benign** — it
+  discards the `document_id` edge (its only referent) and emits an empty `subject_id`, ~7,007
+  docs, currently graded ✅ in the coverage audit. RECURRING TRAP: research agents keep claiming
+  `element_id` is a dangling non-subject edge — it is NOT, `element.m` promotes elements to
+  subjects with ids PRESERVED. OPEN: the `vhlab_voltage2firingrate` writer is in no repo we have
+  (blocks `binnedspikeratevm`'s Hz-vs-spikes-per-bin, a silent 33× risk), and the 102-class v1
+  universe may be too small (`NDIcalc-ephys-matlab` ships `spike_shape_calc`, absent from the
+  ledger entirely).
 - **`schemas/V_eta_final_class_set.md`** — the authoritative persist set (7
   categories). REGENERATE with `python3 tools/regen_final_class_set.py` (reads the
   built `V_eta/index.json` disposition markers) after every `build_v_eta.py`; never
