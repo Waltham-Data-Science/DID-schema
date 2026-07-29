@@ -64,13 +64,23 @@ FAMILIES = [
      None,
      "epoch header contents + whether clocks dissolve into time_references"),
 
-    ("daq ingestion", [
-        "daqreader", "daqreader_epochdata_ingested",
-        "daqreader_image_epochdata_ingested", "daqmetadatareader",
-        "daqmetadatareader_epochdata_ingested", "daqsystem",
-        "dataseries_channel_map"],
+    # Split by the templates, not by the name prefix: three are a MATLAB class
+    # name (configuration), three carry real epoch data or bytes, and one is not
+    # on origin/main at all.
+    ("daq configuration", ["daqsystem", "daqreader", "daqmetadatareader"],
+     "V_eta_daq_family_decisions.md",
+     "ndi_<x>_class + params -- runtime config, not archival"),
+
+    ("daq ingested payloads", [
+        "daqreader_epochdata_ingested",
+        "daqmetadatareader_epochdata_ingested",
+        "daqreader_image_epochdata_ingested"],
+     "V_eta_daq_family_decisions.md",
+     "-> relative_reference / opaque_body / image model; no new class"),
+
+    ("dataseries_channel_map", ["dataseries_channel_map"],
      None,
-     "do the ingested-cache classes persist, fold, or become opaque_body"),
+     "ABSENT on NDI origin/main -- needs a writer check before any disposition"),
 
     # The templates split this: syncgraph/syncrule are a MATLAB class name plus
     # parameters (runtime configuration), while syncrule_mapping carries the
