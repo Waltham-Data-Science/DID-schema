@@ -294,22 +294,50 @@ the 4 UNVERIFIED coverage rows — no V_eta home, no migrator — so those docum
 what it is measured against; an implicit referent is the "structure is conventional, not declared"
 smell T14 exists to kill.
 
-**Deciding this exposed a real hole, and it is bigger than an edge.** Chasing what a required
-`relative_to` would point AT:
+**A CLAIM RECORDED HERE WAS WRONG, AND IS CORRECTED IN PLACE.** An earlier revision of this
+section asserted that *no `session` document exists anywhere* — that NDI only ever writes
+`session_in_a_dataset`, that no migrator mints one, and that `base.session_id` therefore points at
+nothing. **All of that is false.**
 
-- **NDI never writes a `session` document.** `session.json` is a template, but the only thing any
-  writer emits is `session_in_a_dataset` (`ndi.dataset.m`), and only when a session is added to a
-  dataset. A plain `ndi.session` has no document representing itself.
-- **No migrator emits one either** — nothing in `+did2/+convert/` mints a `session` document.
+`ndi.session.dir` creates and persists a session document the first time a session directory is
+opened:
 
-So `base.session_id`, a **required** field on **every** document in the corpus, holds an id for
-which no document exists. The "discovery-mode orphans" that caused the session edge to be reverted
-were therefore **not a validation-mode artifact** — the referent genuinely is not there.
+```matlab
+g = ndi.document('session','session.reference', ndi_session_dir_obj.reference) + ...
+    ndi_session_dir_obj.newdocument();
+ndi_session_dir_obj.database_add(g);
+```
 
-Consequence: required `relative_to` cannot be built as-is. It forces a prerequisite — **mint the
-session document** — which is defensible on its own terms (every document claims membership in a
-session and nothing describes that session) but is separate, scoped work with its own gate. Recorded
-as its own item rather than smuggled into this build.
+and the branch above it reads one back out of the database
+(`session_doc.document_properties.session.reference`). It is a real, persisted, searchable
+document, and the coverage ledger already carries it:
+
+```
+| `session` | `session` | persist | ndi |
+```
+
+— a did_v1 source class that migrates **1:1 into V_eta with its id preserved**, by passthrough.
+
+So `relative_to → session` has a referent, and required `relative_to` needs **no prerequisite
+work**. There is nothing to mint.
+
+**How the error happened, since it is the third of its kind in this file.** The search that
+produced it looked for `newdocument('session'` and a comma-terminated `ndi.document('session',`;
+the real call site matches neither, because the arguments continue on the same line with a
+different shape. A grep that *could not have found* the writer was read as evidence the writer did
+not exist — absence of evidence promoted to a claim, the exact failure this project has now
+recorded four separate times.
+
+Worse, it was used to OVERRIDE a correct note. `jSessionAnchor` says its session edge produced
+**discovery-mode** orphans, and this section rewrote that as "not a mode artifact — the referent
+genuinely is not there, in any mode." The original comment stands: in discovery mode the batch is
+a subset that need not contain the session document, so the edge dangles there while resolving in
+a full migration.
+
+**What is still unverified** (stated as unknown, not resolved by assertion): whether every corpus
+actually contains its session document, and therefore whether a required `relative_to → session`
+would resolve for all 127,719 anchors in a full run. The `by_class` counts in the corpus report
+answer this directly and should be read before the build.
 
 **B. Where does the curator's origin live?** — **DECIDED: NOWHERE. There is no origin field, and
 `t0` dies with no replacement.**

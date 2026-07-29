@@ -155,11 +155,18 @@ lives in these files — read them instead of re-deriving from memory:
   document. The collapse is now MEASURED, not argued: the only two classes with documents are
   `{is_approximate, relation:'during'}` and the same plus `start`/`end`, and `relation` is
   `'during'` at all 14 emitter call sites — pure cardinality. **A: `relative_to` is REQUIRED**
-  (team call) — and chasing it found that **NO `session` DOCUMENT EXISTS ANYWHERE**: NDI only
-  ever writes `session_in_a_dataset` (dataset-only) and no migrator mints one, so
-  `base.session_id` — required on every document — points at nothing. The reverted session edge's
-  "discovery-mode orphans" was NOT a mode artifact. Required `relative_to` is therefore GATED on
-  minting a session document (separate scoped work). **B: THERE IS NO `origin` FIELD and `t0` IS
+  (team call). **A claim recorded here was WRONG and is corrected**: an earlier revision said NO
+  `session` document exists anywhere, that only `session_in_a_dataset` is ever written, and that
+  required `relative_to` was gated on minting one. **False.** `ndi.session.dir` creates and
+  PERSISTS a session document on first open (`ndi.document('session','session.reference',...) +
+  newdocument()` → `database_add`), reads it back from the database, and the coverage ledger
+  already carries `session → session, persist` — a did_v1 source migrating 1:1 with its id
+  preserved. So the referent EXISTS and required `relative_to` needs no prerequisite build. The
+  error came from a grep that could not have matched the real call site, promoted to a claim —
+  and it was then used to OVERRIDE `jSessionAnchor`'s correct note that its orphans were
+  DISCOVERY-MODE (a subset batch need not contain the session doc; the edge resolves in a full
+  migration). What remains is VERIFICATION, TaskList #51: read `by_class` for a `session` count
+  per corpus before the build. **B: THERE IS NO `origin` FIELD and `t0` IS
   KILLED OUTRIGHT** — the anchor is not a property of the reference. Every
   `ndi.time.timereference` construction passes `0` except ONE (`tuning_response.m:92`, which
   passes `presentation_time(1).onset`, already stored on the stimulus document). So the anchor is
@@ -172,8 +179,8 @@ lives in these files — read them instead of re-deriving from memory:
   TWO reference documents on the statement. Rejected nesting an anchor block per end — that is the
   inline structure removed from `acquisition_epoch.clocks`, `epochclocktimes`, `distance_metadata`
   and the tuning bag. **The model is now FULLY DECIDED; the remaining work is two DEFERRED,
-  TRACKED items, not open design**: TaskList **#51** mint a session document (GATES the build —
-  see fork A) and TaskList **#52** role-name the `time_reference_#` statement edges (a bare index
+  TRACKED items, not open design**: TaskList **#51** verify a `session` document is present in
+  every corpus (a CHECK, not a build — see fork A) and TaskList **#52** role-name the `time_reference_#` statement edges (a bare index
   cannot distinguish start-anchor vs same-instant-other-frame vs recurrence; touches
   subject_interaction + directed_relation + every migrator writing them). Until #52 lands,
   multiple references on one statement are UNDEFINED in meaning — open item 2, recorded not
