@@ -148,6 +148,28 @@ lives in these files — read them instead of re-deriving from memory:
   `session_bounded_reference`; epoch/event/utc classes have ZERO docs and **no migrator has ever
   emitted one**, so all epoch timing collapses to "during the session, approximately" while
   11,118 `acquisition_epoch` docs carry clock data nothing points at.
+  **EVIDENCE PASS + 2 MORE DECISIONS (read the plan's later sections, they supersede the
+  summary above):** NDI *already has this model* — `ndi.time.timereference` is
+  `(referent, clocktype, epoch, time)`, i.e. `relative_to` + `frame`, arrived at independently;
+  the `(referent, epoch)` pair collapses to ONE edge only because V_eta reifies the epoch as a
+  document. The collapse is now MEASURED, not argued: the only two classes with documents are
+  `{is_approximate, relation:'during'}` and the same plus `start`/`end`, and `relation` is
+  `'during'` at all 14 emitter call sites — pure cardinality. **A: `relative_to` is REQUIRED**
+  (team call) — and chasing it found that **NO `session` DOCUMENT EXISTS ANYWHERE**: NDI only
+  ever writes `session_in_a_dataset` (dataset-only) and no migrator mints one, so
+  `base.session_id` — required on every document — points at nothing. The reverted session edge's
+  "discovery-mode orphans" was NOT a mode artifact. Required `relative_to` is therefore GATED on
+  minting a session document (separate scoped work). **B: THERE IS NO `origin` FIELD and `t0` IS
+  KILLED OUTRIGHT** — the anchor is not a property of the reference. Every
+  `ndi.time.timereference` construction passes `0` except ONE (`tuning_response.m:92`, which
+  passes `presentation_time(1).onset`, already stored on the stimulus document). So the anchor is
+  either 0 (nothing to store) or an event that already has a document — point at it. My `origin`
+  field recommendation was WRONG. This also CLOSES chaining: chains are normal and well-founded
+  (observation → stimulus → epoch, every link a real document), terminating at an
+  `acquisition_epoch`, a session, or an `absolute_reference`. **STILL OPEN — fork C**: may one
+  reference have different anchors at each end? `markvalidinterval(epochset, t0, timeref_t0, t1,
+  timeref_t1)` takes a SEPARATE reference per end. Also identifies `valid_interval` (an UNVERIFIED
+  coverage row) = `ndi.app.markgarbage`'s record of which stretches of an epoch are good data.
 - **`schemas/V_eta_final_class_set.md`** — the authoritative persist set (7
   categories). REGENERATE with `python3 tools/regen_final_class_set.py` (reads the
   built `V_eta/index.json` disposition markers) after every `build_v_eta.py`; never
