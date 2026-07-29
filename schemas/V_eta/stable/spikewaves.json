@@ -1,10 +1,16 @@
 {
     "document_class": {
         "class_name": "spikewaves",
-        "class_version": "1.0.0",
+        "class_version": "2.0.0",
         "superclasses": [
             {
                 "class_name": "base"
+            },
+            {
+                "class_name": "epochid"
+            },
+            {
+                "class_name": "app"
             }
         ],
         "maturity_level": "stable"
@@ -12,61 +18,39 @@
     "depends_on": [
         {
             "name": "element_id",
-            "mustBeNonEmpty": true,
-            "documentation": "The document ID of the element (e.g., probe) from which spikes were extracted.",
+            "mustBeNonEmpty": false,
+            "documentation": "The recording element, promoted to a subject with its id preserved.",
             "must_refer_to_document_class": "subject"
         },
         {
-            "name": "spike_extraction_parameters_id",
-            "mustBeNonEmpty": true,
-            "documentation": "The document ID of the extraction parameters used.",
-            "must_refer_to_document_class": ""
+            "name": "extraction_parameters_id",
+            "mustBeNonEmpty": false,
+            "documentation": "The extraction parameters used.",
+            "must_refer_to_document_class": "spike_extraction_parameters"
         }
     ],
     "file": [
         {
-            "name": "spikewaves_file",
-            "documentation": "The file containing the spike waveform data."
+            "name": "spikewaves.vsw",
+            "documentation": "The waveform snippets (binary, with a header)."
+        },
+        {
+            "name": "spiketimes.bin",
+            "documentation": "The spike times, as bytes."
         }
     ],
     "fields": [
         {
-            "name": "num_spikes",
-            "type": "integer",
-            "blank_value": 0,
-            "default_value": 0,
-            "mustBeNonEmpty": false,
-            "mustBeScalar": true,
-            "mustNotHaveNaN": true,
-            "queryable": true,
-            "ontology": null,
-            "documentation": "The number of spike waveforms extracted.",
-            "constraints": {}
-        },
-        {
-            "name": "samples_per_spike",
-            "type": "integer",
-            "blank_value": 0,
-            "default_value": 0,
-            "mustBeNonEmpty": false,
-            "mustBeScalar": true,
-            "mustNotHaveNaN": true,
-            "queryable": false,
-            "ontology": null,
-            "documentation": "The number of samples per spike waveform.",
-            "constraints": {}
-        },
-        {
-            "name": "sample_rate",
-            "type": "double",
-            "blank_value": 0.0,
-            "default_value": 0.0,
+            "name": "extraction_name",
+            "type": "string",
+            "blank_value": "",
+            "default_value": "",
             "mustBeNonEmpty": false,
             "mustBeScalar": true,
             "mustNotHaveNaN": false,
-            "queryable": false,
+            "queryable": true,
             "ontology": null,
-            "documentation": "The sampling rate in Hz used during extraction.",
+            "documentation": "The name of the extraction parameters document.",
             "constraints": {}
         }
     ]

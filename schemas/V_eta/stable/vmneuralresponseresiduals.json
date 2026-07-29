@@ -1,7 +1,7 @@
 {
     "document_class": {
         "class_name": "vmneuralresponseresiduals",
-        "class_version": "1.0.0",
+        "class_version": "2.0.0",
         "superclasses": [
             {
                 "class_name": "base"
@@ -12,35 +12,197 @@
     "depends_on": [
         {
             "name": "element_id",
-            "mustBeNonEmpty": true,
-            "documentation": "The document ID of the neuron element this residuals analysis is associated with.",
+            "mustBeNonEmpty": false,
+            "documentation": "The recording element, promoted to a subject with its id preserved. This is the class's ONLY dependency -- the vmspikefit_id edge the old migrator read does not exist.",
             "must_refer_to_document_class": "subject"
-        },
-        {
-            "name": "vmspikefit_id",
-            "mustBeNonEmpty": true,
-            "documentation": "The document ID of the Vm-spike fit this residual analysis was computed from.",
-            "must_refer_to_document_class": ""
         }
     ],
-    "file": [
-        {
-            "name": "residuals_file",
-            "documentation": "The file containing the neural response residual data."
-        }
-    ],
+    "file": [],
     "fields": [
         {
-            "name": "mean_residual",
-            "type": "double",
-            "blank_value": 0.0,
-            "default_value": 0.0,
+            "name": "element_epochid",
+            "type": "string",
+            "blank_value": "",
+            "default_value": "",
             "mustBeNonEmpty": false,
             "mustBeScalar": true,
             "mustNotHaveNaN": false,
-            "queryable": false,
+            "queryable": true,
             "ontology": null,
-            "documentation": "The mean residual of the Vm-to-firing-rate fit.",
+            "documentation": "The epoch this fit covers.",
+            "constraints": {}
+        },
+        {
+            "name": "parameters",
+            "type": "structure",
+            "blank_value": {},
+            "default_value": {},
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "The fit configuration.",
+            "constraints": {},
+            "fields": [
+                {
+                    "name": "number_traces",
+                    "type": "double",
+                    "blank_value": 0.0,
+                    "default_value": 0.0,
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "How many traces were fit.",
+                    "constraints": {}
+                },
+                {
+                    "name": "samples_per_trace",
+                    "type": "matrix",
+                    "blank_value": [],
+                    "default_value": [],
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": false,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Samples in each trace.",
+                    "constraints": {}
+                },
+                {
+                    "name": "units",
+                    "type": "string",
+                    "blank_value": "",
+                    "default_value": "",
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "The units of the trace signal.",
+                    "constraints": {}
+                }
+            ]
+        },
+        {
+            "name": "column_labels",
+            "type": "structure",
+            "blank_value": {},
+            "default_value": {},
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Names for the columns of the residual trace file.",
+            "constraints": {},
+            "fields": [
+                {
+                    "name": "first_column",
+                    "type": "string",
+                    "blank_value": "",
+                    "default_value": "",
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Typically 'Time (s)'.",
+                    "constraints": {}
+                },
+                {
+                    "name": "second_column",
+                    "type": "string",
+                    "blank_value": "",
+                    "default_value": "",
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Typically 'Raw signal'.",
+                    "constraints": {}
+                },
+                {
+                    "name": "third_column",
+                    "type": "string",
+                    "blank_value": "",
+                    "default_value": "",
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Typically 'Raw signal with spikes'.",
+                    "constraints": {}
+                },
+                {
+                    "name": "fourth_column",
+                    "type": "string",
+                    "blank_value": "",
+                    "default_value": "",
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Typically 'Fit signal'.",
+                    "constraints": {}
+                },
+                {
+                    "name": "fifth_column",
+                    "type": "string",
+                    "blank_value": "",
+                    "default_value": "",
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Typically 'Residual signal'.",
+                    "constraints": {}
+                }
+            ]
+        },
+        {
+            "name": "goodness_of_fit",
+            "type": "string",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "The fit quality. NDI declares the type as number-or-string and documents neither range nor polarity, so it is carried verbatim rather than folded into a score.",
+            "constraints": {}
+        },
+        {
+            "name": "total_power",
+            "type": "string",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Total signal power. Number-or-string in NDI; carried verbatim.",
+            "constraints": {}
+        },
+        {
+            "name": "residual_power",
+            "type": "string",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Residual signal power. Number-or-string in NDI; carried verbatim.",
             "constraints": {}
         }
     ]

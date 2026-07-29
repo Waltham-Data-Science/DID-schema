@@ -62,20 +62,42 @@ modelling decision, not a defect.
 - `probe_geometry` is **three already-named parallel arrays**, so concatenating them into one
   anonymous array would discard naming the source gives for free.
 
-### APPROVED FOR GUARDED PASSTHROUGH — 7, decided, NOT YET BUILT
+### GUARDED PASSTHROUGH — 7, BUILT
 
-The user approved: **stop fabricating, guard the invented shape so it errors, pass through for
-the NDI second pass.**
+Decided as: **stop fabricating, guard the invented shape so it errors, pass through for the NDI
+second pass.** Now built — migrators, V_eta tombstones, unit tests and fixture-corpus fixtures.
 
 | class | why pass 1 cannot do it honestly |
 |---|---|
-| `spike_clusters` | reads **0 of 1** real fields. Real = `epoch_info`, `clusterinfo`, `waveform_sample_times`. Payload is `spike_cluster.bin` **bytes**. |
-| `spikewaves` | counts live in the `.vsw` **binary header**. Reads 1 of 3. |
+| `spike_clusters` | reads **0 of 3** real fields. Real = `epoch_info`, `clusterinfo`, `waveform_sample_times`. Payload is `spike_cluster.bin` **bytes**. |
+| `spikewaves` | counts live in the `.vsw` **binary header**. Reads 1 of 1 real field; both counts were invented. |
 | `spike_interface_sorting_outputs` | **`depends_on: []`** — no edges at all, so no subject exists to attach to. Counts are inside `sioutputs.zip`. |
 | `site2channelmap` | real field `map` is never read; its meaning is **defined by the `probe_geometry` it references** — needs the join |
 | `binnedspikeratevm` | **no writer exists in any repo we have**; payload is inline `"string"`-typed fields of unknown encoding |
 | `vmneuralresponseresiduals` | same missing writer; `goodness_of_fit` has **no documented range or polarity** |
 | `ontology_label` | see below — needs the graph to reach a referent |
+
+**The tombstones were wrong too, and that was nearly a silent gate failure.** All 7 V_eta
+source tombstones had themselves been written from the V_alpha snapshot — every declared field
+was invented (`num_spikes`, `num_units`, `site_to_channel`, `mean_residual`,
+`ontology_label.term`, …). The validator is strict in **both** directions:
+
+- `did2:validation:undeclaredField` rejects any block field the schema does not declare;
+- `mustBeNonEmpty` rejects a declared field the real document does not carry.
+
+So passing a real document through would have **quarantined it against our own schema**. All 7
+tombstones are now restated from the NDI `origin/main` template + `schema_documents` pair
+(names from the template, types and required deps from the schema). This is the same repair
+`simple_calc` got, and it is a standing hazard for any future deferral: *a passthrough is only
+safe if the tombstone describes the real document.*
+
+Two source disagreements surfaced and are recorded rather than resolved:
+
+- `binnedspikeratevm`'s first dependency is `vmspikefilteringparameters_id` in the template and
+  `sorting_parameters_id` in the schema. No writer to arbitrate → both declared optional.
+- `vmneuralresponseresiduals.goodness_of_fit` is typed `["number", "string"]`. DID's
+  meta-schema has **no union type**; declared `string` (the type the template's own value has),
+  with the union recorded in the field documentation.
 
 **Counts are NOT derivable in pass 1.** They exist only as `numel()` of binary file contents,
 and single-document migrators carry files without reading their bytes (the `pyraview`
@@ -136,22 +158,42 @@ show ≈7,007 empty `subject_id` edges on `term_observation`.
 
 ## Open questions — NOT resolved
 
-1. **Where is the `vhlab_voltage2firingrate` writer?** NDI-matlab has its 5 document templates
-   and 5 schemas under `ndi_common/.../apps/vhlab_voltage2firingrate/` but **zero `.m` files,
-   and never had any** (no add-commit in full history). `NDIcalc-ephys-matlab` was checked and
-   does **not** have it (it contains exactly one `.m` file, `+ndi/+calc/+ephys/spike_shape.m`).
-   Still unchecked: `vhlab-toolbox-matlab`, `NDIcalc-marder-matlab`, `NDIcalc-birren-matlab`.
-   **Blocks:** `binnedspikeratevm` (its `Hz` unit is hardcoded, but binned rates are commonly
-   spikes-per-bin — at `binsize=0.030` that is a silent **33× error**) and
-   `vmneuralresponseresiduals`.
+1. **The `vhlab_voltage2firingrate` writer does not exist — SEARCH CLOSED.** NDI-matlab has its
+   5 document templates and 5 schemas under `ndi_common/.../apps/vhlab_voltage2firingrate/` but
+   **zero `.m` files, and never had any** (no add-commit in full history). Every candidate
+   repository has now been cloned and searched:
 
-2. **The 102-class v1 universe may be drawn too small.** `coverage.py` counts 91 NDI templates
-   + 11 vhlab app classes from `NDIcalc-vis-matlab` only, and reports **0 gaps**. But
-   `NDIcalc-ephys-matlab` ships `spike_shape_calc` — a real class with a real writer — that is
-   **absent from the ledger entirely** and has no migrator. It is not a gap *in* the ledger; it
-   is *outside* it. `NDIcalc-birren-matlab` and `NDIcalc-marder-matlab` plausibly add more
-   (`electrode_offset_voltage`'s writer is Marder-lab code). **Every coverage claim rests on
-   this count.** User's call: "keep it as is for now."
+   | repo | ref | has the writer? |
+   |---|---|---|
+   | `NDIcalc-vis-matlab` | `65718ed` | no |
+   | `NDIcalc-ephys-matlab` | `e9724a5` | no — exactly one `.m` file, `+ndi/+calc/+ephys/spike_shape.m` |
+   | `NDIcalc-marder-matlab` | `dac67c7` | no |
+   | `NDIcalc-birren-matlab` | `9d1b4d0` | no |
+   | `vhlab-toolbox-matlab` | `0bccce1` | no |
+
+   So the deferral of `binnedspikeratevm` and `vmneuralresponseresiduals` is **permanent until a
+   writer or a real corpus document turns up** — it is not waiting on more searching. What stays
+   undecidable: whether the binned values are rates or spikes-per-bin (the old code hardcoded
+   `Hz`; at `binsize = 0.030` those differ by **33×**), the encoding of the `"string"`-typed
+   payload fields, and the range/polarity of `goodness_of_fit`.
+
+2. **The 102-class v1 universe is drawn too small — now with four more instances.**
+   `coverage.py` counts 91 NDI templates + 11 vhlab app classes from `NDIcalc-vis-matlab` only,
+   and reports **0 gaps**. The clone sweep above found document classes with real templates,
+   real schemas and (mostly) real writers that are **absent from the ledger entirely** — not
+   gaps *in* it, but *outside* it:
+
+   | class | repo |
+   |---|---|
+   | `spike_shape_calc` | NDIcalc-ephys |
+   | `ppg_beats` | NDIcalc-marder (`ndi_common/database_documents/heart/`) |
+   | `spectrogram` | NDIcalc-marder |
+   | `currentfrequency_FIcurves_calc` | NDIcalc-birren (`ndi_common/database_documents/calc/`) |
+
+   Birren also ships two schema-only entries with no matching template
+   (`naka_rushton_thresh_fit`, `currentFrequency_nakaRushton_calc`) — possibly stale, not
+   verified. **Every coverage claim rests on the 102 count.** User's call: "keep it as is for
+   now."
 
 3. **The FRAGMENT detection gap** (see the table at the top) — no counter sees a migrator that
    emits only its side documents.
@@ -165,5 +207,13 @@ show ≈7,007 empty `subject_id` edges on `term_observation`.
 - Full corpus **run #252** on DID-matlab `cebb0ab` — **predates all migrator fixes**, so its
   per-class numbers describe the OLD behaviour. Useful for the id-preservation check, the
   hollow census, and the `ontology_label` prediction above; **not** a Phase 2 ranking.
-- Repos added to session scope this session: `VH-Lab/NDIcalc-vis-matlab` (@`65718ed`),
-  `VH-Lab/NDIcalc-ephys-matlab` (@`e9724a5`). **Both clones are ephemeral** — re-add to re-check.
+- Repos added to session scope this session: `NDIcalc-vis-matlab` (@`65718ed`),
+  `NDIcalc-ephys-matlab` (@`e9724a5`), `NDIcalc-marder-matlab` (@`dac67c7`),
+  `NDIcalc-birren-matlab` (@`9d1b4d0`), `vhlab-toolbox-matlab` (@`0bccce1`), all under `VH-Lab`.
+  **All clones are ephemeral** — re-add to re-check.
+- `tools/check_migrator_vocabulary.py` now distinguishes a migrator that CONSUMES an invented
+  name from one where the name survives only inside a rejection guard (the detector cannot tell
+  `isfield` apart, so the split is a hand-maintained list). The report went **15 offenders → 1**
+  — `daqreader_ndr`, whose `file_extension` branch is confirmed unreachable dead code. It also
+  now flags a guard that has DISAPPEARED, so deleting one later reads as a regression rather
+  than as progress.

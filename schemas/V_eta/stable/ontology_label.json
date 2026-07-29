@@ -1,7 +1,7 @@
 {
     "document_class": {
         "class_name": "ontology_label",
-        "class_version": "1.0.0",
+        "class_version": "2.0.0",
         "superclasses": [
             {
                 "class_name": "base"
@@ -11,54 +11,26 @@
     },
     "depends_on": [
         {
-            "name": "element_id",
+            "name": "document_id",
             "mustBeNonEmpty": false,
-            "documentation": "The document ID of the element this ontology label is associated with.",
-            "must_refer_to_document_class": "subject"
+            "documentation": "The document this label is about. NOT a subject -- reaching the subject means following this edge through the migrated-id graph, which is why the class is deferred to the NDI second pass.",
+            "must_refer_to_document_class": "base"
         }
     ],
     "file": [],
     "fields": [
         {
-            "name": "term",
-            "type": "ontology_term",
-            "blank_value": null,
-            "default_value": null,
-            "mustBeNonEmpty": true,
+            "name": "ontology_node",
+            "type": "string",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
             "mustBeScalar": true,
             "mustNotHaveNaN": false,
             "queryable": true,
             "ontology": null,
-            "documentation": "The ontology term labelling this element. The CURIE prefix identifies the source ontology (e.g., 'allen_ccf_v3'), the local part is the numeric ID (e.g., 'allen_ccf_v3:12345'), and 'name' carries the human-readable label.",
-            "constraints": {},
-            "fields": [
-                {
-                    "name": "node",
-                    "type": "char",
-                    "blank_value": "",
-                    "default_value": "",
-                    "mustBeNonEmpty": false,
-                    "mustBeScalar": true,
-                    "mustNotHaveNaN": false,
-                    "queryable": true,
-                    "ontology": null,
-                    "documentation": "The CURIE (prefix resolved via CURIE_lookups_meta.json).",
-                    "constraints": {}
-                },
-                {
-                    "name": "name",
-                    "type": "char",
-                    "blank_value": "",
-                    "default_value": "",
-                    "mustBeNonEmpty": false,
-                    "mustBeScalar": true,
-                    "mustNotHaveNaN": false,
-                    "queryable": true,
-                    "ontology": null,
-                    "documentation": "The human-readable label.",
-                    "constraints": {}
-                }
-            ]
+            "documentation": "The ontology node id as ontology:nodeID (e.g. 'UBERON:3373'). Spelled `ontologyNode` in did_v1; snake_cased by universalRenames.",
+            "constraints": {}
         }
     ]
 }

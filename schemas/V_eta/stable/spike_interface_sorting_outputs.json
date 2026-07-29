@@ -1,7 +1,7 @@
 {
     "document_class": {
         "class_name": "spike_interface_sorting_outputs",
-        "class_version": "1.0.0",
+        "class_version": "2.0.0",
         "superclasses": [
             {
                 "class_name": "base"
@@ -9,52 +9,30 @@
         ],
         "maturity_level": "stable"
     },
-    "depends_on": [
-        {
-            "name": "element_id",
-            "mustBeNonEmpty": true,
-            "documentation": "The document ID of the element (e.g., probe) this sorting output is associated with.",
-            "must_refer_to_document_class": "subject"
-        }
-    ],
+    "depends_on": [],
     "file": [
         {
-            "name": "sorting_output_file",
-            "documentation": "The SpikeInterface sorting output file."
+            "name": "sorting.sioutputs.zip",
+            "documentation": "The SpikeInterface sorting outputs, as an archive."
         }
     ],
     "fields": [
         {
             "name": "sorter_name",
-            "type": "char",
+            "type": "string",
             "blank_value": "",
             "default_value": "",
-            "mustBeNonEmpty": true,
+            "mustBeNonEmpty": false,
             "mustBeScalar": true,
             "mustNotHaveNaN": false,
             "queryable": true,
             "ontology": null,
-            "documentation": "The name of the spike sorter used (e.g., 'kilosort2', 'mountainsort4').",
-            "constraints": {
-                "maxLength": 128
-            }
-        },
-        {
-            "name": "num_units",
-            "type": "integer",
-            "blank_value": 0,
-            "default_value": 0,
-            "mustBeNonEmpty": false,
-            "mustBeScalar": true,
-            "mustNotHaveNaN": true,
-            "queryable": true,
-            "ontology": null,
-            "documentation": "The number of units (clusters) found by the sorter.",
+            "documentation": "The spike sorter used (e.g. kilosort2, herdingspikes).",
             "constraints": {}
         },
         {
             "name": "sample_rate",
-            "type": "double",
+            "type": "integer",
             "blank_value": 0.0,
             "default_value": 0.0,
             "mustBeNonEmpty": false,
@@ -62,24 +40,21 @@
             "mustNotHaveNaN": false,
             "queryable": false,
             "ontology": null,
-            "documentation": "The sampling rate in Hz of the recording that was sorted.",
+            "documentation": "Sampling rate of the recording, in Hz.",
             "constraints": {}
         },
         {
-            "name": "sorter_parameters",
-            "type": "structure",
-            "blank_value": {},
-            "default_value": {},
+            "name": "unit",
+            "type": "string",
+            "blank_value": "",
+            "default_value": "",
             "mustBeNonEmpty": false,
             "mustBeScalar": true,
             "mustNotHaveNaN": false,
             "queryable": false,
             "ontology": null,
-            "documentation": "Structure of the parameters used to run the sorter. Keys and value types are specific to the algorithm named in sorter_name (e.g., for 'kilosort2': {detect_threshold, projection_threshold, ...}).",
-            "constraints": {
-                "dynamic_keys_from": "sorter_name"
-            },
-            "fields": []
+            "documentation": "Time unit used for spike times (typically 'ms' or 's').",
+            "constraints": {}
         }
     ]
 }

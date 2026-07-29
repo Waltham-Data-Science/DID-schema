@@ -107,6 +107,37 @@ KNOWN_BROKEN = {
     #   description are lost, so structure survives and labels degrade.
 }
 
+# Phase 2 outcome: these migrators no longer CONSUME an invented name -- the only
+# place the name still appears is a guard that REJECTS a body carrying it, so a
+# fixture or caller built against the V_alpha snapshot fails loudly instead of
+# migrating silently. The detector cannot tell a guard from a read (both are
+# `isfield(blk, 'name')`), so the distinction has to be recorded here.
+#
+# Keeping these visible rather than deleting them is deliberate: a guard removed
+# by a later edit should show up as a regression, not vanish quietly.
+RESOLVED_BY_GUARD = {
+    "ontology_image.m":                 "vintage split; current NDI shape passes through",
+    "probe_geometry.m":                 "one length_observation per real site-location axis",
+    "electrode_offset_voltage.m":       "reads the real scalar offset + temperature",
+    "simple_calc.m":                    "guarded passthrough -- no subject-bearing edge",
+    "spike_clusters.m":                 "guarded passthrough -- count is in spike_cluster.bin",
+    "spikewaves.m":                     "guarded passthrough -- counts are in the .vsw header",
+    "spike_interface_sorting_outputs.m": "guarded passthrough -- class declares no dependencies",
+    "site2channelmap.m":                "guarded passthrough -- `map` needs the probe_geometry join",
+    "binnedspikeratevm.m":              "guarded passthrough -- no writer exists in any repository",
+    "vmneuralresponseresiduals.m":      "guarded passthrough -- no writer; goodness_of_fit unspecified",
+    "ontology_label.m":                 "guarded passthrough -- referent needs the migrated-id graph",
+}
+
+# Also fixed, but WITHOUT a guard, so they correctly disappear from the report
+# entirely. Recorded here only so the two resolution routes are both visible:
+#   fitcurve.m, vmspikefit.m -- the invented fit_function/goodness_of_fit/
+#   r_squared reads were replaced outright by the real fit_equation + fit_sse.
+#   No guard was added because a fit-quality field is not a shape a caller could
+#   plausibly synthesise; the rename is the whole repair. (fit_sse is unbounded,
+#   in units squared, and LOWER is better, so it is reported as a residual --
+#   writing it as an r-squared would have inverted every downstream comparison.)
+
 
 def main():
     ap = argparse.ArgumentParser()
@@ -121,14 +152,21 @@ def main():
     gt = json.load(open(GT))
     reads = gt.get("migrator_reads", [])
 
-    confirmed = [r for r in reads if r["confidence"] == "confirmed-vocabulary"]
+    hits = [r for r in reads if r["confidence"] == "confirmed-vocabulary"]
     possible = [r for r in reads if r["confidence"] != "confirmed-vocabulary"]
+    # A guarded migrator still MENTIONS the invented name -- in the isfield that
+    # rejects it. That is the opposite of the defect, so it is not an offender.
+    guarded = [r for r in hits if r["migrator"] in RESOLVED_BY_GUARD]
+    confirmed = [r for r in hits if r["migrator"] not in RESOLVED_BY_GUARD]
     new = [r for r in confirmed if r["migrator"] not in KNOWN_BROKEN]
+    missing_guard = sorted(set(RESOLVED_BY_GUARD)
+                           - {r["migrator"] for r in hits})
 
     print("migrator vocabulary check  (ground truth: NDI %s, %d classes)"
           % (gt.get("ndi_ref", "?"), gt["summary"]["ndi_classes"]))
     print()
-    print("  reads invented names via an explicit idiom : %d" % len(confirmed))
+    print("  still CONSUME invented names               : %d" % len(confirmed))
+    print("  name present only in a rejection guard     : %d" % len(guarded))
     print("  mentions invented names only               : %d" % len(possible))
     print("  NOT on the known-broken list (regressions) : %d" % len(new))
     print()
@@ -140,11 +178,25 @@ def main():
             print("  %s%-34s %s" % (mark, r["migrator"],
                                     r["reads_names_absent_from_template"]))
         print()
+    if guarded:
+        print("GUARDED (fixed -- the name survives only to be rejected):")
+        for r in sorted(guarded, key=lambda x: x["migrator"]):
+            print("      %-34s %s" % (r["migrator"],
+                                      RESOLVED_BY_GUARD[r["migrator"]]))
+        print()
     if possible:
         print("MENTIONS invented vocabulary (may be a comment -- verify by hand):")
         for r in possible:
             print("      %-34s %s" % (r["migrator"],
                                       r["mentions_names_absent_from_template"]))
+        print()
+    if missing_guard:
+        print("GUARD GONE -- listed as resolved, but the invented name is no "
+              "longer present at all. Either the guard was dropped (a "
+              "regression: the V_alpha shape would now migrate silently) or the "
+              "entry is stale:")
+        for m in missing_guard:
+            print("      %s" % m)
         print()
 
     if a.enforce and confirmed:

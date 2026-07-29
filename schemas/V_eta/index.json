@@ -277,10 +277,12 @@
         {
             "class_name": "binnedspikeratevm",
             "tier": "stable",
-            "class_version": "1.0.0",
+            "class_version": "2.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                "base"
+                "base",
+                "epochid",
+                "app"
             ],
             "path": "schemas/V_eta/stable/binnedspikeratevm.json",
             "disposition": "retire",
@@ -1468,7 +1470,7 @@
         {
             "class_name": "ontology_label",
             "tier": "stable",
-            "class_version": "1.0.0",
+            "class_version": "2.0.0",
             "maturity_level": "stable",
             "superclasses": [
                 "base"
@@ -1932,7 +1934,7 @@
         {
             "class_name": "site2channelmap",
             "tier": "stable",
-            "class_version": "1.0.0",
+            "class_version": "2.0.0",
             "maturity_level": "stable",
             "superclasses": [
                 "base"
@@ -1967,10 +1969,11 @@
         {
             "class_name": "spike_clusters",
             "tier": "stable",
-            "class_version": "1.0.0",
+            "class_version": "2.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                "base"
+                "base",
+                "app"
             ],
             "path": "schemas/V_eta/stable/spike_clusters.json",
             "disposition": "retire",
@@ -2003,7 +2006,7 @@
         {
             "class_name": "spike_interface_sorting_outputs",
             "tier": "stable",
-            "class_version": "1.0.0",
+            "class_version": "2.0.0",
             "maturity_level": "stable",
             "superclasses": [
                 "base"
@@ -2015,10 +2018,12 @@
         {
             "class_name": "spikewaves",
             "tier": "stable",
-            "class_version": "1.0.0",
+            "class_version": "2.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                "base"
+                "base",
+                "epochid",
+                "app"
             ],
             "path": "schemas/V_eta/stable/spikewaves.json",
             "disposition": "retire",
@@ -2473,7 +2478,7 @@
         {
             "class_name": "vmneuralresponseresiduals",
             "tier": "stable",
-            "class_version": "1.0.0",
+            "class_version": "2.0.0",
             "maturity_level": "stable",
             "superclasses": [
                 "base"

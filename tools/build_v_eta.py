@@ -1401,6 +1401,209 @@ _scalc["fields"] = [
 ]
 write("stable", "simple_calc", _scalc)
 
+# ---- seven more SOURCE TOMBSTONES restated from the real did_v1 shape ----
+#
+# Same repair as simple_calc, applied to the seven classes whose migrators were
+# reading field names no did_v1 document has. Each of those migrators is now a
+# guarded passthrough (see the DID-matlab +migrators_j headers), so the document
+# arrives at validation in its ORIGINAL shape -- and the validator is strict in
+# both directions: `did2:validation:undeclaredField` rejects any block field the
+# schema does not declare, and `mustBeNonEmpty` rejects a declared field the real
+# document does not carry. A tombstone written from the V_alpha snapshot
+# therefore quarantines the very documents it exists to preserve.
+#
+# Every shape below is taken from the NDI `origin/main` pair -- the property
+# template under ndi_common/database_documents/ for the field NAMES and the
+# matching ndi_common/schema_documents/ file for the TYPES and the required
+# dependencies. Nothing here is inferred from a DID-side schema.
+#
+# These are deferrals, not models: they hold real documents intact until the NDI
+# second pass, which can see the migrated-id graph and read file bytes. See
+# V_eta_migrator_vocabulary_audit.md for the per-class evidence.
+
+def _tombstone(name, supers, deps, fields, files=()):
+    """Restate a source tombstone from the real did_v1 template + schema."""
+    t = load(os.path.join(VETA, "stable", name + ".json"))
+    t["document_class"]["superclasses"] = [{"class_name": s} for s in supers]
+    t["document_class"]["class_version"] = "2.0.0"
+    t["depends_on"] = deps
+    t["fields"] = fields
+    t["file"] = [{"name": n, "documentation": d} for n, d in files]
+    write("stable", name, t)
+
+
+# spike_clusters -- the sorter's per-spike cluster assignments. The payload is
+# the spike_cluster.bin BYTES; a single-document migrator carries files without
+# reading them (the pyraview precedent), so no count is derivable in pass 1.
+_tombstone(
+    "spike_clusters", ["base", "app"],
+    [dep("sorting_parameters_id", "sorting_parameters",
+         "The sorting run's parameters.", non_empty=False),
+     dep("element_id", "subject",
+         "The recording element, promoted to a subject with its id preserved by"
+         " migrators_j.element (device-as-subject, D2).", non_empty=False),
+     dep("extraction_parameters_id", "spike_extraction_parameters",
+         "The spike-extraction parameters the sorted waveforms came from.",
+         non_empty=False),
+     dep("spikewaves_doc_id", "spikewaves",
+         "The spikewaves document holding the waveforms that were sorted.",
+         non_empty=False)],
+    [field("epoch_info", "structure",
+           "Per-epoch bookkeeping for the sorted run, as written by the v1 app."),
+     field("clusterinfo", "structure",
+           "One entry per cluster, as written by the v1 app.", scalar=False),
+     field("waveform_sample_times", "matrix",
+           "Sample times for the spike waveforms.", scalar=False)],
+    files=[("spike_cluster.bin",
+            "The per-spike cluster assignments, as bytes.")])
+
+# spikewaves -- extracted waveform snippets. `extraction_name` is the only
+# property field; the counts the old migrator reported live in the .vsw header.
+_tombstone(
+    "spikewaves", ["base", "epochid", "app"],
+    [dep("element_id", "subject",
+         "The recording element, promoted to a subject with its id preserved.",
+         non_empty=False),
+     dep("extraction_parameters_id", "spike_extraction_parameters",
+         "The extraction parameters used.", non_empty=False)],
+    [field("extraction_name", "string",
+           "The name of the extraction parameters document.")],
+    files=[("spikewaves.vsw", "The waveform snippets (binary, with a header)."),
+           ("spiketimes.bin", "The spike times, as bytes.")])
+
+# spike_interface_sorting_outputs -- `depends_on: []` in NDI, so the document
+# names NO subject at all; the sorted units are inside sorting.sioutputs.zip.
+# The zero declared dependencies are why pass 1 cannot say who this is about.
+_tombstone(
+    "spike_interface_sorting_outputs", ["base"], [],
+    [field("sorter_name", "string",
+           "The spike sorter used (e.g. kilosort2, herdingspikes)."),
+     field("sample_rate", "integer",
+           "Sampling rate of the recording, in Hz.", queryable=False),
+     field("unit", "string",
+           "Time unit used for spike times (typically 'ms' or 's').",
+           queryable=False)],
+    files=[("sorting.sioutputs.zip",
+            "The SpikeInterface sorting outputs, as an archive.")])
+
+# site2channelmap -- `map` is a column of channel indices whose i-th element
+# means "site i of the referenced probe_geometry". Its meaning is only
+# recoverable by joining to that document, which pass 1 cannot do.
+_tombstone(
+    "site2channelmap", ["base"],
+    [dep("probe_id", "subject",
+         "The probe, promoted to a subject with its id preserved.",
+         non_empty=False),
+     dep("probe_geometry_id", "probe_geometry",
+         "The geometry document whose site ordering indexes `map`.",
+         non_empty=False)],
+    [field("map", "matrix",
+           "Column of channel indices; the i-th element is the channel wired to"
+           " site i of the referenced probe_geometry.",
+           scalar=False, queryable=False)])
+
+# binnedspikeratevm -- NDI ships templates and schemas for the
+# vhlab_voltage2firingrate app but NO writer, in any repository we can reach
+# (NDI-matlab, NDIcalc-vis/-ephys/-marder/-birren, vhlab-toolbox). So the
+# encoding of the "string"-typed observation fields is undocumented, and
+# nothing states whether the binned values are rates or per-bin counts -- at
+# the template's binsize of 0.030 s those differ by a factor of 33. The old
+# migrator hardcoded Hz. Deferred until a writer or a real document settles it.
+#
+# NOTE a genuine source disagreement: the template's first dependency is
+# `vmspikefilteringparameters_id`, the schema's is `sorting_parameters_id`.
+# With no writer there is nothing to arbitrate, so both are declared optional.
+_tombstone(
+    "binnedspikeratevm", ["base", "epochid", "app"],
+    [dep("vmspikefilteringparameters_id", "vmspikefilteringparameters",
+         "The Vm spike-filtering parameters (the NDI TEMPLATE's first"
+         " dependency).", non_empty=False),
+     dep("sorting_parameters_id", "sorting_parameters",
+         "The sorting parameters (what the NDI SCHEMA declares in the same slot"
+         " -- template and schema disagree and there is no writer to arbitrate).",
+         non_empty=False),
+     dep("element_id", "subject",
+         "The recording element, promoted to a subject with its id preserved.",
+         non_empty=False)],
+    [field("parameters", "structure",
+           "The binning configuration written by the v1 app.",
+           sub_fields=[
+               field("binsize", "double", "Bin width in seconds."),
+               field("vm_baseline_correction", "double",
+                     "Whether the Vm baseline was corrected."),
+               field("vm_baseline_correct_time", "double",
+                     "The time window used for baseline correction."),
+               field("vm_baseline_correct_func", "string",
+                     "The baseline-correction function (e.g. 'median')."),
+               field("number_of_points", "double",
+                     "The number of points per bin."),
+           ]),
+     field("voltage_observations", "string",
+           "The Vm observations. Encoding undocumented -- typed `string` by the"
+           " NDI schema, with no writer to say how values are packed."),
+     field("firingrate_observations", "string",
+           "The binned firing observations. Encoding undocumented, and the"
+           " quantity (rate vs per-bin count) is not stated anywhere."),
+     field("stimids", "string", "The stimulus ids per bin. Encoding undocumented."),
+     field("timepoints", "string", "The bin timepoints. Encoding undocumented."),
+     field("exactbintime", "string",
+           "The exact bin times. Encoding undocumented.")])
+
+# vmneuralresponseresiduals -- same app, same missing writer. `goodness_of_fit`
+# is declared `["number", "string"]` in the NDI schema; DID's meta-schema has no
+# union type, so it is declared `string` here (the type the template's own value
+# has) and the union is recorded in the documentation. Nothing documents the
+# metric's range or polarity, so no fold can honestly normalise it.
+_tombstone(
+    "vmneuralresponseresiduals", ["base"],
+    [dep("element_id", "subject",
+         "The recording element, promoted to a subject with its id preserved."
+         " This is the class's ONLY dependency -- the vmspikefit_id edge the old"
+         " migrator read does not exist.", non_empty=False)],
+    [field("element_epochid", "string", "The epoch this fit covers."),
+     field("parameters", "structure", "The fit configuration.",
+           sub_fields=[
+               field("number_traces", "double", "How many traces were fit."),
+               field("samples_per_trace", "matrix",
+                     "Samples in each trace.", scalar=False),
+               field("units", "string", "The units of the trace signal."),
+           ]),
+     field("column_labels", "structure",
+           "Names for the columns of the residual trace file.",
+           sub_fields=[
+               field("first_column", "string", "Typically 'Time (s)'."),
+               field("second_column", "string", "Typically 'Raw signal'."),
+               field("third_column", "string",
+                     "Typically 'Raw signal with spikes'."),
+               field("fourth_column", "string", "Typically 'Fit signal'."),
+               field("fifth_column", "string", "Typically 'Residual signal'."),
+           ]),
+     field("goodness_of_fit", "string",
+           "The fit quality. NDI declares the type as number-or-string and"
+           " documents neither range nor polarity, so it is carried verbatim"
+           " rather than folded into a score."),
+     field("total_power", "string",
+           "Total signal power. Number-or-string in NDI; carried verbatim."),
+     field("residual_power", "string",
+           "Residual signal power. Number-or-string in NDI; carried verbatim.")])
+
+# ontology_label -- the label value is fine; the REFERENT is the problem. The
+# real class has exactly one dependency, `document_id`, pointing at the document
+# being labelled. The old migrator asked for element_id/subject_id/probe_id --
+# none of which exist -- so it emitted an empty subject edge AND discarded the
+# document_id edge, keeping the term and losing what the term was about. The
+# second pass can follow document_id through to a subject; pass 1 cannot.
+_tombstone(
+    "ontology_label", ["base"],
+    [dep("document_id", "base",
+         "The document this label is about. NOT a subject -- reaching the"
+         " subject means following this edge through the migrated-id graph,"
+         " which is why the class is deferred to the NDI second pass.",
+         non_empty=False)],
+    [field("ontology_node", "string",
+           "The ontology node id as ontology:nodeID (e.g. 'UBERON:3373')."
+           " Spelled `ontologyNode` in did_v1; snake_cased by universalRenames.")])
+
 
 # ---------- 11. storage_mode + data_body (sampled_/opaque_) ----------
 

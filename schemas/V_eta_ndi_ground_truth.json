@@ -5,8 +5,8 @@
     "ndi_classes": 91,
     "v_alpha_classes_compared": 80,
     "v_alpha_divergences": 67,
-    "migrator_suspects": 18,
-    "migrator_suspects_confirmed_vocabulary": 7,
+    "migrator_suspects": 16,
+    "migrator_suspects_confirmed_vocabulary": 12,
     "writer_divergences": 3,
     "provenance": {
       "DID-INVENTED": 36,
@@ -1430,12 +1430,12 @@
     {
       "migrator": "binnedspikeratevm.m",
       "ndi_class": "binnedspikeratevm",
-      "confidence": "possible",
-      "reads_names_absent_from_template": [],
-      "mentions_names_absent_from_template": [
+      "confidence": "confirmed-vocabulary",
+      "reads_names_absent_from_template": [
         "bin_size",
         "num_bins"
       ],
+      "mentions_names_absent_from_template": [],
       "template_fields": [
         "exactbintime",
         "firingrate_observations",
@@ -1470,27 +1470,6 @@
       "template_fields": [
         "offset",
         "temperature"
-      ]
-    },
-    {
-      "migrator": "fitcurve.m",
-      "ndi_class": "fitcurve",
-      "confidence": "possible",
-      "reads_names_absent_from_template": [],
-      "mentions_names_absent_from_template": [
-        "fit_function",
-        "goodness_of_fit"
-      ],
-      "template_fields": [
-        "fit_constraints",
-        "fit_data",
-        "fit_dependent_variable_names",
-        "fit_equation",
-        "fit_independent_variable_names",
-        "fit_name",
-        "fit_parameter_names",
-        "fit_parameters",
-        "fit_sse"
       ]
     },
     {
@@ -1569,12 +1548,12 @@
     {
       "migrator": "simple_calc.m",
       "ndi_class": "simple_calc",
-      "confidence": "possible",
-      "reads_names_absent_from_template": [],
-      "mentions_names_absent_from_template": [
+      "confidence": "confirmed-vocabulary",
+      "reads_names_absent_from_template": [
         "result_units",
         "result_value"
       ],
+      "mentions_names_absent_from_template": [],
       "template_fields": [
         "answer",
         "input_parameters"
@@ -1585,7 +1564,8 @@
       "ndi_class": "site2channelmap",
       "confidence": "confirmed-vocabulary",
       "reads_names_absent_from_template": [
-        "num_sites"
+        "num_sites",
+        "site_to_channel"
       ],
       "mentions_names_absent_from_template": [],
       "template_fields": [
@@ -1595,11 +1575,12 @@
     {
       "migrator": "spike_clusters.m",
       "ndi_class": "spike_clusters",
-      "confidence": "possible",
-      "reads_names_absent_from_template": [],
-      "mentions_names_absent_from_template": [
+      "confidence": "confirmed-vocabulary",
+      "reads_names_absent_from_template": [
+        "num_clusters",
         "num_spikes"
       ],
+      "mentions_names_absent_from_template": [],
       "template_fields": [
         "clusterinfo",
         "epoch_info",
@@ -1611,7 +1592,8 @@
       "ndi_class": "SpikeInterfaceSortingOutputs",
       "confidence": "confirmed-vocabulary",
       "reads_names_absent_from_template": [
-        "num_units"
+        "num_units",
+        "sorter_parameters"
       ],
       "mentions_names_absent_from_template": [],
       "template_fields": [
@@ -1623,12 +1605,13 @@
     {
       "migrator": "spikewaves.m",
       "ndi_class": "spikewaves",
-      "confidence": "possible",
-      "reads_names_absent_from_template": [],
-      "mentions_names_absent_from_template": [
+      "confidence": "confirmed-vocabulary",
+      "reads_names_absent_from_template": [
         "num_spikes",
+        "sample_rate",
         "samples_per_spike"
       ],
+      "mentions_names_absent_from_template": [],
       "template_fields": [
         "extraction_name"
       ]
@@ -1664,11 +1647,11 @@
     {
       "migrator": "vmneuralresponseresiduals.m",
       "ndi_class": "vmneuralresponseresiduals",
-      "confidence": "possible",
-      "reads_names_absent_from_template": [],
-      "mentions_names_absent_from_template": [
+      "confidence": "confirmed-vocabulary",
+      "reads_names_absent_from_template": [
         "mean_residual"
       ],
+      "mentions_names_absent_from_template": [],
       "template_fields": [
         "column_labels",
         "element_epochid",
@@ -1676,25 +1659,6 @@
         "parameters",
         "residual_power",
         "total_power"
-      ]
-    },
-    {
-      "migrator": "vmspikefit.m",
-      "ndi_class": "vmspikefit",
-      "confidence": "possible",
-      "reads_names_absent_from_template": [],
-      "mentions_names_absent_from_template": [
-        "fit_function",
-        "r_squared"
-      ],
-      "template_fields": [
-        "fit_constraints",
-        "fit_equation",
-        "fit_name",
-        "fit_parameter_names",
-        "fit_parameters",
-        "fit_sse",
-        "fit_sse_perpoint"
       ]
     },
     {
