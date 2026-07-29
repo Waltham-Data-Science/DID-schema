@@ -1,54 +1,227 @@
 {
     "document_class": {
         "class_name": "spike_extraction_parameters_modification",
-        "class_version": "1.0.0",
+        "class_version": "2.0.0",
         "superclasses": [
             {
                 "class_name": "base"
+            },
+            {
+                "class_name": "app"
             }
         ],
         "maturity_level": "stable"
     },
     "depends_on": [
         {
-            "name": "spike_extraction_parameters_id",
-            "mustBeNonEmpty": true,
-            "documentation": "The document ID of the spike_extraction_parameters being modified.",
-            "must_refer_to_document_class": ""
+            "name": "extraction_parameters_id",
+            "mustBeNonEmpty": false,
+            "documentation": "The parameter set this one revises.",
+            "must_refer_to_document_class": "spike_extraction_parameters"
+        },
+        {
+            "name": "element_id",
+            "mustBeNonEmpty": false,
+            "documentation": "The recording element the revision applies to, promoted to a subject with its id preserved (device-as-subject, D2).",
+            "must_refer_to_document_class": "subject"
         }
     ],
     "file": [],
     "fields": [
         {
-            "name": "modified_fields",
-            "type": "structure",
-            "blank_value": {},
-            "default_value": {},
+            "name": "center_range_time",
+            "type": "double",
+            "blank_value": 0.0,
+            "default_value": 0.0,
             "mustBeNonEmpty": false,
             "mustBeScalar": true,
             "mustNotHaveNaN": false,
-            "queryable": false,
+            "queryable": true,
             "ontology": null,
-            "documentation": "Structure whose keys are the names of the modified spike_extraction_parameters fields and whose values are the new values assigned to them. Dynamic keys: one entry per modified field.",
-            "constraints": {
-                "dynamic_keys": true
-            },
-            "fields": []
+            "documentation": "Window around the peak used to centre a detected spike, in seconds.",
+            "constraints": {}
         },
         {
-            "name": "modification_reason",
-            "type": "char",
+            "name": "overlap",
+            "type": "double",
+            "blank_value": 0.0,
+            "default_value": 0.0,
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Fractional overlap between successive read windows.",
+            "constraints": {}
+        },
+        {
+            "name": "read_time",
+            "type": "double",
+            "blank_value": 0.0,
+            "default_value": 0.0,
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Length of each read window, in seconds.",
+            "constraints": {}
+        },
+        {
+            "name": "refractory_time",
+            "type": "double",
+            "blank_value": 0.0,
+            "default_value": 0.0,
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Minimum separation between two accepted spikes, in seconds.",
+            "constraints": {}
+        },
+        {
+            "name": "spike_start_time",
+            "type": "double",
+            "blank_value": 0.0,
+            "default_value": 0.0,
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Start of the extracted waveform relative to the peak, in seconds (negative -- the snippet begins before the peak).",
+            "constraints": {}
+        },
+        {
+            "name": "spike_end_time",
+            "type": "double",
+            "blank_value": 0.0,
+            "default_value": 0.0,
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "End of the extracted waveform relative to the peak, in seconds.",
+            "constraints": {}
+        },
+        {
+            "name": "do_filter",
+            "type": "double",
+            "blank_value": 0.0,
+            "default_value": 0.0,
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Whether the signal was filtered before detection. Written as 1/0 by the writer; declared numeric rather than boolean because nothing in NDI promises no other value occurs.",
+            "constraints": {}
+        },
+        {
+            "name": "filter_type",
+            "type": "string",
             "blank_value": "",
             "default_value": "",
             "mustBeNonEmpty": false,
             "mustBeScalar": true,
             "mustNotHaveNaN": false,
-            "queryable": false,
+            "queryable": true,
             "ontology": null,
-            "documentation": "A free-text reason for the parameter modification.",
-            "constraints": {
-                "maxLength": 1024
-            }
+            "documentation": "Filter design used (e.g. 'cheby1high').",
+            "constraints": {}
+        },
+        {
+            "name": "filter_low",
+            "type": "double",
+            "blank_value": 0.0,
+            "default_value": 0.0,
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Low cutoff frequency, in Hz.",
+            "constraints": {}
+        },
+        {
+            "name": "filter_high",
+            "type": "double",
+            "blank_value": 0.0,
+            "default_value": 0.0,
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "High cutoff frequency, in Hz.",
+            "constraints": {}
+        },
+        {
+            "name": "filter_order",
+            "type": "double",
+            "blank_value": 0.0,
+            "default_value": 0.0,
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Filter order.",
+            "constraints": {}
+        },
+        {
+            "name": "filter_ripple",
+            "type": "double",
+            "blank_value": 0.0,
+            "default_value": 0.0,
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Passband ripple, for designs that take one.",
+            "constraints": {}
+        },
+        {
+            "name": "threshold_method",
+            "type": "string",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "HOW the detection threshold is computed (e.g. 'standard_deviation'). Meaningless apart from threshold_parameter -- the two together are the threshold, which is why a lone scalar could not express it.",
+            "constraints": {}
+        },
+        {
+            "name": "threshold_parameter",
+            "type": "double",
+            "blank_value": 0.0,
+            "default_value": 0.0,
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "The number threshold_method consumes (e.g. -4 = four standard deviations below the mean). NOT a voltage on its own.",
+            "constraints": {}
+        },
+        {
+            "name": "threshold_sign",
+            "type": "double",
+            "blank_value": 0.0,
+            "default_value": 0.0,
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Which crossing direction counts as a spike (-1 = downward).",
+            "constraints": {}
         }
     ]
 }

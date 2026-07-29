@@ -1982,10 +1982,11 @@
         {
             "class_name": "spike_extraction_parameters",
             "tier": "stable",
-            "class_version": "1.0.0",
+            "class_version": "2.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                "base"
+                "base",
+                "app"
             ],
             "path": "schemas/V_eta/stable/spike_extraction_parameters.json",
             "disposition": "retire",
@@ -1994,10 +1995,11 @@
         {
             "class_name": "spike_extraction_parameters_modification",
             "tier": "stable",
-            "class_version": "1.0.0",
+            "class_version": "2.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                "base"
+                "base",
+                "app"
             ],
             "path": "schemas/V_eta/stable/spike_extraction_parameters_modification.json",
             "disposition": "retire",

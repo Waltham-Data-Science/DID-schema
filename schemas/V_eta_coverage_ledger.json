@@ -16,7 +16,7 @@
       "ndi": 91,
       "app": 11
     },
-    "with_migrator": 60,
+    "with_migrator": 61,
     "gaps": 0
   },
   "rows": [
@@ -607,7 +607,7 @@
       "v1_class": "image",
       "veta_class": "image",
       "disposition": "persist",
-      "migrator": false,
+      "migrator": true,
       "source": "ndi",
       "nonprod": false,
       "gap": false,

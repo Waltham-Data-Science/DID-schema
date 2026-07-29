@@ -1704,6 +1704,89 @@ _tombstone(
            " snake_cased by universalRenames."),
      field("refract", "double", "The refractory period, in seconds.")])
 
+# ---- the spike-extraction parameter pair ---------------------------------
+# Found by tools/check_tombstones.py, ranked first of its BLOCKING tier: unlike
+# the vhlab_voltage2firingrate family these have a real writer and are referenced
+# by spikewaves, spike_clusters and vmspikesummary, so real corpora plausibly
+# hold them.
+#
+# Both declared a shape with almost nothing in common with the real class. The
+# real one is a flat bundle of FIFTEEN algorithm settings -- windowing, filter
+# design, and a three-part threshold spec -- taken verbatim from the NDI
+# templates under ndi_common/database_documents/apps/spikeextractor/.
+#
+# THE THRESHOLD IS THREE FIELDS, NOT ONE, and that is the substance of the error.
+# The tombstone declared a single REQUIRED `threshold` scalar plus a
+# `threshold_type`. The real class separates `threshold_method` (how the
+# threshold is computed, e.g. 'standard_deviation'), `threshold_parameter` (the
+# number fed to that method, e.g. -4) and `threshold_sign` (which crossing
+# direction counts). A lone `threshold: -4` means nothing without knowing it is
+# four standard deviations rather than -4 volts -- so this was not just a missing
+# field, it was a required field that could not be filled correctly even by hand.
+#
+# NO MIGRATOR, DELIBERATELY. These are algorithm configuration, and every class
+# that consumes them (spikewaves, spike_clusters) is itself a deferred
+# passthrough whose payload lives in files pass 1 cannot read. Modelling the
+# parameters as a `method` + `method_parameters` only makes sense alongside the
+# statement they parameterise, which is second-pass work. Until then a correct
+# tombstone is the whole job -- exactly the vmspikefilteringparameters case.
+#
+# NO NDI SCHEMA FILE EXISTS for either class, so the types below come from the
+# template literals, which are the only evidence there is. `do_filter` is written
+# as the number 1 and is plainly a flag, but it is declared `double` rather than
+# `boolean`: the boolean check would reject any other numeric value, and nothing
+# in NDI promises there isn't one.
+_SPIKE_EXTRACTION_FIELDS = [
+    field("center_range_time", "double",
+          "Window around the peak used to centre a detected spike, in seconds."),
+    field("overlap", "double",
+          "Fractional overlap between successive read windows."),
+    field("read_time", "double", "Length of each read window, in seconds."),
+    field("refractory_time", "double",
+          "Minimum separation between two accepted spikes, in seconds."),
+    field("spike_start_time", "double",
+          "Start of the extracted waveform relative to the peak, in seconds"
+          " (negative -- the snippet begins before the peak)."),
+    field("spike_end_time", "double",
+          "End of the extracted waveform relative to the peak, in seconds."),
+    field("do_filter", "double",
+          "Whether the signal was filtered before detection. Written as 1/0 by"
+          " the writer; declared numeric rather than boolean because nothing in"
+          " NDI promises no other value occurs."),
+    field("filter_type", "string", "Filter design used (e.g. 'cheby1high')."),
+    field("filter_low", "double", "Low cutoff frequency, in Hz."),
+    field("filter_high", "double", "High cutoff frequency, in Hz."),
+    field("filter_order", "double", "Filter order."),
+    field("filter_ripple", "double", "Passband ripple, for designs that take one."),
+    field("threshold_method", "string",
+          "HOW the detection threshold is computed (e.g. 'standard_deviation')."
+          " Meaningless apart from threshold_parameter -- the two together are"
+          " the threshold, which is why a lone scalar could not express it."),
+    field("threshold_parameter", "double",
+          "The number threshold_method consumes (e.g. -4 = four standard"
+          " deviations below the mean). NOT a voltage on its own."),
+    field("threshold_sign", "double",
+          "Which crossing direction counts as a spike (-1 = downward)."),
+]
+
+_tombstone(
+    "spike_extraction_parameters", ["base", "app"],
+    [],   # the real class declares NO dependencies; `element_id` was invented
+    list(_SPIKE_EXTRACTION_FIELDS))
+
+# The modification document carries the SAME fifteen settings -- it is a revised
+# parameter set, not a description of a revision, so the old `modified_fields` /
+# `modification_reason` pair described a document that does not exist. What it
+# adds is two edges, and BOTH were undeclared while a third was invented.
+_tombstone(
+    "spike_extraction_parameters_modification", ["base", "app"],
+    [dep("extraction_parameters_id", "spike_extraction_parameters",
+         "The parameter set this one revises.", non_empty=False),
+     dep("element_id", "subject",
+         "The recording element the revision applies to, promoted to a subject"
+         " with its id preserved (device-as-subject, D2).", non_empty=False)],
+    list(_SPIKE_EXTRACTION_FIELDS))
+
 # neuron_extracellular -- NOT an offender: its migrator reads the real
 # `cluster_index` and `quality_number` (the detector's `quality` hit was a local
 # MATLAB variable name, not a field read), and the tombstone's field list already

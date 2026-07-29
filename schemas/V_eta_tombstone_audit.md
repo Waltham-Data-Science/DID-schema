@@ -30,7 +30,7 @@ mechanically, for the whole v1 universe at once.
 | tier | count | meaning |
 |---|---|---|
 | **COLLISION** | 1 → **0** | a V_eta *target* class has taken a did_v1 class name; the schema under that name describes something else entirely. The one instance (`image`) is fixed — see below |
-| **BLOCKING** | 11 | a real did_v1 document reaching this schema **cannot validate** |
+| **BLOCKING** | 11 → **9** | a real did_v1 document reaching this schema **cannot validate** |
 | **LOSSY** | 18 | real content is declared nowhere, so it has no landing place |
 | **COSMETIC** | 6 | the tombstone over-declares, but nothing real is turned away |
 
@@ -101,14 +101,44 @@ class is a passthrough. If a migrator consumes every document, the name is harml
 report says so explicitly (`name reused: 1 ... image`) rather than going silent — so if that
 migrator is ever removed, the collision comes back as a finding instead of a surprise.
 
-## The BLOCKING tier
+## The spike-extraction pair — FIXED
 
-All eleven are `passthrough`, i.e. all eleven would quarantine a real document today:
+Ranked first of the BLOCKING tier because, unlike the `vhlab_voltage2firingrate` family, these
+have a real writer and are referenced by `spikewaves`, `spike_clusters` and `vmspikesummary` —
+so real corpora plausibly hold them.
+
+The real class is a flat bundle of **fifteen** algorithm settings: windowing, filter design,
+and a three-part threshold spec. The tombstones declared four fields and two, respectively.
+
+**The threshold is three fields, not one, and that is the substance of the error.** The
+tombstone declared a single **required** `threshold` scalar plus a `threshold_type`. The real
+class separates `threshold_method` (how the threshold is computed — `standard_deviation`),
+`threshold_parameter` (the number fed to it — `-4`) and `threshold_sign` (which crossing
+direction counts). A lone `threshold: -4` is not merely incomplete, it is **unreadable**:
+nothing says whether that is four standard deviations or minus four volts. This was a required
+field that could not have been filled correctly even by hand.
+
+The `_modification` document carries the **same fifteen settings** — it is a revised parameter
+set, not a description of a revision, so `modified_fields`/`modification_reason` described a
+document that does not exist. Both of its real edges were undeclared while a third was invented.
+
+**No migrator, deliberately.** These are algorithm configuration, and every class that consumes
+them is itself a deferred passthrough whose payload lives in files pass 1 cannot read.
+Modelling them as `method` + `method_parameters` only makes sense alongside the statement they
+parameterise — second-pass work. A correct tombstone is the whole job, exactly as for
+`vmspikefilteringparameters`.
+
+**No NDI schema file exists** for either class, so types come from the template literals — the
+only evidence there is. `do_filter` is written as `1` and is plainly a flag, but is declared
+`double` rather than `boolean`: the boolean check would reject any other numeric value, and
+nothing in NDI promises there isn't one.
+
+## The remaining BLOCKING tier
+
+All nine are `passthrough`, i.e. all nine would quarantine a real document today:
 
 | class | the core problem |
 |---|---|
-| `spike_extraction_parameters` | tombstone declares 4 fields, requires `threshold`; the real class has **15**, none named `threshold`. Also invents an `element_id` edge and drops the `app` superclass. |
-| `spike_extraction_parameters_modification` | same 15 real fields undeclared; invents `modification_reason`/`modified_fields`; **both real edges** (`element_id`, `extraction_parameters_id`) undeclared |
 | `measurement` | requires `measurement_class`, which does not exist; all four real fields undeclared; all three real edges undeclared |
 | `binaryseries_parameters` | requires `num_channels` + `sample_rate`, neither of which exists; 5 real fields undeclared |
 | `stimulus_parameter` | requires `parameter_name`, which does not exist; real `name`/`ontology_name`/`value` undeclared; wrong edge |
