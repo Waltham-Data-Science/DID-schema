@@ -1,0 +1,75 @@
+# V_eta status board (GENERATED -- do not hand-edit)
+
+Regenerate with `python3 tools/status_board.py`. CI runs `--check`.
+
+State lives here. The plan documents under `schemas/` keep the RATIONALE
+for each model; this board owns *how much is left and what exactly*.
+
+## Where V_eta stands
+
+| | count |
+|---|---|
+| target classes | 222 |
+| settled (persist) | 140 |
+| settled (retire) | 47 |
+| **still open** | **35** |
+| open **decision families** | **12** |
+| &nbsp;&nbsp;of which decided, awaiting build | 4 |
+| &nbsp;&nbsp;of which genuinely undecided | 8 |
+
+The class count is not the work count. 35 open classes are 12 decisions, because most open classes move as a family.
+
+## Genuinely undecided -- this is what closing V_eta means
+
+| family | classes | the call to make |
+|---|---|---|
+| **acquisition epoch** | 3 | epoch header contents + whether clocks dissolve into time_references |
+| **daq ingestion** | 7 | do the ingested-cache classes persist, fold, or become opaque_body |
+| **sync** | 3 | is the sync graph V_eta data or NDI runtime state |
+| **file navigation** | 3 | do path/navigation classes belong in an archival schema at all |
+| **openMINDS** | 1 | import provenance vs crosswalk; entangled with the openminds_* sources |
+| **software** | 1 | app -> software rename landed; dedup + openMINDS crosswalk outstanding |
+| **misc singletons** | 4 | four unrelated classes, each its own small call |
+| **demo / mock** | 2 | test fixtures; decide whether they ship in the set |
+
+- **acquisition epoch**: `acquisition_epoch`, `epochfiles_ingested`, `epochid`
+- **daq ingestion**: `daqmetadatareader`, `daqmetadatareader_epochdata_ingested`, `daqreader`, `daqreader_epochdata_ingested`, `daqreader_image_epochdata_ingested`, `daqsystem`, `dataseries_channel_map`
+- **sync**: `syncgraph`, `syncrule`, `syncrule_mapping`
+- **file navigation**: `directory`, `filenavigator`, `filter`
+- **openMINDS**: `openminds_import`
+- **software**: `app`
+- **misc singletons**: `binaryseries_parameters`, `control_designation`, `interaction_purpose`, `projectvar`
+- **demo / mock**: `demo_ndi`, `demo_ndi_mock`
+
+## Decided, awaiting build
+
+The model is settled and recorded; the schema has not changed yet. Every
+one of these re-targets migrators that are already written, which is why
+migrator work before the target closes is rework.
+
+| family | classes | decision | recorded in |
+|---|---|---|---|
+| **time_reference** | 8 | 8 classes collapse to absolute_reference + relative_reference | `V_eta_time_reference_model_plan.md` |
+| **stimulus** | 1 | timed_sequence data_type + timed_sequence_manipulation leaf | `V_eta_stimulus_model_plan.md` |
+| **ensemble** | 1 | group subject + epoch-scoped member_of edges + rebuildable cache | `V_eta_ensemble_plan.md` |
+| **image / ngrid** | 1 | ngrid phases into sampled_body; image is a standalone data_type | `V_eta_image_model_plan.md` |
+
+## v1 source side (from the coverage ledger)
+
+| disposition | count |
+|---|---|
+| retire | 42 |
+| consumed by migrator (no tombstone) | 28 |
+| in_progress | 21 |
+| persist | 4 |
+| no V_eta home, no migrator -- UNVERIFIED | 4 |
+| test/demo fixture (non-production) | 2 |
+| dissolved → subject | 1 |
+
+**UNVERIFIED** -- no V_eta home, no migrator, fate never established. These strand today:
+
+- `generic_file`
+- `imageCollection`
+- `imageStack_parameters`
+- `valid_interval`
+

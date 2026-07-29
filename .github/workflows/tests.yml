@@ -52,3 +52,20 @@ jobs:
       - name: Migrator vocabulary must match the real NDI templates
         if: matrix.python-version == '3.12'
         run: python3 tools/check_migrator_vocabulary.py --enforce
+
+      # THE STATUS BOARD MUST BE CURRENT.
+      #
+      # V_eta state used to live in 27 plan documents, a 400-line CLAUDE.md and a
+      # 52-item task list, none of which agreed. Prose cannot be checked, so it
+      # rots and is then cited as evidence -- "no session document exists
+      # anywhere", "all 0-usage, safe to delete", "dissolved (rename/decompose)"
+      # were all written claims that were wrong and that nothing could catch.
+      #
+      # schemas/V_eta_STATUS.md is DERIVED from the built schema set and the
+      # coverage ledger, so it cannot drift. This check fails if it is stale, if
+      # an in_progress class belongs to no decision family (an open question
+      # nobody is tracking), or if a family claims a decision document that does
+      # not exist.
+      - name: V_eta status board must be current
+        if: matrix.python-version == '3.12'
+        run: python3 tools/status_board.py --check
