@@ -29,9 +29,9 @@ mechanically, for the whole v1 universe at once.
 
 | tier | count | meaning |
 |---|---|---|
-| **COLLISION** | 1 | a V_eta *target* class has taken a did_v1 class name; the schema under that name describes something else entirely |
-| **BLOCKING** | 12 | a real did_v1 document reaching this schema **cannot validate** |
-| **LOSSY** | 17 | real content is declared nowhere, so it has no landing place |
+| **COLLISION** | 1 → **0** | a V_eta *target* class has taken a did_v1 class name; the schema under that name describes something else entirely. The one instance (`image`) is fixed — see below |
+| **BLOCKING** | 11 | a real did_v1 document reaching this schema **cannot validate** |
+| **LOSSY** | 18 | real content is declared nowhere, so it has no landing place |
 | **COSMETIC** | 6 | the tombstone over-declares, but nothing real is turned away |
 
 Skipped: 4 non-production NDI demo/mock templates, 3 chain mixins (`base`/`app`/`epochid` —
@@ -46,30 +46,64 @@ between a real document and a quarantine.** `migrated` means a migrator transfor
 first, so a divergence may be a deliberate reshape rather than a defect: `distance_metadata`'s
 nested `endpoints` is exactly that, and flagging it as broken would be a false alarm.
 
-## The single most alarming row
+## The `image` name collision — RESOLVED
 
 ```
-COLLISION passthrough image
+COLLISION passthrough image                                    [first run]
     REQUIRED but absent from the real document: value
     real fields the tombstone does NOT declare: compression, format, label
     real dependencies not declared: imageCollection_id, subject_id
     superclasses the real document has: image_stack_parameters
 ```
 
-NDI has a did_v1 `image` class. **So does V_eta — a completely different one**, the standalone
-raster `data_type` built in the R6 image-model work, whose only field is `value` and whose
-parent is `data_type`. The two share **nothing**. A real did_v1 `image` document arriving in
-the pipeline meets a schema describing a different concept under the same name, and its
-`value` requirement guarantees a quarantine.
+NDI has a did_v1 `image` class — a stored image file (`label`, `format`, `compression`;
+`subject_id` + `imageCollection_id`; an `imageFile`; `⊂ base, imageStack_parameters`).
+**So does V_eta — a completely different one**, the standalone raster `data_type` built in the
+R6 image-model work, whose only field is `value` and whose parent is `data_type`. The two
+share **not one field**. A schema name resolves to exactly one schema, so a real did_v1 `image`
+document met a schema describing a different concept, and its required `value` guaranteed a
+quarantine.
 
-This is not a tombstone that needs correcting — it is a **naming decision that needs making**,
-and it is the first thing to resolve because the answer changes whether an `image` tombstone
-should exist at all. It also generalises: nothing currently prevents a V_eta target class from
-taking any did_v1 name, and the check for it is three lines.
+**Decision: consume the v1 class, do not rename the V_eta one.** R6 chose `image` deliberately
+— it killed `array` to get there, because a bare N-D numeric grid duplicates `sampled_body`
+(T6) and names a container (T13) — and the name is load-bearing across `image_observation`,
+`image_manipulation` and the tenets. Renaming would move the problem to a new name and churn
+all of that. Consuming the v1 class removes the collision **by construction**: once every
+did_v1 `image` document migrates, none can reach that schema under that name.
 
-## The rest of the BLOCKING tier
+`migrators_j/image.m` delegates to `image_stack`. That is not a shortcut — the did_v1 `image`
+is the **single-image sibling** of `image_stack`: same `imageStack_parameters` superclass, same
+file-backed pixels, plus a direct `subject_id`. `image_stack` already folds exactly that shape
+1→3 into `image_observation` + `sampled_body` + anchor with the source id preserved, and it
+reads only the parameters block, the dependencies, `base` and `files` — never its own
+`image_stack` property block. Duplicating ~200 lines would be two places to keep right.
 
-All twelve are `passthrough`, i.e. all twelve would quarantine a real document today:
+**Two deferrals, stated rather than dropped:**
+
+- `format` + `compression` — the file encoding of the carried bytes. No home yet: `sampled_body`
+  has no encoding field. The 2.D collapse decided every format carrier phases into
+  `sampled_body`/`opaque_body` with "encoding becomes a field", but **that field has not been
+  built**. The bytes stay readable (a container format is recoverable from the file), so this is
+  a deferral; it should land with the data_body encoding field.
+- `imageCollection_id` — **deliberately not carried, and this one matters.** `imageCollection`
+  has **no V_eta class and no migrator**, yet the coverage ledger grades it
+  *"dissolved (rename/decompose)"* — which is not what the code does. Carrying the edge would
+  reference a document that does not exist after migration: a **gating orphan**, not a cosmetic
+  gap (dissolving referenced documents without preserving ids once cost 11,448 orphans). The
+  grouping is a real fact and wants the second pass, once `imageCollection` has a home.
+
+**That ledger row is a second finding in its own right** — the same over-optimistic grading the
+`ontologyLabel` row showed, and more evidence the coverage audit's ✅ marks need re-checking by
+a method other than reading migrator source.
+
+The checker is now **tier-aware about collisions**: a shared name is only reported when the
+class is a passthrough. If a migrator consumes every document, the name is harmless, and the
+report says so explicitly (`name reused: 1 ... image`) rather than going silent — so if that
+migrator is ever removed, the collision comes back as a finding instead of a surprise.
+
+## The BLOCKING tier
+
+All eleven are `passthrough`, i.e. all eleven would quarantine a real document today:
 
 | class | the core problem |
 |---|---|
@@ -126,13 +160,14 @@ That asymmetry is the reusable lesson: *coverage of the data is not coverage of 
 
 ## Recommended order
 
-1. **Decide the `image` name collision** — it is a modelling decision, not a repair, and it
-   determines whether an `image` tombstone should exist.
+1. ~~Decide the `image` name collision~~ — **DONE**, see above.
 2. **`spike_extraction_parameters` (+ `_modification`)** — the likeliest of the twelve to have
    real documents in a corpus.
 3. **The two follow-on gaps** (`probe_geometry`, `electrode_offset_voltage`) — small, and they
    close a hole in work already shipped.
-4. **The remaining nine BLOCKING rows**, then the LOSSY tier.
+4. **The remaining eight BLOCKING rows**, then the LOSSY tier.
+   Plus: **give `imageCollection` a home** (or confirm it has no documents). It has no V_eta
+   class, no migrator, and a ledger row claiming it dissolved.
 5. **Wire `--enforce` into CI** once BLOCKING and COLLISION are at zero, so the eleventh
    instance of this bug fails a gate instead of waiting for someone to read a template.
 

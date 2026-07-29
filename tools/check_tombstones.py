@@ -229,7 +229,8 @@ def main():
     migs = migrators()
     pt = passthrough_migrators()
 
-    rows, skipped = [], {"nonprod": 0, "chain": 0, "no_tombstone": 0}
+    rows, reused = [], []
+    skipped = {"nonprod": 0, "chain": 0, "no_tombstone": 0}
     for cls, ndi in sorted(gt["classes"].items()):
         if cls in NONPROD:
             skipped["nonprod"] += 1
@@ -256,8 +257,16 @@ def main():
         # v1 document arriving under it meets a schema describing something else.
         ours = set(declared_field_names(veta[name]))
         theirs = set(ndi["fields"])
-        collision = (disp.get(name) == "persist" and ours and theirs
-                     and not (ours & theirs))
+        # ...and only when the class is a PASSTHROUGH. If a migrator consumes
+        # every document of the v1 class, none can ever reach the schema under
+        # that name, so the shared name is harmless -- that is how the did_v1
+        # `image` collision was resolved (migrators_j.image folds it into an
+        # image_observation) rather than by renaming the V_eta data_type.
+        collision = (tier == "passthrough" and disp.get(name) == "persist"
+                     and ours and theirs and not (ours & theirs))
+        if disp.get(name) == "persist" and ours and theirs and not (ours & theirs) \
+                and tier != "passthrough":
+            reused.append((cls, name))
         r = risk(div, tier, collision)
         if r:
             rows.append((r, tier, cls, name, div))
@@ -274,6 +283,12 @@ def main():
     print("  BLOCKING         : %d   (a real document CANNOT validate)" % (counts["BLOCKING"] + counts["COLLISION"]))
     print("  LOSSY            : %d   (real content has nowhere to land)" % counts["LOSSY"])
     print("  COSMETIC         : %d   (invented declarations only)" % counts["COSMETIC"])
+    if reused:
+        print("  name reused      : %d   (a V_eta class shares a did_v1 name, but a"
+              % len(reused))
+        print("                          migrator consumes every document, so none")
+        print("                          can reach it: %s)"
+              % ", ".join(c for c, _ in reused))
     print("  skipped          : %d nonprod, %d chain-mixin, %d no tombstone"
           % (skipped["nonprod"], skipped["chain"], skipped["no_tombstone"]))
     print()
