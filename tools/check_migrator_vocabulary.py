@@ -66,6 +66,45 @@ KNOWN_BROKEN = {
     "daqreader_ndr.m",
     #   BENIGN. Reads the real ndr_reader_string correctly; the file_extension
     #   branch is guarded by isfield and simply never fires. Dead, not lossy.
+    #
+    # ---- confirmed in the second pass (broadened detection) ----------------
+    # These read through local getField/getCharField helpers, which the first
+    # pattern missed. All are genuine code reads -- none is a comment or a write.
+    # A THIRD failure mode shows up here, alongside HOLLOW and PASSTHROUGH:
+    #   FRAGMENT -- the read fails, the payload is skipped, and the migrator
+    #              emits only its side documents (e.g. a lone session anchor).
+    "simple_calc.m",
+    #   FRAGMENT, and the worst of the eight. Reads result_value/result_units;
+    #   the real template has `answer` and `input_parameters`. When the value is
+    #   not numeric it emits ONLY the anchor -- the calculated result is dropped
+    #   entirely and a stray time-reference document is all that lands.
+    "fitcurve.m",
+    #   HOLLOW. Reads fit_function + goodness_of_fit; the real template has
+    #   fit_equation, fit_sse, fit_name, fit_parameters, fit_constraints. Looks
+    #   like a straight rename (fit_function->fit_equation, goodness->fit_sse).
+    "vmspikefit.m",
+    #   HOLLOW. Same shape as fitcurve: reads fit_function + r_squared against a
+    #   template of fit_equation, fit_sse, fit_sse_perpoint, fit_parameters.
+    "binnedspikeratevm.m",
+    #   HOLLOW. Reads bin_size + num_bins; the real template has exactbintime,
+    #   timepoints, firingrate_observations, voltage_observations, stimids,
+    #   parameters. The actual binned data is in fields it never looks at.
+    "spike_clusters.m",
+    #   HOLLOW. Reads num_spikes; the real template has clusterinfo, epoch_info,
+    #   waveform_sample_times.
+    "vmneuralresponseresiduals.m",
+    #   HOLLOW. Reads mean_residual; the real template has residual_power,
+    #   total_power and goodness_of_fit -- the residual is derivable from those,
+    #   but the field read does not exist.
+    "spikewaves.m",
+    #   PARTIAL. Reads the REAL extraction_name plus invented num_spikes and
+    #   samples_per_spike, which default to 0. The document lands; the counts
+    #   are silently zeroed.
+    "subject_group.m",
+    #   COSMETIC. The NDI template block is literally {} and no writer sets any
+    #   field -- grouping is carried entirely by numbered subject_id depends_on
+    #   edges, which this migrator reads correctly. Only the group's name and
+    #   description are lost, so structure survives and labels degrade.
 }
 
 
