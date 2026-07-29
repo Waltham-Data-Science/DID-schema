@@ -92,7 +92,7 @@ The 31 UNKNOWNs are undetermined, not clean: usually the earliest template preda
 property-block format, so the comparison is not meaningful that far back. They need reading by
 hand.
 
-## Phase 1 — make silence impossible  *(before fixing any migrator)*
+## Phase 1 — make silence impossible  *(REPORT-ONLY LANDED)*
 
 The ordering argument: while a broken migrator emits a valid empty document, **we cannot tell a
 fixed migrator from a broken one**, and each check costs a ~2.5-hour corpus run. Visibility
@@ -106,6 +106,16 @@ first, or Phase 2 is done blind.
   check.
 - **1.3** CI sweep: every migrator's field reads vs the Phase-0 reference; fail on a name no
   template or writer has. (The exploratory script that found the 23 suspects is most of this.)
+
+**Landed report-only:**
+- `did2.validate.silentLoss` (DID-matlab) counts both holes per migration run and is wired into
+  the v1_to_v2 summary, the corpus discovery printout, and the uploaded per-corpus JSON report.
+  It raises nothing and changes no outcome; an audit failure is caught and recorded rather than
+  propagated, so it cannot break a migration.
+- `tools/check_migrator_vocabulary.py` (DID-schema) reports migrators speaking invented
+  vocabulary, exit 0. `--enforce` exits non-zero and is the Phase 2 end state. It carries a
+  `KNOWN_BROKEN` set so that a name appearing *outside* it reads as a **regression** — currently
+  6 of the 9 confirmed offenders are outside it and want individual confirmation.
 
 > **Land 1.1–1.3 REPORT-ONLY first.** Flipping straight to enforcing will light up a large
 > number of quarantines and block the 0-quarantine gate before anything is fixed. Report-only
