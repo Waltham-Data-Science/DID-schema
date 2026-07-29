@@ -1036,15 +1036,15 @@
       "gap": false,
       "targets": [
         "length_observation",
-        "session_relative_reference",
-        "term_assertion"
+        "term_assertion",
+        "session_relative_reference"
       ],
       "carried": [
         "subject"
       ],
       "second_pass": [],
-      "how": "channel geometry -> a length_observation on the probe-subject (channel_positions flattened) + anchor; probe_type -> a term_assertion",
-      "target_flags": "term_assertion only when probe_type non-empty; per-channel (x,y,z) structure lost by flattening (reserved for NDI second pass)"
+      "how": "ONE length_observation PER POPULATED SPATIAL AXIS about the probe-subject (probe_id) + an optional probe_model term_assertion + anchor. The real NDI class is three already-named parallel per-site arrays (site_locations_leftright/_frontback/_depth) with a shared `unit`, not an N-by-D matrix, so each axis keeps its own name instead of being concatenated into one anonymous array",
+      "target_flags": "guarded: errors on the invented channel_positions/position_units/probe_type shape. Those names never existed, so channel_positions never matched and EVERY document was carried through unconverted. STILL DROPPED: shank_id, contact_shape+width/height/radius, manufacturer, has_planar_contour, contour_x/y -- needs a contact-geometry model"
     },
     {
       "v1_class": "probe_location",

@@ -64,7 +64,7 @@
 | `oridirtuning_calc` | `tuning_curve_calculation` + `session_relative_reference` · on `subject` | dissolved (rename/decompose) | app |
 | `orientation_direction_tuning` | `tuning_curve_calculation` + `session_relative_reference` · on `subject` | dissolved (rename/decompose) | ndi |
 | `position_metadata` | `term_observation` + `session_relative_reference` · on `subject` | retire | ndi |
-| `probe_geometry` | `length_observation` + `session_relative_reference` + `term_assertion` · on `subject` | retire | ndi |
+| `probe_geometry` | `length_observation` + `term_assertion` + `session_relative_reference` · on `subject` | retire | ndi |
 | `probe_location` | `term_observation` + `session_relative_reference` · on `subject` | retire | ndi |
 | `projectvar` | `projectvar` | in_progress | ndi |
 | `pyraview` | `voltage_observation` + `sampled_body` + `session_relative_reference` · on `subject` | retire | ndi |
