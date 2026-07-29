@@ -425,8 +425,8 @@
         "subject"
       ],
       "second_pass": [],
-      "how": "per-channel DC offset voltages -> a length-N voltage_observation on the probe-subject + anchor",
-      "target_flags": "degenerate doc (no offsets) carries unchanged"
+      "how": "ONE voltage_observation of the probe-subject (probe_id), value = the SCALAR `offset` (source unit V, inferred from the writer CSV column `offsetV`), qualified by `temperature` on subject_statement.conditions -- the offset was measured AT that temperature, so it is one statement not two. Temperature unit is left unstated: the source declares no scale. NaN temperature means \"not measured\" and mints no condition",
+      "target_flags": "guarded: errors on the invented offset_voltages/voltage_units shape. Those names never existed, so the isempty guard always fired and EVERY document was carried through unconverted. The old per-channel-array model was also wrong: the writer makes one document per CSV row with a scalar offset"
     },
     {
       "v1_class": "element",
