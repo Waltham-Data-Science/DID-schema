@@ -270,17 +270,18 @@ the 4 UNVERIFIED coverage rows — no V_eta home, no migrator — so those docum
 
 ## Open
 
-1. **Chaining and termination.** `relative_to` → an event → itself located by another reference.
-   Depth, cycles, and whether resolution must terminate at a timeline-defining referent. **No
-   longer hypothetical**: if fork B resolves to chaining, `valid_interval` exercises depth 2 on
-   real documents.
+1. ~~**Chaining and termination.**~~ — **CLOSED by fork B.** Chains are the normal case and are
+   well-founded, because every link is a real document (observation → stimulus → epoch) rather
+   than a synthetic anchor. Terminates at a timeline-defining referent: an `acquisition_epoch`, a
+   session, or an `absolute_reference`.
 2. **Multiple references per statement.** `time_reference_#` is numbered, so multiples are
    structurally allowed; what two references *mean* has never been decided. There are now **three**
    live readings, not one — same instant in different frames; a start anchor and an end anchor
    (fork C); and recurrence. A bare number cannot distinguish them, which argues the role belongs
    in the **edge name** (T4/T7) rather than an index.
-3. ~~`epoch_relative_reference.t0`~~ — **CLOSED**, see the evidence pass. Representation only,
-   now fork B.
+3. ~~`epoch_relative_reference.t0`~~ — **CLOSED and then KILLED.** It is NDI's
+   `timeref_struct.time`, and fork B decided that value has no home on a reference at all: it is
+   either 0 or a property of an event that already has a document.
 4. **Frame validation** once `frame` is a term rather than a dependency on the epoch's own
    reference — `must_refer` is existence-only, so a cross-document field check has no mechanism.
 5. **`approx_*` frames vs `approximate`** — two encodings of one fact.
@@ -310,13 +311,72 @@ session document** — which is defensible on its own terms (every document clai
 session and nothing describes that session) but is separate, scoped work with its own gate. Recorded
 as its own item rather than smuggled into this build.
 
-**B. Where does the curator's origin live?**
- - **B1** chain — the origin is its own `relative_reference`, and the interval is `relative_to`
-   it. Structurally pure, no new field, and it makes item 1 real at depth 2.
- - **B2** a third `origin` duration alongside `start`/`end`. Flat, maps 1:1 to NDI, one extra
-   field; the drafted model's "start/end, not start/duration" argument applies here too.
- - **B3** flatten at migration (`start := time + t0`). Cheapest, and **lossy** — it discards
-   which point the curator chose, which is the only thing `time` records.
+**B. Where does the curator's origin live?** — **DECIDED: NOWHERE. There is no origin field, and
+`t0` dies with no replacement.**
+
+The team's reading, and it is correct: *the anchor is not a property of the reference.* If the
+stimulus started 12.4 s into the epoch, that is a fact about **the stimulus** — a
+`subject_manipulation`, which is already a document — not bookkeeping inside whatever else happens
+to be measured against it.
+
+**The writers settle it.** Every construction of `ndi.time.timereference` in NDI, and what it
+passes as the anchor:
+
+| call site | anchor |
+|---|---|
+| `+daq/+system/mfdaq.m:282` | `0` |
+| `+element/timeseries.m:40` | `0` |
+| `+probe/timeseries.m:41` | `0` |
+| `+probe/+timeseries/mfdaq.m:54` | `0` |
+| `+probe/+timeseries/stimulator.m:184` | `0` |
+| `+element/oneepoch_bkup.m:64, :126` | `0` |
+| `+time/syncgraph.m:697, :798` | `0` |
+| `+app/+stimulus/tuning_response.m:241` | `0` |
+| `+time/syncgraph.m:681` | propagates an existing one |
+| `+probe/timeseries.m:106` | propagates an existing one |
+| **`+app/+stimulus/tuning_response.m:92`** | **`presentation_time(1).onset`** |
+
+**One** call site in all of NDI passes a non-zero anchor, and it passes the stimulus onset — which
+is already stored on the stimulus document:
+
+```
+stimulus_presentation.presentation_time = { clocktype, stimopen, onset, offset, stimclose, stimevents }
+```
+
+So the anchor is never independent data. It is **zero** (the epoch's own origin — nothing to
+store) or **a property of an event that already has a document** (point at it with `relative_to`).
+
+An `origin` field would have added a slot to 100% of references to carry a number that is 0 in
+every case but one, and in that one case duplicates a fact owned by another document. That is the
+T13/T14 failure this track keeps finding, and `epoch_relative_reference.t0` is the same invention
+one version earlier.
+
+**How the worked example is written instead** — the stimulus onset at 12.4 s into epoch 3, and the
+curator's "good data from 5 s to 300 s after onset":
+
+```
+the manipulation (the stimulus):
+  relative_reference  relative_to → acquisition_epoch "epoch_0003"
+                      frame = dev_local_time,  start = 12.4 s
+
+the observation (the good data), EITHER:
+  relative_reference  relative_to → acquisition_epoch "epoch_0003"
+                      start = 17.4 s,  end = 312.4 s
+                  OR:
+  relative_reference  relative_to → the subject_manipulation
+                      start = 5 s,  end = 300 s
+```
+
+Both are true and denote the same instant. Which is stored is a question of the honest source: if
+the curator said *"5 s after onset"*, writing 17.4 invents precision the source never had and
+severs the link to the stimulus.
+
+**This also resolves open item 1 (chaining).** Chaining was listed as a worry — depth, cycles,
+termination — because the drafted alternative was a *synthetic* anchor document existing only to
+hold a number. Under this model every link is a real document with independent meaning
+(observation → stimulus → epoch), so chains are the normal case and are well-founded.
+**Termination rule:** a chain ends at something that defines a timeline — an `acquisition_epoch`,
+a session, or an `absolute_reference`.
 
 **C. May `start` and `end` have different referents/frames?**
  - **C1** no — one referent + one frame per reference; a `valid_interval` whose endpoints differ
