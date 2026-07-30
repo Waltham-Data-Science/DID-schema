@@ -15,18 +15,39 @@ for each model; this board owns *how much is left and what exactly*.
 | **still open (`in_progress`)** | **35** |
 | **`retire` with no migrator and no plan** | **12** |
 | open **decision families** | **20** |
-| &nbsp;&nbsp;DECIDED by the team, awaiting build | 1 |
-| &nbsp;&nbsp;**PROPOSED by Claude, NOT yet reviewed** | **10** |
+| &nbsp;&nbsp;DECIDED and signed off, awaiting build | 1 |
+| &nbsp;&nbsp;decided in a walkthrough, **awaiting a signature** | 5 |
+| &nbsp;&nbsp;**written up by Claude alone, unreviewed** | **5** |
 | &nbsp;&nbsp;nobody has proposed anything yet | 9 |
 
 The class count is not the work count. 35 open classes are 20 decisions, because most open classes move as a family.
 
-**19 of those 20 still need a team decision** (10 proposed and awaiting review, 9 with nothing proposed yet). Only 1 are settled.
+**19 of those 20 are not settled**: 5 awaiting a signature on a decision already taken, 5 written up by Claude alone and unreviewed, 9 with nothing proposed. Only 1 are signed off.
 
-## AWAITING TEAM REVIEW -- proposed by Claude, NOT decided
+## AWAITING A SIGNATURE -- decided with the team, not yet recorded
 
-Each has a written rationale and template evidence, and **none of it is
-settled**. These are counted as OPEN work until the team signs off.
+These were settled in walkthroughs. They are not built and do not render as
+decided because no document carries the sign-off line yet. Nothing here needs
+re-deciding -- it needs recording.
+
+| family | classes | what was decided | document |
+|---|---|---|---|
+| **time_reference** | 8 | 8 classes collapse to absolute_reference + relative_reference | `V_eta_time_reference_model_plan.md` |
+| **stimulus** | 1 | timed_sequence data_type + timed_sequence_manipulation leaf | `V_eta_stimulus_model_plan.md` |
+| **ensemble** | 1 | group subject + epoch-scoped member_of edges + rebuildable cache | `V_eta_ensemble_plan.md` |
+| **image / ngrid** | 1 | ngrid phases into sampled_body; image is a standalone data_type | `V_eta_image_model_plan.md` |
+| **software** | 1 | app -> software entity + software_id edge + execution_environment (R1) | `V_eta_tenet_audit.md` |
+
+- **time_reference**: `epoch_bounded_reference`, `epoch_relative_reference`, `event_bounded_reference`, `event_relative_reference`, `session_bounded_reference`, `session_relative_reference`, `time_reference`, `utc_reference`
+- **stimulus**: `stimulus_presentation`
+- **ensemble**: `ensemble`
+- **image / ngrid**: `ngrid`
+- **software**: `app`
+
+## WRITTEN UP BY CLAUDE ALONE -- nobody has checked the reasoning
+
+Each has template evidence and a written rationale, and **none of it has been
+reviewed**. Counted as open work.
 
 To sign one off, add a line to its document:
 
@@ -44,22 +65,12 @@ Until that line exists the family shows here regardless of what
 | **sync configuration** | 2 | runtime config (ndi_<x>_class + parameters), not archival | `V_eta_infra_family_decisions.md` |
 | **sync mapping** | 1 | folds into relative_reference -- it IS an epoch-to-epoch time relation | `V_eta_infra_family_decisions.md` |
 | **file navigation** | 2 | runtime, machine-specific paths; not archival | `V_eta_infra_family_decisions.md` |
-| **time_reference** | 8 | 8 classes collapse to absolute_reference + relative_reference | `V_eta_time_reference_model_plan.md` |
-| **stimulus** | 1 | timed_sequence data_type + timed_sequence_manipulation leaf | `V_eta_stimulus_model_plan.md` |
-| **ensemble** | 1 | group subject + epoch-scoped member_of edges + rebuildable cache | `V_eta_ensemble_plan.md` |
-| **image / ngrid** | 1 | ngrid phases into sampled_body; image is a standalone data_type | `V_eta_image_model_plan.md` |
-| **software** | 1 | app -> software entity + software_id edge + execution_environment (R1) | `V_eta_tenet_audit.md` |
 
 - **daq configuration**: `daqmetadatareader`, `daqreader`, `daqsystem`
 - **daq ingested payloads**: `daqmetadatareader_epochdata_ingested`, `daqreader_epochdata_ingested`, `daqreader_image_epochdata_ingested`
 - **sync configuration**: `syncgraph`, `syncrule`
 - **sync mapping**: `syncrule_mapping`
 - **file navigation**: `directory`, `filenavigator`
-- **time_reference**: `epoch_bounded_reference`, `epoch_relative_reference`, `event_bounded_reference`, `event_relative_reference`, `session_bounded_reference`, `session_relative_reference`, `time_reference`, `utc_reference`
-- **stimulus**: `stimulus_presentation`
-- **ensemble**: `ensemble`
-- **image / ngrid**: `ngrid`
-- **software**: `app`
 
 ## Nobody has proposed anything yet
 

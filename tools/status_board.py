@@ -41,13 +41,17 @@ OUT = os.path.join(REPO, "schemas", "V_eta_STATUS.md")
 #
 # STATUS IS THREE-VALUED, and the distinction is the point:
 #
-#   "team"     DECIDED BY THE TEAM. Only counts as decided if the cited plan
-#              document carries a TEAM-SIGN-OFF line (see SIGNOFF below). A
-#              family marked "team" WITHOUT one is silently DOWNGRADED to
-#              "proposed" -- Claude cannot promote its own work to a decision.
-#   "proposed" WRITTEN UP BY CLAUDE WITH EVIDENCE, NOT YET REVIEWED. This is NOT
-#              a decision and must never be counted as one.
+#   "team"     DECIDED BY THE TEAM in a walkthrough. Only RENDERS as decided if
+#              the cited plan document carries a TEAM-SIGN-OFF line (see SIGNOFF
+#              below); without one it renders as "awaiting signature" -- Claude
+#              cannot promote its own work to a decision.
+#   "proposed" WRITTEN UP BY CLAUDE ALONE, nobody has checked the reasoning.
+#              NOT a decision and must never be counted as one.
 #   "open"     nobody has proposed anything yet.
+#
+# "team without a signature" and "Claude wrote this alone" were one bucket until
+# the team pointed out they are different states: one needs a signature, the
+# other needs someone to check the reasoning. Rendered separately now.
 #
 # An earlier version had only two states, so attaching a document to a family
 # silently promoted it to "decided" -- and five families Claude wrote up alone
@@ -344,14 +348,14 @@ def build():
     # sign-off line. Otherwise it is a proposal, whatever the table says.
     decided   = [f for f in FAMILIES if f[4] == "team" and has_signoff(f[2])]
     unsigned  = [f for f in FAMILIES if f[4] == "team" and not has_signoff(f[2])]
-    proposed  = [f for f in FAMILIES if f[4] == "proposed"] + unsigned
+    proposed  = [f for f in FAMILIES if f[4] == "proposed"]
     undecided = [f for f in FAMILIES if f[4] == "open"]
     bad_status = [f[0] for f in FAMILIES
                   if f[4] not in ("team", "proposed", "open")]
-    if len(decided) + len(proposed) + len(undecided) != len(FAMILIES):
+    if len(decided) + len(unsigned) + len(proposed) + len(undecided) != len(FAMILIES):
         raise SystemExit(
             "status_board: %d families but %d classified -- unclassified: %s"
-            % (len(FAMILIES), len(decided) + len(proposed) + len(undecided),
+            % (len(FAMILIES), len(decided) + len(unsigned) + len(proposed) + len(undecided),
                bad_status))
 
     p("## Where V_eta stands")
@@ -364,23 +368,40 @@ def build():
     p("| **still open (`in_progress`)** | **%d** |" % n_open)
     p("| **`retire` with no migrator and no plan** | **%d** |" % len(unplanned_retire))
     p("| open **decision families** | **%d** |" % len(FAMILIES))
-    p("| &nbsp;&nbsp;DECIDED by the team, awaiting build | %d |" % len(decided))
-    p("| &nbsp;&nbsp;**PROPOSED by Claude, NOT yet reviewed** | **%d** |" % len(proposed))
+    p("| &nbsp;&nbsp;DECIDED and signed off, awaiting build | %d |" % len(decided))
+    p("| &nbsp;&nbsp;decided in a walkthrough, **awaiting a signature** | %d |" % len(unsigned))
+    p("| &nbsp;&nbsp;**written up by Claude alone, unreviewed** | **%d** |" % len(proposed))
     p("| &nbsp;&nbsp;nobody has proposed anything yet | %d |" % len(undecided))
     p("")
     p("The class count is not the work count. %d open classes are %d decisions, "
       "because most open classes move as a family." % (n_open, len(FAMILIES)))
     p("")
-    p("**%d of those %d still need a team decision** (%d proposed and awaiting "
-      "review, %d with nothing proposed yet). Only %d are settled."
-      % (len(proposed) + len(undecided), len(FAMILIES), len(proposed),
-         len(undecided), len(decided)))
+    p("**%d of those %d are not settled**: %d awaiting a signature on a decision "
+      "already taken, %d written up by Claude alone and unreviewed, %d with "
+      "nothing proposed. Only %d are signed off."
+      % (len(unsigned) + len(proposed) + len(undecided), len(FAMILIES),
+         len(unsigned), len(proposed), len(undecided), len(decided)))
     p("")
 
-    p("## AWAITING TEAM REVIEW -- proposed by Claude, NOT decided")
+    p("## AWAITING A SIGNATURE -- decided with the team, not yet recorded")
     p("")
-    p("Each has a written rationale and template evidence, and **none of it is")
-    p("settled**. These are counted as OPEN work until the team signs off.")
+    p("These were settled in walkthroughs. They are not built and do not render as")
+    p("decided because no document carries the sign-off line yet. Nothing here needs")
+    p("re-deciding -- it needs recording.")
+    p("")
+    p("| family | classes | what was decided | document |")
+    p("|---|---|---|---|")
+    for name, members, plan, what, _ in unsigned:
+        p("| **%s** | %d | %s | `%s` |" % (name, len(members), what, plan))
+    p("")
+    for name, members, _, _, _ in unsigned:
+        p("- **%s**: %s" % (name, ", ".join("`%s`" % m for m in sorted(members))))
+    p("")
+
+    p("## WRITTEN UP BY CLAUDE ALONE -- nobody has checked the reasoning")
+    p("")
+    p("Each has template evidence and a written rationale, and **none of it has been")
+    p("reviewed**. Counted as open work.")
     p("")
     p("To sign one off, add a line to its document:")
     p("")
