@@ -28,6 +28,7 @@ Usage:  python3 tools/status_board.py [--check]
 
 import json
 import os
+import re
 import sys
 
 REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -126,9 +127,16 @@ FAMILIES = [
      None,
      "import provenance vs crosswalk; entangled with the openminds_* sources", "open"),
 
-    ("software / method", ["app", "filter"],
-     None,
-     "dedup + crosswalk after the app rename; filter is algorithm+parameters", "open"),
+    # Split: the two classes have separate decisions and separate documents.
+    ("software", ["app"],
+     "V_eta_tenet_audit.md",
+     "app -> software entity + software_id edge + execution_environment (R1)",
+     "team"),
+
+    ("frequency_filter", ["filter"],
+     "V_eta_frequency_filter_model_plan.md",
+     "referenced document (not entity); band edges; typed gain fields; no sample_rate",
+     "team"),
 
     ("misc singletons", [
         "binaryseries_parameters", "control_designation", "interaction_purpose",
@@ -170,7 +178,29 @@ def has_signoff(plan):
     if not os.path.exists(path):
         return False
     with open(path) as fh:
-        return any(line.lstrip().startswith(SIGNOFF) for line in fh)
+        text = fh.read()
+
+    # STRIP HTML COMMENTS FIRST. The first version of this check counted any line
+    # starting with the marker -- including the <!-- ... --> block in a plan
+    # document that TELLS the team how to sign off. Claude wrote that instruction,
+    # so Claude's own document promoted itself to "decided": the exact laundering
+    # this function exists to prevent, arriving through a different door. Caught
+    # only because the count was verified instead of trusted.
+    text = re.sub(r"<!--.*?-->", "", text, flags=re.S)
+
+    for line in text.splitlines():
+        line = line.lstrip()
+        if not line.startswith(SIGNOFF):
+            continue
+        rest = line[len(SIGNOFF):].strip()
+        # A placeholder is not a sign-off. Require real content and no angle-bracket
+        # template slots.
+        if "<" in rest or ">" in rest:
+            continue
+        if len(rest) < 10:
+            continue
+        return True
+    return False
 
 
 def load():
