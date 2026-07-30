@@ -9,10 +9,10 @@ for each model; this board owns *how much is left and what exactly*.
 
 | | count |
 |---|---|
-| target classes | 226 |
+| target classes | 225 |
 | settled (persist) | 144 |
 | settled (retire) | 47 |
-| **still open (`in_progress`)** | **35** |
+| **still open (`in_progress`)** | **34** |
 | **`retire` with no migrator and no plan** | **12** |
 | open **decision families** | **20** |
 | &nbsp;&nbsp;DECIDED and signed off, awaiting build | 1 |
@@ -20,7 +20,7 @@ for each model; this board owns *how much is left and what exactly*.
 | &nbsp;&nbsp;**written up by Claude alone, unreviewed** | **5** |
 | &nbsp;&nbsp;nobody has proposed anything yet | 9 |
 
-The class count is not the work count. 35 open classes are 20 decisions, because most open classes move as a family.
+The class count is not the work count. 34 open classes are 20 decisions, because most open classes move as a family.
 
 **19 of those 20 are not settled**: 5 awaiting a signature on a decision already taken, 5 written up by Claude alone and unreviewed, 9 with nothing proposed. Only 1 are signed off.
 
@@ -78,7 +78,7 @@ Until that line exists the family shows here regardless of what
 |---|---|---|
 | **acquisition epoch** | 3 | epoch header contents + whether clocks dissolve into time_references |
 | **dataseries_channel_map** | 1 | ABSENT on NDI origin/main -- needs a writer check before any disposition |
-| **openMINDS** | 2 | import provenance vs crosswalk; entangled with the openminds_* sources |
+| **openMINDS** | 1 | unattached openMINDS objects; composite Strain vs leaf controlled terms |
 | **spike processing parameters** | 4 | algorithm config for spike extraction/sorting; 3 of 4 carry their own filter |
 | **stimulus parameters** | 2 | stimulus description; likely folds with the stimulus model but not yet decided |
 | **stimulus response** | 4 | measured response to a stimulus -- observation tier, feeds the tuning fold |
@@ -88,7 +88,7 @@ Until that line exists the family shows here regardless of what
 
 - **acquisition epoch**: `acquisition_epoch`, `epochfiles_ingested`, `epochid`
 - **dataseries_channel_map**: `dataseries_channel_map`
-- **openMINDS**: `openminds`, `openminds_import`
+- **openMINDS**: `openminds`
 - **spike processing parameters**: `sorting_parameters`, `spike_extraction_parameters`, `spike_extraction_parameters_modification`, `vmspikefilteringparameters`
 - **stimulus parameters**: `stimulus_parameter`, `stimulus_parameter_table`
 - **stimulus response**: `stimulus_response`, `stimulus_response_scalar`, `stimulus_response_scalar_parameters`, `stimulus_response_scalar_parameters_basic`

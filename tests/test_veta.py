@@ -780,17 +780,29 @@ def test_visual_grating_manipulation_leaf():
     assert supers == {"subject_manipulation", "visual_grating"}
 
 
-def test_openminds_import_provenance_class():
-    """The import-provenance doc pins the openMINDS release + crosswalk version per
-    import -- the single source of truth controlled_vocabularies.openMINDS.version
-    defers to (it stays null in the registry, resolved from this doc at import)."""
-    imp = RECORDS["openminds_import"][1]
-    assert [s["class_name"] for s in imp["document_class"]["superclasses"]] == ["base"]
-    fnames = {f["name"] for f in imp["fields"]}
-    assert {"openminds_version", "crosswalk_version"} <= fnames
-    assert imp["depends_on"][0]["must_refer_to_document_class"] == "dataset"
+def test_openminds_import_is_absent():
+    """openminds_import was REMOVED 2026-07-30 by team sign-off, reversing the earlier
+    "PERSIST as (7) provenance" call.
+
+    INVERTED, not deleted. This test previously asserted the class existed and that
+    the registry's openMINDS `version` stayed null because the import-provenance
+    document was "the single source of truth" it resolved from. Both halves needed
+    reversing together: nothing ever emitted the class -- zero documents, no
+    migrator, no importer, not even the round-trip test -- so the "source of truth"
+    resolved nothing, and the null was not deferral, it was absence.
+
+    Asserting the ABSENCE keeps the reversal honest: if the class comes back, it
+    comes back with an emitter and a decision, not by accident.
+    """
+    assert "openminds_import" not in RECORDS, (
+        "openminds_import was removed by team decision; re-adding it needs an "
+        "import path that actually stamps it (see V_eta_tenet_audit.md)")
     reg = _load(os.path.join(VETA, "stable", "binding_registry_meta.json"))
-    assert reg["controlled_vocabularies"]["openMINDS"]["version"] is None
+    om = reg["controlled_vocabularies"]["openMINDS"]
+    assert om["version"] is None
+    # the note must not promise resolution from a class that no longer exists
+    assert "UNRESOLVED" in om["notes"], (
+        "the registry still claims the openMINDS version is resolved elsewhere")
 
 
 def _leaf_ok(concrete, cls):

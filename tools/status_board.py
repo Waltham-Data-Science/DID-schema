@@ -127,9 +127,12 @@ FAMILIES = [
      "runtime, machine-specific paths; not archival",
      "proposed"),
 
-    ("openMINDS", ["openminds_import", "openminds"],
+    # openminds_import was REMOVED 2026-07-30 (team sign-off) -- nothing ever
+    # emitted it. What is left is the v1 `openminds` carrier: the UNATTACHED
+    # openMINDS objects, 8 documents, of which 3 are composite core.research.Strain.
+    ("openMINDS", ["openminds"],
      None,
-     "import provenance vs crosswalk; entangled with the openminds_* sources", "open"),
+     "unattached openMINDS objects; composite Strain vs leaf controlled terms", "open"),
 
     # Split: the two classes have separate decisions and separate documents.
     ("software", ["app"],

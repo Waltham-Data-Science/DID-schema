@@ -820,31 +820,27 @@ if not any(f["name"] == "local_identifier" for f in sess.get("fields", [])):
     sess.setdefault("fields", []).append(LOCAL_ID_OPT)
 write("stable", "session", sess)
 
-# openMINDS import provenance. Records, per import, the exact openMINDS release and
-# crosswalk version the metadata was decomposed under -- the SINGLE source of truth
-# that controlled_vocabularies.openMINDS.version (binding registry) points at. A
-# dataset's controlled-term field values (accessibility / ethics_assessment /
-# experimental_approach) resolve their term-set IRIs against THIS release, and the
-# round-trip CI test asserts consistency. One document per import event, tied to the
-# dataset it populated (declarative dep). Not itself an entity -- it is provenance
-# metadata about an import, not a referenceable identity.
-write("draft", "openminds_import",
-      doc("openminds_import", ["base"], maturity="draft",
-          deps=[dep("dataset", "dataset",
-                    "The dataset entity this import populated.", non_empty=False)],
-          fields=[
-              field("openminds_version", "char",
-                    "The openMINDS release the source metadata was imported from "
-                    "(e.g. 'v4'). Pins the controlled-term instance libraries the "
-                    "dataset's accessibility / ethics_assessment / experimental_approach "
-                    "values resolve against."),
-              field("crosswalk_version", "char",
-                    "Version of the openMINDS<->NDI crosswalk "
-                    "(V_eta_openminds_crosswalk.json) used for the decomposition."),
-              field("source_iri", "char",
-                    "The openMINDS object/dataset IRI the import came from, where one "
-                    "exists.", non_empty=False),
-          ]))
+# openminds_import: REMOVED 2026-07-30 (team sign-off), REVERSING the earlier
+# "PERSIST as (7) provenance, maturity draft" call recorded in V_eta_tenet_audit.md.
+#
+# The reversal is on the evidence, not a change of taste:
+#   * NOTHING EMITS IT. Zero documents, no migrator, no importer, not even the
+#     openMINDS round-trip CI test. It has never validated a document, which is
+#     exactly the "persisting is right ONLY paired with a scheduled emitter" caveat
+#     the original audit attached to its own decision -- and no emitter was ever
+#     scheduled.
+#   * It is a V_eta INVENTION, not a did_v1 source (absent from the coverage ledger;
+#     provenance origin = V_eta), so removing it strands no existing data.
+#   * Nothing references it.
+#   * Its content is arguably provenance of a CONVERSION -- crosswalk_version is
+#     "which version of a translation program ran", which is what the `software`
+#     entity + software_id edge already model (R1). Keeping a bespoke class is a
+#     second representation of one fact.
+#
+# Re-add when there is an import path to stamp it. At that point the open question
+# is whether it should be a class at all or a software reference, and having a real
+# emitter is what will answer it. The one field with no obvious existing home is
+# `source_iri`; `global_identifier` with scheme='IRI' is the candidate.
 
 # ---------- instrument: RETIRE (boundary re-audit) -------------------------------------
 # `instrument` is a V_epsilon "review/infra" stub (base-only, no fields/deps) -- NOT a
@@ -2596,11 +2592,21 @@ SUBJECT_STATEMENT_BINDINGS = [
 # (strength required) vs open/growing sets (strength preferred).
 CONTROLLED_VOCABULARIES = {
     "openMINDS": {
-        "version": None,   # concrete openMINDS release pinned by the import-provenance
-                           # document (single source of truth); round-trip CI asserts it
+        # UNRESOLVED, and deliberately so. This used to read "pinned by the
+        # import-provenance document (single source of truth)" -- but
+        # openminds_import was removed 2026-07-30 because nothing ever emitted it,
+        # so that sentence pointed at a class that no longer exists AND never
+        # carried a value. Leaving the old note would have been a promise resolved
+        # by nothing: exactly the stale-prose failure this project keeps hitting.
+        #
+        # It stays null until an openMINDS import path exists. Whatever records the
+        # release then -- a re-added provenance class, a `software` reference, or a
+        # literal pin here -- is decided WITH that import path, not before it.
+        "version": None,
         "iri_base": "https://openminds.ebrains.eu/instances/",
         "notes": "openMINDS controlled-term instance libraries; each term_set is a "
-                 "flat instance library (IRI + label), not an ontology subtree.",
+                 "flat instance library (IRI + label), not an ontology subtree. "
+                 "`version` is UNRESOLVED: no import path stamps a release yet.",
     },
 }
 
@@ -3428,13 +3434,13 @@ for _i in ("acquisition_epoch", "control_designation", "daqmetadatareader", "daq
 #   - stimulus_presentation, control_stimulus_ids : D-B stimulus bodies-of-record whose
 #                                       sampled_body fate is still open.
 #   - demo_ndi, demo_ndi_mock         : demo/test fixtures, place in the final set unsettled.
-#   - openminds_import                : new provenance doc, provisional.
 #   - projectvar                      : infra, unsettled.
 #   - ensemble                        : grain A (acquisition-infra) decided, but its NDI
 #                                       second-pass member_of relations are pending
 #                                       (V_eta_ensemble_plan.md) -- kept in_progress until then.
-# NOTE: `instrument` RETIRED (deleted above, boundary re-audit). openminds_import is now
-# draft (persist + emitter gap). projectvar/demo_ndi = green passthrough (re-audit: their
+# NOTE: `instrument` RETIRED (deleted above, boundary re-audit). `openminds_import`
+# REMOVED 2026-07-30 by team sign-off, reversing its earlier PERSIST call -- nothing
+# ever emitted it (see the removal note above). projectvar/demo_ndi = green passthrough (re-audit: their
 # retire evidence was false -- they ARE ndi v1 sources; corpus 0-doc check before any drop).
 # WALKTHROUGH (this session): `interaction_purpose` -> PERSIST (re-audit KEPT it as a
 # standalone annotation class and it is already built to that shape: purpose term +
@@ -3443,7 +3449,7 @@ for _i in ("acquisition_epoch", "control_designation", "daqmetadatareader", "daq
 # control_stimulus_ids.m emits the renamed `control_designation` target, so its docs
 # migrate away. projectvar / demo_ndi(_mock) STAY in_progress by explicit call.
 _IN_PROGRESS = {"app", "stimulus_presentation",
-    "demo_ndi", "demo_ndi_mock", "openminds_import",
+    "demo_ndi", "demo_ndi_mock",
     "projectvar", "ensemble"}
 
 def _disposition(name, doc=None):

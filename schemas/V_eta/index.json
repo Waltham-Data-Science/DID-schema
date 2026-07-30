@@ -1575,18 +1575,6 @@
             "disposition_note": "Phase-8 source (migrator \u2192 delete)"
         },
         {
-            "class_name": "openminds_import",
-            "tier": "draft",
-            "class_version": "1.0.0",
-            "maturity_level": "draft",
-            "superclasses": [
-                "base"
-            ],
-            "path": "schemas/V_eta/draft/openminds_import.json",
-            "disposition": "in_progress",
-            "disposition_note": "\u2465/\u2466 walkthrough pending"
-        },
-        {
             "class_name": "openminds_stimulus",
             "tier": "stable",
             "class_version": "1.0.0",
