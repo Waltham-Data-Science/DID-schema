@@ -123,7 +123,7 @@ FAMILIES = [
      "runtime, machine-specific paths; not archival",
      "proposed"),
 
-    ("openMINDS", ["openminds_import"],
+    ("openMINDS", ["openminds_import", "openminds"],
      None,
      "import provenance vs crosswalk; entangled with the openminds_* sources", "open"),
 
@@ -137,6 +137,58 @@ FAMILIES = [
      "V_eta_frequency_filter_model_plan.md",
      "referenced document (not entity); band edges; typed gain fields; no sample_rate",
      "team"),
+
+    # ---- families for the `retire, but nothing decided` rows -------------------
+    # These were invisible while the board counted only in_progress. Grouped by
+    # what the TEMPLATES contain, not by name prefix -- the mistake that put
+    # `filter` under file navigation and split the sync family wrongly.
+
+    # All four are algorithm configuration for spike processing, all inherit `app`,
+    # and THREE carry filter parameters of their own:
+    #   spike_extraction_parameters(_modification): filter_type/low/high/order/ripple
+    #   vmspikefilteringparameters:                 filter_algorithm, filter_algorithm_
+    #                                               parameters, rm60Hz (a 60 Hz notch)
+    # So v1 has a THIRD filter representation here, and this family cannot be
+    # decided without the frequency_filter model it should reference.
+    # vmspikefilteringparameters also mixes in `spiketimes` -- OUTPUT data sitting in
+    # a parameters class.
+    ("spike processing parameters", [
+        "spike_extraction_parameters", "spike_extraction_parameters_modification",
+        "sorting_parameters", "vmspikefilteringparameters"],
+     None,
+     "algorithm config for spike extraction/sorting; 3 of 4 carry their own filter",
+     "open"),
+
+    # The stimulus DESCRIPTION: a single ontology-keyed property, and a whole table
+    # flattened into one `string` field. Both hang off stimulus_element_id. Likely
+    # folds with the stimulus model, and their tombstones are already held for it --
+    # but the model plan does not currently decide them, so they are counted here
+    # rather than assumed covered.
+    ("stimulus parameters", ["stimulus_parameter", "stimulus_parameter_table"],
+     None,
+     "stimulus description; likely folds with the stimulus model but not yet decided",
+     "open"),
+
+    # NOT the same thing as stimulus parameters: this is the MEASURED RESPONSE to a
+    # presented stimulus -- stimulus_response carries element_id + stimulator_id +
+    # presentation_id + control_id. It is the observation tier, and it is the input
+    # the tuning calculators consumed, so it is entangled with the (decided) tuning
+    # model and the raw-recording model.
+    ("stimulus response", [
+        "stimulus_response", "stimulus_response_scalar",
+        "stimulus_response_scalar_parameters",
+        "stimulus_response_scalar_parameters_basic"],
+     None,
+     "measured response to a stimulus -- observation tier, feeds the tuning fold",
+     "open"),
+
+    # A live NDI class with four in-tree emitters, parallel to the newer
+    # `measurement`. CLAUDE.md once recorded it as dissolved into `measurement`;
+    # that was FALSE and is corrected. {measurement, value, datestamp} on a subject.
+    ("subject measurement", ["subjectmeasurement"],
+     None,
+     "live v1 class parallel to `measurement`; four emitters; disposition unrecorded",
+     "open"),
 
     ("misc singletons", [
         "binaryseries_parameters", "control_designation", "interaction_purpose",
@@ -244,8 +296,11 @@ def build():
             if m in claimed:
                 dupes.append(m)
             claimed.add(m)
-    unclaimed = sorted(open_classes - claimed)
-    stale = sorted(claimed - open_classes)
+    # Open work is in_progress PLUS retire-with-no-plan. Before this, a family
+    # claiming a retire row was reported as stale and the row stayed invisible.
+    open_work = open_classes | set(unplanned_retire)
+    unclaimed = sorted(open_work - claimed)
+    stale = sorted(claimed - open_work)
 
     # A family may only claim to be DECIDED if the document recording that
     # decision exists. Otherwise "decided, awaiting build" is the same kind of
