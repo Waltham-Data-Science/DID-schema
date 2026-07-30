@@ -213,6 +213,24 @@ def load():
 
 def build():
     schemas, rows = load()
+
+    # RETIRE IS NOT ALWAYS A DECISION. A row marked retire with NO migrator and NO
+    # recorded `how` means the documents pass through untouched and nobody has
+    # decided anything -- open work wearing a settled label. The board could not
+    # see it because it counted only `in_progress`. Found when
+    # spike_extraction_parameters turned out to hold filter_type / filter_low /
+    # filter_high / filter_order / filter_ripple -- exactly the data the
+    # frequency_filter model was just designed for -- while sitting outside every
+    # decision family.
+    #
+    # Computed HERE, before anything renders: the first attempt built it down in
+    # the ledger section and the header referenced it earlier in the same
+    # function, which raised UnboundLocalError. A summary line must not depend on
+    # a number computed after it.
+    unplanned_retire = sorted(
+        r["v1_class"] for r in rows
+        if r["disposition"] == "retire" and not r["migrator"]
+        and not (r.get("how") or "").strip())
     by_disp = {}
     for s in schemas:
         by_disp.setdefault(s.get("disposition", "(none)"), []).append(s["class_name"])
@@ -288,7 +306,8 @@ def build():
     p("| target classes | %d |" % total)
     p("| settled (persist) | %d |" % n_persist)
     p("| settled (retire) | %d |" % n_retire)
-    p("| **still open** | **%d** |" % n_open)
+    p("| **still open (`in_progress`)** | **%d** |" % n_open)
+    p("| **`retire` with no migrator and no plan** | **%d** |" % len(unplanned_retire))
     p("| open **decision families** | **%d** |" % len(FAMILIES))
     p("| &nbsp;&nbsp;DECIDED by the team, awaiting build | %d |" % len(decided))
     p("| &nbsp;&nbsp;**PROPOSED by Claude, NOT yet reviewed** | **%d** |" % len(proposed))
@@ -353,6 +372,7 @@ def build():
     led_disp = {}
     for r in rows:
         led_disp.setdefault(r["disposition"], []).append(r["v1_class"])
+
     unverified = sorted(led_disp.get("no V_eta home, no migrator -- UNVERIFIED", []))
     p("## v1 source side (from the coverage ledger)")
     p("")
@@ -361,6 +381,19 @@ def build():
     for k in sorted(led_disp, key=lambda k: -len(led_disp[k])):
         p("| %s | %d |" % (k, len(led_disp[k])))
     p("")
+    if unplanned_retire:
+        p("### `retire`, but nothing decided -- %d rows" % len(unplanned_retire))
+        p("")
+        p("Marked `retire` with **no migrator and no recorded plan**: the documents")
+        p("pass through untouched. `retire` reads as settled, so these do not appear")
+        p("in the family counts above -- but they are open work. Several hold real")
+        p("data (e.g. `spike_extraction_parameters` carries filter_type / filter_low /")
+        p("filter_high / filter_order / filter_ripple).")
+        p("")
+        for c in unplanned_retire:
+            p("- `%s`" % c)
+        p("")
+
     if unverified:
         p("**UNVERIFIED** -- no V_eta home, no migrator, fate never established. "
           "These strand today:")

@@ -2111,7 +2111,27 @@ data_body = doc("data_body", ["base"], abstract=True, maturity="draft")
 data_body["file"] = BODY_FILE
 write("draft", "data_body", data_body)
 
-sampled = doc("sampled_body", ["data_body"], maturity="draft", deps=[STATEMENT_REQ], fields=[
+# filter_id (team decision, 2026-07-30): the frequency filter these SAMPLES went
+# through. It lives on the BODY, not on subject_interaction, because it
+# characterises the bytes -- read level1.bin without knowing it is 300 Hz
+# high-passed and the numbers mislead (T14: what a consumer must know to read a
+# value is declared where the value is). It also sits beside sample_time / axes /
+# datum, which are the same kind of fact.
+#
+# NOT on subject_interaction, where software_id and instrument_id live: those are
+# AGENTS, universally applicable even when unrecorded. A frequency filter is
+# INAPPLICABLE to most statements -- a mass_observation of a mouse cannot have one.
+# Universally-optional and inapplicable-to-most are different, and only the first
+# belongs on a shared parent.
+#
+# Per-body also stays correct for pyraview, whose fold mints one body per
+# resolution level: levels 2..N have been through additional anti-alias filtering
+# during decimation, which a single document-level filter could not express.
+FILTER_ID = dep("filter_id", "frequency_filter",
+                "Optional: the frequency filter these samples passed through. See "
+                "V_eta_frequency_filter_model_plan.md.", non_empty=False)
+sampled = doc("sampled_body", ["data_body"], maturity="draft",
+              deps=[STATEMENT_REQ, FILTER_ID], fields=[
     field("datum", "structure", "The per-sample value type (kind/dtype/unit/shape).",
           blank={}, sub_fields=[
               subfield("kind", "char", "scalar | array | record.", non_empty=True,

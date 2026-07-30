@@ -12,7 +12,8 @@ for each model; this board owns *how much is left and what exactly*.
 | target classes | 226 |
 | settled (persist) | 144 |
 | settled (retire) | 47 |
-| **still open** | **35** |
+| **still open (`in_progress`)** | **35** |
+| **`retire` with no migrator and no plan** | **12** |
 | open **decision families** | **16** |
 | &nbsp;&nbsp;DECIDED by the team, awaiting build | 1 |
 | &nbsp;&nbsp;**PROPOSED by Claude, NOT yet reviewed** | **10** |
@@ -97,6 +98,27 @@ migrator work before the target closes is rework.
 | no V_eta home, no migrator -- UNVERIFIED | 4 |
 | test/demo fixture (non-production) | 2 |
 | dissolved → subject | 1 |
+
+### `retire`, but nothing decided -- 12 rows
+
+Marked `retire` with **no migrator and no recorded plan**: the documents
+pass through untouched. `retire` reads as settled, so these do not appear
+in the family counts above -- but they are open work. Several hold real
+data (e.g. `spike_extraction_parameters` carries filter_type / filter_low /
+filter_high / filter_order / filter_ripple).
+
+- `openminds`
+- `sorting_parameters`
+- `spike_extraction_parameters`
+- `spike_extraction_parameters_modification`
+- `stimulus_parameter`
+- `stimulus_parameter_table`
+- `stimulus_response`
+- `stimulus_response_scalar`
+- `stimulus_response_scalar_parameters`
+- `stimulus_response_scalar_parameters_basic`
+- `subjectmeasurement`
+- `vmspikefilteringparameters`
 
 **UNVERIFIED** -- no V_eta home, no migrator, fate never established. These strand today:
 

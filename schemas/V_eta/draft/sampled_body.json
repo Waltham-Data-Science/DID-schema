@@ -15,6 +15,12 @@
             "mustBeNonEmpty": true,
             "documentation": "The one statement this body belongs to (reverse pointer); a stream appends more bodies without rewriting the anchor.",
             "must_refer_to_document_class": "subject_statement"
+        },
+        {
+            "name": "filter_id",
+            "mustBeNonEmpty": false,
+            "documentation": "Optional: the frequency filter these samples passed through. See V_eta_frequency_filter_model_plan.md.",
+            "must_refer_to_document_class": "frequency_filter"
         }
     ],
     "file": [
