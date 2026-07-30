@@ -9,8 +9,8 @@ for each model; this board owns *how much is left and what exactly*.
 
 | | count |
 |---|---|
-| target classes | 222 |
-| settled (persist) | 140 |
+| target classes | 225 |
+| settled (persist) | 143 |
 | settled (retire) | 47 |
 | **still open** | **35** |
 | open **decision families** | **15** |

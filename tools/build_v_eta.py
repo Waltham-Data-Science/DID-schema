@@ -2273,6 +2273,12 @@ NUMERIC_SEED = [
     ("energy", "J"), ("power", "W"), ("charge", "C"), ("resistance", "ohm"),
     ("conductance", "S"), ("capacitance", "F"), ("amount", "mol"),
     ("ph", "pH (log scale)"),
+    # gain: a logarithmic ratio in dB. Added for the frequency_filter model -- passband
+    # ripple is an allowed gain VARIATION and stopband attenuation is a gain REDUCTION,
+    # both quoted in dB. Typed rather than dropped in a parameter bag so "every recording
+    # high-passed with under 1 dB of ripple" stays a query (the tuning re-audit lesson:
+    # flattening typed scalars into a {name,value} bag was a real query regression).
+    ("gain", "dB (logarithmic ratio -- gain, ripple, attenuation)"),
 ]
 for name, unit in NUMERIC_SEED:
     write("stable", name,
@@ -3075,6 +3081,11 @@ _DIM_CANON = {
     # dimensionless: nothing to canonicalise, but the cell keeps the family shape so the
     # set stays uniform (source_unit carries the a.u. label / pH scale note).
     "intensity": ["arbitrary_units"], "ph": ["ph"],
+    # gain is a LOGARITHMIC RATIO, so decibels IS its canonical -- unlike the other
+    # dimensionless entries there is a real, standard scale to normalise onto. Named for
+    # the QUANTITY (gain), not the unit (decibel), per the family rule that gives
+    # `voltage` not `volt` and `frequency` not `hertz`.
+    "gain": ["decibels"],
 }
 # count / score are the documented EXCEPTIONS to the canonical+source triple: a count has no
 # dimensional scaling (its unit is semantic, not convertible) and a score is scale-relative.

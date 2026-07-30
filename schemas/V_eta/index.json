@@ -1189,6 +1189,41 @@
             "disposition": "persist"
         },
         {
+            "class_name": "gain",
+            "tier": "stable",
+            "class_version": "1.0.0",
+            "maturity_level": "stable",
+            "superclasses": [
+                "data_type"
+            ],
+            "path": "schemas/V_eta/stable/gain.json",
+            "disposition": "persist"
+        },
+        {
+            "class_name": "gain_assertion",
+            "tier": "stable",
+            "class_version": "1.0.0",
+            "maturity_level": "stable",
+            "superclasses": [
+                "subject_assertion",
+                "gain"
+            ],
+            "path": "schemas/V_eta/stable/gain_assertion.json",
+            "disposition": "persist"
+        },
+        {
+            "class_name": "gain_observation",
+            "tier": "stable",
+            "class_version": "1.0.0",
+            "maturity_level": "stable",
+            "superclasses": [
+                "subject_observation",
+                "gain"
+            ],
+            "path": "schemas/V_eta/stable/gain_observation.json",
+            "disposition": "persist"
+        },
+        {
             "class_name": "hartley_calc",
             "tier": "stable",
             "class_version": "2.0.0",
