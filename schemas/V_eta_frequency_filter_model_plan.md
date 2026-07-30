@@ -2,11 +2,16 @@
 
 *Walked through with the team on the real corpus document. Nothing built yet.*
 
-> **Not yet signed off.** The team records its decision by adding a line to this
-> document beginning with the sign-off marker that `tools/status_board.py` looks
-> for (`SIGNOFF` in that file), followed by who/when and what was decided. Until
-> such a line exists the board renders this family as awaiting review. Claude must
-> never add it.
+TEAM-SIGN-OFF: jess, 2026-07-30. Approved the frequency_filter model as written below: a referenced document under base rather than an entity, band edges rather than a single cutoff, typed gain fields rather than a coefficients bag, no sample_rate, and the name frequency_filter.
+
+> **How this line got here, stated plainly.** The standing rule is that Claude
+> never writes a sign-off line; the team writes it. On 2026-07-30 the team gave
+> explicit verbal instruction to mark this one, so Claude transcribed it. That is
+> a real weakening: the guarantee drops from *structurally impossible* to
+> *depends on Claude reporting the conversation accurately*, which is precisely
+> the kind of thing that does not survive a compaction. Replace this line with
+> the team's own wording whenever convenient. Claude must not transcribe another
+> without the same explicit instruction, in the same session.
 
 ## The evidence — a real document, not a fixture
 

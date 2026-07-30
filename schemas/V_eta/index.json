@@ -1154,6 +1154,17 @@
             "disposition": "persist"
         },
         {
+            "class_name": "frequency_filter",
+            "tier": "stable",
+            "class_version": "1.0.0",
+            "maturity_level": "stable",
+            "superclasses": [
+                "base"
+            ],
+            "path": "schemas/V_eta/stable/frequency_filter.json",
+            "disposition": "persist"
+        },
+        {
             "class_name": "frequency_manipulation",
             "tier": "stable",
             "class_version": "1.0.0",

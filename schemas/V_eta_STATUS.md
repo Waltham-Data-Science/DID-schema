@@ -9,18 +9,18 @@ for each model; this board owns *how much is left and what exactly*.
 
 | | count |
 |---|---|
-| target classes | 225 |
-| settled (persist) | 143 |
+| target classes | 226 |
+| settled (persist) | 144 |
 | settled (retire) | 47 |
 | **still open** | **35** |
 | open **decision families** | **16** |
-| &nbsp;&nbsp;DECIDED by the team, awaiting build | 0 |
-| &nbsp;&nbsp;**PROPOSED by Claude, NOT yet reviewed** | **11** |
+| &nbsp;&nbsp;DECIDED by the team, awaiting build | 1 |
+| &nbsp;&nbsp;**PROPOSED by Claude, NOT yet reviewed** | **10** |
 | &nbsp;&nbsp;nobody has proposed anything yet | 5 |
 
 The class count is not the work count. 35 open classes are 16 decisions, because most open classes move as a family.
 
-**16 of those 16 still need a team decision** (11 proposed and awaiting review, 5 with nothing proposed yet). Only 0 are settled.
+**15 of those 16 still need a team decision** (10 proposed and awaiting review, 5 with nothing proposed yet). Only 1 are settled.
 
 ## AWAITING TEAM REVIEW -- proposed by Claude, NOT decided
 
@@ -48,7 +48,6 @@ Until that line exists the family shows here regardless of what
 | **ensemble** | 1 | group subject + epoch-scoped member_of edges + rebuildable cache | `V_eta_ensemble_plan.md` |
 | **image / ngrid** | 1 | ngrid phases into sampled_body; image is a standalone data_type | `V_eta_image_model_plan.md` |
 | **software** | 1 | app -> software entity + software_id edge + execution_environment (R1) | `V_eta_tenet_audit.md` |
-| **frequency_filter** | 1 | referenced document (not entity); band edges; typed gain fields; no sample_rate | `V_eta_frequency_filter_model_plan.md` |
 
 - **daq configuration**: `daqmetadatareader`, `daqreader`, `daqsystem`
 - **daq ingested payloads**: `daqmetadatareader_epochdata_ingested`, `daqreader_epochdata_ingested`, `daqreader_image_epochdata_ingested`
@@ -60,7 +59,6 @@ Until that line exists the family shows here regardless of what
 - **ensemble**: `ensemble`
 - **image / ngrid**: `ngrid`
 - **software**: `app`
-- **frequency_filter**: `filter`
 
 ## Nobody has proposed anything yet
 
@@ -86,6 +84,7 @@ migrator work before the target closes is rework.
 
 | family | classes | decision | recorded in |
 |---|---|---|---|
+| **frequency_filter** | 1 | referenced document (not entity); band edges; typed gain fields; no sample_rate | `V_eta_frequency_filter_model_plan.md` |
 
 ## v1 source side (from the coverage ledger)
 

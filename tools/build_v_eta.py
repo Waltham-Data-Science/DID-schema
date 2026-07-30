@@ -2296,6 +2296,78 @@ write("stable", "intensity_manipulation",
       doc("intensity_manipulation", ["subject_manipulation", "intensity"]))
 
 
+# ---------- 11c. frequency_filter ----------
+# The signal conditioning applied to a recording, as a REFERENCED DOCUMENT.
+# Decided with the team against the one real corpus document available
+# (PRED 41269628e2d51bf1) -- see V_eta_frequency_filter_model_plan.md, which
+# carries the sign-off and the full reasoning. Summary of the four calls:
+#
+#   NOT a data_type   -- a data_type is a QUANTITY. Nothing "has a filter value";
+#                        a filter transforms something that does (T12).
+#   NOT an entity     -- every entity here is a citable thing in the world and the
+#                        tier exists to carry global_identifier. A filter has none
+#                        and never will. But an entity is not required to be
+#                        REFERENCED: time_reference is already a referenced,
+#                        deduplicable document under base. Same shape.
+#   BAND EDGES        -- one `cutoff` only works for high/low pass. Edges cover all
+#                        four cases; `band` is still needed because band_stop is the
+#                        inverse of the other three, not derivable from the numbers.
+#   TYPED gain FIELDS -- not a `coefficients` bag. `coefficients` already means the
+#                        b/a arrays in this domain, and the IIR family is CLOSED, so
+#                        typed keeps "under 1 dB of ripple" queryable (the tuning
+#                        re-audit lesson).
+#
+# NO sample_rate: this is the SPECIFICATION, not the realisation. Realised
+# coefficients depend on the rate (MATLAB takes normalised frequency), but the rate
+# is already on the recording -- storing it here would duplicate it and break dedup
+# across rates.
+write("stable", "frequency_filter", doc("frequency_filter", ["base"], fields=[
+    field("algorithm", "ontology_term",
+          "The filter design family (chebyshev_1 | chebyshev_2 | butterworth | "
+          "elliptic | bessel | fir). Determines which of the optional gain fields "
+          "apply.", non_empty=True,
+          constraints={"binding": {"root": "did_filter_algorithm",
+                                   "expansion": "value_set",
+                                   "values": ["chebyshev_1", "chebyshev_2",
+                                              "butterworth", "elliptic", "bessel",
+                                              "fir"],
+                                   "strength": "required", "source": "value_set"}}),
+    field("band", "ontology_term",
+          "Which frequencies survive: high_pass | low_pass | band_pass | band_stop. "
+          "NOT derivable from the edges alone -- band_stop REJECTS the interval the "
+          "others would keep.", non_empty=True,
+          constraints={"binding": {"root": "did_filter_band",
+                                   "expansion": "value_set",
+                                   "values": ["high_pass", "low_pass", "band_pass",
+                                              "band_stop"],
+                                   "strength": "required", "source": "value_set"}}),
+    field("passband", "structure",
+          "The interval that is kept. An absent edge means open: a high_pass has a "
+          "low edge and no high edge, a low_pass the reverse.", sub_fields=[
+              subfield("low", "frequency", "Lower edge of the passband."),
+              subfield("high", "frequency", "Upper edge of the passband."),
+          ]),
+    field("stopband", "structure",
+          "The interval that is rejected. band_stop (notch) only.", sub_fields=[
+              subfield("low", "frequency", "Lower edge of the stopband."),
+              subfield("high", "frequency", "Upper edge of the stopband."),
+          ]),
+    field("order", "integer",
+          "Filter order -- how steeply the response rolls off.", non_empty=False),
+    field("passband_ripple", "gain",
+          "Permitted gain variation within the passband. Chebyshev I and elliptic "
+          "only; ABSENT (never NaN) for designs that have no passband ripple. The "
+          "v1 source writes NaN for the inapplicable one -- the same hollow-value "
+          "pattern the time model rejected.", non_empty=False),
+    field("stopband_attenuation", "gain",
+          "Guaranteed gain reduction within the stopband. Chebyshev II and elliptic "
+          "only; ABSENT for designs that have no stopband specification. NOTE the v1 "
+          "field is misspelled `stopbandAttentuation` in the NDI template AND in the "
+          "data -- a migrator reading the correct spelling gets nothing, silently.",
+          non_empty=False),
+]))
+
+
 # ---------- 12. formalize `binding` in the meta-schema (D9) ----------
 # The constraints subschema is an open object; add a `binding` property so binding
 # blocks are structurally validated (require keyed_by) without constraining the
