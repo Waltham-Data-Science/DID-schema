@@ -351,3 +351,213 @@ an instrument whose denominator nobody stated. Recorded here, not fixed here.
 - **`variable: background strain`** (distinguish by variable rather than a graph) —
   **fails** on the multi-background case: with two backgrounds each having their
   own genetic type, the ambiguity returns one level down.
+
+---
+
+# PART 3 — the drift problem, and referenceable data. OPEN.
+
+Added after the team rejected the framing in Part 2. Nothing here is decided.
+
+## The defect in the MADE/FOUND rule as first stated
+
+The team's objection: *as we process more datasets, terms already stored as
+`term_assertion`s in one dataset might qualify for their own document in a new one
+— and we explicitly want to avoid the same kind of metadata being stored different
+ways across datasets.*
+
+**The rule as written in Part 2 is an INSTANCE-level test, and that causes exactly
+that drift.** Dataset A's `cell type` is a BNST neuron subtype: found, stays a
+`term_assertion`. Dataset B arrives with a CRISPR line: made, graduates to a
+document. The same metadata is now stored two ways in one archive and every query
+must know both shapes.
+
+The walkthrough had already established why it cannot be instance-level —
+*"it has to be answered once for the class, on the worst case"* — and the Part 2
+table did not carry that through. That is the error.
+
+Deciding once per variable on the worst case removes drift but costs prophecy:
+every variable that could **conceivably** carry lineage would have to be promoted
+now, before evidence. That is the T12 violation. **The way out is to stop making
+graduation a change of representation.**
+
+## Three options
+
+**A — decide per variable now, on the worst case.** One shape forever. Costs
+speculative promotion of cell type, material type, instrument type, probably
+anatomical location. T12 violation, and it is guesswork.
+
+**B — decide per variable on current evidence; re-decide when a counterexample
+arrives.** Invariant becomes *one variable, one representation, at any point in
+time*. No drift at any moment, no prophecy. Costs a **re-migration** of existing
+documents on each graduation, plus an instrument to detect graduation.
+
+**C — the value is invariant; the document is additive.** The statement ALWAYS
+keeps its inline `{node, name}`. When a term also has structure, a separate
+document carries it and the statement gains an OPTIONAL edge. Graduation stops
+being a re-representation and becomes an annotation; nothing already written
+changes shape.
+
+## Why C is the current recommendation (an argument, not a decision)
+
+- **No drift, by construction.** Every `cell type` assertion is identical in every
+  dataset, forever. A lab-made line adds a document and an edge; existing
+  assertions are untouched.
+- **No prophecy.** Promote when evidence arrives. T12 satisfied.
+- **No query regression.** `"species = C. elegans"` stays a one-hop inline match.
+  Making the value an edge would put a hop in front of EVERY term query — the same
+  category of regression the tuning re-audit rejected when it kept the empirical
+  scalars typed rather than flattening them into a bag.
+- **It is the shape already in use.** `time_reference` and `frequency_filter` are
+  values pulled into referenced documents so they dedup and can grow. C is that,
+  minus the removal of the inline value.
+
+Cost, and it is real: the node/name is denormalized — in the statement and in the
+document — so they can disagree. Checkable, not silent, but it needs the check.
+
+## The schema change C implies
+
+```
+term  (the abstract mixin, so assertion + observation + manipulation all get it)
+  depends_on:  term_id -> <a document about the kind>   OPTIONAL, non_empty=False
+  value: {node, name}                                    UNCHANGED, inline, queryable
+```
+
+Same mechanism as `filter_id` on `sampled_body`. `term_manipulation` wants it too —
+a manipulation can administer a viral construct or a drug formulation, both made
+things with lineage.
+
+Worked example, the real seven-document subject (worm_17):
+
+```
+term_assertion  subject_id->worm_17  variable:{name:"strain"}
+                value:{WBStrain:00000002, "PR811"}
+                depends_on: term_id -> str_pr811          <- the only addition
+
+strain   base.id: str_pr811                 ONE document, shared by every PR811 worm
+         name: "PR811"    identifier: WBStrain:00000002
+         species:             {NCBITaxon:6239, "C. elegans"}   INLINE ontology_term
+         genetic_strain_type: {…, "transgenic"}                INLINE ontology_term
+         depends_on: background_strain_1 -> str_n2             a REAL edge
+```
+
+## Two structural findings that constrain the answer
+
+**1. `term` has exactly three concrete forms and all are statements about a
+subject.** Verified across the built set:
+
+```
+DENOMINATOR: 222 classes scanned
+classes with data_type as ANY ancestor : 114   (38 abstract, 76 concrete)
+of the 76 concrete: composed with a DIRECTION : 76
+                    NO direction               :  0
+```
+
+Data types ARE real documents — 76 of them. But a data type becomes a document
+only by being composed with a direction (T3, `leaf = direction x data_type`), with
+zero exceptions. So `term_id` cannot point at "a term document": the only term
+documents are `term_assertion` / `term_observation` / `term_manipulation`, and a
+strain's pedigree is not a fact about any one animal.
+
+**This rules the data_type tier out for strain on structural grounds.** A strain
+has no direction. The tier options are exactly two — `⊂ base` (like
+`frequency_filter`, `time_reference`) or `⊂ entity`. Open item 1 narrows from a
+three-way to a two-way for a reason that is not a judgement call.
+
+**2. Why terms are inline is not convenience — a bound term is ALREADY a
+reference.** `NCBITaxon:6239` is a foreign key into a global registry; the
+deduplication is done by NCBITaxon, for everyone, permanently. Minting a local
+`species` document so 3,744 assertions can point at it would be building a local
+copy of an external registry and owning the sync.
+
+So linking directly to a data_type is not an upgrade over inline — for a term it is
+a **downgrade**, replacing a global identifier with a local one. It breaks in
+exactly one case: **local structure the CURIE cannot carry.** `EMPTY:avp-cre` names
+the strain but has nowhere to record that its background is C57BL/6J. That is the
+whole of strain's claim, and it is why strain is the only graduate.
+
+For NUMERIC data types, lifting the value out is incoherent rather than merely
+unhelpful: a free-floating `temperature` document is `22.5` with no claim attached.
+The meaning comes from the direction. And there is no dedup to win — measurements
+are unique.
+
+## On "referenceable data" — two needs, and one is already built
+
+**Citable data is solved.** Every statement leaf has its own `base.id`; every data
+body is a SEPARATE document with its own id; `derived_from` chains already link
+computed results to inputs.
+
+```
+sampled_body   CONCRETE  ⊂ data_body    dep: statement, filter_id
+opaque_body    CONCRETE  ⊂ data_body    dep: statement
+```
+
+The body points AT the statement, so the citable unit is "this observation" rather
+than "these bytes" — bytes without the claim they support are not citable science.
+
+**Shared KINDS is the unsolved need**, and strain is its first instance. What such
+a document is, is neither a statement (no direction) nor obviously an entity: a
+thing with identity and lineage. That tier does not exist in V_eta yet.
+
+## The fork this opens, undecided
+
+```
+A.  one class per kind     strain, cell_line, plasmid, viral_construct, probe_model
+                           T12-friendly: mint when evidence arrives.
+                           Cost: N classes accumulating over time.
+
+B.  one general class      research_object { kind, name, identifier, lineage edges }
+                           Cost: a discriminator field naming a class (the
+                           ndi_<x>_class smell), and the fields genuinely differ
+                           (a plasmid has a sequence; a strain has a background;
+                           a probe model has a geometry).
+```
+
+Claude leans A — the fields differ substantively and T12 says mint on evidence.
+An argument, not a decision.
+
+## What C does NOT buy
+
+| question | C's answer |
+|---|---|
+| **Inline value, or edge?** | Never varies. Value always inline; edge additive. **Drift eliminated structurally.** |
+| **Whose property is this variable?** | Still answered **once, globally, per variable**; changing it later is a re-migration. |
+
+Worked through on the real subject: `species` stays asserted on worm_17 (it is
+`subject_defining`, and not every subject has a strain — a wild-caught animal, a
+human, a cell culture), so the subject's species and the strain's species are
+BOTH real and denormalized on purpose. The DUPLICATE species assertion collapses
+to one — deduplicating identical assertions, not dropping a representation.
+
+But `genetic strain type` is a property of PR811, not of worm_17; those subject-
+level assertions are flattening artifacts and move to the strain document. That is
+a **one-time global re-migration of ~2,365 assertions**, not a per-dataset choice.
+
+## The two checks C requires
+
+```
+1. DENORMALIZATION.  For every statement carrying term_id, assert
+   statement.term.value == the referenced document's name/identifier.
+   Report: "checked N of M term statements (N carry term_id)."
+
+2. DRIFT.  For every distinct `variable` in the corpus, assert it appears in
+   exactly ONE representation.
+   Report: "inspected V distinct variables across D datasets, S statements."
+```
+
+Check 2 answers the team's question without requiring anyone to predict which terms
+graduate: it DETECTS graduation. Under C its expected output is trivially clean,
+because the representation never varies — only whether an optional edge is present.
+
+Both report their denominator first, unconditionally (Rule 5).
+
+## Open in Part 3
+
+1. **A vs B vs C** — no decision.
+2. **If C: one class per kind, or one general class?**
+3. **`strain ⊂ base` or `⊂ entity`** — narrowed to two by finding 1, still open.
+4. **Field-level bindings.** An inline `strain.species` cannot use the
+   `keyed_by: variable` binding — there is no `variable` on a strain document. It
+   needs a FIELD-level binding to NCBITaxon, which is the `entity_field_bindings`
+   mechanism (3 today, all on `dataset`). Lands in #32.
+5. **The per-variable "whose property is this" table** — needs writing once,
+   globally, for every variable in play.
