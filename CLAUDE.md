@@ -474,6 +474,42 @@ lives in these files — read them instead of re-deriving from memory:
   measuring nothing. `testFragmentCensus`'s first draft drove the detector through two migrators
   that had since been repaired, and failed correctly. Same shape as fixtures built from our own
   schema, one level up.
+- **A `depends_on` SWEEP IS NOT A REFERENCE CHECK. Grep for the NAME too.** Three times in one
+  session (2026-08-05) a dependency-graph sweep came back empty or nearly empty while the real
+  references were **string matches in ordinary fields**, and each time the "nothing references
+  this" reading would have produced a DATA-LOSING decision:
+  - `daqsystem` — `daqsystem_id` is referenced by NOTHING. But `daqsystem.base.name` is matched
+    by `strcmpi` in `+ndi/+daq/system.m:229` (`getprobes` attributing probes to devices), named
+    in every `syncrule.parameters.daqsystem1_name`/`_2_name`, and queried by `exact_string` in
+    `+ndi/+time/syncgraph.m:404-408`. Dissolving it would have broken probe→device attribution.
+  - `syncrule_mapping` — the same `syncgraph.m:404-408` query reads
+    `epochnode_a/_b.objectname`, a field V_eta had already DROPPED, alongside a `syncgraph_id`
+    edge V_eta had also dropped. A live in-tree query, broken two ways.
+  - `epochid` — only `ensemble` references an epoch by EDGE. But `epochid.epochid` is matched by
+    `exact_string` at **11+ live sites** (`+daq/metadatareader.m:164`, `+daq/reader.m:56`,
+    `+element/timeseries.m:58`, `stimulusDocMaker.m:390,412`, `add_stimulus_approach.m:54,64`,
+    `+app/spikeextractor.m:156,310,388`, `+app/+stimulus/decoder.m:114`,
+    `finddocs_elementEpochType.m:32`), and **15 NDI classes carry the `epochid` superclass**.
+    It is the join mechanism for the epoch-scoped half of the database.
+  **Before any disposition: grep the class's `base.name`, its id STRING, and its distinctive
+  field names across NDI `.m` files — not just `<class>_id` in the templates.** v1 joins by
+  string wherever the referent is not itself a document, which is most of the interesting cases.
+- **THE INVENTED-EMPTY-EDGE PATTERN — 12,296 documents, three classes, ONE cause.** V_eta
+  declares a REQUIRED `depends_on` that the NDI template does not have, while DROPPING the edge
+  NDI does write. Every such document validates clean, because `+did2/+validate/references.m:90`
+  SKIPS empty edges (`if isempty(documentId), continue;`) — so `mustBeNonEmpty` on a `depends_on`
+  is decorative:
+
+        epochfiles_ingested.epochid    6,921 docs  (Dab 4088 / B 2484 / Soph 349)   NDI has filenavigator_id
+        syncrule_mapping.epochid       5,316 docs  (B 2484 / Dab 2484 / Soph 348)   NDI has syncgraph_id
+        daqmetadatareader.daqsystem_id    59 docs  (100% of them)                   NDI has NO deps at all
+
+  In each case the count EQUALS the class's document count — 100% empty, never partially.
+  `ontology_table_row`'s 76,766 empty `subject_id`s (#53) are the same failure one layer up.
+  The blind spot is that `check_migrator_vocabulary.py` compares FIELDS and not `depends_on`
+  (#54); the fix that would stop all of them is enforcing `mustBeNonEmpty` on edges (#37); the
+  repairs are #53, #58 and the ones recorded in `V_eta_epoch_plan.md`. **Treat these as ONE
+  problem, and check a new required edge against the NDI template before adding it.**
 
 ## Build / test
 - `python3 tools/build_v_eta.py` rebuilds `schemas/V_eta/` (copytree V_zeta→V_eta
