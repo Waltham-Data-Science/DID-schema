@@ -147,10 +147,51 @@ be checked when that lands.
 
 ## Also derivable, and not part of the fork
 
-**`epochid` should probably be ABSTRACT.** In NDI it is superclass-only — no
-document is a bare `epochid`. V_eta made it concrete. Unless something emits a
-standalone `epochid` document, it wants `abstract: true`. Not verified either way
-here; check before changing.
+**`epochid` — DECIDED 2026-08-05: DROPPED FROM THE TARGET ENTIRELY.**
+
+Claude first wrote this as *"probably abstract"* and separately as *"migration input
+only"*. **Those are different claims and conflating them was sloppy** — `abstract:
+true` leaves the class in the target still stamping its block onto documents,
+whereas "migration input only" removes it. Put as a fork, the team chose removal.
+
+```
+the epochid CLASS        DELETED from V_eta.
+the epochid.epochid      NOT carried by migrated documents.
+   block
+migrators                READ epochid.epochid from v1 INPUT to work out which epoch
+                         a document belongs to, then write `epoch_id -> epoch`
+                         and nothing else.
+"t00023"                 lives in exactly ONE place: epoch.local_identifier
+```
+
+**This is deliberately the OPPOSITE of the `strain` choice**, and the difference is
+worth stating so neither is read as a precedent for the other. For strain we KEPT
+the inline `{node, name}` value and ADDED the edge, because the value is a CURIE
+naming something OUTSIDE the archive — there was nothing local to point at, so the
+inline value was the only complete fact. Here the string is just an id, and we are
+minting a document that owns it with a better one (`base.id`). One representation,
+nothing to keep in sync.
+
+Query consequence, and it is an improvement: *"everything in epoch t00023"* becomes
+two INDEXED lookups — find the epoch by `local_identifier`, then match `epoch_id` —
+rather than an `exact_string` scan across 15 classes.
+
+The supporting check is unchanged and one-sided:
+
+```
+$ grep -rn "'epochid'" --include=*.m src/          # 23 mentions in NDI
+  every one is ndi.document('<realclass>', ..., 'epochid', epochid_struct)
+  stimulusBathToBath.m:74 lists it in a SUPERCLASSES array
+  ZERO constructions of ndi.document('epochid', ...) as a primary class
+$ grep -rn "class_name','epochid'" src/did/+did2/+convert/   # no migrator emits one
+```
+
+**Migration ordering this forces:** every epoch-scoped document must have its
+`epoch_id` edge populated BEFORE `epochid` is removed, or the epoch association is
+lost outright. That is a second-pass ordering constraint, not a schema one — and
+given the 12,296-document invented-empty-edge pattern (see `CLAUDE.md`), the first
+corpus run must check `epoch_id` by name in `silentLoss` rather than trusting
+`quarantine=0`.
 
 **`epoch_id` is recorded three ways in v1** — the `epochid` mixin block, a plain
 `epoch_id` char field on `epochfiles_ingested` (both in NDI), and V_eta's added
@@ -356,10 +397,12 @@ reference T10 warns about, and `ensemble` is the only holder of it.
 
 ---
 
-# `epochfiles_ingested` — STILL OPEN. The fork was put to the team and not answered.
+# `epochfiles_ingested` — DECIDED: option B (team, 2026-08-05)
 
-Recorded because the walkthrough moved on to the naming question before this was
-settled, and it is the one part of the family still undecided.
+**The team's words:** *"Go with B and drop the epochid mixin."*
+
+Was recorded as open because the walkthrough moved on to the naming question before
+it was settled; now decided.
 
 ## What the document actually holds
 
@@ -399,7 +442,7 @@ IN CODE:  navigator.m:236-239, 504, 525   queried on epochfiles_ingested.epoch_i
 — two documents, one meaning. TaskList #59 preserves both the navigator's id and its
 `epoch_map_format`, so that coupling survives whichever way this goes.
 
-## THE FORK (put to the team; not answered)
+## THE FORK, and the answer: **B**
 
 ```
 A.  keep as ⑦ infra, repaired     fix the invented epochid edge, restore
@@ -448,7 +491,7 @@ the rows land on observations #30 already creates.
   (resolved against `acquisition_system.base.name`, preserved by #59) and a channel
   spec.
 
-### Claude's recommendation, NOT a decision
+### THE DECISION: B as the model, A as pass-1 behaviour
 
 **B as the model, A as pass-1 behaviour** — repair now so nothing is lost,
 decompose in the second pass. B is the same shape as two decisions already taken:

@@ -36,7 +36,7 @@ re-deciding -- it needs recording.
 | **stimulus** | 1 | timed_sequence data_type + timed_sequence_manipulation leaf | `V_eta_stimulus_model_plan.md` |
 | **ensemble** | 1 | group subject + epoch-scoped member_of edges + rebuildable cache | `V_eta_ensemble_plan.md` |
 | **image / ngrid** | 1 | ngrid phases into sampled_body; image is a standalone data_type | `V_eta_image_model_plan.md` |
-| **epoch** | 3 | MINT a real per-epoch `epoch` ENTITY; element_epoch dissolves; string joins -> edges | `V_eta_epoch_plan.md` |
+| **epoch** | 3 | MINT `epoch` ENTITY; element_epoch dissolves; epochid DROPPED; probemap -> edges (B) | `V_eta_epoch_plan.md` |
 | **daq configuration** | 3 | acquisition_system + metadata_reader keep ids; class names fold to software entities | `V_eta_daq_family_decisions.md` |
 | **sync configuration** | 2 | PERSIST as infra, ids preserved; class names fold to software entities | `V_eta_infra_family_decisions.md` |
 | **software** | 1 | app -> software entity + software_id edge + execution_environment (R1) | `V_eta_tenet_audit.md` |
