@@ -871,3 +871,72 @@ Part 2 said a lab-made cell line would be `core.research` rather than
 `Strain`-in-`core.research` vs `Species`/`CellType`/`BiologicalSex`/
 `GeneticStrainType`-in-`controlledTerms` split is real and measured, but it does
 not predict where a future cell line would land.
+
+---
+
+# PART 5 — the edge placement is CLOSED. `subject.strain_id` is rejected.
+
+Team objection, and it is decisive: **not all subjects are biological.**
+
+```
+element.m:5-6   "signal or sorted unit -- is a `subject`. The element document
+                 therefore becomes a `subject` with its id PRESERVED"
+element.m:25    instrument_id -> subject
+
+element_id is 29 of the 97 dependency declarations -- the most common edge in the
+schema. Non-biological subjects are the MAJORITY of the population, not a corner.
+```
+
+A `subject.strain_id` field would be **structurally present and permanently empty
+on every device subject** — the hollow-document shape `silentLoss` and `isFragment`
+exist to catch, built in at the schema level.
+
+## The general principle this restates
+
+A fact that applies to SOME subjects is a **statement**. A fact that applies to ALL
+of them is a **field**. That is why `species` and `biological sex` are
+`term_assertion`s and why `subject` carries only `local_identifier` and
+`description`. Strain follows the rule already in force:
+
+```
+term_assertion  variable:{name:"strain"}  value:{WBStrain:00000002,"PR811"}
+                depends_on: strain_id -> str_pr811
+```
+
+A device subject simply has no strain assertion. Nothing empty, nothing to
+validate against.
+
+## Why V_eta CANNOT inherit openMINDS's placement
+
+`specimen.species` works in openMINDS because **an openMINDS specimen is biological
+by definition** — `specimen` is the abstract base of `subject` and `tissueSample`,
+and `species` is REQUIRED on it. V_eta's `subject` is deliberately broader: it
+absorbed elements, probes and sorted units so their ids could be preserved.
+
+So the divergence recorded in Part 4 is not a preference. Their model is coherent
+BECAUSE their subject is narrower than ours; adopting their placement would import
+a required-biological assumption our subject tier cannot satisfy. The crosswalk
+should record this as a structural divergence, not an omission.
+
+## Status of the strain question after Part 5
+
+```
+SETTLED (evidence, not sign-off)
+  strain needs its own deduplicated document
+  the pedigree is a recursive self-edge, background_strain_# (0..2, DAG)
+  the edge lives on the term_assertion as strain_id, NOT on subject
+  species + strain stay SIBLING assertions (no polymorphic slot)
+  genetic_strain_type moves onto the strain document (openMINDS requires it there)
+  identifier must be OPTIONAL (Dabrowska writes none)
+
+OPEN -- ONE ITEM
+  strain ⊂ base   or   strain ⊂ entity
+```
+
+`entity` is abstract and adds exactly one optional field,
+`global_identifier {scheme, value}`. Choosing `base` does not avoid that concept —
+it re-declares it locally and gives up "find anything by external identifier" as a
+uniform query. The four schemes in play (`WBStrain:`, `NCIT:`, `RRID:`, `EMPTY:`)
+are the shape `{scheme, value}` exists for. Claude leans `entity`; the team's
+stated instinct is that entities should be concrete things a lab owns, which favours
+`base`. **This is a tier-definition call and it belongs to the team.**
