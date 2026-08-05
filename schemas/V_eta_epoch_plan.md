@@ -287,3 +287,49 @@ $ grep -rn "class_name','epochid'" src/did/+did2/+convert/   # no migrator emits
 ```
 
 Positive evidence, not a failed search: **`epochid` wants `abstract: true`.**
+
+## NAMING — the class is `epoch`, not `acquisition_epoch` (team, 2026-08-05)
+
+**The team's words:** *"If we have session as one chunk of time, would it be fair to
+just call this an epoch? We don't say acquisition_session?"* → **"Let's call it
+epoch."**
+
+Evidence, all pointing the same way:
+
+```
+$ ls schemas/V_eta/*/epoch.json                 FREE -- no collision
+
+$ grep -n "acquisition_epoch" tools/build_v_eta.py
+  138:    "element_epoch": "acquisition_epoch",   <- a RENAME-MAP entry
+
+$ grep -rni "acquisition.epoch" NDI src/         NDI never uses the phrase
+
+NDI's own epoch vocabulary is UNQUALIFIED throughout:
+  element_epoch  epochclocktimes  epochfiles_ingested  epochid  oneepoch
+  daqreader_epochdata_ingested  daqmetadatareader_epochdata_ingested  ...
+```
+
+**`acquisition_` was a substitute for `element_`, not a disambiguator.** It existed
+to get "element" out of the name once elements became subjects. With the class now
+meaning *the epoch itself* rather than *one element's slice of it*, that
+justification is gone and the word does no work — a T13 unearned qualifier.
+
+The spine reads as three bare nouns: **`dataset` → `session` → `epoch`**.
+`acquisition_session` would be obviously redundant; `acquisition_epoch` was the same
+redundancy, less visible only through familiarity.
+
+**No collision after the time-model collapse.** `epoch_bounded_reference` and
+`epoch_relative_reference` fold into `relative_reference` (8→2), `epochid` goes
+abstract/migration-only, and `epochfiles_ingested` + the `*_epochdata_ingested`
+trio use "epoch" as a modifier. `epoch` ends up the only class plainly named that.
+
+**Why rename NOW rather than defer to R5 (#27).** The `file_navigator` /
+`metadata_reader` naming was deferred precisely because those classes KEEP their
+meaning, and renaming twice is worse than renaming once. Here the meaning is
+changing anyway — element-epoch → epoch — so this is the cheapest possible moment.
+Renaming at the same time as re-semanticising avoids a class whose name and meaning
+changed at two different times, which is what makes an old document unreadable later.
+
+Build consequence: `build_v_eta.py`'s rename map entry becomes
+`"element_epoch": "epoch"`, and every `element_epoch_id -> acquisition_epoch`
+dependency retarget goes with it, so the schema and the migrators move together.
