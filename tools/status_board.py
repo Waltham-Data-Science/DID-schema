@@ -213,14 +213,25 @@ FAMILIES = [
      "team"),
 
     # The stimulus DESCRIPTION: a single ontology-keyed property, and a whole table
-    # flattened into one `string` field. Both hang off stimulus_element_id. Likely
-    # folds with the stimulus model, and their tombstones are already held for it --
-    # but the model plan does not currently decide them, so they are counted here
-    # rather than assumed covered.
+    # flattened into one `string` field. Both hang off stimulus_element_id. The
+    # stimulus model plan was checked and does NOT mention either class, so "folds
+    # with the stimulus model" was an assumption, not a fact.
+    # DECIDED with the team 2026-08-06 (A + C), no signature yet. stimulus_parameter
+    # DISSOLVES: it is already a J statement (element -> subject, ontology_name ->
+    # variable.node, name -> variable.name, value, epoch anchor), the leaf keyed by
+    # the CURIE through D9 -- the Marder documents land as temperature_manipulation.
+    # Direction is MANIPULATION: a parameter OF a stimulus is set, not measured.
+    # BUILD GATED ON #32 (dissolution makes D9 load-bearing for arbitrary NDIC terms
+    # and binding is unenforced). stimulus_parameter_table PASSES THROUGH -- the
+    # projectvar disposition: real did_v1, no visible writer, one untyped field, no
+    # documents to model against. Both V_eta shapes are wholly invented (not one
+    # field or edge matches NDI), so the tombstone repair is required either way --
+    # #43's held rows.
     ("stimulus parameters", ["stimulus_parameter", "stimulus_parameter_table"],
-     None,
-     "stimulus description; likely folds with the stimulus model but not yet decided",
-     "open"),
+     "V_eta_stimulus_parameter_plan.md",
+     "stimulus_parameter DISSOLVES to a typed leaf keyed by its CURIE (build gated on "
+     "#32); stimulus_parameter_table PASSES THROUGH; both tombstones repaired",
+     "team"),
 
     # NOT the same thing as stimulus parameters: this is the response to a presented
     # stimulus, computed by ndi.app.stimulus.tuning_response -- the input the tuning
