@@ -88,7 +88,7 @@ FAMILIES = [
     # session a depends_on sweep missed string-match references.
     ("acquisition epoch", ["acquisition_epoch", "epochid", "epochfiles_ingested"],
      "V_eta_acquisition_epoch_plan.md",
-     "acquisition_epoch keeps identity + extent; clocks/axes/storage/payload leave",
+     "MINT a real per-epoch acquisition_epoch (entity); element_epoch dissolves; string joins -> edges",
      "team"),
 
     # Split by the templates, not by the name prefix: three are a MATLAB class

@@ -4,6 +4,12 @@
 the marker is the team's to write (Operating Rule 4), so the status board renders
 this as *awaiting a signature*.
 
+> **READ THE REVISION AT THE BOTTOM FIRST.** The decision recorded immediately
+> below was answered about the WRONG OBJECT — `element_epoch` is per-element-per-
+> epoch, not the epoch — and was revised the same day. The revision supersedes the
+> "THE DECISION — option B" section. Everything else here (the reframe, the ground
+> truth, the four defects) stands.
+
 **The team's words, recorded verbatim so this can be audited rather than trusted:**
 Claude presented the fork as *"once clocks, axes, storage and payload have all moved
 out, what does `acquisition_epoch` retain? **A.** identity only. **B.** identity +
@@ -157,3 +163,127 @@ TaskList **#57** (`clock_alignment`) needs epoch endpoints for `from_epoch`/
 `to_epoch`. Option B keeps `acquisition_epoch` as a referenceable document, so that
 proposal is no longer blocked on this family — though `clock_alignment` itself
 remains **a proposal, not a decision**.
+
+---
+
+# REVISION, same day — the earlier decision was about the WRONG OBJECT
+
+**The team's words:** asked whether we should mint a real per-epoch document, *"I
+think this makes sense."* Asked whether `acquisition_epoch` should be an entity as
+`session` is, and told the choice turns on reading `entity` as *"has identity in the
+world"* (argues no) versus *"the named, addressable spine of the archive"* (argues
+yes): **"I read it as the spine of the archive."**
+
+## What was wrong
+
+The decision above ("identity + extent") was answered about `element_epoch`, which
+is **not the epoch**. From the writer:
+
+```matlab
+% +ndi/element.m:367-378
+epochdoc = E.newdocument('element_epoch', ...
+    'element_epoch.epoch_clock', epochclockstr, ...
+    'element_epoch.t0_t1', t0_t1_input, ...
+    'epochid.epochid', epochid);
+epochdoc = epochdoc.set_dependency_value('element_id', elementdoc.id());
+```
+
+**One document per ELEMENT per EPOCH** — its own clock, its own extent, its own
+`.vhsb` payload. Many share one `epochid.epochid`.
+
+**So there is no epoch document in v1 at all.** An epoch is only a shared string,
+which is exactly why every join is a string match: there is nothing to point at.
+V_eta renamed `element_epoch` → `acquisition_epoch`, a name that reads as "the
+epoch itself", and this plan then described it that way — "when did this epoch run"
+when the document answers "when did this ELEMENT's recording run". A T13 naming
+error that propagated into a decision.
+
+**The project already assumed the fix.** `V_eta_time_reference_model_plan.md`:
+
+> the `(referent, epoch)` pair collapses to ONE edge **only because V_eta reifies
+> the epoch as a document**
+
+The time model is written on the assumption that an epoch IS a document. Nothing
+had minted one.
+
+## THE REVISED MODEL
+
+```
+acquisition_epoch  ⊂ entity        ONE PER EPOCH -- MINTED; does not exist in v1
+   base.id                         the archive's own key (every document has one)
+   local_identifier   "t00023"     the v1 epochid string, preserved as the handle
+   global_identifier  (empty)      an epoch has no external cross-reference
+   depends_on: session_id
+               time_reference_#    the epoch's own extent
+
+element_epoch      DISSOLVES       it is one element's data for one epoch:
+   t0_t1 / epoch_clock       -> time_references
+   epoch_binary_data.vhsb    -> sampled_body
+   element_id                -> the observation's subject/instrument (T7, #30)
+   + acquisition_epoch_id    -> the epoch it belonged to
+
+every epoch-scoped document gains   acquisition_epoch_id -> acquisition_epoch
+   resolvable at migration by GROUPING on epochid.epochid
+```
+
+The 11+ string joins become graph edges. `epochid` the mixin survives as **migration
+input**, not as the target's join mechanism.
+
+## Why `entity`, and why it is NOT about identifiers
+
+`base.id` and `global_identifier` are different things. `base.id` is a `did_uid` —
+the primary key on every document, entity or not. `global_identifier` is documented
+as *"Cross-reference identifier(s) … ORCID | ROR | DOI | PMID | PMCID | RRID | UDI"*
+— identifiers from OTHER systems. An epoch has none and never will, which by the
+signed-off `frequency_filter` reasoning would argue AGAINST entity.
+
+**The deciding argument is structural, not identity-based.** T9: *"Aggregation…
+are `directed_relation`s"*, and `directed_relation` declares **both endpoints as
+`entity`**:
+
+```
+directed_relation(child=session, parent=dataset, relation=part_of)   works
+directed_relation(child=epoch,   parent=session, relation=part_of)   works ONLY if epoch is an entity
+```
+
+With `acquisition_epoch ⊂ base` the containment spine is expressible for the top
+link and not the bottom one. For `strain` the entity tier's **gift** mattered
+(a repeatable `global_identifier`, four schemes in play); for an epoch its
+**consequence** matters — being a legal relation endpoint.
+
+Recorded honestly: the containment hierarchy is currently expressed **nowhere**.
+`base.session_id` is a universal FIELD, not an edge, and nothing at all expresses
+dataset→session. So this decision makes the spine expressible; it does not by itself
+build it.
+
+## Knock-ons
+
+- **Weakens one objection to TaskList #57.** That proposal noted `directed_relation`
+  cannot carry `clock_alignment` partly because its endpoints are `entity` and an
+  epoch is not. With epochs as entities that objection dissolves — but
+  `directed_relation` still has **no value slot**, so the affine transform and cost
+  would still be dropped, and a separate class is still required. #57 remains a
+  PROPOSAL.
+- **`base.session_id` and a `part_of` relation would be two representations of one
+  fact.** Flagged, not solved.
+- **Minting needs the SECOND PASS.** One document per distinct `epochid.epochid` is
+  a grouping over the whole corpus; a single-doc migrator cannot do it.
+
+## What this does NOT revise
+
+The four defects recorded above stand unchanged — they are repairs, true under any
+model: the invented always-empty `epochfiles_ingested.epochid` (6,921 documents),
+`axes`/`channels`/`storage` appearing in no NDI template, the dropped `.vhsb`
+payload, and the `epochid` mixin dropped from three classes NDI gives it.
+
+And the `epochid`-should-be-abstract question is now CHECKED rather than assumed:
+
+```
+$ grep -rn "'epochid'" --include=*.m src/          # 23 mentions in NDI
+  every one is ndi.document('<realclass>', ..., 'epochid', epochid_struct)
+  +migrate/+internal/stimulusBathToBath.m:74 lists it in a SUPERCLASSES array
+  ZERO constructions of ndi.document('epochid', ...) as a primary class
+$ grep -rn "class_name','epochid'" src/did/+did2/+convert/   # no migrator emits one
+```
+
+Positive evidence, not a failed search: **`epochid` wants `abstract: true`.**
