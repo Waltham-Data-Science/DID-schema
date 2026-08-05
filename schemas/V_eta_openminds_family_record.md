@@ -111,8 +111,72 @@ geneticStrainType: [ndi://…]  species: [ndi://…]  backgroundStrain: null   <
 name: "DA609"   backgroundStrain: [ndi://…]     <- descends
 ```
 
-`backgroundStrain` is an **array** and **recursive**. Team: the pedigree *can* go
-deeper, but most people do not reference more than one level.
+`backgroundStrain` is an **array** and **recursive**.
+
+**CORRECTED — this line previously read "the pedigree *can* go deeper, but most
+people do not reference more than one level." Two of the four production writers
+go deeper than that, so the assumption was wrong and would have shaped the schema
+badly.** Read from the writers, which are the ground truth:
+
+```matlab
+% +ndi/+setup/+conv/+hunsberger/SubjectInformationCreator.m:70-107
+strain  "ArcCreERT2 x eYFP"   EMPTY:00000288   transgenic
+   backgroundStrain = [ArcCreERT2, eYFP]         <- TWO parents
+        ArcCreERT2            EMPTY:00000284   transgenic
+            backgroundStrain = SvEv              <- SECOND level
+        eYFP                  EMPTY:00000287   transgenic
+            backgroundStrain = SvEv              <- the SAME node again
+                SvEv          NCIT:C37334      wildtype   (root)
+
+% +ndi/+setup/+conv/+dabrowska/working.m:46
+st_trans.backgroundStrain = [st_sd st_wi];        <- a second two-parent case
+```
+
+Two consequences the model must satisfy:
+
+**It is a DAG, not a tree.** `SvEv` is reached by two distinct paths. The
+repeatable `background_strain_# -> strain` edge handles this natively; a NESTED
+background block would have DUPLICATED SvEv under both parents, and the two copies
+could then disagree. This is a concrete instance of the inline-structure failure
+already removed from `acquisition_epoch.clocks`, `epochclocktimes` and
+`distance_metadata`.
+
+**A real F1 cross, not a hypothetical.** `ArcCreERT2 x eYFP` is production data
+today.
+
+## The Strain object, as production code builds it
+
+```matlab
+openminds.core.research.Strain
+    name                 'ArcCreERT2 x eYFP' | "129S/SvEv" | "SD"
+    species              -> openminds.controlledterms.Species
+    ontologyIdentifier   'NCIT:C37334' | "RRID:RGD_70508" | 'EMPTY:00000284'
+    description          <- ndi.ontology.lookup(...) definition, NOT free text
+    geneticStrainType    'wildtype' | 'transgenic' | "knockin" | 'wild type'
+    backgroundStrain     -> Strain, or an ARRAY of Strain
+```
+
+**Three identifier regimes, and the 115 identifier-less strains are a LAB PRACTICE
+difference, not a property of lab-made strains:**
+
+```
+NCIT:C37334          hunsberger  SvEv                    NCI Thesaurus
+RRID:RGD_70508       dabrowska   SD                      Rat Genome Database
+RRID:RGD_13508588    dabrowska   WI
+EMPTY:00000284/7/8   hunsberger  ArcCreERT2, eYFP, cross MINTED via ndi.ontology.lookup
+(none)               dabrowska   OTR-IRES-Cre, AVP-Cre, CRF-Cre
+```
+
+Hunsberger mints `EMPTY:` CURIEs for its lab-made strains; Dabrowska sets only
+`name`. So `identifier` MUST be optional on the strain document — the schema
+cannot require what the writer does not produce. `geneticStrainType` is also
+unnormalised across writers (`'wildtype'` vs `'wild type'`), which is a T8 binding
+job.
+
+**The dedup case is visible in the code, not only in the counts.** `st_sd` and
+`st_wi` are constructed INSIDE `getStrain`, so every invocation builds fresh Strain
+objects — which is why there are 2,365 Strain documents for roughly ten distinct
+strains.
 
 **Why this is urgent, not theoretical.** `openminds_subject` migrates 1→1 to a
 single `term_assertion`. The migrator reads `fields.preferredOntologyIdentifier`
