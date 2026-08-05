@@ -140,3 +140,96 @@ completeness.
 
 *Companion to `V_eta_nonsubject_cohesiveness_plan.md`. This audit closes the "have we
 looked at every go-forward class?" question: yes — 258, each dispositioned.*
+
+---
+
+# FOUR SMALL DISPOSITIONS — team, 2026-08-05
+
+**The team's words:** *"I agree with the 4 proposals."* NO `TEAM-SIGN-OFF` LINE —
+the marker is the team's to write (Operating Rule 4).
+
+**Three of the four turned out not to be migration questions at all.** They were on
+the board as "needs a writer check before any disposition"; the check showed they
+are not did_v1 sources, so the question was mis-framed rather than open.
+
+## 1. `dataseries_channel_map` — DELETE
+
+```
+NDI origin/main templates:  0        NDI code mentions:  0
+provenance:                 V_epsilon, draft
+DID migrators referencing:  0        V_eta schemas referencing:  0
+```
+
+Not a did_v1 source. Nothing emits it, nothing consumes it, it has never validated
+a document. **Identical shape to `openminds_import`**, which was removed on the same
+grounds.
+
+## 2. `directory` — NOT A SOURCE. The question was mis-framed.
+
+```
+NDI origin/main:            ABSENT   provenance:  V_gamma, stable
+DID migrators referencing:  7        V_eta schemas referencing:  3
+```
+
+It is **load-bearing on the DID side** — 7 migrators and 3 schemas use it — and
+`CLAUDE.md` already says so:
+
+> Do NOT add post-v1 DID intermediate/target classes (zarr, **directory**,
+> `*_observation`, data_body, openminds_import) to the v1 side
+
+So it was never a migration source and needed no writer check. It landed in the
+"file navigation" family by name association — the same mis-grouping that once put
+`filter` there.
+
+**Consequence: the `file navigation` family CLOSES.** `filenavigator` was already
+decided (`V_eta_daq_family_decisions.md` — `file_navigator ⊂ base`, `base.id`
+preserved, patterns parsed into declared fields, `software_id` edge), and the family
+was held open only by `directory`.
+
+## 3. `demo_ndi` / `demo_ndi_mock` — DELETE
+
+```
+NDI origin/main:            0 / 0    provenance:  V_gamma, stable
+DID migrators referencing:  0 / 0    V_eta schemas referencing:  0 / 0
+```
+
+DID-side test fixtures that **nothing references — not even the test suite.** If a
+fixture is wanted later it can be re-added deliberately; shipping unreferenced
+classes is exactly what `openminds_import` was.
+
+## 4. `subjectmeasurement` — route through the `measurement` fold
+
+A REAL did_v1 template:
+
+```json
+subjectmeasurement  ⊂ base   dep: subject_id
+  { measurement: "", value: "", datestamp: "" }
+```
+
+Its shape is a subject observation outright — `measurement="age"`, `value=30`, a
+date. That is `variable` + value + date, the same target `measurement` already folds
+to, and `measurement`'s migrator plus a `subjectmeasurement` tombstone both landed
+under TaskList #41. **No new model: one migrator reusing the existing path.**
+
+### CORRECTION to `CLAUDE.md` — "FOUR in-tree emitters" overstates it
+
+That line was written to establish `subjectmeasurement` is a live production class
+(correcting an earlier FALSE claim that it dissolved into `measurement`, which NDI
+never did). The count is right and the characterisation is not — **all four emitters
+are test-session builders**:
+
+```
+src/ndi/+ndi/+test/+daq/build_intan_flat_exp.m
+tests/+ndi/+unittest/+session/buildSession.m
+tests/+ndi/+unittest/+session/buildSessionNDRIntan.m
+tests/+ndi/+unittest/+session/buildSessionNDRAxon.m
+```
+
+(plus the template, its schema, and `ndiDocumentAttributes.json` — 7 files total.)
+
+**This is NOT a claim that no real data exists.** The corpora are a sample, and
+older lab scripts could have written these documents; the class still needs its
+migrator. What is corrected is only the impression of production writers in-tree.
+The parallel-class fact the line exists to protect — that NDI never dissolved
+`subjectmeasurement` into `measurement`, and `measurement` is a NEWER separate class
+— is unaffected.

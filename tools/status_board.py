@@ -111,9 +111,11 @@ FAMILIES = [
      "-> relative_reference / opaque_body / image model; no new class",
      "proposed"),
 
+    # DECIDED 2026-08-05. Writer check done: absent from NDI origin/main, zero code
+    # mentions, provenance V_epsilon, zero migrators, zero schema references.
     ("dataseries_channel_map", ["dataseries_channel_map"],
-     None,
-     "ABSENT on NDI origin/main -- needs a writer check before any disposition", "open"),
+     "V_eta_go_forward_class_audit.md",
+     "DELETE -- a V_epsilon invention, never a did_v1 source, zero users", "team"),
 
     # The templates split this: syncgraph/syncrule are a MATLAB class name plus
     # parameters (runtime configuration), while syncrule_mapping carries the
@@ -147,10 +149,14 @@ FAMILIES = [
     # is ABSENT from NDI origin/main and needs a writer check, not a disposition.
     # Status stays "open" because the family is not fully resolved -- the
     # inaccuracy is deliberately in the under-reporting direction.
+    # CLOSED 2026-08-05. filenavigator was decided with the daq family; `directory`
+    # is NOT a did_v1 source (provenance V_gamma, and CLAUDE.md already lists it as a
+    # post-v1 DID class) -- it landed here by name association, the same mis-grouping
+    # that once put `filter` in this family.
     ("file navigation", ["filenavigator", "directory"],
      "V_eta_daq_family_decisions.md",
-     "filenavigator DECIDED (-> file_navigator); `directory` absent on origin/main, needs a writer check",
-     "open"),
+     "filenavigator -> file_navigator (id preserved); `directory` is not a source",
+     "team"),
 
     # openminds_import was REMOVED 2026-07-30 (team sign-off) -- nothing ever
     # emitted it. What is left is the v1 `openminds` carrier: the UNATTACHED
@@ -223,10 +229,13 @@ FAMILIES = [
     # A live NDI class with four in-tree emitters, parallel to the newer
     # `measurement`. CLAUDE.md once recorded it as dissolved into `measurement`;
     # that was FALSE and is corrected. {measurement, value, datestamp} on a subject.
+    # DECIDED 2026-08-05. A real did_v1 template whose shape IS a subject
+    # observation. All four in-tree emitters are TEST-session builders -- see the
+    # CLAUDE.md correction in the audit document.
     ("subject measurement", ["subjectmeasurement"],
-     None,
-     "live v1 class parallel to `measurement`; four emitters; disposition unrecorded",
-     "open"),
+     "V_eta_go_forward_class_audit.md",
+     "route through the `measurement` fold -- no new model, reuse the existing path",
+     "team"),
 
     ("misc singletons", [
         "binaryseries_parameters", "control_designation", "interaction_purpose",
@@ -234,9 +243,11 @@ FAMILIES = [
      None,
      "four unrelated classes, each its own small call", "open"),
 
+    # DECIDED 2026-08-05. Absent from NDI, provenance V_gamma, and referenced by
+    # NOTHING -- not even the test suite.
     ("demo / mock", ["demo_ndi", "demo_ndi_mock"],
-     None,
-     "test fixtures; decide whether they ship in the set", "open"),
+     "V_eta_go_forward_class_audit.md",
+     "DELETE -- DID-side fixtures that nothing references", "team"),
 ]
 
 

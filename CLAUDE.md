@@ -335,8 +335,16 @@ lives in these files — read them instead of re-deriving from memory:
   `valid_interval` — labelled UNVERIFIED; the last two are probably already resolved but
   unrecorded). Separately, `_PRE_ZETA_DISSOLVED` carried a FALSE entry claiming
   `subjectmeasurement` dissolved into `measurement`. NDI never did that: it is still a
-  shipped template with FOUR in-tree emitters, and `measurement` is a NEWER PARALLEL class
-  (added 2026-01-05). Every entry in that dict is an assertion about NDI and must be
+  shipped template, and `measurement` is a NEWER PARALLEL class (added 2026-01-05).
+  **CORRECTED 2026-08-05 — this line said "FOUR in-tree emitters", which is numerically right
+  and materially misleading: ALL FOUR are TEST-session builders** (`+test/+daq/
+  build_intan_flat_exp.m`, `tests/+ndi/+unittest/+session/buildSession.m`,
+  `buildSessionNDRIntan.m`, `buildSessionNDRAxon.m`; 7 files total including the template, its
+  schema and `ndiDocumentAttributes.json`). There is NO production writer in-tree. That does
+  NOT mean no real data exists — the corpora are a sample and older lab scripts could have
+  written these — so the class still needs its migrator; DISPOSITION (team, 2026-08-05): route
+  it through the `measurement` fold, no new model. The parallel-class fact this line exists to
+  protect is unaffected. Every entry in that dict is an assertion about NDI and must be
   verified against `origin/main` before it is added.
   `V_eta_coverage_ledger.md` AND `.json` are generated — re-run
   `python3 tools/coverage.py` after schema/migrator changes. The web viewer's

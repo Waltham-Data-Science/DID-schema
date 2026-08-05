@@ -16,13 +16,13 @@ for each model; this board owns *how much is left and what exactly*.
 | **`retire` with no migrator and no plan** | **12** |
 | open **decision families** | **20** |
 | &nbsp;&nbsp;DECIDED and signed off, awaiting build | 2 |
-| &nbsp;&nbsp;decided in a walkthrough, **awaiting a signature** | 8 |
+| &nbsp;&nbsp;decided in a walkthrough, **awaiting a signature** | 12 |
 | &nbsp;&nbsp;**written up by Claude alone, unreviewed** | **2** |
-| &nbsp;&nbsp;nobody has proposed anything yet | 8 |
+| &nbsp;&nbsp;nobody has proposed anything yet | 4 |
 
 The class count is not the work count. 34 open classes are 20 decisions, because most open classes move as a family.
 
-**18 of those 20 are not settled**: 8 awaiting a signature on a decision already taken, 2 written up by Claude alone and unreviewed, 8 with nothing proposed. Only 2 are signed off.
+**18 of those 20 are not settled**: 12 awaiting a signature on a decision already taken, 2 written up by Claude alone and unreviewed, 4 with nothing proposed. Only 2 are signed off.
 
 ## AWAITING A SIGNATURE -- decided with the team, not yet recorded
 
@@ -38,8 +38,12 @@ re-deciding -- it needs recording.
 | **image / ngrid** | 1 | ngrid phases into sampled_body; image is a standalone data_type | `V_eta_image_model_plan.md` |
 | **epoch** | 3 | MINT `epoch` ENTITY; element_epoch dissolves; epochid DROPPED; probemap -> edges (B) | `V_eta_epoch_plan.md` |
 | **daq configuration** | 3 | acquisition_system + metadata_reader keep ids; class names fold to software entities | `V_eta_daq_family_decisions.md` |
+| **dataseries_channel_map** | 1 | DELETE -- a V_epsilon invention, never a did_v1 source, zero users | `V_eta_go_forward_class_audit.md` |
 | **sync configuration** | 2 | PERSIST as infra, ids preserved; class names fold to software entities | `V_eta_infra_family_decisions.md` |
+| **file navigation** | 2 | filenavigator -> file_navigator (id preserved); `directory` is not a source | `V_eta_daq_family_decisions.md` |
 | **software** | 1 | app -> software entity + software_id edge + execution_environment (R1) | `V_eta_tenet_audit.md` |
+| **subject measurement** | 1 | route through the `measurement` fold -- no new model, reuse the existing path | `V_eta_go_forward_class_audit.md` |
+| **demo / mock** | 2 | DELETE -- DID-side fixtures that nothing references | `V_eta_go_forward_class_audit.md` |
 
 - **time_reference**: `epoch_bounded_reference`, `epoch_relative_reference`, `event_bounded_reference`, `event_relative_reference`, `session_bounded_reference`, `session_relative_reference`, `time_reference`, `utc_reference`
 - **stimulus**: `stimulus_presentation`
@@ -47,8 +51,12 @@ re-deciding -- it needs recording.
 - **image / ngrid**: `ngrid`
 - **epoch**: `acquisition_epoch`, `epochfiles_ingested`, `epochid`
 - **daq configuration**: `daqmetadatareader`, `daqreader`, `daqsystem`
+- **dataseries_channel_map**: `dataseries_channel_map`
 - **sync configuration**: `syncgraph`, `syncrule`
+- **file navigation**: `directory`, `filenavigator`
 - **software**: `app`
+- **subject measurement**: `subjectmeasurement`
+- **demo / mock**: `demo_ndi`, `demo_ndi_mock`
 
 ## WRITTEN UP BY CLAUDE ALONE -- nobody has checked the reasoning
 
@@ -76,23 +84,15 @@ Until that line exists the family shows here regardless of what
 
 | family | classes | the call to make |
 |---|---|---|
-| **dataseries_channel_map** | 1 | ABSENT on NDI origin/main -- needs a writer check before any disposition |
-| **file navigation** | 2 | filenavigator DECIDED (-> file_navigator); `directory` absent on origin/main, needs a writer check |
 | **spike processing parameters** | 4 | algorithm config for spike extraction/sorting; 3 of 4 carry their own filter |
 | **stimulus parameters** | 2 | stimulus description; likely folds with the stimulus model but not yet decided |
 | **stimulus response** | 4 | measured response to a stimulus -- observation tier, feeds the tuning fold |
-| **subject measurement** | 1 | live v1 class parallel to `measurement`; four emitters; disposition unrecorded |
 | **misc singletons** | 4 | four unrelated classes, each its own small call |
-| **demo / mock** | 2 | test fixtures; decide whether they ship in the set |
 
-- **dataseries_channel_map**: `dataseries_channel_map`
-- **file navigation**: `directory`, `filenavigator`
 - **spike processing parameters**: `sorting_parameters`, `spike_extraction_parameters`, `spike_extraction_parameters_modification`, `vmspikefilteringparameters`
 - **stimulus parameters**: `stimulus_parameter`, `stimulus_parameter_table`
 - **stimulus response**: `stimulus_response`, `stimulus_response_scalar`, `stimulus_response_scalar_parameters`, `stimulus_response_scalar_parameters_basic`
-- **subject measurement**: `subjectmeasurement`
 - **misc singletons**: `binaryseries_parameters`, `control_designation`, `interaction_purpose`, `projectvar`
-- **demo / mock**: `demo_ndi`, `demo_ndi_mock`
 
 ## DECIDED by the team, awaiting build
 
