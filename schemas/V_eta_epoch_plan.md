@@ -333,3 +333,107 @@ changed at two different times, which is what makes an old document unreadable l
 Build consequence: `build_v_eta.py`'s rename map entry becomes
 `"element_epoch": "epoch"`, and every `element_epoch_id -> acquisition_epoch`
 dependency retarget goes with it, so the schema and the migrators move together.
+
+---
+
+# `epochfiles_ingested` — STILL OPEN. The fork was put to the team and not answered.
+
+Recorded because the walkthrough moved on to the naming question before this was
+settled, and it is the one part of the family still undecided.
+
+## What the document actually holds
+
+```
+epochfiles_ingested  ⊂ base   dep: filenavigator_id
+  epoch_id       the epoch string
+  files[]        the ingestion manifest -- which files were ingested
+  epochprobemap  THE PROBE -> SUBJECT ATTRIBUTION TABLE, as tab-delimited text
+```
+
+`epochprobemap` is not a manifest detail. From the class it deserialises to:
+
+```matlab
+% +ndi/+epoch/epochprobemap_daqsystem.m
+name          % probe name
+reference     % a non-negative integer that uniquely identifies combinable records
+type          % the type of recording
+devicestring  % an ndi.daq.daqsystemstring -- the DEVICE and CHANNELS
+subjectstring % the local_id or document ID of the SUBJECT of the probe
+```
+
+A row reads: `ctx1 ⇥ 1 ⇥ n-trode ⇥ intan1:ai1-4 ⇥ mouse_44@lab`. **This is how the
+archive knows whose neurons a recording belongs to, per epoch.**
+
+## Reference check
+
+```
+BY EDGE:  nothing references epochfiles_ingested.
+
+IN CODE:  navigator.m:236-239, 504, 525   queried on epochfiles_ingested.epoch_id (exact_string)
+          session.m:514, find_ingested_docs.m:11      isa epochfiles_ingested
+          navigator.m:220
+            eval([epochprobemap_class '(d.document_properties.epochfiles_ingested.epochprobemap)'])
+```
+
+**The probemap is interpretable ONLY together with `filenavigator.epochprobemap_class`**
+— two documents, one meaning. TaskList #59 preserves both the navigator's id and its
+`epoch_map_format`, so that coupling survives whichever way this goes.
+
+## THE FORK (put to the team; not answered)
+
+```
+A.  keep as ⑦ infra, repaired     fix the invented epochid edge, restore
+                                  filenavigator_id, keep the probemap as text
+                                  -> lossless and cheap, but the mapping stays an
+                                     undeclared blob (T14) and is not queryable
+
+B.  decompose the probemap        each row becomes real epoch-scoped edges
+    into edges
+```
+
+### What B looks like
+
+```
+subject probe_ctx1        (element.m already promotes it, id preserved)
+   base.name "ctx1"   local_identifier "ctx1|1"       <- name + reference
+   term_assertion variable:{name:"instrument type"}   <- type "n-trode"
+                  value:{OBI:..., "n-trode"}             (a subject_defining binding)
+
+<modality>_observation                                 <- #30 creates this
+   subject_id    -> mouse_44        <- subjectstring   THE ATTRIBUTION
+   instrument_id -> probe_ctx1      <- the probe, per T7
+   epoch_id      -> epoch           <- epoch-scoped, so it may differ per epoch
+   depends_on: acquisition_system_id -> intan1   <- devicestring, device half
+   channels "ai1-4"                              <- devicestring, channel half
+   body -> sampled_body
+
+epochfiles_ingested   SURVIVES, thinner
+   depends_on: filenavigator_id -> fn-001        <- restored (NDI has it)
+               epoch_id -> epoch
+   files[]                                       <- the ingestion manifest stays
+```
+
+The load-bearing line is `subject_id -> mouse_44`: `subjectstring` becomes a real
+edge instead of a string inside a serialised table, so *"every recording from this
+animal"* becomes a graph query rather than a text parse. **B mints no new class** —
+the rows land on observations #30 already creates.
+
+### What B costs
+
+- **Blocked on #30.** The observations it decomposes into do not exist yet.
+- **Needs the SECOND PASS.** `subjectstring` is *"the local_id or unique document ID
+  of the subject"*; resolving a local id needs the migrated-id graph, exactly as
+  `distance_metadata` and the ensemble do. A single-doc migrator cannot.
+- **`devicestring` needs parsing** — `intan1:ai1-4` splits into a device name
+  (resolved against `acquisition_system.base.name`, preserved by #59) and a channel
+  spec.
+
+### Claude's recommendation, NOT a decision
+
+**B as the model, A as pass-1 behaviour** — repair now so nothing is lost,
+decompose in the second pass. B is the same shape as two decisions already taken:
+the ensemble's epoch-scoped `member_of` edges (*"the recorded neuron set changes
+epoch-to-epoch"*) and `distance_metadata`'s deferral to the second pass for exactly
+this id-resolution reason. A probe's subject genuinely can change between epochs, so
+the per-epoch mapping is real information rather than a redundant copy of the
+migrated graph.
