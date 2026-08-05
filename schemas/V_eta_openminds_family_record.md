@@ -667,3 +667,207 @@ Both report their denominator first, unconditionally (Rule 5).
    mechanism (3 today, all on `dataset`). Lands in #32.
 5. **The per-variable "whose property is this" table** — needs writing once,
    globally, for every variable in play.
+
+---
+
+# PART 4 — read from the openMINDS source itself
+
+The openMINDS repositories were cloned to the container (`openMINDS_core` v4,
+`openMINDS_controlledTerms` v3, `openMINDS_MATLAB` all versions) so the claims below
+are read from the standard rather than recalled. **The clones are EPHEMERAL** —
+re-clone from `github.com/openMetadataInitiative/` to re-check.
+
+## THE DECISIVE FINDING — openMINDS already made this exact decision
+
+```
+$ for v in v1.0 v2.0 v3.0 v4.0 v5.0 latest; do find $v -iname "Strain.m"; done
+v1.0     +openminds/+controlledterms/Strain.m
+v2.0     +openminds/+controlledterms/Strain.m
+v3.0     +openminds/+core/+research/Strain.m      <- PROMOTED
+v4.0     +openminds/+core/+research/Strain.m
+v5.0     +openminds/+core/+research/Strain.m
+latest   +openminds/+core/+research/Strain.m
+```
+
+The v2.0 class:
+
+```matlab
+classdef Strain < openminds.abstract.ControlledTerm
+    definition, description, identifier, name, ontologyIdentifier
+```
+
+Name + CURIE + alternate identifiers — **exactly the flat term V_eta stores today.**
+The standard hit the same limitation and resolved it by promoting the class, and
+that has held for three major versions. This is not an analogy; it is the same
+decision, already made upstream.
+
+## WHY the boundary is where it is — measured, not argued
+
+```
+DENOMINATOR: 113 controlled-term schemas in openMINDS_controlledTerms v3
+  extending controlledTerm            : 112 of 113  (the 113th IS controlledTerm)
+  carrying _linkedTypes/_embeddedTypes:   1 of 113  (termSuggestion, a meta-type)
+```
+
+The `controlledTerm` base schema in full:
+
+```
+required: name
+name  definition  description  synonym[]
+preferredOntologyIdentifier (IRI)   otherOntologyIdentifier[] (IRI)
+preferredCrossReference     (IRI)   otherCrossReference[]     (IRI)
+```
+
+**A controlled term has NO EDGES. There is no slot for structure.** So the
+controlledTerms / core.research split is not a taxonomy convention — it is
+structural: a term cannot hold a graph, and an object can.
+
+**This answers the team's "other terms could graduate at any time" worry with a
+measured rate.** A controlled term cannot grow structure in place; graduating
+requires MOVING it to another module, and openMINDS has done that exactly ONCE
+across five major versions. The 112 others remain flat by construction.
+
+Note our migrator reads 2 of the 8 controlled-term properties
+(`preferredOntologyIdentifier`, `name`). `definition`, `description`, `synonym`,
+`otherOntologyIdentifier`, `otherCrossReference` and `preferredCrossReference` are
+dropped for every term type — 3,744 Species, 2,365 GeneticStrainType, 1,871
+BiologicalSex, 635 StimulationApproach, 404 CellType. Whether they are POPULATED in
+our data is unchecked; the read is 2-of-8 either way.
+
+## The 23 `core.research` types, mapped to V_eta
+
+```
+activity  behavioralProtocol  configuration  customPropertySet  deviceUsage
+experimentalActivity  numericalProperty  propertyValueList  protocol
+protocolExecution  specimen  specimenSet  specimenState  strain  stringProperty
+subject  subjectGroup  subjectGroupState  subjectState  tissueSample
+tissueSampleCollection  tissueSampleCollectionState  tissueSampleState
+```
+
+| openMINDS | V_eta home |
+|---|---|
+| subject, specimen, tissueSample, tissueSampleCollection, specimenSet | `subject` (entity); `element.m` already promotes parts to subjects |
+| subjectGroup | group subject + epoch-scoped `member_of` (the ensemble decision, T1) |
+| subjectState, subjectGroupState, specimenState, tissueSampleState, tissueSampleCollectionState | **the statement spine** — a state is a time-indexed property bundle, which is what `subject_observation` + `time_reference` replaced |
+| protocol, protocolExecution, behavioralProtocol, activity, experimentalActivity | `subject_interaction` + `method` + `interaction_purpose`; `software` / `execution_environment` (R1) |
+| deviceUsage | `instrument_id` — a role, so an edge (T7) |
+| configuration, numericalProperty, stringProperty, customPropertySet, propertyValueList | `method_parameters` + `conditions` (D10) |
+| **strain** | **nothing — the open question** |
+
+**`strain` is the only one of the 23 with no V_eta home, and the only one NDI
+references** (36 of 36 `core.research` mentions). Promoting it opens no queue.
+
+The other 22 are not "terms that might graduate" — they are already **subjects**,
+**statements**, or **methods**. Strain is unique in being a first-class research
+object that V_eta stores only as a term value.
+
+## `specimen` / `subject` / `tissueSample`, and the polymorphic species slot
+
+`specimen` is an ABSTRACT base (no `_type`); `subject` and `tissueSample` both
+`_extends` it.
+
+```
+specimen        required: species
+  species              -> controlledTerms/Species  OR  core/Strain     <-- !!
+  biologicalSex        -> controlledTerms/BiologicalSex
+  internalIdentifier   the label used inside the data files
+  lookupLabel
+
+subject         _extends specimen   required: studiedState
+  isPartOf -> core/SubjectGroup[]      studiedState -> core/SubjectState[]
+
+tissueSample    _extends specimen   required: origin, studiedState, type
+  type      -> controlledTerms/TissueSampleType
+  origin    -> controlledTerms/CellType | Organ | OrganismSubstance
+  anatomicalLocation[]   laterality[] (MAXITEMS 2)
+  isPartOf -> core/TissueSampleCollection[]   studiedState -> core/TissueSampleState[]
+```
+
+**openMINDS has NO separate strain property.** The instruction is explicit: *"Add
+the species OR STRAIN (a sub-type of a genetic variant of species) of this
+specimen."* Since `Strain` itself requires a `species`, the strain SUBSUMES the
+species rather than sitting beside it:
+
+```
+subject --species--> Strain "PR811" --species--> Species "C. elegans"
+                            \--backgroundStrain--> Strain "N2"
+```
+
+**`tissueSample` has NO lineage edge to the animal it came from** — `origin` is a
+CellType/Organ/OrganismSubstance TERM and `isPartOf` points at a collection, not a
+parent specimen. So a tissue sample is not a made-thing-with-pedigree. Strain
+remains the only one.
+
+## NDI FLATTENS the spec's nesting BEFORE our migrator sees it
+
+`+ndi/+setup/+NDIMaker/subjectMaker.m:265-271`:
+
+```matlab
+species_docs = openMINDSobj2ndi_document(subjectInfo.species{i}, ..., 'subject', main_subject_doc_id);
+strain_docs  = openMINDSobj2ndi_document(subjectInfo.strain{i},  ..., 'subject', main_subject_doc_id);
+```
+
+`SubjectInformationCreator.create` returns four PARALLEL outputs
+(`[subjectIdentifier, strain, species, biologicalSex]`) and never assembles an
+openMINDS `Subject` with the polymorphic slot. So `subject -> strain -> species`
+becomes three SIBLING documents hanging off the subject.
+
+**That is the origin of the ambiguity, one layer UPSTREAM of the migrator** — and
+it explains how a strain's own species arrives as a subject-attached document.
+
+## The full `Strain` schema — 13 properties; NDI sets 6
+
+```
+required: geneticStrainType, name, species
+
+name                  string
+species               -> controlledTerms/Species          REQUIRED
+geneticStrainType     -> controlledTerms/GeneticStrainType REQUIRED
+backgroundStrain      -> core/Strain    array, minItems 1, MAXITEMS 2
+description           string
+ontologyIdentifier    ARRAY of IRIs
+digitalIdentifier     -> core/RRID
+alternateIdentifier   array (MGI / RGD ids)
+breedingType          -> controlledTerms/BreedingType
+diseaseModel          -> controlledTerms/Disease | DiseaseModel
+laboratoryCode        string, pattern ^[A-Z]([a-z]?)+$   (ILAR code)
+phenotype             string
+stockNumber           -> core/StockNumber (vendor)
+synonym               array
+```
+
+### Four corrections this forces
+
+1. **`backgroundStrain` is capped at 2**, not unbounded — *"If two strains
+   contributed equally, state both."* DEPTH is unbounded (recursive link); BREADTH
+   is 2. Hunsberger's `[ArcCreERT2, eYFP]` sits exactly at the cap. An earlier note
+   here said "arbitrary depth, two parents"; depth is right, breadth is a spec
+   constraint we can enforce.
+2. **`geneticStrainType` is REQUIRED on the strain.** This settles the "whose
+   property is it" question from the source side: openMINDS says the genetic type
+   is a mandatory property OF THE STRAIN, not of the animal. Moving the ~2,365
+   subject-level assertions onto the strain is what the source model already says.
+3. **RRID belongs in `digitalIdentifier`, not `ontologyIdentifier`.** Dabrowska
+   writes `'ontologyIdentifier', "RRID:RGD_70508"`. Per the ground-truth rule the
+   WRITER wins for did_v1 truth, but it means our `identifier` slot receives two
+   different kinds of thing.
+4. **`ontologyIdentifier` is an ARRAY of IRIs**; NDI writes a scalar string.
+
+### What NDI drops entirely
+
+`alternateIdentifier`, `breedingType`, `diseaseModel`, `laboratoryCode`,
+`phenotype`, `stockNumber`, `synonym`. **`diseaseModel` is the notable one** — a
+strain being a model for a human disease is scientifically load-bearing and has
+nowhere to go today.
+
+## CORRECTION to Part 2's generalisation
+
+Part 2 said a lab-made cell line would be `core.research` rather than
+`controlledterms.CellType`, and used that to argue the MADE/FOUND rule generalises.
+**The listing does not support it — there is no `cellLine` schema in
+`core/research`.** The nearest type is `tissueSample`, and
+`controlledTerms/cellCultureType` + `cellType` exist on the term side. So the
+"openMINDS already draws this line" claim is narrower than presented: the
+`Strain`-in-`core.research` vs `Species`/`CellType`/`BiologicalSex`/
+`GeneticStrainType`-in-`controlledTerms` split is real and measured, but it does
+not predict where a future cell line would land.
