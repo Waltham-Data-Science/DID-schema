@@ -208,6 +208,83 @@ correctly, since nobody will ask.
 
 ---
 
+# WHY THIS IS A DOCUMENT WHILE A CALCULATOR'S `input_parameters` STAYS INLINE
+
+**Recovered from the walkthrough on 2026-08-06 and recorded then; it was argued in
+conversation on 2026-08-05 and not written down.** The team asked: *"So it seems
+like this an identical problem to the calculation classes. Is that true?"* The
+answer — **not identical, and v1 itself draws the line** — is the rule that decides
+where any future algorithm configuration goes, so it belongs in the record.
+
+## The measured contrast
+
+```
+DENOMINATOR: 91 NDI templates on origin/main
+
+tuningcurve_calc.json  (apps/calculators/)
+   "tuningcurve_calc": { "input_parameters": { independent_label, independent_parameter,
+                                               best_algorithm "empirical_maximum",
+                                               selection[{property,operation,value}] },
+                         "log": [], "depends_on": [ stimulus_response_scalar_id ] }
+   -> input_parameters is a NESTED FIELD. No base.id of its own, no base.name,
+      nothing points at it.
+
+templates carrying an `input_parameters` block          46
+edges named input_parameters_id / calc_parameters_id     0     (git grep, *.m + *.json)
+
+spike_extraction_parameters / sorting_parameters
+   own document, own base.id, own base.name
+   referred to by 3 templates:
+      apps/spikeextractor/spike_extraction_parameters_modification.json
+      apps/spikeextractor/spikewaves.json
+      apps/spikesorter/spike_clusters.json
+   AND looked up BY NAME:
+      spikeextractor.m:372  ndi.query('base.name','exact_string',extraction_parameters_name,'')
+      spikesorter.m:373     ndi.query('base.name','exact_string',sorting_parameters_name,'')
+```
+
+## The rule
+
+> **Is this a PROTOCOL — named, shared, reused across many outputs — or ONE RUN'S
+> KNOBS, chosen once and incidental to a single calculation?**
+>
+> Protocol → its own document; `base.id` **and** `base.name` preserved; referenced by edge.
+> Run's knobs → the inline `method_parameters` structure on the statement.
+
+**The observable signature of a protocol, for the next ambiguous case: does v1 give
+it a `base.name` that something looks up?** That is not cargo-culting v1's shape —
+the lab's own practice made the distinction (one got an id, a name, three referring
+edges and a by-name query; the other got a nested struct), and losslessness means
+preserving a distinction the source actually made.
+
+## This is not drift, by our own definition
+
+Drift is *the same thing stored two ways, varying by dataset.* This is *two
+different things, each with one shape, decided once per class, globally.*
+`spike_extraction_parameters` is a protocol in every dataset;
+`tuningcurve_calc.input_parameters` is run-knobs in every dataset. No dataset can
+change the answer.
+
+That is the same correction made to the MADE/FOUND test in
+`V_eta_openminds_family_record.md`: MADE/FOUND failed because it was an
+**instance-level** test and so resolved differently per dataset. This one is
+**class-level**, which is why it holds.
+
+## What it rules out
+
+Folding `spike_extraction_parameters` into a per-run inline `method_parameters`
+would not merely duplicate — **it would destroy an identity v1 maintains.** A named,
+reusable lab protocol would become N copies of anonymous knobs, and `base.name` —
+the field `spikeextractor.m:372` and `spikesorter.m:373` query on — would have
+nowhere to live. This is the same failure mode as dissolving a calculator document
+(the 11,448-orphan lesson), one level down: destroy the handle, break the consumers.
+
+Complements `V_eta_frequency_filter_model_plan.md`'s *"Why this is typed while
+calculator `input_parameters` stays a bag"* — that section decides **typed vs bag**;
+this one decides **document vs inline**. Two different axes, same family.
+
+---
+
 ## OPEN
 
 1. **The block list above is PROPOSED**, not decided.
