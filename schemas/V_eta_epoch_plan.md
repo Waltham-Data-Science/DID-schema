@@ -330,9 +330,29 @@ changing anyway — element-epoch → epoch — so this is the cheapest possible
 Renaming at the same time as re-semanticising avoids a class whose name and meaning
 changed at two different times, which is what makes an old document unreadable later.
 
-Build consequence: `build_v_eta.py`'s rename map entry becomes
-`"element_epoch": "epoch"`, and every `element_epoch_id -> acquisition_epoch`
-dependency retarget goes with it, so the schema and the migrators move together.
+**BUILD CONSEQUENCE — CORRECTED.** An earlier revision of this line said the rename
+map entry becomes `"element_epoch": "epoch"`. **That is wrong and contradicts the
+model two sections up.** A rename would preserve `element_epoch` as a per-element
+class wearing a new name — precisely the conflation this revision exists to fix.
+
+What actually happens:
+
+```
+build_v_eta.py RENAME map:  DELETE  "element_epoch": "acquisition_epoch"
+                                    (no rename target -- element_epoch DISSOLVES)
+
+NEW CLASS:                  epoch ⊂ entity, MINTED by the second pass,
+                                    one per distinct epochid.epochid
+
+element_epoch_id -> acquisition_epoch   does NOT retarget to `epoch`.
+   `ensemble` uses it to point at ONE ELEMENT'S epoch record, not at the epoch.
+   Where that record dissolves, the edge must retarget to whatever absorbs it
+   (the observation / sampled_body), NOT to the new epoch entity.
+```
+
+That last point needs checking against `ensemble` before the build: an edge named
+`element_epoch_id` pointing at a class that no longer exists is exactly the dangling
+reference T10 warns about, and `ensemble` is the only holder of it.
 
 ---
 
