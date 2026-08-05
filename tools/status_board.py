@@ -123,14 +123,15 @@ FAMILIES = [
      "PERSIST as infra, ids preserved; class names fold to software entities",
      "team"),
 
-    # DECIDED with the team 2026-08-05, no signature yet. The earlier
-    # "folds into relative_reference" proposal was CHECKED against the time model
-    # and FAILED (two referents / two frames / an affine transform is not a
-    # position on a timeline). Build is blocked on the acquisition_epoch family.
+    # NOT DECIDED. Claude marked this "team" on 2026-08-05 after a walkthrough;
+    # the team corrected that -- they read the options and did not adopt one.
+    # What IS established is negative and evidence-backed: the old "folds into
+    # relative_reference" claim FAILS (two referents / two frames / an affine
+    # transform is not a position on a timeline). clock_alignment is a PROPOSAL.
     ("sync mapping", ["syncrule_mapping"],
      "V_eta_infra_family_decisions.md",
-     "clock_alignment: a relation-tier class (two epoch edges + affine transform + provenance)",
-     "team"),
+     "clock_alignment PROPOSED (relation tier); the relative_reference fold is disproven",
+     "proposed"),
 
     # `filter` was grouped here by a guess at its name. It is data/filter.json --
     # label/type/algorithm/parameters, a signal-processing description -- and

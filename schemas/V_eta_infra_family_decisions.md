@@ -89,11 +89,20 @@ timelines.** `epochnode_a`, `epochnode_b`, `mapping`, `cost` is the *computed*
 relationship between two epochs' clocks. That is not configuration; it is the
 answer.
 
-> **CORRECTED 2026-08-05 — TEAM DECISION.** This section previously proposed that
-> `syncrule_mapping` **folds into `relative_reference`**. That was written without
-> checking it against the time model it cited, and **it does not survive the
-> check.** The claim was right about the concept (it is an epoch-to-epoch time
-> relation) and wrong about the shape. Recorded as a reversal, not edited away.
+> **CORRECTED 2026-08-05 — the OLD claim is withdrawn; the NEW one is NOT DECIDED.**
+> This section previously proposed that `syncrule_mapping` **folds into
+> `relative_reference`**. That was written without checking it against the time
+> model it cited, and **it does not survive the check** — the evidence below is
+> solid and the fold is dead. The claim was right about the concept (it is an
+> epoch-to-epoch time relation) and wrong about the shape.
+>
+> **What REPLACES it is a Claude proposal that the team has NOT decided.** An
+> earlier revision of this document and of `tools/status_board.py` recorded
+> `clock_alignment` as a team decision dated 2026-08-05. **That was wrong** — the
+> team read the options and did not adopt one, and Claude promoted a discussion to
+> a decision. Corrected here and on the board. Operating Rule 4 exists for exactly
+> this, and it failed in the direction it always fails: toward looking further
+> along than we are.
 
 ### Why the `relative_reference` fold fails
 
@@ -128,7 +137,7 @@ is the entire content.
 `⊂ subject_interaction ⊂ subject_statement`, so it requires `subject_id → subject`.
 The referent of a clock alignment is a pair of epochs, not a subject.
 
-### The decision — a new concrete relation class
+### The PROPOSAL (not decided) — a new concrete relation class
 
 T4: *"Relationships are first-class documents; the graph carries structure."* A
 clock alignment is a relation between two epochs, so it belongs on the RELATION
