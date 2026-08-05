@@ -16,13 +16,13 @@ for each model; this board owns *how much is left and what exactly*.
 | **`retire` with no migrator and no plan** | **12** |
 | open **decision families** | **20** |
 | &nbsp;&nbsp;DECIDED and signed off, awaiting build | 2 |
-| &nbsp;&nbsp;decided in a walkthrough, **awaiting a signature** | 7 |
+| &nbsp;&nbsp;decided in a walkthrough, **awaiting a signature** | 8 |
 | &nbsp;&nbsp;**written up by Claude alone, unreviewed** | **2** |
-| &nbsp;&nbsp;nobody has proposed anything yet | 9 |
+| &nbsp;&nbsp;nobody has proposed anything yet | 8 |
 
 The class count is not the work count. 34 open classes are 20 decisions, because most open classes move as a family.
 
-**18 of those 20 are not settled**: 7 awaiting a signature on a decision already taken, 2 written up by Claude alone and unreviewed, 9 with nothing proposed. Only 2 are signed off.
+**18 of those 20 are not settled**: 8 awaiting a signature on a decision already taken, 2 written up by Claude alone and unreviewed, 8 with nothing proposed. Only 2 are signed off.
 
 ## AWAITING A SIGNATURE -- decided with the team, not yet recorded
 
@@ -36,6 +36,7 @@ re-deciding -- it needs recording.
 | **stimulus** | 1 | timed_sequence data_type + timed_sequence_manipulation leaf | `V_eta_stimulus_model_plan.md` |
 | **ensemble** | 1 | group subject + epoch-scoped member_of edges + rebuildable cache | `V_eta_ensemble_plan.md` |
 | **image / ngrid** | 1 | ngrid phases into sampled_body; image is a standalone data_type | `V_eta_image_model_plan.md` |
+| **acquisition epoch** | 3 | acquisition_epoch keeps identity + extent; clocks/axes/storage/payload leave | `V_eta_acquisition_epoch_plan.md` |
 | **daq configuration** | 3 | acquisition_system + metadata_reader keep ids; class names fold to software entities | `V_eta_daq_family_decisions.md` |
 | **sync configuration** | 2 | PERSIST as infra, ids preserved; class names fold to software entities | `V_eta_infra_family_decisions.md` |
 | **software** | 1 | app -> software entity + software_id edge + execution_environment (R1) | `V_eta_tenet_audit.md` |
@@ -44,6 +45,7 @@ re-deciding -- it needs recording.
 - **stimulus**: `stimulus_presentation`
 - **ensemble**: `ensemble`
 - **image / ngrid**: `ngrid`
+- **acquisition epoch**: `acquisition_epoch`, `epochfiles_ingested`, `epochid`
 - **daq configuration**: `daqmetadatareader`, `daqreader`, `daqsystem`
 - **sync configuration**: `syncgraph`, `syncrule`
 - **software**: `app`
@@ -74,7 +76,6 @@ Until that line exists the family shows here regardless of what
 
 | family | classes | the call to make |
 |---|---|---|
-| **acquisition epoch** | 3 | epoch header contents + whether clocks dissolve into time_references |
 | **dataseries_channel_map** | 1 | ABSENT on NDI origin/main -- needs a writer check before any disposition |
 | **file navigation** | 2 | filenavigator DECIDED (-> file_navigator); `directory` absent on origin/main, needs a writer check |
 | **spike processing parameters** | 4 | algorithm config for spike extraction/sorting; 3 of 4 carry their own filter |
@@ -84,7 +85,6 @@ Until that line exists the family shows here regardless of what
 | **misc singletons** | 4 | four unrelated classes, each its own small call |
 | **demo / mock** | 2 | test fixtures; decide whether they ship in the set |
 
-- **acquisition epoch**: `acquisition_epoch`, `epochfiles_ingested`, `epochid`
 - **dataseries_channel_map**: `dataseries_channel_map`
 - **file navigation**: `directory`, `filenavigator`
 - **spike processing parameters**: `sorting_parameters`, `spike_extraction_parameters`, `spike_extraction_parameters_modification`, `vmspikefilteringparameters`

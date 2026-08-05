@@ -81,9 +81,15 @@ FAMILIES = [
      "ngrid phases into sampled_body; image is a standalone data_type",
      "team"),
 
+    # DECIDED with the team 2026-08-05 ("I agree with B"), no signature yet.
+    # epochid turned out NOT to be a disposal question: it is the JOIN MECHANISM
+    # for the epoch-scoped half of the database -- 15 NDI classes carry the mixin
+    # and 11+ live sites match epochid.epochid by exact_string. Third time this
+    # session a depends_on sweep missed string-match references.
     ("acquisition epoch", ["acquisition_epoch", "epochid", "epochfiles_ingested"],
-     None,
-     "epoch header contents + whether clocks dissolve into time_references", "open"),
+     "V_eta_acquisition_epoch_plan.md",
+     "acquisition_epoch keeps identity + extent; clocks/axes/storage/payload leave",
+     "team"),
 
     # Split by the templates, not by the name prefix: three are a MATLAB class
     # name (configuration), three carry real epoch data or bytes, and one is not
