@@ -130,12 +130,15 @@ FAMILIES = [
     # openminds_import was REMOVED 2026-07-30 (team sign-off) -- nothing ever
     # emitted it. What is left is the v1 `openminds` carrier: the UNATTACHED
     # openMINDS objects, 8 documents, of which 3 are composite core.research.Strain.
-    # The record carries NO sign-off line, deliberately: part 1 (openminds_import
-    # removal) landed, part 2 (the 2362 composite Strains) is undecided. Status
-    # stays "open" so the board never reads the walkthrough as progress.
+    # SIGNED OFF 2026-08-05: strain is an entity with a repeatable
+    # global_identifier + a recursive background_strain_# self-edge; strain_id is
+    # an optional edge on term_assertion. Build deferred, TaskList #56. The
+    # signature was TRANSCRIBED by Claude on explicit instruction -- see the note
+    # at the top of the record before trusting it.
     ("openMINDS", ["openminds"],
      "V_eta_openminds_family_record.md",
-     "unattached openMINDS objects; composite Strain vs leaf controlled terms", "open"),
+     "strain -> entity + recursive background_strain_#; strain_id on term_assertion",
+     "team"),
 
     # Split: the two classes have separate decisions and separate documents.
     ("software", ["app"],

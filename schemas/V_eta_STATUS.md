@@ -15,14 +15,14 @@ for each model; this board owns *how much is left and what exactly*.
 | **still open (`in_progress`)** | **34** |
 | **`retire` with no migrator and no plan** | **12** |
 | open **decision families** | **20** |
-| &nbsp;&nbsp;DECIDED and signed off, awaiting build | 1 |
+| &nbsp;&nbsp;DECIDED and signed off, awaiting build | 2 |
 | &nbsp;&nbsp;decided in a walkthrough, **awaiting a signature** | 5 |
 | &nbsp;&nbsp;**written up by Claude alone, unreviewed** | **5** |
-| &nbsp;&nbsp;nobody has proposed anything yet | 9 |
+| &nbsp;&nbsp;nobody has proposed anything yet | 8 |
 
 The class count is not the work count. 34 open classes are 20 decisions, because most open classes move as a family.
 
-**19 of those 20 are not settled**: 5 awaiting a signature on a decision already taken, 5 written up by Claude alone and unreviewed, 9 with nothing proposed. Only 1 are signed off.
+**18 of those 20 are not settled**: 5 awaiting a signature on a decision already taken, 5 written up by Claude alone and unreviewed, 8 with nothing proposed. Only 2 are signed off.
 
 ## AWAITING A SIGNATURE -- decided with the team, not yet recorded
 
@@ -78,7 +78,6 @@ Until that line exists the family shows here regardless of what
 |---|---|---|
 | **acquisition epoch** | 3 | epoch header contents + whether clocks dissolve into time_references |
 | **dataseries_channel_map** | 1 | ABSENT on NDI origin/main -- needs a writer check before any disposition |
-| **openMINDS** | 1 | unattached openMINDS objects; composite Strain vs leaf controlled terms |
 | **spike processing parameters** | 4 | algorithm config for spike extraction/sorting; 3 of 4 carry their own filter |
 | **stimulus parameters** | 2 | stimulus description; likely folds with the stimulus model but not yet decided |
 | **stimulus response** | 4 | measured response to a stimulus -- observation tier, feeds the tuning fold |
@@ -88,7 +87,6 @@ Until that line exists the family shows here regardless of what
 
 - **acquisition epoch**: `acquisition_epoch`, `epochfiles_ingested`, `epochid`
 - **dataseries_channel_map**: `dataseries_channel_map`
-- **openMINDS**: `openminds`
 - **spike processing parameters**: `sorting_parameters`, `spike_extraction_parameters`, `spike_extraction_parameters_modification`, `vmspikefilteringparameters`
 - **stimulus parameters**: `stimulus_parameter`, `stimulus_parameter_table`
 - **stimulus response**: `stimulus_response`, `stimulus_response_scalar`, `stimulus_response_scalar_parameters`, `stimulus_response_scalar_parameters_basic`
@@ -104,6 +102,7 @@ migrator work before the target closes is rework.
 
 | family | classes | decision | recorded in |
 |---|---|---|---|
+| **openMINDS** | 1 | strain -> entity + recursive background_strain_#; strain_id on term_assertion | `V_eta_openminds_family_record.md` |
 | **frequency_filter** | 1 | referenced document (not entity); band edges; typed gain fields; no sample_rate | `V_eta_frequency_filter_model_plan.md` |
 
 ## v1 source side (from the coverage ledger)

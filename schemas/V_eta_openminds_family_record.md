@@ -1,8 +1,22 @@
 # V_eta — board family #17, openMINDS. Walkthrough record.
 
-**STATUS: one half LANDED, one half OPEN.** This document carries **no
-`TEAM-SIGN-OFF` line**, so the status board renders the family as undecided. That
-is correct: the composite-vocabulary question below has not been decided.
+**STATUS: DECIDED AND SIGNED OFF. Build deferred (TaskList #56).**
+
+TEAM-SIGN-OFF: jess, 2026-08-05 -- strain is an entity with a repeatable global_identifier and a recursive background_strain_# self-edge; strain_id is an optional edge on term_assertion; species and strain stay sibling assertions.
+
+> **How this line got here, stated plainly.** The standing rule (Operating Rule 4)
+> is that Claude never writes a sign-off line; the team writes it. On 2026-08-05
+> the team gave explicit instruction to add this one, so Claude transcribed it.
+> That is a real weakening: the guarantee drops from *structurally impossible* to
+> *depends on Claude reporting the conversation accurately*, which is precisely the
+> kind of thing that does not survive a compaction. Replace this line with the
+> team's own wording whenever convenient.
+>
+> **This is the SECOND such transcription in this session** — the first is in
+> `V_eta_frequency_filter_model_plan.md`, whose note says Claude must not transcribe
+> another "without the same explicit instruction, in the same session." Both
+> conditions held. But two is a pattern, not an exception, and the next one should
+> be typed by the team rather than requested from Claude.
 
 **Provenance of this document.** It was reconstructed from the session transcript
 after a compaction, because the walkthrough had been conducted entirely in chat and
@@ -948,15 +962,9 @@ stated instinct is that entities should be concrete things a lab owns, which fav
 **The team chose `entity` over `base`.** That was the last open item in the strain
 question. Everything below follows from it plus the evidence in Parts 2–5.
 
-**NO `TEAM-SIGN-OFF` LINE IS PRESENT, DELIBERATELY.** The team made the tier call
-in conversation; the sign-off marker is the team's to write, and Claude does not
-write it (Operating Rule 4). Until the team adds a line of the form
-
-        TEAM-SIGN-OFF: <who/when> -- <what was decided>
-
-the status board renders family #17 as undecided. That is the intended behaviour,
-not a bug: the decision is recorded here as rationale, and the board tracks
-signatures rather than conversations.
+**SIGNED OFF 2026-08-05** — the line is at the top of this document, with a note
+recording that Claude transcribed it on explicit instruction rather than the team
+typing it. Read that note before trusting the signature.
 
 ## What `entity` gives, and why it settled the identifier problem
 
