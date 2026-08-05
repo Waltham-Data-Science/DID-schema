@@ -502,22 +502,35 @@ lives in these files — read them instead of re-deriving from memory:
   **Before any disposition: grep the class's `base.name`, its id STRING, and its distinctive
   field names across NDI `.m` files — not just `<class>_id` in the templates.** v1 joins by
   string wherever the referent is not itself a document, which is most of the interesting cases.
-- **THE INVENTED-EMPTY-EDGE PATTERN — 12,296 documents, three classes, ONE cause.** V_eta
+- **THE INVENTED-EMPTY-EDGE PATTERN — 26,406 documents, FIVE classes, ONE cause.** V_eta
   declares a REQUIRED `depends_on` that the NDI template does not have, while DROPPING the edge
   NDI does write. Every such document validates clean, because `+did2/+validate/references.m:90`
   SKIPS empty edges (`if isempty(documentId), continue;`) — so `mustBeNonEmpty` on a `depends_on`
   is decorative:
 
+        stimulus_response_scalar_parameters_basic.stimulus_response_scalar_id
+                                      11,440 docs  (Soph 11167 / 20211116 273)  NDI has the edge the OTHER WAY
         epochfiles_ingested.epochid    6,921 docs  (Dab 4088 / B 2484 / Soph 349)   NDI has filenavigator_id
         syncrule_mapping.epochid       5,316 docs  (B 2484 / Dab 2484 / Soph 348)   NDI has syncgraph_id
-        daqmetadatareader.daqsystem_id    59 docs  (100% of them)                   NDI has NO deps at all
+        stimulus_presentation.element_id
+                                       2,670 docs  (B 1242 / Dab 1242 / Soph 175 / 20211116 11)
+                                                                            NDI's dep is named stimulus_element_id
+        daqmetadatareader.daqsystem_id    59 docs  (100% of them)            NDI has NO deps at all
 
+  **This line said "12,296 documents, three classes" until 2026-08-06 — an undercount by more
+  than half, and it named the three SMALLEST.** The two stimulus-tier rows were found by the
+  stimulus response walkthrough reading the same census (test-code.yml run #257 / 0458dae,
+  2026-07-29) the original three came from; they were in the report all along and nobody had
+  looked past the daq/sync families. The largest instance of the pattern is the one this note
+  omitted. **Re-derive the row set from a fresh census before quoting a total.**
   In each case the count EQUALS the class's document count — 100% empty, never partially.
   `ontology_table_row`'s 76,766 empty `subject_id`s (#53) are the same failure one layer up.
   The blind spot is that `check_migrator_vocabulary.py` compares FIELDS and not `depends_on`
   (#54); the fix that would stop all of them is enforcing `mustBeNonEmpty` on edges (#37); the
-  repairs are #53, #58 and the ones recorded in `V_eta_epoch_plan.md`. **Treat these as ONE
-  problem, and check a new required edge against the NDI template before adding it.**
+  repairs are #53, #58, #61 and the ones recorded in `V_eta_epoch_plan.md` +
+  `V_eta_stimulus_response_model_plan.md` (`stimulus_presentation.element_id` rides with the
+  stimulus model, #31/#43). **Treat these as ONE problem, and check a new required edge against
+  the NDI template before adding it.**
 - **WHEN AN INLINE VALUE STAYS ALONGSIDE ITS EDGE — and when only the edge survives.** Two
   decisions on 2026-08-05 went OPPOSITE ways and neither is a precedent for the other, so the
   test is written here rather than in one plan document. `strain` KEEPS its inline
