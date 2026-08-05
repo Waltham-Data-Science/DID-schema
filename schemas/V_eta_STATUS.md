@@ -16,13 +16,13 @@ for each model; this board owns *how much is left and what exactly*.
 | **`retire` with no migrator and no plan** | **12** |
 | open **decision families** | **20** |
 | &nbsp;&nbsp;DECIDED and signed off, awaiting build | 2 |
-| &nbsp;&nbsp;decided in a walkthrough, **awaiting a signature** | 12 |
+| &nbsp;&nbsp;decided in a walkthrough, **awaiting a signature** | 13 |
 | &nbsp;&nbsp;**written up by Claude alone, unreviewed** | **2** |
-| &nbsp;&nbsp;nobody has proposed anything yet | 4 |
+| &nbsp;&nbsp;nobody has proposed anything yet | 3 |
 
 The class count is not the work count. 34 open classes are 20 decisions, because most open classes move as a family.
 
-**18 of those 20 are not settled**: 12 awaiting a signature on a decision already taken, 2 written up by Claude alone and unreviewed, 4 with nothing proposed. Only 2 are signed off.
+**18 of those 20 are not settled**: 13 awaiting a signature on a decision already taken, 2 written up by Claude alone and unreviewed, 3 with nothing proposed. Only 2 are signed off.
 
 ## AWAITING A SIGNATURE -- decided with the team, not yet recorded
 
@@ -42,6 +42,7 @@ re-deciding -- it needs recording.
 | **sync configuration** | 2 | PERSIST as infra, ids preserved; class names fold to software entities | `V_eta_infra_family_decisions.md` |
 | **file navigation** | 2 | filenavigator -> file_navigator (id preserved); `directory` is not a source | `V_eta_daq_family_decisions.md` |
 | **software** | 1 | app -> software entity + software_id edge + execution_environment (R1) | `V_eta_tenet_audit.md` |
+| **spike processing parameters** | 4 | 4 -> 1 `method_parameters` (id+name preserved); canonical parts typed, rest a bag | `V_eta_method_parameters_plan.md` |
 | **subject measurement** | 1 | route through the `measurement` fold -- no new model, reuse the existing path | `V_eta_go_forward_class_audit.md` |
 | **demo / mock** | 2 | DELETE -- DID-side fixtures that nothing references | `V_eta_go_forward_class_audit.md` |
 
@@ -55,6 +56,7 @@ re-deciding -- it needs recording.
 - **sync configuration**: `syncgraph`, `syncrule`
 - **file navigation**: `directory`, `filenavigator`
 - **software**: `app`
+- **spike processing parameters**: `sorting_parameters`, `spike_extraction_parameters`, `spike_extraction_parameters_modification`, `vmspikefilteringparameters`
 - **subject measurement**: `subjectmeasurement`
 - **demo / mock**: `demo_ndi`, `demo_ndi_mock`
 
@@ -84,12 +86,10 @@ Until that line exists the family shows here regardless of what
 
 | family | classes | the call to make |
 |---|---|---|
-| **spike processing parameters** | 4 | algorithm config for spike extraction/sorting; 3 of 4 carry their own filter |
 | **stimulus parameters** | 2 | stimulus description; likely folds with the stimulus model but not yet decided |
 | **stimulus response** | 4 | measured response to a stimulus -- observation tier, feeds the tuning fold |
 | **misc singletons** | 4 | four unrelated classes, each its own small call |
 
-- **spike processing parameters**: `sorting_parameters`, `spike_extraction_parameters`, `spike_extraction_parameters_modification`, `vmspikefilteringparameters`
 - **stimulus parameters**: `stimulus_parameter`, `stimulus_parameter_table`
 - **stimulus response**: `stimulus_response`, `stimulus_response_scalar`, `stimulus_response_scalar_parameters`, `stimulus_response_scalar_parameters_basic`
 - **misc singletons**: `binaryseries_parameters`, `control_designation`, `interaction_purpose`, `projectvar`

@@ -196,12 +196,17 @@ FAMILIES = [
     # decided without the frequency_filter model it should reference.
     # vmspikefilteringparameters also mixes in `spiketimes` -- OUTPUT data sitting in
     # a parameters class.
+    # DECIDED with the team 2026-08-05 (option C), no signature yet. Four classes
+    # collapse to ONE `method_parameters` document -- named for the inline field it
+    # is the shared-cardinality form of. The canonical parts (filter, threshold,
+    # waveform window, refractory period) get TYPED; the idiosyncratic remainder is
+    # honestly a bag. The specific block list is PROPOSED, not decided.
     ("spike processing parameters", [
         "spike_extraction_parameters", "spike_extraction_parameters_modification",
         "sorting_parameters", "vmspikefilteringparameters"],
-     None,
-     "algorithm config for spike extraction/sorting; 3 of 4 carry their own filter",
-     "open"),
+     "V_eta_method_parameters_plan.md",
+     "4 -> 1 `method_parameters` (id+name preserved); canonical parts typed, rest a bag",
+     "team"),
 
     # The stimulus DESCRIPTION: a single ontology-keyed property, and a whole table
     # flattened into one `string` field. Both hang off stimulus_element_id. Likely
