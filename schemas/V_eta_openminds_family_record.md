@@ -1017,6 +1017,27 @@ must not demand what the writer does not produce.
 across 227 schema files), NOT the `term` data_type class. Those are different
 things and the distinction was confused earlier in this record.
 
+## Why the inline value STAYS (and why `epoch` does the opposite)
+
+The assertion keeps its inline `{node, name}` **and** gains the edge. That is not
+the general rule — `V_eta_epoch_plan.md` decided the opposite for `epochid`, which
+is dropped entirely in favour of its edge. Recorded here so neither is misread as a
+precedent for the other:
+
+| | strain | epoch |
+|---|---|---|
+| inline value a complete fact alone? | **yes** — a CURIE naming a real thing | **no** — a bare local string |
+| referenced document always exists? | **no** — 115 strains have no identifier | **yes** — minted per distinct id |
+| value is content, or a join key? | **content** — the statement is *about* it | **join key** |
+
+**The drift test decides it.** Dropping strain's inline value would make
+`variable: strain` resolve two ways depending on whether a pedigree happened to
+exist — drift. Dropping `epochid` creates none, because every epoch-scoped document
+gets its edge uniformly.
+
+> **strain: the value IS the fact; the document is optional extra structure.**
+> **epoch: the document IS the fact; the string was only ever a way to find it.**
+
 ## The edge
 
 ```

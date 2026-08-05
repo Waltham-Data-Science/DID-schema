@@ -164,13 +164,38 @@ migrators                READ epochid.epochid from v1 INPUT to work out which ep
 "t00023"                 lives in exactly ONE place: epoch.local_identifier
 ```
 
-**This is deliberately the OPPOSITE of the `strain` choice**, and the difference is
-worth stating so neither is read as a precedent for the other. For strain we KEPT
-the inline `{node, name}` value and ADDED the edge, because the value is a CURIE
-naming something OUTSIDE the archive — there was nothing local to point at, so the
-inline value was the only complete fact. Here the string is just an id, and we are
-minting a document that owns it with a better one (`base.id`). One representation,
-nothing to keep in sync.
+## Why this is the OPPOSITE of the `strain` decision, and neither is a precedent
+
+For `strain` (`V_eta_openminds_family_record.md`, Part 6) the assertion KEEPS its
+inline `{node, name}` value AND gains a `strain_id` edge. Here the document keeps
+ONLY the edge. Three differences, and they compound:
+
+| | strain | epoch |
+|---|---|---|
+| **Is the inline value a complete fact on its own?** | **YES** — `{WBStrain:00000002, "PR811"}` is a CURIE naming a real thing in the world; a reader holding no other document can interpret it. | **NO** — `"t00023"` is a bare local string, meaningless outside its session. It names nothing. |
+| **Will the referenced document always exist?** | **NO** — 115 strains carry no identifier at all, and a single-strain subject with no pedigree may not warrant one. The assertion must stand alone. | **YES** — one `epoch` is minted per distinct `epochid.epochid`, by construction. The edge cannot dangle. |
+| **Is the value the document's CONTENT, or a JOIN KEY?** | **Content.** A `term_assertion` *is* a statement about that value. Strip it and the document says nothing. | **A join key**, stapled on. Strip it and the document still says everything it said. |
+
+**The drift test is what actually decides it.** The rule from
+`V_eta_openminds_family_record.md` Part 3: a representation must not vary between
+datasets.
+
+- **Dropping strain's inline value WOULD create drift** — some strain assertions
+  would have a `strain` document behind them and some would not, so `variable:
+  strain` would resolve two different ways depending on whether a pedigree happened
+  to exist. The inline value therefore stays and the edge is ADDITIVE.
+- **Dropping epochid creates NO drift** — every epoch-scoped document gets the edge,
+  uniformly, always. One representation, no cases.
+
+**In one line:**
+
+> **strain: the value IS the fact, and the document is optional extra structure.**
+> **epoch: the document IS the fact, and the string was only ever a way to find it.**
+
+**The general test, for the next class that looks like either.** Keep BOTH when the
+value is a complete fact, the referent may not exist, and the value is the
+statement's content. Keep ONLY the edge when the value is a local id, the referent
+is always minted, and the value is a join key.
 
 Query consequence, and it is an improvement: *"everything in epoch t00023"* becomes
 two INDEXED lookups — find the epoch by `local_identifier`, then match `epoch_id` —

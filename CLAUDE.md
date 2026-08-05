@@ -510,6 +510,25 @@ lives in these files — read them instead of re-deriving from memory:
   (#54); the fix that would stop all of them is enforcing `mustBeNonEmpty` on edges (#37); the
   repairs are #53, #58 and the ones recorded in `V_eta_epoch_plan.md`. **Treat these as ONE
   problem, and check a new required edge against the NDI template before adding it.**
+- **WHEN AN INLINE VALUE STAYS ALONGSIDE ITS EDGE — and when only the edge survives.** Two
+  decisions on 2026-08-05 went OPPOSITE ways and neither is a precedent for the other, so the
+  test is written here rather than in one plan document. `strain` KEEPS its inline
+  `term.value = {node, name}` AND gains `strain_id`; `epochid` is DROPPED ENTIRELY in favour of
+  `epoch_id`. Three questions decide it:
+  1. **Is the inline value a complete fact on its own?** A CURIE naming a real thing (`WBStrain:
+     00000002`) is; a bare local id (`"t00023"`) is not.
+  2. **Will the referenced document always exist?** 115 strains carry no identifier and may
+     warrant no document, so the assertion must stand alone. One `epoch` is minted per distinct
+     id, by construction, so its edge cannot dangle.
+  3. **Is the value the document's CONTENT or a JOIN KEY?** A `term_assertion` *is* a statement
+     about its value — strip it and the document says nothing. An epoch id is stapled on — strip
+     it and the document still says everything it said.
+  **The drift test is what actually decides it** (`V_eta_openminds_family_record.md` Part 3: a
+  representation must not vary between datasets). Dropping strain's inline value would make
+  `variable: strain` resolve two ways depending on whether a pedigree happened to exist.
+  Dropping `epochid` creates no drift, because every epoch-scoped document gets its edge
+  uniformly. In one line: **strain — the value IS the fact and the document is optional extra
+  structure; epoch — the document IS the fact and the string was only ever a way to find it.**
 
 ## Build / test
 - `python3 tools/build_v_eta.py` rebuilds `schemas/V_eta/` (copytree V_zeta→V_eta
