@@ -88,10 +88,14 @@ FAMILIES = [
     # Split by the templates, not by the name prefix: three are a MATLAB class
     # name (configuration), three carry real epoch data or bytes, and one is not
     # on origin/main at all.
+    # DECIDED with the team 2026-08-05, no signature yet. The earlier "not
+    # archival" proposal was WRONG and is reversed in place: daqsystem.base.name
+    # is a join key referenced BY NAME (epochprobemap devicestring, syncrule
+    # parameters), which a depends_on check cannot see.
     ("daq configuration", ["daqsystem", "daqreader", "daqmetadatareader"],
      "V_eta_daq_family_decisions.md",
-     "ndi_<x>_class + params -- runtime config, not archival",
-     "proposed"),
+     "acquisition_system + metadata_reader keep ids; class names fold to software entities",
+     "team"),
 
     ("daq ingested payloads", [
         "daqreader_epochdata_ingested",
@@ -126,10 +130,15 @@ FAMILIES = [
     # `filter` was grouped here by a guess at its name. It is data/filter.json --
     # label/type/algorithm/parameters, a signal-processing description -- and
     # belongs with software/method, not with file paths.
+    # SPLIT: filenavigator is DECIDED (-> file_navigator, id preserved, patterns
+    # parsed into declared fields; see V_eta_daq_family_decisions.md). `directory`
+    # is ABSENT from NDI origin/main and needs a writer check, not a disposition.
+    # Status stays "open" because the family is not fully resolved -- the
+    # inaccuracy is deliberately in the under-reporting direction.
     ("file navigation", ["filenavigator", "directory"],
-     "V_eta_infra_family_decisions.md",
-     "runtime, machine-specific paths; not archival",
-     "proposed"),
+     "V_eta_daq_family_decisions.md",
+     "filenavigator DECIDED (-> file_navigator); `directory` absent on origin/main, needs a writer check",
+     "open"),
 
     # openminds_import was REMOVED 2026-07-30 (team sign-off) -- nothing ever
     # emitted it. What is left is the v1 `openminds` carrier: the UNATTACHED

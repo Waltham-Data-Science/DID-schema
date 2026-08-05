@@ -16,13 +16,13 @@ for each model; this board owns *how much is left and what exactly*.
 | **`retire` with no migrator and no plan** | **12** |
 | open **decision families** | **20** |
 | &nbsp;&nbsp;DECIDED and signed off, awaiting build | 2 |
-| &nbsp;&nbsp;decided in a walkthrough, **awaiting a signature** | 6 |
-| &nbsp;&nbsp;**written up by Claude alone, unreviewed** | **4** |
-| &nbsp;&nbsp;nobody has proposed anything yet | 8 |
+| &nbsp;&nbsp;decided in a walkthrough, **awaiting a signature** | 7 |
+| &nbsp;&nbsp;**written up by Claude alone, unreviewed** | **2** |
+| &nbsp;&nbsp;nobody has proposed anything yet | 9 |
 
 The class count is not the work count. 34 open classes are 20 decisions, because most open classes move as a family.
 
-**18 of those 20 are not settled**: 6 awaiting a signature on a decision already taken, 4 written up by Claude alone and unreviewed, 8 with nothing proposed. Only 2 are signed off.
+**18 of those 20 are not settled**: 7 awaiting a signature on a decision already taken, 2 written up by Claude alone and unreviewed, 9 with nothing proposed. Only 2 are signed off.
 
 ## AWAITING A SIGNATURE -- decided with the team, not yet recorded
 
@@ -36,6 +36,7 @@ re-deciding -- it needs recording.
 | **stimulus** | 1 | timed_sequence data_type + timed_sequence_manipulation leaf | `V_eta_stimulus_model_plan.md` |
 | **ensemble** | 1 | group subject + epoch-scoped member_of edges + rebuildable cache | `V_eta_ensemble_plan.md` |
 | **image / ngrid** | 1 | ngrid phases into sampled_body; image is a standalone data_type | `V_eta_image_model_plan.md` |
+| **daq configuration** | 3 | acquisition_system + metadata_reader keep ids; class names fold to software entities | `V_eta_daq_family_decisions.md` |
 | **sync mapping** | 1 | clock_alignment: a relation-tier class (two epoch edges + affine transform + provenance) | `V_eta_infra_family_decisions.md` |
 | **software** | 1 | app -> software entity + software_id edge + execution_environment (R1) | `V_eta_tenet_audit.md` |
 
@@ -43,6 +44,7 @@ re-deciding -- it needs recording.
 - **stimulus**: `stimulus_presentation`
 - **ensemble**: `ensemble`
 - **image / ngrid**: `ngrid`
+- **daq configuration**: `daqmetadatareader`, `daqreader`, `daqsystem`
 - **sync mapping**: `syncrule_mapping`
 - **software**: `app`
 
@@ -62,15 +64,11 @@ Until that line exists the family shows here regardless of what
 
 | family | classes | proposal | written up in |
 |---|---|---|---|
-| **daq configuration** | 3 | ndi_<x>_class + params -- runtime config, not archival | `V_eta_daq_family_decisions.md` |
 | **daq ingested payloads** | 3 | -> relative_reference / opaque_body / image model; no new class | `V_eta_daq_family_decisions.md` |
 | **sync configuration** | 2 | runtime config (ndi_<x>_class + parameters), not archival | `V_eta_infra_family_decisions.md` |
-| **file navigation** | 2 | runtime, machine-specific paths; not archival | `V_eta_infra_family_decisions.md` |
 
-- **daq configuration**: `daqmetadatareader`, `daqreader`, `daqsystem`
 - **daq ingested payloads**: `daqmetadatareader_epochdata_ingested`, `daqreader_epochdata_ingested`, `daqreader_image_epochdata_ingested`
 - **sync configuration**: `syncgraph`, `syncrule`
-- **file navigation**: `directory`, `filenavigator`
 
 ## Nobody has proposed anything yet
 
@@ -78,6 +76,7 @@ Until that line exists the family shows here regardless of what
 |---|---|---|
 | **acquisition epoch** | 3 | epoch header contents + whether clocks dissolve into time_references |
 | **dataseries_channel_map** | 1 | ABSENT on NDI origin/main -- needs a writer check before any disposition |
+| **file navigation** | 2 | filenavigator DECIDED (-> file_navigator); `directory` absent on origin/main, needs a writer check |
 | **spike processing parameters** | 4 | algorithm config for spike extraction/sorting; 3 of 4 carry their own filter |
 | **stimulus parameters** | 2 | stimulus description; likely folds with the stimulus model but not yet decided |
 | **stimulus response** | 4 | measured response to a stimulus -- observation tier, feeds the tuning fold |
@@ -87,6 +86,7 @@ Until that line exists the family shows here regardless of what
 
 - **acquisition epoch**: `acquisition_epoch`, `epochfiles_ingested`, `epochid`
 - **dataseries_channel_map**: `dataseries_channel_map`
+- **file navigation**: `directory`, `filenavigator`
 - **spike processing parameters**: `sorting_parameters`, `spike_extraction_parameters`, `spike_extraction_parameters_modification`, `vmspikefilteringparameters`
 - **stimulus parameters**: `stimulus_parameter`, `stimulus_parameter_table`
 - **stimulus response**: `stimulus_response`, `stimulus_response_scalar`, `stimulus_response_scalar_parameters`, `stimulus_response_scalar_parameters_basic`
