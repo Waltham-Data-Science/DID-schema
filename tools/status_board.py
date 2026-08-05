@@ -222,18 +222,27 @@ FAMILIES = [
      "stimulus description; likely folds with the stimulus model but not yet decided",
      "open"),
 
-    # NOT the same thing as stimulus parameters: this is the MEASURED RESPONSE to a
-    # presented stimulus -- stimulus_response carries element_id + stimulator_id +
-    # presentation_id + control_id. It is the observation tier, and it is the input
-    # the tuning calculators consumed, so it is entangled with the (decided) tuning
-    # model and the raw-recording model.
+    # NOT the same thing as stimulus parameters: this is the response to a presented
+    # stimulus, computed by ndi.app.stimulus.tuning_response -- the input the tuning
+    # calculators consumed. The two live classes sat OUTSIDE the J tier system
+    # entirely (⊂ base, no direction, no data_type): a V_zeta carry-over that never
+    # had a walkthrough.
+    # DECIDED with the team 2026-08-06, no signature yet. 4 classes -> 2: a
+    # `harmonic_component` data_type (harmonic 0 = DC/mean, so v1's three
+    # response_types are ONE field at three values) + a `harmonic_component_
+    # calculation` leaf, id preserved. The parameters class FOLDS inline --
+    # at most 6 distinct value-tuples can exist yet 11,440 documents carry them.
+    # The first proposal, a `stimulus_response` data_type, was REJECTED by the
+    # team on naming: it names a relationship, not a value (the ground `array`
+    # was killed on). The field list is PROPOSED, not decided.
     ("stimulus response", [
         "stimulus_response", "stimulus_response_scalar",
         "stimulus_response_scalar_parameters",
         "stimulus_response_scalar_parameters_basic"],
-     None,
-     "measured response to a stimulus -- observation tier, feeds the tuning fold",
-     "open"),
+     "V_eta_stimulus_response_model_plan.md",
+     "4 -> 2: `harmonic_component` data_type + calculation leaf (id preserved); "
+     "parameters fold inline, killing 11,440 empty required edges",
+     "team"),
 
     # A live NDI class with four in-tree emitters, parallel to the newer
     # `measurement`. CLAUDE.md once recorded it as dissolved into `measurement`;
