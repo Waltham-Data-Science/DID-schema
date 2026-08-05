@@ -66,9 +66,13 @@ FAMILIES = [
      "8 classes collapse to absolute_reference + relative_reference",
      "team"),
 
-    ("stimulus", ["stimulus_presentation"],
+    # control_designation MOVED here 2026-08-05: it is a V_eta TARGET minted from
+    # control_stimulus_ids, points at timed_sequence, and the stimulus plan already
+    # covers it at line 118 ("control_stimulus_ids -> control_designation --
+    # RESOLVED"). It was never a "misc singleton".
+    ("stimulus", ["stimulus_presentation", "control_designation"],
      "V_eta_stimulus_model_plan.md",
-     "timed_sequence data_type + timed_sequence_manipulation leaf",
+     "timed_sequence data_type + timed_sequence_manipulation leaf; control_designation resolved here",
      "team"),
 
     ("ensemble", ["ensemble"],
@@ -242,11 +246,14 @@ FAMILIES = [
      "route through the `measurement` fold -- no new model, reuse the existing path",
      "team"),
 
+    # DECIDED 2026-08-05. control_designation moved to the stimulus family (a V_eta
+    # target already resolved there). interaction_purpose is a V_epsilon TARGET whose
+    # only open item is its unbound `purpose` (#32), not a disposition.
     ("misc singletons", [
-        "binaryseries_parameters", "control_designation", "interaction_purpose",
-        "projectvar"],
-     None,
-     "four unrelated classes, each its own small call", "open"),
+        "binaryseries_parameters", "interaction_purpose", "projectvar"],
+     "V_eta_go_forward_class_audit.md",
+     "binaryseries_parameters -> sampled_body; projectvar PASSES THROUGH (needs real docs); interaction_purpose is a target (#32)",
+     "team"),
 
     # DECIDED 2026-08-05. Absent from NDI, provenance V_gamma, and referenced by
     # NOTHING -- not even the test suite.

@@ -16,13 +16,13 @@ for each model; this board owns *how much is left and what exactly*.
 | **`retire` with no migrator and no plan** | **12** |
 | open **decision families** | **20** |
 | &nbsp;&nbsp;DECIDED and signed off, awaiting build | 2 |
-| &nbsp;&nbsp;decided in a walkthrough, **awaiting a signature** | 13 |
+| &nbsp;&nbsp;decided in a walkthrough, **awaiting a signature** | 14 |
 | &nbsp;&nbsp;**written up by Claude alone, unreviewed** | **2** |
-| &nbsp;&nbsp;nobody has proposed anything yet | 3 |
+| &nbsp;&nbsp;nobody has proposed anything yet | 2 |
 
 The class count is not the work count. 34 open classes are 20 decisions, because most open classes move as a family.
 
-**18 of those 20 are not settled**: 13 awaiting a signature on a decision already taken, 2 written up by Claude alone and unreviewed, 3 with nothing proposed. Only 2 are signed off.
+**18 of those 20 are not settled**: 14 awaiting a signature on a decision already taken, 2 written up by Claude alone and unreviewed, 2 with nothing proposed. Only 2 are signed off.
 
 ## AWAITING A SIGNATURE -- decided with the team, not yet recorded
 
@@ -33,7 +33,7 @@ re-deciding -- it needs recording.
 | family | classes | what was decided | document |
 |---|---|---|---|
 | **time_reference** | 8 | 8 classes collapse to absolute_reference + relative_reference | `V_eta_time_reference_model_plan.md` |
-| **stimulus** | 1 | timed_sequence data_type + timed_sequence_manipulation leaf | `V_eta_stimulus_model_plan.md` |
+| **stimulus** | 2 | timed_sequence data_type + timed_sequence_manipulation leaf; control_designation resolved here | `V_eta_stimulus_model_plan.md` |
 | **ensemble** | 1 | group subject + epoch-scoped member_of edges + rebuildable cache | `V_eta_ensemble_plan.md` |
 | **image / ngrid** | 1 | ngrid phases into sampled_body; image is a standalone data_type | `V_eta_image_model_plan.md` |
 | **epoch** | 3 | MINT `epoch` ENTITY; element_epoch dissolves; epochid DROPPED; probemap -> edges (B) | `V_eta_epoch_plan.md` |
@@ -44,10 +44,11 @@ re-deciding -- it needs recording.
 | **software** | 1 | app -> software entity + software_id edge + execution_environment (R1) | `V_eta_tenet_audit.md` |
 | **spike processing parameters** | 4 | 4 -> 1 `method_parameters` (id+name preserved); canonical parts typed, rest a bag | `V_eta_method_parameters_plan.md` |
 | **subject measurement** | 1 | route through the `measurement` fold -- no new model, reuse the existing path | `V_eta_go_forward_class_audit.md` |
+| **misc singletons** | 3 | binaryseries_parameters -> sampled_body; projectvar PASSES THROUGH (needs real docs); interaction_purpose is a target (#32) | `V_eta_go_forward_class_audit.md` |
 | **demo / mock** | 2 | DELETE -- DID-side fixtures that nothing references | `V_eta_go_forward_class_audit.md` |
 
 - **time_reference**: `epoch_bounded_reference`, `epoch_relative_reference`, `event_bounded_reference`, `event_relative_reference`, `session_bounded_reference`, `session_relative_reference`, `time_reference`, `utc_reference`
-- **stimulus**: `stimulus_presentation`
+- **stimulus**: `control_designation`, `stimulus_presentation`
 - **ensemble**: `ensemble`
 - **image / ngrid**: `ngrid`
 - **epoch**: `acquisition_epoch`, `epochfiles_ingested`, `epochid`
@@ -58,6 +59,7 @@ re-deciding -- it needs recording.
 - **software**: `app`
 - **spike processing parameters**: `sorting_parameters`, `spike_extraction_parameters`, `spike_extraction_parameters_modification`, `vmspikefilteringparameters`
 - **subject measurement**: `subjectmeasurement`
+- **misc singletons**: `binaryseries_parameters`, `interaction_purpose`, `projectvar`
 - **demo / mock**: `demo_ndi`, `demo_ndi_mock`
 
 ## WRITTEN UP BY CLAUDE ALONE -- nobody has checked the reasoning
@@ -88,11 +90,9 @@ Until that line exists the family shows here regardless of what
 |---|---|---|
 | **stimulus parameters** | 2 | stimulus description; likely folds with the stimulus model but not yet decided |
 | **stimulus response** | 4 | measured response to a stimulus -- observation tier, feeds the tuning fold |
-| **misc singletons** | 4 | four unrelated classes, each its own small call |
 
 - **stimulus parameters**: `stimulus_parameter`, `stimulus_parameter_table`
 - **stimulus response**: `stimulus_response`, `stimulus_response_scalar`, `stimulus_response_scalar_parameters`, `stimulus_response_scalar_parameters_basic`
-- **misc singletons**: `binaryseries_parameters`, `control_designation`, `interaction_purpose`, `projectvar`
 
 ## DECIDED by the team, awaiting build
 

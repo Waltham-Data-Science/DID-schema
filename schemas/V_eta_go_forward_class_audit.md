@@ -233,3 +233,95 @@ migrator. What is corrected is only the impression of production writers in-tree
 The parallel-class fact the line exists to protect — that NDI never dissolved
 `subjectmeasurement` into `measurement`, and `measurement` is a NEWER separate class
 — is unaffected.
+
+---
+
+# THE "MISC SINGLETONS" FAMILY — team, 2026-08-05
+
+**The team's words:** *"I agree with all of your recommendations."* NO
+`TEAM-SIGN-OFF` LINE — the marker is the team's to write (Operating Rule 4).
+
+**Two of the four were not migration questions**, the same mis-framing that put
+`directory` in "file navigation":
+
+```
+binaryseries_parameters   did_v1, stable      a real v1 source
+projectvar                did_v1, stable      a real v1 source
+control_designation       V_eta TARGET        minted from control_stimulus_ids
+interaction_purpose       V_epsilon TARGET
+```
+
+## `control_designation` — NOT a source; it belongs to the STIMULUS family
+
+```
+control_designation ⊂ base
+   deps: timed_sequence_id -> timed_sequence,  derived_from_1 -> subject_interaction
+   control_stimulus (matrix), method (structure)
+```
+
+It points at `timed_sequence`, the stimulus model's own class, and
+`V_eta_stimulus_model_plan.md:118` already covers it:
+
+> **`control_stimulus_ids` → `control_designation` — RESOLVED.**
+
+So it is not a singleton and it is not undecided — it is inside a decided plan.
+**Moved to the `stimulus` family on the board.**
+
+## `interaction_purpose` — NOT a source; its only open item is its BINDING
+
+```
+interaction_purpose ⊂ base   dep: interaction_id_# -> subject_interaction
+   purpose (ontology_term), comment (char)
+```
+
+Provenance V_epsilon — a DID-side target class. `CLAUDE.md`'s binding-governance
+note already flags it: `interaction_purpose.purpose` is **completely unbound**
+(`constraints = {}`) even though T8 says the registry maps such a term to a
+value_set. **That is TaskList #32, not a disposition.**
+
+## `binaryseries_parameters` — folds into `sampled_body`, no new decision
+
+```
+⊂ base, no deps
+  time_size, time_type, data_size, data_type, data_dim, samples_regular_intervals
+
+edge references: NONE    NDI code mentions: 0    subclasses: NONE    migrator: none
+```
+
+Those fields are the **byte layout of a binary time series** — element widths,
+dtypes, dimensionality, whether sampling is regular. That is `sampled_body`'s job,
+and the 2.D collapse already decided it: every format carrier phases into
+`sampled_body`/`opaque_body` with the encoding as a field.
+
+**Stated carefully:** zero emitters IN THIS REPO is not zero documents. Per the
+corpora-are-a-sample rule the fold must be BUILT, not skipped — but it is a fold
+into a home that already exists.
+
+## `projectvar` — PASS THROUGH. Modelling it needs real documents first.
+
+```
+⊂ base   dep: element_id
+  project, type, user, lab, description, data
+
+ndi.database.fun.projectvardef(name, type, description, data)
+   "shorthand function for building a 'projectvar' document"
+```
+
+An arbitrary named value attached to an element, tagged with project/user/lab. Most
+of it maps cleanly — `element_id` -> a subject (`element.m` already promotes it),
+`name`/`type` -> the statement's `variable`, `lab` -> an `organization`, `user` ->
+a `person`. `project` has no home.
+
+**`data` is an untyped char field holding anything**, and J needs to know which
+`data_type` a value is. A char blob fits `term_observation` only if it is a term,
+which it is not in general.
+
+**There are no `projectvar` documents in any of the five corpora**, so there are no
+real `data` values to type against. Proposing a typed model from the template alone
+is precisely the wrong-assumed-shape failure that produced the ~2,078
+`distance_metadata` quarantines — a migrator written against an assumed nested shape
+that no real document had.
+
+**So: pass through, and flag it as needing real documents before modelling.** One
+class, no migrator today, nothing references it. Guessing its shape is how this
+project has previously lost data.
