@@ -34,28 +34,116 @@ shape the ⑥/⑦ governance sweep already flagged as needs-NDI.
 the `software` + `method_parameters` shape already used for a calculator's
 configuration — the identical problem, already solved once. Nothing new.
 
-**`syncrule_mapping` is real measured data, and it is a time reference.**
-`epochnode_a`, `epochnode_b`, `mapping`, `cost` is the *computed* relationship
-between two epochs' clocks. That is not configuration; it is the answer.
+**`syncrule_mapping` is real measured data, and it is a RELATION between two
+timelines.** `epochnode_a`, `epochnode_b`, `mapping`, `cost` is the *computed*
+relationship between two epochs' clocks. That is not configuration; it is the
+answer.
 
-And it is exactly the shape the time model just closed:
+> **CORRECTED 2026-08-05 — TEAM DECISION.** This section previously proposed that
+> `syncrule_mapping` **folds into `relative_reference`**. That was written without
+> checking it against the time model it cited, and **it does not survive the
+> check.** The claim was right about the concept (it is an epoch-to-epoch time
+> relation) and wrong about the shape. Recorded as a reversal, not edited away.
+
+### Why the `relative_reference` fold fails
 
 ```
-relative_reference   relative_to → the other epoch's acquisition_epoch
-                     frame  = the clock the mapping is expressed in
-                     start / end = the mapping
+relative_reference  ⊂ time_reference ⊂ base
+  depends_on: relative_to → base                        ONE referent
+  value: { relation, start, end, frame, approximate }   ONE frame
+
+syncrule_mapping  ⊂ base
+  deps: syncrule_id → syncrule,  epochid → (untyped)
+  cost double,  mapping matrix
+  epochnode_a { time_reference{kind, epoch_clock, epoch_id}, epoch_session_id, ... }
+  epochnode_b { ...same... }
 ```
 
-→ **Proposed: `syncrule_mapping` folds into `relative_reference`**, the class
-decided in `V_eta_time_reference_model_plan.md`. `cost` is a fit quality —
-either kept as a field on the reference or dropped as a solver artifact; that is
-the one open sub-question here.
+1. **Two referents, one slot.** `relative_to` is singular; the mapping names two
+   epochs.
+2. **Two frames, one slot.** `frame` is singular; each epochnode carries its own
+   `epoch_clock`.
+3. **The payload is a different kind of thing.** `relative_reference` says *"X sits
+   at time T on timeline Y."* `mapping` is an AFFINE TRANSFORM — `[1,0]` is slope
+   and intercept — converting timeline A's coordinates into timeline B's. A
+   relation BETWEEN timelines, not a position ON one.
 
-*This is why closing the target first pays.* The time model was settled on its
-own evidence, and `syncrule_mapping` turns out to be a member of it. Deciding
-this family in isolation would have invented a fourth representation of interval
-time — after `acquisition_epoch.clocks`, `epochclocktimes` and the old
-eight-class family.
+The time plan's own **decision C** blocks the obvious workaround: *"ONE ANCHOR PER
+DOCUMENT ... an interval whose ends are anchored differently becomes TWO reference
+documents. Rejected nesting an anchor block per end."* Two `relative_reference`s
+would record that each epoch exists somewhere in time and lose the transform, which
+is the entire content.
+
+`subject_calculation` (T10) fails for a different reason: it is
+`⊂ subject_interaction ⊂ subject_statement`, so it requires `subject_id → subject`.
+The referent of a clock alignment is a pair of epochs, not a subject.
+
+### The decision — a new concrete relation class
+
+T4: *"Relationships are first-class documents; the graph carries structure."* A
+clock alignment is a relation between two epochs, so it belongs on the RELATION
+tier, not the time-reference tier. The existing `directed_relation` cannot carry it:
+its endpoints are declared `entity` (an epoch is not one) and **the relation tier has
+no value slot at all**, so the transform and the cost would be dropped.
+
+```
+clock_alignment ⊂ relation
+  depends_on:  from_epoch  -> acquisition_epoch
+               to_epoch    -> acquisition_epoch
+               software_id -> software
+  value:       { slope, intercept }      the affine transform; ONE payload slot (T14)
+  from_frame   ontology_term             epochnode_a.epoch_clock
+  to_frame     ontology_term             epochnode_b.epoch_clock
+  method       ontology_term             which syncrule (T8-bound)
+  method_parameters  structure           daqsystem_ch1/ch2, minEmbeddedFileOverlap, ...
+  cost         double                    the syncgraph path-finding edge weight
+```
+
+**Litmus** (*which of the four axes is genuinely new — the subject, the direction,
+the data-type structure, or the relation?*): **the relation.** It passes.
+
+**This also closes the sync half of the session-level provenance gap.** `syncrule`'s
+`method` and `parameters` — including `daqsystem_ch1`/`ch2`, the only fields in the
+whole daq/sync cluster that describe physical wiring — land on the document the rule
+produced. No separate provenance class is needed for them.
+
+### BLOCKED, and on what
+
+`from_epoch` / `to_epoch` point at `acquisition_epoch`, whose own model is
+**undecided** (board family "acquisition epoch", nothing proposed). So the DECISION
+is final and the BUILD is blocked on that family. Per the standing pattern, that is
+allowed — decide now, batch builds — but it must not be built first.
+
+### TWO DEFECTS that need fixing under EVERY option
+
+Found while checking the fold; they are independent of which model wins.
+
+**1. `epochid` is invented, untyped, required, and always empty.**
+
+```
+V_eta:  deps = syncrule_id -> syncrule,  epochid -> ''   (must_refer EMPTY, mustBeNonEmpty true)
+NDI origin/main: deps = syncgraph_id, syncrule_id        (NO epochid)
+
+corpus census, run #257 -- empty required edge:
+   2484  syncrule_mapping.epochid   (B)
+   2484  syncrule_mapping.epochid   (Dab)
+    348  syncrule_mapping.epochid   (Soph)
+```
+
+5,316 documents. We require an edge NDI never writes, and we DROPPED `syncgraph_id`,
+which it does. Same defect class as `daqmetadatareader.daqsystem_id` (59 documents,
+100% empty) and the same blind spot -- the vocabulary checker compares fields, not
+`depends_on` (TaskList #54).
+
+**2. V_eta's epochnode drops `t0_t1` and `objectname`.**
+
+```
+NDI:    { epoch_id, epoch_session_id, epochprobemap, epoch_clock, t0_t1, objectname, objectclass }
+V_eta:  { time_reference{kind, epoch_clock, epoch_id}, epoch_session_id, epochprobemap, objectclass }
+```
+
+`t0_t1` is the epoch's extent -- **the only actual time values in the document.** The
+class earmarked to fold into the time model has had its times removed.
 
 ## The "file navigation" family was mis-grouped
 

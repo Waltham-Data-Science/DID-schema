@@ -114,10 +114,14 @@ FAMILIES = [
      "runtime config (ndi_<x>_class + parameters), not archival",
      "proposed"),
 
+    # DECIDED with the team 2026-08-05, no signature yet. The earlier
+    # "folds into relative_reference" proposal was CHECKED against the time model
+    # and FAILED (two referents / two frames / an affine transform is not a
+    # position on a timeline). Build is blocked on the acquisition_epoch family.
     ("sync mapping", ["syncrule_mapping"],
      "V_eta_infra_family_decisions.md",
-     "folds into relative_reference -- it IS an epoch-to-epoch time relation",
-     "proposed"),
+     "clock_alignment: a relation-tier class (two epoch edges + affine transform + provenance)",
+     "team"),
 
     # `filter` was grouped here by a guess at its name. It is data/filter.json --
     # label/type/algorithm/parameters, a signal-processing description -- and

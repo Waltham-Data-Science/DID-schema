@@ -16,13 +16,13 @@ for each model; this board owns *how much is left and what exactly*.
 | **`retire` with no migrator and no plan** | **12** |
 | open **decision families** | **20** |
 | &nbsp;&nbsp;DECIDED and signed off, awaiting build | 2 |
-| &nbsp;&nbsp;decided in a walkthrough, **awaiting a signature** | 5 |
-| &nbsp;&nbsp;**written up by Claude alone, unreviewed** | **5** |
+| &nbsp;&nbsp;decided in a walkthrough, **awaiting a signature** | 6 |
+| &nbsp;&nbsp;**written up by Claude alone, unreviewed** | **4** |
 | &nbsp;&nbsp;nobody has proposed anything yet | 8 |
 
 The class count is not the work count. 34 open classes are 20 decisions, because most open classes move as a family.
 
-**18 of those 20 are not settled**: 5 awaiting a signature on a decision already taken, 5 written up by Claude alone and unreviewed, 8 with nothing proposed. Only 2 are signed off.
+**18 of those 20 are not settled**: 6 awaiting a signature on a decision already taken, 4 written up by Claude alone and unreviewed, 8 with nothing proposed. Only 2 are signed off.
 
 ## AWAITING A SIGNATURE -- decided with the team, not yet recorded
 
@@ -36,12 +36,14 @@ re-deciding -- it needs recording.
 | **stimulus** | 1 | timed_sequence data_type + timed_sequence_manipulation leaf | `V_eta_stimulus_model_plan.md` |
 | **ensemble** | 1 | group subject + epoch-scoped member_of edges + rebuildable cache | `V_eta_ensemble_plan.md` |
 | **image / ngrid** | 1 | ngrid phases into sampled_body; image is a standalone data_type | `V_eta_image_model_plan.md` |
+| **sync mapping** | 1 | clock_alignment: a relation-tier class (two epoch edges + affine transform + provenance) | `V_eta_infra_family_decisions.md` |
 | **software** | 1 | app -> software entity + software_id edge + execution_environment (R1) | `V_eta_tenet_audit.md` |
 
 - **time_reference**: `epoch_bounded_reference`, `epoch_relative_reference`, `event_bounded_reference`, `event_relative_reference`, `session_bounded_reference`, `session_relative_reference`, `time_reference`, `utc_reference`
 - **stimulus**: `stimulus_presentation`
 - **ensemble**: `ensemble`
 - **image / ngrid**: `ngrid`
+- **sync mapping**: `syncrule_mapping`
 - **software**: `app`
 
 ## WRITTEN UP BY CLAUDE ALONE -- nobody has checked the reasoning
@@ -63,13 +65,11 @@ Until that line exists the family shows here regardless of what
 | **daq configuration** | 3 | ndi_<x>_class + params -- runtime config, not archival | `V_eta_daq_family_decisions.md` |
 | **daq ingested payloads** | 3 | -> relative_reference / opaque_body / image model; no new class | `V_eta_daq_family_decisions.md` |
 | **sync configuration** | 2 | runtime config (ndi_<x>_class + parameters), not archival | `V_eta_infra_family_decisions.md` |
-| **sync mapping** | 1 | folds into relative_reference -- it IS an epoch-to-epoch time relation | `V_eta_infra_family_decisions.md` |
 | **file navigation** | 2 | runtime, machine-specific paths; not archival | `V_eta_infra_family_decisions.md` |
 
 - **daq configuration**: `daqmetadatareader`, `daqreader`, `daqsystem`
 - **daq ingested payloads**: `daqmetadatareader_epochdata_ingested`, `daqreader_epochdata_ingested`, `daqreader_image_epochdata_ingested`
 - **sync configuration**: `syncgraph`, `syncrule`
-- **sync mapping**: `syncrule_mapping`
 - **file navigation**: `directory`, `filenavigator`
 
 ## Nobody has proposed anything yet
