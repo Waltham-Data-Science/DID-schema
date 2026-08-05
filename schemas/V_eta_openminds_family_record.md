@@ -417,21 +417,57 @@ document — so they can disagree. Checkable, not silent, but it needs the check
 ## The schema change C implies
 
 ```
-term  (the abstract mixin, so assertion + observation + manipulation all get it)
-  depends_on:  term_id -> <a document about the kind>   OPTIONAL, non_empty=False
-  value: {node, name}                                    UNCHANGED, inline, queryable
+strain                     ONE new class -- the only new class
+term_assertion
+  depends_on:  strain_id -> strain     OPTIONAL, non_empty=False
+  value: {node, name}                  UNCHANGED, inline, queryable
 ```
 
-Same mechanism as `filter_id` on `sampled_body`. `term_manipulation` wants it too —
-a manipulation can administer a viral construct or a drug formulation, both made
-things with lineage.
+**CORRECTION — a generic `term_id` on the `term` mixin was proposed first and was
+wrong twice over.** The team caught it: *"why would it be called a term_id? Would
+that not argue that strain should be a child of term?"* Both halves of that are
+right.
+
+**(a) It breaks the edge-naming convention.** Every edge in the schema is named for
+its TARGET class, not for the field it hangs off:
+
+```
+DENOMINATOR: 227 schema files, 97 dependency declarations, 45 distinct names
+element_id 29   subject_id 6   probe_id 4   daqreader_id 3
+timed_sequence_id 2   sorting_parameters_id 2   filter_id 1  (-> frequency_filter)
+```
+
+So the edge to a `strain` document is `strain_id`, exactly parallel to
+`filter_id -> frequency_filter`.
+
+**(b) It implied `strain ⊂ term`, which is false.** Carrying an identifier and a
+name does not make a thing a term — all nine entities have that shape and none
+subclasses `term`:
+
+```
+person ORCID + given_name/family_name   organization ROR + full_name/short_name
+publication DOI + title                 software RRID + name/version
+```
+
+The distinction the name obscured: `term.value = {WBStrain:00000002, "PR811"}` is a
+REFERENCE to PR811; the `strain` document is our record of PR811 ITSELF. Making
+strain a child of term would say "PR811 is a kind of value," collapsing the name
+into the thing named. The existing pattern is the proof: a statement is ABOUT a
+subject, the subject has its own document, and the statement points at it with
+`subject_id` rather than putting the subject in a term value.
+
+**(c) The generic edge was also speculative.** It was a general mechanism built for
+general targets that do not exist — today `strain` is the only thing it could ever
+point at. That is precisely the T12 violation option C was supposed to avoid, built
+while claiming to avoid it. When a `cell_line` appears it gets its own class and its
+own `cell_line_id`, decided then, on evidence.
 
 Worked example, the real seven-document subject (worm_17):
 
 ```
 term_assertion  subject_id->worm_17  variable:{name:"strain"}
                 value:{WBStrain:00000002, "PR811"}
-                depends_on: term_id -> str_pr811          <- the only addition
+                depends_on: strain_id -> str_pr811        <- the only addition
 
 strain   base.id: str_pr811                 ONE document, shared by every PR811 worm
          name: "PR811"    identifier: WBStrain:00000002
@@ -454,7 +490,7 @@ of the 76 concrete: composed with a DIRECTION : 76
 
 Data types ARE real documents — 76 of them. But a data type becomes a document
 only by being composed with a direction (T3, `leaf = direction x data_type`), with
-zero exceptions. So `term_id` cannot point at "a term document": the only term
+zero exceptions. So no edge can point at "a term document": the only term
 documents are `term_assertion` / `term_observation` / `term_manipulation`, and a
 strain's pedigree is not a fact about any one animal.
 
@@ -515,6 +551,12 @@ B.  one general class      research_object { kind, name, identifier, lineage edg
 Claude leans A — the fields differ substantively and T12 says mint on evidence.
 An argument, not a decision.
 
+**The `term_id` correction above settles the EDGE half of this fork even while the
+class half stays open.** Whichever way A/B goes, the edge is named for its target:
+`strain_id -> strain` today, `cell_line_id -> cell_line` if and when one appears.
+There is no generic edge, because there is no generic target — and inventing one
+was the speculative move option C exists to avoid.
+
 ## What C does NOT buy
 
 | question | C's answer |
@@ -535,9 +577,9 @@ a **one-time global re-migration of ~2,365 assertions**, not a per-dataset choic
 ## The two checks C requires
 
 ```
-1. DENORMALIZATION.  For every statement carrying term_id, assert
+1. DENORMALIZATION.  For every statement carrying strain_id, assert
    statement.term.value == the referenced document's name/identifier.
-   Report: "checked N of M term statements (N carry term_id)."
+   Report: "checked N of M term statements (N carry strain_id)."
 
 2. DRIFT.  For every distinct `variable` in the corpus, assert it appears in
    exactly ONE representation.
