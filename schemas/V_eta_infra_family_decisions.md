@@ -30,9 +30,59 @@ a MATLAB class name plus its parameters — `ndi_syncgraph_class`,
 align clocks*, not any alignment that resulted. This is the same `ndi_<x>_class`
 shape the ⑥/⑦ governance sweep already flagged as needs-NDI.
 
-→ **Proposed: not archival V_eta classes.** Where the provenance matters it is
-the `software` + `method_parameters` shape already used for a calculator's
-configuration — the identical problem, already solved once. Nothing new.
+> **CORRECTED 2026-08-05 — TEAM DECISION.** The original proposal here was
+> **"not archival V_eta classes"**, i.e. dissolve them. **That is wrong and would
+> have dangled live edges.** It is the IDENTICAL mistake the daq family made and
+> that `V_eta_daq_family_decisions.md` reverses — made twice, one family apart,
+> from the same habit of reading a template's *contents* without checking its
+> *referents*. Recorded as a reversal, not edited away.
+
+### The reference check the original proposal skipped
+
+```
+$ for dep in syncgraph_id syncrule_id; do ... git show origin/main:<each template> ...
+syncgraph_id   referenced by: syncrule_mapping
+syncrule_id    referenced by: syncrule_mapping
+```
+
+Both are referenced BY EDGE from `syncrule_mapping`. Dissolving either dangles
+that edge — the 11,448-orphan lesson (T10). **Their `base.id`s must be preserved.**
+
+### And a LIVE QUERY depends on fields V_eta has already dropped
+
+```matlab
+% +ndi/+time/syncgraph.m:404-408  -- live code, feeding database_search
+q_savedRules = ndi.query('','isa','syncrule_mapping') & ...
+    ndi.query('','depends_on','syncgraph_id', ndi_syncgraph_obj.id()) & ...
+    ( ndi.query('syncrule_mapping.epochnode_a.objectname','exact_string', ndi_daqsystem_obj.name) | ...
+      ndi.query('syncrule_mapping.epochnode_b.objectname','exact_string', ndi_daqsystem_obj.name));
+```
+
+**V_eta's `syncrule_mapping` breaks this query in TWO independent ways:**
+
+1. it **dropped `syncgraph_id`**, replacing it with the invented, always-empty
+   `epochid` (5,316 documents — TaskList #58); and
+2. it **dropped `epochnode_*.objectname`**, which the same query matches against
+   the daqsystem's name.
+
+So this is not "dropped data" in the abstract — it is dropped data with a **known,
+in-tree consumer**, and it upgrades the severity of TaskList #58 accordingly. It
+also makes `daqsystem.base.name` load-bearing in a THIRD place, after
+`getprobes()` and the syncrule parameters.
+
+### The decision
+
+→ **`syncgraph` and `syncrule` PERSIST as ⑦ infra with `base.id` preserved.**
+Their class names fold to deduplicated `software` entities exactly as the daq
+family's do (`V_eta_daq_family_decisions.md`), and `syncrule`'s `parameters` —
+including `daqsystem_ch1`/`ch2`, the only physical-wiring fields in the whole
+daq/sync cluster — land on the `clock_alignment` document the rule produced
+(`method` + `method_parameters`; see the sync-mapping section below).
+
+**What survives in each document is therefore only what has nowhere cheaper to
+live**: the preserved id that `syncrule_mapping` points at, plus the edge to the
+software entity. That is the same shape the daq family landed on, and it is the
+same shape for the same reason.
 
 **`syncrule_mapping` is real measured data, and it is a RELATION between two
 timelines.** `epochnode_a`, `epochnode_b`, `mapping`, `cost` is the *computed*

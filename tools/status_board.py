@@ -113,10 +113,15 @@ FAMILIES = [
     # parameters (runtime configuration), while syncrule_mapping carries the
     # COMPUTED epoch-to-epoch clock relationship -- real data, and the shape the
     # time model already covers.
+    # DECIDED with the team 2026-08-05, no signature yet. The earlier "not
+    # archival" proposal was WRONG the same way the daq one was: syncrule_mapping
+    # references BOTH syncgraph_id and syncrule_id by edge, so dissolving either
+    # dangles it. A live query (syncgraph.m:404-408) also reads fields V_eta has
+    # already dropped -- see TaskList #58.
     ("sync configuration", ["syncgraph", "syncrule"],
      "V_eta_infra_family_decisions.md",
-     "runtime config (ndi_<x>_class + parameters), not archival",
-     "proposed"),
+     "PERSIST as infra, ids preserved; class names fold to software entities",
+     "team"),
 
     # DECIDED with the team 2026-08-05, no signature yet. The earlier
     # "folds into relative_reference" proposal was CHECKED against the time model

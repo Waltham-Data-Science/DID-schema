@@ -16,13 +16,13 @@ for each model; this board owns *how much is left and what exactly*.
 | **`retire` with no migrator and no plan** | **12** |
 | open **decision families** | **20** |
 | &nbsp;&nbsp;DECIDED and signed off, awaiting build | 2 |
-| &nbsp;&nbsp;decided in a walkthrough, **awaiting a signature** | 7 |
-| &nbsp;&nbsp;**written up by Claude alone, unreviewed** | **2** |
+| &nbsp;&nbsp;decided in a walkthrough, **awaiting a signature** | 8 |
+| &nbsp;&nbsp;**written up by Claude alone, unreviewed** | **1** |
 | &nbsp;&nbsp;nobody has proposed anything yet | 9 |
 
 The class count is not the work count. 34 open classes are 20 decisions, because most open classes move as a family.
 
-**18 of those 20 are not settled**: 7 awaiting a signature on a decision already taken, 2 written up by Claude alone and unreviewed, 9 with nothing proposed. Only 2 are signed off.
+**18 of those 20 are not settled**: 8 awaiting a signature on a decision already taken, 1 written up by Claude alone and unreviewed, 9 with nothing proposed. Only 2 are signed off.
 
 ## AWAITING A SIGNATURE -- decided with the team, not yet recorded
 
@@ -37,6 +37,7 @@ re-deciding -- it needs recording.
 | **ensemble** | 1 | group subject + epoch-scoped member_of edges + rebuildable cache | `V_eta_ensemble_plan.md` |
 | **image / ngrid** | 1 | ngrid phases into sampled_body; image is a standalone data_type | `V_eta_image_model_plan.md` |
 | **daq configuration** | 3 | acquisition_system + metadata_reader keep ids; class names fold to software entities | `V_eta_daq_family_decisions.md` |
+| **sync configuration** | 2 | PERSIST as infra, ids preserved; class names fold to software entities | `V_eta_infra_family_decisions.md` |
 | **sync mapping** | 1 | clock_alignment: a relation-tier class (two epoch edges + affine transform + provenance) | `V_eta_infra_family_decisions.md` |
 | **software** | 1 | app -> software entity + software_id edge + execution_environment (R1) | `V_eta_tenet_audit.md` |
 
@@ -45,6 +46,7 @@ re-deciding -- it needs recording.
 - **ensemble**: `ensemble`
 - **image / ngrid**: `ngrid`
 - **daq configuration**: `daqmetadatareader`, `daqreader`, `daqsystem`
+- **sync configuration**: `syncgraph`, `syncrule`
 - **sync mapping**: `syncrule_mapping`
 - **software**: `app`
 
@@ -65,10 +67,8 @@ Until that line exists the family shows here regardless of what
 | family | classes | proposal | written up in |
 |---|---|---|---|
 | **daq ingested payloads** | 3 | -> relative_reference / opaque_body / image model; no new class | `V_eta_daq_family_decisions.md` |
-| **sync configuration** | 2 | runtime config (ndi_<x>_class + parameters), not archival | `V_eta_infra_family_decisions.md` |
 
 - **daq ingested payloads**: `daqmetadatareader_epochdata_ingested`, `daqreader_epochdata_ingested`, `daqreader_image_epochdata_ingested`
-- **sync configuration**: `syncgraph`, `syncrule`
 
 ## Nobody has proposed anything yet
 
