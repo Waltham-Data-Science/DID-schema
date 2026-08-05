@@ -940,3 +940,133 @@ uniform query. The four schemes in play (`WBStrain:`, `NCIT:`, `RRID:`, `EMPTY:`
 are the shape `{scheme, value}` exists for. Claude leans `entity`; the team's
 stated instinct is that entities should be concrete things a lab owns, which favours
 `base`. **This is a tier-definition call and it belongs to the team.**
+
+---
+
+# PART 6 — the model. `strain ⊂ entity`. Team call, 2026-08-05.
+
+**The team chose `entity` over `base`.** That was the last open item in the strain
+question. Everything below follows from it plus the evidence in Parts 2–5.
+
+**NO `TEAM-SIGN-OFF` LINE IS PRESENT, DELIBERATELY.** The team made the tier call
+in conversation; the sign-off marker is the team's to write, and Claude does not
+write it (Operating Rule 4). Until the team adds a line of the form
+
+        TEAM-SIGN-OFF: <who/when> -- <what was decided>
+
+the status board renders family #17 as undecided. That is the intended behaviour,
+not a bug: the decision is recorded here as rationale, and the board tracks
+signatures rather than conversations.
+
+## What `entity` gives, and why it settled the identifier problem
+
+```
+entity  (abstract) ⊂ base
+  global_identifier   structure   mustBeScalar: FALSE  <- an ARRAY
+    scheme  char
+    value   char
+  "Cross-reference identifier(s) for this entity (ORCID | ROR | DOI | PMID |
+   PMCID | RRID | UDI | ...). Array -- e.g. a publication carries DOI+PMID+PMCID."
+```
+
+openMINDS spends THREE slots on strain identifiers — `ontologyIdentifier` (array
+of IRIs), `digitalIdentifier` (-> RRID), `alternateIdentifier` (array, MGI/RGD).
+A single repeatable `{scheme, value}` subsumes all three, and the four schemes
+already in our data (`WBStrain`, `NCIT`, `RRID`, `EMPTY`) are exactly what it is
+shaped for. Choosing `base` would have meant re-declaring this concept locally and
+losing "find anything by external identifier" as one uniform query.
+
+## The class
+
+```
+strain  ⊂ entity
+
+  name                  char              REQUIRED
+  species               ontology_term     REQUIRED   binding -> NCBITaxon
+  genetic_strain_type   ontology_term     REQUIRED   binding -> GeneticStrainType
+  description           char              optional
+  phenotype             char              optional
+  breeding_type         ontology_term     optional   binding -> BreedingType
+  disease_model         ontology_term[]   optional   binding -> Disease | DiseaseModel
+  laboratory_code       char              optional   ILAR, ^[A-Z]([a-z]?)+$
+  stock_number          { vendor, code }  optional
+  synonym               char[]            optional
+  local_identifier      char              optional   (LOCAL_ID_OPT, per entity convention)
+
+  inherited from entity:
+  global_identifier     [{scheme, value}] optional
+                        schemes: WBStrain | NCIT | RRID | MGI | RGD | EMPTY
+
+  depends_on:
+    background_strain_#  -> strain    0..2, recursive, forms a DAG
+```
+
+The three REQUIRED fields are required BY openMINDS, not by us. `global_identifier`
+is optional because Dabrowska's Cre lines carry no identifier at all — the schema
+must not demand what the writer does not produce.
+
+`ontology_term` here is the FIELD TYPE (the `{node, name}` cell, 32 existing uses
+across 227 schema files), NOT the `term` data_type class. Those are different
+things and the distinction was confused earlier in this record.
+
+## The edge
+
+```
+term_assertion   variable:{name:"strain"}
+                 value:{WBStrain:00000002, "PR811"}   UNCHANGED, inline, queryable
+                 depends_on: strain_id -> strain      OPTIONAL, non_empty=False
+```
+
+Named for its target, per the convention measured in Part 3 (97 dependency
+declarations, 45 distinct names, all `<target>_id`). NOT a generic `term_id`, and
+NOT on `subject` (Part 5: most subjects are devices).
+
+## Worked example — the real Hunsberger F1 cross
+
+```
+term_assertion  subject_id->mouse_44  variable:{name:"strain"}
+                value:{EMPTY:00000288, "ArcCreERT2 x eYFP"}
+                depends_on: strain_id -> str_cross
+
+strain  str_cross     name "ArcCreERT2 x eYFP"   genetic_strain_type transgenic
+        global_identifier [{scheme:"EMPTY", value:"00000288"}]
+        species {NCBITaxon:10090, "Mus musculus"}
+        depends_on: background_strain_1 -> str_arc
+                    background_strain_2 -> str_eyfp
+
+strain  str_arc       name "ArcCreERT2"    [{EMPTY, 00000284}]  transgenic
+        depends_on: background_strain_1 -> str_svev
+strain  str_eyfp      name "eYFP"          [{EMPTY, 00000287}]  transgenic
+        depends_on: background_strain_1 -> str_svev
+strain  str_svev      name "129S/SvEv"     [{NCIT, C37334}]     wildtype   (root)
+```
+
+`str_svev` is referenced twice and stored once — the DAG that a nested background
+block would have duplicated.
+
+## Migration consequences
+
+1. **~2,362 composite Strain documents** stop dropping their pedigree. The
+   migrator must read `depends_on` / `backgroundStrain`, which it does not today.
+2. **~2,365 `genetic strain type` assertions move** off the subject onto the
+   strain document (openMINDS requires it there). One-time, global.
+3. **Duplicate `species` assertions dedupe** to one per subject.
+4. **Strain documents dedupe** — roughly ten distinct strains behind 2,365
+   documents, because `getStrain` constructs fresh objects per call.
+5. **`species` and `strain` remain SIBLING assertions.** We deliberately do NOT
+   adopt openMINDS's polymorphic `specimen.species` slot (Parts 4 and 5).
+6. The **openMINDS crosswalk** gains `Strain`, and should record the polymorphic-slot
+   divergence as structural rather than as an omission.
+
+## Follow-ups this opens (tracked, not silently dropped)
+
+- **T8 bindings**: `species`, `genetic_strain_type`, `breeding_type`,
+  `disease_model` all need registry entries. `geneticStrainType` is unnormalised
+  across writers (`'wildtype'` vs `'wild type'`). Lands in #32.
+- **`diseaseModel`** currently has nowhere to go and is dropped; the field above
+  gives it one, but no writer populates it yet.
+- **RRID-in-the-wrong-slot**: Dabrowska writes `'ontologyIdentifier', "RRID:..."`.
+  The migrator should map by CURIE prefix, not by source field name.
+- **The 8-property controlled-term read** (Part 4): our migrator takes 2 of 8, so
+  `definition`, `synonym` and cross-references are dropped for EVERY term type.
+  Separate from strain; recorded so it is not lost.
