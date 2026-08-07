@@ -106,7 +106,7 @@ undefined in meaning. Recorded, not overlooked.
 
 ## FOUR DEFECTS — repairs, not decisions, and true under either option
 
-**1. A third invented always-empty required edge — 6,921 documents.**
+**1. An invented always-empty required edge — 6,921 documents.**
 
 ```
 NDI:    epochfiles_ingested depends_on filenavigator_id
@@ -119,9 +119,27 @@ census run #257, empty required edge   vs   unconverted epochfiles_ingested
 ```
 
 Exact match — **100% empty** — and `filenavigator_id`, which NDI does write and
-whose target id `#59` now preserves, was dropped. With `syncrule_mapping.epochid`
-(5,316) and `daqmetadatareader.daqsystem_id` (59) this is **12,296 documents across
-three classes with one cause**, and one blind spot: the vocabulary checker compares
+whose target id `#59` now preserves, was dropped.
+
+**COUNT CORRECTED 2026-08-06.** This paragraph said the pattern was *"12,296
+documents across three classes"* (this row plus `syncrule_mapping.epochid` 5,316 and
+`daqmetadatareader.daqsystem_id` 59). That was an undercount by more than half, and
+it named the three smallest. Re-derived from the same census (run #257):
+
+```
+stimulus_response_scalar_parameters_basic.stimulus_response_scalar_id   11,440
+epochfiles_ingested.epochid                                              6,921   <- this row
+syncrule_mapping.epochid                                                 5,316
+stimulus_presentation.element_id                                         2,670
+daqmetadatareader.daqsystem_id                                              59
+                                                                        ------
+                                                                        26,406   FIVE classes
+```
+
+The two stimulus-tier rows were in the same report all along; the sweep that produced
+the original figure stopped at the daq/sync families. See `CLAUDE.md` and
+`V_eta_stimulus_response_model_plan.md`. **Re-derive the row set from a fresh census
+before quoting a total.** The blind spot is unchanged: the vocabulary checker compares
 FIELDS, not `depends_on` (TaskList #54).
 
 **2. `axes` / `channels` / `storage` exist in no NDI template.** `element_epoch`
@@ -294,6 +312,82 @@ every epoch-scoped document gains   acquisition_epoch_id -> acquisition_epoch
 
 The 11+ string joins become graph edges. `epochid` the mixin survives as **migration
 input**, not as the target's join mechanism.
+
+## REVISION 2026-08-06 — `epoch` gains an optional `instrument_id`
+
+**The team's words:** *"I agree to that for epoch."* Arrived at by the team asking
+*"does it make sense that a daqsystem owns a period of time?"* — it does not, and the
+objection exposed that the model above was missing a fact rather than misnaming one.
+
+```
+epoch ⊂ entity
+   depends_on: session_id
+               time_reference_#
+               instrument_id -> acquisition_system | subject      ADDED, OPTIONAL
+```
+
+**An epoch is not an interval; it is a RECORDING.** It is minted from one acquisition
+device's files for one run (`ndi.file.navigator.m:271`, `id = ['epoch_'
+ndi.ido.unique_id()]`, written to a hidden file beside them), and everything derived
+from it — probes, elements, spike trains — **inherits that id rather than minting its
+own** (`ndi.element.m:276,293`). Its temporal extent is a property of it, not its
+identity. Two daqsystems recording the same wall-clock period get two DIFFERENT
+epochs, which is the only reason a syncgraph has to exist.
+
+So the device is the epoch's **agent**, not its owner, and the edge is T7's existing
+`instrument_id` — the same edge the observations derived from that epoch already
+carry — not a new relation.
+
+**OPTIONAL, deliberately.** A `whole_session_*` epoch (below) has no instrument.
+Making it required would force a false edge on those documents, which is the
+invented-required-edge pattern now found five times.
+
+**Alternatives checked, not asserted:**
+- *Rename to `acquisition`?* NO. The synthetic epoch below corresponds to no
+  acquisition, and it is a supported feature with its own test
+  (`tests/+ndi/+unittest/+element/OneEpochTest.m`), not a stray. Every such document
+  would assert something false. Splitting into two classes is a T12 look-alike family
+  and forces a polymorphic edge on every epoch-scoped document.
+- *Is it a statement rather than an entity?* NO. `ndi.daq.system.m:301`,
+  `buildepochtable` is `filenavigator.epochtable` — built entirely from files, with no
+  subject anywhere. A leaf requires `subject_id`. And #30 already models the
+  recording-of-a-specimen as an observation; making `epoch` an act would be two
+  representations of one event at different grains.
+- *A `time_reference`?* NO — backwards. `epoch` carries `time_reference_#` edges; it
+  is their referent, not one of them.
+- *No document at all?* NO. `clock_alignment` and the syncgraph relate two epochs'
+  timelines; without an epoch document there is no referent for either end, which is
+  the string-joining this decision exists to remove.
+
+`entity` is positively right, not right by elimination: ② is *things with durable
+identity that other documents refer to*. An epoch's id *"will never change once
+established"* (`epochset.m:44`), is inherited down the derivation chain, and is joined
+to by 11+ classes. `dataset` and `session` are already in ②; `dataset ⊃ session ⊃
+epoch` is one containment chain and the third level belongs with the first two.
+
+### HAZARD for the build — synthetic epoch ids COLLIDE
+
+The model resolves epochs *"by GROUPING on `epochid.epochid`"*. That is safe only if
+the string is unique per epoch. **It is not always.**
+
+```
+ndi.file.navigator.m:271    id = ['epoch_' ndi.ido.unique_id()]
+                            unique per recording  ->  grouping is SAFE
+
+ndi.element.oneepoch.m:42   epoch_id = ['whole_session_' session.reference]
+                            DETERMINISTIC -- every element in a session produces the
+                            SAME string  ->  grouping would FUSE all of those elements'
+                            epochs into ONE document
+```
+
+`oneepoch` mints a synthetic whole-session span so an element with no natural epoch
+structure can still be addressed. It is not a recording, which is exactly why it
+collides and why it has no instrument.
+
+**Count UNMEASURED** — this needs a census of `epochid.epochid` values by prefix,
+which no current report emits. The mechanism is certain; the exposure is not. Do not
+build the grouping without either measuring it or keying the group on
+`(epochid.epochid, owning object)`.
 
 ## Why `entity`, and why it is NOT about identifiers
 
