@@ -313,6 +313,32 @@ every epoch-scoped document gains   acquisition_epoch_id -> acquisition_epoch
 The 11+ string joins become graph edges. `epochid` the mixin survives as **migration
 input**, not as the target's join mechanism.
 
+## THE CLASS, FINAL — read this block, not the one above
+
+The model block above predates the rename and the `instrument_id` revision, and still
+says `acquisition_epoch`. **This is the authoritative shape** (team, 2026-08-06:
+*"Epoch looks good. Record it."*):
+
+```
+epoch ⊂ entity                                          MINTED, one per epoch id
+   local_identifier    char     "epoch_4126958b19a21a41_..."   <- the v1 epochid string
+   global_identifier   char     empty -- an epoch has no external cross-reference
+   depends_on:
+      session_id       -> session                        REQUIRED
+      time_reference_# -> relative_reference             the epoch's own extent
+      instrument_id    -> acquisition_system | subject   OPTIONAL
+```
+
+Everything else in this document (element_epoch dissolves, epochid drops, the
+epochfiles_ingested fold) is unchanged.
+
+**One typing wrinkle, flagged not resolved:** `subject_interaction.instrument_id`
+declares `must_refer_to_document_class: subject`, but an epoch's instrument may be an
+`acquisition_system`, which is `⊂ base` and NOT a subject. So `epoch.instrument_id`
+spans a wider target set than the statement-tier edge of the same name. `must_refer`
+is existence-only so nothing breaks, but two edges sharing a name and not a target set
+is a governance question for #32.
+
 ## REVISION 2026-08-06 — `epoch` gains an optional `instrument_id`
 
 **The team's words:** *"I agree to that for epoch."* Arrived at by the team asking
@@ -515,6 +541,34 @@ That last point needs checking against `ensemble` before the build: an edge name
 reference T10 warns about, and `ensemble` is the only holder of it.
 
 ---
+
+# `epochfiles_ingested` → RENAMED `ingestion_manifest` (team, 2026-08-06)
+
+**The team's words:** *"I agree ingestion_manifest is a better name."*
+
+`epochfiles_ingested` encodes a MODE in the class name — the same T13 error `_ndr` and
+`_mfdaq` were de-encoded for in ⑥/⑦ chunk (c). The document is a manifest of what was
+ingested for one epoch; that is what it should be called.
+
+```
+ingestion_manifest ⊂ base                                ⑦ infra
+   files  string[]                          the manifest        <- v1 files[]
+   depends_on:
+      filenavigator_id -> file_navigator    REQUIRED  <- RESTORED; NDI writes it
+      epoch_id         -> epoch             REQUIRED  <- replaces the invented `epochid`
+                                                         (6,921 docs, 100% empty)
+   epochprobemap  REMOVED -- decomposed into edges (option B, below)
+```
+
+**It earns existence (T12):** the manifest records which files were physically copied
+into the archive for this epoch. Nothing else carries that — the data bodies hold
+payloads, not an inventory of what was ingested. Delete it and "what did this epoch
+physically consist of" becomes unanswerable.
+
+Unlike `file_navigator` / `metadata_reader` — deferred to R5 (#27) because their
+meaning is unchanged and renaming twice is worse than once — this class's content
+changes in the same build (the probemap comes out), so this is the cheapest moment,
+the same argument used for `element_epoch` → `epoch`.
 
 # `epochfiles_ingested` — DECIDED: option B (team, 2026-08-05)
 
