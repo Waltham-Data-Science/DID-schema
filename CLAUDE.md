@@ -482,6 +482,34 @@ lives in these files — read them instead of re-deriving from memory:
   measuring nothing. `testFragmentCensus`'s first draft drove the detector through two migrators
   that had since been repaired, and failed correctly. Same shape as fixtures built from our own
   schema, one level up.
+- **V_eta IS snake_case; NDI IS camelCase. A DISPOSITION THAT RESTS ON *ABSENCE* MUST USE
+  NDI'S OWN SPELLING.** On 2026-08-06 `demo_ndi`/`demo_ndi_mock` were dispositioned DELETE
+  on the evidence *"absent from NDI origin/main; referenced by NOTHING — not even the test
+  suite."* Both claims were FALSE. The class is spelled **`demoNDI`**, both templates ship,
+  and `+ndi/+calc/+example/simple.m` queries `demoNDI.value` and constructs `demoNDIMock`
+  documents at five lines. **The grep searched `demo_ndi` against a repository that has
+  never contained that string** — zero hits was a property of the query. This is the
+  failure the operating rules name verbatim: *"a grep that could not have matched was
+  reported as 'this does not exist anywhere'."* It survived a walkthrough, a commit and a
+  board render, and was caught only because two documents happened to disagree.
+  The mechanical version of the check, re-runnable: normalise both sides (lowercase,
+  strip underscores) and list every V_eta name that matches an NDI name ONLY after
+  normalisation.
+
+        DENOMINATOR: 91 NDI template class_names, 224 V_eta class names
+        AT RISK: 6
+           demo_ndi <-> demoNDI                  <- THE BUG
+           demo_ndi_mock <-> demoNDIMock         <- THE BUG
+           ontology_image <-> ontologyImage             disposition rests on PRESENCE
+           ontology_label <-> ontologyLabel             disposition rests on PRESENCE
+           ontology_table_row <-> ontologyTableRow      disposition rests on PRESENCE
+           spike_interface_sorting_outputs <-> SpikeInterfaceSortingOutputs   PRESENCE
+
+  The other four were dispositioned from what they CONTAIN, so only `demo_ndi` was
+  absence-based. **Re-run the sweep before any new disposition that turns on absence.**
+  Sibling to the `depends_on` rule below: that one is about the KIND of reference, this
+  one is about the SPELLING of the thing referenced.
+
 - **A `depends_on` SWEEP IS NOT A REFERENCE CHECK. Grep for the NAME too.** Three times in one
   session (2026-08-05) a dependency-graph sweep came back empty or nearly empty while the real
   references were **string matches in ordinary fields**, and each time the "nothing references
