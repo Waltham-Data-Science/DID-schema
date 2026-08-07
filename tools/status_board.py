@@ -381,9 +381,13 @@ def has_signoff(plan, family):
         if m:
             tagged, rest = m.group(1).strip(), m.group(2).strip()
         rest = rest.lstrip(":").strip()
-        # A placeholder is not a sign-off. Require real content and no angle-bracket
-        # template slots.
-        if "<" in rest or ">" in rest:
+        # A placeholder is not a sign-off. Reject TEMPLATE SLOTS -- a PAIRED
+        # <...> -- not any angle bracket: the first version rejected every line
+        # containing "<" or ">", so a legitimate sign-off saying
+        # "datestamp -> absolute_reference" was silently ignored and the family
+        # kept rendering as unsigned. Caught by checking the blast radius instead
+        # of trusting that writing the line was enough.
+        if re.search(r"<[^>]*>", rest):
             continue
         if len(rest) < 10:
             continue

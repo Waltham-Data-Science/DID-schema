@@ -294,6 +294,10 @@ useful part.
 independently and was right. A corpus 0-document check is still required before any
 future drop — absence from the five corpora we test is not absence.
 
+TEAM-SIGN-OFF [subject measurement]: jess, 2026-08-06 -- subjectmeasurement routes through the existing `measurement` fold with NO new class: subject_id carries over, `measurement` becomes the statement's `variable`, `value` becomes the value, and `datestamp` becomes the statement's TIME ANCHOR (time_reference_1 -> absolute_reference), NOT a field. Known gap, signed with: `value` carries no unit, so the typed leaf must be chosen through the D9 registry rather than from the template.
+
+*(Transcribed by Claude on the team's explicit instruction -- "Sign both". TAGGED because this document is cited by three families.)*
+
 ## 4. `subjectmeasurement` — route through the `measurement` fold
 
 A REAL did_v1 template:

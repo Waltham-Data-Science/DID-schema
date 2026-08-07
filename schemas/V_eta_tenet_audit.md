@@ -7,6 +7,10 @@ deciding** (a genuinely open modeling call). Retired/consumed source classes are
 only for "is the retirement decided" at the end. Snapshot: 162 persist + 9 in_progress;
 tiers per `V_eta_final_class_set.md`.*
 
+TEAM-SIGN-OFF [software]: jess, 2026-08-06 -- the `app` mixin is replaced by a `software` ENTITY (deduplicated by name+version) referenced from a statement by `software_id`, with the run-specific os / interpreter details in `execution_environment` on the interaction (R1). The class name stops being copied into every calculator output.
+
+*(Transcribed by Claude on the team's explicit instruction -- "Sign both". TAGGED with its family, per the shared-document rule. The remaining items in TaskList #25 -- app retiring by attrition rather than a sweep, the corpus-wide dedup pass, and the openMINDS software crosswalk -- are BUILD work, not open model questions; this signature covers the model.)*
+
 ## Summary
 
 | Bucket | Count | Where |

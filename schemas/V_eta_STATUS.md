@@ -15,14 +15,14 @@ for each model; this board owns *how much is left and what exactly*.
 | **still open (`in_progress`)** | **32** |
 | **`retire` with no migrator and no plan** | **12** |
 | open **decision families** | **19** |
-| &nbsp;&nbsp;DECIDED and signed off, awaiting build | 4 |
-| &nbsp;&nbsp;decided in a walkthrough, **awaiting a signature** | 15 |
+| &nbsp;&nbsp;DECIDED and signed off, awaiting build | 6 |
+| &nbsp;&nbsp;decided in a walkthrough, **awaiting a signature** | 13 |
 | &nbsp;&nbsp;**written up by Claude alone, unreviewed** | **0** |
 | &nbsp;&nbsp;nobody has proposed anything yet | 0 |
 
 The class count is not the work count. 32 open classes are 19 decisions, because most open classes move as a family.
 
-**15 of those 19 are not settled**: 15 awaiting a signature on a decision already taken, 0 written up by Claude alone and unreviewed, 0 with nothing proposed. Only 4 are signed off.
+**13 of those 19 are not settled**: 13 awaiting a signature on a decision already taken, 0 written up by Claude alone and unreviewed, 0 with nothing proposed. Only 6 are signed off.
 
 ## AWAITING A SIGNATURE -- decided with the team, not yet recorded
 
@@ -41,11 +41,9 @@ re-deciding -- it needs recording.
 | **daq ingested payloads** | 3 | reader one DECOMPOSES (per-clock relative_references + sampled_body) and retires; metadata one -> `acquisition_metadata_file`; image one folds into the image model | `V_eta_ingested_payload_findings.md` |
 | **sync configuration** | 2 | syncrule -> `clock_alignment_configuration` (parameters DECLARED, devices become edges); syncgraph -> `clock_alignment_policy` (earns existence on membership) | `V_eta_clock_alignment_cluster_plan.md` |
 | **sync mapping** | 1 | -> `clock_alignment` (relation + `polynomial` data_type); endpoints are relative_reference docs; syncgraph_id restored, invented epochid removed | `V_eta_clock_alignment_cluster_plan.md` |
-| **software** | 1 | app -> software entity + software_id edge + execution_environment (R1) | `V_eta_tenet_audit.md` |
 | **spike processing parameters** | 4 | 4 -> 1 `method_parameters` (id+name preserved); canonical parts typed, rest a bag | `V_eta_method_parameters_plan.md` |
 | **stimulus parameters** | 2 | stimulus_parameter DISSOLVES to a typed leaf keyed by its CURIE (build gated on #32); stimulus_parameter_table PASSES THROUGH; both tombstones repaired | `V_eta_stimulus_parameter_plan.md` |
 | **stimulus response** | 4 | 4 -> 2: `harmonic_component` data_type + calculation leaf (id preserved); parameters fold inline, killing 11,440 empty required edges | `V_eta_stimulus_response_model_plan.md` |
-| **subject measurement** | 1 | route through the `measurement` fold -- no new class; `datestamp` is a TIME ANCHOR (-> absolute_reference), NOT a field (corrected 2026-08-06) | `V_eta_go_forward_class_audit.md` |
 | **misc singletons** | 3 | binaryseries_parameters -> sampled_body; projectvar PASSES THROUGH (needs real docs); interaction_purpose is a target (#32) | `V_eta_go_forward_class_audit.md` |
 
 - **time_reference**: `epoch_bounded_reference`, `epoch_relative_reference`, `event_bounded_reference`, `event_relative_reference`, `session_bounded_reference`, `session_relative_reference`, `time_reference`, `utc_reference`
@@ -57,11 +55,9 @@ re-deciding -- it needs recording.
 - **daq ingested payloads**: `daqmetadatareader_epochdata_ingested`, `daqreader_epochdata_ingested`, `daqreader_image_epochdata_ingested`
 - **sync configuration**: `syncgraph`, `syncrule`
 - **sync mapping**: `syncrule_mapping`
-- **software**: `app`
 - **spike processing parameters**: `sorting_parameters`, `spike_extraction_parameters`, `spike_extraction_parameters_modification`, `vmspikefilteringparameters`
 - **stimulus parameters**: `stimulus_parameter`, `stimulus_parameter_table`
 - **stimulus response**: `stimulus_response`, `stimulus_response_scalar`, `stimulus_response_scalar_parameters`, `stimulus_response_scalar_parameters_basic`
-- **subject measurement**: `subjectmeasurement`
 - **misc singletons**: `binaryseries_parameters`, `interaction_purpose`, `projectvar`
 
 ## WRITTEN UP BY CLAUDE ALONE -- nobody has checked the reasoning
@@ -99,7 +95,9 @@ migrator work before the target closes is rework.
 | **dataseries_channel_map** | 1 | DELETE -- a V_epsilon invention, never a did_v1 source, zero users | `V_eta_go_forward_class_audit.md` |
 | **file navigation** | 2 | filenavigator -> `epoch_file_pattern` (id preserved; patterns PARSED not eval'd); `directory` is not a source | `V_eta_daq_family_decisions.md` |
 | **openMINDS** | 1 | strain -> entity + recursive background_strain_#; strain_id on term_assertion | `V_eta_openminds_family_record.md` |
+| **software** | 1 | app -> software entity + software_id edge + execution_environment (R1) | `V_eta_tenet_audit.md` |
 | **frequency_filter** | 1 | referenced document (not entity); band edges; typed gain fields; no sample_rate | `V_eta_frequency_filter_model_plan.md` |
+| **subject measurement** | 1 | route through the `measurement` fold -- no new class; `datestamp` is a TIME ANCHOR (-> absolute_reference), NOT a field (corrected 2026-08-06) | `V_eta_go_forward_class_audit.md` |
 
 ## v1 source side (from the coverage ledger)
 
