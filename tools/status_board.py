@@ -178,7 +178,8 @@ FAMILIES = [
     # that once put `filter` in this family.
     ("file navigation", ["filenavigator", "directory"],
      "V_eta_daq_family_decisions.md",
-     "filenavigator -> file_navigator (id preserved); `directory` is not a source",
+     "filenavigator -> `epoch_file_pattern` (id preserved; patterns PARSED not eval'd); "
+     "`directory` is not a source",
      "team"),
 
     # openminds_import was REMOVED 2026-07-30 (team sign-off) -- nothing ever

@@ -188,11 +188,12 @@ software (entity)      name "ndi.daq.metadatareader"
 daqreader  -> DISSOLVES into the software entity, base.id PRESERVED.
               It has NO parameters -- the only one of the four that fully collapses.
 
-file_navigator ⊂ base        base.id PRESERVED  (epochfiles_ingested.filenavigator_id)
+epoch_file_pattern ⊂ base    base.id PRESERVED  (ingestion_manifest.filenavigator_id)
    depends_on: software_id -> software
    data_file_pattern   char[]   {'#\.rhd\>', '#\.tsv\>'}       PARSED, not eval'd
    epoch_map_pattern   char[]   {'(.*)epochprobemap.ndi'}
    epoch_map_format    char     "ndi.epoch.epochprobemap_daqsystem"
+   (NAMED 2026-08-06 -- was `file_navigator`; see the naming section below)
 
 metadata_reader ⊂ base       base.id PRESERVED  (daqmetadatareader_epochdata_ingested)
    depends_on: software_id -> software
@@ -299,9 +300,48 @@ declarative. Revisit under #32.
   one `software` entity -> N `acquisition_system`s, instead of a string match on a
   class name repeated once per session.
 
-## Open naming question (NOT decided)
+## Naming — RESOLVED for the navigator (team, 2026-08-06); metadata pair still OPEN
 
-`file_navigator` and `metadata_reader` still name *the code that reads*, not *what
-the document holds*. By T13 the honest names may be `file_selection` and
-`metadata_file_selection` — the document is a selection rule, not a navigator. Left
-open deliberately; cross-repo naming lives in the R5 track (#27).
+**The team's words:** *"Let's do epoch_file_pattern."*
+
+`file_navigator` named *the code that reads*, not *what the document holds* — and the
+document holds **two pattern lists and a format**, nothing that navigates:
+
+```
+epoch_file_pattern ⊂ base
+   data_file_pattern   char[]    which files comprise ONE epoch
+   epoch_map_pattern   char[]    which of them is the probe-map file
+   epoch_map_format    char      how to parse it
+```
+
+`epoch_` is earned, not guessed. **This class is the origin of epoch identity in the
+archive.** Of 1,002 .m files there are exactly TWO places an epoch id is minted:
+
+```
+navigator.m:271     id = ['epoch_' ndi.ido.unique_id()]              written beside the files
+oneepoch.m:42       epoch_id = ['whole_session_' session.reference]  SYNTHETIC, no recording
+```
+
+Everything else INHERITS — `element.m:293` copies the underlying element's id,
+`daq/system.m:301`'s epochtable IS `filenavigator.epochtable`. So probes, elements and
+derived spike trains all ride on an id this rule created. The `#` in `{'#.rhd',
+'#.tsv'}` is the load-bearing part: a group of files sharing an unknown common stem is
+one epoch (`setfileparameters` docstring).
+
+Rejected on the way: `file_selection` / `epoch_file_selection` — "selection" suggests
+picking from a set rather than declaring a convention. `acquisition_file_pattern` — the
+pairing with `acquisition_system` is exact (178 filenavigator : 178 daqsystem across
+four corpora, while daqreader is NOT exact — Dab has 40 systems and 39 readers), but
+ownership is already an edge; what the rule DECIDES is epoch membership, and that is
+the more useful fact in a name. `epoch_file_convention` was second choice — apt, since
+T14 is about turning convention into declaration, but it names the thing outside the
+archive rather than the thing in it.
+
+**STILL OPEN — the metadata pair.** Claude proposed `acquisition_metadata_reader` and
+`acquisition_metadata_file` (the latter replacing `daqmetadatareader_epochdata_ingested`
+and an earlier bad suggestion, `ingested_payload`, which repeated the mode-in-name error).
+The team asked the question but has not answered it. Evidence gathered: the "metadata"
+collision is WEAKER than it first appeared — `distance_metadata` and `position_metadata`
+are the only other holders and BOTH retire — so the argument rests on consistency with
+`acquisition_system`/`acquisition_channels` plus the inherent vagueness of "metadata" in
+a metadata schema, not on a name clash.
