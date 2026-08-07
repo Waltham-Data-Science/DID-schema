@@ -1,9 +1,13 @@
-# V_eta — the daq ingested-payload family: findings and a proposal
+# V_eta — the daq ingested-payload family (DECIDED; build deferred)
 
-**STATUS: FINDINGS ARE FACTS; THE MODEL IS A CLAUDE PROPOSAL, NOT DECIDED.**
-The team walked through this on 2026-08-06 and asked for it to be recorded, but has
-not adopted the model. The board therefore still shows this family as *written up by
-Claude alone, unreviewed*. NO `TEAM-SIGN-OFF` LINE (Operating Rule 4).
+**DECIDED with the team, 2026-08-06. Build deferred. NO `TEAM-SIGN-OFF` LINE** —
+the marker is the team's to write (Operating Rule 4).
+
+**The team's words:** *"I accept the suggested naming acquisition_metadata_reader /
+acquisition_metadata_file. You can mark that family decided."*
+
+Recorded first as findings-plus-proposal and adopted in the same session; the findings
+below are measurements, the model was Claude's and is now the team's.
 
 Covers `daqreader_epochdata_ingested`, `daqmetadatareader_epochdata_ingested`,
 `daqreader_image_epochdata_ingested`.
@@ -162,7 +166,7 @@ frame.
 
 ---
 
-## THE PROPOSAL (Claude's, not decided)
+## THE MODEL
 
 ### A. `daqreader_epochdata_ingested` — DECOMPOSES, then RETIRES
 
@@ -195,22 +199,21 @@ A body must hang off a statement, and a per-epoch metadata blob is not an observ
 any subject. There is no statement for it to hang from.
 
 ```
-metadata_file ⊂ base                                  base.id PRESERVED
+acquisition_metadata_file ⊂ base                      base.id PRESERVED
    FILE: data.bin
    depends_on:
-      metadata_reader_id -> metadata_reader   REQUIRED
-      epoch_id           -> epoch             REQUIRED
+      acquisition_metadata_reader_id -> acquisition_metadata_reader   REQUIRED
+      epoch_id                       -> epoch                         REQUIRED
 ```
 
 A thin infra carrier — which is what it already is — repaired and renamed off the
 mode-in-name.
 
-**NAME OPEN.** Claude first proposed `ingested_payload`; the team said it seemed wrong,
-and it was — it repeated the very mode word this rename removes. `metadata_file` pairs
-with `metadata_reader` (the reader and the file it read). The team then asked whether
-BOTH should be `acquisition_`-qualified (`acquisition_metadata_reader` /
-`acquisition_metadata_file`) and has not answered; that question is recorded in
-`V_eta_daq_family_decisions.md`.
+**NAME DECIDED 2026-08-06: `acquisition_metadata_file`**, paired with
+`acquisition_metadata_reader`. Claude first proposed `ingested_payload`; the team said
+it seemed wrong, and it was — it repeated the very mode word this rename removes. The
+full reasoning, including why the "metadata" name-collision argument turned out weak,
+is in `V_eta_daq_family_decisions.md`.
 
 **Do not type `data.bin`.** The readers produce TSV in the cases seen, but nothing
 declares it. Carry the bytes; model them when someone has read real ones. Proposing a

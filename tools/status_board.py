@@ -105,7 +105,8 @@ FAMILIES = [
     # parameters), which a depends_on check cannot see.
     ("daq configuration", ["daqsystem", "daqreader", "daqmetadatareader"],
      "V_eta_daq_family_decisions.md",
-     "acquisition_system + metadata_reader keep ids; class names fold to software entities",
+     "acquisition_system + `acquisition_metadata_reader` keep ids; class names fold to "
+     "software entities",
      "team"),
 
     # WALKTHROUGH 2026-08-06 -> V_eta_ingested_payload_findings.md. Still "proposed":
@@ -123,8 +124,8 @@ FAMILIES = [
         "daqreader_image_epochdata_ingested"],
      "V_eta_ingested_payload_findings.md",
      "reader one DECOMPOSES (per-clock relative_references + sampled_body) and retires; "
-     "metadata one keeps a carrier class; image one folds into the image model",
-     "proposed"),
+     "metadata one -> `acquisition_metadata_file`; image one folds into the image model",
+     "team"),
 
     # DECIDED 2026-08-05. Writer check done: absent from NDI origin/main, zero code
     # mentions, provenance V_epsilon, zero migrators, zero schema references.

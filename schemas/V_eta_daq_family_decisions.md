@@ -195,9 +195,10 @@ epoch_file_pattern ⊂ base    base.id PRESERVED  (ingestion_manifest.filenaviga
    epoch_map_format    char     "ndi.epoch.epochprobemap_daqsystem"
    (NAMED 2026-08-06 -- was `file_navigator`; see the naming section below)
 
-metadata_reader ⊂ base       base.id PRESERVED  (daqmetadatareader_epochdata_ingested)
+acquisition_metadata_reader ⊂ base   base.id PRESERVED  (acquisition_metadata_file)
    depends_on: software_id -> software
    metadata_file_pattern  char  ".*\.tsv\>"
+   (NAMED 2026-08-06 -- was `metadata_reader`; see the naming section below)
 
 acquisition_system ⊂ base    base.id PRESERVED   base.name "intan1"  <- THE JOIN KEY
    depends_on: reader_id            -> software
@@ -337,11 +338,34 @@ the more useful fact in a name. `epoch_file_convention` was second choice — ap
 T14 is about turning convention into declaration, but it names the thing outside the
 archive rather than the thing in it.
 
-**STILL OPEN — the metadata pair.** Claude proposed `acquisition_metadata_reader` and
-`acquisition_metadata_file` (the latter replacing `daqmetadatareader_epochdata_ingested`
-and an earlier bad suggestion, `ingested_payload`, which repeated the mode-in-name error).
-The team asked the question but has not answered it. Evidence gathered: the "metadata"
-collision is WEAKER than it first appeared — `distance_metadata` and `position_metadata`
-are the only other holders and BOTH retire — so the argument rests on consistency with
-`acquisition_system`/`acquisition_channels` plus the inherent vagueness of "metadata" in
-a metadata schema, not on a name clash.
+## The metadata pair — DECIDED (team, 2026-08-06)
+
+**The team's words:** *"I accept the suggested naming acquisition_metadata_reader /
+acquisition_metadata_file."*
+
+```
+daqmetadatareader                     -> acquisition_metadata_reader
+daqmetadatareader_epochdata_ingested  -> acquisition_metadata_file
+```
+
+The reader finds and parses the companion trial spreadsheet; the file is that
+spreadsheet's bytes, preserved per epoch. Keeping the reader/file pairing visible is
+deliberate — `acquisition_reader` / `acquisition_file` would drop the word that says
+*what kind* of file, and the acquisition's primary file is the signal, not this one.
+
+**The argument, stated honestly, because the obvious one turned out weak.** The
+"metadata" name collision is NOT the reason: `distance_metadata` and `position_metadata`
+are the only other holders and BOTH retire, so the bare name was in fact free. The
+reasons that carried it are (a) consistency — `acquisition_system` and
+`acquisition_channels` are already chosen, and a five-class cluster where two carry the
+prefix and three do not reads as accidental; and (b) "metadata" is the most overloaded
+word available in a metadata schema, so a bare `metadata_file` invites "is this where
+dataset metadata goes?" when it is one epoch's companion spreadsheet.
+
+A content-based name (`trial_parameter_file`, `stimulus_parameter_file`) was rejected as
+OVER-CLAIMING: `ndi.daq.metadatareader`'s own doc says the TSV *usually* describes
+stimulus parameters. Naming a class for contents nobody has verified is the
+`stimulus_parameter_table` failure.
+
+Earlier rejected: `ingested_payload`, which repeated the mode-in-name error this rename
+exists to remove.
