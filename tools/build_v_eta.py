@@ -950,6 +950,57 @@ write("stable", "session_bounded_reference",
                 non_empty=False, blank=_DUR, default=_DUR)]))
 
 
+# ---------- 7b. the demo/mock family: REPAIR + move to the examples tier ----------
+# The DELETE call on demo_ndi(_mock) was reversed 2026-08-06 (the grep searched the
+# snake_case name against camelCase NDI). Reversing it exposed that "passthrough" was
+# not achievable: V_eta's versions were WHOLLY INVENTED and could not admit a real
+# document.
+#
+#   NDI  demoNDI ⊂ base       value, FILE filename1.ext   |  V_eta had demo_param1/2, no file
+#   NDI  demoNDIMock ⊂ mock, demoNDI                      |  V_eta had ⊂ base only
+#   NDI  mock ⊂ base          ismock                      |  V_eta had NO SUCH CLASS
+#
+# The lost `mock` marker is the serious one: it is the only thing distinguishing test
+# data from a recording, ndi.calc.example.simple sets numberOfSelfTests = 2 and writes
+# these documents against a LIVE session, so without it a migrated archive cannot tell
+# a self-test artefact from an experiment.
+
+# `mock` is NOT a demonstration class -- it is a governance marker any class may carry,
+# so it stays in `stable` even though its only current bearer is a demo class.
+write("stable", "mock",
+      doc("mock", ["base"], fields=[
+          field("ismock", "boolean",
+                "TRUE when this document is test/demonstration data rather than a "
+                "record of an experiment. Carried from did_v1 `mock.ismock`. The only "
+                "marker separating self-test artefacts from real data -- "
+                "ndi.calc.example.simple writes mock documents against a live session.",
+                non_empty=True, blank=True, default=True)]))
+
+# `value` is typed from the WRITER, not the template. The template says "" (char) but
+# ndi.calc.example.simple sets it to a NUMBER (5, 10) and queries it with
+# 'exact_number' -- and where template and writer disagree, the writer wins. Same class
+# of defect as freq_response being declared a boolean when it is a harmonic number.
+_demo_ndi = doc("demo_ndi", ["base"], fields=[
+    field("value", "double",
+          "The demonstration value the example calculator reads "
+          "(ndi.calc.example.simple queries demoNDI.value by exact_number).")])
+_demo_ndi["file"] = [{
+    "name": "filename1.ext",
+    "documentation": "Required by the did_v1 demoNDI schema; demoNDIMock inherits the "
+                     "requirement. Dropping it was silent file loss."}]
+write("stable", "demo_ndi", _demo_ndi)
+
+# ⊂ mock AND demo_ndi, exactly as v1: the calculator matches `isa demoNDIMock` and then
+# reads the INHERITED demo_ndi.value, so both parents are load-bearing. Own block empty
+# in v1; kept empty here.
+write("stable", "demo_ndi_mock", doc("demo_ndi_mock", ["mock", "demo_ndi"]))
+
+# NOT moved to an `examples` tier: there ISN'T one. The meta-schema allows only
+# stable | draft | deprecated, and schemas/V_eta/examples/ holds example INSTANCE
+# documents (no `fields`), not class definitions -- it is invisible to index.json and
+# to the test suite. Putting the repair there would have un-validated it.
+
+
 # ---------- 8a. register the `time` CURIE prefix (OWL-Time) ----------
 # REPAIR. Increment 1 below binds `relative_reference.value.relation` to OWL-Time
 # CURIEs (time:intervalBefore, ...), but `time` was NOT one of the 11 registered

@@ -10,35 +10,25 @@
         "maturity_level": "stable"
     },
     "depends_on": [],
-    "file": [],
+    "file": [
+        {
+            "name": "filename1.ext",
+            "documentation": "Required by the did_v1 demoNDI schema; demoNDIMock inherits the requirement. Dropping it was silent file loss."
+        }
+    ],
     "fields": [
         {
-            "name": "demo_param1",
+            "name": "value",
             "type": "double",
             "blank_value": 0.0,
-            "default_value": 1.0,
+            "default_value": 0.0,
             "mustBeNonEmpty": false,
             "mustBeScalar": true,
             "mustNotHaveNaN": false,
             "queryable": true,
             "ontology": null,
-            "documentation": "A demonstration numeric parameter.",
+            "documentation": "The demonstration value the example calculator reads (ndi.calc.example.simple queries demoNDI.value by exact_number).",
             "constraints": {}
-        },
-        {
-            "name": "demo_param2",
-            "type": "char",
-            "blank_value": "",
-            "default_value": "hello",
-            "mustBeNonEmpty": false,
-            "mustBeScalar": true,
-            "mustNotHaveNaN": false,
-            "queryable": true,
-            "ontology": null,
-            "documentation": "A demonstration string parameter.",
-            "constraints": {
-                "maxLength": 256
-            }
         }
     ]
 }

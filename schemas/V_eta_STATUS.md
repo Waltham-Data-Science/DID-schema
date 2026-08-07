@@ -9,8 +9,8 @@ for each model; this board owns *how much is left and what exactly*.
 
 | | count |
 |---|---|
-| target classes | 227 |
-| settled (persist) | 146 |
+| target classes | 228 |
+| settled (persist) | 147 |
 | settled (retire) | 47 |
 | **still open (`in_progress`)** | **34** |
 | **`retire` with no migrator and no plan** | **12** |
@@ -111,10 +111,10 @@ migrator work before the target closes is rework.
 | retire | 42 |
 | consumed by migrator (no tombstone) | 28 |
 | in_progress | 21 |
-| persist | 4 |
+| persist | 5 |
 | no V_eta home, no migrator -- UNVERIFIED | 4 |
-| test/demo fixture (non-production) | 2 |
 | dissolved → subject | 1 |
+| test/demo fixture (non-production) | 1 |
 
 ### `retire`, but nothing decided -- 12 rows
 

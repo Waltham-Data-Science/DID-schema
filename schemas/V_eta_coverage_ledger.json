@@ -7,10 +7,10 @@
       "retire": 42,
       "dissolved \u2192 subject": 1,
       "in_progress": 21,
-      "persist": 4,
+      "persist": 5,
       "consumed by migrator (no tombstone)": 28,
       "no V_eta home, no migrator -- UNVERIFIED": 4,
-      "test/demo fixture (non-production)": 2
+      "test/demo fixture (non-production)": 1
     },
     "by_source": {
       "ndi": 91,
@@ -759,13 +759,15 @@
     },
     {
       "v1_class": "mock",
-      "veta_class": null,
-      "disposition": "test/demo fixture (non-production)",
+      "veta_class": "mock",
+      "disposition": "persist",
       "migrator": false,
       "source": "ndi",
       "nonprod": true,
       "gap": false,
-      "targets": [],
+      "targets": [
+        "mock"
+      ],
       "carried": [],
       "second_pass": [],
       "how": "",

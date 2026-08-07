@@ -778,7 +778,8 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                "base"
+                "mock",
+                "demo_ndi"
             ],
             "path": "schemas/V_eta/stable/demo_ndi_mock.json",
             "disposition": "in_progress",
@@ -1486,6 +1487,17 @@
             "path": "schemas/V_eta/stable/measurement.json",
             "disposition": "retire",
             "disposition_note": "D-C analysis-tier decompose"
+        },
+        {
+            "class_name": "mock",
+            "tier": "stable",
+            "class_version": "1.0.0",
+            "maturity_level": "stable",
+            "superclasses": [
+                "base"
+            ],
+            "path": "schemas/V_eta/stable/mock.json",
+            "disposition": "persist"
         },
         {
             "class_name": "neuron_extracellular",

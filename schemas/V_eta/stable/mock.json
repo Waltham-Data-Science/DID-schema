@@ -1,0 +1,29 @@
+{
+    "document_class": {
+        "class_name": "mock",
+        "class_version": "1.0.0",
+        "superclasses": [
+            {
+                "class_name": "base"
+            }
+        ],
+        "maturity_level": "stable"
+    },
+    "depends_on": [],
+    "file": [],
+    "fields": [
+        {
+            "name": "ismock",
+            "type": "boolean",
+            "blank_value": true,
+            "default_value": true,
+            "mustBeNonEmpty": true,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "TRUE when this document is test/demonstration data rather than a record of an experiment. Carried from did_v1 `mock.ismock`. The only marker separating self-test artefacts from real data -- ndi.calc.example.simple writes mock documents against a live session.",
+            "constraints": {}
+        }
+    ]
+}

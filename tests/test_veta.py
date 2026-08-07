@@ -274,10 +274,28 @@ def test_local_identifier_required_on_subject_optional_elsewhere():
         assert f["mustBeNonEmpty"] is False, f"{e}.local_identifier must be optional"
 
 
-def test_mock_class_dropped():
-    """`mock` (a bare ismock flag) is test-only scaffolding — nothing constructs
-    it; a production go-forward schema should not carry a 'this is fake' class."""
-    assert "mock" not in RECORDS
+def test_mock_class_kept_and_flags_test_data():
+    """INVERTED 2026-08-06. This test used to assert `mock` was DROPPED, on the
+    premise that "nothing constructs it". That premise is FALSE: NDI's
+    demoNDIMock IS-A mock (`⊂ mock, demoNDI`), and ndi.calc.example.simple sets
+    numberOfSelfTests = 2 and writes demoNDIMock documents against a LIVE
+    session -- so mock documents reach real databases.
+
+    `mock.ismock` is the ONLY marker separating a self-test artefact from a
+    recording. Dropping it did not remove fake data from the archive; it removed
+    our ability to tell that it was fake. The test asserted the defect, so it is
+    inverted rather than deleted (CLAUDE.md: a test written from the same premise
+    as the code cannot catch the code).
+
+    OPEN, and a team question rather than a test's to settle: the alternative is
+    to REFUSE mock documents at migration instead of carrying them flagged.
+    Filtering silently would be worse than flagging; filtering loudly is a real
+    option nobody has chosen."""
+    assert "mock" in RECORDS
+    fields = {f["name"] for f in RECORDS["mock"][1].get("fields", [])}
+    assert "ismock" in fields
+    # demo_ndi_mock must actually CARRY the marker, or the flag protects nothing.
+    assert "mock" in _chain("demo_ndi_mock")
 
 
 def test_value_set_class_dropped():
