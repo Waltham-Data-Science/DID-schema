@@ -54,6 +54,17 @@
             "disposition": "persist"
         },
         {
+            "class_name": "absolute_reference",
+            "tier": "stable",
+            "class_version": "1.0.0",
+            "maturity_level": "stable",
+            "superclasses": [
+                "time_reference"
+            ],
+            "path": "schemas/V_eta/stable/absolute_reference.json",
+            "disposition": "persist"
+        },
+        {
             "class_name": "acceleration",
             "tier": "stable",
             "class_version": "1.0.0",
@@ -1822,6 +1833,17 @@
                 "base"
             ],
             "path": "schemas/V_eta/stable/relation.json",
+            "disposition": "persist"
+        },
+        {
+            "class_name": "relative_reference",
+            "tier": "stable",
+            "class_version": "1.0.0",
+            "maturity_level": "stable",
+            "superclasses": [
+                "time_reference"
+            ],
+            "path": "schemas/V_eta/stable/relative_reference.json",
             "disposition": "persist"
         },
         {

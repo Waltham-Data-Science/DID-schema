@@ -1,0 +1,122 @@
+{
+    "document_class": {
+        "class_name": "absolute_reference",
+        "class_version": "1.0.0",
+        "superclasses": [
+            {
+                "class_name": "time_reference"
+            }
+        ],
+        "maturity_level": "stable"
+    },
+    "depends_on": [],
+    "file": [],
+    "fields": [
+        {
+            "name": "value",
+            "type": "structure",
+            "blank_value": {},
+            "default_value": {},
+            "mustBeNonEmpty": true,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "A wall-clock instant or interval. Carries NO dependency: it is interpretable on its own, which is what distinguishes it from relative_reference.",
+            "constraints": {},
+            "fields": [
+                {
+                    "name": "start_utc",
+                    "type": "timestamp",
+                    "blank_value": 0.0,
+                    "default_value": 0.0,
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Canonical UTC start instant.",
+                    "constraints": {}
+                },
+                {
+                    "name": "end_utc",
+                    "type": "timestamp",
+                    "blank_value": 0.0,
+                    "default_value": 0.0,
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Canonical UTC end instant. ABSENT means a point in time, not an interval.",
+                    "constraints": {}
+                },
+                {
+                    "name": "source_timezone",
+                    "type": "char",
+                    "blank_value": "",
+                    "default_value": "",
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "IANA time zone name as the source gave it (e.g. 'America/New_York').",
+                    "constraints": {}
+                },
+                {
+                    "name": "source_utc_offset",
+                    "type": "char",
+                    "blank_value": "",
+                    "default_value": "",
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "UTC offset as the source gave it (e.g. '-05:00'), when only an offset was available and no zone name.",
+                    "constraints": {}
+                },
+                {
+                    "name": "source_start",
+                    "type": "char",
+                    "blank_value": "",
+                    "default_value": "",
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "The start instant exactly as the source wrote it, before normalisation.",
+                    "constraints": {}
+                },
+                {
+                    "name": "source_end",
+                    "type": "char",
+                    "blank_value": "",
+                    "default_value": "",
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "The end instant exactly as the source wrote it, before normalisation.",
+                    "constraints": {}
+                },
+                {
+                    "name": "approximate",
+                    "type": "boolean",
+                    "blank_value": 0.0,
+                    "default_value": 0.0,
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "True when the source marked the time as approximate.",
+                    "constraints": {}
+                }
+            ]
+        }
+    ]
+}

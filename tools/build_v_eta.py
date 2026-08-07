@@ -950,6 +950,106 @@ write("stable", "session_bounded_reference",
                 non_empty=False, blank=_DUR, default=_DUR)]))
 
 
+# ---------- 8b. THE TIME-REFERENCE COLLAPSE -- increment 1 (TaskList #65) ----------
+# V_eta_time_reference_model_plan.md: eight classes collapse to TWO under the abstract
+# `time_reference` root. `origin` (session/epoch/event/utc) is a RELATION -> it becomes
+# the `relative_to` edge; `mode` (bounded/relative) is CARDINALITY -> it becomes "are
+# start/end populated?". `mode` was not even self-consistent: in the session pair it
+# meant with-metric vs without, in the event pair whole-extent vs offset.
+#
+# INCREMENT 1 IS ADDITIVE ONLY. The eight source classes STAY until the migrators move
+# (24 files emit session_relative_reference, 5 emit epoch_bounded_reference, 1 emits
+# session_bounded_reference). Deleting them here would red the corpus gate, and the
+# project rule is: build the target, move the emitters, then delete the source.
+
+# The clock vocabulary ALREADY EXISTS and is reused verbatim from epoch_bounded_reference
+# rather than minted again -- 9 members, strength required.
+_CLOCK_BINDING = {
+    "binding": {"root": "did_clocktype", "expansion": "value_set",
+                "values": ["utc", "dev_local_time", "dev_global_time", "exp_global_time",
+                           "approx_utc", "approx_exp_global_time",
+                           "approx_dev_global_time", "no_time", "inherited"],
+                "strength": "required", "source": "value_set"},
+    "maxLength": 64}
+
+# The old `relation` was a bare char enum covering 6 of Allen's 13 interval relations,
+# with `concurrent_with` ambiguous between equals and overlaps. It becomes an
+# ontology_term bound to OWL-Time, all thirteen.
+_OWL_TIME_BINDING = {
+    "binding": {"root": "owl_time_interval", "expansion": "value_set",
+                "values": ["time:intervalBefore", "time:intervalAfter",
+                           "time:intervalMeets", "time:intervalMetBy",
+                           "time:intervalOverlaps", "time:intervalOverlappedBy",
+                           "time:intervalStarts", "time:intervalStartedBy",
+                           "time:intervalDuring", "time:intervalContains",
+                           "time:intervalFinishes", "time:intervalFinishedBy",
+                           "time:intervalEquals"],
+                "strength": "required", "source": "value_set"}}
+
+# T14 one-`value` slot: canonical form plus lossless source provenance INSIDE the cell,
+# exactly as voltage.value and duration.value do. `is_approximate` therefore lives in the
+# cell, not on the root -- the root keeps it for now because the eight retiring subclasses
+# still inherit it; it is dropped when they go (increment 3).
+_ABSOLUTE_REFERENCE_SUBS = [
+    subfield("start_utc", "timestamp",
+             "Canonical UTC start instant."),
+    subfield("end_utc", "timestamp",
+             "Canonical UTC end instant. ABSENT means a point in time, not an interval."),
+    subfield("source_timezone", "char",
+             "IANA time zone name as the source gave it (e.g. 'America/New_York')."),
+    subfield("source_utc_offset", "char",
+             "UTC offset as the source gave it (e.g. '-05:00'), when only an offset was "
+             "available and no zone name."),
+    subfield("source_start", "char",
+             "The start instant exactly as the source wrote it, before normalisation."),
+    subfield("source_end", "char",
+             "The end instant exactly as the source wrote it, before normalisation."),
+    subfield("approximate", "boolean",
+             "True when the source marked the time as approximate."),
+]
+
+_RELATIVE_REFERENCE_SUBS = [
+    subfield("relation", "ontology_term",
+             "The qualitative interval relation to the referent, when no metric offset "
+             "exists (OWL-Time; all thirteen Allen relations).",
+             constraints=_OWL_TIME_BINDING),
+    subfield("start", "duration",
+             "Offset of the start from the referent's origin, on the named clock. "
+             "ABSENT together with `end` means the relation alone is asserted."),
+    subfield("end", "duration",
+             "Offset of the end from the referent's origin. ABSENT means a point."),
+    subfield("clock", "char",
+             "WHICH timeline within the referent the offsets are measured on. NDI times "
+             "an epoch on several clocks at once and they drift, so '10 seconds in' is "
+             "ambiguous until the clock is named.",
+             constraints=_CLOCK_BINDING),
+    subfield("approximate", "boolean",
+             "True when the source marked the time as approximate."),
+]
+
+write("stable", "absolute_reference",
+      doc("absolute_reference", ["time_reference"], fields=[
+          field("value", "structure",
+                "A wall-clock instant or interval. Carries NO dependency: it is "
+                "interpretable on its own, which is what distinguishes it from "
+                "relative_reference.",
+                non_empty=True, sub_fields=_ABSOLUTE_REFERENCE_SUBS)]))
+
+write("stable", "relative_reference",
+      doc("relative_reference", ["time_reference"],
+          deps=[dep("relative_to", "base",
+                    "What the time is measured against -- an epoch, a session, an "
+                    "interaction, another reference. REQUIRED (team call): a relative "
+                    "time with no referent is not interpretable.")],
+          fields=[
+          field("value", "structure",
+                "A time measured against the referent named by `relative_to`. "
+                "start/end are durations, so canonical seconds plus source-unit "
+                "preservation come from the duration cell. ONE ANCHOR PER DOCUMENT: an "
+                "interval whose ends are anchored differently becomes TWO documents.",
+                non_empty=True, sub_fields=_RELATIVE_REFERENCE_SUBS)]))
+
+
 # ---------- 10. manipulation tier: strict J (D4, D8) ----------
 # Retire the delivery-method family and the escape hatches; a manipulation is a
 # data-type-named leaf imposing a composite/term value. Route -> method, site ->
@@ -3344,6 +3444,34 @@ _KEEP_INFRA = {"daqsystem", "daqreader", "daqmetadatareader",
 #   - the R5 renames land in cross-repo lockstep with the NDI writers (they emit these strings).
 _DECIDED_PENDING = {
     "ngrid": "R4: folds into sampled_body (coupled to reverse_correlation RF map)",
+    # THE TIME-REFERENCE COLLAPSE (#65). Increment 1 built the two targets
+    # (absolute_reference, relative_reference); these eight stay until the migrators
+    # move, because 24 files emit session_relative_reference, 5 emit
+    # epoch_bounded_reference and 1 emits session_bounded_reference. Deleting them
+    # before the emitters move would red the corpus gate.
+    "time_reference":
+        "#65 increment 1 DONE: stays as the abstract root; loses `is_approximate` "
+        "(moves into the value cell) when the eight subclasses go",
+    "session_relative_reference":
+        "#65 -> relative_reference (relative_to -> session; relation only, no metric). "
+        "107,308 documents -- the largest emitter",
+    "session_bounded_reference":
+        "#65 -> relative_reference (relative_to -> session; start/end populated). "
+        "20,411 documents",
+    "epoch_relative_reference":
+        "#65 -> relative_reference (relative_to -> epoch). ZERO documents; no migrator "
+        "has ever emitted one",
+    "epoch_bounded_reference":
+        "#65 -> relative_reference (relative_to -> epoch; start/end populated). ZERO "
+        "documents, but 5 migrator files name it",
+    "event_relative_reference":
+        "#65 -> relative_reference (relative_to -> the event document). ZERO documents",
+    "event_bounded_reference":
+        "#65 -> relative_reference (relative_to -> the event document). ZERO documents",
+    "utc_reference":
+        "#65 -> absolute_reference. ZERO documents. The class was named for the "
+        "canonical frame; the target is named for the KIND, the same reason the class "
+        "is `voltage` and not `volt`",
     # R5 targets were named in an earlier naming pass, but the ⑦ walkthrough RE-OPENED
     # this tier ("the KEEP predated T11/T13 scrutiny; needs a naming + governance
     # confirmation"), so the rename is NOT authorised to land yet. Proposed targets kept
