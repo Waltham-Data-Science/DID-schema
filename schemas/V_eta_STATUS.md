@@ -84,7 +84,7 @@ Until that line exists the family shows here regardless of what
 
 | family | classes | proposal | written up in |
 |---|---|---|---|
-| **daq ingested payloads** | 3 | -> relative_reference / opaque_body / image model; no new class | `V_eta_daq_family_decisions.md` |
+| **daq ingested payloads** | 3 | reader one DECOMPOSES (per-clock relative_references + sampled_body) and retires; metadata one keeps a carrier class; image one folds into the image model | `V_eta_ingested_payload_findings.md` |
 
 - **daq ingested payloads**: `daqmetadatareader_epochdata_ingested`, `daqreader_epochdata_ingested`, `daqreader_image_epochdata_ingested`
 

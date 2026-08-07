@@ -108,12 +108,22 @@ FAMILIES = [
      "acquisition_system + metadata_reader keep ids; class names fold to software entities",
      "team"),
 
+    # WALKTHROUGH 2026-08-06 -> V_eta_ingested_payload_findings.md. Still "proposed":
+    # the FINDINGS are facts but the team has not adopted the model.
+    # An earlier one-liner said "no new class" -- that was WRONG. sampled_body and
+    # opaque_body both declare depends_on: statement, and a per-epoch metadata blob is
+    # not an observation of any subject, so it needs a carrier (`metadata_file`).
+    # Biggest finding: daqreader_epochdata_ingested carries THE RECORDING ITSELF as
+    # files attached under runtime-computed names (mfdaq.m:829,916,955), while BOTH the
+    # NDI template and V_eta declare an EMPTY file_list -- a migrator reading the
+    # declaration drops the only copy. Also kills R5's "<device>_epoch_cache" name.
     ("daq ingested payloads", [
         "daqreader_epochdata_ingested",
         "daqmetadatareader_epochdata_ingested",
         "daqreader_image_epochdata_ingested"],
-     "V_eta_daq_family_decisions.md",
-     "-> relative_reference / opaque_body / image model; no new class",
+     "V_eta_ingested_payload_findings.md",
+     "reader one DECOMPOSES (per-clock relative_references + sampled_body) and retires; "
+     "metadata one keeps a carrier class; image one folds into the image model",
      "proposed"),
 
     # DECIDED 2026-08-05. Writer check done: absent from NDI origin/main, zero code
