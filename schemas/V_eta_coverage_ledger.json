@@ -6,11 +6,11 @@
     "by_disposition": {
       "retire": 42,
       "dissolved \u2192 subject": 1,
-      "in_progress": 21,
-      "persist": 5,
+      "in_progress": 19,
+      "persist": 4,
       "consumed by migrator (no tombstone)": 28,
-      "no V_eta home, no migrator -- UNVERIFIED": 4,
-      "test/demo fixture (non-production)": 1
+      "test/demo fixture (non-production)": 4,
+      "no V_eta home, no migrator -- UNVERIFIED": 4
     },
     "by_source": {
       "ndi": 91,
@@ -360,15 +360,13 @@
     },
     {
       "v1_class": "demoNDI",
-      "veta_class": "demo_ndi",
-      "disposition": "in_progress",
+      "veta_class": null,
+      "disposition": "test/demo fixture (non-production)",
       "migrator": false,
       "source": "ndi",
       "nonprod": true,
       "gap": false,
-      "targets": [
-        "demo_ndi"
-      ],
+      "targets": [],
       "carried": [],
       "second_pass": [],
       "how": "",
@@ -376,15 +374,13 @@
     },
     {
       "v1_class": "demoNDIMock",
-      "veta_class": "demo_ndi_mock",
-      "disposition": "in_progress",
+      "veta_class": null,
+      "disposition": "test/demo fixture (non-production)",
       "migrator": false,
       "source": "ndi",
       "nonprod": true,
       "gap": false,
-      "targets": [
-        "demo_ndi_mock"
-      ],
+      "targets": [],
       "carried": [],
       "second_pass": [],
       "how": "",
@@ -759,15 +755,13 @@
     },
     {
       "v1_class": "mock",
-      "veta_class": "mock",
-      "disposition": "persist",
+      "veta_class": null,
+      "disposition": "test/demo fixture (non-production)",
       "migrator": false,
       "source": "ndi",
       "nonprod": true,
       "gap": false,
-      "targets": [
-        "mock"
-      ],
+      "targets": [],
       "carried": [],
       "second_pass": [],
       "how": "",

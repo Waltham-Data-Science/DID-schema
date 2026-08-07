@@ -9,20 +9,20 @@ for each model; this board owns *how much is left and what exactly*.
 
 | | count |
 |---|---|
-| target classes | 228 |
+| target classes | 226 |
 | settled (persist) | 147 |
 | settled (retire) | 47 |
-| **still open (`in_progress`)** | **34** |
+| **still open (`in_progress`)** | **32** |
 | **`retire` with no migrator and no plan** | **12** |
-| open **decision families** | **20** |
+| open **decision families** | **19** |
 | &nbsp;&nbsp;DECIDED and signed off, awaiting build | 3 |
-| &nbsp;&nbsp;decided in a walkthrough, **awaiting a signature** | 17 |
+| &nbsp;&nbsp;decided in a walkthrough, **awaiting a signature** | 16 |
 | &nbsp;&nbsp;**written up by Claude alone, unreviewed** | **0** |
 | &nbsp;&nbsp;nobody has proposed anything yet | 0 |
 
-The class count is not the work count. 34 open classes are 20 decisions, because most open classes move as a family.
+The class count is not the work count. 32 open classes are 19 decisions, because most open classes move as a family.
 
-**17 of those 20 are not settled**: 17 awaiting a signature on a decision already taken, 0 written up by Claude alone and unreviewed, 0 with nothing proposed. Only 3 are signed off.
+**16 of those 19 are not settled**: 16 awaiting a signature on a decision already taken, 0 written up by Claude alone and unreviewed, 0 with nothing proposed. Only 3 are signed off.
 
 ## AWAITING A SIGNATURE -- decided with the team, not yet recorded
 
@@ -48,7 +48,6 @@ re-deciding -- it needs recording.
 | **stimulus response** | 4 | 4 -> 2: `harmonic_component` data_type + calculation leaf (id preserved); parameters fold inline, killing 11,440 empty required edges | `V_eta_stimulus_response_model_plan.md` |
 | **subject measurement** | 1 | route through the `measurement` fold -- no new model, reuse the existing path | `V_eta_go_forward_class_audit.md` |
 | **misc singletons** | 3 | binaryseries_parameters -> sampled_body; projectvar PASSES THROUGH (needs real docs); interaction_purpose is a target (#32) | `V_eta_go_forward_class_audit.md` |
-| **demo / mock** | 2 | PASSTHROUGH -- REVERSED 2026-08-06: the DELETE evidence was FALSE both ways (both templates ship on origin/main; 12+ live references). The grep searched the snake_case name against camelCase NDI | `V_eta_go_forward_class_audit.md` |
 
 - **time_reference**: `epoch_bounded_reference`, `epoch_relative_reference`, `event_bounded_reference`, `event_relative_reference`, `session_bounded_reference`, `session_relative_reference`, `time_reference`, `utc_reference`
 - **stimulus**: `control_designation`, `stimulus_presentation`
@@ -66,7 +65,6 @@ re-deciding -- it needs recording.
 - **stimulus response**: `stimulus_response`, `stimulus_response_scalar`, `stimulus_response_scalar_parameters`, `stimulus_response_scalar_parameters_basic`
 - **subject measurement**: `subjectmeasurement`
 - **misc singletons**: `binaryseries_parameters`, `interaction_purpose`, `projectvar`
-- **demo / mock**: `demo_ndi`, `demo_ndi_mock`
 
 ## WRITTEN UP BY CLAUDE ALONE -- nobody has checked the reasoning
 
@@ -110,11 +108,11 @@ migrator work before the target closes is rework.
 |---|---|
 | retire | 42 |
 | consumed by migrator (no tombstone) | 28 |
-| in_progress | 21 |
-| persist | 5 |
+| in_progress | 19 |
+| persist | 4 |
+| test/demo fixture (non-production) | 4 |
 | no V_eta home, no migrator -- UNVERIFIED | 4 |
 | dissolved → subject | 1 |
-| test/demo fixture (non-production) | 1 |
 
 ### `retire`, but nothing decided -- 12 rows
 

@@ -761,29 +761,15 @@
             "disposition": "persist"
         },
         {
-            "class_name": "demo_ndi",
+            "class_name": "demo",
             "tier": "stable",
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
                 "base"
             ],
-            "path": "schemas/V_eta/stable/demo_ndi.json",
-            "disposition": "in_progress",
-            "disposition_note": "\u2465/\u2466 walkthrough pending"
-        },
-        {
-            "class_name": "demo_ndi_mock",
-            "tier": "stable",
-            "class_version": "1.0.0",
-            "maturity_level": "stable",
-            "superclasses": [
-                "mock",
-                "demo_ndi"
-            ],
-            "path": "schemas/V_eta/stable/demo_ndi_mock.json",
-            "disposition": "in_progress",
-            "disposition_note": "\u2465/\u2466 walkthrough pending"
+            "path": "schemas/V_eta/stable/demo.json",
+            "disposition": "persist"
         },
         {
             "class_name": "directed_relation",
@@ -1487,17 +1473,6 @@
             "path": "schemas/V_eta/stable/measurement.json",
             "disposition": "retire",
             "disposition_note": "D-C analysis-tier decompose"
-        },
-        {
-            "class_name": "mock",
-            "tier": "stable",
-            "class_version": "1.0.0",
-            "maturity_level": "stable",
-            "superclasses": [
-                "base"
-            ],
-            "path": "schemas/V_eta/stable/mock.json",
-            "disposition": "persist"
         },
         {
             "class_name": "neuron_extracellular",

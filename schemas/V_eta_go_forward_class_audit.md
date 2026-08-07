@@ -249,7 +249,46 @@ Line 110 of this same audit already said *"recognized `did_v1` source classes +
 migration-test fixtures | keep (not cruft — load-bearing for tests)"*. Two sections,
 opposite calls, and the later one shipped to the board.
 
-### DISPOSITION
+### DISPOSITION -- REVISED AGAIN 2026-08-06: THREE CLASSES COLLAPSE TO ONE
+
+**The team's words:** *"Let's do B."*
+
+Repairing the family for passthrough exposed that `demo_ndi_mock` has **no fields of
+its own**. Its entire content is *"I am a mock demo"* — a FLAG, not a kind of thing.
+That is the same test the time-reference collapse turned on: `mode` was cardinality,
+not a class axis. A mock `voltage_observation` would still be a voltage observation, so
+mock-ness is a property of a document, not a species of one.
+
+```
+demo ⊂ base                                  BUILT, persists
+   value    double     typed from the WRITER (template says char; simple.m sets 5/10
+                       and queries with exact_number)
+   is_mock  boolean    default false -- was `mock.ismock`, held as a superclass
+   FILE: filename1.ext                       RESTORED; V_eta had dropped it
+
+mock, demo_ndi, demo_ndi_mock                CEASE TO EXIST
+```
+
+`demo`, not `demo_ndi`: the framework's own name has no business inside a class name in
+the framework's own schema (T13).
+
+**The two costs, recorded rather than glossed.** `ndi.calc.example.simple` queries
+`ndi.query('','isa','demoNDIMock','')` — that `isa` has no target once the class is
+gone; a v1-runtime query against v1 documents, the same category as every other rename,
+but a real break. And `mock` stops being available as a marker other classes could
+carry; it had ONE bearer in 91 templates, so a general marker for one user was the
+anticipatory error made twice already.
+
+**OPEN, and the team's to settle:** whether mock documents should be REFUSED at
+migration rather than carried flagged. Carrying them flagged is what is built. Refusing
+them loudly is defensible. Refusing them silently is what V_eta was doing by accident.
+If they are to be carried, the flag arguably belongs on `base` so ANY document is
+checkable — not built that way for one bearer today.
+
+---
+
+The passthrough reasoning that led here is kept below, because the reversal chain is the
+useful part.
 
 **PASSTHROUGH**, agreeing with `V_eta_tenet_audit.md`'s re-audit, which reached this
 independently and was right. A corpus 0-document check is still required before any

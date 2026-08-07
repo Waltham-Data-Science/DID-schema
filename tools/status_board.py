@@ -308,11 +308,10 @@ FAMILIES = [
 
     # DECIDED 2026-08-05. Absent from NDI, provenance V_gamma, and referenced by
     # NOTHING -- not even the test suite.
-    ("demo / mock", ["demo_ndi", "demo_ndi_mock"],
-     "V_eta_go_forward_class_audit.md",
-     "PASSTHROUGH -- REVERSED 2026-08-06: the DELETE evidence was FALSE both ways "
-     "(both templates ship on origin/main; 12+ live references). The grep searched the "
-     "snake_case name against camelCase NDI", "team"),
+    # `demo / mock` REMOVED 2026-08-06 -- the family is CLOSED, not pending. Its three
+    # classes (mock, demo_ndi, demo_ndi_mock) collapsed into ONE `demo` class carrying an
+    # is_mock flag, and `demo` is BUILT and persists, so no open class remains for a
+    # family to track. See V_eta_go_forward_class_audit.md section 3.
 ]
 
 
@@ -488,6 +487,21 @@ def build():
     unsigned  = [f for f in FAMILIES if f[4] == "team" and not has_signoff(f[2], f[0])]
     proposed  = [f for f in FAMILIES if f[4] == "proposed"]
     undecided = [f for f in FAMILIES if f[4] == "open"]
+    # A FAMILY MUST NOT CLAIM A CLASS THAT NO LONGER EXISTS. The check below has always
+    # verified that every in_progress class belongs to a family; it never verified the
+    # converse, so when three classes collapsed into one on 2026-08-06 the board went on
+    # rendering "demo / mock | 2 | PASSTHROUGH ..." -- a stale one-liner about a
+    # superseded model, listing two ghosts, and --check passed. A generated artifact that
+    # looks current and is not is the exact failure this file exists to prevent.
+    known = {e["class_name"] for e in schemas}
+    ghosts = sorted({m for f in FAMILIES for m in f[1] if m not in known})
+    if ghosts:
+        sys.stderr.write(
+            "FAMILIES claims %d class(es) that are not in the built index: %s\n"
+            "A collapsed or deleted class must be removed from its family (or the "
+            "family closed).\n" % (len(ghosts), ", ".join(ghosts)))
+        sys.exit(1)
+
     bad_status = [f[0] for f in FAMILIES
                   if f[4] not in ("team", "proposed", "open")]
     if len(decided) + len(unsigned) + len(proposed) + len(undecided) != len(FAMILIES):

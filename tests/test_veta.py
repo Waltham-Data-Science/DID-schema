@@ -274,28 +274,44 @@ def test_local_identifier_required_on_subject_optional_elsewhere():
         assert f["mustBeNonEmpty"] is False, f"{e}.local_identifier must be optional"
 
 
-def test_mock_class_kept_and_flags_test_data():
-    """INVERTED 2026-08-06. This test used to assert `mock` was DROPPED, on the
-    premise that "nothing constructs it". That premise is FALSE: NDI's
-    demoNDIMock IS-A mock (`⊂ mock, demoNDI`), and ndi.calc.example.simple sets
-    numberOfSelfTests = 2 and writes demoNDIMock documents against a LIVE
-    session -- so mock documents reach real databases.
+def test_demo_family_collapsed_to_one_class():
+    """REWRITTEN TWICE IN ONE DAY, and both moves are the point.
 
-    `mock.ismock` is the ONLY marker separating a self-test artefact from a
-    recording. Dropping it did not remove fake data from the archive; it removed
-    our ability to tell that it was fake. The test asserted the defect, so it is
-    inverted rather than deleted (CLAUDE.md: a test written from the same premise
-    as the code cannot catch the code).
+    (1) It began as `test_mock_class_dropped`, asserting `mock` should NOT exist
+        because "nothing constructs it". That premise was FALSE -- NDI's
+        demoNDIMock IS-A mock, and ndi.calc.example.simple sets
+        numberOfSelfTests = 2 and writes those documents against a LIVE session.
+        The test asserted the defect (CLAUDE.md: a test written from the same
+        premise as the code cannot catch the code), so it was inverted.
 
-    OPEN, and a team question rather than a test's to settle: the alternative is
-    to REFUSE mock documents at migration instead of carrying them flagged.
-    Filtering silently would be worse than flagging; filtering loudly is a real
-    option nobody has chosen."""
-    assert "mock" in RECORDS
-    fields = {f["name"] for f in RECORDS["mock"][1].get("fields", [])}
-    assert "ismock" in fields
-    # demo_ndi_mock must actually CARRY the marker, or the flag protects nothing.
-    assert "mock" in _chain("demo_ndi_mock")
+    (2) Inverting it exposed that `demo_ndi_mock` carries NO FIELDS OF ITS OWN --
+        its entire content is "I am a mock demo". That is a flag, not a kind of
+        thing, which is the same test the time_reference collapse turned on
+        (`mode` was cardinality, not a class axis). A mock voltage_observation
+        would still be a voltage observation.
+
+    So three classes collapse to one: `demo` with an `is_mock` boolean. `mock`
+    and `demo_ndi_mock` cease to exist, and `demo` drops the framework's own name
+    out of a class name in the framework's own schema (T13).
+
+    OPEN, and the team's to settle: whether mock documents should be REFUSED at
+    migration rather than carried flagged. If they are to be carried, the flag
+    arguably belongs on `base` so ANY document is checkable -- not built that way
+    for one bearer today.
+    """
+    assert "demo" in RECORDS
+    for gone in ("mock", "demo_ndi", "demo_ndi_mock"):
+        assert gone not in RECORDS, f"{gone} should have collapsed into `demo`"
+
+    fields = {f["name"]: f for f in RECORDS["demo"][1]["fields"]}
+    assert set(fields) == {"value", "is_mock"}, set(fields)
+    # Typed from the WRITER, not the template: the did_v1 template says char, but
+    # ndi.calc.example.simple sets 5/10 and queries with exact_number.
+    assert fields["value"]["type"] == "double"
+    assert fields["is_mock"]["type"] == "boolean"
+    assert fields["is_mock"]["default_value"] is False
+    # The required file was dropped by V_eta -- silent file loss. It is back.
+    assert [f["name"] for f in RECORDS["demo"][1].get("file", [])] == ["filename1.ext"]
 
 
 def test_value_set_class_dropped():
