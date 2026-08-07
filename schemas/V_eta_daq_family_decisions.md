@@ -301,6 +301,10 @@ declarative. Revisit under #32.
   one `software` entity -> N `acquisition_system`s, instead of a string match on a
   class name repeated once per session.
 
+TEAM-SIGN-OFF [file navigation]: jess, 2026-08-06 -- filenavigator becomes `epoch_file_pattern` with base.id preserved: the two eval'd parameter strings become declared pattern lists (data_file_pattern, epoch_map_pattern) plus epoch_map_format, and the implementation class name becomes a software_id edge. `directory` is NOT a did_v1 source and is unaffected.
+
+*(Transcribed by Claude on the team's explicit instruction -- "Sign file navigation" -- as with the openMINDS and dataseries_channel_map sign-offs. TAGGED with its family because this document is cited by two of them.)*
+
 ## Naming — RESOLVED for the navigator (team, 2026-08-06); metadata pair still OPEN
 
 **The team's words:** *"Let's do epoch_file_pattern."*

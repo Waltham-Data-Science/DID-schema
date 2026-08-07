@@ -294,7 +294,8 @@ FAMILIES = [
     # CLAUDE.md correction in the audit document.
     ("subject measurement", ["subjectmeasurement"],
      "V_eta_go_forward_class_audit.md",
-     "route through the `measurement` fold -- no new model, reuse the existing path",
+     "route through the `measurement` fold -- no new class; `datestamp` is a TIME "
+     "ANCHOR (-> absolute_reference), NOT a field (corrected 2026-08-06)",
      "team"),
 
     # DECIDED 2026-08-05. control_designation moved to the stimulus family (a V_eta

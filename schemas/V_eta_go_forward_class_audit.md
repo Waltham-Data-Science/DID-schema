@@ -303,10 +303,53 @@ subjectmeasurement  ⊂ base   dep: subject_id
   { measurement: "", value: "", datestamp: "" }
 ```
 
-Its shape is a subject observation outright — `measurement="age"`, `value=30`, a
-date. That is `variable` + value + date, the same target `measurement` already folds
-to, and `measurement`'s migrator plus a `subjectmeasurement` tombstone both landed
-under TaskList #41. **No new model: one migrator reusing the existing path.**
+Its shape is a subject observation outright, and the existing `measurement` fold is
+the right route — `measurement`'s migrator plus a `subjectmeasurement` tombstone both
+landed under TaskList #41. **No new class.**
+
+### CORRECTED 2026-08-06 — `datestamp` is a TIME ANCHOR, not a field
+
+The line above used to read *"`variable` + value + date"*, treating `datestamp` as a
+third field. **That was wrong, and it would have dropped the measurement time.** The
+team caught it: *"Why does it say datestamp? Shouldn't that be a time reference?"*
+
+```
+build_intan_flat_exp.m:62-66  and three test builders, identically:
+   'subjectmeasurement.measurement','age',
+   'subjectmeasurement.value',30,
+   'subjectmeasurement.datestamp','2017-03-17T19:53:57.066Z'
+
+NDI base.json:  "datestamp": "2018-12-05T18:36:47.241Z"   <- EVERY document has one
+```
+
+`datestamp` is a full ISO-8601 UTC **instant**, and `base` already carries the
+record-creation stamp — so this is a SECOND timestamp, supplied by the caller, saying
+**when the measurement was taken**. In J that is the statement's time anchor.
+`subject_interaction` already REQUIRES `time_reference_#`, so the slot exists.
+
+```
+subjectmeasurement                     ->  <quantity>_observation (leaf keyed by `measurement` via D9)
+   subject_id                              subject_id
+   measurement  "age"                      variable
+   value        30                         value
+   datestamp    "2017-03-17T19:53:57.066Z" time_reference_1 -> absolute_reference
+                                              value.start_utc    the instant
+                                              value.source_start the string as written
+```
+
+**And it exposes a gap in the `measurement` fold itself: `measurement` has NO datestamp
+field** (`ontologyName`, `name`, `numeric_value`, `string_value` only). Folding
+`subjectmeasurement` into it *as a field mapping* would have lost the measurement time
+outright. Routing the instant to `time_reference_#` is what makes the fold lossless.
+
+This is also the **first real consumer of `absolute_reference`**, built 2026-08-06 with
+no emitter — a wall-clock instant with no referent is exactly what that class is for.
+
+**OPEN, and shared with #62:** `value: 30` carries NO UNIT. "age 30" is 30 of
+something the document does not say. The leaf is keyed on `variable` through the D9
+registry, so the unit has to come from the registry or from real documents — the same
+gap as `stimulus_parameter` and the stimulus-response family. It does not change the
+route; it does mean the typed leaf cannot be chosen from the template alone.
 
 ### CORRECTION to `CLAUDE.md` — "FOUR in-tree emitters" overstates it
 
