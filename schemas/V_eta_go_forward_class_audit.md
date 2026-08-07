@@ -186,16 +186,70 @@ decided (`V_eta_daq_family_decisions.md` — `file_navigator ⊂ base`, `base.id
 preserved, patterns parsed into declared fields, `software_id` edge), and the family
 was held open only by `directory`.
 
-## 3. `demo_ndi` / `demo_ndi_mock` — DELETE
+## 3. `demo_ndi` / `demo_ndi_mock` — ~~DELETE~~ **REVERSED 2026-08-06 → PASSTHROUGH**
+
+**The DELETE call below was WRONG ON BOTH OF ITS FACTS. It is struck through rather
+than deleted, because how it went wrong is the reusable part.**
 
 ```
-NDI origin/main:            0 / 0    provenance:  V_gamma, stable
-DID migrators referencing:  0 / 0    V_eta schemas referencing:  0 / 0
+~~NDI origin/main:            0 / 0    provenance:  V_gamma, stable~~
+~~DID migrators referencing:  0 / 0    V_eta schemas referencing:  0 / 0~~
+~~DID-side test fixtures that nothing references — not even the test suite.~~
 ```
 
-DID-side test fixtures that **nothing references — not even the test suite.** If a
-fixture is wanted later it can be re-added deliberately; shipping unreferenced
-classes is exactly what `openminds_import` was.
+### What is actually true
+
+```
+NDI origin/main templates                  BOTH SHIPPED
+   src/ndi/ndi_common/database_documents/demoNDI.json
+   src/ndi/ndi_common/database_documents/mock/demoNDIMock.json
+
+demoNDI ⊂ base    value char    FILE: filename1.ext
+demoNDIMock       inherits demoNDI, and therefore its required file
+
+REFERENCED at 12+ sites, including a live calculator example:
+   +ndi/+calc/+example/simple.m:100  ndi.query('demoNDI.value','exact_number',5,'')
+                              :107   ndi.document('demoNDIMock','demoNDI',...)
+                              :120, :126, :157
+   +ndi/+test/+database/test_ndi_document.m:26, :33
+```
+
+### Why the original was wrong — the grep could not have matched
+
+The DELETE evidence searched for the **snake_case V_eta name `demo_ndi`** against NDI,
+where the class is spelled **camelCase `demoNDI`**. Zero hits was a property of the
+query, not of the repository. This is the failure named verbatim in the operating
+rules: *"a grep that could not have matched was reported as 'this does not exist
+anywhere'."* Same shape as the `daqsystem` / `epochid` near-misses, one layer down: the
+name, not the id.
+
+### The cited test proves the OPPOSITE
+
+`tests/+did2/+unittest/testConvertV1ToV2.m`, in
+`testUniversalRenamesRenameClassNamesFalse...`:
+
+```matlab
+out = did2.convert.universalRenames(v1, 'RenameClassNames', false);
+verifyEqual(testCase, out.document_class.class_name, 'demoNDI');
+verifyFalse(testCase, isfield(out, 'demo_ndi'));
+```
+
+`demo_ndi` is absent **because the rename was switched OFF**. It asserts that camelCase
+survives when renaming is disabled — it is not a drop-safety proof. Its own comment
+says so: *"their on-disk schemas still spell classnames in camelCase (e.g., demoNDI)
+and the legacy v1 validator compares the strings by exact match."*
+
+### And this document contradicted itself
+
+Line 110 of this same audit already said *"recognized `did_v1` source classes +
+migration-test fixtures | keep (not cruft — load-bearing for tests)"*. Two sections,
+opposite calls, and the later one shipped to the board.
+
+### DISPOSITION
+
+**PASSTHROUGH**, agreeing with `V_eta_tenet_audit.md`'s re-audit, which reached this
+independently and was right. A corpus 0-document check is still required before any
+future drop — absence from the five corpora we test is not absence.
 
 ## 4. `subjectmeasurement` — route through the `measurement` fold
 

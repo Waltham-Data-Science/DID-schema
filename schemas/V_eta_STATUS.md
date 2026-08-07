@@ -49,7 +49,7 @@ re-deciding -- it needs recording.
 | **stimulus response** | 4 | 4 -> 2: `harmonic_component` data_type + calculation leaf (id preserved); parameters fold inline, killing 11,440 empty required edges | `V_eta_stimulus_response_model_plan.md` |
 | **subject measurement** | 1 | route through the `measurement` fold -- no new model, reuse the existing path | `V_eta_go_forward_class_audit.md` |
 | **misc singletons** | 3 | binaryseries_parameters -> sampled_body; projectvar PASSES THROUGH (needs real docs); interaction_purpose is a target (#32) | `V_eta_go_forward_class_audit.md` |
-| **demo / mock** | 2 | DELETE -- DID-side fixtures that nothing references | `V_eta_go_forward_class_audit.md` |
+| **demo / mock** | 2 | PASSTHROUGH -- REVERSED 2026-08-06: the DELETE evidence was FALSE both ways (both templates ship on origin/main; 12+ live references). The grep searched the snake_case name against camelCase NDI | `V_eta_go_forward_class_audit.md` |
 
 - **time_reference**: `epoch_bounded_reference`, `epoch_relative_reference`, `event_bounded_reference`, `event_relative_reference`, `session_bounded_reference`, `session_relative_reference`, `time_reference`, `utc_reference`
 - **stimulus**: `control_designation`, `stimulus_presentation`

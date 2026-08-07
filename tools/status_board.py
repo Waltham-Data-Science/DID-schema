@@ -310,7 +310,9 @@ FAMILIES = [
     # NOTHING -- not even the test suite.
     ("demo / mock", ["demo_ndi", "demo_ndi_mock"],
      "V_eta_go_forward_class_audit.md",
-     "DELETE -- DID-side fixtures that nothing references", "team"),
+     "PASSTHROUGH -- REVERSED 2026-08-06: the DELETE evidence was FALSE both ways "
+     "(both templates ship on origin/main; 12+ live references). The grep searched the "
+     "snake_case name against camelCase NDI", "team"),
 ]
 
 
