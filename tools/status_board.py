@@ -319,7 +319,7 @@ FAMILIES = [
 SIGNOFF = "TEAM-SIGN-OFF:"
 
 
-def has_signoff(plan):
+def has_signoff(plan, family):
     """True when the plan document carries an explicit team sign-off line.
 
     THE RULE THIS ENFORCES. Claude may research a family and write up a
@@ -331,7 +331,11 @@ def has_signoff(plan):
 
     A decision now requires a line the TEAM writes, in the plan document:
 
-        TEAM-SIGN-OFF: <who/when> -- <what was decided>
+        TEAM-SIGN-OFF [<family>]: <who/when> -- <what was decided>
+
+    The [family] tag is REQUIRED when a document is cited by more than one
+    family; without it the line would sign all of them (see the check below).
+    An untagged line is still honoured for a document cited by exactly one.
 
     Absent that line the family is displayed as awaiting review, no matter what
     the FAMILIES table claims. This is deliberately not a CI failure: a false
@@ -354,18 +358,42 @@ def has_signoff(plan):
     # only because the count was verified instead of trusted.
     text = re.sub(r"<!--.*?-->", "", text, flags=re.S)
 
+    # A SIGN-OFF MUST BE UNAMBIGUOUS ABOUT WHAT IT SIGNS. Three plan documents are
+    # cited by more than one family, so a bare marker in a shared document silently
+    # signed every family citing it -- one line for `dataseries_channel_map` would
+    # also have promoted `subject measurement`, `misc singletons` and `demo / mock`.
+    # Same laundering as the HTML-comment hole above, through a different door, and
+    # caught the same way: by checking instead of trusting.
+    #
+    #   TEAM-SIGN-OFF [family]: who, when -- what     signs THAT family only
+    #   TEAM-SIGN-OFF: who, when -- what              signs the document, and counts
+    #                                                 ONLY if exactly one family cites it
+    shared = sum(1 for f in FAMILIES if f[2] == plan) > 1
+
+    marker = SIGNOFF.rstrip(":")          # the tag sits BETWEEN the marker and the colon
     for line in text.splitlines():
         line = line.lstrip()
-        if not line.startswith(SIGNOFF):
+        if not line.startswith(marker):
             continue
-        rest = line[len(SIGNOFF):].strip()
+        rest = line[len(marker):].strip()
+        tagged = None
+        m = re.match(r"\[([^\]]+)\]\s*(.*)$", rest)
+        if m:
+            tagged, rest = m.group(1).strip(), m.group(2).strip()
+        rest = rest.lstrip(":").strip()
         # A placeholder is not a sign-off. Require real content and no angle-bracket
         # template slots.
         if "<" in rest or ">" in rest:
             continue
         if len(rest) < 10:
             continue
-        return True
+        if tagged is not None:
+            if tagged == family:
+                return True
+            continue
+        # Untagged: only meaningful when the document belongs to one family.
+        if not shared:
+            return True
     return False
 
 
@@ -456,8 +484,8 @@ def build():
     # a status board lies quietly. Guarded below so an unknown status is loud.
     # A "team" claim is only honoured when the cited document carries the
     # sign-off line. Otherwise it is a proposal, whatever the table says.
-    decided   = [f for f in FAMILIES if f[4] == "team" and has_signoff(f[2])]
-    unsigned  = [f for f in FAMILIES if f[4] == "team" and not has_signoff(f[2])]
+    decided   = [f for f in FAMILIES if f[4] == "team" and has_signoff(f[2], f[0])]
+    unsigned  = [f for f in FAMILIES if f[4] == "team" and not has_signoff(f[2], f[0])]
     proposed  = [f for f in FAMILIES if f[4] == "proposed"]
     undecided = [f for f in FAMILIES if f[4] == "open"]
     bad_status = [f[0] for f in FAMILIES
@@ -516,7 +544,7 @@ def build():
     p("To sign one off, add a line to its document:")
     p("")
     p("```")
-    p("%s <who/when> -- <what was decided>" % SIGNOFF)
+    p("%s [<family>] <who/when> -- <what was decided>" % SIGNOFF)
     p("```")
     p("")
     p("Until that line exists the family shows here regardless of what")

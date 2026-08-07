@@ -186,6 +186,10 @@ decided (`V_eta_daq_family_decisions.md` — `file_navigator ⊂ base`, `base.id
 preserved, patterns parsed into declared fields, `software_id` edge), and the family
 was held open only by `directory`.
 
+TEAM-SIGN-OFF [dataseries_channel_map]: jess, 2026-08-06 -- dataseries_channel_map is DELETED. It is a V_epsilon draft with no NDI template, no writer, no migrator and no referent; it has never validated a document.
+
+*(Transcribed by Claude on the team's explicit instruction -- "Record dataseries_channel_map deletion as signed-off" -- the same way the openMINDS sign-off is recorded. The line is TAGGED with its family because this document is cited by four of them; an untagged line here would sign all four.)*
+
 ## 3. `demo_ndi` / `demo_ndi_mock` — ~~DELETE~~ **REVERSED 2026-08-06 → PASSTHROUGH**
 
 **The DELETE call below was WRONG ON BOTH OF ITS FACTS. It is struck through rather
