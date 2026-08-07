@@ -131,9 +131,19 @@ FAMILIES = [
     # references BOTH syncgraph_id and syncrule_id by edge, so dissolving either
     # dangles it. A live query (syncgraph.m:404-408) also reads fields V_eta has
     # already dropped -- see TaskList #58.
+    # REVISED 2026-08-06 with the whole cluster. PERSIST stands; the rest changed.
+    # syncrule -> `clock_alignment_configuration` (base.id + base.name preserved):
+    # `parameters` is NOT a bag but the union of four CLOSED sets, so the shared parts
+    # become EDGES (2x acquisition_channels) and DECLARED fields (clock bound to
+    # did_clocktype, 3 thresholds); errorOnFailure dropped as runtime behaviour.
+    # syncgraph -> `clock_alignment_policy`: it earns existence on MEMBERSHIP (addrule/
+    # removerule mean the in-force set is curated, not derivable from the session), and
+    # its syncrule_id_# is NOT invented -- syncgraph.m:850 writes it and the NDI SCHEMA
+    # declares it mustbenotempty:0, which V_eta wrongly tightened to required.
     ("sync configuration", ["syncgraph", "syncrule"],
-     "V_eta_infra_family_decisions.md",
-     "PERSIST as infra, ids preserved; class names fold to software entities",
+     "V_eta_clock_alignment_cluster_plan.md",
+     "syncrule -> `clock_alignment_configuration` (parameters DECLARED, devices become "
+     "edges); syncgraph -> `clock_alignment_policy` (earns existence on membership)",
      "team"),
 
     # NOT DECIDED. Claude marked this "team" on 2026-08-05 after a walkthrough;
@@ -141,10 +151,18 @@ FAMILIES = [
     # What IS established is negative and evidence-backed: the old "folds into
     # relative_reference" claim FAILS (two referents / two frames / an affine
     # transform is not a position on a timeline). clock_alignment is a PROPOSAL.
+    # DECIDED with the team 2026-08-06 ("Record the whole cluster"), no signature yet.
+    # syncrule_mapping -> `clock_alignment` (base.id preserved), a relation whose value
+    # comes from a new `polynomial` data_type -- NOT {slope,intercept}, because
+    # ndi.time.timemapping IS a polynomial by its own docstring and a 2-field shape
+    # would be LOSSY. Endpoints are relative_reference DOCUMENTS (each carrying epoch +
+    # clock), not clocktype terms. syncgraph_id restored; the invented required
+    # `epochid` (5,316 docs, 100% empty) removed.
     ("sync mapping", ["syncrule_mapping"],
-     "V_eta_infra_family_decisions.md",
-     "clock_alignment PROPOSED (relation tier); the relative_reference fold is disproven",
-     "proposed"),
+     "V_eta_clock_alignment_cluster_plan.md",
+     "-> `clock_alignment` (relation + `polynomial` data_type); endpoints are "
+     "relative_reference docs; syncgraph_id restored, invented epochid removed",
+     "team"),
 
     # `filter` was grouped here by a guess at its name. It is data/filter.json --
     # label/type/algorithm/parameters, a signal-processing description -- and

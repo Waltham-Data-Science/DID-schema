@@ -16,13 +16,13 @@ for each model; this board owns *how much is left and what exactly*.
 | **`retire` with no migrator and no plan** | **12** |
 | open **decision families** | **20** |
 | &nbsp;&nbsp;DECIDED and signed off, awaiting build | 2 |
-| &nbsp;&nbsp;decided in a walkthrough, **awaiting a signature** | 16 |
-| &nbsp;&nbsp;**written up by Claude alone, unreviewed** | **2** |
+| &nbsp;&nbsp;decided in a walkthrough, **awaiting a signature** | 17 |
+| &nbsp;&nbsp;**written up by Claude alone, unreviewed** | **1** |
 | &nbsp;&nbsp;nobody has proposed anything yet | 0 |
 
 The class count is not the work count. 34 open classes are 20 decisions, because most open classes move as a family.
 
-**18 of those 20 are not settled**: 16 awaiting a signature on a decision already taken, 2 written up by Claude alone and unreviewed, 0 with nothing proposed. Only 2 are signed off.
+**18 of those 20 are not settled**: 17 awaiting a signature on a decision already taken, 1 written up by Claude alone and unreviewed, 0 with nothing proposed. Only 2 are signed off.
 
 ## AWAITING A SIGNATURE -- decided with the team, not yet recorded
 
@@ -39,7 +39,8 @@ re-deciding -- it needs recording.
 | **epoch** | 3 | MINT `epoch` ENTITY (+ OPTIONAL `instrument_id`, 2026-08-06); element_epoch dissolves; epochid DROPPED; probemap -> edges (B) | `V_eta_epoch_plan.md` |
 | **daq configuration** | 3 | acquisition_system + metadata_reader keep ids; class names fold to software entities | `V_eta_daq_family_decisions.md` |
 | **dataseries_channel_map** | 1 | DELETE -- a V_epsilon invention, never a did_v1 source, zero users | `V_eta_go_forward_class_audit.md` |
-| **sync configuration** | 2 | PERSIST as infra, ids preserved; class names fold to software entities | `V_eta_infra_family_decisions.md` |
+| **sync configuration** | 2 | syncrule -> `clock_alignment_configuration` (parameters DECLARED, devices become edges); syncgraph -> `clock_alignment_policy` (earns existence on membership) | `V_eta_clock_alignment_cluster_plan.md` |
+| **sync mapping** | 1 | -> `clock_alignment` (relation + `polynomial` data_type); endpoints are relative_reference docs; syncgraph_id restored, invented epochid removed | `V_eta_clock_alignment_cluster_plan.md` |
 | **file navigation** | 2 | filenavigator -> file_navigator (id preserved); `directory` is not a source | `V_eta_daq_family_decisions.md` |
 | **software** | 1 | app -> software entity + software_id edge + execution_environment (R1) | `V_eta_tenet_audit.md` |
 | **spike processing parameters** | 4 | 4 -> 1 `method_parameters` (id+name preserved); canonical parts typed, rest a bag | `V_eta_method_parameters_plan.md` |
@@ -57,6 +58,7 @@ re-deciding -- it needs recording.
 - **daq configuration**: `daqmetadatareader`, `daqreader`, `daqsystem`
 - **dataseries_channel_map**: `dataseries_channel_map`
 - **sync configuration**: `syncgraph`, `syncrule`
+- **sync mapping**: `syncrule_mapping`
 - **file navigation**: `directory`, `filenavigator`
 - **software**: `app`
 - **spike processing parameters**: `sorting_parameters`, `spike_extraction_parameters`, `spike_extraction_parameters_modification`, `vmspikefilteringparameters`
@@ -83,10 +85,8 @@ Until that line exists the family shows here regardless of what
 | family | classes | proposal | written up in |
 |---|---|---|---|
 | **daq ingested payloads** | 3 | -> relative_reference / opaque_body / image model; no new class | `V_eta_daq_family_decisions.md` |
-| **sync mapping** | 1 | clock_alignment PROPOSED (relation tier); the relative_reference fold is disproven | `V_eta_infra_family_decisions.md` |
 
 - **daq ingested payloads**: `daqmetadatareader_epochdata_ingested`, `daqreader_epochdata_ingested`, `daqreader_image_epochdata_ingested`
-- **sync mapping**: `syncrule_mapping`
 
 ## Nobody has proposed anything yet
 

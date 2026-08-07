@@ -95,7 +95,32 @@ of Allen's 13** interval relations; and `concurrent_with` is ambiguous between
 It becomes an `ontology_term` bound to **OWL-Time** (`time:intervalBefore`, `intervalDuring`,
 `intervalStarts`, …).
 
-## `frame` — which timeline within the referent
+## AMENDED 2026-08-06 — the field is `clock`, not `frame`
+
+**The team's words:** *"We can change to clock and clock_alignment."*
+
+The section below chose `frame` over `clock` because it *"generalises past clocks — for
+an organism it selects conception vs birth."* The reasoning is sound and the
+generalisation is **anticipatory**: nothing in V_eta has a non-clock frame today, so
+this is the same T12 error as minting a general container before there is a second
+thing to put in it.
+
+An intermediate proposal, `timeline`, was also rejected — a timeline reads as a span
+with ordered events on it, which is what a session or an epoch is, not a coordinate
+system. (`frame` has a second problem in THIS schema: `image` makes "frame" mean a
+raster.)
+
+```
+field on absolute_reference / relative_reference:   clock
+bound to:                                           did_clocktype   (ALREADY EXISTS, 9 members)
+```
+
+`clock` needs no new vocabulary, matches the value_set already built, and is what NDI
+calls it. Read the section below for the ORIGINAL reasoning; the NAME is `clock`.
+Downstream: `clock_alignment` and `clock_alignment_configuration` in
+`V_eta_clock_alignment_cluster_plan.md`.
+
+## `frame` — which timeline within the referent  (ORIGINAL reasoning; the name is now `clock`)
 
 NDI times an epoch in **several frames at once** (`ndi.time.clocktype`): `utc`, `approx_utc`,
 `exp_global_time`, `approx_exp_global_time`, `dev_global_time`, `approx_dev_global_time`,

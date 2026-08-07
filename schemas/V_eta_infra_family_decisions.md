@@ -70,7 +70,22 @@ in-tree consumer**, and it upgrades the severity of TaskList #58 accordingly. It
 also makes `daqsystem.base.name` load-bearing in a THIRD place, after
 `getprobes()` and the syncrule parameters.
 
-### The decision
+### The decision — REVISED 2026-08-06, see `V_eta_clock_alignment_cluster_plan.md`
+
+The PERSIST call below stands. **What is superseded is the rest of it**, in three
+places, all recorded in the cluster plan:
+
+1. *"`syncrule`'s `parameters` … land on the `clock_alignment` document the rule
+   produced"* — **NO.** `syncrule` persists with its id, so the alignment POINTS at it;
+   copying its parameters onto the result is duplication and a drift surface.
+2. *"what survives is only … the preserved id plus the edge to the software entity"* —
+   **too thin.** `parameters` is not an open bag but the union of four closed sets, so
+   the shared parts become EDGES (two `acquisition_channels`) and DECLARED fields
+   (`clock`, three thresholds); nothing is left to bag.
+3. Both classes are RENAMED: `syncrule` → `clock_alignment_configuration`,
+   `syncgraph` → `clock_alignment_policy`. `syncgraph`'s `syncrule_id_#` is NOT
+   invented — `syncgraph.m:850` writes it and `syncgraph_schema.json:4` declares it
+   `mustbenotempty: 0`; V_eta wrongly tightened that to required.
 
 → **`syncgraph` and `syncrule` PERSIST as ⑦ infra with `base.id` preserved.**
 Their class names fold to deduplicated `software` entities exactly as the daq
@@ -137,7 +152,28 @@ is the entire content.
 `⊂ subject_interaction ⊂ subject_statement`, so it requires `subject_id → subject`.
 The referent of a clock alignment is a pair of epochs, not a subject.
 
-### The PROPOSAL (not decided) — a new concrete relation class
+### SUPERSEDED 2026-08-06 — see `V_eta_clock_alignment_cluster_plan.md`
+
+**Everything from here to the end of this section is SUPERSEDED and contains three
+statements now known FALSE.** Kept in place rather than deleted, because how they
+failed is the useful part:
+
+1. *"its endpoints are declared `entity` (an epoch is not one)"* — **FALSE.** The epoch
+   family decided `epoch ⊂ entity` (`V_eta_epoch_plan.md`).
+2. `from_epoch` / `to_epoch` → `acquisition_epoch` — that class is **retired**; the
+   endpoints are now `relative_reference` documents, which carry epoch AND clock.
+3. *"BLOCKED on the acquisition epoch family (nothing proposed)"* — that family is
+   **decided**.
+
+Also corrected there: `cost` is NOT a disposable artifact (read at three sites), and
+copying `syncrule`'s parameters onto the alignment is duplication, because the sync
+configuration decision persists `syncrule` with its id.
+
+The cluster is now DECIDED with the team as `clock_alignment` +
+`clock_alignment_configuration` + `clock_alignment_policy` + `polynomial` +
+`acquisition_channels`.
+
+### The ORIGINAL PROPOSAL (not decided; superseded — read the plan above instead)
 
 T4: *"Relationships are first-class documents; the graph carries structure."* A
 clock alignment is a relation between two epochs, so it belongs on the RELATION
