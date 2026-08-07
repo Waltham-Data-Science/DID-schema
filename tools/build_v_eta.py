@@ -950,6 +950,29 @@ write("stable", "session_bounded_reference",
                 non_empty=False, blank=_DUR, default=_DUR)]))
 
 
+# ---------- 8a. register the `time` CURIE prefix (OWL-Time) ----------
+# REPAIR. Increment 1 below binds `relative_reference.value.relation` to OWL-Time
+# CURIEs (time:intervalBefore, ...), but `time` was NOT one of the 11 registered
+# prefixes, so those CURIEs expanded to nothing -- a binding that LOOKS governed and
+# is not, which is worse than a plain enum. Registering it is the fix, and OWL-Time is
+# a W3C standard with a stable namespace, so nothing has to be minted.
+_curie = load(os.path.join(VETA, "stable", "CURIE_lookups_meta.json"))
+_curie["prefixes"]["time"] = {
+    "label": "OWL-Time (W3C Time Ontology)",
+    "uri_base": "http://www.w3.org/2006/time#",
+    "uri_style": "fragment",
+    "approximate": False,
+    "documentation": "W3C Time Ontology in OWL. Expansion rule: 'time:intervalDuring' "
+                     "-> 'http://www.w3.org/2006/time#intervalDuring'. Used by "
+                     "relative_reference.value.relation for Allen's thirteen interval "
+                     "relations. A W3C Recommendation, so terms are stable and nothing "
+                     "needs minting.",
+}
+with open(os.path.join(VETA, "stable", "CURIE_lookups_meta.json"), "w") as _f:
+    json.dump(_curie, _f, indent=2)
+    _f.write("\n")
+
+
 # ---------- 8b. THE TIME-REFERENCE COLLAPSE -- increment 1 (TaskList #65) ----------
 # V_eta_time_reference_model_plan.md: eight classes collapse to TWO under the abstract
 # `time_reference` root. `origin` (session/epoch/event/utc) is a RELATION -> it becomes
