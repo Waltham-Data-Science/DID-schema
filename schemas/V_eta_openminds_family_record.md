@@ -2,6 +2,10 @@
 
 **STATUS: DECIDED AND SIGNED OFF. Build deferred (TaskList #56).**
 
+**PART 7 (added 2026-08-08) is PROPOSED, NOT SIGNED** — the 8 unattached `openminds`
+documents, the last member of the family without a disposition. The sign-off line below
+predates it and does not cover it. Builds #72/#73; defects #71 and a note on #54.
+
 TEAM-SIGN-OFF: jess, 2026-08-05 -- strain is an entity with a repeatable global_identifier and a recursive background_strain_# self-edge; strain_id is an optional edge on term_assertion; species and strain stay sibling assertions.
 
 > **How this line got here, stated plainly.** The standing rule (Operating Rule 4)
@@ -405,9 +409,10 @@ an instrument whose denominator nobody stated. Recorded here, not fixed here.
 3. **Migration cost, unpriced** — ~2,362 documents change how they migrate.
 4. **Re-take the corpus numbers.** The corpora were not on the container when this
    was written; the figures above are from the walkthrough scan, not re-derived.
-5. **`openminds` (the unattached class, 8 docs)** — the family's nominal member
-   never got its own disposition. 3 of the 8 are composite Strains; the other 5 are
-   leaf terms with an empty `openminds` dep.
+5. **`openminds` (the unattached class, 8 docs)** — **ADDRESSED IN PART 7**
+   (proposed 2026-08-08, not signed). The family's nominal member never got its own
+   disposition. 3 of the 8 are composite Strains; the other 5 are leaf terms with an
+   empty `openminds` dep.
 6. **The `otherwise -> deCamel` branch** — unbounded variable minting, no binding,
    no check. Related to #32/#54.
 7. **`software_id` above `subject_interaction`** — carried forward from Part 1.
@@ -1099,3 +1104,178 @@ block would have duplicated.
 - **The 8-property controlled-term read** (Part 4): our migrator takes 2 of 8, so
   `definition`, `synonym` and cross-references are dropped for EVERY term type.
   Separate from strain; recorded so it is not lost.
+
+---
+
+# PART 7 — the 8 unattached `openminds` documents. Proposed 2026-08-08, NOT signed.
+
+Closes Part 2's STILL-OPEN item 5, the family's last unaddressed member. The
+disposition falls out of Part 6 (`strain ⊂ entity`) with no new modelling.
+
+## Denominator, and who writes the bare class
+
+**11 call sites of `openMINDSobj2ndi_document` on NDI `origin/main`; THREE write the
+bare class** (the other eight pass a `dependency_type` and so write one of the three
+attached siblings):
+
+```
+origin/main:+setup/+conv/+haley/doImport.m:87           openMINDSobj2ndi_document(OP50,    session.id)
+origin/main:+setup/+conv/+haley/doImport.m:706          openMINDSobj2ndi_document(OP50GFP, session.id)
+origin/main:+database/+metadata_ds_core/convertFormDataToDocuments.m:197
+                                                        openMINDSobj2ndi_document(dataset, sessionId)
+```
+
+Read from `origin/main` via git, not the working tree (NDI's V_eta branch is 398
+commits behind main; the three files above are identical to main apart from one
+unrelated hunk in `convertFormDataToDocuments`).
+
+## Why one strain becomes several documents
+
+`openMINDSobj2struct.m:93-105` walks the object graph: **every openMINDS child object
+becomes its own document**, and the parent's field is replaced by `['ndi://' childNdiId]`.
+`openMINDSobj2ndi_document.m:80-85` then turns each of those into an `openminds_1`,
+`openminds_2`, … dependency; a leaf with no children gets
+`set_dependency_value(...,'openminds','')` (line 92) — the empty dep the walkthrough
+noticed. Neither the `openminds_#` nor the empty `openminds` dep is declared by ANY
+NDI template or ANY V_eta tombstone (see the defect list below).
+
+## GROUP A — Haley's bacterial food. All 8 documents.
+
+```
+haley/doImport.m:72-89    species = openminds.controlledterms.Species (NCBITaxon:562)
+                          OP50    = core.research.Strain  .species=species
+                                    .ontologyIdentifier 'NCBITaxon:637912'  .geneticStrainType 'wild type'
+haley/doImport.m:697-706  OP50GFP = core.research.Strain  .species=species  .backgroundStrain=OP50
+                                    .ontologyIdentifier 'WBStrain:00041972' .geneticStrainType 'transgenic'
+```
+
+Two calls, three Strain documents — OP50 in session 1, and OP50GFP + OP50-again in
+session 2 (`ndi.ido()` mints a fresh id per call; there is no cross-call dedup).
+
+**PROPOSED V_eta classes:**
+
+```
+strain (⊂ entity, #56)  OP50     name 'Escherichia coli OP50'
+                                 species {NCBITaxon:562, 'Escherichia coli'}
+                                 genetic_strain_type {wild type}
+                                 global_identifier [{NCBITaxon, 637912}]
+                                 description 'OP50 is a strain of E. coli.'
+strain (⊂ entity, #56)  OP50GFP  name 'OP50-GFP'   genetic_strain_type {transgenic}
+                                 global_identifier [{WBStrain, 00041972}]
+                                 depends_on: background_strain_1 -> OP50
+strain (⊂ entity, #56)  OP50'    the session-2 duplicate. Id preserved; NOT deduped
+                                 against session 1 (different session, different id,
+                                 and the tables below reference the ids separately).
+
+  -- and NOTHING for the other 5 documents. They are Species and GeneticStrainType
+     FRAGMENTS of those same strains, and their content becomes the `species` and
+     `genetic_strain_type` FIELDS of the 3 strain documents above.
+```
+
+**No `term_assertion` is emitted for group A**, and that is the point: these documents
+have no `subject_id` because they are not assertions about anybody. Under the `base`
+option rejected in Part 6 they would have had no home at all. This is the case
+`strain ⊂ entity` exists for.
+
+**The 3 / 5 split.** The writer accounts for 3 Strain documents directly. The leaf
+count is 5 only if openMINDS coerces the assigned char (`'wild type'`, `'transgenic'`)
+into a `controlledterms.GeneticStrainType` instance — 2 Species + 3 GeneticStrainType.
+That coercion was NOT read (the openMINDS_MATLAB library is not in scope); it is
+inferred from the count matching, and it is corroborated independently by the attached
+histogram, where GeneticStrainType (2,365) equals Strain (2,365) exactly.
+
+## These strains ARE referenced — by id, from ordinary table cells
+
+```
+haley/doImport.m:164   dataTable{:,'bacteriaStrain'} = {strainDoc{1}.id};   (OP50,    session 1)
+haley/doImport.m:734   dataTable{:,'bacteriaStrain'} = {strainDoc{1}.id};   (OP50GFP, session 2)
+```
+
+The `bacteriaStrain` column of the `ontologyTableRow` documents holds the **strain
+document's id** as a plain string. So:
+
+- **Id preservation is load-bearing, not tidiness.** The reference lives in a table
+  cell, not in `depends_on`, so nothing would flag it if a strain were dissolved or
+  re-minted. Textbook case of the "grep the NAME too" rule.
+- **One second pass does both halves.** The pass that mints subjects from
+  `ontologyTableRow` (#53) is the same pass that attaches `strain_id` (#56) — the
+  minted subject gets a `term_assertion variable: strain` whose `strain_id` edge points
+  straight at the migrated strain document. No name matching required.
+- An earlier sentence of this walkthrough said these were "strains nothing points at".
+  **Wrong** — they are pointed at, by id, from the rows.
+
+## GROUP B — the dataset metadata graph. ZERO documents in the three corpora.
+
+`convertFormDataToDocuments` builds `openminds.core.products.Dataset` → DatasetVersion →
+authors (`core.Person`), affiliations and funders (`core.Organization`), license, studied
+specimens, and writes the whole graph as bare `openminds` documents. It is read back by
+string query:
+
+```
++metadata_app/+fun/save_dataset_docs.m:13
+  oldDocs = S.database_search(ndi.query('openminds.matlab_type','exact_string','openminds.core.products.Dataset'));
+```
+
+**PROPOSED V_eta classes: none new.** These are the same facts as `metadata_editor`,
+which the ledger already routes and the migrator already emits:
+
+```
+V_eta_coverage_ledger.md:52
+  | metadata_editor | dataset + person + organization + funding + publication + web_resource + directed_relation |
+migrators_j/metadata_editor.m:105 'dataset'  :118 'person'  :140 'funding'
+                              :160 'publication'  :170 'web_resource'  :223 'organization'
+```
+
+**NOT PROVEN, and it decides whether group B is a duplicate or a gap:** that a
+`metadata_editor` document is always written alongside the openMINDS graph.
+`saveEditor2Doc` (writes `metadata_editor`) and `save_dataset_docs` (writes the graph)
+have **zero in-tree callers** — both are entry points for the metadata-editor GUI, which
+is not in this repository. If the app can write one without the other, a submitted
+dataset's entire metadata record has no V_eta home. Tracked as #73.
+
+Zero group-B documents in JH/Dab/B says nothing about whether they exist: the corpora
+are a sample, and this is a live production path.
+
+## What the build is
+
+A **second-pass assembler**, not a `+migrators_j` file. The `species` and
+`genetic_strain_type` values live in OTHER documents, reachable only through the
+`openminds_#` edges, and a single-document migrator cannot follow them — the same wall
+as the ensemble `member_of` build. Pass 1 keeps the current green passthrough. Tracked
+as #72.
+
+## Defects found while checking this, recorded because they are not decisions
+
+**1. `openminds_stimulus` loses its referent — 635 documents (#71).** NDI's template AND
+its writer both say `stimulus_element_id`; V_eta declares `stimulus_id`; the migrator
+looks for `stimulus_id` / `element_id` / `subject_id`, none of which is present.
+
+```
+NDI   openMINDSobj2ndi_document.m:58            dependency_name = 'stimulus_element_id';
+NDI   template openminds_stimulus.json          depends_on: ['stimulus_element_id']
+V_eta schemas/V_eta/stable/openminds_stimulus.json  depends_on: ['stimulus_id'] (mustBeNonEmpty)
+DID   migrators_j/openminds_stimulus.m:50       jCarrySubject(preBody, {'stimulus_id','element_id','subject_id'})
+DID   migrators_j/private/jCarrySubject.m:30    deps = struct('name','subject_id','value',subjectVal);  % '' when nothing matched
+DID   universalRenames.m renameDependsOnEntries normalises id/value/document_id ONLY — never the NAME
+```
+
+`jCarrySubject` has no guard (the guard I misremembered is local to
+`ontology_table_row.m:650`), so all 635 migrate to a `term_assertion` with
+`subject_id = ''`. This is the **invented-empty-edge pattern**, and the list in
+`CLAUDE.md` did not have it. The 635 is from the walkthrough histogram (119,166
+documents, JH/Dab/B), NOT from a fresh census — so the pattern's headline total is
+deliberately left un-restated here.
+
+`testFixtureCorpus.m:1036` builds its fixture with `stimulus_id`, i.e. it pins our own
+wrong name. A test written from the same premise as the code cannot catch the code.
+
+**2. The `openminds_#` deps are declared by nobody.** Not in the NDI template, not in
+the V_eta tombstone. `set_dependency_value(..., 'ErrorIfNotFound', 0)` appends them
+regardless (`did/document.m:262-266`), and `did2/+schema/cache.m:598` allows
+`depends_on` as a whole block without checking individual dependency names against the
+declared list. So `check_tombstones.py`, which compares a tombstone against the NDI
+TEMPLATE, structurally cannot see the pedigree edges — the template does not have them
+either. Mirror image of the checker limit already recorded in `CLAUDE.md`. Rides with #54.
+
+**3. `openminds.matlab_type` is queried by `exact_string`** (`save_dataset_docs.m:13`),
+so the bare class has a live NDI reader. Its disposition rests on more than its `_id`.

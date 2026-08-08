@@ -574,7 +574,10 @@ lives in these files — read them instead of re-deriving from memory:
   **Before any disposition: grep the class's `base.name`, its id STRING, and its distinctive
   field names across NDI `.m` files — not just `<class>_id` in the templates.** v1 joins by
   string wherever the referent is not itself a document, which is most of the interesting cases.
-- **THE INVENTED-EMPTY-EDGE PATTERN — 26,406 documents, FIVE classes, ONE cause.** V_eta
+- **THE INVENTED-EMPTY-EDGE PATTERN — 26,406 documents across FIVE classes from the census,
+  plus a SIXTH added 2026-08-08 from a walkthrough histogram (openminds_stimulus, 635). The
+  total is deliberately NOT restated: re-derive the row set AND the sum from a fresh census
+  before quoting either.** ONE cause. V_eta
   declares a REQUIRED `depends_on` that the NDI template does not have, while DROPPING the edge
   NDI does write. Every such document validates clean, because `+did2/+validate/references.m:90`
   SKIPS empty edges (`if isempty(documentId), continue;`) — so `mustBeNonEmpty` on a `depends_on`
@@ -588,6 +591,8 @@ lives in these files — read them instead of re-deriving from memory:
                                        2,670 docs  (B 1242 / Dab 1242 / Soph 175 / 20211116 11)
                                                                             NDI's dep is named stimulus_element_id
         daqmetadatareader.daqsystem_id    59 docs  (100% of them)            NDI has NO deps at all
+        openminds_stimulus.stimulus_id   635 docs  (walkthrough histogram, NOT the census)
+                                                              NDI's dep is named stimulus_element_id
 
   **This line said "12,296 documents, three classes" until 2026-08-06 — an undercount by more
   than half, and it named the three SMALLEST.** The two stimulus-tier rows were found by the
