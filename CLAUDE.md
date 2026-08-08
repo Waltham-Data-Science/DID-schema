@@ -318,8 +318,17 @@ lives in these files — read them instead of re-deriving from memory:
   per-chunk (a–e) status. Update the status table as chunks land.
 - **`schemas/V_eta_nonsubject_cohesiveness_plan.md`** — decisions D-A…D-F.
 - **`schemas/V_eta_go_forward_class_audit.md`** — per-class dispositions.
-- The live task list (TaskList) — the remaining chunks/tracks; it survives
-  compaction. Keep it current: mark chunks in_progress/completed as you go.
+- **`schemas/V_eta_OPEN_WORK.md`** — the COMMITTED index of open work, and the thing `#nn`
+  references in every plan document point at. Keep it current.
+- The live task list (TaskList) — a working mirror of `V_eta_OPEN_WORK.md`. **IT IS NOT A
+  DURABLE RECORD.** This line used to read "it survives compaction", which is true and is the
+  wrong guarantee: on 2026-08-08 the container was RE-PROVISIONED mid-session (a cluster of
+  `/root/.claude/` harness files rewritten at 21:18) and **all 68 tasks were wiped**, while the
+  same event reset this repo's working tree 274 commits back to an older upstream revision.
+  Everything PUSHED survived untouched; everything that lived only in a task description did
+  not. **A finding is not recorded until it is committed.** "Compaction-safe" is not
+  `git status` clean — clean only proves nothing written was left uncommitted. The check is:
+  *is there anything in a task description, or in my head, that is not yet in a file?*
 
 ## Hard-won facts (do not re-litigate)
 - `data_body` has EXACTLY two members: `sampled_body`, `opaque_body`. Every
