@@ -354,3 +354,115 @@ because their targets are unconfirmed, not because of a lockstep.
 4. **`cost` on the leaf, not in `value`.** It is a property of the alignment, not of the
    polynomial. If a second `polynomial` user needs a goodness field, revisit whether
    this belongs in a shared place.
+
+---
+
+## RESOLVED 2026-08-08 — three items closed in the sign-off review
+
+### 1. `acquisition_channels_#` is CORRECT. The rule is SYMMETRIC; its output is DIRECTED.
+
+Raised as a possible contradiction with this document's own positional-edge rule:
+`clock_alignment` uses `from_reference`/`to_reference` (distinct roles) while
+`clock_alignment_configuration` uses `acquisition_channels_#` EXACTLY 2 (interchangeable
+family) — and v1's source is `daqsystem1_name`/`daqsystem2_name`, the numbered form the rule
+forbids. **The source settles it, and the plan was right.**
+
+```matlab
++ndi/+time/+syncrule/commonTriggersOverlappingEpochs.m:110-140
+
+   node_a_is_1 = strcmp(epochnode_a.objectname, p.daqsystem1_name);
+   node_a_is_2 = strcmp(epochnode_a.objectname, p.daqsystem2_name);
+   node_b_is_1 = strcmp(epochnode_b.objectname, p.daqsystem1_name);
+   node_b_is_2 = strcmp(epochnode_b.objectname, p.daqsystem2_name);
+
+   if ~((node_a_is_1 && node_b_is_2) || (node_a_is_2 && node_b_is_1))
+       return; % Names do not match THE PAIR we are looking for
+   end
+   ...
+   if node_a_is_1     % A is 1, B is 2
+   else               % A is 2, B is 1
+```
+
+The rule accepts the pair **in either order** and then normalises which is 1 and which is 2.
+Its own comment says *"the pair we are looking for"* — a pair, not an ordered pair. So the
+`1`/`2` numbering in v1 is bookkeeping inside a struct, not a role assignment, and
+`from_channels`/`to_channels` would assert a direction the rule explicitly normalises away.
+
+**The output, however, IS directed**: `apply` returns `[cost, mapping]` only after fixing which
+system is 1 and which is 2, so the polynomial converts one way. Hence:
+
+```
+clock_alignment_configuration    acquisition_channels_#   EXACTLY 2   an UNORDERED PAIR
+clock_alignment                  from_reference / to_reference        a DIRECTED mapping
+```
+
+A rule is symmetric; its result is not. Both edge forms are correct and they differ for a
+reason, not by oversight. **No change.**
+
+### 2. `polynomial` as a `data_type` — RESOLVED, was open item 2
+
+Open item 2 read: *"its siblings are quantities (`voltage`, `duration`); a polynomial is a
+function. The stretch is recorded, not resolved."* **The premise is factually wrong.** Of the
+**38 direct `data_type` subclasses**, several are not quantities at all:
+
+```
+image                 a raster
+date                  an instant
+chemical              a substance
+formulation           a preparation
+contrast_sensitivity  a fitted curve
+```
+
+`data_type` means *"the kind of thing a value is"*, not *"a dimensioned quantity"*. With the
+second user already in the schema (`tuning_curve.value.model_fit.coefficients`), that is T12's
+threshold met twice over. **`polynomial ⊂ data_type` is DECIDED, not a stretch.**
+
+### 3. `degree` STAYS, and is CHECKED
+
+It is exactly derivable (`numel(coefficients) - 1`), so by the rule that dropped
+`ngrid.data_size` it should go — except **the query layer has no length predicate**:
+
+```
+did2 operators: exact_string, exact_string_anycase, contains_string, regexp, exact_number,
+                lessthan/eq, greaterthan/eq, hasfield, hasmember,
+                hasanysubfield_contains_string, hasanysubfield_exact_string,
+                isa, depends_on, or                        -- NO length / size
+```
+
+So `degree > 1` ("which alignments are non-linear", which is the interesting question about a
+clock mapping) is expressible **only if `degree` is stored**. The test is not "is it derivable
+in code" but "is it derivable AT QUERY TIME" — the same test that kept `axis.n` and dropped
+`ngrid.data_size`. So: **REQUIRED and CHECKED, `degree == numel(coefficients) - 1`**, making it
+an index rather than a second source of truth.
+
+### 4. Two items still to pin before the build (NOT blockers for the model)
+
+- **`clock_alignment.relation`** is `ontology_term` but bound to WHAT. It cannot be OWL-Time:
+  *"temporally aligned with"* is a mapping predicate, not an interval ordering. Needs an NDIC
+  term — rides with **#67**.
+- **`clock_alignment_configuration.clock`** is bound to `did_clocktype`, and the time-model
+  walkthrough took that vocabulary from 9 terms to 4 with `clock` becoming an `ontology_term`.
+  This class must use the same four. **#67 gates this cluster too**, which the plan did not say.
+
+### 5. Placeholder ontology nodes are ALREADY the established practice
+
+Recorded here because it came up as a general question. An `ontology_term` is `{node, name}`,
+both `mustBeNonEmpty: false`, and the Brainstorm-J migrators already emit **34** terms with an
+empty node and a human-readable name:
+
+```
+migrators_j/private/jOntologyTerm.m
+   t = struct('node', char(node), 'name', char(name));
+
+e.g. jOntologyTerm('', 'electrode offset voltage')      electrode_offset_voltage.m:81
+     jOntologyTerm('', 'temperature')                   electrode_offset_voltage.m:91
+     jOntologyTerm('', 'anatomical location')           treatment_drug.m:45
+```
+
+So a term can be staged as `{node: '', name: '<what it is>'}`, the migration can go green, and
+the nodes can be minted afterwards. **The hazard to close alongside it:** an empty node is
+indistinguishable from *"we looked and no term exists"* — so the backlog is invisible. The fix
+is not a sentinel string but an instrument: a sweep that reports every emitted `ontology_term`
+with an empty node, grouped by (class, field path, name), gated in CI on a count that must not
+INCREASE — the same shape as the vocabulary sweep's *"flip to enforcing when the count reaches
+zero."* Tracked as **#70**.
