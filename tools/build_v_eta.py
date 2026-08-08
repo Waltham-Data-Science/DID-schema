@@ -2196,6 +2196,34 @@ _tombstone(
            " CURIE, or plain prose, based on the dataType the ontology lookup"
            " returns for the node.")])
 
+# ---- daqmetadatareader_epochdata_ingested: RESTORE THE DROPPED FILE -------
+# Found 2026-08-08 in the ingested-payload sign-off review. The class has NO FIELDS AT
+# ALL -- its entire content is the attached file -- and both V_zeta and V_eta declared
+# `file: []` while NDI declares it REQUIRED:
+#
+#     schema_documents/ingestion/daqmetadatareader_epochdata_ingested_schema.json
+#         "file": [ { "name": "data.bin", "mustbenotempty": 1 } ]
+#     database_documents/.../daqmetadatareader_epochdata_ingested.json
+#         "files": { "file_list": [ "data.bin" ] }
+#
+# So a fieldless class declared nothing it carries. This is #64's gap INVERTED: not an
+# attachment nobody declared, but a DECLARED file V_eta stopped declaring -- across 2,659
+# documents (B 1242 / Dab 1242 / Soph 175) that pass through whole with no migrator.
+# `mustBeNonEmpty` on a `file` is not the decorative case: unlike depends_on, nothing
+# skips it.
+_tombstone(
+    "daqmetadatareader_epochdata_ingested", ["base", "epochid"],
+    [dep("daqmetadatareader_id", "daqmetadatareader",
+         "The metadata reader whose output these bytes are. REQUIRED in NDI"
+         " (\"mustbenotempty\": 1).", non_empty=True)],
+    [],
+    files=[("data.bin",
+            "The metadata reader's ingested bytes for this epoch. The ONLY content"
+            " this class has -- it declares no fields. Do NOT type the payload: the"
+            " readers produce TSV in the cases seen, but nothing declares that, and"
+            " proposing a shape from a template alone is what produced the ~2,078"
+            " distance_metadata quarantines.")])
+
 # ---- subjectmeasurement: the ledger's last UNMAPPED class gets a home -----
 #
 # THE CLASS HAD NO V_eta SCHEMA AT ALL. `coverage.py` asserted, in

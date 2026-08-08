@@ -1,7 +1,7 @@
 {
     "document_class": {
         "class_name": "daqmetadatareader_epochdata_ingested",
-        "class_version": "1.0.0",
+        "class_version": "2.0.0",
         "superclasses": [
             {
                 "class_name": "base"
@@ -16,10 +16,15 @@
         {
             "name": "daqmetadatareader_id",
             "mustBeNonEmpty": true,
-            "documentation": "The document ID of the DAQ metadata reader whose epoch data has been ingested.",
+            "documentation": "The metadata reader whose output these bytes are. REQUIRED in NDI (\"mustbenotempty\": 1).",
             "must_refer_to_document_class": "daqmetadatareader"
         }
     ],
-    "file": [],
+    "file": [
+        {
+            "name": "data.bin",
+            "documentation": "The metadata reader's ingested bytes for this epoch. The ONLY content this class has -- it declares no fields. Do NOT type the payload: the readers produce TSV in the cases seen, but nothing declares that, and proposing a shape from a template alone is what produced the ~2,078 distance_metadata quarantines."
+        }
+    ],
     "fields": []
 }

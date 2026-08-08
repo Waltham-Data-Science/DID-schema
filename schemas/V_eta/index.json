@@ -620,7 +620,7 @@
         {
             "class_name": "daqmetadatareader_epochdata_ingested",
             "tier": "stable",
-            "class_version": "1.0.0",
+            "class_version": "2.0.0",
             "maturity_level": "stable",
             "superclasses": [
                 "base",
