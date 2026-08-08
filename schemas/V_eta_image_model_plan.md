@@ -136,3 +136,77 @@ container, not content** (T13, the dumping-ground smell). Decisions:
 - **Reference (shared) case** beyond the opt-in `storage_mode: reference` mechanism — the
   full ROI-per-observation shape is only fleshed out when a real multi-subject-FOV corpus
   needs it.
+
+---
+
+## SIGNED OFF 2026-08-08 — and what the data_body decision changed
+
+TEAM-SIGN-OFF [image / ngrid]: jess@walthamdatascience.com / 2026-08-08 -- ngrid is DISSOLVED (deleted, not migrated); `image` becomes `{pixels, color_model}` and nothing else.
+
+The R6 model above is unchanged: `image` is a standalone `data_type` (a raster value) across
+`image_observation` (measured) and `image_manipulation` (shown), `array` stays killed, and
+`image` is not an entity. What the `data_body` walkthrough
+(`V_eta_data_body_model_plan.md`, TaskList #45) changed is where the DESCRIPTORS live — R6
+required them explicit on the composite, and they are still explicit, one level out.
+
+### The class, FINAL
+
+```
+image  ⊂ data_type
+   value
+      pixels        matrix          the raster; populated iff storage_mode:inline
+      color_model   ontology_term   grayscale | rgb | multichannel (T8-bound)
+
+image_observation   ⊂ subject_observation, image      no fields of its own
+image_manipulation  ⊂ subject_manipulation, image     no fields of its own
+
+ngrid   DELETED
+```
+
+### Where each descriptor went
+
+```
+value.dtype       -> subject_statement.datum_type  (bound, REQUIRED -- R6's "dtype is NOT
+                     recoverable from an inline matrix" is exactly why)
+value.axes        -> THE axis entry, mounted on subject_statement (inline pixels) or
+                     sampled_body (body-backed). This was the THIRD axes declaration in the
+                     set: {name, length, spacing, unit}, no regularity, no coordinates.
+value.channels    -> the `labels` of the channel axis. Per-channel labels ARE a categorical
+                     axis; carrying them separately would be the same fact twice.
+ngrid.data_type   -> datum_type, via the class(x) normalisation map
+ngrid.data_dim    -> one axis entry per dimension (`n` each)
+ngrid.coordinates -> split by data_dim, one slice per axis, into axes[k].values
+ngrid.data_size   -> DROPPED: bytes-per-element is datum_type restated
+v1 image.format
+   + .compression -> data_body.format + data_body.compression -- the encoding fields
+                     migrators_j/image.m:51-56 has been explicitly waiting for
+```
+
+An image stack `[T x X x Y x C]`:
+
+```
+axes[1]  variable: time         n: 1800  regular: true   origin {0}  spacing {0.0333}
+axes[2]  variable: position_x   n: 512   regular: true   origin {0}  spacing {1.1e-6}
+                                                         source_unit "um", source_value 1.1
+axes[3]  variable: position_y   n: 512   regular: true   origin {0}  spacing {1.1e-6}
+axes[4]  variable: channel      n: 2     regular: false
+         labels: [ {node:.., name:"GCaMP"}, {node:.., name:"tdTomato"} ]
+```
+
+### Build gates carried forward (NOT re-decided, and NOT waived by this signature)
+
+1. **Both `ngrid` consumers** (`hartley_calc` + `ontologyImage`) — #46/#47.
+2. **The `ngrid` and `ontology_image` tombstones must be rewritten from the WRITER**
+   before either class is deleted. `check_tombstones.py` grades both LOSSY today, and for
+   `ngrid` the V_eta class shares exactly ONE field name with the v1 template (`data_type`):
+   `coordinates`, `data_dim` and `data_size` are undeclared, `ndims`/`dim_sizes`/`dim_labels`
+   exist in no template, and `ndims` is REQUIRED but absent from real documents, so a
+   passthrough quarantines on that alone.
+3. **`dimension_labels` is the source for axis `variable`**, not the `dimension_order` letter.
+   The v1 `imageStack_parameters` block carries real per-dimension labels alongside the order
+   string, and `imageAxes` (`migrators_j/image_stack.m:257`) currently ignores them and names
+   each axis `Y`/`X`/`C`/`Z`/`T`. `data_limits` also has no destination yet.
+4. **The Hartley plane-axis labels** are supplied by the migrator from writer semantics
+   (plane 1 = STA, plane 2 = p-value), read from the prior session's shallow clone of
+   `VH-Lab/NDIcalc-vis-matlab` @ `65718ed`. **RE-VERIFY before the build** — the repo is out of
+   session scope and `add_repo` was not approved on 2026-08-08.

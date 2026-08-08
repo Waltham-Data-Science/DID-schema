@@ -180,6 +180,57 @@ the coupling that made `ngrid` look like a one-class item when it is not.
 
 ## F5 — `ontology_image` had TWO v1 vintages and the migrator matched NEITHER — **FIXED**
 
+> ### ⚠ F5-CORRECTION (2026-08-08): THERE IS ONLY ONE VINTAGE. Read this before the section below.
+>
+> The two-vintage framing is **WRONG**, and it was wrong in the way this project keeps being
+> wrong: a V_delta artifact was read back as a v1 shape. The pickaxe, over the whole history:
+>
+> ```
+> DENOMINATOR: 4,997 commits reachable from NDI origin/main; 915 .m files
+>    git log -S'ontology_nodes'   origin/main   ->  ZERO commits
+>    git log -S'ontology_region'  origin/main   ->  ZERO commits
+>    git log -S'ontology_name'    origin/main   ->  hits ONLY in the ontology SUBSYSTEM
+>                                                   (ontology_list.json / ndi.ontology.*
+>                                                    removals) -- never this template
+>    git log -S'ontologyNode'     origin/main   ->  present since 2026-01-06
+> ```
+>
+> **Vintage A (`ontology_name` + `ontology_region`) does not exist in NDI and never has.** That
+> is consistent with this document's own later finding that the `region` read was the *V_DELTA
+> migrator's OUTPUT* — F5 corrected the `region` claim but kept the two-vintage story built on
+> top of it.
+>
+> **There is one field, and the WRITER settles its name.** The template and the schema document
+> disagree with each other on `origin/main` today:
+>
+> ```
+> database_documents/data/ontologyImage.json        { "ontologyNode": "" }        SINGULAR
+> schema_documents/data/ontologyImage_schema.json   { "name": "ontologyNodes" }   PLURAL
+>       documentation: "The ontology node id(s) ... in a comma-seperated list of
+>                       ontology:nodeID (e.g 'EMPTY:0000002,UBERON:3373')."
+>
+> imageDocMaker.m:79-82   % Ensure that ontologyNodes are in the correct format (comma-seperated)
+> imageDocMaker.m:121-127
+>       ngrid_struct         = ndi.fun.data.mat2ngrid(image);
+>       ontologyImage_struct = struct('ontologyNodes', ontologyNodes);
+>       doc = ndi.document('ontologyImage', 'ontologyImage', ontologyImage_struct, ...
+>                          'ngrid', ngrid_struct) + obj.session.newdocument();
+> ```
+>
+> Ground-truth rule: **where template and writer disagree, the WRITER wins.** So every real
+> document carries `ontologyNodes`, a comma-joined multi-CURIE, arriving DID-side as
+> `ontology_nodes` after universalRenames. Dep `ontologyTableRow_id`, `ngrid` superclass,
+> file `ontologyImage.ngrid`. So the recorded "vintage B" was right in SUBSTANCE and its
+> snake_case spelling is simply the post-rename form; what was invented is vintage A.
+>
+> **CONSEQUENCE FOR THE TOMBSTONE, and a checker limitation worth generalising.**
+> `tools/check_tombstones.py` reports `real fields the tombstone does NOT declare:
+> ontology_node` — because the checker's ground truth is the TEMPLATE, and here the template
+> is the side that loses. Acting on that line would make the tombstone worse. The tombstone
+> needs exactly ONE field, `ontology_nodes`; `ontology_name` and `ontology_region` are dropped.
+> **The checker cannot see a template/writer disagreement, so its output is a starting point,
+> not an instruction.**
+
 ### The two vintages
 
 NDI **redefined** `ontologyImage` upstream, so two incompatible shapes are both "did_v1":
