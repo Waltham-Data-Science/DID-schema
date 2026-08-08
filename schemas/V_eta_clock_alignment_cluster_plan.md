@@ -466,3 +466,50 @@ is not a sentinel string but an instrument: a sweep that reports every emitted `
 with an empty node, grouped by (class, field path, name), gated in CI on a count that must not
 INCREASE — the same shape as the vocabulary sweep's *"flip to enforcing when the count reaches
 zero."* Tracked as **#70**.
+
+---
+
+## SIGNED OFF 2026-08-08 — both families
+
+Two families cite this one document, so both sign-off lines carry a `[family]` tag; an
+untagged line would sign both at once, which is the hole `has_signoff` was built to close.
+
+TEAM-SIGN-OFF [sync configuration]: jess@walthamdatascience.com / 2026-08-08 -- syncrule -> `clock_alignment_configuration` (parameters DECLARED not bagged, devices become `acquisition_channels_#` edges, EXACTLY 2 and UNORDERED); syncgraph -> `clock_alignment_policy`, earning its existence on membership; both preserve base.id, and syncrule_id_# is un-tightened back to NDI's optional.
+
+TEAM-SIGN-OFF [sync mapping]: jess@walthamdatascience.com / 2026-08-08 -- syncrule_mapping -> `clock_alignment` (⊂ relation, polynomial), base.id PRESERVED; endpoints become from_reference / to_reference on relative_reference documents; syncgraph_id RESTORED and the invented required `epochid` (5,316 docs, 100% empty) REMOVED; `degree` kept and CHECKED.
+
+### What the review changed, and what it confirmed
+
+```
+CONFIRMED  acquisition_channels_#  EXACTLY 2, UNORDERED -- the rule accepts the pair in
+                                   either order (commonTriggersOverlappingEpochs.m:115) and
+                                   normalises after; `from_channels`/`to_channels` would
+                                   assert a direction the source erases
+CONFIRMED  from_reference/to_reference on the ALIGNMENT -- apply() returns its mapping only
+                                   after fixing which system is 1, so the result IS directed
+RESOLVED   polynomial ⊂ data_type  open item 2 closed: its premise was false (image, date,
+                                   chemical, formulation, contrast_sensitivity are among the
+                                   38 subclasses and none is a quantity)
+RESOLVED   degree                  STAYS, REQUIRED + CHECKED (== numel(coefficients) - 1).
+                                   Derivable in code but NOT at query time -- did2 has no
+                                   length predicate, so `degree > 1` is expressible only if
+                                   stored. Same test that kept axis.n and dropped ngrid.data_size
+REJECTED   acquisition_channels_A/_B   `x_1`/`x_2` wearing letters; for an unordered pair it
+                                   creates TWO representations of one fact with no tie-break.
+                                   Cardinality belongs in the DECLARATION -> #63
+```
+
+### Gates carried on these signatures, none waived by them
+
+1. **#67 gates this cluster**, which the plan did not previously say.
+   `clock_alignment_configuration.clock` is bound to `did_clocktype`, and the time-model
+   walkthrough took that vocabulary from 9 terms to 4 with `clock` becoming an
+   `ontology_term`. This class must use the same four.
+2. **`clock_alignment.relation` needs a term.** *"Temporally aligned with"* is a mapping
+   predicate, NOT an OWL-Time interval relation, so it cannot use `relative_reference`'s
+   binding. Stage it as `{node: '', name: 'temporally aligned with'}` — already the practice
+   at 34 migrator sites — and harvest it under **#70**.
+3. **"EXACTLY 2" is prose until #63 lands.** The schema cannot express or check cardinality
+   on a `name_#` family today.
+4. **#58 rides with this build**: `syncgraph_id` restored and `objectname` recoverable via
+   `epoch.instrument_id`. Both fix LIVE NDI queries and stand whether or not this model ships.
