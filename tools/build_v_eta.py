@@ -2230,6 +2230,33 @@ _tombstone(
             " proposing a shape from a template alone is what produced the ~2,078"
             " distance_metadata quarantines.")])
 
+# ---- stimulus_parameter_table: DEMOTE to deprecated/ ----------------------
+# Decided 2026-08-08 in the stimulus-parameters sign-off review. The team's
+# objection: "it seems weird to pass a bad V1 doc through."
+#
+# It is not a modelling problem, it is a FILING problem. The disposition is
+# right -- a real did_v1 class (shipped template), NO writer anywhere in NDI's
+# 915 .m files, ONE untyped field (`string[]`), and ZERO documents in any of the
+# five corpora (census run #257, and no list was truncated: the digest caps at 15
+# and the longest is 12). There is nothing to model against, and deleting is
+# forbidden by the corpora-are-a-sample rule.
+#
+# But `projectvar` -- the precedent the plan cites for exactly this call, and for
+# exactly the same reasons -- lives in `deprecated/`, and this one sat in
+# `stable/`. So the document did not merely pass through: it passed through into
+# a class ADVERTISING ITSELF as part of the go-forward model, with nothing in the
+# artifact to tell a consumer otherwise. The unmodelled state was visible only in
+# a CI census line.
+#
+# Demoting makes "passthrough" honest: bytes preserved, and the schema set states
+# plainly that this is a v1 shape nobody has modelled.
+_spt_tier, _spt_path = path_of("stimulus_parameter_table")
+if _spt_tier and _spt_tier != "deprecated":
+    _spt = load(_spt_path)
+    _spt["document_class"]["maturity_level"] = "deprecated"
+    write("deprecated", "stimulus_parameter_table", _spt)
+    os.remove(_spt_path)
+
 # ---- subjectmeasurement: the ledger's last UNMAPPED class gets a home -----
 #
 # THE CLASS HAD NO V_eta SCHEMA AT ALL. `coverage.py` asserted, in

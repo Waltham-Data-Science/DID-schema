@@ -13,7 +13,7 @@ for each model; this board owns *how much is left and what exactly*.
 | settled (persist) | 147 |
 | settled (retire) | 47 |
 | **still open (`in_progress`)** | **32** |
-| **`retire` with no migrator and no plan** | **12** |
+| **`retire` with no migrator YET** | **12** |
 | open **decision families** | **19** |
 | &nbsp;&nbsp;DECIDED and signed off, awaiting build | 16 |
 | &nbsp;&nbsp;decided in a walkthrough, **awaiting a signature** | 3 |
@@ -101,13 +101,21 @@ migrator work before the target closes is rework.
 | no V_eta home, no migrator -- UNVERIFIED | 4 |
 | dissolved → subject | 1 |
 
-### `retire`, but nothing decided -- 12 rows
+### `retire`, but NO MIGRATOR YET -- 12 rows
 
-Marked `retire` with **no migrator and no recorded plan**: the documents
-pass through untouched. `retire` reads as settled, so these do not appear
-in the family counts above -- but they are open work. Several hold real
-data (e.g. `spike_extraction_parameters` carries filter_type / filter_low /
-filter_high / filter_order / filter_ripple).
+Marked `retire` in the ledger with **no migrator and no `how` note**, so the
+documents pass through untouched today. `retire` reads as settled, so these
+do not appear in the family counts above -- but they are open work. Several
+hold real data (e.g. `spike_extraction_parameters` carries filter_type /
+filter_low / filter_high / filter_order / filter_ripple).
+
+**This heading used to say "nothing decided" / "no recorded plan", and that
+was WRONG** -- it is computed from the LEDGER (disposition + migrator + `how`),
+not from whether a decision exists. Checked 2026-08-08: **every one of these
+rows is covered by a plan document**, and most are signed. The list means
+"no migrator has been written yet", not "nobody has decided". A board that
+reports settled work as undecided is the mirror of the failure this board
+exists to prevent, and it cost a review pass to notice.
 
 - `openminds`
 - `sorting_parameters`

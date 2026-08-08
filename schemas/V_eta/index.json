@@ -2090,13 +2090,13 @@
         },
         {
             "class_name": "stimulus_parameter_table",
-            "tier": "stable",
+            "tier": "deprecated",
             "class_version": "1.0.0",
-            "maturity_level": "stable",
+            "maturity_level": "deprecated",
             "superclasses": [
                 "base"
             ],
-            "path": "schemas/V_eta/stable/stimulus_parameter_table.json",
+            "path": "schemas/V_eta/deprecated/stimulus_parameter_table.json",
             "disposition": "retire",
             "disposition_note": "D-C analysis-tier decompose"
         },
