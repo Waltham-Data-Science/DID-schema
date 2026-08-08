@@ -87,6 +87,65 @@ still be `awaiting a signature` there.
 
 ---
 
+## RE-DERIVED STATE for the rows whose descriptions were lost
+
+Eight rows came back as a bare subject. Their *model* was never in the task — it is in the plan
+documents — but their *progress annotation* was, and that is re-derived here from the documents
+and the code, 2026-08-08. Where a figure could not be re-derived it says so.
+
+**#9 — analysis-tier decomposition (in_progress).** Done: the 12 vision calculators fold 1→1
+into `subject_calculation` leaves with ids and deps PRESERVED (Soph corpus run #2 / `b3e2e10`,
+~101k docs, **0 orphans** — the 11,448-orphan dissolution failure does not recur); the tuning
+collapse (#26); `kilosort_clusters` / `kiasort_clusters` decompose via
+`migrators_j.private.jSorterOutput`. Remaining: the **ensemble second pass** (#29 — `member_of`
+edges + the rebuildable cache, needs the `neuron_names.txt` read and neuron-id → subject
+resolution) and the rest of the spike zoo. *Which spike-zoo classes were already walked is NOT
+recoverable — re-derive from `+migrators_j/` before claiming coverage.*
+
+**#25 — software follow-ups.** `app` → `software` entity + `software_id` edge +
+`execution_environment` is BUILT (R1, signed). Remaining: `app` retires **by attrition, not by
+a sweep**; software dedup; the openMINDS crosswalk.
+
+**#28 — boundary-class dispositions, "7 of 8".** All eight are DECIDED
+(`V_eta_tenet_audit.md` §"The boundary classes — ALL DECIDED"); seven carry a **⏳ build
+deferred** marker and one is closed:
+
+```
+instrument            -> RETIRE                          mark retire in build_v_eta markers
+projectvar            -> PASSTHROUGH   (retire evidence was FALSE — it IS an ndi v1 source)
+demo_ndi(_mock)       -> PASSTHROUGH   (drop evidence was FALSE)  [since collapsed to `demo`]
+interaction_purpose   -> KEEP standalone (purpose term + comment; interaction_id multiple >=1)
+stimulus_presentation -> the timed_sequence model (#31), SUPERSEDES the dissolve
+ensemble              -> per-neuron primary + group subject + derived cache (#29)
+openminds_import      -> REVERSED 2026-07-30, REMOVED from the built set        <- the 8th, CLOSED
+```
+
+**#34 — Phase 1.** Phase 0 DONE. Phase 1 REPORT-ONLY landed with **1.3 and 1.4 BUILT** (the
+vocabulary sweep enforces in CI; `did2.validate.isFragment` closes the FRAGMENT mode).
+Remaining is the enforcement half: **1.1 (#37)** and **1.2 (#38)**. The plan's own rule:
+*flip the sweep to enforcing when the offender count reaches zero.*
+
+**#35 — Phase 2.** **CLOSED as scoped** — 17 offenders, all handled (6 fixed, 8 guarded
+passthroughs, 1 tombstone-only, 2 allow-listed benign). What keeps it open is the scope
+caveat, not the work: the 102-class v1 universe may be too small — `NDIcalc-ephys-matlab`
+ships `spike_shape_calc`, absent from the ledger entirely — and the
+`vhlab_voltage2firingrate` writer is in no repo we have (blocks `binnedspikeratevm`'s
+Hz-vs-spikes-per-bin, a silent 33x risk).
+
+**#38 — Phase 1.2.** Make an all-blank composite count as empty, so a document that satisfies
+every required field with blank values is detected. Sibling of #37; both are the unbuilt
+enforcement half of Phase 1.
+
+**#48 — Phase 4.** "Remaining modelling" in `V_eta_ground_truth_plan.md`, plus the RF/Hartley
+fold (group F) in `V_eta_ngrid_family_findings.md`, whose standing process rule is: **every
+remaining item in that document is DECIDED BEFORE ANY BUILD.**
+
+**#53 — ontology_table_row.** ~76,766 observations emitted with an EMPTY `subject_id`. The
+invented-empty-edge pattern one layer up from the five classes #37 fixes. *The repair approach
+was never written down outside the task — re-derive from `migrators_j/ontology_table_row.m`.*
+
+---
+
 ## FINDINGS THAT LIVED ONLY IN TASK DESCRIPTIONS
 
 Recovered here because the descriptions are gone. Everything else was already mirrored into a
