@@ -81,11 +81,90 @@ discarded.
   un-concatenated in `hartley_reverse_correlation.reconstruction_properties.{t,x,y}_coords`,
   which the migrator keeps.
 - For **`ontologyImage`** it is **not** redundant — see F4. That is the real loss.
+  **^^ THAT LINE IS FALSE. CORRECTED 2026-08-06 — see F3b below.**
 
 Note also that V_eta's `ngrid` carries `dim_labels`, an `element_id` dependency and an
 `ngrid_file`, **none of which have any v1 counterpart**; they were invented downstream and are
 never populated from v1 data. And `reverse_correlation.dimension_labels` is set to `''` by the
 writer, so it is empty in every real document despite the template default `"Time, X, Y"`.
+
+## F3b — CORRECTION (2026-08-06): `coordinates` is NOT a real loss, for EITHER consumer
+
+**FINDINGS ONLY. NO DECISION IS RECORDED HERE.** The team asked for the coordinates
+question to be dug into before confirming the ngrid/image disposition; this is what the
+digging found.
+
+### The `ontologyImage` "real loss" claim above is false
+
+```
+DENOMINATOR: 1,002 .m files on NDI origin/main
+callers of ndi.fun.data.mat2ngrid:  ONE
+
+imageDocMaker.m:121   ngrid_struct = ndi.fun.data.mat2ngrid(image);      <- ONE argument
+mat2ngrid.m           if nargin == 1:  coordinates := (1:size(x,i))' for each dim
+                      (the docstring calls this the 'MAT2NGRID:defaultCoords' path)
+```
+
+The only writer never supplies coordinate vectors, so **every `ontologyImage`
+document's `coordinates` is the default index vector** `[1..d1; 1..d2; …]` — carrying
+no information beyond `data_dim`, which is stored separately. Dropping it loses
+nothing.
+
+So both consumers are lossless:
+
+```
+hartley_calc     duplicated in hartley_reverse_correlation
+                 .reconstruction_properties.{t,x,y}_coords   (recorded earlier; NDIcalc-vis
+                 is not in scope now, so this half is not re-verified)
+ontologyImage    default indices                              (measured 2026-08-06)
+```
+
+### But there IS a gap — the mirror image of what was recorded
+
+`ngrid.coordinates` today is indices. The v1 format nevertheless ADMITS real positions —
+`mat2ngrid(X, c1, …, cn)` is a documented signature — and **`sampled_body` has nowhere
+to receive them**:
+
+```
+sampled_body.sample_time      regular   boolean
+                              dt        duration    regular case
+                              offsets   matrix      enumerated: THE EXPLICIT VALUES
+
+sampled_body.axes[]           regularity  char      "regular | irregular"
+                              spacing     double    regular case
+                                                    <-- NOTHING for the irregular case
+```
+
+`axes` can DECLARE `regularity: irregular` and then has nowhere to put the coordinates.
+`sample_time` got the enumerated case right; `axes` did not. So retiring `ngrid` is
+lossless **by accident** (no writer supplies real coordinates) rather than **by design**.
+
+The obvious repair is one field mirroring the slot that already works —
+`axes[].coordinates`, a matrix, irregular only, length == `length`. **NOT decided, NOT
+built.** It belongs to TaskList #45, which is about this exact field.
+
+### THREE encodings of one distinction (found while checking the above)
+
+The team asked whether `sample_time` is allowed to be irregular. **It is — in both
+places.** But the two are not the same shape, and a third variant sits next to them:
+
+```
+subject_interaction.sample_time.kind        char      point | grid | enumerated
+sampled_body.sample_time.regular            boolean   regular grid vs enumerated
+sampled_body.axes[].regularity              char      regular | irregular
+```
+
+One distinction, three encodings. `kind` can express `point`, which `regular` cannot;
+`regular` is a boolean where the other two are chars; `regularity` uses a different
+word pair again. By this project's own definition that is DRIFT — the same fact stored
+differently in different places — and it is the kind T14 exists to prevent.
+
+Also asymmetric: the body `sample_time` has `t0` (a start offset from the anchor) and
+the inline one does not.
+
+**No disposition is proposed for any of this.** It is recorded so the ngrid/image
+signature is taken with the facts visible, and because #45 is the decision that owns
+the field.
 
 ## F4 — `ngrid` has a SECOND consumer
 
