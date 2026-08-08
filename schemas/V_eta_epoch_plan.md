@@ -823,12 +823,50 @@ build_v_eta.py:283-288
 # declared OPTIONAL on the other entities below.
 ```
 
-`entity` declares no `local_identifier` **on purpose**. `did2.schema.cache.resolvePlacement`
-raises `placementCollision` on *"any class redeclares a name an ancestor has placed"*, and
-`fieldsFor` CONCATENATES the chain without dedup or override — so a child cannot tighten a
-parent's field, and hoisting would turn `subject`'s required declaration into a schema error.
-`build_v_eta.py:2280` names it as an established pattern: *"child-required override — the same
-pattern used for local_identifier / time_reference."*
+`entity` declares no `local_identifier` **on purpose**, and `build_v_eta.py:2280` names it as an
+established pattern: *"child-required override — the same pattern used for local_identifier /
+time_reference."*
 
-**#10 is correctly closed. Do not hoist.** And the general lesson: a defect inferred from
-generated OUTPUT must be checked against the GENERATOR before it is reported.
+> **SECOND CORRECTION, same session, on the REASON.** The paragraph above originally said
+> `did2.schema.cache.resolvePlacement` *"raises `placementCollision` on any class redeclaring a
+> name an ancestor has placed"*, so hoisting would turn `subject`'s declaration into a schema
+> error. **That was quoted from the DOCSTRING and the CODE is narrower.** The check fires only
+> within one `targetBlock`:
+>
+> ```matlab
+> targetBlock = leaf;   % placement = concrete_class
+> targetBlock = cls;    % placement = declaring_class  <- THE DEFAULT
+>
+> if isKey(entriesByBlock, targetBlock)
+>     for j = 1:numel(existing)
+>         if strcmp(existing(j).fieldDef.name, fieldName)
+>             error('did2:schema:placementCollision', ...)
+> ```
+>
+> An ancestor and a descendant using the default placement land in DIFFERENT blocks, so a
+> redeclaration never trips it. And a cross-block duplicate name is checked **nowhere** — not in
+> `+did2/+schema`, not in `+did2/+validate`, not in DID-schema's tools or tests.
+>
+> **So placement does not forbid the override; it silently PERMITS it**, producing two live
+> storage locations (`body.entity.local_identifier` and `body.subject.local_identifier`) with
+> nothing saying which is authoritative. That is worse than a rejection.
+>
+> **The conclusion is unchanged and the reason is stronger:** keep `entity` silent, because
+> declaring the field in both places splits it in two silently rather than erroring.
+>
+> **The real gap is that DID has no CONSTRAINT REFINEMENT construct** — a way to say "the same
+> field, tightened" as distinct from a new declaration. The project already knows this:
+> `build_v_eta.py:576` — *"TIGHTENING a constraint rather than redeclaring it — is deferred to
+> the binding [governance]"*. The minimal fix, if it is ever taken: when a class redeclares an
+> ancestor's `declaring_class` name, MERGE into the ancestor's block entry instead of creating a
+> second one, and require the child to NARROW (`mustBeNonEmpty` false→true allowed, true→false an
+> error). That would let `entity` declare the optional handle once, let `subject` and `epoch`
+> require it, and collapse the eight duplicate declarations on dataset / funding / organization /
+> person / publication / session / software / web_resource. As it stands, *"every entity has an
+> optional handle"* is a convention held by nine copies — a new entity subclass can omit it and
+> nothing complains. #32-adjacent governance; it changes `fieldsFor`'s contract, which today
+> returns one entry per declaration tagged with `declaringClass`.
+
+**#10 is correctly closed. Do not hoist.** Two general lessons, both earned here: a defect
+inferred from generated OUTPUT must be checked against the GENERATOR before it is reported —
+and a claim about enforcement must be read off the CODE, not the docstring above it.
