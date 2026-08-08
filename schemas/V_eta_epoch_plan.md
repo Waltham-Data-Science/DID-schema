@@ -727,3 +727,108 @@ which are not entities.
 `epoch.instrument_id -> entity` are the same role name with different declared targets.
 `must_refer` is existence-only so nothing breaks today, but if it ever becomes type-checked
 that is the question to answer.
+
+---
+
+## SIGNED OFF 2026-08-08
+
+TEAM-SIGN-OFF [epoch]: jess@walthamdatascience.com / 2026-08-08 -- MINT `epoch` as an entity (one per epoch id, local_identifier = the v1 epochid string, REQUIRED); acquisition_epoch dissolves and its clocks become relative_reference documents; epochid is DROPPED in favour of a uniform epoch_id edge; epochfiles_ingested becomes `ingestion_manifest` with filenavigator_id RESTORED; instrument_id -> entity, OPTIONAL.
+
+### The class, as signed
+
+```
+epoch  ⊂ entity                                      MINTED, one per epoch id
+   local_identifier   char    REQUIRED -- the v1 epochid string
+                              ("epoch_4126958b19a21a41_...")
+                              Declared ON epoch, not inherited: `entity` deliberately
+                              declares no local_identifier so a child can ADD it as
+                              required. See build_v_eta.py:283-288 and the
+                              placementCollision note below.
+   global_identifier  struct  inherited from entity; left empty -- an epoch has no
+                              external cross-reference
+   depends_on
+      session_id       -> session               REQUIRED
+      time_reference_# -> relative_reference    the epoch's own extent
+      instrument_id    -> entity                OPTIONAL
+```
+
+### v1 ground truth, re-read from NDI `origin/main`
+
+```
+epochid              ⊂ base            deps: []                  { epochid }
+element_epoch        ⊂ base, epochid   deps: [element_id]        { epoch_clock, t0_t1 }
+                                       files: epoch_binary_data.vhsb
+epochfiles_ingested  ⊂ base            deps: [filenavigator_id]  { epoch_id, files,
+                                                                   epochprobemap }
+```
+
+Two things this confirms, against the V_eta classes as built:
+
+1. **`epochfiles_ingested`'s real dependency is `filenavigator_id`.** V_eta declares
+   `epochid -> acquisition_epoch` REQUIRED and drops the one NDI writes — the
+   invented-empty-edge pattern, **6,921 documents, 100% empty**. The rename to
+   `ingestion_manifest` RESTORES `filenavigator_id`.
+2. **`axes` / `channels` / `storage` on `acquisition_epoch` exist in NO NDI template.**
+   `element_epoch` carries `{epoch_clock, t0_t1}` and a `.vhsb` file, nothing more. The real
+   per-clock extents live in `daqreader_epochdata_ingested.epochtable`, one `(clock, extent)`
+   pair per entry — which is a `relative_reference` per entry, and is why
+   `epoch.time_reference_#` is well defined under #52's uniqueness rule.
+
+### THE `epochid` BLAST RADIUS — sweep re-run 2026-08-08, and the recorded figure was LOW
+
+```
+DENOMINATOR: 91 NDI templates on origin/main; 915 .m files
+
+templates carrying the `epochid` SUPERCLASS: 15
+   binnedspikeratevm  daqmetadatareader_epochdata_ingested  daqreader_epochdata_ingested
+   element_epoch  ensemble  epochclocktimes  openminds_stimulus  spikewaves
+   stimulus_bath  stimulus_parameter  stimulus_parameter_table  stimulus_presentation
+   vmspikefilteringparameters  vmspikefit  vmspikesummary
+
+live .m sites referencing `epochid.epochid`: 30      <- the record said "11+". LOW by ~3x.
+   ~12 QUERY-JOIN   ndi.query('epochid.epochid','exact_string', ...)
+                    metadatareader.m:164, reader.m:56, timeseries.m:58,
+                    stimulusDocMaker.m:390,412, add_stimulus_approach.m:54,64,
+                    spikeextractor.m:156,310,388, decoder.m:114
+   ~18 direct reads document_properties.epochid.epochid
+                    reader.m:82, marder/demo.m:44,45, tuning_response.m:94,243,317,
+                    docTable/epoch.m:96, ...
+   14 writer sites  ndi.document(..., 'epochid', epochid_struct)
+```
+
+This does not change the disposition — these are v1-runtime queries against v1 documents, the
+same category as every other rename in V_eta — but it is the largest blast radius in the
+family, and `epochid` genuinely is the join mechanism for the epoch-scoped half of the
+database. Anyone building this should expect to touch all three groups.
+
+**CORRECTION on the sweep itself:** the first run of the superclass half returned ZERO, because
+it grepped for `"epochid.json"` with a leading quote while NDI writes
+`"$NDIDOCUMENTPATH/epochid.json"` — a pattern that could not have matched. The same failure
+mode as the `demo_ndi` grep. Re-run without the leading quote, it returns 16, of which 15 are
+carriers and one is `epochid.json` itself.
+
+### A CLAIM MADE AND WITHDRAWN IN THE SAME SESSION — `local_identifier`
+
+Claude reported that `local_identifier` is declared on nine entity subclasses but not on
+`entity`, concluded the "lift" of TaskList #10 had been implemented as replication rather than
+a hoist, and proposed hoisting it to `entity` with `subject` tightening it to required.
+**All of that was wrong**, and the evidence was in the generator:
+
+```python
+build_v_eta.py:283-288
+# local_identifier is REQUIRED on subject -- schema-enforced (a subject must be
+# nameable), not an ingest convention. This is legal because `entity` (the parent)
+# declares no local_identifier, so subject is *adding* a required field, not
+# overriding a parent-optional one (which DID placement forbids). The same field is
+# declared OPTIONAL on the other entities below.
+```
+
+`entity` declares no `local_identifier` **on purpose**. `did2.schema.cache.resolvePlacement`
+raises `placementCollision` on *"any class redeclares a name an ancestor has placed"*, and
+`fieldsFor` CONCATENATES the chain without dedup or override — so a child cannot tighten a
+parent's field, and hoisting would turn `subject`'s required declaration into a schema error.
+`build_v_eta.py:2280` names it as an established pattern: *"child-required override — the same
+pattern used for local_identifier / time_reference."*
+
+**#10 is correctly closed. Do not hoist.** And the general lesson: a defect inferred from
+generated OUTPUT must be checked against the GENERATOR before it is reported.
