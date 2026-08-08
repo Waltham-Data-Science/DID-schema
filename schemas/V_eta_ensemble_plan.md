@@ -7,6 +7,10 @@ earlier "grain A — carry the map doc as ⑦ acquisition-infra" decision. Cross
 `V_eta_tenets.md` (T1 group-ness, T6 storage, T10 derived motif, T12 parsimony),
 `V_eta_tenet_audit.md` (boundary classes).*
 
+TEAM-SIGN-OFF [ensemble]: jess, 2026-08-06 -- per-neuron spike times are the PRIMARY archival data (each neuron-subject, event times to a sampled_body); the ensemble is a GROUP SUBJECT with its id preserved and NO data body of its own, whose members are EPOCH-SCOPED member_of edges carrying their epoch and column order; the combined (times, ids) array is kept as an explicitly-DERIVED, REBUILDABLE CACHE (derived_from the neurons, T10) for fast windowed population reads, not as source of truth; the per-epoch MAP document dissolves. Build is sequenced: pass 1 keeps a green passthrough, the NDI second pass mints member_of and builds the cache, and a verify-before-delete (0 stranded per-neuron trains) gates dropping the combined bytes.
+
+*(Transcribed by Claude on the team's explicit instruction -- "I agree ensemble is decided and can be signed off". TAGGED with its family, per the shared-document rule.)*
+
 ## What an ensemble actually is (plain)
 
 An electrode picks up the electrical "spikes" of several nearby neurons, all mixed together.
