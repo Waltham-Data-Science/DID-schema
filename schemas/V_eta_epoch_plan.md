@@ -673,3 +673,57 @@ epoch-to-epoch"*) and `distance_metadata`'s deferral to the second pass for exac
 this id-resolution reason. A probe's subject genuinely can change between epochs, so
 the per-epoch mapping is real information rather than a redundant copy of the
 migrated graph.
+
+---
+
+## RESOLVED 2026-08-08 — `instrument_id -> entity`, and `acquisition_system ⊂ entity`
+
+**The team's words:** *"We can do epoch.instrument_id -> entity and move acquisition_system to
+entity."* Recorded as a decision on the open typing wrinkle above. **NO sign-off line for the
+epoch family** — that is separate and the team has not given it.
+
+The wrinkle was: `subject_interaction.instrument_id` declares
+`must_refer_to_document_class: subject`, but an epoch's instrument may be an
+`acquisition_system`. Two findings settled it.
+
+**1. `must_refer_to_document_class` is a SINGLE class name. A union is not expressible.** So
+"acquisition_system | subject" was never a declarable target, and the choice was really
+"which common ancestor".
+
+**2. The hierarchy, measured (226 classes per index.json):**
+
+```
+entity  ⊂ base
+subject ⊂ entity          subject has NO subclasses
+entity's direct children: dataset, funding, organization, person, publication,
+                          session, software, subject, web_resource
+acquisition_system        DOES NOT EXIST YET (#59)
+epoch                     DOES NOT EXIST YET (#60)
+```
+
+### The decision
+
+```
+acquisition_system   ⊂ entity        alongside software and session
+epoch.instrument_id  -> entity       OPTIONAL
+```
+
+**`acquisition_system` is NOT `⊂ subject`.** T1's bare subject is the thing statements are
+ABOUT; a DAQ rig is what does the recording. Subclassing would say you can enrol the rig as a
+research subject.
+
+**But `instrument_id` MUST still be able to point at a subject**, which is why the target is
+`entity` and not `acquisition_system`: `element.m` promotes probes to subjects with ids
+preserved, and `electrode_offset_voltage` is a real observation whose subject IS the electrode.
+A probe is a subject when observed and an instrument when recording. That is T7 — instrument is
+a ROLE carried by an edge, not a type.
+
+**CORRECTION.** Claude first proposed `epoch.instrument_id -> base`, by analogy with
+`relative_reference.relative_to -> base`. `entity` is strictly tighter and still covers both
+cases; `relative_to` needs `base` only because its referent can be an epoch or a stimulus,
+which are not entities.
+
+**Still a #32 item:** `subject_interaction.instrument_id -> subject` and
+`epoch.instrument_id -> entity` are the same role name with different declared targets.
+`must_refer` is existence-only so nothing breaks today, but if it ever becomes type-checked
+that is the question to answer.

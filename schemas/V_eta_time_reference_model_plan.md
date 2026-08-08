@@ -460,3 +460,244 @@ gap, not an oversight.
 
 *Open item 2 stays open for that reason, and it is now the only thing between this model and a
 complete design.*
+
+---
+
+# THE 2026-08-08 WALKTHROUGH — the model is now COMPLETE. Read this section, not the ones above.
+
+TEAM-SIGN-OFF [time_reference]: jess@walthamdatascience.com / 2026-08-08 -- 8 classes collapse to absolute_reference + relative_reference; anchor and extent are separated (start + duration, NOT start + end); every value-level `approximate` is deleted; `clock` becomes a bound ontology_term over FOUR terms and the approx_ prefix de-encodes to an explicit clock_tolerance on the root.
+
+Everything above stands except where this section overrides it. Reached by working the family
+field by field; the team's questions drove four changes and caught two of Claude's errors.
+
+## THE FAMILY, FINAL
+
+```
+time_reference  ⊂ base                                              ABSTRACT ROOT
+   clock_tolerance   duration   optional; the stated precision of the TIMELINE these
+                                times are expressed on. ABSENT = no stated tolerance.
+                                For absolute_reference that timeline is UTC by construction.
+      seconds           double
+      source_unit       char
+      source_value      double
+      approximate       boolean
+
+absolute_reference  ⊂ time_reference
+   value
+      start                            the ANCHOR
+         utc                timestamp    canonical instant
+         source_value       char         the instant exactly as the source wrote it
+         source_timezone    char         IANA zone as the source gave it
+         source_utc_offset  char         offset as the source gave it
+         approximate        boolean      is the ANCHOR imprecise
+      duration                         the EXTENT; ABSENT means an instant, not an interval
+         seconds            double
+         source_unit        char
+         source_value       double
+         approximate        boolean      is the EXTENT imprecise
+      source_end            char       the end instant verbatim, when the source expressed
+                                        the interval as two instants
+
+relative_reference  ⊂ time_reference
+   depends_on   relative_to -> base   REQUIRED
+   value
+      relation   ontology_term   BOUND owl_time_interval        { node, name }
+      clock      ontology_term   BOUND ndic clocktype, 4 terms  { node, name }
+      start      duration        ANCHOR: offset from the referent
+                                 { seconds, source_unit, source_value, approximate }
+      duration   duration        EXTENT; ABSENT means an instant
+                                 { seconds, source_unit, source_value, approximate }
+```
+
+**THREE distinct precisions, none duplicating another:**
+
+```
+clock_tolerance          the TIMELINE is good to +/-5 s      applies to EVERY value on it
+start.approximate        the ANCHOR is imprecise             this document only
+duration.approximate     the EXTENT is imprecise             this document only
+```
+
+## CHANGE 1 — `end` becomes `duration`. ANCHOR and EXTENT are independent facts.
+
+The team's case: *"I may have a time reference that is approximately 10 hours after another
+event, but exactly 60 minutes in duration. Are we capturing that?"* **We were not.**
+
+`start` and `end` are both offsets from the referent, so a fuzzy anchor makes both offsets
+fuzzy and the exactness of their DIFFERENCE is unrecoverable. Replacing `end` with `duration`
+is informationally equivalent (`end = start + duration`) and separates the two uncertainties:
+
+```
+start    { seconds: 36000, approximate: TRUE  }     ~10 hours after
+duration { seconds:  3600, approximate: FALSE }     exactly 60 minutes
+```
+
+**`absolute_reference` takes the same change, for the same reason** — two wall-clock instants
+inherit anchor fuzziness exactly as two offsets do. "Started around 09:00, ran exactly 60
+minutes" is unrecoverable from `start_utc` + `end_utc`.
+
+**`source_end` is NOT renamed to `source_duration`.** The source wrote an END INSTANT, not a
+duration; putting that string in a duration's source slot would label it as a quantity it is
+not — the same class of error as `distance_metadata`'s assumed nested shape. `end` is exactly
+recoverable from the canonical values, so what `source_end` preserves is only the verbatim
+formatting of the second instant. It stays, at value level, as provenance of the SOURCE'S
+SHAPE rather than of one of our fields.
+
+## CHANGE 2 — every value-level `approximate` is DELETED
+
+`time_reference.is_approximate` (root) and `value.approximate` (both children) both go.
+Approximateness lives ONLY where there is a quantity to qualify.
+
+**The argument, in two cases:**
+
+1. **`start` or `duration` present** — the cells already say which fact is approximate. A
+   value-level flag can only restate them or contradict them.
+2. **Neither present** — the assertion is purely qualitative (`relation: during`, no offsets).
+   An Allen interval relation is either true or false; there is no quantity for "approximate"
+   to qualify. *"Approximately during the session"* is not a weaker claim, it is not a claim.
+
+**And the field is empirically vacuous.** Eleven writers, every one a hardcoded constant:
+
+```
+DENOMINATOR: 263 DID-matlab .m files
+   migrators_i/treatment_drug.m:111      anchor.time_reference = struct('is_approximate', true);
+   migrators_i/virus_injection.m:115     ... true
+   migrators_i/treatment.m:219           ... true
+   migrators_i/treatment_transfer.m:83   ... true
+   migrators_i/ontology_table_row.m:212  ... true
+   migrators_i/image_stack.m:132         ... true
+   resolveDeferredBaths.m:153            ... true
+   migrators_e/  (4 more)                ... true
+```
+
+Not read from any source — asserted. What they are expressing is *"we do not know exactly
+when"*, which is already fully expressed by having no `start` and no `duration`.
+**THE ABSENCE IS THE IMPRECISION.**
+
+## CHANGE 3 — `clock` becomes a bound `ontology_term` (#67 is now BLOCKING)
+
+`relation` beside it is already an `ontology_term` bound to OWL-Time, and `variable` is an
+`ontology_term` everywhere. A bare `char` between them was the odd one out.
+
+**#67 moves from follow-up to PREREQUISITE**, alongside #32: building `clock` as a char and
+converting later means migrating every reference document twice.
+
+## CHANGE 4 — the `approx_` prefix de-encodes to `clock_tolerance`; 9 terms become 4
+
+```
+clocktype.m:21   'approx_utc'              | Universal coordinated time (within 5 seconds)
+clocktype.m:23   'approx_exp_global_time'  | Experiment global time (within 5s)
+clocktype.m:26   'approx_dev_global_time'  | A device keeps its own global time (within 5 s)
+epochset.m:554-558   'utc' -> 'approx_utc'; 'exp_global_time' -> 'approx_exp_global_time';
+                     'dev_global_time' -> 'approx_dev_global_time'
+```
+
+The prefix is mode-in-a-name (T13) AND it hides a NUMBER in a docstring (T14). It must NOT
+fold into `approximate` — that is a boolean with no magnitude and the five seconds would be
+lost. It de-encodes to data:
+
+```
+approx_utc              ->  clock: utc              + clock_tolerance { seconds: 5 }
+approx_exp_global_time  ->  clock: exp_global_time  + clock_tolerance { seconds: 5 }
+approx_dev_global_time  ->  clock: dev_global_time  + clock_tolerance { seconds: 5 }
+```
+
+The migrator supplies the 5 from writer semantics — transcription, not invention, the same
+call R6 made for dtype and the Hartley plane labels.
+
+**`clock_tolerance` sits on the ROOT, not on `relative_reference`.** A UTC time good to +/-5 s
+can land on EITHER class: as a wall-clock instant it is an `absolute_reference`; as offsets
+measured in UTC seconds from a referent it is a `relative_reference` with `clock: utc`. Claude
+first put it on the relative class only, which would have dropped the tolerance for every
+absolute one; the team caught it.
+
+**`no_time` and `inherited` leave the value_set.** Final vocabulary: **utc, dev_local_time,
+dev_global_time, exp_global_time**.
+
+`no_time` is REAL and load-bearing in NDI — but never as a timeline:
+
+```
++daq/system.m:178 / +daq/reader.m:131 / +epoch/epochset.m:276 / +time/syncrule.m:113
+      ec = {ndi.time.clocktype('no_time')};                       abstract-class defaults
++file/navigator.m:185
+      epoch_clock = {ndi.time.clocktype('no_time')};  % filenavigator does not keep time
+DID  migrators_i/image_stack.m:196,199,219
+      % image_stack (no clocktype) maps to the 'no_time' clock
+      if isempty(clockName); clockName = 'no_time'; end
+      if strcmp(clockName, 'no_time')
+```
+
+In every case it is an `epoch_clock` asserting *"this thing keeps no time"* — never a timeline
+a time is expressed on, because there is no time to express. Its V_eta translation is the rule
+this document already carries, **NO TIMES => NO REFERENCE**: no document, not a value inside
+one. `image_stack.m:219` already branches on it, so the migrator behaviour is a skip.
+
+`inherited` is declared and **never constructed** — searching the literal `'inherited'` across
+NDI `src` finds it only in `clocktype.m`'s own list and docstrings. Conceptually it is a
+resolution instruction (*"take the timing from another device"*), i.e. a pointer, and
+`relative_to` already IS that pointer and can name WHICH device, which an enum value cannot.
+**CAVEAT, stated because this project's rule requires it: `inherited` is an ABSENCE-BASED
+call.** The corpora are a sample. Check a corpus for the value before the term is dropped
+rather than merely left unminted.
+
+## CHANGE 5 — open item 2 (#52) shrinks to one rule
+
+The four things multiple references on one document could mean, and what each turned out to be:
+
+```
+1. SPLIT-ANCHORED INTERVAL   NO INSTANCE EXISTS.  markvalidinterval(obj, epochset, t0,
+                             timeref_t0, t1, timeref_t1) permits two anchors, and EVERY call
+                             site passes the SAME reference for both -- including the
+                             docstring (markgarbage.m:10), the in-tree test app
+                             (+test/+app/markgarbage.m:49) and all six unit-test calls
+                             (TestMarkGarbage.m:97,124,161,162,179,180).
+                             Fork C's "two reference documents" was reasoned from the
+                             SIGNATURE, not from a case. DO NOT BUILD start_anchor/end_anchor
+                             until an instance appears.
+2. SAME EXTENT, N CLOCKS     LIVE, on the epoch: epochtable is one (clock, extent) pair per
+                             entry, several per epoch. THE DISCRIMINATOR ALREADY EXISTS
+                             INSIDE THE REFERENCED DOCUMENT -- `value.clock`.
+3. RECURRENCE                DISSOLVES. N occurrences are N statements, not one statement with
+                             N times (T4).
+4. EPOCH EXTENT + STATEMENT TIME    NEVER A CONFLICT: they are on different documents.
+```
+
+**So one rule covers everything real:**
+
+> Within a `time_reference_#` family, every member describes the same instant or extent, and
+> `value.clock` must be UNIQUE across the family.
+
+Checkable, and it makes `epoch.time_reference_#` well defined as it stands. It is latent today
+regardless: every migrator writes only `time_reference_1` (20+ sites across migrators_i, _e, _j
+and resolveDeferredBaths). It goes live with the epoch build.
+
+## TWO OF CLAUDE'S ERRORS, RECORDED SO THEY ARE NOT REPEATED
+
+**1. "`scalar_temperature_observation` declares an untyped `time_reference_1`" — FALSE.**
+`schemas/V_eta/examples/scalar_temperature_observation_series.json` is an EXAMPLE DOCUMENT
+INSTANCE, not a class: its `depends_on` entries carry `value`s. A document names concrete
+numbered edges; `_#` is the schema-side family. The sweep treated any file with a
+`document_class` block as a class declaration.
+
+**That also means the denominator quoted all session was wrong:**
+
+```
+files carrying a document_class block   224   <- what was repeatedly quoted
+index.json schemas                      226   <- AUTHORITATIVE
+                                              stable 214, draft 11, deprecated 1
+                                              examples/ is NOT in the index
+```
+
+**2. "The `approx_*` clocktypes duplicate `approximate` and should decompose into it" — WRONG
+as stated.** They carry a quantified five-second tolerance on the CLOCK, and `epochset.m`
+degrades a clock to its approx variant as a mapping operation. That is a property of the
+timeline, not of a value. The de-encoding is right; the destination was not. See Change 4.
+
+## WHAT THIS DOES NOT SETTLE
+
+1. **#67 and #32 are both PREREQUISITES now**, not follow-ups.
+2. **#51 is still a CHECK**: verify a `session` document is present in every corpus before
+   `relative_to` is made REQUIRED.
+3. **`inherited`** wants a corpus check before the term is dropped (above).
+4. **Whether `is_approximate` was ever `false`** on the 107,308 `session_relative_reference`
+   documents. The field is being deleted either way, but if a v1 writer ever set it
+   meaningfully, that meaning needs a home before the migrators are moved.
