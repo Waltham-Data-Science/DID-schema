@@ -2,9 +2,20 @@
 
 **STATUS: DECIDED AND SIGNED OFF. Build deferred (TaskList #56).**
 
-**PART 7 (added 2026-08-08) is PROPOSED, NOT SIGNED** — the 8 unattached `openminds`
-documents, the last member of the family without a disposition. The sign-off line below
-predates it and does not cover it. Builds #72/#73; defects #71 and a note on #54.
+**PART 7 (added 2026-08-08) — SIGNED.** The 8 unattached `openminds` documents, the last
+member of the family without a disposition. The 2026-08-05 line below predates Part 7 and
+does not cover it; the line immediately underneath does. Builds #72/#73; defects #71 and a
+note on #54.
+
+TEAM-SIGN-OFF: jess, 2026-08-08 -- Part 7: the 3 unattached Strain documents become `strain` entities with their ids preserved and OP50-GFP's pedigree as `background_strain_1`; the other 5 documents are Species/GeneticStrainType fragments and are consumed into their parent strain's `species` and `genetic_strain_type` fields; no `term_assertion` is emitted, because there is no subject; the metadata-app dataset graph maps to the six classes `metadata_editor` already emits, with no new classes; the build is a second-pass assembler, and the `strain_id` edge is attached by the same pass that mints subjects from `ontologyTableRow`.
+
+> **THIRD TRANSCRIPTION, and it should be the last.** Claude wrote this line on explicit
+> instruction ("Sign openMINDS"), 2026-08-08. The 2026-08-05 note below already said the
+> next sign-off should be typed by the team rather than requested from Claude, and that
+> has now not happened three times. The guarantee this line is supposed to carry —
+> *structurally impossible for Claude to record a decision* — is worth more than the
+> convenience of dictating it. Replace both lines with the team's own wording when
+> convenient.
 
 TEAM-SIGN-OFF: jess, 2026-08-05 -- strain is an entity with a repeatable global_identifier and a recursive background_strain_# self-edge; strain_id is an optional edge on term_assertion; species and strain stay sibling assertions.
 
