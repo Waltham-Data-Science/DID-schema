@@ -260,3 +260,77 @@ daqreader_id -> acquisition_system;   epochid -> epoch_id
 5. **A cannot be built** until the time model and #30 both land — it decomposes into
    `relative_reference` documents and a `sampled_body` on an observation, and neither
    target exists yet.
+
+---
+
+## SIGNED OFF 2026-08-08
+
+TEAM-SIGN-OFF [daq ingested payloads]: jess@walthamdatascience.com / 2026-08-08 -- ONE new class, `acquisition_metadata_file`; the reader and image classes RETIRE by decomposing into relative_reference + sampled_body + image_observation, all of which are now themselves signed.
+
+### The classes, as signed
+
+```
+acquisition_metadata_file ⊂ base                     base.id PRESERVED
+   (NO FIELDS -- its entire content is the file)
+   FILE  data.bin                                    REQUIRED
+   depends_on
+      acquisition_metadata_reader_id -> acquisition_metadata_reader   REQUIRED
+      epoch_id                       -> epoch                         REQUIRED
+
+daqreader_epochdata_ingested          RETIRES (decomposes)
+daqreader_image_epochdata_ingested    RETIRES (decomposes)
+```
+
+It cannot be a `data_body`: both body classes depend on a `statement`, and a per-epoch
+metadata blob is not an observation of any subject. That reasoning survives the 2026-08-08
+data_body rework unchanged.
+
+### THREE REVISIONS from decisions taken the same day — the plan above is superseded on these
+
+**1. `t0_t1` -> `start` + `duration`, NOT `start`/`end`.** The time model signed
+2026-08-08 replaced `end` with `duration`, so an ingested epoch extent becomes an anchor plus
+an extent with INDEPENDENT `approximate` flags — a distinction the old shape could not express
+("approximately 10 hours after, exactly 60 minutes long").
+
+**AND `epochclock` may mean NO DOCUMENT AT ALL.** `no_time` left the clocktype vocabulary the
+same day, and `migrators_i/image_stack.m:199` shows an ingested epoch can carry exactly that
+(`if isempty(clockName); clockName = 'no_time'; end`). Under **NO TIMES => NO REFERENCE**,
+those emit no `relative_reference` rather than a NaN one.
+
+**2. The image fold goes through the AXIS ENTRY, and `clocktype` does not land on the axis.**
+This document says *"`frametimes` + `clocktype` -> the per-frame time axis; `clocktype` ->
+`clock`, bound did_clocktype"*. Under the data_body decision an axis has a `variable` and **no
+clock** — the clock lives on the time reference. So:
+
+```
+frametimes       -> the time axis's `values` (irregular) or origin/spacing (regular)
+clocktype        -> the EPOCH's relative_reference, NOT the axis
+dimension_order  -> the ORDER OF THE axes[] ENTRIES, not a string
+dimension_size   -> each axis's `n`
+data_type        -> `datum_type` ON THE STATEMENT (via the class(x) normalisation map)
+num_frames       -> the time axis's `n`
+```
+
+**3. The `.nbf.tgz` archives now have somewhere to record that they are compressed.**
+`data_body.format` + `compression` landed 2026-08-08. NDI's own comment — *"Our payloads are
+already compressed archives (.zip, .nbf.tgz)"* (`GetFile.m:61`) — previously had no home and
+was lost at migration.
+
+### REPAIRED IN THE BUILD during this review, not deferred
+
+`daqmetadatareader_epochdata_ingested` declared `file: []` in BOTH V_zeta and V_eta while NDI
+declares `data.bin` REQUIRED in both the template and the schema document — on a class with no
+fields, so it declared nothing it carries, across 2,659 documents. **#64's gap INVERTED**: not
+an undeclared attachment but a declared file V_eta stopped declaring. And unlike `depends_on`,
+nothing skips an empty `file`, so `mustBeNonEmpty` here is not the decorative case.
+Restated through `_tombstone` from the real template; 226 schemas, 497 tests green.
+
+### Gates carried, none waived
+
+1. **A cannot be built until #65 and #30 land** — it decomposes into `relative_reference`
+   documents and a `sampled_body` on an observation.
+2. **R5's `_epoch_cache` rename stays REJECTED**, not merely deferred: for an ingested session
+   those archives are the ONLY copy of the recording, and "cache" invites deleting primary data.
+3. **The undeclared-file gap (#64) is unfixed** — `daqreader_epochdata_ingested` still declares
+   no files while `mfdaq.m:829,916,955` attaches the recording under runtime-computed names.
+4. **`data.bin` stays UNTYPED.** The readers produce TSV in the cases seen; nothing declares it.
