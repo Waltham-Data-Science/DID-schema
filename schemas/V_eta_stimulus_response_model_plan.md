@@ -527,3 +527,51 @@ both provenance. That is #52's question in a second family: a bare index cannot 
 
 Left OPEN deliberately rather than fixed by inventing an edge name — it should be decided with
 #52 and #63 together, since all three are the same question about numbered families.
+
+---
+
+## SIGNED OFF 2026-08-08
+
+TEAM-SIGN-OFF [stimulus response]: jess@walthamdatascience.com / 2026-08-08 -- four classes to TWO: `harmonic_component` (data_type) + `harmonic_component_calculation` (⊂ subject_calculation, id PRESERVED); stimulus_response and stimulus_response_scalar_parameters DELETE (superclass-only, 0 docs); _parameters_basic FOLDS inline to method_parameters. Signed WITH the three mapping revisions above.
+
+### The classes, as signed
+
+```
+harmonic_component ⊂ data_type                     ABSTRACT composite
+   value { harmonic (0=DC, 1=F1, 2=F2), real, imaginary,
+           control_real, control_imaginary }
+
+harmonic_component_calculation ⊂ subject_calculation, harmonic_component
+   base.id PRESERVED
+   depends_on  subject_id     <- element_id
+               instrument_id  <- stimulator_id            RECOVERS a dropped edge (T7)
+               derived_from_# <- stimulus_presentation_id + stimulus_control_id
+                                                          RECOVERS a dropped edge
+               time_reference <- element_epochid, as a relative_reference (revision 2)
+   axes[]      variable: stimulus  <- responses.stimid    (revision 1 -- NOT conditions)
+```
+
+### Repairs this carries
+
+```
+stimulus_response_scalar_parameters.stimulus_response_scalar_id
+      INVENTED, REQUIRED, UNTYPED ('') -- inherited by _basic, which is where the
+      11,440 empty documents come from. THE LARGEST INSTANCE of the 26,406-document
+      invented-empty-edge pattern. NDI has the edge the OTHER WAY.
+stimulus_response_scalar.stimulus_response_id
+      the real edge (stimulus_response_scalar_parameters_id) DROPPED and a reverse
+      one invented, also UNTYPED.
+stimulus_response  stimulator_id and stimulus_control_id DROPPED by V_eta; both
+      recovered by the fold, as instrument_id and a derived_from_# member.
+```
+
+### Gates carried, none waived
+
+1. **#67** for the `clock` term on the epoch anchor.
+2. **#63** for `derived_from_#` cardinality.
+3. **#52 OPEN in a second family**: with the presentation and the control both members of
+   `derived_from_#`, nothing records WHICH was the control. Decide with #52 and #63 together.
+4. **#32** must distinguish "dimensionless" from "no entry" in the registry, or an index axis
+   like `stimulus` is indistinguishable from an unregistered one.
+5. **The parameters fold is safe on volume**: at most 6 distinct parameter tuples against
+   11,440 documents, so inlining duplicates almost nothing.
