@@ -1312,9 +1312,15 @@ write("draft", "control_designation",
           deps=[
               dep("timed_sequence_id", "timed_sequence",
                   "The presentation whose stimuli these controls annotate.", non_empty=False),
-              dep("derived_from_1", "subject_interaction",
-                  "Provenance: the analysis/interaction this designation was derived from "
-                  "(T10).", non_empty=False),
+              # `derived_from_#`, NOT `derived_from_1`. Found 2026-08-08 in the stimulus
+              # sign-off review: this was the ONLY class in the set declaring a CONCRETE
+              # numbered edge instance where the FAMILY belongs. `subject_calculation` and
+              # `subject_observation` both declare `derived_from_#`; a schema declares the
+              # template name and a DOCUMENT names the instances. Hardcoding `_1` also caps
+              # the provenance at one antecedent, which T10 does not.
+              dep("derived_from_#", "subject_interaction",
+                  "Provenance: the analysis/interaction(s) this designation was derived "
+                  "from (T10). Cardinality is unexpressed until #63.", non_empty=False),
           ],
           fields=[
               field("control_stimulus", "matrix",

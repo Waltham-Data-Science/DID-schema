@@ -142,3 +142,77 @@ first-class typed doc — no dictionary-digging.
   (mint-when-warranted, T12, like `kernel`); until then it's just another referenced
   `data_type` doc. The "dispatch by stimulus type" branch stays moot (stimulus type lives in
   the referenced doc).
+
+---
+
+## THREE REVISIONS 2026-08-08 — the sections above are superseded on these points
+
+All three follow from decisions signed the same day. The MODEL is unchanged: stimuli are
+deduped, referenced values plus an ordered playlist — the ensemble pattern applied to
+stimulation. What changed is where three of its pieces attach.
+
+### 1. `epoch_bounded_reference` NO LONGER EXISTS
+
+The model says `timed_sequence_manipulation.time_reference -> epoch_bounded_reference`.
+That class is one of the **eight collapsed into `absolute_reference` + `relative_reference`**
+(`V_eta_time_reference_model_plan.md`, SIGNED 2026-08-08). It had **ZERO documents** and no
+migrator ever emitted one. A presentation spanning an epoch becomes:
+
+```
+time_reference -> relative_reference
+                     relative_to  -> epoch
+                     clock        -> ontology_term, one of the FOUR NDIC clocktype terms
+                     start        -> anchor   { seconds, source_unit, source_value, approximate }
+                     duration     -> extent   { … }        ABSENT means an instant
+```
+
+Note `start` + **`duration`**, not `start`/`end` — the anchor and the extent are independent
+facts and now carry independent `approximate` flags.
+
+### 2. `presentation_time` goes through the BODY TIER, not a bare `files` slot
+
+The model hangs `files: presentation_time.bin` directly off the `timed_sequence` composite.
+Under the data_body decision (`V_eta_data_body_model_plan.md`), per-trial onsets are an
+**irregular time axis**, and a composite reaches its payload through `storage_mode` exactly as
+`image` reaches its pixels:
+
+```
+storage_mode: body   ->   sampled_body
+                             depends_on  statement -> the timed_sequence_manipulation
+                             axes[1]  variable: time
+                                      regular: false
+                                      values:  { values: [onsets…], source_values: … }
+                                      n:       the trial count
+                             datum_type / byte_order / datum_order as declared
+```
+
+And **`presentation_time.clocktype` does NOT land on the axis.** An axis has a `variable` and
+no clock; the clock lives on the time reference. So `clocktype` goes to the manipulation's
+`relative_reference` (revision 1), not into `axes[]`.
+
+The v1 block is `presentation_time { clocktype, stimopen, onset, offset, stimclose,
+stimevents[] }` — so `onset`/`offset` are the axis values, `stimopen`/`stimclose` are the
+outer bounds, and `stimevents` needs its own read before it is typed.
+
+### 3. `derived_from_1` -> `derived_from_#` — FIXED IN THE BUILD, not deferred
+
+`control_designation` was the ONLY class in the set declaring a **concrete numbered edge
+instance** where the FAMILY belongs. `subject_calculation` and `subject_observation` both
+declare `derived_from_#`. A schema declares the template name; a DOCUMENT names the instances.
+
+Hardcoding `_1` also silently capped provenance at ONE antecedent, which T10 does not.
+
+```
+BEFORE  dep("derived_from_1", "subject_interaction", …)
+AFTER   dep("derived_from_#", "subject_interaction", …)
+226 schemas, 497 tests green.
+```
+
+Its cardinality is unexpressed until **#63**, like every other `_#` family.
+
+> **A note on how this one was found, because the reverse mistake was made hours earlier.**
+> A claim that `scalar_temperature_observation` declared an untyped `time_reference_1` was
+> reported and was FALSE — that file is an EXAMPLE DOCUMENT under `schemas/V_eta/examples/`,
+> and a document naming `time_reference_1` is correct. `control_designation` is the genuine
+> case: a CLASS, in `draft/`, declaring the index. The distinction is whether the file carries
+> `document_class` + `fields` (a schema) or `base` + `depends_on` with `value`s (an instance).
