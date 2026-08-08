@@ -95,12 +95,38 @@ and the code, 2026-08-08. Where a figure could not be re-derived it says so.
 
 **#9 — analysis-tier decomposition (in_progress).** Done: the 12 vision calculators fold 1→1
 into `subject_calculation` leaves with ids and deps PRESERVED (Soph corpus run #2 / `b3e2e10`,
-~101k docs, **0 orphans** — the 11,448-orphan dissolution failure does not recur); the tuning
-collapse (#26); `kilosort_clusters` / `kiasort_clusters` decompose via
-`migrators_j.private.jSorterOutput`. Remaining: the **ensemble second pass** (#29 — `member_of`
-edges + the rebuildable cache, needs the `neuron_names.txt` read and neuron-id → subject
-resolution) and the rest of the spike zoo. *Which spike-zoo classes were already walked is NOT
-recoverable — re-derive from `+migrators_j/` before claiming coverage.*
+~101k docs, **0 orphans** — the 11,448-orphan dissolution failure does not recur) and the
+tuning collapse (#26).
+
+**The spike zoo, RE-DERIVED 2026-08-08 from `+migrators_j/` (60 top-level migrators, 22 private
+helpers). All eleven classes have a migrator; the split is 5 folded / 6 deliberately deferred:**
+
+```
+FOLDED
+   jrclust_clusters                 -> observation + sampled_body (one datum per spike)
+   kilosort_clusters                -> D-C shape: count_observation + opaque_body + anchor
+   kiasort_clusters                 -> D-C shape: count_observation + opaque_body + anchor
+                                       (both via migrators_j.private.jSorterOutput)
+   neuron_extracellular             -> emits
+   vmspikefit                       -> emits
+
+DEFERRED to the NDI second pass — passed through UNCHANGED, by design, each with a
+guarded `bodies = {preBody}` and a header saying so
+   binnedspikeratevm                <- CARRIES THE KNOWN OPEN RISK: Hz vs spikes-per-bin.
+                                       The vhlab_voltage2firingrate writer is in no repo we
+                                       have, so the units are unverified — a silent 33x risk
+   spike_clusters
+   spike_interface_sorting_outputs  <- num_units does not exist; the count is inside the .zip
+   spikewaves
+   vmspikesummary                   <- models a DIFFERENT document than exists: the real class
+                                       is a mean spike WAVEFORM + 8 shape medians
+   vmneuralresponseresiduals
+```
+
+So "the rest of the spike zoo" is **not unwritten migrators** — it is six deliberate
+second-pass deferrals plus the **ensemble** (#29: `member_of` edges + the rebuildable cache,
+needing the `neuron_names.txt` read and neuron-id → subject resolution). There is no
+`ensemble.m` in `+migrators_j`, which is consistent with #29 being unbuilt.
 
 **#25 — software follow-ups.** `app` → `software` entity + `software_id` edge +
 `execution_environment` is BUILT (R1, signed). Remaining: `app` retires **by attrition, not by
@@ -140,9 +166,45 @@ enforcement half of Phase 1.
 fold (group F) in `V_eta_ngrid_family_findings.md`, whose standing process rule is: **every
 remaining item in that document is DECIDED BEFORE ANY BUILD.**
 
-**#53 — ontology_table_row.** ~76,766 observations emitted with an EMPTY `subject_id`. The
-invented-empty-edge pattern one layer up from the five classes #37 fixes. *The repair approach
-was never written down outside the task — re-derive from `migrators_j/ontology_table_row.m`.*
+**#53 — ontology_table_row. RE-DERIVED 2026-08-08, and the subject line overstates it: the
+bleeding is already STOPPED.** The repair was written down — in the migrator itself, not in the
+task.
+
+The defect, as the code records it: the real NDI template declares exactly one dependency and
+it is not the one the migrator scanned for —
+
+```
+ndi_common/database_documents/data/ontologyTableRow.json
+   depends_on: [ { "name": "document_id", "value": "" } ]
+```
+
+— so `carrySubject`'s scan for a `subject_id` dependency never succeeded on a real document and
+every statement was emitted with `subject_id = ''`. **Corpus run #256 measured 76,766 on Dab
+alone** — intensity, count, term, duration, frequency, date_assertion, term_assertion — each
+recording that SOMETHING was measured without recording WHAT. All of it passed validation,
+because `references.m` skips empty edges and `mustBeNonEmpty` on a `depends_on` is not enforced.
+
+**What is already built:**
+
+```
+1. A GUARD in the main function:  if isempty(resolvedSubject(preBody))
+                                      bodies = {preBody};  return;   % pass through whole
+2. carrySubject now ERRORS rather than emitting an empty edge:
+      error('did2:convert:noSubject', 'refusing to emit a statement with an empty subject_id …')
+   with the comment: "if it ever does, the guard has been removed and 76,766 hollow
+   observations per corpus are back."
+3. Mapped tables (isEncounterTable / isPatchGeometryTable) resolve their subject explicitly
+   and never reach the guard.
+```
+
+**And the approach that was REJECTED, with its reason** — worth keeping, because it is the
+obvious-looking fix: `document_id` **cannot** simply be renamed to `subject_id`. It points at
+the document the row describes, which need not be a subject, and *"minting an unresolvable edge
+is what turned `distance_metadata`'s non-gating quarantine into a GATING orphan failure."*
+
+**What actually remains:** the NDI second pass, which can see the migrated-id graph and resolve
+the subject. Until it lands these documents pass through unconverted — which is a deliberate
+deferral, not a loss. Same treatment `ontology_label` got.
 
 ---
 
