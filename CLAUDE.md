@@ -234,7 +234,15 @@ lives in these files — read them instead of re-deriving from memory:
   subjects with ids PRESERVED. OPEN: the `vhlab_voltage2firingrate` writer is in no repo we have
   (blocks `binnedspikeratevm`'s Hz-vs-spikes-per-bin, a silent 33× risk), and the 102-class v1
   universe may be too small (`NDIcalc-ephys-matlab` ships `spike_shape_calc`, absent from the
-  ledger entirely).
+  ledger entirely). **LIMIT OF THE CHECKER, found 2026-08-08 — its output is a STARTING POINT,
+  NOT AN INSTRUCTION.** It compares the tombstone against the NDI **template**, but the
+  ground-truth rule is *where template and WRITER disagree, the WRITER wins* — and the checker
+  cannot see that disagreement. Live case: it reports `ontology_image` is missing
+  `ontology_node`, because `database_documents/.../ontologyImage.json` says `ontologyNode`
+  (singular) — while `schema_documents/.../ontologyImage_schema.json` says `ontologyNodes` and
+  `imageDocMaker.m:121-127` writes `struct('ontologyNodes', ontologyNodes)`. Following the
+  checker there would have made the tombstone WORSE. Always check the writer before acting on a
+  row.
 - **`schemas/V_eta_time_reference_model_plan.md`** — the FINAL time model (decided in the ⑤
   walkthrough; build deferred). **8 classes collapse to 2**: `absolute_reference` +
   `relative_reference` under an abstract root. `origin` is a RELATION (an edge, T4/T7), `mode` is
