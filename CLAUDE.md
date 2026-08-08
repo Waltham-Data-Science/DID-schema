@@ -173,6 +173,33 @@ lives in these files — read them instead of re-deriving from memory:
   **enforced nowhere** (`validate/references.m` skips empty edges) — sibling to #32.
   Evidence came from `VH-Lab/NDIcalc-vis-matlab` (added to scope; the clone is EPHEMERAL — re-add
   to re-check). **PROCESS: every remaining item in that doc is DECIDED BEFORE ANY BUILD.**
+- **`schemas/V_eta_data_body_model_plan.md`** — the FINAL `data_body` tier (decided 2026-08-08 in
+  the coordinates walkthrough; build deferred, TaskList #45; GATES #46). Started at "where do
+  `ngrid.coordinates` go" and ended at the whole tier. ONE **axis entry** replaces THREE
+  encodings of regular-vs-enumerated (`subject_interaction.sample_time.kind` /
+  `sampled_body.sample_time.regular` / `axes[].regularity`) plus a fourth spelling of the same
+  fact (`acquisition_epoch.axes.sample_rate` typed `frequency` vs `sample_time.dt` typed
+  `duration`). **TIME BECOMES AN ORDINARY AXIS** — both `sample_time` blocks retire, and that is
+  CROSS-REPO (NDI writes `sample_time` in 3 places; the STRING sweep found it, a structural sweep
+  would not). `axes[]` mounts on BOTH `subject_statement` (inline) and `sampled_body` (body),
+  mutually exclusive by `storage_mode` and CHECKED — statement-only is impossible because
+  `pyraview` writes N bodies per statement with per-level `dt`/`t0`. **`conditions` is NOT an
+  axis**: the D10 sentence "same kind of thing, distinguished only by cardinality" is WRONG
+  (time is the commonest axis and has never been a condition) and `conditions` tightens to
+  cardinality EXACTLY 1. `datum` collapses to `datum_type` and moves TO THE STATEMENT (the same
+  `pyraview` loop indexes `dt`/`t0` by level but NOT `dataType`: extent is per-body, type is
+  per-statement). NOT `data_type` — that is a CLASS with **38 direct subclasses**; NOT
+  `element_type` — v1 `element` has **223 hits across 95 of 915 NDI files**; `datum` has ZERO v1
+  meaning. `data_body` gains `format` + `compression` (the unbuilt half of the 2.D "encoding
+  becomes a field" decision, which `migrators_j/image.m:51-56` has been waiting on) plus
+  `filename`/`content_hash`/`description` and the `statement` edge — declared on both children
+  today with OPPOSITE required-ness. `summary` is DROPPED (#68, empty + unread); `zarr` is
+  DELETED not migrated (V_gamma invention, no v1 source, ZERO migrator references) and its
+  `codecs[]` is NOT copied — it models per-chunk array codecs, and the live compression is
+  archives (`.nbf.tgz`, `.zip`) and `tiff`+`lzw`. **CORRECTION recorded there**: a claim that
+  numeric predicates inside an array of structs silently match everything was read off the
+  LEGACY `+did/+datastructures/fieldsearch.m`; `did2` DOES support them
+  (`compileQuery.m` → `queryable_array_elem.value_num`). BLOCKED ON #32.
 - **`schemas/V_eta_ground_truth_plan.md`** + **`schemas/V_eta_migrator_vocabulary_audit.md`** —
   THE REPAIR TRACK. Migrators were written against DID-schema's own `V_alpha` snapshot instead of
   the real NDI templates, so many read fields NO REAL DOCUMENT HAS and emit empty-but-valid

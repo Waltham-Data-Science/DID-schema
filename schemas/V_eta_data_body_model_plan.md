@@ -1,0 +1,496 @@
+# V_eta — the data_body model: axes, datum, and the encoding fields (DECIDED; build deferred)
+
+**DECIDED with the team, 2026-08-08, in the coordinates walkthrough. Build deferred.
+NO `TEAM-SIGN-OFF` LINE** — the marker is the team's to write (Operating Rule 4).
+
+Owns TaskList **#45**. Supersedes the `axes[]`-only framing of that task: the walkthrough
+started at "where do coordinates go" and ended at the whole `data_body` tier, because every
+field on `sampled_body` turned out to be either half-built, ambiguous between writers, or
+holding a fact that belongs somewhere else.
+
+Gates **#46** (ngrid retirement), which was held pending exactly this.
+
+---
+
+## GROUND TRUTH
+
+```
+DENOMINATOR   224 V_eta document classes, 896 field nodes
+              263 DID-matlab .m files;  915 NDI-matlab .m files
+              5 corpora (20211116, B, Dab, JH, Soph), 221,813 v1 documents
+```
+
+### The three classes as they stand
+
+```
+data_body    (draft) ⊂ data          depends_on: []      file: body_data    FIELDS: NONE
+opaque_body  (draft) ⊂ data_body     depends_on: statement  mustBeNonEmpty FALSE
+                format / filename / description
+sampled_body (draft) ⊂ data_body     depends_on: statement  mustBeNonEmpty TRUE
+                                                  filter_id            FALSE
+                datum { kind, dtype, unit, shape }
+                sample_time { regular, t0(duration), dt(duration), n, offsets }
+                summary { value: {}, time: {} }
+                axes[] { name, kind, length, regularity, spacing, unit }
+                content_hash
+```
+
+`data_body` carries nothing. The `statement` edge is declared on **both** children with
+**opposite** required-ness — same edge, same referent, two answers, and under #37 neither is
+enforced.
+
+### What is actually populated
+
+```
+sampled_body.axes[]     ZERO writers.  jSampledBody -- the shared skeleton for every
+                        body-backed fold -- builds datum + sample_time + summary and no axes.
+sampled_body.summary    ONE writer, writing nothing:
+                           jSampledBody.m:30  'summary', struct('value',struct(),'time',struct())
+                        ZERO readers in either repo.
+content_hash            ZERO writers, ZERO readers. Two comment lines in NDI
+                           (stimulusPresentationToManipulation.m:19,111) note that something
+                           else is expected to fill it in. Nothing does.
+datum                   FOUR writers, THREE readers (all test assertions), no production reader.
+```
+
+Four never-populated things on one class.
+
+### The three encodings of one distinction
+
+```
+subject_interaction.sample_time.kind    char     point | grid | enumerated
+sampled_body.sample_time.regular        boolean  regular grid vs enumerated
+sampled_body.axes[].regularity          char     regular | irregular
+```
+
+Plus a fourth spelling of the same fact one level up: `acquisition_epoch.axes.sample_rate` is
+typed `frequency` while `sampled_body.sample_time.dt` is typed `duration` — the same quantity
+stored as a rate in one place and a period in the other.
+
+And three unrelated fields named `kind`: `datum.kind` (scalar|array|record),
+`axes[].kind` (a quantity vocabulary, **prose only** — `constraints {}`), and
+`subject_interaction.sample_time.kind` (the regularity enum). Same trap as `mode` meaning two
+different things in the time family.
+
+### `axes[]` cannot store what it declares
+
+`regularity: irregular` is declarable and there is **nowhere to put the coordinates**.
+`sample_time` got the same case right with `offsets`. There is also **no `origin`**, so even a
+*regular* axis cannot say where it starts — the regular case is reconstructible only by
+convention (T14), not by declaration.
+
+---
+
+## THE DECISION
+
+### 1. One axis entry, replacing all three encodings
+
+```
+axis
+   variable        ontology_term  REQUIRED   what varies along this dimension;
+                                             UNIQUE within the list. Its dimension and
+                                             canonical unit come from the D9 registry --
+                                             the same contract as conditions.quantity.
+                                             THERE IS NO `unit` FIELD.
+   source_unit     char           optional   the unit exactly as the source gave it
+   approximate     boolean        optional   applies to the whole axis
+   n               integer        REQUIRED
+   regular         boolean        REQUIRED
+
+   origin   { value, source_value }      REQUIRED iff regular
+   spacing  { value, source_value }      REQUIRED iff regular
+   values   { values, source_values }    REQUIRED iff NOT regular, numeric
+   labels   ontology_term[]              REQUIRED iff NOT regular, categorical
+```
+
+```
+RULE  `value` / `values` are in the canonical unit the D9 registry gives for `variable`.
+RULE  any source_* is OMITTED when the source unit is already canonical.
+RULE  axes[k] IS array dimension k. Array order IS the dimension order.
+RULE  n equals the extent of the value this axis indexes.
+RULE  values XOR labels.
+```
+
+`kind`, `regularity` and `length` go. `name` goes — its examples (`'contrast'`,
+`'orientation'`) *are* variables, and `conditions`, the live axis mechanism, carries exactly
+one identifier. A free-text `name` beside a bound `variable` is the escape hatch that makes
+the binding pointless. Uniqueness of `variable` is what makes "which axis is X" well defined.
+
+`point` becomes `n == 1` — cardinality, the same argument the time_reference collapse turned on.
+
+### 2. Time is an ordinary axis
+
+Both `sample_time` blocks are replaced by an `axes[]` entry whose `variable` is the time term.
+`regular -> regular`, `t0 -> origin`, `dt -> spacing`, `n -> n`, `offsets -> values`. Nothing is
+lost, `t0`/`dt` rise to the right altitude (T13), and the rate-vs-period drift resolves — an
+axis stores `spacing` in its own quantity, so `sample_rate` goes away.
+
+**This is a CROSS-REPO change.** NDI-matlab writes `sample_time` in three places
+(`+migrate/+internal/stimulusPresentationToManipulation.m:16,108`,
+`stimulusBathToBath.m:120`, `tests/+migrate/TestPathSPromotion.m:124,148`), on top of 17 DID
+files. The string-reference sweep found this; a structural sweep would not have.
+
+### 3. `axes[]` mounts twice, and it is NOT duplication
+
+```
+storage_mode: inline   ->  subject_statement.axes[] populated;  no bodies
+storage_mode: body     ->  each sampled_body.axes[] populated;  statement.axes[] EMPTY
+```
+
+Mutually exclusive, and **checked** — unlike today, where nothing stops both `sample_time`
+blocks being filled. This is not a new pattern; it is what `sample_time` already does
+(`subject_interaction.sample_time` and `sampled_body.sample_time`). Two `sample_time` blocks
+become two `axes[]` blocks.
+
+Statement-only does not work, and `pyraview` is the proof — one observation, N bodies, a
+different rate and start per body:
+
+```matlab
+% Levels are told apart by sample_time.dt (the per-level sampling rate); level 1 is native.
+for k = 1:numel(fileList)
+    rate_k = ...;  dt_k = 1.0/rate_k;  t0_k = starts(k);        % PER LEVEL
+    b = jSampledBody(..., struct('kind','array','dtype',dataType,'unit','','shape',channels), ...
+        struct('regular',true,'t0',durationComposite(t0_k),'dt',durationComposite(dt_k),'n',0));
+```
+
+`dt_k`/`t0_k` are indexed by `k`; `dataType`/`channels` are not. **Extent varies per body;
+element type is constant per statement.** That is why the two fields mount differently — it is
+read off the writer, not chosen for tidiness.
+
+### 4. `conditions` is NOT an axis — the D10 sentence is amended
+
+The declaration says:
+
+> *"A condition whose value is a per-reading ARRAY is the independent-variable axis (e.g. a
+> tuning curve's direction); a length-1 value is a held-fixed covariate — **same kind of thing,
+> distinguished only by cardinality**."*
+
+That is wrong, on positive evidence:
+
+1. **The schema already puts the commonest axis outside `conditions`.** A body's time axis is a
+   dimension and lives in `sample_time`, never in `conditions`. If axis-ness were just a long
+   condition, time would be a condition.
+2. **Two structurally identical documents mean different things.** A per-reading array can be a
+   *coordinate* (element k indexes response element k) or a *co-measurement* (element k merely
+   co-occurs). Both legal, both length-N, indistinguishable.
+3. **The code was written under the covariate reading.** `jTuningFold` never checks that the
+   independent and response arrays are the same length — the equality that would make it an
+   axis is asserted nowhere.
+
+Collapsing a *cardinality* is safe (`point`); collapsing a *coincidence* is not. Covariate and
+axis coincide at n=1 and are different relationships either side of it.
+
+```
+subject_statement.conditions[]     WHAT WAS TRUE of the whole statement
+   cardinality: EXACTLY 1
+   variable   ontology_term  REQUIRED
+   EXACTLY ONE OF:
+      term      { value: ontology_term }
+      count     { value: integer, unit: ontology_term, approximate }
+      quantity  { value, source_value, source_unit, approximate }
+```
+
+`quantity` gains the canonical `value` it currently lacks — it is the only dimensioned
+representation in the schema with a source side and no canonical side.
+
+The test, in one line: **does element k of this entry say something about element k of the
+value? Yes -> axis. No -> condition.** A per-reading co-measurement is neither; it is a
+statement in its own right about the same subject with the same time reference (T4).
+
+### 5. `datum` collapses to a type, and the type moves to the statement
+
+```
+unit    EMPTY at 4 of 4 writers. Under the registry decision the value's unit comes from
+        subject_statement.variable + D9, exactly as an axis's does.            GOES.
+shape   The writers DISAGREE about what it means. The declaration says "array only:
+        intra-datum dims" and three writers honour it; NDI's writes [nTrials,7] alongside
+        sample_time.n = nTrials, so the sample dimension is counted twice -- and
+        TestStimulusPresentation.m:35 locks the wrong reading in. Once axes[] is populated
+        the payload shape is [axes.n] in array order.                          GOES.
+kind    scalar = one axis, array = more. `record` appears once, and it is dtype 'double'
+        over [nTrials,7] -- a homogeneous matrix whose 7 columns are the grating
+        parameters, i.e. a LABELLED CATEGORICAL AXIS, not a record. A genuinely
+        heterogeneous record is unrepresentable anyway (one dtype field).       GOES.
+dtype   R6 already settled that dtype is not recoverable from the payload.     STAYS.
+```
+
+`record`'s one real use becoming a labelled axis is the **second** independent justification
+for `labels`; the first is the Hartley plane axis (§8).
+
+```
+subject_statement
+   datum_type          char   REQUIRED, BOUND to the 14-value vocabulary
+   source_datum_type   char   optional; the source's spelling, OMITTED when identical
+```
+
+**Named `datum_type`, not `data_type` and not `element_type`.**
+
+- `data_type` is **taken**: it is a class with **38 direct subclasses** (acceleration, angle,
+  concentration, duration, image, length, voltage, …) — tier ③. The five fields spelled
+  `data_type` today (`ngrid`, `pyraview`, `binaryseries_parameters`,
+  `daqreader_image_epochdata_ingested`, `acquisition_epoch.storage`) all sit on v1 classes on
+  their way out; every V_eta-native site already spells it `dtype`.
+- `element_type` collides with v1's `element` — **95 of 915 NDI files mention it, 223 hits for
+  `element_id` / `ndi.element` / `@element`.** `element_type` reads as "the type of the
+  element (probe/neuron)", a question v1 genuinely asks with a different answer.
+- `datum` has **zero** v1 meaning: 3 NDI hits, all our own migration code. And
+  `datum.dtype -> datum_type` is a flattening of the existing path, not a new word.
+
+### 6. The bytes tier — what moves to `data_body`
+
+**The rule: the statement says what the values ARE; the body says how the bytes ENCODE them.**
+
+```
+data_body   (abstract; everything about the BYTES)
+   format         char   container / MIME format of the carried bytes   (was opaque_body.format)
+   compression    char   compression applied within or around that format          NEW
+   filename       char   original filename of the payload, if any        (was opaque_body)
+   content_hash   char   hash of the payload bytes -- MUST STATE WHICH bytes,
+                         compressed or decompressed; ambiguous today     (was sampled_body)
+   description    char   human description of the payload               (was opaque_body)
+   depends_on     statement -> subject_statement    ONE required-ness, settled here
+   file           body_data
+
+sampled_body ⊂ data_body   (how the bytes lay out as an array)
+   byte_order     char   'little' | 'big'   REQUIRED when datum_type is multi-byte
+   datum_order    char   'C' | 'F'          REQUIRED when there is more than one axis
+   axes[]
+   depends_on     filter_id -> frequency_filter  (optional)
+
+opaque_body ⊂ data_body
+   (nothing of its own -- its content is "these bytes are not an array", which the class
+    name states. `data_body` has EXACTLY two members; that is not reopened.)
+```
+
+`byte_order` / `datum_order`, not `endianness` / `chunk_order`: two orders at two nesting
+levels — bytes within a datum, data within the array — named the same way, and readable
+without a glossary. (`zarr` spells its own field `endianness` and uses `endian` only where it
+transcribes zarr v3's literal codec key.)
+
+### 7. Encoding: `format` + `compression`, and NOT zarr's codec pipeline
+
+This is not new scope. The 2.D collapse already decided *"every format carrier phases into
+sampled_body/opaque_body (**encoding becomes a field**)"*, and the field was never built.
+`migrators_j/image.m:51-56` documents the deferral in its own header: v1 `image.format` +
+`image.compression` (`'tiff'`, `'lzw'`) *"have no home yet … It should land with the data_body
+encoding field."* This is that field.
+
+Compression is live, and it is not the kind `zarr` models:
+
+```
+1. container / archive        .nbf.tgz, .zip     LIVE  (NDI mfdaq.m:917,942,955,967;
+                                                  metadatareader.m:144; GetFile.m:61
+                                                  "Our payloads are already compressed
+                                                  archives (.zip, .nbf.tgz)";
+                                                  spike_interface_sorting_outputs .zip)
+2. format w/ internal compression   tiff + lzw   LIVE  (v1 image)
+3. per-chunk array codecs     blosc/zstd/gzip    NO INSTANCE  (zarr.codecs[])
+```
+
+Copying `zarr.codecs[]` would model the case that does not occur and miss the two that do —
+the shape-from-a-template error that produced the ~2,078 `distance_metadata` quarantines.
+
+**One `compression` char is enough for the requirement.** To *read* bytes you need the
+transform chain; level, blocksize, checksum and shuffle are *write-time* parameters, and gzip /
+zstd / blosc streams self-describe what a decoder needs. We never re-compress a migrated
+archive — these are archival payloads. zarr models the pipeline because zarr *writes* chunks.
+The one thing that would break a single char is a multi-step pipeline with a
+non-self-describing step (blosc shuffle); there is no instance. If the vocabulary sweep finds
+one, promote `compression` to an ordered list.
+
+**Do NOT bind `format` or `compression` yet.** The observed values are `tiff`, `lzw`,
+`.nbf.tgz`, `.zip`, `application/pdf`, `image/tiff` — two vocabularies (bare tokens and MIME
+types) needing reconciliation, and the full set is unknown. Sweep the corpus first, bind second.
+
+### 8. `labels`, and the Hartley plane axis
+
+`V_eta_ngrid_family_findings.md` F2/F3, from the writer at `65718ed`:
+
+```
+the .ngrid file is a 4-D [T × X × Y × 2] double array:
+   plane 1 = spike-triggered average, plane 2 = per-voxel p-value map
+hartley.m:443   ngridp.coordinates = [ T_coords(:); X_coords(:); Y_coords(:) ];
+```
+
+The writer enumerates coordinates for **three** axes. The plane axis is **unlabelled in the v1
+document** — "plane 1 is STA, plane 2 is p-value" lives only in the writer's code.
+
+So the migrator **supplies** the labels from writer semantics. Under the ground-truth rule
+(*where template and writer disagree, the WRITER wins*) that is transcription, not invention,
+and it is the same call R6 already made for dtype. Without it, which plane is which stays
+structure-by-convention — what T14 exists to stop.
+
+**Caveat on the record:** this is the read from the prior session's shallow clone of
+`VH-Lab/NDIcalc-vis-matlab` @ `65718ed`, not a fresh one. The repo is out of session scope and
+`add_repo` was not approved this session. Re-verify before the build.
+
+### 9. `summary` is DROPPED, not deferred in place
+
+Tracked as TaskList **#68**. `summary.time` is not coming back: it restates the time axis entry,
+and did2 **can** query array elements numerically —
+`+did2/+database/compileQuery.m` compiles `lessthan` / `lessthaneq` / `greaterthan` /
+`greaterthaneq` on a `[*]` path to real SQL against `queryable_array_elem.value_num`
+(`splitPathOnStar` + `buildArrayJoin` -> `json_each` + `EXISTS`).
+
+> **CORRECTION recorded here so it is not repeated.** An earlier turn in this walkthrough
+> claimed numeric predicates inside an array of structs silently match everything. That was read
+> off `+did/+datastructures/fieldsearch.m` — the **legacy** layer — and does not describe the
+> V_eta query surface. The residual limitation is narrower: each `[*]` predicate is its own
+> `EXISTS`, so a numeric subfield cannot be ANDed with a string subfield of the SAME element
+> ("the axis whose variable is time AND whose origin < T" degrades to "some axis is time AND
+> some axis starts before T"). Per-element conjunction exists only for string subfields, via
+> `hasanysubfield_*_string` with cell-valued `param1`/`param2`.
+
+`summary.value` is the one rollup that genuinely cannot be derived from the document (the values
+live in a file), but a "per-type value rollup" depends on `datum.kind`, and min/max means
+nothing for a record. It needs a discriminated design of its own. Carrying an empty structure
+on every body until someone does that work is what `isFragment` and `silentLoss` exist to catch.
+
+### 10. `zarr` is DELETED, not migrated
+
+```
+V_eta_class_provenance.md:279   | zarr | stable | V_gamma | J dim abstract |
+V_eta_coverage_ledger.md:3      "Post-v1 DID intermediate classes (zarr, directory, the
+                                 *_observation leaves, ...) are V_eta TARGETS, not v1 sources"
+DID-matlab, 263 .m files        migrators referencing zarr:  ZERO
+build_v_eta.py:3485-3487        "an orphaned abstract storage-format descriptor (nothing
+                                 subclasses it) ... pending the corpus confirming no zarr docs."
+build_v_eta.py:3492             _RET_CARRIERS = {"zarr", "pyraview"}
+```
+
+A V_gamma-era DID invention: no v1 source, so no v1 document can become one; no migrator emits
+or consumes it; its two subclasses (`ephys_zarr`, `image_zarr`) were already deleted in the 2.D
+pass. The only thing on it anyone needs is the encoding vocabulary, and that is copied onto
+`data_body` — **copied, not referenced: 0 of 224 classes use `$ref`.**
+
+**The stated gate still runs.** "Pending the corpus confirming no zarr docs" is a formality
+given no writer exists, but it is the project's own gate, and waiving it is the shape of
+reasoning that produced the "all 0-usage, safe to delete" errors (3 of 4 wrong).
+
+---
+
+## WHAT IS BOUND, AND WHAT IS CHECKED
+
+```
+BOUND    datum_type              the 14-value vocabulary, DECLARED ON data_body
+                                 (copied from zarr.dtype: uint8 uint16 uint32 uint64
+                                  int8 int16 int32 int64 float16 float32 float64
+                                  complex64 complex128 bool)
+BOUND    byte_order              little | big     -- `native` is NOT carried: it means
+                                 "whatever machine wrote it", i.e. the fact you need and
+                                 do not have once the file moves. A stored `native` is a
+                                 hollow value.
+BOUND    datum_order             C | F
+BOUND    variable (axes + conditions)   via the D9 registry -- #32. A HARD PREREQUISITE:
+                                 with no unit field, the registry is the only thing that
+                                 says what the numbers mean.
+NOT BOUND YET  format, compression      sweep the corpus for real values first.
+
+CHECKED  axis.n == the extent of the value it indexes
+CHECKED  every conditions value length == 1
+CHECKED  variable unique within a list
+CHECKED  regular => origin+spacing present, values/labels absent
+CHECKED  NOT regular => values XOR labels, origin/spacing absent
+CHECKED  source_* absent when the source unit is canonical
+CHECKED  storage_mode inline => statement.axes populated and no bodies;
+         storage_mode body   => statement.axes EMPTY and each body carries its own
+```
+
+---
+
+## BUILD ORDER
+
+```
+1.  #32   bind `variable`. PREREQUISITE, not parallel work.
+2.  schema: the axis entry; axes[] on subject_statement and sampled_body; conditions
+    tightened to cardinality 1; datum -> datum_type on the statement; the data_body
+    hoist (format, compression, filename, content_hash, description, the statement edge);
+    byte_order + datum_order on sampled_body; summary deleted; zarr deleted (gated).
+3.  DID-matlab
+       jTuningFold.m:53            independent variable moves conditions -> axes; gains the
+                                   numel(indep) == numel(response) check
+       electrode_offset_voltage.m:90  stays in conditions; its DELIBERATELY empty unit
+                                   ("Unit deliberately left unstated") must be recovered
+                                   from the writer before `variable` can be bound
+       image_stack.m:257 imageAxes rebuild: per-axis variable instead of a dimension_order
+                                   letter and ONE dimension_scale_units string applied to
+                                   every axis -- including the channel and time axes
+       image_stack.m:121 / pyraview.m:114 / jrclust_clusters.m:71   datum -> datum_type
+       jrclust_clusters.m:71       writes dtype '' -- must supply a real type
+       pyraview.m:117              writes 'n', 0 on every body with real bytes attached --
+                                   must derive the per-level length
+       jSampledBody.m              emits axes; stops emitting the empty summary
+       jMeasureArray.m             stops copying the unit once per reading (it writes one
+                                   {source_unit,source_value,approximate} PER READING: a
+                                   16-direction tuning curve stores 'deg' sixteen times)
+       ngrid migrator              stops rmfield'ing coordinates
+4.  NDI-matlab -- CROSS-REPO, found by the string-reference sweep
+       +migrate/+internal/stimulusPresentationToManipulation.m:98,108
+       +migrate/+internal/stimulusBathToBath.m:120
+       tests/+ndi/+unittest/+migrate/TestPathSPromotion.m:124,148
+       tests/+ndi/+unittest/+migrate/TestStimulusPresentation.m:35
+5.  retire sample_time from both schema sites.
+```
+
+### The datum_type normalisation map
+
+From the writer (`NDI +ndi/+fun/+data/mat2ngrid.m:38-44`):
+
+```matlab
+ngrid.data_size = props.bytes/numel(x);
+ngrid.data_type = class(x);        % MATLAB class name
+if islogical(x); ngrid.data_type = 'ubit1'; end
+```
+
+```
+int8 int16 int32 int64          identical    -> source_datum_type omitted
+uint8 uint16 uint32 uint64      identical    -> source_datum_type omitted
+double     -> float64                        -> source 'double'
+single     -> float32                        -> source 'single'
+logical    -> bool                           -> source 'logical'
+ubit1      -> bool                           -> source 'ubit1'
+char       -> DECISION: no canonical in the 14
+complex    -> DECISION: MATLAB has no complex class name; complex data arrives as
+              'double' and the imaginary part is invisible to class(x)
+```
+
+`image_stack` and `pyraview` pass `data_type` through verbatim, so **the moment `datum_type` is
+bound, every migrated image and pyraview body fails validation** — `double` is not in the enum.
+That is the binding working, but it is planned work, not a CI surprise. `image_stack` also has
+`firstNonEmpty(dataType, 'uint16')`, so a silent default is not hypothetical.
+
+Keeping `source_datum_type` is not symmetry for its own sake: the map is **not invertible**
+(`bool` maps back to `logical` *or* `ubit1`; `char` has no canonical at all), and retaining the
+source spelling makes the map **auditable** — you can query the corpus afterwards and verify
+every `float64` came from a `double` rather than from a default.
+
+---
+
+## OPEN
+
+1. **#32 is a hard prerequisite**, not adjacent cleanup. This puts a bound vocabulary on every
+   axis of every sampled body — the most-instantiated bound field in the schema — and
+   `binding` is enforced by nothing today (`validateConstraints` handles only
+   maxLength/minLength/minimum/maximum/enum).
+2. **`format` / `compression` vocabularies** need a corpus sweep before binding.
+3. **`content_hash` must state which bytes** it hashes, now that compression is declarable.
+4. **THREE axes declarations, not two.** `image.value.axes` is a third shape —
+   `{name, length, spacing, unit}`, four fields, no regularity, no coordinates — and is in
+   scope for this decision.
+5. **The Hartley plane read is from the record, not a fresh clone** (§8).
+6. **`char` and complex datum types** are decisions, not mappings, and want a corpus check for
+   whether either occurs.
+7. **`storage_mode: reference`** — where the axes live when the value is a reference is not
+   settled here.
+
+---
+
+## THE TEAM CALLS INSIDE THIS
+
+1. The D10 sentence is amended and `conditions` tightens to cardinality 1.
+2. `axes[]` gains a mount on `subject_statement`.
+3. The axis carries no `unit`; the dimension comes from `variable` + D9, making #32 blocking.
+4. `datum` collapses to a bound, required `datum_type`, which lives on the **statement**.
+5. `record` is retired as a datum kind; its one real use becomes a labelled axis.
+6. `format` + `compression` land on `data_body`, with `filename`, `content_hash` and
+   `description` hoisted alongside; `zarr` is deleted rather than migrated.
