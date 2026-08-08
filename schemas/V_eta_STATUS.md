@@ -15,14 +15,14 @@ for each model; this board owns *how much is left and what exactly*.
 | **still open (`in_progress`)** | **32** |
 | **`retire` with no migrator and no plan** | **12** |
 | open **decision families** | **19** |
-| &nbsp;&nbsp;DECIDED and signed off, awaiting build | 14 |
-| &nbsp;&nbsp;decided in a walkthrough, **awaiting a signature** | 5 |
+| &nbsp;&nbsp;DECIDED and signed off, awaiting build | 15 |
+| &nbsp;&nbsp;decided in a walkthrough, **awaiting a signature** | 4 |
 | &nbsp;&nbsp;**written up by Claude alone, unreviewed** | **0** |
 | &nbsp;&nbsp;nobody has proposed anything yet | 0 |
 
 The class count is not the work count. 32 open classes are 19 decisions, because most open classes move as a family.
 
-**5 of those 19 are not settled**: 5 awaiting a signature on a decision already taken, 0 written up by Claude alone and unreviewed, 0 with nothing proposed. Only 14 are signed off.
+**4 of those 19 are not settled**: 4 awaiting a signature on a decision already taken, 0 written up by Claude alone and unreviewed, 0 with nothing proposed. Only 15 are signed off.
 
 ## AWAITING A SIGNATURE -- decided with the team, not yet recorded
 
@@ -32,13 +32,11 @@ re-deciding -- it needs recording.
 
 | family | classes | what was decided | document |
 |---|---|---|---|
-| **stimulus** | 2 | timed_sequence data_type + timed_sequence_manipulation leaf; control_designation resolved here | `V_eta_stimulus_model_plan.md` |
 | **spike processing parameters** | 4 | 4 -> 1 `method_parameters` (id+name preserved); canonical parts typed, rest a bag | `V_eta_method_parameters_plan.md` |
 | **stimulus parameters** | 2 | stimulus_parameter DISSOLVES to a typed leaf keyed by its CURIE (build gated on #32); stimulus_parameter_table PASSES THROUGH; both tombstones repaired | `V_eta_stimulus_parameter_plan.md` |
 | **stimulus response** | 4 | 4 -> 2: `harmonic_component` data_type + calculation leaf (id preserved); parameters fold inline, killing 11,440 empty required edges | `V_eta_stimulus_response_model_plan.md` |
 | **misc singletons** | 3 | binaryseries_parameters -> sampled_body; projectvar PASSES THROUGH (needs real docs); interaction_purpose is a target (#32) | `V_eta_go_forward_class_audit.md` |
 
-- **stimulus**: `control_designation`, `stimulus_presentation`
 - **spike processing parameters**: `sorting_parameters`, `spike_extraction_parameters`, `spike_extraction_parameters_modification`, `vmspikefilteringparameters`
 - **stimulus parameters**: `stimulus_parameter`, `stimulus_parameter_table`
 - **stimulus response**: `stimulus_response`, `stimulus_response_scalar`, `stimulus_response_scalar_parameters`, `stimulus_response_scalar_parameters_basic`
@@ -77,6 +75,7 @@ migrator work before the target closes is rework.
 | family | classes | decision | recorded in |
 |---|---|---|---|
 | **time_reference** | 8 | 8 classes collapse to absolute_reference + relative_reference | `V_eta_time_reference_model_plan.md` |
+| **stimulus** | 2 | timed_sequence data_type + timed_sequence_manipulation leaf; control_designation resolved here | `V_eta_stimulus_model_plan.md` |
 | **ensemble** | 1 | group subject + epoch-scoped member_of edges + rebuildable cache | `V_eta_ensemble_plan.md` |
 | **image / ngrid** | 1 | ngrid phases into sampled_body; image is a standalone data_type | `V_eta_image_model_plan.md` |
 | **epoch** | 3 | MINT `epoch` ENTITY (+ OPTIONAL `instrument_id`, 2026-08-06); element_epoch dissolves; epochid DROPPED; probemap -> edges (B) | `V_eta_epoch_plan.md` |

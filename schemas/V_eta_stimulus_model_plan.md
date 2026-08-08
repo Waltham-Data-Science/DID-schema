@@ -216,3 +216,51 @@ Its cardinality is unexpressed until **#63**, like every other `_#` family.
 > and a document naming `time_reference_1` is correct. `control_designation` is the genuine
 > case: a CLASS, in `draft/`, declaring the index. The distinction is whether the file carries
 > `document_class` + `fields` (a schema) or `base` + `depends_on` with `value`s (an instance).
+
+---
+
+## SIGNED OFF 2026-08-08
+
+TEAM-SIGN-OFF [stimulus]: jess@walthamdatascience.com / 2026-08-08 -- `timed_sequence` (a data_type: deduped references to stimulus value documents + an index-array playlist) + `timed_sequence_manipulation` (the leaf); `control_stimulus_ids` -> `control_designation`; stimulus_presentation is DECOMPOSED around its preserved id, not dissolved. Signed WITH the three same-day revisions above: the time anchor is a relative_reference, the per-trial timing goes through the body tier as an irregular time axis, and control_designation's derived_from_# is fixed in the build.
+
+### The classes, as signed
+
+```
+timed_sequence ⊂ data_type                            ③ composite, DIRECTION-NEUTRAL
+   value.presentation_order   matrix    an INDEX ARRAY into the presented_id refs
+   depends_on presented_id -> data_type   BROAD, MULTIPLE, one per DISTINCT stimulus
+   storage_mode                           inline (one subject) | reference (shared)
+   per-trial timing                       -> sampled_body, irregular time axis (revision 2)
+
+timed_sequence_manipulation ⊂ subject_manipulation, timed_sequence     ④ leaf
+   depends_on subject_id     -> subject
+              instrument_id  -> entity              THE STIMULATOR (T7)
+              time_reference -> relative_reference  relative_to -> epoch (revision 1)
+
+control_designation ⊂ base                            (was control_stimulus_ids, T13)
+   control_stimulus  matrix      indices into the timed_sequence
+   method            structure   how the designation was derived
+   depends_on timed_sequence_id -> timed_sequence
+              derived_from_#    -> subject_interaction        (revision 3, BUILT)
+```
+
+### Repairs this carries
+
+```
+stimulus_presentation.element_id   INVENTED and REQUIRED -- 2,670 documents, 100% empty.
+                                   NDI's dep is `stimulus_element_id`, and the stimulator
+                                   becomes `instrument_id` on the leaf per T7.
+presentation_time                  V_eta DROPPED it from the source tombstone entirely.
+                                   This is why stimulus_presentation is one of #43's THREE
+                                   BLOCKING rows: a real document cannot validate today.
+stimuli.parameters                 rides with #62 (stimulus parameters).
+```
+
+### Gates carried, none waived
+
+1. **#43's three blocking tombstone rows** (`stimulus_parameter`, `stimulus_parameter_table`,
+   `stimulus_presentation`) are held FOR this build and are repaired by it.
+2. **#67 gates the `clock` term** on the manipulation's `relative_reference`.
+3. **#63**: `presented_id` and `derived_from_#` cardinality is unexpressed.
+4. **`stimevents` stays UNTYPED** until someone reads real ones. `onset`/`offset` are the
+   axis values and `stimopen`/`stimclose` the outer bounds; `stimevents` is not yet understood.
