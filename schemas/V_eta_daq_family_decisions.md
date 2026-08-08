@@ -452,3 +452,57 @@ call.*
 there**: the sweep compares what MIGRATORS read against what NDI declares. It does not compare
 what V_eta CLASSES declare against what NDI declares. `check_tombstones.py` does that for
 source tombstones only — these three are on retained infra classes, so nothing was looking.
+
+---
+
+## SIGNED OFF 2026-08-08 — daq configuration
+
+This document is cited by TWO board families (`file navigation`, signed 2026-08-06, and
+`daq configuration`), so the sign-off line carries a `[family]` tag; an untagged line would
+sign both.
+
+TEAM-SIGN-OFF [daq configuration]: jess@walthamdatascience.com / 2026-08-08 -- daqreader DISSOLVES into a `software` entity (base.id preserved); daqmetadatareader -> `acquisition_metadata_reader`; daqsystem -> `acquisition_system` ⊂ entity, base.id AND base.name preserved because the name is the join key; the invented `file_extension` and `metadata_names` are DELETED; `reader_string` is KEPT as the de-encoded daqreader_ndr.ndr_reader_string.
+
+### What the review changed
+
+```
+CHANGED   acquisition_system ⊂ base -> ⊂ entity      so epoch.instrument_id reaches it
+CHANGED   navigator_id -> file_navigator             ==> epoch_file_pattern_id -> epoch_file_pattern
+          metadata_reader_id_# -> metadata_reader    ==> acquisition_metadata_reader_#
+                                                          -> acquisition_metadata_reader
+          (the edges were stale against this document's own renames)
+DELETED   daqreader.file_extension                   0 .m hits, 0 json hits: INVENTED
+DELETED   daqmetadatareader.metadata_names           0 .m hits, 0 json hits: INVENTED
+KEPT      daqreader.reader_string                    REAL -- daqreader_ndr.ndr_reader_string,
+                                                     carried onto the parent by the chunk (c)
+                                                     subtype de-encode (TaskList #5)
+```
+
+### Repairs this carries
+
+```
+daqmetadatareader.daqsystem_id   INVENTED and REQUIRED -- 59 of 59 documents empty.
+                                 NDI has the edge the OTHER WAY (daqsystem ->
+                                 daqmetadatareader_id) and V_eta dropped that one.
+                                 Both are fixed by the fold.
+daqsystem.base.name              PRESERVED. It is string-matched by getprobes
+                                 (+ndi/+daq/system.m:229) and named in every
+                                 syncrule.parameters.daqsystem1_name/_2_name.
+                                 Dissolving it would break probe->device attribution.
+base.id on all four              PRESERVED (T10) -- daqreader_id, daqmetadatareader_id and
+                                 filenavigator_id are referenced by the payload carriers.
+```
+
+### Gates carried, none waived
+
+1. **GATED on #37.** `mustBeNonEmpty` on an edge is decorative today
+   (`references.m:90` skips empty edges), which is how 59 of 59 empty `daqsystem_id`
+   values passed every gate. Sequence behind #37 or gate the first corpus run explicitly.
+2. **`acquisition_metadata_reader_#` cardinality is prose until #63.**
+3. **`dataseries_channel_map` stays unknown, not written off.** It is absent from NDI
+   `origin/main`, and absence in the tree we hold is not evidence — that disposition needs a
+   writer check across NDI vintages and lab repos.
+4. **A THIRD instrument gap, found here.** `check_migrator_vocabulary.py` compares what
+   MIGRATORS READ against NDI; `check_tombstones.py` compares SOURCE TOMBSTONES. Neither
+   compares what a RETAINED INFRA CLASS declares against NDI — which is why `file_extension`
+   and `metadata_names` sat undetected. Worth folding into #54's remit.

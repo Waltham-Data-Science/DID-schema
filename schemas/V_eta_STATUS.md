@@ -15,14 +15,14 @@ for each model; this board owns *how much is left and what exactly*.
 | **still open (`in_progress`)** | **32** |
 | **`retire` with no migrator and no plan** | **12** |
 | open **decision families** | **19** |
-| &nbsp;&nbsp;DECIDED and signed off, awaiting build | 12 |
-| &nbsp;&nbsp;decided in a walkthrough, **awaiting a signature** | 7 |
+| &nbsp;&nbsp;DECIDED and signed off, awaiting build | 13 |
+| &nbsp;&nbsp;decided in a walkthrough, **awaiting a signature** | 6 |
 | &nbsp;&nbsp;**written up by Claude alone, unreviewed** | **0** |
 | &nbsp;&nbsp;nobody has proposed anything yet | 0 |
 
 The class count is not the work count. 32 open classes are 19 decisions, because most open classes move as a family.
 
-**7 of those 19 are not settled**: 7 awaiting a signature on a decision already taken, 0 written up by Claude alone and unreviewed, 0 with nothing proposed. Only 12 are signed off.
+**6 of those 19 are not settled**: 6 awaiting a signature on a decision already taken, 0 written up by Claude alone and unreviewed, 0 with nothing proposed. Only 13 are signed off.
 
 ## AWAITING A SIGNATURE -- decided with the team, not yet recorded
 
@@ -33,7 +33,6 @@ re-deciding -- it needs recording.
 | family | classes | what was decided | document |
 |---|---|---|---|
 | **stimulus** | 2 | timed_sequence data_type + timed_sequence_manipulation leaf; control_designation resolved here | `V_eta_stimulus_model_plan.md` |
-| **daq configuration** | 3 | acquisition_system + `acquisition_metadata_reader` keep ids; class names fold to software entities | `V_eta_daq_family_decisions.md` |
 | **daq ingested payloads** | 3 | reader one DECOMPOSES (per-clock relative_references + sampled_body) and retires; metadata one -> `acquisition_metadata_file`; image one folds into the image model | `V_eta_ingested_payload_findings.md` |
 | **spike processing parameters** | 4 | 4 -> 1 `method_parameters` (id+name preserved); canonical parts typed, rest a bag | `V_eta_method_parameters_plan.md` |
 | **stimulus parameters** | 2 | stimulus_parameter DISSOLVES to a typed leaf keyed by its CURIE (build gated on #32); stimulus_parameter_table PASSES THROUGH; both tombstones repaired | `V_eta_stimulus_parameter_plan.md` |
@@ -41,7 +40,6 @@ re-deciding -- it needs recording.
 | **misc singletons** | 3 | binaryseries_parameters -> sampled_body; projectvar PASSES THROUGH (needs real docs); interaction_purpose is a target (#32) | `V_eta_go_forward_class_audit.md` |
 
 - **stimulus**: `control_designation`, `stimulus_presentation`
-- **daq configuration**: `daqmetadatareader`, `daqreader`, `daqsystem`
 - **daq ingested payloads**: `daqmetadatareader_epochdata_ingested`, `daqreader_epochdata_ingested`, `daqreader_image_epochdata_ingested`
 - **spike processing parameters**: `sorting_parameters`, `spike_extraction_parameters`, `spike_extraction_parameters_modification`, `vmspikefilteringparameters`
 - **stimulus parameters**: `stimulus_parameter`, `stimulus_parameter_table`
@@ -84,6 +82,7 @@ migrator work before the target closes is rework.
 | **ensemble** | 1 | group subject + epoch-scoped member_of edges + rebuildable cache | `V_eta_ensemble_plan.md` |
 | **image / ngrid** | 1 | ngrid phases into sampled_body; image is a standalone data_type | `V_eta_image_model_plan.md` |
 | **epoch** | 3 | MINT `epoch` ENTITY (+ OPTIONAL `instrument_id`, 2026-08-06); element_epoch dissolves; epochid DROPPED; probemap -> edges (B) | `V_eta_epoch_plan.md` |
+| **daq configuration** | 3 | acquisition_system + `acquisition_metadata_reader` keep ids; class names fold to software entities | `V_eta_daq_family_decisions.md` |
 | **dataseries_channel_map** | 1 | DELETE -- a V_epsilon invention, never a did_v1 source, zero users | `V_eta_go_forward_class_audit.md` |
 | **sync configuration** | 2 | syncrule -> `clock_alignment_configuration` (parameters DECLARED, devices become edges); syncgraph -> `clock_alignment_policy` (earns existence on membership) | `V_eta_clock_alignment_cluster_plan.md` |
 | **sync mapping** | 1 | -> `clock_alignment` (relation + `polynomial` data_type); endpoints are relative_reference docs; syncgraph_id restored, invented epochid removed | `V_eta_clock_alignment_cluster_plan.md` |
