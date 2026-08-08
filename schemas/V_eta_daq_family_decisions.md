@@ -200,11 +200,25 @@ acquisition_metadata_reader ⊂ base   base.id PRESERVED  (acquisition_metadata_
    metadata_file_pattern  char  ".*\.tsv\>"
    (NAMED 2026-08-06 -- was `metadata_reader`; see the naming section below)
 
-acquisition_system ⊂ base    base.id PRESERVED   base.name "intan1"  <- THE JOIN KEY
-   depends_on: reader_id            -> software
-               navigator_id         -> file_navigator
-               metadata_reader_id_# -> metadata_reader
+acquisition_system ⊂ entity  base.id PRESERVED   base.name "intan1"  <- THE JOIN KEY
+   depends_on: reader_id                     -> software
+               epoch_file_pattern_id         -> epoch_file_pattern
+               acquisition_metadata_reader_# -> acquisition_metadata_reader
 ```
+
+> **CORRECTED 2026-08-08 (team).** This block said `⊂ base` with
+> `navigator_id -> file_navigator` and `metadata_reader_id_# -> metadata_reader`. Two fixes:
+>
+> 1. **`⊂ entity`, not `⊂ base`** — decided in the epoch walkthrough so that
+>    `epoch.instrument_id -> entity` reaches it. `acquisition_system` sits beside `software`
+>    and `session`. It is NOT `⊂ subject`: T1's bare subject is the thing statements are
+>    ABOUT, and a rig is what does the recording.
+> 2. **The edge targets were stale against this document's own renames**, recorded a few
+>    lines above: `file_navigator` → `epoch_file_pattern` and `metadata_reader` →
+>    `acquisition_metadata_reader`. The edge NAMES follow the classes.
+>
+> `acquisition_metadata_reader_#` carries the same unexpressed cardinality as
+> `acquisition_channels_#` — prose until **#63** lands.
 
 ## Why a DECLARED block and not `method_parameters`
 
@@ -373,3 +387,68 @@ stimulus parameters. Naming a class for contents nobody has verified is the
 
 Earlier rejected: `ingested_payload`, which repeated the mode-in-name error this rename
 exists to remove.
+
+---
+
+## THE WRITER CHECK, run 2026-08-08 — one field vindicated, TWO INVENTED
+
+Three fields on the V_eta classes appear in **no** NDI template. Under writer-wins that is
+only a defect if no writer emits them, so all three were checked against the code AND against
+every NDI json.
+
+```
+DENOMINATOR: 915 .m files; 91 templates + all schema_documents on NDI origin/main
+```
+
+### `daqreader.reader_string` — LEGITIMATE. It is the de-encoded subtype field.
+
+```
+ndr.m:41    obj.ndr_reader_string = varargin{2}.document_properties.daqreader_ndr.ndr_reader_string;
+ndr.m:243   'daqreader_ndr.ndr_reader_string', ndi_daqreader_obj.ndr_reader_string
+git grep -l ndr_reader_string origin/main -- '*.json'
+   database_documents/daq/daqreader_ndr.json
+   schema_documents/daq/daqreader_ndr_schema.json
+```
+
+The field is real; it lives on the SUBCLASS `daqreader_ndr` and is spelled
+`ndr_reader_string`. V_eta carries it on the parent as `reader_string` — which is exactly the
+⑥/⑦ chunk (c) **de-encode subtype-in-name** fold (TaskList #5, completed), dropping the `ndr_`
+prefix that encoded the subtype into the field name. **Keep it.**
+
+### `daqreader.file_extension` — INVENTED. Delete.
+
+```
+.m hits across 915 files:                    0
+any NDI json on origin/main:                 NONE
+daqreader_schema.json declares:              ['ndi_daqreader_class']  -- that is all
+```
+
+### `daqmetadatareader.metadata_names` — INVENTED. Delete.
+
+```
+.m hits across 915 files:                    0
+any NDI json on origin/main:                 NONE
+daqmetadatareader_schema.json declares:      ['ndi_daqmetadatareader_class',
+                                              'tab_separated_file_parameter']
+```
+
+By contrast `tab_separated_file_parameter`, sitting right beside it, is genuine and is read as
+a document field at `+ndi/+daq/metadatareader.m:36`:
+
+```matlab
+tsv_p = varargin{2}.document_properties.daqmetadatareader.tab_separated_file_parameter;
+```
+
+### Consequence
+
+Two more fields for the invented-vocabulary set (#35's category). They are **read by no
+migrator**, so nothing breaks by deleting them — but they are declared, so a passthrough
+document that happens to carry them would validate while a real one never can. The lesson is
+the standing one: *a field absent from the template is not automatically invented — check the
+writer — and a field absent from the template AND the writer AND every json is not a judgement
+call.*
+
+**A field-level check like this belongs in `check_migrator_vocabulary.py`'s remit and is not
+there**: the sweep compares what MIGRATORS read against what NDI declares. It does not compare
+what V_eta CLASSES declare against what NDI declares. `check_tombstones.py` does that for
+source tombstones only — these three are on retained infra classes, so nothing was looking.
