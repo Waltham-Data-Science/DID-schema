@@ -197,3 +197,64 @@ problem as the NDIcalc-vis query renames, except in-scope.
 3. **The D9 registry coverage for NDIC terms is unmeasured.** Before the build, count
    how many distinct `ontology_name` values exist in a real Marder corpus and how many
    resolve. That measurement is the gate on A, and it needs a corpus we do not have.
+
+---
+
+## SIGNED OFF 2026-08-08
+
+TEAM-SIGN-OFF [stimulus parameters]: jess@walthamdatascience.com / 2026-08-08 -- A + C: `stimulus_parameter` DISSOLVES into a typed statement leaf keyed by its CURIE (build GATED on #32); `stimulus_parameter_table` PASSES THROUGH and is DEMOTED to deprecated/; both tombstones rewritten to the NDI shape.
+
+### What survives
+
+```
+stimulus_parameter        DOES NOT SURVIVE. Its documents become ordinary statements --
+                          a Marder "command temperature = 11 C" comes out as a
+                          `temperature_manipulation`. No class of this name remains.
+stimulus_parameter_table  SURVIVES UNCHANGED, in deprecated/.
+```
+
+### The demotion — decided in this review
+
+The team's objection: *"it seems weird to pass a bad V1 doc through."* Right, and it was a
+FILING problem rather than a modelling one. `projectvar` — the precedent this plan cites for
+exactly this disposition, for exactly these reasons — lives in `deprecated/`, and
+`stimulus_parameter_table` sat in `stable/`. So the document did not merely pass through: it
+passed through into a class **advertising itself as part of the go-forward model**, with
+nothing in the artifact to tell a consumer otherwise. The unmodelled state was visible only in
+a CI census line.
+
+Demoted to `deprecated/` in `build_v_eta.py`. 226 schemas, 497 tests green.
+
+### The corpus check — RUN, and it came back empty
+
+```
+census run #257 / 0458dae, all FIVE corpora, unconverted_by_class:
+   20211116  11 classes    no stimulus_parameter, no stimulus_parameter_table
+   B         11 classes    no
+   Dab       11 classes    no
+   JH         5 classes    no
+   Soph      12 classes    no
+   (no list was truncated -- the digest caps at 15 and the longest is 12)
+```
+
+ZERO documents of either class in the tested corpora. The Marder import DOES write
+`stimulus_parameter` (`temptable2stimulusparameters.m:46,56,63`) — no Marder dataset is among
+the five. So the writer is live and the sample simply does not contain its output; that is the
+corpora-are-a-sample rule working exactly as intended, not evidence of absence.
+
+`stimulus_parameter_table` has **no writer at all**: 0 hits across 915 NDI `.m` files.
+
+### Gates carried, none waived
+
+1. **A is GATED on #32**, hard. Dissolution makes the D9 registry load-bearing for arbitrary
+   NDIC terms while `binding` is enforced by nothing, so an unregistered CURIE would have no
+   typed home and would dissolve into nothing.
+2. **The tombstone repair is required under every option** and is what actually stops the
+   quarantines — both classes currently share ZERO field names with their NDI templates.
+   These are two of #43's three BLOCKING rows.
+3. **The live NDI queries** on `stimulus_parameter.ontology_name` and `.value` need updating
+   once A lands. Cross-repo, in scope.
+4. **`stimulus_parameter_table` stays unmodelled** until real documents exist. Its one field
+   is an untyped `string[]`, and typing it from a template alone is the wrong-assumed-shape
+   failure that produced the ~2,078 `distance_metadata` quarantines — and, in this very
+   family, the six invented V_eta fields being repaired.
