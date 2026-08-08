@@ -455,3 +455,75 @@ referent, only `stimulusResponse.m:371`'s cascade delete.
 
 4. **The `harmonic_component` field list is PROPOSED**, not decided — the same status as
    the block list in `V_eta_method_parameters_plan.md`.
+
+---
+
+## THREE REVISIONS 2026-08-08 — the MAPPING section above is superseded on these points
+
+The model is unchanged: four classes to two, `harmonic_component` + its calculation leaf,
+id preserved, parameters folded inline. Three mapping lines move.
+
+### 1. `responses.stimid` is an AXIS, not a `conditions` entry
+
+The mapping says:
+
+```
+responses.stimid  ->  conditions[{variable: stimulus, ...}]   "the per-reading axis"
+```
+
+**`conditions` tightened to cardinality EXACTLY 1 on 2026-08-08 and is explicitly NOT an
+axis** (`V_eta_data_body_model_plan.md`, the D10 amendment). The test settled there: *does
+element k of this entry say something about element k of the value?* `stimid` positionally
+indexes `response_real` and `response_imaginary` — element k names the stimulus that element k
+is a response TO. That is an axis by definition.
+
+```
+axes[1]
+   variable   stimulus              ontology_term
+   n          the trial count       CHECKED == length(value.real)
+   regular    false
+   values     the stimid sequence   (or `labels` if they resolve to terms rather than indices)
+```
+
+**This is the clearest casualty of the D10 amendment in the whole set** — a per-reading array
+that had been filed as a qualifier because the old sentence said cardinality was the only
+difference between a covariate and an axis.
+
+Note the axis carries NO `unit` and NO `datum_type` field: the dimension comes from `variable`
+via the D9 registry, and the payload's element type is `subject_statement.datum_type`. For an
+index axis like this one that is a virtue — there is no unit slot to leave blank. **It does
+mean the registry must distinguish "dimensionless" from "no entry"**, or an index axis and an
+unregistered one are indistinguishable. Recorded against #32.
+
+### 2. `element_epochid` anchors a `relative_reference`, not a `time_reference_1`
+
+```
+BEFORE  element_epochid -> time_reference_1 anchor
+AFTER   element_epochid -> relative_reference
+                              relative_to -> epoch
+                              clock       -> ontology_term, one of the FOUR NDIC terms (#67)
+                              start       -> anchor
+                              duration    -> extent, ABSENT means an instant
+```
+
+The eight-class time family collapsed to two on 2026-08-08, and `end` became `duration`.
+`stimulator_epochid` is still DROPPED — unchanged.
+
+### 3. `derived_from_1` / `derived_from_2` — correct as INSTANCES, but they lose a role
+
+```
+stimulus_presentation_id -> derived_from_1
+stimulus_control_id      -> derived_from_2
+```
+
+This is **not** the `x_1`/`x_2` anti-pattern: `derived_from_#` is a legitimate interchangeable
+family, and a DOCUMENT naming its instances `_1` and `_2` is exactly right (the distinction the
+`control_designation` fix turned on — a SCHEMA declares the template, a DOCUMENT names the
+instances).
+
+But once both are members of one family, **nothing records which antecedent was the CONTROL.**
+The presentation and the control are not interchangeable to a consumer even though they are
+both provenance. That is #52's question in a second family: a bare index cannot carry a role.
+
+Left OPEN deliberately rather than fixed by inventing an edge name — it should be decided with
+#52 and #63 together, since all three are the same question about numbered families.
