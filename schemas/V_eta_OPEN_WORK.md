@@ -52,7 +52,6 @@ still be `awaiting a signature` there.
 | 61 | Build deferred: stimulus response family | `V_eta_stimulus_response_model_plan.md` |
 | 62 | Build deferred: stimulus parameters | `V_eta_stimulus_parameter_plan.md` — GATED on #32 |
 | 63 | **Express and ENFORCE cardinality on `name_#` edge families** | WIDENED 2026-08-08 from "a required numbered edge can never be checked". `mustBeNonEmpty: true` on a `_#` family is unenforceable AND meaningless — `silentLoss.requiredDependencies` excludes numbered edges, and its reasoning is right: *"a missing instance of one is not the same as a blank one."* You cannot check a blank `time_reference_3`; you CAN check **how many instances exist**, and the meta-schema has no way to say how many are required. **SIX families exist, THREE declared REQUIRED and verified by nothing**: `subject_interaction.time_reference_#` (the spine), `interaction_purpose.interaction_id_#`, `syncgraph.syncrule_id_#` — plus optional `directed_relation.time_reference_#`, `subject_calculation.derived_from_#`, `subject_observation.derived_from_#`. FIX: min/max on the edge declaration + a count check. Targets: `time_reference_#` min 1; `interaction_id_#` min 1; `acquisition_channels_#` min 2 max 2; `syncrule_id_#` min 0 (NDI's own schema says `"mustbenotempty": 0` — V_eta tightened it wrongly). **Naming the slots (`_A`/`_B`) was rejected** — that is `x_1`/`x_2` wearing letters, and for an unordered pair it creates two representations of one fact. Cardinality belongs in the declaration, not the names. Also closes the visibility half of #52. |
-| 64 | Detector gap: attached files are never checked against the declared `file_list` | |
 | 65 | **Build: the time-reference collapse — 8 classes to 2** | `V_eta_time_reference_model_plan.md` — **SIGNED 2026-08-08**. Increment 1 built but now STALE against the walkthrough. BLOCKED ON #67 + #32 |
 | 66 | Build deferred: the ingested-payload family | `V_eta_ingested_payload_findings.md` |
 | 67 | **Mint NDI clocktype terms in an ontology, then convert `clock` to `ontology_term`** | **NOW A PREREQUISITE of #65**, not a follow-up. FOUR terms: utc, dev_local_time, dev_global_time, exp_global_time |
@@ -70,6 +69,21 @@ still be `awaiting a signature` there.
 
 
 ## COMPLETED (kept so the `#nn` numbering stays stable)
+
+**64 — the file-list detector exists (2026-08-09).** `did2.validate.fileList` compares each
+document's `files.file_list` against the files its class chain declares, both directions:
+**declared-but-absent** (the class says the bytes are there and the document has none — the
+direction that LOSES data; `data.bin` was dropped from
+`daqmetadatareader_epochdata_ingested` exactly this way and was found by hand) and
+**present-but-undeclared** (bytes survive but nothing can find them). Neither tripped
+anything before: `+did2/+schema/cache.m:598` allows `file`/`files` as a top-level key and
+never looks inside. Wired into `v1_to_v2` as `result.file_list_audit` (REPORT ONLY, raises
+nothing) and printed by the corpus driver beside the silent-loss census. **17 of 228 V_eta
+classes declare a file**, so the quiet majority is deliberately not reported. `toBodies`
+was EXTRACTED from `silentLoss` into `+validate/private/vBodies.m` and is now shared — a
+second copy would have been a second chance to re-introduce the bug that made the census
+read 0 documents for two days. Tested (`testFileList`), and the first two tests are about
+whether the detector can SEE its input rather than about file lists at all.
 
 **77 — `measurement.m` was NOT a regression (2026-08-09).** Opened the same day from a
 vocabulary-checker row and closed by reading the code, which is the only thing that settles
