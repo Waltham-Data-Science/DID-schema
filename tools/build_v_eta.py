@@ -2593,6 +2593,127 @@ _tombstone(
          non_empty=True)],
     [])
 
+# ---- the rest of the Phase-2 tombstones the migrator repairs left behind ---
+# SAME DEFECT, FOUR MORE CLASSES. Phase 2 fixed the migrators that READ invented
+# field names and guarded the ones that could not be fixed. It never touched the
+# TOMBSTONES, so four more classes still declare the V_alpha shape.
+#
+# `probe_geometry` is the sharpest: its tombstone declares `channel_positions`,
+# `position_units` and `probe_type` -- THE EXACT THREE NAMES ITS OWN MIGRATOR
+# RAISES ON, by name, as proof that a body was built against our schema instead
+# of a real document (migrators_j/probe_geometry.m:70-77) -- plus a REQUIRED
+# `num_channels` no document has. The schema describes the shape the migrator
+# rejects as impossible.
+#
+# Types come from NDI's schema documents, which is why this is only possible now:
+# the flat ones were readable but unread, and the vhlab family's are JSON Schema.
+_tombstone(
+    "probe_geometry", ["base"],
+    [dep("probe_id", "subject",
+         "The probe this geometry describes, promoted to a subject with its id"
+         " preserved (device-as-subject, D2). NDI's only dependency here;"
+         " V_eta had none.", non_empty=False)],
+    [field("site_locations_leftright", "matrix",
+           "Per-site left-right coordinate.", scalar=False),
+     field("site_locations_frontback", "matrix",
+           "Per-site front-back coordinate.", scalar=False),
+     field("site_locations_depth", "matrix",
+           "Per-site depth coordinate.", scalar=False),
+     field("probe_model", "string", "The probe model name."),
+     field("manufacturer", "string", "Who made the probe."),
+     field("shank_id", "matrix", "Which shank each site sits on.", scalar=False),
+     field("contact_shape", "char", "The contact geometry (e.g. circle, square)."),
+     field("contact_shape_width", "matrix", "Contact width, per site.", scalar=False),
+     field("contact_shape_height", "matrix", "Contact height, per site.", scalar=False),
+     field("contact_shape_radius", "matrix", "Contact radius, per site.", scalar=False),
+     field("ndim", "integer", "How many spatial dimensions the layout uses."),
+     field("unit", "char", "The unit the site coordinates are stated in."),
+     field("has_planar_contour", "integer",
+           "Whether a planar outline is supplied (NDI types this integer, not"
+           " boolean)."),
+     field("contour_x", "matrix", "Planar outline, x.", scalar=False),
+     field("contour_y", "matrix", "Planar outline, y.", scalar=False)],
+    ())
+
+# `position_metadata` declared a REQUIRED `measurement` that no document has --
+# and `measurement` is the name the MIGRATOR gives its OUTPUT field, not an
+# input. The tombstone had been written from the migrator's target rather than
+# from the source, so the one real descriptive field, `ontologyNode`, was
+# undeclared. The migrator's own header states the correct v1 shape.
+_tombstone(
+    "position_metadata", ["base"],
+    [dep("element_id", "subject",
+         "The element whose position was recorded, promoted to a subject with"
+         " its id preserved. The numeric coordinates live in THAT timeseries"
+         " document, not in this one.", non_empty=False)],
+    [field("ontology_node", "string",
+           "WHAT kind of position this is -- a CURIE for the body part or"
+           " landmark (e.g. a C. elegans head/midpoint/tail term). The"
+           " migrator maps this to its output's `measurement`; the two are not"
+           " the same field, and naming the tombstone after the output is how"
+           " the real one went undeclared."),
+     field("dimensions", "string",
+           "Per-axis coordinate-column CURIEs.", scalar=False),
+     field("units", "string", "The CURIE for the coordinate unit (e.g. pixels).")],
+    ())
+
+# `filter` IS NOT ONE OF THESE, and nearly being "repaired" is the lesson.
+# check_tombstones reports `declared but in no NDI template: filter_type` +
+# `real fields the tombstone does NOT declare: type`, and both are TRUE of the
+# v1 template and IRRELEVANT, because a live migrator performs that rename:
+#
+#   +did2/+convert/+migrators/filter.m:29-34
+#       block.filter_type = char(block.type);  block = rmfield(block, 'type');
+#
+# and it still runs under V_eta. runConcreteMigrator falls back to the V_delta
+# `+migrators` package whenever no `migrators_j` entry exists (v1_to_v2.m:393-402),
+# there is no migrators_j/filter.m, and filter is a SUPERCLASS migrator applied to
+# everything declaring filter -- `pyraview`, chiefly. So the migrated document
+# carries `filter_type` and NOT `type`, and the tombstone is already correct.
+# Declaring `type` would have left the real field undeclared and the declared one
+# permanently blank -- introducing the exact defect this block exists to remove.
+#
+# This is the checker's documented limit doing real damage rather than
+# theoretical damage: it compares a tombstone against the v1 TEMPLATE and cannot
+# see a migrator that legitimately renames. Its output is a starting point, not
+# an instruction. Check what runs before acting on a row.
+
+# `fitcurve` is `vmspikefit`'s twin, with one extra defect. Same invented
+# `fit_function`, same missing real fields -- and it declared an `element_id`
+# NDI DOES NOT HAVE. That one is not cosmetic: see the finding recorded in
+# V_eta_OPEN_WORK.md under #35, because the migrator reads it for the subject.
+_tombstone(
+    "fitcurve", ["base"],
+    [dep("fit_example_data_id", "",
+         "Example data for the fit. NDI's ONLY dependency on this class."
+         " Left untyped -- the referent class is not established.",
+         non_empty=False)],
+    [field("fit_name", "string", "The name of the fit."),
+     field("fit_equation", "string",
+           "The fitted equation; the migrator uses it as the observation's"
+           " `method`. V_eta called this `fit_function`, a name no NDI template"
+           " has ever carried."),
+     field("fit_parameters", "matrix", "The fitted parameter values.", scalar=False),
+     field("fit_parameter_names", "string",
+           "Names of the fitted parameters, positionally matching"
+           " fit_parameters.", scalar=False),
+     field("fit_independent_variable_names", "string",
+           "Names of the independent variables.", scalar=False),
+     field("fit_dependent_variable_names", "string",
+           "Names of the dependent variables.", scalar=False),
+     field("fit_sse", "string",
+           "Sum of squared errors. Unbounded, units squared, LOWER IS BETTER --"
+           " NOT the 0..1 higher-is-better `goodness_of_fit` V_eta declared."
+           " NDI types it `string`."),
+     field("fit_constraints", "structure",
+           "The constraints the fit was run under.", scalar=False),
+     field("fit_data", "structure",
+           "The data the fit was computed over. Unlike vmspikefit, this class"
+           " DOES ship the data, so r^2 is derivable here -- deliberately not"
+           " derived, because doing it on one side only would leave two classes"
+           " emitting the same variable name for different quantities.")],
+    ())
+
 # ---- vmspikefit: the MIGRATOR was repaired and its TOMBSTONE was not ------
 # Phase 2 fixed `migrators_j/vmspikefit.m` to read `fit_equation` and `fit_sse`
 # after finding that `fit_function` and `r_squared` have NEVER existed on the NDI

@@ -1,7 +1,7 @@
 {
     "document_class": {
         "class_name": "probe_geometry",
-        "class_version": "1.0.0",
+        "class_version": "2.0.0",
         "superclasses": [
             {
                 "class_name": "base"
@@ -12,59 +12,93 @@
     "depends_on": [
         {
             "name": "probe_id",
-            "mustBeNonEmpty": true,
-            "documentation": "The document ID of the probe whose geometry is described.",
+            "mustBeNonEmpty": false,
+            "documentation": "The probe this geometry describes, promoted to a subject with its id preserved (device-as-subject, D2). NDI's only dependency here; V_eta had none.",
             "must_refer_to_document_class": "subject"
         }
     ],
     "file": [],
     "fields": [
         {
-            "name": "num_channels",
-            "type": "integer",
-            "blank_value": 0,
-            "default_value": 0,
-            "mustBeNonEmpty": true,
-            "mustBeScalar": true,
-            "mustNotHaveNaN": true,
-            "queryable": true,
-            "ontology": null,
-            "documentation": "The total number of channels on the probe.",
-            "constraints": {}
-        },
-        {
-            "name": "channel_positions",
+            "name": "site_locations_leftright",
             "type": "matrix",
             "blank_value": [],
             "default_value": [],
             "mustBeNonEmpty": false,
             "mustBeScalar": false,
             "mustNotHaveNaN": false,
-            "queryable": false,
+            "queryable": true,
             "ontology": null,
-            "documentation": "Nx2 matrix of channel positions in position_units, where N equals num_channels. Each row is [x, y] giving the spatial location of that channel on the probe.",
-            "constraints": {
-                "element_type": "double",
-                "shape": "Nx2"
-            }
+            "documentation": "Per-site left-right coordinate.",
+            "constraints": {}
         },
         {
-            "name": "position_units",
-            "type": "char",
+            "name": "site_locations_frontback",
+            "type": "matrix",
+            "blank_value": [],
+            "default_value": [],
+            "mustBeNonEmpty": false,
+            "mustBeScalar": false,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Per-site front-back coordinate.",
+            "constraints": {}
+        },
+        {
+            "name": "site_locations_depth",
+            "type": "matrix",
+            "blank_value": [],
+            "default_value": [],
+            "mustBeNonEmpty": false,
+            "mustBeScalar": false,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Per-site depth coordinate.",
+            "constraints": {}
+        },
+        {
+            "name": "probe_model",
+            "type": "string",
             "blank_value": "",
-            "default_value": "um",
+            "default_value": "",
             "mustBeNonEmpty": false,
             "mustBeScalar": true,
             "mustNotHaveNaN": false,
-            "queryable": false,
+            "queryable": true,
             "ontology": null,
-            "documentation": "The units for channel positions (e.g., 'um', 'mm').",
-            "constraints": {
-                "maxLength": 32
-            }
+            "documentation": "The probe model name.",
+            "constraints": {}
         },
         {
-            "name": "probe_type",
+            "name": "manufacturer",
+            "type": "string",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Who made the probe.",
+            "constraints": {}
+        },
+        {
+            "name": "shank_id",
+            "type": "matrix",
+            "blank_value": [],
+            "default_value": [],
+            "mustBeNonEmpty": false,
+            "mustBeScalar": false,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Which shank each site sits on.",
+            "constraints": {}
+        },
+        {
+            "name": "contact_shape",
             "type": "char",
             "blank_value": "",
             "default_value": "",
@@ -73,10 +107,112 @@
             "mustNotHaveNaN": false,
             "queryable": true,
             "ontology": null,
-            "documentation": "The type or model of the probe (e.g., 'Neuropixels 1.0', 'tetrode').",
-            "constraints": {
-                "maxLength": 256
-            }
+            "documentation": "The contact geometry (e.g. circle, square).",
+            "constraints": {}
+        },
+        {
+            "name": "contact_shape_width",
+            "type": "matrix",
+            "blank_value": [],
+            "default_value": [],
+            "mustBeNonEmpty": false,
+            "mustBeScalar": false,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Contact width, per site.",
+            "constraints": {}
+        },
+        {
+            "name": "contact_shape_height",
+            "type": "matrix",
+            "blank_value": [],
+            "default_value": [],
+            "mustBeNonEmpty": false,
+            "mustBeScalar": false,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Contact height, per site.",
+            "constraints": {}
+        },
+        {
+            "name": "contact_shape_radius",
+            "type": "matrix",
+            "blank_value": [],
+            "default_value": [],
+            "mustBeNonEmpty": false,
+            "mustBeScalar": false,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Contact radius, per site.",
+            "constraints": {}
+        },
+        {
+            "name": "ndim",
+            "type": "integer",
+            "blank_value": 0.0,
+            "default_value": 0.0,
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "How many spatial dimensions the layout uses.",
+            "constraints": {}
+        },
+        {
+            "name": "unit",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "The unit the site coordinates are stated in.",
+            "constraints": {}
+        },
+        {
+            "name": "has_planar_contour",
+            "type": "integer",
+            "blank_value": 0.0,
+            "default_value": 0.0,
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Whether a planar outline is supplied (NDI types this integer, not boolean).",
+            "constraints": {}
+        },
+        {
+            "name": "contour_x",
+            "type": "matrix",
+            "blank_value": [],
+            "default_value": [],
+            "mustBeNonEmpty": false,
+            "mustBeScalar": false,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Planar outline, x.",
+            "constraints": {}
+        },
+        {
+            "name": "contour_y",
+            "type": "matrix",
+            "blank_value": [],
+            "default_value": [],
+            "mustBeNonEmpty": false,
+            "mustBeScalar": false,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Planar outline, y.",
+            "constraints": {}
         }
     ]
 }

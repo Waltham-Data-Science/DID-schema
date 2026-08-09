@@ -1,7 +1,7 @@
 {
     "document_class": {
         "class_name": "position_metadata",
-        "class_version": "1.0.0",
+        "class_version": "2.0.0",
         "superclasses": [
             {
                 "class_name": "base"
@@ -12,113 +12,29 @@
     "depends_on": [
         {
             "name": "element_id",
-            "mustBeNonEmpty": true,
-            "documentation": "The document ID of the element whose position is described by this metadata.",
+            "mustBeNonEmpty": false,
+            "documentation": "The element whose position was recorded, promoted to a subject with its id preserved. The numeric coordinates live in THAT timeseries document, not in this one.",
             "must_refer_to_document_class": "subject"
         }
     ],
     "file": [],
     "fields": [
         {
-            "name": "measurement",
-            "type": "ontology_term",
-            "blank_value": {
-                "node": "",
-                "name": ""
-            },
-            "default_value": {
-                "node": "",
-                "name": ""
-            },
-            "mustBeNonEmpty": true,
-            "mustBeScalar": true,
-            "mustNotHaveNaN": false,
-            "queryable": true,
-            "ontology": {
-                "node": "schema:location",
-                "name": "location"
-            },
-            "documentation": "Ontology term classifying what kind of position is recorded by the linked element (e.g., a midpoint position, an anatomical landmark, a probe tip). The `node` is the v1 `ontologyNode` CURIE verbatim; `name` is resolved via ndi.ontology.lookup at conversion time.",
-            "constraints": {},
-            "fields": [
-                {
-                    "name": "node",
-                    "type": "char",
-                    "blank_value": "",
-                    "default_value": "",
-                    "mustBeNonEmpty": false,
-                    "mustBeScalar": true,
-                    "mustNotHaveNaN": false,
-                    "queryable": true,
-                    "ontology": null,
-                    "documentation": "The CURIE (prefix resolved via CURIE_lookups_meta.json).",
-                    "constraints": {}
-                },
-                {
-                    "name": "name",
-                    "type": "char",
-                    "blank_value": "",
-                    "default_value": "",
-                    "mustBeNonEmpty": false,
-                    "mustBeScalar": true,
-                    "mustNotHaveNaN": false,
-                    "queryable": true,
-                    "ontology": null,
-                    "documentation": "The human-readable label.",
-                    "constraints": {}
-                }
-            ]
-        },
-        {
-            "name": "units",
-            "type": "ontology_term",
-            "blank_value": {
-                "node": "",
-                "name": ""
-            },
-            "default_value": {
-                "node": "",
-                "name": ""
-            },
-            "mustBeNonEmpty": true,
+            "name": "ontology_node",
+            "type": "string",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
             "mustBeScalar": true,
             "mustNotHaveNaN": false,
             "queryable": true,
             "ontology": null,
-            "documentation": "Ontology term naming the measurement unit for the position values (e.g., 'micrometer'). Resolved via ndi.ontology.lookup.",
-            "constraints": {},
-            "fields": [
-                {
-                    "name": "node",
-                    "type": "char",
-                    "blank_value": "",
-                    "default_value": "",
-                    "mustBeNonEmpty": false,
-                    "mustBeScalar": true,
-                    "mustNotHaveNaN": false,
-                    "queryable": true,
-                    "ontology": null,
-                    "documentation": "The CURIE (prefix resolved via CURIE_lookups_meta.json).",
-                    "constraints": {}
-                },
-                {
-                    "name": "name",
-                    "type": "char",
-                    "blank_value": "",
-                    "default_value": "",
-                    "mustBeNonEmpty": false,
-                    "mustBeScalar": true,
-                    "mustNotHaveNaN": false,
-                    "queryable": true,
-                    "ontology": null,
-                    "documentation": "The human-readable label.",
-                    "constraints": {}
-                }
-            ]
+            "documentation": "WHAT kind of position this is -- a CURIE for the body part or landmark (e.g. a C. elegans head/midpoint/tail term). The migrator maps this to its output's `measurement`; the two are not the same field, and naming the tombstone after the output is how the real one went undeclared.",
+            "constraints": {}
         },
         {
             "name": "dimensions",
-            "type": "structure",
+            "type": "string",
             "blank_value": [],
             "default_value": [],
             "mustBeNonEmpty": false,
@@ -126,53 +42,21 @@
             "mustNotHaveNaN": false,
             "queryable": true,
             "ontology": null,
-            "documentation": "Array of per-axis records describing each spatial dimension of the position measurement. v1 stored dimensions as a comma-separated CURIE list with implicit positional ordering; V_delta makes the ordering explicit via the `axis` field while preserving the ontology classification. The migrator labels axes as `axis_1`, `axis_2`, ... by default; an explicit `x`/`y`/`z` convention can be applied per-document where the spatial mapping is known.",
-            "constraints": {},
-            "fields": [
-                {
-                    "name": "axis",
-                    "type": "char",
-                    "blank_value": "",
-                    "default_value": "axis_1",
-                    "mustBeNonEmpty": true,
-                    "mustBeScalar": true,
-                    "mustNotHaveNaN": false,
-                    "queryable": true,
-                    "ontology": null,
-                    "documentation": "Per-record axis identifier. Defaults to positional labels (`axis_1`, `axis_2`, ...); consumers may rewrite to a spatial convention (e.g., `x`, `y`, `z`) when known.",
-                    "constraints": {
-                        "maxLength": 64
-                    }
-                },
-                {
-                    "name": "node",
-                    "type": "char",
-                    "blank_value": "",
-                    "default_value": "",
-                    "mustBeNonEmpty": true,
-                    "mustBeScalar": true,
-                    "mustNotHaveNaN": false,
-                    "queryable": true,
-                    "ontology": null,
-                    "documentation": "Ontology CURIE classifying this axis (e.g., a directional or anatomical-axis ontology node).",
-                    "constraints": {
-                        "maxLength": 256
-                    }
-                },
-                {
-                    "name": "name",
-                    "type": "char",
-                    "blank_value": "",
-                    "default_value": "",
-                    "mustBeNonEmpty": false,
-                    "mustBeScalar": true,
-                    "mustNotHaveNaN": false,
-                    "queryable": false,
-                    "ontology": null,
-                    "documentation": "Human-readable label resolved from `node` via ndi.ontology.lookup at conversion time. Empty when the lookup is unavailable.",
-                    "constraints": {}
-                }
-            ]
+            "documentation": "Per-axis coordinate-column CURIEs.",
+            "constraints": {}
+        },
+        {
+            "name": "units",
+            "type": "string",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "The CURIE for the coordinate unit (e.g. pixels).",
+            "constraints": {}
         }
     ]
 }
