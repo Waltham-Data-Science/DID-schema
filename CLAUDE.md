@@ -77,6 +77,26 @@ census and `tools/test_census_digest.py` tests it in ~5 ms on the fast gate. The
 census itself (`did2.validate.silentLoss`) is the instrument that finds hollow
 documents; it reported zeros for two days because it was reading nothing, so
 **always check `total_docs` is non-zero before believing any census number.**
+The DIGEST had the same defect one layer up, and it survived one repair:
+corpus run #3 (31315510527, 2026-08-09) ran six corpora for over an hour, went
+GREEN on all six, downloaded five artifacts, wrote ten files — and printed
+`NO CORPUS REPORTS FOUND`, then **exited 0**. Cause, from the runner's own log:
+MATLAB's pwd during a corpus run is `tests/`, so reports land in
+`tests/corpus-reports/`; `upload-artifact` given two search paths promotes the
+artifact root to their least common ancestor (the repo root); so the download
+lands them at `corpus-reports/tests/corpus-reports/` and a one-level glob
+matches neither copy. *The two-path upload added to make the reports findable
+is what moved them out of reach.* Now: the search is RECURSIVE over any number
+of roots, **zero reports is a non-zero exit**, and the digest prints its own
+denominator first (files matched, directories walked, paths read, named roots
+that do not exist) so "found nothing" and "looked in the wrong place" are
+distinguishable from the output alone. `test-code.yml` had the identical bug
+independently — it digested `corpus-reports` from the repo root — so its
+end-of-log census had been empty too. **`testCorpusPRED` also now writes a
+report**: it is a hard 0-quarantine gate rather than a discovery run, so it
+never went through `runCorpusDiscovery` and contributed NOTHING to the census —
+a corpus we gate on but never measure is a denominator missing from every
+figure we quote.
 
 ## READ THESE BEFORE answering about V_eta class structure or the migration walkthrough
 The conversation gets compacted and loses fine-grained state. The durable record
