@@ -1,7 +1,18 @@
 # V_eta — the spike processing parameters family → one `method_parameters` class
 
-**DECIDED with the team, 2026-08-05. Build deferred. NO `TEAM-SIGN-OFF` LINE** —
-the marker is the team's to write (Operating Rule 4).
+**DECIDED with the team, 2026-08-05. RE-DECIDED and SIGNED 2026-08-09. Build deferred
+(#74).** The shape below the "FINAL MODEL" heading supersedes the class described in the
+first half of this document; everything above it stands as rationale.
+
+TEAM-SIGN-OFF [spike processing parameters]: jess, 2026-08-09 -- the four settings classes fold into ONE generic `method_parameters` document (id and `base.name` preserved; optional `software_id`, `subject_id`, `epoch_id -> epoch`, and a `derived_from_id` self-edge carrying LINEAGE only); the settings shape is a `parameter[]` entry modelled on the `axis` entry, identity in a bound `variable`, with no `unit` field and no `data_type` field; it keeps the field name `method_parameters` in BOTH mount points, inline on `subject_interaction` and in the document; routing is decided per class -- a name and an id in the source means a document, otherwise inline -- and a statement carries the inline field or the edge, never both.
+
+> **FOURTH TRANSCRIPTION.** Claude wrote this line on explicit instruction ("Sign it"),
+> 2026-08-09. The openMINDS record's note, written yesterday, said the third should be the
+> last. It was not. Every transcription trades a structural guarantee for Claude's account
+> of the conversation, and this document is a live demonstration of why that matters: three
+> class names, a field rename and an edge name were proposed and withdrawn inside one
+> sitting, and each withdrawal depended on the team reading carefully. Replace this line
+> with the team's own wording when convenient.
 
 **The team's words:** on the three options — *"A: one method_parameters with a bag.
 B: a parameters leaf per calculation leaf. C: extract canonical concepts to typed
