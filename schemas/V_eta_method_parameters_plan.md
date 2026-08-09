@@ -60,7 +60,7 @@ method_parameters  ⊂ base
                filter_id  -> frequency_filter the canonical part, EXTRACTED and typed
                subject_id -> subject          OPTIONAL -- scoped to one element-subject
                epoch_id   -> epoch            OPTIONAL -- scoped to one epoch
-               overrides_id -> method_parameters OPTIONAL -- the set this one overrides
+               derived_from_id -> method_parameters OPTIONAL -- the protocol this is a tweak of
    <typed canonical blocks -- see below>
    parameters  structure                  the idiosyncratic remainder
 
@@ -332,7 +332,7 @@ vmspikefilteringparameters                 deps: [element_id]   superclasses: ba
 
 So `method_parameters` gains three OPTIONAL edges — `subject_id` (from `element_id`,
 per D2 the element is promoted to a subject with its id preserved), `epoch_id`, and
-`overrides_id` (from `extraction_parameters_id`). Optional because the two global
+`derived_from_id` (from `extraction_parameters_id`). Optional because the two global
 protocols legitimately have none.
 
 **The two shapes are both real and both must be expressible.** A protocol has a
@@ -340,7 +340,7 @@ protocols legitimately have none.
 is not two classes — it is one class with optional scope, exactly as `strain` is one
 class whose `background_strain_#` is optional.
 
-**`overrides_id` is a role name, not `method_parameters_id`.** Same reasoning as
+**`derived_from_id`, not `method_parameters_id`.** Same reasoning as
 `background_strain_#` on `strain`: a self-edge must say WHICH role the target plays.
 The name is the one judgement call here and the team may prefer another.
 
@@ -447,7 +447,8 @@ wrong until #32 lands. `sign` as `enum [-1, 1]` validates today, unchanged.
    undefined; Claude still leans forbid both.
 3. `vmspikefilteringparameters` still has NO migrator and a tombstone declaring
    fields the template does not have (unchanged; it is built from scratch).
-4. **NEW: the name `overrides_id`.** A judgement call, see FIX 1.
+4. The self-edge name was `overrides_id` when this section was written; it is now
+   `derived_from_id` — see the section at the end of this document. SETTLED, not open.
 5. **NEW: this family is gated on #32** — see ANSWER 2. It was previously listed as
    only improved by it.
 
@@ -494,7 +495,7 @@ method_parameters  ⊂ base
    depends_on   software_id  -> software            optional
                 subject_id   -> subject             optional -- scope
                 epoch_id     -> epoch               optional -- scope
-                overrides_id -> method_parameters   optional -- the set this one replaces
+                derived_from_id -> method_parameters optional -- the protocol this is a tweak of
 
 subject_interaction gains
    depends_on   method_parameters_id -> method_parameters   optional
@@ -618,7 +619,7 @@ spike_extraction_parameters               -> method_parameters   id + name "defa
 sorting_parameters                        -> method_parameters   id + name "default" preserved
 vmspikefilteringparameters                -> method_parameters   + subject_id, epoch_id
 spike_extraction_parameters_modification  -> method_parameters   + subject_id, epoch_id,
-                                                                   overrides_id
+                                                                   derived_from_id
 spikewaves      -> voltage_observation, method_parameters_id -> the extraction settings
 spike_clusters  -> count_observation,   method_parameters_id -> the sorting settings
 ```
@@ -682,33 +683,47 @@ precedent in the built schema (`control_stimulus_ids.control_stimulus_ids`), and
 alternative is renaming the class a fourth time, which is not worth it. `parameter` as
 the entry-type name matches `axis` for `axes`.
 
-## `overrides_id` — what it means, and why the edge exists
+## `derived_from_id` — the self-edge, and a CORRECTION about what it carries
 
-It is v1's `extraction_parameters_id` on `spike_extraction_parameters_modification`, and
-it points at the NAMED PROTOCOL this document replaces for one element and one epoch:
+It is v1's `extraction_parameters_id` on `spike_extraction_parameters_modification`.
+
+**The situation it comes from.** A lab defines one shared extraction protocol named
+`"default"`. One recording then needs a different threshold — but `"default"` cannot be
+edited, because every other extraction in the session already ran under it. So NDI writes
+a SECOND document: all fifteen settings again with the threshold changed, recording which
+protocol it is a variant of, which element it applies to, and which epoch.
 
 ```
 origin/main:+ndi/+app/spikeextractor.m:388-391
-   the app finds a modification by epoch AND element AND extraction_parameters_id,
-   and uses it INSTEAD of the named base set for that element+epoch
+   the app finds a variant by epoch AND element AND extraction_parameters_id
 origin/main:.../spike_extraction_parameters_modification.json
-   payload = the identical 15 fields -- a FULL replacement, never a diff
+   payload = the identical 15 fields -- a FULL copy, never a diff
 ```
 
-So "overrides" describes what the app does with it, not a partial merge — the document
-carries a complete parameter set and supersedes the base one within its scope. It is a
-ROLE name on a self-edge, the same construction as `background_strain_#` on `strain`,
-because `method_parameters_id` would say only which class the target is and not which
-role it plays. `replaces_id` would be an equally accurate name if the team reads
-"override" as implying a partial merge.
+**CORRECTION, team 2026-08-09.** An earlier version of this section said the edge carries
+PRECEDENCE — that the variant "overrides" the base. **It does not.** Precedence comes from
+the SCOPE fields: a settings document scoped to one element and one epoch applies there
+because of `subject_id` and `epoch_id`, and the app prefers a scoped variant over an
+unscoped protocol. The edge is a third filter on that search and a record of origin. It is
+LINEAGE, nothing more. The name `overrides_id` described the behaviour the scope produces,
+not what the edge holds, and has been dropped.
 
-1. **Gated on the registry carrying dimension + canonical unit** (see the honest limit
-   above). Shared with the axis entry -- one extension serves both.
-2. **Which parameter variables to mint**, and the terms for them. Feeds the
-   empty-node harvest.
-3. `vmspikefilteringparameters` still has no migrator, and its tombstone declares fields
-   the template does not have.
-4. Corpus-wide dedup of identical settings documents -- a second pass, best done with the
-   `software` entity dedup already queued.
-5. The three superseded name proposals are recorded above deliberately; do not re-propose
-   `analysis_protocol` or a detection subclass without reading why they failed.
+**The name is `derived_from_id`**, reusing the word the schema already spends on exactly
+this relation one tier over:
+
+```
+subject_calculation.derived_from_#  -> subject_statement     the data a result came from
+subject_observation.derived_from_#  -> subject_statement
+method_parameters.derived_from_id   -> method_parameters     the protocol a variant came from
+```
+
+Singular and unnumbered, because a variant has exactly one origin in v1. Rejected:
+`parent_id` (implies the child inherits, and it does not — the variant is a complete
+standalone copy), `overrides_id` and `replaces_id` (both assert precedence the edge does
+not carry), and `method_parameters_id` (names the target's class, not its role — the same
+reason `strain` says `background_strain_#`).
+
+The one cost, recorded: `derived_from_#` elsewhere means DATA lineage and this means
+SETTINGS lineage. Judged a feature — one word, one relation — but a query that assumes
+`derived_from` always points at a `subject_statement` must be checked.
+
