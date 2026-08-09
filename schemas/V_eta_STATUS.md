@@ -15,14 +15,14 @@ for each model; this board owns *how much is left and what exactly*.
 | **still open (`in_progress`)** | **32** |
 | **`retire` with no migrator YET** | **12** |
 | open **decision families** | **19** |
-| &nbsp;&nbsp;DECIDED and signed off, awaiting build | 18 |
-| &nbsp;&nbsp;decided in a walkthrough, **awaiting a signature** | 1 |
+| &nbsp;&nbsp;DECIDED and signed off, awaiting build | 19 |
+| &nbsp;&nbsp;decided in a walkthrough, **awaiting a signature** | 0 |
 | &nbsp;&nbsp;**written up by Claude alone, unreviewed** | **0** |
 | &nbsp;&nbsp;nobody has proposed anything yet | 0 |
 
 The class count is not the work count. 32 open classes are 19 decisions, because most open classes move as a family.
 
-**1 of those 19 are not settled**: 1 awaiting a signature on a decision already taken, 0 written up by Claude alone and unreviewed, 0 with nothing proposed. Only 18 are signed off.
+**0 of those 19 are not settled**: 0 awaiting a signature on a decision already taken, 0 written up by Claude alone and unreviewed, 0 with nothing proposed. Only 19 are signed off.
 
 ## AWAITING A SIGNATURE -- decided with the team, not yet recorded
 
@@ -32,9 +32,7 @@ re-deciding -- it needs recording.
 
 | family | classes | what was decided | document |
 |---|---|---|---|
-| **misc singletons** | 3 | binaryseries_parameters -> sampled_body; projectvar PASSES THROUGH (needs real docs); interaction_purpose is a target (#32) | `V_eta_go_forward_class_audit.md` |
 
-- **misc singletons**: `binaryseries_parameters`, `interaction_purpose`, `projectvar`
 
 ## WRITTEN UP BY CLAUDE ALONE -- nobody has checked the reasoning
 
@@ -86,6 +84,7 @@ migrator work before the target closes is rework.
 | **stimulus parameters** | 2 | stimulus_parameter DISSOLVES to a typed leaf keyed by its CURIE (build gated on #32); stimulus_parameter_table PASSES THROUGH; both tombstones repaired | `V_eta_stimulus_parameter_plan.md` |
 | **stimulus response** | 4 | 4 -> 2: `harmonic_component` data_type + calculation leaf (id preserved); parameters fold inline, killing 11,440 empty required edges | `V_eta_stimulus_response_model_plan.md` |
 | **subject measurement** | 1 | route through the `measurement` fold -- no new class; `datestamp` is a TIME ANCHOR (-> absolute_reference), NOT a field (corrected 2026-08-06) | `V_eta_go_forward_class_audit.md` |
+| **misc singletons** | 3 | binaryseries_parameters -> sampled_body; projectvar PASSES THROUGH (needs real docs); interaction_purpose is a target (#32) | `V_eta_go_forward_class_audit.md` |
 
 ## v1 source side (from the coverage ledger)
 

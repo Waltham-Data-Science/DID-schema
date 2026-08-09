@@ -1,5 +1,16 @@
 # V_eta Go-Forward Class Audit — J-cohesiveness of every live class
 
+TEAM-SIGN-OFF [misc singletons]: jess, 2026-08-09 -- `binaryseries_parameters` folds into the data_body model and is retired (its `time_type` is the time axis's new `datum_type`, its `data_type` the statement's, `data_dim` the axis count, `samples_regular_intervals` the axis `regular` flag); `interaction_purpose` is KEPT, conditionally on the stimulus build actually emitting it, and is the destination for the 635 `StimulationApproach` documents via a second pass -- so #71 is repaired by re-targeting, with pass 1 emitting nothing; `projectvar` stays a deprecated passthrough until real documents exist to model its untyped `data` field against. Whether `purpose` collapses to a field on `subject_interaction` stays open pending the corpus measurement.
+
+> **This line is TAGGED `[misc singletons]` deliberately.** Three families cite this
+> document — `dataseries_channel_map`, `subject measurement` and `misc singletons` — and an
+> untagged marker would have signed all three at once. That is a hole the board's own
+> checker closes, and it is why the tag is not optional here.
+>
+> **FIFTH TRANSCRIPTION.** Claude wrote this line on explicit instruction ("I accept the
+> proposal and sign off on these 3 classes"), 2026-08-09. The standing request that the
+> team type these itself is now three sittings old.
+
 *The go-forward V_eta schema = `stable/` + `draft/` (the tiers CI assembles into
 `DID_SCHEMA_PATH`; `deprecated/` is excluded). **258** classes. This audit gives
 **every** one a J-disposition so the whole set can be reviewed for Brainstorm-J
