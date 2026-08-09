@@ -44,6 +44,12 @@
         "underlying_element_id"
       ]
     },
+    "ndi_schema_document_scan": {
+      "files": 91,
+      "flat_form": 57,
+      "json_schema_form": 5,
+      "unparseable": 0
+    },
     "provenance": {
       "DID-INVENTED": 66,
       "NDI-CHANGED": 0,
@@ -2310,7 +2316,8 @@
       ],
       "depends_on": [
         "vmspikefilteringparameters_id",
-        "element_id"
+        "element_id",
+        "sorting_parameters_id"
       ],
       "files": [],
       "superclasses": [

@@ -49,6 +49,8 @@ REPO = os.path.dirname(HERE)
 OUT = os.path.join(REPO, "schemas", "V_eta_ndi_ground_truth.json")
 DDIR = "src/ndi/ndi_common/database_documents"
 SDIR = "src/ndi/ndi_common/schema_documents"
+# Filled by _schema_deps; reported in the ground-truth summary.
+SCHEMA_SCAN = {"files": 0, "flat_form": 0, "json_schema_form": 0, "unparseable": 0}
 
 # Divergences between a shipped NDI template and the writer that actually produces
 # the documents. The DATA FOLLOWS THE WRITER, so the writer wins for migration --
@@ -121,6 +123,56 @@ def snake(n):
     return out
 
 
+def _load_ndi_json(blob):
+    """Parse an NDI JSON file, tolerating the MATLAB-isms in two of them.
+
+    `apps/markgarbage/valid_interval_schema.json` and
+    `apps/calculations/simple_calc_schema.json` contain `"parameters":
+    [-Inf,Inf,0]`. `-Inf` is not JSON, so a strict parse throws and BOTH FILES
+    BECOME INVISIBLE -- including their perfectly well-formed `depends_on`
+    blocks, which sit above the offending line. `valid_interval` is one of the
+    four UNVERIFIED coverage rows, so its declaration going unread was not free.
+
+    Retried with the bare tokens replaced by null. That loses the parameter
+    bounds and keeps everything else, which is the right trade for a sweep that
+    only reads dependency names.
+    """
+    try:
+        return json.loads(blob)
+    except Exception:
+        pass
+    patched = re.sub(r"(?<![\"\w.])-?(?:Inf|NaN)(?![\"\w])", "null", blob)
+    try:
+        return json.loads(patched)
+    except Exception:
+        return None
+
+
+def _json_schema_deps(d):
+    """(classname, [dependency names]) from a JSON Schema-shaped NDI schema doc."""
+    if "$schema" not in d and "properties" not in d:
+        return None, []
+    title = d.get("title") or ""
+    cn = title.split("_")[-1] if title else ""
+    # the title is `ndi_document_apps_<app>_<class>`; fall back to the id path
+    ident = d.get("id") or ""
+    if ident:
+        base = os.path.basename(ident).replace(".json", "")
+        if base:
+            cn = base
+    items = (((d.get("properties") or {}).get("depends_on") or {}).get("items")) or []
+    if isinstance(items, dict):
+        items = [items]
+    names = []
+    for it in items:
+        if not isinstance(it, dict):
+            continue
+        const = (((it.get("properties") or {}).get("name") or {}).get("const"))
+        if const:
+            names.append(const)
+    return cn, names
+
+
 def _schema_deps(ndi_path, ref):
     """{class_name: [dependency names]} from NDI's SCHEMA documents.
 
@@ -136,6 +188,11 @@ def _schema_deps(ndi_path, ref):
     dependency, and a name appearing in either is real.
     """
     out = {}
+    # DENOMINATOR, tracked in the module so the caller can report it. Reading a
+    # schema-document set and finding nothing must never look like finding
+    # nothing to find.
+    stats = SCHEMA_SCAN
+    stats.update({"files": 0, "flat_form": 0, "json_schema_form": 0, "unparseable": 0})
     if ref == "worktree":
         root = os.path.join(ndi_path, SDIR)
         paths = []
@@ -164,10 +221,25 @@ def _schema_deps(ndi_path, ref):
                     capture_output=True, text=True, check=True).stdout)
             except Exception:
                 continue
+    stats["files"] = len(blobs)
     for blob in blobs:
-        try:
-            d = json.loads(blob)
-        except Exception:
+        d = _load_ndi_json(blob)
+        if d is None:
+            stats["unparseable"] += 1
+            continue
+        # A SECOND SCHEMA FORMAT. Five of NDI's 89 schema documents -- the whole
+        # `vhlab_voltage2firingrate` family -- are JSON Schema draft 2019-09
+        # instead of the flat shape, with the dependency names as `const` values
+        # nested under properties.depends_on.items[]. Reading only the flat shape
+        # skipped them silently, so `binnedspikeratevm.sorting_parameters_id` read
+        # as a DID-side invention when NDI's own schema declares it.
+        #
+        # This family matters more than its size: its WRITER is in no repository
+        # we have, so this schema is the ONLY ground truth available for it.
+        js_cn, js_deps = _json_schema_deps(d)
+        if js_cn and js_deps:
+            stats["json_schema_form"] += 1
+            out.setdefault(js_cn, []).extend(js_deps)
             continue
         # THE KEY IS `classname`. Schema documents do not use the template's
         # `document_class.class_name` shape -- they are flat, with `classname`.
@@ -183,6 +255,7 @@ def _schema_deps(ndi_path, ref):
         names = [x.get("name") for x in deps
                  if isinstance(x, dict) and x.get("name")]
         if cn and names:
+            stats["flat_form"] += 1
             out.setdefault(cn, []).extend(names)
     return out
 
@@ -604,6 +677,7 @@ def main():
             "writer_divergences": len(WRITER_DIVERGENCE),
             "writer_dependencies_no_template": len(wdeps),
             "writer_dependency_scan": wscan,
+            "ndi_schema_document_scan": dict(SCHEMA_SCAN),
             "provenance": {v: sum(1 for r in div if r["provenance"]["verdict"] == v)
                            for v in ("DID-INVENTED", "NDI-CHANGED", "UNKNOWN")},
         },

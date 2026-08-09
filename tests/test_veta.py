@@ -1251,3 +1251,51 @@ def test_no_new_duplicate_field_declarations_in_a_chain():
     assert len(rows) == BASELINE, (
         "BASELINE is stale (%d found, baseline %d) -- lower it so the ratchet "
         "keeps the ground it won" % (len(rows), BASELINE))
+
+
+def test_ndi_schema_documents_are_all_read():
+    """The ground truth reads NDI's SCHEMA documents, not just its templates -- and
+    says how many, in what shape, and how many it could not parse.
+
+    THREE WAYS THIS SWEEP SILENTLY READ NOTHING, all found on 2026-08-09:
+
+    1. It did not read schema_documents at all. A dependency can be declared in the
+       schema and NOT in the template -- `syncgraph.json` has `depends_on: []` while
+       `syncgraph_schema.json` declares `syncrule_id` -- so V_eta was reported as
+       inventing an edge it had declared correctly.
+
+    2. Schema documents key the class as `classname`, not the template's
+       `document_class.class_name`. Reading the template spelling matched nothing
+       and returned a clean empty dict.
+
+    3. FIVE of the 89 files are JSON Schema draft 2019-09, not the flat shape, with
+       dependency names as `const` under properties.depends_on.items[]. They are the
+       whole `vhlab_voltage2firingrate` family -- whose WRITER is in no repository we
+       have, so this schema is the only ground truth that exists for it. Skipping
+       them made `binnedspikeratevm.sorting_parameters_id` read as a DID invention.
+
+    And two files are not valid JSON at all: `"parameters": [-Inf,Inf,0]` is MATLAB,
+    not JSON, so a strict parse threw away both files INCLUDING their well-formed
+    depends_on blocks. One of them is `valid_interval`, an UNVERIFIED coverage row.
+    """
+    gt = json.load(open(os.path.join(REPO_ROOT, "schemas", "V_eta_ndi_ground_truth.json")))
+    scan = gt["summary"].get("ndi_schema_document_scan")
+    assert scan, "no denominator for the schema-document sweep"
+    assert scan["files"] > 80, (
+        "only %d schema document(s) read -- the sweep is not finding NDI's set"
+        % scan["files"])
+    assert scan["json_schema_form"] >= 5, (
+        "the JSON Schema-shaped documents are being skipped again (%d found)"
+        % scan["json_schema_form"])
+    assert scan["unparseable"] == 0, (
+        "%d schema document(s) could not be parsed; the MATLAB -Inf fallback has "
+        "stopped working or NDI has a new malformation" % scan["unparseable"])
+
+    classes = gt["classes"]
+    # positive controls, one per failure mode above
+    assert "syncrule_id" in classes["syncgraph"]["depends_on"], \
+        "schema-only dependency lost: syncgraph declares syncrule_id in its schema"
+    assert "sorting_parameters_id" in classes["binnedspikeratevm"]["depends_on"], \
+        "JSON Schema-shaped document lost: binnedspikeratevm declares this"
+    assert "element_id" in classes["valid_interval"]["depends_on"], \
+        "the -Inf fallback is not working: valid_interval_schema.json declares this"

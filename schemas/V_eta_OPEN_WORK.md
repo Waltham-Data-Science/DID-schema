@@ -144,6 +144,25 @@ indistinguishable from a real CURIE to a later reader. Names passed as VARIABLES
 `<computed>` with their call site: the count is exact, the term list is only as specific as
 the source allows. Minting the terms themselves is still open — it rides with #32 and #67.
 
+**54 — AND A THIRD ROUND: NDI's SCHEMA DOCUMENTS WERE BEING READ INCOMPLETELY IN THREE WAYS
+(2026-08-09).** Now `summary.ndi_schema_document_scan` reports the denominator —
+`{files: 91, flat_form: 57, json_schema_form: 5, unparseable: 0}` — and `tests/test_veta.py`
+asserts it with one positive control per failure mode.
+(a) Schema documents key the class as **`classname`**, not `document_class.class_name`.
+(b) **FIVE of the 89 files are JSON Schema draft 2019-09**, not the flat shape, with dependency
+names as `const` under `properties.depends_on.items[]`. They are the entire
+`vhlab_voltage2firingrate` family — **the family whose WRITER is in no repository we have**, so
+these schemas are the ONLY ground truth that exists for it, and they were being skipped in
+silence. Reading them proves `binnedspikeratevm` declares `vmspikefilteringparameters_id`,
+`element_id` and `sorting_parameters_id` (the last had been reported as a DID-side invention),
+and `vmspikefit` declares `fit_input_id`, which V_eta still does not.
+(c) **TWO files are not valid JSON**: `apps/markgarbage/valid_interval_schema.json` and
+`apps/calculations/simple_calc_schema.json` contain `"parameters": [-Inf,Inf,0]` — MATLAB, not
+JSON — so a strict parse discarded each whole file INCLUDING its well-formed `depends_on` block
+sitting above the offending line. **One of them is `valid_interval`, one of the four UNVERIFIED
+coverage rows**: its declaration (`element_id`, `mustbenotempty: 1`) had been sitting there
+readable the whole time. Now parsed with the bare `Inf`/`NaN` tokens replaced by null.
+
 **54 — CORRECTED THE SAME DAY. The sweep was reading almost nothing, and its zero was a
 property of its regex.** It matched `set_dependency_value` only in the FUNCTIONAL form
 `set_dependency_value(doc, 'name', id)` — the name as the SECOND argument. NDI writes METHOD
