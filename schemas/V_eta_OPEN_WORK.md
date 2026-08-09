@@ -366,54 +366,79 @@ deferral, not a loss. Same treatment `ontology_label` got.
 
 ---
 
-## MEASURED — the epoch-grouping hazard is REAL but is NOT the one the plan describes (2026-08-09)
+## MEASURED — all five corpora, run #2 (2026-08-09)
 
-First numbers from the v1 source census, corpus B, run #2 (`test-corpus.yml`,
-`6a9421b`). **ONE corpus so far; Soph, JH and Dab were still running when this was
-written, and the rows below must be re-read against all five before anything is
-built on them.**
+`test-corpus.yml` run #2 at DID-matlab `6a9421b` / DID-schema `61f9439`. All six
+jobs green. **The numbers below were read out of the per-job STDOUT: the reports
+were never uploaded (see the artifact-path defect, fixed in `e532dae`), so the
+digest aggregated nothing.** JH, PRED and 20211116 were not read in detail — only
+Soph, B and Dab are quoted here.
 
-        --- v1 SOURCE census (REPORT ONLY): 12917 document(s) read, 0 unreadable ---
-          epoch ids: 6207 document(s) carry one, 149 distinct
-              epoch_                0 distinct         0 doc(s)
-              whole_session_        0 distinct         0 doc(s)
-              other               149 distinct      6207 doc(s)
-            grouping hazard: 0 synthetic (whole_session_) id(s); 142 id(s) span >1 session
-          session documents: 14   (distinct base.session_id values: 14)
-          stimulation approaches: 0 document(s) over 0 epoch(s)
+        corpus B    12,917 docs   6,207 carry an epoch id,   149 distinct
+                    epoch_ 0 / whole_session_ 0 / other 149 (6,207 docs)
+                    142 id(s) span >1 session
+                    session documents 14   distinct session_id 14
+                    approaches 0
+        Soph       101,427 docs   4,931 carry an epoch id,    18 distinct
+                    epoch_ 0 / whole_session_ 0 / other 18 (4,931 docs)
+                    12 id(s) span >1 session
+                    session documents 33   distinct session_id 33
+                    approaches 0
+        Dab         27,561 docs  10,052 carry an epoch id, 1,754 distinct
+                    epoch_ 1,605 (3,845 docs) / whole_session_ 0 / other 149 (6,207 docs)
+                    142 id(s) span >1 session
+                    session documents 16   distinct session_id 16
+                    approaches 635 over 635 epochs
 
-**1. THE PREFIX ANALYSIS DESCRIBES NO DOCUMENT IN THIS CORPUS.** `V_eta_epoch_plan.md`
-frames the whole hazard around two writers — `ndi.file.navigator.m:271`
-(`['epoch_' ndi.ido.unique_id()]`, unique, safe) and `ndi.element.oneepoch.m:42`
-(`['whole_session_' reference]`, deterministic, collides). **Zero of corpus B's 6,207
-epoch-carrying documents match either prefix.** All 149 distinct ids are neither. The
-writers are real; they are simply not what produced this data. Any reasoning that
-sorts epoch ids into "safe" and "colliding" by prefix is reasoning about a
-population we have not yet found.
+**1. A CORRECTION TO WHAT WAS WRITTEN HERE AFTER CORPUS B ALONE.** That entry said
+*"the prefix analysis describes no document in this corpus"* and generalised from
+one corpus. **Dab has 1,605 distinct `epoch_` ids over 3,845 documents**, so the
+`ndi.file.navigator` writer the plan is built around IS represented. The earlier
+sentence was true of B and Soph and false as a general claim. This is the corpora-
+are-a-sample rule catching me one entry after I invoked it.
 
-**2. THE ACTUAL COLLISION IS FAR LARGER: 142 of 149 ids (95%) appear under MORE THAN
-ONE `base.session_id`.** A recording epoch belongs to one session, so these ids are
-not global names — they are per-session-local, which matches the `"t00023"` shape
-CLAUDE.md already records under *"a bare local id is not a complete fact on its own"*.
-**Grouping on `epochid.epochid` alone would fuse epochs across sessions**, and would
-do it to 95% of the ids rather than to a synthetic minority. The plan's own escape
-clause covers this — *"do not build the grouping without either measuring it or
-keying the group on (epochid.epochid, owning object)"* — and the measurement now says
-what the key must be: **`(base.session_id, epochid.epochid)` at minimum.** Whether
-that is sufficient, or whether a third component is needed, is not established by one
-corpus.
+**2. WHAT DOES HOLD, ON ALL THREE: ZERO `whole_session_` ids anywhere.** The
+synthetic-collision hazard the plan devotes its HAZARD section to has **no
+instances at all** in the measured corpora. It is a real writer and may appear in
+a dataset still waiting to migrate — but nothing here exercises it.
 
-**3. #51 IS ANSWERED FOR THIS CORPUS, AND ANSWERED WELL: 14 `session` documents
-against 14 distinct `base.session_id` values — exactly 1:1.** The referent a REQUIRED
-`relative_to` needs exists here. This is the check the time-reference plan gated fork A
-on, and it confirms the CORRECTION already recorded there (an earlier revision claimed
-no `session` document is ever written, from a grep that could not have matched).
-Still to confirm on the other four corpora.
+**3. THE REAL COLLISION IS IN THE BUCKET THE PLAN DOES NOT MODEL.** The
+cross-session count tracks the `other` bucket exactly: B has only `other` ids and
+142 collide; Dab has the same 149 `other` ids and the same 142 collide, while its
+1,605 `epoch_` ids add none. So **`epoch_<uid>` is globally unique exactly as the
+plan says, and the collisions are entirely among the bare local names** (the
+`"t00023"` shape). **Grouping on `epochid.epochid` alone would fuse epochs across
+sessions**; the key must be at least `(base.session_id, epochid.epochid)`.
+(Note B's `other` figures — 149 distinct, 6,207 docs, 142 colliding — are
+IDENTICAL to Dab's. The two corpora appear to share documents. Not investigated;
+do not treat B and Dab as independent samples without checking.)
 
-**4. #76 GETS NOTHING FROM THIS CORPUS: zero `openminds_stimulus` documents.** The
-approach-coverage distribution has to come from a corpus that writes them. That is not
-a null result, it is an empty population — do not read it as "one approach covers one
-interaction".
+**4. #51 IS ANSWERED, AND CLEANLY: session documents match distinct session ids
+1:1 in all three — 14/14, 33/33, 16/16.** The referent a REQUIRED `relative_to`
+needs exists. This is the check fork A was gated on. JH, PRED and 20211116 still
+to read.
+
+**5. #76 IS NOT ANSWERED, AND THE RESULT AS PRINTED CANNOT BE TRUSTED.** Dab holds
+all 635 approaches, over 635 distinct epochs — exactly one approach per epoch —
+and reported **635 approach epochs with NO presentation document**, i.e. every
+one. Dab is known to hold ~1,242 `stimulus_presentation` documents, so either the
+approaches and the presentations genuinely carry disjoint epoch ids, or the census
+never saw the presentations. **The census as run could not tell those apart: it
+reported no denominator for the presentation side.** Fixed in `e532dae`
+(`presentation_doc_count`, `presentation_docs_with_epoch`); re-run before reading
+anything into this. Dab also printed one distribution row with a BLANK subject
+count against 0 epochs — a phantom row from an empty distribution, also fixed.
+
+**6. THE STIMULUS-RESPONSE REPAIR IS CONFIRMED ON REAL DATA.** Soph's silent-loss
+census now reads **175 empty required edges, 0 vacuous required fields**, and the
+only row is `stimulus_presentation.element_id` (held for #31). The 11,167
+`stimulus_response_scalar_parameters_basic.stimulus_response_scalar_id` empties
+that dominated the previous census are GONE — that schema half was in the
+`61f9439` the run picked up.
+
+**7. QUARANTINES ARE ENTIRELY THE `epochfiles_ingested` REGRESSION**: Dab 4,088,
+B 2,484, Soph 349 — every quarantine in every corpus, one cause, fixed in
+`8987265`. A re-run should return all five to 0.
 
 ## DECISION NEEDED — `fitcurve` migrates to an observation about NOBODY (2026-08-09)
 
