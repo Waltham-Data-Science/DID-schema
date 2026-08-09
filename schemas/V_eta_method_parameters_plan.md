@@ -59,7 +59,7 @@ method_parameters  ⊂ base
    depends_on: software_id -> software        WHICH program these configure
                filter_id  -> frequency_filter the canonical part, EXTRACTED and typed
                subject_id -> subject          OPTIONAL -- scoped to one element-subject
-               epoch_id   -> acquisition_epoch OPTIONAL -- scoped to one epoch
+               epoch_id   -> epoch            OPTIONAL -- scoped to one epoch
                overrides_id -> method_parameters OPTIONAL -- the set this one overrides
    <typed canonical blocks -- see below>
    parameters  structure                  the idiosyncratic remainder
@@ -493,7 +493,7 @@ method_parameters  ⊂ base
    other        structure     optional   the undeclared long tail
    depends_on   software_id  -> software            optional
                 subject_id   -> subject             optional -- scope
-                epoch_id     -> acquisition_epoch   optional -- scope
+                epoch_id     -> epoch               optional -- scope
                 overrides_id -> method_parameters   optional -- the set this one replaces
 
 subject_interaction gains
@@ -645,7 +645,62 @@ names already BOTH a class and a field: 19
 block fields against `fieldsByBlock` -- separate namespaces. `time_reference` is already
 both a class and a field inside `syncrule_mapping`.
 
-## OPEN after this section
+## CORRECTION — the epoch edge target, caught by the team 2026-08-09
+
+Two blocks in this document said `epoch_id -> acquisition_epoch`. **Wrong.** The epoch
+family is SIGNED and it mints `epoch` as an entity while `acquisition_epoch` DISSOLVES:
+
+```
+V_eta_epoch_plan.md:735
+TEAM-SIGN-OFF [epoch]: ... MINT `epoch` as an entity (one per epoch id, local_identifier
+= the v1 epochid string, REQUIRED); acquisition_epoch dissolves and its clocks become
+relative_reference documents; epochid is DROPPED in favour of a uniform epoch_id edge ...
+```
+
+Both blocks now read `epoch_id -> epoch`. Recorded rather than silently patched, because
+writing a dissolved class as an edge target is how a decision gets quietly un-made.
+
+## FIELD NAMING — `parameters`, in BOTH mount points
+
+The list is named `parameters` wherever it appears, and its entry type is `parameter`.
+That means the inline field on `subject_interaction` is RENAMED from `method_parameters`
+to `parameters`:
+
+```
+subject_interaction.parameters[*].variable      inline
+method_parameters.parameters[*].variable        the document
+```
+
+**Why rename the inline field.** The whole point of the shared shape is that one list
+means one thing in both places; leaving it called `method_parameters` inline and
+`parameters` in the document would give the same list two names. This follows the `axis`
+entry exactly, which mounts on `subject_statement` AND `sampled_body` under the SAME
+field name `axes` in both.
+
+The block-and-field stutter `method_parameters.parameters` is real and accepted. It has
+precedent in the built schema (`control_stimulus_ids.control_stimulus_ids`), and the
+alternative is renaming the class a fourth time, which is not worth it. `parameter` as
+the entry-type name matches `axis` for `axes`.
+
+## `overrides_id` — what it means, and why the edge exists
+
+It is v1's `extraction_parameters_id` on `spike_extraction_parameters_modification`, and
+it points at the NAMED PROTOCOL this document replaces for one element and one epoch:
+
+```
+origin/main:+ndi/+app/spikeextractor.m:388-391
+   the app finds a modification by epoch AND element AND extraction_parameters_id,
+   and uses it INSTEAD of the named base set for that element+epoch
+origin/main:.../spike_extraction_parameters_modification.json
+   payload = the identical 15 fields -- a FULL replacement, never a diff
+```
+
+So "overrides" describes what the app does with it, not a partial merge — the document
+carries a complete parameter set and supersedes the base one within its scope. It is a
+ROLE name on a self-edge, the same construction as `background_strain_#` on `strain`,
+because `method_parameters_id` would say only which class the target is and not which
+role it plays. `replaces_id` would be an equally accurate name if the team reads
+"override" as implying a partial merge.
 
 1. **Gated on the registry carrying dimension + canonical unit** (see the honest limit
    above). Shared with the axis entry -- one extension serves both.
