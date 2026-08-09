@@ -45,7 +45,6 @@ still be `awaiting a signature` there.
 | 51 | Verify `session` documents are present in every corpus | a CHECK, not a build; gates making `relative_to` REQUIRED |
 | 52 | Role-name the `time_reference_#` statement edges | **SHRUNK 2026-08-08** to ONE rule: within a `_#` family every member describes the same instant/extent and `value.clock` is UNIQUE. Split-anchored intervals have NO INSTANCE — do NOT build `start_anchor`/`end_anchor` |
 | 53 | `ontology_table_row` emits ~76,766 observations with an EMPTY `subject_id` | |
-| 56 | Build deferred: strain entity + `strain_id` edge | `V_eta_openminds_family_record.md` Part 6 |
 | 57 | Build deferred: the clock alignment cluster | `V_eta_clock_alignment_cluster_plan.md` |
 | 59 | Build deferred: acquisition_system + software fold | GATED on #37. **2026-08-08: `acquisition_system ⊂ entity`**, beside software and session |
 | 60 | Build deferred: the epoch family — MINT `epoch` entity, drop `epochid`, probemap → edges | `V_eta_epoch_plan.md`. **2026-08-08: `epoch.instrument_id -> entity`, OPTIONAL** |
@@ -67,7 +66,22 @@ still be `awaiting a signature` there.
 | 76 | **MEASURE: does one approach cover several interactions?** (decides whether `interaction_purpose` collapses to a field) | opened 2026-08-09. Named in the `misc singletons` sign-off as the one open item. **THE MEASUREMENT:** for every `openminds_stimulus` document take its `epochid`, then count the DISTINCT SUBJECTS among the `stimulus_presentation` documents sharing that epoch; the distribution of that count over the 635 is the answer. One subject per epoch → one purpose maps to one interaction and `purpose` should be a FIELD on `subject_interaction` (removing a class and a numbered required edge, which #63 says is unverifiable anyway); several subjects → the class earns its `interaction_id_#`. **NOT MEASURABLE from the dev container — no corpora on disk** — and the census reports by class only, so it needs a grouped count added plus a full corpus run (~1–2 h). **DO NOT substitute the class totals**: 635 approaches against 2,670 `stimulus_presentation` is not a ratio, because only some datasets write approaches at all, so the two counts come from different populations. **Already settled structurally from the writers, so do not re-derive:** an epoch may carry SEVERAL approaches (`add_stimulus_approach.m` reads a table of (Epoch, Approach) rows and dedups on (epochid, name); `stimulusDocMaker.m:342-380` takes a cell array of approach strings and emits one document each), and the stimulator is SINGULAR (`probe = S.getprobes('type','stimulator'); probe = probe{1}`) — so the purpose cannot be folded onto the epoch either. |
 
 
+| 78 | **#56 remainder: the strain MIGRATOR (a second pass)** | opened 2026-08-09 when the schema half of #56 landed. The classes exist; nothing populates them yet. Needs: `openminds_subject` Strain documents -> `strain` entities with `strain_id` back on the assertion; the `openminds_#` pedigree edges read so `backgroundStrain` becomes `background_strain_#` (~2,362 composite Strain documents currently drop their pedigree); ~2,365 `genetic strain type` assertions moved off subjects onto the strain; duplicate `species` assertions deduped; strain documents deduped (roughly ten distinct strains behind 2,365 documents, because `getStrain` constructs fresh objects per call). A SECOND PASS: the pedigree lives in other documents, which a single-document migrator cannot follow. Rides with #72. |
+
 ## COMPLETED (kept so the `#nn` numbering stays stable)
+
+**56 — `strain` is an entity, schema half (2026-08-09).** `strain ⊂ entity` is built with the
+11 fields from Part 6 (`name`, `species`, `genetic_strain_type` REQUIRED — required BY
+openMINDS, not by us — plus description, phenotype, breeding_type, disease_model[],
+laboratory_code, stock_number{vendor,code}, synonym[], local_identifier), inheriting
+`entity`'s REPEATABLE `global_identifier` which subsumes openMINDS's three identifier slots
+and the four schemes in our data. `background_strain_#` is a RECURSIVE self-edge declaring
+**min 0, max 2** per #63, so a shared background is stored once instead of duplicated into
+every descendant. `term_assertion` gains an OPTIONAL `strain_id`, and KEEPS its inline
+`{node, name}` — the drift test decides it: dropping the inline value would make
+`variable: strain` resolve two ways depending on whether a pedigree happened to exist.
+`global_identifier` stays optional because Dabrowska's Cre lines carry none. Tested. The
+MIGRATOR half is #78.
 
 **63 — numbered edge families declare their cardinality, and it is measured (2026-08-09).**
 The meta-schema gains optional `min_count` / `max_count` on a dependency; **all seven**

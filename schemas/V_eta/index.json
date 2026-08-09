@@ -2165,6 +2165,17 @@
             "disposition_note": "D-C analysis-tier decompose"
         },
         {
+            "class_name": "strain",
+            "tier": "stable",
+            "class_version": "1.0.0",
+            "maturity_level": "stable",
+            "superclasses": [
+                "entity"
+            ],
+            "path": "schemas/V_eta/stable/strain.json",
+            "disposition": "persist"
+        },
+        {
             "class_name": "subject",
             "tier": "stable",
             "class_version": "3.0.0",

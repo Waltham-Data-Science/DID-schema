@@ -686,6 +686,94 @@ write("stable", "organization", doc("organization", ["entity"], fields=[
     field("short_name", "char", "Organization short name / acronym (e.g. 'NIH'); "
           "openMINDS Organization.shortName.", non_empty=False),
     LOCAL_ID_OPT]))
+# ---- #56: `strain` is an ENTITY, and term_assertion may point at one --------
+# Team call 2026-08-05 (V_eta_openminds_family_record.md Part 6). `entity` was
+# chosen over a plain `base` document because it supplies `global_identifier` as
+# a REPEATABLE {scheme, value}: openMINDS spends three slots on strain
+# identifiers (ontologyIdentifier, digitalIdentifier -> RRID, alternateIdentifier
+# -> MGI/RGD) and the four schemes in our data (WBStrain, NCIT, RRID, EMPTY) are
+# exactly what one repeatable pair subsumes. Choosing `base` would have meant
+# re-declaring that concept locally and losing "find anything by external
+# identifier" as one uniform query.
+#
+# The three REQUIRED fields are required BY openMINDS, not by us.
+# `global_identifier` stays OPTIONAL because Dabrowska's Cre lines carry no
+# identifier at all -- the schema must not demand what the writer never produces.
+#
+# NOTE `ontology_term` here is the FIELD TYPE (the {node, name} cell), NOT the
+# `term` data_type class. Those are different things and the record says the
+# distinction was confused earlier.
+write("stable", "strain", doc("strain", ["entity"], fields=[
+    field("name", "char",
+          "The strain's name as the source gives it (e.g. 'Escherichia coli "
+          "OP50', 'ArcCreERT2 x eYFP').", non_empty=True),
+    field("species", "ontology_term",
+          "The species this strain belongs to. Bound to NCBITaxon. REQUIRED by "
+          "openMINDS. V_eta deliberately does NOT adopt openMINDS's polymorphic "
+          "specimen.species slot -- species and strain stay SIBLING assertions "
+          "on a subject (record Parts 4 and 5).", non_empty=True),
+    field("genetic_strain_type", "ontology_term",
+          "wildtype | transgenic | knockout | ... REQUIRED by openMINDS, and it "
+          "lives HERE rather than on the subject: ~2,365 `genetic strain type` "
+          "assertions move off subjects onto the strain document. Unnormalised "
+          "across writers ('wildtype' vs 'wild type') -- the binding work has "
+          "to reconcile that.", non_empty=True),
+    field("description", "char", "Free-text description as the source gives it.",
+          non_empty=False),
+    field("phenotype", "char", "Observable phenotype, where the source states one.",
+          non_empty=False),
+    field("breeding_type", "ontology_term",
+          "openMINDS BreedingType, where stated.", non_empty=False),
+    field("disease_model", "ontology_term", "Disease or disease model this strain "
+          "models. No writer populates it yet; the slot exists so it has "
+          "somewhere to land instead of being dropped.",
+          non_empty=False, scalar=False),
+    field("laboratory_code", "char",
+          "ILAR laboratory code, where the source gives one.", non_empty=False,
+          constraints={"pattern": "^$|^[A-Z]([a-z]?)+$"}),
+    field("stock_number", "structure", "Vendor stock/catalogue number.",
+          non_empty=False, sub_fields=[
+              subfield("vendor", "char", "The vendor or repository."),
+              subfield("code", "char", "Its catalogue/stock code."),
+          ]),
+    field("synonym", "char", "Other names the source uses for this strain.",
+          non_empty=False, scalar=False),
+    LOCAL_ID_OPT],
+    deps=[dep("background_strain_#", "strain",
+                    "The strain(s) this one was derived from -- a RECURSIVE "
+                    "self-edge forming a DAG, so a cross names both parents and "
+                    "a shared background is stored ONCE rather than duplicated "
+                    "into every descendant. A root strain has none.",
+              non_empty=False, multiple=True)]))
+_st_tier, _st_path = path_of("strain")
+_st = load(_st_path)
+for _x in _st.get("depends_on", []):
+    if _x["name"] == "background_strain_#":
+        # 0..2: a root strain has no parent; the real Hunsberger F1 cross names
+        # exactly two. Declared per #63 -- `mustBeNonEmpty` cannot say this.
+        _x["min_count"] = 0
+        _x["max_count"] = 2
+write(_st_tier, "strain", _st)
+
+# The edge, on the ASSERTION -- not on `subject` (record Part 5: most subjects
+# are devices). The assertion KEEPS its inline `term.value = {node, name}` and
+# GAINS this edge: the inline value is a complete fact on its own (a CURIE names
+# a real thing), 115 strains carry no identifier and may warrant no document, and
+# the value is the statement's CONTENT rather than a join key. Dropping it would
+# make `variable: strain` resolve two ways depending on whether a pedigree
+# happened to exist -- drift. `epoch` went the OTHER way for the opposite
+# reasons; neither is a precedent for the other.
+_ta_tier, _ta_path = path_of("term_assertion")
+_ta = load(_ta_path)
+if not any(x["name"] == "strain_id" for x in _ta.get("depends_on", [])):
+    _ta.setdefault("depends_on", []).append(
+        dep("strain_id", "strain",
+            "OPTIONAL: the strain document this assertion's term names, when one "
+            "exists. Named for its target per the convention measured across 97 "
+            "dependency declarations (45 distinct names, all `<target>_id`) -- "
+            "NOT a generic `term_id`.", non_empty=False))
+write(_ta_tier, "term_assertion", _ta)
+
 write("stable", "publication", doc("publication", ["entity"], fields=[
     field("title", "char", "Publication title."),
     field("date", "char", "Publication date/year.", non_empty=False),

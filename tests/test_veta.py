@@ -791,6 +791,52 @@ def test_writer_set_dependencies_are_reported():
         "lines with `...`, so a line-at-a-time scan misses it")
 
 
+def test_strain_is_an_entity_with_a_recursive_pedigree():
+    """#56: `strain` is an ENTITY, not a plain document, and its pedigree is a
+    recursive self-edge.
+
+    `entity` was chosen for `global_identifier` -- a REPEATABLE {scheme, value}
+    that subsumes openMINDS's three separate identifier slots and the four schemes
+    in our data (WBStrain, NCIT, RRID, EMPTY). A shared background strain is then
+    stored ONCE and referenced, which a nested background block would have
+    duplicated into every descendant."""
+    assert "strain" in RECORDS
+    tier, d = RECORDS["strain"]
+    assert [s["class_name"] for s in d["document_class"]["superclasses"]] == ["entity"]
+    ft = _flat_field_types("strain")
+    # global_identifier comes from entity and must stay OPTIONAL: Dabrowska's Cre
+    # lines carry no identifier at all, and a schema must not demand what the
+    # writer never produces.
+    gi = next(f for f in RECORDS["entity"][1]["fields"] if f["name"] == "global_identifier")
+    assert gi["mustBeNonEmpty"] is False
+    assert gi["mustBeScalar"] is False, "global_identifier must be repeatable"
+    # required BY openMINDS, not by us
+    for required in ("name", "species", "genetic_strain_type"):
+        f = next(x for x in d["fields"] if x["name"] == required)
+        assert f["mustBeNonEmpty"] is True, f"{required} must be required"
+    assert ft.get("species") == "ontology_term"
+    bg = next(x for x in d["depends_on"] if x["name"] == "background_strain_#")
+    assert bg["must_refer_to_document_class"] == "strain", "the pedigree is recursive"
+    assert bg["min_count"] == 0 and bg["max_count"] == 2
+
+
+def test_term_assertion_keeps_its_inline_value_and_gains_strain_id():
+    """#56: the assertion carries BOTH the inline term value and an optional edge.
+
+    That is not the general rule -- `epoch` drops its inline string entirely in
+    favour of its edge. The difference is the drift test: dropping strain's inline
+    value would make `variable: strain` resolve two ways depending on whether a
+    pedigree document happened to exist. 115 strains carry no identifier and may
+    warrant no document at all."""
+    deps = {x["name"]: x for x in RECORDS["term_assertion"][1].get("depends_on", [])}
+    assert "strain_id" in deps
+    assert deps["strain_id"]["mustBeNonEmpty"] is False, (
+        "a strain document is optional -- the assertion must stand alone")
+    assert deps["strain_id"]["must_refer_to_document_class"] == "strain"
+    # the inline value survives: term_assertion still inherits `term`'s value
+    assert "term" in _chain("term_assertion")
+
+
 def test_numbered_edge_families_declare_cardinality():
     """#63: a `name_#` family declares min_count/max_count, and never claims
     `mustBeNonEmpty`.
