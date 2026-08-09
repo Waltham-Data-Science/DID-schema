@@ -450,3 +450,210 @@ wrong until #32 lands. `sign` as `enum [-1, 1]` validates today, unchanged.
 4. **NEW: the name `overrides_id`.** A judgement call, see FIX 1.
 5. **NEW: this family is gated on #32** — see ANSWER 2. It was previously listed as
    only improved by it.
+
+---
+
+# FINAL MODEL — 2026-08-09. SUPERSEDES the class shape above.
+
+Everything above stands as RATIONALE. Where it describes the shape of the class, this
+section replaces it. Reached in a sign-off walkthrough driven by the team's questions;
+three of Claude's proposals were rejected on the way and the rejections were right.
+
+## How we got here, because the path is the argument
+
+The team rejected `method_parameters`, then `analysis_protocol`, then
+`calculation_protocol`, on one consistent objection: **a class carrying `threshold` and
+`refractory_period` cannot have a general name, and a class carrying them cannot cover
+`sorting_parameters`, which has none of them.** Claude then proposed a
+`event_detection_protocol` subclass, which is the look-alike family the team had
+already rejected wearing a different hat.
+
+The team's next question dissolved it: *"aren't these the same kind of thing that
+calculators use? How are we dealing with calculator parameters right now?"*
+
+They are the same kind of thing. Every calculator's settings already go to ONE place:
+
+```
+migrators_j/private/jCalculation.m:99    'method_parameters', calcInputParameters(preBody), ...
+migrators_j/private/jCalculation.m:112   srcBlk = rmfield(srcBlk, 'input_parameters');
+schemas/V_eta/stable/subject_interaction.json
+     { "name": "method_parameters", "type": "structure", "fields": [] }    <- nothing declared
+```
+
+So the naming failures were a symptom. The typed blocks did not belong on a new class at
+all; they belonged in the settings SHAPE that all 47 interaction leaves already carry.
+
+## THE CLASS
+
+```
+method_parameters  ⊂ base
+   name         char          optional   the protocol name, e.g. "default" -- the string
+                                         spikeextractor.m:372 / spikesorter.m:373 query
+   parameters   parameter[]   REQUIRED   the SAME shape as the inline field (below)
+   other        structure     optional   the undeclared long tail
+   depends_on   software_id  -> software            optional
+                subject_id   -> subject             optional -- scope
+                epoch_id     -> acquisition_epoch   optional -- scope
+                overrides_id -> method_parameters   optional -- the set this one replaces
+
+subject_interaction gains
+   depends_on   method_parameters_id -> method_parameters   optional
+```
+
+The class is the existing inline field plus an identity. No domain fields, so the general
+name is now truthful: any method's parameters really can live here.
+
+**The edge is on `subject_interaction`, NOT `subject_statement`.** The statement tier
+splits two ways and only one has a method at all:
+
+```
+subject_statement
+  +-- subject_interaction  47 classes   method, method_parameters, time_reference, ...
+  |      +-- subject_observation  33   +-- subject_manipulation 12   +-- subject_calculation 2
+  +-- subject_assertion    30 classes   timeless; no method, so no parameters
+```
+
+## THE SHAPE — one `parameter` entry, used inline AND in the document
+
+Modelled directly on the `axis` entry from the data_body walkthrough, which solves the
+same problem: an open-ended set of domain-specific quantities that must not require a
+class or a field per domain. Axes answered it by declaring ONE entry whose identity is a
+BOUND `variable`, so "time" and "spatial frequency" are DATA, not schema.
+
+```
+parameter
+   variable   ontology_term   REQUIRED   bound; UNIQUE within the list. Its dimension and
+                                         canonical unit come from the registry -- there is
+                                         NO unit field and NO data_type field.
+   value      { value, source_unit, source_value }   numeric knobs
+   term       ontology_term                          categorical knobs
+   text       char                                   free strings
+```
+
+What that buys, concretely:
+
+```
+refractory_time 0.001   and   refract 0.0025      -> both `variable: refractory period`
+                                                     one dimension, comparable at last
+threshold_parameter -4  -> `variable: standard-deviation threshold`
+threshold "0.030"       -> `variable: absolute voltage threshold`
+```
+
+**The threshold splits into TWO variables, and that is the point.** An earlier draft in
+this document gave `threshold` one slot whose dimension depended on a sibling
+`threshold_method` field. That was wrong for the same reason a `unit` field is wrong: the
+variable must determine the dimension by itself. A standard-deviation multiple and a
+voltage are not the same quantity and must not be numerically comparable.
+
+Queries reach into the list the same way they reach into `axes[]` -- numeric predicates
+inside an array of structs compile through `queryable_array_elem.value_num`
+(`+did2/+database/compileQuery.m`), the correction already recorded in
+`V_eta_data_body_model_plan.md`.
+
+## WHY NO `data_type` FIELD ALONGSIDE `variable` — team question, 2026-08-09
+
+Asked whether a parameter should carry a `data_type` so its unit is unambiguous. **No,
+for three reasons, two of them decisions already taken.**
+
+1. **The identical question was asked and answered for axes**, in the same walkthrough
+   that produced the entry above: the variable carries dimension and canonical unit via
+   the registry, and there is no unit field. Answering it differently here would put two
+   spellings of one fact in the schema -- the exact defect the axis entry exists to
+   remove (it collapsed THREE encodings of regular-vs-enumerated plus a fourth spelling
+   of sample spacing).
+2. **`data_type` is a CLASS with 38 direct subclasses**, not a field value. The data_body
+   walkthrough already rejected `data_type` as a field name for precisely this reason
+   when naming `datum_type`.
+3. **A per-entry `data_type` makes `value` polymorphic** -- a voltage cell here, a
+   duration cell there, chosen per row. That is openMINDS's polymorphic `specimen.species`
+   slot, which V_eta examined and deliberately declined to adopt
+   (`V_eta_openminds_family_record.md` Parts 4 and 5).
+
+The cell keeps `source_unit` and `source_value` so the source's own spelling survives
+whatever the registry says.
+
+**HONEST LIMIT, stated because both axes and this depend on it:** the registry does NOT
+carry dimension or canonical unit today. It has FIVE `subject_statement_bindings`, each
+mapping a variable to an ontology and a root node:
+
+```
+DENOMINATOR: 5 subject_statement_bindings in binding_registry_meta.json
+   species / instrument type / cell type / material type / developmental stage
+   each -> { ontology, root_node, subject_defining: true }     NO dimension, NO unit
+```
+
+So "the dimension comes from the registry" is a design that requires the registry to be
+extended, and that extension is the binding-governance prerequisite. Until it lands,
+`source_unit` is the only unit information present, and a cross-program numeric query is
+unreliable. Nothing is LOST meanwhile -- every source value is preserved verbatim.
+
+## ROUTING — when settings become a document, decided once per class
+
+```
+The source gave the settings their own identity -- a name, an id, and documents
+pointing at them  ->  a method_parameters DOCUMENT, id and name preserved.
+Otherwise                                             ->  inline on the statement.
+```
+
+This is v1's own practice, not our invention. Spike extraction and sorting settings have
+a `base.name` two apps query by string and three document types point at. A calculator's
+`input_parameters` has no name and nothing has ever referred to it:
+
+```
+DENOMINATOR: 91 NDI templates on origin/main
+   templates with an input_parameters block                                    2
+   templates or code with a dependency named input_parameters_id / calc_parameters_id   0
+```
+
+Because the choice is made per class, globally, it is not drift: no dataset can change
+the answer.
+
+**FORBID BOTH — team call, 2026-08-09.** A statement carries the inline field or the
+edge, never both. One fact, one place; otherwise a reader must know which wins.
+
+## THE FOUR DOCUMENTS
+
+```
+spike_extraction_parameters               -> method_parameters   id + name "default" preserved
+sorting_parameters                        -> method_parameters   id + name "default" preserved
+vmspikefilteringparameters                -> method_parameters   + subject_id, epoch_id
+spike_extraction_parameters_modification  -> method_parameters   + subject_id, epoch_id,
+                                                                   overrides_id
+spikewaves      -> voltage_observation, method_parameters_id -> the extraction settings
+spike_clusters  -> count_observation,   method_parameters_id -> the sorting settings
+```
+
+Bound entries where a variable exists (threshold, refractory period, waveform window
+start and duration); `other` for the tail (`read_time`, `center_range_time`, `overlap`,
+`graphical_mode`, `num_pca_features`, `interpolation`, `min_clusters`, `max_clusters`,
+`num_start`, `filter_algorithm`). Filter settings continue to leave via
+`filter_id -> frequency_filter`. `sampling_rate` is dropped as a duplicate of the body's
+own axis; `spiketimes` leaves as an event-times observation.
+
+## NAMESPACE CHECK — asked for and run, 2026-08-09
+
+A class named `method_parameters` beside a field named `method_parameters` is safe.
+
+```
+DENOMINATOR: 223 classes, 429 distinct field names in schemas/V_eta
+names already BOTH a class and a field: 19
+   amount angle count data data_type date duration epochid formulation gain length
+   measurement ph relation temperature term time_reference volume control_stimulus_ids
+```
+
+`+did2/+schema/cache.m:560-608` validates top-level keys against `blocksContributed` and
+block fields against `fieldsByBlock` -- separate namespaces. `time_reference` is already
+both a class and a field inside `syncrule_mapping`.
+
+## OPEN after this section
+
+1. **Gated on the registry carrying dimension + canonical unit** (see the honest limit
+   above). Shared with the axis entry -- one extension serves both.
+2. **Which parameter variables to mint**, and the terms for them. Feeds the
+   empty-node harvest.
+3. `vmspikefilteringparameters` still has no migrator, and its tombstone declares fields
+   the template does not have.
+4. Corpus-wide dedup of identical settings documents -- a second pass, best done with the
+   `software` entity dedup already queued.
+5. The three superseded name proposals are recorded above deliberately; do not re-propose
+   `analysis_protocol` or a detection subclass without reading why they failed.
