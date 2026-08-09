@@ -218,6 +218,8 @@ def main():
     print("  name present only in a rejection guard     : %d" % len(guarded))
     print("  mentions invented names only               : %d" % len(possible))
     print("  NOT on the known-broken list (regressions) : %d" % len(new))
+    print("  writer-set deps no template declares (#54) : %d"
+          % len(gt.get("writer_dependencies", [])))
     print()
 
     if confirmed:
@@ -259,6 +261,39 @@ def main():
               "entry is stale:")
         for m in missing_guard:
             print("      %s" % m)
+        print()
+
+    # ---- #54: the OTHER direction -------------------------------------------
+    # Everything above compares a migrator's FIELD reads against the templates.
+    # Dependencies were the blind spot, and they fail in two directions:
+    #
+    #   declared-but-not-written  V_eta declares a REQUIRED edge no did_v1
+    #                             document has. `check_tombstones.py` sees this
+    #                             (it compares tombstone vs template), and
+    #                             `references.m:90` skips empty edges, so the
+    #                             documents validate clean -- the
+    #                             invented-empty-edge pattern.
+    #   written-but-not-declared  a WRITER appends an edge no template declares.
+    #                             NOTHING could see this: the tombstone checker
+    #                             compares against the template, and the template
+    #                             does not have it either.
+    #
+    # The second is what this section reports. It is a textual sweep of NDI's .m
+    # files for `set_dependency_value` / `add_dependency_value_n`, so a row is a
+    # place to go and READ, not a proven per-class mapping.
+    wdeps = gt.get("writer_dependencies", [])
+    if wdeps:
+        print("WRITER-SET DEPENDENCIES DECLARED BY NO TEMPLATE (#54). Invisible to "
+              "the tombstone checker, which compares against the template:")
+        for r in wdeps:
+            print("      %-24s %d writer site(s)" % (r["dependency"],
+                                                     len(r["writer_sites"])))
+            for s in r["writer_sites"]:
+                print("          %s" % s)
+        print("      A V_eta class that does not declare these DROPS them: the "
+              "validator allows undeclared depends_on entries wholesale "
+              "(+did2/+schema/cache.m:598), so nothing fails and the edge is "
+              "simply gone.")
         print()
 
     if a.enforce and confirmed:

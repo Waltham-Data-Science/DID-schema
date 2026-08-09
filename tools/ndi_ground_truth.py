@@ -26,6 +26,10 @@ WHAT IT EMITS  (schemas/V_eta_ndi_ground_truth.json)
   v_alpha_divergence[]  classes whose V_alpha snapshot disagrees with the template
   migrator_reads[]      J migrators reading names no template has  (the suspects)
   writer_divergence[]   hand-recorded: shipped writer emits what the template does not
+  writer_dependencies[] #54: dependency names a WRITER sets that NO template declares.
+                        The one direction no checker could see -- the tombstone
+                        checker compares a V_eta class against the TEMPLATE, and
+                        the template does not have these either.
 
 The NDI templates are read from `origin/main` via git, NOT the working tree --
 same rule as tools/coverage.py, because a V_eta feature branch of NDI can lag main.
@@ -157,6 +161,78 @@ def ndi_templates(ndi_path):
             if rec:
                 out[rec.pop("_class")] = rec
     return out, "worktree"
+
+
+def writer_dependencies(ndi_path, truth):
+    """Dependencies NDI's WRITERS set that no template declares.
+
+    #54. Both existing checkers compare a V_eta tombstone against an NDI
+    TEMPLATE, so they are blind in one direction: `set_dependency_value` and
+    `add_dependency_value_n` accept `'ErrorIfNotFound', 0`, and in that mode
+    `did/document.m:262-266` APPENDS an entry that no schema declares. The
+    document then carries an edge that appears in no template and in no V_eta
+    class, and `did2/+schema/cache.m:598` allows `depends_on` wholesale without
+    checking individual names -- so nothing anywhere can see it.
+
+    The live case is the openMINDS pedigree: `openMINDSobj2ndi_document.m:80-92`
+    adds `openminds_1 .. openminds_n` for each `ndi://` child reference, and a
+    bare `openminds` for a leaf. Those edges carry a Strain's backgroundStrain
+    graph, and no template mentions them.
+
+    This is a TEXTUAL sweep of NDI's .m files, so it reports call sites and not
+    a proven per-class mapping: a writer may set an edge on a document whose
+    class the call site does not name. Treat a row as a place to go and read,
+    exactly as the tombstone checker's rows are treated.
+    """
+    pat = re.compile(
+        r"(?:set_dependency_value|add_dependency_value_n)\s*\(\s*[^,]+,\s*"
+        r"['\"]([A-Za-z_][A-Za-z0-9_]*)['\"]")
+    declared = set()
+    for rec in truth.values():
+        declared.update(rec.get("depends_on") or [])
+    hits = {}
+    for ref in ("origin/main", "main"):
+        try:
+            files = subprocess.run(
+                ["git", "-C", ndi_path, "ls-tree", "-r", "--name-only", ref],
+                capture_output=True, text=True, check=True).stdout.splitlines()
+        except Exception:
+            continue
+        for f in files:
+            if not f.endswith(".m"):
+                continue
+            try:
+                blob = subprocess.run(["git", "-C", ndi_path, "show", "%s:%s" % (ref, f)],
+                                      capture_output=True, text=True, check=True).stdout
+            except Exception:
+                continue
+            # MATLAB continues a call across lines with `...`, and the live
+            # case does exactly that (openMINDSobj2ndi_document.m:82-84), so a
+            # line-at-a-time scan sees the call but not its dependency name.
+            # Join continuations first, keeping the FIRST line's number.
+            joined, lines = [], blob.splitlines()
+            k = 0
+            while k < len(lines):
+                start, text = k + 1, lines[k].rstrip()
+                while text.endswith("...") and k + 1 < len(lines):
+                    k += 1
+                    text = text[:-3] + lines[k].strip()
+                joined.append((start, text))
+                k += 1
+            for i, line in joined:
+                m = pat.search(line)
+                if not m:
+                    continue
+                name = m.group(1)
+                # `add_dependency_value_n('x', ...)` writes x_1, x_2, ...; a
+                # template declaring `x_1` counts as declaring the family.
+                if name in declared or any(d.startswith(name + "_") for d in declared):
+                    continue
+                hits.setdefault(name, []).append("%s:%d" % (f, i))
+        if hits or files:
+            break
+    return [{"dependency": k, "declared_by_no_template": True, "writer_sites": v}
+            for k, v in sorted(hits.items())]
 
 
 def _parse(d, path):
@@ -396,6 +472,7 @@ def main():
 
     div = v_alpha_divergence(truth)
     reads = migrator_reads(truth, a.did)
+    wdeps = writer_dependencies(a.ndi, truth)
     prov = classify_divergence(a.ndi, truth, {r["ndi_class"]: r for r in div})
     for r in div:
         r["provenance"] = prov.get(r["ndi_class"], {"verdict": "UNKNOWN"})
@@ -418,10 +495,12 @@ def main():
             "migrator_suspects_confirmed_vocabulary": sum(
                 1 for r in reads if r["confidence"] == "confirmed-vocabulary"),
             "writer_divergences": len(WRITER_DIVERGENCE),
+            "writer_dependencies_no_template": len(wdeps),
             "provenance": {v: sum(1 for r in div if r["provenance"]["verdict"] == v)
                            for v in ("DID-INVENTED", "NDI-CHANGED", "UNKNOWN")},
         },
         "writer_divergence": WRITER_DIVERGENCE,
+        "writer_dependencies": wdeps,
         "v_alpha_divergence": div,
         "migrator_reads": reads,
         "classes": truth,

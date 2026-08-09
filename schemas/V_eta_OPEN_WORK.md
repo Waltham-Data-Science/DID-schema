@@ -45,7 +45,6 @@ still be `awaiting a signature` there.
 | 51 | Verify `session` documents are present in every corpus | a CHECK, not a build; gates making `relative_to` REQUIRED |
 | 52 | Role-name the `time_reference_#` statement edges | **SHRUNK 2026-08-08** to ONE rule: within a `_#` family every member describes the same instant/extent and `value.clock` is UNIQUE. Split-anchored intervals have NO INSTANCE — do NOT build `start_anchor`/`end_anchor` |
 | 53 | `ontology_table_row` emits ~76,766 observations with an EMPTY `subject_id` | |
-| 54 | Extend the vocabulary checker to `depends_on` names (the blind spot) | 2026-08-08, a SECOND blind spot found in the openMINDS family: a dependency name the WRITER adds but no template declares is invisible to every checker we have. `set_dependency_value(..., 'ErrorIfNotFound', 0)` APPENDS an undeclared entry (`did/document.m:262-266`), and `did2/+schema/cache.m:598` allows `depends_on` wholesale without checking individual names against the declared list. Live case: the `openminds_#` pedigree edges (`openMINDSobj2ndi_document.m:80-92`) — in no NDI template and no V_eta tombstone, so `check_tombstones.py`, which compares tombstone against TEMPLATE, cannot see them. So the checker needs BOTH directions: declared-but-not-written (#71's shape) and written-but-not-declared (this). |
 | 56 | Build deferred: strain entity + `strain_id` edge | `V_eta_openminds_family_record.md` Part 6 |
 | 57 | Build deferred: the clock alignment cluster | `V_eta_clock_alignment_cluster_plan.md` |
 | 59 | Build deferred: acquisition_system + software fold | GATED on #37. **2026-08-08: `acquisition_system ⊂ entity`**, beside software and session |
@@ -70,7 +69,23 @@ still be `awaiting a signature` there.
 
 | 76 | **MEASURE: does one approach cover several interactions?** (decides whether `interaction_purpose` collapses to a field) | opened 2026-08-09. Named in the `misc singletons` sign-off as the one open item. **THE MEASUREMENT:** for every `openminds_stimulus` document take its `epochid`, then count the DISTINCT SUBJECTS among the `stimulus_presentation` documents sharing that epoch; the distribution of that count over the 635 is the answer. One subject per epoch → one purpose maps to one interaction and `purpose` should be a FIELD on `subject_interaction` (removing a class and a numbered required edge, which #63 says is unverifiable anyway); several subjects → the class earns its `interaction_id_#`. **NOT MEASURABLE from the dev container — no corpora on disk** — and the census reports by class only, so it needs a grouped count added plus a full corpus run (~1–2 h). **DO NOT substitute the class totals**: 635 approaches against 2,670 `stimulus_presentation` is not a ratio, because only some datasets write approaches at all, so the two counts come from different populations. **Already settled structurally from the writers, so do not re-derive:** an epoch may carry SEVERAL approaches (`add_stimulus_approach.m` reads a table of (Epoch, Approach) rows and dedups on (epochid, name); `stimulusDocMaker.m:342-380` takes a cell array of approach strings and emits one document each), and the stimulator is SINGULAR (`probe = S.getprobes('type','stimulator'); probe = probe{1}`) — so the purpose cannot be folded onto the epoch either. |
 
+| 77 | **Regression surfaced by the vocabulary checker: `measurement.m`** | opened 2026-08-09. The checker reports it reading `measurement_class` and `parameters`, and it is NOT on the known-broken list — so by the tool's own contract this is a regression, not a legacy offender. NOT yet verified against the template and the writer, which is the only thing that settles it (the tool's rows are a place to go and read). Do that before touching the migrator. |
+
 ## COMPLETED (kept so the `#nn` numbering stays stable)
+
+**54 — the vocabulary checker now covers dependency names, both directions (2026-08-09).**
+`check_tombstones.py` already compared a V_eta class's declared edges against the NDI
+template (declared-but-not-written — the invented-empty-edge pattern). The direction NOTHING
+could see was the reverse: a WRITER appending an edge no template declares, because both
+checkers compare against the template and the template does not have it either.
+`tools/ndi_ground_truth.py` gained a `writer_dependencies` sweep of NDI's `.m` files for
+`set_dependency_value` / `add_dependency_value_n`, joining MATLAB `...` continuations (the
+live call site spans lines, and a line-at-a-time scan found only one of its two sites).
+`check_migrator_vocabulary.py` reports it. Current finding: **`openminds`, 2 writer sites**
+— the openMINDS pedigree edges carrying a Strain's backgroundStrain graph, declared by no
+template and no V_eta class. Tested (`test_writer_set_dependencies_are_reported`) so an
+empty result must mean "none found" rather than "the scan broke", which is the silentLoss
+failure. THE SWEEP IS TEXTUAL: a row names call sites, not a proven per-class mapping.
 
 **58 — `syncrule_mapping`: the live NDI query works again (2026-08-09).** V_eta declared a
 REQUIRED `epochid` dependency that no did_v1 document has (empty on all 5,316 corpus

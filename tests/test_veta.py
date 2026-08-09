@@ -763,6 +763,34 @@ def test_syncrule_mapping_epochnode_routed_through_time_reference():
     assert all(x["mustBeNonEmpty"] for x in d["depends_on"])
 
 
+def test_writer_set_dependencies_are_reported():
+    """#54: the ground truth carries the dependency names NDI's WRITERS set that no
+    template declares -- the direction neither checker could see.
+
+    `set_dependency_value` / `add_dependency_value_n` with 'ErrorIfNotFound', 0 APPEND
+    an entry no schema declares (did/document.m:262-266), and the validator allows
+    undeclared depends_on entries wholesale (+did2/+schema/cache.m:598). So an edge can
+    exist in every real document, be declared nowhere, and be dropped in silence.
+
+    The live case is the openMINDS pedigree (`openminds_1..n` + a bare `openminds`),
+    which carries a Strain's backgroundStrain graph. Asserting it is present keeps the
+    sweep honest: an empty list must mean "none found", not "the scan broke" -- the
+    silentLoss failure, where a zero was indistinguishable from reading nothing."""
+    gt = json.load(open(os.path.join(REPO_ROOT, "schemas", "V_eta_ndi_ground_truth.json")))
+    assert "writer_dependencies" in gt, "the #54 sweep is missing from the ground truth"
+    names = {r["dependency"] for r in gt["writer_dependencies"]}
+    assert "openminds" in names, (
+        "the openMINDS pedigree edges are set by openMINDSobj2ndi_document.m and "
+        "declared by no template; if this row is gone the sweep stopped working")
+    for r in gt["writer_dependencies"]:
+        assert r["writer_sites"], "a row with no call site is not evidence"
+    # the sweep must join MATLAB `...` continuations -- the live call site spans lines
+    om = next(r for r in gt["writer_dependencies"] if r["dependency"] == "openminds")
+    assert len(om["writer_sites"]) >= 2, (
+        "only one call site found: the add_dependency_value_n call is split across "
+        "lines with `...`, so a line-at-a-time scan misses it")
+
+
 def test_data_body_carrier_dispositions():
     """2.D collapse: data_body has EXACTLY 2 members; the format/series carriers are
     folded/placed. `image` is KEPT (image_observation's geometry mixin, so it must
