@@ -57,7 +57,6 @@ still be `awaiting a signature` there.
 | 66 | Build deferred: the ingested-payload family | `V_eta_ingested_payload_findings.md` |
 | 67 | **Mint NDI clocktype terms in an ontology, then convert `clock` to `ontology_term`** | **NOW A PREREQUISITE of #65**, not a follow-up. FOUR terms: utc, dev_local_time, dev_global_time, exp_global_time |
 | 68 | Define a `sampled_body` value rollup (`summary` dropped 2026-08-08) | rationale in `V_eta_data_body_model_plan.md` §9 |
-| 70 | **Harvest `ontology_term`s with an empty node; CI-gate the count** | opened 2026-08-08. Staging a term as `{node:'', name:'…'}` is ALREADY the practice — 34 sites via `jOntologyTerm('', …)`, both subfields `mustBeNonEmpty:false` — so a migration can go green and the nodes be minted after. HAZARD: an empty node is indistinguishable from *"we looked and no term exists"*, so the backlog is invisible. BUILD a sweep reporting every emitted `ontology_term` with an empty node grouped by (class, field path, name), CI-gated on a count that must not INCREASE. NOT a sentinel string in `node` — the instrument is the record, not the data. Waiting on it: `clock_alignment.relation`, the 4 clocktype terms (#67), `acquisition_channels.channels[].type`, and every `variable` under #32. |
 | 69 | **Constraint refinement: a child cannot tighten a parent field — and redeclaring is SILENT** | opened 2026-08-08. `resolvePlacement`'s collision check fires only *within one* `targetBlock`, and the default `placement=declaring_class` puts ancestor and descendant in DIFFERENT blocks, so a redeclaration never trips it — and a cross-block duplicate name is checked NOWHERE (not `+did2/+schema`, not `+did2/+validate`, not DID-schema's tools or tests). Result: TWO live storage locations with nothing saying which is authoritative. **The docstring claims it errors; the code does not — read the code.** `build_v_eta.py:576` already defers "TIGHTENING a constraint rather than redeclaring it" to binding governance. MINIMAL FIX: merge a redeclaration into the ancestor's block entry and require the child to NARROW (`mustBeNonEmpty` false→true allowed, true→false an error). BUYS: `entity` declares the optional handle once and `subject`/`epoch` require it, collapsing 8 duplicate `local_identifier` declarations — today *"every entity has an optional handle"* is a convention held by NINE COPIES and a tenth subclass can omit it silently. COSTS: meta-schema + validator + `fieldsFor`'s contract. **Decide with #32.** Cheap interim: a DID-schema CI check that fails on one field name declared in two blocks of a chain, which at least makes it loud. Full write-up in the second correction block of `V_eta_epoch_plan.md`. |
 
 | 72 | **Build deferred: the 8 unattached `openminds` documents (PROPOSED, not signed)** | opened 2026-08-08. Group A (all 8 in the corpora — Haley's E. coli food): 3 → `strain ⊂ entity` id-preserved, with `background_strain_1` from OP50-GFP's `backgroundStrain`; the other 5 are Species/GeneticStrainType FRAGMENTS consumed into the parents' `species`/`genetic_strain_type` fields; NO `term_assertion` (no subject). Group B (0 docs here, live production path — the metadata-app dataset graph): → the six classes `metadata_editor` already emits, no new classes. A SECOND-PASS assembler, not a `+migrators_j` file: the fragments are separate documents reachable only via the undeclared `openminds_#` edges. Rides with #53/#56 — `ontologyTableRow.bacteriaStrain` holds the strain document's ID in a plain table cell (`haley/doImport.m:164,734`), so the pass that mints row subjects is the pass that attaches `strain_id`, and id preservation is load-bearing. `V_eta_openminds_family_record.md` Part 7. |
@@ -72,6 +71,19 @@ still be `awaiting a signature` there.
 | 77 | **Regression surfaced by the vocabulary checker: `measurement.m`** | opened 2026-08-09. The checker reports it reading `measurement_class` and `parameters`, and it is NOT on the known-broken list — so by the tool's own contract this is a regression, not a legacy offender. NOT yet verified against the template and the writer, which is the only thing that settles it (the tool's rows are a place to go and read). Do that before touching the migrator. |
 
 ## COMPLETED (kept so the `#nn` numbering stays stable)
+
+**70 — the empty-node backlog is visible and ratcheted (2026-08-09).**
+`tools/check_empty_ontology_nodes.py` sweeps the J migrators for
+`jOntologyTerm('', <name>)` and reports every emission grouped by (migrator, name),
+denominator first. **Current state: 33 emissions across 82 migrator files.** Wired into
+DID-matlab's fast gate (`--enforce`) rather than DID-schema CI, because the migrators live
+there and that is where an edit adding one would break it. The count may FALL freely; any
+INCREASE fails, so minting is always allowed and adding a new unminted term has to move
+`BASELINE` deliberately. **NO SENTINEL IS WRITTEN INTO THE DATA** — the instrument is the
+record; a marker in `node` would make the schema carry our bookkeeping and be
+indistinguishable from a real CURIE to a later reader. Names passed as VARIABLES report as
+`<computed>` with their call site: the count is exact, the term list is only as specific as
+the source allows. Minting the terms themselves is still open — it rides with #32 and #67.
 
 **54 — the vocabulary checker now covers dependency names, both directions (2026-08-09).**
 `check_tombstones.py` already compared a V_eta class's declared edges against the NDI
