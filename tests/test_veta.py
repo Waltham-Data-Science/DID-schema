@@ -527,7 +527,18 @@ def test_phase1_source_cleanup_and_dep_typing():
                    for d in RECORDS["daqreader_epochdata_ingested"][1]["depends_on"]), \
         "did_v1 has no epochid dependency -- epochid is a superclass block"
     assert _dep("daqreader_epochdata_ingested", "daqreader_id") is not None
-    assert _dep("epochfiles_ingested", "epochid")["must_refer_to_document_class"] == "acquisition_epoch"
+    # #60, INVERTED: this asserted that `epochfiles_ingested` carried an `epochid`
+    # edge typed to acquisition_epoch. Both halves were wrong. NDI writes
+    # `filenavigator_id` and V_eta had DROPPED it, declaring the invented `epochid`
+    # REQUIRED instead -- empty on all 6,921 corpus documents. The class is now
+    # `ingestion_manifest` (the old name encoded a MODE, the T13 error `_ndr` and
+    # `_mfdaq` were de-encoded for) and carries the real edge plus an epoch edge.
+    assert "epochfiles_ingested" not in RECORDS
+    assert "ingestion_manifest" in RECORDS
+    assert _dep("ingestion_manifest", "filenavigator_id")["mustBeNonEmpty"] is True
+    assert _dep("ingestion_manifest", "epoch_id")["must_refer_to_document_class"] == "epoch"
+    assert not any(d["name"] == "epochid"
+                   for d in RECORDS["ingestion_manifest"][1]["depends_on"])
     assert _dep("directory", "parent_directory_id")["must_refer_to_document_class"] == "directory"
 
 

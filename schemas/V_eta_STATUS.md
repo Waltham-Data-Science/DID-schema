@@ -9,10 +9,10 @@ for each model; this board owns *how much is left and what exactly*.
 
 | | count |
 |---|---|
-| target classes | 227 |
-| settled (persist) | 148 |
+| target classes | 228 |
+| settled (persist) | 150 |
 | settled (retire) | 47 |
-| **still open (`in_progress`)** | **32** |
+| **still open (`in_progress`)** | **31** |
 | **`retire` with no migrator YET** | **12** |
 | open **decision families** | **19** |
 | &nbsp;&nbsp;DECIDED and signed off, awaiting build | 19 |
@@ -20,7 +20,7 @@ for each model; this board owns *how much is left and what exactly*.
 | &nbsp;&nbsp;**written up by Claude alone, unreviewed** | **0** |
 | &nbsp;&nbsp;nobody has proposed anything yet | 0 |
 
-The class count is not the work count. 32 open classes are 19 decisions, because most open classes move as a family.
+The class count is not the work count. 31 open classes are 19 decisions, because most open classes move as a family.
 
 **0 of those 19 are not settled**: 0 awaiting a signature on a decision already taken, 0 written up by Claude alone and unreviewed, 0 with nothing proposed. Only 19 are signed off.
 
@@ -92,10 +92,10 @@ migrator work before the target closes is rework.
 |---|---|
 | retire | 42 |
 | consumed by migrator (no tombstone) | 28 |
-| in_progress | 19 |
+| in_progress | 18 |
+| no V_eta home, no migrator -- UNVERIFIED | 5 |
 | persist | 4 |
 | test/demo fixture (non-production) | 4 |
-| no V_eta home, no migrator -- UNVERIFIED | 4 |
 | dissolved → subject | 1 |
 
 ### `retire`, but NO MIGRATOR YET -- 12 rows
@@ -129,8 +129,15 @@ exists to prevent, and it cost a review pass to notice.
 
 **UNVERIFIED** -- no V_eta home, no migrator, fate never established. These strand today:
 
+- `epochfiles_ingested`
 - `generic_file`
 - `imageCollection`
 - `imageStack_parameters`
 - `valid_interval`
+
+## Families naming classes that are no longer open
+
+Settled or removed since the family was written -- prune from `FAMILIES`:
+
+- `ingestion_manifest`
 

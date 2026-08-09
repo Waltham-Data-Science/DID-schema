@@ -90,7 +90,7 @@ FAMILIES = [
     # for the epoch-scoped half of the database -- 15 NDI classes carry the mixin
     # and 11+ live sites match epochid.epochid by exact_string. Third time this
     # session a depends_on sweep missed string-match references.
-    ("epoch", ["acquisition_epoch", "epochid", "epochfiles_ingested"],
+    ("epoch", ["acquisition_epoch", "epochid", "ingestion_manifest"],
      "V_eta_epoch_plan.md",
      "MINT `epoch` ENTITY (+ OPTIONAL `instrument_id`, 2026-08-06); element_epoch "
      "dissolves; epochid DROPPED; probemap -> edges (B)",

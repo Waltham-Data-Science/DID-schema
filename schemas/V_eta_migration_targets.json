@@ -705,6 +705,17 @@
       "second_pass": [],
       "how": "raw ndi.app.stimulus.tuning_response curve -> tuning_curve_calculation (element_id -> subject_id; result verbatim; no calc input_parameters/app) + session anchor",
       "flags": "calculator composite-leaf fold (Lepsky et al.); un-defers with 0 orphans (id-preserved)"
+    },
+    "epochfiles_ingested": {
+      "targets": [
+        "ingestion_manifest"
+      ],
+      "carried": [],
+      "second_pass": [
+        "epoch"
+      ],
+      "how": "RENAMED to `ingestion_manifest` (#60): the old name encoded a MODE, the same T13 error `_ndr` and `_mfdaq` were de-encoded for, and the document is a manifest of what was ingested for one epoch. TWO edges change with it -- `filenavigator_id` is RESTORED (NDI writes it; V_eta had dropped it) and the invented `epochid`, empty on all 6,921 corpus documents, becomes a real `epoch_id -> epoch`. `epochprobemap` and the v1 `epoch_id` CHAR field are removed: the probemap decomposes into edges, and the edge replaces the string. The `epoch` documents themselves are minted by a SECOND PASS that groups on `epochid.epochid`.",
+      "flags": "no migrator yet -- the schema half of #60 only"
     }
   }
 }

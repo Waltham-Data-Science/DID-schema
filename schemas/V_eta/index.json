@@ -949,6 +949,17 @@
             "disposition": "persist"
         },
         {
+            "class_name": "epoch",
+            "tier": "stable",
+            "class_version": "1.0.0",
+            "maturity_level": "stable",
+            "superclasses": [
+                "entity"
+            ],
+            "path": "schemas/V_eta/stable/epoch.json",
+            "disposition": "persist"
+        },
+        {
             "class_name": "epoch_bounded_reference",
             "tier": "stable",
             "class_version": "1.0.0",
@@ -973,18 +984,6 @@
             "path": "schemas/V_eta/stable/epoch_relative_reference.json",
             "disposition": "in_progress",
             "disposition_note": "time_reference family consistency pass: `element_id` dep names the retired `element` (must_refer=subject, should be acquisition_epoch); bounded/relative suffixes carry different shapes across session/epoch/event (T11); `relation` enum-bound on one sibling, bare char on the other (T8)"
-        },
-        {
-            "class_name": "epochfiles_ingested",
-            "tier": "stable",
-            "class_version": "1.0.0",
-            "maturity_level": "stable",
-            "superclasses": [
-                "base"
-            ],
-            "path": "schemas/V_eta/stable/epochfiles_ingested.json",
-            "disposition": "in_progress",
-            "disposition_note": "\u2466 infra tier re-opened: the KEEP predated T11/T13 scrutiny (R5 found 5 of its siblings needed renames/folds); needs a naming + governance confirmation, NDI lockstep where the writers own the class string"
         },
         {
             "class_name": "epochid",
@@ -1292,6 +1291,17 @@
                 "image"
             ],
             "path": "schemas/V_eta/draft/image_observation.json",
+            "disposition": "persist"
+        },
+        {
+            "class_name": "ingestion_manifest",
+            "tier": "stable",
+            "class_version": "2.0.0",
+            "maturity_level": "stable",
+            "superclasses": [
+                "base"
+            ],
+            "path": "schemas/V_eta/stable/ingestion_manifest.json",
             "disposition": "persist"
         },
         {

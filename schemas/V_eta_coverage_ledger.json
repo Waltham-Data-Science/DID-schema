@@ -6,11 +6,11 @@
     "by_disposition": {
       "retire": 42,
       "dissolved \u2192 subject": 1,
-      "in_progress": 19,
+      "in_progress": 18,
       "persist": 4,
       "consumed by migrator (no tombstone)": 28,
       "test/demo fixture (non-production)": 4,
-      "no V_eta home, no migrator -- UNVERIFIED": 4
+      "no V_eta home, no migrator -- UNVERIFIED": 5
     },
     "by_source": {
       "ndi": 91,
@@ -490,19 +490,21 @@
     },
     {
       "v1_class": "epochfiles_ingested",
-      "veta_class": "epochfiles_ingested",
-      "disposition": "in_progress",
+      "veta_class": null,
+      "disposition": "no V_eta home, no migrator -- UNVERIFIED",
       "migrator": false,
       "source": "ndi",
       "nonprod": false,
       "gap": false,
       "targets": [
-        "epochfiles_ingested"
+        "ingestion_manifest"
       ],
       "carried": [],
-      "second_pass": [],
-      "how": "",
-      "target_flags": ""
+      "second_pass": [
+        "epoch"
+      ],
+      "how": "RENAMED to `ingestion_manifest` (#60): the old name encoded a MODE, the same T13 error `_ndr` and `_mfdaq` were de-encoded for, and the document is a manifest of what was ingested for one epoch. TWO edges change with it -- `filenavigator_id` is RESTORED (NDI writes it; V_eta had dropped it) and the invented `epochid`, empty on all 6,921 corpus documents, becomes a real `epoch_id -> epoch`. `epochprobemap` and the v1 `epoch_id` CHAR field are removed: the probemap decomposes into edges, and the edge replaces the string. The `epoch` documents themselves are minted by a SECOND PASS that groups on `epochid.epochid`.",
+      "target_flags": "no migrator yet -- the schema half of #60 only"
     },
     {
       "v1_class": "epochid",

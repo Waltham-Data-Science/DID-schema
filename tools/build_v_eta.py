@@ -686,6 +686,55 @@ write("stable", "organization", doc("organization", ["entity"], fields=[
     field("short_name", "char", "Organization short name / acronym (e.g. 'NIH'); "
           "openMINDS Organization.shortName.", non_empty=False),
     LOCAL_ID_OPT]))
+# ---- #60: MINT `epoch` -- the class the whole time model assumed existed ----
+# SIGNED 2026-08-08. An epoch is not an interval, it is a RECORDING: minted from
+# one acquisition device's files for one run (`ndi.file.navigator.m:271`,
+# id = ['epoch_' ndi.ido.unique_id()], written to a hidden file beside them), and
+# everything derived from it -- probes, elements, spike trains -- INHERITS that id
+# rather than minting its own (`ndi.element.m:276,293`). Two daqsystems recording
+# the same wall-clock period get two DIFFERENT epochs, which is why its temporal
+# extent is a property of it and not its identity.
+#
+# Nothing had ever minted one. The time-reference model was written assuming an
+# epoch IS a document, and 11,118 `acquisition_epoch` documents carried clock data
+# that nothing pointed at, while `epochid.epochid` was matched by `exact_string` at
+# 30 live NDI sites. This class turns those string joins into edges.
+#
+# `local_identifier` is declared HERE and REQUIRED rather than inherited: `entity`
+# deliberately declares none precisely so a child can ADD it as required (the same
+# reason `subject` does), and the v1 epochid string is the handle every one of
+# those 30 sites joins on -- losing it would break them.
+write("stable", "epoch", doc("epoch", ["entity"], fields=[
+    field("local_identifier", "char",
+          "The v1 epochid string ('epoch_4126958b19a21a41_...'), PRESERVED as the "
+          "handle. REQUIRED: 30 live NDI sites match it by exact_string, and 15 NDI "
+          "templates carry the `epochid` superclass whose join it is.",
+          non_empty=True)],
+    deps=[dep("session_id", "session",
+              "The session this recording belongs to.", non_empty=True),
+          dep("time_reference_#", "relative_reference",
+              "The epoch's own extent. One entry per (clock, extent) pair -- the "
+              "real per-clock extents live in "
+              "`daqreader_epochdata_ingested.epochtable`, one pair per entry, which "
+              "is what makes this family well defined under the #52 uniqueness rule.",
+              non_empty=False, multiple=True),
+          dep("instrument_id", "entity",
+              "The acquisition device this epoch was recorded from. OPTIONAL, and "
+              "typed to `entity` rather than `subject`: an epoch's instrument may be "
+              "an `acquisition_system`, which is not a subject. Added because a "
+              "daqsystem does not own a period of time -- the missing fact was the "
+              "recording device, not a misnamed one.",
+              non_empty=False)]))
+_ep_tier, _ep_path = path_of("epoch")
+_ep = load(_ep_path)
+for _x in _ep.get("depends_on", []):
+    if _x["name"] == "time_reference_#":
+        # min 0: an epoch whose clock extents were never recorded is still an
+        # epoch, and 11,118 v1 documents are in exactly that state. Per #63 --
+        # `mustBeNonEmpty` cannot say this.
+        _x["min_count"] = 0
+write(_ep_tier, "epoch", _ep)
+
 # ---- #56: `strain` is an ENTITY, and term_assertion may point at one --------
 # Team call 2026-08-05 (V_eta_openminds_family_record.md Part 6). `entity` was
 # chosen over a plain `base` document because it supplies `global_identifier` as
@@ -3385,6 +3434,44 @@ for _c in ("daqreader_epochdata_ingested", "epochfiles_ingested"):
                     and not _dep.get("must_refer_to_document_class", ""):
                 _dep["must_refer_to_document_class"] = "acquisition_epoch"
         write(_t, _c, _d)
+
+# ---- #60: epochfiles_ingested -> `ingestion_manifest`, with the REAL edge ----
+# SIGNED 2026-08-08. Two separate defects in one class:
+#
+#   1. THE NAME encodes a MODE (`_ingested`), the same T13 error `_ndr` and
+#      `_mfdaq` were de-encoded for. The document is a manifest of what was
+#      ingested for one epoch; that is what it should be called. It EARNS its
+#      existence (T12): nothing else records which files were physically copied
+#      into the archive, so deleting it makes "what did this epoch physically
+#      consist of" unanswerable.
+#   2. THE EDGE was invented. V_eta declared `epochid -> acquisition_epoch`
+#      REQUIRED and DROPPED the one NDI writes -- `filenavigator_id` --
+#      leaving 6,921 documents with a required edge that is empty in 100% of
+#      them. Restored here, alongside a real `epoch_id`.
+#
+# `epochprobemap` is REMOVED: it decomposes into edges (option B in the plan).
+# The v1 `epoch_id` CHAR field goes with it -- the edge replaces the string, which
+# is the whole point of minting `epoch`.
+_efi_tier, _efi_path = path_of("epochfiles_ingested")
+if _efi_path:
+    _efi = load(_efi_path)
+    _efi["document_class"]["class_name"] = "ingestion_manifest"
+    _efi["document_class"]["class_version"] = "2.0.0"
+    _efi["depends_on"] = [
+        dep("filenavigator_id", "filenavigator",
+            "The file navigator that produced this manifest. REQUIRED, and "
+            "RESTORED: this is the edge NDI actually writes, which V_eta had "
+            "dropped in favour of an invented `epochid`.", non_empty=True),
+        dep("epoch_id", "epoch",
+            "The epoch these files were ingested for. Replaces the invented "
+            "`epochid` edge, which was empty on all 6,921 documents.",
+            non_empty=True),
+    ]
+    _efi["fields"] = [f for f in _efi.get("fields", [])
+                      if f["name"] not in ("epoch_id", "epochprobemap")]
+    os.remove(_efi_path)
+    write(_efi_tier, "ingestion_manifest", _efi)
+    RENAME["epochfiles_ingested"] = "ingestion_manifest"
 
 # Governance: mark the `ndi_<x>_class` handles needs-NDI. Each of these kept device/
 # sync infra classes discriminates its concrete implementation by an NDI-runtime
