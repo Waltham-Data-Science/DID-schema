@@ -15,7 +15,18 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-      - run: pip install ruff
+      # PINNED, DELIBERATELY. This was `pip install ruff`, and on 2026-08-09 the
+      # gate went red across FIVE test files with no code change: ruff 0.16.2
+      # shipped and promoted UP031, RUF015, RUF059, SIM102, SIM115 and I001 to
+      # its default set. 25 errors appeared at once, most of them in files
+      # nobody had touched in months, and the failure looked like it belonged to
+      # whichever branch happened to push next.
+      #
+      # An unpinned linter is an unreviewed dependency that can fail the build
+      # on someone else's release schedule. Pinned FORWARD to the version that
+      # caught these -- all 25 are fixed -- not back to the one that missed them.
+      # Bump it deliberately, with the fixes in the same commit.
+      - run: pip install ruff==0.16.2
       - run: ruff check tests
 
   tests:

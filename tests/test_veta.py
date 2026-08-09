@@ -20,6 +20,23 @@ import jsonschema
 import pytest
 
 REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+
+def _load_tool(name):
+    """Load tools/<name>.py by PATH.
+
+    `tools/` is not a package (no __init__.py) and the project installs with
+    `pip install -e .`, so `import tools.<name>` happens to resolve locally --
+    the repo root is on sys.path when pytest is run from it -- and raises
+    ModuleNotFoundError in CI. Loading by path works in both, and does not
+    depend on where pytest was invoked from.
+    """
+    import importlib.util
+    path = os.path.join(REPO_ROOT, "tools", name + ".py")
+    spec = importlib.util.spec_from_file_location("_veta_tool_" + name, path)
+    mod = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+    return mod
 VETA = os.path.join(REPO_ROOT, "schemas", "V_eta")
 TIERS = ["stable", "draft", "deprecated"]
 META_FILES = {"did_schema_meta.json", "CURIE_lookups_meta.json", "ndi_reserved_keys.json",
@@ -351,8 +368,8 @@ def test_manipulation_tier_is_strict_j():
 def test_storage_mode_on_statement():
     ft = _flat_field_types("subject_statement")
     assert ft.get("storage_mode") == "char"
-    sm = [f for f in RECORDS["subject_statement"][1]["fields"]
-          if f["name"] == "storage_mode"][0]
+    sm = next(f for f in RECORDS["subject_statement"][1]["fields"]
+              if f["name"] == "storage_mode")
     assert set(sm["constraints"]["enum"]) == {"inline", "reference", "body"}
 
 
@@ -365,8 +382,8 @@ def test_conditions_on_statement():
     ft = _flat_field_types("subject_statement")
     assert ft.get("conditions") == "structure"
     assert ft.get("parameters") is None, "old `parameters` name must be gone"
-    params = [f for f in RECORDS["subject_statement"][1]["fields"]
-              if f["name"] == "conditions"][0]
+    params = next(f for f in RECORDS["subject_statement"][1]["fields"]
+                  if f["name"] == "conditions")
     # a list (non-scalar), not a single struct
     assert params["mustBeScalar"] is False
     sub = {f["name"]: f for f in params["fields"]}
@@ -374,7 +391,7 @@ def test_conditions_on_statement():
     # the three nested typed value blocks, each holding an array `value`
     for block in ("term", "count", "quantity"):
         assert block in sub, f"conditions missing {block} block"
-        val = [f for f in sub[block]["fields"] if f["name"] == "value"][0]
+        val = next(f for f in sub[block]["fields"] if f["name"] == "value")
         assert val["mustBeScalar"] is False, f"{block}.value must be an array"
     assert sub["term"]["fields"][0]["type"] == "ontology_term"
 
@@ -802,19 +819,21 @@ def test_writer_set_dependencies_are_reported():
 
     So: zero undeclared is allowed and is the current answer. A scan that looked at
     almost nothing is not."""
-    gt = json.load(open(os.path.join(REPO_ROOT, "schemas", "V_eta_ndi_ground_truth.json")))
+    with open(os.path.join(REPO_ROOT, "schemas",
+                           "V_eta_ndi_ground_truth.json")) as fh:
+        gt = json.load(fh)
     assert "writer_dependencies" in gt, "the #54 sweep is missing from the ground truth"
     scan = gt["summary"].get("writer_dependency_scan")
     assert scan, "the sweep reports no denominator -- its zero cannot be believed"
 
     assert scan["m_files_scanned"] > 500, (
-        "only %d .m file(s) scanned: the sweep is not reading NDI"
-        % scan["m_files_scanned"])
+        f"only {scan['m_files_scanned']} .m file(s) scanned: "
+        "the sweep is not reading NDI")
     assert scan["dependency_call_sites"] >= 100, (
-        "only %d dependency call site(s) found across %d files -- the previous "
-        "regex found 5 here because it required the name as the SECOND argument, "
-        "and NDI writes method calls" % (scan["dependency_call_sites"],
-                                         scan["m_files_scanned"]))
+        f"only {scan['dependency_call_sites']} dependency call site(s) found "
+        f"across {scan['m_files_scanned']} files -- the previous regex found 5 "
+        "here because it required the name as the SECOND argument, and NDI "
+        "writes method calls")
 
     # Positive controls: edges we have READ in the writer with our own eyes, so a
     # future regex change that silently narrows the scan again fails here.
@@ -827,7 +846,7 @@ def test_writer_set_dependencies_are_reported():
             ("syncrule_id", "syncgraph.m:850"),
             ("openminds", "openMINDSobj2ndi_document.m")):
         assert name in written, (
-            "%s is set at %s and the sweep did not see it" % (name, site))
+            f"{name} is set at {site} and the sweep did not see it")
 
     for r in gt["writer_dependencies"]:
         assert r["writer_sites"], "a row with no call site is not evidence"
@@ -842,7 +861,7 @@ def test_method_parameters_is_the_inline_field_plus_an_identity():
     never belonged on a class -- they belong in the settings SHAPE, whose identity
     is a bound `variable`, exactly as the `axis` entry solves the same problem."""
     assert "method_parameters" in RECORDS
-    tier, d = RECORDS["method_parameters"][0], RECORDS["method_parameters"][1]
+    d = RECORDS["method_parameters"][1]
     names = {f["name"] for f in d["fields"]}
     # the same name in both mount points -- `parameters` was vacated when the
     # statement's field became `conditions`
@@ -889,7 +908,7 @@ def test_strain_is_an_entity_with_a_recursive_pedigree():
     stored ONCE and referenced, which a nested background block would have
     duplicated into every descendant."""
     assert "strain" in RECORDS
-    tier, d = RECORDS["strain"]
+    _tier, d = RECORDS["strain"]
     assert [s["class_name"] for s in d["document_class"]["superclasses"]] == ["entity"]
     ft = _flat_field_types("strain")
     # global_identifier comes from entity and must stay OPTIONAL: Dabrowska's Cre
@@ -1170,8 +1189,8 @@ def test_data_type_composites_expose_one_value_slot():
         if names != ["value"]:
             offenders[name] = names
     assert not offenders, (
-        "data_type composites must expose exactly one payload field named `value` "
-        "(descriptors ride INSIDE the cell, beside the payload): %r" % offenders)
+        "data_type composites must expose exactly one payload field named "
+        f"`value` (descriptors ride INSIDE the cell, beside the payload): {offenders!r}")
 
 
 def test_value_slot_exceptions_are_still_real():
@@ -1203,7 +1222,7 @@ def test_named_composite_cells_declare_their_layout():
     for name, (tier, d) in RECORDS.items():
         walk(name, d.get("fields"), name)
     assert not missing, (
-        "named composite cells missing declared sub_fields: %r" % missing[:20])
+        f"named composite cells missing declared sub_fields: {missing[:20]!r}")
 
 
 def test_dimensioned_cells_carry_source_provenance():
@@ -1219,10 +1238,10 @@ def test_dimensioned_cells_carry_source_provenance():
             if t in exempt or not f.get("fields"):
                 continue
             subs = {sf["name"] for sf in f["fields"]}
-            if "source_unit" in subs or "source_value" in subs:
-                if not {"source_unit", "source_value", "approximate"} <= subs:
-                    bad.append(f"{name}.{f['name']} ({t}): {sorted(subs)}")
-    assert not bad, "dimensioned cells missing the source triple: %r" % bad
+            if ("source_unit" in subs or "source_value" in subs) and not {
+                    "source_unit", "source_value", "approximate"} <= subs:
+                bad.append(f"{name}.{f['name']} ({t}): {sorted(subs)}")
+    assert not bad, f"dimensioned cells missing the source triple: {bad!r}"
 
 
 def test_no_new_duplicate_field_declarations_in_a_chain():
@@ -1239,18 +1258,20 @@ def test_no_new_duplicate_field_declarations_in_a_chain():
     # own templates declare a class-block `name` beside `base.name`, and a
     # tombstone that dropped it would stop matching the writer. See the evidence
     # quoted in tools/check_duplicate_field_declarations.py.
-    from tools.check_duplicate_field_declarations import (
-        BASELINE, find_duplicates, load_classes)
+    # LOADED BY PATH, not imported. `tools/` has no __init__.py and the package
+    # is installed with `pip install -e .`, so `import tools.x` resolves locally
+    # (cwd on sys.path) and raises ModuleNotFoundError in CI. Running only
+    # `pytest tests/test_veta.py` locally hid it; CI runs the whole suite.
+    mod = _load_tool("check_duplicate_field_declarations")
 
-    classes = load_classes()
+    classes = mod.load_classes()
     assert classes, "no V_eta classes were read -- the check would pass vacuously"
-    rows = find_duplicates(classes)
-    assert len(rows) <= BASELINE, (
-        "new duplicate field declaration(s): %r"
-        % [(c, f, o) for c, f, o in rows][:20])
-    assert len(rows) == BASELINE, (
-        "BASELINE is stale (%d found, baseline %d) -- lower it so the ratchet "
-        "keeps the ground it won" % (len(rows), BASELINE))
+    rows = mod.find_duplicates(classes)
+    assert len(rows) <= mod.BASELINE, (
+        f"new duplicate field declaration(s): {[(c, f, o) for c, f, o in rows][:20]!r}")
+    assert len(rows) == mod.BASELINE, (
+        f"BASELINE is stale ({len(rows)} found, baseline {mod.BASELINE}) -- "
+        "lower it so the ratchet keeps the ground it won")
 
 
 def test_ndi_schema_documents_are_all_read():
@@ -1278,18 +1299,20 @@ def test_ndi_schema_documents_are_all_read():
     not JSON, so a strict parse threw away both files INCLUDING their well-formed
     depends_on blocks. One of them is `valid_interval`, an UNVERIFIED coverage row.
     """
-    gt = json.load(open(os.path.join(REPO_ROOT, "schemas", "V_eta_ndi_ground_truth.json")))
+    with open(os.path.join(REPO_ROOT, "schemas",
+                           "V_eta_ndi_ground_truth.json")) as fh:
+        gt = json.load(fh)
     scan = gt["summary"].get("ndi_schema_document_scan")
     assert scan, "no denominator for the schema-document sweep"
     assert scan["files"] > 80, (
-        "only %d schema document(s) read -- the sweep is not finding NDI's set"
-        % scan["files"])
+        f"only {scan['files']} schema document(s) read -- "
+        "the sweep is not finding NDI's set")
     assert scan["json_schema_form"] >= 5, (
-        "the JSON Schema-shaped documents are being skipped again (%d found)"
-        % scan["json_schema_form"])
+        "the JSON Schema-shaped documents are being skipped again "
+        f"({scan['json_schema_form']} found)")
     assert scan["unparseable"] == 0, (
-        "%d schema document(s) could not be parsed; the MATLAB -Inf fallback has "
-        "stopped working or NDI has a new malformation" % scan["unparseable"])
+        f"{scan['unparseable']} schema document(s) could not be parsed; the "
+        "MATLAB -Inf fallback has stopped working or NDI has a new malformation")
 
     classes = gt["classes"]
     # positive controls, one per failure mode above

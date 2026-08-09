@@ -186,7 +186,8 @@ def test_image_stack_folded_into_imageseries():
     assert _flat_field_types("imageseries_observation").get("kind") == "ontology_term"
     # nothing folds the geometry loss: storage carries dtype/limits; series a caption
     st = {s["name"] for s in
-          [f for f in RECORDS["dataseries_data"][1]["fields"] if f["name"] == "storage"][0]["fields"]}
+          next(f for f in RECORDS["dataseries_data"][1]["fields"]
+               if f["name"] == "storage")["fields"]}
     assert {"data_type", "data_limits"} <= st, "dataseries_data.storage must carry dtype/limits"
     assert _flat_field_types("imageseries_observation").get("label") == "char", \
         "the folded image_stack.label caption must be inherited from dataseries_observation"
