@@ -494,3 +494,58 @@ every `float64` came from a `double` rather than from a default.
 5. `record` is retired as a datum kind; its one real use becomes a labelled axis.
 6. `format` + `compression` land on `data_body`, with `filename`, `content_hash` and
    `description` hoisted alongside; `zarr` is deleted rather than migrated.
+
+---
+
+# ADDENDUM — the axis carries its own `datum_type`. Team, 2026-08-09.
+
+Found in the misc-singletons sign-off review, from `binaryseries_parameters`, which
+declares TWO independent byte encodings where this plan had one:
+
+```
+origin/main:.../database_documents/data/binaryseries_parameters.json
+   time_size, time_type          the TIMESTAMPS' encoding
+   data_size, data_type          the SAMPLES' encoding
+   data_dim, samples_regular_intervals
+```
+
+Time is an ordinary axis under this plan, so an irregularly-sampled series that stores
+its timestamps in the bytes alongside its samples had nowhere to say how those
+timestamps are encoded: `subject_statement.datum_type` describes the VALUES, and the
+axis entry had no encoding slot at all.
+
+```
+axis
+   ...
+   datum_type   char   NEW. Bound to the same 14-value vocabulary as
+                       subject_statement.datum_type. REQUIRED when the axis is
+                       body-mounted AND `regular` is false -- i.e. when the
+                       coordinates are stored in the bytes. Absent otherwise.
+```
+
+**The principle, unchanged from this plan's own rule** (*the statement says what the
+values ARE; the body says how the bytes ENCODE them*): an axis's coordinates are the
+AXIS's numbers, not the statement's values, so their encoding belongs to the axis. This
+is the same shape as `source_unit`, which already appears both on the axis and on the
+value cells.
+
+**`byte_order` does NOT move and is NOT duplicated.** Endianness is a property of the
+file, and every column in one body shares it, so it stays on `sampled_body`. Only the
+element type varies per column — which is exactly the split `binaryseries_parameters`
+makes.
+
+**The checkable rule.** On a body-mounted axis, `regular: false` means the coordinates
+live in the bytes and `datum_type` is REQUIRED; the inline `values` slot is for
+statement-mounted axes only. A regular axis stores no coordinates at all (`origin` +
+`spacing` generate them), so it needs neither.
+
+**Not a `binaryseries_parameters` special case.** Any irregularly sampled recording that
+stores timestamps beside its samples needs this. The class is what surfaced it; the gap
+was general.
+
+Fold consequence: `binaryseries_parameters` maps cleanly and losslessly —
+`data_type -> subject_statement.datum_type`, `time_type -> the time axis's datum_type`,
+`data_dim -> the number of axes`, `samples_regular_intervals -> axis.regular`, the two
+`*_size` fields implied by their `datum_type`. Without this addendum the fold would have
+had to drop the timestamp encoding, or declare that only regularly-sampled series
+survive it — a real limit, not a lossless fold.

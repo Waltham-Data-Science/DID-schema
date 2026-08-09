@@ -469,3 +469,58 @@ that no real document had.
 **So: pass through, and flag it as needing real documents before modelling.** One
 class, no migrator today, nothing references it. Guessing its shape is how this
 project has previously lost data.
+
+---
+
+## `interaction_purpose` — KEEP, but the justification is CONDITIONAL. 2026-08-09.
+
+The team asked the right question: *if it has no v1 source and no justification for
+existing, why not remove it?* That is the exact test that removed `openminds_import`,
+and it has to be applied honestly here.
+
+**The sweep, stated with its denominators:**
+
+```
+NDI origin/main                     files mentioning `interaction_purpose`:  0
+DID-matlab src/ + tests/            hits:                                    0   (no migrator emits it)
+V_eta schemas referencing it        only topics.json and index.json          (catalogues, not references)
+provenance                          V_epsilon -- a DID-side class, never a v1 source
+```
+
+By the `openminds_import` test — nothing emits it, nothing references it, no v1 source —
+it looks removable.
+
+**It is not, and the difference is exactly the one that made `openminds_import` a
+mistake.** `openminds_import` was persisted *on condition that an emitter be scheduled,
+and none ever was.* Here an emitter IS scheduled, in a SIGNED plan:
+
+```
+V_eta_stimulus_model_plan.md:126-132
+   a stimulus "approach" ... folds into `interaction_purpose` (an approach term on the
+   epoch's interaction, via the openMINDS controlled-term path) ... No new class; the
+   stale `stimulus_approach` provenance row is corrected to RETIRE.
+```
+
+So the class has a consumer waiting on the stimulus build, not a hypothetical one.
+
+**AND there is a real candidate source already in the corpus** — 635 `openminds_stimulus`
+documents carrying `StimulationApproach` terms, attached to a stimulus element and an
+epoch. "The purpose of this interaction, in this epoch" is what `interaction_purpose`
+says.
+
+**WHICH SURFACES A CONFLICT — two signed plans send the same documents to different
+places.** `migrators_j/openminds_stimulus.m` turns every one of those 635 into a
+`term_assertion` on the stimulus-subject; the stimulus plan says an approach term becomes
+an `interaction_purpose`. Both cannot be right. And the `term_assertion` route is
+independently broken: those documents migrate with an EMPTY `subject_id` because the
+migrator reads a dependency name that does not exist. Tracked as #75.
+
+**Recorded so this cannot rot the way `openminds_import` did:** if the stimulus build
+lands and does NOT emit `interaction_purpose`, the class has no emitter and no consumer,
+and it should be removed at that point rather than persisted for another year on the
+strength of a plan that changed. The condition is now written down, which is the only
+thing that was missing last time.
+
+Its two other open items are unchanged and tracked elsewhere: `purpose` is a completely
+unbound ontology term, and `interaction_id_#` is one of three numbered edge families
+declared REQUIRED with nothing able to verify them.
