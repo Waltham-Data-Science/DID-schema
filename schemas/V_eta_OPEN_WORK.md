@@ -366,6 +366,49 @@ deferral, not a loss. Same treatment `ontology_label` got.
 
 ---
 
+## DECISION NEEDED — `fitcurve` migrates to an observation about NOBODY (2026-08-09)
+
+Found while restating the Phase-2 tombstones. **Not a tombstone problem, and not
+fixable by a single-document migrator**, so it is recorded rather than built.
+
+`migrators_j/fitcurve.m:53-54` resolves its subject with
+
+        subjectId = firstNonEmpty(dependencyValue(preBody, 'element_id'), ...
+                                  dependencyValue(preBody, 'subject_id'));
+
+**NDI's `fitcurve` has NEITHER.** `database_documents/data/fitcurve.json` declares
+exactly one dependency, `fit_example_data_id`; the schema document agrees; and NDI
+has no writer for the class at all — `+ndi/+data/evaluate_fitcurve.m` only READS
+one. So `subjectId` is `''` for every real document, and the migrator emits a
+`score_observation` whose `subject_id` is empty: an observation of a residual sum
+of squares, about nobody. That is the `ontology_image` failure exactly, and it is
+invisible to the corpus gate because `+did2/+validate/references.m:90` skips empty
+edges.
+
+**Why this is a decision and not a build.** The three obvious repairs each change
+migration output, and each has a real cost:
+
+- **Guard + pass through** (the `openminds_stimulus` / `probe_geometry` precedent).
+  Honest, and preserves the document for a second pass. BUT `fitcurve` currently
+  DISSOLVES, so its `fit_example_data_id` edge disappears; passing the document
+  through re-introduces that edge into reference validation, and if the referent is
+  not in the batch that is a NEW ORPHAN on a 0-orphan gate.
+- **Emit only the anchor when no subject resolves.** Loses `fit_sse` entirely —
+  worse than the hollow document.
+- **Attribute via a second pass.** Correct, and needs the graph a single-document
+  migrator does not have. There is nothing in the document to attribute FROM: the
+  only edge points at example data, not at a subject.
+
+**Where the subject actually is, is not established.** No writer exists in any
+repository we have, so we do not know who writes `fitcurve` documents or whether
+they set an `element_id` the template never declared (which is legal — that is the
+#54 append path). **Check a corpus for `fitcurve` documents and read their real
+`depends_on` before choosing.** The v1 source census added today reports per-class
+counts, so the next full run answers "do any exist, and what do they carry".
+
+Sibling: `vmspikefit` uses the same `residualFold` but its template DOES declare
+`element_id`, so it is unaffected.
+
 ## FINDINGS THAT LIVED ONLY IN TASK DESCRIPTIONS
 
 Recovered here because the descriptions are gone. Everything else was already mirrored into a
