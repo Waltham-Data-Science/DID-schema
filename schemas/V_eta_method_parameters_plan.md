@@ -490,7 +490,7 @@ all; they belonged in the settings SHAPE that all 47 interaction leaves already 
 method_parameters  ⊂ base
    name         char          optional   the protocol name, e.g. "default" -- the string
                                          spikeextractor.m:372 / spikesorter.m:373 query
-   parameters   parameter[]   REQUIRED   the SAME shape as the inline field (below)
+   method_parameters  parameter[]  REQUIRED  the SAME field name and shape as inline
    other        structure     optional   the undeclared long tail
    depends_on   software_id  -> software            optional
                 subject_id   -> subject             optional -- scope
@@ -661,27 +661,45 @@ relative_reference documents; epochid is DROPPED in favour of a uniform epoch_id
 Both blocks now read `epoch_id -> epoch`. Recorded rather than silently patched, because
 writing a dissolved class as an edge target is how a decision gets quietly un-made.
 
-## FIELD NAMING — `parameters`, in BOTH mount points
+## FIELD NAMING — `method_parameters`, in BOTH mount points
 
-The list is named `parameters` wherever it appears, and its entry type is `parameter`.
-That means the inline field on `subject_interaction` is RENAMED from `method_parameters`
-to `parameters`:
+The list keeps the name `method_parameters` wherever it appears; its entry type is
+`parameter`.
 
 ```
-subject_interaction.parameters[*].variable      inline
-method_parameters.parameters[*].variable        the document
+subject_interaction.method_parameters[*].variable      inline
+method_parameters.method_parameters[*].variable        the document
 ```
 
-**Why rename the inline field.** The whole point of the shared shape is that one list
-means one thing in both places; leaving it called `method_parameters` inline and
-`parameters` in the document would give the same list two names. This follows the `axis`
-entry exactly, which mounts on `subject_statement` AND `sampled_body` under the SAME
-field name `axes` in both.
+**CORRECTION, team 2026-08-09.** This section first said the field was renamed to
+`parameters` in both places, following `axes`. **That was wrong, and the team caught it.**
+`parameters` is a name this project DELIBERATELY VACATED:
 
-The block-and-field stutter `method_parameters.parameters` is real and accepted. It has
-precedent in the built schema (`control_stimulus_ids.control_stimulus_ids`), and the
-alternative is renaming the class a fourth time, which is not worth it. `parameter` as
-the entry-type name matches `axis` for `axes`.
+```
+CLAUDE.md:452
+   the D10 statement-conditions field was renamed `parameters` -> `conditions`
+   (axis = per-reading array, covariate = length-1); `method_parameters` holds the
+   algorithm config (calculator input_parameters), a distinct slot.
+```
+
+Reviving it would have put `parameters` two lines from `conditions`, which was renamed
+away from `parameters` for exactly that reason. And the crowding is about to get worse,
+not better: under the data_body decision a single document carries THREE struct lists,
+each keyed by a `variable`, and they must not be confusable.
+
+```
+subject_statement.conditions             what the experiment held or varied
+subject_statement.axes                   the shape of the value
+subject_interaction.method_parameters    how the algorithm was configured
+```
+
+The `axes` precedent still holds in the part that matters — ONE name for ONE shape across
+both mount points — which `method_parameters` satisfies without touching a reserved word.
+
+The block-and-field stutter `method_parameters.method_parameters` is real and accepted. It
+has two precedents: `control_stimulus_ids.control_stimulus_ids` in the built V_eta schema,
+and `epochid.epochid`, which is NDI's own. Preferable to reviving a name the team removed,
+and to renaming the class a fourth time.
 
 ## `derived_from_id` — the self-edge, and a CORRECTION about what it carries
 
