@@ -132,11 +132,20 @@ FAMILIES = [
      "metadata one -> `acquisition_metadata_file`; image one folds into the image model",
      "team"),
 
-    # DECIDED 2026-08-05. Writer check done: absent from NDI origin/main, zero code
-    # mentions, provenance V_epsilon, zero migrators, zero schema references.
-    ("dataseries_channel_map", ["dataseries_channel_map"],
-     "V_eta_go_forward_class_audit.md",
-     "DELETE -- a V_epsilon invention, never a did_v1 source, zero users", "team"),
+    # `dataseries_channel_map` -- FAMILY CLOSED 2026-08-09. Decided 2026-08-05
+    # (DELETE: a V_epsilon invention, never a did_v1 source, zero users) and BUILT on
+    # 2026-08-09 when the team asked "does it have any V1 provenance? If no, delete
+    # it" and the answer came back no on every check. The class is gone from the
+    # built set (`_DELETE_NO_V1_PROVENANCE` in build_v_eta.py, which records the
+    # evidence), so the family has nothing left to track.
+    #
+    # IT WAS FOUND BY A DISAGREEMENT, WHICH IS THE POINT. This board said DELETE,
+    # decided by the team; `build_v_eta.py` said "R5 proposed -> channel_assignment
+    # (awaiting review)". Two hand-maintained records, contradicting each other, and
+    # neither wins automatically -- so the class sat undeleted while the board
+    # counted it as settled. The re-verification confirmed THIS record and retired
+    # the other. Sibling to the stale "#57 remains a PROPOSAL" sentence found the
+    # same day, 474 lines above two sign-off lines saying otherwise.
 
     # The templates split this: syncgraph/syncrule are a MATLAB class name plus
     # parameters (runtime configuration), while syncrule_mapping carries the

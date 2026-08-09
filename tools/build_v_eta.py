@@ -4474,7 +4474,6 @@ _DECIDED_PENDING = {
     # confirmation"), so the rename is NOT authorised to land yet. Proposed targets kept
     # here so the review has something concrete to react to.
     "binaryseries_parameters": "R5 proposed → acquisition_layout (awaiting review)",
-    "dataseries_channel_map": "R5 proposed → channel_assignment (awaiting review)",
     "daqreader_epochdata_ingested": "R5 proposed → daqreader_epoch_cache (awaiting review)",
     "daqmetadatareader_epochdata_ingested":
         "R5 proposed → daqmetadatareader_epoch_cache (awaiting review)",
@@ -4657,7 +4656,46 @@ _DELETE_PHASE8 = {
     "temporal_frequency_tuning_calc", "speed_tuning_calc", "contrast_sensitivity_calc",
     "tuningcurve_calc",
 }
+# A SEPARATE SET, DELIBERATELY. _DELETE_PHASE8 above means "a did_v1 SOURCE whose
+# documents are provably consumed by a completed migrator" -- its whole contract is
+# about not stranding live documents. These are a different category with a
+# different justification: DID-SIDE INVENTIONS THAT WERE NEVER A did_v1 SOURCE.
+# No document of these classes can arrive from a migration, because the class name
+# did not exist before DID invented it. Folding them into the set above would blur
+# a distinction that exists to keep deletions safe.
+#
+# `dataseries_channel_map` -- deleted 2026-08-09 on the team's instruction ("does it
+# have any V1 provenance? If no, delete it"). Every check run before deleting, and
+# the absence-based ones in NDI's OWN SPELLING, because a disposition resting on
+# absence is what produced the `demo_ndi`/`demoNDI` error:
+#
+#   provenance file   `dataseries_channel_map | draft | V_epsilon | review/infra`
+#                     -- origin V_epsilon, NOT did_v1. The provenance record is the
+#                     arbiter of what counts as a v1 source.
+#   version history   absent from V_alpha (the did_v1 snapshot), V_beta, V_delta;
+#                     first appears in V_epsilon/draft.
+#   NDI templates     absent from all of them under NORMALISED matching
+#                     (lowercase, underscores stripped) -- the mechanical form of
+#                     the demo_ndi check, not a raw snake_case grep.
+#   NDI whole repo    zero files mention the string in ANY casing.
+#   near-miss check   NDI's real `site2channelmap` is a DIFFERENT class -- deps
+#                     probe_id/probe_geometry_id vs element_id/element_epoch_id,
+#                     block field `map` vs `channels` -- and is separately homed in
+#                     the coverage ledger (-> count_observation, retire).
+#   migrators         no migrator in ANY package reads or emits it.
+#   references        no V_eta schema depends on it or subclasses it. Its only
+#                     remaining mention is a SENTENCE in `acquisition_epoch`'s field
+#                     documentation, and that class dissolves under the epoch model.
+#   coverage ledger   no v1-source row, as expected for an invention.
+#
+# NOT `zarr`, though it is the same category and CLAUDE.md already calls it "DELETED
+# not migrated": its removal rides with the data_body model (#45), which is blocked.
+_DELETE_NO_V1_PROVENANCE = {
+    "dataseries_channel_map",
+}
+
 _deleted = []
+_deleted_invented = []
 for tier in TIERS:
     for p in glob.glob(os.path.join(VETA, tier, "*.json")):
         base = os.path.basename(p)
@@ -4670,9 +4708,15 @@ for tier in TIERS:
         if cn in _DELETE_PHASE8:
             os.remove(p)
             _deleted.append(cn)
+        elif cn in _DELETE_NO_V1_PROVENANCE:
+            os.remove(p)
+            _deleted_invented.append(cn)
 if _deleted:
     print(f"V_eta Phase-8 delete: removed {len(_deleted)} consumed source schemas: "
           + ", ".join(sorted(_deleted)))
+if _deleted_invented:
+    print(f"V_eta delete (no v1 provenance): removed {len(_deleted_invented)}: "
+          + ", ".join(sorted(_deleted_invented)))
 
 schemas = []
 for tier in TIERS:

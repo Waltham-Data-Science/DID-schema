@@ -737,18 +737,6 @@
             "disposition": "persist"
         },
         {
-            "class_name": "dataseries_channel_map",
-            "tier": "draft",
-            "class_version": "1.0.0",
-            "maturity_level": "draft",
-            "superclasses": [
-                "base"
-            ],
-            "path": "schemas/V_eta/draft/dataseries_channel_map.json",
-            "disposition": "in_progress",
-            "disposition_note": "R5 proposed \u2192 channel_assignment (awaiting review)"
-        },
-        {
             "class_name": "dataset",
             "tier": "stable",
             "class_version": "1.0.0",
