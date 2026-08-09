@@ -1192,3 +1192,31 @@ def test_dimensioned_cells_carry_source_provenance():
                 if not {"source_unit", "source_value", "approximate"} <= subs:
                     bad.append(f"{name}.{f['name']} ({t}): {sorted(subs)}")
     assert not bad, "dimensioned cells missing the source triple: %r" % bad
+
+
+def test_no_new_duplicate_field_declarations_in_a_chain():
+    # #69's cheap interim, asserted here as well as in CI so a local run catches it.
+    #
+    # A subclass that redeclares an ancestor's field creates TWO live storage
+    # locations for one fact and nothing says which wins. It is invisible by
+    # construction: resolvePlacement's collision check fires only within one
+    # targetBlock, and the default placement puts ancestor and descendant in
+    # DIFFERENT blocks, so the redeclaration never trips it -- and a cross-block
+    # duplicate name is checked nowhere else either.
+    #
+    # A RATCHET, not a zero. Five of the eight known rows are V1 FIDELITY: NDI's
+    # own templates declare a class-block `name` beside `base.name`, and a
+    # tombstone that dropped it would stop matching the writer. See the evidence
+    # quoted in tools/check_duplicate_field_declarations.py.
+    from tools.check_duplicate_field_declarations import (
+        BASELINE, find_duplicates, load_classes)
+
+    classes = load_classes()
+    assert classes, "no V_eta classes were read -- the check would pass vacuously"
+    rows = find_duplicates(classes)
+    assert len(rows) <= BASELINE, (
+        "new duplicate field declaration(s): %r"
+        % [(c, f, o) for c, f, o in rows][:20])
+    assert len(rows) == BASELINE, (
+        "BASELINE is stale (%d found, baseline %d) -- lower it so the ratchet "
+        "keeps the ground it won" % (len(rows), BASELINE))

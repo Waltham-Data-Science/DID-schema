@@ -69,3 +69,23 @@ jobs:
       - name: V_eta status board must be current
         if: matrix.python-version == '3.12'
         run: python3 tools/status_board.py --check
+
+      # #69, the cheap interim -- a RATCHET, not a fix.
+      #
+      # A subclass that redeclares an ancestor's field creates two live storage
+      # locations for one fact, and nothing says which is authoritative. The
+      # collision is invisible: resolvePlacement's check fires only within one
+      # targetBlock, and the default placement puts ancestor and descendant in
+      # DIFFERENT blocks, so a redeclaration never trips it. Nothing else checks
+      # a cross-block duplicate name -- not the schema package, not the
+      # validator, not this repo's tools. The docstring says it errors; the code
+      # does not.
+      #
+      # The real fix (merge into the ancestor's entry, require the child to
+      # NARROW) touches the meta-schema, the validator and fieldsFor's contract,
+      # and rides with binding governance. Until then the count may fall freely
+      # and may not grow -- so the eight known rows stay visible instead of
+      # quietly becoming nine.
+      - name: No new duplicate field declarations in a class chain
+        if: matrix.python-version == '3.12'
+        run: python3 tools/check_duplicate_field_declarations.py --enforce
