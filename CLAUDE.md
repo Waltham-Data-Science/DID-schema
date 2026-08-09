@@ -182,10 +182,27 @@ lives in these files — read them instead of re-deriving from memory:
   invention), its payload is a **two-plane** `[T×X×Y×2]` volume (STA + p-value), `element_id` IS
   populated so no NDI pass is needed for subject attribution, `ngrid` has a **second consumer**
   (`ontologyImage`) so retiring it is gated on both, `ngrid.coordinates` carries real data and is
-  being **deleted** by the migrator. **`ontology_image` (F5) is FIXED**: NDI *redefined*
-  `ontologyImage`, so TWO vintages are both did_v1 — A (legacy `ontology_name`+`ontology_region`,
-  dep `element_id`) and B (current NDI `ontology_nodes` = comma-joined multi-CURIE, dep
-  `ontologyTableRow_id`, `ngrid` superclass). The old `region` read matched NEITHER (it is the
+  being **deleted** by the migrator. **`ontology_image` (F5) is FIXED**, and this paragraph's
+  own account of WHY was wrong until 2026-08-09. It said NDI *redefined* `ontologyImage` so
+  **TWO** vintages are both did_v1 — A (legacy `ontology_name`+`ontology_region`, dep
+  `element_id`) and B (current NDI `ontology_nodes` = comma-joined multi-CURIE, dep
+  `ontologyTableRow_id`, `ngrid` superclass). **THERE IS NO VINTAGE A. NDI NEVER REDEFINED THE
+  CLASS.** Positive evidence, three independent ways: `git log --all --diff-filter=A --
+  '*ontologyImage.json'` returns exactly ONE commit (`0ae099c`), every revision in the file's
+  history carries `ontologyTableRow_id` + `ontologyNode`, and `git log --all -S"ontologyRegion"`
+  / `-S"ontology_region"` match only DID-side alias-table commits, never a template. NDI-matlab
+  `04dcdf9` (2026-07-29) had already established the same thing while deleting four fabricated
+  alias rows: *"ontologyImage created 2025-07-03, three commits total, always {ontologyNode}
+  with an ontologyTableRow_id dependency. Never had ontology_name or ontology_region."*
+  Vintage A came from DID-schema's own V_alpha/V_beta snapshot — the migrator's header says so
+  in its own words ("legacy; DID-schema V_alpha/V_beta ancestry") and still calls it a did_v1
+  vintage. It is the ground-truth-track fabrication one more time, wearing the word "legacy".
+  **NOTHING IS BEING RIPPED OUT**: the migrator branches on shape and errors on no-match, so a
+  branch for a shape that cannot occur simply never fires, and the tombstone's vintage-A fields
+  are optional, so an absent field cannot trip `undeclaredField`. Both are safe as written and
+  cost nothing. What was expensive was the RECORD — planning around a second vintage that has
+  never existed. Read the disposition in `V_eta_OPEN_WORK.md` #47 ("ONE vintage, not two"),
+  which was right, over this paragraph, which was not. The old `region` read matched NEITHER (it is the
   V_DELTA migrator's OUTPUT, and `migrators_j` runs INSTEAD of the V_delta migrator on a
   universalRenames-only body), so every doc became a silent husk. Now: A migrates, B PASSES
   THROUGH for the NDI second pass (a table row is not a subject), and anything else ERRORS.
