@@ -48,6 +48,7 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 REPO = os.path.dirname(HERE)
 OUT = os.path.join(REPO, "schemas", "V_eta_ndi_ground_truth.json")
 DDIR = "src/ndi/ndi_common/database_documents"
+SDIR = "src/ndi/ndi_common/schema_documents"
 
 # Divergences between a shipped NDI template and the writer that actually produces
 # the documents. The DATA FOLLOWS THE WRITER, so the writer wins for migration --
@@ -120,6 +121,84 @@ def snake(n):
     return out
 
 
+def _schema_deps(ndi_path, ref):
+    """{class_name: [dependency names]} from NDI's SCHEMA documents.
+
+    A DEPENDENCY CAN BE DECLARED IN THE SCHEMA AND NOT IN THE TEMPLATE, and
+    reading only the template then reports the real edge as a DID-side invention.
+    Live case: `daq/syncgraph.json` has `depends_on: []` while
+    `schema_documents/daq/syncgraph_schema.json` declares
+    `{"name": "syncrule_id", "mustbenotempty": 0}` -- and the writer sets it,
+    `+ndi/+time/syncgraph.m:850`. V_eta declared it correctly and was told off
+    for it by check_tombstones on every run.
+
+    The two sides are UNIONED, never intersected: each is a place NDI states a
+    dependency, and a name appearing in either is real.
+    """
+    out = {}
+    if ref == "worktree":
+        root = os.path.join(ndi_path, SDIR)
+        paths = []
+        for dirpath, _, names in os.walk(root):
+            paths += [os.path.join(dirpath, n) for n in names if n.endswith(".json")]
+        blobs = []
+        for p in paths:
+            try:
+                blobs.append(open(p).read())
+            except Exception:
+                continue
+    else:
+        try:
+            files = subprocess.run(
+                ["git", "-C", ndi_path, "ls-tree", "-r", "--name-only", ref, "--", SDIR],
+                capture_output=True, text=True, check=True).stdout.splitlines()
+        except Exception:
+            return out
+        blobs = []
+        for f in files:
+            if not f.endswith(".json"):
+                continue
+            try:
+                blobs.append(subprocess.run(
+                    ["git", "-C", ndi_path, "show", "%s:%s" % (ref, f)],
+                    capture_output=True, text=True, check=True).stdout)
+            except Exception:
+                continue
+    for blob in blobs:
+        try:
+            d = json.loads(blob)
+        except Exception:
+            continue
+        # THE KEY IS `classname`. Schema documents do not use the template's
+        # `document_class.class_name` shape -- they are flat, with `classname`.
+        # A first cut read the template spelling, matched nothing, and returned a
+        # clean empty result: exactly the "a grep that could not have matched"
+        # failure, caught here only because a row that should have disappeared
+        # did not.
+        dc = d.get("document_class") or {}
+        cn = d.get("classname") or dc.get("class_name") or d.get("class_name")
+        deps = d.get("depends_on") or []
+        if isinstance(deps, dict):
+            deps = [deps]
+        names = [x.get("name") for x in deps
+                 if isinstance(x, dict) and x.get("name")]
+        if cn and names:
+            out.setdefault(cn, []).extend(names)
+    return out
+
+
+def _merge_schema_deps(out, ndi_path, ref):
+    """Union the schema documents' dependency names into the template records."""
+    extra = _schema_deps(ndi_path, ref)
+    for cn, names in extra.items():
+        rec = out.get(cn)
+        if not rec:
+            continue
+        have = set(rec["depends_on"])
+        rec["depends_on"] = rec["depends_on"] + sorted(n for n in set(names) if n not in have)
+    return out
+
+
 def ndi_templates(ndi_path):
     """Read every NDI document template from origin/main (falling back to main,
     then the working tree). Returns (dict, ref)."""
@@ -144,7 +223,7 @@ def ndi_templates(ndi_path):
             if rec:
                 out[rec.pop("_class")] = rec
         if out:
-            return out, ref
+            return _merge_schema_deps(out, ndi_path, ref), ref
     # working-tree fallback
     out = {}
     root = os.path.join(ndi_path, DDIR)
@@ -160,7 +239,7 @@ def ndi_templates(ndi_path):
             rec = _parse(d, os.path.relpath(p, ndi_path) + " @worktree")
             if rec:
                 out[rec.pop("_class")] = rec
-    return out, "worktree"
+    return _merge_schema_deps(out, ndi_path, "worktree"), "worktree"
 
 
 def writer_dependencies(ndi_path, truth):
@@ -184,13 +263,35 @@ def writer_dependencies(ndi_path, truth):
     class the call site does not name. Treat a row as a place to go and read,
     exactly as the tombstone checker's rows are treated.
     """
+    # THE FIRST ARGUMENT IS OPTIONAL, and getting that wrong made this sweep
+    # nearly blind. NDI writes these as METHOD calls -- `doc.set_dependency_value(
+    # 'element_id', id)` -- where the dependency name is the FIRST argument. The
+    # original pattern required `(<something>, 'name')`, i.e. the functional form
+    # `set_dependency_value(doc, 'name', id)`, so it matched 5 call sites in 1,002
+    # files and missed every method call, including all five in
+    # +ndi/+app/+stimulus/tuning_response.m:323-328 and all three in
+    # +ndi/+daq/system.m:489-497.
+    #
+    # It reported "0 dependencies declared by no template" and that read as a
+    # clean bill of health. It was a property of the regex. The denominator added
+    # below is what exposed it -- 5 call sites across a thousand files is not a
+    # believable number, and nothing before printed the denominator to compare
+    # against.
     pat = re.compile(
-        r"(?:set_dependency_value|add_dependency_value_n)\s*\(\s*[^,]+,\s*"
+        r"(?:set_dependency_value|add_dependency_value_n)\s*\(\s*"
+        r"(?:[^,'\")]+,\s*)?"
         r"['\"]([A-Za-z_][A-Za-z0-9_]*)['\"]")
     declared = set()
     for rec in truth.values():
         declared.update(rec.get("depends_on") or [])
     hits = {}
+    # DENOMINATOR. This sweep can now legitimately come back EMPTY -- once the
+    # ground truth reads NDI's schema documents as well as its templates, every
+    # writer-set dependency turns out to be declared somewhere. An empty list is
+    # the right answer AND is indistinguishable from a scan that matched nothing
+    # because its regex or its ref was wrong, which is the silentLoss failure
+    # exactly. So the scan states what it looked at, unconditionally.
+    scanned = {"files": 0, "call_sites": 0, "dependencies_seen": set()}
     for ref in ("origin/main", "main"):
         try:
             files = subprocess.run(
@@ -219,11 +320,14 @@ def writer_dependencies(ndi_path, truth):
                     text = text[:-3] + lines[k].strip()
                 joined.append((start, text))
                 k += 1
+            scanned["files"] += 1
             for i, line in joined:
                 m = pat.search(line)
                 if not m:
                     continue
                 name = m.group(1)
+                scanned["call_sites"] += 1
+                scanned["dependencies_seen"].add(name)
                 # `add_dependency_value_n('x', ...)` writes x_1, x_2, ...; a
                 # template declaring `x_1` counts as declaring the family.
                 if name in declared or any(d.startswith(name + "_") for d in declared):
@@ -231,8 +335,11 @@ def writer_dependencies(ndi_path, truth):
                 hits.setdefault(name, []).append("%s:%d" % (f, i))
         if hits or files:
             break
-    return [{"dependency": k, "declared_by_no_template": True, "writer_sites": v}
-            for k, v in sorted(hits.items())]
+    return ([{"dependency": k, "declared_by_no_template": True, "writer_sites": v}
+             for k, v in sorted(hits.items())],
+            {"m_files_scanned": scanned["files"],
+             "dependency_call_sites": scanned["call_sites"],
+             "distinct_dependencies_written": sorted(scanned["dependencies_seen"])})
 
 
 def _parse(d, path):
@@ -472,7 +579,7 @@ def main():
 
     div = v_alpha_divergence(truth)
     reads = migrator_reads(truth, a.did)
-    wdeps = writer_dependencies(a.ndi, truth)
+    wdeps, wscan = writer_dependencies(a.ndi, truth)
     prov = classify_divergence(a.ndi, truth, {r["ndi_class"]: r for r in div})
     for r in div:
         r["provenance"] = prov.get(r["ndi_class"], {"verdict": "UNKNOWN"})
@@ -496,6 +603,7 @@ def main():
                 1 for r in reads if r["confidence"] == "confirmed-vocabulary"),
             "writer_divergences": len(WRITER_DIVERGENCE),
             "writer_dependencies_no_template": len(wdeps),
+            "writer_dependency_scan": wscan,
             "provenance": {v: sum(1 for r in div if r["provenance"]["verdict"] == v)
                            for v in ("DID-INVENTED", "NDI-CHANGED", "UNKNOWN")},
         },

@@ -8,7 +8,42 @@
     "migrator_suspects": 17,
     "migrator_suspects_confirmed_vocabulary": 15,
     "writer_divergences": 3,
-    "writer_dependencies_no_template": 1,
+    "writer_dependencies_no_template": 0,
+    "writer_dependency_scan": {
+      "m_files_scanned": 1002,
+      "dependency_call_sites": 126,
+      "distinct_dependencies_written": [
+        "daqmetadatareader_id",
+        "daqreader_id",
+        "document_id",
+        "donor_id",
+        "element_epoch_id",
+        "element_id",
+        "extraction_parameters_id",
+        "filenavigator_id",
+        "manipulation_id",
+        "neuron_id",
+        "ontologyTableRow_id",
+        "openminds",
+        "probe_geometry_id",
+        "probe_id",
+        "recipient_id",
+        "sorting_parameters_id",
+        "spike_clusters_id",
+        "spikewaves_doc_id",
+        "stimulator_id",
+        "stimulus_control_id",
+        "stimulus_element_id",
+        "stimulus_presentation_id",
+        "stimulus_response_scalar_id",
+        "stimulus_response_scalar_parameters_id",
+        "stimulus_tuningcurve_id",
+        "subject_id",
+        "syncgraph_id",
+        "syncrule_id",
+        "underlying_element_id"
+      ]
+    },
     "provenance": {
       "DID-INVENTED": 66,
       "NDI-CHANGED": 0,
@@ -38,16 +73,7 @@
       "note": "NOT a template/writer disagreement -- recorded because the MIGRATOR (+did2/+convert/+migrators/ngrid.m) deletes it with rmfield, so real coordinate data is dropped today. Phase 3."
     }
   ],
-  "writer_dependencies": [
-    {
-      "dependency": "openminds",
-      "declared_by_no_template": true,
-      "writer_sites": [
-        "src/ndi/+ndi/+database/+fun/openMINDSobj2ndi_document.m:82",
-        "src/ndi/+ndi/+database/+fun/openMINDSobj2ndi_document.m:92"
-      ]
-    }
-  ],
+  "writer_dependencies": [],
   "v_alpha_divergence": [
     {
       "class": "SpikeInterfaceSortingOutputs",
@@ -2531,7 +2557,9 @@
       "raw_fields": [
         "ndi_syncgraph_class"
       ],
-      "depends_on": [],
+      "depends_on": [
+        "syncrule_id"
+      ],
       "files": [],
       "superclasses": [
         "base"
@@ -3032,7 +3060,8 @@
       ],
       "depends_on": [
         "element_id",
-        "element_epoch_id"
+        "element_epoch_id",
+        "neuron_id"
       ],
       "files": [
         "neuron_names.txt"
@@ -3312,7 +3341,9 @@
         "openminds_id",
         "openminds_type"
       ],
-      "depends_on": [],
+      "depends_on": [
+        "openminds"
+      ],
       "files": [],
       "superclasses": [
         "base"
@@ -3881,7 +3912,9 @@
     "subject_group": {
       "fields": [],
       "raw_fields": [],
-      "depends_on": [],
+      "depends_on": [
+        "subject_id"
+      ],
       "files": [],
       "superclasses": [
         "base"

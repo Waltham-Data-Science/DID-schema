@@ -775,31 +775,62 @@ def test_syncrule_mapping_epochnode_routed_through_time_reference():
 
 
 def test_writer_set_dependencies_are_reported():
-    """#54: the ground truth carries the dependency names NDI's WRITERS set that no
-    template declares -- the direction neither checker could see.
+    """#54: the ground truth reports the dependency names NDI's WRITERS set, and
+    which of them nothing declares -- the direction neither checker could see.
 
     `set_dependency_value` / `add_dependency_value_n` with 'ErrorIfNotFound', 0 APPEND
     an entry no schema declares (did/document.m:262-266), and the validator allows
     undeclared depends_on entries wholesale (+did2/+schema/cache.m:598). So an edge can
     exist in every real document, be declared nowhere, and be dropped in silence.
 
-    The live case is the openMINDS pedigree (`openminds_1..n` + a bare `openminds`),
-    which carries a Strain's backgroundStrain graph. Asserting it is present keeps the
-    sweep honest: an empty list must mean "none found", not "the scan broke" -- the
-    silentLoss failure, where a zero was indistinguishable from reading nothing."""
+    THIS TEST WAS REWRITTEN 2026-08-09, and both halves of why matter.
+
+    It used to assert that `openminds` appears in the undeclared list. That stopped
+    being true for a GOOD reason -- the ground truth now reads NDI's schema documents
+    as well as its templates, and `openminds_schema.json` declares the edge -- so the
+    undeclared list is legitimately empty and the old assertion was pinning a defect
+    in place.
+
+    But an empty list is exactly what silentLoss taught us never to trust, so the
+    guard moved to the DENOMINATOR. That was not theoretical: the sweep's regex
+    required the dependency name as the SECOND argument, matching only the functional
+    form `set_dependency_value(doc, 'name', id)`. NDI writes METHOD calls,
+    `doc.set_dependency_value('name', id)`, so the scan found 5 call sites in 1,002
+    files -- missing all five in tuning_response.m:323-328 and all three in
+    system.m:489-497 -- and reported "0 undeclared", which read as a clean result. It
+    was a property of the regex. Printing the denominator is what exposed it.
+
+    So: zero undeclared is allowed and is the current answer. A scan that looked at
+    almost nothing is not."""
     gt = json.load(open(os.path.join(REPO_ROOT, "schemas", "V_eta_ndi_ground_truth.json")))
     assert "writer_dependencies" in gt, "the #54 sweep is missing from the ground truth"
-    names = {r["dependency"] for r in gt["writer_dependencies"]}
-    assert "openminds" in names, (
-        "the openMINDS pedigree edges are set by openMINDSobj2ndi_document.m and "
-        "declared by no template; if this row is gone the sweep stopped working")
+    scan = gt["summary"].get("writer_dependency_scan")
+    assert scan, "the sweep reports no denominator -- its zero cannot be believed"
+
+    assert scan["m_files_scanned"] > 500, (
+        "only %d .m file(s) scanned: the sweep is not reading NDI"
+        % scan["m_files_scanned"])
+    assert scan["dependency_call_sites"] >= 100, (
+        "only %d dependency call site(s) found across %d files -- the previous "
+        "regex found 5 here because it required the name as the SECOND argument, "
+        "and NDI writes method calls" % (scan["dependency_call_sites"],
+                                         scan["m_files_scanned"]))
+
+    # Positive controls: edges we have READ in the writer with our own eyes, so a
+    # future regex change that silently narrows the scan again fails here.
+    written = set(scan["distinct_dependencies_written"])
+    for name, site in (
+            ("stimulus_response_scalar_parameters_id", "tuning_response.m:323"),
+            ("stimulator_id", "tuning_response.m:328"),
+            ("stimulus_control_id", "tuning_response.m:327"),
+            ("daqmetadatareader_id", "system.m:496"),
+            ("syncrule_id", "syncgraph.m:850"),
+            ("openminds", "openMINDSobj2ndi_document.m")):
+        assert name in written, (
+            "%s is set at %s and the sweep did not see it" % (name, site))
+
     for r in gt["writer_dependencies"]:
         assert r["writer_sites"], "a row with no call site is not evidence"
-    # the sweep must join MATLAB `...` continuations -- the live call site spans lines
-    om = next(r for r in gt["writer_dependencies"] if r["dependency"] == "openminds")
-    assert len(om["writer_sites"]) >= 2, (
-        "only one call site found: the add_dependency_value_n call is split across "
-        "lines with `...`, so a line-at-a-time scan misses it")
 
 
 def test_method_parameters_is_the_inline_field_plus_an_identity():

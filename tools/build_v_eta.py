@@ -2593,6 +2593,70 @@ _tombstone(
          non_empty=True)],
     [])
 
+# ---- daqsystem / daqmetadatareader: the SAME inversion, one tier over -----
+# Found 2026-08-09 by re-reading check_tombstones' LOSSY tier, which had been
+# reporting `daqsystem: real dependencies not declared: daqmetadatareader_id`
+# for as long as the checker has existed.
+#
+# NDI origin/main -- template, schema and writer:
+#
+#   daq/daqsystem.json          depends_on filenavigator_id, daqreader_id,
+#                                          daqmetadatareader_id
+#   daqsystem_schema.json       filenavigator_id  "mustbenotempty": 1
+#                               daqreader_id      "mustbenotempty": 1
+#                               daqmetadatareader_id "mustbenotempty": 0
+#   daq/daqmetadatareader.json  depends_on []                <- NONE
+#
+#   +ndi/+daq/system.m:489-497
+#       set_dependency_value('filenavigator_id', ...)
+#       set_dependency_value('daqreader_id', ...)
+#       for i = 1:numel(obj.daqmetadatareader)
+#           add_dependency_value_n('daqmetadatareader_id', ...)   <- A FAMILY
+#   +ndi/+daq/system.m:48
+#       dependency_value_n('daqmetadatareader_id', 'ErrorIfNotFound', 0)
+#
+# So V_eta pointed the edge the wrong way here too: it put a REQUIRED
+# `daqsystem_id` on `daqmetadatareader` -- a name no did_v1 document has, empty
+# on all 59 documents, 100% of the class, one of the census's invented-empty-edge
+# rows -- and dropped the edge NDI actually writes.
+#
+# The real edge is a NUMBERED FAMILY, not a scalar: the writer LOOPS, and the
+# reader uses the `_n` API. A daqsystem may have several metadata readers, or
+# none -- the loop simply does not execute -- so min_count is 0, which is also
+# what NDI's own "mustbenotempty": 0 says.
+#
+# NO CORPUS RISK, for the same reason as the stimulus_response repair: the
+# documents already carry these ids and references.m already resolves them.
+_dqs_tier, _dqs_path = path_of("daqsystem")
+if _dqs_path:
+    _dqs = load(_dqs_path)
+    _dqs["depends_on"] = [
+        dep("filenavigator_id", "filenavigator",
+            "The file navigator this system reads through. REQUIRED in NDI"
+            " (\"mustbenotempty\": 1).", non_empty=True),
+        dep("daqreader_id", "daqreader",
+            "The reader that decodes this system's files. REQUIRED in NDI"
+            " (\"mustbenotempty\": 1).", non_empty=True),
+        dep("daqmetadatareader_id_#", "daqmetadatareader",
+            "The metadata readers attached to this system. A FAMILY, not a"
+            " scalar: +ndi/+daq/system.m:495-497 loops with"
+            " add_dependency_value_n and :48 reads with dependency_value_n."
+            " OPTIONAL (NDI's schema says \"mustbenotempty\": 0, and a system"
+            " with no metadata reader never enters the loop).",
+            non_empty=False, multiple=True),
+    ]
+    write(_dqs_tier, "daqsystem", _dqs)
+
+_dqm_tier, _dqm_path = path_of("daqmetadatareader")
+if _dqm_path:
+    _dqm = load(_dqm_path)
+    # NDI declares NO dependencies on this class. `daqsystem_id` was invented,
+    # required, and empty on 100% of its 59 documents -- which validated clean,
+    # because +did2/+validate/references.m:90 skips empty edges. The real edge
+    # lives on daqsystem, above, and points the other way.
+    _dqm["depends_on"] = []
+    write(_dqm_tier, "daqmetadatareader", _dqm)
+
 # ---- stimulus_response family: the edge was declared BACKWARDS ------------
 # #61. THE LARGEST INSTANCE of the invented-empty-edge pattern -- 11,440
 # documents (Soph 11,167 / 20211116 273), 100% of the class, every one carrying
@@ -3181,6 +3245,10 @@ _EDGE_COUNTS = {
     ("control_designation", "derived_from_#"): (0, None),
     # a relation may state times or not
     ("directed_relation", "time_reference_#"): (0, None),
+    # a daq system may have several metadata readers or none: the writer LOOPS
+    # (+ndi/+daq/system.m:495-497, add_dependency_value_n) and NDI's own schema
+    # says "mustbenotempty": 0
+    ("daqsystem", "daqmetadatareader_id_#"): (0, None),
 }
 for (_cls, _edge), (_lo, _hi) in _EDGE_COUNTS.items():
     _t, _p = path_of(_cls)

@@ -189,12 +189,36 @@ def super_chain(name, veta, seen=None):
     return seen
 
 
+def _defamily(dep_name):
+    """`syncrule_id_#` -> `syncrule_id`. See the note in compare()."""
+    return dep_name[:-2] if dep_name.endswith("_#") else dep_name
+
+
 def compare(cls, ndi, schema, name, veta):
     """Divergences between one NDI template and its V_eta tombstone."""
     theirs = set(ndi["fields"])            # already snake_cased by the extractor
     ours = set(declared_field_names(schema))
     their_deps = set(ndi["depends_on"])
-    our_deps = {d["name"] for d in schema.get("depends_on", [])}
+    # A `<name>_#` FAMILY SATISFIES AN NDI `<name>` EDGE, and comparing the
+    # literal strings said otherwise -- reporting the declaration as invented AND
+    # the real edge as undeclared, two false rows for one correct declaration.
+    #
+    # NDI has no template syntax for a repeated edge: the template names it once
+    # and the WRITER makes it plural, with `add_dependency_value_n('<name>', ...)`
+    # in a loop and `dependency_value_n('<name>')` to read it back. V_eta spells
+    # that `<name>_#`. Two live cases:
+    #
+    #   +ndi/+daq/system.m:495-497 / :48        daqmetadatareader_id
+    #   +ndi/+time/syncgraph.m:850 / :891       syncrule_id
+    #
+    # This is the checker's documented limit in miniature -- it compares against
+    # the TEMPLATE while the ground-truth rule is that the WRITER wins. Left
+    # unfixed it costs more than noise: two of this report's LOSSY rows sat
+    # unactioned for weeks, and a report with false rows in it is one nobody
+    # reads. Normalising here does NOT hide a real divergence: a `_#` family
+    # whose base name appears in no template still shows up, because the base
+    # name is what gets compared.
+    our_deps = {_defamily(d["name"]) for d in schema.get("depends_on", [])}
     their_sup = {snake(s) for s in ndi["superclasses"]}
     our_sup = super_chain(name, veta)
 

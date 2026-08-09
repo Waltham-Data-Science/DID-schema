@@ -13,14 +13,22 @@
         {
             "name": "filenavigator_id",
             "mustBeNonEmpty": true,
-            "documentation": "The document ID of the file navigator used by this DAQ system.",
+            "documentation": "The file navigator this system reads through. REQUIRED in NDI (\"mustbenotempty\": 1).",
             "must_refer_to_document_class": "filenavigator"
         },
         {
             "name": "daqreader_id",
             "mustBeNonEmpty": true,
-            "documentation": "The document ID of the DAQ reader used by this DAQ system.",
+            "documentation": "The reader that decodes this system's files. REQUIRED in NDI (\"mustbenotempty\": 1).",
             "must_refer_to_document_class": "daqreader"
+        },
+        {
+            "name": "daqmetadatareader_id_#",
+            "mustBeNonEmpty": false,
+            "documentation": "The metadata readers attached to this system. A FAMILY, not a scalar: +ndi/+daq/system.m:495-497 loops with add_dependency_value_n and :48 reads with dependency_value_n. OPTIONAL (NDI's schema says \"mustbenotempty\": 0, and a system with no metadata reader never enters the loop).",
+            "must_refer_to_document_class": "daqmetadatareader",
+            "multiple": true,
+            "min_count": 0
         }
     ],
     "file": [],
