@@ -11,16 +11,16 @@
     },
     "depends_on": [
         {
-            "name": "syncrule_id",
+            "name": "syncgraph_id",
             "mustBeNonEmpty": true,
-            "documentation": "The document ID of the sync rule this mapping was computed from.",
-            "must_refer_to_document_class": "syncrule"
+            "documentation": "The sync graph these saved rules belong to. REQUIRED in NDI (\"mustbenotempty\": 1) and READ BY A LIVE QUERY (+ndi/+time/syncgraph.m:404-408).",
+            "must_refer_to_document_class": "syncgraph"
         },
         {
-            "name": "epochid",
+            "name": "syncrule_id",
             "mustBeNonEmpty": true,
-            "documentation": "The document ID of the epoch this mapping was computed for.",
-            "must_refer_to_document_class": ""
+            "documentation": "The rule that produced this mapping. REQUIRED in NDI (\"mustbenotempty\": 1).",
+            "must_refer_to_document_class": "syncrule"
         }
     ],
     "file": [],
@@ -157,6 +157,32 @@
                     "ontology": null,
                     "documentation": "The NDI object class of this epoch node.",
                     "constraints": {}
+                },
+                {
+                    "name": "objectname",
+                    "type": "char",
+                    "blank_value": "",
+                    "default_value": "",
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "The name of the object (daq system / element) this epoch node belongs to. READ BY A LIVE NDI QUERY by exact_string (+ndi/+time/syncgraph.m:406-407) -- dropping it broke saved-rule lookup.",
+                    "constraints": {}
+                },
+                {
+                    "name": "t0_t1",
+                    "type": "matrix",
+                    "blank_value": [],
+                    "default_value": [],
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "The node's [t0 t1] bounds on its own clock. Dropped by the same reshape that dropped objectname.",
+                    "constraints": {}
                 }
             ]
         },
@@ -265,6 +291,32 @@
                     "queryable": true,
                     "ontology": null,
                     "documentation": "The NDI object class of this epoch node.",
+                    "constraints": {}
+                },
+                {
+                    "name": "objectname",
+                    "type": "char",
+                    "blank_value": "",
+                    "default_value": "",
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "The name of the object (daq system / element) this epoch node belongs to. READ BY A LIVE NDI QUERY by exact_string (+ndi/+time/syncgraph.m:406-407) -- dropping it broke saved-rule lookup.",
+                    "constraints": {}
+                },
+                {
+                    "name": "t0_t1",
+                    "type": "matrix",
+                    "blank_value": [],
+                    "default_value": [],
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "The node's [t0 t1] bounds on its own clock. Dropped by the same reshape that dropped objectname.",
                     "constraints": {}
                 }
             ]

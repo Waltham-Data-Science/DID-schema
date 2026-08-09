@@ -2230,6 +2230,42 @@ _tombstone(
             " proposing a shape from a template alone is what produced the ~2,078"
             " distance_metadata quarantines.")])
 
+# ---- syncrule_mapping: restore the edge and the fields a LIVE query reads --
+# #58. `+ndi/+time/syncgraph.m:404-408` finds saved rules with a three-part query:
+#
+#   ndi.query('','isa','syncrule_mapping') &
+#   ndi.query('','depends_on','syncgraph_id', syncgraph.id()) &
+#   ( ndi.query('syncrule_mapping.epochnode_a.objectname','exact_string', daqsystem.name) |
+#     ndi.query('syncrule_mapping.epochnode_b.objectname','exact_string', daqsystem.name) )
+#
+# V_eta declared NEITHER of the two things that query reads. It declared a
+# REQUIRED `epochid` dependency instead -- a name no did_v1 document has, empty on
+# all 5,316 documents (one of the five invented-empty-edge rows), while NDI's
+# template and schema both declare `syncgraph_id` + `syncrule_id` with
+# "mustbenotempty": 1. And `objectname` was dropped from both epoch nodes.
+#
+# `objectname` and `t0_t1` are restored in the `_epochnode` builder further down --
+# that builder REBUILDS the node field list, so anything added here is discarded.
+# `t0_t1` (the node's time bounds) was dropped by the same reshape and had not been
+# noticed; it is restored with `objectname` rather than quietly left out.
+#
+# NOTE the `time_reference` sub-structure keeps its current `epoch_bounded_reference`
+# shape here. That class does not survive the time-reference collapse, and this whole
+# class dissolves into `clock_alignment` when the clock-alignment cluster is built --
+# this is the interim repair that stops the loss, NOT the model.
+_srm_tier, _srm_path = path_of("syncrule_mapping")
+_srm = load(_srm_path)
+_srm["depends_on"] = [
+    dep("syncgraph_id", "syncgraph",
+        "The sync graph these saved rules belong to. REQUIRED in NDI"
+        " (\"mustbenotempty\": 1) and READ BY A LIVE QUERY"
+        " (+ndi/+time/syncgraph.m:404-408).", non_empty=True),
+    dep("syncrule_id", "syncrule",
+        "The rule that produced this mapping. REQUIRED in NDI"
+        " (\"mustbenotempty\": 1).", non_empty=True),
+]
+write(_srm_tier, "syncrule_mapping", _srm)
+
 # ---- openminds_stimulus: the edge is `stimulus_element_id` ----------------
 # The V_zeta base declared `stimulus_id`, a name NO did_v1 document has. NDI's
 # template AND its schema AND its writer all agree on `stimulus_element_id`:
@@ -3257,6 +3293,17 @@ def _epochnode(name, which):
                               "The probe map at this epoch (NDI epoch-node metadata)."),
                      subfield("objectclass", "char",
                               "The NDI object class of this epoch node."),
+                     # #58: both restored here rather than in the interim-repair
+                     # block above, because this builder REBUILDS the node field
+                     # list and silently discarded anything added earlier.
+                     subfield("objectname", "char",
+                              "The name of the object (daq system / element) this "
+                              "epoch node belongs to. READ BY A LIVE NDI QUERY by "
+                              "exact_string (+ndi/+time/syncgraph.m:406-407) -- "
+                              "dropping it broke saved-rule lookup."),
+                     subfield("t0_t1", "matrix",
+                              "The node's [t0 t1] bounds on its own clock. Dropped "
+                              "by the same reshape that dropped objectname."),
                  ])
 
 _t, _p = path_of("syncrule_mapping")

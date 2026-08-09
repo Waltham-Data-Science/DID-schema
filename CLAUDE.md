@@ -587,12 +587,17 @@ lives in these files — read them instead of re-deriving from memory:
                                       11,440 docs  (Soph 11167 / 20211116 273)  NDI has the edge the OTHER WAY
         epochfiles_ingested.epochid    6,921 docs  (Dab 4088 / B 2484 / Soph 349)   NDI has filenavigator_id
         syncrule_mapping.epochid       5,316 docs  (B 2484 / Dab 2484 / Soph 348)   NDI has syncgraph_id
+                                       ^^ REPAIRED 2026-08-09 (#58): the schema now declares
+                                          syncgraph_id + syncrule_id, and objectname/t0_t1 are
+                                          carried again. Row kept so the pattern's history stays legible.
+        openminds_stimulus.stimulus_id   635 docs  REPAIRED 2026-08-09 (#71): pass 1 now emits
+                                          nothing and passes the document through guarded; the
+                                          tombstone declares stimulus_element_id.
         stimulus_presentation.element_id
                                        2,670 docs  (B 1242 / Dab 1242 / Soph 175 / 20211116 11)
                                                                             NDI's dep is named stimulus_element_id
         daqmetadatareader.daqsystem_id    59 docs  (100% of them)            NDI has NO deps at all
-        openminds_stimulus.stimulus_id   635 docs  (walkthrough histogram, NOT the census)
-                                                              NDI's dep is named stimulus_element_id
+
 
   **This line said "12,296 documents, three classes" until 2026-08-06 — an undercount by more
   than half, and it named the three SMALLEST.** The two stimulus-tier rows were found by the

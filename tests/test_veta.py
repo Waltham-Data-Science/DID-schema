@@ -749,9 +749,18 @@ def test_syncrule_mapping_epochnode_routed_through_time_reference():
         assert {"kind", "epoch_clock", "epoch_id"} <= tr_subs
         # node metadata is retained
         assert {"epoch_session_id", "epochprobemap", "objectclass"} <= set(subs)
-    # the epochid dep remains untyped by design (epoch is a name, not a doc)
-    epochid = next(x for x in d["depends_on"] if x["name"] == "epochid")
-    assert not epochid.get("must_refer_to_document_class")
+        # #58: objectname is READ BY A LIVE NDI QUERY (syncgraph.m:406-407) and was
+        # dropped by this reshape; t0_t1 went with it. Both restored.
+        assert {"objectname", "t0_t1"} <= set(subs)
+    # #58, INVERTED: this test used to assert an `epochid` dependency existed and was
+    # untyped "by design". There is no such dependency in did_v1 -- NDI's template AND
+    # schema declare `syncgraph_id` + `syncrule_id`, both "mustbenotempty": 1 -- and it
+    # was empty on all 5,316 corpus documents, one of the five invented-empty-edge rows.
+    # The edge the live query actually reads is `syncgraph_id`.
+    names = {x["name"] for x in d["depends_on"]}
+    assert "epochid" not in names
+    assert names == {"syncgraph_id", "syncrule_id"}
+    assert all(x["mustBeNonEmpty"] for x in d["depends_on"])
 
 
 def test_data_body_carrier_dispositions():
