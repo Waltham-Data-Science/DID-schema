@@ -1,43 +1,61 @@
 {
     "document_class": {
         "class_name": "vmspikefit",
-        "class_version": "1.0.0",
+        "class_version": "2.0.0",
         "superclasses": [
             {
                 "class_name": "base"
+            },
+            {
+                "class_name": "epochid"
+            },
+            {
+                "class_name": "app"
             }
         ],
         "maturity_level": "stable"
     },
     "depends_on": [
         {
+            "name": "fit_input_id",
+            "mustBeNonEmpty": false,
+            "documentation": "The document this fit was computed FROM. Declared by NDI's template AND its schema; V_eta had dropped it. Left untyped -- the input class is not established and the vhlab_voltage2firingrate writer is in no repository we have.",
+            "must_refer_to_document_class": ""
+        },
+        {
             "name": "element_id",
-            "mustBeNonEmpty": true,
-            "documentation": "The document ID of the neuron element this Vm-spike fit is associated with.",
+            "mustBeNonEmpty": false,
+            "documentation": "The recording element, promoted to a subject with its id preserved by migrators_j.element (device-as-subject, D2).",
             "must_refer_to_document_class": "subject"
         }
     ],
-    "file": [
-        {
-            "name": "vmspikefit_file",
-            "documentation": "The file containing the Vm-to-spike-rate fit data."
-        }
-    ],
+    "file": [],
     "fields": [
         {
-            "name": "fit_function",
+            "name": "fit_name",
             "type": "char",
             "blank_value": "",
             "default_value": "",
-            "mustBeNonEmpty": true,
+            "mustBeNonEmpty": false,
             "mustBeScalar": true,
             "mustNotHaveNaN": false,
             "queryable": true,
             "ontology": null,
-            "documentation": "The name of the function used to fit Vm to firing rate (e.g., 'threshold_linear', 'rectified_power').",
-            "constraints": {
-                "maxLength": 128
-            }
+            "documentation": "The name of the fit.",
+            "constraints": {}
+        },
+        {
+            "name": "fit_equation",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "The fitted equation. The migrator uses this as the observation's `method`. V_eta previously called this `fit_function`, a name no NDI template has ever carried.",
+            "constraints": {}
         },
         {
             "name": "fit_parameters",
@@ -47,16 +65,27 @@
             "mustBeNonEmpty": false,
             "mustBeScalar": true,
             "mustNotHaveNaN": false,
-            "queryable": false,
+            "queryable": true,
             "ontology": null,
-            "documentation": "Structure of fitted parameter values keyed by parameter name. Keys and value types depend on fit_function (e.g., for 'threshold_linear': {threshold, slope}; for 'rectified_power': {threshold, slope, exponent}).",
-            "constraints": {
-                "dynamic_keys_from": "fit_function"
-            },
+            "documentation": "The fitted parameter values. NOT re-expressed by the migrator -- a fit's parameters fold to a method / settings document, a per-class decision that is still open.",
+            "constraints": {},
             "fields": []
         },
         {
-            "name": "r_squared",
+            "name": "fit_parameter_names",
+            "type": "string",
+            "blank_value": [],
+            "default_value": [],
+            "mustBeNonEmpty": false,
+            "mustBeScalar": false,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "The names of the fitted parameters, positionally matching fit_parameters.",
+            "constraints": {}
+        },
+        {
+            "name": "fit_sse",
             "type": "double",
             "blank_value": 0.0,
             "default_value": 0.0,
@@ -65,8 +94,35 @@
             "mustNotHaveNaN": false,
             "queryable": true,
             "ontology": null,
-            "documentation": "R-squared goodness-of-fit value.",
+            "documentation": "SUM OF SQUARED ERRORS. Unbounded, in the fitted variable's units squared, and LOWER IS BETTER -- it is NOT the r^2 the old `r_squared` field claimed, which is bounded 0..1 and higher-is-better. Substituting one for the other would have inverted every downstream comparison while looking like a rename.",
             "constraints": {}
+        },
+        {
+            "name": "fit_sse_perpoint",
+            "type": "double",
+            "blank_value": 0.0,
+            "default_value": 0.0,
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "SSE normalised per point -- the figure that compares across fits of different lengths.",
+            "constraints": {}
+        },
+        {
+            "name": "fit_constraints",
+            "type": "structure",
+            "blank_value": [],
+            "default_value": [],
+            "mustBeNonEmpty": false,
+            "mustBeScalar": false,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "The constraints the fit was run under ({fit_constraint_name, fit_constraint_value}).",
+            "constraints": {},
+            "fields": []
         }
     ]
 }

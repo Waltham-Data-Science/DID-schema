@@ -2640,10 +2640,12 @@
         {
             "class_name": "vmspikefit",
             "tier": "stable",
-            "class_version": "1.0.0",
+            "class_version": "2.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                "base"
+                "base",
+                "epochid",
+                "app"
             ],
             "path": "schemas/V_eta/stable/vmspikefit.json",
             "disposition": "retire",

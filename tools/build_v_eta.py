@@ -2593,6 +2593,71 @@ _tombstone(
          non_empty=True)],
     [])
 
+# ---- vmspikefit: the MIGRATOR was repaired and its TOMBSTONE was not ------
+# Phase 2 fixed `migrators_j/vmspikefit.m` to read `fit_equation` and `fit_sse`
+# after finding that `fit_function` and `r_squared` have NEVER existed on the NDI
+# template -- 0 commits across NDI's history mention either, against 7 for
+# fit_equation and fit_sse; both names came from DID-schema's own V_alpha
+# snapshot. The tombstone was left declaring exactly those two invented names,
+# with `fit_function` marked REQUIRED, and declaring none of the seven real ones.
+#
+# NDI origin/main, apps/vhlab_voltage2firingrate/vmspikefit.json:
+#
+#   superclasses  base, epochid, app          (V_eta had base alone)
+#   depends_on    fit_input_id, element_id    (V_eta had element_id alone)
+#   vmspikefit    fit_name, fit_equation, fit_parameters, fit_parameter_names,
+#                 fit_sse, fit_sse_perpoint, fit_constraints
+#   files         NONE                        (V_eta invented `vmspikefit_file`)
+#
+# NOT CURRENTLY A QUARANTINE, and the reason is worth stating rather than
+# assuming: the migrator consumes every vmspikefit document (1 -> a
+# score_observation + the session anchor) and emits no vmspikefit, so nothing
+# reaches validation under this class and the required-but-nonexistent
+# `fit_function` never fires. That is luck, not design -- the class is not in
+# _DELETE_PHASE8, so the schema still advertises itself as describing this
+# document, and it describes a document that has never existed.
+#
+# The `depends_on` here comes from NDI's SCHEMA document, which is the ONLY
+# ground truth available for this family: the vhlab_voltage2firingrate WRITER is
+# in no repository we have. Those five schema files are JSON Schema draft
+# 2019-09 rather than the flat shape and were being skipped in silence until
+# 2026-08-09, which is why `fit_input_id` had never shown up as missing.
+_tombstone(
+    "vmspikefit", ["base", "epochid", "app"],
+    [dep("fit_input_id", "",
+         "The document this fit was computed FROM. Declared by NDI's template"
+         " AND its schema; V_eta had dropped it. Left untyped -- the input class"
+         " is not established and the vhlab_voltage2firingrate writer is in no"
+         " repository we have.", non_empty=False),
+     dep("element_id", "subject",
+         "The recording element, promoted to a subject with its id preserved by"
+         " migrators_j.element (device-as-subject, D2).", non_empty=False)],
+    [field("fit_name", "char", "The name of the fit."),
+     field("fit_equation", "char",
+           "The fitted equation. The migrator uses this as the observation's"
+           " `method`. V_eta previously called this `fit_function`, a name no"
+           " NDI template has ever carried."),
+     field("fit_parameters", "structure",
+           "The fitted parameter values. NOT re-expressed by the migrator --"
+           " a fit's parameters fold to a method / settings document, a"
+           " per-class decision that is still open."),
+     field("fit_parameter_names", "string",
+           "The names of the fitted parameters, positionally matching"
+           " fit_parameters.", scalar=False),
+     field("fit_sse", "double",
+           "SUM OF SQUARED ERRORS. Unbounded, in the fitted variable's units"
+           " squared, and LOWER IS BETTER -- it is NOT the r^2 the old"
+           " `r_squared` field claimed, which is bounded 0..1 and higher-is-"
+           "better. Substituting one for the other would have inverted every"
+           " downstream comparison while looking like a rename."),
+     field("fit_sse_perpoint", "double",
+           "SSE normalised per point -- the figure that compares across fits of"
+           " different lengths."),
+     field("fit_constraints", "structure",
+           "The constraints the fit was run under"
+           " ({fit_constraint_name, fit_constraint_value}).", scalar=False)],
+    ())
+
 # ---- daqsystem / daqmetadatareader: the SAME inversion, one tier over -----
 # Found 2026-08-09 by re-reading check_tombstones' LOSSY tier, which had been
 # reporting `daqsystem: real dependencies not declared: daqmetadatareader_id`
