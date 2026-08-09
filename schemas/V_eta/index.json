@@ -113,6 +113,28 @@
             "disposition_note": "\u2466 infra tier re-opened: the KEEP predated T11/T13 scrutiny (R5 found 5 of its siblings needed renames/folds); needs a naming + governance confirmation, NDI lockstep where the writers own the class string"
         },
         {
+            "class_name": "acquisition_metadata_file",
+            "tier": "stable",
+            "class_version": "1.0.0",
+            "maturity_level": "stable",
+            "superclasses": [
+                "base"
+            ],
+            "path": "schemas/V_eta/stable/acquisition_metadata_file.json",
+            "disposition": "persist"
+        },
+        {
+            "class_name": "acquisition_metadata_reader",
+            "tier": "stable",
+            "class_version": "1.0.0",
+            "maturity_level": "stable",
+            "superclasses": [
+                "base"
+            ],
+            "path": "schemas/V_eta/stable/acquisition_metadata_reader.json",
+            "disposition": "persist"
+        },
+        {
             "class_name": "amount",
             "tier": "stable",
             "class_version": "1.0.0",

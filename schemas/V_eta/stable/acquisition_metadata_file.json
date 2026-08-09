@@ -1,0 +1,33 @@
+{
+    "document_class": {
+        "class_name": "acquisition_metadata_file",
+        "class_version": "1.0.0",
+        "superclasses": [
+            {
+                "class_name": "base"
+            }
+        ],
+        "maturity_level": "stable"
+    },
+    "depends_on": [
+        {
+            "name": "acquisition_metadata_reader_id",
+            "mustBeNonEmpty": true,
+            "documentation": "The reader whose output these bytes are.",
+            "must_refer_to_document_class": "acquisition_metadata_reader"
+        },
+        {
+            "name": "epoch_id",
+            "mustBeNonEmpty": true,
+            "documentation": "The epoch these bytes were ingested for.",
+            "must_refer_to_document_class": "epoch"
+        }
+    ],
+    "file": [
+        {
+            "name": "data.bin",
+            "documentation": "The reader's ingested bytes for this epoch. The ONLY content this class has -- it declares no fields. Do NOT type the payload: the readers produce TSV in the cases seen, but nothing declares that, and proposing a shape from a template alone is what produced the ~2,078 distance_metadata quarantines."
+        }
+    ],
+    "fields": []
+}

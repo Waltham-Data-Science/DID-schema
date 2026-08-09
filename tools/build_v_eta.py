@@ -686,6 +686,47 @@ write("stable", "organization", doc("organization", ["entity"], fields=[
     field("short_name", "char", "Organization short name / acronym (e.g. 'NIH'); "
           "openMINDS Organization.shortName.", non_empty=False),
     LOCAL_ID_OPT]))
+# ---- #66: the ingested-payload family gets a carrier that can EXIST --------
+# The earlier claim that this family "needs no new class" was WRONG for a
+# structural reason: `sampled_body` and `opaque_body` BOTH declare
+# `depends_on: statement`. A body must hang off a statement, and a per-epoch
+# metadata blob is not an observation of any subject -- there is no statement for
+# it to hang from. So it needs a thin infra carrier, which is what it already is.
+#
+# NAMED 2026-08-06. Claude first proposed `ingested_payload`; the team said it
+# seemed wrong, and it was -- it repeats the very mode-in-name this rename
+# removes (`_epochdata_ingested`, the same T13 error as `_ndr` and `_mfdaq`).
+#
+# `acquisition_metadata_reader` is minted with it because the carrier's REQUIRED
+# edge points at it. Additive: it does not touch `daqmetadatareader`, whose fold
+# is #59 and gated on #37.
+write("stable", "acquisition_metadata_reader",
+      doc("acquisition_metadata_reader", ["base"], fields=[
+          field("metadata_file_pattern", "char",
+                "Pattern matching the metadata files this reader consumes "
+                "(e.g. \".*\\\\.tsv\\\\>\").", non_empty=False)],
+          deps=[dep("software_id", "software",
+                    "The reader program itself, as a `software` entity -- the R1 "
+                    "replacement for an NDI class-handle string.",
+                    non_empty=False)]))
+write("stable", "acquisition_metadata_file",
+      doc("acquisition_metadata_file", ["base"], fields=[],
+          deps=[dep("acquisition_metadata_reader_id", "acquisition_metadata_reader",
+                    "The reader whose output these bytes are.", non_empty=True),
+                dep("epoch_id", "epoch",
+                    "The epoch these bytes were ingested for.", non_empty=True)]))
+_amf_tier, _amf_path = path_of("acquisition_metadata_file")
+_amf = load(_amf_path)
+_amf["file"] = [{"name": "data.bin",
+                 "documentation":
+                     "The reader's ingested bytes for this epoch. The ONLY content "
+                     "this class has -- it declares no fields. Do NOT type the "
+                     "payload: the readers produce TSV in the cases seen, but "
+                     "nothing declares that, and proposing a shape from a template "
+                     "alone is what produced the ~2,078 distance_metadata "
+                     "quarantines."}]
+write(_amf_tier, "acquisition_metadata_file", _amf)
+
 # ---- #74: MINT `method_parameters` -- settings with an identity ------------
 # SIGNED 2026-08-09. The class is the existing inline
 # `subject_interaction.method_parameters` field PLUS an identity, and nothing
