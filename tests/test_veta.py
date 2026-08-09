@@ -802,6 +802,52 @@ def test_writer_set_dependencies_are_reported():
         "lines with `...`, so a line-at-a-time scan misses it")
 
 
+def test_method_parameters_is_the_inline_field_plus_an_identity():
+    """#74: the settings document carries the SAME field name as the inline field,
+    and no domain-specific fields at all.
+
+    Three class names were rejected before this one, each for promising generality
+    a domain-specific class cannot deliver. The resolution was that the typed knobs
+    never belonged on a class -- they belong in the settings SHAPE, whose identity
+    is a bound `variable`, exactly as the `axis` entry solves the same problem."""
+    assert "method_parameters" in RECORDS
+    tier, d = RECORDS["method_parameters"][0], RECORDS["method_parameters"][1]
+    names = {f["name"] for f in d["fields"]}
+    # the same name in both mount points -- `parameters` was vacated when the
+    # statement's field became `conditions`
+    assert "method_parameters" in names
+    assert "parameters" not in names
+    entry = next(f for f in d["fields"] if f["name"] == "method_parameters")
+    assert entry["mustBeScalar"] is False, "the settings are a LIST of entries"
+    subs = {s["name"] for s in entry["fields"]}
+    assert {"variable", "value", "term", "text"} <= subs
+    # identity is the bound variable; no unit field and no data_type field
+    assert "unit" not in subs and "data_type" not in subs
+    var = next(s for s in entry["fields"] if s["name"] == "variable")
+    assert var["type"] == "ontology_term"
+    # no domain fields leaked onto the class
+    assert not ({"threshold", "refractory_period", "waveform_window"} & names)
+    deps = {x["name"]: x for x in d["depends_on"]}
+    assert set(deps) == {"software_id", "subject_id", "epoch_id", "derived_from_id"}
+    # the self-edge is lineage, and points at its own class
+    assert deps["derived_from_id"]["must_refer_to_document_class"] == "method_parameters"
+    assert deps["derived_from_id"]["mustBeNonEmpty"] is False
+
+
+def test_settings_edge_is_on_the_interaction_branch_only():
+    """#74: only `subject_interaction` gets the edge. The assertion branch is
+    timeless and methodless -- "this animal is of strain PR811" has no algorithm --
+    so 30 assertion leaves must NOT inherit it."""
+    assert "method_parameters_id" in _flat_dep_names("subject_interaction")
+    assert "method_parameters_id" in _flat_dep_names("voltage_observation")
+    assert "method_parameters_id" not in _flat_dep_names("subject_assertion")
+    assert "method_parameters_id" not in _flat_dep_names("term_assertion")
+    # and it stays optional: a run with unnamed knobs uses the inline field
+    dep = next(x for x in RECORDS["subject_interaction"][1]["depends_on"]
+               if x["name"] == "method_parameters_id")
+    assert dep["mustBeNonEmpty"] is False
+
+
 def test_strain_is_an_entity_with_a_recursive_pedigree():
     """#56: `strain` is an ENTITY, not a plain document, and its pedigree is a
     recursive self-edge.

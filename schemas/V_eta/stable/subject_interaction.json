@@ -30,6 +30,12 @@
             "mustBeNonEmpty": false,
             "documentation": "Optional: the software that produced this value, modeled as a `software` entity (name + version + citation id). The agent for a computation; distinct from instrument_id (a measuring device) and from derived_from (the input data). Empty for hand/DAQ measurements; populated on calculations, optional on computed observations. Supersedes the v1 `app` block.",
             "must_refer_to_document_class": "software"
+        },
+        {
+            "name": "method_parameters_id",
+            "mustBeNonEmpty": false,
+            "documentation": "OPTIONAL: named, shared settings this run used. A statement carries the inline `method_parameters` field OR this edge, NEVER BOTH (team, 2026-08-09) -- one fact, one place, so a reader never has to know which wins.",
+            "must_refer_to_document_class": "method_parameters"
         }
     ],
     "file": [],

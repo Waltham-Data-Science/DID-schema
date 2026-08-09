@@ -686,6 +686,98 @@ write("stable", "organization", doc("organization", ["entity"], fields=[
     field("short_name", "char", "Organization short name / acronym (e.g. 'NIH'); "
           "openMINDS Organization.shortName.", non_empty=False),
     LOCAL_ID_OPT]))
+# ---- #74: MINT `method_parameters` -- settings with an identity ------------
+# SIGNED 2026-08-09. The class is the existing inline
+# `subject_interaction.method_parameters` field PLUS an identity, and nothing
+# more: no domain fields, which is what finally makes a general name truthful
+# after `method_parameters`, `analysis_protocol` and `calculation_protocol` were
+# each rejected for promising generality a domain-specific class cannot deliver.
+#
+# WHY THE CLASS EXISTS AT ALL, and it is not about fields: v1 gives these
+# settings a `base.name` that two apps look up by exact_string
+# (`spikeextractor.m:372`, `spikesorter.m:373`) and three document types point at
+# by id. Dissolve them into their outputs and the 11,448-orphan failure returns,
+# with the name lookup having nowhere to look.
+#
+# ROUTING, decided per class and globally so it cannot drift: the source gave the
+# settings a name and an id and things point at them -> a document; otherwise
+# inline. A calculator's `input_parameters` has neither -- 2 templates carry the
+# block and ZERO dependencies anywhere in NDI are named for it.
+#
+# THIS IS THE ADDITIVE HALF ONLY. Retyping the inline field from `structure` to
+# `parameter[]` breaks every calculator migration (`jCalculation.m:99` writes a
+# struct there), so it is a cross-repo lockstep and rides with the migrator.
+_PARAMETER_SUBS = [
+    subfield("variable", "ontology_term",
+             "WHAT knob this is. BOUND, and UNIQUE within the list. Modelled on "
+             "the `axis` entry: identity lives in a bound variable, so "
+             "domain-specific knobs are DATA rather than schema, and no class or "
+             "field has to be minted per program. Its dimension comes from the "
+             "registry -- there is NO unit field and NO data_type field.",
+             non_empty=True),
+    subfield("value", "structure",
+             "Numeric knobs. The canonical value plus what the source wrote.",
+             sub_fields=[
+                 subfield("value", "double", "Canonical value.", blank=0.0),
+                 subfield("source_unit", "char", "As-recorded unit."),
+                 subfield("source_value", "char", "As-recorded value, VERBATIM -- "
+                          "v1 writes a threshold as the string \"0.030\", and the "
+                          "string is kept whatever the registry later says."),
+             ]),
+    subfield("term", "ontology_term",
+             "Categorical knobs (e.g. a threshold method)."),
+    subfield("text", "char", "Free-string knobs."),
+]
+write("stable", "method_parameters", doc("method_parameters", ["base"], fields=[
+    field("name", "char",
+          "The protocol's name, e.g. \"default\" -- the string "
+          "spikeextractor.m:372 and spikesorter.m:373 query by exact_string. "
+          "OPTIONAL: a scoped variant need not be named.", non_empty=False),
+    field("method_parameters", "structure",
+          "The settings themselves. SAME FIELD NAME as the inline field on "
+          "`subject_interaction`, deliberately: one list means one thing in both "
+          "mount points, exactly as `axes` mounts on two classes under one name. "
+          "`parameters` was REJECTED -- that name was vacated when the statement's "
+          "field became `conditions`, and a document already carries three "
+          "variable-keyed lists (conditions, axes, method_parameters) that must "
+          "not be confusable.",
+          non_empty=False, scalar=False, sub_fields=_PARAMETER_SUBS),
+    field("other", "structure",
+          "The undeclared long tail -- read_time, overlap, graphical_mode, PCA "
+          "feature counts. Kept whole rather than dropped; a knob nobody will "
+          "query does not earn a bound variable.", non_empty=False)],
+    deps=[dep("software_id", "software",
+              "Which program these settings configure.", non_empty=False),
+          dep("subject_id", "subject",
+              "OPTIONAL scope: settings that apply to ONE recording. Precedence "
+              "comes from THIS and epoch_id -- not from the self-edge.",
+              non_empty=False),
+          dep("epoch_id", "epoch",
+              "OPTIONAL scope: settings that apply to ONE epoch.", non_empty=False),
+          dep("derived_from_id", "method_parameters",
+              "The named protocol this one is a variant of. LINEAGE ONLY -- it "
+              "records origin, not precedence, and the variant carries a COMPLETE "
+              "copy of every setting rather than a diff. Reuses the word the "
+              "schema already spends on this relation (`derived_from_#` on "
+              "calculations and observations); `parent_id` was rejected because it "
+              "implies the child inherits, and it does not.",
+              non_empty=False)]))
+
+# The edge goes on `subject_interaction`, NOT `subject_statement`: the statement
+# tier splits two ways and only one has a method at all. `subject_assertion` and
+# its 30 leaves are timeless and methodless -- "this animal is of strain PR811"
+# has no algorithm.
+_si_tier, _si_path = path_of("subject_interaction")
+_si = load(_si_path)
+if not any(x["name"] == "method_parameters_id" for x in _si.get("depends_on", [])):
+    _si["depends_on"].append(
+        dep("method_parameters_id", "method_parameters",
+            "OPTIONAL: named, shared settings this run used. A statement carries "
+            "the inline `method_parameters` field OR this edge, NEVER BOTH (team, "
+            "2026-08-09) -- one fact, one place, so a reader never has to know "
+            "which wins.", non_empty=False))
+write(_si_tier, "subject_interaction", _si)
+
 # ---- #60: MINT `epoch` -- the class the whole time model assumed existed ----
 # SIGNED 2026-08-08. An epoch is not an interval, it is a RECORDING: minted from
 # one acquisition device's files for one run (`ndi.file.navigator.m:271`,
