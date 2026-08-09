@@ -11,16 +11,28 @@
     },
     "depends_on": [
         {
+            "name": "element_id",
+            "mustBeNonEmpty": true,
+            "documentation": "The element (e.g. neuron) whose response was measured. REQUIRED in NDI (\"mustbenotempty\": 1).",
+            "must_refer_to_document_class": "subject"
+        },
+        {
+            "name": "stimulator_id",
+            "mustBeNonEmpty": true,
+            "documentation": "The stimulator element that delivered the stimulus -- T7's instrument role. REQUIRED in NDI (\"mustbenotempty\": 1) and set at +ndi/+app/+stimulus/tuning_response.m:328; V_eta had DROPPED it, so a migrated response could not say what stimulated the subject.",
+            "must_refer_to_document_class": "subject"
+        },
+        {
             "name": "stimulus_presentation_id",
             "mustBeNonEmpty": true,
-            "documentation": "The document ID of the stimulus presentation.",
+            "documentation": "The presentation this response was measured against. REQUIRED in NDI (\"mustbenotempty\": 1).",
             "must_refer_to_document_class": "stimulus_presentation"
         },
         {
-            "name": "element_id",
+            "name": "stimulus_control_id",
             "mustBeNonEmpty": true,
-            "documentation": "The document ID of the element (e.g., neuron) whose response was measured.",
-            "must_refer_to_document_class": "subject"
+            "documentation": "The control this response is compared with. REQUIRED in NDI (\"mustbenotempty\": 1) and set at tuning_response.m:327; V_eta had DROPPED it. Left untyped: the control is another stimulus_response document and typing it rides with the stimulus model.",
+            "must_refer_to_document_class": ""
         }
     ],
     "file": [

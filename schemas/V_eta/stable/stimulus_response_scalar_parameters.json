@@ -10,14 +10,7 @@
         "maturity_level": "stable",
         "abstract": true
     },
-    "depends_on": [
-        {
-            "name": "stimulus_response_scalar_id",
-            "mustBeNonEmpty": true,
-            "documentation": "The document ID of the stimulus_response_scalar these parameters describe.",
-            "must_refer_to_document_class": ""
-        }
-    ],
+    "depends_on": [],
     "file": [],
     "fields": []
 }

@@ -2593,6 +2593,97 @@ _tombstone(
          non_empty=True)],
     [])
 
+# ---- stimulus_response family: the edge was declared BACKWARDS ------------
+# #61. THE LARGEST INSTANCE of the invented-empty-edge pattern -- 11,440
+# documents (Soph 11,167 / 20211116 273), 100% of the class, every one carrying
+# an edge no did_v1 document has while the edge NDI does write was dropped.
+#
+# NDI origin/main, template and schema agreeing:
+#
+#   stimulus_response.json          depends_on element_id, stimulator_id,
+#                                              stimulus_presentation_id,
+#                                              stimulus_control_id
+#   stimulus_response_schema.json   all four "mustbenotempty": 1
+#   stimulus_response_scalar.json   depends_on stimulus_response_scalar_parameters_id
+#   ..._scalar_schema.json          "mustbenotempty": 1
+#   ..._scalar_parameters.json      depends_on []          <- NONE. AT ALL.
+#
+# and the writer sets all five, unconditionally, at one call site:
+#
+#   +ndi/+app/+stimulus/tuning_response.m:323-328
+#       set_dependency_value('stimulus_response_scalar_parameters_id', param_doc{1}.id())
+#       set_dependency_value('element_id', ndi_timeseries_obj.id())
+#       set_dependency_value('stimulus_presentation_id', stim_doc.id())
+#       set_dependency_value('stimulus_control_id', control_doc.id())
+#       set_dependency_value('stimulator_id', ndi_stim_obj.id())
+#
+# So V_eta had it exactly inverted: the PARAMETERS document was made to point at
+# the response (required, and empty on all 11,440), when in NDI the response
+# points at its parameters. `stimulus_response_scalar.stimulus_response_id` is
+# the same error one class down -- an invented name whose v1 antecedent, as the
+# 8d note further below already suspected, was `stimulus_response_scalar_parameters_id`.
+# That note is now answered with the template rather than left as a suspicion.
+#
+# Two REAL edges were also simply missing: `stimulator_id` (T7 -- the instrument
+# that delivered the stimulus) and `stimulus_control_id` (the control the
+# response is measured against). Both are required in NDI and both were dropped,
+# so a migrated response could not say what stimulated the subject or what it was
+# compared with.
+#
+# Required-ness here is POSITIVE EVIDENCE, not a guess: NDI's schema marks every
+# one "mustbenotempty": 1 and one writer sets all five together. That is the
+# check CLAUDE.md demands before a required edge is declared, and it is the check
+# that was skipped when these were invented.
+_srs_tier, _srs_path = path_of("stimulus_response")
+if _srs_path:
+    _srs = load(_srs_path)
+    _srs["depends_on"] = [
+        dep("element_id", "subject",
+            "The element (e.g. neuron) whose response was measured. REQUIRED in"
+            " NDI (\"mustbenotempty\": 1).", non_empty=True),
+        dep("stimulator_id", "subject",
+            "The stimulator element that delivered the stimulus -- T7's"
+            " instrument role. REQUIRED in NDI (\"mustbenotempty\": 1) and set at"
+            " +ndi/+app/+stimulus/tuning_response.m:328; V_eta had DROPPED it, so"
+            " a migrated response could not say what stimulated the subject.",
+            non_empty=True),
+        dep("stimulus_presentation_id", "stimulus_presentation",
+            "The presentation this response was measured against. REQUIRED in"
+            " NDI (\"mustbenotempty\": 1).", non_empty=True),
+        dep("stimulus_control_id", "",
+            "The control this response is compared with. REQUIRED in NDI"
+            " (\"mustbenotempty\": 1) and set at tuning_response.m:327; V_eta had"
+            " DROPPED it. Left untyped: the control is another stimulus_response"
+            " document and typing it rides with the stimulus model.",
+            non_empty=True),
+    ]
+    write(_srs_tier, "stimulus_response", _srs)
+
+_srsc_tier, _srsc_path = path_of("stimulus_response_scalar")
+if _srsc_path:
+    _srsc = load(_srsc_path)
+    _srsc["depends_on"] = [
+        dep("stimulus_response_scalar_parameters_id",
+            "stimulus_response_scalar_parameters",
+            "The parameters document that produced these scalar responses."
+            " THE DIRECTION MATTERS: in NDI the response points at its"
+            " parameters, never the reverse. REQUIRED (\"mustbenotempty\": 1),"
+            " set at tuning_response.m:323. Replaces `stimulus_response_id`, a"
+            " name no did_v1 document carries.", non_empty=True),
+    ]
+    write(_srsc_tier, "stimulus_response_scalar", _srsc)
+
+_srsp_tier, _srsp_path = path_of("stimulus_response_scalar_parameters")
+if _srsp_path:
+    _srsp = load(_srsp_path)
+    # NDI's template declares NO dependencies on this class. The required
+    # `stimulus_response_scalar_id` was invented, pointed the wrong way, and was
+    # empty on 100% of 11,440 documents -- which validated clean, because
+    # +did2/+validate/references.m:90 skips empty edges. Removing it is the
+    # repair; the real edge lives on the child, above.
+    _srsp["depends_on"] = []
+    write(_srsp_tier, "stimulus_response_scalar_parameters", _srsp)
+
 # ---- stimulus_parameter_table: DEMOTE to deprecated/ ----------------------
 # Decided 2026-08-08 in the stimulus-parameters sign-off review. The team's
 # objection: "it seems weird to pass a bad V1 doc through."
