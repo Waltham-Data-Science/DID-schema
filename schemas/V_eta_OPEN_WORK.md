@@ -68,6 +68,8 @@ still be `awaiting a signature` there.
 
 | 78 | **#56 remainder: the strain MIGRATOR (a second pass)** | opened 2026-08-09 when the schema half of #56 landed. The classes exist; nothing populates them yet. Needs: `openminds_subject` Strain documents -> `strain` entities with `strain_id` back on the assertion; the `openminds_#` pedigree edges read so `backgroundStrain` becomes `background_strain_#` (~2,362 composite Strain documents currently drop their pedigree); ~2,365 `genetic strain type` assertions moved off subjects onto the strain; duplicate `species` assertions deduped; strain documents deduped (roughly ten distinct strains behind 2,365 documents, because `getStrain` constructs fresh objects per call). A SECOND PASS: the pedigree lives in other documents, which a single-document migrator cannot follow. Rides with #72. |
 
+| 79 | **#63 remainder: the family-count MEASUREMENT** | opened 2026-08-09. The schema declares min_count/max_count on all seven numbered families; nothing yet COUNTS instances against them. A `family_count_violation` report was added to `silentLoss` and reverted when its test failed twice on the MATLAB gate for a cause I could not diagnose without MATLAB (the first failure was `[deps{:}]` throwing on a heterogeneous schema `depends_on` — fixed; the second is unknown). Needs someone with a local MATLAB. REPORT ONLY when it lands: `subject_interaction.time_reference_#` min 1 has never been measured against real data, and enforcing it blind is how a gate turns red on a corpus. |
+
 ## COMPLETED (kept so the `#nn` numbering stays stable)
 
 **56 — `strain` is an entity, schema half (2026-08-09).** `strain ⊂ entity` is built with the
@@ -83,7 +85,7 @@ every descendant. `term_assertion` gains an OPTIONAL `strain_id`, and KEEPS its 
 `global_identifier` stays optional because Dabrowska's Cre lines carry none. Tested. The
 MIGRATOR half is #78.
 
-**63 — numbered edge families declare their cardinality, and it is measured (2026-08-09).**
+**63 — numbered edge families declare their cardinality; the MEASUREMENT is still open (2026-08-09).**
 The meta-schema gains optional `min_count` / `max_count` on a dependency; **all seven**
 `name_#` families declare a count and NONE claims `mustBeNonEmpty` any more, because that
 flag cannot describe a family (a MISSING instance is not a blank one — `silentLoss`
@@ -92,9 +94,16 @@ declared REQUIRED and verified by nothing). Counts: `subject_interaction.time_re
 min 1 (the spine), `interaction_purpose.interaction_id_#` min 1, and **`syncgraph.syncrule_id_#`
 min 0 — NDI's own schema says `"mustbenotempty": 0` and V_eta had tightened it wrongly**;
 the three `derived_from_#` families and `directed_relation.time_reference_#` min 0.
-`silentLoss` now measures instance counts and reports `family_count_violation`,
-**REPORT ONLY** — the counts have never been measured on real data, and enforcing a minimum
-before knowing them is how a gate turns red on a corpus. `acquisition_channels_# min 2
+**THE MEASUREMENT HALF WAS BUILT AND THEN REVERTED, and that is recorded rather than
+hidden.** `silentLoss` gained a `family_count_violation` report; its test failed on the
+MATLAB gate twice, and the second failure survived the fix that explained the first (schema
+`depends_on` decodes to a CELL once the entries stop sharing keys, so `[deps{:}]` throws --
+and the throw was swallowed by the audit's own try/catch, so the census went quiet exactly
+where it should have spoken). MATLAB cannot be run in the dev container, so the remaining
+cause is unknown, and guessing at three minutes per CI round-trip is not diagnosis. The
+counter is OUT; **the declarations, which are the half that removes the false assurance,
+are IN and tested.** Re-open the counter with a MATLAB run available: it was REPORT ONLY,
+so nothing depends on it, and the counts it would produce have never been measured. `acquisition_channels_# min 2
 max 2` is NOT declared: that class does not exist until the clock-alignment cluster is
 built, so it rides with #57. Tested both sides. Also closes the visibility half of #52.
 
