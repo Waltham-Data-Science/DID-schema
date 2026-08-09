@@ -100,6 +100,17 @@
             "disposition": "persist"
         },
         {
+            "class_name": "acquisition_channels",
+            "tier": "draft",
+            "class_version": "1.0.0",
+            "maturity_level": "draft",
+            "superclasses": [
+                "base"
+            ],
+            "path": "schemas/V_eta/draft/acquisition_channels.json",
+            "disposition": "persist"
+        },
+        {
             "class_name": "acquisition_epoch",
             "tier": "stable",
             "class_version": "2.0.0",
@@ -413,6 +424,40 @@
                 "data_type"
             ],
             "path": "schemas/V_eta/stable/chemical.json",
+            "disposition": "persist"
+        },
+        {
+            "class_name": "clock_alignment",
+            "tier": "draft",
+            "class_version": "1.0.0",
+            "maturity_level": "draft",
+            "superclasses": [
+                "relation",
+                "polynomial"
+            ],
+            "path": "schemas/V_eta/draft/clock_alignment.json",
+            "disposition": "persist"
+        },
+        {
+            "class_name": "clock_alignment_configuration",
+            "tier": "draft",
+            "class_version": "1.0.0",
+            "maturity_level": "draft",
+            "superclasses": [
+                "base"
+            ],
+            "path": "schemas/V_eta/draft/clock_alignment_configuration.json",
+            "disposition": "persist"
+        },
+        {
+            "class_name": "clock_alignment_policy",
+            "tier": "draft",
+            "class_version": "1.0.0",
+            "maturity_level": "draft",
+            "superclasses": [
+                "base"
+            ],
+            "path": "schemas/V_eta/draft/clock_alignment_policy.json",
             "disposition": "persist"
         },
         {
@@ -1720,6 +1765,17 @@
                 "ph"
             ],
             "path": "schemas/V_eta/stable/ph_observation.json",
+            "disposition": "persist"
+        },
+        {
+            "class_name": "polynomial",
+            "tier": "draft",
+            "class_version": "1.0.0",
+            "maturity_level": "draft",
+            "superclasses": [
+                "data_type"
+            ],
+            "path": "schemas/V_eta/draft/polynomial.json",
             "disposition": "persist"
         },
         {

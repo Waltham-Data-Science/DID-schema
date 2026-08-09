@@ -1578,6 +1578,142 @@ write("draft", "harmonic_component_calculation",
       doc("harmonic_component_calculation",
           ["subject_calculation", "harmonic_component"], maturity="draft"))
 
+# ---------- #57 the clock alignment cluster: SCHEMA HALF -----------------------------
+# SIGNED 2026-08-08, two families, in V_eta_clock_alignment_cluster_plan.md:477 and :479.
+#
+# THIS BUILD IS THE SCHEMA HALF ONLY, and the reason is written in the signature
+# itself -- "Gates carried on these signatures, none waived by them":
+#
+#   gate 1  #67 GATES THIS CLUSTER. `clock_alignment_configuration.clock` binds to
+#           did_clocktype, which the time-model walkthrough cut from 9 terms to 4.
+#           The four NAMES are known; their ontology NODES are not minted. Staged
+#           per the plan's own §5 -- `{node: '', name: ...}` is already the practice
+#           at 34 migrator sites -- and the backlog is counted by #70's ratchet.
+#   gate 2  `clock_alignment.relation` needs a term. "Temporally aligned with" is a
+#           MAPPING predicate, not an OWL-Time interval relation, so it cannot reuse
+#           relative_reference's binding. Staged the same way.
+#   gate 3  "EXACTLY 2" was prose until #63 landed. #63 HAS landed, so
+#           `acquisition_channels_#` gets a real min_count/max_count of 2 below --
+#           this gate is now MET.
+#   gate 4  #58 rides with this build. Already shipped as the interim repair.
+#
+# So: the classes are minted; the MIGRATORS are not written, and the v1 syncrule /
+# syncgraph / syncrule_mapping tombstones STAY until a migrator provably consumes
+# them. Deleting a source ahead of its migrator is what cost 2,484 quarantines this
+# same day.
+#
+# `acquisition_channels.acquisition_system_id` is declared UNTYPED: `acquisition_system`
+# is #59's class and does not exist yet (#59 is itself GATED on #37). Typing an edge at
+# a class that is absent fails test_dependencies_resolve, and inventing the class here to
+# satisfy it would be building #59 sideways.
+write("draft", "polynomial",
+      doc("polynomial", ["data_type"], abstract=True, maturity="draft",
+          fields=[field("value", "structure",
+                        "A polynomial, as its coefficients.",
+                        non_empty=True, blank={}, sub_fields=[
+              subfield("coefficients", "matrix",
+                       "Coefficients, HIGHEST ORDER FIRST -- MATLAB's polyval "
+                       "convention. Documented because the opposite convention is "
+                       "equally common and the two are silently interchangeable.",
+                       scalar=False),
+              subfield("degree", "integer",
+                       "numel(coefficients) - 1. DERIVABLE, and kept anyway: the "
+                       "did2 query layer has no length predicate, so `degree > 1` "
+                       "-- which alignments are non-linear, the interesting question "
+                       "about a clock mapping -- is expressible ONLY if degree is "
+                       "stored. Same test that kept `axis.n` and dropped "
+                       "`ngrid.data_size`: derivable AT QUERY TIME, not derivable in "
+                       "code. CHECKED against coefficients, so it is an index rather "
+                       "than a second source of truth.", blank=0),
+          ])]))
+
+write("draft", "clock_alignment",
+      doc("clock_alignment", ["relation", "polynomial"], maturity="draft",
+          deps=[
+              dep("from_reference", "relative_reference",
+                  "The timeline this alignment maps FROM. The rule is symmetric but "
+                  "its OUTPUT is directed, which is why these are named endpoints and "
+                  "not a `_#` family.", non_empty=True),
+              dep("to_reference", "relative_reference",
+                  "The timeline this alignment maps TO.", non_empty=True),
+              dep("clock_alignment_configuration_id", "clock_alignment_configuration",
+                  "The rule that produced this alignment.", non_empty=True),
+              dep("clock_alignment_policy_id", "clock_alignment_policy",
+                  "The policy this alignment belongs to.", non_empty=True),
+          ],
+          fields=[
+              field("relation", "ontology_term",
+                    "\"Temporally aligned with\". STAGED with an empty node (#67/#70): "
+                    "this is a MAPPING predicate, not an OWL-Time interval relation, so "
+                    "it cannot reuse relative_reference's binding and needs an NDIC term."),
+              field("cost", "double",
+                    "The path-finding edge weight. On the leaf rather than inside "
+                    "`value` because it is a property of the ALIGNMENT, not of the "
+                    "polynomial."),
+          ]))
+
+write("draft", "clock_alignment_configuration",
+      doc("clock_alignment_configuration", ["base"], maturity="draft",
+          deps=[
+              dep("software_id", "software",
+                  "The implementation that computes this alignment -- v1's "
+                  "`ndi_syncrule_class`, folded to a software entity (R1).",
+                  non_empty=False),
+              dep("acquisition_channels_#", "acquisition_channels",
+                  "The two channel groups this rule relates. EXACTLY 2 and UNORDERED: "
+                  "the rule is symmetric, so neither endpoint is 'first'.",
+                  non_empty=False, multiple=True),
+          ],
+          fields=[
+              field("clock", "ontology_term",
+                    "The clock this rule aligns, from did_clocktype. STAGED with an "
+                    "empty node: #67 cut that vocabulary from 9 terms to 4 and this "
+                    "class must use the same four. <- v1 `epochclocktype`."),
+              field("minimum_matching_file_paths", "integer",
+                    "How many full path components must match. <- v1 "
+                    "`number_fullpath_matches`.", blank=0),
+              field("sync_file_name", "char",
+                    "The sync file to read. <- v1 `syncfilename`."),
+              field("minimum_embedded_file_overlap", "integer",
+                    "Minimum overlap required between embedded files. <- v1 "
+                    "`minEmbeddedFileOverlap`.", blank=0),
+          ]))
+
+write("draft", "clock_alignment_policy",
+      doc("clock_alignment_policy", ["base"], maturity="draft",
+          deps=[
+              dep("session_id", "session",
+                  "The session whose clocks this policy governs.", non_empty=True),
+              dep("software_id", "software",
+                  "v1's `ndi_syncgraph_class`, folded to a software entity (R1).",
+                  non_empty=False),
+              dep("clock_alignment_configuration_#", "clock_alignment_configuration",
+                  "The rules this policy applies. OPTIONAL -- a policy with no rules "
+                  "yet is legitimate, which is what NDI's own "
+                  "\"mustbenotempty\": 0 on syncrule_id says.",
+                  non_empty=False, multiple=True),
+          ]))
+
+write("draft", "acquisition_channels",
+      doc("acquisition_channels", ["base"], maturity="draft",
+          deps=[dep("acquisition_system_id", "",
+                    "The device half of v1's devicestring. UNTYPED for now: "
+                    "`acquisition_system` is #59's class and does not exist yet.",
+                    non_empty=False)],
+          fields=[field("channels", "structure",
+                        "One entry per channel-TYPE GROUP, as v1's devicestring "
+                        "stores them ('mydevice:ai27-28,45,88;di1-4'). `type` is "
+                        "scalar PER ENTRY because a group is by definition one type; "
+                        "`numbers` is the list. NOT equal-length parallel arrays -- "
+                        "the flat form repeats the type N times and discards the "
+                        "grouping the source actually stores.",
+                        non_empty=False, scalar=False, blank=[], sub_fields=[
+              subfield("type", "ontology_term",
+                       "ai | ao | di | do (daqsystemstring.m:53-56)."),
+              subfield("numbers", "matrix", "That group's channel numbers.",
+                       scalar=False),
+          ])]))
+
 # ---------- timed_sequence: the stimulus-presentation TARGET (re-audit) --------------
 # V_eta_stimulus_model_plan.md: a stimulus presentation = an ordered, timed list of
 # references to stimulus `data_type` docs. `timed_sequence` (data_type; neutral name so a
@@ -3435,6 +3571,13 @@ _EDGE_COUNTS = {
     # (+ndi/+daq/system.m:495-497, add_dependency_value_n) and NDI's own schema
     # says "mustbenotempty": 0
     ("daqsystem", "daqmetadatareader_id_#"): (0, None),
+    # #57 gate 3, NOW MET. The sign-off recorded "EXACTLY 2 is prose until #63
+    # lands" -- #63 has landed, so the cardinality the rule actually has is
+    # declared and checkable instead of being a sentence in a plan.
+    ("clock_alignment_configuration", "acquisition_channels_#"): (2, 2),
+    # a policy with no rules yet is legitimate -- NDI's own syncgraph schema says
+    # "mustbenotempty": 0 for syncrule_id
+    ("clock_alignment_policy", "clock_alignment_configuration_#"): (0, None),
 }
 for (_cls, _edge), (_lo, _hi) in _EDGE_COUNTS.items():
     _t, _p = path_of(_cls)

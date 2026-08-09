@@ -1,7 +1,21 @@
 # V_eta — the clock alignment cluster (was syncrule / syncgraph / syncrule_mapping)
 
-**DECIDED with the team, 2026-08-06. Build deferred. NO `TEAM-SIGN-OFF` LINE** —
-the marker is the team's to write (Operating Rule 4).
+**DECIDED with the team 2026-08-06; SIGNED OFF 2026-08-08 (both families — see the
+two `TEAM-SIGN-OFF` lines near the bottom of this file); SCHEMA HALF BUILT 2026-08-09.**
+
+**THIS HEADER SAID "Build deferred. NO `TEAM-SIGN-OFF` LINE" UNTIL 2026-08-09** — 474
+lines above the two sign-off lines that had been sitting in this same file since
+2026-08-08. Reading the header and stopping there is exactly how a signed decision got
+reported back to the team as an open proposal, twice in one session. The board never
+believed it: `status_board.py` derives from the sign-off lines themselves and had
+counted this cluster as decided all along (Operating Rule 4 working as intended).
+
+**WHAT IS BUILT AND WHAT IS NOT.** `polynomial`, `clock_alignment`,
+`clock_alignment_configuration`, `clock_alignment_policy` and `acquisition_channels`
+are minted. The MIGRATORS are not written, so `syncrule`, `syncgraph` and
+`syncrule_mapping` remain as v1 source tombstones and must not be deleted until a
+migrator provably consumes them. The gates recorded with the signatures are unchanged
+except gate 3, which is now MET (see "Gates carried on these signatures").
 
 **The team's words:** *"Record the whole cluster."* Reached over a long walkthrough in
 which the team rejected four successive Claude proposals on naming and modelling
@@ -509,7 +523,10 @@ REJECTED   acquisition_channels_A/_B   `x_1`/`x_2` wearing letters; for an unord
    predicate, NOT an OWL-Time interval relation, so it cannot use `relative_reference`'s
    binding. Stage it as `{node: '', name: 'temporally aligned with'}` — already the practice
    at 34 migrator sites — and harvest it under **#70**.
-3. **"EXACTLY 2" is prose until #63 lands.** The schema cannot express or check cardinality
-   on a `name_#` family today.
+3. **"EXACTLY 2" is prose until #63 lands.** ~~The schema cannot express or check
+   cardinality on a `name_#` family today.~~ **MET 2026-08-09**: #63 landed, and
+   `clock_alignment_configuration.acquisition_channels_#` is now declared
+   `min_count: 2, max_count: 2`. The cardinality the rule actually has is in the schema
+   and checkable, instead of being a sentence in a plan.
 4. **#58 rides with this build**: `syncgraph_id` restored and `objectname` recoverable via
    `epoch.instrument_id`. Both fix LIVE NDI queries and stand whether or not this model ships.

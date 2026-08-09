@@ -448,8 +448,11 @@ build it.
   cannot carry `clock_alignment` partly because its endpoints are `entity` and an
   epoch is not. With epochs as entities that objection dissolves — but
   `directed_relation` still has **no value slot**, so the affine transform and cost
-  would still be dropped, and a separate class is still required. #57 remains a
-  PROPOSAL.
+  would still be dropped, and a separate class is still required. **The last sentence
+  here read "#57 remains a PROPOSAL" until 2026-08-09; it was stale.** #57 was SIGNED
+  2026-08-08 (both families) and its schema half is BUILT. The technical point above is
+  unaffected — `directed_relation` still has no value slot, so `clock_alignment` is
+  still its own class, which is what got built.
 - **`base.session_id` and a `part_of` relation would be two representations of one
   fact.** Flagged, not solved.
 - **Minting needs the SECOND PASS.** One document per distinct `epochid.epochid` is
