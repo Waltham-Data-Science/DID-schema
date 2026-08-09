@@ -550,7 +550,20 @@ def test_phase1_source_cleanup_and_dep_typing():
     # REQUIRED instead -- empty on all 6,921 corpus documents. The class is now
     # `ingestion_manifest` (the old name encoded a MODE, the T13 error `_ndr` and
     # `_mfdaq` were de-encoded for) and carries the real edge plus an epoch edge.
-    assert "epochfiles_ingested" not in RECORDS
+    # AND INVERTED AGAIN, 2026-08-09, for the same reason one layer along: this
+    # asserted the source class was GONE, which is what the build did -- it
+    # deleted `epochfiles_ingested` the moment `ingestion_manifest` was minted.
+    # Nothing migrates those documents yet (#60's migrator half), so every one
+    # reached validation under a class with no schema: corpus B run #2, 2,484
+    # quarantines, on a 0-quarantine gate. A test written from the same premise
+    # as the code cannot catch the code. The tombstone stays until a migrator
+    # provably consumes it, which is what _DELETE_PHASE8 exists to enforce and
+    # what deleting the file directly bypassed.
+    assert "epochfiles_ingested" in RECORDS, (
+        "the v1 source tombstone must survive until #60's migrator consumes it -- "
+        "deleting it quarantined 2,484 documents in corpus B")
+    assert _dep("epochfiles_ingested", "filenavigator_id") is not None, \
+        "the source tombstone must carry the edge NDI actually writes"
     assert "ingestion_manifest" in RECORDS
     assert _dep("ingestion_manifest", "filenavigator_id")["mustBeNonEmpty"] is True
     assert _dep("ingestion_manifest", "epoch_id")["must_refer_to_document_class"] == "epoch"

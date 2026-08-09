@@ -3982,9 +3982,40 @@ if _efi_path:
     ]
     _efi["fields"] = [f for f in _efi.get("fields", [])
                       if f["name"] not in ("epoch_id", "epochprobemap")]
-    os.remove(_efi_path)
     write(_efi_tier, "ingestion_manifest", _efi)
-    RENAME["epochfiles_ingested"] = "ingestion_manifest"
+
+    # THE SOURCE TOMBSTONE STAYS UNTIL A MIGRATOR CONSUMES IT.
+    #
+    # This block used to `os.remove(_efi_path)` and register the RENAME, deleting
+    # `epochfiles_ingested` the moment `ingestion_manifest` was minted. Nothing
+    # migrates those documents yet -- that is #60's migrator half -- so every one
+    # of them arrived at validation under a class that no longer had a schema.
+    # Corpus B, run #2: 2,484 quarantines, "No schema file for class
+    # epochfiles_ingested". The 0-quarantine gate, broken by a rename.
+    #
+    # This is exactly what _DELETE_PHASE8 exists to prevent -- a source class may
+    # be removed ONLY once its documents provably cannot survive migration -- and
+    # the rename bypassed it by deleting the file directly. Restated here from the
+    # NDI template so the documents pass through validating, and removed for real
+    # when the fold lands and the corpus proves it.
+    #
+    # NDI origin/main, epochfiles_ingested.json: depends_on filenavigator_id;
+    # block {epoch_id, files[], epochprobemap}.
+    _tombstone(
+        "epochfiles_ingested", ["base"],
+        [dep("filenavigator_id", "filenavigator",
+             "The file navigator that produced this manifest -- the edge NDI"
+             " writes.", non_empty=False)],
+        [field("epoch_id", "char",
+               "The epoch id STRING as did_v1 records it. Becomes the"
+               " `epoch_id` EDGE on ingestion_manifest once `epoch` documents"
+               " are minted (#60's migrator half)."),
+         field("files", "string", "The files ingested for this epoch.",
+               scalar=False),
+         field("epochprobemap", "char",
+               "The probe map for this epoch. Decomposes into edges under the"
+               " signed model; carried verbatim until that is built, because"
+               " dropping it now would be loss with no destination.")])
 
 # Governance: mark the `ndi_<x>_class` handles needs-NDI. Each of these kept device/
 # sync infra classes discriminates its concrete implementation by an NDI-runtime
