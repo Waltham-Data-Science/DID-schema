@@ -15,7 +15,8 @@
             "name": "derived_from_#",
             "mustBeNonEmpty": false,
             "documentation": "The subject_statement leaf(s) this value was COMPUTED from (its inputs). Present only on computed observations, whose subject_interaction.method names the algorithm. Typed to a statement leaf -- never an entity; the provenance inverse of directed_relation's entity->entity child/parent.",
-            "must_refer_to_document_class": "subject_statement"
+            "must_refer_to_document_class": "subject_statement",
+            "min_count": 0
         }
     ],
     "file": [],

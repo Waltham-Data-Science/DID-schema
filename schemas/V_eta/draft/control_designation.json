@@ -20,7 +20,8 @@
             "name": "derived_from_#",
             "mustBeNonEmpty": false,
             "documentation": "Provenance: the analysis/interaction(s) this designation was derived from (T10). Cardinality is unexpressed until #63.",
-            "must_refer_to_document_class": "subject_interaction"
+            "must_refer_to_document_class": "subject_interaction",
+            "min_count": 0
         }
     ],
     "file": [],

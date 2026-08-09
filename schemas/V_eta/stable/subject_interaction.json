@@ -13,10 +13,11 @@
     "depends_on": [
         {
             "name": "time_reference_#",
-            "mustBeNonEmpty": true,
+            "mustBeNonEmpty": false,
             "documentation": "When the interaction happened, as one or more time_reference anchor documents. Required on interactions (Brainstorm J: an interaction tightens time to required).",
             "must_refer_to_document_class": "time_reference",
-            "multiple": true
+            "multiple": true,
+            "min_count": 1
         },
         {
             "name": "instrument_id",

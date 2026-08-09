@@ -27,7 +27,8 @@
             "mustBeNonEmpty": false,
             "documentation": "Optional: when an EVENT relation happened (e.g. `encountered`, or a `derived_from` creation event), as one or more time_reference anchors \u2014 so an event-relation can be the timestamped record you anchor other times against (an `event_relative_reference`). Empty for timeless relations (part_of). (D10 multi-party binding.)",
             "must_refer_to_document_class": "time_reference",
-            "multiple": true
+            "multiple": true,
+            "min_count": 0
         }
     ],
     "file": [],

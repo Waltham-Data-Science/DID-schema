@@ -2734,9 +2734,75 @@ constraints_schema["properties"] = {
         },
     }
 }
+# ---- #63: cardinality on a numbered edge family ----------------------------
+# `mustBeNonEmpty: true` on a `name_#` family is BOTH unenforceable AND
+# meaningless. `silentLoss.requiredDependencies` excludes numbered edges, and its
+# reasoning is right: you cannot check a blank `time_reference_3`, because a
+# MISSING instance of a family is not the same thing as a blank one. So three
+# families have been declared REQUIRED and verified by nothing.
+#
+# What IS checkable is HOW MANY instances exist, and the meta-schema had no way
+# to say it. Two optional integers fix that. They are declared here rather than
+# reusing `mustBeNonEmpty` because they answer a different question, and leaving
+# the old flag to mean "required" on a family it cannot describe is what produced
+# the false assurance in the first place.
+_dep_props = meta["$defs"]["dependency_object"]["properties"]
+_dep_props["min_count"] = {
+    "type": "integer",
+    "minimum": 0,
+    "description": "For a numbered family (`name_#`): the minimum number of "
+                   "instances a valid document must carry. `mustBeNonEmpty` "
+                   "cannot express this -- a missing instance is not a blank "
+                   "one -- so a family that must be present says min_count: 1. "
+                   "Omit on a non-numbered dependency.",
+}
+_dep_props["max_count"] = {
+    "type": "integer",
+    "minimum": 1,
+    "description": "For a numbered family (`name_#`): the maximum number of "
+                   "instances a valid document may carry. Omit for unbounded.",
+}
+
 with open(os.path.join(VETA, "stable", "did_schema_meta.json"), "w") as f:
     json.dump(meta, f, indent=4)
     f.write("\n")
+
+# The seven numbered families, with the counts that are actually true of them.
+# Each `mustBeNonEmpty` on a family is CLEARED at the same time: it never meant
+# anything there, and leaving it would keep two flags disagreeing about one fact.
+_EDGE_COUNTS = {
+    # the statement spine: an interaction without a time reference is not a
+    # statement about when anything happened
+    ("subject_interaction", "time_reference_#"): (1, None),
+    # a purpose with no interaction is a purpose for nothing
+    ("interaction_purpose", "interaction_id_#"): (1, None),
+    # NDI's OWN schema says "mustbenotempty": 0 for this one -- V_eta tightened
+    # it wrongly, and a syncgraph with no rules yet is legitimate
+    ("syncgraph", "syncrule_id_#"): (0, None),
+    # provenance: real when present, absent for a directly-measured value
+    ("subject_calculation", "derived_from_#"): (0, None),
+    ("subject_observation", "derived_from_#"): (0, None),
+    ("control_designation", "derived_from_#"): (0, None),
+    # a relation may state times or not
+    ("directed_relation", "time_reference_#"): (0, None),
+}
+for (_cls, _edge), (_lo, _hi) in _EDGE_COUNTS.items():
+    _t, _p = path_of(_cls)
+    if not _p:
+        continue
+    _d = load(_p)
+    _changed = False
+    for _x in _d.get("depends_on", []):
+        if _x["name"] != _edge:
+            continue
+        _x["min_count"] = _lo
+        if _hi is not None:
+            _x["max_count"] = _hi
+        # a family cannot be "non-empty"; the count says what is required
+        _x["mustBeNonEmpty"] = False
+        _changed = True
+    if _changed:
+        write(_t, _cls, _d)
 
 
 # ---------- 13. binding-registry meta-file + kind-variable set (D9) ----------

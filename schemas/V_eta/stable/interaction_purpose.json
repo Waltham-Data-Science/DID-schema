@@ -12,10 +12,11 @@
     "depends_on": [
         {
             "name": "interaction_id_#",
-            "mustBeNonEmpty": true,
+            "mustBeNonEmpty": false,
             "documentation": "The interaction(s) this purpose applies to.",
             "must_refer_to_document_class": "subject_interaction",
-            "multiple": true
+            "multiple": true,
+            "min_count": 1
         }
     ],
     "file": [],

@@ -791,6 +791,37 @@ def test_writer_set_dependencies_are_reported():
         "lines with `...`, so a line-at-a-time scan misses it")
 
 
+def test_numbered_edge_families_declare_cardinality():
+    """#63: a `name_#` family declares min_count/max_count, and never claims
+    `mustBeNonEmpty`.
+
+    `mustBeNonEmpty` cannot describe a family -- a MISSING instance is not a blank
+    one, and `silentLoss.requiredDependencies` excludes numbered edges for exactly
+    that reason. Three families were nonetheless declared required and verified by
+    nothing. The count is the checkable fact, so it is the one that gets declared;
+    leaving the old flag set would keep two flags disagreeing about one thing."""
+    fams = []
+    for name, (_tier, d) in RECORDS.items():
+        for dep in d.get("depends_on", []):
+            if dep["name"].endswith("_#"):
+                fams.append((name, dep))
+    assert fams, "no numbered edge families found -- the sweep is broken"
+    for cls, dep in fams:
+        assert "min_count" in dep, f"{cls}.{dep['name']} declares no min_count"
+        assert dep["mustBeNonEmpty"] is False, (
+            f"{cls}.{dep['name']} still claims mustBeNonEmpty, which cannot "
+            "describe a family")
+        if "max_count" in dep:
+            assert dep["max_count"] >= max(dep["min_count"], 1)
+    # the spine and the purpose edge are the two that must be PRESENT
+    required = {(c, d["name"]) for c, d in fams if d["min_count"] >= 1}
+    assert ("subject_interaction", "time_reference_#") in required
+    assert ("interaction_purpose", "interaction_id_#") in required
+    # NDI's own schema says syncrule_id_# may be empty -- V_eta had tightened it
+    sg = next(d for c, d in fams if c == "syncgraph" and d["name"] == "syncrule_id_#")
+    assert sg["min_count"] == 0
+
+
 def test_data_body_carrier_dispositions():
     """2.D collapse: data_body has EXACTLY 2 members; the format/series carriers are
     folded/placed. `image` is KEPT (image_observation's geometry mixin, so it must

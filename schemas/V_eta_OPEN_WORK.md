@@ -51,7 +51,6 @@ still be `awaiting a signature` there.
 | 60 | Build deferred: the epoch family — MINT `epoch` entity, drop `epochid`, probemap → edges | `V_eta_epoch_plan.md`. **2026-08-08: `epoch.instrument_id -> entity`, OPTIONAL** |
 | 61 | Build deferred: stimulus response family | `V_eta_stimulus_response_model_plan.md` |
 | 62 | Build deferred: stimulus parameters | `V_eta_stimulus_parameter_plan.md` — GATED on #32 |
-| 63 | **Express and ENFORCE cardinality on `name_#` edge families** | WIDENED 2026-08-08 from "a required numbered edge can never be checked". `mustBeNonEmpty: true` on a `_#` family is unenforceable AND meaningless — `silentLoss.requiredDependencies` excludes numbered edges, and its reasoning is right: *"a missing instance of one is not the same as a blank one."* You cannot check a blank `time_reference_3`; you CAN check **how many instances exist**, and the meta-schema has no way to say how many are required. **SIX families exist, THREE declared REQUIRED and verified by nothing**: `subject_interaction.time_reference_#` (the spine), `interaction_purpose.interaction_id_#`, `syncgraph.syncrule_id_#` — plus optional `directed_relation.time_reference_#`, `subject_calculation.derived_from_#`, `subject_observation.derived_from_#`. FIX: min/max on the edge declaration + a count check. Targets: `time_reference_#` min 1; `interaction_id_#` min 1; `acquisition_channels_#` min 2 max 2; `syncrule_id_#` min 0 (NDI's own schema says `"mustbenotempty": 0` — V_eta tightened it wrongly). **Naming the slots (`_A`/`_B`) was rejected** — that is `x_1`/`x_2` wearing letters, and for an unordered pair it creates two representations of one fact. Cardinality belongs in the declaration, not the names. Also closes the visibility half of #52. |
 | 65 | **Build: the time-reference collapse — 8 classes to 2** | `V_eta_time_reference_model_plan.md` — **SIGNED 2026-08-08**. Increment 1 built but now STALE against the walkthrough. BLOCKED ON #67 + #32 |
 | 66 | Build deferred: the ingested-payload family | `V_eta_ingested_payload_findings.md` |
 | 67 | **Mint NDI clocktype terms in an ontology, then convert `clock` to `ontology_term`** | **NOW A PREREQUISITE of #65**, not a follow-up. FOUR terms: utc, dev_local_time, dev_global_time, exp_global_time |
@@ -69,6 +68,21 @@ still be `awaiting a signature` there.
 
 
 ## COMPLETED (kept so the `#nn` numbering stays stable)
+
+**63 — numbered edge families declare their cardinality, and it is measured (2026-08-09).**
+The meta-schema gains optional `min_count` / `max_count` on a dependency; **all seven**
+`name_#` families declare a count and NONE claims `mustBeNonEmpty` any more, because that
+flag cannot describe a family (a MISSING instance is not a blank one — `silentLoss`
+excluded numbered edges for exactly that reason, and three families were nonetheless
+declared REQUIRED and verified by nothing). Counts: `subject_interaction.time_reference_#`
+min 1 (the spine), `interaction_purpose.interaction_id_#` min 1, and **`syncgraph.syncrule_id_#`
+min 0 — NDI's own schema says `"mustbenotempty": 0` and V_eta had tightened it wrongly**;
+the three `derived_from_#` families and `directed_relation.time_reference_#` min 0.
+`silentLoss` now measures instance counts and reports `family_count_violation`,
+**REPORT ONLY** — the counts have never been measured on real data, and enforcing a minimum
+before knowing them is how a gate turns red on a corpus. `acquisition_channels_# min 2
+max 2` is NOT declared: that class does not exist until the clock-alignment cluster is
+built, so it rides with #57. Tested both sides. Also closes the visibility half of #52.
 
 **64 — the file-list detector exists (2026-08-09).** `did2.validate.fileList` compares each
 document's `files.file_list` against the files its class chain declares, both directions:
