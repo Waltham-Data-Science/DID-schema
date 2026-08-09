@@ -128,6 +128,7 @@ RESOLVED_BY_GUARD = {
     "vmneuralresponseresiduals.m":      "guarded passthrough -- no writer; goodness_of_fit unspecified",
     "ontology_label.m":                 "guarded passthrough -- referent needs the migrated-id graph",
     "vmspikesummary.m":                 "guarded passthrough -- real class is a spike WAVEFORM + shape medians",
+    "measurement.m":                    "guard only -- reads the real ontology_name/name/numeric_value/string_value",
 }
 
 # A blind spot this tool structurally cannot cover, recorded so it is not

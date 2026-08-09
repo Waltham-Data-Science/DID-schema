@@ -68,9 +68,17 @@ still be `awaiting a signature` there.
 
 | 76 | **MEASURE: does one approach cover several interactions?** (decides whether `interaction_purpose` collapses to a field) | opened 2026-08-09. Named in the `misc singletons` sign-off as the one open item. **THE MEASUREMENT:** for every `openminds_stimulus` document take its `epochid`, then count the DISTINCT SUBJECTS among the `stimulus_presentation` documents sharing that epoch; the distribution of that count over the 635 is the answer. One subject per epoch → one purpose maps to one interaction and `purpose` should be a FIELD on `subject_interaction` (removing a class and a numbered required edge, which #63 says is unverifiable anyway); several subjects → the class earns its `interaction_id_#`. **NOT MEASURABLE from the dev container — no corpora on disk** — and the census reports by class only, so it needs a grouped count added plus a full corpus run (~1–2 h). **DO NOT substitute the class totals**: 635 approaches against 2,670 `stimulus_presentation` is not a ratio, because only some datasets write approaches at all, so the two counts come from different populations. **Already settled structurally from the writers, so do not re-derive:** an epoch may carry SEVERAL approaches (`add_stimulus_approach.m` reads a table of (Epoch, Approach) rows and dedups on (epochid, name); `stimulusDocMaker.m:342-380` takes a cell array of approach strings and emits one document each), and the stimulator is SINGULAR (`probe = S.getprobes('type','stimulator'); probe = probe{1}`) — so the purpose cannot be folded onto the epoch either. |
 
-| 77 | **Regression surfaced by the vocabulary checker: `measurement.m`** | opened 2026-08-09. The checker reports it reading `measurement_class` and `parameters`, and it is NOT on the known-broken list — so by the tool's own contract this is a regression, not a legacy offender. NOT yet verified against the template and the writer, which is the only thing that settles it (the tool's rows are a place to go and read). Do that before touching the migrator. |
 
 ## COMPLETED (kept so the `#nn` numbering stays stable)
+
+**77 — `measurement.m` was NOT a regression (2026-08-09).** Opened the same day from a
+vocabulary-checker row and closed by reading the code, which is the only thing that settles
+one. `measurement.m:69-75` does not READ `measurement_class`/`parameters` — it ERRORS on
+them, exactly as `binnedspikeratevm` errors on `num_bins`. The detector cannot tell a guard
+from a read (both are `isfield(blk, 'name')`), which is what `RESOLVED_BY_GUARD` exists for;
+the entry was simply missing. Added with its reason. **The checker now reports 0 confirmed
+offenders and 0 regressions.** A worked example of the tool's own contract: a row is a place
+to go and read, never an instruction.
 
 **70 — the empty-node backlog is visible and ratcheted (2026-08-09).**
 `tools/check_empty_ontology_nodes.py` sweeps the J migrators for
