@@ -1,0 +1,97 @@
+{
+    "document_class": {
+        "class_name": "harmonic_component",
+        "class_version": "1.0.0",
+        "superclasses": [
+            {
+                "class_name": "data_type"
+            }
+        ],
+        "maturity_level": "draft",
+        "abstract": true
+    },
+    "depends_on": [],
+    "file": [],
+    "fields": [
+        {
+            "name": "value",
+            "type": "structure",
+            "blank_value": {},
+            "default_value": {},
+            "mustBeNonEmpty": true,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "One harmonic of a response to a periodic stimulus, complex, with its control counterpart.",
+            "constraints": {},
+            "fields": [
+                {
+                    "name": "harmonic",
+                    "type": "integer",
+                    "blank_value": 0,
+                    "default_value": 0,
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Which harmonic of the stimulus frequency: 0 = DC, 1 = F1, 2 = F2.",
+                    "constraints": {}
+                },
+                {
+                    "name": "real",
+                    "type": "double",
+                    "blank_value": 0.0,
+                    "default_value": 0.0,
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Real part of the response at this harmonic.",
+                    "constraints": {}
+                },
+                {
+                    "name": "imaginary",
+                    "type": "double",
+                    "blank_value": 0.0,
+                    "default_value": 0.0,
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Imaginary part.",
+                    "constraints": {}
+                },
+                {
+                    "name": "control_real",
+                    "type": "double",
+                    "blank_value": 0.0,
+                    "default_value": 0.0,
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Real part of the CONTROL response, kept beside the response rather than in a separate document: v1 stores them together and a control is meaningless apart from what it controls for.",
+                    "constraints": {}
+                },
+                {
+                    "name": "control_imaginary",
+                    "type": "double",
+                    "blank_value": 0.0,
+                    "default_value": 0.0,
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Imaginary part of the control.",
+                    "constraints": {}
+                }
+            ]
+        }
+    ]
+}

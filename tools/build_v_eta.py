@@ -1502,6 +1502,41 @@ write("draft", "tuning_curve_calculation",
       doc("tuning_curve_calculation", ["subject_calculation", "tuning_curve"],
           maturity="draft"))
 
+# ---------- #61 harmonic_component: the stimulus-response composite ------------------
+# SIGNED. A stimulus response is a HARMONIC of the response at the stimulus
+# frequency -- DC, F1, F2 -- as a complex value, with its control counterpart
+# beside it. v1 spread that across a scalar/vector/tuning zoo whose parameters
+# class carried the LARGEST instance of the invented-empty-edge pattern (11,440
+# documents, the edge declared the wrong way round).
+#
+# ADDITIVE ONLY here: the composite + its calculation leaf. The v1 folds, the
+# recovered `instrument_id`/`derived_from_#` edges and the `axes[] variable:
+# stimulus` reshape are migrator work, and the 3 stimulus tombstones held under
+# #43 ride with them.
+_HARMONIC_SUBS = [
+    subfield("harmonic", "integer",
+             "Which harmonic of the stimulus frequency: 0 = DC, 1 = F1, 2 = F2.",
+             blank=0),
+    subfield("real", "double", "Real part of the response at this harmonic.",
+             blank=0.0),
+    subfield("imaginary", "double", "Imaginary part.", blank=0.0),
+    subfield("control_real", "double",
+             "Real part of the CONTROL response, kept beside the response rather "
+             "than in a separate document: v1 stores them together and a control "
+             "is meaningless apart from what it controls for.", blank=0.0),
+    subfield("control_imaginary", "double", "Imaginary part of the control.",
+             blank=0.0),
+]
+write("draft", "harmonic_component",
+      doc("harmonic_component", ["data_type"], abstract=True, maturity="draft",
+          fields=[field("value", "structure",
+                        "One harmonic of a response to a periodic stimulus, complex, "
+                        "with its control counterpart.",
+                        non_empty=True, blank={}, sub_fields=_HARMONIC_SUBS)]))
+write("draft", "harmonic_component_calculation",
+      doc("harmonic_component_calculation",
+          ["subject_calculation", "harmonic_component"], maturity="draft"))
+
 # ---------- timed_sequence: the stimulus-presentation TARGET (re-audit) --------------
 # V_eta_stimulus_model_plan.md: a stimulus presentation = an ordered, timed list of
 # references to stimulus `data_type` docs. `timed_sequence` (data_type; neutral name so a

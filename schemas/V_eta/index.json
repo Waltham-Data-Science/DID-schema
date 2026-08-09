@@ -1232,6 +1232,29 @@
             "disposition": "persist"
         },
         {
+            "class_name": "harmonic_component",
+            "tier": "draft",
+            "class_version": "1.0.0",
+            "maturity_level": "draft",
+            "superclasses": [
+                "data_type"
+            ],
+            "path": "schemas/V_eta/draft/harmonic_component.json",
+            "disposition": "persist"
+        },
+        {
+            "class_name": "harmonic_component_calculation",
+            "tier": "draft",
+            "class_version": "1.0.0",
+            "maturity_level": "draft",
+            "superclasses": [
+                "subject_calculation",
+                "harmonic_component"
+            ],
+            "path": "schemas/V_eta/draft/harmonic_component_calculation.json",
+            "disposition": "persist"
+        },
+        {
             "class_name": "hartley_calc",
             "tier": "stable",
             "class_version": "2.0.0",
