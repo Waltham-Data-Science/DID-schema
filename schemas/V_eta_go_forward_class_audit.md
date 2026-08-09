@@ -524,3 +524,59 @@ thing that was missing last time.
 Its two other open items are unchanged and tracked elsewhere: `purpose` is a completely
 unbound ontology term, and `interaction_id_#` is one of three numbered edge families
 declared REQUIRED with nothing able to verify them.
+
+### RESOLVED — the 635 approach documents go to `interaction_purpose`. 2026-08-09.
+
+**What the v1 document actually records.** Both writers construct the same three-part
+fact — an approach term, a stimulator, and an EPOCH:
+
+```
+origin/main:+ndi/+setup/+NDIMaker/stimulusDocMaker.m:407-412
+   new_approach = openminds.controlledterms.StimulationApproach('name', ontologyLabel,
+       'preferredOntologyIdentifier', ontologyNode, 'description', OntologyDescription);
+   openMINDSobj2ndi_document(new_approach, session.id, 'stimulus', stimulator_id,
+                             'epochid.epochid', epoch_id);
+
+origin/main:+ndi/+setup/+stimulus/+vhlab/add_stimulus_approach.m:59-65   the same, on probe_id
+```
+
+All 635 are the same type — `openminds_stimulus` count and `StimulationApproach` count
+are both 635 in the walkthrough histogram, so there is no mixed population to split.
+
+**Why `term_assertion` is the wrong tier, decisively.** The assertion branch is TIMELESS
+by construction — `subject_assertion` declares no fields and no edges, and
+`time_reference_#` lives on `subject_interaction`, the OTHER branch. So an assertion
+cannot carry an epoch. Migrating an epoch-scoped fact there does two wrong things at
+once:
+
+1. **It drops the epoch.** `migrators_j/openminds_stimulus.m` copies `base`,
+   `subject_statement` and `term` and nothing else — the `epochid` the writer set is
+   simply gone.
+2. **It asserts something false.** A `term_assertion` on the stimulator says *this
+   device IS-A spatial-frequency-tuning*, timelessly. The same stimulator serves a
+   different approach in the next epoch — which is exactly why v1 scoped the document to
+   an epoch in the first place.
+
+The epoch scoping is the evidence: a property of the device would not need one.
+
+**So the destination is `interaction_purpose`** — the purpose of what was done in that
+epoch with that stimulator, which is what the class says and what the stimulus plan
+already assigned it.
+
+**Consequence for the two defects this touches:**
+
+- **#71 is fixed by RE-TARGETING, not by renaming the dependency.** The migrator reads
+  `stimulus_id` where NDI writes `stimulus_element_id`, producing 635 statements with an
+  empty subject. Correcting the name would produce 635 well-formed statements that are
+  still the wrong tier and still epoch-less. Pass 1 should instead PASS THESE THROUGH,
+  guarded, and emit nothing.
+- **The build is a SECOND PASS,** like the ensemble rosters and the raw-recording
+  observations. `interaction_purpose.interaction_id_#` points at interactions, and the
+  source names an epoch and a device, not interactions — resolving *which interactions
+  happened in epoch E with stimulator P* needs the migrated graph, which a
+  single-document migrator cannot see.
+
+**And this settles `interaction_purpose`'s conditional keep**: its emitter is now a
+concrete pass over 635 real documents, not a hypothetical one. The condition recorded
+above still stands as written, but it is now expected to be met rather than merely hoped
+for.
