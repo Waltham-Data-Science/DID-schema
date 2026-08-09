@@ -937,15 +937,13 @@
       "source": "ndi",
       "nonprod": false,
       "gap": false,
-      "targets": [
-        "term_assertion"
+      "targets": [],
+      "carried": [],
+      "second_pass": [
+        "interaction_purpose"
       ],
-      "carried": [
-        "subject"
-      ],
-      "second_pass": [],
-      "how": "bundled openMINDS entity about a stimulus -> ONE term_assertion on the stimulus-subject (carried); timeless",
-      "target_flags": ""
+      "how": "DEFERRED to the NDI second pass; PASSES THROUGH UNCHANGED. Was a 1->1 term_assertion on the stimulus-subject; that was wrong twice over. It read the referent as `stimulus_id`, a name no did_v1 document has (NDI's template, schema and writer all say `stimulus_element_id`), so all ~635 documents migrated with an EMPTY subject_id. And the assertion tier is TIMELESS -- time_reference_# lives on subject_interaction, the other branch -- so it could not carry the epoch the writer sets, and it asserted that the STIMULATOR is-a spatial-frequency-tuning. The document is an approach term + a stimulator + an epoch; its destination is `interaction_purpose`, which needs the migrated graph to resolve which interactions the purpose covers.",
+      "target_flags": "guarded passthrough: a body carrying a `stimulus_id` dependency is rejected by name"
     },
     {
       "v1_class": "openminds_subject",

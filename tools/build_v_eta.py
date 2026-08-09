@@ -2230,6 +2230,28 @@ _tombstone(
             " proposing a shape from a template alone is what produced the ~2,078"
             " distance_metadata quarantines.")])
 
+# ---- openminds_stimulus: the edge is `stimulus_element_id` ----------------
+# The V_zeta base declared `stimulus_id`, a name NO did_v1 document has. NDI's
+# template AND its schema AND its writer all agree on `stimulus_element_id`:
+#
+#   database_documents/metadata/openminds_stimulus.json  depends_on stimulus_element_id
+#   schema_documents/metadata/openminds_stimulus_schema.json
+#                                       { "name": "stimulus_element_id", "mustbenotempty": 1 }
+#   +ndi/+database/+fun/openMINDSobj2ndi_document.m:58   dependency_name = 'stimulus_element_id';
+#
+# So every one of the ~635 documents carried an edge the tombstone did not
+# declare, while the migrator looked for one that does not exist -- a further
+# instance of the invented-empty-edge pattern (#71). Superclasses already match
+# NDI (base, epochid, openminds); only the edge name was wrong.
+_tombstone(
+    "openminds_stimulus", ["base", "openminds", "epochid"],
+    [dep("stimulus_element_id", "",
+         "The stimulus ELEMENT this openMINDS term describes. Named as NDI's"
+         " template, schema and writer all name it; the earlier `stimulus_id`"
+         " was a DID-side invention that no did_v1 document carries.",
+         non_empty=True)],
+    [])
+
 # ---- stimulus_parameter_table: DEMOTE to deprecated/ ----------------------
 # Decided 2026-08-08 in the stimulus-parameters sign-off review. The team's
 # objection: "it seems weird to pass a bad V1 doc through."

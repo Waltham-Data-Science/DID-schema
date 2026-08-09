@@ -59,7 +59,7 @@
 | `ontologyTableRow` | `term_assertion` + `date_assertion` + `term_observation` + `mass_observation` + `length_observation` + `frequency_observation` + `acceleration_observation` + `velocity_observation` + `duration_observation` + `volume_observation` + `temperature_observation` + `pressure_observation` + `voltage_observation` + `current_observation` + `concentration_observation` + `count_observation` + `score_observation` + `intensity_observation` + `subject` + `session_bounded_reference` + `directed_relation` + `session_relative_reference` · on `subject` | retire | ndi |
 | `openminds` | `openminds` | retire | ndi |
 | `openminds_element` | `term_assertion` · on `subject` | retire | ndi |
-| `openminds_stimulus` | `term_assertion` · on `subject` | retire | ndi |
+| `openminds_stimulus` | `interaction_purpose`* | retire | ndi |
 | `openminds_subject` | `term_assertion` · on `subject` | retire | ndi |
 | `oridirtuning_calc` | `tuning_curve_calculation` + `session_relative_reference` · on `subject` | consumed by migrator (no tombstone) | app |
 | `orientation_direction_tuning` | `tuning_curve_calculation` + `session_relative_reference` · on `subject` | consumed by migrator (no tombstone) | ndi |
