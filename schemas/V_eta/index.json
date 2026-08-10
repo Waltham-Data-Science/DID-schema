@@ -1667,7 +1667,7 @@
             ],
             "path": "schemas/V_eta/stable/ngrid.json",
             "disposition": "in_progress",
-            "disposition_note": "R4: folds into sampled_body (coupled to reverse_correlation RF map)"
+            "disposition_note": "R4: folds into sampled_body. RETIREMENT IS GATED ON BOTH CONSUMERS (#46), not on the RF map alone: ontology_image (#47, second pass -- its only edge is ontologyTableRow_id and a table row is not a subject) and hartley_calc via reverse_correlation (#48, NDIcalc-vis-matlab, out of session scope). The block is now CARRIED VERBATIM by migrators_j/+super/ngrid.m; `coordinates` rides through undeleted until axes[].values exists (#45)"
         },
         {
             "class_name": "oneepoch",

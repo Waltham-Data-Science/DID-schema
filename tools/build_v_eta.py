@@ -5951,11 +5951,39 @@ _KEEP_INFRA = {"daqsystem", "daqreader", "daqmetadatareader",
 # is unaffected), but their fate is DECIDED: they fold or rename. Report `in_progress` with the
 # decided target so the ledger/viewer stops reading a bare `persist` for a class we have
 # already voted to change. The BUILD is coupled/cross-repo work, hence deferred:
-#   - `ngrid` -> `sampled_body` is coupled to `reverse_correlation` (its only consumer, already
-#     `retire`/D-C): the RF map becomes a `sampled_body` value, then `ngrid` has no consumer.
+#   - `ngrid` -> `sampled_body` has TWO consumers, not one. This line used to read
+#     "coupled to `reverse_correlation` (its only consumer, already `retire`/D-C): the RF
+#     map becomes a `sampled_body` value, then `ngrid` has no consumer." That is FALSE, and
+#     it is the sentence `V_eta_ngrid_family_findings.md` F4 says "made `ngrid` look like a
+#     one-class item when it is not". Folding the RF map alone leaves a live consumer, and
+#     deleting `ngrid` on the strength of it would strand every `ontology_image` passthrough
+#     -- the `epochfiles_ingested` regression (2,484 quarantines in corpus B) exactly.
+#     RE-MEASURED against NDI origin/main @ 42c94e5, 2026-08-10:
+#
+#         DENOMINATOR: 91 NDI templates under ndi_common/database_documents,
+#                      all 91 read; 1,467 files on origin/main, 9 mention `ngrid`
+#                      (case-insensitive, bare name -- not one call shape).
+#         templates whose superclasses cite data/ngrid.json:   ontologyImage   (1)
+#         V_eta classes declaring `ngrid` a superclass:        ontology_image,
+#                                                              reverse_correlation
+#                      (243 V_eta class files inspected; hartley_calc reaches it as
+#                       hartley_calc -> hartley_reverse_correlation ->
+#                       reverse_correlation -> ngrid)
+#
+#     So: consumer A = `ontologyImage` (NDI, +setup/+NDIMaker/imageDocMaker.m:121), whose
+#     vintage-B documents PASS THROUGH carrying the block and whose raster's R6 home is a
+#     second-pass `image_observation` (#47) -- its only edge is `ontologyTableRow_id` and a
+#     table row is not a subject. Consumer B = `hartley_calc` (NDIcalc-vis-matlab, #48),
+#     whose repo is out of session scope. NEITHER is folded, so `ngrid` may not be deleted.
 #   - the R5 renames land in cross-repo lockstep with the NDI writers (they emit these strings).
 _DECIDED_PENDING = {
-    "ngrid": "R4: folds into sampled_body (coupled to reverse_correlation RF map)",
+    "ngrid":
+        "R4: folds into sampled_body. RETIREMENT IS GATED ON BOTH CONSUMERS (#46), "
+        "not on the RF map alone: ontology_image (#47, second pass -- its only edge "
+        "is ontologyTableRow_id and a table row is not a subject) and hartley_calc "
+        "via reverse_correlation (#48, NDIcalc-vis-matlab, out of session scope). "
+        "The block is now CARRIED VERBATIM by migrators_j/+super/ngrid.m; "
+        "`coordinates` rides through undeleted until axes[].values exists (#45)",
     # THE TIME-REFERENCE COLLAPSE (#65). Increment 1 built the two targets
     # (absolute_reference, relative_reference); these eight stay until the migrators
     # move, because 24 files emit session_relative_reference, 5 emit

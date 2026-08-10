@@ -1962,3 +1962,97 @@ def test_no_list_valued_field_is_typed_char():
     assert seen > 0, "no classes read -- this sweep would pass vacuously"
     assert not bad, (
         "list-valued fields typed `char` cannot validate; use `string`: %r" % (bad,))
+
+
+def test_ngrid_tombstone_is_the_did_v1_shape_and_carries_coordinates():
+    """#46 gate 2, made EXECUTABLE. The `ngrid` tombstone is restated from the
+    WRITER, and nothing in Python asserted it until now.
+
+    The schema half of that repair (build_v_eta.py) and the migrator half
+    (DID-matlab +migrators_j/+super/ngrid.m) are LOCKSTEP -- either alone
+    quarantines every consumer -- but the migrator half is covered only by
+    `tests/+did2/+unittest/testNgridCoordinates.m`, which has NEVER RUN (there is
+    no MATLAB in the container it was written in). So until this test the entire
+    repair had zero executable coverage, and a re-introduction of the invented
+    names would have gone green.
+
+    did_v1 GROUND TRUTH, NDI origin/main @ 42c94e5 (read 2026-08-10):
+
+        database_documents/data/ngrid.json
+            "ngrid": {data_size, data_type, data_dim, coordinates}
+            superclasses [base];  NO depends_on;  NO files
+        schema_documents/data/ngrid_schema.json  -- the same four, typed
+        the ONLY writer: +ndi/+fun/+data/mat2ngrid.m, which sets exactly those four
+
+    `ndims` and `dim_sizes` are the V_DELTA MIGRATOR'S OUTPUT, not v1 fields;
+    `dim_labels`, the `element_id` dep and `ngrid_file` appear in no NDI template,
+    schema or writer. V_eta declared all five, with `ndims` REQUIRED -- so a real
+    document quarantined on that alone.
+
+    `coordinates` is asserted PRESENT, not landed. Its decided destination is
+    `axes[k].values` (V_eta_image_model_plan.md, TEAM-SIGN-OFF 2026-08-08), which
+    belongs to the data_body tier (#45, blocked on #32). Asserting a home would
+    assert a build that has not happened; asserting the CARRY is what stops the
+    silent deletion coming back.
+    """
+    assert "ngrid" in RECORDS, (
+        "#46 is NOT retirement-ready: both consumers are unfolded, so the "
+        "tombstone must survive -- see test_ngrid_may_not_be_retired_while_consumers_exist")
+    tier, d = RECORDS["ngrid"]
+    fields = {f["name"]: f for f in d.get("fields", [])}
+    assert set(fields) == {"data_size", "data_type", "data_dim", "coordinates"}, (
+        "the tombstone must declare the four did_v1 names and nothing else; got %r"
+        % (sorted(fields),))
+    # the V_delta migrator's output, and the three downstream inventions
+    for invented in ("ndims", "dim_sizes", "dim_labels"):
+        assert invented not in fields, (
+            "%s has no did_v1 existence -- it is V_delta output or a downstream "
+            "invention, and declaring it (REQUIRED, for ndims) quarantines every "
+            "real document" % invented)
+    assert d.get("depends_on") == [], "did_v1 ngrid declares no dependencies"
+    assert d.get("file") == [], (
+        "did_v1 ngrid declares no file of its own -- the CONSUMER does "
+        "(`ontologyImage.ngrid` in ontologyImage.json's file_list)")
+    assert [s["class_name"] for s in d["document_class"]["superclasses"]] == ["base"]
+
+
+def test_ngrid_may_not_be_retired_while_consumers_exist():
+    """#46's GATE, made mechanical instead of remembered.
+
+    `ngrid` retirement is gated on BOTH consumers, and the record has already
+    been wrong about that once: build_v_eta.py called `reverse_correlation`
+    "its only consumer", which is the sentence V_eta_ngrid_family_findings.md F4
+    says made `ngrid` look like a one-class item when it is not.
+
+    Deleting a source tombstone whose documents still arrive is not hypothetical
+    damage: it is the `epochfiles_ingested` regression, 2,484 quarantines in
+    corpus B on a 0-quarantine gate, caused by a rename that bypassed
+    `_DELETE_PHASE8` by removing the file directly. This test closes the same
+    door for `ngrid` -- whichever way a future build removes it.
+
+    The gate is derived from the BUILT SET, so it cannot go stale the way the
+    comment did: if any V_eta class still declares `ngrid` a superclass, those
+    documents reach validation carrying an `ngrid` block, and a missing tombstone
+    means `undeclaredField` on every one of them.
+    """
+    consumers = sorted(
+        name for name, (_t, body) in RECORDS.items()
+        if any(s.get("class_name") == "ngrid"
+               for s in body["document_class"]["superclasses"]))
+    # DENOMINATOR FIRST. Without it this passes when RECORDS is empty.
+    assert len(RECORDS) > 200, f"only {len(RECORDS)} schemas loaded"
+    if "ngrid" not in RECORDS:
+        assert not consumers, (
+            "`ngrid` was retired while %d class(es) still declare it a superclass "
+            "(%s). Retirement is gated on BOTH consumers (#46): ontology_image "
+            "(#47) and hartley_calc via reverse_correlation (#48). Fold them "
+            "first, or every passthrough quarantines on undeclaredField."
+            % (len(consumers), ", ".join(consumers)))
+        return
+    # Today: the gate is CLOSED, and this records who is holding it shut, so a
+    # reader does not have to take the prose's word for the count.
+    assert consumers == ["ontology_image", "reverse_correlation"], (
+        "the ngrid consumer set changed: %r. Re-derive #46's gate before acting "
+        "-- `hartley_calc` reaches ngrid through reverse_correlation, so the "
+        "chain is hartley_calc -> hartley_reverse_correlation -> "
+        "reverse_correlation -> ngrid." % (consumers,))

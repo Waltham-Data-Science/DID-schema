@@ -553,7 +553,7 @@
         ],
         "packages_missing": [],
         "files_read": 137,
-        "lines_read": 18479,
+        "lines_read": 18491,
         "classes_queried": 31,
         "classes_emitted_as_document_class": 5,
         "ref_kinds": [
@@ -1417,8 +1417,8 @@
         "migrator_file": "migrators_j/syncgraph.m",
         "n_consuming_refs": 2,
         "consuming_refs": [
-          "migrators_j/syncgraph.m:116 (guard)",
-          "migrators_j/syncgraph.m:117 (field_read)"
+          "migrators_j/syncgraph.m:128 (guard)",
+          "migrators_j/syncgraph.m:129 (field_read)"
         ],
         "n_emitted_class_refs": 0,
         "emitted_class_refs": [],
