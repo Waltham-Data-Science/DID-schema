@@ -11,10 +11,23 @@ TEAM-SIGN-OFF [misc singletons]: jess, 2026-08-09 -- `binaryseries_parameters` f
 > proposal and sign off on these 3 classes"), 2026-08-09. The standing request that the
 > team type these itself is now three sittings old.
 
-*The go-forward V_eta schema = `stable/` + `draft/` (the tiers CI assembles into
-`DID_SCHEMA_PATH`; `deprecated/` is excluded). **258** classes. This audit gives
+*The go-forward V_eta schema = `stable/` + `draft/`. **258** classes. This audit gives
 **every** one a J-disposition so the whole set can be reviewed for Brainstorm-J
 cohesiveness — not just the families touched piecemeal (D-A…D-E).*
+
+> **CORRECTED 2026-08-10 — that parenthesis conflated the MODEL with the VALIDATION SET,
+> and CI inherited the conflation.** The go-forward MODEL is `stable/` + `draft/`, which is
+> what this audit is about. But `DID_SCHEMA_PATH` is what documents are VALIDATED against,
+> and it now assembles all THREE tiers. `deprecated/` holds exactly the v1 shapes that
+> deliberately pass through unmodelled — `projectvar`, `stimulus_parameter_table`,
+> `image_stack` + `_parameters` — and a passthrough the validator cannot see QUARANTINES,
+> which is the opposite of preserving it. Three of the four had never appeared in a tested
+> corpus, so the defect never fired until the `image_stack` guard turned 4,563 JH documents
+> into passthroughs: corpus run 31421715133 reported `No schema file for class
+> "image_stack"` for every one. All six DID-matlab workflows now copy the tier.
+> The original parenthesis said the tiers "CI assembles into `DID_SCHEMA_PATH`"; that is
+> the sentence that was wrong, and it is removed rather than left standing above its own
+> correction.
 
 > **⚠️ STALE point-in-time snapshot (hand-maintained).** The class count (**258**) and several
 > dispositions predate the post-J builds — the current build is ~200 classes; use the generated

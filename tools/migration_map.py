@@ -40,6 +40,7 @@ Usage:  python3 tools/migration_map.py            # writes the HTML
 
 import argparse
 import html
+import glob
 import json
 import os
 import sys
@@ -49,6 +50,7 @@ REPO = os.path.dirname(HERE)
 SCHEMAS = os.path.join(REPO, "schemas")
 LEDGER = os.path.join(SCHEMAS, "V_eta_coverage_ledger.json")
 TARGETS = os.path.join(SCHEMAS, "V_eta_migration_targets.json")
+VETA = os.path.join(SCHEMAS, "V_eta")
 DECISIONS = os.path.join(SCHEMAS, "V_eta_decisions.json")
 OUT = os.path.join(SCHEMAS, "V_eta_migration_map.html")
 
@@ -65,7 +67,22 @@ def load():
     # that). This page can show both, as long as it labels which is which.
     with open(TARGETS, encoding="utf-8") as fh:
         tgt = json.load(fh).get("classes", {})
-    return rows, dec, tgt
+    # THE TARGET SCHEMAS THEMSELVES. "The schema is unbuilt" turned out to be
+    # false for 58 of 58 named targets -- what is unbuilt is the MIGRATOR. But a
+    # reader could not tell, because the page named a target and never showed it.
+    # So the shape is read straight off the built schema set and rendered.
+    shapes = {}
+    for path in sorted(glob.glob(os.path.join(VETA, "*", "*.json"))):
+        try:
+            with open(path, encoding="utf-8") as fh:
+                j = json.load(fh)
+        except Exception:
+            continue
+        cn = (j.get("document_class") or {}).get("class_name")
+        if cn:
+            j["_tier"] = os.path.basename(os.path.dirname(path))
+            shapes[cn] = j
+    return rows, dec, tgt, shapes
 
 
 def family_index(dec):
@@ -134,18 +151,19 @@ def chip(text, kind):
 
 def render_row(d):
     targets = d["targets"]
+    link = lambda t: '<a class="tlink" href="#cls-%s"><code>%s</code></a>' % (E(t), E(t))
     if targets:
-        becomes = " + ".join('<code>%s</code>' % E(t) for t in targets)
+        becomes = " + ".join(link(t) for t in targets)
     elif d["second_pass"]:
         becomes = ("<em>deferred to the NDI second pass &rarr;</em> "
-                   + " + ".join('<code>%s</code>' % E(t) for t in d["second_pass"]))
+                   + " + ".join(link(t) for t in d["second_pass"]))
     elif d["decided_targets"]:
         # "WILL BECOME", never "becomes". These come from `decided_targets` in the
         # curated map -- a signed decision that no migrator implements yet -- and
         # rendering them in the same voice as an emitted target is precisely how a
         # migration reads as further along than it is.
         becomes = ('<span class="willbe">will become</span> '
-                   + " + ".join('<code>%s</code>' % E(t) for t in d["decided_targets"]))
+                   + " + ".join(link(t) for t in d["decided_targets"]))
     else:
         becomes = '<em class="muted">no target recorded</em>'
 
@@ -206,6 +224,45 @@ def render_row(d):
     )
 
 
+def render_shape(cn, j):
+    """One target class, as it is actually declared on disk."""
+    dc = j.get("document_class") or {}
+    supers = [x.get("class_name") for x in dc.get("superclasses") or []]
+    deps, fields = j.get("depends_on") or [], j.get("fields") or []
+    parts = []
+    parts.append('<article class="shape" id="cls-%s" data-name="%s">' % (E(cn), E(cn.lower())))
+    parts.append('<h3><code>%s</code> %s%s</h3>' % (
+        E(cn), chip(j.get("_tier", "?"), "plain"),
+        chip("abstract", "warn") if dc.get("abstract") else ""))
+    if supers:
+        parts.append('<div class="sub"><span class="k">inherits</span> %s</div>'
+                     % " &larr; ".join('<code>%s</code>' % E(x) for x in supers))
+    if deps:
+        parts.append('<div class="sub"><span class="k">edges</span></div><ul class="decl">')
+        for x in deps:
+            parts.append('<li><code>%s</code> &rarr; <code>%s</code>%s</li>' % (
+                E(x.get("name", "?")), E(x.get("must_refer_to_document_class") or "any"),
+                ' <span class="req">required</span>' if x.get("mustBeNonEmpty") else ""))
+        parts.append("</ul>")
+    if fields:
+        parts.append('<div class="sub"><span class="k">fields</span></div><ul class="decl">')
+        for f in fields:
+            sub = f.get("fields") or []
+            inner = ("" if not sub else
+                     " <span class=\"muted\">{ %s }</span>"
+                     % ", ".join(E(x.get("name", "?")) for x in sub))
+            parts.append('<li><code>%s</code> <span class="ty">%s</span>%s%s</li>' % (
+                E(f.get("name", "?")), E(f.get("type", "?")),
+                ' <span class="req">required</span>' if f.get("mustBeNonEmpty") else "",
+                inner))
+        parts.append("</ul>")
+    if not deps and not fields:
+        parts.append('<div class="sub muted">No edges or fields of its own — '
+                     'it contributes structure through its ancestors.</div>')
+    parts.append("</article>")
+    return "\n".join(parts)
+
+
 BUCKETS = [
     ("per-class", "Answered class by class",
      "A one-line account written for this class specifically. THE ACCOUNT AND THE "
@@ -232,9 +289,20 @@ BUCKETS = [
 ]
 
 
-def render(rows, counts, dec):
+def render(rows, counts, dec, shapes):
     signed = sum(1 for f in dec.get("families", []) if f.get("state") == "signed_awaiting_build")
     famtotal = len(dec.get("families", []))
+
+    named = set()
+    for d in rows:
+        named |= set(d["targets"]) | set(d["decided_targets"]) | set(d["second_pass"])
+    have = sorted(n for n in named if n in shapes)
+    missing = sorted(n for n in named if n not in shapes)
+    appendix = "\n".join(render_shape(n, shapes[n]) for n in have)
+    miss_note = ("" if not missing else
+                 '<p class="note"><strong>%d named target(s) have NO built schema:</strong> %s. '
+                 'A row that names one is pointing at something that does not exist yet.</p>'
+                 % (len(missing), ", ".join("<code>%s</code>" % E(x) for x in missing)))
 
     sections = []
     for key, title, blurb in BUCKETS:
@@ -358,6 +426,18 @@ code { font-family: var(--mono); font-size:.85em; background: var(--code-bg);
 .row__id code { background:none; padding:0; font-size:1rem; font-weight:600; color: var(--ink); }
 .becomes { margin-bottom:.5rem; }
 .willbe { font-style:italic; color: var(--warn); }
+.tlink { text-decoration:none; border-bottom:1px dotted var(--accent); }
+.tlink:focus-visible { outline:2px solid var(--accent); outline-offset:2px; }
+.shape { padding:1rem 0; border-bottom:1px solid var(--rule); }
+.shape h3 { margin:0 0 .5rem; font-size:1rem; display:flex; gap:.5rem;
+            align-items:center; flex-wrap:wrap; }
+.shape h3 code { background:none; padding:0; font-size:1rem; font-weight:600; }
+ul.decl { margin:.25rem 0 .6rem; padding-left:1.1rem; font-size:.88rem;
+          color: var(--ink-soft); }
+ul.decl li { margin:.12rem 0; }
+.ty { font-family: var(--mono); font-size:.75rem; color: var(--accent); }
+.req { font-family: var(--mono); font-size:.66rem; letter-spacing:.05em;
+       color: var(--open); }
 .k { font-family: var(--mono); font-size:.7rem; letter-spacing:.1em;
      text-transform:uppercase; color: var(--ink-faint); margin-right:.5rem; }
 .account { font-size:.94rem; color: var(--ink); }
@@ -419,6 +499,20 @@ work at the same time. Every row carries both states.</p>
 
 @SECTIONS@
 
+<section class="bucket" id="shapes">
+  <header class="bucket__head">
+    <h2>What the target classes actually look like</h2>
+    <p class="bucket__count"><strong>@HAVE@</strong> of @NAMED@ named targets are built and checked in</p>
+    <p class="bucket__blurb">Every class named above, as it is declared on disk today &mdash;
+    its edges, its fields, and which it requires. This is the part people mean by
+    &ldquo;can we see the new schema?&rdquo;, and the answer is mostly yes: the V_eta
+    target classes EXIST. What is unbuilt on the 39 rows above is the migrator, not
+    the schema it would write into.</p>
+    @MISSNOTE@
+  </header>
+  @APPENDIX@
+</section>
+
 <footer>
   Generated by <code>tools/migration_map.py</code> from
   <code>V_eta_coverage_ledger.json</code> and <code>V_eta_decisions.json</code>.
@@ -455,6 +549,10 @@ work at the same time. Every row carries both states.</p>
         "@SIGNED@":   str(signed),
         "@FAMTOTAL@": str(famtotal),
         "@NOMIG@":    str(counts["total"] - counts["migrator"]),
+        "@APPENDIX@": appendix,
+        "@HAVE@":     str(len(have)),
+        "@NAMED@":    str(len(named)),
+        "@MISSNOTE@": miss_note,
         "@SECTIONS@": "\n".join(sections),
     }
     for k, v in subs.items():
@@ -468,7 +566,7 @@ def main():
                     help="exit non-zero if the checked-in page is stale")
     args = ap.parse_args()
 
-    rows, dec, tgt = load()
+    rows, dec, tgt, shapes = load()
     fams = family_index(dec)
     classified, counts = classify(rows, fams, tgt)
 
@@ -483,7 +581,7 @@ def main():
     print("  decided, family-level only   : %d" % counts["family"])
     print("  no decision on record        : %d" % counts["none"])
 
-    page = render(classified, counts, dec)
+    page = render(classified, counts, dec, shapes)
     if args.check:
         if not os.path.exists(OUT):
             print("STALE: %s does not exist" % os.path.relpath(OUT, REPO))

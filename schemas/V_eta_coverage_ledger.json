@@ -483,7 +483,7 @@
       "carried": [],
       "second_pass": [],
       "how": "Becomes a GROUP SUBJECT with its id preserved and NO data body of its own. The per-neuron spike times are the primary archival data (one `sampled_body` per neuron-subject); membership becomes EPOCH-SCOPED `member_of` edges carrying their epoch and column order; and the combined (times, ids) array is kept as an explicitly DERIVED, rebuildable CACHE for fast windowed population reads, not as source of truth. The per-epoch MAP document dissolves.",
-      "target_flags": "DECIDED AND SIGNED, BUILD NOT DONE. The migrator does not do this yet; the document passes through today. Sequenced: pass 1 is a green passthrough, the second pass mints member_of and builds the cache, and a verify-before-delete (0 stranded per-neuron trains) gates dropping the combined bytes. NOTE the roster does NOT need file bytes -- `neuron_id_#` edges already carry it (ensemble.m:274-276)."
+      "target_flags": "DECIDED AND SIGNED, BUILD NOT DONE. The migrator does not do this yet; the document passes through today. Sequenced: pass 1 is a green passthrough, the second pass mints member_of and builds the cache, and a verify-before-delete (0 stranded per-neuron trains) gates dropping the combined bytes. NOTE the roster does NOT need file bytes -- `neuron_id_#` edges already carry it (ensemble.m:274-276). CORRECTED 2026-08-10: this entry first named `member_of` as a target CLASS. It is not one -- it is a relation TERM on `directed_relation` (declared in its `relation` enum alongside part_of/contained_in). Naming a term as a class made the ledger point at a schema that does not exist and never will."
     },
     {
       "v1_class": "epochclocktimes",
