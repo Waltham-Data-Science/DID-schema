@@ -443,9 +443,13 @@ lives in these files — read them instead of re-deriving from memory:
   **Coverage ledger** panel (`web/src/Coverage.tsx`) renders the `.json`
   (sync-schemas copies it to `public/coverage.json`).
 - PHASE-8 DELETION (started): `build_v_eta.py` `_DELETE_PHASE8` physically removes
-  fully-consumed source tombstones from the built set (now 17 deleted). A class qualifies
+  fully-consumed source tombstones from the built set (**15 deleted** — this line said 17
+  until 2026-08-10, when `image_stack` and `image_stack_parameters` were RESTORED by team
+  decision; re-derive with `_DELETE_PHASE8` rather than trusting any number written here).
+  A class qualifies
   ONLY if its docs cannot survive migration: (a) a COMPLETED migrators_i dissolver
-  (treatment family, virus_injection, subject_group, image_stack+params), (b)
+  (treatment family, virus_injection, subject_group — image_stack+params USED to be in
+  this list and are deliberately no longer), (b)
   abstract/unminted in J (the 3 series-observation classes), or (c) a COMPLETED
   calculator composite-leaf fold — the 7 vision-calculator WRAPPERS (oridirtuning_calc,
   contrast_tuning_calc, spatial_/temporal_frequency_tuning_calc, speed_tuning_calc,
@@ -463,7 +467,11 @@ lives in these files — read them instead of re-deriving from memory:
   **RE-AUDITED 2026-08-09, prompted by the `image_stack` husk.** The criterion asks whether
   a class's documents can SURVIVE migration — and `image_stack` satisfies it literally (every
   document is consumed) while 4,563 of them become observations about nobody. The criterion
-  tests DISAPPEARANCE, not what replaces them. Re-checked all 17 against the census:
+  tests DISAPPEARANCE, not what replaces them. Re-checked all 17 against the census — and
+  the audit below is the LAST STATE OF THE 17-CLASS SET, kept because its reasoning is what
+  led to restoring two of them. **The set is now 15**: `image_stack` and
+  `image_stack_parameters` were removed from `_DELETE_PHASE8`, which is exactly the outcome
+  the row below argued for. HISTORICAL-SIGNOFF-CLAIM.
 
         DENOMINATOR: 17 deleted classes; 14 have a ledger row + a migrator,
                      3 have NO row (dataseries_/imageseries_/timeseries_observation
@@ -766,6 +774,40 @@ lives in these files — read them instead of re-deriving from memory:
   `image_stack` and `image_stack_parameters` are phase-8 DELETED, so passing a document
   through gives it no schema to validate against — 4,563 quarantines, the
   `epochfiles_ingested` regression exactly. Needs a team call, not a build.
+
+  **THE TEAM CALL WAS MADE AND THE BUILD LANDED. The paragraph above is history — do not
+  act on it.** Team decision 2026-08-10, verbatim: *"You can do option A now, C later for
+  the E. coli images."* Option A = reverse the phase-8 deletion so the subject-less arm
+  passes through; option C = resolve the subject in the NDI second pass, still deferred.
+  Both classes are OUT of `_DELETE_PHASE8` (commit `49ba381`), their tombstones build into
+  `deprecated/`, the guard is live at `migrators_j/image_stack.m:78`, and NOTHING is
+  required on either tombstone — both deps optional, zero required fields — so a
+  subject-less document cannot trip `mustBeNonEmpty`.
+
+  **This entry is corrected in the DANGEROUS direction, which is why it is spelled out
+  rather than deleted:** left standing, it reads as an argument for re-deleting two classes
+  that were deliberately restored, and it would be read by someone tidying `_DELETE_PHASE8`.
+  The phase-8 count in the section above is likewise stale — **15, not 17**.
+
+  **A REAL DEFECT WAS FOUND IN THE RESTORED TOMBSTONE, 2026-08-10.** It declared file
+  `imagestack_file`; NDI writes **`imageStack`** — template `"file_list": ["imageStack"]`,
+  and `add_file('imageStack', ...)` at all EIGHT attachment sites (`haley/doImport.m`
+  441/469/485/504/797/815/831, `babu/import.m:483`), no exceptions. The restatement took
+  deps and fields from NDI and then snake_cased the one part a passthrough carries
+  VERBATIM: `universalRenames.m:308` skips the structural keys outright
+  (`skip = {'document_class','depends_on','file','files'}`). So the tombstone declared a
+  file no document has WHILE the file every document has was undeclared — both directions
+  of the file audit at once, on every passed-through JH document.
+
+        DENOMINATOR: 91 NDI templates read from origin/main; 19 V_eta schemas
+                     declare a file; 1 mismatch among classes with a did_v1
+                     template -- image_stack.
+
+  Nothing was looking: `fileList.m` compares by exact `strcmp` (`:93,99`),
+  `check_tombstones.py` does not compare files at all, and every `image_stack` fixture in
+  `testTemplateLiteralTypeTraps.m` is built without a `files` block. A green tombstone run
+  and four green MATLAB tests all missed it. **When restating a tombstone, the `file` block
+  is did_v1 spelling like the rest — it is not renamed on the way through.**
 
 - **THE INVENTED-EMPTY-EDGE PATTERN — the historical row set, KEPT FOR ITS SHAPE, NOT ITS
   NUMBERS.** It read "26,406 documents across FIVE classes from the census, plus a SIXTH
