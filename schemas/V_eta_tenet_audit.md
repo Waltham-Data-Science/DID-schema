@@ -387,6 +387,46 @@ viewer says *why* something is WIP.
 
 ### Deferred follow-up — binding governance (T8) — AFTER the current WIP items
 
+> **DECIDED BY THE TEAM, 2026-08-10 — increment 1 BUILT. Read this before the
+> analysis below, which is the state that prompted the decision, not the state now.**
+>
+> The team's words, in two parts: **"preferred first, strength on the field"**, then
+> **"C for now"**.
+>
+> 1. **`subject_statement.variable`, `subject_interaction.method` and
+>    `interaction_purpose.purpose` now carry `binding: {strength: "preferred"}`.**
+>    All three were `constraints = {}` while `term.value` resolves `keyed_by:
+>    variable` — the key the system pivots on was the one thing nothing required
+>    to resolve.
+> 2. **`preferred`, not `required`, and deliberately staged.** Nothing has measured
+>    how many real documents would fail a required binding, and flipping blind on a
+>    0-quarantine gate is what produced 2,484 corpus-B quarantines. `required` is
+>    the intended end state, after a corpus run counts the exposure.
+> 3. **Strength is authoritative ON THE FIELD.** The registry keeps its rows; where
+>    both state a strength they must agree, and `test_field_and_registry_strengths_agree`
+>    now enforces that. The three `dataset` fields had been storing the same fact
+>    twice and agreeing by coincidence.
+> 4. **No admissible set is named yet (option C).** The meta-schema offers an
+>    ontology subtree or a static enumeration and neither is decided for these
+>    fields; the registry's `subject_statement_bindings` answer a different question
+>    (given `variable = species`, what may the VALUE be). A test asserts the binding
+>    has ONLY `strength`, so adding a root node stays a deliberate decision rather
+>    than arriving silently.
+>
+> **CORRECTION to the analysis below.** It says "all 5 registry entries have
+> `strength: null`" and "only SIX fields carry a binding". The first is CORRECT —
+> those are the 5 `subject_statement_bindings`, none of which carry the key. The
+> second was stale: EIGHT fields carried one before this increment (the two
+> `frequency_filter` fields were added later), and eleven do now. A claim that the
+> registry "has never been populated" was made in conversation on 2026-08-09 and was
+> FALSE — it holds 34 rows (5 + 26 + 3); that claim came from searching for separate
+> registry instance documents and reading their absence as evidence.
+>
+> STILL OPEN: naming the admissible set (option A, an ontology subtree, needs a root
+> node per field; or option B, a static enumeration), and promoting `preferred` to
+> `required` once a corpus has counted the exposure.
+
+
 Surfaced while resolving finding B, and deliberately **not** folded into it: the `term`
 composite's binding is one field, but the binding *system* has two unresolved questions.
 Evidence as built (re-derive with a walk over `constraints.binding`):

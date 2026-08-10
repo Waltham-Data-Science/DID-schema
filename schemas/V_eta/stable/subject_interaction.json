@@ -57,7 +57,11 @@
             "queryable": true,
             "ontology": null,
             "documentation": "The verb: what was done (measure, inject, heat, stimulate). Present only on interactions; optional (the observation verb is nearly always 'measurement').",
-            "constraints": {},
+            "constraints": {
+                "binding": {
+                    "strength": "preferred"
+                }
+            },
             "fields": [
                 {
                     "name": "node",

@@ -38,7 +38,11 @@
             "queryable": true,
             "ontology": null,
             "documentation": "The ontology-based 'why' of the interaction(s).",
-            "constraints": {},
+            "constraints": {
+                "binding": {
+                    "strength": "preferred"
+                }
+            },
             "fields": [
                 {
                     "name": "node",

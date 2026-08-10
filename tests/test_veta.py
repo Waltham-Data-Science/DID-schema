@@ -1516,3 +1516,83 @@ def test_uncurated_stays_at_zero():
         "the row by READING THE MIGRATOR, never by copying what a plan intends.")
     # the denominator, so a sweep that silently stopped classifying is visible
     assert len(rows) > 0 and any(r["target_source"] == "emitted" for r in rows)
+
+
+# ---------------------------------------------------------------------------
+# #32 binding governance, increment 1 (team decision 2026-08-10: "preferred
+# first, strength on the field", then "C for now" -- strength only, no
+# admissible set named yet).
+# ---------------------------------------------------------------------------
+
+_PIVOT_BINDINGS = [
+    ("subject_statement", "variable"),
+    ("subject_interaction", "method"),
+    ("interaction_purpose", "purpose"),
+]
+
+
+def test_the_three_pivot_fields_are_bound_at_preferred():
+    """`term.value` resolves keyed_by `variable`, so the key deciding what every
+    term value may be must itself be governed. All three carried
+    `constraints = {}` until this landed."""
+    for cls, fname in _PIVOT_BINDINGS:
+        _tier, d = RECORDS[cls]
+        hit = [f for f in d["fields"] if f["name"] == fname]
+        assert hit, f"{cls} declares no field {fname!r}"
+        b = (hit[0].get("constraints") or {}).get("binding")
+        assert b, f"{cls}.{fname} carries no binding"
+        assert b["strength"] == "preferred", (
+            f"{cls}.{fname} is {b['strength']!r}. `required` is the INTENDED end "
+            "state but must not be set until a corpus has measured how many real "
+            "documents would fail it -- flipping blind on a 0-quarantine gate is "
+            "what produced 2,484 corpus-B quarantines.")
+
+
+def test_the_pivot_bindings_name_no_admissible_set_yet():
+    """Option C, deliberately: strength only.
+
+    The meta-schema offers exactly two ways to name an admissible set -- an
+    ontology subtree (`ontology` + `root_node`) or a static `values`
+    enumeration -- and neither is decided for these fields. The registry's
+    subject_statement_bindings answer a DIFFERENT question (given
+    variable = species, what may the VALUE be). Asserting the absence keeps a
+    later guess from arriving silently: adding a root node is a decision, and
+    this test makes it one that has to be taken deliberately.
+    """
+    for cls, fname in _PIVOT_BINDINGS:
+        _tier, d = RECORDS[cls]
+        fld = next(f for f in d["fields"] if f["name"] == fname)
+        b = fld["constraints"]["binding"]
+        assert set(b) == {"strength"}, (
+            f"{cls}.{fname} binding grew keys {sorted(set(b) - {'strength'})}. "
+            "Naming an admissible set is a separate decision (option A or B).")
+
+
+def test_field_and_registry_strengths_agree():
+    """Strength is authoritative ON THE FIELD (team, 2026-08-10) -- and three
+    facts are nonetheless stored twice.
+
+    dataset.accessibility / ethics_assessment / experimental_approach state
+    their strength both in the field constraint and in the registry's
+    entity_field_bindings. They agree today, but nothing checked them against
+    each other, so they agreed by coincidence. This makes it by construction.
+    """
+    # NOT in RECORDS: the registry is a meta file with no `document_class`, so
+    # it is not a schema record. Load it by path.
+    with open(os.path.join(VETA, "stable", "binding_registry_meta.json")) as fh:
+        reg = json.load(fh)
+    efb = {(r["class"], r["field"]): r.get("strength")
+           for r in reg["entity_field_bindings"]}
+    assert efb, "no entity_field_bindings rows -- this check would verify nothing"
+    checked = 0
+    for (cls, fname), reg_strength in efb.items():
+        _t, d = RECORDS[cls]
+        hit = [f for f in d["fields"] if f["name"] == fname]
+        assert hit, f"registry names {cls}.{fname}, which the schema does not declare"
+        b = (hit[0].get("constraints") or {}).get("binding") or {}
+        assert b.get("strength") == reg_strength, (
+            f"{cls}.{fname}: field says {b.get('strength')!r}, registry says "
+            f"{reg_strength!r}. The FIELD is authoritative; update the registry "
+            "row to match, or drop it.")
+        checked += 1
+    assert checked == len(efb)

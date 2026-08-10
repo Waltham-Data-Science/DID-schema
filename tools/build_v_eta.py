@@ -938,6 +938,58 @@ write("stable", "acquisition_system", doc("acquisition_system", ["entity"],
               "The companion-spreadsheet reader(s), if any.",
               non_empty=False, multiple=True)]))
 
+# ---- #32 BINDING GOVERNANCE, increment 1: bind the three pivot fields -------
+# TEAM DECISION 2026-08-10, in two parts:
+#   "preferred first, strength on the field"   -- the staging and the authority
+#   "C for now"                                -- strength ONLY, no admissible
+#                                                 set named yet
+#
+# WHY THESE THREE. `term.value` is bound `keyed_by: variable`, so the admissible
+# values of every term depend on `variable` -- and `variable` itself carried
+# `constraints = {}`. The key the whole system pivots on was the one thing
+# nothing required to resolve, which is how the same concept can be spelled two
+# ways in two datasets and store as two different facts (the drift test in
+# V_eta_openminds_family_record.md Part 3). `method` and `purpose` are the same
+# shape: unbound ontology_term fields that T8 says the registry governs.
+#
+# WHY `preferred` AND NOT `required`. Nothing measures how many real documents
+# would fail a required binding, and flipping blind on a 0-quarantine gate is
+# what produced 2,484 corpus-B quarantines when the epoch schema half landed.
+# `preferred` costs nothing today, states the intent declaratively, and makes
+# the exposure countable BEFORE anyone chooses to fail on it.
+#
+# WHY NO `ontology`/`root_node`/`values` YET (option C). The meta-schema offers
+# exactly two ways to name an admissible set -- an ontology subtree, or a static
+# enumeration -- and NEITHER is decided for these fields. The registry's
+# `subject_statement_bindings` rows answer a DIFFERENT question ("given
+# variable = species, what may the VALUE be"), not what `variable` itself may
+# be. Inventing a root node here would be the fabrication this repair track
+# exists to remove, so the binding declares its strength and stops.
+#
+# WHAT THIS IS NOT. `binding` is not enforced: validateConstraints
+# (+did2/+schema/cache.m:1025) handles maxLength/minLength/minimum/maximum/enum
+# and lets every other key fall through `otherwise`. These are declarative today
+# -- which is exactly why the cost of getting them right is lowest now.
+_BIND_PREFERRED = [
+    ("subject_statement", "variable"),
+    ("subject_interaction", "method"),
+    ("interaction_purpose", "purpose"),
+]
+for _cls, _fname in _BIND_PREFERRED:
+    _t, _p = path_of(_cls)
+    if _t is None:
+        raise SystemExit("#32: no V_eta schema named %r" % _cls)
+    _d = load(_p)
+    _hit = [f for f in _d.get("fields", []) if f["name"] == _fname]
+    if not _hit:
+        raise SystemExit("#32: %s declares no field %r" % (_cls, _fname))
+    _f = _hit[0]
+    if _f["type"] != "ontology_term":
+        raise SystemExit("#32: %s.%s is %r, not ontology_term"
+                         % (_cls, _fname, _f["type"]))
+    _f.setdefault("constraints", {})["binding"] = {"strength": "preferred"}
+    write(_t, _cls, _d)
+
 # ---- #56: `strain` is an ENTITY, and term_assertion may point at one --------
 # Team call 2026-08-05 (V_eta_openminds_family_record.md Part 6). `entity` was
 # chosen over a plain `base` document because it supplies `global_identifier` as
