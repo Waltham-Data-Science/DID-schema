@@ -108,7 +108,7 @@ FAMILIES = [
      "image_stack tombstones are held until the subject is recoverable",
      "team"),
 
-    # DECIDED with the team 2026-08-05 ("I agree with B"), no signature yet.
+    # DECIDED with the team 2026-08-05 ("I agree with B"); SIGNED 2026-08-08.
     # epochid turned out NOT to be a disposal question: it is the JOIN MECHANISM
     # for the epoch-scoped half of the database -- 15 NDI classes carry the mixin
     # and 11+ live sites match epochid.epochid by exact_string. Third time this
@@ -117,8 +117,13 @@ FAMILIES = [
     # replaces. It is claimed here rather than deleted: the rename removed the
     # schema file outright and 2,484 corpus-B documents then had no class to
     # validate against. It leaves when #60's migrator consumes it.
-    ("epoch", ["acquisition_epoch", "epochid", "epochfiles_ingested",
-               "ingestion_manifest"],
+    # `ingestion_manifest` was ALSO listed here and has been pruned (2026-08-10).
+    # The family list enumerates OPEN classes; `ingestion_manifest` is the settled
+    # TARGET (`disposition: persist` in index.json), so listing it made the board
+    # report its own resolved output as outstanding work -- and the board's
+    # "families naming classes that are no longer open" section had been saying so.
+    # The three that remain are all `in_progress`.
+    ("epoch", ["acquisition_epoch", "epochid", "epochfiles_ingested"],
      "V_eta_epoch_plan.md",
      "MINT `epoch` ENTITY (+ OPTIONAL `instrument_id`, 2026-08-06); element_epoch "
      "dissolves; epochid DROPPED; probemap -> edges (B)",
@@ -127,7 +132,7 @@ FAMILIES = [
     # Split by the templates, not by the name prefix: three are a MATLAB class
     # name (configuration), three carry real epoch data or bytes, and one is not
     # on origin/main at all.
-    # DECIDED with the team 2026-08-05, no signature yet. The earlier "not
+    # DECIDED with the team 2026-08-05; SIGNED 2026-08-08. The earlier "not
     # archival" proposal was WRONG and is reversed in place: daqsystem.base.name
     # is a join key referenced BY NAME (epochprobemap devicestring, syncrule
     # parameters), which a depends_on check cannot see.
@@ -174,7 +179,7 @@ FAMILIES = [
     # parameters (runtime configuration), while syncrule_mapping carries the
     # COMPUTED epoch-to-epoch clock relationship -- real data, and the shape the
     # time model already covers.
-    # DECIDED with the team 2026-08-05, no signature yet. The earlier "not
+    # DECIDED with the team 2026-08-05; SIGNED 2026-08-08. The earlier "not
     # archival" proposal was WRONG the same way the daq one was: syncrule_mapping
     # references BOTH syncgraph_id and syncrule_id by edge, so dissolving either
     # dangles it. A live query (syncgraph.m:404-408) also reads fields V_eta has
@@ -199,7 +204,7 @@ FAMILIES = [
     # What IS established is negative and evidence-backed: the old "folds into
     # relative_reference" claim FAILS (two referents / two frames / an affine
     # transform is not a position on a timeline). clock_alignment is a PROPOSAL.
-    # DECIDED with the team 2026-08-06 ("Record the whole cluster"), no signature yet.
+    # DECIDED with the team 2026-08-06 ("Record the whole cluster"); SIGNED 2026-08-08.
     # syncrule_mapping -> `clock_alignment` (base.id preserved), a relation whose value
     # comes from a new `polynomial` data_type -- NOT {slope,intercept}, because
     # ndi.time.timemapping IS a polynomial by its own docstring and a 2-field shape
@@ -268,7 +273,7 @@ FAMILIES = [
     # decided without the frequency_filter model it should reference.
     # vmspikefilteringparameters also mixes in `spiketimes` -- OUTPUT data sitting in
     # a parameters class.
-    # DECIDED with the team 2026-08-05 (option C), no signature yet. Four classes
+    # DECIDED with the team 2026-08-05 (option C); SIGNED 2026-08-09. Four classes
     # collapse to ONE `method_parameters` document -- named for the inline field it
     # is the shared-cardinality form of. The canonical parts (filter, threshold,
     # waveform window, refractory period) get TYPED; the idiosyncratic remainder is
@@ -284,7 +289,7 @@ FAMILIES = [
     # flattened into one `string` field. Both hang off stimulus_element_id. The
     # stimulus model plan was checked and does NOT mention either class, so "folds
     # with the stimulus model" was an assumption, not a fact.
-    # DECIDED with the team 2026-08-06 (A + C), no signature yet. stimulus_parameter
+    # DECIDED with the team 2026-08-06 (A + C); SIGNED 2026-08-08. stimulus_parameter
     # DISSOLVES: it is already a J statement (element -> subject, ontology_name ->
     # variable.node, name -> variable.name, value, epoch anchor), the leaf keyed by
     # the CURIE through D9 -- the Marder documents land as temperature_manipulation.
@@ -306,7 +311,7 @@ FAMILIES = [
     # calculators consumed. The two live classes sat OUTSIDE the J tier system
     # entirely (⊂ base, no direction, no data_type): a V_zeta carry-over that never
     # had a walkthrough.
-    # DECIDED with the team 2026-08-06, no signature yet. 4 classes -> 2: a
+    # DECIDED with the team 2026-08-06; SIGNED 2026-08-08. 4 classes -> 2: a
     # `harmonic_component` data_type (harmonic 0 = DC/mean, so v1's three
     # response_types are ONE field at three values) + a `harmonic_component_
     # calculation` leaf, id preserved. The parameters class FOLDS inline --
