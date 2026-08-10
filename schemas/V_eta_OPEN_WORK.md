@@ -657,7 +657,7 @@ test is asserting the behaviour being replaced — the third instance of this pa
 
 | what | where | consequence |
 |---|---|---|
-| `timed_sequence` is `"abstract": true` | `V_eta/draft/timed_sequence.json` | `cache.m` raises `abstractInstantiation`, so the signed stimulus plan's own worked example — a standalone `timed_sequence` document — **cannot be instantiated**. The signed multi-subject `storage_mode: reference` case is unimplementable until the flag comes off. |
+| `timed_sequence` is `"abstract": true` | `V_eta/draft/timed_sequence.json` | `cache.m` raises `abstractInstantiation`, so the signed stimulus plan's own worked example — a standalone `timed_sequence` document — **cannot be instantiated**, and the signed multi-subject `storage_mode: reference` case is unimplementable. **BUT THE ONE-WORD FIX IS WRONG — see the correction directly below. This is a TEAM CALL, not a build.** |
 | `is_cache` exists in NO schema | only in `V_eta_tenets.md`, `V_eta_tenet_audit.md`, `V_eta_ensemble_plan.md` | the ensemble's rebuildable-cache half cannot be declared. |
 | `directed_relation` has no `epoch_id` slot, and no migrator mints an `epoch` | `directed_relation` declares exactly `child`, `parent`, `time_reference_#` | the ensemble's `member_of` edges **cannot be epoch-scoped**, so the per-epoch MAP document cannot be consumed and stays a passthrough. |
 | `method_parameters` has no `filter_id` edge | its `depends_on` is `['software_id','subject_id','epoch_id','derived_from_id']` | the spike-parameters plan's prose says filter settings leave via `filter_id`; the artifact says there is no such edge. **The artifact wins** — the settings are grouped whole under `other.filter` instead, and nothing was invented. |
@@ -704,3 +704,61 @@ test is asserting the behaviour being replaced — the third instance of this pa
   Per the standing rule this is NOT evidence it is unused; it now has a migrator regardless.
 - **v1 has no spelling for a notch filter.** `band_stop` / `stopband` cannot be emitted, so
   `jFrequencyFilter` does not pretend to. FIR taps and windows likewise have no home.
+
+---
+
+## CORRECTION 2026-08-10 — "just un-abstract `timed_sequence`" is WRONG, and it is a TEAM CALL
+
+The stimulus agent reported that `timed_sequence` is `"abstract": true` and therefore the
+signed plan's own worked example cannot be instantiated. **That half is correct and it is a
+real blocker.** The implied fix — take the flag off — is not, and it would have been a
+one-word change that quietly broke a system-wide convention. Measured before touching it:
+
+```
+DENOMINATOR: 40 classes declaring `data_type` as a direct superclass
+   abstract : 40   acceleration, amount, angle, angular_velocity, area, capacitance,
+                   charge, chemical, concentration, conductance, contrast_sensitivity,
+                   count, current, date, dose, duration, energy, force, formulation,
+                   frequency, gain, harmonic_component, image, intensity, length, mass,
+                   ph, polynomial, score, temperature, term, TIMED_SEQUENCE, tuning_curve,
+                   velocity, visual_grating, voltage, volume, pressure, power, resistance
+   concrete :  0
+```
+
+**Every single data_type composite is abstract. There are no exceptions today.** They are
+MIXINS: a quantity is instantiated through a concrete leaf that mixes it in
+(`voltage` → `voltage_observation`, `image` → `image_observation`/`image_manipulation`).
+`timed_sequence` follows that convention exactly — `timed_sequence_manipulation` is
+`[subject_manipulation, timed_sequence]`, which is the plan's own declaration.
+
+So this is not a defect in one file. It is a GENUINE CONFLICT between two signed things:
+
+- the **stimulus plan's worked example**, which shows a standalone
+  `{"class_name": "timed_sequence", "base": {"id": "presentation_epoch7"}, ...}` document
+  that two `timed_sequence_manipulation` leaves both reference (the shared-playlist,
+  multi-subject case, `storage_mode: reference`); and
+- the **③ composite tier's architecture**, in which a `data_type` is never a document on its
+  own and always rides on a leaf.
+
+Flipping the flag makes `timed_sequence` the only concrete data_type of 40 and sets a
+precedent nobody agreed to. The alternative — a concrete carrier class for a shared sequence,
+the way every other data_type gets a leaf — needs a name and a tier, which is modelling.
+
+**Operating rule 4: only the team decides a disposition. So the flag STAYS as it is and this
+is recorded, not fixed.** Two options, for the team, no recommendation implied by ordering:
+
+  A. `timed_sequence` becomes concrete — accept one exception, and say why the shared value
+     document is different in kind from a quantity.
+  B. Mint a concrete carrier that mixes in `timed_sequence`, so the referenced document is a
+     leaf like every other instantiated data_type, and the plan's example names that class
+     instead.
+
+Until one is chosen, the stimulus second pass is blocked on the SHARED case only. The
+single-subject inline case is unaffected, and pass 1 already passes `stimulus_presentation`
+through with its id and its repaired tombstone, so nothing is lost meanwhile.
+
+**Why this is worth the paragraphs.** The agent's finding was accurate and its proposed fix
+was one word. Applying it would have gone green, looked like progress, and left the schema
+with a silent exception nobody could later explain — the exact failure mode the operating
+rules exist for. The check that caught it was mechanical and cheap: count the siblings before
+believing a class is uniquely broken.
