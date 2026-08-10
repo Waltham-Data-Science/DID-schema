@@ -864,18 +864,23 @@ def census_evidence(classes, roots):
     with_data = [(n, r) for n, r in reports if "unconverted_count" in r]
     corpora = sorted({str(r.get("corpus") or n.replace("-summary.json", ""))
                       for n, r in reports})
+    # WHERE WE LOOKED goes to the console, not into the artifact. It is a
+    # property of the INVOCATION (which --census roots were passed), not of the
+    # evidence, and a field that changes with the command line would make the
+    # staleness check fire on nothing -- which is how a real check becomes an
+    # ignored one.
+    probe = {"roots_walked": walked, "roots_missing": missing,
+             "reports_unreadable": unreadable}
     src = {"available": bool(with_data),
            "reports_found": n_all,
            "reports_read": len(reports),
            "reports_unreadable": len(unreadable),
            "reports_with_survivor_data": len(with_data),
-           "roots_walked": walked,
-           "roots_missing": len(missing),
            "corpora": corpora,
            "source_documents": sum(int(r.get("total") or 0) for _n, r in reports),
            "classes_queried": len(classes)}
     if not with_data:
-        return None, src
+        return None, src, probe
 
     out = {}
     for cls in sorted(classes):
@@ -889,7 +894,7 @@ def census_evidence(classes, roots):
                 per[str(r.get("corpus") or "?")] = n
             total += n
         out[cls] = {"survivors": total, "by_corpus": per}
-    return out, src
+    return out, src, probe
 
 
 STATE_A = "a_nothing_built"
@@ -1032,7 +1037,10 @@ def gather_evidence(open_work, schemas, rows, args, log):
                    "package(s) %s" % (mig_src["files_read"], mig_src["lines_read"],
                                       ", ".join(mig_src["packages_read"]) or "none"))
 
-    cen, cen_src = census_evidence(open_work, args.census)
+    cen, cen_src, probe = census_evidence(open_work, args.census)
+    log.append("census roots: %d walked, %d missing (%s)"
+               % (probe["roots_walked"], len(probe["roots_missing"]),
+                  ", ".join(probe["roots_missing"]) or "none"))
     if cen is None:
         prior = {c: {"survivors": r.get("survivors"),
                      "by_corpus": r.get("survivors_by_corpus", {})}

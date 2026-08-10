@@ -530,7 +530,7 @@
         ],
         "packages_missing": [],
         "files_read": 132,
-        "lines_read": 16901,
+        "lines_read": 16931,
         "classes_queried": 31,
         "ref_kinds": [
           "guard",
@@ -549,8 +549,6 @@
         "reports_read": 0,
         "reports_unreadable": 0,
         "reports_with_survivor_data": 0,
-        "roots_walked": 0,
-        "roots_missing": 2,
         "corpora": [],
         "source_documents": 0,
         "classes_queried": 31

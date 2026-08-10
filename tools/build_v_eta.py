@@ -5504,8 +5504,11 @@ _DECIDED_PENDING = {
     # epoch_bounded_reference and 1 emits session_bounded_reference. Deleting them
     # before the emitters move would red the corpus gate.
     "time_reference":
-        "#65 increment 1 DONE: stays as the abstract root; loses `is_approximate` "
-        "(moves into the value cell) when the eight subclasses go",
+        "#65 increment 2 DONE (the SIGNED walkthrough shape: end -> duration, "
+        "value-level `approximate` deleted, `clock_tolerance` on the root). Stays "
+        "as the abstract root; `is_approximate` is DEPRECATED and leaves in "
+        "increment 3, gated on did2.convert.resolveSessionAnchors reporting "
+        "refused_total 0 and zero surviving session_*_reference documents",
     "session_relative_reference":
         "#65 -> relative_reference (relative_to -> session; relation only, no metric). "
         "107,308 documents -- the largest emitter",
