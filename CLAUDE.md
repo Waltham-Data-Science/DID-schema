@@ -537,12 +537,43 @@ lives in these files — read them instead of re-deriving from memory:
   has NO V_eta home and NO migrator: a Babu dataset migrating today strands these. Note V_eta
   already folded a `generic_file` concept into `opaque_body` (`test_generic_file_folded_to_opaque_body`),
   so the class name is taken — reconcile before building.
-- **The 4 UNVERIFIED coverage rows** (no V_eta home, no migrator, fate never recorded):
-  `generic_file` (above), `imageCollection` (ZERO emitters in NDI, yet `image.imageCollection_id`
-  points at it — genuinely unknown), `valid_interval` (see the chunk-(a) correction in
-  `V_eta_6_7_walkthrough_STATE.md`), `imageStack_parameters` (**false alarm** — it is a
-  SUPERCLASS of `image.json`/`imageStack.json` whose block `image_stack.m` consumes; the ledger
-  flags it only because no migrator is *named* after it).
+- **The 4 UNVERIFIED coverage rows — WRITER-CHECKED 2026-08-09 against NDI `origin/main`.**
+  They are not one bucket; they are three different situations, and only the checking was
+  decision-free (the dispositions are still open):
+
+        DENOMINATOR: 4 rows, each searched for a template, a construction site and a reader
+
+        generic_file           REAL, PRODUCTION.  2 construction sites in
+                               +setup/+conv/+babu/import.m, read by
+                               +cloud/+download/downloadGenericFiles.m. No V_eta home,
+                               no migrator -> a Babu dataset STRANDS these today.
+                               NOTE the name is already taken: V_eta folded a
+                               `generic_file` concept into `opaque_body`.
+        valid_interval         REAL, PRODUCTION.  ndi.app.markgarbage writes it at
+                               markgarbage.m:93 and reads it at :130 and :141 -- the
+                               record of which stretches of an epoch are good data.
+                               No V_eta home, no migrator -> STRANDS today.
+        imageStack_parameters  FALSE ALARM, CONFIRMED. It is a SUPERCLASS, so nothing
+                               ever constructs it standalone; both production
+                               converters pass its BLOCK as a name-value pair
+                               (babu/import.m:475, haley/doImport.m:423) and
+                               `image_stack.m` consumes it. The ledger flags it only
+                               because no migrator is NAMED after it.
+        imageCollection        ZERO mentions in ANY .m file on origin/main -- checked
+                               as `imageCollection`, `image_collection` and
+                               `imagecollection`, 0 files each. The template ships and
+                               `image.json` declares an `imageCollection_id` dep, but
+                               nothing in NDI writes, reads or names one.
+
+  **`valid_interval` was nearly reported as having no writer.** `git grep "ndi.document('valid_interval'"`
+  returns NOTHING, because markgarbage builds it through `session.newdocument('valid_interval', ...)`
+  instead. The construction idiom is not uniform across NDI, so a writer check must grep the
+  BARE CLASS NAME, never one call shape — the same failure mode as the `demo_ndi` spelling bug,
+  arriving through the syntax rather than the name.
+
+  **None of the four appears in any of the six corpora** (run 31327383671), which per the
+  standing rule is NOT evidence they are unused: the corpora are a sample of datasets, and
+  `generic_file` is written by the Babu converter for datasets not among them.
 - **DATE OF BIRTH has no home** (TaskList #41). There is no `date_observation` leaf, and a birth
   date is arguably a property of the subject ENTITY rather than an observation of it —
   `treatment.m` already routes DOB out of its tier for that reason. Real Babu/Hunsberger DOB rows
