@@ -2289,6 +2289,91 @@ _dimg["document_class"]["superclasses"] = [
 _dimg["document_class"]["class_version"] = "2.0.0"
 write("stable", "daqreader_image_epochdata_ingested", _dimg)
 
+# ---- ngrid: restate the SOURCE TOMBSTONE from the WRITER (#46 gate 2) ----
+#
+# NDI origin/main, verified 2026-08-10:
+#
+#   git show origin/main:src/ndi/ndi_common/database_documents/data/ngrid.json
+#       "ngrid": { "data_size": "", "data_type": "", "data_dim": "",
+#                  "coordinates": "" }
+#       superclasses: [ base ]        depends_on: (none)      files: (none)
+#   git show origin/main:src/ndi/ndi_common/schema_documents/data/ngrid_schema.json
+#       data_size   integer  "The size of each sample in bytes"
+#       data_type   string   "The data type (float32, uint16, etc)"
+#       data_dim    matrix   "Vector with the dimensions of the data"
+#       coordinates matrix   "Not sure"
+#   the only writer: +ndi/+fun/+data/mat2ngrid.m -- sets exactly those four.
+#
+# The tombstone declared `ndims` (REQUIRED), `dim_sizes`, `dim_labels`, an
+# `element_id` dependency and an `ngrid_file`. Of those, `ndims` and `dim_sizes`
+# are the V_DELTA MIGRATOR'S OUTPUT (+did2/+convert/+migrators/ngrid.m renames
+# data_dim -> dim_sizes and derives ndims = numel(data_dim)); `dim_labels`,
+# `element_id` and `ngrid_file` appear in NO NDI template or schema at all
+# (`git grep -c ndims -- src/ndi/ndi_common/*` returns nothing).
+#
+# WHY THIS IS SAFE TO FLIP, AND WHY IT HAD TO BE FLIPPED WITH THE MIGRATOR.
+# `applySuperclassMigrators` (v1_to_v2.m) is NOT bypassed by the migrators_j
+# split -- it runs the V_delta `ngrid` superclass migrator on every V_eta
+# document declaring `ngrid`, BEFORE the concrete migrator. That migrator does
+# `rmfield(block,'coordinates')` and `rmfield(block,'data_size')`. So under
+# V_eta today, `ngrid.coordinates` is DELETED on every ontologyImage and every
+# hartley_calc document, which testMigratorsJ already records as "a known,
+# separate data loss". DID-matlab now ships a V_eta superclass migrator
+# (+migrators_j/+super/ngrid.m) that carries the v1 block VERBATIM, so the four
+# real fields are what reaches validation and this tombstone must declare them.
+# The two changes are lockstep: either alone quarantines every consumer.
+#
+# `coordinates` IS CARRIED, NOT GIVEN A HOME. Its destination is decided
+# (V_eta_image_model_plan.md, signed 2026-08-08: "ngrid.coordinates -> split by
+# data_dim, one slice per axis, into axes[k].values") but `axes[].values` is
+# part of the data_body tier (#45), which is BLOCKED ON #32. Until that lands
+# the data rides through on the passthrough rather than being deleted. Likewise
+# `data_size` is marked for the drop the same plan records (bytes-per-element is
+# `datum_type` restated) -- but the drop belongs to the FOLD, not to a
+# passthrough, so it is declared and carried here.
+#
+# `ngrid` STAYS in _IN_PROGRESS (R4). Retiring it is gated on BOTH consumers
+# (F4): `ontologyImage` (NDI, +setup/+NDIMaker/imageDocMaker.m:121) and
+# `hartley_calc` (NDIcalc-vis-matlab, out of session scope). Neither raster has
+# been folded, so nothing may be deleted.
+_ngrid = load(os.path.join(VETA, "stable", "ngrid.json"))
+_ngrid["document_class"]["class_version"] = "2.0.0"
+_ngrid["document_class"]["superclasses"] = [{"class_name": "base"}]
+_ngrid["depends_on"] = []
+# NDI's `ngrid` declares NO file of its own -- the CONSUMER declares it
+# (`ontologyImage.ngrid` in ontologyImage.json's file_list). `ngrid_file` is a
+# downstream invention and is removed so did2.validate.fileList stops reporting
+# it declared-but-absent on every real document.
+_ngrid["file"] = []
+_ngrid["fields"] = [
+    field("data_size", "integer",
+          "Bytes per element (`props.bytes/numel(x)` in mat2ngrid). RESTATES"
+          " data_type and is marked for the drop at the fold"
+          " (V_eta_image_model_plan.md); declared here because a passthrough"
+          " must validate against what the document actually carries.",
+          blank=0),
+    field("data_type", "char",
+          "The numeric class of the grid values ('double', 'uint16', 'ubit1'"
+          " for logical). `class(x)` in mat2ngrid.",
+          constraints={"maxLength": 64}),
+    field("data_dim", "matrix",
+          "`size(x)` -- the extent of each dimension, one entry per dimension."
+          " NOT `dim_sizes`: that name is the V_delta migrator's output.",
+          scalar=False, constraints={"element_type": "integer", "min_value": 1}),
+    field("coordinates", "matrix",
+          "Vertically concatenated coordinate positions, size [sum(data_dim),1]"
+          " -- split by data_dim to recover one coordinate vector per axis."
+          " CARRIED, NOT DROPPED: its decided destination is `axes[k].values`"
+          " (V_eta_image_model_plan.md), which belongs to the data_body tier"
+          " (#45, blocked on #32). The v1 format ADMITS real positions"
+          " (`mat2ngrid(X,c1,...,cn)`); the one in-tree caller passes a single"
+          " argument, so every ontologyImage document's coordinates are the"
+          " default index vector -- which is a fact about today's writers, not"
+          " about the format.",
+          scalar=False),
+]
+write("stable", "ngrid", _ngrid)
+
 # ---- ontology_image: make the SOURCE TOMBSTONE hold real v1 documents ----
 # NDI redefined `ontologyImage` upstream, so two incompatible vintages are both
 # "did_v1":
@@ -2333,6 +2418,42 @@ _oimg["fields"] = [
           "Vintage A (legacy): the CURIE of the depicted region."),
     field("ontology_region", "char",
           "Vintage A (legacy): the human-readable label of the depicted region."),
+]
+# ---- the RASTER's carrier, and its home under R6 (#47) ----
+# NDI declares the payload file on the CONSUMER, not on `ngrid`:
+#
+#   git show origin/main:src/ndi/ndi_common/database_documents/data/ontologyImage.json
+#       "files": { "file_list": [ "ontologyImage.ngrid" ] }
+#   git show origin/main:src/ndi/ndi_common/schema_documents/data/ontologyImage_schema.json
+#       "file": [ { "name": "ontologyImage.ngrid", "mustbenotempty": 1 } ]
+#   +ndi/+setup/+NDIMaker/imageDocMaker.m:139  ndi.fun.data.writengrid(image, ...)
+#
+# The tombstone declared `ontology_image_file`, a name no NDI template or writer
+# has ever used, and `did2.convert.universalRenames` skips the `file`/`files`
+# keys outright (universalRenames.m:308), so a real document arrives carrying
+# `ontologyImage.ngrid` verbatim. The mismatch is not a quarantine -- nothing in
+# +did2/+schema/cache.m looks inside the file wrapper -- but it is exactly the
+# pair `did2.validate.fileList` exists to report (declared_but_absent +
+# present_but_undeclared), on every vintage-B document.
+#
+# #47, ANSWERED: the raster's R6 home is an `image_observation` (+ a data_body)
+# beside the term observations -- and it CANNOT be minted in pass 1. Vintage B's
+# only edge is `ontologyTableRow_id`, and `subject_statement.subject_id` declares
+# `must_refer_to_document_class: subject`, so an image_observation emitted here
+# would carry an empty required subject edge: the husk pattern, 4,563 JH
+# documents' worth, that the image_stack guard was just added to stop. So the
+# home is a SECOND-PASS target and the pass-1 obligation is to carry the raster
+# INTACT -- which is what this file declaration plus the ngrid restatement above
+# now do (the `ngrid` block, `coordinates` included, and the bytes).
+_oimg["file"] = [
+    {"name": "ontologyImage.ngrid",
+     "documentation":
+         "The raster, written by ndi.fun.data.writengrid (little-endian, dtype"
+         " = ngrid.data_type, extent = ngrid.data_dim). Carried verbatim on the"
+         " vintage-B passthrough; its R6 home is an image_observation minted by"
+         " the NDI second pass, once the ontologyTableRow edge resolves to a"
+         " subject. The name is NDI's own: universalRenames does not touch the"
+         " file/files keys, so it arrives unchanged."},
 ]
 write("stable", "ontology_image", _oimg)
 

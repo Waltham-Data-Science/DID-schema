@@ -22,10 +22,71 @@ must belong to exactly one family, and the generator FAILS if a class appears
 that no family claims. A new open class can therefore never be silently dropped
 from the count -- the failure this project has hit four separate times.
 
+`in_progress` IS A DECLARATION, NOT A MEASUREMENT -- AND THAT IS THE OTHER HALF
+------------------------------------------------------------------------------
+Every one of the open classes is `in_progress` because a HUMAN WROTE ITS NAME in
+a literal collection in `tools/build_v_eta.py`. Measured 2026-08-10, and the
+denominator first:
+
+    31 classes carry `disposition: in_progress` in the built index.json
+       27 are keys of `_DECIDED_PENDING`   (a literal dict + two literal loops)
+        4 are members of `_IN_PROGRESS`    (a literal set; 2 more of its 6
+                                            members are deleted classes)
+        0 are derived from any evidence about the work
+
+`_disposition()` returns `in_progress` on membership alone. A class therefore
+leaves the list only when a person deletes its line -- never because a migrator
+landed, a test passed or a corpus went green. The count sat at 31 all day while
+seven families were built, which is the SAME ONE-DIRECTIONAL BIAS this file
+already records twice (the stale sign-off headers; the ledger's "dissolved
+(rename/decompose)" labels): the artifact always claims LESS progress than the
+record holds. It never produces a wrong build. It just makes the board unable to
+answer the only question anyone asks of it.
+
+The lines cannot simply be deleted, and the reason is a real one. For a v1
+SOURCE class, flipping `in_progress -> retire` asserts that NO DOCUMENT of that
+class survives migration -- the phase-8 criterion, which CLAUDE.md requires
+CORPUS EVIDENCE for and which has already caught one over-eager deletion. So the
+membership stays a team disposition (operating rule 4, and nothing here edits
+it), and the board instead DERIVES, per open class, the two facts the
+declaration cannot carry:
+
+    (a) decided, nothing built        no migrator names it, no decided target
+                                      schema exists
+    (b) built, awaiting corpus proof  a migrator consumes it and/or its decided
+                                      target is built, but no census has shown
+                                      0 surviving documents
+    (c) corpus-proven consumed        the last census read this class and found
+                                      no document returned unchanged
+    (?) UNMEASURED                    the evidence for this class was never
+                                      taken -- printed as its own state, because
+                                      absence of evidence is not evidence
+                                      (operating rule 3)
+
+WHAT (c) IS AND IS NOT
+----------------------
+(c) is EVIDENCE, never a disposition. `unconverted_by_class` counts documents a
+migrator handed straight back; 0 of them is a fact about the corpora that were
+read. It is NOT authority to retire a class, for two reasons that are printed
+next to the number every time:
+
+  * THE CORPORA ARE A SAMPLE OF DATASETS, NOT THE UNIVERSE (CLAUDE.md's standing
+    caveat). A class absent from the six we run may be well represented in a
+    dataset still waiting to migrate, which is what this migration is FOR.
+  * THE REPORTS CARRY NO PER-CLASS SOURCE DENOMINATOR. `summary.by_class` counts
+    OUTPUT class names, so a class that was fully consumed and a class that had
+    no documents at all both come out at zero. "0 survived" and "0 existed" are
+    indistinguishable from the report alone.
+
 Usage:  python3 tools/status_board.py [--check]
+                                      [--did /path/to/DID-matlab]
+                                      [--ndi /path/to/NDI-matlab]
+                                      [--census DIR ...]
         --check exits non-zero if the committed board is out of date.
 """
 
+import argparse
+import glob
 import json
 import os
 import re

@@ -762,3 +762,115 @@ was one word. Applying it would have gone green, looked like progress, and left 
 with a silent exception nobody could later explain — the exact failure mode the operating
 rules exist for. The check that caught it was mechanical and cheap: count the siblings before
 believing a class is uniquely broken.
+
+---
+
+# DECISIONS WAITING ON THE TEAM (assembled 2026-08-10, from the parallel build)
+
+Every item here was found by a build that then STOPPED rather than choose. They are collected
+in one place because they arrived from nine different agents over a few hours and would
+otherwise trickle out one at a time. **Nothing below has been decided, and no code embodies a
+preference except where explicitly noted as a documented stand-in.**
+
+Grouped by what it costs to leave open.
+
+## A. BLOCKS A BUILD THAT IS OTHERWISE FINISHED
+
+**A1. `timed_sequence` is abstract, and the one-word fix is wrong.**
+The signed stimulus plan's own worked example is a standalone `timed_sequence` document that
+two `timed_sequence_manipulation` leaves both reference — the shared-playlist, multi-subject
+case. `cache.m` raises `abstractInstantiation`, so it cannot exist. But **all 40 `data_type`
+composites are abstract and none is concrete**: they are mixins, instantiated through a leaf.
+Options: (a) make `timed_sequence` the sole concrete data_type and say why a shared VALUE
+document differs in kind from a quantity; (b) mint a concrete carrier that mixes it in, and
+have the plan's example name that class. Full working in the correction section above.
+*Blocks: the shared multi-subject stimulus case only. Inline single-subject is unaffected.*
+
+**A2. `element_epochid` is DESTROYED by the stimulus-response fold, and no counter sees it.**
+The signed mapping preserves it as a `relative_reference` pointing at an `epoch`. The migrator
+cannot build that: `relative_to` is required and no migrator mints an `epoch`. Today the
+document passes through whole and the string survives; after the fold it does not. `silentLoss`
+counts empty edges, vacuous fields and fragments — **a dropped source field is none of those**.
+Options: carry the string in a slot the schema lacks (contradicts the recorded "`epochid` is
+dropped" decision); suppress the fold until the epoch mint lands (the `epochfiles_ingested`
+precedent); or accept the loss on the argument that the second pass can re-derive it from the
+syncgraph. *This is a DATA LOSS question, not a defect.*
+
+**A3. Guard A (raw recordings) has no schema home.**
+The signed model wants a valued observation with no dimensioned quantity, plus a
+`modality_unresolved` flag. Measured: **30 concrete leaves subclass `subject_observation`, and
+every one carries a `data_type` mixin; `subject_observation` itself is abstract; `grep -rn
+"modality_unresolved" schemas/` matches only decision documents — no class, no field.**
+Shipped as a documented STAND-IN: a queryable `term_assertion` on the element-subject that
+keeps `observes`. Needs a leaf + a field, or a different model.
+
+**A4. The D9 registry cannot answer the question the signed measurement fold asks it.**
+That fold says the quantity leaf must come from the registry. All five
+`subject_statement_bindings` bind to `term_assertion`; the only dimensional row
+("body mass" → `mass_observation`) sits under `binding_examples`, which is illustrative.
+So a strict lookup resolves nothing for `age`. Shipped as a documented STAND-IN
+(`jQuantityLeaf`), which is the single place that changes when the registry gains rows.
+
+**A5. Two signed artifacts contradict each other on `member_of`.**
+`relation_bindings` declares it `"timed": false, "ordered": false`; the signed ensemble model
+requires it to be **both** (the recorded neuron set changes epoch to epoch, and column order
+matters). One of the two is wrong and only the team can say which. Nothing enforces `binding`
+yet — cheap now, expensive once a validator reads it.
+
+**A6. `is_cache` exists in NO schema** (only in three prose documents), and
+**`directed_relation` has no `epoch_id` slot** and no `epoch` document to point at. Together
+these block two of the ensemble model's four signed pieces: the rebuildable cache, and
+epoch-scoped `member_of`. Consequence, deliberate: the per-epoch MAP document is the only
+durable roster, so it is NOT consumed.
+
+## B. NEEDS A RULING, BUT NOTHING IS BLOCKED WAITING FOR IT
+
+**B1. Arm `NonVacuousFields` by default?** Its measured cost is **zero across six corpora**;
+it is a one-line change. Left off only for symmetry with the required-edge switch and because
+the census's field scan and the validator's do not share a denominator. The agent that built
+it said plainly this is the call a reviewer could most reasonably overrule.
+
+**B2. `patch` and `sharp` emit TWO observations each** (voltage + current), because
+PROBE-TYPES.md documents them as two channels of two DIFFERENT quantities. Read as a
+refinement of the signed multi-channel rule (N sites of ONE modality), not a contradiction —
+labelling a current trace 'voltage' to keep the count at one would be a real error. Confirm.
+
+**B3. `image_observation.subject_id`: do those documents ever get a subject?** NDI's own
+writer leaves the edge empty at three `ndi.document('imageStack')` sites in
+`+setup/+conv/+haley/doImport.m` (789, 811, 827). 4,563 JH documents. The guard now passes
+them through instead of minting husks, which is strictly better, but the attribution question
+is untouched.
+
+**B4. `threshold_sign` — bag or bound variable?** The signed plan's list does not name it; a
+superseded draft had it as an enum. Left in `other` rather than make an unmandated call.
+Same for `min_clusters`/`max_clusters`.
+
+**B5. `measurement.m` uses substring matching, and `contains('voltage', 'age')` is TRUE.**
+`subjectmeasurement` uses word boundaries; `measurement.m` was left unchanged because its
+haystack is a resolved CURIE and narrowing it is a separate decision. Flagged, not fixed.
+
+## C. FACTS THAT WILL MISLEAD A READER UNTIL SOMEONE ACTS
+
+**C1. PASS 1 GROWS THE CORPUS.** The stimulus-response plan's table (21,564 → 10,124) is the
+END state. Pass 1 adds one anchor per response and deletes nothing: 6 v1 documents → 9.
+**A corpus run read against that table will look like a 3× regression and will not be one.**
+
+**C2. `schemas/V_eta_migration_targets.json` is stale.** All four stimulus-response rows still
+say "BUILD NOT DONE. The migrator does not do this yet", and `stimulus_response_scalar` has
+`targets: []` while a migrator now emits `harmonic_component_calculation` +
+`session_relative_reference`. It is HAND-CURATED and lives in `schemas/`, so operating rule 1
+stopped the agent editing it. Someone with authority over that file needs to.
+
+**C3. `method_parameters_id` points at a `stimulus_response_scalar_parameters_basic` document
+while the edge declares `must_refer_to_document_class: method_parameters`.** Declarative
+today. If `must_refer` ever becomes type-checked, 10,124 documents break.
+
+**C4. `method_parameters` has no `filter_id` edge.** The spike-parameters plan's prose says
+filter settings leave via `filter_id`; the built artifact declares
+`['software_id','subject_id','epoch_id','derived_from_id']`. **The artifact wins** — the
+settings are grouped whole under `other.filter` and nothing was invented. The prose needs
+correcting or the edge needs adding.
+
+**C5. A THIRD ENFORCEMENT HOLE, the mirror image of the two just closed.** `test_veta.py`
+records that the validator allows UNDECLARED `depends_on` entries wholesale: an edge NDI's
+writer sets that no V_eta schema declares is silently accepted. Unaddressed.

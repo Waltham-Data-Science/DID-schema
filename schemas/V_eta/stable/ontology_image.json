@@ -28,8 +28,8 @@
     ],
     "file": [
         {
-            "name": "ontology_image_file",
-            "documentation": "The ontology image file."
+            "name": "ontologyImage.ngrid",
+            "documentation": "The raster, written by ndi.fun.data.writengrid (little-endian, dtype = ngrid.data_type, extent = ngrid.data_dim). Carried verbatim on the vintage-B passthrough; its R6 home is an image_observation minted by the NDI second pass, once the ontologyTableRow edge resolves to a subject. The name is NDI's own: universalRenames does not touch the file/files keys, so it arrives unchanged."
         }
     ],
     "fields": [
