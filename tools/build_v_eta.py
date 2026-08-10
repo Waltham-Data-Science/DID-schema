@@ -868,6 +868,76 @@ for _x in _ep.get("depends_on", []):
         _x["min_count"] = 0
 write(_ep_tier, "epoch", _ep)
 
+# ---- #59 / file navigation: MINT `epoch_file_pattern` + `acquisition_system` ----
+# Both SIGNED in V_eta_daq_family_decisions.md (two TEAM-SIGN-OFF lines, one per
+# family: "file navigation" jess 2026-08-06, "daq configuration" jess 2026-08-08).
+#
+# SCHEMA HALF ONLY, and that is safe here in a way it is NOT for the rest of this
+# cluster. These two classes are ADDITIVE -- nothing emits them yet, so no corpus
+# document can validate against them and none can be made hollow by them. The
+# DESTRUCTIVE half of the same decision (dissolving daqreader into `software`,
+# retiring `filenavigator`/`daqsystem`) must ship WITH its migrators: deleting a
+# source tombstone ahead of its migrator is what put 2,484 corpus-B documents in
+# quarantine when the epoch family landed.
+#
+# ON THE #37 GATE, re-read before building rather than taken from the summary.
+# The condition in the plan is an OR, not a block: "Either #37 lands first, or the
+# first corpus run checks those five edge names BY NAME in the silentLoss output
+# rather than trusting quarantine=0." That hazard is a MIGRATOR emitting an
+# unpopulated edge, which cannot occur while no migrator exists. The escape branch
+# is also now cheap: silentLoss reports empty required edges by name and the census
+# digest renders them, so the five names below are watchable the moment a migrator
+# does land. They are: software_id (on both classes), reader_id,
+# epoch_file_pattern_id, acquisition_metadata_reader_#.
+#
+# `epoch_file_pattern` is where epoch identity ENTERS THE ARCHIVE. Of 1,002 NDI .m
+# files exactly two mint an epoch id, and the real one is
+# `ndi.file.navigator.m:271` (`id = ['epoch_' ndi.ido.unique_id()]`, written beside
+# the files); everything downstream inherits it. The two v1 parameter strings were
+# EVAL'd; they become declared pattern lists (T14: structure is declared, not
+# conventional). The `#` in {'#\.rhd\>', '#\.tsv\>'} is load-bearing -- files
+# sharing an unknown common stem are ONE epoch.
+write("stable", "epoch_file_pattern", doc("epoch_file_pattern", ["base"], fields=[
+    field("data_file_pattern", "char",
+          "Which files comprise ONE epoch, as declared patterns "
+          "({'#\\\\.rhd\\\\>', '#\\\\.tsv\\\\>'}). PARSED, never eval'd: the v1 "
+          "form was a string handed to eval. `#` matches an unknown common stem, "
+          "so a group of files sharing it is one epoch.",
+          scalar=False),
+    field("epoch_map_pattern", "char",
+          "Which of the epoch's files is the probe-map file "
+          "({'(.*)epochprobemap.ndi'}). Same parsed-not-eval'd rule.",
+          scalar=False),
+    field("epoch_map_format", "char",
+          "How to parse the probe-map file "
+          "('ndi.epoch.epochprobemap_daqsystem').")],
+    deps=[dep("software_id", "software",
+              "The implementation that applies this rule (the v1 filenavigator "
+              "class name became an edge, not a string field).",
+              non_empty=False)]))
+
+# `acquisition_system` is the recording rig. `⊂ entity`, NOT `⊂ base`, so
+# `epoch.instrument_id -> entity` reaches it; it sits beside `software` and
+# `session`. It is NOT `⊂ subject` -- T1's bare subject is what statements are
+# ABOUT, and a rig is what does the recording.
+#
+# base.name is PRESERVED and load-bearing: it is THE JOIN KEY. `daqsystem.base.name`
+# is matched by strcmpi in `+ndi/+daq/system.m:229` (probe -> device attribution),
+# named in every `syncrule.parameters.daqsystem1_name`, and queried by exact_string
+# in `+ndi/+time/syncgraph.m:404-408`. A depends_on sweep saw none of that.
+write("stable", "acquisition_system", doc("acquisition_system", ["entity"],
+    deps=[dep("reader_id", "software",
+              "The reader implementation this system acquires through "
+              "(daqreader DISSOLVES into a `software` entity, base.id preserved -- "
+              "it is the only one of the four with no parameters of its own).",
+              non_empty=False),
+          dep("epoch_file_pattern_id", "epoch_file_pattern",
+              "The rule that decides which files form one epoch on this system.",
+              non_empty=False),
+          dep("acquisition_metadata_reader_#", "acquisition_metadata_reader",
+              "The companion-spreadsheet reader(s), if any.",
+              non_empty=False, multiple=True)]))
+
 # ---- #56: `strain` is an ENTITY, and term_assertion may point at one --------
 # Team call 2026-08-05 (V_eta_openminds_family_record.md Part 6). `entity` was
 # chosen over a plain `base` document because it supplies `global_identifier` as
@@ -3571,6 +3641,16 @@ _EDGE_COUNTS = {
     # (+ndi/+daq/system.m:495-497, add_dependency_value_n) and NDI's own schema
     # says "mustbenotempty": 0
     ("daqsystem", "daqmetadatareader_id_#"): (0, None),
+    # ...and the V_eta class it becomes, same rule, same evidence. The plan left
+    # this one as prose -- "carries the same unexpressed cardinality as
+    # acquisition_channels_#, prose until #63 lands" -- and #63 has landed, so
+    # the number gets declared rather than described. Re-derived from the code
+    # rather than copied from the row above: the writer LOOPS over a cell array
+    # (system.m:496, add_dependency_value_n) so it is genuinely a family, and the
+    # reader passes ErrorIfNotFound,0 (system.m:48) so none is legal. Unbounded:
+    # nothing in NDI caps it. Note the template declares the edge SINGULAR while
+    # the writer uses the _n family form -- writer wins, as always here.
+    ("acquisition_system", "acquisition_metadata_reader_#"): (0, None),
     # #57 gate 3, NOW MET. The sign-off recorded "EXACTLY 2 is prose until #63
     # lands" -- #63 has landed, so the cardinality the rule actually has is
     # declared and checkable instead of being a sentence in a plan.

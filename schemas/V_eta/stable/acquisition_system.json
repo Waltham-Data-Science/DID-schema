@@ -1,0 +1,36 @@
+{
+    "document_class": {
+        "class_name": "acquisition_system",
+        "class_version": "1.0.0",
+        "superclasses": [
+            {
+                "class_name": "entity"
+            }
+        ],
+        "maturity_level": "stable"
+    },
+    "depends_on": [
+        {
+            "name": "reader_id",
+            "mustBeNonEmpty": false,
+            "documentation": "The reader implementation this system acquires through (daqreader DISSOLVES into a `software` entity, base.id preserved -- it is the only one of the four with no parameters of its own).",
+            "must_refer_to_document_class": "software"
+        },
+        {
+            "name": "epoch_file_pattern_id",
+            "mustBeNonEmpty": false,
+            "documentation": "The rule that decides which files form one epoch on this system.",
+            "must_refer_to_document_class": "epoch_file_pattern"
+        },
+        {
+            "name": "acquisition_metadata_reader_#",
+            "mustBeNonEmpty": false,
+            "documentation": "The companion-spreadsheet reader(s), if any.",
+            "must_refer_to_document_class": "acquisition_metadata_reader",
+            "multiple": true,
+            "min_count": 0
+        }
+    ],
+    "file": [],
+    "fields": []
+}

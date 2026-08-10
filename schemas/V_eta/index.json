@@ -146,6 +146,17 @@
             "disposition": "persist"
         },
         {
+            "class_name": "acquisition_system",
+            "tier": "stable",
+            "class_version": "1.0.0",
+            "maturity_level": "stable",
+            "superclasses": [
+                "entity"
+            ],
+            "path": "schemas/V_eta/stable/acquisition_system.json",
+            "disposition": "persist"
+        },
+        {
             "class_name": "amount",
             "tier": "stable",
             "class_version": "1.0.0",
@@ -1026,6 +1037,17 @@
             "path": "schemas/V_eta/stable/epoch_bounded_reference.json",
             "disposition": "in_progress",
             "disposition_note": "time_reference family consistency pass: `element_id` dep names the retired `element` (must_refer=subject, should be acquisition_epoch); bounded/relative suffixes carry different shapes across session/epoch/event (T11); `relation` enum-bound on one sibling, bare char on the other (T8)"
+        },
+        {
+            "class_name": "epoch_file_pattern",
+            "tier": "stable",
+            "class_version": "1.0.0",
+            "maturity_level": "stable",
+            "superclasses": [
+                "base"
+            ],
+            "path": "schemas/V_eta/stable/epoch_file_pattern.json",
+            "disposition": "persist"
         },
         {
             "class_name": "epoch_relative_reference",

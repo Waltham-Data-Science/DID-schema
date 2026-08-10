@@ -1,0 +1,62 @@
+{
+    "document_class": {
+        "class_name": "epoch_file_pattern",
+        "class_version": "1.0.0",
+        "superclasses": [
+            {
+                "class_name": "base"
+            }
+        ],
+        "maturity_level": "stable"
+    },
+    "depends_on": [
+        {
+            "name": "software_id",
+            "mustBeNonEmpty": false,
+            "documentation": "The implementation that applies this rule (the v1 filenavigator class name became an edge, not a string field).",
+            "must_refer_to_document_class": "software"
+        }
+    ],
+    "file": [],
+    "fields": [
+        {
+            "name": "data_file_pattern",
+            "type": "char",
+            "blank_value": [],
+            "default_value": [],
+            "mustBeNonEmpty": false,
+            "mustBeScalar": false,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Which files comprise ONE epoch, as declared patterns ({'#\\\\.rhd\\\\>', '#\\\\.tsv\\\\>'}). PARSED, never eval'd: the v1 form was a string handed to eval. `#` matches an unknown common stem, so a group of files sharing it is one epoch.",
+            "constraints": {}
+        },
+        {
+            "name": "epoch_map_pattern",
+            "type": "char",
+            "blank_value": [],
+            "default_value": [],
+            "mustBeNonEmpty": false,
+            "mustBeScalar": false,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Which of the epoch's files is the probe-map file ({'(.*)epochprobemap.ndi'}). Same parsed-not-eval'd rule.",
+            "constraints": {}
+        },
+        {
+            "name": "epoch_map_format",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "How to parse the probe-map file ('ndi.epoch.epochprobemap_daqsystem').",
+            "constraints": {}
+        }
+    ]
+}
