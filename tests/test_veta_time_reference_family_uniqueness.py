@@ -129,6 +129,7 @@ def test_no_other_family_silently_acquires_the_rule():
 
 def test_the_documentation_says_the_index_means_nothing_on_its_own():
     fams = _families()
+    checked = 0
     for key in sorted(GOVERNED):
         doc = fams[key].get("documentation", "")
         assert "value.clock" in doc, (
@@ -137,6 +138,12 @@ def test_the_documentation_says_the_index_means_nothing_on_its_own():
             "%s.%s: the documentation must record that split-anchored "
             "intervals have NO instance, or the next reader re-derives the "
             "edges the row forbids" % key)
+        checked += 1
+    # DENOMINATOR, asserted rather than printed: a loop over a collection that
+    # could be empty passes having checked nothing.
+    print("DENOMINATOR: %d governed families, %d documentation strings checked"
+          % (len(GOVERNED), checked))
+    assert checked == len(GOVERNED) == 3
 
 
 def test_no_start_anchor_or_end_anchor_edge_was_built():

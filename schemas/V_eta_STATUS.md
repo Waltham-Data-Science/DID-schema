@@ -45,8 +45,8 @@ decides a disposition -- it DERIVES, per class, how far the work has got.
 | evidence source | reach |
 |---|---|
 | build: V_eta migrator packages read | `migrators_j`, `ndi_second_pass` |
-| build: migrator files inspected | 136 |
-| build: migrator lines inspected | 18320 |
+| build: migrator files inspected | 137 |
+| build: migrator lines inspected | 18479 |
 | build: classes queried | 31 |
 | build: open classes MINTED as a document class | 5 |
 | build: of those, discounted (decision retires the class) | 3 |
@@ -191,7 +191,7 @@ a row whose only evidence is a built target as *the target exists*, not as
 - `filter` (frequency_filter) -- consumed at 2 site(s): `migrators_j/private/jFrequencyFilter.m:112 (guard)`, `migrators_j/private/jFrequencyFilter.m:113 (field_read)`; still emitted/named at 2 site(s): `migrators_j/private/jSpikeExtractionSettings.m:159 (named)`, `migrators_j/vmspikefilteringparameters.m:144 (named)`
 - `ngrid` (image / ngrid) -- consumed at 2 site(s): `migrators_j/+super/ngrid.m:100 (field_read)`, `migrators_j/+super/ngrid.m:96 (guard)`; still emitted/named at 1 site(s): `migrators_j/+super/ngrid.m:115 (field_write)`
 - `stimulus_presentation` (stimulus) -- migrator `migrators_j/stimulus_presentation.m`; consumed at 2 site(s): `ndi_second_pass/stimulusPresentationToManipulation.m:47 (guard)`, `ndi_second_pass/stimulusPresentationToManipulation.m:48 (field_read)`
-- `syncgraph` (sync configuration) -- migrator `migrators_j/syncgraph.m`; consumed at 2 site(s): `migrators_j/syncgraph.m:86 (guard)`, `migrators_j/syncgraph.m:87 (field_read)`; target(s) BUILT: `clock_alignment_policy`
+- `syncgraph` (sync configuration) -- migrator `migrators_j/syncgraph.m`; consumed at 2 site(s): `migrators_j/syncgraph.m:116 (guard)`, `migrators_j/syncgraph.m:117 (field_read)`; target(s) BUILT: `clock_alignment_policy`
 - `syncrule` (sync configuration) -- migrator `migrators_j/syncrule.m`; consumed at 2 site(s): `migrators_j/syncrule.m:95 (guard)`, `migrators_j/syncrule.m:96 (field_read)`; target(s) BUILT: `clock_alignment_configuration`
 - `syncrule_mapping` (sync mapping) -- migrator `migrators_j/syncrule_mapping.m`; consumed at 2 site(s): `migrators_j/syncrule_mapping.m:106 (guard)`, `migrators_j/syncrule_mapping.m:107 (field_read)`; MINTED as a document class at 1 site(s): `migrators_j/syncrule_mapping.m:131 (emitted_class)`; still emitted/named at 1 site(s): `migrators_j/syncrule_mapping.m:149 (field_write)`; target(s) BUILT: `clock_alignment`
 
