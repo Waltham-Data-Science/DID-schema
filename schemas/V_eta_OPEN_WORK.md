@@ -528,3 +528,179 @@ they include the 2 example *documents* under `schemas/V_eta/examples/` and miss 
 files. Examples are not in the index. An example document reads as a class declaration and
 its concrete numbered edges (`time_reference_1`) read as untyped declarations; that produced a
 false "defect" report on 2026-08-08.
+
+---
+
+## MEASURED 2026-08-10 — corpus run 31415147934 (`02854c7`), census digest job 93561591223
+
+Two questions that three builds were each blocked on are now answered from the same run.
+The digest text is quoted verbatim; nothing here is transcribed from memory.
+
+```
+REPORT SEARCH: 6 file(s) matching *-summary.json under 'corpus-reports',
+               'tests/corpus-reports' (3 director(ies) walked, 0 duplicate(s) collapsed)
+DENOMINATOR:   6 corpora, 221,827 v1 documents read, 0 unreadable
+               (20211116 1220 / B 12917 / Dab 27561 / JH 78688 / PRED 14 / Soph 101427)
+```
+
+### #51 RE-CONFIRMED on a second, later run. A `session` document exists in every corpus, one per session id.
+
+Row 51 already records this from run 31327383671 (2026-08-09). This is an INDEPENDENT
+re-measurement on a different run of a different commit, and it agrees to the document.
+
+```
+20211116   session documents: 1    (distinct base.session_id: 1)
+B          session documents: 14   (distinct base.session_id: 14)
+Dab        session documents: 16   (distinct base.session_id: 16)
+JH         session documents: 3    (distinct base.session_id: 3)
+PRED       session documents: 1    (distinct base.session_id: 1)
+Soph       session documents: 33   (distinct base.session_id: 33)
+```
+
+Six of six, and in every corpus the count EQUALS the number of distinct session ids — so
+there is no session whose document is missing. This is the fork-A verification
+`V_eta_time_reference_model_plan.md` made a prerequisite for **`relative_to` REQUIRED**, and
+it is the measured refutation of the old "no session document exists anywhere" claim. That
+claim came from a grep that could not have matched; this comes from the census.
+
+**`relative_to` REQUIRED has no remaining prerequisite.**
+
+### THE EPOCH MINT MUST KEY ON `(session_id, epoch_id)`, NOT ON THE ID STRING
+
+The epoch plan named ONE grouping hazard — the synthetic `whole_session_<reference>` id, which
+is minted per ELEMENT and so evaluates the same for every element in a session. That hazard
+measures **ZERO in all six corpora**. A *different* hazard is non-zero:
+
+```
+                 synthetic (whole_session_) ids   ids spanning >1 session
+20211116                     0                            0
+B                            0                          142        <-- of 149 distinct
+Dab                          0                          142        <-- of 1754 distinct
+JH                           0                            0
+PRED                         0                            0
+Soph                         0                           12        <-- of 18 distinct
+```
+
+**One `epoch` document per distinct `epochid.epochid` string would FUSE epochs that belong to
+different sessions** — 142 strings in B, 142 in Dab, 12 in Soph. In B that is 142 of 149
+distinct ids, i.e. almost the whole corpus. The mint key must be the PAIR.
+
+Two things worth stating plainly about this row:
+
+1. **The plan predicted hazard A and the instrument found hazard B.** The prediction was
+   sound reasoning about a writer; it was simply not the failure the data has. This is the
+   argument for measuring before minting, made concrete.
+2. **B and Dab report identical figures** for the `other` bucket (149 distinct / 6207 docs /
+   142 spanning). Two corpora agreeing to the document is more likely a shared source than a
+   coincidence, but nothing here establishes that — flagged, not asserted, and it does not
+   change the disposition either way.
+
+### The 2,670-document `stimulus_presentation.element_id` row, per corpus
+
+```
+B 1242 / Dab 1242 / Soph 175 / 20211116 11        total 2,670
+```
+
+Repaired 2026-08-10 by the `stimulus_presentation` tombstone (the invented `element_id` is
+replaced by NDI's real `stimulus_element_id`). **That is a prediction until a corpus run at or
+after that commit reports it**, exactly like the `image_stack` guard. The same run still
+carries `image_observation.subject_id` at 4,563 (JH), also pre-guard.
+
+---
+
+## FINDINGS FROM THE PARALLEL BUILD (2026-08-10) — recorded because they lived only in agent reports
+
+Five families were built concurrently. **None of the MATLAB has been executed** — these
+containers have no MATLAB — so every migrator and test below is UNVERIFIED, and the quick gate
+is the first thing that will have an opinion.
+
+### Bugs found by reading the WRITER, each the same shape as one already in the record
+
+- **`jSoftwareFromApp` had never emitted a software entity on a real document.** It read
+  `app.name` / `app.version`, but `universalRenames.m:145-164` renames those to `app_name` /
+  `app_version` before any migrator runs. The unit tests call the migrator DIRECTLY with a
+  hand-built body, so they never run `universalRenames` and never saw the renamed field —
+  *"a test written from the same premise as the code cannot catch the code"*, arriving through
+  the HARNESS rather than the premise. Both spellings are now read. **Fixed.**
+- **`epochprobemap` was silently dropped on every real `syncrule_mapping`.**
+  `syncgraph.m:313-314` calls `.serialize()`, documented at
+  `epochprobemap_daqsystem.m:136-143` as *"Create a CHARACTER ARRAY representation"*, and the
+  template default is `""`. The reader required `isstruct`, so it returned an empty struct.
+  The old fixture used a struct, which no writer produces — `distance_metadata`'s
+  wrong-assumed-shape failure again. **Fixed.**
+- **`jFrequencyFilter` would have read the wrong field name.** `v1_to_v2.m:154` runs
+  `applySuperclassMigrators` BEFORE `runConcreteMigrator` at `:162`, and
+  `+migrators/filter.m:30-33` renames `block.type` → `block.filter_type`. Reading `type` —
+  the name both the NDI template AND the writer use — returns `''` on every real document, so
+  the guard would have fired every time and the fold would have emitted nothing **while
+  looking like a correct cautious guard**. Caught before shipping.
+- **NDI's own `filter.json` documentation misspells two of its own fields.** The writer
+  (`+gui/+app/+pyraview/filterData.m:37-41,49-53`) writes `passBandRipple` and
+  `stopbandAttentuation`; `git grep passbandRipple` → 0 hits, `stopbandAttenuation` → 0 hits.
+  The misspellings are the real field names. Writer beats template, inside NDI's own pair.
+- **`ensemble`'s template and its own schema disagree about `neuron_id`.** The schema pair
+  declares it; the template's `depends_on` does not. `ensemble.m:273-277` writes it with
+  `add_dependency_value_n`, so the WRITER settles it — and because
+  `did/document.m:349` appends `neuron_id_1`, `neuron_id_2`, …, **the suffix index IS the
+  column index**, so the per-epoch column order needs no file read at all.
+
+### A test that must be INVERTED, not patched
+
+`testMigratorsJ.m::testElementDirectDeviceObservesSpecimen` asserts the loose
+`observes` relation for a direct `n-trode` element. The recording-observation build retires
+exactly that relation in favour of a typed `<modality>_observation` with `instrument_id`. The
+test is asserting the behaviour being replaced — the third instance of this pattern
+(`test_phase1_source_cleanup_and_dep_typing`, `test_ingested_caches_epochid_dep_only`,
+`testMfdaqIngestedDeEncodesToDaqreaderEpochdataIngested` were the first three).
+
+### Blockers found in DID-schema, each of which stops a signed model being finished
+
+| what | where | consequence |
+|---|---|---|
+| `timed_sequence` is `"abstract": true` | `V_eta/draft/timed_sequence.json` | `cache.m` raises `abstractInstantiation`, so the signed stimulus plan's own worked example — a standalone `timed_sequence` document — **cannot be instantiated**. The signed multi-subject `storage_mode: reference` case is unimplementable until the flag comes off. |
+| `is_cache` exists in NO schema | only in `V_eta_tenets.md`, `V_eta_tenet_audit.md`, `V_eta_ensemble_plan.md` | the ensemble's rebuildable-cache half cannot be declared. |
+| `directed_relation` has no `epoch_id` slot, and no migrator mints an `epoch` | `directed_relation` declares exactly `child`, `parent`, `time_reference_#` | the ensemble's `member_of` edges **cannot be epoch-scoped**, so the per-epoch MAP document cannot be consumed and stays a passthrough. |
+| `method_parameters` has no `filter_id` edge | its `depends_on` is `['software_id','subject_id','epoch_id','derived_from_id']` | the spike-parameters plan's prose says filter settings leave via `filter_id`; the artifact says there is no such edge. **The artifact wins** — the settings are grouped whole under `other.filter` instead, and nothing was invented. |
+| `subject_observation` is abstract and there is no `modality_unresolved` field | 30 concrete leaves subclass it; **none** without a `data_type` mixin | the signed recording-observation Guard A ("a valued observation with no dimensioned quantity") has no class to be and no field to set. Built instead as a `term_assertion` on the element-subject, keeping `observes`. |
+| the D9 registry has no dimensional rows | `binding_registry_meta.json` — all 5 `subject_statement_bindings` bind to `term_assertion`; the one dimensional row ("body mass" → `mass_observation`) is under `binding_examples`, which is illustrative | the signed `subjectmeasurement` fold says the leaf must come from the registry. **It cannot today.** `jQuantityLeaf` is the documented pass-1 stand-in and the single place that changes when the registry gains rows. |
+
+### Two artifacts that contradict each other, and only the team can say which is wrong
+
+- **`member_of` timed/ordered.** `relation_bindings` declares it `"timed": false, "ordered":
+  false`; the signed ensemble model requires it to be BOTH (the recorded neuron set changes
+  epoch to epoch, and column order matters). Nothing enforces `binding` yet, so this is cheap
+  to fix now and expensive once a validator reads it.
+- **`ndi.migrate.internal.stimulusPresentationToManipulation` implements the SUPERSEDED model
+  (#19)** — one `visual_grating_manipulation` per presentation, reading only the deprecated
+  inline `presentation_time`, and **reassigning the id**. The current signed plan
+  (`V_eta_stimulus_model_plan.md`) decomposes around the PRESERVED id. The second-pass build
+  must **replace** that function, not extend it. Same trap one layer up:
+  `tests/test_veta.py:1057-1070` (`test_visual_grating_manipulation_leaf`) carries a docstring
+  describing the superseded model.
+
+### Smaller things, recorded so they are not rediscovered
+
+- **A substring hazard in the measurement fold: `contains('voltage', 'age')` is TRUE.**
+  `subjectmeasurement.measurement` is free text, so substring matching could type a voltage as
+  an age. `subjectmeasurement` uses word-boundary matching; **`measurement.m` keeps substring
+  matching unchanged**, because its haystack is a resolved CURIE and narrowing it is a
+  separate decision.
+- **`isFragment` will mis-classify `clock_alignment`.** Its signature is structural — every
+  `time_reference` or `relation` subclass reads as scaffolding — and `clock_alignment ⊂
+  relation`, so `{clock_alignment, ref, ref}` counts as a fragment while the polynomial,
+  degree and cost are the whole payload. Zero on real data only because the fold is gated; the
+  census's "fragments 0" invariant stops meaning what it means the day that gate opens.
+- **`acquisition_system` DOES exist** (`V_eta/stable/acquisition_system.json`, maturity
+  `stable`, an `entity` subclass). A schema comment saying otherwise is stale. It changes
+  nothing for the syncrule fold: a syncrule stores a device NAME, and name→id needs the
+  migrated-id graph a single-document migrator does not have, so the optional edge is OMITTED
+  rather than blanked.
+- **`syncrule.parameters.daqsystem1_name` is NOT a query path.**
+  `git grep "syncrule\.parameters" origin/main -- '*.m'` returns exactly two hits: the writer
+  (`syncrule.m:187`) and the object-reconstruction read (`syncrule.m:21`). The live
+  `syncgraph.m:404-408` query reads `syncrule_mapping`, which passes through unchanged.
+- **`vmspikefilteringparameters` has no writer anywhere.**
+  `git grep -c -i "vmspikefilteringparameters" origin/main -- '*.m'` → no output (0 files).
+  Per the standing rule this is NOT evidence it is unused; it now has a migrator regardless.
+- **v1 has no spelling for a notch filter.** `band_stop` / `stopband` cannot be emitted, so
+  `jFrequencyFilter` does not pretend to. FIR taps and windows likewise have no home.

@@ -88,6 +88,42 @@ META_FILES = {"did_schema_meta.json", "CURIE_lookups_meta.json",
 # and MUST be re-checked once the build settles. If it is still 38 when the tree
 # is quiet, that is the real figure; if it is lower, lower this.
 #
+# ---- RECONCILED 2026-08-10, tree quiet. 38 -> 44. -------------------------
+# All five parallel builds have finished, so this is a settled measurement and
+# not another snapshot of a moving number. The instruction above said re-check
+# and lower if possible; it is 44, so it goes UP, and every one of the eleven
+# emissions those builds contributed is named here by file and line:
+#
+#   clock alignment          syncrule.m:151                 clock name
+#                            jAcquisitionChannels.m:89      channel type
+#                            jClockAlignmentBodies.m:132    "temporally aligned with"
+#                            jClockAlignmentBodies.m:179    clock name
+#   frequency filter         jFrequencyFilter.m:157         filter algorithm
+#                            jFrequencyFilter.m:158         filter band
+#   subject measurement      subjectmeasurement.m:156       measurement variable
+#   spike parameters         jParameterEntry.m:44           the 5 parameter names
+#   recording observation    jRecordingObservation.m:217    modality variable
+#                            jRecordingObservation.m:222    (unresolved-modality assertion)
+#                            jRecordingObservation.m:261    (unresolved-modality value)
+#
+# NOT ONE OF THEM COULD HAVE BEEN MINTED. The reason differs by row and both
+# reasons matter:
+#
+#   - The NDIC table is out of reach (see below), so `NDIC:<n>` cannot be
+#     allocated for anything -- that covers the clock names, the channel type
+#     and the parameter names.
+#   - Three rows have no ontology authority AT ALL, not merely an unreachable
+#     one. There is no CURIE vocabulary for filter design families
+#     (chebyshev1 / butterworth); `subjectmeasurement.measurement` is FREE TEXT
+#     by NDI's own schema, so there is nothing to resolve it against; and
+#     `jRecordingObservation`'s unresolved rows exist precisely BECAUSE the
+#     modality could not be determined -- minting a term there would be
+#     inventing the fact the emission is recording the absence of.
+#
+# So the debt is real and it is not neglect. It comes down when the NDIC
+# vocabulary is reachable (rows 1-2) and when the team rules on the binding
+# registry's dimensional entries (row 3).
+#
 # WHY NOT MINT THEM INSTEAD, which is the better answer and is unavailable: an
 # NDI-side identifier is `NDIC:<n>`, and the table those integers come from was
 # removed from NDI (`2c19bf24c Remove NDIC.txt controlled vocabulary (moved to
@@ -99,7 +135,7 @@ META_FILES = {"did_schema_meta.json", "CURIE_lookups_meta.json",
 # and may not grow. Raising it is a claim that these two are known and intended
 # -- it is NOT a claim that they are fine. They are debt, listed above by file
 # and line, and they come back down when the NDIC vocabulary is reachable.
-BASELINE_MIGRATORS = 38
+BASELINE_MIGRATORS = 44
 
 # Schema-side baseline, set 2026-08-10 when the sweep was added. It is 8 on the
 # day it landed: the four did_clocktype terms x two carriers
