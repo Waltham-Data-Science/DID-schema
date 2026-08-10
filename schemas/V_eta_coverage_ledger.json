@@ -16,7 +16,7 @@
       "ndi": 91,
       "app": 11
     },
-    "with_migrator": 76,
+    "with_migrator": 78,
     "gaps": 0
   },
   "rows": [
@@ -1720,7 +1720,7 @@
       "v1_class": "syncgraph",
       "veta_class": "syncgraph",
       "disposition": "in_progress",
-      "migrator": false,
+      "migrator": true,
       "source": "ndi",
       "nonprod": false,
       "gap": false,
@@ -1738,7 +1738,7 @@
       "v1_class": "syncrule",
       "veta_class": "syncrule",
       "disposition": "in_progress",
-      "migrator": false,
+      "migrator": true,
       "source": "ndi",
       "nonprod": false,
       "gap": false,

@@ -589,7 +589,20 @@ def test_daqreader_ndr_de_encoded():
     assert "daqreader_ndr" not in RECORDS
     dr = {f["name"]: f for f in RECORDS["daqreader"][1]["fields"]}
     assert dr.get("reader_string", {}).get("mustBeNonEmpty") is False
-    assert dr.get("file_extension", {}).get("mustBeNonEmpty") is False
+    # INVERTED 2026-08-10, not updated. This asserted that `file_extension` is
+    # CARRIED onto daqreader -- the behaviour the signed daq-configuration
+    # decision deletes ("the invented `file_extension` and `metadata_names` are
+    # DELETED"). The test was written from the same premise as the code, so it
+    # could only ever confirm it; the fix is to assert the opposite, the same way
+    # the three `epochid` tests had to be inverted rather than edited.
+    #
+    # "Invented" is measured: across 1,002 .m files and every template/schema on
+    # NDI origin/main, `file_extension` and `metadata_names` each have ZERO hits.
+    # No real document carries either, so dropping the declaration cannot trip
+    # `undeclaredField` -- and declaring a field no document has is the
+    # wrong-assumed-shape defect that produced ~2,078 quarantines.
+    assert "file_extension" not in dr, (
+        "file_extension is deleted by the signed decision; it has 0 hits in NDI")
     assert "ndr_reader_string" not in dr and "ndi_daqreader_ndr_class" not in dr
 
 

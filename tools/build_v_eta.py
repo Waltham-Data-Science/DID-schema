@@ -2086,7 +2086,25 @@ _rs["mustBeNonEmpty"] = False
 _rs["documentation"] = ("Reader/file-type string (e.g. 'intan', 'SpikeGadgets') "
     "for a reader that needs one; formerly daqreader_ndr.ndr_reader_string. "
     "Optional -- the concrete reader is discriminated by ndi_daqreader_class.")
-_dr["fields"] += [_rs, _drn_f["file_extension"]]
+# `file_extension` is NOT carried, and `metadata_names` is dropped from
+# daqmetadatareader below. Both are DELETED by the signed daq-configuration
+# decision ("the invented `file_extension` and `metadata_names` are DELETED"),
+# and "invented" is measured, not asserted:
+#
+#   DENOMINATOR: 1,002 .m files + every template/schema on NDI origin/main
+#     git grep -l "metadata_names"  origin/main -- '*.m' '*.json'  ->  0 files
+#     git grep -l "file_extension"  origin/main -- '*.m' '*.json'  ->  0 files
+#
+# Zero hits means no real document carries either, so REMOVING the declaration
+# cannot trip `undeclaredField` on anything -- which is the direction that
+# matters. Declaring a field no document has is the wrong-assumed-shape defect
+# that produced ~2,078 quarantines; these two are the same defect caught before
+# a passthrough exercised it.
+_dr["fields"] += [_rs]
+_dmr_tier, _dmr_path = path_of("daqmetadatareader")
+_dmr = load(_dmr_path)
+_dmr["fields"] = [f for f in _dmr["fields"] if f["name"] != "metadata_names"]
+write(_dmr_tier, "daqmetadatareader", _dmr)
 write("stable", "daqreader", _dr)
 os.remove(os.path.join(VETA, "stable", "daqreader_ndr.json"))
 

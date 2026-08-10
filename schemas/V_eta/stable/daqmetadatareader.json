@@ -29,19 +29,6 @@
             "needs_ndi": true
         },
         {
-            "name": "metadata_names",
-            "type": "char",
-            "blank_value": "",
-            "default_value": "",
-            "mustBeNonEmpty": false,
-            "mustBeScalar": true,
-            "mustNotHaveNaN": false,
-            "queryable": false,
-            "ontology": null,
-            "documentation": "Comma-separated list of metadata field names this reader can extract (e.g., 'sample_rate,num_channels,device_name').",
-            "constraints": {}
-        },
-        {
             "name": "tab_separated_file_parameter",
             "type": "char",
             "blank_value": "",

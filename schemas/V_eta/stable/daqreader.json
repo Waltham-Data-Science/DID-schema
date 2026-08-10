@@ -42,21 +42,6 @@
             "constraints": {
                 "maxLength": 256
             }
-        },
-        {
-            "name": "file_extension",
-            "type": "char",
-            "blank_value": "",
-            "default_value": "",
-            "mustBeNonEmpty": false,
-            "mustBeScalar": true,
-            "mustNotHaveNaN": false,
-            "queryable": true,
-            "ontology": null,
-            "documentation": "The file extension associated with this reader (e.g., '.rec', '.rhd', '.smr').",
-            "constraints": {
-                "maxLength": 32
-            }
         }
     ]
 }
