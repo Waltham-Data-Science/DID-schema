@@ -1,4 +1,4 @@
-# V_eta — raw recordings as typed observations (DECIDED; build deferred)
+# V_eta — raw recordings as typed observations (SIGNED 2026-08-10)
 
 *Decided in the audit walkthrough (the "voltage-attribution gap"). **FINAL; build deferred**
 — batched. Cross-refs: `V_eta_tenets.md` (T3 direction×data_type, T6 storage, T7 instrument
@@ -91,3 +91,13 @@ specimen S, taken with electrode E"), and captures modality/units that the bare-
 4. **Corpus re-verify**: the reshape must stay 0-orphan (the sampled_body's referrers now
    resolve through the observation; ids preserved where they were) **AND 0 bare-body fallbacks**
    (the map covers every corpus element type).
+
+---
+
+## SIGNED OFF 2026-08-10
+
+TEAM-SIGN-OFF [raw recording observation]: jess@walthamdatascience.com / 2026-08-10 -- a raw continuous recording IS a typed `<modality>_observation` of the SPECIMEN: `subject_id` = the specimen, `instrument_id` = the electrode/probe in the instrument role (T7), `variable` = the modality from the element/probe type, body = `sampled_body`, timing = the existing epoch anchor; the loose `probe observes specimen` relation RETIRES in favour of the `instrument_id` edge. Guard A stands: an unmapped element type still yields a VALUED observation over a bare self-describing `sampled_body` with a queryable `modality_unresolved` flag -- never a `timeseries_observation` or `array` class -- and the build gate is ZERO fallbacks on the real corpus. Multi-channel is ONE observation with a channel axis, not N observations. Specimen granularity is accepted as faithful-but-coarse; Path-S may promote a recording-locus part-subject later. Signed KNOWING the body shape rides on the data_body model, which is NOT signed: the `sampled_body` under these observations will be reshaped when that lands, and that rework is accepted rather than waiting on binding enforcement plus two corpus measurements.
+
+> **Tagged `[raw recording observation]` deliberately.** No decision family in `status_board.py` cites this document today, so an untagged marker would sign nothing else -- but the tag is cheap and the untagged-marker hole has bitten this project before.
+
+> **SIXTH TRANSCRIPTION.** Claude wrote this line on explicit instruction ("Sign #30, don't sign #45"), 2026-08-10. The standing request that the team type these itself is now four sittings old.
