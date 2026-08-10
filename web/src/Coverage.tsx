@@ -262,7 +262,7 @@ export function Coverage({ onSelect }: Props) {
           {filtered.map((r) => {
             const kind = kindOf(r);
             const m = KIND_META[kind];
-            return (
+            return [
               <tr key={r.v1_class} className={r.gap ? "cov-row-gap" : ""}>
                 <td>
                   <code>{r.v1_class}</code>
@@ -294,8 +294,25 @@ export function Coverage({ onSelect }: Props) {
                 <td>
                   <span className="cov-writer">{r.source === "app" ? "vhlab" : "NDI"}</span>
                 </td>
-              </tr>
-            );
+              </tr>,
+              // THE AUTHORED ACCOUNT, AS TEXT. It used to be a `title=` tooltip on
+              // the target cell, which is unreadable on a phone, unprintable, and
+              // invisible to anyone scanning the table -- so the one field that
+              // actually answers "what happens to this class" was the one field
+              // nobody could see. That is the whole reason the question could not
+              // be answered for a team without a git checkout.
+              r.how ? (
+                <tr key={r.v1_class + "-how"} className="cov-how-row">
+                  <td />
+                  <td colSpan={5} className="cov-how">
+                    {r.how}
+                    {r.target_flags && (
+                      <span className="cov-how-caveat"> {r.target_flags}</span>
+                    )}
+                  </td>
+                </tr>
+              ) : null,
+            ];
           })}
           {filtered.length === 0 && (
             <tr>
@@ -404,6 +421,33 @@ function TargetCell({
       </span>
     );
   }
+  // DECIDED: signed, but nothing emits it yet. This case was ADDED 2026-08-10
+  // after writing 28 per-class accounts moved those rows to empty `targets` --
+  // which made them fall through to the dash below and render as if nothing were
+  // known about them, when in fact they had just acquired a signed, written
+  // answer. A regression caused by the very change meant to fix the gap.
+  //
+  // "will become", never a bare chip row: a decided target and an emitted one
+  // must not read the same.
+  if (row.target_source === "decided") {
+    return (
+      <span className="cov-targets">
+        <span className="cov-passthrough-mark" title={
+          "The team signed this disposition; no migrator implements it yet. " +
+          "The document passes through untouched today."
+        }>
+          will become
+        </span>{" "}
+        {row.decided_targets.length > 0
+          ? row.decided_targets.map((t) => chip(t, "cov-target-decided"))
+          : <span className="muted">no target — it dissolves or is deleted</span>}
+        {row.target_flags && (
+          <span className="cov-target-flag" title={row.target_flags}>ⓘ</span>
+        )}
+      </span>
+    );
+  }
+
   if (empty) {
     return row.gap ? (
       <span className="cov-badge cov-gap">unmapped</span>

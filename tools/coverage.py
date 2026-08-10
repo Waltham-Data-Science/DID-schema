@@ -448,6 +448,11 @@ def build_ledger():
             "nonprod": nonprod,
             "gap": gap,
             "targets": targets,
+            # The DECIDED target, carried separately so it can never be mistaken
+            # for an emitted one. `targets` means "a migrator produces this";
+            # this means "the team signed that it will". The viewer renders them
+            # in different voices for that reason.
+            "decided_targets": ((tinfo or {}).get("decided_targets") or []),
             "target_source": target_source,
             "carried": carried,
             "second_pass": second_pass,
@@ -455,7 +460,8 @@ def build_ledger():
             "target_flags": tflags,
         })
     # sanity: every named target class should exist in the built V_eta schema
-    unknown = sorted({t for r in rows for t in (r["targets"] + r["second_pass"])
+    unknown = sorted({t for r in rows
+                      for t in (r["targets"] + r["second_pass"] + r["decided_targets"])
                       if t not in veta})
     if unknown:
         print("  WARNING: target classes not in V_eta schema: " + ", ".join(unknown))

@@ -1155,3 +1155,31 @@ button.badge-persist {
   color: var(--maturity-deprecated);
   font-weight: 600;
 }
+
+/* The authored per-class account, rendered as a readable row under its class
+   rather than as a `title=` tooltip. A tooltip is invisible when scanning, on a
+   phone, and in print -- and this is the field that answers "what happens to
+   this class", so hiding it defeated the ledger's purpose. */
+.cov-how-row td {
+  border-top: none;
+  padding-top: 0;
+}
+.cov-how {
+  font-size: 0.88em;
+  line-height: 1.5;
+  color: var(--muted-fg, #5a6472);
+  max-width: 72ch;
+  padding-bottom: 0.6em;
+}
+.cov-how-caveat {
+  display: block;
+  margin-top: 0.3em;
+  font-size: 0.94em;
+  color: var(--warn-fg, #8a6414);
+}
+/* A signed destination that nothing emits yet. Deliberately NOT styled like an
+   emitted target -- same visual weight would make unbuilt work read as done. */
+.cov-target-decided {
+  border-style: dashed !important;
+  opacity: 0.9;
+}

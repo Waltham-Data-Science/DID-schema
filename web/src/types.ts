@@ -52,7 +52,12 @@ export interface CoverageRow {
   // NOT a statement about where the class is going; "unknown" means neither.
   // "uncurated" is the actionable one: a migrator DOES run, but nothing
   // records what it emits -- a missing row in V_eta_migration_targets.json.
-  target_source: "emitted" | "uncurated" | "passthrough" | "unknown";
+  // `decided` added 2026-08-10: the disposition is signed but NO migrator emits
+  // it yet, so `targets` is empty and `decided_targets` carries what it WILL
+  // become. Keeping them in separate fields is deliberate -- the ledger must
+  // never let a decided target read as a produced one.
+  target_source: "emitted" | "decided" | "uncurated" | "passthrough" | "unknown";
+  decided_targets: string[]; // signed destination; nothing emits it yet
   carried: string[]; // pre-existing classes the emitted statements attach to (not minted)
   second_pass: string[]; // classes minted in the NDI second pass
   how: string; // one-line authored intent
