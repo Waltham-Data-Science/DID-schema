@@ -496,13 +496,21 @@ def write_ledger(veta, v1, rows):
         + (f" | ⚠ {s['gaps']} UNMAPPED (no V_eta class, no migrator)" if s["gaps"] else "")
         + ".",
         "",
-        "| v1 class | → V_eta target(s) | disposition | source |",
-        "|---|---|---|---|",
+        "| v1 class | → V_eta target(s) | what happens to it | disposition | source |",
+        "|---|---|---|---|---|",
     ]
     for r in rows:
         chips = ["`" + t + "`" for t in r["targets"]]
         chips += ["`" + t + "`*" for t in r["second_pass"]]  # * = NDI second pass
-        if not chips:
+        # ORDER MATTERS, and getting it wrong is silent. `decided` rows have NO
+        # chips by construction, so this must be tested BEFORE the empty case --
+        # placed after it, the branch below never fires and every signed-unbuilt
+        # row prints "—". Caught by reading the rendered table, not the code.
+        if r.get("target_source") == "decided":
+            dt = r.get("decided_targets") or []
+            tgt = ("· **will become** " + " + ".join("`" + t + "`" for t in dt)
+                   if dt else "· **dissolves / deleted** (no target by design)")
+        elif not chips:
             tgt = "⚠ **unmapped**" if r["gap"] else "—"
         elif r.get("target_source") == "uncurated":
             # A migrator runs but nothing records what it emits. Distinct from
@@ -520,12 +528,24 @@ def write_ledger(veta, v1, rows):
             tgt = " + ".join(chips)
             if r["carried"]:
                 tgt += " · on " + ", ".join("`" + c + "`" for c in r["carried"])
+        # THE ACCOUNT, IN THE TABLE. This footer used to say "see
+        # V_eta_migration_targets.json for the per-class `how`" -- which is to say,
+        # the one field that answers the question was in a different file, behind
+        # a git checkout. That is exactly why the question could not be answered
+        # for a team. Pipes and newlines are escaped so a long sentence cannot
+        # break the table.
+        acct = (r.get("how") or "").strip()
+        if r.get("target_flags"):
+            acct = (acct + " " if acct else "") + "⚠ " + r["target_flags"].strip()
+        acct = acct.replace("|", "\\|").replace("\n", " ") or "—"
         lines.append(
-            f"| `{r['v1_class']}` | {tgt} | {r['disposition']} | {r['source']} |")
+            f"| `{r['v1_class']}` | {tgt} | {acct} | {r['disposition']} | {r['source']} |")
     lines.append("")
     lines.append("*`class`\\* = minted in the NDI second pass. "
                  "\"on `subject`\" = the pre-existing class the statements attach to. "
-                 "See `V_eta_migration_targets.json` for the per-class `how` + caveats.*")
+                 "**will become** = a signed decision that no migrator implements yet. "
+                 "The `what happens to it` column is the authored per-class account; "
+                 "`⚠` prefixes its caveat.*")
     lines.append("")
     open(LEDGER, "w").write("\n".join(lines))
 
