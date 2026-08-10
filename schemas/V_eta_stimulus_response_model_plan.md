@@ -1,7 +1,12 @@
 # V_eta — the stimulus response family → `harmonic_component` + one calculation leaf
 
-**DECIDED with the team, 2026-08-06. Build deferred. NO `TEAM-SIGN-OFF` LINE** —
-the marker is the team's to write (Operating Rule 4).
+**DECIDED with the team 2026-08-06; SIGNED OFF 2026-08-08 — the `TEAM-SIGN-OFF
+[stimulus response]` line is at the bottom of this document, and it signs WITH the
+three mapping revisions recorded there. Build still deferred.**
+
+<!-- HISTORICAL-SIGNOFF-CLAIM -->
+*This header asserted "NO `TEAM-SIGN-OFF` LINE" until 2026-08-10, two days after
+the signature was added below it. Corrected; the staleness is now CI-gated.*
 
 **The team's words:** on the revised proposal — *"Okay. I like this. Add it to the
 report."*

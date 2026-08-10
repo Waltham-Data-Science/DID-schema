@@ -1,8 +1,14 @@
 # V_eta — the acquisition epoch family
 
-**DECIDED with the team, 2026-08-05. Build deferred. NO `TEAM-SIGN-OFF` LINE** —
-the marker is the team's to write (Operating Rule 4), so the status board renders
-this as *awaiting a signature*.
+**DECIDED with the team 2026-08-05; SIGNED OFF 2026-08-08 — the `TEAM-SIGN-OFF
+[epoch]` line is at the bottom of this document. Build still deferred.**
+
+<!-- HISTORICAL-SIGNOFF-CLAIM -->
+*This header said "NO `TEAM-SIGN-OFF` LINE ... the status board renders this as
+awaiting a signature" until 2026-08-10, two days after the signature was added 735
+lines below it. It was false on both counts: the line exists, and the board reads
+the line, not this paragraph. Sign-offs get appended at the bottom, so a header
+that asserts their absence must be updated in the same commit.*
 
 > **READ THE REVISION AT THE BOTTOM FIRST.** The decision recorded immediately
 > below was answered about the WRONG OBJECT — `element_epoch` is per-element-per-

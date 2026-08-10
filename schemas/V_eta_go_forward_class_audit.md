@@ -156,8 +156,17 @@ looked at every go-forward class?" question: yes — 258, each dispositioned.*
 
 # FOUR SMALL DISPOSITIONS — team, 2026-08-05
 
-**The team's words:** *"I agree with the 4 proposals."* NO `TEAM-SIGN-OFF` LINE —
-the marker is the team's to write (Operating Rule 4).
+**The team's words:** *"I agree with the 4 proposals."* **TWO of the four now carry
+a signature, in this section**: `TEAM-SIGN-OFF [dataseries_channel_map]` (2026-08-06,
+under proposal 1) and `TEAM-SIGN-OFF [subject measurement]` (2026-08-06, under
+proposal 4). The other two need none — proposal 2 (`directory`) established that the
+class is not a did_v1 source at all, so there was no disposition to sign, and
+proposal 3 (`demo_ndi`) was REVERSED to passthrough before any signature.
+
+<!-- HISTORICAL-SIGNOFF-CLAIM -->
+*This line read "NO `TEAM-SIGN-OFF` LINE" until 2026-08-10, which was true when
+written and false afterwards. Stated per-proposal rather than for the section,
+because a blanket claim in either direction is what made it wrong.*
 
 **Three of the four turned out not to be migration questions at all.** They were on
 the board as "needs a writer check before any disposition"; the check showed they

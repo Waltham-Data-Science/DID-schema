@@ -1,11 +1,26 @@
 # V_eta — the stimulus parameters family: dissolve one, pass the other through
 
-**DECIDED with the team, 2026-08-06. Build deferred. NO `TEAM-SIGN-OFF` LINE** —
-the marker is the team's to write (Operating Rule 4).
+**DECIDED with the team 2026-08-06; SIGNED OFF 2026-08-08 — the `TEAM-SIGN-OFF`
+line is at the bottom of this document ("SIGNED OFF 2026-08-08").**
 
-**The team's words, verbatim:** *"I think I agree with A and C."* Recorded with the
-hedge intact rather than upgraded — A in particular has a real dependency (#32) that
-may change the picture, and the sign-off line is where certainty gets asserted.
+<!-- HISTORICAL-SIGNOFF-CLAIM -->
+*This header read "NO `TEAM-SIGN-OFF` LINE" until 2026-08-10, two days after the
+signature was added 200 lines below it. That is the same stale-header defect that
+left the clock-alignment cluster sitting unbuilt: a reader who stops at the top of
+the file is told the opposite of what the file records. Sign-offs get appended at
+the bottom, so the top must be updated in the same commit or it becomes a lie by
+omission.*
+
+**The team's original words, verbatim:** *"I think I agree with A and C."* The
+sign-off is where that hedge was resolved into a decision; the gates it carries are
+listed under "Gates carried, none waived" and none of them were waived by signing.
+
+**BUILD STATE (2026-08-10):** the tombstone repair — required under BOTH options,
+and the part that actually stops the quarantines — is **BUILT**. Decision A's
+dissolution is still gated, on two things now: binding governance (signed
+2026-08-10 at `preferred`, which is not yet the admissible set A needs) and the
+UNMEASURED D9 registry coverage in OPEN item 3, which needs a Marder corpus we do
+not have. Decision C is complete (demotion + tombstone).
 
 Covers `stimulus_parameter` and `stimulus_parameter_table`. These are the last two
 classes that were on the board under "nobody has proposed anything yet."

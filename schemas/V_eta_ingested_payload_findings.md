@@ -1,7 +1,14 @@
 # V_eta — the daq ingested-payload family (DECIDED; build deferred)
 
-**DECIDED with the team, 2026-08-06. Build deferred. NO `TEAM-SIGN-OFF` LINE** —
-the marker is the team's to write (Operating Rule 4).
+**DECIDED with the team 2026-08-06; SIGNED OFF 2026-08-08 — the `TEAM-SIGN-OFF
+[daq ingested payloads]` line is at the bottom of this document. Build still
+deferred.**
+
+<!-- HISTORICAL-SIGNOFF-CLAIM -->
+*This header asserted "NO `TEAM-SIGN-OFF` LINE" until 2026-08-10, two days after
+the signature was added below it. Corrected; see the note in
+`V_eta_stimulus_parameter_plan.md` for why this class of staleness is now
+CI-gated.*
 
 **The team's words:** *"I accept the suggested naming acquisition_metadata_reader /
 acquisition_metadata_file. You can mark that family decided."*

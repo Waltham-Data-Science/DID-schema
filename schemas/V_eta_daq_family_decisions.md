@@ -128,7 +128,14 @@ V_eta classes"). That proposal was written without checking who references these
 documents, and **it was wrong in a way that would have lost data.** Recorded as a
 reversal in place.
 
-**NO `TEAM-SIGN-OFF` LINE.** The team decided in walkthrough; the marker is theirs.
+**SIGNED OFF 2026-08-08** — `TEAM-SIGN-OFF [daq configuration]`, at the bottom of
+this document, and it covers exactly this section: daqreader → a `software` entity,
+daqmetadatareader → `acquisition_metadata_reader`, daqsystem → `acquisition_system`
+⊂ entity with `base.name` preserved because the name is the join key.
+
+<!-- HISTORICAL-SIGNOFF-CLAIM -->
+*This line read "NO `TEAM-SIGN-OFF` LINE" until 2026-08-10, two days after the
+signature was added below it. Corrected; the staleness is now CI-gated.*
 
 ## What the earlier proposal missed
 

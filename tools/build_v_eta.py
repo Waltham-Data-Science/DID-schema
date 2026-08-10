@@ -3268,6 +3268,92 @@ if _spt_tier and _spt_tier != "deprecated":
     write("deprecated", "stimulus_parameter_table", _spt)
     os.remove(_spt_path)
 
+# ---- the two stimulus-parameter tombstones, restated from NDI -------------
+#
+# Two of the three rows `check_tombstones.py` still reports as BLOCKING. They
+# were held for the stimulus model deliberately; the stimulus-parameters
+# sign-off (V_eta_stimulus_parameter_plan.md:205) is that hold coming due, and
+# it names this repair explicitly: "both tombstones rewritten to the NDI shape".
+# It is required under BOTH signed options -- dissolution (A) still has to hold
+# real documents intact until its own gate lifts, and passthrough (C) is nothing
+# BUT the tombstone.
+#
+# What was here shared ZERO field names and ZERO edge names with NDI:
+#
+#   stimulus_parameter        NDI  ontology_name, name, value    dep stimulus_element_id
+#                             was  parameter_name, parameter_values, parameter_units
+#                                                                dep stimulus_presentation_id (REQUIRED)
+#   stimulus_parameter_table  NDI  string                        dep stimulus_element_id
+#                             was  parameter_names, table_data, num_stimuli
+#                                                                dep stimulus_presentation_id (REQUIRED)
+#
+# So a passthrough would have quarantined every document twice over --
+# `undeclaredField` on what the document DOES carry, `missingField` on the
+# invented required name -- the wrong-assumed-shape failure that produced the
+# ~2,078 distance_metadata quarantines.
+#
+# Shapes are NDI origin/main, template for the names and schema_documents for
+# the types. Three readings are NOT a straight copy, and each is recorded:
+#
+#  1. `value` is typed `double`, not char. The database_documents template's
+#     placeholder is `""`, which is what the plan's OPEN item 2 read; the
+#     SCHEMA says `"type": "double"` and the writer assigns numbers
+#     (temptable2stimulusparameters.m:44,58,64 -- `last_match.temp{1}` and its
+#     two indexed forms). Schema and writer agree, so there is no
+#     template-vs-writer conflict to resolve: the placeholder is a default, not
+#     a type. It is NOT scalar-constrained -- the "constant" branch assigns the
+#     whole cell contents, which need not be one element.
+#  2. `string` is typed `string`, not NDI's `char`. `char` in did2 requires
+#     ischar (cache.m validateTypeShape), and this field's declared default is
+#     `[]`, which jsondecode returns as an empty DOUBLE -- so `char` would
+#     reject the class's own default value. `string` accepts char,
+#     cell-of-chars and the empty-numeric sentinel. A deliberate widening on a
+#     preservation tombstone, stated here rather than left to be rediscovered.
+#  3. The required-ness of `stimulus_element_id` DIFFERS between the two, and
+#     not by oversight. NDI marks it `mustbenotempty: 1` on both. For
+#     `stimulus_parameter` that is verified against the writer -- all three
+#     ndi.document sites call set_dependency_value('stimulus_element_id', ...)
+#     immediately after construction -- so it is declared required here.
+#     `stimulus_parameter_table` has NO writer anywhere in NDI, so nothing
+#     establishes that a real document populates it, and once #37 makes
+#     mustBeNonEmpty on an edge actually enforced (it is skipped today by
+#     +did2/+validate/references.m:90) that declaration becomes a quarantine
+#     gate on documents we have never seen. Declared non-required, which is the
+#     preserving direction for a class with nothing to model against.
+_tombstone(
+    "stimulus_parameter", ["base", "epochid"],
+    [dep("stimulus_element_id", "subject",
+         "The stimulus ELEMENT this parameter is a parameter of, promoted to a"
+         " subject with its id preserved by migrators_j.element. Required: all"
+         " three writer sites set it.",
+         non_empty=True)],
+    [field("ontology_name", "string",
+           "The parameter's identity as a CURIE (e.g. NDIC:12). This is the"
+           " field the live NDI queries pivot on"
+           " (find_epochids_with_temperature.m:25, marder/demo.m:24)."),
+     field("name", "string",
+           "The human label for the parameter (e.g. 'Command temperature"
+           " constant')."),
+     field("value", "double",
+           "The parameter's value. Numeric per NDI's schema and per the writer;"
+           " the template's `\"\"` is a placeholder, not a type. Not"
+           " scalar-constrained -- the constant branch assigns a whole cell.",
+           scalar=False)])
+
+_tombstone(
+    "stimulus_parameter_table", ["base", "epochid"],
+    [dep("stimulus_element_id", "subject",
+         "The stimulus ELEMENT this table belongs to. NDI's schema marks it"
+         " required; declared non-required here because the class has no writer"
+         " anywhere, so no real document is known to populate it.",
+         non_empty=False)],
+    [field("string", "string",
+           "The one field the class has. NDI documents it as 'an array of the"
+           " order of stimulus presentation (each stimulus has an integer ID)'"
+           " while typing it char -- an unresolved v1 shape, preserved as"
+           " written. UNMODELLED: no writer, no reader, no documents.",
+           scalar=False, queryable=False)])
+
 # ---- subjectmeasurement: the ledger's last UNMAPPED class gets a home -----
 #
 # THE CLASS HAD NO V_eta SCHEMA AT ALL. `coverage.py` asserted, in

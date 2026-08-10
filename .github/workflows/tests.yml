@@ -114,3 +114,16 @@ jobs:
       - name: No test can pass while checking nothing
         if: matrix.python-version == '3.12'
         run: python3 tools/check_vacuous_tests.py --enforce
+
+      # A SIGNED PLAN THAT SAYS IT IS UNSIGNED. Sign-offs are appended at the
+      # bottom of a plan document; the reader's summary of its state is at the
+      # top; nothing kept them in agreement. Six documents accumulated a header
+      # asserting "NO `TEAM-SIGN-OFF` LINE" while carrying that line hundreds of
+      # lines below -- and the clock-alignment cluster sat unbuilt for a day on
+      # exactly that. The status board was never fooled, because it reads the
+      # signature rather than the prose; the human read the prose. One-directional
+      # by nature: the header always claims LESS progress than the record holds,
+      # so the cost is always work not done.
+      - name: No signed plan document claims to be unsigned
+        if: matrix.python-version == '3.12'
+        run: python3 tools/check_signoff_header_staleness.py --enforce

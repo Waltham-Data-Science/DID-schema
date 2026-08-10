@@ -31,7 +31,7 @@ WHAT THE BASELINE MEANS
 -----------------------
 Enforcement is a RATCHET, following the same shape as check_empty_ontology_nodes.
 The count may FALL freely; any INCREASE fails. A hard zero is impossible today and
-would be wrong to demand: five of the eight rows are V1 FIDELITY. NDI's own
+would be wrong to demand: six of the nine rows are V1 FIDELITY. NDI's own
 templates declare a class-block `name` beside `base.name`, and a source tombstone
 that dropped it would stop matching the writer -- which is the one thing tombstones
 exist to do.
@@ -46,6 +46,16 @@ exist to do.
         subjectmeasurement -> ['measurement', 'value', 'datestamp']
     $ git show origin/main:.../database_documents/data/pyraview.json
         pyraview -> ['label', 'nativeRate', ...]      over filter -> ['label', ...]
+    $ git show origin/main:.../database_documents/stimulus/stimulus_parameter.json
+        stimulus_parameter -> ['ontology_name', 'name', 'value']
+
+The `stimulus_parameter` row arrived 2026-08-10 when that tombstone was restated
+from NDI (the stimulus-parameters sign-off). It is the SIXTH fidelity row, not a
+regression: `name` is the parameter's human label ('Command temperature
+constant'), written at three sites in
++setup/+conv/+marder/temptable2stimulusparameters.m, and dropping it to dodge the
+duplicate would break exactly what the tombstone exists to preserve. The baseline
+rose 8 -> 9 for that reason and no other.
 
 The remaining three are V_eta TARGET classes, where no template forces the
 duplicate and the question is open. `software` inherits it from its v1 source
@@ -68,9 +78,9 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 REPO = os.path.dirname(HERE)
 SCHEMA_ROOT = os.path.join(REPO, "schemas", "V_eta")
 
-# The count as of 2026-08-09, with every row verified against NDI origin/main.
+# The count as of 2026-08-10, with every row verified against NDI origin/main.
 # May fall freely; an increase fails.
-BASELINE = 8
+BASELINE = 9
 
 # Rows whose duplicate is NDI's own, quoted in the module docstring above. A
 # tombstone must match the writer, so removing these would be the defect, not the

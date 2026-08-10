@@ -1276,7 +1276,7 @@ def test_no_new_duplicate_field_declarations_in_a_chain():
     # DIFFERENT blocks, so the redeclaration never trips it -- and a cross-block
     # duplicate name is checked nowhere else either.
     #
-    # A RATCHET, not a zero. Five of the eight known rows are V1 FIDELITY: NDI's
+    # A RATCHET, not a zero. Six of the nine known rows are V1 FIDELITY: NDI's
     # own templates declare a class-block `name` beside `base.name`, and a
     # tombstone that dropped it would stop matching the writer. See the evidence
     # quoted in tools/check_duplicate_field_declarations.py.
@@ -1294,6 +1294,33 @@ def test_no_new_duplicate_field_declarations_in_a_chain():
     assert len(rows) == mod.BASELINE, (
         f"BASELINE is stale ({len(rows)} found, baseline {mod.BASELINE}) -- "
         "lower it so the ratchet keeps the ground it won")
+
+
+def test_no_signed_plan_document_claims_to_be_unsigned():
+    # A plan document's sign-off is APPENDED AT THE BOTTOM; the reader's summary
+    # of its state is at the TOP; nothing kept the two in agreement. Six documents
+    # ended up asserting "NO `TEAM-SIGN-OFF` LINE" while carrying that line
+    # hundreds of lines below, and the clock-alignment cluster sat unbuilt for a
+    # day because of it. The status board never saw the problem -- it reads the
+    # signature, not the prose -- so nothing existed that could have caught this.
+    #
+    # Asserted here as well as in CI so a local run catches it before a push.
+    mod = _load_tool("check_signoff_header_staleness")
+
+    import glob as _glob
+    import os as _os
+    paths = _glob.glob(_os.path.join(mod.SCHEMA_DIR, "*.md"))
+    rows, read, signed = mod.scan(paths)
+    # DENOMINATORS, asserted rather than printed: a glob that matched nothing,
+    # or a corpus of plan documents that somehow carried no signatures at all,
+    # would make "0 stale" true and meaningless.
+    assert read > 0, "no schemas/*.md files were read -- the check is vacuous"
+    assert signed > 0, (
+        "no plan document carries a TEAM-SIGN-OFF line -- either the marker "
+        "changed shape or the glob is wrong; either way this check is vacuous")
+    assert not rows, (
+        "signed plan document(s) asserting they are unsigned: "
+        f"{[(mod.os.path.basename(p), n) for p, n, _ in rows]!r}")
 
 
 def test_ndi_schema_documents_are_all_read():

@@ -2248,10 +2248,11 @@
         {
             "class_name": "stimulus_parameter",
             "tier": "stable",
-            "class_version": "1.0.0",
+            "class_version": "2.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                "base"
+                "base",
+                "epochid"
             ],
             "path": "schemas/V_eta/stable/stimulus_parameter.json",
             "disposition": "retire",
@@ -2260,10 +2261,11 @@
         {
             "class_name": "stimulus_parameter_table",
             "tier": "deprecated",
-            "class_version": "1.0.0",
+            "class_version": "2.0.0",
             "maturity_level": "deprecated",
             "superclasses": [
-                "base"
+                "base",
+                "epochid"
             ],
             "path": "schemas/V_eta/deprecated/stimulus_parameter_table.json",
             "disposition": "retire",

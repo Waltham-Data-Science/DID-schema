@@ -3,7 +3,8 @@
 **DECIDED with the team 2026-08-06; SIGNED OFF 2026-08-08 (both families — see the
 two `TEAM-SIGN-OFF` lines near the bottom of this file); SCHEMA HALF BUILT 2026-08-09.**
 
-**THIS HEADER SAID "Build deferred. NO `TEAM-SIGN-OFF` LINE" UNTIL 2026-08-09** — 474
+**THIS HEADER SAID "Build deferred. NO `TEAM-SIGN-OFF` LINE" UNTIL 2026-08-09**
+<!-- HISTORICAL-SIGNOFF-CLAIM: the quote above is history, not an assertion. --> — 474
 lines above the two sign-off lines that had been sitting in this same file since
 2026-08-08. Reading the header and stopping there is exactly how a signed decision got
 reported back to the team as an open proposal, twice in one session. The board never
