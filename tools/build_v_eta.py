@@ -4576,8 +4576,40 @@ RELATION_VOCABULARY = [
     _rel("contained_in", "RO:0001018", "the contained", "the container",
          [], []),
     # is_group was removed from subject, so a group IS just a subject with members.
+    #
+    # timed + ordered, BOTH SET 2026-08-10 (team delegated the call after the
+    # semantics were established). They were false, and the signed ensemble
+    # model requires both -- two committed artifacts in direct contradiction.
+    #
+    # The contradiction resolves once you read what these flags MEAN, which is
+    # documented at _rel above and is CAPABILITY, not constraint:
+    #   ordered -- "the directed_relation `sequence` field is semantically
+    #              meaningful ... every directed edge *has* an optional
+    #              sequence; ordered marks the ones where it carries meaning"
+    #   timed   -- "the edge denotes an event that may carry a `method` / time
+    #              anchor"
+    # Neither forces anything on any edge. Compare the rest of this table:
+    # `has_author` is ordered because author order means something, and the
+    # provenance rows are timed under a comment reading "the creation event MAY
+    # carry a time_reference". Setting both here therefore ADDS no requirement;
+    # it stops the registry denying a meaning the model depends on.
+    #
+    # Both are true of the ensemble, which is the only thing that mints these:
+    # a member_of edge carries the neuron's COLUMN ORDER in the combined spike
+    # matrix (so `sequence` is meaningful), and the recorded neuron set changes
+    # epoch to epoch, so the roster is EPOCH-SCOPED (so the edge denotes a
+    # timed event). Note the epoch-scoping cannot be expressed yet --
+    # directed_relation has no epoch_id slot -- so `timed` here is currently
+    # the honest declaration of a fact the schema cannot yet carry.
+    #
+    # CAVEAT, stated because the flags are per RELATION TERM and not per use:
+    # this asserts `sequence` MAY be meaningful on every member_of edge, not
+    # just the ensemble's. Under the capability reading that is correct and
+    # costs nothing. It would be wrong under a constraint reading -- and
+    # nothing enforces `binding` today, so if that reading is ever adopted,
+    # this row is one of the first to re-examine.
     _rel("member_of", "RO:0002350", "the member", "the group",
-         ["subject"], ["subject"]),
+         ["subject"], ["subject"], timed=True, ordered=True),
     # provenance / creation (timed: the creation event may carry a time_reference)
     _rel("derived_from", "RO:0001000", "the derivative", "the source",
          [], [], timed=True),

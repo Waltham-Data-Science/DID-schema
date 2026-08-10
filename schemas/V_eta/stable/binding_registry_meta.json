@@ -156,8 +156,8 @@
             "parent_types": [
                 "subject"
             ],
-            "timed": false,
-            "ordered": false
+            "timed": true,
+            "ordered": true
         },
         {
             "relation": {
