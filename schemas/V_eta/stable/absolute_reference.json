@@ -1,7 +1,7 @@
 {
     "document_class": {
         "class_name": "absolute_reference",
-        "class_version": "1.0.0",
+        "class_version": "2.0.0",
         "superclasses": [
             {
                 "class_name": "time_reference"
@@ -22,12 +22,92 @@
             "mustNotHaveNaN": false,
             "queryable": true,
             "ontology": null,
-            "documentation": "A wall-clock instant or interval. Carries NO dependency: it is interpretable on its own, which is what distinguishes it from relative_reference.",
+            "documentation": "A wall-clock instant or interval. Carries NO dependency: it is interpretable on its own, which is what distinguishes it from relative_reference. ANCHOR (`start`) and EXTENT (`duration`) are separate facts with separate precisions.",
             "constraints": {},
             "fields": [
                 {
-                    "name": "start_utc",
-                    "type": "timestamp",
+                    "name": "start",
+                    "type": "structure",
+                    "blank_value": {},
+                    "default_value": {},
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "The ANCHOR: the wall-clock instant this reference is pinned to. A nested cell rather than flat `start_utc`/`source_start` fields so the canonical value and its source provenance travel together, exactly as every dimensioned value does (T14).",
+                    "constraints": {},
+                    "fields": [
+                        {
+                            "name": "utc",
+                            "type": "timestamp",
+                            "blank_value": 0.0,
+                            "default_value": 0.0,
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "Canonical UTC instant -- the normalised, cross-document comparable value.",
+                            "constraints": {}
+                        },
+                        {
+                            "name": "source_value",
+                            "type": "char",
+                            "blank_value": "",
+                            "default_value": "",
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "The instant exactly as the source wrote it, before normalisation. ALWAYS set when a source string exists; `utc` is filled only when the string can be read WITHOUT guessing (an unlabelled local time is not convertible).",
+                            "constraints": {}
+                        },
+                        {
+                            "name": "source_timezone",
+                            "type": "char",
+                            "blank_value": "",
+                            "default_value": "",
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "IANA time zone name as the source gave it (e.g. 'America/New_York').",
+                            "constraints": {}
+                        },
+                        {
+                            "name": "source_utc_offset",
+                            "type": "char",
+                            "blank_value": "",
+                            "default_value": "",
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "UTC offset as the source gave it (e.g. '-05:00'), when only an offset was available and no zone name.",
+                            "constraints": {}
+                        },
+                        {
+                            "name": "approximate",
+                            "type": "boolean",
+                            "blank_value": 0.0,
+                            "default_value": 0.0,
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "TRUE when the ANCHOR is imprecise. Distinct from `duration.approximate` (the EXTENT) and from `time_reference.clock_tolerance` (the TIMELINE).",
+                            "constraints": {}
+                        }
+                    ]
+                },
+                {
+                    "name": "duration",
+                    "type": "duration",
                     "blank_value": 0.0,
                     "default_value": 0.0,
                     "mustBeNonEmpty": false,
@@ -35,60 +115,62 @@
                     "mustNotHaveNaN": false,
                     "queryable": true,
                     "ontology": null,
-                    "documentation": "Canonical UTC start instant.",
-                    "constraints": {}
-                },
-                {
-                    "name": "end_utc",
-                    "type": "timestamp",
-                    "blank_value": 0.0,
-                    "default_value": 0.0,
-                    "mustBeNonEmpty": false,
-                    "mustBeScalar": true,
-                    "mustNotHaveNaN": false,
-                    "queryable": true,
-                    "ontology": null,
-                    "documentation": "Canonical UTC end instant. ABSENT means a point in time, not an interval.",
-                    "constraints": {}
-                },
-                {
-                    "name": "source_timezone",
-                    "type": "char",
-                    "blank_value": "",
-                    "default_value": "",
-                    "mustBeNonEmpty": false,
-                    "mustBeScalar": true,
-                    "mustNotHaveNaN": false,
-                    "queryable": true,
-                    "ontology": null,
-                    "documentation": "IANA time zone name as the source gave it (e.g. 'America/New_York').",
-                    "constraints": {}
-                },
-                {
-                    "name": "source_utc_offset",
-                    "type": "char",
-                    "blank_value": "",
-                    "default_value": "",
-                    "mustBeNonEmpty": false,
-                    "mustBeScalar": true,
-                    "mustNotHaveNaN": false,
-                    "queryable": true,
-                    "ontology": null,
-                    "documentation": "UTC offset as the source gave it (e.g. '-05:00'), when only an offset was available and no zone name.",
-                    "constraints": {}
-                },
-                {
-                    "name": "source_start",
-                    "type": "char",
-                    "blank_value": "",
-                    "default_value": "",
-                    "mustBeNonEmpty": false,
-                    "mustBeScalar": true,
-                    "mustNotHaveNaN": false,
-                    "queryable": true,
-                    "ontology": null,
-                    "documentation": "The start instant exactly as the source wrote it, before normalisation.",
-                    "constraints": {}
+                    "documentation": "The EXTENT, measured from `start`. ABSENT means an INSTANT, not an interval. CHANGE 1: this replaces `end_utc`, so 'started around 09:00, ran exactly 60 minutes' is expressible -- with two instants both inherit the anchor's fuzziness and the exactness of the span is lost.",
+                    "constraints": {},
+                    "fields": [
+                        {
+                            "name": "seconds",
+                            "type": "double",
+                            "blank_value": 0.0,
+                            "default_value": 0.0,
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "Canonical duration value -- the normalised, cross-document comparable number.",
+                            "constraints": {}
+                        },
+                        {
+                            "name": "source_unit",
+                            "type": "char",
+                            "blank_value": "",
+                            "default_value": "",
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "The unit exactly as given by the source (lossless provenance).",
+                            "constraints": {}
+                        },
+                        {
+                            "name": "source_value",
+                            "type": "double",
+                            "blank_value": 0.0,
+                            "default_value": 0.0,
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "The number as given by the source, in `source_unit`.",
+                            "constraints": {}
+                        },
+                        {
+                            "name": "approximate",
+                            "type": "boolean",
+                            "blank_value": 0.0,
+                            "default_value": 0.0,
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "True when the value is approximate.",
+                            "constraints": {}
+                        }
+                    ]
                 },
                 {
                     "name": "source_end",
@@ -100,20 +182,7 @@
                     "mustNotHaveNaN": false,
                     "queryable": true,
                     "ontology": null,
-                    "documentation": "The end instant exactly as the source wrote it, before normalisation.",
-                    "constraints": {}
-                },
-                {
-                    "name": "approximate",
-                    "type": "boolean",
-                    "blank_value": 0.0,
-                    "default_value": 0.0,
-                    "mustBeNonEmpty": false,
-                    "mustBeScalar": true,
-                    "mustNotHaveNaN": false,
-                    "queryable": true,
-                    "ontology": null,
-                    "documentation": "True when the source marked the time as approximate.",
+                    "documentation": "The end instant verbatim, when the source expressed the interval as TWO INSTANTS. NOT renamed `source_duration`: the source wrote an end instant, not a quantity of time, and filing it in a duration's source slot would label it as something it is not (the distance_metadata assumed-shape error). `end` is exactly recoverable as start + duration, so what this preserves is the SOURCE'S SHAPE, not one of our fields.",
                     "constraints": {}
                 }
             ]

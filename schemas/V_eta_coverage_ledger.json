@@ -16,7 +16,7 @@
       "ndi": 91,
       "app": 11
     },
-    "with_migrator": 78,
+    "with_migrator": 81,
     "gaps": 0
   },
   "rows": [
@@ -218,7 +218,7 @@
       "v1_class": "daqmetadatareader",
       "veta_class": "daqmetadatareader",
       "disposition": "in_progress",
-      "migrator": false,
+      "migrator": true,
       "source": "ndi",
       "nonprod": false,
       "gap": false,
@@ -254,7 +254,7 @@
       "v1_class": "daqreader",
       "veta_class": "daqreader",
       "disposition": "in_progress",
-      "migrator": false,
+      "migrator": true,
       "source": "ndi",
       "nonprod": false,
       "gap": false,
@@ -346,7 +346,7 @@
       "v1_class": "daqsystem",
       "veta_class": "daqsystem",
       "disposition": "in_progress",
-      "migrator": false,
+      "migrator": true,
       "source": "ndi",
       "nonprod": false,
       "gap": false,

@@ -1,7 +1,7 @@
 {
     "document_class": {
         "class_name": "time_reference",
-        "class_version": "3.0.0",
+        "class_version": "4.0.0",
         "superclasses": [
             {
                 "class_name": "base"
@@ -23,8 +23,75 @@
             "mustNotHaveNaN": false,
             "queryable": true,
             "ontology": null,
-            "documentation": "Binary precision tier. False ~ precise (within 0.1 ms); True ~ approximate (within ~5 s).",
+            "documentation": "DEPRECATED, retiring with the six session_/epoch_/event_ reference subclasses (#65 increment 3). CHANGE 2 of the signed walkthrough deletes it: approximateness belongs where there is a quantity to qualify (start / duration / clock_tolerance), and the field is empirically vacuous -- eleven writers, every one a hardcoded `true`, expressing 'we do not know exactly when', which having no start and no duration already says. THE ABSENCE IS THE IMPRECISION. Not removed yet ONLY because the strict-fields check would quarantine every live anchor whose emitter still writes it.",
             "constraints": {}
+        },
+        {
+            "name": "clock_tolerance",
+            "type": "duration",
+            "blank_value": 0.0,
+            "default_value": 0.0,
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "The stated precision of the TIMELINE these times are expressed on -- NOT of any one value. ABSENT = no stated tolerance. De-encoded from NDI's `approx_` clocktype prefix, which documents +/-5 s in a docstring (+ndi/+time/clocktype.m:21,23,26): approx_utc -> clock: utc + clock_tolerance {seconds: 5}. The migrator supplies the 5 from writer semantics -- transcription, not invention. On the ROOT because a tolerance-bearing UTC time can be an absolute_reference (a wall-clock instant) or a relative_reference (offsets on the UTC clock); for absolute_reference the timeline is UTC by construction.",
+            "constraints": {},
+            "fields": [
+                {
+                    "name": "seconds",
+                    "type": "double",
+                    "blank_value": 0.0,
+                    "default_value": 0.0,
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Canonical duration value -- the normalised, cross-document comparable number.",
+                    "constraints": {}
+                },
+                {
+                    "name": "source_unit",
+                    "type": "char",
+                    "blank_value": "",
+                    "default_value": "",
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "The unit exactly as given by the source (lossless provenance).",
+                    "constraints": {}
+                },
+                {
+                    "name": "source_value",
+                    "type": "double",
+                    "blank_value": 0.0,
+                    "default_value": 0.0,
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "The number as given by the source, in `source_unit`.",
+                    "constraints": {}
+                },
+                {
+                    "name": "approximate",
+                    "type": "boolean",
+                    "blank_value": 0.0,
+                    "default_value": 0.0,
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "True when the value is approximate.",
+                    "constraints": {}
+                }
+            ]
         }
     ]
 }

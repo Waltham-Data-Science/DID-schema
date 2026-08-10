@@ -1,7 +1,7 @@
 {
     "document_class": {
         "class_name": "relative_reference",
-        "class_version": "1.0.0",
+        "class_version": "2.0.0",
         "superclasses": [
             {
                 "class_name": "time_reference"
@@ -13,7 +13,7 @@
         {
             "name": "relative_to",
             "mustBeNonEmpty": true,
-            "documentation": "What the time is measured against -- an epoch, a session, an interaction, another reference. REQUIRED (team call): a relative time with no referent is not interpretable.",
+            "documentation": "What the time is measured against -- an epoch, a session, an interaction, another reference. REQUIRED (team call): a relative time with no referent is not interpretable. NOT fillable in pass 1: a migrator holds `base.session_id`, and the edge needs the session DOCUMENT's `base.id`, which is a different, freshly minted uid (NDI-matlab +ndi/document.m:57-58). did2.convert.resolveSessionAnchors is the batch pass that resolves it.",
             "must_refer_to_document_class": "base"
         }
     ],
@@ -29,7 +29,7 @@
             "mustNotHaveNaN": false,
             "queryable": true,
             "ontology": null,
-            "documentation": "A time measured against the referent named by `relative_to`. start/end are durations, so canonical seconds plus source-unit preservation come from the duration cell. ONE ANCHOR PER DOCUMENT: an interval whose ends are anchored differently becomes TWO documents.",
+            "documentation": "A time measured against the referent named by `relative_to`. `start` (the anchor) and `duration` (the extent) are duration cells, so canonical seconds plus source-unit preservation come for free. ONE ANCHOR PER DOCUMENT: an interval whose ends are anchored differently becomes TWO documents (no split-anchored instance exists -- every markvalidinterval call site passes the same reference for both ends).",
             "constraints": {},
             "fields": [
                 {
@@ -97,140 +97,6 @@
                             "queryable": true,
                             "ontology": null,
                             "documentation": "The human-readable label.",
-                            "constraints": {}
-                        }
-                    ]
-                },
-                {
-                    "name": "start",
-                    "type": "duration",
-                    "blank_value": 0.0,
-                    "default_value": 0.0,
-                    "mustBeNonEmpty": false,
-                    "mustBeScalar": true,
-                    "mustNotHaveNaN": false,
-                    "queryable": true,
-                    "ontology": null,
-                    "documentation": "Offset of the start from the referent's origin, on the named clock. ABSENT together with `end` means the relation alone is asserted.",
-                    "constraints": {},
-                    "fields": [
-                        {
-                            "name": "seconds",
-                            "type": "double",
-                            "blank_value": 0.0,
-                            "default_value": 0.0,
-                            "mustBeNonEmpty": false,
-                            "mustBeScalar": true,
-                            "mustNotHaveNaN": false,
-                            "queryable": true,
-                            "ontology": null,
-                            "documentation": "Canonical duration value -- the normalised, cross-document comparable number.",
-                            "constraints": {}
-                        },
-                        {
-                            "name": "source_unit",
-                            "type": "char",
-                            "blank_value": "",
-                            "default_value": "",
-                            "mustBeNonEmpty": false,
-                            "mustBeScalar": true,
-                            "mustNotHaveNaN": false,
-                            "queryable": true,
-                            "ontology": null,
-                            "documentation": "The unit exactly as given by the source (lossless provenance).",
-                            "constraints": {}
-                        },
-                        {
-                            "name": "source_value",
-                            "type": "double",
-                            "blank_value": 0.0,
-                            "default_value": 0.0,
-                            "mustBeNonEmpty": false,
-                            "mustBeScalar": true,
-                            "mustNotHaveNaN": false,
-                            "queryable": true,
-                            "ontology": null,
-                            "documentation": "The number as given by the source, in `source_unit`.",
-                            "constraints": {}
-                        },
-                        {
-                            "name": "approximate",
-                            "type": "boolean",
-                            "blank_value": 0.0,
-                            "default_value": 0.0,
-                            "mustBeNonEmpty": false,
-                            "mustBeScalar": true,
-                            "mustNotHaveNaN": false,
-                            "queryable": true,
-                            "ontology": null,
-                            "documentation": "True when the value is approximate.",
-                            "constraints": {}
-                        }
-                    ]
-                },
-                {
-                    "name": "end",
-                    "type": "duration",
-                    "blank_value": 0.0,
-                    "default_value": 0.0,
-                    "mustBeNonEmpty": false,
-                    "mustBeScalar": true,
-                    "mustNotHaveNaN": false,
-                    "queryable": true,
-                    "ontology": null,
-                    "documentation": "Offset of the end from the referent's origin. ABSENT means a point.",
-                    "constraints": {},
-                    "fields": [
-                        {
-                            "name": "seconds",
-                            "type": "double",
-                            "blank_value": 0.0,
-                            "default_value": 0.0,
-                            "mustBeNonEmpty": false,
-                            "mustBeScalar": true,
-                            "mustNotHaveNaN": false,
-                            "queryable": true,
-                            "ontology": null,
-                            "documentation": "Canonical duration value -- the normalised, cross-document comparable number.",
-                            "constraints": {}
-                        },
-                        {
-                            "name": "source_unit",
-                            "type": "char",
-                            "blank_value": "",
-                            "default_value": "",
-                            "mustBeNonEmpty": false,
-                            "mustBeScalar": true,
-                            "mustNotHaveNaN": false,
-                            "queryable": true,
-                            "ontology": null,
-                            "documentation": "The unit exactly as given by the source (lossless provenance).",
-                            "constraints": {}
-                        },
-                        {
-                            "name": "source_value",
-                            "type": "double",
-                            "blank_value": 0.0,
-                            "default_value": 0.0,
-                            "mustBeNonEmpty": false,
-                            "mustBeScalar": true,
-                            "mustNotHaveNaN": false,
-                            "queryable": true,
-                            "ontology": null,
-                            "documentation": "The number as given by the source, in `source_unit`.",
-                            "constraints": {}
-                        },
-                        {
-                            "name": "approximate",
-                            "type": "boolean",
-                            "blank_value": 0.0,
-                            "default_value": 0.0,
-                            "mustBeNonEmpty": false,
-                            "mustBeScalar": true,
-                            "mustNotHaveNaN": false,
-                            "queryable": true,
-                            "ontology": null,
-                            "documentation": "True when the value is approximate.",
                             "constraints": {}
                         }
                     ]
@@ -308,8 +174,8 @@
                     ]
                 },
                 {
-                    "name": "approximate",
-                    "type": "boolean",
+                    "name": "start",
+                    "type": "duration",
                     "blank_value": 0.0,
                     "default_value": 0.0,
                     "mustBeNonEmpty": false,
@@ -317,8 +183,129 @@
                     "mustNotHaveNaN": false,
                     "queryable": true,
                     "ontology": null,
-                    "documentation": "True when the source marked the time as approximate.",
-                    "constraints": {}
+                    "documentation": "The ANCHOR: offset of this reference from the referent named by `relative_to`, on the named clock. ABSENT together with `duration` means the `relation` alone is asserted -- which is the honest state for the 107,308 'during the session' anchors, and is why no value-level `approximate` flag is needed to say 'we do not know exactly when'.",
+                    "constraints": {},
+                    "fields": [
+                        {
+                            "name": "seconds",
+                            "type": "double",
+                            "blank_value": 0.0,
+                            "default_value": 0.0,
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "Canonical duration value -- the normalised, cross-document comparable number.",
+                            "constraints": {}
+                        },
+                        {
+                            "name": "source_unit",
+                            "type": "char",
+                            "blank_value": "",
+                            "default_value": "",
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "The unit exactly as given by the source (lossless provenance).",
+                            "constraints": {}
+                        },
+                        {
+                            "name": "source_value",
+                            "type": "double",
+                            "blank_value": 0.0,
+                            "default_value": 0.0,
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "The number as given by the source, in `source_unit`.",
+                            "constraints": {}
+                        },
+                        {
+                            "name": "approximate",
+                            "type": "boolean",
+                            "blank_value": 0.0,
+                            "default_value": 0.0,
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "True when the value is approximate.",
+                            "constraints": {}
+                        }
+                    ]
+                },
+                {
+                    "name": "duration",
+                    "type": "duration",
+                    "blank_value": 0.0,
+                    "default_value": 0.0,
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "The EXTENT, measured from `start`. ABSENT means an INSTANT. CHANGE 1: this replaces `end`, so an approximate anchor and an exact span are separately expressible.",
+                    "constraints": {},
+                    "fields": [
+                        {
+                            "name": "seconds",
+                            "type": "double",
+                            "blank_value": 0.0,
+                            "default_value": 0.0,
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "Canonical duration value -- the normalised, cross-document comparable number.",
+                            "constraints": {}
+                        },
+                        {
+                            "name": "source_unit",
+                            "type": "char",
+                            "blank_value": "",
+                            "default_value": "",
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "The unit exactly as given by the source (lossless provenance).",
+                            "constraints": {}
+                        },
+                        {
+                            "name": "source_value",
+                            "type": "double",
+                            "blank_value": 0.0,
+                            "default_value": 0.0,
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "The number as given by the source, in `source_unit`.",
+                            "constraints": {}
+                        },
+                        {
+                            "name": "approximate",
+                            "type": "boolean",
+                            "blank_value": 0.0,
+                            "default_value": 0.0,
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "True when the value is approximate.",
+                            "constraints": {}
+                        }
+                    ]
                 }
             ]
         }

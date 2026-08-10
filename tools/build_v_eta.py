@@ -1521,26 +1521,95 @@ _OWL_TIME_BINDING = {
                            "time:intervalEquals"],
                 "strength": "required", "source": "value_set"}}
 
-# T14 one-`value` slot: canonical form plus lossless source provenance INSIDE the cell,
-# exactly as voltage.value and duration.value do. `is_approximate` therefore lives in the
-# cell, not on the root -- the root keeps it for now because the eight retiring subclasses
-# still inherit it; it is dropped when they go (increment 3).
+# ---------- #65 INCREMENT 2: the SIGNED walkthrough shape ----------------------
+# V_eta_time_reference_model_plan.md:468, TEAM-SIGN-OFF [time_reference],
+# jess@walthamdatascience.com / 2026-08-08. Increment 1 (above) built the two target
+# classes from the plan's ORIGINAL sections; the walkthrough section at the BOTTOM of
+# that file supersedes them, and the plan says so in its own words ("Read this section,
+# not the ones above"). Increment 2 moves the built shape onto the signed one:
+#
+#   CHANGE 1  `end` becomes `duration`. ANCHOR and EXTENT are independent facts -- the
+#             team's case is "approximately 10 hours after another event, but exactly 60
+#             minutes in duration", which start+end cannot express because a fuzzy anchor
+#             makes both offsets fuzzy and the exactness of their DIFFERENCE is
+#             unrecoverable. Informationally equivalent (end = start + duration).
+#             absolute_reference takes the same change for the same reason.
+#   CHANGE 2  every VALUE-LEVEL `approximate` is DELETED (`value.approximate` on both
+#             children). Approximateness lives ONLY where there is a quantity to qualify
+#             -- the start/duration cells already carry their own `approximate`, and when
+#             neither is present the assertion is purely qualitative (an Allen relation is
+#             true or false; "approximately during the session" is not a weaker claim, it
+#             is not a claim). THE ABSENCE IS THE IMPRECISION.
+#   CHANGE 3  `clock` is a bound `ontology_term` -- already built in increment 1.
+#   CHANGE 4  the `approx_` prefix de-encodes to `clock_tolerance` ON THE ROOT (below),
+#             because a UTC time good to +/-5 s can land on EITHER class.
+#
+# THREE distinct precisions, none duplicating another (the walkthrough's own table):
+#   clock_tolerance        the TIMELINE is good to +/-5 s   applies to EVERY value on it
+#   start.approximate      the ANCHOR is imprecise          this document only
+#   duration.approximate   the EXTENT is imprecise          this document only
+#
+# *** WHAT INCREMENT 2 DELIBERATELY DOES NOT DO, AND WHY -- READ BEFORE "FINISHING" IT ***
+# `time_reference.is_approximate` is NOT removed, and the six retiring subclasses are NOT
+# deleted. Both are blocked on the SAME thing, and it is not tidiness:
+#
+#   +did2/+schema/cache.m:695-706 is a STRICT-FIELDS check -- a property block carrying a
+#   field the placement-resolved layout does not declare raises
+#   did2:validation:undeclaredField. Every live emitter writes
+#   `anchor.time_reference = struct('is_approximate', true)` (16 jSessionAnchor call
+#   sites + 11 inline copies on the V_eta path). Dropping the declaration while those
+#   emitters stand would quarantine 127,719 documents on a 0-quarantine gate -- the
+#   epochfiles_ingested regression, at 50x the size.
+#
+# The emitters cannot simply be moved either: `relative_reference.relative_to` is
+# REQUIRED, and a pass-1 migrator CANNOT fill it. It has `base.session_id`, while the
+# edge needs the session DOCUMENT's `base.id`, which is a FRESH uid
+# (NDI-matlab +ndi/document.m:57-58 `document_properties.base.id = ndiido.id()`;
+# +ndi/session.m:215 sets only `base.session_id`). Resolving one to the other is a
+# corpus-wide grouping -- the same wall jEpochDocId, distance_metadata and ontology_label
+# hit. Emitting the edge empty instead would manufacture the single largest instance of
+# the invented-empty-edge pattern this project has recorded. So the fold is a BATCH PASS
+# (DID-matlab did2.convert.resolveSessionAnchors), and increment 3 -- drop
+# `is_approximate`, delete the six subclasses -- lands only after a corpus run reports
+# ZERO surviving session_*_reference documents.
 _ABSOLUTE_REFERENCE_SUBS = [
-    subfield("start_utc", "timestamp",
-             "Canonical UTC start instant."),
-    subfield("end_utc", "timestamp",
-             "Canonical UTC end instant. ABSENT means a point in time, not an interval."),
-    subfield("source_timezone", "char",
-             "IANA time zone name as the source gave it (e.g. 'America/New_York')."),
-    subfield("source_utc_offset", "char",
-             "UTC offset as the source gave it (e.g. '-05:00'), when only an offset was "
-             "available and no zone name."),
-    subfield("source_start", "char",
-             "The start instant exactly as the source wrote it, before normalisation."),
+    subfield("start", "structure",
+             "The ANCHOR: the wall-clock instant this reference is pinned to. A nested "
+             "cell rather than flat `start_utc`/`source_start` fields so the canonical "
+             "value and its source provenance travel together, exactly as every "
+             "dimensioned value does (T14).",
+             sub_fields=[
+                 subfield("utc", "timestamp",
+                          "Canonical UTC instant -- the normalised, cross-document "
+                          "comparable value."),
+                 subfield("source_value", "char",
+                          "The instant exactly as the source wrote it, before "
+                          "normalisation. ALWAYS set when a source string exists; `utc` "
+                          "is filled only when the string can be read WITHOUT guessing "
+                          "(an unlabelled local time is not convertible)."),
+                 subfield("source_timezone", "char",
+                          "IANA time zone name as the source gave it (e.g. "
+                          "'America/New_York')."),
+                 subfield("source_utc_offset", "char",
+                          "UTC offset as the source gave it (e.g. '-05:00'), when only "
+                          "an offset was available and no zone name."),
+                 subfield("approximate", "boolean",
+                          "TRUE when the ANCHOR is imprecise. Distinct from "
+                          "`duration.approximate` (the EXTENT) and from "
+                          "`time_reference.clock_tolerance` (the TIMELINE)."),
+             ]),
+    subfield("duration", "duration",
+             "The EXTENT, measured from `start`. ABSENT means an INSTANT, not an "
+             "interval. CHANGE 1: this replaces `end_utc`, so 'started around 09:00, ran "
+             "exactly 60 minutes' is expressible -- with two instants both inherit the "
+             "anchor's fuzziness and the exactness of the span is lost."),
     subfield("source_end", "char",
-             "The end instant exactly as the source wrote it, before normalisation."),
-    subfield("approximate", "boolean",
-             "True when the source marked the time as approximate."),
+             "The end instant verbatim, when the source expressed the interval as TWO "
+             "INSTANTS. NOT renamed `source_duration`: the source wrote an end instant, "
+             "not a quantity of time, and filing it in a duration's source slot would "
+             "label it as something it is not (the distance_metadata assumed-shape error). "
+             "`end` is exactly recoverable as start + duration, so what this preserves is "
+             "the SOURCE'S SHAPE, not one of our fields."),
 ]
 
 _RELATIVE_REFERENCE_SUBS = [
@@ -1548,11 +1617,6 @@ _RELATIVE_REFERENCE_SUBS = [
              "The qualitative interval relation to the referent, when no metric offset "
              "exists (OWL-Time; all thirteen Allen relations).",
              constraints=_OWL_TIME_BINDING),
-    subfield("start", "duration",
-             "Offset of the start from the referent's origin, on the named clock. "
-             "ABSENT together with `end` means the relation alone is asserted."),
-    subfield("end", "duration",
-             "Offset of the end from the referent's origin. ABSENT means a point."),
     subfield("clock", "ontology_term",
              "WHICH timeline within the referent the offsets are measured on. NDI times "
              "an epoch on several clocks at once and they drift, so '10 seconds in' is "
@@ -1562,31 +1626,94 @@ _RELATIVE_REFERENCE_SUBS = [
              "Nodes are STAGED EMPTY -- no NDIC identifier can be assigned from any "
              "repository in scope; see the build script for the evidence.",
              constraints=_CLOCK_BINDING),
-    subfield("approximate", "boolean",
-             "True when the source marked the time as approximate."),
+    subfield("start", "duration",
+             "The ANCHOR: offset of this reference from the referent named by "
+             "`relative_to`, on the named clock. ABSENT together with `duration` means "
+             "the `relation` alone is asserted -- which is the honest state for the "
+             "107,308 'during the session' anchors, and is why no value-level "
+             "`approximate` flag is needed to say 'we do not know exactly when'."),
+    subfield("duration", "duration",
+             "The EXTENT, measured from `start`. ABSENT means an INSTANT. CHANGE 1: this "
+             "replaces `end`, so an approximate anchor and an exact span are separately "
+             "expressible."),
 ]
 
 write("stable", "absolute_reference",
-      doc("absolute_reference", ["time_reference"], fields=[
+      doc("absolute_reference", ["time_reference"], version="2.0.0", fields=[
           field("value", "structure",
                 "A wall-clock instant or interval. Carries NO dependency: it is "
                 "interpretable on its own, which is what distinguishes it from "
-                "relative_reference.",
+                "relative_reference. ANCHOR (`start`) and EXTENT (`duration`) are "
+                "separate facts with separate precisions.",
                 non_empty=True, sub_fields=_ABSOLUTE_REFERENCE_SUBS)]))
 
 write("stable", "relative_reference",
-      doc("relative_reference", ["time_reference"],
+      doc("relative_reference", ["time_reference"], version="2.0.0",
           deps=[dep("relative_to", "base",
                     "What the time is measured against -- an epoch, a session, an "
                     "interaction, another reference. REQUIRED (team call): a relative "
-                    "time with no referent is not interpretable.")],
+                    "time with no referent is not interpretable. NOT fillable in pass 1: "
+                    "a migrator holds `base.session_id`, and the edge needs the session "
+                    "DOCUMENT's `base.id`, which is a different, freshly minted uid "
+                    "(NDI-matlab +ndi/document.m:57-58). did2.convert.resolveSessionAnchors "
+                    "is the batch pass that resolves it.")],
           fields=[
           field("value", "structure",
-                "A time measured against the referent named by `relative_to`. "
-                "start/end are durations, so canonical seconds plus source-unit "
-                "preservation come from the duration cell. ONE ANCHOR PER DOCUMENT: an "
-                "interval whose ends are anchored differently becomes TWO documents.",
+                "A time measured against the referent named by `relative_to`. `start` "
+                "(the anchor) and `duration` (the extent) are duration cells, so "
+                "canonical seconds plus source-unit preservation come for free. ONE "
+                "ANCHOR PER DOCUMENT: an interval whose ends are anchored differently "
+                "becomes TWO documents (no split-anchored instance exists -- every "
+                "markvalidinterval call site passes the same reference for both ends).",
                 non_empty=True, sub_fields=_RELATIVE_REFERENCE_SUBS)]))
+
+# ---------- CHANGE 4: `clock_tolerance` on the ABSTRACT ROOT --------------------
+# The `approx_` prefix is mode-in-a-name (T13) AND it hides a NUMBER in a docstring (T14):
+#
+#   NDI-matlab +ndi/+time/clocktype.m:21  'approx_utc'  | ... (within 5 seconds)
+#                                    :23  'approx_exp_global_time'   | (within 5s)
+#                                    :26  'approx_dev_global_time'   | (within 5 s)
+#   NDI-matlab +ndi/+epoch/epochset.m:554-558  degrades utc -> approx_utc, etc.
+#
+# It must NOT fold into a boolean -- that has no magnitude and the five seconds would be
+# lost. It de-encodes to DATA: the bare clock plus `clock_tolerance {seconds: 5}`.
+#
+# ON THE ROOT, not on relative_reference. The team caught this: a UTC time good to +/-5 s
+# can land on EITHER class -- as a wall-clock instant it is an absolute_reference, as
+# offsets measured in UTC seconds from a referent it is a relative_reference with
+# `clock: utc`. Putting the tolerance on the relative class only would silently drop it
+# for every absolute one.
+_tr = load(os.path.join(VETA, "stable", "time_reference.json"))
+_tr["document_class"]["class_version"] = "4.0.0"
+_tr["fields"] = [f for f in _tr["fields"] if f["name"] != "clock_tolerance"]
+for _f in _tr["fields"]:
+    if _f["name"] == "is_approximate":
+        # RETIRING, NOT KEPT. It survives increment 2 only because removing a declared
+        # field while emitters still write it raises did2:validation:undeclaredField
+        # (+did2/+schema/cache.m:695-706) on every one of the 127,719 live anchors.
+        # Increment 3 removes it WITH the six retiring subclasses, gated on a corpus run
+        # reporting zero surviving session_*_reference documents.
+        _f["documentation"] = (
+            "DEPRECATED, retiring with the six session_/epoch_/event_ reference "
+            "subclasses (#65 increment 3). CHANGE 2 of the signed walkthrough deletes it: "
+            "approximateness belongs where there is a quantity to qualify (start / "
+            "duration / clock_tolerance), and the field is empirically vacuous -- eleven "
+            "writers, every one a hardcoded `true`, expressing 'we do not know exactly "
+            "when', which having no start and no duration already says. THE ABSENCE IS "
+            "THE IMPRECISION. Not removed yet ONLY because the strict-fields check would "
+            "quarantine every live anchor whose emitter still writes it.")
+_tr["fields"].append(field(
+    "clock_tolerance", "duration",
+    "The stated precision of the TIMELINE these times are expressed on -- NOT of any one "
+    "value. ABSENT = no stated tolerance. De-encoded from NDI's `approx_` clocktype "
+    "prefix, which documents +/-5 s in a docstring "
+    "(+ndi/+time/clocktype.m:21,23,26): approx_utc -> clock: utc + clock_tolerance "
+    "{seconds: 5}. The migrator supplies the 5 from writer semantics -- transcription, "
+    "not invention. On the ROOT because a tolerance-bearing UTC time can be an "
+    "absolute_reference (a wall-clock instant) or a relative_reference (offsets on the "
+    "UTC clock); for absolute_reference the timeline is UTC by construction.",
+    non_empty=False))
+write("stable", "time_reference", _tr)
 
 
 # ---------- 10. manipulation tier: strict J (D4, D8) ----------
@@ -3316,6 +3443,25 @@ if _srs_path:
             " document and typing it rides with the stimulus model.",
             non_empty=True),
     ]
+    # REPAIR 3 of the signed plan: `response_file` is INVENTED and is deleted.
+    #
+    #   git show origin/main:src/ndi/ndi_common/database_documents/stimulus/\
+    #       stimulus_response.json  |  grep -c 'files\|file_list'   ->  0
+    #
+    # NOT ONE of the four templates in this family declares a file, and the
+    # writer builds all of them with plain `ndi.document(...)` + block structs
+    # (tuning_response.m:276-281 and :320-322) -- there is no
+    # `add_file`/`.ext` call anywhere in `compute_stimulus_response_scalar`.
+    # The declaration came from DID-schema's own V_alpha snapshot, like the
+    # reversed parameters edge above.
+    #
+    # It is not a live quarantine today: a declared file is not required to be
+    # present, so a real (file-less) document passes. What it does is assert, to
+    # every reader of the schema, that a response has a payload file -- so a
+    # second pass could go looking for one, and `did2.validate.isFragment` gets
+    # a declaration it can never satisfy. Deleting it costs nothing and removes
+    # a standing invitation to build against a file that has never existed.
+    _srs["file"] = []
     write(_srs_tier, "stimulus_response", _srs)
 
 _srsc_tier, _srsc_path = path_of("stimulus_response_scalar")
@@ -3342,6 +3488,70 @@ if _srsp_path:
     # repair; the real edge lives on the child, above.
     _srsp["depends_on"] = []
     write(_srsp_tier, "stimulus_response_scalar_parameters", _srsp)
+
+# ---- _parameters_basic.freq_response: it is a HARMONIC NUMBER, not a flag --
+# #61, REPAIR 4 of the signed plan's "REPAIRS THIS CARRIES (needed under any
+# model)" list. This is the one repair in that list that had NOT been built; the
+# other four landed with the edge-direction fix above and with the migrators.
+#
+# The field was declared `integer {min: 0, max: 1}` and documented "1 if this
+# scalar response is a frequency-domain measurement, 0 otherwise" -- i.e. as a
+# boolean. It is not one. From the writer, NDI origin/main
+# `+ndi/+app/+stimulus/tuning_response.m`:
+#
+#   :202   freq_response_commands = [0 1 2];      <- the DEFAULT sweep
+#   :204   freq_response_commands = 0;            <- when no stimulus has a
+#                                                    fundamental frequency
+#   :207   freq_response_commands = freq_response;   <- CALLER-SUPPLIED, unbounded
+#   :260   freq_response = freq_response_commands(f);
+#   :262-266  if freq_response==0, response_type='mean'; else ['F' int2str(...)]
+#   :276-281  vlt.data.var2struct(... 'freq_response' ...)  -> the document
+#
+# So the stored value is the harmonic index: 0 = DC/mean, 1 = F1, 2 = F2 -- and
+# `max: 1` is a claim that would reject every F2 document. F2 is not exotic: it
+# is one third of the default sweep, so roughly a third of the 11,440 documents
+# in the corpora carry freq_response = 2.
+#
+# TWO INDEPENDENT ERRORS, and only the second one is why nothing has broken yet:
+#   (a) the BOUND is wrong -- 1 where the writer emits 0/1/2 and permits more;
+#   (b) the KEY is wrong -- `+did2/+schema/cache.m` validateConstraints (:1340)
+#       switches on `maxLength | minLength | minimum | maximum | enum` and its
+#       `otherwise` branch silently TOLERATES unrecognised keys, so `min`/`max`
+#       are INERT. The declaration has never been enforced.
+# Spelling the key correctly without fixing the bound would quarantine a third
+# of the class the day someone normalised the constraint vocabulary. Both halves
+# are repaired together, here, rather than left as a trap.
+#
+# NO `maximum` IS DECLARED, deliberately. :207 takes `freq_response` straight
+# from the caller, so 3 is representable; a bound we cannot derive from the
+# writer is exactly the kind of invention this repair track exists to remove.
+# `minimum: 0` is safe under the same rule -- a harmonic index is a count, the
+# template default is 0, and an empty value passes (`any([] < 0)` is false).
+#
+# `isspike` is left ALONE. Its {min:0, max:1} is equally inert but its INTENT is
+# correct (the writer sets 0 or 1 and nothing else, :176/:179-182), so rewriting
+# its key would newly ENFORCE a rule on 11,440 live documents to no benefit.
+# Recorded rather than fixed: 4 fields in the built set carry the inert spelling
+# (element.reference, element.direct, and these two).
+_srsb_tier, _srsb_path = path_of("stimulus_response_scalar_parameters_basic")
+if _srsb_path:
+    _srsb = load(_srsb_path)
+    for _f in _srsb.get("fields", []):
+        if _f["name"] != "freq_response":
+            continue
+        _f["constraints"] = {"minimum": 0}
+        _f["documentation"] = (
+            "The HARMONIC of the stimulus fundamental this response reduces to: "
+            "0 = DC (the writer's 'mean'), 1 = F1, 2 = F2. NOT a boolean -- it "
+            "was declared {min:0,max:1} and documented as a frequency-domain "
+            "flag, which would reject every F2 document. "
+            "+ndi/+app/+stimulus/tuning_response.m:202 sweeps [0 1 2] by default "
+            "and :207 takes the value from the caller, so no maximum is "
+            "declared. :262-266 derives `response_type` from it, which is why "
+            "the harmonic is recoverable from the response document alone and "
+            "this document is foldable."
+        )
+    write(_srsb_tier, "stimulus_response_scalar_parameters_basic", _srsb)
 
 # ---- stimulus_parameter_table: DEMOTE to deprecated/ ----------------------
 # Decided 2026-08-08 in the stimulus-parameters sign-off review. The team's

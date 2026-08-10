@@ -56,7 +56,7 @@
         {
             "class_name": "absolute_reference",
             "tier": "stable",
-            "class_version": "1.0.0",
+            "class_version": "2.0.0",
             "maturity_level": "stable",
             "superclasses": [
                 "time_reference"
@@ -2007,7 +2007,7 @@
         {
             "class_name": "relative_reference",
             "tier": "stable",
-            "class_version": "1.0.0",
+            "class_version": "2.0.0",
             "maturity_level": "stable",
             "superclasses": [
                 "time_reference"
@@ -2581,7 +2581,7 @@
         {
             "class_name": "time_reference",
             "tier": "stable",
-            "class_version": "3.0.0",
+            "class_version": "4.0.0",
             "maturity_level": "stable",
             "superclasses": [
                 "base"
