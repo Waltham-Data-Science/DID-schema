@@ -2056,3 +2056,58 @@ def test_ngrid_may_not_be_retired_while_consumers_exist():
         "-- `hartley_calc` reaches ngrid through reverse_correlation, so the "
         "chain is hartley_calc -> hartley_reverse_correlation -> "
         "reverse_correlation -> ngrid." % (consumers,))
+
+
+def test_image_stack_pair_survives_for_the_subject_less_passthrough():
+    """The schema half of the image_stack guard, made mechanical.
+
+    `migrators_j/image_stack.m` passes a subject-less document THROUGH (NDI's
+    own writer leaves `subject_id` empty at +setup/+conv/+haley/doImport.m:789,
+    811 and 827), and a passthrough validates against the SOURCE tombstone. Both
+    classes were in `_DELETE_PHASE8` and came back out for exactly this reason.
+    Re-deleting either strands 4,563 JH documents in quarantine -- the
+    `epochfiles_ingested` regression, which is what happens when a tombstone is
+    removed ahead of its migrator.
+
+    The MATLAB side has its own guard (testTemplateLiteralTypeTraps.m,
+    testImageStackParametersTombstoneStillExists); this is the one that fails in
+    the fast Python gate, where the deletion would actually be made.
+    """
+    assert len(RECORDS) > 200, f"only {len(RECORDS)} schemas loaded"   # denominator
+    for cls in ("image_stack", "image_stack_parameters"):
+        assert cls in RECORDS, (
+            "`%s` was re-deleted. The subject-less passthrough in "
+            "migrators_j/image_stack.m then has no schema to validate against: "
+            "4,563 JH quarantines." % cls)
+
+    deps = {d["name"]: d for d in RECORDS["image_stack"][1]["depends_on"]}
+    # The whole point of the reversal: NDI writes documents with no subject, so
+    # requiring the edge is what created the husks in the first place.
+    assert deps["subject_id"]["mustBeNonEmpty"] is False, (
+        "subject_id must stay OPTIONAL -- three of NDI's seven imageStack sites "
+        "never set it")
+    assert "document_id" in deps, "NDI's imageStack declares document_id"
+    assert "element_id" not in deps, (
+        "`element_id` is the V_alpha invention this tombstone was restated to "
+        "remove; no NDI template has it")
+
+
+def test_image_stack_declares_ndis_own_file_name():
+    """A tombstone must declare the file the document actually carries.
+
+    `universalRenames` skips the structural keys outright -- `skip =
+    {'document_class', 'depends_on', 'file', 'files'}` (DID-matlab
+    +did2/+convert/universalRenames.m:308) -- so a passed-through document still
+    carries NDI's spelling, `imageStack`, from `add_file('imageStack', ...)` at
+    all eight attachment sites. The tombstone declared `imagestack_file`, a name
+    no document has, which tripped BOTH directions of the #64 file audit at once
+    (declared-but-absent AND present-but-undeclared) for every JH document.
+
+    Nothing caught it: `did2.validate.fileList` compares by exact strcmp and
+    does not normalise, and `check_tombstones.py` does not compare files at all.
+    Hence this test.
+    """
+    files = [f["name"] for f in RECORDS["image_stack"][1].get("file", [])]
+    assert files == ["imageStack"], (
+        "image_stack must declare NDI's own file_list entry verbatim, not a "
+        "snake_cased invention; got %r" % (files,))

@@ -28,8 +28,8 @@
     ],
     "file": [
         {
-            "name": "imagestack_file",
-            "documentation": "The image stack file."
+            "name": "imageStack",
+            "documentation": "The image stack file. The name is NDI's OWN file_list entry, verbatim, NOT a snake_cased one -- see the note above."
         }
     ],
     "fields": [

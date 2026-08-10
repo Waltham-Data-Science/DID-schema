@@ -3286,6 +3286,34 @@ _tombstone(
 #
 # The 9 parameter fields already matched NDI exactly and are restated unchanged
 # so the pair is read from one source rather than half-trusted.
+#
+# THE ATTACHED FILE IS NAMED `imageStack`, NOT `imagestack_file` -- CORRECTED
+# 2026-08-10. The restatement above got the deps and the fields from NDI and
+# then invented the FILE name, which is the one part of a document universal
+# renaming never touches: `snakeCasePropertyBlocks` skips the structural keys
+# outright (`skip = {'document_class', 'depends_on', 'file', 'files'}`,
+# DID-matlab +did2/+convert/universalRenames.m:308), so a passed-through
+# document reaches validation still carrying NDI's spelling.
+#
+#   NDI template  database_documents/data/imageStack.json
+#                 "files": { "file_list": [ "imageStack" ] }
+#   NDI writers   add_file('imageStack', ...) at ALL EIGHT attachment sites,
+#                 with no exceptions -- haley/doImport.m:441, 469, 485, 504
+#                 (the four that set a subject) and :797, :815, :831 (the three
+#                 subject-less ones, attached to the documents built at 789,
+#                 811, 827), plus babu/import.m:483.
+#
+# So the tombstone declared a file no document has, while the file every
+# document does have was undeclared -- BOTH directions of the #64 audit at
+# once, 4,563 JH documents each way. `did2.validate.fileList` compares by exact
+# strcmp (fileList.m:93,99) and does not normalise, and `check_tombstones.py`
+# does not compare files at all, which is why this one survived a green
+# tombstone run: no instrument we had was looking at it.
+#
+# The convention this now follows is the one every other tombstone already
+# used -- NDI's literal file_list entry (`spikewaves.vsw`, `data.bin`,
+# `sorting.sioutputs.zip`, `generic_file.ext`). A file name is PAYLOAD, not an
+# identifier, so V_eta's snake_case rule does not reach it.
 _tombstone(
     "image_stack", ["base", "image_stack_parameters"],
     [dep("subject_id", "subject",
@@ -3302,7 +3330,9 @@ _tombstone(
            " ontology term the importer looked up."),
      field("format_ontology", "char", "CURIE for the file format (e.g."
            " NCIT:C70631 for TIFF).")],
-    files=[("imagestack_file", "The image stack file.")])
+    files=[("imageStack", "The image stack file. The name is NDI's OWN"
+            " file_list entry, verbatim, NOT a snake_cased one -- see the note"
+            " above.")])
 
 _tombstone(
     "image_stack_parameters", ["base"],
