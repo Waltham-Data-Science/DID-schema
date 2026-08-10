@@ -307,8 +307,43 @@ def build_ledger():
         second_pass = list(tinfo.get("second_pass", []))
         how = tinfo.get("how", "")
         tflags = tinfo.get("flags", "")
-        if not tinfo and vname:
-            targets = [vname]  # passthrough/rename: same-name class is the target
+        # WHERE THE TARGET COLUMN COMES FROM, stated per row instead of implied.
+        #
+        # This line used to be `targets = [vname]` with the comment
+        # "passthrough/rename: same-name class is the target" -- and that is an
+        # ASSERTION, not an observation. For 34 of 102 rows there is no curated
+        # entry at all, and the fallback rendered every one of them as
+        # `X -> X`: indistinguishable from a measured 1:1 migration. Fifteen of
+        # those carry a SIGNED decision saying the class becomes something else
+        # (filenavigator -> epoch_file_pattern, daqsystem -> acquisition_system,
+        # and so on), so the ledger was quietly contradicting the plan documents.
+        #
+        # It is the same failure already paid for twice here: the old
+        # "dissolved (rename/decompose)" label on 32 rows, and chunk (a)'s
+        # "all 0-usage, safe to delete". A default that reads as a finding.
+        #
+        # Three states now, and they are different claims:
+        #   emitted      a migrator really emits these (the curated map)
+        #   passthrough  no migrator: the document reaches validation UNDER THE
+        #                SAME-NAME CLASS. True today, and NOT a statement about
+        #                where the class is going.
+        #   unknown      no migrator and no same-name class to land on.
+        # FOUR states, not three. The first draft of this split had only
+        # `passthrough` for "no curated entry", and its own test caught the
+        # error immediately: `control_stimulus_ids` HAS a migrator, so labelling
+        # it "no migrator; passes through" replaced one false statement with
+        # another. A migrator with no curated entry is not a passthrough -- it
+        # emits something nobody has written down.
+        if tinfo:
+            target_source = "emitted"        # curated: we know what it emits
+        elif mig:
+            target_source = "uncurated"      # a migrator runs; its output is unrecorded
+            targets = [vname] if vname else []
+        elif vname:
+            target_source = "passthrough"    # no migrator: lands on the same-name class
+            targets = [vname]
+        else:
+            target_source = "unknown"        # no migrator, nothing to land on
         note = v1[cn]
         source = "app" if str(note).startswith("app-generated") else "ndi"
         nonprod = cn in _NONPROD_CLASSES
@@ -358,6 +393,7 @@ def build_ledger():
             "nonprod": nonprod,
             "gap": gap,
             "targets": targets,
+            "target_source": target_source,
             "carried": carried,
             "second_pass": second_pass,
             "how": how,
@@ -407,6 +443,18 @@ def write_ledger(veta, v1, rows):
         chips += ["`" + t + "`*" for t in r["second_pass"]]  # * = NDI second pass
         if not chips:
             tgt = "⚠ **unmapped**" if r["gap"] else "—"
+        elif r.get("target_source") == "uncurated":
+            # A migrator runs but nothing records what it emits. Distinct from
+            # both a measured target and a passthrough, and actionable: it is a
+            # missing row in V_eta_migration_targets.json.
+            tgt = "⚠ migrator runs, **output unrecorded**"
+        elif r.get("target_source") == "passthrough":
+            # NOT rendered as a migration. No migrator emits this; the document
+            # simply reaches validation under the same-name class. Fifteen of
+            # these carry a signed decision naming a DIFFERENT target, so
+            # printing `X -> X` here read as a contradiction of the plan.
+            tgt = "· passes through as `%s` (no migrator; target unrecorded)" % (
+                r["targets"][0])
         else:
             tgt = " + ".join(chips)
             if r["carried"]:

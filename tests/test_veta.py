@@ -1422,3 +1422,75 @@ def test_the_viewer_actually_syncs_the_decisions_artifact():
         deploy = fh.read()
     assert "V_*_decisions.json" in deploy, (
         "deploy-web.yml will not redeploy when the decisions change")
+
+
+def test_target_source_distinguishes_emitted_from_passthrough():
+    """The ledger must not assert `X -> X` for a class no migrator touches.
+
+    The fallback used to be `targets = [vname]` with the comment
+    "passthrough/rename: same-name class is the target" -- an ASSERTION wearing
+    the clothes of an observation. 34 of 102 rows had no curated entry, and 15
+    of those carry a SIGNED decision naming a DIFFERENT target, so the ledger
+    was quietly contradicting the plan documents. Same shape as the old
+    "dissolved (rename/decompose)" label on 32 rows: a default that reads as a
+    finding.
+    """
+    with open(os.path.join(REPO_ROOT, "schemas",
+                           "V_eta_coverage_ledger.json")) as fh:
+        rows = json.load(fh)["rows"]
+    assert rows, "empty ledger -- the sweep is broken"
+    for r in rows:
+        assert r["target_source"] in (
+            "emitted", "uncurated", "passthrough", "unknown"), (
+            f"{r['v1_class']} has target_source {r['target_source']!r}")
+        # a passthrough names exactly the same-name class and nothing else
+        if r["target_source"] == "passthrough":
+            assert r["targets"] == [r["veta_class"]], (
+                f"{r['v1_class']} is a passthrough but names targets "
+                f"{r['targets']} rather than its own V_eta class")
+            assert not r["migrator"], (
+                f"{r['v1_class']} has a migrator yet is labelled a passthrough. "
+                "A migrator with no curated entry is `uncurated`, not a "
+                "passthrough -- this exact case (control_stimulus_ids) is what "
+                "caught the first draft of this split.")
+    # The denominator, so a sweep that silently stopped classifying is visible.
+    kinds = {k: sum(1 for r in rows if r["target_source"] == k)
+             for k in ("emitted", "uncurated", "passthrough", "unknown")}
+    assert sum(kinds.values()) == len(rows)
+    assert kinds["emitted"] > 0 and kinds["passthrough"] > 0
+
+
+def test_no_passthrough_row_claims_a_migrator_emits_it():
+    """Every curated (`emitted`) row must really have a migrator or a second pass.
+
+    Catches the inverse mistake: marking a row emitted because a decision says
+    so, which would make the ledger claim a migration nobody wrote -- the mirror
+    of the bug this split fixes, and the reason the decided target is NOT
+    written into the curated map.
+    """
+    with open(os.path.join(REPO_ROOT, "schemas",
+                           "V_eta_coverage_ledger.json")) as fh:
+        rows = json.load(fh)["rows"]
+    for r in rows:
+        if r["target_source"] == "emitted":
+            assert r["migrator"] or r["second_pass"] or r["carried"], (
+                f"{r['v1_class']} is marked emitted but no migrator, second "
+                "pass or carried class backs it")
+
+
+def test_uncurated_rows_really_do_have_a_migrator():
+    """`uncurated` means a migrator runs and nothing records what it emits.
+
+    It is the actionable state of the four: each one is a missing row in
+    V_eta_migration_targets.json, not a modelling question. Pinned so it cannot
+    quietly become a dumping ground for rows that are simply unmapped.
+    """
+    with open(os.path.join(REPO_ROOT, "schemas",
+                           "V_eta_coverage_ledger.json")) as fh:
+        rows = json.load(fh)["rows"]
+    unc = [r for r in rows if r["target_source"] == "uncurated"]
+    for r in unc:
+        assert r["migrator"], (
+            f"{r['v1_class']} is uncurated but has no migrator")
+    names = sorted(r["v1_class"] for r in unc)
+    print(f"uncurated rows (missing from the curated target map): {names}")

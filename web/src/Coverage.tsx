@@ -268,7 +268,7 @@ export function Coverage({ onSelect }: Props) {
                   <code>{r.v1_class}</code>
                 </td>
                 <td>
-                  <TargetCell row={r} onSelect={onSelect} />
+                  <TargetCell row={r} fam={famOf(r)} onSelect={onSelect} />
                 </td>
                 <td>
                   <span className={`cov-badge ${m.cls}`} title={m.tip}>
@@ -337,9 +337,11 @@ function DecisionCell({ fam }: { fam: DecisionFamily | undefined }) {
 // shown after "· on"; the authored "how" + caveats are a tooltip on the row.
 function TargetCell({
   row,
+  fam,
   onSelect,
 }: {
   row: CoverageRow;
+  fam: DecisionFamily | undefined;
   onSelect: (c: string) => void;
 }) {
   const chip = (c: string, cls: string, marker?: string, key?: string) => (
@@ -354,6 +356,54 @@ function TargetCell({
     </button>
   );
   const empty = row.targets.length === 0 && row.second_pass.length === 0;
+
+  // PASSTHROUGH IS NOT A MIGRATION, and must not read as one. No migrator
+  // emits anything here; the document simply reaches validation under the
+  // same-name class. Rendering it as `X -> X` was indistinguishable from a
+  // measured 1:1 migration, and for 15 rows it silently contradicted a SIGNED
+  // decision naming a different target. Where such a decision exists we say so
+  // and point at it, rather than inventing a target the migrators do not emit.
+  // A migrator runs and nobody wrote down what it emits. Flagged, not guessed:
+  // the first draft of this split called it a passthrough, which claimed "no
+  // migrator" about five classes that have one.
+  if (row.target_source === "uncurated") {
+    return (
+      <span className="cov-uncurated" title={
+        "A migrator consumes this class, but V_eta_migration_targets.json has " +
+        "no entry saying what it emits. Actionable: a missing curated row, not " +
+        "an open modelling question."
+      }>
+        ⚠ migrator runs, output unrecorded
+      </span>
+    );
+  }
+
+  if (!empty && row.target_source === "passthrough") {
+    return (
+      <span className="cov-passthrough">
+        <span className="cov-passthrough-mark" title={
+          "No migrator consumes this class, so its documents reach validation " +
+          "under the same-name V_eta class. That is what happens today -- it is " +
+          "NOT a record of where the class is going."
+        }>
+          passes through as
+        </span>{" "}
+        {chip(row.targets[0], "cov-target-passthrough")}
+        {fam && (
+          <span className="cov-passthrough-decided">
+            {" "}· decided:{" "}
+            <span title={
+              `${fam.state_label}` +
+              (fam.plan ? ` — recorded in ${fam.plan}` : "") +
+              (fam.signoff ? `\nTEAM-SIGN-OFF: ${fam.signoff}` : "")
+            }>
+              {fam.decision}
+            </span>
+          </span>
+        )}
+      </span>
+    );
+  }
   if (empty) {
     return row.gap ? (
       <span className="cov-badge cov-gap">unmapped</span>

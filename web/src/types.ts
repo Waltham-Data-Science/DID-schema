@@ -45,7 +45,14 @@ export interface CoverageRow {
   nonprod: boolean; // NDI test/demo scaffolding, not real corpus data
   gap: boolean; // no V_eta home, no migrator, never reviewed -> actionable hole
   // Migration TARGETS: the V_eta document class(es) the migrator emits.
-  targets: string[]; // pass-1 emitted classes (or [same-name] for passthrough/rename)
+  targets: string[]; // pass-1 emitted classes (or [same-name] when passthrough)
+  // WHERE `targets` CAME FROM. Three different claims that used to render the
+  // same way: "emitted" is measured from the migrators; "passthrough" means no
+  // migrator exists and the document lands on the same-name class, which is
+  // NOT a statement about where the class is going; "unknown" means neither.
+  // "uncurated" is the actionable one: a migrator DOES run, but nothing
+  // records what it emits -- a missing row in V_eta_migration_targets.json.
+  target_source: "emitted" | "uncurated" | "passthrough" | "unknown";
   carried: string[]; // pre-existing classes the emitted statements attach to (not minted)
   second_pass: string[]; // classes minted in the NDI second pass
   how: string; // one-line authored intent

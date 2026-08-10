@@ -32,6 +32,7 @@
         "count_observation",
         "session_relative_reference"
       ],
+      "target_source": "emitted",
       "carried": [
         "subject"
       ],
@@ -48,6 +49,7 @@
       "nonprod": false,
       "gap": false,
       "targets": [],
+      "target_source": "unknown",
       "carried": [],
       "second_pass": [],
       "how": "",
@@ -64,6 +66,7 @@
       "targets": [
         "app"
       ],
+      "target_source": "passthrough",
       "carried": [],
       "second_pass": [],
       "how": "",
@@ -80,6 +83,7 @@
       "targets": [
         "base"
       ],
+      "target_source": "passthrough",
       "carried": [],
       "second_pass": [],
       "how": "",
@@ -96,6 +100,7 @@
       "targets": [
         "binaryseries_parameters"
       ],
+      "target_source": "passthrough",
       "carried": [],
       "second_pass": [],
       "how": "",
@@ -114,6 +119,7 @@
         "sampled_body",
         "session_relative_reference"
       ],
+      "target_source": "emitted",
       "carried": [
         "subject"
       ],
@@ -133,6 +139,7 @@
         "contrast_sensitivity_calculation",
         "session_relative_reference"
       ],
+      "target_source": "emitted",
       "carried": [
         "subject"
       ],
@@ -152,6 +159,7 @@
         "tuning_curve_calculation",
         "session_relative_reference"
       ],
+      "target_source": "emitted",
       "carried": [
         "subject"
       ],
@@ -171,6 +179,7 @@
         "tuning_curve_calculation",
         "session_relative_reference"
       ],
+      "target_source": "emitted",
       "carried": [
         "subject"
       ],
@@ -189,6 +198,7 @@
       "targets": [
         "control_stimulus_ids"
       ],
+      "target_source": "uncurated",
       "carried": [],
       "second_pass": [],
       "how": "",
@@ -205,6 +215,7 @@
       "targets": [
         "daqmetadatareader"
       ],
+      "target_source": "passthrough",
       "carried": [],
       "second_pass": [],
       "how": "",
@@ -221,6 +232,7 @@
       "targets": [
         "daqmetadatareader_epochdata_ingested"
       ],
+      "target_source": "passthrough",
       "carried": [],
       "second_pass": [],
       "how": "",
@@ -237,6 +249,7 @@
       "targets": [
         "daqreader"
       ],
+      "target_source": "passthrough",
       "carried": [],
       "second_pass": [],
       "how": "",
@@ -253,6 +266,7 @@
       "targets": [
         "daqreader_epochdata_ingested"
       ],
+      "target_source": "passthrough",
       "carried": [],
       "second_pass": [],
       "how": "",
@@ -269,6 +283,7 @@
       "targets": [
         "daqreader_image_epochdata_ingested"
       ],
+      "target_source": "passthrough",
       "carried": [],
       "second_pass": [],
       "how": "",
@@ -285,6 +300,7 @@
       "targets": [
         "daqreader_epochdata_ingested"
       ],
+      "target_source": "emitted",
       "carried": [],
       "second_pass": [],
       "how": "mfdaq subtype de-encodes into the generic ingested cache; parameters moves onto the parent as optional field",
@@ -301,6 +317,7 @@
       "targets": [
         "daqreader"
       ],
+      "target_source": "emitted",
       "carried": [],
       "second_pass": [],
       "how": "ndr subtype dissolves into generic daqreader; ndr_reader_string -> reader_string, ndi_daqreader_ndr_class dropped",
@@ -317,6 +334,7 @@
       "targets": [
         "daqsystem"
       ],
+      "target_source": "passthrough",
       "carried": [],
       "second_pass": [],
       "how": "",
@@ -336,6 +354,7 @@
         "directed_relation",
         "organization"
       ],
+      "target_source": "emitted",
       "carried": [],
       "second_pass": [],
       "how": "remote copy -> a web_resource entity + a dataset -stored_at-> web_resource relation (+ organization + hosted_by relation when a remote org namespace is given)",
@@ -353,6 +372,7 @@
         "dataset",
         "directed_relation"
       ],
+      "target_source": "emitted",
       "carried": [],
       "second_pass": [],
       "how": "legacy aggregate membership: a bare dataset + one session -part_of-> dataset edge per member session",
@@ -367,6 +387,7 @@
       "nonprod": true,
       "gap": false,
       "targets": [],
+      "target_source": "unknown",
       "carried": [],
       "second_pass": [],
       "how": "",
@@ -381,6 +402,7 @@
       "nonprod": true,
       "gap": false,
       "targets": [],
+      "target_source": "unknown",
       "carried": [],
       "second_pass": [],
       "how": "",
@@ -398,6 +420,7 @@
         "length_observation",
         "session_relative_reference"
       ],
+      "target_source": "emitted",
       "carried": [
         "subject"
       ],
@@ -417,6 +440,7 @@
         "voltage_observation",
         "session_relative_reference"
       ],
+      "target_source": "emitted",
       "carried": [
         "subject"
       ],
@@ -437,6 +461,7 @@
         "term_assertion",
         "directed_relation"
       ],
+      "target_source": "emitted",
       "carried": [],
       "second_pass": [],
       "how": "element becomes a subject (id PRESERVED) + kind term_assertion(s) (type, ndi_element_class) + a lineage directed_relation (derived_from underlying element, or observes the specimen)",
@@ -453,6 +478,7 @@
       "targets": [
         "acquisition_epoch"
       ],
+      "target_source": "emitted",
       "carried": [],
       "second_pass": [],
       "how": "element retired, so the epoch doc is renamed element_epoch -> acquisition_epoch",
@@ -469,6 +495,7 @@
       "targets": [
         "ensemble"
       ],
+      "target_source": "passthrough",
       "carried": [],
       "second_pass": [],
       "how": "",
@@ -483,6 +510,7 @@
       "nonprod": false,
       "gap": false,
       "targets": [],
+      "target_source": "emitted",
       "carried": [],
       "second_pass": [],
       "how": "superclass block migrator: rewrites the epochclocktimes block in place (clocktype->epoch_clock, t0_t1->t0/t1); no class change",
@@ -499,6 +527,7 @@
       "targets": [
         "ingestion_manifest"
       ],
+      "target_source": "emitted",
       "carried": [],
       "second_pass": [
         "epoch"
@@ -517,6 +546,7 @@
       "targets": [
         "epochid"
       ],
+      "target_source": "passthrough",
       "carried": [],
       "second_pass": [],
       "how": "",
@@ -533,6 +563,7 @@
       "targets": [
         "filenavigator"
       ],
+      "target_source": "passthrough",
       "carried": [],
       "second_pass": [],
       "how": "",
@@ -547,6 +578,7 @@
       "nonprod": false,
       "gap": false,
       "targets": [],
+      "target_source": "emitted",
       "carried": [],
       "second_pass": [],
       "how": "superclass block migrator: renames filter.type->filter_type in place; no class change",
@@ -564,6 +596,7 @@
         "score_observation",
         "session_relative_reference"
       ],
+      "target_source": "emitted",
       "carried": [
         "subject"
       ],
@@ -580,6 +613,7 @@
       "nonprod": false,
       "gap": false,
       "targets": [],
+      "target_source": "unknown",
       "carried": [],
       "second_pass": [],
       "how": "",
@@ -596,6 +630,7 @@
       "targets": [
         "hartley_calc"
       ],
+      "target_source": "emitted",
       "carried": [],
       "second_pass": [],
       "how": "DEFERRED calculator: calcCommon passthrough, class retained",
@@ -612,6 +647,7 @@
       "targets": [
         "image"
       ],
+      "target_source": "uncurated",
       "carried": [],
       "second_pass": [],
       "how": "",
@@ -626,6 +662,7 @@
       "nonprod": false,
       "gap": false,
       "targets": [],
+      "target_source": "unknown",
       "carried": [],
       "second_pass": [],
       "how": "",
@@ -644,6 +681,7 @@
         "sampled_body",
         "session_relative_reference"
       ],
+      "target_source": "emitted",
       "carried": [
         "subject"
       ],
@@ -660,6 +698,7 @@
       "nonprod": false,
       "gap": false,
       "targets": [],
+      "target_source": "unknown",
       "carried": [],
       "second_pass": [],
       "how": "",
@@ -678,6 +717,7 @@
         "sampled_body",
         "session_relative_reference"
       ],
+      "target_source": "emitted",
       "carried": [
         "subject"
       ],
@@ -696,6 +736,7 @@
       "targets": [
         "kiasort_clusters"
       ],
+      "target_source": "uncurated",
       "carried": [],
       "second_pass": [],
       "how": "",
@@ -712,6 +753,7 @@
       "targets": [
         "kilosort_clusters"
       ],
+      "target_source": "uncurated",
       "carried": [],
       "second_pass": [],
       "how": "",
@@ -728,6 +770,7 @@
       "targets": [
         "measurement"
       ],
+      "target_source": "uncurated",
       "carried": [],
       "second_pass": [],
       "how": "",
@@ -750,6 +793,7 @@
         "web_resource",
         "directed_relation"
       ],
+      "target_source": "emitted",
       "carried": [],
       "second_pass": [],
       "how": "opaque metadata_structure blob decomposes into first-class entities connected by directed_relations (has_author, affiliated_with, funded_by, issued_by, cites, documented_by)",
@@ -764,6 +808,7 @@
       "nonprod": true,
       "gap": false,
       "targets": [],
+      "target_source": "unknown",
       "carried": [],
       "second_pass": [],
       "how": "",
@@ -783,6 +828,7 @@
         "score_observation",
         "session_relative_reference"
       ],
+      "target_source": "emitted",
       "carried": [
         "subject"
       ],
@@ -799,6 +845,7 @@
       "nonprod": false,
       "gap": false,
       "targets": [],
+      "target_source": "emitted",
       "carried": [],
       "second_pass": [],
       "how": "superclass block migrator: rewrites ngrid block (data_dim->dim_sizes, adds ndims) in place; no class change",
@@ -813,6 +860,7 @@
       "nonprod": true,
       "gap": false,
       "targets": [],
+      "target_source": "unknown",
       "carried": [],
       "second_pass": [],
       "how": "",
@@ -830,6 +878,7 @@
         "term_observation",
         "session_relative_reference"
       ],
+      "target_source": "emitted",
       "carried": [
         "subject"
       ],
@@ -851,6 +900,7 @@
         "term_observation",
         "session_relative_reference"
       ],
+      "target_source": "emitted",
       "carried": [
         "subject"
       ],
@@ -890,6 +940,7 @@
         "directed_relation",
         "session_relative_reference"
       ],
+      "target_source": "emitted",
       "carried": [
         "subject"
       ],
@@ -908,6 +959,7 @@
       "targets": [
         "openminds"
       ],
+      "target_source": "passthrough",
       "carried": [],
       "second_pass": [],
       "how": "",
@@ -924,6 +976,7 @@
       "targets": [
         "term_assertion"
       ],
+      "target_source": "emitted",
       "carried": [
         "subject"
       ],
@@ -940,6 +993,7 @@
       "nonprod": false,
       "gap": false,
       "targets": [],
+      "target_source": "emitted",
       "carried": [],
       "second_pass": [
         "interaction_purpose"
@@ -958,6 +1012,7 @@
       "targets": [
         "term_assertion"
       ],
+      "target_source": "emitted",
       "carried": [
         "subject"
       ],
@@ -977,6 +1032,7 @@
         "tuning_curve_calculation",
         "session_relative_reference"
       ],
+      "target_source": "emitted",
       "carried": [
         "subject"
       ],
@@ -996,6 +1052,7 @@
         "tuning_curve_calculation",
         "session_relative_reference"
       ],
+      "target_source": "emitted",
       "carried": [
         "subject"
       ],
@@ -1015,6 +1072,7 @@
         "term_observation",
         "session_relative_reference"
       ],
+      "target_source": "emitted",
       "carried": [
         "subject"
       ],
@@ -1035,6 +1093,7 @@
         "term_assertion",
         "session_relative_reference"
       ],
+      "target_source": "emitted",
       "carried": [
         "subject"
       ],
@@ -1054,6 +1113,7 @@
         "term_observation",
         "session_relative_reference"
       ],
+      "target_source": "emitted",
       "carried": [
         "subject"
       ],
@@ -1072,6 +1132,7 @@
       "targets": [
         "projectvar"
       ],
+      "target_source": "passthrough",
       "carried": [],
       "second_pass": [],
       "how": "",
@@ -1090,6 +1151,7 @@
         "sampled_body",
         "session_relative_reference"
       ],
+      "target_source": "emitted",
       "carried": [
         "subject"
       ],
@@ -1108,6 +1170,7 @@
       "targets": [
         "session"
       ],
+      "target_source": "passthrough",
       "carried": [],
       "second_pass": [],
       "how": "",
@@ -1125,6 +1188,7 @@
         "dataset",
         "directed_relation"
       ],
+      "target_source": "emitted",
       "carried": [],
       "second_pass": [],
       "how": "session membership -> a bare dataset + a session -part_of-> dataset directed_relation",
@@ -1139,6 +1203,7 @@
       "nonprod": false,
       "gap": false,
       "targets": [],
+      "target_source": "emitted",
       "carried": [],
       "second_pass": [
         "simple_calc"
@@ -1158,6 +1223,7 @@
         "count_observation",
         "session_relative_reference"
       ],
+      "target_source": "emitted",
       "carried": [
         "subject"
       ],
@@ -1176,6 +1242,7 @@
       "targets": [
         "sorting_parameters"
       ],
+      "target_source": "passthrough",
       "carried": [],
       "second_pass": [],
       "how": "",
@@ -1193,6 +1260,7 @@
         "tuning_curve_calculation",
         "session_relative_reference"
       ],
+      "target_source": "emitted",
       "carried": [
         "subject"
       ],
@@ -1212,6 +1280,7 @@
         "tuning_curve_calculation",
         "session_relative_reference"
       ],
+      "target_source": "emitted",
       "carried": [
         "subject"
       ],
@@ -1231,6 +1300,7 @@
         "tuning_curve_calculation",
         "session_relative_reference"
       ],
+      "target_source": "emitted",
       "carried": [
         "subject"
       ],
@@ -1250,6 +1320,7 @@
         "tuning_curve_calculation",
         "session_relative_reference"
       ],
+      "target_source": "emitted",
       "carried": [
         "subject"
       ],
@@ -1270,6 +1341,7 @@
         "sampled_body",
         "session_relative_reference"
       ],
+      "target_source": "emitted",
       "carried": [
         "subject"
       ],
@@ -1288,6 +1360,7 @@
       "targets": [
         "spike_extraction_parameters"
       ],
+      "target_source": "passthrough",
       "carried": [],
       "second_pass": [],
       "how": "",
@@ -1304,6 +1377,7 @@
       "targets": [
         "spike_extraction_parameters_modification"
       ],
+      "target_source": "passthrough",
       "carried": [],
       "second_pass": [],
       "how": "",
@@ -1322,6 +1396,7 @@
         "sampled_body",
         "session_relative_reference"
       ],
+      "target_source": "emitted",
       "carried": [
         "subject"
       ],
@@ -1338,6 +1413,7 @@
       "nonprod": false,
       "gap": false,
       "targets": [],
+      "target_source": "emitted",
       "carried": [],
       "second_pass": [
         "dose_manipulation",
@@ -1357,6 +1433,7 @@
       "targets": [
         "stimulus_parameter"
       ],
+      "target_source": "passthrough",
       "carried": [],
       "second_pass": [],
       "how": "",
@@ -1373,6 +1450,7 @@
       "targets": [
         "stimulus_parameter_table"
       ],
+      "target_source": "passthrough",
       "carried": [],
       "second_pass": [],
       "how": "",
@@ -1387,6 +1465,7 @@
       "nonprod": false,
       "gap": false,
       "targets": [],
+      "target_source": "emitted",
       "carried": [
         "subject"
       ],
@@ -1408,6 +1487,7 @@
       "targets": [
         "stimulus_response"
       ],
+      "target_source": "passthrough",
       "carried": [],
       "second_pass": [],
       "how": "",
@@ -1424,6 +1504,7 @@
       "targets": [
         "stimulus_response_scalar"
       ],
+      "target_source": "passthrough",
       "carried": [],
       "second_pass": [],
       "how": "",
@@ -1440,6 +1521,7 @@
       "targets": [
         "stimulus_response_scalar_parameters"
       ],
+      "target_source": "passthrough",
       "carried": [],
       "second_pass": [],
       "how": "",
@@ -1456,6 +1538,7 @@
       "targets": [
         "stimulus_response_scalar_parameters_basic"
       ],
+      "target_source": "passthrough",
       "carried": [],
       "second_pass": [],
       "how": "",
@@ -1473,6 +1556,7 @@
         "tuning_curve_calculation",
         "session_relative_reference"
       ],
+      "target_source": "emitted",
       "carried": [
         "subject"
       ],
@@ -1491,6 +1575,7 @@
       "targets": [
         "subject"
       ],
+      "target_source": "emitted",
       "carried": [],
       "second_pass": [],
       "how": "carry-forward: guarantee a non-empty subject.local_identifier (now REQUIRED), else unchanged",
@@ -1508,6 +1593,7 @@
         "subject",
         "directed_relation"
       ],
+      "target_source": "emitted",
       "carried": [],
       "second_pass": [],
       "how": "group -> a bare subject (id preserved; is_group/is_biological removed) + one member_of directed_relation per member",
@@ -1524,6 +1610,7 @@
       "targets": [
         "subjectmeasurement"
       ],
+      "target_source": "passthrough",
       "carried": [],
       "second_pass": [],
       "how": "",
@@ -1540,6 +1627,7 @@
       "targets": [
         "syncgraph"
       ],
+      "target_source": "passthrough",
       "carried": [],
       "second_pass": [],
       "how": "",
@@ -1556,6 +1644,7 @@
       "targets": [
         "syncrule"
       ],
+      "target_source": "passthrough",
       "carried": [],
       "second_pass": [],
       "how": "",
@@ -1572,6 +1661,7 @@
       "targets": [
         "syncrule_mapping"
       ],
+      "target_source": "passthrough",
       "carried": [],
       "second_pass": [],
       "how": "",
@@ -1589,6 +1679,7 @@
         "tuning_curve_calculation",
         "session_relative_reference"
       ],
+      "target_source": "emitted",
       "carried": [
         "subject"
       ],
@@ -1608,6 +1699,7 @@
         "tuning_curve_calculation",
         "session_relative_reference"
       ],
+      "target_source": "emitted",
       "carried": [
         "subject"
       ],
@@ -1630,6 +1722,7 @@
         "term_observation",
         "session_relative_reference"
       ],
+      "target_source": "emitted",
       "carried": [
         "subject"
       ],
@@ -1654,6 +1747,7 @@
         "term_observation",
         "session_relative_reference"
       ],
+      "target_source": "emitted",
       "carried": [
         "subject"
       ],
@@ -1678,6 +1772,7 @@
         "directed_relation",
         "session_relative_reference"
       ],
+      "target_source": "emitted",
       "carried": [
         "subject"
       ],
@@ -1697,6 +1792,7 @@
         "tuning_curve_calculation",
         "session_relative_reference"
       ],
+      "target_source": "emitted",
       "carried": [
         "subject"
       ],
@@ -1713,6 +1809,7 @@
       "nonprod": false,
       "gap": false,
       "targets": [],
+      "target_source": "unknown",
       "carried": [],
       "second_pass": [],
       "how": "",
@@ -1731,6 +1828,7 @@
         "term_observation",
         "session_relative_reference"
       ],
+      "target_source": "emitted",
       "carried": [
         "subject"
       ],
@@ -1755,6 +1853,7 @@
         "directed_relation",
         "session_relative_reference"
       ],
+      "target_source": "emitted",
       "carried": [
         "subject"
       ],
@@ -1773,6 +1872,7 @@
       "targets": [
         "vmspikefilteringparameters"
       ],
+      "target_source": "passthrough",
       "carried": [],
       "second_pass": [],
       "how": "",
@@ -1790,6 +1890,7 @@
         "score_observation",
         "session_relative_reference"
       ],
+      "target_source": "emitted",
       "carried": [
         "subject"
       ],
@@ -1812,6 +1913,7 @@
         "duration_observation",
         "session_relative_reference"
       ],
+      "target_source": "emitted",
       "carried": [
         "subject"
       ],

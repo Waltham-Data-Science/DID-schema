@@ -1124,3 +1124,34 @@ button.badge-persist {
   font-size: 0.78rem;
   opacity: 0.85;
 }
+
+/* A passthrough is NOT a migration. Muted and prefixed so it cannot be mistaken
+   for a measured 1:1 emit, and carrying the signed decision where one exists --
+   15 of these rows had a decision naming a different target while the cell said
+   `X -> X`. */
+.cov-passthrough {
+  font-size: 0.82rem;
+}
+.cov-passthrough-mark {
+  opacity: 0.7;
+  font-style: italic;
+}
+.cov-target-passthrough {
+  opacity: 0.75;
+  border-style: dashed;
+}
+.cov-passthrough-decided {
+  opacity: 0.9;
+}
+.cov-passthrough-decided span {
+  border-bottom: 1px dotted currentColor;
+  cursor: help;
+}
+
+/* A migrator runs and nothing records its output: actionable, so it reads as a
+   warning rather than as muted absence. */
+.cov-uncurated {
+  font-size: 0.82rem;
+  color: var(--maturity-deprecated);
+  font-weight: 600;
+}
