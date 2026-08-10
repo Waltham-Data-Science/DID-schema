@@ -898,13 +898,19 @@ write(_ep_tier, "epoch", _ep)
 # conventional). The `#` in {'#\.rhd\>', '#\.tsv\>'} is load-bearing -- files
 # sharing an unknown common stem are ONE epoch.
 write("stable", "epoch_file_pattern", doc("epoch_file_pattern", ["base"], fields=[
-    field("data_file_pattern", "char",
+    # `string`, NOT `char`. A LIST-VALUED FIELD CANNOT BE `char`:
+    # +did2/+schema/cache.m:965-970 accepts only a char array or a
+    # SCALAR string for `char`, while the `string` branch
+    # (cache.m:971-1001) was written to accept the cell-of-chars
+    # MATLAB's jsondecode produces for a JSON array. Declared `char`,
+    # every multi-pattern navigator QUARANTINES on typeMismatch.
+    field("data_file_pattern", "string",
           "Which files comprise ONE epoch, as declared patterns "
           "({'#\\\\.rhd\\\\>', '#\\\\.tsv\\\\>'}). PARSED, never eval'd: the v1 "
           "form was a string handed to eval. `#` matches an unknown common stem, "
           "so a group of files sharing it is one epoch.",
           scalar=False),
-    field("epoch_map_pattern", "char",
+    field("epoch_map_pattern", "string",
           "Which of the epoch's files is the probe-map file "
           "({'(.*)epochprobemap.ndi'}). Same parsed-not-eval'd rule.",
           scalar=False),
@@ -1040,7 +1046,9 @@ write("stable", "strain", doc("strain", ["entity"], fields=[
               subfield("vendor", "char", "The vendor or repository."),
               subfield("code", "char", "Its catalogue/stock code."),
           ]),
-    field("synonym", "char", "Other names the source uses for this strain.",
+    # `string` not `char`, same reason as epoch_file_pattern's two pattern
+    # lists: a cell-of-chars cannot validate against the `char` branch.
+    field("synonym", "string", "Other names the source uses for this strain.",
           non_empty=False, scalar=False),
     LOCAL_ID_OPT],
     deps=[dep("background_strain_#", "strain",

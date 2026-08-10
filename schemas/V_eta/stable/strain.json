@@ -307,7 +307,7 @@
         },
         {
             "name": "synonym",
-            "type": "char",
+            "type": "string",
             "blank_value": [],
             "default_value": [],
             "mustBeNonEmpty": false,

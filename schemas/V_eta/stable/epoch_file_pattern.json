@@ -21,7 +21,7 @@
     "fields": [
         {
             "name": "data_file_pattern",
-            "type": "char",
+            "type": "string",
             "blank_value": [],
             "default_value": [],
             "mustBeNonEmpty": false,
@@ -34,7 +34,7 @@
         },
         {
             "name": "epoch_map_pattern",
-            "type": "char",
+            "type": "string",
             "blank_value": [],
             "default_value": [],
             "mustBeNonEmpty": false,

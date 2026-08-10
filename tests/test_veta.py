@@ -1866,3 +1866,38 @@ def test_retiring_epoch_clock_fields_untouched_by_67():
     assert checked == 2, (
         f"expected both retiring reference classes; found {checked}. If increment "
         "3 deleted them, delete this test with it.")
+
+
+def test_no_list_valued_field_is_typed_char():
+    """A `char` field that is not scalar CANNOT validate, so it must not exist.
+
+    +did2/+schema/cache.m:965-970 accepts only a char array or a SCALAR string
+    for `char`; the `string` branch (cache.m:971-1001) is the one written to
+    accept the cell-of-chars MATLAB's jsondecode produces from a JSON array. So
+    `type: char` + `mustBeScalar: false` is a contradiction the schema can state
+    and the validator can only reject -- every real multi-valued document
+    quarantines on `did2:validation:typeMismatch`.
+
+    THREE FIELDS HELD THIS SHAPE until 2026-08-10 -- `epoch_file_pattern`'s two
+    pattern lists and `strain.synonym` -- and none had been exercised, because no
+    migrator emitted any of them yet. It was found by an agent writing the
+    filenavigator fold, which would have been the first thing to hit it.
+
+    A ZERO, not a ratchet: there is no legitimate instance of this combination.
+    """
+    bad = []
+
+    def walk(cls, fields, prefix=""):
+        for f in fields:
+            if f.get("type") == "char" and f.get("mustBeScalar") is False:
+                bad.append((cls, prefix + f["name"]))
+            for sub in f.get("fields") or []:
+                walk(cls, [sub], prefix + f["name"] + ".")
+
+    seen = 0
+    for cls, (_tier, body) in RECORDS.items():
+        seen += 1
+        walk(cls, body.get("fields", []))
+    assert seen > 0, "no classes read -- this sweep would pass vacuously"
+    assert not bad, (
+        "list-valued fields typed `char` cannot validate; use `string`: %r" % (bad,))
