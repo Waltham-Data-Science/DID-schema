@@ -91,11 +91,45 @@ you never need both as source-of-truth; storing both would be duplication (T12).
 
 ## Migration constraints (build conditions — respect these)
 
-1. **`member_of` edges need the second pass.** The neuron ids live inside `neuron_names.txt`;
-   single-doc migrators carry files but do NOT read their contents (confirmed — `pyraview`
-   reads the *file list*, not the bytes), and the ids must resolve to migrated neuron-subjects.
-   So minting `member_of` (and building the cache with resolved ids) is the **NDI second pass**
-   (like `resolveStimulusPresentations` / Path-S), which has the element graph + file access.
+1. ~~**`member_of` edges need the second pass.** The neuron ids live inside
+   `neuron_names.txt`; single-doc migrators carry files but do NOT read their contents
+   (confirmed — `pyraview` reads the *file list*, not the bytes), and the ids must resolve to
+   migrated neuron-subjects. So minting `member_of` (and building the cache with resolved ids)
+   is the **NDI second pass** (like `resolveStimulusPresentations` / Path-S), which has the
+   element graph + file access.~~
+
+   **WRONG PREMISE, CORRECTED 2026-08-10 with positive evidence. The neuron ids are NOT only
+   inside the file — they are `depends_on` EDGES on the ensemble document itself.**
+
+   ```
+   src/ndi/+ndi/+element/ensemble.m:274-276      (the loop directly below element_epoch_id)
+       for i = 1:numel(neuron_ids)
+           mapdoc = mapdoc.add_dependency_value_n('neuron_id', neuron_ids{i});
+       end
+
+   ndi_common/schema_documents/ensemble/ensemble_schema.json:7
+       { "name": "neuron_id", "mustbenotempty": 0}
+   ```
+
+   So `neuron_id_1..n` carry the neuron document IDS, in the same loop order that writes the
+   names — `neuron_names.txt` carries the NAMES of the same roster, not the roster itself.
+   A pass-1 single-document migrator reads `depends_on`; that is what every migrator already
+   does. **`member_of` does not need file bytes and does not need the second pass.**
+
+   The id-resolution half also holds without a second pass, for the reason the calculator fold
+   turned on: `migrators_j.element` promotes an element to a subject with its **id PRESERVED**,
+   so a `neuron_id_#` pointing at a neuron element resolves to the same id afterwards, and
+   `must_refer_to_document_class` is existence-only.
+
+   **WHY THE PREMISE SURVIVED: `ensemble.json`, the TEMPLATE, does not declare `neuron_id` —
+   only the SCHEMA and the WRITER do.** A check against the template alone sees `element_id`
+   and `element_epoch_id` and nothing more. This is the ground-truth rule doing exactly what
+   it exists for (*where template and WRITER disagree, the WRITER wins*), on a divergence
+   inside NDI's own pair rather than between NDI and V_eta.
+
+   **What still needs the second pass** is narrower than this item claimed: the per-epoch
+   **column order** of the cache (if it cannot be taken from the `neuron_id_#` index — check
+   before assuming it cannot) and the verify-before-delete gate in item 3.
 2. **Pass-1 landing:** carry the v1 `ensemble` element → group-subject (id preserved, via the
    element migrator) and its combined binary as-is, green, no orphans. The second pass then
    (a) mints `member_of` from each neuron-subject, (b) re-labels the combined binary as the

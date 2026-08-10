@@ -549,6 +549,55 @@ That last point needs checking against `ensemble` before the build: an edge name
 `element_epoch_id` pointing at a class that no longer exists is exactly the dangling
 reference T10 warns about, and `ensemble` is the only holder of it.
 
+### THE CHECK WAS RUN, 2026-08-10. Two of its claims hold; it missed a consumer.
+
+```
+DENOMINATOR: NDI origin/main, 1,002 .m files and every ndi_common template + schema
+
+element_epoch_id, searched as a BARE STRING (not as a depends_on sweep):
+    src/ndi/+ndi/+element/ensemble.m:273          WRITER  set_dependency_value(...)
+    src/ndi/+ndi/+fun/+ensemble/allElement.m:98   READER  dependency_value(...)
+    ndi_common/database_documents/ensemble/ensemble.json:18   its own template
+    ndi_common/schema_documents/ensemble/ensemble_schema.json:6  its own schema
+    -> 2 .m files, 2 JSON files, ZERO other declarations
+```
+
+**CONFIRMED — `ensemble` is the only holder.** Four hits, all its own.
+
+**CONFIRMED — it points at one element's epoch RECORD, not at the epoch.**
+`buildMapDoc(obj, epochid, epochclock, epochdoc, ...)` sets the edge from
+`epochdoc.id()`, and `allElement.m`'s cleanup names the referent in its own words:
+*"remove existing ensemble map documents and their element_epoch parents"*, then
+`S.database_rm(ee_id)` — *"remove the element_epoch doc and its binary"*. The
+referent is the PAYLOAD-BEARING per-element record: `element_epoch` declares
+`epoch_binary_data.vhsb` plus `epoch_clock` and `t0_t1`. So the plan's instruction
+stands: `element_epoch_id` retargets to whatever absorbs that payload (the
+`sampled_body` cache under the ensemble model), NOT to the new `epoch` entity.
+
+**NOT CONFIRMED — `ensemble` is NOT the only thing that breaks when `element_epoch`
+dissolves. `oneepoch` inherits from it, and that is recorded nowhere:**
+
+```
+ndi_common/database_documents/oneepoch.json     superclasses: [ element_epoch ]
+ndi_common/schema_documents/oneepoch_schema.json
+                        "superclasses": ["element_epoch","base","epochid"]
+oneepoch's OWN block: one field, `epoch_ids`
+```
+
+`element_epoch` is `oneepoch`'s ONLY declared superclass in the template — so
+`element_id`, `epoch_clock`, `t0_t1` and the `.vhsb` file declaration all reach
+`oneepoch` by inheritance and it declares none of them itself. And it is
+production-written: `src/ndi/element.m:387` builds one
+(`E.newdocument('oneepoch', ..., 'oneepoch.epoch_ids', epochids)`) and
+`src/ndi/+ndi/+element/oneepoch.m:78-80` reads it back through
+`finddocs_elementEpochType(..., 'oneepoch')`. **Dissolving `element_epoch` without
+deciding where `oneepoch`'s inherited half goes strands a real class.** This is a
+build prerequisite, not a decision already taken — it needs the team.
+
+*The check found this only because it searched the BARE CLASS NAME across templates
+as well as `.m` files. A `depends_on` sweep could not have: `oneepoch` reaches
+`element_epoch` by INHERITANCE, not by edge. Third instance of the standing rule.*
+
 ---
 
 # `epochfiles_ingested` → RENAMED `ingestion_manifest` (team, 2026-08-06)
