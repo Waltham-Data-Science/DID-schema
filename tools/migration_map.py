@@ -48,6 +48,7 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 REPO = os.path.dirname(HERE)
 SCHEMAS = os.path.join(REPO, "schemas")
 LEDGER = os.path.join(SCHEMAS, "V_eta_coverage_ledger.json")
+TARGETS = os.path.join(SCHEMAS, "V_eta_migration_targets.json")
 DECISIONS = os.path.join(SCHEMAS, "V_eta_decisions.json")
 OUT = os.path.join(SCHEMAS, "V_eta_migration_map.html")
 
@@ -58,7 +59,13 @@ def load():
     rows = led["rows"] if isinstance(led, dict) and "rows" in led else led
     with open(DECISIONS, encoding="utf-8") as fh:
         dec = json.load(fh)
-    return rows, dec
+    # `decided_targets` lives in the curated map, NOT the ledger, and that is
+    # deliberate: coverage.py must never read a decided target as an emitted one
+    # (test_no_passthrough_row_claims_a_migrator_emits_it exists to stop exactly
+    # that). This page can show both, as long as it labels which is which.
+    with open(TARGETS, encoding="utf-8") as fh:
+        tgt = json.load(fh).get("classes", {})
+    return rows, dec, tgt
 
 
 def family_index(dec):
@@ -73,7 +80,7 @@ def family_index(dec):
     return idx
 
 
-def classify(rows, fams):
+def classify(rows, fams, tgt):
     """Assign each v1 class its provenance bucket. Returns (buckets, counts)."""
     out = []
     for r in rows:
@@ -97,6 +104,7 @@ def classify(rows, fams):
             "targets": r.get("targets") or [],
             "carried": r.get("carried") or [],
             "second_pass": r.get("second_pass") or [],
+            "decided_targets": (tgt.get(r["v1_class"], {}) or {}).get("decided_targets") or [],
             "how": how,
             "flags": (r.get("target_flags") or "").strip(),
             "migrator": bool(r.get("migrator")),
@@ -131,12 +139,24 @@ def render_row(d):
     elif d["second_pass"]:
         becomes = ("<em>deferred to the NDI second pass &rarr;</em> "
                    + " + ".join('<code>%s</code>' % E(t) for t in d["second_pass"]))
+    elif d["decided_targets"]:
+        # "WILL BECOME", never "becomes". These come from `decided_targets` in the
+        # curated map -- a signed decision that no migrator implements yet -- and
+        # rendering them in the same voice as an emitted target is precisely how a
+        # migration reads as further along than it is.
+        becomes = ('<span class="willbe">will become</span> '
+                   + " + ".join('<code>%s</code>' % E(t) for t in d["decided_targets"]))
     else:
         becomes = '<em class="muted">no target recorded</em>'
 
     if d["prov"] == "per-class":
         account = E(d["how"])
         note = chip("per-class account", "ok")
+    # BUILD STATE IS SEPARATE FROM ANSWER QUALITY. A class can have a precise,
+    # signed account and no migrator at all -- 30 of them do. Rendering those two
+    # as one status is exactly the "looks further along than it is" error the
+    # operating rules exist to prevent, so the build state gets its own chip on
+    # every row, driven by the ledger's `migrator` flag rather than by prose.
     elif d["prov"] == "family":
         account = ('<span class="muted">No per-class summary written yet. '
                    'The signed decision for the <strong>%s</strong> family covers it:</span>'
@@ -147,6 +167,9 @@ def render_row(d):
         account = ('<span class="muted">No per-class summary and no signed decision '
                    'family. This is a real gap, not a formatting one.</span>')
         note = chip("no decision recorded", "open")
+
+    build = (chip("migrator exists", "ok") if d["migrator"]
+             else chip("no migrator yet", "warn"))
 
     extra = ""
     if d["carried"]:
@@ -162,10 +185,10 @@ def render_row(d):
     <article class="row" data-prov="%s" data-name="%s">
       <div class="row__id">
         <h3><code>%s</code></h3>
-        <div class="row__meta">%s%s</div>
+        <div class="row__meta">%s%s%s</div>
       </div>
       <div class="row__body">
-        <div class="becomes"><span class="k">becomes</span> %s</div>
+        <div class="becomes"><span class="k">%s</span> %s</div>
         <div class="account">%s</div>
         %s
       </div>
@@ -175,6 +198,8 @@ def render_row(d):
         E(d["v1"]),
         chip(d["disposition"], "plain"),
         note,
+        build,
+        "today" if (d["targets"] or d["second_pass"]) else "decided",
         becomes,
         account,
         extra,
@@ -183,9 +208,12 @@ def render_row(d):
 
 BUCKETS = [
     ("per-class", "Answered class by class",
-     "A one-line account written for this class specifically, cross-checked "
-     "against the migrator that produces it. This is the standard the other two "
-     "groups are measured against."),
+     "A one-line account written for this class specifically. THE ACCOUNT AND THE "
+     "BUILD ARE TWO DIFFERENT THINGS, and the second chip on every row says which "
+     "you are looking at: \u201cmigrator exists\u201d means code implements this "
+     "today; \u201cno migrator yet\u201d means the account states a signed "
+     "decision that has not been built. Both are real answers to \u201cwhat "
+     "happens to this class\u201d; only one of them is running."),
     ("family", "Decided, but only at family granularity",
      "The team has signed a decision that covers these classes; nobody has yet "
      "written the one-line per-class summary. The decision is real — the "
@@ -281,7 +309,7 @@ h1 { font-size: clamp(1.8rem, 4vw, 2.7rem); line-height:1.1; margin:0 0 .6rem;
      letter-spacing:-.02em; text-wrap: balance; }
 .standfirst { font-size:1.05rem; color: var(--ink-soft); max-width:44rem; margin:0; }
 
-.summary { display:grid; grid-template-columns: repeat(auto-fit, minmax(11rem,1fr));
+.summary { margin:0; display:grid; grid-template-columns: repeat(auto-fit, minmax(11rem,1fr));
            gap:1px; background: var(--rule); border:1px solid var(--rule);
            margin: 2rem 0; }
 .stat { background: var(--panel); padding:1rem 1.1rem; }
@@ -292,6 +320,10 @@ h1 { font-size: clamp(1.8rem, 4vw, 2.7rem); line-height:1.1; margin:0 0 .6rem;
 .stat--warn .stat__n { color: var(--warn); }
 .stat--open .stat__n { color: var(--open); }
 
+h2.sec { font-size:.82rem; font-family: var(--mono); letter-spacing:.12em;
+         text-transform:uppercase; color: var(--ink-soft); margin:2rem 0 .7rem;
+         font-weight:600; }
+.note { font-size:.9rem; color: var(--ink-soft); max-width:44rem; margin:.9rem 0 0; }
 .denominator { font-family: var(--mono); font-size:.78rem; color: var(--ink-faint);
                border-left:3px solid var(--accent); padding:.5rem 0 .5rem .8rem;
                margin: 0 0 2.5rem; }
@@ -325,6 +357,7 @@ code { font-family: var(--mono); font-size:.85em; background: var(--code-bg);
        padding:.1em .35em; border-radius:2px; word-break: break-word; }
 .row__id code { background:none; padding:0; font-size:1rem; font-weight:600; color: var(--ink); }
 .becomes { margin-bottom:.5rem; }
+.willbe { font-style:italic; color: var(--warn); }
 .k { font-family: var(--mono); font-size:.7rem; letter-spacing:.1em;
      text-transform:uppercase; color: var(--ink-faint); margin-right:.5rem; }
 .account { font-size:.94rem; color: var(--ink); }
@@ -354,6 +387,7 @@ footer { margin-top:4rem; border-top:1px solid var(--rule); padding-top:1.2rem;
   checked-in artifacts &mdash; nothing here is written by hand.</p>
 </header>
 
+<h2 class="sec">Can we say what happens to it?</h2>
 <div class="summary">
   <div class="stat"><span class="stat__n">@TOTAL@</span><span class="stat__l">did_v1 source classes</span></div>
   <div class="stat stat--ok"><span class="stat__n">@PERCLASS@</span><span class="stat__l">answered class by class</span></div>
@@ -361,6 +395,16 @@ footer { margin-top:4rem; border-top:1px solid var(--rule); padding-top:1.2rem;
   <div class="stat stat--open"><span class="stat__n">@NONE@</span><span class="stat__l">no decision on record</span></div>
   <div class="stat"><span class="stat__n">@SIGNED@/@FAMTOTAL@</span><span class="stat__l">decision families signed</span></div>
 </div>
+
+<h2 class="sec">Is it built?</h2>
+<div class="summary">
+  <div class="stat stat--ok"><span class="stat__n">@MIGRATOR@</span><span class="stat__l">a migrator implements this today</span></div>
+  <div class="stat stat--warn"><span class="stat__n">@NOMIG@</span><span class="stat__l">no migrator yet</span></div>
+</div>
+<p class="note">These two questions have different answers, and conflating them is
+how a migration looks finished before it is. A signed decision with no migrator is
+a real answer to &ldquo;what happens to this class&rdquo; and an unfinished piece of
+work at the same time. Every row carries both states.</p>
 
 <p class="denominator">DENOMINATOR: @TOTAL@ source classes read from V_eta_coverage_ledger.json
 (91 NDI production templates on origin/main + 11 vhlab app classes with no template).
@@ -410,6 +454,7 @@ footer { margin-top:4rem; border-top:1px solid var(--rule); padding-top:1.2rem;
         "@MIGRATOR@": str(counts["migrator"]),
         "@SIGNED@":   str(signed),
         "@FAMTOTAL@": str(famtotal),
+        "@NOMIG@":    str(counts["total"] - counts["migrator"]),
         "@SECTIONS@": "\n".join(sections),
     }
     for k, v in subs.items():
@@ -423,9 +468,9 @@ def main():
                     help="exit non-zero if the checked-in page is stale")
     args = ap.parse_args()
 
-    rows, dec = load()
+    rows, dec, tgt = load()
     fams = family_index(dec)
-    classified, counts = classify(rows, fams)
+    classified, counts = classify(rows, fams, tgt)
 
     # DENOMINATOR FIRST (Operating Rule 5), and it is load-bearing: a ledger that
     # failed to load would otherwise render an empty, calm-looking page.

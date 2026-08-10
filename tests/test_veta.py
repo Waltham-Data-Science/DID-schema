@@ -1479,7 +1479,7 @@ def test_target_source_distinguishes_emitted_from_passthrough():
     assert rows, "empty ledger -- the sweep is broken"
     for r in rows:
         assert r["target_source"] in (
-            "emitted", "uncurated", "passthrough", "unknown"), (
+            "emitted", "decided", "uncurated", "passthrough", "unknown"), (
             f"{r['v1_class']} has target_source {r['target_source']!r}")
         # a passthrough names exactly the same-name class and nothing else
         if r["target_source"] == "passthrough":
@@ -1493,8 +1493,16 @@ def test_target_source_distinguishes_emitted_from_passthrough():
                 "caught the first draft of this split.")
     # The denominator, so a sweep that silently stopped classifying is visible.
     kinds = {k: sum(1 for r in rows if r["target_source"] == k)
-             for k in ("emitted", "uncurated", "passthrough", "unknown")}
-    assert sum(kinds.values()) == len(rows)
+             for k in ("emitted", "decided", "uncurated", "passthrough", "unknown")}
+    # This equality is the denominator, and it EARNED its keep on 2026-08-10:
+    # adding the `decided` state moved 31 rows out of the four names listed here,
+    # and the sum caught it immediately -- 71 != 102 -- where the per-row
+    # membership assertion above had already been widened and passed. A tally
+    # that only counts the states it knows about would have reported a clean
+    # sweep over two thirds of the ledger.
+    assert sum(kinds.values()) == len(rows), (
+        "%d rows classified out of %d -- a state is missing from this tally"
+        % (sum(kinds.values()), len(rows)))
     assert kinds["emitted"] > 0 and kinds["passthrough"] > 0
 
 
@@ -1505,6 +1513,14 @@ def test_no_passthrough_row_claims_a_migrator_emits_it():
     so, which would make the ledger claim a migration nobody wrote -- the mirror
     of the bug this split fixes, and the reason the decided target is NOT
     written into the curated map.
+
+    IT FIRED FOR REAL on 2026-08-10, when 28 per-class accounts were written for
+    classes whose families are signed but unbuilt. Merely ADDING a curated entry
+    flipped each row to `emitted` -- exactly the false claim above, since no
+    migrator produces any of them. The fix was not to relax this assertion but to
+    give coverage.py a fifth state, `decided`, for an entry that records a signed
+    disposition while claiming no emission. This test still holds `emitted` to its
+    full meaning; the sibling below holds `decided` to its own.
     """
     with open(os.path.join(REPO_ROOT, "schemas",
                            "V_eta_coverage_ledger.json")) as fh:
@@ -1516,6 +1532,29 @@ def test_no_passthrough_row_claims_a_migrator_emits_it():
             assert r["migrator"] or r["second_pass"] or r["carried"], (
                 f"{r['v1_class']} is marked emitted but no migrator, second "
                 "pass or carried class backs it")
+
+
+def test_decided_rows_record_a_disposition_without_claiming_a_migration():
+    """`decided` means signed-and-unbuilt, and must not drift into either neighbour.
+
+    Two ways the state could rot, so both are asserted. It must not absorb rows a
+    migrator DOES implement -- that is `emitted`, and keeping them apart is the
+    entire point. And it must not become a bucket for rows with no recorded
+    account -- that is `passthrough` or `unknown`; every `decided` row has to
+    carry the prose that justifies the label.
+    """
+    with open(os.path.join(REPO_ROOT, "schemas",
+                           "V_eta_coverage_ledger.json")) as fh:
+        rows = json.load(fh)["rows"]
+    decided = [r for r in rows if r["target_source"] == "decided"]
+    assert decided, "no decided rows -- this sweep would check nothing"
+    for r in decided:
+        assert not r["targets"], (
+            f"{r['v1_class']} is `decided` but names emitted targets -- if a "
+            "migrator produces them the row is `emitted`")
+        assert (r.get("how") or "").strip(), (
+            f"{r['v1_class']} is `decided` with no `how` -- the label claims an "
+            "account exists, so one must")
 
 
 def test_uncurated_stays_at_zero():

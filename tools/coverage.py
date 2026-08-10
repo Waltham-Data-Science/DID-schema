@@ -368,7 +368,28 @@ def build_ledger():
         # it "no migrator; passes through" replaced one false statement with
         # another. A migrator with no curated entry is not a passthrough -- it
         # emits something nobody has written down.
-        if tinfo:
+        # FIVE states as of 2026-08-10, and the fifth exists because writing the
+        # 28 per-class accounts broke the fourth. A curated entry USED TO mean
+        # "we know what a migrator emits" -- so simply describing a class flipped
+        # its row to `emitted`, and
+        # test_no_passthrough_row_claims_a_migrator_emits_it caught it on the
+        # first run, exactly as its docstring predicted ("marking a row emitted
+        # because a decision says so ... would make the ledger claim a migration
+        # nobody wrote").
+        #
+        # The two things had been conflated: an entry can record WHAT WILL HAPPEN
+        # (a signed decision, in `decided_targets`) without claiming anything is
+        # produced today. So an entry that names no `targets` and no
+        # `second_pass` is a DECISION, not an emission:
+        #   decided      the disposition is recorded and signed; NO migrator
+        #                emits it yet. Includes dissolutions and deletions, which
+        #                legitimately have no target at all.
+        _claims_emission = bool((tinfo or {}).get("targets")
+                                or (tinfo or {}).get("second_pass"))
+        if tinfo and not _claims_emission:
+            target_source = "decided"        # recorded + signed; nothing emits it yet
+            targets = []
+        elif tinfo:
             target_source = "emitted"        # curated: we know what it emits
         elif mig:
             target_source = "uncurated"      # a migrator runs; its output is unrecorded

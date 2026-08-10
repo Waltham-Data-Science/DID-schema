@@ -8,22 +8,22 @@
 |---|---|---|---|
 | `SpikeInterfaceSortingOutputs` | `count_observation` + `session_relative_reference` · on `subject` | retire | ndi |
 | `animalsubject` | — | dissolved → subject | ndi |
-| `app` | · passes through as `app` (no migrator; target unrecorded) | in_progress | ndi |
+| `app` | — | in_progress | ndi |
 | `base` | · passes through as `base` (no migrator; target unrecorded) | persist | ndi |
-| `binaryseries_parameters` | · passes through as `binaryseries_parameters` (no migrator; target unrecorded) | in_progress | ndi |
+| `binaryseries_parameters` | — | in_progress | ndi |
 | `binnedspikeratevm` | `frequency_observation` + `sampled_body` + `session_relative_reference` · on `subject` | retire | ndi |
 | `contrast_sensitivity_calc` | `contrast_sensitivity_calculation` + `session_relative_reference` · on `subject` | consumed by migrator (no tombstone) | app |
 | `contrast_tuning` | `tuning_curve_calculation` + `session_relative_reference` · on `subject` | consumed by migrator (no tombstone) | app |
 | `contrast_tuning_calc` | `tuning_curve_calculation` + `session_relative_reference` · on `subject` | consumed by migrator (no tombstone) | app |
 | `control_stimulus_ids` | `control_designation` · on `timed_sequence` | retire | ndi |
-| `daqmetadatareader` | · passes through as `daqmetadatareader` (no migrator; target unrecorded) | in_progress | ndi |
-| `daqmetadatareader_epochdata_ingested` | · passes through as `daqmetadatareader_epochdata_ingested` (no migrator; target unrecorded) | in_progress | ndi |
-| `daqreader` | · passes through as `daqreader` (no migrator; target unrecorded) | in_progress | ndi |
-| `daqreader_epochdata_ingested` | · passes through as `daqreader_epochdata_ingested` (no migrator; target unrecorded) | in_progress | ndi |
-| `daqreader_image_epochdata_ingested` | · passes through as `daqreader_image_epochdata_ingested` (no migrator; target unrecorded) | in_progress | ndi |
+| `daqmetadatareader` | — | in_progress | ndi |
+| `daqmetadatareader_epochdata_ingested` | — | in_progress | ndi |
+| `daqreader` | — | in_progress | ndi |
+| `daqreader_epochdata_ingested` | — | in_progress | ndi |
+| `daqreader_image_epochdata_ingested` | — | in_progress | ndi |
 | `daqreader_mfdaq_epochdata_ingested` | `daqreader_epochdata_ingested` | consumed by migrator (no tombstone) | ndi |
 | `daqreader_ndr` | `daqreader` | consumed by migrator (no tombstone) | ndi |
-| `daqsystem` | · passes through as `daqsystem` (no migrator; target unrecorded) | in_progress | ndi |
+| `daqsystem` | — | in_progress | ndi |
 | `dataset_remote` | `dataset` + `web_resource` + `directed_relation` + `organization` | consumed by migrator (no tombstone) | ndi |
 | `dataset_session_info` | `dataset` + `directed_relation` | consumed by migrator (no tombstone) | ndi |
 | `demoNDI` | — | test/demo fixture (non-production) | ndi |
@@ -32,11 +32,11 @@
 | `electrode_offset_voltage` | `voltage_observation` + `session_relative_reference` · on `subject` | retire | ndi |
 | `element` | `subject` + `term_assertion` + `directed_relation` | retire | ndi |
 | `element_epoch` | `acquisition_epoch` | consumed by migrator (no tombstone) | ndi |
-| `ensemble` | · passes through as `ensemble` (no migrator; target unrecorded) | in_progress | ndi |
+| `ensemble` | — | in_progress | ndi |
 | `epochclocktimes` | — | consumed by migrator (no tombstone) | ndi |
 | `epochfiles_ingested` | `ingestion_manifest` + `epoch`* | in_progress | ndi |
-| `epochid` | · passes through as `epochid` (no migrator; target unrecorded) | in_progress | ndi |
-| `filenavigator` | · passes through as `filenavigator` (no migrator; target unrecorded) | in_progress | ndi |
+| `epochid` | — | in_progress | ndi |
+| `filenavigator` | — | in_progress | ndi |
 | `filter` | — | in_progress | ndi |
 | `fitcurve` | `score_observation` + `session_relative_reference` · on `subject` | retire | ndi |
 | `generic_file` | — | no V_eta home, no migrator -- UNVERIFIED | ndi |
@@ -44,7 +44,7 @@
 | `image` | `image_observation` + `sampled_body` + `session_relative_reference` · on `subject` | persist | ndi |
 | `imageCollection` | — | no V_eta home, no migrator -- UNVERIFIED | ndi |
 | `imageStack` | `image_observation` + `sampled_body` + `session_relative_reference` · on `subject` | retire | ndi |
-| `imageStack_parameters` | · passes through as `image_stack_parameters` (no migrator; target unrecorded) | retire | ndi |
+| `imageStack_parameters` | — | retire | ndi |
 | `jrclust_clusters` | `count_observation` + `sampled_body` + `session_relative_reference` · on `subject` | retire | ndi |
 | `kiasort_clusters` | `count_observation` + `opaque_body` + `session_relative_reference` · on `subject` | retire | ndi |
 | `kilosort_clusters` | `count_observation` + `opaque_body` + `session_relative_reference` · on `subject` | retire | ndi |
@@ -57,7 +57,7 @@
 | `ontologyImage` | `term_observation` + `session_relative_reference` + `ontology_image`* · on `subject` | retire | ndi |
 | `ontologyLabel` | `term_observation` + `session_relative_reference` · on `subject` | retire | ndi |
 | `ontologyTableRow` | `term_assertion` + `date_assertion` + `term_observation` + `mass_observation` + `length_observation` + `frequency_observation` + `acceleration_observation` + `velocity_observation` + `duration_observation` + `volume_observation` + `temperature_observation` + `pressure_observation` + `voltage_observation` + `current_observation` + `concentration_observation` + `count_observation` + `score_observation` + `intensity_observation` + `subject` + `session_bounded_reference` + `directed_relation` + `session_relative_reference` · on `subject` | retire | ndi |
-| `openminds` | · passes through as `openminds` (no migrator; target unrecorded) | retire | ndi |
+| `openminds` | — | retire | ndi |
 | `openminds_element` | `term_assertion` · on `subject` | retire | ndi |
 | `openminds_stimulus` | `interaction_purpose`* | retire | ndi |
 | `openminds_subject` | `term_assertion` · on `subject` | retire | ndi |
@@ -66,36 +66,36 @@
 | `position_metadata` | `term_observation` + `session_relative_reference` · on `subject` | retire | ndi |
 | `probe_geometry` | `length_observation` + `term_assertion` + `session_relative_reference` · on `subject` | retire | ndi |
 | `probe_location` | `term_observation` + `session_relative_reference` · on `subject` | retire | ndi |
-| `projectvar` | · passes through as `projectvar` (no migrator; target unrecorded) | in_progress | ndi |
+| `projectvar` | — | in_progress | ndi |
 | `pyraview` | `voltage_observation` + `sampled_body` + `session_relative_reference` · on `subject` | retire | ndi |
 | `session` | · passes through as `session` (no migrator; target unrecorded) | persist | ndi |
 | `session_in_a_dataset` | `dataset` + `directed_relation` | consumed by migrator (no tombstone) | ndi |
 | `simple_calc` | `simple_calc`* | retire | ndi |
 | `site2channelmap` | `count_observation` + `session_relative_reference` · on `subject` | retire | ndi |
-| `sorting_parameters` | · passes through as `sorting_parameters` (no migrator; target unrecorded) | retire | ndi |
+| `sorting_parameters` | — | retire | ndi |
 | `spatial_frequency_tuning` | `tuning_curve_calculation` + `session_relative_reference` · on `subject` | consumed by migrator (no tombstone) | app |
 | `spatial_frequency_tuning_calc` | `tuning_curve_calculation` + `session_relative_reference` · on `subject` | consumed by migrator (no tombstone) | app |
 | `speed_tuning` | `tuning_curve_calculation` + `session_relative_reference` · on `subject` | consumed by migrator (no tombstone) | app |
 | `speed_tuning_calc` | `tuning_curve_calculation` + `session_relative_reference` · on `subject` | consumed by migrator (no tombstone) | app |
 | `spike_clusters` | `count_observation` + `sampled_body` + `session_relative_reference` · on `subject` | retire | ndi |
-| `spike_extraction_parameters` | · passes through as `spike_extraction_parameters` (no migrator; target unrecorded) | retire | ndi |
-| `spike_extraction_parameters_modification` | · passes through as `spike_extraction_parameters_modification` (no migrator; target unrecorded) | retire | ndi |
+| `spike_extraction_parameters` | — | retire | ndi |
+| `spike_extraction_parameters_modification` | — | retire | ndi |
 | `spikewaves` | `voltage_observation` + `sampled_body` + `session_relative_reference` · on `subject` | retire | ndi |
 | `stimulus_bath` | `dose_manipulation`* + `session_relative_reference`* | consumed by migrator (no tombstone) | ndi |
-| `stimulus_parameter` | · passes through as `stimulus_parameter` (no migrator; target unrecorded) | retire | ndi |
-| `stimulus_parameter_table` | · passes through as `stimulus_parameter_table` (no migrator; target unrecorded) | retire | ndi |
+| `stimulus_parameter` | — | retire | ndi |
+| `stimulus_parameter_table` | — | retire | ndi |
 | `stimulus_presentation` | `visual_grating_manipulation`* + `sampled_body`* · on `subject` | in_progress | ndi |
-| `stimulus_response` | · passes through as `stimulus_response` (no migrator; target unrecorded) | retire | ndi |
-| `stimulus_response_scalar` | · passes through as `stimulus_response_scalar` (no migrator; target unrecorded) | retire | ndi |
-| `stimulus_response_scalar_parameters` | · passes through as `stimulus_response_scalar_parameters` (no migrator; target unrecorded) | retire | ndi |
-| `stimulus_response_scalar_parameters_basic` | · passes through as `stimulus_response_scalar_parameters_basic` (no migrator; target unrecorded) | retire | ndi |
+| `stimulus_response` | — | retire | ndi |
+| `stimulus_response_scalar` | — | retire | ndi |
+| `stimulus_response_scalar_parameters` | — | retire | ndi |
+| `stimulus_response_scalar_parameters_basic` | — | retire | ndi |
 | `stimulus_tuningcurve` | `tuning_curve_calculation` + `session_relative_reference` · on `subject` | consumed by migrator (no tombstone) | ndi |
 | `subject` | `subject` | persist | ndi |
 | `subject_group` | `subject` + `directed_relation` | consumed by migrator (no tombstone) | ndi |
-| `subjectmeasurement` | · passes through as `subjectmeasurement` (no migrator; target unrecorded) | retire | ndi |
-| `syncgraph` | · passes through as `syncgraph` (no migrator; target unrecorded) | in_progress | ndi |
-| `syncrule` | · passes through as `syncrule` (no migrator; target unrecorded) | in_progress | ndi |
-| `syncrule_mapping` | · passes through as `syncrule_mapping` (no migrator; target unrecorded) | in_progress | ndi |
+| `subjectmeasurement` | — | retire | ndi |
+| `syncgraph` | — | in_progress | ndi |
+| `syncrule` | — | in_progress | ndi |
+| `syncrule_mapping` | — | in_progress | ndi |
 | `temporal_frequency_tuning` | `tuning_curve_calculation` + `session_relative_reference` · on `subject` | consumed by migrator (no tombstone) | app |
 | `temporal_frequency_tuning_calc` | `tuning_curve_calculation` + `session_relative_reference` · on `subject` | consumed by migrator (no tombstone) | app |
 | `treatment` | `temperature_manipulation` + `dose_manipulation` + `term_manipulation` + `term_observation` + `session_relative_reference` + `subject`* + `term_assertion`* + `directed_relation`* · on `subject` | consumed by migrator (no tombstone) | ndi |
@@ -105,7 +105,7 @@
 | `valid_interval` | — | no V_eta home, no migrator -- UNVERIFIED | ndi |
 | `virus_injection` | `dose_manipulation` + `term_observation` + `session_relative_reference` + `subject`* + `term_assertion`* + `directed_relation`* · on `subject` | consumed by migrator (no tombstone) | ndi |
 | `vmneuralresponseresiduals` | `voltage_observation` + `directed_relation` + `session_relative_reference` · on `subject` | retire | ndi |
-| `vmspikefilteringparameters` | · passes through as `vmspikefilteringparameters` (no migrator; target unrecorded) | retire | ndi |
+| `vmspikefilteringparameters` | — | retire | ndi |
 | `vmspikefit` | `score_observation` + `session_relative_reference` · on `subject` | retire | ndi |
 | `vmspikesummary` | `voltage_observation` + `frequency_observation` + `count_observation` + `duration_observation` + `session_relative_reference` · on `subject` | retire | ndi |
 

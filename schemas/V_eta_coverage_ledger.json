@@ -63,14 +63,12 @@
       "source": "ndi",
       "nonprod": false,
       "gap": false,
-      "targets": [
-        "app"
-      ],
-      "target_source": "passthrough",
+      "targets": [],
+      "target_source": "decided",
       "carried": [],
       "second_pass": [],
-      "how": "",
-      "target_flags": ""
+      "how": "The `app` MIXIN is replaced by a `software` ENTITY, deduplicated by name+version and referenced from a statement by a `software_id` edge. Run-specific os/interpreter details move to `execution_environment` on the interaction. The class name stops being copied into every calculator output.",
+      "target_flags": "DECIDED AND SIGNED, BUILD NOT DONE. The migrator does not do this yet; the document passes through today. R1. Follow-ups tracked separately: software dedup, attrition and the openMINDS crosswalk."
     },
     {
       "v1_class": "base",
@@ -97,14 +95,12 @@
       "source": "ndi",
       "nonprod": false,
       "gap": false,
-      "targets": [
-        "binaryseries_parameters"
-      ],
-      "target_source": "passthrough",
+      "targets": [],
+      "target_source": "decided",
       "carried": [],
       "second_pass": [],
-      "how": "",
-      "target_flags": ""
+      "how": "RETIRED into the data_body model, field by field: `time_type` becomes the time axis's `datum_type`, `data_type` becomes the statement's, `data_dim` becomes the axis count, and `samples_regular_intervals` becomes the axis `regular` flag.",
+      "target_flags": "DECIDED AND SIGNED, BUILD NOT DONE. The migrator does not do this yet; the document passes through today. Gated on the data_body model, which is DECIDED but NOT yet signed -- so this one has a prerequisite the others do not."
     },
     {
       "v1_class": "binnedspikeratevm",
@@ -214,14 +210,12 @@
       "source": "ndi",
       "nonprod": false,
       "gap": false,
-      "targets": [
-        "daqmetadatareader"
-      ],
-      "target_source": "passthrough",
+      "targets": [],
+      "target_source": "decided",
       "carried": [],
       "second_pass": [],
-      "how": "",
-      "target_flags": ""
+      "how": "RENAMED to `acquisition_metadata_reader`, keeping its id. The v1 name encodes the daq layer rather than what the document is.",
+      "target_flags": "DECIDED AND SIGNED, BUILD NOT DONE. The migrator does not do this yet; the document passes through today. "
     },
     {
       "v1_class": "daqmetadatareader_epochdata_ingested",
@@ -231,14 +225,12 @@
       "source": "ndi",
       "nonprod": false,
       "gap": false,
-      "targets": [
-        "daqmetadatareader_epochdata_ingested"
-      ],
-      "target_source": "passthrough",
+      "targets": [],
+      "target_source": "decided",
       "carried": [],
       "second_pass": [],
-      "how": "",
-      "target_flags": ""
+      "how": "Becomes `acquisition_metadata_file`, the ONE new class this family introduces. The v1 document has no property fields at all -- it is a pure byte carrier (`data.bin`) with an epoch and a reader edge.",
+      "target_flags": "DECIDED AND SIGNED, BUILD NOT DONE. The migrator does not do this yet; the document passes through today. "
     },
     {
       "v1_class": "daqreader",
@@ -248,14 +240,12 @@
       "source": "ndi",
       "nonprod": false,
       "gap": false,
-      "targets": [
-        "daqreader"
-      ],
-      "target_source": "passthrough",
+      "targets": [],
+      "target_source": "decided",
       "carried": [],
       "second_pass": [],
-      "how": "",
-      "target_flags": ""
+      "how": "DISSOLVES into a `software` entity with `base.id` preserved: the class's content is a MATLAB class handle, which is software identity rather than a record of the experiment. `reader_string` is KEPT, as the de-encoded `daqreader_ndr.ndr_reader_string`.",
+      "target_flags": "DECIDED AND SIGNED, BUILD NOT DONE. The migrator does not do this yet; the document passes through today. The sign-off also DELETES the invented `file_extension` and `metadata_names`; `file_extension` is still carried onto daqreader by build_v_eta.py today and goes when this builds."
     },
     {
       "v1_class": "daqreader_epochdata_ingested",
@@ -265,14 +255,12 @@
       "source": "ndi",
       "nonprod": false,
       "gap": false,
-      "targets": [
-        "daqreader_epochdata_ingested"
-      ],
-      "target_source": "passthrough",
+      "targets": [],
+      "target_source": "decided",
       "carried": [],
       "second_pass": [],
-      "how": "",
-      "target_flags": ""
+      "how": "RETIRES by decomposition. Its whole payload is a clock name and an interval (`epochtable {epochclock, t0_t1}`, no bytes), which is the epoch's extent under a named clock -- so it becomes `relative_reference` documents rather than a class of its own.",
+      "target_flags": "DECIDED AND SIGNED, BUILD NOT DONE. The migrator does not do this yet; the document passes through today. One of four places this project found the same clock-plus-interval fact stored a different way."
     },
     {
       "v1_class": "daqreader_image_epochdata_ingested",
@@ -282,14 +270,12 @@
       "source": "ndi",
       "nonprod": false,
       "gap": false,
-      "targets": [
-        "daqreader_image_epochdata_ingested"
-      ],
-      "target_source": "passthrough",
+      "targets": [],
+      "target_source": "decided",
       "carried": [],
       "second_pass": [],
-      "how": "",
-      "target_flags": ""
+      "how": "RETIRES by decomposition into three things that already exist: the frames and their descriptors become an `image_observation` over a `sampled_body`, and `frametimes` + `clocktype` become time references. No new class.",
+      "target_flags": "DECIDED AND SIGNED, BUILD NOT DONE. The migrator does not do this yet; the document passes through today. Depends on the image model and the time-reference collapse, both signed."
     },
     {
       "v1_class": "daqreader_mfdaq_epochdata_ingested",
@@ -333,14 +319,12 @@
       "source": "ndi",
       "nonprod": false,
       "gap": false,
-      "targets": [
-        "daqsystem"
-      ],
-      "target_source": "passthrough",
+      "targets": [],
+      "target_source": "decided",
       "carried": [],
       "second_pass": [],
-      "how": "",
-      "target_flags": ""
+      "how": "Becomes `acquisition_system` (an entity), preserving BOTH `base.id` and `base.name`. The name is preserved because it is a JOIN KEY, not a label: epochprobemap device strings and every syncrule's `daqsystem1_name`/`_2_name` match on it BY STRING, so dropping it would silently break probe-to-device attribution.",
+      "target_flags": "DECIDED AND SIGNED, BUILD NOT DONE. The migrator does not do this yet; the document passes through today. An earlier proposal to drop all three daq config classes as non-archival was REVERSED for exactly this reason."
     },
     {
       "v1_class": "dataset_remote",
@@ -494,14 +478,12 @@
       "source": "ndi",
       "nonprod": false,
       "gap": false,
-      "targets": [
-        "ensemble"
-      ],
-      "target_source": "passthrough",
+      "targets": [],
+      "target_source": "decided",
       "carried": [],
       "second_pass": [],
-      "how": "",
-      "target_flags": ""
+      "how": "Becomes a GROUP SUBJECT with its id preserved and NO data body of its own. The per-neuron spike times are the primary archival data (one `sampled_body` per neuron-subject); membership becomes EPOCH-SCOPED `member_of` edges carrying their epoch and column order; and the combined (times, ids) array is kept as an explicitly DERIVED, rebuildable CACHE for fast windowed population reads, not as source of truth. The per-epoch MAP document dissolves.",
+      "target_flags": "DECIDED AND SIGNED, BUILD NOT DONE. The migrator does not do this yet; the document passes through today. Sequenced: pass 1 is a green passthrough, the second pass mints member_of and builds the cache, and a verify-before-delete (0 stranded per-neuron trains) gates dropping the combined bytes. NOTE the roster does NOT need file bytes -- `neuron_id_#` edges already carry it (ensemble.m:274-276)."
     },
     {
       "v1_class": "epochclocktimes",
@@ -512,7 +494,7 @@
       "nonprod": false,
       "gap": false,
       "targets": [],
-      "target_source": "emitted",
+      "target_source": "decided",
       "carried": [],
       "second_pass": [],
       "how": "superclass block migrator: rewrites the epochclocktimes block in place (clocktype->epoch_clock, t0_t1->t0/t1); no class change",
@@ -545,14 +527,12 @@
       "source": "ndi",
       "nonprod": false,
       "gap": false,
-      "targets": [
-        "epochid"
-      ],
-      "target_source": "passthrough",
+      "targets": [],
+      "target_source": "decided",
       "carried": [],
       "second_pass": [],
-      "how": "",
-      "target_flags": ""
+      "how": "DROPPED as a class, in favour of a uniform `epoch_id` EDGE pointing at the newly minted `epoch` entity (one per distinct epoch id, with the v1 epochid string as its `local_identifier`). Nothing is lost: the string was only ever a way to find the epoch, and the epoch now has a document.",
+      "target_flags": "DECIDED AND SIGNED, BUILD NOT DONE. The migrator does not do this yet; the document passes through today. HIGH BLAST RADIUS: 15 NDI classes carry this mixin and 11+ live NDI sites match `epochid.epochid` by exact_string, so the edge must land before the string goes."
     },
     {
       "v1_class": "filenavigator",
@@ -562,14 +542,12 @@
       "source": "ndi",
       "nonprod": false,
       "gap": false,
-      "targets": [
-        "filenavigator"
-      ],
-      "target_source": "passthrough",
+      "targets": [],
+      "target_source": "decided",
       "carried": [],
       "second_pass": [],
-      "how": "",
-      "target_flags": ""
+      "how": "Becomes `epoch_file_pattern`, `base.id` preserved. Its two EVAL'd parameter strings become declared pattern lists (`data_file_pattern`, `epoch_map_pattern`) plus `epoch_map_format`, and the implementation class name becomes a `software_id` edge.",
+      "target_flags": "DECIDED AND SIGNED, BUILD NOT DONE. The migrator does not do this yet; the document passes through today. `directory` is NOT a did_v1 source and is unaffected."
     },
     {
       "v1_class": "filter",
@@ -580,7 +558,7 @@
       "nonprod": false,
       "gap": false,
       "targets": [],
-      "target_source": "emitted",
+      "target_source": "decided",
       "carried": [],
       "second_pass": [],
       "how": "superclass block migrator: renames filter.type->filter_type in place; no class change",
@@ -703,14 +681,12 @@
       "source": "ndi",
       "nonprod": false,
       "gap": false,
-      "targets": [
-        "image_stack_parameters"
-      ],
-      "target_source": "passthrough",
+      "targets": [],
+      "target_source": "decided",
       "carried": [],
       "second_pass": [],
-      "how": "",
-      "target_flags": ""
+      "how": "Nothing happens to it directly, and that is correct: it is a SUPERCLASS, never constructed standalone. Both production converters pass its block as a name-value pair (babu/import.m:475, haley/doImport.m:423) and `image_stack.m` consumes it. It appears as an open row only because no migrator is NAMED after it.",
+      "target_flags": "Verified against NDI origin/main 2026-08-09; a false alarm, not a gap."
     },
     {
       "v1_class": "jrclust_clusters",
@@ -868,7 +844,7 @@
       "nonprod": false,
       "gap": false,
       "targets": [],
-      "target_source": "emitted",
+      "target_source": "decided",
       "carried": [],
       "second_pass": [],
       "how": "superclass block migrator: rewrites ngrid block (data_dim->dim_sizes, adds ndims) in place; no class change",
@@ -981,14 +957,12 @@
       "source": "ndi",
       "nonprod": false,
       "gap": false,
-      "targets": [
-        "openminds"
-      ],
-      "target_source": "passthrough",
+      "targets": [],
+      "target_source": "decided",
       "carried": [],
       "second_pass": [],
-      "how": "",
-      "target_flags": ""
+      "how": "NOT STORED. The openMINDS bundle document is a container for metadata that V_eta represents directly as entities and assertions, so the bundle itself has no go-forward home. What its contents become IS decided: Strain documents become `strain` entities with ids preserved, Species/GeneticStrainType fragments fold into their parent strain's fields, and the metadata-app dataset graph maps onto the six classes `metadata_editor` already emits.",
+      "target_flags": "DECIDED AND SIGNED, BUILD NOT DONE. The migrator does not do this yet; the document passes through today. THE SIGN-OFF DOES NOT NAME THIS CLASS DIRECTLY -- it covers the documents it contains. The 'bundle not stored' reading comes from the go-forward class audit. Worth confirming explicitly before the build deletes anything."
     },
     {
       "v1_class": "openminds_element",
@@ -1154,14 +1128,12 @@
       "source": "ndi",
       "nonprod": false,
       "gap": false,
-      "targets": [
-        "projectvar"
-      ],
-      "target_source": "passthrough",
+      "targets": [],
+      "target_source": "decided",
       "carried": [],
       "second_pass": [],
-      "how": "",
-      "target_flags": ""
+      "how": "PASSES THROUGH UNCHANGED, in `deprecated/`, until real documents exist to model its untyped `data` field against. Typing it from a template alone is the wrong-assumed-shape failure that produced ~2,078 quarantines elsewhere in this migration.",
+      "target_flags": "Deliberate non-decision: the class is preserved and honestly filed as unmodelled, rather than guessed at."
     },
     {
       "v1_class": "pyraview",
@@ -1264,14 +1236,12 @@
       "source": "ndi",
       "nonprod": false,
       "gap": false,
-      "targets": [
-        "sorting_parameters"
-      ],
-      "target_source": "passthrough",
+      "targets": [],
+      "target_source": "decided",
       "carried": [],
       "second_pass": [],
-      "how": "",
-      "target_flags": ""
+      "how": "Folds into ONE generic `method_parameters` document, id and `base.name` preserved. The settings shape becomes a `parameter[]` entry modelled on the axis entry, with identity in a bound `variable`. Routing is decided per class: a name AND an id in the source means a document, otherwise the settings go inline on the statement -- never both.",
+      "target_flags": "DECIDED AND SIGNED, BUILD NOT DONE. The migrator does not do this yet; the document passes through today."
     },
     {
       "v1_class": "spatial_frequency_tuning",
@@ -1382,14 +1352,12 @@
       "source": "ndi",
       "nonprod": false,
       "gap": false,
-      "targets": [
-        "spike_extraction_parameters"
-      ],
-      "target_source": "passthrough",
+      "targets": [],
+      "target_source": "decided",
       "carried": [],
       "second_pass": [],
-      "how": "",
-      "target_flags": ""
+      "how": "Folds into ONE generic `method_parameters` document, id and `base.name` preserved. The settings shape becomes a `parameter[]` entry modelled on the axis entry, with identity in a bound `variable`. Routing is decided per class: a name AND an id in the source means a document, otherwise the settings go inline on the statement -- never both.",
+      "target_flags": "DECIDED AND SIGNED, BUILD NOT DONE. The migrator does not do this yet; the document passes through today. Carries real data (filter_type / filter_low / filter_high / filter_order / filter_ripple), so this is a fold, not a discard."
     },
     {
       "v1_class": "spike_extraction_parameters_modification",
@@ -1399,14 +1367,12 @@
       "source": "ndi",
       "nonprod": false,
       "gap": false,
-      "targets": [
-        "spike_extraction_parameters_modification"
-      ],
-      "target_source": "passthrough",
+      "targets": [],
+      "target_source": "decided",
       "carried": [],
       "second_pass": [],
-      "how": "",
-      "target_flags": ""
+      "how": "Folds into ONE generic `method_parameters` document, id and `base.name` preserved. The settings shape becomes a `parameter[]` entry modelled on the axis entry, with identity in a bound `variable`. Routing is decided per class: a name AND an id in the source means a document, otherwise the settings go inline on the statement -- never both.",
+      "target_flags": "DECIDED AND SIGNED, BUILD NOT DONE. The migrator does not do this yet; the document passes through today."
     },
     {
       "v1_class": "spikewaves",
@@ -1455,14 +1421,12 @@
       "source": "ndi",
       "nonprod": false,
       "gap": false,
-      "targets": [
-        "stimulus_parameter"
-      ],
-      "target_source": "passthrough",
+      "targets": [],
+      "target_source": "decided",
       "carried": [],
       "second_pass": [],
-      "how": "",
-      "target_flags": ""
+      "how": "DISSOLVES into a typed statement leaf keyed by its CURIE: `stimulus_element_id` becomes the subject, `ontology_name` and `name` become the statement's `variable`, and `value` becomes the value. The Marder temperature documents land as `temperature_manipulation` -- manipulation rather than observation, because a stimulus parameter is commanded, not measured.",
+      "target_flags": "TOMBSTONE REPAIR IS DONE (2026-08-10) -- the document no longer quarantines. The DISSOLUTION is still gated twice: on binding governance reaching an admissible set (it is signed only at `preferred`), and on an UNMEASURED count of how many distinct NDIC terms a real Marder corpus carries and how many resolve. That measurement needs a Marder corpus, and none of the six we run is one."
     },
     {
       "v1_class": "stimulus_parameter_table",
@@ -1472,14 +1436,12 @@
       "source": "ndi",
       "nonprod": false,
       "gap": false,
-      "targets": [
-        "stimulus_parameter_table"
-      ],
-      "target_source": "passthrough",
+      "targets": [],
+      "target_source": "decided",
       "carried": [],
       "second_pass": [],
-      "how": "",
-      "target_flags": ""
+      "how": "PASSES THROUGH UNCHANGED and is DEMOTED to `deprecated/`. It has no writer anywhere in NDI's 1,002 .m files and one untyped `string[]` field, so there is nothing to model against -- but it ships a template, so deleting it is forbidden by the corpora-are-a-sample rule.",
+      "target_flags": "DONE 2026-08-10: demoted, and the tombstone rewritten to the NDI shape so a passthrough validates instead of quarantining."
     },
     {
       "v1_class": "stimulus_presentation",
@@ -1509,14 +1471,12 @@
       "source": "ndi",
       "nonprod": false,
       "gap": false,
-      "targets": [
-        "stimulus_response"
-      ],
-      "target_source": "passthrough",
+      "targets": [],
+      "target_source": "decided",
       "carried": [],
       "second_pass": [],
-      "how": "",
-      "target_flags": ""
+      "how": "DELETED. Superclass-only with ZERO documents in any corpus -- it exists in the schema but nothing has ever been an instance of it, so there is nothing to migrate.",
+      "target_flags": "DECIDED AND SIGNED, BUILD NOT DONE. The migrator does not do this yet; the document passes through today. Deletion of a zero-document superclass, not of data."
     },
     {
       "v1_class": "stimulus_response_scalar",
@@ -1526,14 +1486,12 @@
       "source": "ndi",
       "nonprod": false,
       "gap": false,
-      "targets": [
-        "stimulus_response_scalar"
-      ],
-      "target_source": "passthrough",
+      "targets": [],
+      "target_source": "decided",
       "carried": [],
       "second_pass": [],
-      "how": "",
-      "target_flags": ""
+      "how": "Becomes a `harmonic_component_calculation` (a `subject_calculation` leaf) with its id PRESERVED, carrying a `harmonic_component` data_type value. Id preservation is what keeps downstream references resolving.",
+      "target_flags": "DECIDED AND SIGNED, BUILD NOT DONE. The migrator does not do this yet; the document passes through today. Schema half landed 2026-08-09; the migrator half is what remains, including recovering the dropped `instrument_id` (the stimulator) and `derived_from_#` edges."
     },
     {
       "v1_class": "stimulus_response_scalar_parameters",
@@ -1543,14 +1501,12 @@
       "source": "ndi",
       "nonprod": false,
       "gap": false,
-      "targets": [
-        "stimulus_response_scalar_parameters"
-      ],
-      "target_source": "passthrough",
+      "targets": [],
+      "target_source": "decided",
       "carried": [],
       "second_pass": [],
-      "how": "",
-      "target_flags": ""
+      "how": "DELETED. Superclass-only with ZERO documents in any corpus -- it exists in the schema but nothing has ever been an instance of it, so there is nothing to migrate.",
+      "target_flags": "DECIDED AND SIGNED, BUILD NOT DONE. The migrator does not do this yet; the document passes through today. Deletion of a zero-document superclass, not of data."
     },
     {
       "v1_class": "stimulus_response_scalar_parameters_basic",
@@ -1560,14 +1516,12 @@
       "source": "ndi",
       "nonprod": false,
       "gap": false,
-      "targets": [
-        "stimulus_response_scalar_parameters_basic"
-      ],
-      "target_source": "passthrough",
+      "targets": [],
+      "target_source": "decided",
       "carried": [],
       "second_pass": [],
-      "how": "",
-      "target_flags": ""
+      "how": "FOLDS INLINE into `method_parameters` on the statement -- it is calculator configuration, not a document in its own right.",
+      "target_flags": "DECIDED AND SIGNED, BUILD NOT DONE. The migrator does not do this yet; the document passes through today. This class held the LARGEST invented-empty-edge instance: `stimulus_response_scalar_id`, empty on all 11,440 documents. The schema repair has landed; the fold has not."
     },
     {
       "v1_class": "stimulus_tuningcurve",
@@ -1632,14 +1586,12 @@
       "source": "ndi",
       "nonprod": false,
       "gap": false,
-      "targets": [
-        "subjectmeasurement"
-      ],
-      "target_source": "passthrough",
+      "targets": [],
+      "target_source": "decided",
       "carried": [],
       "second_pass": [],
-      "how": "",
-      "target_flags": ""
+      "how": "Routes through the EXISTING `measurement` fold with NO new class: `subject_id` carries over, `measurement` becomes the statement's `variable`, `value` becomes the value, and `datestamp` becomes the statement's TIME ANCHOR (`time_reference_1` to an `absolute_reference`) rather than a field.",
+      "target_flags": "DECIDED AND SIGNED, BUILD NOT DONE. The migrator does not do this yet; the document passes through today. Signed WITH a known gap: `value` carries no unit, so which typed leaf it lands on must be chosen through the D9 registry rather than read off the template."
     },
     {
       "v1_class": "syncgraph",
@@ -1649,14 +1601,12 @@
       "source": "ndi",
       "nonprod": false,
       "gap": false,
-      "targets": [
-        "syncgraph"
-      ],
-      "target_source": "passthrough",
+      "targets": [],
+      "target_source": "decided",
       "carried": [],
       "second_pass": [],
-      "how": "",
-      "target_flags": ""
+      "how": "Becomes `clock_alignment_policy`, `base.id` preserved. It earns its existence on MEMBERSHIP -- which rules are in force together -- rather than on carrying data of its own.",
+      "target_flags": "DECIDED AND SIGNED, BUILD NOT DONE. The migrator does not do this yet; the document passes through today. "
     },
     {
       "v1_class": "syncrule",
@@ -1666,14 +1616,12 @@
       "source": "ndi",
       "nonprod": false,
       "gap": false,
-      "targets": [
-        "syncrule"
-      ],
-      "target_source": "passthrough",
+      "targets": [],
+      "target_source": "decided",
       "carried": [],
       "second_pass": [],
-      "how": "",
-      "target_flags": ""
+      "how": "Becomes `clock_alignment_configuration`, `base.id` preserved. Its `parameters` bag is DECLARED rather than bagged -- it is the union of four closed sets, not free-form -- and the two devices it names become `acquisition_channels_#` edges, EXACTLY 2 and UNORDERED.",
+      "target_flags": "DECIDED AND SIGNED, BUILD NOT DONE. The migrator does not do this yet; the document passes through today. `syncrule_id_#` is un-tightened back to NDI's optional."
     },
     {
       "v1_class": "syncrule_mapping",
@@ -1683,14 +1631,12 @@
       "source": "ndi",
       "nonprod": false,
       "gap": false,
-      "targets": [
-        "syncrule_mapping"
-      ],
-      "target_source": "passthrough",
+      "targets": [],
+      "target_source": "decided",
       "carried": [],
       "second_pass": [],
-      "how": "",
-      "target_flags": ""
+      "how": "Becomes `clock_alignment` (a relation carrying a `polynomial`), `base.id` preserved. Its two endpoints become `from_reference` / `to_reference` pointing at `relative_reference` documents, and `degree` is kept and CHECKED.",
+      "target_flags": "DECIDED AND SIGNED, BUILD NOT DONE. The migrator does not do this yet; the document passes through today. The schema half LANDED 2026-08-09: `syncgraph_id` is restored and the invented required `epochid` -- empty on all 5,316 documents -- is removed. The migrator half is what remains."
     },
     {
       "v1_class": "temporal_frequency_tuning",
@@ -1894,14 +1840,12 @@
       "source": "ndi",
       "nonprod": false,
       "gap": false,
-      "targets": [
-        "vmspikefilteringparameters"
-      ],
-      "target_source": "passthrough",
+      "targets": [],
+      "target_source": "decided",
       "carried": [],
       "second_pass": [],
-      "how": "",
-      "target_flags": ""
+      "how": "Folds into ONE generic `method_parameters` document, id and `base.name` preserved. The settings shape becomes a `parameter[]` entry modelled on the axis entry, with identity in a bound `variable`. Routing is decided per class: a name AND an id in the source means a document, otherwise the settings go inline on the statement -- never both.",
+      "target_flags": "DECIDED AND SIGNED, BUILD NOT DONE. The migrator does not do this yet; the document passes through today. This class also mixes in `spiketimes` -- OUTPUT data sitting in a parameters class -- which does NOT belong in method_parameters and needs a home."
     },
     {
       "v1_class": "vmspikefit",
