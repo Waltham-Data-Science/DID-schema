@@ -460,6 +460,28 @@ lives in these files — read them instead of re-deriving from memory:
   Deferred-calculator/carrier/to-observation retire classes STAY (docs pass through).
   The DID-matlab corpus CI (test-code.yml) is the final gate that no migrated doc
   still validates against a deleted class.
+  **RE-AUDITED 2026-08-09, prompted by the `image_stack` husk.** The criterion asks whether
+  a class's documents can SURVIVE migration — and `image_stack` satisfies it literally (every
+  document is consumed) while 4,563 of them become observations about nobody. The criterion
+  tests DISAPPEARANCE, not what replaces them. Re-checked all 17 against the census:
+
+        DENOMINATOR: 17 deleted classes; 14 have a ledger row + a migrator,
+                     3 have NO row (dataseries_/imageseries_/timeseries_observation
+                     — abstract, unminted in J, so no document can exist: criterion
+                     (b), sound by construction), and image_stack_parameters has no
+                     migrator because it is a SUPERCLASS whose block image_stack.m
+                     consumes.
+        RESULT: of the emitted targets, exactly ONE appears in the empty-required-edge
+                census — image_observation.subject_id, from image_stack. The calc
+                family, the treatment family, subject_group and virus_injection
+                produce no empty required edges, no fragments (0 in all six corpora)
+                and no vacuous required fields (0 in all six).
+
+  So the phase-8 set is clean except for the one already known — but note WHY we can say
+  that: the instruments that distinguish "consumed" from "consumed into a husk"
+  (`silentLoss` empty edges, `isFragment`, vacuous fields) did not exist when these
+  deletions were made. The criterion did not catch `image_stack`; the census did. Standing
+  caveat unchanged: the corpora are a sample.
 - CALCULATORS: keep as COMPOSITE LEAFS (team decision from Lepsky et al., the
   calculator-motif paper; scope: `V_eta_subject_calculation_plan.md`). Do NOT
   DISSOLVE a `_calc` doc into observations — dissolution changes/removes its id, so
