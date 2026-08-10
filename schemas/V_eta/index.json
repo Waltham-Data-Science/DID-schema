@@ -1321,6 +1321,18 @@
             "disposition": "persist"
         },
         {
+            "class_name": "generic_file",
+            "tier": "stable",
+            "class_version": "2.0.0",
+            "maturity_level": "stable",
+            "superclasses": [
+                "base"
+            ],
+            "path": "schemas/V_eta/stable/generic_file.json",
+            "disposition": "retire",
+            "disposition_note": "Phase-8 source (migrator \u2192 delete)"
+        },
+        {
             "class_name": "harmonic_component",
             "tier": "draft",
             "class_version": "1.0.0",
@@ -2670,6 +2682,19 @@
             "path": "schemas/V_eta/stable/utc_reference.json",
             "disposition": "in_progress",
             "disposition_note": "time_reference family consistency pass: `element_id` dep names the retired `element` (must_refer=subject, should be acquisition_epoch); bounded/relative suffixes carry different shapes across session/epoch/event (T11); `relation` enum-bound on one sibling, bare char on the other (T8)"
+        },
+        {
+            "class_name": "valid_interval",
+            "tier": "stable",
+            "class_version": "2.0.0",
+            "maturity_level": "stable",
+            "superclasses": [
+                "base",
+                "app"
+            ],
+            "path": "schemas/V_eta/stable/valid_interval.json",
+            "disposition": "retire",
+            "disposition_note": "Phase-8 source (migrator \u2192 delete)"
         },
         {
             "class_name": "velocity",

@@ -149,15 +149,26 @@ for d in DIMS:
 # classes deleted outright; when they appear as a superclass, replace per SUPER_SUB
 DELETE = {"scalar_observation", "scalar_manipulation", "annotation", "group_assignment",
           "derivation", "placement", "stimulus_manipulation", "stimulus_approach",
-          "oneepoch", "epochclocktimes", "valid_interval", "session_extent",
+          "oneepoch", "epochclocktimes", "session_extent",
           "mock",
-          # 2.D opaque fold (slice A): generic_file dissolves into opaque_body
-          # (uninterpreted bytes + a small format/filename descriptor). No class
-          # references it (checked), so deletion is clean; DID-matlab
-          # migrators_j.generic_file folds v1 docs. (image stays -- it is the
-          # image_observation geometry mixin, part of the NDI-side sampled fold;
-          # image_collection is a separate per-class call.)
-          "generic_file",
+          # `valid_interval` and `generic_file` WERE HERE, and are deliberately not,
+          # as of 2026-08-10. Both are REAL PRODUCTION did_v1 classes with an NDI
+          # template, a shipped schema and a live writer; deleting the schema while
+          # no migrator consumes the documents is the stranding case, not the
+          # dissolution case. Restated as SOURCE TOMBSTONES further down (search
+          # `_tombstone("generic_file"` / `_tombstone("valid_interval"`). The
+          # evidence and the two reversals are written out there rather than here,
+          # because it is the tombstone a future reader needs to check, not the
+          # absence of a set member. Note in particular what the deleted comment
+          # ASSERTED -- "DID-matlab migrators_j.generic_file folds v1 docs":
+          #
+          #     ls src/did/+did2/+convert/+migrators_j/ | wc -l   ->  82
+          #     ls src/did/+did2/+convert/+migrators_j/ | grep -i 'generic\|valid'
+          #         (no output -- 0 of 82)
+          #
+          # There is no such migrator and there never was. A build comment claimed
+          # a consumer that does not exist, and that claim is why the deletion read
+          # as safe.
           # 2.D encoding-in-name slice: timeseries_data_{binary,csv,edf} are EMPTY
           # subtypes of timeseries_data whose only content is the FORMAT encoded in
           # the class name. Per "encoding becomes a field", the format is already
@@ -4081,6 +4092,274 @@ _nx["depends_on"].append(
 write("stable", "neuron_extracellular", _nx)
 
 
+# ==========================================================================
+# THE LAST TWO did_v1 CLASSES THAT STRANDED COMPLETELY
+# ==========================================================================
+# `generic_file` and `valid_interval` had NO V_eta schema and NO migrator. Every
+# other v1 class has at least one of the two. With neither, a document of these
+# classes reaches validation as an undeclared class -- it is not migrated, not
+# passed through, not quarantined-and-preserved. It is lost.
+#
+# Both were in DELETE. Neither deletion was made against the real class:
+#
+#   generic_file   deleted as a "2.D opaque fold (slice A)" into opaque_body, on
+#                  a comment asserting `migrators_j.generic_file folds v1 docs`.
+#                  0 of 82 migrators_j entries match generic|valid.
+#   valid_interval deleted with no comment at all, in the same set-literal line
+#                  as the ⑤ time-family classes (oneepoch, epochclocktimes,
+#                  session_extent) -- which DO have dispositions.
+#
+# NEITHER IS BEING MODELLED HERE. Both get a source tombstone restated from the
+# WRITER and nothing else, which is the vmspikefilteringparameters shape: with no
+# migrator the document reaches validation in its did_v1 form, and a correct
+# tombstone IS the whole fix. Marked `retire` in _RET_SOURCES so neither counts
+# as a go-forward V_eta class -- these are v1 source names holding v1 documents
+# alive until a model is SIGNED, exactly like `subjectmeasurement`.
+
+# ---- generic_file --------------------------------------------------------
+# WRITER CHECK, NDI origin/main, by BARE CLASS NAME across all 1467 files (not by
+# one call idiom -- the mistake that nearly lost valid_interval):
+#
+#   git grep -c -I "generic_file" origin/main
+#     src/ndi/+ndi/+cloud/+download/downloadGenericFiles.m           8
+#     src/ndi/+ndi/+setup/+conv/+babu/import.m                      10
+#     src/ndi/ndi_common/database_documents/data/generic_file.json   6
+#     src/ndi/ndi_common/schema_documents/data/generic_file_schema.json  3
+#     tests/+ndi/+unittest/+cloud/DownloadGenericFilesTest.m        13
+#   (genericFile / genericfile: 0 files.  GenericFile: the 2 camel-named .m files
+#    above, i.e. the function name, not a class spelling.)
+#
+# TWO PRODUCTION CONSTRUCTION SITES, +setup/+conv/+babu/import.m:526-531 (plasmid)
+# and :575-580 (LC-MS), both identical in shape:
+#
+#   generic_file = struct('filename',<file>,'formatOntology','EMPTY:0000253', ...
+#       'checksum',checksum,'dateCreated',dateCreated,'dateUpdated',dateUpdated);
+#   doc = ndi.document('generic_file','generic_file',generic_file) + session.newdocument();
+#   doc = doc.add_file('generic_file.ext',lcmsFile,'delete_original',0);
+#   doc = doc.set_dependency_value('document_id',<subject_group or subject id>);
+#
+# So ALL FIVE fields are always populated, the file is ALWAYS attached, and the
+# `document_id` edge is ALWAYS set. universalRenames snake_cases immediate block
+# fields, so the migrator/validator sees format_ontology / date_created /
+# date_updated (raw_fields in V_eta_ndi_ground_truth.json confirm the v1
+# spellings) -- the ground-truth extract agrees field-for-field.
+#
+# TYPES. dateCreated/dateUpdated are MATLAB datenums -- `convertTo(...,'datenum')`
+# at import.m:522-523,571-572 -- and generic_file_schema.json types both `double`.
+# Writer and schema AGREE, so `double` it is. The TEMPLATE literal is `""` for all
+# five fields; that is the placeholder trap, not evidence about documents, and no
+# document this writer produces carries it.
+#
+# THE EDGE RESOLVES AFTER MIGRATION, which is not obvious and was checked rather
+# than assumed: the plasmid branch points `document_id` at a `subject_group`, and
+# subject_group is dissolved. But migrators_j/subject_group.m is a 1->1 fold to
+# `subject` that carries the v1 `base` block through verbatim, so the id is
+# PRESERVED and the edge still lands. Typed `subject` for that reason; the LC-MS
+# branch points at a subject id directly.
+#
+# WHY NO FOLD IS BUILT. The walkthrough note is "generic_file needs opaque_body +
+# a statement", and neither half is available:
+#   - opaque_body is in the DRAFT tier and carries only {format, filename,
+#     description} + a `statement` edge. It has no content_hash (checksum has
+#     nowhere to land) and no created/updated dates. The fields it is supposed to
+#     gain are #45, which is build-deferred and BLOCKED ON #32.
+#   - the "statement" is the undecided half. generic_file's edge points at a
+#     SUBJECT, opaque_body's points at a STATEMENT, and no statement class exists
+#     that says "this subject has this file". Choosing one is a model decision.
+# Folding onto a target that cannot hold `checksum` would lose the checksum --
+# the one field whose whole purpose is that it not be lost.
+_tombstone(
+    "generic_file", ["base"],
+    [dep("document_id", "subject",
+         "The document this file belongs to. NDI's ONLY dependency on this"
+         " class, and its schema marks it mustbenotempty: 0. The writer always"
+         " sets it -- to a `subject_group` id (plasmid branch) or a subject id"
+         " (LC-MS branch). Typed `subject` because migrators_j.subject_group"
+         " folds 1->1 to `subject` carrying the v1 `base` block, so the id is"
+         " preserved and the edge resolves after migration. Declared OPTIONAL"
+         " anyway: must_refer is existence-only and a tombstone must not reject"
+         " a document an older writer produced.",
+         non_empty=False)],
+    [field("filename", "string",
+           "The original full file path and name, verbatim from the source"
+           " tree (e.g. '/Users/lab/Documents/YYMMDD/subject/file.jpg')."),
+     field("format_ontology", "string",
+           "An ontology node naming the FILE FORMAT, as `ontology:nodeID`. The"
+           " writer emits 'EMPTY:0000253' for plasmid files and"
+           " 'EDAM:format_3620' for the LC-MS tables. Spelled `formatOntology`"
+           " in did_v1; snake_cased by universalRenames. NOT declared"
+           " `ontology_term`: v1 stores a bare CURIE string, not the"
+           " {node, name} pair that composite requires, and manufacturing the"
+           " `name` half is exactly the invention a tombstone must not make."),
+     field("checksum", "string",
+           "The MD5 checksum of the file (ndi.fun.file.MD5). THE FIELD THAT"
+           " BLOCKS THE opaque_body FOLD: opaque_body has no content_hash yet"
+           " (#45), so folding today would drop it."),
+     field("date_created", "double",
+           "When the file was created, as a MATLAB datenum. Typed `double` by"
+           " generic_file_schema.json AND written as a datenum double by the"
+           " writer (convertTo(...,'datenum')) -- they agree. The template's"
+           " literal `\"\"` is a placeholder; no document from this writer"
+           " carries it. Spelled `dateCreated` in did_v1."),
+     field("date_updated", "double",
+           "When the file was last updated, as a MATLAB datenum. Same"
+           " writer/schema agreement as date_created. Spelled `dateUpdated`"
+           " in did_v1.")],
+    files=[("generic_file.ext",
+            "The file itself, uninterpreted bytes. NDI names the slot with a"
+            " literal `.ext` -- the real extension is recoverable only from"
+            " `filename`, which is what downloadGenericFiles.m:107-126 does.")])
+
+# ---- valid_interval ------------------------------------------------------
+# WRITER CHECK, NDI origin/main. The call-idiom trap reproduces exactly:
+#
+#   git grep -c -I "ndi.document('valid_interval'" origin/main   ->  0 files
+#   git grep -c -I "valid_interval" origin/main
+#     src/ndi/+ndi/+app/markgarbage.m                                 5
+#     src/ndi/ndi_common/database_documents/apps/markgarbage/valid_interval.json  5
+#     src/ndi/ndi_common/resources/ndiDocumentAttributes.json         1
+#     src/ndi/ndi_common/schema_documents/apps/markgarbage/valid_interval_schema.json  2
+#
+# THE WRITER, markgarbage.m:64-97 (savevalidinterval):
+#
+#   [vi,~] = loadvalidinterval(epochset);       % read the existing array back
+#   vi(end+1) = validintervalstruct;            % APPEND
+#   clearvalidinterval(epochset);               % delete the old document
+#   newdoc = session.newdocument('valid_interval','valid_interval',vi) + newdocument();
+#   newdoc = newdoc.set_dependency_value('element_id', epochset.id());
+#
+# and each entry, from markvalidinterval at :55-58, is
+# {timeref_structt0, t0, timeref_structt1, t1}.
+#
+# A SECOND PRODUCTION CONSUMER, not previously recorded: the tuning pipeline.
+# +ndi/+app/+stimulus/tuning_response.m:253-256 calls loadvalidinterval and then
+# identifyvalidintervals, and uses the result to choose the stretch of signal it
+# reads. So losing this class does not only lose a curation annotation -- it
+# silently changes what data a re-run of the tuning calculators would analyse.
+#
+# WRITER vs TEMPLATE, and the writer wins: `session_ID`.
+# markgarbage.m:55,57 fill both timeref blocks from
+# ndi.time.timereference.ndi_timereference_struct(), which returns SIX fields
+# (timereference.m:106-111): referent_epochsetname, referent_classname,
+# clocktypestring, epoch, session_ID, time. The TEMPLATE declares only five --
+# no session_ID -- and never has:
+#
+#   git log --all --oneline -S"session_ID" -- '*valid_interval.json'   ->  0 commits
+#
+# Undeclared, that sixth field is `did2:validation:undeclaredField` on every real
+# document. It is declared here in its CAMEL spelling deliberately:
+# universalRenames snake_cases only the IMMEDIATE field names of a block
+# (universalRenames.m:302-347 -- "nested struct values are left alone"), and
+# session_ID is nested one level down inside timeref_structt0/t1.
+#
+# TWO FABRICATED CONSTRAINTS REMOVED from the V_zeta shape this replaces:
+#   - clocktypestring carried an `enum` of SIX values. The real vocabulary is
+#     NINE (clocktype.m:69-71): utc, approx_utc, exp_global_time,
+#     approx_exp_global_time, dev_global_time, approx_dev_global_time,
+#     dev_local_time, no_time, inherited. The three the enum omitted --
+#     approx_exp_global_time, approx_dev_global_time, inherited -- would each
+#     have quarantined a real document on a constraint DID invented. Declared
+#     with NO enum rather than with the corrected nine: a tombstone's job is to
+#     let a v1 document survive, and older writers are not evidence-checkable.
+#   - `epoch` was typed `char`, and `time` + the timeref blocks were REQUIRED.
+#     timereference.m:71 sets `epoch = []` whenever the clock does not need one,
+#     and its own header says the epoch is "either a string or a number"
+#     (timereference.m:26,102). `char` rejects BOTH -- validateTypeShape
+#     (cache.m) accepts only char/string for `char`, while `string` also accepts
+#     an empty numeric. Declared `string` for that reason, the same call already
+#     made for vmspikesummary.slope_criterion. RESIDUAL RISK, RAISED NOT HIDDEN:
+#     a NUMERIC epoch number still fails the type check, and the meta-schema has
+#     no union type. An open question for a human, not something to paper over.
+#
+# WHY NO MODEL IS BUILT. `V_eta_time_reference_model_plan.md` already reasons
+# about this class (its decision C is about markvalidinterval's two independently
+# anchored ends), but that plan's BUILD is deferred, and there is no leaf that
+# says "this stretch of the recording is good data" -- valid_interval is neither
+# an observation of the subject nor a manipulation of it, it is a curation
+# judgement ABOUT a recording. Naming that tier is a team call.
+#
+# THE ONE THING THIS TOMBSTONE CANNOT EXPRESS -- read the report, this is an open
+# question, not a solved problem. `valid_interval` is the ONLY one of NDI's 91
+# templates whose property block is a JSON ARRAY rather than an object (checked
+# mechanically: 91 template files, 91 parsed, 0 unparseable, 1 array block). The
+# writer APPENDS, so a probe with three marked intervals has ONE document holding
+# a 3-element struct array -- accumulation is the normal path, not an edge case.
+# The DID meta-schema declares `fields` on a scalar block and has no way to say
+# "the block is an array of these". The declaration below is therefore correct for
+# the single-interval document (the template's own shape) and UNDER-SPECIFIED for
+# a multi-interval one. It is still strictly better than no schema at all, which
+# is what this class had.
+#
+# CONSEQUENCE FOR tools/check_tombstones.py -- DO NOT ACT ON ITS ROW HERE. Because
+# the block is an array, ndi_ground_truth.py reads `fields: []` for this class, so
+# the checker reports
+#
+#     COSMETIC  passthrough valid_interval
+#         declared but in no NDI template: t0, t1, timeref_structt0, timeref_structt1
+#
+# All four ARE in the template. Following that row and deleting them would
+# re-strand the class -- the same trap as the ontology_image / `ontologyNodes`
+# row, arriving through the block's SHAPE rather than through a field spelling.
+_VALID_INTERVAL_TIMEREF_SUBS = [
+    field("referent_epochsetname", "string",
+          "epochsetname() of the referent -- the probe/element/daq system whose"
+          " clock this time is expressed in."),
+    field("referent_classname", "string",
+          "MATLAB class of the referent (e.g. 'ndi.probe.timeseries.mfdaq')."
+          " With referent_epochsetname it is how v1 re-finds the object:"
+          " session.findexpobj(name, classname) at timereference.m:46."),
+    field("clocktypestring", "string",
+          "The clock this time is measured on. NDI's vocabulary is NINE values"
+          " (clocktype.m:69-71): utc, approx_utc, exp_global_time,"
+          " approx_exp_global_time, dev_global_time, approx_dev_global_time,"
+          " dev_local_time, no_time, inherited. Deliberately declared with NO"
+          " enum -- the V_zeta shape this replaces enumerated only six and would"
+          " have rejected the other three."),
+    field("epoch", "string",
+          "The epoch providing the time origin. Required only when the clocktype"
+          " needsepoch(); otherwise timereference.m:71 leaves it EMPTY. NDI"
+          " documents it as 'either a string or a number' -- declared `string`"
+          " because that type also accepts the empty-numeric case, but a numeric"
+          " epoch number would still fail the type check and the meta-schema has"
+          " no union type. Open question."),
+    field("session_ID", "string",
+          "The session containing the epoch. WRITTEN BY THE WRITER"
+          " (timereference.m:110, via ndi_timereference_struct) and DECLARED BY"
+          " NO NDI TEMPLATE -- 0 commits in valid_interval.json's history mention"
+          " it. Declared here because the writer wins, and because an undeclared"
+          " block field is `undeclaredField` on every real document. Kept in its"
+          " CAMEL spelling on purpose: universalRenames snake_cases only a"
+          " block's immediate field names, and this one is nested."),
+    field("time", "double",
+          "The time offset, in the units of clocktypestring, that serves as the"
+          " origin."),
+]
+_tombstone(
+    "valid_interval", ["base", "app"],
+    [dep("element_id", "subject",
+         "The element -- in practice a PROBE, since savevalidinterval errors on"
+         " anything else (markgarbage.m:76-78) -- whose data these intervals"
+         " judge. Typed `subject` because migrators_j.element promotes elements"
+         " to subjects with their ids preserved. NDI's schema marks it"
+         " mustbenotempty: 1 and the writer always sets it (markgarbage.m:95);"
+         " declared OPTIONAL here to match every sibling tombstone and because a"
+         " tombstone must not be the thing that rejects a v1 document.",
+         non_empty=False)],
+    [field("timeref_structt0", "structure",
+           "The time reference the interval's START is expressed against"
+           " (markgarbage.m:55).", sub_fields=_VALID_INTERVAL_TIMEREF_SUBS),
+     field("t0", "double",
+           "Start of the valid interval, in the units of timeref_structt0."),
+     field("timeref_structt1", "structure",
+           "The time reference the interval's END is expressed against"
+           " (markgarbage.m:57). SEPARATE from timeref_structt0 by design:"
+           " markvalidinterval takes an independent timeref for each end.",
+           sub_fields=_VALID_INTERVAL_TIMEREF_SUBS),
+     field("t1", "double",
+           "End of the valid interval, in the units of timeref_structt1.")],
+    ())
+
+
 # ---------- 11. storage_mode + data_body (sampled_/opaque_) ----------
 
 ss = load(os.path.join(VETA, "stable", "subject_statement.json"))
@@ -5517,7 +5796,18 @@ _RET_SOURCES = {"element", "openminds", "openminds_subject", "openminds_element"
     # documents alive until fork A1's observation model is signed and built. It
     # has a migrator, but that migrator is a block FOLD (it keeps the class), not
     # a dissolution -- so this is still a source, not a go-forward class.
-    "oneepoch"}
+    "oneepoch",
+    # The last two did_v1 classes that stranded COMPLETELY -- no V_eta schema AND
+    # no migrator. Now tombstoned (search `_tombstone("generic_file"`), which
+    # makes them a v1 SOURCE name holding v1 documents, never a go-forward class:
+    #   generic_file    the intended fold is opaque_body + a statement; opaque_body
+    #                   is still DRAFT and has no content_hash for the checksum,
+    #                   and the statement half is undecided (#45, blocked on #32).
+    #   valid_interval  a curation judgement about a recording -- neither an
+    #                   observation of the subject nor a manipulation of it. The
+    #                   time-reference plan reasons about it; its build is deferred.
+    # Both awaiting a TEAM decision, exactly like subjectmeasurement above.
+    "generic_file", "valid_interval"}
 # The abstract dataseries_observation branch collapses into the quantity data-type
 # leaves + data_body (§A.9): a body-backed series is <quantity>_observation +
 # storage_mode:body, not a series-observation class. dataseries_observation is

@@ -529,8 +529,8 @@
           "ndi_second_pass"
         ],
         "packages_missing": [],
-        "files_read": 133,
-        "lines_read": 17175,
+        "files_read": 135,
+        "lines_read": 17692,
         "classes_queried": 31,
         "classes_emitted_as_document_class": 5,
         "ref_kinds": [
@@ -928,7 +928,7 @@
         "emission_discounted": null,
         "n_emitting_refs": 1,
         "emitting_refs": [
-          "migrators_j/private/jSorterOutput.m:77 (named)"
+          "migrators_j/private/jSorterOutput.m:134 (named)"
         ],
         "decided_targets": [],
         "decided_targets_built": [],
@@ -1340,8 +1340,8 @@
           "migrators_j/fitcurve.m:146 (field_write)",
           "migrators_j/image_stack.m:101 (named)",
           "migrators_j/image_stack.m:106 (field_write)",
-          "migrators_j/jrclust_clusters.m:47 (named)",
-          "migrators_j/jrclust_clusters.m:52 (field_write)"
+          "migrators_j/jrclust_clusters.m:80 (named)",
+          "migrators_j/jrclust_clusters.m:85 (field_write)"
         ],
         "decided_targets": [],
         "decided_targets_built": [],
@@ -1511,8 +1511,8 @@
           "migrators_j/fitcurve.m:145 (field_write)",
           "migrators_j/image_stack.m:101 (named)",
           "migrators_j/image_stack.m:105 (field_write)",
-          "migrators_j/jrclust_clusters.m:47 (named)",
-          "migrators_j/jrclust_clusters.m:51 (field_write)"
+          "migrators_j/jrclust_clusters.m:80 (named)",
+          "migrators_j/jrclust_clusters.m:84 (field_write)"
         ],
         "decided_targets": [],
         "decided_targets_built": [],

@@ -1,11 +1,13 @@
 {
-  "_comment": "Curated did_v1 -> V_eta migration TARGET map: for each v1 source class, the V_eta document class(es) its migrator actually emits. Extracted from the migrator headers + emitted document_class.class_name (superclasses excluded) + NDI second-pass functions, cross-checked against code. Consumed by tools/coverage.py to fill the ledger's target column. targets = pass-1 emitted classes; carried = pre-existing classes attached to (not minted); second_pass = classes minted in the NDI second pass; how = one-line authored intent; flags = caveats (dynamic emit, header/code mismatch, deferrals).",
+  "_comment": "did_v1 -> V_eta migration TARGET map: for each v1 source class, the V_eta document class(es) its migrator actually emits. targets = pass-1 emitted classes; carried = pre-existing classes attached to (not minted); second_pass = classes minted in the NDI second pass; decided_targets = a signed decision no migrator implements yet; how = one-line authored intent; flags = caveats (dynamic emit, header/code mismatch, deferrals). Consumed by tools/coverage.py to fill the ledger's target column. == targets IS GENERATED, THE REST IS AUTHORED. Re-run `python3 tools/refresh_migration_targets.py` after any migrator change; `--check` fails when it is stale. It follows the call graph from each class's entry point in +migrators_j (falling back to +migrators, which is where V_eta lands when +migrators_j has no file) through private/ helpers and local subfunctions, resolving class names passed as parameters at their call sites, and reuses tools/status_board.py's statement-level extractor so a `superclasses` entry is never read as a document class. It rewrites a row only when every reachable emission resolved; where one did not (element, measurement, ontology_table_row, subjectmeasurement -- all pick their leaf class at runtime) the row can only GAIN, never lose. A migrator that mints nothing keeps a target naming ITSELF and loses any target naming another class. == ON session_relative_reference, WHICH IS A CONTRADICTION BETWEEN TWO COMMITTED RECORDS AND IS NOT RESOLVED HERE. 36 rows name `session_relative_reference`, because private/jSessionAnchor.m:19 mints it and every observation migrator calls that helper. The signed time model (V_eta_time_reference_model_plan.md) COLLAPSES it, with seven siblings, into `relative_reference`. Both are true of different moments, and both halves are already in the code: private/jEpochClockReferences.m:141 and private/jClockAlignmentBodies.m:174 mint `relative_reference` today, which is why 4 rows name the new class while 36 name the old one. So a `session_relative_reference` target is a statement about what pass 1 EMITS TODAY, never a decision that the class survives; the decision is the sign-off in the plan document, and tools/status_board.py's RETIRED_BY_ITS_OWN_DECISION carries the same reading. Rewriting the 36 rows to a class their migrators do not emit would make this file describe an intention rather than the code.",
   "classes": {
     "element": {
       "targets": [
         "subject",
         "term_assertion",
-        "directed_relation"
+        "directed_relation",
+        "sampled_body",
+        "session_relative_reference"
       ],
       "carried": [],
       "second_pass": [],
@@ -63,7 +65,9 @@
       "flags": "no openMINDS block -> carries unchanged"
     },
     "openminds_stimulus": {
-      "targets": [],
+      "targets": [
+        "openminds_stimulus"
+      ],
       "carried": [],
       "second_pass": [
         "interaction_purpose"
@@ -186,15 +190,12 @@
     },
     "ontology_label": {
       "targets": [
-        "term_observation",
-        "session_relative_reference"
+        "ontology_label"
       ],
-      "carried": [
-        "subject"
-      ],
+      "carried": [],
       "second_pass": [],
-      "how": "ontology label about an element/subject -> a term_observation (label term as value) + anchor; located-by-default",
-      "flags": "Path-S promotion NOT applied (no co-anchored manipulation)"
+      "how": "GUARDED PASSTHROUGH, deferred to the NDI second pass. The real NDI class is ONE field (`ontology_node`) and ONE edge (`document_id`), and `document_id` points at the document being labelled -- typically an image stack, which is NOT a subject. The subject is one hop further on, through the migrated-id graph, which only the second pass can see.",
+      "flags": "WAS a term_observation + anchor. That fold asked for {element_id, subject_id, probe_id} -- none of which the class has -- so `subject_id` came out EMPTY and `document_id` was DISCARDED on roughly 7,000 documents, validating cleanly at every gate. Pass 1 now returns {preBody} at :70 and REJECTS BY NAME any body carrying `ontology_name`/`label_id`/`label` (V_alpha inventions). The second-pass target named in the migrator header is a term_observation about the resolved subject with `derived_from` to the migrated data statement -- decided there, not recorded here."
     },
     "ontology_image": {
       "targets": [
@@ -281,15 +282,12 @@
     },
     "distance_metadata": {
       "targets": [
-        "length_observation",
-        "session_relative_reference"
+        "distance_metadata"
       ],
-      "carried": [
-        "subject"
-      ],
+      "carried": [],
       "second_pass": [],
-      "how": "measured distance -> a length_observation of the element-subject + a 'during' session anchor",
-      "flags": "real v1 docs are flat with empty numeric_values -> carry-unchanged path (quarantine); length_observation fires only on the assumed-shape fixture; endpoint identities need a Path-S NDI second pass (NOT implemented)"
+      "how": "RESHAPE ONLY, 1 -> 1: the flat v1 A/B endpoint fields collapse into the nested `endpoints` array + an `units` ontology_term, by delegating to the proven V_delta migrator (did2.convert.migrators.distance_metadata) and wrapping its single body. The distance itself is NOT here -- it lives in the linked `distance` timeseries element.",
+      "flags": "Emits NO new document class, and both omissions are deliberate and recorded in the migrator header: no `length_observation` (there is no scalar distance in the metadata doc -- do not fabricate a values-less observation) and no endpoint relation (both endpoint ids are PRE-migration ids that dangle in a single-doc pass; Part A was tried and reverted at 946faf95 -- 4,156 JH orphans, a gating failure). The reshape cleared the ~2,078 JH quarantines; the observation and the spatial relation need the second pass, which sees the migrated-id graph."
     },
     "electrode_offset_voltage": {
       "targets": [
@@ -305,34 +303,29 @@
     },
     "site2channelmap": {
       "targets": [
-        "count_observation",
-        "session_relative_reference"
+        "site2channelmap"
       ],
-      "carried": [
-        "subject"
-      ],
+      "carried": [],
       "second_pass": [],
-      "how": "num_sites -> ONE inline count_observation (recording-site cardinality) on the probe-subject + anchor",
-      "flags": "the actual site->channel map deferred (instrument-layer/NDI second pass)"
+      "how": "GUARDED PASSTHROUGH, deferred to the NDI second pass. The real NDI class has one property field, `map` (a column of channel indices), plus probe_id and probe_geometry_id.",
+      "flags": "WAS an inline count_observation of `num_sites` about the probe-subject; `num_sites` DOES NOT EXIST (migrators_j/site2channelmap.m). Pass 1 now returns {preBody} at :58."
     },
     "spike_interface_sorting_outputs": {
       "targets": [
-        "count_observation",
-        "session_relative_reference"
+        "spike_interface_sorting_outputs"
       ],
-      "carried": [
-        "subject"
-      ],
+      "carried": [],
       "second_pass": [],
-      "how": "num_units -> ONE inline count_observation (sorted-unit cardinality) on the recording subject + anchor",
-      "flags": "does NOT mint per-unit subjects (that is neuron_extracellular); sorter provenance dropped"
+      "how": "GUARDED PASSTHROUGH, deferred to the NDI second pass. The real NDI class (NDI spells it `SpikeInterfaceSortingOutputs`) is {sorter_name, sample_rate, unit}.",
+      "flags": "WAS an inline count_observation of `num_units` about the subject reached via element_id; BOTH HALVES ARE WRONG (migrators_j/spike_interface_sorting_outputs.m). Pass 1 now returns {preBody} at :61."
     },
     "neuron_extracellular": {
       "targets": [
         "subject",
         "directed_relation",
         "score_observation",
-        "session_relative_reference"
+        "session_relative_reference",
+        "software"
       ],
       "carried": [
         "subject"
@@ -343,22 +336,19 @@
     },
     "spike_clusters": {
       "targets": [
-        "count_observation",
-        "sampled_body",
-        "session_relative_reference"
+        "spike_clusters"
       ],
-      "carried": [
-        "subject"
-      ],
+      "carried": [],
       "second_pass": [],
-      "how": "per-spike cluster assignments -> a body-backed count_observation (n = num_spikes) + sampled_body + anchor",
-      "flags": "sorted units are separate neuron_extracellular docs"
+      "how": "GUARDED PASSTHROUGH, deferred to the NDI second pass. The real NDI class is {epoch_info, clusterinfo, waveform_sample_times} + spike_cluster.bin, with sorting_parameters_id / element_id / extraction_parameters_id / spikewaves_doc_id.",
+      "flags": "WAS a body-backed count_observation + sampled_body + anchor whose body declared n = `num_spikes` -- a field that DOES NOT EXIST, and not one of the three real property fields was read (migrators_j/spike_clusters.m). Pass 1 now returns {preBody} at :61."
     },
     "jrclust_clusters": {
       "targets": [
         "count_observation",
         "sampled_body",
-        "session_relative_reference"
+        "session_relative_reference",
+        "software"
       ],
       "carried": [
         "subject"
@@ -369,35 +359,28 @@
     },
     "spikewaves": {
       "targets": [
-        "voltage_observation",
-        "sampled_body",
-        "session_relative_reference"
+        "spikewaves"
       ],
-      "carried": [
-        "subject"
-      ],
+      "carried": [],
       "second_pass": [],
-      "how": "extracted spike waveform snippets -> a body-backed voltage_observation (n = num_spikes) + sampled_body + anchor",
-      "flags": "header title says dataseries_observation but code emits voltage_observation; extraction-params provenance deferred"
+      "how": "GUARDED PASSTHROUGH, deferred to the NDI second pass. The real NDI class has ONE property field (`extraction_name`), the edges element_id and extraction_parameters_id, and the files spikewaves.vsw + spiketimes.bin. The spike count and the waveform extent live in the .vsw BINARY HEADER, and a single-document migrator carries files without reading their bytes (the pyraview precedent) -- so the shape of this series is not knowable in pass 1 by any means; the field names were never the obstacle.",
+      "flags": "WAS a body-backed voltage_observation + sampled_body + anchor; that fold read `num_spikes` and `samples_per_spike`, NEITHER OF WHICH EXISTS, so both defaulted to 0 and every document produced a sampled_body declaring ZERO SPIKES OF ZERO SAMPLES EACH -- a cleanly-validating description of an empty extraction that NEITHER Phase 1 counter can see (the values are the number 0, not blanks, and output WAS produced). Pass 1 now returns {preBody} at :58."
     },
     "binnedspikeratevm": {
       "targets": [
-        "frequency_observation",
-        "sampled_body",
-        "session_relative_reference"
+        "binnedspikeratevm"
       ],
-      "carried": [
-        "subject"
-      ],
+      "carried": [],
       "second_pass": [],
-      "how": "binned spike-rate series -> a body-backed frequency_observation (a rate is a frequency) + sampled_body + anchor",
-      "flags": "header title says dataseries_observation but code emits frequency_observation (explicit inline override)"
+      "how": "GUARDED PASSTHROUGH, deferred to the NDI second pass. Its Hz-vs-spikes-per-bin question is still open -- the `vhlab_voltage2firingrate` writer is in no repository we have, so the unit cannot be read from the source.",
+      "flags": "WAS a body-backed frequency_observation + sampled_body + anchor declaring a REGULAR timeline of n = `num_bins` at dt = `bin_size`, unit 'Hz'. NEITHER `num_bins` NOR `bin_size` EXISTS (migrators_j/binnedspikeratevm.m). Pass 1 now returns {preBody} at :78."
     },
     "pyraview": {
       "targets": [
         "voltage_observation",
         "sampled_body",
-        "session_relative_reference"
+        "session_relative_reference",
+        "frequency_filter"
       ],
       "carried": [
         "subject"
@@ -422,7 +405,8 @@
     "vmspikefit": {
       "targets": [
         "score_observation",
-        "session_relative_reference"
+        "session_relative_reference",
+        "software"
       ],
       "carried": [
         "subject"
@@ -445,34 +429,26 @@
     },
     "vmneuralresponseresiduals": {
       "targets": [
-        "voltage_observation",
-        "directed_relation",
-        "session_relative_reference"
+        "vmneuralresponseresiduals"
       ],
-      "carried": [
-        "subject"
-      ],
+      "carried": [],
       "second_pass": [],
-      "how": "mean_residual -> an inline voltage_observation of the subject + a derived_from directed_relation (residual <- the vmspikefit) + anchor",
-      "flags": "directed_relation only when vmspikefit_id present; full residual trace -> body deferred"
+      "how": "GUARDED PASSTHROUGH, deferred to the NDI second pass. The real NDI class is {element_epochid, parameters:{...}} -- a per-epoch residual record, not a scalar.",
+      "flags": "WAS an inline voltage_observation of `mean_residual` in mV plus a derived_from directed_relation to a `vmspikefit_id`; NEITHER THE FIELD NOR THE EDGE EXISTS (migrators_j/vmneuralresponseresiduals.m). Pass 1 now returns {preBody} at :74."
     },
     "vmspikesummary": {
       "targets": [
-        "voltage_observation",
-        "frequency_observation",
-        "count_observation",
-        "duration_observation",
-        "session_relative_reference"
+        "vmspikesummary"
       ],
-      "carried": [
-        "subject"
-      ],
+      "carried": [],
       "second_pass": [],
-      "how": "each summary scalar -> its own inline quantity observation classed by physical quantity (mean_vm->voltage, firing_rate->frequency, num_spikes->count, duration->duration) + one shared anchor",
-      "flags": "one observation per PRESENT scalar; the four listed are the full candidate set"
+      "how": "GUARDED PASSTHROUGH, deferred to the NDI second pass. The real class is a mean spike WAVEFORM plus eight shape medians, which is a different document from the four summary scalars the old fold modelled.",
+      "flags": "WAS a decomposition into one inline scalar observation per statistic (mean_vm -> voltage, mean_firing_rate -> frequency, num_spikes -> count, recording_duration -> duration); it modelled a document that does not exist (migrators_j/vmspikesummary.m -- one of the two offenders found by re-checking the detector's \"mentions only\" bucket). Pass 1 now returns {preBody} at :83."
     },
     "simple_calc": {
-      "targets": [],
+      "targets": [
+        "simple_calc"
+      ],
       "carried": [],
       "second_pass": [
         "simple_calc"
@@ -483,7 +459,8 @@
     "contrast_tuning": {
       "targets": [
         "tuning_curve_calculation",
-        "session_relative_reference"
+        "session_relative_reference",
+        "software"
       ],
       "carried": [
         "subject"
@@ -495,7 +472,8 @@
     "orientation_direction_tuning": {
       "targets": [
         "tuning_curve_calculation",
-        "session_relative_reference"
+        "session_relative_reference",
+        "software"
       ],
       "carried": [
         "subject"
@@ -507,7 +485,8 @@
     "spatial_frequency_tuning": {
       "targets": [
         "tuning_curve_calculation",
-        "session_relative_reference"
+        "session_relative_reference",
+        "software"
       ],
       "carried": [
         "subject"
@@ -519,7 +498,8 @@
     "temporal_frequency_tuning": {
       "targets": [
         "tuning_curve_calculation",
-        "session_relative_reference"
+        "session_relative_reference",
+        "software"
       ],
       "carried": [
         "subject"
@@ -531,7 +511,8 @@
     "speed_tuning": {
       "targets": [
         "tuning_curve_calculation",
-        "session_relative_reference"
+        "session_relative_reference",
+        "software"
       ],
       "carried": [
         "subject"
@@ -541,7 +522,9 @@
       "flags": "calculator composite-leaf fold (Lepsky et al.); un-defers with 0 orphans (id-preserved)"
     },
     "stimulus_presentation": {
-      "targets": [],
+      "targets": [
+        "stimulus_presentation"
+      ],
       "carried": [
         "subject"
       ],
@@ -549,7 +532,7 @@
         "visual_grating_manipulation",
         "sampled_body"
       ],
-      "how": "NO pass-1 migrator; assembled ENTIRELY in the NDI second pass into ONE body-backed visual_grating_manipulation on the animal (resolved via stimulus_response->element->subject) + a sampled_body of one record per trial",
+      "how": "DEFERRED to the NDI second pass, which assembles ONE body-backed visual_grating_manipulation on the animal (resolved via stimulus_response -> element -> subject) + a sampled_body of one record per trial. Pass 1 is a GUARDED PASSTHROUGH that carries the document intact.",
       "flags": "returns [] (leaves presentation as-is) when no animal responded"
     },
     "stimulus_bath": {
@@ -573,7 +556,8 @@
     },
     "daqreader_mfdaq_epochdata_ingested": {
       "targets": [
-        "daqreader_epochdata_ingested"
+        "daqreader_epochdata_ingested",
+        "relative_reference"
       ],
       "carried": [],
       "second_pass": [],
@@ -583,7 +567,8 @@
     "contrast_sensitivity_calc": {
       "targets": [
         "contrast_sensitivity_calculation",
-        "session_relative_reference"
+        "session_relative_reference",
+        "software"
       ],
       "carried": [
         "subject"
@@ -595,7 +580,8 @@
     "contrast_tuning_calc": {
       "targets": [
         "tuning_curve_calculation",
-        "session_relative_reference"
+        "session_relative_reference",
+        "software"
       ],
       "carried": [
         "subject"
@@ -616,7 +602,8 @@
     "oridirtuning_calc": {
       "targets": [
         "tuning_curve_calculation",
-        "session_relative_reference"
+        "session_relative_reference",
+        "software"
       ],
       "carried": [
         "subject"
@@ -628,7 +615,8 @@
     "spatial_frequency_tuning_calc": {
       "targets": [
         "tuning_curve_calculation",
-        "session_relative_reference"
+        "session_relative_reference",
+        "software"
       ],
       "carried": [
         "subject"
@@ -640,7 +628,8 @@
     "speed_tuning_calc": {
       "targets": [
         "tuning_curve_calculation",
-        "session_relative_reference"
+        "session_relative_reference",
+        "software"
       ],
       "carried": [
         "subject"
@@ -652,7 +641,8 @@
     "temporal_frequency_tuning_calc": {
       "targets": [
         "tuning_curve_calculation",
-        "session_relative_reference"
+        "session_relative_reference",
+        "software"
       ],
       "carried": [
         "subject"
@@ -664,7 +654,8 @@
     "tuningcurve_calc": {
       "targets": [
         "tuning_curve_calculation",
-        "session_relative_reference"
+        "session_relative_reference",
+        "software"
       ],
       "carried": [
         "subject"
@@ -697,7 +688,8 @@
     "stimulus_tuningcurve": {
       "targets": [
         "tuning_curve_calculation",
-        "session_relative_reference"
+        "session_relative_reference",
+        "software"
       ],
       "carried": [
         "subject"
@@ -708,14 +700,14 @@
     },
     "epochfiles_ingested": {
       "targets": [
-        "ingestion_manifest"
+        "epochfiles_ingested"
       ],
       "carried": [],
       "second_pass": [
         "epoch"
       ],
-      "how": "RENAMED to `ingestion_manifest` (#60): the old name encoded a MODE, the same T13 error `_ndr` and `_mfdaq` were de-encoded for, and the document is a manifest of what was ingested for one epoch. TWO edges change with it -- `filenavigator_id` is RESTORED (NDI writes it; V_eta had dropped it) and the invented `epochid`, empty on all 6,921 corpus documents, becomes a real `epoch_id -> epoch`. `epochprobemap` and the v1 `epoch_id` CHAR field are removed: the probemap decomposes into edges, and the edge replaces the string. The `epoch` documents themselves are minted by a SECOND PASS that groups on `epochid.epochid`.",
-      "flags": "no migrator yet -- the schema half of #60 only"
+      "how": "RENAMED to `ingestion_manifest` (#60): the old name encoded a MODE, the same T13 error `_ndr` and `_mfdaq` were de-encoded for, and the document is a manifest of what was ingested for one epoch. `filenavigator_id` is restored (NDI writes it) and the invented required `epochid` edge -- empty on all 6,921 documents -- becomes an `epoch_id` edge to the minted `epoch` entity.",
+      "flags": "DECIDED AND SIGNED; THE MIGRATOR DELIBERATELY DOES NOT FOLD. A migrator EXISTS (migrators_j/epochfiles_ingested.m) and is a guarded passthrough returning {preBody} at :147; its header states the two measured blockers -- `ingestion_manifest.epoch_id` is REQUIRED and no `epoch` document exists in pass 1 (minting them is a corpus-wide grouping only the NDI second pass can do), and emitting the class with that edge left '' would be the invented-empty-edge pattern again. So the schema half of #60 has landed and the rename has not."
     },
     "control_stimulus_ids": {
       "targets": [
@@ -761,7 +753,8 @@
       "targets": [
         "count_observation",
         "opaque_body",
-        "session_relative_reference"
+        "session_relative_reference",
+        "software"
       ],
       "carried": [
         "subject"
@@ -774,7 +767,8 @@
       "targets": [
         "count_observation",
         "opaque_body",
-        "session_relative_reference"
+        "session_relative_reference",
+        "software"
       ],
       "carried": [
         "subject"
@@ -803,58 +797,71 @@
       ]
     },
     "binaryseries_parameters": {
-      "targets": [],
+      "targets": [
+        "binaryseries_parameters"
+      ],
       "carried": [],
       "second_pass": [],
       "how": "RETIRED into the data_body model, field by field: `time_type` becomes the time axis's `datum_type`, `data_type` becomes the statement's, `data_dim` becomes the axis count, and `samples_regular_intervals` becomes the axis `regular` flag.",
-      "flags": "DECIDED AND SIGNED, BUILD NOT DONE. The migrator does not do this yet; the document passes through today. Gated on the data_body model, which is DECIDED but NOT yet signed -- so this one has a prerequisite the others do not."
+      "flags": "DECIDED AND SIGNED, THE FOLD IS NOT BUILT -- BUT A MIGRATOR EXISTS AND IS NOT A NO-OP. migrators_j/binaryseries_parameters.m is a GUARDED PASSTHROUGH that normalises NDI's own placeholders: the template supplies the CHAR '' for `time_size`, `data_size` and `data_dim`, which its own schema types `integer`, so without this the document does not validate at all. It returns {preBody} at :159 -- no new class is emitted. The signed data_body fold (time_type -> the time axis's datum_type, data_type -> the statement's, data_dim -> the axis count, samples_regular_intervals -> the axis `regular` flag) is gated on the data_body tier, #45, which is BLOCKED ON #32: `axes[]`, `datum_type` and `regular` do not exist yet, so folding today would mean inventing them. NOT RUN -- there is no MATLAB in the authoring container."
     },
     "daqmetadatareader": {
-      "targets": [],
+      "targets": [
+        "acquisition_metadata_reader",
+        "software"
+      ],
       "carried": [],
       "second_pass": [],
       "how": "RENAMED to `acquisition_metadata_reader`, keeping its id. The v1 name encodes the daq layer rather than what the document is.",
-      "flags": "DECIDED AND SIGNED, BUILD NOT DONE. The migrator does not do this yet; the document passes through today. ",
+      "flags": "BUILT (migrators_j/daqmetadatareader.m): emits `acquisition_metadata_reader` (base.id preserved) plus a `software` entity for the implementation class -- 1 -> 2, 1 -> 1, or a guarded passthrough. NOT VERIFIED BY EXECUTION (the migrator's own header says so: there is no MATLAB in the authoring environment). Ground truth is unambiguous here -- template, schema and writer agree, and the schema declares `depends_on: [ ]` EXPLICITLY, which is the measured source of this class's invented `daqsystem_id` edge (empty on 100% of its 59 corpus documents).",
       "decided_targets": [
         "acquisition_metadata_reader"
       ]
     },
     "daqmetadatareader_epochdata_ingested": {
-      "targets": [],
+      "targets": [
+        "acquisition_metadata_file"
+      ],
       "carried": [],
       "second_pass": [],
       "how": "Becomes `acquisition_metadata_file`, the ONE new class this family introduces. The v1 document has no property fields at all -- it is a pure byte carrier (`data.bin`) with an epoch and a reader edge.",
-      "flags": "DECIDED AND SIGNED, BUILD NOT DONE. The migrator does not do this yet; the document passes through today. ",
+      "flags": "BUILT (migrators_j/daqmetadatareader_epochdata_ingested.m): 1 -> 1 into `acquisition_metadata_file`, base.id preserved, with a guarded-passthrough branch. The payload is deliberately left UNTYPED -- `data.bin` is a .nbf.tgz archive under a generic name and nothing in NDI declares its shape; proposing one from a template alone is what produced the ~2,078 distance_metadata quarantines.",
       "decided_targets": [
         "acquisition_metadata_file"
       ]
     },
     "daqreader": {
-      "targets": [],
+      "targets": [
+        "software"
+      ],
       "carried": [],
       "second_pass": [],
       "how": "DISSOLVES into a `software` entity with `base.id` preserved: the class's content is a MATLAB class handle, which is software identity rather than a record of the experiment. `reader_string` is KEPT, as the de-encoded `daqreader_ndr.ndr_reader_string`.",
-      "flags": "DECIDED AND SIGNED, BUILD NOT DONE. The migrator does not do this yet; the document passes through today. The sign-off also DELETES the invented `file_extension` and `metadata_names`; `file_extension` is still carried onto daqreader by build_v_eta.py today and goes when this builds.",
+      "flags": "BUILT (migrators_j/daqreader.m): 1 -> 1 into a `software` entity, base.id preserved, with a guarded-passthrough branch. NOT VERIFIED BY EXECUTION. A real v1 document carries exactly one fact -- a MATLAB class name -- plus base identity. The rest of the same sign-off has also landed: build_v_eta.py:2235 records that `file_extension` is NOT carried and `metadata_names` is dropped, both measured at 0 files on NDI origin/main before removal.",
       "decided_targets": [
         "software"
       ]
     },
     "daqreader_epochdata_ingested": {
-      "targets": [],
+      "targets": [
+        "relative_reference"
+      ],
       "carried": [],
       "second_pass": [],
       "how": "RETIRES by decomposition. Its whole payload is a clock name and an interval (`epochtable {epochclock, t0_t1}`, no bytes), which is the epoch's extent under a named clock -- so it becomes `relative_reference` documents rather than a class of its own.",
-      "flags": "DECIDED AND SIGNED, BUILD NOT DONE. The migrator does not do this yet; the document passes through today. One of four places this project found the same clock-plus-interval fact stored a different way.",
+      "flags": "BUILT (migrators_j/daqreader_epochdata_ingested.m): 1 -> 1 + N. The source document is PRESERVED and N `relative_reference` documents are added, one per (clock, interval) pair in `epochtable`, each anchored `relative_to` the epoch document. NOTE THE CLASS: this is the COLLAPSED time class of the signed time model, not `session_relative_reference` -- see the file-level `_comment`.",
       "decided_targets": [
         "relative_reference"
       ]
     },
     "daqreader_image_epochdata_ingested": {
-      "targets": [],
+      "targets": [
+        "relative_reference"
+      ],
       "carried": [],
       "second_pass": [],
       "how": "RETIRES by decomposition into three things that already exist: the frames and their descriptors become an `image_observation` over a `sampled_body`, and `frametimes` + `clocktype` become time references. No new class.",
-      "flags": "DECIDED AND SIGNED, BUILD NOT DONE. The migrator does not do this yet; the document passes through today. Depends on the image model and the time-reference collapse, both signed.",
+      "flags": "BUILT for the clock half only (migrators_j/daqreader_image_epochdata_ingested.m): 1 -> 1 + N `relative_reference` documents lifted from the INHERITED daqreader_epochdata_ingested.epochtable, exactly as the parent class. The IMAGE fold is BLOCKED and the document is preserved.",
       "decided_targets": [
         "image_observation",
         "relative_reference",
@@ -862,11 +869,13 @@
       ]
     },
     "daqsystem": {
-      "targets": [],
+      "targets": [
+        "acquisition_system"
+      ],
       "carried": [],
       "second_pass": [],
       "how": "Becomes `acquisition_system` (an entity), preserving BOTH `base.id` and `base.name`. The name is preserved because it is a JOIN KEY, not a label: epochprobemap device strings and every syncrule's `daqsystem1_name`/`_2_name` match on it BY STRING, so dropping it would silently break probe-to-device attribution.",
-      "flags": "DECIDED AND SIGNED, BUILD NOT DONE. The migrator does not do this yet; the document passes through today. An earlier proposal to drop all three daq config classes as non-archival was REVERSED for exactly this reason.",
+      "flags": "BUILT BUT GUARDED, AND ON EVERY REAL did_v1 DOCUMENT IT IS A PASSTHROUGH TODAY -- the migrator's own header says so first. The fold to `acquisition_system` (base.id AND base.name preserved, because the name is the join key) is complete and tested, and is guarded on a fact the signed target has nowhere to store and which the NDI writer sets on every document. Nothing converts until a team call names a home for it, so `daqsystem` will appear in `unconverted_by_class` at its full corpus count: that is the honest signal, not a bug.",
       "decided_targets": [
         "acquisition_system"
       ]
@@ -891,11 +900,14 @@
       "flags": "DECIDED AND SIGNED, BUILD NOT DONE. The migrator does not do this yet; the document passes through today. HIGH BLAST RADIUS: 15 NDI classes carry this mixin and 11+ live NDI sites match `epochid.epochid` by exact_string, so the edge must land before the string goes."
     },
     "filenavigator": {
-      "targets": [],
+      "targets": [
+        "epoch_file_pattern",
+        "software"
+      ],
       "carried": [],
       "second_pass": [],
       "how": "Becomes `epoch_file_pattern`, `base.id` preserved. Its two EVAL'd parameter strings become declared pattern lists (`data_file_pattern`, `epoch_map_pattern`) plus `epoch_map_format`, and the implementation class name becomes a `software_id` edge.",
-      "flags": "DECIDED AND SIGNED, BUILD NOT DONE. The migrator does not do this yet; the document passes through today. `directory` is NOT a did_v1 source and is unaffected.",
+      "flags": "BUILT (migrators_j/filenavigator.m): 1 -> 1 or 1 -> 2 -- `epoch_file_pattern` with base.id preserved, plus a `software` entity for the implementation class, with a guarded-passthrough branch. `directory` is NOT a did_v1 source and is unaffected.",
       "decided_targets": [
         "epoch_file_pattern"
       ]
@@ -925,41 +937,52 @@
       ]
     },
     "sorting_parameters": {
-      "targets": [],
+      "targets": [
+        "method_parameters",
+        "software"
+      ],
       "carried": [],
       "second_pass": [],
       "how": "Folds into ONE generic `method_parameters` document, id and `base.name` preserved. The settings shape becomes a `parameter[]` entry modelled on the axis entry, with identity in a bound `variable`. Routing is decided per class: a name AND an id in the source means a document, otherwise the settings go inline on the statement -- never both.",
-      "flags": "DECIDED AND SIGNED, BUILD NOT DONE. The migrator does not do this yet; the document passes through today.",
+      "flags": "BUILT (migrators_j/sorting_parameters.m): 1 -> 1 (2 with the software entity) into `method_parameters`, base.id AND base.name PRESERVED -- the id is pointed at by spike_clusters.sorting_parameters_id and the name is matched by exact_string in spikesorter.m:373. NO BOUND PARAMETERS, and that is the decided outcome: all six template fields are algorithm-specific knobs and the plan bags every one of them by name.",
       "decided_targets": [
         "method_parameters"
       ]
     },
     "spike_extraction_parameters": {
-      "targets": [],
+      "targets": [
+        "method_parameters",
+        "software"
+      ],
       "carried": [],
       "second_pass": [],
       "how": "Folds into ONE generic `method_parameters` document, id and `base.name` preserved. The settings shape becomes a `parameter[]` entry modelled on the axis entry, with identity in a bound `variable`. Routing is decided per class: a name AND an id in the source means a document, otherwise the settings go inline on the statement -- never both.",
-      "flags": "DECIDED AND SIGNED, BUILD NOT DONE. The migrator does not do this yet; the document passes through today. Carries real data (filter_type / filter_low / filter_high / filter_order / filter_ripple), so this is a fold, not a discard.",
+      "flags": "BUILT (migrators_j/spike_extraction_parameters.m): 1 -> 1 (2 with the software entity) into `method_parameters`, base.id AND base.name PRESERVED. Both are load-bearing -- three templates point at the id (spike_extraction_parameters_modification, spikewaves, spike_clusters, all three still deferred passthroughs whose edges must keep resolving) and spikeextractor.m:372 looks the name up by exact_string. Carries real data (filter_type / filter_low / filter_high / filter_order / filter_ripple), so this is a fold, not a discard.",
       "decided_targets": [
         "method_parameters"
       ]
     },
     "spike_extraction_parameters_modification": {
-      "targets": [],
+      "targets": [
+        "method_parameters",
+        "software"
+      ],
       "carried": [],
       "second_pass": [],
       "how": "Folds into ONE generic `method_parameters` document, id and `base.name` preserved. The settings shape becomes a `parameter[]` entry modelled on the axis entry, with identity in a bound `variable`. Routing is decided per class: a name AND an id in the source means a document, otherwise the settings go inline on the statement -- never both.",
-      "flags": "DECIDED AND SIGNED, BUILD NOT DONE. The migrator does not do this yet; the document passes through today.",
+      "flags": "BUILT (migrators_j/spike_extraction_parameters_modification.m): a SECOND `method_parameters` document (+ the software entity), not an overlay -- v1 stores the full fifteen-field payload again rather than a diff, so it folds exactly like its base class and carries two more edges (extraction_parameters_id becomes derived_from lineage).",
       "decided_targets": [
         "method_parameters"
       ]
     },
     "stimulus_parameter": {
-      "targets": [],
+      "targets": [
+        "stimulus_parameter"
+      ],
       "carried": [],
       "second_pass": [],
       "how": "DISSOLVES into a typed statement leaf keyed by its CURIE: `stimulus_element_id` becomes the subject, `ontology_name` and `name` become the statement's `variable`, and `value` becomes the value. The Marder temperature documents land as `temperature_manipulation` -- manipulation rather than observation, because a stimulus parameter is commanded, not measured.",
-      "flags": "TOMBSTONE REPAIR IS DONE (2026-08-10) -- the document no longer quarantines. The DISSOLUTION is still gated twice: on binding governance reaching an admissible set (it is signed only at `preferred`), and on an UNMEASURED count of how many distinct NDIC terms a real Marder corpus carries and how many resolve. That measurement needs a Marder corpus, and none of the six we run is one."
+      "flags": "A MIGRATOR NOW EXISTS (migrators_j/stimulus_parameter.m, created 2026-08-10): a passthrough returning {preBody} that normalises the template's own untypeable placeholder so the document validates. It emits no new class -- the decomposition is still the deferred stimulus model. NOT RUN (no MATLAB in the authoring container); its gate is testTemplateLiteralTypeTraps.m."
     },
     "stimulus_parameter_table": {
       "targets": [],
@@ -979,11 +1002,15 @@
       "flags": "DECIDED AND SIGNED, BUILD NOT DONE. The migrator does not do this yet; the document passes through today. Deletion of a zero-document superclass, not of data."
     },
     "stimulus_response_scalar": {
-      "targets": [],
+      "targets": [
+        "harmonic_component_calculation",
+        "session_relative_reference",
+        "software"
+      ],
       "carried": [],
       "second_pass": [],
       "how": "Becomes a `harmonic_component_calculation` (a `subject_calculation` leaf) with its id PRESERVED, carrying a `harmonic_component` data_type value. Id preservation is what keeps downstream references resolving.",
-      "flags": "DECIDED AND SIGNED, BUILD NOT DONE. The migrator does not do this yet; the document passes through today. Schema half landed 2026-08-09; the migrator half is what remains, including recovering the dropped `instrument_id` (the stimulator) and `derived_from_#` edges.",
+      "flags": "BUILT (migrators_j/stimulus_response_scalar.m:209): folds via migrators_j.private.jCalculation into `harmonic_component_calculation` with base.id PRESERVED, plus the session anchor and the `software` entity, with a guarded-passthrough branch at :184. The harmonic number is recoverable from the response document alone -- `response_type` is a total function of `freq_response` computed two lines before the document is built (tuning_response.m:262-266) -- so no parameters document is needed. The fold restores `stimulator_id` and `stimulus_control_id`, which V_eta had dropped.",
       "decided_targets": [
         "harmonic_component_calculation"
       ]
@@ -996,58 +1023,78 @@
       "flags": "DECIDED AND SIGNED, BUILD NOT DONE. The migrator does not do this yet; the document passes through today. Deletion of a zero-document superclass, not of data."
     },
     "stimulus_response_scalar_parameters_basic": {
-      "targets": [],
+      "targets": [
+        "stimulus_response_scalar_parameters_basic"
+      ],
       "carried": [],
       "second_pass": [],
       "how": "FOLDS INLINE into `method_parameters` on the statement -- it is calculator configuration, not a document in its own right.",
-      "flags": "DECIDED AND SIGNED, BUILD NOT DONE. The migrator does not do this yet; the document passes through today. This class held the LARGEST invented-empty-edge instance: `stimulus_response_scalar_id`, empty on all 11,440 documents. The schema repair has landed; the fold has not.",
+      "flags": "DECIDED AND SIGNED, THE FOLD IS NOT BUILT -- BUT A MIGRATOR EXISTS. migrators_j/stimulus_response_scalar_parameters_basic.m is a deliberate guarded passthrough returning {preBody} at :76; it emits no class because the fold is a JOIN (these six fields belong on the response document, and a single-document migrator cannot find which responses point at this one). The plan names the mechanism: one migrator plus one resolver pass. This class held the LARGEST invented-empty-edge instance -- `stimulus_response_scalar_id`, empty on all 11,440 documents; the schema repair has landed, the fold has not.",
       "decided_targets": [
         "method_parameters"
       ]
     },
     "subjectmeasurement": {
-      "targets": [],
+      "targets": [
+        "absolute_reference",
+        "session_relative_reference",
+        "term_observation"
+      ],
       "carried": [],
       "second_pass": [],
       "how": "Routes through the EXISTING `measurement` fold with NO new class: `subject_id` carries over, `measurement` becomes the statement's `variable`, `value` becomes the value, and `datestamp` becomes the statement's TIME ANCHOR (`time_reference_1` to an `absolute_reference`) rather than a field.",
-      "flags": "DECIDED AND SIGNED, BUILD NOT DONE. The migrator does not do this yet; the document passes through today. Signed WITH a known gap: `value` carries no unit, so which typed leaf it lands on must be chosen through the D9 registry rather than read off the template."
+      "flags": "BUILT (migrators_j/subjectmeasurement.m): routes through the shared `measurement` fold (private/jMeasurementFold) with NO new class -- a typed subject_observation leaf, `term_observation` for the untyped case, and an `absolute_reference` carrying the measurement instant (falling back to the session anchor when there is no datestamp), with a guarded-passthrough branch. Signed WITH a known gap: `value` carries no unit, so which typed leaf it lands on must be chosen through the D9 registry rather than read off the template. The leaf class is chosen at runtime ([leaf '_observation'], private/jMeasurementFold.m:82), so `targets` here is a UNION that only grows."
     },
     "syncgraph": {
-      "targets": [],
+      "targets": [
+        "clock_alignment_policy",
+        "software"
+      ],
       "carried": [],
       "second_pass": [],
       "how": "Becomes `clock_alignment_policy`, `base.id` preserved. It earns its existence on MEMBERSHIP -- which rules are in force together -- rather than on carrying data of its own.",
-      "flags": "DECIDED AND SIGNED, BUILD NOT DONE. The migrator does not do this yet; the document passes through today. ",
+      "flags": "BUILT (migrators_j/syncgraph.m): 1 -> 1 or 2 -- `clock_alignment_policy` (base.id preserved) plus a `software` entity when the source names an implementation, with a guarded-passthrough branch.",
       "decided_targets": [
         "clock_alignment_policy"
       ]
     },
     "syncrule": {
-      "targets": [],
+      "targets": [
+        "acquisition_channels",
+        "clock_alignment_configuration",
+        "software"
+      ],
       "carried": [],
       "second_pass": [],
       "how": "Becomes `clock_alignment_configuration`, `base.id` preserved. Its `parameters` bag is DECLARED rather than bagged -- it is the union of four closed sets, not free-form -- and the two devices it names become `acquisition_channels_#` edges, EXACTLY 2 and UNORDERED.",
-      "flags": "DECIDED AND SIGNED, BUILD NOT DONE. The migrator does not do this yet; the document passes through today. `syncrule_id_#` is un-tightened back to NDI's optional.",
+      "flags": "BUILT (migrators_j/syncrule.m): 1 -> 3 or 4 -- `clock_alignment_configuration` (base.id preserved), its TWO `acquisition_channels` documents (EXACTLY 2, UNORDERED), and a `software` entity when the source names an implementation, with a guarded-passthrough branch. `syncrule_id_#` is un-tightened back to NDI's optional.",
       "decided_targets": [
         "clock_alignment_configuration"
       ]
     },
     "syncrule_mapping": {
-      "targets": [],
+      "targets": [
+        "clock_alignment",
+        "relative_reference",
+        "syncrule_mapping"
+      ],
       "carried": [],
       "second_pass": [],
       "how": "Becomes `clock_alignment` (a relation carrying a `polynomial`), `base.id` preserved. Its two endpoints become `from_reference` / `to_reference` pointing at `relative_reference` documents, and `degree` is kept and CHECKED.",
-      "flags": "DECIDED AND SIGNED, BUILD NOT DONE. The migrator does not do this yet; the document passes through today. The schema half LANDED 2026-08-09: `syncgraph_id` is restored and the invented required `epochid` -- empty on all 5,316 documents -- is removed. The migrator half is what remains.",
+      "flags": "BUILT, TWO BRANCHES, AND TODAY EVERY REAL DOCUMENT TAKES THE SECOND (migrators_j/syncrule_mapping.m). Branch 1 is 1 -> 3: `clock_alignment` plus two `relative_reference` endpoints, when both epochnodes can be anchored to an `epoch` DOCUMENT. THAT GATE IS CLOSED: it reads `epoch_id_1`/`epoch_id_2` depends_on entries and no did_v1 document carries them, because NO MIGRATOR MINTS AN `epoch` (re-checked 2026-08-10: 2 hits for \"class_name', 'epoch'\" across DID-matlab src, BOTH inside comments, and `epoch` is absent from the 45 target names tools/refresh_migration_targets.py derives). Branch 2 is the #58 passthrough repair, repair, re-emitting `syncrule_mapping` with `syncgraph_id` restored and the invented required `epochid` -- empty on all 5,316 documents -- removed. NOTE: coverage.py lists `syncrule_mapping` in `_MIG_HELPERS`, so the ledger counts this class as having NO migrator; it has one.",
       "decided_targets": [
         "clock_alignment"
       ]
     },
     "vmspikefilteringparameters": {
-      "targets": [],
+      "targets": [
+        "method_parameters",
+        "software"
+      ],
       "carried": [],
       "second_pass": [],
       "how": "Folds into ONE generic `method_parameters` document, id and `base.name` preserved. The settings shape becomes a `parameter[]` entry modelled on the axis entry, with identity in a bound `variable`. Routing is decided per class: a name AND an id in the source means a document, otherwise the settings go inline on the statement -- never both.",
-      "flags": "DECIDED AND SIGNED, BUILD NOT DONE. The migrator does not do this yet; the document passes through today. This class also mixes in `spiketimes` -- OUTPUT data sitting in a parameters class -- which does NOT belong in method_parameters and needs a home.",
+      "flags": "BUILT (migrators_j/vmspikefilteringparameters.m), GUARDED. Until this landed the class had NO migrator at all and reached validation in its did_v1 shape against a tombstone declaring `filter_type`/`filter_window`, neither of which exists. It now folds to `method_parameters` (+ software) like its three siblings. STILL UNRESOLVED: the class mixes in `spiketimes` -- OUTPUT data sitting in a parameters document -- which does not belong in method_parameters and has no home.",
       "decided_targets": [
         "method_parameters"
       ]

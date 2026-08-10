@@ -469,15 +469,76 @@ def test_data_body_classes():
                         if f["name"] == "axes")
     assert sampled_axes["mustBeNonEmpty"] is False
     assert sampled_axes["mustBeScalar"] is False
-    # opaque_body carries a small descriptor (generic_file folds onto it, 2.D slice A)
+    # opaque_body carries a small descriptor (generic_file is INTENDED to fold onto
+    # it, 2.D slice A -- see test_the_two_stranding_classes_have_a_tombstone for why
+    # that fold is not built and what opaque_body still lacks).
     of = {f["name"] for f in RECORDS["opaque_body"][1]["fields"]}
     assert {"format", "filename", "description"} <= of
 
 
-def test_generic_file_folded_to_opaque_body():
-    """2.D slice A: generic_file dissolves into opaque_body (no class of its own)."""
-    assert "generic_file" not in RECORDS
-    assert "opaque_body" in RECORDS
+def test_the_two_stranding_classes_have_a_tombstone():
+    """`generic_file` and `valid_interval` are REAL did_v1 classes that had NO V_eta
+    schema AND no migrator -- the only two in that state. With neither, a document
+    of these classes is not migrated, not passed through and not quarantined; it is
+    lost.
+
+    THIS TEST REPLACES `test_generic_file_folded_to_opaque_body`, which asserted
+    `"generic_file" not in RECORDS`. That assertion was TRUE and it was pinning the
+    stranding: the fold it named was never built (0 of 82 migrators_j entries match
+    generic|valid), so "dissolves into opaque_body" described an intention, and the
+    test made the intention indistinguishable from the outcome. Inverted rather than
+    deleted, for the same reason the three `epochid` tests were inverted.
+
+    What is asserted now is the tombstone, NOT a model: both classes are v1 SOURCE
+    names marked `retire`, restated from the NDI writer, holding v1 documents alive
+    until the team signs a model. The fold to opaque_body is still the intended
+    destination for generic_file -- it cannot happen yet because opaque_body has no
+    content_hash to hold the MD5 `checksum`, which is checked here so that the day
+    it gains one, this test says so."""
+    disp = {e["class_name"]: e.get("disposition") for e in INDEX["schemas"]}
+    for name in ("generic_file", "valid_interval"):
+        assert name in RECORDS, (
+            "%s has no V_eta schema; a document of this class reaches validation "
+            "as an undeclared class and is lost" % name)
+        assert disp[name] == "retire", (
+            "%s is a v1 SOURCE tombstone, never a go-forward class" % name)
+
+    # generic_file, from +setup/+conv/+babu/import.m:526-531 and :575-580 --
+    # all five fields, the file, and the document_id edge.
+    gf = RECORDS["generic_file"][1]
+    assert {f["name"] for f in gf["fields"]} == {
+        "filename", "format_ontology", "checksum", "date_created", "date_updated"}
+    assert [f["name"] for f in gf["file"]] == ["generic_file.ext"]
+    assert [d["name"] for d in gf["depends_on"]] == ["document_id"]
+
+    # THE FIELD THAT BLOCKS THE FOLD. opaque_body has format/filename/description
+    # and no content_hash (#45, blocked on #32), so folding today drops the MD5.
+    assert "checksum" in {f["name"] for f in gf["fields"]}
+    assert "content_hash" not in {f["name"] for f in RECORDS["opaque_body"][1]["fields"]}, \
+        ("opaque_body gained content_hash -- the generic_file -> opaque_body fold is "
+         "no longer blocked on it; re-open the disposition")
+
+    # valid_interval, from markgarbage.m:55-58,93-95. `session_ID` is the
+    # writer-vs-template divergence: ndi_timereference_struct returns it
+    # (timereference.m:110) and NO NDI template has ever declared it, so an
+    # undeclared it would be `undeclaredField` on every real document. It keeps its
+    # CAMEL spelling because universalRenames snake_cases only a block's immediate
+    # field names and this one is nested (universalRenames.m:302-347).
+    vi = RECORDS["valid_interval"][1]
+    assert {f["name"] for f in vi["fields"]} == {
+        "timeref_structt0", "t0", "timeref_structt1", "t1"}
+    for blk in ("timeref_structt0", "timeref_structt1"):
+        subs = next(f for f in vi["fields"] if f["name"] == blk)["fields"]
+        assert {s["name"] for s in subs} == {
+            "referent_epochsetname", "referent_classname", "clocktypestring",
+            "epoch", "session_ID", "time"}
+        # NDI's clocktype vocabulary is NINE values (clocktype.m:69-71); the V_zeta
+        # shape this replaces enumerated SIX, so approx_exp_global_time,
+        # approx_dev_global_time and inherited would each have quarantined a real
+        # document on a constraint DID invented. A tombstone enumerates nothing.
+        ct = next(s for s in subs if s["name"] == "clocktypestring")
+        assert ct["constraints"] == {}, \
+            "a tombstone must not enumerate a vocabulary it cannot bound"
 
 
 def test_timeseries_encoding_subtypes_dissolved():

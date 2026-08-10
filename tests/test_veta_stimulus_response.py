@@ -300,7 +300,12 @@ def test_freq_response_is_a_harmonic_number_not_a_boolean():
 
 
 def test_isspike_is_left_alone_and_the_inert_spelling_is_counted():
-    """DENOMINATOR: 241 built schema files walked (4 meta sidecars skipped).
+    """DENOMINATOR: 243 built schema files walked (4 meta sidecars skipped).
+
+    Was 241 until 2026-08-10, when `generic_file` and `valid_interval` -- the two
+    did_v1 classes that had no V_eta schema AND no migrator -- were restated as
+    source tombstones. Neither adds an inert min/max, so the pinned list is
+    unchanged; only the denominator moved, which is the point of pinning it.
 
     `isspike` is equally inert but its INTENT is correct -- the writer sets 0 or
     1 and nothing else (:176, :179-182) -- so rewriting its key would newly
@@ -325,7 +330,7 @@ def test_isspike_is_left_alone_and_the_inert_spelling_is_counted():
         walked += 1
         walk(d.get("fields", []), d["document_class"]["class_name"], "")
 
-    assert walked == 241, "schema count moved; re-derive the inert set (%d)" % walked
+    assert walked == 243, "schema count moved; re-derive the inert set (%d)" % walked
     assert sorted(inert) == [
         "element.direct",
         "element.reference",

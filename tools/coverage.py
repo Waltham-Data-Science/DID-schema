@@ -144,8 +144,31 @@ def vzeta_classes():
 _MIG_HELPERS = {
     "identity", "calcCommon", "universalRenames", "Contents",
     "resolveDatasetEntities", "resolveDeferredBaths",
-    "jSampledBody", "jGetCharAny", "syncrule_mapping",
+    "jSampledBody", "jGetCharAny",
 }
+# `syncrule_mapping` WAS IN THIS SET AND IS NOT A HELPER. Removed 2026-08-10.
+#
+# It is a per-class migrator -- `+migrators_j/syncrule_mapping.m`, the #58 repair
+# that keeps the fields a LIVE NDI query reads (syncgraph.m:404-408) -- and it
+# had been excluded from `migrator_files()`, so the ledger reported
+# `migrator: false` for a class that has had one for as long as #58 has been
+# closed. The coverage count was 83 when it should have been 84.
+#
+# HOW IT GOT HERE: it sits directly after `jSampledBody` and `jGetCharAny` in a
+# set of `j`-prefixed shared helpers. It reads as an append into the nearest
+# collection rather than a considered exclusion, and nothing distinguished the
+# two -- a helper and a real migrator are both just filenames here.
+#
+# WHY IT SURFACED ONLY NOW, which is the useful part: the ledger's own guard,
+# test_no_passthrough_row_claims_a_migrator_emits_it, fires when a row is marked
+# `emitted` while nothing backs it. This row only became `emitted` when
+# V_eta_migration_targets.json was refreshed and gave it non-empty targets.
+# Before that it sat in a state the guard does not inspect, so a wrong exclusion
+# and a missing target cancelled each other out and the row looked consistent.
+# Two errors agreeing is not the same as being right.
+#
+# Same direction as every other instrument defect found today: it UNDERSTATED
+# what is built. Nothing was ever wrongly claimed as migrated.
 
 
 def _ndi_main_templates():
