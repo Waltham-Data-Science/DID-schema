@@ -1,7 +1,7 @@
 {
     "document_class": {
         "class_name": "stimulus_presentation",
-        "class_version": "1.0.0",
+        "class_version": "2.0.0",
         "superclasses": [
             {
                 "class_name": "base"
@@ -17,13 +17,18 @@
     },
     "depends_on": [
         {
-            "name": "element_id",
+            "name": "stimulus_element_id",
             "mustBeNonEmpty": true,
-            "documentation": "The document ID of the element associated with this stimulus presentation.",
+            "documentation": "The STIMULATOR element -- NDI's only dependency on this class, in its template, in its schema (mustbenotempty: 1), at decoder.m:138 and in the mock. Typed `subject` because migrators_j.element promotes elements to subjects with their ids preserved, so the edge resolves. REPLACES an invented `element_id` that no NDI document has ever carried.",
             "must_refer_to_document_class": "subject"
         }
     ],
-    "file": [],
+    "file": [
+        {
+            "name": "presentation_time.bin",
+            "documentation": "Per-trial onsets/offsets, the CURRENT vintage. Absent on the deprecated inline vintage, so the file is declared, not required."
+        }
+    ],
     "fields": [
         {
             "name": "presentation_order",
@@ -32,30 +37,23 @@
             "default_value": [],
             "mustBeNonEmpty": false,
             "mustBeScalar": false,
-            "mustNotHaveNaN": true,
-            "queryable": false,
-            "ontology": {
-                "node": "placeholder:stimulus_presentation_order",
-                "name": "stimulus presentation order"
-            },
-            "documentation": "Stimulus presentation index/order. v1 commonly ships a scalar 1; consumers that need a per-trial array fill it as a 1-based integer vector whose length equals the number of trials.",
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "One 1-based index into `stimuli` per TRIAL, in presentation order (decoder.m:132 writes data.stimid(:)).",
             "constraints": {}
         },
         {
             "name": "stimuli",
             "type": "structure",
-            "blank_value": {
-                "parameters": {}
-            },
-            "default_value": {
-                "parameters": {}
-            },
+            "blank_value": [],
+            "default_value": [],
             "mustBeNonEmpty": false,
             "mustBeScalar": false,
             "mustNotHaveNaN": false,
-            "queryable": false,
+            "queryable": true,
             "ontology": null,
-            "documentation": "Stimulus configuration(s) captured at presentation time. v1 ships this as either a scalar struct (one stimulus configuration) or a struct array (one entry per presented stimulus, e.g., a 225-element array for a Hartley basis). The sole sub-field that all v1 corpora ship is `parameters`, an open-shape struct whose keys depend on the stimulus type (Hartley basis, sparse-noise grid, oriented gratings, etc.) and on the generating library version. V_delta does not constrain inner field names because each stimulus type contributes its own; the validator only verifies that `stimuli` is itself a struct (or struct array). Consumers that need to interpret specific parameter values should branch on the stimulus class context (e.g., the linked `app.app_name`) before reading.",
+            "documentation": "The stimulus dictionary: one entry per DISTINCT stimulus, each carrying an open-shape, generator-specific `parameters` block. A struct ARRAY per the writer (tuning_response.m:194 indexes stimuli(j)), not the scalar the template's example shows.",
             "constraints": {},
             "fields": [
                 {
@@ -66,11 +64,104 @@
                     "mustBeNonEmpty": false,
                     "mustBeScalar": true,
                     "mustNotHaveNaN": false,
-                    "queryable": false,
+                    "queryable": true,
                     "ontology": null,
-                    "documentation": "Stimulus-type-specific parameter object. Open-shape: keys and value types depend on the stimulus generator. v1 corpora include Hartley-basis (rect, windowShape, M, K_absmax, randState, ...), sparse-noise (BG, value, random, repeat, pixSize, randState, ...), and many other variants.",
+                    "documentation": "Open-shape and generator-specific: what the stimulus generator recorded for this stimulus. Left unmodelled on purpose -- the parameters become typed fields of the referenced stimulus data_type documents in the second pass, not here.",
                     "constraints": {},
                     "fields": []
+                }
+            ]
+        },
+        {
+            "name": "presentation_time",
+            "type": "structure",
+            "blank_value": [],
+            "default_value": [],
+            "mustBeNonEmpty": false,
+            "mustBeScalar": false,
+            "mustNotHaveNaN": false,
+            "queryable": false,
+            "ontology": null,
+            "documentation": "The DEPRECATED vintage of per-trial timing: on the block instead of in presentation_time.bin. A struct ARRAY, one entry per trial. decoder.m:154-157 still reads it (with a deprecation warning) and the template still declares it, so documents of both vintages are real did_v1. Optional, never required.",
+            "constraints": {},
+            "fields": [
+                {
+                    "name": "clocktype",
+                    "type": "string",
+                    "blank_value": "",
+                    "default_value": "",
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Which clock the times below are in.",
+                    "constraints": {}
+                },
+                {
+                    "name": "stimopen",
+                    "type": "double",
+                    "blank_value": 0.0,
+                    "default_value": 0.0,
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "When the stimulus object opened.",
+                    "constraints": {}
+                },
+                {
+                    "name": "onset",
+                    "type": "double",
+                    "blank_value": 0.0,
+                    "default_value": 0.0,
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Stimulus onset time.",
+                    "constraints": {}
+                },
+                {
+                    "name": "offset",
+                    "type": "double",
+                    "blank_value": 0.0,
+                    "default_value": 0.0,
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Stimulus offset time.",
+                    "constraints": {}
+                },
+                {
+                    "name": "stimclose",
+                    "type": "double",
+                    "blank_value": 0.0,
+                    "default_value": 0.0,
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "When the stimulus object closed.",
+                    "constraints": {}
+                },
+                {
+                    "name": "stimevents",
+                    "type": "matrix",
+                    "blank_value": [],
+                    "default_value": [],
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": false,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Per-trial stimulus events. UNTYPED: nobody has read real ones, so the shape is preserved rather than declared.",
+                    "constraints": {}
                 }
             ]
         }

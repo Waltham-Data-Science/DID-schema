@@ -3456,6 +3456,105 @@ _tombstone(
            " written. UNMODELLED: no writer, no reader, no documents.",
            scalar=False, queryable=False)])
 
+# ---- stimulus_presentation: the last BLOCKING tombstone -------------------
+#
+# The third of the three tombstones held back for the stimulus model. What was
+# holding it was the MODEL (what a presentation becomes); what is repaired here
+# is the SOURCE SHAPE, which does not depend on the model at all.
+#
+# THE INVENTED EDGE. V_eta declared `element_id` required. NDI has never had
+# such a dependency on this class -- template and schema both declare exactly
+# one, `stimulus_element_id`, and the schema marks it `mustbenotempty: 1`:
+#
+#   $ git show origin/main:.../database_documents/stimulus/stimulus_presentation.json
+#     "depends_on": [ { "name": "stimulus_element_id", "value": "" } ]
+#   $ git show origin/main:.../schema_documents/.../stimulus_presentation_schema.json
+#     "depends_on": [ { "name": "stimulus_element_id", "mustbenotempty": 1 } ]
+#
+# Both writers set it unconditionally and neither writes `element_id`:
+#   +app/+stimulus/decoder.m:138
+#       nd = set_dependency_value(nd,'stimulus_element_id',ndi_element_stim.id());
+#   +mock/+fun/stimulus_presentation.m:136   (the same call)
+#
+# This is the 2,670-document row of the invented-empty-edge pattern -- 100% of
+# the class, in four corpora (B 1242 / Dab 1242 / Soph 175 / 20211116 11). The
+# edge is empty because nothing in v1 ever filled a field of that name, and it
+# validated clean only because +did2/+validate/references.m:90 skips empty
+# edges. Renaming the edge is the repair; there is no data to recover, because
+# the real edge was being DROPPED while the invented one was carried.
+#
+# THREE PLACES THE WRITER BEATS THE TEMPLATE, all preserved here:
+#  1. `app` stays in the superclasses. The template lists only base + epochid,
+#     but decoder.m:135-137 constructs the document as
+#     `E.newdocument(...) + ndi_app_stimulus_decoder_obj.newdocument()`, and the
+#     right-hand term is what fills app.name/version/url/os/... So a real
+#     document HAS an app block, and dropping the superclass would make every
+#     one of them trip `undeclaredBlock` on the passthrough path.
+#  2. `presentation_time` is a struct ARRAY (one entry per trial), not the
+#     scalar the template's example shows -- decoder.m:107,124 build it with
+#     `presentation_time(end+1)`. Hence scalar=False.
+#  3. `stimuli` is likewise a struct ARRAY, one entry per DISTINCT stimulus:
+#     tuning_response.m:194-195 loops `stimuli(j).parameters`.
+#
+# `presentation_time` is the DEPRECATED vintage and is NOT required. NDI moved
+# it into presentation_time.bin ("we now put this in a file", decoder.m:133)
+# but still reads the inline form when present, with a deprecation warning
+# (decoder.m:154-157). Both vintages are real did_v1 documents, so the block is
+# declared and optional -- required would quarantine every current document,
+# absent would quarantine every old one.
+_tombstone(
+    "stimulus_presentation", ["base", "app", "epochid"],
+    [dep("stimulus_element_id", "subject",
+         "The STIMULATOR element -- NDI's only dependency on this class, in its"
+         " template, in its schema (mustbenotempty: 1), at decoder.m:138 and in"
+         " the mock. Typed `subject` because migrators_j.element promotes"
+         " elements to subjects with their ids preserved, so the edge resolves."
+         " REPLACES an invented `element_id` that no NDI document has ever"
+         " carried.",
+         non_empty=True)],
+    [field("presentation_order", "matrix",
+           "One 1-based index into `stimuli` per TRIAL, in presentation order"
+           " (decoder.m:132 writes data.stimid(:)).",
+           scalar=False),
+     field("stimuli", "structure",
+           "The stimulus dictionary: one entry per DISTINCT stimulus, each"
+           " carrying an open-shape, generator-specific `parameters` block."
+           " A struct ARRAY per the writer (tuning_response.m:194 indexes"
+           " stimuli(j)), not the scalar the template's example shows.",
+           scalar=False,
+           sub_fields=[subfield("parameters", "structure",
+                                "Open-shape and generator-specific: what the"
+                                " stimulus generator recorded for this"
+                                " stimulus. Left unmodelled on purpose -- the"
+                                " parameters become typed fields of the"
+                                " referenced stimulus data_type documents in"
+                                " the second pass, not here.",
+                                sub_fields=[])]),
+     field("presentation_time", "structure",
+           "The DEPRECATED vintage of per-trial timing: on the block instead of"
+           " in presentation_time.bin. A struct ARRAY, one entry per trial."
+           " decoder.m:154-157 still reads it (with a deprecation warning) and"
+           " the template still declares it, so documents of both vintages are"
+           " real did_v1. Optional, never required.",
+           scalar=False, queryable=False,
+           sub_fields=[subfield("clocktype", "string",
+                                "Which clock the times below are in."),
+                       subfield("stimopen", "double",
+                                "When the stimulus object opened."),
+                       subfield("onset", "double", "Stimulus onset time."),
+                       subfield("offset", "double", "Stimulus offset time."),
+                       subfield("stimclose", "double",
+                                "When the stimulus object closed."),
+                       subfield("stimevents", "matrix",
+                                "Per-trial stimulus events. UNTYPED: nobody has"
+                                " read real ones, so the shape is preserved"
+                                " rather than declared.",
+                                scalar=False)])],
+    files=[("presentation_time.bin",
+            "Per-trial onsets/offsets, the CURRENT vintage. Absent on the"
+            " deprecated inline vintage, so the file is declared, not"
+            " required.")])
+
 # ---- oneepoch: a did_v1 class that had NO V_eta schema at all -------------
 #
 # Not a wrong schema. NONE. `oneepoch` was tagged non-production in
