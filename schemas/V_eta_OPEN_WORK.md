@@ -606,6 +606,43 @@ replaced by NDI's real `stimulus_element_id`). **That is a prediction until a co
 after that commit reports it**, exactly like the `image_stack` guard. The same run still
 carries `image_observation.subject_id` at 4,563 (JH), also pre-guard.
 
+**MEASURED 2026-08-10, corpus run 31438980133 (`fd36421`) — the prediction HELD on the two
+corpora that finished.** Both report zero, and both report a non-zero denominator alongside,
+so this is a measurement and not a dead instrument:
+
+```
+DENOMINATOR: 2 of 4 affected corpora reported; Dab and Soph were CANCELLED mid-flight
+             (test-corpus.yml sets concurrency cancel-in-progress, and a later push
+             killed them), so they are UNMEASURED, not zero.
+
+  B          12917 v1 documents read, 0 unreadable
+             silent-loss: 0 empty required edge(s), 0 vacuous required field(s)
+             was 1,242                                          -> 0
+  20211116   silent-loss: 0 empty required edge(s)
+             was 11                                             -> 0
+
+  Dab        was 1,242                                          -> NOT MEASURED
+  Soph       was   175                                          -> NOT MEASURED
+```
+
+So 1,253 of the 2,670 documents are confirmed repaired on real data and the remaining 1,417
+are merely expected. B is the meaningful one: it is the largest single contributor to the row
+and it also returns `quarantine_count: 0` and `fragments: 0`, so the repair did not buy the
+empty edge back as a quarantine somewhere else.
+
+**The same run found a NEW gating orphan, in the class this row's sibling repair created.**
+`clock_alignment_policy.session_id` dangled on BOTH reporting corpora — 1 of 2814 edges on
+20211116 and **13 of 19069 on B** — and in both cases it is 100% of the class (1 of 1
+syncgraph, 13 of 13). Cause and fix are recorded in the header of
+`DID-matlab/src/did/+did2/+convert/+migrators_j/syncgraph.m`: the migrator filled a
+`must_refer_to_document_class: session` edge from `base.session_id`, which is a DIFFERENT ID
+SPACE from a session document's `base.id` (`ndi.document.m:57` mints one, `ndi.session.m:215`
+sets the other, separately). `did2.convert.epochMint` had refused that exact assumption in
+its own header; `syncgraph.m` was written in parallel and made it. The fold is now gated
+behind `jSessionDocId`, which answers `''` by construction in pass 1, so every real document
+passes through until a batch pass supplies the id. **Not yet re-measured** — the fix
+(`fef145f`) postdates the run that found it.
+
 ---
 
 ## FINDINGS FROM THE PARALLEL BUILD (2026-08-10) — recorded because they lived only in agent reports
