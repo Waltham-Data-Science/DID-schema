@@ -19,11 +19,64 @@ found in that state one at a time -- simple_calc, then seven more, then two more
 after that. Every one was discovered by a human reading a template. This tool
 does that comparison mechanically, for the whole v1 universe at once.
 
+IT ALSO COMPARES THE `file` BLOCK, and that half exists because of a defect that
+shipped on 2026-08-10. The `image_stack` tombstone declared its attachment as
+`imagestack_file`; NDI writes `imageStack` -- the template's `file_list` says so
+and `add_file('imageStack', ...)` appears at all EIGHT attachment sites on
+origin/main (`+ndi/+setup/+conv/+haley/doImport.m:441,469,485,504,797,815,831`
+and `+ndi/+setup/+conv/+babu/import.m:483`), with no exceptions.
+
+The rule nobody had written down: a passed-through document carries its `file`
+block VERBATIM, because `+did2/+convert/universalRenames.m:308` skips the
+structural keys outright (`skip = {'document_class','depends_on','file','files'}`).
+So a tombstone restated from an NDI template must snake_case its FIELDS and must
+NOT snake_case its FILE NAMES. Getting it wrong trips both directions of the
+audit at once -- it declares a file no document has AND leaves the file every
+document does have undeclared.
+
+Nothing caught it. This tool did not look at files at all; `did2.validate.fileList`
+does, by exact `strcmp`, but only at corpus time and only as a report; and every
+`image_stack` fixture in `testTemplateLiteralTypeTraps.m` is built with no `files`
+block, so four green MATLAB tests exercised nothing.
+
+A file divergence NEVER quarantines: `+did2/+schema/cache.m:736` allows `file`
+and `files` as top-level keys and never looks inside them. That is precisely why
+it is dangerous -- the failure mode is a payload that is stranded or unfindable
+while every gate stays green. So the file audit is REPORT-ONLY and is NOT summed
+into the BLOCKING/LOSSY/COSMETIC tiers, which grade quarantine risk. Pass
+--enforce-files to make it exit non-zero once the team sets that threshold.
+
+THE FILE ROWS AS OF 2026-08-10, EACH WRITER-CHECKED. Recorded so the next reader
+does not repeat the greps, NOT as a substitute for re-running them -- the row set
+is generated, this paragraph is prose, and when they disagree the tool wins.
+
+    DENOMINATOR: 66 tombstones compared, 4 divergent
+    element_epoch -> acquisition_epoch  present-but-undeclared
+        `epoch_binary_data.vhsb`. SURVIVES: +ndi/+element/timeseries.m:116,268
+        attach it. Already known -- migrators_j/element_epoch.m says in its own
+        header that acquisition_epoch "declares `files: []` while the real
+        documents carry the payload". Rides with #45/#30.
+    ensemble                            present-but-undeclared
+        `neuron_names.txt`. SURVIVES: +ndi/+element/ensemble.m:277 attaches it,
+        and the class is a PASSTHROUGH, so this is the image_stack shape exactly.
+    image                               present-but-undeclared
+        `imageFile`. DOES NOT SURVIVE: the template declares it but NO writer
+        attaches it -- `add_file('imageFile'` has zero hits on origin/main, and a
+        bare-name sweep matches only local variables (`imageFiles`,
+        `imageFileName`) in 4 files. Also moot: migrators_j.image consumes every
+        did_v1 image document, so none reaches the V_eta `image` data_type.
+    jrclust_clusters                    declared-but-absent
+        `jrclust_output_file`. SURVIVES as an over-declaration: the template has
+        no `files` block and the bare name has ZERO hits in any file on
+        origin/main. Nothing writes it, so nothing is lost -- but the schema is
+        wrong about what it holds.
+
 REPORT-ONLY BY DEFAULT (exit 0). Pass --enforce to exit non-zero when any
 high-risk divergence remains.
 
   python3 tools/check_tombstones.py
   python3 tools/check_tombstones.py --enforce
+  python3 tools/check_tombstones.py --enforce-files
   python3 tools/check_tombstones.py --all      # include low-risk rows in full
 
 Ground truth is `V_eta_ndi_ground_truth.json` (regenerate with
@@ -189,6 +242,76 @@ def super_chain(name, veta, seen=None):
     return seen
 
 
+def _file_names(entries):
+    """The file names in a `file` block, accepting both spellings fileList.m
+    accepts: a struct with a `name`, or a bare string."""
+    out = set()
+    for e in entries or []:
+        if isinstance(e, dict):
+            if e.get("name"):
+                out.add(str(e["name"]))
+        elif isinstance(e, str) and e:
+            out.add(e)
+    return out
+
+
+def veta_files(name, veta):
+    """Every file name the V_eta class CHAIN declares.
+
+    Chain, not leaf. This mirrors `did2.validate.fileList`'s `declaredFiles`
+    (DID-matlab +did2/+validate/fileList.m:118-144), which walks the whole class
+    chain -- so a file declared on a superclass IS declared for the subclass, and
+    comparing only the leaf would invent a divergence the runtime instrument does
+    not see. `sampled_body` / `opaque_body` / `data_body` all declaring
+    `body_data` is the live shape this protects."""
+    out = _file_names(veta.get(name, {}).get("file"))
+    for sup in super_chain(name, veta):
+        out |= _file_names(veta.get(sup, {}).get("file"))
+    return out
+
+
+def ndi_files(cls, classes, seen=None):
+    """Every file name the NDI template CHAIN declares.
+
+    Also chain, for the same reason and with a live case: `oneepoch` declares no
+    `files` of its own and inherits `epoch_binary_data.vhsb` from `element_epoch`
+    (and `demoNDIMock` inherits `filename1.ext` from `demoNDI`). Comparing the
+    leaf alone would report V_eta's correct declaration as invented."""
+    seen = seen if seen is not None else set()
+    if cls in seen or cls not in classes:
+        return set()
+    seen.add(cls)
+    out = set(classes[cls].get("files") or [])
+    for sup in classes[cls].get("superclasses") or []:
+        out |= ndi_files(sup, classes, seen)
+    return out
+
+
+def compare_file_block(cls, classes, name, veta):
+    """The two directions of the file audit, SEPARATELY -- they are different
+    failures and summing them hides which one happened.
+
+    declared_but_absent     the tombstone claims a file the real document does
+                            not carry. `fileList.m` names this the direction that
+                            loses data: a migrator that forgets the attachment
+                            produces a document whose class says the bytes are
+                            there and which has none.
+    present_but_undeclared  the real document carries a file the tombstone does
+                            not declare. The bytes survive but nothing can find
+                            them, and the schema is wrong about what it holds.
+
+    Compared by EXACT string, deliberately, because `fileList.m:93,99` compares
+    by exact `strcmp`. Normalising here would make this tool disagree with the
+    instrument it exists to predict -- and normalising is what would have hidden
+    `imagestack_file` vs `imageStack`."""
+    theirs = ndi_files(cls, classes)
+    ours = veta_files(name, veta)
+    return {
+        "declared_but_absent": sorted(ours - theirs),
+        "present_but_undeclared": sorted(theirs - ours),
+    }
+
+
 def _defamily(dep_name):
     """`syncrule_id_#` -> `syncrule_id`. See the note in compare()."""
     return dep_name[:-2] if dep_name.endswith("_#") else dep_name
@@ -263,6 +386,8 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--enforce", action="store_true",
                     help="exit non-zero if any BLOCKING row remains")
+    ap.add_argument("--enforce-files", action="store_true",
+                    help="exit non-zero if any file-block divergence remains")
     ap.add_argument("--all", action="store_true",
                     help="print COSMETIC rows in full too")
     a = ap.parse_args()
@@ -277,14 +402,22 @@ def main():
     pt = passthrough_migrators()
     renames = rename_map()
 
-    rows, reused = [], []
+    rows, reused, file_rows = [], [], []
     skipped = {"nonprod": 0, "chain": 0, "no_tombstone": 0}
+    # File-audit denominator, accumulated as we go so it cannot be reconstructed
+    # (wrongly) afterwards from a different set than the one compared.
+    fstat = {"compared": 0, "ndi_declares": 0, "veta_declares": 0,
+             "skipped_declaring": 0}
     for cls, ndi in sorted(gt["classes"].items()):
         if cls in NONPROD:
             skipped["nonprod"] += 1
+            if ndi_files(cls, gt["classes"]):
+                fstat["skipped_declaring"] += 1
             continue
         if cls in CHAIN:
             skipped["chain"] += 1
+            if ndi_files(cls, gt["classes"]):
+                fstat["skipped_declaring"] += 1
             continue
         # Resolve through the RENAME map as well as by name, so a class V_eta
         # renamed is still compared instead of vanishing into the skip list.
@@ -297,6 +430,8 @@ def main():
             # No tombstone at all. Either phase-8 deleted (the class is provably
             # consumed) or never homed -- coverage.py owns that question, not us.
             skipped["no_tombstone"] += 1
+            if ndi_files(cls, gt["classes"]):
+                fstat["skipped_declaring"] += 1
             continue
         if name in pt:
             tier = "passthrough"
@@ -324,6 +459,19 @@ def main():
         r = risk(div, tier, collision)
         if r:
             rows.append((r, tier, cls, name, div))
+
+        # ---- the file block, kept SEPARATE from the tiers above -------------
+        # It grades a different failure (stranded/undeclared payload) and does
+        # not quarantine, so folding it into BLOCKING/LOSSY/COSMETIC would make
+        # both numbers mean less than either does alone.
+        fstat["compared"] += 1
+        fdiv = compare_file_block(cls, gt["classes"], name, veta)
+        if ndi_files(cls, gt["classes"]):
+            fstat["ndi_declares"] += 1
+        if veta_files(name, veta):
+            fstat["veta_declares"] += 1
+        if fdiv["declared_but_absent"] or fdiv["present_but_undeclared"]:
+            file_rows.append((tier, cls, name, fdiv))
 
     order = {"COLLISION": 0, "BLOCKING": 1, "LOSSY": 2, "COSMETIC": 3}
     rows.sort(key=lambda x: (order[x[0]], x[2]))
@@ -378,6 +526,51 @@ def main():
         print("(%d COSMETIC row(s) hidden; pass --all to see them)\n"
               % counts["COSMETIC"])
 
+    # ---- FILE BLOCK AUDIT ---------------------------------------------------
+    # DENOMINATOR FIRST AND UNCONDITIONALLY (operating rule 5). Every number
+    # below is printed even when it is zero, and "declares no file" is stated
+    # rather than left to be inferred from a short list of rows.
+    veta_any_file = sum(1 for s in veta.values() if _file_names(s.get("file")))
+    absent_total = sum(len(d["declared_but_absent"]) for _, _, _, d in file_rows)
+    undecl_total = sum(len(d["present_but_undeclared"]) for _, _, _, d in file_rows)
+    print("FILE BLOCK AUDIT   (report-only; a file divergence never quarantines)")
+    print()
+    print("  NDI templates read              : %d" % len(gt["classes"]))
+    print("  ...declaring a file (chain)     : %d"
+          % sum(1 for c in gt["classes"] if ndi_files(c, gt["classes"])))
+    print("  V_eta schemas read              : %d" % len(veta))
+    print("  ...declaring a file             : %d" % veta_any_file)
+    print("  tombstones compared for files   : %d" % fstat["compared"])
+    print("    ...NDI side declares a file   : %d" % fstat["ndi_declares"])
+    print("    ...V_eta side declares a file : %d" % fstat["veta_declares"])
+    print("  skipped (nonprod/chain/no tombstone) that DO declare a file : %d"
+          % fstat["skipped_declaring"])
+    print("  classes with a file divergence  : %d" % len(file_rows))
+    print("    DECLARED BUT ABSENT   (names) : %d   tombstone claims a file no "
+          "real document carries" % absent_total)
+    print("    PRESENT BUT UNDECLARED (names): %d   real document carries a file "
+          "the tombstone does not declare" % undecl_total)
+    print()
+    for tier, cls, name, fdiv in sorted(file_rows, key=lambda x: x[1]):
+        arrow = "" if cls == name else "  (-> %s)" % name
+        print("FILE      %-9s %s%s" % (tier, cls, arrow))
+        if fdiv["declared_but_absent"]:
+            print("    declared but in no NDI template: %s"
+                  % ", ".join(fdiv["declared_but_absent"]))
+        if fdiv["present_but_undeclared"]:
+            print("    real files the tombstone does NOT declare: %s"
+                  % ", ".join(fdiv["present_but_undeclared"]))
+        print()
+    print("THE TWO DIRECTIONS ARE DIFFERENT FAILURES AND ARE NOT SUMMED. A file "
+          "name is compared by EXACT string, as `did2.validate.fileList` does "
+          "(fileList.m:93,99) -- NDI's spelling is NOT snake_cased, because "
+          "universalRenames.m:308 skips the `file`/`files` keys outright, so a "
+          "passed-through document arrives carrying NDI's own name. And READ THE "
+          "WRITER before acting on a row: this compares against the TEMPLATE, "
+          "and where template and writer disagree the WRITER wins -- grep "
+          "`add_file(` in NDI origin/main for the name.")
+    print()
+
     print("HOW TO READ THE TIERS. `passthrough` means the document reaches "
           "validation in its did_v1 shape -- either no migrator exists, or the "
           "migrator deliberately defers -- so the tombstone is the ONLY thing "
@@ -390,12 +583,19 @@ def main():
           "them. This checks the SCHEMA against the TEMPLATE, which is the point "
           "-- it is what a green corpus could never tell you.")
 
+    rc = 0
     if a.enforce and (counts["BLOCKING"] or counts["COLLISION"]):
         print()
         print("FAIL (--enforce): %d tombstone(s) would quarantine a real document."
               % (counts["BLOCKING"] + counts["COLLISION"]))
-        return 1
-    return 0
+        rc = 1
+    if a.enforce_files and file_rows:
+        print()
+        print("FAIL (--enforce-files): %d class(es) diverge on the file block "
+              "(%d declared-but-absent, %d present-but-undeclared)."
+              % (len(file_rows), absent_total, undecl_total))
+        rc = 1
+    return rc
 
 
 if __name__ == "__main__":
