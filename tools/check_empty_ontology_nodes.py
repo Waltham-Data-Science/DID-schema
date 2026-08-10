@@ -135,7 +135,27 @@ META_FILES = {"did_schema_meta.json", "CURIE_lookups_meta.json",
 # and may not grow. Raising it is a claim that these two are known and intended
 # -- it is NOT a claim that they are fine. They are debt, listed above by file
 # and line, and they come back down when the NDIC vocabulary is reachable.
-BASELINE_MIGRATORS = 44
+# ---- RECONCILED AGAIN 2026-08-10, 44 -> 45. ONE row, and it is a GAIN. ------
+# `private/jEpochClockReferences.m:171` -- jOntologyTerm('', bareClock), the
+# NDI clocktype on a lifted relative_reference.
+#
+# THE COUNT WENT UP BECAUSE THE CODE GOT MORE HONEST, which is the one case
+# where a rising ratchet is good news. That site previously wrote a RAW STRUCT
+# for the clock term. A raw struct is INVISIBLE to this counter -- it only sees
+# jOntologyTerm calls -- so the unminted term was always there and simply
+# never counted. Routing it through jOntologyTerm (which the schema requires,
+# since the field is typed ontology_term) surfaced it.
+#
+# So the honest reading of 44 -> 45 is not "one new debt". It is "one debt that
+# was already owed has become visible". Had the fix gone the other way -- a raw
+# struct written to satisfy a schema that wants an ontology_term -- the counter
+# would have stayed at 44 and the field would have carried a shape the
+# validator's derived query columns (clock.node / clock.name) could not read.
+#
+# It comes back down with the four did_clocktype terms (#67), which is also
+# what clears three of the other rows. Still unmintable today: NDIC.txt was
+# moved out of NDI-matlab in 2c19bf24c and that repo is not in session scope.
+BASELINE_MIGRATORS = 45
 
 # Schema-side baseline, set 2026-08-10 when the sweep was added. It is 8 on the
 # day it landed: the four did_clocktype terms x two carriers
