@@ -611,10 +611,36 @@ lives in these files — read them instead of re-deriving from memory:
   **Before any disposition: grep the class's `base.name`, its id STRING, and its distinctive
   field names across NDI `.m` files — not just `<class>_id` in the templates.** v1 joins by
   string wherever the referent is not itself a document, which is most of the interesting cases.
-- **THE INVENTED-EMPTY-EDGE PATTERN — 26,406 documents across FIVE classes from the census,
-  plus a SIXTH added 2026-08-08 from a walkthrough histogram (openminds_stimulus, 635). The
-  total is deliberately NOT restated: re-derive the row set AND the sum from a fresh census
-  before quoting either.** ONE cause. V_eta
+- **RE-DERIVED 2026-08-09 from corpus run 31327383671 — the first census that was actually
+  READABLE (the digest had been aggregating nothing). The row set is now TWO rows, 7,233
+  documents, and the composition is almost entirely different from the six below:**
+
+        DENOMINATOR: 6 corpora, 0 unreadable, 0 skipped
+        stimulus_presentation.element_id   2,670   B 1242 / Dab 1242 / Soph 175 / 20211116 11
+        image_observation.subject_id       4,563   JH 4563                      <- NOT IN THE
+                                                                                  TABLE BELOW
+        TOTAL                              7,233
+
+  FIVE of the six rows below are now ZERO — the stimulus-response, epochfiles, syncrule
+  mapping, openminds_stimulus and daqmetadatareader repairs all landed and are confirmed on
+  real data (Soph's 11,167 alone). `stimulus_presentation.element_id` is unchanged at 2,670,
+  which is a useful agreement between the old figure and the new instrument.
+  **`image_observation.subject_id` is a NEW row, larger than four of the six originals, and
+  its cause is NOT the pattern below**: NDI's own writer leaves the edge empty. Three of the
+  seven `ndi.document('imageStack'...)` sites in `+setup/+conv/+haley/doImport.m` (lines 789,
+  811, 827 — the image / mask / closest-patch loop) set ONLY `document_id`, never
+  `subject_id`, so the source documents genuinely have no subject and `image_stack.m:48,78`
+  copies that emptiness into a required edge with no guard. The guarded-passthrough fix used
+  for `fitcurve` / `openminds_stimulus` / `probe_geometry` DOES NOT APPLY UNCHANGED: both
+  `image_stack` and `image_stack_parameters` are phase-8 DELETED, so passing a document
+  through gives it no schema to validate against — 4,563 quarantines, the
+  `epochfiles_ingested` regression exactly. Needs a team call, not a build.
+
+- **THE INVENTED-EMPTY-EDGE PATTERN — the historical row set, KEPT FOR ITS SHAPE, NOT ITS
+  NUMBERS.** It read "26,406 documents across FIVE classes from the census, plus a SIXTH
+  added 2026-08-08 from a walkthrough histogram (openminds_stimulus, 635)". Re-derive the row
+  set AND the sum from a fresh census before quoting either — see the re-derivation above.
+  ONE cause. V_eta
   declares a REQUIRED `depends_on` that the NDI template does not have, while DROPPING the edge
   NDI does write. Every such document validates clean, because `+did2/+validate/references.m:90`
   SKIPS empty edges (`if isempty(documentId), continue;`) — so `mustBeNonEmpty` on a `depends_on`
