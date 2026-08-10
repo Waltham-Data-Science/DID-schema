@@ -552,8 +552,8 @@
           "ndi_second_pass"
         ],
         "packages_missing": [],
-        "files_read": 135,
-        "lines_read": 17872,
+        "files_read": 136,
+        "lines_read": 18320,
         "classes_queried": 31,
         "classes_emitted_as_document_class": 5,
         "ref_kinds": [

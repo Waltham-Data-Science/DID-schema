@@ -19,10 +19,11 @@
         {
             "name": "time_reference_#",
             "mustBeNonEmpty": false,
-            "documentation": "The epoch's own extent. One entry per (clock, extent) pair -- the real per-clock extents live in `daqreader_epochdata_ingested.epochtable`, one pair per entry, which is what makes this family well defined under the #52 uniqueness rule.",
+            "documentation": "The epoch's own extent. One entry per (clock, extent) pair -- the real per-clock extents live in `daqreader_epochdata_ingested.epochtable`, one pair per entry, which is what makes this family well defined under the #52 uniqueness rule. #52 (V_eta_time_reference_model_plan.md CHANGE 5): within this family every member describes THE SAME instant or extent, and `value.clock` on the REFERENCED document must be unique across the family -- that clock is what makes two members different, and the `_1`/`_2` index means nothing on its own. Split-anchored intervals are NOT what a second member is for: they have no instance (every markvalidinterval call site passes one reference for both ends), so there are no `start_anchor`/`end_anchor` edges. Measured report-only, in batch, by did2.validate.silentLoss (`family_uniqueness_violation`); a per-document validator cannot see the referenced document and must not pretend to check it.",
             "must_refer_to_document_class": "relative_reference",
             "multiple": true,
-            "min_count": 0
+            "min_count": 0,
+            "referent_unique_by": "value.clock"
         },
         {
             "name": "instrument_id",

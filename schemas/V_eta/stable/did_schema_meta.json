@@ -139,6 +139,10 @@
                     "type": "integer",
                     "minimum": 1,
                     "description": "For a numbered family (`name_#`): the maximum number of instances a valid document may carry. Omit for unbounded."
+                },
+                "referent_unique_by": {
+                    "type": "string",
+                    "description": "For a numbered family (`name_#`): a dotted field path evaluated ON THE REFERENCED DOCUMENT. No two members of the family may refer to documents that agree on that path -- the path is what distinguishes one member from another, and without it a bare `_1`/`_2` index carries no meaning. Resolving it requires the referenced documents, so this is a BATCH property: it is measured report-only by did2.validate.silentLoss and cannot be checked by a per-document validator. Omit on a non-numbered dependency, and on a family whose members are deliberately indistinguishable (`derived_from_#`: N inputs, no ordering and no uniqueness rule has been decided)."
                 }
             }
         },

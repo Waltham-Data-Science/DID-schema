@@ -4747,6 +4747,42 @@ _dep_props["max_count"] = {
     "description": "For a numbered family (`name_#`): the maximum number of "
                    "instances a valid document may carry. Omit for unbounded.",
 }
+# ---- #52: what makes two members of one family DIFFERENT -------------------
+# #63 said HOW MANY members a family may carry. It could not say what makes two
+# of them distinct, so `time_reference_1` and `time_reference_2` on one document
+# were UNDEFINED IN MEANING -- a bare index cannot tell a start-anchor from a
+# same-instant-other-clock from a recurrence.
+#
+# `V_eta_time_reference_model_plan.md` CHANGE 5 (signed section, :642) closed
+# that by ELIMINATION rather than by naming the edges: split-anchored intervals
+# have NO INSTANCE (every markvalidinterval call site passes the same reference
+# for both ends), recurrence dissolves into N statements (T4), and epoch extent
+# vs statement time are never on the same document. The ONE case that is live is
+# SAME EXTENT, N CLOCKS -- and its discriminator already exists inside the
+# REFERENCED document, as `value.clock`. So the rule is a uniqueness constraint,
+# not a set of role names, and #52's title ("role-name the edges") is stale.
+#
+# THE PATH IS RESOLVED ON THE REFERENCED DOCUMENT, NOT ON THE REFERRING ONE.
+# That is the whole difficulty and the reason this key is named `referent_`:
+# nothing on the document carrying `time_reference_2` says what makes it
+# different from `time_reference_1`. A per-document validator therefore CANNOT
+# check this; it is a batch property, measured by did2.validate.silentLoss where
+# the other documents are in hand.
+_dep_props["referent_unique_by"] = {
+    "type": "string",
+    "description": "For a numbered family (`name_#`): a dotted field path "
+                   "evaluated ON THE REFERENCED DOCUMENT. No two members of "
+                   "the family may refer to documents that agree on that path "
+                   "-- the path is what distinguishes one member from another, "
+                   "and without it a bare `_1`/`_2` index carries no meaning. "
+                   "Resolving it requires the referenced documents, so this is "
+                   "a BATCH property: it is measured report-only by "
+                   "did2.validate.silentLoss and cannot be checked by a "
+                   "per-document validator. Omit on a non-numbered dependency, "
+                   "and on a family whose members are deliberately "
+                   "indistinguishable (`derived_from_#`: N inputs, no ordering "
+                   "and no uniqueness rule has been decided).",
+}
 
 with open(os.path.join(VETA, "stable", "did_schema_meta.json"), "w") as f:
     json.dump(meta, f, indent=4)
@@ -4809,6 +4845,60 @@ for (_cls, _edge), (_lo, _hi) in _EDGE_COUNTS.items():
         _changed = True
     if _changed:
         write(_t, _cls, _d)
+
+# ---- #52: the uniqueness rule, declared on every time_reference family ------
+# ONE rule, from the signed CHANGE 5:
+#
+#     Within a `time_reference_#` family, every member describes the same
+#     instant or extent, and `value.clock` must be UNIQUE across the family.
+#
+# THE THREE FAMILIES ARE NAMED, NOT DERIVED. Deriving them from "every family
+# whose target is a time_reference" would make a family silently drop out of the
+# rule the day someone renames a target class -- the shape of every absence bug
+# in this repository. If a fourth one appears, it is added here deliberately.
+#
+# DELIBERATELY NOT DECLARED on `derived_from_#`, `interaction_id_#`,
+# `syncrule_id_#`, `acquisition_channels_#`, `daqmetadatareader_id_#`,
+# `acquisition_metadata_reader_#` or `clock_alignment_configuration_#`: for each
+# of those the members are genuinely several DIFFERENT things, and no uniqueness
+# rule has been decided. Scope is #52's row and nothing wider.
+_EDGE_REFERENT_UNIQUE = {
+    ("subject_interaction", "time_reference_#"): "value.clock",
+    ("directed_relation",   "time_reference_#"): "value.clock",
+    ("epoch",               "time_reference_#"): "value.clock",
+}
+_UNIQ_DOC = (
+    " #52 (V_eta_time_reference_model_plan.md CHANGE 5): within this family "
+    "every member describes THE SAME instant or extent, and `value.clock` on "
+    "the REFERENCED document must be unique across the family -- that clock is "
+    "what makes two members different, and the `_1`/`_2` index means nothing on "
+    "its own. Split-anchored intervals are NOT what a second member is for: "
+    "they have no instance (every markvalidinterval call site passes one "
+    "reference for both ends), so there are no `start_anchor`/`end_anchor` "
+    "edges. Measured report-only, in batch, by did2.validate.silentLoss "
+    "(`family_uniqueness_violation`); a per-document validator cannot see the "
+    "referenced document and must not pretend to check it."
+)
+for (_cls, _edge), _path in _EDGE_REFERENT_UNIQUE.items():
+    _t, _p = path_of(_cls)
+    if not _p:
+        raise SystemExit(
+            "#52: class %s has no built schema -- the uniqueness rule would be "
+            "declared on nothing." % _cls)
+    _d = load(_p)
+    _changed = False
+    for _x in _d.get("depends_on", []):
+        if _x["name"] != _edge:
+            continue
+        _x["referent_unique_by"] = _path
+        if _UNIQ_DOC.strip() not in _x.get("documentation", ""):
+            _x["documentation"] = _x.get("documentation", "").rstrip() + _UNIQ_DOC
+        _changed = True
+    if not _changed:
+        raise SystemExit(
+            "#52: %s declares no `%s` family -- the uniqueness rule has no "
+            "home. Fix the map, do not drop the rule." % (_cls, _edge))
+    write(_t, _cls, _d)
 
 
 # ---------- 13. binding-registry meta-file + kind-variable set (D9) ----------

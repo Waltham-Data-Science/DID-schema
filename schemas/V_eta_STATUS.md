@@ -45,8 +45,8 @@ decides a disposition -- it DERIVES, per class, how far the work has got.
 | evidence source | reach |
 |---|---|
 | build: V_eta migrator packages read | `migrators_j`, `ndi_second_pass` |
-| build: migrator files inspected | 135 |
-| build: migrator lines inspected | 17872 |
+| build: migrator files inspected | 136 |
+| build: migrator lines inspected | 18320 |
 | build: classes queried | 31 |
 | build: open classes MINTED as a document class | 5 |
 | build: of those, discounted (decision retires the class) | 3 |
