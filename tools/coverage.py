@@ -532,7 +532,11 @@ def write_ledger(veta, v1, rows):
         if r.get("target_source") == "decided":
             dt = r.get("decided_targets") or []
             tgt = ("· **will become** " + " + ".join("`" + t + "`" for t in dt)
-                   if dt else "· **dissolves / deleted** (no target by design)")
+                   # Present tense here read as ALREADY DONE while the sibling
+                   # branch above says "will become" -- and `ngrid` is signed to
+                   # dissolve but CANNOT be (two consumers remain). The status
+                   # column carries completion; the tense must not contradict it.
+                   if dt else "· **will dissolve / be deleted** (no target by design)")
         elif not chips:
             tgt = "⚠ **unmapped**" if r["gap"] else "—"
         elif r.get("target_source") == "uncurated":

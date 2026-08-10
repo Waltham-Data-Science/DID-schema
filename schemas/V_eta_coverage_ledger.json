@@ -936,8 +936,8 @@
       "target_source": "decided",
       "carried": [],
       "second_pass": [],
-      "how": "superclass block migrator: rewrites ngrid block (data_dim->dim_sizes, adds ndims) in place; no class change",
-      "target_flags": "in-place block rewrite, emits no new document"
+      "how": "superclass block migrator: carries the did_v1 ngrid block VERBATIM (data_size, data_type, data_dim, coordinates); no class change, emits no new document",
+      "target_flags": "verbatim block carry, emits no new document; NOT retired -- two consumers remain (ontology_image, reverse_correlation -> hartley_calc); coordinates ride through pending the axis entry"
     },
     {
       "v1_class": "oneepoch",
