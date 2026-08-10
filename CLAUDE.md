@@ -171,9 +171,20 @@ lives in these files — read them instead of re-deriving from memory:
   `variable` is the key the whole system pivots on (`term.value` is `keyed_by: variable`)
   yet nothing requires `variable` itself to resolve. (2) Strength lives on the FIELD, not
   the registry: all 5 registry entries have `strength: null` while the field constraint does
-  the work — decide which is authoritative before adding entries. Only SIX fields carry a
-  binding at all (term.value, dataset.accessibility/ethics_assessment/experimental_approach,
-  the two epoch_clock fields). `binding` is NOT enforced by the validator yet
+  the work — decide which is authoritative before adding entries. **RE-MEASURED 2026-08-09,
+  and this line is CORRECT — the count that was stale is the FIELD one.** The registry is
+  populated, not empty: `binding_registry_meta.json` carries **34 rows** — 5
+  `subject_statement_bindings`, 26 `relation_bindings`, 3 `entity_field_bindings` — and the
+  "5 entries with no strength" are the `subject_statement_bindings` (0 of 5 carry the key;
+  0 of the 26 relation rows do either). Only the 3 `entity_field_bindings` carry a strength.
+  **EIGHT fields now carry a binding, not six** — `frequency_filter.algorithm` and `.band`
+  were added since — and the overlap is exact and currently CONSISTENT: the 3 `dataset`
+  fields state their strength BOTH on the field and in `entity_field_bindings`, and all
+  three AGREE (required / required / preferred). The other five (`term.value`, the two
+  `epoch_clock` fields, the two `frequency_filter` fields) exist ONLY on the field. So the
+  question is live and it is not hypothetical: three facts are already stored twice, and
+  they agree today by coincidence rather than by construction — nothing checks them against
+  each other. `binding` is NOT enforced by the validator yet
   (validateConstraints handles only maxLength/minLength/minimum/maximum/enum), so these are
   declarative — cheap to fix now, expensive once a validator reads them.
 - **`schemas/V_eta_ngrid_family_findings.md`** — FACTS (not decisions) for group F, read from
