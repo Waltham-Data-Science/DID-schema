@@ -1,0 +1,1426 @@
+<title>What happens to every v1 class</title>
+<style>
+:root {
+  --ground:      #FAF9F6;
+  --panel:       #FFFFFF;
+  --panel-edge:  #E2E0D8;
+  --ink:         #1B1F24;
+  --ink-soft:    #4E5964;
+  --ink-faint:   #808B96;
+  --accent:      #1F6F6A;
+  --accent-soft: #E4EFED;
+  --ok:          #2F6B4F;
+  --ok-soft:     #E5F0E8;
+  --warn:        #8A6414;
+  --warn-soft:   #F6EEDB;
+  --open:        #9B3F32;
+  --open-soft:   #F7E7E3;
+  --rule:        #E8E6DE;
+  --code-bg:     #F1EFE8;
+  --mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+  --sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --ground:#12151A; --panel:#171B21; --panel-edge:#252B33;
+    --ink:#E8E9EA; --ink-soft:#A6B0BB; --ink-faint:#75808C;
+    --accent:#5FBDB2; --accent-soft:#17302F;
+    --ok:#7FC79C; --ok-soft:#152A20;
+    --warn:#DCB25E; --warn-soft:#2C2415;
+    --open:#E08877; --open-soft:#31201C;
+    --rule:#242A31; --code-bg:#1D222A;
+  }
+}
+:root[data-theme="dark"] {
+  --ground:#12151A; --panel:#171B21; --panel-edge:#252B33;
+  --ink:#E8E9EA; --ink-soft:#A6B0BB; --ink-faint:#75808C;
+  --accent:#5FBDB2; --accent-soft:#17302F;
+  --ok:#7FC79C; --ok-soft:#152A20;
+  --warn:#DCB25E; --warn-soft:#2C2415;
+  --open:#E08877; --open-soft:#31201C;
+  --rule:#242A31; --code-bg:#1D222A;
+}
+* { box-sizing: border-box; }
+body {
+  margin:0; background: var(--ground); color: var(--ink);
+  font-family: var(--sans); line-height:1.55;
+  -webkit-font-smoothing: antialiased;
+}
+.wrap { max-width: 62rem; margin:0 auto; padding: 3rem 1.5rem 6rem; }
+header.masthead { border-bottom: 2px solid var(--ink); padding-bottom:1.5rem; margin-bottom:2rem; }
+.eyebrow {
+  font-family: var(--mono); font-size:.72rem; letter-spacing:.14em;
+  text-transform: uppercase; color: var(--accent); margin:0 0 .6rem;
+}
+h1 { font-size: clamp(1.8rem, 4vw, 2.7rem); line-height:1.1; margin:0 0 .6rem;
+     letter-spacing:-.02em; text-wrap: balance; }
+.standfirst { font-size:1.05rem; color: var(--ink-soft); max-width:44rem; margin:0; }
+
+.summary { display:grid; grid-template-columns: repeat(auto-fit, minmax(11rem,1fr));
+           gap:1px; background: var(--rule); border:1px solid var(--rule);
+           margin: 2rem 0; }
+.stat { background: var(--panel); padding:1rem 1.1rem; }
+.stat__n { font-family: var(--mono); font-size:1.9rem; font-weight:600;
+           font-variant-numeric: tabular-nums; letter-spacing:-.03em; display:block; }
+.stat__l { font-size:.78rem; color: var(--ink-soft); display:block; margin-top:.15rem; }
+.stat--ok  .stat__n { color: var(--ok); }
+.stat--warn .stat__n { color: var(--warn); }
+.stat--open .stat__n { color: var(--open); }
+
+.denominator { font-family: var(--mono); font-size:.78rem; color: var(--ink-faint);
+               border-left:3px solid var(--accent); padding:.5rem 0 .5rem .8rem;
+               margin: 0 0 2.5rem; }
+
+.filter { display:flex; gap:.6rem; align-items:center; flex-wrap:wrap;
+          position:sticky; top:0; background: var(--ground); padding:.9rem 0;
+          border-bottom:1px solid var(--rule); z-index:5; margin-bottom:1.5rem; }
+.filter input {
+  flex:1 1 16rem; font-family: var(--mono); font-size:.9rem; padding:.55rem .7rem;
+  border:1px solid var(--panel-edge); background: var(--panel); color: var(--ink);
+  border-radius:2px;
+}
+.filter input:focus-visible { outline:2px solid var(--accent); outline-offset:1px; }
+.filter__n { font-family: var(--mono); font-size:.8rem; color: var(--ink-faint);
+             font-variant-numeric: tabular-nums; }
+
+.bucket { margin: 3rem 0; }
+.bucket__head { border-top:2px solid var(--ink); padding-top:1rem; margin-bottom:1.5rem; }
+.bucket__head h2 { font-size:1.35rem; margin:0; letter-spacing:-.01em; }
+.bucket__count { font-family: var(--mono); font-size:.85rem; color: var(--ink-soft);
+                 margin:.3rem 0 .5rem; font-variant-numeric: tabular-nums; }
+.bucket__blurb { font-size:.92rem; color: var(--ink-soft); max-width:44rem; margin:0; }
+
+.row { display:grid; grid-template-columns: minmax(0,15rem) minmax(0,1fr); gap:1.2rem;
+       padding:1.1rem 0; border-bottom:1px solid var(--rule); }
+@media (max-width: 46rem) { .row { grid-template-columns: 1fr; gap:.5rem; } }
+.row__id h3 { margin:0 0 .45rem; font-size:1rem; }
+.row__meta { display:flex; flex-direction:column; gap:.3rem; align-items:flex-start; }
+.row__body { min-width:0; }
+code { font-family: var(--mono); font-size:.85em; background: var(--code-bg);
+       padding:.1em .35em; border-radius:2px; word-break: break-word; }
+.row__id code { background:none; padding:0; font-size:1rem; font-weight:600; color: var(--ink); }
+.becomes { margin-bottom:.5rem; }
+.k { font-family: var(--mono); font-size:.7rem; letter-spacing:.1em;
+     text-transform:uppercase; color: var(--ink-faint); margin-right:.5rem; }
+.account { font-size:.94rem; color: var(--ink); }
+.muted { color: var(--ink-soft); }
+blockquote { margin:.5rem 0 0; padding:.6rem .9rem; background: var(--panel);
+             border-left:3px solid var(--warn); font-size:.88rem; color: var(--ink-soft); }
+.sub { margin-top:.4rem; font-size:.86rem; color: var(--ink-soft); }
+.sub--flag { color: var(--open); }
+.chip { display:inline-block; font-family: var(--mono); font-size:.68rem;
+        letter-spacing:.05em; padding:.18em .55em; border-radius:2px; white-space:nowrap;
+        max-width:100%; overflow:hidden; text-overflow:ellipsis; }
+.chip--plain { background: var(--code-bg); color: var(--ink-soft); }
+.chip--ok    { background: var(--ok-soft);   color: var(--ok); }
+.chip--warn  { background: var(--warn-soft); color: var(--warn); }
+.chip--open  { background: var(--open-soft); color: var(--open); }
+footer { margin-top:4rem; border-top:1px solid var(--rule); padding-top:1.2rem;
+         font-size:.83rem; color: var(--ink-faint); }
+.row[hidden] { display:none; }
+</style>
+
+<div class="wrap">
+<header class="masthead">
+  <p class="eyebrow">did_v1 &rarr; V_eta &middot; migration coverage</p>
+  <h1>What happens to every v1 class</h1>
+  <p class="standfirst">One row for each of the 102 did_v1 source classes, and for each
+  one: what it becomes, and <em>where that answer comes from</em>. Generated from the
+  checked-in artifacts &mdash; nothing here is written by hand.</p>
+</header>
+
+<div class="summary">
+  <div class="stat"><span class="stat__n">102</span><span class="stat__l">did_v1 source classes</span></div>
+  <div class="stat stat--ok"><span class="stat__n">65</span><span class="stat__l">answered class by class</span></div>
+  <div class="stat stat--warn"><span class="stat__n">28</span><span class="stat__l">decided, family-level only</span></div>
+  <div class="stat stat--open"><span class="stat__n">9</span><span class="stat__l">no decision on record</span></div>
+  <div class="stat"><span class="stat__n">18/18</span><span class="stat__l">decision families signed</span></div>
+</div>
+
+<p class="denominator">DENOMINATOR: 102 source classes read from V_eta_coverage_ledger.json
+(91 NDI production templates on origin/main + 11 vhlab app classes with no template).
+63 have a bespoke migrator. Family state read from V_eta_decisions.json:
+18 of 18 families carry a TEAM-SIGN-OFF line.</p>
+
+<div class="filter">
+  <input id="q" type="search" placeholder="Filter by class or target name&hellip;"
+         aria-label="Filter classes" autocomplete="off">
+  <span class="filter__n" id="count"></span>
+</div>
+
+
+    <section class="bucket" id="bucket-per-class">
+      <header class="bucket__head">
+        <h2>Answered class by class</h2>
+        <p class="bucket__count"><strong>65</strong> of 102 classes</p>
+        <p class="bucket__blurb">A one-line account written for this class specifically, cross-checked against the migrator that produces it. This is the standard the other two groups are measured against.</p>
+      </header>
+      
+    <article class="row" data-prov="per-class" data-name="binnedspikeratevm binnedspikeratevm frequency_observation sampled_body session_relative_reference">
+      <div class="row__id">
+        <h3><code>binnedspikeratevm</code></h3>
+        <div class="row__meta"><span class="chip chip--plain">retire</span><span class="chip chip--ok">per-class account</span></div>
+      </div>
+      <div class="row__body">
+        <div class="becomes"><span class="k">becomes</span> <code>frequency_observation</code> + <code>sampled_body</code> + <code>session_relative_reference</code></div>
+        <div class="account">binned spike-rate series -&gt; a body-backed frequency_observation (a rate is a frequency) + sampled_body + anchor</div>
+        <div class="sub"><span class="k">attaches to</span> <code>subject</code></div><div class="sub sub--flag"><span class="k">caveat</span> header title says dataseries_observation but code emits frequency_observation (explicit inline override)</div>
+      </div>
+    </article>
+
+    <article class="row" data-prov="per-class" data-name="contrast_sensitivity_calc  contrast_sensitivity_calculation session_relative_reference">
+      <div class="row__id">
+        <h3><code>contrast_sensitivity_calc</code></h3>
+        <div class="row__meta"><span class="chip chip--plain">consumed by migrator (no tombstone)</span><span class="chip chip--ok">per-class account</span></div>
+      </div>
+      <div class="row__body">
+        <div class="becomes"><span class="k">becomes</span> <code>contrast_sensitivity_calculation</code> + <code>session_relative_reference</code></div>
+        <div class="account">aggregate calculator OUTPUT (flat matrices on its own block) -&gt; contrast_sensitivity_calculation (HAS element_id -&gt; single-doc; sourceBlock is the concrete *_calc block; input_parameters -&gt; method_parameters) + session anchor</div>
+        <div class="sub"><span class="k">attaches to</span> <code>subject</code></div><div class="sub sub--flag"><span class="k">caveat</span> calculator composite-leaf fold (Lepsky et al.); un-defers with 0 orphans (id-preserved)</div>
+      </div>
+    </article>
+
+    <article class="row" data-prov="per-class" data-name="contrast_tuning  tuning_curve_calculation session_relative_reference">
+      <div class="row__id">
+        <h3><code>contrast_tuning</code></h3>
+        <div class="row__meta"><span class="chip chip--plain">consumed by migrator (no tombstone)</span><span class="chip chip--ok">per-class account</span></div>
+      </div>
+      <div class="row__body">
+        <div class="becomes"><span class="k">becomes</span> <code>tuning_curve_calculation</code> + <code>session_relative_reference</code></div>
+        <div class="account">result class -&gt; the tuning_curve_calculation subject_calculation LEAF (id-preserved 1-&gt;1; element_id -&gt; subject_id; result composite kept verbatim) + session anchor</div>
+        <div class="sub"><span class="k">attaches to</span> <code>subject</code></div><div class="sub sub--flag"><span class="k">caveat</span> calculator composite-leaf fold (Lepsky et al.); un-defers with 0 orphans (id-preserved)</div>
+      </div>
+    </article>
+
+    <article class="row" data-prov="per-class" data-name="contrast_tuning_calc  tuning_curve_calculation session_relative_reference">
+      <div class="row__id">
+        <h3><code>contrast_tuning_calc</code></h3>
+        <div class="row__meta"><span class="chip chip--plain">consumed by migrator (no tombstone)</span><span class="chip chip--ok">per-class account</span></div>
+      </div>
+      <div class="row__body">
+        <div class="becomes"><span class="k">becomes</span> <code>tuning_curve_calculation</code> + <code>session_relative_reference</code></div>
+        <div class="account">calculator OUTPUT -&gt; the tuning_curve_calculation subject_calculation LEAF (id-preserved; input_parameters -&gt; method_parameters; app kept; raw input -&gt; derived_from_1) + session anchor</div>
+        <div class="sub"><span class="k">attaches to</span> <code>subject</code></div><div class="sub sub--flag"><span class="k">caveat</span> calculator composite-leaf fold (Lepsky et al.); un-defers with 0 orphans (id-preserved)</div>
+      </div>
+    </article>
+
+    <article class="row" data-prov="per-class" data-name="control_stimulus_ids control_stimulus_ids control_designation">
+      <div class="row__id">
+        <h3><code>control_stimulus_ids</code></h3>
+        <div class="row__meta"><span class="chip chip--plain">retire</span><span class="chip chip--ok">per-class account</span></div>
+      </div>
+      <div class="row__body">
+        <div class="becomes"><span class="k">becomes</span> <code>control_designation</code></div>
+        <div class="account">1 -&gt; 1, base.id PRESERVED: the derived &#x27;which presented stimuli are the control&#x27; annotation becomes a `control_designation` carrying the derivation method, pointing at the presentation via timed_sequence_id + derived_from_1 (T10)</div>
+        <div class="sub"><span class="k">attaches to</span> <code>timed_sequence</code></div><div class="sub sub--flag"><span class="k">caveat</span> the referent is the SECOND-PASS timed_sequence, reached by the id-preserved stimulus_presentation id; drops the v1 `app` mixin (R1) and the `ids` container word (T13)</div>
+      </div>
+    </article>
+
+    <article class="row" data-prov="per-class" data-name="daqreader_mfdaq_epochdata_ingested  daqreader_epochdata_ingested">
+      <div class="row__id">
+        <h3><code>daqreader_mfdaq_epochdata_ingested</code></h3>
+        <div class="row__meta"><span class="chip chip--plain">consumed by migrator (no tombstone)</span><span class="chip chip--ok">per-class account</span></div>
+      </div>
+      <div class="row__body">
+        <div class="becomes"><span class="k">becomes</span> <code>daqreader_epochdata_ingested</code></div>
+        <div class="account">mfdaq subtype de-encodes into the generic ingested cache; parameters moves onto the parent as optional field</div>
+        <div class="sub sub--flag"><span class="k">caveat</span> in-place class rename</div>
+      </div>
+    </article>
+
+    <article class="row" data-prov="per-class" data-name="daqreader_ndr  daqreader">
+      <div class="row__id">
+        <h3><code>daqreader_ndr</code></h3>
+        <div class="row__meta"><span class="chip chip--plain">consumed by migrator (no tombstone)</span><span class="chip chip--ok">per-class account</span></div>
+      </div>
+      <div class="row__body">
+        <div class="becomes"><span class="k">becomes</span> <code>daqreader</code></div>
+        <div class="account">ndr subtype dissolves into generic daqreader; ndr_reader_string -&gt; reader_string, ndi_daqreader_ndr_class dropped</div>
+        <div class="sub sub--flag"><span class="k">caveat</span> in-place class rename</div>
+      </div>
+    </article>
+
+    <article class="row" data-prov="per-class" data-name="dataset_remote  dataset web_resource directed_relation organization">
+      <div class="row__id">
+        <h3><code>dataset_remote</code></h3>
+        <div class="row__meta"><span class="chip chip--plain">consumed by migrator (no tombstone)</span><span class="chip chip--ok">per-class account</span></div>
+      </div>
+      <div class="row__body">
+        <div class="becomes"><span class="k">becomes</span> <code>dataset</code> + <code>web_resource</code> + <code>directed_relation</code> + <code>organization</code></div>
+        <div class="account">remote copy -&gt; a web_resource entity + a dataset -stored_at-&gt; web_resource relation (+ organization + hosted_by relation when a remote org namespace is given)</div>
+        <div class="sub sub--flag"><span class="k">caveat</span> web_resource/organization conditional on cloudId/orgName</div>
+      </div>
+    </article>
+
+    <article class="row" data-prov="per-class" data-name="dataset_session_info  dataset directed_relation">
+      <div class="row__id">
+        <h3><code>dataset_session_info</code></h3>
+        <div class="row__meta"><span class="chip chip--plain">consumed by migrator (no tombstone)</span><span class="chip chip--ok">per-class account</span></div>
+      </div>
+      <div class="row__body">
+        <div class="becomes"><span class="k">becomes</span> <code>dataset</code> + <code>directed_relation</code></div>
+        <div class="account">legacy aggregate membership: a bare dataset + one session -part_of-&gt; dataset edge per member session</div>
+        <div class="sub sub--flag"><span class="k">caveat</span> directed_relation best-effort (dropped when a member session is not in-batch)</div>
+      </div>
+    </article>
+
+    <article class="row" data-prov="per-class" data-name="distance_metadata distance_metadata length_observation session_relative_reference">
+      <div class="row__id">
+        <h3><code>distance_metadata</code></h3>
+        <div class="row__meta"><span class="chip chip--plain">retire</span><span class="chip chip--ok">per-class account</span></div>
+      </div>
+      <div class="row__body">
+        <div class="becomes"><span class="k">becomes</span> <code>length_observation</code> + <code>session_relative_reference</code></div>
+        <div class="account">measured distance -&gt; a length_observation of the element-subject + a &#x27;during&#x27; session anchor</div>
+        <div class="sub"><span class="k">attaches to</span> <code>subject</code></div><div class="sub sub--flag"><span class="k">caveat</span> real v1 docs are flat with empty numeric_values -&gt; carry-unchanged path (quarantine); length_observation fires only on the assumed-shape fixture; endpoint identities need a Path-S NDI second pass (NOT implemented)</div>
+      </div>
+    </article>
+
+    <article class="row" data-prov="per-class" data-name="electrode_offset_voltage electrode_offset_voltage voltage_observation session_relative_reference">
+      <div class="row__id">
+        <h3><code>electrode_offset_voltage</code></h3>
+        <div class="row__meta"><span class="chip chip--plain">retire</span><span class="chip chip--ok">per-class account</span></div>
+      </div>
+      <div class="row__body">
+        <div class="becomes"><span class="k">becomes</span> <code>voltage_observation</code> + <code>session_relative_reference</code></div>
+        <div class="account">ONE voltage_observation of the probe-subject (probe_id), value = the SCALAR `offset` (source unit V, inferred from the writer CSV column `offsetV`), qualified by `temperature` on subject_statement.conditions -- the offset was measured AT that temperature, so it is one statement not two. Temperature unit is left unstated: the source declares no scale. NaN temperature means &quot;not measured&quot; and mints no condition</div>
+        <div class="sub"><span class="k">attaches to</span> <code>subject</code></div><div class="sub sub--flag"><span class="k">caveat</span> guarded: errors on the invented offset_voltages/voltage_units shape. Those names never existed, so the isempty guard always fired and EVERY document was carried through unconverted. The old per-channel-array model was also wrong: the writer makes one document per CSV row with a scalar offset</div>
+      </div>
+    </article>
+
+    <article class="row" data-prov="per-class" data-name="element element subject term_assertion directed_relation">
+      <div class="row__id">
+        <h3><code>element</code></h3>
+        <div class="row__meta"><span class="chip chip--plain">retire</span><span class="chip chip--ok">per-class account</span></div>
+      </div>
+      <div class="row__body">
+        <div class="becomes"><span class="k">becomes</span> <code>subject</code> + <code>term_assertion</code> + <code>directed_relation</code></div>
+        <div class="account">element becomes a subject (id PRESERVED) + kind term_assertion(s) (type, ndi_element_class) + a lineage directed_relation (derived_from underlying element, or observes the specimen)</div>
+        <div class="sub sub--flag"><span class="k">caveat</span> mints subject (id preserved); relation type dynamic (derived_from vs observes); part_of deliberately not emitted</div>
+      </div>
+    </article>
+
+    <article class="row" data-prov="per-class" data-name="element_epoch  acquisition_epoch">
+      <div class="row__id">
+        <h3><code>element_epoch</code></h3>
+        <div class="row__meta"><span class="chip chip--plain">consumed by migrator (no tombstone)</span><span class="chip chip--ok">per-class account</span></div>
+      </div>
+      <div class="row__body">
+        <div class="becomes"><span class="k">becomes</span> <code>acquisition_epoch</code></div>
+        <div class="account">element retired, so the epoch doc is renamed element_epoch -&gt; acquisition_epoch</div>
+        <div class="sub sub--flag"><span class="k">caveat</span> in-place class rename</div>
+      </div>
+    </article>
+
+    <article class="row" data-prov="per-class" data-name="epochclocktimes  ">
+      <div class="row__id">
+        <h3><code>epochclocktimes</code></h3>
+        <div class="row__meta"><span class="chip chip--plain">consumed by migrator (no tombstone)</span><span class="chip chip--ok">per-class account</span></div>
+      </div>
+      <div class="row__body">
+        <div class="becomes"><span class="k">becomes</span> <em class="muted">no target recorded</em></div>
+        <div class="account">superclass block migrator: rewrites the epochclocktimes block in place (clocktype-&gt;epoch_clock, t0_t1-&gt;t0/t1); no class change</div>
+        <div class="sub sub--flag"><span class="k">caveat</span> in-place block rewrite, emits no new document</div>
+      </div>
+    </article>
+
+    <article class="row" data-prov="per-class" data-name="epochfiles_ingested epochfiles_ingested ingestion_manifest">
+      <div class="row__id">
+        <h3><code>epochfiles_ingested</code></h3>
+        <div class="row__meta"><span class="chip chip--plain">in_progress</span><span class="chip chip--ok">per-class account</span></div>
+      </div>
+      <div class="row__body">
+        <div class="becomes"><span class="k">becomes</span> <code>ingestion_manifest</code></div>
+        <div class="account">RENAMED to `ingestion_manifest` (#60): the old name encoded a MODE, the same T13 error `_ndr` and `_mfdaq` were de-encoded for, and the document is a manifest of what was ingested for one epoch. TWO edges change with it -- `filenavigator_id` is RESTORED (NDI writes it; V_eta had dropped it) and the invented `epochid`, empty on all 6,921 corpus documents, becomes a real `epoch_id -&gt; epoch`. `epochprobemap` and the v1 `epoch_id` CHAR field are removed: the probemap decomposes into edges, and the edge replaces the string. The `epoch` documents themselves are minted by a SECOND PASS that groups on `epochid.epochid`.</div>
+        <div class="sub"><span class="k">second pass adds</span> <code>epoch</code></div><div class="sub sub--flag"><span class="k">caveat</span> no migrator yet -- the schema half of #60 only</div>
+      </div>
+    </article>
+
+    <article class="row" data-prov="per-class" data-name="filter filter ">
+      <div class="row__id">
+        <h3><code>filter</code></h3>
+        <div class="row__meta"><span class="chip chip--plain">in_progress</span><span class="chip chip--ok">per-class account</span></div>
+      </div>
+      <div class="row__body">
+        <div class="becomes"><span class="k">becomes</span> <em class="muted">no target recorded</em></div>
+        <div class="account">superclass block migrator: renames filter.type-&gt;filter_type in place; no class change</div>
+        <div class="sub sub--flag"><span class="k">caveat</span> in-place block rewrite, emits no new document</div>
+      </div>
+    </article>
+
+    <article class="row" data-prov="per-class" data-name="fitcurve fitcurve score_observation session_relative_reference">
+      <div class="row__id">
+        <h3><code>fitcurve</code></h3>
+        <div class="row__meta"><span class="chip chip--plain">retire</span><span class="chip chip--ok">per-class account</span></div>
+      </div>
+      <div class="row__body">
+        <div class="becomes"><span class="k">becomes</span> <code>score_observation</code> + <code>session_relative_reference</code></div>
+        <div class="account">generic curve fit -&gt; a goodness-of-fit score_observation (fit_function carried as method) + anchor</div>
+        <div class="sub"><span class="k">attaches to</span> <code>subject</code></div><div class="sub sub--flag"><span class="k">caveat</span> fit_parameters vector deferred</div>
+      </div>
+    </article>
+
+    <article class="row" data-prov="per-class" data-name="hartley_calc hartley_calc hartley_calc">
+      <div class="row__id">
+        <h3><code>hartley_calc</code></h3>
+        <div class="row__meta"><span class="chip chip--plain">retire</span><span class="chip chip--ok">per-class account</span></div>
+      </div>
+      <div class="row__body">
+        <div class="becomes"><span class="k">becomes</span> <code>hartley_calc</code></div>
+        <div class="account">DEFERRED calculator: calcCommon passthrough, class retained</div>
+        <div class="sub sub--flag"><span class="k">caveat</span> calculators deferred (conversion doc exists but no decomposition migrator)</div>
+      </div>
+    </article>
+
+    <article class="row" data-prov="per-class" data-name="image image image_observation sampled_body session_relative_reference">
+      <div class="row__id">
+        <h3><code>image</code></h3>
+        <div class="row__meta"><span class="chip chip--plain">persist</span><span class="chip chip--ok">per-class account</span></div>
+      </div>
+      <div class="row__body">
+        <div class="becomes"><span class="k">becomes</span> <code>image_observation</code> + <code>sampled_body</code> + <code>session_relative_reference</code></div>
+        <div class="account">delegates ENTIRELY to migrators_j.image_stack(preBody) -- same emitted set: a body-backed image_observation + sampled_body + anchor</div>
+        <div class="sub"><span class="k">attaches to</span> <code>subject</code></div><div class="sub sub--flag"><span class="k">caveat</span> exists to resolve a NAME COLLISION: did_v1 `image` (a stored file) and the V_eta R6 `image` data_type (a raster value) share not one field, so an unmigrated v1 doc met the data_type&#x27;s required `value` and quarantined. Consuming the v1 class removes the collision by construction</div>
+      </div>
+    </article>
+
+    <article class="row" data-prov="per-class" data-name="imagestack image_stack image_observation sampled_body session_relative_reference">
+      <div class="row__id">
+        <h3><code>imageStack</code></h3>
+        <div class="row__meta"><span class="chip chip--plain">retire</span><span class="chip chip--ok">per-class account</span></div>
+      </div>
+      <div class="row__body">
+        <div class="becomes"><span class="k">becomes</span> <code>image_observation</code> + <code>sampled_body</code> + <code>session_relative_reference</code></div>
+        <div class="account">file-backed pixel blob -&gt; a body-backed image_observation (geometry inline, storage_mode body) + sampled_body (frames) + anchor</div>
+        <div class="sub"><span class="k">attaches to</span> <code>subject</code></div><div class="sub sub--flag"><span class="k">caveat</span> image_observation and *_body are draft in V_eta; NDI imaging infra left to the NDI second pass</div>
+      </div>
+    </article>
+
+    <article class="row" data-prov="per-class" data-name="jrclust_clusters jrclust_clusters count_observation sampled_body session_relative_reference">
+      <div class="row__id">
+        <h3><code>jrclust_clusters</code></h3>
+        <div class="row__meta"><span class="chip chip--plain">retire</span><span class="chip chip--ok">per-class account</span></div>
+      </div>
+      <div class="row__body">
+        <div class="becomes"><span class="k">becomes</span> <code>count_observation</code> + <code>sampled_body</code> + <code>session_relative_reference</code></div>
+        <div class="account">per-spike cluster assignments -&gt; a body-backed count_observation (integer label series) + sampled_body + anchor</div>
+        <div class="sub"><span class="k">attaches to</span> <code>subject</code></div>
+      </div>
+    </article>
+
+    <article class="row" data-prov="per-class" data-name="kiasort_clusters kiasort_clusters count_observation opaque_body session_relative_reference">
+      <div class="row__id">
+        <h3><code>kiasort_clusters</code></h3>
+        <div class="row__meta"><span class="chip chip--plain">retire</span><span class="chip chip--ok">per-class account</span></div>
+      </div>
+      <div class="row__body">
+        <div class="becomes"><span class="k">becomes</span> <code>count_observation</code> + <code>opaque_body</code> + <code>session_relative_reference</code></div>
+        <div class="account">1 -&gt; 3 via migrators_j.private.jSorterOutput, identical to kilosort_clusters with sorterName &#x27;kiasort&#x27; and dirField &#x27;kiasort_directory&#x27;</div>
+        <div class="sub"><span class="k">attaches to</span> <code>subject</code></div><div class="sub sub--flag"><span class="k">caveat</span> see kilosort_clusters: external directory -&gt; opaque_body, MD5 kept as a body note rather than re-expressed as data</div>
+      </div>
+    </article>
+
+    <article class="row" data-prov="per-class" data-name="kilosort_clusters kilosort_clusters count_observation opaque_body session_relative_reference">
+      <div class="row__id">
+        <h3><code>kilosort_clusters</code></h3>
+        <div class="row__meta"><span class="chip chip--plain">retire</span><span class="chip chip--ok">per-class account</span></div>
+      </div>
+      <div class="row__body">
+        <div class="becomes"><span class="k">becomes</span> <code>count_observation</code> + <code>opaque_body</code> + <code>session_relative_reference</code></div>
+        <div class="account">1 -&gt; 3 via migrators_j.private.jSorterOutput: an id-preserved count_observation on the recording subject (variable &#x27;spike cluster assignment&#x27;, method = the sorter) + an opaque_body for the EXTERNAL output directory + anchor</div>
+        <div class="sub"><span class="k">attaches to</span> <code>subject</code></div><div class="sub sub--flag"><span class="k">caveat</span> opaque_body, not sampled_body: the doc holds a session-relative directory + a curated-output MD5, not attached bytes, and the sorter output is not read at migration time. Sibling jrclust_clusters DOES attach bytes and so emits a sampled_body</div>
+      </div>
+    </article>
+
+    <article class="row" data-prov="per-class" data-name="measurement measurement mass_observation temperature_observation length_observation duration_observation term_observation session_relative_reference">
+      <div class="row__id">
+        <h3><code>measurement</code></h3>
+        <div class="row__meta"><span class="chip chip--plain">retire</span><span class="chip chip--ok">per-class account</span></div>
+      </div>
+      <div class="row__body">
+        <div class="becomes"><span class="k">becomes</span> <code>mass_observation</code> + <code>temperature_observation</code> + <code>length_observation</code> + <code>duration_observation</code> + <code>term_observation</code> + <code>session_relative_reference</code></div>
+        <div class="account">quantity-typed fold (T3): a finite numeric value routes by term/label to the mass/temperature/length/duration leaf; a CURIE-valued measurement becomes a term_observation; each emits obs + anchor (1 -&gt; 2)</div>
+        <div class="sub"><span class="k">attaches to</span> <code>subject</code></div><div class="sub sub--flag"><span class="k">caveat</span> DYNAMIC EMIT -- exactly one observation leaf per document, chosen at runtime from the ontology node + label. GUARDED PASSTHROUGH: no honest leaf (date of birth, an untyped number, free prose) returns the document unchanged, which the unconverted counter makes visible rather than emitting a hollow observation</div>
+      </div>
+    </article>
+
+    <article class="row" data-prov="per-class" data-name="metadata_editor  dataset person organization funding publication web_resource directed_relation">
+      <div class="row__id">
+        <h3><code>metadata_editor</code></h3>
+        <div class="row__meta"><span class="chip chip--plain">consumed by migrator (no tombstone)</span><span class="chip chip--ok">per-class account</span></div>
+      </div>
+      <div class="row__body">
+        <div class="becomes"><span class="k">becomes</span> <code>dataset</code> + <code>person</code> + <code>organization</code> + <code>funding</code> + <code>publication</code> + <code>web_resource</code> + <code>directed_relation</code></div>
+        <div class="account">opaque metadata_structure blob decomposes into first-class entities connected by directed_relations (has_author, affiliated_with, funded_by, issued_by, cites, documented_by)</div>
+        <div class="sub sub--flag"><span class="k">caveat</span> per-subject projections (experimental_approach) not persisted; reads PascalCase fields by design</div>
+      </div>
+    </article>
+
+    <article class="row" data-prov="per-class" data-name="neuron_extracellular neuron_extracellular subject directed_relation score_observation session_relative_reference">
+      <div class="row__id">
+        <h3><code>neuron_extracellular</code></h3>
+        <div class="row__meta"><span class="chip chip--plain">retire</span><span class="chip chip--ok">per-class account</span></div>
+      </div>
+      <div class="row__body">
+        <div class="becomes"><span class="k">becomes</span> <code>subject</code> + <code>directed_relation</code> + <code>score_observation</code> + <code>session_relative_reference</code></div>
+        <div class="account">sorted unit -&gt; a DERIVED subject (grain B, fresh id) + a derived_from directed_relation (unit &lt;- recording subject) + a score_observation of sort quality + anchor</div>
+        <div class="sub"><span class="k">attaches to</span> <code>subject</code></div><div class="sub sub--flag"><span class="k">caveat</span> mints a NEW subject AND carries the recording subject; mean_waveform + cell-type term_assertion deferred</div>
+      </div>
+    </article>
+
+    <article class="row" data-prov="per-class" data-name="ngrid ngrid ">
+      <div class="row__id">
+        <h3><code>ngrid</code></h3>
+        <div class="row__meta"><span class="chip chip--plain">in_progress</span><span class="chip chip--ok">per-class account</span></div>
+      </div>
+      <div class="row__body">
+        <div class="becomes"><span class="k">becomes</span> <em class="muted">no target recorded</em></div>
+        <div class="account">superclass block migrator: rewrites ngrid block (data_dim-&gt;dim_sizes, adds ndims) in place; no class change</div>
+        <div class="sub sub--flag"><span class="k">caveat</span> in-place block rewrite, emits no new document</div>
+      </div>
+    </article>
+
+    <article class="row" data-prov="per-class" data-name="oneepoch oneepoch oneepoch">
+      <div class="row__id">
+        <h3><code>oneepoch</code></h3>
+        <div class="row__meta"><span class="chip chip--plain">retire</span><span class="chip chip--ok">per-class account</span></div>
+      </div>
+      <div class="row__body">
+        <div class="becomes"><span class="k">becomes</span> <code>oneepoch</code></div>
+        <div class="account">KEEPS ITS CLASS -- a block FOLD, not a dissolution. `oneepoch` is the record of a CONCATENATION (ndi.element.oneepoch glues an element&#x27;s N epochs into one); its only own field, `epoch_ids`, is the comma-joined list of the sources. Everything else arrives by inheritance from `element_epoch`, which V_eta renames to `acquisition_epoch` -- so no class of that name exists to inherit from and the inherited block would trip the strict top-level check (did2:validation:undeclaredBlock). The migrator moves that block&#x27;s contents onto the `oneepoch` block and drops the shell. Field-by-field, so an unrecognised v1 field surfaces as undeclaredField rather than riding along unvalidated.</div>
+        <div class="sub sub--flag"><span class="k">caveat</span> PASSTHROUGH REPAIR, NOT THE MODEL. Before this the class had NO V_eta schema at all -- coverage.py tagged it non-production, which suppressed the gap -- and a real document quarantined on `No schema file for class &quot;oneepoch&quot;` (measured: DID-matlab scratch probe 8, run 31423494433). The go-forward model is fork A1, chosen by the team 2026-08-10 and recorded in V_eta_epoch_plan.md: the concatenation becomes a typed observation whose `derived_from_#` edges point at the N per-epoch observations, and NO `epoch` entity is minted for the synthetic `whole_session_&lt;ref&gt;` id. That build is gated on the raw-recording plan being signed. NOTE the tombstone declares `clocks`, NOT the did_v1 `epoch_clock`/`t0_t1`: the base element_epoch superclass migrator collapses the pair before validation sees the document, so the did_v1 names never arrive.</div>
+      </div>
+    </article>
+
+    <article class="row" data-prov="per-class" data-name="ontologyimage ontology_image term_observation session_relative_reference">
+      <div class="row__id">
+        <h3><code>ontologyImage</code></h3>
+        <div class="row__meta"><span class="chip chip--plain">retire</span><span class="chip chip--ok">per-class account</span></div>
+      </div>
+      <div class="row__body">
+        <div class="becomes"><span class="k">becomes</span> <code>term_observation</code> + <code>session_relative_reference</code></div>
+        <div class="account">VINTAGE-AWARE. NDI redefined ontologyImage upstream, so two shapes are both did_v1. Vintage A (legacy: ontology_name + ontology_region, depends_on element_id) MIGRATES here -&gt; term_observation (&#x27;imaged region&#x27;) + anchor. Vintage B (current NDI production: ontology_nodes = a comma-joined CURIE list, depends_on ontologyTableRow_id, ngrid superclass) is DEFERRED to the NDI second pass and PASSES THROUGH UNCHANGED -- a table row is not a subject, so the subject is reachable only via the migrated-id graph</div>
+        <div class="sub"><span class="k">attaches to</span> <code>subject</code></div><div class="sub"><span class="k">second pass adds</span> <code>ontology_image</code></div><div class="sub sub--flag"><span class="k">caveat</span> guarded: errors (quarantines) on the V_delta `region` shape or any unknown shape rather than emitting a husk; the old `region` read matched NEITHER vintage (it is V_delta migrator output) and silently emitted an empty observation about nobody; vintage B passthrough requires the ontology_image tombstone to declare ngrid + ontology_nodes</div>
+      </div>
+    </article>
+
+    <article class="row" data-prov="per-class" data-name="ontologylabel ontology_label term_observation session_relative_reference">
+      <div class="row__id">
+        <h3><code>ontologyLabel</code></h3>
+        <div class="row__meta"><span class="chip chip--plain">retire</span><span class="chip chip--ok">per-class account</span></div>
+      </div>
+      <div class="row__body">
+        <div class="becomes"><span class="k">becomes</span> <code>term_observation</code> + <code>session_relative_reference</code></div>
+        <div class="account">ontology label about an element/subject -&gt; a term_observation (label term as value) + anchor; located-by-default</div>
+        <div class="sub"><span class="k">attaches to</span> <code>subject</code></div><div class="sub sub--flag"><span class="k">caveat</span> Path-S promotion NOT applied (no co-anchored manipulation)</div>
+      </div>
+    </article>
+
+    <article class="row" data-prov="per-class" data-name="ontologytablerow ontology_table_row term_assertion date_assertion term_observation mass_observation length_observation frequency_observation acceleration_observation velocity_observation duration_observation volume_observation temperature_observation pressure_observation voltage_observation current_observation concentration_observation count_observation score_observation intensity_observation subject session_bounded_reference directed_relation session_relative_reference">
+      <div class="row__id">
+        <h3><code>ontologyTableRow</code></h3>
+        <div class="row__meta"><span class="chip chip--plain">retire</span><span class="chip chip--ok">per-class account</span></div>
+      </div>
+      <div class="row__body">
+        <div class="becomes"><span class="k">becomes</span> <code>term_assertion</code> + <code>date_assertion</code> + <code>term_observation</code> + <code>mass_observation</code> + <code>length_observation</code> + <code>frequency_observation</code> + <code>acceleration_observation</code> + <code>velocity_observation</code> + <code>duration_observation</code> + <code>volume_observation</code> + <code>temperature_observation</code> + <code>pressure_observation</code> + <code>voltage_observation</code> + <code>current_observation</code> + <code>concentration_observation</code> + <code>count_observation</code> + <code>score_observation</code> + <code>intensity_observation</code> + <code>subject</code> + <code>session_bounded_reference</code> + <code>directed_relation</code> + <code>session_relative_reference</code></div>
+        <div class="account">each column of the legacy key/value table becomes its own statement: timeless facts -&gt; term/date_assertion; timed numeric measures -&gt; a data-type &lt;dim&gt;_observation chosen by value shape; recognised table signatures dispatch to a per-table map (JH encounter) minting a shared window + relations + subject</div>
+        <div class="sub"><span class="k">attaches to</span> <code>subject</code></div><div class="sub sub--flag"><span class="k">caveat</span> DYNAMIC emit: leaf chosen per-column; nested read row.numeric_value deferred with D10/D11</div>
+      </div>
+    </article>
+
+    <article class="row" data-prov="per-class" data-name="openminds_element openminds_element term_assertion">
+      <div class="row__id">
+        <h3><code>openminds_element</code></h3>
+        <div class="row__meta"><span class="chip chip--plain">retire</span><span class="chip chip--ok">per-class account</span></div>
+      </div>
+      <div class="row__body">
+        <div class="becomes"><span class="k">becomes</span> <code>term_assertion</code></div>
+        <div class="account">bundled openMINDS entity about an element/device -&gt; ONE term_assertion on the element-subject (carried); timeless</div>
+        <div class="sub"><span class="k">attaches to</span> <code>subject</code></div><div class="sub sub--flag"><span class="k">caveat</span> no openMINDS block -&gt; carries unchanged</div>
+      </div>
+    </article>
+
+    <article class="row" data-prov="per-class" data-name="openminds_stimulus openminds_stimulus ">
+      <div class="row__id">
+        <h3><code>openminds_stimulus</code></h3>
+        <div class="row__meta"><span class="chip chip--plain">retire</span><span class="chip chip--ok">per-class account</span></div>
+      </div>
+      <div class="row__body">
+        <div class="becomes"><span class="k">becomes</span> <em>deferred to the NDI second pass &rarr;</em> <code>interaction_purpose</code></div>
+        <div class="account">DEFERRED to the NDI second pass; PASSES THROUGH UNCHANGED. Was a 1-&gt;1 term_assertion on the stimulus-subject; that was wrong twice over. It read the referent as `stimulus_id`, a name no did_v1 document has (NDI&#x27;s template, schema and writer all say `stimulus_element_id`), so all ~635 documents migrated with an EMPTY subject_id. And the assertion tier is TIMELESS -- time_reference_# lives on subject_interaction, the other branch -- so it could not carry the epoch the writer sets, and it asserted that the STIMULATOR is-a spatial-frequency-tuning. The document is an approach term + a stimulator + an epoch; its destination is `interaction_purpose`, which needs the migrated graph to resolve which interactions the purpose covers.</div>
+        <div class="sub sub--flag"><span class="k">caveat</span> guarded passthrough: a body carrying a `stimulus_id` dependency is rejected by name</div>
+      </div>
+    </article>
+
+    <article class="row" data-prov="per-class" data-name="openminds_subject openminds_subject term_assertion">
+      <div class="row__id">
+        <h3><code>openminds_subject</code></h3>
+        <div class="row__meta"><span class="chip chip--plain">retire</span><span class="chip chip--ok">per-class account</span></div>
+      </div>
+      <div class="row__body">
+        <div class="becomes"><span class="k">becomes</span> <code>term_assertion</code></div>
+        <div class="account">bundled openMINDS controlled-term (Species/Strain/GeneticStrainType/BiologicalSex) -&gt; ONE term_assertion on the subject (carried); timeless</div>
+        <div class="sub"><span class="k">attaches to</span> <code>subject</code></div><div class="sub sub--flag"><span class="k">caveat</span> subject_assertion is the abstract superclass, excluded</div>
+      </div>
+    </article>
+
+    <article class="row" data-prov="per-class" data-name="oridirtuning_calc  tuning_curve_calculation session_relative_reference">
+      <div class="row__id">
+        <h3><code>oridirtuning_calc</code></h3>
+        <div class="row__meta"><span class="chip chip--plain">consumed by migrator (no tombstone)</span><span class="chip chip--ok">per-class account</span></div>
+      </div>
+      <div class="row__body">
+        <div class="becomes"><span class="k">becomes</span> <code>tuning_curve_calculation</code> + <code>session_relative_reference</code></div>
+        <div class="account">calculator OUTPUT -&gt; the tuning_curve_calculation subject_calculation LEAF (id-preserved; input_parameters -&gt; method_parameters; app kept; raw input -&gt; derived_from_1) + session anchor</div>
+        <div class="sub"><span class="k">attaches to</span> <code>subject</code></div><div class="sub sub--flag"><span class="k">caveat</span> calculator composite-leaf fold (Lepsky et al.); un-defers with 0 orphans (id-preserved)</div>
+      </div>
+    </article>
+
+    <article class="row" data-prov="per-class" data-name="orientation_direction_tuning  tuning_curve_calculation session_relative_reference">
+      <div class="row__id">
+        <h3><code>orientation_direction_tuning</code></h3>
+        <div class="row__meta"><span class="chip chip--plain">consumed by migrator (no tombstone)</span><span class="chip chip--ok">per-class account</span></div>
+      </div>
+      <div class="row__body">
+        <div class="becomes"><span class="k">becomes</span> <code>tuning_curve_calculation</code> + <code>session_relative_reference</code></div>
+        <div class="account">result class -&gt; the tuning_curve_calculation subject_calculation LEAF (id-preserved 1-&gt;1; element_id -&gt; subject_id; result composite kept verbatim) + session anchor</div>
+        <div class="sub"><span class="k">attaches to</span> <code>subject</code></div><div class="sub sub--flag"><span class="k">caveat</span> calculator composite-leaf fold (Lepsky et al.); un-defers with 0 orphans (id-preserved)</div>
+      </div>
+    </article>
+
+    <article class="row" data-prov="per-class" data-name="position_metadata position_metadata term_observation session_relative_reference">
+      <div class="row__id">
+        <h3><code>position_metadata</code></h3>
+        <div class="row__meta"><span class="chip chip--plain">retire</span><span class="chip chip--ok">per-class account</span></div>
+      </div>
+      <div class="row__body">
+        <div class="becomes"><span class="k">becomes</span> <code>term_observation</code> + <code>session_relative_reference</code></div>
+        <div class="account">no numeric coordinates here (FOLD B): a term_observation of the element-subject whose variable is &#x27;position&#x27; and value is the measurement ontology_term + anchor</div>
+        <div class="sub"><span class="k">attaches to</span> <code>subject</code></div><div class="sub sub--flag"><span class="k">caveat</span> numeric coordinates live in a separate element/timeseries doc; binding to the coordinate body is a Path-S/NDI second-pass job (not implemented)</div>
+      </div>
+    </article>
+
+    <article class="row" data-prov="per-class" data-name="probe_geometry probe_geometry length_observation term_assertion session_relative_reference">
+      <div class="row__id">
+        <h3><code>probe_geometry</code></h3>
+        <div class="row__meta"><span class="chip chip--plain">retire</span><span class="chip chip--ok">per-class account</span></div>
+      </div>
+      <div class="row__body">
+        <div class="becomes"><span class="k">becomes</span> <code>length_observation</code> + <code>term_assertion</code> + <code>session_relative_reference</code></div>
+        <div class="account">ONE length_observation PER POPULATED SPATIAL AXIS about the probe-subject (probe_id) + an optional probe_model term_assertion + anchor. The real NDI class is three already-named parallel per-site arrays (site_locations_leftright/_frontback/_depth) with a shared `unit`, not an N-by-D matrix, so each axis keeps its own name instead of being concatenated into one anonymous array</div>
+        <div class="sub"><span class="k">attaches to</span> <code>subject</code></div><div class="sub sub--flag"><span class="k">caveat</span> guarded: errors on the invented channel_positions/position_units/probe_type shape. Those names never existed, so channel_positions never matched and EVERY document was carried through unconverted. STILL DROPPED: shank_id, contact_shape+width/height/radius, manufacturer, has_planar_contour, contour_x/y -- needs a contact-geometry model</div>
+      </div>
+    </article>
+
+    <article class="row" data-prov="per-class" data-name="probe_location probe_location term_observation session_relative_reference">
+      <div class="row__id">
+        <h3><code>probe_location</code></h3>
+        <div class="row__meta"><span class="chip chip--plain">retire</span><span class="chip chip--ok">per-class account</span></div>
+      </div>
+      <div class="row__body">
+        <div class="becomes"><span class="k">becomes</span> <code>term_observation</code> + <code>session_relative_reference</code></div>
+        <div class="account">probe location -&gt; a term_observation about the probe-subject (device-as-subject); value = atlas term (located-by-default) + anchor</div>
+        <div class="sub"><span class="k">attaches to</span> <code>subject</code></div><div class="sub sub--flag"><span class="k">caveat</span> Path-S promotion NOT applied (no co-anchored manipulation)</div>
+      </div>
+    </article>
+
+    <article class="row" data-prov="per-class" data-name="pyraview pyraview voltage_observation sampled_body session_relative_reference">
+      <div class="row__id">
+        <h3><code>pyraview</code></h3>
+        <div class="row__meta"><span class="chip chip--plain">retire</span><span class="chip chip--ok">per-class account</span></div>
+      </div>
+      <div class="row__body">
+        <div class="becomes"><span class="k">becomes</span> <code>voltage_observation</code> + <code>sampled_body</code> + <code>session_relative_reference</code></div>
+        <div class="account">multi-resolution pyramid signal -&gt; a body-backed voltage_observation + ONE sampled_body per stored resolution level + anchor</div>
+        <div class="sub"><span class="k">attaches to</span> <code>subject</code></div><div class="sub sub--flag"><span class="k">caveat</span> header title says dataseries_observation but code emits voltage_observation; multiple sampled_body (one per level)</div>
+      </div>
+    </article>
+
+    <article class="row" data-prov="per-class" data-name="session_in_a_dataset  dataset directed_relation">
+      <div class="row__id">
+        <h3><code>session_in_a_dataset</code></h3>
+        <div class="row__meta"><span class="chip chip--plain">consumed by migrator (no tombstone)</span><span class="chip chip--ok">per-class account</span></div>
+      </div>
+      <div class="row__body">
+        <div class="becomes"><span class="k">becomes</span> <code>dataset</code> + <code>directed_relation</code></div>
+        <div class="account">session membership -&gt; a bare dataset + a session -part_of-&gt; dataset directed_relation</div>
+        <div class="sub sub--flag"><span class="k">caveat</span> directed_relation best-effort (dropped if member session doesn&#x27;t resolve in-batch)</div>
+      </div>
+    </article>
+
+    <article class="row" data-prov="per-class" data-name="simple_calc simple_calc ">
+      <div class="row__id">
+        <h3><code>simple_calc</code></h3>
+        <div class="row__meta"><span class="chip chip--plain">retire</span><span class="chip chip--ok">per-class account</span></div>
+      </div>
+      <div class="row__body">
+        <div class="becomes"><span class="k">becomes</span> <em>deferred to the NDI second pass &rarr;</em> <code>simple_calc</code></div>
+        <div class="account">DEFERRED to the NDI second pass; PASSES THROUGH UNCHANGED. The real NDI template is {input_parameters, answer} with a single document_id edge pointing at the INPUT DOCUMENT and an `app` parent -- there is NO subject-bearing edge and NO units field at all. The previous migrator read result_value/result_units (V_alpha inventions), so the unit-dispatch had nothing to dispatch on and, both reads failing, it emitted only a bare session anchor -- the result was dropped</div>
+        <div class="sub sub--flag"><span class="k">caveat</span> guarded: errors on the invented result_value/result_units shape rather than emitting a subjectless observation; passthrough requires the simple_calc tombstone to declare base+app, document_id, answer, input_parameters</div>
+      </div>
+    </article>
+
+    <article class="row" data-prov="per-class" data-name="site2channelmap site2channelmap count_observation session_relative_reference">
+      <div class="row__id">
+        <h3><code>site2channelmap</code></h3>
+        <div class="row__meta"><span class="chip chip--plain">retire</span><span class="chip chip--ok">per-class account</span></div>
+      </div>
+      <div class="row__body">
+        <div class="becomes"><span class="k">becomes</span> <code>count_observation</code> + <code>session_relative_reference</code></div>
+        <div class="account">num_sites -&gt; ONE inline count_observation (recording-site cardinality) on the probe-subject + anchor</div>
+        <div class="sub"><span class="k">attaches to</span> <code>subject</code></div><div class="sub sub--flag"><span class="k">caveat</span> the actual site-&gt;channel map deferred (instrument-layer/NDI second pass)</div>
+      </div>
+    </article>
+
+    <article class="row" data-prov="per-class" data-name="spatial_frequency_tuning  tuning_curve_calculation session_relative_reference">
+      <div class="row__id">
+        <h3><code>spatial_frequency_tuning</code></h3>
+        <div class="row__meta"><span class="chip chip--plain">consumed by migrator (no tombstone)</span><span class="chip chip--ok">per-class account</span></div>
+      </div>
+      <div class="row__body">
+        <div class="becomes"><span class="k">becomes</span> <code>tuning_curve_calculation</code> + <code>session_relative_reference</code></div>
+        <div class="account">result class -&gt; the tuning_curve_calculation subject_calculation LEAF (id-preserved 1-&gt;1; element_id -&gt; subject_id; result composite kept verbatim) + session anchor</div>
+        <div class="sub"><span class="k">attaches to</span> <code>subject</code></div><div class="sub sub--flag"><span class="k">caveat</span> calculator composite-leaf fold (Lepsky et al.); un-defers with 0 orphans (id-preserved)</div>
+      </div>
+    </article>
+
+    <article class="row" data-prov="per-class" data-name="spatial_frequency_tuning_calc  tuning_curve_calculation session_relative_reference">
+      <div class="row__id">
+        <h3><code>spatial_frequency_tuning_calc</code></h3>
+        <div class="row__meta"><span class="chip chip--plain">consumed by migrator (no tombstone)</span><span class="chip chip--ok">per-class account</span></div>
+      </div>
+      <div class="row__body">
+        <div class="becomes"><span class="k">becomes</span> <code>tuning_curve_calculation</code> + <code>session_relative_reference</code></div>
+        <div class="account">calculator OUTPUT -&gt; the tuning_curve_calculation subject_calculation LEAF (id-preserved; input_parameters -&gt; method_parameters; app kept; raw input -&gt; derived_from_1) + session anchor</div>
+        <div class="sub"><span class="k">attaches to</span> <code>subject</code></div><div class="sub sub--flag"><span class="k">caveat</span> calculator composite-leaf fold (Lepsky et al.); un-defers with 0 orphans (id-preserved)</div>
+      </div>
+    </article>
+
+    <article class="row" data-prov="per-class" data-name="speed_tuning  tuning_curve_calculation session_relative_reference">
+      <div class="row__id">
+        <h3><code>speed_tuning</code></h3>
+        <div class="row__meta"><span class="chip chip--plain">consumed by migrator (no tombstone)</span><span class="chip chip--ok">per-class account</span></div>
+      </div>
+      <div class="row__body">
+        <div class="becomes"><span class="k">becomes</span> <code>tuning_curve_calculation</code> + <code>session_relative_reference</code></div>
+        <div class="account">result class -&gt; the tuning_curve_calculation subject_calculation LEAF (id-preserved 1-&gt;1; element_id -&gt; subject_id; result composite kept verbatim) + session anchor</div>
+        <div class="sub"><span class="k">attaches to</span> <code>subject</code></div><div class="sub sub--flag"><span class="k">caveat</span> calculator composite-leaf fold (Lepsky et al.); un-defers with 0 orphans (id-preserved)</div>
+      </div>
+    </article>
+
+    <article class="row" data-prov="per-class" data-name="speed_tuning_calc  tuning_curve_calculation session_relative_reference">
+      <div class="row__id">
+        <h3><code>speed_tuning_calc</code></h3>
+        <div class="row__meta"><span class="chip chip--plain">consumed by migrator (no tombstone)</span><span class="chip chip--ok">per-class account</span></div>
+      </div>
+      <div class="row__body">
+        <div class="becomes"><span class="k">becomes</span> <code>tuning_curve_calculation</code> + <code>session_relative_reference</code></div>
+        <div class="account">calculator OUTPUT -&gt; the tuning_curve_calculation subject_calculation LEAF (id-preserved; input_parameters -&gt; method_parameters; app kept; raw input -&gt; derived_from_1) + session anchor</div>
+        <div class="sub"><span class="k">attaches to</span> <code>subject</code></div><div class="sub sub--flag"><span class="k">caveat</span> calculator composite-leaf fold (Lepsky et al.); un-defers with 0 orphans (id-preserved)</div>
+      </div>
+    </article>
+
+    <article class="row" data-prov="per-class" data-name="spike_clusters spike_clusters count_observation sampled_body session_relative_reference">
+      <div class="row__id">
+        <h3><code>spike_clusters</code></h3>
+        <div class="row__meta"><span class="chip chip--plain">retire</span><span class="chip chip--ok">per-class account</span></div>
+      </div>
+      <div class="row__body">
+        <div class="becomes"><span class="k">becomes</span> <code>count_observation</code> + <code>sampled_body</code> + <code>session_relative_reference</code></div>
+        <div class="account">per-spike cluster assignments -&gt; a body-backed count_observation (n = num_spikes) + sampled_body + anchor</div>
+        <div class="sub"><span class="k">attaches to</span> <code>subject</code></div><div class="sub sub--flag"><span class="k">caveat</span> sorted units are separate neuron_extracellular docs</div>
+      </div>
+    </article>
+
+    <article class="row" data-prov="per-class" data-name="spikeinterfacesortingoutputs spike_interface_sorting_outputs count_observation session_relative_reference">
+      <div class="row__id">
+        <h3><code>SpikeInterfaceSortingOutputs</code></h3>
+        <div class="row__meta"><span class="chip chip--plain">retire</span><span class="chip chip--ok">per-class account</span></div>
+      </div>
+      <div class="row__body">
+        <div class="becomes"><span class="k">becomes</span> <code>count_observation</code> + <code>session_relative_reference</code></div>
+        <div class="account">num_units -&gt; ONE inline count_observation (sorted-unit cardinality) on the recording subject + anchor</div>
+        <div class="sub"><span class="k">attaches to</span> <code>subject</code></div><div class="sub sub--flag"><span class="k">caveat</span> does NOT mint per-unit subjects (that is neuron_extracellular); sorter provenance dropped</div>
+      </div>
+    </article>
+
+    <article class="row" data-prov="per-class" data-name="spikewaves spikewaves voltage_observation sampled_body session_relative_reference">
+      <div class="row__id">
+        <h3><code>spikewaves</code></h3>
+        <div class="row__meta"><span class="chip chip--plain">retire</span><span class="chip chip--ok">per-class account</span></div>
+      </div>
+      <div class="row__body">
+        <div class="becomes"><span class="k">becomes</span> <code>voltage_observation</code> + <code>sampled_body</code> + <code>session_relative_reference</code></div>
+        <div class="account">extracted spike waveform snippets -&gt; a body-backed voltage_observation (n = num_spikes) + sampled_body + anchor</div>
+        <div class="sub"><span class="k">attaches to</span> <code>subject</code></div><div class="sub sub--flag"><span class="k">caveat</span> header title says dataseries_observation but code emits voltage_observation; extraction-params provenance deferred</div>
+      </div>
+    </article>
+
+    <article class="row" data-prov="per-class" data-name="stimulus_bath  ">
+      <div class="row__id">
+        <h3><code>stimulus_bath</code></h3>
+        <div class="row__meta"><span class="chip chip--plain">consumed by migrator (no tombstone)</span><span class="chip chip--ok">per-class account</span></div>
+      </div>
+      <div class="row__body">
+        <div class="becomes"><span class="k">becomes</span> <em>deferred to the NDI second pass &rarr;</em> <code>dose_manipulation</code> + <code>session_relative_reference</code></div>
+        <div class="account">DEFERRED in pass 1 (errors needsSessionContext); assembled downstream (resolveDeferredBaths / ndi.migrate.local) into a dose_manipulation once the stimulator element&#x27;s subject + epoch anchor resolve</div>
+        <div class="sub sub--flag"><span class="k">caveat</span> pass-1 migrator always errors (intentional deferral); NDI stimulusBathToBath still targets retired `bath` for V_zeta/V_epsilon (task #20)</div>
+      </div>
+    </article>
+
+    <article class="row" data-prov="per-class" data-name="stimulus_presentation stimulus_presentation ">
+      <div class="row__id">
+        <h3><code>stimulus_presentation</code></h3>
+        <div class="row__meta"><span class="chip chip--plain">in_progress</span><span class="chip chip--ok">per-class account</span></div>
+      </div>
+      <div class="row__body">
+        <div class="becomes"><span class="k">becomes</span> <em>deferred to the NDI second pass &rarr;</em> <code>visual_grating_manipulation</code> + <code>sampled_body</code></div>
+        <div class="account">NO pass-1 migrator; assembled ENTIRELY in the NDI second pass into ONE body-backed visual_grating_manipulation on the animal (resolved via stimulus_response-&gt;element-&gt;subject) + a sampled_body of one record per trial</div>
+        <div class="sub"><span class="k">attaches to</span> <code>subject</code></div><div class="sub sub--flag"><span class="k">caveat</span> returns [] (leaves presentation as-is) when no animal responded</div>
+      </div>
+    </article>
+
+    <article class="row" data-prov="per-class" data-name="stimulus_tuningcurve  tuning_curve_calculation session_relative_reference">
+      <div class="row__id">
+        <h3><code>stimulus_tuningcurve</code></h3>
+        <div class="row__meta"><span class="chip chip--plain">consumed by migrator (no tombstone)</span><span class="chip chip--ok">per-class account</span></div>
+      </div>
+      <div class="row__body">
+        <div class="becomes"><span class="k">becomes</span> <code>tuning_curve_calculation</code> + <code>session_relative_reference</code></div>
+        <div class="account">raw ndi.app.stimulus.tuning_response curve -&gt; tuning_curve_calculation (element_id -&gt; subject_id; result verbatim; no calc input_parameters/app) + session anchor</div>
+        <div class="sub"><span class="k">attaches to</span> <code>subject</code></div><div class="sub sub--flag"><span class="k">caveat</span> calculator composite-leaf fold (Lepsky et al.); un-defers with 0 orphans (id-preserved)</div>
+      </div>
+    </article>
+
+    <article class="row" data-prov="per-class" data-name="subject subject subject">
+      <div class="row__id">
+        <h3><code>subject</code></h3>
+        <div class="row__meta"><span class="chip chip--plain">persist</span><span class="chip chip--ok">per-class account</span></div>
+      </div>
+      <div class="row__body">
+        <div class="becomes"><span class="k">becomes</span> <code>subject</code></div>
+        <div class="account">carry-forward: guarantee a non-empty subject.local_identifier (now REQUIRED), else unchanged</div>
+        <div class="sub sub--flag"><span class="k">caveat</span> passthrough of same class, id preserved</div>
+      </div>
+    </article>
+
+    <article class="row" data-prov="per-class" data-name="subject_group  subject directed_relation">
+      <div class="row__id">
+        <h3><code>subject_group</code></h3>
+        <div class="row__meta"><span class="chip chip--plain">consumed by migrator (no tombstone)</span><span class="chip chip--ok">per-class account</span></div>
+      </div>
+      <div class="row__body">
+        <div class="becomes"><span class="k">becomes</span> <code>subject</code> + <code>directed_relation</code></div>
+        <div class="account">group -&gt; a bare subject (id preserved; is_group/is_biological removed) + one member_of directed_relation per member</div>
+        <div class="sub sub--flag"><span class="k">caveat</span> member_of edges from subject_id_1..N deps</div>
+      </div>
+    </article>
+
+    <article class="row" data-prov="per-class" data-name="temporal_frequency_tuning  tuning_curve_calculation session_relative_reference">
+      <div class="row__id">
+        <h3><code>temporal_frequency_tuning</code></h3>
+        <div class="row__meta"><span class="chip chip--plain">consumed by migrator (no tombstone)</span><span class="chip chip--ok">per-class account</span></div>
+      </div>
+      <div class="row__body">
+        <div class="becomes"><span class="k">becomes</span> <code>tuning_curve_calculation</code> + <code>session_relative_reference</code></div>
+        <div class="account">result class -&gt; the tuning_curve_calculation subject_calculation LEAF (id-preserved 1-&gt;1; element_id -&gt; subject_id; result composite kept verbatim) + session anchor</div>
+        <div class="sub"><span class="k">attaches to</span> <code>subject</code></div><div class="sub sub--flag"><span class="k">caveat</span> calculator composite-leaf fold (Lepsky et al.); un-defers with 0 orphans (id-preserved)</div>
+      </div>
+    </article>
+
+    <article class="row" data-prov="per-class" data-name="temporal_frequency_tuning_calc  tuning_curve_calculation session_relative_reference">
+      <div class="row__id">
+        <h3><code>temporal_frequency_tuning_calc</code></h3>
+        <div class="row__meta"><span class="chip chip--plain">consumed by migrator (no tombstone)</span><span class="chip chip--ok">per-class account</span></div>
+      </div>
+      <div class="row__body">
+        <div class="becomes"><span class="k">becomes</span> <code>tuning_curve_calculation</code> + <code>session_relative_reference</code></div>
+        <div class="account">calculator OUTPUT -&gt; the tuning_curve_calculation subject_calculation LEAF (id-preserved; input_parameters -&gt; method_parameters; app kept; raw input -&gt; derived_from_1) + session anchor</div>
+        <div class="sub"><span class="k">attaches to</span> <code>subject</code></div><div class="sub sub--flag"><span class="k">caveat</span> calculator composite-leaf fold (Lepsky et al.); un-defers with 0 orphans (id-preserved)</div>
+      </div>
+    </article>
+
+    <article class="row" data-prov="per-class" data-name="treatment  temperature_manipulation dose_manipulation term_manipulation term_observation session_relative_reference">
+      <div class="row__id">
+        <h3><code>treatment</code></h3>
+        <div class="row__meta"><span class="chip chip--plain">consumed by migrator (no tombstone)</span><span class="chip chip--ok">per-class account</span></div>
+      </div>
+      <div class="row__body">
+        <div class="becomes"><span class="k">becomes</span> <code>temperature_manipulation</code> + <code>dose_manipulation</code> + <code>term_manipulation</code> + <code>term_observation</code> + <code>session_relative_reference</code></div>
+        <div class="account">dispatched by data structure into ONE data-type-named subject_manipulation leaf + an optional site term_observation + session anchor</div>
+        <div class="sub"><span class="k">attaches to</span> <code>subject</code></div><div class="sub"><span class="k">second pass adds</span> <code>subject</code> <code>term_assertion</code> <code>directed_relation</code></div><div class="sub sub--flag"><span class="k">caveat</span> DYNAMIC: exactly one of temperature/dose/term_manipulation per row; SECOND PASS: an attributed (co-anchored) site -&gt; Path-S part-subject via pathSPromotion, retargeting the manipulation onto the part</div>
+      </div>
+    </article>
+
+    <article class="row" data-prov="per-class" data-name="treatment_drug  dose_manipulation term_observation session_relative_reference">
+      <div class="row__id">
+        <h3><code>treatment_drug</code></h3>
+        <div class="row__meta"><span class="chip chip--plain">consumed by migrator (no tombstone)</span><span class="chip chip--ok">per-class account</span></div>
+      </div>
+      <div class="row__body">
+        <div class="becomes"><span class="k">becomes</span> <code>dose_manipulation</code> + <code>term_observation</code> + <code>session_relative_reference</code></div>
+        <div class="account">drug administration -&gt; a dose_manipulation (chemicals from mixture_table) + an optional site term_observation + anchor</div>
+        <div class="sub"><span class="k">attaches to</span> <code>subject</code></div><div class="sub"><span class="k">second pass adds</span> <code>subject</code> <code>term_assertion</code> <code>directed_relation</code></div><div class="sub sub--flag"><span class="k">caveat</span> term_observation only when a location is present; SECOND PASS: attributed site -&gt; Path-S part-subject</div>
+      </div>
+    </article>
+
+    <article class="row" data-prov="per-class" data-name="treatment_transfer  term_manipulation directed_relation session_relative_reference">
+      <div class="row__id">
+        <h3><code>treatment_transfer</code></h3>
+        <div class="row__meta"><span class="chip chip--plain">consumed by migrator (no tombstone)</span><span class="chip chip--ok">per-class account</span></div>
+      </div>
+      <div class="row__body">
+        <div class="becomes"><span class="k">becomes</span> <code>term_manipulation</code> + <code>directed_relation</code> + <code>session_relative_reference</code></div>
+        <div class="account">transfer act -&gt; a term_manipulation on the recipient + a derived_from directed_relation (recipient &lt;- donor) + anchor</div>
+        <div class="sub"><span class="k">attaches to</span> <code>subject</code></div><div class="sub sub--flag"><span class="k">caveat</span> precise transferred-material part-subject reserved for a Path-S refinement (not implemented)</div>
+      </div>
+    </article>
+
+    <article class="row" data-prov="per-class" data-name="tuningcurve_calc  tuning_curve_calculation session_relative_reference">
+      <div class="row__id">
+        <h3><code>tuningcurve_calc</code></h3>
+        <div class="row__meta"><span class="chip chip--plain">consumed by migrator (no tombstone)</span><span class="chip chip--ok">per-class account</span></div>
+      </div>
+      <div class="row__body">
+        <div class="becomes"><span class="k">becomes</span> <code>tuning_curve_calculation</code> + <code>session_relative_reference</code></div>
+        <div class="account">IS-A stimulus_tuningcurve so inherits a populated element_id -&gt; single-doc fold to tuning_curve_calculation (result on the inherited stimulus_tuningcurve block; input_parameters -&gt; method_parameters) + session anchor</div>
+        <div class="sub"><span class="k">attaches to</span> <code>subject</code></div><div class="sub sub--flag"><span class="k">caveat</span> calculator composite-leaf fold (Lepsky et al.); un-defers with 0 orphans (id-preserved)</div>
+      </div>
+    </article>
+
+    <article class="row" data-prov="per-class" data-name="virus_injection  dose_manipulation term_observation session_relative_reference">
+      <div class="row__id">
+        <h3><code>virus_injection</code></h3>
+        <div class="row__meta"><span class="chip chip--plain">consumed by migrator (no tombstone)</span><span class="chip chip--ok">per-class account</span></div>
+      </div>
+      <div class="row__body">
+        <div class="becomes"><span class="k">becomes</span> <code>dose_manipulation</code> + <code>term_observation</code> + <code>session_relative_reference</code></div>
+        <div class="account">viral injection -&gt; a dose_manipulation (virus as spine variable, dilution/titer as amount) + an optional site term_observation + anchor</div>
+        <div class="sub"><span class="k">attaches to</span> <code>subject</code></div><div class="sub"><span class="k">second pass adds</span> <code>subject</code> <code>term_assertion</code> <code>directed_relation</code></div><div class="sub sub--flag"><span class="k">caveat</span> term_observation only when a site is present; SECOND PASS: attributed site -&gt; Path-S part-subject</div>
+      </div>
+    </article>
+
+    <article class="row" data-prov="per-class" data-name="vmneuralresponseresiduals vmneuralresponseresiduals voltage_observation directed_relation session_relative_reference">
+      <div class="row__id">
+        <h3><code>vmneuralresponseresiduals</code></h3>
+        <div class="row__meta"><span class="chip chip--plain">retire</span><span class="chip chip--ok">per-class account</span></div>
+      </div>
+      <div class="row__body">
+        <div class="becomes"><span class="k">becomes</span> <code>voltage_observation</code> + <code>directed_relation</code> + <code>session_relative_reference</code></div>
+        <div class="account">mean_residual -&gt; an inline voltage_observation of the subject + a derived_from directed_relation (residual &lt;- the vmspikefit) + anchor</div>
+        <div class="sub"><span class="k">attaches to</span> <code>subject</code></div><div class="sub sub--flag"><span class="k">caveat</span> directed_relation only when vmspikefit_id present; full residual trace -&gt; body deferred</div>
+      </div>
+    </article>
+
+    <article class="row" data-prov="per-class" data-name="vmspikefit vmspikefit score_observation session_relative_reference">
+      <div class="row__id">
+        <h3><code>vmspikefit</code></h3>
+        <div class="row__meta"><span class="chip chip--plain">retire</span><span class="chip chip--ok">per-class account</span></div>
+      </div>
+      <div class="row__body">
+        <div class="becomes"><span class="k">becomes</span> <code>score_observation</code> + <code>session_relative_reference</code></div>
+        <div class="account">r_squared -&gt; a goodness-of-fit score_observation (fit_function as method) + anchor</div>
+        <div class="sub"><span class="k">attaches to</span> <code>subject</code></div><div class="sub sub--flag"><span class="k">caveat</span> fit_parameters + fit file (possibly opaque_body) deferred</div>
+      </div>
+    </article>
+
+    <article class="row" data-prov="per-class" data-name="vmspikesummary vmspikesummary voltage_observation frequency_observation count_observation duration_observation session_relative_reference">
+      <div class="row__id">
+        <h3><code>vmspikesummary</code></h3>
+        <div class="row__meta"><span class="chip chip--plain">retire</span><span class="chip chip--ok">per-class account</span></div>
+      </div>
+      <div class="row__body">
+        <div class="becomes"><span class="k">becomes</span> <code>voltage_observation</code> + <code>frequency_observation</code> + <code>count_observation</code> + <code>duration_observation</code> + <code>session_relative_reference</code></div>
+        <div class="account">each summary scalar -&gt; its own inline quantity observation classed by physical quantity (mean_vm-&gt;voltage, firing_rate-&gt;frequency, num_spikes-&gt;count, duration-&gt;duration) + one shared anchor</div>
+        <div class="sub"><span class="k">attaches to</span> <code>subject</code></div><div class="sub sub--flag"><span class="k">caveat</span> one observation per PRESENT scalar; the four listed are the full candidate set</div>
+      </div>
+    </article>
+    </section>
+
+    <section class="bucket" id="bucket-family">
+      <header class="bucket__head">
+        <h2>Decided, but only at family granularity</h2>
+        <p class="bucket__count"><strong>28</strong> of 102 classes</p>
+        <p class="bucket__blurb">The team has signed a decision that covers these classes; nobody has yet written the one-line per-class summary. The decision is real — the sign-off text is reproduced on every row — but a reader has to do the translation from family to class themselves. This is the gap that makes the question hard to answer quickly, and closing it is writing, not deciding.</p>
+      </header>
+      
+    <article class="row" data-prov="family" data-name="app app app">
+      <div class="row__id">
+        <h3><code>app</code></h3>
+        <div class="row__meta"><span class="chip chip--plain">in_progress</span><span class="chip chip--warn">family decision: software</span></div>
+      </div>
+      <div class="row__body">
+        <div class="becomes"><span class="k">becomes</span> <code>app</code></div>
+        <div class="account"><span class="muted">No per-class summary written yet. The signed decision for the <strong>software</strong> family covers it:</span><blockquote>jess, 2026-08-06 -- the `app` mixin is replaced by a `software` ENTITY (deduplicated by name+version) referenced from a statement by `software_id`, with the run-specific os / interpreter details in `execution_environment` on the interaction (R1). The class name stops being copied into every calculator output.</blockquote></div>
+        
+      </div>
+    </article>
+
+    <article class="row" data-prov="family" data-name="binaryseries_parameters binaryseries_parameters binaryseries_parameters">
+      <div class="row__id">
+        <h3><code>binaryseries_parameters</code></h3>
+        <div class="row__meta"><span class="chip chip--plain">in_progress</span><span class="chip chip--warn">family decision: misc singletons</span></div>
+      </div>
+      <div class="row__body">
+        <div class="becomes"><span class="k">becomes</span> <code>binaryseries_parameters</code></div>
+        <div class="account"><span class="muted">No per-class summary written yet. The signed decision for the <strong>misc singletons</strong> family covers it:</span><blockquote>jess, 2026-08-09 -- `binaryseries_parameters` folds into the data_body model and is retired (its `time_type` is the time axis&#x27;s new `datum_type`, its `data_type` the statement&#x27;s, `data_dim` the axis count, `samples_regular_intervals` the axis `regular` flag); `interaction_purpose` is KEPT, conditionally on the stimulus build actually emitting it, and is the destination for the 635 `StimulationApproach` documents via a second pass -- so #71 is repaired by re-targeting, with pass 1 emitting nothing; `projectvar` stays a deprecated passthrough until real documents exist to model its untyped `data</blockquote></div>
+        
+      </div>
+    </article>
+
+    <article class="row" data-prov="family" data-name="daqmetadatareader daqmetadatareader daqmetadatareader">
+      <div class="row__id">
+        <h3><code>daqmetadatareader</code></h3>
+        <div class="row__meta"><span class="chip chip--plain">in_progress</span><span class="chip chip--warn">family decision: daq configuration</span></div>
+      </div>
+      <div class="row__body">
+        <div class="becomes"><span class="k">becomes</span> <code>daqmetadatareader</code></div>
+        <div class="account"><span class="muted">No per-class summary written yet. The signed decision for the <strong>daq configuration</strong> family covers it:</span><blockquote>jess@walthamdatascience.com / 2026-08-08 -- daqreader DISSOLVES into a `software` entity (base.id preserved); daqmetadatareader -&gt; `acquisition_metadata_reader`; daqsystem -&gt; `acquisition_system` ⊂ entity, base.id AND base.name preserved because the name is the join key; the invented `file_extension` and `metadata_names` are DELETED; `reader_string` is KEPT as the de-encoded daqreader_ndr.ndr_reader_string.</blockquote></div>
+        
+      </div>
+    </article>
+
+    <article class="row" data-prov="family" data-name="daqmetadatareader_epochdata_ingested daqmetadatareader_epochdata_ingested daqmetadatareader_epochdata_ingested">
+      <div class="row__id">
+        <h3><code>daqmetadatareader_epochdata_ingested</code></h3>
+        <div class="row__meta"><span class="chip chip--plain">in_progress</span><span class="chip chip--warn">family decision: daq ingested payloads</span></div>
+      </div>
+      <div class="row__body">
+        <div class="becomes"><span class="k">becomes</span> <code>daqmetadatareader_epochdata_ingested</code></div>
+        <div class="account"><span class="muted">No per-class summary written yet. The signed decision for the <strong>daq ingested payloads</strong> family covers it:</span><blockquote>jess@walthamdatascience.com / 2026-08-08 -- ONE new class, `acquisition_metadata_file`; the reader and image classes RETIRE by decomposing into relative_reference + sampled_body + image_observation, all of which are now themselves signed.</blockquote></div>
+        
+      </div>
+    </article>
+
+    <article class="row" data-prov="family" data-name="daqreader daqreader daqreader">
+      <div class="row__id">
+        <h3><code>daqreader</code></h3>
+        <div class="row__meta"><span class="chip chip--plain">in_progress</span><span class="chip chip--warn">family decision: daq configuration</span></div>
+      </div>
+      <div class="row__body">
+        <div class="becomes"><span class="k">becomes</span> <code>daqreader</code></div>
+        <div class="account"><span class="muted">No per-class summary written yet. The signed decision for the <strong>daq configuration</strong> family covers it:</span><blockquote>jess@walthamdatascience.com / 2026-08-08 -- daqreader DISSOLVES into a `software` entity (base.id preserved); daqmetadatareader -&gt; `acquisition_metadata_reader`; daqsystem -&gt; `acquisition_system` ⊂ entity, base.id AND base.name preserved because the name is the join key; the invented `file_extension` and `metadata_names` are DELETED; `reader_string` is KEPT as the de-encoded daqreader_ndr.ndr_reader_string.</blockquote></div>
+        
+      </div>
+    </article>
+
+    <article class="row" data-prov="family" data-name="daqreader_epochdata_ingested daqreader_epochdata_ingested daqreader_epochdata_ingested">
+      <div class="row__id">
+        <h3><code>daqreader_epochdata_ingested</code></h3>
+        <div class="row__meta"><span class="chip chip--plain">in_progress</span><span class="chip chip--warn">family decision: daq ingested payloads</span></div>
+      </div>
+      <div class="row__body">
+        <div class="becomes"><span class="k">becomes</span> <code>daqreader_epochdata_ingested</code></div>
+        <div class="account"><span class="muted">No per-class summary written yet. The signed decision for the <strong>daq ingested payloads</strong> family covers it:</span><blockquote>jess@walthamdatascience.com / 2026-08-08 -- ONE new class, `acquisition_metadata_file`; the reader and image classes RETIRE by decomposing into relative_reference + sampled_body + image_observation, all of which are now themselves signed.</blockquote></div>
+        
+      </div>
+    </article>
+
+    <article class="row" data-prov="family" data-name="daqreader_image_epochdata_ingested daqreader_image_epochdata_ingested daqreader_image_epochdata_ingested">
+      <div class="row__id">
+        <h3><code>daqreader_image_epochdata_ingested</code></h3>
+        <div class="row__meta"><span class="chip chip--plain">in_progress</span><span class="chip chip--warn">family decision: daq ingested payloads</span></div>
+      </div>
+      <div class="row__body">
+        <div class="becomes"><span class="k">becomes</span> <code>daqreader_image_epochdata_ingested</code></div>
+        <div class="account"><span class="muted">No per-class summary written yet. The signed decision for the <strong>daq ingested payloads</strong> family covers it:</span><blockquote>jess@walthamdatascience.com / 2026-08-08 -- ONE new class, `acquisition_metadata_file`; the reader and image classes RETIRE by decomposing into relative_reference + sampled_body + image_observation, all of which are now themselves signed.</blockquote></div>
+        
+      </div>
+    </article>
+
+    <article class="row" data-prov="family" data-name="daqsystem daqsystem daqsystem">
+      <div class="row__id">
+        <h3><code>daqsystem</code></h3>
+        <div class="row__meta"><span class="chip chip--plain">in_progress</span><span class="chip chip--warn">family decision: daq configuration</span></div>
+      </div>
+      <div class="row__body">
+        <div class="becomes"><span class="k">becomes</span> <code>daqsystem</code></div>
+        <div class="account"><span class="muted">No per-class summary written yet. The signed decision for the <strong>daq configuration</strong> family covers it:</span><blockquote>jess@walthamdatascience.com / 2026-08-08 -- daqreader DISSOLVES into a `software` entity (base.id preserved); daqmetadatareader -&gt; `acquisition_metadata_reader`; daqsystem -&gt; `acquisition_system` ⊂ entity, base.id AND base.name preserved because the name is the join key; the invented `file_extension` and `metadata_names` are DELETED; `reader_string` is KEPT as the de-encoded daqreader_ndr.ndr_reader_string.</blockquote></div>
+        
+      </div>
+    </article>
+
+    <article class="row" data-prov="family" data-name="ensemble ensemble ensemble">
+      <div class="row__id">
+        <h3><code>ensemble</code></h3>
+        <div class="row__meta"><span class="chip chip--plain">in_progress</span><span class="chip chip--warn">family decision: ensemble</span></div>
+      </div>
+      <div class="row__body">
+        <div class="becomes"><span class="k">becomes</span> <code>ensemble</code></div>
+        <div class="account"><span class="muted">No per-class summary written yet. The signed decision for the <strong>ensemble</strong> family covers it:</span><blockquote>jess, 2026-08-06 -- per-neuron spike times are the PRIMARY archival data (each neuron-subject, event times to a sampled_body); the ensemble is a GROUP SUBJECT with its id preserved and NO data body of its own, whose members are EPOCH-SCOPED member_of edges carrying their epoch and column order; the combined (times, ids) array is kept as an explicitly-DERIVED, REBUILDABLE CACHE (derived_from the neurons, T10) for fast windowed population reads, not as source of truth; the per-epoch MAP document dissolves. Build is sequenced: pass 1 keeps a green passthrough, the NDI second pass mints member_of </blockquote></div>
+        
+      </div>
+    </article>
+
+    <article class="row" data-prov="family" data-name="epochid epochid epochid">
+      <div class="row__id">
+        <h3><code>epochid</code></h3>
+        <div class="row__meta"><span class="chip chip--plain">in_progress</span><span class="chip chip--warn">family decision: epoch</span></div>
+      </div>
+      <div class="row__body">
+        <div class="becomes"><span class="k">becomes</span> <code>epochid</code></div>
+        <div class="account"><span class="muted">No per-class summary written yet. The signed decision for the <strong>epoch</strong> family covers it:</span><blockquote>jess@walthamdatascience.com / 2026-08-08 -- MINT `epoch` as an entity (one per epoch id, local_identifier = the v1 epochid string, REQUIRED); acquisition_epoch dissolves and its clocks become relative_reference documents; epochid is DROPPED in favour of a uniform epoch_id edge; epochfiles_ingested becomes `ingestion_manifest` with filenavigator_id RESTORED; instrument_id -&gt; entity, OPTIONAL.</blockquote></div>
+        
+      </div>
+    </article>
+
+    <article class="row" data-prov="family" data-name="filenavigator filenavigator filenavigator">
+      <div class="row__id">
+        <h3><code>filenavigator</code></h3>
+        <div class="row__meta"><span class="chip chip--plain">in_progress</span><span class="chip chip--warn">family decision: file navigation</span></div>
+      </div>
+      <div class="row__body">
+        <div class="becomes"><span class="k">becomes</span> <code>filenavigator</code></div>
+        <div class="account"><span class="muted">No per-class summary written yet. The signed decision for the <strong>file navigation</strong> family covers it:</span><blockquote>jess, 2026-08-06 -- filenavigator becomes `epoch_file_pattern` with base.id preserved: the two eval&#x27;d parameter strings become declared pattern lists (data_file_pattern, epoch_map_pattern) plus epoch_map_format, and the implementation class name becomes a software_id edge. `directory` is NOT a did_v1 source and is unaffected.</blockquote></div>
+        
+      </div>
+    </article>
+
+    <article class="row" data-prov="family" data-name="imagestack_parameters image_stack_parameters image_stack_parameters">
+      <div class="row__id">
+        <h3><code>imageStack_parameters</code></h3>
+        <div class="row__meta"><span class="chip chip--plain">retire</span><span class="chip chip--warn">family decision: image / ngrid</span></div>
+      </div>
+      <div class="row__body">
+        <div class="becomes"><span class="k">becomes</span> <code>image_stack_parameters</code></div>
+        <div class="account"><span class="muted">No per-class summary written yet. The signed decision for the <strong>image / ngrid</strong> family covers it:</span><blockquote>jess@walthamdatascience.com / 2026-08-08 -- ngrid is DISSOLVED (deleted, not migrated); `image` becomes `{pixels, color_model}` and nothing else.</blockquote></div>
+        
+      </div>
+    </article>
+
+    <article class="row" data-prov="family" data-name="openminds openminds openminds">
+      <div class="row__id">
+        <h3><code>openminds</code></h3>
+        <div class="row__meta"><span class="chip chip--plain">retire</span><span class="chip chip--warn">family decision: openMINDS</span></div>
+      </div>
+      <div class="row__body">
+        <div class="becomes"><span class="k">becomes</span> <code>openminds</code></div>
+        <div class="account"><span class="muted">No per-class summary written yet. The signed decision for the <strong>openMINDS</strong> family covers it:</span><blockquote>jess, 2026-08-08 -- Part 7: the 3 unattached Strain documents become `strain` entities with their ids preserved and OP50-GFP&#x27;s pedigree as `background_strain_1`; the other 5 documents are Species/GeneticStrainType fragments and are consumed into their parent strain&#x27;s `species` and `genetic_strain_type` fields; no `term_assertion` is emitted, because there is no subject; the metadata-app dataset graph maps to the six classes `metadata_editor` already emits, with no new classes; the build is a second-pass assembler, and the `strain_id` edge is attached by the same pass that mints subjects from `</blockquote></div>
+        
+      </div>
+    </article>
+
+    <article class="row" data-prov="family" data-name="projectvar projectvar projectvar">
+      <div class="row__id">
+        <h3><code>projectvar</code></h3>
+        <div class="row__meta"><span class="chip chip--plain">in_progress</span><span class="chip chip--warn">family decision: misc singletons</span></div>
+      </div>
+      <div class="row__body">
+        <div class="becomes"><span class="k">becomes</span> <code>projectvar</code></div>
+        <div class="account"><span class="muted">No per-class summary written yet. The signed decision for the <strong>misc singletons</strong> family covers it:</span><blockquote>jess, 2026-08-09 -- `binaryseries_parameters` folds into the data_body model and is retired (its `time_type` is the time axis&#x27;s new `datum_type`, its `data_type` the statement&#x27;s, `data_dim` the axis count, `samples_regular_intervals` the axis `regular` flag); `interaction_purpose` is KEPT, conditionally on the stimulus build actually emitting it, and is the destination for the 635 `StimulationApproach` documents via a second pass -- so #71 is repaired by re-targeting, with pass 1 emitting nothing; `projectvar` stays a deprecated passthrough until real documents exist to model its untyped `data</blockquote></div>
+        
+      </div>
+    </article>
+
+    <article class="row" data-prov="family" data-name="sorting_parameters sorting_parameters sorting_parameters">
+      <div class="row__id">
+        <h3><code>sorting_parameters</code></h3>
+        <div class="row__meta"><span class="chip chip--plain">retire</span><span class="chip chip--warn">family decision: spike processing parameters</span></div>
+      </div>
+      <div class="row__body">
+        <div class="becomes"><span class="k">becomes</span> <code>sorting_parameters</code></div>
+        <div class="account"><span class="muted">No per-class summary written yet. The signed decision for the <strong>spike processing parameters</strong> family covers it:</span><blockquote>jess, 2026-08-09 -- the four settings classes fold into ONE generic `method_parameters` document (id and `base.name` preserved; optional `software_id`, `subject_id`, `epoch_id -&gt; epoch`, and a `derived_from_id` self-edge carrying LINEAGE only); the settings shape is a `parameter[]` entry modelled on the `axis` entry, identity in a bound `variable`, with no `unit` field and no `data_type` field; it keeps the field name `method_parameters` in BOTH mount points, inline on `subject_interaction` and in the document; routing is decided per class -- a name and an id in the source means a document, ot</blockquote></div>
+        
+      </div>
+    </article>
+
+    <article class="row" data-prov="family" data-name="spike_extraction_parameters spike_extraction_parameters spike_extraction_parameters">
+      <div class="row__id">
+        <h3><code>spike_extraction_parameters</code></h3>
+        <div class="row__meta"><span class="chip chip--plain">retire</span><span class="chip chip--warn">family decision: spike processing parameters</span></div>
+      </div>
+      <div class="row__body">
+        <div class="becomes"><span class="k">becomes</span> <code>spike_extraction_parameters</code></div>
+        <div class="account"><span class="muted">No per-class summary written yet. The signed decision for the <strong>spike processing parameters</strong> family covers it:</span><blockquote>jess, 2026-08-09 -- the four settings classes fold into ONE generic `method_parameters` document (id and `base.name` preserved; optional `software_id`, `subject_id`, `epoch_id -&gt; epoch`, and a `derived_from_id` self-edge carrying LINEAGE only); the settings shape is a `parameter[]` entry modelled on the `axis` entry, identity in a bound `variable`, with no `unit` field and no `data_type` field; it keeps the field name `method_parameters` in BOTH mount points, inline on `subject_interaction` and in the document; routing is decided per class -- a name and an id in the source means a document, ot</blockquote></div>
+        
+      </div>
+    </article>
+
+    <article class="row" data-prov="family" data-name="spike_extraction_parameters_modification spike_extraction_parameters_modification spike_extraction_parameters_modification">
+      <div class="row__id">
+        <h3><code>spike_extraction_parameters_modification</code></h3>
+        <div class="row__meta"><span class="chip chip--plain">retire</span><span class="chip chip--warn">family decision: spike processing parameters</span></div>
+      </div>
+      <div class="row__body">
+        <div class="becomes"><span class="k">becomes</span> <code>spike_extraction_parameters_modification</code></div>
+        <div class="account"><span class="muted">No per-class summary written yet. The signed decision for the <strong>spike processing parameters</strong> family covers it:</span><blockquote>jess, 2026-08-09 -- the four settings classes fold into ONE generic `method_parameters` document (id and `base.name` preserved; optional `software_id`, `subject_id`, `epoch_id -&gt; epoch`, and a `derived_from_id` self-edge carrying LINEAGE only); the settings shape is a `parameter[]` entry modelled on the `axis` entry, identity in a bound `variable`, with no `unit` field and no `data_type` field; it keeps the field name `method_parameters` in BOTH mount points, inline on `subject_interaction` and in the document; routing is decided per class -- a name and an id in the source means a document, ot</blockquote></div>
+        
+      </div>
+    </article>
+
+    <article class="row" data-prov="family" data-name="stimulus_parameter stimulus_parameter stimulus_parameter">
+      <div class="row__id">
+        <h3><code>stimulus_parameter</code></h3>
+        <div class="row__meta"><span class="chip chip--plain">retire</span><span class="chip chip--warn">family decision: stimulus parameters</span></div>
+      </div>
+      <div class="row__body">
+        <div class="becomes"><span class="k">becomes</span> <code>stimulus_parameter</code></div>
+        <div class="account"><span class="muted">No per-class summary written yet. The signed decision for the <strong>stimulus parameters</strong> family covers it:</span><blockquote>jess@walthamdatascience.com / 2026-08-08 -- A + C: `stimulus_parameter` DISSOLVES into a typed statement leaf keyed by its CURIE (build GATED on #32); `stimulus_parameter_table` PASSES THROUGH and is DEMOTED to deprecated/; both tombstones rewritten to the NDI shape.</blockquote></div>
+        
+      </div>
+    </article>
+
+    <article class="row" data-prov="family" data-name="stimulus_parameter_table stimulus_parameter_table stimulus_parameter_table">
+      <div class="row__id">
+        <h3><code>stimulus_parameter_table</code></h3>
+        <div class="row__meta"><span class="chip chip--plain">retire</span><span class="chip chip--warn">family decision: stimulus parameters</span></div>
+      </div>
+      <div class="row__body">
+        <div class="becomes"><span class="k">becomes</span> <code>stimulus_parameter_table</code></div>
+        <div class="account"><span class="muted">No per-class summary written yet. The signed decision for the <strong>stimulus parameters</strong> family covers it:</span><blockquote>jess@walthamdatascience.com / 2026-08-08 -- A + C: `stimulus_parameter` DISSOLVES into a typed statement leaf keyed by its CURIE (build GATED on #32); `stimulus_parameter_table` PASSES THROUGH and is DEMOTED to deprecated/; both tombstones rewritten to the NDI shape.</blockquote></div>
+        
+      </div>
+    </article>
+
+    <article class="row" data-prov="family" data-name="stimulus_response stimulus_response stimulus_response">
+      <div class="row__id">
+        <h3><code>stimulus_response</code></h3>
+        <div class="row__meta"><span class="chip chip--plain">retire</span><span class="chip chip--warn">family decision: stimulus response</span></div>
+      </div>
+      <div class="row__body">
+        <div class="becomes"><span class="k">becomes</span> <code>stimulus_response</code></div>
+        <div class="account"><span class="muted">No per-class summary written yet. The signed decision for the <strong>stimulus response</strong> family covers it:</span><blockquote>jess@walthamdatascience.com / 2026-08-08 -- four classes to TWO: `harmonic_component` (data_type) + `harmonic_component_calculation` (⊂ subject_calculation, id PRESERVED); stimulus_response and stimulus_response_scalar_parameters DELETE (superclass-only, 0 docs); _parameters_basic FOLDS inline to method_parameters. Signed WITH the three mapping revisions above.</blockquote></div>
+        
+      </div>
+    </article>
+
+    <article class="row" data-prov="family" data-name="stimulus_response_scalar stimulus_response_scalar stimulus_response_scalar">
+      <div class="row__id">
+        <h3><code>stimulus_response_scalar</code></h3>
+        <div class="row__meta"><span class="chip chip--plain">retire</span><span class="chip chip--warn">family decision: stimulus response</span></div>
+      </div>
+      <div class="row__body">
+        <div class="becomes"><span class="k">becomes</span> <code>stimulus_response_scalar</code></div>
+        <div class="account"><span class="muted">No per-class summary written yet. The signed decision for the <strong>stimulus response</strong> family covers it:</span><blockquote>jess@walthamdatascience.com / 2026-08-08 -- four classes to TWO: `harmonic_component` (data_type) + `harmonic_component_calculation` (⊂ subject_calculation, id PRESERVED); stimulus_response and stimulus_response_scalar_parameters DELETE (superclass-only, 0 docs); _parameters_basic FOLDS inline to method_parameters. Signed WITH the three mapping revisions above.</blockquote></div>
+        
+      </div>
+    </article>
+
+    <article class="row" data-prov="family" data-name="stimulus_response_scalar_parameters stimulus_response_scalar_parameters stimulus_response_scalar_parameters">
+      <div class="row__id">
+        <h3><code>stimulus_response_scalar_parameters</code></h3>
+        <div class="row__meta"><span class="chip chip--plain">retire</span><span class="chip chip--warn">family decision: stimulus response</span></div>
+      </div>
+      <div class="row__body">
+        <div class="becomes"><span class="k">becomes</span> <code>stimulus_response_scalar_parameters</code></div>
+        <div class="account"><span class="muted">No per-class summary written yet. The signed decision for the <strong>stimulus response</strong> family covers it:</span><blockquote>jess@walthamdatascience.com / 2026-08-08 -- four classes to TWO: `harmonic_component` (data_type) + `harmonic_component_calculation` (⊂ subject_calculation, id PRESERVED); stimulus_response and stimulus_response_scalar_parameters DELETE (superclass-only, 0 docs); _parameters_basic FOLDS inline to method_parameters. Signed WITH the three mapping revisions above.</blockquote></div>
+        
+      </div>
+    </article>
+
+    <article class="row" data-prov="family" data-name="stimulus_response_scalar_parameters_basic stimulus_response_scalar_parameters_basic stimulus_response_scalar_parameters_basic">
+      <div class="row__id">
+        <h3><code>stimulus_response_scalar_parameters_basic</code></h3>
+        <div class="row__meta"><span class="chip chip--plain">retire</span><span class="chip chip--warn">family decision: stimulus response</span></div>
+      </div>
+      <div class="row__body">
+        <div class="becomes"><span class="k">becomes</span> <code>stimulus_response_scalar_parameters_basic</code></div>
+        <div class="account"><span class="muted">No per-class summary written yet. The signed decision for the <strong>stimulus response</strong> family covers it:</span><blockquote>jess@walthamdatascience.com / 2026-08-08 -- four classes to TWO: `harmonic_component` (data_type) + `harmonic_component_calculation` (⊂ subject_calculation, id PRESERVED); stimulus_response and stimulus_response_scalar_parameters DELETE (superclass-only, 0 docs); _parameters_basic FOLDS inline to method_parameters. Signed WITH the three mapping revisions above.</blockquote></div>
+        
+      </div>
+    </article>
+
+    <article class="row" data-prov="family" data-name="subjectmeasurement subjectmeasurement subjectmeasurement">
+      <div class="row__id">
+        <h3><code>subjectmeasurement</code></h3>
+        <div class="row__meta"><span class="chip chip--plain">retire</span><span class="chip chip--warn">family decision: subject measurement</span></div>
+      </div>
+      <div class="row__body">
+        <div class="becomes"><span class="k">becomes</span> <code>subjectmeasurement</code></div>
+        <div class="account"><span class="muted">No per-class summary written yet. The signed decision for the <strong>subject measurement</strong> family covers it:</span><blockquote>jess, 2026-08-06 -- subjectmeasurement routes through the existing `measurement` fold with NO new class: subject_id carries over, `measurement` becomes the statement&#x27;s `variable`, `value` becomes the value, and `datestamp` becomes the statement&#x27;s TIME ANCHOR (time_reference_1 -&gt; absolute_reference), NOT a field. Known gap, signed with: `value` carries no unit, so the typed leaf must be chosen through the D9 registry rather than from the template.</blockquote></div>
+        
+      </div>
+    </article>
+
+    <article class="row" data-prov="family" data-name="syncgraph syncgraph syncgraph">
+      <div class="row__id">
+        <h3><code>syncgraph</code></h3>
+        <div class="row__meta"><span class="chip chip--plain">in_progress</span><span class="chip chip--warn">family decision: sync configuration</span></div>
+      </div>
+      <div class="row__body">
+        <div class="becomes"><span class="k">becomes</span> <code>syncgraph</code></div>
+        <div class="account"><span class="muted">No per-class summary written yet. The signed decision for the <strong>sync configuration</strong> family covers it:</span><blockquote>jess@walthamdatascience.com / 2026-08-08 -- syncrule -&gt; `clock_alignment_configuration` (parameters DECLARED not bagged, devices become `acquisition_channels_#` edges, EXACTLY 2 and UNORDERED); syncgraph -&gt; `clock_alignment_policy`, earning its existence on membership; both preserve base.id, and syncrule_id_# is un-tightened back to NDI&#x27;s optional.</blockquote></div>
+        
+      </div>
+    </article>
+
+    <article class="row" data-prov="family" data-name="syncrule syncrule syncrule">
+      <div class="row__id">
+        <h3><code>syncrule</code></h3>
+        <div class="row__meta"><span class="chip chip--plain">in_progress</span><span class="chip chip--warn">family decision: sync configuration</span></div>
+      </div>
+      <div class="row__body">
+        <div class="becomes"><span class="k">becomes</span> <code>syncrule</code></div>
+        <div class="account"><span class="muted">No per-class summary written yet. The signed decision for the <strong>sync configuration</strong> family covers it:</span><blockquote>jess@walthamdatascience.com / 2026-08-08 -- syncrule -&gt; `clock_alignment_configuration` (parameters DECLARED not bagged, devices become `acquisition_channels_#` edges, EXACTLY 2 and UNORDERED); syncgraph -&gt; `clock_alignment_policy`, earning its existence on membership; both preserve base.id, and syncrule_id_# is un-tightened back to NDI&#x27;s optional.</blockquote></div>
+        
+      </div>
+    </article>
+
+    <article class="row" data-prov="family" data-name="syncrule_mapping syncrule_mapping syncrule_mapping">
+      <div class="row__id">
+        <h3><code>syncrule_mapping</code></h3>
+        <div class="row__meta"><span class="chip chip--plain">in_progress</span><span class="chip chip--warn">family decision: sync mapping</span></div>
+      </div>
+      <div class="row__body">
+        <div class="becomes"><span class="k">becomes</span> <code>syncrule_mapping</code></div>
+        <div class="account"><span class="muted">No per-class summary written yet. The signed decision for the <strong>sync mapping</strong> family covers it:</span><blockquote>jess@walthamdatascience.com / 2026-08-08 -- syncrule_mapping -&gt; `clock_alignment` (⊂ relation, polynomial), base.id PRESERVED; endpoints become from_reference / to_reference on relative_reference documents; syncgraph_id RESTORED and the invented required `epochid` (5,316 docs, 100% empty) REMOVED; `degree` kept and CHECKED.</blockquote></div>
+        
+      </div>
+    </article>
+
+    <article class="row" data-prov="family" data-name="vmspikefilteringparameters vmspikefilteringparameters vmspikefilteringparameters">
+      <div class="row__id">
+        <h3><code>vmspikefilteringparameters</code></h3>
+        <div class="row__meta"><span class="chip chip--plain">retire</span><span class="chip chip--warn">family decision: spike processing parameters</span></div>
+      </div>
+      <div class="row__body">
+        <div class="becomes"><span class="k">becomes</span> <code>vmspikefilteringparameters</code></div>
+        <div class="account"><span class="muted">No per-class summary written yet. The signed decision for the <strong>spike processing parameters</strong> family covers it:</span><blockquote>jess, 2026-08-09 -- the four settings classes fold into ONE generic `method_parameters` document (id and `base.name` preserved; optional `software_id`, `subject_id`, `epoch_id -&gt; epoch`, and a `derived_from_id` self-edge carrying LINEAGE only); the settings shape is a `parameter[]` entry modelled on the `axis` entry, identity in a bound `variable`, with no `unit` field and no `data_type` field; it keeps the field name `method_parameters` in BOTH mount points, inline on `subject_interaction` and in the document; routing is decided per class -- a name and an id in the source means a document, ot</blockquote></div>
+        
+      </div>
+    </article>
+    </section>
+
+    <section class="bucket" id="bucket-none">
+      <header class="bucket__head">
+        <h2>No decision on record</h2>
+        <p class="bucket__count"><strong>9</strong> of 102 classes</p>
+        <p class="bucket__blurb">No per-class account and no signed decision family. READ THE DISPOSITION CHIP ON EACH ROW BEFORE READING THIS AS ALARM — the group is not uniform. `base` and `session` persist unchanged and need no decision; three are NDI’s own test/demo scaffolding; `animalsubject` dissolved into `subject` before this work began. The ones that genuinely strand today are the three marked UNVERIFIED: `generic_file`, `imageCollection` and `valid_interval` — each has no V_eta home and no migrator, and two of the three have live production writers in NDI.</p>
+      </header>
+      
+    <article class="row" data-prov="none" data-name="animalsubject  ">
+      <div class="row__id">
+        <h3><code>animalsubject</code></h3>
+        <div class="row__meta"><span class="chip chip--plain">dissolved → subject</span><span class="chip chip--open">no decision recorded</span></div>
+      </div>
+      <div class="row__body">
+        <div class="becomes"><span class="k">becomes</span> <em class="muted">no target recorded</em></div>
+        <div class="account"><span class="muted">No per-class summary and no signed decision family. This is a real gap, not a formatting one.</span></div>
+        
+      </div>
+    </article>
+
+    <article class="row" data-prov="none" data-name="base base base">
+      <div class="row__id">
+        <h3><code>base</code></h3>
+        <div class="row__meta"><span class="chip chip--plain">persist</span><span class="chip chip--open">no decision recorded</span></div>
+      </div>
+      <div class="row__body">
+        <div class="becomes"><span class="k">becomes</span> <code>base</code></div>
+        <div class="account"><span class="muted">No per-class summary and no signed decision family. This is a real gap, not a formatting one.</span></div>
+        
+      </div>
+    </article>
+
+    <article class="row" data-prov="none" data-name="demondi  ">
+      <div class="row__id">
+        <h3><code>demoNDI</code></h3>
+        <div class="row__meta"><span class="chip chip--plain">test/demo fixture (non-production)</span><span class="chip chip--open">no decision recorded</span></div>
+      </div>
+      <div class="row__body">
+        <div class="becomes"><span class="k">becomes</span> <em class="muted">no target recorded</em></div>
+        <div class="account"><span class="muted">No per-class summary and no signed decision family. This is a real gap, not a formatting one.</span></div>
+        
+      </div>
+    </article>
+
+    <article class="row" data-prov="none" data-name="demondimock  ">
+      <div class="row__id">
+        <h3><code>demoNDIMock</code></h3>
+        <div class="row__meta"><span class="chip chip--plain">test/demo fixture (non-production)</span><span class="chip chip--open">no decision recorded</span></div>
+      </div>
+      <div class="row__body">
+        <div class="becomes"><span class="k">becomes</span> <em class="muted">no target recorded</em></div>
+        <div class="account"><span class="muted">No per-class summary and no signed decision family. This is a real gap, not a formatting one.</span></div>
+        
+      </div>
+    </article>
+
+    <article class="row" data-prov="none" data-name="generic_file  ">
+      <div class="row__id">
+        <h3><code>generic_file</code></h3>
+        <div class="row__meta"><span class="chip chip--plain">no V_eta home, no migrator -- UNVERIFIED</span><span class="chip chip--open">no decision recorded</span></div>
+      </div>
+      <div class="row__body">
+        <div class="becomes"><span class="k">becomes</span> <em class="muted">no target recorded</em></div>
+        <div class="account"><span class="muted">No per-class summary and no signed decision family. This is a real gap, not a formatting one.</span></div>
+        
+      </div>
+    </article>
+
+    <article class="row" data-prov="none" data-name="imagecollection  ">
+      <div class="row__id">
+        <h3><code>imageCollection</code></h3>
+        <div class="row__meta"><span class="chip chip--plain">no V_eta home, no migrator -- UNVERIFIED</span><span class="chip chip--open">no decision recorded</span></div>
+      </div>
+      <div class="row__body">
+        <div class="becomes"><span class="k">becomes</span> <em class="muted">no target recorded</em></div>
+        <div class="account"><span class="muted">No per-class summary and no signed decision family. This is a real gap, not a formatting one.</span></div>
+        
+      </div>
+    </article>
+
+    <article class="row" data-prov="none" data-name="mock  ">
+      <div class="row__id">
+        <h3><code>mock</code></h3>
+        <div class="row__meta"><span class="chip chip--plain">test/demo fixture (non-production)</span><span class="chip chip--open">no decision recorded</span></div>
+      </div>
+      <div class="row__body">
+        <div class="becomes"><span class="k">becomes</span> <em class="muted">no target recorded</em></div>
+        <div class="account"><span class="muted">No per-class summary and no signed decision family. This is a real gap, not a formatting one.</span></div>
+        
+      </div>
+    </article>
+
+    <article class="row" data-prov="none" data-name="session session session">
+      <div class="row__id">
+        <h3><code>session</code></h3>
+        <div class="row__meta"><span class="chip chip--plain">persist</span><span class="chip chip--open">no decision recorded</span></div>
+      </div>
+      <div class="row__body">
+        <div class="becomes"><span class="k">becomes</span> <code>session</code></div>
+        <div class="account"><span class="muted">No per-class summary and no signed decision family. This is a real gap, not a formatting one.</span></div>
+        
+      </div>
+    </article>
+
+    <article class="row" data-prov="none" data-name="valid_interval  ">
+      <div class="row__id">
+        <h3><code>valid_interval</code></h3>
+        <div class="row__meta"><span class="chip chip--plain">no V_eta home, no migrator -- UNVERIFIED</span><span class="chip chip--open">no decision recorded</span></div>
+      </div>
+      <div class="row__body">
+        <div class="becomes"><span class="k">becomes</span> <em class="muted">no target recorded</em></div>
+        <div class="account"><span class="muted">No per-class summary and no signed decision family. This is a real gap, not a formatting one.</span></div>
+        
+      </div>
+    </article>
+    </section>
+
+<footer>
+  Generated by <code>tools/migration_map.py</code> from
+  <code>V_eta_coverage_ledger.json</code> and <code>V_eta_decisions.json</code>.
+  Re-run it after any schema or migrator change; the inputs are themselves generated
+  and CI-checked for staleness.
+</footer>
+</div>
+
+<script>
+(function () {
+  var q = document.getElementById('q');
+  var count = document.getElementById('count');
+  var rows = Array.prototype.slice.call(document.querySelectorAll('.row'));
+  function apply() {
+    var term = q.value.trim().toLowerCase();
+    var shown = 0;
+    rows.forEach(function (r) {
+      var hit = !term || r.dataset.name.indexOf(term) !== -1;
+      r.hidden = !hit;
+      if (hit) shown++;
+    });
+    count.textContent = shown + ' of ' + rows.length + ' shown';
+  }
+  q.addEventListener('input', apply);
+  apply();
+})();
+</script>
