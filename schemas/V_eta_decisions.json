@@ -530,7 +530,7 @@
         ],
         "packages_missing": [],
         "files_read": 132,
-        "lines_read": 16957,
+        "lines_read": 16975,
         "classes_queried": 31,
         "ref_kinds": [
           "guard",
