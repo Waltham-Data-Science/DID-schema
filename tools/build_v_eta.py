@@ -2936,24 +2936,58 @@ _tombstone(
 # The schema also documents time_size/data_size as BYTES with default 32 and type
 # float32; 32 bytes is not float32, 32 BITS is, and the vhsb reference
 # implementation uses bits. The doc strings below say bits.
+#
+# THAT DISAGREEMENT IS NOW RESOLVED IN THE MIGRATOR, NOT HERE, and the reason is
+# that the schema had no way to resolve it. Against +did2/+schema/cache.m there
+# is NO empty representation of a scalar-required integer that validates:
+# validateTypeShape runs UNCONDITIONALLY on any field present in the block
+# (cache.m:1169 -- there is no is-empty short circuit ahead of it), `integer`
+# demands isnumeric (cache.m:1318) so `""` is a typeMismatch, and `[]` is numeric
+# but fails mustBeScalar (cache.m:1200). Since `ndi.document(...)` fills a new
+# document from the template and then assigns ONLY the name/value pairs the
+# caller passed (+ndi/document.m:54-56), a document carrying the template's own
+# defaults could not validate. What DOES validate is ABSENCE: an absent field
+# that is not mustBeNonEmpty returns early at cache.m:1157-1163. So
+# migrators_j/binaryseries_parameters.m DROPS the empty-char placeholder --
+# absence is what "" means here and it is the only spelling that passes -- and
+# ERRORS on a non-empty char rather than parsing it, because this class has no
+# writer anywhere in NDI to say what encoding was intended.
+#
+# NOT A binaryseries_parameters SPECIAL CASE. Sweeping all 91 NDI
+# database_documents templates against the V_eta classes they map to finds 33
+# fields whose TEMPLATE LITERAL cannot validate against the type V_eta declares,
+# across 20 classes. Only three of those classes have no migrator to overwrite
+# the placeholder with a real value, and so are exposed on the passthrough path:
+# this one, `stimulus_parameter` (`value`) and `imageStack_parameters`
+# (`timestamp`). The other two are other families' calls.
 _tombstone(
     "binaryseries_parameters", ["base"], [],
     [field("time_size", "integer",
            "Size of each time (independent-variable) sample, in BITS (the NDI"
            " schema says bytes, which cannot be right at default 32 with type"
-           " float32; the vhsb reference implementation uses bits)."),
+           " float32; the vhsb reference implementation uses bits). NDI's"
+           " template literal for this field is the CHAR \"\", which cannot"
+           " validate as an integer and has no empty integer spelling that can;"
+           " migrators_j/binaryseries_parameters.m drops the placeholder so the"
+           " field is simply ABSENT when unset."),
      field("time_type", "string",
            "Data type of the time sample (uint32, float32, ...)."),
      field("data_size", "integer",
            "Size of each data (dependent-variable) sample, in BITS -- see"
-           " time_size."),
+           " time_size. Same empty-char placeholder, same handling."),
      field("data_type", "string",
            "Data type of the data sample. NOTE this field name collides with"
            " V_eta's `data_type` CATEGORY name; it survives universalRenames"
-           " unchanged and is unrelated."),
-     field("data_dim", "integer", "Dimension of each data sample."),
+           " unchanged and is unrelated -- asserted here for a long time with no"
+           " test behind it, now gated by"
+           " tests/+did2/+unittest/testMiscSingletons.m."),
+     field("data_dim", "integer",
+           "Dimension of each data sample. Same empty-char placeholder, same"
+           " handling."),
      field("samples_regular_intervals", "integer",
-           "0/1 -- whether samples are at regular intervals.")])
+           "0/1 -- whether samples are at regular intervals. The template's"
+           " literal here is a real 0, not the empty char, so it needs no"
+           " normalisation.")])
 
 # projectvar -- a project-scoped scratch key/value variable.
 #
@@ -2983,7 +3017,13 @@ _tombstone(
            " Declared `string` because that is the template's literal (`\"\"`)"
            " and `string` also accepts an empty numeric; the meta-schema has no"
            " union or any type, so a non-empty NUMERIC payload would fail. Same"
-           " limitation as vmneuralresponseresiduals.goodness_of_fit.")])
+           " limitation as vmneuralresponseresiduals.goodness_of_fit. THIS IS"
+           " STILL OPEN, and it is why the class is filed as needing real"
+           " documents rather than modelled: the failure is a hard quarantine"
+           " (did2:validation:typeMismatch, +did2/+schema/cache.m:1290-1310),"
+           " not a silent loss, and it is pinned by"
+           " testMiscSingletons/testProjectvarNumericPayloadQuarantinesToday so"
+           " nobody meets it first on a corpus run.")])
 
 # The daqreader ingest cache family. `epochid` is a SUPERCLASS contributing a
 # block that holds the epoch-id STRING -- it is NOT a dependency, and the old

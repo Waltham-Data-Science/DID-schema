@@ -94,7 +94,7 @@
             "mustNotHaveNaN": false,
             "queryable": true,
             "ontology": null,
-            "documentation": "The variable's payload -- an ARBITRARY value passed by the caller. Declared `string` because that is the template's literal (`\"\"`) and `string` also accepts an empty numeric; the meta-schema has no union or any type, so a non-empty NUMERIC payload would fail. Same limitation as vmneuralresponseresiduals.goodness_of_fit.",
+            "documentation": "The variable's payload -- an ARBITRARY value passed by the caller. Declared `string` because that is the template's literal (`\"\"`) and `string` also accepts an empty numeric; the meta-schema has no union or any type, so a non-empty NUMERIC payload would fail. Same limitation as vmneuralresponseresiduals.goodness_of_fit. THIS IS STILL OPEN, and it is why the class is filed as needing real documents rather than modelled: the failure is a hard quarantine (did2:validation:typeMismatch, +did2/+schema/cache.m:1290-1310), not a silent loss, and it is pinned by testMiscSingletons/testProjectvarNumericPayloadQuarantinesToday so nobody meets it first on a corpus run.",
             "constraints": {}
         }
     ]

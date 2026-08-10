@@ -196,6 +196,157 @@ def test_an_isfield_guard_is_consumption(tmp_path):
 
 
 # ---------------------------------------------------------------------------
+# MINTING -- the OTHER half of "is anything built", added 2026-08-10
+#
+# Every kind above answers "does something CONSUME this v1 block". None of them
+# can see a V_eta TARGET that a migrator BUILDS, because no file is named after
+# the target of a rename -- and that is how `control_designation` rendered as
+# "decided, nothing built" while control_stimulus_ids.m:111 was minting it.
+# ---------------------------------------------------------------------------
+
+def test_the_emission_patterns_are_coverage_pys_own():
+    """Reuse, asserted rather than intended.
+
+    `tools/coverage.py` already extracts every `'class_name', '<X>'` a V_eta
+    migrator writes, for its emitted-class guardrail. A second regex here would
+    be a second thing to keep in step with the migrators, and the two would
+    disagree silently -- the `dataseries_channel_map` failure, where two
+    hand-maintained records contradicted each other and neither won.
+    """
+    cov = _load_tool("coverage")
+    assert [p.pattern for p in sb.CLASS_EMIT] == \
+           [p.pattern for p in cov._CLASS_EMIT], (
+        "status_board has grown its own copy of coverage.py's class_name "
+        "patterns; the two will drift")
+
+
+def test_a_minted_document_class_is_build_evidence(tmp_path):
+    """control_stimulus_ids.m:111, reduced. The v1 source is
+    `control_stimulus_ids`; the V_eta target is `control_designation`; no file
+    is named after it and nothing reads a `preBody.control_designation`."""
+    k = _kinds(tmp_path,
+               "v2Body.document_class = struct('class_name', "
+               "'control_designation', 'class_version', '1.0.0');\n",
+               ["control_designation"])
+    assert k["control_designation"] == [sb.EMITTED_CLASS_KIND]
+    assert sb.EMITTED_CLASS_KIND not in sb.CONSUMING_KINDS, (
+        "a mint is not a consumption; it is a separate fact about a target")
+
+
+def test_a_superclass_entry_is_not_a_mint(tmp_path):
+    """The precision coverage.py's raw sweep does not have, and needs not have.
+
+    A `document_class` struct carries the document's OWN class_name plus a
+    `superclasses` array of more class_names. `stimulusBathToBath.m` spells one
+    across eight physical lines, so the split is by position inside the JOINED
+    statement -- a per-line rule reads the superclass line as a document class,
+    and `time_reference` and `epochid` (both open classes) are minted nowhere
+    except as somebody else's ancestors.
+    """
+    text = ("timeRefBody.document_class = struct( ...\n"
+            "    'class_name', 'epoch_bounded_reference', 'class_version', '1.0.0', ...\n"
+            "    'superclasses', [ ...\n"
+            "        struct('class_name', 'time_reference', 'class_version', '1.0.0'), ...\n"
+            "        struct('class_name', 'epochid',        'class_version', '1.0.0')]);\n")
+    minted = {c for c, _l in sb.emitted_document_classes(text.splitlines(True))}
+    assert minted == {"epoch_bounded_reference"}, (
+        f"superclass entries counted as minted document classes: {minted}")
+
+
+def test_a_commented_out_emission_is_not_a_mint():
+    """+migrators_j quotes NDI templates and its own prior shapes at length in
+    comments. Counting one reports unbuilt work as built."""
+    text = ("% v2Body.document_class = struct('class_name', 'ngrid');\n"
+            "%{\n"
+            "b.document_class = struct('class_name', 'projectvar');\n"
+            "%}\n"
+            "real.document_class = struct('class_name', 'directory');\n")
+    minted = {c for c, _l in sb.emitted_document_classes(text.splitlines(True))}
+    assert minted == {"directory"}, f"a commented emission was counted: {minted}"
+
+
+def test_a_mint_is_reported_at_the_line_a_human_will_find_it_on():
+    text = ("x = 1;\n"
+            "body.document_class = struct( ...\n"
+            "    'class_name', 'control_designation', 'class_version', '1');\n")
+    assert sb.emitted_document_classes(text.splitlines(True)) == \
+        {("control_designation", 3)}
+
+
+def test_a_mint_of_a_class_the_decision_retires_is_not_progress():
+    """The inversion this scan already recorded once, arriving through a new door.
+
+    `session_relative_reference`'s whole open question is its COLLAPSE into
+    `relative_reference` (signed, V_eta_time_reference_model_plan.md:468). Three
+    migrators still mint the old class. That is the work outstanding, not
+    evidence of it being done -- so a mint must not move it to (b).
+    """
+    cls = "session_relative_reference"
+    assert cls in sb.RETIRED_BY_ITS_OWN_DECISION
+    mig = {cls: {"migrator_file": None, "n_consuming_refs": 0,
+                 "consuming_refs": [], "n_emitted_class_refs": 3,
+                 "emitted_class_refs": [], "n_emitting_refs": 0,
+                 "emitting_refs": []}}
+    ocs = sb.open_class_state({cls}, [], [], mig, {"available": True},
+                              None, {"available": False})
+    row = ocs["classes"][0]
+    assert row["state"] == sb.STATE_A, (
+        "minting a class the signed decision retires was read as build progress")
+    assert row["emission_discounted"], "the discount must be stated, not silent"
+    assert row["n_emitted_class_refs"] == 3, (
+        "the discounted mint count must still be REPORTED -- a suppressed "
+        "signal that leaves no trace is how a number stops being checkable")
+
+
+def test_a_mint_of_a_kept_class_is_progress():
+    """The other side of the same rule, so the discount cannot quietly become
+    universal and take the whole signal back out again."""
+    cls = "control_designation"
+    assert cls not in sb.RETIRED_BY_ITS_OWN_DECISION
+    mig = {cls: {"migrator_file": None, "n_consuming_refs": 0,
+                 "consuming_refs": [], "n_emitted_class_refs": 1,
+                 "emitted_class_refs": [], "n_emitting_refs": 0,
+                 "emitting_refs": []}}
+    ocs = sb.open_class_state({cls}, [], [], mig, {"available": True},
+                              None, {"available": False})
+    assert ocs["classes"][0]["state"] == sb.STATE_B
+
+
+def test_every_discounted_class_names_a_replacement_that_exists():
+    """`RETIRED_BY_ITS_OWN_DECISION` SUPPRESSES build credit, so a typo or a
+    since-renamed replacement pins its class at "nothing built" forever and in
+    the direction this board exists to stop. `build()` exits non-zero on this;
+    the test says so without needing a subprocess."""
+    with open(INDEX) as fh:
+        built = {s["class_name"] for s in json.load(fh)["schemas"]}
+    bad = {c: t for c, t in sb.RETIRED_BY_ITS_OWN_DECISION.items()
+           if t not in built}
+    assert bad == {}, f"replacement class(es) absent from the built index: {bad}"
+
+    claimed = {m for f in sb.FAMILIES for m in f[1]}
+    orphan = sorted(set(sb.RETIRED_BY_ITS_OWN_DECISION) - claimed)
+    assert orphan == [], (
+        f"{orphan} are discounted but claimed by no decision family, so the "
+        "sign-off the discount is transcribed from cannot be located")
+
+
+def test_the_denominator_of_the_mint_sweep_is_recorded():
+    """Operating rule 5, for the new half of the instrument."""
+    with open(DECISIONS) as fh:
+        ocs = json.load(fh).get("open_class_state") or {}
+    msrc = ocs["sources"]["migrator"]
+    if not msrc.get("available"):
+        pytest.skip("migrator evidence was reused from the snapshot")
+    assert "classes_emitted_as_document_class" in msrc, (
+        "the mint sweep reports no denominator")
+    assert sb.EMITTED_CLASS_KIND in msrc.get("ref_kinds", [])
+    rows = ocs["classes"]
+    counted = sum(1 for r in rows if r.get("n_emitted_class_refs"))
+    assert counted == msrc["classes_emitted_as_document_class"], (
+        "the per-class mint rows and the summary denominator disagree")
+
+
+# ---------------------------------------------------------------------------
 # THE MIGRATOR SWEEP -- the undercount it exists to fix
 # ---------------------------------------------------------------------------
 
@@ -228,6 +379,40 @@ def test_a_private_helper_counts_as_a_migrator():
             f"{cls} is consumed by a private helper and the sweep missed it")
         assert any("private/" in r for r in mig[cls]["consuming_refs"]), (
             f"{cls}'s consumption should be found in a private/ helper")
+
+
+@pytest.mark.skipif(_did_root() is None, reason="DID-matlab not checked out")
+def test_control_designation_is_found_by_minting_and_by_nothing_else():
+    """THE ROW THAT PROVED THE UNDERCOUNT, held against the real repo.
+
+    `control_designation` is the V_eta target of the v1 class
+    `control_stimulus_ids`. Nothing is named after it, nothing consumes it, and
+    the ledger offers no decided target -- so before minting was visible the
+    board rendered it "(a) decided, nothing built" while
+    `migrators_j/control_stimulus_ids.m:111` was building it.
+
+    Asserted as an AND: if a same-named migrator or a consuming reference ever
+    appears, this class stops demonstrating the undercount and the test should
+    be re-pointed rather than relaxed.
+    """
+    classes = set(_open_classes())
+    if "control_designation" not in classes:
+        pytest.skip("control_designation is no longer an open class")
+    mig, src = sb.migrator_evidence(classes, _did_root(),
+                                    sb.find_repo("NDI-matlab", "NDI_MATLAB"))
+    assert mig is not None and src["files_read"] > 0, (
+        "the sweep read no files -- treat as broken, not as clean")
+    row = mig["control_designation"]
+    assert row["migrator_file"] is None, (
+        "a migrator is now NAMED control_designation; this row no longer "
+        "demonstrates the filename undercount")
+    assert row["n_consuming_refs"] == 0, (
+        "something now consumes control_designation; re-point this test")
+    assert row["n_emitted_class_refs"] >= 1, (
+        "control_designation is minted by control_stimulus_ids.m and the "
+        "sweep missed it -- the undercount is back")
+    assert any("control_stimulus_ids.m" in r
+               for r in row["emitted_class_refs"]), row["emitted_class_refs"]
 
 
 # ---------------------------------------------------------------------------

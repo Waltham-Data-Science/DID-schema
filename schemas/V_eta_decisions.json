@@ -530,7 +530,7 @@
         ],
         "packages_missing": [],
         "files_read": 133,
-        "lines_read": 17135,
+        "lines_read": 17175,
         "classes_queried": 31,
         "classes_emitted_as_document_class": 5,
         "ref_kinds": [
@@ -564,8 +564,8 @@
       "u_unmeasured": "(?) UNMEASURED -- no build evidence was ever taken"
     },
     "counts": {
-      "a_nothing_built": 13,
-      "b_built_awaiting_corpus_proof": 18,
+      "a_nothing_built": 12,
+      "b_built_awaiting_corpus_proof": 19,
       "c_corpus_zero_survivors": 0,
       "u_unmeasured": 0
     },
@@ -579,6 +579,11 @@
         "migrator_file": null,
         "n_consuming_refs": 0,
         "consuming_refs": [],
+        "n_emitted_class_refs": 0,
+        "emitted_class_refs": [],
+        "emission_counts_as_build": false,
+        "retired_by_decision_in_favour_of": null,
+        "emission_discounted": null,
         "n_emitting_refs": 2,
         "emitting_refs": [
           "migrators_j/element_epoch.m:86 (named)",
@@ -607,6 +612,11 @@
           "migrators_j/private/jSoftwareFromApp.m:91 (guard)",
           "migrators_j/private/jSoftwareFromApp.m:92 (field_read)"
         ],
+        "n_emitted_class_refs": 0,
+        "emitted_class_refs": [],
+        "emission_counts_as_build": false,
+        "retired_by_decision_in_favour_of": null,
+        "emission_discounted": null,
         "n_emitting_refs": 1,
         "emitting_refs": [
           "migrators_j/private/jMethodParameters.m:107 (field_write)"
@@ -634,6 +644,11 @@
         "migrator_file": "migrators_j/binaryseries_parameters.m",
         "n_consuming_refs": 0,
         "consuming_refs": [],
+        "n_emitted_class_refs": 0,
+        "emitted_class_refs": [],
+        "emission_counts_as_build": false,
+        "retired_by_decision_in_favour_of": null,
+        "emission_discounted": null,
         "n_emitting_refs": 1,
         "emitting_refs": [
           "migrators_j/binaryseries_parameters.m:119 (named)"
@@ -649,12 +664,21 @@
       {
         "class_name": "control_designation",
         "family": "stimulus",
-        "state": "a_nothing_built",
-        "state_label": "(a) decided, nothing built",
-        "build_evidence": [],
+        "state": "b_built_awaiting_corpus_proof",
+        "state_label": "(b) built, awaiting corpus proof",
+        "build_evidence": [
+          "minted as a document class at 1 site(s)"
+        ],
         "migrator_file": null,
         "n_consuming_refs": 0,
         "consuming_refs": [],
+        "n_emitted_class_refs": 1,
+        "emitted_class_refs": [
+          "migrators_j/control_stimulus_ids.m:111 (emitted_class)"
+        ],
+        "emission_counts_as_build": true,
+        "retired_by_decision_in_favour_of": null,
+        "emission_discounted": null,
         "n_emitting_refs": 1,
         "emitting_refs": [
           "migrators_j/control_stimulus_ids.m:133 (field_write)"
@@ -684,6 +708,11 @@
           "migrators_j/daqmetadatareader.m:101 (field_read)",
           "migrators_j/daqmetadatareader.m:102 (field_read)"
         ],
+        "n_emitted_class_refs": 0,
+        "emitted_class_refs": [],
+        "emission_counts_as_build": false,
+        "retired_by_decision_in_favour_of": null,
+        "emission_discounted": null,
         "n_emitting_refs": 0,
         "emitting_refs": [],
         "decided_targets": [
@@ -710,6 +739,11 @@
         "migrator_file": "migrators_j/daqmetadatareader_epochdata_ingested.m",
         "n_consuming_refs": 0,
         "consuming_refs": [],
+        "n_emitted_class_refs": 0,
+        "emitted_class_refs": [],
+        "emission_counts_as_build": false,
+        "retired_by_decision_in_favour_of": null,
+        "emission_discounted": null,
         "n_emitting_refs": 0,
         "emitting_refs": [],
         "decided_targets": [
@@ -742,6 +776,11 @@
           "migrators_j/daqreader.m:102 (field_read)",
           "migrators_j/daqreader_ndr.m:21 (guard)"
         ],
+        "n_emitted_class_refs": 0,
+        "emitted_class_refs": [],
+        "emission_counts_as_build": false,
+        "retired_by_decision_in_favour_of": null,
+        "emission_discounted": null,
         "n_emitting_refs": 3,
         "emitting_refs": [
           "migrators_j/daqreader_ndr.m:14 (named)",
@@ -777,6 +816,11 @@
           "migrators_j/daqreader_mfdaq_epochdata_ingested.m:41 (field_read)",
           "migrators_j/daqreader_mfdaq_epochdata_ingested.m:66 (field_read)"
         ],
+        "n_emitted_class_refs": 0,
+        "emitted_class_refs": [],
+        "emission_counts_as_build": false,
+        "retired_by_decision_in_favour_of": null,
+        "emission_discounted": null,
         "n_emitting_refs": 5,
         "emitting_refs": [
           "migrators_j/daqreader_epochdata_ingested.m:84 (named)",
@@ -809,6 +853,11 @@
         "migrator_file": "migrators_j/daqreader_image_epochdata_ingested.m",
         "n_consuming_refs": 0,
         "consuming_refs": [],
+        "n_emitted_class_refs": 0,
+        "emitted_class_refs": [],
+        "emission_counts_as_build": false,
+        "retired_by_decision_in_favour_of": null,
+        "emission_discounted": null,
         "n_emitting_refs": 0,
         "emitting_refs": [],
         "decided_targets": [
@@ -844,6 +893,11 @@
           "migrators_j/daqsystem.m:145 (field_read)",
           "migrators_j/daqsystem.m:146 (field_read)"
         ],
+        "n_emitted_class_refs": 0,
+        "emitted_class_refs": [],
+        "emission_counts_as_build": false,
+        "retired_by_decision_in_favour_of": null,
+        "emission_discounted": null,
         "n_emitting_refs": 0,
         "emitting_refs": [],
         "decided_targets": [
@@ -867,6 +921,11 @@
         "migrator_file": null,
         "n_consuming_refs": 0,
         "consuming_refs": [],
+        "n_emitted_class_refs": 0,
+        "emitted_class_refs": [],
+        "emission_counts_as_build": false,
+        "retired_by_decision_in_favour_of": null,
+        "emission_discounted": null,
         "n_emitting_refs": 1,
         "emitting_refs": [
           "migrators_j/private/jSorterOutput.m:77 (named)"
@@ -893,6 +952,11 @@
         "consuming_refs": [
           "ndi_second_pass/ensembleMembership.m:227 (guard)"
         ],
+        "n_emitted_class_refs": 0,
+        "emitted_class_refs": [],
+        "emission_counts_as_build": false,
+        "retired_by_decision_in_favour_of": null,
+        "emission_discounted": null,
         "n_emitting_refs": 0,
         "emitting_refs": [],
         "decided_targets": [
@@ -920,6 +984,13 @@
         "migrator_file": null,
         "n_consuming_refs": 0,
         "consuming_refs": [],
+        "n_emitted_class_refs": 1,
+        "emitted_class_refs": [
+          "ndi_second_pass/stimulusBathToBath.m:71 (emitted_class)"
+        ],
+        "emission_counts_as_build": false,
+        "retired_by_decision_in_favour_of": "relative_reference",
+        "emission_discounted": "minted at 1 site(s), NOT counted as build progress: the signed decision retires this class in favour of `relative_reference`, so an emission is work still to undo",
         "n_emitting_refs": 2,
         "emitting_refs": [
           "migrators_j/syncrule_mapping.m:182 (named)",
@@ -942,6 +1013,11 @@
         "migrator_file": null,
         "n_consuming_refs": 0,
         "consuming_refs": [],
+        "n_emitted_class_refs": 0,
+        "emitted_class_refs": [],
+        "emission_counts_as_build": false,
+        "retired_by_decision_in_favour_of": "relative_reference",
+        "emission_discounted": null,
         "n_emitting_refs": 0,
         "emitting_refs": [],
         "decided_targets": [],
@@ -963,6 +1039,11 @@
         "migrator_file": "migrators_j/epochfiles_ingested.m",
         "n_consuming_refs": 0,
         "consuming_refs": [],
+        "n_emitted_class_refs": 0,
+        "emitted_class_refs": [],
+        "emission_counts_as_build": false,
+        "retired_by_decision_in_favour_of": null,
+        "emission_discounted": null,
         "n_emitting_refs": 0,
         "emitting_refs": [],
         "decided_targets": [],
@@ -991,6 +1072,11 @@
           "ndi_second_pass/ensembleMembership.m:361 (guard)",
           "ndi_second_pass/ensembleMembership.m:362 (field_read)"
         ],
+        "n_emitted_class_refs": 0,
+        "emitted_class_refs": [],
+        "emission_counts_as_build": false,
+        "retired_by_decision_in_favour_of": "epoch",
+        "emission_discounted": null,
         "n_emitting_refs": 5,
         "emitting_refs": [
           "migrators_j/epochfiles_ingested.m:135 (named)",
@@ -1016,6 +1102,11 @@
         "migrator_file": null,
         "n_consuming_refs": 0,
         "consuming_refs": [],
+        "n_emitted_class_refs": 0,
+        "emitted_class_refs": [],
+        "emission_counts_as_build": false,
+        "retired_by_decision_in_favour_of": "relative_reference",
+        "emission_discounted": null,
         "n_emitting_refs": 0,
         "emitting_refs": [],
         "decided_targets": [],
@@ -1035,6 +1126,11 @@
         "migrator_file": null,
         "n_consuming_refs": 0,
         "consuming_refs": [],
+        "n_emitted_class_refs": 0,
+        "emitted_class_refs": [],
+        "emission_counts_as_build": false,
+        "retired_by_decision_in_favour_of": "relative_reference",
+        "emission_discounted": null,
         "n_emitting_refs": 0,
         "emitting_refs": [],
         "decided_targets": [],
@@ -1062,6 +1158,11 @@
           "migrators_j/filenavigator.m:122 (field_read)",
           "migrators_j/filenavigator.m:123 (field_read)"
         ],
+        "n_emitted_class_refs": 0,
+        "emitted_class_refs": [],
+        "emission_counts_as_build": false,
+        "retired_by_decision_in_favour_of": null,
+        "emission_discounted": null,
         "n_emitting_refs": 0,
         "emitting_refs": [],
         "decided_targets": [
@@ -1090,6 +1191,11 @@
           "migrators_j/private/jFrequencyFilter.m:112 (guard)",
           "migrators_j/private/jFrequencyFilter.m:113 (field_read)"
         ],
+        "n_emitted_class_refs": 0,
+        "emitted_class_refs": [],
+        "emission_counts_as_build": false,
+        "retired_by_decision_in_favour_of": null,
+        "emission_discounted": null,
         "n_emitting_refs": 2,
         "emitting_refs": [
           "migrators_j/private/jSpikeExtractionSettings.m:159 (named)",
@@ -1112,6 +1218,11 @@
         "migrator_file": null,
         "n_consuming_refs": 0,
         "consuming_refs": [],
+        "n_emitted_class_refs": 0,
+        "emitted_class_refs": [],
+        "emission_counts_as_build": false,
+        "retired_by_decision_in_favour_of": null,
+        "emission_discounted": null,
         "n_emitting_refs": 0,
         "emitting_refs": [],
         "decided_targets": [],
@@ -1136,6 +1247,11 @@
           "migrators_j/+super/ngrid.m:100 (field_read)",
           "migrators_j/+super/ngrid.m:96 (guard)"
         ],
+        "n_emitted_class_refs": 0,
+        "emitted_class_refs": [],
+        "emission_counts_as_build": false,
+        "retired_by_decision_in_favour_of": null,
+        "emission_discounted": null,
         "n_emitting_refs": 1,
         "emitting_refs": [
           "migrators_j/+super/ngrid.m:115 (field_write)"
@@ -1157,6 +1273,11 @@
         "migrator_file": null,
         "n_consuming_refs": 0,
         "consuming_refs": [],
+        "n_emitted_class_refs": 0,
+        "emitted_class_refs": [],
+        "emission_counts_as_build": false,
+        "retired_by_decision_in_favour_of": null,
+        "emission_discounted": null,
         "n_emitting_refs": 0,
         "emitting_refs": [],
         "decided_targets": [],
@@ -1176,6 +1297,13 @@
         "migrator_file": null,
         "n_consuming_refs": 0,
         "consuming_refs": [],
+        "n_emitted_class_refs": 1,
+        "emitted_class_refs": [
+          "migrators_j/ontology_table_row.m:262 (emitted_class)"
+        ],
+        "emission_counts_as_build": false,
+        "retired_by_decision_in_favour_of": "relative_reference",
+        "emission_discounted": "minted at 1 site(s), NOT counted as build progress: the signed decision retires this class in favour of `relative_reference`, so an emission is work still to undo",
         "n_emitting_refs": 1,
         "emitting_refs": [
           "migrators_j/ontology_table_row.m:268 (field_write)"
@@ -1197,6 +1325,15 @@
         "migrator_file": null,
         "n_consuming_refs": 0,
         "consuming_refs": [],
+        "n_emitted_class_refs": 3,
+        "emitted_class_refs": [
+          "migrators_j/ontology_table_row.m:669 (emitted_class)",
+          "migrators_j/private/jSessionAnchor.m:19 (emitted_class)",
+          "migrators_j/treatment_transfer.m:101 (emitted_class)"
+        ],
+        "emission_counts_as_build": false,
+        "retired_by_decision_in_favour_of": "relative_reference",
+        "emission_discounted": "minted at 3 site(s), NOT counted as build progress: the signed decision retires this class in favour of `relative_reference`, so an emission is work still to undo",
         "n_emitting_refs": 15,
         "emitting_refs": [
           "migrators_j/fitcurve.m:139 (named)",
@@ -1229,6 +1366,11 @@
           "ndi_second_pass/stimulusPresentationToManipulation.m:47 (guard)",
           "ndi_second_pass/stimulusPresentationToManipulation.m:48 (field_read)"
         ],
+        "n_emitted_class_refs": 0,
+        "emitted_class_refs": [],
+        "emission_counts_as_build": false,
+        "retired_by_decision_in_favour_of": null,
+        "emission_discounted": null,
         "n_emitting_refs": 0,
         "emitting_refs": [],
         "decided_targets": [],
@@ -1255,6 +1397,11 @@
           "migrators_j/syncgraph.m:86 (guard)",
           "migrators_j/syncgraph.m:87 (field_read)"
         ],
+        "n_emitted_class_refs": 0,
+        "emitted_class_refs": [],
+        "emission_counts_as_build": false,
+        "retired_by_decision_in_favour_of": null,
+        "emission_discounted": null,
         "n_emitting_refs": 0,
         "emitting_refs": [],
         "decided_targets": [
@@ -1285,6 +1432,11 @@
           "migrators_j/syncrule.m:95 (guard)",
           "migrators_j/syncrule.m:96 (field_read)"
         ],
+        "n_emitted_class_refs": 0,
+        "emitted_class_refs": [],
+        "emission_counts_as_build": false,
+        "retired_by_decision_in_favour_of": null,
+        "emission_discounted": null,
         "n_emitting_refs": 0,
         "emitting_refs": [],
         "decided_targets": [
@@ -1307,6 +1459,7 @@
         "build_evidence": [
           "migrator `migrators_j/syncrule_mapping.m`",
           "2 consuming reference(s)",
+          "minted as a document class at 1 site(s)",
           "decided target(s) built: `clock_alignment`"
         ],
         "migrator_file": "migrators_j/syncrule_mapping.m",
@@ -1315,6 +1468,13 @@
           "migrators_j/syncrule_mapping.m:106 (guard)",
           "migrators_j/syncrule_mapping.m:107 (field_read)"
         ],
+        "n_emitted_class_refs": 1,
+        "emitted_class_refs": [
+          "migrators_j/syncrule_mapping.m:131 (emitted_class)"
+        ],
+        "emission_counts_as_build": true,
+        "retired_by_decision_in_favour_of": null,
+        "emission_discounted": null,
         "n_emitting_refs": 1,
         "emitting_refs": [
           "migrators_j/syncrule_mapping.m:149 (field_write)"
@@ -1340,6 +1500,11 @@
         "migrator_file": null,
         "n_consuming_refs": 0,
         "consuming_refs": [],
+        "n_emitted_class_refs": 0,
+        "emitted_class_refs": [],
+        "emission_counts_as_build": false,
+        "retired_by_decision_in_favour_of": "relative_reference",
+        "emission_discounted": null,
         "n_emitting_refs": 28,
         "emitting_refs": [
           "migrators_j/fitcurve.m:139 (named)",
@@ -1366,6 +1531,11 @@
         "migrator_file": null,
         "n_consuming_refs": 0,
         "consuming_refs": [],
+        "n_emitted_class_refs": 0,
+        "emitted_class_refs": [],
+        "emission_counts_as_build": false,
+        "retired_by_decision_in_favour_of": "absolute_reference",
+        "emission_discounted": null,
         "n_emitting_refs": 0,
         "emitting_refs": [],
         "decided_targets": [],

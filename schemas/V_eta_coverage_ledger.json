@@ -16,7 +16,7 @@
       "ndi": 91,
       "app": 11
     },
-    "with_migrator": 81,
+    "with_migrator": 82,
     "gaps": 0
   },
   "rows": [
@@ -97,7 +97,7 @@
       "v1_class": "binaryseries_parameters",
       "veta_class": "binaryseries_parameters",
       "disposition": "in_progress",
-      "migrator": false,
+      "migrator": true,
       "source": "ndi",
       "nonprod": false,
       "gap": false,

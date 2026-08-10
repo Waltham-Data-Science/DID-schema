@@ -22,8 +22,8 @@ for each model; this board owns *how much is left and what exactly*.
 
 | open-class BUILD/PROOF state (derived, see below) | count |
 |---|---|
-| (a) decided, nothing built | 13 |
-| (b) built, awaiting corpus proof | 18 |
+| (a) decided, nothing built | 12 |
+| (b) built, awaiting corpus proof | 19 |
 | (c) corpus: 0 survivors in the corpora read | 0 |
 | (?) UNMEASURED -- no build evidence was ever taken | 0 |
 
@@ -46,8 +46,10 @@ decides a disposition -- it DERIVES, per class, how far the work has got.
 |---|---|
 | build: V_eta migrator packages read | `migrators_j`, `ndi_second_pass` |
 | build: migrator files inspected | 133 |
-| build: migrator lines inspected | 17135 |
+| build: migrator lines inspected | 17175 |
 | build: classes queried | 31 |
+| build: open classes MINTED as a document class | 5 |
+| build: of those, discounted (decision retires the class) | 3 |
 | corpus: `*-summary.json` reports read | 0 |
 | corpus: reports carrying an `unconverted_count` | 0 |
 | corpus: documents behind those reports | 0 |
@@ -63,8 +65,8 @@ directory of corpus reports, or run the DID-matlab corpus gate.
 
 | state | classes |
 |---|---|
-| (a) decided, nothing built | 13 |
-| (b) built, awaiting corpus proof | 18 |
+| (a) decided, nothing built | 12 |
+| (b) built, awaiting corpus proof | 19 |
 | (c) corpus: 0 survivors in the corpora read | 0 |
 | (?) UNMEASURED -- no build evidence was ever taken | 0 |
 
@@ -77,17 +79,43 @@ the team flips a disposition.
 
 ### A REFERENCE IS CLASSIFIED BEFORE IT COUNTS
 
-Only a CONSUMING reference makes a class (b) -- a migrator file named
-after it, an `isfield(preBody, '<class>')` / `strcmp(classNameOf(s),
-'<class>')` guard, or a read of `preBody.<class>`. A migrator that WRITES
-the class (`x.<class> = ...`, `classBlock('<class>')`) or merely names it
-as a value is counted
-separately and shown as *still emitted*, because for an open class that is
-evidence the decided change has **not** landed. Counting those as build
-progress is what the first draft of this scan did: it made `directory`
-look built off `struct('format', 'directory', ...)` and put all 18 of
-`session_relative_reference`'s emission sites on the wrong side of the
-ledger.
+Two kinds of reference make a class (b), and they answer different
+questions.
+
+**CONSUMED** -- a migrator file named after it, an `isfield(preBody,
+'<class>')` / `strcmp(classNameOf(s), '<class>')` guard, or a read of
+`preBody.<class>`. That is evidence about a v1 SOURCE: something eats it.
+
+**MINTED** -- `b.document_class = struct('class_name', '<class>', ...)`.
+That is evidence about a V_eta TARGET: something builds it. The scan could
+not see this until 2026-08-10, and the cost was concrete:
+`control_designation` rendered as *decided, nothing built* while
+`migrators_j/control_stimulus_ids.m:111` was minting it -- no file is named
+after the target of a rename, so a filename key can never find one. The
+patterns come from `tools/coverage.py`, which already extracts them for its
+emitted-class guardrail; comments and `superclasses` entries are dropped on
+top (of the 42 names coverage.py's raw sweep reports, 29 are document
+classes -- the 13 it conflates include `time_reference` and `epochid`, both
+open, both minted only as somebody else's superclass).
+
+A migrator that merely WRITES the name into a field (`x.<class> = ...`) or
+names it as a value is counted separately and shown as *still emitted*,
+because for an open class that is evidence the decided change has **not**
+landed. Counting those as build progress is what the first draft of this
+scan did: it made `directory` look built off `struct('format',
+'directory', ...)`.
+
+**A MINT IS DISCOUNTED WHEN THE DECISION RETIRES THE CLASS.** For a class
+whose signed decision is that it stops existing, minting it is the work
+still outstanding, not progress -- so `session_relative_reference` and its
+family stay where they are however many sites emit them. The list is
+transcribed from the sign-off lines in
+`tools/status_board.py:RETIRED_BY_ITS_OWN_DECISION`, and every replacement
+named there is checked to exist. Note this is an OPEN CONTRADICTION between
+two committed records, not a settled fact: `V_eta_migration_targets.json`
+still lists `session_relative_reference` as a decided target of 40+ v1
+sources, written before the time model collapsed it. The board takes the
+under-reporting side and does not settle it.
 
 **The `decided target(s) built` signal is the WEAKER of the two** and is
 marked separately for that reason. A decided target can be a class that
@@ -96,60 +124,60 @@ already existed for other reasons -- `ensemble` reaches (b) on `subject`,
 a row whose only evidence is a built target as *the target exists*, not as
 *the work is done*.
 
-| class | family | state | build evidence | still emitted | survivors |
-|---|---|---|---|---|---|
-| `acquisition_epoch` | epoch | (a) | *none* | 2 | n/a -- not measured |
-| `app` | software | (b) | 2 consuming reference(s); decided target(s) built: `software` | 1 | n/a -- not measured |
-| `binaryseries_parameters` | misc singletons | (b) | migrator `migrators_j/binaryseries_parameters.m` | 1 | n/a -- not measured |
-| `control_designation` | stimulus | (a) | *none* | 1 | n/a -- not measured |
-| `daqmetadatareader` | daq configuration | (b) | migrator `migrators_j/daqmetadatareader.m`; 3 consuming reference(s); decided target(s) built: `acquisition_metadata_reader` | - | n/a -- not measured |
-| `daqmetadatareader_epochdata_ingested` | daq ingested payloads | (b) | migrator `migrators_j/daqmetadatareader_epochdata_ingested.m`; decided target(s) built: `acquisition_metadata_file` | - | n/a -- not measured |
-| `daqreader` | daq configuration | (b) | migrator `migrators_j/daqreader.m`; 4 consuming reference(s); decided target(s) built: `software` | 3 | n/a -- not measured |
-| `daqreader_epochdata_ingested` | daq ingested payloads | (b) | migrator `migrators_j/daqreader_epochdata_ingested.m`; 3 consuming reference(s); decided target(s) built: `relative_reference` | 5 | n/a -- not measured |
-| `daqreader_image_epochdata_ingested` | daq ingested payloads | (b) | migrator `migrators_j/daqreader_image_epochdata_ingested.m`; decided target(s) built: `image_observation`, `relative_reference`, `sampled_body` | - | n/a -- not measured |
-| `daqsystem` | daq configuration | (b) | migrator `migrators_j/daqsystem.m`; 3 consuming reference(s); decided target(s) built: `acquisition_system` | - | n/a -- not measured |
-| `directory` | file navigation | (a) | *none* | 1 | n/a -- not measured |
-| `ensemble` | ensemble | (b) | 1 consuming reference(s); decided target(s) built: `subject`, `directed_relation`, `sampled_body` | - | n/a -- not measured |
-| `epoch_bounded_reference` | time_reference | (a) | *none* | 2 | n/a -- not measured |
-| `epoch_relative_reference` | time_reference | (a) | *none* | - | n/a -- not measured |
-| `epochfiles_ingested` | epoch | (b) | migrator `migrators_j/epochfiles_ingested.m` | - | n/a -- not measured |
-| `epochid` | epoch | (b) | 9 consuming reference(s) | 5 | n/a -- not measured |
-| `event_bounded_reference` | time_reference | (a) | *none* | - | n/a -- not measured |
-| `event_relative_reference` | time_reference | (a) | *none* | - | n/a -- not measured |
-| `filenavigator` | file navigation | (b) | migrator `migrators_j/filenavigator.m`; 3 consuming reference(s); decided target(s) built: `epoch_file_pattern` | - | n/a -- not measured |
-| `filter` | frequency_filter | (b) | 2 consuming reference(s) | 2 | n/a -- not measured |
-| `interaction_purpose` | misc singletons | (a) | *none* | - | n/a -- not measured |
-| `ngrid` | image / ngrid | (b) | 2 consuming reference(s) | 1 | n/a -- not measured |
-| `projectvar` | misc singletons | (a) | *none* | - | n/a -- not measured |
-| `session_bounded_reference` | time_reference | (a) | *none* | 1 | n/a -- not measured |
-| `session_relative_reference` | time_reference | (a) | *none* | 15 | n/a -- not measured |
-| `stimulus_presentation` | stimulus | (b) | migrator `migrators_j/stimulus_presentation.m`; 2 consuming reference(s) | - | n/a -- not measured |
-| `syncgraph` | sync configuration | (b) | migrator `migrators_j/syncgraph.m`; 2 consuming reference(s); decided target(s) built: `clock_alignment_policy` | - | n/a -- not measured |
-| `syncrule` | sync configuration | (b) | migrator `migrators_j/syncrule.m`; 2 consuming reference(s); decided target(s) built: `clock_alignment_configuration` | - | n/a -- not measured |
-| `syncrule_mapping` | sync mapping | (b) | migrator `migrators_j/syncrule_mapping.m`; 2 consuming reference(s); decided target(s) built: `clock_alignment` | 1 | n/a -- not measured |
-| `time_reference` | time_reference | (a) | *none* | 28 | n/a -- not measured |
-| `utc_reference` | time_reference | (a) | *none* | - | n/a -- not measured |
+| class | family | state | build evidence | minted | still emitted | survivors |
+|---|---|---|---|---|---|---|
+| `acquisition_epoch` | epoch | (a) | *none* | - | 2 | n/a -- not measured |
+| `app` | software | (b) | 2 consuming reference(s); decided target(s) built: `software` | - | 1 | n/a -- not measured |
+| `binaryseries_parameters` | misc singletons | (b) | migrator `migrators_j/binaryseries_parameters.m` | - | 1 | n/a -- not measured |
+| `control_designation` | stimulus | (b) | minted as a document class at 1 site(s) | 1 | 1 | n/a -- not measured |
+| `daqmetadatareader` | daq configuration | (b) | migrator `migrators_j/daqmetadatareader.m`; 3 consuming reference(s); decided target(s) built: `acquisition_metadata_reader` | - | - | n/a -- not measured |
+| `daqmetadatareader_epochdata_ingested` | daq ingested payloads | (b) | migrator `migrators_j/daqmetadatareader_epochdata_ingested.m`; decided target(s) built: `acquisition_metadata_file` | - | - | n/a -- not measured |
+| `daqreader` | daq configuration | (b) | migrator `migrators_j/daqreader.m`; 4 consuming reference(s); decided target(s) built: `software` | - | 3 | n/a -- not measured |
+| `daqreader_epochdata_ingested` | daq ingested payloads | (b) | migrator `migrators_j/daqreader_epochdata_ingested.m`; 3 consuming reference(s); decided target(s) built: `relative_reference` | - | 5 | n/a -- not measured |
+| `daqreader_image_epochdata_ingested` | daq ingested payloads | (b) | migrator `migrators_j/daqreader_image_epochdata_ingested.m`; decided target(s) built: `image_observation`, `relative_reference`, `sampled_body` | - | - | n/a -- not measured |
+| `daqsystem` | daq configuration | (b) | migrator `migrators_j/daqsystem.m`; 3 consuming reference(s); decided target(s) built: `acquisition_system` | - | - | n/a -- not measured |
+| `directory` | file navigation | (a) | *none* | - | 1 | n/a -- not measured |
+| `ensemble` | ensemble | (b) | 1 consuming reference(s); decided target(s) built: `subject`, `directed_relation`, `sampled_body` | - | - | n/a -- not measured |
+| `epoch_bounded_reference` | time_reference | (a) | *none* | 1 (discounted) | 2 | n/a -- not measured |
+| `epoch_relative_reference` | time_reference | (a) | *none* | - | - | n/a -- not measured |
+| `epochfiles_ingested` | epoch | (b) | migrator `migrators_j/epochfiles_ingested.m` | - | - | n/a -- not measured |
+| `epochid` | epoch | (b) | 9 consuming reference(s) | - | 5 | n/a -- not measured |
+| `event_bounded_reference` | time_reference | (a) | *none* | - | - | n/a -- not measured |
+| `event_relative_reference` | time_reference | (a) | *none* | - | - | n/a -- not measured |
+| `filenavigator` | file navigation | (b) | migrator `migrators_j/filenavigator.m`; 3 consuming reference(s); decided target(s) built: `epoch_file_pattern` | - | - | n/a -- not measured |
+| `filter` | frequency_filter | (b) | 2 consuming reference(s) | - | 2 | n/a -- not measured |
+| `interaction_purpose` | misc singletons | (a) | *none* | - | - | n/a -- not measured |
+| `ngrid` | image / ngrid | (b) | 2 consuming reference(s) | - | 1 | n/a -- not measured |
+| `projectvar` | misc singletons | (a) | *none* | - | - | n/a -- not measured |
+| `session_bounded_reference` | time_reference | (a) | *none* | 1 (discounted) | 1 | n/a -- not measured |
+| `session_relative_reference` | time_reference | (a) | *none* | 3 (discounted) | 15 | n/a -- not measured |
+| `stimulus_presentation` | stimulus | (b) | migrator `migrators_j/stimulus_presentation.m`; 2 consuming reference(s) | - | - | n/a -- not measured |
+| `syncgraph` | sync configuration | (b) | migrator `migrators_j/syncgraph.m`; 2 consuming reference(s); decided target(s) built: `clock_alignment_policy` | - | - | n/a -- not measured |
+| `syncrule` | sync configuration | (b) | migrator `migrators_j/syncrule.m`; 2 consuming reference(s); decided target(s) built: `clock_alignment_configuration` | - | - | n/a -- not measured |
+| `syncrule_mapping` | sync mapping | (b) | migrator `migrators_j/syncrule_mapping.m`; 2 consuming reference(s); minted as a document class at 1 site(s); decided target(s) built: `clock_alignment` | 1 | 1 | n/a -- not measured |
+| `time_reference` | time_reference | (a) | *none* | - | 28 | n/a -- not measured |
+| `utc_reference` | time_reference | (a) | *none* | - | - | n/a -- not measured |
 
-#### (a) decided, nothing built -- 13
+#### (a) decided, nothing built -- 12
 
 - `acquisition_epoch` (epoch) -- still emitted/named at 2 site(s): `migrators_j/element_epoch.m:86 (named)`, `migrators_j/element_epoch.m:88 (field_write)`
-- `control_designation` (stimulus) -- still emitted/named at 1 site(s): `migrators_j/control_stimulus_ids.m:133 (field_write)`
 - `directory` (file navigation) -- still emitted/named at 1 site(s): `migrators_j/private/jSorterOutput.m:77 (named)`
-- `epoch_bounded_reference` (time_reference) -- still emitted/named at 2 site(s): `migrators_j/syncrule_mapping.m:182 (named)`, `ndi_second_pass/stimulusBathToBath.m:81 (field_write)`
+- `epoch_bounded_reference` (time_reference) -- MINTED as a document class at 1 site(s): `ndi_second_pass/stimulusBathToBath.m:71 (emitted_class)`; minted at 1 site(s), NOT counted as build progress: the signed decision retires this class in favour of `relative_reference`, so an emission is work still to undo; still emitted/named at 2 site(s): `migrators_j/syncrule_mapping.m:182 (named)`, `ndi_second_pass/stimulusBathToBath.m:81 (field_write)`
 - `epoch_relative_reference` (time_reference) -- no evidence found
 - `event_bounded_reference` (time_reference) -- no evidence found
 - `event_relative_reference` (time_reference) -- no evidence found
 - `interaction_purpose` (misc singletons) -- no evidence found
 - `projectvar` (misc singletons) -- no evidence found
-- `session_bounded_reference` (time_reference) -- still emitted/named at 1 site(s): `migrators_j/ontology_table_row.m:268 (field_write)`
-- `session_relative_reference` (time_reference) -- still emitted/named at 15 site(s): `migrators_j/fitcurve.m:139 (named)`, `migrators_j/fitcurve.m:146 (field_write)`, `migrators_j/image_stack.m:101 (named)`, `migrators_j/image_stack.m:106 (field_write)`, `migrators_j/jrclust_clusters.m:47 (named)`, `migrators_j/jrclust_clusters.m:52 (field_write)` ...
+- `session_bounded_reference` (time_reference) -- MINTED as a document class at 1 site(s): `migrators_j/ontology_table_row.m:262 (emitted_class)`; minted at 1 site(s), NOT counted as build progress: the signed decision retires this class in favour of `relative_reference`, so an emission is work still to undo; still emitted/named at 1 site(s): `migrators_j/ontology_table_row.m:268 (field_write)`
+- `session_relative_reference` (time_reference) -- MINTED as a document class at 3 site(s): `migrators_j/ontology_table_row.m:669 (emitted_class)`, `migrators_j/private/jSessionAnchor.m:19 (emitted_class)`, `migrators_j/treatment_transfer.m:101 (emitted_class)`; minted at 3 site(s), NOT counted as build progress: the signed decision retires this class in favour of `relative_reference`, so an emission is work still to undo; still emitted/named at 15 site(s): `migrators_j/fitcurve.m:139 (named)`, `migrators_j/fitcurve.m:146 (field_write)`, `migrators_j/image_stack.m:101 (named)`, `migrators_j/image_stack.m:106 (field_write)`, `migrators_j/jrclust_clusters.m:47 (named)`, `migrators_j/jrclust_clusters.m:52 (field_write)` ...
 - `time_reference` (time_reference) -- still emitted/named at 28 site(s): `migrators_j/fitcurve.m:139 (named)`, `migrators_j/fitcurve.m:145 (field_write)`, `migrators_j/image_stack.m:101 (named)`, `migrators_j/image_stack.m:105 (field_write)`, `migrators_j/jrclust_clusters.m:47 (named)`, `migrators_j/jrclust_clusters.m:51 (field_write)` ...
 - `utc_reference` (time_reference) -- no evidence found
 
-#### (b) built, awaiting corpus proof -- 18
+#### (b) built, awaiting corpus proof -- 19
 
 - `app` (software) -- consumed at 2 site(s): `migrators_j/private/jSoftwareFromApp.m:91 (guard)`, `migrators_j/private/jSoftwareFromApp.m:92 (field_read)`; still emitted/named at 1 site(s): `migrators_j/private/jMethodParameters.m:107 (field_write)`; target(s) BUILT: `software`
 - `binaryseries_parameters` (misc singletons) -- migrator `migrators_j/binaryseries_parameters.m`; still emitted/named at 1 site(s): `migrators_j/binaryseries_parameters.m:119 (named)`
+- `control_designation` (stimulus) -- MINTED as a document class at 1 site(s): `migrators_j/control_stimulus_ids.m:111 (emitted_class)`; still emitted/named at 1 site(s): `migrators_j/control_stimulus_ids.m:133 (field_write)`
 - `daqmetadatareader` (daq configuration) -- migrator `migrators_j/daqmetadatareader.m`; consumed at 3 site(s): `migrators_j/daqmetadatareader.m:100 (guard)`, `migrators_j/daqmetadatareader.m:101 (field_read)`, `migrators_j/daqmetadatareader.m:102 (field_read)`; target(s) BUILT: `acquisition_metadata_reader`
 - `daqmetadatareader_epochdata_ingested` (daq ingested payloads) -- migrator `migrators_j/daqmetadatareader_epochdata_ingested.m`; target(s) BUILT: `acquisition_metadata_file`
 - `daqreader` (daq configuration) -- migrator `migrators_j/daqreader.m`; consumed at 4 site(s): `migrators_j/daqreader.m:100 (guard)`, `migrators_j/daqreader.m:101 (field_read)`, `migrators_j/daqreader.m:102 (field_read)`, `migrators_j/daqreader_ndr.m:21 (guard)`; still emitted/named at 3 site(s): `migrators_j/daqreader_ndr.m:14 (named)`, `migrators_j/daqreader_ndr.m:22 (field_write)`, `migrators_j/daqreader_ndr.m:25 (field_write)`; target(s) BUILT: `software`
@@ -165,7 +193,7 @@ a row whose only evidence is a built target as *the target exists*, not as
 - `stimulus_presentation` (stimulus) -- migrator `migrators_j/stimulus_presentation.m`; consumed at 2 site(s): `ndi_second_pass/stimulusPresentationToManipulation.m:47 (guard)`, `ndi_second_pass/stimulusPresentationToManipulation.m:48 (field_read)`
 - `syncgraph` (sync configuration) -- migrator `migrators_j/syncgraph.m`; consumed at 2 site(s): `migrators_j/syncgraph.m:86 (guard)`, `migrators_j/syncgraph.m:87 (field_read)`; target(s) BUILT: `clock_alignment_policy`
 - `syncrule` (sync configuration) -- migrator `migrators_j/syncrule.m`; consumed at 2 site(s): `migrators_j/syncrule.m:95 (guard)`, `migrators_j/syncrule.m:96 (field_read)`; target(s) BUILT: `clock_alignment_configuration`
-- `syncrule_mapping` (sync mapping) -- migrator `migrators_j/syncrule_mapping.m`; consumed at 2 site(s): `migrators_j/syncrule_mapping.m:106 (guard)`, `migrators_j/syncrule_mapping.m:107 (field_read)`; still emitted/named at 1 site(s): `migrators_j/syncrule_mapping.m:149 (field_write)`; target(s) BUILT: `clock_alignment`
+- `syncrule_mapping` (sync mapping) -- migrator `migrators_j/syncrule_mapping.m`; consumed at 2 site(s): `migrators_j/syncrule_mapping.m:106 (guard)`, `migrators_j/syncrule_mapping.m:107 (field_read)`; MINTED as a document class at 1 site(s): `migrators_j/syncrule_mapping.m:131 (emitted_class)`; still emitted/named at 1 site(s): `migrators_j/syncrule_mapping.m:149 (field_write)`; target(s) BUILT: `clock_alignment`
 
 ## AWAITING A SIGNATURE -- decided with the team, not yet recorded
 

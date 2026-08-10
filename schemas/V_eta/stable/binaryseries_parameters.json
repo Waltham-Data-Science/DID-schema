@@ -22,7 +22,7 @@
             "mustNotHaveNaN": false,
             "queryable": true,
             "ontology": null,
-            "documentation": "Size of each time (independent-variable) sample, in BITS (the NDI schema says bytes, which cannot be right at default 32 with type float32; the vhsb reference implementation uses bits).",
+            "documentation": "Size of each time (independent-variable) sample, in BITS (the NDI schema says bytes, which cannot be right at default 32 with type float32; the vhsb reference implementation uses bits). NDI's template literal for this field is the CHAR \"\", which cannot validate as an integer and has no empty integer spelling that can; migrators_j/binaryseries_parameters.m drops the placeholder so the field is simply ABSENT when unset.",
             "constraints": {}
         },
         {
@@ -48,7 +48,7 @@
             "mustNotHaveNaN": false,
             "queryable": true,
             "ontology": null,
-            "documentation": "Size of each data (dependent-variable) sample, in BITS -- see time_size.",
+            "documentation": "Size of each data (dependent-variable) sample, in BITS -- see time_size. Same empty-char placeholder, same handling.",
             "constraints": {}
         },
         {
@@ -61,7 +61,7 @@
             "mustNotHaveNaN": false,
             "queryable": true,
             "ontology": null,
-            "documentation": "Data type of the data sample. NOTE this field name collides with V_eta's `data_type` CATEGORY name; it survives universalRenames unchanged and is unrelated.",
+            "documentation": "Data type of the data sample. NOTE this field name collides with V_eta's `data_type` CATEGORY name; it survives universalRenames unchanged and is unrelated -- asserted here for a long time with no test behind it, now gated by tests/+did2/+unittest/testMiscSingletons.m.",
             "constraints": {}
         },
         {
@@ -74,7 +74,7 @@
             "mustNotHaveNaN": false,
             "queryable": true,
             "ontology": null,
-            "documentation": "Dimension of each data sample.",
+            "documentation": "Dimension of each data sample. Same empty-char placeholder, same handling.",
             "constraints": {}
         },
         {
@@ -87,7 +87,7 @@
             "mustNotHaveNaN": false,
             "queryable": true,
             "ontology": null,
-            "documentation": "0/1 -- whether samples are at regular intervals.",
+            "documentation": "0/1 -- whether samples are at regular intervals. The template's literal here is a real 0, not the empty char, so it needs no normalisation.",
             "constraints": {}
         }
     ]

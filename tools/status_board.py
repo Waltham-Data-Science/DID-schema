@@ -51,11 +51,11 @@ membership stays a team disposition (operating rule 4, and nothing here edits
 it), and the board instead DERIVES, per open class, the two facts the
 declaration cannot carry:
 
-    (a) decided, nothing built        no migrator names it, no decided target
-                                      schema exists
-    (b) built, awaiting corpus proof  a migrator consumes it and/or its decided
-                                      target is built, but no census has shown
-                                      0 surviving documents
+    (a) decided, nothing built        no migrator consumes it, no migrator MINTS
+                                      it, no decided target schema exists
+    (b) built, awaiting corpus proof  a migrator consumes it, MINTS it, and/or
+                                      its decided target is built, but no census
+                                      has shown 0 surviving documents
     (c) corpus-proven consumed        the last census read this class and found
                                       no document returned unchanged
     (?) UNMEASURED                    the evidence for this class was never
@@ -1187,16 +1187,31 @@ def open_class_state(open_work, schemas, rows, mig, mig_src, cen, cen_src):
         con_refs = m.get("consuming_refs", []) if measured else []
         n_emit = m.get("n_emitting_refs", 0) if measured else 0
         emit_refs = m.get("emitting_refs", []) if measured else []
+        n_mint = m.get("n_emitted_class_refs", 0) if measured else 0
+        mint_refs = m.get("emitted_class_refs", []) if measured else []
+
+        # A MINTED CLASS IS BUILT -- unless the decision is that it stops
+        # existing, in which case the mint is the work still outstanding.
+        retired_to = RETIRED_BY_ITS_OWN_DECISION.get(cls)
+        mint_counts = bool(n_mint) and retired_to is None
+        discount = None
+        if n_mint and retired_to is not None:
+            discount = ("minted at %d site(s), NOT counted as build progress: "
+                        "the signed decision retires this class in favour of "
+                        "`%s`, so an emission is work still to undo"
+                        % (n_mint, retired_to))
 
         why = []
         if mfile:
             why.append("migrator `%s`" % mfile)
         if n_con:
             why.append("%d consuming reference(s)" % n_con)
+        if mint_counts:
+            why.append("minted as a document class at %d site(s)" % n_mint)
         if built_t:
             why.append("decided target(s) built: %s"
                        % ", ".join("`%s`" % t for t in built_t))
-        has_build = bool(mfile or n_con or built_t)
+        has_build = bool(mfile or n_con or mint_counts or built_t)
 
         c = (cen or {}).get(cls)
         survivors = c.get("survivors") if c else None
@@ -1222,6 +1237,11 @@ def open_class_state(open_work, schemas, rows, mig, mig_src, cen, cen_src):
             "migrator_file": mfile,
             "n_consuming_refs": n_con,
             "consuming_refs": con_refs,
+            "n_emitted_class_refs": n_mint,
+            "emitted_class_refs": mint_refs,
+            "emission_counts_as_build": mint_counts,
+            "retired_by_decision_in_favour_of": retired_to,
+            "emission_discounted": discount,
             "n_emitting_refs": n_emit,
             "emitting_refs": emit_refs,
             "decided_targets": decided,
@@ -1264,6 +1284,8 @@ def gather_evidence(open_work, schemas, rows, args, log):
         prior = {c: {"migrator_file": r.get("migrator_file"),
                      "n_consuming_refs": r.get("n_consuming_refs", 0),
                      "consuming_refs": r.get("consuming_refs", []),
+                     "n_emitted_class_refs": r.get("n_emitted_class_refs", 0),
+                     "emitted_class_refs": r.get("emitted_class_refs", []),
                      "n_emitting_refs": r.get("n_emitting_refs", 0),
                      "emitting_refs": r.get("emitting_refs", [])}
                  for c, r in snap_rows.items()
@@ -1338,6 +1360,10 @@ def render_open_state(p, ocs):
     p("| build: migrator files inspected | %d |" % msrc.get("files_read", 0))
     p("| build: migrator lines inspected | %d |" % msrc.get("lines_read", 0))
     p("| build: classes queried | %d |" % msrc.get("classes_queried", 0))
+    p("| build: open classes MINTED as a document class | %d |"
+      % msrc.get("classes_emitted_as_document_class", 0))
+    p("| build: of those, discounted (decision retires the class) | %d |"
+      % sum(1 for r in rowsv if r.get("emission_discounted")))
     p("| corpus: `*-summary.json` reports read | %d |" % csrc.get("reports_read", 0))
     p("| corpus: reports carrying an `unconverted_count` | %d |"
       % csrc.get("reports_with_survivor_data", 0))
@@ -1375,17 +1401,43 @@ def render_open_state(p, ocs):
     p("")
     p("### A REFERENCE IS CLASSIFIED BEFORE IT COUNTS")
     p("")
-    p("Only a CONSUMING reference makes a class (b) -- a migrator file named")
-    p("after it, an `isfield(preBody, '<class>')` / `strcmp(classNameOf(s),")
-    p("'<class>')` guard, or a read of `preBody.<class>`. A migrator that WRITES")
-    p("the class (`x.<class> = ...`, `classBlock('<class>')`) or merely names it")
-    p("as a value is counted")
-    p("separately and shown as *still emitted*, because for an open class that is")
-    p("evidence the decided change has **not** landed. Counting those as build")
-    p("progress is what the first draft of this scan did: it made `directory`")
-    p("look built off `struct('format', 'directory', ...)` and put all 18 of")
-    p("`session_relative_reference`'s emission sites on the wrong side of the")
-    p("ledger.")
+    p("Two kinds of reference make a class (b), and they answer different")
+    p("questions.")
+    p("")
+    p("**CONSUMED** -- a migrator file named after it, an `isfield(preBody,")
+    p("'<class>')` / `strcmp(classNameOf(s), '<class>')` guard, or a read of")
+    p("`preBody.<class>`. That is evidence about a v1 SOURCE: something eats it.")
+    p("")
+    p("**MINTED** -- `b.document_class = struct('class_name', '<class>', ...)`.")
+    p("That is evidence about a V_eta TARGET: something builds it. The scan could")
+    p("not see this until 2026-08-10, and the cost was concrete:")
+    p("`control_designation` rendered as *decided, nothing built* while")
+    p("`migrators_j/control_stimulus_ids.m:111` was minting it -- no file is named")
+    p("after the target of a rename, so a filename key can never find one. The")
+    p("patterns come from `tools/coverage.py`, which already extracts them for its")
+    p("emitted-class guardrail; comments and `superclasses` entries are dropped on")
+    p("top (of the 42 names coverage.py's raw sweep reports, 29 are document")
+    p("classes -- the 13 it conflates include `time_reference` and `epochid`, both")
+    p("open, both minted only as somebody else's superclass).")
+    p("")
+    p("A migrator that merely WRITES the name into a field (`x.<class> = ...`) or")
+    p("names it as a value is counted separately and shown as *still emitted*,")
+    p("because for an open class that is evidence the decided change has **not**")
+    p("landed. Counting those as build progress is what the first draft of this")
+    p("scan did: it made `directory` look built off `struct('format',")
+    p("'directory', ...)`.")
+    p("")
+    p("**A MINT IS DISCOUNTED WHEN THE DECISION RETIRES THE CLASS.** For a class")
+    p("whose signed decision is that it stops existing, minting it is the work")
+    p("still outstanding, not progress -- so `session_relative_reference` and its")
+    p("family stay where they are however many sites emit them. The list is")
+    p("transcribed from the sign-off lines in")
+    p("`tools/status_board.py:RETIRED_BY_ITS_OWN_DECISION`, and every replacement")
+    p("named there is checked to exist. Note this is an OPEN CONTRADICTION between")
+    p("two committed records, not a settled fact: `V_eta_migration_targets.json`")
+    p("still lists `session_relative_reference` as a decided target of 40+ v1")
+    p("sources, written before the time model collapsed it. The board takes the")
+    p("under-reporting side and does not settle it.")
     p("")
     p("**The `decided target(s) built` signal is the WEAKER of the two** and is")
     p("marked separately for that reason. A decided target can be a class that")
@@ -1394,18 +1446,21 @@ def render_open_state(p, ocs):
     p("a row whose only evidence is a built target as *the target exists*, not as")
     p("*the work is done*.")
     p("")
-    p("| class | family | state | build evidence | still emitted | survivors |")
-    p("|---|---|---|---|---|---|")
+    p("| class | family | state | build evidence | minted | still emitted | survivors |")
+    p("|---|---|---|---|---|---|---|")
     for r in rowsv:
         surv = ("n/a -- not measured" if r["survivors"] is None
                 else str(r["survivors"]))
         ev = "; ".join(r["build_evidence"]) or ("*not measured*"
                                                 if not r["build_evidence_measured"]
                                                 else "*none*")
-        p("| `%s` | %s | %s | %s | %s | %s |"
+        mint = r.get("n_emitted_class_refs") or 0
+        mint_cell = ("%d (discounted)" % mint if r.get("emission_discounted")
+                     else (str(mint) if mint else "-"))
+        p("| `%s` | %s | %s | %s | %s | %s | %s |"
           % (r["class_name"], r["family"] or "-",
              OPEN_STATE_LABEL[r["state"]].split(" ", 1)[0], ev,
-             r["n_emitting_refs"] or "-", surv))
+             mint_cell, r["n_emitting_refs"] or "-", surv))
     p("")
     for k in (STATE_A, STATE_U, STATE_C, STATE_B):
         members = [r for r in rowsv if r["state"] == k]
@@ -1423,6 +1478,15 @@ def render_open_state(p, ocs):
                                ", ".join("`%s`" % x for x in r["consuming_refs"]),
                                " ..." if r["n_consuming_refs"]
                                > len(r["consuming_refs"]) else ""))
+            if r.get("n_emitted_class_refs"):
+                bits.append("MINTED as a document class at %d site(s): %s%s"
+                            % (r["n_emitted_class_refs"],
+                               ", ".join("`%s`" % x
+                                         for x in r["emitted_class_refs"]),
+                               " ..." if r["n_emitted_class_refs"]
+                               > len(r["emitted_class_refs"]) else ""))
+            if r.get("emission_discounted"):
+                bits.append(r["emission_discounted"])
             if r["n_emitting_refs"]:
                 bits.append("still emitted/named at %d site(s): %s%s"
                             % (r["n_emitting_refs"],
@@ -1555,6 +1619,24 @@ def build(ocs=None):
     # Accept either, so a family can claim the thing the board is asking it to.
     known = {e["class_name"] for e in schemas}
     known |= {r["v1_class"] for r in rows}
+
+    # A DISCOUNT MUST NAME A REAL REPLACEMENT. `RETIRED_BY_ITS_OWN_DECISION`
+    # suppresses build credit, so a typo or a since-renamed replacement would
+    # hold a class at "(a) nothing built" forever, silently and in the direction
+    # this board exists to stop -- the exact shape of the ledger's "dissolved
+    # (rename/decompose)" labels. Fail loudly instead.
+    built_now = {e["class_name"] for e in schemas}
+    bad_repl = sorted((c, t) for c, t in RETIRED_BY_ITS_OWN_DECISION.items()
+                      if t not in built_now)
+    if bad_repl:
+        sys.stderr.write(
+            "status_board: RETIRED_BY_ITS_OWN_DECISION names %d replacement "
+            "class(es) that are not in the built index: %s\n"
+            "Each entry discounts a migrator's emission, so a stale name pins "
+            "its class at 'nothing built' with no way to notice.\n"
+            % (len(bad_repl), ", ".join("%s -> %s" % cr for cr in bad_repl)))
+        sys.exit(1)
+
     ghosts = sorted({m for f in FAMILIES for m in f[1] if m not in known})
     if ghosts:
         sys.stderr.write(
