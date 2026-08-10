@@ -1658,6 +1658,19 @@
             "disposition_note": "R4: folds into sampled_body (coupled to reverse_correlation RF map)"
         },
         {
+            "class_name": "oneepoch",
+            "tier": "stable",
+            "class_version": "2.0.0",
+            "maturity_level": "stable",
+            "superclasses": [
+                "base",
+                "epochid"
+            ],
+            "path": "schemas/V_eta/stable/oneepoch.json",
+            "disposition": "retire",
+            "disposition_note": "Phase-8 source (migrator \u2192 delete)"
+        },
+        {
             "class_name": "ontology_image",
             "tier": "stable",
             "class_version": "2.0.0",

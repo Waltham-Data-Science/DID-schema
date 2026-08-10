@@ -43,6 +43,21 @@ wording as history rather than asserting it. Every correction written on
 It does NOT check that the signature matches the section, the family, or the
 build state. It checks the one thing that was wrong six times.
 
+KNOWN LIMITATION -- it cannot tell WHICH document a claim is about
+-----------------------------------------------------------------
+The rule is "a file must not assert that IT is unsigned", but the match is on
+wording alone. A signed document that truthfully says *another* document has no
+signature line trips it as a false positive. That happened on 2026-08-10:
+`V_eta_epoch_plan.md` (signed) recorded that the raw-recording plan is not, and
+the gate fired.
+
+The fix is NOT to exempt it -- `HISTORICAL-SIGNOFF-CLAIM` means "this quotes a
+claim that used to be made", and a live true statement about a different file is
+not that. Write cross-document claims as "<doc> is not yet signed" instead, and
+keep the `NO TEAM-SIGN-OFF LINE` phrasing for what a document says about itself.
+The narrow wording is deliberate: broadening the regex to catch paraphrases would
+make this ambiguity common instead of rare.
+
 THE SECOND RULE -- the same lie in the tool source
 --------------------------------------------------
 Fixing the six documents surfaced SEVEN MORE instances one layer down, in

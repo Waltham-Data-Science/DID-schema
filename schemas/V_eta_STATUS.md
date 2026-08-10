@@ -9,9 +9,9 @@ for each model; this board owns *how much is left and what exactly*.
 
 | | count |
 |---|---|
-| target classes | 242 |
+| target classes | 243 |
 | settled (persist) | 162 |
-| settled (retire) | 49 |
+| settled (retire) | 50 |
 | **still open (`in_progress`)** | **31** |
 | **`retire` with no migrator YET** | **13** |
 | open **decision families** | **18** |
@@ -89,12 +89,12 @@ migrator work before the target closes is rework.
 
 | disposition | count |
 |---|---|
-| retire | 44 |
+| retire | 45 |
 | consumed by migrator (no tombstone) | 27 |
 | in_progress | 19 |
 | persist | 4 |
-| no V_eta home, no migrator -- UNVERIFIED | 4 |
 | test/demo fixture (non-production) | 3 |
+| no V_eta home, no migrator -- UNVERIFIED | 3 |
 | dissolved → subject | 1 |
 
 ### `retire`, but NO MIGRATOR YET -- 13 rows
@@ -131,6 +131,5 @@ exists to prevent, and it cost a review pass to notice.
 
 - `generic_file`
 - `imageCollection`
-- `oneepoch`
 - `valid_interval`
 

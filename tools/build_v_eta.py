@@ -3354,6 +3354,95 @@ _tombstone(
            " written. UNMODELLED: no writer, no reader, no documents.",
            scalar=False, queryable=False)])
 
+# ---- oneepoch: a did_v1 class that had NO V_eta schema at all -------------
+#
+# Not a wrong schema. NONE. `oneepoch` was tagged non-production in
+# coverage.py's `_NONPROD_CLASSES`, which suppresses the coverage gap, so it
+# reached 2026-08-10 with no schema, no migrator and no row on any worklist.
+# A real document quarantines TODAY -- measured, not predicted (scratch probe 8,
+# DID-matlab run 31423494433):
+#
+#     v1_to_v2(oneepoch_body, Validate=true, TargetVersion='V_eta')
+#         migrated: 0   quarantine: 1
+#         reason: No schema file for class "oneepoch"
+#
+# It IS production. `ndi.element.oneepoch` concatenates an element's N epochs
+# into one; the writer is `src/ndi/element.m:387`, inside `addepoch`, and the
+# reader is `+ndi/+element/oneepoch.m:78-80`. Both in src/, neither in tests/.
+#
+# WHAT THE CLASS ACTUALLY IS: the record of a CONCATENATION, not an epoch. Its
+# one own field, `epoch_ids`, is the comma-joined list of the source epochs that
+# were glued together. Everything else arrives by INHERITANCE -- `element_epoch`
+# is its only declared superclass in NDI's template.
+#
+# The team chose fork A1 for the go-forward model on 2026-08-10 (the
+# concatenation becomes a typed observation whose `derived_from_#` edges point at
+# the N per-epoch observations; NO `epoch` entity is minted for the synthetic
+# `whole_session_<ref>` id). That build is GATED on the raw-recording model being
+# signed. THIS IS NOT THAT BUILD -- it is the passthrough repair that keeps the
+# documents alive in the meantime, required under every fork.
+#
+# THE CHAIN AND THE FIELD NAMES WERE MEASURED, and one of them is not what the
+# did_v1 template says:
+#
+#   * `oneepoch` keeps its own name -- nothing renames it.
+#   * The chain is `base, epochid`, NOT NDI's `element_epoch, base, epochid`.
+#     V_eta renames `element_epoch` to `acquisition_epoch`, so no class of that
+#     name exists to inherit from. `migrators_j/oneepoch.m` folds the inherited
+#     block onto the concrete one so the strict top-level check
+#     (`did2:validation:undeclaredBlock`) has nothing left to reject.
+#   * The block declares `clocks`, NOT `epoch_clock` + `t0_t1`. The BASE
+#     superclass migrator (`did2.convert.migrators.element_epoch`) runs first and
+#     has already collapsed the did_v1 pair into the array-of-records `clocks`.
+#     Declaring the did_v1 names here would reject every real document. This is
+#     the one place a tombstone deliberately does NOT restate the template shape,
+#     and the reason is that the template shape never reaches the validator.
+#
+# `element_id` is REQUIRED, matching NDI (`element_epoch_schema.json`:
+# `mustbenotempty: 1`) AND the writer -- `element.m:392` sets it unconditionally,
+# outside the if/else that chooses between element_epoch and oneepoch.
+#
+# The `.vhsb` file is declared, which `acquisition_epoch` does NOT do. That is a
+# known, separately-recorded defect on that class ("the dropped .vhsb payload" is
+# one of the four in V_eta_epoch_plan.md); this class should not inherit the bug.
+write("stable", "oneepoch",
+      doc("oneepoch", ["base", "epochid"], version="2.0.0",
+          deps=[dep("element_id", "subject",
+                    "The element whose epochs were concatenated, promoted to a"
+                    " subject with its id preserved by migrators_j.element."
+                    " REQUIRED: NDI marks it so and element.m:392 always sets it.",
+                    non_empty=True)],
+          fields=[
+              field("clocks", "structure",
+                    "The concatenated epoch's extent, one record per clock."
+                    " did_v1 stores this as `epoch_clock` (a COMMA-JOINED list of"
+                    " every clock, oneepoch.m:124) plus a 2-by-N `t0_t1` matrix;"
+                    " the base element_epoch migrator collapses that pair into"
+                    " these records before validation ever sees the document."
+                    " Under fork A1 these become relative_reference documents.",
+                    scalar=False,
+                    sub_fields=[
+                        field("name", "char", "The clock identifier."),
+                        field("t0", "double", "Start time in that clock."),
+                        field("t1", "double", "End time in that clock."),
+                    ]),
+              field("epoch_ids", "string",
+                    "The epoch ids that were concatenated, comma-joined, exactly"
+                    " as did_v1 stores them. THE ONLY FIELD THE CLASS DECLARES"
+                    " ITSELF, and the whole reason it is distinct from"
+                    " element_epoch. Under fork A1 these resolve to"
+                    " `derived_from_#` edges on the concatenated observation.",
+                    scalar=False),
+          ]))
+_oe_tier, _oe_path = path_of("oneepoch")
+_oe = load(_oe_path)
+_oe["file"] = [{"name": "epoch_binary_data.vhsb",
+                "documentation": "The concatenated samples, written by"
+                                 " ndi.element.timeseries.addepoch from"
+                                 " (timepoints, datapoints). Under fork A1 this"
+                                 " becomes a sampled_body."}]
+write(_oe_tier, "oneepoch", _oe)
+
 # ---- subjectmeasurement: the ledger's last UNMAPPED class gets a home -----
 #
 # THE CLASS HAD NO V_eta SCHEMA AT ALL. `coverage.py` asserted, in
@@ -4798,7 +4887,12 @@ _RET_SOURCES = {"element", "openminds", "openminds_subject", "openminds_element"
     # A did_v1 SOURCE class with a tombstone but no migrator: it passes through
     # intact, awaiting a model. Marked here so it is not counted as a go-forward
     # V_eta class in the final set.
-    "subjectmeasurement"}
+    "subjectmeasurement",
+    # Same shape: a did_v1 SOURCE class whose tombstone exists only to keep its
+    # documents alive until fork A1's observation model is signed and built. It
+    # has a migrator, but that migrator is a block FOLD (it keeps the class), not
+    # a dissolution -- so this is still a source, not a go-forward class.
+    "oneepoch"}
 # The abstract dataseries_observation branch collapses into the quantity data-type
 # leaves + data_body (§A.9): a body-backed series is <quantity>_observation +
 # storage_mode:body, not a series-observation class. dataseries_observation is

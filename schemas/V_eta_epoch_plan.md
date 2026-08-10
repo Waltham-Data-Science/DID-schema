@@ -598,6 +598,62 @@ build prerequisite, not a decision already taken — it needs the team.
 as well as `.m` files. A `depends_on` sweep could not have: `oneepoch` reaches
 `element_epoch` by INHERITANCE, not by edge. Third instance of the standing rule.*
 
+### `oneepoch` — the team chose fork A1 (2026-08-10). NOT YET SIGNED.
+
+Three options were put to the team and **A1 was chosen**. Recorded here as the
+team's choice; the `TEAM-SIGN-OFF` line is theirs to write (Operating Rule 4),
+and this decision additionally cannot be *built* until its own prerequisite is
+signed — see the gate below.
+
+**What A1 is.** `oneepoch` is not an epoch class; it is the record of a
+CONCATENATION. `ndi.element.oneepoch` glues an element's N epochs into one, and
+the document's single own field, `oneepoch.epoch_ids`, is the comma-joined list of
+the sources. Everything else it has — `element_id`, `epoch_clock`, `t0_t1` and the
+`epoch_binary_data.vhsb` payload — arrives by inheritance from `element_epoch`.
+
+```
+v1                                V_eta under A1
+--------------------------------  ----------------------------------------------
+oneepoch (one document)           <modality>_observation  ⊂ subject_observation
+  element_id                        instrument_id -> the element-subject (id kept)
+  epochid.epochid                   -- NO `epoch` entity is minted for it --
+    'whole_session_<ref>'              the id is SYNTHETIC (oneepoch.m:42); it
+     (SYNTHETIC)                       names a span nothing recorded as one epoch
+  oneepoch.epoch_ids                derived_from_1..N -> the N per-epoch
+    't00001,t00002,...'                observations of the same element
+  element_epoch.epoch_clock         relative_reference x K, one per clock
+    'utc,dev_local_time'               (the v1 value is a COMMA-JOINED LIST,
+     (a LIST, not one clock)            oneepoch.m:124 -- unlike a plain
+  element_epoch.t0_t1                   element_epoch, which carries one clock)
+    a MATRIX, not a 2x1               each carrying that clock's start/end
+     (oneepoch.m:109-115)
+  epoch_binary_data.vhsb            sampled_body, `statement` -> the observation
+```
+
+**Why not mint an `epoch` for the synthetic id.** It would make `epoch` mean two
+things — a recording, and a derived aggregate — which is the T12/T13 conflation
+this plan exists to remove. `did2.validate.sourceCensus` already treats exactly
+these ids as a **grouping hazard** (it cites `oneepoch.m:42` by line), so minting
+would realise a hazard the instrument was built to warn about.
+
+**THE GATE, stated rather than assumed.** `derived_from_#` is declared on
+`subject_observation` as `-> subject_statement`. The N source per-epoch recordings
+only BECOME statements under `V_eta_recording_observation_plan.md`, **which is not
+yet signed** (checked 2026-08-10: it carries no signature line). Until it is, A1's
+`derived_from_#` edges have nothing to point at. A1 is a decision about direction;
+it is not buildable yet.
+
+Separately, A1's body half lands on `sampled_body`, whose `datum` / `sample_time` /
+`axes` fields `V_eta_data_body_model_plan.md` redefines — also unsigned. Building
+the body shape before that lands means building it twice.
+
+**What was built now, because it needs neither.** `oneepoch` had NO V_eta schema at
+all, so a real document quarantines today on `undeclaredBlock` /
+`superclassesChainMismatch` — the `epochfiles_ingested` failure. A source tombstone
+restating the real inherited shape is a repair under every option, exactly as the
+stimulus-parameters tombstones were. Its precise chain was MEASURED, not derived:
+see scratch probe 8.
+
 ---
 
 # `epochfiles_ingested` → RENAMED `ingestion_manifest` (team, 2026-08-06)

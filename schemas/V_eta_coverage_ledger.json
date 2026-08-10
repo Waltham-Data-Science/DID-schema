@@ -4,19 +4,19 @@
   "summary": {
     "total": 102,
     "by_disposition": {
-      "retire": 44,
+      "retire": 45,
       "dissolved \u2192 subject": 1,
       "in_progress": 19,
       "persist": 4,
       "consumed by migrator (no tombstone)": 27,
       "test/demo fixture (non-production)": 3,
-      "no V_eta home, no migrator -- UNVERIFIED": 4
+      "no V_eta home, no migrator -- UNVERIFIED": 3
     },
     "by_source": {
       "ndi": 91,
       "app": 11
     },
-    "with_migrator": 62,
+    "with_migrator": 63,
     "gaps": 0
   },
   "rows": [
@@ -876,18 +876,20 @@
     },
     {
       "v1_class": "oneepoch",
-      "veta_class": null,
-      "disposition": "no V_eta home, no migrator -- UNVERIFIED",
-      "migrator": false,
+      "veta_class": "oneepoch",
+      "disposition": "retire",
+      "migrator": true,
       "source": "ndi",
       "nonprod": false,
       "gap": false,
-      "targets": [],
-      "target_source": "unknown",
+      "targets": [
+        "oneepoch"
+      ],
+      "target_source": "emitted",
       "carried": [],
       "second_pass": [],
-      "how": "",
-      "target_flags": ""
+      "how": "KEEPS ITS CLASS -- a block FOLD, not a dissolution. `oneepoch` is the record of a CONCATENATION (ndi.element.oneepoch glues an element's N epochs into one); its only own field, `epoch_ids`, is the comma-joined list of the sources. Everything else arrives by inheritance from `element_epoch`, which V_eta renames to `acquisition_epoch` -- so no class of that name exists to inherit from and the inherited block would trip the strict top-level check (did2:validation:undeclaredBlock). The migrator moves that block's contents onto the `oneepoch` block and drops the shell. Field-by-field, so an unrecognised v1 field surfaces as undeclaredField rather than riding along unvalidated.",
+      "target_flags": "PASSTHROUGH REPAIR, NOT THE MODEL. Before this the class had NO V_eta schema at all -- coverage.py tagged it non-production, which suppressed the gap -- and a real document quarantined on `No schema file for class \"oneepoch\"` (measured: DID-matlab scratch probe 8, run 31423494433). The go-forward model is fork A1, chosen by the team 2026-08-10 and recorded in V_eta_epoch_plan.md: the concatenation becomes a typed observation whose `derived_from_#` edges point at the N per-epoch observations, and NO `epoch` entity is minted for the synthetic `whole_session_<ref>` id. That build is gated on the raw-recording plan being signed. NOTE the tombstone declares `clocks`, NOT the did_v1 `epoch_clock`/`t0_t1`: the base element_epoch superclass migrator collapses the pair before validation sees the document, so the did_v1 names never arrive."
     },
     {
       "v1_class": "ontologyImage",
