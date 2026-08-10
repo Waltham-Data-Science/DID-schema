@@ -633,7 +633,57 @@ write("stable", "directed_relation",
                     "anchors — so an event-relation can be the timestamped record you "
                     "anchor other times against (an `event_relative_reference`). Empty "
                     "for timeless relations (part_of). (D10 multi-party binding.)",
-                    non_empty=False, multiple=True)],
+                    non_empty=False, multiple=True),
+                # ---- #60: the `epoch_id` slot, the second half of a recorded blocker
+                # V_eta_OPEN_WORK.md's "Blockers found in DID-schema, each of which
+                # stops a signed model being finished" carries this row verbatim:
+                # "`directed_relation` has no `epoch_id` slot, AND no migrator mints
+                # an `epoch`" -> "the ensemble's `member_of` edges cannot be
+                # epoch-scoped, so the per-epoch MAP document cannot be consumed and
+                # stays a passthrough".
+                #
+                # The blocker had two halves and the OTHER one closed first:
+                # `did2.convert.epochMint` now mints one `epoch` per distinct
+                # (base.session_id, epoch-id string). This is the half that lives in
+                # this repository.
+                #
+                # SIGNED, twice, from two directions:
+                #   ensemble  TEAM-SIGN-OFF [ensemble] jess 2026-08-06 -- members are
+                #             "EPOCH-SCOPED member_of edges carrying their epoch and
+                #             column order". `sequence` (below) already carries the
+                #             column order; the epoch was the missing half.
+                #   epoch     TEAM-SIGN-OFF [epoch] jess 2026-08-08 -- "epochid is
+                #             DROPPED in favour of a UNIFORM epoch_id edge". Uniform
+                #             means this name, on every class that needs it:
+                #             acquisition_metadata_file, ingestion_manifest and
+                #             method_parameters already spell it `epoch_id -> epoch`.
+                #
+                # IT IS NOT `time_reference_#` RESTATED, which is the objection to
+                # answer before adding a second temporal-looking edge. That family
+                # says WHEN the relation happened. This says WHICH RECORDING the
+                # relation was observed in -- scope, not timing -- and the ensemble
+                # is exactly why the difference is load-bearing: the recorded neuron
+                # set CHANGES epoch to epoch, so the same (child, parent) pair is a
+                # different membership fact in a different epoch. A timestamp cannot
+                # express that; an edge to the epoch can.
+                #
+                # OPTIONAL, and not by default: every relation outside the ensemble
+                # (part_of, has_author, derived_from) has no epoch, and #37's
+                # strictMode('RequiredDependencies') is now ARMED -- a required edge
+                # nothing can fill is the invented-empty-edge pattern that put six
+                # classes at 100% empty. `member_of` will fill it in the NDI second
+                # pass, which is the only place the per-epoch roster can be read.
+                dep("epoch_id", "epoch",
+                    "OPTIONAL scope: the recording this relation was observed in, "
+                    "for relations whose truth is per-epoch. The ensemble's "
+                    "`member_of` edges are the signed case -- the recorded neuron "
+                    "set changes epoch to epoch, so the roster is preserved as one "
+                    "edge per (member, epoch) rather than lost to the cache. NOT a "
+                    "restatement of `time_reference_#`: that says WHEN the relation "
+                    "happened, this says WHICH RECORDING it holds in. Empty for "
+                    "every timeless or session-wide relation (part_of, has_author, "
+                    "derived_from), which is why it is optional.",
+                    non_empty=False)],
           fields=[REL_TERM, REL_METHOD,
                   field("sequence", "integer",
                         "Optional ordinal for ordered relations (e.g. author "
@@ -884,6 +934,65 @@ for _x in _ep.get("depends_on", []):
         # `mustBeNonEmpty` cannot say this.
         _x["min_count"] = 0
 write(_ep_tier, "epoch", _ep)
+
+# ---- #60, defect 3: acquisition_epoch DROPPED the `.vhsb` payload declaration --
+# The fourth of V_eta_epoch_plan.md's four defects -- "the `.vhsb` payload was
+# dropped" -- which that plan files under "REPAIRS, NOT DECISIONS, and true under
+# either option". It is fixed here rather than riding with the dissolution,
+# because the dissolution is BLOCKED (#65 -> #67/#32) and this class keeps
+# carrying real documents in the meantime.
+#
+#   NDI template   database_documents/element_epoch.json
+#                  "files": { "file_list": [ "epoch_binary_data.vhsb" ] }
+#   V_eta          acquisition_epoch  "file": []
+#
+# `acquisition_epoch` IS `element_epoch` -- RENAME[element_epoch] at line 138 --
+# so those documents arrive here, and they arrive CARRYING the file: the
+# migrator's own header records the measurement ("corpus B: every element_epoch
+# body has `files.file_list = {'epoch_binary_data.vhsb'}` with an ndicloud
+# location", +migrators_j/element_epoch.m). So this is the `image_stack` bug in
+# its undeclared direction, on a class whose every document trips it.
+#
+# NOT snake_cased, and that is the whole trap: `universalRenames.m:308` skips the
+# structural keys outright (`skip = {'document_class','depends_on','file',
+# 'files'}`), so a migrated document reaches the validator still spelling the
+# file NDI's way. The literal `file_list` entry is what every other tombstone
+# already uses (`spikewaves.vsw`, `data.bin`, `generic_file.ext`, `imageStack`).
+#
+# The build order matters and is deliberate: `oneepoch` (built further down)
+# already declares this same file and its comment says, in its own words, that
+# `acquisition_epoch` does not and "this class should not inherit the bug". The
+# two now agree, which is correct -- in NDI, `oneepoch`'s ONLY superclass is
+# `element_epoch`, so it inherits the declaration there and V_eta must flatten it
+# because the rename leaves no such parent to inherit from.
+#
+# MEASURED, sweeping every NDI template against its V_eta home THROUGH the
+# RENAME map -- which is the step that hid this one, exactly as it hid
+# `element_epoch` -> `acquisition_epoch` from check_tombstones before that tool
+# learned to read renames:
+#
+#     DENOMINATOR: 91 NDI templates on origin/main; 242 V_eta classes, 19
+#                  declaring a file; 64 NDI classes have a V_eta home
+#     MISMATCHES: 5 -- acquisition_epoch (THIS), ensemble, image (all three
+#                  undeclared), jrclust_clusters (declared, no template), and
+#                  `oneepoch`, which is a FALSE POSITIVE: NDI declares the file
+#                  on its parent, so a chain-resolved read gives
+#                  `epoch_binary_data.vhsb` and V_eta's flattened declaration is
+#                  already right. The other three are other families' classes
+#                  and are REPORTED, not touched.
+_ae_tier, _ae_path = path_of("acquisition_epoch")
+_ae = load(_ae_path)
+_ae["file"] = [{"name": "epoch_binary_data.vhsb",
+                "documentation":
+                    "The element's samples for this epoch, written by"
+                    " ndi.element.timeseries.addepoch. NDI's OWN file_list entry"
+                    " verbatim, NOT snake_cased -- universalRenames skips the"
+                    " `file`/`files` keys, so a migrated document still carries"
+                    " this spelling. Under the signed #60 model this payload"
+                    " becomes a `sampled_body`; until that lands (blocked on"
+                    " #65 -> #67/#32) the bytes stay here and must be"
+                    " DECLARED, or every document carries an undeclared file."}]
+write(_ae_tier, "acquisition_epoch", _ae)
 
 # ---- #59 / file navigation: MINT `epoch_file_pattern` + `acquisition_system` ----
 # Both SIGNED in V_eta_daq_family_decisions.md (two TEAM-SIGN-OFF lines, one per

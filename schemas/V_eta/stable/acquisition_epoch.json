@@ -20,7 +20,12 @@
             "must_refer_to_document_class": "subject"
         }
     ],
-    "file": [],
+    "file": [
+        {
+            "name": "epoch_binary_data.vhsb",
+            "documentation": "The element's samples for this epoch, written by ndi.element.timeseries.addepoch. NDI's OWN file_list entry verbatim, NOT snake_cased -- universalRenames skips the `file`/`files` keys, so a migrated document still carries this spelling. Under the signed #60 model this payload becomes a `sampled_body`; until that lands (blocked on #65 -> #67/#32) the bytes stay here and must be DECLARED, or every document carries an undeclared file."
+        }
+    ],
     "fields": [
         {
             "name": "clocks",

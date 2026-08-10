@@ -30,6 +30,12 @@
             "multiple": true,
             "min_count": 0,
             "referent_unique_by": "value.clock"
+        },
+        {
+            "name": "epoch_id",
+            "mustBeNonEmpty": false,
+            "documentation": "OPTIONAL scope: the recording this relation was observed in, for relations whose truth is per-epoch. The ensemble's `member_of` edges are the signed case -- the recorded neuron set changes epoch to epoch, so the roster is preserved as one edge per (member, epoch) rather than lost to the cache. NOT a restatement of `time_reference_#`: that says WHEN the relation happened, this says WHICH RECORDING it holds in. Empty for every timeless or session-wide relation (part_of, has_author, derived_from), which is why it is optional.",
+            "must_refer_to_document_class": "epoch"
         }
     ],
     "file": [],

@@ -2111,3 +2111,118 @@ def test_image_stack_declares_ndis_own_file_name():
     assert files == ["imageStack"], (
         "image_stack must declare NDI's own file_list entry verbatim, not a "
         "snake_cased invention; got %r" % (files,))
+
+
+def test_acquisition_epoch_declares_the_vhsb_payload():
+    """Defect 3 of the four in `V_eta_epoch_plan.md`, closed.
+
+    `acquisition_epoch` IS `element_epoch` (the RENAME map entry at
+    build_v_eta.py:138), and NDI's template declares a file on it:
+
+        database_documents/element_epoch.json
+            "files": { "file_list": [ "epoch_binary_data.vhsb" ] }
+
+    V_eta declared `"file": []`, while every real document carries the payload
+    -- measured on corpus B and recorded in the migrator's own header
+    (+migrators_j/element_epoch.m: "every element_epoch body has
+    `files.file_list = {'epoch_binary_data.vhsb'}` with an ndicloud location").
+    That is the `image_stack` bug in its undeclared direction, on a class where
+    100% of documents trip it.
+
+    The name is NOT snake_cased: `universalRenames.m:308` skips the structural
+    keys (`skip = {'document_class','depends_on','file','files'}`), so a
+    migrated document reaches the validator still spelling it NDI's way.
+
+    The plan files this under "repairs, not decisions, and true under either
+    option", which is why it lands while the dissolution stays blocked on
+    #65 -> #67/#32.
+    """
+    files = [f["name"] for f in RECORDS["acquisition_epoch"][1].get("file", [])]
+    assert files == ["epoch_binary_data.vhsb"], (
+        "acquisition_epoch must declare NDI's element_epoch file_list entry "
+        "verbatim -- its documents all carry it; got %r" % (files,))
+
+
+def test_oneepoch_and_acquisition_epoch_agree_about_the_payload():
+    """The two halves of one v1 shape must not disagree.
+
+    In NDI, `oneepoch`'s ONLY declared superclass is `element_epoch`, so it
+    INHERITS the `.vhsb` declaration and declares no file of its own. V_eta
+    renames `element_epoch` to `acquisition_epoch` and re-roots `oneepoch` on
+    `base, epochid`, so there is no parent left to inherit from and the
+    declaration has to be flattened onto both.
+
+    `oneepoch` was flattened first, and its build comment said so in its own
+    words -- "the `.vhsb` file is declared, which `acquisition_epoch` does NOT
+    do ... this class should not inherit the bug". This pins that the two now
+    agree, so a future edit cannot silently re-open the gap from either side.
+    """
+    ae = [f["name"] for f in RECORDS["acquisition_epoch"][1].get("file", [])]
+    oe = [f["name"] for f in RECORDS["oneepoch"][1].get("file", [])]
+    assert ae == oe == ["epoch_binary_data.vhsb"], (
+        "acquisition_epoch and oneepoch both carry the element_epoch payload "
+        "and must declare the same file; got %r and %r" % (ae, oe))
+
+
+def test_directed_relation_has_an_optional_epoch_id_slot():
+    """The DID-schema half of a recorded, signed blocker.
+
+    `V_eta_OPEN_WORK.md` lists, under "Blockers found in DID-schema, each of
+    which stops a signed model being finished":
+
+        `directed_relation` has no `epoch_id` slot, and no migrator mints an
+        `epoch`  ->  the ensemble's `member_of` edges CANNOT be epoch-scoped,
+        so the per-epoch MAP document cannot be consumed and stays a
+        passthrough.
+
+    Both halves were required. `did2.convert.epochMint` closed the minting
+    half; this is the schema half.
+
+    Signed twice: TEAM-SIGN-OFF [ensemble] (jess, 2026-08-06) requires
+    "EPOCH-SCOPED member_of edges carrying their epoch and column order", and
+    TEAM-SIGN-OFF [epoch] (jess, 2026-08-08) drops `epochid` "in favour of a
+    uniform epoch_id edge".
+
+    OPTIONAL is load-bearing, not incidental: #37's
+    strictMode('RequiredDependencies') is ARMED, and most relations (part_of,
+    has_author, derived_from) have no epoch at all. A required edge here would
+    rebuild the invented-empty-edge pattern under the repair's own name.
+    """
+    deps = {d["name"]: d for d in RECORDS["directed_relation"][1]["depends_on"]}
+    assert "epoch_id" in deps, (
+        "directed_relation needs an epoch_id slot or the signed ensemble model "
+        "cannot express an epoch-scoped member_of edge")
+    assert deps["epoch_id"]["must_refer_to_document_class"] == "epoch"
+    assert deps["epoch_id"]["mustBeNonEmpty"] is False, (
+        "epoch_id must stay OPTIONAL -- most relations have no epoch, and "
+        "#37's RequiredDependencies gate is armed")
+    # column order was already there; the epoch was the missing half.
+    assert any(f["name"] == "sequence"
+               for f in RECORDS["directed_relation"][1]["fields"])
+
+
+def test_the_epoch_id_edge_is_spelled_the_same_way_everywhere():
+    """"A UNIFORM epoch_id edge" is a claim a test can hold to.
+
+    The epoch sign-off drops `epochid` "in favour of a uniform epoch_id edge".
+    Uniform means one name and one target on every class that carries it -- if
+    one class spelled it `epochid` or pointed it at `acquisition_epoch`, the
+    join the whole family exists to create would be broken in that one place,
+    and nothing else would notice.
+
+    Denominator-style: this asserts over EVERY class that declares the edge, so
+    a class added later is covered without editing the test.
+    """
+    holders = {
+        name: {d["name"]: d for d in rec["depends_on"]}["epoch_id"]
+        for name, (_tier, rec) in RECORDS.items()
+        if any(d["name"] == "epoch_id" for d in rec.get("depends_on", []))
+    }
+    assert len(holders) >= 4, (
+        "expected at least the four known holders (acquisition_metadata_file, "
+        "ingestion_manifest, method_parameters, directed_relation); got %r"
+        % (sorted(holders),))
+    for name, d in sorted(holders.items()):
+        assert d["must_refer_to_document_class"] == "epoch", (
+            "%s.epoch_id must point at the minted `epoch` entity, not %r"
+            % (name, d["must_refer_to_document_class"]))

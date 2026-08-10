@@ -46,7 +46,7 @@ decides a disposition -- it DERIVES, per class, how far the work has got.
 |---|---|
 | build: V_eta migrator packages read | `migrators_j`, `ndi_second_pass` |
 | build: migrator files inspected | 137 |
-| build: migrator lines inspected | 18491 |
+| build: migrator lines inspected | 18528 |
 | build: classes queried | 31 |
 | build: open classes MINTED as a document class | 5 |
 | build: of those, discounted (decision retires the class) | 3 |
@@ -169,8 +169,8 @@ a row whose only evidence is a built target as *the target exists*, not as
 - `interaction_purpose` (misc singletons) -- no evidence found
 - `projectvar` (misc singletons) -- no evidence found
 - `session_bounded_reference` (time_reference) -- MINTED as a document class at 1 site(s): `migrators_j/ontology_table_row.m:262 (emitted_class)`; minted at 1 site(s), NOT counted as build progress: the signed decision retires this class in favour of `relative_reference`, so an emission is work still to undo; still emitted/named at 1 site(s): `migrators_j/ontology_table_row.m:268 (field_write)`
-- `session_relative_reference` (time_reference) -- MINTED as a document class at 3 site(s): `migrators_j/ontology_table_row.m:669 (emitted_class)`, `migrators_j/private/jSessionAnchor.m:19 (emitted_class)`, `migrators_j/treatment_transfer.m:101 (emitted_class)`; minted at 3 site(s), NOT counted as build progress: the signed decision retires this class in favour of `relative_reference`, so an emission is work still to undo; still emitted/named at 15 site(s): `migrators_j/fitcurve.m:139 (named)`, `migrators_j/fitcurve.m:146 (field_write)`, `migrators_j/image_stack.m:101 (named)`, `migrators_j/image_stack.m:106 (field_write)`, `migrators_j/jrclust_clusters.m:80 (named)`, `migrators_j/jrclust_clusters.m:85 (field_write)` ...
-- `time_reference` (time_reference) -- still emitted/named at 29 site(s): `migrators_j/fitcurve.m:139 (named)`, `migrators_j/fitcurve.m:145 (field_write)`, `migrators_j/image_stack.m:101 (named)`, `migrators_j/image_stack.m:105 (field_write)`, `migrators_j/jrclust_clusters.m:80 (named)`, `migrators_j/jrclust_clusters.m:84 (field_write)` ...
+- `session_relative_reference` (time_reference) -- MINTED as a document class at 3 site(s): `migrators_j/ontology_table_row.m:669 (emitted_class)`, `migrators_j/private/jSessionAnchor.m:19 (emitted_class)`, `migrators_j/treatment_transfer.m:101 (emitted_class)`; minted at 3 site(s), NOT counted as build progress: the signed decision retires this class in favour of `relative_reference`, so an emission is work still to undo; still emitted/named at 15 site(s): `migrators_j/fitcurve.m:139 (named)`, `migrators_j/fitcurve.m:146 (field_write)`, `migrators_j/image_stack.m:132 (named)`, `migrators_j/image_stack.m:137 (field_write)`, `migrators_j/jrclust_clusters.m:80 (named)`, `migrators_j/jrclust_clusters.m:85 (field_write)` ...
+- `time_reference` (time_reference) -- still emitted/named at 29 site(s): `migrators_j/fitcurve.m:139 (named)`, `migrators_j/fitcurve.m:145 (field_write)`, `migrators_j/image_stack.m:132 (named)`, `migrators_j/image_stack.m:136 (field_write)`, `migrators_j/jrclust_clusters.m:80 (named)`, `migrators_j/jrclust_clusters.m:84 (field_write)` ...
 - `utc_reference` (time_reference) -- no evidence found
 
 #### (b) built, awaiting corpus proof -- 19

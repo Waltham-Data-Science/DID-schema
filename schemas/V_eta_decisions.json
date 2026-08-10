@@ -553,7 +553,7 @@
         ],
         "packages_missing": [],
         "files_read": 137,
-        "lines_read": 18491,
+        "lines_read": 18528,
         "classes_queried": 31,
         "classes_emitted_as_document_class": 5,
         "ref_kinds": [
@@ -1361,8 +1361,8 @@
         "emitting_refs": [
           "migrators_j/fitcurve.m:139 (named)",
           "migrators_j/fitcurve.m:146 (field_write)",
-          "migrators_j/image_stack.m:101 (named)",
-          "migrators_j/image_stack.m:106 (field_write)",
+          "migrators_j/image_stack.m:132 (named)",
+          "migrators_j/image_stack.m:137 (field_write)",
           "migrators_j/jrclust_clusters.m:80 (named)",
           "migrators_j/jrclust_clusters.m:85 (field_write)"
         ],
@@ -1532,8 +1532,8 @@
         "emitting_refs": [
           "migrators_j/fitcurve.m:139 (named)",
           "migrators_j/fitcurve.m:145 (field_write)",
-          "migrators_j/image_stack.m:101 (named)",
-          "migrators_j/image_stack.m:105 (field_write)",
+          "migrators_j/image_stack.m:132 (named)",
+          "migrators_j/image_stack.m:136 (field_write)",
           "migrators_j/jrclust_clusters.m:80 (named)",
           "migrators_j/jrclust_clusters.m:84 (field_write)"
         ],
