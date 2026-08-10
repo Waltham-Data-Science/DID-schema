@@ -620,6 +620,28 @@ lives in these files — read them instead of re-deriving from memory:
   a dataset still waiting to migrate, which is what this migration is FOR. Nothing may be
   deferred, retired or half-repaired on the grounds that no corpus we looked at holds it. A
   deletion needs a WRITER CHECK against NDI `origin/main`.
+- **A PLAN DOCUMENT'S HEADER IS NOT ITS STATE. READ THE BOTTOM, OR READ THE BOARD.**
+  Sign-offs are APPENDED at the bottom of a plan document; the summary a reader stops at is
+  at the top; nothing kept the two in agreement. On 2026-08-10 a mechanical sweep found
+  **SIX documents asserting "NO `TEAM-SIGN-OFF` LINE" while carrying that line hundreds of
+  lines below** — `V_eta_clock_alignment_cluster_plan.md` (found by accident a day earlier,
+  after the family had sat unbuilt), `V_eta_epoch_plan.md`, `V_eta_ingested_payload_findings.md`,
+  `V_eta_stimulus_response_model_plan.md`, `V_eta_daq_family_decisions.md`,
+  `V_eta_stimulus_parameter_plan.md`, plus a partially-stale line in
+  `V_eta_go_forward_class_audit.md` (two of its four proposals ARE signed).
+
+        DENOMINATOR: 54 markdown files under schemas/, 54 read,
+                     16 carrying at least one TEAM-SIGN-OFF line
+        STALE:       6 documents + 1 partial
+
+  This is the ONE-DIRECTIONAL sibling of the errors above, and the direction is what let it
+  survive: the header always claims LESS progress than the record holds, so it never produced
+  a wrong build — only work not done. **`status_board.py` was never fooled**, because it reads
+  the signature rather than the prose; the human read the prose. That is the whole lesson —
+  *when prose and a generated artifact disagree, the artifact wins* applies to a document's
+  own header about itself. Now gated by `tools/check_signoff_header_staleness.py` (CI +
+  pytest); a correction note that quotes the old wording is exempted by a
+  `HISTORICAL-SIGNOFF-CLAIM` marker.
 - **A TEST WRITTEN FROM THE SAME PREMISE AS THE CODE CANNOT CATCH THE CODE.** Three tests
   asserted the `epochid` bug (`test_phase1_source_cleanup_and_dep_typing`,
   `test_ingested_caches_epochid_dep_only`, `testMfdaqIngestedDeEncodesToDaqreaderEpochdataIngested`)
