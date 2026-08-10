@@ -530,7 +530,7 @@
         ],
         "packages_missing": [],
         "files_read": 132,
-        "lines_read": 16872,
+        "lines_read": 16901,
         "classes_queried": 31,
         "ref_kinds": [
           "guard",
@@ -881,15 +881,16 @@
         "state": "b_built_awaiting_corpus_proof",
         "state_label": "(b) built, awaiting corpus proof",
         "build_evidence": [
+          "1 consuming reference(s)",
           "decided target(s) built: `subject`, `directed_relation`, `sampled_body`"
         ],
         "migrator_file": null,
-        "n_consuming_refs": 0,
-        "consuming_refs": [],
-        "n_emitting_refs": 1,
-        "emitting_refs": [
-          "ndi_second_pass/ensembleMembership.m:227 (named)"
+        "n_consuming_refs": 1,
+        "consuming_refs": [
+          "ndi_second_pass/ensembleMembership.m:227 (guard)"
         ],
+        "n_emitting_refs": 0,
+        "emitting_refs": [],
         "decided_targets": [
           "subject",
           "directed_relation",

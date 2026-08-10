@@ -46,7 +46,7 @@ decides a disposition -- it DERIVES, per class, how far the work has got.
 |---|---|
 | build: V_eta migrator packages read | `migrators_j`, `ndi_second_pass` |
 | build: migrator files inspected | 132 |
-| build: migrator lines inspected | 16872 |
+| build: migrator lines inspected | 16901 |
 | build: classes queried | 31 |
 | corpus: `*-summary.json` reports read | 0 |
 | corpus: reports carrying an `unconverted_count` | 0 |
@@ -78,15 +78,23 @@ the team flips a disposition.
 ### A REFERENCE IS CLASSIFIED BEFORE IT COUNTS
 
 Only a CONSUMING reference makes a class (b) -- a migrator file named
-after it, an `isfield(preBody, '<class>')` guard, or a read of
-`preBody.<class>`. A migrator that WRITES the class (`x.<class> = ...`,
-`classBlock('<class>')`) or merely names it as a value is counted
+after it, an `isfield(preBody, '<class>')` / `strcmp(classNameOf(s),
+'<class>')` guard, or a read of `preBody.<class>`. A migrator that WRITES
+the class (`x.<class> = ...`, `classBlock('<class>')`) or merely names it
+as a value is counted
 separately and shown as *still emitted*, because for an open class that is
 evidence the decided change has **not** landed. Counting those as build
 progress is what the first draft of this scan did: it made `directory`
 look built off `struct('format', 'directory', ...)` and put all 18 of
 `session_relative_reference`'s emission sites on the wrong side of the
 ledger.
+
+**The `decided target(s) built` signal is the WEAKER of the two** and is
+marked separately for that reason. A decided target can be a class that
+already existed for other reasons -- `ensemble` reaches (b) on `subject`,
+`directed_relation` and `sampled_body`, none of which was built for it. Read
+a row whose only evidence is a built target as *the target exists*, not as
+*the work is done*.
 
 | class | family | state | build evidence | still emitted | survivors |
 |---|---|---|---|---|---|
@@ -101,7 +109,7 @@ ledger.
 | `daqreader_image_epochdata_ingested` | daq ingested payloads | (b) | migrator `migrators_j/daqreader_image_epochdata_ingested.m`; decided target(s) built: `image_observation`, `relative_reference`, `sampled_body` | - | n/a -- not measured |
 | `daqsystem` | daq configuration | (b) | migrator `migrators_j/daqsystem.m`; 3 consuming reference(s); decided target(s) built: `acquisition_system` | - | n/a -- not measured |
 | `directory` | file navigation | (a) | *none* | 1 | n/a -- not measured |
-| `ensemble` | ensemble | (b) | decided target(s) built: `subject`, `directed_relation`, `sampled_body` | 1 | n/a -- not measured |
+| `ensemble` | ensemble | (b) | 1 consuming reference(s); decided target(s) built: `subject`, `directed_relation`, `sampled_body` | - | n/a -- not measured |
 | `epoch_bounded_reference` | time_reference | (a) | *none* | 3 | n/a -- not measured |
 | `epoch_relative_reference` | time_reference | (a) | *none* | - | n/a -- not measured |
 | `epochfiles_ingested` | epoch | (b) | migrator `migrators_j/epochfiles_ingested.m` | - | n/a -- not measured |
@@ -148,7 +156,7 @@ ledger.
 - `daqreader_epochdata_ingested` (daq ingested payloads) -- migrator `migrators_j/daqreader_epochdata_ingested.m`; consumed at 3 site(s): `migrators_j/daqreader_mfdaq_epochdata_ingested.m:40 (guard)`, `migrators_j/daqreader_mfdaq_epochdata_ingested.m:41 (field_read)`, `migrators_j/daqreader_mfdaq_epochdata_ingested.m:66 (field_read)`; still emitted/named at 5 site(s): `migrators_j/daqreader_epochdata_ingested.m:84 (named)`, `migrators_j/daqreader_image_epochdata_ingested.m:91 (named)`, `migrators_j/daqreader_mfdaq_epochdata_ingested.m:36 (named)`, `migrators_j/daqreader_mfdaq_epochdata_ingested.m:42 (field_write)`, `migrators_j/daqreader_mfdaq_epochdata_ingested.m:48 (field_write)`; target(s) BUILT: `relative_reference`
 - `daqreader_image_epochdata_ingested` (daq ingested payloads) -- migrator `migrators_j/daqreader_image_epochdata_ingested.m`; target(s) BUILT: `image_observation`, `relative_reference`, `sampled_body`
 - `daqsystem` (daq configuration) -- migrator `migrators_j/daqsystem.m`; consumed at 3 site(s): `migrators_j/daqsystem.m:144 (guard)`, `migrators_j/daqsystem.m:145 (field_read)`, `migrators_j/daqsystem.m:146 (field_read)`; target(s) BUILT: `acquisition_system`
-- `ensemble` (ensemble) -- still emitted/named at 1 site(s): `ndi_second_pass/ensembleMembership.m:227 (named)`; target(s) BUILT: `subject`, `directed_relation`, `sampled_body`
+- `ensemble` (ensemble) -- consumed at 1 site(s): `ndi_second_pass/ensembleMembership.m:227 (guard)`; target(s) BUILT: `subject`, `directed_relation`, `sampled_body`
 - `epochfiles_ingested` (epoch) -- migrator `migrators_j/epochfiles_ingested.m`
 - `epochid` (epoch) -- consumed at 9 site(s): `migrators_j/private/jMethodParameters.m:122 (guard)`, `ndi_second_pass/bodyResolver.m:216 (guard)`, `ndi_second_pass/bodyResolver.m:217 (guard)`, `ndi_second_pass/bodyResolver.m:218 (field_read)`, `ndi_second_pass/ensembleMembership.m:361 (guard)`, `ndi_second_pass/ensembleMembership.m:362 (field_read)` ...; still emitted/named at 5 site(s): `migrators_j/epochfiles_ingested.m:135 (named)`, `migrators_j/private/jMethodParameters.m:123 (named)`, `migrators_j/private/jMethodParameters.m:126 (field_write)`, `ndi_second_pass/stimulusBathToBath.m:74 (named)`, `ndi_second_pass/stimulusBathToBath.m:80 (named)`
 - `filenavigator` (file navigation) -- migrator `migrators_j/filenavigator.m`; consumed at 3 site(s): `migrators_j/filenavigator.m:121 (guard)`, `migrators_j/filenavigator.m:122 (field_read)`, `migrators_j/filenavigator.m:123 (field_read)`; target(s) BUILT: `epoch_file_pattern`

@@ -659,6 +659,7 @@ def assignment_split(code):
 # So a reference is classified, and only CONSUMPTION counts toward (b):
 #
 #   guard       `isfield(preBody, 'app')`        the migrator tests for the block
+#               `strcmp(classNameOf(s),'ensemble')`  ... or dispatches on the class
 #   field_read  `blk = preBody.filter;`          the migrator reads the block
 #   field_write `anchor.time_reference = ...`    the migrator WRITES this class
 #   named       `classBlock('x'), 'format','x'`  the name appears, nothing more
@@ -666,6 +667,14 @@ def assignment_split(code):
 # `field_write` and `named` are still reported per class -- "still emitted by N
 # migrator file(s)" is a useful, and deliberately unflattering, fact about an
 # open class -- they just do not make it (b).
+#
+# THE GUARD LIST IS NOT COSMETIC. Its first version held only isfield/isstruct
+# and missed the SECOND PASS entirely: an NDI assembler selects its input with
+# `if ~strcmp(classNameOf(s), 'ensemble'); continue; end`
+# (ensembleMembership.m:227), which is the whole ensemble consumer and was being
+# filed as a bare mention. A comparison names what the code is LOOKING FOR; an
+# assignment names what it PRODUCES.
+GUARD_FUNCS = ("isfield", "isstruct", "strcmp", "strcmpi", "ismember", "matches")
 CONSUMING_KINDS = ("guard", "field_read")
 REF_KINDS = ("guard", "field_read", "field_write", "named")
 
@@ -691,7 +700,7 @@ def scan_matlab_file(path, patterns):
         if not lits and not code.strip():
             continue
         eq = assignment_split(code)
-        guardish = "isfield" in code or "isstruct" in code
+        guardish = any(g in code for g in GUARD_FUNCS)
         by_name = {}
         for text, col in lits:
             by_name.setdefault(text, col)
@@ -1113,15 +1122,23 @@ def render_open_state(p, ocs):
     p("### A REFERENCE IS CLASSIFIED BEFORE IT COUNTS")
     p("")
     p("Only a CONSUMING reference makes a class (b) -- a migrator file named")
-    p("after it, an `isfield(preBody, '<class>')` guard, or a read of")
-    p("`preBody.<class>`. A migrator that WRITES the class (`x.<class> = ...`,")
-    p("`classBlock('<class>')`) or merely names it as a value is counted")
+    p("after it, an `isfield(preBody, '<class>')` / `strcmp(classNameOf(s),")
+    p("'<class>')` guard, or a read of `preBody.<class>`. A migrator that WRITES")
+    p("the class (`x.<class> = ...`, `classBlock('<class>')`) or merely names it")
+    p("as a value is counted")
     p("separately and shown as *still emitted*, because for an open class that is")
     p("evidence the decided change has **not** landed. Counting those as build")
     p("progress is what the first draft of this scan did: it made `directory`")
     p("look built off `struct('format', 'directory', ...)` and put all 18 of")
     p("`session_relative_reference`'s emission sites on the wrong side of the")
     p("ledger.")
+    p("")
+    p("**The `decided target(s) built` signal is the WEAKER of the two** and is")
+    p("marked separately for that reason. A decided target can be a class that")
+    p("already existed for other reasons -- `ensemble` reaches (b) on `subject`,")
+    p("`directed_relation` and `sampled_body`, none of which was built for it. Read")
+    p("a row whose only evidence is a built target as *the target exists*, not as")
+    p("*the work is done*.")
     p("")
     p("| class | family | state | build evidence | still emitted | survivors |")
     p("|---|---|---|---|---|---|")
