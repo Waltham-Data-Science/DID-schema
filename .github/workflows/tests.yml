@@ -101,6 +101,25 @@ jobs:
         if: matrix.python-version == '3.12'
         run: python3 tools/check_duplicate_field_declarations.py --enforce
 
+      # #69's other half, REPORT-ONLY BY DESIGN -- no `--enforce`, so this step
+      # cannot fail the build. The step above counts field NAMES declared twice
+      # in one chain; it never opens the two declarations, so a child that
+      # redeclared `mustBeNonEmpty: false` over an ancestor's `true` is
+      # indistinguishable from one that repeated the ancestor verbatim. This
+      # prints the DIRECTION of each of those rows -- IDENTICAL / TIGHTENED /
+      # LOOSENED / DIVERGENT -- into the log, with its denominator first.
+      #
+      # Deliberately has no threshold. Where enforcement should sit is a team
+      # call (operating rule 4), and this exists to put real counts in front of
+      # it; `--enforce` FAILS while ENFORCEMENT_THRESHOLD is unset, rather than
+      # passing while checking nothing. The non-enforcing invariants -- that the
+      # sweep read the tree, resolved its edges and agrees with the name-level
+      # tool -- are asserted in tests/test_constraint_refinement.py and already
+      # run in the pytest job above.
+      - name: Report which way each redeclared field moved (report-only)
+        if: matrix.python-version == '3.12'
+        run: python3 tools/check_constraint_refinement.py
+
       # A TEST THAT PASSES WHILE CHECKING NOTHING is the failure this project
       # keeps paying for, one level up. `silentLoss` printed "0 empty edges"
       # while reading nothing; the census digest aggregated zero files and
