@@ -1737,15 +1737,31 @@ _HARMONIC_SUBS = [
     subfield("harmonic", "integer",
              "Which harmonic of the stimulus frequency: 0 = DC, 1 = F1, 2 = F2.",
              blank=0),
-    subfield("real", "double", "Real part of the response at this harmonic.",
-             blank=0.0),
-    subfield("imaginary", "double", "Imaginary part.", blank=0.0),
-    subfield("control_real", "double",
-             "Real part of the CONTROL response, kept beside the response rather "
-             "than in a separate document: v1 stores them together and a control "
-             "is meaningless apart from what it controls for.", blank=0.0),
-    subfield("control_imaginary", "double", "Imaginary part of the control.",
-             blank=0.0),
+    # MATRIX, NOT SCALAR -- ONE COEFFICIENT PER READING. Corrected 2026-08-10.
+    # These four were built as scalar `double` while the plan says `matrix, one
+    # coefficient per reading` (V_eta_stimulus_response_model_plan.md:276-279),
+    # and the plan is right: the v1 writer fills them from a COLUMN, one row per
+    # stimulus presentation (+ndi/+app/+stimulus/tuning_response.m:309-313), so a
+    # real document carries as many coefficients as it has readings.
+    #
+    # It had not bitten yet, and would not have for a while, which is the part
+    # worth recording: `+did2/+schema/cache.m` validates a block's TOP-LEVEL
+    # fields and never recurses into a `structure`'s sub-fields, so a wrong
+    # sub-field type is unenforced today. It would have surfaced the moment
+    # sub-field validation landed -- against documents already written in the
+    # wrong shape. `harmonic` stays scalar: there is exactly one harmonic number
+    # per component, which is what makes the component a component.
+    subfield("real", "matrix", "Real part of the response at this harmonic, one "
+             "coefficient per reading.", scalar=False),
+    subfield("imaginary", "matrix", "Imaginary part, one per reading.",
+             scalar=False),
+    subfield("control_real", "matrix",
+             "Real part of the CONTROL response, one per reading. Kept beside the "
+             "response rather than in a separate document: v1 stores them together "
+             "and a control is meaningless apart from what it controls for.",
+             scalar=False),
+    subfield("control_imaginary", "matrix",
+             "Imaginary part of the control, one per reading.", scalar=False),
 ]
 write("draft", "harmonic_component",
       doc("harmonic_component", ["data_type"], abstract=True, maturity="draft",
