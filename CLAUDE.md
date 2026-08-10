@@ -707,6 +707,22 @@ lives in these files — read them instead of re-deriving from memory:
                                                                                   TABLE BELOW
         TOTAL                              7,233
 
+  **RE-CONFIRMED INDEPENDENTLY 2026-08-10, corpus run 31415147934 (`02854c7`): the same two
+  rows, the same 2,670 + 4,563 = 7,233, over 562,422 documents inspected across 6 corpora,
+  0 unreadable / 0 skipped, quarantine 0, fragments 0, vacuous required fields 0, edge-family
+  cardinality violations 0.** And this total is no longer hand-summed: `census_digest.py`
+  now computes an ACROSS ALL CORPORA rollup (same-row counts merged, denominator first, and
+  a loud warning when a corpus contributed no readable audit). The instruction below to
+  "re-derive the row set from a fresh census before quoting a total" still stands — but the
+  digest now does the arithmetic, so getting it wrong requires ignoring a printed number
+  rather than mis-adding six blocks.
+
+  **NOT YET RE-MEASURED AFTER THE `image_stack` GUARD.** Run 31415147934 predates it
+  (`02854c7` is before `5e53f79`/`23947bf`), so the JH row of 4,563 is the *pre-guard*
+  figure. The guard makes `image_stack.m` emit a passthrough instead of a subject-less
+  `image_observation`, which should take that row to zero. Until a corpus run at or after
+  `f9defe3` reports it, that is a prediction, not a result.
+
   FIVE of the six rows below are now ZERO — the stimulus-response, epochfiles, syncrule
   mapping, openminds_stimulus and daqmetadatareader repairs all landed and are confirmed on
   real data (Soph's 11,167 alone). `stimulus_presentation.element_id` is unchanged at 2,670,
