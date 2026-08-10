@@ -1335,3 +1335,90 @@ def test_ndi_schema_documents_are_all_read():
         "JSON Schema-shaped document lost: binnedspikeratevm declares this"
     assert "element_id" in classes["valid_interval"]["depends_on"], \
         "the -Inf fallback is not working: valid_interval_schema.json declares this"
+
+
+# ---------------------------------------------------------------------------
+# The decision families artifact (schemas/V_eta_decisions.json).
+#
+# WHY IT IS TESTED HERE. The board's own staleness check proves the file is
+# REGENERATED; these prove it is USABLE -- that the viewer's join key exists,
+# that a family cannot claim a class twice, and above all that "signed" is
+# never asserted without a sign-off line. That last one is the whole point of
+# the artifact: it now carries a `signed: true` flag into a UI, so a bug that
+# set it wrongly would launder a proposal into a decision on a screen, one step
+# further from the plan document than the board ever was.
+# ---------------------------------------------------------------------------
+
+DECISIONS = os.path.join(REPO_ROOT, "schemas", "V_eta_decisions.json")
+
+
+def _decisions():
+    with open(DECISIONS) as fh:
+        return json.load(fh)
+
+
+def test_decisions_artifact_exists_and_covers_every_open_class():
+    dec = _decisions()
+    with open(os.path.join(REPO_ROOT, "schemas", "V_eta", "index.json")) as fh:
+        idx = json.load(fh)
+    open_classes = {s["class_name"] for s in idx["schemas"]
+                    if s.get("disposition") == "in_progress"}
+    claimed = set(dec["by_class"])
+    missing = sorted(open_classes - claimed)
+    assert not missing, (
+        f"in_progress classes claimed by no decision family: {missing}. An open "
+        "class nobody tracks is the failure the status board exists to prevent.")
+    # The denominator, asserted rather than assumed: the artifact must agree
+    # with the index it was generated from.
+    assert dec["summary"]["open_classes"] == len(open_classes)
+
+
+def test_no_class_is_claimed_by_two_families():
+    dec = _decisions()
+    seen = {}
+    for fam in dec["families"]:
+        for m in fam["members"]:
+            name = m["class_name"]
+            assert name not in seen, (
+                f"{name} is claimed by both {seen[name]} and {fam['name']}; two "
+                "families owning one class means two places to decide it.")
+            seen[name] = fam["name"]
+
+
+def test_signed_is_never_asserted_without_a_signoff_line():
+    for fam in _decisions()["families"]:
+        if fam["signed"]:
+            assert fam["status"] == "team", (
+                f"{fam['name']} is marked signed but its status is "
+                f"{fam['status']!r} -- only a team decision can be signed.")
+            assert fam["signoff"], (
+                f"{fam['name']} claims signed with no sign-off text")
+            assert fam["state"] == "signed_awaiting_build"
+        else:
+            assert fam["state"] != "signed_awaiting_build"
+            assert not fam["signoff"]
+
+
+def test_every_family_plan_document_exists():
+    for fam in _decisions()["families"]:
+        if fam["plan"]:
+            path = os.path.join(REPO_ROOT, "schemas", fam["plan"])
+            assert os.path.exists(path), (
+                f"{fam['name']} cites {fam['plan']}, which does not exist -- the "
+                "viewer renders that path as the place the decision is recorded.")
+
+
+def test_the_viewer_actually_syncs_the_decisions_artifact():
+    # A generated artifact nobody copies into the app is a file that changes
+    # nothing. The coverage ledger had this wiring; the decisions did not, and
+    # the deploy workflow's path filter needed the same explicit line because
+    # `schemas/V_*/**` does not match a file sitting directly under schemas/.
+    with open(os.path.join(REPO_ROOT, "web", "scripts", "sync-schemas.mjs")) as fh:
+        sync = fh.read()
+    assert "V_eta_decisions.json" in sync
+    assert "decisions.json" in sync
+    with open(os.path.join(
+            REPO_ROOT, ".github", "workflows", "deploy-web.yml")) as fh:
+        deploy = fh.read()
+    assert "V_*_decisions.json" in deploy, (
+        "deploy-web.yml will not redeploy when the decisions change")

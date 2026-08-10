@@ -13,6 +13,13 @@ on:
       # and the viewer's Coverage panel drifts behind the schemas with no signal
       # that it has.
       - "schemas/V_*_coverage_ledger.json"
+      # Same trap, same reason: the decision families are a file directly under
+      # schemas/, so `schemas/V_*/**` does not match them either. Without this
+      # line, signing off a family or landing its build would update the
+      # artifact the viewer reads and deploy nothing -- and the viewer would go
+      # on showing a settled family as open, which is the precise failure the
+      # artifact was added to remove.
+      - "schemas/V_*_decisions.json"
       - ".github/workflows/deploy-web.yml"
   workflow_dispatch:
 

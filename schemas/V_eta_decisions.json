@@ -1,0 +1,523 @@
+{
+  "title": "V_eta decision families (GENERATED -- do not hand-edit)",
+  "description": "Regenerate with `python3 tools/status_board.py`. The human-readable twin is schemas/V_eta_STATUS.md. A family counts as decided ONLY when its plan document carries a TEAM-SIGN-OFF line; Claude cannot promote its own work.",
+  "summary": {
+    "families": 18,
+    "classes_claimed": 44,
+    "open_classes": 31,
+    "by_state": {
+      "signed_awaiting_build": 18,
+      "awaiting_signature": 0,
+      "proposed_unreviewed": 0,
+      "open": 0
+    },
+    "state_labels": {
+      "signed_awaiting_build": "decided and signed off, awaiting build",
+      "awaiting_signature": "decided in a walkthrough, awaiting a signature",
+      "proposed_unreviewed": "written up by Claude alone, unreviewed",
+      "open": "nobody has proposed anything yet"
+    }
+  },
+  "families": [
+    {
+      "name": "time_reference",
+      "members": [
+        {
+          "class_name": "time_reference",
+          "disposition": "in_progress"
+        },
+        {
+          "class_name": "session_bounded_reference",
+          "disposition": "in_progress"
+        },
+        {
+          "class_name": "session_relative_reference",
+          "disposition": "in_progress"
+        },
+        {
+          "class_name": "epoch_bounded_reference",
+          "disposition": "in_progress"
+        },
+        {
+          "class_name": "epoch_relative_reference",
+          "disposition": "in_progress"
+        },
+        {
+          "class_name": "event_bounded_reference",
+          "disposition": "in_progress"
+        },
+        {
+          "class_name": "event_relative_reference",
+          "disposition": "in_progress"
+        },
+        {
+          "class_name": "utc_reference",
+          "disposition": "in_progress"
+        }
+      ],
+      "open_members": [
+        "time_reference",
+        "session_bounded_reference",
+        "session_relative_reference",
+        "epoch_bounded_reference",
+        "epoch_relative_reference",
+        "event_bounded_reference",
+        "event_relative_reference",
+        "utc_reference"
+      ],
+      "plan": "V_eta_time_reference_model_plan.md",
+      "decision": "8 classes collapse to absolute_reference + relative_reference",
+      "status": "team",
+      "signed": true,
+      "signoff": "jess@walthamdatascience.com / 2026-08-08 -- 8 classes collapse to absolute_reference + relative_reference; anchor and extent are separated (start + duration, NOT start + end); every value-level `approximate` is deleted; `clock` becomes a bound ontology_term over FOUR terms and the approx_ prefix de-encodes to an explicit clock_tolerance on the root.",
+      "state": "signed_awaiting_build",
+      "state_label": "decided and signed off, awaiting build"
+    },
+    {
+      "name": "stimulus",
+      "members": [
+        {
+          "class_name": "stimulus_presentation",
+          "disposition": "in_progress"
+        },
+        {
+          "class_name": "control_designation",
+          "disposition": "in_progress"
+        }
+      ],
+      "open_members": [
+        "stimulus_presentation",
+        "control_designation"
+      ],
+      "plan": "V_eta_stimulus_model_plan.md",
+      "decision": "timed_sequence data_type + timed_sequence_manipulation leaf; control_designation resolved here",
+      "status": "team",
+      "signed": true,
+      "signoff": "jess@walthamdatascience.com / 2026-08-08 -- `timed_sequence` (a data_type: deduped references to stimulus value documents + an index-array playlist) + `timed_sequence_manipulation` (the leaf); `control_stimulus_ids` -> `control_designation`; stimulus_presentation is DECOMPOSED around its preserved id, not dissolved. Signed WITH the three same-day revisions above: the time anchor is a relative_reference, the per-trial timing goes through the body tier as an irregular time axis, and control_designation's derived_from_# is fixed in the build.",
+      "state": "signed_awaiting_build",
+      "state_label": "decided and signed off, awaiting build"
+    },
+    {
+      "name": "ensemble",
+      "members": [
+        {
+          "class_name": "ensemble",
+          "disposition": "in_progress"
+        }
+      ],
+      "open_members": [
+        "ensemble"
+      ],
+      "plan": "V_eta_ensemble_plan.md",
+      "decision": "group subject + epoch-scoped member_of edges + rebuildable cache",
+      "status": "team",
+      "signed": true,
+      "signoff": "jess, 2026-08-06 -- per-neuron spike times are the PRIMARY archival data (each neuron-subject, event times to a sampled_body); the ensemble is a GROUP SUBJECT with its id preserved and NO data body of its own, whose members are EPOCH-SCOPED member_of edges carrying their epoch and column order; the combined (times, ids) array is kept as an explicitly-DERIVED, REBUILDABLE CACHE (derived_from the neurons, T10) for fast windowed population reads, not as source of truth; the per-epoch MAP document dissolves. Build is sequenced: pass 1 keeps a green passthrough, the NDI second pass mints member_of and builds the cache, and a verify-before-delete (0 stranded per-neuron trains) gates dropping the combined bytes.",
+      "state": "signed_awaiting_build",
+      "state_label": "decided and signed off, awaiting build"
+    },
+    {
+      "name": "image / ngrid",
+      "members": [
+        {
+          "class_name": "ngrid",
+          "disposition": "in_progress"
+        }
+      ],
+      "open_members": [
+        "ngrid"
+      ],
+      "plan": "V_eta_image_model_plan.md",
+      "decision": "ngrid phases into sampled_body; image is a standalone data_type",
+      "status": "team",
+      "signed": true,
+      "signoff": "jess@walthamdatascience.com / 2026-08-08 -- ngrid is DISSOLVED (deleted, not migrated); `image` becomes `{pixels, color_model}` and nothing else.",
+      "state": "signed_awaiting_build",
+      "state_label": "decided and signed off, awaiting build"
+    },
+    {
+      "name": "epoch",
+      "members": [
+        {
+          "class_name": "acquisition_epoch",
+          "disposition": "in_progress"
+        },
+        {
+          "class_name": "epochid",
+          "disposition": "in_progress"
+        },
+        {
+          "class_name": "epochfiles_ingested",
+          "disposition": "in_progress"
+        },
+        {
+          "class_name": "ingestion_manifest",
+          "disposition": "persist"
+        }
+      ],
+      "open_members": [
+        "acquisition_epoch",
+        "epochid",
+        "epochfiles_ingested"
+      ],
+      "plan": "V_eta_epoch_plan.md",
+      "decision": "MINT `epoch` ENTITY (+ OPTIONAL `instrument_id`, 2026-08-06); element_epoch dissolves; epochid DROPPED; probemap -> edges (B)",
+      "status": "team",
+      "signed": true,
+      "signoff": "jess@walthamdatascience.com / 2026-08-08 -- MINT `epoch` as an entity (one per epoch id, local_identifier = the v1 epochid string, REQUIRED); acquisition_epoch dissolves and its clocks become relative_reference documents; epochid is DROPPED in favour of a uniform epoch_id edge; epochfiles_ingested becomes `ingestion_manifest` with filenavigator_id RESTORED; instrument_id -> entity, OPTIONAL.",
+      "state": "signed_awaiting_build",
+      "state_label": "decided and signed off, awaiting build"
+    },
+    {
+      "name": "daq configuration",
+      "members": [
+        {
+          "class_name": "daqsystem",
+          "disposition": "in_progress"
+        },
+        {
+          "class_name": "daqreader",
+          "disposition": "in_progress"
+        },
+        {
+          "class_name": "daqmetadatareader",
+          "disposition": "in_progress"
+        }
+      ],
+      "open_members": [
+        "daqsystem",
+        "daqreader",
+        "daqmetadatareader"
+      ],
+      "plan": "V_eta_daq_family_decisions.md",
+      "decision": "acquisition_system + `acquisition_metadata_reader` keep ids; class names fold to software entities",
+      "status": "team",
+      "signed": true,
+      "signoff": "jess@walthamdatascience.com / 2026-08-08 -- daqreader DISSOLVES into a `software` entity (base.id preserved); daqmetadatareader -> `acquisition_metadata_reader`; daqsystem -> `acquisition_system` \u2282 entity, base.id AND base.name preserved because the name is the join key; the invented `file_extension` and `metadata_names` are DELETED; `reader_string` is KEPT as the de-encoded daqreader_ndr.ndr_reader_string.",
+      "state": "signed_awaiting_build",
+      "state_label": "decided and signed off, awaiting build"
+    },
+    {
+      "name": "daq ingested payloads",
+      "members": [
+        {
+          "class_name": "daqreader_epochdata_ingested",
+          "disposition": "in_progress"
+        },
+        {
+          "class_name": "daqmetadatareader_epochdata_ingested",
+          "disposition": "in_progress"
+        },
+        {
+          "class_name": "daqreader_image_epochdata_ingested",
+          "disposition": "in_progress"
+        }
+      ],
+      "open_members": [
+        "daqreader_epochdata_ingested",
+        "daqmetadatareader_epochdata_ingested",
+        "daqreader_image_epochdata_ingested"
+      ],
+      "plan": "V_eta_ingested_payload_findings.md",
+      "decision": "reader one DECOMPOSES (per-clock relative_references + sampled_body) and retires; metadata one -> `acquisition_metadata_file`; image one folds into the image model",
+      "status": "team",
+      "signed": true,
+      "signoff": "jess@walthamdatascience.com / 2026-08-08 -- ONE new class, `acquisition_metadata_file`; the reader and image classes RETIRE by decomposing into relative_reference + sampled_body + image_observation, all of which are now themselves signed.",
+      "state": "signed_awaiting_build",
+      "state_label": "decided and signed off, awaiting build"
+    },
+    {
+      "name": "sync configuration",
+      "members": [
+        {
+          "class_name": "syncgraph",
+          "disposition": "in_progress"
+        },
+        {
+          "class_name": "syncrule",
+          "disposition": "in_progress"
+        }
+      ],
+      "open_members": [
+        "syncgraph",
+        "syncrule"
+      ],
+      "plan": "V_eta_clock_alignment_cluster_plan.md",
+      "decision": "syncrule -> `clock_alignment_configuration` (parameters DECLARED, devices become edges); syncgraph -> `clock_alignment_policy` (earns existence on membership)",
+      "status": "team",
+      "signed": true,
+      "signoff": "jess@walthamdatascience.com / 2026-08-08 -- syncrule -> `clock_alignment_configuration` (parameters DECLARED not bagged, devices become `acquisition_channels_#` edges, EXACTLY 2 and UNORDERED); syncgraph -> `clock_alignment_policy`, earning its existence on membership; both preserve base.id, and syncrule_id_# is un-tightened back to NDI's optional.",
+      "state": "signed_awaiting_build",
+      "state_label": "decided and signed off, awaiting build"
+    },
+    {
+      "name": "sync mapping",
+      "members": [
+        {
+          "class_name": "syncrule_mapping",
+          "disposition": "in_progress"
+        }
+      ],
+      "open_members": [
+        "syncrule_mapping"
+      ],
+      "plan": "V_eta_clock_alignment_cluster_plan.md",
+      "decision": "-> `clock_alignment` (relation + `polynomial` data_type); endpoints are relative_reference docs; syncgraph_id restored, invented epochid removed",
+      "status": "team",
+      "signed": true,
+      "signoff": "jess@walthamdatascience.com / 2026-08-08 -- syncrule_mapping -> `clock_alignment` (\u2282 relation, polynomial), base.id PRESERVED; endpoints become from_reference / to_reference on relative_reference documents; syncgraph_id RESTORED and the invented required `epochid` (5,316 docs, 100% empty) REMOVED; `degree` kept and CHECKED.",
+      "state": "signed_awaiting_build",
+      "state_label": "decided and signed off, awaiting build"
+    },
+    {
+      "name": "file navigation",
+      "members": [
+        {
+          "class_name": "filenavigator",
+          "disposition": "in_progress"
+        },
+        {
+          "class_name": "directory",
+          "disposition": "in_progress"
+        }
+      ],
+      "open_members": [
+        "filenavigator",
+        "directory"
+      ],
+      "plan": "V_eta_daq_family_decisions.md",
+      "decision": "filenavigator -> `epoch_file_pattern` (id preserved; patterns PARSED not eval'd); `directory` is not a source",
+      "status": "team",
+      "signed": true,
+      "signoff": "jess, 2026-08-06 -- filenavigator becomes `epoch_file_pattern` with base.id preserved: the two eval'd parameter strings become declared pattern lists (data_file_pattern, epoch_map_pattern) plus epoch_map_format, and the implementation class name becomes a software_id edge. `directory` is NOT a did_v1 source and is unaffected.",
+      "state": "signed_awaiting_build",
+      "state_label": "decided and signed off, awaiting build"
+    },
+    {
+      "name": "openMINDS",
+      "members": [
+        {
+          "class_name": "openminds",
+          "disposition": "retire"
+        }
+      ],
+      "open_members": [],
+      "plan": "V_eta_openminds_family_record.md",
+      "decision": "strain -> entity + recursive background_strain_#; strain_id on term_assertion",
+      "status": "team",
+      "signed": true,
+      "signoff": "jess, 2026-08-08 -- Part 7: the 3 unattached Strain documents become `strain` entities with their ids preserved and OP50-GFP's pedigree as `background_strain_1`; the other 5 documents are Species/GeneticStrainType fragments and are consumed into their parent strain's `species` and `genetic_strain_type` fields; no `term_assertion` is emitted, because there is no subject; the metadata-app dataset graph maps to the six classes `metadata_editor` already emits, with no new classes; the build is a second-pass assembler, and the `strain_id` edge is attached by the same pass that mints subjects from `ontologyTableRow`.",
+      "state": "signed_awaiting_build",
+      "state_label": "decided and signed off, awaiting build"
+    },
+    {
+      "name": "software",
+      "members": [
+        {
+          "class_name": "app",
+          "disposition": "in_progress"
+        }
+      ],
+      "open_members": [
+        "app"
+      ],
+      "plan": "V_eta_tenet_audit.md",
+      "decision": "app -> software entity + software_id edge + execution_environment (R1)",
+      "status": "team",
+      "signed": true,
+      "signoff": "jess, 2026-08-06 -- the `app` mixin is replaced by a `software` ENTITY (deduplicated by name+version) referenced from a statement by `software_id`, with the run-specific os / interpreter details in `execution_environment` on the interaction (R1). The class name stops being copied into every calculator output.",
+      "state": "signed_awaiting_build",
+      "state_label": "decided and signed off, awaiting build"
+    },
+    {
+      "name": "frequency_filter",
+      "members": [
+        {
+          "class_name": "filter",
+          "disposition": "in_progress"
+        }
+      ],
+      "open_members": [
+        "filter"
+      ],
+      "plan": "V_eta_frequency_filter_model_plan.md",
+      "decision": "referenced document (not entity); band edges; typed gain fields; no sample_rate",
+      "status": "team",
+      "signed": true,
+      "signoff": "jess, 2026-07-30. Approved the frequency_filter model as written below: a referenced document under base rather than an entity, band edges rather than a single cutoff, typed gain fields rather than a coefficients bag, no sample_rate, and the name frequency_filter.",
+      "state": "signed_awaiting_build",
+      "state_label": "decided and signed off, awaiting build"
+    },
+    {
+      "name": "spike processing parameters",
+      "members": [
+        {
+          "class_name": "spike_extraction_parameters",
+          "disposition": "retire"
+        },
+        {
+          "class_name": "spike_extraction_parameters_modification",
+          "disposition": "retire"
+        },
+        {
+          "class_name": "sorting_parameters",
+          "disposition": "retire"
+        },
+        {
+          "class_name": "vmspikefilteringparameters",
+          "disposition": "retire"
+        }
+      ],
+      "open_members": [],
+      "plan": "V_eta_method_parameters_plan.md",
+      "decision": "4 -> 1 `method_parameters` (id+name preserved); canonical parts typed, rest a bag",
+      "status": "team",
+      "signed": true,
+      "signoff": "jess, 2026-08-09 -- the four settings classes fold into ONE generic `method_parameters` document (id and `base.name` preserved; optional `software_id`, `subject_id`, `epoch_id -> epoch`, and a `derived_from_id` self-edge carrying LINEAGE only); the settings shape is a `parameter[]` entry modelled on the `axis` entry, identity in a bound `variable`, with no `unit` field and no `data_type` field; it keeps the field name `method_parameters` in BOTH mount points, inline on `subject_interaction` and in the document; routing is decided per class -- a name and an id in the source means a document, otherwise inline -- and a statement carries the inline field or the edge, never both.",
+      "state": "signed_awaiting_build",
+      "state_label": "decided and signed off, awaiting build"
+    },
+    {
+      "name": "stimulus parameters",
+      "members": [
+        {
+          "class_name": "stimulus_parameter",
+          "disposition": "retire"
+        },
+        {
+          "class_name": "stimulus_parameter_table",
+          "disposition": "retire"
+        }
+      ],
+      "open_members": [],
+      "plan": "V_eta_stimulus_parameter_plan.md",
+      "decision": "stimulus_parameter DISSOLVES to a typed leaf keyed by its CURIE (build gated on #32); stimulus_parameter_table PASSES THROUGH; both tombstones repaired",
+      "status": "team",
+      "signed": true,
+      "signoff": "jess@walthamdatascience.com / 2026-08-08 -- A + C: `stimulus_parameter` DISSOLVES into a typed statement leaf keyed by its CURIE (build GATED on #32); `stimulus_parameter_table` PASSES THROUGH and is DEMOTED to deprecated/; both tombstones rewritten to the NDI shape.",
+      "state": "signed_awaiting_build",
+      "state_label": "decided and signed off, awaiting build"
+    },
+    {
+      "name": "stimulus response",
+      "members": [
+        {
+          "class_name": "stimulus_response",
+          "disposition": "retire"
+        },
+        {
+          "class_name": "stimulus_response_scalar",
+          "disposition": "retire"
+        },
+        {
+          "class_name": "stimulus_response_scalar_parameters",
+          "disposition": "retire"
+        },
+        {
+          "class_name": "stimulus_response_scalar_parameters_basic",
+          "disposition": "retire"
+        }
+      ],
+      "open_members": [],
+      "plan": "V_eta_stimulus_response_model_plan.md",
+      "decision": "4 -> 2: `harmonic_component` data_type + calculation leaf (id preserved); parameters fold inline, killing 11,440 empty required edges",
+      "status": "team",
+      "signed": true,
+      "signoff": "jess@walthamdatascience.com / 2026-08-08 -- four classes to TWO: `harmonic_component` (data_type) + `harmonic_component_calculation` (\u2282 subject_calculation, id PRESERVED); stimulus_response and stimulus_response_scalar_parameters DELETE (superclass-only, 0 docs); _parameters_basic FOLDS inline to method_parameters. Signed WITH the three mapping revisions above.",
+      "state": "signed_awaiting_build",
+      "state_label": "decided and signed off, awaiting build"
+    },
+    {
+      "name": "subject measurement",
+      "members": [
+        {
+          "class_name": "subjectmeasurement",
+          "disposition": "retire"
+        }
+      ],
+      "open_members": [],
+      "plan": "V_eta_go_forward_class_audit.md",
+      "decision": "route through the `measurement` fold -- no new class; `datestamp` is a TIME ANCHOR (-> absolute_reference), NOT a field (corrected 2026-08-06)",
+      "status": "team",
+      "signed": true,
+      "signoff": "jess, 2026-08-06 -- subjectmeasurement routes through the existing `measurement` fold with NO new class: subject_id carries over, `measurement` becomes the statement's `variable`, `value` becomes the value, and `datestamp` becomes the statement's TIME ANCHOR (time_reference_1 -> absolute_reference), NOT a field. Known gap, signed with: `value` carries no unit, so the typed leaf must be chosen through the D9 registry rather than from the template.",
+      "state": "signed_awaiting_build",
+      "state_label": "decided and signed off, awaiting build"
+    },
+    {
+      "name": "misc singletons",
+      "members": [
+        {
+          "class_name": "binaryseries_parameters",
+          "disposition": "in_progress"
+        },
+        {
+          "class_name": "interaction_purpose",
+          "disposition": "in_progress"
+        },
+        {
+          "class_name": "projectvar",
+          "disposition": "in_progress"
+        }
+      ],
+      "open_members": [
+        "binaryseries_parameters",
+        "interaction_purpose",
+        "projectvar"
+      ],
+      "plan": "V_eta_go_forward_class_audit.md",
+      "decision": "binaryseries_parameters -> sampled_body; projectvar PASSES THROUGH (needs real docs); interaction_purpose is a target (#32)",
+      "status": "team",
+      "signed": true,
+      "signoff": "jess, 2026-08-09 -- `binaryseries_parameters` folds into the data_body model and is retired (its `time_type` is the time axis's new `datum_type`, its `data_type` the statement's, `data_dim` the axis count, `samples_regular_intervals` the axis `regular` flag); `interaction_purpose` is KEPT, conditionally on the stimulus build actually emitting it, and is the destination for the 635 `StimulationApproach` documents via a second pass -- so #71 is repaired by re-targeting, with pass 1 emitting nothing; `projectvar` stays a deprecated passthrough until real documents exist to model its untyped `data` field against. Whether `purpose` collapses to a field on `subject_interaction` stays open pending the corpus measurement.",
+      "state": "signed_awaiting_build",
+      "state_label": "decided and signed off, awaiting build"
+    }
+  ],
+  "by_class": {
+    "time_reference": "time_reference",
+    "session_bounded_reference": "time_reference",
+    "session_relative_reference": "time_reference",
+    "epoch_bounded_reference": "time_reference",
+    "epoch_relative_reference": "time_reference",
+    "event_bounded_reference": "time_reference",
+    "event_relative_reference": "time_reference",
+    "utc_reference": "time_reference",
+    "stimulus_presentation": "stimulus",
+    "control_designation": "stimulus",
+    "ensemble": "ensemble",
+    "ngrid": "image / ngrid",
+    "acquisition_epoch": "epoch",
+    "epochid": "epoch",
+    "epochfiles_ingested": "epoch",
+    "ingestion_manifest": "epoch",
+    "daqsystem": "daq configuration",
+    "daqreader": "daq configuration",
+    "daqmetadatareader": "daq configuration",
+    "daqreader_epochdata_ingested": "daq ingested payloads",
+    "daqmetadatareader_epochdata_ingested": "daq ingested payloads",
+    "daqreader_image_epochdata_ingested": "daq ingested payloads",
+    "syncgraph": "sync configuration",
+    "syncrule": "sync configuration",
+    "syncrule_mapping": "sync mapping",
+    "filenavigator": "file navigation",
+    "directory": "file navigation",
+    "openminds": "openMINDS",
+    "app": "software",
+    "filter": "frequency_filter",
+    "spike_extraction_parameters": "spike processing parameters",
+    "spike_extraction_parameters_modification": "spike processing parameters",
+    "sorting_parameters": "spike processing parameters",
+    "vmspikefilteringparameters": "spike processing parameters",
+    "stimulus_parameter": "stimulus parameters",
+    "stimulus_parameter_table": "stimulus parameters",
+    "stimulus_response": "stimulus response",
+    "stimulus_response_scalar": "stimulus response",
+    "stimulus_response_scalar_parameters": "stimulus response",
+    "stimulus_response_scalar_parameters_basic": "stimulus response",
+    "subjectmeasurement": "subject measurement",
+    "binaryseries_parameters": "misc singletons",
+    "interaction_purpose": "misc singletons",
+    "projectvar": "misc singletons"
+  }
+}

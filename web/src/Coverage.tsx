@@ -1,6 +1,12 @@
 import { useEffect, useMemo, useState } from "react";
-import type { CoverageLedger, CoverageRow } from "./types";
-import { loadCoverage } from "./schemaIndex";
+import type {
+  CoverageLedger,
+  CoverageRow,
+  DecisionFamily,
+  DecisionState,
+  DecisionsDoc,
+} from "./types";
+import { loadCoverage, loadDecisions } from "./schemaIndex";
 
 interface Props {
   // Jump to a class's detail view (used by the clickable V_eta class chip).
@@ -37,8 +43,37 @@ const KIND_ORDER: Kind[] = [
   "unmapped", "in_progress", "retire", "persist", "dissolved", "nonprod",
 ];
 
+// Decision-state styling. The ledger's `fate` says what happens to a class;
+// this says whether the MODEL behind it has been decided. A class showing
+// `in_progress` with no decision marker used to be indistinguishable from one
+// nobody had thought about -- which is how a signed cluster sat unbuilt for a
+// day while two documents called it a proposal.
+const DSTATE_META: Record<DecisionState, { label: string; cls: string; tip: string }> = {
+  signed_awaiting_build: {
+    label: "decided ✓ awaiting build",
+    cls: "cov-dec-signed",
+    tip: "The team decided this and the plan document carries a TEAM-SIGN-OFF line. The model is settled; only the build is outstanding.",
+  },
+  awaiting_signature: {
+    label: "decided — unsigned",
+    cls: "cov-dec-unsigned",
+    tip: "Decided in a walkthrough, but no TEAM-SIGN-OFF line in the plan yet. Nothing here needs re-deciding — it needs recording.",
+  },
+  proposed_unreviewed: {
+    label: "proposed — unreviewed",
+    cls: "cov-dec-proposed",
+    tip: "Written up by Claude alone. NOT a decision and never counted as one.",
+  },
+  open: {
+    label: "no proposal",
+    cls: "cov-dec-open",
+    tip: "Nobody has proposed anything for this family yet.",
+  },
+};
+
 export function Coverage({ onSelect }: Props) {
   const [led, setLed] = useState<CoverageLedger | null>(null);
+  const [dec, setDec] = useState<DecisionsDoc | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [q, setQ] = useState("");
   const [activeKinds, setActiveKinds] = useState<Set<Kind>>(new Set(KIND_ORDER));
@@ -49,6 +84,12 @@ export function Coverage({ onSelect }: Props) {
     loadCoverage()
       .then((l) => !cancelled && setLed(l))
       .catch((e) => !cancelled && setError(String(e)));
+    // Non-fatal: an older bundle may have no decisions.json, and the ledger is
+    // still worth showing without it. Failing the whole panel would trade a
+    // partial view for none.
+    loadDecisions()
+      .then((d) => !cancelled && setDec(d))
+      .catch(() => undefined);
     return () => {
       cancelled = true;
     };
@@ -61,6 +102,19 @@ export function Coverage({ onSelect }: Props) {
       else next.add(k);
       return next;
     });
+
+  // A ledger row is keyed by its v1 SOURCE class; families are keyed by V_eta
+  // class names. Join on the V_eta side, falling back to the v1 name for the
+  // classes that migrate 1:1 keeping their name.
+  const famOf = useMemo(() => {
+    if (!dec) return () => undefined as DecisionFamily | undefined;
+    const byName = new Map(dec.families.map((f) => [f.name, f]));
+    return (r: CoverageRow): DecisionFamily | undefined => {
+      const key = (r.veta_class && dec.by_class[r.veta_class])
+        ?? dec.by_class[r.v1_class];
+      return key ? byName.get(key) : undefined;
+    };
+  }, [dec]);
 
   const rows = led?.rows ?? [];
   const kindCounts = useMemo(() => {
@@ -112,6 +166,22 @@ export function Coverage({ onSelect }: Props) {
           <Stat n={s.with_migrator} label="bespoke migrator" />
           <Stat n={s.gaps} label="unmapped" warn={s.gaps > 0} />
         </div>
+        {dec && (
+          <p className="cov-decision-banner">
+            <strong>{dec.summary.families} decision families</strong> cover{" "}
+            {dec.summary.open_classes} still-open classes.{" "}
+            {dec.summary.by_state.signed_awaiting_build} are decided, signed off and{" "}
+            <strong>awaiting build</strong>
+            {dec.summary.by_state.awaiting_signature > 0 &&
+              `, ${dec.summary.by_state.awaiting_signature} await a signature`}
+            {dec.summary.by_state.proposed_unreviewed > 0 &&
+              `, ${dec.summary.by_state.proposed_unreviewed} are unreviewed proposals`}
+            {dec.summary.by_state.open > 0 &&
+              `, ${dec.summary.by_state.open} have no proposal`}
+            . A class marked <em>in progress</em> below is not necessarily
+            undecided — check its <strong>decision</strong> column.
+          </p>
+        )}
         {s.gaps > 0 && (
           <p className="cov-gap-banner">
             ⚠ {s.gaps} class{s.gaps === 1 ? "" : "es"} on NDI/main have no V_eta home
@@ -183,6 +253,7 @@ export function Coverage({ onSelect }: Props) {
             <th>v1 class</th>
             <th>→ V_eta target(s)</th>
             <th>fate</th>
+            <th>decision</th>
             <th>migrator</th>
             <th>writer</th>
           </tr>
@@ -211,6 +282,9 @@ export function Coverage({ onSelect }: Props) {
                   )}
                 </td>
                 <td>
+                  <DecisionCell fam={famOf(r)} />
+                </td>
+                <td>
                   {r.migrator ? (
                     <span className="cov-yes">yes</span>
                   ) : (
@@ -225,7 +299,7 @@ export function Coverage({ onSelect }: Props) {
           })}
           {filtered.length === 0 && (
             <tr>
-              <td colSpan={5} className="muted">
+              <td colSpan={6} className="muted">
                 No classes match the current filters.
               </td>
             </tr>
@@ -233,6 +307,28 @@ export function Coverage({ onSelect }: Props) {
         </tbody>
       </table>
     </div>
+  );
+}
+
+// The decision cell. Deliberately EMPTY when a class belongs to no decision
+// family: most classes are settled and need no marker, and painting every row
+// would bury the 18 that are actually in flight.
+function DecisionCell({ fam }: { fam: DecisionFamily | undefined }) {
+  if (!fam) return <span className="muted">{DASH}</span>;
+  const m = DSTATE_META[fam.state];
+  const tip = [
+    `${fam.name}: ${fam.decision}`,
+    "",
+    m.tip,
+    fam.signoff ? `\nTEAM-SIGN-OFF: ${fam.signoff}` : "",
+    fam.plan ? `\nRecorded in ${fam.plan}` : "",
+  ]
+    .filter(Boolean)
+    .join("\n");
+  return (
+    <span className={`cov-badge ${m.cls}`} title={tip}>
+      {m.label}
+    </span>
   );
 }
 

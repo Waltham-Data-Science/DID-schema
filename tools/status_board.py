@@ -35,6 +35,21 @@ REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 INDEX = os.path.join(REPO, "schemas", "V_eta", "index.json")
 LEDGER = os.path.join(REPO, "schemas", "V_eta_coverage_ledger.json")
 OUT = os.path.join(REPO, "schemas", "V_eta_STATUS.md")
+# The machine-readable twin of the board, for the schema viewer.
+#
+# WHY IT EXISTS. Until 2026-08-09 the decisions lived ONLY in the FAMILIES table
+# below and in the sign-off lines of the plan documents, so nothing downstream
+# could see them. The viewer rendered the coverage ledger, where a settled class
+# shows as `in_progress` with no hint that its model is decided, signed, and
+# merely awaiting a build -- which reads as UNDECIDED. That is the same
+# inversion this board already names: a record that reports settled work as
+# open is the mirror of one that reports open work as settled, and both make
+# the remaining-work count useless. The clock alignment cluster sat unbuilt for
+# a day for exactly this reason, because two pieces of prose called a signed
+# decision a proposal.
+#
+# Generated, never hand-edited, and stale-checked in CI like the other four.
+DECISIONS_OUT = os.path.join(REPO, "schemas", "V_eta_decisions.json")
 
 # Decision families for the still-open (in_progress) classes.
 #   name -> (members, plan-or-None, one-line call, status)
@@ -336,6 +351,17 @@ SIGNOFF = "TEAM-SIGN-OFF:"
 def has_signoff(plan, family):
     """True when the plan document carries an explicit team sign-off line.
 
+    Thin wrapper over find_signoff so there is exactly ONE parser. The guards
+    below (HTML comments, [family] tags, template placeholders) are each there
+    because a laundering path was found and closed; a second copy of this
+    parsing for the JSON export would be a second place for them to drift.
+    """
+    return find_signoff(plan, family) is not None
+
+
+def find_signoff(plan, family):
+    """Return the sign-off line's content for this family, or None.
+
     THE RULE THIS ENFORCES. Claude may research a family and write up a
     proposal; it may not record that proposal as the team's decision. On
     2026-07-29 the board had only two states, so attaching a document to a
@@ -357,10 +383,10 @@ def has_signoff(plan, family):
     signed off yet".
     """
     if not plan:
-        return False
+        return None
     path = os.path.join(REPO, "schemas", plan)
     if not os.path.exists(path):
-        return False
+        return None
     with open(path) as fh:
         text = fh.read()
 
@@ -407,12 +433,12 @@ def has_signoff(plan, family):
             continue
         if tagged is not None:
             if tagged == family:
-                return True
+                return rest
             continue
         # Untagged: only meaningful when the document belongs to one family.
         if not shared:
-            return True
-    return False
+            return rest
+    return None
 
 
 def load():
@@ -683,21 +709,113 @@ def build():
     return "\n".join(L) + "\n", ok
 
 
+STATE_LABEL = {
+    "signed_awaiting_build": "decided and signed off, awaiting build",
+    "awaiting_signature": "decided in a walkthrough, awaiting a signature",
+    "proposed_unreviewed": "written up by Claude alone, unreviewed",
+    "open": "nobody has proposed anything yet",
+}
+
+
+def family_state(status, signed):
+    """The four-valued state a family renders as.
+
+    Mirrors the board's own buckets EXACTLY, and for the same reason: "the team
+    decided this" and "a document exists" are different facts, and collapsing
+    them is how five families Claude wrote alone were once reported as settled.
+    A `team` family with no sign-off line is NOT signed, no matter what the
+    FAMILIES table says.
+    """
+    if status == "team":
+        return "signed_awaiting_build" if signed else "awaiting_signature"
+    if status == "proposed":
+        return "proposed_unreviewed"
+    return "open"
+
+
+def decisions_doc():
+    """Build the machine-readable decisions artifact."""
+    schemas, _rows = load()
+    disp = {s["class_name"]: s.get("disposition", "(none)") for s in schemas}
+
+    families, by_class = [], {}
+    for name, members, plan, call, status in FAMILIES:
+        line = find_signoff(plan, name)
+        state = family_state(status, line is not None)
+        # A member may already have been built out of `in_progress` (or deleted
+        # outright) while its family is still tracked. Report the per-class
+        # disposition alongside, so "the family is unbuilt" and "this particular
+        # class is still open" stay distinguishable -- they are not the same
+        # claim, and conflating them is what made `dataseries_channel_map` look
+        # open for four days after it was decided.
+        member_rows = [{"class_name": m, "disposition": disp.get(m, "(absent)")}
+                       for m in members]
+        fam = {
+            "name": name,
+            "members": member_rows,
+            "open_members": [m["class_name"] for m in member_rows
+                             if m["disposition"] == "in_progress"],
+            "plan": plan,
+            "decision": call,
+            "status": status,
+            "signed": line is not None,
+            "signoff": line,
+            "state": state,
+            "state_label": STATE_LABEL[state],
+        }
+        families.append(fam)
+        for m in members:
+            by_class[m] = name
+
+    counts = {}
+    for k in STATE_LABEL:
+        counts[k] = sum(1 for f in families if f["state"] == k)
+    return {
+        "title": "V_eta decision families (GENERATED -- do not hand-edit)",
+        "description":
+            "Regenerate with `python3 tools/status_board.py`. The human-readable "
+            "twin is schemas/V_eta_STATUS.md. A family counts as decided ONLY "
+            "when its plan document carries a TEAM-SIGN-OFF line; Claude cannot "
+            "promote its own work.",
+        "summary": {
+            "families": len(families),
+            "classes_claimed": len(by_class),
+            "open_classes": sum(1 for v in disp.values() if v == "in_progress"),
+            "by_state": counts,
+            "state_labels": STATE_LABEL,
+        },
+        "families": families,
+        "by_class": by_class,
+    }
+
+
+def decisions_text():
+    return json.dumps(decisions_doc(), indent=2, sort_keys=False) + "\n"
+
+
 def main(argv):
     text, ok = build()
+    dtext = decisions_text()
     if "--check" in argv:
         current = open(OUT).read() if os.path.exists(OUT) else ""
         if current != text:
             print("V_eta_STATUS.md is STALE. Run: python3 tools/status_board.py")
             return 1
+        dcur = open(DECISIONS_OUT).read() if os.path.exists(DECISIONS_OUT) else ""
+        if dcur != dtext:
+            print("V_eta_decisions.json is STALE. Run: python3 tools/status_board.py")
+            return 1
         if not ok:
             print("Status board reports unclaimed or duplicated open classes.")
             return 1
-        print("V_eta_STATUS.md is current.")
+        print("V_eta_STATUS.md + V_eta_decisions.json are current.")
         return 0
     with open(OUT, "w") as fh:
         fh.write(text)
+    with open(DECISIONS_OUT, "w") as fh:
+        fh.write(dtext)
     print("wrote %s" % os.path.relpath(OUT, REPO))
+    print("wrote %s" % os.path.relpath(DECISIONS_OUT, REPO))
     return 0 if ok else 1
 
 

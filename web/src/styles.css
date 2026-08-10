@@ -1077,3 +1077,50 @@ button.badge-persist {
 .cov-target-carried { opacity: 0.75; border-style: dotted; }
 .cov-carried { display: inline-flex; flex-wrap: wrap; gap: 0.25rem; align-items: center; color: var(--text-muted); font-size: 0.8rem; }
 .cov-target-flag { cursor: help; color: var(--maturity-draft); font-size: 0.85rem; }
+
+/* ---- Decision families (public/decisions.json) ---------------------------
+   The `fate` badge says what happens to a class; these say whether the MODEL
+   behind it has been decided. Deliberately distinct from the fate palette:
+   green there means "persists", green here means "signed off", and reading one
+   as the other is the confusion this column exists to remove. */
+.cov-decision-banner {
+  margin: 0.5rem 0 0;
+  padding: 0.5rem 0.7rem;
+  background: color-mix(in srgb, var(--maturity-stable) 10%, var(--bg));
+  border: 1px solid color-mix(in srgb, var(--maturity-stable) 45%, var(--bg));
+  border-radius: 6px;
+  font-size: 0.85rem;
+}
+.cov-dec-signed { background: #2f6f4f; }
+.cov-dec-unsigned { background: #d29922; }
+.cov-dec-proposed { background: #9a6bcc; }
+.cov-dec-open { background: var(--maturity-deprecated); }
+
+/* The class-detail banner: reachable from any class, so a decided-but-unbuilt
+   class says so wherever you land on it rather than only in the ledger. */
+.decision-banner {
+  margin: 0 0 0.9rem;
+  padding: 0.6rem 0.8rem;
+  border-radius: 6px;
+  border: 1px solid color-mix(in srgb, var(--maturity-stable) 45%, var(--bg));
+  background: color-mix(in srgb, var(--maturity-stable) 8%, var(--bg));
+  font-size: 0.86rem;
+}
+.decision-banner.decision-unsigned {
+  border-color: #d29922;
+  background: color-mix(in srgb, #d29922 10%, var(--bg));
+}
+.decision-banner.decision-proposed {
+  border-color: #9a6bcc;
+  background: color-mix(in srgb, #9a6bcc 10%, var(--bg));
+}
+.decision-banner-head {
+  font-weight: 600;
+  margin-bottom: 0.25rem;
+}
+.decision-banner-signoff {
+  margin-top: 0.35rem;
+  font-family: var(--mono, monospace);
+  font-size: 0.78rem;
+  opacity: 0.85;
+}

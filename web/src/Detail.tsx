@@ -1,8 +1,14 @@
 import type { ReactElement } from "react";
 import { useEffect, useState } from "react";
-import type { IndexEntry, FieldDef, SchemaDocument } from "./types";
+import type {
+  IndexEntry,
+  FieldDef,
+  SchemaDocument,
+  DecisionFamily,
+  DecisionsDoc,
+} from "./types";
 import { superclassName } from "./types";
-import { loadSchema } from "./schemaIndex";
+import { loadDecisions, loadSchema } from "./schemaIndex";
 
 interface Props {
   entry: IndexEntry;
@@ -49,6 +55,20 @@ export function Detail({ entry }: Props) {
   const [doc, setDoc] = useState<SchemaDocument | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [showRaw, setShowRaw] = useState(false);
+  const [dec, setDec] = useState<DecisionsDoc | null>(null);
+
+  // Loaded once and kept across class selections. Non-fatal: a bundle without
+  // decisions.json still shows the class, it just cannot say whether the model
+  // behind it is settled.
+  useEffect(() => {
+    let cancelled = false;
+    loadDecisions()
+      .then((d) => !cancelled && setDec(d))
+      .catch(() => undefined);
+    return () => {
+      cancelled = true;
+    };
+  }, []);
 
   useEffect(() => {
     let cancelled = false;
@@ -78,8 +98,13 @@ export function Detail({ entry }: Props) {
   };
   const maturity = dc.maturity_level ?? entry.maturity_level ?? null;
 
+  const family = dec
+    ? dec.families.find((f) => f.name === dec.by_class[dc.class_name])
+    : undefined;
+
   return (
     <div className="detail">
+      {family && <DecisionBanner fam={family} />}
       <header className="detail-header">
         <h2>
           {dc.class_name}
@@ -318,4 +343,51 @@ function formatValue(v: unknown): string {
   if (v === undefined) return "—";
   if (typeof v === "string") return v === "" ? '""' : v;
   return JSON.stringify(v);
+}
+
+// WHY THIS BANNER SITS ABOVE THE HEADER. The `wip` badge beside the class name
+// says the class is unfinished; it does not say whether anyone has DECIDED what
+// it should become. Those read the same and are not: 18 families are settled,
+// signed off and merely queued for build. Someone landing on
+// `session_relative_reference` from a search should not have to find the status
+// board to learn that its model was agreed days ago.
+function DecisionBanner({ fam }: { fam: DecisionFamily }) {
+  const cls =
+    fam.state === "signed_awaiting_build"
+      ? ""
+      : fam.state === "awaiting_signature"
+        ? "decision-unsigned"
+        : "decision-proposed";
+  const head =
+    fam.state === "signed_awaiting_build"
+      ? "DECIDED and signed off — awaiting build"
+      : fam.state === "awaiting_signature"
+        ? "Decided in a walkthrough — awaiting a signature"
+        : fam.state === "proposed_unreviewed"
+          ? "PROPOSED by Claude alone — not a decision"
+          : "No proposal yet";
+  return (
+    <div className={`decision-banner ${cls}`}>
+      <div className="decision-banner-head">
+        {head} · <code>{fam.name}</code>
+      </div>
+      <div>{fam.decision}</div>
+      {fam.plan && (
+        <div className="section-note">
+          Recorded in <code>schemas/{fam.plan}</code>
+          {fam.open_members.length > 0 && (
+            <>
+              {" "}· still open in this family:{" "}
+              {fam.open_members.map((m) => (
+                <code key={m}>{m} </code>
+              ))}
+            </>
+          )}
+        </div>
+      )}
+      {fam.signoff && (
+        <div className="decision-banner-signoff">TEAM-SIGN-OFF: {fam.signoff}</div>
+      )}
+    </div>
+  );
 }
