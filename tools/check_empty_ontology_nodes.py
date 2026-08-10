@@ -155,7 +155,26 @@ META_FILES = {"did_schema_meta.json", "CURIE_lookups_meta.json",
 # It comes back down with the four did_clocktype terms (#67), which is also
 # what clears three of the other rows. Still unmintable today: NDIC.txt was
 # moved out of NDI-matlab in 2c19bf24c and that repo is not in session scope.
-BASELINE_MIGRATORS = 45
+# ---- RECONCILED 2026-08-10, 45 -> 46. ONE row, and it is the SECOND gain. ---
+# `migrators_j/stimulus_response_scalar.m:369` -- jOntologyTerm('', 'dev_local_time')
+# on the `clock` of a `relative_reference`.
+#
+# This is the `element_epochid` DATA-LOSS REPAIR arriving. That fold used to
+# emit a bare session anchor and drop the v1 epoch string on the floor, and no
+# counter could see it: silentLoss counts empty edges, vacuous fields and
+# fragments, and a dropped SOURCE FIELD is none of the three. It now emits a
+# relative_reference whose `relative_to` is the real minted `epoch` document.
+#
+# So the emission exists BECAUSE a document is being preserved that previously
+# was not. Note the same line gets `relation` RIGHT with a real CURIE
+# (`time:intervalDuring`, OWL-Time) -- only the CLOCK is unminted, and it is
+# unminted for the one reason that covers every clock row here: NDIC.txt was
+# moved out of NDI-matlab (2c19bf24c) and `ndi-ontology-matlab` is not in this
+# session's scope. Adding it would let this row and three others fall together.
+#
+# Second consecutive raise where the count went up because the code got better
+# (44 -> 45 was the same shape). Recorded so nobody reads this series as decay.
+BASELINE_MIGRATORS = 46
 
 # Schema-side baseline, set 2026-08-10 when the sweep was added. It is 8 on the
 # day it landed: the four did_clocktype terms x two carriers
