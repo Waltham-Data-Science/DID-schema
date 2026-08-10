@@ -5,15 +5,6 @@ Regenerate with `python3 tools/status_board.py`. CI runs `--check`.
 State lives here. The plan documents under `schemas/` keep the RATIONALE
 for each model; this board owns *how much is left and what exactly*.
 
-## ERROR -- unclaimed open classes
-
-These are `in_progress` but belong to no decision family in
-`tools/status_board.py`. An open class that no family claims is an open
-question nobody is tracking. Add it to `FAMILIES` before continuing:
-
-- `generic_file`
-- `valid_interval`
-
 ## Where V_eta stands
 
 | | count |
@@ -23,11 +14,11 @@ question nobody is tracking. Add it to `FAMILIES` before continuing:
 | settled (retire) | 52 |
 | **still open (`in_progress`)** | **31** |
 | **`retire` with no migrator YET** | **2** |
-| open **decision families** | **18** |
+| open **decision families** | **19** |
 | &nbsp;&nbsp;DECIDED and signed off, awaiting build | 18 |
 | &nbsp;&nbsp;decided in a walkthrough, **awaiting a signature** | 0 |
 | &nbsp;&nbsp;**written up by Claude alone, unreviewed** | **0** |
-| &nbsp;&nbsp;nobody has proposed anything yet | 0 |
+| &nbsp;&nbsp;nobody has proposed anything yet | 1 |
 
 | open-class BUILD/PROOF state (derived, see below) | count |
 |---|---|
@@ -36,9 +27,9 @@ question nobody is tracking. Add it to `FAMILIES` before continuing:
 | (c) corpus: 0 survivors in the corpora read | 0 |
 | (?) UNMEASURED -- no build evidence was ever taken | 0 |
 
-The class count is not the work count. 31 open classes are 18 decisions, because most open classes move as a family.
+The class count is not the work count. 31 open classes are 19 decisions, because most open classes move as a family.
 
-**0 of those 18 are not settled**: 0 awaiting a signature on a decision already taken, 0 written up by Claude alone and unreviewed, 0 with nothing proposed. Only 18 are signed off.
+**1 of those 19 are not settled**: 0 awaiting a signature on a decision already taken, 0 written up by Claude alone and unreviewed, 1 with nothing proposed. Only 18 are signed off.
 
 ## What is actually left on the 31 open classes
 
@@ -55,7 +46,7 @@ decides a disposition -- it DERIVES, per class, how far the work has got.
 |---|---|
 | build: V_eta migrator packages read | `migrators_j`, `ndi_second_pass` |
 | build: migrator files inspected | 135 |
-| build: migrator lines inspected | 17692 |
+| build: migrator lines inspected | 17872 |
 | build: classes queried | 31 |
 | build: open classes MINTED as a document class | 5 |
 | build: of those, discounted (decision retires the class) | 3 |
@@ -164,7 +155,7 @@ a row whose only evidence is a built target as *the target exists*, not as
 | `syncgraph` | sync configuration | (b) | migrator `migrators_j/syncgraph.m`; 2 consuming reference(s); decided target(s) built: `clock_alignment_policy` | - | - | n/a -- not measured |
 | `syncrule` | sync configuration | (b) | migrator `migrators_j/syncrule.m`; 2 consuming reference(s); decided target(s) built: `clock_alignment_configuration` | - | - | n/a -- not measured |
 | `syncrule_mapping` | sync mapping | (b) | migrator `migrators_j/syncrule_mapping.m`; 2 consuming reference(s); minted as a document class at 1 site(s); decided target(s) built: `clock_alignment` | 1 | 1 | n/a -- not measured |
-| `time_reference` | time_reference | (a) | *none* | - | 28 | n/a -- not measured |
+| `time_reference` | time_reference | (a) | *none* | - | 29 | n/a -- not measured |
 | `utc_reference` | time_reference | (a) | *none* | - | - | n/a -- not measured |
 
 #### (a) decided, nothing built -- 12
@@ -179,7 +170,7 @@ a row whose only evidence is a built target as *the target exists*, not as
 - `projectvar` (misc singletons) -- no evidence found
 - `session_bounded_reference` (time_reference) -- MINTED as a document class at 1 site(s): `migrators_j/ontology_table_row.m:262 (emitted_class)`; minted at 1 site(s), NOT counted as build progress: the signed decision retires this class in favour of `relative_reference`, so an emission is work still to undo; still emitted/named at 1 site(s): `migrators_j/ontology_table_row.m:268 (field_write)`
 - `session_relative_reference` (time_reference) -- MINTED as a document class at 3 site(s): `migrators_j/ontology_table_row.m:669 (emitted_class)`, `migrators_j/private/jSessionAnchor.m:19 (emitted_class)`, `migrators_j/treatment_transfer.m:101 (emitted_class)`; minted at 3 site(s), NOT counted as build progress: the signed decision retires this class in favour of `relative_reference`, so an emission is work still to undo; still emitted/named at 15 site(s): `migrators_j/fitcurve.m:139 (named)`, `migrators_j/fitcurve.m:146 (field_write)`, `migrators_j/image_stack.m:101 (named)`, `migrators_j/image_stack.m:106 (field_write)`, `migrators_j/jrclust_clusters.m:80 (named)`, `migrators_j/jrclust_clusters.m:85 (field_write)` ...
-- `time_reference` (time_reference) -- still emitted/named at 28 site(s): `migrators_j/fitcurve.m:139 (named)`, `migrators_j/fitcurve.m:145 (field_write)`, `migrators_j/image_stack.m:101 (named)`, `migrators_j/image_stack.m:105 (field_write)`, `migrators_j/jrclust_clusters.m:80 (named)`, `migrators_j/jrclust_clusters.m:84 (field_write)` ...
+- `time_reference` (time_reference) -- still emitted/named at 29 site(s): `migrators_j/fitcurve.m:139 (named)`, `migrators_j/fitcurve.m:145 (field_write)`, `migrators_j/image_stack.m:101 (named)`, `migrators_j/image_stack.m:105 (field_write)`, `migrators_j/jrclust_clusters.m:80 (named)`, `migrators_j/jrclust_clusters.m:84 (field_write)` ...
 - `utc_reference` (time_reference) -- no evidence found
 
 #### (b) built, awaiting corpus proof -- 19
@@ -236,7 +227,9 @@ Until that line exists the family shows here regardless of what
 
 | family | classes | the call to make |
 |---|---|---|
+| **stranded sources** | 2 | tombstoned so they stop stranding; tier and fold UNDECIDED |
 
+- **stranded sources**: `generic_file`, `valid_interval`
 
 ## DECIDED by the team, awaiting build
 

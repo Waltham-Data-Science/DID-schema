@@ -162,9 +162,15 @@ DELETE = {"scalar_observation", "scalar_manipulation", "annotation", "group_assi
           # absence of a set member. Note in particular what the deleted comment
           # ASSERTED -- "DID-matlab migrators_j.generic_file folds v1 docs":
           #
-          #     ls src/did/+did2/+convert/+migrators_j/ | wc -l   ->  82
           #     ls src/did/+did2/+convert/+migrators_j/ | grep -i 'generic\|valid'
-          #         (no output -- 0 of 82)
+          #         (no output)
+          #     ls src/did/+did2/+convert/+migrators/   | grep -i 'generic\|valid'
+          #         (no output -- so not even the V_delta fallback has one)
+          #
+          # The denominator is the whole package (83 entries when this was
+          # written, and moving -- the load-bearing number is the ZERO, so the
+          # check is stated as the command rather than as a ratio that goes
+          # stale the next time somebody adds a migrator).
           #
           # There is no such migrator and there never was. A build comment claimed
           # a consumer that does not exist, and that claim is why the deletion read

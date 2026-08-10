@@ -126,8 +126,16 @@ PACKAGE_ORDER = ("migrators_j", "migrators")
 # like every per-class migrator it is reached solely by v1_to_v2's dynamic
 # dispatch. It is a migrator, not a helper. Left in the set, this tool would
 # report "no pass-1 migrator" for a class whose migrator emits three document
-# classes. coverage.py is deliberately NOT edited here -- what its own exclusion
-# costs the ledger is a separate question, reported rather than quietly changed.
+# classes.
+#
+# THE SUBTRACTION IS NOW A NO-OP, AND IS KEPT ANYWAY. coverage.py has since
+# dropped the entry itself (commit "syncrule_mapping was listed as a shared
+# HELPER. It is a migrator.": "Coverage counted 83; it is 84"), so the set no
+# longer contains it. The line stays because it is the only place the two tools'
+# disagreement was ever written down: if `syncrule_mapping` -- or anything else
+# that is a real per-class migrator -- is appended to that set again, this tool
+# keeps deriving the class's targets and the difference is visible here instead
+# of silently reappearing as an empty row.
 _HELPERS = set(COV._MIG_HELPERS) - {"syncrule_mapping"}
 
 

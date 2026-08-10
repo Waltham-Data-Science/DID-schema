@@ -134,6 +134,38 @@ DECISIONS_OUT = os.path.join(REPO, "schemas", "V_eta_decisions.json")
 # were reported to the team as settled. A status board that launders a proposal
 # into a decision is worse than no board.
 FAMILIES = [
+    # ADDED 2026-08-10, and the board is what demanded it. `generic_file` and
+    # `valid_interval` were the last two did_v1 classes that stranded COMPLETELY
+    # -- no V_eta schema AND no migrator, so a dataset carrying them lost them.
+    # Both now have a tombstone restated from the WRITER, so the documents
+    # survive under their own class via the identity passthrough. That closes the
+    # STRANDING and closes nothing else: where each one belongs in V_eta is
+    # undecided, and nobody has proposed a model.
+    #
+    # Status "open", NOT "proposed": a tombstone is preservation, not a proposal.
+    # Marking it "proposed" would launder "we stopped losing these" into "we know
+    # what they become", which is the exact laundering the three-valued status
+    # exists to prevent.
+    #
+    # The two questions, both for the team:
+    #   generic_file    the intended fold is opaque_body + a statement. opaque_body
+    #                   is DRAFT and has NO content_hash, so folding today drops the
+    #                   MD5 checksum -- the one field whose whole purpose is not
+    #                   being lost. And no class yet says "this subject has this
+    #                   file": generic_file's edge points at a SUBJECT,
+    #                   opaque_body's at a STATEMENT.
+    #   valid_interval  which tier? It is a curation judgement ABOUT a recording --
+    #                   neither an observation of the subject nor a manipulation of
+    #                   it. Note it has a SECOND production consumer nobody had
+    #                   recorded: +app/+stimulus/tuning_response.m:253-256 uses it
+    #                   to choose which stretch of signal to analyse, so losing it
+    #                   would silently change tuning results, not just drop an
+    #                   annotation.
+    ("stranded sources", ["generic_file", "valid_interval"],
+     None,
+     "tombstoned so they stop stranding; tier and fold UNDECIDED",
+     "open"),
+
     ("time_reference", [
         "time_reference", "session_bounded_reference", "session_relative_reference",
         "epoch_bounded_reference", "epoch_relative_reference",

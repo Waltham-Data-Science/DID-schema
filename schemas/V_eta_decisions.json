@@ -2,14 +2,14 @@
   "title": "V_eta decision families (GENERATED -- do not hand-edit)",
   "description": "Regenerate with `python3 tools/status_board.py`. The human-readable twin is schemas/V_eta_STATUS.md. A family counts as decided ONLY when its plan document carries a TEAM-SIGN-OFF line; Claude cannot promote its own work.",
   "summary": {
-    "families": 18,
-    "classes_claimed": 44,
+    "families": 19,
+    "classes_claimed": 46,
     "open_classes": 31,
     "by_state": {
       "signed_awaiting_build": 18,
       "awaiting_signature": 0,
       "proposed_unreviewed": 0,
-      "open": 0
+      "open": 1
     },
     "state_labels": {
       "signed_awaiting_build": "decided and signed off, awaiting build",
@@ -19,6 +19,27 @@
     }
   },
   "families": [
+    {
+      "name": "stranded sources",
+      "members": [
+        {
+          "class_name": "generic_file",
+          "disposition": "retire"
+        },
+        {
+          "class_name": "valid_interval",
+          "disposition": "retire"
+        }
+      ],
+      "open_members": [],
+      "plan": null,
+      "decision": "tombstoned so they stop stranding; tier and fold UNDECIDED",
+      "status": "open",
+      "signed": false,
+      "signoff": null,
+      "state": "open",
+      "state_label": "nobody has proposed anything yet"
+    },
     {
       "name": "time_reference",
       "members": [
@@ -475,6 +496,8 @@
     }
   ],
   "by_class": {
+    "generic_file": "stranded sources",
+    "valid_interval": "stranded sources",
     "time_reference": "time_reference",
     "session_bounded_reference": "time_reference",
     "session_relative_reference": "time_reference",
@@ -530,7 +553,7 @@
         ],
         "packages_missing": [],
         "files_read": 135,
-        "lines_read": 17692,
+        "lines_read": 17872,
         "classes_queried": 31,
         "classes_emitted_as_document_class": 5,
         "ref_kinds": [
@@ -1505,7 +1528,7 @@
         "emission_counts_as_build": false,
         "retired_by_decision_in_favour_of": "relative_reference",
         "emission_discounted": null,
-        "n_emitting_refs": 28,
+        "n_emitting_refs": 29,
         "emitting_refs": [
           "migrators_j/fitcurve.m:139 (named)",
           "migrators_j/fitcurve.m:145 (field_write)",
