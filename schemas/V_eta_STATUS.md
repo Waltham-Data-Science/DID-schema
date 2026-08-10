@@ -22,8 +22,8 @@ for each model; this board owns *how much is left and what exactly*.
 
 | open-class BUILD/PROOF state (derived, see below) | count |
 |---|---|
-| (a) decided, nothing built | 14 |
-| (b) built, awaiting corpus proof | 17 |
+| (a) decided, nothing built | 13 |
+| (b) built, awaiting corpus proof | 18 |
 | (c) corpus: 0 survivors in the corpora read | 0 |
 | (?) UNMEASURED -- no build evidence was ever taken | 0 |
 
@@ -45,8 +45,8 @@ decides a disposition -- it DERIVES, per class, how far the work has got.
 | evidence source | reach |
 |---|---|
 | build: V_eta migrator packages read | `migrators_j`, `ndi_second_pass` |
-| build: migrator files inspected | 132 |
-| build: migrator lines inspected | 16975 |
+| build: migrator files inspected | 133 |
+| build: migrator lines inspected | 17135 |
 | build: classes queried | 31 |
 | corpus: `*-summary.json` reports read | 0 |
 | corpus: reports carrying an `unconverted_count` | 0 |
@@ -63,8 +63,8 @@ directory of corpus reports, or run the DID-matlab corpus gate.
 
 | state | classes |
 |---|---|
-| (a) decided, nothing built | 14 |
-| (b) built, awaiting corpus proof | 17 |
+| (a) decided, nothing built | 13 |
+| (b) built, awaiting corpus proof | 18 |
 | (c) corpus: 0 survivors in the corpora read | 0 |
 | (?) UNMEASURED -- no build evidence was ever taken | 0 |
 
@@ -100,8 +100,8 @@ a row whose only evidence is a built target as *the target exists*, not as
 |---|---|---|---|---|---|
 | `acquisition_epoch` | epoch | (a) | *none* | 2 | n/a -- not measured |
 | `app` | software | (b) | 2 consuming reference(s); decided target(s) built: `software` | 1 | n/a -- not measured |
-| `binaryseries_parameters` | misc singletons | (a) | *none* | - | n/a -- not measured |
-| `control_designation` | stimulus | (a) | *none* | 2 | n/a -- not measured |
+| `binaryseries_parameters` | misc singletons | (b) | migrator `migrators_j/binaryseries_parameters.m` | 1 | n/a -- not measured |
+| `control_designation` | stimulus | (a) | *none* | 1 | n/a -- not measured |
 | `daqmetadatareader` | daq configuration | (b) | migrator `migrators_j/daqmetadatareader.m`; 3 consuming reference(s); decided target(s) built: `acquisition_metadata_reader` | - | n/a -- not measured |
 | `daqmetadatareader_epochdata_ingested` | daq ingested payloads | (b) | migrator `migrators_j/daqmetadatareader_epochdata_ingested.m`; decided target(s) built: `acquisition_metadata_file` | - | n/a -- not measured |
 | `daqreader` | daq configuration | (b) | migrator `migrators_j/daqreader.m`; 4 consuming reference(s); decided target(s) built: `software` | 3 | n/a -- not measured |
@@ -110,7 +110,7 @@ a row whose only evidence is a built target as *the target exists*, not as
 | `daqsystem` | daq configuration | (b) | migrator `migrators_j/daqsystem.m`; 3 consuming reference(s); decided target(s) built: `acquisition_system` | - | n/a -- not measured |
 | `directory` | file navigation | (a) | *none* | 1 | n/a -- not measured |
 | `ensemble` | ensemble | (b) | 1 consuming reference(s); decided target(s) built: `subject`, `directed_relation`, `sampled_body` | - | n/a -- not measured |
-| `epoch_bounded_reference` | time_reference | (a) | *none* | 3 | n/a -- not measured |
+| `epoch_bounded_reference` | time_reference | (a) | *none* | 2 | n/a -- not measured |
 | `epoch_relative_reference` | time_reference | (a) | *none* | - | n/a -- not measured |
 | `epochfiles_ingested` | epoch | (b) | migrator `migrators_j/epochfiles_ingested.m` | - | n/a -- not measured |
 | `epochid` | epoch | (b) | 9 consuming reference(s) | 5 | n/a -- not measured |
@@ -121,35 +121,35 @@ a row whose only evidence is a built target as *the target exists*, not as
 | `interaction_purpose` | misc singletons | (a) | *none* | - | n/a -- not measured |
 | `ngrid` | image / ngrid | (b) | 2 consuming reference(s) | 1 | n/a -- not measured |
 | `projectvar` | misc singletons | (a) | *none* | - | n/a -- not measured |
-| `session_bounded_reference` | time_reference | (a) | *none* | 2 | n/a -- not measured |
-| `session_relative_reference` | time_reference | (a) | *none* | 18 | n/a -- not measured |
+| `session_bounded_reference` | time_reference | (a) | *none* | 1 | n/a -- not measured |
+| `session_relative_reference` | time_reference | (a) | *none* | 15 | n/a -- not measured |
 | `stimulus_presentation` | stimulus | (b) | migrator `migrators_j/stimulus_presentation.m`; 2 consuming reference(s) | - | n/a -- not measured |
 | `syncgraph` | sync configuration | (b) | migrator `migrators_j/syncgraph.m`; 2 consuming reference(s); decided target(s) built: `clock_alignment_policy` | - | n/a -- not measured |
 | `syncrule` | sync configuration | (b) | migrator `migrators_j/syncrule.m`; 2 consuming reference(s); decided target(s) built: `clock_alignment_configuration` | - | n/a -- not measured |
-| `syncrule_mapping` | sync mapping | (b) | migrator `migrators_j/syncrule_mapping.m`; 2 consuming reference(s); decided target(s) built: `clock_alignment` | 2 | n/a -- not measured |
+| `syncrule_mapping` | sync mapping | (b) | migrator `migrators_j/syncrule_mapping.m`; 2 consuming reference(s); decided target(s) built: `clock_alignment` | 1 | n/a -- not measured |
 | `time_reference` | time_reference | (a) | *none* | 28 | n/a -- not measured |
 | `utc_reference` | time_reference | (a) | *none* | - | n/a -- not measured |
 
-#### (a) decided, nothing built -- 14
+#### (a) decided, nothing built -- 13
 
 - `acquisition_epoch` (epoch) -- still emitted/named at 2 site(s): `migrators_j/element_epoch.m:86 (named)`, `migrators_j/element_epoch.m:88 (field_write)`
-- `binaryseries_parameters` (misc singletons) -- no evidence found
-- `control_designation` (stimulus) -- still emitted/named at 2 site(s): `migrators_j/control_stimulus_ids.m:111 (named)`, `migrators_j/control_stimulus_ids.m:133 (field_write)`
+- `control_designation` (stimulus) -- still emitted/named at 1 site(s): `migrators_j/control_stimulus_ids.m:133 (field_write)`
 - `directory` (file navigation) -- still emitted/named at 1 site(s): `migrators_j/private/jSorterOutput.m:77 (named)`
-- `epoch_bounded_reference` (time_reference) -- still emitted/named at 3 site(s): `migrators_j/syncrule_mapping.m:182 (named)`, `ndi_second_pass/stimulusBathToBath.m:71 (named)`, `ndi_second_pass/stimulusBathToBath.m:81 (field_write)`
+- `epoch_bounded_reference` (time_reference) -- still emitted/named at 2 site(s): `migrators_j/syncrule_mapping.m:182 (named)`, `ndi_second_pass/stimulusBathToBath.m:81 (field_write)`
 - `epoch_relative_reference` (time_reference) -- no evidence found
 - `event_bounded_reference` (time_reference) -- no evidence found
 - `event_relative_reference` (time_reference) -- no evidence found
 - `interaction_purpose` (misc singletons) -- no evidence found
 - `projectvar` (misc singletons) -- no evidence found
-- `session_bounded_reference` (time_reference) -- still emitted/named at 2 site(s): `migrators_j/ontology_table_row.m:262 (named)`, `migrators_j/ontology_table_row.m:268 (field_write)`
-- `session_relative_reference` (time_reference) -- still emitted/named at 18 site(s): `migrators_j/fitcurve.m:139 (named)`, `migrators_j/fitcurve.m:146 (field_write)`, `migrators_j/image_stack.m:101 (named)`, `migrators_j/image_stack.m:106 (field_write)`, `migrators_j/jrclust_clusters.m:47 (named)`, `migrators_j/jrclust_clusters.m:52 (field_write)` ...
+- `session_bounded_reference` (time_reference) -- still emitted/named at 1 site(s): `migrators_j/ontology_table_row.m:268 (field_write)`
+- `session_relative_reference` (time_reference) -- still emitted/named at 15 site(s): `migrators_j/fitcurve.m:139 (named)`, `migrators_j/fitcurve.m:146 (field_write)`, `migrators_j/image_stack.m:101 (named)`, `migrators_j/image_stack.m:106 (field_write)`, `migrators_j/jrclust_clusters.m:47 (named)`, `migrators_j/jrclust_clusters.m:52 (field_write)` ...
 - `time_reference` (time_reference) -- still emitted/named at 28 site(s): `migrators_j/fitcurve.m:139 (named)`, `migrators_j/fitcurve.m:145 (field_write)`, `migrators_j/image_stack.m:101 (named)`, `migrators_j/image_stack.m:105 (field_write)`, `migrators_j/jrclust_clusters.m:47 (named)`, `migrators_j/jrclust_clusters.m:51 (field_write)` ...
 - `utc_reference` (time_reference) -- no evidence found
 
-#### (b) built, awaiting corpus proof -- 17
+#### (b) built, awaiting corpus proof -- 18
 
 - `app` (software) -- consumed at 2 site(s): `migrators_j/private/jSoftwareFromApp.m:91 (guard)`, `migrators_j/private/jSoftwareFromApp.m:92 (field_read)`; still emitted/named at 1 site(s): `migrators_j/private/jMethodParameters.m:107 (field_write)`; target(s) BUILT: `software`
+- `binaryseries_parameters` (misc singletons) -- migrator `migrators_j/binaryseries_parameters.m`; still emitted/named at 1 site(s): `migrators_j/binaryseries_parameters.m:119 (named)`
 - `daqmetadatareader` (daq configuration) -- migrator `migrators_j/daqmetadatareader.m`; consumed at 3 site(s): `migrators_j/daqmetadatareader.m:100 (guard)`, `migrators_j/daqmetadatareader.m:101 (field_read)`, `migrators_j/daqmetadatareader.m:102 (field_read)`; target(s) BUILT: `acquisition_metadata_reader`
 - `daqmetadatareader_epochdata_ingested` (daq ingested payloads) -- migrator `migrators_j/daqmetadatareader_epochdata_ingested.m`; target(s) BUILT: `acquisition_metadata_file`
 - `daqreader` (daq configuration) -- migrator `migrators_j/daqreader.m`; consumed at 4 site(s): `migrators_j/daqreader.m:100 (guard)`, `migrators_j/daqreader.m:101 (field_read)`, `migrators_j/daqreader.m:102 (field_read)`, `migrators_j/daqreader_ndr.m:21 (guard)`; still emitted/named at 3 site(s): `migrators_j/daqreader_ndr.m:14 (named)`, `migrators_j/daqreader_ndr.m:22 (field_write)`, `migrators_j/daqreader_ndr.m:25 (field_write)`; target(s) BUILT: `software`
@@ -165,7 +165,7 @@ a row whose only evidence is a built target as *the target exists*, not as
 - `stimulus_presentation` (stimulus) -- migrator `migrators_j/stimulus_presentation.m`; consumed at 2 site(s): `ndi_second_pass/stimulusPresentationToManipulation.m:47 (guard)`, `ndi_second_pass/stimulusPresentationToManipulation.m:48 (field_read)`
 - `syncgraph` (sync configuration) -- migrator `migrators_j/syncgraph.m`; consumed at 2 site(s): `migrators_j/syncgraph.m:86 (guard)`, `migrators_j/syncgraph.m:87 (field_read)`; target(s) BUILT: `clock_alignment_policy`
 - `syncrule` (sync configuration) -- migrator `migrators_j/syncrule.m`; consumed at 2 site(s): `migrators_j/syncrule.m:95 (guard)`, `migrators_j/syncrule.m:96 (field_read)`; target(s) BUILT: `clock_alignment_configuration`
-- `syncrule_mapping` (sync mapping) -- migrator `migrators_j/syncrule_mapping.m`; consumed at 2 site(s): `migrators_j/syncrule_mapping.m:106 (guard)`, `migrators_j/syncrule_mapping.m:107 (field_read)`; still emitted/named at 2 site(s): `migrators_j/syncrule_mapping.m:131 (named)`, `migrators_j/syncrule_mapping.m:149 (field_write)`; target(s) BUILT: `clock_alignment`
+- `syncrule_mapping` (sync mapping) -- migrator `migrators_j/syncrule_mapping.m`; consumed at 2 site(s): `migrators_j/syncrule_mapping.m:106 (guard)`, `migrators_j/syncrule_mapping.m:107 (field_read)`; still emitted/named at 1 site(s): `migrators_j/syncrule_mapping.m:149 (field_write)`; target(s) BUILT: `clock_alignment`
 
 ## AWAITING A SIGNATURE -- decided with the team, not yet recorded
 

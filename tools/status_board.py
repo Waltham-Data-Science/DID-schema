@@ -614,6 +614,171 @@ def split_matlab_line(line):
     return "".join(out), lits
 
 
+# ===========================================================================
+# EMISSION -- "a migrator BUILDS a document of this class"
+# ===========================================================================
+#
+# WHY THIS EXISTS. Until 2026-08-10 the build signal could see a class only
+# through the SOURCE side: a migrator file NAMED after it, an `isfield(preBody,
+# '<class>')` guard, a read of `preBody.<class>`. Every one of those asks "does
+# something consume this v1 block". None of them can see a V_eta TARGET that is
+# MINTED by a migrator named after its v1 source, and that is a whole category:
+#
+#     control_designation   built, and rendered "(a) decided, nothing built".
+#                           `migrators_j/control_stimulus_ids.m:111` is
+#                           `v2Body.document_class = struct('class_name',
+#                           'control_designation', ...)` -- the v1 source is
+#                           `control_stimulus_ids`, the V_eta target is the
+#                           renamed `control_designation`, and no file is or
+#                           should be named after the target.
+#
+# The undercount is the same shape as the private-helper one `migrator_evidence`
+# already documents (`app`, `filter`), one step further out: there the file name
+# was the wrong key for a v1 SUPERCLASS BLOCK, here it is the wrong key for a
+# V_eta TARGET. Both err in the reassuring-in-the-other-direction way this repo
+# keeps hitting -- the artifact claims LESS progress than the record holds.
+#
+# THE PATTERNS ARE IMPORTED FROM tools/coverage.py, NOT RE-WRITTEN. coverage.py's
+# guardrail already extracts every `'class_name', '<X>'` a V_eta migrator emits
+# ("40 emitted class_names checked against V_eta schema"). A second regex here
+# would be a second thing to keep in step with the migrators, and the two would
+# disagree silently -- which is how this project produced two contradicting
+# hand-maintained records of `dataseries_channel_map`.
+#
+# WHAT IS ADDED ON TOP OF coverage.py, AND WHY IT IS NOT DIVERGENCE. coverage.py
+# needs a SUPERSET: its question is "does every class name this code writes down
+# exist in the schema", and for that a superclass entry counts exactly as much as
+# a document class. This board needs the narrower fact "a document OF THIS CLASS
+# is produced", so two filters are applied to the same patterns:
+#
+#   * COMMENTS ARE DROPPED. +migrators_j documents its ground truth at length and
+#     quotes NDI templates verbatim; counting a quoted class name as an emission
+#     would report unbuilt work as built.
+#   * SUPERCLASS ENTRIES ARE DROPPED. A `document_class` struct carries the
+#     document's own `class_name` AND a `superclasses` array of more
+#     `class_name`s. Measured on the 132 migrator files: coverage.py's raw sweep
+#     reports 42 distinct names, of which 29 are document classes -- and the 13
+#     it conflates include `time_reference` and `epochid`, both of which are
+#     emitted ONLY as superclasses of something else and both of which are open
+#     classes. Counting those would have moved two classes to "built" on the
+#     strength of a superclass mixin.
+#
+# MATLAB continuation lines make this a STATEMENT-level question, not a
+# line-level one: `stimulusBathToBath.m:68-75` spells one `document_class` struct
+# across eight physical lines, with `'superclasses'` on line 71 and
+# `'time_reference'` on line 72. A per-line rule reads line 72 as a document
+# class. So statements are joined first, and the split is by POSITION within the
+# joined statement.
+
+def _coverage_class_emit_patterns():
+    """`tools/coverage.py`'s `'class_name', '<X>'` patterns, imported.
+
+    Loaded by path rather than by `import coverage`, because `coverage` is also
+    a widely installed PyPI package and this file is exec'd by the test suite
+    with an arbitrary sys.path. Failure is deliberately LOUD: falling back to a
+    local copy of the regex is exactly the silent divergence this reuse exists
+    to prevent.
+    """
+    import importlib.util
+    path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "coverage.py")
+    spec = importlib.util.spec_from_file_location(
+        "_status_board_coverage_patterns", path)
+    mod = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+    return list(mod._CLASS_EMIT)
+
+
+CLASS_EMIT = _coverage_class_emit_patterns()
+
+
+def code_before_comment(line):
+    """(the line up to its comment/continuation, does it continue?).
+
+    Strings are left INTACT -- unlike `split_matlab_line`'s first return value,
+    which blanks them, because the emission patterns match string literals. The
+    cut point is taken from `split_matlab_line` rather than recomputed: that
+    function already owns the transpose-versus-quote heuristic, and a second
+    walk over the line would be a second place for it to be wrong.
+    """
+    code, _lits = split_matlab_line(line)
+    n = len(code)
+    return line[:n], line[n:].lstrip().startswith("...")
+
+
+def logical_statements(lines):
+    """Yield (text, spans) per MATLAB statement, continuations joined.
+
+    `spans` is [(offset_in_text, physical_line_no)] so a match inside the joined
+    text can be reported at the line a human will find it on. Comments and block
+    comments are gone before anything is joined.
+    """
+    out, buf, spans = [], [], []
+    in_block = False
+    for lno, line in enumerate(lines, 1):
+        s = line.strip()
+        if in_block:
+            if s == "%}":
+                in_block = False
+            continue
+        if s == "%{":
+            in_block = True
+            continue
+        piece, cont = code_before_comment(line)
+        spans.append((sum(len(b) for b in buf), lno))
+        buf.append(piece)
+        if cont:
+            continue
+        text = "".join(buf)
+        if text.strip():
+            out.append((text, spans))
+        buf, spans = [], []
+    text = "".join(buf)
+    if text.strip():
+        out.append((text, spans))
+    return out
+
+
+def _line_of(spans, offset):
+    lno = spans[0][1] if spans else 0
+    for start, n in spans:
+        if start <= offset:
+            lno = n
+        else:
+            break
+    return lno
+
+
+def emitted_document_classes(lines):
+    """{(class_name, physical_line_no)} -- documents this file MINTS.
+
+    A match counts only when, within its own statement, it appears
+      * AFTER the word `document_class` (so it is the class of a document being
+        built, not a `class_name` field of something else), and
+      * BEFORE the word `superclasses` (so it is the document's own class and
+        not one of its ancestors).
+    Measured on the 132 files of the two V_eta migrator packages, the
+    `document_class` requirement drops nothing at all -- every one of the 29
+    document-class emissions is written as `<body>.document_class = struct(...)`.
+    It is kept because the cost of the check is nil and the failure it guards
+    against (a `class_name` field on some unrelated struct) would count in the
+    reassuring direction.
+    """
+    found = set()
+    for text, spans in logical_statements(lines):
+        anchor = text.find("document_class")
+        if anchor < 0:
+            continue
+        cut = text.find("superclasses")
+        for pat in CLASS_EMIT:
+            for m in pat.finditer(text):
+                if m.start() < anchor:
+                    continue
+                if cut != -1 and m.start() > cut:
+                    continue
+                found.add((m.group(1), _line_of(spans, m.start())))
+    return found
+
+
 def assignment_split(code):
     """Column of the top-level `=` in a MATLAB statement, or None.
 
@@ -674,9 +839,23 @@ def assignment_split(code):
 # (ensembleMembership.m:227), which is the whole ensemble consumer and was being
 # filed as a bare mention. A comparison names what the code is LOOKING FOR; an
 # assignment names what it PRODUCES.
+#
+# `emitted_class` IS THE FIFTH KIND, ADDED 2026-08-10, and it is the only one
+# that is evidence about a V_eta TARGET rather than about a v1 source:
+#
+#   emitted_class  `b.document_class = struct('class_name','x', ...)`
+#                  the migrator MINTS a document of this class
+#
+# It was previously swept up as `named` -- indistinguishable from
+# `struct('format','directory', ...)` -- which is why `control_designation`
+# rendered as "(a) decided, nothing built" while control_stimulus_ids.m:111 was
+# building it. Whether it counts as BUILD PROGRESS is decided per class, in
+# `RETIRED_BY_ITS_OWN_DECISION` below, and NOT here: for a class whose signed
+# decision is that it stops existing, an emission means the opposite.
 GUARD_FUNCS = ("isfield", "isstruct", "strcmp", "strcmpi", "ismember", "matches")
 CONSUMING_KINDS = ("guard", "field_read")
-REF_KINDS = ("guard", "field_read", "field_write", "named")
+EMITTED_CLASS_KIND = "emitted_class"
+REF_KINDS = ("guard", "field_read", "field_write", "named", EMITTED_CLASS_KIND)
 
 
 def scan_matlab_file(path, patterns):
@@ -687,6 +866,9 @@ def scan_matlab_file(path, patterns):
             lines = fh.readlines()
     except OSError:
         return hits, 0
+    # Statement-level, so it is computed over the whole file before the
+    # line-level sweep below can mis-file one of its hits as `named`.
+    emissions = emitted_document_classes(lines)
     for lno, line in enumerate(lines, 1):
         s = line.strip()
         if in_block:
@@ -706,8 +888,13 @@ def scan_matlab_file(path, patterns):
             by_name.setdefault(text, col)
         for cls, rx in patterns.items():
             if cls in by_name:
-                hits.setdefault(cls, []).append(
-                    (lno, "guard" if guardish else "named"))
+                if (cls, lno) in emissions:
+                    kind = EMITTED_CLASS_KIND
+                elif guardish:
+                    kind = "guard"
+                else:
+                    kind = "named"
+                hits.setdefault(cls, []).append((lno, kind))
                 continue
             if cls not in code:
                 continue
@@ -790,23 +977,34 @@ def migrator_evidence(classes, did_root, ndi_root):
                       "lines_read": 0, "classes_queried": len(classes)}
 
     out = {}
+    n_with_emission = 0
     for cls in sorted(classes):
         ev = per_class.get(cls, {})
         refs = sorted(ev.get("refs", []))
         consuming = [r for r in refs if r[1] in CONSUMING_KINDS]
-        other = [r for r in refs if r[1] not in CONSUMING_KINDS]
+        minting = [r for r in refs if r[1] == EMITTED_CLASS_KIND]
+        other = [r for r in refs
+                 if r[1] not in CONSUMING_KINDS and r[1] != EMITTED_CLASS_KIND]
+        if minting:
+            n_with_emission += 1
         out[cls] = {
             "migrator_file": ev.get("file"),
             "n_consuming_refs": len(consuming),
             "consuming_refs": ["%s (%s)" % r for r in consuming[:REF_CAP]],
+            # The class this migrator MINTS. Separate from `emitting_refs`,
+            # which is the weaker "the name appears / is written into a field".
+            "n_emitted_class_refs": len(minting),
+            "emitted_class_refs": ["%s (%s)" % r for r in minting[:REF_CAP]],
             "n_emitting_refs": len(other),
             "emitting_refs": ["%s (%s)" % r for r in other[:REF_CAP]],
         }
     return out, {"available": True, "packages_read": roots_read,
                  "packages_missing": roots_missing, "files_read": files_read,
                  "lines_read": lines_read, "classes_queried": len(classes),
+                 "classes_emitted_as_document_class": n_with_emission,
                  "ref_kinds": list(REF_KINDS),
-                 "consuming_kinds": list(CONSUMING_KINDS)}
+                 "consuming_kinds": list(CONSUMING_KINDS),
+                 "emitted_class_kind": EMITTED_CLASS_KIND}
 
 
 def find_census_reports(roots):
@@ -895,6 +1093,54 @@ def census_evidence(classes, roots):
             total += n
         out[cls] = {"survivors": total, "by_corpus": per}
     return out, src, probe
+
+
+# AN EMISSION MEANS THE OPPOSITE FOR A CLASS THAT IS SUPPOSED TO DISAPPEAR.
+#
+# `emitted_class` says a migrator MINTS documents of this class. For a class the
+# decision KEEPS, that is the build landing (`control_stimulus_ids.m` minting
+# `control_designation`). For a class the decision RETIRES, the same fact is
+# evidence the change has NOT landed -- and counting it as progress would invert
+# the number, which is exactly what this file already records happening to
+# `session_relative_reference` the first time the migrator scan was written.
+#
+# Nothing derivable separates the two. Both are `disposition: in_progress`;
+# both are named as decided targets in `V_eta_migration_targets.json` (which
+# still lists `session_relative_reference` as the target of 40+ sources, written
+# before the time model collapsed it -- an open question, not a fact this tool
+# may settle). So the distinction is written here, TRANSCRIBED FROM THE SIGNED
+# DECISION, with the quote that licenses each entry. This is not a disposition:
+# the disposition is the sign-off line in the plan document, and adding one is
+# the team's job (operating rule 4). It is the board declining to read a
+# retirement as a build.
+#
+# Entries are CHECKED: the replacement must exist in the built schema set, so a
+# typo or a renamed replacement fails loudly instead of silently discounting a
+# class forever.
+RETIRED_BY_ITS_OWN_DECISION = {
+    # V_eta_time_reference_model_plan.md:468 --
+    #   "TEAM-SIGN-OFF [time_reference]: ... 8 classes collapse to
+    #    absolute_reference + relative_reference ..."
+    # Three of the eight are minted today (ontology_table_row.m:262/:669,
+    # private/jSessionAnchor.m:19, treatment_transfer.m:101, and NDI's
+    # stimulusBathToBath.m). Every one of those sites is work the collapse has
+    # still to undo.
+    "time_reference": "relative_reference",
+    "session_bounded_reference": "relative_reference",
+    "session_relative_reference": "relative_reference",
+    "epoch_bounded_reference": "relative_reference",
+    "epoch_relative_reference": "relative_reference",
+    "event_bounded_reference": "relative_reference",
+    "event_relative_reference": "relative_reference",
+    "utc_reference": "absolute_reference",
+    # V_eta_epoch_plan.md, signed 2026-08-08 -- the `epoch` ENTITY is minted and
+    # `epochid` is DROPPED (the string mixin becomes an `epoch_id` EDGE on that
+    # entity; `epoch_id` is a dependency name, not a class, so the replacement
+    # CLASS is `epoch`). Listed to keep the rule general rather than fitted to
+    # one family; it changes no state, because `epochid` reaches (b) on nine
+    # CONSUMING references and is minted only as a superclass mixin anyway.
+    "epochid": "epoch",
+}
 
 
 STATE_A = "a_nothing_built"

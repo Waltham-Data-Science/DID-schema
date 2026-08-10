@@ -529,19 +529,22 @@
           "ndi_second_pass"
         ],
         "packages_missing": [],
-        "files_read": 132,
-        "lines_read": 16975,
+        "files_read": 133,
+        "lines_read": 17135,
         "classes_queried": 31,
+        "classes_emitted_as_document_class": 5,
         "ref_kinds": [
           "guard",
           "field_read",
           "field_write",
-          "named"
+          "named",
+          "emitted_class"
         ],
         "consuming_kinds": [
           "guard",
           "field_read"
-        ]
+        ],
+        "emitted_class_kind": "emitted_class"
       },
       "census": {
         "available": false,
@@ -561,8 +564,8 @@
       "u_unmeasured": "(?) UNMEASURED -- no build evidence was ever taken"
     },
     "counts": {
-      "a_nothing_built": 14,
-      "b_built_awaiting_corpus_proof": 17,
+      "a_nothing_built": 13,
+      "b_built_awaiting_corpus_proof": 18,
       "c_corpus_zero_survivors": 0,
       "u_unmeasured": 0
     },
@@ -623,14 +626,18 @@
       {
         "class_name": "binaryseries_parameters",
         "family": "misc singletons",
-        "state": "a_nothing_built",
-        "state_label": "(a) decided, nothing built",
-        "build_evidence": [],
-        "migrator_file": null,
+        "state": "b_built_awaiting_corpus_proof",
+        "state_label": "(b) built, awaiting corpus proof",
+        "build_evidence": [
+          "migrator `migrators_j/binaryseries_parameters.m`"
+        ],
+        "migrator_file": "migrators_j/binaryseries_parameters.m",
         "n_consuming_refs": 0,
         "consuming_refs": [],
-        "n_emitting_refs": 0,
-        "emitting_refs": [],
+        "n_emitting_refs": 1,
+        "emitting_refs": [
+          "migrators_j/binaryseries_parameters.m:119 (named)"
+        ],
         "decided_targets": [],
         "decided_targets_built": [],
         "decided_targets_missing": [],
@@ -648,9 +655,8 @@
         "migrator_file": null,
         "n_consuming_refs": 0,
         "consuming_refs": [],
-        "n_emitting_refs": 2,
+        "n_emitting_refs": 1,
         "emitting_refs": [
-          "migrators_j/control_stimulus_ids.m:111 (named)",
           "migrators_j/control_stimulus_ids.m:133 (field_write)"
         ],
         "decided_targets": [],
@@ -914,10 +920,9 @@
         "migrator_file": null,
         "n_consuming_refs": 0,
         "consuming_refs": [],
-        "n_emitting_refs": 3,
+        "n_emitting_refs": 2,
         "emitting_refs": [
           "migrators_j/syncrule_mapping.m:182 (named)",
-          "ndi_second_pass/stimulusBathToBath.m:71 (named)",
           "ndi_second_pass/stimulusBathToBath.m:81 (field_write)"
         ],
         "decided_targets": [],
@@ -1171,9 +1176,8 @@
         "migrator_file": null,
         "n_consuming_refs": 0,
         "consuming_refs": [],
-        "n_emitting_refs": 2,
+        "n_emitting_refs": 1,
         "emitting_refs": [
-          "migrators_j/ontology_table_row.m:262 (named)",
           "migrators_j/ontology_table_row.m:268 (field_write)"
         ],
         "decided_targets": [],
@@ -1193,7 +1197,7 @@
         "migrator_file": null,
         "n_consuming_refs": 0,
         "consuming_refs": [],
-        "n_emitting_refs": 18,
+        "n_emitting_refs": 15,
         "emitting_refs": [
           "migrators_j/fitcurve.m:139 (named)",
           "migrators_j/fitcurve.m:146 (field_write)",
@@ -1311,9 +1315,8 @@
           "migrators_j/syncrule_mapping.m:106 (guard)",
           "migrators_j/syncrule_mapping.m:107 (field_read)"
         ],
-        "n_emitting_refs": 2,
+        "n_emitting_refs": 1,
         "emitting_refs": [
-          "migrators_j/syncrule_mapping.m:131 (named)",
           "migrators_j/syncrule_mapping.m:149 (field_write)"
         ],
         "decided_targets": [
