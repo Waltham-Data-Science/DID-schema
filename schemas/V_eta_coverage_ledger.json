@@ -9,8 +9,8 @@
       "in_progress": 19,
       "persist": 4,
       "consumed by migrator (no tombstone)": 27,
-      "test/demo fixture (non-production)": 4,
-      "no V_eta home, no migrator -- UNVERIFIED": 3
+      "test/demo fixture (non-production)": 3,
+      "no V_eta home, no migrator -- UNVERIFIED": 4
     },
     "by_source": {
       "ndi": 91,
@@ -877,10 +877,10 @@
     {
       "v1_class": "oneepoch",
       "veta_class": null,
-      "disposition": "test/demo fixture (non-production)",
+      "disposition": "no V_eta home, no migrator -- UNVERIFIED",
       "migrator": false,
       "source": "ndi",
-      "nonprod": true,
+      "nonprod": false,
       "gap": false,
       "targets": [],
       "target_source": "unknown",

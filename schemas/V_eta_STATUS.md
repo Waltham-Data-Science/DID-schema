@@ -93,8 +93,8 @@ migrator work before the target closes is rework.
 | consumed by migrator (no tombstone) | 27 |
 | in_progress | 19 |
 | persist | 4 |
-| test/demo fixture (non-production) | 4 |
-| no V_eta home, no migrator -- UNVERIFIED | 3 |
+| no V_eta home, no migrator -- UNVERIFIED | 4 |
+| test/demo fixture (non-production) | 3 |
 | dissolved → subject | 1 |
 
 ### `retire`, but NO MIGRATOR YET -- 13 rows
@@ -131,5 +131,6 @@ exists to prevent, and it cost a review pass to notice.
 
 - `generic_file`
 - `imageCollection`
+- `oneepoch`
 - `valid_interval`
 

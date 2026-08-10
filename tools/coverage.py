@@ -72,7 +72,41 @@ def veta_index():
 # NDI ships test/demo scaffolding as production templates; these are NOT real v1
 # corpus data, so they never count as an unmapped coverage gap (they stay in the
 # ledger, tagged nonprod, for completeness).
-_NONPROD_CLASSES = {"mock", "oneepoch", "demoNDI", "demoNDIMock"}
+#
+# EVERY ENTRY IS AN ASSERTION THAT NOTHING IN PRODUCTION WRITES THE CLASS, and
+# tagging one here has teeth: it suppresses the coverage gap, which is why
+# `oneepoch` reached 2026-08-10 with no V_eta schema, no migrator and no row on
+# anyone's worklist. The check is a writer sweep on the BARE CLASS NAME,
+# splitting src/ from tests/ -- not a guess from the name.
+#
+# REMOVED 2026-08-10, because it was FALSE: `oneepoch`. It is a documented
+# production entry point, and both its writer and its reader are in src/:
+#
+#   DENOMINATOR: 1,002 .m files on NDI origin/main; every file mentioning "oneepoch"
+#     SRC   src/ndi/+ndi/+element/oneepoch.m        the production function
+#     SRC   src/ndi/+ndi/+element/oneepoch_bkup.m
+#     SRC   src/ndi/+ndi/+element/timeseries.m      addepoch's 7-arg override
+#     SRC   src/ndi/+ndi/element.m:387              THE WRITER, inside addepoch()
+#     SRC   ndi_common/database_documents/oneepoch.json
+#     SRC   ndi_common/schema_documents/oneepoch_schema.json
+#     TEST  tests/+ndi/+symmetry/+time/scenario.m
+#     TEST  tests/+ndi/+unittest/+element/OneEpochTest.m
+#
+# `ndi.element.oneepoch` concatenates an element's N epochs into one, and the
+# document records that concatenation (`oneepoch.epoch_ids` = the source ids).
+# Its epoch id is SYNTHETIC -- `whole_session_<reference>` (oneepoch.m:42) -- and
+# did2.validate.sourceCensus has been tracking exactly that string as a grouping
+# hazard since it was written, CITING oneepoch.m:42 by line. So the instrument
+# already knew this class was real while this list said it was scaffolding: the
+# same prose-versus-artifact split that the CLAUDE.md rules exist to break.
+#
+# The three that REMAIN are named for what they are (`mock`, `demoNDI`,
+# `demoNDIMock`) and are demo scaffolding by construction. Note that they are
+# NOT unreferenced -- +ndi/+calc/+example/simple.m queries demoNDI.value and
+# constructs demoNDIMock documents -- so do not re-derive "nonprod" as "nothing
+# mentions it"; that grep was run once against the snake_case spelling and
+# returned zero for a repository that has never contained that string.
+_NONPROD_CLASSES = {"mock", "demoNDI", "demoNDIMock"}
 
 # did_v1 classes dissolved into their modern form BEFORE the V_zeta base V_eta was
 # copied from (hence absent from V_zeta). Reviewed and dissolved long ago -- not
