@@ -133,17 +133,16 @@
                 },
                 {
                     "name": "epochprobemap",
-                    "type": "structure",
-                    "blank_value": {},
-                    "default_value": {},
+                    "type": "string",
+                    "blank_value": "",
+                    "default_value": "",
                     "mustBeNonEmpty": false,
                     "mustBeScalar": true,
                     "mustNotHaveNaN": false,
                     "queryable": true,
                     "ontology": null,
-                    "documentation": "The probe map at this epoch (NDI epoch-node metadata).",
-                    "constraints": {},
-                    "fields": []
+                    "documentation": "The probe map at this epoch, SERIALISED. NDI stores the character-array form produced by ndi.epoch.epochprobemap_daqsystem.serialize() (syncgraph.m:313-314), carrying name / reference / type / devicestring / subjectstring for every probe on the epoch. Typed `string` rather than `char` because an absent value decodes as an empty double, which `char` rejects.",
+                    "constraints": {}
                 },
                 {
                     "name": "objectclass",
@@ -268,17 +267,16 @@
                 },
                 {
                     "name": "epochprobemap",
-                    "type": "structure",
-                    "blank_value": {},
-                    "default_value": {},
+                    "type": "string",
+                    "blank_value": "",
+                    "default_value": "",
                     "mustBeNonEmpty": false,
                     "mustBeScalar": true,
                     "mustNotHaveNaN": false,
                     "queryable": true,
                     "ontology": null,
-                    "documentation": "The probe map at this epoch (NDI epoch-node metadata).",
-                    "constraints": {},
-                    "fields": []
+                    "documentation": "The probe map at this epoch, SERIALISED. NDI stores the character-array form produced by ndi.epoch.epochprobemap_daqsystem.serialize() (syncgraph.m:313-314), carrying name / reference / type / devicestring / subjectstring for every probe on the epoch. Typed `string` rather than `char` because an absent value decodes as an empty double, which `char` rejects.",
+                    "constraints": {}
                 },
                 {
                     "name": "objectclass",

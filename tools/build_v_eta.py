@@ -4774,8 +4774,29 @@ def _epochnode(name, which):
                               ]),
                      subfield("epoch_session_id", "char",
                               "The session the epoch belongs to."),
-                     subfield("epochprobemap", "structure",
-                              "The probe map at this epoch (NDI epoch-node metadata)."),
+                     # TYPE CORRECTED 2026-08-10: it was `structure`; it is a
+                     # CHAR. NDI serialises it before storing --
+                     # `syncgraph.m:313-314` calls `.epochprobemap.serialize()`,
+                     # and `epochprobemap_daqsystem.m:136-143` documents that
+                     # method as "Create a CHARACTER ARRAY representation". The
+                     # NDI template agrees (`"epochprobemap": ""`, lines 30 and
+                     # 39), so there is no writer-beats-template judgement here;
+                     # the DID side was simply wrong.
+                     #
+                     # It did not quarantine anything, because cache.m's
+                     # validateField type-checks only the IMMEDIATE fields of a
+                     # property block and this sits two levels down -- which is
+                     # exactly why it survived. It is corrected before that
+                     # non-recursion is ever tightened.
+                     subfield("epochprobemap", "string",
+                              "The probe map at this epoch, SERIALISED. NDI stores "
+                              "the character-array form produced by "
+                              "ndi.epoch.epochprobemap_daqsystem.serialize() "
+                              "(syncgraph.m:313-314), carrying name / reference / "
+                              "type / devicestring / subjectstring for every probe "
+                              "on the epoch. Typed `string` rather than `char` "
+                              "because an absent value decodes as an empty double, "
+                              "which `char` rejects."),
                      subfield("objectclass", "char",
                               "The NDI object class of this epoch node."),
                      # #58: both restored here rather than in the interim-repair
