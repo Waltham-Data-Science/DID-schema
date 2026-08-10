@@ -1662,3 +1662,194 @@ def test_field_and_registry_strengths_agree():
             "row to match, or drop it.")
         checked += 1
     assert checked == len(efb)
+
+
+# ---------------------------------------------------------------------------
+# #67 -- the did_clocktype vocabulary: 9 NDI clocktypes -> 4 staged ontology terms
+# ---------------------------------------------------------------------------
+#
+# GROUND TRUTH, and it is NOT derived from anything on the DID side. Read from
+# NDI-matlab origin/main:
+#
+#   $ git show origin/main:src/ndi/+ndi/+time/clocktype.m
+#     switch type
+#       case {'utc','approx_utc','exp_global_time','approx_exp_global_time',...
+#             'dev_global_time', 'approx_dev_global_time', 'dev_local_time', ...
+#             'no_time','inherited'}
+#
+# Transcribed here because CI does not have NDI-matlab checked out;
+# test_ndi_clocktype_transcription_matches_ndi re-reads the real file and fails
+# loudly whenever the repo IS present, so this constant cannot rot unnoticed.
+NDI_CLOCKTYPES = {
+    "utc", "approx_utc", "exp_global_time", "approx_exp_global_time",
+    "dev_global_time", "approx_dev_global_time", "dev_local_time",
+    "no_time", "inherited",
+}
+
+# The FOUR the signed walkthrough keeps (V_eta_time_reference_model_plan.md:468,
+# TEAM-SIGN-OFF [time_reference] 2026-08-08, CHANGE 3 + CHANGE 4).
+DID_CLOCKTYPE_TERMS = ["utc", "dev_local_time", "dev_global_time", "exp_global_time"]
+
+# Every field that carries the vocabulary. Gate 1 of the clock-alignment sign-off
+# says clock_alignment_configuration.clock "must use the same four" as the time
+# model -- so both are listed and the test compares them to each other, not each
+# to a separate expectation.
+_CLOCKTYPE_FIELDS = [
+    ("relative_reference", ("value", "clock")),
+    ("clock_alignment_configuration", ("clock",)),
+]
+
+
+def _field_at(record, path):
+    fields = record["fields"]
+    node = None
+    for name in path:
+        hit = [f for f in fields if f["name"] == name]
+        assert hit, f"no field {name!r} in {[f['name'] for f in fields]}"
+        node = hit[0]
+        fields = node.get("fields", [])
+    return node
+
+
+def test_did_clocktype_partitions_ndi_nine():
+    """The four kept terms are a real subset of NDI's nine, and the five dropped
+    ones are dropped for the reasons the sign-off gives -- not by accident.
+
+    This is the check that a test written from the build script's own premise
+    would miss: it starts from NDI's list, not from ours.
+    """
+    kept = set(DID_CLOCKTYPE_TERMS)
+    assert len(DID_CLOCKTYPE_TERMS) == 4, DID_CLOCKTYPE_TERMS
+    assert kept <= NDI_CLOCKTYPES, sorted(kept - NDI_CLOCKTYPES)
+    dropped = NDI_CLOCKTYPES - kept
+    assert dropped == {
+        # CHANGE 4: the approx_ prefix de-encodes to time_reference.clock_tolerance
+        # { seconds: 5 }. It must NOT fold into a boolean -- the five seconds would
+        # be lost.
+        "approx_utc", "approx_exp_global_time", "approx_dev_global_time",
+        # CHANGE 4: an epoch_clock asserting "this thing keeps no time". V_eta's
+        # translation is NO TIMES => NO REFERENCE: no document, not a value.
+        "no_time",
+        # CHANGE 4: a resolution instruction; `relative_to` already IS that
+        # pointer and can name WHICH device. Recorded in the plan as an
+        # ABSENCE-BASED call awaiting a corpus check, so it is left UNMINTED
+        # rather than declared nonexistent.
+        "inherited",
+    }, sorted(dropped)
+
+
+def test_ndi_clocktype_transcription_matches_ndi():
+    """Re-read NDI's own clocktype.m when the repo is present, so NDI_CLOCKTYPES
+    above cannot silently drift from the source it claims to quote.
+
+    SKIPPED in CI (no NDI-matlab checkout). That is a real limitation, stated
+    rather than papered over: in CI the constant is a transcription and nothing
+    more.
+    """
+    import re
+    import subprocess
+    ndi = os.environ.get("NDI_MATLAB_PATH", "/home/user/NDI-matlab")
+    if not os.path.isdir(os.path.join(ndi, ".git")):
+        pytest.skip(f"NDI-matlab not checked out at {ndi}")
+    try:
+        src = subprocess.run(
+            ["git", "show", "origin/main:src/ndi/+ndi/+time/clocktype.m"],
+            cwd=ndi, capture_output=True, text=True, check=True).stdout
+    except (subprocess.CalledProcessError, FileNotFoundError) as exc:
+        pytest.skip(f"cannot read clocktype.m from origin/main: {exc}")
+    # the `case {...}` list inside setclocktype() is the authority: the docstring
+    # tables are prose and could disagree with the code.
+    m = re.search(r"case \{('.*?')\}\s*\n", src, re.DOTALL)
+    assert m, "clocktype.m no longer has a `case {...}` validity list -- re-read it"
+    found = set(re.findall(r"'([a-z_]+)'", m.group(1)))
+    assert found == NDI_CLOCKTYPES, (
+        f"NDI_CLOCKTYPES is stale. clocktype.m now validates {sorted(found)}; "
+        f"the constant says {sorted(NDI_CLOCKTYPES)}")
+
+
+def test_clock_fields_are_ontology_terms_bound_to_the_same_four():
+    """#67 CHANGE 3: `clock` is an ontology_term, not a bare char -- `relation`
+    beside it already is one and `variable` is one everywhere.
+
+    Both carriers share ONE binding, which is what gate 1 of the clock-alignment
+    sign-off actually asks for; asserting each against its own copy of the list
+    would let them drift apart while both tests stayed green.
+    """
+    seen = []
+    for cls, path in _CLOCKTYPE_FIELDS:
+        assert cls in RECORDS, f"{cls} is not in the built schema set"
+        _tier, d = RECORDS[cls]
+        fld = _field_at(d, path)
+        where = cls + "." + ".".join(path)
+        assert fld["type"] == "ontology_term", f"{where} is {fld['type']!r}"
+        # the named-type expansion must have given it the {node, name} cell
+        assert [f["name"] for f in fld.get("fields", [])] == ["node", "name"], where
+        assert fld["blank_value"] == {"node": "", "name": ""}, where
+        b = fld["constraints"]["binding"]
+        assert b["root"] == "did_clocktype", where
+        assert b["strength"] == "required", where
+        # values are NodeRefs, not bare strings -- the field is a {node, name}
+        # cell, so a bare "utc" cannot say which half it is. Same rule the
+        # registry already states (test_binding_examples_well_formed).
+        assert [v["name"] for v in b["values"]] == DID_CLOCKTYPE_TERMS, where
+        assert all(set(v) == {"node", "name"} for v in b["values"]), where
+        # maxLength was a char-cell constraint and has no meaning on a NodeRef
+        assert "maxLength" not in fld["constraints"], where
+        seen.append(b)
+    assert len(seen) == len(_CLOCKTYPE_FIELDS) == 2
+    assert seen[0] == seen[1], (
+        "the two did_clocktype carriers have diverged; gate 1 of the "
+        "clock-alignment sign-off requires the SAME four")
+
+
+def test_clocktype_nodes_are_staged_empty_not_invented():
+    """The four nodes are EMPTY, deliberately.
+
+    An NDI-side CURIE would be `NDIC:<identifier>` (NDI writes
+    ['NDIC:' int2str(item.Identifier)] in +setup/+conv/+marder/
+    temptable2stimulusparameters.m:25 and +setup/+stimulus/+vhlab/
+    add_stimulus_approach.m:51). The table those identifiers come from,
+    ndi_common/controlled_vocabulary/NDIC.txt, was removed from NDI-matlab in
+    commit 2c19bf24c ("moved to ndi-ontology-matlab") and its last in-tree
+    revision holds no clock terms. So there is no authority in scope that can
+    assign one, and an invented integer would be a fabricated CURIE.
+
+    This test exists so that when the nodes ARE minted, the minting is a
+    deliberate edit with a real source -- not a value that appeared.
+    """
+    checked = 0
+    for cls, path in _CLOCKTYPE_FIELDS:
+        _tier, d = RECORDS[cls]
+        b = _field_at(d, path)["constraints"]["binding"]
+        assert len(b["values"]) == 4, cls
+        assert all(v["node"] == "" for v in b["values"]), (
+            f"{cls}: a clocktype node was filled in. If a real NDIC CURIE was "
+            "assigned, update this test and cite the source; do not invent one.")
+        checked += len(b["values"])
+    assert checked == 8, (
+        f"expected 8 staged nodes (4 terms x 2 carriers); inspected {checked}")
+
+
+def test_retiring_epoch_clock_fields_untouched_by_67():
+    """#67 does NOT touch the eight retiring reference classes.
+
+    Increment 1 of the time-reference collapse is ADDITIVE ONLY: the v1-era
+    classes stay until the migrators move, and 24 files still emit
+    session_relative_reference. Their `epoch_clock` keeps NDI's full nine and
+    stays a char, because that is what the emitters write today. Narrowing it
+    here would quarantine live documents -- the epochfiles_ingested regression.
+    """
+    checked = 0
+    for cls in ("epoch_bounded_reference", "epoch_relative_reference"):
+        if cls not in RECORDS:          # gone once increment 3 lands
+            continue
+        _tier, d = RECORDS[cls]
+        fld = _field_at(d, ("epoch_clock",))
+        assert fld["type"] == "char", cls
+        b = fld["constraints"]["binding"]
+        assert set(b["values"]) == NDI_CLOCKTYPES, (
+            f"{cls}.epoch_clock no longer carries NDI's nine: {sorted(b['values'])}")
+        checked += 1
+    assert checked == 2, (
+        f"expected both retiring reference classes; found {checked}. If increment "
+        "3 deleted them, delete this test with it.")

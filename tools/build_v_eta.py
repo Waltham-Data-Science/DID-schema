@@ -1436,15 +1436,68 @@ with open(os.path.join(VETA, "stable", "CURIE_lookups_meta.json"), "w") as _f:
 # session_bounded_reference). Deleting them here would red the corpus gate, and the
 # project rule is: build the target, move the emitters, then delete the source.
 
-# The clock vocabulary ALREADY EXISTS and is reused verbatim from epoch_bounded_reference
-# rather than minted again -- 9 members, strength required.
+# ---------- #67: the did_clocktype vocabulary, 9 members -> 4 ontology terms ----------
+#
+# GROUND TRUTH, read from NDI origin/main (NOT from a DID-side schema):
+#
+#   git show origin/main:src/ndi/+ndi/+time/clocktype.m
+#     switch type
+#       case {'utc','approx_utc','exp_global_time','approx_exp_global_time',...
+#             'dev_global_time', 'approx_dev_global_time', 'dev_local_time', ...
+#             'no_time','inherited'}
+#
+# NINE members, and the 9-member list this binding used to carry was a faithful copy
+# of them. The signed time-model walkthrough
+# (V_eta_time_reference_model_plan.md:468, TEAM-SIGN-OFF [time_reference],
+# jess@walthamdatascience.com / 2026-08-08) cuts it to FOUR:
+#
+#   CHANGE 4  the `approx_` prefix is mode-in-a-name (T13) hiding a NUMBER in a
+#             docstring (T14). approx_utc / approx_exp_global_time /
+#             approx_dev_global_time de-encode to the bare clock plus an explicit
+#             clock_tolerance { seconds: 5 } on the time_reference ROOT. The
+#             migrator supplies the 5 from writer semantics -- transcription.
+#   CHANGE 4  `no_time` leaves the value_set: it is an epoch_clock asserting "this
+#             thing keeps no time", never a timeline a time is expressed on. Its
+#             V_eta translation is NO TIMES => NO REFERENCE -- no document at all.
+#   CHANGE 4  `inherited` leaves the value_set: it is a resolution instruction, and
+#             `relative_to` already IS that pointer. The plan records this as an
+#             ABSENCE-BASED call and asks for a corpus check before the term is
+#             dropped for good; leaving it unminted (rather than deleted from NDI)
+#             is exactly what that caveat permits.
+#
+# CHANGE 3 makes `clock` an `ontology_term` -- `relation` beside it already is one,
+# and `variable` is one everywhere; a bare char between them was the odd one out.
+#
+# *** THE NODES ARE STAGED EMPTY, AND THAT IS NOT AN OVERSIGHT. ***
+# An NDI-side CURIE for these four would live in the NDIC namespace -- NDI writes
+# `['NDIC:' int2str(item.Identifier)]` (+setup/+conv/+marder/temptable2stimulusparameters.m:25,
+# +setup/+stimulus/+vhlab/add_stimulus_approach.m:51) against a controlled-vocabulary
+# table. That table (`ndi_common/controlled_vocabulary/NDIC.txt`) was REMOVED from
+# NDI-matlab in commit 2c19bf24c ("Remove NDIC.txt controlled vocabulary (moved to
+# ndi-ontology-matlab)") and its last in-tree revision contains NO clock terms. So the
+# authority that assigns NDIC identifiers is not in any repository in scope, and an
+# invented integer would be a fabricated CURIE -- the precise failure mode this
+# project's operating rules exist to prevent. The terms are therefore staged as
+# `{node: '', name: <NDI's own string>}`, which is the ESTABLISHED practice
+# (V_eta_clock_alignment_cluster_plan.md §5, and 33 live migrator sites), and the
+# backlog is counted -- see tools/check_empty_ontology_nodes.py.
+#
+# `values` are NodeRefs, not bare strings, because the field is now `ontology_term`:
+# a bare "utc" beside a `{node, name}` cell cannot say which half it is. That shape is
+# the one the registry already documents for a term-valued admissible set
+# ("values are ontology-term NodeRefs, not bare strings",
+# tests/test_veta.py::test_binding_examples_well_formed).
+_CLOCK_TERMS = [
+    {"node": "", "name": "utc"},
+    {"node": "", "name": "dev_local_time"},
+    {"node": "", "name": "dev_global_time"},
+    {"node": "", "name": "exp_global_time"},
+]
+
 _CLOCK_BINDING = {
     "binding": {"root": "did_clocktype", "expansion": "value_set",
-                "values": ["utc", "dev_local_time", "dev_global_time", "exp_global_time",
-                           "approx_utc", "approx_exp_global_time",
-                           "approx_dev_global_time", "no_time", "inherited"],
-                "strength": "required", "source": "value_set"},
-    "maxLength": 64}
+                "values": _CLOCK_TERMS,
+                "strength": "required", "source": "value_set"}}
 
 # The old `relation` was a bare char enum covering 6 of Allen's 13 interval relations,
 # with `concurrent_with` ambiguous between equals and overlaps. It becomes an
@@ -1492,10 +1545,14 @@ _RELATIVE_REFERENCE_SUBS = [
              "ABSENT together with `end` means the relation alone is asserted."),
     subfield("end", "duration",
              "Offset of the end from the referent's origin. ABSENT means a point."),
-    subfield("clock", "char",
+    subfield("clock", "ontology_term",
              "WHICH timeline within the referent the offsets are measured on. NDI times "
              "an epoch on several clocks at once and they drift, so '10 seconds in' is "
-             "ambiguous until the clock is named.",
+             "ambiguous until the clock is named. FOUR terms (#67): the `approx_` "
+             "variants de-encode to time_reference.clock_tolerance, `no_time` means "
+             "NO REFERENCE AT ALL, and `inherited` is what `relative_to` already says. "
+             "Nodes are STAGED EMPTY -- no NDIC identifier can be assigned from any "
+             "repository in scope; see the build script for the evidence.",
              constraints=_CLOCK_BINDING),
     subfield("approximate", "boolean",
              "True when the source marked the time as approximate."),
@@ -1788,9 +1845,12 @@ write("draft", "clock_alignment_configuration",
           ],
           fields=[
               field("clock", "ontology_term",
-                    "The clock this rule aligns, from did_clocktype. STAGED with an "
-                    "empty node: #67 cut that vocabulary from 9 terms to 4 and this "
-                    "class must use the same four. <- v1 `epochclocktype`."),
+                    "The clock this rule aligns, from did_clocktype -- the SAME FOUR "
+                    "terms as relative_reference.value.clock, which is what gate 1 of "
+                    "this cluster's sign-off requires. Nodes STAGED EMPTY (#67/#70): no "
+                    "NDIC identifier can be assigned from any repository in scope. "
+                    "<- v1 `epochclocktype`.",
+                    constraints=_CLOCK_BINDING),
               field("minimum_matching_file_paths", "integer",
                     "How many full path components must match. <- v1 "
                     "`number_fullpath_matches`.", blank=0),

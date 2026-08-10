@@ -16,7 +16,7 @@
       "ndi": 91,
       "app": 11
     },
-    "with_migrator": 63,
+    "with_migrator": 66,
     "gaps": 0
   },
   "rows": [
@@ -552,7 +552,7 @@
       "v1_class": "epochfiles_ingested",
       "veta_class": "epochfiles_ingested",
       "disposition": "in_progress",
-      "migrator": false,
+      "migrator": true,
       "source": "ndi",
       "nonprod": false,
       "gap": false,
@@ -1594,7 +1594,7 @@
       "v1_class": "stimulus_response_scalar",
       "veta_class": "stimulus_response_scalar",
       "disposition": "retire",
-      "migrator": false,
+      "migrator": true,
       "source": "ndi",
       "nonprod": false,
       "gap": false,
@@ -1628,7 +1628,7 @@
       "v1_class": "stimulus_response_scalar_parameters_basic",
       "veta_class": "stimulus_response_scalar_parameters_basic",
       "disposition": "retire",
-      "migrator": false,
+      "migrator": true,
       "source": "ndi",
       "nonprod": false,
       "gap": false,
