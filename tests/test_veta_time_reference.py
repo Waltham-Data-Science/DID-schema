@@ -143,12 +143,28 @@ def test_change_2_no_value_level_approximate_survives():
     the session" is not a weaker claim, it is not a claim. THE ABSENCE IS THE
     IMPRECISION.
 
-    DENOMINATOR: 2 target classes, both inspected.
+    DENOMINATOR: 2 target classes, both inspected, and the count is ASSERTED --
+    see the note below on why a stated denominator was not enough here.
     """
+    checked = 0
     for name in TARGETS:
         _tier, d = BUILT[name]
         subs = _subnames(_field(d, "value"))
+        # `"approximate" not in subs` is a NEGATIVE assertion, and it is equally
+        # true of an EMPTY `subs` -- the `demo_ndi` grep in test form, where zero
+        # hits was a property of the query rather than of the repository. This
+        # test passed unchanged against a build whose `value` block on BOTH
+        # children declared no sub-fields at all (demonstrated 2026-08-10 on a
+        # perturbed copy). So pin that there is something to search FIRST, and
+        # pin it with the two cells the docstring's own argument depends on:
+        # `start.approximate` and `duration.approximate` are what make a
+        # value-level flag redundant, so if they are gone the argument for
+        # deleting it is gone too and this test must stop passing.
+        assert subs, (name, "value declares no sub-fields; nothing was searched")
+        assert "start" in subs and "duration" in subs, (name, subs)
         assert "approximate" not in subs, (name, subs)
+        checked += 1
+    assert checked == 2
 
 
 def test_the_three_precisions_are_distinct_and_none_restates_another():
@@ -174,14 +190,29 @@ def test_change_4_clock_tolerance_sits_on_the_ROOT_not_the_relative_child():
     class -- as a wall-clock instant it is an absolute_reference, as offsets
     measured in UTC seconds from a referent it is a relative_reference with
     `clock: utc`. On the relative child only, every absolute reference would have
-    silently dropped its tolerance."""
+    silently dropped its tolerance.
+
+    DENOMINATOR: 1 abstract root + 2 target classes, all three inspected, and the
+    count is ASSERTED. The two `not in` assertions here are the same negative
+    shape as CHANGE 2's and carry the same hazard -- `clock_tolerance` is absent
+    from an empty list too -- so each collection is pinned non-empty before it is
+    searched. Verified 2026-08-10: with `value.fields` emptied on both children
+    this test passed unchanged.
+    """
     _t, root = BUILT["time_reference"]
-    assert "clock_tolerance" in [f["name"] for f in root["fields"]]
+    root_own = [f["name"] for f in root["fields"]]
+    assert "clock_tolerance" in root_own, root_own
+    checked = 0
     for name in TARGETS:
         _tier, d = BUILT[name]
         own = [f["name"] for f in d["fields"]]
-        assert "clock_tolerance" not in own, name
-        assert "clock_tolerance" not in _subnames(_field(d, "value")), name
+        subs = _subnames(_field(d, "value"))
+        assert "value" in own, (name, own)
+        assert subs, (name, "value declares no sub-fields; nothing was searched")
+        assert "clock_tolerance" not in own, (name, own)
+        assert "clock_tolerance" not in subs, (name, subs)
+        checked += 1
+    assert checked == 2
 
 
 # ------------------------------------------------- absolute_reference's shape
