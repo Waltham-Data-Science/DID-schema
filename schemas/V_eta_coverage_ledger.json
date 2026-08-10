@@ -4,13 +4,13 @@
   "summary": {
     "total": 102,
     "by_disposition": {
-      "retire": 42,
+      "retire": 44,
       "dissolved \u2192 subject": 1,
       "in_progress": 19,
       "persist": 4,
-      "consumed by migrator (no tombstone)": 28,
+      "consumed by migrator (no tombstone)": 27,
       "test/demo fixture (non-production)": 4,
-      "no V_eta home, no migrator -- UNVERIFIED": 4
+      "no V_eta home, no migrator -- UNVERIFIED": 3
     },
     "by_source": {
       "ndi": 91,
@@ -676,8 +676,8 @@
     },
     {
       "v1_class": "imageStack",
-      "veta_class": null,
-      "disposition": "consumed by migrator (no tombstone)",
+      "veta_class": "image_stack",
+      "disposition": "retire",
       "migrator": true,
       "source": "ndi",
       "nonprod": false,
@@ -697,14 +697,16 @@
     },
     {
       "v1_class": "imageStack_parameters",
-      "veta_class": null,
-      "disposition": "no V_eta home, no migrator -- UNVERIFIED",
+      "veta_class": "image_stack_parameters",
+      "disposition": "retire",
       "migrator": false,
       "source": "ndi",
       "nonprod": false,
       "gap": false,
-      "targets": [],
-      "target_source": "unknown",
+      "targets": [
+        "image_stack_parameters"
+      ],
+      "target_source": "passthrough",
       "carried": [],
       "second_pass": [],
       "how": "",

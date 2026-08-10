@@ -9,11 +9,11 @@ for each model; this board owns *how much is left and what exactly*.
 
 | | count |
 |---|---|
-| target classes | 240 |
+| target classes | 242 |
 | settled (persist) | 162 |
-| settled (retire) | 47 |
+| settled (retire) | 49 |
 | **still open (`in_progress`)** | **31** |
-| **`retire` with no migrator YET** | **12** |
+| **`retire` with no migrator YET** | **13** |
 | open **decision families** | **18** |
 | &nbsp;&nbsp;DECIDED and signed off, awaiting build | 18 |
 | &nbsp;&nbsp;decided in a walkthrough, **awaiting a signature** | 0 |
@@ -69,7 +69,7 @@ migrator work before the target closes is rework.
 | **time_reference** | 8 | 8 classes collapse to absolute_reference + relative_reference | `V_eta_time_reference_model_plan.md` |
 | **stimulus** | 2 | timed_sequence data_type + timed_sequence_manipulation leaf; control_designation resolved here | `V_eta_stimulus_model_plan.md` |
 | **ensemble** | 1 | group subject + epoch-scoped member_of edges + rebuildable cache | `V_eta_ensemble_plan.md` |
-| **image / ngrid** | 1 | ngrid phases into sampled_body; image is a standalone data_type | `V_eta_image_model_plan.md` |
+| **image / ngrid** | 2 | ngrid phases into sampled_body; image is a standalone data_type; the two image_stack tombstones are held until the subject is recoverable | `V_eta_image_model_plan.md` |
 | **epoch** | 4 | MINT `epoch` ENTITY (+ OPTIONAL `instrument_id`, 2026-08-06); element_epoch dissolves; epochid DROPPED; probemap -> edges (B) | `V_eta_epoch_plan.md` |
 | **daq configuration** | 3 | acquisition_system + `acquisition_metadata_reader` keep ids; class names fold to software entities | `V_eta_daq_family_decisions.md` |
 | **daq ingested payloads** | 3 | reader one DECOMPOSES (per-clock relative_references + sampled_body) and retires; metadata one -> `acquisition_metadata_file`; image one folds into the image model | `V_eta_ingested_payload_findings.md` |
@@ -89,15 +89,15 @@ migrator work before the target closes is rework.
 
 | disposition | count |
 |---|---|
-| retire | 42 |
-| consumed by migrator (no tombstone) | 28 |
+| retire | 44 |
+| consumed by migrator (no tombstone) | 27 |
 | in_progress | 19 |
 | persist | 4 |
 | test/demo fixture (non-production) | 4 |
-| no V_eta home, no migrator -- UNVERIFIED | 4 |
+| no V_eta home, no migrator -- UNVERIFIED | 3 |
 | dissolved → subject | 1 |
 
-### `retire`, but NO MIGRATOR YET -- 12 rows
+### `retire`, but NO MIGRATOR YET -- 13 rows
 
 Marked `retire` in the ledger with **no migrator and no `how` note**, so the
 documents pass through untouched today. `retire` reads as settled, so these
@@ -113,6 +113,7 @@ rows is covered by a plan document**, and most are signed. The list means
 reports settled work as undecided is the mirror of the failure this board
 exists to prevent, and it cost a review pass to notice.
 
+- `imageStack_parameters`
 - `openminds`
 - `sorting_parameters`
 - `spike_extraction_parameters`
@@ -130,7 +131,6 @@ exists to prevent, and it cost a review pass to notice.
 
 - `generic_file`
 - `imageCollection`
-- `imageStack_parameters`
 - `valid_interval`
 
 ## Families naming classes that are no longer open

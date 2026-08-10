@@ -3,7 +3,7 @@
   "description": "Regenerate with `python3 tools/status_board.py`. The human-readable twin is schemas/V_eta_STATUS.md. A family counts as decided ONLY when its plan document carries a TEAM-SIGN-OFF line; Claude cannot promote its own work.",
   "summary": {
     "families": 18,
-    "classes_claimed": 44,
+    "classes_claimed": 45,
     "open_classes": 31,
     "by_state": {
       "signed_awaiting_build": 18,
@@ -122,13 +122,17 @@
         {
           "class_name": "ngrid",
           "disposition": "in_progress"
+        },
+        {
+          "class_name": "imageStack_parameters",
+          "disposition": "(absent)"
         }
       ],
       "open_members": [
         "ngrid"
       ],
       "plan": "V_eta_image_model_plan.md",
-      "decision": "ngrid phases into sampled_body; image is a standalone data_type",
+      "decision": "ngrid phases into sampled_body; image is a standalone data_type; the two image_stack tombstones are held until the subject is recoverable",
       "status": "team",
       "signed": true,
       "signoff": "jess@walthamdatascience.com / 2026-08-08 -- ngrid is DISSOLVED (deleted, not migrated); `image` becomes `{pixels, color_model}` and nothing else.",
@@ -487,6 +491,7 @@
     "control_designation": "stimulus",
     "ensemble": "ensemble",
     "ngrid": "image / ngrid",
+    "imageStack_parameters": "image / ngrid",
     "acquisition_epoch": "epoch",
     "epochid": "epoch",
     "epochfiles_ingested": "epoch",

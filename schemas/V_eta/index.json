@@ -1406,6 +1406,31 @@
             "disposition": "persist"
         },
         {
+            "class_name": "image_stack",
+            "tier": "deprecated",
+            "class_version": "2.0.0",
+            "maturity_level": "deprecated",
+            "superclasses": [
+                "base",
+                "image_stack_parameters"
+            ],
+            "path": "schemas/V_eta/deprecated/image_stack.json",
+            "disposition": "retire",
+            "disposition_note": "Phase-8 source (migrator \u2192 delete)"
+        },
+        {
+            "class_name": "image_stack_parameters",
+            "tier": "deprecated",
+            "class_version": "2.0.0",
+            "maturity_level": "deprecated",
+            "superclasses": [
+                "base"
+            ],
+            "path": "schemas/V_eta/deprecated/image_stack_parameters.json",
+            "disposition": "retire",
+            "disposition_note": "Phase-8 source (migrator \u2192 delete)"
+        },
+        {
             "class_name": "ingestion_manifest",
             "tier": "stable",
             "class_version": "2.0.0",

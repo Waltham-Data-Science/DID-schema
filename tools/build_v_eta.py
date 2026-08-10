@@ -2813,6 +2813,55 @@ _tombstone(
 #
 # Types come from NDI's schema documents, which is why this is only possible now:
 # the flat ones were readable but unread, and the vhlab family's are JSON Schema.
+# `image_stack` + `image_stack_parameters` -- RESTATED 2026-08-09, at the moment
+# they came back out of _DELETE_PHASE8. They were deleted before the Phase-2b
+# sweep ever compared them against NDI, so they carry the V_alpha shape like the
+# other four, and a passthrough must not be handed a schema that misdescribes it.
+#
+# Both invented an edge and dropped the real ones. imageStack really depends on
+# `subject_id` + `document_id` (the latter pointing at the ontologyTableRow that
+# gives the image its data context); V_eta declared `element_id`, which no NDI
+# template has. imageStack_parameters really depends on `document_id`; V_eta
+# declared `imagestack_id`, likewise invented -- and backwards, since the
+# parameters block is a SUPERCLASS of imageStack, not a thing it points at.
+#
+# The 9 parameter fields already matched NDI exactly and are restated unchanged
+# so the pair is read from one source rather than half-trusted.
+_tombstone(
+    "image_stack", ["base", "image_stack_parameters"],
+    [dep("subject_id", "subject",
+         "The subject depicted. OPTIONAL because NDI's own writer leaves it"
+         " empty on three of its seven imageStack sites"
+         " (+setup/+conv/+haley/doImport.m:789,811,827 -- the image / mask /"
+         " closest-patch loop set only document_id), which is why 4,563 JH"
+         " documents migrated into observations about nobody.", non_empty=False),
+     dep("document_id", "",
+         "The ontologyTableRow giving this image its data context. Untyped: the"
+         " referent is a table row, and resolving a SUBJECT through it is the"
+         " second pass's job, not this schema's.", non_empty=False)],
+    [field("label", "char", "Prose definition of the image type, from the"
+           " ontology term the importer looked up."),
+     field("format_ontology", "char", "CURIE for the file format (e.g."
+           " NCIT:C70631 for TIFF).")],
+    files=[("imagestack_file", "The image stack file.")])
+
+_tombstone(
+    "image_stack_parameters", ["base"],
+    [dep("document_id", "",
+         "NDI's only dependency on this class. Untyped for the same reason as"
+         " imageStack's.", non_empty=False)],
+    [field("dimension_order", "char", "Axis order, e.g. 'YX' or 'YXT'."),
+     field("dimension_labels", "char", "Comma-joined axis names."),
+     field("dimension_size", "matrix", "Extent per axis.", scalar=False),
+     field("dimension_scale", "matrix", "Physical size per pixel, per axis.",
+           scalar=False),
+     field("dimension_scale_units", "char", "Comma-joined units for the scales."),
+     field("data_type", "char", "Pixel type, e.g. uint8/uint16."),
+     field("data_limits", "matrix", "Representable range for the pixel type.",
+           scalar=False),
+     field("timestamp", "double", "Acquisition time as a MATLAB datenum."),
+     field("clocktype", "char", "Which clock the timestamp is on.")])
+
 _tombstone(
     "probe_geometry", ["base"],
     [dep("probe_id", "subject",
@@ -4873,7 +4922,25 @@ def _disposition(name, doc=None):
 # which nothing reuses, qualify.
 _DELETE_PHASE8 = {
     "treatment", "treatment_drug", "treatment_transfer", "virus_injection",
-    "subject_group", "image_stack", "image_stack_parameters",
+    "subject_group",
+    # `image_stack` and `image_stack_parameters` were HERE, and are deliberately
+    # not, as of 2026-08-09. They qualified under criterion (a) -- a completed
+    # dissolver consumes every document -- which is TRUE and beside the point:
+    # 4,563 JH documents are consumed into `image_observation`s with an EMPTY
+    # subject_id, because three of the seven imageStack construction sites in
+    # NDI's +setup/+conv/+haley/doImport.m (lines 789, 811, 827 -- the image /
+    # mask / closest-patch loop) set only `document_id` and never `subject_id`.
+    # The criterion tests whether documents DISAPPEAR, not whether what replaces
+    # them says anything, and these say nothing about nobody.
+    #
+    # The migrator now guards -- no subject, no observation, pass the document
+    # through -- and a passthrough must have a schema to validate against, so
+    # these two come back. Deleting a source tombstone ahead of its migrator is
+    # exactly what put 2,484 corpus-B documents in quarantine when the epoch
+    # family landed.
+    #
+    # They leave again when the subject is recoverable (see the note in
+    # migrators_j/image_stack.m) and a corpus proves 0 survivors.
     "dataseries_observation", "timeseries_observation", "imageseries_observation",
     "oridirtuning_calc", "contrast_tuning_calc", "spatial_frequency_tuning_calc",
     "temporal_frequency_tuning_calc", "speed_tuning_calc", "contrast_sensitivity_calc",

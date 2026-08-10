@@ -1,0 +1,63 @@
+{
+    "document_class": {
+        "class_name": "image_stack",
+        "class_version": "2.0.0",
+        "superclasses": [
+            {
+                "class_name": "base"
+            },
+            {
+                "class_name": "image_stack_parameters"
+            }
+        ],
+        "maturity_level": "deprecated"
+    },
+    "depends_on": [
+        {
+            "name": "subject_id",
+            "mustBeNonEmpty": false,
+            "documentation": "The subject depicted. OPTIONAL because NDI's own writer leaves it empty on three of its seven imageStack sites (+setup/+conv/+haley/doImport.m:789,811,827 -- the image / mask / closest-patch loop set only document_id), which is why 4,563 JH documents migrated into observations about nobody.",
+            "must_refer_to_document_class": "subject"
+        },
+        {
+            "name": "document_id",
+            "mustBeNonEmpty": false,
+            "documentation": "The ontologyTableRow giving this image its data context. Untyped: the referent is a table row, and resolving a SUBJECT through it is the second pass's job, not this schema's.",
+            "must_refer_to_document_class": ""
+        }
+    ],
+    "file": [
+        {
+            "name": "imagestack_file",
+            "documentation": "The image stack file."
+        }
+    ],
+    "fields": [
+        {
+            "name": "label",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Prose definition of the image type, from the ontology term the importer looked up.",
+            "constraints": {}
+        },
+        {
+            "name": "format_ontology",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "CURIE for the file format (e.g. NCIT:C70631 for TIFF).",
+            "constraints": {}
+        }
+    ]
+}

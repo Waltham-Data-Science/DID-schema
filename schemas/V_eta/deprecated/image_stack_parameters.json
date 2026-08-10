@@ -1,0 +1,140 @@
+{
+    "document_class": {
+        "class_name": "image_stack_parameters",
+        "class_version": "2.0.0",
+        "superclasses": [
+            {
+                "class_name": "base"
+            }
+        ],
+        "maturity_level": "deprecated"
+    },
+    "depends_on": [
+        {
+            "name": "document_id",
+            "mustBeNonEmpty": false,
+            "documentation": "NDI's only dependency on this class. Untyped for the same reason as imageStack's.",
+            "must_refer_to_document_class": ""
+        }
+    ],
+    "file": [],
+    "fields": [
+        {
+            "name": "dimension_order",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Axis order, e.g. 'YX' or 'YXT'.",
+            "constraints": {}
+        },
+        {
+            "name": "dimension_labels",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Comma-joined axis names.",
+            "constraints": {}
+        },
+        {
+            "name": "dimension_size",
+            "type": "matrix",
+            "blank_value": [],
+            "default_value": [],
+            "mustBeNonEmpty": false,
+            "mustBeScalar": false,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Extent per axis.",
+            "constraints": {}
+        },
+        {
+            "name": "dimension_scale",
+            "type": "matrix",
+            "blank_value": [],
+            "default_value": [],
+            "mustBeNonEmpty": false,
+            "mustBeScalar": false,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Physical size per pixel, per axis.",
+            "constraints": {}
+        },
+        {
+            "name": "dimension_scale_units",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Comma-joined units for the scales.",
+            "constraints": {}
+        },
+        {
+            "name": "data_type",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Pixel type, e.g. uint8/uint16.",
+            "constraints": {}
+        },
+        {
+            "name": "data_limits",
+            "type": "matrix",
+            "blank_value": [],
+            "default_value": [],
+            "mustBeNonEmpty": false,
+            "mustBeScalar": false,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Representable range for the pixel type.",
+            "constraints": {}
+        },
+        {
+            "name": "timestamp",
+            "type": "double",
+            "blank_value": 0.0,
+            "default_value": 0.0,
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Acquisition time as a MATLAB datenum.",
+            "constraints": {}
+        },
+        {
+            "name": "clocktype",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Which clock the timestamp is on.",
+            "constraints": {}
+        }
+    ]
+}

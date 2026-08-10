@@ -95,9 +95,17 @@ FAMILIES = [
      "group subject + epoch-scoped member_of edges + rebuildable cache",
      "team"),
 
-    ("image / ngrid", ["ngrid"],
+    # `imageStack_parameters` joined this family 2026-08-09, when image_stack and
+    # image_stack_parameters came back OUT of _DELETE_PHASE8 so the guarded
+    # passthrough has a schema to validate against. It is a `retire` row with no
+    # migrator of its OWN -- it is a SUPERCLASS, consumed as a block by
+    # image_stack.m -- so the board correctly flagged it as work nobody was
+    # tracking the moment it reappeared. It is tracked here, with the raster
+    # model it belongs to, rather than special-cased out of the count.
+    ("image / ngrid", ["ngrid", "imageStack_parameters"],
      "V_eta_image_model_plan.md",
-     "ngrid phases into sampled_body; image is a standalone data_type",
+     "ngrid phases into sampled_body; image is a standalone data_type; the two "
+     "image_stack tombstones are held until the subject is recoverable",
      "team"),
 
     # DECIDED with the team 2026-08-05 ("I agree with B"), no signature yet.
@@ -538,7 +546,17 @@ def build():
     # rendering "demo / mock | 2 | PASSTHROUGH ..." -- a stale one-liner about a
     # superseded model, listing two ghosts, and --check passed. A generated artifact that
     # looks current and is not is the exact failure this file exists to prevent.
+    # A family may legitimately claim a class by its did_v1 LEDGER name rather
+    # than its built-index name, and the two differ whenever NDI spells it in
+    # camelCase: `imageStack_parameters` in the ledger is `image_stack_parameters`
+    # in the index. The unclaimed-work check below draws retire-with-no-migrator
+    # rows straight from the ledger, so it demands the v1 spelling -- while this
+    # check demanded the index spelling, and no name could satisfy both. It first
+    # bit when image_stack came back out of _DELETE_PHASE8; before that every
+    # unplanned-retire row happened to be spelled identically in both places.
+    # Accept either, so a family can claim the thing the board is asking it to.
     known = {e["class_name"] for e in schemas}
+    known |= {r["v1_class"] for r in rows}
     ghosts = sorted({m for f in FAMILIES for m in f[1] if m not in known})
     if ghosts:
         sys.stderr.write(
