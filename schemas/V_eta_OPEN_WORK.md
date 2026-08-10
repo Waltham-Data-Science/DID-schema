@@ -911,3 +911,53 @@ correcting or the edge needs adding.
 **C5. A THIRD ENFORCEMENT HOLE, the mirror image of the two just closed.** `test_veta.py`
 records that the validator allows UNDECLARED `depends_on` entries wholesale: an edge NDI's
 writer sets that no V_eta schema declares is silently accepted. Unaddressed.
+
+---
+
+## DECISION 2026-08-10 — a statement reaches its epoch through the REFERENCE CHAIN, not a direct edge
+
+Team decision, jess@walthamdatascience.com, 2026-08-10, verbatim:
+
+> "Use the reference chain, don't add the direct edge"
+
+**What it settles.** The epoch family's signed line reads *"epochid is DROPPED in favour of a
+uniform `epoch_id` edge"*, and the epoch plan says every epoch-scoped document gains one. Read
+literally that includes `subject_interaction`. It does not get one. A statement reaches its
+epoch by:
+
+        subject_interaction --time_reference_#--> relative_reference
+                            --relative_to------> epoch
+
+A direct edge would store one fact in two places — the hazard the epoch plan itself raises for
+`base.session_id` vs `part_of` and marks "Flagged, not solved". Two copies of one fact agree by
+coincidence until something checks them, and nothing would.
+
+**`directed_relation` KEEPS its optional `epoch_id`, and that is not an inconsistency.** It is
+signed separately under the ensemble decision ("EPOCH-SCOPED `member_of` edges carrying their
+epoch"): there the epoch is the edge's OWN content, because the recorded roster changes from
+epoch to epoch. On a statement it would be a restatement of when the statement happened.
+
+**THE SIGNED PLAN LINE NOW UNDER-DESCRIBES THIS, AND ONLY THE TEAM MAY AMEND IT.**
+`V_eta_epoch_plan.md:849` still says "uniform `epoch_id` edge". This entry does NOT amend it and
+no `TEAM-SIGN-OFF` line was added or edited — that is the team's to write. Recorded here so the
+decision is not lost while the plan says something broader than what was decided.
+
+**KNOWN WEAK LINK — measured, and the reason to revisit this if anything does.**
+
+        DENOMINATOR: 3 classes read from the built set (subject_interaction,
+                     directed_relation, subject_statement)
+
+        subject_interaction  time_reference_#  mustBeNonEmpty=False  min_count=1
+        directed_relation    epoch_id          mustBeNonEmpty=False  (optional by design)
+
+`min_count: 1` guarantees the family EXISTS on every `subject_interaction`, and
+`relative_reference.relative_to` is REQUIRED, so a populated reference does resolve. But
+`mustBeNonEmpty` is False, so `time_reference_1 = ''` satisfies the family and reaches no
+epoch — and the newly ARMED `RequiredDependencies` gate keys on `mustBeNonEmpty`, so it will
+not catch it. This is the invented-empty-edge pattern one link along the chain. **Tighten that
+before concluding the chain is insufficient** — an empty reference would otherwise look like
+evidence the direct edge was needed, when it is evidence the edge we have is unenforced.
+
+The deliberate omission is stated at the `subject_interaction` definition in
+`tools/build_v_eta.py`, not left silent, because an unexplained absence is exactly what someone
+"completing the family" would helpfully fix.

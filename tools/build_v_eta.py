@@ -458,6 +458,36 @@ EXEC_ENV = field(
         subfield("interpreter_version", "char", "Interpreter version.", non_empty=False),
     ])
 
+# NO `epoch_id` HERE, DELIBERATELY -- team decision, jess, 2026-08-10:
+#   "Use the reference chain, don't add the direct edge"
+#
+# The epoch plan's signed line reads "epochid is DROPPED in favour of a uniform
+# epoch_id edge", and read literally that would put one on every epoch-scoped
+# document, this class included. It does not, and the omission is written here
+# rather than left silent, because an unexplained absence is what someone
+# "completing the family" would helpfully fix.
+#
+# A statement already reaches its epoch:
+#   subject_interaction --time_reference_#--> relative_reference
+#                       --relative_to------> epoch
+# A direct edge would store one fact twice, which is the hazard the epoch plan
+# itself flags for base.session_id vs part_of and marks "Flagged, not solved".
+# Two copies of one fact agree by coincidence until something checks them, and
+# nothing here would.
+#
+# `directed_relation` KEEPS its optional epoch_id and that is not inconsistent:
+# it is signed separately under the ensemble decision ("EPOCH-SCOPED member_of
+# edges carrying their epoch"), where the epoch is the edge's OWN content -- the
+# per-epoch roster changes epoch to epoch -- rather than a restatement of when
+# the statement happened.
+#
+# KNOWN WEAK LINK, recorded so it is not discovered as a surprise: the chain is
+# guaranteed by `min_count: 1` on time_reference_# (see the edge-family table
+# below), but that entry is mustBeNonEmpty=False, so a statement carrying
+# `time_reference_1 = ''` satisfies the family and reaches no epoch. The armed
+# RequiredDependencies gate keys on mustBeNonEmpty and will NOT catch it. That
+# is the invented-empty-edge shape one link along, and tightening it is the
+# thing to do before anyone argues the direct edge is needed after all.
 si = doc("subject_interaction", ["subject_statement"], abstract=True, version="3.0.0",
          deps=[TIME_REF_REQ, INSTRUMENT, SOFTWARE_ID],
          fields=[METHOD, METHOD_PARAMS, SAMPLE_TIME, EXEC_ENV])
