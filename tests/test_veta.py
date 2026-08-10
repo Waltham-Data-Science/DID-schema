@@ -1478,19 +1478,28 @@ def test_no_passthrough_row_claims_a_migrator_emits_it():
                 "pass or carried class backs it")
 
 
-def test_uncurated_rows_really_do_have_a_migrator():
-    """`uncurated` means a migrator runs and nothing records what it emits.
+def test_uncurated_stays_at_zero():
+    """RATCHET at 0: every migrator must have a curated target entry.
 
-    It is the actionable state of the four: each one is a missing row in
-    V_eta_migration_targets.json, not a modelling question. Pinned so it cannot
-    quietly become a dumping ground for rows that are simply unmapped.
+    `uncurated` means a migrator runs and nothing records what it emits. All
+    five that existed (control_stimulus_ids, image, measurement,
+    kilosort_clusters, kiasort_clusters) were closed by reading the migrators,
+    so the honest guard is now that the count cannot climb back up -- adding a
+    migrator without a curated row is a deliberate act that has to move this
+    baseline.
+
+    A RATCHET RATHER THAN THE PROPERTY TEST IT REPLACES. That test asserted
+    "every uncurated row has a migrator" and, at zero rows, passed while
+    checking nothing -- indistinguishable from a test that verified something.
+    Same defect as a census reporting 0 while reading no documents.
     """
     with open(os.path.join(REPO_ROOT, "schemas",
                            "V_eta_coverage_ledger.json")) as fh:
         rows = json.load(fh)["rows"]
-    unc = [r for r in rows if r["target_source"] == "uncurated"]
-    for r in unc:
-        assert r["migrator"], (
-            f"{r['v1_class']} is uncurated but has no migrator")
-    names = sorted(r["v1_class"] for r in unc)
-    print(f"uncurated rows (missing from the curated target map): {names}")
+    unc = sorted(r["v1_class"] for r in rows if r["target_source"] == "uncurated")
+    assert unc == [], (
+        f"{len(unc)} migrator(s) with no entry in V_eta_migration_targets.json: "
+        f"{unc}. The ledger cannot say what they emit, so it says nothing -- add "
+        "the row by READING THE MIGRATOR, never by copying what a plan intends.")
+    # the denominator, so a sweep that silently stopped classifying is visible
+    assert len(rows) > 0 and any(r["target_source"] == "emitted" for r in rows)

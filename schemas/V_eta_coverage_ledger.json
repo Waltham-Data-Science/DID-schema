@@ -196,13 +196,15 @@
       "nonprod": false,
       "gap": false,
       "targets": [
-        "control_stimulus_ids"
+        "control_designation"
       ],
-      "target_source": "uncurated",
-      "carried": [],
+      "target_source": "emitted",
+      "carried": [
+        "timed_sequence"
+      ],
       "second_pass": [],
-      "how": "",
-      "target_flags": ""
+      "how": "1 -> 1, base.id PRESERVED: the derived 'which presented stimuli are the control' annotation becomes a `control_designation` carrying the derivation method, pointing at the presentation via timed_sequence_id + derived_from_1 (T10)",
+      "target_flags": "the referent is the SECOND-PASS timed_sequence, reached by the id-preserved stimulus_presentation id; drops the v1 `app` mixin (R1) and the `ids` container word (T13)"
     },
     {
       "v1_class": "daqmetadatareader",
@@ -645,13 +647,17 @@
       "nonprod": false,
       "gap": false,
       "targets": [
-        "image"
+        "image_observation",
+        "sampled_body",
+        "session_relative_reference"
       ],
-      "target_source": "uncurated",
-      "carried": [],
+      "target_source": "emitted",
+      "carried": [
+        "subject"
+      ],
       "second_pass": [],
-      "how": "",
-      "target_flags": ""
+      "how": "delegates ENTIRELY to migrators_j.image_stack(preBody) -- same emitted set: a body-backed image_observation + sampled_body + anchor",
+      "target_flags": "exists to resolve a NAME COLLISION: did_v1 `image` (a stored file) and the V_eta R6 `image` data_type (a raster value) share not one field, so an unmigrated v1 doc met the data_type's required `value` and quarantined. Consuming the v1 class removes the collision by construction"
     },
     {
       "v1_class": "imageCollection",
@@ -734,13 +740,17 @@
       "nonprod": false,
       "gap": false,
       "targets": [
-        "kiasort_clusters"
+        "count_observation",
+        "opaque_body",
+        "session_relative_reference"
       ],
-      "target_source": "uncurated",
-      "carried": [],
+      "target_source": "emitted",
+      "carried": [
+        "subject"
+      ],
       "second_pass": [],
-      "how": "",
-      "target_flags": ""
+      "how": "1 -> 3 via migrators_j.private.jSorterOutput, identical to kilosort_clusters with sorterName 'kiasort' and dirField 'kiasort_directory'",
+      "target_flags": "see kilosort_clusters: external directory -> opaque_body, MD5 kept as a body note rather than re-expressed as data"
     },
     {
       "v1_class": "kilosort_clusters",
@@ -751,13 +761,17 @@
       "nonprod": false,
       "gap": false,
       "targets": [
-        "kilosort_clusters"
+        "count_observation",
+        "opaque_body",
+        "session_relative_reference"
       ],
-      "target_source": "uncurated",
-      "carried": [],
+      "target_source": "emitted",
+      "carried": [
+        "subject"
+      ],
       "second_pass": [],
-      "how": "",
-      "target_flags": ""
+      "how": "1 -> 3 via migrators_j.private.jSorterOutput: an id-preserved count_observation on the recording subject (variable 'spike cluster assignment', method = the sorter) + an opaque_body for the EXTERNAL output directory + anchor",
+      "target_flags": "opaque_body, not sampled_body: the doc holds a session-relative directory + a curated-output MD5, not attached bytes, and the sorter output is not read at migration time. Sibling jrclust_clusters DOES attach bytes and so emits a sampled_body"
     },
     {
       "v1_class": "measurement",
@@ -768,13 +782,20 @@
       "nonprod": false,
       "gap": false,
       "targets": [
-        "measurement"
+        "mass_observation",
+        "temperature_observation",
+        "length_observation",
+        "duration_observation",
+        "term_observation",
+        "session_relative_reference"
       ],
-      "target_source": "uncurated",
-      "carried": [],
+      "target_source": "emitted",
+      "carried": [
+        "subject"
+      ],
       "second_pass": [],
-      "how": "",
-      "target_flags": ""
+      "how": "quantity-typed fold (T3): a finite numeric value routes by term/label to the mass/temperature/length/duration leaf; a CURIE-valued measurement becomes a term_observation; each emits obs + anchor (1 -> 2)",
+      "target_flags": "DYNAMIC EMIT -- exactly one observation leaf per document, chosen at runtime from the ontology node + label. GUARDED PASSTHROUGH: no honest leaf (date of birth, an untyped number, free prose) returns the document unchanged, which the unconverted counter makes visible rather than emitting a hollow observation"
     },
     {
       "v1_class": "metadata_editor",

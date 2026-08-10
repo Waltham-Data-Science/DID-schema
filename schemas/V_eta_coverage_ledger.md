@@ -15,7 +15,7 @@
 | `contrast_sensitivity_calc` | `contrast_sensitivity_calculation` + `session_relative_reference` · on `subject` | consumed by migrator (no tombstone) | app |
 | `contrast_tuning` | `tuning_curve_calculation` + `session_relative_reference` · on `subject` | consumed by migrator (no tombstone) | app |
 | `contrast_tuning_calc` | `tuning_curve_calculation` + `session_relative_reference` · on `subject` | consumed by migrator (no tombstone) | app |
-| `control_stimulus_ids` | ⚠ migrator runs, **output unrecorded** | retire | ndi |
+| `control_stimulus_ids` | `control_designation` · on `timed_sequence` | retire | ndi |
 | `daqmetadatareader` | · passes through as `daqmetadatareader` (no migrator; target unrecorded) | in_progress | ndi |
 | `daqmetadatareader_epochdata_ingested` | · passes through as `daqmetadatareader_epochdata_ingested` (no migrator; target unrecorded) | in_progress | ndi |
 | `daqreader` | · passes through as `daqreader` (no migrator; target unrecorded) | in_progress | ndi |
@@ -41,14 +41,14 @@
 | `fitcurve` | `score_observation` + `session_relative_reference` · on `subject` | retire | ndi |
 | `generic_file` | — | no V_eta home, no migrator -- UNVERIFIED | ndi |
 | `hartley_calc` | `hartley_calc` | retire | app |
-| `image` | ⚠ migrator runs, **output unrecorded** | persist | ndi |
+| `image` | `image_observation` + `sampled_body` + `session_relative_reference` · on `subject` | persist | ndi |
 | `imageCollection` | — | no V_eta home, no migrator -- UNVERIFIED | ndi |
 | `imageStack` | `image_observation` + `sampled_body` + `session_relative_reference` · on `subject` | consumed by migrator (no tombstone) | ndi |
 | `imageStack_parameters` | — | no V_eta home, no migrator -- UNVERIFIED | ndi |
 | `jrclust_clusters` | `count_observation` + `sampled_body` + `session_relative_reference` · on `subject` | retire | ndi |
-| `kiasort_clusters` | ⚠ migrator runs, **output unrecorded** | retire | ndi |
-| `kilosort_clusters` | ⚠ migrator runs, **output unrecorded** | retire | ndi |
-| `measurement` | ⚠ migrator runs, **output unrecorded** | retire | ndi |
+| `kiasort_clusters` | `count_observation` + `opaque_body` + `session_relative_reference` · on `subject` | retire | ndi |
+| `kilosort_clusters` | `count_observation` + `opaque_body` + `session_relative_reference` · on `subject` | retire | ndi |
+| `measurement` | `mass_observation` + `temperature_observation` + `length_observation` + `duration_observation` + `term_observation` + `session_relative_reference` · on `subject` | retire | ndi |
 | `metadata_editor` | `dataset` + `person` + `organization` + `funding` + `publication` + `web_resource` + `directed_relation` | consumed by migrator (no tombstone) | ndi |
 | `mock` | — | test/demo fixture (non-production) | ndi |
 | `neuron_extracellular` | `subject` + `directed_relation` + `score_observation` + `session_relative_reference` · on `subject` | retire | ndi |
