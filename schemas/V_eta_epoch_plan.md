@@ -208,8 +208,13 @@ datasets.
   would have a `strain` document behind them and some would not, so `variable:
   strain` would resolve two different ways depending on whether a pedigree happened
   to exist. The inline value therefore stays and the edge is ADDITIVE.
-- **Dropping epochid creates NO drift** — every epoch-scoped document gets the edge,
-  uniformly, always. One representation, no cases.
+- **Dropping epochid creates NO drift** — every epoch-scoped document reaches its epoch the
+  same way, always. One representation, no cases. **AMENDED 2026-08-10:** that one way is the
+  TIME_REFERENCE CHAIN, not a direct edge on every class. This line originally read "every
+  epoch-scoped document gets the edge, uniformly, always", which is the reading the amendment
+  narrowed. The drift argument is unaffected and is why it survives: what matters is that the
+  route is uniform, not that it is short. A direct edge on some classes and a chain on others
+  would be the drift; a chain everywhere is not.
 
 **In one line:**
 
@@ -315,6 +320,21 @@ element_epoch      DISSOLVES       it is one element's data for one epoch:
 every epoch-scoped document gains   acquisition_epoch_id -> acquisition_epoch
    resolvable at migration by GROUPING on epochid.epochid
 ```
+
+**THE TWO LINES ABOVE ARE SUPERSEDED — do not build from them.** They are the draft this
+section was written at, and BOTH halves have since been decided otherwise:
+
+- `acquisition_epoch_id -> acquisition_epoch` — the 2026-08-08 sign-off DISSOLVES
+  `acquisition_epoch`; the epoch entity is `epoch`. Superseded before this amendment, and by
+  the sign-off in this same document.
+- `every epoch-scoped document gains` the edge — narrowed 2026-08-10: a document reaches its
+  epoch through the TIME_REFERENCE CHAIN, and a direct edge exists only where the epoch is the
+  document's own content (`directed_relation`). See the amendment at the bottom of this file.
+
+The GROUPING mechanism survives both and is what `did2.convert.epochMint` implements — with one
+correction the draft did not have: **the key is the PAIR `(base.session_id, epoch-id string)`,
+not the string alone.** 142 of corpus B's 149 distinct epoch ids appear in more than one
+session, so grouping on the string would fuse epochs from different sessions.
 
 The 11+ string joins become graph edges. `epochid` the mixin survives as **migration
 input**, not as the target's join mechanism.
@@ -846,7 +866,37 @@ that is the question to answer.
 
 ## SIGNED OFF 2026-08-08
 
-TEAM-SIGN-OFF [epoch]: jess@walthamdatascience.com / 2026-08-08 -- MINT `epoch` as an entity (one per epoch id, local_identifier = the v1 epochid string, REQUIRED); acquisition_epoch dissolves and its clocks become relative_reference documents; epochid is DROPPED in favour of a uniform epoch_id edge; epochfiles_ingested becomes `ingestion_manifest` with filenavigator_id RESTORED; instrument_id -> entity, OPTIONAL.
+TEAM-SIGN-OFF [epoch]: jess@walthamdatascience.com / 2026-08-08, AMENDED 2026-08-10 -- MINT `epoch` as an entity (one per epoch id, local_identifier = the v1 epochid string, REQUIRED); acquisition_epoch dissolves and its clocks become relative_reference documents; epochid is DROPPED, and a document reaches its epoch through the TIME_REFERENCE CHAIN (subject_interaction -> time_reference_# -> relative_reference -> relative_to -> epoch) -- a direct `epoch_id` edge is added ONLY where the epoch is the document's own content (`directed_relation`, per the ensemble sign-off), NOT on subject_interaction; epochfiles_ingested becomes `ingestion_manifest` with filenavigator_id RESTORED; instrument_id -> entity, OPTIONAL.
+
+### Amendment 2026-08-10 — "use the reference chain, don't add the direct edge"
+
+Amended at the team's instruction (jess, 2026-08-10). Only the `epochid` clause changed;
+every other clause above stands exactly as signed on 2026-08-08.
+
+The line as originally signed read, verbatim — HISTORICAL-SIGNOFF-CLAIM:
+
+> ... epochid is DROPPED in favour of a uniform epoch_id edge; ...
+
+**Why it needed narrowing.** "Uniform" was read literally by the build as *every* epoch-scoped
+document gaining the edge, `subject_interaction` included. A statement already reaches its
+epoch through its time reference, so a direct edge would store one fact in two places — the
+hazard this very document raises for `base.session_id` vs `part_of` and marks "Flagged, not
+solved". Two copies of one fact agree by coincidence until something checks them, and nothing
+would.
+
+**`directed_relation` keeps its optional `epoch_id`, and that is not an exception being carved
+out.** There the epoch is the edge's OWN content: the ensemble sign-off requires EPOCH-SCOPED
+`member_of` edges because the recorded roster changes from epoch to epoch. On a statement the
+edge would only restate when the statement happened.
+
+**The weak link, recorded because it is what would later be mistaken for evidence against this
+amendment.** The chain is guaranteed by `min_count: 1` on `time_reference_#`, and
+`relative_reference.relative_to` is REQUIRED — but that family entry is `mustBeNonEmpty: false`,
+so `time_reference_1 = ''` satisfies the family and reaches no epoch, and the ARMED
+`RequiredDependencies` gate keys on `mustBeNonEmpty` and will not catch it. That is the
+invented-empty-edge pattern one link along the chain. An epoch-less statement found later is
+evidence the edge we HAVE is unenforced, not evidence the direct edge was needed. Tighten it
+before re-opening this.
 
 ### The class, as signed
 
