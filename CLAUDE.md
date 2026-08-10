@@ -708,14 +708,43 @@ lives in these files — read them instead of re-deriving from memory:
         TOTAL                              7,233
 
   **RE-CONFIRMED INDEPENDENTLY 2026-08-10, corpus run 31415147934 (`02854c7`): the same two
-  rows, the same 2,670 + 4,563 = 7,233, over 562,422 documents inspected across 6 corpora,
+  rows, the same 2,670 + 4,563 = 7,233, over 562,448 documents inspected across 6 corpora,
   0 unreadable / 0 skipped, quarantine 0, fragments 0, vacuous required fields 0, edge-family
-  cardinality violations 0.** And this total is no longer hand-summed: `census_digest.py`
-  now computes an ACROSS ALL CORPORA rollup (same-row counts merged, denominator first, and
-  a loud warning when a corpus contributed no readable audit). The instruction below to
-  "re-derive the row set from a fresh census before quoting a total" still stands — but the
-  digest now does the arithmetic, so getting it wrong requires ignoring a printed number
-  rather than mis-adding six blocks.
+  cardinality violations 0.**
+
+  **THE DENOMINATOR IN THIS PARAGRAPH SAID 562,422 AND WAS WRONG, AND THE SENTENCE THAT
+  FOLLOWED IT — "this total is no longer hand-summed" — WAS ALSO WRONG, ABOUT ITSELF.**
+  Corrected 2026-08-10 with the addends named, which is the whole repair:
+
+        20211116  1,484  +  B  13,804  +  Dab  29,168
+        +  JH  336,136  +  PRED  31  +  Soph  181,825   =  562,448
+
+        recorded    562,422
+        difference       26   =  B `inspected` 13,804 - B `migrated_count` 13,778
+
+  The old figure is the six corpora with **corpus B's `migrated_count` substituted for its
+  `inspected`**. B's own block prints both, one line apart (`total=12917 migrated=13778`,
+  then `silent-loss: inspected 13804`), and the wrong one was picked up once and then quoted
+  forward. And the digest could not have produced either number for that run:
+
+        $ git log --oneline -S"ACROSS ALL CORPORA" -- tools/census_digest.py
+        f9defe3 Digest: compute the cross-corpus total instead of asking a human to
+        $ git show 02854c7:tools/census_digest.py | grep -n "ACROSS ALL CORPORA"
+        exit=1
+
+  `02854c7` is the run's head; `f9defe3` is the NEXT commit. The rollup did not exist yet, so
+  the total was hand-summed by the same paragraph that claimed it was not — a reassurance
+  about an instrument, standing in for the instrument. That is this file's own recurring error
+  arriving one level up, and the direction is the usual one: a wrong number that reads as
+  better-measured than it was.
+
+  The rollup is real NOW and it prints its addends beside the total, each named, with the
+  counter identified as neither `migrated` nor `total` — so the identical substitution is
+  visible in the output rather than sourceless. `tools/test_census_digest.py` asserts BOTH
+  sums, the right one and the one the substitution produces, so this account cannot go stale
+  quietly. The instruction below to "re-derive the row set from a fresh census before quoting
+  a total" still stands, and now applies to the total itself: **quote the digest's printed
+  rollup, never a sum you performed.**
 
   **NOT YET RE-MEASURED AFTER THE `image_stack` GUARD.** Run 31415147934 predates it
   (`02854c7` is before `5e53f79`/`23947bf`), so the JH row of 4,563 is the *pre-guard*
