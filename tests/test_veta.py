@@ -94,6 +94,10 @@ def test_index_agrees_with_disk():
 
 
 def test_superclasses_resolve():
+    # DENOMINATOR. Without it this passes when RECORDS is EMPTY -- a build that
+    # produced no schemas would go green on the sweep that exists to check them
+    # all. Same failure as a census reporting 0 while reading nothing.
+    assert len(RECORDS) > 200, f"only {len(RECORDS)} schemas loaded"
     names = set(RECORDS)
     for name, (_, d) in RECORDS.items():
         for s in d["document_class"]["superclasses"]:
@@ -423,13 +427,18 @@ def test_assertion_is_timeless():
     subject_interaction REQUIRES it (event); subject_assertion declares NONE at all
     (a timeless fact cannot even carry a clock anchor); the shared subject_statement
     parent stays neutral. So it is never a uniform parent-optional flag."""
+    # DENOMINATOR: count the assertions actually examined, so a chain lookup
+    # that silently stopped matching cannot leave this passing on zero classes.
+    seen = 0
     for name in RECORDS:
         chain = _chain(name)
         if "subject_assertion" not in chain and name != "subject_assertion":
             continue
+        seen += 1
         deps = _flat_dep_names(name)
         assert "time_reference_#" not in deps, \
             f"{name} is an assertion — it must not declare time_reference"
+    assert seen > 1, f"only {seen} assertion class(es) examined"
     # the parent declares no time either; only the interaction branch requires it
     assert "time_reference_#" not in _flat_dep_names("subject_statement")
     assert _flat_dep_names("subject_interaction")  # (interaction side checked above)
@@ -1400,7 +1409,9 @@ def test_signed_is_never_asserted_without_a_signoff_line():
 
 
 def test_every_family_plan_document_exists():
-    for fam in _decisions()["families"]:
+    fams = _decisions()["families"]
+    assert fams, "no decision families -- this sweep would check nothing"
+    for fam in fams:
         if fam["plan"]:
             path = os.path.join(REPO_ROOT, "schemas", fam["plan"])
             assert os.path.exists(path), (
@@ -1471,6 +1482,8 @@ def test_no_passthrough_row_claims_a_migrator_emits_it():
     with open(os.path.join(REPO_ROOT, "schemas",
                            "V_eta_coverage_ledger.json")) as fh:
         rows = json.load(fh)["rows"]
+    assert sum(1 for r in rows if r["target_source"] == "emitted") > 0, (
+        "no emitted rows -- this sweep would check nothing")
     for r in rows:
         if r["target_source"] == "emitted":
             assert r["migrator"] or r["second_pass"] or r["carried"], (

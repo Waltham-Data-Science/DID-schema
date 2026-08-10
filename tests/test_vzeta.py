@@ -70,6 +70,9 @@ def test_index_agrees_with_disk():
 
 
 def test_superclasses_resolve():
+    # DENOMINATOR -- see the same guard in test_veta.py. Without it this passes
+    # when RECORDS is empty, i.e. exactly when the schema set failed to load.
+    assert len(RECORDS) > 100, f"only {len(RECORDS)} V_zeta schemas loaded"
     names = set(RECORDS)
     for name, (_, d) in RECORDS.items():
         for s in d["document_class"]["superclasses"]:

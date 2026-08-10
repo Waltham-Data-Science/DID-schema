@@ -100,3 +100,17 @@ jobs:
       - name: No new duplicate field declarations in a class chain
         if: matrix.python-version == '3.12'
         run: python3 tools/check_duplicate_field_declarations.py --enforce
+
+      # A TEST THAT PASSES WHILE CHECKING NOTHING is the failure this project
+      # keeps paying for, one level up. `silentLoss` printed "0 empty edges"
+      # while reading nothing; the census digest aggregated zero files and
+      # exited 0; and a test asserting a property of the uncurated ledger rows
+      # verified nothing the moment that set reached zero -- while still
+      # reporting success. Each was fixed by adding a DENOMINATOR. This applies
+      # the same rule to the tests: a sweep that filters a collection and
+      # asserts over every element must also assert the collection is not empty.
+      # Over-flags by design; ALLOW in the tool records the reviewed exceptions
+      # WITH the reason, so an exception is a claim someone can check.
+      - name: No test can pass while checking nothing
+        if: matrix.python-version == '3.12'
+        run: python3 tools/check_vacuous_tests.py --enforce
