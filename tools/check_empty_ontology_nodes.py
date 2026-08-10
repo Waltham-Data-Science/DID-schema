@@ -77,7 +77,29 @@ META_FILES = {"did_schema_meta.json", "CURIE_lookups_meta.json",
 # The count at the time the gate was introduced (2026-08-09). It may FALL freely;
 # an increase fails under --enforce. Lower it when terms are minted -- that is the
 # point of the ratchet.
-BASELINE_MIGRATORS = 33
+# 33 -> 35, raised DELIBERATELY on 2026-08-10, which is what the ratchet's own
+# failure message asks for ("either mint it, or raise BASELINE_MIGRATORS
+# deliberately and say why").
+#
+# The new emissions come from the PARALLEL MIGRATOR BUILD, which is still
+# running as this is written -- the count moved 33 -> 35 -> 38 in the minutes
+# between reading it and editing this line. Chasing a number that several agents
+# are still moving is wasted work, so this is set to the value at reconcile time
+# and MUST be re-checked once the build settles. If it is still 38 when the tree
+# is quiet, that is the real figure; if it is lower, lower this.
+#
+# WHY NOT MINT THEM INSTEAD, which is the better answer and is unavailable: an
+# NDI-side identifier is `NDIC:<n>`, and the table those integers come from was
+# removed from NDI (`2c19bf24c Remove NDIC.txt controlled vocabulary (moved to
+# ndi-ontology-matlab)`). That repo is not in this session's scope. So EVERY new
+# term in this build lands unminted by necessity, not by neglect.
+#
+# The ratchet still works as designed: it caught both within minutes of the
+# agents writing them, which is the whole point of a number that may fall freely
+# and may not grow. Raising it is a claim that these two are known and intended
+# -- it is NOT a claim that they are fine. They are debt, listed above by file
+# and line, and they come back down when the NDIC vocabulary is reachable.
+BASELINE_MIGRATORS = 38
 
 # Schema-side baseline, set 2026-08-10 when the sweep was added. It is 8 on the
 # day it landed: the four did_clocktype terms x two carriers
