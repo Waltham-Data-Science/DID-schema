@@ -426,6 +426,14 @@ viewer says *why* something is WIP.
 > node per field; or option B, a static enumeration), and promoting `preferred` to
 > `required` once a corpus has counted the exposure.
 
+TEAM-SIGN-OFF [binding governance]: jess, 2026-08-10 -- bind `subject_statement.variable`, `subject_interaction.method` and `interaction_purpose.purpose` at `preferred` (`required` only after a corpus counts how many real documents would fail it); STRENGTH IS AUTHORITATIVE ON THE FIELD, with the registry required to agree where it also states one; NO admissible set named yet (option C -- neither an ontology subtree nor a static enumeration is decided for these fields).
+
+*(Transcribed by Claude on the team's explicit instruction -- "Sign it off" -- as with
+the file navigation, openMINDS and dataseries_channel_map sign-offs. TAGGED
+`[binding governance]`, which is deliberately NOT a family name: this document is
+cited by the `software` family, so an UNTAGGED line here would have signed that
+family instead. The tag records the decision without moving any family's status.)*
+
 
 Surfaced while resolving finding B, and deliberately **not** folded into it: the `term`
 composite's binding is one field, but the binding *system* has two unresolved questions.
