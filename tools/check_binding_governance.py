@@ -312,6 +312,34 @@ def run(veta=VETA):
             "n_values": len(b.get("values") or []),
         })
 
+    # -- the derived value_set catalogue ------------------------------------
+    # NOT a decision and NOT a new source of truth: it is READ BACK from the
+    # inline declarations, because there is nowhere else a named admissible set
+    # is written down. `entity_field_bindings` catalogues the openMINDS term
+    # sets centrally; a `root:`-named value_set is catalogued nowhere, so the
+    # only way to see that `did_clocktype` means two different things is to
+    # derive the catalogue and look. #45 (data_body) adds three more named sets
+    # -- datum_type, byte_order, datum_order -- so the copy-paste this reveals
+    # is about to happen three more times.
+    catalogue = {}
+    for row in rows:
+        b = row["binding"]
+        key = b.get("root") or b.get("root_node") or b.get("term_set")
+        if not key:
+            continue
+        entry = catalogue.setdefault(key, {"carriers": [], "definitions": []})
+        entry["carriers"].append(row["class"] + "." + row["field"])
+        if "values" in b:
+            members = list(member_names(b["values"]))
+            if members not in entry["definitions"]:
+                entry["definitions"].append(members)
+    r["value_set_catalogue"] = {
+        k: {"carriers": sorted(v["carriers"]),
+            "n_definitions": len(v["definitions"]),
+            "definitions": v["definitions"]}
+        for k, v in sorted(catalogue.items())
+    }
+
     # -- B1 -----------------------------------------------------------------
     used = {}
     for row in rows:
@@ -566,6 +594,20 @@ def report(r):
         print("    %-32s %-22s %-14s %-13s %-10s %s"
               % (i["class"], i["field"], i["type"], i["shape"],
                  i["strength"], "%s (%d)" % (i["set"] or "-", i["n_values"])))
+    print()
+
+    print("VALUE SET CATALOGUE (DERIVED -- no such catalogue is stored)")
+    print("    A `root:`-named admissible set is written down NOWHERE central;")
+    print("    it is copied onto each carrier. n_defs > 1 means the same name")
+    print("    resolves two ways depending on which class you read.")
+    for name, v in r["value_set_catalogue"].items():
+        flag = "   <-- DRIFT" if v["n_definitions"] > 1 else ""
+        print("    %-24s %d carrier(s), %d inline definition(s)%s"
+              % (name, len(v["carriers"]), v["n_definitions"], flag))
+        for c in v["carriers"]:
+            print("        %s" % c)
+        for i, dfn in enumerate(v["definitions"], 1):
+            print("        def %d (%d members): %s" % (i, len(dfn), ", ".join(dfn)))
     print()
 
     for key, f in r["findings"].items():

@@ -523,7 +523,668 @@ def load():
     return idx["schemas"], led["rows"]
 
 
-def build():
+# ===========================================================================
+# EVIDENCE LAYER -- the part of the board that is measured rather than declared
+# ===========================================================================
+#
+# Two external sources, each optional, each reported with its own denominator:
+#
+#   MIGRATOR EVIDENCE  DID-matlab `+did2/+convert/+migrators_j` (the V_eta pass)
+#                      and NDI-matlab `+ndi/+migrate/+internal` (the V_eta
+#                      second pass). Answers "is anything built for this class".
+#   CENSUS EVIDENCE    the per-corpus `*-summary.json` reports written by
+#                      did2.unittest.helpers.writeCorpusReport. Answers "do
+#                      documents of this class still survive migration".
+#
+# Neither repo is checked out in this repo's CI, so both are SNAPSHOTTED into
+# the generated `V_eta_decisions.json` and reused verbatim when the live source
+# is unreachable. That keeps `--check` meaningful: a developer with the sibling
+# repos re-measures, and a change in the evidence changes the committed file
+# exactly like a change in the schema does. Nothing time-stamped goes into the
+# snapshot -- a wall-clock field would make every run differ from every other
+# and turn the staleness check into noise.
+
+def find_repo(name, env):
+    """Locate a sibling repo the same way tools/coverage.py does."""
+    for cand in (os.environ.get(env), os.path.join("/home/user", name),
+                 os.path.join(os.path.dirname(REPO), name)):
+        if cand and os.path.isdir(cand):
+            return cand
+    return None
+
+
+_IDENT = set("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_")
+# After one of these, a `'` is the TRANSPOSE operator, not the start of a string.
+_TRANSPOSE_AFTER = _IDENT | set(")]}.'")
+
+
+def split_matlab_line(line):
+    """Split one MATLAB line into (code with strings blanked, [string literals]).
+
+    WHY BOTH HALVES ARE NEEDED, AND WHY THEY MUST NOT BE SEARCHED TOGETHER.
+    A class is consumed in one of two spellings:
+
+        isfield(preBody, 'app')      a QUOTED NAME  -> search the literals
+        blk = preBody.filter;        a FIELD ACCESS -> search the code
+
+    Searching the raw text for `.app` finds it inside the string literal
+    'ndi.app.stimulus.tuning_response' (stimulus_response_scalar.m:210), which
+    is a MATLAB function path and has nothing to do with the `app` class. Two
+    of the six shortest open class names collide that way, so the split is not
+    a nicety.
+
+    Comments are dropped -- a `%` outside a string, and the `...` continuation
+    marker. THIS MATTERS IN THE OTHER DIRECTION TOO: +migrators_j documents its
+    reasoning at length, and every migrator that mentions a class it does NOT
+    touch mentions it in a comment. Counting those would report unbuilt work as
+    built, which is the failure this whole board exists to prevent.
+
+    KNOWN LIMIT: the transpose/quote disambiguation is a heuristic (a `'` after
+    an identifier, `)`, `]`, `}`, `.` or `'` is read as transpose). It is the
+    same heuristic every MATLAB syntax highlighter uses and it can be fooled by
+    exotic lines; it cannot be fooled by anything in +migrators_j today.
+    """
+    out, lits = [], []
+    i, n, prev = 0, len(line), ""
+    while i < n:
+        ch = line[i]
+        if ch == "%":
+            break
+        if line.startswith("...", i):
+            break
+        if ch in "'\"" and not (ch == "'" and prev in _TRANSPOSE_AFTER):
+            j, buf = i + 1, []
+            while j < n:
+                if line[j] == ch:
+                    if j + 1 < n and line[j + 1] == ch:   # doubled = escaped
+                        buf.append(ch)
+                        j += 2
+                        continue
+                    break
+                buf.append(line[j])
+                j += 1
+            lits.append(("".join(buf), i))
+            out.append(" " * (j - i + 1))
+            i, prev = j + 1, ch
+            continue
+        out.append(ch)
+        if not ch.isspace():
+            prev = ch
+        i += 1
+    return "".join(out), lits
+
+
+def assignment_split(code):
+    """Column of the top-level `=` in a MATLAB statement, or None.
+
+    Used to tell a READ from a WRITE, which is the difference between a migrator
+    CONSUMING a class and a migrator EMITTING one -- see `REF_KINDS`. Skips
+    ==, ~=, <= and >=, and anything inside brackets (so `f(a==b)` and
+    `s.x(i) = 1` both read correctly).
+    """
+    depth = 0
+    for i, ch in enumerate(code):
+        if ch in "([{":
+            depth += 1
+        elif ch in ")]}":
+            depth -= 1
+        elif ch == "=" and depth == 0:
+            if i + 1 < len(code) and code[i + 1] == "=":
+                continue
+            if i and code[i - 1] in "=~<>":
+                continue
+            return i
+    return None
+
+
+# WHY A REFERENCE'S KIND DECIDES WHETHER IT COUNTS.
+#
+# The first draft of this scan counted any mention, and it promoted classes in
+# the REASSURING DIRECTION -- the exact bias this board exists to remove. Two
+# live examples from the first run:
+#
+#   `directory`  matched jSorterOutput.m:77, which is
+#                `body.opaque_body = struct('format', 'directory', ...)`.
+#                That is a FORMAT VALUE, not the class. `directory` has nothing
+#                built and was rendered as built.
+#   `session_relative_reference`
+#                matched 18 lines, every one of them a migrator EMITTING the
+#                class (fitcurve.m:139 `classBlock('session_relative_reference',
+#                {'time_reference'})`, then `anchor.session_relative_reference =
+#                struct(...)`). The open work on that class is its COLLAPSE into
+#                `relative_reference`; a migrator still writing the old class is
+#                evidence the collapse has NOT landed, and counting it as
+#                "built" inverted the meaning of the number.
+#
+# So a reference is classified, and only CONSUMPTION counts toward (b):
+#
+#   guard       `isfield(preBody, 'app')`        the migrator tests for the block
+#   field_read  `blk = preBody.filter;`          the migrator reads the block
+#   field_write `anchor.time_reference = ...`    the migrator WRITES this class
+#   named       `classBlock('x'), 'format','x'`  the name appears, nothing more
+#
+# `field_write` and `named` are still reported per class -- "still emitted by N
+# migrator file(s)" is a useful, and deliberately unflattering, fact about an
+# open class -- they just do not make it (b).
+CONSUMING_KINDS = ("guard", "field_read")
+REF_KINDS = ("guard", "field_read", "field_write", "named")
+
+
+def scan_matlab_file(path, patterns):
+    """Return ({class: [(line_no, kind)]}, n_lines) for one .m file."""
+    hits, in_block = {}, False
+    try:
+        with open(path, errors="replace") as fh:
+            lines = fh.readlines()
+    except OSError:
+        return hits, 0
+    for lno, line in enumerate(lines, 1):
+        s = line.strip()
+        if in_block:
+            if s == "%}":
+                in_block = False
+            continue
+        if s == "%{":
+            in_block = True
+            continue
+        code, lits = split_matlab_line(line)
+        if not lits and not code.strip():
+            continue
+        eq = assignment_split(code)
+        guardish = "isfield" in code or "isstruct" in code
+        by_name = {}
+        for text, col in lits:
+            by_name.setdefault(text, col)
+        for cls, rx in patterns.items():
+            if cls in by_name:
+                hits.setdefault(cls, []).append(
+                    (lno, "guard" if guardish else "named"))
+                continue
+            if cls not in code:
+                continue
+            m = rx.search(code)
+            if not m:
+                continue
+            kind = "field_read" if (eq is None or m.start() > eq) else "field_write"
+            hits.setdefault(cls, []).append((lno, kind))
+    return hits, len(lines)
+
+
+# The V_eta migration is TWO passes, and both count as "something is built".
+# +migrators (V_zeta) and +migrators_i (intermediate) are deliberately NOT
+# scanned: a V_zeta migrator is not evidence that the V_eta target is built, and
+# counting it would inflate (b) with work that predates every decision here.
+MIGRATOR_PACKAGES = [
+    ("did", "migrators_j", "src/did/+did2/+convert/+migrators_j"),
+    ("ndi", "ndi_second_pass", "src/ndi/+ndi/+migrate/+internal"),
+]
+
+REF_CAP = 6            # refs listed per class in the artifact; the count is exact
+
+
+def migrator_evidence(classes, did_root, ndi_root):
+    """Scan the V_eta migrator packages for every open class.
+
+    THE SIGNAL IS DELIBERATELY WIDER THAN A FILENAME MATCH, and the reason is
+    that filename matching UNDERCOUNTS in a specific, known way: several classes
+    are v1 SUPERCLASS BLOCKS rather than standalone documents, so no file is
+    named after them and they are consumed by a shared helper in `private/` --
+    `app` by jSoftwareFromApp.m:64, `filter` by jFrequencyFilter.m:112. The
+    coverage ledger's `migrator` boolean is exactly that filename match, and it
+    reports `app` as having no migrator while jSoftwareFromApp folds it.
+
+    WHAT THIS SIGNAL MISSES, stated so nobody reads it as more than it is:
+
+      * A MIGRATOR THAT NAMES A CLASS IS NOT NECESSARILY CONSUMING IT. Several
+        +migrators_j files exist only to pass their class THROUGH deliberately
+        (daqsystem.m says so in its own header: the document "shows in
+        unconverted_by_class at its full corpus count; that is the honest
+        signal"). This scan cannot tell a fold from a passthrough. That is
+        precisely why a build signal alone is state (b) and never (c) -- only
+        the census can tell them apart.
+      * A CLASS REACHED THROUGH A COMPUTED NAME is invisible (sprintf, a
+        dispatch variable, a name assembled from a field). Nothing in
+        +migrators_j does this today; if something starts, this scan will
+        under-report, in the safe direction.
+      * FIELD-ACCESS HITS CAN BE INCIDENTAL for the short names. `.filter` is
+        matched in jSpikeExtractionSettings.m as a grouping key as well as in
+        jFrequencyFilter.m as the v1 block. Every reference is listed with its
+        file and line so the reading is checkable rather than trusted.
+    """
+    patterns = {c: re.compile(r"\.\s*" + re.escape(c) + r"\b") for c in classes}
+    per_class, roots_read, roots_missing = {}, [], []
+    files_read = lines_read = 0
+    for kind, label, rel in MIGRATOR_PACKAGES:
+        root = did_root if kind == "did" else ndi_root
+        base = os.path.join(root, rel) if root else None
+        if not base or not os.path.isdir(base):
+            roots_missing.append(label)
+            continue
+        roots_read.append(label)
+        for path in sorted(glob.glob(os.path.join(base, "**", "*.m"),
+                                     recursive=True)):
+            rel_path = "%s/%s" % (label, os.path.relpath(path, base))
+            files_read += 1
+            name = os.path.basename(path)[:-2]
+            if name in classes and os.path.dirname(path) == base:
+                per_class.setdefault(name, {}).setdefault("file", rel_path)
+            hits, n_lines = scan_matlab_file(path, patterns)
+            lines_read += n_lines
+            for cls, spots in hits.items():
+                refs = per_class.setdefault(cls, {}).setdefault("refs", [])
+                for lno, why in spots:
+                    refs.append(("%s:%d" % (rel_path, lno), why))
+
+    if not roots_read:
+        return None, {"available": False, "packages_read": [],
+                      "packages_missing": roots_missing, "files_read": 0,
+                      "lines_read": 0, "classes_queried": len(classes)}
+
+    out = {}
+    for cls in sorted(classes):
+        ev = per_class.get(cls, {})
+        refs = sorted(ev.get("refs", []))
+        consuming = [r for r in refs if r[1] in CONSUMING_KINDS]
+        other = [r for r in refs if r[1] not in CONSUMING_KINDS]
+        out[cls] = {
+            "migrator_file": ev.get("file"),
+            "n_consuming_refs": len(consuming),
+            "consuming_refs": ["%s (%s)" % r for r in consuming[:REF_CAP]],
+            "n_emitting_refs": len(other),
+            "emitting_refs": ["%s (%s)" % r for r in other[:REF_CAP]],
+        }
+    return out, {"available": True, "packages_read": roots_read,
+                 "packages_missing": roots_missing, "files_read": files_read,
+                 "lines_read": lines_read, "classes_queried": len(classes),
+                 "ref_kinds": list(REF_KINDS),
+                 "consuming_kinds": list(CONSUMING_KINDS)}
+
+
+def find_census_reports(roots):
+    """Every *-summary.json under each root, at ANY depth, deduped by basename.
+
+    Mirrors DID-matlab tools/census_digest.py:find_reports, and for the same
+    reason it is recursive there: MATLAB's pwd during a corpus run is `tests/`,
+    and upload-artifact re-roots the paths, so a one-level glob matched neither
+    copy and a six-corpus run reported nothing while exiting 0.
+    """
+    found, missing, walked = [], [], 0
+    for root in roots:
+        if not os.path.isdir(root):
+            missing.append(root)
+            continue
+        for dirpath, _dirs, names in os.walk(root):
+            walked += 1
+            for nm in sorted(names):
+                if nm.endswith("-summary.json"):
+                    found.append(os.path.join(dirpath, nm))
+    found.sort(key=lambda p: (len(p.split(os.sep)), p))
+    chosen, seen = [], set()
+    for p in found:
+        b = os.path.basename(p)
+        if b not in seen:
+            seen.add(b)
+            chosen.append(p)
+    return chosen, missing, walked, len(found)
+
+
+def census_evidence(classes, roots):
+    """Per-class SURVIVOR counts from the corpus reports.
+
+    `summary.unconverted_by_class` is the survivor count: v1_to_v2.m:186 bumps
+    it when a migrator hands its input straight back (`isequaln(v2Bodies{1},
+    v2Body)`). It is keyed by the POST-universalRenames class name, which is the
+    same name the built index uses, so no translation is needed.
+
+    THE PRESENCE OF THE KEY IS WHAT MATTERS, NOT ITS CONTENTS. A report with
+    `unconverted_count: 0` and an EMPTY `unconverted_by_class` has measured
+    every class and found no survivor -- that is real evidence. A report with no
+    `unconverted_count` AT ALL has measured nothing, and its silence must not be
+    read as a zero. The two are one missing key apart and were the difference
+    between a census and a decoration for two days on the DID-matlab side.
+    """
+    paths, missing, walked, n_all = find_census_reports(roots)
+    reports, unreadable = [], []
+    for p in paths:
+        try:
+            with open(p) as fh:
+                reports.append((os.path.basename(p), json.load(fh)))
+        except (OSError, ValueError) as err:
+            unreadable.append("%s (%s)" % (os.path.basename(p), err))
+
+    with_data = [(n, r) for n, r in reports if "unconverted_count" in r]
+    corpora = sorted({str(r.get("corpus") or n.replace("-summary.json", ""))
+                      for n, r in reports})
+    src = {"available": bool(with_data),
+           "reports_found": n_all,
+           "reports_read": len(reports),
+           "reports_unreadable": len(unreadable),
+           "reports_with_survivor_data": len(with_data),
+           "roots_walked": walked,
+           "roots_missing": len(missing),
+           "corpora": corpora,
+           "source_documents": sum(int(r.get("total") or 0) for _n, r in reports),
+           "classes_queried": len(classes)}
+    if not with_data:
+        return None, src
+
+    out = {}
+    for cls in sorted(classes):
+        total, per = 0, {}
+        for _n, r in with_data:
+            tbl = r.get("unconverted_by_class") or {}
+            if not isinstance(tbl, dict):
+                tbl = {}
+            n = int(tbl.get(cls) or 0)
+            if n:
+                per[str(r.get("corpus") or "?")] = n
+            total += n
+        out[cls] = {"survivors": total, "by_corpus": per}
+    return out, src
+
+
+STATE_A = "a_nothing_built"
+STATE_B = "b_built_awaiting_corpus_proof"
+STATE_C = "c_corpus_zero_survivors"
+STATE_U = "u_unmeasured"
+
+OPEN_STATE_LABEL = {
+    STATE_A: "(a) decided, nothing built",
+    STATE_B: "(b) built, awaiting corpus proof",
+    STATE_C: "(c) corpus: 0 survivors in the corpora read",
+    STATE_U: "(?) UNMEASURED -- no build evidence was ever taken",
+}
+
+
+def open_class_state(open_work, schemas, rows, mig, mig_src, cen, cen_src):
+    """Merge the two evidence halves into one derived row per open class.
+
+    A class is BUILT when a V_eta migrator names it OR a decided target of its
+    own is present in the built schema set. The second half matters because a
+    family can be half-landed: `app`'s target `software` is built and shipping
+    while `app` itself is still carried, and a migrator-only signal would call
+    that nothing.
+
+    A DECIDED TARGET THAT IS THE CLASS ITSELF IS NOT EVIDENCE. `projectvar`'s
+    ledger row names `projectvar` as its own decided target (it passes through
+    deliberately), and counting that would report every passthrough as built.
+    """
+    built_classes = {s["class_name"] for s in schemas}
+    ledger = {r["v1_class"]: r for r in rows}
+    fam_of = {m: f[0] for f in FAMILIES for m in f[1]}
+
+    out = []
+    for cls in sorted(open_work):
+        row = ledger.get(cls) or {}
+        decided = [t for t in (row.get("decided_targets") or []) if t != cls]
+        built_t = [t for t in decided if t in built_classes]
+        missing_t = [t for t in decided if t not in built_classes]
+
+        m = (mig or {}).get(cls)
+        measured = m is not None
+        mfile = m.get("migrator_file") if measured else None
+        n_con = m.get("n_consuming_refs", 0) if measured else 0
+        con_refs = m.get("consuming_refs", []) if measured else []
+        n_emit = m.get("n_emitting_refs", 0) if measured else 0
+        emit_refs = m.get("emitting_refs", []) if measured else []
+
+        why = []
+        if mfile:
+            why.append("migrator `%s`" % mfile)
+        if n_con:
+            why.append("%d consuming reference(s)" % n_con)
+        if built_t:
+            why.append("decided target(s) built: %s"
+                       % ", ".join("`%s`" % t for t in built_t))
+        has_build = bool(mfile or n_con or built_t)
+
+        c = (cen or {}).get(cls)
+        survivors = c.get("survivors") if c else None
+        by_corpus = c.get("by_corpus") if c else {}
+
+        if not measured and not built_t:
+            # No migrator scan happened AND the ledger offers nothing, so this
+            # class has no evidence either way. Rule 3: that is not "(a)".
+            state = STATE_U
+        elif not has_build:
+            state = STATE_A
+        elif survivors == 0:
+            state = STATE_C
+        else:
+            state = STATE_B
+
+        out.append({
+            "class_name": cls,
+            "family": fam_of.get(cls),
+            "state": state,
+            "state_label": OPEN_STATE_LABEL[state],
+            "build_evidence": why,
+            "migrator_file": mfile,
+            "n_consuming_refs": n_con,
+            "consuming_refs": con_refs,
+            "n_emitting_refs": n_emit,
+            "emitting_refs": emit_refs,
+            "decided_targets": decided,
+            "decided_targets_built": built_t,
+            "decided_targets_missing": missing_t,
+            "survivors": survivors,
+            "survivors_by_corpus": by_corpus,
+            "build_evidence_measured": measured,
+            "corpus_evidence_measured": c is not None,
+        })
+    return {"sources": {"migrator": mig_src, "census": cen_src},
+            "state_labels": OPEN_STATE_LABEL,
+            "counts": {k: sum(1 for r in out if r["state"] == k)
+                       for k in OPEN_STATE_LABEL},
+            "classes": out}
+
+
+def committed_snapshot():
+    """The `open_class_state` block already committed in V_eta_decisions.json."""
+    try:
+        with open(DECISIONS_OUT) as fh:
+            return json.load(fh).get("open_class_state") or {}
+    except (OSError, ValueError):
+        return {}
+
+
+def gather_evidence(open_work, schemas, rows, args, log):
+    """Measure what is reachable; fall back to the committed snapshot otherwise.
+
+    The fallback is what makes `--check` runnable in a CI job that checks out
+    only this repo. It is a CACHE, so it is announced on stdout every time and
+    never silently: `log` gets one line per half saying MEASURED or REUSED.
+    """
+    snap = committed_snapshot()
+    snap_rows = {r["class_name"]: r for r in snap.get("classes", [])}
+    snap_src = snap.get("sources", {})
+
+    mig, mig_src = migrator_evidence(open_work, args.did, args.ndi)
+    if mig is None:
+        prior = {c: {"migrator_file": r.get("migrator_file"),
+                     "n_consuming_refs": r.get("n_consuming_refs", 0),
+                     "consuming_refs": r.get("consuming_refs", []),
+                     "n_emitting_refs": r.get("n_emitting_refs", 0),
+                     "emitting_refs": r.get("emitting_refs", [])}
+                 for c, r in snap_rows.items()
+                 if r.get("build_evidence_measured")}
+        if prior:
+            mig = prior
+            mig_src = snap_src.get("migrator", mig_src)
+            log.append("migrator evidence: REUSED from the committed snapshot "
+                       "(%d class(es)); no V_eta migrator package under %s or %s"
+                       % (len(prior), args.did, args.ndi))
+        else:
+            log.append("migrator evidence: UNAVAILABLE and never snapshotted "
+                       "(looked under %s and %s). Every open class renders as "
+                       "UNMEASURED." % (args.did, args.ndi))
+    else:
+        log.append("migrator evidence: MEASURED -- %d file(s), %d line(s), "
+                   "package(s) %s" % (mig_src["files_read"], mig_src["lines_read"],
+                                      ", ".join(mig_src["packages_read"]) or "none"))
+
+    cen, cen_src = census_evidence(open_work, args.census)
+    if cen is None:
+        prior = {c: {"survivors": r.get("survivors"),
+                     "by_corpus": r.get("survivors_by_corpus", {})}
+                 for c, r in snap_rows.items()
+                 if r.get("corpus_evidence_measured")}
+        if prior:
+            cen = prior
+            cen_src = snap_src.get("census", cen_src)
+            log.append("census evidence: REUSED from the committed snapshot "
+                       "(%d class(es))" % len(prior))
+        else:
+            log.append("census evidence: NONE -- %d report(s) read, %d carried "
+                       "an `unconverted_count`. State (c) is UNPROVABLE in this "
+                       "run and no class is rendered as corpus-proven."
+                       % (cen_src["reports_read"],
+                          cen_src["reports_with_survivor_data"]))
+    else:
+        log.append("census evidence: MEASURED -- %d report(s) with survivor data "
+                   "over %d document(s), corpora: %s"
+                   % (cen_src["reports_with_survivor_data"],
+                      cen_src["source_documents"],
+                      ", ".join(cen_src["corpora"]) or "none"))
+
+    return open_class_state(open_work, schemas, rows, mig, mig_src, cen, cen_src)
+
+
+def render_open_state(p, ocs):
+    """Render the derived open-class table. DENOMINATOR FIRST, unconditionally."""
+    msrc = ocs["sources"]["migrator"]
+    csrc = ocs["sources"]["census"]
+    counts = ocs["counts"]
+    rowsv = ocs["classes"]
+
+    p("## What is actually left on the %d open classes" % len(rowsv))
+    p("")
+    p("`in_progress` is a HAND-WRITTEN DECLARATION: every one of these classes is")
+    p("open because its name is a literal in `_DECIDED_PENDING` / `_IN_PROGRESS` in")
+    p("`tools/build_v_eta.py`, and it leaves the list only when a person deletes")
+    p("that line. Nothing about a landed migrator, a passing test or a green corpus")
+    p("moves it. The table below does not change that membership -- only the team")
+    p("decides a disposition -- it DERIVES, per class, how far the work has got.")
+    p("")
+    p("### The measurement and its denominator")
+    p("")
+    p("| evidence source | reach |")
+    p("|---|---|")
+    p("| build: V_eta migrator packages read | %s |"
+      % (", ".join("`%s`" % s for s in msrc.get("packages_read") or []) or "**NONE**"))
+    p("| build: migrator files inspected | %d |" % msrc.get("files_read", 0))
+    p("| build: migrator lines inspected | %d |" % msrc.get("lines_read", 0))
+    p("| build: classes queried | %d |" % msrc.get("classes_queried", 0))
+    p("| corpus: `*-summary.json` reports read | %d |" % csrc.get("reports_read", 0))
+    p("| corpus: reports carrying an `unconverted_count` | %d |"
+      % csrc.get("reports_with_survivor_data", 0))
+    p("| corpus: documents behind those reports | %d |"
+      % csrc.get("source_documents", 0))
+    p("| corpus: corpora named | %s |"
+      % (", ".join("`%s`" % c for c in csrc.get("corpora") or []) or "**NONE**"))
+    p("")
+    if not msrc.get("available") and not msrc.get("files_read"):
+        p("**NO MIGRATOR PACKAGE WAS READ.** The build column below is not clean;")
+        p("it is UNMEASURED. Re-run with `--did /path/to/DID-matlab`.")
+        p("")
+    if not csrc.get("reports_with_survivor_data"):
+        p("**NO CORPUS SURVIVOR DATA.** %d report(s) were read and %d of them carry"
+          % (csrc.get("reports_read", 0),
+             csrc.get("reports_with_survivor_data", 0)))
+        p("an `unconverted_count`, so **state (c) cannot be reached by any class in**")
+        p("**this run** and none is rendered as corpus-proven. A report without that")
+        p("key measured nothing; its silence is not a zero. Point `--census` at a")
+        p("directory of corpus reports, or run the DID-matlab corpus gate.")
+        p("")
+    p("### Where the %d open classes sit" % len(rowsv))
+    p("")
+    p("| state | classes |")
+    p("|---|---|")
+    for k in (STATE_A, STATE_B, STATE_C, STATE_U):
+        p("| %s | %d |" % (OPEN_STATE_LABEL[k], counts.get(k, 0)))
+    p("")
+    p("**(c) IS EVIDENCE, NOT A DISPOSITION.** 0 survivors is a fact about the")
+    p("corpora that were read, and it may not be promoted to `retire` on its own:")
+    p("the corpora are a SAMPLE of datasets, not the universe, and the reports carry")
+    p("no per-class SOURCE denominator -- `by_class` counts OUTPUT names, so a class")
+    p("fully consumed and a class with no documents at all both read as zero. Only")
+    p("the team flips a disposition.")
+    p("")
+    p("### A REFERENCE IS CLASSIFIED BEFORE IT COUNTS")
+    p("")
+    p("Only a CONSUMING reference makes a class (b) -- a migrator file named")
+    p("after it, an `isfield(preBody, '<class>')` guard, or a read of")
+    p("`preBody.<class>`. A migrator that WRITES the class (`x.<class> = ...`,")
+    p("`classBlock('<class>')`) or merely names it as a value is counted")
+    p("separately and shown as *still emitted*, because for an open class that is")
+    p("evidence the decided change has **not** landed. Counting those as build")
+    p("progress is what the first draft of this scan did: it made `directory`")
+    p("look built off `struct('format', 'directory', ...)` and put all 18 of")
+    p("`session_relative_reference`'s emission sites on the wrong side of the")
+    p("ledger.")
+    p("")
+    p("| class | family | state | build evidence | still emitted | survivors |")
+    p("|---|---|---|---|---|---|")
+    for r in rowsv:
+        surv = ("n/a -- not measured" if r["survivors"] is None
+                else str(r["survivors"]))
+        ev = "; ".join(r["build_evidence"]) or ("*not measured*"
+                                                if not r["build_evidence_measured"]
+                                                else "*none*")
+        p("| `%s` | %s | %s | %s | %s | %s |"
+          % (r["class_name"], r["family"] or "-",
+             OPEN_STATE_LABEL[r["state"]].split(" ", 1)[0], ev,
+             r["n_emitting_refs"] or "-", surv))
+    p("")
+    for k in (STATE_A, STATE_U, STATE_C, STATE_B):
+        members = [r for r in rowsv if r["state"] == k]
+        if not members:
+            continue
+        p("#### %s -- %d" % (OPEN_STATE_LABEL[k], len(members)))
+        p("")
+        for r in members:
+            bits = []
+            if r["migrator_file"]:
+                bits.append("migrator `%s`" % r["migrator_file"])
+            if r["n_consuming_refs"]:
+                bits.append("consumed at %d site(s): %s%s"
+                            % (r["n_consuming_refs"],
+                               ", ".join("`%s`" % x for x in r["consuming_refs"]),
+                               " ..." if r["n_consuming_refs"]
+                               > len(r["consuming_refs"]) else ""))
+            if r["n_emitting_refs"]:
+                bits.append("still emitted/named at %d site(s): %s%s"
+                            % (r["n_emitting_refs"],
+                               ", ".join("`%s`" % x for x in r["emitting_refs"]),
+                               " ..." if r["n_emitting_refs"]
+                               > len(r["emitting_refs"]) else ""))
+            if r["decided_targets_built"]:
+                bits.append("target(s) BUILT: %s"
+                            % ", ".join("`%s`" % t
+                                        for t in r["decided_targets_built"]))
+            if r["decided_targets_missing"]:
+                bits.append("target(s) NOT built: %s"
+                            % ", ".join("`%s`" % t
+                                        for t in r["decided_targets_missing"]))
+            if r["survivors"]:
+                bits.append("survivors %d (%s)"
+                            % (r["survivors"],
+                               ", ".join("%s %d" % kv for kv in
+                                         sorted(r["survivors_by_corpus"].items()))))
+            p("- `%s` (%s) -- %s"
+              % (r["class_name"], r["family"] or "no family",
+                 "; ".join(bits) or "no evidence found"))
+        p("")
+
+
+def open_class_names(schemas):
+    """The `in_progress` set, computed once so build() and the evidence layer
+    cannot disagree about what "open" means."""
+    return {s["class_name"] for s in schemas
+            if s.get("disposition") == "in_progress"}
+
+
+def build(ocs=None):
     schemas, rows = load()
 
     # RETIRE IS NOT ALWAYS A DECISION. A row marked retire with NO migrator and NO
@@ -654,6 +1315,13 @@ def build():
     p("| &nbsp;&nbsp;**written up by Claude alone, unreviewed** | **%d** |" % len(proposed))
     p("| &nbsp;&nbsp;nobody has proposed anything yet | %d |" % len(undecided))
     p("")
+    if ocs:
+        c = ocs["counts"]
+        p("| open-class BUILD/PROOF state (derived, see below) | count |")
+        p("|---|---|")
+        for k in (STATE_A, STATE_B, STATE_C, STATE_U):
+            p("| %s | %d |" % (OPEN_STATE_LABEL[k], c.get(k, 0)))
+        p("")
     p("The class count is not the work count. %d open classes are %d decisions, "
       "because most open classes move as a family." % (n_open, len(FAMILIES)))
     p("")
@@ -663,6 +1331,12 @@ def build():
       % (len(unsigned) + len(proposed) + len(undecided), len(FAMILIES),
          len(unsigned), len(proposed), len(undecided), len(decided)))
     p("")
+
+    # THE DERIVED HALF. Everything above this line is computed from committed
+    # artifacts and from the FAMILIES table; everything in here is measured
+    # against the migrator packages and the corpus census, or says it was not.
+    if ocs:
+        render_open_state(p, ocs)
 
     p("## AWAITING A SIGNATURE -- decided with the team, not yet recorded")
     p("")
@@ -817,7 +1491,7 @@ def family_state(status, signed):
     return "open"
 
 
-def decisions_doc():
+def decisions_doc(ocs=None):
     """Build the machine-readable decisions artifact."""
     schemas, _rows = load()
     disp = {s["class_name"]: s.get("disposition", "(none)") for s in schemas}
@@ -854,7 +1528,7 @@ def decisions_doc():
     counts = {}
     for k in STATE_LABEL:
         counts[k] = sum(1 for f in families if f["state"] == k)
-    return {
+    doc = {
         "title": "V_eta decision families (GENERATED -- do not hand-edit)",
         "description":
             "Regenerate with `python3 tools/status_board.py`. The human-readable "
@@ -871,16 +1545,66 @@ def decisions_doc():
         "families": families,
         "by_class": by_class,
     }
+    if ocs:
+        # THE EVIDENCE SNAPSHOT. It lives here, in a committed artifact, because
+        # neither sibling repo is checked out in this repo's CI -- so this block
+        # is what `--check` compares against and what a `--check`-only run reads
+        # back. It carries no timestamps and no absolute paths on purpose: a
+        # field that changes every run makes the staleness check meaningless.
+        doc["open_class_state"] = ocs
+    return doc
 
 
-def decisions_text():
-    return json.dumps(decisions_doc(), indent=2, sort_keys=False) + "\n"
+def decisions_text(ocs=None):
+    return json.dumps(decisions_doc(ocs), indent=2, sort_keys=False) + "\n"
+
+
+def parse_args(argv):
+    ap = argparse.ArgumentParser(
+        description="Generate schemas/V_eta_STATUS.md + V_eta_decisions.json.")
+    ap.add_argument("--check", action="store_true",
+                    help="exit non-zero if the committed board is out of date")
+    ap.add_argument("--did", default=find_repo("DID-matlab", "DID_MATLAB")
+                    or os.environ.get("DID_MATLAB_PATH", "/home/user/DID-matlab"),
+                    help="DID-matlab checkout (the +migrators_j package)")
+    ap.add_argument("--ndi", default=find_repo("NDI-matlab", "NDI_MATLAB")
+                    or os.environ.get("NDI_MATLAB_PATH", "/home/user/NDI-matlab"),
+                    help="NDI-matlab checkout (the V_eta second pass)")
+    ap.add_argument("--census", action="append", default=None, metavar="DIR",
+                    help="directory of corpus *-summary.json reports; repeatable. "
+                         "Defaults to <did>/corpus-reports and "
+                         "<did>/tests/corpus-reports.")
+    args = ap.parse_args(argv[1:])
+    if args.census is None:
+        args.census = [os.path.join(args.did, "corpus-reports"),
+                       os.path.join(args.did, "tests", "corpus-reports")]
+    return args
 
 
 def main(argv):
-    text, ok = build()
-    dtext = decisions_text()
-    if "--check" in argv:
+    args = parse_args(argv)
+    schemas, rows = load()
+
+    # DENOMINATOR FIRST, UNCONDITIONALLY, and to stdout rather than into the
+    # artifact: the reader of a generated file must be able to tell a
+    # measurement from a reused snapshot, and a run that measured nothing must
+    # not look like a run that found nothing.
+    log = []
+    ocs = gather_evidence(open_class_names(schemas), schemas, rows, args, log)
+
+    text, ok = build(ocs)
+    dtext = decisions_text(ocs)
+
+    print("status board evidence:")
+    for line in log:
+        print("  " + line)
+    c = ocs["counts"]
+    print("  open classes: %d -- %s"
+          % (len(ocs["classes"]),
+             ", ".join("%s %d" % (OPEN_STATE_LABEL[k].split(" ", 1)[0], c.get(k, 0))
+                       for k in (STATE_A, STATE_B, STATE_C, STATE_U))))
+
+    if args.check:
         current = open(OUT).read() if os.path.exists(OUT) else ""
         if current != text:
             print("V_eta_STATUS.md is STALE. Run: python3 tools/status_board.py")

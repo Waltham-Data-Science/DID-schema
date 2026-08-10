@@ -519,5 +519,861 @@
     "binaryseries_parameters": "misc singletons",
     "interaction_purpose": "misc singletons",
     "projectvar": "misc singletons"
+  },
+  "open_class_state": {
+    "sources": {
+      "migrator": {
+        "available": true,
+        "packages_read": [
+          "migrators_j",
+          "ndi_second_pass"
+        ],
+        "packages_missing": [],
+        "files_read": 132,
+        "lines_read": 16872,
+        "classes_queried": 31,
+        "ref_kinds": [
+          "guard",
+          "field_read",
+          "field_write",
+          "named"
+        ],
+        "consuming_kinds": [
+          "guard",
+          "field_read"
+        ]
+      },
+      "census": {
+        "available": false,
+        "reports_found": 0,
+        "reports_read": 0,
+        "reports_unreadable": 0,
+        "reports_with_survivor_data": 0,
+        "roots_walked": 0,
+        "roots_missing": 2,
+        "corpora": [],
+        "source_documents": 0,
+        "classes_queried": 31
+      }
+    },
+    "state_labels": {
+      "a_nothing_built": "(a) decided, nothing built",
+      "b_built_awaiting_corpus_proof": "(b) built, awaiting corpus proof",
+      "c_corpus_zero_survivors": "(c) corpus: 0 survivors in the corpora read",
+      "u_unmeasured": "(?) UNMEASURED -- no build evidence was ever taken"
+    },
+    "counts": {
+      "a_nothing_built": 14,
+      "b_built_awaiting_corpus_proof": 17,
+      "c_corpus_zero_survivors": 0,
+      "u_unmeasured": 0
+    },
+    "classes": [
+      {
+        "class_name": "acquisition_epoch",
+        "family": "epoch",
+        "state": "a_nothing_built",
+        "state_label": "(a) decided, nothing built",
+        "build_evidence": [],
+        "migrator_file": null,
+        "n_consuming_refs": 0,
+        "consuming_refs": [],
+        "n_emitting_refs": 2,
+        "emitting_refs": [
+          "migrators_j/element_epoch.m:86 (named)",
+          "migrators_j/element_epoch.m:88 (field_write)"
+        ],
+        "decided_targets": [],
+        "decided_targets_built": [],
+        "decided_targets_missing": [],
+        "survivors": null,
+        "survivors_by_corpus": {},
+        "build_evidence_measured": true,
+        "corpus_evidence_measured": false
+      },
+      {
+        "class_name": "app",
+        "family": "software",
+        "state": "b_built_awaiting_corpus_proof",
+        "state_label": "(b) built, awaiting corpus proof",
+        "build_evidence": [
+          "2 consuming reference(s)",
+          "decided target(s) built: `software`"
+        ],
+        "migrator_file": null,
+        "n_consuming_refs": 2,
+        "consuming_refs": [
+          "migrators_j/private/jSoftwareFromApp.m:91 (guard)",
+          "migrators_j/private/jSoftwareFromApp.m:92 (field_read)"
+        ],
+        "n_emitting_refs": 1,
+        "emitting_refs": [
+          "migrators_j/private/jMethodParameters.m:107 (field_write)"
+        ],
+        "decided_targets": [
+          "software"
+        ],
+        "decided_targets_built": [
+          "software"
+        ],
+        "decided_targets_missing": [],
+        "survivors": null,
+        "survivors_by_corpus": {},
+        "build_evidence_measured": true,
+        "corpus_evidence_measured": false
+      },
+      {
+        "class_name": "binaryseries_parameters",
+        "family": "misc singletons",
+        "state": "a_nothing_built",
+        "state_label": "(a) decided, nothing built",
+        "build_evidence": [],
+        "migrator_file": null,
+        "n_consuming_refs": 0,
+        "consuming_refs": [],
+        "n_emitting_refs": 0,
+        "emitting_refs": [],
+        "decided_targets": [],
+        "decided_targets_built": [],
+        "decided_targets_missing": [],
+        "survivors": null,
+        "survivors_by_corpus": {},
+        "build_evidence_measured": true,
+        "corpus_evidence_measured": false
+      },
+      {
+        "class_name": "control_designation",
+        "family": "stimulus",
+        "state": "a_nothing_built",
+        "state_label": "(a) decided, nothing built",
+        "build_evidence": [],
+        "migrator_file": null,
+        "n_consuming_refs": 0,
+        "consuming_refs": [],
+        "n_emitting_refs": 2,
+        "emitting_refs": [
+          "migrators_j/control_stimulus_ids.m:111 (named)",
+          "migrators_j/control_stimulus_ids.m:133 (field_write)"
+        ],
+        "decided_targets": [],
+        "decided_targets_built": [],
+        "decided_targets_missing": [],
+        "survivors": null,
+        "survivors_by_corpus": {},
+        "build_evidence_measured": true,
+        "corpus_evidence_measured": false
+      },
+      {
+        "class_name": "daqmetadatareader",
+        "family": "daq configuration",
+        "state": "b_built_awaiting_corpus_proof",
+        "state_label": "(b) built, awaiting corpus proof",
+        "build_evidence": [
+          "migrator `migrators_j/daqmetadatareader.m`",
+          "3 consuming reference(s)",
+          "decided target(s) built: `acquisition_metadata_reader`"
+        ],
+        "migrator_file": "migrators_j/daqmetadatareader.m",
+        "n_consuming_refs": 3,
+        "consuming_refs": [
+          "migrators_j/daqmetadatareader.m:100 (guard)",
+          "migrators_j/daqmetadatareader.m:101 (field_read)",
+          "migrators_j/daqmetadatareader.m:102 (field_read)"
+        ],
+        "n_emitting_refs": 0,
+        "emitting_refs": [],
+        "decided_targets": [
+          "acquisition_metadata_reader"
+        ],
+        "decided_targets_built": [
+          "acquisition_metadata_reader"
+        ],
+        "decided_targets_missing": [],
+        "survivors": null,
+        "survivors_by_corpus": {},
+        "build_evidence_measured": true,
+        "corpus_evidence_measured": false
+      },
+      {
+        "class_name": "daqmetadatareader_epochdata_ingested",
+        "family": "daq ingested payloads",
+        "state": "b_built_awaiting_corpus_proof",
+        "state_label": "(b) built, awaiting corpus proof",
+        "build_evidence": [
+          "migrator `migrators_j/daqmetadatareader_epochdata_ingested.m`",
+          "decided target(s) built: `acquisition_metadata_file`"
+        ],
+        "migrator_file": "migrators_j/daqmetadatareader_epochdata_ingested.m",
+        "n_consuming_refs": 0,
+        "consuming_refs": [],
+        "n_emitting_refs": 0,
+        "emitting_refs": [],
+        "decided_targets": [
+          "acquisition_metadata_file"
+        ],
+        "decided_targets_built": [
+          "acquisition_metadata_file"
+        ],
+        "decided_targets_missing": [],
+        "survivors": null,
+        "survivors_by_corpus": {},
+        "build_evidence_measured": true,
+        "corpus_evidence_measured": false
+      },
+      {
+        "class_name": "daqreader",
+        "family": "daq configuration",
+        "state": "b_built_awaiting_corpus_proof",
+        "state_label": "(b) built, awaiting corpus proof",
+        "build_evidence": [
+          "migrator `migrators_j/daqreader.m`",
+          "4 consuming reference(s)",
+          "decided target(s) built: `software`"
+        ],
+        "migrator_file": "migrators_j/daqreader.m",
+        "n_consuming_refs": 4,
+        "consuming_refs": [
+          "migrators_j/daqreader.m:100 (guard)",
+          "migrators_j/daqreader.m:101 (field_read)",
+          "migrators_j/daqreader.m:102 (field_read)",
+          "migrators_j/daqreader_ndr.m:21 (guard)"
+        ],
+        "n_emitting_refs": 3,
+        "emitting_refs": [
+          "migrators_j/daqreader_ndr.m:14 (named)",
+          "migrators_j/daqreader_ndr.m:22 (field_write)",
+          "migrators_j/daqreader_ndr.m:25 (field_write)"
+        ],
+        "decided_targets": [
+          "software"
+        ],
+        "decided_targets_built": [
+          "software"
+        ],
+        "decided_targets_missing": [],
+        "survivors": null,
+        "survivors_by_corpus": {},
+        "build_evidence_measured": true,
+        "corpus_evidence_measured": false
+      },
+      {
+        "class_name": "daqreader_epochdata_ingested",
+        "family": "daq ingested payloads",
+        "state": "b_built_awaiting_corpus_proof",
+        "state_label": "(b) built, awaiting corpus proof",
+        "build_evidence": [
+          "migrator `migrators_j/daqreader_epochdata_ingested.m`",
+          "3 consuming reference(s)",
+          "decided target(s) built: `relative_reference`"
+        ],
+        "migrator_file": "migrators_j/daqreader_epochdata_ingested.m",
+        "n_consuming_refs": 3,
+        "consuming_refs": [
+          "migrators_j/daqreader_mfdaq_epochdata_ingested.m:40 (guard)",
+          "migrators_j/daqreader_mfdaq_epochdata_ingested.m:41 (field_read)",
+          "migrators_j/daqreader_mfdaq_epochdata_ingested.m:66 (field_read)"
+        ],
+        "n_emitting_refs": 5,
+        "emitting_refs": [
+          "migrators_j/daqreader_epochdata_ingested.m:84 (named)",
+          "migrators_j/daqreader_image_epochdata_ingested.m:91 (named)",
+          "migrators_j/daqreader_mfdaq_epochdata_ingested.m:36 (named)",
+          "migrators_j/daqreader_mfdaq_epochdata_ingested.m:42 (field_write)",
+          "migrators_j/daqreader_mfdaq_epochdata_ingested.m:48 (field_write)"
+        ],
+        "decided_targets": [
+          "relative_reference"
+        ],
+        "decided_targets_built": [
+          "relative_reference"
+        ],
+        "decided_targets_missing": [],
+        "survivors": null,
+        "survivors_by_corpus": {},
+        "build_evidence_measured": true,
+        "corpus_evidence_measured": false
+      },
+      {
+        "class_name": "daqreader_image_epochdata_ingested",
+        "family": "daq ingested payloads",
+        "state": "b_built_awaiting_corpus_proof",
+        "state_label": "(b) built, awaiting corpus proof",
+        "build_evidence": [
+          "migrator `migrators_j/daqreader_image_epochdata_ingested.m`",
+          "decided target(s) built: `image_observation`, `relative_reference`, `sampled_body`"
+        ],
+        "migrator_file": "migrators_j/daqreader_image_epochdata_ingested.m",
+        "n_consuming_refs": 0,
+        "consuming_refs": [],
+        "n_emitting_refs": 0,
+        "emitting_refs": [],
+        "decided_targets": [
+          "image_observation",
+          "relative_reference",
+          "sampled_body"
+        ],
+        "decided_targets_built": [
+          "image_observation",
+          "relative_reference",
+          "sampled_body"
+        ],
+        "decided_targets_missing": [],
+        "survivors": null,
+        "survivors_by_corpus": {},
+        "build_evidence_measured": true,
+        "corpus_evidence_measured": false
+      },
+      {
+        "class_name": "daqsystem",
+        "family": "daq configuration",
+        "state": "b_built_awaiting_corpus_proof",
+        "state_label": "(b) built, awaiting corpus proof",
+        "build_evidence": [
+          "migrator `migrators_j/daqsystem.m`",
+          "3 consuming reference(s)",
+          "decided target(s) built: `acquisition_system`"
+        ],
+        "migrator_file": "migrators_j/daqsystem.m",
+        "n_consuming_refs": 3,
+        "consuming_refs": [
+          "migrators_j/daqsystem.m:144 (guard)",
+          "migrators_j/daqsystem.m:145 (field_read)",
+          "migrators_j/daqsystem.m:146 (field_read)"
+        ],
+        "n_emitting_refs": 0,
+        "emitting_refs": [],
+        "decided_targets": [
+          "acquisition_system"
+        ],
+        "decided_targets_built": [
+          "acquisition_system"
+        ],
+        "decided_targets_missing": [],
+        "survivors": null,
+        "survivors_by_corpus": {},
+        "build_evidence_measured": true,
+        "corpus_evidence_measured": false
+      },
+      {
+        "class_name": "directory",
+        "family": "file navigation",
+        "state": "a_nothing_built",
+        "state_label": "(a) decided, nothing built",
+        "build_evidence": [],
+        "migrator_file": null,
+        "n_consuming_refs": 0,
+        "consuming_refs": [],
+        "n_emitting_refs": 1,
+        "emitting_refs": [
+          "migrators_j/private/jSorterOutput.m:77 (named)"
+        ],
+        "decided_targets": [],
+        "decided_targets_built": [],
+        "decided_targets_missing": [],
+        "survivors": null,
+        "survivors_by_corpus": {},
+        "build_evidence_measured": true,
+        "corpus_evidence_measured": false
+      },
+      {
+        "class_name": "ensemble",
+        "family": "ensemble",
+        "state": "b_built_awaiting_corpus_proof",
+        "state_label": "(b) built, awaiting corpus proof",
+        "build_evidence": [
+          "decided target(s) built: `subject`, `directed_relation`, `sampled_body`"
+        ],
+        "migrator_file": null,
+        "n_consuming_refs": 0,
+        "consuming_refs": [],
+        "n_emitting_refs": 1,
+        "emitting_refs": [
+          "ndi_second_pass/ensembleMembership.m:227 (named)"
+        ],
+        "decided_targets": [
+          "subject",
+          "directed_relation",
+          "sampled_body"
+        ],
+        "decided_targets_built": [
+          "subject",
+          "directed_relation",
+          "sampled_body"
+        ],
+        "decided_targets_missing": [],
+        "survivors": null,
+        "survivors_by_corpus": {},
+        "build_evidence_measured": true,
+        "corpus_evidence_measured": false
+      },
+      {
+        "class_name": "epoch_bounded_reference",
+        "family": "time_reference",
+        "state": "a_nothing_built",
+        "state_label": "(a) decided, nothing built",
+        "build_evidence": [],
+        "migrator_file": null,
+        "n_consuming_refs": 0,
+        "consuming_refs": [],
+        "n_emitting_refs": 3,
+        "emitting_refs": [
+          "migrators_j/syncrule_mapping.m:182 (named)",
+          "ndi_second_pass/stimulusBathToBath.m:71 (named)",
+          "ndi_second_pass/stimulusBathToBath.m:81 (field_write)"
+        ],
+        "decided_targets": [],
+        "decided_targets_built": [],
+        "decided_targets_missing": [],
+        "survivors": null,
+        "survivors_by_corpus": {},
+        "build_evidence_measured": true,
+        "corpus_evidence_measured": false
+      },
+      {
+        "class_name": "epoch_relative_reference",
+        "family": "time_reference",
+        "state": "a_nothing_built",
+        "state_label": "(a) decided, nothing built",
+        "build_evidence": [],
+        "migrator_file": null,
+        "n_consuming_refs": 0,
+        "consuming_refs": [],
+        "n_emitting_refs": 0,
+        "emitting_refs": [],
+        "decided_targets": [],
+        "decided_targets_built": [],
+        "decided_targets_missing": [],
+        "survivors": null,
+        "survivors_by_corpus": {},
+        "build_evidence_measured": true,
+        "corpus_evidence_measured": false
+      },
+      {
+        "class_name": "epochfiles_ingested",
+        "family": "epoch",
+        "state": "b_built_awaiting_corpus_proof",
+        "state_label": "(b) built, awaiting corpus proof",
+        "build_evidence": [
+          "migrator `migrators_j/epochfiles_ingested.m`"
+        ],
+        "migrator_file": "migrators_j/epochfiles_ingested.m",
+        "n_consuming_refs": 0,
+        "consuming_refs": [],
+        "n_emitting_refs": 0,
+        "emitting_refs": [],
+        "decided_targets": [],
+        "decided_targets_built": [],
+        "decided_targets_missing": [],
+        "survivors": null,
+        "survivors_by_corpus": {},
+        "build_evidence_measured": true,
+        "corpus_evidence_measured": false
+      },
+      {
+        "class_name": "epochid",
+        "family": "epoch",
+        "state": "b_built_awaiting_corpus_proof",
+        "state_label": "(b) built, awaiting corpus proof",
+        "build_evidence": [
+          "9 consuming reference(s)"
+        ],
+        "migrator_file": null,
+        "n_consuming_refs": 9,
+        "consuming_refs": [
+          "migrators_j/private/jMethodParameters.m:122 (guard)",
+          "ndi_second_pass/bodyResolver.m:216 (guard)",
+          "ndi_second_pass/bodyResolver.m:217 (guard)",
+          "ndi_second_pass/bodyResolver.m:218 (field_read)",
+          "ndi_second_pass/ensembleMembership.m:361 (guard)",
+          "ndi_second_pass/ensembleMembership.m:362 (field_read)"
+        ],
+        "n_emitting_refs": 5,
+        "emitting_refs": [
+          "migrators_j/epochfiles_ingested.m:135 (named)",
+          "migrators_j/private/jMethodParameters.m:123 (named)",
+          "migrators_j/private/jMethodParameters.m:126 (field_write)",
+          "ndi_second_pass/stimulusBathToBath.m:74 (named)",
+          "ndi_second_pass/stimulusBathToBath.m:80 (named)"
+        ],
+        "decided_targets": [],
+        "decided_targets_built": [],
+        "decided_targets_missing": [],
+        "survivors": null,
+        "survivors_by_corpus": {},
+        "build_evidence_measured": true,
+        "corpus_evidence_measured": false
+      },
+      {
+        "class_name": "event_bounded_reference",
+        "family": "time_reference",
+        "state": "a_nothing_built",
+        "state_label": "(a) decided, nothing built",
+        "build_evidence": [],
+        "migrator_file": null,
+        "n_consuming_refs": 0,
+        "consuming_refs": [],
+        "n_emitting_refs": 0,
+        "emitting_refs": [],
+        "decided_targets": [],
+        "decided_targets_built": [],
+        "decided_targets_missing": [],
+        "survivors": null,
+        "survivors_by_corpus": {},
+        "build_evidence_measured": true,
+        "corpus_evidence_measured": false
+      },
+      {
+        "class_name": "event_relative_reference",
+        "family": "time_reference",
+        "state": "a_nothing_built",
+        "state_label": "(a) decided, nothing built",
+        "build_evidence": [],
+        "migrator_file": null,
+        "n_consuming_refs": 0,
+        "consuming_refs": [],
+        "n_emitting_refs": 0,
+        "emitting_refs": [],
+        "decided_targets": [],
+        "decided_targets_built": [],
+        "decided_targets_missing": [],
+        "survivors": null,
+        "survivors_by_corpus": {},
+        "build_evidence_measured": true,
+        "corpus_evidence_measured": false
+      },
+      {
+        "class_name": "filenavigator",
+        "family": "file navigation",
+        "state": "b_built_awaiting_corpus_proof",
+        "state_label": "(b) built, awaiting corpus proof",
+        "build_evidence": [
+          "migrator `migrators_j/filenavigator.m`",
+          "3 consuming reference(s)",
+          "decided target(s) built: `epoch_file_pattern`"
+        ],
+        "migrator_file": "migrators_j/filenavigator.m",
+        "n_consuming_refs": 3,
+        "consuming_refs": [
+          "migrators_j/filenavigator.m:121 (guard)",
+          "migrators_j/filenavigator.m:122 (field_read)",
+          "migrators_j/filenavigator.m:123 (field_read)"
+        ],
+        "n_emitting_refs": 0,
+        "emitting_refs": [],
+        "decided_targets": [
+          "epoch_file_pattern"
+        ],
+        "decided_targets_built": [
+          "epoch_file_pattern"
+        ],
+        "decided_targets_missing": [],
+        "survivors": null,
+        "survivors_by_corpus": {},
+        "build_evidence_measured": true,
+        "corpus_evidence_measured": false
+      },
+      {
+        "class_name": "filter",
+        "family": "frequency_filter",
+        "state": "b_built_awaiting_corpus_proof",
+        "state_label": "(b) built, awaiting corpus proof",
+        "build_evidence": [
+          "2 consuming reference(s)"
+        ],
+        "migrator_file": null,
+        "n_consuming_refs": 2,
+        "consuming_refs": [
+          "migrators_j/private/jFrequencyFilter.m:112 (guard)",
+          "migrators_j/private/jFrequencyFilter.m:113 (field_read)"
+        ],
+        "n_emitting_refs": 2,
+        "emitting_refs": [
+          "migrators_j/private/jSpikeExtractionSettings.m:159 (named)",
+          "migrators_j/vmspikefilteringparameters.m:144 (named)"
+        ],
+        "decided_targets": [],
+        "decided_targets_built": [],
+        "decided_targets_missing": [],
+        "survivors": null,
+        "survivors_by_corpus": {},
+        "build_evidence_measured": true,
+        "corpus_evidence_measured": false
+      },
+      {
+        "class_name": "interaction_purpose",
+        "family": "misc singletons",
+        "state": "a_nothing_built",
+        "state_label": "(a) decided, nothing built",
+        "build_evidence": [],
+        "migrator_file": null,
+        "n_consuming_refs": 0,
+        "consuming_refs": [],
+        "n_emitting_refs": 0,
+        "emitting_refs": [],
+        "decided_targets": [],
+        "decided_targets_built": [],
+        "decided_targets_missing": [],
+        "survivors": null,
+        "survivors_by_corpus": {},
+        "build_evidence_measured": true,
+        "corpus_evidence_measured": false
+      },
+      {
+        "class_name": "ngrid",
+        "family": "image / ngrid",
+        "state": "b_built_awaiting_corpus_proof",
+        "state_label": "(b) built, awaiting corpus proof",
+        "build_evidence": [
+          "2 consuming reference(s)"
+        ],
+        "migrator_file": null,
+        "n_consuming_refs": 2,
+        "consuming_refs": [
+          "migrators_j/+super/ngrid.m:100 (field_read)",
+          "migrators_j/+super/ngrid.m:96 (guard)"
+        ],
+        "n_emitting_refs": 1,
+        "emitting_refs": [
+          "migrators_j/+super/ngrid.m:115 (field_write)"
+        ],
+        "decided_targets": [],
+        "decided_targets_built": [],
+        "decided_targets_missing": [],
+        "survivors": null,
+        "survivors_by_corpus": {},
+        "build_evidence_measured": true,
+        "corpus_evidence_measured": false
+      },
+      {
+        "class_name": "projectvar",
+        "family": "misc singletons",
+        "state": "a_nothing_built",
+        "state_label": "(a) decided, nothing built",
+        "build_evidence": [],
+        "migrator_file": null,
+        "n_consuming_refs": 0,
+        "consuming_refs": [],
+        "n_emitting_refs": 0,
+        "emitting_refs": [],
+        "decided_targets": [],
+        "decided_targets_built": [],
+        "decided_targets_missing": [],
+        "survivors": null,
+        "survivors_by_corpus": {},
+        "build_evidence_measured": true,
+        "corpus_evidence_measured": false
+      },
+      {
+        "class_name": "session_bounded_reference",
+        "family": "time_reference",
+        "state": "a_nothing_built",
+        "state_label": "(a) decided, nothing built",
+        "build_evidence": [],
+        "migrator_file": null,
+        "n_consuming_refs": 0,
+        "consuming_refs": [],
+        "n_emitting_refs": 2,
+        "emitting_refs": [
+          "migrators_j/ontology_table_row.m:262 (named)",
+          "migrators_j/ontology_table_row.m:268 (field_write)"
+        ],
+        "decided_targets": [],
+        "decided_targets_built": [],
+        "decided_targets_missing": [],
+        "survivors": null,
+        "survivors_by_corpus": {},
+        "build_evidence_measured": true,
+        "corpus_evidence_measured": false
+      },
+      {
+        "class_name": "session_relative_reference",
+        "family": "time_reference",
+        "state": "a_nothing_built",
+        "state_label": "(a) decided, nothing built",
+        "build_evidence": [],
+        "migrator_file": null,
+        "n_consuming_refs": 0,
+        "consuming_refs": [],
+        "n_emitting_refs": 18,
+        "emitting_refs": [
+          "migrators_j/fitcurve.m:139 (named)",
+          "migrators_j/fitcurve.m:146 (field_write)",
+          "migrators_j/image_stack.m:101 (named)",
+          "migrators_j/image_stack.m:106 (field_write)",
+          "migrators_j/jrclust_clusters.m:47 (named)",
+          "migrators_j/jrclust_clusters.m:52 (field_write)"
+        ],
+        "decided_targets": [],
+        "decided_targets_built": [],
+        "decided_targets_missing": [],
+        "survivors": null,
+        "survivors_by_corpus": {},
+        "build_evidence_measured": true,
+        "corpus_evidence_measured": false
+      },
+      {
+        "class_name": "stimulus_presentation",
+        "family": "stimulus",
+        "state": "b_built_awaiting_corpus_proof",
+        "state_label": "(b) built, awaiting corpus proof",
+        "build_evidence": [
+          "migrator `migrators_j/stimulus_presentation.m`",
+          "2 consuming reference(s)"
+        ],
+        "migrator_file": "migrators_j/stimulus_presentation.m",
+        "n_consuming_refs": 2,
+        "consuming_refs": [
+          "ndi_second_pass/stimulusPresentationToManipulation.m:47 (guard)",
+          "ndi_second_pass/stimulusPresentationToManipulation.m:48 (field_read)"
+        ],
+        "n_emitting_refs": 0,
+        "emitting_refs": [],
+        "decided_targets": [],
+        "decided_targets_built": [],
+        "decided_targets_missing": [],
+        "survivors": null,
+        "survivors_by_corpus": {},
+        "build_evidence_measured": true,
+        "corpus_evidence_measured": false
+      },
+      {
+        "class_name": "syncgraph",
+        "family": "sync configuration",
+        "state": "b_built_awaiting_corpus_proof",
+        "state_label": "(b) built, awaiting corpus proof",
+        "build_evidence": [
+          "migrator `migrators_j/syncgraph.m`",
+          "2 consuming reference(s)",
+          "decided target(s) built: `clock_alignment_policy`"
+        ],
+        "migrator_file": "migrators_j/syncgraph.m",
+        "n_consuming_refs": 2,
+        "consuming_refs": [
+          "migrators_j/syncgraph.m:86 (guard)",
+          "migrators_j/syncgraph.m:87 (field_read)"
+        ],
+        "n_emitting_refs": 0,
+        "emitting_refs": [],
+        "decided_targets": [
+          "clock_alignment_policy"
+        ],
+        "decided_targets_built": [
+          "clock_alignment_policy"
+        ],
+        "decided_targets_missing": [],
+        "survivors": null,
+        "survivors_by_corpus": {},
+        "build_evidence_measured": true,
+        "corpus_evidence_measured": false
+      },
+      {
+        "class_name": "syncrule",
+        "family": "sync configuration",
+        "state": "b_built_awaiting_corpus_proof",
+        "state_label": "(b) built, awaiting corpus proof",
+        "build_evidence": [
+          "migrator `migrators_j/syncrule.m`",
+          "2 consuming reference(s)",
+          "decided target(s) built: `clock_alignment_configuration`"
+        ],
+        "migrator_file": "migrators_j/syncrule.m",
+        "n_consuming_refs": 2,
+        "consuming_refs": [
+          "migrators_j/syncrule.m:95 (guard)",
+          "migrators_j/syncrule.m:96 (field_read)"
+        ],
+        "n_emitting_refs": 0,
+        "emitting_refs": [],
+        "decided_targets": [
+          "clock_alignment_configuration"
+        ],
+        "decided_targets_built": [
+          "clock_alignment_configuration"
+        ],
+        "decided_targets_missing": [],
+        "survivors": null,
+        "survivors_by_corpus": {},
+        "build_evidence_measured": true,
+        "corpus_evidence_measured": false
+      },
+      {
+        "class_name": "syncrule_mapping",
+        "family": "sync mapping",
+        "state": "b_built_awaiting_corpus_proof",
+        "state_label": "(b) built, awaiting corpus proof",
+        "build_evidence": [
+          "migrator `migrators_j/syncrule_mapping.m`",
+          "2 consuming reference(s)",
+          "decided target(s) built: `clock_alignment`"
+        ],
+        "migrator_file": "migrators_j/syncrule_mapping.m",
+        "n_consuming_refs": 2,
+        "consuming_refs": [
+          "migrators_j/syncrule_mapping.m:106 (guard)",
+          "migrators_j/syncrule_mapping.m:107 (field_read)"
+        ],
+        "n_emitting_refs": 2,
+        "emitting_refs": [
+          "migrators_j/syncrule_mapping.m:131 (named)",
+          "migrators_j/syncrule_mapping.m:149 (field_write)"
+        ],
+        "decided_targets": [
+          "clock_alignment"
+        ],
+        "decided_targets_built": [
+          "clock_alignment"
+        ],
+        "decided_targets_missing": [],
+        "survivors": null,
+        "survivors_by_corpus": {},
+        "build_evidence_measured": true,
+        "corpus_evidence_measured": false
+      },
+      {
+        "class_name": "time_reference",
+        "family": "time_reference",
+        "state": "a_nothing_built",
+        "state_label": "(a) decided, nothing built",
+        "build_evidence": [],
+        "migrator_file": null,
+        "n_consuming_refs": 0,
+        "consuming_refs": [],
+        "n_emitting_refs": 28,
+        "emitting_refs": [
+          "migrators_j/fitcurve.m:139 (named)",
+          "migrators_j/fitcurve.m:145 (field_write)",
+          "migrators_j/image_stack.m:101 (named)",
+          "migrators_j/image_stack.m:105 (field_write)",
+          "migrators_j/jrclust_clusters.m:47 (named)",
+          "migrators_j/jrclust_clusters.m:51 (field_write)"
+        ],
+        "decided_targets": [],
+        "decided_targets_built": [],
+        "decided_targets_missing": [],
+        "survivors": null,
+        "survivors_by_corpus": {},
+        "build_evidence_measured": true,
+        "corpus_evidence_measured": false
+      },
+      {
+        "class_name": "utc_reference",
+        "family": "time_reference",
+        "state": "a_nothing_built",
+        "state_label": "(a) decided, nothing built",
+        "build_evidence": [],
+        "migrator_file": null,
+        "n_consuming_refs": 0,
+        "consuming_refs": [],
+        "n_emitting_refs": 0,
+        "emitting_refs": [],
+        "decided_targets": [],
+        "decided_targets_built": [],
+        "decided_targets_missing": [],
+        "survivors": null,
+        "survivors_by_corpus": {},
+        "build_evidence_measured": true,
+        "corpus_evidence_measured": false
+      }
+    ]
   }
 }
