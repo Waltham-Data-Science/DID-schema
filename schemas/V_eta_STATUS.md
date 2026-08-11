@@ -22,8 +22,8 @@ for each model; this board owns *how much is left and what exactly*.
 
 | open-class BUILD/PROOF state (derived, see below) | count |
 |---|---|
-| (a) decided, nothing built | 10 |
-| (b) built, awaiting corpus proof | 21 |
+| (a) decided, nothing built | 9 |
+| (b) built, awaiting corpus proof | 22 |
 | (c) corpus: 0 survivors in the corpora read | 0 |
 | (?) UNMEASURED -- no build evidence was ever taken | 0 |
 
@@ -44,12 +44,13 @@ decides a disposition -- it DERIVES, per class, how far the work has got.
 
 | evidence source | reach |
 |---|---|
-| build: V_eta migrator packages read | `migrators_j`, `ndi_second_pass` |
+| build: V_eta migrator packages read | `DID-matlab:migrators_j`, `NDI-matlab:ndi_second_pass` |
 | build: migrator files inspected | 139 |
-| build: migrator lines inspected | 20003 |
+| build: migrator lines inspected | 20016 |
 | build: classes queried | 31 |
-| build: open classes MINTED as a document class | 5 |
+| build: open classes MINTED as a document class | 8 |
 | build: of those, discounted (decision retires the class) | 3 |
+| build: `document_class` writes whose class name is a VARIABLE | 6 |
 | corpus: `*-summary.json` reports read | 0 |
 | corpus: reports carrying an `unconverted_count` | 0 |
 | corpus: documents behind those reports | 0 |
@@ -65,8 +66,8 @@ directory of corpus reports, or run the DID-matlab corpus gate.
 
 | state | classes |
 |---|---|
-| (a) decided, nothing built | 10 |
-| (b) built, awaiting corpus proof | 21 |
+| (a) decided, nothing built | 9 |
+| (b) built, awaiting corpus proof | 22 |
 | (c) corpus: 0 survivors in the corpora read | 0 |
 | (?) UNMEASURED -- no build evidence was ever taken | 0 |
 
@@ -86,24 +87,66 @@ questions.
 '<class>')` / `strcmp(classNameOf(s), '<class>')` guard, or a read of
 `preBody.<class>`. That is evidence about a v1 SOURCE: something eats it.
 
-**MINTED** -- `b.document_class = struct('class_name', '<class>', ...)`.
-That is evidence about a V_eta TARGET: something builds it. The scan could
-not see this until 2026-08-10, and the cost was concrete:
-`control_designation` rendered as *decided, nothing built* while
-`migrators_j/control_stimulus_ids.m:111` was minting it -- no file is named
-after the target of a rename, so a filename key can never find one. The
-patterns come from `tools/coverage.py`, which already extracts them for its
-emitted-class guardrail; comments and `superclasses` entries are dropped on
-top (of the 42 names coverage.py's raw sweep reports, 29 are document
-classes -- the 13 it conflates include `time_reference` and `epochid`, both
-open, both minted only as somebody else's superclass).
+**MINTED** -- the migrator sets a document's class. That is evidence about
+a V_eta TARGET: something builds it. The scan could not see this at all
+until 2026-08-10, and the cost was concrete: `control_designation`
+rendered as *decided, nothing built* while
+`DID-matlab:migrators_j/control_stimulus_ids.m:111` was minting it -- no
+file is named after the target of a rename, so a filename key can never
+find one.
 
-A migrator that merely WRITES the name into a field (`x.<class> = ...`) or
-names it as a value is counted separately and shown as *still emitted*,
-because for an open class that is evidence the decided change has **not**
-landed. Counting those as build progress is what the first draft of this
-scan did: it made `directory` look built off `struct('format',
-'directory', ...)`.
+**THERE ARE THREE MINT IDIOMS AND UNTIL 2026-08-11 THIS BOARD KNEW ONE.**
+
+| idiom | shape | sites in the packages read |
+|---|---|---|
+| 1 | `b.document_class = struct('class_name', '<class>', ...)` | 49 |
+| 2 | `b.document_class = classBlock('<class>', {supers})` | 15 |
+| 3 | `b.document_class.class_name = '<class>';` | 4 |
+| - | class name is a VARIABLE -- unresolved here | 6 |
+
+Idioms 2 and 3 carry no `'class_name', '<X>'` comma pair, so the regex
+imported from `tools/coverage.py` cannot see them. `classBlock` is a LOCAL
+SUBFUNCTION, redefined in eight files with two different arities, and it is
+recognised HERE BY ITS SHAPE, not its name: a local function that assigns
+its own output a struct declaring `superclasses` whose `class_name` comes
+from one of its parameters. The literal is then read from that parameter's
+INDEX at each call site, so the superclass argument beside it cannot be
+mistaken for a mint.
+
+**WHAT THE MISS COST, stated as the number and not as a lesson.**
+`session_relative_reference` is a class whose whole open question is that
+it must STOP being emitted. Idiom 1 alone puts its mint count at **3**;
+this run measures **9**, the difference being six migrators
+(`fitcurve`, `image_stack`, `jrclust_clusters`, `neuron_extracellular`,
+`pyraview`, `vmspikefit`) that mint it through `classBlock`. The board
+reported a third of the outstanding work, in this project's characteristic
+direction. The six were not dropped -- they were filed as `named`, the
+weakest bucket, which is worse than dropping them because it looks like a
+measurement.
+
+**A `document_class` WRITE WHOSE CLASS NAME IS A VARIABLE IS COUNTED, NOT
+SKIPPED.** `struct('class_name', leafClass, ...)` and
+`classBlock(e.class, ...)` need the CALL GRAPH to resolve, which is
+`tools/refresh_migration_targets.py`'s job, not this per-file scan's. Those
+sites appear in the denominator table above. The mint counts in this
+artifact are therefore a FLOOR.
+
+| unresolved `document_class` write | class name expression |
+|---|---|
+| `DID-matlab:migrators_j/dataset_remote.m:70` | `className` |
+| `DID-matlab:migrators_j/ontology_table_row.m:248` | `leafClass` |
+| `DID-matlab:migrators_j/ontology_table_row.m:779` | `className` |
+| `DID-matlab:migrators_j/private/jCalculation.m:67` | `leafClass` |
+| `DID-matlab:migrators_j/private/jRecordingObservation.m:209` | `e.class` |
+| `DID-matlab:migrators_j/private/jStartInteraction.m:36` | `className` |
+
+**THE OTHER CATEGORIES ARE REPORTED SEPARATELY AND ARE NEVER SUMMED.** A
+migrator that WRITES a block of that name (`x.<class> = ...`), one that
+merely NAMES it as a string value, and one that MENTIONS it in a comment
+are three different facts, and a single cell reading *still emitted/named
+at N site(s)* merged them. It also swallowed the six missed mints above.
+Each now has its own column and its own count; comment mentions count
+toward nothing and are shown so that can be checked rather than believed.
 
 **A MINT IS DISCOUNTED WHEN THE DECISION RETIRES THE CLASS.** For a class
 whose signed decision is that it stops existing, minting it is the work
@@ -124,76 +167,81 @@ already existed for other reasons -- `ensemble` reaches (b) on `subject`,
 a row whose only evidence is a built target as *the target exists*, not as
 *the work is done*.
 
-| class | family | state | build evidence | minted | still emitted | survivors |
-|---|---|---|---|---|---|---|
-| `acquisition_epoch` | epoch | (a) | *none* | - | 2 | n/a -- not measured |
-| `app` | software | (b) | 2 consuming reference(s); decided target(s) built: `software` | - | 1 | n/a -- not measured |
-| `binaryseries_parameters` | misc singletons | (b) | migrator `migrators_j/binaryseries_parameters.m` | - | 1 | n/a -- not measured |
-| `control_designation` | stimulus | (b) | minted as a document class at 1 site(s) | 1 | 1 | n/a -- not measured |
-| `daqmetadatareader` | daq configuration | (b) | migrator `migrators_j/daqmetadatareader.m`; 3 consuming reference(s); decided target(s) built: `acquisition_metadata_reader` | - | - | n/a -- not measured |
-| `daqmetadatareader_epochdata_ingested` | daq ingested payloads | (b) | migrator `migrators_j/daqmetadatareader_epochdata_ingested.m`; decided target(s) built: `acquisition_metadata_file` | - | - | n/a -- not measured |
-| `daqreader` | daq configuration | (b) | migrator `migrators_j/daqreader.m`; 4 consuming reference(s); decided target(s) built: `software` | - | 3 | n/a -- not measured |
-| `daqreader_epochdata_ingested` | daq ingested payloads | (b) | migrator `migrators_j/daqreader_epochdata_ingested.m`; 3 consuming reference(s); decided target(s) built: `relative_reference` | - | 5 | n/a -- not measured |
-| `daqreader_image_epochdata_ingested` | daq ingested payloads | (b) | migrator `migrators_j/daqreader_image_epochdata_ingested.m`; decided target(s) built: `image_observation`, `relative_reference`, `sampled_body` | - | - | n/a -- not measured |
-| `daqsystem` | daq configuration | (b) | migrator `migrators_j/daqsystem.m`; 3 consuming reference(s); decided target(s) built: `acquisition_system` | - | - | n/a -- not measured |
-| `directory` | file navigation | (a) | *none* | - | 1 | n/a -- not measured |
-| `ensemble` | ensemble | (b) | 1 consuming reference(s); decided target(s) built: `subject`, `directed_relation`, `sampled_body` | - | - | n/a -- not measured |
-| `epoch_bounded_reference` | time_reference | (b) | 6 consuming reference(s) | 1 (discounted) | 3 | n/a -- not measured |
-| `epoch_relative_reference` | time_reference | (a) | *none* | - | - | n/a -- not measured |
-| `epochfiles_ingested` | epoch | (b) | migrator `migrators_j/epochfiles_ingested.m` | - | - | n/a -- not measured |
-| `epochid` | epoch | (b) | 10 consuming reference(s) | - | 8 | n/a -- not measured |
-| `event_bounded_reference` | time_reference | (a) | *none* | - | - | n/a -- not measured |
-| `event_relative_reference` | time_reference | (a) | *none* | - | - | n/a -- not measured |
-| `filenavigator` | file navigation | (b) | migrator `migrators_j/filenavigator.m`; 3 consuming reference(s); decided target(s) built: `epoch_file_pattern` | - | - | n/a -- not measured |
-| `filter` | frequency_filter | (b) | 2 consuming reference(s) | - | 2 | n/a -- not measured |
-| `interaction_purpose` | misc singletons | (a) | *none* | - | - | n/a -- not measured |
-| `ngrid` | image / ngrid | (b) | 2 consuming reference(s) | - | 1 | n/a -- not measured |
-| `projectvar` | misc singletons | (a) | *none* | - | - | n/a -- not measured |
-| `session_bounded_reference` | time_reference | (a) | *none* | 1 (discounted) | 1 | n/a -- not measured |
-| `session_relative_reference` | time_reference | (a) | *none* | 3 (discounted) | 15 | n/a -- not measured |
-| `stimulus_presentation` | stimulus | (b) | migrator `migrators_j/stimulus_presentation.m`; 2 consuming reference(s) | - | - | n/a -- not measured |
-| `syncgraph` | sync configuration | (b) | migrator `migrators_j/syncgraph.m`; 2 consuming reference(s); decided target(s) built: `clock_alignment_policy` | - | - | n/a -- not measured |
-| `syncrule` | sync configuration | (b) | migrator `migrators_j/syncrule.m`; 2 consuming reference(s); decided target(s) built: `clock_alignment_configuration` | - | - | n/a -- not measured |
-| `syncrule_mapping` | sync mapping | (b) | migrator `migrators_j/syncrule_mapping.m`; 2 consuming reference(s); minted as a document class at 1 site(s); decided target(s) built: `clock_alignment` | 1 | 1 | n/a -- not measured |
-| `time_reference` | time_reference | (b) | 1 consuming reference(s) | - | 32 | n/a -- not measured |
-| `utc_reference` | time_reference | (a) | *none* | - | - | n/a -- not measured |
+Each of the last four columns is one kind of fact and they are NOT added
+together. `minted` = a document of this class is produced; `field writes`
+= a block of that name is written; `named` = the name appears as a string
+value; `comments` = prose, which counts toward nothing.
 
-#### (a) decided, nothing built -- 10
+| class | family | state | build evidence | minted | field writes | named | comments | survivors |
+|---|---|---|---|---|---|---|---|---|
+| `acquisition_epoch` | epoch | (b) | minted as a document class at 1 site(s) | 1 | 1 | - | 22 | n/a -- not measured |
+| `app` | software | (b) | 2 consuming reference(s); decided target(s) built: `software` | - | 1 | - | 138 | n/a -- not measured |
+| `binaryseries_parameters` | misc singletons | (b) | migrator `DID-matlab:migrators_j/binaryseries_parameters.m` | - | - | 1 | 9 | n/a -- not measured |
+| `control_designation` | stimulus | (b) | minted as a document class at 1 site(s) | 1 | 1 | - | 5 | n/a -- not measured |
+| `daqmetadatareader` | daq configuration | (b) | migrator `DID-matlab:migrators_j/daqmetadatareader.m`; 3 consuming reference(s); decided target(s) built: `acquisition_metadata_reader` | - | - | - | 16 | n/a -- not measured |
+| `daqmetadatareader_epochdata_ingested` | daq ingested payloads | (b) | migrator `DID-matlab:migrators_j/daqmetadatareader_epochdata_ingested.m`; decided target(s) built: `acquisition_metadata_file` | - | - | - | 8 | n/a -- not measured |
+| `daqreader` | daq configuration | (b) | migrator `DID-matlab:migrators_j/daqreader.m`; 4 consuming reference(s); minted as a document class at 1 site(s); decided target(s) built: `software` | 1 | 2 | - | 28 | n/a -- not measured |
+| `daqreader_epochdata_ingested` | daq ingested payloads | (b) | migrator `DID-matlab:migrators_j/daqreader_epochdata_ingested.m`; 3 consuming reference(s); minted as a document class at 1 site(s); decided target(s) built: `relative_reference` | 1 | 2 | 2 | 16 | n/a -- not measured |
+| `daqreader_image_epochdata_ingested` | daq ingested payloads | (b) | migrator `DID-matlab:migrators_j/daqreader_image_epochdata_ingested.m`; decided target(s) built: `image_observation`, `relative_reference`, `sampled_body` | - | - | - | 4 | n/a -- not measured |
+| `daqsystem` | daq configuration | (b) | migrator `DID-matlab:migrators_j/daqsystem.m`; 3 consuming reference(s); decided target(s) built: `acquisition_system` | - | - | - | 17 | n/a -- not measured |
+| `directory` | file navigation | (a) | *none* | - | - | 1 | 12 | n/a -- not measured |
+| `ensemble` | ensemble | (b) | 1 consuming reference(s); decided target(s) built: `subject`, `directed_relation`, `sampled_body` | - | - | - | 16 | n/a -- not measured |
+| `epoch_bounded_reference` | time_reference | (b) | 6 consuming reference(s) | 1 (discounted) | 1 | 2 | 20 | n/a -- not measured |
+| `epoch_relative_reference` | time_reference | (a) | *none* | - | - | - | 1 | n/a -- not measured |
+| `epochfiles_ingested` | epoch | (b) | migrator `DID-matlab:migrators_j/epochfiles_ingested.m` | - | - | - | 10 | n/a -- not measured |
+| `epochid` | epoch | (b) | 10 consuming reference(s) | - | 1 | 7 | 59 | n/a -- not measured |
+| `event_bounded_reference` | time_reference | (a) | *none* | - | - | - | - | n/a -- not measured |
+| `event_relative_reference` | time_reference | (a) | *none* | - | - | - | - | n/a -- not measured |
+| `filenavigator` | file navigation | (b) | migrator `DID-matlab:migrators_j/filenavigator.m`; 3 consuming reference(s); decided target(s) built: `epoch_file_pattern` | - | - | - | 16 | n/a -- not measured |
+| `filter` | frequency_filter | (b) | 2 consuming reference(s) | - | - | 2 | 32 | n/a -- not measured |
+| `interaction_purpose` | misc singletons | (a) | *none* | - | - | - | 3 | n/a -- not measured |
+| `ngrid` | image / ngrid | (b) | 2 consuming reference(s) | - | 1 | - | 22 | n/a -- not measured |
+| `projectvar` | misc singletons | (a) | *none* | - | - | - | 1 | n/a -- not measured |
+| `session_bounded_reference` | time_reference | (a) | *none* | 1 (discounted) | 1 | - | 3 | n/a -- not measured |
+| `session_relative_reference` | time_reference | (a) | *none* | 9 (discounted) | 9 | - | 19 | n/a -- not measured |
+| `stimulus_presentation` | stimulus | (b) | migrator `DID-matlab:migrators_j/stimulus_presentation.m`; 2 consuming reference(s) | - | - | - | 23 | n/a -- not measured |
+| `syncgraph` | sync configuration | (b) | migrator `DID-matlab:migrators_j/syncgraph.m`; 2 consuming reference(s); decided target(s) built: `clock_alignment_policy` | - | - | - | 26 | n/a -- not measured |
+| `syncrule` | sync configuration | (b) | migrator `DID-matlab:migrators_j/syncrule.m`; 2 consuming reference(s); decided target(s) built: `clock_alignment_configuration` | - | - | - | 33 | n/a -- not measured |
+| `syncrule_mapping` | sync mapping | (b) | migrator `DID-matlab:migrators_j/syncrule_mapping.m`; 2 consuming reference(s); minted as a document class at 1 site(s); decided target(s) built: `clock_alignment` | 1 | 1 | - | 22 | n/a -- not measured |
+| `time_reference` | time_reference | (b) | 1 consuming reference(s) | - | 14 | 18 | 34 | n/a -- not measured |
+| `utc_reference` | time_reference | (a) | *none* | - | - | - | - | n/a -- not measured |
 
-- `acquisition_epoch` (epoch) -- still emitted/named at 2 site(s): `migrators_j/element_epoch.m:101 (field_write)`, `migrators_j/element_epoch.m:99 (named)`
-- `directory` (file navigation) -- still emitted/named at 1 site(s): `migrators_j/private/jSorterOutput.m:134 (named)`
-- `epoch_relative_reference` (time_reference) -- no evidence found
+#### (a) decided, nothing built -- 9
+
+- `directory` (file navigation) -- NAMED as a string value at 1 site(s): `DID-matlab:migrators_j/private/jSorterOutput.m:134 (named)`; mentioned in 12 COMMENT(s) -- prose, counts toward nothing: `DID-matlab:migrators_j/epochfiles_ingested.m:48 (comment_mention)`, `DID-matlab:migrators_j/filenavigator.m:11 (comment_mention)`, `DID-matlab:migrators_j/kiasort_clusters.m:9 (comment_mention)`, `DID-matlab:migrators_j/kilosort_clusters.m:10 (comment_mention)`, `DID-matlab:migrators_j/private/jSorterOutput.m:114 (comment_mention)`, `DID-matlab:migrators_j/private/jSorterOutput.m:13 (comment_mention)` ...
+- `epoch_relative_reference` (time_reference) -- mentioned in 1 COMMENT(s) -- prose, counts toward nothing: `DID-matlab:migrators_j/stimulus_response_scalar.m:184 (comment_mention)`
 - `event_bounded_reference` (time_reference) -- no evidence found
 - `event_relative_reference` (time_reference) -- no evidence found
-- `interaction_purpose` (misc singletons) -- no evidence found
-- `projectvar` (misc singletons) -- no evidence found
-- `session_bounded_reference` (time_reference) -- MINTED as a document class at 1 site(s): `migrators_j/ontology_table_row.m:275 (emitted_class)`; minted at 1 site(s), NOT counted as build progress: the signed decision retires this class in favour of `relative_reference`, so an emission is work still to undo; still emitted/named at 1 site(s): `migrators_j/ontology_table_row.m:281 (field_write)`
-- `session_relative_reference` (time_reference) -- MINTED as a document class at 3 site(s): `migrators_j/ontology_table_row.m:867 (emitted_class)`, `migrators_j/private/jSessionAnchor.m:60 (emitted_class)`, `migrators_j/treatment_transfer.m:109 (emitted_class)`; minted at 3 site(s), NOT counted as build progress: the signed decision retires this class in favour of `relative_reference`, so an emission is work still to undo; still emitted/named at 15 site(s): `migrators_j/fitcurve.m:147 (named)`, `migrators_j/fitcurve.m:154 (field_write)`, `migrators_j/image_stack.m:279 (named)`, `migrators_j/image_stack.m:284 (field_write)`, `migrators_j/jrclust_clusters.m:88 (named)`, `migrators_j/jrclust_clusters.m:93 (field_write)` ...
+- `interaction_purpose` (misc singletons) -- mentioned in 3 COMMENT(s) -- prose, counts toward nothing: `DID-matlab:migrators_j/openminds_stimulus.m:49 (comment_mention)`, `DID-matlab:migrators_j/openminds_stimulus.m:50 (comment_mention)`, `DID-matlab:migrators_j/openminds_stimulus.m:70 (comment_mention)`
+- `projectvar` (misc singletons) -- mentioned in 1 COMMENT(s) -- prose, counts toward nothing: `DID-matlab:migrators_j/Contents.m:340 (comment_mention)`
+- `session_bounded_reference` (time_reference) -- MINTED as a document class at 1 site(s): `DID-matlab:migrators_j/ontology_table_row.m:275 (emitted_class)`; minted at 1 site(s), NOT counted as build progress: the signed decision retires this class in favour of `relative_reference`, so an emission is work still to undo; a block of this name is WRITTEN at 1 site(s): `DID-matlab:migrators_j/ontology_table_row.m:281 (field_write)`; mentioned in 3 COMMENT(s) -- prose, counts toward nothing: `DID-matlab:migrators_j/ontology_table_row.m:271 (comment_mention)`, `DID-matlab:migrators_j/ontology_table_row.m:35 (comment_mention)`, `NDI-matlab:ndi_second_pass/epochAnchorFold.m:44 (comment_mention)`
+- `session_relative_reference` (time_reference) -- MINTED as a document class at 9 site(s): `DID-matlab:migrators_j/fitcurve.m:147 (emitted_class)`, `DID-matlab:migrators_j/image_stack.m:279 (emitted_class)`, `DID-matlab:migrators_j/jrclust_clusters.m:88 (emitted_class)`, `DID-matlab:migrators_j/neuron_extracellular.m:118 (emitted_class)`, `DID-matlab:migrators_j/ontology_table_row.m:867 (emitted_class)`, `DID-matlab:migrators_j/private/jSessionAnchor.m:60 (emitted_class)` ...; minted at 9 site(s), NOT counted as build progress: the signed decision retires this class in favour of `relative_reference`, so an emission is work still to undo; a block of this name is WRITTEN at 9 site(s): `DID-matlab:migrators_j/fitcurve.m:154 (field_write)`, `DID-matlab:migrators_j/image_stack.m:284 (field_write)`, `DID-matlab:migrators_j/jrclust_clusters.m:93 (field_write)`, `DID-matlab:migrators_j/neuron_extracellular.m:123 (field_write)`, `DID-matlab:migrators_j/ontology_table_row.m:875 (field_write)`, `DID-matlab:migrators_j/private/jSessionAnchor.m:68 (field_write)` ...; mentioned in 19 COMMENT(s) -- prose, counts toward nothing: `DID-matlab:migrators_j/fitcurve.m:13 (comment_mention)`, `DID-matlab:migrators_j/image_stack.m:25 (comment_mention)`, `DID-matlab:migrators_j/jrclust_clusters.m:20 (comment_mention)`, `DID-matlab:migrators_j/jrclust_clusters.m:40 (comment_mention)`, `DID-matlab:migrators_j/neuron_extracellular.m:132 (comment_mention)`, `DID-matlab:migrators_j/neuron_extracellular.m:19 (comment_mention)` ...
 - `utc_reference` (time_reference) -- no evidence found
 
-#### (b) built, awaiting corpus proof -- 21
+#### (b) built, awaiting corpus proof -- 22
 
-- `app` (software) -- consumed at 2 site(s): `migrators_j/private/jSoftwareFromApp.m:91 (guard)`, `migrators_j/private/jSoftwareFromApp.m:92 (field_read)`; still emitted/named at 1 site(s): `migrators_j/private/jMethodParameters.m:107 (field_write)`; target(s) BUILT: `software`
-- `binaryseries_parameters` (misc singletons) -- migrator `migrators_j/binaryseries_parameters.m`; still emitted/named at 1 site(s): `migrators_j/binaryseries_parameters.m:119 (named)`
-- `control_designation` (stimulus) -- MINTED as a document class at 1 site(s): `migrators_j/control_stimulus_ids.m:111 (emitted_class)`; still emitted/named at 1 site(s): `migrators_j/control_stimulus_ids.m:133 (field_write)`
-- `daqmetadatareader` (daq configuration) -- migrator `migrators_j/daqmetadatareader.m`; consumed at 3 site(s): `migrators_j/daqmetadatareader.m:100 (guard)`, `migrators_j/daqmetadatareader.m:101 (field_read)`, `migrators_j/daqmetadatareader.m:102 (field_read)`; target(s) BUILT: `acquisition_metadata_reader`
-- `daqmetadatareader_epochdata_ingested` (daq ingested payloads) -- migrator `migrators_j/daqmetadatareader_epochdata_ingested.m`; target(s) BUILT: `acquisition_metadata_file`
-- `daqreader` (daq configuration) -- migrator `migrators_j/daqreader.m`; consumed at 4 site(s): `migrators_j/daqreader.m:100 (guard)`, `migrators_j/daqreader.m:101 (field_read)`, `migrators_j/daqreader.m:102 (field_read)`, `migrators_j/daqreader_ndr.m:21 (guard)`; still emitted/named at 3 site(s): `migrators_j/daqreader_ndr.m:14 (named)`, `migrators_j/daqreader_ndr.m:22 (field_write)`, `migrators_j/daqreader_ndr.m:25 (field_write)`; target(s) BUILT: `software`
-- `daqreader_epochdata_ingested` (daq ingested payloads) -- migrator `migrators_j/daqreader_epochdata_ingested.m`; consumed at 3 site(s): `migrators_j/daqreader_mfdaq_epochdata_ingested.m:40 (guard)`, `migrators_j/daqreader_mfdaq_epochdata_ingested.m:41 (field_read)`, `migrators_j/daqreader_mfdaq_epochdata_ingested.m:66 (field_read)`; still emitted/named at 5 site(s): `migrators_j/daqreader_epochdata_ingested.m:84 (named)`, `migrators_j/daqreader_image_epochdata_ingested.m:91 (named)`, `migrators_j/daqreader_mfdaq_epochdata_ingested.m:36 (named)`, `migrators_j/daqreader_mfdaq_epochdata_ingested.m:42 (field_write)`, `migrators_j/daqreader_mfdaq_epochdata_ingested.m:48 (field_write)`; target(s) BUILT: `relative_reference`
-- `daqreader_image_epochdata_ingested` (daq ingested payloads) -- migrator `migrators_j/daqreader_image_epochdata_ingested.m`; target(s) BUILT: `image_observation`, `relative_reference`, `sampled_body`
-- `daqsystem` (daq configuration) -- migrator `migrators_j/daqsystem.m`; consumed at 3 site(s): `migrators_j/daqsystem.m:144 (guard)`, `migrators_j/daqsystem.m:145 (field_read)`, `migrators_j/daqsystem.m:146 (field_read)`; target(s) BUILT: `acquisition_system`
-- `ensemble` (ensemble) -- consumed at 1 site(s): `ndi_second_pass/ensembleMembership.m:227 (guard)`; target(s) BUILT: `subject`, `directed_relation`, `sampled_body`
-- `epoch_bounded_reference` (time_reference) -- consumed at 6 site(s): `ndi_second_pass/epochAnchorFold.m:273 (guard)`, `ndi_second_pass/epochAnchorFold.m:375 (guard)`, `ndi_second_pass/epochAnchorFold.m:486 (guard)`, `ndi_second_pass/epochAnchorFold.m:487 (field_read)`, `ndi_second_pass/epochAnchorFold.m:488 (field_read)`, `ndi_second_pass/epochAnchorFold.m:489 (field_read)`; MINTED as a document class at 1 site(s): `ndi_second_pass/stimulusBathToBath.m:137 (emitted_class)`; minted at 1 site(s), NOT counted as build progress: the signed decision retires this class in favour of `relative_reference`, so an emission is work still to undo; still emitted/named at 3 site(s): `migrators_j/syncrule_mapping.m:182 (named)`, `ndi_second_pass/epochAnchorFold.m:376 (named)`, `ndi_second_pass/stimulusBathToBath.m:147 (field_write)`
-- `epochfiles_ingested` (epoch) -- migrator `migrators_j/epochfiles_ingested.m`
-- `epochid` (epoch) -- consumed at 10 site(s): `migrators_j/private/jMethodParameters.m:122 (guard)`, `ndi_second_pass/bodyResolver.m:216 (guard)`, `ndi_second_pass/bodyResolver.m:217 (guard)`, `ndi_second_pass/bodyResolver.m:218 (field_read)`, `ndi_second_pass/ensembleMembership.m:361 (guard)`, `ndi_second_pass/ensembleMembership.m:362 (field_read)` ...; still emitted/named at 8 site(s): `migrators_j/epochfiles_ingested.m:135 (named)`, `migrators_j/private/jMethodParameters.m:123 (named)`, `migrators_j/private/jMethodParameters.m:126 (field_write)`, `ndi_second_pass/epochAnchorFold.m:379 (named)`, `ndi_second_pass/epochAnchorFold.m:468 (named)`, `ndi_second_pass/epochAnchorFold.m:472 (named)` ...
-- `filenavigator` (file navigation) -- migrator `migrators_j/filenavigator.m`; consumed at 3 site(s): `migrators_j/filenavigator.m:121 (guard)`, `migrators_j/filenavigator.m:122 (field_read)`, `migrators_j/filenavigator.m:123 (field_read)`; target(s) BUILT: `epoch_file_pattern`
-- `filter` (frequency_filter) -- consumed at 2 site(s): `migrators_j/private/jFrequencyFilter.m:112 (guard)`, `migrators_j/private/jFrequencyFilter.m:113 (field_read)`; still emitted/named at 2 site(s): `migrators_j/private/jSpikeExtractionSettings.m:159 (named)`, `migrators_j/vmspikefilteringparameters.m:144 (named)`
-- `ngrid` (image / ngrid) -- consumed at 2 site(s): `migrators_j/+super/ngrid.m:100 (field_read)`, `migrators_j/+super/ngrid.m:96 (guard)`; still emitted/named at 1 site(s): `migrators_j/+super/ngrid.m:115 (field_write)`
-- `stimulus_presentation` (stimulus) -- migrator `migrators_j/stimulus_presentation.m`; consumed at 2 site(s): `ndi_second_pass/stimulusPresentationToManipulation.m:47 (guard)`, `ndi_second_pass/stimulusPresentationToManipulation.m:48 (field_read)`
-- `syncgraph` (sync configuration) -- migrator `migrators_j/syncgraph.m`; consumed at 2 site(s): `migrators_j/syncgraph.m:128 (guard)`, `migrators_j/syncgraph.m:129 (field_read)`; target(s) BUILT: `clock_alignment_policy`
-- `syncrule` (sync configuration) -- migrator `migrators_j/syncrule.m`; consumed at 2 site(s): `migrators_j/syncrule.m:95 (guard)`, `migrators_j/syncrule.m:96 (field_read)`; target(s) BUILT: `clock_alignment_configuration`
-- `syncrule_mapping` (sync mapping) -- migrator `migrators_j/syncrule_mapping.m`; consumed at 2 site(s): `migrators_j/syncrule_mapping.m:106 (guard)`, `migrators_j/syncrule_mapping.m:107 (field_read)`; MINTED as a document class at 1 site(s): `migrators_j/syncrule_mapping.m:131 (emitted_class)`; still emitted/named at 1 site(s): `migrators_j/syncrule_mapping.m:149 (field_write)`; target(s) BUILT: `clock_alignment`
-- `time_reference` (time_reference) -- consumed at 1 site(s): `ndi_second_pass/epochAnchorFold.m:383 (guard)`; still emitted/named at 32 site(s): `migrators_j/fitcurve.m:147 (named)`, `migrators_j/fitcurve.m:153 (field_write)`, `migrators_j/image_stack.m:279 (named)`, `migrators_j/image_stack.m:283 (field_write)`, `migrators_j/jrclust_clusters.m:88 (named)`, `migrators_j/jrclust_clusters.m:92 (field_write)` ...
+- `acquisition_epoch` (epoch) -- MINTED as a document class at 1 site(s): `DID-matlab:migrators_j/element_epoch.m:99 (emitted_class)`; a block of this name is WRITTEN at 1 site(s): `DID-matlab:migrators_j/element_epoch.m:101 (field_write)`; mentioned in 22 COMMENT(s) -- prose, counts toward nothing: `DID-matlab:migrators_j/element_epoch.m:10 (comment_mention)`, `DID-matlab:migrators_j/element_epoch.m:12 (comment_mention)`, `DID-matlab:migrators_j/element_epoch.m:2 (comment_mention)`, `DID-matlab:migrators_j/element_epoch.m:33 (comment_mention)`, `DID-matlab:migrators_j/element_epoch.m:54 (comment_mention)`, `DID-matlab:migrators_j/element_epoch.m:69 (comment_mention)` ...
+- `app` (software) -- consumed at 2 site(s): `DID-matlab:migrators_j/private/jSoftwareFromApp.m:91 (guard)`, `DID-matlab:migrators_j/private/jSoftwareFromApp.m:92 (field_read)`; a block of this name is WRITTEN at 1 site(s): `DID-matlab:migrators_j/private/jMethodParameters.m:107 (field_write)`; mentioned in 138 COMMENT(s) -- prose, counts toward nothing: `DID-matlab:migrators_j/Contents.m:113 (comment_mention)`, `DID-matlab:migrators_j/Contents.m:129 (comment_mention)`, `DID-matlab:migrators_j/Contents.m:355 (comment_mention)`, `DID-matlab:migrators_j/Contents.m:356 (comment_mention)`, `DID-matlab:migrators_j/Contents.m:412 (comment_mention)`, `DID-matlab:migrators_j/Contents.m:417 (comment_mention)` ...; target(s) BUILT: `software`
+- `binaryseries_parameters` (misc singletons) -- migrator `DID-matlab:migrators_j/binaryseries_parameters.m`; NAMED as a string value at 1 site(s): `DID-matlab:migrators_j/binaryseries_parameters.m:119 (named)`; mentioned in 9 COMMENT(s) -- prose, counts toward nothing: `DID-matlab:migrators_j/+super/image_stack_parameters.m:94 (comment_mention)`, `DID-matlab:migrators_j/Contents.m:288 (comment_mention)`, `DID-matlab:migrators_j/binaryseries_parameters.m:16 (comment_mention)`, `DID-matlab:migrators_j/binaryseries_parameters.m:2 (comment_mention)`, `DID-matlab:migrators_j/binaryseries_parameters.m:36 (comment_mention)`, `DID-matlab:migrators_j/binaryseries_parameters.m:79 (comment_mention)` ...
+- `control_designation` (stimulus) -- MINTED as a document class at 1 site(s): `DID-matlab:migrators_j/control_stimulus_ids.m:111 (emitted_class)`; a block of this name is WRITTEN at 1 site(s): `DID-matlab:migrators_j/control_stimulus_ids.m:133 (field_write)`; mentioned in 5 COMMENT(s) -- prose, counts toward nothing: `DID-matlab:migrators_j/control_stimulus_ids.m:3 (comment_mention)`, `DID-matlab:migrators_j/control_stimulus_ids.m:53 (comment_mention)`, `DID-matlab:migrators_j/control_stimulus_ids.m:60 (comment_mention)`, `DID-matlab:migrators_j/control_stimulus_ids.m:72 (comment_mention)`, `DID-matlab:migrators_j/control_stimulus_ids.m:79 (comment_mention)`
+- `daqmetadatareader` (daq configuration) -- migrator `DID-matlab:migrators_j/daqmetadatareader.m`; consumed at 3 site(s): `DID-matlab:migrators_j/daqmetadatareader.m:100 (guard)`, `DID-matlab:migrators_j/daqmetadatareader.m:101 (field_read)`, `DID-matlab:migrators_j/daqmetadatareader.m:102 (field_read)`; mentioned in 16 COMMENT(s) -- prose, counts toward nothing: `DID-matlab:migrators_j/Contents.m:171 (comment_mention)`, `DID-matlab:migrators_j/daqmetadatareader.m:13 (comment_mention)`, `DID-matlab:migrators_j/daqmetadatareader.m:2 (comment_mention)`, `DID-matlab:migrators_j/daqmetadatareader.m:26 (comment_mention)`, `DID-matlab:migrators_j/daqmetadatareader.m:29 (comment_mention)`, `DID-matlab:migrators_j/daqmetadatareader.m:39 (comment_mention)` ...; target(s) BUILT: `acquisition_metadata_reader`
+- `daqmetadatareader_epochdata_ingested` (daq ingested payloads) -- migrator `DID-matlab:migrators_j/daqmetadatareader_epochdata_ingested.m`; mentioned in 8 COMMENT(s) -- prose, counts toward nothing: `DID-matlab:migrators_j/daqmetadatareader.m:20 (comment_mention)`, `DID-matlab:migrators_j/daqmetadatareader.m:70 (comment_mention)`, `DID-matlab:migrators_j/daqmetadatareader.m:77 (comment_mention)`, `DID-matlab:migrators_j/daqmetadatareader_epochdata_ingested.m:21 (comment_mention)`, `DID-matlab:migrators_j/daqmetadatareader_epochdata_ingested.m:25 (comment_mention)`, `DID-matlab:migrators_j/daqmetadatareader_epochdata_ingested.m:30 (comment_mention)` ...; target(s) BUILT: `acquisition_metadata_file`
+- `daqreader` (daq configuration) -- migrator `DID-matlab:migrators_j/daqreader.m`; consumed at 4 site(s): `DID-matlab:migrators_j/daqreader.m:100 (guard)`, `DID-matlab:migrators_j/daqreader.m:101 (field_read)`, `DID-matlab:migrators_j/daqreader.m:102 (field_read)`, `DID-matlab:migrators_j/daqreader_ndr.m:21 (guard)`; MINTED as a document class at 1 site(s): `DID-matlab:migrators_j/daqreader_ndr.m:14 (emitted_class)`; a block of this name is WRITTEN at 2 site(s): `DID-matlab:migrators_j/daqreader_ndr.m:22 (field_write)`, `DID-matlab:migrators_j/daqreader_ndr.m:25 (field_write)`; mentioned in 28 COMMENT(s) -- prose, counts toward nothing: `DID-matlab:migrators_j/Contents.m:160 (comment_mention)`, `DID-matlab:migrators_j/Contents.m:208 (comment_mention)`, `DID-matlab:migrators_j/daqmetadatareader_epochdata_ingested.m:65 (comment_mention)`, `DID-matlab:migrators_j/daqreader.m:12 (comment_mention)`, `DID-matlab:migrators_j/daqreader.m:2 (comment_mention)`, `DID-matlab:migrators_j/daqreader.m:20 (comment_mention)` ...; target(s) BUILT: `software`
+- `daqreader_epochdata_ingested` (daq ingested payloads) -- migrator `DID-matlab:migrators_j/daqreader_epochdata_ingested.m`; consumed at 3 site(s): `DID-matlab:migrators_j/daqreader_mfdaq_epochdata_ingested.m:40 (guard)`, `DID-matlab:migrators_j/daqreader_mfdaq_epochdata_ingested.m:41 (field_read)`, `DID-matlab:migrators_j/daqreader_mfdaq_epochdata_ingested.m:66 (field_read)`; MINTED as a document class at 1 site(s): `DID-matlab:migrators_j/daqreader_mfdaq_epochdata_ingested.m:36 (emitted_class)`; a block of this name is WRITTEN at 2 site(s): `DID-matlab:migrators_j/daqreader_mfdaq_epochdata_ingested.m:42 (field_write)`, `DID-matlab:migrators_j/daqreader_mfdaq_epochdata_ingested.m:48 (field_write)`; NAMED as a string value at 2 site(s): `DID-matlab:migrators_j/daqreader_epochdata_ingested.m:84 (named)`, `DID-matlab:migrators_j/daqreader_image_epochdata_ingested.m:91 (named)`; mentioned in 16 COMMENT(s) -- prose, counts toward nothing: `DID-matlab:migrators_j/daqreader.m:54 (comment_mention)`, `DID-matlab:migrators_j/daqreader_image_epochdata_ingested.m:20 (comment_mention)`, `DID-matlab:migrators_j/daqreader_image_epochdata_ingested.m:21 (comment_mention)`, `DID-matlab:migrators_j/daqreader_image_epochdata_ingested.m:30 (comment_mention)`, `DID-matlab:migrators_j/daqreader_image_epochdata_ingested.m:89 (comment_mention)`, `DID-matlab:migrators_j/daqreader_image_epochdata_ingested.m:9 (comment_mention)` ...; target(s) BUILT: `relative_reference`
+- `daqreader_image_epochdata_ingested` (daq ingested payloads) -- migrator `DID-matlab:migrators_j/daqreader_image_epochdata_ingested.m`; mentioned in 4 COMMENT(s) -- prose, counts toward nothing: `DID-matlab:migrators_j/daqreader.m:55 (comment_mention)`, `DID-matlab:migrators_j/daqreader_image_epochdata_ingested.m:25 (comment_mention)`, `DID-matlab:migrators_j/daqreader_image_epochdata_ingested.m:43 (comment_mention)`, `DID-matlab:migrators_j/private/jEpochDocId.m:23 (comment_mention)`; target(s) BUILT: `image_observation`, `relative_reference`, `sampled_body`
+- `daqsystem` (daq configuration) -- migrator `DID-matlab:migrators_j/daqsystem.m`; consumed at 3 site(s): `DID-matlab:migrators_j/daqsystem.m:144 (guard)`, `DID-matlab:migrators_j/daqsystem.m:145 (field_read)`, `DID-matlab:migrators_j/daqsystem.m:146 (field_read)`; mentioned in 17 COMMENT(s) -- prose, counts toward nothing: `DID-matlab:migrators_j/Contents.m:145 (comment_mention)`, `DID-matlab:migrators_j/Contents.m:162 (comment_mention)`, `DID-matlab:migrators_j/Contents.m:183 (comment_mention)`, `DID-matlab:migrators_j/daqmetadatareader.m:68 (comment_mention)`, `DID-matlab:migrators_j/daqreader.m:13 (comment_mention)`, `DID-matlab:migrators_j/daqreader.m:53 (comment_mention)` ...; target(s) BUILT: `acquisition_system`
+- `ensemble` (ensemble) -- consumed at 1 site(s): `NDI-matlab:ndi_second_pass/ensembleMembership.m:227 (guard)`; mentioned in 16 COMMENT(s) -- prose, counts toward nothing: `DID-matlab:migrators_j/element.m:112 (comment_mention)`, `DID-matlab:migrators_j/element_epoch.m:58 (comment_mention)`, `DID-matlab:migrators_j/element_epoch.m:60 (comment_mention)`, `DID-matlab:migrators_j/element_epoch.m:61 (comment_mention)`, `DID-matlab:migrators_j/private/jAcquisitionChannels.m:57 (comment_mention)`, `DID-matlab:migrators_j/stimulus_presentation.m:13 (comment_mention)` ...; target(s) BUILT: `subject`, `directed_relation`, `sampled_body`
+- `epoch_bounded_reference` (time_reference) -- consumed at 6 site(s): `NDI-matlab:ndi_second_pass/epochAnchorFold.m:273 (guard)`, `NDI-matlab:ndi_second_pass/epochAnchorFold.m:375 (guard)`, `NDI-matlab:ndi_second_pass/epochAnchorFold.m:486 (guard)`, `NDI-matlab:ndi_second_pass/epochAnchorFold.m:487 (field_read)`, `NDI-matlab:ndi_second_pass/epochAnchorFold.m:488 (field_read)`, `NDI-matlab:ndi_second_pass/epochAnchorFold.m:489 (field_read)`; MINTED as a document class at 1 site(s): `NDI-matlab:ndi_second_pass/stimulusBathToBath.m:137 (emitted_class)`; minted at 1 site(s), NOT counted as build progress: the signed decision retires this class in favour of `relative_reference`, so an emission is work still to undo; a block of this name is WRITTEN at 1 site(s): `NDI-matlab:ndi_second_pass/stimulusBathToBath.m:147 (field_write)`; NAMED as a string value at 2 site(s): `DID-matlab:migrators_j/syncrule_mapping.m:182 (named)`, `NDI-matlab:ndi_second_pass/epochAnchorFold.m:376 (named)`; mentioned in 20 COMMENT(s) -- prose, counts toward nothing: `DID-matlab:migrators_j/stimulus_bath.m:23 (comment_mention)`, `DID-matlab:migrators_j/syncrule_mapping.m:176 (comment_mention)`, `DID-matlab:migrators_j/syncrule_mapping.m:71 (comment_mention)`, `NDI-matlab:ndi_second_pass/bodyResolver.m:17 (comment_mention)`, `NDI-matlab:ndi_second_pass/epochAnchorFold.m:122 (comment_mention)`, `NDI-matlab:ndi_second_pass/epochAnchorFold.m:169 (comment_mention)` ...
+- `epochfiles_ingested` (epoch) -- migrator `DID-matlab:migrators_j/epochfiles_ingested.m`; mentioned in 10 COMMENT(s) -- prose, counts toward nothing: `DID-matlab:migrators_j/Contents.m:146 (comment_mention)`, `DID-matlab:migrators_j/epochfiles_ingested.m:121 (comment_mention)`, `DID-matlab:migrators_j/epochfiles_ingested.m:39 (comment_mention)`, `DID-matlab:migrators_j/epochfiles_ingested.m:60 (comment_mention)`, `DID-matlab:migrators_j/epochfiles_ingested.m:94 (comment_mention)`, `DID-matlab:migrators_j/filenavigator.m:52 (comment_mention)` ...
+- `epochid` (epoch) -- consumed at 10 site(s): `DID-matlab:migrators_j/private/jMethodParameters.m:122 (guard)`, `NDI-matlab:ndi_second_pass/bodyResolver.m:216 (guard)`, `NDI-matlab:ndi_second_pass/bodyResolver.m:217 (guard)`, `NDI-matlab:ndi_second_pass/bodyResolver.m:218 (field_read)`, `NDI-matlab:ndi_second_pass/ensembleMembership.m:361 (guard)`, `NDI-matlab:ndi_second_pass/ensembleMembership.m:362 (field_read)` ...; a block of this name is WRITTEN at 1 site(s): `DID-matlab:migrators_j/private/jMethodParameters.m:126 (field_write)`; NAMED as a string value at 7 site(s): `DID-matlab:migrators_j/epochfiles_ingested.m:135 (named)`, `DID-matlab:migrators_j/private/jMethodParameters.m:123 (named)`, `NDI-matlab:ndi_second_pass/epochAnchorFold.m:379 (named)`, `NDI-matlab:ndi_second_pass/epochAnchorFold.m:468 (named)`, `NDI-matlab:ndi_second_pass/epochAnchorFold.m:472 (named)`, `NDI-matlab:ndi_second_pass/stimulusBathToBath.m:140 (named)` ...; mentioned in 59 COMMENT(s) -- prose, counts toward nothing: `DID-matlab:migrators_j/Contents.m:128 (comment_mention)`, `DID-matlab:migrators_j/Contents.m:130 (comment_mention)`, `DID-matlab:migrators_j/daqmetadatareader_epochdata_ingested.m:22 (comment_mention)`, `DID-matlab:migrators_j/daqmetadatareader_epochdata_ingested.m:29 (comment_mention)`, `DID-matlab:migrators_j/daqmetadatareader_epochdata_ingested.m:31 (comment_mention)`, `DID-matlab:migrators_j/daqmetadatareader_epochdata_ingested.m:35 (comment_mention)` ...
+- `filenavigator` (file navigation) -- migrator `DID-matlab:migrators_j/filenavigator.m`; consumed at 3 site(s): `DID-matlab:migrators_j/filenavigator.m:121 (guard)`, `DID-matlab:migrators_j/filenavigator.m:122 (field_read)`, `DID-matlab:migrators_j/filenavigator.m:123 (field_read)`; mentioned in 16 COMMENT(s) -- prose, counts toward nothing: `DID-matlab:migrators_j/Contents.m:144 (comment_mention)`, `DID-matlab:migrators_j/Contents.m:416 (comment_mention)`, `DID-matlab:migrators_j/Contents.m:455 (comment_mention)`, `DID-matlab:migrators_j/daqsystem.m:59 (comment_mention)`, `DID-matlab:migrators_j/epochfiles_ingested.m:10 (comment_mention)`, `DID-matlab:migrators_j/filenavigator.m:17 (comment_mention)` ...; target(s) BUILT: `epoch_file_pattern`
+- `filter` (frequency_filter) -- consumed at 2 site(s): `DID-matlab:migrators_j/private/jFrequencyFilter.m:112 (guard)`, `DID-matlab:migrators_j/private/jFrequencyFilter.m:113 (field_read)`; NAMED as a string value at 2 site(s): `DID-matlab:migrators_j/private/jSpikeExtractionSettings.m:159 (named)`, `DID-matlab:migrators_j/vmspikefilteringparameters.m:144 (named)`; mentioned in 32 COMMENT(s) -- prose, counts toward nothing: `DID-matlab:migrators_j/Contents.m:277 (comment_mention)`, `DID-matlab:migrators_j/Contents.m:286 (comment_mention)`, `DID-matlab:migrators_j/ontology_image.m:12 (comment_mention)`, `DID-matlab:migrators_j/private/jFrequencyFilter.m:105 (comment_mention)`, `DID-matlab:migrators_j/private/jFrequencyFilter.m:123 (comment_mention)`, `DID-matlab:migrators_j/private/jFrequencyFilter.m:126 (comment_mention)` ...
+- `ngrid` (image / ngrid) -- consumed at 2 site(s): `DID-matlab:migrators_j/+super/ngrid.m:100 (field_read)`, `DID-matlab:migrators_j/+super/ngrid.m:96 (guard)`; a block of this name is WRITTEN at 1 site(s): `DID-matlab:migrators_j/+super/ngrid.m:115 (field_write)`; mentioned in 22 COMMENT(s) -- prose, counts toward nothing: `DID-matlab:migrators_j/+super/ngrid.m:15 (comment_mention)`, `DID-matlab:migrators_j/+super/ngrid.m:2 (comment_mention)`, `DID-matlab:migrators_j/+super/ngrid.m:23 (comment_mention)`, `DID-matlab:migrators_j/+super/ngrid.m:30 (comment_mention)`, `DID-matlab:migrators_j/+super/ngrid.m:36 (comment_mention)`, `DID-matlab:migrators_j/+super/ngrid.m:37 (comment_mention)` ...
+- `stimulus_presentation` (stimulus) -- migrator `DID-matlab:migrators_j/stimulus_presentation.m`; consumed at 2 site(s): `NDI-matlab:ndi_second_pass/stimulusPresentationToManipulation.m:47 (guard)`, `NDI-matlab:ndi_second_pass/stimulusPresentationToManipulation.m:48 (field_read)`; mentioned in 23 COMMENT(s) -- prose, counts toward nothing: `DID-matlab:migrators_j/control_stimulus_ids.m:116 (comment_mention)`, `DID-matlab:migrators_j/control_stimulus_ids.m:32 (comment_mention)`, `DID-matlab:migrators_j/control_stimulus_ids.m:46 (comment_mention)`, `DID-matlab:migrators_j/control_stimulus_ids.m:74 (comment_mention)`, `DID-matlab:migrators_j/control_stimulus_ids.m:89 (comment_mention)`, `DID-matlab:migrators_j/ontology_image.m:89 (comment_mention)` ...
+- `syncgraph` (sync configuration) -- migrator `DID-matlab:migrators_j/syncgraph.m`; consumed at 2 site(s): `DID-matlab:migrators_j/syncgraph.m:128 (guard)`, `DID-matlab:migrators_j/syncgraph.m:129 (field_read)`; mentioned in 26 COMMENT(s) -- prose, counts toward nothing: `DID-matlab:migrators_j/Contents.m:421 (comment_mention)`, `DID-matlab:migrators_j/private/jClockAlignmentBodies.m:62 (comment_mention)`, `DID-matlab:migrators_j/private/jClockAlignmentBodies.m:66 (comment_mention)`, `DID-matlab:migrators_j/private/jClockAlignmentBodies.m:71 (comment_mention)`, `DID-matlab:migrators_j/private/jSessionDocId.m:33 (comment_mention)`, `DID-matlab:migrators_j/private/jSoftware.m:34 (comment_mention)` ...; target(s) BUILT: `clock_alignment_policy`
+- `syncrule` (sync configuration) -- migrator `DID-matlab:migrators_j/syncrule.m`; consumed at 2 site(s): `DID-matlab:migrators_j/syncrule.m:95 (guard)`, `DID-matlab:migrators_j/syncrule.m:96 (field_read)`; mentioned in 33 COMMENT(s) -- prose, counts toward nothing: `DID-matlab:migrators_j/Contents.m:421 (comment_mention)`, `DID-matlab:migrators_j/daqsystem.m:83 (comment_mention)`, `DID-matlab:migrators_j/private/jAcquisitionChannels.m:15 (comment_mention)`, `DID-matlab:migrators_j/private/jAcquisitionChannels.m:18 (comment_mention)`, `DID-matlab:migrators_j/private/jAcquisitionChannels.m:2 (comment_mention)`, `DID-matlab:migrators_j/private/jAcquisitionChannels.m:30 (comment_mention)` ...; target(s) BUILT: `clock_alignment_configuration`
+- `syncrule_mapping` (sync mapping) -- migrator `DID-matlab:migrators_j/syncrule_mapping.m`; consumed at 2 site(s): `DID-matlab:migrators_j/syncrule_mapping.m:106 (guard)`, `DID-matlab:migrators_j/syncrule_mapping.m:107 (field_read)`; MINTED as a document class at 1 site(s): `DID-matlab:migrators_j/syncrule_mapping.m:131 (emitted_class)`; a block of this name is WRITTEN at 1 site(s): `DID-matlab:migrators_j/syncrule_mapping.m:149 (field_write)`; mentioned in 22 COMMENT(s) -- prose, counts toward nothing: `DID-matlab:migrators_j/private/jClockAlignmentBodies.m:10 (comment_mention)`, `DID-matlab:migrators_j/private/jClockAlignmentBodies.m:170 (comment_mention)`, `DID-matlab:migrators_j/private/jClockAlignmentBodies.m:2 (comment_mention)`, `DID-matlab:migrators_j/private/jClockAlignmentBodies.m:7 (comment_mention)`, `DID-matlab:migrators_j/private/jClockAlignmentBodies.m:74 (comment_mention)`, `DID-matlab:migrators_j/stimulus_response_scalar.m:154 (comment_mention)` ...; target(s) BUILT: `clock_alignment`
+- `time_reference` (time_reference) -- consumed at 1 site(s): `NDI-matlab:ndi_second_pass/epochAnchorFold.m:383 (guard)`; a block of this name is WRITTEN at 14 site(s): `DID-matlab:migrators_j/fitcurve.m:153 (field_write)`, `DID-matlab:migrators_j/image_stack.m:283 (field_write)`, `DID-matlab:migrators_j/jrclust_clusters.m:92 (field_write)`, `DID-matlab:migrators_j/neuron_extracellular.m:122 (field_write)`, `DID-matlab:migrators_j/ontology_table_row.m:280 (field_write)`, `DID-matlab:migrators_j/ontology_table_row.m:874 (field_write)` ...; NAMED as a string value at 18 site(s): `DID-matlab:migrators_j/fitcurve.m:147 (named)`, `DID-matlab:migrators_j/image_stack.m:279 (named)`, `DID-matlab:migrators_j/jrclust_clusters.m:88 (named)`, `DID-matlab:migrators_j/neuron_extracellular.m:118 (named)`, `DID-matlab:migrators_j/ontology_table_row.m:276 (named)`, `DID-matlab:migrators_j/ontology_table_row.m:869 (named)` ...; mentioned in 34 COMMENT(s) -- prose, counts toward nothing: `DID-matlab:migrators_j/neuron_extracellular.m:48 (comment_mention)`, `DID-matlab:migrators_j/ontology_table_row.m:172 (comment_mention)`, `DID-matlab:migrators_j/ontology_table_row.m:196 (comment_mention)`, `DID-matlab:migrators_j/ontology_table_row.m:199 (comment_mention)`, `DID-matlab:migrators_j/ontology_table_row.m:214 (comment_mention)`, `DID-matlab:migrators_j/ontology_table_row.m:31 (comment_mention)` ...
 
 ## AWAITING A SIGNATURE -- decided with the team, not yet recorded
 

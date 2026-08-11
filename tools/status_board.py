@@ -780,26 +780,190 @@ def _line_of(spans, offset):
     return lno
 
 
-def emitted_document_classes(lines):
+# THREE MINT IDIOMS, NOT ONE -- and for four months this function knew about
+# one of them.
+#
+# The docstring below used to say "every one of the 29 document-class emissions
+# is written as `<body>.document_class = struct(...)`". Measured on the same
+# files on 2026-08-11, that is 45 of the 62 `document_class` WRITES; the other
+# 17 are two idioms a `'class_name'`-comma regex cannot see:
+#
+#   IDIOM 2  obs.document_class = classBlock('score_observation', {...})
+#            `classBlock` is a LOCAL SUBFUNCTION, redefined in 8 files with two
+#            different arities, which returns the struct. Nothing in the call
+#            statement says `class_name` at all.
+#   IDIOM 3  v2Body.document_class.class_name = 'acquisition_epoch';
+#            The field write. Again no `'class_name', '<X>'` comma pair.
+#
+# THE COST WAS NOT HYPOTHETICAL. `session_relative_reference` -- a class whose
+# whole open question is that it must STOP being emitted -- renders its mint
+# count. With idiom 1 alone that count is 3. The real number is 9: six migrators
+# (fitcurve, image_stack, jrclust_clusters, neuron_extracellular, pyraview,
+# vmspikefit) mint it through `classBlock`. The board reported a THIRD of the
+# outstanding work, in this repo's characteristic direction -- less left to do
+# than there is. The six missed mints were not dropped; they were filed as
+# `named`, i.e. as the weakest possible evidence, which is worse than dropping
+# them because it looks like a measurement.
+#
+# IDIOM 2 IS RESOLVED FROM THE HELPER'S OWN SOURCE, NOT FROM ITS NAME. Nothing
+# here knows the string "classBlock". A local function qualifies when its body
+# assigns ITS OWN OUTPUT a struct that declares `superclasses` and takes its
+# `class_name` from one of its PARAMETERS -- that is what a class block is, and
+# nothing else in these packages does it. The parameter's INDEX is what is
+# recorded, so the literal is read from the right argument at the call site and
+# the superclass list (argument 2) cannot be mistaken for a mint. A helper that
+# gains an argument, or is renamed, or is copied into a ninth file, is handled
+# without an edit here; a hard-coded name would have to be chased.
+#
+# WHAT STILL CANNOT BE SEEN, STATED SO THE COUNT IS READ AS A FLOOR. When the
+# class name is a VARIABLE -- `struct('class_name', leafClass, ...)`,
+# `classBlock(e.class, ...)` -- the literal lives at a call site in another
+# function and resolving it needs the CALL GRAPH. That is a real analysis and it
+# already exists in `tools/refresh_migration_targets.py`, which walks from each
+# migrator entry point through `private/` helpers substituting arguments for
+# parameters. This function is deliberately the narrower, per-file one, so it
+# reports those sites as UNRESOLVED and counts them, rather than passing over
+# them in silence. Six such sites exist today and they are named in the board's
+# own denominator table.
+_DC_CLASS_NAME_WRITE = re.compile(r"document_class\s*\.\s*class_name\s*$")
+# `'class_name', <bare identifier>` -- the value is a VARIABLE, so the literal is
+# somewhere else. Deliberately separate from coverage.py's `CLASS_EMIT`, which
+# matches only quoted values.
+_SYMBOLIC_CLASS_NAME = re.compile(
+    r"""['"]class_name['"]\s*,\s*([A-Za-z_]\w*(?:\.\w+)*)""")
+_SINGLE_LITERAL = re.compile(r"^\s*'((?:[^']|'')*)'\s*;?\s*$")
+_CALL_HEAD = re.compile(r"^\s*([A-Za-z_]\w*)\s*\(")
+_FUNCTION_HEAD = re.compile(
+    r"^\s*function\s+"
+    r"(?:\[(?P<outs>[^\]]*)\]\s*=\s*|(?P<out1>[A-Za-z_]\w*)\s*=\s*)?"
+    r"(?P<name>[A-Za-z_]\w*)\s*(?:\((?P<args>[^)]*)\))?")
+
+
+def class_block_helpers(lines):
+    """{local function name: index of its class-name PARAMETER}.
+
+    A CLASS BLOCK HELPER is recognised by what it does, never by its name: it
+    assigns its own output variable a struct that declares `superclasses` and
+    whose `class_name` value is one of the function's own parameters. See the
+    block comment above for why the shape and not the name.
+    """
+    heads = []
+    in_block = False
+    for i, line in enumerate(lines):
+        s = line.strip()
+        if in_block:
+            if s == "%}":
+                in_block = False
+            continue
+        if s == "%{":
+            in_block = True
+            continue
+        if not s.startswith("function"):
+            continue
+        m = _FUNCTION_HEAD.match(line)
+        if m:
+            heads.append((i, m))
+    out = {}
+    for k, (i, m) in enumerate(heads):
+        end = heads[k + 1][0] if k + 1 < len(heads) else len(lines)
+        args = (m.group("args") or "").strip()
+        params = [a.strip() for a in args.split(",") if a.strip()]
+        outs = [o.strip()
+                for o in (m.group("outs") or m.group("out1") or "").split(",")
+                if o.strip()]
+        if not params or not outs:
+            continue
+        for text, _spans in logical_statements(lines[i:end]):
+            code, _lits = split_matlab_line(text)
+            eq = assignment_split(code)
+            if eq is None or text[:eq].strip() not in outs:
+                continue
+            rhs = text[eq + 1:]
+            if "superclasses" not in rhs:
+                continue
+            cut = rhs.find("superclasses")
+            for sm in _SYMBOLIC_CLASS_NAME.finditer(rhs[:cut]):
+                if sm.group(1) in params:
+                    out[m.group("name")] = params.index(sm.group(1))
+    return out
+
+
+def _top_level_args(text, code, open_paren):
+    """Positional argument source strings of the call whose `(` is at
+    `open_paren`. Depth is taken from `code` (strings blanked, same length as
+    `text`) so a comma inside a literal cannot split an argument."""
+    depth, start, args = 0, open_paren + 1, []
+    for i in range(open_paren, len(code)):
+        ch = code[i]
+        if ch in "([{":
+            depth += 1
+        elif ch in ")]}":
+            depth -= 1
+            if depth == 0:
+                args.append((start, text[start:i]))
+                return args
+        elif ch == "," and depth == 1:
+            args.append((start, text[start:i]))
+            start = i + 1
+    return args
+
+
+def emitted_document_classes(lines, unresolved=None, idioms=None):
     """{(class_name, physical_line_no)} -- documents this file MINTS.
 
-    A match counts only when, within its own statement, it appears
-      * AFTER the word `document_class` (so it is the class of a document being
-        built, not a `class_name` field of something else), and
-      * BEFORE the word `superclasses` (so it is the document's own class and
-        not one of its ancestors).
-    Measured on the 132 files of the two V_eta migrator packages, the
-    `document_class` requirement drops nothing at all -- every one of the 29
-    document-class emissions is written as `<body>.document_class = struct(...)`.
-    It is kept because the cost of the check is nil and the failure it guards
-    against (a `class_name` field on some unrelated struct) would count in the
-    reassuring direction.
+    Three idioms are recognised (see the block comment above). In every one, a
+    match counts only when it is the class of a document being BUILT and not one
+    of that document's ancestors:
+
+      1. `<body>.document_class = struct('class_name', '<X>', ...)` -- the
+         literal must appear AFTER the word `document_class` and BEFORE the word
+         `superclasses` within its own joined statement. MATLAB continuations
+         make this a statement-level question: `stimulusBathToBath.m:136-141`
+         spells one such struct over six physical lines with `'superclasses'` on
+         line 138, and a per-line rule reads line 139 as a document class.
+      2. `<body>.document_class = <helper>('<X>', ...)` where `<helper>` is a
+         local class-block function -- the literal is read from the argument at
+         that helper's own class-name parameter INDEX, so the superclass
+         argument beside it cannot be mistaken for a mint.
+      3. `<body>.document_class.class_name = '<X>';`
+
+    `unresolved`, if given a list, collects `(physical_line_no, expression)` for
+    every `document_class` write whose class name is a VARIABLE. Those are mints
+    this per-file analysis cannot name; they are counted and reported, never
+    dropped. `idioms`, if given a dict, is tallied per idiom number so the
+    artifact can state how many sites each shape accounts for instead of
+    carrying a hand-written figure that goes stale.
     """
+    def _tally(n):
+        if idioms is not None:
+            idioms[n] = idioms.get(n, 0) + 1
     found = set()
+    helpers = class_block_helpers(lines)
     for text, spans in logical_statements(lines):
         anchor = text.find("document_class")
         if anchor < 0:
             continue
+        code, _lits = split_matlab_line(text)
+        eq = assignment_split(code)
+        lhs = text[:eq] if eq is not None else ""
+        rhs_off = (eq + 1) if eq is not None else 0
+        hit = False
+
+        # IDIOM 3 -- the field write. Checked first: its LHS also contains the
+        # word `document_class`, so idiom 1's window would otherwise open on it.
+        if _DC_CLASS_NAME_WRITE.search(lhs.rstrip()):
+            rhs = text[rhs_off:]
+            lm = _SINGLE_LITERAL.match(rhs)
+            line = _line_of(spans, rhs_off)
+            if lm:
+                found.add((lm.group(1), line))
+                _tally(3)
+            elif unresolved is not None:
+                unresolved.append((line, rhs.strip()[:80]))
+            continue
+
+        # IDIOM 1 -- the struct literal. Unchanged, including the anchor rule,
+        # so nothing this function already saw can stop being seen.
         cut = text.find("superclasses")
         for pat in CLASS_EMIT:
             for m in pat.finditer(text):
@@ -808,6 +972,35 @@ def emitted_document_classes(lines):
                 if cut != -1 and m.start() > cut:
                     continue
                 found.add((m.group(1), _line_of(spans, m.start())))
+                _tally(1)
+                hit = True
+
+        # IDIOM 2 -- the local class-block helper.
+        if "document_class" in lhs:
+            cm = _CALL_HEAD.match(text[rhs_off:])
+            if cm and cm.group(1) in helpers:
+                idx = helpers[cm.group(1)]
+                args = _top_level_args(text[rhs_off:], code[rhs_off:],
+                                       cm.end() - 1)
+                if idx < len(args):
+                    start, src = args[idx]
+                    lm = _SINGLE_LITERAL.match(src)
+                    line = _line_of(spans, rhs_off + start)
+                    if lm:
+                        found.add((lm.group(1), line))
+                        _tally(2)
+                        hit = True
+                    elif unresolved is not None:
+                        unresolved.append((line, src.strip()[:80]))
+                        hit = True
+
+        # A `document_class` write whose class name resolved to nothing is a
+        # mint this analysis cannot name. Rule 3: that is not a zero.
+        if not hit and unresolved is not None and "document_class" in lhs:
+            window = text[rhs_off:cut if cut != -1 else len(text)]
+            for sm in _SYMBOLIC_CLASS_NAME.finditer(window):
+                unresolved.append((_line_of(spans, rhs_off + sm.start()),
+                                   sm.group(1)))
     return found
 
 
@@ -861,9 +1054,25 @@ def assignment_split(code):
 #   field_write `anchor.time_reference = ...`    the migrator WRITES this class
 #   named       `classBlock('x'), 'format','x'`  the name appears, nothing more
 #
-# `field_write` and `named` are still reported per class -- "still emitted by N
-# migrator file(s)" is a useful, and deliberately unflattering, fact about an
-# open class -- they just do not make it (b).
+# `field_write` and `named` are still reported per class -- a fact about an open
+# class that is deliberately unflattering -- they just do not make it (b).
+#
+# THEY ARE REPORTED SEPARATELY, EACH WITH ITS OWN COUNT, AND THAT IS THE POINT.
+# Until 2026-08-11 the artifact summed them into one cell captioned "still
+# emitted/named at N site(s)". `session_relative_reference`'s N was 15 and it was
+# SIX MISSED MINTS plus NINE field writes -- three unlike facts wearing one
+# number. Anyone reading it had no way to tell an outstanding emission from a
+# block write, and the number was quoted onwards as though it were one kind of
+# thing. A summed count of unlike categories is not a measurement; it is the
+# shape of a measurement.
+#
+# `comment_mention` IS A SIXTH KIND, AND IT COUNTS TOWARD NOTHING AT ALL.
+# Comments have always been dropped by `split_matlab_line` before this scan sees
+# a line, so they have never inflated a count -- but "they are not in there" was
+# a claim a reader had to take on trust, and this project does not run on trust.
+# Counting them EXPLICITLY, in their own column, makes the claim checkable from
+# the artifact: +migrators_j mentions `session_relative_reference` in 16 comments
+# and every one of them is visible, in the column that counts toward nothing.
 #
 # THE GUARD LIST IS NOT COSMETIC. Its first version held only isfield/isstruct
 # and missed the SECOND PASS entirely: an NDI assembler selects its input with
@@ -887,11 +1096,22 @@ def assignment_split(code):
 GUARD_FUNCS = ("isfield", "isstruct", "strcmp", "strcmpi", "ismember", "matches")
 CONSUMING_KINDS = ("guard", "field_read")
 EMITTED_CLASS_KIND = "emitted_class"
-REF_KINDS = ("guard", "field_read", "field_write", "named", EMITTED_CLASS_KIND)
+COMMENT_KIND = "comment_mention"
+REF_KINDS = ("guard", "field_read", "field_write", "named", COMMENT_KIND,
+             EMITTED_CLASS_KIND)
+# Kinds that are evidence about CODE. `comment_mention` is prose and is excluded
+# from every count that means anything; it is carried so its absence from those
+# counts can be checked rather than believed.
+CODE_KINDS = tuple(k for k in REF_KINDS if k != COMMENT_KIND)
 
 
-def scan_matlab_file(path, patterns):
-    """Return ({class: [(line_no, kind)]}, n_lines) for one .m file."""
+def scan_matlab_file(path, patterns, unresolved=None, idioms=None):
+    """Return ({class: [(line_no, kind)]}, n_lines) for one .m file.
+
+    `unresolved`, if given a list, collects `(line_no, expression)` for every
+    `document_class` write whose class name is a variable this per-file analysis
+    cannot resolve to a literal -- mints that are real and unnamed, not absent.
+    """
     hits, in_block = {}, False
     try:
         with open(path, errors="replace") as fh:
@@ -900,17 +1120,30 @@ def scan_matlab_file(path, patterns):
         return hits, 0
     # Statement-level, so it is computed over the whole file before the
     # line-level sweep below can mis-file one of its hits as `named`.
-    emissions = emitted_document_classes(lines)
+    emissions = emitted_document_classes(lines, unresolved, idioms)
+    word = {cls: re.compile(r"(?<![\w])" + re.escape(cls) + r"(?![\w])")
+            for cls in patterns}
     for lno, line in enumerate(lines, 1):
         s = line.strip()
         if in_block:
             if s == "%}":
                 in_block = False
+            else:
+                for cls, wrx in word.items():
+                    if wrx.search(line):
+                        hits.setdefault(cls, []).append((lno, COMMENT_KIND))
             continue
         if s == "%{":
             in_block = True
             continue
         code, lits = split_matlab_line(line)
+        # Whatever `split_matlab_line` refused to read is a `%` comment or the
+        # tail after a `...` continuation -- prose either way.
+        prose = line[len(code):]
+        if prose.strip():
+            for cls, wrx in word.items():
+                if wrx.search(prose):
+                    hits.setdefault(cls, []).append((lno, COMMENT_KIND))
         if not lits and not code.strip():
             continue
         eq = assignment_split(code)
@@ -942,9 +1175,20 @@ def scan_matlab_file(path, patterns):
 # +migrators (V_zeta) and +migrators_i (intermediate) are deliberately NOT
 # scanned: a V_zeta migrator is not evidence that the V_eta target is built, and
 # counting it would inflate (b) with work that predates every decision here.
+#
+# THE TWO PASSES LIVE IN DIFFERENT REPOSITORIES, AND EVERY SITE SAYS WHICH.
+# The board used to print `ndi_second_pass/stimulusBathToBath.m:137` -- a package
+# label and a path, with nothing naming the repository. A reader looking for that
+# file in DID-matlab, which is where the board's other 130-odd files are and
+# where its `--did` argument points, finds NOTHING: it is
+# NDI-matlab `src/ndi/+ndi/+migrate/+internal/stimulusBathToBath.m`. A citation
+# that cannot be followed to the repository holding it is not a citation, and a
+# reader who cannot find the file has to choose between believing the board and
+# believing their own search. So the repository is part of every reference now:
+#     NDI-matlab:ndi_second_pass/stimulusBathToBath.m:137
 MIGRATOR_PACKAGES = [
-    ("did", "migrators_j", "src/did/+did2/+convert/+migrators_j"),
-    ("ndi", "ndi_second_pass", "src/ndi/+ndi/+migrate/+internal"),
+    ("did", "DID-matlab", "migrators_j", "src/did/+did2/+convert/+migrators_j"),
+    ("ndi", "NDI-matlab", "ndi_second_pass", "src/ndi/+ndi/+migrate/+internal"),
 ]
 
 REF_CAP = 6            # refs listed per class in the artifact; the count is exact
@@ -970,34 +1214,45 @@ def migrator_evidence(classes, did_root, ndi_root):
         signal"). This scan cannot tell a fold from a passthrough. That is
         precisely why a build signal alone is state (b) and never (c) -- only
         the census can tell them apart.
-      * A CLASS REACHED THROUGH A COMPUTED NAME is invisible (sprintf, a
-        dispatch variable, a name assembled from a field). Nothing in
-        +migrators_j does this today; if something starts, this scan will
-        under-report, in the safe direction.
+      * A CLASS REACHED THROUGH A COMPUTED NAME is invisible to the MINT
+        recogniser -- `struct('class_name', leafClass, ...)`,
+        `classBlock(e.class, ...)`. Those sites are COUNTED and LISTED
+        (`unresolved_mint_sites`) rather than passed over, because "the analysis
+        could not read it" and "there is nothing there" are different facts and
+        this project has paid for conflating them. Six exist today.
       * FIELD-ACCESS HITS CAN BE INCIDENTAL for the short names. `.filter` is
         matched in jSpikeExtractionSettings.m as a grouping key as well as in
         jFrequencyFilter.m as the v1 block. Every reference is listed with its
         file and line so the reading is checkable rather than trusted.
+
+    EVERY OCCURRENCE LANDS IN EXACTLY ONE BUCKET, AND THE BUCKETS ARE NEVER
+    SUMMED. `mint`, `consumed`, `field_write`, `named` and `comment_mention` are
+    five different facts about a class; each is returned with its own count.
     """
     patterns = {c: re.compile(r"\.\s*" + re.escape(c) + r"\b") for c in classes}
     per_class, roots_read, roots_missing = {}, [], []
+    unresolved_sites, idiom_counts = [], {}
     files_read = lines_read = 0
-    for kind, label, rel in MIGRATOR_PACKAGES:
+    for kind, repo, label, rel in MIGRATOR_PACKAGES:
         root = did_root if kind == "did" else ndi_root
         base = os.path.join(root, rel) if root else None
         if not base or not os.path.isdir(base):
-            roots_missing.append(label)
+            roots_missing.append("%s:%s" % (repo, label))
             continue
-        roots_read.append(label)
+        roots_read.append("%s:%s" % (repo, label))
         for path in sorted(glob.glob(os.path.join(base, "**", "*.m"),
                                      recursive=True)):
-            rel_path = "%s/%s" % (label, os.path.relpath(path, base))
+            rel_path = "%s:%s/%s" % (repo, label, os.path.relpath(path, base))
             files_read += 1
             name = os.path.basename(path)[:-2]
             if name in classes and os.path.dirname(path) == base:
                 per_class.setdefault(name, {}).setdefault("file", rel_path)
-            hits, n_lines = scan_matlab_file(path, patterns)
+            unresolved = []
+            hits, n_lines = scan_matlab_file(path, patterns, unresolved,
+                                             idiom_counts)
             lines_read += n_lines
+            for lno, expr in unresolved:
+                unresolved_sites.append("%s:%d (%s)" % (rel_path, lno, expr))
             for cls, spots in hits.items():
                 refs = per_class.setdefault(cls, {}).setdefault("refs", [])
                 for lno, why in spots:
@@ -1015,26 +1270,47 @@ def migrator_evidence(classes, did_root, ndi_root):
         refs = sorted(ev.get("refs", []))
         consuming = [r for r in refs if r[1] in CONSUMING_KINDS]
         minting = [r for r in refs if r[1] == EMITTED_CLASS_KIND]
-        other = [r for r in refs
-                 if r[1] not in CONSUMING_KINDS and r[1] != EMITTED_CLASS_KIND]
+        writes = [r for r in refs if r[1] == "field_write"]
+        named = [r for r in refs if r[1] == "named"]
+        comments = [r for r in refs if r[1] == COMMENT_KIND]
         if minting:
             n_with_emission += 1
         out[cls] = {
             "migrator_file": ev.get("file"),
             "n_consuming_refs": len(consuming),
             "consuming_refs": ["%s (%s)" % r for r in consuming[:REF_CAP]],
-            # The class this migrator MINTS. Separate from `emitting_refs`,
-            # which is the weaker "the name appears / is written into a field".
+            # THE CLASS THIS MIGRATOR MINTS -- a document of it is produced.
             "n_emitted_class_refs": len(minting),
             "emitted_class_refs": ["%s (%s)" % r for r in minting[:REF_CAP]],
-            "n_emitting_refs": len(other),
-            "emitting_refs": ["%s (%s)" % r for r in other[:REF_CAP]],
+            # A BLOCK OF THAT NAME IS WRITTEN -- `anchor.<class> = struct(...)`.
+            # Not a mint: the mint is the `document_class` statement a few lines
+            # above it, and counting the pair together double-counts one
+            # document while making the two indistinguishable.
+            "n_field_write_refs": len(writes),
+            "field_write_refs": ["%s (%s)" % r for r in writes[:REF_CAP]],
+            # THE NAME APPEARS IN CODE AND NOTHING MORE -- a string value such as
+            # `struct('kind', 'epoch_bounded_reference', ...)`.
+            "n_named_refs": len(named),
+            "named_refs": ["%s (%s)" % r for r in named[:REF_CAP]],
+            # PROSE. Counts toward nothing; carried so that can be verified.
+            "n_comment_mentions": len(comments),
+            "comment_mentions": ["%s (%s)" % r for r in comments[:REF_CAP]],
         }
     return out, {"available": True, "packages_read": roots_read,
                  "packages_missing": roots_missing, "files_read": files_read,
                  "lines_read": lines_read, "classes_queried": len(classes),
                  "classes_emitted_as_document_class": n_with_emission,
+                 "unresolved_mint_sites": sorted(unresolved_sites),
+                 "n_unresolved_mint_sites": len(unresolved_sites),
+                 # Sites per mint idiom, over ALL classes in these packages --
+                 # not only the open ones queried. The artifact prints these
+                 # rather than a hand-written figure that cannot go stale
+                 # quietly.
+                 "mint_sites_by_idiom": {str(k): idiom_counts[k]
+                                         for k in sorted(idiom_counts)},
                  "ref_kinds": list(REF_KINDS),
+                 "code_kinds": list(CODE_KINDS),
+                 "comment_kind": COMMENT_KIND,
                  "consuming_kinds": list(CONSUMING_KINDS),
                  "emitted_class_kind": EMITTED_CLASS_KIND}
 
@@ -1217,8 +1493,12 @@ def open_class_state(open_work, schemas, rows, mig, mig_src, cen, cen_src):
         mfile = m.get("migrator_file") if measured else None
         n_con = m.get("n_consuming_refs", 0) if measured else 0
         con_refs = m.get("consuming_refs", []) if measured else []
-        n_emit = m.get("n_emitting_refs", 0) if measured else 0
-        emit_refs = m.get("emitting_refs", []) if measured else []
+        n_write = m.get("n_field_write_refs", 0) if measured else 0
+        write_refs = m.get("field_write_refs", []) if measured else []
+        n_named = m.get("n_named_refs", 0) if measured else 0
+        named_refs = m.get("named_refs", []) if measured else []
+        n_comment = m.get("n_comment_mentions", 0) if measured else 0
+        comment_refs = m.get("comment_mentions", []) if measured else []
         n_mint = m.get("n_emitted_class_refs", 0) if measured else 0
         mint_refs = m.get("emitted_class_refs", []) if measured else []
 
@@ -1274,8 +1554,15 @@ def open_class_state(open_work, schemas, rows, mig, mig_src, cen, cen_src):
             "emission_counts_as_build": mint_counts,
             "retired_by_decision_in_favour_of": retired_to,
             "emission_discounted": discount,
-            "n_emitting_refs": n_emit,
-            "emitting_refs": emit_refs,
+            # THREE CATEGORIES, THREE COUNTS, NEVER A SUM. See the block comment
+            # above `GUARD_FUNCS`: the single `n_emitting_refs` these replace
+            # merged six missed mints with nine field writes under one caption.
+            "n_field_write_refs": n_write,
+            "field_write_refs": write_refs,
+            "n_named_refs": n_named,
+            "named_refs": named_refs,
+            "n_comment_mentions": n_comment,
+            "comment_mentions": comment_refs,
             "decided_targets": decided,
             "decided_targets_built": built_t,
             "decided_targets_missing": missing_t,
@@ -1318,8 +1605,12 @@ def gather_evidence(open_work, schemas, rows, args, log):
                      "consuming_refs": r.get("consuming_refs", []),
                      "n_emitted_class_refs": r.get("n_emitted_class_refs", 0),
                      "emitted_class_refs": r.get("emitted_class_refs", []),
-                     "n_emitting_refs": r.get("n_emitting_refs", 0),
-                     "emitting_refs": r.get("emitting_refs", [])}
+                     "n_field_write_refs": r.get("n_field_write_refs", 0),
+                     "field_write_refs": r.get("field_write_refs", []),
+                     "n_named_refs": r.get("n_named_refs", 0),
+                     "named_refs": r.get("named_refs", []),
+                     "n_comment_mentions": r.get("n_comment_mentions", 0),
+                     "comment_mentions": r.get("comment_mentions", [])}
                  for c, r in snap_rows.items()
                  if r.get("build_evidence_measured")}
         if prior:
@@ -1396,6 +1687,8 @@ def render_open_state(p, ocs):
       % msrc.get("classes_emitted_as_document_class", 0))
     p("| build: of those, discounted (decision retires the class) | %d |"
       % sum(1 for r in rowsv if r.get("emission_discounted")))
+    p("| build: `document_class` writes whose class name is a VARIABLE | %d |"
+      % msrc.get("n_unresolved_mint_sites", 0))
     p("| corpus: `*-summary.json` reports read | %d |" % csrc.get("reports_read", 0))
     p("| corpus: reports carrying an `unconverted_count` | %d |"
       % csrc.get("reports_with_survivor_data", 0))
@@ -1440,24 +1733,75 @@ def render_open_state(p, ocs):
     p("'<class>')` / `strcmp(classNameOf(s), '<class>')` guard, or a read of")
     p("`preBody.<class>`. That is evidence about a v1 SOURCE: something eats it.")
     p("")
-    p("**MINTED** -- `b.document_class = struct('class_name', '<class>', ...)`.")
-    p("That is evidence about a V_eta TARGET: something builds it. The scan could")
-    p("not see this until 2026-08-10, and the cost was concrete:")
-    p("`control_designation` rendered as *decided, nothing built* while")
-    p("`migrators_j/control_stimulus_ids.m:111` was minting it -- no file is named")
-    p("after the target of a rename, so a filename key can never find one. The")
-    p("patterns come from `tools/coverage.py`, which already extracts them for its")
-    p("emitted-class guardrail; comments and `superclasses` entries are dropped on")
-    p("top (of the 42 names coverage.py's raw sweep reports, 29 are document")
-    p("classes -- the 13 it conflates include `time_reference` and `epochid`, both")
-    p("open, both minted only as somebody else's superclass).")
+    p("**MINTED** -- the migrator sets a document's class. That is evidence about")
+    p("a V_eta TARGET: something builds it. The scan could not see this at all")
+    p("until 2026-08-10, and the cost was concrete: `control_designation`")
+    p("rendered as *decided, nothing built* while")
+    p("`DID-matlab:migrators_j/control_stimulus_ids.m:111` was minting it -- no")
+    p("file is named after the target of a rename, so a filename key can never")
+    p("find one.")
     p("")
-    p("A migrator that merely WRITES the name into a field (`x.<class> = ...`) or")
-    p("names it as a value is counted separately and shown as *still emitted*,")
-    p("because for an open class that is evidence the decided change has **not**")
-    p("landed. Counting those as build progress is what the first draft of this")
-    p("scan did: it made `directory` look built off `struct('format',")
-    p("'directory', ...)`.")
+    p("**THERE ARE THREE MINT IDIOMS AND UNTIL 2026-08-11 THIS BOARD KNEW ONE.**")
+    p("")
+    _idiom_shape = {
+        "1": "`b.document_class = struct('class_name', '<class>', ...)`",
+        "2": "`b.document_class = classBlock('<class>', {supers})`",
+        "3": "`b.document_class.class_name = '<class>';`",
+    }
+    _by_idiom = msrc.get("mint_sites_by_idiom") or {}
+    p("| idiom | shape | sites in the packages read |")
+    p("|---|---|---|")
+    for _k in sorted(set(_idiom_shape) | set(_by_idiom)):
+        p("| %s | %s | %d |"
+          % (_k, _idiom_shape.get(_k, "*unrecognised*"), _by_idiom.get(_k, 0)))
+    p("| - | class name is a VARIABLE -- unresolved here | %d |"
+      % msrc.get("n_unresolved_mint_sites", 0))
+    p("")
+    p("Idioms 2 and 3 carry no `'class_name', '<X>'` comma pair, so the regex")
+    p("imported from `tools/coverage.py` cannot see them. `classBlock` is a LOCAL")
+    p("SUBFUNCTION, redefined in eight files with two different arities, and it is")
+    p("recognised HERE BY ITS SHAPE, not its name: a local function that assigns")
+    p("its own output a struct declaring `superclasses` whose `class_name` comes")
+    p("from one of its parameters. The literal is then read from that parameter's")
+    p("INDEX at each call site, so the superclass argument beside it cannot be")
+    p("mistaken for a mint.")
+    p("")
+    _srr = next((r for r in rowsv
+                 if r["class_name"] == "session_relative_reference"), None)
+    p("**WHAT THE MISS COST, stated as the number and not as a lesson.**")
+    p("`session_relative_reference` is a class whose whole open question is that")
+    p("it must STOP being emitted. Idiom 1 alone puts its mint count at **3**;")
+    p("this run measures **%s**, the difference being six migrators"
+      % (_srr["n_emitted_class_refs"] if _srr else "n/a -- no longer open"))
+    p("(`fitcurve`, `image_stack`, `jrclust_clusters`, `neuron_extracellular`,")
+    p("`pyraview`, `vmspikefit`) that mint it through `classBlock`. The board")
+    p("reported a third of the outstanding work, in this project's characteristic")
+    p("direction. The six were not dropped -- they were filed as `named`, the")
+    p("weakest bucket, which is worse than dropping them because it looks like a")
+    p("measurement.")
+    p("")
+    p("**A `document_class` WRITE WHOSE CLASS NAME IS A VARIABLE IS COUNTED, NOT")
+    p("SKIPPED.** `struct('class_name', leafClass, ...)` and")
+    p("`classBlock(e.class, ...)` need the CALL GRAPH to resolve, which is")
+    p("`tools/refresh_migration_targets.py`'s job, not this per-file scan's. Those")
+    p("sites appear in the denominator table above. The mint counts in this")
+    p("artifact are therefore a FLOOR.")
+    p("")
+    _unres = msrc.get("unresolved_mint_sites") or []
+    if _unres:
+        p("| unresolved `document_class` write | class name expression |")
+        p("|---|---|")
+        for _s in _unres:
+            _site, _, _expr = _s.rpartition(" (")
+            p("| `%s` | `%s` |" % (_site, _expr.rstrip(")")))
+        p("")
+    p("**THE OTHER CATEGORIES ARE REPORTED SEPARATELY AND ARE NEVER SUMMED.** A")
+    p("migrator that WRITES a block of that name (`x.<class> = ...`), one that")
+    p("merely NAMES it as a string value, and one that MENTIONS it in a comment")
+    p("are three different facts, and a single cell reading *still emitted/named")
+    p("at N site(s)* merged them. It also swallowed the six missed mints above.")
+    p("Each now has its own column and its own count; comment mentions count")
+    p("toward nothing and are shown so that can be checked rather than believed.")
     p("")
     p("**A MINT IS DISCOUNTED WHEN THE DECISION RETIRES THE CLASS.** For a class")
     p("whose signed decision is that it stops existing, minting it is the work")
@@ -1478,8 +1822,14 @@ def render_open_state(p, ocs):
     p("a row whose only evidence is a built target as *the target exists*, not as")
     p("*the work is done*.")
     p("")
-    p("| class | family | state | build evidence | minted | still emitted | survivors |")
-    p("|---|---|---|---|---|---|---|")
+    p("Each of the last four columns is one kind of fact and they are NOT added")
+    p("together. `minted` = a document of this class is produced; `field writes`")
+    p("= a block of that name is written; `named` = the name appears as a string")
+    p("value; `comments` = prose, which counts toward nothing.")
+    p("")
+    p("| class | family | state | build evidence | minted | field writes | named "
+      "| comments | survivors |")
+    p("|---|---|---|---|---|---|---|---|---|")
     for r in rowsv:
         surv = ("n/a -- not measured" if r["survivors"] is None
                 else str(r["survivors"]))
@@ -1489,10 +1839,12 @@ def render_open_state(p, ocs):
         mint = r.get("n_emitted_class_refs") or 0
         mint_cell = ("%d (discounted)" % mint if r.get("emission_discounted")
                      else (str(mint) if mint else "-"))
-        p("| `%s` | %s | %s | %s | %s | %s | %s |"
+        p("| `%s` | %s | %s | %s | %s | %s | %s | %s | %s |"
           % (r["class_name"], r["family"] or "-",
              OPEN_STATE_LABEL[r["state"]].split(" ", 1)[0], ev,
-             mint_cell, r["n_emitting_refs"] or "-", surv))
+             mint_cell, r.get("n_field_write_refs") or "-",
+             r.get("n_named_refs") or "-", r.get("n_comment_mentions") or "-",
+             surv))
     p("")
     for k in (STATE_A, STATE_U, STATE_C, STATE_B):
         members = [r for r in rowsv if r["state"] == k]
@@ -1519,12 +1871,23 @@ def render_open_state(p, ocs):
                                > len(r["emitted_class_refs"]) else ""))
             if r.get("emission_discounted"):
                 bits.append(r["emission_discounted"])
-            if r["n_emitting_refs"]:
-                bits.append("still emitted/named at %d site(s): %s%s"
-                            % (r["n_emitting_refs"],
-                               ", ".join("`%s`" % x for x in r["emitting_refs"]),
-                               " ..." if r["n_emitting_refs"]
-                               > len(r["emitting_refs"]) else ""))
+            # ONE CAPTION PER CATEGORY. The single "still emitted/named at N
+            # site(s)" line these three replace merged mints the scan had
+            # misfiled, block writes and string values into one number.
+            for _n, _refs, _caption in (
+                    ("n_field_write_refs", "field_write_refs",
+                     "a block of this name is WRITTEN at %d site(s)"),
+                    ("n_named_refs", "named_refs",
+                     "NAMED as a string value at %d site(s)"),
+                    ("n_comment_mentions", "comment_mentions",
+                     "mentioned in %d COMMENT(s) -- prose, counts toward "
+                     "nothing")):
+                if not r.get(_n):
+                    continue
+                bits.append((_caption + ": %s%s")
+                            % (r[_n],
+                               ", ".join("`%s`" % x for x in r[_refs]),
+                               " ..." if r[_n] > len(r[_refs]) else ""))
             if r["decided_targets_built"]:
                 bits.append("target(s) BUILT: %s"
                             % ", ".join("`%s`" % t
