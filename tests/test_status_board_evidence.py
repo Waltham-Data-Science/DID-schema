@@ -576,3 +576,369 @@ def test_every_open_class_appears_in_exactly_one_state():
     names = [r["class_name"] for r in rows]
     assert len(names) == len(set(names))
     assert all(r["state"] in sb.OPEN_STATE_LABEL for r in rows)
+
+
+# ---------------------------------------------------------------------------
+# THE MINT IDIOMS -- fixtures CUT FROM THE REAL MIGRATORS, not written here
+# ---------------------------------------------------------------------------
+#
+# WHY THESE FIXTURES ARE EXTRACTED AND NOT TYPED. This repo's standing lesson is
+# that A TEST WRITTEN FROM THE SAME PREMISE AS THE CODE CANNOT CATCH THE CODE:
+# three tests asserted the `epochid` bug and had to be inverted, and the
+# `silentLoss` counter shipped measuring nothing with no tests at all. The
+# detector these tests cover missed six of nine `session_relative_reference`
+# mints for exactly that reason -- its author's model of a mint was
+# `struct('class_name', ...)`, so a hand-typed fixture would have been that
+# shape too and would have passed while the migrators minted through a helper.
+#
+# So `_cut_statement` and `_cut_function` lift the bytes OUT OF THE MIGRATOR
+# FILE. If a migrator's shape changes, the fixture changes with it; if a
+# migrator stops using an idiom, the extractor finds nothing and the test fails
+# loudly rather than checking a shape nobody writes any more. Neither extractor
+# calls the detector -- they are plain line scans -- so the fixture cannot be
+# built by the machinery under test.
+
+def _ndi_root():
+    return sb.find_repo("NDI-matlab", "NDI_MATLAB")
+
+
+def _mig(rel):
+    root = _did_root()
+    return None if root is None else os.path.join(
+        root, "src/did/+did2/+convert/+migrators_j", rel)
+
+
+def _cut_statement(path, needle):
+    """The physical lines of the first MATLAB statement containing `needle`.
+
+    Continuations are followed by looking for a trailing `...`, which is a plain
+    line scan and shares nothing with `logical_statements`.
+    """
+    with open(path, errors="replace") as fh:
+        lines = fh.readlines()
+    for i, line in enumerate(lines):
+        if needle not in line or line.lstrip().startswith("%"):
+            continue
+        out = [line]
+        j = i
+        while lines[j].rstrip().endswith("..."):
+            j += 1
+            out.append(lines[j])
+        return "".join(out), i + 1
+    return None, None
+
+
+def _cut_function(path, name):
+    """The whole text of local function `name`, from its `function` line to the
+    next one (MATLAB subfunctions do not nest)."""
+    with open(path, errors="replace") as fh:
+        lines = fh.readlines()
+    start = None
+    for i, line in enumerate(lines):
+        s = line.lstrip()
+        if not s.startswith("function"):
+            continue
+        if start is None and re.search(r"\b%s\s*\(" % re.escape(name), line):
+            start = i
+        elif start is not None:
+            return "".join(lines[start:i])
+    return "".join(lines[start:]) if start is not None else None
+
+
+import re  # noqa: E402 -- used by the extractors above
+
+
+_IDIOM_SOURCES = [
+    # idiom, file, the needle that finds the mint statement, helper to carry
+    ("1 struct literal", "private/jSessionAnchor.m",
+     "'class_name', 'session_relative_reference'", None),
+    ("2 local class-block helper", "fitcurve.m",
+     "classBlock('session_relative_reference'", "classBlock"),
+    ("2 local class-block helper, 3-arg", "pyraview.m",
+     "classBlock('session_relative_reference'", "classBlock"),
+    ("3 class_name field write", "element_epoch.m",
+     "document_class.class_name = 'acquisition_epoch'", None),
+]
+
+
+@pytest.mark.skipif(_did_root() is None, reason="DID-matlab not checked out")
+@pytest.mark.parametrize("idiom,rel,needle,helper", _IDIOM_SOURCES,
+                         ids=[s[0] for s in _IDIOM_SOURCES])
+def test_every_mint_idiom_in_the_real_migrators_is_detected(
+        tmp_path, idiom, rel, needle, helper):
+    """One fixture per idiom, cut from the migrator that uses it.
+
+    IDIOM 2 IS THE ONE THAT WAS MISSING, and it is not exotic: six migrators
+    mint `session_relative_reference` through a local `classBlock`, which is
+    twice as many sites as the idiom the detector could see.
+    """
+    path = _mig(rel)
+    stmt, lineno = _cut_statement(path, needle)
+    assert stmt, ("%s no longer contains %r -- this fixture has stopped "
+                  "describing the real migrator, so re-point it rather than "
+                  "relaxing it" % (rel, needle))
+    text = stmt
+    if helper:
+        fn = _cut_function(path, helper)
+        assert fn, "%s no longer defines %s()" % (rel, helper)
+        text = stmt + "\n" + fn
+
+    p = tmp_path / "fixture.m"
+    p.write_text(text)
+    with open(str(p)) as fh:
+        minted = {c for c, _l in sb.emitted_document_classes(fh.readlines())}
+
+    # The class is the LAST quoted literal in the needle -- `'class_name',
+    # 'session_relative_reference'` names the field first.
+    quoted = re.findall(r"'([a-z_][a-z_0-9]*)'", needle)
+    want = quoted[-1] if quoted else None
+    assert want and want != "class_name", (
+        "could not read the expected class out of %r" % needle)
+    assert want in minted, (
+        "idiom %s, cut verbatim from %s:%d, was NOT recognised as a mint. "
+        "Detected: %s. This is the undercount coming back: the site is filed "
+        "as a bare mention and the class renders with less outstanding work "
+        "than it has." % (idiom, rel, lineno, sorted(minted)))
+
+
+@pytest.mark.skipif(_did_root() is None, reason="DID-matlab not checked out")
+def test_a_class_block_helper_argument_is_not_mistaken_for_a_mint(tmp_path):
+    """`classBlock('session_relative_reference', {'time_reference'})` names TWO
+    classes and mints ONE. `time_reference` is itself an open class, and
+    counting a superclass as a mint would move it toward "built" on somebody
+    else's ancestry -- the same error the statement-position rule already
+    prevents for the struct idiom."""
+    path = _mig("fitcurve.m")
+    stmt, _ = _cut_statement(path, "classBlock('session_relative_reference'")
+    fn = _cut_function(path, "classBlock")
+    assert stmt and fn
+    p = tmp_path / "fixture.m"
+    p.write_text(stmt + "\n" + fn)
+    with open(str(p)) as fh:
+        minted = {c for c, _l in sb.emitted_document_classes(fh.readlines())}
+    assert minted == {"session_relative_reference"}, (
+        "the superclass argument was counted as a mint: %s" % sorted(minted))
+
+
+@pytest.mark.skipif(_did_root() is None, reason="DID-matlab not checked out")
+def test_a_helper_is_recognised_by_shape_and_not_by_its_name(tmp_path):
+    """Nothing in the detector knows the string "classBlock".
+
+    The real helper is renamed in the fixture. If the recogniser were keyed on
+    the name this passes only by accident today and breaks the first time a
+    migrator spells its helper differently -- which is how the board came to
+    know one idiom out of three in the first place.
+    """
+    path = _mig("fitcurve.m")
+    stmt, _ = _cut_statement(path, "classBlock('session_relative_reference'")
+    fn = _cut_function(path, "classBlock")
+    assert stmt and fn
+    text = (stmt + "\n" + fn).replace("classBlock", "buildTheClassStruct")
+    p = tmp_path / "fixture.m"
+    p.write_text(text)
+    with open(str(p)) as fh:
+        lines = fh.readlines()
+    assert "classBlock" not in "".join(lines)
+    assert sb.class_block_helpers(lines) == {"buildTheClassStruct": 0}, (
+        "the class-block helper is being recognised by NAME")
+    minted = {c for c, _l in sb.emitted_document_classes(lines)}
+    assert minted == {"session_relative_reference"}
+
+
+@pytest.mark.skipif(_did_root() is None, reason="DID-matlab not checked out")
+def test_session_relative_reference_mints_are_counted_in_full():
+    """THE ROW THAT PROVED THIS UNDERCOUNT, held against the real repo.
+
+    Its signed decision is that the class COLLAPSES into `relative_reference`,
+    so every mint is work still to undo and the count IS the size of the job.
+    The board said 3. Nine migrator files mint it, and this test names the six
+    the `'class_name'`-comma regex could not see, so a regression cannot show up
+    as a smaller number nobody notices.
+    """
+    classes = set(_open_classes())
+    if "session_relative_reference" not in classes:
+        pytest.skip("session_relative_reference is no longer an open class")
+    mig, src = sb.migrator_evidence(classes, _did_root(), _ndi_root())
+    assert mig is not None and src["files_read"] > 0, (
+        "the sweep read no files -- treat as broken, not as clean")
+    row = mig["session_relative_reference"]
+    # REF_CAP truncates the listed refs, so the count is asserted from the
+    # count field and the membership from whatever was listed.
+    assert row["n_emitted_class_refs"] >= 9, (
+        "%d mint site(s); at least 9 exist -- three `document_class = struct` "
+        "and six through a local classBlock helper. A smaller number is the "
+        "undercount returning."
+        % row["n_emitted_class_refs"])
+    assert row["n_named_refs"] == 0, (
+        "%d site(s) are still filed as bare mentions: %s. Every occurrence of "
+        "this class in the two packages is a mint, a field write or a comment."
+        % (row["n_named_refs"], row["named_refs"]))
+
+
+@pytest.mark.skipif(_did_root() is None, reason="DID-matlab not checked out")
+def test_the_classblock_migrators_are_each_credited_with_their_mint():
+    """Named one file at a time, because `>= 9` alone would be satisfied by nine
+    mints from anywhere. These six are the ones the old detector could not see.
+    """
+    classes = set(_open_classes())
+    if "session_relative_reference" not in classes:
+        pytest.skip("session_relative_reference is no longer an open class")
+    root = os.path.join(_did_root(), "src/did/+did2/+convert/+migrators_j")
+    expected = []
+    for name in ("fitcurve", "image_stack", "jrclust_clusters",
+                 "neuron_extracellular", "pyraview", "vmspikefit"):
+        path = os.path.join(root, name + ".m")
+        stmt, _ = _cut_statement(path, "classBlock('session_relative_reference'")
+        if stmt:
+            expected.append(name + ".m")
+    assert len(expected) == 6, (
+        "expected six classBlock minters of session_relative_reference, found "
+        "%s -- re-point this test at whatever uses the idiom now, do not "
+        "loosen it" % expected)
+    for name in expected:
+        path = os.path.join(root, name)
+        with open(path, errors="replace") as fh:
+            minted = {c for c, _l in sb.emitted_document_classes(fh.readlines())}
+        assert "session_relative_reference" in minted, (
+            "%s mints session_relative_reference through classBlock and the "
+            "detector missed it" % name)
+
+
+@pytest.mark.skipif(_did_root() is None, reason="DID-matlab not checked out")
+def test_every_occurrence_lands_in_exactly_one_category():
+    """The denominator closes: buckets + comments == raw grep count.
+
+    This is the check that makes the separated categories mean something. If a
+    site can be in two buckets, or in none, the counts are decorative. Run
+    against `session_relative_reference` because its buckets are the ones that
+    were confused.
+    """
+    cls = "session_relative_reference"
+    classes = set(_open_classes())
+    if cls not in classes:
+        pytest.skip("%s is no longer an open class" % cls)
+    mig, _src = sb.migrator_evidence(classes, _did_root(), _ndi_root())
+    row = mig[cls]
+    counted = (row["n_emitted_class_refs"] + row["n_consuming_refs"]
+               + row["n_field_write_refs"] + row["n_named_refs"]
+               + row["n_comment_mentions"])
+
+    raw = 0
+    for _kind, _repo, _label, rel in sb.MIGRATOR_PACKAGES:
+        root = _did_root() if _kind == "did" else _ndi_root()
+        if root is None:
+            pytest.skip("%s not checked out" % _repo)
+        base = os.path.join(root, rel)
+        for dirpath, _d, names in os.walk(base):
+            for nm in names:
+                if not nm.endswith(".m"):
+                    continue
+                with open(os.path.join(dirpath, nm), errors="replace") as fh:
+                    raw += sum(1 for line in fh if cls in line)
+    assert raw > 0, "the raw sweep found nothing -- treat as broken, not clean"
+    assert counted == raw, (
+        "%d occurrence(s) of %s in the packages, %d accounted for across the "
+        "five categories. A site in no bucket is a site nobody counts."
+        % (raw, cls, counted))
+
+
+@pytest.mark.skipif(_did_root() is None, reason="DID-matlab not checked out")
+def test_a_site_names_the_repository_it_came_from():
+    """`ndi_second_pass/stimulusBathToBath.m:137` is NDI-matlab, and DID-matlab
+    holds no file of that name. The board cited it beside 130-odd DID-matlab
+    paths with nothing saying which tree to look in."""
+    classes = set(_open_classes())
+    mig, src = sb.migrator_evidence(classes, _did_root(), _ndi_root())
+    assert mig is not None
+    repos = {repo for _k, repo, _l, _r in sb.MIGRATOR_PACKAGES}
+    for label in src["packages_read"]:
+        assert label.split(":", 1)[0] in repos, label
+    seen = 0
+    for cls, row in mig.items():
+        for key in ("consuming_refs", "emitted_class_refs", "field_write_refs",
+                    "named_refs", "comment_mentions"):
+            for ref in row[key]:
+                seen += 1
+                assert ref.split(":", 1)[0] in repos, (
+                    "%s cites %r with no repository" % (cls, ref))
+        if row["migrator_file"]:
+            assert row["migrator_file"].split(":", 1)[0] in repos
+    assert seen > 0, "no references at all -- this sweep checked nothing"
+
+    ndi_only = os.path.join(
+        _ndi_root(), "src/ndi/+ndi/+migrate/+internal/stimulusBathToBath.m")
+    assert os.path.exists(ndi_only), (
+        "stimulusBathToBath.m has moved; re-point this test at whatever "
+        "second-pass file the board still cites")
+    assert not os.path.exists(_mig("stimulusBathToBath.m")), (
+        "DID-matlab now has a stimulusBathToBath.m too, so this file no longer "
+        "demonstrates the ambiguity")
+
+
+@pytest.mark.skipif(_did_root() is None, reason="DID-matlab not checked out")
+def test_an_unreadable_class_name_is_counted_and_not_skipped():
+    """`struct('class_name', leafClass, ...)` and `classBlock(e.class, ...)` are
+    mints this per-file scan cannot NAME. Rule 3: not being able to read a site
+    is not evidence there is nothing there, so the sites are counted and listed
+    and the mint totals are stated as a floor."""
+    classes = set(_open_classes())
+    _mig_ev, src = sb.migrator_evidence(classes, _did_root(), _ndi_root())
+    assert src["n_unresolved_mint_sites"] > 0, (
+        "no unresolved mint sites -- either the migrators stopped computing "
+        "class names, in which case delete this test, or the counter stopped "
+        "counting, which is the failure it exists to catch")
+    assert (len(src["unresolved_mint_sites"])
+            == src["n_unresolved_mint_sites"])
+    for site in src["unresolved_mint_sites"]:
+        assert site.split(":", 1)[0] in {repo for _k, repo, _l, _r
+                                         in sb.MIGRATOR_PACKAGES}
+
+
+def test_the_artifact_never_sums_unlike_categories():
+    """The cell that read *still emitted/named at N site(s)* merged six missed
+    mints with nine field writes under one number, and the number was quoted
+    onward as one kind of thing."""
+    # Asserted on the PER-CLASS BULLETS, which is where the caption lived, and
+    # on the format string in the tool. The explanatory prose above the table
+    # quotes the old caption on purpose; a rule that forbade the phrase outright
+    # would forbid the artifact from explaining what it stopped doing.
+    with open(STATUS) as fh:
+        bullets = [ln for ln in fh if ln.startswith("- `")]
+    assert bullets, "no per-class bullets -- this sweep would check nothing"
+    offenders = [ln for ln in bullets if "emitted/named" in ln]
+    assert offenders == [], (
+        "the summed caption is back on %d class row(s); mint, field write and "
+        "comment are not one quantity: %s" % (len(offenders), offenders[:2]))
+    src = open(os.path.join(TOOLS, "status_board.py")).read()
+    assert "still emitted/named at %d site(s)" not in src, (
+        "the summed caption's format string is back in the renderer")
+    with open(DECISIONS) as fh:
+        rows = json.load(fh)["open_class_state"]["classes"]
+    assert rows, "no rows -- this sweep would check nothing"
+    for r in rows:
+        assert "n_emitting_refs" not in r, (
+            "%s carries the summed count again" % r["class_name"])
+        for key in ("n_emitted_class_refs", "n_field_write_refs",
+                    "n_named_refs", "n_comment_mentions"):
+            assert key in r, "%s has no %s" % (r["class_name"], key)
+
+
+def test_a_comment_mention_counts_toward_nothing():
+    """Comments are the biggest bucket for several classes and they are evidence
+    of nothing. They are counted anyway, in their own column, so that claim is
+    checkable from the artifact instead of taken on trust."""
+    assert sb.COMMENT_KIND not in sb.CONSUMING_KINDS
+    assert sb.COMMENT_KIND not in sb.CODE_KINDS
+    assert sb.COMMENT_KIND != sb.EMITTED_CLASS_KIND
+    with open(DECISIONS) as fh:
+        rows = json.load(fh)["open_class_state"]["classes"]
+    commented = [r for r in rows if r.get("n_comment_mentions")]
+    assert commented, "no class has a comment mention -- the counter is dead"
+    only_comments = [r for r in commented
+                     if not (r["n_consuming_refs"] or r["n_emitted_class_refs"]
+                             or r["n_field_write_refs"] or r["migrator_file"]
+                             or r["decided_targets_built"])]
+    for r in only_comments:
+        assert r["state"] == sb.STATE_A, (
+            "%s has %d comment mention(s) and nothing else, and is rendered %s"
+            % (r["class_name"], r["n_comment_mentions"], r["state"]))
