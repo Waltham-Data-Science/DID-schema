@@ -2588,7 +2588,7 @@ def test_validity_is_a_boolean_valued_statement_leaf():
     time, so the chain is asserted here rather than assumed.
     """
     assert "validity" in RECORDS and "validity_observation" in RECORDS
-    tier, comp = RECORDS["validity"]
+    _tier, comp = RECORDS["validity"]
     assert comp["document_class"]["abstract"] is True
     assert [s["class_name"] for s in comp["document_class"]["superclasses"]] == ["data_type"]
 
@@ -2617,7 +2617,7 @@ def test_validity_is_a_boolean_valued_statement_leaf():
     assert "subject_interaction" in chain and "subject_statement" in chain, (
         "validity_observation must reach subject_interaction (for "
         "time_reference_#) and subject_statement (for subject_id + variable); "
-        "chain was %r" % (chain,))
+        f"chain was {chain!r}")
 
 
 def test_absence_of_a_validity_statement_must_keep_meaning_valid():
@@ -2642,14 +2642,15 @@ def test_absence_of_a_validity_statement_must_keep_meaning_valid():
     offenders = []
     for name, (_tier, d) in RECORDS.items():
         for dep in d.get("depends_on", []):
-            if dep.get("must_refer_to_document_class") in ("validity",
-                                                           "validity_observation"):
-                if dep.get("mustBeNonEmpty") or (dep.get("min_count") or 0) > 0:
-                    offenders.append("%s.%s" % (name, dep["name"]))
+            required = dep.get("mustBeNonEmpty") or (dep.get("min_count") or 0) > 0
+            if dep.get("must_refer_to_document_class") in (
+                    "validity", "validity_observation") and required:
+                offenders.append("{}.{}".format(name, dep["name"]))
     assert offenders == [], (
-        "these edges REQUIRE a validity statement: %s. Absence must stay a legal, "
-        "meaningful state -- it is how every dataset that never ran markgarbage "
-        "says 'all of this is good data'." % ", ".join(offenders))
+        "these edges REQUIRE a validity statement: {}. Absence must stay a "
+        "legal, meaningful state -- it is how every dataset that never ran "
+        "markgarbage says 'all of this is good data'.".format(
+            ", ".join(offenders)))
 
     # And nothing subclasses it into a position where a parent's requirement
     # could reach it.
@@ -2657,8 +2658,8 @@ def test_absence_of_a_validity_statement_must_keep_meaning_valid():
                 if any(s["class_name"] == "validity"
                        for s in d["document_class"]["superclasses"])]
     assert children == ["validity_observation"], (
-        "validity gained subclasses (%r); each one is a new way for the "
-        "boolean to become required somewhere" % (children,))
+        f"validity gained subclasses ({children!r}); each one is a new way for "
+        "the boolean to become required somewhere")
 
     doc = RECORDS["validity"][1]["fields"][0]["documentation"]
     assert "ABSENCE OF ANY `validity` STATEMENT ABOUT A SUBJECT MEANS ITS DATA "\

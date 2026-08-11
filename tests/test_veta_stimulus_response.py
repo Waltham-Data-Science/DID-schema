@@ -300,12 +300,20 @@ def test_freq_response_is_a_harmonic_number_not_a_boolean():
 
 
 def test_isspike_is_left_alone_and_the_inert_spelling_is_counted():
-    """DENOMINATOR: 243 built schema files walked (4 meta sidecars skipped).
+    """DENOMINATOR: 245 built schema files walked (4 meta sidecars skipped).
 
     Was 241 until 2026-08-10, when `generic_file` and `valid_interval` -- the two
     did_v1 classes that had no V_eta schema AND no migrator -- were restated as
     source tombstones. Neither adds an inert min/max, so the pinned list is
     unchanged; only the denominator moved, which is the point of pinning it.
+
+    243 -> 245 on 2026-08-11: `validity` + `validity_observation`, the
+    go-forward home for `valid_interval` (team decision, boolean-valued
+    `subject_statement`). Neither adds an inert min/max either -- a BOOLEAN has
+    no bound to declare, and the `sequence` ordinal is deliberately unbounded
+    because the v1 array has no stated length -- so again only the denominator
+    moved. THIS TEST DID ITS JOB: the count is pinned precisely so a schema
+    arriving from another walkthrough has to be looked at rather than absorbed.
 
     `isspike` is equally inert but its INTENT is correct -- the writer sets 0 or
     1 and nothing else (:176, :179-182) -- so rewriting its key would newly
@@ -330,7 +338,7 @@ def test_isspike_is_left_alone_and_the_inert_spelling_is_counted():
         walked += 1
         walk(d.get("fields", []), d["document_class"]["class_name"], "")
 
-    assert walked == 243, "schema count moved; re-derive the inert set (%d)" % walked
+    assert walked == 245, "schema count moved; re-derive the inert set (%d)" % walked
     assert sorted(inert) == [
         "element.direct",
         "element.reference",
