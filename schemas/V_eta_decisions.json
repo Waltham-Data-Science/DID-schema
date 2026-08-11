@@ -541,8 +541,8 @@
           "DID-matlab:convert"
         ],
         "packages_missing": [],
-        "files_read": 166,
-        "lines_read": 33287,
+        "files_read": 167,
+        "lines_read": 33618,
         "classes_queried": 26,
         "classes_emitted_as_document_class": 8,
         "unresolved_mint_sites": [
@@ -580,12 +580,12 @@
           ]
         },
         "files_read_by_group": {
-          "per_document_migrator": 141,
+          "per_document_migrator": 142,
           "batch_post_pass": 25
         },
         "lines_read_by_group": {
-          "per_document_migrator": 22212,
-          "batch_post_pass": 11075
+          "per_document_migrator": 22451,
+          "batch_post_pass": 11167
         },
         "classes_emitted_as_document_class_by_group": {
           "per_document_migrator": 8,
@@ -746,7 +746,7 @@
         "migrator_file": null,
         "n_consuming_refs": 1,
         "consuming_refs": [
-          "NDI-matlab:ndi_second_pass/ensembleMembership.m:636 (guard)"
+          "NDI-matlab:ndi_second_pass/ensembleMembership.m:649 (guard)"
         ],
         "n_emitted_class_refs": 1,
         "emitted_class_refs": [
@@ -774,7 +774,7 @@
           "per_document_migrator": {
             "n_consuming_refs": 1,
             "consuming_refs": [
-              "NDI-matlab:ndi_second_pass/ensembleMembership.m:636 (guard)"
+              "NDI-matlab:ndi_second_pass/ensembleMembership.m:649 (guard)"
             ],
             "n_emitted_class_refs": 1,
             "emitted_class_refs": [
@@ -1179,8 +1179,8 @@
         "migrator_file": "DID-matlab:migrators_j/daqmetadatareader_epochdata_ingested.m",
         "n_consuming_refs": 2,
         "consuming_refs": [
-          "DID-matlab:convert/epochMint.m:521 (guard)",
-          "DID-matlab:convert/epochMint.m:548 (field_read)"
+          "DID-matlab:convert/epochMint.m:613 (guard)",
+          "DID-matlab:convert/epochMint.m:640 (field_read)"
         ],
         "n_emitted_class_refs": 0,
         "emitted_class_refs": [],
@@ -1191,14 +1191,14 @@
         "field_write_refs": [],
         "n_named_refs": 0,
         "named_refs": [],
-        "n_comment_mentions": 12,
+        "n_comment_mentions": 13,
         "comment_mentions": [
-          "DID-matlab:convert/epochMint.m:130 (comment_mention)",
-          "DID-matlab:convert/epochMint.m:131 (comment_mention)",
-          "DID-matlab:convert/epochMint.m:460 (comment_mention)",
-          "DID-matlab:convert/epochMint.m:466 (comment_mention)",
-          "DID-matlab:migrators_j/daqmetadatareader.m:20 (comment_mention)",
-          "DID-matlab:migrators_j/daqmetadatareader.m:70 (comment_mention)"
+          "DID-matlab:convert/epochMint.m:151 (comment_mention)",
+          "DID-matlab:convert/epochMint.m:152 (comment_mention)",
+          "DID-matlab:convert/epochMint.m:195 (comment_mention)",
+          "DID-matlab:convert/epochMint.m:550 (comment_mention)",
+          "DID-matlab:convert/epochMint.m:556 (comment_mention)",
+          "DID-matlab:migrators_j/daqmetadatareader.m:20 (comment_mention)"
         ],
         "by_group": {
           "per_document_migrator": {
@@ -1223,8 +1223,8 @@
           "batch_post_pass": {
             "n_consuming_refs": 2,
             "consuming_refs": [
-              "DID-matlab:convert/epochMint.m:521 (guard)",
-              "DID-matlab:convert/epochMint.m:548 (field_read)"
+              "DID-matlab:convert/epochMint.m:613 (guard)",
+              "DID-matlab:convert/epochMint.m:640 (field_read)"
             ],
             "n_emitted_class_refs": 0,
             "emitted_class_refs": [],
@@ -1232,12 +1232,13 @@
             "field_write_refs": [],
             "n_named_refs": 0,
             "named_refs": [],
-            "n_comment_mentions": 4,
+            "n_comment_mentions": 5,
             "comment_mentions": [
-              "DID-matlab:convert/epochMint.m:130 (comment_mention)",
-              "DID-matlab:convert/epochMint.m:131 (comment_mention)",
-              "DID-matlab:convert/epochMint.m:460 (comment_mention)",
-              "DID-matlab:convert/epochMint.m:466 (comment_mention)"
+              "DID-matlab:convert/epochMint.m:151 (comment_mention)",
+              "DID-matlab:convert/epochMint.m:152 (comment_mention)",
+              "DID-matlab:convert/epochMint.m:195 (comment_mention)",
+              "DID-matlab:convert/epochMint.m:550 (comment_mention)",
+              "DID-matlab:convert/epochMint.m:556 (comment_mention)"
             ]
           }
         },
@@ -1286,14 +1287,14 @@
         ],
         "n_named_refs": 0,
         "named_refs": [],
-        "n_comment_mentions": 28,
+        "n_comment_mentions": 29,
         "comment_mentions": [
+          "DID-matlab:convert/epochMint.m:205 (comment_mention)",
           "DID-matlab:migrators_j/Contents.m:160 (comment_mention)",
           "DID-matlab:migrators_j/Contents.m:208 (comment_mention)",
           "DID-matlab:migrators_j/daqmetadatareader_epochdata_ingested.m:65 (comment_mention)",
           "DID-matlab:migrators_j/daqreader.m:12 (comment_mention)",
-          "DID-matlab:migrators_j/daqreader.m:2 (comment_mention)",
-          "DID-matlab:migrators_j/daqreader.m:20 (comment_mention)"
+          "DID-matlab:migrators_j/daqreader.m:2 (comment_mention)"
         ],
         "by_group": {
           "per_document_migrator": {
@@ -1334,8 +1335,10 @@
             "field_write_refs": [],
             "n_named_refs": 0,
             "named_refs": [],
-            "n_comment_mentions": 0,
-            "comment_mentions": []
+            "n_comment_mentions": 1,
+            "comment_mentions": [
+              "DID-matlab:convert/epochMint.m:205 (comment_mention)"
+            ]
           }
         },
         "decided_targets": [
@@ -1385,14 +1388,14 @@
           "DID-matlab:migrators_j/daqreader_epochdata_ingested.m:96 (named)",
           "DID-matlab:migrators_j/daqreader_image_epochdata_ingested.m:91 (named)"
         ],
-        "n_comment_mentions": 17,
+        "n_comment_mentions": 20,
         "comment_mentions": [
-          "DID-matlab:convert/epochMint.m:673 (comment_mention)",
+          "DID-matlab:convert/epochMint.m:184 (comment_mention)",
+          "DID-matlab:convert/epochMint.m:211 (comment_mention)",
+          "DID-matlab:convert/epochMint.m:218 (comment_mention)",
+          "DID-matlab:convert/epochMint.m:765 (comment_mention)",
           "DID-matlab:migrators_j/daqreader.m:54 (comment_mention)",
-          "DID-matlab:migrators_j/daqreader_image_epochdata_ingested.m:20 (comment_mention)",
-          "DID-matlab:migrators_j/daqreader_image_epochdata_ingested.m:21 (comment_mention)",
-          "DID-matlab:migrators_j/daqreader_image_epochdata_ingested.m:30 (comment_mention)",
-          "DID-matlab:migrators_j/daqreader_image_epochdata_ingested.m:89 (comment_mention)"
+          "DID-matlab:migrators_j/daqreader_image_epochdata_ingested.m:20 (comment_mention)"
         ],
         "by_group": {
           "per_document_migrator": {
@@ -1435,9 +1438,12 @@
             "field_write_refs": [],
             "n_named_refs": 0,
             "named_refs": [],
-            "n_comment_mentions": 1,
+            "n_comment_mentions": 4,
             "comment_mentions": [
-              "DID-matlab:convert/epochMint.m:673 (comment_mention)"
+              "DID-matlab:convert/epochMint.m:184 (comment_mention)",
+              "DID-matlab:convert/epochMint.m:211 (comment_mention)",
+              "DID-matlab:convert/epochMint.m:218 (comment_mention)",
+              "DID-matlab:convert/epochMint.m:765 (comment_mention)"
             ]
           }
         },
@@ -1474,8 +1480,10 @@
         "field_write_refs": [],
         "n_named_refs": 0,
         "named_refs": [],
-        "n_comment_mentions": 4,
+        "n_comment_mentions": 6,
         "comment_mentions": [
+          "DID-matlab:convert/epochMint.m:188 (comment_mention)",
+          "DID-matlab:convert/epochMint.m:219 (comment_mention)",
           "DID-matlab:migrators_j/daqreader.m:55 (comment_mention)",
           "DID-matlab:migrators_j/daqreader_image_epochdata_ingested.m:25 (comment_mention)",
           "DID-matlab:migrators_j/daqreader_image_epochdata_ingested.m:43 (comment_mention)",
@@ -1508,8 +1516,11 @@
             "field_write_refs": [],
             "n_named_refs": 0,
             "named_refs": [],
-            "n_comment_mentions": 0,
-            "comment_mentions": []
+            "n_comment_mentions": 2,
+            "comment_mentions": [
+              "DID-matlab:convert/epochMint.m:188 (comment_mention)",
+              "DID-matlab:convert/epochMint.m:219 (comment_mention)"
+            ]
           }
         },
         "decided_targets": [
@@ -1635,7 +1646,7 @@
         "field_write_refs": [],
         "n_named_refs": 0,
         "named_refs": [],
-        "n_comment_mentions": 20,
+        "n_comment_mentions": 21,
         "comment_mentions": [
           "DID-matlab:convert/resolveLawnPlateSubjects.m:1337 (comment_mention)",
           "DID-matlab:convert/resolveResponseParameters.m:42 (comment_mention)",
@@ -1656,7 +1667,7 @@
             "field_write_refs": [],
             "n_named_refs": 0,
             "named_refs": [],
-            "n_comment_mentions": 18,
+            "n_comment_mentions": 19,
             "comment_mentions": [
               "DID-matlab:migrators_j/element.m:112 (comment_mention)",
               "DID-matlab:migrators_j/element_epoch.m:58 (comment_mention)",
@@ -1825,8 +1836,8 @@
         "n_comment_mentions": 15,
         "comment_mentions": [
           "DID-matlab:convert/epochMint.m:109 (comment_mention)",
-          "DID-matlab:convert/epochMint.m:116 (comment_mention)",
-          "DID-matlab:convert/epochMint.m:144 (comment_mention)",
+          "DID-matlab:convert/epochMint.m:126 (comment_mention)",
+          "DID-matlab:convert/epochMint.m:165 (comment_mention)",
           "DID-matlab:convert/resolveSessionAnchors.m:238 (comment_mention)",
           "DID-matlab:convert/resolveValidIntervals.m:45 (comment_mention)",
           "DID-matlab:migrators_j/Contents.m:146 (comment_mention)"
@@ -1863,8 +1874,8 @@
             "n_comment_mentions": 5,
             "comment_mentions": [
               "DID-matlab:convert/epochMint.m:109 (comment_mention)",
-              "DID-matlab:convert/epochMint.m:116 (comment_mention)",
-              "DID-matlab:convert/epochMint.m:144 (comment_mention)",
+              "DID-matlab:convert/epochMint.m:126 (comment_mention)",
+              "DID-matlab:convert/epochMint.m:165 (comment_mention)",
               "DID-matlab:convert/resolveSessionAnchors.m:238 (comment_mention)",
               "DID-matlab:convert/resolveValidIntervals.m:45 (comment_mention)"
             ]
@@ -1893,12 +1904,12 @@
         "migrator_file": null,
         "n_consuming_refs": 12,
         "consuming_refs": [
-          "DID-matlab:convert/epochMint.m:450 (guard)",
+          "DID-matlab:convert/epochMint.m:540 (guard)",
           "DID-matlab:migrators_j/private/jMethodParameters.m:122 (guard)",
           "NDI-matlab:ndi_second_pass/bodyResolver.m:216 (guard)",
           "NDI-matlab:ndi_second_pass/bodyResolver.m:217 (guard)",
           "NDI-matlab:ndi_second_pass/bodyResolver.m:218 (field_read)",
-          "NDI-matlab:ndi_second_pass/ensembleMembership.m:662 (guard)"
+          "NDI-matlab:ndi_second_pass/ensembleMembership.m:675 (guard)"
         ],
         "n_emitted_class_refs": 0,
         "emitted_class_refs": [],
@@ -1911,21 +1922,21 @@
         ],
         "n_named_refs": 9,
         "named_refs": [
-          "DID-matlab:convert/epochMint.m:451 (named)",
-          "DID-matlab:convert/epochMint.m:528 (named)",
+          "DID-matlab:convert/epochMint.m:541 (named)",
+          "DID-matlab:convert/epochMint.m:620 (named)",
           "DID-matlab:migrators_j/epochfiles_ingested.m:135 (named)",
           "DID-matlab:migrators_j/private/jMethodParameters.m:123 (named)",
           "NDI-matlab:ndi_second_pass/epochAnchorFold.m:428 (named)",
           "NDI-matlab:ndi_second_pass/epochAnchorFold.m:517 (named)"
         ],
-        "n_comment_mentions": 84,
+        "n_comment_mentions": 85,
         "comment_mentions": [
           "DID-matlab:convert/epochIndex.m:16 (comment_mention)",
           "DID-matlab:convert/epochIndex.m:235 (comment_mention)",
           "DID-matlab:convert/epochIndex.m:53 (comment_mention)",
           "DID-matlab:convert/epochIndex.m:96 (comment_mention)",
           "DID-matlab:convert/epochMint.m:105 (comment_mention)",
-          "DID-matlab:convert/epochMint.m:141 (comment_mention)"
+          "DID-matlab:convert/epochMint.m:134 (comment_mention)"
         ],
         "by_group": {
           "per_document_migrator": {
@@ -1935,8 +1946,8 @@
               "NDI-matlab:ndi_second_pass/bodyResolver.m:216 (guard)",
               "NDI-matlab:ndi_second_pass/bodyResolver.m:217 (guard)",
               "NDI-matlab:ndi_second_pass/bodyResolver.m:218 (field_read)",
-              "NDI-matlab:ndi_second_pass/ensembleMembership.m:662 (guard)",
-              "NDI-matlab:ndi_second_pass/ensembleMembership.m:663 (field_read)"
+              "NDI-matlab:ndi_second_pass/ensembleMembership.m:675 (guard)",
+              "NDI-matlab:ndi_second_pass/ensembleMembership.m:676 (field_read)"
             ],
             "n_emitted_class_refs": 0,
             "emitted_class_refs": [],
@@ -1966,7 +1977,7 @@
           "batch_post_pass": {
             "n_consuming_refs": 1,
             "consuming_refs": [
-              "DID-matlab:convert/epochMint.m:450 (guard)"
+              "DID-matlab:convert/epochMint.m:540 (guard)"
             ],
             "n_emitted_class_refs": 0,
             "emitted_class_refs": [],
@@ -1974,17 +1985,17 @@
             "field_write_refs": [],
             "n_named_refs": 2,
             "named_refs": [
-              "DID-matlab:convert/epochMint.m:451 (named)",
-              "DID-matlab:convert/epochMint.m:528 (named)"
+              "DID-matlab:convert/epochMint.m:541 (named)",
+              "DID-matlab:convert/epochMint.m:620 (named)"
             ],
-            "n_comment_mentions": 13,
+            "n_comment_mentions": 14,
             "comment_mentions": [
               "DID-matlab:convert/epochIndex.m:16 (comment_mention)",
               "DID-matlab:convert/epochIndex.m:235 (comment_mention)",
               "DID-matlab:convert/epochIndex.m:53 (comment_mention)",
               "DID-matlab:convert/epochIndex.m:96 (comment_mention)",
               "DID-matlab:convert/epochMint.m:105 (comment_mention)",
-              "DID-matlab:convert/epochMint.m:141 (comment_mention)"
+              "DID-matlab:convert/epochMint.m:134 (comment_mention)"
             ]
           }
         },
@@ -2702,8 +2713,8 @@
         "n_comment_mentions": 32,
         "comment_mentions": [
           "DID-matlab:convert/epochIndex.m:243 (comment_mention)",
-          "DID-matlab:convert/epochMint.m:169 (comment_mention)",
-          "DID-matlab:convert/epochMint.m:352 (comment_mention)",
+          "DID-matlab:convert/epochMint.m:259 (comment_mention)",
+          "DID-matlab:convert/epochMint.m:442 (comment_mention)",
           "DID-matlab:convert/resolveValidIntervals.m:141 (comment_mention)",
           "DID-matlab:migrators_j/Contents.m:421 (comment_mention)",
           "DID-matlab:migrators_j/private/jClockAlignmentBodies.m:62 (comment_mention)"
@@ -2743,8 +2754,8 @@
             "n_comment_mentions": 4,
             "comment_mentions": [
               "DID-matlab:convert/epochIndex.m:243 (comment_mention)",
-              "DID-matlab:convert/epochMint.m:169 (comment_mention)",
-              "DID-matlab:convert/epochMint.m:352 (comment_mention)",
+              "DID-matlab:convert/epochMint.m:259 (comment_mention)",
+              "DID-matlab:convert/epochMint.m:442 (comment_mention)",
               "DID-matlab:convert/resolveValidIntervals.m:141 (comment_mention)"
             ]
           }
@@ -2873,14 +2884,14 @@
         ],
         "n_named_refs": 0,
         "named_refs": [],
-        "n_comment_mentions": 23,
+        "n_comment_mentions": 25,
         "comment_mentions": [
+          "DID-matlab:convert/epochMint.m:127 (comment_mention)",
+          "DID-matlab:convert/epochMint.m:129 (comment_mention)",
           "DID-matlab:convert/resolveResponseParameters.m:457 (comment_mention)",
           "DID-matlab:migrators_j/private/jClockAlignmentBodies.m:10 (comment_mention)",
           "DID-matlab:migrators_j/private/jClockAlignmentBodies.m:170 (comment_mention)",
-          "DID-matlab:migrators_j/private/jClockAlignmentBodies.m:2 (comment_mention)",
-          "DID-matlab:migrators_j/private/jClockAlignmentBodies.m:7 (comment_mention)",
-          "DID-matlab:migrators_j/private/jClockAlignmentBodies.m:74 (comment_mention)"
+          "DID-matlab:migrators_j/private/jClockAlignmentBodies.m:2 (comment_mention)"
         ],
         "by_group": {
           "per_document_migrator": {
@@ -2918,8 +2929,10 @@
             "field_write_refs": [],
             "n_named_refs": 0,
             "named_refs": [],
-            "n_comment_mentions": 1,
+            "n_comment_mentions": 3,
             "comment_mentions": [
+              "DID-matlab:convert/epochMint.m:127 (comment_mention)",
+              "DID-matlab:convert/epochMint.m:129 (comment_mention)",
               "DID-matlab:convert/resolveResponseParameters.m:457 (comment_mention)"
             ]
           }

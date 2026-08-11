@@ -312,10 +312,33 @@ lives in these files — read them instead of re-deriving from memory:
   **TWO** vintages are both did_v1 — A (legacy `ontology_name`+`ontology_region`, dep
   `element_id`) and B (current NDI `ontology_nodes` = comma-joined multi-CURIE, dep
   `ontologyTableRow_id`, `ngrid` superclass). **THERE IS NO VINTAGE A. NDI NEVER REDEFINED THE
-  CLASS.** Positive evidence, three independent ways: `git log --all --diff-filter=A --
-  '*ontologyImage.json'` returns exactly ONE commit (`0ae099c`), every revision in the file's
-  history carries `ontologyTableRow_id` + `ontologyNode`, and `git log --all -S"ontologyRegion"`
-  / `-S"ontology_region"` match only DID-side alias-table commits, never a template. NDI-matlab
+  CLASS.** **THE CONCLUSION HOLDS. TWO OF THE THREE CITATIONS UNDER IT DID NOT, and are
+  replaced here (2026-08-11) with the check that actually establishes it.** The old text read
+  *"`git log --all --diff-filter=A -- '*ontologyImage.json'` returns exactly ONE commit
+  (`0ae099c`)"*. It returns **TWO**, and `0ae099c` is not one of them:
+
+        $ git log --all --diff-filter=A --oneline -- '*ontologyImage.json'
+        40b7dfbff Updated ontologyImage docs
+        27daa610e Create ontologyImage.json
+        $ git log -1 --format="%h %ai %s" 0ae099c
+        0ae099c4a 2026-03-21 Merge pull request #716 from VH-Lab/claude/add-dataset-summary-utility
+
+  A merge commit for an unrelated dataset-summary utility was standing as the proof. **The
+  real evidence is CONTENT, and it is stronger, because it also explains what a careless
+  reader would have mistaken for vintage A.** Four revisions of the path exist; three define
+  the class and every one carries `ontologyTableRow_id`:
+
+        b33d8ce64  class_name: ontologyImage   deps: ['ontologyTableRow_id']
+        88096f341  class_name: ontologyImage   deps: ['ontologyTableRow_id']
+        40b7dfbff  class_name: ontologyImage   deps: ['ontologyTableRow_id']
+        27daa610e  class_name: spectrogram     deps: ['element_id']   <-- NOT ontologyImage
+
+  The fourth, the "Create ontologyImage.json" commit, is a verbatim copy of the **spectrogram**
+  template sitting at that path, replaced by the next commit to touch the file. So **no
+  revision of the class has ever declared `element_id`** — and the one revision that does
+  declare it is a different class entirely. That is almost certainly where "vintage A" came
+  from. The third citation stands: `git log --all -S"ontologyRegion"` / `-S"ontology_region"`
+  match only DID-side alias-table commits, never a template. NDI-matlab
   `04dcdf9` (2026-07-29) had already established the same thing while deleting four fabricated
   alias rows: *"ontologyImage created 2025-07-03, three commits total, always {ontologyNode}
   with an ontologyTableRow_id dependency. Never had ontology_name or ontology_region."*
@@ -610,8 +633,25 @@ lives in these files — read them instead of re-deriving from memory:
   REBUILDABLE CACHE (`sampled_body` + `derived_from` the neurons, T10; user asked to keep
   it for fast windowed population reads, NOT as source of truth). The per-epoch MAP/legend
   doc DISSOLVES (column indices unnecessary once each train is keyed by its neuron-subject
-  id; drop num_neurons/`app` superclass). `member_of` + cache = NDI SECOND PASS (needs the
-  `neuron_names.txt` file read + neuron-id→subject resolution; single-doc migrators carry
+  id; drop num_neurons/`app` superclass). **THE NEXT PARENTHESIS SAID THE SECOND PASS "needs
+  the `neuron_names.txt` FILE READ". THAT PREMISE IS FALSE and was corrected in
+  `V_eta_ensemble_plan.md:94-128` some time ago; this block never caught up.** The roster is
+  carried as ordinary `depends_on` EDGES, not as file bytes — `origin/main
+  src/ndi/+ndi/+element/ensemble.m:274-276`:
+
+        for i = 1:numel(neuron_ids)
+            mapdoc = mapdoc.add_dependency_value_n('neuron_id', neuron_ids{i});
+        end
+        mapdoc = mapdoc.add_file('neuron_names.txt', names_tempfile);
+
+  The file is attached ALONGSIDE the edges; the neuron identities are already in the graph.
+  So the pass needs neuron-id→subject resolution and NOTHING ELSE — which is why it could be
+  built at all, and it HAS been (`NDI-matlab src/ndi/+ndi/+migrate/+internal/ensembleMembership.m`,
+  `member_of` at :493-495, `derived_from` at :510-512). **This mattered: the false premise was
+  the stated reason the pass had to live NDI-side, and it was quoted as justification in
+  `DID-matlab tests/+did2/+unittest/testBatchPassWiring.m` until 2026-08-11.** The conclusion
+  (NDI-side) survived on other grounds; the reason given for it did not. Kept as
+  `member_of` + cache = NDI SECOND PASS (needs neuron-id→subject resolution; single-doc migrators carry
   files but do NOT read their bytes — confirmed via pyraview). Pass-1 keeps it a green
   passthrough; VERIFY-BEFORE-DELETE (0 stranded per-neuron trains) before dropping the
   combined bytes. (The ensemble ELEMENT → group-subject via the element migrator.)
