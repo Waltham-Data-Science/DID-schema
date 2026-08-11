@@ -99,7 +99,24 @@ The 31 UNKNOWNs are undetermined, not clean: usually the earliest template preda
 property-block format, so the comparison is not meaningful that far back. They need reading by
 hand.
 
-## Phase 1 — make silence impossible  *(REPORT-ONLY LANDED)*
+## Phase 1 — make silence impossible  *(TWO OF THE THREE GATES ARE ARMED)*
+
+> **THIS HEADING SAID "(REPORT-ONLY LANDED)" AND WAS STALE, in the direction this
+> repository keeps being caught by: the header understates the state, so the work reads as
+> undone and gets re-planned.** The ordering argument below is the ORIGINAL rationale and
+> is preserved as such; it is not a description of where the code is. Re-derived
+> 2026-08-11 from the switch table itself:
+>
+>         DID-matlab src/did/+did2/+schema/cache.m:71-73
+>         #38 NonVacuousFields      ARMED    -- 0 measured cost
+>         #37 RequiredDependencies  ARMED    -- 7,233 measured cost, ON PURPOSE
+>         #32 BindingConformance    DISARMED -- cost NEVER MEASURED
+>
+> So "report-only" is true of exactly ONE of the three, and that one is disarmed on
+> purpose: arming `BindingConformance` would enforce a vocabulary nobody has measured the
+> blast radius of, and it is a separate team decision rather than leftover work. Phase 1.3
+> also enforces in CI now — `gates.py` runs `check_migrator_vocabulary.py --enforce`.
+> **Read the switch table, not this heading, and not the ordering argument below it.**
 
 The ordering argument: while a broken migrator emits a valid empty document, **we cannot tell a
 fixed migrator from a broken one**, and each check costs a ~2.5-hour corpus run. Visibility
