@@ -51,6 +51,19 @@
             "constraints": {}
         },
         {
+            "name": "content_hash",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Optional content hash of the payload bytes -- a natural dedup / integrity key. THE BYTES HASHED ARE THE BYTES AS STORED in `body_data`; opaque_body declares no `compression` today, so there is exactly one candidate byte stream. When `compression` lands (#45) this documentation must say whether the hash covers the compressed or the decompressed form. did_v1 source: `generic_file.checksum`, the 32-character lowercase MD5 that ndi.fun.file.MD5 computes; the algorithm is not declared by this field and is not recoverable from it.",
+            "constraints": {}
+        },
+        {
             "name": "description",
             "type": "char",
             "blank_value": "",

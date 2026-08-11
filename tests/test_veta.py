@@ -511,12 +511,45 @@ def test_the_two_stranding_classes_have_a_tombstone():
     assert [f["name"] for f in gf["file"]] == ["generic_file.ext"]
     assert [d["name"] for d in gf["depends_on"]] == ["document_id"]
 
-    # THE FIELD THAT BLOCKS THE FOLD. opaque_body has format/filename/description
-    # and no content_hash (#45, blocked on #32), so folding today drops the MD5.
+    # THE FIELD THAT BLOCKED THE FOLD, NOW INVERTED. This assertion read
+    #
+    #     assert "content_hash" not in ...opaque_body fields...
+    #         "opaque_body gained content_hash -- the fold is no longer blocked
+    #          on it; re-open the disposition"
+    #
+    # and it did exactly the job it was written for: the team re-opened the
+    # disposition on 2026-08-11 and chose option (a), so opaque_body gained
+    # content_hash and the fold was built. INVERTED, NOT DELETED -- a test
+    # written from the same premise as the code cannot catch the code, and this
+    # one was written from the premise that the fold is blocked. Deleting it
+    # would leave nothing asserting the checksum has somewhere to land; the
+    # three `epochid` tests were inverted for the same reason.
     assert "checksum" in {f["name"] for f in gf["fields"]}
-    assert "content_hash" not in {f["name"] for f in RECORDS["opaque_body"][1]["fields"]}, \
-        ("opaque_body gained content_hash -- the generic_file -> opaque_body fold is "
-         "no longer blocked on it; re-open the disposition")
+    assert "content_hash" in {f["name"] for f in RECORDS["opaque_body"][1]["fields"]}, \
+        ("opaque_body LOST content_hash -- the generic_file -> opaque_body fold "
+         "(did2.convert.foldGenericFiles) drops the MD5 ndi.fun.file.MD5 "
+         "computes, which is the one field whose whole purpose is not to be lost")
+    ch = next(f for f in RECORDS["opaque_body"][1]["fields"]
+              if f["name"] == "content_hash")
+    assert ch["mustBeNonEmpty"] is False, (
+        "content_hash is optional on the SIGNED data_body model; requiring it "
+        "would quarantine every opaque_body minted from a source that computes "
+        "no hash (jSorterOutput's external sorter directories, for one)")
+    # ONLY the one field. The rest of the #45 data_body tier is a separate,
+    # larger, deferred item and parts of it are blocked on #32 -- so `format`,
+    # `filename` and `description` must still be on the CHILD, not hoisted, and
+    # `compression` must still be absent. If `compression` ever appears without
+    # content_hash's documentation saying which byte stream it covers, that is
+    # the plan's own open question 3 going unanswered.
+    ob_fields = {f["name"] for f in RECORDS["opaque_body"][1]["fields"]}
+    assert "compression" not in ob_fields, (
+        "opaque_body gained `compression` -- then content_hash must state "
+        "whether it hashes the compressed or the decompressed bytes "
+        "(V_eta_data_body_model_plan.md, open question 3)")
+    assert {"format", "filename", "description"} <= ob_fields
+    assert not RECORDS["data_body"][1]["fields"], (
+        "the data_body hoist (#45) has started -- it is blocked on #32 and is "
+        "not what the generic_file fold was authorised to build")
 
     # valid_interval, from markgarbage.m:55-58,93-95. `session_ID` is the
     # writer-vs-template divergence: ndi_timereference_struct returns it

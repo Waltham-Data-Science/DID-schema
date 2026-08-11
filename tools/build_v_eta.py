@@ -4488,17 +4488,36 @@ write("stable", "neuron_extracellular", _nx)
 # PRESERVED and the edge still lands. Typed `subject` for that reason; the LC-MS
 # branch points at a subject id directly.
 #
-# WHY NO FOLD IS BUILT. The walkthrough note is "generic_file needs opaque_body +
-# a statement", and neither half is available:
-#   - opaque_body is in the DRAFT tier and carries only {format, filename,
-#     description} + a `statement` edge. It has no content_hash (checksum has
-#     nowhere to land) and no created/updated dates. The fields it is supposed to
-#     gain are #45, which is build-deferred and BLOCKED ON #32.
-#   - the "statement" is the undecided half. generic_file's edge points at a
-#     SUBJECT, opaque_body's points at a STATEMENT, and no statement class exists
-#     that says "this subject has this file". Choosing one is a model decision.
-# Folding onto a target that cannot hold `checksum` would lose the checksum --
-# the one field whose whole purpose is that it not be lost.
+# THE FOLD IS NOW BUILT, AND THE TOMBSTONE STAYS. Team decision 2026-08-11
+# (V_eta_OPEN_WORK.md, "generic_file folds to opaque_body + a subject_statement"),
+# option (a) verbatim: "opaque_body + a subject_statement whose variable comes
+# from that sibling label". It runs DID-side as did2.convert.foldGenericFiles,
+# a BATCH pass -- the `variable` lives in a different document (the sibling
+# ontologyLabel), so nothing per-document can reach it.
+#
+# THE TOMBSTONE IS NOT DELETED and must not be. The fold REFUSES rather than
+# guesses (no label / two labels / no document_id / referent not in the batch),
+# and a refused document stays in exactly this v1 form. Deleting the class would
+# turn every refusal into a quarantine -- the epochfiles_ingested regression, and
+# the same mistake image_stack made and had reversed.
+#
+# WHAT CHANGED SINCE THE "no fold is built" NOTE THAT STOOD HERE:
+#   - opaque_body GAINED content_hash (see the ⑥ section below), so `checksum`
+#     lands. That was the blocker this comment named.
+#   - the "no statement class exists" half was half-right and is corrected: the
+#     DIRECTION was decided by the team, and `subject_id` resolves because
+#     migrators_j.subject_group folds 1->1 with the id preserved (already
+#     reasoned out in the dep documentation below).
+# WHAT IS STILL OPEN, AND IS STATED IN THE PASS'S OWN HEADER RATHER THAN HIDDEN:
+#   - `date_created` / `date_updated` have NO home in the SIGNED data_body model
+#     (sec.6 lists format / compression / filename / content_hash / description
+#     and no dates), so the fold carries them nowhere. They survive only on a
+#     REFUSED document. This is a second lost field, smaller than `checksum` and
+#     not named by the decision, which said the remaining blocker was one field.
+#   - the leaf class. `subject_statement` is ABSTRACT
+#     (did2:validation:abstractInstantiation), every concrete statement is
+#     direction x data_type (T3), and NO data_type composite carries an
+#     uninterpreted payload. See foldGenericFiles.m for the choice made and why.
 _tombstone(
     "generic_file", ["base"],
     [dep("document_id", "subject",
@@ -4523,9 +4542,11 @@ _tombstone(
            " {node, name} pair that composite requires, and manufacturing the"
            " `name` half is exactly the invention a tombstone must not make."),
      field("checksum", "string",
-           "The MD5 checksum of the file (ndi.fun.file.MD5). THE FIELD THAT"
-           " BLOCKS THE opaque_body FOLD: opaque_body has no content_hash yet"
-           " (#45), so folding today would drop it."),
+           "The MD5 checksum of the file (ndi.fun.file.MD5). THIS FIELD USED TO"
+           " BLOCK THE opaque_body FOLD -- opaque_body had no content_hash, so"
+           " folding would have dropped it. opaque_body now declares"
+           " `content_hash` and did2.convert.foldGenericFiles carries this"
+           " value into it verbatim."),
      field("date_created", "double",
            "When the file was created, as a MATLAB datenum. Typed `double` by"
            " generic_file_schema.json AND written as a datenum double by the"
@@ -4808,6 +4829,36 @@ opaque = doc("opaque_body", ["data_body"], maturity="draft", deps=[STATEMENT_OPT
           "container format is otherwise derivable from the stored bytes.",
           non_empty=False),
     field("filename", "char", "Original filename of the payload, if any.",
+          non_empty=False),
+    # ONE FIELD OF #45, ADDED BECAUSE THE generic_file FOLD NEEDS IT AND NOTHING
+    # ELSE. `content_hash` is part of the ALREADY-SIGNED data_body model
+    # (V_eta_data_body_model_plan.md sec.6: "content_hash char  hash of the
+    # payload bytes ... (was sampled_body)"), where it is HOISTED onto the
+    # abstract `data_body` alongside `format`/`compression`/`filename`/
+    # `description` + the statement edge. That hoist is NOT done here: it moves
+    # `format`/`filename`/`description` off both children and adds `compression`,
+    # and the tier it belongs to is blocked on #32 (bind `variable`, the hard
+    # prerequisite for `axes[]`). So the field is added at the SAME position
+    # sampled_body already carries it -- on the child -- which is where every
+    # other data_body field sits today. When #45 lands, all five hoist together
+    # and this declaration moves with them; nothing here has to be undone.
+    #
+    # "WHICH BYTES" (plan open question 3): the bytes in `body_data` AS STORED.
+    # That is unambiguous ONLY because `compression` is deliberately NOT added
+    # here -- with no declarable compression there is no second candidate byte
+    # stream. The plan's requirement to state which bytes becomes live the day
+    # `compression` arrives, and the documentation below says so rather than
+    # leaving a reader to discover it.
+    field("content_hash", "char",
+          "Optional content hash of the payload bytes -- a natural dedup / "
+          "integrity key. THE BYTES HASHED ARE THE BYTES AS STORED in "
+          "`body_data`; opaque_body declares no `compression` today, so there "
+          "is exactly one candidate byte stream. When `compression` lands "
+          "(#45) this documentation must say whether the hash covers the "
+          "compressed or the decompressed form. did_v1 source: "
+          "`generic_file.checksum`, the 32-character lowercase MD5 that "
+          "ndi.fun.file.MD5 computes; the algorithm is not declared by this "
+          "field and is not recoverable from it.",
           non_empty=False),
     field("description", "char", "Human description of the opaque payload.",
           non_empty=False),
@@ -6308,9 +6359,11 @@ _RET_SOURCES = {"element", "openminds", "openminds_subject", "openminds_element"
     # The last two did_v1 classes that stranded COMPLETELY -- no V_eta schema AND
     # no migrator. Now tombstoned (search `_tombstone("generic_file"`), which
     # makes them a v1 SOURCE name holding v1 documents, never a go-forward class:
-    #   generic_file    the intended fold is opaque_body + a statement; opaque_body
-    #                   is still DRAFT and has no content_hash for the checksum,
-    #                   and the statement half is undecided (#45, blocked on #32).
+    #   generic_file    the fold to opaque_body + a statement is BUILT
+    #                   (did2.convert.foldGenericFiles, team decision 2026-08-11);
+    #                   the tombstone STAYS because the fold refuses rather than
+    #                   guesses, and a refused document needs this class to
+    #                   validate against.
     #   valid_interval  a curation judgement about a recording -- neither an
     #                   observation of the subject nor a manipulation of it. The
     #                   time-reference plan reasons about it; its build is deferred.

@@ -46,7 +46,7 @@ decides a disposition -- it DERIVES, per class, how far the work has got.
 |---|---|
 | build: V_eta migrator packages read | `migrators_j`, `ndi_second_pass` |
 | build: migrator files inspected | 138 |
-| build: migrator lines inspected | 19701 |
+| build: migrator lines inspected | 19710 |
 | build: classes queried | 31 |
 | build: open classes MINTED as a document class | 5 |
 | build: of those, discounted (decision retires the class) | 3 |
@@ -167,8 +167,8 @@ a row whose only evidence is a built target as *the target exists*, not as
 - `event_relative_reference` (time_reference) -- no evidence found
 - `interaction_purpose` (misc singletons) -- no evidence found
 - `projectvar` (misc singletons) -- no evidence found
-- `session_bounded_reference` (time_reference) -- MINTED as a document class at 1 site(s): `migrators_j/ontology_table_row.m:270 (emitted_class)`; minted at 1 site(s), NOT counted as build progress: the signed decision retires this class in favour of `relative_reference`, so an emission is work still to undo; still emitted/named at 1 site(s): `migrators_j/ontology_table_row.m:276 (field_write)`
-- `session_relative_reference` (time_reference) -- MINTED as a document class at 3 site(s): `migrators_j/ontology_table_row.m:813 (emitted_class)`, `migrators_j/private/jSessionAnchor.m:19 (emitted_class)`, `migrators_j/treatment_transfer.m:101 (emitted_class)`; minted at 3 site(s), NOT counted as build progress: the signed decision retires this class in favour of `relative_reference`, so an emission is work still to undo; still emitted/named at 15 site(s): `migrators_j/fitcurve.m:139 (named)`, `migrators_j/fitcurve.m:146 (field_write)`, `migrators_j/image_stack.m:253 (named)`, `migrators_j/image_stack.m:258 (field_write)`, `migrators_j/jrclust_clusters.m:80 (named)`, `migrators_j/jrclust_clusters.m:85 (field_write)` ...
+- `session_bounded_reference` (time_reference) -- MINTED as a document class at 1 site(s): `migrators_j/ontology_table_row.m:275 (emitted_class)`; minted at 1 site(s), NOT counted as build progress: the signed decision retires this class in favour of `relative_reference`, so an emission is work still to undo; still emitted/named at 1 site(s): `migrators_j/ontology_table_row.m:281 (field_write)`
+- `session_relative_reference` (time_reference) -- MINTED as a document class at 3 site(s): `migrators_j/ontology_table_row.m:867 (emitted_class)`, `migrators_j/private/jSessionAnchor.m:19 (emitted_class)`, `migrators_j/treatment_transfer.m:101 (emitted_class)`; minted at 3 site(s), NOT counted as build progress: the signed decision retires this class in favour of `relative_reference`, so an emission is work still to undo; still emitted/named at 15 site(s): `migrators_j/fitcurve.m:139 (named)`, `migrators_j/fitcurve.m:146 (field_write)`, `migrators_j/image_stack.m:271 (named)`, `migrators_j/image_stack.m:276 (field_write)`, `migrators_j/jrclust_clusters.m:80 (named)`, `migrators_j/jrclust_clusters.m:85 (field_write)` ...
 - `utc_reference` (time_reference) -- no evidence found
 
 #### (b) built, awaiting corpus proof -- 21
@@ -193,7 +193,7 @@ a row whose only evidence is a built target as *the target exists*, not as
 - `syncgraph` (sync configuration) -- migrator `migrators_j/syncgraph.m`; consumed at 2 site(s): `migrators_j/syncgraph.m:128 (guard)`, `migrators_j/syncgraph.m:129 (field_read)`; target(s) BUILT: `clock_alignment_policy`
 - `syncrule` (sync configuration) -- migrator `migrators_j/syncrule.m`; consumed at 2 site(s): `migrators_j/syncrule.m:95 (guard)`, `migrators_j/syncrule.m:96 (field_read)`; target(s) BUILT: `clock_alignment_configuration`
 - `syncrule_mapping` (sync mapping) -- migrator `migrators_j/syncrule_mapping.m`; consumed at 2 site(s): `migrators_j/syncrule_mapping.m:106 (guard)`, `migrators_j/syncrule_mapping.m:107 (field_read)`; MINTED as a document class at 1 site(s): `migrators_j/syncrule_mapping.m:131 (emitted_class)`; still emitted/named at 1 site(s): `migrators_j/syncrule_mapping.m:149 (field_write)`; target(s) BUILT: `clock_alignment`
-- `time_reference` (time_reference) -- consumed at 1 site(s): `ndi_second_pass/epochAnchorFold.m:383 (guard)`; still emitted/named at 32 site(s): `migrators_j/fitcurve.m:139 (named)`, `migrators_j/fitcurve.m:145 (field_write)`, `migrators_j/image_stack.m:253 (named)`, `migrators_j/image_stack.m:257 (field_write)`, `migrators_j/jrclust_clusters.m:80 (named)`, `migrators_j/jrclust_clusters.m:84 (field_write)` ...
+- `time_reference` (time_reference) -- consumed at 1 site(s): `ndi_second_pass/epochAnchorFold.m:383 (guard)`; still emitted/named at 32 site(s): `migrators_j/fitcurve.m:139 (named)`, `migrators_j/fitcurve.m:145 (field_write)`, `migrators_j/image_stack.m:271 (named)`, `migrators_j/image_stack.m:275 (field_write)`, `migrators_j/jrclust_clusters.m:80 (named)`, `migrators_j/jrclust_clusters.m:84 (field_write)` ...
 
 ## AWAITING A SIGNATURE -- decided with the team, not yet recorded
 

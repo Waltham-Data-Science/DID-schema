@@ -61,7 +61,7 @@
             "mustNotHaveNaN": false,
             "queryable": true,
             "ontology": null,
-            "documentation": "The MD5 checksum of the file (ndi.fun.file.MD5). THE FIELD THAT BLOCKS THE opaque_body FOLD: opaque_body has no content_hash yet (#45), so folding today would drop it.",
+            "documentation": "The MD5 checksum of the file (ndi.fun.file.MD5). THIS FIELD USED TO BLOCK THE opaque_body FOLD -- opaque_body had no content_hash, so folding would have dropped it. opaque_body now declares `content_hash` and did2.convert.foldGenericFiles carries this value into it verbatim.",
             "constraints": {}
         },
         {
