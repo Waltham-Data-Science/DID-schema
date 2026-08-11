@@ -6021,9 +6021,11 @@ GOV_REF = {
     "filenavigator_id": "filenavigator", "daqreader_id": "daqreader",
     "daqsystem_id": "daqsystem", "daqmetadatareader_id": "daqmetadatareader",
     "syncrule_id": "syncrule", "syncrule_id_#": "syncrule",
-    # directory nesting (Phase 1): the parent directory is a directory; the
-    # generic parent document is any doc (root `base`).
-    "parent_directory_id": "directory", "parent_doc_id": "base",
+    # `parent_directory_id` was typed here until 2026-08-11. It existed ONLY on
+    # `directory.json`, which the team deleted (see _DELETE_NO_V1_PROVENANCE),
+    # so the entry now types an edge no schema declares. `parent_doc_id` stays:
+    # the generic parent document is any doc (root `base`).
+    "parent_doc_id": "base",
 }
 for tier in TIERS:
     for p in sorted(glob.glob(os.path.join(VETA, tier, "*.json"))):
@@ -6582,7 +6584,10 @@ _ANALYSIS_RE = _re.compile(r"(_calc$|_calc_|tuning|stimulus_response|spike|clust
 _KEEP_INFRA = {"daqsystem", "daqreader", "daqmetadatareader",
     "epochfiles_ingested", "epochid",
     "acquisition_epoch", "filenavigator", "syncgraph", "syncrule", "syncrule_mapping",
-    "directory", "filter"}
+    # `directory` was here until 2026-08-11, when the team deleted it (see
+    # _DELETE_NO_V1_PROVENANCE). Keeping it in KEEP_INFRA would mark a class
+    # that no longer exists as settled infrastructure.
+    "filter"}
 
 # DECIDED but BUILD-DEFERRED. The ⑥/⑦ walkthrough KEEP (above) was SUPERSEDED for these
 # classes by later decisions -- R4 (`ngrid`/RF map fold into `sampled_body`) and R5 (infra
@@ -6724,7 +6729,7 @@ for _t in ("time_reference", "utc_reference", "session_bounded_reference",
 # than trusting a KEEP that has already proven incomplete. Several are NDI-owned (the
 # writers emit these class strings), so any rename lands as a cross-repo lockstep.
 for _i in ("acquisition_epoch", "control_designation", "daqmetadatareader", "daqreader",
-           "daqsystem", "directory", "epochfiles_ingested", "epochid", "filenavigator",
+           "daqsystem", "epochfiles_ingested", "epochid", "filenavigator",
            "filter", "interaction_purpose", "syncgraph", "syncrule", "syncrule_mapping"):
     _DECIDED_PENDING[_i] = ("⑦ infra tier re-opened: the KEEP predated T11/T13 scrutiny "
                             "(R5 found 5 of its siblings needed renames/folds); needs a "
@@ -7017,6 +7022,44 @@ _DELETE_PHASE8 = {
 # removed here because that is a transform change, not a disposition change.
 _DELETE_NO_V1_PROVENANCE = {
     "dataseries_channel_map",
+    # TEAM DECISION 2026-08-11 (jess, in session): delete `directory`.
+    #
+    # Provenance V_gamma, "review/infra" -- a DID-side invention that was never
+    # a did_v1 class, so no NDI document can be one. Measured before the call,
+    # and every figure is zero:
+    #
+    #     DENOMINATOR: 245 V_eta schema files, 91 NDI templates, 4 code trees
+    #     V_eta schemas subclassing it            NONE
+    #     V_eta schemas depending on it           NONE (its only dep edge was
+    #                                             its OWN parent_directory_id)
+    #     migrators/passes minting it             NONE
+    #     migrators/passes consuming it           NONE
+    #     directory_role / manifest_format /
+    #       base_uri anywhere in any code         0
+    #     NDI class names normalising to
+    #       "directory"                           NONE
+    #
+    # THE ONE STRING MATCH IN CODE IS NOT THIS CLASS. `jSorterOutput.m:134`
+    # writes `struct('format', 'directory', ...)` on an `opaque_body` -- a
+    # FORMAT VALUE meaning "these bytes are a directory". status_board.py
+    # already carries a comment about that exact trap. Grepping the bare word
+    # would have found 200+ hits, nearly all `fileparts`/`dirname` calls; the
+    # check that decides this is the three DISTINCTIVE field names, which
+    # appear nowhere at all.
+    #
+    # The normalisation sweep was run because this disposition rests on
+    # ABSENCE, and that is how `demo_ndi` was nearly deleted -- dispositioned
+    # on a grep for a spelling NDI has never contained (it is `demoNDI`).
+    # No NDI class name normalises to "directory".
+    #
+    # RESIDUAL RISK, stated because it is the one thing not measured: this came
+    # from V_gamma, so a V_gamma/V_delta-era migrated database could hold
+    # `directory` documents, which this deletion would leave with no schema --
+    # the `image_stack` failure, where phase-8 deletion turned 4,563 documents
+    # into "No schema file for class". The team accepted that risk knowingly;
+    # the remedy if such a database turns up is a `deprecated/` tombstone, the
+    # same one that restored `image_stack`.
+    "directory",
     "epoch_relative_reference",
     "event_bounded_reference",
     "event_relative_reference",

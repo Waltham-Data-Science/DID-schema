@@ -3,8 +3,8 @@
   "description": "Regenerate with `python3 tools/status_board.py`. The human-readable twin is schemas/V_eta_STATUS.md. A family counts as decided ONLY when its plan document carries a TEAM-SIGN-OFF line; Claude cannot promote its own work.",
   "summary": {
     "families": 19,
-    "classes_claimed": 42,
-    "open_classes": 27,
+    "classes_claimed": 41,
+    "open_classes": 26,
     "by_state": {
       "signed_awaiting_build": 18,
       "awaiting_signature": 0,
@@ -276,18 +276,13 @@
         {
           "class_name": "filenavigator",
           "disposition": "in_progress"
-        },
-        {
-          "class_name": "directory",
-          "disposition": "in_progress"
         }
       ],
       "open_members": [
-        "filenavigator",
-        "directory"
+        "filenavigator"
       ],
       "plan": "V_eta_daq_family_decisions.md",
-      "decision": "filenavigator -> `epoch_file_pattern` (id preserved; patterns PARSED not eval'd); `directory` is not a source",
+      "decision": "filenavigator -> `epoch_file_pattern` (id preserved; patterns PARSED not eval'd); `directory` was not a source and is now deleted",
       "status": "team",
       "signed": true,
       "signoff": "jess, 2026-08-06 -- filenavigator becomes `epoch_file_pattern` with base.id preserved: the two eval'd parameter strings become declared pattern lists (data_file_pattern, epoch_map_pattern) plus epoch_map_format, and the implementation class name becomes a software_id edge. `directory` is NOT a did_v1 source and is unaffected.",
@@ -500,7 +495,6 @@
     "syncrule": "sync configuration",
     "syncrule_mapping": "sync mapping",
     "filenavigator": "file navigation",
-    "directory": "file navigation",
     "openminds": "openMINDS",
     "app": "software",
     "filter": "frequency_filter",
@@ -530,8 +524,8 @@
         ],
         "packages_missing": [],
         "files_read": 163,
-        "lines_read": 29816,
-        "classes_queried": 27,
+        "lines_read": 30016,
+        "classes_queried": 26,
         "classes_emitted_as_document_class": 8,
         "unresolved_mint_sites": [
           "DID-matlab:convert/+entities/entityDoc.m:58 (className)",
@@ -572,8 +566,8 @@
           "batch_post_pass": 24
         },
         "lines_read_by_group": {
-          "per_document_migrator": 20365,
-          "batch_post_pass": 9451
+          "per_document_migrator": 20546,
+          "batch_post_pass": 9470
         },
         "classes_emitted_as_document_class_by_group": {
           "per_document_migrator": 8,
@@ -690,7 +684,7 @@
         "reports_with_survivor_data": 0,
         "corpora": [],
         "source_documents": 0,
-        "classes_queried": 27
+        "classes_queried": 26
       }
     },
     "state_labels": {
@@ -700,7 +694,7 @@
       "u_unmeasured": "(?) UNMEASURED -- no build evidence was ever taken"
     },
     "counts": {
-      "a_nothing_built": 3,
+      "a_nothing_built": 2,
       "b_built_awaiting_corpus_proof": 24,
       "c_corpus_zero_survivors": 0,
       "u_unmeasured": 0
@@ -1566,85 +1560,6 @@
         "corpus_evidence_measured": false
       },
       {
-        "class_name": "directory",
-        "family": "file navigation",
-        "state": "a_nothing_built",
-        "state_label": "(a) decided, nothing built",
-        "build_evidence": [],
-        "migrator_file": null,
-        "n_consuming_refs": 0,
-        "consuming_refs": [],
-        "n_emitted_class_refs": 0,
-        "emitted_class_refs": [],
-        "emission_counts_as_build": false,
-        "retired_by_decision_in_favour_of": null,
-        "emission_discounted": null,
-        "n_field_write_refs": 0,
-        "field_write_refs": [],
-        "n_named_refs": 1,
-        "named_refs": [
-          "DID-matlab:migrators_j/private/jSorterOutput.m:134 (named)"
-        ],
-        "n_comment_mentions": 23,
-        "comment_mentions": [
-          "DID-matlab:convert/+readers/Contents.m:15 (comment_mention)",
-          "DID-matlab:convert/+readers/dumbJsonV1.m:4 (comment_mention)",
-          "DID-matlab:convert/+readers/dumbJsonV1.m:95 (comment_mention)",
-          "DID-matlab:convert/+readers/dumbJsonV1.m:96 (comment_mention)",
-          "DID-matlab:convert/Contents.m:12 (comment_mention)",
-          "DID-matlab:convert/epochMint.m:51 (comment_mention)"
-        ],
-        "by_group": {
-          "per_document_migrator": {
-            "n_consuming_refs": 0,
-            "consuming_refs": [],
-            "n_emitted_class_refs": 0,
-            "emitted_class_refs": [],
-            "n_field_write_refs": 0,
-            "field_write_refs": [],
-            "n_named_refs": 1,
-            "named_refs": [
-              "DID-matlab:migrators_j/private/jSorterOutput.m:134 (named)"
-            ],
-            "n_comment_mentions": 14,
-            "comment_mentions": [
-              "DID-matlab:migrators_j/epochfiles_ingested.m:48 (comment_mention)",
-              "DID-matlab:migrators_j/filenavigator.m:11 (comment_mention)",
-              "DID-matlab:migrators_j/kiasort_clusters.m:9 (comment_mention)",
-              "DID-matlab:migrators_j/kilosort_clusters.m:10 (comment_mention)",
-              "DID-matlab:migrators_j/private/jSorterOutput.m:114 (comment_mention)",
-              "DID-matlab:migrators_j/private/jSorterOutput.m:13 (comment_mention)"
-            ]
-          },
-          "batch_post_pass": {
-            "n_consuming_refs": 0,
-            "consuming_refs": [],
-            "n_emitted_class_refs": 0,
-            "emitted_class_refs": [],
-            "n_field_write_refs": 0,
-            "field_write_refs": [],
-            "n_named_refs": 0,
-            "named_refs": [],
-            "n_comment_mentions": 9,
-            "comment_mentions": [
-              "DID-matlab:convert/+readers/Contents.m:15 (comment_mention)",
-              "DID-matlab:convert/+readers/dumbJsonV1.m:4 (comment_mention)",
-              "DID-matlab:convert/+readers/dumbJsonV1.m:95 (comment_mention)",
-              "DID-matlab:convert/+readers/dumbJsonV1.m:96 (comment_mention)",
-              "DID-matlab:convert/Contents.m:12 (comment_mention)",
-              "DID-matlab:convert/epochMint.m:51 (comment_mention)"
-            ]
-          }
-        },
-        "decided_targets": [],
-        "decided_targets_built": [],
-        "decided_targets_missing": [],
-        "survivors": null,
-        "survivors_by_corpus": {},
-        "build_evidence_measured": true,
-        "corpus_evidence_measured": false
-      },
-      {
         "class_name": "ensemble",
         "family": "ensemble",
         "state": "b_built_awaiting_corpus_proof",
@@ -2055,7 +1970,7 @@
         "named_refs": [],
         "n_comment_mentions": 17,
         "comment_mentions": [
-          "DID-matlab:convert/v1_to_v2.m:661 (comment_mention)",
+          "DID-matlab:convert/v1_to_v2.m:680 (comment_mention)",
           "DID-matlab:migrators_j/Contents.m:144 (comment_mention)",
           "DID-matlab:migrators_j/Contents.m:416 (comment_mention)",
           "DID-matlab:migrators_j/Contents.m:455 (comment_mention)",
@@ -2097,7 +2012,7 @@
             "named_refs": [],
             "n_comment_mentions": 1,
             "comment_mentions": [
-              "DID-matlab:convert/v1_to_v2.m:661 (comment_mention)"
+              "DID-matlab:convert/v1_to_v2.m:680 (comment_mention)"
             ]
           }
         },
@@ -2294,9 +2209,9 @@
         "named_refs": [],
         "n_comment_mentions": 25,
         "comment_mentions": [
-          "DID-matlab:convert/v1_to_v2.m:642 (comment_mention)",
-          "DID-matlab:convert/v1_to_v2.m:648 (comment_mention)",
-          "DID-matlab:convert/v1_to_v2.m:653 (comment_mention)",
+          "DID-matlab:convert/v1_to_v2.m:661 (comment_mention)",
+          "DID-matlab:convert/v1_to_v2.m:667 (comment_mention)",
+          "DID-matlab:convert/v1_to_v2.m:672 (comment_mention)",
           "DID-matlab:migrators_j/+super/ngrid.m:15 (comment_mention)",
           "DID-matlab:migrators_j/+super/ngrid.m:2 (comment_mention)",
           "DID-matlab:migrators_j/+super/ngrid.m:23 (comment_mention)"
@@ -2337,9 +2252,9 @@
             "named_refs": [],
             "n_comment_mentions": 3,
             "comment_mentions": [
-              "DID-matlab:convert/v1_to_v2.m:642 (comment_mention)",
-              "DID-matlab:convert/v1_to_v2.m:648 (comment_mention)",
-              "DID-matlab:convert/v1_to_v2.m:653 (comment_mention)"
+              "DID-matlab:convert/v1_to_v2.m:661 (comment_mention)",
+              "DID-matlab:convert/v1_to_v2.m:667 (comment_mention)",
+              "DID-matlab:convert/v1_to_v2.m:672 (comment_mention)"
             ]
           }
         },
@@ -2638,7 +2553,7 @@
         "n_comment_mentions": 25,
         "comment_mentions": [
           "DID-matlab:convert/universalRenames.m:471 (comment_mention)",
-          "DID-matlab:convert/v1_to_v2.m:854 (comment_mention)",
+          "DID-matlab:convert/v1_to_v2.m:873 (comment_mention)",
           "DID-matlab:migrators_j/control_stimulus_ids.m:116 (comment_mention)",
           "DID-matlab:migrators_j/control_stimulus_ids.m:32 (comment_mention)",
           "DID-matlab:migrators_j/control_stimulus_ids.m:46 (comment_mention)",
@@ -2679,7 +2594,7 @@
             "n_comment_mentions": 2,
             "comment_mentions": [
               "DID-matlab:convert/universalRenames.m:471 (comment_mention)",
-              "DID-matlab:convert/v1_to_v2.m:854 (comment_mention)"
+              "DID-matlab:convert/v1_to_v2.m:873 (comment_mention)"
             ]
           }
         },

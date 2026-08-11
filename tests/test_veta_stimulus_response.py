@@ -348,7 +348,13 @@ def test_isspike_is_left_alone_and_the_inert_spelling_is_counted():
         walked += 1
         walk(d.get("fields", []), d["document_class"]["class_name"], "")
 
-    assert walked == 241, "schema count moved; re-derive the inert set (%d)" % walked
+    # 241 -> 240 on 2026-08-11: the team deleted `directory`
+    # (build_v_eta.py `_DELETE_NO_V1_PROVENANCE`). Checked, not assumed, exactly
+    # as the four time-reference deletions above were: the deleted class declared
+    # NO `min` or `max` at any depth, so nothing dropped out of the pinned set and
+    # the list below is untouched. This canary fired and that is it working --
+    # the count is meant to be a number somebody chose.
+    assert walked == 240, "schema count moved; re-derive the inert set (%d)" % walked
     assert sorted(inert) == [
         "element.direct",
         "element.reference",

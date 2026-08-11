@@ -672,7 +672,21 @@ def test_phase1_source_cleanup_and_dep_typing():
     assert _dep("ingestion_manifest", "epoch_id")["must_refer_to_document_class"] == "epoch"
     assert not any(d["name"] == "epochid"
                    for d in RECORDS["ingestion_manifest"][1]["depends_on"])
-    assert _dep("directory", "parent_directory_id")["must_refer_to_document_class"] == "directory"
+    # `directory` USED to be asserted here as carrying a self-referential
+    # `parent_directory_id` typed to itself. The team DELETED the class on
+    # 2026-08-11 (build_v_eta.py `_DELETE_NO_V1_PROVENANCE`, where the
+    # measurement behind the call is recorded): provenance V_gamma, never a
+    # did_v1 class, nothing subclassed it, nothing depended on it, nothing
+    # minted or consumed it, and its three distinctive field names appeared in
+    # no code anywhere.
+    #
+    # INVERTED rather than deleted. Asserting the class is GONE keeps this line
+    # doing work: a `directory.json` reappearing -- from a stray copytree, a
+    # revert, or a V_gamma import -- would otherwise pass unnoticed, and the
+    # edge it declares points at itself, so nothing else would catch it either.
+    assert "directory" not in RECORDS, (
+        "`directory` is back in the built set; it was deleted by team decision "
+        "2026-08-11 and nothing should be reintroducing it")
 
 
 def test_daqreader_ndr_de_encoded():

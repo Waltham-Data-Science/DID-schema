@@ -849,18 +849,6 @@
             "disposition": "persist"
         },
         {
-            "class_name": "directory",
-            "tier": "stable",
-            "class_version": "1.0.0",
-            "maturity_level": "stable",
-            "superclasses": [
-                "base"
-            ],
-            "path": "schemas/V_eta/stable/directory.json",
-            "disposition": "in_progress",
-            "disposition_note": "\u2466 infra tier re-opened: the KEEP predated T11/T13 scrutiny (R5 found 5 of its siblings needed renames/folds); needs a naming + governance confirmation, NDI lockstep where the writers own the class string"
-        },
-        {
             "class_name": "distance_metadata",
             "tier": "stable",
             "class_version": "1.0.0",

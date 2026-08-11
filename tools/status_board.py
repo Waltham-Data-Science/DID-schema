@@ -340,10 +340,16 @@ FAMILIES = [
     # is NOT a did_v1 source (provenance V_gamma, and CLAUDE.md already lists it as a
     # post-v1 DID class) -- it landed here by name association, the same mis-grouping
     # that once put `filter` in this family.
-    ("file navigation", ["filenavigator", "directory"],
+    # `directory` was the second member here until 2026-08-11, when the team
+    # DELETED the class (build_v_eta.py `_DELETE_NO_V1_PROVENANCE`, where the
+    # measurement behind the call is recorded). It has to leave this list too:
+    # `ghosts` below exits non-zero when FAMILIES names a class that is not in
+    # the built index, which is exactly the check that stops a family from
+    # quietly tracking something that no longer exists.
+    ("file navigation", ["filenavigator"],
      "V_eta_daq_family_decisions.md",
      "filenavigator -> `epoch_file_pattern` (id preserved; patterns PARSED not eval'd); "
-     "`directory` is not a source",
+     "`directory` was not a source and is now deleted",
      "team"),
 
     # openminds_import was REMOVED 2026-07-30 (team sign-off) -- nothing ever
