@@ -1357,3 +1357,73 @@ answered.
 
 **No `TEAM-SIGN-OFF` line is written by Claude.** The board keeps rendering this family as
 awaiting review until the team writes one.
+
+---
+
+## TEAM DECISION 2026-08-11 — `valid_interval` becomes a boolean-valued `subject_statement`
+
+Team, jess@walthamdatascience.com, 2026-08-11, verbatim: **"Should valid interval be a new
+class that takes a subject statement, shares its time reference and states true or false for
+each value?"** — put as a question, restated twice, and taken as the decision. So: a NEW class,
+`subject_statement`-derived, sharing its time reference, carrying a BOOLEAN per entry.
+
+**THE BOOLEAN CLOSES A GAP NDI ITSELF RECORDED.** Not a V_eta refinement — the missing half of
+the class, written down by its own author:
+
+    $ git show origin/main:src/ndi/+ndi/+app/markgarbage.m | sed -n '40,41p'
+        % developer note: it would be great to have a 'markinvalidinterval' companion
+        function b = markvalidinterval(ndi_app_markgarbage_obj, ndi_epochset_obj, t0, ...
+
+Validity is encoded in the CLASS NAME today, so "this stretch is bad" is expressible only as
+absence. A true/false value makes valid and invalid symmetric in one representation. This is
+also why the alternative put to the team — 1 to N, one statement per interval — is WORSE: N
+statements that all mean "valid" cannot express invalidity either.
+
+**THE REFERENT.** `element_id` -> the element, and elements are promoted to subjects with ids
+PRESERVED, so this is an ordinary statement about a subject.
+
+**THE TIME REFERENCE: SHARE BY DEFAULT, SPLIT WHERE THE WRITER DIFFERS.** Each v1 interval
+carries TWO independent anchors — the signature is
+`markvalidinterval(epochset, t0, timeref_t0, t1, timeref_t1)` and the stored struct is
+`{timeref_structt0, t0, timeref_structt1, t1}`. The time model's DECISION C already governs
+this: one `relative_to` + one `frame` govern both ends where they agree, and an interval whose
+ends are anchored differently becomes TWO reference documents on the statement — nesting an
+anchor block per end is explicitly rejected. The new class needs no new rule; it follows that one.
+
+**"EACH VALUE" IS PER INTERVAL, NOT PER SAMPLE.** Per-interval is migratable: the intervals are
+literally in the document. Per-sample (a validity mask over the time axis) is NOT — the migrator
+never reads file bytes, so it does not know the sample grid and would have to fabricate one. The
+mask is derivable from the intervals by anyone holding the grid; the reverse is lossy; and a mask
+over a long recording is large and rebuildable, which is the same explicitly-derived-cache
+pattern already used for the ensemble (T10).
+
+**THREE THINGS THE BUILD MUST NOT QUIETLY BREAK.**
+
+1. **ABSENCE MUST KEEP MEANING VALID.** `markgarbage` is opt-in: today, NO `valid_interval`
+   document means the whole epoch is good. If the new class states true/false explicitly, absence
+   must still mean valid, or migrating any dataset without markgarbage documents silently
+   reclassifies every epoch from "all good" to "unknown". Nothing we currently gate on would
+   catch that. The class must not be required.
+
+2. **VALIDITY INHERITS, AND A FLAT STATEMENT LOSES IT.** `loadvalidinterval` falls back to
+   `underlying_element` when a derived element has none. That is a query-time rule in NDI. Stored
+   flat against one subject, the inheritance disappears unless it is re-derived through the
+   `derived_from` chain or materialised. OPEN SUB-QUESTION, not decided here.
+
+3. **ORDER IS LOAD-BEARING.** There is a SECOND consumer nobody had recorded —
+   `+app/+stimulus/tuning_response.m:253-254` loads valid intervals and restricts its read window
+   to `interval(1,1)`..`interval(1,2)`, the FIRST interval only:
+
+       $ git show origin/main:src/ndi/+ndi/+app/+stimulus/tuning_response.m | sed -n '255p'
+         [data,t_raw,timeref] = readtimeseries(ndi_timeseries_obj, ts_epoch_timeref.epoch, ...
+             interval(1,1), interval(1,2));
+
+   In v1 that order is array-append order (`vi(end+1) = validintervalstruct`). Decomposing to
+   several statements makes "first" undefined unless order is preserved explicitly. So this class
+   is load-bearing for ANALYSIS, not just bookkeeping.
+
+**NOTHING REFERENCES IT BY ID** (0 of 91 NDI templates, 0 DID-matlab migrator references), so a
+decompose cannot strand a referent.
+
+**No `TEAM-SIGN-OFF` line is written by Claude.** The board keeps rendering this family as
+awaiting review until the team writes one.
