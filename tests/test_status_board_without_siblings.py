@@ -126,9 +126,16 @@ def test_batch_consumers_takes_the_sibling_path_rather_than_finding_one():
     m = re.search(r"^def batch_consumers\(([^)]*)\):", src, re.MULTILINE)
     assert m, "batch_consumers is gone or renamed; this guard is now vacuous"
     params = [a.strip() for a in m.group(1).split(",")]
-    assert len(params) == 2, (
-        f"batch_consumers{tuple(params)} takes no sibling-path argument, so it "
-        "must be discovering one. It ignored --did for exactly that reason.")
+    # THE INVARIANT IS THAT THE CALLER PASSES THE CHECKOUT, not that the
+    # signature has exactly two parameters. The first draft asserted the count
+    # and broke the moment a second caller needed its own snapshot key -- a
+    # test that pins an incidental shape instead of the property it cares about
+    # fails on correct changes, which is how a real guard gets weakened to shut
+    # it up. `didm` positional and no `find_repo` in the body are the property.
+    assert len(params) >= 2 and params[1] == "didm", (
+        f"batch_consumers{tuple(params)} takes no sibling-path argument as its "
+        "second parameter, so it must be discovering one. It ignored --did for "
+        "exactly that reason.")
     body = src[m.end():src.index("\ndef ", m.end())]
     assert "find_repo(" not in body, (
         "batch_consumers calls find_repo again. The caller already resolved the "

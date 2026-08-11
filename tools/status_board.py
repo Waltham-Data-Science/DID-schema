@@ -133,6 +133,10 @@ DECISIONS_OUT = os.path.join(REPO, "schemas", "V_eta_decisions.json")
 # silently promoted it to "decided" -- and five families Claude wrote up alone
 # were reported to the team as settled. A status board that launders a proposal
 # into a decision is worse than no board.
+# The token a family uses to DECLARE that code exists for a model the team
+# has not agreed. Declaring it keeps `--check` green; hiding it does not.
+BUILT_AHEAD_OF_DECISION = "BUILT AHEAD OF THE DECISION"
+
 FAMILIES = [
     # ADDED 2026-08-10, and the board is what demanded it. `generic_file` and
     # `valid_interval` were the last two did_v1 classes that stranded COMPLETELY
@@ -207,12 +211,33 @@ FAMILIES = [
     # this file's author from adding one. What is missing is a SIGNATURE, not
     # a model -- which is a different sentence from the one that was here, and
     # the difference is a day of work someone might have redone.
-    ("stranded sources", ["generic_file", "valid_interval", "imageCollection"],
+    ("stranded sources", ["generic_file", "imageCollection"],
      "V_eta_OPEN_WORK.md",
-     ("BUILT, unsigned: generic_file -> term_observation + opaque_body; "
-      "valid_interval -> boolean validity_observation + relative_reference; "
+     ("generic_file -> term_observation + opaque_body; "
       "imageCollection -> tombstone. SIGNED 2026-08-11"),
      "team"),
+
+    # SPLIT OUT OF `stranded sources` ON 2026-08-11, AND THE REASON IS THE
+    # POINT. The three were signed as one family and `valid_interval` did not
+    # belong in that signature: the team ASKED whether it should take this shape
+    # and then said "Can we skip this decision for now?" -- a question recorded
+    # as an answer. The team caught it; nothing here did.
+    #
+    # `resolveValidIntervals.m` IS BUILT AND RUNS IN ALL SIX CORPORA. That is
+    # not a reason to call the model decided; it is the more serious half of the
+    # finding, and it is declared rather than hidden -- see BUILT_AHEAD_OF_DECISION
+    # below, which lets the contradiction sweep REPORT this without failing,
+    # because a known and recorded contradiction is not the thing that sweep
+    # exists to catch. It processed 0 source documents in all six corpora (no
+    # corpus holds a `valid_interval`), so nothing has actually been transformed
+    # under an unapproved model -- which bounds the exposure but does not change
+    # the disposition.
+    ("valid_interval", ["valid_interval"],
+     None,
+     ("BUILT AHEAD OF THE DECISION: resolveValidIntervals decomposes it into "
+      "boolean validity_observation + relative_reference. NOT signed, NOT "
+      "agreed -- the team deferred this one and it is still open"),
+     "open"),
 
     # FOUR MEMBERS LEFT THIS FAMILY 2026-08-11 (#65 increment 3a):
     # `epoch_relative_reference`, `event_bounded_reference`,
@@ -752,7 +777,7 @@ def batch_evidence_line(hits):
     return (f'batch post-pass evidence: NONE -- 0 file(s) read and no usable snapshot ({", ".join(hits["roots_missing"]) or "no root given"}). Every \'passes through\' row is UNMEASURED, not clean.')
 
 
-def batch_consumers(classes, didm):
+def batch_consumers(classes, didm, snapshot_key="batch_consumers"):
     """Which BATCH POST-PASSES name each of `classes`, by bare quoted literal.
 
     WHY IT EXISTS. The ledger's `migrator` column means one thing only: a file
@@ -801,7 +826,7 @@ def batch_consumers(classes, didm):
     out = {"files_scanned": 0, "roots_missing": [], "by_class": {}, "reused": False}
     if not didm or not os.path.isdir(base):
         out["roots_missing"].append(base or "DID-matlab (not given)")
-        prior = (committed_snapshot().get("sources", {}) or {}).get("batch_consumers")
+        prior = (committed_snapshot().get("sources", {}) or {}).get(snapshot_key)
         if prior and not prior.get("reused"):
             # Only a MEASURED snapshot is worth reusing. Reusing a reused one
             # would let a single sibling-less run freeze the figure forever
@@ -2554,10 +2579,32 @@ def build(ocs=None, didm=None, log=None):
     # already existed in prose and was read and repeated anyway.
     built_but_called_undecided = []
     for name, members, _plan, _what, _st in undecided:
-        hits = batch_consumers(list(members), didm)
+        hits = batch_consumers(list(members), didm,
+                               snapshot_key="batch_consumers_families")
         built = {c: v for c, v in hits["by_class"].items() if v}
-        if built:
-            built_but_called_undecided.append((name, built, hits["files_scanned"]))
+        if not built:
+            continue
+        # A DECLARED contradiction is not the thing this sweep exists to catch.
+        # It was written for the row that says UNDECIDED while a migrator quietly
+        # runs -- prose nobody had compared to the tree. A family whose own
+        # one-liner says BUILT AHEAD OF THE DECISION has already made the
+        # contradiction the first thing a reader sees, and failing on it would
+        # force exactly the wrong repair: signing a model to turn the gate green.
+        # It is REPORTED either way; only the undeclared case fails.
+        declared = BUILT_AHEAD_OF_DECISION in (_what or "").upper()
+        built_but_called_undecided.append(
+            (name, built, hits["files_scanned"], declared))
+        # STASHED, NORMALISED, for the same reason the other sweep is: without
+        # a snapshot a runner with no DID-matlab renders this section
+        # differently from a developer's machine, and the artifact is committed.
+        # Caught by tests/test_status_board_without_siblings.py the first time
+        # this sweep shipped -- the byte-identity test earning its keep on the
+        # commit that added a second caller.
+        if ocs is not None:
+            fam = ocs.setdefault("sources", {}).setdefault(
+                "batch_consumers_families", {"files_scanned": 0, "by_class": {}})
+            fam["files_scanned"] = max(fam["files_scanned"], hits["files_scanned"])
+            fam["by_class"].update(hits["by_class"])
     # A FAMILY MUST NOT CLAIM A CLASS THAT NO LONGER EXISTS. The check below has always
     # verified that every in_progress class belongs to a family; it never verified the
     # converse, so when three classes collapsed into one on 2026-08-06 the board went on
@@ -2675,11 +2722,24 @@ def build(ocs=None, didm=None, log=None):
     if built_but_called_undecided:
         p("## A FAMILY CALLED UNDECIDED WHOSE CLASSES ARE ALREADY BUILT")
         p("")
-        p("This section is a FAILURE, not a note. The table below says a "
-          "decision is outstanding; the migrator tree says the model was "
-          "chosen and built. One of the two is wrong, and it is not the tree.")
+        p("Two different things land here and they are NOT the same finding.")
         p("")
-        for name, built, scanned in built_but_called_undecided:
+        p("- **UNDECLARED** is a FAILURE. The table says a decision is "
+          "outstanding and the migrator tree says the model was chosen and "
+          "built, and nobody had compared the two. That is the stale-prose "
+          "case this section was written for.")
+        p("- **DECLARED** is not a failure and must not be made one. The "
+          "family's own one-liner says BUILT AHEAD OF THE DECISION, so the "
+          "contradiction is the first thing a reader meets. Failing on it "
+          "would force the wrong repair -- signing a model to turn a gate "
+          "green -- which is the precise thing Operating Rule 4 exists to "
+          "stop. Code existing ahead of a decision is a fact to carry in the "
+          "open, not to launder into agreement.")
+        p("")
+        for name, built, scanned, declared in built_but_called_undecided:
+            p("**{}** -- {}".format(
+                name, "DECLARED (reported, not failing)" if declared
+                else "UNDECLARED (this fails --check)"))
             p(f"- **{name}** -- DENOMINATOR: {len(built)} of the family's "
               f"classes named by a batch post-pass, over {scanned} file(s) "
               "scanned under `+did2/+convert`")
@@ -3087,7 +3147,7 @@ def build(ocs=None, didm=None, log=None):
         p("")
 
     ok = (not unclaimed and not dupes and not missing_plans
-          and not built_but_called_undecided)
+          and not [r for r in built_but_called_undecided if not r[3]])
     return "\n".join(L) + "\n", ok
 
 
