@@ -62,8 +62,38 @@ not repeat it — re-derive it with the tool.**
 | `schemas/V_eta_final_class_set.md` | the authoritative persist set | `python3 tools/regen_final_class_set.py` |
 | `schemas/V_eta_ndi_ground_truth.json` | what NDI templates + writers actually declare | `python3 tools/ndi_ground_truth.py` |
 
-All four are CHECKED IN CI and fail when stale, so they cannot drift while
-unattended. `tools/status_board.py --check` additionally fails when an
+**DO NOT REGENERATE THESE ONE AT A TIME. RUN `python3 tools/gates.py`** — the
+single entry point. It runs the whole regenerate-and-gate chain once, in an
+order DERIVED from which tool reads which artifact (`--explain` prints the
+order, the reason for every edge, and the witness that substantiates it), and a
+batch of N schema edits then costs one regeneration instead of N. `--check`
+does the same in a scratch mirror and diffs, writing nothing.
+
+**THIS LINE SAID "All four are CHECKED IN CI and fail when stale, so they
+cannot drift while unattended." THREE OF THE FOUR WERE NOT, AND NEITHER WAS THE
+BUILT SCHEMA SET ITSELF.** Measured 2026-08-11: each artifact hand-mutated in a
+clean checkout of HEAD, then the workflow's exact step list run against it with
+the sibling repos absent, as on a runner.
+
+        DENOMINATOR: 5 mutations, each in its own clean checkout, each run
+                     through all 8 steps tests.yml then had
+        coverage_ledger.md   + a row              CI GREEN  not detected
+        final_class_set.md   + a row              CI GREEN  not detected
+        ndi_ground_truth.json  writer_deps wiped  CI GREEN  not detected
+        coverage_ledger.json - a row              CI RED    (status_board, by luck)
+        V_eta/stable/strain.json + a field
+          build_v_eta.py would never emit         CI GREEN  not detected
+
+The last row is the one that matters: CI never ran `build_v_eta.py` at all, so
+a hand-edit to `schemas/V_eta` — the tree the other three are derived FROM —
+passed every gate. Only `V_eta_STATUS.md` was really protected. **`tests.yml`
+now calls `tools/gates.py --ci` and owns no gate list of its own**
+(`tests/test_gates.py::test_ci_owns_no_second_list_of_gates` fails if one comes
+back), which closes the build and final-class-set holes. The ground truth stays
+open on a runner: it needs an NDI-matlab checkout CI does not have, and `--ci`
+reports it as NOT RUNNABLE HERE rather than counting it as passed.
+
+`tools/status_board.py --check` additionally fails when an
 `in_progress` class belongs to no decision family (an open question nobody is
 tracking), when two families claim one class, or when a family cites a decision
 document that does not exist.
@@ -910,7 +940,18 @@ lives in these files — read them instead of re-deriving from memory:
   structure; epoch — the document IS the fact and the string was only ever a way to find it.**
 
 ## Build / test
-- `python3 tools/build_v_eta.py` rebuilds `schemas/V_eta/` (copytree V_zeta→V_eta
+- **`python3 tools/gates.py` IS THE ENTRY POINT.** 16 steps, in an order derived
+  from which tool reads which artifact, run once for a whole batch of edits.
+  `--explain` prints the order + the evidence for each edge; `--check`
+  regenerates into a scratch mirror and diffs without touching the working tree;
+  `--ci` is what `tests.yml` runs. It prints its step count first, a headline
+  count per step, and FAILS a step that exits 0 while printing no headline.
+  Wall clock for the full chain on this container: **11.9 s**, of which pytest
+  7.2 s and `ndi_ground_truth.py` 3.2 s — the other 14 steps total 1.5 s. So
+  batching is worth it for CORRECTNESS (one ordered regeneration instead of N
+  hand-typed ones), not for time.
+- The individual tools still work and are what the driver calls:
+  `python3 tools/build_v_eta.py` rebuilds `schemas/V_eta/` (copytree V_zeta→V_eta
   then transforms). `python3 -m pytest tests/test_veta.py -q` checks the schema.
 - Migrators live in DID-matlab `+did2/+convert/+migrators_j/`; corpus validation is
   DID-matlab `test-code.yml` (full, ~1–2h) and `test-migrators-quick.yml` (~2 min).
