@@ -1910,8 +1910,11 @@ def render_open_state(p, ocs):
     p("| build: open classes MINTED as a document class | %d |"
       % msrc.get("classes_emitted_as_document_class", 0))
     for _g in GROUPS:
-        p("| build: &nbsp;&nbsp;-- of those, minted in a %s | %d |"
-          % (GROUP_LABEL[_g], _mint_by_group.get(_g, 0)))
+        # NOT "of those" -- a class minted in both halves is in both rows, so
+        # these two do not sum to the line above and must not read as if they
+        # did. Two overlapping facts, stated as two.
+        p("| build: &nbsp;&nbsp;-- open classes minted in a %s (rows overlap) "
+          "| %d |" % (GROUP_LABEL[_g], _mint_by_group.get(_g, 0)))
     p("| build: of those, discounted (decision retires the class) | %d |"
       % sum(1 for r in rowsv if r.get("emission_discounted")))
     p("| build: `document_class` writes whose class name is a VARIABLE | %d |"

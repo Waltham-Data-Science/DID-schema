@@ -56,8 +56,8 @@ decides a disposition -- it DERIVES, per class, how far the work has got.
 | build: &nbsp;&nbsp;-- of those, batch post-pass | 8731 |
 | build: classes queried | 31 |
 | build: open classes MINTED as a document class | 8 |
-| build: &nbsp;&nbsp;-- of those, minted in a per-document migrator | 8 |
-| build: &nbsp;&nbsp;-- of those, minted in a batch post-pass | 1 |
+| build: &nbsp;&nbsp;-- open classes minted in a per-document migrator (rows overlap) | 8 |
+| build: &nbsp;&nbsp;-- open classes minted in a batch post-pass (rows overlap) | 1 |
 | build: of those, discounted (decision retires the class) | 3 |
 | build: `document_class` writes whose class name is a VARIABLE | 9 |
 | build: &nbsp;&nbsp;-- of those, in a per-document migrator | 6 |
