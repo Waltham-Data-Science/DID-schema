@@ -86,7 +86,6 @@ Usage:  python3 tools/status_board.py [--check]
 """
 
 import argparse
-import glob
 import json
 import os
 import re
@@ -1186,12 +1185,95 @@ def scan_matlab_file(path, patterns, unresolved=None, idioms=None):
 # reader who cannot find the file has to choose between believing the board and
 # believing their own search. So the repository is part of every reference now:
 #     NDI-matlab:ndi_second_pass/stimulusBathToBath.m:137
+#
+# ---------------------------------------------------------------------------
+# THE BOARD READ HALF THE V_eta PATH -- corrected 2026-08-11
+# ---------------------------------------------------------------------------
+# `+migrators_j` is the PER-DOCUMENT half of the DID-side pass: one file per v1
+# class, each seeing one document at a time. The other half is the BATCH
+# POST-PASSES, which run over the whole converted batch after the per-document
+# migrators and do the work a single-document migrator provably cannot -- mint
+# an epoch, resolve a session anchor, fold deferred baths. They live one
+# directory UP, in `+did2/+convert` itself and in its `+entities/`/`+readers/`
+# helper packages, and the scan roots did not name them. Re-derived census of
+# `+did2/+convert`, which is the denominator this correction is measured
+# against:
+#
+#     187  .m files under +did2/+convert
+#     125    +migrators_j                     SCANNED, always was
+#      22    +migrators           \
+#       9    +migrators_i          >  38  V_zeta path   EXCLUDED, deliberately
+#       7    +migrators_e         /
+#      14    directly in +convert \
+#       7    +entities/            >  24  V_eta batch post-passes  ADDED HERE
+#       3    +readers/            /
+#
+# The 38 stay out for the reason at the top of this comment, and that exclusion
+# is now EXPLICIT and COUNTED (`files_excluded_v_zeta`) instead of being an
+# omission from a list: an exclusion nobody can see in the output is
+# indistinguishable from a root somebody forgot, which is precisely how the 24
+# went missing.
+#
+# THE TWO GROUPS ARE NEVER MERGED INTO ONE COUNT. A mint in a batch post-pass
+# and a mint in a per-document migrator are different facts about a class -- the
+# first says the whole-batch pass builds it, the second says the per-document
+# pass does -- and this file has already paid once for summing unlike categories
+# (see the `GUARD_FUNCS` block comment). Every count below is carried per group
+# as well as in total, and the artifact prints the split.
+GROUP_MIGRATOR = "per_document_migrator"
+GROUP_BATCH = "batch_post_pass"
+GROUP_LABEL = {
+    GROUP_MIGRATOR: "per-document migrator",
+    GROUP_BATCH: "batch post-pass",
+}
+GROUPS = (GROUP_MIGRATOR, GROUP_BATCH)
+
+# The V_zeta / intermediate packages. NOT a cosmetic list: the batch root is the
+# whole of `+did2/+convert`, so without these names the recursive walk would
+# swallow the 38 files the board is right to ignore. `+migrators_j` is here too
+# because it has its OWN root above -- reaching it twice would double every
+# per-document count.
+V_ZETA_PACKAGES = ("+migrators", "+migrators_i", "+migrators_e")
+_CONVERT_ALREADY_SCANNED = ("+migrators_j",)
+
 MIGRATOR_PACKAGES = [
-    ("did", "DID-matlab", "migrators_j", "src/did/+did2/+convert/+migrators_j"),
-    ("ndi", "NDI-matlab", "ndi_second_pass", "src/ndi/+ndi/+migrate/+internal"),
+    ("did", "DID-matlab", "migrators_j", "src/did/+did2/+convert/+migrators_j",
+     GROUP_MIGRATOR, ()),
+    ("ndi", "NDI-matlab", "ndi_second_pass", "src/ndi/+ndi/+migrate/+internal",
+     GROUP_MIGRATOR, ()),
+    # The batch post-passes. ONE recursive root with a NAMED exclusion, rather
+    # than three enumerated roots: enumeration is what failed here, and a new
+    # `+convert/+something` helper package would be missed again by a list.
+    ("did", "DID-matlab", "convert", "src/did/+did2/+convert",
+     GROUP_BATCH, V_ZETA_PACKAGES + _CONVERT_ALREADY_SCANNED),
 ]
 
 REF_CAP = 6            # refs listed per class in the artifact; the count is exact
+
+
+def package_files(base, skip_dirs):
+    """(files under `base`, files pruned by `skip_dirs`) -- both counted.
+
+    `os.walk` with pruning rather than `glob('**/*.m')`, because the batch root
+    is the parent of the V_zeta packages and the exclusion has to be able to cut
+    a subtree. The pruned files are RETURNED, keyed by the package that cut
+    them, not discarded: "38 files were skipped on purpose" and "the root was
+    wrong" have to be distinguishable from the output alone, which is the whole
+    defect this root list is fixing -- and "skipped because it is V_zeta" has to
+    be distinguishable from "skipped because another root already read it".
+    """
+    kept, skipped = [], {}
+    for dirpath, dirs, names in os.walk(base):
+        pruned = [d for d in dirs if d in skip_dirs]
+        dirs[:] = sorted(d for d in dirs if d not in skip_dirs)
+        for d in pruned:
+            bucket = skipped.setdefault(d, [])
+            for sdir, _sd, snames in os.walk(os.path.join(dirpath, d)):
+                bucket.extend(os.path.join(sdir, nm) for nm in snames
+                              if nm.endswith(".m"))
+        kept.extend(os.path.join(dirpath, nm) for nm in sorted(names)
+                    if nm.endswith(".m"))
+    return sorted(kept), {d: sorted(v) for d, v in skipped.items()}
 
 
 def migrator_evidence(classes, did_root, ndi_root):
@@ -1228,74 +1310,119 @@ def migrator_evidence(classes, did_root, ndi_root):
     EVERY OCCURRENCE LANDS IN EXACTLY ONE BUCKET, AND THE BUCKETS ARE NEVER
     SUMMED. `mint`, `consumed`, `field_write`, `named` and `comment_mention` are
     five different facts about a class; each is returned with its own count.
+
+    NOR ARE THE TWO GROUPS SUMMED WITHOUT BEING SHOWN. Every bucket is returned
+    per group (`by_group`) as well as in total, so a mint in a batch post-pass
+    is never indistinguishable from a mint in a per-document migrator.
     """
     patterns = {c: re.compile(r"\.\s*" + re.escape(c) + r"\b") for c in classes}
     per_class, roots_read, roots_missing = {}, [], []
     unresolved_sites, idiom_counts = [], {}
     files_read = lines_read = 0
-    for kind, repo, label, rel in MIGRATOR_PACKAGES:
+    excluded_files = {}
+    by_group_files = {g: 0 for g in GROUPS}
+    by_group_lines = {g: 0 for g in GROUPS}
+    by_group_idioms = {g: {} for g in GROUPS}
+    by_group_unresolved = {g: [] for g in GROUPS}
+    for kind, repo, label, rel, group, skip_dirs in MIGRATOR_PACKAGES:
         root = did_root if kind == "did" else ndi_root
         base = os.path.join(root, rel) if root else None
         if not base or not os.path.isdir(base):
             roots_missing.append("%s:%s" % (repo, label))
             continue
         roots_read.append("%s:%s" % (repo, label))
-        for path in sorted(glob.glob(os.path.join(base, "**", "*.m"),
-                                     recursive=True)):
+        kept, skipped = package_files(base, set(skip_dirs))
+        for pkg, paths in skipped.items():
+            excluded_files.setdefault(pkg, []).extend(
+                "%s:%s/%s" % (repo, label, os.path.relpath(p, base))
+                for p in paths)
+        for path in kept:
             rel_path = "%s:%s/%s" % (repo, label, os.path.relpath(path, base))
             files_read += 1
+            by_group_files[group] += 1
             name = os.path.basename(path)[:-2]
-            if name in classes and os.path.dirname(path) == base:
+            # A FILE NAMED AFTER A CLASS is the per-document migrator's naming
+            # convention and only that group's: `+convert/epochMint.m` is not a
+            # migrator for a class called `epochMint`. Recording a batch file
+            # here would invent build evidence out of a filename.
+            if (group == GROUP_MIGRATOR and name in classes
+                    and os.path.dirname(path) == base):
                 per_class.setdefault(name, {}).setdefault("file", rel_path)
             unresolved = []
+            idioms_here = {}
             hits, n_lines = scan_matlab_file(path, patterns, unresolved,
-                                             idiom_counts)
+                                             idioms_here)
+            for k, v in idioms_here.items():
+                idiom_counts[k] = idiom_counts.get(k, 0) + v
+                by_group_idioms[group][k] = by_group_idioms[group].get(k, 0) + v
             lines_read += n_lines
+            by_group_lines[group] += n_lines
             for lno, expr in unresolved:
-                unresolved_sites.append("%s:%d (%s)" % (rel_path, lno, expr))
+                site = "%s:%d (%s)" % (rel_path, lno, expr)
+                unresolved_sites.append(site)
+                by_group_unresolved[group].append(site)
             for cls, spots in hits.items():
                 refs = per_class.setdefault(cls, {}).setdefault("refs", [])
                 for lno, why in spots:
-                    refs.append(("%s:%d" % (rel_path, lno), why))
+                    refs.append(("%s:%d" % (rel_path, lno), why, group))
 
     if not roots_read:
         return None, {"available": False, "packages_read": [],
                       "packages_missing": roots_missing, "files_read": 0,
                       "lines_read": 0, "classes_queried": len(classes)}
 
+    def _bucket(refs, kinds):
+        """(count, capped citation list, per-group counts, per-group citations).
+
+        The tuple carries the group, so the caller never has to guess it back
+        out of a path.
+        """
+        sel = [r for r in refs if r[1] in kinds]
+        n_by = {g: sum(1 for r in sel if r[2] == g) for g in GROUPS}
+        refs_by = {g: ["%s (%s)" % (r[0], r[1])
+                       for r in sel if r[2] == g][:REF_CAP] for g in GROUPS}
+        return (len(sel), ["%s (%s)" % (r[0], r[1]) for r in sel[:REF_CAP]],
+                n_by, refs_by)
+
+    _BUCKETS = (
+        ("consuming_refs", CONSUMING_KINDS),
+        # THE CLASS THIS PASS MINTS -- a document of it is produced.
+        ("emitted_class_refs", (EMITTED_CLASS_KIND,)),
+        # A BLOCK OF THAT NAME IS WRITTEN -- `anchor.<class> = struct(...)`.
+        # Not a mint: the mint is the `document_class` statement a few lines
+        # above it, and counting the pair together double-counts one document
+        # while making the two indistinguishable.
+        ("field_write_refs", ("field_write",)),
+        # THE NAME APPEARS IN CODE AND NOTHING MORE -- a string value such as
+        # `struct('kind', 'epoch_bounded_reference', ...)`.
+        ("named_refs", ("named",)),
+        # PROSE. Counts toward nothing; carried so that can be verified.
+        ("comment_mentions", (COMMENT_KIND,)),
+    )
+
     out = {}
     n_with_emission = 0
+    n_emission_by_group = {g: 0 for g in GROUPS}
     for cls in sorted(classes):
         ev = per_class.get(cls, {})
         refs = sorted(ev.get("refs", []))
-        consuming = [r for r in refs if r[1] in CONSUMING_KINDS]
-        minting = [r for r in refs if r[1] == EMITTED_CLASS_KIND]
-        writes = [r for r in refs if r[1] == "field_write"]
-        named = [r for r in refs if r[1] == "named"]
-        comments = [r for r in refs if r[1] == COMMENT_KIND]
-        if minting:
+        row = {"migrator_file": ev.get("file")}
+        by_group = {g: {} for g in GROUPS}
+        for key, kinds in _BUCKETS:
+            n, cited, n_by, cited_by = _bucket(refs, kinds)
+            nkey = "n_" + key
+            row[nkey] = n
+            row[key] = cited
+            for g in GROUPS:
+                by_group[g][nkey] = n_by[g]
+                by_group[g][key] = cited_by[g]
+        row["by_group"] = by_group
+        if row["n_emitted_class_refs"]:
             n_with_emission += 1
-        out[cls] = {
-            "migrator_file": ev.get("file"),
-            "n_consuming_refs": len(consuming),
-            "consuming_refs": ["%s (%s)" % r for r in consuming[:REF_CAP]],
-            # THE CLASS THIS MIGRATOR MINTS -- a document of it is produced.
-            "n_emitted_class_refs": len(minting),
-            "emitted_class_refs": ["%s (%s)" % r for r in minting[:REF_CAP]],
-            # A BLOCK OF THAT NAME IS WRITTEN -- `anchor.<class> = struct(...)`.
-            # Not a mint: the mint is the `document_class` statement a few lines
-            # above it, and counting the pair together double-counts one
-            # document while making the two indistinguishable.
-            "n_field_write_refs": len(writes),
-            "field_write_refs": ["%s (%s)" % r for r in writes[:REF_CAP]],
-            # THE NAME APPEARS IN CODE AND NOTHING MORE -- a string value such as
-            # `struct('kind', 'epoch_bounded_reference', ...)`.
-            "n_named_refs": len(named),
-            "named_refs": ["%s (%s)" % r for r in named[:REF_CAP]],
-            # PROSE. Counts toward nothing; carried so that can be verified.
-            "n_comment_mentions": len(comments),
-            "comment_mentions": ["%s (%s)" % r for r in comments[:REF_CAP]],
-        }
+        for g in GROUPS:
+            if by_group[g]["n_emitted_class_refs"]:
+                n_emission_by_group[g] += 1
+        out[cls] = row
     return out, {"available": True, "packages_read": roots_read,
                  "packages_missing": roots_missing, "files_read": files_read,
                  "lines_read": lines_read, "classes_queried": len(classes),
@@ -1308,6 +1435,42 @@ def migrator_evidence(classes, did_root, ndi_root):
                  # quietly.
                  "mint_sites_by_idiom": {str(k): idiom_counts[k]
                                          for k in sorted(idiom_counts)},
+                 # THE SAME FIGURES SPLIT BY GROUP. Present so that no reader
+                 # has to take "the batch post-passes are in there now" on
+                 # trust: if this block is all zeros, the 24 were not read.
+                 "groups": list(GROUPS),
+                 "group_labels": dict(GROUP_LABEL),
+                 "packages_by_group": {
+                     g: ["%s:%s" % (repo, label)
+                         for _k, repo, label, _r, grp, _s in MIGRATOR_PACKAGES
+                         if grp == g and "%s:%s" % (repo, label) in roots_read]
+                     for g in GROUPS},
+                 "files_read_by_group": by_group_files,
+                 "lines_read_by_group": by_group_lines,
+                 "classes_emitted_as_document_class_by_group":
+                     n_emission_by_group,
+                 "mint_sites_by_idiom_by_group": {
+                     g: {str(k): by_group_idioms[g][k]
+                         for k in sorted(by_group_idioms[g])} for g in GROUPS},
+                 "n_unresolved_mint_sites_by_group": {
+                     g: len(by_group_unresolved[g]) for g in GROUPS},
+                 "unresolved_mint_sites_by_group": {
+                     g: sorted(by_group_unresolved[g]) for g in GROUPS},
+                 # THE V_zeta EXCLUSION, COUNTED RATHER THAN ASSUMED. These
+                 # files are skipped on purpose; a zero here would mean the
+                 # exclusion stopped reaching them, not that they went away.
+                 # `+migrators_j` is kept in its own row because it is skipped
+                 # by the BATCH root for a different reason -- its own root
+                 # already read it -- and folding the two would make 125 read
+                 # files look like 125 ignored ones.
+                 "v_zeta_packages_excluded": list(V_ZETA_PACKAGES),
+                 "n_files_excluded_by_package": {
+                     pkg: len(v) for pkg, v in sorted(excluded_files.items())},
+                 "n_files_excluded_v_zeta": sum(
+                     len(excluded_files.get(p, ())) for p in V_ZETA_PACKAGES),
+                 "files_excluded_v_zeta": sorted(
+                     f for p in V_ZETA_PACKAGES
+                     for f in excluded_files.get(p, ())),
                  "ref_kinds": list(REF_KINDS),
                  "code_kinds": list(CODE_KINDS),
                  "comment_kind": COMMENT_KIND,
@@ -1510,6 +1673,31 @@ def open_class_state(open_work, schemas, rows, mig, mig_src, cen, cen_src):
         comment_refs = m.get("comment_mentions", []) if measured else []
         n_mint = m.get("n_emitted_class_refs", 0) if measured else 0
         mint_refs = m.get("emitted_class_refs", []) if measured else []
+        # THE SAME FIVE BUCKETS, SPLIT BY WHICH HALF OF THE V_eta PASS THEY CAME
+        # FROM. A snapshot written before the batch roots existed carries no
+        # `by_group`, so the fallback puts everything under the group that was
+        # being read then rather than inventing a zero for either.
+        by_group = (m.get("by_group") if measured else None) or {
+            GROUP_MIGRATOR: {"n_consuming_refs": n_con,
+                             "consuming_refs": con_refs,
+                             "n_emitted_class_refs": n_mint,
+                             "emitted_class_refs": mint_refs,
+                             "n_field_write_refs": n_write,
+                             "field_write_refs": write_refs,
+                             "n_named_refs": n_named, "named_refs": named_refs,
+                             "n_comment_mentions": n_comment,
+                             "comment_mentions": comment_refs},
+            GROUP_BATCH: {"n_consuming_refs": 0, "consuming_refs": [],
+                          "n_emitted_class_refs": 0, "emitted_class_refs": [],
+                          "n_field_write_refs": 0, "field_write_refs": [],
+                          "n_named_refs": 0, "named_refs": [],
+                          "n_comment_mentions": 0, "comment_mentions": []},
+        }
+
+        def _split(nkey):
+            """`3 per-document migrator, 2 batch post-pass` -- never a bare sum."""
+            return ", ".join("%d %s" % (by_group[g].get(nkey, 0), GROUP_LABEL[g])
+                             for g in GROUPS if by_group[g].get(nkey, 0))
 
         # A MINTED CLASS IS BUILT -- unless the decision is that it stops
         # existing, in which case the mint is the work still outstanding.
@@ -1517,18 +1705,20 @@ def open_class_state(open_work, schemas, rows, mig, mig_src, cen, cen_src):
         mint_counts = bool(n_mint) and retired_to is None
         discount = None
         if n_mint and retired_to is not None:
-            discount = ("minted at %d site(s), NOT counted as build progress: "
-                        "the signed decision retires this class in favour of "
-                        "`%s`, so an emission is work still to undo"
-                        % (n_mint, retired_to))
+            discount = ("minted at %d site(s) (%s), NOT counted as build "
+                        "progress: the signed decision retires this class in "
+                        "favour of `%s`, so an emission is work still to undo"
+                        % (n_mint, _split("n_emitted_class_refs"), retired_to))
 
         why = []
         if mfile:
             why.append("migrator `%s`" % mfile)
         if n_con:
-            why.append("%d consuming reference(s)" % n_con)
+            why.append("%d consuming reference(s) (%s)"
+                       % (n_con, _split("n_consuming_refs")))
         if mint_counts:
-            why.append("minted as a document class at %d site(s)" % n_mint)
+            why.append("minted as a document class at %d site(s) (%s)"
+                       % (n_mint, _split("n_emitted_class_refs")))
         if built_t:
             why.append("decided target(s) built: %s"
                        % ", ".join("`%s`" % t for t in built_t))
@@ -1572,6 +1762,11 @@ def open_class_state(open_work, schemas, rows, mig, mig_src, cen, cen_src):
             "named_refs": named_refs,
             "n_comment_mentions": n_comment,
             "comment_mentions": comment_refs,
+            # TWO HALVES OF ONE PASS, NEVER ONE UNDIFFERENTIATED COUNT. Every
+            # bucket above is a total over both; this is the same evidence split
+            # by whether it came from a per-document migrator or from a batch
+            # post-pass, which are different facts about the class.
+            "by_group": by_group,
             "decided_targets": decided,
             "decided_targets_built": built_t,
             "decided_targets_missing": missing_t,
@@ -1619,7 +1814,8 @@ def gather_evidence(open_work, schemas, rows, args, log):
                      "n_named_refs": r.get("n_named_refs", 0),
                      "named_refs": r.get("named_refs", []),
                      "n_comment_mentions": r.get("n_comment_mentions", 0),
-                     "comment_mentions": r.get("comment_mentions", [])}
+                     "comment_mentions": r.get("comment_mentions", []),
+                     "by_group": r.get("by_group")}
                  for c, r in snap_rows.items()
                  if r.get("build_evidence_measured")}
         if prior:
@@ -1687,17 +1883,42 @@ def render_open_state(p, ocs):
     p("")
     p("| evidence source | reach |")
     p("|---|---|")
+    _pkg_by_group = msrc.get("packages_by_group") or {}
+    _files_by_group = msrc.get("files_read_by_group") or {}
+    _lines_by_group = msrc.get("lines_read_by_group") or {}
+    _mint_by_group = msrc.get("classes_emitted_as_document_class_by_group") or {}
+    _unres_by_group = msrc.get("n_unresolved_mint_sites_by_group") or {}
     p("| build: V_eta migrator packages read | %s |"
       % (", ".join("`%s`" % s for s in msrc.get("packages_read") or []) or "**NONE**"))
+    for _g in GROUPS:
+        p("| build: &nbsp;&nbsp;-- of those, %s | %s |"
+          % (GROUP_LABEL[_g],
+             ", ".join("`%s`" % s for s in _pkg_by_group.get(_g) or [])
+             or "**NONE**"))
     p("| build: migrator files inspected | %d |" % msrc.get("files_read", 0))
+    for _g in GROUPS:
+        p("| build: &nbsp;&nbsp;-- of those, %s | %d |"
+          % (GROUP_LABEL[_g], _files_by_group.get(_g, 0)))
+    p("| build: V_zeta files DELIBERATELY EXCLUDED (`%s`) | %d |"
+      % ("`, `".join(msrc.get("v_zeta_packages_excluded") or []),
+         msrc.get("n_files_excluded_v_zeta", 0)))
     p("| build: migrator lines inspected | %d |" % msrc.get("lines_read", 0))
+    for _g in GROUPS:
+        p("| build: &nbsp;&nbsp;-- of those, %s | %d |"
+          % (GROUP_LABEL[_g], _lines_by_group.get(_g, 0)))
     p("| build: classes queried | %d |" % msrc.get("classes_queried", 0))
     p("| build: open classes MINTED as a document class | %d |"
       % msrc.get("classes_emitted_as_document_class", 0))
+    for _g in GROUPS:
+        p("| build: &nbsp;&nbsp;-- of those, minted in a %s | %d |"
+          % (GROUP_LABEL[_g], _mint_by_group.get(_g, 0)))
     p("| build: of those, discounted (decision retires the class) | %d |"
       % sum(1 for r in rowsv if r.get("emission_discounted")))
     p("| build: `document_class` writes whose class name is a VARIABLE | %d |"
       % msrc.get("n_unresolved_mint_sites", 0))
+    for _g in GROUPS:
+        p("| build: &nbsp;&nbsp;-- of those, in a %s | %d |"
+          % (GROUP_LABEL[_g], _unres_by_group.get(_g, 0)))
     p("| corpus: `*-summary.json` reports read | %d |" % csrc.get("reports_read", 0))
     p("| corpus: reports carrying an `unconverted_count` | %d |"
       % csrc.get("reports_with_survivor_data", 0))
@@ -1750,6 +1971,38 @@ def render_open_state(p, ocs):
     p("file is named after the target of a rename, so a filename key can never")
     p("find one.")
     p("")
+    p("### THE V_eta PASS HAS TWO HALVES AND THE BOARD READ ONE")
+    p("")
+    p("Corrected 2026-08-11. The DID-side V_eta pass is `+migrators_j` (one file")
+    p("per v1 class, each seeing ONE document) **and** the BATCH POST-PASSES that")
+    p("run over the whole converted batch afterwards and do what a single-document")
+    p("migrator provably cannot -- mint an epoch, resolve a session anchor, fold")
+    p("the deferred baths. Those live one directory UP, in `+did2/+convert` itself")
+    p("and in its `+entities/` and `+readers/` helper packages, and the scan roots")
+    p("did not name them. Re-derived census of `+did2/+convert`:")
+    p("")
+    p("| files | where | this board |")
+    p("|---|---|---|")
+    p("| 125 | `+migrators_j` | scans, always did |")
+    p("| 38 | `+migrators` (22) + `+migrators_i` (9) + `+migrators_e` (7) | "
+      "EXCLUDED, deliberately -- the V_zeta path |")
+    p("| 24 | 14 in `+convert`, 7 in `+entities/`, 3 in `+readers/` | "
+      "**ADDED 2026-08-11 -- previously invisible** |")
+    p("| 187 | total `.m` under `+did2/+convert` | |")
+    p("")
+    p("The 38 stay out: a V_zeta migrator is not evidence a V_eta target is")
+    p("built. That exclusion is now COUNTED in the denominator table above rather")
+    p("than left as an omission from a list -- an exclusion nobody can see in the")
+    p("output is indistinguishable from a root somebody forgot, which is exactly")
+    p("how the 24 went missing.")
+    p("")
+    p("**THE TWO GROUPS ARE NEVER MERGED INTO ONE COUNT.** Every column below is")
+    p("carried per group as well as in total, because *a batch post-pass mints")
+    p("this class* and *a per-document migrator mints this class* are different")
+    p("facts. Each site names its repository AND its package, so the group is")
+    p("readable off any citation: `DID-matlab:convert/resolveDeferredBaths.m:177`")
+    p("is a batch post-pass, `DID-matlab:migrators_j/fitcurve.m:139` is not.")
+    p("")
     p("**THERE ARE THREE MINT IDIOMS AND UNTIL 2026-08-11 THIS BOARD KNEW ONE.**")
     p("")
     _idiom_shape = {
@@ -1758,13 +2011,25 @@ def render_open_state(p, ocs):
         "3": "`b.document_class.class_name = '<class>';`",
     }
     _by_idiom = msrc.get("mint_sites_by_idiom") or {}
-    p("| idiom | shape | sites in the packages read |")
-    p("|---|---|---|")
+    _idiom_by_group = msrc.get("mint_sites_by_idiom_by_group") or {}
+    p("| idiom | shape | sites | %s |"
+      % " | ".join(GROUP_LABEL[g] for g in GROUPS))
+    p("|---|---|---|%s" % ("---|" * len(GROUPS)))
     for _k in sorted(set(_idiom_shape) | set(_by_idiom)):
-        p("| %s | %s | %d |"
-          % (_k, _idiom_shape.get(_k, "*unrecognised*"), _by_idiom.get(_k, 0)))
-    p("| - | class name is a VARIABLE -- unresolved here | %d |"
-      % msrc.get("n_unresolved_mint_sites", 0))
+        p("| %s | %s | %d | %s |"
+          % (_k, _idiom_shape.get(_k, "*unrecognised*"), _by_idiom.get(_k, 0),
+             " | ".join(str((_idiom_by_group.get(g) or {}).get(_k, 0))
+                        for g in GROUPS)))
+    p("| - | class name is a VARIABLE -- unresolved here | %d | %s |"
+      % (msrc.get("n_unresolved_mint_sites", 0),
+         " | ".join(str(_unres_by_group.get(g, 0)) for g in GROUPS)))
+    p("")
+    p("**THE THREE IDIOMS ARE RE-MEASURED IN THE NEW ROOTS, NOT ASSUMED TO CARRY")
+    p("OVER.** The per-group columns are counted per file, so which idioms the")
+    p("batch post-passes actually use is read off the table rather than asserted")
+    p("in a sentence that can go stale; a zero there is a measured zero over the")
+    p("file and line denominators above, and if a post-pass adopts `classBlock`")
+    p("tomorrow the column moves on its own.")
     p("")
     p("Idioms 2 and 3 carry no `'class_name', '<X>'` comma pair, so the regex")
     p("imported from `tools/coverage.py` cannot see them. `classBlock` is a LOCAL")
@@ -1779,15 +2044,25 @@ def render_open_state(p, ocs):
                  if r["class_name"] == "session_relative_reference"), None)
     p("**WHAT THE MISS COST, stated as the number and not as a lesson.**")
     p("`session_relative_reference` is a class whose whole open question is that")
-    p("it must STOP being emitted. Idiom 1 alone puts its mint count at **3**;")
-    p("this run measures **%s**, the difference being six migrators"
+    p("it must STOP being emitted. Idiom 1 in `+migrators_j` alone puts its mint")
+    p("count at **3**; this run measures **%s**"
       % (_srr["n_emitted_class_refs"] if _srr else "n/a -- no longer open"))
+    if _srr:
+        _srr_g = _srr.get("by_group") or {}
+        p("(%s)."
+          % ("; ".join("%d in a %s"
+                       % ((_srr_g.get(g) or {}).get("n_emitted_class_refs", 0),
+                          GROUP_LABEL[g]) for g in GROUPS)))
+    p("Two corrections got it there, and they are separate faults. Six migrators")
     p("(`fitcurve`, `image_stack`, `jrclust_clusters`, `neuron_extracellular`,")
-    p("`pyraview`, `vmspikefit`) that mint it through `classBlock`. The board")
-    p("reported a third of the outstanding work, in this project's characteristic")
-    p("direction. The six were not dropped -- they were filed as `named`, the")
-    p("weakest bucket, which is worse than dropping them because it looks like a")
-    p("measurement.")
+    p("`pyraview`, `vmspikefit`) mint it through `classBlock`, which the")
+    p("`'class_name'`-comma regex could not see; and the batch post-pass")
+    p("`+convert/resolveDeferredBaths.m` mints it twice in a package the board")
+    p("was not reading at all. The board reported a third of the outstanding")
+    p("work, in this project's characteristic direction. Neither set was dropped")
+    p("-- the six were filed as `named`, the weakest bucket, and the two were")
+    p("filed nowhere, which is worse than dropping them because the first looks")
+    p("like a measurement and the second looks like clean ground.")
     p("")
     p("**A `document_class` WRITE WHOSE CLASS NAME IS A VARIABLE IS COUNTED, NOT")
     p("SKIPPED.** `struct('class_name', leafClass, ...)` and")
@@ -1834,25 +2109,37 @@ def render_open_state(p, ocs):
     p("Each of the last four columns is one kind of fact and they are NOT added")
     p("together. `minted` = a document of this class is produced; `field writes`")
     p("= a block of that name is written; `named` = the name appears as a string")
-    p("value; `comments` = prose, which counts toward nothing.")
+    p("value; `comments` = prose, which counts toward nothing. Each cell is")
+    p("written `total (M+B)` -- M from a per-document migrator, B from a batch")
+    p("post-pass -- so no cell in this table is an undifferentiated count.")
     p("")
-    p("| class | family | state | build evidence | minted | field writes | named "
-      "| comments | survivors |")
+    p("| class | family | state | build evidence | minted (M+B) | field writes "
+      "(M+B) | named (M+B) | comments (M+B) | survivors |")
     p("|---|---|---|---|---|---|---|---|---|")
+
+    def _cell(r, nkey):
+        """`9 (7+2)` -- the total, then the migrator/batch split. Never one number."""
+        total = r.get(nkey) or 0
+        if not total:
+            return "-"
+        g = r.get("by_group") or {}
+        return "%d (%s)" % (total, "+".join(
+            str((g.get(grp) or {}).get(nkey, 0)) for grp in GROUPS))
+
     for r in rowsv:
         surv = ("n/a -- not measured" if r["survivors"] is None
                 else str(r["survivors"]))
         ev = "; ".join(r["build_evidence"]) or ("*not measured*"
                                                 if not r["build_evidence_measured"]
                                                 else "*none*")
-        mint = r.get("n_emitted_class_refs") or 0
-        mint_cell = ("%d (discounted)" % mint if r.get("emission_discounted")
-                     else (str(mint) if mint else "-"))
+        mint_cell = _cell(r, "n_emitted_class_refs")
+        if r.get("emission_discounted") and mint_cell != "-":
+            mint_cell += " discounted"
         p("| `%s` | %s | %s | %s | %s | %s | %s | %s | %s |"
           % (r["class_name"], r["family"] or "-",
              OPEN_STATE_LABEL[r["state"]].split(" ", 1)[0], ev,
-             mint_cell, r.get("n_field_write_refs") or "-",
-             r.get("n_named_refs") or "-", r.get("n_comment_mentions") or "-",
+             mint_cell, _cell(r, "n_field_write_refs"),
+             _cell(r, "n_named_refs"), _cell(r, "n_comment_mentions"),
              surv))
     p("")
     for k in (STATE_A, STATE_U, STATE_C, STATE_B):
@@ -1863,21 +2150,49 @@ def render_open_state(p, ocs):
         p("")
         for r in members:
             bits = []
+            grp = r.get("by_group") or {}
+
+            def _per_group(_n, _refs, _caption, _row=r, _grp=grp):
+                """One caption PER GROUP, never one caption over both.
+
+                A site in `+convert/resolveDeferredBaths.m` and a site in
+                `+migrators_j/fitcurve.m` say different things about a class --
+                the batch pass builds it versus the per-document pass does --
+                and this file has already paid once for a caption that summed
+                unlike facts into one number.
+                """
+                said = []
+                for g in GROUPS:
+                    gr = _grp.get(g) or {}
+                    n = gr.get(_n, 0)
+                    if not n:
+                        continue
+                    cited = gr.get(_refs, [])
+                    said.append(("%s, %s" % (_caption % n, GROUP_LABEL[g]))
+                                + ": %s%s"
+                                % (", ".join("`%s`" % x for x in cited),
+                                   " ..." if n > len(cited) else ""))
+                if said:
+                    return said
+                # No per-group breakdown at all (a snapshot older than the
+                # split). Report the total and say it is not split, rather than
+                # silently printing a group's worth of evidence as if it were
+                # one group's.
+                n = _row.get(_n) or 0
+                if not n:
+                    return []
+                cited = _row.get(_refs, [])
+                return [("%s, group NOT RECORDED in this snapshot: %s%s"
+                         % (_caption % n,
+                            ", ".join("`%s`" % x for x in cited),
+                            " ..." if n > len(cited) else ""))]
+
             if r["migrator_file"]:
                 bits.append("migrator `%s`" % r["migrator_file"])
-            if r["n_consuming_refs"]:
-                bits.append("consumed at %d site(s): %s%s"
-                            % (r["n_consuming_refs"],
-                               ", ".join("`%s`" % x for x in r["consuming_refs"]),
-                               " ..." if r["n_consuming_refs"]
-                               > len(r["consuming_refs"]) else ""))
-            if r.get("n_emitted_class_refs"):
-                bits.append("MINTED as a document class at %d site(s): %s%s"
-                            % (r["n_emitted_class_refs"],
-                               ", ".join("`%s`" % x
-                                         for x in r["emitted_class_refs"]),
-                               " ..." if r["n_emitted_class_refs"]
-                               > len(r["emitted_class_refs"]) else ""))
+            bits.extend(_per_group("n_consuming_refs", "consuming_refs",
+                                   "consumed at %d site(s)"))
+            bits.extend(_per_group("n_emitted_class_refs", "emitted_class_refs",
+                                   "MINTED as a document class at %d site(s)"))
             if r.get("emission_discounted"):
                 bits.append(r["emission_discounted"])
             # ONE CAPTION PER CATEGORY. The single "still emitted/named at N
@@ -1891,12 +2206,7 @@ def render_open_state(p, ocs):
                     ("n_comment_mentions", "comment_mentions",
                      "mentioned in %d COMMENT(s) -- prose, counts toward "
                      "nothing")):
-                if not r.get(_n):
-                    continue
-                bits.append((_caption + ": %s%s")
-                            % (r[_n],
-                               ", ".join("`%s`" % x for x in r[_refs]),
-                               " ..." if r[_n] > len(r[_refs]) else ""))
+                bits.extend(_per_group(_n, _refs, _caption))
             if r["decided_targets_built"]:
                 bits.append("target(s) BUILT: %s"
                             % ", ".join("`%s`" % t

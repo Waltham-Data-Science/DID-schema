@@ -824,17 +824,14 @@ def test_every_occurrence_lands_in_exactly_one_category():
                + row["n_comment_mentions"])
 
     raw = 0
-    for _kind, _repo, _label, rel in sb.MIGRATOR_PACKAGES:
+    for _kind, _repo, _label, rel, _grp, skip in sb.MIGRATOR_PACKAGES:
         root = _did_root() if _kind == "did" else _ndi_root()
         if root is None:
             pytest.skip("%s not checked out" % _repo)
-        base = os.path.join(root, rel)
-        for dirpath, _d, names in os.walk(base):
-            for nm in names:
-                if not nm.endswith(".m"):
-                    continue
-                with open(os.path.join(dirpath, nm), errors="replace") as fh:
-                    raw += sum(1 for line in fh if cls in line)
+        kept, _skipped = sb.package_files(os.path.join(root, rel), set(skip))
+        for path in kept:
+            with open(path, errors="replace") as fh:
+                raw += sum(1 for line in fh if cls in line)
     assert raw > 0, "the raw sweep found nothing -- treat as broken, not clean"
     assert counted == raw, (
         "%d occurrence(s) of %s in the packages, %d accounted for across the "
@@ -850,7 +847,7 @@ def test_a_site_names_the_repository_it_came_from():
     classes = set(_open_classes())
     mig, src = sb.migrator_evidence(classes, _did_root(), _ndi_root())
     assert mig is not None
-    repos = {repo for _k, repo, _l, _r in sb.MIGRATOR_PACKAGES}
+    repos = {p[1] for p in sb.MIGRATOR_PACKAGES}
     for label in src["packages_read"]:
         assert label.split(":", 1)[0] in repos, label
     seen = 0
@@ -890,8 +887,7 @@ def test_an_unreadable_class_name_is_counted_and_not_skipped():
     assert (len(src["unresolved_mint_sites"])
             == src["n_unresolved_mint_sites"])
     for site in src["unresolved_mint_sites"]:
-        assert site.split(":", 1)[0] in {repo for _k, repo, _l, _r
-                                         in sb.MIGRATOR_PACKAGES}
+        assert site.split(":", 1)[0] in {p[1] for p in sb.MIGRATOR_PACKAGES}
 
 
 def test_the_artifact_never_sums_unlike_categories():
@@ -942,3 +938,266 @@ def test_a_comment_mention_counts_toward_nothing():
         assert r["state"] == sb.STATE_A, (
             "%s has %d comment mention(s) and nothing else, and is rendered %s"
             % (r["class_name"], r["n_comment_mentions"], r["state"]))
+
+
+# ---------------------------------------------------------------------------
+# THE OTHER HALF OF THE V_eta PASS -- the batch post-passes
+# ---------------------------------------------------------------------------
+#
+# The scan roots named `+migrators_j` and stopped. `+migrators_j` is the
+# PER-DOCUMENT half of the DID-side V_eta pass; the other half is the BATCH
+# POST-PASSES in `+did2/+convert` itself and its `+entities/`/`+readers/` helper
+# packages, which run over the whole converted batch and do what a
+# single-document migrator cannot. Roughly half the V_eta-path code built on
+# 2026-08-11 lives there and the board could not see any of it.
+#
+# THE V_zeta PACKAGES STAY OUT. `+migrators`, `+migrators_i` and `+migrators_e`
+# are a deliberate, sound exclusion and this section pins it rather than
+# relaxing it -- the batch root is their PARENT, so a walk with no exclusion
+# would sweep all 38 of them into the build signal.
+
+_CONVERT = "src/did/+did2/+convert"
+
+
+def _convert_root():
+    root = _did_root()
+    return None if root is None else os.path.join(root, _CONVERT)
+
+
+def _batch_package():
+    """The MIGRATOR_PACKAGES row for the batch post-passes."""
+    rows = [p for p in sb.MIGRATOR_PACKAGES if p[4] == sb.GROUP_BATCH]
+    assert len(rows) == 1, (
+        "expected exactly one batch post-pass root, found %d" % len(rows))
+    return rows[0]
+
+
+@pytest.mark.skipif(_did_root() is None, reason="DID-matlab not checked out")
+def test_the_convert_census_is_the_one_the_board_measures():
+    """DENOMINATOR FIRST: 187 = 125 scanned + 38 excluded + 24 added.
+
+    Re-derived from the tree, never from a number written down here: the totals
+    are computed by walking `+did2/+convert` and the assertions compare the
+    board's own denominator fields against that walk. A file added to
+    `+convert` tomorrow shows up on BOTH sides, so this test measures the
+    board's reach and not the repo's size.
+    """
+    base = _convert_root()
+    per_dir = {}
+    for dirpath, _dirs, names in os.walk(base):
+        rel = os.path.relpath(dirpath, base)
+        top = "." if rel == "." else rel.split(os.sep)[0]
+        per_dir[top] = per_dir.get(top, 0) + sum(1 for n in names
+                                                 if n.endswith(".m"))
+    total = sum(per_dir.values())
+    assert total > 0, "no .m files under +convert -- treat as broken, not clean"
+
+    v_zeta = sum(per_dir.get(p, 0) for p in sb.V_ZETA_PACKAGES)
+    migrators_j = per_dir.get("+migrators_j", 0)
+    batch = total - v_zeta - migrators_j
+    assert v_zeta and migrators_j and batch, (
+        "one of the three groups is empty: +migrators_j=%d v_zeta=%d batch=%d"
+        % (migrators_j, v_zeta, batch))
+
+    mig, src = sb.migrator_evidence(set(_open_classes()), _did_root(),
+                                    _ndi_root())
+    assert mig is not None and src["files_read"], (
+        "the sweep read no files -- treat as broken, not as clean")
+    assert src["files_read_by_group"][sb.GROUP_BATCH] == batch, (
+        "the board read %d batch post-pass file(s); %d .m files sit under "
+        "+convert outside +migrators_j and the V_zeta packages. The roots have "
+        "stopped covering the batch half of the pass."
+        % (src["files_read_by_group"][sb.GROUP_BATCH], batch))
+    assert src["n_files_excluded_v_zeta"] == v_zeta, (
+        "the V_zeta exclusion reports %d file(s), the tree holds %d. An "
+        "exclusion that has stopped reaching its files is indistinguishable "
+        "from a root nobody wrote down -- which is how the batch passes went "
+        "missing." % (src["n_files_excluded_v_zeta"], v_zeta))
+    assert (src["files_read_by_group"][sb.GROUP_MIGRATOR]
+            >= migrators_j), "the +migrators_j root stopped being read in full"
+
+
+@pytest.mark.skipif(_did_root() is None, reason="DID-matlab not checked out")
+def test_a_mint_in_a_batch_post_pass_is_found(tmp_path):
+    """The fixture is CUT FROM `resolveDeferredBaths.m`, not written here.
+
+    Same rule as the idiom fixtures above: a fixture built from the same premise
+    as the detector cannot catch the detector. These bytes are the migrator's
+    own, so if the batch passes change shape the fixture changes with them.
+    """
+    path = os.path.join(_convert_root(), "resolveDeferredBaths.m")
+    assert os.path.exists(path), (
+        "resolveDeferredBaths.m has moved; re-point this test at whatever "
+        "batch post-pass mints a document now")
+    stmt, lineno = _cut_statement(
+        path, "struct('class_name', 'session_relative_reference'")
+    assert stmt, (
+        "resolveDeferredBaths.m no longer mints session_relative_reference -- "
+        "re-point this fixture rather than relaxing it")
+    p = tmp_path / "fixture.m"
+    p.write_text(stmt)
+    with open(str(p)) as fh:
+        minted = {c for c, _l in sb.emitted_document_classes(fh.readlines())}
+    assert "session_relative_reference" in minted, (
+        "the mint at resolveDeferredBaths.m:%d was not recognised. Detected: "
+        "%s" % (lineno, sorted(minted)))
+    assert "time_reference" not in minted, (
+        "the superclass in the same statement was counted as a mint")
+
+    # ... and the whole-repo sweep must cite it, filed under the batch group.
+    classes = set(_open_classes())
+    if "session_relative_reference" not in classes:
+        pytest.skip("session_relative_reference is no longer an open class")
+    mig, _src = sb.migrator_evidence(classes, _did_root(), _ndi_root())
+    row = mig["session_relative_reference"]
+    batch = row["by_group"][sb.GROUP_BATCH]
+    assert batch["n_emitted_class_refs"] >= 2, (
+        "%d batch mint(s) of session_relative_reference; resolveDeferredBaths.m "
+        "has two. The board is back to reading half the path."
+        % batch["n_emitted_class_refs"])
+    assert any("resolveDeferredBaths.m" in r
+               for r in batch["emitted_class_refs"]), batch["emitted_class_refs"]
+    assert row["n_emitted_class_refs"] == (
+        batch["n_emitted_class_refs"]
+        + row["by_group"][sb.GROUP_MIGRATOR]["n_emitted_class_refs"]), (
+        "the per-group mint counts do not add up to the total")
+
+
+@pytest.mark.skipif(_did_root() is None, reason="DID-matlab not checked out")
+def test_the_v_zeta_packages_are_still_excluded():
+    """A V_zeta migrator is not evidence a V_eta target is built.
+
+    The batch root is `+convert`, the PARENT of `+migrators`, `+migrators_i` and
+    `+migrators_e`, so this exclusion is now load-bearing in a way it was not
+    when the roots were enumerated one package at a time. Checked two ways: no
+    citation anywhere in the sweep comes from those packages, and the sweep
+    reports a NON-ZERO count of files it skipped on their account -- a zero
+    would mean the exclusion had stopped reaching them, not that they were gone.
+    """
+    classes = set(_open_classes())
+    mig, src = sb.migrator_evidence(classes, _did_root(), _ndi_root())
+    assert mig is not None and src["files_read"], (
+        "the sweep read no files -- treat as broken, not as clean")
+    assert src["n_files_excluded_v_zeta"] > 0, (
+        "no file was excluded on V_zeta grounds; the exclusion is either dead "
+        "or unreported, and both look identical from the artifact")
+    for f in src["files_excluded_v_zeta"]:
+        assert any(("/%s/" % p) in f for p in sb.V_ZETA_PACKAGES), f
+
+    seen = 0
+    for cls, row in mig.items():
+        for key in ("consuming_refs", "emitted_class_refs", "field_write_refs",
+                    "named_refs", "comment_mentions"):
+            for ref in row[key]:
+                seen += 1
+                for pkg in sb.V_ZETA_PACKAGES:
+                    assert ("/%s/" % pkg) not in ref, (
+                        "%s is cited from the V_zeta package %s: %r. That "
+                        "inflates (b) with work predating every decision here."
+                        % (cls, pkg, ref))
+    assert seen > 0, "no references at all -- this sweep checked nothing"
+    for site in src["unresolved_mint_sites"]:
+        for pkg in sb.V_ZETA_PACKAGES:
+            assert ("/%s/" % pkg) not in site, site
+
+
+@pytest.mark.skipif(_did_root() is None, reason="DID-matlab not checked out")
+def test_batch_evidence_is_distinguishable_from_migrator_evidence():
+    """A site in a batch post-pass and a site in a per-document migrator are
+    DIFFERENT FACTS about a class and must never arrive as one number.
+
+    Checked at every layer the number passes through: the sweep's per-class
+    `by_group`, the derived open-class row, and the rendered artifact.
+    """
+    classes = set(_open_classes())
+    mig, src = sb.migrator_evidence(classes, _did_root(), _ndi_root())
+    assert mig is not None and src["files_read"]
+    assert set(src["groups"]) == set(sb.GROUPS)
+    assert src["files_read_by_group"][sb.GROUP_BATCH] > 0, (
+        "the batch post-passes contributed no files; there is nothing to "
+        "distinguish and the roots have regressed")
+
+    keys = ("n_consuming_refs", "n_emitted_class_refs", "n_field_write_refs",
+            "n_named_refs", "n_comment_mentions")
+    split_somewhere = 0
+    for cls, row in mig.items():
+        for k in keys:
+            assert row[k] == sum(row["by_group"][g][k] for g in sb.GROUPS), (
+                "%s: %s does not decompose into its groups" % (cls, k))
+        if any(row["by_group"][sb.GROUP_BATCH][k] for k in keys):
+            split_somewhere += 1
+    assert split_somewhere > 0, (
+        "no open class has any batch post-pass evidence -- the group column is "
+        "carrying nothing and the split is decorative")
+
+    # The derived rows carry it too, and the artifact prints it.
+    with open(DECISIONS) as fh:
+        rows = json.load(fh)["open_class_state"]["classes"]
+    assert rows, "no rows -- this sweep would check nothing"
+    for r in rows:
+        assert set(r.get("by_group") or {}) == set(sb.GROUPS), (
+            "%s carries no per-group split" % r["class_name"])
+    with open(STATUS) as fh:
+        text = fh.read()
+    assert sb.GROUP_LABEL[sb.GROUP_BATCH] in text, (
+        "the artifact never names the batch post-pass group, so a reader "
+        "cannot tell which half of the pass a count came from")
+    assert "minted (M+B)" in text, (
+        "the mint column stopped carrying its migrator/batch split")
+
+
+@pytest.mark.skipif(_did_root() is None, reason="DID-matlab not checked out")
+def test_a_class_minted_only_in_a_batch_post_pass_is_not_invisible():
+    """Some document classes are minted in the batch passes and NOWHERE the
+    board used to look. Before the roots were fixed those mints existed in no
+    count at all -- which reads from the artifact as clean ground rather than as
+    unread ground, the exact failure mode this repo keeps paying for.
+
+    Derived, not listed: the two sweeps are run and compared.
+    """
+    def _mints(files):
+        out = {}
+        for path in files:
+            with open(path, errors="replace") as fh:
+                for cls, lno in sb.emitted_document_classes(fh.readlines()):
+                    out.setdefault(cls, []).append("%s:%d" % (path, lno))
+        return out
+
+    old, new = [], []
+    for _k, _repo, _l, rel, group, skip in sb.MIGRATOR_PACKAGES:
+        root = _did_root() if _k == "did" else _ndi_root()
+        if root is None:
+            pytest.skip("%s not checked out" % _repo)
+        kept, _s = sb.package_files(os.path.join(root, rel), set(skip))
+        (new if group == sb.GROUP_BATCH else old).extend(kept)
+    assert old and new, "one of the two groups is empty"
+    old_m, new_m = _mints(old), _mints(new)
+    assert new_m, "the batch post-passes mint nothing -- treat as broken"
+    only_batch = sorted(set(new_m) - set(old_m))
+    assert only_batch, (
+        "no class is minted only in a batch post-pass any more. If the passes "
+        "genuinely converged, delete this test; do not weaken it.")
+    for cls in only_batch:
+        assert new_m[cls], cls
+
+
+@pytest.mark.skipif(_did_root() is None, reason="DID-matlab not checked out")
+def test_an_unresolvable_batch_mint_is_named_and_not_dropped():
+    """`struct('class_name', className, ...)` in a batch post-pass is a mint
+    this per-file scan cannot NAME. Rule 3 applies in the new roots exactly as
+    in the old: the site is reported as a named unresolved site, never as a
+    silent omission."""
+    classes = set(_open_classes())
+    _mig_ev, src = sb.migrator_evidence(classes, _did_root(), _ndi_root())
+    by_group = src["n_unresolved_mint_sites_by_group"]
+    assert sum(by_group.values()) == src["n_unresolved_mint_sites"]
+    assert by_group[sb.GROUP_BATCH] > 0, (
+        "no unresolved mint site in the batch post-passes -- either they "
+        "stopped computing class names, in which case delete this test, or the "
+        "counter stopped reaching them, which is what it exists to catch")
+    listed = src["unresolved_mint_sites_by_group"][sb.GROUP_BATCH]
+    assert len(listed) == by_group[sb.GROUP_BATCH]
+    for site in listed:
+        assert site.startswith("DID-matlab:convert/"), site
+        assert "(" in site and site.rstrip().endswith(")"), (
+            "%r does not name the expression it could not resolve" % site)
