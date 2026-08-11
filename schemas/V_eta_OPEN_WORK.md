@@ -1720,3 +1720,69 @@ enforced.
   the generator and by pytest, not by `did_schema_meta.json`'s `binding` object — which also
   does not declare `root` / `source` (B1, 15 undeclared key uses) and accepts arbitrary keys
   (B2). Formalising it is the same edit as closing B1/B2 and should ride with them.
+
+---
+
+## DEFERRED 2026-08-11 — what a GAP between `validity` statements means
+
+Team, jess@walthamdatascience.com, 2026-08-11, verbatim: **"Can we skip this decision for
+now?"** — yes. **DEFERRED, NOT RESOLVED.** Recorded here with the defect stated, so that parking
+it costs nothing later.
+
+**THE DEFECT, and it is in what was built today.** v1 semantics, from the writer:
+
+        markgarbage.m:42   % MARKVALIDINTERVAL - mark a valid interval in an epoch
+                           %                     (all else is garbage)
+        markgarbage.m:172  if isempty(vi); intervals = [t0 t1]; return; end   <- no record: ALL valid
+        markgarbage.m:200  if isempty(explicitly_good_intervals)
+                               intervals = baseline_interval;                 <- none project here: ALL valid
+                           else
+                               intervals = explicitly_good_intervals;         <- ONLY these; GAPS ARE GARBAGE
+                           end
+
+So a v1 document makes a CLOSED-WORLD claim: the marked set is complete, and every gap inside
+the epoch is garbage. The build decomposes one document into N statements, each saying "this
+stretch is valid". **The closure does not survive the decomposition.** A v1 document saying
+"only 10-50s is usable" becomes statements that a reader applying the class-level absence rule
+reads as "everything is usable" — the exact inversion.
+
+**WHAT WAS DONE WHILE DEFERRING (no decision taken, no behaviour changed).** The class
+documentation used to state the absence rule unqualified, which invited that reading. It now
+says the rule is scoped to NO STATEMENT AT ALL, that gaps are UNDEFINED and an open team
+decision, and that v1's own answer is the opposite. **An undefined gap is safe to defer; a gap
+silently read as valid is not.**
+
+**THE TWO SHAPES THAT REMAIN** (both were costed; the other two are impossible, see below):
+
+  **A — keep the decomposition, declare closure per statement.** Each statement carries an
+  `exhaustive_over` edge to the epoch: *within this epoch, the statements sharing this subject
+  and variable are the complete list.* Buildable today; `sequence` already exists. **Its
+  weakness is that set identity is IMPLICIT** — a filtered query, a partial batch, or one
+  statement quarantined leaves the survivors still claiming exhaustiveness, and the reader
+  concludes the gaps are good data.
+
+  **B — do not decompose; one statement carries the set.** `value` is already an ARRAY, so one
+  statement holds N cells with `time_reference_1..N` and one `exhaustive` flag. Closest to v1 —
+  one document in, one out — and **the document IS the set, so it cannot be partially present.**
+  Blocked on role-naming the numbered references: pairing cell *i* with `time_reference_i` is
+  positional today, and multiple references on one statement are already recorded as UNDEFINED
+  in meaning until that lands.
+
+**TWO SHAPES ARE NOT MERELY UNATTRACTIVE, THEY ARE UNBUILDABLE.** "Emit the complement as
+`false` statements" and "invert the polarity and store only the bad" both need the epoch's
+extent to compute the gaps. It does not exist:
+
+        epoch             fields: ['local_identifier']
+                          deps  : ['session_id','time_reference_#','instrument_id']
+        acquisition_epoch fields: ['clocks','axes','channels','storage']
+
+`epochMint` assigns the minted epoch no times at all. Do not re-propose either without first
+giving the epoch an extent.
+
+**WHY THIS SURFACED:** the team observed that ontology table rows also flag validity, and that a
+spreadsheet flag means *this cell is no good* rather than *this cell is absent*. Both sources
+agree that absence means valid; they differ in CLOSURE — markgarbage marks the good and claims
+the rest is bad (closed world), a spreadsheet flags the bad and says nothing about the rest
+(open world). That difference is what the gap question is. `ontology_table_row.m:470-490`
+already refuses logical columns for want of a boolean leaf ("a logical wants a boolean leaf"),
+so the second source is real and currently unmigrated.
