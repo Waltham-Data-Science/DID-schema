@@ -1176,3 +1176,36 @@ it is not something that has to be invented to carry the decision.
 (`ndi.migrate.internal.ontologyLabelSubjects.m:59-73` records that bucket as blocked on
 exactly this). The plate's OD600 / CFU / lawn-volume covariates and the lawn's geometry
 become real observations rather than dropped columns.
+
+### REFINEMENT, same day — mint a tier only where it is MEASURED
+
+Team, jess, 2026-08-11, verbatim:
+
+> "It's only necessary to make all subjects if we take measurements of both which I think in
+> most cases is true"
+
+So the two tiers are **conditional on the data, not structural**. A subject is minted for a
+tier only where that tier's row carries at least one non-empty measurement; a subject with
+nothing said about it is the hollow document `did2.validate.isFragment` and the
+vacuous-required-field check exist to catch, and this build must not manufacture them.
+`member_of` needs both ends, so where only one tier is minted no relation is emitted.
+
+The expectation holds on the COLUMNS — both tiers carry real measures:
+
+        plate  OD600Real, CFU, OD600, lawnVolume, peptoneFlag, + timestamps
+        lawn   lawnRadius, circularity, yPeak, yOuterEdge, borderAmplitude,
+               meanAmplitude, centerAmplitude, borderCenterRatio
+
+**But a column existing is not a value existing.** All 24 columns exist by construction in
+the tables; whether a given ROW has values is per-document and checkable only at migration
+time. The team's "in most cases" is therefore an expectation to MEASURE, not an assumption
+to build on — and the build reports these states separately, never summed:
+
+        no E. coli tables in this corpus            (did not look)
+        row present, no measurements                (looked, nothing to say)
+        row present, measurements, subject minted   (the intended case)
+        minted one tier only, member_of withheld    (and which tier)
+
+A non-zero "row present, no measurements" is a finding, not a passthrough statistic: it
+would mean the expectation does not hold for some population, and it is to be reported with
+its count rather than absorbed into a total.
