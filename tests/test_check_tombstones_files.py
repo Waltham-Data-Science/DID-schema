@@ -197,3 +197,57 @@ def test_enforce_files_is_a_separate_switch_from_enforce():
         assert "classes with a file divergence  : 0" in files.stdout
     else:
         assert "FAIL (--enforce-files)" in files.stdout
+
+
+def test_no_enforce_verdict_is_produced_without_the_tier_source():
+    """A tool that cannot read an input must not grade with it.
+
+    `passthrough` vs `migrated` is read from $DID_MATLAB. With no checkout every
+    class reads as a passthrough, and a passthrough's tombstone is the only
+    thing between its documents and a quarantine -- so six classes that ARE
+    migrated were graded BLOCKING and `--enforce` exited 1 on a verdict computed
+    from an input it never read.
+
+    THAT IS WHY THIS TEST EXISTS RATHER THAN A SKIP. The DID-schema `tests`
+    workflow was RED for every run on this branch from 14:58 on 2026-08-11
+    onward, because the test above calls this tool DIRECTLY and so bypasses the
+    `requires=["DID-matlab"]` that lets `tools/gates.py --ci` mark a
+    sibling-dependent step NOT RUNNABLE. The local chain stayed green the whole
+    time, because the siblings are present there. A false red is not the safe
+    direction: a gate that fails on every run is one people stop reading, and a
+    real seventh row would have landed in a report already written off.
+    """
+    tool = os.path.join(REPO_ROOT, "tools", "check_tombstones.py")
+    env = dict(os.environ, DID_MATLAB="/nowhere")
+    out = subprocess.run([sys.executable, tool, "--enforce"],
+                         capture_output=True, text=True, cwd=REPO_ROOT, env=env)
+    assert out.returncode == 0, (
+        "--enforce still grades without its tier source:\n%s"
+        % out.stdout[-1500:])
+    assert "NOT RUNNABLE HERE" in out.stdout, (
+        "the tool exited 0 without saying it produced no verdict -- which is "
+        "worse than the failure it replaces, because 0 reads as a pass")
+    assert "THIS IS NOT A PASS" in out.stdout
+    assert "DENOMINATOR" in out.stdout, "no denominator on the not-runnable path"
+    # The verdict must be withheld, not silently inverted: the rows are still
+    # printed, so a reader can see what WOULD have been graded.
+    assert "FAIL (--enforce)" not in out.stdout
+
+
+def test_the_tier_source_being_present_still_grades():
+    """The other half. Withholding the verdict everywhere would also be green.
+
+    Without this, deleting the grading entirely would satisfy the test above --
+    the same shape as the `return True` mutation that left 76 tests green in a
+    neighbouring instrument today.
+    """
+    tool = os.path.join(REPO_ROOT, "tools", "check_tombstones.py")
+    didm = os.environ.get("DID_MATLAB",
+                          os.path.join(os.path.dirname(REPO_ROOT), "DID-matlab"))
+    if not os.path.isdir(didm):
+        import pytest
+        pytest.skip("needs a DID-matlab checkout to exercise the grading path")
+    out = subprocess.run([sys.executable, tool, "--enforce"],
+                         capture_output=True, text=True, cwd=REPO_ROOT)
+    assert "NOT RUNNABLE HERE" not in out.stdout, (
+        "the tool withheld its verdict even though the tier source is present")

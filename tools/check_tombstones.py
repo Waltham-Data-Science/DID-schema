@@ -583,8 +583,44 @@ def main():
           "them. This checks the SCHEMA against the TEMPLATE, which is the point "
           "-- it is what a green corpus could never tell you.")
 
+    # THE TIER IS DERIVED FROM DID-matlab, SO WITHOUT IT THERE IS NO VERDICT.
+    #
+    # `passthrough` vs `migrated` is decided by whether a migrator file exists
+    # (lines 189 and 204 look under $DID_MATLAB). With no checkout, EVERY class
+    # reads as a passthrough -- and a passthrough's tombstone is the only thing
+    # between the document and a quarantine, so six classes that are in fact
+    # migrated get graded BLOCKING. The tool then prints a confident
+    # "6 tombstone(s) would quarantine a real document" computed from an input
+    # it could not read.
+    #
+    # THIS HAD BEEN RED IN CI ALL DAY -- every `tests` run on this branch since
+    # 14:58 on 2026-08-11, because `tests/test_check_tombstones_files.py` calls
+    # this tool DIRECTLY and so bypasses the `requires=["DID-matlab"]` that lets
+    # `tools/gates.py --ci` mark a sibling-dependent step NOT RUNNABLE. The
+    # local chain was green throughout, because the siblings are present here.
+    #
+    # A false red is not the harmless direction. A gate that cries wolf on
+    # every run is a gate people stop reading, and the seventh row -- a real
+    # one -- would have arrived into a report already dismissed as broken.
+    #
+    # So: report NOT RUNNABLE and produce no verdict. Exit 0, because an
+    # unanswerable question is not a failure -- and say so loudly enough that
+    # nobody reads the 0 as a pass.
+    tier_source_present = os.path.isdir(DIDM)
     rc = 0
-    if a.enforce and (counts["BLOCKING"] or counts["COLLISION"]):
+    if a.enforce and not tier_source_present:
+        print()
+        print("=" * 70)
+        print("NOT RUNNABLE HERE -- no --enforce verdict was produced.")
+        print("  DENOMINATOR: 0 migrator file(s) readable; DID_MATLAB=%s" % DIDM)
+        print("  The passthrough/migrated tier is read from that checkout, and")
+        print("  without it every class reads as a passthrough -- so the")
+        print("  %d BLOCKING row(s) above include classes that ARE migrated and"
+              % (counts["BLOCKING"] + counts["COLLISION"]))
+        print("  are not quarantine risks. The grading is unsound, not clean.")
+        print("  THIS IS NOT A PASS. Re-run with a DID-matlab checkout present.")
+        print("=" * 70)
+    elif a.enforce and (counts["BLOCKING"] or counts["COLLISION"]):
         print()
         print("FAIL (--enforce): %d tombstone(s) would quarantine a real document."
               % (counts["BLOCKING"] + counts["COLLISION"]))
