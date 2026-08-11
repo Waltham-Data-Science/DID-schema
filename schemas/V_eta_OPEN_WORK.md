@@ -1568,6 +1568,18 @@ all (and per the standing rule that is a fact about the sample, not about the un
 number means the shared resolver is load-bearing rather than theoretical. Read it as scope for
 the consumer-side work, not as evidence for or against the decision.
 
+**AND A ZERO CARRIES NO INFORMATION AT ALL TODAY. SHARPENED after the build reported it.**
+The sentence above ("a zero means no corpus we hold exercises inheritance") is too generous to
+the counter. `inheritance_candidates` is conditional on `sources_seen`, and **all six corpora
+hold ZERO `valid_interval` documents** — so the counter is STRUCTURALLY zero on everything we
+currently measure, whatever the truth about inheritance is. **Never read it without
+`sources_seen` beside it.** Zero sources and zero candidates is "we did not look", not "we
+looked and found none" — this repository's oldest failure, in a counter built this week.
+
+This also settles, retrospectively, that the team was right to decide this on principle rather
+than wait for the measurement: the measurement could not have arrived from the corpora we hold.
+It becomes informative the first time a dataset carrying markgarbage documents is migrated.
+
 **NOTHING IN THE BUILD NEEDS UNDOING.** The `valid_interval` build was instructed to leave both
 answers open, so the stored form — one statement per source, ids preserved — is already what
 re-derive requires. What this decision ADDS is the consumer-side resolver, which is new work and
