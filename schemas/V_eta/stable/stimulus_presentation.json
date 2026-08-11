@@ -20,7 +20,8 @@
             "name": "stimulus_element_id",
             "mustBeNonEmpty": true,
             "documentation": "The STIMULATOR element -- NDI's only dependency on this class, in its template, in its schema (mustbenotempty: 1), at decoder.m:138 and in the mock. Typed `subject` because migrators_j.element promotes elements to subjects with their ids preserved, so the edge resolves. REPLACES an invented `element_id` that no NDI document has ever carried.",
-            "must_refer_to_document_class": "subject"
+            "must_refer_to_document_class": "subject",
+            "ndi_mustBeNonEmpty": true
         }
     ],
     "file": [

@@ -143,6 +143,10 @@
                 "referent_unique_by": {
                     "type": "string",
                     "description": "For a numbered family (`name_#`): a dotted field path evaluated ON THE REFERENCED DOCUMENT. No two members of the family may refer to documents that agree on that path -- the path is what distinguishes one member from another, and without it a bare `_1`/`_2` index carries no meaning. Resolving it requires the referenced documents, so this is a BATCH property: it is measured report-only by did2.validate.silentLoss and cannot be checked by a per-document validator. Omit on a non-numbered dependency, and on a family whose members are deliberately indistinguishable (`derived_from_#`: N inputs, no ordering and no uniqueness rule has been decided)."
+                },
+                "ndi_mustBeNonEmpty": {
+                    "type": "boolean",
+                    "description": "NDI's OWN `mustbenotempty` verdict for the corresponding did_v1 edge, copied verbatim from the class's NDI schema document (schemas/V_eta_ndi_ground_truth.json). REPORT ONLY: nothing validates, quarantines or gates on it -- `mustBeNonEmpty` alone does that, and this key never changes it. It exists so did2.validate.silentLoss can census the edges NDI declares REQUIRED that V_eta declares OPTIONAL, which are otherwise outside every counter: the census reads `mustBeNonEmpty`, so an edge V_eta relaxed is not merely counted as zero, it is not looked at. ABSENT means NDI stated nothing (no did_v1 source, a JSON Schema-form schema document, or no matching edge name) and must not be read as `false`."
                 }
             }
         },

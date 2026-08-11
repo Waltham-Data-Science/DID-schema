@@ -17,7 +17,8 @@
             "name": "stimulus_element_id",
             "mustBeNonEmpty": true,
             "documentation": "The stimulus ELEMENT this parameter is a parameter of, promoted to a subject with its id preserved by migrators_j.element. Required: all three writer sites set it.",
-            "must_refer_to_document_class": "subject"
+            "must_refer_to_document_class": "subject",
+            "ndi_mustBeNonEmpty": true
         }
     ],
     "file": [],

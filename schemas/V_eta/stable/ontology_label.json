@@ -14,7 +14,8 @@
             "name": "document_id",
             "mustBeNonEmpty": false,
             "documentation": "The document this label is about. NOT a subject -- reaching the subject means following this edge through the migrated-id graph, which is why the class is deferred to the NDI second pass.",
-            "must_refer_to_document_class": "base"
+            "must_refer_to_document_class": "base",
+            "ndi_mustBeNonEmpty": true
         }
     ],
     "file": [],

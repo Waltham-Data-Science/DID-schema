@@ -17,25 +17,29 @@
             "name": "sorting_parameters_id",
             "mustBeNonEmpty": false,
             "documentation": "The sorting run's parameters.",
-            "must_refer_to_document_class": "sorting_parameters"
+            "must_refer_to_document_class": "sorting_parameters",
+            "ndi_mustBeNonEmpty": true
         },
         {
             "name": "element_id",
             "mustBeNonEmpty": false,
             "documentation": "The recording element, promoted to a subject with its id preserved by migrators_j.element (device-as-subject, D2).",
-            "must_refer_to_document_class": "subject"
+            "must_refer_to_document_class": "subject",
+            "ndi_mustBeNonEmpty": true
         },
         {
             "name": "extraction_parameters_id",
             "mustBeNonEmpty": false,
             "documentation": "The spike-extraction parameters the sorted waveforms came from.",
-            "must_refer_to_document_class": "spike_extraction_parameters"
+            "must_refer_to_document_class": "spike_extraction_parameters",
+            "ndi_mustBeNonEmpty": true
         },
         {
             "name": "spikewaves_doc_id",
             "mustBeNonEmpty": false,
             "documentation": "The spikewaves document holding the waveforms that were sorted.",
-            "must_refer_to_document_class": "spikewaves"
+            "must_refer_to_document_class": "spikewaves",
+            "ndi_mustBeNonEmpty": false
         }
     ],
     "file": [

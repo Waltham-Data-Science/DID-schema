@@ -14,7 +14,8 @@
             "name": "element_id",
             "mustBeNonEmpty": false,
             "documentation": "The element whose position was recorded, promoted to a subject with its id preserved. The numeric coordinates live in THAT timeseries document, not in this one.",
-            "must_refer_to_document_class": "subject"
+            "must_refer_to_document_class": "subject",
+            "ndi_mustBeNonEmpty": true
         }
     ],
     "file": [],

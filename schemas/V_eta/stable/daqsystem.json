@@ -14,13 +14,15 @@
             "name": "filenavigator_id",
             "mustBeNonEmpty": true,
             "documentation": "The file navigator this system reads through. REQUIRED in NDI (\"mustbenotempty\": 1).",
-            "must_refer_to_document_class": "filenavigator"
+            "must_refer_to_document_class": "filenavigator",
+            "ndi_mustBeNonEmpty": true
         },
         {
             "name": "daqreader_id",
             "mustBeNonEmpty": true,
             "documentation": "The reader that decodes this system's files. REQUIRED in NDI (\"mustbenotempty\": 1).",
-            "must_refer_to_document_class": "daqreader"
+            "must_refer_to_document_class": "daqreader",
+            "ndi_mustBeNonEmpty": true
         },
         {
             "name": "daqmetadatareader_id_#",

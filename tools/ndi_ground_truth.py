@@ -19,10 +19,42 @@ WHAT IT EMITS  (schemas/V_eta_ndi_ground_truth.json)
   classes[<ndi class name>]:
       fields            declared property-block field names (snake-cased)
       raw_fields        as spelled in the template
-      depends_on        dependency names
+      depends_on        dependency names (TEMPLATE u SCHEMA DOC -- see below)
+      depends_on_template  dependency names the TEMPLATE declares
+      depends_on_schema    dependency names the SCHEMA DOCUMENT declares
+      depends_on_required  {name: true|false} -- `mustbenotempty` AS STATED BY
+                        NDI. A name absent from this map is a name NDI states
+                        nothing about; that is NOT the same as `false`, and the
+                        two are kept apart on purpose.
+      schema_document_form  'flat' | 'json_schema' | 'absent' -- WHICH NDI FILE
+                        COULD HAVE SAID. `json_schema` and `absent` mean the
+                        required-ness question was never answerable for this
+                        class, not that the answer was no.
       files             declared file names
       superclasses      referenced superclass template basenames
       path              template path @ ref
+
+  WHERE REQUIRED-NESS LIVES, AND WHY BOTH NDI FILES ARE RECORDED
+  --------------------------------------------------------------
+  The ground-truth rule is "where template and WRITER disagree, the writer
+  wins". That rule does not arbitrate here: the TEMPLATE and the SCHEMA
+  DOCUMENT are both NDI's own files, neither is a writer, and they say
+  DIFFERENT KINDS OF THING. The template's `depends_on` entry is
+  `{name, value:""}` -- a slot, with no required-ness at all. The flat schema
+  document's is `{name, mustbenotempty: 0|1}` -- the assertion. Measured, not
+  assumed:
+
+      $ git grep -il "mustbenotempty" origin/main -- 'database_documents/*' | wc -l
+      0
+      $ git grep -il "mustbenotempty" origin/main -- 'schema_documents/*' | wc -l
+      59
+
+  So this tool records each side SEPARATELY (`depends_on_template` /
+  `depends_on_schema` / `depends_on_required`) and prefers neither. The
+  summary states how many classes could not answer at all, because a class
+  whose schema document is in the JSON Schema form states no required-ness
+  anywhere -- and a consumer that reads a missing `mustbenotempty` as `false`
+  would turn "NDI never said" into "NDI said optional".
   v_alpha_divergence[]  classes whose V_alpha snapshot disagrees with the template
   migrator_reads[]      J migrators reading names no template has  (the suspects)
   writer_divergence[]   hand-recorded: shipped writer emits what the template does not
@@ -51,6 +83,22 @@ DDIR = "src/ndi/ndi_common/database_documents"
 SDIR = "src/ndi/ndi_common/schema_documents"
 # Filled by _schema_deps; reported in the ground-truth summary.
 SCHEMA_SCAN = {"files": 0, "flat_form": 0, "json_schema_form": 0, "unparseable": 0}
+# Filled by _merge_schema_deps; reported in the ground-truth summary. This is
+# the denominator for the "NDI requires it, V_eta does not" census downstream:
+# every zero it can print has to be distinguishable from "the question was
+# never answerable for this class".
+REQUIRED_SCAN = {
+    "ndi_classes": 0,
+    "classes_with_flat_schema_document": 0,
+    "classes_with_json_schema_document": 0,
+    "classes_with_no_schema_document": 0,
+    "templates_carrying_mustbenotempty": 0,
+    "dependency_names_total": 0,
+    "dependency_names_with_a_required_statement": 0,
+    "dependency_names_required": 0,
+    "dependency_names_optional": 0,
+    "dependency_names_ndi_states_nothing_about": 0,
+}
 
 # Divergences between a shipped NDI template and the writer that actually produces
 # the documents. The DATA FOLLOWS THE WRITER, so the writer wins for migration --
@@ -174,7 +222,18 @@ def _json_schema_deps(d):
 
 
 def _schema_deps(ndi_path, ref):
-    """{class_name: [dependency names]} from NDI's SCHEMA documents.
+    """{class_name: {names, required, form}} from NDI's SCHEMA documents.
+
+    `names`    dependency names the schema document declares
+    `required` {name: bool} from `mustbenotempty`. A name is IN this map only
+               when the schema document actually carried the key -- absence is
+               "NDI states nothing", never `false`.
+    `form`     'flat' or 'json_schema'. The JSON Schema form has no
+               `mustbenotempty` anywhere (checked: 0 of the 5 files carry it),
+               so for those five classes required-ness is UNSTATED. Reading
+               that as optional would manufacture agreement with V_eta out of
+               NDI's silence -- the absence-of-evidence error this repository
+               keeps making, one field along.
 
     A DEPENDENCY CAN BE DECLARED IN THE SCHEMA AND NOT IN THE TEMPLATE, and
     reading only the template then reports the real edge as a DID-side invention.
@@ -188,6 +247,13 @@ def _schema_deps(ndi_path, ref):
     dependency, and a name appearing in either is real.
     """
     out = {}
+    # Which classes had a READABLE schema document at all, and in which form --
+    # tracked separately from `out`, which only carries classes that declare a
+    # dependency. Without this, a class whose schema document declares no
+    # dependency and a class with no schema document at all are the same empty
+    # record, and the required-ness census cannot tell "nothing is required"
+    # from "nothing was read".
+    forms = {}
     # DENOMINATOR, tracked in the module so the caller can report it. Reading a
     # schema-document set and finding nothing must never look like finding
     # nothing to find.
@@ -210,7 +276,7 @@ def _schema_deps(ndi_path, ref):
                 ["git", "-C", ndi_path, "ls-tree", "-r", "--name-only", ref, "--", SDIR],
                 capture_output=True, text=True, check=True).stdout.splitlines()
         except Exception:
-            return out
+            return out, forms
         blobs = []
         for f in files:
             if not f.endswith(".json"):
@@ -239,8 +305,17 @@ def _schema_deps(ndi_path, ref):
         js_cn, js_deps = _json_schema_deps(d)
         if js_cn and js_deps:
             stats["json_schema_form"] += 1
-            out.setdefault(js_cn, []).extend(js_deps)
+            rec = out.setdefault(js_cn, {"names": [], "required": {},
+                                         "form": "json_schema"})
+            rec["form"] = "json_schema"
+            rec["names"].extend(js_deps)
+            forms[js_cn] = "json_schema"
             continue
+        if js_cn:
+            # A JSON Schema-form document that declares no dependency at all.
+            # It still PROVES the class was read, which is the difference
+            # between "no required edges" and "no file to read".
+            forms.setdefault(js_cn, "json_schema")
         # THE KEY IS `classname`. Schema documents do not use the template's
         # `document_class.class_name` shape -- they are flat, with `classname`.
         # A first cut read the template spelling, matched nothing, and returned a
@@ -254,21 +329,90 @@ def _schema_deps(ndi_path, ref):
             deps = [deps]
         names = [x.get("name") for x in deps
                  if isinstance(x, dict) and x.get("name")]
+        if cn:
+            forms.setdefault(cn, "flat")
         if cn and names:
             stats["flat_form"] += 1
-            out.setdefault(cn, []).extend(names)
-    return out
+            rec = out.setdefault(cn, {"names": [], "required": {},
+                                      "form": "flat"})
+            rec["form"] = "flat"
+            rec["names"].extend(names)
+            for x in deps:
+                if not isinstance(x, dict) or not x.get("name"):
+                    continue
+                # THE KEY IS OPTIONAL AND ITS ABSENCE IS NOT `false`. Record a
+                # verdict only when NDI wrote one. `mustbenotempty` is NDI's
+                # spelling -- all lowercase, no camelCase -- and getting that
+                # wrong would return an all-absent map that reads exactly like
+                # "NDI requires nothing", which is the reassuring direction.
+                if "mustbenotempty" in x:
+                    rec["required"][x["name"]] = bool(x["mustbenotempty"])
+    return out, forms
 
 
 def _merge_schema_deps(out, ndi_path, ref):
-    """Union the schema documents' dependency names into the template records."""
-    extra = _schema_deps(ndi_path, ref)
-    for cn, names in extra.items():
-        rec = out.get(cn)
-        if not rec:
-            continue
-        have = set(rec["depends_on"])
-        rec["depends_on"] = rec["depends_on"] + sorted(n for n in set(names) if n not in have)
+    """Union the schema documents' dependency names into the template records,
+    and record WHAT EACH NDI FILE SAID separately.
+
+    The union of NAMES is unchanged -- each side is a place NDI declares an
+    edge, so a name in either is real. What is NEW is that the two sides stop
+    being indistinguishable afterwards: `depends_on_template` and
+    `depends_on_schema` say which file carried each name, and
+    `depends_on_required` carries the schema document's `mustbenotempty`
+    verdicts and ONLY those.
+
+    Every counter below is filled for EVERY class, including the classes with
+    no schema document at all -- a class that could not be asked has to be
+    countable, or the downstream census reports "NDI requires nothing here"
+    for a class nobody ever read.
+    """
+    extra, forms = _schema_deps(ndi_path, ref)
+    scan = REQUIRED_SCAN
+    scan.update({k: 0 for k in scan})
+    scan["ndi_classes"] = len(out)
+    for cn, rec in out.items():
+        tmpl = list(rec["depends_on"])
+        rec["depends_on_template"] = tmpl
+        # The TEMPLATE never states required-ness. That is measured, not
+        # assumed: _parse reads the raw dependency objects and this counter
+        # would be non-zero if one ever grew the key.
+        scan["templates_carrying_mustbenotempty"] += rec.pop(
+            "_template_mustbenotempty", 0)
+        # THE FORM COMES FROM `forms`, NOT FROM `extra`. `extra` only holds
+        # classes that declare a dependency, so reading the form off it made
+        # every class with a schema document and no dependency indistinguishable
+        # from a class with no schema document at all -- 29 classes reported as
+        # "never asked" when all 29 had been read and had answered "no edges".
+        # That is precisely the zero this block exists to disambiguate, and the
+        # first cut of it got the disambiguation backwards.
+        sub = extra.get(cn)
+        form = forms.get(cn, "absent")
+        rec["schema_document_form"] = form
+        if form == "flat":
+            scan["classes_with_flat_schema_document"] += 1
+        elif form == "json_schema":
+            scan["classes_with_json_schema_document"] += 1
+        else:
+            scan["classes_with_no_schema_document"] += 1
+        if sub is None:
+            rec["depends_on_schema"] = []
+            rec["depends_on_required"] = {}
+        else:
+            rec["depends_on_schema"] = sorted(set(sub["names"]))
+            rec["depends_on_required"] = dict(sorted(sub["required"].items()))
+            have = set(tmpl)
+            rec["depends_on"] = tmpl + sorted(
+                n for n in set(sub["names"]) if n not in have)
+        for n in rec["depends_on"]:
+            scan["dependency_names_total"] += 1
+            if n in rec["depends_on_required"]:
+                scan["dependency_names_with_a_required_statement"] += 1
+                if rec["depends_on_required"][n]:
+                    scan["dependency_names_required"] += 1
+                else:
+                    scan["dependency_names_optional"] += 1
+            else:
+                scan["dependency_names_ndi_states_nothing_about"] += 1
     return out
 
 
@@ -437,6 +581,14 @@ def _parse(d, path):
         "fields": sorted({snake(k) for k in raw}),
         "raw_fields": raw,
         "depends_on": [x.get("name") for x in deps if isinstance(x, dict) and x.get("name")],
+        # Popped by _merge_schema_deps into REQUIRED_SCAN. Carried as data
+        # rather than assumed to be zero: the claim "the template never states
+        # required-ness" is the reason this whole extract reads the schema
+        # documents at all, so it is measured on every run instead of being
+        # written down once and quoted forward.
+        "_template_mustbenotempty": sum(
+            1 for x in deps
+            if isinstance(x, dict) and "mustbenotempty" in x),
         "files": list(files),
         "superclasses": supers,
         "path": path,
@@ -678,6 +830,7 @@ def main():
             "writer_dependencies_no_template": len(wdeps),
             "writer_dependency_scan": wscan,
             "ndi_schema_document_scan": dict(SCHEMA_SCAN),
+            "ndi_required_dependency_scan": dict(REQUIRED_SCAN),
             "provenance": {v: sum(1 for r in div if r["provenance"]["verdict"] == v)
                            for v in ("DID-INVENTED", "NDI-CHANGED", "UNKNOWN")},
         },
@@ -700,6 +853,31 @@ def main():
           for v in ("DID-INVENTED", "NDI-CHANGED", "UNKNOWN")}
     print("divergence provenance:  DID-INVENTED %d | NDI-CHANGED %d | UNKNOWN %d"
           % (pc["DID-INVENTED"], pc["NDI-CHANGED"], pc["UNKNOWN"]))
+    # DENOMINATOR FIRST for the required-ness extract (operating rule 5). Every
+    # line here exists so that a downstream zero is readable: "NDI requires no
+    # edge V_eta relaxed" and "no class could be asked" print differently.
+    rs = REQUIRED_SCAN
+    print("")
+    print("NDI DEPENDENCY REQUIRED-NESS (`mustbenotempty`), as NDI states it")
+    print("  DENOMINATOR: %d NDI class(es) -- %d with a flat schema document, "
+          "%d with a JSON Schema-form one, %d with none"
+          % (rs["ndi_classes"], rs["classes_with_flat_schema_document"],
+             rs["classes_with_json_schema_document"],
+             rs["classes_with_no_schema_document"]))
+    print("  DENOMINATOR: %d dependency name(s) -- %d carry an NDI required-ness "
+          "statement, %d NDI states nothing about"
+          % (rs["dependency_names_total"],
+             rs["dependency_names_with_a_required_statement"],
+             rs["dependency_names_ndi_states_nothing_about"]))
+    print("  NDI REQUIRES: %d   NDI SAYS OPTIONAL: %d"
+          % (rs["dependency_names_required"], rs["dependency_names_optional"]))
+    print("  templates carrying `mustbenotempty`: %d  "
+          "(the key lives in the SCHEMA documents, not the templates)"
+          % rs["templates_carrying_mustbenotempty"])
+    if rs["dependency_names_with_a_required_statement"] == 0:
+        print("  *** NO CLASS STATED REQUIRED-NESS AT ALL. Every downstream")
+        print("  *** count is then a property of this scan, not of NDI.")
+    print("")
     print("wrote %s" % os.path.relpath(OUT, REPO))
     if reads:
         print("\nmigrators using vocabulary no NDI template has (confirm each individually):")

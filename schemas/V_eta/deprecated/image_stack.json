@@ -17,13 +17,15 @@
             "name": "subject_id",
             "mustBeNonEmpty": false,
             "documentation": "The subject depicted. OPTIONAL because NDI's own writer leaves it empty on three of its seven imageStack sites (+setup/+conv/+haley/doImport.m:789,811,827 -- the image / mask / closest-patch loop set only document_id), which is why 4,563 JH documents migrated into observations about nobody.",
-            "must_refer_to_document_class": "subject"
+            "must_refer_to_document_class": "subject",
+            "ndi_mustBeNonEmpty": false
         },
         {
             "name": "document_id",
             "mustBeNonEmpty": false,
             "documentation": "The ontologyTableRow giving this image its data context. Untyped: the referent is a table row, and resolving a SUBJECT through it is the second pass's job, not this schema's.",
-            "must_refer_to_document_class": ""
+            "must_refer_to_document_class": "",
+            "ndi_mustBeNonEmpty": false
         }
     ],
     "file": [

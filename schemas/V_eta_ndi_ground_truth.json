@@ -5,8 +5,8 @@
     "ndi_classes": 91,
     "v_alpha_classes_compared": 80,
     "v_alpha_divergences": 67,
-    "migrator_suspects": 17,
-    "migrator_suspects_confirmed_vocabulary": 15,
+    "migrator_suspects": 16,
+    "migrator_suspects_confirmed_vocabulary": 14,
     "writer_divergences": 3,
     "writer_dependencies_no_template": 0,
     "writer_dependency_scan": {
@@ -50,10 +50,22 @@
       "json_schema_form": 5,
       "unparseable": 0
     },
+    "ndi_required_dependency_scan": {
+      "ndi_classes": 91,
+      "classes_with_flat_schema_document": 86,
+      "classes_with_json_schema_document": 5,
+      "classes_with_no_schema_document": 0,
+      "templates_carrying_mustbenotempty": 0,
+      "dependency_names_total": 91,
+      "dependency_names_with_a_required_statement": 82,
+      "dependency_names_required": 60,
+      "dependency_names_optional": 22,
+      "dependency_names_ndi_states_nothing_about": 9
+    },
     "provenance": {
-      "DID-INVENTED": 66,
+      "DID-INVENTED": 47,
       "NDI-CHANGED": 0,
-      "UNKNOWN": 1
+      "UNKNOWN": 20
     }
   },
   "writer_divergence": [
@@ -113,17 +125,8 @@
         "version"
       ],
       "provenance": {
-        "verdict": "DID-INVENTED",
-        "why": "first NDI version 2026-04-24",
-        "first_version_fields": [
-          "interpreter",
-          "interpreter_version",
-          "name",
-          "os",
-          "os_version",
-          "url",
-          "version"
-        ]
+        "verdict": "UNKNOWN",
+        "why": "no property block at first version (2025-02-07)"
       }
     },
     {
@@ -171,16 +174,8 @@
         "voltage_observations"
       ],
       "provenance": {
-        "verdict": "DID-INVENTED",
-        "why": "first NDI version 2026-04-24",
-        "first_version_fields": [
-          "exactbintime",
-          "firingrate_observations",
-          "parameters",
-          "stimids",
-          "timepoints",
-          "voltage_observations"
-        ]
+        "verdict": "UNKNOWN",
+        "why": "no property block at first version (2019-03-25)"
       }
     },
     {
@@ -195,12 +190,8 @@
         "control_stimulus_ids"
       ],
       "provenance": {
-        "verdict": "DID-INVENTED",
-        "why": "first NDI version 2026-04-24",
-        "first_version_fields": [
-          "control_stimulus_id_method",
-          "control_stimulus_ids"
-        ]
+        "verdict": "UNKNOWN",
+        "why": "no property block at first version (2019-12-16)"
       }
     },
     {
@@ -216,7 +207,7 @@
       ],
       "provenance": {
         "verdict": "DID-INVENTED",
-        "why": "first NDI version 2026-04-24",
+        "why": "first NDI version 2023-04-13",
         "first_version_fields": [
           "ndi_daqmetadatareader_class",
           "tab_separated_file_parameter"
@@ -232,7 +223,7 @@
       "only_in_ndi_template": [],
       "provenance": {
         "verdict": "DID-INVENTED",
-        "why": "first NDI version 2026-04-24",
+        "why": "first NDI version 2024-01-15",
         "first_version_fields": []
       }
     },
@@ -247,10 +238,8 @@
       ],
       "provenance": {
         "verdict": "DID-INVENTED",
-        "why": "first NDI version 2026-04-24",
-        "first_version_fields": [
-          "epochtable"
-        ]
+        "why": "first NDI version 2023-12-29",
+        "first_version_fields": []
       }
     },
     {
@@ -264,10 +253,8 @@
       ],
       "provenance": {
         "verdict": "DID-INVENTED",
-        "why": "first NDI version 2026-04-24",
-        "first_version_fields": [
-          "parameters"
-        ]
+        "why": "first NDI version 2023-12-30",
+        "first_version_fields": []
       }
     },
     {
@@ -283,7 +270,7 @@
       ],
       "provenance": {
         "verdict": "DID-INVENTED",
-        "why": "first NDI version 2026-04-24",
+        "why": "first NDI version 2024-04-25",
         "first_version_fields": [
           "ndi_daqreader_ndr_class",
           "ndr_reader_string"
@@ -302,7 +289,7 @@
       ],
       "provenance": {
         "verdict": "DID-INVENTED",
-        "why": "first NDI version 2026-04-24",
+        "why": "first NDI version 2025-05-20",
         "first_version_fields": [
           "dataset_id",
           "organization_id"
@@ -322,7 +309,7 @@
       ],
       "provenance": {
         "verdict": "DID-INVENTED",
-        "why": "first NDI version 2026-04-24",
+        "why": "first NDI version 2024-03-06",
         "first_version_fields": [
           "dataset_session_info"
         ]
@@ -340,7 +327,7 @@
       ],
       "provenance": {
         "verdict": "DID-INVENTED",
-        "why": "first NDI version 2026-04-24",
+        "why": "first NDI version 2023-04-14",
         "first_version_fields": [
           "value"
         ]
@@ -356,7 +343,7 @@
       "only_in_ndi_template": [],
       "provenance": {
         "verdict": "DID-INVENTED",
-        "why": "first NDI version 2026-04-24",
+        "why": "first NDI version 2025-12-15",
         "first_version_fields": []
       }
     },
@@ -380,17 +367,12 @@
       ],
       "provenance": {
         "verdict": "DID-INVENTED",
-        "why": "first NDI version 2026-04-24",
+        "why": "first NDI version 2025-07-11",
         "first_version_fields": [
-          "integer_i_ds_a",
-          "integer_i_ds_b",
-          "ontology_node_a",
-          "ontology_node_b",
-          "ontology_numeric_values_a",
-          "ontology_numeric_values_b",
-          "ontology_string_values_a",
-          "ontology_string_values_b",
-          "units"
+          "dimensions",
+          "ontology_node",
+          "ontology_node_string_values",
+          "ontology_numeric_value"
         ]
       }
     },
@@ -407,7 +389,7 @@
       ],
       "provenance": {
         "verdict": "DID-INVENTED",
-        "why": "first NDI version 2026-04-24",
+        "why": "first NDI version 2024-10-31",
         "first_version_fields": [
           "offset",
           "temperature"
@@ -426,15 +408,8 @@
         "type"
       ],
       "provenance": {
-        "verdict": "DID-INVENTED",
-        "why": "first NDI version 2026-04-24",
-        "first_version_fields": [
-          "direct",
-          "name",
-          "ndi_element_class",
-          "reference",
-          "type"
-        ]
+        "verdict": "UNKNOWN",
+        "why": "no property block at first version (2025-02-07)"
       }
     },
     {
@@ -448,12 +423,8 @@
         "t0_t1"
       ],
       "provenance": {
-        "verdict": "DID-INVENTED",
-        "why": "first NDI version 2026-04-24",
-        "first_version_fields": [
-          "epoch_clock",
-          "t0_t1"
-        ]
+        "verdict": "UNKNOWN",
+        "why": "unparseable first version"
       }
     },
     {
@@ -469,12 +440,8 @@
         "t0_t1"
       ],
       "provenance": {
-        "verdict": "DID-INVENTED",
-        "why": "first NDI version 2026-04-24",
-        "first_version_fields": [
-          "clocktype",
-          "t0_t1"
-        ]
+        "verdict": "UNKNOWN",
+        "why": "unparseable first version"
       }
     },
     {
@@ -491,10 +458,9 @@
       ],
       "provenance": {
         "verdict": "DID-INVENTED",
-        "why": "first NDI version 2026-04-24",
+        "why": "first NDI version 2023-12-07",
         "first_version_fields": [
           "epoch_id",
-          "epochprobemap",
           "files"
         ]
       }
@@ -538,19 +504,8 @@
         "fit_sse"
       ],
       "provenance": {
-        "verdict": "DID-INVENTED",
-        "why": "first NDI version 2026-04-24",
-        "first_version_fields": [
-          "fit_constraints",
-          "fit_data",
-          "fit_dependent_variable_names",
-          "fit_equation",
-          "fit_independent_variable_names",
-          "fit_name",
-          "fit_parameter_names",
-          "fit_parameters",
-          "fit_sse"
-        ]
+        "verdict": "UNKNOWN",
+        "why": "no property block at first version (2019-03-28)"
       }
     },
     {
@@ -568,13 +523,11 @@
       ],
       "provenance": {
         "verdict": "DID-INVENTED",
-        "why": "first NDI version 2026-04-24",
+        "why": "first NDI version 2025-08-19",
         "first_version_fields": [
-          "checksum",
-          "date_created",
-          "date_updated",
-          "filename",
-          "format_ontology"
+          "file_extension",
+          "ontology_file_type",
+          "original_file_name"
         ]
       }
     },
@@ -595,7 +548,7 @@
       ],
       "provenance": {
         "verdict": "DID-INVENTED",
-        "why": "first NDI version 2026-04-24",
+        "why": "first NDI version 2025-08-01",
         "first_version_fields": [
           "compression",
           "format",
@@ -617,7 +570,7 @@
       ],
       "provenance": {
         "verdict": "DID-INVENTED",
-        "why": "first NDI version 2026-04-24",
+        "why": "first NDI version 2025-08-01",
         "first_version_fields": [
           "format",
           "label"
@@ -669,7 +622,7 @@
       ],
       "provenance": {
         "verdict": "DID-INVENTED",
-        "why": "first NDI version 2026-04-24",
+        "why": "first NDI version 2025-07-23",
         "first_version_fields": [
           "clocktype",
           "data_limits",
@@ -679,6 +632,7 @@
           "dimension_scale",
           "dimension_scale_units",
           "dimension_size",
+          "duration",
           "timestamp"
         ]
       }
@@ -695,7 +649,7 @@
       ],
       "provenance": {
         "verdict": "DID-INVENTED",
-        "why": "first NDI version 2026-04-24",
+        "why": "first NDI version 2020-11-04",
         "first_version_fields": [
           "res_mat_md5_checksum"
         ]
@@ -716,7 +670,7 @@
       ],
       "provenance": {
         "verdict": "DID-INVENTED",
-        "why": "first NDI version 2026-04-24",
+        "why": "first NDI version 2026-01-05",
         "first_version_fields": [
           "name",
           "numeric_value",
@@ -737,10 +691,8 @@
       ],
       "provenance": {
         "verdict": "DID-INVENTED",
-        "why": "first NDI version 2026-04-24",
-        "first_version_fields": [
-          "metadata_structure"
-        ]
+        "why": "first NDI version 2024-06-05",
+        "first_version_fields": []
       }
     },
     {
@@ -763,15 +715,14 @@
       ],
       "provenance": {
         "verdict": "DID-INVENTED",
-        "why": "first NDI version 2026-04-24",
+        "why": "first NDI version 2020-11-12",
         "first_version_fields": [
           "cluster_index",
           "mean_waveform",
           "number_of_channels",
           "number_of_samples_per_channel",
           "quality_label",
-          "quality_number",
-          "waveform_sample_times"
+          "quality_number"
         ]
       }
     },
@@ -790,7 +741,7 @@
       ],
       "provenance": {
         "verdict": "DID-INVENTED",
-        "why": "first NDI version 2026-04-24",
+        "why": "first NDI version 2023-04-26",
         "first_version_fields": [
           "coordinates",
           "data_dim",
@@ -812,7 +763,7 @@
       ],
       "provenance": {
         "verdict": "DID-INVENTED",
-        "why": "first NDI version 2026-04-24",
+        "why": "first NDI version 2025-04-21",
         "first_version_fields": [
           "epoch_ids"
         ]
@@ -830,9 +781,11 @@
       ],
       "provenance": {
         "verdict": "DID-INVENTED",
-        "why": "first NDI version 2026-04-24",
+        "why": "first NDI version 2025-07-03",
         "first_version_fields": [
-          "ontology_node"
+          "decibels",
+          "frequency_ngrid_dim",
+          "timestamp_ngrid_dim"
         ]
       }
     },
@@ -849,7 +802,7 @@
       ],
       "provenance": {
         "verdict": "DID-INVENTED",
-        "why": "first NDI version 2026-04-24",
+        "why": "first NDI version 2025-08-01",
         "first_version_fields": [
           "ontology_node"
         ]
@@ -869,7 +822,7 @@
       ],
       "provenance": {
         "verdict": "DID-INVENTED",
-        "why": "first NDI version 2026-04-24",
+        "why": "first NDI version 2023-10-16",
         "first_version_fields": [
           "fields",
           "matlab_type",
@@ -924,11 +877,15 @@
       ],
       "provenance": {
         "verdict": "DID-INVENTED",
-        "why": "first NDI version 2026-04-24",
+        "why": "first NDI version 2025-07-11",
         "first_version_fields": [
-          "dimensions",
-          "ontology_node",
-          "units"
+          "cluster_index",
+          "mean_waveform",
+          "number_of_channels",
+          "number_of_samples_per_channel",
+          "quality_label",
+          "quality_number",
+          "waveform_sample_times"
         ]
       }
     },
@@ -959,25 +916,8 @@
         "unit"
       ],
       "provenance": {
-        "verdict": "DID-INVENTED",
-        "why": "first NDI version 2026-04-24",
-        "first_version_fields": [
-          "contact_shape",
-          "contact_shape_height",
-          "contact_shape_radius",
-          "contact_shape_width",
-          "contour_x",
-          "contour_y",
-          "has_planar_contour",
-          "manufacturer",
-          "ndim",
-          "probe_model",
-          "shank_id",
-          "site_locations_depth",
-          "site_locations_frontback",
-          "site_locations_leftright",
-          "unit"
-        ]
+        "verdict": "UNKNOWN",
+        "why": "no property block at first version (2020-06-03)"
       }
     },
     {
@@ -988,16 +928,8 @@
         "type"
       ],
       "provenance": {
-        "verdict": "DID-INVENTED",
-        "why": "first NDI version 2026-04-24",
-        "first_version_fields": [
-          "data",
-          "description",
-          "lab",
-          "project",
-          "type",
-          "user"
-        ]
+        "verdict": "UNKNOWN",
+        "why": "no property block at first version (2025-02-07)"
       }
     },
     {
@@ -1011,7 +943,7 @@
       "only_in_ndi_template": [],
       "provenance": {
         "verdict": "DID-INVENTED",
-        "why": "first NDI version 2026-04-24",
+        "why": "first NDI version 2024-02-12",
         "first_version_fields": [
           "reference"
         ]
@@ -1036,20 +968,8 @@
         "session_reference"
       ],
       "provenance": {
-        "verdict": "DID-INVENTED",
-        "why": "first NDI version 2026-04-24",
-        "first_version_fields": [
-          "is_linked",
-          "session_creator",
-          "session_creator_input1",
-          "session_creator_input2",
-          "session_creator_input3",
-          "session_creator_input4",
-          "session_creator_input5",
-          "session_creator_input6",
-          "session_id",
-          "session_reference"
-        ]
+        "verdict": "UNKNOWN",
+        "why": "no property block at first version (2025-12-11)"
       }
     },
     {
@@ -1065,12 +985,8 @@
         "input_parameters"
       ],
       "provenance": {
-        "verdict": "DID-INVENTED",
-        "why": "first NDI version 2026-04-24",
-        "first_version_fields": [
-          "answer",
-          "input_parameters"
-        ]
+        "verdict": "UNKNOWN",
+        "why": "unparseable first version"
       }
     },
     {
@@ -1084,11 +1000,8 @@
         "map"
       ],
       "provenance": {
-        "verdict": "DID-INVENTED",
-        "why": "first NDI version 2026-04-24",
-        "first_version_fields": [
-          "map"
-        ]
+        "verdict": "UNKNOWN",
+        "why": "unparseable first version"
       }
     },
     {
@@ -1099,16 +1012,8 @@
       ],
       "only_in_ndi_template": [],
       "provenance": {
-        "verdict": "DID-INVENTED",
-        "why": "first NDI version 2026-04-24",
-        "first_version_fields": [
-          "graphical_mode",
-          "interpolation",
-          "max_clusters",
-          "min_clusters",
-          "num_pca_features",
-          "num_start"
-        ]
+        "verdict": "UNKNOWN",
+        "why": "no property block at first version (2019-02-15)"
       }
     },
     {
@@ -1124,13 +1029,8 @@
         "waveform_sample_times"
       ],
       "provenance": {
-        "verdict": "DID-INVENTED",
-        "why": "first NDI version 2026-04-24",
-        "first_version_fields": [
-          "clusterinfo",
-          "epoch_info",
-          "waveform_sample_times"
-        ]
+        "verdict": "UNKNOWN",
+        "why": "no property block at first version (2019-02-15)"
       }
     },
     {
@@ -1203,7 +1103,7 @@
       ],
       "provenance": {
         "verdict": "DID-INVENTED",
-        "why": "first NDI version 2026-04-24",
+        "why": "first NDI version 2020-09-15",
         "first_version_fields": [
           "center_range_time",
           "do_filter",
@@ -1255,12 +1155,8 @@
         "mixture_table"
       ],
       "provenance": {
-        "verdict": "DID-INVENTED",
-        "why": "first NDI version 2026-04-24",
-        "first_version_fields": [
-          "location",
-          "mixture_table"
-        ]
+        "verdict": "UNKNOWN",
+        "why": "unparseable first version"
       }
     },
     {
@@ -1278,7 +1174,7 @@
       ],
       "provenance": {
         "verdict": "DID-INVENTED",
-        "why": "first NDI version 2026-04-24",
+        "why": "first NDI version 2024-10-01",
         "first_version_fields": [
           "name",
           "ontology_name",
@@ -1299,7 +1195,7 @@
       ],
       "provenance": {
         "verdict": "DID-INVENTED",
-        "why": "first NDI version 2026-04-24",
+        "why": "first NDI version 2024-10-18",
         "first_version_fields": [
           "string"
         ]
@@ -1450,7 +1346,7 @@
       "only_in_ndi_template": [],
       "provenance": {
         "verdict": "DID-INVENTED",
-        "why": "first NDI version 2026-04-24",
+        "why": "first NDI version 2025-08-19",
         "first_version_fields": []
       }
     },
@@ -1469,7 +1365,7 @@
       ],
       "provenance": {
         "verdict": "DID-INVENTED",
-        "why": "first NDI version 2026-04-24",
+        "why": "first NDI version 2024-02-06",
         "first_version_fields": [
           "cost",
           "epochnode_a",
@@ -1497,13 +1393,12 @@
       ],
       "provenance": {
         "verdict": "DID-INVENTED",
-        "why": "first NDI version 2026-04-24",
+        "why": "first NDI version 2025-07-08",
         "first_version_fields": [
           "administration_duration",
           "administration_offset_time",
           "administration_onset_time",
-          "location_name",
-          "location_ontology_node",
+          "location",
           "mixture_table"
         ]
       }
@@ -1522,11 +1417,10 @@
       ],
       "provenance": {
         "verdict": "DID-INVENTED",
-        "why": "first NDI version 2026-04-24",
+        "why": "first NDI version 2023-04-26",
         "first_version_fields": [
           "depends_on",
-          "input_parameters",
-          "log"
+          "input_parameters"
         ]
       }
     },
@@ -1542,7 +1436,7 @@
       "only_in_ndi_template": [],
       "provenance": {
         "verdict": "UNKNOWN",
-        "why": "no property block at first version (2026-04-24)"
+        "why": "unparseable first version"
       }
     },
     {
@@ -1568,7 +1462,7 @@
       ],
       "provenance": {
         "verdict": "DID-INVENTED",
-        "why": "first NDI version 2026-04-24",
+        "why": "first NDI version 2025-05-12",
         "first_version_fields": [
           "diluent_name",
           "diluent_ontology_name",
@@ -1597,16 +1491,8 @@
         "total_power"
       ],
       "provenance": {
-        "verdict": "DID-INVENTED",
-        "why": "first NDI version 2026-04-24",
-        "first_version_fields": [
-          "column_labels",
-          "element_epochid",
-          "goodness_of_fit",
-          "parameters",
-          "residual_power",
-          "total_power"
-        ]
+        "verdict": "UNKNOWN",
+        "why": "no property block at first version (2020-01-09)"
       }
     },
     {
@@ -1627,18 +1513,8 @@
         "threshold"
       ],
       "provenance": {
-        "verdict": "DID-INVENTED",
-        "why": "first NDI version 2026-04-24",
-        "first_version_fields": [
-          "filter_algorithm",
-          "filter_algorithm_parameters",
-          "new_sampling_rate",
-          "refract",
-          "rm60_hz",
-          "sampling_rate",
-          "spiketimes",
-          "threshold"
-        ]
+        "verdict": "UNKNOWN",
+        "why": "no property block at first version (2019-04-23)"
       }
     },
     {
@@ -1657,17 +1533,8 @@
         "fit_sse_perpoint"
       ],
       "provenance": {
-        "verdict": "DID-INVENTED",
-        "why": "first NDI version 2026-04-24",
-        "first_version_fields": [
-          "fit_constraints",
-          "fit_equation",
-          "fit_name",
-          "fit_parameter_names",
-          "fit_parameters",
-          "fit_sse",
-          "fit_sse_perpoint"
-        ]
+        "verdict": "UNKNOWN",
+        "why": "no property block at first version (2019-04-23)"
       }
     },
     {
@@ -1693,21 +1560,8 @@
         "slope_criterion"
       ],
       "provenance": {
-        "verdict": "DID-INVENTED",
-        "why": "first NDI version 2026-04-24",
-        "first_version_fields": [
-          "mean_spikewave",
-          "median_fullwidthhalfmaximum",
-          "median_kink_index",
-          "median_max_dvdt",
-          "median_postsk_halfwidthmaximum",
-          "median_presk_halfwidthmaximum",
-          "median_spikekink_vm",
-          "median_voltageofhalfmaximum",
-          "number_of_spikes",
-          "sample_times",
-          "slope_criterion"
-        ]
+        "verdict": "UNKNOWN",
+        "why": "no property block at first version (2020-01-21)"
       }
     }
   ],
@@ -1728,19 +1582,6 @@
         "stimids",
         "timepoints",
         "voltage_observations"
-      ]
-    },
-    {
-      "migrator": "daqreader_ndr.m",
-      "ndi_class": "daqreader_ndr",
-      "confidence": "confirmed-vocabulary",
-      "reads_names_absent_from_template": [
-        "file_extension"
-      ],
-      "mentions_names_absent_from_template": [],
-      "template_fields": [
-        "ndi_daqreader_ndr_class",
-        "ndr_reader_string"
       ]
     },
     {
@@ -2001,7 +1842,11 @@
       "superclasses": [
         "base"
       ],
-      "path": "src/ndi/ndi_common/database_documents/animalsubject.json @origin/main"
+      "path": "src/ndi/ndi_common/database_documents/animalsubject.json @origin/main",
+      "depends_on_template": [],
+      "schema_document_form": "flat",
+      "depends_on_schema": [],
+      "depends_on_required": {}
     },
     "app": {
       "fields": [
@@ -2027,7 +1872,11 @@
       "superclasses": [
         "base"
       ],
-      "path": "src/ndi/ndi_common/database_documents/app.json @origin/main"
+      "path": "src/ndi/ndi_common/database_documents/app.json @origin/main",
+      "depends_on_template": [],
+      "schema_document_form": "flat",
+      "depends_on_schema": [],
+      "depends_on_required": {}
     },
     "simple_calc": {
       "fields": [
@@ -2046,7 +1895,17 @@
         "base",
         "app"
       ],
-      "path": "src/ndi/ndi_common/database_documents/apps/calculators/simple_calc.json @origin/main"
+      "path": "src/ndi/ndi_common/database_documents/apps/calculators/simple_calc.json @origin/main",
+      "depends_on_template": [
+        "document_id"
+      ],
+      "schema_document_form": "flat",
+      "depends_on_schema": [
+        "document_id"
+      ],
+      "depends_on_required": {
+        "document_id": true
+      }
     },
     "tuningcurve_calc": {
       "fields": [
@@ -2065,7 +1924,11 @@
         "base",
         "stimulus_tuningcurve"
       ],
-      "path": "src/ndi/ndi_common/database_documents/apps/calculators/tuningcurve_calc.json @origin/main"
+      "path": "src/ndi/ndi_common/database_documents/apps/calculators/tuningcurve_calc.json @origin/main",
+      "depends_on_template": [],
+      "schema_document_form": "flat",
+      "depends_on_schema": [],
+      "depends_on_required": {}
     },
     "jrclust_clusters": {
       "fields": [
@@ -2082,7 +1945,17 @@
         "base",
         "app"
       ],
-      "path": "src/ndi/ndi_common/database_documents/apps/jrclust/jrclust_clusters.json @origin/main"
+      "path": "src/ndi/ndi_common/database_documents/apps/jrclust/jrclust_clusters.json @origin/main",
+      "depends_on_template": [
+        "element_id"
+      ],
+      "schema_document_form": "flat",
+      "depends_on_schema": [
+        "element_id"
+      ],
+      "depends_on_required": {
+        "element_id": true
+      }
     },
     "kiasort_clusters": {
       "fields": [
@@ -2101,7 +1974,17 @@
         "base",
         "app"
       ],
-      "path": "src/ndi/ndi_common/database_documents/apps/kiasort/kiasort_clusters.json @origin/main"
+      "path": "src/ndi/ndi_common/database_documents/apps/kiasort/kiasort_clusters.json @origin/main",
+      "depends_on_template": [
+        "element_id"
+      ],
+      "schema_document_form": "flat",
+      "depends_on_schema": [
+        "element_id"
+      ],
+      "depends_on_required": {
+        "element_id": true
+      }
     },
     "kilosort_clusters": {
       "fields": [
@@ -2120,7 +2003,17 @@
         "base",
         "app"
       ],
-      "path": "src/ndi/ndi_common/database_documents/apps/kilosort/kilosort_clusters.json @origin/main"
+      "path": "src/ndi/ndi_common/database_documents/apps/kilosort/kilosort_clusters.json @origin/main",
+      "depends_on_template": [
+        "element_id"
+      ],
+      "schema_document_form": "flat",
+      "depends_on_schema": [
+        "element_id"
+      ],
+      "depends_on_required": {
+        "element_id": true
+      }
     },
     "valid_interval": {
       "fields": [],
@@ -2133,7 +2026,17 @@
         "base",
         "app"
       ],
-      "path": "src/ndi/ndi_common/database_documents/apps/markgarbage/valid_interval.json @origin/main"
+      "path": "src/ndi/ndi_common/database_documents/apps/markgarbage/valid_interval.json @origin/main",
+      "depends_on_template": [
+        "element_id"
+      ],
+      "schema_document_form": "flat",
+      "depends_on_schema": [
+        "element_id"
+      ],
+      "depends_on_required": {
+        "element_id": true
+      }
     },
     "spike_extraction_parameters": {
       "fields": [
@@ -2176,7 +2079,11 @@
         "base",
         "app"
       ],
-      "path": "src/ndi/ndi_common/database_documents/apps/spikeextractor/spike_extraction_parameters.json @origin/main"
+      "path": "src/ndi/ndi_common/database_documents/apps/spikeextractor/spike_extraction_parameters.json @origin/main",
+      "depends_on_template": [],
+      "schema_document_form": "flat",
+      "depends_on_schema": [],
+      "depends_on_required": {}
     },
     "spike_extraction_parameters_modification": {
       "fields": [
@@ -2222,7 +2129,20 @@
         "base",
         "app"
       ],
-      "path": "src/ndi/ndi_common/database_documents/apps/spikeextractor/spike_extraction_parameters_modification.json @origin/main"
+      "path": "src/ndi/ndi_common/database_documents/apps/spikeextractor/spike_extraction_parameters_modification.json @origin/main",
+      "depends_on_template": [
+        "extraction_parameters_id",
+        "element_id"
+      ],
+      "schema_document_form": "flat",
+      "depends_on_schema": [
+        "element_id",
+        "extraction_parameters_id"
+      ],
+      "depends_on_required": {
+        "element_id": true,
+        "extraction_parameters_id": true
+      }
     },
     "spikewaves": {
       "fields": [
@@ -2244,7 +2164,20 @@
         "epochid",
         "app"
       ],
-      "path": "src/ndi/ndi_common/database_documents/apps/spikeextractor/spikewaves.json @origin/main"
+      "path": "src/ndi/ndi_common/database_documents/apps/spikeextractor/spikewaves.json @origin/main",
+      "depends_on_template": [
+        "extraction_parameters_id",
+        "element_id"
+      ],
+      "schema_document_form": "flat",
+      "depends_on_schema": [
+        "element_id",
+        "extraction_parameters_id"
+      ],
+      "depends_on_required": {
+        "element_id": true,
+        "extraction_parameters_id": true
+      }
     },
     "sorting_parameters": {
       "fields": [
@@ -2269,7 +2202,11 @@
         "base",
         "app"
       ],
-      "path": "src/ndi/ndi_common/database_documents/apps/spikesorter/sorting_parameters.json @origin/main"
+      "path": "src/ndi/ndi_common/database_documents/apps/spikesorter/sorting_parameters.json @origin/main",
+      "depends_on_template": [],
+      "schema_document_form": "flat",
+      "depends_on_schema": [],
+      "depends_on_required": {}
     },
     "spike_clusters": {
       "fields": [
@@ -2295,7 +2232,26 @@
         "base",
         "app"
       ],
-      "path": "src/ndi/ndi_common/database_documents/apps/spikesorter/spike_clusters.json @origin/main"
+      "path": "src/ndi/ndi_common/database_documents/apps/spikesorter/spike_clusters.json @origin/main",
+      "depends_on_template": [
+        "sorting_parameters_id",
+        "element_id",
+        "extraction_parameters_id",
+        "spikewaves_doc_id"
+      ],
+      "schema_document_form": "flat",
+      "depends_on_schema": [
+        "element_id",
+        "extraction_parameters_id",
+        "sorting_parameters_id",
+        "spikewaves_doc_id"
+      ],
+      "depends_on_required": {
+        "element_id": true,
+        "extraction_parameters_id": true,
+        "sorting_parameters_id": true,
+        "spikewaves_doc_id": false
+      }
     },
     "binnedspikeratevm": {
       "fields": [
@@ -2325,7 +2281,17 @@
         "epochid",
         "app"
       ],
-      "path": "src/ndi/ndi_common/database_documents/apps/vhlab_voltage2firingrate/binnedspikeratevm.json @origin/main"
+      "path": "src/ndi/ndi_common/database_documents/apps/vhlab_voltage2firingrate/binnedspikeratevm.json @origin/main",
+      "depends_on_template": [
+        "vmspikefilteringparameters_id",
+        "element_id"
+      ],
+      "schema_document_form": "json_schema",
+      "depends_on_schema": [
+        "element_id",
+        "sorting_parameters_id"
+      ],
+      "depends_on_required": {}
     },
     "vmneuralresponseresiduals": {
       "fields": [
@@ -2351,7 +2317,15 @@
       "superclasses": [
         "base"
       ],
-      "path": "src/ndi/ndi_common/database_documents/apps/vhlab_voltage2firingrate/vmneuralresponseresiduals.json @origin/main"
+      "path": "src/ndi/ndi_common/database_documents/apps/vhlab_voltage2firingrate/vmneuralresponseresiduals.json @origin/main",
+      "depends_on_template": [
+        "element_id"
+      ],
+      "schema_document_form": "json_schema",
+      "depends_on_schema": [
+        "element_id"
+      ],
+      "depends_on_required": {}
     },
     "vmspikefilteringparameters": {
       "fields": [
@@ -2383,7 +2357,15 @@
         "epochid",
         "app"
       ],
-      "path": "src/ndi/ndi_common/database_documents/apps/vhlab_voltage2firingrate/vmspikefilteringparameters.json @origin/main"
+      "path": "src/ndi/ndi_common/database_documents/apps/vhlab_voltage2firingrate/vmspikefilteringparameters.json @origin/main",
+      "depends_on_template": [
+        "element_id"
+      ],
+      "schema_document_form": "json_schema",
+      "depends_on_schema": [
+        "element_id"
+      ],
+      "depends_on_required": {}
     },
     "vmspikefit": {
       "fields": [
@@ -2414,7 +2396,17 @@
         "epochid",
         "app"
       ],
-      "path": "src/ndi/ndi_common/database_documents/apps/vhlab_voltage2firingrate/vmspikefit.json @origin/main"
+      "path": "src/ndi/ndi_common/database_documents/apps/vhlab_voltage2firingrate/vmspikefit.json @origin/main",
+      "depends_on_template": [
+        "fit_input_id",
+        "element_id"
+      ],
+      "schema_document_form": "json_schema",
+      "depends_on_schema": [
+        "element_id",
+        "fit_input_id"
+      ],
+      "depends_on_required": {}
     },
     "vmspikesummary": {
       "fields": [
@@ -2452,7 +2444,17 @@
         "base",
         "epochid"
       ],
-      "path": "src/ndi/ndi_common/database_documents/apps/vhlab_voltage2firingrate/vmspikesummary.json @origin/main"
+      "path": "src/ndi/ndi_common/database_documents/apps/vhlab_voltage2firingrate/vmspikesummary.json @origin/main",
+      "depends_on_template": [
+        "element_id",
+        "spike_extraction_id"
+      ],
+      "schema_document_form": "json_schema",
+      "depends_on_schema": [
+        "element_id",
+        "spike_extraction_id"
+      ],
+      "depends_on_required": {}
     },
     "base": {
       "fields": [
@@ -2470,7 +2472,11 @@
       "depends_on": [],
       "files": [],
       "superclasses": [],
-      "path": "src/ndi/ndi_common/database_documents/base.json @origin/main"
+      "path": "src/ndi/ndi_common/database_documents/base.json @origin/main",
+      "depends_on_template": [],
+      "schema_document_form": "flat",
+      "depends_on_schema": [],
+      "depends_on_required": {}
     },
     "daqmetadatareader": {
       "fields": [
@@ -2486,7 +2492,11 @@
       "superclasses": [
         "base"
       ],
-      "path": "src/ndi/ndi_common/database_documents/daq/daqmetadatareader.json @origin/main"
+      "path": "src/ndi/ndi_common/database_documents/daq/daqmetadatareader.json @origin/main",
+      "depends_on_template": [],
+      "schema_document_form": "flat",
+      "depends_on_schema": [],
+      "depends_on_required": {}
     },
     "daqreader": {
       "fields": [
@@ -2500,7 +2510,11 @@
       "superclasses": [
         "base"
       ],
-      "path": "src/ndi/ndi_common/database_documents/daq/daqreader.json @origin/main"
+      "path": "src/ndi/ndi_common/database_documents/daq/daqreader.json @origin/main",
+      "depends_on_template": [],
+      "schema_document_form": "flat",
+      "depends_on_schema": [],
+      "depends_on_required": {}
     },
     "daqreader_ndr": {
       "fields": [
@@ -2517,7 +2531,11 @@
         "base",
         "daqreader"
       ],
-      "path": "src/ndi/ndi_common/database_documents/daq/daqreader_ndr.json @origin/main"
+      "path": "src/ndi/ndi_common/database_documents/daq/daqreader_ndr.json @origin/main",
+      "depends_on_template": [],
+      "schema_document_form": "flat",
+      "depends_on_schema": [],
+      "depends_on_required": {}
     },
     "daqsystem": {
       "fields": [
@@ -2535,7 +2553,23 @@
       "superclasses": [
         "base"
       ],
-      "path": "src/ndi/ndi_common/database_documents/daq/daqsystem.json @origin/main"
+      "path": "src/ndi/ndi_common/database_documents/daq/daqsystem.json @origin/main",
+      "depends_on_template": [
+        "filenavigator_id",
+        "daqreader_id",
+        "daqmetadatareader_id"
+      ],
+      "schema_document_form": "flat",
+      "depends_on_schema": [
+        "daqmetadatareader_id",
+        "daqreader_id",
+        "filenavigator_id"
+      ],
+      "depends_on_required": {
+        "daqmetadatareader_id": false,
+        "daqreader_id": true,
+        "filenavigator_id": true
+      }
     },
     "filenavigator": {
       "fields": [
@@ -2555,7 +2589,11 @@
       "superclasses": [
         "base"
       ],
-      "path": "src/ndi/ndi_common/database_documents/daq/filenavigator.json @origin/main"
+      "path": "src/ndi/ndi_common/database_documents/daq/filenavigator.json @origin/main",
+      "depends_on_template": [],
+      "schema_document_form": "flat",
+      "depends_on_schema": [],
+      "depends_on_required": {}
     },
     "syncgraph": {
       "fields": [
@@ -2571,7 +2609,15 @@
       "superclasses": [
         "base"
       ],
-      "path": "src/ndi/ndi_common/database_documents/daq/syncgraph.json @origin/main"
+      "path": "src/ndi/ndi_common/database_documents/daq/syncgraph.json @origin/main",
+      "depends_on_template": [],
+      "schema_document_form": "flat",
+      "depends_on_schema": [
+        "syncrule_id"
+      ],
+      "depends_on_required": {
+        "syncrule_id": false
+      }
     },
     "syncrule": {
       "fields": [
@@ -2587,7 +2633,11 @@
       "superclasses": [
         "base"
       ],
-      "path": "src/ndi/ndi_common/database_documents/daq/syncrule.json @origin/main"
+      "path": "src/ndi/ndi_common/database_documents/daq/syncrule.json @origin/main",
+      "depends_on_template": [],
+      "schema_document_form": "flat",
+      "depends_on_schema": [],
+      "depends_on_required": {}
     },
     "binaryseries_parameters": {
       "fields": [
@@ -2611,7 +2661,11 @@
       "superclasses": [
         "base"
       ],
-      "path": "src/ndi/ndi_common/database_documents/data/binaryseries_parameters.json @origin/main"
+      "path": "src/ndi/ndi_common/database_documents/data/binaryseries_parameters.json @origin/main",
+      "depends_on_template": [],
+      "schema_document_form": "flat",
+      "depends_on_schema": [],
+      "depends_on_required": {}
     },
     "filter": {
       "fields": [
@@ -2631,7 +2685,11 @@
       "superclasses": [
         "base"
       ],
-      "path": "src/ndi/ndi_common/database_documents/data/filter.json @origin/main"
+      "path": "src/ndi/ndi_common/database_documents/data/filter.json @origin/main",
+      "depends_on_template": [],
+      "schema_document_form": "flat",
+      "depends_on_schema": [],
+      "depends_on_required": {}
     },
     "fitcurve": {
       "fields": [
@@ -2663,7 +2721,17 @@
       "superclasses": [
         "base"
       ],
-      "path": "src/ndi/ndi_common/database_documents/data/fitcurve.json @origin/main"
+      "path": "src/ndi/ndi_common/database_documents/data/fitcurve.json @origin/main",
+      "depends_on_template": [
+        "fit_example_data_id"
+      ],
+      "schema_document_form": "flat",
+      "depends_on_schema": [
+        "fit_example_data_id"
+      ],
+      "depends_on_required": {
+        "fit_example_data_id": true
+      }
     },
     "generic_file": {
       "fields": [
@@ -2689,7 +2757,17 @@
       "superclasses": [
         "base"
       ],
-      "path": "src/ndi/ndi_common/database_documents/data/generic_file.json @origin/main"
+      "path": "src/ndi/ndi_common/database_documents/data/generic_file.json @origin/main",
+      "depends_on_template": [
+        "document_id"
+      ],
+      "schema_document_form": "flat",
+      "depends_on_schema": [
+        "document_id"
+      ],
+      "depends_on_required": {
+        "document_id": false
+      }
     },
     "image": {
       "fields": [
@@ -2713,7 +2791,20 @@
         "base",
         "imageStack_parameters"
       ],
-      "path": "src/ndi/ndi_common/database_documents/data/image.json @origin/main"
+      "path": "src/ndi/ndi_common/database_documents/data/image.json @origin/main",
+      "depends_on_template": [
+        "subject_id",
+        "imageCollection_id"
+      ],
+      "schema_document_form": "flat",
+      "depends_on_schema": [
+        "imageCollection_id",
+        "subject_id"
+      ],
+      "depends_on_required": {
+        "imageCollection_id": false,
+        "subject_id": false
+      }
     },
     "imageCollection": {
       "fields": [
@@ -2731,7 +2822,17 @@
       "superclasses": [
         "base"
       ],
-      "path": "src/ndi/ndi_common/database_documents/data/imageCollection.json @origin/main"
+      "path": "src/ndi/ndi_common/database_documents/data/imageCollection.json @origin/main",
+      "depends_on_template": [
+        "subject_id"
+      ],
+      "schema_document_form": "flat",
+      "depends_on_schema": [
+        "subject_id"
+      ],
+      "depends_on_required": {
+        "subject_id": false
+      }
     },
     "imageStack": {
       "fields": [
@@ -2753,7 +2854,20 @@
         "base",
         "imageStack_parameters"
       ],
-      "path": "src/ndi/ndi_common/database_documents/data/imageStack.json @origin/main"
+      "path": "src/ndi/ndi_common/database_documents/data/imageStack.json @origin/main",
+      "depends_on_template": [
+        "subject_id",
+        "document_id"
+      ],
+      "schema_document_form": "flat",
+      "depends_on_schema": [
+        "document_id",
+        "subject_id"
+      ],
+      "depends_on_required": {
+        "document_id": false,
+        "subject_id": false
+      }
     },
     "imageStack_parameters": {
       "fields": [
@@ -2785,7 +2899,17 @@
       "superclasses": [
         "base"
       ],
-      "path": "src/ndi/ndi_common/database_documents/data/imageStack_parameters.json @origin/main"
+      "path": "src/ndi/ndi_common/database_documents/data/imageStack_parameters.json @origin/main",
+      "depends_on_template": [
+        "document_id"
+      ],
+      "schema_document_form": "flat",
+      "depends_on_schema": [
+        "document_id"
+      ],
+      "depends_on_required": {
+        "document_id": false
+      }
     },
     "ngrid": {
       "fields": [
@@ -2805,7 +2929,11 @@
       "superclasses": [
         "base"
       ],
-      "path": "src/ndi/ndi_common/database_documents/data/ngrid.json @origin/main"
+      "path": "src/ndi/ndi_common/database_documents/data/ngrid.json @origin/main",
+      "depends_on_template": [],
+      "schema_document_form": "flat",
+      "depends_on_schema": [],
+      "depends_on_required": {}
     },
     "ontologyImage": {
       "fields": [
@@ -2824,7 +2952,17 @@
         "base",
         "ngrid"
       ],
-      "path": "src/ndi/ndi_common/database_documents/data/ontologyImage.json @origin/main"
+      "path": "src/ndi/ndi_common/database_documents/data/ontologyImage.json @origin/main",
+      "depends_on_template": [
+        "ontologyTableRow_id"
+      ],
+      "schema_document_form": "flat",
+      "depends_on_schema": [
+        "ontologyTableRow_id"
+      ],
+      "depends_on_required": {
+        "ontologyTableRow_id": false
+      }
     },
     "ontologyLabel": {
       "fields": [
@@ -2840,7 +2978,17 @@
       "superclasses": [
         "base"
       ],
-      "path": "src/ndi/ndi_common/database_documents/data/ontologyLabel.json @origin/main"
+      "path": "src/ndi/ndi_common/database_documents/data/ontologyLabel.json @origin/main",
+      "depends_on_template": [
+        "document_id"
+      ],
+      "schema_document_form": "flat",
+      "depends_on_schema": [
+        "document_id"
+      ],
+      "depends_on_required": {
+        "document_id": true
+      }
     },
     "ontologyTableRow": {
       "fields": [
@@ -2862,7 +3010,17 @@
       "superclasses": [
         "base"
       ],
-      "path": "src/ndi/ndi_common/database_documents/data/ontologyTableRow.json @origin/main"
+      "path": "src/ndi/ndi_common/database_documents/data/ontologyTableRow.json @origin/main",
+      "depends_on_template": [
+        "document_id"
+      ],
+      "schema_document_form": "flat",
+      "depends_on_schema": [
+        "document_id"
+      ],
+      "depends_on_required": {
+        "document_id": false
+      }
     },
     "pyraview": {
       "fields": [
@@ -2904,7 +3062,17 @@
         "epochclocktimes",
         "filter"
       ],
-      "path": "src/ndi/ndi_common/database_documents/data/pyraview.json @origin/main"
+      "path": "src/ndi/ndi_common/database_documents/data/pyraview.json @origin/main",
+      "depends_on_template": [
+        "element_id"
+      ],
+      "schema_document_form": "flat",
+      "depends_on_schema": [
+        "element_id"
+      ],
+      "depends_on_required": {
+        "element_id": true
+      }
     },
     "dataset_remote": {
       "fields": [
@@ -2920,7 +3088,11 @@
       "superclasses": [
         "base"
       ],
-      "path": "src/ndi/ndi_common/database_documents/dataset_remote.json @origin/main"
+      "path": "src/ndi/ndi_common/database_documents/dataset_remote.json @origin/main",
+      "depends_on_template": [],
+      "schema_document_form": "flat",
+      "depends_on_schema": [],
+      "depends_on_required": {}
     },
     "dataset_session_info": {
       "fields": [
@@ -2934,7 +3106,11 @@
       "superclasses": [
         "base"
       ],
-      "path": "src/ndi/ndi_common/database_documents/dataset_session_info.json @origin/main"
+      "path": "src/ndi/ndi_common/database_documents/dataset_session_info.json @origin/main",
+      "depends_on_template": [],
+      "schema_document_form": "flat",
+      "depends_on_schema": [],
+      "depends_on_required": {}
     },
     "demoNDI": {
       "fields": [
@@ -2950,7 +3126,11 @@
       "superclasses": [
         "base"
       ],
-      "path": "src/ndi/ndi_common/database_documents/demoNDI.json @origin/main"
+      "path": "src/ndi/ndi_common/database_documents/demoNDI.json @origin/main",
+      "depends_on_template": [],
+      "schema_document_form": "flat",
+      "depends_on_schema": [],
+      "depends_on_required": {}
     },
     "element": {
       "fields": [
@@ -2975,7 +3155,20 @@
       "superclasses": [
         "base"
       ],
-      "path": "src/ndi/ndi_common/database_documents/element.json @origin/main"
+      "path": "src/ndi/ndi_common/database_documents/element.json @origin/main",
+      "depends_on_template": [
+        "underlying_element_id",
+        "subject_id"
+      ],
+      "schema_document_form": "flat",
+      "depends_on_schema": [
+        "subject_id",
+        "underlying_element_id"
+      ],
+      "depends_on_required": {
+        "subject_id": true,
+        "underlying_element_id": false
+      }
     },
     "distance_metadata": {
       "fields": [
@@ -3007,7 +3200,17 @@
       "superclasses": [
         "base"
       ],
-      "path": "src/ndi/ndi_common/database_documents/element/distance_metadata.json @origin/main"
+      "path": "src/ndi/ndi_common/database_documents/element/distance_metadata.json @origin/main",
+      "depends_on_template": [
+        "element_id"
+      ],
+      "schema_document_form": "flat",
+      "depends_on_schema": [
+        "element_id"
+      ],
+      "depends_on_required": {
+        "element_id": true
+      }
     },
     "position_metadata": {
       "fields": [
@@ -3027,7 +3230,17 @@
       "superclasses": [
         "base"
       ],
-      "path": "src/ndi/ndi_common/database_documents/element/position_metadata.json @origin/main"
+      "path": "src/ndi/ndi_common/database_documents/element/position_metadata.json @origin/main",
+      "depends_on_template": [
+        "element_id"
+      ],
+      "schema_document_form": "flat",
+      "depends_on_schema": [
+        "element_id"
+      ],
+      "depends_on_required": {
+        "element_id": true
+      }
     },
     "element_epoch": {
       "fields": [
@@ -3048,7 +3261,17 @@
         "base",
         "epochid"
       ],
-      "path": "src/ndi/ndi_common/database_documents/element_epoch.json @origin/main"
+      "path": "src/ndi/ndi_common/database_documents/element_epoch.json @origin/main",
+      "depends_on_template": [
+        "element_id"
+      ],
+      "schema_document_form": "flat",
+      "depends_on_schema": [
+        "element_id"
+      ],
+      "depends_on_required": {
+        "element_id": true
+      }
     },
     "ensemble": {
       "fields": [
@@ -3078,7 +3301,22 @@
         "epochid",
         "app"
       ],
-      "path": "src/ndi/ndi_common/database_documents/ensemble/ensemble.json @origin/main"
+      "path": "src/ndi/ndi_common/database_documents/ensemble/ensemble.json @origin/main",
+      "depends_on_template": [
+        "element_id",
+        "element_epoch_id"
+      ],
+      "schema_document_form": "flat",
+      "depends_on_schema": [
+        "element_epoch_id",
+        "element_id",
+        "neuron_id"
+      ],
+      "depends_on_required": {
+        "element_epoch_id": true,
+        "element_id": true,
+        "neuron_id": false
+      }
     },
     "epochclocktimes": {
       "fields": [
@@ -3095,7 +3333,11 @@
         "base",
         "epochid"
       ],
-      "path": "src/ndi/ndi_common/database_documents/epochclocktimes.json @origin/main"
+      "path": "src/ndi/ndi_common/database_documents/epochclocktimes.json @origin/main",
+      "depends_on_template": [],
+      "schema_document_form": "flat",
+      "depends_on_schema": [],
+      "depends_on_required": {}
     },
     "epochid": {
       "fields": [
@@ -3109,7 +3351,11 @@
       "superclasses": [
         "base"
       ],
-      "path": "src/ndi/ndi_common/database_documents/epochid.json @origin/main"
+      "path": "src/ndi/ndi_common/database_documents/epochid.json @origin/main",
+      "depends_on_template": [],
+      "schema_document_form": "flat",
+      "depends_on_schema": [],
+      "depends_on_required": {}
     },
     "daqmetadatareader_epochdata_ingested": {
       "fields": [],
@@ -3124,7 +3370,17 @@
         "base",
         "epochid"
       ],
-      "path": "src/ndi/ndi_common/database_documents/ingestion/daqmetadatareader_epochdata_ingested.json @origin/main"
+      "path": "src/ndi/ndi_common/database_documents/ingestion/daqmetadatareader_epochdata_ingested.json @origin/main",
+      "depends_on_template": [
+        "daqmetadatareader_id"
+      ],
+      "schema_document_form": "flat",
+      "depends_on_schema": [
+        "daqmetadatareader_id"
+      ],
+      "depends_on_required": {
+        "daqmetadatareader_id": true
+      }
     },
     "daqreader_epochdata_ingested": {
       "fields": [
@@ -3141,7 +3397,17 @@
         "base",
         "epochid"
       ],
-      "path": "src/ndi/ndi_common/database_documents/ingestion/daqreader_epochdata_ingested.json @origin/main"
+      "path": "src/ndi/ndi_common/database_documents/ingestion/daqreader_epochdata_ingested.json @origin/main",
+      "depends_on_template": [
+        "daqreader_id"
+      ],
+      "schema_document_form": "flat",
+      "depends_on_schema": [
+        "daqreader_id"
+      ],
+      "depends_on_required": {
+        "daqreader_id": true
+      }
     },
     "daqreader_image_epochdata_ingested": {
       "fields": [
@@ -3172,7 +3438,17 @@
         "base",
         "daqreader_epochdata_ingested"
       ],
-      "path": "src/ndi/ndi_common/database_documents/ingestion/daqreader_image_epochdata_ingested.json @origin/main"
+      "path": "src/ndi/ndi_common/database_documents/ingestion/daqreader_image_epochdata_ingested.json @origin/main",
+      "depends_on_template": [
+        "daqreader_id"
+      ],
+      "schema_document_form": "flat",
+      "depends_on_schema": [
+        "daqreader_id"
+      ],
+      "depends_on_required": {
+        "daqreader_id": true
+      }
     },
     "daqreader_mfdaq_epochdata_ingested": {
       "fields": [
@@ -3252,7 +3528,17 @@
         "base",
         "daqreader_epochdata_ingested"
       ],
-      "path": "src/ndi/ndi_common/database_documents/ingestion/daqreader_mfdaq_epochdata_ingested.json @origin/main"
+      "path": "src/ndi/ndi_common/database_documents/ingestion/daqreader_mfdaq_epochdata_ingested.json @origin/main",
+      "depends_on_template": [
+        "daqreader_id"
+      ],
+      "schema_document_form": "flat",
+      "depends_on_schema": [
+        "daqreader_id"
+      ],
+      "depends_on_required": {
+        "daqreader_id": true
+      }
     },
     "epochfiles_ingested": {
       "fields": [
@@ -3272,7 +3558,17 @@
       "superclasses": [
         "base"
       ],
-      "path": "src/ndi/ndi_common/database_documents/ingestion/epochfiles_ingested.json @origin/main"
+      "path": "src/ndi/ndi_common/database_documents/ingestion/epochfiles_ingested.json @origin/main",
+      "depends_on_template": [
+        "filenavigator_id"
+      ],
+      "schema_document_form": "flat",
+      "depends_on_schema": [
+        "filenavigator_id"
+      ],
+      "depends_on_required": {
+        "filenavigator_id": true
+      }
     },
     "metadata_editor": {
       "fields": [
@@ -3286,7 +3582,11 @@
       "superclasses": [
         "base"
       ],
-      "path": "src/ndi/ndi_common/database_documents/ingestion/metadata_editor.json @origin/main"
+      "path": "src/ndi/ndi_common/database_documents/ingestion/metadata_editor.json @origin/main",
+      "depends_on_template": [],
+      "schema_document_form": "flat",
+      "depends_on_schema": [],
+      "depends_on_required": {}
     },
     "syncrule_mapping": {
       "fields": [
@@ -3309,7 +3609,20 @@
       "superclasses": [
         "base"
       ],
-      "path": "src/ndi/ndi_common/database_documents/ingestion/syncrule_mapping.json @origin/main"
+      "path": "src/ndi/ndi_common/database_documents/ingestion/syncrule_mapping.json @origin/main",
+      "depends_on_template": [
+        "syncgraph_id",
+        "syncrule_id"
+      ],
+      "schema_document_form": "flat",
+      "depends_on_schema": [
+        "syncgraph_id",
+        "syncrule_id"
+      ],
+      "depends_on_required": {
+        "syncgraph_id": true,
+        "syncrule_id": true
+      }
     },
     "measurement": {
       "fields": [
@@ -3333,7 +3646,23 @@
       "superclasses": [
         "base"
       ],
-      "path": "src/ndi/ndi_common/database_documents/measurement.json @origin/main"
+      "path": "src/ndi/ndi_common/database_documents/measurement.json @origin/main",
+      "depends_on_template": [
+        "subject_id",
+        "manipulation_id",
+        "protocol_id"
+      ],
+      "schema_document_form": "flat",
+      "depends_on_schema": [
+        "manipulation_id",
+        "protocol_id",
+        "subject_id"
+      ],
+      "depends_on_required": {
+        "manipulation_id": false,
+        "protocol_id": false,
+        "subject_id": true
+      }
     },
     "openminds": {
       "fields": [
@@ -3355,7 +3684,15 @@
       "superclasses": [
         "base"
       ],
-      "path": "src/ndi/ndi_common/database_documents/metadata/openminds.json @origin/main"
+      "path": "src/ndi/ndi_common/database_documents/metadata/openminds.json @origin/main",
+      "depends_on_template": [],
+      "schema_document_form": "flat",
+      "depends_on_schema": [
+        "openminds"
+      ],
+      "depends_on_required": {
+        "openminds": false
+      }
     },
     "openminds_element": {
       "fields": [],
@@ -3368,7 +3705,17 @@
         "base",
         "openminds"
       ],
-      "path": "src/ndi/ndi_common/database_documents/metadata/openminds_element.json @origin/main"
+      "path": "src/ndi/ndi_common/database_documents/metadata/openminds_element.json @origin/main",
+      "depends_on_template": [
+        "element_id"
+      ],
+      "schema_document_form": "flat",
+      "depends_on_schema": [
+        "element_id"
+      ],
+      "depends_on_required": {
+        "element_id": true
+      }
     },
     "openminds_stimulus": {
       "fields": [],
@@ -3382,7 +3729,17 @@
         "epochid",
         "openminds"
       ],
-      "path": "src/ndi/ndi_common/database_documents/metadata/openminds_stimulus.json @origin/main"
+      "path": "src/ndi/ndi_common/database_documents/metadata/openminds_stimulus.json @origin/main",
+      "depends_on_template": [
+        "stimulus_element_id"
+      ],
+      "schema_document_form": "flat",
+      "depends_on_schema": [
+        "stimulus_element_id"
+      ],
+      "depends_on_required": {
+        "stimulus_element_id": true
+      }
     },
     "openminds_subject": {
       "fields": [],
@@ -3395,7 +3752,17 @@
         "base",
         "openminds"
       ],
-      "path": "src/ndi/ndi_common/database_documents/metadata/openminds_subject.json @origin/main"
+      "path": "src/ndi/ndi_common/database_documents/metadata/openminds_subject.json @origin/main",
+      "depends_on_template": [
+        "subject_id"
+      ],
+      "schema_document_form": "flat",
+      "depends_on_schema": [
+        "subject_id"
+      ],
+      "depends_on_required": {
+        "subject_id": true
+      }
     },
     "mock": {
       "fields": [
@@ -3409,7 +3776,11 @@
       "superclasses": [
         "base"
       ],
-      "path": "src/ndi/ndi_common/database_documents/mock.json @origin/main"
+      "path": "src/ndi/ndi_common/database_documents/mock.json @origin/main",
+      "depends_on_template": [],
+      "schema_document_form": "flat",
+      "depends_on_schema": [],
+      "depends_on_required": {}
     },
     "demoNDIMock": {
       "fields": [],
@@ -3420,7 +3791,11 @@
         "mock",
         "demoNDI"
       ],
-      "path": "src/ndi/ndi_common/database_documents/mock/demoNDIMock.json @origin/main"
+      "path": "src/ndi/ndi_common/database_documents/mock/demoNDIMock.json @origin/main",
+      "depends_on_template": [],
+      "schema_document_form": "flat",
+      "depends_on_schema": [],
+      "depends_on_required": {}
     },
     "neuron_extracellular": {
       "fields": [
@@ -3450,7 +3825,20 @@
         "base",
         "app"
       ],
-      "path": "src/ndi/ndi_common/database_documents/neuron/neuron_extracellular.json @origin/main"
+      "path": "src/ndi/ndi_common/database_documents/neuron/neuron_extracellular.json @origin/main",
+      "depends_on_template": [
+        "element_id",
+        "spike_clusters_id"
+      ],
+      "schema_document_form": "flat",
+      "depends_on_schema": [
+        "element_id",
+        "spike_clusters_id"
+      ],
+      "depends_on_required": {
+        "element_id": true,
+        "spike_clusters_id": false
+      }
     },
     "oneepoch": {
       "fields": [
@@ -3464,7 +3852,11 @@
       "superclasses": [
         "element_epoch"
       ],
-      "path": "src/ndi/ndi_common/database_documents/oneepoch.json @origin/main"
+      "path": "src/ndi/ndi_common/database_documents/oneepoch.json @origin/main",
+      "depends_on_template": [],
+      "schema_document_form": "flat",
+      "depends_on_schema": [],
+      "depends_on_required": {}
     },
     "electrode_offset_voltage": {
       "fields": [
@@ -3482,7 +3874,17 @@
       "superclasses": [
         "base"
       ],
-      "path": "src/ndi/ndi_common/database_documents/probe/electrode_offset_voltage.json @origin/main"
+      "path": "src/ndi/ndi_common/database_documents/probe/electrode_offset_voltage.json @origin/main",
+      "depends_on_template": [
+        "probe_id"
+      ],
+      "schema_document_form": "flat",
+      "depends_on_schema": [
+        "probe_id"
+      ],
+      "depends_on_required": {
+        "probe_id": true
+      }
     },
     "probe_geometry": {
       "fields": [
@@ -3526,7 +3928,17 @@
       "superclasses": [
         "base"
       ],
-      "path": "src/ndi/ndi_common/database_documents/probe/probe_geometry.json @origin/main"
+      "path": "src/ndi/ndi_common/database_documents/probe/probe_geometry.json @origin/main",
+      "depends_on_template": [
+        "probe_id"
+      ],
+      "schema_document_form": "flat",
+      "depends_on_schema": [
+        "probe_id"
+      ],
+      "depends_on_required": {
+        "probe_id": true
+      }
     },
     "probe_location": {
       "fields": [
@@ -3544,7 +3956,17 @@
       "superclasses": [
         "base"
       ],
-      "path": "src/ndi/ndi_common/database_documents/probe/probe_location.json @origin/main"
+      "path": "src/ndi/ndi_common/database_documents/probe/probe_location.json @origin/main",
+      "depends_on_template": [
+        "probe_id"
+      ],
+      "schema_document_form": "flat",
+      "depends_on_schema": [
+        "probe_id"
+      ],
+      "depends_on_required": {
+        "probe_id": true
+      }
     },
     "site2channelmap": {
       "fields": [
@@ -3561,7 +3983,20 @@
       "superclasses": [
         "base"
       ],
-      "path": "src/ndi/ndi_common/database_documents/probe/site2channelmap.json @origin/main"
+      "path": "src/ndi/ndi_common/database_documents/probe/site2channelmap.json @origin/main",
+      "depends_on_template": [
+        "probe_id",
+        "probe_geometry_id"
+      ],
+      "schema_document_form": "flat",
+      "depends_on_schema": [
+        "probe_geometry_id",
+        "probe_id"
+      ],
+      "depends_on_required": {
+        "probe_geometry_id": true,
+        "probe_id": true
+      }
     },
     "projectvar": {
       "fields": [
@@ -3587,7 +4022,17 @@
       "superclasses": [
         "base"
       ],
-      "path": "src/ndi/ndi_common/database_documents/projectvar.json @origin/main"
+      "path": "src/ndi/ndi_common/database_documents/projectvar.json @origin/main",
+      "depends_on_template": [
+        "element_id"
+      ],
+      "schema_document_form": "flat",
+      "depends_on_schema": [
+        "element_id"
+      ],
+      "depends_on_required": {
+        "element_id": true
+      }
     },
     "session": {
       "fields": [
@@ -3601,7 +4046,11 @@
       "superclasses": [
         "base"
       ],
-      "path": "src/ndi/ndi_common/database_documents/session.json @origin/main"
+      "path": "src/ndi/ndi_common/database_documents/session.json @origin/main",
+      "depends_on_template": [],
+      "schema_document_form": "flat",
+      "depends_on_schema": [],
+      "depends_on_required": {}
     },
     "session_in_a_dataset": {
       "fields": [
@@ -3633,7 +4082,11 @@
       "superclasses": [
         "base"
       ],
-      "path": "src/ndi/ndi_common/database_documents/session_in_a_dataset.json @origin/main"
+      "path": "src/ndi/ndi_common/database_documents/session_in_a_dataset.json @origin/main",
+      "depends_on_template": [],
+      "schema_document_form": "flat",
+      "depends_on_schema": [],
+      "depends_on_required": {}
     },
     "SpikeInterfaceSortingOutputs": {
       "fields": [
@@ -3653,7 +4106,11 @@
       "superclasses": [
         "base"
       ],
-      "path": "src/ndi/ndi_common/database_documents/sorting/SpikeInterfaceSortingOutputs.json @origin/main"
+      "path": "src/ndi/ndi_common/database_documents/sorting/SpikeInterfaceSortingOutputs.json @origin/main",
+      "depends_on_template": [],
+      "schema_document_form": "flat",
+      "depends_on_schema": [],
+      "depends_on_required": {}
     },
     "control_stimulus_ids": {
       "fields": [
@@ -3671,7 +4128,17 @@
       "superclasses": [
         "base"
       ],
-      "path": "src/ndi/ndi_common/database_documents/stimulus/control_stimulus_ids.json @origin/main"
+      "path": "src/ndi/ndi_common/database_documents/stimulus/control_stimulus_ids.json @origin/main",
+      "depends_on_template": [
+        "stimulus_presentation_id"
+      ],
+      "schema_document_form": "flat",
+      "depends_on_schema": [
+        "stimulus_presentation_id"
+      ],
+      "depends_on_required": {
+        "stimulus_presentation_id": true
+      }
     },
     "stimulus_bath": {
       "fields": [
@@ -3690,7 +4157,17 @@
         "base",
         "epochid"
       ],
-      "path": "src/ndi/ndi_common/database_documents/stimulus/stimulus_bath.json @origin/main"
+      "path": "src/ndi/ndi_common/database_documents/stimulus/stimulus_bath.json @origin/main",
+      "depends_on_template": [
+        "stimulus_element_id"
+      ],
+      "schema_document_form": "flat",
+      "depends_on_schema": [
+        "stimulus_element_id"
+      ],
+      "depends_on_required": {
+        "stimulus_element_id": true
+      }
     },
     "stimulus_parameter": {
       "fields": [
@@ -3711,7 +4188,17 @@
         "base",
         "epochid"
       ],
-      "path": "src/ndi/ndi_common/database_documents/stimulus/stimulus_parameter.json @origin/main"
+      "path": "src/ndi/ndi_common/database_documents/stimulus/stimulus_parameter.json @origin/main",
+      "depends_on_template": [
+        "stimulus_element_id"
+      ],
+      "schema_document_form": "flat",
+      "depends_on_schema": [
+        "stimulus_element_id"
+      ],
+      "depends_on_required": {
+        "stimulus_element_id": true
+      }
     },
     "stimulus_parameter_table": {
       "fields": [
@@ -3728,7 +4215,17 @@
         "base",
         "epochid"
       ],
-      "path": "src/ndi/ndi_common/database_documents/stimulus/stimulus_parameter_table.json @origin/main"
+      "path": "src/ndi/ndi_common/database_documents/stimulus/stimulus_parameter_table.json @origin/main",
+      "depends_on_template": [
+        "stimulus_element_id"
+      ],
+      "schema_document_form": "flat",
+      "depends_on_schema": [
+        "stimulus_element_id"
+      ],
+      "depends_on_required": {
+        "stimulus_element_id": true
+      }
     },
     "stimulus_presentation": {
       "fields": [
@@ -3751,7 +4248,17 @@
         "base",
         "epochid"
       ],
-      "path": "src/ndi/ndi_common/database_documents/stimulus/stimulus_presentation.json @origin/main"
+      "path": "src/ndi/ndi_common/database_documents/stimulus/stimulus_presentation.json @origin/main",
+      "depends_on_template": [
+        "stimulus_element_id"
+      ],
+      "schema_document_form": "flat",
+      "depends_on_schema": [
+        "stimulus_element_id"
+      ],
+      "depends_on_required": {
+        "stimulus_element_id": true
+      }
     },
     "stimulus_response": {
       "fields": [
@@ -3772,7 +4279,26 @@
       "superclasses": [
         "base"
       ],
-      "path": "src/ndi/ndi_common/database_documents/stimulus/stimulus_response.json @origin/main"
+      "path": "src/ndi/ndi_common/database_documents/stimulus/stimulus_response.json @origin/main",
+      "depends_on_template": [
+        "element_id",
+        "stimulator_id",
+        "stimulus_presentation_id",
+        "stimulus_control_id"
+      ],
+      "schema_document_form": "flat",
+      "depends_on_schema": [
+        "element_id",
+        "stimulator_id",
+        "stimulus_control_id",
+        "stimulus_presentation_id"
+      ],
+      "depends_on_required": {
+        "element_id": true,
+        "stimulator_id": true,
+        "stimulus_control_id": true,
+        "stimulus_presentation_id": true
+      }
     },
     "stimulus_response_scalar": {
       "fields": [
@@ -3791,7 +4317,17 @@
         "base",
         "stimulus_response"
       ],
-      "path": "src/ndi/ndi_common/database_documents/stimulus/stimulus_response_scalar.json @origin/main"
+      "path": "src/ndi/ndi_common/database_documents/stimulus/stimulus_response_scalar.json @origin/main",
+      "depends_on_template": [
+        "stimulus_response_scalar_parameters_id"
+      ],
+      "schema_document_form": "flat",
+      "depends_on_schema": [
+        "stimulus_response_scalar_parameters_id"
+      ],
+      "depends_on_required": {
+        "stimulus_response_scalar_parameters_id": true
+      }
     },
     "stimulus_response_scalar_parameters": {
       "fields": [],
@@ -3801,7 +4337,11 @@
       "superclasses": [
         "base"
       ],
-      "path": "src/ndi/ndi_common/database_documents/stimulus/stimulus_response_scalar_parameters.json @origin/main"
+      "path": "src/ndi/ndi_common/database_documents/stimulus/stimulus_response_scalar_parameters.json @origin/main",
+      "depends_on_template": [],
+      "schema_document_form": "flat",
+      "depends_on_schema": [],
+      "depends_on_required": {}
     },
     "stimulus_response_scalar_parameters_basic": {
       "fields": [
@@ -3826,7 +4366,11 @@
         "base",
         "stimulus_response_scalar_parameters"
       ],
-      "path": "src/ndi/ndi_common/database_documents/stimulus/stimulus_response_scalar_parameters_basic.json @origin/main"
+      "path": "src/ndi/ndi_common/database_documents/stimulus/stimulus_response_scalar_parameters_basic.json @origin/main",
+      "depends_on_template": [],
+      "schema_document_form": "flat",
+      "depends_on_schema": [],
+      "depends_on_required": {}
     },
     "stimulus_tuningcurve": {
       "fields": [
@@ -3873,7 +4417,20 @@
       "superclasses": [
         "base"
       ],
-      "path": "src/ndi/ndi_common/database_documents/stimulus/stimulus_tuningcurve.json @origin/main"
+      "path": "src/ndi/ndi_common/database_documents/stimulus/stimulus_tuningcurve.json @origin/main",
+      "depends_on_template": [
+        "element_id",
+        "stimulus_response_scalar_id"
+      ],
+      "schema_document_form": "flat",
+      "depends_on_schema": [
+        "element_id",
+        "stimulus_response_scalar_id"
+      ],
+      "depends_on_required": {
+        "element_id": true,
+        "stimulus_response_scalar_id": true
+      }
     },
     "orientation_direction_tuning": {
       "fields": [
@@ -3898,7 +4455,20 @@
       "superclasses": [
         "base"
       ],
-      "path": "src/ndi/ndi_common/database_documents/stimulus/vision/oridir/orientation_direction_tuning.json @origin/main"
+      "path": "src/ndi/ndi_common/database_documents/stimulus/vision/oridir/orientation_direction_tuning.json @origin/main",
+      "depends_on_template": [
+        "element_id",
+        "stimulus_tuningcurve_id"
+      ],
+      "schema_document_form": "flat",
+      "depends_on_schema": [
+        "element_id",
+        "stimulus_tuningcurve_id"
+      ],
+      "depends_on_required": {
+        "element_id": true,
+        "stimulus_tuningcurve_id": true
+      }
     },
     "subject": {
       "fields": [
@@ -3914,7 +4484,11 @@
       "superclasses": [
         "base"
       ],
-      "path": "src/ndi/ndi_common/database_documents/subject.json @origin/main"
+      "path": "src/ndi/ndi_common/database_documents/subject.json @origin/main",
+      "depends_on_template": [],
+      "schema_document_form": "flat",
+      "depends_on_schema": [],
+      "depends_on_required": {}
     },
     "subject_group": {
       "fields": [],
@@ -3926,7 +4500,15 @@
       "superclasses": [
         "base"
       ],
-      "path": "src/ndi/ndi_common/database_documents/subject_group.json @origin/main"
+      "path": "src/ndi/ndi_common/database_documents/subject_group.json @origin/main",
+      "depends_on_template": [],
+      "schema_document_form": "flat",
+      "depends_on_schema": [
+        "subject_id"
+      ],
+      "depends_on_required": {
+        "subject_id": false
+      }
     },
     "subjectmeasurement": {
       "fields": [
@@ -3946,7 +4528,17 @@
       "superclasses": [
         "base"
       ],
-      "path": "src/ndi/ndi_common/database_documents/subjectmeasurement.json @origin/main"
+      "path": "src/ndi/ndi_common/database_documents/subjectmeasurement.json @origin/main",
+      "depends_on_template": [
+        "subject_id"
+      ],
+      "schema_document_form": "flat",
+      "depends_on_schema": [
+        "subject_id"
+      ],
+      "depends_on_required": {
+        "subject_id": true
+      }
     },
     "treatment": {
       "fields": [
@@ -3970,7 +4562,23 @@
       "superclasses": [
         "base"
       ],
-      "path": "src/ndi/ndi_common/database_documents/treatment.json @origin/main"
+      "path": "src/ndi/ndi_common/database_documents/treatment.json @origin/main",
+      "depends_on_template": [
+        "subject_id",
+        "manipulation_id",
+        "protocol_id"
+      ],
+      "schema_document_form": "flat",
+      "depends_on_schema": [
+        "manipulation_id",
+        "protocol_id",
+        "subject_id"
+      ],
+      "depends_on_required": {
+        "manipulation_id": false,
+        "protocol_id": false,
+        "subject_id": true
+      }
     },
     "treatment_drug": {
       "fields": [
@@ -3996,7 +4604,17 @@
       "superclasses": [
         "base"
       ],
-      "path": "src/ndi/ndi_common/database_documents/treatment/treatment_drug.json @origin/main"
+      "path": "src/ndi/ndi_common/database_documents/treatment/treatment_drug.json @origin/main",
+      "depends_on_template": [
+        "subject_id"
+      ],
+      "schema_document_form": "flat",
+      "depends_on_schema": [
+        "subject_id"
+      ],
+      "depends_on_required": {
+        "subject_id": true
+      }
     },
     "treatment_transfer": {
       "fields": [
@@ -4023,7 +4641,20 @@
       "superclasses": [
         "base"
       ],
-      "path": "src/ndi/ndi_common/database_documents/treatment/treatment_transfer.json @origin/main"
+      "path": "src/ndi/ndi_common/database_documents/treatment/treatment_transfer.json @origin/main",
+      "depends_on_template": [
+        "recipient_id",
+        "donor_id"
+      ],
+      "schema_document_form": "flat",
+      "depends_on_schema": [
+        "donor_id",
+        "recipient_id"
+      ],
+      "depends_on_required": {
+        "donor_id": false,
+        "recipient_id": true
+      }
     },
     "virus_injection": {
       "fields": [
@@ -4055,7 +4686,17 @@
       "superclasses": [
         "base"
       ],
-      "path": "src/ndi/ndi_common/database_documents/treatment/virus_injection.json @origin/main"
+      "path": "src/ndi/ndi_common/database_documents/treatment/virus_injection.json @origin/main",
+      "depends_on_template": [
+        "subject_id"
+      ],
+      "schema_document_form": "flat",
+      "depends_on_schema": [
+        "subject_id"
+      ],
+      "depends_on_required": {
+        "subject_id": true
+      }
     }
   }
 }

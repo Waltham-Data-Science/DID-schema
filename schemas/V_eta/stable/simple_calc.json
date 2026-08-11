@@ -17,7 +17,8 @@
             "name": "document_id",
             "mustBeNonEmpty": false,
             "documentation": "The input document this calculation was run on. NOT a subject -- resolving the subject through it needs the migrated-id graph, which is why this class is deferred to the NDI second pass rather than migrated here.",
-            "must_refer_to_document_class": "base"
+            "must_refer_to_document_class": "base",
+            "ndi_mustBeNonEmpty": true
         }
     ],
     "file": [],

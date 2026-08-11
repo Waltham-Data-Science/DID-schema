@@ -20,13 +20,15 @@
             "name": "element_id",
             "mustBeNonEmpty": false,
             "documentation": "The recording element, promoted to a subject with its id preserved.",
-            "must_refer_to_document_class": "subject"
+            "must_refer_to_document_class": "subject",
+            "ndi_mustBeNonEmpty": true
         },
         {
             "name": "extraction_parameters_id",
             "mustBeNonEmpty": false,
             "documentation": "The extraction parameters used.",
-            "must_refer_to_document_class": "spike_extraction_parameters"
+            "must_refer_to_document_class": "spike_extraction_parameters",
+            "ndi_mustBeNonEmpty": true
         }
     ],
     "file": [

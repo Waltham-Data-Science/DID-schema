@@ -17,7 +17,8 @@
             "name": "stimulus_presentation_id",
             "mustBeNonEmpty": false,
             "documentation": "Optional pointer to the stimulus_presentation document these control IDs annotate.",
-            "must_refer_to_document_class": "stimulus_presentation"
+            "must_refer_to_document_class": "stimulus_presentation",
+            "ndi_mustBeNonEmpty": true
         }
     ],
     "file": [],

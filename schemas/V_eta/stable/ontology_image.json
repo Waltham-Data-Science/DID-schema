@@ -23,7 +23,8 @@
             "name": "ontology_table_row_id",
             "mustBeNonEmpty": false,
             "documentation": "Vintage B only: the metadata table row giving this image its data context. NOT a subject -- resolving the subject through it is the NDI second pass's job, which is why vintage B is deferred rather than migrated here.",
-            "must_refer_to_document_class": "ontology_table_row"
+            "must_refer_to_document_class": "ontology_table_row",
+            "ndi_mustBeNonEmpty": false
         }
     ],
     "file": [

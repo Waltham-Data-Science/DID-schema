@@ -14,19 +14,22 @@
             "name": "subject_id",
             "mustBeNonEmpty": false,
             "documentation": "The subject measured. The writer always populates this.",
-            "must_refer_to_document_class": "subject"
+            "must_refer_to_document_class": "subject",
+            "ndi_mustBeNonEmpty": true
         },
         {
             "name": "manipulation_id",
             "mustBeNonEmpty": false,
             "documentation": "Optional link to a manipulation. NEVER set by any writer on origin/main.",
-            "must_refer_to_document_class": "subject_manipulation"
+            "must_refer_to_document_class": "subject_manipulation",
+            "ndi_mustBeNonEmpty": false
         },
         {
             "name": "protocol_id",
             "mustBeNonEmpty": false,
             "documentation": "Optional link to a protocol. NEVER set by any writer on origin/main.",
-            "must_refer_to_document_class": "base"
+            "must_refer_to_document_class": "base",
+            "ndi_mustBeNonEmpty": false
         }
     ],
     "file": [],

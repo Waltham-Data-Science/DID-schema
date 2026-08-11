@@ -14,7 +14,8 @@
             "name": "filenavigator_id",
             "mustBeNonEmpty": false,
             "documentation": "The file navigator that produced this manifest -- the edge NDI writes.",
-            "must_refer_to_document_class": "filenavigator"
+            "must_refer_to_document_class": "filenavigator",
+            "ndi_mustBeNonEmpty": true
         }
     ],
     "file": [],

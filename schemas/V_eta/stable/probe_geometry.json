@@ -14,7 +14,8 @@
             "name": "probe_id",
             "mustBeNonEmpty": false,
             "documentation": "The probe this geometry describes, promoted to a subject with its id preserved (device-as-subject, D2). NDI's only dependency here; V_eta had none.",
-            "must_refer_to_document_class": "subject"
+            "must_refer_to_document_class": "subject",
+            "ndi_mustBeNonEmpty": true
         }
     ],
     "file": [],

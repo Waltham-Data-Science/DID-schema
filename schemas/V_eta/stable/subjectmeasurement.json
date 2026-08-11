@@ -14,7 +14,8 @@
             "name": "subject_id",
             "mustBeNonEmpty": false,
             "documentation": "The subject measured. Declared mustbenotempty by NDI.",
-            "must_refer_to_document_class": "subject"
+            "must_refer_to_document_class": "subject",
+            "ndi_mustBeNonEmpty": true
         }
     ],
     "file": [],

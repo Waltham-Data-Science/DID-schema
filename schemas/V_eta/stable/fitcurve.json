@@ -14,7 +14,8 @@
             "name": "fit_example_data_id",
             "mustBeNonEmpty": false,
             "documentation": "Example data for the fit. NDI's ONLY dependency on this class. Left untyped -- the referent class is not established.",
-            "must_refer_to_document_class": ""
+            "must_refer_to_document_class": "",
+            "ndi_mustBeNonEmpty": true
         }
     ],
     "file": [],

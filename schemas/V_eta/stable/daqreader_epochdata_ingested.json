@@ -17,7 +17,8 @@
             "name": "daqreader_id",
             "mustBeNonEmpty": false,
             "documentation": "The DAQ reader whose epoch this caches.",
-            "must_refer_to_document_class": "daqreader"
+            "must_refer_to_document_class": "daqreader",
+            "ndi_mustBeNonEmpty": true
         }
     ],
     "file": [],

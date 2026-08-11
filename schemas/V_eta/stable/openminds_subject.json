@@ -17,7 +17,8 @@
             "name": "subject_id",
             "mustBeNonEmpty": true,
             "documentation": "The document ID of the subject this openMINDS metadata describes.",
-            "must_refer_to_document_class": ""
+            "must_refer_to_document_class": "",
+            "ndi_mustBeNonEmpty": true
         }
     ],
     "file": [],

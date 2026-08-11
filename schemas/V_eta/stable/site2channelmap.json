@@ -14,13 +14,15 @@
             "name": "probe_id",
             "mustBeNonEmpty": false,
             "documentation": "The probe, promoted to a subject with its id preserved.",
-            "must_refer_to_document_class": "subject"
+            "must_refer_to_document_class": "subject",
+            "ndi_mustBeNonEmpty": true
         },
         {
             "name": "probe_geometry_id",
             "mustBeNonEmpty": false,
             "documentation": "The geometry document whose site ordering indexes `map`.",
-            "must_refer_to_document_class": "probe_geometry"
+            "must_refer_to_document_class": "probe_geometry",
+            "ndi_mustBeNonEmpty": true
         }
     ],
     "file": [],

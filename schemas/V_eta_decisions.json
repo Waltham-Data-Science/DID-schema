@@ -553,7 +553,7 @@
         ],
         "packages_missing": [],
         "files_read": 138,
-        "lines_read": 19634,
+        "lines_read": 19701,
         "classes_queried": 31,
         "classes_emitted_as_document_class": 5,
         "ref_kinds": [
@@ -1009,12 +1009,12 @@
         "migrator_file": null,
         "n_consuming_refs": 6,
         "consuming_refs": [
-          "ndi_second_pass/epochAnchorFold.m:269 (guard)",
-          "ndi_second_pass/epochAnchorFold.m:371 (guard)",
-          "ndi_second_pass/epochAnchorFold.m:482 (guard)",
-          "ndi_second_pass/epochAnchorFold.m:483 (field_read)",
-          "ndi_second_pass/epochAnchorFold.m:484 (field_read)",
-          "ndi_second_pass/epochAnchorFold.m:485 (field_read)"
+          "ndi_second_pass/epochAnchorFold.m:273 (guard)",
+          "ndi_second_pass/epochAnchorFold.m:375 (guard)",
+          "ndi_second_pass/epochAnchorFold.m:486 (guard)",
+          "ndi_second_pass/epochAnchorFold.m:487 (field_read)",
+          "ndi_second_pass/epochAnchorFold.m:488 (field_read)",
+          "ndi_second_pass/epochAnchorFold.m:489 (field_read)"
         ],
         "n_emitted_class_refs": 1,
         "emitted_class_refs": [
@@ -1026,7 +1026,7 @@
         "n_emitting_refs": 3,
         "emitting_refs": [
           "migrators_j/syncrule_mapping.m:182 (named)",
-          "ndi_second_pass/epochAnchorFold.m:372 (named)",
+          "ndi_second_pass/epochAnchorFold.m:376 (named)",
           "ndi_second_pass/stimulusBathToBath.m:147 (field_write)"
         ],
         "decided_targets": [],
@@ -1115,9 +1115,9 @@
           "migrators_j/epochfiles_ingested.m:135 (named)",
           "migrators_j/private/jMethodParameters.m:123 (named)",
           "migrators_j/private/jMethodParameters.m:126 (field_write)",
-          "ndi_second_pass/epochAnchorFold.m:375 (named)",
-          "ndi_second_pass/epochAnchorFold.m:464 (named)",
-          "ndi_second_pass/epochAnchorFold.m:468 (named)"
+          "ndi_second_pass/epochAnchorFold.m:379 (named)",
+          "ndi_second_pass/epochAnchorFold.m:468 (named)",
+          "ndi_second_pass/epochAnchorFold.m:472 (named)"
         ],
         "decided_targets": [],
         "decided_targets_built": [],
@@ -1372,8 +1372,8 @@
         "emitting_refs": [
           "migrators_j/fitcurve.m:139 (named)",
           "migrators_j/fitcurve.m:146 (field_write)",
-          "migrators_j/image_stack.m:222 (named)",
-          "migrators_j/image_stack.m:227 (field_write)",
+          "migrators_j/image_stack.m:253 (named)",
+          "migrators_j/image_stack.m:258 (field_write)",
           "migrators_j/jrclust_clusters.m:80 (named)",
           "migrators_j/jrclust_clusters.m:85 (field_write)"
         ],
@@ -1536,7 +1536,7 @@
         "migrator_file": null,
         "n_consuming_refs": 1,
         "consuming_refs": [
-          "ndi_second_pass/epochAnchorFold.m:379 (guard)"
+          "ndi_second_pass/epochAnchorFold.m:383 (guard)"
         ],
         "n_emitted_class_refs": 0,
         "emitted_class_refs": [],
@@ -1547,8 +1547,8 @@
         "emitting_refs": [
           "migrators_j/fitcurve.m:139 (named)",
           "migrators_j/fitcurve.m:145 (field_write)",
-          "migrators_j/image_stack.m:222 (named)",
-          "migrators_j/image_stack.m:226 (field_write)",
+          "migrators_j/image_stack.m:253 (named)",
+          "migrators_j/image_stack.m:257 (field_write)",
           "migrators_j/jrclust_clusters.m:80 (named)",
           "migrators_j/jrclust_clusters.m:84 (field_write)"
         ],

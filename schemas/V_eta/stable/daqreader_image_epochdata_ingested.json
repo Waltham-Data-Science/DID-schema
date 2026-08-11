@@ -20,7 +20,8 @@
             "name": "daqreader_id",
             "mustBeNonEmpty": false,
             "documentation": "The DAQ reader whose epoch this caches. Declared mustbenotempty by NDI; the tombstone previously declared no dependencies at all.",
-            "must_refer_to_document_class": "daqreader"
+            "must_refer_to_document_class": "daqreader",
+            "ndi_mustBeNonEmpty": true
         }
     ],
     "file": [

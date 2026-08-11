@@ -17,7 +17,8 @@
             "name": "stimulus_element_id",
             "mustBeNonEmpty": false,
             "documentation": "The stimulus ELEMENT this table belongs to. NDI's schema marks it required; declared non-required here because the class has no writer anywhere, so no real document is known to populate it.",
-            "must_refer_to_document_class": "subject"
+            "must_refer_to_document_class": "subject",
+            "ndi_mustBeNonEmpty": true
         }
     ],
     "file": [],

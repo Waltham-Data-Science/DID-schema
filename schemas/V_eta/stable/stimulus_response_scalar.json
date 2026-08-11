@@ -17,7 +17,8 @@
             "name": "stimulus_response_scalar_parameters_id",
             "mustBeNonEmpty": true,
             "documentation": "The parameters document that produced these scalar responses. THE DIRECTION MATTERS: in NDI the response points at its parameters, never the reverse. REQUIRED (\"mustbenotempty\": 1), set at tuning_response.m:323. Replaces `stimulus_response_id`, a name no did_v1 document carries.",
-            "must_refer_to_document_class": "stimulus_response_scalar_parameters"
+            "must_refer_to_document_class": "stimulus_response_scalar_parameters",
+            "ndi_mustBeNonEmpty": true
         }
     ],
     "file": [],

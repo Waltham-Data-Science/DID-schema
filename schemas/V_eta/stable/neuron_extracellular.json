@@ -17,13 +17,15 @@
             "name": "element_id",
             "mustBeNonEmpty": true,
             "documentation": "The document ID of the element (e.g., probe) this neuron was recorded from.",
-            "must_refer_to_document_class": "subject"
+            "must_refer_to_document_class": "subject",
+            "ndi_mustBeNonEmpty": true
         },
         {
             "name": "spike_clusters_id",
             "mustBeNonEmpty": false,
             "documentation": "The sorted-cluster document this unit came from. Declared by the NDI template; the tombstone previously listed only element_id.",
-            "must_refer_to_document_class": "spike_clusters"
+            "must_refer_to_document_class": "spike_clusters",
+            "ndi_mustBeNonEmpty": false
         }
     ],
     "file": [],

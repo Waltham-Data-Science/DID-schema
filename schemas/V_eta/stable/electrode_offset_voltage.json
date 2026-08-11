@@ -14,7 +14,8 @@
             "name": "probe_id",
             "mustBeNonEmpty": false,
             "documentation": "The probe, promoted to a subject with its id preserved (device-as-subject, D2).",
-            "must_refer_to_document_class": "subject"
+            "must_refer_to_document_class": "subject",
+            "ndi_mustBeNonEmpty": true
         }
     ],
     "file": [],

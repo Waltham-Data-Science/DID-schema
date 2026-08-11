@@ -14,13 +14,15 @@
             "name": "underlying_element_id",
             "mustBeNonEmpty": false,
             "documentation": "The document ID of the underlying element, if this element derives from another.",
-            "must_refer_to_document_class": "subject"
+            "must_refer_to_document_class": "subject",
+            "ndi_mustBeNonEmpty": false
         },
         {
             "name": "subject_id",
             "mustBeNonEmpty": false,
             "documentation": "The document ID of the subject associated with this element.",
-            "must_refer_to_document_class": ""
+            "must_refer_to_document_class": "",
+            "ndi_mustBeNonEmpty": true
         }
     ],
     "file": [],

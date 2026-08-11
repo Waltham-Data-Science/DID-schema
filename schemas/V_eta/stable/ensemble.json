@@ -20,13 +20,15 @@
             "name": "element_id",
             "mustBeNonEmpty": true,
             "documentation": "The recording element (a subject in V_eta) the ensemble was computed from.",
-            "must_refer_to_document_class": "subject"
+            "must_refer_to_document_class": "subject",
+            "ndi_mustBeNonEmpty": true
         },
         {
             "name": "element_epoch_id",
             "mustBeNonEmpty": false,
             "documentation": "The epoch over which the ensemble was defined.",
-            "must_refer_to_document_class": "acquisition_epoch"
+            "must_refer_to_document_class": "acquisition_epoch",
+            "ndi_mustBeNonEmpty": true
         },
         {
             "name": "neuron_id_#",

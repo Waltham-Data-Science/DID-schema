@@ -14,7 +14,8 @@
             "name": "document_id",
             "mustBeNonEmpty": false,
             "documentation": "NDI's only dependency on this class. Untyped for the same reason as imageStack's.",
-            "must_refer_to_document_class": ""
+            "must_refer_to_document_class": "",
+            "ndi_mustBeNonEmpty": false
         }
     ],
     "file": [],

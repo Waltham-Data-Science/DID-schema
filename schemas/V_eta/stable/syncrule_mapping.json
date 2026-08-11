@@ -14,13 +14,15 @@
             "name": "syncgraph_id",
             "mustBeNonEmpty": true,
             "documentation": "The sync graph these saved rules belong to. REQUIRED in NDI (\"mustbenotempty\": 1) and READ BY A LIVE QUERY (+ndi/+time/syncgraph.m:404-408).",
-            "must_refer_to_document_class": "syncgraph"
+            "must_refer_to_document_class": "syncgraph",
+            "ndi_mustBeNonEmpty": true
         },
         {
             "name": "syncrule_id",
             "mustBeNonEmpty": true,
             "documentation": "The rule that produced this mapping. REQUIRED in NDI (\"mustbenotempty\": 1).",
-            "must_refer_to_document_class": "syncrule"
+            "must_refer_to_document_class": "syncrule",
+            "ndi_mustBeNonEmpty": true
         }
     ],
     "file": [],

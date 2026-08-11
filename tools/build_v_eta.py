@@ -5155,6 +5155,36 @@ _dep_props["referent_unique_by"] = {
                    "indistinguishable (`derived_from_#`: N inputs, no ordering "
                    "and no uniqueness rule has been decided).",
 }
+# ---- NDI's OWN required-ness verdict, recorded alongside ours --------------
+# Stamped by stamp_ndi_required() at the end of this build from
+# V_eta_ndi_ground_truth.json. It is a SEPARATE key from `mustBeNonEmpty`
+# because it is a DIFFERENT FACT: `mustBeNonEmpty` is what V_eta enforces,
+# `ndi_mustBeNonEmpty` is what NDI declared about the did_v1 class this one
+# came from. Merging them would make an armed gate key on a foreign schema's
+# opinion.
+#
+# THE KEY IS OPTIONAL AND ITS ABSENCE MEANS "NDI STATED NOTHING", never
+# "optional". Absence covers three real conditions the stamp counts separately:
+# the class has no did_v1 source at all, the source's schema document is in the
+# JSON Schema form (which has no `mustbenotempty` anywhere), or V_eta renamed
+# or dropped the edge so no name matched. A consumer that reads absence as
+# `false` manufactures agreement out of silence.
+_dep_props["ndi_mustBeNonEmpty"] = {
+    "type": "boolean",
+    "description": "NDI's OWN `mustbenotempty` verdict for the corresponding "
+                   "did_v1 edge, copied verbatim from the class's NDI schema "
+                   "document (schemas/V_eta_ndi_ground_truth.json). REPORT "
+                   "ONLY: nothing validates, quarantines or gates on it -- "
+                   "`mustBeNonEmpty` alone does that, and this key never "
+                   "changes it. It exists so did2.validate.silentLoss can "
+                   "census the edges NDI declares REQUIRED that V_eta declares "
+                   "OPTIONAL, which are otherwise outside every counter: the "
+                   "census reads `mustBeNonEmpty`, so an edge V_eta relaxed is "
+                   "not merely counted as zero, it is not looked at. ABSENT "
+                   "means NDI stated nothing (no did_v1 source, a JSON "
+                   "Schema-form schema document, or no matching edge name) and "
+                   "must not be read as `false`.",
+}
 
 with open(os.path.join(VETA, "stable", "did_schema_meta.json"), "w") as f:
     json.dump(meta, f, indent=4)
@@ -6663,6 +6693,31 @@ if _deleted:
 if _deleted_invented:
     print(f"V_eta delete (no v1 provenance): removed {len(_deleted_invented)}: "
           + ", ".join(sorted(_deleted_invented)))
+
+
+# ---------- NDI REQUIRED-NESS STAMP  (report-only instrumentation) ----------
+# The logic lives in tools/ndi_required_stamp.py so it can be imported and
+# tested WITHOUT running a build. A property that can only be exercised by
+# executing this 6,700-line script is a property nothing tests, and the one
+# thing this stamp must prove is a NEGATIVE -- that it never touches a
+# `mustBeNonEmpty` value.
+#
+# Loaded BY PATH rather than by name: `tools/` is not a package, so an
+# `import ndi_required_stamp` resolves only when the interpreter's cwd happens
+# to put it on sys.path. tests/test_veta.py's `_load_tool` exists for the same
+# reason -- it works in CI and from any directory.
+import importlib.util as _ilu                                      # noqa: E402
+_spec = _ilu.spec_from_file_location(
+    "_veta_ndi_required_stamp", os.path.join(ROOT, "tools", "ndi_required_stamp.py"))
+_nrs = _ilu.module_from_spec(_spec)
+_spec.loader.exec_module(_nrs)
+stamp_ndi_required, render_stamp_report = _nrs.stamp_ndi_required, _nrs.render_stamp_report
+
+_GT_PATH = os.path.join(ROOT, "schemas", "V_eta_ndi_ground_truth.json")
+
+_NDI_REQ = stamp_ndi_required(VETA, _GT_PATH, RENAME, TIERS, META_FILES)
+for _line in render_stamp_report(_NDI_REQ):
+    print(_line)
 
 schemas = []
 for tier in TIERS:

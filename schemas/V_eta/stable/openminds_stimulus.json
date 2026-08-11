@@ -20,7 +20,8 @@
             "name": "stimulus_element_id",
             "mustBeNonEmpty": true,
             "documentation": "The stimulus ELEMENT this openMINDS term describes. Named as NDI's template, schema and writer all name it; the earlier `stimulus_id` was a DID-side invention that no did_v1 document carries.",
-            "must_refer_to_document_class": ""
+            "must_refer_to_document_class": "",
+            "ndi_mustBeNonEmpty": true
         }
     ],
     "file": [],

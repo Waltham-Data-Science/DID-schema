@@ -17,13 +17,15 @@
             "name": "extraction_parameters_id",
             "mustBeNonEmpty": false,
             "documentation": "The parameter set this one revises.",
-            "must_refer_to_document_class": "spike_extraction_parameters"
+            "must_refer_to_document_class": "spike_extraction_parameters",
+            "ndi_mustBeNonEmpty": true
         },
         {
             "name": "element_id",
             "mustBeNonEmpty": false,
             "documentation": "The recording element the revision applies to, promoted to a subject with its id preserved (device-as-subject, D2).",
-            "must_refer_to_document_class": "subject"
+            "must_refer_to_document_class": "subject",
+            "ndi_mustBeNonEmpty": true
         }
     ],
     "file": [],

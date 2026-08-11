@@ -14,7 +14,8 @@
             "name": "element_id",
             "mustBeNonEmpty": false,
             "documentation": "The element this variable is about. The sole writer never populates it, so it is empty on every real document.",
-            "must_refer_to_document_class": "subject"
+            "must_refer_to_document_class": "subject",
+            "ndi_mustBeNonEmpty": true
         }
     ],
     "file": [],

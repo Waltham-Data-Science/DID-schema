@@ -14,7 +14,8 @@
             "name": "element_id",
             "mustBeNonEmpty": true,
             "documentation": "The document ID of the element whose endpoints' distance is described by this metadata.",
-            "must_refer_to_document_class": "subject"
+            "must_refer_to_document_class": "subject",
+            "ndi_mustBeNonEmpty": true
         }
     ],
     "file": [],

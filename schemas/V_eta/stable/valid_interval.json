@@ -17,7 +17,8 @@
             "name": "element_id",
             "mustBeNonEmpty": false,
             "documentation": "The element -- in practice a PROBE, since savevalidinterval errors on anything else (markgarbage.m:76-78) -- whose data these intervals judge. Typed `subject` because migrators_j.element promotes elements to subjects with their ids preserved. NDI's schema marks it mustbenotempty: 1 and the writer always sets it (markgarbage.m:95); declared OPTIONAL here to match every sibling tombstone and because a tombstone must not be the thing that rejects a v1 document.",
-            "must_refer_to_document_class": "subject"
+            "must_refer_to_document_class": "subject",
+            "ndi_mustBeNonEmpty": true
         }
     ],
     "file": [],

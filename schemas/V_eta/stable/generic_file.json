@@ -14,7 +14,8 @@
             "name": "document_id",
             "mustBeNonEmpty": false,
             "documentation": "The document this file belongs to. NDI's ONLY dependency on this class, and its schema marks it mustbenotempty: 0. The writer always sets it -- to a `subject_group` id (plasmid branch) or a subject id (LC-MS branch). Typed `subject` because migrators_j.subject_group folds 1->1 to `subject` carrying the v1 `base` block, so the id is preserved and the edge resolves after migration. Declared OPTIONAL anyway: must_refer is existence-only and a tombstone must not reject a document an older writer produced.",
-            "must_refer_to_document_class": "subject"
+            "must_refer_to_document_class": "subject",
+            "ndi_mustBeNonEmpty": false
         }
     ],
     "file": [
