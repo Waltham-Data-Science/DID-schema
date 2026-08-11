@@ -1001,8 +1001,12 @@ write(_ep_tier, "epoch", _ep)
 # `element_epoch` -> `acquisition_epoch` from check_tombstones before that tool
 # learned to read renames:
 #
-#     DENOMINATOR: 91 NDI templates on origin/main; 242 V_eta classes, 19
+#     DENOMINATOR: 91 NDI templates on origin/main; 243 V_eta classes, 21
 #                  declaring a file; 64 NDI classes have a V_eta home
+#                  (read "242 / 19" until 2026-08-11; the ensemble build added
+#                  a file declaration and image_stack was restored. The same
+#                  counter is quoted in testFileList.m -- re-derive it, do not
+#                  copy it, which is how the pair drifted together.)
 #     MISMATCHES: 5 -- acquisition_epoch (THIS), ensemble, image (all three
 #                  undeclared), jrclust_clusters (declared, no template), and
 #                  `oneepoch`, which is a FALSE POSITIVE: NDI declares the file
