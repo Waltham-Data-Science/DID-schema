@@ -1078,12 +1078,6 @@ def test_the_v_zeta_packages_are_still_excluded():
     mig, src = sb.migrator_evidence(classes, _did_root(), _ndi_root())
     assert mig is not None and src["files_read"], (
         "the sweep read no files -- treat as broken, not as clean")
-    assert src["n_files_excluded_v_zeta"] > 0, (
-        "no file was excluded on V_zeta grounds; the exclusion is either dead "
-        "or unreported, and both look identical from the artifact")
-    for f in src["files_excluded_v_zeta"]:
-        assert any(("/%s/" % p) in f for p in sb.V_ZETA_PACKAGES), f
-
     seen = 0
     for cls, row in mig.items():
         for key in ("consuming_refs", "emitted_class_refs", "field_write_refs",
@@ -1099,6 +1093,12 @@ def test_the_v_zeta_packages_are_still_excluded():
     for site in src["unresolved_mint_sites"]:
         for pkg in sb.V_ZETA_PACKAGES:
             assert ("/%s/" % pkg) not in site, site
+
+    assert src["n_files_excluded_v_zeta"] > 0, (
+        "no file was excluded on V_zeta grounds; the exclusion is either dead "
+        "or unreported, and both look identical from the artifact")
+    for f in src["files_excluded_v_zeta"]:
+        assert any(("/%s/" % p) in f for p in sb.V_ZETA_PACKAGES), f
 
 
 @pytest.mark.skipif(_did_root() is None, reason="DID-matlab not checked out")
@@ -1201,3 +1201,60 @@ def test_an_unresolvable_batch_mint_is_named_and_not_dropped():
         assert site.startswith("DID-matlab:convert/"), site
         assert "(" in site and site.rstrip().endswith(")"), (
             "%r does not name the expression it could not resolve" % site)
+
+
+@pytest.mark.skipif(_did_root() is None, reason="DID-matlab not checked out")
+def test_all_three_mint_idioms_are_recognised_THROUGH_the_batch_root(tmp_path):
+    """The idioms are verified IN the new root, not assumed to carry over.
+
+    Measured on the real files, the batch post-passes use idiom 1 only today --
+    which is exactly the shape of premise that produced the original defect, so
+    it is not left as an assumption. Statements for all three idioms are cut
+    from the real migrators that use them and dropped into a tree laid out like
+    DID-matlab, so the sweep reaches them THROUGH the batch root and files them
+    under the batch group. If a post-pass adopts `classBlock` tomorrow, this
+    already passes.
+
+    The bytes are the migrators' own (`_cut_statement`/`_cut_function`, plain
+    line scans that never call the detector), for the reason stated above the
+    idiom fixtures: a fixture built from the detector's premise cannot catch the
+    detector.
+    """
+    pieces, want = [], set()
+    for idiom, rel, needle, helper in _IDIOM_SOURCES:
+        path = _mig(rel)
+        stmt, _lineno = _cut_statement(path, needle)
+        assert stmt, "%s no longer contains %r" % (rel, needle)
+        pieces.append(stmt)
+        if helper:
+            fn = _cut_function(path, helper)
+            assert fn, "%s no longer defines %s()" % (rel, helper)
+            pieces.append(fn)
+        want.add(re.findall(r"'([a-z_][a-z_0-9]*)'", needle)[-1])
+    assert len(want) > 1, "the idiom sources no longer cover distinct classes"
+
+    root = tmp_path / "DID-matlab"
+    conv = root / "src" / "did" / "+did2" / "+convert"
+    (conv / "+migrators_j").mkdir(parents=True)
+    (conv / "transplanted_post_pass.m").write_text("\n".join(pieces))
+    # A V_zeta package in the same tree, carrying the same statements: the
+    # exclusion must hold even when what it is hiding would otherwise pass.
+    (conv / "+migrators_i").mkdir()
+    (conv / "+migrators_i" / "decoy.m").write_text("\n".join(pieces))
+
+    mig, src = sb.migrator_evidence(want, str(root), None)
+    assert mig is not None, "the batch root was not read at all"
+    assert src["files_read_by_group"][sb.GROUP_BATCH] == 1, (
+        "expected exactly the transplanted file, read %d"
+        % src["files_read_by_group"][sb.GROUP_BATCH])
+    for cls in sorted(want):
+        batch = mig[cls]["by_group"][sb.GROUP_BATCH]
+        assert batch["n_emitted_class_refs"] >= 1, (
+            "%s is minted in the transplanted post-pass and the sweep did not "
+            "see it through the batch root" % cls)
+        assert all("transplanted_post_pass.m" in r
+                   for r in batch["emitted_class_refs"]), (
+            "%s cites something other than the transplanted file: %s"
+            % (cls, batch["emitted_class_refs"]))
+    assert src["n_files_excluded_v_zeta"] == 1, (
+        "the decoy V_zeta file was not excluded")
