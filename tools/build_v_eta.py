@@ -4875,8 +4875,41 @@ _img["fields"] = [
 ]
 write("stable", "image", _img)
 
-write("draft", "image_observation",
-      doc("image_observation", ["subject_observation", "image"], maturity="draft"))
+# `ontology_table_row_id` -- the metadata row that gives this image its data
+# context. Added 2026-08-11 at the team's direction, after image_stack.m was found
+# to DROP the did_v1 `document_id` edge on its fold arm for want of anywhere to put
+# it: image_observation and its seven ancestors declare six edges between them
+# (subject_id, time_reference_#, instrument_id, software_id, method_parameters_id,
+# derived_from_#) and not one means "the metadata row this image belongs to".
+# `derived_from_#` is the near miss and is wrong twice -- typed to
+# `subject_statement` (the row migrates to an `ontology_table_row`) and it asserts
+# COMPUTATION, which this is not.
+#
+# The name is NOT invented: stable/ontology_image.json already declares exactly
+# this edge, with this target class, for the identical relationship.
+#
+# OPTIONAL, and that is load-bearing. There are EIGHT ndi.document('imageStack')
+# sites on NDI origin/main and they form THREE populations, not two:
+#   haley behaviour  (doImport.m 421/461/477/496)  subject_id AND document_id
+#   haley E. coli    (doImport.m 789/811/827)      document_id only -> guard arm
+#   babu             (import.m:474)                subject_id only, NO document_id
+# The babu site reaches the fold arm with no edge to carry, so a REQUIRED edge
+# here would quarantine it -- the invented-empty-edge pattern, with the
+# RequiredDependencies gate now armed and the corpus at 0 over 627,526 documents.
+#
+# Declaring the slot does not by itself carry anything: migrators_j/image_stack.m
+# still drops the edge, and `testImageStackFoldDropsDocumentIdForWantOfASlot` pins
+# that. The carry is the follow-up, and it must be conditional on the edge being
+# present in the source.
+_img_obs = doc("image_observation", ["subject_observation", "image"], maturity="draft")
+_img_obs["depends_on"] = list(_img_obs.get("depends_on") or []) + [
+    dep("ontology_table_row_id", "ontology_table_row", non_empty=False,
+        doc=("The metadata table row giving this image its data context (e.g. the "
+             "behaviour plate row carrying its OD600 / CFU / lawn-volume "
+             "covariates). NOT a subject, and NOT provenance: it is the row the "
+             "did_v1 `document_id` edge named. Optional -- the babu writer emits "
+             "an imageStack with a subject and no such row."))]
+write("draft", "image_observation", _img_obs)
 # image_manipulation: an image/video SHOWN to the subject as a visual stimulus (raster
 # sibling of visual_grating_manipulation, which is a parametric stimulus). image model
 # decision 2 (V_eta_image_model_plan.md). Referenced by a timed_sequence as one presented

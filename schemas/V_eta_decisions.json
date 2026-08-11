@@ -553,7 +553,7 @@
         ],
         "packages_missing": [],
         "files_read": 138,
-        "lines_read": 19270,
+        "lines_read": 19634,
         "classes_queried": 31,
         "classes_emitted_as_document_class": 5,
         "ref_kinds": [
@@ -1011,10 +1011,10 @@
         "consuming_refs": [
           "ndi_second_pass/epochAnchorFold.m:269 (guard)",
           "ndi_second_pass/epochAnchorFold.m:371 (guard)",
-          "ndi_second_pass/epochAnchorFold.m:474 (guard)",
-          "ndi_second_pass/epochAnchorFold.m:475 (field_read)",
-          "ndi_second_pass/epochAnchorFold.m:476 (field_read)",
-          "ndi_second_pass/epochAnchorFold.m:477 (field_read)"
+          "ndi_second_pass/epochAnchorFold.m:482 (guard)",
+          "ndi_second_pass/epochAnchorFold.m:483 (field_read)",
+          "ndi_second_pass/epochAnchorFold.m:484 (field_read)",
+          "ndi_second_pass/epochAnchorFold.m:485 (field_read)"
         ],
         "n_emitted_class_refs": 1,
         "emitted_class_refs": [
@@ -1116,8 +1116,8 @@
           "migrators_j/private/jMethodParameters.m:123 (named)",
           "migrators_j/private/jMethodParameters.m:126 (field_write)",
           "ndi_second_pass/epochAnchorFold.m:375 (named)",
-          "ndi_second_pass/epochAnchorFold.m:456 (named)",
-          "ndi_second_pass/epochAnchorFold.m:460 (named)"
+          "ndi_second_pass/epochAnchorFold.m:464 (named)",
+          "ndi_second_pass/epochAnchorFold.m:468 (named)"
         ],
         "decided_targets": [],
         "decided_targets_built": [],
@@ -1333,14 +1333,14 @@
         "consuming_refs": [],
         "n_emitted_class_refs": 1,
         "emitted_class_refs": [
-          "migrators_j/ontology_table_row.m:262 (emitted_class)"
+          "migrators_j/ontology_table_row.m:270 (emitted_class)"
         ],
         "emission_counts_as_build": false,
         "retired_by_decision_in_favour_of": "relative_reference",
         "emission_discounted": "minted at 1 site(s), NOT counted as build progress: the signed decision retires this class in favour of `relative_reference`, so an emission is work still to undo",
         "n_emitting_refs": 1,
         "emitting_refs": [
-          "migrators_j/ontology_table_row.m:268 (field_write)"
+          "migrators_j/ontology_table_row.m:276 (field_write)"
         ],
         "decided_targets": [],
         "decided_targets_built": [],
@@ -1361,7 +1361,7 @@
         "consuming_refs": [],
         "n_emitted_class_refs": 3,
         "emitted_class_refs": [
-          "migrators_j/ontology_table_row.m:669 (emitted_class)",
+          "migrators_j/ontology_table_row.m:813 (emitted_class)",
           "migrators_j/private/jSessionAnchor.m:19 (emitted_class)",
           "migrators_j/treatment_transfer.m:101 (emitted_class)"
         ],
@@ -1372,8 +1372,8 @@
         "emitting_refs": [
           "migrators_j/fitcurve.m:139 (named)",
           "migrators_j/fitcurve.m:146 (field_write)",
-          "migrators_j/image_stack.m:132 (named)",
-          "migrators_j/image_stack.m:137 (field_write)",
+          "migrators_j/image_stack.m:222 (named)",
+          "migrators_j/image_stack.m:227 (field_write)",
           "migrators_j/jrclust_clusters.m:80 (named)",
           "migrators_j/jrclust_clusters.m:85 (field_write)"
         ],
@@ -1547,8 +1547,8 @@
         "emitting_refs": [
           "migrators_j/fitcurve.m:139 (named)",
           "migrators_j/fitcurve.m:145 (field_write)",
-          "migrators_j/image_stack.m:132 (named)",
-          "migrators_j/image_stack.m:136 (field_write)",
+          "migrators_j/image_stack.m:222 (named)",
+          "migrators_j/image_stack.m:226 (field_write)",
           "migrators_j/jrclust_clusters.m:80 (named)",
           "migrators_j/jrclust_clusters.m:84 (field_write)"
         ],

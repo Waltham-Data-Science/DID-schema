@@ -12,7 +12,14 @@
         ],
         "maturity_level": "draft"
     },
-    "depends_on": [],
+    "depends_on": [
+        {
+            "name": "ontology_table_row_id",
+            "mustBeNonEmpty": false,
+            "documentation": "The metadata table row giving this image its data context (e.g. the behaviour plate row carrying its OD600 / CFU / lawn-volume covariates). NOT a subject, and NOT provenance: it is the row the did_v1 `document_id` edge named. Optional -- the babu writer emits an imageStack with a subject and no such row.",
+            "must_refer_to_document_class": "ontology_table_row"
+        }
+    ],
     "file": [],
     "fields": []
 }
