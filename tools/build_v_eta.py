@@ -193,15 +193,41 @@ DELETE = {"scalar_observation", "scalar_manipulation", "annotation", "group_assi
           # zarr_implicit manifest; ephys_zarr/image_zarr are stable/corpus-risky
           # and dataseries_pyramid pairs with pyraview -> slice D.)
           "dataseries_data", "timeseries_data", "imageseries_data",
-          # 2.D slice D (image_collection): a bag of image files. Nothing creates
-          # it -- 0 references in NDI-matlab or DID-matlab, not a did_v1 source
-          # class -- so like generic_file it dissolves schema-only, with the corpus
-          # run as the presence probe. Intended fold: -> opaque_body (the image
-          # bytes as an uninterpreted attachment). If the probe ever quarantines
-          # (a historical corpus carries one), add a migrators_j split that mints an
-          # image_observation of its element_id subject + an opaque_body. `image`
-          # itself STAYS (it is image_observation's geometry mixin -- checked).
-          "image_collection",
+          # `image_collection` WAS HERE, and is deliberately not, as of
+          # 2026-08-11 (team decision: treat it as a tombstone). The comment that
+          # stood here read "a bag of image files. Nothing creates it -- 0
+          # references in NDI-matlab or DID-matlab, NOT A did_v1 SOURCE CLASS --
+          # so like generic_file it dissolves schema-only". Three problems, and
+          # the middle one is the operating-rule violation:
+          #
+          #   (1) "not a did_v1 source class" is FALSE. The template ships on NDI
+          #       origin/main and coverage.py counts it as one of the 102 v1
+          #       sources -- it is one of the four UNVERIFIED rows, by name.
+          #
+          #         $ git -C NDI-matlab grep -l -i imagecollection origin/main
+          #         origin/main:src/ndi/ndi_common/database_documents/data/image.json
+          #         origin/main:src/ndi/ndi_common/database_documents/data/imageCollection.json
+          #         origin/main:src/ndi/ndi_common/schema_documents/data/imageCollection_schema.json
+          #         origin/main:src/ndi/ndi_common/schema_documents/data/image_schema.json
+          #
+          #   (2) "like generic_file it dissolves schema-only" -- generic_file came
+          #       OUT of this set on 2026-08-10, for this exact reason. The
+          #       comparison outlived the thing it compared to.
+          #
+          #   (3) "mints an image_observation of its ELEMENT_ID subject" reads a
+          #       field NDI's template does not have. imageCollection depends on
+          #       `subject_id`; `element_id` is the V_alpha snapshot's invention
+          #       (schemas/V_alpha/imageCollection.json), carried into V_zeta along
+          #       with `collection_file`, `num_images`, `image_format` and
+          #       `description` -- FIVE names, none of which is in NDI. The
+          #       V_zeta shape and NDI's shape have NOTHING in common but `base`.
+          #
+          # Nothing WRITES one today (0 of 1002 .m files on origin/main, all three
+          # spellings), and per the standing rule that is not a bound: a class no
+          # in-tree writer produces is precisely the one that arrives from a
+          # dataset nobody has migrated yet, and the corpora are a SAMPLE. With no
+          # schema, such a document quarantines. Restated below as a SOURCE
+          # TOMBSTONE from the template -- search `_tombstone("image_collection"`.
           # 2.D slice D orphans: ephys_zarr / image_zarr / dataseries_pyramid are
           # forward-looking zarr/pyramid subtypes with NO source -- 0 refs in NDI,
           # 0 migrators, no v1 doc definition -- so 0 corpus presence. Like
@@ -4562,6 +4588,85 @@ _tombstone(
             " literal `.ext` -- the real extension is recoverable only from"
             " `filename`, which is what downloadGenericFiles.m:107-126 does.")])
 
+# ---- image_collection ----------------------------------------------------
+# TEAM DECISION 2026-08-11: treat `imageCollection` as a tombstone. It is the
+# migration's one genuine unhomed class -- no V_eta home, no migrator -- and two
+# INDEPENDENT instruments already say so: the coverage ledger's UNVERIFIED row
+# and the NDI required-ness stamp's NOT-COMPARED bucket. It came out of DELETE
+# in the same change; the corrected record of what that comment claimed is up
+# there, not repeated here.
+#
+# WRITER CHECK, NDI origin/main -- AND THIS ONE HAS NO WRITER, WHICH IS ITSELF
+# THE FINDING. Stated as the commands, with the denominator first, because the
+# whole claim rests on a zero and this repository has twice reported a zero that
+# was a property of the query (`demo_ndi` against a repo that spells it
+# `demoNDI`; `valid_interval` against one call idiom out of several):
+#
+#   $ git -C NDI-matlab ls-tree -r origin/main --name-only | grep -c '\.m$'
+#   1002                                            <- the denominator
+#   $ git -C NDI-matlab grep -l -i imageCollection      origin/main -- '*.m' | wc -l
+#   0
+#   $ git -C NDI-matlab grep -l    image_collection     origin/main -- '*.m' | wc -l
+#   0
+#   $ git -C NDI-matlab grep -l -i imagecollection      origin/main -- '*.m' | wc -l
+#   0
+#
+# All three spellings, over every .m file on origin/main: 0. No construction
+# site, no reader, no name mention. So THE TEMPLATE IS THE ONLY EVIDENCE THERE
+# IS -- there is no writer to check it against, and the standing rule "where
+# template and WRITER disagree the WRITER wins" simply cannot fire here. Every
+# field, type and dependency below therefore comes from the NDI pair and nothing
+# else, and that is a weaker footing than `generic_file`'s two live call sites.
+# Say so rather than let the tombstone read as equally well-founded.
+#
+#   database_documents/data/imageCollection.json      (the property template)
+#       superclasses  base
+#       depends_on    subject_id
+#       imageCollection { label, format }
+#   schema_documents/data/imageCollection_schema.json (types + requiredness)
+#       depends_on    subject_id   mustbenotempty: 0
+#       label   string   queryable 1
+#       format  string   queryable 1
+#
+# NO `files` BLOCK, IN EITHER FILE -- and that is the point at which the
+# image_stack defect of 2026-08-10 would repeat if this were written from the
+# V_zeta shape instead. V_zeta declares a file named `collection_file`, inherited
+# from schemas/V_alpha/imageCollection.json; NDI declares no file at all.
+# universalRenames SKIPS the structural keys outright (`skip =
+# {'document_class','depends_on','file','files'}`, DID-matlab
+# +did2/+convert/universalRenames.m:308), so a file name reaches validation in
+# did_v1 spelling, VERBATIM -- which means declaring one NDI does not write is
+# not a harmless extra, it is `did2.validate.fileList` comparing by exact strcmp
+# against a slot no document fills. So: `files=()`, deliberately, and if a real
+# document ever turns up carrying an attachment, its NDI-side name is what goes
+# here -- not a snake_cased invention.
+#
+# `image.json` declares an `imageCollection_id` dependency, which is the only
+# thing in NDI that points at this class. V_eta's `image` is the R6 data_type and
+# carries no dependencies at all, so nothing here needs to resolve that edge; it
+# is recorded because it is why the class exists.
+#
+# Everything is OPTIONAL. NDI's own schema marks the single dependency
+# `mustbenotempty: 0`, and with no writer there is no evidence any field is
+# reliably populated -- a required field would be this tombstone quarantining the
+# documents it exists to preserve, which is the whole failure mode of the
+# Phase-2b sweep.
+_tombstone(
+    "image_collection", ["base"],
+    [dep("subject_id", "subject",
+         "The subject the collected images depict. NDI's ONLY dependency on this"
+         " class, and its schema marks it mustbenotempty: 0. NOT `element_id` --"
+         " that name comes from the V_alpha snapshot (schemas/V_alpha/"
+         "imageCollection.json) and appears in no NDI template.",
+         non_empty=False)],
+    [field("label", "string",
+           "A text label associated with the image collection. NDI's own"
+           " documentation string; typed `string` by imageCollection_schema.json."),
+     field("format", "string",
+           "The format of the imageCollection (e.g. 'tiff', 'svs', 'czi'). NDI's"
+           " own documentation string and examples. NOT `image_format` -- that"
+           " spelling is the V_alpha snapshot's, not NDI's.")])
+
 # ---- valid_interval ------------------------------------------------------
 # WRITER CHECK, NDI origin/main. The call-idiom trap reproduces exactly:
 #
@@ -6544,7 +6649,14 @@ _RET_SOURCES = {"element", "openminds", "openminds_subject", "openminds_element"
     #                   observation of the subject nor a manipulation of it. The
     #                   time-reference plan reasons about it; its build is deferred.
     # Both awaiting a TEAM decision, exactly like subjectmeasurement above.
-    "generic_file", "valid_interval"}
+    "generic_file", "valid_interval",
+    # THE THIRD, added 2026-08-11 -- and the one with the least behind it.
+    # `image_collection` had no V_eta schema and no migrator either, but unlike
+    # the two above it also has NO WRITER anywhere in NDI (0 of 1002 .m files on
+    # origin/main, all three spellings), so its tombstone is built from the
+    # template alone. It is a v1 SOURCE name holding v1 documents, never a
+    # go-forward class; the model call is open, exactly like the two above.
+    "image_collection"}
 # The abstract dataseries_observation branch collapses into the quantity data-type
 # leaves + data_body (§A.9): a body-backed series is <quantity>_observation +
 # storage_mode:body, not a series-observation class. dataseries_observation is

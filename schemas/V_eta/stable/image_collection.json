@@ -1,0 +1,50 @@
+{
+    "document_class": {
+        "class_name": "image_collection",
+        "class_version": "2.0.0",
+        "superclasses": [
+            {
+                "class_name": "base"
+            }
+        ],
+        "maturity_level": "stable"
+    },
+    "depends_on": [
+        {
+            "name": "subject_id",
+            "mustBeNonEmpty": false,
+            "documentation": "The subject the collected images depict. NDI's ONLY dependency on this class, and its schema marks it mustbenotempty: 0. NOT `element_id` -- that name comes from the V_alpha snapshot (schemas/V_alpha/imageCollection.json) and appears in no NDI template.",
+            "must_refer_to_document_class": "subject",
+            "ndi_mustBeNonEmpty": false
+        }
+    ],
+    "file": [],
+    "fields": [
+        {
+            "name": "label",
+            "type": "string",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "A text label associated with the image collection. NDI's own documentation string; typed `string` by imageCollection_schema.json.",
+            "constraints": {}
+        },
+        {
+            "name": "format",
+            "type": "string",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "The format of the imageCollection (e.g. 'tiff', 'svs', 'czi'). NDI's own documentation string and examples. NOT `image_format` -- that spelling is the V_alpha snapshot's, not NDI's.",
+            "constraints": {}
+        }
+    ]
+}

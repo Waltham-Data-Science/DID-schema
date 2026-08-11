@@ -458,16 +458,57 @@ def test_the_genuine_hole_bucket_holds_only_classes_with_no_migrator_row():
 
     MUTATION: fall through to this cause when a row exists but names nothing
     -> `imageStack_parameters`-shaped rows join it and this fails.
+
+    THE BUCKET IS EMPTY AS OF 2026-08-11, AND THAT IS A RESULT, NOT A DEFAULT.
+    This test used to assert the bucket was NON-empty, on the reasoning that
+    "every source is homed would be news" and an empty alarm bucket is more
+    often a stopped instrument than a solved problem -- the `silentLoss`
+    failure, where "0 empty edges" meant "read nothing for two days".
+
+    `imageCollection` was its ONLY member, and it was tombstoned by team
+    decision, so it now resolves to a V_eta class and never reaches the cause
+    classification at all. MEASURED, both trees, same tool:
+
+        DENOMINATOR: 91 NDI classes read, 57 carrying a required-ness verdict
+        before   classes_with_no_v_eta_class 10   no_home_no_migrator 1  [imageCollection]
+        after    classes_with_no_v_eta_class  9   no_home_no_migrator 0  []
+        every other cause bucket byte-identical: source_deleted 5,
+        folds_to_target 3, second_pass_only 1, migrator_emits_nothing 0,
+        cause_undetermined 0
+
+    So the emptiness is REPLACED, not deleted: the assertion below now demands
+    that the classifier demonstrably RAN and partitioned real classes, which is
+    the property the old non-emptiness check was standing in for. An instrument
+    that stopped running produces an empty `unresolved_classes` and fails here;
+    an instrument that is working and finds nothing left to alarm about does not.
     """
     d = _run_stamp_with_causes()
     mt = _targets_map()
+
+    # THE INSTRUMENT RAN -- asserted before the bucket is read, so "found
+    # nothing" and "looked at nothing" cannot produce the same verdict.
+    assert d["ndi_classes_read"] > 50, (
+        "only %d NDI class(es) read -- the extract, not the bucket, is the "
+        "problem" % d["ndi_classes_read"])
+    assert d["unresolved_classes"], (
+        "NO class is unresolved at all. Every did_v1 source having a V_eta home "
+        "would be real news and this test should be revisited -- but the far "
+        "likelier cause is that the classification stopped running.")
+    assert NRS.partition_failures(d) == [], NRS.partition_failures(d)
+
     named = [r.split(" (")[0]
              for r in d["unresolved_by_cause"]["no_home_no_migrator"]]
-    assert named, (
-        "the bucket is empty -- either every source is homed, which would be "
-        "news, or the classification stopped running")
     for cn in named:
         assert cn not in mt and NRS.ndi_snake(cn) not in mt, cn
+
+    # AND THE EMPTINESS ITSELF IS PINNED, so it is an event either way. Refilling
+    # this bucket means a did_v1 source is stranding again; that must be read,
+    # not absorbed.
+    assert named == [], (
+        "`no_home_no_migrator` has %d member(s) again: %s. A did_v1 source with "
+        "no V_eta home and no migrator STRANDS -- its documents are lost on "
+        "migration. The bucket was emptied on 2026-08-11 by tombstoning "
+        "`imageCollection`, its only member." % (len(named), named))
 
 
 def test_a_renamed_edge_and_a_dropped_edge_are_different_facts():

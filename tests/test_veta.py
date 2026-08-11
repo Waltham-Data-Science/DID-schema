@@ -595,13 +595,99 @@ def test_dataseries_carrier_family_dissolved():
     assert "content_hash" in sampled_fields
 
 
-def test_image_collection_dissolved_image_kept():
-    """2.D slice D: image_collection (a bag of image files, created by nothing)
-    dissolves schema-only (intended fold -> opaque_body). image itself STAYS --
-    it is image_observation's geometry mixin."""
-    assert "image_collection" not in RECORDS
+def test_image_collection_is_a_tombstone_not_a_dissolution():
+    """INVERTED 2026-08-11, not updated -- the old assertion WAS the old premise.
+
+    This test read `assert "image_collection" not in RECORDS`, and it passed for
+    as long as it did because it was written from the same belief as the build
+    comment it guarded: that nothing creates the class, so nothing can strand.
+    A test written from the code's own premise cannot catch the code. Team
+    decision 2026-08-11: give it a v1-shaped tombstone, because a class no
+    in-tree writer produces is exactly the one that arrives from a dataset
+    nobody has migrated yet, and with no schema such a document quarantines.
+
+    `image` itself is UNAFFECTED and is asserted alongside, so that a build which
+    deleted the wrong one of the two would fail here rather than half-pass.
+    """
+    assert "image_collection" in RECORDS, (
+        "image_collection is a did_v1 SOURCE class with an NDI template and no "
+        "migrator; deleting its schema is the stranding case")
     assert "image" in RECORDS
     assert "image" in _chain("image_observation")
+
+
+def test_image_collection_tombstone_matches_the_ndi_ground_truth_artifact():
+    """Denominator-first, and BOTH directions -- the image_stack lesson.
+
+    `image_stack`'s restatement got NDI's deps and fields right and then declared
+    a file NDI does not write while leaving the file it does write undeclared:
+    both directions of the audit at once, on every passed-through document. So
+    this compares by EQUALITY, not by subset. A tombstone that declares more than
+    NDI does is a `did2:validation:undeclaredField` waiting to happen from the
+    other side -- and for this class the surplus is not hypothetical, since the
+    V_alpha snapshot it was carried in on (schemas/V_alpha/imageCollection.json)
+    declares FIVE names NDI has never had: `element_id`, `collection_file`,
+    `num_images`, `image_format`, `description`.
+
+    The generated artifact is the authority; this test is prose about it.
+    """
+    # KEYED BY NDI'S OWN SPELLING. The artifact is an extract of NDI, so its keys
+    # are camelCase; V_eta is snake_case. Looking this up as `image_collection`
+    # would be the `demo_ndi` failure -- a lookup that cannot match, reported as
+    # an absence.
+    gt = _ndi_ground_truth()["classes"]["imageCollection"]
+    rec = RECORDS["image_collection"][1]
+
+    # denominator, stated before any verdict
+    assert (len(gt["depends_on"]), len(gt["fields"]), len(gt["files"])) == (1, 2, 0), (
+        "the NDI ground truth for imageCollection changed shape (%d dep(s), "
+        "%d field(s), %d file(s)) -- re-read the template before trusting this"
+        % (len(gt["depends_on"]), len(gt["fields"]), len(gt["files"])))
+
+    ours_deps = {d["name"] for d in rec["depends_on"]}
+    ours_fields = {f["name"] for f in rec["fields"]}
+    ours_files = {f["name"] for f in rec.get("file", [])}
+    ours_supers = [s["class_name"] for s in rec["document_class"]["superclasses"]]
+
+    assert ours_deps == set(gt["depends_on"]), (
+        "depends_on diverges from NDI: missing %r, invented %r"
+        % (sorted(set(gt["depends_on"]) - ours_deps),
+           sorted(ours_deps - set(gt["depends_on"]))))
+    assert ours_fields == set(gt["fields"]), (
+        "fields diverge from NDI: missing %r, invented %r"
+        % (sorted(set(gt["fields"]) - ours_fields),
+           sorted(ours_fields - set(gt["fields"]))))
+    assert ours_supers == gt["superclasses"], (
+        "superclass chain diverges from NDI: %r vs %r"
+        % (ours_supers, gt["superclasses"]))
+
+    # THE FILE BLOCK, asserted separately from the sets above because it is the
+    # one part universalRenames carries through VERBATIM (skip = {'document_class',
+    # 'depends_on', 'file', 'files'}, DID-matlab +did2/+convert/universalRenames.m:308)
+    # and `did2.validate.fileList` compares it by exact strcmp. NDI declares NO
+    # file for this class; V_zeta declared `collection_file`.
+    assert ours_files == set(gt["files"]) == set(), (
+        "NDI's imageCollection declares no file; this tombstone declares %r. A "
+        "file name is did_v1 spelling carried through verbatim -- declaring one "
+        "no document has is the image_stack defect repeated." % sorted(ours_files))
+
+
+def test_image_collection_tombstone_requires_nothing():
+    """A tombstone must not quarantine the documents it exists to preserve.
+
+    There is NO WRITER for this class anywhere in NDI (0 of 1002 .m files on
+    origin/main, all three spellings), so nothing establishes that any field is
+    reliably populated -- and NDI's own schema marks the single dependency
+    `mustbenotempty: 0`. Requiring anything here would be inventing a guarantee
+    from a template, which is the wrong-assumed-shape failure that produced the
+    ~2,078 distance_metadata quarantines.
+    """
+    rec = RECORDS["image_collection"][1]
+    req_deps = [d["name"] for d in rec["depends_on"] if d.get("mustBeNonEmpty")]
+    req_fields = [f["name"] for f in rec["fields"] if f.get("mustBeNonEmpty")]
+    assert not req_deps and not req_fields, (
+        "required with no writer to justify it -- deps %r, fields %r"
+        % (req_deps, req_fields))
 
 
 def test_zarr_pyramid_orphans_dissolved():
@@ -2164,6 +2250,166 @@ def test_ngrid_may_not_be_retired_while_consumers_exist():
         "-- `hartley_calc` reaches ngrid through reverse_correlation, so the "
         "chain is hartley_calc -> hartley_reverse_correlation -> "
         "reverse_correlation -> ngrid." % (consumers,))
+
+
+def test_sampled_body_axes_has_no_slot_for_ngrid_coordinates():
+    """#47's GUARD 2, made executable — the reason the ngrid fold REFUSES a
+    document carrying explicit coordinate positions.
+
+    TEAM DECISION (2026-08-11): "The ngrid documents should be migrated into
+    sampled_bodys." `V_eta_image_model_plan.md` R4 spells out the mapping and
+    sends `ngrid.coordinates` to `axes[k].values`.
+
+    THAT FIELD DOES NOT EXIST. It belongs to the data_body tier (#45), which is
+    blocked on #32; `V_eta_ngrid_family_findings.md` F3b records the same gap and
+    is explicit that the repair is neither decided nor built. So a fold today has
+    nowhere to put real positions, and folding anyway would DELETE them — which
+    is exactly the loss `+migrators_j/+super/ngrid.m` was written to stop,
+    arriving through a different door.
+
+    `DID-matlab .../+migrators_j/private/jNgridBody.m` therefore folds only when
+    the coordinates are absent, empty, or `mat2ngrid`'s default index vector
+    (recoverable from `data_dim`), and raises
+    `did2:convert:ngridCoordinatesHaveNoHome` otherwise.
+
+    THIS TEST IS THAT GUARD'S PREMISE, AND IT IS DELIBERATELY TWO-WAY. The
+    migrator half asserts the refusal; nothing asserted WHY. When #45 lands the
+    slot, this test fails — which is the signal that the refusal can be relaxed,
+    rather than a guard quietly outliving its reason. That is the failure mode
+    this repo keeps paying for: a justification that was true when written and
+    stale for the nineteen days after.
+    """
+    assert "sampled_body" in RECORDS, "sampled_body is the ngrid fold's target"
+    _tier, body = RECORDS["sampled_body"]
+    axes = [f for f in body["fields"] if f["name"] == "axes"]
+    assert len(axes) == 1, "sampled_body must declare exactly one `axes` field"
+    sub = [s["name"] for s in axes[0].get("fields", [])]
+    # DENOMINATOR FIRST: without it an empty sub-field list passes vacuously,
+    # which would read as "no coordinate slot" when it really means "read
+    # nothing".
+    assert len(sub) >= 4, (
+        "only %d axis sub-field(s) read (%r) -- too few to conclude anything "
+        "about a coordinate slot" % (len(sub), sub))
+    coordinate_slots = [n for n in sub if n in ("values", "coordinates", "positions")]
+    assert not coordinate_slots, (
+        "`sampled_body.axes[]` now declares %r. If #45 has landed the coordinate "
+        "array, the ngrid fold's refusal (jNgridBody, "
+        "`did2:convert:ngridCoordinatesHaveNoHome`) is no longer necessary and "
+        "must be replaced by the carry — update BOTH halves, they are lockstep."
+        % (coordinate_slots,))
+
+
+def test_the_ngrid_fold_targets_exist_and_can_hold_what_the_fold_emits():
+    """The schema half of the #47 fold, checked against what the migrator emits.
+
+    `migrators_j/ontology_image.m` mints an `image_observation` + a
+    `sampled_body` on its subject-bearing arm. Both halves are LOCKSTEP: the
+    migrator alone would quarantine every folded document, and this side alone
+    would be an unused declaration. The migrator's own tests run under MATLAB
+    only; this is the half that runs everywhere.
+
+    Asserted from the BUILT set, so it cannot go stale the way a comment does.
+    """
+    assert len(RECORDS) > 200, f"only {len(RECORDS)} schemas loaded"
+
+    # the statement the team named
+    assert "image_observation" in RECORDS
+    _t, obs = RECORDS["image_observation"]
+    assert not obs["document_class"].get("abstract"), (
+        "image_observation is the minted class; an abstract one cannot be "
+        "instantiated (cache.m raises did2:validation:abstractInstantiation)")
+    supers = [s["class_name"] for s in obs["document_class"]["superclasses"]]
+    assert supers == ["subject_observation", "image"], (
+        "the migrator emits exactly these direct superclasses; got %r" % (supers,))
+
+    # the body it is bound to
+    _t, sb = RECORDS["sampled_body"]
+    assert not sb["document_class"].get("abstract")
+    edges = {e["name"]: e for e in sb.get("depends_on", [])}
+    assert edges["statement"]["mustBeNonEmpty"] is True, (
+        "the fold binds the body to the image_observation through `statement`; "
+        "an optional edge here would let a body be minted belonging to nobody")
+
+    # `datum.kind` must admit 'array' -- an ngrid is an N-D grid by definition,
+    # and this is an ENUM, so a wrong word quarantines every folded body.
+    datum = [f for f in sb["fields"] if f["name"] == "datum"][0]
+    kind = [s for s in datum["fields"] if s["name"] == "kind"][0]
+    assert "array" in kind["constraints"]["enum"], (
+        "sampled_body.datum.kind no longer admits 'array': %r"
+        % (kind["constraints"]["enum"],))
+
+    # `axes[].name` is the one axis sub-field that is REQUIRED, which is why
+    # jNgridBody emits positional names (`axis_1` ...) rather than blanks.
+    axes = [f for f in sb["fields"] if f["name"] == "axes"][0]
+    required = [s["name"] for s in axes["fields"] if s.get("mustBeNonEmpty")]
+    assert required == ["name"], (
+        "the axis entry's required sub-fields changed to %r -- jNgridBody fills "
+        "`name` and leaves the rest defaulted, so a new requirement quarantines "
+        "every folded body" % (required,))
+
+    # storage_mode 'body' is what says the pixels are in the sampled_body
+    _t, stmt = RECORDS["subject_statement"]
+    mode = [f for f in stmt["fields"] if f["name"] == "storage_mode"][0]
+    assert "body" in mode["constraints"]["enum"]
+
+
+def test_the_rf_family_is_superclass_only_so_repointing_it_would_strand_hartley():
+    """WHY `reverse_correlation` KEEPS its `ngrid` superclass, recorded as a
+    check rather than as prose.
+
+    A discrepancy worth reconciling, and both halves of it are true:
+
+      - The BUILT schema marks `reverse_correlation` CONCRETE (no `abstract`
+        flag), and so is `hartley_reverse_correlation`.
+      - `V_eta_ngrid_family_findings.md` F1 reads the WRITER
+        (`NDIcalc-vis +ndi/+calc/+vis/hartley.m:448`) and finds ONE document
+        constructed, of class `hartley_calc`, carrying the `hartley_calc`,
+        `hartley_reverse_correlation`, `reverse_correlation` and `ngrid` blocks.
+        Neither intermediate class is ever minted standalone.
+
+    They agree once the question is split: the CLASSES are declared instantiable,
+    and NO DOCUMENT OF EITHER IS EVER WRITTEN. The mechanical half of that is
+    checked here — neither name appears in the 102-class v1 source universe, so
+    the coverage ledger does not carry a row for either, so no did_v1 document
+    can arrive under those names.
+
+    THE CONSEQUENCE IS THE POINT. "Superclass-only" is exactly why
+    `reverse_correlation` may NOT be re-pointed off `ngrid`: it has no documents
+    of its own to fold, and the block it declares is inherited by `hartley_calc`,
+    which HAS documents (>=210 in the 20211116 corpus). Removing the superclass
+    would leave every one of them carrying an undeclared `ngrid` block —
+    `undeclaredField`, on a 0-quarantine gate. The fold that would release it is
+    the RF one (#48), and the repo it needs (VH-Lab/NDIcalc-vis-matlab) is not in
+    scope.
+    """
+    ledger = _load(os.path.join(REPO_ROOT, "schemas", "V_eta_coverage_ledger.json"))
+    rows = ledger["rows"]
+    # DENOMINATOR FIRST. An empty ledger would make every "not a source" claim
+    # below trivially true.
+    assert len(rows) == 102, (
+        "the v1 source universe is 102 classes (91 NDI templates + 11 vhlab app "
+        "classes); read %d" % len(rows))
+    v1 = {r["v1_class"] for r in rows}
+
+    for name in ("reverse_correlation", "hartley_reverse_correlation"):
+        assert name in RECORDS, "%s is still in the built set" % name
+        assert name not in v1, (
+            "%s became a v1 SOURCE class. F1 read the writer and found it "
+            "superclass-only; if that changed, the ngrid gate changes with it."
+            % name)
+    # and the one class that IS a source, and that inherits ngrid through them
+    assert "hartley_calc" in v1
+    chain = [s["class_name"]
+             for s in RECORDS["hartley_calc"][1]["document_class"]["superclasses"]]
+    assert "hartley_reverse_correlation" in chain, (
+        "hartley_calc no longer reaches ngrid through the RF chain: %r" % (chain,))
+    rc_supers = [s["class_name"]
+                 for s in RECORDS["reverse_correlation"][1]["document_class"]["superclasses"]]
+    assert "ngrid" in rc_supers, (
+        "`reverse_correlation` was re-pointed off `ngrid` while `hartley_calc` "
+        "still inherits from it and still passes through carrying an ngrid "
+        "block. That is `undeclaredField` on every hartley_calc document. The "
+        "release is the RF fold (#48), not a superclass edit.")
 
 
 def test_image_stack_pair_survives_for_the_subject_less_passthrough():

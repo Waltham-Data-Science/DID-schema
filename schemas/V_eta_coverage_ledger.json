@@ -4,13 +4,12 @@
   "summary": {
     "total": 102,
     "by_disposition": {
-      "retire": 47,
+      "retire": 48,
       "dissolved \u2192 subject": 1,
       "in_progress": 19,
       "persist": 4,
       "consumed by migrator (no tombstone)": 27,
-      "test/demo fixture (non-production)": 3,
-      "no V_eta home, no migrator -- UNVERIFIED": 1
+      "test/demo fixture (non-production)": 3
     },
     "by_source": {
       "ndi": 91,
@@ -19,16 +18,15 @@
     "with_migrator": 85,
     "gaps": 0,
     "no_target": {
-      "rows_naming_no_target": 11,
+      "rows_naming_no_target": 10,
       "by_reason": {
         "dissolved": 3,
         "disputed": 2,
         "passthrough": 2,
-        "unrecorded": 3
+        "unrecorded": 2
       },
       "target_gaps": [
         "epochclocktimes",
-        "imageCollection",
         "imageStack_parameters"
       ]
     },
@@ -1282,22 +1280,24 @@
     },
     {
       "v1_class": "imageCollection",
-      "veta_class": null,
-      "disposition": "no V_eta home, no migrator -- UNVERIFIED",
+      "veta_class": "image_collection",
+      "disposition": "retire",
       "migrator": false,
       "source": "ndi",
       "nonprod": false,
       "gap": false,
-      "targets": [],
+      "targets": [
+        "image_collection"
+      ],
       "decided_targets": [],
       "decided_targets_source": null,
       "decided_signoff": null,
-      "target_source": "unknown",
-      "no_target_reason": "unrecorded",
-      "no_target_reason_label": "NO TARGET AND NO DISSOLUTION RECORDED -- a gap, not a decision",
+      "target_source": "passthrough",
+      "no_target_reason": null,
+      "no_target_reason_label": null,
       "no_target_account": null,
       "no_target_signoff": null,
-      "target_gap": true,
+      "target_gap": false,
       "build_state": {
         "schema_targets_named": 0,
         "schema_targets_built": [],

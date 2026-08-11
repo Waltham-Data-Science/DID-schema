@@ -160,7 +160,37 @@ FAMILIES = [
     #                   to choose which stretch of signal to analyse, so losing it
     #                   would silently change tuning results, not just drop an
     #                   annotation.
-    ("stranded sources", ["generic_file", "valid_interval"],
+    # A THIRD MEMBER, 2026-08-11, and this board is again what demanded it.
+    # `imageCollection` was tombstoned by team decision on the same reasoning,
+    # and the moment it gained a schema its ledger disposition became `retire`,
+    # which put it in `unplanned_retire` -- retire, no migrator, no plan -- and
+    # this generator refused to go green until a family claimed it. That is the
+    # check working: a tombstone stops the stranding and leaves the modelling
+    # question open, and an open question needs an owner.
+    #
+    # SPELLED `imageCollection`, in NDI's own camelCase, and NOT `image_collection`.
+    # The two siblings are snake in NDI already, so this is the first member whose
+    # spelling could go wrong -- and it would go wrong silently, because
+    # `unclaimed` is a set difference (`open_work - claimed`): a member nobody can
+    # match simply fails to claim anything and reappears in the ERROR list, while
+    # the misspelling itself only shows up in `stale`, which is not fatal. The
+    # name here must be the ledger's `v1_class`, which is NDI's spelling.
+    #
+    #   imageCollection  the WEAKEST-EVIDENCED of the three. `generic_file` and
+    #                    `valid_interval` each have live production writers whose
+    #                    behaviour arbitrates their template; this class has NONE
+    #                    -- 0 of 1002 .m files on NDI origin/main, all three
+    #                    spellings -- so its tombstone is the template alone and
+    #                    there is nothing to check the template against. Nothing
+    #                    NDI-side has ever written, read or named one; the only
+    #                    thing pointing at the class is `image.json`'s
+    #                    `imageCollection_id` dependency. Whether it becomes an
+    #                    opaque_body attachment, a group of image_observations, or
+    #                    is retired outright is UNDECIDED, and deciding it from a
+    #                    template with no documents is the wrong-assumed-shape
+    #                    failure that produced the ~2,078 distance_metadata
+    #                    quarantines. It needs a real document first.
+    ("stranded sources", ["generic_file", "valid_interval", "imageCollection"],
      None,
      "tombstoned so they stop stranding; tier and fold UNDECIDED",
      "open"),

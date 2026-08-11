@@ -354,7 +354,15 @@ def test_isspike_is_left_alone_and_the_inert_spelling_is_counted():
     # NO `min` or `max` at any depth, so nothing dropped out of the pinned set and
     # the list below is untouched. This canary fired and that is it working --
     # the count is meant to be a number somebody chose.
-    assert walked == 240, "schema count moved; re-derive the inert set (%d)" % walked
+    #
+    # 240 -> 241 later the SAME DAY, in the other direction: the team tombstoned
+    # `imageCollection`, which came OUT of build_v_eta.py's `DELETE` set and back
+    # into the built tree. Checked the same way -- `_tombstone` builds its fields
+    # through `field()`, whose `constraints` default is `{}`, and the restatement
+    # passes no constraints, so the new class declares neither `min` nor `max` at
+    # any depth and the pinned list below is again untouched. Two movements, two
+    # re-derivations; the count is still a number somebody chose.
+    assert walked == 241, "schema count moved; re-derive the inert set (%d)" % walked
     assert sorted(inert) == [
         "element.direct",
         "element.reference",
