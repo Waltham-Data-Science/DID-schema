@@ -552,8 +552,8 @@
           "ndi_second_pass"
         ],
         "packages_missing": [],
-        "files_read": 138,
-        "lines_read": 19710,
+        "files_read": 139,
+        "lines_read": 20003,
         "classes_queried": 31,
         "classes_emitted_as_document_class": 5,
         "ref_kinds": [
@@ -1362,20 +1362,20 @@
         "n_emitted_class_refs": 3,
         "emitted_class_refs": [
           "migrators_j/ontology_table_row.m:867 (emitted_class)",
-          "migrators_j/private/jSessionAnchor.m:19 (emitted_class)",
-          "migrators_j/treatment_transfer.m:101 (emitted_class)"
+          "migrators_j/private/jSessionAnchor.m:60 (emitted_class)",
+          "migrators_j/treatment_transfer.m:109 (emitted_class)"
         ],
         "emission_counts_as_build": false,
         "retired_by_decision_in_favour_of": "relative_reference",
         "emission_discounted": "minted at 3 site(s), NOT counted as build progress: the signed decision retires this class in favour of `relative_reference`, so an emission is work still to undo",
         "n_emitting_refs": 15,
         "emitting_refs": [
-          "migrators_j/fitcurve.m:139 (named)",
-          "migrators_j/fitcurve.m:146 (field_write)",
-          "migrators_j/image_stack.m:271 (named)",
-          "migrators_j/image_stack.m:276 (field_write)",
-          "migrators_j/jrclust_clusters.m:80 (named)",
-          "migrators_j/jrclust_clusters.m:85 (field_write)"
+          "migrators_j/fitcurve.m:147 (named)",
+          "migrators_j/fitcurve.m:154 (field_write)",
+          "migrators_j/image_stack.m:279 (named)",
+          "migrators_j/image_stack.m:284 (field_write)",
+          "migrators_j/jrclust_clusters.m:88 (named)",
+          "migrators_j/jrclust_clusters.m:93 (field_write)"
         ],
         "decided_targets": [],
         "decided_targets_built": [],
@@ -1545,12 +1545,12 @@
         "emission_discounted": null,
         "n_emitting_refs": 32,
         "emitting_refs": [
-          "migrators_j/fitcurve.m:139 (named)",
-          "migrators_j/fitcurve.m:145 (field_write)",
-          "migrators_j/image_stack.m:271 (named)",
-          "migrators_j/image_stack.m:275 (field_write)",
-          "migrators_j/jrclust_clusters.m:80 (named)",
-          "migrators_j/jrclust_clusters.m:84 (field_write)"
+          "migrators_j/fitcurve.m:147 (named)",
+          "migrators_j/fitcurve.m:153 (field_write)",
+          "migrators_j/image_stack.m:279 (named)",
+          "migrators_j/image_stack.m:283 (field_write)",
+          "migrators_j/jrclust_clusters.m:88 (named)",
+          "migrators_j/jrclust_clusters.m:92 (field_write)"
         ],
         "decided_targets": [],
         "decided_targets_built": [],

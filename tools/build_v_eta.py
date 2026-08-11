@@ -4711,6 +4711,140 @@ _tombstone(
            "End of the valid interval, in the units of timeref_structt1.")],
     ())
 
+# ==========================================================================
+# `validity` + `validity_observation` -- the GO-FORWARD HOME for valid_interval
+# ==========================================================================
+# TEAM DECISION 2026-08-11, recorded in V_eta_OPEN_WORK.md under
+# "`valid_interval` becomes a boolean-valued `subject_statement`".
+# jess@walthamdatascience.com, verbatim: *"Should valid interval be a new class
+# that takes a subject statement, shares its time reference and states true or
+# false for each value?"*
+#
+# THE TOMBSTONE ABOVE IS NOT DELETED AND IS NOT SUPERSEDED. It keeps the v1
+# documents alive under their own class; these two classes are where the fact
+# GOES FORWARD. Both live for as long as `did2.convert.resolveValidIntervals`
+# has not been shown, on a corpus, to decompose every source document -- the
+# verify-before-delete rule this project has now paid for twice
+# (epochfiles_ingested, image_stack).
+#
+# WHY A NEW COMPOSITE AT ALL (T12, the parsimony test -- run, not skipped).
+#   1. same shape, different meaning?   NO -- no existing composite carries a
+#                                       BOOLEAN. `count` is an integer + a
+#                                       semantic unit, `score` a double + a
+#                                       rubric, `term` a {node,name} pair.
+#   2. a controlled term?               The team asked for true/false, twice.
+#                                       A `term_observation` over a two-member
+#                                       value_set would encode a boolean as a
+#                                       vocabulary, which is T13's "name the
+#                                       content" failure one level down.
+#   3. same quantity, other cardinality? There is no such quantity yet.
+#   4. a role or relationship?          NO -- it is a value about a subject.
+# So 1-4 all fail and a composite is warranted. It is the FIRST boolean-valued
+# data_type in V_eta; a second boolean fact should reuse it and change
+# `variable` (rule 1), not mint a sibling.
+#
+# THE STANCE IS `_observation`, and that is a judgement worth stating (T13: the
+# stance word must be TRUE, not convenient). It is not an `_assertion`: an
+# assertion is a TIMELESS fact and declares no `time_reference_#` edge, and the
+# entire content here is "over THIS stretch of time". It is not a
+# `_manipulation` (nothing is done TO the subject) and not a `_calculation`
+# (markgarbage is a human curation act, not a computation -- there is no
+# algorithm and no input document). What remains is the observation: a curator
+# looked at the recording and reports what they saw of it.
+#
+# HAZARD 1 -- ABSENCE MUST KEEP MEANING "VALID". `ndi.app.markgarbage` is
+# OPT-IN. Today, NO `valid_interval` document for an element means the WHOLE
+# epoch is good data; that is the semantics `identifyvalidintervals` implements
+# (markgarbage.m:172-176: `if isempty(vi); intervals = [t0 t1]; return; end`).
+# So:
+#   * NOTHING declares a dependency on `validity` or `validity_observation`,
+#     and neither is a superclass of anything. Nothing can require one.
+#     tests/test_veta.py::test_validity_is_never_required_by_anything is the
+#     mechanical gate on that, over every built schema.
+#   * NO document is minted for an element that has none -- the migration path
+#     reads `valid_interval` documents and nothing else.
+#   * the reading rule is DECLARED on the class (T14: a convention that lives
+#     in prose is not a convention), so a consumer that never read this file
+#     still gets it right.
+#
+# HAZARD 2 -- ORDER IS LOAD-BEARING. `+app/+stimulus/tuning_response.m:253-256`
+# restricts the stretch of signal it analyses to `interval(1,1)`..`interval(1,2)`
+# -- the FIRST interval. In v1 that order is array-append order
+# (markgarbage.m:89, `vi(end+1) = validintervalstruct`). One v1 document holds
+# an ARRAY, so decomposing it into one statement per interval makes "first"
+# undefined unless the position is carried. It is carried, explicitly, in
+# `sequence`.
+#
+# HAZARD 3 -- VALIDITY INHERITS, AND THAT IS NOT DECIDED HERE.
+# `loadvalidinterval` falls back to `underlying_element` when a derived element
+# has no intervals of its own (markgarbage.m:146-155). That is a QUERY-TIME rule
+# in NDI, and whether V_eta re-derives it through `derived_from` or materialises
+# it onto the derived subject is an OPEN SUB-QUESTION for the team. NOTHING here
+# forecloses either answer:
+#   * `subject_id` is the element the v1 document named and nothing else, so a
+#     re-derivation still has the exact v1 graph to walk;
+#   * `subject_observation.derived_from_#` already exists (optional, min_count
+#     0), so a materialising decision has its edge with no schema change;
+#   * `sequence` is scoped to ONE source document, so materialised copies do
+#     not have to renumber against a sibling element's intervals.
+# What a later decision WOULD have to change is written out in
+# did2.convert.resolveValidIntervals's header, next to the counter that
+# measures how often the fallback could fire.
+_VALIDITY_SUBS = [
+    subfield("value", "boolean",
+             "TRUE = this stretch is GOOD DATA. FALSE = this stretch is"
+             " GARBAGE. did_v1 could only express TRUE -- validity was encoded"
+             " in the CLASS NAME (`valid_interval`), so 'this stretch is bad'"
+             " was expressible only as absence, and markgarbage's own author"
+             " wrote the gap down: `% developer note: it would be great to have"
+             " a 'markinvalidinterval' companion` (markgarbage.m:40). A"
+             " migrated document therefore always carries TRUE; FALSE is"
+             " reachable only by a writer that states invalidity directly."),
+]
+write("draft", "validity",
+      doc("validity", ["data_type"], abstract=True, maturity="draft",
+          fields=[field(
+              "value", "validity",
+              "Whether the subject's data is good over the interval this"
+              " statement is anchored to. Series-as-cardinality (Brainstorm I):"
+              " an ARRAY of the cell, length 1 for a single judgement."
+              " EACH CELL IS ONE INTERVAL, NOT ONE SAMPLE. A per-sample"
+              " validity mask needs the sample grid, and no migrator reads file"
+              " bytes to learn it (confirmed via pyraview) -- the mask is"
+              " derivable from the intervals by anyone holding the grid, the"
+              " reverse is lossy, and a mask over a long recording is exactly"
+              " the rebuildable cache T6/T10 say not to store as source."
+              " ABSENCE OF ANY `validity` STATEMENT ABOUT A SUBJECT MEANS ITS"
+              " DATA IS VALID -- ndi.app.markgarbage is opt-in and"
+              " identifyvalidintervals returns the whole requested span when it"
+              " finds no record (markgarbage.m:172-176). Declared here rather"
+              " than left to prose (T14) because a reader who assumes"
+              " 'no statement = unknown' silently reclassifies every epoch in"
+              " every dataset that never ran markgarbage.",
+              non_empty=True, scalar=False, blank=[],
+              default=[{"value": True}])]))
+write("draft", "validity_observation",
+      doc("validity_observation", ["subject_observation", "validity"],
+          maturity="draft",
+          fields=[field(
+              "sequence", "integer",
+              "The position this interval held in the v1 `valid_interval`"
+              " ARRAY, 1-based, in append order (markgarbage.m:89,"
+              " `vi(end+1) = validintervalstruct`). HAZARD 2, and the reason"
+              " this field exists at all: one v1 document holds N intervals and"
+              " decomposing it into N statements destroys their order unless it"
+              " is carried explicitly. Order is load-bearing for ANALYSIS, not"
+              " only for bookkeeping --"
+              " +app/+stimulus/tuning_response.m:253-256 loads the intervals"
+              " and reads only `interval(1,1)`..`interval(1,2)`, the FIRST one,"
+              " so a re-run against a reordered set would analyse a different"
+              " stretch of signal and report different tuning. Same word and"
+              " same meaning as `directed_relation.sequence` (T11: one"
+              " canonical spelling per concept). Scoped to ONE source document:"
+              " it orders the intervals that arrived together, and says nothing"
+              " across elements. Empty when the statement did not come from a"
+              " v1 array.")]))
+
 
 # ---------- 11. storage_mode + data_body (sampled_/opaque_) ----------
 
@@ -5089,6 +5223,12 @@ type_enum = meta["$defs"]["field_definition"]["properties"]["type"]["enum"]
 for _seed_name, _ in NUMERIC_SEED:          # J §7 comprehensive numeric set
     if _seed_name not in type_enum:
         type_enum.append(_seed_name)
+# `validity` -- the first BOOLEAN-valued named composite (the valid_interval
+# team decision, 2026-08-11). Registered here for the same reason as the numeric
+# seed: `field_definition.type` is a CLOSED enum, so a composite that is not in
+# it fails the meta-schema and takes the whole build with it.
+if "validity" not in type_enum:
+    type_enum.append("validity")
 # Governance: `needs_ndi` marks a field whose value is an NDI-runtime class handle
 # (e.g. ndi_daqreader_class = 'ndi.daq.reader.mfdaq') that DID cannot resolve or
 # validate on its own -- the concrete class lives in NDI-matlab. An advisory boolean
@@ -6268,6 +6408,14 @@ _DIM_SPECIAL = {
         subfield("node", "char", "The CURIE (prefix resolved via CURIE_lookups_meta.json)."),
         subfield("name", "char", "The human-readable label."),
     ],
+    # `validity` is the third documented exception to the canonical+source triple,
+    # and the plainest: a truth value has no unit to normalise and no source unit to
+    # preserve. Declared as a CELL rather than as a bare boolean array so the value
+    # gets a query path the same way count/score do -- T14's whole point was that 26
+    # of 35 composites emitted no query path at all because their layout lived in
+    # prose. The single sub-field is named `value`, matching count/score, so
+    # `<composite>.value.value` means the same thing across the family.
+    "validity": _VALIDITY_SUBS,
 }
 
 def _named_type_subfields(tname):

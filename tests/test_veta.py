@@ -2566,3 +2566,166 @@ def test_member_of_registry_row_is_timed_and_ordered_as_the_signoff_requires():
     assert row["ordered"] is True, "column order makes this edge ordered"
     assert row["child_types"] == ["subject"] and row["parent_types"] == ["subject"], (
         "a neuron-subject is a member of an ensemble group-SUBJECT")
+
+
+# ===================== `validity` -- the valid_interval go-forward home ============
+#
+# TEAM DECISION 2026-08-11 (V_eta_OPEN_WORK.md, "`valid_interval` becomes a
+# boolean-valued `subject_statement`"). The three tests below are the three
+# hazards named with the decision, one test each, so a regression names the
+# hazard it re-opened rather than a field.
+
+
+def test_validity_is_a_boolean_valued_statement_leaf():
+    """The shape the team asked for: a `subject_statement`-derived class carrying a
+    BOOLEAN, sharing the statement family's time reference.
+
+    `variable` (what is judged), `subject_id` (whose data) and `time_reference_#`
+    (over which stretch) are all INHERITED -- from subject_statement and
+    subject_interaction -- which is the whole point of "takes a subject
+    statement". If the chain ever stops reaching subject_interaction, the class
+    silently loses its time anchor and starts asserting validity over all
+    time, so the chain is asserted here rather than assumed.
+    """
+    assert "validity" in RECORDS and "validity_observation" in RECORDS
+    tier, comp = RECORDS["validity"]
+    assert comp["document_class"]["abstract"] is True
+    assert [s["class_name"] for s in comp["document_class"]["superclasses"]] == ["data_type"]
+
+    # T14: ONE payload slot, `value`, an ARRAY of cells whose layout is DECLARED
+    # (not left to prose) -- and the cell is a boolean.
+    assert [f["name"] for f in comp["fields"]] == ["value"]
+    val = comp["fields"][0]
+    assert val["type"] == "validity" and val["mustBeScalar"] is False
+    assert val["mustBeNonEmpty"] is True, (
+        "a validity statement with no cell says nothing at all -- exactly the "
+        "hollow document silentLoss and isFragment exist to catch")
+    assert [sf["name"] for sf in val["fields"]] == ["value"]
+    assert val["fields"][0]["type"] == "boolean", (
+        "the team asked for true/false. A term-valued 'valid'/'garbage' pair "
+        "would encode a boolean as a vocabulary (T13) and would make the "
+        "invalid half unreachable the same way the CLASS NAME did in v1")
+
+    _, leaf = RECORDS["validity_observation"]
+    assert [s["class_name"] for s in leaf["document_class"]["superclasses"]] == [
+        "subject_observation", "validity"]
+    chain, seen = [], "subject_observation"
+    while seen and seen in RECORDS:
+        chain.append(seen)
+        sup = RECORDS[seen][1]["document_class"]["superclasses"]
+        seen = sup[0]["class_name"] if sup else None
+    assert "subject_interaction" in chain and "subject_statement" in chain, (
+        "validity_observation must reach subject_interaction (for "
+        "time_reference_#) and subject_statement (for subject_id + variable); "
+        "chain was %r" % (chain,))
+
+
+def test_absence_of_a_validity_statement_must_keep_meaning_valid():
+    """HAZARD 1. `ndi.app.markgarbage` is OPT-IN: no `valid_interval` document
+    means the whole epoch is good data (markgarbage.m:172-176 returns the whole
+    requested span when it finds no record).
+
+    A class that states true/false explicitly can destroy that in two ways, and
+    both are mechanical, so both are gated here:
+
+      * something REQUIRES a validity statement, so a subject without one reads
+        as incomplete rather than as valid;
+      * the reading rule lives only in prose, so a consumer assumes
+        "no statement = unknown" and every epoch in every dataset that never ran
+        markgarbage is silently reclassified.
+
+    NOTHING WE CURRENTLY GATE ON WOULD CATCH EITHER. The corpus gate counts
+    quarantines and orphans; a corpus with no markgarbage documents is 0/0 both
+    before and after a reclassification that changes the meaning of every epoch
+    in it.
+    """
+    offenders = []
+    for name, (_tier, d) in RECORDS.items():
+        for dep in d.get("depends_on", []):
+            if dep.get("must_refer_to_document_class") in ("validity",
+                                                           "validity_observation"):
+                if dep.get("mustBeNonEmpty") or (dep.get("min_count") or 0) > 0:
+                    offenders.append("%s.%s" % (name, dep["name"]))
+    assert offenders == [], (
+        "these edges REQUIRE a validity statement: %s. Absence must stay a legal, "
+        "meaningful state -- it is how every dataset that never ran markgarbage "
+        "says 'all of this is good data'." % ", ".join(offenders))
+
+    # And nothing subclasses it into a position where a parent's requirement
+    # could reach it.
+    children = [n for n, (_t, d) in RECORDS.items()
+                if any(s["class_name"] == "validity"
+                       for s in d["document_class"]["superclasses"])]
+    assert children == ["validity_observation"], (
+        "validity gained subclasses (%r); each one is a new way for the "
+        "boolean to become required somewhere" % (children,))
+
+    doc = RECORDS["validity"][1]["fields"][0]["documentation"]
+    assert "ABSENCE OF ANY `validity` STATEMENT ABOUT A SUBJECT MEANS ITS DATA "\
+           "IS VALID" in doc, (
+        "the absence rule is DECLARED (T14), not left in a plan document. A "
+        "consumer that never read our prose has to get this right, because "
+        "reading it wrong is silent")
+
+
+def test_validity_carries_the_v1_array_position_that_order_is_load_bearing_for():
+    """HAZARD 2. One v1 `valid_interval` document holds an ARRAY, appended to in
+    call order (markgarbage.m:89, `vi(end+1) = validintervalstruct`), and
+    `+app/+stimulus/tuning_response.m:253-256` reads `interval(1,1)`..
+    `interval(1,2)` -- the FIRST interval only -- to choose the stretch of signal
+    it analyses.
+
+    Decomposing the array into one statement per interval makes "first"
+    undefined unless the position is carried, and losing it does not fail
+    anything: the documents still validate, the corpus is still 0-quarantine,
+    and a re-run of the tuning calculators just quietly analyses a different
+    stretch of signal.
+    """
+    seq = [f for f in RECORDS["validity_observation"][1]["fields"]
+           if f["name"] == "sequence"]
+    assert len(seq) == 1, (
+        "validity_observation lost `sequence` -- the v1 array position. "
+        "tuning_response.m reads the FIRST interval; with no order there is no "
+        "first")
+    seq = seq[0]
+    assert seq["type"] == "integer"
+    assert seq["queryable"] is True, "an order nothing can sort by is not an order"
+    # Same word as directed_relation.sequence -- T11, one canonical spelling per
+    # concept. Two words for one idea is how a later reader ends up sorting on
+    # the wrong one.
+    dr = [f for f in RECORDS["directed_relation"][1]["fields"]
+          if f["name"] == "sequence"]
+    assert len(dr) == 1 and dr[0]["type"] == seq["type"]
+
+
+def test_validity_forecloses_neither_answer_on_the_inheritance_question():
+    """HAZARD 3, WHICH IS NOT DECIDED AND IS NOT CLAIMED HERE.
+
+    `loadvalidinterval` falls back to `underlying_element` when a derived
+    element has no intervals of its own (markgarbage.m:146-155) -- a QUERY-TIME
+    rule in NDI. Whether V_eta re-derives that through the `derived_from` chain
+    or materialises copies onto derived subjects is an OPEN SUB-QUESTION for the
+    team.
+
+    This test asserts only that both answers remain buildable: the edge a
+    materialising decision would need already exists and is OPTIONAL (so pass 1
+    is not obliged to fill it, and does not), and the statement points at the
+    element the v1 document named, so a re-deriving decision still has the exact
+    v1 graph to walk. It does NOT assert which answer is right.
+    """
+    inherited = RECORDS["subject_observation"][1]["depends_on"]
+    df = [d for d in inherited if d["name"] == "derived_from_#"]
+    assert len(df) == 1, (
+        "subject_observation lost derived_from_# -- the edge a materialising "
+        "answer to the inheritance question would ride on")
+    assert df[0]["mustBeNonEmpty"] is False and (df[0].get("min_count") or 0) == 0, (
+        "derived_from_# became required; pass 1 mints no such edge for a "
+        "validity statement, so requiring it would quarantine every one of them "
+        "and would ALSO pre-empt a team decision by making the materialising "
+        "answer the only legal one")
+    # The referent is the element-subject, unqualified: subject_statement's own
+    # edge, typed `subject`, which is what element.m's id-preserving promotion
+    # lands on.
+    sid = [d for d in RECORDS["subject_statement"][1]["depends_on"]
+           if d["name"] == "subject_id"]
+    assert len(sid) == 1 and sid[0]["must_refer_to_document_class"] == "subject"

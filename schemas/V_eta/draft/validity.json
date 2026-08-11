@@ -1,0 +1,49 @@
+{
+    "document_class": {
+        "class_name": "validity",
+        "class_version": "1.0.0",
+        "superclasses": [
+            {
+                "class_name": "data_type"
+            }
+        ],
+        "maturity_level": "draft",
+        "abstract": true
+    },
+    "depends_on": [],
+    "file": [],
+    "fields": [
+        {
+            "name": "value",
+            "type": "validity",
+            "blank_value": [],
+            "default_value": [
+                {
+                    "value": true
+                }
+            ],
+            "mustBeNonEmpty": true,
+            "mustBeScalar": false,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Whether the subject's data is good over the interval this statement is anchored to. Series-as-cardinality (Brainstorm I): an ARRAY of the cell, length 1 for a single judgement. EACH CELL IS ONE INTERVAL, NOT ONE SAMPLE. A per-sample validity mask needs the sample grid, and no migrator reads file bytes to learn it (confirmed via pyraview) -- the mask is derivable from the intervals by anyone holding the grid, the reverse is lossy, and a mask over a long recording is exactly the rebuildable cache T6/T10 say not to store as source. ABSENCE OF ANY `validity` STATEMENT ABOUT A SUBJECT MEANS ITS DATA IS VALID -- ndi.app.markgarbage is opt-in and identifyvalidintervals returns the whole requested span when it finds no record (markgarbage.m:172-176). Declared here rather than left to prose (T14) because a reader who assumes 'no statement = unknown' silently reclassifies every epoch in every dataset that never ran markgarbage.",
+            "constraints": {},
+            "fields": [
+                {
+                    "name": "value",
+                    "type": "boolean",
+                    "blank_value": 0.0,
+                    "default_value": 0.0,
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "TRUE = this stretch is GOOD DATA. FALSE = this stretch is GARBAGE. did_v1 could only express TRUE -- validity was encoded in the CLASS NAME (`valid_interval`), so 'this stretch is bad' was expressible only as absence, and markgarbage's own author wrote the gap down: `% developer note: it would be great to have a 'markinvalidinterval' companion` (markgarbage.m:40). A migrated document therefore always carries TRUE; FALSE is reachable only by a writer that states invalidity directly.",
+                    "constraints": {}
+                }
+            ]
+        }
+    ]
+}

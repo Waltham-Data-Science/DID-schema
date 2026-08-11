@@ -2697,6 +2697,29 @@
             "disposition_note": "Phase-8 source (migrator \u2192 delete)"
         },
         {
+            "class_name": "validity",
+            "tier": "draft",
+            "class_version": "1.0.0",
+            "maturity_level": "draft",
+            "superclasses": [
+                "data_type"
+            ],
+            "path": "schemas/V_eta/draft/validity.json",
+            "disposition": "persist"
+        },
+        {
+            "class_name": "validity_observation",
+            "tier": "draft",
+            "class_version": "1.0.0",
+            "maturity_level": "draft",
+            "superclasses": [
+                "subject_observation",
+                "validity"
+            ],
+            "path": "schemas/V_eta/draft/validity_observation.json",
+            "disposition": "persist"
+        },
+        {
             "class_name": "velocity",
             "tier": "stable",
             "class_version": "1.0.0",
