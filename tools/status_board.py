@@ -490,10 +490,22 @@ FAMILIES = [
     # DECIDED 2026-08-05. control_designation moved to the stimulus family (a V_eta
     # target already resolved there). interaction_purpose is a V_epsilon TARGET whose
     # only open item is its unbound `purpose` (#32), not a disposition.
+    # THE ONE-LINER SAID `binaryseries_parameters -> sampled_body` UNTIL
+    # 2026-08-11, AND THAT WAS THE OVERRULED READING. It was taking the side of
+    # the section heading at V_eta_go_forward_class_audit.md:459 against the
+    # TEAM-SIGN-OFF line at :3 in the same document -- the disagreement that held
+    # this row in the coverage ledger's DISPUTED bucket, with the board's prose
+    # quietly settling it one way while the ledger correctly refused to. The team
+    # ruled that the SIGNATURE is what is intended, and the signature routes to
+    # TWO mounts: `data_type` to the STATEMENT unconditionally, and the axis
+    # entry to `subject_statement` or `sampled_body` by `storage_mode`. Both are
+    # now recorded (tools/coverage.py DECIDED_TARGETS_BY_SIGNOFF), so this line
+    # names both -- prose and artifact agreeing by construction rather than by
+    # nobody noticing.
     ("misc singletons", [
         "binaryseries_parameters", "interaction_purpose", "projectvar"],
      "V_eta_go_forward_class_audit.md",
-     "binaryseries_parameters -> sampled_body; projectvar PASSES THROUGH (needs real docs); interaction_purpose is a target (#32)",
+     "binaryseries_parameters -> subject_statement + sampled_body (the two axis mounts, by storage_mode); projectvar PASSES THROUGH (needs real docs); interaction_purpose is a target (#32)",
      "team"),
 
     # DECIDED 2026-08-05. Absent from NDI, provenance V_gamma, and referenced by
@@ -2898,8 +2910,22 @@ def build(ocs=None):
     p("then found a second instance immediately -- `binaryseries_parameters`,")
     p("whose section heading says \"folds into `sampled_body`\" while its")
     p("signature routes the fields to a statement and an axis and names no")
-    p("class. Both are recorded DISPUTED in the coverage ledger, with both")
-    p("citations and no choice made.")
+    p("class.")
+    p("")
+    p("**ONE OF THE TWO IS NOW SETTLED, AND THE OTHER IS NOT.** This")
+    p("paragraph said \"Both are recorded DISPUTED in the coverage ledger,")
+    p("with both citations and no choice made\", and half of that went stale")
+    p("the day it was written. The team ruled on 2026-08-11 that for")
+    p("`binaryseries_parameters` the SIGNATURE is what is intended, so its")
+    p("ledger row now records TWO decided targets -- `subject_statement` and")
+    p("`sampled_body`, the two mounts the axis entry can take, selected per")
+    p("document by `storage_mode`. `ngrid` is UNCHANGED and still DISPUTED:")
+    p("nothing was decided about it, and the two rows only ever shared a")
+    p("shape. Note that the ruling does NOT make either name a signed one --")
+    p("both still appear in the table below, because the signature says \"the")
+    p("statement's\" and \"the axis\", never a class name. That is the honest")
+    p("state: a decided target, derived from the signature, not quoted from")
+    p("it.")
     p("")
     if pvs["rows"]:
         p("| family | unsigned class name(s) in the one-liner | sign-off in |")

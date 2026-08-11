@@ -234,7 +234,7 @@ post-pass -- so no cell in this table is an undifferentiated count.
 |---|---|---|---|---|---|---|---|---|
 | `acquisition_epoch` | epoch | (b) | 1 consuming reference(s) (1 per-document migrator); minted as a document class at 1 site(s) (1 per-document migrator) | 1 (1+0) | 1 (1+0) | - | 27 (26+1) | n/a -- not measured |
 | `app` | software | (b) | 5 consuming reference(s) (2 per-document migrator, 3 batch post-pass); decided target(s) built: `software` | - | 2 (1+1) | 1 (0+1) | 174 (138+36) | n/a -- not measured |
-| `binaryseries_parameters` | misc singletons | (b) | migrator `DID-matlab:migrators_j/binaryseries_parameters.m` | - | - | 1 (1+0) | 9 (9+0) | n/a -- not measured |
+| `binaryseries_parameters` | misc singletons | (b) | migrator `DID-matlab:migrators_j/binaryseries_parameters.m`; decided target(s) built: `subject_statement`, `sampled_body` | - | - | 1 (1+0) | 9 (9+0) | n/a -- not measured |
 | `control_designation` | stimulus | (b) | minted as a document class at 1 site(s) (1 per-document migrator) | 1 (1+0) | 1 (1+0) | - | 5 (5+0) | n/a -- not measured |
 | `daqmetadatareader` | daq configuration | (b) | migrator `DID-matlab:migrators_j/daqmetadatareader.m`; 3 consuming reference(s) (3 per-document migrator); decided target(s) built: `acquisition_metadata_reader` | - | - | - | 16 (16+0) | n/a -- not measured |
 | `daqmetadatareader_epochdata_ingested` | daq ingested payloads | (b) | migrator `DID-matlab:migrators_j/daqmetadatareader_epochdata_ingested.m`; 2 consuming reference(s) (2 batch post-pass); decided target(s) built: `acquisition_metadata_file` | - | - | - | 12 (8+4) | n/a -- not measured |
@@ -268,7 +268,7 @@ post-pass -- so no cell in this table is an undifferentiated count.
 
 - `acquisition_epoch` (epoch) -- consumed at 1 site(s), per-document migrator: `NDI-matlab:ndi_second_pass/ensembleMembership.m:636 (guard)`; MINTED as a document class at 1 site(s), per-document migrator: `DID-matlab:migrators_j/element_epoch.m:99 (emitted_class)`; a block of this name is WRITTEN at 1 site(s), per-document migrator: `DID-matlab:migrators_j/element_epoch.m:101 (field_write)`; mentioned in 26 COMMENT(s) -- prose, counts toward nothing, per-document migrator: `DID-matlab:migrators_j/element_epoch.m:10 (comment_mention)`, `DID-matlab:migrators_j/element_epoch.m:12 (comment_mention)`, `DID-matlab:migrators_j/element_epoch.m:2 (comment_mention)`, `DID-matlab:migrators_j/element_epoch.m:33 (comment_mention)`, `DID-matlab:migrators_j/element_epoch.m:54 (comment_mention)`, `DID-matlab:migrators_j/element_epoch.m:69 (comment_mention)` ...; mentioned in 1 COMMENT(s) -- prose, counts toward nothing, batch post-pass: `DID-matlab:convert/resolveValidIntervals.m:547 (comment_mention)`
 - `app` (software) -- consumed at 2 site(s), per-document migrator: `DID-matlab:migrators_j/private/jSoftwareFromApp.m:91 (guard)`, `DID-matlab:migrators_j/private/jSoftwareFromApp.m:92 (field_read)`; consumed at 3 site(s), batch post-pass: `DID-matlab:convert/resolveValidIntervals.m:483 (guard)`, `DID-matlab:convert/universalRenames.m:285 (guard)`, `DID-matlab:convert/universalRenames.m:286 (field_read)`; a block of this name is WRITTEN at 1 site(s), per-document migrator: `DID-matlab:migrators_j/private/jMethodParameters.m:107 (field_write)`; a block of this name is WRITTEN at 1 site(s), batch post-pass: `DID-matlab:convert/universalRenames.m:287 (field_write)`; NAMED as a string value at 1 site(s), batch post-pass: `DID-matlab:convert/resolveValidIntervals.m:925 (named)`; mentioned in 138 COMMENT(s) -- prose, counts toward nothing, per-document migrator: `DID-matlab:migrators_j/Contents.m:113 (comment_mention)`, `DID-matlab:migrators_j/Contents.m:129 (comment_mention)`, `DID-matlab:migrators_j/Contents.m:355 (comment_mention)`, `DID-matlab:migrators_j/Contents.m:356 (comment_mention)`, `DID-matlab:migrators_j/Contents.m:412 (comment_mention)`, `DID-matlab:migrators_j/Contents.m:417 (comment_mention)` ...; mentioned in 36 COMMENT(s) -- prose, counts toward nothing, batch post-pass: `DID-matlab:convert/calcCommon.m:25 (comment_mention)`, `DID-matlab:convert/calcCommon.m:28 (comment_mention)`, `DID-matlab:convert/resolveOpenmindsCitations.m:860 (comment_mention)`, `DID-matlab:convert/resolveValidIntervals.m:128 (comment_mention)`, `DID-matlab:convert/resolveValidIntervals.m:217 (comment_mention)`, `DID-matlab:convert/resolveValidIntervals.m:264 (comment_mention)` ...; target(s) BUILT: `software`
-- `binaryseries_parameters` (misc singletons) -- migrator `DID-matlab:migrators_j/binaryseries_parameters.m`; NAMED as a string value at 1 site(s), per-document migrator: `DID-matlab:migrators_j/binaryseries_parameters.m:119 (named)`; mentioned in 9 COMMENT(s) -- prose, counts toward nothing, per-document migrator: `DID-matlab:migrators_j/+super/image_stack_parameters.m:94 (comment_mention)`, `DID-matlab:migrators_j/Contents.m:288 (comment_mention)`, `DID-matlab:migrators_j/binaryseries_parameters.m:16 (comment_mention)`, `DID-matlab:migrators_j/binaryseries_parameters.m:2 (comment_mention)`, `DID-matlab:migrators_j/binaryseries_parameters.m:36 (comment_mention)`, `DID-matlab:migrators_j/binaryseries_parameters.m:79 (comment_mention)` ...
+- `binaryseries_parameters` (misc singletons) -- migrator `DID-matlab:migrators_j/binaryseries_parameters.m`; NAMED as a string value at 1 site(s), per-document migrator: `DID-matlab:migrators_j/binaryseries_parameters.m:119 (named)`; mentioned in 9 COMMENT(s) -- prose, counts toward nothing, per-document migrator: `DID-matlab:migrators_j/+super/image_stack_parameters.m:94 (comment_mention)`, `DID-matlab:migrators_j/Contents.m:288 (comment_mention)`, `DID-matlab:migrators_j/binaryseries_parameters.m:16 (comment_mention)`, `DID-matlab:migrators_j/binaryseries_parameters.m:2 (comment_mention)`, `DID-matlab:migrators_j/binaryseries_parameters.m:36 (comment_mention)`, `DID-matlab:migrators_j/binaryseries_parameters.m:79 (comment_mention)` ...; target(s) BUILT: `subject_statement`, `sampled_body`
 - `control_designation` (stimulus) -- MINTED as a document class at 1 site(s), per-document migrator: `DID-matlab:migrators_j/control_stimulus_ids.m:111 (emitted_class)`; a block of this name is WRITTEN at 1 site(s), per-document migrator: `DID-matlab:migrators_j/control_stimulus_ids.m:133 (field_write)`; mentioned in 5 COMMENT(s) -- prose, counts toward nothing, per-document migrator: `DID-matlab:migrators_j/control_stimulus_ids.m:3 (comment_mention)`, `DID-matlab:migrators_j/control_stimulus_ids.m:53 (comment_mention)`, `DID-matlab:migrators_j/control_stimulus_ids.m:60 (comment_mention)`, `DID-matlab:migrators_j/control_stimulus_ids.m:72 (comment_mention)`, `DID-matlab:migrators_j/control_stimulus_ids.m:79 (comment_mention)`
 - `daqmetadatareader` (daq configuration) -- migrator `DID-matlab:migrators_j/daqmetadatareader.m`; consumed at 3 site(s), per-document migrator: `DID-matlab:migrators_j/daqmetadatareader.m:100 (guard)`, `DID-matlab:migrators_j/daqmetadatareader.m:101 (field_read)`, `DID-matlab:migrators_j/daqmetadatareader.m:102 (field_read)`; mentioned in 16 COMMENT(s) -- prose, counts toward nothing, per-document migrator: `DID-matlab:migrators_j/Contents.m:171 (comment_mention)`, `DID-matlab:migrators_j/daqmetadatareader.m:13 (comment_mention)`, `DID-matlab:migrators_j/daqmetadatareader.m:2 (comment_mention)`, `DID-matlab:migrators_j/daqmetadatareader.m:26 (comment_mention)`, `DID-matlab:migrators_j/daqmetadatareader.m:29 (comment_mention)`, `DID-matlab:migrators_j/daqmetadatareader.m:39 (comment_mention)` ...; target(s) BUILT: `acquisition_metadata_reader`
 - `daqmetadatareader_epochdata_ingested` (daq ingested payloads) -- migrator `DID-matlab:migrators_j/daqmetadatareader_epochdata_ingested.m`; consumed at 2 site(s), batch post-pass: `DID-matlab:convert/epochMint.m:521 (guard)`, `DID-matlab:convert/epochMint.m:548 (field_read)`; mentioned in 8 COMMENT(s) -- prose, counts toward nothing, per-document migrator: `DID-matlab:migrators_j/daqmetadatareader.m:20 (comment_mention)`, `DID-matlab:migrators_j/daqmetadatareader.m:70 (comment_mention)`, `DID-matlab:migrators_j/daqmetadatareader.m:77 (comment_mention)`, `DID-matlab:migrators_j/daqmetadatareader_epochdata_ingested.m:21 (comment_mention)`, `DID-matlab:migrators_j/daqmetadatareader_epochdata_ingested.m:25 (comment_mention)`, `DID-matlab:migrators_j/daqmetadatareader_epochdata_ingested.m:30 (comment_mention)` ...; mentioned in 4 COMMENT(s) -- prose, counts toward nothing, batch post-pass: `DID-matlab:convert/epochMint.m:130 (comment_mention)`, `DID-matlab:convert/epochMint.m:131 (comment_mention)`, `DID-matlab:convert/epochMint.m:460 (comment_mention)`, `DID-matlab:convert/epochMint.m:466 (comment_mention)`; target(s) BUILT: `acquisition_metadata_file`
@@ -329,22 +329,21 @@ Until that line exists the family shows here regardless of what
 
 ## DECIDED by the team, awaiting build
 
-**DENOMINATOR: 18 signed families. 12 named at least one decided target class and were checked against the built tree; 6 named none and are UNCHECKED HERE.**
+**DENOMINATOR: 18 signed families. 13 named at least one decided target class and were checked against the built tree; 5 named none and are UNCHECKED HERE.**
 
-Across the 12 checked: 19 distinct target class(es), 19 present in the built set, 0 not.
+Across the 13 checked: 20 distinct target class(es), 20 present in the built set, 0 not.
 
 So for the checked families the schema half is DONE and what
 remains is MIGRATOR work. Do not read those rows as a build
 queue for schema.
 
-**The other 6 are unchecked, NOT clean.** Nothing above says anything about them, and the reason differs per family:
+**The other 5 are unchecked, NOT clean.** Nothing above says anything about them, and the reason differs per family:
 
 - **time_reference** (4 class(es)): 4 `epoch_bounded_reference`, `session_bounded_reference`, `session_relative_reference`, `time_reference` -- a V_eta target class, so the coverage ledger has no row for it (it is not a v1 source)
 - **image / ngrid** (2 class(es)): 2 `imageStack_parameters`, `ngrid` -- has a ledger row whose `decided_targets` is EMPTY -- the gap the ledger now flags by name
 - **openMINDS** (1 class(es)): 1 `openminds` -- has a ledger row whose `decided_targets` is EMPTY -- the gap the ledger now flags by name
 - **stimulus parameters** (2 class(es)): 1 `stimulus_parameter` -- has a ledger row whose `decided_targets` is EMPTY -- the gap the ledger now flags by name; 1 `stimulus_parameter_table` -- its only decided target is ITSELF, a signed passthrough, which is stripped because it is not build evidence
 - **subject measurement** (1 class(es)): 1 `subjectmeasurement` -- has a ledger row whose `decided_targets` is EMPTY -- the gap the ledger now flags by name
-- **misc singletons** (3 class(es)): 1 `binaryseries_parameters` -- has a ledger row whose `decided_targets` is EMPTY -- the gap the ledger now flags by name; 1 `interaction_purpose` -- a V_eta target class, so the coverage ledger has no row for it (it is not a v1 source); 1 `projectvar` -- its only decided target is ITSELF, a signed passthrough, which is stripped because it is not build evidence
 
 Only the `decided_targets` EMPTY bucket is a missing record. The
 others are correct states that this check cannot use: a V_eta
@@ -377,11 +376,11 @@ is why migrator work before the target closes is rework.
 | **stimulus parameters** | 2 | no target recorded | stimulus_parameter DISSOLVES to a typed leaf keyed by its CURIE (build gated on #32); stimulus_parameter_table PASSES THROUGH; both tombstones repaired | `V_eta_stimulus_parameter_plan.md` |
 | **stimulus response** | 4 | 2 of 2 | 4 -> 2: `harmonic_component` data_type + calculation leaf (id preserved); parameters fold inline, killing 11,440 empty required edges | `V_eta_stimulus_response_model_plan.md` |
 | **subject measurement** | 1 | no target recorded | route through the `measurement` fold -- no new class; `datestamp` is a TIME ANCHOR (-> absolute_reference), NOT a field (corrected 2026-08-06) | `V_eta_go_forward_class_audit.md` |
-| **misc singletons** | 3 | no target recorded | binaryseries_parameters -> sampled_body; projectvar PASSES THROUGH (needs real docs); interaction_purpose is a target (#32) | `V_eta_go_forward_class_audit.md` |
+| **misc singletons** | 3 | 2 of 2 | binaryseries_parameters -> subject_statement + sampled_body (the two axis mounts, by storage_mode); projectvar PASSES THROUGH (needs real docs); interaction_purpose is a target (#32) | `V_eta_go_forward_class_audit.md` |
 
 ## Class names the family table asserts that its sign-off does not say
 
-DENOMINATOR: 18 signed families checked; every V_eta class name in the family one-liner above was matched against the text of the `TEAM-SIGN-OFF` line that signs that family. 8 family/name pair(s) are UNSIGNED -- the prose names the class, the signature does not.
+DENOMINATOR: 18 signed families checked; every V_eta class name in the family one-liner above was matched against the text of the `TEAM-SIGN-OFF` line that signs that family. 9 family/name pair(s) are UNSIGNED -- the prose names the class, the signature does not.
 
 **THIS IS NOT A LIST OF ERRORS, AND NOTHING HERE IS RESOLVED BY A TOOL.**
 The family one-liner is Claude-authored prose in `tools/status_board.py`;
@@ -397,8 +396,22 @@ reached the `TEAM-SIGN-OFF [image / ngrid]` line in it, which says
 then found a second instance immediately -- `binaryseries_parameters`,
 whose section heading says "folds into `sampled_body`" while its
 signature routes the fields to a statement and an axis and names no
-class. Both are recorded DISPUTED in the coverage ledger, with both
-citations and no choice made.
+class.
+
+**ONE OF THE TWO IS NOW SETTLED, AND THE OTHER IS NOT.** This
+paragraph said "Both are recorded DISPUTED in the coverage ledger,
+with both citations and no choice made", and half of that went stale
+the day it was written. The team ruled on 2026-08-11 that for
+`binaryseries_parameters` the SIGNATURE is what is intended, so its
+ledger row now records TWO decided targets -- `subject_statement` and
+`sampled_body`, the two mounts the axis entry can take, selected per
+document by `storage_mode`. `ngrid` is UNCHANGED and still DISPUTED:
+nothing was decided about it, and the two rows only ever shared a
+shape. Note that the ruling does NOT make either name a signed one --
+both still appear in the table below, because the signature says "the
+statement's" and "the axis", never a class name. That is the honest
+state: a decided target, derived from the signature, not quoted from
+it.
 
 | family | unsigned class name(s) in the one-liner | sign-off in |
 |---|---|---|
@@ -406,7 +419,7 @@ citations and no choice made.
 | **sync mapping** | `data_type` | `V_eta_clock_alignment_cluster_plan.md` |
 | **openMINDS** | `entity` | `V_eta_openminds_family_record.md` |
 | **software** | `entity` | `V_eta_tenet_audit.md` |
-| **misc singletons** | `sampled_body` | `V_eta_go_forward_class_audit.md` |
+| **misc singletons** | `sampled_body`, `subject_statement` | `V_eta_go_forward_class_audit.md` |
 
 **AND: 1 document(s) carry more than one UNTAGGED `TEAM-SIGN-OFF`
 line.** An untagged line signs the document, and counts only when

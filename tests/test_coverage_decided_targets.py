@@ -103,6 +103,15 @@ PINNED_DECIDED_TARGETS = {
         ["timed_sequence", "timed_sequence_manipulation"],
         "V_eta_stimulus_model_plan.md",
         "stimulus_presentation is DECOMPOSED around its preserved id"),
+    # MOVED HERE FROM PINNED_DISPUTED, 2026-08-11: the team ruled the SIGNATURE
+    # governs, over the section heading at :459 that names `sampled_body` alone.
+    # BOTH mounts are pinned -- see
+    # test_binaryseries_parameters_records_both_mounts_not_one for why collapsing
+    # to either single class is the regression this pin exists to catch.
+    "binaryseries_parameters": (
+        ["subject_statement", "sampled_body"],
+        "V_eta_go_forward_class_audit.md",
+        "`binaryseries_parameters` folds into the data_body model and is retired"),
 }
 
 PINNED_DISSOLUTIONS = {
@@ -126,10 +135,11 @@ PINNED_DISPUTED = {
     "ngrid": ("V_eta_image_model_plan.md",
               "ngrid is DISSOLVED (deleted, not migrated)",
               "phases into `sampled_body`"),
-    "binaryseries_parameters": (
-        "V_eta_go_forward_class_audit.md",
-        "`binaryseries_parameters` folds into the data_body model and is retired",
-        "`binaryseries_parameters` — folds into `sampled_body`"),
+    # `binaryseries_parameters` WAS HERE and is now in PINNED_DECIDED_TARGETS:
+    # the team ruled 2026-08-11 that the signature governs. `ngrid` is NOT
+    # affected -- nothing was decided about it, and the two rows only ever shared
+    # a shape. It is left alone here on purpose, so that this dictionary going
+    # empty would be a visible event rather than a quiet one.
 }
 
 
@@ -299,6 +309,76 @@ def test_recorded_decided_target_survives_in_both_artifacts(cls):
     assert "will become" in cell, (
         "%s: a decided target must be rendered in the FUTURE voice, so it "
         "cannot be misread as something a migrator emits today: %r" % (cls, cell))
+
+
+def test_binaryseries_parameters_records_both_mounts_not_one():
+    """The specific regression: TWO recorded targets collapsing back to ONE.
+
+    `test_recorded_decided_target_survives_in_both_artifacts` already pins the
+    pair, but it pins it as a LIST -- and a list is satisfied by whatever the
+    pinned literal says, so editing both the pin and the tool in one pass would
+    keep it green. This asserts the property the team's ruling turns on, in a
+    form that does not name the pinned literal at all: the row carries BOTH
+    mounts, and neither one alone.
+
+    Why both, spelled out so a future reader can check the reasoning rather than
+    trust it. The signature (`V_eta_go_forward_class_audit.md`:3) routes:
+
+        `data_type`                 -> "the statement's"        UNCONDITIONAL
+        `time_type` / `data_dim` /
+        `samples_regular_intervals` -> an AXIS ENTRY
+
+    and the axis entry mounts on `subject_statement` when `storage_mode` is
+    inline and on `sampled_body` when it is body -- mutually exclusive, per
+    document (`V_eta_data_body_model_plan.md`:136-137). So `sampled_body` alone
+    (the section heading at :459, which the team ruled does NOT govern) silently
+    drops the statement mount that the signature names unconditionally, and
+    `subject_statement` alone drops the body mount entirely.
+    """
+    row = next(r for r in _rows() if r["v1_class"] == "binaryseries_parameters")
+    got = set(row["decided_targets"])
+    assert got == {"subject_statement", "sampled_body"}, (
+        "binaryseries_parameters records decided_targets=%s. The signature "
+        "routes to TWO mounts; recording one of them drops the other."
+        % sorted(got))
+
+    # ...and it must no longer render as an unresolved dispute, which is what it
+    # was until the team ruled. A row cannot be both decided and contested.
+    assert row["no_target_reason"] is None or not row["no_target_reason"], (
+        "binaryseries_parameters still carries no_target_reason=%r while naming "
+        "decided targets" % (row["no_target_reason"],))
+    cell, _acct = _md_row("binaryseries_parameters")
+    assert "DISPUTED" not in cell, (
+        "the row still renders as DISPUTED after the ruling: %r" % cell)
+
+    # The mount rule is the whole justification for the second target. If that
+    # sentence leaves the plan document, this pair is unsourced -- fail here
+    # rather than let the ledger keep asserting it.
+    with open(os.path.join(SCHEMAS, "V_eta_data_body_model_plan.md")) as fh:
+        body = fh.read()
+    for frag in ("storage_mode: inline", "storage_mode: body"):
+        assert frag in body, (
+            "V_eta_data_body_model_plan.md no longer states %r -- the two-mount "
+            "reading has lost its source and must be re-derived, not kept" % frag)
+
+
+def test_ngrid_is_still_disputed_and_was_not_swept_along():
+    """The `binaryseries_parameters` ruling settled ONE row, not a shape.
+
+    Both rows were filed as DISPUTED together, for the same reason, in the same
+    sweep. That makes it cheap for a later tidy-up to "finish the job" and give
+    `ngrid` a target on the strength of a decision that never mentioned it -- the
+    exact move operating rule 4 forbids. `ngrid`'s own sign-off still says
+    DISSOLVED while its R4 section still says it phases into `sampled_body`, and
+    nobody has ruled between them.
+    """
+    row = next(r for r in _rows() if r["v1_class"] == "ngrid")
+    assert row["no_target_reason"] == "disputed", (
+        "ngrid: no_target_reason=%r -- if this row was resolved, it needs its "
+        "own signed ruling, not this one" % (row["no_target_reason"],))
+    assert not row["decided_targets"], (
+        "ngrid now names %s as a decided target. No decision says so."
+        % (row["decided_targets"],))
 
 
 def test_every_recorded_decided_target_names_a_class_that_exists():

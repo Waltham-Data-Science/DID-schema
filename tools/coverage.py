@@ -411,39 +411,12 @@ NO_TARGET_BY_DECISION = {
         "DELETED. Superclass-only with zero documents in any corpus, so there "
         "is nothing to migrate and no target to name."),
 
-    # THE SECOND ROW OF THE `ngrid` SHAPE, found by sweeping for it rather than
-    # by stumbling on it a third time. `V_eta_go_forward_class_audit.md` states
-    # two things:
-    #
-    #   :459  a SECTION HEADING -- "## `binaryseries_parameters` -- folds into
-    #         `sampled_body`, no new decision"
-    #   :3    the TEAM-SIGN-OFF [misc singletons] line -- "`binaryseries_
-    #         parameters` folds into the data_body model and is retired (its
-    #         `time_type` is the time axis's new `datum_type`, its `data_type`
-    #         the statement's, `data_dim` the axis count,
-    #         `samples_regular_intervals` the axis `regular` flag)"
-    #
-    # They are not the same claim. The heading names ONE target class; the
-    # signature routes the fields to TWO different mounts -- `data_type` goes to
-    # the STATEMENT, and the axis entry mounts on `subject_statement` OR
-    # `sampled_body` by `storage_mode` (V_eta_data_body_model_plan.md). So
-    # recording `sampled_body` picks a mount the team did not pick, and
-    # recording a clean dissolution buries a heading a reader will find first.
-    #
-    # `status_board.py`'s FAMILIES one-liner takes the heading's side
-    # ("binaryseries_parameters -> sampled_body"), which is exactly how `ngrid`
-    # got filed twice, both ways, in one day. DISPUTED: both citations, no
-    # choice made.
-    "binaryseries_parameters": (
-        NO_TARGET_DISPUTED, "V_eta_go_forward_class_audit.md",
-        "`binaryseries_parameters` folds into the data_body model and is retired",
-        "CONTESTED, the same shape as `ngrid`. The sign-off names FIELD "
-        "destinations and NO target class, routing `data_type` to the STATEMENT "
-        "and the rest to an axis entry that mounts on `subject_statement` or on "
-        "`sampled_body` by `storage_mode`; the same document's section heading "
-        "(:459) says it 'folds into `sampled_body`'. `sampled_body` is NOT "
-        "recorded, because picking one of the two mounts is a modelling call "
-        "nobody has made."),
+    # `binaryseries_parameters` WAS HERE, as the second row of the `ngrid`
+    # shape, and is deliberately not, as of 2026-08-11. It is now in
+    # DECIDED_TARGETS_BY_SIGNOFF with TWO targets -- see the entry there for the
+    # team ruling that resolved it and why the count is two rather than one.
+    # `ngrid` below is UNAFFECTED and stays contested: nothing about that row was
+    # decided, and the two rows only ever shared a shape.
 
     # THE ROW THIS TABLE WAS BUILT FROM, LEFT VISIBLE RATHER THAN RESOLVED
     # HERE. Two statements in the SAME document:
@@ -535,6 +508,65 @@ DECIDED_TARGETS_BY_SIGNOFF = {
         "`timed_sequence`, with one `timed_sequence_manipulation` per resolved "
         "subject. The deduped stimulus `data_type` documents it also mints are "
         "not a fixed class set and are not listed."),
+
+    # RESOLVED 2026-08-11, and it moved OUT of NO_TARGET_BY_DECISION to get
+    # here. It sat as DISPUTED because `V_eta_go_forward_class_audit.md` says two
+    # things about this class:
+    #
+    #   :459  a SECTION HEADING -- "## `binaryseries_parameters` -- folds into
+    #         `sampled_body`, no new decision"
+    #   :3    the TEAM-SIGN-OFF [misc singletons] line, in full --
+    #         "`binaryseries_parameters` folds into the data_body model and is
+    #          retired (its `time_type` is the time axis's new `datum_type`, its
+    #          `data_type` the statement's, `data_dim` the axis count,
+    #          `samples_regular_intervals` the axis `regular` flag)"
+    #
+    # THE TEAM RULED (2026-08-11) THAT THE SIGNATURE IS WHAT IS INTENDED. That
+    # settles which sentence governs; it does NOT by itself say how many targets
+    # to record, and the answer is TWO, not the heading's one:
+    #
+    #   `data_type`                -> "the statement's"        -> subject_statement
+    #   `time_type`                -> the time axis's datum_type   |
+    #   `data_dim`                 -> the axis count               |- the AXIS ENTRY
+    #   `samples_regular_intervals`-> the axis `regular` flag      |
+    #
+    # and the axis entry is not a class of its own: it MOUNTS, on
+    # `subject_statement` (inline) or on `sampled_body` (body), selected by
+    # `storage_mode` and mutually exclusive -- V_eta_data_body_model_plan.md:136
+    # "storage_mode: inline -> subject_statement.axes[] populated; no bodies" /
+    # :137 "storage_mode: body -> each sampled_body.axes[] populated;
+    # statement.axes[] EMPTY". So a document of this class reaches ONE of the two
+    # mounts, and WHICH one is per-document data, not a modelling choice anybody
+    # can make once. Recording only `sampled_body` (the heading's reading) drops
+    # the mount the signature names OUTRIGHT and unconditionally -- `data_type`
+    # goes to the statement whatever `storage_mode` says.
+    #
+    # Note what is NOT claimed: no migrator emits either target today. The fold
+    # is gated on the data_body tier (#45, BLOCKED ON #32) -- `axes[]`,
+    # `datum_type` and `regular` do not exist yet. These are DECIDED targets, and
+    # the ledger renders them in the future voice for exactly that reason.
+    #
+    # The cited document is the one carrying the signature. The mount rule lives
+    # in V_eta_data_body_model_plan.md, which carries NO sign-off line at all --
+    # so it is quoted above as the mechanism, and is not the citation.
+    "binaryseries_parameters": (
+        ["subject_statement", "sampled_body"],
+        "V_eta_go_forward_class_audit.md",
+        "`binaryseries_parameters` folds into the data_body model and is retired",
+        "its `time_type` is the time axis's new `datum_type`, its `data_type` "
+        "the statement's, `data_dim` the axis count, `samples_regular_intervals` "
+        "the axis `regular` flag",
+        "RETIRED into the data_body model, field by field, per the signature -- "
+        "which the team ruled (2026-08-11) is what is intended, over the same "
+        "document's section heading (:459) naming `sampled_body` alone. TWO "
+        "targets, because the signature routes to two mounts: `data_type` goes "
+        "to the STATEMENT unconditionally, while `time_type` / `data_dim` / "
+        "`samples_regular_intervals` become an AXIS ENTRY, which mounts on "
+        "`subject_statement` when storage_mode is inline and on `sampled_body` "
+        "when it is body (V_eta_data_body_model_plan.md:136-137, mutually "
+        "exclusive). Recording one mount would drop the other. NOT BUILT: the "
+        "fold is gated on the data_body tier (#45, blocked on #32), since "
+        "`axes[]`, `datum_type` and `regular` do not exist yet."),
 }
 
 

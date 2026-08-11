@@ -466,7 +466,7 @@
         "projectvar"
       ],
       "plan": "V_eta_go_forward_class_audit.md",
-      "decision": "binaryseries_parameters -> sampled_body; projectvar PASSES THROUGH (needs real docs); interaction_purpose is a target (#32)",
+      "decision": "binaryseries_parameters -> subject_statement + sampled_body (the two axis mounts, by storage_mode); projectvar PASSES THROUGH (needs real docs); interaction_purpose is a target (#32)",
       "status": "team",
       "signed": true,
       "signoff": "jess, 2026-08-09 -- `binaryseries_parameters` folds into the data_body model and is retired (its `time_type` is the time axis's new `datum_type`, its `data_type` the statement's, `data_dim` the axis count, `samples_regular_intervals` the axis `regular` flag); `interaction_purpose` is KEPT, conditionally on the stimulus build actually emitting it, and is the destination for the 635 `StimulationApproach` documents via a second pass -- so #71 is repaired by re-targeting, with pass 1 emitting nothing; `projectvar` stays a deprecated passthrough until real documents exist to model its untyped `data` field against. Whether `purpose` collapses to a field on `subject_interaction` stays open pending the corpus measurement.",
@@ -902,7 +902,8 @@
         "state": "b_built_awaiting_corpus_proof",
         "state_label": "(b) built, awaiting corpus proof",
         "build_evidence": [
-          "migrator `DID-matlab:migrators_j/binaryseries_parameters.m`"
+          "migrator `DID-matlab:migrators_j/binaryseries_parameters.m`",
+          "decided target(s) built: `subject_statement`, `sampled_body`"
         ],
         "migrator_file": "DID-matlab:migrators_j/binaryseries_parameters.m",
         "n_consuming_refs": 0,
@@ -962,8 +963,14 @@
             "comment_mentions": []
           }
         },
-        "decided_targets": [],
-        "decided_targets_built": [],
+        "decided_targets": [
+          "subject_statement",
+          "sampled_body"
+        ],
+        "decided_targets_built": [
+          "subject_statement",
+          "sampled_body"
+        ],
         "decided_targets_missing": [],
         "survivors": null,
         "survivors_by_corpus": {},

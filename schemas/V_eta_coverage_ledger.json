@@ -21,7 +21,7 @@
       "rows_naming_no_target": 10,
       "by_reason": {
         "dissolved": 3,
-        "disputed": 2,
+        "disputed": 1,
         "passthrough": 2,
         "unrecorded": 2
       },
@@ -31,6 +31,7 @@
       ]
     },
     "decided_targets_from_signoff_transcription": [
+      "binaryseries_parameters",
       "epochfiles_ingested",
       "filter",
       "stimulus_presentation"
@@ -176,21 +177,29 @@
       "targets": [
         "binaryseries_parameters"
       ],
-      "decided_targets": [],
-      "decided_targets_source": null,
-      "decided_signoff": null,
-      "target_source": "emitted",
-      "no_target_reason": "disputed",
-      "no_target_reason_label": "DISPUTED -- the record states two incompatible dispositions",
-      "no_target_account": "CONTESTED, the same shape as `ngrid`. The sign-off names FIELD destinations and NO target class, routing `data_type` to the STATEMENT and the rest to an axis entry that mounts on `subject_statement` or on `sampled_body` by `storage_mode`; the same document's section heading (:459) says it 'folds into `sampled_body`'. `sampled_body` is NOT recorded, because picking one of the two mounts is a modelling call nobody has made.",
-      "no_target_signoff": {
+      "decided_targets": [
+        "subject_statement",
+        "sampled_body"
+      ],
+      "decided_targets_source": "signoff_transcription",
+      "decided_signoff": {
         "document": "V_eta_go_forward_class_audit.md",
-        "signoff_fragment": "`binaryseries_parameters` folds into the data_body model and is retired"
+        "signoff_fragment": "`binaryseries_parameters` folds into the data_body model and is retired",
+        "mapping_fragment": "its `time_type` is the time axis's new `datum_type`, its `data_type` the statement's, `data_dim` the axis count, `samples_regular_intervals` the axis `regular` flag",
+        "account": "RETIRED into the data_body model, field by field, per the signature -- which the team ruled (2026-08-11) is what is intended, over the same document's section heading (:459) naming `sampled_body` alone. TWO targets, because the signature routes to two mounts: `data_type` goes to the STATEMENT unconditionally, while `time_type` / `data_dim` / `samples_regular_intervals` become an AXIS ENTRY, which mounts on `subject_statement` when storage_mode is inline and on `sampled_body` when it is body (V_eta_data_body_model_plan.md:136-137, mutually exclusive). Recording one mount would drop the other. NOT BUILT: the fold is gated on the data_body tier (#45, blocked on #32), since `axes[]`, `datum_type` and `regular` do not exist yet."
       },
+      "target_source": "emitted",
+      "no_target_reason": null,
+      "no_target_reason_label": null,
+      "no_target_account": null,
+      "no_target_signoff": null,
       "target_gap": false,
       "build_state": {
-        "schema_targets_named": 0,
-        "schema_targets_built": [],
+        "schema_targets_named": 2,
+        "schema_targets_built": [
+          "sampled_body",
+          "subject_statement"
+        ],
         "schema_targets_missing": [],
         "migrator_emits_decided_targets": false,
         "has_per_class_migrator": true
