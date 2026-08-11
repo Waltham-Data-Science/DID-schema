@@ -270,7 +270,15 @@ STEPS = [
          _t("check_constraint_refinement.py"), "gate",
          r"^\s*classes walked\s+(\d+)", "classes walked"),
 
-    Step("check_binding_governance", _t("check_binding_governance.py"), "gate",
+    # --enforce, ADDED with #32. The tool's own usage line has offered it since
+    # it was written; the driver ran it report-only, so B5 -- "a field and its
+    # registry row disagree", baseline 0 -- printed the disagreement and exited
+    # 0. A finding whose baseline is zero and whose exit code is zero is a
+    # report, not a gate. Every other ratchet in this chain
+    # (check_duplicate_field_declarations, check_vacuous_tests,
+    # check_migrator_vocabulary, check_tombstones) is already run with it.
+    Step("check_binding_governance",
+         _t("check_binding_governance.py", "--enforce"), "gate",
          r"V_eta document_class files walked\s+: (\d+)", "class files walked"),
 
     Step("check_empty_ontology_nodes", _t("check_empty_ontology_nodes.py"), "gate",

@@ -1627,3 +1627,96 @@ must not be lost into a place that cannot yet hold it.
 
 Note for whoever picks this up: `validity` is `draft`, not `stable`, so the collapse is cheap
 while it stays there.
+
+---
+
+## TEAM DELEGATION 2026-08-11 — binding governance, ONE question, delegated
+
+Team, jess@walthamdatascience.com, 2026-08-11, verbatim:
+
+> **"Do binding governance as you see fit. We can always change later."**
+
+**THIS IS A DELEGATION OF ONE QUESTION, NOT OF THE FAMILY, and the question it delegates is
+the MECHANISM for a rule the team had ALREADY SIGNED the day before.** Recorded verbatim so a
+later reader cannot widen it. What it did NOT authorise, spelled out because each was live and
+adjacent while the work was done:
+
+- **NOT arming binding conformance.** The switch stays off (see below).
+- **NOT naming an admissible set** for `variable` / `method` / `purpose` (option C stands).
+- **NOT changing any class's disposition, and no migrator was touched.**
+
+### The rule was already signed; only the mechanism was open
+
+`V_eta_tenet_audit.md`, TEAM-SIGN-OFF [binding governance], jess, 2026-08-10:
+
+> ... **STRENGTH IS AUTHORITATIVE ON THE FIELD**, with the registry required to agree where
+> it also states one ...
+
+So "which is authoritative" — the second of #32's two open questions, and the one
+`CLAUDE.md` still described as undecided — was decided on 2026-08-10. The 2026-08-11
+delegation covers HOW that is made true: derive, check, or leave it to a test.
+
+### What was built (2026-08-11)
+
+**THE FIELD IS AUTHORITATIVE. The registry's `strength` is DERIVED and regenerated, never
+hand-edited.**
+
+        DENOMINATOR: 4 registry lists, 38 rows -- 5 subject_statement_bindings,
+                     26 relation_bindings, 3 entity_field_bindings,
+                     4 binding_examples (illustrative).
+                     34 normative; 3 carry a strength, all entity_field_bindings.
+                     14 bound field declarations, over 243 document_class files
+                     and 1026 field declarations walked; 2 of the bindings are
+                     NESTED (relative_reference.value.relation / .frame).
+                     14 of 14 declare a strength. 11 of 14 have NO registry row.
+        OVERLAP:     3 -- dataset.accessibility / .ethics_assessment /
+                     .experimental_approach, stated in BOTH places. They agreed.
+                     Nothing made them agree.
+
+1. **`tools/regen_binding_strengths.py`** derives each registry row's `strength` from the
+   field constraint. Wired into `tools/gates.py` between `build_v_eta` (which writes BOTH
+   sides) and `pytest` / `check_binding_governance` (which read the filled column) — 17
+   steps now, 19 edges, all substantiated. `build_v_eta.py` **no longer hand-authors the
+   key**: restoring it would be inert, which is worse than wrong, because an editor would
+   change a literal, see the built file agree, and believe the rule had moved.
+2. **Disagreement fails, four ways** — `gates.py --check`'s artifact diff (the registry is
+   named as its own row), the tool's own `--check` in the composed block,
+   `test_veta.py::test_field_and_registry_strengths_agree`, and
+   `check_binding_governance.py` **now run with `--enforce`** (B5's baseline is 0; the driver
+   had been running that ratchet report-only, so a disagreement printed and exited 0).
+3. **A BINDING WITH NO `strength` IS AN ERROR.** Not inherited, not defaulted, not skipped.
+   Both candidate defaults are wrong in a dangerous direction: `preferred` makes an ungoverned
+   field read as governed, `required` arms a gate nobody measured on a 0-quarantine corpus.
+   Enforced at TWO scopes, because the generator can only refuse the 3 rows the registry
+   catalogues: the tool errors on a row it cannot derive, and
+   `test_binding_strength_derivation.py::test_every_binding_in_the_built_tree_declares_a_strength`
+   asserts it over all 14 declarations, **including the 11 that no registry row watches**.
+
+**WHY DERIVE RATHER THAN MOVE THE TRUTH TO THE REGISTRY.** The validator already walks the
+class chain and holds `constraints.binding` when `checkBinding` runs, so a registry read at
+validation time re-implements a lookup it has already done against a file it does not open.
+Making the registry authoritative would need a strength on **31 rows** (34 normative, 3 carry
+one) purely to relocate a fact — 31 new hand-authored assertions, each able to disagree with a
+field. And the registry's real job is a CATALOGUE — *what* is bound, to *which* vocabulary —
+answerable without walking 249 files, which is a different question from how hard it is
+enforced.
+
+### STILL OPEN — and NOT delegated
+
+- **The admissible set for `variable` / `method` / `purpose` (option C, the other half of
+  T8).** All three now carry `{strength: preferred, node_form: curie}`, which binds the FORM
+  and not the VALUE SET: a CURIE that resolves to nothing passes. T8's actual claim — the
+  registry maps `variable` onto a value_set — is **unimplemented for the field the whole
+  system pivots on** (`term.value` is `keyed_by: variable`, and that lookup reaches 5 rows,
+  all of them `term_assertion`). **BLOCKED**: membership needs NDIC.txt, which moved to
+  `VH-Lab/ndi-ontology-matlab`, a repository this session could not attach. Recorded, not
+  built.
+- **Arming binding conformance.** `+did2/+schema/cache.m` carries a `case 'binding'` calling
+  `checkBinding`, gated by `strictMode('BindingConformance')`, **DISARMED by default** and
+  asserted so by `testBindingConformanceIsDISARMEDByDefault`. It stays off. Arming it is a
+  separate decision with a separate blast radius, and nothing has counted how many real
+  documents a `required` binding would quarantine.
+- **`strength` is not yet formalised in the meta-schema.** The no-default rule is enforced by
+  the generator and by pytest, not by `did_schema_meta.json`'s `binding` object — which also
+  does not declare `root` / `source` (B1, 15 undeclared key uses) and accepts arbitrary keys
+  (B2). Formalising it is the same edit as closing B1/B2 and should ride with them.

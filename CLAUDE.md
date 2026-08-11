@@ -214,9 +214,66 @@ lives in these files — read them instead of re-deriving from memory:
   `epoch_clock` fields, the two `frequency_filter` fields) exist ONLY on the field. So the
   question is live and it is not hypothetical: three facts are already stored twice, and
   they agree today by coincidence rather than by construction — nothing checks them against
-  each other. `binding` is NOT enforced by the validator yet
-  (validateConstraints handles only maxLength/minLength/minimum/maximum/enum), so these are
-  declarative — cheap to fix now, expensive once a validator reads them.
+  each other.
+
+  **TWO CLAIMS IN THE PARAGRAPH ABOVE WERE STALE AND ARE CORRECTED HERE, 2026-08-11. Read
+  the corrections; do not act on the paragraph.** Both were stale in the reassuring
+  direction — one made a gap sound wider than it is, the other made a validator sound more
+  ignorant than it is — but neither correction closes T8, and the part that is still open
+  is named at the end.
+
+  **CORRECTION 1 — "`binding` is NOT enforced by the validator yet (validateConstraints
+  handles only maxLength/minLength/minimum/maximum/enum)". STALE. The machinery exists;
+  only the switch is off.** `binding` is the SIXTH case in that switch, and it is gated:
+
+        $ grep -n "case 'binding'" -A 10 \
+              DID-matlab/src/did/+did2/+schema/cache.m
+        1860:                    case 'binding'
+        ...
+        1869:                        did2.schema.cache.checkBinding(value, cval, qualifiedName);
+        1870:                    otherwise
+        1871:                        % Unrecognised constraint keys are tolerated;
+
+  `checkBinding` raises `bindingValueMissing` / `bindingNodeMalformed` /
+  `bindingValueNotInSet` behind `did2.schema.cache.strictMode('BindingConformance')`, and
+  `tests/+did2/+unittest/testBindingConformance.m` opens with
+  `testBindingConformanceIsDISARMEDByDefault` — *"the most important test in the file"* —
+  asserting the default OFF rather than assuming it. **THE SWITCH STAYS OFF.** Arming it is
+  a separate decision with a separate blast radius (nothing has measured how many real
+  documents a `required` binding would quarantine), and it has not been made. So `binding`
+  is still declarative IN EFFECT, and the old sentence's advice — cheap to get right now,
+  expensive once a validator reads them — is exactly as true as it was; what changed is
+  that "once a validator reads them" is now one boolean away, not one implementation away.
+
+  **CORRECTION 2 — "`subject_statement.variable`, `subject_interaction.method` and
+  `interaction_purpose.purpose` are completely unbound (`constraints = {}`)". STALE. All
+  three carry `{strength: preferred, node_form: curie}`** (team sign-off 2026-08-10,
+  `V_eta_tenet_audit.md`; increment 1 built). **THAT BINDS THE FORM, NOT THE VALUE SET.**
+  `node_form: curie` says the value's `node` must be a well-formed CURIE; it says nothing
+  about whether the term EXISTS or belongs to any admissible set. **T8's actual claim — that
+  the registry maps `variable` (and `method`+`variable`) onto a value_set — REMAINS
+  UNIMPLEMENTED for `variable`, the field the whole system pivots on** (`term.value` is
+  `keyed_by: variable`, and that lookup reaches 5 rows, every one of them binding to
+  `term_assertion`). The sign-off records this as option C, "no admissible set named yet",
+  and it is BLOCKED: membership for `variable` needs NDIC.txt, which moved to
+  `VH-Lab/ndi-ontology-matlab` — a repository this session could not attach. **Do not read
+  correction 2 as "resolved". The form is checked; the vocabulary is not.**
+
+  **The strength half IS decided and is now BUILT (#32, 2026-08-11).** The team signed
+  *"STRENGTH IS AUTHORITATIVE ON THE FIELD, with the registry required to agree where it
+  also states one"* on 2026-08-10, and on 2026-08-11 delegated the mechanism
+  (*"Do binding governance as you see fit. We can always change later."*). The registry's
+  `strength` is now a DERIVED column: `tools/regen_binding_strengths.py` reads it off the
+  field constraint, `tools/gates.py` runs it after `build_v_eta` and before `pytest` /
+  `check_binding_governance`, and `build_v_eta.py` no longer hand-authors the key at all.
+  A hand-edited registry strength now fails three ways (the artifact diff, the tool's own
+  `--check`, and `test_field_and_registry_strengths_agree`). **A BINDING WITH NO `strength`
+  IS AN ERROR — no default, no inheritance:** `preferred` would make an ungoverned field
+  read as governed and `required` would arm a gate nobody measured, so absence stops the
+  generator instead of choosing. The counts in the paragraph above have also moved — the
+  registry is **38 rows, not 34** (the 4 illustrative `binding_examples` were never counted),
+  and **14 fields carry a binding, not eight**, two of them NESTED
+  (`relative_reference.value.relation` / `.frame`), which a top-level-only sweep misses.
 - **`schemas/V_eta_ngrid_family_findings.md`** — FACTS (not decisions) for group F, read from
   the real v1 writers: the RF family is **ONE** document class (`hartley_calc`; `reverse_correlation`
   + `hartley_reverse_correlation` are superclass-only, no docs, and `calculator` is a V_delta
