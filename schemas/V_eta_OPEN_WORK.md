@@ -1586,3 +1586,44 @@ re-derive requires. What this decision ADDS is the consumer-side resolver, which
 is not yet written.
 
 **No `TEAM-SIGN-OFF` line is written by Claude.**
+
+---
+
+## OPEN — is `validity` the right grain, or should it be a generic `boolean`?
+
+Raised by the team on 2026-08-11, immediately after `validity` was built, verbatim: **"Don't we
+already have a Boolean data type?"** The answer is no, and the question is sharper than a
+duplicate check. **RECORD IT, DO NOT ACT ON IT YET** — the reason is at the bottom.
+
+        DENOMINATOR: 249 built V_eta schemas scanned; 41 `data_type` composites;
+                     65 boolean-typed fields anywhere in the set
+        Composites whose PAYLOAD is a boolean: 1 -- `validity`, built today.
+
+Every other one of those 65 booleans is a MODIFIER INSIDE another composite, never the value
+itself: `approximate` on almost every quantity (voltage, mass, duration, dose, ...), `regular`
+on `sampled_body.sample_time`, `is_blank` on `visual_grating`, `is_mock` on `demo`,
+`is_modulated_response` on `contrast_sensitivity`, `israster`/`bidirectional` on the ingested
+image metadata, `checksum` on `zarr.codecs`.
+
+**SO THE FORK IS NOT "REUSE THE EXISTING ONE" — THERE ISN'T ONE.** It is: keep the SPECIFIC
+`validity`, or mint a GENERIC `boolean` and let `variable` carry the meaning.
+
+**T12.1 ARGUES FOR GENERIC**: *"Same shape, different meaning -> keep the composite, change the
+`variable`."* A generic `boolean` would also serve "was the animal fasted?", "did the rig
+error?", "was this trial aborted?" — `validity` serves none of them.
+
+**THE COUNTERWEIGHT IS THE ABSENCE RULE, AND IT IS LOAD-BEARING.** *Absence of a validity
+statement means the data is VALID* (`markgarbage` is opt-in; `identifyvalidintervals` returns
+the whole requested span when it finds no record, `markgarbage.m:172-176`). Today that can only
+be declared on the CLASS. But notice what it is actually a property of: markgarbage's
+semantics — i.e. **the `variable`**, not booleans in general. On a generic `boolean` it would
+have nowhere to live, because a variable cannot yet carry semantics of its own.
+
+**WHICH MAKES THIS THE SAME ITEM AS BINDING GOVERNANCE.** The reason `validity` has to be
+specific today is exactly the gap binding governance exists to close. **Revisit collapsing
+`validity` into a generic `boolean` ONCE a binding can carry the absence rule on the variable
+— not before.** Doing it now is churn ahead of the mechanism, and would move the one fact that
+must not be lost into a place that cannot yet hold it.
+
+Note for whoever picks this up: `validity` is `draft`, not `stable`, so the collapse is cheap
+while it stays there.
