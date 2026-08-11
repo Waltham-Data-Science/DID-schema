@@ -172,6 +172,35 @@ def _t(script, *args):
 
 
 STEPS = [
+    # READ THIS BEFORE ACTING ON A `V_eta_ndi_ground_truth.json DIFFERS` ROW.
+    # That artifact is NOT reproducible from NDI `origin/main`, even though it
+    # records `ndi_ref: "origin/main"` and the tool's own docstring says it
+    # reads origin/main and never a feature branch. One function breaks that:
+    #
+    #     tools/ndi_ground_truth.py:734
+    #         for line in sh("log", "--all", "--reverse", "--diff-filter=A",
+    #
+    # `--all`, so the `v_alpha_divergence[].provenance` verdicts depend on which
+    # OTHER refs happen to exist in whoever's NDI clone. Regenerating it in a
+    # clone with a different ref set moves 12 of the 67 rows and the headline
+    # counts with them:
+    #
+    #     committed     DID-INVENTED 47 | NDI-CHANGED 0 | UNKNOWN 20
+    #     regenerated   DID-INVENTED 36 | NDI-CHANGED 0 | UNKNOWN 31
+    #
+    # The committed values cannot have come from origin/main. `filter` is
+    # recorded as "first NDI version 2026-04-24", but the commit that adds
+    # filter.json on origin/main is 68b17ce0b, 2026-02-24 --
+    # `git merge-base --is-ancestor 68b17ce0b origin/main` succeeds -- and the
+    # function takes the FIRST add in `--reverse` order, so an origin/main read
+    # could only ever have said February. The other 11 rows now say "no
+    # add-commit found" because no *.json add in April 2026 is reachable here at
+    # all.
+    #
+    # So a DIFFERS row here is a question about the two CLONES, not about this
+    # repository, and regenerating would REPLACE 11 verdicts with UNKNOWN --
+    # a loss of record dressed as a refresh. Do not commit that refresh; fix the
+    # `--all` first, with the team.
     Step("ndi_ground_truth", _t("ndi_ground_truth.py"), "generate",
          r"^NDI classes captured:\s+(\d+)", "NDI classes captured",
          writes=["schemas/V_eta_ndi_ground_truth.json"],
