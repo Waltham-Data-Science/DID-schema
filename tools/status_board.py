@@ -1429,10 +1429,19 @@ RETIRED_BY_ITS_OWN_DECISION = {
     # V_eta_time_reference_model_plan.md:468 --
     #   "TEAM-SIGN-OFF [time_reference]: ... 8 classes collapse to
     #    absolute_reference + relative_reference ..."
-    # Three of the eight are minted today (ontology_table_row.m:262/:669,
-    # private/jSessionAnchor.m:19, treatment_transfer.m:101, and NDI's
-    # stimulusBathToBath.m). Every one of those sites is work the collapse has
-    # still to undo.
+    # Three of the eight are minted today -- session_relative_reference,
+    # session_bounded_reference and epoch_bounded_reference -- and every site is
+    # work the collapse has still to undo.
+    #
+    # NO LINE NUMBERS HERE, DELIBERATELY. This comment used to carry four
+    # (`ontology_table_row.m:262/:669`, `private/jSessionAnchor.m:19`,
+    # `treatment_transfer.m:101`), and on 2026-08-11 not one of them was a mint
+    # any more: :262 is a scale-field struct, :669 is an `end`, and the other
+    # two are comments. A hand-written citation in a source file is the one
+    # thing in this pipeline nothing regenerates, so it goes stale silently
+    # while the artifact beside it stays right. The live sites, with their
+    # repositories, are listed in `schemas/V_eta_STATUS.md` under each class --
+    # generated, and therefore correct or loudly broken.
     "time_reference": "relative_reference",
     "session_bounded_reference": "relative_reference",
     "session_relative_reference": "relative_reference",
