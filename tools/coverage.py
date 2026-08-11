@@ -330,6 +330,260 @@ def guardrail(veta, emitted):
 
 LEDGER_JSON = os.path.join(SCHEMA_ROOT, "schemas", "V_eta_coverage_ledger.json")
 
+
+# ============================================================================
+# NO TARGET IS A CLAIM. IT HAS TO BE MADE, NOT LEFT TO AN EMPTY LIST.
+# ============================================================================
+#
+# Until 2026-08-11 a row with no target of any kind rendered as
+#
+#     · **will dissolve / be deleted** (no target by design)
+#
+# and that string was produced by `if dt else` -- an ASSERTION READ OFF AN
+# EMPTY LIST. It is the project's own recurring error in its purest form: an
+# absence turned into a reassuring conclusion, in the direction of "settled".
+# It was printed for SEVEN rows, and it was wrong for at least one of them
+# (`filter`, whose signed model makes it a `frequency_filter` document) and
+# contested for another (`ngrid`).
+#
+# The two facts a blank cell was standing in for are opposites:
+#
+#   DISSOLVED   the class stops existing and no document class replaces it.
+#               Naming no target is the CORRECT and FINAL answer.
+#   GAP         the target is fixed in a signed plan and nobody wrote it down.
+#               Naming no target is a MISSING RECORD.
+#
+# So dissolution is now stated POSITIVELY, here, with the sign-off that
+# licenses it -- and a row that names no target and carries no entry below
+# renders as `⚠ NO TARGET AND NO DISSOLUTION RECORDED`, a visible gap. "No
+# target" is no longer expressible by omission alone, which is the whole point:
+# forgetting to record a target produces a warning, not a settled-looking row.
+#
+# THESE ARE NOT DISPOSITIONS (operating rule 4). Every entry is TRANSCRIBED
+# from a `TEAM-SIGN-OFF` line the team wrote, and the transcription is CHECKED
+# by `check_decision_citations()` below: the named document must exist, must
+# carry a line beginning `TEAM-SIGN-OFF`, and that line must contain the quoted
+# fragment. A fabricated citation, a stale one, or a fragment that drifted
+# after a plan edit fails the ledger build. Claude may fill these in; it cannot
+# invent what they say.
+
+# reason vocabulary for a row that names no target class
+NO_TARGET_DISSOLVED = "dissolved"      # nothing replaces it; final
+NO_TARGET_PASSTHROUGH = "passthrough"  # its decided target IS itself
+NO_TARGET_DISPUTED = "disputed"        # the record says two incompatible things
+NO_TARGET_UNRECORDED = "unrecorded"    # THE GAP -- no reason, no target
+
+NO_TARGET_REASON_LABEL = {
+    NO_TARGET_DISSOLVED:
+        "DISSOLVES -- no target class, and that is the signed answer",
+    NO_TARGET_PASSTHROUGH:
+        "PASSES THROUGH as itself by decision -- the target is the class",
+    NO_TARGET_DISPUTED:
+        "DISPUTED -- the record states two incompatible dispositions",
+    NO_TARGET_UNRECORDED:
+        "NO TARGET AND NO DISSOLUTION RECORDED -- a gap, not a decision",
+}
+
+# class -> (reason, plan document, fragment that must appear on its sign-off
+#           line, one-line account written from that line)
+NO_TARGET_BY_DECISION = {
+    # "epochid is DROPPED, and a document reaches its epoch through the
+    #  TIME_REFERENCE CHAIN" -- so the string mixin is replaced by an EDGE, and
+    #  an edge is not a document class. This is the clean example of a genuine
+    #  dissolution and it is what the previous inferred label was right about.
+    "epochid": (
+        NO_TARGET_DISSOLVED, "V_eta_epoch_plan.md",
+        "epochid is DROPPED",
+        "DROPPED as a class. The `epoch_id` edge that replaces it is an edge, "
+        "not a document class, so there is no target and that is final."),
+
+    # "stimulus_response and stimulus_response_scalar_parameters DELETE
+    #  (superclass-only, 0 docs)". A class no document has ever been an
+    #  instance of cannot have a migration target.
+    "stimulus_response": (
+        NO_TARGET_DISSOLVED, "V_eta_stimulus_response_model_plan.md",
+        "stimulus_response and stimulus_response_scalar_parameters DELETE",
+        "DELETED. Superclass-only with zero documents in any corpus, so there "
+        "is nothing to migrate and no target to name."),
+    "stimulus_response_scalar_parameters": (
+        NO_TARGET_DISSOLVED, "V_eta_stimulus_response_model_plan.md",
+        "stimulus_response and stimulus_response_scalar_parameters DELETE",
+        "DELETED. Superclass-only with zero documents in any corpus, so there "
+        "is nothing to migrate and no target to name."),
+
+    # NOT `sampled_body`, and the difference is the reason this table exists.
+    # The sign-off re-homes FOUR FIELDS -- `time_type` to the time axis's
+    # `datum_type`, `data_type` to the STATEMENT's, `data_dim` to the axis
+    # count, `samples_regular_intervals` to the axis `regular` flag -- and the
+    # axis entry mounts on `subject_statement` OR `sampled_body` depending on
+    # `storage_mode` (V_eta_data_body_model_plan.md). Writing `sampled_body`
+    # here would pick one of the two mounts, which is a modelling decision the
+    # team has not made. The class is retired; its fields land in a MODEL, not
+    # in a named document class.
+    "binaryseries_parameters": (
+        NO_TARGET_DISSOLVED, "V_eta_go_forward_class_audit.md",
+        "`binaryseries_parameters` folds into the data_body model and is retired",
+        "The sign-off names FIELD destinations and NO TARGET CLASS -- so "
+        "`sampled_body` is NOT recorded as its target: the axis entry mounts on "
+        "`subject_statement` or on `sampled_body` by `storage_mode`, and "
+        "choosing between the two mounts is a modelling call nobody has made."),
+
+    # THE ONE ROW WHERE THE RECORD CONTRADICTS ITSELF, LEFT VISIBLE RATHER THAN
+    # RESOLVED HERE. Two statements in the SAME document:
+    #
+    #   V_eta_image_model_plan.md:107  "## `ngrid` / `array` -- KILLED as a
+    #                                   data_type; `ngrid` -> `sampled_body`"
+    #     :116  "**`ngrid` -> phases into `sampled_body`** like every other
+    #            carrier (drop `ngrid_file` + `element_id`). NOT a `data_type`."
+    #   V_eta_image_model_plan.md:144  the TEAM-SIGN-OFF line: "ngrid is
+    #            DISSOLVED (deleted, not migrated)"; and the FINAL class block
+    #            at :163 reads "ngrid   DELETED".
+    #
+    # "phases into `sampled_body`" is a fold WITH a target; "deleted, not
+    # migrated" is a dissolution. Only the second is in the team's own words,
+    # so `sampled_body` is NOT recorded as a decided target (operating rule 4
+    # -- Claude may not promote its reading over the signature). But recording
+    # a clean dissolution would bury the disagreement, and this row has already
+    # flipped sides once in a single day: commit 94cacb3 called it a
+    # dissolution, 0eb58d9 corrected that to a fold citing the section heading,
+    # and the sign-off says the first was closer. Both commits read one half of
+    # the document.
+    #
+    # So it renders as DISPUTED, which is neither clean nor a silent gap, and
+    # it stays on the board until the team says which sentence governs.
+    "ngrid": (
+        NO_TARGET_DISPUTED, "V_eta_image_model_plan.md",
+        "ngrid is DISSOLVED (deleted, not migrated)",
+        "CONTESTED. The sign-off says `ngrid is DISSOLVED (deleted, not "
+        "migrated)` and the plan's FINAL class block says `ngrid DELETED`, "
+        "while the same document's R4 section says `ngrid` phases into "
+        "`sampled_body` -- a fold WITH a target. No target is recorded, "
+        "because only the dissolution is in the team's own words; the "
+        "disagreement is left visible rather than settled by a tool."),
+}
+
+# class -> (targets, plan document, fragment on the sign-off line, the mapping
+#           sentence in the same document, one-line account)
+#
+# ONLY where a signed line names the target class. A row whose decision is
+# unsigned, or whose sign-off names a MODEL rather than a class, is left out
+# and shows up as a gap -- which is the honest state, and it is recoverable.
+# An unsigned target entered here would be Claude recording a decision.
+DECIDED_TARGETS_BY_SIGNOFF = {
+    # The sign-off approves "the frequency_filter model as written below", and
+    # the migration section of that same document (below the line, so inside
+    # what was approved) states the class mapping outright:
+    #   :178 "v1 `filter` is a superclass block on `pyraview`. It becomes a
+    #         separate `frequency_filter` document plus a `filter_id` edge from
+    #         the observation the pyraview fold already mints."
+    # CAVEAT, from the document itself: this sign-off line was TRANSCRIBED by
+    # Claude on the team's explicit verbal instruction (2026-07-30), and the
+    # document says so in the paragraph directly beneath it. The guarantee here
+    # is therefore only as good as that transcription -- noted, not hidden.
+    "filter": (
+        ["frequency_filter"], "V_eta_frequency_filter_model_plan.md",
+        "Approved the frequency_filter model as written below",
+        "v1 `filter` is a superclass block on `pyraview`. It becomes a "
+        "separate `frequency_filter` document",
+        "Becomes a separate `frequency_filter` document plus a `filter_id` "
+        "edge from the observation the pyraview fold mints. Today the migrator "
+        "only renames the block in place."),
+
+    # "epochfiles_ingested becomes `ingestion_manifest` with filenavigator_id
+    #  RESTORED" -- a named class, in the signed line itself.
+    "epochfiles_ingested": (
+        ["ingestion_manifest"], "V_eta_epoch_plan.md",
+        "epochfiles_ingested becomes `ingestion_manifest`",
+        "epochfiles_ingested becomes `ingestion_manifest`",
+        "Becomes `ingestion_manifest`, with `filenavigator_id` restored and "
+        "the invented required `epochid` edge replaced by `epoch_id`."),
+
+    # The sign-off names both classes and says the presentation is DECOMPOSED
+    # around its preserved id rather than dissolved. Which of the two carries
+    # the id is stated in the plan:
+    #   :102 "the v1 `stimulus_presentation` id is preserved on the
+    #         body-of-record it becomes (the `timed_sequence`)"
+    #   :99  "mint the `timed_sequence` + (per resolved subject) a
+    #         `timed_sequence_manipulation`"
+    # The N standalone stimulus `data_type` documents the same paragraph names
+    # are deliberately NOT listed: their classes depend on the stimulus
+    # (`visual_grating`, `image`, ...) and no fixed set is signed.
+    "stimulus_presentation": (
+        ["timed_sequence", "timed_sequence_manipulation"],
+        "V_eta_stimulus_model_plan.md",
+        "stimulus_presentation is DECOMPOSED around its preserved id",
+        "the v1 `stimulus_presentation` id is preserved on the body-of-record "
+        "it becomes (the `timed_sequence`)",
+        "DECOMPOSED around its preserved id: the id rides on the "
+        "`timed_sequence`, with one `timed_sequence_manipulation` per resolved "
+        "subject. The deduped stimulus `data_type` documents it also mints are "
+        "not a fixed class set and are not listed."),
+}
+
+
+def _signoff_lines(plan):
+    """(line_number, text) for every TEAM-SIGN-OFF line in a plan document.
+
+    HTML comments are stripped first, for the same reason `status_board.py`
+    strips them: a plan document that TELLS the team how to sign off carries the
+    marker inside a comment, and counting it once let Claude's own instruction
+    text validate a citation.
+    """
+    path = os.path.join(SCHEMA_ROOT, "schemas", plan)
+    if not os.path.exists(path):
+        return []
+    with open(path) as fh:
+        text = re.sub(r"<!--.*?-->", "", fh.read(), flags=re.S)
+    return [(i, ln) for i, ln in enumerate(text.splitlines(), 1)
+            if ln.lstrip().startswith("TEAM-SIGN-OFF")]
+
+
+def check_decision_citations():
+    """Verify every transcription above against the document it cites.
+
+    RULE 2 MADE MECHANICAL. Each entry claims a team sign-off says something;
+    this opens the document and checks that a line beginning `TEAM-SIGN-OFF`
+    contains the quoted fragment. It is the difference between a citation and a
+    recollection -- and this repository has already paid for the difference
+    twice (a `demo_ndi` grep that could not match, six plan headers denying
+    sign-offs they carried).
+
+    Returns (denominator_lines, failures). Failures are fatal for the caller.
+    """
+    checks, fails = [], []
+    for cls, (_reason, plan, frag, _note) in sorted(NO_TARGET_BY_DECISION.items()):
+        checks.append(("no-target", cls, plan, frag, None))
+    for cls, (_t, plan, frag, mapping, _note) in sorted(
+            DECIDED_TARGETS_BY_SIGNOFF.items()):
+        checks.append(("decided-target", cls, plan, frag, mapping))
+
+    lines = ["DENOMINATOR: %d transcribed decision(s) checked against %d plan "
+             "document(s); every one must quote a real TEAM-SIGN-OFF line"
+             % (len(checks), len({c[2] for c in checks}))]
+    for kind, cls, plan, frag, mapping in checks:
+        path = os.path.join(SCHEMA_ROOT, "schemas", plan)
+        if not os.path.exists(path):
+            fails.append("%s %s: cited document %s does not exist"
+                         % (kind, cls, plan))
+            continue
+        hits = [n for n, ln in _signoff_lines(plan) if frag in ln]
+        if not hits:
+            fails.append("%s %s: no TEAM-SIGN-OFF line in %s contains %r"
+                         % (kind, cls, plan, frag))
+            continue
+        # The MAPPING sentence need not be on the sign-off line -- a sign-off
+        # routinely approves "the model as written below". It must be in the
+        # document, though, or the class mapping is unsourced.
+        if mapping is not None:
+            with open(path) as fh:
+                body = re.sub(r"\s+", " ", fh.read())
+            if re.sub(r"\s+", " ", mapping) not in body:
+                fails.append("%s %s: %s does not contain the mapping sentence "
+                             "%r" % (kind, cls, plan, mapping))
+                continue
+        lines.append("  [ok] %-14s %-28s %s:%d" % (kind, cls, plan, hits[0]))
+    return lines, fails
+
 LEDGER_BLURB = (
     "One row per did_v1 SOURCE class, from BOTH v1 writers: the NDI production "
     "templates (read from NDI-matlab `origin/main`, not a lagging feature branch) "
@@ -462,6 +716,85 @@ def build_ledger():
             # of this state by recording WHERE the class went -- in _PRE_ZETA_DISSOLVED
             # with a verification note -- or by giving it a home or a migrator.
             disp = "no V_eta home, no migrator -- UNVERIFIED"
+
+        # ---- decided targets: the curated file, PLUS the signed transcriptions
+        # ONE FACT, ONE PLACE. `V_eta_migration_targets.json` is the curated
+        # home for `decided_targets`; the table above fills rows it never got.
+        # If both ever name the same class the ledger stops rather than picking
+        # one -- two records of one fact that agree by coincidence is the
+        # binding-strength defect this repository already has open (#32), and
+        # it is not worth reproducing for a target list.
+        curated_decided = list((tinfo or {}).get("decided_targets") or [])
+        signed = DECIDED_TARGETS_BY_SIGNOFF.get(cn) or \
+            DECIDED_TARGETS_BY_SIGNOFF.get(sn)
+        decided_cite = None
+        if signed and curated_decided:
+            raise SystemExit(
+                "coverage: `%s` has decided_targets in BOTH "
+                "V_eta_migration_targets.json (%s) and "
+                "DECIDED_TARGETS_BY_SIGNOFF (%s). One fact, one place -- "
+                "delete whichever is the copy." % (cn, curated_decided, signed[0]))
+        if signed:
+            decided_targets = list(signed[0])
+            decided_source = "signoff_transcription"
+            decided_cite = {"document": signed[1], "signoff_fragment": signed[2],
+                            "mapping_fragment": signed[3], "account": signed[4]}
+        else:
+            decided_targets = curated_decided
+            decided_source = "curated_targets_file" if curated_decided else None
+
+        # ---- why the DECIDED state names no target, stated rather than inferred
+        #
+        # This is a fact about the DECISION, not about today's emission, and the
+        # first draft of it conflated the two: it only looked at the table when
+        # a row had no targets at all, so `binaryseries_parameters` -- signed
+        # "folds into the data_body model and is retired", but emitting itself
+        # through a guarded passthrough today -- recorded no reason at all. Its
+        # own test caught that on the first run. What a migrator emits today and
+        # what the team signed are different columns; a recorded dissolution
+        # governs the second one whatever the first says.
+        no_target_cite, no_target_account = None, None
+        entry = NO_TARGET_BY_DECISION.get(cn) or NO_TARGET_BY_DECISION.get(sn)
+        if entry:
+            no_target_reason, plan, frag, no_target_account = entry
+            no_target_cite = {"document": plan, "signoff_fragment": frag}
+        elif decided_targets and decided_targets == [cn if cn in veta else vname]:
+            # Its decided target IS itself: a deliberate passthrough, which is
+            # neither a dissolution nor a gap. Downstream consumers strip a
+            # self-target (`open_class_state` does, correctly -- a passthrough
+            # is not build evidence), so without this the row would arrive at
+            # the board looking blank.
+            no_target_reason = NO_TARGET_PASSTHROUGH
+        elif targets or second_pass or decided_targets:
+            no_target_reason = None
+        elif nonprod or cn in _PRE_ZETA_DISSOLVED:
+            # Not a gap in the DECISION record: test scaffolding and pre-V_zeta
+            # dissolutions carry their own honest label in the `disposition`
+            # column. Flagging them here would drown the rows really missing a
+            # target. An UNMAPPED row is NOT excused -- `unmapped` says nobody
+            # gave it a home, which is precisely a missing decision.
+            no_target_reason = None
+        else:
+            no_target_reason = NO_TARGET_UNRECORDED
+
+        # ---- build state, SPLIT. Schema and migrator are different halves and
+        # a single flag reads as neither. The authored `flags` prose says
+        # "DECIDED AND SIGNED, BUILD NOT DONE" on 8 rows -- true of the
+        # migrator, and false of the schema for 3 of them (`app`'s `software`
+        # is built and shipping). A reader acting on the undifferentiated
+        # sentence re-authors schema that already exists.
+        _named = list(decided_targets)
+        build_state = {
+            "schema_targets_named": len(_named),
+            "schema_targets_built": sorted(t for t in _named if t in veta),
+            "schema_targets_missing": sorted(t for t in _named if t not in veta),
+            # A migrator implements the decision only when it EMITS the decided
+            # class. Emitting the source class back out is a passthrough.
+            "migrator_emits_decided_targets": bool(
+                _named and all(t in targets for t in _named)),
+            "has_per_class_migrator": mig,
+        }
+
         rows.append({
             "v1_class": cn,
             "veta_class": vname,
@@ -475,8 +808,16 @@ def build_ledger():
             # for an emitted one. `targets` means "a migrator produces this";
             # this means "the team signed that it will". The viewer renders them
             # in different voices for that reason.
-            "decided_targets": ((tinfo or {}).get("decided_targets") or []),
+            "decided_targets": decided_targets,
+            "decided_targets_source": decided_source,
+            "decided_signoff": decided_cite,
             "target_source": target_source,
+            "no_target_reason": no_target_reason,
+            "no_target_reason_label": NO_TARGET_REASON_LABEL.get(no_target_reason),
+            "no_target_account": no_target_account,
+            "no_target_signoff": no_target_cite,
+            "target_gap": no_target_reason == NO_TARGET_UNRECORDED,
+            "build_state": build_state,
             "carried": carried,
             "second_pass": second_pass,
             "how": how,
@@ -499,7 +840,69 @@ def _summary(rows):
         "by_source": dict(Counter(r["source"] for r in rows)),
         "with_migrator": sum(1 for r in rows if r["migrator"]),
         "gaps": sum(1 for r in rows if r["gap"]),
+        # RULE 5. The no-target census reports what it inspected, and reports
+        # every bucket including the empty ones -- a missing key would make
+        # "no gaps" and "never counted" identical, which is the whole defect
+        # this field exists to close.
+        "no_target": {
+            "rows_naming_no_target": sum(
+                1 for r in rows
+                if not (r["targets"] or r["second_pass"] or r["decided_targets"])),
+            "by_reason": {k: sum(1 for r in rows if r.get("no_target_reason") == k)
+                          for k in (NO_TARGET_DISSOLVED, NO_TARGET_DISPUTED,
+                                    NO_TARGET_PASSTHROUGH, NO_TARGET_UNRECORDED)},
+            "target_gaps": sorted(r["v1_class"] for r in rows if r.get("target_gap")),
+        },
+        "decided_targets_from_signoff_transcription": sorted(
+            r["v1_class"] for r in rows
+            if r.get("decided_targets_source") == "signoff_transcription"),
     }
+
+
+def _no_target_cell(r):
+    """The target cell for a row that names no target class.
+
+    Four different sentences, because the four states are four different facts.
+    The one that matters is the last: a row with no target and no recorded
+    reason says so, loudly, instead of borrowing the settled-sounding wording
+    that used to be printed for all of them.
+    """
+    reason = r.get("no_target_reason")
+    if reason == NO_TARGET_DISSOLVED:
+        return "· **DISSOLVES** -- no target class, per `%s`" % (
+            (r.get("no_target_signoff") or {}).get("document"))
+    if reason == NO_TARGET_DISPUTED:
+        return "· ⚠ **DISPUTED** -- the record states two dispositions; see `%s`" % (
+            (r.get("no_target_signoff") or {}).get("document"))
+    if reason == NO_TARGET_PASSTHROUGH:
+        return "· **passes through as itself** by decision"
+    return "· ⚠ **NO TARGET AND NO DISSOLUTION RECORDED** -- a gap, not a decision"
+
+
+def _build_state_clause(r):
+    """`SCHEMA: ... MIGRATOR: ...` -- never one undifferentiated verdict.
+
+    The authored `flags` prose says "DECIDED AND SIGNED, BUILD NOT DONE" on
+    eight rows. For `app` that is half true and misleading in the direction
+    that costs work: `software` IS built and shipping, and only the migrator is
+    outstanding, so a reader acting on the sentence re-authors existing schema.
+    This clause is DERIVED from the built index and the emitted-target list, so
+    it cannot drift from either.
+    """
+    bs = r.get("build_state") or {}
+    if not bs.get("schema_targets_named"):
+        return None
+    built, missing = bs["schema_targets_built"], bs["schema_targets_missing"]
+    schema = ("SCHEMA: %d of %d decided target class(es) present in the built "
+              "set" % (len(built), bs["schema_targets_named"]))
+    if built:
+        schema += " (" + ", ".join("`%s`" % t for t in built) + ")"
+    if missing:
+        schema += "; NOT built: " + ", ".join("`%s`" % t for t in missing)
+    migr = ("MIGRATOR: emits them today"
+            if bs.get("migrator_emits_decided_targets")
+            else "MIGRATOR: does NOT emit them yet")
+    return "⚑ " + schema + ". " + migr + "."
 
 
 def write_ledger(veta, v1, rows):
@@ -519,6 +922,30 @@ def write_ledger(veta, v1, rows):
         + (f" | ⚠ {s['gaps']} UNMAPPED (no V_eta class, no migrator)" if s["gaps"] else "")
         + ".",
         "",
+        # THE NO-TARGET CENSUS, UNCONDITIONALLY AND WITH ITS DENOMINATOR. It
+        # prints every bucket including the zeroes: an omitted line would make
+        # "none of these" and "not counted" the same output, and a blank target
+        # cell reading as settled is precisely the defect being closed.
+        "**No-target census.** DENOMINATOR: {n} rows inspected; {b} name no target "
+        "class of any kind. Across ALL {n} rows the recorded no-target dispositions "
+        "are **{dis} dissolved** (signed, final -- note a dissolution is a fact "
+        "about the DECISION, so a row can carry one while its migrator still emits "
+        "the class today), **{disp} DISPUTED**, **{pt} signed passthroughs** whose "
+        "decided target is the class itself, and **{gap} with NO TARGET AND NO "
+        "DISSOLUTION RECORDED**{gaplist}. Only the last is a missing record; the "
+        "blank rows not otherwise accounted for are test/demo scaffolding or "
+        "pre-V_zeta dissolutions, already labelled in the disposition column. A "
+        "blank cell is no longer expressible: a row with no target must carry a "
+        "transcribed sign-off saying so, or it renders as a gap.".format(
+            n=s["total"], b=s["no_target"]["rows_naming_no_target"],
+            dis=s["no_target"]["by_reason"][NO_TARGET_DISSOLVED],
+            disp=s["no_target"]["by_reason"][NO_TARGET_DISPUTED],
+            pt=s["no_target"]["by_reason"][NO_TARGET_PASSTHROUGH],
+            gap=s["no_target"]["by_reason"][NO_TARGET_UNRECORDED],
+            gaplist=(" (" + ", ".join("`%s`" % c
+                                      for c in s["no_target"]["target_gaps"]) + ")"
+                     if s["no_target"]["target_gaps"] else "")),
+        "",
         "| v1 class | → V_eta target(s) | what happens to it | disposition | source |",
         "|---|---|---|---|---|",
     ]
@@ -529,14 +956,36 @@ def write_ledger(veta, v1, rows):
         # chips by construction, so this must be tested BEFORE the empty case --
         # placed after it, the branch below never fires and every signed-unbuilt
         # row prints "—". Caught by reading the rendered table, not the code.
-        if r.get("target_source") == "decided":
+        # THE REASON OUTRANKS THE BRANCH, and this order is not cosmetic.
+        # `imageCollection` has no curated entry at all, so it never reached the
+        # `decided` branch and rendered as a bare "—" while the census counted
+        # it as a gap: the artifact and its own summary line disagreed, and the
+        # dash was the reassuring half. A row carrying a recorded reason and no
+        # target of any kind now states that reason first, whatever produced it.
+        if (r.get("no_target_reason")
+                and not (r["targets"] or r["second_pass"] or r["decided_targets"])):
+            tgt = _no_target_cell(r)
+        elif r.get("target_source") == "decided":
             dt = r.get("decided_targets") or []
-            tgt = ("· **will become** " + " + ".join("`" + t + "`" for t in dt)
-                   # Present tense here read as ALREADY DONE while the sibling
-                   # branch above says "will become" -- and `ngrid` is signed to
-                   # dissolve but CANNOT be (two consumers remain). The status
-                   # column carries completion; the tense must not contradict it.
-                   if dt else "· **will dissolve / be deleted** (no target by design)")
+            # THE `else` BRANCH USED TO READ "· **will dissolve / be deleted**
+            # (no target by design)" -- an assertion produced by an empty list.
+            # It was printed for seven rows and it was wrong for `filter`,
+            # whose signed model makes it a `frequency_filter` document. A
+            # dissolution now has to be SAID (NO_TARGET_BY_DECISION, with the
+            # sign-off quoted); anything else renders as the gap it is.
+            if r.get("no_target_reason") == NO_TARGET_PASSTHROUGH:
+                # "will become `projectvar`" was the previous rendering of a
+                # class whose decided target is ITSELF, and it reads as pending
+                # work. It is the opposite: the decision is that nothing
+                # happens to it, and that decision is made and signed.
+                tgt = _no_target_cell(r)
+            else:
+                tgt = ("· **will become** " + " + ".join("`" + t + "`" for t in dt)
+                       # Present tense here read as ALREADY DONE while the sibling
+                       # branch above says "will become" -- and `ngrid` is signed to
+                       # dissolve but CANNOT be (two consumers remain). The status
+                       # column carries completion; the tense must not contradict it.
+                       if dt else _no_target_cell(r))
         elif not chips:
             tgt = "⚠ **unmapped**" if r["gap"] else "—"
         elif r.get("target_source") == "uncurated":
@@ -555,6 +1004,26 @@ def write_ledger(veta, v1, rows):
             tgt = " + ".join(chips)
             if r["carried"]:
                 tgt += " · on " + ", ".join("`" + c + "`" for c in r["carried"])
+            # A row that EMITS something today can still carry a signed target
+            # it does not emit yet, and until now that never reached the table:
+            # only the `decided` branch above printed `decided_targets`, so
+            # `epochfiles_ingested -> ingestion_manifest` and the four
+            # `method_parameters` folds were invisible in the rendered ledger
+            # while sitting in the JSON. Emitted and decided are different
+            # voices, printed as different clauses, never merged.
+            dt = [t for t in (r.get("decided_targets") or []) if t not in r["targets"]]
+            if dt:
+                tgt += " · **will become** " + " + ".join("`" + t + "`" for t in dt)
+            # A SIGNED DISSOLUTION ON A ROW THAT STILL EMITS ITSELF. Emitting
+            # the source class back out is what a guarded passthrough does; it
+            # is TODAY, and it must not hide a decision that the class goes
+            # away. `binaryseries_parameters` is exactly this shape, and
+            # rendering only the emitted chip made a retired class read as a
+            # settled 1:1 migration.
+            elif r.get("no_target_reason") == NO_TARGET_DISSOLVED:
+                tgt += " · **but is SIGNED TO DISSOLVE** -- no target class"
+            elif r.get("no_target_reason") == NO_TARGET_DISPUTED:
+                tgt += " · ⚠ **DISPUTED disposition**"
         # THE ACCOUNT, IN THE TABLE. This footer used to say "see
         # V_eta_migration_targets.json for the per-class `how`" -- which is to say,
         # the one field that answers the question was in a different file, behind
@@ -562,8 +1031,15 @@ def write_ledger(veta, v1, rows):
         # for a team. Pipes and newlines are escaped so a long sentence cannot
         # break the table.
         acct = (r.get("how") or "").strip()
+        if r.get("no_target_account"):
+            acct = (acct + " " if acct else "") + r["no_target_account"].strip()
         if r.get("target_flags"):
             acct = (acct + " " if acct else "") + "⚠ " + r["target_flags"].strip()
+        # LAST, DELIBERATELY. It is the measured half, and it must be readable
+        # as a correction to whatever the authored prose above it claimed.
+        _bsc = _build_state_clause(r)
+        if _bsc:
+            acct = (acct + " " if acct else "") + _bsc
         acct = acct.replace("|", "\\|").replace("\n", " ") or "—"
         lines.append(
             f"| `{r['v1_class']}` | {tgt} | {acct} | {r['disposition']} | {r['source']} |")
@@ -572,7 +1048,9 @@ def write_ledger(veta, v1, rows):
                  "\"on `subject`\" = the pre-existing class the statements attach to. "
                  "**will become** = a signed decision that no migrator implements yet. "
                  "The `what happens to it` column is the authored per-class account; "
-                 "`⚠` prefixes its caveat.*")
+                 "`⚠` prefixes its caveat; `⚑` prefixes the DERIVED build state, "
+                 "which states the SCHEMA half and the MIGRATOR half separately and "
+                 "may correct an authored `BUILD NOT DONE` beside it.*")
     lines.append("")
     open(LEDGER, "w").write("\n".join(lines))
 
@@ -590,6 +1068,20 @@ def write_ledger_json(rows):
 
 def main():
     check_only = "--check" in sys.argv
+    # FIRST, UNCONDITIONALLY, AND FATAL. Every transcribed sign-off is
+    # re-read from the document it cites before a single row is built, so a
+    # citation that has gone stale (a plan reworded, a document renamed) stops
+    # the ledger instead of being carried forward as a quotation nobody
+    # rechecked. `--check` runs it too: a stale citation is a CI failure.
+    cite_lines, cite_fails = check_decision_citations()
+    for ln in cite_lines:
+        print(ln)
+    if cite_fails:
+        for f in cite_fails:
+            print("  FAIL: " + f)
+        sys.exit("coverage: %d transcribed decision(s) no longer match the "
+                 "document they cite." % len(cite_fails))
+
     veta = veta_index()
     emitted = emitted_classes()
     new, ack = guardrail(veta, emitted)
@@ -615,6 +1107,17 @@ def main():
         print(f"ledger: wrote {os.path.relpath(LEDGER, SCHEMA_ROOT)} + "
               f"{os.path.relpath(LEDGER_JSON, SCHEMA_ROOT)} ({len(v1)} v1 classes"
               + (f", {s['gaps']} UNMAPPED" if s["gaps"] else "") + ")")
+        nt = s["no_target"]
+        print("  no-target census: DENOMINATOR %d rows, %d naming no target -- "
+              "%d dissolved, %d DISPUTED, %d GAP%s (+%d self-target passthroughs, "
+              "which do name a target)"
+              % (s["total"], nt["rows_naming_no_target"],
+                 nt["by_reason"][NO_TARGET_DISSOLVED],
+                 nt["by_reason"][NO_TARGET_DISPUTED],
+                 nt["by_reason"][NO_TARGET_UNRECORDED],
+                 (" (" + ", ".join(nt["target_gaps"]) + ")")
+                 if nt["target_gaps"] else "",
+                 nt["by_reason"][NO_TARGET_PASSTHROUGH]))
     else:
         print("ledger: SKIPPED (NDI-matlab sibling not found)")
 

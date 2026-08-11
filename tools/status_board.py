@@ -603,6 +603,59 @@ def find_repo(name, env):
     return None
 
 
+def batch_consumers(classes):
+    """Which BATCH POST-PASSES name each of `classes`, by bare quoted literal.
+
+    WHY IT EXISTS. The ledger's `migrator` column means one thing only: a file
+    in `+migrators_j` / `+migrators` / `+migrators_i` is NAMED after this class.
+    The board then printed "so the documents pass through untouched today",
+    which is a different and stronger claim -- and on 2026-08-11 it was false
+    for `generic_file`: `+did2/+convert/foldGenericFiles.m` folds it into a
+    `term_observation` + an `opaque_body` (carrying `content_hash` from
+    `checksum`), a batch post-pass with no per-class file to be named after.
+    Absence in one directory, reported as absence everywhere.
+
+    DELIBERATELY NARROW. It is run ONLY over the handful of rows the board is
+    about to describe, never over all 102 -- a bare-name sweep across the whole
+    ledger matches `'base'` in eight files and `'app'` in one, and a
+    false-positive rate like that turns the instrument into noise. Over a
+    candidate set of one or two named classes it is exact and checkable.
+
+    The match is the BARE CLASS NAME as a quoted literal, per this project's own
+    rule: the construction idiom is not uniform (`ndi.document('valid_interval')`
+    finds nothing because `markgarbage` uses `session.newdocument`), so a search
+    keyed on one call shape reports absence that is a property of the query.
+
+    Returns {"files_scanned": n, "roots_missing": [...], "by_class": {cls: [files]}}.
+    """
+    didm = find_repo("DID-matlab", "DID_MATLAB")
+    base = os.path.join(didm or "", "src/did/+did2/+convert")
+    out = {"files_scanned": 0, "roots_missing": [], "by_class": {}}
+    if not didm or not os.path.isdir(base):
+        out["roots_missing"].append(base or "DID-matlab (not found)")
+        return out
+    # The per-class migrator packages are excluded: a hit there is the
+    # `migrator` column's business and would double-count. `universalRenames`
+    # and the drivers are excluded because they enumerate every class by
+    # construction and would match everything.
+    skip_dirs = {"+migrators", "+migrators_i", "+migrators_e", "+migrators_j"}
+    skip_files = {"Contents.m", "universalRenames.m", "v1_to_v2.m",
+                  "fromV1Database.m", "calcCommon.m"}
+    texts = {}
+    for name in sorted(os.listdir(base)):
+        if name in skip_dirs or not name.endswith(".m") or name in skip_files:
+            continue
+        with open(os.path.join(base, name)) as fh:
+            texts[name] = "\n".join(ln.split("%")[0] for ln in fh.read().splitlines())
+    out["files_scanned"] = len(texts)
+    for cls in classes:
+        pat = re.compile(r"'%s'" % re.escape(cls))
+        hit = sorted(n for n, t in texts.items() if pat.search(t))
+        if hit:
+            out["by_class"][cls] = hit
+    return out
+
+
 _IDENT = set("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_")
 # After one of these, a `'` is the TRANSPOSE operator, not the start of a string.
 _TRANSPOSE_AFTER = _IDENT | set(")]}.'")
@@ -2506,19 +2559,84 @@ def build(ocs=None):
     # does is lift that to the family and print it, so the claim moves with
     # the tree instead of with whoever last edited the string.
     tgt_by_class = {r["class_name"]: r for r in (ocs or {}).get("classes", [])}
+    # THE LEDGER, DIRECTLY, AS A SECOND SOURCE -- because the first one cannot
+    # see most of these families.
+    #
+    # `open_class_state` is built over `open_work`, which is the `in_progress`
+    # V_eta SCHEMA classes plus retire-with-no-plan. Five signed families are
+    # made of v1 SOURCE rows with disposition `retire` and a migrator, so they
+    # have no `open_class_state` row at all -- and `family_targets` silently
+    # skipped them (`if not row: continue`). The section below then printed
+    #
+    #     "No member of these families carries a `decided_targets` entry in the
+    #      coverage ledger"
+    #
+    # about eleven families, and MEASURED 2026-08-11 that sentence was FALSE
+    # for five of them: all four members of `spike processing parameters` carry
+    # `decided_targets: [method_parameters]`, `stimulus response` carries
+    # `harmonic_component_calculation` and `method_parameters`, and
+    # `stimulus parameters` / `misc singletons` carry self-targets. The record
+    # was there; nothing read it. An unchecked family reported as "carries no
+    # entry" is a claim about the LEDGER derived from a lookup that never
+    # touched the ledger -- absence of evidence, printed as evidence.
+    built_classes_now = {s["class_name"] for s in schemas}
+    ledger_by_class = {r["v1_class"]: r for r in rows}
+
+    def _decided_of(member):
+        """(built, missing, source) for one family member, ledger as fallback.
+
+        A decided target that IS the class is dropped, exactly as
+        `open_class_state` drops it: a deliberate passthrough is not evidence
+        that anything was built.
+        """
+        row = tgt_by_class.get(member)
+        if row:
+            return (set(row.get("decided_targets_built") or []),
+                    set(row.get("decided_targets_missing") or []),
+                    "open_class_state")
+        led = ledger_by_class.get(member)
+        if not led:
+            return set(), set(), None
+        dec = [t for t in (led.get("decided_targets") or []) if t != member]
+        return ({t for t in dec if t in built_classes_now},
+                {t for t in dec if t not in built_classes_now},
+                "coverage_ledger")
 
     def family_targets(members):
         """(built, missing) decided-target class names across a family."""
         built_t, missing_t = set(), set()
         for m in members:
-            row = tgt_by_class.get(m)
-            if not row:
-                continue
-            built_t.update(row.get("decided_targets_built") or [])
-            missing_t.update(row.get("decided_targets_missing") or [])
+            b, mi, _src = _decided_of(m)
+            built_t |= b
+            missing_t |= mi
         # A target both built and missing across two members is BUILT -- the
         # file exists; the other member simply has not been re-pointed at it.
         return built_t, (missing_t - built_t)
+
+    def family_blank_causes(members):
+        """Why a family contributed nothing -- measured, not assumed.
+
+        Three different facts, and the old prose named only one of them:
+          not_a_v1_source  the member is a V_eta TARGET class, so the ledger has
+                           no row for it and never will (the whole
+                           `time_reference` family is this).
+          no_decided       there IS a ledger row and its `decided_targets` is
+                           empty -- the gap the coverage ledger now flags.
+          self_only        its only decided target is itself (a signed
+                           passthrough), which is stripped as non-evidence.
+        """
+        causes = {}
+        for m in members:
+            led = ledger_by_class.get(m)
+            if led is None:
+                causes[m] = "not_a_v1_source"
+            elif [t for t in (led.get("decided_targets") or []) if t != m]:
+                causes[m] = "has_decided"
+            elif led.get("decided_targets"):
+                causes[m] = "self_only"
+            else:
+                causes[m] = "no_decided"
+        return causes
 
     if not ocs:
         # RULE 5. No denominator available means the question was not asked,
@@ -2563,45 +2681,73 @@ def build(ocs=None):
             p("queue for schema.")
             p("")
         if unseen:
-            # "no target recorded" splits two ways and the split is the point.
-            # A class that DISSOLVES correctly names no target -- `epochid` is
-            # dropped outright ("epochid DROPPED", this file's own epoch row).
-            # A class whose target is fixed in a signed plan but was never
-            # written into the ledger is a GAP: `ngrid` -> `sampled_body`,
-            # `filter` -> `frequency_filter`, `binaryseries_parameters` ->
-            # `sampled_body`. Rendering both as a blank cell makes a settled
-            # decision and a missing record look identical, which is how a
-            # decided model gets re-litigated.
+            # "no target recorded" splits SEVERAL ways and the split is the
+            # point. A class that DISSOLVES correctly names no target
+            # (`epochid`, dropped outright). A class whose target is fixed in a
+            # signed plan but was never written down is a GAP. A class whose
+            # decided target is ITSELF is a signed passthrough. And a family
+            # member that is a V_eta TARGET rather than a v1 source has no
+            # ledger row at all. Four facts; one blank cell.
             #
-            # CORRECTED 2026-08-11, SAME DAY AS WRITTEN. The first version of
-            # this comment cited "`epochid` and `ngrid`" as the dissolutions.
-            # `ngrid` is not one: the image/ngrid row three sections down says
-            # "ngrid phases into sampled_body", which is a FOLD WITH A TARGET.
-            # It is the misfiling this comment exists to warn about, committed
-            # inside the warning itself -- and in the reassuring direction,
-            # because a fold misread as a dissolution is a target nobody will
-            # look for again.
-            p("**The other %d are unchecked, NOT clean.** No member of these "
-              "families carries a `decided_targets` entry in the coverage "
-              "ledger, so nothing above says anything about them:"
+            # THIS BLOCK'S OWN PROSE WAS WRONG TWICE, BOTH TIMES IN THE
+            # DIRECTION OF SOUNDING BETTER MEASURED THAN IT WAS.
+            #
+            #   94cacb3 cited "`epochid` and `ngrid`" as the dissolutions.
+            #   0eb58d9 corrected `ngrid` to a fold -> `sampled_body`, citing
+            #           the plan's R4 SECTION HEADING.
+            #   Measured 2026-08-11: the `TEAM-SIGN-OFF [image / ngrid]` line in
+            #           that same document reads "ngrid is DISSOLVED (deleted,
+            #           not migrated)" and the plan's FINAL class block reads
+            #           "ngrid   DELETED". Both commits read one half of one
+            #           document. `coverage.py` now renders `ngrid` as DISPUTED
+            #           rather than picking a side for the team.
+            #
+            # And the sentence this replaces -- "No member of these families
+            # carries a `decided_targets` entry in the coverage ledger" -- was
+            # FALSE for five of the eleven. It described the ledger without
+            # reading it; the lookup only ever touched `open_class_state`,
+            # which does not cover a `retire` v1 source row. The causes below
+            # are MEASURED per member, so the claim cannot outrun the check
+            # again.
+            p("**The other %d are unchecked, NOT clean.** Nothing above says "
+              "anything about them, and the reason differs per family:"
               % len(unseen))
             p("")
+            _CAUSE = {
+                "not_a_v1_source":
+                    "a V_eta target class, so the coverage ledger has no row "
+                    "for it (it is not a v1 source)",
+                "no_decided":
+                    "has a ledger row whose `decided_targets` is EMPTY -- the "
+                    "gap the ledger now flags by name",
+                "self_only":
+                    "its only decided target is ITSELF, a signed passthrough, "
+                    "which is stripped because it is not build evidence",
+                "has_decided":
+                    "DOES carry a decided target -- if this appears here the "
+                    "join is broken, not the record",
+            }
             for name in unseen:
-                p("- **%s**" % name)
+                members = next(f[1] for f in decided if f[0] == name)
+                causes = family_blank_causes(members)
+                buckets = {}
+                for m, c in causes.items():
+                    buckets.setdefault(c, []).append(m)
+                p("- **%s** (%d class(es)): %s" % (
+                    name, len(members),
+                    "; ".join("%d %s -- %s"
+                              % (len(v), ", ".join("`%s`" % x for x in sorted(v)),
+                                 _CAUSE[k])
+                              for k, v in sorted(buckets.items()))))
             p("")
-            p("A blank entry has two very different causes and the ledger does")
-            p("not distinguish them. The class DISSOLVES, so naming no target")
-            p("is the final answer -- `epochid`, which is dropped outright. Or")
-            p("its target is fixed in a signed plan and was never written down")
-            p("-- `ngrid` -> `sampled_body`, `filter` -> `frequency_filter`,")
-            p("`binaryseries_parameters` -> `sampled_body`. Only the second is")
-            p("a gap, and telling them apart needs the ledger to record")
-            p("dissolution explicitly rather than by omission.")
-            p("")
-            p("(`ngrid` sat on the wrong side of that sentence for one commit,")
-            p("cited as a dissolution while the image/ngrid row below says it")
-            p("phases into `sampled_body`. A fold misread as a dissolution is a")
-            p("target nobody goes looking for again.)")
+            p("Only the `decided_targets` EMPTY bucket is a missing record. The")
+            p("others are correct states that this check cannot use: a V_eta")
+            p("target class has no v1 row to carry a target, and a signed")
+            p("passthrough deliberately names no new class. `tools/coverage.py`")
+            p("now records dissolution POSITIVELY (with the sign-off quoted) and")
+            p("renders a row with neither a target nor a dissolution as an")
+            p("explicit gap, so the empty bucket is enumerable rather than")
+            p("indistinguishable from a settled one.")
     p("")
     p("Every one of these re-targets migrators that are already written, which")
     p("is why migrator work before the target closes is rework.")
@@ -2633,13 +2779,23 @@ def build(ocs=None):
         p("| %s | %d |" % (k, len(led_disp[k])))
     p("")
     if unplanned_retire:
+        # MEASURED, NOT ASSUMED -- and it caught one immediately. See the note
+        # under the heading below.
+        batch_hits = batch_consumers(unplanned_retire)
         p("### `retire`, but NO MIGRATOR YET -- %d rows" % len(unplanned_retire))
         p("")
-        p("Marked `retire` in the ledger with **no migrator and no `how` note**, so the")
-        p("documents pass through untouched today. `retire` reads as settled, so these")
-        p("do not appear in the family counts above -- but they are open work. Several")
-        p("hold real data (e.g. `spike_extraction_parameters` carries filter_type /")
-        p("filter_low / filter_high / filter_order / filter_ripple).")
+        p("Marked `retire` in the ledger with **no per-class migrator and no `how`")
+        p("note**. `retire` reads as settled, so these do not appear in the family")
+        p("counts above -- but they are open work. Several hold real data (e.g.")
+        p("`spike_extraction_parameters` carries filter_type / filter_low /")
+        p("filter_high / filter_order / filter_ripple).")
+        p("")
+        p("**THIS PARAGRAPH SAID \"so the documents pass through untouched today\"")
+        p("and that was an INFERENCE from `no migrator`, not a measurement.** The")
+        p("ledger's `migrator` column means \"a file in `+migrators_j` / `+migrators`")
+        p("/ `+migrators_i` is named after this class\" -- it says nothing about the")
+        p("BATCH POST-PASSES in `+did2/+convert`, which consume classes no")
+        p("per-class migrator touches. Measured now, per row, below.")
         p("")
         p("**This heading used to say \"nothing decided\" / \"no recorded plan\", and that")
         p("was WRONG** -- it is computed from the LEDGER (disposition + migrator + `how`),")
@@ -2649,8 +2805,22 @@ def build(ocs=None):
         p("reports settled work as undecided is the mirror of the failure this board")
         p("exists to prevent, and it cost a review pass to notice.")
         p("")
+        p("DENOMINATOR: %d row(s), each searched for its BARE CLASS NAME as a "
+          "quoted literal in %d batch post-pass file(s) under `+did2/+convert` "
+          "(comments stripped)%s."
+          % (len(unplanned_retire), batch_hits["files_scanned"],
+             "" if batch_hits["files_scanned"]
+             else " -- ZERO FILES READ, so every 'passes through' below is "
+                  "UNMEASURED, not clean"))
+        p("")
         for c in unplanned_retire:
-            p("- `%s`" % c)
+            hits = batch_hits["by_class"].get(c) or []
+            if hits:
+                p("- `%s` -- **NOT untouched**: consumed by %s"
+                  % (c, ", ".join("`%s`" % h for h in hits)))
+            else:
+                p("- `%s` -- no per-class migrator and no batch post-pass names "
+                  "it; passes through today" % c)
         p("")
 
     if unverified:
