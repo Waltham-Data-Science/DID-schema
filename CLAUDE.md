@@ -532,14 +532,21 @@ lives in these files — read them instead of re-deriving from memory:
   side — provenance `origin` (`V_eta_class_provenance.md`) is the arbiter; only
   `did_v1`-origin (+ the 11 app classes) are sources. `coverage.py` also flags GAPS
   (no V_eta home + no migrator + absent from the V_zeta base = never reviewed):
-  **0 UNMAPPED + 4 UNVERIFIED** (`subjectmeasurement` now has a tombstone). This line used to read "currently
+  **THIS SAID "0 UNMAPPED + 4 UNVERIFIED". BOTH THE NUMBER AND THE VOCABULARY ARE STALE —
+  re-derived from the ledger 2026-08-11: `gap` is False on all 102 rows and the UNVERIFIED
+  bucket is gone**, replaced by a NARROWER `target_gap` that stands at **2** rows
+  (`epochclocktimes`, `imageStack_parameters`), each labelled *"NO TARGET AND NO DISSOLUTION
+  RECORDED -- a gap, not a decision"*. See the resolved account further down; do not quote
+  the 4 as outstanding. The history of the concept is still worth keeping, because the
+  failure it fixed is this file's signature error:
+  the line before it read "currently
   NONE (0 gaps)", which was true only because the ledger asserted a conclusion it had no
   evidence for: every class with no V_eta home was labelled "dissolved (rename/decompose)"
-  — 32 rows — turning each unknown into a reassuring claim. That is now split by whether a
+  — 32 rows — turning each unknown into a reassuring claim. That was then split by whether a
   migrator actually CONSUMES the class (28 rows, genuinely accounted for) versus no home and
-  no migrator (4 rows — `generic_file`, `imageCollection`, `imageStack_parameters`,
-  `valid_interval` — labelled UNVERIFIED; the last two are probably already resolved but
-  unrecorded). Separately, `_PRE_ZETA_DISSOLVED` carried a FALSE entry claiming
+  no migrator (the 4 rows — `generic_file`, `imageCollection`, `imageStack_parameters`,
+  `valid_interval` — labelled UNVERIFIED, all four since resolved; `subjectmeasurement` got
+  its tombstone in the same pass). Separately, `_PRE_ZETA_DISSOLVED` carried a FALSE entry claiming
   `subjectmeasurement` dissolved into `measurement`. NDI never did that: it is still a
   shipped template, and `measurement` is a NEWER PARALLEL class (added 2026-01-05).
   **CORRECTED 2026-08-05 — this line said "FOUR in-tree emitters", which is numerically right
@@ -688,13 +695,55 @@ lives in these files — read them instead of re-deriving from memory:
 - **`generic_file` needs `opaque_body` + a statement** (agreed in walkthrough). It is a REAL,
   PRODUCTION class — written by `+ndi/+setup/+conv/+babu/import.m` for plasmid and LCMS
   documents, read by `+ndi/+cloud/+download/downloadGenericFiles.m` — with `filename`,
-  `formatOntology`, `dateCreated`, `dateUpdated`, `checksum` and a `generic_file.ext` file. It
-  has NO V_eta home and NO migrator: a Babu dataset migrating today strands these. Note V_eta
+  `formatOntology`, `dateCreated`, `dateUpdated`, `checksum` and a `generic_file.ext` file.
+  Note V_eta
   already folded a `generic_file` concept into `opaque_body` (`test_generic_file_folded_to_opaque_body`),
   so the class name is taken — reconcile before building.
-- **The 4 UNVERIFIED coverage rows — WRITER-CHECKED 2026-08-09 against NDI `origin/main`.**
-  They are not one bucket; they are three different situations, and only the checking was
-  decision-free (the dispositions are still open):
+
+  **THE SENTENCE "It has NO V_eta home and NO migrator: a Babu dataset migrating today
+  strands these" IS NO LONGER TRUE, and it is deleted rather than softened — left standing
+  it reads as an argument to build a thing that exists.** BUILT and SIGNED 2026-08-11
+  (`V_eta_OPEN_WORK.md`, "stranded sources"): `generic_file` folds to a `term_observation`
+  + `opaque_body`, `imageCollection` becomes a tombstone, and the fold ran in 6 of 6 corpora
+  in run 31522068566. It is a BATCH POST-PASS, `+did2/+convert/foldGenericFiles.m`, and
+  DELIBERATELY not a per-document migrator — so looking for `+migrators_j/generic_file.m`
+  finds nothing and always will. **THAT SIGNATURE COVERS TWO CLASSES, NOT THREE:**
+  `valid_interval` was NOT signed, is still open, and its code
+  (`+did2/+convert/resolveValidIntervals.m`) is running ahead of the decision by declaration.
+- **THE 4 UNVERIFIED COVERAGE ROWS ARE RESOLVED AND THE BUCKET NO LONGER EXISTS.
+  Re-derived from the generated ledger 2026-08-11 — the account below is HISTORY, kept
+  for its writer evidence, and its two "STRANDS today" lines are FALSE NOW.** Both
+  stranding classes were built, and `python3 tools/coverage.py` no longer emits an
+  UNVERIFIED bucket at all:
+
+        DENOMINATOR: 102 ledger rows read from schemas/V_eta_coverage_ledger.json
+        gap = True:        0 rows      <- the old UNMAPPED/UNVERIFIED concept, gone
+        target_gap = True: 2 rows      <- the replacement, and it is NARROWER
+
+        generic_file           retire, target_source=passthrough, targets=['generic_file']
+        valid_interval         retire, target_source=emitted
+        imageCollection        retire, target_source=passthrough, targets=['image_collection']
+        imageStack_parameters  retire, target_source=decided, targets=[]
+
+  **THE FIX WAS A TOMBSTONE, NOT A MIGRATOR, AND THE DISTINCTION IS WHY A NAME-BASED
+  SEARCH STILL FINDS NOTHING.** `generic_file` and `valid_interval` are DELIBERATELY
+  without a per-document migrator (`DID-matlab .../+migrators_j/Contents.m:348`); they are
+  restated from the WRITER in `build_v_eta.py`, marked `retire`, and handled by BATCH
+  POST-PASSES — `+did2/+convert/foldGenericFiles.m` and `resolveValidIntervals.m`, both in
+  the derived 9-pass chain above. So `ls +migrators_j/generic_file.m` fails and the class
+  is fully handled: the absence is the design. **`valid_interval`'s MODEL IS STILL
+  UNSIGNED** — the board reports it as BUILT AHEAD OF THE DECISION, which is a fact to
+  carry in the open, not a gap to close by signing it.
+
+  **THE 2 REMAINING `target_gap` ROWS, which are the honest successor to this bucket** —
+  both labelled *"NO TARGET AND NO DISSOLUTION RECORDED -- a gap, not a decision"*:
+  `epochclocktimes` (consumed by a migrator, no tombstone) and `imageStack_parameters`
+  (retire, no migrator — the FALSE ALARM below explains why it has none, and that
+  explanation is still correct; what is missing is the RECORD, not the handling).
+
+  The historical account, WRITER-CHECKED 2026-08-09 against NDI `origin/main`.
+  They were not one bucket; they were three different situations, and only the checking was
+  decision-free:
 
         DENOMINATOR: 4 rows, each searched for a template, a construction site and a reader
 
@@ -909,10 +958,39 @@ lives in these files — read them instead of re-deriving from memory:
   batch, 0 `epoch_id` edges found, 305,480 time references terminating at a non-epoch
   document.** That last number is the one the epoch decision rests on.
 
-  **STILL TO CHECK, FOUND IN THE SAME LOG:** the digest reports "BATCH POST-PASSES: 2
-  expected in a V_eta run" and measures only `epochMint` and `resolveSessionAnchors`. More
-  batch passes than two exist. Either the digest's expectation is stale or only two run in
-  the corpus harness, and those have different implications — do not assume which.
+  **THIS SAID "STILL TO CHECK": the digest reported "BATCH POST-PASSES: 2 expected in a
+  V_eta run" and measured only `epochMint` and `resolveSessionAnchors`, and the question
+  was whether the expectation was stale or only two passes really ran. IT IS CHECKED,
+  ANSWERED AND NOW GATED (2026-08-11).** The expectation was stale, and the answer is
+  NINE. The digest no longer carries a list of its own: `harness_pass_chain()` DERIVES the
+  expected set by reading what the corpus harness actually composes, and `POST_PASSES` is
+  demoted to a render table used only as an announced FLOOR when the derivation fails.
+
+        DENOMINATOR: convert package .../+did2/+convert -- 15 .m file(s) read,
+                     9 batch post-pass signature(s); call sites runCorpusDiscovery
+                     (1428 lines) and testCorpusPRED (365 lines), 10 pass(es)
+                     composed each (9 + v1_to_v2, excluded by signature)
+        chain, in call order: resolveDeferredBaths, resolveOpenmindsCitations,
+                     resolveDatasetEntities, epochMint, resolveSessionAnchors,
+                     resolveResponseParameters, resolveLawnPlateSubjects,
+                     foldGenericFiles, resolveValidIntervals
+        renderable 9   unrendered 0   unmeasured 0   not_in_chain 0
+
+  **AND IT IS A GATE, NOT A WARNING.** A pass that runs over the whole corpus and attaches
+  no report used to print `*** MEASURED BY NOTHING` and then exit 0. It now exits non-zero.
+  Four conditions are armed with SEPARATE sentinels rather than one tidy gate, because they
+  are different severities: `unmeasured` (nothing reaches any artifact), `unrendered` (the
+  numbers are in the zip, the digest is blind), `not_in_chain` (counters printed for a pass
+  that does not run — the reassuring direction), and the FLOOR path, where the other three
+  report **NOT EVALUATED rather than 0** because on that path they are 0 by construction —
+  a property of the render table, not a fact about the harness. Arming was gated on the
+  count already being 0; it was, measured before anything changed.
+
+  **The gate is evaluated ONCE**, in `digest()`, though three sites render the same derived
+  fact — firing at each would count one defect three times in a six-corpus run and once in
+  a one-corpus run. **UNVERIFIED, and it is the load-bearing gap:** every run above used
+  SYNTHETIC reports. This container has no MATLAB and no corpus artifacts, so the armed
+  gate has never been exercised against a real one.
 
   FIVE of the six rows below are now ZERO — the stimulus-response, epochfiles, syncrule
   mapping, openminds_stimulus and daqmetadatareader repairs all landed and are confirmed on
@@ -1024,16 +1102,38 @@ lives in these files — read them instead of re-deriving from memory:
   structure; epoch — the document IS the fact and the string was only ever a way to find it.**
 
 ## Build / test
-- **`python3 tools/gates.py` IS THE ENTRY POINT.** 16 steps, in an order derived
-  from which tool reads which artifact, run once for a whole batch of edits.
-  `--explain` prints the order + the evidence for each edge; `--check`
+- **`python3 tools/gates.py` IS THE ENTRY POINT.** **18** steps, in an order
+  derived from which tool reads which artifact, run once for a whole batch of
+  edits. `--explain` prints the order + the evidence for each edge; `--check`
   regenerates into a scratch mirror and diffs without touching the working tree;
   `--ci` is what `tests.yml` runs. It prints its step count first, a headline
   count per step, and FAILS a step that exits 0 while printing no headline.
-  Wall clock for the full chain on this container: **11.9 s**, of which pytest
-  7.2 s and `ndi_ground_truth.py` 3.2 s — the other 14 steps total 1.5 s. So
-  batching is worth it for CORRECTNESS (one ordered regeneration instead of N
-  hand-typed ones), not for time.
+
+  **THIS SAID "16 steps" AND "11.9 s, of which pytest 7.2 s"; BOTH ARE STALE,
+  AND THE TIMING IS STALE BY MORE THAN 3x.** Re-measured 2026-08-11 on this
+  container, quoting the tool's own denominator and its own per-step table:
+
+        $ python3 tools/gates.py --explain | head -1
+        DENOMINATOR: 18 steps declared, 19 dependency edge(s) to substantiate
+
+        $ python3 tools/gates.py --check | tail
+        SUMMARY: 18 step(s) declared, 18 ran, 18 passed, 0 failed, 0 skipped,
+                 0 not runnable here
+          ARTIFACTS DIFFERING FROM THE COMMITTED COPY: 0
+          WALL CLOCK: 39.14s total
+              pytest             31.16s
+              ndi_ground_truth    3.83s
+              status_board        1.18s
+              ... the other 15 steps total 2.97s
+
+  **pytest is now 80% of the chain, and that changes the advice rather than
+  just the number.** The old line concluded "batching is worth it for
+  CORRECTNESS, not for time" on the strength of an 11.9 s total. At 39 s the
+  correctness argument is unchanged and the time argument now points the same
+  way: N hand-typed regenerations cost N pytest runs. The two numbers below
+  are the ones to re-measure before quoting — a step count is checked by CI
+  (`test_gates.py::test_ci_owns_no_second_list_of_gates`), a wall clock is
+  checked by nothing and drifts silently with the test suite.
 - The individual tools still work and are what the driver calls:
   `python3 tools/build_v_eta.py` rebuilds `schemas/V_eta/` (copytree V_zeta→V_eta
   then transforms). `python3 -m pytest tests/test_veta.py -q` checks the schema.
