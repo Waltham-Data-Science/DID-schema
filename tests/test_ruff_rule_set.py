@@ -49,9 +49,19 @@ def _pinned_version():
     """The ruff version `tests.yml` installs -- parsed, never hard-coded here."""
     text = WORKFLOW.read_text(encoding="utf-8")
     hits = re.findall(r"pip install ruff==([0-9]+(?:\.[0-9]+)*)", text)
-    assert len(hits) == 1, (
-        f"expected exactly one pinned ruff in {WORKFLOW.name}, found {hits!r} -- "
-        "two pins, or none, and this test is measuring the wrong thing")
+    assert hits, (
+        f"{WORKFLOW.name} pins no ruff version, so this test has nothing to "
+        "compare the running binary against and would pass vacuously")
+    # MORE THAN ONE PIN IS FINE; MORE THAN ONE *VERSION* IS NOT. The `chain`
+    # job and both `older-pythons` legs each install ruff, and the whole point
+    # of this file is that two machines must not run different linters -- so
+    # the check is that every pin in the workflow names the SAME version.
+    assert len(set(hits)) == 1, (
+        f"DENOMINATOR: {len(hits)} `pip install ruff==` line(s) in "
+        f"{WORKFLOW.name}, {len(set(hits))} distinct version(s): "
+        f"{sorted(set(hits))}. Jobs in one workflow must not lint with "
+        "different ruffs -- that is the divergence this file exists to stop, "
+        "arriving inside a single file instead of across two machines.")
     return hits[0]
 
 

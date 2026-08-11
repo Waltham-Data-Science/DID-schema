@@ -599,9 +599,28 @@ def diff_artifact(rel, mirror, root):
     p = subprocess.run(["diff", "-u", a, b], capture_output=True, text=True)
     if p.returncode == 0:
         return True, ""
-    changed = sum(1 for ln in p.stdout.splitlines()
-                  if ln[:1] in "+-" and not ln.startswith(("+++", "---")))
-    return False, "%d changed line(s)" % changed
+    body = [ln for ln in p.stdout.splitlines()
+            if ln[:1] in "+-" and not ln.startswith(("+++", "---"))]
+    # PRINT THE LINES, NOT JUST HOW MANY. On 2026-08-11 this said
+    # "V_eta_STATUS.md DIFFERS -- 4 changed line(s)" on a runner for three
+    # consecutive runs while the same command reproduced NOTHING locally, and
+    # the count alone gave no way to tell an artifact that had genuinely
+    # drifted from one whose generator behaves differently where the sibling
+    # repos are absent. A gate that reports a magnitude and withholds the
+    # evidence sends the reader back to guessing -- which is the whole failure
+    # mode `AN INSTRUMENT MUST REPORT ITS DENOMINATOR` exists to stop.
+    #
+    # Bounded, because an artifact can legitimately differ by thousands of
+    # lines and a CI log is read by scrolling: the first CAP lines, each
+    # truncated, and the remainder counted rather than dropped silently.
+    CAP, WIDTH = 12, 200
+    detail = ["%d changed line(s)" % len(body)]
+    for ln in body[:CAP]:
+        detail.append("      " + (ln[:WIDTH] + " ..." if len(ln) > WIDTH else ln))
+    if len(body) > CAP:
+        detail.append("      ... %d further changed line(s) not shown"
+                      % (len(body) - CAP))
+    return False, "\n".join(detail)
 
 
 # --------------------------------------------------------------------------

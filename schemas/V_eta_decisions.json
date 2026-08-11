@@ -529,7 +529,7 @@
         ],
         "packages_missing": [],
         "files_read": 166,
-        "lines_read": 32657,
+        "lines_read": 32665,
         "classes_queried": 26,
         "classes_emitted_as_document_class": 8,
         "unresolved_mint_sites": [
@@ -572,7 +572,7 @@
         },
         "lines_read_by_group": {
           "per_document_migrator": 22140,
-          "batch_post_pass": 10517
+          "batch_post_pass": 10525
         },
         "classes_emitted_as_document_class_by_group": {
           "per_document_migrator": 8,
@@ -1892,7 +1892,7 @@
         "n_comment_mentions": 84,
         "comment_mentions": [
           "DID-matlab:convert/epochIndex.m:16 (comment_mention)",
-          "DID-matlab:convert/epochIndex.m:235 (comment_mention)",
+          "DID-matlab:convert/epochIndex.m:243 (comment_mention)",
           "DID-matlab:convert/epochIndex.m:53 (comment_mention)",
           "DID-matlab:convert/epochIndex.m:96 (comment_mention)",
           "DID-matlab:convert/epochMint.m:105 (comment_mention)",
@@ -1951,7 +1951,7 @@
             "n_comment_mentions": 13,
             "comment_mentions": [
               "DID-matlab:convert/epochIndex.m:16 (comment_mention)",
-              "DID-matlab:convert/epochIndex.m:235 (comment_mention)",
+              "DID-matlab:convert/epochIndex.m:243 (comment_mention)",
               "DID-matlab:convert/epochIndex.m:53 (comment_mention)",
               "DID-matlab:convert/epochIndex.m:96 (comment_mention)",
               "DID-matlab:convert/epochMint.m:105 (comment_mention)",
@@ -2672,7 +2672,7 @@
         "named_refs": [],
         "n_comment_mentions": 32,
         "comment_mentions": [
-          "DID-matlab:convert/epochIndex.m:243 (comment_mention)",
+          "DID-matlab:convert/epochIndex.m:251 (comment_mention)",
           "DID-matlab:convert/epochMint.m:169 (comment_mention)",
           "DID-matlab:convert/epochMint.m:352 (comment_mention)",
           "DID-matlab:convert/resolveValidIntervals.m:141 (comment_mention)",
@@ -2713,7 +2713,7 @@
             "named_refs": [],
             "n_comment_mentions": 4,
             "comment_mentions": [
-              "DID-matlab:convert/epochIndex.m:243 (comment_mention)",
+              "DID-matlab:convert/epochIndex.m:251 (comment_mention)",
               "DID-matlab:convert/epochMint.m:169 (comment_mention)",
               "DID-matlab:convert/epochMint.m:352 (comment_mention)",
               "DID-matlab:convert/resolveValidIntervals.m:141 (comment_mention)"

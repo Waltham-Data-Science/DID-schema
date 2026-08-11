@@ -102,4 +102,19 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
       - run: pip install -e ".[test]"
+
+      # THE SAME PIN AS THE `chain` JOB, and it has to be here even though this
+      # job runs no lint step. `tests/test_ruff_rule_set.py` is part of the
+      # SUITE, and it asserts that the ruff on PATH is the one tests.yml pins --
+      # so with no ruff installed it failed on both matrix legs the moment it
+      # landed. Making it skip instead would have been the wrong repair: a
+      # rule-set check that skips wherever the tool is missing is a check that
+      # reports nothing on exactly the machines where the tool set is wrong,
+      # which is how the 18 lost rules stayed invisible in the first place.
+      #
+      # Keep this version equal to the `chain` job's. The test parses the pin
+      # out of this file and there must be EXACTLY ONE match, so a second,
+      # different pin fails loudly rather than letting the two legs diverge.
+      - run: pip install ruff==0.16.2
+
       - run: python3 tools/gates.py --ci --only pytest
