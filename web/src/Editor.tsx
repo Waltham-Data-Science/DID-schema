@@ -23,24 +23,63 @@ const BLANK_SCHEMA = {
 
 interface EditorProps {
   index: IndexEntry[];
+  /** The schema set being browsed. The editor authors FOR this set, so it must
+   *  validate against THIS set's meta-schema -- see the note below. */
+  version: string | null;
   onCancel: () => void;
 }
 
-export function Editor({ index, onCancel }: EditorProps) {
+export function Editor({ index, version, onCancel }: EditorProps) {
   const [metaSchema, setMetaSchema] = useState<RJSFSchema | null>(null);
   const [loadError, setLoadError] = useState<string | null>(null);
   const [formData, setFormData] = useState<unknown>(BLANK_SCHEMA);
   const [errorCount, setErrorCount] = useState<number | null>(null);
 
+  // THIS FETCH WAS PINNED TO `V_delta` while every other panel followed the
+  // set-version selector, so the editor validated new V_eta schemas against a
+  // meta-schema two sets old.
+  //
+  // It is not a cosmetic mismatch. V_eta's meta-schema is a strict SUPERSET of
+  // V_delta's -- 46 paths added, 0 removed -- and the additions are precisely
+  // what this migration built: `min_count` / `max_count` (edge-family
+  // cardinality), `ndi_mustBeNonEmpty` on a dependency, `referent_unique_by`,
+  // and the whole `binding` constraint. V_delta's `dependency_object` declares
+  // `additionalProperties: false`, so a dependency carrying any of the first
+  // four is not merely unhinted, it is reported as an ILLEGAL PROPERTY.
+  //
+  //     DENOMINATOR: 245 V_eta schema files; 55 use at least one of the four
+  //       ndi_mustBeNonEmpty  43    min_count  14    max_count  2
+  //       referent_unique_by   3
+  //
+  // So 55 of the classes already in the tree could not have been authored in
+  // this editor -- including `subject_interaction`, `subject_observation` and
+  // `epoch`, three of the spine classes a new author is most likely to imitate.
+  // The editor would have taught the schema's own rules wrong.
+  //
+  // All four sets carrying an `index.json` ship `stable/did_schema_meta.json`
+  // (V_delta, V_epsilon, V_zeta, V_eta), so following the selector cannot 404
+  // on any set the version picker can reach. If a future set omits one, the
+  // error surfaces in the panel below rather than silently falling back to an
+  // older meta-schema -- a wrong validator is worse than a missing one,
+  // because only one of the two announces itself.
   useEffect(() => {
-    fetch(`${BASE}schemas/V_delta/stable/did_schema_meta.json`)
+    if (!version) return;
+    let cancelled = false;
+    fetch(`${BASE}schemas/${version}/stable/did_schema_meta.json`)
       .then((res) => {
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
         return res.json();
       })
-      .then((raw) => setMetaSchema(prepareMetaSchema(raw, index)))
-      .catch((e) => setLoadError(String(e)));
-  }, [index]);
+      .then((raw) => {
+        if (!cancelled) setMetaSchema(prepareMetaSchema(raw, index));
+      })
+      .catch((e) => {
+        if (!cancelled) setLoadError(`${version}: ${String(e)}`);
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [index, version]);
 
   const filename = useMemo(() => {
     const name =
@@ -97,10 +136,17 @@ export function Editor({ index, onCancel }: EditorProps) {
       <div className="editor-header">
         <div>
           <h2>New schema</h2>
+          {/* NAMES THE SET IT ACTUALLY USED. The old copy read "the V_delta
+              meta-schema" as a fixed string; once the fetch follows the
+              selector, a fixed name here would be a caption describing a
+              different validator from the one that produced the errors below
+              it -- which is worse than the pinning it replaced, because it
+              reads as confirmation. */}
           <p className="editor-sub">
-            Filled-in fields are validated live against the V_delta
-            meta-schema. Click <strong>Download JSON</strong> when ready;
-            submission to GitHub comes in a later step.
+            Filled-in fields are validated live against the{" "}
+            <strong>{version ?? "—"}</strong> meta-schema. Click{" "}
+            <strong>Download JSON</strong> when ready; submission to GitHub
+            comes in a later step.
           </p>
         </div>
         <div className="editor-header-actions">
@@ -150,7 +196,11 @@ export function Editor({ index, onCancel }: EditorProps) {
 //     superclasses instead of free-text. Submitters can still propose
 //     a new superclass by editing the JSON directly after download.
 //   * Inject a `default: true` on `field_definition.queryable` so newly
-//     added fields start queryable -- the common case for V_delta schemas.
+//     added fields start queryable. This said "the common case for V_delta
+//     schemas", naming a set two behind the default one; re-measured against
+//     V_eta 2026-08-11 -- 450 field definitions across 245 files, 409
+//     queryable (91%) -- so the default is still right and only the wording
+//     was stale.
 //   * Otherwise leave the meta-schema untouched -- rjsf understands the
 //     standard JSON Schema vocabulary used here.
 function prepareMetaSchema(

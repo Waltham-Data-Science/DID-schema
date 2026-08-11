@@ -236,6 +236,7 @@ export default function App() {
           <ErrorBoundary resetKey="editor">
             <Editor
               index={index.schemas}
+              version={version}
               onCancel={() => setEditing(false)}
             />
           </ErrorBoundary>
