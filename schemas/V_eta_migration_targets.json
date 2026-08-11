@@ -920,7 +920,9 @@
       "flags": "Verified against NDI origin/main 2026-08-09; a false alarm, not a gap."
     },
     "openminds": {
-      "targets": [],
+      "targets": [
+        "openminds"
+      ],
       "carried": [],
       "second_pass": [],
       "how": "NOT STORED. The openMINDS bundle document is a container for metadata that V_eta represents directly as entities and assertions, so the bundle itself has no go-forward home. What its contents become IS decided: Strain documents become `strain` entities with ids preserved, Species/GeneticStrainType fragments fold into their parent strain's fields, and the metadata-app dataset graph maps onto the six classes `metadata_editor` already emits.",
@@ -1005,7 +1007,8 @@
       "targets": [
         "harmonic_component_calculation",
         "session_relative_reference",
-        "software"
+        "software",
+        "relative_reference"
       ],
       "carried": [],
       "second_pass": [],

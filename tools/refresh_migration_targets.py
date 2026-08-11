@@ -57,6 +57,33 @@ targets from the record:
      calculation', ...)`). So an emission is carried as a symbol -- literal, or
      "parameter #k of this function" -- and parameters are substituted with the
      actual argument at each call site.
+  4. THE EMITTER NEED NOT LIVE IN A MIGRATOR PACKAGE AT ALL, and this one was
+     added on 2026-08-11 after the omission DELETED SEVEN TRUE TARGETS from
+     `metadata_editor`. That day `entityDoc` / `relationDoc` / `orgFor` /
+     `buildGids` / `emptyGids` moved out of `migrators_j/metadata_editor.m`
+     into a new `+did2/+convert/+entities` package, because a second reader of
+     the same six entity classes appeared (`resolveOpenmindsCitations`). The
+     migrator now reaches them by `import did2.convert.entities.entityDoc` and
+     a bare `entityDoc(preBody, 'dataset', ...)`. Neither spelling was in this
+     tool's scope: `private/` and file-local subfunctions were, and the
+     fully-qualified branch matched `migrators*.` only. So the call did not
+     resolve -- AND, worse, DID NOT REPORT: the generic call scan drops any
+     name it does not recognise, because it also sees `isfield(`, `numel(` and
+     every other builtin. `metadata_editor` therefore read as a migrator that
+     mints NOTHING, i.e. a carry-forward, and this tool proposed removing
+     `dataset, person, organization, funding, publication, web_resource,
+     directed_relation` from a migrator that plainly emits all seven. That is
+     operating rule 3 violated by an instrument built to honour it: absence
+     used as evidence. Scope now follows `import did2.convert.<...>` bindings
+     (including a trailing `.*`) and fully-qualified `did2.convert.<pkg>.<fn>(`
+     / `did2.convert.<fn>(` calls into the file that defines them, with
+     arguments captured so parameter substitution still works. A
+     `did2.convert.` call that CANNOT be resolved to a file is now an
+     UNRESOLVED SITE, not a silent skip -- the row degrades to PARTIAL, which
+     can only gain, instead of collapsing to a false carry-forward. Only
+     explicitly `did2.convert.`-qualified or explicitly imported names are
+     held to this; a bare builtin is still skipped, so the report cannot
+     flood.
 
 WHEN THIS TOOL MAY REMOVE A TARGET, AND WHEN IT MAY NOT (operating rule 3).
 Not seeing a class is ABSENCE, and absence never contradicts the record. So a
@@ -203,6 +230,15 @@ _SYMBOLIC_CLASS_NAME = re.compile(r"""['"]class_name['"]\s*,\s*([A-Za-z_]\w*(?:\
 # `x.document_class.class_name = <rhs>` -- the direct field write.
 _DC_FIELD_WRITE = re.compile(r"document_class\s*\.\s*class_name\s*$")
 _CALL = re.compile(r"(?<![\w.])([A-Za-z_]\w*)\s*\(")
+# A fully-qualified call into `+convert` that is NOT a migrator package. The
+# migrator branch is matched separately (and first), so `migrators` is excluded
+# here rather than being matched twice with different argument handling.
+_FQ_CONVERT_CALL = re.compile(
+    r"(?<![\w.])did2\.convert\.(?!migrators)"
+    r"(?:(?P<pkg>[A-Za-z_]\w*)\.)?(?P<fn>[A-Za-z_]\w*)\s*\(")
+# `import did2.convert.entities.entityDoc` / `import did2.convert.entities.*`.
+_IMPORT_LINE = re.compile(
+    r"^\s*import\s+(did2\.convert\.[A-Za-z_][\w.]*(?:\.\*)?)\s*;?\s*$")
 _LIT = re.compile(r"^\s*'((?:[^']|'')*)'\s*$")
 _IDENT_ONLY = re.compile(r"^\s*([A-Za-z_]\w*)\s*$")
 
@@ -271,13 +307,14 @@ def _resolve_symbol(sym, func, lits, murky):
     return [(DYN, sym)]
 
 
-def analyse_function(func, known):
+def analyse_function(func, known, imported=None):
     """(direct emissions, calls) for one function.
 
     direct : [(symbol, line_no)] where symbol is (LIT, name) / (PARAM, i) /
              (DYN, why)
     calls  : [(callee_name, [arg_source, ...], line_no)]
     """
+    imported = imported or {}
     lits, murky = _local_literals(func)
     direct, calls = [], []
     for text, spans in SB.logical_statements(func.lines):
@@ -350,15 +387,31 @@ def analyse_function(func, known):
         # bodies (`jSessionAnchor`, `jCalculation`, `jSampledBody`).
         for m in _CALL.finditer(code):
             name = m.group(1)
-            if name not in known:
+            # A name bound by `import did2.convert.<...>` wins over the generic
+            # skip: it is an explicit reference to a known file, not a builtin.
+            target = name if name in known else imported.get(name)
+            if target is None:
                 continue
             args, _end = _top_level_args(text, code, m.end() - 1)
-            calls.append((name, args, _phys(spans, m.start(), func)))
+            calls.append((target, args, _phys(spans, m.start(), func)))
         # fully-qualified cross-package calls: `did2.convert.migrators.element_epoch(`
         for m in re.finditer(
                 r"(?:did2\.convert\.)?migrators(?:_[ije])?\.(?:super\.)?"
                 r"([A-Za-z_]\w*)\s*\(", code):
             calls.append(("pkg:" + m.group(1), [], _phys(spans, m.start(), func)))
+        # fully-qualified calls into the rest of `+convert`:
+        # `did2.convert.entities.entityDoc(preBody, 'dataset', ...)`. Arguments
+        # ARE captured here -- unlike the migrator branch above -- because this
+        # is exactly the shape that carries the class name as a literal
+        # argument, and dropping the arguments would report every one of them
+        # as "omits class-name argument #2".
+        for m in _FQ_CONVERT_CALL.finditer(code):
+            parts = ([m.group("pkg")] if m.group("pkg") else []) + [m.group("fn")]
+            cand = convert_member_path(parts)
+            ref = (FILEREF + cand) if (cand and os.path.isfile(cand)) \
+                else (MISSING + "did2.convert." + ".".join(parts))
+            args, _end = _top_level_args(text, code, m.end() - 1)
+            calls.append((ref, args, _phys(spans, m.start(), func)))
     return direct, calls
 
 
@@ -384,6 +437,57 @@ def build_scopes():
                 break
         private[pkg] = table
     return private
+
+
+def convert_member_path(parts):
+    """`['entities', 'entityDoc']` -> `.../+convert/+entities/entityDoc.m`.
+
+    MATLAB spells a package folder `+name`, so every element but the last is a
+    package and the last is the function file."""
+    if not parts:
+        return None
+    return os.path.join(CONVERT, *(["+" + p for p in parts[:-1]] + [parts[-1] + ".m"]))
+
+
+MISSING = "missing:"
+FILEREF = "file:"
+
+
+def parse_imports(path):
+    """{bare_name: 'file:<abs path>' or 'missing:<dotted>'} for one .m file.
+
+    MATLAB's `import` binds the trailing name into the whole function scope, so
+    after `import did2.convert.entities.entityDoc` a bare `entityDoc(...)` IS
+    that function. Unresolvable imports are kept as `missing:` rather than
+    dropped: a dropped one becomes a silent skip again, and a silent skip is
+    what deleted metadata_editor's seven targets."""
+    out = {}
+    try:
+        with open(path, errors="replace") as fh:
+            lines = fh.readlines()
+    except OSError:
+        return out
+    for line in lines:
+        m = _IMPORT_LINE.match(line)
+        if not m:
+            continue
+        dotted = m.group(1)
+        parts = dotted.split(".")[2:]          # drop the `did2.convert` prefix
+        if parts and parts[-1] == "*":
+            pkgdir = os.path.join(CONVERT, *["+" + p for p in parts[:-1]])
+            if os.path.isdir(pkgdir):
+                for p in sorted(glob.glob(os.path.join(pkgdir, "*.m"))):
+                    base = os.path.basename(p)[:-2]
+                    if base != "Contents":
+                        out.setdefault(base, FILEREF + p)
+            else:
+                out.setdefault(parts[-2] if len(parts) > 1 else dotted,
+                               MISSING + dotted)
+            continue
+        cand = convert_member_path(parts)
+        out[parts[-1]] = (FILEREF + cand) if (cand and os.path.isfile(cand)) \
+            else (MISSING + dotted)
+    return out
 
 
 def entry_points():
@@ -413,6 +517,12 @@ class Analyser(object):
             self.veta = set()
         self._file_cache = {}
         self._fn_cache = {}
+        self._import_cache = {}
+
+    def imports(self, path):
+        if path not in self._import_cache:
+            self._import_cache[path] = parse_imports(path)
+        return self._import_cache[path]
 
     def file_funcs(self, path):
         if path not in self._file_cache:
@@ -423,6 +533,11 @@ class Analyser(object):
     def resolve_name(self, name, path, pkg):
         """A called name -> the Func it binds to, or None. Local subfunction
         first (MATLAB's own precedence), then the package's private/ folder."""
+        if name.startswith(MISSING):
+            return None
+        if name.startswith(FILEREF):
+            fns = self.file_funcs(name[len(FILEREF):])[0]
+            return fns[0] if fns else None
         _fns, table = self.file_funcs(path)
         if name in table:
             return table[name]
@@ -447,7 +562,8 @@ class Analyser(object):
         if key in self._fn_cache:
             return self._fn_cache[key]
         stack = stack | {key}
-        direct, calls = analyse_function(func, self._callable_names(func.path, pkg))
+        direct, calls = analyse_function(func, self._callable_names(func.path, pkg),
+                                         self.imports(func.path))
         out, unresolved = set(), []
         for sym, line in direct:
             if sym[0] == DYN:
@@ -460,6 +576,17 @@ class Analyser(object):
                 if name.startswith("pkg:"):
                     unresolved.append(("unresolved package call `%s`" % name[4:],
                                        "%s:%d" % (_rel(func.path), line)))
+                elif name.startswith(MISSING):
+                    # An explicit `did2.convert.` reference whose file is not
+                    # where the name says it is. Reported, never skipped: a
+                    # skipped emitter reads as "mints nothing".
+                    unresolved.append(
+                        ("`%s` names no file under +convert" % name[len(MISSING):],
+                         "%s:%d" % (_rel(func.path), line)))
+                elif name.startswith(FILEREF):
+                    unresolved.append(
+                        ("`%s` defines no function" % _rel(name[len(FILEREF):]),
+                         "%s:%d" % (_rel(func.path), line)))
                 continue
             sub, subunres = self.analyse(callee, pkg, stack)
             unresolved.extend(subunres)

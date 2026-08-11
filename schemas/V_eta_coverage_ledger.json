@@ -1047,9 +1047,11 @@
       "source": "ndi",
       "nonprod": false,
       "gap": false,
-      "targets": [],
+      "targets": [
+        "openminds"
+      ],
       "decided_targets": [],
-      "target_source": "decided",
+      "target_source": "emitted",
       "carried": [],
       "second_pass": [],
       "how": "NOT STORED. The openMINDS bundle document is a container for metadata that V_eta represents directly as entities and assertions, so the bundle itself has no go-forward home. What its contents become IS decided: Strain documents become `strain` entities with ids preserved, Species/GeneticStrainType fragments fold into their parent strain's fields, and the metadata-app dataset graph maps onto the six classes `metadata_editor` already emits.",
@@ -1631,7 +1633,8 @@
       "targets": [
         "harmonic_component_calculation",
         "session_relative_reference",
-        "software"
+        "software",
+        "relative_reference"
       ],
       "decided_targets": [
         "harmonic_component_calculation"
