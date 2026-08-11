@@ -461,6 +461,96 @@ lives in these files — read them instead of re-deriving from memory:
   multiple references on one statement are UNDEFINED in meaning — open item 2, recorded not
   overlooked. Also identifies `valid_interval` (an UNVERIFIED coverage row) =
   `ndi.app.markgarbage`'s record of which stretches of an epoch are good data.
+
+  **BOTH OF THOSE "REMAINING ITEMS" ARE STALE, AND #52's IS STALE IN THE DANGEROUS
+  DIRECTION — IT INSTRUCTS A BUILD THE SIGNED PLAN FORBIDS.** Corrected 2026-08-11.
+  Read this; do not act on the paragraph above.
+
+  **#51 IS ANSWERED, not deferred.** `V_eta_OPEN_WORK.md:51`, 2026-08-09, corpus run
+  31327383671: *"PASSES on all six ... 20211116 1/1, B 14/14, Dab 16/16, JH 3/3, PRED 1/1,
+  Soph 33/33"* — session documents are 1:1 with the distinct `base.session_id` values, so
+  the referent a required `relative_to` needs exists everywhere it would be demanded.
+
+  **#52 IS NOT "ROLE-NAME THE EDGES" AND HAS NOT BEEN SINCE 2026-08-08.** `CHANGE 5` of the
+  plan (`:642`) shrank it to ONE rule by ELIMINATION, and the elimination is the point:
+  split-anchored intervals have NO INSTANCE, recurrence dissolves into N statements (T4), and
+  epoch extent vs statement time are never on the same document. The one live case — SAME
+  EXTENT, N CLOCKS — already carries its discriminator INSIDE the referenced document. So:
+
+  > Within a `time_reference_#` family, every member describes the same instant or extent,
+  > and `value.clock` must be UNIQUE across the family.
+
+  **There are no `start_anchor`/`end_anchor` edges to build, and the plan says in its own
+  words `DO NOT BUILD start_anchor/end_anchor until an instance appears`.** A reader who
+  acted on the sentence above would build exactly the thing that was ruled out — which is
+  why this correction is spelled out rather than the old text softened. `build_v_eta.py`
+  says the same at `:5441`: *"the rule is a uniqueness constraint, not a set of role names,
+  and #52's title (\"role-name the edges\") is stale."*
+
+  **THE REPLACEMENT RULE IS BUILT — schema side, and it is the ONLY half that is built.**
+  Re-derived from the built tree, not from the commit that claims it:
+
+        DENOMINATOR: 247 json file(s) under schemas/V_eta/ read
+        schemas declaring `referent_unique_by`: 3
+          stable/subject_interaction.json  time_reference_#  value.clock  (min_count 1)
+          stable/directed_relation.json    time_reference_#  value.clock  (min_count 0)
+          stable/epoch.json                time_reference_#  value.clock  (min_count 0)
+        schema-declared time_reference edges anywhere: 4 -- the 4th is
+          examples/scalar_temperature_observation_series.json, a document INSTANCE
+          and not a class (the plan records that mis-read as one of Claude's two errors)
+
+  Those 3 are declared by NAME in `build_v_eta.py` `_EDGE_REFERENT_UNIQUE`, deliberately
+  not derived — *"deriving them ... would make a family silently drop out of the rule the
+  day someone renames a target class"*. `tests/test_veta_time_reference_family_uniqueness.py`
+  pins them. `did2.validate.silentLoss` reads the key and reports
+  `family_uniqueness_violation` + a `uniqueness_denominator`;
+  `did2.validate.timeReferenceFamilies` reads it too. **The rule is REPORT-ONLY IN BATCH
+  BY CONSTRUCTION**: the discriminator lives on the REFERENCED document, so a per-document
+  validator cannot see it and must not pretend to.
+
+  **THE RULE HAS NEVER FIRED, AND THAT ZERO IS THE INSTRUMENT'S OWN WORDS, NOT MINE.**
+  Corpus run 31464483119: `EDGE-FAMILY CARDINALITY VIOLATIONS: 0 document(s) across 0
+  row(s)`, printed beside *"NOTHING IN REACH CARRIES TWO MEMBERS OF A GOVERNED FAMILY. The
+  rule could not fire; the zero is 'untested', not 'clean'."* Do not quote it as a pass.
+
+  **WHY IT CANNOT FIRE TODAY — measured over the whole DID-matlab tree, not assumed:**
+
+        DENOMINATOR: 260 .m file(s) under DID-matlab src/ scanned,
+                     comment-only lines excluded
+        literal `time_reference_N` sites:  45, in 35 file(s)
+        distinct N appearing as a literal: [1]        <- ONLY EVER 1
+        sites numbering a family PROGRAMMATICALLY: 1
+              +did2/+convert/resolveValidIntervals.m:859
+
+  Every one of the 45 literal sites writes a single `time_reference_1` onto a DISTINCT
+  emitted body — including the six files with more than one site, which are separate
+  documents (`ontology_image` obs/imgObs; `treatment`/`treatment_drug`/`virus_injection`
+  manip-or-dose + obs; `ontology_table_row`'s four helpers) or mutually exclusive branches
+  (`jMeasurementFold.m:69` returns before `:84`). **So exactly ONE code path in the entire
+  migration can emit a family of size > 1**, and it is a batch post-pass, not a migrator.
+
+  **AND THAT ONE PATH IS THE REAL OPEN QUESTION, WHICH IS NOT ROLE-NAMING.**
+  `resolveValidIntervals.m`'s split-anchor branch mints two instants when an interval's ends
+  resolve to different anchors — and two anchors that differ by EPOCH while sharing a CLOCK
+  satisfy neither half of the rule. The file says so itself at `:222-227` and REPORTS it
+  rather than emitting quietly. Its class is governed: `validity_observation ->
+  subject_observation -> subject_interaction`, so the declared family covers it. The branch
+  is predicted never to fire (every `markvalidinterval` call site passes one reference for
+  both ends) and in run 31522068566 the pass saw **0 `valid_interval` documents in all six
+  corpora**, so nothing has exercised it. **The corpora are a sample**: if an instance ever
+  appears, what distinguishes two members that differ by epoch rather than clock is a TEAM
+  decision, not a build.
+
+  **WHAT IS ACTUALLY OUTSTANDING FOR #52 IS A SIGNATURE, NOT A MODEL — and it is the
+  `valid_interval` shape (#103) one item over.** The plan's only `TEAM-SIGN-OFF` line is at
+  `:468`; it heads the walkthrough section and enumerates FOUR things — the 8→2 collapse,
+  anchor/extent separation, deleting value-level `approximate`, and `clock` becoming a bound
+  term with `clock_tolerance`. Those are CHANGES 1–4. **CHANGE 5 is inside that section but
+  is not among the four things the signature names.** `build_v_eta.py:5425` calls it
+  *"CHANGE 5 (signed section, :642)"*, which is true as a statement about WHERE the text
+  sits and reads as a statement about whether the rule was AGREED. Operating Rule 4 forbids
+  resolving that here. Stated plainly so it is carried in the open: **the uniqueness rule is
+  BUILT, and whether the signature at :468 was meant to reach it is a question for the team.**
 - **`schemas/V_eta_final_class_set.md`** — the authoritative persist set (7
   categories). REGENERATE with `python3 tools/regen_final_class_set.py` (reads the
   built `V_eta/index.json` disposition markers) after every `build_v_eta.py`; never
