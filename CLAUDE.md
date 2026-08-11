@@ -89,9 +89,36 @@ a hand-edit to `schemas/V_eta` — the tree the other three are derived FROM —
 passed every gate. Only `V_eta_STATUS.md` was really protected. **`tests.yml`
 now calls `tools/gates.py --ci` and owns no gate list of its own**
 (`tests/test_gates.py::test_ci_owns_no_second_list_of_gates` fails if one comes
-back), which closes the build and final-class-set holes. The ground truth stays
-open on a runner: it needs an NDI-matlab checkout CI does not have, and `--ci`
-reports it as NOT RUNNABLE HERE rather than counting it as passed.
+back), which closes the build and final-class-set holes.
+
+**THE LAST TWO SENTENCES HERE SAID "the ground truth stays open on a runner: it
+needs an NDI-matlab checkout CI does not have, and `--ci` reports it as NOT
+RUNNABLE HERE rather than counting it as passed." THAT IS NO LONGER TRUE —
+`tests.yml` CLONES BOTH SIBLINGS AND ALL EIGHTEEN STEPS RUN** (2026-08-11).
+Six were being reported NOT RUNNABLE HERE — `ndi_ground_truth`,
+`refresh_migration_targets`, `coverage`, `check_tombstones`,
+`check_empty_ontology_nodes`, `check_pipeline_parity` — which was honest and
+still left a third of the chain unexercised, including the two steps that
+produce the coverage ledger and the ground truth. Both siblings are public
+(`VH-Lab/NDI-matlab` and `VH-Lab/DID-matlab`, `"private": false`), so nothing
+but a clone was ever in the way. Reproduced before it was pushed, in a clean
+clone with the siblings fetched the way the workflow fetches them:
+
+        SUMMARY: 18 step(s) declared, 18 ran, 18 passed, 0 failed,
+                 0 skipped, 0 not runnable here
+        ARTIFACTS DIFFERING FROM THE COMMITTED COPY: 0
+
+Three properties of that clone are load-bearing and each fails QUIETLY if it
+regresses, so each is asserted by `tests/test_ci_runs_the_whole_chain.py`:
+the clone is FULL (a shallow one does not error — `coverage.py:185` and
+`ndi_ground_truth.py:449,539` read `origin/main`, the ref lookup falls through,
+and the tool reports a smaller universe); it checks out the FEATURE branch, not
+main (`check_pipeline_parity` and the board's migrator evidence read NDI's
+`ndi_second_pass/`, which exists only there — one checkout serves both readers
+only because a full clone brings `origin/main` with it); and it exports
+`NDI_MATLAB`/`DID_MATLAB`, which `find_repo` treats as authoritative. The
+post-merge fallback to the default branch is ANNOUNCED in words rather than
+taken silently.
 
 `tools/status_board.py --check` additionally fails when an
 `in_progress` class belongs to no decision family (an open question nobody is

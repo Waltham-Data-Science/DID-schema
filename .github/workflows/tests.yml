@@ -19,13 +19,22 @@ jobs:
   # and diffed against the checkout, so a hand-edited schemas/V_eta or a stale
   # V_eta_final_class_set.md now fails here. Nothing is written back.
   #
-  # `--ci` also reports, rather than attempts, the five steps that read a
-  # sibling NDI-matlab / DID-matlab checkout this runner does not have
-  # (ndi_ground_truth, refresh_migration_targets, coverage, check_tombstones,
-  # check_empty_ontology_nodes). They are NAMED and COUNTED in the output --
-  # "not runnable here" is not "passed", and a shorter chain must not read as
-  # a complete one. That is the concrete reason CI cannot be the whole chain;
-  # everything else the driver knows how to do, it does here.
+  # THIS COMMENT USED TO SAY the five sibling-reading steps were "the concrete
+  # reason CI cannot be the whole chain". THE SIBLINGS ARE NOW CHECKED OUT AND
+  # ALL EIGHTEEN STEPS RUN. Six were being reported NOT RUNNABLE HERE --
+  # ndi_ground_truth, refresh_migration_targets, coverage, check_tombstones,
+  # check_empty_ontology_nodes, check_pipeline_parity -- which is honest but is
+  # still a third of the chain never exercised on a runner, and it left THREE OF
+  # THE FOUR artifacts CLAUDE.md calls "checked in CI" unprotected: the coverage
+  # ledger (both halves) and the NDI ground truth are produced by steps that
+  # could not run. Both siblings are public, so nothing but a clone was ever in
+  # the way:
+  #
+  #   VH-Lab/NDI-matlab   "private": false
+  #   VH-Lab/DID-matlab   "private": false
+  #
+  # "not runnable here" is not "passed" and never was; the fix is to make them
+  # runnable rather than to keep counting them.
   chain:
     runs-on: ubuntu-latest
     steps:
@@ -34,6 +43,77 @@ jobs:
         with:
           python-version: "3.12"
       - run: pip install -e ".[test]"
+
+      # THE SIBLING CHECKOUTS, AND EVERY DETAIL HERE IS LOAD-BEARING.
+      #
+      # fetch-depth: 0 -- NOT a shallow clone, for two independent reasons.
+      # `tools/coverage.py:185` and `tools/ndi_ground_truth.py:449,539` read NDI
+      # from `origin/main` (falling back to `main`), and `ndi_ground_truth.py`
+      # additionally WALKS HISTORY for provenance (`git log --diff-filter=A` to
+      # find each class's add-commit). A depth-1 checkout has neither, and the
+      # failure would not be loud: the ref lookup falls through and the tool
+      # reports a smaller universe.
+      #
+      # ref: the FEATURE branch, not main. `check_pipeline_parity.py` and the
+      # status board's migrator evidence read NDI's V_eta second pass
+      # (`ndi_second_pass/`), which exists only on the feature branch, while
+      # coverage and the ground truth deliberately want `origin/main`. One
+      # checkout serves both ONLY because fetch-depth 0 brings every remote
+      # branch with it, so `origin/main` resolves inside a feature-branch
+      # working tree -- which is exactly the shape of a developer's machine.
+      #
+      # The fallback is explicit and it is ANNOUNCED. After this branch merges,
+      # `claude/...` stops existing in the siblings and a bare checkout would go
+      # red for a reason that has nothing to do with the change under test. A
+      # silent fallback would be worse: the gates would then be measuring main
+      # while the log implies the branch. So the step prints which ref it got
+      # for each sibling, and says FALLBACK in words when it took one.
+      - name: Check out the sibling repositories the gates read
+        env:
+          SIBLING_REF: ${{ github.head_ref || github.ref_name }}
+        run: |
+          set -euo pipefail
+          echo "SIBLING CHECKOUT"
+          echo "  DENOMINATOR: 2 sibling repo(s) requested, ref '${SIBLING_REF}'"
+          rc=0
+          for spec in "NDI-matlab:VH-Lab/NDI-matlab" "DID-matlab:VH-Lab/DID-matlab"; do
+            name="${spec%%:*}"; slug="${spec#*:}"
+            dest="${GITHUB_WORKSPACE}/${name}"
+            if ! git clone --quiet --no-checkout \
+                 "https://github.com/${slug}.git" "$dest"; then
+              echo "  ${name}: CLONE FAILED -- this is a failure, not a skip"
+              rc=1
+              continue
+            fi
+            if git -C "$dest" checkout --quiet "$SIBLING_REF" 2>/dev/null; then
+              got="$SIBLING_REF"; how="requested"
+            else
+              def=$(git -C "$dest" symbolic-ref --short refs/remotes/origin/HEAD \
+                    | sed 's|^origin/||')
+              git -C "$dest" checkout --quiet "$def"
+              got="$def"; how="FALLBACK -- '${SIBLING_REF}' does not exist here"
+            fi
+            has_main=$(git -C "$dest" rev-parse --verify -q origin/main >/dev/null \
+                       && echo yes || echo NO)
+            n=$(git -C "$dest" rev-list --count HEAD)
+            echo "  ${name}: ref=${got} (${how}); origin/main present=${has_main}; ${n} commit(s)"
+            if [ "$has_main" = "NO" ]; then
+              echo "  ${name}: *** origin/main IS MISSING. coverage.py and"
+              echo "  ${name}: *** ndi_ground_truth.py read it; a shallow or"
+              echo "  ${name}: *** single-ref clone is not enough."
+              rc=1
+            fi
+            # gates.py resolves the siblings ONCE and hands the answer to every
+            # child in all four spellings, so these two canonical names are
+            # enough -- see `find_repo` / `child_env` in tools/gates.py. An
+            # explicitly SET variable is authoritative there, which is what
+            # stops a child falling back to a default the driver rejected.
+            case "$name" in
+              NDI-matlab) echo "NDI_MATLAB=${dest}" >> "$GITHUB_ENV" ;;
+              DID-matlab) echo "DID_MATLAB=${dest}" >> "$GITHUB_ENV" ;;
+            esac
+          done
+          exit $rc
 
       # PINNED, DELIBERATELY. This was `pip install ruff`, and on 2026-08-09 the
       # gate went red across FIVE test files with no code change: ruff 0.16.2
