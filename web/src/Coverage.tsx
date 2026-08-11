@@ -440,7 +440,7 @@ function TargetCell({
         </span>{" "}
         {row.decided_targets.length > 0
           ? row.decided_targets.map((t) => chip(t, "cov-target-decided"))
-          : <span className="muted">no target — it dissolves or is deleted</span>}
+          : noTargetReason(row.no_target_reason_label)}
         {row.target_flags && (
           <span className="cov-target-flag" title={row.target_flags}>ⓘ</span>
         )}
@@ -472,6 +472,53 @@ function TargetCell({
       )}
     </span>
   );
+}
+
+// WHY a blank target cell needs a reason rather than a sentence.
+//
+// This rendered `no target — it dissolves or is deleted` for EVERY row with an
+// empty `decided_targets`. There are four causes and they are not the same
+// fact: a signed dissolution (no target genuinely IS the answer), a signed
+// passthrough, a DISPUTED row where the record states two incompatible
+// dispositions, and a gap where nothing was ever recorded. Three of the four
+// were being shown to the reader as a settled decision to delete the class.
+//
+// The dangerous one is DISPUTED. `ngrid` is contested precisely because one
+// section of its plan says it phases into `sampled_body` while that document's
+// own sign-off says it is deleted -- two commits today each read one half and
+// each "corrected" the other. A cell that renders the contested row as settled
+// is how the losing half stops being looked for.
+//
+// An OLDER ledger carries no label at all. That renders as UNKNOWN, not as the
+// old sentence: a viewer served a stale artifact must say it cannot tell,
+// because falling back to the previous claim would reinstate exactly the
+// assertion this replaces, and silently.
+function noTargetReason(label: string | null | undefined) {
+  if (!label) {
+    return (
+      <span className="muted" title={
+        "This ledger predates the reason field, so WHY there is no target was " +
+        "not recorded. Unknown -- not a dissolution."
+      }>
+        no target — reason not recorded
+      </span>
+    );
+  }
+  const disputed = label.startsWith("DISPUTED");
+  return (
+    <span className={disputed ? "cov-target-flag" : "muted"} title={label}>
+      {disputed ? "no target — DISPUTED" : "no target — " + shortReason(label)}
+    </span>
+  );
+}
+
+function shortReason(label: string) {
+  // The labels are written for a report, where a full sentence reads well. In
+  // a table cell the leading clause carries the meaning and the rest wraps the
+  // column, so the cell shows the clause and the title attribute keeps the
+  // whole sentence -- nothing is dropped, only relocated.
+  const cut = label.indexOf(" -- ");
+  return (cut === -1 ? label : label.slice(0, cut)).toLowerCase();
 }
 
 function Stat({ n, label, warn }: { n: number; label: string; warn?: boolean }) {

@@ -62,6 +62,14 @@ export interface CoverageRow {
   second_pass: string[]; // classes minted in the NDI second pass
   how: string; // one-line authored intent
   target_flags: string; // caveats: dynamic emit, header/code mismatch, deferrals
+  // WHY an empty `decided_targets` is empty. Four causes, and they are not
+  // interchangeable: a signed dissolution (no target IS the answer), a signed
+  // passthrough, a DISPUTED row where the record states two incompatible
+  // dispositions, and a genuine gap where nothing was ever recorded. The
+  // viewer rendered all four as "it dissolves or is deleted" -- asserting a
+  // decision on behalf of rows where none exists. Absent on older ledgers,
+  // which must render as UNKNOWN rather than falling back to the old claim.
+  no_target_reason_label?: string | null;
 }
 
 export interface CoverageSummary {
