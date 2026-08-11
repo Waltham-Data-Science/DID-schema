@@ -210,6 +210,18 @@ STEPS = [
          r"^V_eta built: (\d+) schemas", "schemas built",
          writes=["schemas/V_eta"]),
 
+    # #32. The registry's `strength` column is DERIVED from the field
+    # constraints, which are authoritative -- so it must run AFTER the build
+    # that writes both sides, and BEFORE anything that reads the registry.
+    # `build_v_eta.py` deliberately emits the rows with NO strength; if this
+    # step is dropped the column simply vanishes rather than going quietly
+    # wrong, and the artifact diff below says so by name.
+    Step("regen_binding_strengths", _t("regen_binding_strengths.py"), "generate",
+         r"^DENOMINATOR: (\d+) bound field declaration\(s\) read",
+         "bound field declarations",
+         writes=["schemas/V_eta/stable/binding_registry_meta.json"],
+         check_argv=_t("regen_binding_strengths.py", "--check")),
+
     # CHECK-ONLY, ALWAYS. `V_eta_migration_targets.json` is half CURATED and
     # half derived (the tool's own words), and a curated file is not this
     # driver's to rewrite -- but coverage.py reads it, so a drift must be
@@ -378,6 +390,28 @@ EDGES = [
     Edge("build_v_eta", "check_binding_governance", "schemas/V_eta",
          "the binding registry it audits is written by the build.",
          "tools/check_binding_governance.py", r'"V_eta"'),
+
+    # ---- #32: the derived strength column --------------------------------
+    Edge("build_v_eta", "regen_binding_strengths", "schemas/V_eta",
+         "both sides of the derivation are written by the build: the field "
+         "constraints it reads (constraints.binding.strength) and the registry "
+         "rows it fills. Regenerate before the build and the column describes "
+         "the PREVIOUS schema set.",
+         "tools/regen_binding_strengths.py", r'"V_eta"'),
+
+    Edge("regen_binding_strengths", "check_binding_governance",
+         "schemas/V_eta/stable/binding_registry_meta.json",
+         "B5 compares each registry row's strength against the field's. Audit "
+         "the registry before the column is derived and B5 grades a column "
+         "build_v_eta.py deliberately leaves empty.",
+         "tools/check_binding_governance.py", r"binding_registry_meta\.json"),
+
+    Edge("regen_binding_strengths", "pytest",
+         "schemas/V_eta/stable/binding_registry_meta.json",
+         "test_veta.py::test_field_and_registry_strengths_agree opens the "
+         "registry by path and compares it to the field declarations; run "
+         "before the derivation and it tests the previous column.",
+         "tests/test_veta.py", r"binding_registry_meta\.json"),
 
     Edge("build_v_eta", "check_empty_ontology_nodes", "schemas/V_eta",
          "the schema half of the sweep walks the built ontology_term fields.",

@@ -5708,16 +5708,31 @@ CONTROLLED_VOCABULARIES = {
     },
 }
 
+# NO `strength` KEY HERE, AND ITS ABSENCE IS THE POINT (#32).
+#
+# These three rows used to state `strength` alongside the field constraint on
+# dataset.accessibility / .ethics_assessment / .experimental_approach. Both
+# copies said the same thing and NOTHING compared them: they agreed by
+# coincidence. The FIELD IS AUTHORITATIVE, so the registry's copy is now a
+# DERIVED column, written by `tools/regen_binding_strengths.py` immediately
+# after this build in `tools/gates.py`. Restating it here would restore exactly
+# the second source of truth that was removed -- the generator would overwrite
+# it, so the literal would be inert, and an editor would reasonably believe
+# they had changed something.
+#
+# To change how hard one of these is enforced, edit the field's
+# `constraints.binding.strength` in the `dataset` class above and re-run
+# `python3 tools/gates.py`.
 ENTITY_FIELD_BINDINGS = [
     {"class": "dataset", "field": "accessibility",
      "vocabulary": "openMINDS", "term_set": "ProductAccessibility",
-     "strength": "required", "closed": True},
+     "closed": True},
     {"class": "dataset", "field": "ethics_assessment",
      "vocabulary": "openMINDS", "term_set": "EthicsAssessment",
-     "strength": "required", "closed": True},
+     "closed": True},
     {"class": "dataset", "field": "experimental_approach",
      "vocabulary": "openMINDS", "term_set": "ExperimentalApproach",
-     "strength": "preferred", "closed": False},
+     "closed": False},
 ]
 
 # Illustrative examples kept OUT of the live binding list so they never collide
