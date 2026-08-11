@@ -529,7 +529,7 @@
         ],
         "packages_missing": [],
         "files_read": 166,
-        "lines_read": 32657,
+        "lines_read": 32980,
         "classes_queried": 26,
         "classes_emitted_as_document_class": 8,
         "unresolved_mint_sites": [
@@ -572,7 +572,7 @@
         },
         "lines_read_by_group": {
           "per_document_migrator": 22140,
-          "batch_post_pass": 10517
+          "batch_post_pass": 10840
         },
         "classes_emitted_as_document_class_by_group": {
           "per_document_migrator": 8,
@@ -2466,8 +2466,8 @@
         ],
         "n_emitted_class_refs": 11,
         "emitted_class_refs": [
-          "DID-matlab:convert/resolveDeferredBaths.m:177 (emitted_class)",
-          "DID-matlab:convert/resolveDeferredBaths.m:229 (emitted_class)",
+          "DID-matlab:convert/resolveDeferredBaths.m:361 (emitted_class)",
+          "DID-matlab:convert/resolveDeferredBaths.m:413 (emitted_class)",
           "DID-matlab:migrators_j/fitcurve.m:147 (emitted_class)",
           "DID-matlab:migrators_j/image_stack.m:279 (emitted_class)",
           "DID-matlab:migrators_j/jrclust_clusters.m:88 (emitted_class)",
@@ -2478,8 +2478,8 @@
         "emission_discounted": "minted at 11 site(s) (9 per-document migrator, 2 batch post-pass), NOT counted as build progress: the signed decision retires this class in favour of `relative_reference`, so an emission is work still to undo",
         "n_field_write_refs": 11,
         "field_write_refs": [
-          "DID-matlab:convert/resolveDeferredBaths.m:188 (field_write)",
-          "DID-matlab:convert/resolveDeferredBaths.m:237 (field_write)",
+          "DID-matlab:convert/resolveDeferredBaths.m:372 (field_write)",
+          "DID-matlab:convert/resolveDeferredBaths.m:421 (field_write)",
           "DID-matlab:migrators_j/fitcurve.m:154 (field_write)",
           "DID-matlab:migrators_j/image_stack.m:284 (field_write)",
           "DID-matlab:migrators_j/jrclust_clusters.m:93 (field_write)",
@@ -2490,8 +2490,8 @@
         "n_comment_mentions": 27,
         "comment_mentions": [
           "DID-matlab:convert/resolveDeferredBaths.m:13 (comment_mention)",
-          "DID-matlab:convert/resolveDeferredBaths.m:174 (comment_mention)",
-          "DID-matlab:convert/resolveDeferredBaths.m:183 (comment_mention)",
+          "DID-matlab:convert/resolveDeferredBaths.m:358 (comment_mention)",
+          "DID-matlab:convert/resolveDeferredBaths.m:367 (comment_mention)",
           "DID-matlab:convert/resolveLawnPlateSubjects.m:289 (comment_mention)",
           "DID-matlab:convert/resolveSessionAnchors.m:19 (comment_mention)",
           "DID-matlab:convert/resolveSessionAnchors.m:244 (comment_mention)"
@@ -2537,21 +2537,21 @@
             ],
             "n_emitted_class_refs": 2,
             "emitted_class_refs": [
-              "DID-matlab:convert/resolveDeferredBaths.m:177 (emitted_class)",
-              "DID-matlab:convert/resolveDeferredBaths.m:229 (emitted_class)"
+              "DID-matlab:convert/resolveDeferredBaths.m:361 (emitted_class)",
+              "DID-matlab:convert/resolveDeferredBaths.m:413 (emitted_class)"
             ],
             "n_field_write_refs": 2,
             "field_write_refs": [
-              "DID-matlab:convert/resolveDeferredBaths.m:188 (field_write)",
-              "DID-matlab:convert/resolveDeferredBaths.m:237 (field_write)"
+              "DID-matlab:convert/resolveDeferredBaths.m:372 (field_write)",
+              "DID-matlab:convert/resolveDeferredBaths.m:421 (field_write)"
             ],
             "n_named_refs": 0,
             "named_refs": [],
             "n_comment_mentions": 8,
             "comment_mentions": [
               "DID-matlab:convert/resolveDeferredBaths.m:13 (comment_mention)",
-              "DID-matlab:convert/resolveDeferredBaths.m:174 (comment_mention)",
-              "DID-matlab:convert/resolveDeferredBaths.m:183 (comment_mention)",
+              "DID-matlab:convert/resolveDeferredBaths.m:358 (comment_mention)",
+              "DID-matlab:convert/resolveDeferredBaths.m:367 (comment_mention)",
               "DID-matlab:convert/resolveLawnPlateSubjects.m:289 (comment_mention)",
               "DID-matlab:convert/resolveSessionAnchors.m:19 (comment_mention)",
               "DID-matlab:convert/resolveSessionAnchors.m:244 (comment_mention)"
@@ -2936,8 +2936,8 @@
         "emission_discounted": null,
         "n_field_write_refs": 17,
         "field_write_refs": [
-          "DID-matlab:convert/resolveDeferredBaths.m:187 (field_write)",
-          "DID-matlab:convert/resolveDeferredBaths.m:236 (field_write)",
+          "DID-matlab:convert/resolveDeferredBaths.m:371 (field_write)",
+          "DID-matlab:convert/resolveDeferredBaths.m:420 (field_write)",
           "DID-matlab:convert/resolveValidIntervals.m:807 (field_write)",
           "DID-matlab:migrators_j/fitcurve.m:153 (field_write)",
           "DID-matlab:migrators_j/image_stack.m:283 (field_write)",
@@ -2945,8 +2945,8 @@
         ],
         "n_named_refs": 22,
         "named_refs": [
-          "DID-matlab:convert/resolveDeferredBaths.m:179 (named)",
-          "DID-matlab:convert/resolveDeferredBaths.m:231 (named)",
+          "DID-matlab:convert/resolveDeferredBaths.m:363 (named)",
+          "DID-matlab:convert/resolveDeferredBaths.m:415 (named)",
           "DID-matlab:convert/resolveSessionAnchors.m:531 (named)",
           "DID-matlab:convert/resolveValidIntervals.m:797 (named)",
           "DID-matlab:migrators_j/fitcurve.m:147 (named)",
@@ -3006,14 +3006,14 @@
             "emitted_class_refs": [],
             "n_field_write_refs": 3,
             "field_write_refs": [
-              "DID-matlab:convert/resolveDeferredBaths.m:187 (field_write)",
-              "DID-matlab:convert/resolveDeferredBaths.m:236 (field_write)",
+              "DID-matlab:convert/resolveDeferredBaths.m:371 (field_write)",
+              "DID-matlab:convert/resolveDeferredBaths.m:420 (field_write)",
               "DID-matlab:convert/resolveValidIntervals.m:807 (field_write)"
             ],
             "n_named_refs": 4,
             "named_refs": [
-              "DID-matlab:convert/resolveDeferredBaths.m:179 (named)",
-              "DID-matlab:convert/resolveDeferredBaths.m:231 (named)",
+              "DID-matlab:convert/resolveDeferredBaths.m:363 (named)",
+              "DID-matlab:convert/resolveDeferredBaths.m:415 (named)",
               "DID-matlab:convert/resolveSessionAnchors.m:531 (named)",
               "DID-matlab:convert/resolveValidIntervals.m:797 (named)"
             ],
