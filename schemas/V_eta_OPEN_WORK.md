@@ -1526,3 +1526,51 @@ which costs no field on a shared tier. If only one is kept, keep `dateUpdated`.
 no usage evidence in either direction. Per the standing rule, that is not evidence they are
 unused — `generic_file` is written by the Babu converter for datasets not among the six. The
 counter is what will say if a real dataset ever brings some.
+
+---
+
+## TEAM DECISION 2026-08-11 — `valid_interval` inheritance is RE-DERIVED, not materialised
+
+Team, jess@walthamdatascience.com, 2026-08-11, verbatim: **"Re-derive seems right to me"** —
+answering the sub-question left open by the `valid_interval` decision above.
+
+**WHAT WAS DECIDED.** A validity statement is stored ONCE, on the element it was measured for.
+Anything asking about a DERIVED element follows `derived_from` up the chain and uses the
+statement it finds there. The migration writes no copies onto derived elements.
+
+**IT PRESERVES NDI'S EXISTING SEMANTICS EXACTLY.** This is not a new rule — it is the rule
+`ndi.app.markgarbage` already implements. `loadvalidinterval` finds nothing on the element it
+was asked about and falls back to `underlying_element` AT THE MOMENT OF THE QUERY. Materialising
+would have replaced a query-time walk with migration-time copies, i.e. changed the semantics
+into something faster to read and capable of going stale.
+
+**WHY, IN ONE LINE:** the same quality judgement stored N times can be corrected in one place
+and left wrong in the others, with nothing to flag the disagreement. That is the failure this
+project keeps paying for, and it is worse for a QUALITY judgement than for data, because a stale
+"this stretch is good" is silently wrong rather than visibly missing.
+
+**THE COST IS REAL AND LANDS ON CONSUMERS, NOT ON THE MIGRATION.** Every "is this good data?"
+question must walk `derived_from`. A consumer that forgets gets "no validity information"
+instead of the right answer — and per hazard 1 of the parent decision, absence MEANS VALID, so
+a forgotten walk reads as *all good* rather than as an error. **That is the sharp edge of this
+choice and it should be built against, not just noted:** the walk belongs in ONE shared
+resolver, written once, rather than reimplemented by each caller.
+
+        v1 consumers of validity, for scale:
+          ndi.app.markgarbage            loadvalidinterval / identifyvalidintervals
+          +app/+stimulus/tuning_response.m:253-255   (uses interval(1,...) only)
+
+**`inheritance_candidates` IS NOT MOOT — ITS PURPOSE CHANGES.** It was built to DECIDE this
+question; the team decided on principle instead. It still matters, now as a SIZE: it counts the
+subjects NDI's `underlying_element` fallback actually serves, which is exactly how many
+documents depend on the walk existing. A zero means no corpus we hold exercises inheritance at
+all (and per the standing rule that is a fact about the sample, not about the universe); a large
+number means the shared resolver is load-bearing rather than theoretical. Read it as scope for
+the consumer-side work, not as evidence for or against the decision.
+
+**NOTHING IN THE BUILD NEEDS UNDOING.** The `valid_interval` build was instructed to leave both
+answers open, so the stored form — one statement per source, ids preserved — is already what
+re-derive requires. What this decision ADDS is the consumer-side resolver, which is new work and
+is not yet written.
+
+**No `TEAM-SIGN-OFF` line is written by Claude.**
