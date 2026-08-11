@@ -553,7 +553,7 @@
         ],
         "packages_missing": [],
         "files_read": 137,
-        "lines_read": 18528,
+        "lines_read": 18584,
         "classes_queried": 31,
         "classes_emitted_as_document_class": 5,
         "ref_kinds": [
@@ -609,8 +609,8 @@
         "emission_discounted": null,
         "n_emitting_refs": 2,
         "emitting_refs": [
-          "migrators_j/element_epoch.m:86 (named)",
-          "migrators_j/element_epoch.m:88 (field_write)"
+          "migrators_j/element_epoch.m:101 (field_write)",
+          "migrators_j/element_epoch.m:99 (named)"
         ],
         "decided_targets": [],
         "decided_targets_built": [],

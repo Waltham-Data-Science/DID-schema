@@ -46,7 +46,7 @@ decides a disposition -- it DERIVES, per class, how far the work has got.
 |---|---|
 | build: V_eta migrator packages read | `migrators_j`, `ndi_second_pass` |
 | build: migrator files inspected | 137 |
-| build: migrator lines inspected | 18528 |
+| build: migrator lines inspected | 18584 |
 | build: classes queried | 31 |
 | build: open classes MINTED as a document class | 5 |
 | build: of those, discounted (decision retires the class) | 3 |
@@ -160,7 +160,7 @@ a row whose only evidence is a built target as *the target exists*, not as
 
 #### (a) decided, nothing built -- 12
 
-- `acquisition_epoch` (epoch) -- still emitted/named at 2 site(s): `migrators_j/element_epoch.m:86 (named)`, `migrators_j/element_epoch.m:88 (field_write)`
+- `acquisition_epoch` (epoch) -- still emitted/named at 2 site(s): `migrators_j/element_epoch.m:101 (field_write)`, `migrators_j/element_epoch.m:99 (named)`
 - `directory` (file navigation) -- still emitted/named at 1 site(s): `migrators_j/private/jSorterOutput.m:134 (named)`
 - `epoch_bounded_reference` (time_reference) -- MINTED as a document class at 1 site(s): `ndi_second_pass/stimulusBathToBath.m:71 (emitted_class)`; minted at 1 site(s), NOT counted as build progress: the signed decision retires this class in favour of `relative_reference`, so an emission is work still to undo; still emitted/named at 2 site(s): `migrators_j/syncrule_mapping.m:182 (named)`, `ndi_second_pass/stimulusBathToBath.m:81 (field_write)`
 - `epoch_relative_reference` (time_reference) -- no evidence found
