@@ -6829,10 +6829,30 @@ def _disposition(name, doc=None):
 # + fast fixtures GREEN, 0 orphans): each has a completed migrator that folds it 1->1,
 # id-preserved, into a `*_calculation` subject_calculation leaf (its class changes), so
 # no migrated doc keeps the wrapper class. All 7 verified unreferenced by any kept V_eta
-# schema (no superclass / typed dep) and unemitted by any migrator. NOTE the RESULT
-# class NAMES (orientation_direction_tuning, contrast_sensitivity, stimulus_tuningcurve)
-# are REUSED as persisting ③ composites and are NOT deleted; only the wrapper names,
-# which nothing reuses, qualify.
+# schema (no superclass / typed dep) and unemitted by any migrator.
+#
+# NOTE the RESULT class names. This paragraph used to read "(orientation_direction_
+# tuning, contrast_sensitivity, stimulus_tuningcurve) are REUSED as persisting ③
+# composites and are NOT deleted". THAT IS TRUE OF ONE OF THE THREE. Measured
+# 2026-08-11 against the built tree:
+#
+#       orientation_direction_tuning   ABSENT
+#       contrast_sensitivity           PRESENT (stable/)
+#       stimulus_tuningcurve           ABSENT
+#
+# The two absent ones are removed ~4,700 lines above, by the R2/R3 tuning-collapse
+# loop: the 5 tuning result classes plus the raw `stimulus_tuningcurve` collapse into
+# the single `tuning_curve` + `tuning_curve_calculation` pair, and their copytree'd
+# source composites are `os.remove`d there. So they ARE deleted -- by a different
+# mechanism, in a different place, under a decision (R2/R3) this set knows nothing
+# about.
+#
+# THE CONCLUSION SURVIVES AND THE REASON DOES NOT, which is the part worth keeping
+# straight: only wrapper names belong in `_DELETE_PHASE8`, and that is still correct
+# -- but not because the result names are all kept. Reading this comment to answer
+# "does class X survive the build?" would have given the wrong answer for two of the
+# three classes it names, and it is exactly the question someone tidying this set
+# would ask. `contrast_sensitivity` is the only one that really is reused.
 _DELETE_PHASE8 = {
     "treatment", "treatment_drug", "treatment_transfer", "virus_injection",
     "subject_group",
