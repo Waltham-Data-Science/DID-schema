@@ -961,3 +961,146 @@ evidence the direct edge was needed, when it is evidence the edge we have is une
 The deliberate omission is stated at the `subject_interaction` definition in
 `tools/build_v_eta.py`, not left silent, because an unexplained absence is exactly what someone
 "completing the family" would helpfully fix.
+
+---
+
+# FINDINGS FROM THE 2026-08-11 RESEARCH PASSES — recorded because they lived only in chat
+
+Three agents were run READ-ONLY and told to write nothing, so their results reached a
+human and no file. That is the failure mode this document exists to prevent, and it is
+recorded here rather than re-derived. **Nothing below is a decision**; no
+`TEAM-SIGN-OFF` line was added by any of it.
+
+## A. Sizing option B for the openMINDS metadata split
+
+The problem: `metadata_editor` and the openMINDS dataset graph are written on INDEPENDENT
+paths (`saveEditor2Doc.m` on the editor's window CLOSE; `save_dataset_docs.m` on the Save
+BUTTON after a required-field check that early-returns). Neither reads or removes the
+other. BOTH cloud upload paths (`+cloud/uploadDataset.m:75`,
+`+cloud/+upload/newDataset.m:20`) read only the GRAPH.
+
+Measured, corpus run 31441923369, 6 corpora, 221,827 v1 source documents:
+
+        1  metadata_editor        8  openminds        404  openminds_element
+      635  openminds_stimulus  10401  openminds_subject
+      CO-OCCURRENCE: 0 BOTH · 1 GRAPH-WITHOUT-EDITOR (JH) · 1 EDITOR-WITHOUT-GRAPH (Soph)
+                     · 4 NEITHER
+      migrated tier: dataset=5, organization=5, web_resource=5,
+                     person=0, funding=0, publication=0
+
+**Where the citation facts live.** `convertFormDataToDocuments.m:197` calls
+`openMINDSobj2ndi_document(dataset, sessionId)` with NO dependency_type, and the switch in
+that file defaults `docName = 'openminds'`. So the ENTIRE dataset graph — Dataset,
+DatasetVersion, every Person, Organization, Affiliation, ORCID, ContactInformation,
+Funding, Contribution, DOI, WebResource, License — lands as the bare `openminds` class.
+The `openminds_subject` / `_element` / `_stimulus` counts come from other call sites
+entirely and are unrelated to citation metadata.
+
+**Size.** ~13 openMINDS types → the SAME six entity classes `metadata_editor.m` already
+emits, + `directed_relation`. **Cannot be per-document**: one `person` requires FIVE
+documents (Person + Affiliation + Organization + ORCID + ContactInformation) joined by
+`ndi://<base.id>` strings. Shape is a pass-1 guarded passthrough + a BATCH assembler, and
+the precedent is in-tree — `did2.convert.resolveDatasetEntities` is exactly that shape and
+is already wired at 4 sites. It must run BEFORE that pass, so its rich `dataset` wins the
+richness ranking against `dataset_remote` stubs. The emitter half
+(`entityDoc`/`relationDoc`/`orgFor`/`buildGids`) transfers unchanged; the new half is a
+graph walk. One genuine advantage: each openMINDS instance is its own document, so a
+graph-sourced `person` can be id-preserving 1→1, which `metadata_editor.m:117` cannot
+(it mints a fresh id).
+
+**THE FINDING THAT SHOULD SHAPE THE DECISION: the two stores are NOT information-
+equivalent.** The graph holds only a DOI for a related publication — no title, no PMID,
+no PMCID. `ndidataset2metadataeditorstruct` recovers those via a NETWORK lookup
+(`resolveRelatedPublication`). So a graph-sourced `publication` carries a DOI and no
+title, where the editor path carries all four. A migrator must not fabricate the
+difference. This argues for B **as well as** A rather than instead of it.
+
+Three more reader facts a build must respect: `fullDocumentation` is bimodal (DOI first,
+WebResource fallback) while the reader unconditionally reads `.IRI`, which a DOI document
+lacks; two IRI vintages exist for `openminds_type`
+(`https://openminds.ebrains.eu/core/...` and `https://openminds.om-i.org/types/...`);
+and `core.Dataset` is written but never read — only `DatasetVersion` is queried.
+
+**Two cheap verifications before building.** (1) Does any corpus contain a `DatasetVersion`
+`openminds` document at all? The 8 in JH are probably E. coli STRAIN graphs —
+`haley/doImport.m:87,706` writes `OP50` and `OP50GFP` with no dependency type. If none
+exists, B must be written from writer + reader with a fixture from
+`convertFormDataToDocuments`' output shape, never from corpus data. (2) Dump Soph's one
+`metadata_editor.metadata_structure`; it settles whether `person=0` is "no authors" or a
+shape bug.
+
+## B. Option C for the E. coli images is a DIFFERENT design from the one first scoped
+
+Option C as originally written is DEAD: the subject-carrying and subject-less `imageStack`
+sites are in DIFFERENT SESSIONS (`doImport.m:46-49` builds
+`{'haley_2025_Celegans','haley_2025_Ecoli'}`; sites 421/461/477/496 are Step 5 under
+`sessions{1}`, sites 789/811/827 are Step 8 under `sessions{2}` opened at :694). The last
+subject mention in that 881-line file is line 689. The E. coli session mints NO subject.
+And `plateID` COLLIDES across sessions (`:166` adds `expType*1000`, `:729` does not), so a
+cross-session join would invent attributions rather than recover them.
+
+**The only design that works: mint a subject for the E. coli PLATE.** Its
+`ontologyTableRow` carries `plateID` (identity), a `bacteriaStrain` document-id STRING
+(`:734`), and OD600/CFU/lawnVolume covariates; `plateTable` is built
+`'UniqueVariables','plateID'` so one plate = one row = one subject. The chain
+image → image row → plateID → plate row → plate-subject then resolves ENTIRELY within
+session 2. **Whether a bacterial lawn is a `subject` is a MODELLING CALL the team has not
+made.**
+
+Three things that must be weighed with it:
+- The image→plate hop can only ever be a STRING join. `imageVariables` (`:718`) is
+  `{plateID, imageID, lawnGrowthDuration, exposureTime}` — `plate_id`, the document id, is
+  NOT on the image row. So it must be session-scoped and uniqueness-checked.
+- `bacteriaStrain` is NOT an edge: no Haley `table2ontologyTableRowDocs` call passes
+  `dependencyVariable`, so the strain document id sits in `data` as a char and the plate
+  row's `depends_on` is `[{document_id, ""}]`. Minting `strain_id` from it is a second
+  unverified-resolvability edge — the `distance_metadata` shape. NOT in step 1.
+- `subject.local_identifier` collides at dataset level: `jEnsureLocalId` does no
+  qualification and BOTH sessions land in one `ndi.dataset.dir`.
+
+**The gate cannot see any of it.** `runCorpusDiscovery` runs exactly five passes
+(`v1_to_v2`, `resolveDeferredBaths`, `resolveDatasetEntities`, `epochMint`,
+`resolveSessionAnchors`) and zero `ndi.migrate.*`. So NDI-side subject resolution is
+invisible to the corpus gate — it would report the same passthrough counts whether the
+work succeeded, no-opped, or threw (every sub-pass in `local.m` is wrapped in a warn-and-
+continue `try`). The recommendation from that scout: build the join DID-side as a batch
+post-pass, because it needs only documents already in the migrated batch — no session, no
+database, no file bytes — which is the same criterion that put `epochMint` and
+`resolveSessionAnchors` DID-side.
+
+## C. `ontology_label.document_id` — the analysis, not a decision
+
+        NDI    ontologyLabel_schema.json   "mustbenotempty": 1
+        V_eta  stable/ontology_label.json  mustBeNonEmpty: false  -> base  (untyped)
+
+`document_id` is the label's ONLY dependency — the thing it is about. The optional
+declaration is what makes the loss invisible: `silentLoss.m:930 requiredDependencies`
+returns names only for edges declared `mustBeNonEmpty`, so **this edge is out of scope for
+the empty-edge census entirely**, and "0 empty required edges over 627,526 documents" is
+silent about it rather than reassuring.
+
+The writer is unanimous — 10 of 10 construction sites call
+`set_dependency_value('document_id', ...)`: `haley/doImport.m` 445/470/486/505/799/816/832
+and `babu/import.m` 487/534/583 (2 of the babu sites label a `generic_file`). Zero sites
+set any other dependency, so there is no writer-vs-template disagreement to arbitrate.
+
+Against raising it: a call site proves the CALL, not a non-empty VALUE; the corpora are a
+SAMPLE and this is a ~7,007-document passthrough class that cannot be repaired in flight;
+and quarantine is GATING, so raising it spends a measured 0-quarantine baseline on an
+unmeasured risk.
+
+**Proposed sequence (not a decision):** make it visible before enforcing it, which is the
+sequence that worked for #37 (armed on an accepted 7,233) and #38 (armed on a measured 0).
+Concretely, teach the census to report empty edges that **NDI declares required where
+V_eta does not** — a generalisable check that catches this whole divergence class, costs
+nothing because it is report-only, and turns arming into a one-line call with a number
+behind it. Separately, the tombstone types this edge `-> base`; NDI's referent is always a
+real class.
+
+## D. Housekeeping that needs credentials this session does not have
+
+Four throwaway refs from the `image_stack` CI mutation proofs need deleting;
+`git push --delete` returns HTTP 403 here. In `VH-Lab/DID-matlab`:
+`claude/v-eta-imgstack-docid-mutation` and `…-b`. In `Waltham-Data-Science/DID-schema`:
+the two same-named pointer refs (no commits; they exist only because the workflow checks
+out did-schema at `github.ref_name`).
