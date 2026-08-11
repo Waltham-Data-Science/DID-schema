@@ -196,8 +196,8 @@ def main(argv):
     # reported as NOT RUNNABLE rather than as agreement.
     if not did or not ndi:
         print("  DENOMINATOR: 0 file(s) scanned -- sibling checkout(s) absent")
-        print("    DID-matlab: %s" % (did or "NOT FOUND"))
-        print("    NDI-matlab: %s" % (ndi or "NOT FOUND"))
+        print(f'    DID-matlab: {did or "NOT FOUND"}')
+        print(f'    NDI-matlab: {ndi or "NOT FOUND"}')
         print("  NOT RUNNABLE HERE. This says NOTHING about whether the two")
         print("  pipelines agree; it says the question was not asked.")
         return 0
@@ -205,11 +205,10 @@ def main(argv):
     hset, hinfo = scan_harness(did)
     nset, ninfo = scan_ndi(ndi)
     if hset is None or nset is None:
-        print("  DENOMINATOR: harness file(s) %d, NDI file(s) %d"
-              % (hinfo["files"], ninfo["files"]))
+        print(f'  DENOMINATOR: harness file(s) {hinfo["files"]}, NDI file(s) {ninfo["files"]}')
         for info in (hinfo, ninfo):
             if info.get("missing"):
-                print("  MISSING: %s" % info["missing"])
+                print("  MISSING: {}".format(info["missing"]))
         print("  NOT RUNNABLE HERE -- a source this reads is absent.")
         return 1 if enforce else 0
 
@@ -217,13 +216,9 @@ def main(argv):
     harness_only = hset - nset
     ndi_only = nset - hset
 
-    print("  DENOMINATOR: %d harness file scanned (%s), %d NDI file(s) scanned (%s)"
-          % (hinfo["files"], os.path.basename(hinfo["path"]),
-             ninfo["files"], NDI_MIGRATE))
-    print("  DENOMINATOR: %d pass(es) named by the harness, %d by NDI, %d in both"
-          % (len(hset), len(nset), len(both)))
-    print("  divergent: %d harness-only, %d NDI-only"
-          % (len(harness_only), len(ndi_only)))
+    print(f'  DENOMINATOR: {hinfo["files"]} harness file scanned ({os.path.basename(hinfo["path"])}), {ninfo["files"]} NDI file(s) scanned ({NDI_MIGRATE})')
+    print(f'  DENOMINATOR: {len(hset)} pass(es) named by the harness, {len(nset)} by NDI, {len(both)} in both')
+    print(f'  divergent: {len(harness_only)} harness-only, {len(ndi_only)} NDI-only')
 
     if not hset or not nset:
         print("  *** ONE SIDE NAMED NO PASSES AT ALL. Every pass on the other")
@@ -233,14 +228,14 @@ def main(argv):
 
     for label, group in (("HARNESS ONLY", harness_only), ("NDI ONLY", ndi_only)):
         if group:
-            print("  %s (%d):" % (label, len(group)))
+            print(f'  {label} ({len(group)}):')
             for name in sorted(group):
                 why = DECLARED_DIVERGENCES.get(name)
                 print("    %-28s %s" % (name, "DECLARED" if why else
                                         "*** UNDECLARED ***"))
                 if why:
                     for line in _wrap(why, 66):
-                        print("      %s" % line)
+                        print(f"      {line}")
 
     undeclared = sorted((harness_only | ndi_only) - set(DECLARED_DIVERGENCES))
     # A declaration for a pass that no longer diverges is stale in the
@@ -248,13 +243,11 @@ def main(argv):
     # that has since changed, which is how a stale exemption survives.
     stale = sorted(set(DECLARED_DIVERGENCES) - (harness_only | ndi_only))
     if stale:
-        print("  STALE DECLARATION(S) (%d) -- these no longer diverge, so the "
-              "recorded reason describes nothing:" % len(stale))
+        print(f'  STALE DECLARATION(S) ({len(stale)}) -- these no longer diverge, so the recorded reason describes nothing:')
         for name in stale:
-            print("    %s" % name)
+            print(f"    {name}")
 
-    print("  RESULT: %d undeclared divergence(s), %d stale declaration(s)"
-          % (len(undeclared), len(stale)))
+    print(f'  RESULT: {len(undeclared)} undeclared divergence(s), {len(stale)} stale declaration(s)')
     if undeclared:
         print("  A pass on only one side is either shipped-but-unmeasured or")
         print("  measured-but-unshipped. Decide which, then declare it in")

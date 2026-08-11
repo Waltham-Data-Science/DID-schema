@@ -90,13 +90,13 @@ DECISIONS = os.path.join(SCHEMA_DIR, "V_eta_decisions.json")
 TOOLS_DIR = HERE
 
 # "NO `TEAM-SIGN-OFF` LINE", "no TEAM-SIGN-OFF line", "NO TEAM SIGN-OFF LINE".
-NO_SIGNOFF_RE = re.compile(r"\bno\s+`?team[\s_-]*sign[\s_-]*off`?\s+line\b", re.I)
+NO_SIGNOFF_RE = re.compile(r"\bno\s+`?team[\s_-]*sign[\s_-]*off`?\s+line\b", re.IGNORECASE)
 HAS_SIGNOFF_RE = re.compile(r"^TEAM-SIGN-OFF\b")
 EXEMPT = "HISTORICAL-SIGNOFF-CLAIM"
 
 # The assertion form only. "awaiting a signature" is a heading the board PRINTS
 # for whatever is genuinely unsigned, and matching it would flag the renderer.
-UNSIGNED_CLAIM_RE = re.compile(r"\bno\s+signature\s+yet\b", re.I)
+UNSIGNED_CLAIM_RE = re.compile(r"\bno\s+signature\s+yet\b", re.IGNORECASE)
 
 
 def families_awaiting_signature():
@@ -147,7 +147,7 @@ def scan(paths):
             with open(path, encoding="utf-8") as fh:
                 lines = fh.read().splitlines()
         except OSError as exc:
-            rows.append((path, 0, "UNREADABLE: %s" % exc))
+            rows.append((path, 0, f"UNREADABLE: {exc}"))
             continue
         read += 1
         signoffs = [i for i, ln in enumerate(lines) if HAS_SIGNOFF_RE.match(ln)]
@@ -179,8 +179,7 @@ def main():
     # DENOMINATOR FIRST, unconditionally (Operating Rule 5). "0 stale" is
     # meaningless without "out of how many signed documents" -- a glob that
     # matched nothing would otherwise print the same reassuring zero.
-    print("DENOMINATOR: %d markdown file(s) under schemas/ globbed, %d read, "
-          "%d carrying at least one TEAM-SIGN-OFF line" % (len(paths), read, signed))
+    print(f'DENOMINATOR: {len(paths)} markdown file(s) under schemas/ globbed, {read} read, {signed} carrying at least one TEAM-SIGN-OFF line')
     if read == 0:
         print("NOTHING WAS READ -- the glob matched no files. This is a failure, "
               "not a pass.")
@@ -194,19 +193,16 @@ def main():
         print("V_eta_decisions.json is unreadable -- the tool-source rule could "
               "not run. That is a failure, not a pass.")
         return 1
-    print("DECISIONS ARTIFACT: %d family/families, %d awaiting a signature"
-          % (total, awaiting))
+    print(f'DECISIONS ARTIFACT: {total} family/families, {awaiting} awaiting a signature')
     if awaiting == 0:
         tool_rows, tool_files = scan_tools_for_unsigned_claims()
-        print("TOOL SOURCE: %d .py file(s) under tools/ scanned for "
-              "\"no signature yet\"" % tool_files)
+        print(f'TOOL SOURCE: {tool_files} .py file(s) under tools/ scanned for "no signature yet"')
     else:
-        print("TOOL SOURCE: not scanned -- %d family/families really are awaiting "
-              "a signature, so the claim may be true somewhere." % awaiting)
+        print(f'TOOL SOURCE: not scanned -- {awaiting} family/families really are awaiting a signature, so the claim may be true somewhere.')
     print()
 
     if not rows and not tool_rows:
-        print("No signed plan document claims to be unsigned. (%d checked)" % signed)
+        print(f'No signed plan document claims to be unsigned. ({signed} checked)')
         if awaiting == 0:
             print("No tool source claims a family is awaiting a signature.")
         return 0
@@ -215,18 +211,18 @@ def main():
         print("STALE HEADERS -- these documents carry a TEAM-SIGN-OFF line AND "
               "assert that they do not:")
         for path, lineno, text in rows:
-            print("  %s:%d" % (os.path.relpath(path, REPO), lineno))
-            print("      %s" % text)
+            print(f'  {os.path.relpath(path, REPO)}:{lineno}')
+            print(f"      {text}")
         print()
     if tool_rows:
         print("STALE TOOL SOURCE -- every family is signed, but these lines say "
               "otherwise:")
         for path, lineno, text in tool_rows:
-            print("  %s:%d" % (os.path.relpath(path, REPO), lineno))
-            print("      %s" % text)
+            print(f'  {os.path.relpath(path, REPO)}:{lineno}')
+            print(f"      {text}")
         print()
     print("FIX: point the claim at the signature that exists, and mark any quoted")
-    print("     historical wording with %s." % EXEMPT)
+    print(f"     historical wording with {EXEMPT}.")
     return 1 if args.enforce else 0
 
 

@@ -182,32 +182,21 @@ def derive(reg, index):
             if not names_field:
                 if DERIVED_KEY in row:
                     errors.append(
-                        "%s[%d] (class=%r field=%r) states %s=%r but names no "
-                        "field, so nothing can derive it and nothing can "
-                        "contradict it. Name the field or drop the key."
-                        % (list_name, i, cls, fname, DERIVED_KEY,
-                           row.get(DERIVED_KEY)))
+                        f'{list_name}[{i}] (class={cls!r} field={fname!r}) states {DERIVED_KEY}={row.get(DERIVED_KEY)!r} but names no field, so nothing can derive it and nothing can contradict it. Name the field or drop the key.')
                 plan.append((list_name, i, row, None, "names no field"))
                 continue
             hit = index.get((cls, fname))
             if hit is None:
                 errors.append(
-                    "%s[%d] catalogues %s.%s, which declares no "
-                    "constraints.binding in the built tree. The registry is a "
-                    "catalogue of real bindings; there is nothing to derive "
-                    "from." % (list_name, i, cls, fname))
+                    f'{list_name}[{i}] catalogues {cls}.{fname}, which declares no constraints.binding in the built tree. The registry is a catalogue of real bindings; there is nothing to derive from.')
                 continue
             strength = hit["binding"].get(DERIVED_KEY)
             if strength is None:
                 errors.append(
-                    "%s[%d] catalogues %s.%s, whose binding declares NO "
-                    "%s. There is no default: `preferred` would make an "
-                    "ungoverned field read as governed and `required` would "
-                    "arm a gate nobody measured. Declare it on the field."
-                    % (list_name, i, cls, fname, DERIVED_KEY))
+                    f'{list_name}[{i}] catalogues {cls}.{fname}, whose binding declares NO {DERIVED_KEY}. There is no default: `preferred` would make an ungoverned field read as governed and `required` would arm a gate nobody measured. Declare it on the field.')
                 continue
             plan.append((list_name, i, row, strength,
-                         "derived from %s.%s" % (cls, fname)))
+                         f"derived from {cls}.{fname}"))
     return plan, errors
 
 
@@ -244,26 +233,16 @@ def run(veta=VETA, registry_path=None, check=False, out=print):
     uncatalogued = sorted(k for k in index if k not in catalogued)
 
     # RULE 5: the denominator, first and unconditional.
-    out("DENOMINATOR: %d bound field declaration(s) read from %d "
-        "document_class file(s) (%d field declarations walked, %d of the "
-        "bindings NESTED); %d registry list(s), %d row(s) (%d normative, %d "
-        "illustrative)"
-        % (den["bound_field_declarations"], den["document_class_files_read"],
-           den["field_declarations_walked"],
-           den["bound_field_declarations_nested"],
-           len(REGISTRY_LISTS), rows_total, normative, rows_total - normative))
-    out("  rows naming a class AND a field (derivable) : %d" % len(derived_rows))
-    out("  rows naming no field (must carry none)      : %d"
-        % (len(plan) - len(derived_rows)))
-    out("  bound fields with NO registry row           : %d  "
-        "(reported, never repaired -- adding a catalogue row is a decision)"
-        % len(uncatalogued))
+    out(f'DENOMINATOR: {den["bound_field_declarations"]} bound field declaration(s) read from {den["document_class_files_read"]} document_class file(s) ({den["field_declarations_walked"]} field declarations walked, {den["bound_field_declarations_nested"]} of the bindings NESTED); {len(REGISTRY_LISTS)} registry list(s), {rows_total} row(s) ({normative} normative, {rows_total - normative} illustrative)')
+    out(f'  rows naming a class AND a field (derivable) : {len(derived_rows)}')
+    out(f'  rows naming no field (must carry none)      : {len(plan) - len(derived_rows)}')
+    out(f'  bound fields with NO registry row           : {len(uncatalogued)}  (reported, never repaired -- adding a catalogue row is a decision)')
 
     if errors:
         out("")
-        out("UNDERIVABLE: %d row(s). Nothing was written." % len(errors))
+        out(f'UNDERIVABLE: {len(errors)} row(s). Nothing was written.')
         for e in errors:
-            out("  ERROR %s" % e)
+            out(f"  ERROR {e}")
         return 1, {"errors": errors}
 
     desired_text = render(rebuild(reg, plan))
@@ -280,41 +259,35 @@ def run(veta=VETA, registry_path=None, check=False, out=print):
                 "registry_says": have, "field_says": desired, "why": why})
 
     out("")
-    out("DERIVED COLUMN -- %d row(s), field -> registry" % len(derived_rows))
+    out(f'DERIVED COLUMN -- {len(derived_rows)} row(s), field -> registry')
     for list_name, i, row, desired, why in derived_rows:
         mark = "ok" if row.get(DERIVED_KEY) == desired else "STALE"
-        out("  %-5s %-26s %-14s.%-22s %s"
-            % (mark, list_name, row.get("class"), row.get("field"), desired))
+        out(f'  {mark:<5} {list_name:<26} {row.get("class"):<14}.{row.get("field"):<22} {desired}')
 
     out("")
-    out("DISAGREEMENTS (registry copy vs the authoritative field): %d"
-        % len(disagreements))
+    out(f'DISAGREEMENTS (registry copy vs the authoritative field): {len(disagreements)}')
     for d in disagreements:
-        out("  %s[%d] %s.%s -- registry says %r, the FIELD says %r. The field "
-            "is authoritative; this column is derived."
-            % (d["list"], d["index"], d["class"], d["field"],
-               d["registry_says"], d["field_says"]))
+        out(f'  {d["list"]}[{d["index"]}] {d["class"]}.{d["field"]} -- registry says {d["registry_says"]!r}, the FIELD says {d["field_says"]!r}. The field is authoritative; this column is derived.')
 
     stale = desired_text != current_text
     if check:
         out("")
         if stale:
-            out("STALE: %s does not match what the fields say. Run "
+            out(f"STALE: {REGISTRY_REL} does not match what the fields say. Run "
                 "`python3 tools/regen_binding_strengths.py` (or "
-                "`python3 tools/gates.py`)." % REGISTRY_REL)
+                "`python3 tools/gates.py`).")
             return 1, {"disagreements": disagreements, "stale": True}
-        out("UP TO DATE: %s matches the field declarations byte for byte."
-            % REGISTRY_REL)
+        out(f"UP TO DATE: {REGISTRY_REL} matches the field declarations byte for byte.")
         return 0, {"disagreements": disagreements, "stale": False}
 
     if stale:
         with open(registry_path, "w") as fh:
             fh.write(desired_text)
         out("")
-        out("REGENERATED %s" % REGISTRY_REL)
+        out(f"REGENERATED {REGISTRY_REL}")
     else:
         out("")
-        out("UNCHANGED %s (already matches the field declarations)" % REGISTRY_REL)
+        out(f"UNCHANGED {REGISTRY_REL} (already matches the field declarations)")
     return 0, {"disagreements": disagreements, "stale": stale}
 
 

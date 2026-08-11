@@ -111,6 +111,7 @@ import json
 import os
 import re
 import sys
+from pathlib import Path
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 SCHEMA_ROOT = os.path.dirname(HERE)
@@ -176,8 +177,8 @@ _FUNC_LINE = re.compile(
     r"(?P<name>[A-Za-z_]\w*)\s*(?:\((?P<args>[^)]*)\))?")
 
 
-class Func(object):
-    __slots__ = ("name", "params", "outs", "lines", "start", "path")
+class Func:
+    __slots__ = ("lines", "name", "outs", "params", "path", "start")
 
     def __init__(self, name, params, outs, lines, start, path):
         self.name = name
@@ -303,7 +304,7 @@ def _resolve_symbol(sym, func, lits, murky):
         return [(LIT, v) for v in sorted(lits[sym])]
     if sym in lits:
         return ([(LIT, v) for v in sorted(lits[sym])]
-                + [(DYN, "%s (also assigned non-literally)" % sym)])
+                + [(DYN, f"{sym} (also assigned non-literally)")])
     return [(DYN, sym)]
 
 
@@ -507,7 +508,7 @@ def entry_points():
 # Interprocedural resolution
 # ---------------------------------------------------------------------------
 
-class Analyser(object):
+class Analyser:
     def __init__(self):
         self.private = build_scopes()
         self.entries = entry_points()
@@ -567,26 +568,26 @@ class Analyser(object):
         out, unresolved = set(), []
         for sym, line in direct:
             if sym[0] == DYN:
-                unresolved.append(("dynamic class name `%s`" % sym[1],
-                                   "%s:%d" % (_rel(func.path), line)))
+                unresolved.append((f"dynamic class name `{sym[1]}`",
+                                   f'{_rel(func.path)}:{line}'))
             out.add(sym)
         for name, args, line in calls:
             callee = self.resolve_name(name, func.path, pkg)
             if callee is None:
                 if name.startswith("pkg:"):
-                    unresolved.append(("unresolved package call `%s`" % name[4:],
-                                       "%s:%d" % (_rel(func.path), line)))
+                    unresolved.append((f"unresolved package call `{name[4:]}`",
+                                       f'{_rel(func.path)}:{line}'))
                 elif name.startswith(MISSING):
                     # An explicit `did2.convert.` reference whose file is not
                     # where the name says it is. Reported, never skipped: a
                     # skipped emitter reads as "mints nothing".
                     unresolved.append(
-                        ("`%s` names no file under +convert" % name[len(MISSING):],
-                         "%s:%d" % (_rel(func.path), line)))
+                        (f"`{name[len(MISSING):]}` names no file under +convert",
+                         f'{_rel(func.path)}:{line}'))
                 elif name.startswith(FILEREF):
                     unresolved.append(
-                        ("`%s` defines no function" % _rel(name[len(FILEREF):]),
-                         "%s:%d" % (_rel(func.path), line)))
+                        (f"`{_rel(name[len(FILEREF):])}` defines no function",
+                         f'{_rel(func.path)}:{line}'))
                 continue
             sub, subunres = self.analyse(callee, pkg, stack)
             unresolved.extend(subunres)
@@ -600,9 +601,8 @@ class Analyser(object):
                     # override; the default is not a class name in any migrator
                     # today, so this is reported rather than guessed
                     unresolved.append(
-                        ("call to `%s` omits class-name argument #%d" % (
-                            callee.name, idx + 1),
-                         "%s:%d" % (_rel(func.path), line)))
+                        (f'call to `{callee.name}` omits class-name argument #{idx + 1}',
+                         f'{_rel(func.path)}:{line}'))
                     continue
                 arg = args[idx]
                 lm = _LIT.match(arg)
@@ -615,16 +615,14 @@ class Analyser(object):
                     for s in _resolve_symbol(im.group(1), func, lits, murky):
                         if s[0] == DYN:
                             unresolved.append(
-                                ("class name `%s` passed to `%s` is not a literal"
-                                 % (im.group(1), callee.name),
-                                 "%s:%d" % (_rel(func.path), line)))
+                                (f"class name `{im.group(1)}` passed to `{callee.name}` is not a literal",
+                                 f'{_rel(func.path)}:{line}'))
                         else:
                             out.add(s)
                     continue
                 unresolved.append(
-                    ("class-name argument to `%s` is an expression (`%s`)"
-                     % (callee.name, arg.strip()[:40]),
-                     "%s:%d" % (_rel(func.path), line)))
+                    (f"class-name argument to `{callee.name}` is an expression (`{arg.strip()[:40]}`)",
+                     f'{_rel(func.path)}:{line}'))
         res = (out, unresolved)
         self._fn_cache[key] = res
         return res
@@ -695,9 +693,9 @@ class Analyser(object):
         if not names:
             if pkg != "migrators_j":
                 unresolved.append(
-                    ("entry point is in +migrators, where a concrete fallback "
+                    (("entry point is in +migrators, where a concrete fallback "
                      "migrator and a superclass block migrator are "
-                     "indistinguishable -- no claim made", _rel(path)))
+                     "indistinguishable -- no claim made"), _rel(path)))
             elif self._returns_source(fns[0]) and cls in self.veta:
                 names = {cls}
         return names, unresolved, not names or names == {cls}, path
@@ -725,20 +723,20 @@ def _rel(path):
 # ---------------------------------------------------------------------------
 
 def refresh(write=True, out=sys.stdout):
-    doc = json.load(open(TARGETS_JSON))
+    doc = json.loads(Path(TARGETS_JSON).read_text())
     classes = doc["classes"]
     an = Analyser()
 
     rows = sorted(classes)
-    p = lambda *a: print(*a, file=out)
+    def p(*a):
+        print(*a, file=out)
+
 
     # DENOMINATOR FIRST (operating rule 5).
-    p("DENOMINATOR: %d class rows in %s" % (len(rows), os.path.basename(TARGETS_JSON)))
-    p("             %d migrator entry points across %s"
-      % (len(an.entries), " + ".join("+" + x for x in PACKAGE_ORDER)))
-    p("             %d private helpers in +migrators_j, %d in +migrators"
-      % (len(an.private["migrators_j"]), len(an.private["migrators"])))
-    p("             DID-matlab = %s" % (DIDM or "NOT FOUND"))
+    p(f'DENOMINATOR: {len(rows)} class rows in {os.path.basename(TARGETS_JSON)}')
+    p(f'             {len(an.entries)} migrator entry points across {" + ".join("+" + x for x in PACKAGE_ORDER)}')
+    p(f'             {len(an.private["migrators_j"])} private helpers in +migrators_j, {len(an.private["migrators"])} in +migrators')
+    p(f'             DID-matlab = {DIDM or "NOT FOUND"}')
     p("")
 
     n_full = n_partial = n_carry = n_nomig = 0
@@ -783,23 +781,20 @@ def refresh(write=True, out=sys.stdout):
             classes[cls]["targets"] = new
 
     p("DERIVATION MODE")
-    p("  %3d rows FULLY DERIVED   (every document_class write resolved -> the set is"
-      % n_full)
+    p(f'  {n_full:>3} rows FULLY DERIVED   (every document_class write resolved -> the set is')
     p("      rewritten; a removal is positive evidence from enumerated code)")
-    p("  %3d rows PARTIAL         (>=1 unresolved site -> derived set UNIONED in,"
-      % n_partial)
+    p(f'  {n_partial:>3} rows PARTIAL         (>=1 unresolved site -> derived set UNIONED in,')
     p("      nothing removed; absence is not evidence, operating rule 3)")
-    p("  %3d rows CARRY-FORWARD   (the migrator mints nothing: keeps a self-naming"
-      % n_carry)
+    p(f'  {n_carry:>3} rows CARRY-FORWARD   (the migrator mints nothing: keeps a self-naming')
     p("      target, drops any claim of a migration to another class)")
-    p("  %3d rows have NO pass-1 migrator under V_eta (untouched)" % n_nomig)
+    p(f'  {n_nomig:>3} rows have NO pass-1 migrator under V_eta (untouched)')
     p("")
 
-    p("DIFF: %d row(s) change" % len(changed))
+    p(f'DIFF: {len(changed)} row(s) change')
     for cls, old, new, mode, path in changed:
         added = [t for t in new if t not in old]
         removed = [t for t in old if t not in new]
-        p("  %-42s %s   [%s]" % (cls, path, mode))
+        p(f'  {cls:<42} {path}   [{mode}]')
         if added:
             p("      + " + ", ".join(added))
         if removed:
@@ -807,23 +802,21 @@ def refresh(write=True, out=sys.stdout):
     p("")
 
     if carry_report:
-        p("CARRY-FORWARD ROWS THAT LOST A TARGET (%d) -- each named a migration its"
-          % len(carry_report))
+        p(f'CARRY-FORWARD ROWS THAT LOST A TARGET ({len(carry_report)}) -- each named a migration its')
         p("migrator no longer performs. Their `how`/`flags` prose describes the same")
         p("removed migration and is NOT touched by this tool: rewrite it by hand.")
         for cls, dropped, path in carry_report:
-            p("  %-42s %s" % (cls, path))
+            p(f'  {cls:<42} {path}')
             p("      dropped: " + ", ".join(dropped))
         p("")
 
     if partial_report:
-        p("UNRESOLVED EMISSION SITES (%d row(s)) -- these rows keep their existing"
-          % len(partial_report))
+        p(f'UNRESOLVED EMISSION SITES ({len(partial_report)} row(s)) -- these rows keep their existing')
         p("targets and can only GAIN. Close one and its row becomes fully derived.")
         for cls, sites in partial_report:
-            p("  %s" % cls)
+            p(f"  {cls}")
             for why, where in sites:
-                p("      %-58s %s" % (why, where))
+                p(f'      {why:<58} {where}')
         p("")
 
     # SANITY CHECK ON THE INSTRUMENT ITSELF. Every derived name is claimed to be a
@@ -840,8 +833,7 @@ def refresh(write=True, out=sys.stdout):
     if veta:
         stray = sorted(n for n in all_derived
                        if n not in veta and n not in COV.KNOWN_NON_VETA)
-        p("INSTRUMENT CHECK: %d distinct target names derived; %d absent from the "
-          "built V_eta set" % (len(all_derived), len(stray)))
+        p(f'INSTRUMENT CHECK: {len(all_derived)} distinct target names derived; {len(stray)} absent from the built V_eta set')
         if stray:
             p("  " + ", ".join(stray))
         p("")
@@ -850,7 +842,7 @@ def refresh(write=True, out=sys.stdout):
         with open(TARGETS_JSON, "w") as fh:
             json.dump(doc, fh, indent=2, ensure_ascii=False)
             fh.write("\n")
-        p("WROTE %s" % TARGETS_JSON)
+        p(f"WROTE {TARGETS_JSON}")
     elif not changed:
         p("no change")
     return changed

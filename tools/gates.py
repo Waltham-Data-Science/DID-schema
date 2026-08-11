@@ -134,7 +134,7 @@ class Step:
         self.name = name
         self.argv = list(argv)
         self.kind = kind                      # "generate" | "gate"
-        self.headline = re.compile(headline, re.M)
+        self.headline = re.compile(headline, re.MULTILINE)
         self.headline_label = headline_label
         self.writes = list(writes)
         # Sibling checkouts this step READS. Named, not guessed: `--explain`
@@ -164,7 +164,7 @@ class Step:
         return None
 
     def __repr__(self):
-        return "Step(%s)" % self.name
+        return f"Step({self.name})"
 
 
 def _t(script, *args):
@@ -263,7 +263,13 @@ STEPS = [
     Step("pytest", [PY, "-m", "pytest", "-q"], "gate",
          r"^(\d+) passed", "tests passed", external=True),
 
-    Step("ruff", ["ruff", "check", "tests"], "gate",
+    # `tools` JOINED `tests` ON 2026-08-11. The step had read `tests` alone
+    # since it was written, so the eighteen scripts that generate every artifact
+    # under `schemas/` were linted by nothing -- 559 findings on first
+    # measurement, including an undefined name that would have raised in
+    # `status_board.py --check`. The residue is carved out by name in
+    # pyproject.toml, with what each carve-out still owes.
+    Step("ruff", ["ruff", "check", "tests", "tools"], "gate",
          r"(All checks passed!|Found \d+ errors?)", "ruff verdict",
          external=True),
 
@@ -351,7 +357,7 @@ class Edge:
             src = fh.read()
         if re.search(self.witness, src):
             return True, self.witness
-        return False, "no match for %r in %s" % (self.witness, self.witness_file)
+        return False, f"no match for {self.witness!r} in {self.witness_file}"
 
 
 EDGES = [
@@ -474,7 +480,7 @@ def derive_order(steps=STEPS, edges=EDGES):
     for e in edges:
         for n in (e.producer, e.consumer):
             if n not in rank:
-                raise KeyError("edge names an unknown step: %s" % n)
+                raise KeyError(f"edge names an unknown step: {n}")
     preds = {n: set() for n in names}
     succs = {n: set() for n in names}
     for e in edges:
@@ -491,8 +497,7 @@ def derive_order(steps=STEPS, edges=EDGES):
                 ready.append(m)
         ready.sort(key=rank.get)
     if len(out) != len(names):
-        raise ValueError("dependency cycle among: %s"
-                         % sorted(set(names) - set(out)))
+        raise ValueError(f"dependency cycle among: {sorted(set(names) - set(out))}")
     return out
 
 
@@ -530,15 +535,15 @@ def run_step(step, cwd):
     t0 = time.time()
     try:
         p = subprocess.run(step.argv, cwd=cwd, capture_output=True, text=True,
-                           env=child_env())
+                           env=child_env(), check=False)
         out = (p.stdout or "") + (p.stderr or "")
         rc = p.returncode
     except FileNotFoundError as exc:
-        return dict(rc=127, out="%s\n" % exc, secs=time.time() - t0,
-                    headline=None, missing_tool=True)
+        return {"rc": 127, "out": f"{exc}\n", "secs": time.time() - t0,
+                    "headline": None, "missing_tool": True}
     m = step.headline.search(out)
-    return dict(rc=rc, out=out, secs=time.time() - t0,
-                headline=m.group(1) if m else None, missing_tool=False)
+    return {"rc": rc, "out": out, "secs": time.time() - t0,
+                "headline": m.group(1) if m else None, "missing_tool": False}
 
 
 def _snapshot(paths, root):
@@ -592,11 +597,11 @@ def diff_artifact(rel, mirror, root):
     """Return (identical, detail) for one generated artifact."""
     a, b = os.path.join(root, rel), os.path.join(mirror, rel)
     if os.path.isdir(b) or os.path.isdir(a):
-        p = subprocess.run(["diff", "-rq", a, b], capture_output=True, text=True)
+        p = subprocess.run(["diff", "-rq", a, b], capture_output=True, text=True, check=False)
         if p.returncode == 0:
             return True, ""
         return False, p.stdout.strip()
-    p = subprocess.run(["diff", "-u", a, b], capture_output=True, text=True)
+    p = subprocess.run(["diff", "-u", a, b], capture_output=True, text=True, check=False)
     if p.returncode == 0:
         return True, ""
     body = [ln for ln in p.stdout.splitlines()
@@ -614,12 +619,11 @@ def diff_artifact(rel, mirror, root):
     # lines and a CI log is read by scrolling: the first CAP lines, each
     # truncated, and the remainder counted rather than dropped silently.
     CAP, WIDTH = 12, 200
-    detail = ["%d changed line(s)" % len(body)]
+    detail = [f'{len(body)} changed line(s)']
     for ln in body[:CAP]:
         detail.append("      " + (ln[:WIDTH] + " ..." if len(ln) > WIDTH else ln))
     if len(body) > CAP:
-        detail.append("      ... %d further changed line(s) not shown"
-                      % (len(body) - CAP))
+        detail.append(f'      ... {len(body) - CAP} further changed line(s) not shown')
     return False, "\n".join(detail)
 
 
@@ -627,16 +631,14 @@ def diff_artifact(rel, mirror, root):
 
 def explain(root=REPO, out=print):
     order = derive_order()
-    out("DENOMINATOR: %d steps declared, %d dependency edge(s) to substantiate"
-        % (len(STEPS), len(EDGES)))
+    out(f'DENOMINATOR: {len(STEPS)} steps declared, {len(EDGES)} dependency edge(s) to substantiate')
     out("")
     out("DERIVED ORDER (topological sort of the edges below; ties by declaration order)")
     for i, n in enumerate(order, 1):
         s = BY_NAME[n]
         ups = sorted({e.producer for e in EDGES if e.consumer == n},
                      key=order.index)
-        out("  %2d. %-34s %-9s after: %s"
-            % (i, n, s.kind, ", ".join(ups) or "-"))
+        out(f'  {i:>2}. {n:<34} {s.kind:<9} after: {", ".join(ups) or "-"}')
     out("")
     out("EDGES -- each reason is CHECKED, not asserted: the witness is a literal")
     out("the CONSUMER's own source must contain to be reading that artifact.")
@@ -645,20 +647,20 @@ def explain(root=REPO, out=print):
         ok, detail = e.substantiated(root)
         if not ok:
             bad += 1
-        out("  [%s] %s -> %s" % ("OK" if ok else "UNSUBSTANTIATED",
+        out("  [{}] {} -> {}".format("OK" if ok else "UNSUBSTANTIATED",
                                  e.producer, e.consumer))
-        out("       artifact: %s" % e.artifact)
-        out("       reason  : %s" % e.reason)
-        out("       witness : %s in %s" % (detail, e.witness_file) if ok
-            else "       witness : %s" % detail)
+        out(f"       artifact: {e.artifact}")
+        out(f"       reason  : {e.reason}")
+        out(f"       witness : {detail} in {e.witness_file}" if ok
+            else f"       witness : {detail}")
     out("")
-    out("EDGES SUBSTANTIATED: %d of %d" % (len(EDGES) - bad, len(EDGES)))
+    out(f'EDGES SUBSTANTIATED: {len(EDGES) - bad} of {len(EDGES)}')
     out("")
     out("SIBLING CHECKOUTS -- the reason CI cannot run the whole chain.")
     needs = [s for s in STEPS if s.requires]
-    out("DENOMINATOR: %d of %d steps read a sibling repository" % (len(needs), len(STEPS)))
+    out(f'DENOMINATOR: {len(needs)} of {len(STEPS)} steps read a sibling repository')
     for n, p in sorted(SIBLINGS.items()):
-        out("  %-12s %s" % (n, p or "NOT FOUND"))
+        out(f'  {n:<12} {p or "NOT FOUND"}')
     for s in needs:
         src = s.source_path()
         unnamed = []
@@ -667,9 +669,7 @@ def explain(root=REPO, out=print):
                 body = fh.read()
             unnamed = [n for n in s.requires if n not in body]
         mark = "OK" if not unnamed else "UNSUBSTANTIATED"
-        out("  [%s] %-34s needs %s%s"
-            % (mark, s.name, ", ".join(s.requires),
-               "" if not unnamed else "  -- %s never named in %s" % (unnamed, src)))
+        out(f'  [{mark}] {s.name:<34} needs {", ".join(s.requires)}{"" if not unnamed else f"  -- {unnamed} never named in {src}"}')
         if unnamed:
             bad += 1
     return 1 if bad else 0
@@ -710,16 +710,13 @@ def main(argv=None):
     print("=" * 78)
     print("V_eta CHAIN -- %s" % ("--check (scratch mirror; working tree untouched)"
                                  if a.check else "regenerate + gate"))
-    print("DENOMINATOR: %d steps will run (%d generate, %d gate); "
-          "%d dependency edges, %d substantiated"
-          % (len(steps), len(gens), len(steps) - len(gens), len(EDGES), ok_edges))
-    print("            order: %s" % " -> ".join(order))
+    print(f'DENOMINATOR: {len(steps)} steps will run ({len(gens)} generate, {len(steps) - len(gens)} gate); {len(EDGES)} dependency edges, {ok_edges} substantiated')
+    print("            order: {}".format(" -> ".join(order)))
     unavailable = [s.name for s in steps if s.missing_siblings]
     if unavailable:
-        print("            NOT RUNNABLE HERE (%d): %s"
-              % (len(unavailable), ", ".join(unavailable)))
+        print(f'            NOT RUNNABLE HERE ({len(unavailable)}): {", ".join(unavailable)}')
         for n, p in sorted(SIBLINGS.items()):
-            print("              sibling %-12s %s" % (n, p or "NOT FOUND"))
+            print(f'              sibling {n:<12} {p or "NOT FOUND"}')
         if not a.ci:
             print("              these will be ATTEMPTED anyway and will fail; "
                   "pass --ci to report them as not-runnable instead.")
@@ -727,8 +724,7 @@ def main(argv=None):
     sys.stdout.flush()
 
     if ok_edges != len(EDGES):
-        print("FAIL: %d dependency edge(s) could not be substantiated. "
-              "Run --explain." % (len(EDGES) - ok_edges))
+        print(f'FAIL: {len(EDGES) - ok_edges} dependency edge(s) could not be substantiated. Run --explain.')
         return 1
 
     mirror = None
@@ -739,7 +735,7 @@ def main(argv=None):
     if a.check and will_generate:
         mirror = tempfile.mkdtemp(prefix="veta-gates-check-")
         n = mirror_tracked_tree(REPO, mirror)
-        print("scratch mirror: %s  (%d tracked file(s) copied)" % (mirror, n))
+        print(f'scratch mirror: {mirror}  ({n} tracked file(s) copied)')
         print()
 
     results, failed, skipped, composed_failed, no_sibling = {}, [], [], [], []
@@ -750,16 +746,14 @@ def main(argv=None):
             # It must still be COUNTED and NAMED, or a shorter chain would read
             # as a complete one -- which is the whole defect this file is about.
             no_sibling.append(s.name)
-            print("[%2d/%2d] %-34s NO-SIBLING (%s absent; step not attempted)"
-                  % (i, len(steps), s.name, ", ".join(s.missing_siblings)))
+            print(f'[{i:>2}/{len(steps):>2}] {s.name:<34} NO-SIBLING ({", ".join(s.missing_siblings)} absent; step not attempted)')
             continue
         blockers = [f for f in failed + skipped
                     if BY_NAME[f].blocks_dependents
                     and s.name in DEPENDENTS.get(f, ())]
         if blockers:
             skipped.append(s.name)
-            print("[%2d/%2d] %-34s SKIPPED   (producer failed: %s)"
-                  % (i, len(steps), s.name, ", ".join(blockers)))
+            print(f'[{i:>2}/{len(steps):>2}] {s.name:<34} SKIPPED   (producer failed: {", ".join(blockers)})')
             continue
 
         # In --check the GENERATORS run inside the mirror; the read-only gates
@@ -772,20 +766,20 @@ def main(argv=None):
         why = ""
         if r["missing_tool"]:
             status = "MISSING"
-            why = "   executable not found: %s" % s.argv[0]
+            why = f"   executable not found: {s.argv[0]}"
         elif r["rc"] != 0:
             status = "FAIL"
-            why = "   exit=%d" % r["rc"]
+            why = f'   exit={r["rc"]}'
         elif r["headline"] is None:
             status = "NO-HEADLINE"
-            why = ("   exit=0 but the step never printed %r -- a step that "
+            why = (f"   exit=0 but the step never printed {s.headline_label!r} -- a step that "
                    "reports nothing is indistinguishable from one that was "
-                   "skipped" % s.headline_label)
+                   "skipped")
         else:
             status = "OK"
         print("[%2d/%2d] %-34s %-11s %6.2fs   %s"
               % (i, len(steps), s.name, status, r["secs"],
-                 ("%s: %s" % (r["headline"], s.headline_label))
+                 ("{}: {}".format(r["headline"], s.headline_label))
                  if r["headline"] else "(no headline)"))
         if why:
             print(why)
@@ -810,7 +804,7 @@ def main(argv=None):
                 for w in s.writes]
         not_compared = [w for s in steps if s.kind == "generate"
                         and s.name not in results for w in s.writes]
-        print("DENOMINATOR: %d generated artifact(s) compared" % len(arts))
+        print(f'DENOMINATOR: {len(arts)} generated artifact(s) compared')
         for rel in arts:
             same, detail = diff_artifact(rel, mirror, REPO)
             print("  %-42s %s%s" % (rel, "IDENTICAL" if same else "DIFFERS",
@@ -819,20 +813,17 @@ def main(argv=None):
             if not same:
                 diffs.append(rel)
         # NOT CHECKED is not the same as CHECKED AND CLEAN. Say so, with names.
-        print("  NOT COMPARED (their generator did not run here): %d%s"
-              % (len(not_compared),
-                 (" -- " + ", ".join(not_compared)) if not_compared else ""))
+        print(f'  NOT COMPARED (their generator did not run here): {len(not_compared)}{(" -- " + ", ".join(not_compared)) if not_compared else ""}')
         # Compose the tools that ship their own --check rather than trusting
         # only our diff. Two instruments, one question.
         print()
         print("COMPOSED --check (each tool's own, against the working tree)")
         composed = [s for s in steps if s.check_argv and s.name in results]
-        print("DENOMINATOR: %d step(s) ship a --check of their own; %d run here"
-              % (len([s for s in steps if s.check_argv]), len(composed)))
+        print(f'DENOMINATOR: {len([s for s in steps if s.check_argv])} step(s) ship a --check of their own; {len(composed)} run here')
         for s in composed:
             p = subprocess.run(s.check_argv, cwd=REPO, capture_output=True,
-                               text=True, env=child_env())
-            print("  %-42s exit=%d" % (s.name + " --check", p.returncode))
+                               text=True, env=child_env(), check=False)
+            print(f'  {s.name + " --check":<42} exit={p.returncode}')
             if p.returncode != 0:
                 for ln in (p.stdout + p.stderr).strip().splitlines()[-6:]:
                     print("        | " + ln)
@@ -843,10 +834,9 @@ def main(argv=None):
     touched = sorted(k for k in before if before[k] != after.get(k))
     if a.check:
         print()
-        print("WORKING-TREE GUARD: %d watched path(s); %d changed during the run"
-              % (len(watched), len(touched)))
+        print(f'WORKING-TREE GUARD: {len(watched)} watched path(s); {len(touched)} changed during the run')
         for k in touched:
-            print("  CHANGED: %s" % k)
+            print(f"  CHANGED: {k}")
         if touched:
             print("  In --check every generator runs with cwd inside the scratch "
                   "mirror, so this driver wrote none of these. Either that is a "
@@ -858,26 +848,22 @@ def main(argv=None):
     ran = len(results)
     print()
     print("=" * 78)
-    print("SUMMARY: %d step(s) declared, %d ran, %d passed, %d failed, %d skipped, "
-          "%d not runnable here"
-          % (len(steps), ran, ran - len(failed), len(failed), len(skipped),
-             len(no_sibling)))
+    print(f'SUMMARY: {len(steps)} step(s) declared, {ran} ran, {ran - len(failed)} passed, {len(failed)} failed, {len(skipped)} skipped, {len(no_sibling)} not runnable here')
     if no_sibling:
-        print("  NOT RUNNABLE HERE: %s  (needs an NDI-matlab / DID-matlab "
-              "checkout; NOT evidence they would pass)" % ", ".join(no_sibling))
+        print("  NOT RUNNABLE HERE: {}  (needs an NDI-matlab / DID-matlab "
+              "checkout; NOT evidence they would pass)".format(", ".join(no_sibling)))
     if failed:
-        print("  FAILED : %s" % ", ".join(failed))
+        print("  FAILED : {}".format(", ".join(failed)))
     if skipped:
-        print("  SKIPPED: %s  (a producer they depend on failed)" % ", ".join(skipped))
+        print("  SKIPPED: {}  (a producer they depend on failed)".format(", ".join(skipped)))
     if composed_failed:
-        print("  COMPOSED --check FAILED: %s" % ", ".join(composed_failed))
+        print("  COMPOSED --check FAILED: {}".format(", ".join(composed_failed)))
     if a.check:
-        print("  ARTIFACTS DIFFERING FROM THE COMMITTED COPY: %d%s"
-              % (len(diffs), (" -- " + ", ".join(diffs)) if diffs else ""))
-    print("  WALL CLOCK: %.2fs total" % (time.time() - t_all))
+        print(f'  ARTIFACTS DIFFERING FROM THE COMMITTED COPY: {len(diffs)}{(" -- " + ", ".join(diffs)) if diffs else ""}')
+    print(f'  WALL CLOCK: {time.time() - t_all:.2f}s total')
     for n in order:
         if n in results:
-            print("      %-34s %6.2fs" % (n, results[n]["secs"]))
+            print(f'      {n:<34} {results[n]["secs"]:6.2f}s')
     print("=" * 78)
 
     if mirror:

@@ -176,8 +176,8 @@ COUNTERS = (
 #: true", never as "the only thing true of it".
 UNRESOLVED_CAUSES = (
     ("source_deleted",
-     "SOURCE DELETED by a completed migrator (build_v_eta _DELETE_PHASE8) -- "
-     "no schema survives to compare against, and that is correct"),
+     ("SOURCE DELETED by a completed migrator (build_v_eta _DELETE_PHASE8) -- "
+     "no schema survives to compare against, and that is correct")),
     ("folds_to_target",
      "FOLDS into differently-named target(s) named by the migration-target map"),
     ("second_pass_only",
@@ -195,9 +195,9 @@ UNRESOLVED_CAUSES = (
 #: 2026-08-11.
 NO_EDGE_CAUSES = (
     ("renamed_to_family",
-     "RENAMED to a numbered edge family `<name>_#` -- present, under the "
+     ("RENAMED to a numbered edge family `<name>_#` -- present, under the "
      "family spelling; NOT stamped, because a missing family member is not a "
-     "blank edge (silentLoss applies the same exclusion)"),
+     "blank edge (silentLoss applies the same exclusion)")),
     ("dropped_class_declares_no_edges",
      "DROPPED -- the V_eta class declares no `depends_on` at all"),
     ("dropped",
@@ -440,7 +440,7 @@ def stamp_ndi_required(veta_dir, gt_path, rename, tiers, meta_files,
                         cause = "dropped"
                     d["edge_" + cause] += 1
                     d["no_edge_by_cause"][cause].append(
-                        "%s.%s -> %s%s" % (ndi_cn, raw_name, target,
+                        "{}.{} -> {}{}".format(ndi_cn, raw_name, target,
                                            "" if req else "  (NDI-optional)"))
                 continue
             d["edges_matched_by_name"] += 1
@@ -450,7 +450,7 @@ def stamp_ndi_required(veta_dir, gt_path, rename, tiers, meta_files,
                 d["stamped_required"] += 1
                 if not own[name].get("mustBeNonEmpty", False):
                     d["divergences"] += 1
-                    d["divergence_rows"].append("%s.%s" % (target, name))
+                    d["divergence_rows"].append(f"{target}.{name}")
             else:
                 d["stamped_optional"] += 1
 
@@ -464,7 +464,7 @@ def stamp_ndi_required(veta_dir, gt_path, rename, tiers, meta_files,
         d["unresolved_classes_" + cause] += 1
         d["edges_unresolved_" + cause] += len(verdicts)
         d["unresolved_by_cause"][cause].append(
-            "%s (%d edge(s))" % (ndi_cn, len(verdicts)))
+            f'{ndi_cn} ({len(verdicts)} edge(s))')
         for raw_name, req in sorted(verdicts.items()):
             name = ndi_snake(raw_name)
             outcome, holder = follow_fold(ndi_cn, name)
@@ -481,7 +481,7 @@ def stamp_ndi_required(veta_dir, gt_path, rename, tiers, meta_files,
             if req and not dep.get("mustBeNonEmpty", False):
                 d["fold_divergences"] += 1
                 d["fold_divergence_rows"].append(
-                    "%s.%s -> %s.%s" % (ndi_cn, raw_name, holder, name))
+                    f"{ndi_cn}.{raw_name} -> {holder}.{name}")
             else:
                 d["fold_agreements"] += 1
             if MARKER in dep:
@@ -561,7 +561,7 @@ def partition_failures(d):
         if got != d.get(total, 0):
             bad.append("%s: %d != %d (%s)"
                        % (label, got, d.get(total, 0),
-                          " + ".join("%s=%d" % (p, d.get(p, 0))
+                          " + ".join(f'{p}={d.get(p, 0)}'
                                      for p in parts)))
     return bad
 
@@ -573,117 +573,78 @@ def partitions_hold(d):
 def render_stamp_report(d):
     """The build-time report. DENOMINATOR FIRST and unconditionally."""
     out = ["",
-           "NDI REQUIRED-NESS STAMP (`%s`) -- report-only; no mustBeNonEmpty "
-           "value is read or written" % MARKER]
+           (f"NDI REQUIRED-NESS STAMP (`{MARKER}`) -- report-only; no mustBeNonEmpty "
+           "value is read or written")]
     if not d.get("ground_truth_readable"):
         out += ["  *** V_eta_ndi_ground_truth.json COULD NOT BE READ. Nothing",
                 "  *** was stamped, so every count downstream is a property of",
                 "  *** this build, not of the data. Run tools/ndi_ground_truth.py."]
         return out + [""]
-    out.append("  DENOMINATOR: %d NDI class(es) read; %d state required-ness "
-               "for at least one edge"
-               % (d["ndi_classes_read"], d["ndi_classes_with_a_verdict"]))
-    out.append("  DENOMINATOR: %d edge(s) carry an NDI verdict -- %d "
-               "NDI-REQUIRED + %d NDI-optional"
-               % (d["edges_carrying_an_ndi_verdict"],
-                  d["ndi_required_edges"], d["ndi_optional_edges"]))
-    out.append("  DENOMINATOR: %d NDI class(es) resolved to a V_eta class; "
-               "%d did not"
-               % (d["classes_resolved_to_v_eta"],
-                  d["classes_with_no_v_eta_class"]))
+    out.append(f'  DENOMINATOR: {d["ndi_classes_read"]} NDI class(es) read; {d["ndi_classes_with_a_verdict"]} state required-ness for at least one edge')
+    out.append(f'  DENOMINATOR: {d["edges_carrying_an_ndi_verdict"]} edge(s) carry an NDI verdict -- {d["ndi_required_edges"]} NDI-REQUIRED + {d["ndi_optional_edges"]} NDI-optional')
+    out.append(f'  DENOMINATOR: {d["classes_resolved_to_v_eta"]} NDI class(es) resolved to a V_eta class; {d["classes_with_no_v_eta_class"]} did not')
     out.append("")
     # THE TWO NUMBERS THE WHOLE REPORT TURNS ON, ADJACENT AND SEPARATELY
     # LABELLED. The divergence figure carries its own denominator inline so it
     # can never be quoted without one, and the not-compared figure is stated in
     # the same breath so "0 of 60 compared" and "0 of 5 compared, 55 never
     # looked at" cannot render the same way.
-    out.append("  COMPARED:     %d of %d edge(s) -- of which %d DIVERGE "
-               "(NDI requires it, V_eta does not)"
-               % (d["edges_compared"], d["edges_carrying_an_ndi_verdict"],
-                  d["divergences"]))
-    out.append("  NOT COMPARED: %d of %d edge(s) -- NEVER LOOKED AT. Not a "
-               "zero, and NOT the"
-               % (d["edges_not_compared"], d["edges_carrying_an_ndi_verdict"]))
+    out.append(f'  COMPARED:     {d["edges_compared"]} of {d["edges_carrying_an_ndi_verdict"]} edge(s) -- of which {d["divergences"]} DIVERGE (NDI requires it, V_eta does not)')
+    out.append(f'  NOT COMPARED: {d["edges_not_compared"]} of {d["edges_carrying_an_ndi_verdict"]} edge(s) -- NEVER LOOKED AT. Not a zero, and NOT the')
     out.append("                complement of a clean result: no figure in "
                "this report is the")
     out.append("                sum of these two lines, and none may be "
                "quoted as one.")
-    out.append("                of them %d are NDI-REQUIRED -- each could "
-               "have been a divergence"
-               % d["edges_not_compared_ndi_required"])
+    out.append(f'                of them {d["edges_not_compared_ndi_required"]} are NDI-REQUIRED -- each could have been a divergence')
     out.append("                and none of them was examined.")
     if d["edges_compared"] == 0:
         out += ["  *** NOTHING WAS COMPARED AT ALL. The divergence count above",
                 "  *** is a property of the matching, not of the schemas. The",
                 "  *** zero is 'untested', not 'clean'."]
     out.append("")
-    out.append("  NOT COMPARED, breakdown A -- the CLASS did not resolve: "
-               "%d edge(s) in %d class(es)"
-               % (d["edges_lost_to_unresolved_class"],
-                  d["classes_with_no_v_eta_class"]))
+    out.append(f'  NOT COMPARED, breakdown A -- the CLASS did not resolve: {d["edges_lost_to_unresolved_class"]} edge(s) in {d["classes_with_no_v_eta_class"]} class(es)')
     if not d.get("targets_map_readable") or not d.get("phase8_set_supplied"):
-        out += ["    *** THE CAUSES BELOW COULD NOT BE DETERMINED. %s"
-                % (" and ".join(
+        out += ["    *** THE CAUSES BELOW COULD NOT BE DETERMINED. {}".format(" and ".join(
                     ([] if d.get("phase8_set_supplied")
                      else ["the _DELETE_PHASE8 set was not supplied"])
                     + ([] if d.get("targets_map_readable")
                        else ["V_eta_migration_targets.json was not read"]))),
-                "    *** Every class below is parked in CAUSE NOT DETERMINED "
-                "rather than",
+                ("    *** Every class below is parked in CAUSE NOT DETERMINED "
+                "rather than"),
                 "    *** in a bucket that would read as accounted for."]
     for cause, blurb in UNRESOLVED_CAUSES:
         n_cls = d["unresolved_classes_" + cause]
         n_edge = d["edges_unresolved_" + cause]
-        out.append("    %d class(es) / %d edge(s)  %s" % (n_cls, n_edge, blurb))
+        out.append(f'    {n_cls} class(es) / {n_edge} edge(s)  {blurb}')
         for row in d.get("unresolved_by_cause", {}).get(cause, []):
-            out.append("        %s" % row)
+            out.append(f"        {row}")
     out.append("")
-    out.append("  FOLLOWING THE FOLD -- attempted for all %d of those edges; "
-               "COMPARISON ONLY,"
-               % d["edges_lost_to_unresolved_class"])
+    out.append(f'  FOLLOWING THE FOLD -- attempted for all {d["edges_lost_to_unresolved_class"]} of those edges; COMPARISON ONLY,')
     out.append("  nothing below is stamped, so `silentLoss` cannot see any of "
                "it and these")
     out.append("  divergences are NEVER added to the COMPARED line above.")
-    out.append("    %d followed to exactly one target edge -- %d DIVERGE, "
-               "%d agree"
-               % (d["fold_followed"], d["fold_divergences"],
-                  d["fold_agreements"]))
-    out.append("    %d already carry a verdict from their own NDI class "
-               "(counted in COMPARED)"
-               % d["fold_rows_already_compared_by_name"])
-    out.append("    %d not followed: the class names no emitted target"
-               % d["fold_unfollowed_no_targets_named"])
-    out.append("    %d not followed: no named target declares an edge of that "
-               "name"
-               % d["fold_unfollowed_no_target_declares_it"])
-    out.append("    %d not followed: AMBIGUOUS -- more than one target "
-               "declares it"
-               % d["fold_unfollowed_ambiguous_across_targets"])
-    out.append("    %d not followed: only an ancestor of the target declares "
-               "it"
-               % d["fold_unfollowed_inherited_only"])
+    out.append(f'    {d["fold_followed"]} followed to exactly one target edge -- {d["fold_divergences"]} DIVERGE, {d["fold_agreements"]} agree')
+    out.append(f'    {d["fold_rows_already_compared_by_name"]} already carry a verdict from their own NDI class (counted in COMPARED)')
+    out.append(f'    {d["fold_unfollowed_no_targets_named"]} not followed: the class names no emitted target')
+    out.append(f'    {d["fold_unfollowed_no_target_declares_it"]} not followed: no named target declares an edge of that name')
+    out.append(f'    {d["fold_unfollowed_ambiguous_across_targets"]} not followed: AMBIGUOUS -- more than one target declares it')
+    out.append(f'    {d["fold_unfollowed_inherited_only"]} not followed: only an ancestor of the target declares it')
     for row in d.get("fold_divergence_rows", []):
-        out.append("        DIVERGES (unstamped): %s" % row)
+        out.append(f"        DIVERGES (unstamped): {row}")
     out.append("")
-    out.append("  NOT COMPARED, breakdown B -- the class resolved, the EDGE "
-               "did not: %d edge(s)"
+    out.append('  NOT COMPARED, breakdown B -- the class resolved, the EDGE did not: %d edge(s)'
                % (d["edges_with_no_v_eta_edge"]
                   + d["edges_inherited_not_stamped"]))
-    out.append("    %d inherited from an ancestor -- present, but not this "
-               "class's fact to carry"
-               % d["edges_inherited_not_stamped"])
-    out.append("    %d no V_eta edge of that name, of which %d are "
-               "NDI-REQUIRED:"
-               % (d["edges_with_no_v_eta_edge"],
-                  d["edges_with_no_v_eta_edge_ndi_required"]))
+    out.append(f'    {d["edges_inherited_not_stamped"]} inherited from an ancestor -- present, but not this class\'s fact to carry')
+    out.append(f'    {d["edges_with_no_v_eta_edge"]} no V_eta edge of that name, of which {d["edges_with_no_v_eta_edge_ndi_required"]} are NDI-REQUIRED:')
     for cause, blurb in NO_EDGE_CAUSES:
-        out.append("      %d  %s" % (d["edge_" + cause], blurb))
+        out.append(f'      {d["edge_" + cause]}  {blurb}')
         for row in d.get("no_edge_by_cause", {}).get(cause, []):
-            out.append("          %s" % row)
+            out.append(f"          {row}")
     if not d.get("partition_ok"):
         out.append("")
-        out += ["  *** A PARTITION DOES NOT ADD UP. Some edge is counted twice "
-                "or not at",
+        out += [("  *** A PARTITION DOES NOT ADD UP. Some edge is counted twice "
+                "or not at"),
                 "  *** all, so every breakdown above is unreliable:"]
         out += ["  ***   " + line for line in partition_failures(d)]
     return out + [""]

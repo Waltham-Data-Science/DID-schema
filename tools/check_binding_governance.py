@@ -696,20 +696,13 @@ def report(r):
     d = r["denominator"]
     print("BINDING GOVERNANCE (#32 / T8) -- schema-side sweep")
     print("  DENOMINATOR")
-    print("    V_eta document_class files walked  : %d  (tiers %s)"
-          % (d["schema_files"], "/".join(TIERS)))
-    print("    document_class files NOT walked    : %d  (examples/, instance "
-          "samples)" % d["document_class_files_outside_the_tiers_skipped"])
-    print("    field declarations inspected       : %d  (nested sub-fields included)"
-          % d["field_declarations"])
-    print("    fields carrying constraints.binding: %d" % d["bound_fields"])
-    print("    registry rows, NORMATIVE            : %d  %s"
-          % (d["registry_rows_normative"],
-             {k: v for k, v in d["registry_lists"].items() if REGISTRY_LISTS[k]}))
-    print("    registry rows, ILLUSTRATIVE         : %d  %s"
-          % (d["registry_rows_illustrative"],
-             {k: v for k, v in d["registry_lists"].items() if not REGISTRY_LISTS[k]}))
-    print("    CURIE prefixes registered           : %d" % d["curie_prefixes_registered"])
+    print(f'    V_eta document_class files walked  : {d["schema_files"]}  (tiers {"/".join(TIERS)})')
+    print(f'    document_class files NOT walked    : {d["document_class_files_outside_the_tiers_skipped"]}  (examples/, instance samples)')
+    print(f'    field declarations inspected       : {d["field_declarations"]}  (nested sub-fields included)')
+    print(f'    fields carrying constraints.binding: {d["bound_fields"]}')
+    print(f'    registry rows, NORMATIVE            : {d["registry_rows_normative"]}  {{k: v for k, v in d["registry_lists"].items() if REGISTRY_LISTS[k]}}')
+    print(f'    registry rows, ILLUSTRATIVE         : {d["registry_rows_illustrative"]}  {{k: v for k, v in d["registry_lists"].items() if not REGISTRY_LISTS[k]}}')
+    print(f'    CURIE prefixes registered           : {d["curie_prefixes_registered"]}')
     print("    corpus documents inspected          : 0 -- NO corpus report is checked")
     print("                                          into either repo. Every count")
     print("                                          below is over DECLARATIONS.")
@@ -721,7 +714,7 @@ def report(r):
     for i in r["inventory"]:
         print("    %-32s %-22s %-14s %-13s %-10s %s"
               % (i["class"], i["field"], i["type"], i["shape"],
-                 i["strength"], "%s (%d)" % (i["set"] or "-", i["n_values"])))
+                 i["strength"], f'{i["set"] or "-"} ({i["n_values"]})'))
     print()
 
     print("VALUE SET CATALOGUE (DERIVED -- no such catalogue is stored)")
@@ -733,19 +726,19 @@ def report(r):
         print("    %-24s %d carrier(s), %d inline definition(s)%s"
               % (name, len(v["carriers"]), v["n_definitions"], flag))
         for c in v["carriers"]:
-            print("        %s" % c)
+            print(f"        {c}")
         for i, dfn in enumerate(v["definitions"], 1):
-            print("        def %d (%d members): %s" % (i, len(dfn), ", ".join(dfn)))
+            print(f'        def {i} ({len(dfn)} members): {", ".join(dfn)}')
     print()
 
     for key, f in r["findings"].items():
         base = BASELINES.get(key)
-        tag = "" if base is None else "  (baseline %d)" % base
+        tag = "" if base is None else f'  (baseline {base})'
         flag = ""
         if base is not None and f["count"] > base:
             flag = "   <-- GREW"
-        print("%s  %s" % (key, TITLES[key]))
-        print("    count: %d%s%s" % (f["count"], tag, flag))
+        print(f"{key}  {TITLES[key]}")
+        print(f'    count: {f["count"]}{tag}{flag}')
         for k, v in f.items():
             if k == "count":
                 continue

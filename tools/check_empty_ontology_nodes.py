@@ -210,7 +210,7 @@ def sweep(did_path):
                             "migrator": n,
                             "name": lit.group(1).replace("''", "'") if lit else "<computed>",
                             "expression": None if lit else arg,
-                            "site": "%s:%d" % (rel, i),
+                            "site": f'{rel}:{i}',
                         })
     return files, rows
 
@@ -271,10 +271,10 @@ def main():
     # DENOMINATOR FIRST, UNCONDITIONALLY. A count with nothing to divide it by is
     # not evidence -- silentLoss printed zeros for two days while reading nothing.
     print("empty-node ontology_term harvest (#70) -- SCHEMA SIDE")
-    print("  V_eta schema files inspected     : %d" % s_files)
-    print("  field nodes walked               : %d" % s_fields)
-    print("  admissible-set entries, no node  : %d" % len(s_rows))
-    print("  baseline (must not increase)     : %d" % BASELINE_SCHEMAS)
+    print(f'  V_eta schema files inspected     : {s_files}')
+    print(f'  field nodes walked               : {s_fields}')
+    print(f'  admissible-set entries, no node  : {len(s_rows)}')
+    print(f'  baseline (must not increase)     : {BASELINE_SCHEMAS}')
     print()
     if s_files == 0:
         print("NOTHING WAS READ -- 0 schema files. Treat this as a broken scan, "
@@ -286,35 +286,30 @@ def main():
         for r in s_rows:
             by_set.setdefault(r["root"], []).append(r)
         for root, group in sorted(by_set.items()):
-            print("  %s (%d)" % (root, len(group)))
+            print(f'  {root} ({len(group)})')
             for r in sorted(group, key=lambda x: (x["class"], x["field"], x["name"])):
-                print("      %-12s %-34s %s" % (r["tier"], r["class"] + "." + r["field"],
-                                                r["name"]))
+                print(f'      {r["tier"]:<12} {r["class"] + "." + r["field"]:<34} {r["name"]}')
         print()
     if len(s_rows) > BASELINE_SCHEMAS:
-        print("FAIL: %d schema-side entries, baseline %d. A NEW unminted term was "
-              "added. Either mint it, or raise BASELINE_SCHEMAS deliberately and "
-              "say why." % (len(s_rows), BASELINE_SCHEMAS))
+        print(f'FAIL: {len(s_rows)} schema-side entries, baseline {BASELINE_SCHEMAS}. A NEW unminted term was added. Either mint it, or raise BASELINE_SCHEMAS deliberately and say why.')
         if a.enforce:
             rc = 1
     elif len(s_rows) < BASELINE_SCHEMAS:
-        print("Schema-side count has FALLEN below the baseline (%d < %d) -- terms "
-              "were minted. Lower BASELINE_SCHEMAS to lock the gain in."
-              % (len(s_rows), BASELINE_SCHEMAS))
+        print(f'Schema-side count has FALLEN below the baseline ({len(s_rows)} < {BASELINE_SCHEMAS}) -- terms were minted. Lower BASELINE_SCHEMAS to lock the gain in.')
         print()
 
     # ---------- MIGRATOR SIDE ----------
     files, rows = sweep(a.did)
     if files is None:
         print("empty-node ontology_term harvest (#70) -- MIGRATOR SIDE")
-        print("  NOT READ: no +migrators_j directory under %s (pass --did)." % a.did)
+        print(f"  NOT READ: no +migrators_j directory under {a.did} (pass --did).")
         print("  This is NOT a clean migrator side. It is an unmeasured one.")
         return 1
 
     print("empty-node ontology_term harvest (#70) -- MIGRATOR SIDE")
-    print("  migrator files inspected      : %d" % files)
-    print("  emissions with an empty node  : %d" % len(rows))
-    print("  baseline (must not increase)  : %d" % BASELINE_MIGRATORS)
+    print(f'  migrator files inspected      : {files}')
+    print(f'  emissions with an empty node  : {len(rows)}')
+    print(f'  baseline (must not increase)  : {BASELINE_MIGRATORS}')
     print()
     if files == 0:
         print("NOTHING WAS READ -- 0 migrator files. Treat this as a broken scan, "
@@ -327,22 +322,18 @@ def main():
     if rows:
         print("UNMINTED TERMS, by migrator and name:")
         for (mig, name), group in sorted(by_name.items()):
-            label = name if name != "<computed>" else "<computed: %s>" % group[0]["expression"]
-            print("  %-34s %-34s x%d" % (mig, label, len(group)))
+            label = name if name != "<computed>" else "<computed: {}>".format(group[0]["expression"])
+            print(f'  {mig:<34} {label:<34} x{len(group)}')
             for r in group:
-                print("      %s" % r["site"])
+                print("      {}".format(r["site"]))
         print()
 
     if len(rows) > BASELINE_MIGRATORS:
-        print("FAIL: %d emissions, baseline %d. A NEW unminted term was added. "
-              "Either mint it, or raise BASELINE_MIGRATORS deliberately and say why."
-              % (len(rows), BASELINE_MIGRATORS))
+        print(f'FAIL: {len(rows)} emissions, baseline {BASELINE_MIGRATORS}. A NEW unminted term was added. Either mint it, or raise BASELINE_MIGRATORS deliberately and say why.')
         if a.enforce:
             rc = 1
     elif len(rows) < BASELINE_MIGRATORS:
-        print("Count has FALLEN below the baseline (%d < %d) -- terms were minted. "
-              "Lower BASELINE_MIGRATORS to lock the gain in."
-              % (len(rows), BASELINE_MIGRATORS))
+        print(f'Count has FALLEN below the baseline ({len(rows)} < {BASELINE_MIGRATORS}) -- terms were minted. Lower BASELINE_MIGRATORS to lock the gain in.')
     return rc
 
 

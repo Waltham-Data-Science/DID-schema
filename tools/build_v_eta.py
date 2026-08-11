@@ -26,6 +26,7 @@ import glob
 import json
 import os
 import shutil
+from pathlib import Path
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 VZETA = os.path.join(ROOT, "schemas", "V_zeta")
@@ -1208,15 +1209,14 @@ _BIND_PREFERRED = [
 for _cls, _fname in _BIND_PREFERRED:
     _t, _p = path_of(_cls)
     if _t is None:
-        raise SystemExit("#32: no V_eta schema named %r" % _cls)
+        raise SystemExit(f"#32: no V_eta schema named {_cls!r}")
     _d = load(_p)
     _hit = [f for f in _d.get("fields", []) if f["name"] == _fname]
     if not _hit:
-        raise SystemExit("#32: %s declares no field %r" % (_cls, _fname))
+        raise SystemExit(f"#32: {_cls} declares no field {_fname!r}")
     _f = _hit[0]
     if _f["type"] != "ontology_term":
-        raise SystemExit("#32: %s.%s is %r, not ontology_term"
-                         % (_cls, _fname, _f["type"]))
+        raise SystemExit("#32: {}.{} is {!r}, not ontology_term".format(_cls, _fname, _f["type"]))
     _f.setdefault("constraints", {})["binding"] = {"strength": "preferred",
                                                    "node_form": "curie"}
     write(_t, _cls, _d)
@@ -2864,7 +2864,7 @@ def _tombstone(name, supers, deps, fields, files=()):
     through, leaving a half-written V_eta behind."""
     tier, path = path_of(name)
     if tier is None:
-        raise SystemExit("_tombstone: no V_eta schema named %r in any tier" % name)
+        raise SystemExit(f"_tombstone: no V_eta schema named {name!r} in any tier")
     t = load(path)
     t["document_class"]["superclasses"] = [{"class_name": s} for s in supers]
     t["document_class"]["class_version"] = "2.0.0"
@@ -3433,8 +3433,8 @@ _tombstone(
                field("bidirectional", "boolean", "Whether scanning was bidirectional."),
            ])],
     files=[("frames.bin",
-            "Flat raw binary, column-major, in `data_type`. The NDI schema marks"
-            " it optional but the writer always writes it.")])
+            ("Flat raw binary, column-major, in `data_type`. The NDI schema marks"
+            " it optional but the writer always writes it."))])
 
 # electrode_offset_voltage -- the ONE genuinely live fallback of the five audited.
 # Its migrator was corrected to the real field names; the tombstone was not, so a
@@ -3515,11 +3515,11 @@ _tombstone(
          " (\"mustbenotempty\": 1).", non_empty=True)],
     [],
     files=[("data.bin",
-            "The metadata reader's ingested bytes for this epoch. The ONLY content"
+            ("The metadata reader's ingested bytes for this epoch. The ONLY content"
             " this class has -- it declares no fields. Do NOT type the payload: the"
             " readers produce TSV in the cases seen, but nothing declares that, and"
             " proposing a shape from a template alone is what produced the ~2,078"
-            " distance_metadata quarantines.")])
+            " distance_metadata quarantines."))])
 
 # ---- syncrule_mapping: restore the edge and the fields a LIVE query reads --
 # #58. `+ndi/+time/syncgraph.m:404-408` finds saved rules with a three-part query:
@@ -3651,9 +3651,9 @@ _tombstone(
            " ontology term the importer looked up."),
      field("format_ontology", "char", "CURIE for the file format (e.g."
            " NCIT:C70631 for TIFF).")],
-    files=[("imageStack", "The image stack file. The name is NDI's OWN"
+    files=[("imageStack", ("The image stack file. The name is NDI's OWN"
             " file_list entry, verbatim, NOT a snake_cased one -- see the note"
-            " above.")])
+            " above."))])
 
 _tombstone(
     "image_stack_parameters", ["base"],
@@ -4290,9 +4290,9 @@ _tombstone(
                                 " rather than declared.",
                                 scalar=False)])],
     files=[("presentation_time.bin",
-            "Per-trial onsets/offsets, the CURRENT vintage. Absent on the"
+            ("Per-trial onsets/offsets, the CURRENT vintage. Absent on the"
             " deprecated inline vintage, so the file is declared, not"
-            " required.")])
+            " required."))])
 
 # ---- oneepoch: a did_v1 class that had NO V_eta schema at all -------------
 #
@@ -4584,9 +4584,9 @@ _tombstone(
            " writer/schema agreement as date_created. Spelled `dateUpdated`"
            " in did_v1.")],
     files=[("generic_file.ext",
-            "The file itself, uninterpreted bytes. NDI names the slot with a"
+            ("The file itself, uninterpreted bytes. NDI names the slot with a"
             " literal `.ext` -- the real extension is recoverable only from"
-            " `filename`, which is what downloadGenericFiles.m:107-126 does.")])
+            " `filename`, which is what downloadGenericFiles.m:107-126 does."))])
 
 # ---- image_collection ----------------------------------------------------
 # TEAM DECISION 2026-08-11: treat `imageCollection` as a tombstone. It is the
@@ -5245,9 +5245,8 @@ for name, unit in NUMERIC_SEED:
     write("stable", name,
           doc(name, ["base"], abstract=True, fields=[field(
               "value", name,
-              "A %s value cell (canonical + lossless source). Series-as-cardinality: "
-              "an array of the cell; per-sample timing is the statement's sample_time."
-              % unit, non_empty=True, scalar=False, blank=[], default=[CELL])]))
+              f"A {unit} value cell (canonical + lossless source). Series-as-cardinality: "
+              "an array of the cell; per-sample timing is the statement's sample_time.", non_empty=True, scalar=False, blank=[], default=[CELL])]))
     write("stable", name + "_observation",
           doc(name + "_observation", ["subject_observation", name]))
     write("stable", name + "_assertion",
@@ -5602,8 +5601,8 @@ for (_cls, _edge), _path in _EDGE_REFERENT_UNIQUE.items():
     _t, _p = path_of(_cls)
     if not _p:
         raise SystemExit(
-            "#52: class %s has no built schema -- the uniqueness rule would be "
-            "declared on nothing." % _cls)
+            f"#52: class {_cls} has no built schema -- the uniqueness rule would be "
+            "declared on nothing.")
     _d = load(_p)
     _changed = False
     for _x in _d.get("depends_on", []):
@@ -5615,8 +5614,8 @@ for (_cls, _edge), _path in _EDGE_REFERENT_UNIQUE.items():
         _changed = True
     if not _changed:
         raise SystemExit(
-            "#52: %s declares no `%s` family -- the uniqueness rule has no "
-            "home. Fix the map, do not drop the rule." % (_cls, _edge))
+            f"#52: {_cls} declares no `{_edge}` family -- the uniqueness rule has no "
+            "home. Fix the map, do not drop the rule.")
     write(_t, _cls, _d)
 
 
@@ -5951,7 +5950,11 @@ with open(os.path.join(VETA, "stable", "binding_registry_meta.json"), "w") as f:
 # hard/semi docs, rewrite the index, and add the fan-out note. Authoritative
 # field-level mapping stays in V_eta_migration_plan.md Part D.
 
-import re as _re
+# E402: deliberately here, beside the conversion block that uses it, and
+# aliased so it cannot collide with the module-level `re`. The sibling
+# late import at the foot of this file carries the same directive.
+import re as _re  # noqa: E402
+
 CONV = os.path.join(VETA, "conversions", "from_did_v1")
 _dims_re = "|".join(DIMS)
 
@@ -5959,7 +5962,7 @@ for p in sorted(glob.glob(os.path.join(CONV, "*.md"))):
     b = os.path.basename(p)
     if b in ("_index.md",):
         continue
-    s = open(p).read()
+    s = Path(p).read_text()
     s = _re.sub(rf"scalar_({_dims_re})_observation", r"\1_observation", s)
     s = _re.sub(rf"`scalar_({_dims_re})`", r"`\1`", s)
     s = _re.sub(rf"\bscalar_({_dims_re})\b", r"\1", s)
@@ -5968,7 +5971,7 @@ for p in sorted(glob.glob(os.path.join(CONV, "*.md"))):
     s = s.replace("categorical_observation", "term_observation")
     s = s.replace("V_zeta", "V_eta").replace("Brainstorm I", "Brainstorm J")
     s = s.replace("Brainstorm-I", "Brainstorm-J")
-    open(p, "w").write(s)
+    Path(p).write_text(s)
 
 BANNERS = {
     "treatment.md": "> **V_eta retarget (Brainstorm J).** Target: data-type-named "
@@ -6011,13 +6014,13 @@ BANNERS = {
 }
 for fn, banner in BANNERS.items():
     p = os.path.join(CONV, fn)
-    s = open(p).read()
+    s = Path(p).read_text()
     if "V_eta retarget" not in s.split("\n\n")[0]:
-        open(p, "w").write(banner + "\n\n" + s)
+        Path(p).write_text(banner + "\n\n" + s)
 
 # fan-out note in _universal_renames.md
 ur = os.path.join(CONV, "_universal_renames.md")
-s = open(ur).read()
+s = Path(ur).read_text()
 if "## 11. V_eta fan-out" not in s:
     marker = "## Cross-references"
     note = ("## 11. V_eta fan-out (Brainstorm J)\n\n"
@@ -6033,7 +6036,7 @@ if "## 11. V_eta fan-out" not in s:
             "(D4); a **synthesized time anchor** for clockless rows.\n\n"
             "These are new destination shapes, not new rename rules.\n\n")
     s = s.replace(marker, note + marker, 1)
-    open(ur, "w").write(s)
+    Path(ur).write_text(s)
 
 # rewrite the index (authoritative V_eta status table)
 INDEX_MD = """# did_v1 -> V_eta conversion index
@@ -6440,14 +6443,16 @@ for name in DATA_TYPES:
         if f.get("name") == "value":
             f["mustBeNonEmpty"] = False
     with open(p, "w") as f:
-        json.dump(d, f, indent=4); f.write("\n")
+        json.dump(d, f, indent=4)
+        f.write("\n")
 for tier in ("stable", "draft"):
     p = os.path.join(VETA, tier, "data_body.json")
     if os.path.exists(p):
         d = load(p)
         d["document_class"]["superclasses"] = [{"class_name": "data"}]
         with open(p, "w") as f:
-            json.dump(d, f, indent=4); f.write("\n")
+            json.dump(d, f, indent=4)
+            f.write("\n")
 
 # manipulation leaves for the IMPOSABLE subset of data_types (Q2). Observations /
 # assertions apply to any measurable quantity; a manipulation only exists for a
@@ -6561,7 +6566,7 @@ def _named_type_subfields(tname):
         note = (" (OPTIONAL -- filled when the source unit is computable into it; "
                 "concentration has no single canonical)") if multi else \
                " -- the normalised, cross-document comparable number"
-        subs = [subfield(c, "double", "Canonical %s value%s." % (tname, note))
+        subs = [subfield(c, "double", f"Canonical {tname} value{note}.")
                 for c in canon]
         subs += [
             subfield("source_unit", "char",
@@ -6906,17 +6911,22 @@ def _disposition(name, doc=None):
             return ("persist", None)
         if _dc.get("abstract") and "data_type" in _chain:
             return ("persist", None)
-    if name in _KEEP_INFRA:   return ("persist", None)   # ⑥/⑦ walkthrough KEEP (closed)
-    if name in _RET_SOURCES:  return ("retire", "Phase-8 source (migrator → delete)")
+    if name in _KEEP_INFRA:
+        return ("persist", None)                 # ⑥/⑦ walkthrough KEEP (closed)
+    if name in _RET_SOURCES:
+        return ("retire", "Phase-8 source (migrator → delete)")
     if name in _RET_SERIES_OBS:
         return ("retire", "§A.9: series-observation branch → quantity leaves + data_body")
     if name in _RET_HOLDOVER or _ANALYSIS_RE.search(name):
         return ("retire", "D-C analysis-tier decompose")
-    if name in _RET_CARRIERS: return ("retire", "2.D → data_body fold")
+    if name in _RET_CARRIERS:
+        return ("retire", "2.D → data_body fold")
     if name in _RET_RENAMED_SOURCES:
         return ("retire", "consumed → control_designation (renamed target)")
-    if name in _RET_TOOBS:    return ("retire", "→ observations (needs-NDI / D10-11)")
-    if name in _IN_PROGRESS:  return ("in_progress", "⑥/⑦ walkthrough pending")
+    if name in _RET_TOOBS:
+        return ("retire", "→ observations (needs-NDI / D10-11)")
+    if name in _IN_PROGRESS:
+        return ("in_progress", "⑥/⑦ walkthrough pending")
     return ("persist", None)
 
 # ---- Phase-8 deletion: physically drop the fully-consumed v1 SOURCE schemas that
@@ -7214,7 +7224,8 @@ if _deleted_invented:
 # `import ndi_required_stamp` resolves only when the interpreter's cwd happens
 # to put it on sys.path. tests/test_veta.py's `_load_tool` exists for the same
 # reason -- it works in CI and from any directory.
-import importlib.util as _ilu                                      # noqa: E402
+import importlib.util as _ilu  # noqa: E402
+
 _spec = _ilu.spec_from_file_location(
     "_veta_ndi_required_stamp", os.path.join(ROOT, "tools", "ndi_required_stamp.py"))
 _nrs = _ilu.module_from_spec(_spec)

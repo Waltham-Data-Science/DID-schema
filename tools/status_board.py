@@ -90,6 +90,7 @@ import json
 import os
 import re
 import sys
+from pathlib import Path
 
 REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 INDEX = os.path.join(REPO, "schemas", "V_eta", "index.json")
@@ -216,10 +217,10 @@ FAMILIES = [
         "time_reference", "session_bounded_reference", "session_relative_reference",
         "epoch_bounded_reference"],
      "V_eta_time_reference_model_plan.md",
-     "8 classes collapse to absolute_reference + relative_reference "
+     ("8 classes collapse to absolute_reference + relative_reference "
      "(4 of the 8 executed 2026-08-11: epoch_relative_reference, "
      "event_bounded_reference, event_relative_reference, utc_reference deleted "
-     "-- no template, no emitter, no reference; the other 4 await their emitters)",
+     "-- no template, no emitter, no reference; the other 4 await their emitters)"),
      "team"),
 
     # control_designation MOVED here 2026-08-05: it is a V_eta TARGET minted from
@@ -245,8 +246,8 @@ FAMILIES = [
     # model it belongs to, rather than special-cased out of the count.
     ("image / ngrid", ["ngrid", "imageStack_parameters"],
      "V_eta_image_model_plan.md",
-     "ngrid phases into sampled_body; image is a standalone data_type; the two "
-     "image_stack tombstones are held until the subject is recoverable",
+     ("ngrid phases into sampled_body; image is a standalone data_type; the two "
+     "image_stack tombstones are held until the subject is recoverable"),
      "team"),
 
     # DECIDED with the team 2026-08-05 ("I agree with B"); SIGNED 2026-08-08.
@@ -266,8 +267,8 @@ FAMILIES = [
     # The three that remain are all `in_progress`.
     ("epoch", ["acquisition_epoch", "epochid", "epochfiles_ingested"],
      "V_eta_epoch_plan.md",
-     "MINT `epoch` ENTITY (+ OPTIONAL `instrument_id`, 2026-08-06); element_epoch "
-     "dissolves; epochid DROPPED; probemap -> edges (B)",
+     ("MINT `epoch` ENTITY (+ OPTIONAL `instrument_id`, 2026-08-06); element_epoch "
+     "dissolves; epochid DROPPED; probemap -> edges (B)"),
      "team"),
 
     # Split by the templates, not by the name prefix: three are a MATLAB class
@@ -279,8 +280,8 @@ FAMILIES = [
     # parameters), which a depends_on check cannot see.
     ("daq configuration", ["daqsystem", "daqreader", "daqmetadatareader"],
      "V_eta_daq_family_decisions.md",
-     "acquisition_system + `acquisition_metadata_reader` keep ids; class names fold to "
-     "software entities",
+     ("acquisition_system + `acquisition_metadata_reader` keep ids; class names fold to "
+     "software entities"),
      "team"),
 
     # WALKTHROUGH 2026-08-06 -> V_eta_ingested_payload_findings.md. Still "proposed":
@@ -297,8 +298,8 @@ FAMILIES = [
         "daqmetadatareader_epochdata_ingested",
         "daqreader_image_epochdata_ingested"],
      "V_eta_ingested_payload_findings.md",
-     "reader one DECOMPOSES (per-clock relative_references + sampled_body) and retires; "
-     "metadata one -> `acquisition_metadata_file`; image one folds into the image model",
+     ("reader one DECOMPOSES (per-clock relative_references + sampled_body) and retires; "
+     "metadata one -> `acquisition_metadata_file`; image one folds into the image model"),
      "team"),
 
     # `dataseries_channel_map` -- FAMILY CLOSED 2026-08-09. Decided 2026-08-05
@@ -336,8 +337,8 @@ FAMILIES = [
     # declares it mustbenotempty:0, which V_eta wrongly tightened to required.
     ("sync configuration", ["syncgraph", "syncrule"],
      "V_eta_clock_alignment_cluster_plan.md",
-     "syncrule -> `clock_alignment_configuration` (parameters DECLARED, devices become "
-     "edges); syncgraph -> `clock_alignment_policy` (earns existence on membership)",
+     ("syncrule -> `clock_alignment_configuration` (parameters DECLARED, devices become "
+     "edges); syncgraph -> `clock_alignment_policy` (earns existence on membership)"),
      "team"),
 
     # NOT DECIDED. Claude marked this "team" on 2026-08-05 after a walkthrough;
@@ -354,8 +355,8 @@ FAMILIES = [
     # `epochid` (5,316 docs, 100% empty) removed.
     ("sync mapping", ["syncrule_mapping"],
      "V_eta_clock_alignment_cluster_plan.md",
-     "-> `clock_alignment` (relation + `polynomial` data_type); endpoints are "
-     "relative_reference docs; syncgraph_id restored, invented epochid removed",
+     ("-> `clock_alignment` (relation + `polynomial` data_type); endpoints are "
+     "relative_reference docs; syncgraph_id restored, invented epochid removed"),
      "team"),
 
     # `filter` was grouped here by a guess at its name. It is data/filter.json --
@@ -378,8 +379,8 @@ FAMILIES = [
     # quietly tracking something that no longer exists.
     ("file navigation", ["filenavigator"],
      "V_eta_daq_family_decisions.md",
-     "filenavigator -> `epoch_file_pattern` (id preserved; patterns PARSED not eval'd); "
-     "`directory` was not a source and is now deleted",
+     ("filenavigator -> `epoch_file_pattern` (id preserved; patterns PARSED not eval'd); "
+     "`directory` was not a source and is now deleted"),
      "team"),
 
     # openminds_import was REMOVED 2026-07-30 (team sign-off) -- nothing ever
@@ -449,8 +450,8 @@ FAMILIES = [
     # #43's held rows.
     ("stimulus parameters", ["stimulus_parameter", "stimulus_parameter_table"],
      "V_eta_stimulus_parameter_plan.md",
-     "stimulus_parameter DISSOLVES to a typed leaf keyed by its CURIE (build gated on "
-     "#32); stimulus_parameter_table PASSES THROUGH; both tombstones repaired",
+     ("stimulus_parameter DISSOLVES to a typed leaf keyed by its CURIE (build gated on "
+     "#32); stimulus_parameter_table PASSES THROUGH; both tombstones repaired"),
      "team"),
 
     # NOT the same thing as stimulus parameters: this is the response to a presented
@@ -471,8 +472,8 @@ FAMILIES = [
         "stimulus_response_scalar_parameters",
         "stimulus_response_scalar_parameters_basic"],
      "V_eta_stimulus_response_model_plan.md",
-     "4 -> 2: `harmonic_component` data_type + calculation leaf (id preserved); "
-     "parameters fold inline, killing 11,440 empty required edges",
+     ("4 -> 2: `harmonic_component` data_type + calculation leaf (id preserved); "
+     "parameters fold inline, killing 11,440 empty required edges"),
      "team"),
 
     # A live NDI class with four in-tree emitters, parallel to the newer
@@ -483,8 +484,8 @@ FAMILIES = [
     # CLAUDE.md correction in the audit document.
     ("subject measurement", ["subjectmeasurement"],
      "V_eta_go_forward_class_audit.md",
-     "route through the `measurement` fold -- no new class; `datestamp` is a TIME "
-     "ANCHOR (-> absolute_reference), NOT a field (corrected 2026-08-06)",
+     ("route through the `measurement` fold -- no new class; `datestamp` is a TIME "
+     "ANCHOR (-> absolute_reference), NOT a field (corrected 2026-08-06)"),
      "team"),
 
     # DECIDED 2026-08-05. control_designation moved to the stimulus family (a V_eta
@@ -568,7 +569,7 @@ def find_signoff(plan, family):
     # so Claude's own document promoted itself to "decided": the exact laundering
     # this function exists to prevent, arriving through a different door. Caught
     # only because the count was verified instead of trusted.
-    text = re.sub(r"<!--.*?-->", "", text, flags=re.S)
+    text = re.sub(r"<!--.*?-->", "", text, flags=re.DOTALL)
 
     # A SIGN-OFF MUST BE UNAMBIGUOUS ABOUT WHAT IT SIGNS. Three plan documents are
     # cited by more than one family, so a bare marker in a shared document silently
@@ -714,7 +715,7 @@ def family_prose_vs_signoff(built_classes):
         if not os.path.exists(path):
             continue
         with open(path) as fh:
-            text = re.sub(r"<!--.*?-->", "", fh.read(), flags=re.S)
+            text = re.sub(r"<!--.*?-->", "", fh.read(), flags=re.DOTALL)
         untagged = [ln for ln in text.splitlines()
                     if ln.lstrip().startswith("TEAM-SIGN-OFF")
                     and not re.match(r"TEAM-SIGN-OFF\s*\[",
@@ -727,15 +728,10 @@ def family_prose_vs_signoff(built_classes):
 def batch_evidence_line(hits):
     """One MEASURED / REUSED / NONE line for the evidence log."""
     if hits.get("reused"):
-        return ("batch post-pass evidence: REUSED from the committed snapshot "
-                "(%d file(s) when last measured); not read in this run -- %s"
-                % (hits["files_scanned"], ", ".join(hits["roots_missing"])))
+        return (f'batch post-pass evidence: REUSED from the committed snapshot ({hits["files_scanned"]} file(s) when last measured); not read in this run -- {", ".join(hits["roots_missing"])}')
     if hits["files_scanned"]:
-        return ("batch post-pass evidence: MEASURED -- %d file(s) under "
-                "`+did2/+convert`" % hits["files_scanned"])
-    return ("batch post-pass evidence: NONE -- 0 file(s) read and no usable "
-            "snapshot (%s). Every 'passes through' row is UNMEASURED, not clean."
-            % (", ".join(hits["roots_missing"]) or "no root given"))
+        return (f'batch post-pass evidence: MEASURED -- {hits["files_scanned"]} file(s) under `+did2/+convert`')
+    return (f'batch post-pass evidence: NONE -- 0 file(s) read and no usable snapshot ({", ".join(hits["roots_missing"]) or "no root given"}). Every \'passes through\' row is UNMEASURED, not clean.')
 
 
 def batch_consumers(classes, didm):
@@ -812,7 +808,7 @@ def batch_consumers(classes, didm):
             texts[name] = "\n".join(ln.split("%")[0] for ln in fh.read().splitlines())
     out["files_scanned"] = len(texts)
     for cls in classes:
-        pat = re.compile(r"'%s'" % re.escape(cls))
+        pat = re.compile(rf"'{re.escape(cls)}'")
         hit = sorted(n for n, t in texts.items() if pat.search(t))
         if hit:
             out["by_class"][cls] = hit
@@ -1563,16 +1559,16 @@ def migrator_evidence(classes, did_root, ndi_root):
         root = did_root if kind == "did" else ndi_root
         base = os.path.join(root, rel) if root else None
         if not base or not os.path.isdir(base):
-            roots_missing.append("%s:%s" % (repo, label))
+            roots_missing.append(f"{repo}:{label}")
             continue
-        roots_read.append("%s:%s" % (repo, label))
+        roots_read.append(f"{repo}:{label}")
         kept, skipped = package_files(base, set(skip_dirs))
         for pkg, paths in skipped.items():
             excluded_files.setdefault(pkg, []).extend(
-                "%s:%s/%s" % (repo, label, os.path.relpath(p, base))
+                f"{repo}:{label}/{os.path.relpath(p, base)}"
                 for p in paths)
         for path in kept:
-            rel_path = "%s:%s/%s" % (repo, label, os.path.relpath(path, base))
+            rel_path = f"{repo}:{label}/{os.path.relpath(path, base)}"
             files_read += 1
             by_group_files[group] += 1
             name = os.path.basename(path)[:-2]
@@ -1593,13 +1589,13 @@ def migrator_evidence(classes, did_root, ndi_root):
             lines_read += n_lines
             by_group_lines[group] += n_lines
             for lno, expr in unresolved:
-                site = "%s:%d (%s)" % (rel_path, lno, expr)
+                site = f'{rel_path}:{lno} ({expr})'
                 unresolved_sites.append(site)
                 by_group_unresolved[group].append(site)
             for cls, spots in hits.items():
                 refs = per_class.setdefault(cls, {}).setdefault("refs", [])
                 for lno, why in spots:
-                    refs.append(("%s:%d" % (rel_path, lno), why, group))
+                    refs.append((f'{rel_path}:{lno}', why, group))
 
     if not roots_read:
         return None, {"available": False, "packages_read": [],
@@ -1614,9 +1610,9 @@ def migrator_evidence(classes, did_root, ndi_root):
         """
         sel = [r for r in refs if r[1] in kinds]
         n_by = {g: sum(1 for r in sel if r[2] == g) for g in GROUPS}
-        refs_by = {g: ["%s (%s)" % (r[0], r[1])
+        refs_by = {g: [f"{r[0]} ({r[1]})"
                        for r in sel if r[2] == g][:REF_CAP] for g in GROUPS}
-        return (len(sel), ["%s (%s)" % (r[0], r[1]) for r in sel[:REF_CAP]],
+        return (len(sel), [f"{r[0]} ({r[1]})" for r in sel[:REF_CAP]],
                 n_by, refs_by)
 
     _BUCKETS = (
@@ -1676,9 +1672,9 @@ def migrator_evidence(classes, did_root, ndi_root):
                  "groups": list(GROUPS),
                  "group_labels": dict(GROUP_LABEL),
                  "packages_by_group": {
-                     g: ["%s:%s" % (repo, label)
+                     g: [f"{repo}:{label}"
                          for _k, repo, label, _r, grp, _s in MIGRATOR_PACKAGES
-                         if grp == g and "%s:%s" % (repo, label) in roots_read]
+                         if grp == g and f"{repo}:{label}" in roots_read]
                      for g in GROUPS},
                  "files_read_by_group": by_group_files,
                  "lines_read_by_group": by_group_lines,
@@ -1763,7 +1759,7 @@ def census_evidence(classes, roots):
             with open(p) as fh:
                 reports.append((os.path.basename(p), json.load(fh)))
         except (OSError, ValueError) as err:
-            unreadable.append("%s (%s)" % (os.path.basename(p), err))
+            unreadable.append(f"{os.path.basename(p)} ({err})")
 
     with_data = [(n, r) for n, r in reports if "unconverted_count" in r]
     corpora = sorted({str(r.get("corpus") or n.replace("-summary.json", ""))
@@ -1937,9 +1933,9 @@ def open_class_state(open_work, schemas, rows, mig, mig_src, cen, cen_src):
                           "n_comment_mentions": 0, "comment_mentions": []},
         }
 
-        def _split(nkey):
+        def _split(nkey, by_group=by_group):
             """`3 per-document migrator, 2 batch post-pass` -- never a bare sum."""
-            return ", ".join("%d %s" % (by_group[g].get(nkey, 0), GROUP_LABEL[g])
+            return ", ".join(f'{by_group[g].get(nkey, 0)} {GROUP_LABEL[g]}'
                              for g in GROUPS if by_group[g].get(nkey, 0))
 
         # A MINTED CLASS IS BUILT -- unless the decision is that it stops
@@ -1948,23 +1944,17 @@ def open_class_state(open_work, schemas, rows, mig, mig_src, cen, cen_src):
         mint_counts = bool(n_mint) and retired_to is None
         discount = None
         if n_mint and retired_to is not None:
-            discount = ("minted at %d site(s) (%s), NOT counted as build "
-                        "progress: the signed decision retires this class in "
-                        "favour of `%s`, so an emission is work still to undo"
-                        % (n_mint, _split("n_emitted_class_refs"), retired_to))
+            discount = (f'minted at {n_mint} site(s) ({_split("n_emitted_class_refs")}), NOT counted as build progress: the signed decision retires this class in favour of `{retired_to}`, so an emission is work still to undo')
 
         why = []
         if mfile:
-            why.append("migrator `%s`" % mfile)
+            why.append(f"migrator `{mfile}`")
         if n_con:
-            why.append("%d consuming reference(s) (%s)"
-                       % (n_con, _split("n_consuming_refs")))
+            why.append(f'{n_con} consuming reference(s) ({_split("n_consuming_refs")})')
         if mint_counts:
-            why.append("minted as a document class at %d site(s) (%s)"
-                       % (n_mint, _split("n_emitted_class_refs")))
+            why.append(f'minted as a document class at {n_mint} site(s) ({_split("n_emitted_class_refs")})')
         if built_t:
-            why.append("decided target(s) built: %s"
-                       % ", ".join("`%s`" % t for t in built_t))
+            why.append("decided target(s) built: {}".format(", ".join(f"`{t}`" for t in built_t)))
         has_build = bool(mfile or n_con or mint_counts or built_t)
 
         c = (cen or {}).get(cls)
@@ -2064,22 +2054,16 @@ def gather_evidence(open_work, schemas, rows, args, log):
         if prior:
             mig = prior
             mig_src = snap_src.get("migrator", mig_src)
-            log.append("migrator evidence: REUSED from the committed snapshot "
-                       "(%d class(es)); no V_eta migrator package under %s or %s"
-                       % (len(prior), args.did, args.ndi))
+            log.append(f'migrator evidence: REUSED from the committed snapshot ({len(prior)} class(es)); no V_eta migrator package under {args.did} or {args.ndi}')
         else:
             log.append("migrator evidence: UNAVAILABLE and never snapshotted "
-                       "(looked under %s and %s). Every open class renders as "
-                       "UNMEASURED." % (args.did, args.ndi))
+                       f"(looked under {args.did} and {args.ndi}). Every open class renders as "
+                       "UNMEASURED.")
     else:
-        log.append("migrator evidence: MEASURED -- %d file(s), %d line(s), "
-                   "package(s) %s" % (mig_src["files_read"], mig_src["lines_read"],
-                                      ", ".join(mig_src["packages_read"]) or "none"))
+        log.append(f'migrator evidence: MEASURED -- {mig_src["files_read"]} file(s), {mig_src["lines_read"]} line(s), package(s) {", ".join(mig_src["packages_read"]) or "none"}')
 
     cen, cen_src, probe = census_evidence(open_work, args.census)
-    log.append("census roots: %d walked, %d missing (%s)"
-               % (probe["roots_walked"], len(probe["roots_missing"]),
-                  ", ".join(probe["roots_missing"]) or "none"))
+    log.append(f'census roots: {probe["roots_walked"]} walked, {len(probe["roots_missing"])} missing ({", ".join(probe["roots_missing"]) or "none"})')
     if cen is None:
         prior = {c: {"survivors": r.get("survivors"),
                      "by_corpus": r.get("survivors_by_corpus", {})}
@@ -2088,20 +2072,11 @@ def gather_evidence(open_work, schemas, rows, args, log):
         if prior:
             cen = prior
             cen_src = snap_src.get("census", cen_src)
-            log.append("census evidence: REUSED from the committed snapshot "
-                       "(%d class(es))" % len(prior))
+            log.append(f'census evidence: REUSED from the committed snapshot ({len(prior)} class(es))')
         else:
-            log.append("census evidence: NONE -- %d report(s) read, %d carried "
-                       "an `unconverted_count`. State (c) is UNPROVABLE in this "
-                       "run and no class is rendered as corpus-proven."
-                       % (cen_src["reports_read"],
-                          cen_src["reports_with_survivor_data"]))
+            log.append(f'census evidence: NONE -- {cen_src["reports_read"]} report(s) read, {cen_src["reports_with_survivor_data"]} carried an `unconverted_count`. State (c) is UNPROVABLE in this run and no class is rendered as corpus-proven.')
     else:
-        log.append("census evidence: MEASURED -- %d report(s) with survivor data "
-                   "over %d document(s), corpora: %s"
-                   % (cen_src["reports_with_survivor_data"],
-                      cen_src["source_documents"],
-                      ", ".join(cen_src["corpora"]) or "none"))
+        log.append(f'census evidence: MEASURED -- {cen_src["reports_with_survivor_data"]} report(s) with survivor data over {cen_src["source_documents"]} document(s), corpora: {", ".join(cen_src["corpora"]) or "none"}')
 
     return open_class_state(open_work, schemas, rows, mig, mig_src, cen, cen_src)
 
@@ -2113,7 +2088,7 @@ def render_open_state(p, ocs):
     counts = ocs["counts"]
     rowsv = ocs["classes"]
 
-    p("## What is actually left on the %d open classes" % len(rowsv))
+    p(f'## What is actually left on the {len(rowsv)} open classes')
     p("")
     p("`in_progress` is a HAND-WRITTEN DECLARATION: every one of these classes is")
     p("open because its name is a literal in `_DECIDED_PENDING` / `_IN_PROGRESS` in")
@@ -2131,67 +2106,51 @@ def render_open_state(p, ocs):
     _lines_by_group = msrc.get("lines_read_by_group") or {}
     _mint_by_group = msrc.get("classes_emitted_as_document_class_by_group") or {}
     _unres_by_group = msrc.get("n_unresolved_mint_sites_by_group") or {}
-    p("| build: V_eta migrator packages read | %s |"
-      % (", ".join("`%s`" % s for s in msrc.get("packages_read") or []) or "**NONE**"))
+    p(f'| build: V_eta migrator packages read | {", ".join(f"`{s}`" for s in msrc.get("packages_read") or []) or "**NONE**"} |')
     for _g in GROUPS:
-        p("| build: &nbsp;&nbsp;-- of those, %s | %s |"
-          % (GROUP_LABEL[_g],
-             ", ".join("`%s`" % s for s in _pkg_by_group.get(_g) or [])
+        p("| build: &nbsp;&nbsp;-- of those, {} | {} |".format(GROUP_LABEL[_g],
+             ", ".join(f"`{s}`" for s in _pkg_by_group.get(_g) or [])
              or "**NONE**"))
-    p("| build: migrator files inspected | %d |" % msrc.get("files_read", 0))
+    p(f'| build: migrator files inspected | {msrc.get("files_read", 0)} |')
     for _g in GROUPS:
-        p("| build: &nbsp;&nbsp;-- of those, %s | %d |"
-          % (GROUP_LABEL[_g], _files_by_group.get(_g, 0)))
-    p("| build: V_zeta files DELIBERATELY EXCLUDED (`%s`) | %d |"
-      % ("`, `".join(msrc.get("v_zeta_packages_excluded") or []),
-         msrc.get("n_files_excluded_v_zeta", 0)))
-    p("| build: migrator lines inspected | %d |" % msrc.get("lines_read", 0))
+        p(f'| build: &nbsp;&nbsp;-- of those, {GROUP_LABEL[_g]} | {_files_by_group.get(_g, 0)} |')
+    p(f'| build: V_zeta files DELIBERATELY EXCLUDED (`{"`, `".join(msrc.get("v_zeta_packages_excluded") or [])}`) | {msrc.get("n_files_excluded_v_zeta", 0)} |')
+    p(f'| build: migrator lines inspected | {msrc.get("lines_read", 0)} |')
     for _g in GROUPS:
-        p("| build: &nbsp;&nbsp;-- of those, %s | %d |"
-          % (GROUP_LABEL[_g], _lines_by_group.get(_g, 0)))
-    p("| build: classes queried | %d |" % msrc.get("classes_queried", 0))
-    p("| build: open classes MINTED as a document class | %d |"
-      % msrc.get("classes_emitted_as_document_class", 0))
+        p(f'| build: &nbsp;&nbsp;-- of those, {GROUP_LABEL[_g]} | {_lines_by_group.get(_g, 0)} |')
+    p(f'| build: classes queried | {msrc.get("classes_queried", 0)} |')
+    p(f'| build: open classes MINTED as a document class | {msrc.get("classes_emitted_as_document_class", 0)} |')
     for _g in GROUPS:
         # NOT "of those" -- a class minted in both halves is in both rows, so
         # these two do not sum to the line above and must not read as if they
         # did. Two overlapping facts, stated as two.
-        p("| build: &nbsp;&nbsp;-- open classes minted in a %s (rows overlap) "
-          "| %d |" % (GROUP_LABEL[_g], _mint_by_group.get(_g, 0)))
-    p("| build: of those, discounted (decision retires the class) | %d |"
-      % sum(1 for r in rowsv if r.get("emission_discounted")))
-    p("| build: `document_class` writes whose class name is a VARIABLE | %d |"
-      % msrc.get("n_unresolved_mint_sites", 0))
+        p(f'| build: &nbsp;&nbsp;-- open classes minted in a {GROUP_LABEL[_g]} (rows overlap) | {_mint_by_group.get(_g, 0)} |')
+    p(f'| build: of those, discounted (decision retires the class) | {sum(1 for r in rowsv if r.get("emission_discounted"))} |')
+    p(f'| build: `document_class` writes whose class name is a VARIABLE | {msrc.get("n_unresolved_mint_sites", 0)} |')
     for _g in GROUPS:
-        p("| build: &nbsp;&nbsp;-- of those, in a %s | %d |"
-          % (GROUP_LABEL[_g], _unres_by_group.get(_g, 0)))
-    p("| corpus: `*-summary.json` reports read | %d |" % csrc.get("reports_read", 0))
-    p("| corpus: reports carrying an `unconverted_count` | %d |"
-      % csrc.get("reports_with_survivor_data", 0))
-    p("| corpus: documents behind those reports | %d |"
-      % csrc.get("source_documents", 0))
-    p("| corpus: corpora named | %s |"
-      % (", ".join("`%s`" % c for c in csrc.get("corpora") or []) or "**NONE**"))
+        p(f'| build: &nbsp;&nbsp;-- of those, in a {GROUP_LABEL[_g]} | {_unres_by_group.get(_g, 0)} |')
+    p(f'| corpus: `*-summary.json` reports read | {csrc.get("reports_read", 0)} |')
+    p(f'| corpus: reports carrying an `unconverted_count` | {csrc.get("reports_with_survivor_data", 0)} |')
+    p(f'| corpus: documents behind those reports | {csrc.get("source_documents", 0)} |')
+    p(f'| corpus: corpora named | {", ".join(f"`{c}`" for c in csrc.get("corpora") or []) or "**NONE**"} |')
     p("")
     if not msrc.get("available") and not msrc.get("files_read"):
         p("**NO MIGRATOR PACKAGE WAS READ.** The build column below is not clean;")
         p("it is UNMEASURED. Re-run with `--did /path/to/DID-matlab`.")
         p("")
     if not csrc.get("reports_with_survivor_data"):
-        p("**NO CORPUS SURVIVOR DATA.** %d report(s) were read and %d of them carry"
-          % (csrc.get("reports_read", 0),
-             csrc.get("reports_with_survivor_data", 0)))
+        p(f'**NO CORPUS SURVIVOR DATA.** {csrc.get("reports_read", 0)} report(s) were read and {csrc.get("reports_with_survivor_data", 0)} of them carry')
         p("an `unconverted_count`, so **state (c) cannot be reached by any class in**")
         p("**this run** and none is rendered as corpus-proven. A report without that")
         p("key measured nothing; its silence is not a zero. Point `--census` at a")
         p("directory of corpus reports, or run the DID-matlab corpus gate.")
         p("")
-    p("### Where the %d open classes sit" % len(rowsv))
+    p(f'### Where the {len(rowsv)} open classes sit')
     p("")
     p("| state | classes |")
     p("|---|---|")
     for k in (STATE_A, STATE_B, STATE_C, STATE_U):
-        p("| %s | %d |" % (OPEN_STATE_LABEL[k], counts.get(k, 0)))
+        p(f'| {OPEN_STATE_LABEL[k]} | {counts.get(k, 0)} |')
     p("")
     p("**(c) IS EVIDENCE, NOT A DISPOSITION.** 0 survivors is a fact about the")
     p("corpora that were read, and it may not be promoted to `retire` on its own:")
@@ -2258,17 +2217,14 @@ def render_open_state(p, ocs):
     }
     _by_idiom = msrc.get("mint_sites_by_idiom") or {}
     _idiom_by_group = msrc.get("mint_sites_by_idiom_by_group") or {}
-    p("| idiom | shape | sites | %s |"
-      % " | ".join(GROUP_LABEL[g] for g in GROUPS))
-    p("|---|---|---|%s" % ("---|" * len(GROUPS)))
+    p("| idiom | shape | sites | {} |".format(" | ".join(GROUP_LABEL[g] for g in GROUPS)))
+    p(f'|---|---|---|{"---|" * len(GROUPS)}')
     for _k in sorted(set(_idiom_shape) | set(_by_idiom)):
         p("| %s | %s | %d | %s |"
           % (_k, _idiom_shape.get(_k, "*unrecognised*"), _by_idiom.get(_k, 0),
              " | ".join(str((_idiom_by_group.get(g) or {}).get(_k, 0))
                         for g in GROUPS)))
-    p("| - | class name is a VARIABLE -- unresolved here | %d | %s |"
-      % (msrc.get("n_unresolved_mint_sites", 0),
-         " | ".join(str(_unres_by_group.get(g, 0)) for g in GROUPS)))
+    p(f'| - | class name is a VARIABLE -- unresolved here | {msrc.get("n_unresolved_mint_sites", 0)} | {" | ".join(str(_unres_by_group.get(g, 0)) for g in GROUPS)} |')
     p("")
     p("**THE THREE IDIOMS ARE RE-MEASURED IN THE NEW ROOTS, NOT ASSUMED TO CARRY")
     p("OVER.** The per-group columns are counted per file, so which idioms the")
@@ -2291,14 +2247,10 @@ def render_open_state(p, ocs):
     p("**WHAT THE MISS COST, stated as the number and not as a lesson.**")
     p("`session_relative_reference` is a class whose whole open question is that")
     p("it must STOP being emitted. Idiom 1 in `+migrators_j` alone puts its mint")
-    p("count at **3**; this run measures **%s**"
-      % (_srr["n_emitted_class_refs"] if _srr else "n/a -- no longer open"))
+    p(f'count at **3**; this run measures **{_srr["n_emitted_class_refs"] if _srr else "n/a -- no longer open"}**')
     if _srr:
         _srr_g = _srr.get("by_group") or {}
-        p("(%s)."
-          % ("; ".join("%d in a %s"
-                       % ((_srr_g.get(g) or {}).get("n_emitted_class_refs", 0),
-                          GROUP_LABEL[g]) for g in GROUPS)))
+        p("({}).".format("; ".join(f'{(_srr_g.get(g) or {}).get("n_emitted_class_refs", 0)} in a {GROUP_LABEL[g]}' for g in GROUPS)))
     p("Two corrections got it there, and they are separate faults. Six migrators")
     p("(`fitcurve`, `image_stack`, `jrclust_clusters`, `neuron_extracellular`,")
     p("`pyraview`, `vmspikefit`) mint it through `classBlock`, which the")
@@ -2323,7 +2275,7 @@ def render_open_state(p, ocs):
         p("|---|---|")
         for _s in _unres:
             _site, _, _expr = _s.rpartition(" (")
-            p("| `%s` | `%s` |" % (_site, _expr.rstrip(")")))
+            p("| `{}` | `{}` |".format(_site, _expr.rstrip(")")))
         p("")
     p("**THE OTHER CATEGORIES ARE REPORTED SEPARATELY AND ARE NEVER SUMMED.** A")
     p("migrator that WRITES a block of that name (`x.<class> = ...`), one that")
@@ -2381,8 +2333,7 @@ def render_open_state(p, ocs):
         mint_cell = _cell(r, "n_emitted_class_refs")
         if r.get("emission_discounted") and mint_cell != "-":
             mint_cell += " discounted"
-        p("| `%s` | %s | %s | %s | %s | %s | %s | %s | %s |"
-          % (r["class_name"], r["family"] or "-",
+        p("| `{}` | {} | {} | {} | {} | {} | {} | {} | {} |".format(r["class_name"], r["family"] or "-",
              OPEN_STATE_LABEL[r["state"]].split(" ", 1)[0], ev,
              mint_cell, _cell(r, "n_field_write_refs"),
              _cell(r, "n_named_refs"), _cell(r, "n_comment_mentions"),
@@ -2392,7 +2343,7 @@ def render_open_state(p, ocs):
         members = [r for r in rowsv if r["state"] == k]
         if not members:
             continue
-        p("#### %s -- %d" % (OPEN_STATE_LABEL[k], len(members)))
+        p(f'#### {OPEN_STATE_LABEL[k]} -- {len(members)}')
         p("")
         for r in members:
             bits = []
@@ -2414,9 +2365,8 @@ def render_open_state(p, ocs):
                     if not n:
                         continue
                     cited = gr.get(_refs, [])
-                    said.append(("%s, %s" % (_caption % n, GROUP_LABEL[g]))
-                                + ": %s%s"
-                                % (", ".join("`%s`" % x for x in cited),
+                    said.append((f"{_caption % n}, {GROUP_LABEL[g]}")
+                                + ": {}{}".format(", ".join(f"`{x}`" for x in cited),
                                    " ..." if n > len(cited) else ""))
                 if said:
                     return said
@@ -2428,13 +2378,12 @@ def render_open_state(p, ocs):
                 if not n:
                     return []
                 cited = _row.get(_refs, [])
-                return [("%s, group NOT RECORDED in this snapshot: %s%s"
-                         % (_caption % n,
-                            ", ".join("`%s`" % x for x in cited),
+                return [("{}, group NOT RECORDED in this snapshot: {}{}".format(_caption % n,
+                            ", ".join(f"`{x}`" for x in cited),
                             " ..." if n > len(cited) else ""))]
 
             if r["migrator_file"]:
-                bits.append("migrator `%s`" % r["migrator_file"])
+                bits.append("migrator `{}`".format(r["migrator_file"]))
             bits.extend(_per_group("n_consuming_refs", "consuming_refs",
                                    "consumed at %d site(s)"))
             bits.extend(_per_group("n_emitted_class_refs", "emitted_class_refs",
@@ -2450,24 +2399,21 @@ def render_open_state(p, ocs):
                     ("n_named_refs", "named_refs",
                      "NAMED as a string value at %d site(s)"),
                     ("n_comment_mentions", "comment_mentions",
-                     "mentioned in %d COMMENT(s) -- prose, counts toward "
-                     "nothing")):
+                     ("mentioned in %d COMMENT(s) -- prose, counts toward "
+                     "nothing"))):
                 bits.extend(_per_group(_n, _refs, _caption))
             if r["decided_targets_built"]:
-                bits.append("target(s) BUILT: %s"
-                            % ", ".join("`%s`" % t
-                                        for t in r["decided_targets_built"]))
+                bits.append("target(s) BUILT: {}".format(", ".join(f"`{t}`"
+                                        for t in r["decided_targets_built"])))
             if r["decided_targets_missing"]:
-                bits.append("target(s) NOT built: %s"
-                            % ", ".join("`%s`" % t
-                                        for t in r["decided_targets_missing"]))
+                bits.append("target(s) NOT built: {}".format(", ".join(f"`{t}`"
+                                        for t in r["decided_targets_missing"])))
             if r["survivors"]:
                 bits.append("survivors %d (%s)"
                             % (r["survivors"],
                                ", ".join("%s %d" % kv for kv in
                                          sorted(r["survivors_by_corpus"].items()))))
-            p("- `%s` (%s) -- %s"
-              % (r["class_name"], r["family"] or "no family",
+            p("- `{}` ({}) -- {}".format(r["class_name"], r["family"] or "no family",
                  "; ".join(bits) or "no evidence found"))
         p("")
 
@@ -2549,7 +2495,7 @@ def build(ocs=None, didm=None, log=None):
         p("question nobody is tracking. Add it to `FAMILIES` before continuing:")
         p("")
         for c in unclaimed:
-            p("- `%s`" % c)
+            p(f"- `{c}`")
         p("")
 
     total = len(schemas)
@@ -2597,59 +2543,46 @@ def build(ocs=None, didm=None, log=None):
                       if t not in built_now)
     if bad_repl:
         sys.stderr.write(
-            "status_board: RETIRED_BY_ITS_OWN_DECISION names %d replacement "
-            "class(es) that are not in the built index: %s\n"
-            "Each entry discounts a migrator's emission, so a stale name pins "
-            "its class at 'nothing built' with no way to notice.\n"
-            % (len(bad_repl), ", ".join("%s -> %s" % cr for cr in bad_repl)))
+            f'status_board: RETIRED_BY_ITS_OWN_DECISION names {len(bad_repl)} replacement class(es) that are not in the built index: {", ".join("{} -> {}".format(*cr) for cr in bad_repl)}\nEach entry discounts a migrator\'s emission, so a stale name pins its class at \'nothing built\' with no way to notice.\n')
         sys.exit(1)
 
     ghosts = sorted({m for f in FAMILIES for m in f[1] if m not in known})
     if ghosts:
         sys.stderr.write(
-            "FAMILIES claims %d class(es) that are not in the built index: %s\n"
-            "A collapsed or deleted class must be removed from its family (or the "
-            "family closed).\n" % (len(ghosts), ", ".join(ghosts)))
+            f'FAMILIES claims {len(ghosts)} class(es) that are not in the built index: {", ".join(ghosts)}\nA collapsed or deleted class must be removed from its family (or the family closed).\n')
         sys.exit(1)
 
     bad_status = [f[0] for f in FAMILIES
                   if f[4] not in ("team", "proposed", "open")]
     if len(decided) + len(unsigned) + len(proposed) + len(undecided) != len(FAMILIES):
         raise SystemExit(
-            "status_board: %d families but %d classified -- unclassified: %s"
-            % (len(FAMILIES), len(decided) + len(unsigned) + len(proposed) + len(undecided),
-               bad_status))
+            f'status_board: {len(FAMILIES)} families but {len(decided) + len(unsigned) + len(proposed) + len(undecided)} classified -- unclassified: {bad_status}')
 
     p("## Where V_eta stands")
     p("")
     p("| | count |")
     p("|---|---|")
-    p("| target classes | %d |" % total)
-    p("| settled (persist) | %d |" % n_persist)
-    p("| settled (retire) | %d |" % n_retire)
-    p("| **still open (`in_progress`)** | **%d** |" % n_open)
-    p("| **`retire` with no migrator YET** | **%d** |" % len(unplanned_retire))
-    p("| open **decision families** | **%d** |" % len(FAMILIES))
-    p("| &nbsp;&nbsp;DECIDED and signed off, awaiting build | %d |" % len(decided))
-    p("| &nbsp;&nbsp;decided in a walkthrough, **awaiting a signature** | %d |" % len(unsigned))
-    p("| &nbsp;&nbsp;**written up by Claude alone, unreviewed** | **%d** |" % len(proposed))
-    p("| &nbsp;&nbsp;nobody has proposed anything yet | %d |" % len(undecided))
+    p(f'| target classes | {total} |')
+    p(f'| settled (persist) | {n_persist} |')
+    p(f'| settled (retire) | {n_retire} |')
+    p(f'| **still open (`in_progress`)** | **{n_open}** |')
+    p(f'| **`retire` with no migrator YET** | **{len(unplanned_retire)}** |')
+    p(f'| open **decision families** | **{len(FAMILIES)}** |')
+    p(f'| &nbsp;&nbsp;DECIDED and signed off, awaiting build | {len(decided)} |')
+    p(f'| &nbsp;&nbsp;decided in a walkthrough, **awaiting a signature** | {len(unsigned)} |')
+    p(f'| &nbsp;&nbsp;**written up by Claude alone, unreviewed** | **{len(proposed)}** |')
+    p(f'| &nbsp;&nbsp;nobody has proposed anything yet | {len(undecided)} |')
     p("")
     if ocs:
         c = ocs["counts"]
         p("| open-class BUILD/PROOF state (derived, see below) | count |")
         p("|---|---|")
         for k in (STATE_A, STATE_B, STATE_C, STATE_U):
-            p("| %s | %d |" % (OPEN_STATE_LABEL[k], c.get(k, 0)))
+            p(f'| {OPEN_STATE_LABEL[k]} | {c.get(k, 0)} |')
         p("")
-    p("The class count is not the work count. %d open classes are %d decisions, "
-      "because most open classes move as a family." % (n_open, len(FAMILIES)))
+    p(f'The class count is not the work count. {n_open} open classes are {len(FAMILIES)} decisions, because most open classes move as a family.')
     p("")
-    p("**%d of those %d are not settled**: %d awaiting a signature on a decision "
-      "already taken, %d written up by Claude alone and unreviewed, %d with "
-      "nothing proposed. Only %d are signed off."
-      % (len(unsigned) + len(proposed) + len(undecided), len(FAMILIES),
-         len(unsigned), len(proposed), len(undecided), len(decided)))
+    p(f'**{len(unsigned) + len(proposed) + len(undecided)} of those {len(FAMILIES)} are not settled**: {len(unsigned)} awaiting a signature on a decision already taken, {len(proposed)} written up by Claude alone and unreviewed, {len(undecided)} with nothing proposed. Only {len(decided)} are signed off.')
     p("")
 
     # THE DERIVED HALF. Everything above this line is computed from committed
@@ -2667,10 +2600,10 @@ def build(ocs=None, didm=None, log=None):
     p("| family | classes | what was decided | document |")
     p("|---|---|---|---|")
     for name, members, plan, what, _ in unsigned:
-        p("| **%s** | %d | %s | `%s` |" % (name, len(members), what, plan))
+        p(f'| **{name}** | {len(members)} | {what} | `{plan}` |')
     p("")
     for name, members, _, _, _ in unsigned:
-        p("- **%s**: %s" % (name, ", ".join("`%s`" % m for m in sorted(members))))
+        p("- **{}**: {}".format(name, ", ".join(f"`{m}`" for m in sorted(members))))
     p("")
 
     p("## WRITTEN UP BY CLAUDE ALONE -- nobody has checked the reasoning")
@@ -2681,7 +2614,7 @@ def build(ocs=None, didm=None, log=None):
     p("To sign one off, add a line to its document:")
     p("")
     p("```")
-    p("%s [<family>] <who/when> -- <what was decided>" % SIGNOFF)
+    p(f"{SIGNOFF} [<family>] <who/when> -- <what was decided>")
     p("```")
     p("")
     p("Until that line exists the family shows here regardless of what")
@@ -2690,10 +2623,10 @@ def build(ocs=None, didm=None, log=None):
     p("| family | classes | proposal | written up in |")
     p("|---|---|---|---|")
     for name, members, plan, what, _ in proposed:
-        p("| **%s** | %d | %s | `%s` |" % (name, len(members), what, plan))
+        p(f'| **{name}** | {len(members)} | {what} | `{plan}` |')
     p("")
     for name, members, _, _, _ in proposed:
-        p("- **%s**: %s" % (name, ", ".join("`%s`" % m for m in sorted(members))))
+        p("- **{}**: {}".format(name, ", ".join(f"`{m}`" for m in sorted(members))))
     p("")
 
     p("## Nobody has proposed anything yet")
@@ -2701,10 +2634,10 @@ def build(ocs=None, didm=None, log=None):
     p("| family | classes | the call to make |")
     p("|---|---|---|")
     for name, members, _, question, _ in undecided:
-        p("| **%s** | %d | %s |" % (name, len(members), question))
+        p(f'| **{name}** | {len(members)} | {question} |')
     p("")
     for name, members, _, _, _ in undecided:
-        p("- **%s**: %s" % (name, ", ".join("`%s`" % m for m in sorted(members))))
+        p("- **{}**: {}".format(name, ", ".join(f"`{m}`" for m in sorted(members))))
     p("")
 
     p("## DECIDED by the team, awaiting build")
@@ -2831,19 +2764,15 @@ def build(ocs=None, didm=None, log=None):
         # see". A count that does not say what it failed to look at is the
         # `silentLoss` defect, and writing the fix is not a licence to repeat
         # it one layer up.
-        p("**DENOMINATOR: %d signed families. %d named at least one decided "
-          "target class and were checked against the built tree; %d named none "
-          "and are UNCHECKED HERE.**" % (len(decided), len(seen), len(unseen)))
+        p(f'**DENOMINATOR: {len(decided)} signed families. {len(seen)} named at least one decided target class and were checked against the built tree; {len(unseen)} named none and are UNCHECKED HERE.**')
         p("")
-        p("Across the %d checked: %d distinct target class(es), %d present in "
-          "the built set, %d not." % (len(seen), n_named, len(all_built),
-                                      len(all_missing)))
+        p(f'Across the {len(seen)} checked: {n_named} distinct target class(es), {len(all_built)} present in the built set, {len(all_missing)} not.')
         p("")
         if all_missing:
             p("The classes not yet present are the schema build queue:")
             p("")
             for t in sorted(all_missing):
-                p("- `%s`" % t)
+                p(f"- `{t}`")
             p("")
         elif n_named:
             p("So for the checked families the schema half is DONE and what")
@@ -2879,9 +2808,7 @@ def build(ocs=None, didm=None, log=None):
             # which does not cover a `retire` v1 source row. The causes below
             # are MEASURED per member, so the claim cannot outrun the check
             # again.
-            p("**The other %d are unchecked, NOT clean.** Nothing above says "
-              "anything about them, and the reason differs per family:"
-              % len(unseen))
+            p(f'**The other {len(unseen)} are unchecked, NOT clean.** Nothing above says anything about them, and the reason differs per family:')
             p("")
             _CAUSE = {
                 "not_a_v1_source":
@@ -2905,9 +2832,7 @@ def build(ocs=None, didm=None, log=None):
                     buckets.setdefault(c, []).append(m)
                 p("- **%s** (%d class(es)): %s" % (
                     name, len(members),
-                    "; ".join("%d %s -- %s"
-                              % (len(v), ", ".join("`%s`" % x for x in sorted(v)),
-                                 _CAUSE[k])
+                    "; ".join(f'{len(v)} {", ".join(f"`{x}`" for x in sorted(v))} -- {_CAUSE[k]}'
                               for k, v in sorted(buckets.items()))))
             p("")
             p("Only the `decided_targets` EMPTY bucket is a missing record. The")
@@ -2930,20 +2855,15 @@ def build(ocs=None, didm=None, log=None):
         else:
             b, m = family_targets(members)
             n = len(b) + len(m)
-            cell = "%d of %d" % (len(b), n) if n else "no target recorded"
-        p("| **%s** | %d | %s | %s | `%s` |"
-          % (name, len(members), cell, what, plan))
+            cell = f'{len(b)} of {n}' if n else "no target recorded"
+        p(f'| **{name}** | {len(members)} | {cell} | {what} | `{plan}` |')
     p("")
 
     # ---- the family table's own prose, checked against the signatures -------
     pvs = family_prose_vs_signoff({s["class_name"] for s in schemas})
     p("## Class names the family table asserts that its sign-off does not say")
     p("")
-    p("DENOMINATOR: %d signed families checked; every V_eta class name in the "
-      "family one-liner above was matched against the text of the "
-      "`TEAM-SIGN-OFF` line that signs that family. %d family/name pair(s) are "
-      "UNSIGNED -- the prose names the class, the signature does not."
-      % (pvs["families_checked"], sum(len(r[2]) for r in pvs["rows"])))
+    p(f'DENOMINATOR: {pvs["families_checked"]} signed families checked; every V_eta class name in the family one-liner above was matched against the text of the `TEAM-SIGN-OFF` line that signs that family. {sum(len(r[2]) for r in pvs["rows"])} family/name pair(s) are UNSIGNED -- the prose names the class, the signature does not.')
     p("")
     p("**THIS IS NOT A LIST OF ERRORS, AND NOTHING HERE IS RESOLVED BY A TOOL.**")
     p("The family one-liner is Claude-authored prose in `tools/status_board.py`;")
@@ -2980,23 +2900,21 @@ def build(ocs=None, didm=None, log=None):
         p("| family | unsigned class name(s) in the one-liner | sign-off in |")
         p("|---|---|---|")
         for name, plan, missing in pvs["rows"]:
-            p("| **%s** | %s | `%s` |"
-              % (name, ", ".join("`%s`" % m for m in missing), plan))
+            p("| **{}** | {} | `{}` |".format(name, ", ".join(f"`{m}`" for m in missing), plan))
         p("")
     else:
         p("None -- every class name in every family one-liner appears in the")
         p("signature that signs it.")
         p("")
     if pvs["multi_untagged"]:
-        p("**AND: %d document(s) carry more than one UNTAGGED `TEAM-SIGN-OFF`"
-          % len(pvs["multi_untagged"]))
+        p(f'**AND: {len(pvs["multi_untagged"])} document(s) carry more than one UNTAGGED `TEAM-SIGN-OFF`')
         p("line.** An untagged line signs the document, and counts only when")
         p("exactly one family cites it -- so `find_signoff` returns the FIRST")
         p("one and the reader cannot tell which was shown. Not wrong; not")
         p("visible either.")
         p("")
         for plan, n in pvs["multi_untagged"]:
-            p("- `%s` -- %d untagged sign-off lines" % (plan, n))
+            p(f'- `{plan}` -- {n} untagged sign-off lines')
         p("")
 
     # v1 source side
@@ -3010,7 +2928,7 @@ def build(ocs=None, didm=None, log=None):
     p("| disposition | count |")
     p("|---|---|")
     for k in sorted(led_disp, key=lambda k: -len(led_disp[k])):
-        p("| %s | %d |" % (k, len(led_disp[k])))
+        p(f'| {k} | {len(led_disp[k])} |')
     p("")
     if unplanned_retire:
         # MEASURED, NOT ASSUMED -- and it caught one immediately. See the note
@@ -3030,7 +2948,7 @@ def build(ocs=None, didm=None, log=None):
             ocs.setdefault("sources", {})["batch_consumers"] = {
                 "files_scanned": batch_hits["files_scanned"],
                 "by_class": batch_hits["by_class"]}
-        p("### `retire`, but NO MIGRATOR YET -- %d rows" % len(unplanned_retire))
+        p(f'### `retire`, but NO MIGRATOR YET -- {len(unplanned_retire)} rows')
         p("")
         p("Marked `retire` in the ledger with **no per-class migrator and no `how`")
         p("note**. `retire` reads as settled, so these do not appear in the family")
@@ -3053,9 +2971,7 @@ def build(ocs=None, didm=None, log=None):
         p("reports settled work as undecided is the mirror of the failure this board")
         p("exists to prevent, and it cost a review pass to notice.")
         p("")
-        p("DENOMINATOR: %d row(s), each searched for its BARE CLASS NAME as a "
-          "quoted literal in %d batch post-pass file(s) under `+did2/+convert` "
-          "(comments stripped)%s."
+        p('DENOMINATOR: %d row(s), each searched for its BARE CLASS NAME as a quoted literal in %d batch post-pass file(s) under `+did2/+convert` (comments stripped)%s.'
           # THE REUSE NOTICE GOES TO STDOUT, NOT INTO THE ARTIFACT. Writing
           # "REUSED" here was tried first and is self-defeating: the rendered
           # file would then differ between a machine with DID-matlab and one
@@ -3071,11 +2987,10 @@ def build(ocs=None, didm=None, log=None):
         for c in unplanned_retire:
             hits = batch_hits["by_class"].get(c) or []
             if hits:
-                p("- `%s` -- **NOT untouched**: consumed by %s"
-                  % (c, ", ".join("`%s`" % h for h in hits)))
+                p("- `{}` -- **NOT untouched**: consumed by {}".format(c, ", ".join(f"`{h}`" for h in hits)))
             else:
-                p("- `%s` -- no per-class migrator and no batch post-pass names "
-                  "it; passes through today" % c)
+                p(f"- `{c}` -- no per-class migrator and no batch post-pass names "
+                  "it; passes through today")
         p("")
 
     if unverified:
@@ -3083,7 +2998,7 @@ def build(ocs=None, didm=None, log=None):
           "These strand today:")
         p("")
         for c in unverified:
-            p("- `%s`" % c)
+            p(f"- `{c}`")
         p("")
 
     if stale:
@@ -3092,20 +3007,20 @@ def build(ocs=None, didm=None, log=None):
         p("Settled or removed since the family was written -- prune from `FAMILIES`:")
         p("")
         for c in stale:
-            p("- `%s`" % c)
+            p(f"- `{c}`")
         p("")
     if dupes:
         p("## ERROR -- classes claimed by more than one family")
         p("")
         for c in sorted(set(dupes)):
-            p("- `%s`" % c)
+            p(f"- `{c}`")
         p("")
 
     if missing_plans:
         p("## ERROR -- families claiming a decision document that does not exist")
         p("")
         for n, pl in missing_plans:
-            p("- **%s** -> `schemas/%s` (missing)" % (n, pl))
+            p(f"- **{n}** -> `schemas/{pl}` (missing)")
         p("")
 
     ok = not unclaimed and not dupes and not missing_plans
@@ -3246,15 +3161,15 @@ def main(argv):
     c = ocs["counts"]
     print("  open classes: %d -- %s"
           % (len(ocs["classes"]),
-             ", ".join("%s %d" % (OPEN_STATE_LABEL[k].split(" ", 1)[0], c.get(k, 0))
+             ", ".join(f'{OPEN_STATE_LABEL[k].split(" ", 1)[0]} {c.get(k, 0)}'
                        for k in (STATE_A, STATE_B, STATE_C, STATE_U))))
 
     if args.check:
-        current = open(OUT).read() if os.path.exists(OUT) else ""
+        current = Path(OUT).read_text() if os.path.exists(OUT) else ""
         if current != text:
             print("V_eta_STATUS.md is STALE. Run: python3 tools/status_board.py")
             return 1
-        dcur = open(DECISIONS_OUT).read() if os.path.exists(DECISIONS_OUT) else ""
+        dcur = Path(DECISIONS_OUT).read_text() if os.path.exists(DECISIONS_OUT) else ""
         if dcur != dtext:
             print("V_eta_decisions.json is STALE. Run: python3 tools/status_board.py")
             return 1
@@ -3267,8 +3182,8 @@ def main(argv):
         fh.write(text)
     with open(DECISIONS_OUT, "w") as fh:
         fh.write(dtext)
-    print("wrote %s" % os.path.relpath(OUT, REPO))
-    print("wrote %s" % os.path.relpath(DECISIONS_OUT, REPO))
+    print(f"wrote {os.path.relpath(OUT, REPO)}")
+    print(f"wrote {os.path.relpath(DECISIONS_OUT, REPO)}")
     return 0 if ok else 1
 
 

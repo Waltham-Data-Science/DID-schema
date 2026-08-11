@@ -21,11 +21,12 @@ Usage:  python3 tools/coverage.py [--check]
   (no args) regenerate the ledger + print the guardrail report.
   --check   guardrail only; exit non-zero on any violation (for CI).
 """
-import json
 import glob
+import json
 import os
 import re
 import sys
+from pathlib import Path
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 SCHEMA_ROOT = os.path.dirname(HERE)
@@ -40,7 +41,7 @@ def targets_map():
     (superclasses excluded), plus carried/second_pass/how/flags. Keyed by snake-cased
     source class name. Empty if the file is absent."""
     try:
-        return json.load(open(TARGETS)).get("classes", {})
+        return json.loads(Path(TARGETS).read_text()).get("classes", {})
     except Exception:
         return {}
 
@@ -65,7 +66,7 @@ def snake(name):
 
 
 def veta_index():
-    idx = json.load(open(INDEX))
+    idx = json.loads(Path(INDEX).read_text())
     return {e["class_name"]: e.get("disposition", "?") for e in idx["schemas"]}
 
 
@@ -193,14 +194,14 @@ def _ndi_main_templates():
             if not f.endswith(".json"):
                 continue
             try:
-                blob = subprocess.run(["git", "-C", NDI, "show", "%s:%s" % (ref, f)],
+                blob = subprocess.run(["git", "-C", NDI, "show", f"{ref}:{f}"],
                                       capture_output=True, text=True, check=True).stdout
                 d = json.loads(blob)
             except Exception:
                 continue
             cn = d.get("document_class", {}).get("class_name")
             if cn:
-                out[cn] = "%s @%s" % (f, ref)
+                out[cn] = f"{f} @{ref}"
         if out:
             return out, ref
     return None, None
@@ -212,7 +213,7 @@ def _ndi_worktree_templates():
     for p in glob.glob(os.path.join(
             NDI, "src/ndi/ndi_common/database_documents/**/*.json"), recursive=True):
         try:
-            d = json.load(open(p))
+            d = json.loads(Path(p).read_text())
         except Exception:
             continue
         cn = d.get("document_class", {}).get("class_name")
@@ -248,7 +249,7 @@ def v1_classes():
     # A. NDI shipped templates -- from origin/main so a lagging NDI feature branch
     #    can't silently shrink the v1 universe (working tree is the fallback).
     if NDI:
-        main, ref = _ndi_main_templates()
+        main, _ref = _ndi_main_templates()
         out.update(main if main is not None else _ndi_worktree_templates())
     # B. vhlab app/calculator classes: a bespoke migrator consumes them but NDI
     #    ships no template. Match on class name AND its snake form.
@@ -260,7 +261,7 @@ def v1_classes():
                 cn = os.path.basename(p)[:-2]
                 if cn in _MIG_HELPERS or cn in have or snake(cn) in have:
                     continue
-                out[cn] = "app-generated (migrators_%s, no NDI template)" % pkg
+                out[cn] = f"app-generated (migrators_{pkg}, no NDI template)"
                 have.add(cn)
     return out
 
@@ -300,7 +301,7 @@ def emitted_classes():
         roots.append(os.path.join(NDI, "src/ndi/+ndi/+migrate/+internal"))
     for root in roots:
         for p in glob.glob(os.path.join(root, "**/*.m"), recursive=True):
-            txt = open(p).read()
+            txt = Path(p).read_text()
             for pat in _CLASS_EMIT:
                 for m in pat.finditer(txt):
                     out.setdefault(m.group(1), set()).add(os.path.basename(p))
@@ -394,8 +395,8 @@ NO_TARGET_BY_DECISION = {
     "epochid": (
         NO_TARGET_DISSOLVED, "V_eta_epoch_plan.md",
         "epochid is DROPPED",
-        "DROPPED as a class. The `epoch_id` edge that replaces it is an edge, "
-        "not a document class, so there is no target and that is final."),
+        ("DROPPED as a class. The `epoch_id` edge that replaces it is an edge, "
+        "not a document class, so there is no target and that is final.")),
 
     # "stimulus_response and stimulus_response_scalar_parameters DELETE
     #  (superclass-only, 0 docs)". A class no document has ever been an
@@ -403,13 +404,13 @@ NO_TARGET_BY_DECISION = {
     "stimulus_response": (
         NO_TARGET_DISSOLVED, "V_eta_stimulus_response_model_plan.md",
         "stimulus_response and stimulus_response_scalar_parameters DELETE",
-        "DELETED. Superclass-only with zero documents in any corpus, so there "
-        "is nothing to migrate and no target to name."),
+        ("DELETED. Superclass-only with zero documents in any corpus, so there "
+        "is nothing to migrate and no target to name.")),
     "stimulus_response_scalar_parameters": (
         NO_TARGET_DISSOLVED, "V_eta_stimulus_response_model_plan.md",
         "stimulus_response and stimulus_response_scalar_parameters DELETE",
-        "DELETED. Superclass-only with zero documents in any corpus, so there "
-        "is nothing to migrate and no target to name."),
+        ("DELETED. Superclass-only with zero documents in any corpus, so there "
+        "is nothing to migrate and no target to name.")),
 
     # `binaryseries_parameters` WAS HERE, as the second row of the `ngrid`
     # shape, and is deliberately not, as of 2026-08-11. It is now in
@@ -444,12 +445,12 @@ NO_TARGET_BY_DECISION = {
     "ngrid": (
         NO_TARGET_DISPUTED, "V_eta_image_model_plan.md",
         "ngrid is DISSOLVED (deleted, not migrated)",
-        "CONTESTED. The sign-off says `ngrid is DISSOLVED (deleted, not "
+        ("CONTESTED. The sign-off says `ngrid is DISSOLVED (deleted, not "
         "migrated)` and the plan's FINAL class block says `ngrid DELETED`, "
         "while the same document's R4 section says `ngrid` phases into "
         "`sampled_body` -- a fold WITH a target. No target is recorded, "
         "because only the dissolution is in the team's own words; the "
-        "disagreement is left visible rather than settled by a tool."),
+        "disagreement is left visible rather than settled by a tool.")),
 }
 
 # class -> (targets, plan document, fragment on the sign-off line, the mapping
@@ -473,11 +474,11 @@ DECIDED_TARGETS_BY_SIGNOFF = {
     "filter": (
         ["frequency_filter"], "V_eta_frequency_filter_model_plan.md",
         "Approved the frequency_filter model as written below",
-        "v1 `filter` is a superclass block on `pyraview`. It becomes a "
-        "separate `frequency_filter` document",
-        "Becomes a separate `frequency_filter` document plus a `filter_id` "
+        ("v1 `filter` is a superclass block on `pyraview`. It becomes a "
+        "separate `frequency_filter` document"),
+        ("Becomes a separate `frequency_filter` document plus a `filter_id` "
         "edge from the observation the pyraview fold mints. Today the migrator "
-        "only renames the block in place."),
+        "only renames the block in place.")),
 
     # "epochfiles_ingested becomes `ingestion_manifest` with filenavigator_id
     #  RESTORED" -- a named class, in the signed line itself.
@@ -485,8 +486,8 @@ DECIDED_TARGETS_BY_SIGNOFF = {
         ["ingestion_manifest"], "V_eta_epoch_plan.md",
         "epochfiles_ingested becomes `ingestion_manifest`",
         "epochfiles_ingested becomes `ingestion_manifest`",
-        "Becomes `ingestion_manifest`, with `filenavigator_id` restored and "
-        "the invented required `epochid` edge replaced by `epoch_id`."),
+        ("Becomes `ingestion_manifest`, with `filenavigator_id` restored and "
+        "the invented required `epochid` edge replaced by `epoch_id`.")),
 
     # The sign-off names both classes and says the presentation is DECOMPOSED
     # around its preserved id rather than dissolved. Which of the two carries
@@ -502,12 +503,12 @@ DECIDED_TARGETS_BY_SIGNOFF = {
         ["timed_sequence", "timed_sequence_manipulation"],
         "V_eta_stimulus_model_plan.md",
         "stimulus_presentation is DECOMPOSED around its preserved id",
-        "the v1 `stimulus_presentation` id is preserved on the body-of-record "
-        "it becomes (the `timed_sequence`)",
-        "DECOMPOSED around its preserved id: the id rides on the "
+        ("the v1 `stimulus_presentation` id is preserved on the body-of-record "
+        "it becomes (the `timed_sequence`)"),
+        ("DECOMPOSED around its preserved id: the id rides on the "
         "`timed_sequence`, with one `timed_sequence_manipulation` per resolved "
         "subject. The deduped stimulus `data_type` documents it also mints are "
-        "not a fixed class set and are not listed."),
+        "not a fixed class set and are not listed.")),
 
     # RESOLVED 2026-08-11, and it moved OUT of NO_TARGET_BY_DECISION to get
     # here. It sat as DISPUTED because `V_eta_go_forward_class_audit.md` says two
@@ -553,10 +554,10 @@ DECIDED_TARGETS_BY_SIGNOFF = {
         ["subject_statement", "sampled_body"],
         "V_eta_go_forward_class_audit.md",
         "`binaryseries_parameters` folds into the data_body model and is retired",
-        "its `time_type` is the time axis's new `datum_type`, its `data_type` "
+        ("its `time_type` is the time axis's new `datum_type`, its `data_type` "
         "the statement's, `data_dim` the axis count, `samples_regular_intervals` "
-        "the axis `regular` flag",
-        "RETIRED into the data_body model, field by field, per the signature -- "
+        "the axis `regular` flag"),
+        ("RETIRED into the data_body model, field by field, per the signature -- "
         "which the team ruled (2026-08-11) is what is intended, over the same "
         "document's section heading (:459) naming `sampled_body` alone. TWO "
         "targets, because the signature routes to two mounts: `data_type` goes "
@@ -566,7 +567,7 @@ DECIDED_TARGETS_BY_SIGNOFF = {
         "when it is body (V_eta_data_body_model_plan.md:136-137, mutually "
         "exclusive). Recording one mount would drop the other. NOT BUILT: the "
         "fold is gated on the data_body tier (#45, blocked on #32), since "
-        "`axes[]`, `datum_type` and `regular` do not exist yet."),
+        "`axes[]`, `datum_type` and `regular` do not exist yet.")),
 }
 
 
@@ -582,7 +583,7 @@ def _signoff_lines(plan):
     if not os.path.exists(path):
         return []
     with open(path) as fh:
-        text = re.sub(r"<!--.*?-->", "", fh.read(), flags=re.S)
+        text = re.sub(r"<!--.*?-->", "", fh.read(), flags=re.DOTALL)
     return [(i, ln) for i, ln in enumerate(text.splitlines(), 1)
             if ln.lstrip().startswith("TEAM-SIGN-OFF")]
 
@@ -606,19 +607,15 @@ def check_decision_citations():
             DECIDED_TARGETS_BY_SIGNOFF.items()):
         checks.append(("decided-target", cls, plan, frag, mapping))
 
-    lines = ["DENOMINATOR: %d transcribed decision(s) checked against %d plan "
-             "document(s); every one must quote a real TEAM-SIGN-OFF line"
-             % (len(checks), len({c[2] for c in checks}))]
+    lines = [f'DENOMINATOR: {len(checks)} transcribed decision(s) checked against {len({c[2] for c in checks})} plan document(s); every one must quote a real TEAM-SIGN-OFF line']
     for kind, cls, plan, frag, mapping in checks:
         path = os.path.join(SCHEMA_ROOT, "schemas", plan)
         if not os.path.exists(path):
-            fails.append("%s %s: cited document %s does not exist"
-                         % (kind, cls, plan))
+            fails.append(f"{kind} {cls}: cited document {plan} does not exist")
             continue
         hits = [n for n, ln in _signoff_lines(plan) if frag in ln]
         if not hits:
-            fails.append("%s %s: no TEAM-SIGN-OFF line in %s contains %r"
-                         % (kind, cls, plan, frag))
+            fails.append(f"{kind} {cls}: no TEAM-SIGN-OFF line in {plan} contains {frag!r}")
             continue
         # The MAPPING sentence need not be on the sign-off line -- a sign-off
         # routinely approves "the model as written below". It must be in the
@@ -627,10 +624,10 @@ def check_decision_citations():
             with open(path) as fh:
                 body = re.sub(r"\s+", " ", fh.read())
             if re.sub(r"\s+", " ", mapping) not in body:
-                fails.append("%s %s: %s does not contain the mapping sentence "
-                             "%r" % (kind, cls, plan, mapping))
+                fails.append(f"{kind} {cls}: {plan} does not contain the mapping sentence "
+                             f"{mapping!r}")
                 continue
-        lines.append("  [ok] %-14s %-28s %s:%d" % (kind, cls, plan, hits[0]))
+        lines.append(f'  [ok] {kind:<14} {cls:<28} {plan}:{hits[0]}')
     return lines, fails
 
 LEDGER_BLURB = (
@@ -779,10 +776,10 @@ def build_ledger():
         decided_cite = None
         if signed and curated_decided:
             raise SystemExit(
-                "coverage: `%s` has decided_targets in BOTH "
-                "V_eta_migration_targets.json (%s) and "
-                "DECIDED_TARGETS_BY_SIGNOFF (%s). One fact, one place -- "
-                "delete whichever is the copy." % (cn, curated_decided, signed[0]))
+                f"coverage: `{cn}` has decided_targets in BOTH "
+                f"V_eta_migration_targets.json ({curated_decided}) and "
+                f"DECIDED_TARGETS_BY_SIGNOFF ({signed[0]}). One fact, one place -- "
+                "delete whichever is the copy.")
         if signed:
             decided_targets = list(signed[0])
             decided_source = "signoff_transcription"
@@ -918,11 +915,9 @@ def _no_target_cell(r):
     """
     reason = r.get("no_target_reason")
     if reason == NO_TARGET_DISSOLVED:
-        return "· **DISSOLVES** -- no target class, per `%s`" % (
-            (r.get("no_target_signoff") or {}).get("document"))
+        return "· **DISSOLVES** -- no target class, per `{}`".format((r.get("no_target_signoff") or {}).get("document"))
     if reason == NO_TARGET_DISPUTED:
-        return "· ⚠ **DISPUTED** -- the record states two dispositions; see `%s`" % (
-            (r.get("no_target_signoff") or {}).get("document"))
+        return "· ⚠ **DISPUTED** -- the record states two dispositions; see `{}`".format((r.get("no_target_signoff") or {}).get("document"))
     if reason == NO_TARGET_PASSTHROUGH:
         return "· **passes through as itself** by decision"
     return "· ⚠ **NO TARGET AND NO DISSOLUTION RECORDED** -- a gap, not a decision"
@@ -942,12 +937,11 @@ def _build_state_clause(r):
     if not bs.get("schema_targets_named"):
         return None
     built, missing = bs["schema_targets_built"], bs["schema_targets_missing"]
-    schema = ("SCHEMA: %d of %d decided target class(es) present in the built "
-              "set" % (len(built), bs["schema_targets_named"]))
+    schema = (f'SCHEMA: {len(built)} of {bs["schema_targets_named"]} decided target class(es) present in the built set')
     if built:
-        schema += " (" + ", ".join("`%s`" % t for t in built) + ")"
+        schema += " (" + ", ".join(f"`{t}`" for t in built) + ")"
     if missing:
-        schema += "; NOT built: " + ", ".join("`%s`" % t for t in missing)
+        schema += "; NOT built: " + ", ".join(f"`{t}`" for t in missing)
     migr = ("MIGRATOR: emits them today"
             if bs.get("migrator_emits_decided_targets")
             else "MIGRATOR: does NOT emit them yet")
@@ -991,7 +985,7 @@ def write_ledger(veta, v1, rows):
             disp=s["no_target"]["by_reason"][NO_TARGET_DISPUTED],
             pt=s["no_target"]["by_reason"][NO_TARGET_PASSTHROUGH],
             gap=s["no_target"]["by_reason"][NO_TARGET_UNRECORDED],
-            gaplist=(" (" + ", ".join("`%s`" % c
+            gaplist=(" (" + ", ".join(f"`{c}`"
                                       for c in s["no_target"]["target_gaps"]) + ")"
                      if s["no_target"]["target_gaps"] else "")),
         "",
@@ -1047,8 +1041,7 @@ def write_ledger(veta, v1, rows):
             # simply reaches validation under the same-name class. Fifteen of
             # these carry a signed decision naming a DIFFERENT target, so
             # printing `X -> X` here read as a contradiction of the plan.
-            tgt = "· passes through as `%s` (no migrator; target unrecorded)" % (
-                r["targets"][0])
+            tgt = "· passes through as `{}` (no migrator; target unrecorded)".format(r["targets"][0])
         else:
             tgt = " + ".join(chips)
             if r["carried"]:
@@ -1101,7 +1094,7 @@ def write_ledger(veta, v1, rows):
                  "which states the SCHEMA half and the MIGRATOR half separately and "
                  "may correct an authored `BUILD NOT DONE` beside it.*")
     lines.append("")
-    open(LEDGER, "w").write("\n".join(lines))
+    Path(LEDGER).write_text("\n".join(lines))
 
 
 def write_ledger_json(rows):
@@ -1112,7 +1105,7 @@ def write_ledger_json(rows):
         "summary": _summary(rows),
         "rows": rows,
     }
-    open(LEDGER_JSON, "w").write(json.dumps(doc, indent=2) + "\n")
+    Path(LEDGER_JSON).write_text(json.dumps(doc, indent=2) + "\n")
 
 
 def main():
@@ -1128,8 +1121,7 @@ def main():
     if cite_fails:
         for f in cite_fails:
             print("  FAIL: " + f)
-        sys.exit("coverage: %d transcribed decision(s) no longer match the "
-                 "document they cite." % len(cite_fails))
+        sys.exit(f'coverage: {len(cite_fails)} transcribed decision(s) no longer match the document they cite.')
 
     veta = veta_index()
     emitted = emitted_classes()
@@ -1157,9 +1149,7 @@ def main():
               f"{os.path.relpath(LEDGER_JSON, SCHEMA_ROOT)} ({len(v1)} v1 classes"
               + (f", {s['gaps']} UNMAPPED" if s["gaps"] else "") + ")")
         nt = s["no_target"]
-        print("  no-target census: DENOMINATOR %d rows, %d naming no target -- "
-              "%d dissolved, %d DISPUTED, %d GAP%s (+%d self-target passthroughs, "
-              "which do name a target)"
+        print('  no-target census: DENOMINATOR %d rows, %d naming no target -- %d dissolved, %d DISPUTED, %d GAP%s (+%d self-target passthroughs, which do name a target)'
               % (s["total"], nt["rows_naming_no_target"],
                  nt["by_reason"][NO_TARGET_DISSOLVED],
                  nt["by_reason"][NO_TARGET_DISPUTED],

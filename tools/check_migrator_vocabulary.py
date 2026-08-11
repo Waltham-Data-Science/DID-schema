@@ -24,6 +24,7 @@ import argparse
 import json
 import os
 import sys
+from pathlib import Path
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 REPO = os.path.dirname(HERE)
@@ -189,9 +190,8 @@ def main():
     a = ap.parse_args()
 
     if not os.path.exists(GT):
-        sys.exit("missing %s -- run tools/ndi_ground_truth.py first"
-                 % os.path.relpath(GT, REPO))
-    gt = json.load(open(GT))
+        sys.exit(f"missing {os.path.relpath(GT, REPO)} -- run tools/ndi_ground_truth.py first")
+    gt = json.loads(Path(GT).read_text())
     reads = gt.get("migrator_reads", [])
 
     hits = [r for r in reads if r["confidence"] == "confirmed-vocabulary"]
@@ -211,49 +211,43 @@ def main():
     missing_guard = sorted(set(RESOLVED_BY_GUARD)
                            - {r["migrator"] for r in hits})
 
-    print("migrator vocabulary check  (ground truth: NDI %s, %d classes)"
-          % (gt.get("ndi_ref", "?"), gt["summary"]["ndi_classes"]))
+    print(f'migrator vocabulary check  (ground truth: NDI {gt.get("ndi_ref", "?")}, {gt["summary"]["ndi_classes"]} classes)')
     print()
-    print("  still CONSUME invented names               : %d" % len(confirmed))
-    print("  verified benign (allow-listed, with reason) : %d" % len(benign))
-    print("  name present only in a rejection guard     : %d" % len(guarded))
-    print("  mentions invented names only               : %d" % len(possible))
-    print("  NOT on the known-broken list (regressions) : %d" % len(new))
-    print("  writer-set deps no template declares (#54) : %d"
-          % len(gt.get("writer_dependencies", [])))
+    print(f'  still CONSUME invented names               : {len(confirmed)}')
+    print(f'  verified benign (allow-listed, with reason) : {len(benign)}')
+    print(f'  name present only in a rejection guard     : {len(guarded)}')
+    print(f'  mentions invented names only               : {len(possible)}')
+    print(f'  NOT on the known-broken list (regressions) : {len(new)}')
+    print(f'  writer-set deps no template declares (#54) : {len(gt.get("writer_dependencies", []))}')
     print()
 
     if confirmed:
         print("READS invented vocabulary (confirm each against template + writer):")
         for r in confirmed:
             mark = "NEW " if r["migrator"] not in KNOWN_BROKEN else "    "
-            print("  %s%-34s %s" % (mark, r["migrator"],
-                                    r["reads_names_absent_from_template"]))
+            print(f'  {mark}{r["migrator"]:<34} {r["reads_names_absent_from_template"]}')
         print()
     if guarded:
         print("GUARDED (fixed -- the name survives only to be rejected):")
         for r in sorted(guarded, key=lambda x: x["migrator"]):
-            print("      %-34s %s" % (r["migrator"],
-                                      RESOLVED_BY_GUARD[r["migrator"]]))
+            print(f'      {r["migrator"]:<34} {RESOLVED_BY_GUARD[r["migrator"]]}')
         print()
     if benign:
         print("VERIFIED BENIGN (allow-listed -- read is harmless, reason recorded):")
         for r in sorted(benign, key=lambda x: x["migrator"]):
-            print("      %-34s %s" % (r["migrator"],
-                                      r["reads_names_absent_from_template"]))
-            print("          %s" % VERIFIED_BENIGN[r["migrator"]])
+            print(f'      {r["migrator"]:<34} {r["reads_names_absent_from_template"]}')
+            print("          {}".format(VERIFIED_BENIGN[r["migrator"]]))
         print()
     if stale_benign:
         print("ALLOW-LIST STALE -- listed as verified benign, but the name is "
               "no longer read at all. The migrator was fixed; retire the entry:")
         for m in stale_benign:
-            print("      %s" % m)
+            print(f"      {m}")
         print()
     if possible:
         print("MENTIONS invented vocabulary (may be a comment -- verify by hand):")
         for r in possible:
-            print("      %-34s %s" % (r["migrator"],
-                                      r["mentions_names_absent_from_template"]))
+            print(f'      {r["migrator"]:<34} {r["mentions_names_absent_from_template"]}')
         print()
     if missing_guard:
         print("GUARD GONE -- listed as resolved, but the invented name is no "
@@ -261,7 +255,7 @@ def main():
               "regression: the V_alpha shape would now migrate silently) or the "
               "entry is stale:")
         for m in missing_guard:
-            print("      %s" % m)
+            print(f"      {m}")
         print()
 
     # ---- #54: the OTHER direction -------------------------------------------
@@ -287,10 +281,9 @@ def main():
         print("WRITER-SET DEPENDENCIES DECLARED BY NO TEMPLATE (#54). Invisible to "
               "the tombstone checker, which compares against the template:")
         for r in wdeps:
-            print("      %-24s %d writer site(s)" % (r["dependency"],
-                                                     len(r["writer_sites"])))
+            print(f'      {r["dependency"]:<24} {len(r["writer_sites"])} writer site(s)')
             for s in r["writer_sites"]:
-                print("          %s" % s)
+                print(f"          {s}")
         print("      A V_eta class that does not declare these DROPS them: the "
               "validator allows undeclared depends_on entries wholesale "
               "(+did2/+schema/cache.m:598), so nothing fails and the edge is "
@@ -298,15 +291,12 @@ def main():
         print()
 
     if a.enforce and confirmed:
-        print("FAIL (--enforce): %d migrator(s) still read invented vocabulary."
-              % len(confirmed))
+        print(f'FAIL (--enforce): {len(confirmed)} migrator(s) still read invented vocabulary.')
         return 1
 
     print("REPORT ONLY -- not failing. Phase 1 is a census; enforcement is Phase 2.")
     if new:
-        print("NOTE: %d migrator(s) are NOT on the known-broken list. A name "
-              "appearing outside that set is a regression and wants a look now."
-              % len(new))
+        print(f'NOTE: {len(new)} migrator(s) are NOT on the known-broken list. A name appearing outside that set is a regression and wants a look now.')
     return 0
 
 

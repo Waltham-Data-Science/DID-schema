@@ -79,6 +79,7 @@ import os
 import re
 import subprocess
 import sys
+from pathlib import Path
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 REPO = os.path.dirname(HERE)
@@ -86,7 +87,22 @@ OUT = os.path.join(REPO, "schemas", "V_eta_ndi_ground_truth.json")
 DDIR = "src/ndi/ndi_common/database_documents"
 SDIR = "src/ndi/ndi_common/schema_documents"
 # Filled by _schema_deps; reported in the ground-truth summary.
-SCHEMA_SCAN = {"files": 0, "flat_form": 0, "json_schema_form": 0, "unparseable": 0}
+# `candidates` and `unreadable` exist because `files` USED TO BE THE SURVIVORS.
+# Both branches below reach a schema document through something that can fail --
+# `Path(p).read_text()` in a worktree, `git show` against a ref -- and both
+# swallowed the failure with `except Exception: continue`, after which
+# `files = len(blobs)` counted only what came back. A ref that had gone bad, or
+# a file that could not be read, subtracted itself from the denominator and from
+# the numerator at once, so the scan could only ever report success over a
+# shrinking universe.
+#
+# That is this repository's own named failure, in the tool the ground truth
+# comes from: `silentLoss` took `total_docs` from the survivors of a silent drop
+# and printed "0 empty edges" for two days while reading nothing. The rule it
+# produced -- AN INSTRUMENT MUST REPORT ITS DENOMINATOR -- is what these two
+# counters are.
+SCHEMA_SCAN = {"candidates": 0, "unreadable": 0, "listing_failed": False,
+               "files": 0, "flat_form": 0, "json_schema_form": 0, "unparseable": 0}
 # Filled by _merge_schema_deps; reported in the ground-truth summary. This is
 # the denominator for the "NDI requires it, V_eta does not" census downstream:
 # every zero it can print has to be distinguishable from "the question was
@@ -262,35 +278,42 @@ def _schema_deps(ndi_path, ref):
     # schema-document set and finding nothing must never look like finding
     # nothing to find.
     stats = SCHEMA_SCAN
-    stats.update({"files": 0, "flat_form": 0, "json_schema_form": 0, "unparseable": 0})
+    stats.update({"candidates": 0, "unreadable": 0, "listing_failed": False,
+                  "files": 0, "flat_form": 0, "json_schema_form": 0,
+                  "unparseable": 0})
     if ref == "worktree":
         root = os.path.join(ndi_path, SDIR)
         paths = []
         for dirpath, _, names in os.walk(root):
             paths += [os.path.join(dirpath, n) for n in names if n.endswith(".json")]
         blobs = []
+        stats["candidates"] = len(paths)
         for p in paths:
             try:
-                blobs.append(open(p).read())
-            except Exception:
-                continue
+                blobs.append(Path(p).read_text())
+            except OSError:
+                stats["unreadable"] += 1
     else:
         try:
             files = subprocess.run(
                 ["git", "-C", ndi_path, "ls-tree", "-r", "--name-only", ref, "--", SDIR],
                 capture_output=True, text=True, check=True).stdout.splitlines()
-        except Exception:
+        except (OSError, subprocess.CalledProcessError):
+            # The LISTING failed, so there is no candidate set at all. Recorded,
+            # because "0 files" and "could not ask" are different facts and the
+            # caller prints them differently.
+            stats["listing_failed"] = True
             return out, forms
         blobs = []
-        for f in files:
-            if not f.endswith(".json"):
-                continue
+        wanted = [f for f in files if f.endswith(".json")]
+        stats["candidates"] = len(wanted)
+        for f in wanted:
             try:
                 blobs.append(subprocess.run(
-                    ["git", "-C", ndi_path, "show", "%s:%s" % (ref, f)],
+                    ["git", "-C", ndi_path, "show", f"{ref}:{f}"],
                     capture_output=True, text=True, check=True).stdout)
-            except Exception:
-                continue
+            except (OSError, subprocess.CalledProcessError):
+                stats["unreadable"] += 1
     stats["files"] = len(blobs)
     for blob in blobs:
         d = _load_ndi_json(blob)
@@ -435,12 +458,12 @@ def ndi_templates(ndi_path):
             if not f.endswith(".json"):
                 continue
             try:
-                blob = subprocess.run(["git", "-C", ndi_path, "show", "%s:%s" % (ref, f)],
+                blob = subprocess.run(["git", "-C", ndi_path, "show", f"{ref}:{f}"],
                                       capture_output=True, text=True, check=True).stdout
                 d = json.loads(blob)
             except Exception:
                 continue
-            rec = _parse(d, "%s @%s" % (f, ref))
+            rec = _parse(d, f"{f} @{ref}")
             if rec:
                 out[rec.pop("_class")] = rec
         if out:
@@ -454,7 +477,7 @@ def ndi_templates(ndi_path):
                 continue
             p = os.path.join(dirpath, n)
             try:
-                d = json.load(open(p))
+                d = json.loads(Path(p).read_text())
             except Exception:
                 continue
             rec = _parse(d, os.path.relpath(p, ndi_path) + " @worktree")
@@ -524,7 +547,7 @@ def writer_dependencies(ndi_path, truth):
             if not f.endswith(".m"):
                 continue
             try:
-                blob = subprocess.run(["git", "-C", ndi_path, "show", "%s:%s" % (ref, f)],
+                blob = subprocess.run(["git", "-C", ndi_path, "show", f"{ref}:{f}"],
                                       capture_output=True, text=True, check=True).stdout
             except Exception:
                 continue
@@ -553,7 +576,7 @@ def writer_dependencies(ndi_path, truth):
                 # template declaring `x_1` counts as declaring the family.
                 if name in declared or any(d.startswith(name + "_") for d in declared):
                     continue
-                hits.setdefault(name, []).append("%s:%d" % (f, i))
+                hits.setdefault(name, []).append(f'{f}:{i}')
         if hits or files:
             break
     return ([{"dependency": k, "declared_by_no_template": True, "writer_sites": v}
@@ -611,7 +634,7 @@ def v_alpha_divergence(truth):
         if not n.endswith(".json"):
             continue
         try:
-            d = json.load(open(os.path.join(adir, n)))
+            d = json.loads(Path(os.path.join(adir, n)).read_text())
         except Exception:
             continue
         cn = d.get("_classname") or n[:-5]
@@ -646,7 +669,7 @@ def migrator_reads(truth, did_path):
         key = by_snake.get(snake(cls))
         if not key:
             continue
-        src = open(os.path.join(mdir, n), errors="replace").read()
+        src = Path(os.path.join(mdir, n)).read_text(errors="replace")
         # Strip MATLAB comments and superclass/mixin cell literals before matching.
         # Both produced false positives on the first pass: `image_stack` was flagged
         # for `image_format` occurring only in a comment, and `treatment_drug` for
@@ -768,7 +791,7 @@ def classify_divergence(ndi_path, ref, truth, div):
     function is being repaired for."""
     def sh(*a):
         return subprocess.run(["git", "-C", ndi_path] + list(a),
-                              capture_output=True, text=True).stdout
+                              capture_output=True, text=True, check=False).stdout
 
     first = {}
     cur = None
@@ -796,12 +819,12 @@ def classify_divergence(ndi_path, ref, truth, div):
             continue
         sha, when = hit[0].split()[0], hit[0].split()[1]
         try:
-            d = json.loads(sh("show", "%s:%s" % (sha, hit[1])))
+            d = json.loads(sh("show", f"{sha}:{hit[1]}"))
             dc = d.get("document_class") or {}
             blk = d.get(dc.get("property_list_name") or dc.get("class_name"))
             if not isinstance(blk, dict):
                 out[cn] = {"verdict": "UNKNOWN",
-                           "why": "no property block at first version (%s)" % when}
+                           "why": f"no property block at first version ({when})"}
                 continue
             ff = {snake(k) for k in blk}
         except Exception:
@@ -809,7 +832,7 @@ def classify_divergence(ndi_path, ref, truth, div):
             continue
         out[cn] = {
             "verdict": "NDI-CHANGED" if ff == alpha else "DID-INVENTED",
-            "why": "first NDI version %s" % when,
+            "why": f"first NDI version {when}",
             "first_version_fields": sorted(ff),
         }
     return out
@@ -828,7 +851,7 @@ def _alpha_names(ndi_class):
                 if not n.endswith(".json"):
                     continue
                 try:
-                    d = json.load(open(os.path.join(adir, n)))
+                    d = json.loads(Path(os.path.join(adir, n)).read_text())
                 except Exception:
                     continue
                 cn = d.get("_classname") or n[:-5]
@@ -844,11 +867,11 @@ def main():
     a = ap.parse_args()
 
     if not os.path.isdir(a.ndi):
-        sys.exit("NDI-matlab not found at %s (pass --ndi)" % a.ndi)
+        sys.exit(f"NDI-matlab not found at {a.ndi} (pass --ndi)")
 
     truth, ref = ndi_templates(a.ndi)
     if not truth:
-        sys.exit("no NDI templates found under %s" % DDIR)
+        sys.exit(f"no NDI templates found under {DDIR}")
 
     div = v_alpha_divergence(truth)
     reads = migrator_reads(truth, a.did)
@@ -860,11 +883,11 @@ def main():
     doc = {
         "_comment": (
             "GROUND TRUTH for the did_v1 side of the V_eta migration: the NDI document "
-            "templates, read from %s. THIS FILE IS AUTHORITATIVE -- schemas/V_alpha and the "
+            f"templates, read from {ref}. THIS FILE IS AUTHORITATIVE -- schemas/V_alpha and the "
             "V_delta conversion markdown are history, not evidence. Where a template and its "
             "WRITER disagree, the writer wins (see writer_divergence): the data follows the "
             "writer. Regenerate with tools/ndi_ground_truth.py. See "
-            "V_eta_ground_truth_plan.md." % ref),
+            "V_eta_ground_truth_plan.md."),
         "ndi_ref": ref,
         "summary": {
             "ndi_classes": len(truth),
@@ -892,15 +915,14 @@ def main():
         json.dump(doc, f, indent=2, sort_keys=False)
         f.write("\n")
 
-    print("ndi ref:                %s" % ref)
-    print("NDI classes captured:   %d" % len(truth))
-    print("V_alpha divergences:    %d" % len(div))
-    print("migrator suspects:      %d" % len(reads))
-    print("writer divergences:     %d (hand-recorded)" % len(WRITER_DIVERGENCE))
+    print(f"ndi ref:                {ref}")
+    print(f'NDI classes captured:   {len(truth)}')
+    print(f'V_alpha divergences:    {len(div)}')
+    print(f'migrator suspects:      {len(reads)}')
+    print(f'writer divergences:     {len(WRITER_DIVERGENCE)} (hand-recorded)')
     pc = {v: sum(1 for r in div if r["provenance"]["verdict"] == v)
           for v in ("DID-INVENTED", "NDI-CHANGED", "UNKNOWN")}
-    print("divergence provenance:  DID-INVENTED %d | NDI-CHANGED %d | UNKNOWN %d"
-          % (pc["DID-INVENTED"], pc["NDI-CHANGED"], pc["UNKNOWN"]))
+    print(f'divergence provenance:  DID-INVENTED {pc["DID-INVENTED"]} | NDI-CHANGED {pc["NDI-CHANGED"]} | UNKNOWN {pc["UNKNOWN"]}')
     # DENOMINATOR for the provenance walk (operating rule 5). The walk reads
     # ONLY `ref`, so this line says how many of the divergent classes it could
     # locate a first version for at all -- an UNKNOWN because the first template
@@ -909,42 +931,46 @@ def main():
     nof = sum(1 for r in div
               if r["provenance"].get("why", "").startswith(("no add-commit",
                                                             "no ref to walk")))
-    print("  DENOMINATOR: %d divergent class(es), walked on %s ONLY (no other "
-          "ref is consulted)" % (len(div), ref))
-    print("  first version located: %d   no add-commit found on %s: %d"
-          % (len(div) - nof, ref, nof))
+    print(f'  DENOMINATOR: {len(div)} divergent class(es), walked on {ref} ONLY (no other ref is consulted)')
+    print(f'  first version located: {len(div) - nof}   no add-commit found on {ref}: {nof}')
     # DENOMINATOR FIRST for the required-ness extract (operating rule 5). Every
     # line here exists so that a downstream zero is readable: "NDI requires no
     # edge V_eta relaxed" and "no class could be asked" print differently.
     rs = REQUIRED_SCAN
-    print("")
+    print()
     print("NDI DEPENDENCY REQUIRED-NESS (`mustbenotempty`), as NDI states it")
-    print("  DENOMINATOR: %d NDI class(es) -- %d with a flat schema document, "
-          "%d with a JSON Schema-form one, %d with none"
-          % (rs["ndi_classes"], rs["classes_with_flat_schema_document"],
-             rs["classes_with_json_schema_document"],
-             rs["classes_with_no_schema_document"]))
-    print("  DENOMINATOR: %d dependency name(s) -- %d carry an NDI required-ness "
-          "statement, %d NDI states nothing about"
-          % (rs["dependency_names_total"],
-             rs["dependency_names_with_a_required_statement"],
-             rs["dependency_names_ndi_states_nothing_about"]))
-    print("  NDI REQUIRES: %d   NDI SAYS OPTIONAL: %d"
-          % (rs["dependency_names_required"], rs["dependency_names_optional"]))
-    print("  templates carrying `mustbenotempty`: %d  "
-          "(the key lives in the SCHEMA documents, not the templates)"
-          % rs["templates_carrying_mustbenotempty"])
+    print(f'  DENOMINATOR: {rs["ndi_classes"]} NDI class(es) -- {rs["classes_with_flat_schema_document"]} with a flat schema document, {rs["classes_with_json_schema_document"]} with a JSON Schema-form one, {rs["classes_with_no_schema_document"]} with none')
+    print(f'  DENOMINATOR: {rs["dependency_names_total"]} dependency name(s) -- {rs["dependency_names_with_a_required_statement"]} carry an NDI required-ness statement, {rs["dependency_names_ndi_states_nothing_about"]} NDI states nothing about')
+    print(f'  NDI REQUIRES: {rs["dependency_names_required"]}   NDI SAYS OPTIONAL: {rs["dependency_names_optional"]}')
+    print(f'  templates carrying `mustbenotempty`: {rs["templates_carrying_mustbenotempty"]}  (the key lives in the SCHEMA documents, not the templates)')
     if rs["dependency_names_with_a_required_statement"] == 0:
         print("  *** NO CLASS STATED REQUIRED-NESS AT ALL. Every downstream")
         print("  *** count is then a property of this scan, not of NDI.")
-    print("")
-    print("wrote %s" % os.path.relpath(OUT, REPO))
+    # THE SCAN'S OWN DENOMINATOR, printed unconditionally. `files` is what was
+    # READ; `candidates` is what was THERE. They were the same number by
+    # construction until 2026-08-11, because every failure removed itself from
+    # both.
+    ss = SCHEMA_SCAN
+    print()
+    print("NDI SCHEMA DOCUMENT SCAN")
+    if ss["listing_failed"]:
+        print("  *** THE LISTING ITSELF FAILED -- no candidate set was obtained.")
+        print("  *** This is NOT 'NDI ships no schema documents'.")
+    print(f'  DENOMINATOR: {ss["candidates"]} candidate schema document(s), '
+          f'{ss["files"]} read, {ss["unreadable"]} UNREADABLE, '
+          f'{ss["unparseable"]} unparseable')
+    print(f'  forms: {ss["flat_form"]} flat, {ss["json_schema_form"]} JSON Schema')
+    if ss["unreadable"]:
+        print("  *** SOME CANDIDATES WERE NOT READ. Every figure below is over "
+              "the survivors.")
+    print()
+    print(f"wrote {os.path.relpath(OUT, REPO)}")
     if reads:
         print("\nmigrators using vocabulary no NDI template has (confirm each individually):")
         for r in sorted(reads, key=lambda x: x["confidence"] != "confirmed-vocabulary"):
             mark = "!!" if r["confidence"] == "confirmed-vocabulary" else "? "
             names = r["reads_names_absent_from_template"] or r["mentions_names_absent_from_template"]
-            print("  %s %-34s %s" % (mark, r["migrator"], names))
+            print(f'  {mark} {r["migrator"]:<34} {names}')
         print("\n  !! = read via an explicit idiom   ? = mentioned only (may be a comment)")
 
 

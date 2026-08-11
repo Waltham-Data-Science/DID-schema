@@ -89,6 +89,7 @@ import json
 import os
 import re
 import sys
+from pathlib import Path
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 REPO = os.path.dirname(HERE)
@@ -154,8 +155,8 @@ def rename_map():
 
     Parsed from the source rather than duplicated here, so the two cannot drift.
     """
-    src = open(os.path.join(REPO, "tools", "build_v_eta.py")).read()
-    m = re.search(r"^RENAME = \{(.*?)^\}", src, re.M | re.S)
+    src = Path(os.path.join(REPO, "tools", "build_v_eta.py")).read_text()
+    m = re.search(r"^RENAME = \{(.*?)^\}", src, re.MULTILINE | re.DOTALL)
     if not m:
         return {}
     return dict(re.findall(r'"([A-Za-z0-9_]+)"\s*:\s*"([A-Za-z0-9_]+)"', m.group(1)))
@@ -164,7 +165,7 @@ def rename_map():
 def veta_dispositions():
     """{class_name: disposition} from the built index -- 'persist' marks a class
     the go-forward schema KEEPS, which is how a name collision is spotted."""
-    idx = json.load(open(os.path.join(VETA, "index.json")))
+    idx = json.loads(Path(os.path.join(VETA, "index.json")).read_text())
     return {e["class_name"]: e.get("disposition", "?") for e in idx["schemas"]}
 
 
@@ -176,7 +177,7 @@ def veta_schemas():
         if name in ("index", "did_schema_meta"):
             continue
         try:
-            out[name] = json.load(open(p))
+            out[name] = json.loads(Path(p).read_text())
         except ValueError:
             continue
     return out
@@ -206,7 +207,7 @@ def passthrough_migrators():
         cn = os.path.basename(p)[:-2]
         if cn in MIG_HELPERS:
             continue
-        src = open(p, errors="replace").read()
+        src = Path(p).read_text(errors="replace")
         body = "\n".join(re.sub(r"(?<!\.)%.*$", "", ln) for ln in src.splitlines())
         # the whole function body is the guard plus an unconditional passthrough
         if re.search(r"bodies\s*=\s*\{\s*preBody\s*\}\s*;", body) \
@@ -314,7 +315,7 @@ def compare_file_block(cls, classes, name, veta):
 
 def _defamily(dep_name):
     """`syncrule_id_#` -> `syncrule_id`. See the note in compare()."""
-    return dep_name[:-2] if dep_name.endswith("_#") else dep_name
+    return dep_name.removesuffix("_#")
 
 
 def compare(cls, ndi, schema, name, veta):
@@ -393,9 +394,8 @@ def main():
     a = ap.parse_args()
 
     if not os.path.exists(GT):
-        sys.exit("missing %s -- run tools/ndi_ground_truth.py first"
-                 % os.path.relpath(GT, REPO))
-    gt = json.load(open(GT))
+        sys.exit(f"missing {os.path.relpath(GT, REPO)} -- run tools/ndi_ground_truth.py first")
+    gt = json.loads(Path(GT).read_text())
     veta = veta_schemas()
     disp = veta_dispositions()
     migs = migrators()
@@ -477,54 +477,43 @@ def main():
     rows.sort(key=lambda x: (order[x[0]], x[2]))
     counts = {k: sum(1 for r in rows if r[0] == k) for k in order}
 
-    print("V_eta source-tombstone check   (ground truth: NDI %s)"
-          % gt.get("ndi_ref", "?"))
+    print("V_eta source-tombstone check   (ground truth: NDI {})".format(gt.get("ndi_ref", "?")))
     print()
-    print("  classes compared : %d" % (len(gt["classes"]) - sum(skipped.values())))
-    print("  COLLISION        : %d   (a V_eta class took a did_v1 name)" % counts["COLLISION"])
-    print("  BLOCKING         : %d   (a real document CANNOT validate)" % (counts["BLOCKING"] + counts["COLLISION"]))
-    print("  LOSSY            : %d   (real content has nowhere to land)" % counts["LOSSY"])
-    print("  COSMETIC         : %d   (invented declarations only)" % counts["COSMETIC"])
+    print(f'  classes compared : {len(gt["classes"]) - sum(skipped.values())}')
+    print(f'  COLLISION        : {counts["COLLISION"]}   (a V_eta class took a did_v1 name)')
+    print(f'  BLOCKING         : {counts["BLOCKING"] + counts["COLLISION"]}   (a real document CANNOT validate)')
+    print(f'  LOSSY            : {counts["LOSSY"]}   (real content has nowhere to land)')
+    print(f'  COSMETIC         : {counts["COSMETIC"]}   (invented declarations only)')
     if reused:
-        print("  name reused      : %d   (a V_eta class shares a did_v1 name, but a"
-              % len(reused))
+        print(f'  name reused      : {len(reused)}   (a V_eta class shares a did_v1 name, but a')
         print("                          migrator consumes every document, so none")
-        print("                          can reach it: %s)"
-              % ", ".join(c for c, _ in reused))
-    print("  skipped          : %d nonprod, %d chain-mixin, %d no tombstone"
-          % (skipped["nonprod"], skipped["chain"], skipped["no_tombstone"]))
+        print("                          can reach it: {})".format(", ".join(c for c, _ in reused)))
+    print(f'  skipped          : {skipped["nonprod"]} nonprod, {skipped["chain"]} chain-mixin, {skipped["no_tombstone"]} no tombstone')
     print()
 
     for level, tier, cls, name, div in rows:
         if level == "COSMETIC" and not a.all:
             continue
-        arrow = "" if cls == name else "  (-> %s)" % name
+        arrow = "" if cls == name else f"  (-> {name})"
         if snake(cls) in renames or cls in renames:
             arrow += "  [RENAMED]"
-        print("%-9s %-9s %s%s" % (level, tier, cls, arrow))
+        print(f'{level:<9} {tier:<9} {cls}{arrow}')
         if div["invented_required"]:
-            print("    REQUIRED but absent from the real document: %s"
-                  % ", ".join(div["invented_required"]))
+            print("    REQUIRED but absent from the real document: {}".format(", ".join(div["invented_required"])))
         if div["undeclared_fields"]:
-            print("    real fields the tombstone does NOT declare: %s"
-                  % ", ".join(div["undeclared_fields"]))
+            print("    real fields the tombstone does NOT declare: {}".format(", ".join(div["undeclared_fields"])))
         if div["invented_fields"]:
-            print("    declared but in no NDI template: %s"
-                  % ", ".join(div["invented_fields"]))
+            print("    declared but in no NDI template: {}".format(", ".join(div["invented_fields"])))
         if div["undeclared_deps"]:
-            print("    real dependencies not declared: %s"
-                  % ", ".join(div["undeclared_deps"]))
+            print("    real dependencies not declared: {}".format(", ".join(div["undeclared_deps"])))
         if div["invented_deps"]:
-            print("    dependencies in no NDI template: %s"
-                  % ", ".join(div["invented_deps"]))
+            print("    dependencies in no NDI template: {}".format(", ".join(div["invented_deps"])))
         if div["missing_supers"]:
-            print("    superclasses the real document has: %s"
-                  % ", ".join(div["missing_supers"]))
+            print("    superclasses the real document has: {}".format(", ".join(div["missing_supers"])))
         print()
 
     if not a.all and counts["COSMETIC"]:
-        print("(%d COSMETIC row(s) hidden; pass --all to see them)\n"
-              % counts["COSMETIC"])
+        print(f'({counts["COSMETIC"]} COSMETIC row(s) hidden; pass --all to see them)\n')
 
     # ---- FILE BLOCK AUDIT ---------------------------------------------------
     # DENOMINATOR FIRST AND UNCONDITIONALLY (operating rule 5). Every number
@@ -535,31 +524,25 @@ def main():
     undecl_total = sum(len(d["present_but_undeclared"]) for _, _, _, d in file_rows)
     print("FILE BLOCK AUDIT   (report-only; a file divergence never quarantines)")
     print()
-    print("  NDI templates read              : %d" % len(gt["classes"]))
-    print("  ...declaring a file (chain)     : %d"
-          % sum(1 for c in gt["classes"] if ndi_files(c, gt["classes"])))
-    print("  V_eta schemas read              : %d" % len(veta))
-    print("  ...declaring a file             : %d" % veta_any_file)
-    print("  tombstones compared for files   : %d" % fstat["compared"])
-    print("    ...NDI side declares a file   : %d" % fstat["ndi_declares"])
-    print("    ...V_eta side declares a file : %d" % fstat["veta_declares"])
-    print("  skipped (nonprod/chain/no tombstone) that DO declare a file : %d"
-          % fstat["skipped_declaring"])
-    print("  classes with a file divergence  : %d" % len(file_rows))
-    print("    DECLARED BUT ABSENT   (names) : %d   tombstone claims a file no "
-          "real document carries" % absent_total)
-    print("    PRESENT BUT UNDECLARED (names): %d   real document carries a file "
-          "the tombstone does not declare" % undecl_total)
+    print(f'  NDI templates read              : {len(gt["classes"])}')
+    print(f'  ...declaring a file (chain)     : {sum(1 for c in gt["classes"] if ndi_files(c, gt["classes"]))}')
+    print(f'  V_eta schemas read              : {len(veta)}')
+    print(f'  ...declaring a file             : {veta_any_file}')
+    print(f'  tombstones compared for files   : {fstat["compared"]}')
+    print(f'    ...NDI side declares a file   : {fstat["ndi_declares"]}')
+    print(f'    ...V_eta side declares a file : {fstat["veta_declares"]}')
+    print(f'  skipped (nonprod/chain/no tombstone) that DO declare a file : {fstat["skipped_declaring"]}')
+    print(f'  classes with a file divergence  : {len(file_rows)}')
+    print(f'    DECLARED BUT ABSENT   (names) : {absent_total}   tombstone claims a file no real document carries')
+    print(f'    PRESENT BUT UNDECLARED (names): {undecl_total}   real document carries a file the tombstone does not declare')
     print()
     for tier, cls, name, fdiv in sorted(file_rows, key=lambda x: x[1]):
-        arrow = "" if cls == name else "  (-> %s)" % name
-        print("FILE      %-9s %s%s" % (tier, cls, arrow))
+        arrow = "" if cls == name else f"  (-> {name})"
+        print(f'FILE      {tier:<9} {cls}{arrow}')
         if fdiv["declared_but_absent"]:
-            print("    declared but in no NDI template: %s"
-                  % ", ".join(fdiv["declared_but_absent"]))
+            print("    declared but in no NDI template: {}".format(", ".join(fdiv["declared_but_absent"])))
         if fdiv["present_but_undeclared"]:
-            print("    real files the tombstone does NOT declare: %s"
-                  % ", ".join(fdiv["present_but_undeclared"]))
+            print("    real files the tombstone does NOT declare: {}".format(", ".join(fdiv["present_but_undeclared"])))
         print()
     print("THE TWO DIRECTIONS ARE DIFFERENT FAILURES AND ARE NOT SUMMED. A file "
           "name is compared by EXACT string, as `did2.validate.fileList` does "
@@ -612,24 +595,20 @@ def main():
         print()
         print("=" * 70)
         print("NOT RUNNABLE HERE -- no --enforce verdict was produced.")
-        print("  DENOMINATOR: 0 migrator file(s) readable; DID_MATLAB=%s" % DIDM)
+        print(f"  DENOMINATOR: 0 migrator file(s) readable; DID_MATLAB={DIDM}")
         print("  The passthrough/migrated tier is read from that checkout, and")
         print("  without it every class reads as a passthrough -- so the")
-        print("  %d BLOCKING row(s) above include classes that ARE migrated and"
-              % (counts["BLOCKING"] + counts["COLLISION"]))
+        print(f'  {counts["BLOCKING"] + counts["COLLISION"]} BLOCKING row(s) above include classes that ARE migrated and')
         print("  are not quarantine risks. The grading is unsound, not clean.")
         print("  THIS IS NOT A PASS. Re-run with a DID-matlab checkout present.")
         print("=" * 70)
     elif a.enforce and (counts["BLOCKING"] or counts["COLLISION"]):
         print()
-        print("FAIL (--enforce): %d tombstone(s) would quarantine a real document."
-              % (counts["BLOCKING"] + counts["COLLISION"]))
+        print(f'FAIL (--enforce): {counts["BLOCKING"] + counts["COLLISION"]} tombstone(s) would quarantine a real document.')
         rc = 1
     if a.enforce_files and file_rows:
         print()
-        print("FAIL (--enforce-files): %d class(es) diverge on the file block "
-              "(%d declared-but-absent, %d present-but-undeclared)."
-              % (len(file_rows), absent_total, undecl_total))
+        print(f'FAIL (--enforce-files): {len(file_rows)} class(es) diverge on the file block ({absent_total} declared-but-absent, {undecl_total} present-but-undeclared).')
         rc = 1
     return rc
 

@@ -10,6 +10,7 @@ Non-persist classes are listed under "NOT in the final set" by disposition.
 """
 import json
 import os
+from pathlib import Path
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(HERE)
@@ -27,7 +28,7 @@ SPINE = {
 
 
 def main():
-    idx = json.load(open(INDEX))
+    idx = json.loads(Path(INDEX).read_text())
     by_name = {s["class_name"]: s for s in idx["schemas"] if not s.get("is_meta")}
 
     def chain(name, seen=None):

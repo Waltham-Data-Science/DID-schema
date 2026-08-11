@@ -45,6 +45,9 @@
       ]
     },
     "ndi_schema_document_scan": {
+      "candidates": 91,
+      "unreadable": 0,
+      "listing_failed": false,
       "files": 91,
       "flat_form": 57,
       "json_schema_form": 5,
