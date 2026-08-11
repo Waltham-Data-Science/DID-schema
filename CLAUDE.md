@@ -754,11 +754,51 @@ lives in these files — read them instead of re-deriving from memory:
   a total" still stands, and now applies to the total itself: **quote the digest's printed
   rollup, never a sum you performed.**
 
-  **NOT YET RE-MEASURED AFTER THE `image_stack` GUARD.** Run 31415147934 predates it
-  (`02854c7` is before `5e53f79`/`23947bf`), so the JH row of 4,563 is the *pre-guard*
-  figure. The guard makes `image_stack.m` emit a passthrough instead of a subject-less
-  `image_observation`, which should take that row to zero. Until a corpus run at or after
-  `f9defe3` reports it, that is a prediction, not a result.
+  **RE-MEASURED 2026-08-11. THE PREDICTION HELD, AND THE WHOLE ROW SET IS NOW ZERO.**
+  This paragraph used to say the JH row of 4,563 was a *pre-guard* figure and that the
+  guard taking it to zero was "a prediction, not a result". It is now a result. Corpus run
+  **31464483119** (`52806b5`, all 7 jobs green, digest included), quoting the digest's own
+  printed rollup rather than a sum performed here:
+
+        DENOMINATOR: 6 corpus report(s) summed; 6 carried a readable silent-loss audit;
+                     633432 document(s) inspected in total
+        addends -- silent-loss `inspected`, NOT `migrated` and NOT `total`:
+        20211116 1640 + B 14181 + Dab 30354 + JH 332916 + PRED 37 + Soph 254304 = 633432
+        quarantined: 0       fragments: 0
+
+        EMPTY REQUIRED EDGES:                0 document(s) across 0 row(s)
+        VACUOUS REQUIRED FIELDS:             0 document(s) across 0 row(s)
+        EDGE-FAMILY CARDINALITY VIOLATIONS:  0 document(s) across 0 row(s)
+
+  So BOTH standing rows are gone: `image_observation.subject_id` (4,563, JH) and
+  `stimulus_presentation.element_id` (2,670). The 7,233 total above is HISTORY — do not
+  quote it as outstanding work. The denominator moved 562,448 -> 633,432.
+
+  **THE NDI-REQUIRED / V_eta-OPTIONAL BUCKET RAN FOR THE FIRST TIME** and answers the
+  question that motivated it (is `ontology_label.document_id` blank on any fraction, since
+  it is the join key the deferred second pass needs?):
+
+        633432  documents classified
+            32  classes whose chain carries the marker
+             7  classes declaring a RELAXED edge (7 distinct class/edge pairs)
+         20850  documents declaring one
+         20850    populated
+             0    EMPTY  <-- the count
+
+  **Mind the gap between 26 and 7.** The schema-side census found 26 divergences; only 7
+  appear in these six corpora at all. The other 19 are UNMEASURED, not clean.
+
+  **TWO ZEROES IN THAT RUN ARE NOT CLEAN AND THE DIGEST SAYS SO ITSELF.** Edge-family
+  UNIQUENESS reports 0 violations and then prints *"NOTHING IN REACH CARRIES TWO MEMBERS OF
+  A GOVERNED FAMILY. The rule could not fire; the zero is 'untested', not 'clean'."* And the
+  epoch family is still unbuilt, with the size of it measured: **0 `epoch` documents in the
+  batch, 0 `epoch_id` edges found, 305,480 time references terminating at a non-epoch
+  document.** That last number is the one the epoch decision rests on.
+
+  **STILL TO CHECK, FOUND IN THE SAME LOG:** the digest reports "BATCH POST-PASSES: 2
+  expected in a V_eta run" and measures only `epochMint` and `resolveSessionAnchors`. More
+  batch passes than two exist. Either the digest's expectation is stale or only two run in
+  the corpus harness, and those have different implications — do not assume which.
 
   FIVE of the six rows below are now ZERO — the stimulus-response, epochfiles, syncrule
   mapping, openminds_stimulus and daqmetadatareader repairs all landed and are confirmed on
