@@ -1482,3 +1482,47 @@ The `variable` this fold carries comes from the sibling `ontologyLabel`'s node �
 (plasmid) and `EDAM:data_2536` (LC-MS). `EDAM` is **not** declared in `CURIE_lookups_meta.json`.
 Nothing enforces prefixes today, so this validates; it is recorded here so that arming a prefix
 check is not surprised by it.
+
+---
+
+## TEAM DECISION 2026-08-11 — `generic_file`'s timestamps are DROPPED AND COUNTED
+
+Team, jess@walthamdatascience.com, 2026-08-11, verbatim: **"Dropped and counted."** — asked
+whether `date_created` / `date_updated` should be added to `data_body`. They should not. The
+fold's existing behaviour stands: the dates are discarded and the discard is COUNTED
+(`date_fields_dropped`), so the loss is visible in every corpus report rather than silent.
+
+**THE EVIDENCE, re-derived from NDI `origin/main` rather than argued:**
+
+        DENOMINATOR: 91 NDI templates; 3 carry any date-ish field
+          generic_file           -> dateCreated, dateUpdated   <- the only FILE dates
+          imageStack_parameters  -> timestamp
+          treatment_transfer     -> timestamp
+
+1. **`data_body` is a SHARED tier.** Every `sampled_body` and `opaque_body` inherits it. Two
+   fields serving ONE source class out of 91 would land on hundreds of thousands of documents
+   that have no file at all.
+
+2. **They are not properties of the data.** `ndi.fun.file.dateCreated` shells out to `stat`
+   (Linux/macOS) or `dir /T:C` (Windows) and returns NaT when it cannot tell — it is the
+   filesystem birth time ON WHICHEVER MACHINE RAN THE IMPORTER. `filename`, `format` and
+   `content_hash` survive a copy unchanged; ctime and mtime do not. `content_hash` is exactly
+   the field that makes ctime redundant for identity.
+
+3. **Nothing reads them.** The only non-writer references in NDI are two test files setting
+   them to 0 (`DownloadGenericFilesTest.m:53-54`, `:137-138`); `downloadGenericFiles.m:109`
+   reads `generic_file.filename` only.
+
+**THE TWO DATES ARE NOT EQUAL, and this is the part to remember if it is ever re-opened.**
+`dateCreated` is almost always the copy/import moment. `dateUpdated` often survives a copy and
+can be the real last-modified time — and NDI ITSELF treats mtime as meaningful in one place:
+`+setup/+conv/+babu/import.m:438` uses `ndi.fun.file.dateUpdated(imStackFile)` as the
+imageStack `timestamp`, an acquisition-time proxy. **Note WHERE it put it: a typed `timestamp`
+on the DOMAIN CLASS, not on the byte carrier.** If these are ever kept, that is the shape to
+copy — or an `absolute_reference` on the statement, which is machinery V_eta already has and
+which costs no field on a shared tier. If only one is kept, keep `dateUpdated`.
+
+**STANDING CAVEAT:** ZERO `generic_file` documents appear in any of the six corpora, so there is
+no usage evidence in either direction. Per the standing rule, that is not evidence they are
+unused — `generic_file` is written by the Babu converter for datasets not among the six. The
+counter is what will say if a real dataset ever brings some.
