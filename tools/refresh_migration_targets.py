@@ -508,14 +508,42 @@ def entry_points():
 # Interprocedural resolution
 # ---------------------------------------------------------------------------
 
+# THE BUILT V_eta INDEX, READ ONCE AND ITS STATE KEPT. It was read twice, both
+# times behind `except Exception`, and the two failures are different shapes of
+# the same silence:
+#
+#   Analyser.__init__   an empty set makes `cls in self.veta` false, so the
+#                       self-target passthrough at `targets_for` is never
+#                       derived. Rows LOSE targets and the tool reports a
+#                       smaller derivation as if it were the answer -- and this
+#                       one writes V_eta_migration_targets.json.
+#   refresh()           `veta = None` skips the INSTRUMENT CHECK entirely, so
+#                       the line that says how many derived names are absent
+#                       from the built schema set does not appear at all. A
+#                       report that cannot fail its own sanity check reads
+#                       exactly like one that passed it.
+#
+# So it is read once, the failure is NAMED, and `refresh()` prints the state
+# whatever it is.
+VETA_INDEX = {"classes": 0, "read": False, "why": None}
+
+
+def veta_class_set():
+    try:
+        names = set(COV.veta_index())
+    except (OSError, json.JSONDecodeError, KeyError, TypeError) as exc:
+        VETA_INDEX["why"] = f"{type(exc).__name__}: {exc}"
+        return set()
+    VETA_INDEX["read"] = True
+    VETA_INDEX["classes"] = len(names)
+    return names
+
+
 class Analyser:
     def __init__(self):
         self.private = build_scopes()
         self.entries = entry_points()
-        try:
-            self.veta = set(COV.veta_index())
-        except Exception:
-            self.veta = set()
+        self.veta = veta_class_set()
         self._file_cache = {}
         self._fn_cache = {}
         self._import_cache = {}
@@ -736,6 +764,10 @@ def refresh(write=True, out=sys.stdout):
     p(f'DENOMINATOR: {len(rows)} class rows in {os.path.basename(TARGETS_JSON)}')
     p(f'             {len(an.entries)} migrator entry points across {" + ".join("+" + x for x in PACKAGE_ORDER)}')
     p(f'             {len(an.private["migrators_j"])} private helpers in +migrators_j, {len(an.private["migrators"])} in +migrators')
+    p("             " + (f'{VETA_INDEX["classes"]} classes in the built V_eta index'
+                         if VETA_INDEX["read"] else
+                         f'V_eta INDEX NOT READ ({VETA_INDEX["why"]}) -- no self-target '
+                         "passthrough can be derived and the instrument check cannot run"))
     p(f'             DID-matlab = {DIDM or "NOT FOUND"}')
     p("")
 
@@ -826,16 +858,20 @@ def refresh(write=True, out=sys.stdout):
     # records the two acknowledged cases (`bath`, `pharmacological_manipulation`,
     # from the V_zeta assembler). Anything else is a bug in this tool and must be
     # read before its output is trusted.
-    try:
-        veta = set(COV.veta_index())
-    except Exception:
-        veta = None
-    if veta:
+    #
+    # AND IT RUNS, OR IT SAYS IT DID NOT. Skipping the check silently was the
+    # worse half of the two swallows: a missing line is read as a line with
+    # nothing to report.
+    if an.veta:
         stray = sorted(n for n in all_derived
-                       if n not in veta and n not in COV.KNOWN_NON_VETA)
+                       if n not in an.veta and n not in COV.KNOWN_NON_VETA)
         p(f'INSTRUMENT CHECK: {len(all_derived)} distinct target names derived; {len(stray)} absent from the built V_eta set')
         if stray:
             p("  " + ", ".join(stray))
+        p("")
+    else:
+        p(f'INSTRUMENT CHECK: NOT RUN -- the built V_eta index could not be read ({VETA_INDEX["why"] or "0 classes"}).')
+        p(f'  {len(all_derived)} distinct target names were derived and NONE was checked against the schema set.')
         p("")
 
     if write and changed:

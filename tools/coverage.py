@@ -35,15 +35,39 @@ LEDGER = os.path.join(SCHEMA_ROOT, "schemas", "V_eta_coverage_ledger.md")
 TARGETS = os.path.join(SCHEMA_ROOT, "schemas", "V_eta_migration_targets.json")
 
 
+# DENOMINATORS for the two reads this tool's whole left-hand side is built from.
+# Printed by main() before any figure that depends on them; see the comments at
+# each read for why a silent failure there is not a filter.
+TARGETS_SCAN = {"rows": 0, "read": False, "why": None}
+TEMPLATE_SCAN = {"candidates": 0, "unreadable": 0, "unparseable": 0,
+                 "not_a_document_class": 0, "classes": 0,
+                 "refs_tried": [], "source": None}
+
+
 def targets_map():
     """Curated did_v1 -> V_eta emitted-target map (schemas/V_eta_migration_targets.json):
     for each source class, the V_eta document class(es) its migrator actually emits
     (superclasses excluded), plus carried/second_pass/how/flags. Keyed by snake-cased
-    source class name. Empty if the file is absent."""
+    source class name. Empty if the file is absent.
+
+    A SHRINKING DENOMINATOR, NOT A FILTER, WHICH IS WHY IT REPORTS. `{}` here is
+    not "no class has a target" -- it silently strips the `targets` column off
+    EVERY row, and the ledger's no-target census then counts each stripped row
+    as a class naming no target. The empty-file case is a designed degrade; the
+    unreadable-file case is a failure wearing the same clothes. Both are now
+    stated in the output with the row count beside them.
+    """
     try:
-        return json.loads(Path(TARGETS).read_text()).get("classes", {})
-    except Exception:
+        rows = json.loads(Path(TARGETS).read_text()).get("classes", {})
+    except OSError as exc:
+        TARGETS_SCAN["why"] = f"{type(exc).__name__}: {exc}"
         return {}
+    except json.JSONDecodeError as exc:
+        TARGETS_SCAN["why"] = f"JSONDecodeError: {exc}"
+        return {}
+    TARGETS_SCAN["read"] = True
+    TARGETS_SCAN["rows"] = len(rows)
+    return rows
 
 
 def find_repo(name, env):
@@ -187,38 +211,75 @@ def _ndi_main_templates():
             files = subprocess.run(
                 ["git", "-C", NDI, "ls-tree", "-r", "--name-only", ref, "--", ddir],
                 capture_output=True, text=True, check=True).stdout.splitlines()
-        except Exception:
+        except (OSError, subprocess.CalledProcessError) as exc:
+            # RECORDED, not merely skipped. The fallback chain is
+            # origin/main -> main -> the working tree, and the docstring above
+            # says why that is not neutral: a V_eta feature branch of NDI lags
+            # main and ships FEWER classes. Which one was actually read is a
+            # fact about every number in the ledger.
+            TEMPLATE_SCAN["refs_tried"].append(f"{ref}: {type(exc).__name__}")
             continue
         out = {}
-        for f in files:
-            if not f.endswith(".json"):
-                continue
+        wanted = [f for f in files if f.endswith(".json")]
+        TEMPLATE_SCAN["candidates"] = len(wanted)
+        for f in wanted:
+            # COUNTED. Each of these skips removes one class from the did_v1
+            # SOURCE UNIVERSE -- the `102 v1 classes` headline gates.py matches
+            # on, and the denominator of the ledger's no-target census. A
+            # template that would not show or would not parse used to make that
+            # universe smaller and leave every percentage reading better.
             try:
                 blob = subprocess.run(["git", "-C", NDI, "show", f"{ref}:{f}"],
                                       capture_output=True, text=True, check=True).stdout
+            except (OSError, subprocess.CalledProcessError):
+                TEMPLATE_SCAN["unreadable"] += 1
+                continue
+            try:
                 d = json.loads(blob)
-            except Exception:
+            except json.JSONDecodeError:
+                TEMPLATE_SCAN["unparseable"] += 1
                 continue
             cn = d.get("document_class", {}).get("class_name")
             if cn:
                 out[cn] = f"{f} @{ref}"
+            else:
+                TEMPLATE_SCAN["not_a_document_class"] += 1
         if out:
+            TEMPLATE_SCAN["source"] = ref
+            TEMPLATE_SCAN["classes"] = len(out)
             return out, ref
+        TEMPLATE_SCAN["refs_tried"].append(f"{ref}: 0 classes")
     return None, None
 
 
 def _ndi_worktree_templates():
-    """Fallback: NDI templates from the checked-out working tree."""
+    """Fallback: NDI templates from the checked-out working tree.
+
+    Counted exactly like the ref path: this is the branch that runs when the ref
+    could not be read, so it is the branch most likely to be quietly short.
+    """
     out = {}
-    for p in glob.glob(os.path.join(
-            NDI, "src/ndi/ndi_common/database_documents/**/*.json"), recursive=True):
+    paths = sorted(glob.glob(os.path.join(
+        NDI, "src/ndi/ndi_common/database_documents/**/*.json"), recursive=True))
+    TEMPLATE_SCAN["candidates"] = len(paths)
+    for p in paths:
         try:
-            d = json.loads(Path(p).read_text())
-        except Exception:
+            blob = Path(p).read_text()
+        except OSError:
+            TEMPLATE_SCAN["unreadable"] += 1
+            continue
+        try:
+            d = json.loads(blob)
+        except json.JSONDecodeError:
+            TEMPLATE_SCAN["unparseable"] += 1
             continue
         cn = d.get("document_class", {}).get("class_name")
         if cn:
             out[cn] = os.path.relpath(p, NDI) + " @worktree"
+        else:
+            TEMPLATE_SCAN["not_a_document_class"] += 1
+    TEMPLATE_SCAN["source"] = "worktree"
+    TEMPLATE_SCAN["classes"] = len(out)
     return out
 
 
@@ -1141,6 +1202,30 @@ def main():
         sys.exit(1 if new else 0)
 
     veta, v1, rows = build_ledger()
+    # THE LEFT-HAND SIDE'S OWN DENOMINATORS, printed before the ledger line that
+    # quotes `N v1 classes`. Both reads below feed that number and both used to
+    # swallow their failures, so `102 v1 classes` could have read 101 with
+    # nothing to compare it against.
+    ts = TEMPLATE_SCAN
+    print(f'  DENOMINATOR: NDI templates from {ts["source"]} -- '
+          f'{ts["candidates"]} candidate(s), {ts["classes"]} class(es) captured, '
+          f'{ts["unreadable"]} UNREADABLE, {ts["unparseable"]} unparseable, '
+          f'{ts["not_a_document_class"]} not a document class')
+    if ts["refs_tried"]:
+        print("  *** FELL BACK: " + "; ".join(ts["refs_tried"])
+              + f' -- read {ts["source"]} instead. A lagging NDI branch or the '
+                "working tree ships FEWER classes than origin/main.")
+    if ts["unreadable"] or ts["unparseable"]:
+        print("  *** SOME TEMPLATES WERE NOT CAPTURED. The v1 universe below is "
+              "over the survivors.")
+    tm = TARGETS_SCAN
+    print("  DENOMINATOR: curated target map -- "
+          + (f'{tm["rows"]} class row(s) read from '
+             f'{os.path.basename(TARGETS)}' if tm["read"]
+             else f'NOT READ ({tm["why"]})'))
+    if not tm["read"]:
+        print("  *** EVERY ROW'S `targets` COLUMN IS EMPTY BECAUSE OF THAT, not "
+              "because no migrator emits anything.")
     if v1:
         write_ledger(veta, v1, rows)
         write_ledger_json(rows)

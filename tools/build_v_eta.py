@@ -7190,14 +7190,22 @@ _DELETE_NO_V1_PROVENANCE = {
 
 _deleted = []
 _deleted_invented = []
+# A SHRINKING DENOMINATOR. This loop decides which schemas are REMOVED from the
+# built set, and a file it could not read was silently not a candidate: the
+# class survived the delete and the printed `removed N` shrank to match, so
+# both halves of the evidence moved together. The three counters below are what
+# make "nothing qualified" and "nothing could be asked" different sentences.
+_delete_scan = {"candidates": 0, "unreadable": 0}
 for tier in TIERS:
     for p in glob.glob(os.path.join(VETA, tier, "*.json")):
         base = os.path.basename(p)
         if base in META_FILES:
             continue
+        _delete_scan["candidates"] += 1
         try:
             cn = load(p)["document_class"]["class_name"]
-        except Exception:
+        except (OSError, json.JSONDecodeError, KeyError, TypeError):
+            _delete_scan["unreadable"] += 1
             continue
         if cn in _DELETE_PHASE8:
             os.remove(p)
@@ -7205,6 +7213,12 @@ for tier in TIERS:
         elif cn in _DELETE_NO_V1_PROVENANCE:
             os.remove(p)
             _deleted_invented.append(cn)
+print(f'V_eta delete pass: DENOMINATOR {_delete_scan["candidates"]} schema file(s) '
+      f'inspected, {_delete_scan["unreadable"]} UNREADABLE; '
+      f'{len(_deleted)} phase-8 + {len(_deleted_invented)} no-v1-provenance removed')
+if _delete_scan["unreadable"]:
+    print("  *** A SCHEMA FILE THAT COULD NOT BE READ WAS NOT CONSIDERED FOR "
+          "DELETION. It is still in the built set.")
 if _deleted:
     print(f"V_eta Phase-8 delete: removed {len(_deleted)} consumed source schemas: "
           + ", ".join(sorted(_deleted)))

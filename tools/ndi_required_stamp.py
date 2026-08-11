@@ -110,6 +110,14 @@ MARKER = "ndi_mustBeNonEmpty"
 #: fixed whether or not anything was found. A missing counter and a zero one
 #: must not print differently by accident.
 COUNTERS = (
+    # -- THE V_eta SIDE'S OWN DENOMINATOR. `v_eta_files_seen` is what the tier
+    #    glob offered; `v_eta_classes_read` is what was actually parsed. They
+    #    were one number by construction until 2026-08-11, because an
+    #    unreadable schema file silently became an NDI class with no V_eta
+    #    counterpart -- an accounted-looking bucket.
+    "v_eta_files_seen",
+    "v_eta_files_unreadable",
+    "v_eta_classes_read",
     "ndi_classes_read",
     "ndi_classes_with_a_verdict",
     "ndi_required_edges",
@@ -221,10 +229,16 @@ def _load_targets_map(targets_path):
     """
     if not targets_path:
         return None
+    # A LEGITIMATE FILTER. The skip is already a counter: the caller sets
+    # `targets_map_readable` from this `None` and reports it, and the docstring
+    # above says what `None` buys -- every unresolved edge parks in
+    # `cause_undetermined` rather than in a bucket that reads as accounted for.
+    # Nothing leaves a denominator. Named so a failure that is NOT "no usable
+    # targets file" stops the build instead of being demoted to one.
     try:
         with open(targets_path) as f:
             return json.load(f)["classes"]
-    except Exception:
+    except (OSError, json.JSONDecodeError, KeyError, TypeError):
         return None
 
 
@@ -274,10 +288,15 @@ def stamp_ndi_required(veta_dir, gt_path, rename, tiers, meta_files,
     d["fold_divergence_rows"] = []
     d["unresolved_by_cause"] = {c: [] for c, _ in UNRESOLVED_CAUSES}
     d["no_edge_by_cause"] = {c: [] for c, _ in NO_EDGE_CAUSES}
+    # A LEGITIMATE FILTER, for the same reason: `ground_truth_readable` IS the
+    # counter for this skip, it is returned to the caller and printed, and the
+    # docstring above states that with it at 0 every other number is a property
+    # of the run. The universe does not shrink -- the whole measurement declares
+    # itself void.
     try:
         with open(gt_path) as f:
             gt = json.load(f)
-    except Exception:
+    except (OSError, json.JSONDecodeError):
         d["ground_truth_readable"] = 0
         return d
     d["ground_truth_readable"] = 1
@@ -286,19 +305,29 @@ def stamp_ndi_required(veta_dir, gt_path, rename, tiers, meta_files,
     d["phase8_set_supplied"] = 1 if deleted_phase8 is not None else 0
     phase8 = set(deleted_phase8 or ())
 
+    # A SHRINKING DENOMINATOR, and a well-disguised one. `by_class` IS the V_eta
+    # side of the comparison: a schema file skipped here does not appear as a
+    # missing file, it appears as an NDI class with no V_eta counterpart, which
+    # lands in `classes_with_no_v_eta_class` -- a bucket that reads as
+    # accounted for, with a named cause attached. So a build tree that could not
+    # be fully read would report itself as a migration that has not homed a
+    # class yet. Counted, and reported beside the candidate count.
     files, by_class = {}, {}
     for tier in tiers:
         for p in glob.glob(os.path.join(veta_dir, tier, "*.json")):
             if os.path.basename(p) in meta_files:
                 continue
+            d["v_eta_files_seen"] += 1
             try:
                 with open(p) as f:
                     doc = json.load(f)
                 cn = doc["document_class"]["class_name"]
-            except Exception:
+            except (OSError, json.JSONDecodeError, KeyError, TypeError):
+                d["v_eta_files_unreadable"] += 1
                 continue
             files[cn] = p
             by_class[cn] = doc
+    d["v_eta_classes_read"] = len(by_class)
     supers = {cn: [s["class_name"] for s in doc["document_class"]["superclasses"]]
               for cn, doc in by_class.items()}
 
@@ -580,6 +609,13 @@ def render_stamp_report(d):
                 "  *** was stamped, so every count downstream is a property of",
                 "  *** this build, not of the data. Run tools/ndi_ground_truth.py."]
         return out + [""]
+    # THE V_eta SIDE FIRST. It is the side an unreadable file used to leave
+    # silently, disguised as an NDI class with no counterpart.
+    out.append(f'  DENOMINATOR: {d["v_eta_files_seen"]} V_eta schema file(s) offered, {d["v_eta_classes_read"]} class(es) read, {d["v_eta_files_unreadable"]} UNREADABLE')
+    if d["v_eta_files_unreadable"]:
+        out += ["    *** A SCHEMA FILE THAT COULD NOT BE READ IS NOT A CLASS WITH",
+                "    *** NO V_eta HOME. Every unresolved-class figure below is",
+                "    *** inflated by that many."]
     out.append(f'  DENOMINATOR: {d["ndi_classes_read"]} NDI class(es) read; {d["ndi_classes_with_a_verdict"]} state required-ness for at least one edge')
     out.append(f'  DENOMINATOR: {d["edges_carrying_an_ndi_verdict"]} edge(s) carry an NDI verdict -- {d["ndi_required_edges"]} NDI-REQUIRED + {d["ndi_optional_edges"]} NDI-optional')
     out.append(f'  DENOMINATOR: {d["classes_resolved_to_v_eta"]} NDI class(es) resolved to a V_eta class; {d["classes_with_no_v_eta_class"]} did not')

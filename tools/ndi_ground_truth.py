@@ -103,6 +103,31 @@ SDIR = "src/ndi/ndi_common/schema_documents"
 # counters are.
 SCHEMA_SCAN = {"candidates": 0, "unreadable": 0, "listing_failed": False,
                "files": 0, "flat_form": 0, "json_schema_form": 0, "unparseable": 0}
+# THE SAME DEFECT, ONE FUNCTION OVER. `ndi_templates` reaches every NDI document
+# TEMPLATE through the same two fallible routes and swallowed the same way, and
+# the number it feeds is the headline `tools/gates.py` matches on:
+# `NDI classes captured: 91`. A template that could not be shown or would not
+# parse simply was not a class, so 91 would have read 90 and every downstream
+# figure -- the 102-class v1 universe, the coverage ledger, the required-ness
+# census -- would have been over a universe nobody was told had shrunk.
+#
+# `refs_tried` records the fallback chain, because origin/main -> main ->
+# worktree is not a neutral substitution: the worktree is exactly what reading
+# the ref exists to avoid, since a V_eta feature branch of NDI can lag main.
+TEMPLATE_SCAN = {"candidates": 0, "unreadable": 0, "unparseable": 0,
+                 "not_a_document_class": 0, "classes": 0,
+                 "refs_tried": [], "ref_used": None}
+# Filled by `writer_dependencies`. `m_files_scanned` was already reported (its
+# own comment says an unbelievable 5 call sites across a thousand files is what
+# the denominator exposed) -- but it counted files that CAME BACK, so an
+# unreadable one left the denominator as well as the numerator.
+WRITER_SCAN = {"candidates": 0, "unreadable": 0, "listing_failed": False,
+               "refs_tried": [], "ref_used": None}
+# Filled by `v_alpha_divergence` + `_alpha_names`. Both read schemas/V_alpha and
+# both feed a printed number (`V_alpha divergences`, `v_alpha_classes_compared`);
+# a snapshot file that will not parse used to remove itself from both.
+ALPHA_SCAN = {"candidates": 0, "unparseable": 0, "parsed": 0,
+              "cache_candidates": 0, "cache_unparseable": 0, "cache_parsed": 0}
 # Filled by _merge_schema_deps; reported in the ground-truth summary. This is
 # the denominator for the "NDI requires it, V_eta does not" census downstream:
 # every zero it can print has to be distinguishable from "the question was
@@ -205,14 +230,20 @@ def _load_ndi_json(blob):
     bounds and keeps everything else, which is the right trade for a sweep that
     only reads dependency names.
     """
+    # A LEGITIMATE FILTER, and the only one in this file that is. The failure
+    # being caught is the documented one -- `-Inf` is not JSON -- the retry is
+    # the whole point of the function, and the caller COUNTS the `None`
+    # (`SCHEMA_SCAN['unparseable']`), so nothing leaves the denominator here.
+    # Named so that an OSError or a MemoryError from a caller passing something
+    # that is not a string crashes instead of reading as "a MATLAB-ism".
     try:
         return json.loads(blob)
-    except Exception:
+    except json.JSONDecodeError:
         pass
     patched = re.sub(r"(?<![\"\w.])-?(?:Inf|NaN)(?![\"\w])", "null", blob)
     try:
         return json.loads(patched)
-    except Exception:
+    except json.JSONDecodeError:
         return None
 
 
@@ -445,44 +476,81 @@ def _merge_schema_deps(out, ndi_path, ref):
 
 def ndi_templates(ndi_path):
     """Read every NDI document template from origin/main (falling back to main,
-    then the working tree). Returns (dict, ref)."""
+    then the working tree). Returns (dict, ref).
+
+    EVERY SKIP IS COUNTED INTO `TEMPLATE_SCAN`, which `main` prints. `len(truth)`
+    is the `NDI classes captured` headline and the left-hand side of the whole
+    migration ledger; before these counters it was the SURVIVORS of three silent
+    `except Exception: continue`s, so a template that could not be shown or would
+    not parse made the v1 universe one class smaller with nothing saying so.
+    """
+    stats = TEMPLATE_SCAN
+    stats.update({"candidates": 0, "unreadable": 0, "unparseable": 0,
+                  "not_a_document_class": 0, "classes": 0,
+                  "refs_tried": [], "ref_used": None})
     for ref in ("origin/main", "main"):
         try:
             files = subprocess.run(
                 ["git", "-C", ndi_path, "ls-tree", "-r", "--name-only", ref, "--", DDIR],
                 capture_output=True, text=True, check=True).stdout.splitlines()
-        except Exception:
+        except (OSError, subprocess.CalledProcessError) as exc:
+            # NOT a neutral fallback. Dropping to `main`, and then to the
+            # working tree, is exactly the substitution reading the ref exists
+            # to prevent -- a V_eta feature branch of NDI lags main and ships
+            # FEWER classes. Recorded per ref so the report can name what it
+            # actually read rather than implying origin/main.
+            stats["refs_tried"].append(f"{ref}: {type(exc).__name__}")
             continue
         out = {}
-        for f in files:
-            if not f.endswith(".json"):
-                continue
+        wanted = [f for f in files if f.endswith(".json")]
+        stats["candidates"] = len(wanted)
+        for f in wanted:
             try:
                 blob = subprocess.run(["git", "-C", ndi_path, "show", f"{ref}:{f}"],
                                       capture_output=True, text=True, check=True).stdout
+            except (OSError, subprocess.CalledProcessError):
+                stats["unreadable"] += 1
+                continue
+            try:
                 d = json.loads(blob)
-            except Exception:
+            except json.JSONDecodeError:
+                stats["unparseable"] += 1
                 continue
             rec = _parse(d, f"{f} @{ref}")
-            if rec:
-                out[rec.pop("_class")] = rec
+            if not rec:
+                stats["not_a_document_class"] += 1
+                continue
+            out[rec.pop("_class")] = rec
         if out:
+            stats["ref_used"] = ref
+            stats["classes"] = len(out)
             return _merge_schema_deps(out, ndi_path, ref), ref
+        stats["refs_tried"].append(f"{ref}: 0 classes")
     # working-tree fallback
     out = {}
     root = os.path.join(ndi_path, DDIR)
+    paths = []
     for dirpath, _, names in os.walk(root):
-        for n in names:
-            if not n.endswith(".json"):
-                continue
-            p = os.path.join(dirpath, n)
-            try:
-                d = json.loads(Path(p).read_text())
-            except Exception:
-                continue
-            rec = _parse(d, os.path.relpath(p, ndi_path) + " @worktree")
-            if rec:
-                out[rec.pop("_class")] = rec
+        paths += [os.path.join(dirpath, n) for n in names if n.endswith(".json")]
+    stats["candidates"] = len(paths)
+    for p in paths:
+        try:
+            blob = Path(p).read_text()
+        except OSError:
+            stats["unreadable"] += 1
+            continue
+        try:
+            d = json.loads(blob)
+        except json.JSONDecodeError:
+            stats["unparseable"] += 1
+            continue
+        rec = _parse(d, os.path.relpath(p, ndi_path) + " @worktree")
+        if not rec:
+            stats["not_a_document_class"] += 1
+            continue
+        out[rec.pop("_class")] = rec
+    stats["ref_used"] = "worktree"
+    stats["classes"] = len(out)
     return _merge_schema_deps(out, ndi_path, "worktree"), "worktree"
 
 
@@ -536,20 +604,30 @@ def writer_dependencies(ndi_path, truth):
     # because its regex or its ref was wrong, which is the silentLoss failure
     # exactly. So the scan states what it looked at, unconditionally.
     scanned = {"files": 0, "call_sites": 0, "dependencies_seen": set()}
+    # ... and `files` was still the SURVIVORS. A .m file `git show` could not
+    # produce left the numerator and the denominator together, so the very
+    # figure whose implausibility caught the regex bug could itself have been
+    # quietly wrong. `candidates` is what the listing offered.
+    wscan = WRITER_SCAN
+    wscan.update({"candidates": 0, "unreadable": 0, "listing_failed": False,
+                  "refs_tried": [], "ref_used": None})
     for ref in ("origin/main", "main"):
         try:
             files = subprocess.run(
                 ["git", "-C", ndi_path, "ls-tree", "-r", "--name-only", ref],
                 capture_output=True, text=True, check=True).stdout.splitlines()
-        except Exception:
+        except (OSError, subprocess.CalledProcessError) as exc:
+            wscan["refs_tried"].append(f"{ref}: {type(exc).__name__}")
             continue
-        for f in files:
-            if not f.endswith(".m"):
-                continue
+        wanted = [f for f in files if f.endswith(".m")]
+        wscan["candidates"] += len(wanted)
+        wscan["ref_used"] = ref
+        for f in wanted:
             try:
                 blob = subprocess.run(["git", "-C", ndi_path, "show", f"{ref}:{f}"],
                                       capture_output=True, text=True, check=True).stdout
-            except Exception:
+            except (OSError, subprocess.CalledProcessError):
+                wscan["unreadable"] += 1
                 continue
             # MATLAB continues a call across lines with `...`, and the live
             # case does exactly that (openMINDSobj2ndi_document.m:82-84), so a
@@ -579,6 +657,13 @@ def writer_dependencies(ndi_path, truth):
                 hits.setdefault(name, []).append(f'{f}:{i}')
         if hits or files:
             break
+    if wscan["ref_used"] is None:
+        wscan["listing_failed"] = True
+    # The returned dict is EMBEDDED IN THE ARTIFACT, so its key set is left
+    # exactly as it was; the new candidate/unreadable counters live in
+    # `WRITER_SCAN` and are PRINTED by `main`, which is where operating rule 5
+    # asks for them. Changing an artifact's shape is a separate decision from
+    # repairing an instrument.
     return ([{"dependency": k, "declared_by_no_template": True, "writer_sites": v}
              for k, v in sorted(hits.items())],
             {"m_files_scanned": scanned["files"],
@@ -626,17 +711,25 @@ def v_alpha_divergence(truth):
     """Classes whose V_alpha snapshot disagrees with the real template. V_alpha is
     NOT authoritative -- this list exists to size the damage, not to arbitrate."""
     rows = []
+    ALPHA_SCAN.update({"candidates": 0, "unparseable": 0, "parsed": 0})
     adir = os.path.join(REPO, "schemas", "V_alpha")
     if not os.path.isdir(adir):
         return rows
     by_snake = {snake(k): k for k in truth}
-    for n in sorted(os.listdir(adir)):
-        if not n.endswith(".json"):
-            continue
+    names = [n for n in sorted(os.listdir(adir)) if n.endswith(".json")]
+    ALPHA_SCAN["candidates"] = len(names)
+    for n in names:
+        # COUNTED, because `V_alpha divergences: N` is printed and N is what
+        # this loop survives. A snapshot file that would not parse used to
+        # remove its class from the comparison entirely, and a divergence that
+        # is never computed is reported identically to a divergence that does
+        # not exist -- in the direction of "the snapshot agrees with NDI".
         try:
             d = json.loads(Path(os.path.join(adir, n)).read_text())
-        except Exception:
+        except (OSError, json.JSONDecodeError):
+            ALPHA_SCAN["unparseable"] += 1
             continue
+        ALPHA_SCAN["parsed"] += 1
         cn = d.get("_classname") or n[:-5]
         key = by_snake.get(snake(cn))
         if not key:
@@ -827,7 +920,14 @@ def classify_divergence(ndi_path, ref, truth, div):
                            "why": f"no property block at first version ({when})"}
                 continue
             ff = {snake(k) for k in blk}
-        except Exception:
+        except (json.JSONDecodeError, AttributeError):
+            # A LEGITIMATE FILTER. Nothing leaves a denominator: the row is
+            # WRITTEN, with its reason, into the same `out` map every other row
+            # goes into, counted in the printed `UNKNOWN` tally and carried into
+            # the artifact's `provenance` block. `sh` runs with check=False and
+            # returns "" when git cannot show the blob, so JSONDecodeError is
+            # the failure; AttributeError is a first version that parsed to a
+            # list rather than an object.
             out[cn] = {"verdict": "UNKNOWN", "why": "unparseable first version"}
             continue
         out[cn] = {
@@ -847,16 +947,22 @@ def _alpha_names(ndi_class):
     if not _ALPHA_CACHE:
         adir = os.path.join(REPO, "schemas", "V_alpha")
         if os.path.isdir(adir):
-            for n in os.listdir(adir):
-                if not n.endswith(".json"):
-                    continue
+            names = [n for n in os.listdir(adir) if n.endswith(".json")]
+            ALPHA_SCAN["cache_candidates"] = len(names)
+            for n in names:
+                # COUNTED for the same reason as `v_alpha_divergence`: this
+                # cache is what `v_alpha_classes_compared` is summed from, so a
+                # file that will not parse subtracts a class from the number
+                # that says how much was compared.
                 try:
                     d = json.loads(Path(os.path.join(adir, n)).read_text())
-                except Exception:
+                except (OSError, json.JSONDecodeError):
+                    ALPHA_SCAN["cache_unparseable"] += 1
                     continue
                 cn = d.get("_classname") or n[:-5]
                 _ALPHA_CACHE[snake(cn)] = {
                     snake(f["_name"]) for f in d.get("_fields", []) if f.get("_name")}
+            ALPHA_SCAN["cache_parsed"] = len(_ALPHA_CACHE)
     return _ALPHA_CACHE.get(snake(ndi_class), set())
 
 
@@ -867,6 +973,21 @@ def main():
     a = ap.parse_args()
 
     if not os.path.isdir(a.ndi):
+        # RULE 5 HOLDS ON THE PATH WHERE IT IS LEAST CONVENIENT, or it is not a
+        # rule. This exit used to write one line to stderr and print no counter
+        # at all, so a run that read NOTHING left no record of WHAT it did not
+        # read -- and `tools/gates.py` then reports the step NOT RUNNABLE HERE,
+        # which is honest about the step and silent about the scans. It is the
+        # same distinction as `listing_failed`, one level further out: "could
+        # not ask" and "asked and got zero" must not render the same.
+        print("NDI TEMPLATE + SCHEMA DOCUMENT SCAN")
+        print(f"  *** NO NDI-matlab AT {a.ndi} -- NOTHING WAS READ.")
+        print("  *** This is NOT 'NDI ships no templates or schema documents'.")
+        print("  *** Pass --ndi, or set NDI_MATLAB_PATH.")
+        print("  DENOMINATOR: 0 candidate template(s) on none, 0 class(es) "
+              "captured, 0 UNREADABLE, 0 unparseable, 0 not a document class")
+        print("  DENOMINATOR: 0 candidate schema document(s), 0 read, "
+              "0 UNREADABLE, 0 unparseable")
         sys.exit(f"NDI-matlab not found at {a.ndi} (pass --ndi)")
 
     truth, ref = ndi_templates(a.ndi)
@@ -917,9 +1038,52 @@ def main():
 
     print(f"ndi ref:                {ref}")
     print(f'NDI classes captured:   {len(truth)}')
+    # THE HEADLINE'S OWN DENOMINATOR, printed immediately under it and
+    # unconditionally. `NDI classes captured` is what tools/gates.py matches on
+    # and what the 102-class v1 universe is built from, and until 2026-08-11 it
+    # was the SURVIVORS of three `except Exception: continue`s inside
+    # `ndi_templates`. `candidates` is what the ref offered; a template that
+    # could not be shown or would not parse now shows here instead of making the
+    # universe one class smaller in silence.
+    ts = TEMPLATE_SCAN
+    print(f'  DENOMINATOR: {ts["candidates"]} candidate template(s) on {ts["ref_used"]}, '
+          f'{ts["classes"]} class(es) captured, {ts["unreadable"]} UNREADABLE, '
+          f'{ts["unparseable"]} unparseable, '
+          f'{ts["not_a_document_class"]} not a document class')
+    if ts["refs_tried"]:
+        print("  *** FELL BACK: " + "; ".join(ts["refs_tried"])
+              + f" -- read {ts['ref_used']} instead. A lagging branch or the "
+                "working tree ships FEWER classes than origin/main.")
+    if ts["unreadable"] or ts["unparseable"]:
+        print("  *** SOME CANDIDATES WERE NOT CAPTURED. Every figure below, and "
+              "the coverage ledger downstream, is over the survivors.")
     print(f'V_alpha divergences:    {len(div)}')
+    # The V_alpha snapshot is read twice (the divergence pass and the
+    # `_alpha_names` cache) and BOTH feed a reported number, so both state what
+    # they read. An unparseable snapshot file used to remove its class from the
+    # comparison, and a divergence never computed printed the same as a
+    # divergence that does not exist.
+    als = ALPHA_SCAN
+    print(f'  DENOMINATOR: {als["candidates"]} V_alpha snapshot file(s), '
+          f'{als["parsed"]} parsed, {als["unparseable"]} UNPARSEABLE '
+          f'(vocabulary cache: {als["cache_candidates"]} candidate(s), '
+          f'{als["cache_parsed"]} parsed, {als["cache_unparseable"]} UNPARSEABLE)')
     print(f'migrator suspects:      {len(reads)}')
     print(f'writer divergences:     {len(WRITER_DIVERGENCE)} (hand-recorded)')
+    # The .m sweep already reported `m_files_scanned` -- its own comment says an
+    # implausible 5 call sites across a thousand files is what exposed the regex
+    # bug -- but that count was the files that CAME BACK. `candidates` is what
+    # the listing offered, so the number the sweep is judged against can no
+    # longer shrink to fit.
+    ws = WRITER_SCAN
+    print(f'  DENOMINATOR: {ws["candidates"]} candidate .m file(s) on {ws["ref_used"]}, '
+          f'{wscan["m_files_scanned"]} scanned, {ws["unreadable"]} UNREADABLE, '
+          f'{wscan["dependency_call_sites"]} dependency call site(s)')
+    if ws["listing_failed"]:
+        print("  *** NO REF COULD BE LISTED -- the sweep read nothing. This is "
+              "NOT 'no writer sets an undeclared dependency'.")
+    elif ws["refs_tried"]:
+        print("  *** FELL BACK: " + "; ".join(ws["refs_tried"]))
     pc = {v: sum(1 for r in div if r["provenance"]["verdict"] == v)
           for v in ("DID-INVENTED", "NDI-CHANGED", "UNKNOWN")}
     print(f'divergence provenance:  DID-INVENTED {pc["DID-INVENTED"]} | NDI-CHANGED {pc["NDI-CHANGED"]} | UNKNOWN {pc["UNKNOWN"]}')
