@@ -724,7 +724,21 @@ def family_prose_vs_signoff(built_classes):
     return out
 
 
-def batch_consumers(classes):
+def batch_evidence_line(hits):
+    """One MEASURED / REUSED / NONE line for the evidence log."""
+    if hits.get("reused"):
+        return ("batch post-pass evidence: REUSED from the committed snapshot "
+                "(%d file(s) when last measured); not read in this run -- %s"
+                % (hits["files_scanned"], ", ".join(hits["roots_missing"])))
+    if hits["files_scanned"]:
+        return ("batch post-pass evidence: MEASURED -- %d file(s) under "
+                "`+did2/+convert`" % hits["files_scanned"])
+    return ("batch post-pass evidence: NONE -- 0 file(s) read and no usable "
+            "snapshot (%s). Every 'passes through' row is UNMEASURED, not clean."
+            % (", ".join(hits["roots_missing"]) or "no root given"))
+
+
+def batch_consumers(classes, didm):
     """Which BATCH POST-PASSES name each of `classes`, by bare quoted literal.
 
     WHY IT EXISTS. The ledger's `migrator` column means one thing only: a file
@@ -747,13 +761,41 @@ def batch_consumers(classes):
     finds nothing because `markgarbage` uses `session.newdocument`), so a search
     keyed on one call shape reports absence that is a property of the query.
 
-    Returns {"files_scanned": n, "roots_missing": [...], "by_class": {cls: [files]}}.
+    Returns {"files_scanned": n, "roots_missing": [...], "by_class": {cls: [files]},
+             "reused": bool}.
+
+    IT REACHED PAST `--did` AND THAT MADE THE BOARD PERMANENTLY STALE ON A
+    RUNNER. Until 2026-08-11 this called `find_repo` directly, so the `--did`
+    the rest of the tool honours was ignored -- which is why pointing both
+    siblings at a path that does not exist reproduced NOTHING locally while CI
+    reported `V_eta_STATUS.md DIFFERS -- 4 changed line(s)` on three
+    consecutive runs. The local "reproduction" was quietly reading the real
+    DID-matlab.
+
+    The second half is worse than a wrong path. Every other figure on the board
+    falls back to the committed snapshot when the sibling is absent, and this
+    one did not: it rendered `0 batch post-pass file(s)` against a committed
+    `10`, so the artifact could NEVER be current on a machine without
+    DID-matlab. A generated file that is unconditionally stale in CI is a gate
+    that fails every run, which is a gate people stop reading -- the same cost
+    as `0f34485` earlier the same day.
+
+    So the snapshot is now the fallback here too, and it is ANNOUNCED
+    (`reused`) rather than passed off as a measurement.
     """
-    didm = find_repo("DID-matlab", "DID_MATLAB")
     base = os.path.join(didm or "", "src/did/+did2/+convert")
-    out = {"files_scanned": 0, "roots_missing": [], "by_class": {}}
+    out = {"files_scanned": 0, "roots_missing": [], "by_class": {}, "reused": False}
     if not didm or not os.path.isdir(base):
-        out["roots_missing"].append(base or "DID-matlab (not found)")
+        out["roots_missing"].append(base or "DID-matlab (not given)")
+        prior = (committed_snapshot().get("sources", {}) or {}).get("batch_consumers")
+        if prior and not prior.get("reused"):
+            # Only a MEASURED snapshot is worth reusing. Reusing a reused one
+            # would let a single sibling-less run freeze the figure forever
+            # with nothing in the output saying when it was last real.
+            out["files_scanned"] = prior.get("files_scanned", 0)
+            out["by_class"] = {c: v for c, v in (prior.get("by_class") or {}).items()
+                               if c in set(classes)}
+            out["reused"] = True
         return out
     # The per-class migrator packages are excluded: a hit there is the
     # `migrator` column's business and would double-count. `universalRenames`
@@ -2437,7 +2479,14 @@ def open_class_names(schemas):
             if s.get("disposition") == "in_progress"}
 
 
-def build(ocs=None):
+def build(ocs=None, didm=None, log=None):
+    # `didm` and `log` are passed rather than discovered: the batch
+    # post-pass sweep runs HERE and nowhere else, and reaching for
+    # `find_repo` inside it is what let it ignore `--did` and render a
+    # figure no sibling-less machine could ever reproduce. Neither value
+    # may enter `ocs`: everything under `ocs["sources"]` is serialised
+    # into V_eta_decisions.json, and an absolute checkout path there
+    # would make the artifact differ between every machine that writes it.
     schemas, rows = load()
 
     # RETIRE IS NOT ALWAYS A DECISION. A row marked retire with NO migrator and NO
@@ -2966,7 +3015,21 @@ def build(ocs=None):
     if unplanned_retire:
         # MEASURED, NOT ASSUMED -- and it caught one immediately. See the note
         # under the heading below.
-        batch_hits = batch_consumers(unplanned_retire)
+        batch_hits = batch_consumers(unplanned_retire, didm)
+        if log is not None:
+            log.append(batch_evidence_line(batch_hits))
+        if ocs is not None:
+            # NORMALISED before it is stashed, and stashed BEFORE
+            # `decisions_text(ocs)` runs so the snapshot is written by the
+            # same pass that took the measurement. `reused` and
+            # `roots_missing` are DELIBERATELY not persisted -- they
+            # describe the RUN, not the finding, and writing them made
+            # V_eta_decisions.json itself differ between a machine with
+            # DID-matlab and one without, moving the staleness one file
+            # sideways instead of removing it.
+            ocs.setdefault("sources", {})["batch_consumers"] = {
+                "files_scanned": batch_hits["files_scanned"],
+                "by_class": batch_hits["by_class"]}
         p("### `retire`, but NO MIGRATOR YET -- %d rows" % len(unplanned_retire))
         p("")
         p("Marked `retire` in the ledger with **no per-class migrator and no `how`")
@@ -2993,6 +3056,13 @@ def build(ocs=None):
         p("DENOMINATOR: %d row(s), each searched for its BARE CLASS NAME as a "
           "quoted literal in %d batch post-pass file(s) under `+did2/+convert` "
           "(comments stripped)%s."
+          # THE REUSE NOTICE GOES TO STDOUT, NOT INTO THE ARTIFACT. Writing
+          # "REUSED" here was tried first and is self-defeating: the rendered
+          # file would then differ between a machine with DID-matlab and one
+          # without, which is precisely the staleness the fallback exists to
+          # remove. Every other evidence half already reports MEASURED/REUSED
+          # on the evidence log for the same reason -- the artifact records
+          # what is true, the run records how it was learned.
           % (len(unplanned_retire), batch_hits["files_scanned"],
              "" if batch_hits["files_scanned"]
              else " -- ZERO FILES READ, so every 'passes through' below is "
@@ -3167,7 +3237,7 @@ def main(argv):
     log = []
     ocs = gather_evidence(open_class_names(schemas), schemas, rows, args, log)
 
-    text, ok = build(ocs)
+    text, ok = build(ocs, didm=args.did, log=log)
     dtext = decisions_text(ocs)
 
     print("status board evidence:")
