@@ -171,6 +171,32 @@ def test_a_step_needing_a_sibling_checkout_names_it_in_its_own_source():
                 % (s.name, sib, src))
 
 
+def test_every_step_is_told_the_same_sibling_answer():
+    """One resolution for the whole chain, in all four spellings the tools use.
+
+    Not hypothetical. Run the chain from a checkout that is not beside
+    DID-matlab and check_tombstones.py -- which consults only $DID_MATLAB then
+    ../DID-matlab -- grades all 66 tombstones as passthroughs and reports
+    BLOCKING 6, while the driver's own header says the sibling was found. It
+    happened on the first full-chain run here: 6 with the fallback, 0 once the
+    resolved path was passed down. A gate that fails on where the repository
+    happens to sit is a red build with a true-looking cause."""
+    env = g.child_env()
+    for var in ("NDI_MATLAB", "NDI_MATLAB_PATH", "DID_MATLAB", "DID_MATLAB_PATH"):
+        assert var in env, "child steps are not told %s" % var
+    assert env["NDI_MATLAB"] == env["NDI_MATLAB_PATH"]
+    assert env["DID_MATLAB"] == env["DID_MATLAB_PATH"]
+    for name, var in (("NDI-matlab", "NDI_MATLAB"), ("DID-matlab", "DID_MATLAB")):
+        resolved = g.SIBLINGS.get(name)
+        if resolved:
+            assert env[var] == resolved
+        else:
+            # absent must be SAID, not left to a child's own default
+            assert not os.path.isdir(env[var]), (
+                "%s is absent to the driver but %s points somewhere real"
+                % (name, var))
+
+
 # --------------------------------------------------------------------------
 # 2. a failing step produces a non-zero exit
 # --------------------------------------------------------------------------

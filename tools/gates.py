@@ -100,6 +100,33 @@ def find_repo(name, env):
 SIBLINGS = {"NDI-matlab": find_repo("NDI-matlab", "NDI_MATLAB"),
             "DID-matlab": find_repo("DID-matlab", "DID_MATLAB")}
 
+# A path that cannot exist, used to say "absent" to a child in the one language
+# every one of these tools understands.
+_NO_SIBLING = os.path.join(REPO, ".gates-no-such-sibling")
+
+
+def child_env():
+    """One sibling answer for the whole chain.
+
+    The tools do not resolve siblings the same way, and the difference is not
+    academic: check_tombstones.py looks ONLY at $DID_MATLAB then ../DID-matlab,
+    while coverage.py and status_board.py also try /home/user. Run the chain
+    from a checkout that is not beside DID-matlab and check_tombstones reports
+    BLOCKING 6 -- every tombstone graded as a passthrough because it found no
+    migrators -- while the driver's own header says the sibling was found. A
+    gate that fails on where the repository happens to sit is worse than no
+    gate: it is a red build with a true-looking cause.
+
+    So the driver resolves ONCE and tells every child, in all four spellings,
+    including when the answer is "absent" -- otherwise a child falls back to a
+    default the driver already rejected and the two disagree again."""
+    env = dict(os.environ)
+    for name, var in (("NDI-matlab", "NDI_MATLAB"), ("DID-matlab", "DID_MATLAB")):
+        p = SIBLINGS.get(name) or _NO_SIBLING
+        env[var] = p
+        env[var + "_PATH"] = p
+    return env
+
 
 class Step:
     def __init__(self, name, argv, kind, headline, headline_label,
@@ -402,7 +429,8 @@ DEPENDENTS = _dependents()
 def run_step(step, cwd):
     t0 = time.time()
     try:
-        p = subprocess.run(step.argv, cwd=cwd, capture_output=True, text=True)
+        p = subprocess.run(step.argv, cwd=cwd, capture_output=True, text=True,
+                           env=child_env())
         out = (p.stdout or "") + (p.stderr or "")
         rc = p.returncode
     except FileNotFoundError as exc:
@@ -683,7 +711,8 @@ def main(argv=None):
         print("DENOMINATOR: %d step(s) ship a --check of their own; %d run here"
               % (len([s for s in steps if s.check_argv]), len(composed)))
         for s in composed:
-            p = subprocess.run(s.check_argv, cwd=REPO, capture_output=True, text=True)
+            p = subprocess.run(s.check_argv, cwd=REPO, capture_output=True,
+                               text=True, env=child_env())
             print("  %-42s exit=%d" % (s.name + " --check", p.returncode))
             if p.returncode != 0:
                 for ln in (p.stdout + p.stderr).strip().splitlines()[-6:]:
