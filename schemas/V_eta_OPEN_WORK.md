@@ -1788,3 +1788,64 @@ the rest is bad (closed world), a spreadsheet flags the bad and says nothing abo
 (open world). That difference is what the gap question is. `ontology_table_row.m:470-490`
 already refuses logical columns for want of a boolean leaf ("a logical wants a boolean leaf"),
 so the second source is real and currently unmigrated.
+
+---
+
+## OPEN — a pre-`base` v1 document cannot migrate, and the branch that handles it is empty
+
+Found 2026-08-11 while auditing `projectvar`. **It is not a `projectvar` problem — it is every class.**
+
+**THE SHAPES, read from NDI `origin/main` history rather than described:**
+
+        ndi_document.json, added 4f1a2b801 (2019-05-05), block `ndi_document`:
+          experiment_unique_reference, document_unique_reference,
+          name, type, datestamp, database_version          <- SIX
+        base.json, at 5270ed62c^ and since, block `base`:
+          id, session_id, name, datestamp                  <- FOUR
+        V_eta base.json:
+          id, session_id, name, datestamp                  <- the same FOUR
+
+**THE BRANCH**, `DID-matlab/src/did/+did2/+convert/universalRenames.m:113-119`, whose own
+header says it exists for exactly this ("pre-base v1 documents carried document-identity
+fields under `ndi_document` rather than `base`"):
+
+        if isfield(postBody, 'ndi_document')
+            if isfield(postBody, 'base')
+                postBody = rmfield(postBody, 'ndi_document');   % both: base wins
+            else
+                postBody.base = postBody.ndi_document;          % MOVED WHOLESALE
+                postBody = rmfield(postBody, 'ndi_document');
+            end
+        end
+
+**SO A PRE-`base` DOCUMENT MIGRATES INTO A `base` BLOCK THAT IS WRONG IN BOTH DIRECTIONS:**
+
+        FOUR UNDECLARED fields   experiment_unique_reference, document_unique_reference,
+                                 type, database_version
+        TWO REQUIRED fields MISSING   id, session_id  -- the 2019 block has neither
+
+`undeclaredField` is a hard error (`+did2/+schema/cache.m:744`), so such a document
+QUARANTINES; and even if it did not, it would carry no identity. **The wholesale move is a
+no-op dressed as handling** — it renames the container and does nothing to the contents, on the
+one code path that exists precisely because the contents differ.
+
+**WHAT IS MECHANICAL AND WHAT NEEDS A DECISION.** Two of the four look like pure renames and
+are evidence-backed rather than guessed — `experiment_unique_reference` and
+`document_unique_reference` are the 2019 names for what became `session_id` and `id`, which is
+why the new block has exactly the other two fields plus them. **VERIFY THAT AGAINST A WRITER
+BEFORE BUILDING IT**; it is an inference from field-set arithmetic, not a read of code that
+does the rename. `type` and `database_version` have NO home in V_eta `base` and need one, or an
+explicit drop with a counter — the same shape as the `generic_file` timestamps decided today.
+
+**HOW BIG IS IT? UNMEASURED, AND THE ONLY BOUND WE HAVE IS A SAMPLE.** Corpus run 31464483119:
+**633,432 documents inspected across 6 corpora, quarantined 0.** So no pre-`base` document is
+in any corpus we hold. Per the standing rule that is a fact about the sample and NOT evidence
+none exist — and a 2019-era NDI database is precisely the kind of thing this migration is for.
+The cheap measurement is a counter on that branch: how many bodies take the `no base` arm.
+Nothing counts it today, so a real one would quarantine with no line saying why.
+
+**A CORRECTION TO THE REPORT THAT SURFACED THIS.** The audit described the old block as
+`id, session_id, name, type, datestamp, database_version` — two of those six are wrong, and the
+error understates the problem: the 2019 block has no `id` and no `session_id` at all, so the
+exposure is four undeclared fields PLUS two missing required ones, not two undeclared fields on
+an otherwise sound block.
