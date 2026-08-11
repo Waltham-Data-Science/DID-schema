@@ -2564,13 +2564,23 @@ def build(ocs=None):
             p("")
         if unseen:
             # "no target recorded" splits two ways and the split is the point.
-            # `epochid` and `ngrid` DISSOLVE -- naming no target is the correct
-            # and final answer for them. `filter`, `binaryseries_parameters`,
-            # `stimulus_presentation` and `epochfiles_ingested` each have a
-            # target fixed in a signed plan that the ledger never recorded.
-            # Rendering both as a blank cell makes a settled decision and a
-            # missing record look identical, which is how a decided model gets
-            # re-litigated.
+            # A class that DISSOLVES correctly names no target -- `epochid` is
+            # dropped outright ("epochid DROPPED", this file's own epoch row).
+            # A class whose target is fixed in a signed plan but was never
+            # written into the ledger is a GAP: `ngrid` -> `sampled_body`,
+            # `filter` -> `frequency_filter`, `binaryseries_parameters` ->
+            # `sampled_body`. Rendering both as a blank cell makes a settled
+            # decision and a missing record look identical, which is how a
+            # decided model gets re-litigated.
+            #
+            # CORRECTED 2026-08-11, SAME DAY AS WRITTEN. The first version of
+            # this comment cited "`epochid` and `ngrid`" as the dissolutions.
+            # `ngrid` is not one: the image/ngrid row three sections down says
+            # "ngrid phases into sampled_body", which is a FOLD WITH A TARGET.
+            # It is the misfiling this comment exists to warn about, committed
+            # inside the warning itself -- and in the reassuring direction,
+            # because a fold misread as a dissolution is a target nobody will
+            # look for again.
             p("**The other %d are unchecked, NOT clean.** No member of these "
               "families carries a `decided_targets` entry in the coverage "
               "ledger, so nothing above says anything about them:"
@@ -2580,12 +2590,18 @@ def build(ocs=None):
                 p("- **%s**" % name)
             p("")
             p("A blank entry has two very different causes and the ledger does")
-            p("not distinguish them: the family DISSOLVES and naming no target")
-            p("is the final answer (`epochid`, `ngrid`), or the target is fixed")
-            p("in a signed plan and was never written down (`filter` ->")
-            p("`frequency_filter`, `binaryseries_parameters` -> `sampled_body`).")
-            p("Only the second kind is a gap, and telling them apart needs the")
-            p("ledger to record dissolution explicitly rather than by omission.")
+            p("not distinguish them. The class DISSOLVES, so naming no target")
+            p("is the final answer -- `epochid`, which is dropped outright. Or")
+            p("its target is fixed in a signed plan and was never written down")
+            p("-- `ngrid` -> `sampled_body`, `filter` -> `frequency_filter`,")
+            p("`binaryseries_parameters` -> `sampled_body`. Only the second is")
+            p("a gap, and telling them apart needs the ledger to record")
+            p("dissolution explicitly rather than by omission.")
+            p("")
+            p("(`ngrid` sat on the wrong side of that sentence for one commit,")
+            p("cited as a dissolution while the image/ngrid row below says it")
+            p("phases into `sampled_body`. A fold misread as a dissolution is a")
+            p("target nobody goes looking for again.)")
     p("")
     p("Every one of these re-targets migrators that are already written, which")
     p("is why migrator work before the target closes is rework.")

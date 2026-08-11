@@ -354,12 +354,18 @@ queue for schema.
 - **misc singletons**
 
 A blank entry has two very different causes and the ledger does
-not distinguish them: the family DISSOLVES and naming no target
-is the final answer (`epochid`, `ngrid`), or the target is fixed
-in a signed plan and was never written down (`filter` ->
-`frequency_filter`, `binaryseries_parameters` -> `sampled_body`).
-Only the second kind is a gap, and telling them apart needs the
-ledger to record dissolution explicitly rather than by omission.
+not distinguish them. The class DISSOLVES, so naming no target
+is the final answer -- `epochid`, which is dropped outright. Or
+its target is fixed in a signed plan and was never written down
+-- `ngrid` -> `sampled_body`, `filter` -> `frequency_filter`,
+`binaryseries_parameters` -> `sampled_body`. Only the second is
+a gap, and telling them apart needs the ledger to record
+dissolution explicitly rather than by omission.
+
+(`ngrid` sat on the wrong side of that sentence for one commit,
+cited as a dissolution while the image/ngrid row below says it
+phases into `sampled_body`. A fold misread as a dissolution is a
+target nobody goes looking for again.)
 
 Every one of these re-targets migrators that are already written, which
 is why migrator work before the target closes is rework.
