@@ -1289,3 +1289,71 @@ decision.
 
 **Neither decision carries a `TEAM-SIGN-OFF` line written by Claude.** The board will keep
 rendering these families as awaiting review until the team writes one.
+
+---
+
+## TEAM DECISION 2026-08-11 — `generic_file` folds to `opaque_body` + a `subject_statement`
+
+Team, jess@walthamdatascience.com, 2026-08-11, verbatim: **"opaque_body + a subject_statement
+whose variable comes from that sibling label — 'subject S has a plasmid map, here are the
+bytes.' Is the correct way"** — option (a) of the two put to the team. Option (b) (bytes hung
+directly off the subject, `format_ontology` as its own descriptor, semantic type lost) is
+REJECTED.
+
+**THE JOIN IS A CHAIN, AND IT IS VERIFIED, NOT ASSUMED.** Read from the writer,
+`+setup/+conv/+babu/import.m` on NDI `origin/main`:
+
+        ontologyLabel --document_id--> generic_file --document_id--> subject_group
+          :534 / :584                    :531 / :581
+
+        plasmid   label ontologyNode EDAM:data_1286   file formatOntology EMPTY:0000253
+        LCMS      label ontologyNode EDAM:data_2536   file formatOntology EDAM:format_3620
+
+The label says WHAT THE DATA IS; `formatOntology` says HOW IT IS ENCODED. Those are exactly
+`variable` and `format` in V_eta, so the decision is not a mapping invented for this class —
+it is the two facts NDI already stores, landing in the two slots that already exist.
+
+**TWO CORRECTIONS TO THE RECORD, both of which made this EASIER than it was written up.**
+
+1. **THERE IS NO NAME COLLISION.** `CLAUDE.md` says "V_eta already folded a `generic_file`
+   concept into `opaque_body`, so the class name is taken — reconcile before building." Nothing
+   in V_eta is named `generic_file` except the tombstone. What existed was a test asserting
+   `"generic_file" not in RECORDS`, which was TRUE and was PINNING THE STRANDING: the fold it
+   named was never built (0 of 82 `migrators_j` entries match `generic|valid`), so "dissolves
+   into opaque_body" described an intention and the test made the intention indistinguishable
+   from the outcome. Already inverted in `tests/test_veta.py`.
+
+2. **`ontology_label` NO LONGER DISCARDS `document_id`.** The recorded loss was real and is
+   FIXED — `ontology_label.m` became a guarded passthrough (commit `5d22f22`), so the edge that
+   is the ONLY join back to the labelled document survives migration. Option (a) was put to the
+   team with the caveat that it "cannot complete until that edge is preserved". That caveat is
+   already satisfied and should not be re-raised.
+
+**NOTHING REFERENCES `generic_file` BY ID.**
+
+        DENOMINATOR: 91 NDI templates on origin/main, 1002 .m files searched
+        NDI templates declaring generic_file_id or valid_interval_id     0
+        DID-matlab migrator references to either id                      0
+
+Found by query, never by edge. So a decompose cannot strand a referent — the opposite of the
+calculator dissolution, which changed ids and produced 11,448 orphans in Soph.
+
+**IT IS A DID-SIDE BATCH PASS, NOT A SINGLE-DOCUMENT MIGRATOR.** The `variable` lives in a
+DIFFERENT DOCUMENT, so no per-document migrator can reach it. Everything needed —
+`generic_file`, its `ontologyLabel`, the subject group — is already in the migrated batch, which
+is the standing criterion for DID-side rather than an NDI second pass. The file bytes are never
+read; only the declaration is carried.
+
+**THE ONE REMAINING BLOCKER IS ONE FIELD.** `opaque_body` has `format`, `filename` and
+`description` and NO `content_hash`, so folding today would DROP the MD5 the writer computes
+(`ndi.fun.file.MD5`). `content_hash` is part of the already-signed `data_body` model. The
+existing test asserts the absence, so the day `opaque_body` gains the field the suite says so
+and this fold unblocks.
+
+**STILL OPEN, NOT DECIDED HERE:** `valid_interval` — 1→N (one statement per interval, each with
+its two `relative_reference` documents per the time model's decision C) versus keeping the
+inline array on one statement. Put to the team at the same time; only `generic_file` was
+answered.
+
+**No `TEAM-SIGN-OFF` line is written by Claude.** The board keeps rendering this family as
+awaiting review until the team writes one.
