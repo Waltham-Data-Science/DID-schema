@@ -2226,3 +2226,163 @@ def test_the_epoch_id_edge_is_spelled_the_same_way_everywhere():
         assert d["must_refer_to_document_class"] == "epoch", (
             "%s.epoch_id must point at the minted `epoch` entity, not %r"
             % (name, d["must_refer_to_document_class"]))
+
+
+# ---------------------------------------------------------------------------
+# #29 -- the ensemble model (TEAM-SIGN-OFF [ensemble], jess, 2026-08-06)
+# ---------------------------------------------------------------------------
+
+def _ndi_ground_truth():
+    with open(os.path.join(REPO_ROOT, "schemas",
+                           "V_eta_ndi_ground_truth.json")) as fh:
+        return json.load(fh)
+
+
+def test_ensemble_declares_the_neuron_roster_it_carries():
+    """The roster lives on EDGES, and the tombstone has to say so.
+
+    `V_eta_ensemble_plan.md` migration-constraint 1 originally said the neuron
+    ids lived only inside `neuron_names.txt`, so `member_of` needed file-byte
+    access and therefore the NDI second pass. That premise is WRONG and the plan
+    now records the correction: the ids are `depends_on` edges written in column
+    order by the same loop that writes the names
+    (+ndi/+element/ensemble.m:274-276, `add_dependency_value_n`), and NDI's own
+    `ensemble_schema.json` declares `neuron_id` with `"mustbenotempty": 0`.
+
+    It survived because the TEMPLATE declares only `element_id` and
+    `element_epoch_id` -- `neuron_id` appears in the SCHEMA and the WRITER only.
+    That is the ground-truth rule (*where template and writer disagree, the
+    writer wins*) firing inside NDI's own pair.
+
+    `ensemble` is a PASSTHROUGH, so this tombstone is the only thing standing
+    between a real map document and a quarantine, and an undeclared edge passes
+    through SILENTLY: `+did2/+schema/cache.m` allows `depends_on` wholesale and
+    never checks individual dependency names. Silence is the shape that let six
+    classes reach 100% empty required edges.
+
+    A `_#` FAMILY, not a bare `neuron_id`: `add_dependency_value_n` appends
+    `neuron_id_1`, `neuron_id_2`, ..., so the suffix index IS the column index
+    the signed model asks `member_of` to carry.
+    """
+    deps = {d["name"]: d for d in RECORDS["ensemble"][1]["depends_on"]}
+    assert "neuron_id_#" in deps, (
+        "ensemble must declare the neuron roster as a numbered family; "
+        "declared: %r" % (sorted(deps),))
+    assert "neuron_id" not in deps, (
+        "a bare `neuron_id` does not match what a document carries "
+        "(`neuron_id_1`, `neuron_id_2`, ...)")
+    nid = deps["neuron_id_#"]
+    assert nid["must_refer_to_document_class"] == "subject", (
+        "a neuron is an element, and migrators_j.element promotes an element to "
+        "a subject with its id PRESERVED, so the stored id still resolves")
+    # NDI says "mustbenotempty": 0. Tightening it would be a NEW required edge
+    # on a passthrough class -- the invented-empty-edge pattern under a new name.
+    assert nid["min_count"] == 0
+    assert nid["mustBeNonEmpty"] is False
+
+
+def test_ensemble_declares_ndis_own_file_name_not_a_snake_cased_one():
+    """`neuron_names.txt` verbatim -- the `image_stack` shape, caught before it shipped.
+
+    A passed-through document reaches validation still carrying NDI's spelling:
+    `universalRenames.m:308` skips the structural keys outright
+    (`skip = {'document_class','depends_on','file','files'}`), and
+    `did2.validate.fileList` compares by exact `strcmp` (fileList.m:93,99).
+    `image_stack` was restated with `imagestack_file` against NDI's `imageStack`
+    and declared a file no document has while the file every document has went
+    undeclared -- both directions of the audit at once, on every JH document.
+
+    A file divergence never quarantines, which is exactly why it is dangerous:
+    the payload is stranded or unfindable while every gate stays green.
+    """
+    files = [f["name"] for f in RECORDS["ensemble"][1].get("file", [])]
+    assert files == ["neuron_names.txt"], (
+        "ensemble carries NDI's `neuron_names.txt` (+ndi/+element/ensemble.m:277 "
+        "attaches it, and both halves of NDI's pair declare it); got %r" % (files,))
+
+
+def test_ensemble_tombstone_matches_the_ndi_ground_truth_artifact():
+    """Denominator-first: compare the whole declaration, not the two fields we fixed.
+
+    The generated `V_eta_ndi_ground_truth.json` is the artifact; this test is
+    prose about it, so the artifact wins when they disagree. Comparing the FULL
+    surface is the point -- fixing the two rows a checker happened to name, and
+    asserting only those, is how a restatement drifts on its third field.
+
+    Numbered families are compared by their base name (`neuron_id_#` satisfies
+    NDI's `neuron_id`), exactly as `tools/check_tombstones.py:_defamily` does.
+    """
+    gt = _ndi_ground_truth()["classes"]["ensemble"]
+    rec = RECORDS["ensemble"][1]
+
+    def defamily(n):
+        return n[:-2] if n.endswith("_#") else n
+
+    ours_deps = {defamily(d["name"]) for d in rec["depends_on"]}
+    ours_fields = {f["name"] for f in rec["fields"]}
+    ours_files = {f["name"] for f in rec.get("file", [])}
+    ours_supers = [s["class_name"]
+                   for s in rec["document_class"]["superclasses"]]
+
+    # denominator, stated before any verdict
+    assert len(gt["depends_on"]) == 3 and len(gt["fields"]) == 5, (
+        "the ground truth for `ensemble` changed shape (%d dep(s), %d field(s)) "
+        "-- re-read NDI before trusting this comparison"
+        % (len(gt["depends_on"]), len(gt["fields"])))
+
+    assert set(gt["depends_on"]) <= ours_deps, (
+        "real dependencies with nowhere to land: %r"
+        % sorted(set(gt["depends_on"]) - ours_deps))
+    assert set(gt["fields"]) <= ours_fields, (
+        "real fields with nowhere to land: %r"
+        % sorted(set(gt["fields"]) - ours_fields))
+    assert set(gt["files"]) <= ours_files, (
+        "real files the tombstone does not declare: %r"
+        % sorted(set(gt["files"]) - ours_files))
+    assert ours_supers == gt["superclasses"], (
+        "superclass chain diverges from NDI: %r vs %r"
+        % (ours_supers, gt["superclasses"]))
+
+
+def test_ensemble_pass_one_mints_no_membership_edge():
+    """Pass 1 must not fake what only the second pass can resolve.
+
+    The signed model's `member_of` / `derived_from` edges are
+    `directed_relation` DOCUMENTS minted by
+    `ndi.migrate.internal.ensembleMembership`, not fields of this class. If they
+    ever appeared on the `ensemble` tombstone they would be edges pass 1 cannot
+    fill, and #37's `strictMode('RequiredDependencies')` is ARMED -- an empty
+    required edge now quarantines rather than passing silently.
+
+    The slots the second pass needs live on `directed_relation` and are asserted
+    by `test_directed_relation_has_an_optional_epoch_id_slot`; this asserts they
+    are NOT duplicated here.
+    """
+    names = {d["name"] for d in RECORDS["ensemble"][1]["depends_on"]}
+    for forbidden in ("member_of", "member_of_#", "derived_from", "derived_from_#",
+                      "child", "parent"):
+        assert forbidden not in names, (
+            "`%s` on the ensemble tombstone: membership is a relation DOCUMENT, "
+            "and pass 1 cannot resolve it" % forbidden)
+
+
+def test_member_of_registry_row_is_timed_and_ordered_as_the_signoff_requires():
+    """The sign-off says the edge carries an epoch AND a column order.
+
+    TEAM-SIGN-OFF [ensemble]: members are "EPOCH-SCOPED member_of edges carrying
+    their epoch and column order". A registry row saying `timed: false,
+    ordered: false` would contradict the signed model in the one place a future
+    validator will read. `binding` is not enforced yet, so this costs nothing
+    today and gets expensive the moment something reads it.
+    """
+    with open(os.path.join(VETA, "stable", "binding_registry_meta.json")) as fh:
+        reg = json.load(fh)
+    rows = [r for r in reg["relation_bindings"]
+            if r["relation"]["name"] == "member_of"]
+    assert len(rows) == 1, "expected exactly one member_of row; got %d" % len(rows)
+    row = rows[0]
+    assert row["class"] == "directed_relation"
+    assert row["timed"] is True, "the epoch scope makes this edge timed"
+    assert row["ordered"] is True, "column order makes this edge ordered"
+    assert row["child_types"] == ["subject"] and row["parent_types"] == ["subject"], (
+        "a neuron-subject is a member of an ensemble group-SUBJECT")

@@ -1010,6 +1010,11 @@ write(_ep_tier, "epoch", _ep)
 #                  `epoch_binary_data.vhsb` and V_eta's flattened declaration is
 #                  already right. The other three are other families' classes
 #                  and are REPORTED, not touched.
+#     SINCE: `ensemble` was fixed with its own family (#29, TEAM-SIGN-OFF
+#                  [ensemble] jess 2026-08-06) -- `neuron_names.txt`, declared
+#                  where the class is written, further down this file. `image`
+#                  and `jrclust_clusters` remain reported and untouched, and
+#                  check_tombstones --enforce-files still names them.
 _ae_tier, _ae_path = path_of("acquisition_epoch")
 _ae = load(_ae_path)
 _ae["file"] = [{"name": "epoch_binary_data.vhsb",
@@ -1417,8 +1422,15 @@ if os.path.exists(_instrument_p):
 #     external output directory) + session anchor. The schema below is RETAINED (not
 #     yet phase-8-deleted) as a safety net -- an unmigratable edge-case doc quarantines
 #     (non-gating) against it rather than erroring on an unknown class.
-#   ensemble -- still PASSTHROUGH-retained (in_progress): its grain (a neuron grouping)
-#     is a separate decision.
+#   ensemble -- PASSTHROUGH-retained in pass 1, and the grain is no longer "a separate
+#     decision": TEAM-SIGN-OFF [ensemble] jess 2026-08-06 settled it (group subject,
+#     epoch-scoped `member_of` edges, rebuildable cache). What stays passthrough is the
+#     MAP document, deliberately -- V_eta_ensemble_plan.md deferred task 5: "until then
+#     it stays a green passthrough -- do NOT phase-8-delete early", because the
+#     verify-before-delete gate (0 stranded per-neuron trains) has not run on a corpus.
+#     Which makes this tombstone LOAD-BEARING: it is the only thing standing between a
+#     real map document and a quarantine, so it must state what the document CARRIES.
+#     See the restatement below.
 # `element_id` -> subject and `element_epoch_id` -> acquisition_epoch (elements/epochs
 # were retargeted in strict J).
 for _name, _dir in (("kilosort_clusters", "kilosort_directory"),
@@ -1435,24 +1447,130 @@ for _name, _dir in (("kilosort_clusters", "kilosort_directory"),
                         "MD5 checksum of the curated sorter output.", non_empty=False),
               ]))
 
-write("stable", "ensemble",
-      doc("ensemble", ["base", "epochid", "app"],
-          deps=[dep("element_id", "subject",
-                    "The recording element (a subject in V_eta) the ensemble was "
-                    "computed from."),
-                dep("element_epoch_id", "acquisition_epoch",
-                    "The epoch over which the ensemble was defined.", non_empty=False)],
-          fields=[
-              field("ensemble_name", "char", "Name of the neuron ensemble."),
-              field("value_type", "char",
-                    "Type of the ensemble's value/activity representation.",
-                    non_empty=False),
-              field("value_description", "char",
-                    "Free-text description of the ensemble value.", non_empty=False),
-              field("num_neurons", "integer", "Number of neurons in the ensemble."),
-              field("clocktype", "char",
-                    "Clock type for the ensemble's epoch times.", non_empty=False),
-          ]))
+# ---- #29 ensemble: the two things the map document CARRIES and the tombstone did not
+# declare. Both measured by tools/check_tombstones.py before this change:
+#
+#     LOSSY  passthrough ensemble
+#         real dependencies not declared: neuron_id
+#     FILE   passthrough ensemble
+#         real files the tombstone does NOT declare: neuron_names.txt
+#
+# (1) `neuron_id_#` -- THE ROSTER, AND THE REASON THE PLAN'S OWN PREMISE WAS WRONG.
+# V_eta_ensemble_plan.md migration-constraint 1 said the neuron ids lived only inside
+# `neuron_names.txt`, so `member_of` needed file-byte access and therefore the NDI
+# second pass. The ids are `depends_on` EDGES on the map document, written in column
+# order by the same loop that writes the names:
+#
+#   git show origin/main:src/ndi/+ndi/+element/ensemble.m        (buildMapDoc)
+#     272   mapdoc = mapdoc.set_dependency_value('element_id', obj.id());
+#     273   mapdoc = mapdoc.set_dependency_value('element_epoch_id', epochdoc.id());
+#     274   for i = 1:numel(neuron_ids)
+#     275       mapdoc = mapdoc.add_dependency_value_n('neuron_id', neuron_ids{i});
+#     277   mapdoc = mapdoc.add_file('neuron_names.txt', names_tempfile);
+#
+#   git show origin/main:src/ndi/ndi_common/schema_documents/ensemble/ensemble_schema.json
+#     "depends_on": [
+#         { "name": "element_id",       "mustbenotempty": 1},
+#         { "name": "element_epoch_id", "mustbenotempty": 1},
+#         { "name": "neuron_id",        "mustbenotempty": 0}
+#     ]
+#
+# WHY IT SURVIVED: the TEMPLATE
+# (database_documents/ensemble/ensemble.json) declares element_id and element_epoch_id
+# and NOTHING ELSE -- `neuron_id` appears only in the SCHEMA and the WRITER. That is the
+# ground-truth rule (*where template and WRITER disagree, the WRITER wins*) firing on a
+# divergence inside NDI's own pair, and it is why check_tombstones, which reads the
+# TEMPLATE, could not have raised this row on its own -- it raised it because
+# ndi_ground_truth.py reads the schema too.
+#
+# Declared as a `_#` FAMILY because `add_dependency_value_n` appends `neuron_id_1`,
+# `neuron_id_2`, ... (DID-matlab +did/document.m add_dependency_value_n), so the suffix
+# index IS the column index. min_count 0 (below, in _EDGE_COUNTS): NDI's own schema says
+# "mustbenotempty": 0, and the family flag is cleared there for the reason #63 records --
+# a missing instance is not a blank one.
+#
+# TYPED TO `subject`, matching `element_id` directly above: a neuron is an element, and
+# `migrators_j.element` promotes an element to a subject with its id PRESERVED, so the
+# stored id still resolves after migration. must_refer is existence-only, never
+# type-checked, so this is declarative either way.
+#
+# DECLARING THIS CANNOT QUARANTINE ANYTHING. `+did2/+schema/cache.m` allows `depends_on`
+# wholesale as a top-level key and never checks individual dependency NAMES; the only
+# edge check is #37's required-edges gate, which keys on mustBeNonEmpty and excludes
+# numbered families. So before this change the edges passed through UNDECLARED and
+# silently -- the shape that let six classes reach 100% empty required edges -- and after
+# it the schema simply states the fact.
+#
+# (2) `neuron_names.txt` -- the file block, the `image_stack` shape exactly. NDI declares
+# it in BOTH halves of its pair and the writer attaches it (:277, above):
+#
+#   database_documents/ensemble/ensemble.json  "files": {"file_list": ["neuron_names.txt"]}
+#   schema_documents/ensemble/ensemble_schema.json
+#                                              "file": [{"name": "neuron_names.txt",
+#                                                        "mustbenotempty": 1}]
+#
+# The name is NDI's OWN spelling and is NOT snake_cased on the way through:
+# universalRenames.m:308 skips the structural keys outright
+# (`skip = {'document_class','depends_on','file','files'}`), so a passed-through document
+# reaches validation still carrying it. `did2.validate.fileList` compares by exact strcmp
+# (fileList.m:93,99). A file divergence never quarantines -- which is why it is dangerous:
+# the failure mode is a payload that is stranded or unfindable while every gate stays
+# green.
+#
+# NOT DECLARED HERE, deliberately: the second pass's `member_of` / `derived_from` edges.
+# They are `directed_relation` documents, not fields of this class, and pass 1 must not
+# emit an edge it cannot resolve.
+_ensemble = doc("ensemble", ["base", "epochid", "app"],
+                deps=[dep("element_id", "subject",
+                          "The recording element (a subject in V_eta) the ensemble was "
+                          "computed from."),
+                      dep("element_epoch_id", "acquisition_epoch",
+                          "The epoch over which the ensemble was defined.",
+                          non_empty=False),
+                      dep("neuron_id_#", "subject",
+                          "The constituent neurons, in COLUMN ORDER -- the per-epoch "
+                          "roster of the ensemble. NDI writes these with "
+                          "`add_dependency_value_n` (+ndi/+element/ensemble.m:274-276), "
+                          "so the `_1`/`_2` suffix is the column index into the combined "
+                          "marked-point-process binary, and `neuron_names.txt` carries "
+                          "the NAMES of this same roster rather than the roster itself. "
+                          "Typed to `subject` because a neuron is an element and "
+                          "`migrators_j.element` promotes an element to a subject with "
+                          "its id PRESERVED. This is what the NDI second pass "
+                          "(ndi.migrate.internal.ensembleMembership) reads to mint the "
+                          "signed epoch-scoped `member_of` edges; the plan's original "
+                          "premise that it had to read the file bytes was WRONG.",
+                          non_empty=False, multiple=True)],
+                fields=[
+                    field("ensemble_name", "char", "Name of the neuron ensemble."),
+                    field("value_type", "char",
+                          "Type of the ensemble's value/activity representation.",
+                          non_empty=False),
+                    field("value_description", "char",
+                          "Free-text description of the ensemble value.",
+                          non_empty=False),
+                    field("num_neurons", "integer",
+                          "Number of neurons in the ensemble. DERIVABLE from the "
+                          "`neuron_id_#` family and dropped by the signed model when the "
+                          "map document dissolves (T11); restated here because a "
+                          "PASSTHROUGH document still carries it and an undeclared field "
+                          "quarantines."),
+                    field("clocktype", "char",
+                          "Clock type for the ensemble's epoch times.", non_empty=False),
+                ])
+_ensemble["file"] = [{
+    "name": "neuron_names.txt",
+    "documentation":
+        "The constituent neuron NAMES, one per line, in the same column order as the "
+        "`neuron_id_#` family -- written by +ndi/+element/ensemble.m:255-256 and attached "
+        "at :277. NDI's OWN file_list entry verbatim, NOT snake_cased: universalRenames "
+        "skips the `file`/`files` keys (universalRenames.m:308), so a passed-through "
+        "document still carries this spelling and `did2.validate.fileList` compares it by "
+        "exact strcmp. The names are `e.elementstring()` of the elements the "
+        "`neuron_id_#` edges already point at (+ndi/+fun/+ensemble/load.m), so this file "
+        "adds no fact the edges lack -- it is declared because the document CARRIES it, "
+        "not because anything needs to read it."}]
+write("stable", "ensemble", _ensemble)
 
 
 # ---------- 6. (value_set removed) ----------
@@ -4996,6 +5114,16 @@ _EDGE_COUNTS = {
     # a policy with no rules yet is legitimate -- NDI's own syncgraph schema says
     # "mustbenotempty": 0 for syncrule_id
     ("clock_alignment_policy", "clock_alignment_configuration_#"): (0, None),
+    # #29 ensemble: the per-epoch neuron roster. NDI's own schema says
+    # "mustbenotempty": 0 for `neuron_id` (schema_documents/ensemble/
+    # ensemble_schema.json), and the writer LOOPS with add_dependency_value_n
+    # (+ndi/+element/ensemble.m:274-276) so it is genuinely a family. Unbounded:
+    # nothing in NDI caps the number of neurons in an ensemble. min 0 rather than
+    # 1 because that is what NDI declares -- NOT because an empty ensemble makes
+    # sense; tightening it to 1 would be a NEW required edge on a passthrough
+    # class, which is the invented-empty-edge pattern this project already paid
+    # for six times.
+    ("ensemble", "neuron_id_#"): (0, None),
 }
 for (_cls, _edge), (_lo, _hi) in _EDGE_COUNTS.items():
     _t, _p = path_of(_cls)
