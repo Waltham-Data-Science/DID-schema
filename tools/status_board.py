@@ -191,10 +191,28 @@ FAMILIES = [
     #                    template with no documents is the wrong-assumed-shape
     #                    failure that produced the ~2,078 distance_metadata
     #                    quarantines. It needs a real document first.
+    # WAS `("open", "tier and fold UNDECIDED")` UNTIL 2026-08-11, AND THAT
+    # SENTENCE WAS FALSE WHILE THE BOARD ITSELF HELD THE REFUTATION. The team
+    # decided both models in session and both are BUILT and running in all six
+    # corpora: `generic_file` -> term_observation + opaque_body
+    # (`foldGenericFiles.m`), `valid_interval` -> boolean validity_observation +
+    # relative_reference (`resolveValidIntervals.m`), `imageCollection` ->
+    # tombstone (`V_eta/stable/image_collection.json`). `batch_consumers()` --
+    # in this same file, in the same run -- returns
+    # {'generic_file': ['foldGenericFiles.m'], 'valid_interval':
+    # ['resolveValidIntervals.m']}, and nothing compared that to this row.
+    #
+    # It is `proposed`, NOT `team`: the models are built and there is no
+    # TEAM-SIGN-OFF line in any plan document, and Operating Rule 4 forbids
+    # this file's author from adding one. What is missing is a SIGNATURE, not
+    # a model -- which is a different sentence from the one that was here, and
+    # the difference is a day of work someone might have redone.
     ("stranded sources", ["generic_file", "valid_interval", "imageCollection"],
-     None,
-     "tombstoned so they stop stranding; tier and fold UNDECIDED",
-     "open"),
+     "V_eta_OPEN_WORK.md",
+     ("BUILT, unsigned: generic_file -> term_observation + opaque_body; "
+      "valid_interval -> boolean validity_observation + relative_reference; "
+      "imageCollection -> tombstone. Needs a signature, not a model"),
+     "proposed"),
 
     # FOUR MEMBERS LEFT THIS FAMILY 2026-08-11 (#65 increment 3a):
     # `epoch_relative_reference`, `event_bounded_reference`,
@@ -2515,6 +2533,31 @@ def build(ocs=None, didm=None, log=None):
     unsigned  = [f for f in FAMILIES if f[4] == "team" and not has_signoff(f[2], f[0])]
     proposed  = [f for f in FAMILIES if f[4] == "proposed"]
     undecided = [f for f in FAMILIES if f[4] == "open"]
+
+    # A FAMILY MAY NOT BE RENDERED AS UNDECIDED WHILE ITS CLASSES ARE BUILT.
+    #
+    # On 2026-08-11 this board printed "stranded sources | 3 | tombstoned so
+    # they stop stranding; tier and fold UNDECIDED" while `foldGenericFiles.m`
+    # and `resolveValidIntervals.m` were live and running in all six corpora --
+    # models the TEAM had chosen, in their own words, and someone had built. It
+    # was read aloud as the one remaining open decision.
+    #
+    # The evidence was already in this file, in the same run: `batch_consumers`
+    # scans `+did2/+convert` for bare class names and finds both. It was simply
+    # never compared to the FAMILIES one-liner, which is CLAUDE-AUTHORED PROSE
+    # in a tool -- the identical hazard `family_prose_vs_signoff` exists for,
+    # except that check requires `status == "team"` AND a plan document, so an
+    # `open` family with `plan=None` got no checking of any kind. The least
+    # examined row was the one asserting the most.
+    #
+    # This is a HARD FAILURE rather than a printed warning, because the warning
+    # already existed in prose and was read and repeated anyway.
+    built_but_called_undecided = []
+    for name, members, _plan, _what, _st in undecided:
+        hits = batch_consumers(list(members), didm)
+        built = {c: v for c, v in hits["by_class"].items() if v}
+        if built:
+            built_but_called_undecided.append((name, built, hits["files_scanned"]))
     # A FAMILY MUST NOT CLAIM A CLASS THAT NO LONGER EXISTS. The check below has always
     # verified that every in_progress class belongs to a family; it never verified the
     # converse, so when three classes collapsed into one on 2026-08-06 the board went on
@@ -2628,6 +2671,26 @@ def build(ocs=None, didm=None, log=None):
     for name, members, _, _, _ in proposed:
         p("- **{}**: {}".format(name, ", ".join(f"`{m}`" for m in sorted(members))))
     p("")
+
+    if built_but_called_undecided:
+        p("## A FAMILY CALLED UNDECIDED WHOSE CLASSES ARE ALREADY BUILT")
+        p("")
+        p("This section is a FAILURE, not a note. The table below says a "
+          "decision is outstanding; the migrator tree says the model was "
+          "chosen and built. One of the two is wrong, and it is not the tree.")
+        p("")
+        for name, built, scanned in built_but_called_undecided:
+            p(f"- **{name}** -- DENOMINATOR: {len(built)} of the family's "
+              f"classes named by a batch post-pass, over {scanned} file(s) "
+              "scanned under `+did2/+convert`")
+            for cls, files in sorted(built.items()):
+                p("    - `{}` is consumed by {}".format(
+                    cls, ", ".join(f"`{f}`" for f in files)))
+        p("")
+        p("Move the family out of `open` and say what was built. Do NOT add a "
+          "`TEAM-SIGN-OFF` line to make this pass -- an unsigned built model "
+          "is `proposed`, and the missing thing is a signature.")
+        p("")
 
     p("## Nobody has proposed anything yet")
     p("")
@@ -3023,7 +3086,8 @@ def build(ocs=None, didm=None, log=None):
             p(f"- **{n}** -> `schemas/{pl}` (missing)")
         p("")
 
-    ok = not unclaimed and not dupes and not missing_plans
+    ok = (not unclaimed and not dupes and not missing_plans
+          and not built_but_called_undecided)
     return "\n".join(L) + "\n", ok
 
 

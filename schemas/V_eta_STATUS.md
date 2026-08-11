@@ -17,8 +17,8 @@ for each model; this board owns *how much is left and what exactly*.
 | open **decision families** | **19** |
 | &nbsp;&nbsp;DECIDED and signed off, awaiting build | 18 |
 | &nbsp;&nbsp;decided in a walkthrough, **awaiting a signature** | 0 |
-| &nbsp;&nbsp;**written up by Claude alone, unreviewed** | **0** |
-| &nbsp;&nbsp;nobody has proposed anything yet | 1 |
+| &nbsp;&nbsp;**written up by Claude alone, unreviewed** | **1** |
+| &nbsp;&nbsp;nobody has proposed anything yet | 0 |
 
 | open-class BUILD/PROOF state (derived, see below) | count |
 |---|---|
@@ -29,7 +29,7 @@ for each model; this board owns *how much is left and what exactly*.
 
 The class count is not the work count. 26 open classes are 19 decisions, because most open classes move as a family.
 
-**1 of those 19 are not settled**: 0 awaiting a signature on a decision already taken, 0 written up by Claude alone and unreviewed, 1 with nothing proposed. Only 18 are signed off.
+**1 of those 19 are not settled**: 0 awaiting a signature on a decision already taken, 1 written up by Claude alone and unreviewed, 0 with nothing proposed. Only 18 are signed off.
 
 ## What is actually left on the 26 open classes
 
@@ -317,15 +317,15 @@ Until that line exists the family shows here regardless of what
 
 | family | classes | proposal | written up in |
 |---|---|---|---|
+| **stranded sources** | 3 | BUILT, unsigned: generic_file -> term_observation + opaque_body; valid_interval -> boolean validity_observation + relative_reference; imageCollection -> tombstone. Needs a signature, not a model | `V_eta_OPEN_WORK.md` |
 
+- **stranded sources**: `generic_file`, `imageCollection`, `valid_interval`
 
 ## Nobody has proposed anything yet
 
 | family | classes | the call to make |
 |---|---|---|
-| **stranded sources** | 3 | tombstoned so they stop stranding; tier and fold UNDECIDED |
 
-- **stranded sources**: `generic_file`, `imageCollection`, `valid_interval`
 
 ## DECIDED by the team, awaiting build
 

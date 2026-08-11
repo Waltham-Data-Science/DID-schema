@@ -8,8 +8,8 @@
     "by_state": {
       "signed_awaiting_build": 18,
       "awaiting_signature": 0,
-      "proposed_unreviewed": 0,
-      "open": 1
+      "proposed_unreviewed": 1,
+      "open": 0
     },
     "state_labels": {
       "signed_awaiting_build": "decided and signed off, awaiting build",
@@ -36,13 +36,13 @@
         }
       ],
       "open_members": [],
-      "plan": null,
-      "decision": "tombstoned so they stop stranding; tier and fold UNDECIDED",
-      "status": "open",
+      "plan": "V_eta_OPEN_WORK.md",
+      "decision": "BUILT, unsigned: generic_file -> term_observation + opaque_body; valid_interval -> boolean validity_observation + relative_reference; imageCollection -> tombstone. Needs a signature, not a model",
+      "status": "proposed",
       "signed": false,
       "signoff": null,
-      "state": "open",
-      "state_label": "nobody has proposed anything yet"
+      "state": "proposed_unreviewed",
+      "state_label": "written up by Claude alone, unreviewed"
     },
     {
       "name": "time_reference",
