@@ -23,6 +23,7 @@ reading nothing; Operating Rule 5 -- AN INSTRUMENT MUST REPORT ITS DENOMINATOR
 """
 import ast
 import json
+import os
 import pathlib
 import re
 import subprocess
@@ -92,18 +93,49 @@ def test_no_broad_except_swallows_a_read_in_the_scan():
         "`files` became the survivors.")
 
 
+def _ndi_checkout():
+    """The NDI-matlab this run can actually see, or None."""
+    for var in ("NDI_MATLAB", "NDI_MATLAB_PATH"):
+        if os.environ.get(var) is not None:
+            p = os.environ[var]
+            return p if p and os.path.isdir(p) else None
+    return "/home/user/NDI-matlab" if os.path.isdir("/home/user/NDI-matlab") else None
+
+
 def test_the_denominator_is_printed_unconditionally():
+    """WITH a sibling the full denominator prints; WITHOUT one the tool must
+    still say what it could not read.
+
+    THE FIRST DRAFT OF THIS TEST ASSUMED THE SIBLING WAS THERE and turned CI
+    red, because two of the three jobs check out this repository alone. The
+    lesson is the one this repository keeps paying for from the other side: a
+    test that only runs where the author's machine is configured is a test that
+    measures the machine. Both branches are asserted, so neither environment
+    gets a free pass -- and the no-sibling branch is NOT a skip, because "could
+    not look" must still produce a sentence naming what was not looked at.
+    """
     p = subprocess.run([sys.executable, str(TOOL)], cwd=REPO,
                        capture_output=True, text=True, check=False)
+    out = p.stdout + p.stderr
+    ndi = _ndi_checkout()
+    print(f"DENOMINATOR: 1 tool run, exit={p.returncode}, "
+          f"{len(out.splitlines())} output line(s), NDI-matlab={ndi!r}")
+
+    if ndi is None:
+        assert re.search(r"NDI-matlab not found", out), (
+            "no NDI-matlab is reachable and the tool did not say so. A run that "
+            "read nothing must name what it could not read; silence here is "
+            "indistinguishable from a scan that found nothing.\n"
+            + "\n".join(out.splitlines()[-15:]))
+        return
+
     m = re.search(r"^\s*DENOMINATOR: (\d+) candidate schema document\(s\), "
                   r"(\d+) read, (\d+) UNREADABLE", p.stdout, re.MULTILINE)
-    print(f"DENOMINATOR: 1 tool run, exit={p.returncode}, "
-          f"{len(p.stdout.splitlines())} stdout line(s)")
     assert m, (
         "the scan printed no candidate/read/unreadable line. Operating Rule 5 "
         "asks for the denominator FIRST and UNCONDITIONALLY -- a run that "
         "reports only its findings cannot be distinguished from a run that "
-        "found nothing to report.\n--- stdout tail ---\n"
-        + "\n".join(p.stdout.splitlines()[-15:]))
+        "found nothing to report.\n--- output tail ---\n"
+        + "\n".join(out.splitlines()[-15:]))
     cand, read, bad = (int(g) for g in m.groups())
     assert read + bad == cand
