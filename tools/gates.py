@@ -304,6 +304,22 @@ STEPS = [
     Step("check_signoff_header_staleness",
          _t("check_signoff_header_staleness.py", "--enforce"), "gate",
          r"^DENOMINATOR: (\d+) markdown file\(s\)", "plan documents read"),
+
+    # READS BOTH SIBLINGS, so it is NOT RUNNABLE on a bare runner -- and that
+    # is reported rather than counted as agreement. It compares the batch
+    # post-pass chain the six-corpus gate composes against the one NDI
+    # production composes. The lists are allowed to differ; an UNDECLARED
+    # difference is a pass that either ships unmeasured or is measured but not
+    # shipped. NDI's own source records both the divergence and what it cost:
+    # "two pipelines emitting different classes for one concept, and nothing
+    # comparing them", and "Ten divergent rows is enough noise to hide an
+    # eleventh, which is precisely how resolveDatasetEntities came to sit
+    # unwired." No artifact is written, so this declares no EDGES.
+    Step("check_pipeline_parity",
+         _t("check_pipeline_parity.py", "--enforce"), "gate",
+         r"DENOMINATOR: (\d+) pass\(es\) named by the harness",
+         "harness batch passes",
+         requires=["DID-matlab", "NDI-matlab"]),
 ]
 
 BY_NAME = {s.name: s for s in STEPS}
