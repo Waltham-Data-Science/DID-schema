@@ -71,15 +71,48 @@ PY = sys.executable or "python3"
 # `always`   -- gate steps that read no generated artifact still run when a
 #               producer fails.
 
+def find_repo(name, env):
+    """Locate a sibling checkout the way coverage.py and status_board.py do.
+
+    The tools do not agree on this -- coverage.py/status_board.py search
+    $NDI_MATLAB|$DID_MATLAB then /home/user then ../, ndi_ground_truth.py and
+    check_empty_ontology_nodes.py read $NDI_MATLAB_PATH|$DID_MATLAB_PATH with
+    an absolute default, check_tombstones.py reads $DID_MATLAB then ../ -- so
+    this takes the UNION. Over-detecting is the safe direction: it makes the
+    driver TRY the step and report a real failure, instead of skipping it and
+    reporting a smaller chain as complete.
+
+    An explicitly SET environment variable is AUTHORITATIVE, present or not.
+    `NDI_MATLAB=/nowhere` therefore means "there is no NDI-matlab here" rather
+    than silently falling through to /home/user -- which is what lets a
+    sibling-less CI be reproduced on a machine that has the siblings."""
+    for var in (env, env + "_PATH"):
+        if os.environ.get(var) is not None:
+            p = os.environ[var]
+            return p if p and os.path.isdir(p) else None
+    for cand in (os.path.join("/home/user", name),
+                 os.path.join(os.path.dirname(REPO), name)):
+        if os.path.isdir(cand):
+            return cand
+    return None
+
+
+SIBLINGS = {"NDI-matlab": find_repo("NDI-matlab", "NDI_MATLAB"),
+            "DID-matlab": find_repo("DID-matlab", "DID_MATLAB")}
+
+
 class Step:
     def __init__(self, name, argv, kind, headline, headline_label,
-                 writes=(), check_argv=None, external=False):
+                 writes=(), check_argv=None, external=False, requires=()):
         self.name = name
         self.argv = list(argv)
         self.kind = kind                      # "generate" | "gate"
         self.headline = re.compile(headline, re.M)
         self.headline_label = headline_label
         self.writes = list(writes)
+        # Sibling checkouts this step READS. Named, not guessed: `--explain`
+        # requires the step's own source to mention each one.
+        self.requires = list(requires)
         # A tool that has its OWN --check: composed rather than reimplemented.
         self.check_argv = list(check_argv) if check_argv else None
         self.external = external              # not a tools/*.py script
@@ -92,6 +125,17 @@ class Step:
         is a failure of the run, never a reason to stop measuring."""
         return bool(self.writes)
 
+    @property
+    def missing_siblings(self):
+        return [n for n in self.requires if not SIBLINGS.get(n)]
+
+    def source_path(self):
+        """The file whose content backs this step's declarations, if any."""
+        for a in self.argv:
+            if a.endswith(".py"):
+                return a
+        return None
+
     def __repr__(self):
         return "Step(%s)" % self.name
 
@@ -103,7 +147,8 @@ def _t(script, *args):
 STEPS = [
     Step("ndi_ground_truth", _t("ndi_ground_truth.py"), "generate",
          r"^NDI classes captured:\s+(\d+)", "NDI classes captured",
-         writes=["schemas/V_eta_ndi_ground_truth.json"]),
+         writes=["schemas/V_eta_ndi_ground_truth.json"],
+         requires=["NDI-matlab", "DID-matlab"]),
 
     Step("build_v_eta", _t("build_v_eta.py"), "generate",
          r"^V_eta built: (\d+) schemas", "schemas built",
@@ -116,12 +161,13 @@ STEPS = [
     Step("refresh_migration_targets",
          _t("refresh_migration_targets.py", "--check"), "gate",
          r"^DENOMINATOR: (\d+) class rows in V_eta_migration_targets\.json",
-         "curated target rows"),
+         "curated target rows", requires=["DID-matlab"]),
 
     Step("coverage", _t("coverage.py"), "generate",
          r"\((\d+) v1 classes", "v1 source classes in the ledger",
          writes=["schemas/V_eta_coverage_ledger.md",
-                 "schemas/V_eta_coverage_ledger.json"]),
+                 "schemas/V_eta_coverage_ledger.json"],
+         requires=["NDI-matlab", "DID-matlab"]),
 
     Step("regen_final_class_set", _t("regen_final_class_set.py"), "generate",
          r": (\d+) persist \(", "classes in the persist set",
@@ -145,7 +191,8 @@ STEPS = [
          r"still CONSUME invented names\s+: (\d+)", "migrators on invented names"),
 
     Step("check_tombstones", _t("check_tombstones.py", "--enforce"), "gate",
-         r"^\s*BLOCKING\s+: (\d+)", "blocking tombstones"),
+         r"^\s*BLOCKING\s+: (\d+)", "blocking tombstones",
+         requires=["DID-matlab"]),
 
     Step("check_duplicate_field_declarations",
          _t("check_duplicate_field_declarations.py", "--enforce"), "gate",
@@ -159,7 +206,8 @@ STEPS = [
          r"V_eta document_class files walked\s+: (\d+)", "class files walked"),
 
     Step("check_empty_ontology_nodes", _t("check_empty_ontology_nodes.py"), "gate",
-         r"V_eta schema files inspected\s+: (\d+)", "schema files inspected"),
+         r"V_eta schema files inspected\s+: (\d+)", "schema files inspected",
+         requires=["DID-matlab"]),
 
     Step("check_vacuous_tests", _t("check_vacuous_tests.py", "--enforce"), "gate",
          r"VACUOUS-TEST SWEEP: (\d+) test file\(s\) parsed", "test files parsed"),
@@ -458,6 +506,25 @@ def explain(root=REPO, out=print):
             else "       witness : %s" % detail)
     out("")
     out("EDGES SUBSTANTIATED: %d of %d" % (len(EDGES) - bad, len(EDGES)))
+    out("")
+    out("SIBLING CHECKOUTS -- the reason CI cannot run the whole chain.")
+    needs = [s for s in STEPS if s.requires]
+    out("DENOMINATOR: %d of %d steps read a sibling repository" % (len(needs), len(STEPS)))
+    for n, p in sorted(SIBLINGS.items()):
+        out("  %-12s %s" % (n, p or "NOT FOUND"))
+    for s in needs:
+        src = s.source_path()
+        unnamed = []
+        if src and os.path.exists(os.path.join(root, src)):
+            with open(os.path.join(root, src), errors="replace") as fh:
+                body = fh.read()
+            unnamed = [n for n in s.requires if n not in body]
+        mark = "OK" if not unnamed else "UNSUBSTANTIATED"
+        out("  [%s] %-34s needs %s%s"
+            % (mark, s.name, ", ".join(s.requires),
+               "" if not unnamed else "  -- %s never named in %s" % (unnamed, src)))
+        if unnamed:
+            bad += 1
     return 1 if bad else 0
 
 
@@ -472,7 +539,13 @@ def main(argv=None):
     ap.add_argument("--only", action="append", default=None, metavar="STEP",
                     help="run only these steps (still in derived order)")
     ap.add_argument("--list", action="store_true", help="print step names, one per line")
+    ap.add_argument("--ci", action="store_true",
+                    help="implies --check, and reports (rather than fails) the "
+                         "steps that need an NDI-matlab / DID-matlab checkout "
+                         "the workflow does not have")
     a = ap.parse_args(argv)
+    if a.ci:
+        a.check = True
 
     if a.list:
         for n in ORDER:
@@ -494,6 +567,15 @@ def main(argv=None):
           "%d dependency edges, %d substantiated"
           % (len(steps), len(gens), len(steps) - len(gens), len(EDGES), ok_edges))
     print("            order: %s" % " -> ".join(order))
+    unavailable = [s.name for s in steps if s.missing_siblings]
+    if unavailable:
+        print("            NOT RUNNABLE HERE (%d): %s"
+              % (len(unavailable), ", ".join(unavailable)))
+        for n, p in sorted(SIBLINGS.items()):
+            print("              sibling %-12s %s" % (n, p or "NOT FOUND"))
+        if not a.ci:
+            print("              these will be ATTEMPTED anyway and will fail; "
+                  "pass --ci to report them as not-runnable instead.")
     print("=" * 78)
     sys.stdout.flush()
 
@@ -505,15 +587,25 @@ def main(argv=None):
     mirror = None
     watched = sorted({w for s in STEPS for w in s.writes})
     before = _snapshot(watched, REPO)
-    if a.check:
+    will_generate = [s for s in steps
+                     if s.kind == "generate" and not (a.ci and s.missing_siblings)]
+    if a.check and will_generate:
         mirror = tempfile.mkdtemp(prefix="veta-gates-check-")
         n = mirror_tracked_tree(REPO, mirror)
         print("scratch mirror: %s  (%d tracked file(s) copied)" % (mirror, n))
         print()
 
-    results, failed, skipped, composed_failed = {}, [], [], []
+    results, failed, skipped, composed_failed, no_sibling = {}, [], [], [], []
     t_all = time.time()
     for i, s in enumerate(steps, 1):
+        if a.ci and s.missing_siblings:
+            # NOT a failure and NOT a skip: the checkout simply is not here.
+            # It must still be COUNTED and NAMED, or a shorter chain would read
+            # as a complete one -- which is the whole defect this file is about.
+            no_sibling.append(s.name)
+            print("[%2d/%2d] %-34s NO-SIBLING (%s absent; step not attempted)"
+                  % (i, len(steps), s.name, ", ".join(s.missing_siblings)))
+            continue
         blockers = [f for f in failed + skipped
                     if BY_NAME[f].blocks_dependents
                     and s.name in DEPENDENTS.get(f, ())]
@@ -560,10 +652,17 @@ def main(argv=None):
 
     # ---------------- --check: the diff -------------------------------------
     diffs = []
+    if a.check and not mirror:
+        print()
+        print("ARTIFACT DIFF: 0 artifact(s) compared -- no generator ran in this "
+              "selection, so nothing was regenerated and nothing is claimed.")
     if a.check and mirror:
         print()
         print("ARTIFACT DIFF -- regenerated (scratch) vs committed (working tree)")
-        arts = [w for s in steps if s.kind == "generate" for w in s.writes]
+        arts = [w for s in steps if s.kind == "generate" and s.name in results
+                for w in s.writes]
+        not_compared = [w for s in steps if s.kind == "generate"
+                        and s.name not in results for w in s.writes]
         print("DENOMINATOR: %d generated artifact(s) compared" % len(arts))
         for rel in arts:
             same, detail = diff_artifact(rel, mirror, REPO)
@@ -572,6 +671,10 @@ def main(argv=None):
                                     if detail else ""))
             if not same:
                 diffs.append(rel)
+        # NOT CHECKED is not the same as CHECKED AND CLEAN. Say so, with names.
+        print("  NOT COMPARED (their generator did not run here): %d%s"
+              % (len(not_compared),
+                 (" -- " + ", ".join(not_compared)) if not_compared else ""))
         # Compose the tools that ship their own --check rather than trusting
         # only our diff. Two instruments, one question.
         print()
@@ -607,8 +710,13 @@ def main(argv=None):
     ran = len(results)
     print()
     print("=" * 78)
-    print("SUMMARY: %d step(s) declared, %d ran, %d passed, %d failed, %d skipped"
-          % (len(steps), ran, ran - len(failed), len(failed), len(skipped)))
+    print("SUMMARY: %d step(s) declared, %d ran, %d passed, %d failed, %d skipped, "
+          "%d not runnable here"
+          % (len(steps), ran, ran - len(failed), len(failed), len(skipped),
+             len(no_sibling)))
+    if no_sibling:
+        print("  NOT RUNNABLE HERE: %s  (needs an NDI-matlab / DID-matlab "
+              "checkout; NOT evidence they would pass)" % ", ".join(no_sibling))
     if failed:
         print("  FAILED : %s" % ", ".join(failed))
     if skipped:

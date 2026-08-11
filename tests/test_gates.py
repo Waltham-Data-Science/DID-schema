@@ -117,6 +117,60 @@ def test_only_a_step_that_writes_can_skip_its_dependents():
         assert not s.writes
 
 
+def test_ci_owns_no_second_list_of_gates():
+    """CI and the driver must be ONE list, not two that agree today.
+
+    They were two, and they had diverged: the workflow ran 8 of the 16 steps and
+    never rebuilt the schema set at all, so a hand-edit under schemas/V_eta
+    passed every gate -- while CLAUDE.md said the generated artifacts were
+    "CHECKED IN CI and fail when stale". This asserts the workflow invokes no
+    gate of its own: every `run:` that reaches for a tool, pytest or ruff must
+    go through tools/gates.py."""
+    wf = os.path.join(REPO_ROOT, ".github", "workflows", "tests.yml")
+    with open(wf) as fh:
+        lines = [ln.strip() for ln in fh if ln.strip().startswith("- run:")
+                 or ln.strip().startswith("run:")]
+    assert lines, "no run: steps found in tests.yml -- this test would check nothing"
+    gate_like = [ln for ln in lines
+                 if "tools/" in ln or "pytest" in ln or "ruff check" in ln]
+    assert gate_like, "the workflow runs no gate at all"
+    strays = [ln for ln in gate_like if "tools/gates.py" not in ln]
+    assert not strays, (
+        "tests.yml runs a gate outside the driver -- that is a second list:\n  "
+        + "\n  ".join(strays))
+
+
+def test_every_gate_ci_used_to_run_by_hand_is_still_in_the_chain():
+    """Folding eight workflow steps into the driver must not have dropped one.
+
+    Named individually, because "the driver is a superset" is exactly the kind
+    of claim this repository has been burned by when it was asserted instead of
+    listed."""
+    was_in_ci = ["ruff", "pytest", "check_migrator_vocabulary", "status_board",
+                 "check_duplicate_field_declarations", "check_constraint_refinement",
+                 "check_vacuous_tests", "check_signoff_header_staleness"]
+    assert len(was_in_ci) == 8
+    missing = [n for n in was_in_ci if n not in g.BY_NAME]
+    assert not missing, "the driver dropped a gate CI used to run: %s" % missing
+
+
+def test_a_step_needing_a_sibling_checkout_names_it_in_its_own_source():
+    """The `requires` declarations are the reason CI legitimately runs a shorter
+    chain, so they cannot be guesses. Each named sibling must appear in the
+    step's own source -- the same standard the edge witnesses are held to."""
+    needy = [s for s in g.STEPS if s.requires]
+    assert needy, "no step declares a sibling -- this test would check nothing"
+    for s in needy:
+        src = s.source_path()
+        assert src, "%s declares requires but runs no script" % s.name
+        with open(os.path.join(REPO_ROOT, src), errors="replace") as fh:
+            body = fh.read()
+        for sib in s.requires:
+            assert sib in body, (
+                "%s says it needs %s, but %s never names it"
+                % (s.name, sib, src))
+
+
 # --------------------------------------------------------------------------
 # 2. a failing step produces a non-zero exit
 # --------------------------------------------------------------------------
