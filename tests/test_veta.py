@@ -2662,11 +2662,33 @@ def test_absence_of_a_validity_statement_must_keep_meaning_valid():
         "the boolean to become required somewhere")
 
     doc = RECORDS["validity"][1]["fields"][0]["documentation"]
-    assert "ABSENCE OF ANY `validity` STATEMENT ABOUT A SUBJECT MEANS ITS DATA "\
-           "IS VALID" in doc, (
+    assert "ABSENCE OF *EVERY* `validity` STATEMENT ABOUT A SUBJECT MEANS "\
+           "ITS DATA IS VALID" in doc, (
         "the absence rule is DECLARED (T14), not left in a plan document. A "
         "consumer that never read our prose has to get this right, because "
         "reading it wrong is silent")
+
+    # AND IT MUST NOT CLAIM MORE THAN THAT. The rule is scoped to NO STATEMENT
+    # AT ALL. It does NOT extend to the gaps BETWEEN statements, and v1's answer
+    # there is the opposite: `markvalidinterval` marks a valid interval "(all
+    # else is garbage)" (markgarbage.m:42), and once any interval projects into
+    # an epoch, identifyvalidintervals returns ONLY the marked ones
+    # (markgarbage.m:200-204). Decomposing one v1 document into N statements
+    # does not carry that closure, so a reader who over-applies the absence rule
+    # to a gap inverts the meaning of the document -- "only 10-50s is usable"
+    # becomes "everything is usable".
+    #
+    # The team DEFERRED deciding what a gap means (2026-08-11). An UNDEFINED gap
+    # is safe to defer; a gap silently read as valid is not. This pins the
+    # scoping so the deferral cannot quietly become an answer.
+    assert "DOES NOT EXTEND TO THE GAPS BETWEEN STATEMENTS" in doc, (
+        "the absence rule lost its scope. Unqualified, it reads as 'any stretch "
+        "with no statement is valid', which INVERTS a v1 document that marked "
+        "the good stretches and meant the rest was garbage")
+    assert "OPEN TEAM DECISION" in doc, (
+        "the gap question stopped being marked open. It is deferred, not "
+        "resolved -- if it has been decided, record the decision and change "
+        "this assertion to pin the answer instead")
 
 
 def test_validity_carries_the_v1_array_position_that_order_is_load_bearing_for():
