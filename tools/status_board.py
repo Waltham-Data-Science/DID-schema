@@ -603,6 +603,79 @@ def find_repo(name, env):
     return None
 
 
+def family_prose_vs_signoff(built_classes):
+    """Class names the FAMILIES one-liner asserts that its sign-off never says.
+
+    WHY IT EXISTS, AND WHAT IT WOULD HAVE CAUGHT.
+    On 2026-08-11 `ngrid` was filed as a dissolution, corrected to a fold ->
+    `sampled_body`, and the correction was wrong. Both commits read one half of
+    `V_eta_image_model_plan.md`: one the R4 section heading ("`ngrid` ->
+    `sampled_body`"), the other neither. The `TEAM-SIGN-OFF [image / ngrid]`
+    line in that same document says "ngrid is DISSOLVED (deleted, not
+    migrated)", and the FAMILIES table beside it here says "ngrid phases into
+    sampled_body". Two independent readers, one document, opposite conclusions.
+
+    The FAMILIES one-liner is CLAUDE-AUTHORED PROSE in a tool. The sign-off is
+    the team's own words. Nothing kept them in agreement, and the failure mode
+    is one-directional in the dangerous way: the prose names a concrete target
+    class, which is what a reader acts on, while the signature may name only a
+    model, a set of field destinations, or a deletion.
+
+    So this sweeps for the SHAPE rather than waiting for the next instance:
+    every V_eta class name the one-liner mentions is checked against the text of
+    the sign-off that signs that family. A name the signature does not contain
+    is UNSIGNED -- which is not automatically wrong, and is never resolved here.
+
+    DELIBERATELY UNDER-FILTERED. Abstract roots (`data_type`, `entity`,
+    `subject`) get used as ordinary words -- "a standalone data_type", "->
+    entity" -- and would be the obvious things to suppress. They are NOT
+    suppressed: a filter tuned on today's eight rows is a filter that hides
+    tomorrow's real one, and eight lines across eighteen families is a
+    perfectly readable amount of human checking. Erring toward showing too much
+    is the safe direction here, and it is the direction this repository's
+    mistakes have not gone.
+
+    Returns {"families_checked", "rows": [(family, plan, [names]), ...],
+             "multi_untagged": [(plan, n)]}.
+    """
+    out = {"families_checked": 0, "rows": [], "multi_untagged": []}
+    seen_plans = set()
+    for name, _members, plan, what, status in FAMILIES:
+        if status != "team" or not plan:
+            continue
+        so = find_signoff(plan, name)
+        if so is None:
+            continue
+        out["families_checked"] += 1
+        named = {w for w in re.findall(r"[A-Za-z_][A-Za-z0-9_]*", what)
+                 if w in built_classes}
+        missing = sorted(w for w in named if w not in so)
+        if missing:
+            out["rows"].append((name, plan, missing))
+        # A SECOND HAZARD FOUND BY THE SAME SWEEP. `find_signoff` returns the
+        # FIRST untagged sign-off line in a document cited by exactly one
+        # family. `V_eta_openminds_family_record.md` carries TWO untagged ones
+        # (2026-08-05, the strain model; 2026-08-08, Part 7), so the board
+        # displays one of them and the FAMILIES one-liner paraphrases the
+        # other. Neither is wrong; which one is being shown is simply not
+        # something a reader can tell.
+        if plan in seen_plans:
+            continue
+        seen_plans.add(plan)
+        path = os.path.join(REPO, "schemas", plan)
+        if not os.path.exists(path):
+            continue
+        with open(path) as fh:
+            text = re.sub(r"<!--.*?-->", "", fh.read(), flags=re.S)
+        untagged = [ln for ln in text.splitlines()
+                    if ln.lstrip().startswith("TEAM-SIGN-OFF")
+                    and not re.match(r"TEAM-SIGN-OFF\s*\[",
+                                     ln.lstrip())]
+        if len(untagged) > 1:
+            out["multi_untagged"].append((plan, len(untagged)))
+    return out
+
+
 def batch_consumers(classes):
     """Which BATCH POST-PASSES name each of `classes`, by bare quoted literal.
 
@@ -2764,6 +2837,56 @@ def build(ocs=None):
         p("| **%s** | %d | %s | %s | `%s` |"
           % (name, len(members), cell, what, plan))
     p("")
+
+    # ---- the family table's own prose, checked against the signatures -------
+    pvs = family_prose_vs_signoff({s["class_name"] for s in schemas})
+    p("## Class names the family table asserts that its sign-off does not say")
+    p("")
+    p("DENOMINATOR: %d signed families checked; every V_eta class name in the "
+      "family one-liner above was matched against the text of the "
+      "`TEAM-SIGN-OFF` line that signs that family. %d family/name pair(s) are "
+      "UNSIGNED -- the prose names the class, the signature does not."
+      % (pvs["families_checked"], sum(len(r[2]) for r in pvs["rows"])))
+    p("")
+    p("**THIS IS NOT A LIST OF ERRORS, AND NOTHING HERE IS RESOLVED BY A TOOL.**")
+    p("The family one-liner is Claude-authored prose in `tools/status_board.py`;")
+    p("the sign-off is the team's own words. An unsigned name may be a fair")
+    p("paraphrase, a structural word used in passing (`data_type`, `entity`), or")
+    p("a target nobody agreed to -- and only a person can tell which.")
+    p("")
+    p("It exists because on 2026-08-11 `ngrid` was filed as a dissolution,")
+    p("\"corrected\" to a fold into `sampled_body`, and the correction was wrong.")
+    p("Both readings came from `V_eta_image_model_plan.md`; neither reader")
+    p("reached the `TEAM-SIGN-OFF [image / ngrid]` line in it, which says")
+    p("\"ngrid is DISSOLVED (deleted, not migrated)\". Sweeping for the SHAPE")
+    p("then found a second instance immediately -- `binaryseries_parameters`,")
+    p("whose section heading says \"folds into `sampled_body`\" while its")
+    p("signature routes the fields to a statement and an axis and names no")
+    p("class. Both are recorded DISPUTED in the coverage ledger, with both")
+    p("citations and no choice made.")
+    p("")
+    if pvs["rows"]:
+        p("| family | unsigned class name(s) in the one-liner | sign-off in |")
+        p("|---|---|---|")
+        for name, plan, missing in pvs["rows"]:
+            p("| **%s** | %s | `%s` |"
+              % (name, ", ".join("`%s`" % m for m in missing), plan))
+        p("")
+    else:
+        p("None -- every class name in every family one-liner appears in the")
+        p("signature that signs it.")
+        p("")
+    if pvs["multi_untagged"]:
+        p("**AND: %d document(s) carry more than one UNTAGGED `TEAM-SIGN-OFF`"
+          % len(pvs["multi_untagged"]))
+        p("line.** An untagged line signs the document, and counts only when")
+        p("exactly one family cites it -- so `find_signoff` returns the FIRST")
+        p("one and the reader cannot tell which was shown. Not wrong; not")
+        p("visible either.")
+        p("")
+        for plan, n in pvs["multi_untagged"]:
+            p("- `%s` -- %d untagged sign-off lines" % (plan, n))
+        p("")
 
     # v1 source side
     led_disp = {}

@@ -411,25 +411,42 @@ NO_TARGET_BY_DECISION = {
         "DELETED. Superclass-only with zero documents in any corpus, so there "
         "is nothing to migrate and no target to name."),
 
-    # NOT `sampled_body`, and the difference is the reason this table exists.
-    # The sign-off re-homes FOUR FIELDS -- `time_type` to the time axis's
-    # `datum_type`, `data_type` to the STATEMENT's, `data_dim` to the axis
-    # count, `samples_regular_intervals` to the axis `regular` flag -- and the
-    # axis entry mounts on `subject_statement` OR `sampled_body` depending on
-    # `storage_mode` (V_eta_data_body_model_plan.md). Writing `sampled_body`
-    # here would pick one of the two mounts, which is a modelling decision the
-    # team has not made. The class is retired; its fields land in a MODEL, not
-    # in a named document class.
+    # THE SECOND ROW OF THE `ngrid` SHAPE, found by sweeping for it rather than
+    # by stumbling on it a third time. `V_eta_go_forward_class_audit.md` states
+    # two things:
+    #
+    #   :459  a SECTION HEADING -- "## `binaryseries_parameters` -- folds into
+    #         `sampled_body`, no new decision"
+    #   :3    the TEAM-SIGN-OFF [misc singletons] line -- "`binaryseries_
+    #         parameters` folds into the data_body model and is retired (its
+    #         `time_type` is the time axis's new `datum_type`, its `data_type`
+    #         the statement's, `data_dim` the axis count,
+    #         `samples_regular_intervals` the axis `regular` flag)"
+    #
+    # They are not the same claim. The heading names ONE target class; the
+    # signature routes the fields to TWO different mounts -- `data_type` goes to
+    # the STATEMENT, and the axis entry mounts on `subject_statement` OR
+    # `sampled_body` by `storage_mode` (V_eta_data_body_model_plan.md). So
+    # recording `sampled_body` picks a mount the team did not pick, and
+    # recording a clean dissolution buries a heading a reader will find first.
+    #
+    # `status_board.py`'s FAMILIES one-liner takes the heading's side
+    # ("binaryseries_parameters -> sampled_body"), which is exactly how `ngrid`
+    # got filed twice, both ways, in one day. DISPUTED: both citations, no
+    # choice made.
     "binaryseries_parameters": (
-        NO_TARGET_DISSOLVED, "V_eta_go_forward_class_audit.md",
+        NO_TARGET_DISPUTED, "V_eta_go_forward_class_audit.md",
         "`binaryseries_parameters` folds into the data_body model and is retired",
-        "The sign-off names FIELD destinations and NO TARGET CLASS -- so "
-        "`sampled_body` is NOT recorded as its target: the axis entry mounts on "
-        "`subject_statement` or on `sampled_body` by `storage_mode`, and "
-        "choosing between the two mounts is a modelling call nobody has made."),
+        "CONTESTED, the same shape as `ngrid`. The sign-off names FIELD "
+        "destinations and NO target class, routing `data_type` to the STATEMENT "
+        "and the rest to an axis entry that mounts on `subject_statement` or on "
+        "`sampled_body` by `storage_mode`; the same document's section heading "
+        "(:459) says it 'folds into `sampled_body`'. `sampled_body` is NOT "
+        "recorded, because picking one of the two mounts is a modelling call "
+        "nobody has made."),
 
-    # THE ONE ROW WHERE THE RECORD CONTRADICTS ITSELF, LEFT VISIBLE RATHER THAN
-    # RESOLVED HERE. Two statements in the SAME document:
+    # THE ROW THIS TABLE WAS BUILT FROM, LEFT VISIBLE RATHER THAN RESOLVED
+    # HERE. Two statements in the SAME document:
     #
     #   V_eta_image_model_plan.md:107  "## `ngrid` / `array` -- KILLED as a
     #                                   data_type; `ngrid` -> `sampled_body`"

@@ -21,8 +21,8 @@
     "no_target": {
       "rows_naming_no_target": 11,
       "by_reason": {
-        "dissolved": 4,
-        "disputed": 1,
+        "dissolved": 3,
+        "disputed": 2,
         "passthrough": 2,
         "unrecorded": 3
       },
@@ -182,9 +182,9 @@
       "decided_targets_source": null,
       "decided_signoff": null,
       "target_source": "emitted",
-      "no_target_reason": "dissolved",
-      "no_target_reason_label": "DISSOLVES -- no target class, and that is the signed answer",
-      "no_target_account": "The sign-off names FIELD destinations and NO TARGET CLASS -- so `sampled_body` is NOT recorded as its target: the axis entry mounts on `subject_statement` or on `sampled_body` by `storage_mode`, and choosing between the two mounts is a modelling call nobody has made.",
+      "no_target_reason": "disputed",
+      "no_target_reason_label": "DISPUTED -- the record states two incompatible dispositions",
+      "no_target_account": "CONTESTED, the same shape as `ngrid`. The sign-off names FIELD destinations and NO target class, routing `data_type` to the STATEMENT and the rest to an axis entry that mounts on `subject_statement` or on `sampled_body` by `storage_mode`; the same document's section heading (:459) says it 'folds into `sampled_body`'. `sampled_body` is NOT recorded, because picking one of the two mounts is a modelling call nobody has made.",
       "no_target_signoff": {
         "document": "V_eta_go_forward_class_audit.md",
         "signoff_fragment": "`binaryseries_parameters` folds into the data_body model and is retired"

@@ -113,18 +113,24 @@ PINNED_DISSOLUTIONS = {
     "stimulus_response_scalar_parameters": (
         "V_eta_stimulus_response_model_plan.md",
         "stimulus_response and stimulus_response_scalar_parameters DELETE"),
-    "binaryseries_parameters": (
-        "V_eta_go_forward_class_audit.md",
-        "`binaryseries_parameters` folds into the data_body model and is retired"),
 }
 
-# `ngrid` is deliberately in NEITHER dictionary above. Its plan document says
-# two incompatible things -- the R4 section says it "phases into `sampled_body`"
-# (a fold WITH a target) while the TEAM-SIGN-OFF line says it "is DISSOLVED
-# (deleted, not migrated)" and the FINAL class block says "ngrid DELETED". Two
-# commits on 2026-08-11 filed it each way, each reading one half. It is pinned
-# as DISPUTED so neither reading can be adopted by a tool.
-PINNED_DISPUTED = {"ngrid"}
+# NEITHER DICTIONARY ABOVE, and pinned instead as DISPUTED. In both cases ONE
+# document states two things that cannot both be acted on: a heading or section
+# naming a target CLASS, and a `TEAM-SIGN-OFF` line naming a deletion or a set
+# of field destinations. `ngrid` was filed each way by two commits on
+# 2026-08-11, each reading one half; sweeping for the shape then found
+# `binaryseries_parameters` immediately. A tool must record the disagreement,
+# not settle it -- so `sampled_body` is recorded for neither.
+PINNED_DISPUTED = {
+    "ngrid": ("V_eta_image_model_plan.md",
+              "ngrid is DISSOLVED (deleted, not migrated)",
+              "phases into `sampled_body`"),
+    "binaryseries_parameters": (
+        "V_eta_go_forward_class_audit.md",
+        "`binaryseries_parameters` folds into the data_body model and is retired",
+        "`binaryseries_parameters` — folds into `sampled_body`"),
+}
 
 
 def _signoff_lines(plan):
@@ -229,26 +235,36 @@ def test_recorded_dissolution_quotes_a_real_signoff_line(cls):
         "no_target_reason=%r" % (cls, plan, hits[0], row["no_target_reason"]))
 
 
-def test_ngrid_is_disputed_and_names_no_target():
-    """The one row where the record contradicts itself stays contradictory.
+@pytest.mark.parametrize("cls", sorted(PINNED_DISPUTED))
+def test_a_contested_row_stays_contested_and_names_no_target(cls):
+    """Where the record contradicts itself, it stays contradictory.
 
-    Recording `sampled_body` would promote Claude's reading over the signature;
+    Recording `sampled_body` would promote a reading over a signature;
     recording a clean dissolution would bury a disagreement that has already
-    flipped this row twice in one day. Neither, and the disagreement is visible.
+    flipped `ngrid` twice in one day. Neither, and BOTH halves must still be
+    present in the document -- if one disappears the dispute is over and this
+    test should be revisited rather than relaxed.
     """
-    row = next(r for r in _rows() if r["v1_class"] == "ngrid")
-    assert row["no_target_reason"] == "disputed", row["no_target_reason"]
+    plan, signoff_frag, other_frag = PINNED_DISPUTED[cls]
+    row = next(r for r in _rows() if r["v1_class"] == cls)
+    assert row["no_target_reason"] == "disputed", (
+        "%s: no_target_reason=%r" % (cls, row["no_target_reason"]))
     assert not row["decided_targets"], (
-        "ngrid names %s as a decided target. The TEAM-SIGN-OFF line says "
-        "'ngrid is DISSOLVED (deleted, not migrated)'; only the R4 SECTION says "
-        "sampled_body. A tool must not pick." % row["decided_targets"])
-    cell, _ = _md_row("ngrid")
-    assert "DISPUTED" in cell, cell
-    # And the disagreement it names must still be in the document, both halves.
-    with open(os.path.join(SCHEMAS, "V_eta_image_model_plan.md")) as fh:
-        plan = fh.read()
-    assert "ngrid is DISSOLVED (deleted, not migrated)" in plan
-    assert "phases into `sampled_body`" in plan
+        "%s names %s as a decided target while its record is contested. A tool "
+        "must not pick." % (cls, row["decided_targets"]))
+    cell, _ = _md_row(cls)
+    assert "DISPUTED" in cell, (cls, cell)
+
+    with open(os.path.join(SCHEMAS, plan)) as fh:
+        text = fh.read()
+    hits = [n for n, ln in _signoff_lines(plan) if signoff_frag in ln]
+    assert hits, "%s: no TEAM-SIGN-OFF line in %s contains %r" % (
+        cls, plan, signoff_frag)
+    assert other_frag in text, (
+        "%s: the OTHER half of the dispute (%r) is no longer in %s. If the "
+        "document now says only one thing, the dispute is resolved and this "
+        "row needs re-recording -- do not simply delete the assertion."
+        % (cls, other_frag, plan))
 
 
 # ===========================================================================
@@ -459,6 +475,48 @@ def test_the_board_does_not_assert_what_it_never_read():
         "the ledger. These carry a decided target and must not be reported as "
         "contributing nothing: %s"
         % (len(listed), sum(1 for c in listed if c in rows), wrong))
+
+
+def test_the_family_prose_is_swept_against_the_signatures():
+    """The `ngrid` split must be looked for, not stumbled on.
+
+    Two independent readers got `ngrid` wrong on the same day, each from the
+    same document, because the FAMILIES one-liner (Claude-authored prose in a
+    tool) named a target class the signature does not. Sweeping for that shape
+    found a second instance in the first pass. A one-off correction leaves the
+    third one to be discovered the same way.
+    """
+    status = os.path.join(SCHEMAS, "V_eta_STATUS.md")
+    with open(status) as fh:
+        text = fh.read()
+    heading = "## Class names the family table asserts that its sign-off does not say"
+    assert heading in text, "the family-prose sweep is not rendered in the board at all"
+
+    # SCOPE THE ASSERTIONS TO THE SWEEP'S OWN SECTION. The first draft of this
+    # test searched the WHOLE of V_eta_STATUS.md for "image / ngrid" and
+    # "sampled_body" -- both of which appear in the family table two sections
+    # up -- so a mutation that narrowed the sweep until it reported NOTHING
+    # still passed. Caught by mutating it (M13); the test agreed with the
+    # broken code because it was reading a different part of the file.
+    section = text.split(heading, 1)[1].split("\n## ", 1)[0]
+
+    m = re.search(r"DENOMINATOR: (\d+) signed families checked;.*?"
+                  r"(\d+) family/name pair\(s\) are\s+UNSIGNED", section, re.S)
+    assert m, "the sweep does not state its denominator"
+    assert int(m.group(1)) >= 15, (
+        "the sweep claims to have checked only %s families -- too few to be the "
+        "real set" % m.group(1))
+    assert int(m.group(2)) > 0, (
+        "the sweep reports 0 unsigned family/name pairs. Two are known and "
+        "documented (`ngrid` and `binaryseries_parameters`, both naming "
+        "`sampled_body`), so a zero here means the sweep was narrowed, not that "
+        "the record was fixed.")
+    # The rows it exists for must be in ITS OWN table.
+    assert "| **image / ngrid** |" in section, (
+        "the sweep no longer reports the family it was built from")
+    assert "`sampled_body`" in section, (
+        "`sampled_body` -- the unsigned class name in BOTH contested rows -- is "
+        "not reported by the sweep")
 
 
 def test_a_row_whose_migrator_emits_its_decided_target_says_so():
