@@ -59,6 +59,28 @@ referents. That is the T4/T7 case — the attachment is a **role**, and roles ar
 edges, not subclasses. Three of the four already migrate 1→1 to `term_assertion`;
 the unattached one has no migrator because it has no referent to assert about.
 
+> **STALE SINCE #71 LANDED (2026-08-09); corrected 2026-08-11 while closing #75.**
+> It is **TWO** of the four now, not three. `openminds_stimulus` was RE-TARGETED:
+> pass 1 emits nothing and passes the document through guarded, because these are
+> the 635 `StimulationApproach` documents and their destination is
+> `interaction_purpose` via the NDI second pass — signed at
+> `V_eta_go_forward_class_audit.md:3`, `TEAM-SIGN-OFF [misc singletons]`, 2026-08-09.
+> Read from the migrators rather than from this sentence:
+>
+> ```
+> DENOMINATOR: 4 sibling classes, 3 with a +migrators_j file, all 3 read
+>   openminds_subject.m:47   body.document_class = struct('class_name','term_assertion',...
+>   openminds_element.m:52   body.document_class = struct('class_name','term_assertion',...
+>   openminds_stimulus.m:84  bodies = {preBody};          <- emits NOTHING
+>   openminds                no migrator (no referent)
+> ```
+>
+> The clause this note corrects is the ONLY thing in this record that routed an
+> approach term to the assertion tier, and #75 mistook it for a signed decision.
+> It was never one: neither sign-off line in this file mentions
+> `StimulationApproach` or `openminds_stimulus`, and the status board scopes this
+> family to the class list `['openminds']`.
+
 ## The histogram — 119,166 real corpus documents (JH, Dab, B)
 
 ```
@@ -74,6 +96,17 @@ openminds* documents by class          openminds_type histogram
 **Every type is a controlled-vocabulary term.** Not one `Person`, `Funding`,
 `SoftwareVersion` or `Dataset` in 11,384 documents. So the three attached siblings
 → `term_assertion` is confirmed by data, not merely plausible.
+
+> **The same correction as above, and this is where the reasoning actually failed.**
+> "Every type is a controlled term" is true and does NOT imply the destination. It
+> settles that each is a *term*; it says nothing about which TIER the term belongs
+> to, and the 635 `StimulationApproach` rows in the right-hand column are exactly
+> the ones where the answer differs. They are epoch-scoped — both writers set an
+> epoch (`stimulusDocMaker.m:407-412`, `add_stimulus_approach.m:59-65`) — and the
+> assertion tier is timeless by construction, since `time_reference_#` lives on
+> `subject_interaction`, the other branch. A shared property of the VALUE was read
+> as a shared destination for the DOCUMENT. Two of the three attached siblings
+> stand; `openminds_stimulus` goes to `interaction_purpose` (#75, closed).
 
 ---
 

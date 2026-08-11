@@ -2164,6 +2164,102 @@ def test_image_stack_declares_ndis_own_file_name():
         "snake_cased invention; got %r" % (files,))
 
 
+def test_openminds_stimulus_passthrough_keeps_the_second_pass_join_keys():
+    """#75, the schema half. The 635 `StimulationApproach` documents go to
+    `interaction_purpose` via the NDI second pass -- and pass 1 can only defer to
+    that pass if the passthrough still carries the two facts the pass joins on.
+
+    THE ROUTING IS SIGNED, twice, and by only one destination. Of the 23
+    TEAM-SIGN-OFF lines under schemas/, exactly ONE names these documents:
+
+        V_eta_go_forward_class_audit.md:3
+        TEAM-SIGN-OFF [misc singletons]: jess, 2026-08-09 -- ... `interaction_purpose`
+        is KEPT ... and is the destination for the 635 `StimulationApproach`
+        documents via a second pass -- so #71 is repaired by re-targeting, with
+        pass 1 emitting nothing ...
+
+    and the [stimulus] sign-off's own body (V_eta_stimulus_model_plan.md:124-132)
+    resolves the same way. The `term_assertion` route #75 called the second
+    "signed plan" was never a plan: it was `migrators_j/openminds_stimulus.m`,
+    and that file now emits nothing (`bodies = {preBody}` at :84).
+
+    WHAT THIS PINS, and why each one is load-bearing rather than decorative:
+
+    1. `stimulus_element_id`, not `stimulus_id`. NDI's template, its schema and
+       `openMINDSobj2ndi_document.m:58` all name the edge `stimulus_element_id`;
+       `stimulus_id` was a DID-side invention, and reading it is what produced 635
+       empty subjects (#71). It is also the JOIN KEY: the approach document and the
+       stimulus document both point at the same stimulator, which is the only path
+       across the epoch-id namespace gap #76a measured (in Dab all 635 approach
+       epoch ids carry an `epoch_` prefix and none of the 1,242 presentation epoch
+       ids do -- the two classes share ZERO epoch ids).
+
+    2. The `epochid` superclass, carrying its `epochid` field. This is the ENTIRE
+       argument that decided `interaction_purpose` over `term_assertion`: the
+       assertion tier is timeless by construction (`time_reference_#` lives on
+       `subject_interaction`, the other branch), so an assertion cannot hold the
+       epoch both NDI writers set (`stimulusDocMaker.m:407-412`,
+       `add_stimulus_approach.m:59-65`). Drop the epoch from the passthrough and
+       the second pass has nothing to resolve -- silently, because a passthrough
+       that lost a field still validates.
+
+    3. No fields and no other edges. A tombstone that grows a statement-shaped
+       field is a migrator emitting again.
+
+    Nothing else watches this: `check_tombstones.py` compares against the NDI
+    template, which cannot express "this shape is what the deferred pass needs",
+    and no MATLAB fixture pins the superclass chain."""
+    assert len(RECORDS) > 200, f"only {len(RECORDS)} schemas loaded"   # denominator
+    assert "openminds_stimulus" in RECORDS, (
+        "the openminds_stimulus tombstone was deleted; migrators_j/"
+        "openminds_stimulus.m passes every document through, so there would be "
+        "no schema left to validate them against")
+
+    tomb = RECORDS["openminds_stimulus"][1]
+
+    deps = {d["name"]: d for d in tomb.get("depends_on", [])}
+    assert set(deps) == {"stimulus_element_id"}, (
+        "openminds_stimulus declares exactly NDI's one edge; got %r" % (sorted(deps),))
+    assert "stimulus_id" not in deps, (
+        "`stimulus_id` is the invented name that emptied 635 subjects (#71) -- "
+        "NDI names this edge `stimulus_element_id` in template, schema and writer")
+    assert deps["stimulus_element_id"]["mustBeNonEmpty"] is True, (
+        "NDI's schema marks it `mustbenotempty: 1`, and the second pass needs it "
+        "as the join key that crosses the epoch-id namespace gap (#76a)")
+
+    chain = _chain("openminds_stimulus")
+    assert "epochid" in chain, (
+        "openminds_stimulus must keep the `epochid` superclass. The epoch is why "
+        "these documents route to interaction_purpose instead of the timeless "
+        "assertion tier; without it the deferred second pass has no epoch to "
+        "resolve and the loss is silent")
+    assert "openminds" in chain, "the openMINDS payload mixin is NDI's own"
+    epoch_fields = {f["name"] for f in RECORDS["epochid"][1].get("fields", [])}
+    assert "epochid" in epoch_fields, (
+        "the epochid mixin must still declare the epochid field -- the superclass "
+        "alone carries nothing")
+
+    assert tomb.get("fields", []) == [], (
+        "openminds_stimulus is a passthrough tombstone; a field here means pass 1 "
+        "started emitting a statement again")
+
+    # The destination the sign-off names must exist, and must not be emittable
+    # with a blank required edge -- which is the standing reason the build stays
+    # a second pass rather than a pass-1 migrator.
+    assert "interaction_purpose" in RECORDS, (
+        "the signed destination for these 635 documents no longer exists")
+    ip = {d["name"]: d for d in RECORDS["interaction_purpose"][1]["depends_on"]}
+    assert ip["interaction_id_#"]["min_count"] >= 1, (
+        "interaction_id_# is REQUIRED, so a pass that cannot resolve an "
+        "interaction must pass through rather than emit a blank edge")
+    purpose = next(f for f in RECORDS["interaction_purpose"][1]["fields"]
+                   if f["name"] == "purpose")
+    assert purpose["mustBeScalar"] is True, (
+        "one purpose per document is what keeps the v1 and V_eta counts equal at "
+        "635: an epoch carrying two approach names was two v1 documents and "
+        "becomes two interaction_purpose documents")
+
+
 def test_acquisition_epoch_declares_the_vhsb_payload():
     """Defect 3 of the four in `V_eta_epoch_plan.md`, closed.
 

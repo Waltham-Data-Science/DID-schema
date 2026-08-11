@@ -548,6 +548,28 @@ an `interaction_purpose`. Both cannot be right. And the `term_assertion` route i
 independently broken: those documents migrate with an EMPTY `subject_id` because the
 migrator reads a dependency name that does not exist. Tracked as #75.
 
+> **"TWO SIGNED PLANS" WAS WRONG, and #75 carried the error for two days under that
+> title. Corrected 2026-08-11 when the row was closed.** The sentence names ONE plan
+> document and ONE `.m` file, and then calls the pair two signed plans. Its own next
+> clause gives it away: a signed plan does not "read a dependency name that does not
+> exist" — a migrator does. **DENOMINATOR: 54 markdown files under `schemas/`, 54
+> read, 24 `TEAM-SIGN-OFF` lines (23 real, plus the format template at
+> `V_eta_STATUS.md:216`).** Exactly one names these documents — the `[misc singletons]`
+> line at the top of THIS file, which sends them to `interaction_purpose`. Exactly two
+> mention `term_assertion`, both in `V_eta_openminds_family_record.md` (:10, :20) and
+> both about STRAIN; neither routes an approach term. The `term_assertion` route came
+> from that record's *prose* ("three of the four already migrate 1→1 to
+> `term_assertion`"), which was a DESCRIPTION OF THE MIGRATOR AS IT THEN STOOD, not a
+> decision — and it is now stale twice over, since pass 1 stopped emitting.
+>
+> Why the mislabel mattered: Operating Rule 4 makes a clash between two sign-offs the
+> one thing Claude may not resolve, so calling it that put a fixable code defect
+> behind a stop sign. The cost was small only because the section below decided it
+> anyway. **The check that would have caught it in one line: a sign-off is a
+> `TEAM-SIGN-OFF` line, so before writing "two signed plans", name both lines.**
+> `status_board.py` reads exactly that marker and was never fooled — the same lesson
+> as #80, one level up.
+
 **Recorded so this cannot rot the way `openminds_import` did:** if the stimulus build
 lands and does NOT emit `interaction_purpose`, the class has no emitter and no consumer,
 and it should be removed at that point rather than persisted for another year on the
