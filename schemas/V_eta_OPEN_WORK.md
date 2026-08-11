@@ -1427,3 +1427,58 @@ decompose cannot strand a referent.
 
 **No `TEAM-SIGN-OFF` line is written by Claude.** The board keeps rendering this family as
 awaiting review until the team writes one.
+
+---
+
+## CORRECTION 2026-08-11 — the `generic_file` decision note above got two things wrong
+
+Written by Claude, after the build. The decision itself is UNCHANGED and correct; two of the
+FACTS I recorded beside it were not, and both erred in the direction this project punishes —
+they made the remaining work look smaller and tidier than it is.
+
+**1. "THE ONE REMAINING BLOCKER IS ONE FIELD" WAS TWO FIELDS.** `content_hash` was one. The
+other is that `date_created` and `date_updated` — filesystem datenums the writer computes at
+`+setup/+conv/+babu/import.m:522-523` and `:571-572` — have **NO HOME**. The signed
+`data_body` model lists `format`, `compression`, `filename`, `content_hash` and `description`,
+and no dates. `build_v_eta.py` already carried a comment saying exactly this ("no content_hash
+... and no created/updated dates"); my summary said one field and was wrong against a note
+already in the tree.
+
+The fold DROPS them and COUNTS the drop (`date_fields_dropped`, 1 in the fixture run) rather
+than inventing a slot, which is right. **This is an open modelling question, not a closed one:
+where do a file's creation and modification timestamps live?** It is a sibling of the "DATE OF
+BIRTH has no home" item already recorded in `CLAUDE.md` — the same shape, one tier down.
+
+**2. THE JOIN IS NOT ALWAYS TO A `subject_group`.** That is the PLASMID branch. The LC-MS
+branch fills `document_id` from `lcmsTable.SubjectDocumentIdentifier`, itself filled at
+`import.m:550` from `subjectTable.SubjectDocumentIdentifier` — a **subject** id — and only the
+single `All_set` row is overwritten with the group id at `:562`. So the referent is sometimes a
+subject and sometimes a group. The V_eta tombstone had this right (`must_refer_to_document_class:
+subject`); my note narrowed it. The built pass checks that the id RESOLVES IN THE BATCH and
+never checks its class, which is the correct behaviour and is what makes the narrowing harmless
+in code but not in the record.
+
+## OPEN — NOBODY HAS PROPOSED ANYTHING: no `data_type` carries an uninterpreted payload
+
+Surfaced by the `generic_file` build, and it is a REAL model gap rather than an oversight.
+`subject_statement` is ABSTRACT (`did2:validation:abstractInstantiation`); every concrete
+statement is direction x data_type (T3); and **of the 40 `data_type` composites, NONE carries an
+uninterpreted payload** — each either requires a typed `value` or names a quantity that a
+plasmid map or an LC-MS table does not have.
+
+The build shipped `term_observation` with `term.value` RESTATING the `variable`, because that
+field is `mustBeNonEmpty` and the sibling label's node is the only term the source carries.
+Redundant but true. Two alternatives were considered and rejected with reasons: an empty
+`term.value` QUARANTINES every Babu document, and `count_observation` validates while naming
+something false (the `jSorterOutput` precedent). **Minting a composite for opaque payloads is a
+team modelling call and the build correctly refused to make it.**
+
+Whoever takes it should note the shape is general, not Babu-specific: any "here is a file about
+subject S, of kind K" fact hits the same wall.
+
+## NOTED, NOT FIXED: `EDAM` is not a registered CURIE prefix
+
+The `variable` this fold carries comes from the sibling `ontologyLabel`'s node — `EDAM:data_1286`
+(plasmid) and `EDAM:data_2536` (LC-MS). `EDAM` is **not** declared in `CURIE_lookups_meta.json`.
+Nothing enforces prefixes today, so this validates; it is recorded here so that arming a prefix
+check is not surprised by it.
