@@ -2486,14 +2486,121 @@ def build(ocs=None):
 
     p("## DECIDED by the team, awaiting build")
     p("")
-    p("The model is settled and recorded; the schema has not changed yet. Every")
-    p("one of these re-targets migrators that are already written, which is why")
-    p("migrator work before the target closes is rework.")
+    # THIS SECTION USED TO ASSERT "the schema has not changed yet" AS A
+    # HARDCODED STRING, printed under every family regardless of the tree.
+    # By 2026-08-11 it was false for essentially all of them: a hand check of
+    # the 26 target classes these families name found 25 present as schema
+    # files and the 26th (`execution_environment`) present as a block on
+    # `subject_interaction`. The sentence would have sent a reader to rebuild
+    # the entire decided set.
+    #
+    # It is the project's own recurring error wearing the opposite sign. The
+    # usual direction is a claim that reads as MORE progress than exists; this
+    # one reads as LESS, which is why it survived so long -- understating never
+    # produces a wrong build, only wasted work and a board nobody can plan
+    # from. Both are the same defect: prose in a GENERATED artifact stating a
+    # fact that the generator never checked.
+    #
+    # The join it needed already existed one layer down. `open_class_state`
+    # computes `decided_targets` / `_built` / `_missing` per class. All this
+    # does is lift that to the family and print it, so the claim moves with
+    # the tree instead of with whoever last edited the string.
+    tgt_by_class = {r["class_name"]: r for r in (ocs or {}).get("classes", [])}
+
+    def family_targets(members):
+        """(built, missing) decided-target class names across a family."""
+        built_t, missing_t = set(), set()
+        for m in members:
+            row = tgt_by_class.get(m)
+            if not row:
+                continue
+            built_t.update(row.get("decided_targets_built") or [])
+            missing_t.update(row.get("decided_targets_missing") or [])
+        # A target both built and missing across two members is BUILT -- the
+        # file exists; the other member simply has not been re-pointed at it.
+        return built_t, (missing_t - built_t)
+
+    if not ocs:
+        # RULE 5. No denominator available means the question was not asked,
+        # and that is not the same as "nothing is missing".
+        p("**TARGET-BUILD STATE NOT MEASURED IN THIS RUN.** The open-class")
+        p("evidence layer did not run, so this section cannot say whether these")
+        p("families' target schemas exist. Read that as UNKNOWN, not as unbuilt.")
+    else:
+        all_built, all_missing = set(), set()
+        seen, unseen = [], []
+        for name, members, _, _, _ in decided:
+            b, m = family_targets(members)
+            all_built |= b
+            all_missing |= m
+            (seen if (b or m) else unseen).append(name)
+        all_missing -= all_built
+        n_named = len(all_built) + len(all_missing)
+        # THE CHECK'S OWN COVERAGE COMES FIRST, BEFORE ITS RESULT. The first
+        # version of this block printed "13 named, 13 built, 0 missing" while
+        # 11 of the 18 families had contributed NOTHING to those numbers, so a
+        # reassuring "0 not built" was really "0 among the families I could
+        # see". A count that does not say what it failed to look at is the
+        # `silentLoss` defect, and writing the fix is not a licence to repeat
+        # it one layer up.
+        p("**DENOMINATOR: %d signed families. %d named at least one decided "
+          "target class and were checked against the built tree; %d named none "
+          "and are UNCHECKED HERE.**" % (len(decided), len(seen), len(unseen)))
+        p("")
+        p("Across the %d checked: %d distinct target class(es), %d present in "
+          "the built set, %d not." % (len(seen), n_named, len(all_built),
+                                      len(all_missing)))
+        p("")
+        if all_missing:
+            p("The classes not yet present are the schema build queue:")
+            p("")
+            for t in sorted(all_missing):
+                p("- `%s`" % t)
+            p("")
+        elif n_named:
+            p("So for the checked families the schema half is DONE and what")
+            p("remains is MIGRATOR work. Do not read those rows as a build")
+            p("queue for schema.")
+            p("")
+        if unseen:
+            # "no target recorded" splits two ways and the split is the point.
+            # `epochid` and `ngrid` DISSOLVE -- naming no target is the correct
+            # and final answer for them. `filter`, `binaryseries_parameters`,
+            # `stimulus_presentation` and `epochfiles_ingested` each have a
+            # target fixed in a signed plan that the ledger never recorded.
+            # Rendering both as a blank cell makes a settled decision and a
+            # missing record look identical, which is how a decided model gets
+            # re-litigated.
+            p("**The other %d are unchecked, NOT clean.** No member of these "
+              "families carries a `decided_targets` entry in the coverage "
+              "ledger, so nothing above says anything about them:"
+              % len(unseen))
+            p("")
+            for name in unseen:
+                p("- **%s**" % name)
+            p("")
+            p("A blank entry has two very different causes and the ledger does")
+            p("not distinguish them: the family DISSOLVES and naming no target")
+            p("is the final answer (`epochid`, `ngrid`), or the target is fixed")
+            p("in a signed plan and was never written down (`filter` ->")
+            p("`frequency_filter`, `binaryseries_parameters` -> `sampled_body`).")
+            p("Only the second kind is a gap, and telling them apart needs the")
+            p("ledger to record dissolution explicitly rather than by omission.")
     p("")
-    p("| family | classes | decision | recorded in |")
-    p("|---|---|---|---|")
+    p("Every one of these re-targets migrators that are already written, which")
+    p("is why migrator work before the target closes is rework.")
+    p("")
+    p("| family | classes | targets built | decision | recorded in |")
+    p("|---|---|---|---|---|")
     for name, members, plan, what, _ in decided:
-        p("| **%s** | %d | %s | `%s` |" % (name, len(members), what, plan))
+        if not ocs:
+            cell = "not measured"
+        else:
+            b, m = family_targets(members)
+            n = len(b) + len(m)
+            cell = "%d of %d" % (len(b), n) if n else "no target recorded"
+        p("| **%s** | %d | %s | %s | `%s` |"
+          % (name, len(members), cell, what, plan))
     p("")
 
     # v1 source side

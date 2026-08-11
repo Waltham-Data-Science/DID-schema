@@ -1258,3 +1258,113 @@ def test_all_three_mint_idioms_are_recognised_THROUGH_the_batch_root(tmp_path):
             % (cls, batch["emitted_class_refs"]))
     assert src["n_files_excluded_v_zeta"] == 1, (
         "the decoy V_zeta file was not excluded")
+
+
+# --------------------------------------------------------------------------
+# The "DECIDED by the team, awaiting build" section used to open with three
+# HARDCODED lines asserting "the schema has not changed yet", printed under
+# every family regardless of what was in the tree. By 2026-08-11 it was false
+# for essentially all of them -- a hand check of the target classes those
+# families name found every one already built, one of them as a block on
+# `subject_interaction` rather than a class file.
+#
+# That is this project's recurring defect with the sign flipped. The usual
+# direction is prose claiming MORE progress than exists; this claimed LESS,
+# which is exactly why it survived: understating never produces a wrong build,
+# only wasted work. Both are one thing -- a GENERATED artifact stating a fact
+# its generator never checked.
+#
+# The first replacement then repeated the error one layer up. It computed
+# "13 target classes named, 13 built, 0 missing" and printed it as a clean
+# bill of health while 11 of the 18 families had contributed NOTHING to those
+# numbers, because no member of theirs carries a `decided_targets` entry. A
+# reassuring "0 not built" that really meant "0 among the families I could
+# see" is the `silentLoss` defect verbatim.
+#
+# So there are two things to hold down, and the second is the important one.
+# --------------------------------------------------------------------------
+
+_AWAITING_HEAD = "## DECIDED by the team, awaiting build"
+
+
+def _awaiting_section():
+    with open(STATUS) as fh:
+        text = fh.read()
+    assert _AWAITING_HEAD in text, (
+        "the awaiting-build section is gone from the board; if it was renamed, "
+        "retarget this test rather than deleting it -- it is the only thing "
+        "keeping an unchecked claim out of that section")
+    body = text.split(_AWAITING_HEAD, 1)[1]
+    # Stop at the next top-level heading.
+    nxt = body.find("\n## ")
+    return body if nxt == -1 else body[:nxt]
+
+
+def test_awaiting_build_never_asserts_the_schema_is_unbuilt():
+    """The hardcoded claim must not come back, in any spelling."""
+    sec = _awaiting_section()
+    for banned in ("the schema has not changed yet",
+                   "the schema has not changed",
+                   "none of these is built"):
+        assert banned not in sec, (
+            "the awaiting-build section asserts %r again. That sentence was "
+            "removed because it was false for every family it decorated and "
+            "would send a reader to rebuild schema that already exists. If "
+            "the tree really has regressed, the per-family `targets built` "
+            "column will say so on its own." % banned)
+
+
+def test_awaiting_build_states_how_many_families_it_could_not_check():
+    """RULE 5, applied to the fix and not just to the thing it fixed.
+
+    A result is only readable beside the coverage of the check that produced
+    it. This asserts the section reports BOTH -- how many families it checked
+    and how many it could not -- so a future edit cannot quietly drop the
+    second half and leave a bare, reassuring zero.
+    """
+    sec = _awaiting_section()
+    assert "DENOMINATOR" in sec, (
+        "the awaiting-build section no longer leads with a denominator")
+
+    m = re.search(r"(\d+) signed families\. (\d+) named at least one decided "
+                  r"target class and were checked against the built tree; "
+                  r"(\d+) named none and are UNCHECKED HERE", sec)
+    assert m, (
+        "the awaiting-build denominator no longer states checked-vs-unchecked "
+        "family counts. It must, and in a form that cannot be read as a clean "
+        "bill of health: an unchecked family is not a passing one.")
+    total, checked, unchecked = (int(g) for g in m.groups())
+    assert checked + unchecked == total, (
+        "checked (%d) + unchecked (%d) != families (%d) -- the section's own "
+        "arithmetic does not close, so one bucket is silently dropping "
+        "families" % (checked, unchecked, total))
+
+    if unchecked:
+        assert "unchecked, NOT clean" in sec, (
+            "%d families went unchecked and the section does not say that a "
+            "blank is not a pass" % unchecked)
+        # The two causes of a blank must stay distinguished in the prose: a
+        # family that DISSOLVES correctly names no target, while one whose
+        # target is fixed in a signed plan and never recorded is a real gap.
+        # Rendering both as blank is how a settled decision gets re-litigated.
+        assert "DISSOLVES" in sec, (
+            "the section no longer explains that a blank target has two "
+            "causes -- dissolution (final) and an unrecorded target (a gap)")
+
+
+def test_awaiting_build_table_carries_a_targets_built_column():
+    sec = _awaiting_section()
+    assert "| targets built |" in sec, (
+        "the per-family `targets built` column is gone. It is what makes the "
+        "section's claim derive from the tree instead of from a string.")
+    # Every family row must carry a verdict -- a ratio, or the explicit
+    # admission that no target is on file. A blank cell would be the old
+    # failure in miniature.
+    rows = [ln for ln in sec.splitlines()
+            if ln.startswith("| **") and ln.count("|") >= 5]
+    assert rows, "the awaiting-build table has no family rows"
+    for ln in rows:
+        cell = ln.split("|")[3].strip()
+        assert re.fullmatch(r"\d+ of \d+", cell) or cell == "no target recorded", (
+            "family row %r has an uninterpretable `targets built` cell %r"
+            % (ln.split("|")[1].strip(), cell))

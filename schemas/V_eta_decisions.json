@@ -530,13 +530,13 @@
         ],
         "packages_missing": [],
         "files_read": 163,
-        "lines_read": 29100,
+        "lines_read": 29329,
         "classes_queried": 27,
         "classes_emitted_as_document_class": 8,
         "unresolved_mint_sites": [
           "DID-matlab:convert/+entities/entityDoc.m:58 (className)",
           "DID-matlab:convert/resolveLawnPlateSubjects.m:1096 (leafClass)",
-          "DID-matlab:convert/universalRenames.m:167 (v2ClassName;)",
+          "DID-matlab:convert/universalRenames.m:173 (v2ClassName;)",
           "DID-matlab:migrators_j/dataset_remote.m:70 (className)",
           "DID-matlab:migrators_j/ontology_table_row.m:248 (leafClass)",
           "DID-matlab:migrators_j/ontology_table_row.m:779 (className)",
@@ -573,7 +573,7 @@
         },
         "lines_read_by_group": {
           "per_document_migrator": 20094,
-          "batch_post_pass": 9006
+          "batch_post_pass": 9235
         },
         "classes_emitted_as_document_class_by_group": {
           "per_document_migrator": 8,
@@ -605,7 +605,7 @@
           "batch_post_pass": [
             "DID-matlab:convert/+entities/entityDoc.m:58 (className)",
             "DID-matlab:convert/resolveLawnPlateSubjects.m:1096 (leafClass)",
-            "DID-matlab:convert/universalRenames.m:167 (v2ClassName;)"
+            "DID-matlab:convert/universalRenames.m:173 (v2ClassName;)"
           ]
         },
         "v_zeta_packages_excluded": [
@@ -799,8 +799,8 @@
         "n_consuming_refs": 5,
         "consuming_refs": [
           "DID-matlab:convert/resolveValidIntervals.m:483 (guard)",
-          "DID-matlab:convert/universalRenames.m:212 (guard)",
-          "DID-matlab:convert/universalRenames.m:213 (field_read)",
+          "DID-matlab:convert/universalRenames.m:218 (guard)",
+          "DID-matlab:convert/universalRenames.m:219 (field_read)",
           "DID-matlab:migrators_j/private/jSoftwareFromApp.m:91 (guard)",
           "DID-matlab:migrators_j/private/jSoftwareFromApp.m:92 (field_read)"
         ],
@@ -811,7 +811,7 @@
         "emission_discounted": null,
         "n_field_write_refs": 2,
         "field_write_refs": [
-          "DID-matlab:convert/universalRenames.m:214 (field_write)",
+          "DID-matlab:convert/universalRenames.m:220 (field_write)",
           "DID-matlab:migrators_j/private/jMethodParameters.m:107 (field_write)"
         ],
         "n_named_refs": 1,
@@ -856,14 +856,14 @@
             "n_consuming_refs": 3,
             "consuming_refs": [
               "DID-matlab:convert/resolveValidIntervals.m:483 (guard)",
-              "DID-matlab:convert/universalRenames.m:212 (guard)",
-              "DID-matlab:convert/universalRenames.m:213 (field_read)"
+              "DID-matlab:convert/universalRenames.m:218 (guard)",
+              "DID-matlab:convert/universalRenames.m:219 (field_read)"
             ],
             "n_emitted_class_refs": 0,
             "emitted_class_refs": [],
             "n_field_write_refs": 1,
             "field_write_refs": [
-              "DID-matlab:convert/universalRenames.m:214 (field_write)"
+              "DID-matlab:convert/universalRenames.m:220 (field_write)"
             ],
             "n_named_refs": 1,
             "named_refs": [
@@ -1763,8 +1763,8 @@
         "comment_mentions": [
           "DID-matlab:convert/resolveDeferredBaths.m:15 (comment_mention)",
           "DID-matlab:convert/resolveDeferredBaths.m:24 (comment_mention)",
-          "DID-matlab:convert/resolveSessionAnchors.m:45 (comment_mention)",
-          "DID-matlab:convert/resolveSessionAnchors.m:81 (comment_mention)",
+          "DID-matlab:convert/resolveSessionAnchors.m:53 (comment_mention)",
+          "DID-matlab:convert/resolveSessionAnchors.m:89 (comment_mention)",
           "DID-matlab:migrators_j/stimulus_bath.m:23 (comment_mention)",
           "DID-matlab:migrators_j/syncrule_mapping.m:176 (comment_mention)"
         ],
@@ -1815,8 +1815,8 @@
             "comment_mentions": [
               "DID-matlab:convert/resolveDeferredBaths.m:15 (comment_mention)",
               "DID-matlab:convert/resolveDeferredBaths.m:24 (comment_mention)",
-              "DID-matlab:convert/resolveSessionAnchors.m:45 (comment_mention)",
-              "DID-matlab:convert/resolveSessionAnchors.m:81 (comment_mention)"
+              "DID-matlab:convert/resolveSessionAnchors.m:53 (comment_mention)",
+              "DID-matlab:convert/resolveSessionAnchors.m:89 (comment_mention)"
             ]
           }
         },
@@ -1853,7 +1853,7 @@
           "DID-matlab:convert/epochMint.m:106 (comment_mention)",
           "DID-matlab:convert/epochMint.m:113 (comment_mention)",
           "DID-matlab:convert/epochMint.m:126 (comment_mention)",
-          "DID-matlab:convert/resolveSessionAnchors.m:188 (comment_mention)",
+          "DID-matlab:convert/resolveSessionAnchors.m:238 (comment_mention)",
           "DID-matlab:convert/resolveValidIntervals.m:45 (comment_mention)",
           "DID-matlab:migrators_j/Contents.m:146 (comment_mention)"
         ],
@@ -1891,7 +1891,7 @@
               "DID-matlab:convert/epochMint.m:106 (comment_mention)",
               "DID-matlab:convert/epochMint.m:113 (comment_mention)",
               "DID-matlab:convert/epochMint.m:126 (comment_mention)",
-              "DID-matlab:convert/resolveSessionAnchors.m:188 (comment_mention)",
+              "DID-matlab:convert/resolveSessionAnchors.m:238 (comment_mention)",
               "DID-matlab:convert/resolveValidIntervals.m:45 (comment_mention)"
             ]
           }
@@ -2045,7 +2045,7 @@
         "named_refs": [],
         "n_comment_mentions": 17,
         "comment_mentions": [
-          "DID-matlab:convert/v1_to_v2.m:622 (comment_mention)",
+          "DID-matlab:convert/v1_to_v2.m:627 (comment_mention)",
           "DID-matlab:migrators_j/Contents.m:144 (comment_mention)",
           "DID-matlab:migrators_j/Contents.m:416 (comment_mention)",
           "DID-matlab:migrators_j/Contents.m:455 (comment_mention)",
@@ -2087,7 +2087,7 @@
             "named_refs": [],
             "n_comment_mentions": 1,
             "comment_mentions": [
-              "DID-matlab:convert/v1_to_v2.m:622 (comment_mention)"
+              "DID-matlab:convert/v1_to_v2.m:627 (comment_mention)"
             ]
           }
         },
@@ -2131,10 +2131,10 @@
         ],
         "n_comment_mentions": 36,
         "comment_mentions": [
-          "DID-matlab:convert/resolveSessionAnchors.m:57 (comment_mention)",
+          "DID-matlab:convert/resolveSessionAnchors.m:65 (comment_mention)",
           "DID-matlab:convert/universalRenames.m:35 (comment_mention)",
-          "DID-matlab:convert/universalRenames.m:393 (comment_mention)",
-          "DID-matlab:convert/universalRenames.m:394 (comment_mention)",
+          "DID-matlab:convert/universalRenames.m:399 (comment_mention)",
+          "DID-matlab:convert/universalRenames.m:400 (comment_mention)",
           "DID-matlab:migrators_j/Contents.m:277 (comment_mention)",
           "DID-matlab:migrators_j/Contents.m:286 (comment_mention)"
         ],
@@ -2175,10 +2175,10 @@
             "named_refs": [],
             "n_comment_mentions": 4,
             "comment_mentions": [
-              "DID-matlab:convert/resolveSessionAnchors.m:57 (comment_mention)",
+              "DID-matlab:convert/resolveSessionAnchors.m:65 (comment_mention)",
               "DID-matlab:convert/universalRenames.m:35 (comment_mention)",
-              "DID-matlab:convert/universalRenames.m:393 (comment_mention)",
-              "DID-matlab:convert/universalRenames.m:394 (comment_mention)"
+              "DID-matlab:convert/universalRenames.m:399 (comment_mention)",
+              "DID-matlab:convert/universalRenames.m:400 (comment_mention)"
             ]
           }
         },
@@ -2279,9 +2279,9 @@
         "named_refs": [],
         "n_comment_mentions": 25,
         "comment_mentions": [
-          "DID-matlab:convert/v1_to_v2.m:603 (comment_mention)",
-          "DID-matlab:convert/v1_to_v2.m:609 (comment_mention)",
+          "DID-matlab:convert/v1_to_v2.m:608 (comment_mention)",
           "DID-matlab:convert/v1_to_v2.m:614 (comment_mention)",
+          "DID-matlab:convert/v1_to_v2.m:619 (comment_mention)",
           "DID-matlab:migrators_j/+super/ngrid.m:15 (comment_mention)",
           "DID-matlab:migrators_j/+super/ngrid.m:2 (comment_mention)",
           "DID-matlab:migrators_j/+super/ngrid.m:23 (comment_mention)"
@@ -2322,9 +2322,9 @@
             "named_refs": [],
             "n_comment_mentions": 3,
             "comment_mentions": [
-              "DID-matlab:convert/v1_to_v2.m:603 (comment_mention)",
-              "DID-matlab:convert/v1_to_v2.m:609 (comment_mention)",
-              "DID-matlab:convert/v1_to_v2.m:614 (comment_mention)"
+              "DID-matlab:convert/v1_to_v2.m:608 (comment_mention)",
+              "DID-matlab:convert/v1_to_v2.m:614 (comment_mention)",
+              "DID-matlab:convert/v1_to_v2.m:619 (comment_mention)"
             ]
           }
         },
@@ -2405,7 +2405,7 @@
         "migrator_file": null,
         "n_consuming_refs": 1,
         "consuming_refs": [
-          "DID-matlab:convert/resolveSessionAnchors.m:297 (guard)"
+          "DID-matlab:convert/resolveSessionAnchors.m:398 (guard)"
         ],
         "n_emitted_class_refs": 1,
         "emitted_class_refs": [
@@ -2420,14 +2420,14 @@
         ],
         "n_named_refs": 0,
         "named_refs": [],
-        "n_comment_mentions": 10,
+        "n_comment_mentions": 13,
         "comment_mentions": [
-          "DID-matlab:convert/resolveSessionAnchors.m:196 (comment_mention)",
           "DID-matlab:convert/resolveSessionAnchors.m:20 (comment_mention)",
+          "DID-matlab:convert/resolveSessionAnchors.m:207 (comment_mention)",
+          "DID-matlab:convert/resolveSessionAnchors.m:218 (comment_mention)",
+          "DID-matlab:convert/resolveSessionAnchors.m:246 (comment_mention)",
           "DID-matlab:convert/resolveSessionAnchors.m:32 (comment_mention)",
-          "DID-matlab:convert/resolveSessionAnchors.m:323 (comment_mention)",
-          "DID-matlab:convert/resolveSessionAnchors.m:524 (comment_mention)",
-          "DID-matlab:convert/resolveSessionAnchors.m:540 (comment_mention)"
+          "DID-matlab:convert/resolveSessionAnchors.m:424 (comment_mention)"
         ],
         "by_group": {
           "per_document_migrator": {
@@ -2453,7 +2453,7 @@
           "batch_post_pass": {
             "n_consuming_refs": 1,
             "consuming_refs": [
-              "DID-matlab:convert/resolveSessionAnchors.m:297 (guard)"
+              "DID-matlab:convert/resolveSessionAnchors.m:398 (guard)"
             ],
             "n_emitted_class_refs": 0,
             "emitted_class_refs": [],
@@ -2461,14 +2461,14 @@
             "field_write_refs": [],
             "n_named_refs": 0,
             "named_refs": [],
-            "n_comment_mentions": 7,
+            "n_comment_mentions": 10,
             "comment_mentions": [
-              "DID-matlab:convert/resolveSessionAnchors.m:196 (comment_mention)",
               "DID-matlab:convert/resolveSessionAnchors.m:20 (comment_mention)",
+              "DID-matlab:convert/resolveSessionAnchors.m:207 (comment_mention)",
+              "DID-matlab:convert/resolveSessionAnchors.m:218 (comment_mention)",
+              "DID-matlab:convert/resolveSessionAnchors.m:246 (comment_mention)",
               "DID-matlab:convert/resolveSessionAnchors.m:32 (comment_mention)",
-              "DID-matlab:convert/resolveSessionAnchors.m:323 (comment_mention)",
-              "DID-matlab:convert/resolveSessionAnchors.m:524 (comment_mention)",
-              "DID-matlab:convert/resolveSessionAnchors.m:540 (comment_mention)"
+              "DID-matlab:convert/resolveSessionAnchors.m:424 (comment_mention)"
             ]
           }
         },
@@ -2491,7 +2491,7 @@
         "migrator_file": null,
         "n_consuming_refs": 1,
         "consuming_refs": [
-          "DID-matlab:convert/resolveSessionAnchors.m:296 (guard)"
+          "DID-matlab:convert/resolveSessionAnchors.m:397 (guard)"
         ],
         "n_emitted_class_refs": 11,
         "emitted_class_refs": [
@@ -2523,7 +2523,7 @@
           "DID-matlab:convert/resolveDeferredBaths.m:183 (comment_mention)",
           "DID-matlab:convert/resolveLawnPlateSubjects.m:289 (comment_mention)",
           "DID-matlab:convert/resolveSessionAnchors.m:19 (comment_mention)",
-          "DID-matlab:convert/resolveSessionAnchors.m:194 (comment_mention)"
+          "DID-matlab:convert/resolveSessionAnchors.m:244 (comment_mention)"
         ],
         "by_group": {
           "per_document_migrator": {
@@ -2562,7 +2562,7 @@
           "batch_post_pass": {
             "n_consuming_refs": 1,
             "consuming_refs": [
-              "DID-matlab:convert/resolveSessionAnchors.m:296 (guard)"
+              "DID-matlab:convert/resolveSessionAnchors.m:397 (guard)"
             ],
             "n_emitted_class_refs": 2,
             "emitted_class_refs": [
@@ -2583,7 +2583,7 @@
               "DID-matlab:convert/resolveDeferredBaths.m:183 (comment_mention)",
               "DID-matlab:convert/resolveLawnPlateSubjects.m:289 (comment_mention)",
               "DID-matlab:convert/resolveSessionAnchors.m:19 (comment_mention)",
-              "DID-matlab:convert/resolveSessionAnchors.m:194 (comment_mention)"
+              "DID-matlab:convert/resolveSessionAnchors.m:244 (comment_mention)"
             ]
           }
         },
@@ -2621,8 +2621,8 @@
         "named_refs": [],
         "n_comment_mentions": 25,
         "comment_mentions": [
-          "DID-matlab:convert/universalRenames.m:300 (comment_mention)",
-          "DID-matlab:convert/v1_to_v2.m:798 (comment_mention)",
+          "DID-matlab:convert/universalRenames.m:306 (comment_mention)",
+          "DID-matlab:convert/v1_to_v2.m:803 (comment_mention)",
           "DID-matlab:migrators_j/control_stimulus_ids.m:116 (comment_mention)",
           "DID-matlab:migrators_j/control_stimulus_ids.m:32 (comment_mention)",
           "DID-matlab:migrators_j/control_stimulus_ids.m:46 (comment_mention)",
@@ -2662,8 +2662,8 @@
             "named_refs": [],
             "n_comment_mentions": 2,
             "comment_mentions": [
-              "DID-matlab:convert/universalRenames.m:300 (comment_mention)",
-              "DID-matlab:convert/v1_to_v2.m:798 (comment_mention)"
+              "DID-matlab:convert/universalRenames.m:306 (comment_mention)",
+              "DID-matlab:convert/v1_to_v2.m:803 (comment_mention)"
             ]
           }
         },
@@ -2947,7 +2947,7 @@
         "migrator_file": null,
         "n_consuming_refs": 2,
         "consuming_refs": [
-          "DID-matlab:convert/resolveSessionAnchors.m:376 (guard)",
+          "DID-matlab:convert/resolveSessionAnchors.m:541 (guard)",
           "NDI-matlab:ndi_second_pass/epochAnchorFold.m:432 (guard)"
         ],
         "n_emitted_class_refs": 0,
@@ -2968,16 +2968,16 @@
         "named_refs": [
           "DID-matlab:convert/resolveDeferredBaths.m:179 (named)",
           "DID-matlab:convert/resolveDeferredBaths.m:231 (named)",
-          "DID-matlab:convert/resolveSessionAnchors.m:366 (named)",
+          "DID-matlab:convert/resolveSessionAnchors.m:531 (named)",
           "DID-matlab:convert/resolveValidIntervals.m:797 (named)",
           "DID-matlab:migrators_j/fitcurve.m:147 (named)",
           "DID-matlab:migrators_j/image_stack.m:279 (named)"
         ],
         "n_comment_mentions": 37,
         "comment_mentions": [
-          "DID-matlab:convert/resolveSessionAnchors.m:185 (comment_mention)",
-          "DID-matlab:convert/resolveSessionAnchors.m:200 (comment_mention)",
-          "DID-matlab:convert/resolveSessionAnchors.m:202 (comment_mention)",
+          "DID-matlab:convert/resolveSessionAnchors.m:235 (comment_mention)",
+          "DID-matlab:convert/resolveSessionAnchors.m:250 (comment_mention)",
+          "DID-matlab:convert/resolveSessionAnchors.m:252 (comment_mention)",
           "DID-matlab:migrators_j/neuron_extracellular.m:48 (comment_mention)",
           "DID-matlab:migrators_j/ontology_table_row.m:172 (comment_mention)",
           "DID-matlab:migrators_j/ontology_table_row.m:196 (comment_mention)"
@@ -3021,7 +3021,7 @@
           "batch_post_pass": {
             "n_consuming_refs": 1,
             "consuming_refs": [
-              "DID-matlab:convert/resolveSessionAnchors.m:376 (guard)"
+              "DID-matlab:convert/resolveSessionAnchors.m:541 (guard)"
             ],
             "n_emitted_class_refs": 0,
             "emitted_class_refs": [],
@@ -3035,14 +3035,14 @@
             "named_refs": [
               "DID-matlab:convert/resolveDeferredBaths.m:179 (named)",
               "DID-matlab:convert/resolveDeferredBaths.m:231 (named)",
-              "DID-matlab:convert/resolveSessionAnchors.m:366 (named)",
+              "DID-matlab:convert/resolveSessionAnchors.m:531 (named)",
               "DID-matlab:convert/resolveValidIntervals.m:797 (named)"
             ],
             "n_comment_mentions": 3,
             "comment_mentions": [
-              "DID-matlab:convert/resolveSessionAnchors.m:185 (comment_mention)",
-              "DID-matlab:convert/resolveSessionAnchors.m:200 (comment_mention)",
-              "DID-matlab:convert/resolveSessionAnchors.m:202 (comment_mention)"
+              "DID-matlab:convert/resolveSessionAnchors.m:235 (comment_mention)",
+              "DID-matlab:convert/resolveSessionAnchors.m:250 (comment_mention)",
+              "DID-matlab:convert/resolveSessionAnchors.m:252 (comment_mention)"
             ]
           }
         },
