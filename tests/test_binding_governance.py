@@ -73,6 +73,27 @@ def test_no_binding_governance_count_has_grown():
         "or raise the baseline in tools/check_binding_governance.py and say why.")
 
 
+def test_b5_scans_every_registry_row_not_just_the_three_it_can_pair():
+    """DENOMINATOR, and the reason this test exists at all.
+
+    Until #32 increment 2, B5 iterated `entity_field_bindings` alone and
+    reported `pairs_checked: 3`. Three is a true count of the pairs; it is also
+    3 of 38 rows, and the other 35 were not clean -- they were UNVISITED. The
+    difference is invisible from a count of zero disagreements, which is this
+    project's defining failure ("0 empty edges" while reading nothing).
+
+    So assert the sweep's reach against the registry file itself, read
+    independently here rather than taken from the tool.
+    """
+    reg = json.load(open(os.path.join(VETA, "stable", "binding_registry_meta.json")))
+    total_rows = sum(len(v) for v in reg.values() if isinstance(v, list))
+    f = LIVE["findings"]["B5_strength_stored_twice"]
+    assert f["registry_rows_scanned"] == total_rows, (
+        f"B5 scanned {f['registry_rows_scanned']} of {total_rows} registry rows")
+    assert f["registry_lists_scanned"] == len(TOOL.REGISTRY_LISTS)
+    assert f["bound_fields_scanned"] == LIVE["denominator"]["bound_fields"]
+
+
 def test_strength_never_disagrees_between_field_and_registry():
     """The one INVARIANT the team has already decided (2026-08-10): strength is
     authoritative ON THE FIELD, and where the registry also states one the two
@@ -288,6 +309,146 @@ def test_synthetic_b9_counts_what_a_validator_could_not_resolve(synthetic):
     assert "gamma" in kinds, f     # openMINDS version is null
     assert "nested" in kinds, f    # strength-only, no admissible set
     assert f["count"] == 2, f
+
+
+# ---------------------------------------------------------------------------
+# 3. B5 both ways, on registry shapes that do not exist in the tree yet
+#
+#    strength_agreement() is a pure function of (rows, registry) precisely so
+#    these can be written. A test that can only read the live files cannot check
+#    a rule about a row nobody has written -- and "nobody has written one yet"
+#    is the state every one of these guards.
+# ---------------------------------------------------------------------------
+
+def _row(cls, field, **binding):
+    return {"class": cls, "field": field, "tier": "stable",
+            "type": "ontology_term", "binding": binding}
+
+
+def test_b5_catches_a_strength_in_a_list_it_never_used_to_read():
+    """A `strength` added to a `subject_statement_bindings` row. The old B5 read
+    `entity_field_bindings` only, so this row -- a second copy of an
+    authoritative fact -- would have been stored, ignored, and reported as part
+    of a clean sweep."""
+    rows = [_row("subject_statement", "variable", strength="preferred")]
+    reg = {"subject_statement_bindings": [
+        {"variable": {"node": "", "name": "species"}, "class": "term_assertion",
+         "strength": "required"}]}
+    f = TOOL.strength_agreement(rows, reg)
+    assert f["registry_rows_scanned"] == 1, f
+    assert f["registry_rows_stating_a_strength"] == 1, f
+    assert f["count"] == 1, f
+    assert "names no field" in f["detail"][0]["why"], f
+
+
+def test_b5_pairs_a_non_entity_row_that_does_name_a_field():
+    """Resolution is by WHAT THE ROW NAMES, not by which list it sits in. No row
+    outside `entity_field_bindings` names a class+field today; if one ever does,
+    it is compared from the first commit rather than the first incident."""
+    rows = [_row("dataset", "accessibility", strength="required")]
+    reg = {"subject_statement_bindings": [
+        {"class": "dataset", "field": "accessibility", "strength": "preferred"}]}
+    f = TOOL.strength_agreement(rows, reg)
+    assert f["pairs_checked"] == 1, f
+    assert f["count"] == 1 and f["detail"][0]["why"] == "the two stored copies differ", f
+    assert f["detail"][0]["list"] == "subject_statement_bindings", f
+
+
+def test_b5_agreeing_copies_are_not_a_finding():
+    """The team's call is that the registry must AGREE, not that it must stay
+    silent. A check that flagged every second copy would push people to delete
+    the catalogue rather than keep it true."""
+    rows = [_row("dataset", "accessibility", strength="required")]
+    reg = {"entity_field_bindings": [
+        {"class": "dataset", "field": "accessibility", "strength": "required"}]}
+    f = TOOL.strength_agreement(rows, reg)
+    assert f["pairs_checked"] == 1 and f["count"] == 0, f
+
+
+def test_b5_reports_the_field_side_too():
+    """A field carrying a binding that NO registry row of any list resolves to.
+    Fine under the team's call -- the field is authoritative -- and reported,
+    because it is the population that would silently grow a second copy."""
+    rows = [_row("subject_statement", "variable", strength="preferred"),
+            _row("dataset", "accessibility", strength="required")]
+    reg = {"entity_field_bindings": [
+        {"class": "dataset", "field": "accessibility", "strength": "required"}]}
+    f = TOOL.strength_agreement(rows, reg)
+    assert f["bound_fields_stating_a_strength"] == 2, f
+    assert [(x["class"], x["field"]) for x in f["bound_fields_with_no_registry_row"]] \
+        == [("subject_statement", "variable")], f
+    assert f["count"] == 0, "an uncatalogued field is not a disagreement"
+
+
+def test_b5_still_catches_a_registry_row_naming_a_field_with_no_binding():
+    """The pre-existing arm, kept: the registry claiming authority over a field
+    that declares no binding at all."""
+    f = TOOL.strength_agreement([], {"entity_field_bindings": [
+        {"class": "ghost", "field": "g", "strength": "required"}]})
+    assert f["count"] == 1 and f["pairs_checked"] == 0, f
+    assert "declares no binding" in f["detail"][0]["why"], f
+
+
+# ---------------------------------------------------------------------------
+# 4. the cross-repo lock
+# ---------------------------------------------------------------------------
+
+DIDM = os.environ.get("DID_MATLAB",
+                      os.path.join(os.path.dirname(REPO_ROOT), "DID-matlab"))
+CACHE_M = os.path.join(DIDM, "src", "did", "+did2", "+schema", "cache.m")
+
+
+def test_the_curie_grammar_is_identical_in_cache_m():
+    """`node_form: curie` is DECLARED here and ENFORCED in DID-matlab, so the
+    CURIE grammar is one rule implemented twice, in two languages, in two
+    repositories. That is exactly the shape of the `did_clocktype` drift B3
+    exists to catch -- one name, two member lists -- one repo further out, and
+    nothing would notice: the schema side would report a field as governed while
+    the validator applied a different grammar to it.
+
+    The lock is a string comparison, so it survives neither side being run.
+    SKIPPED when DID-matlab is not checked out beside this repo (the pytest job
+    does not always have it), which is a real hole and is why the assertion also
+    fails loudly if the file is present but the marker line has moved.
+    """
+    if not os.path.exists(CACHE_M):
+        pytest.skip("DID-matlab not checked out at %s" % DIDM)
+    src = open(CACHE_M).read()
+    hits = [ln.split("=", 1)[1].strip().rstrip(";").strip()
+            for ln in src.splitlines()
+            if ln.strip().startswith("pattern = '^[A-Za-z]")]
+    assert len(hits) == 1, (
+        "expected exactly one CURIE pattern literal in cache.m, found "
+        f"{len(hits)} -- if isCurieToken was renamed or reshaped, update this "
+        "lock rather than deleting it")
+    matlab_literal = hits[0][1:-1]            # strip the single quotes
+    assert matlab_literal == TOOL.CURIE_PATTERN, (
+        "the CURIE grammar has drifted between the repositories:\n"
+        f"  DID-schema: {TOOL.CURIE_PATTERN}\n"
+        f"  cache.m   : {matlab_literal}")
+
+
+def test_the_three_pivot_fields_declare_a_checkable_shape():
+    """#32 increment 2. Increment 1 left `{strength: preferred}` -- a binding
+    with nothing behind it, which B9 counted as unenforceable and was right to.
+    `node_form: curie` is the part of "a resolvable term reference" that needs
+    no ontology; MEMBERSHIP still does, and is out of scope (NDIC.txt moved to
+    VH-Lab/ndi-ontology-matlab, 2c19bf24c)."""
+    want = {("subject_statement", "variable"),
+            ("subject_interaction", "method"),
+            ("interaction_purpose", "purpose")}
+    got = {(i["class"], i["field"]): i for i in LIVE["inventory"]}
+    assert want <= set(got), sorted(got)
+    for key in want:
+        assert got[key]["shape"] == "node_form", got[key]
+        assert got[key]["strength"] == "preferred", (
+            got[key], "required would reject the registry's own rows, which "
+                      "carry an empty `node` on all five species/cell-type rows")
+    unenforceable = {(e["class"], e["field"])
+                     for e in LIVE["findings"]["B9_unenforceable_as_declared"]["detail"]}
+    assert not (want & unenforceable), (
+        "a node_form binding IS checkable without an ontology, so B9 must stop "
+        "counting these three")
 
 
 def test_tool_reports_failure_when_it_reads_nothing(tmp_path, synthetic):

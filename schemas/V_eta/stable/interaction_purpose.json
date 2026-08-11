@@ -40,7 +40,8 @@
             "documentation": "The ontology-based 'why' of the interaction(s).",
             "constraints": {
                 "binding": {
-                    "strength": "preferred"
+                    "strength": "preferred",
+                    "node_form": "curie"
                 }
             },
             "fields": [

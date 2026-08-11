@@ -60,7 +60,8 @@
             "documentation": "The verb: what was done (measure, inject, heat, stimulate). Present only on interactions; optional (the observation verb is nearly always 'measurement').",
             "constraints": {
                 "binding": {
-                    "strength": "preferred"
+                    "strength": "preferred",
+                    "node_form": "curie"
                 }
             },
             "fields": [

@@ -39,7 +39,8 @@
             "documentation": "The noun the statement concerns \u2014 the quantity/entity (temperature, body weight, a drug, species). One name across assertions, observations and manipulations, so identity search is uniform.",
             "constraints": {
                 "binding": {
-                    "strength": "preferred"
+                    "strength": "preferred",
+                    "node_form": "curie"
                 }
             },
             "fields": [

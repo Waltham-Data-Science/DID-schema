@@ -22,8 +22,8 @@ for each model; this board owns *how much is left and what exactly*.
 
 | open-class BUILD/PROOF state (derived, see below) | count |
 |---|---|
-| (a) decided, nothing built | 12 |
-| (b) built, awaiting corpus proof | 19 |
+| (a) decided, nothing built | 10 |
+| (b) built, awaiting corpus proof | 21 |
 | (c) corpus: 0 survivors in the corpora read | 0 |
 | (?) UNMEASURED -- no build evidence was ever taken | 0 |
 
@@ -45,8 +45,8 @@ decides a disposition -- it DERIVES, per class, how far the work has got.
 | evidence source | reach |
 |---|---|
 | build: V_eta migrator packages read | `migrators_j`, `ndi_second_pass` |
-| build: migrator files inspected | 137 |
-| build: migrator lines inspected | 18584 |
+| build: migrator files inspected | 138 |
+| build: migrator lines inspected | 19270 |
 | build: classes queried | 31 |
 | build: open classes MINTED as a document class | 5 |
 | build: of those, discounted (decision retires the class) | 3 |
@@ -65,8 +65,8 @@ directory of corpus reports, or run the DID-matlab corpus gate.
 
 | state | classes |
 |---|---|
-| (a) decided, nothing built | 12 |
-| (b) built, awaiting corpus proof | 19 |
+| (a) decided, nothing built | 10 |
+| (b) built, awaiting corpus proof | 21 |
 | (c) corpus: 0 survivors in the corpora read | 0 |
 | (?) UNMEASURED -- no build evidence was ever taken | 0 |
 
@@ -138,10 +138,10 @@ a row whose only evidence is a built target as *the target exists*, not as
 | `daqsystem` | daq configuration | (b) | migrator `migrators_j/daqsystem.m`; 3 consuming reference(s); decided target(s) built: `acquisition_system` | - | - | n/a -- not measured |
 | `directory` | file navigation | (a) | *none* | - | 1 | n/a -- not measured |
 | `ensemble` | ensemble | (b) | 1 consuming reference(s); decided target(s) built: `subject`, `directed_relation`, `sampled_body` | - | - | n/a -- not measured |
-| `epoch_bounded_reference` | time_reference | (a) | *none* | 1 (discounted) | 2 | n/a -- not measured |
+| `epoch_bounded_reference` | time_reference | (b) | 6 consuming reference(s) | 1 (discounted) | 3 | n/a -- not measured |
 | `epoch_relative_reference` | time_reference | (a) | *none* | - | - | n/a -- not measured |
 | `epochfiles_ingested` | epoch | (b) | migrator `migrators_j/epochfiles_ingested.m` | - | - | n/a -- not measured |
-| `epochid` | epoch | (b) | 9 consuming reference(s) | - | 5 | n/a -- not measured |
+| `epochid` | epoch | (b) | 10 consuming reference(s) | - | 8 | n/a -- not measured |
 | `event_bounded_reference` | time_reference | (a) | *none* | - | - | n/a -- not measured |
 | `event_relative_reference` | time_reference | (a) | *none* | - | - | n/a -- not measured |
 | `filenavigator` | file navigation | (b) | migrator `migrators_j/filenavigator.m`; 3 consuming reference(s); decided target(s) built: `epoch_file_pattern` | - | - | n/a -- not measured |
@@ -155,14 +155,13 @@ a row whose only evidence is a built target as *the target exists*, not as
 | `syncgraph` | sync configuration | (b) | migrator `migrators_j/syncgraph.m`; 2 consuming reference(s); decided target(s) built: `clock_alignment_policy` | - | - | n/a -- not measured |
 | `syncrule` | sync configuration | (b) | migrator `migrators_j/syncrule.m`; 2 consuming reference(s); decided target(s) built: `clock_alignment_configuration` | - | - | n/a -- not measured |
 | `syncrule_mapping` | sync mapping | (b) | migrator `migrators_j/syncrule_mapping.m`; 2 consuming reference(s); minted as a document class at 1 site(s); decided target(s) built: `clock_alignment` | 1 | 1 | n/a -- not measured |
-| `time_reference` | time_reference | (a) | *none* | - | 29 | n/a -- not measured |
+| `time_reference` | time_reference | (b) | 1 consuming reference(s) | - | 32 | n/a -- not measured |
 | `utc_reference` | time_reference | (a) | *none* | - | - | n/a -- not measured |
 
-#### (a) decided, nothing built -- 12
+#### (a) decided, nothing built -- 10
 
 - `acquisition_epoch` (epoch) -- still emitted/named at 2 site(s): `migrators_j/element_epoch.m:101 (field_write)`, `migrators_j/element_epoch.m:99 (named)`
 - `directory` (file navigation) -- still emitted/named at 1 site(s): `migrators_j/private/jSorterOutput.m:134 (named)`
-- `epoch_bounded_reference` (time_reference) -- MINTED as a document class at 1 site(s): `ndi_second_pass/stimulusBathToBath.m:71 (emitted_class)`; minted at 1 site(s), NOT counted as build progress: the signed decision retires this class in favour of `relative_reference`, so an emission is work still to undo; still emitted/named at 2 site(s): `migrators_j/syncrule_mapping.m:182 (named)`, `ndi_second_pass/stimulusBathToBath.m:81 (field_write)`
 - `epoch_relative_reference` (time_reference) -- no evidence found
 - `event_bounded_reference` (time_reference) -- no evidence found
 - `event_relative_reference` (time_reference) -- no evidence found
@@ -170,10 +169,9 @@ a row whose only evidence is a built target as *the target exists*, not as
 - `projectvar` (misc singletons) -- no evidence found
 - `session_bounded_reference` (time_reference) -- MINTED as a document class at 1 site(s): `migrators_j/ontology_table_row.m:262 (emitted_class)`; minted at 1 site(s), NOT counted as build progress: the signed decision retires this class in favour of `relative_reference`, so an emission is work still to undo; still emitted/named at 1 site(s): `migrators_j/ontology_table_row.m:268 (field_write)`
 - `session_relative_reference` (time_reference) -- MINTED as a document class at 3 site(s): `migrators_j/ontology_table_row.m:669 (emitted_class)`, `migrators_j/private/jSessionAnchor.m:19 (emitted_class)`, `migrators_j/treatment_transfer.m:101 (emitted_class)`; minted at 3 site(s), NOT counted as build progress: the signed decision retires this class in favour of `relative_reference`, so an emission is work still to undo; still emitted/named at 15 site(s): `migrators_j/fitcurve.m:139 (named)`, `migrators_j/fitcurve.m:146 (field_write)`, `migrators_j/image_stack.m:132 (named)`, `migrators_j/image_stack.m:137 (field_write)`, `migrators_j/jrclust_clusters.m:80 (named)`, `migrators_j/jrclust_clusters.m:85 (field_write)` ...
-- `time_reference` (time_reference) -- still emitted/named at 29 site(s): `migrators_j/fitcurve.m:139 (named)`, `migrators_j/fitcurve.m:145 (field_write)`, `migrators_j/image_stack.m:132 (named)`, `migrators_j/image_stack.m:136 (field_write)`, `migrators_j/jrclust_clusters.m:80 (named)`, `migrators_j/jrclust_clusters.m:84 (field_write)` ...
 - `utc_reference` (time_reference) -- no evidence found
 
-#### (b) built, awaiting corpus proof -- 19
+#### (b) built, awaiting corpus proof -- 21
 
 - `app` (software) -- consumed at 2 site(s): `migrators_j/private/jSoftwareFromApp.m:91 (guard)`, `migrators_j/private/jSoftwareFromApp.m:92 (field_read)`; still emitted/named at 1 site(s): `migrators_j/private/jMethodParameters.m:107 (field_write)`; target(s) BUILT: `software`
 - `binaryseries_parameters` (misc singletons) -- migrator `migrators_j/binaryseries_parameters.m`; still emitted/named at 1 site(s): `migrators_j/binaryseries_parameters.m:119 (named)`
@@ -185,8 +183,9 @@ a row whose only evidence is a built target as *the target exists*, not as
 - `daqreader_image_epochdata_ingested` (daq ingested payloads) -- migrator `migrators_j/daqreader_image_epochdata_ingested.m`; target(s) BUILT: `image_observation`, `relative_reference`, `sampled_body`
 - `daqsystem` (daq configuration) -- migrator `migrators_j/daqsystem.m`; consumed at 3 site(s): `migrators_j/daqsystem.m:144 (guard)`, `migrators_j/daqsystem.m:145 (field_read)`, `migrators_j/daqsystem.m:146 (field_read)`; target(s) BUILT: `acquisition_system`
 - `ensemble` (ensemble) -- consumed at 1 site(s): `ndi_second_pass/ensembleMembership.m:227 (guard)`; target(s) BUILT: `subject`, `directed_relation`, `sampled_body`
+- `epoch_bounded_reference` (time_reference) -- consumed at 6 site(s): `ndi_second_pass/epochAnchorFold.m:269 (guard)`, `ndi_second_pass/epochAnchorFold.m:371 (guard)`, `ndi_second_pass/epochAnchorFold.m:474 (guard)`, `ndi_second_pass/epochAnchorFold.m:475 (field_read)`, `ndi_second_pass/epochAnchorFold.m:476 (field_read)`, `ndi_second_pass/epochAnchorFold.m:477 (field_read)`; MINTED as a document class at 1 site(s): `ndi_second_pass/stimulusBathToBath.m:137 (emitted_class)`; minted at 1 site(s), NOT counted as build progress: the signed decision retires this class in favour of `relative_reference`, so an emission is work still to undo; still emitted/named at 3 site(s): `migrators_j/syncrule_mapping.m:182 (named)`, `ndi_second_pass/epochAnchorFold.m:372 (named)`, `ndi_second_pass/stimulusBathToBath.m:147 (field_write)`
 - `epochfiles_ingested` (epoch) -- migrator `migrators_j/epochfiles_ingested.m`
-- `epochid` (epoch) -- consumed at 9 site(s): `migrators_j/private/jMethodParameters.m:122 (guard)`, `ndi_second_pass/bodyResolver.m:216 (guard)`, `ndi_second_pass/bodyResolver.m:217 (guard)`, `ndi_second_pass/bodyResolver.m:218 (field_read)`, `ndi_second_pass/ensembleMembership.m:361 (guard)`, `ndi_second_pass/ensembleMembership.m:362 (field_read)` ...; still emitted/named at 5 site(s): `migrators_j/epochfiles_ingested.m:135 (named)`, `migrators_j/private/jMethodParameters.m:123 (named)`, `migrators_j/private/jMethodParameters.m:126 (field_write)`, `ndi_second_pass/stimulusBathToBath.m:74 (named)`, `ndi_second_pass/stimulusBathToBath.m:80 (named)`
+- `epochid` (epoch) -- consumed at 10 site(s): `migrators_j/private/jMethodParameters.m:122 (guard)`, `ndi_second_pass/bodyResolver.m:216 (guard)`, `ndi_second_pass/bodyResolver.m:217 (guard)`, `ndi_second_pass/bodyResolver.m:218 (field_read)`, `ndi_second_pass/ensembleMembership.m:361 (guard)`, `ndi_second_pass/ensembleMembership.m:362 (field_read)` ...; still emitted/named at 8 site(s): `migrators_j/epochfiles_ingested.m:135 (named)`, `migrators_j/private/jMethodParameters.m:123 (named)`, `migrators_j/private/jMethodParameters.m:126 (field_write)`, `ndi_second_pass/epochAnchorFold.m:375 (named)`, `ndi_second_pass/epochAnchorFold.m:456 (named)`, `ndi_second_pass/epochAnchorFold.m:460 (named)` ...
 - `filenavigator` (file navigation) -- migrator `migrators_j/filenavigator.m`; consumed at 3 site(s): `migrators_j/filenavigator.m:121 (guard)`, `migrators_j/filenavigator.m:122 (field_read)`, `migrators_j/filenavigator.m:123 (field_read)`; target(s) BUILT: `epoch_file_pattern`
 - `filter` (frequency_filter) -- consumed at 2 site(s): `migrators_j/private/jFrequencyFilter.m:112 (guard)`, `migrators_j/private/jFrequencyFilter.m:113 (field_read)`; still emitted/named at 2 site(s): `migrators_j/private/jSpikeExtractionSettings.m:159 (named)`, `migrators_j/vmspikefilteringparameters.m:144 (named)`
 - `ngrid` (image / ngrid) -- consumed at 2 site(s): `migrators_j/+super/ngrid.m:100 (field_read)`, `migrators_j/+super/ngrid.m:96 (guard)`; still emitted/named at 1 site(s): `migrators_j/+super/ngrid.m:115 (field_write)`
@@ -194,6 +193,7 @@ a row whose only evidence is a built target as *the target exists*, not as
 - `syncgraph` (sync configuration) -- migrator `migrators_j/syncgraph.m`; consumed at 2 site(s): `migrators_j/syncgraph.m:128 (guard)`, `migrators_j/syncgraph.m:129 (field_read)`; target(s) BUILT: `clock_alignment_policy`
 - `syncrule` (sync configuration) -- migrator `migrators_j/syncrule.m`; consumed at 2 site(s): `migrators_j/syncrule.m:95 (guard)`, `migrators_j/syncrule.m:96 (field_read)`; target(s) BUILT: `clock_alignment_configuration`
 - `syncrule_mapping` (sync mapping) -- migrator `migrators_j/syncrule_mapping.m`; consumed at 2 site(s): `migrators_j/syncrule_mapping.m:106 (guard)`, `migrators_j/syncrule_mapping.m:107 (field_read)`; MINTED as a document class at 1 site(s): `migrators_j/syncrule_mapping.m:131 (emitted_class)`; still emitted/named at 1 site(s): `migrators_j/syncrule_mapping.m:149 (field_write)`; target(s) BUILT: `clock_alignment`
+- `time_reference` (time_reference) -- consumed at 1 site(s): `ndi_second_pass/epochAnchorFold.m:379 (guard)`; still emitted/named at 32 site(s): `migrators_j/fitcurve.m:139 (named)`, `migrators_j/fitcurve.m:145 (field_write)`, `migrators_j/image_stack.m:132 (named)`, `migrators_j/image_stack.m:136 (field_write)`, `migrators_j/jrclust_clusters.m:80 (named)`, `migrators_j/jrclust_clusters.m:84 (field_write)` ...
 
 ## AWAITING A SIGNATURE -- decided with the team, not yet recorded
 

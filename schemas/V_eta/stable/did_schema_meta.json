@@ -309,7 +309,7 @@
                     "properties": {
                         "binding": {
                             "type": "object",
-                            "description": "Controlled-vocabulary binding for a term value: either keyed on another field (usually `variable`, ontology expansion) or an inline admissible set given as a static enumeration (`values`) or an ontology subtree (`ontology` + `root_node`). Enforced by the ontology-aware validator (D9).",
+                            "description": "Controlled-vocabulary binding for a term value: either keyed on another field (usually `variable`, ontology expansion) or an inline admissible set given as a static enumeration (`values`) or an ontology subtree (`ontology` + `root_node`), plus `node_form` for the value's lexical shape. Read by DID-matlab did2.schema.cache/validateConstraints behind the BindingConformance switch, which is DISARMED by default; the full ontology-aware resolution T8 describes (D9) does not exist yet.",
                             "properties": {
                                 "keyed_by": {
                                     "type": "string"
@@ -319,6 +319,12 @@
                                 },
                                 "node_kind": {
                                     "type": "string"
+                                },
+                                "node_form": {
+                                    "type": "string",
+                                    "enum": [
+                                        "curie"
+                                    ]
                                 },
                                 "strength": {
                                     "type": "string",

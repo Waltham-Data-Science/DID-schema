@@ -17,15 +17,30 @@ DIFFERENT binding shapes, declared in two places, checked by almost nothing:
   SHAPE 3  term_set       `vocabulary` + `term_set`, naming an openMINDS
                           instance library catalogued in the registry
                                                                 (3 fields)
-  SHAPE 4  strength-only  the three pivot fields bound at `preferred` with no
-                          admissible set (option C, team 2026-08-10)
-                                                                (3 fields)
+  SHAPE 4  node_form      the three pivot fields (subject_statement.variable,
+                          subject_interaction.method,
+                          interaction_purpose.purpose): a LEXICAL rule on the
+                          value's `node` -- must be a well-formed CURIE -- and
+                          no admissible set                      (3 fields)
+  SHAPE 5  strength-only  a strength and nothing else. ZERO fields today: this
+                          is what the three pivot fields were between #32
+                          increment 1 and increment 2.           (0 fields)
 
-Nothing enforced any of it. `+did2/+schema/cache.m validateConstraints` handles
-maxLength / minLength / minimum / maximum / enum and drops everything else into
-`otherwise` (tolerated), so `binding` is DECLARATIVE today. That is precisely
-why the declarations are cheap to get right now: an inconsistency costs nothing
-until a validator starts reading them, and then it costs a quarantine.
+Nothing enforced any of it until #32 increment 2. `+did2/+schema/cache.m
+validateConstraints` handled maxLength / minLength / minimum / maximum / enum
+and dropped everything else into `otherwise` (tolerated); it now carries a
+`binding` case raising three distinct ids -- bindingValueMissing /
+bindingNodeMalformed / bindingValueNotInSet -- behind
+`did2.schema.cache.strictMode('BindingConformance')`, which is DISARMED by
+default. So on today's tree `binding` is STILL declarative in effect, and
+deliberately: the declarations are cheap to get right while an inconsistency
+costs nothing, and expensive once the switch is armed.
+
+NOTHING MATLAB-SIDE WAS EXECUTED when that case was written (no MATLAB in the
+environment), so treat the paragraph above as the declared design of the other
+repository, not as a measurement of it. What IS executed here is the grammar
+lock: the CURIE literal below is character-identical to cache.m's, asserted by
+tests/test_binding_governance.py.
 
 The specific failure this tool was built to catch had ALREADY HAPPENED and was
 invisible: `root: did_clocktype` names ONE value_set and is defined inline in
@@ -44,6 +59,8 @@ WHAT IT CHECKS  (each finding is a COUNT with a denominator and a ratchet)
   B5  strength stated BOTH on the field and in the registry -- and whether the
       two copies agree. (The team's call, 2026-08-10: the FIELD is
       authoritative and the registry must agree where it also states one.)
+      Scans ALL FOUR registry lists, not just entity_field_bindings, and
+      reports the field side too: see strength_agreement().
   B6  bound fields with no catalogue row in the registry at all.
   B7  the D9 LEAF-SELECTION GAP -- the concrete cost of leaving #32 open. The
       signed `subjectmeasurement` fold says the typed leaf "must be chosen
@@ -107,7 +124,17 @@ REGISTRY_LISTS = {
 
 # A CURIE-looking token: a prefix, a colon, then a local part. Deliberately
 # loose on the local part (OBO uses digits, OWL-Time uses camelCase names).
-CURIE = re.compile(r"^([A-Za-z][A-Za-z0-9_.\-]*):([A-Za-z0-9_][A-Za-z0-9_.\-]*)$")
+#
+# THIS LITERAL IS SHARED ACROSS TWO REPOSITORIES AND TWO LANGUAGES. DID-matlab
+# `+did2/+schema/cache.m` isCurieToken carries the same string character for
+# character, because `node_form: curie` is decided here and enforced there --
+# and two implementations of one grammar drifting apart is exactly the
+# `did_clocktype` failure B3 exists to catch, one repo further out.
+# tests/test_binding_governance.py::test_the_curie_grammar_is_identical_in_cache_m
+# is the lock. No capture groups: nothing reads them (the prefix is taken with
+# `split(":", 1)`), and their absence is what lets the two literals be equal.
+CURIE_PATTERN = r"^[A-Za-z][A-Za-z0-9_.\-]*:[A-Za-z0-9_][A-Za-z0-9_.\-]*$"
+CURIE = re.compile(CURIE_PATTERN)
 
 # ---------------------------------------------------------------------------
 # BASELINES. Each count may FALL freely; any INCREASE fails under --enforce.
@@ -152,15 +179,23 @@ BASELINE_UNCATALOGUED_BOUND_FIELDS = 11
 BASELINE_UNREGISTERED_PREFIXES = 5
 
 # B9: bindings an ontology-aware validator would have nothing to resolve
-# against, as declared. SEVEN of the fourteen -- the 3 strength-only pivot
-# fields (option C names no set), the 3 openMINDS `dataset` fields (the
-# vocabulary's pinned `version` is null, so there is no instance library to
-# resolve against) and `term.value` (whose keyed_by lookup reaches a registry
-# holding 5 rows, all term_assertion). This is the number that decides the
-# "should the validator enforce binding?" question: HALF the declarations have
-# nothing behind them, so switching enforcement on today would reject documents
-# for failing a rule the schema cannot state.
-BASELINE_UNENFORCEABLE = 7
+# against, as declared. LOWERED 7 -> 4 by #32 increment 2, and the drop is the
+# whole point of that increment rather than a re-scoping of the count: the three
+# pivot fields moved from strength-only (a declaration with nothing behind it)
+# to `node_form: curie`, which a validator CAN check with no ontology loaded.
+# The remaining four are the 3 openMINDS `dataset` fields (the vocabulary's
+# pinned `version` is null, so there is no instance library to resolve against)
+# and `term.value` (whose keyed_by lookup reaches a registry holding 5 rows, all
+# term_assertion).
+#
+# READ THE NUMBER NARROWLY. "Enforceable" here means a validator has SOMETHING
+# to check, not that the check is the one T8 wants. `node_form` proves a value
+# is shaped like a term reference; it says nothing about whether the term
+# EXISTS. Membership for `variable` needs NDIC.txt, which moved to
+# VH-Lab/ndi-ontology-matlab (commit 2c19bf24c) -- a repository this session
+# could not attach -- so the membership half of #32 is untouched and these three
+# would still resolve nothing against a value set.
+BASELINE_UNENFORCEABLE = 4
 
 
 def load(path):
@@ -239,6 +274,14 @@ def shape_of(b):
         return "term_set"
     if "values" in b or "root" in b or "root_node" in b or "ontology" in b:
         return "inline_set"
+    # SHAPE 5, added by #32 increment 2. `node_form` names no admissible SET,
+    # so it is not an inline_set -- but unlike a bare strength it does state a
+    # checkable property of the value, which is why B9 stops counting it as
+    # unenforceable. Ordered LAST among the positives so that a binding which
+    # carries both an admissible set and a node_form still reports as the
+    # stronger shape.
+    if "node_form" in b:
+        return "node_form"
     return "strength_only"
 
 
@@ -268,6 +311,118 @@ def curie_tokens(obj):
         for v in obj:
             found += curie_tokens(v)
     return found
+
+
+def strength_agreement(rows, reg):
+    """B5 -- the field/registry strength axis, in BOTH directions.
+
+    The team's call (2026-08-10) is that STRENGTH IS AUTHORITATIVE ON THE FIELD
+    and the registry must agree wherever it also states one. Until #32
+    increment 2 this compared `entity_field_bindings` ONLY, so it checked three
+    rows out of thirty-eight and reported "pairs_checked: 3" -- true, and easy
+    to read as "the registry has been checked". The other two normative lists
+    were not so much clean as UNVISITED: a `strength` added to a
+    `subject_statement_bindings` or `relation_bindings` row would have been an
+    unchecked second copy of an authoritative fact, which is the whole defect
+    this finding exists to prevent.
+
+    Now every list is scanned, and a row is handled by WHAT IT CAN BE COMPARED
+    AGAINST rather than by which list it sits in:
+
+      names class+field   -> resolve to the bound field and compare. Today only
+                             `entity_field_bindings` rows do; nothing stops
+                             another list from doing so, and if one ever does it
+                             is checked from the first commit rather than the
+                             first incident.
+      states a strength,
+      names no field      -> UNRESOLVABLE, and counted. A strength is an
+                             authority statement about a field; stated where no
+                             field can be identified, nothing can agree with it
+                             and nothing can contradict it. Zero such rows today
+                             -- the ratchet is what keeps it zero.
+      neither             -> skipped, and counted in the denominator.
+
+    The FIELD side is reported too, because "checked 3 of 38 rows" and "checked
+    3 of 14 fields" are different denominators and only one of them was ever
+    printed. A field whose binding states a strength that no registry row of ANY
+    list resolves to is stored in exactly one place -- fine under the team's
+    call, and worth seeing, because it is the population that would silently
+    grow a second copy. That list is the same 11 fields B6 reports today, by
+    coincidence of the registry: B6 asks only about `entity_field_bindings`,
+    this asks about every list, so the two diverge the moment another list names
+    a field.
+
+    Returns the finding dict. Pulled out of run() as a pure function of (rows,
+    registry) so a test can hand it a registry shape that does not exist in the
+    tree yet -- a test that can only read the live files cannot check a rule
+    about rows nobody has written.
+    """
+    field_index = {(row["class"], row["field"]): row for row in rows}
+    scanned = 0
+    named_a_field = 0
+    stated_a_strength = 0
+    pairs, disagreements = [], []
+    registry_named_fields = set()
+
+    for list_name in REGISTRY_LISTS:
+        for entry in reg.get(list_name, []):
+            scanned += 1
+            reg_strength = entry.get("strength")
+            has_strength = reg_strength is not None
+            stated_a_strength += 1 if has_strength else 0
+            key = (entry.get("class"), entry.get("field"))
+            names_field = key[0] is not None and key[1] is not None
+            if not names_field:
+                if has_strength:
+                    disagreements.append({
+                        "list": list_name, "class": key[0], "field": key[1],
+                        "field_strength": None, "registry_strength": reg_strength,
+                        "why": "registry row states a strength but names no "
+                               "field, so no field declaration can agree with it"})
+                continue
+            named_a_field += 1
+            registry_named_fields.add(key)
+            row = field_index.get(key)
+            if row is None:
+                disagreements.append({
+                    "list": list_name, "class": key[0], "field": key[1],
+                    "field_strength": None, "registry_strength": reg_strength,
+                    "why": "registry names a field that declares no binding"})
+                continue
+            fld_strength = row["binding"].get("strength")
+            pairs.append({"list": list_name, "class": key[0], "field": key[1],
+                          "field_strength": fld_strength,
+                          "registry_strength": reg_strength})
+            if has_strength and fld_strength != reg_strength:
+                disagreements.append({
+                    "list": list_name, "class": key[0], "field": key[1],
+                    "field_strength": fld_strength,
+                    "registry_strength": reg_strength,
+                    "why": "the two stored copies differ"})
+
+    with_strength = [row for row in rows if row["binding"].get("strength")]
+    only_on_field = [{"class": row["class"], "field": row["field"],
+                      "strength": row["binding"].get("strength")}
+                     for row in with_strength
+                     if (row["class"], row["field"]) not in registry_named_fields]
+
+    return {
+        "count": len(disagreements),
+        "registry_lists_scanned": len(REGISTRY_LISTS),
+        "registry_rows_scanned": scanned,
+        "registry_rows_naming_a_field": named_a_field,
+        "registry_rows_stating_a_strength": stated_a_strength,
+        "pairs_checked": len(pairs),
+        "pairs": pairs,
+        "detail": disagreements,
+        "bound_fields_scanned": len(rows),
+        "bound_fields_stating_a_strength": len(with_strength),
+        "bound_fields_with_no_registry_row": sorted(
+            only_on_field, key=lambda x: (x["class"], x["field"])),
+        "registry_rows_with_no_strength": sum(
+            1 for k, norm in REGISTRY_LISTS.items() if norm
+            for e in reg.get(k, []) if "strength" not in e),
+    }
 
 
 # ---------------------------------------------------------------------------
@@ -405,34 +560,7 @@ def run(veta=VETA):
     }
 
     # -- B5 -----------------------------------------------------------------
-    field_index = {(row["class"], row["field"]): row for row in rows}
-    pairs, disagreements = [], []
-    for entry in reg.get("entity_field_bindings", []):
-        key = (entry.get("class"), entry.get("field"))
-        row = field_index.get(key)
-        reg_strength = entry.get("strength")
-        if row is None:
-            disagreements.append({"class": key[0], "field": key[1],
-                                  "field_strength": None, "registry_strength": reg_strength,
-                                  "why": "registry names a field that declares no binding"})
-            continue
-        fld_strength = row["binding"].get("strength")
-        pairs.append({"class": key[0], "field": key[1],
-                      "field_strength": fld_strength, "registry_strength": reg_strength})
-        if reg_strength is not None and fld_strength != reg_strength:
-            disagreements.append({"class": key[0], "field": key[1],
-                                  "field_strength": fld_strength,
-                                  "registry_strength": reg_strength,
-                                  "why": "the two stored copies differ"})
-    r["findings"]["B5_strength_stored_twice"] = {
-        "count": len(disagreements),
-        "pairs_checked": len(pairs),
-        "pairs": pairs,
-        "detail": disagreements,
-        "registry_rows_with_no_strength": sum(
-            1 for k, norm in REGISTRY_LISTS.items() if norm
-            for e in reg.get(k, []) if "strength" not in e),
-    }
+    r["findings"]["B5_strength_stored_twice"] = strength_agreement(rows, reg)
 
     # -- B6 -----------------------------------------------------------------
     catalogued = {(e.get("class"), e.get("field"))

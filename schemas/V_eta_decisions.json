@@ -552,8 +552,8 @@
           "ndi_second_pass"
         ],
         "packages_missing": [],
-        "files_read": 137,
-        "lines_read": 18584,
+        "files_read": 138,
+        "lines_read": 19270,
         "classes_queried": 31,
         "classes_emitted_as_document_class": 5,
         "ref_kinds": [
@@ -587,8 +587,8 @@
       "u_unmeasured": "(?) UNMEASURED -- no build evidence was ever taken"
     },
     "counts": {
-      "a_nothing_built": 12,
-      "b_built_awaiting_corpus_proof": 19,
+      "a_nothing_built": 10,
+      "b_built_awaiting_corpus_proof": 21,
       "c_corpus_zero_survivors": 0,
       "u_unmeasured": 0
     },
@@ -1001,23 +1001,33 @@
       {
         "class_name": "epoch_bounded_reference",
         "family": "time_reference",
-        "state": "a_nothing_built",
-        "state_label": "(a) decided, nothing built",
-        "build_evidence": [],
+        "state": "b_built_awaiting_corpus_proof",
+        "state_label": "(b) built, awaiting corpus proof",
+        "build_evidence": [
+          "6 consuming reference(s)"
+        ],
         "migrator_file": null,
-        "n_consuming_refs": 0,
-        "consuming_refs": [],
+        "n_consuming_refs": 6,
+        "consuming_refs": [
+          "ndi_second_pass/epochAnchorFold.m:269 (guard)",
+          "ndi_second_pass/epochAnchorFold.m:371 (guard)",
+          "ndi_second_pass/epochAnchorFold.m:474 (guard)",
+          "ndi_second_pass/epochAnchorFold.m:475 (field_read)",
+          "ndi_second_pass/epochAnchorFold.m:476 (field_read)",
+          "ndi_second_pass/epochAnchorFold.m:477 (field_read)"
+        ],
         "n_emitted_class_refs": 1,
         "emitted_class_refs": [
-          "ndi_second_pass/stimulusBathToBath.m:71 (emitted_class)"
+          "ndi_second_pass/stimulusBathToBath.m:137 (emitted_class)"
         ],
         "emission_counts_as_build": false,
         "retired_by_decision_in_favour_of": "relative_reference",
         "emission_discounted": "minted at 1 site(s), NOT counted as build progress: the signed decision retires this class in favour of `relative_reference`, so an emission is work still to undo",
-        "n_emitting_refs": 2,
+        "n_emitting_refs": 3,
         "emitting_refs": [
           "migrators_j/syncrule_mapping.m:182 (named)",
-          "ndi_second_pass/stimulusBathToBath.m:81 (field_write)"
+          "ndi_second_pass/epochAnchorFold.m:372 (named)",
+          "ndi_second_pass/stimulusBathToBath.m:147 (field_write)"
         ],
         "decided_targets": [],
         "decided_targets_built": [],
@@ -1083,10 +1093,10 @@
         "state": "b_built_awaiting_corpus_proof",
         "state_label": "(b) built, awaiting corpus proof",
         "build_evidence": [
-          "9 consuming reference(s)"
+          "10 consuming reference(s)"
         ],
         "migrator_file": null,
-        "n_consuming_refs": 9,
+        "n_consuming_refs": 10,
         "consuming_refs": [
           "migrators_j/private/jMethodParameters.m:122 (guard)",
           "ndi_second_pass/bodyResolver.m:216 (guard)",
@@ -1100,13 +1110,14 @@
         "emission_counts_as_build": false,
         "retired_by_decision_in_favour_of": "epoch",
         "emission_discounted": null,
-        "n_emitting_refs": 5,
+        "n_emitting_refs": 8,
         "emitting_refs": [
           "migrators_j/epochfiles_ingested.m:135 (named)",
           "migrators_j/private/jMethodParameters.m:123 (named)",
           "migrators_j/private/jMethodParameters.m:126 (field_write)",
-          "ndi_second_pass/stimulusBathToBath.m:74 (named)",
-          "ndi_second_pass/stimulusBathToBath.m:80 (named)"
+          "ndi_second_pass/epochAnchorFold.m:375 (named)",
+          "ndi_second_pass/epochAnchorFold.m:456 (named)",
+          "ndi_second_pass/epochAnchorFold.m:460 (named)"
         ],
         "decided_targets": [],
         "decided_targets_built": [],
@@ -1517,18 +1528,22 @@
       {
         "class_name": "time_reference",
         "family": "time_reference",
-        "state": "a_nothing_built",
-        "state_label": "(a) decided, nothing built",
-        "build_evidence": [],
+        "state": "b_built_awaiting_corpus_proof",
+        "state_label": "(b) built, awaiting corpus proof",
+        "build_evidence": [
+          "1 consuming reference(s)"
+        ],
         "migrator_file": null,
-        "n_consuming_refs": 0,
-        "consuming_refs": [],
+        "n_consuming_refs": 1,
+        "consuming_refs": [
+          "ndi_second_pass/epochAnchorFold.m:379 (guard)"
+        ],
         "n_emitted_class_refs": 0,
         "emitted_class_refs": [],
         "emission_counts_as_build": false,
         "retired_by_decision_in_favour_of": "relative_reference",
         "emission_discounted": null,
-        "n_emitting_refs": 29,
+        "n_emitting_refs": 32,
         "emitting_refs": [
           "migrators_j/fitcurve.m:139 (named)",
           "migrators_j/fitcurve.m:145 (field_write)",

@@ -1137,10 +1137,43 @@ write("stable", "acquisition_system", doc("acquisition_system", ["entity"],
 # be. Inventing a root node here would be the fabrication this repair track
 # exists to remove, so the binding declares its strength and stops.
 #
-# WHAT THIS IS NOT. `binding` is not enforced: validateConstraints
-# (+did2/+schema/cache.m:1025) handles maxLength/minLength/minimum/maximum/enum
-# and lets every other key fall through `otherwise`. These are declarative today
-# -- which is exactly why the cost of getting them right is lowest now.
+# ---- #32 BINDING GOVERNANCE, increment 2: give the three a SHAPE -----------
+# Increment 1 (above) declared a strength and stopped, because neither of the
+# two ways the meta-schema offered to name an admissible set was decided. That
+# left `binding: {strength: preferred}` -- a declaration with NOTHING behind it,
+# which check_binding_governance.py B9 counts as unenforceable, correctly.
+#
+# `node_form: curie` is the third thing a binding can say, and it is the one
+# that needs no ontology: the bound value's `node` must be a syntactically
+# well-formed CURIE (`prefix:local`). It does NOT say the prefix expands, and it
+# does NOT say the term exists -- MEMBERSHIP is still out of scope, because the
+# admissible value set for `variable` lives in NDIC.txt, which moved to
+# VH-Lab/ndi-ontology-matlab (commit 2c19bf24c), a repository this work did not
+# have. So this is the shape half of "a resolvable term reference", declared
+# separately from the membership half so that adding the second later does not
+# have to relitigate the first.
+#
+# STRENGTH STAYS `preferred`, DELIBERATELY, AND THE COST IS NOT ZERO. The
+# registry's OWN rows carry `"variable": {"node": "", "name": "species"}` -- an
+# empty node on all five subject_statement_bindings rows -- so a `required`
+# node_form binding would reject the vocabulary file that defines the binding.
+# That is positive evidence of a non-zero cost, not an absence of evidence, and
+# it is why the DID-matlab side ships DISARMED as well: cache.m only rejects
+# when the binding says `required`, and no binding says `required` AND
+# `node_form` today. Two independent brakes, either of which alone keeps the
+# corpus green.
+#
+# WHAT `binding` IS AND IS NOT, RESTATED because the previous version of this
+# paragraph said flatly "`binding` is not enforced" and that sentence would now
+# be false. DID-matlab did2.schema.cache/validateConstraints gained a `binding`
+# case (increment 2, same commit as this) which rejects with three distinct ids
+# -- bindingValueMissing / bindingNodeMalformed / bindingValueNotInSet. It is
+# reached ONLY when did2.schema.cache.strictMode('BindingConformance') is armed,
+# and that switch is DISARMED by default (DID_ENFORCE_BINDING_CONFORMANCE=1
+# arms it), so on today's tree the case returns before reading anything. NOTHING
+# MATLAB-SIDE HAS BEEN EXECUTED -- there is no MATLAB in the environment this
+# was written in -- so read that as the declared design, not as a measured
+# behaviour.
 _BIND_PREFERRED = [
     ("subject_statement", "variable"),
     ("subject_interaction", "method"),
@@ -1158,7 +1191,8 @@ for _cls, _fname in _BIND_PREFERRED:
     if _f["type"] != "ontology_term":
         raise SystemExit("#32: %s.%s is %r, not ontology_term"
                          % (_cls, _fname, _f["type"]))
-    _f.setdefault("constraints", {})["binding"] = {"strength": "preferred"}
+    _f.setdefault("constraints", {})["binding"] = {"strength": "preferred",
+                                                   "node_form": "curie"}
     write(_t, _cls, _d)
 
 # ---- #56: `strain` is an ENTITY, and term_assertion may point at one --------
@@ -4990,12 +5024,26 @@ constraints_schema["properties"] = {
                        "keyed on another field (usually `variable`, ontology "
                        "expansion) or an inline admissible set given as a static "
                        "enumeration (`values`) or an ontology subtree "
-                       "(`ontology` + `root_node`). Enforced by the "
-                       "ontology-aware validator (D9).",
+                       "(`ontology` + `root_node`), plus `node_form` for the "
+                       "value's lexical shape. Read by DID-matlab "
+                       "did2.schema.cache/validateConstraints behind the "
+                       "BindingConformance switch, which is DISARMED by "
+                       "default; the full ontology-aware resolution T8 "
+                       "describes (D9) does not exist yet.",
         "properties": {
             "keyed_by": {"type": "string"},
             "expansion": {"type": "string"},
             "node_kind": {"type": "string"},
+            # #32 increment 2. The ONLY part of a binding that is checkable
+            # with no ontology loaded: the LEXICAL FORM of the `node` slot.
+            # `curie` says the bound value's node must be a syntactically
+            # well-formed CURIE (`prefix:local`). It says NOTHING about whether
+            # the prefix expands or the term exists -- membership needs NDIC.txt
+            # (moved to VH-Lab/ndi-ontology-matlab, commit 2c19bf24c) and is out
+            # of scope. Declared here so the three pivot fields that use it do
+            # not show up as undeclared keys in
+            # tools/check_binding_governance.py B1.
+            "node_form": {"type": "string", "enum": ["curie"]},
             "strength": {"type": "string",
                          "enum": ["required", "preferred", "suggested"]},
             "ontology": {"type": "string"},

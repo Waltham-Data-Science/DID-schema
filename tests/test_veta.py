@@ -713,6 +713,13 @@ def test_binding_is_formalized_in_meta_schema():
     assert "source" not in binding["properties"] and "root" not in binding["properties"]
     # controlled-vocabulary (openMINDS) binding: a directly-named term set
     assert {"vocabulary", "term_set", "vocabulary_version"} <= set(binding["properties"])
+    # #32 increment 2: the lexical-shape key. Declared with a CLOSED enum -- one
+    # member -- because a `node_form` the validator does not recognise is
+    # tolerated at runtime (an old validator must not invent a verdict about a
+    # newer rule), so an unknown value would otherwise be accepted in silence at
+    # BOTH ends and enforce nothing anywhere.
+    assert binding["properties"]["node_form"] == {"type": "string",
+                                                  "enum": ["curie"]}
 
 
 def test_openminds_controlled_term_fields_bound():
@@ -1689,23 +1696,67 @@ def test_the_three_pivot_fields_are_bound_at_preferred():
 
 
 def test_the_pivot_bindings_name_no_admissible_set_yet():
-    """Option C, deliberately: strength only.
+    """Still option C on the SET, and now a shape rule alongside it.
 
-    The meta-schema offers exactly two ways to name an admissible set -- an
-    ontology subtree (`ontology` + `root_node`) or a static `values`
-    enumeration -- and neither is decided for these fields. The registry's
-    subject_statement_bindings answer a DIFFERENT question (given
-    variable = species, what may the VALUE be). Asserting the absence keeps a
-    later guess from arriving silently: adding a root node is a decision, and
-    this test makes it one that has to be taken deliberately.
+    THIS TEST DID ITS JOB AND WAS THEN AMENDED, which is the only honest way to
+    record it. It asserted `set(b) == {"strength"}` -- a deliberate tripwire so
+    that any growth of these three bindings had to be argued for -- and #32
+    increment 2 tripped it by adding `node_form: curie`. The tripwire is kept,
+    narrowed to what it was actually protecting: NO ADMISSIBLE SET may appear
+    here by guesswork.
+
+    The distinction the amendment turns on:
+
+      an admissible SET  says which terms are allowed. Undecided for these
+                         three, and undecidable in this repository -- the
+                         candidate set for `variable` is NDIC.txt, which moved
+                         to VH-Lab/ndi-ontology-matlab (commit 2c19bf24c).
+                         Inventing a root node here would be the fabrication
+                         the ground-truth track exists to remove.
+      a SHAPE rule       says the value must be a term REFERENCE at all -- a
+                         well-formed CURIE. It picks no vocabulary, so it
+                         cannot be a wrong guess about one, and it is
+                         checkable with nothing loaded.
+
+    So `ontology` / `root_node` / `values` / `keyed_by` / `term_set` remain
+    forbidden and `node_form` is admitted, by name.
     """
+    forbidden = {"ontology", "root_node", "values", "keyed_by", "term_set",
+                 "vocabulary", "root", "source"}
     for cls, fname in _PIVOT_BINDINGS:
         _tier, d = RECORDS[cls]
         fld = next(f for f in d["fields"] if f["name"] == fname)
         b = fld["constraints"]["binding"]
-        assert set(b) == {"strength"}, (
-            f"{cls}.{fname} binding grew keys {sorted(set(b) - {'strength'})}. "
+        assert set(b) == {"strength", "node_form"}, (
+            f"{cls}.{fname} binding grew keys {sorted(set(b) - {'strength', 'node_form'})}. "
             "Naming an admissible set is a separate decision (option A or B).")
+        assert not (set(b) & forbidden), (cls, fname, sorted(set(b) & forbidden))
+        assert b["node_form"] == "curie", (cls, fname, b)
+
+
+def test_the_pivot_bindings_stay_preferred_because_the_registry_itself_would_fail():
+    """WHY `required` is not affordable, stated as evidence rather than caution.
+
+    binding_registry_meta.json's own `subject_statement_bindings` rows carry
+    `"variable": {"node": "", "name": "species"}` -- an EMPTY node, on every
+    row. A `required` node_form binding on `variable` would reject the very file
+    that defines the vocabulary. That is positive evidence of a non-zero cost,
+    not an absence of evidence, and it is the reason the DID-matlab validator
+    (did2.schema.cache/checkBinding) rejects only on `required` and ships behind
+    a switch that is disarmed by default.
+
+    If someone ever fills those nodes in, this test fails and says to
+    re-examine the strength -- which is the moment the question should be
+    reopened.
+    """
+    reg = _load(os.path.join(VETA, "stable", "binding_registry_meta.json"))
+    rows = reg["subject_statement_bindings"]
+    assert rows, "no rows -- this test would verify nothing"
+    without_node = [r for r in rows if not r["variable"].get("node")]
+    assert len(without_node) == len(rows), (
+        f"{len(rows) - len(without_node)} of {len(rows)} registry variable rows "
+        "now carry a node. A `required` node_form may finally be affordable -- "
+        "measure it on a corpus before changing anything.")
 
 
 def test_field_and_registry_strengths_agree():
