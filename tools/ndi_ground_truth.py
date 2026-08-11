@@ -65,6 +65,10 @@ WHAT IT EMITS  (schemas/V_eta_ndi_ground_truth.json)
 
 The NDI templates are read from `origin/main` via git, NOT the working tree --
 same rule as tools/coverage.py, because a V_eta feature branch of NDI can lag main.
+THAT RULE BINDS THE PROVENANCE WALK TOO: `classify_divergence` walks the SAME ref
+this file records as `ndi_ref` and no other, so the artifact is reproducible from
+NDI `origin/main` alone. It said `--all` until 2026-08-11, and 12 of the 67
+provenance rows were being read off refs that are not ancestors of origin/main.
 
 Usage:  python3 tools/ndi_ground_truth.py [--ndi /path/to/NDI-matlab]
 """
@@ -714,7 +718,7 @@ def migrator_reads(truth, did_path):
     return rows
 
 
-def classify_divergence(ndi_path, truth, div):
+def classify_divergence(ndi_path, ref, truth, div):
     """0.3 -- for each divergent class, was this NDI CHANGING its template (real
     drift, so old-shaped documents may exist and the migrator needs two paths), or
     did we INVENT the shape (only one shape ever existed, one path)?
@@ -724,19 +728,61 @@ def classify_divergence(ndi_path, truth, div):
 
     UNKNOWN is honest, not benign: usually the earliest template predates the modern
     property-block format, so the comparison is not meaningful that far back. Those
-    classes need reading by hand."""
+    classes need reading by hand.
+
+    THE WALK IS CONFINED TO `ref` -- THE SAME REF THE ARTIFACT DECLARES AS
+    `ndi_ref`, AND NOTHING ELSE. It used to say `--all`, which made the answer a
+    property of whichever refs the local NDI clone happened to carry rather than
+    of NDI: the artifact recorded `ndi_ref: "origin/main"` and this file's own
+    docstring said it never reads a feature branch, while 12 of the 67
+    provenance rows were in fact read off refs that are not ancestors of
+    origin/main (`treatment_drug` from `origin/feature/newvhlabimport`, `app` /
+    `element` / `projectvar` from `origin/audri_documents`). A verdict derived
+    from a ref the contract excludes is not evidence, so those rows were not
+    "lost" when this changed -- they were withdrawn.
+
+    `--no-renames` IS LOAD-BEARING, and dropping `--all` without it would have
+    replaced one wrong answer with another. Rename detection is on by default,
+    and a rename is reported as `R`, which `--diff-filter=A` then skips -- so a
+    class whose template was ever renamed has no add-commit at all. Both kinds
+    happened here: the basename changed
+    (`ndi_document_stimulus_presentation.json` -> `stimulus_presentation.json`)
+    and later the whole tree moved (fe64a9f53, "Move +ndi/ndi_common/java to
+    src/ndi/", R100). MEASURED on origin/main, 67 divergent classes:
+
+        origin/main                    333 basenames, 14 classes with NO add-commit
+        origin/main --no-renames       374 basenames,  0 classes with NO add-commit
+
+    `--full-history` changes NO verdict today -- measured, 0 of 67 -- and is
+    kept only so the walk does not depend on which parent git's default
+    simplification happens to follow through a merge (it recovers 2 further
+    basenames overall: 374 -> 376). It is not what fixed the 14.
+
+    With the ref pinned and renames off, every one of the 67 divergent classes
+    resolves to a real first version on origin/main: `no add-commit found` is 0,
+    and each UNKNOWN that remains is the honest kind -- a first version that
+    predates the property-block format, or one that is not valid JSON.
+
+    `%H` (full sha), not `%h`: abbreviation length is a function of how many
+    objects the clone has, which is exactly the kind of clone-dependence this
+    function is being repaired for."""
     def sh(*a):
         return subprocess.run(["git", "-C", ndi_path] + list(a),
                               capture_output=True, text=True).stdout
 
     first = {}
     cur = None
-    for line in sh("log", "--all", "--reverse", "--diff-filter=A",
-                   "--format=@%h %ai", "--name-only", "--", "*.json").splitlines():
-        if line.startswith("@"):
-            cur = line[1:]
-        elif line.endswith(".json") and cur:
-            first.setdefault(line.rsplit("/", 1)[-1][:-5], (cur, line))
+    # `ndi_templates` returns "worktree" when no git ref could be read at all.
+    # There is then no ref to walk, and walking HEAD instead would be the same
+    # substitution `--all` was making. Say so per row rather than guess.
+    if ref != "worktree":
+        for line in sh("log", ref, "--full-history", "--no-renames", "--reverse",
+                       "--diff-filter=A", "--format=@%H %ai", "--name-only",
+                       "--", "*.json").splitlines():
+            if line.startswith("@"):
+                cur = line[1:]
+            elif line.endswith(".json") and cur:
+                first.setdefault(line.rsplit("/", 1)[-1][:-5], (cur, line))
 
     out = {}
     for cn, rec in div.items():
@@ -744,7 +790,9 @@ def classify_divergence(ndi_path, truth, div):
             set(truth[cn]["fields"]) - set(rec["only_in_ndi_template"]))
         hit = first.get(cn)
         if not hit:
-            out[cn] = {"verdict": "UNKNOWN", "why": "no add-commit found"}
+            out[cn] = {"verdict": "UNKNOWN",
+                       "why": ("no ref to walk (ndi_ref=worktree)"
+                               if ref == "worktree" else "no add-commit found")}
             continue
         sha, when = hit[0].split()[0], hit[0].split()[1]
         try:
@@ -805,7 +853,7 @@ def main():
     div = v_alpha_divergence(truth)
     reads = migrator_reads(truth, a.did)
     wdeps, wscan = writer_dependencies(a.ndi, truth)
-    prov = classify_divergence(a.ndi, truth, {r["ndi_class"]: r for r in div})
+    prov = classify_divergence(a.ndi, ref, truth, {r["ndi_class"]: r for r in div})
     for r in div:
         r["provenance"] = prov.get(r["ndi_class"], {"verdict": "UNKNOWN"})
 
@@ -853,6 +901,18 @@ def main():
           for v in ("DID-INVENTED", "NDI-CHANGED", "UNKNOWN")}
     print("divergence provenance:  DID-INVENTED %d | NDI-CHANGED %d | UNKNOWN %d"
           % (pc["DID-INVENTED"], pc["NDI-CHANGED"], pc["UNKNOWN"]))
+    # DENOMINATOR for the provenance walk (operating rule 5). The walk reads
+    # ONLY `ref`, so this line says how many of the divergent classes it could
+    # locate a first version for at all -- an UNKNOWN because the first template
+    # predates the property-block format is a different fact from an UNKNOWN
+    # because the walk never found the file, and the two used to print the same.
+    nof = sum(1 for r in div
+              if r["provenance"].get("why", "").startswith(("no add-commit",
+                                                            "no ref to walk")))
+    print("  DENOMINATOR: %d divergent class(es), walked on %s ONLY (no other "
+          "ref is consulted)" % (len(div), ref))
+    print("  first version located: %d   no add-commit found on %s: %d"
+          % (len(div) - nof, ref, nof))
     # DENOMINATOR FIRST for the required-ness extract (operating rule 5). Every
     # line here exists so that a downstream zero is readable: "NDI requires no
     # edge V_eta relaxed" and "no class could be asked" print differently.

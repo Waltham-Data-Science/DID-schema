@@ -172,35 +172,48 @@ def _t(script, *args):
 
 
 STEPS = [
-    # READ THIS BEFORE ACTING ON A `V_eta_ndi_ground_truth.json DIFFERS` ROW.
-    # That artifact is NOT reproducible from NDI `origin/main`, even though it
-    # records `ndi_ref: "origin/main"` and the tool's own docstring says it
-    # reads origin/main and never a feature branch. One function breaks that:
+    # THE `--all` DEFECT DESCRIBED HERE IS FIXED (2026-08-11). The note is kept
+    # because the numbers it warned about were real and the RESOLUTION is not the
+    # one it expected -- read it before quoting either set of counts.
     #
-    #     tools/ndi_ground_truth.py:734
-    #         for line in sh("log", "--all", "--reverse", "--diff-filter=A",
+    # It said: `V_eta_ndi_ground_truth.json` is not reproducible from NDI
+    # `origin/main` even though it records `ndi_ref: "origin/main"`, because
+    # `classify_divergence` walked `git log --all`, so the
+    # `v_alpha_divergence[].provenance` verdicts were a property of whichever
+    # refs the local NDI clone happened to carry. That was correct, and it is
+    # now demonstrated rather than argued: the OLD code run against a 39-ref
+    # clone and against a 1-ref clone of the same origin/main tip produced
+    # DIFFERENT artifacts (DID-INVENTED 36|UNKNOWN 31 vs 35|32); the new code
+    # produces byte-identical output on both.
     #
-    # `--all`, so the `v_alpha_divergence[].provenance` verdicts depend on which
-    # OTHER refs happen to exist in whoever's NDI clone. Regenerating it in a
-    # clone with a different ref set moves 12 of the 67 rows and the headline
-    # counts with them:
+    # It also said regenerating would REPLACE 11 DID-INVENTED verdicts with
+    # UNKNOWN -- "a loss of record dressed as a refresh" -- and concluded the
+    # refresh must not be committed. THE FIRST HALF IS RIGHT AND THE CONCLUSION
+    # IS NOT. Those verdicts were read off refs the contract excludes:
+    # `treatment_drug` from `origin/feature/newvhlabimport`, and `app` /
+    # `element` / `projectvar` from `origin/audri_documents` (files under
+    # `ndi_common/unified_documents/`, which is not the template directory at
+    # all); 12 rows carried "first NDI version 2026-04-24", a date on which NO
+    # commit reachable from ANY ref in this clone adds a template. A verdict
+    # derived from a ref the contract excludes is not evidence, so withdrawing
+    # it is a CORRECTION, not a regression.
     #
-    #     committed     DID-INVENTED 47 | NDI-CHANGED 0 | UNKNOWN 20
-    #     regenerated   DID-INVENTED 36 | NDI-CHANGED 0 | UNKNOWN 31
+    # Pinning the ref alone would have been a second wrong answer: git's default
+    # rename detection reports NDI's template renames as R, which
+    # `--diff-filter=A` skips, and 14 of the 67 classes then read "no add-commit
+    # found". With `--no-renames` every one of the 67 resolves to a real first
+    # version on origin/main.
     #
-    # The committed values cannot have come from origin/main. `filter` is
-    # recorded as "first NDI version 2026-04-24", but the commit that adds
-    # filter.json on origin/main is 68b17ce0b, 2026-02-24 --
-    # `git merge-base --is-ancestor 68b17ce0b origin/main` succeeds -- and the
-    # function takes the FIRST add in `--reverse` order, so an origin/main read
-    # could only ever have said February. The other 11 rows now say "no
-    # add-commit found" because no *.json add in April 2026 is reachable here at
-    # all.
+    #     committed (--all, a clone we no longer have)  47 | 0 | 20
+    #     origin/main, renames left on                  35 | 0 | 32
+    #     origin/main, renames off  (LANDED)            39 | 1 | 27
     #
-    # So a DIFFERS row here is a question about the two CLONES, not about this
-    # repository, and regenerating would REPLACE 11 verdicts with UNKNOWN --
-    # a loss of record dressed as a refresh. Do not commit that refresh; fix the
-    # `--all` first, with the team.
+    # The 1 is `projectvar`, the first NDI-CHANGED verdict the record has ever
+    # carried: its 2023-04-13 first version matches our V_alpha snapshot field
+    # for field, so NDI really did change that template and old-shaped documents
+    # may exist. The `--all` walk had hidden it behind an off-main file.
+    #
+    # Pinned by tests/test_ground_truth_provenance_ref.py.
     Step("ndi_ground_truth", _t("ndi_ground_truth.py"), "generate",
          r"^NDI classes captured:\s+(\d+)", "NDI classes captured",
          writes=["schemas/V_eta_ndi_ground_truth.json"],
