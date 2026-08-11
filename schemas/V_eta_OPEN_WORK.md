@@ -1209,3 +1209,83 @@ to build on — and the build reports these states separately, never summed:
 A non-zero "row present, no measurements" is a finding, not a passthrough statistic: it
 would mean the expectation does not hold for some population, and it is to be reported with
 its count rather than absorbed into a total.
+
+---
+
+## TEAM DECISION 2026-08-11 — `local_identifier` on patches is the (experiment, plate, patch) TRIPLE
+
+Team, jess@walthamdatascience.com, 2026-08-11, verbatim:
+
+> "each experiment #, plate #, and patch # combo should be unique and should dictate the
+> local identifier for all patches. None should be labeled just patch #"
+
+**Applies to ALL patches, not only the new E. coli lawns.** The C. elegans patch subjects
+minted today by `applyPatchGeometryMap` in `+migrators_j/ontology_table_row.m` use a bare
+`patchID` via `jEnsureLocalId` — that is what the directive forbids, and they are re-labelled
+to the same triple. One agent owns the convention for both, because two agents would ship two
+spellings of one identifier inside a single dataset.
+
+### The collision this fixes, and why nothing smaller would
+
+`patchID` is `1:numPatch` **WITHIN a plate** (`doImport.m:275`), so `'0001'` recurs on every
+plate. `jEnsureLocalId` does no dataset-level qualification, and both Haley sessions land in
+ONE `ndi.dataset.dir`. `subject.local_identifier` is REQUIRED and documented *"unique within
+its dataset"* — so the documented invariant was FALSE before any lawn work.
+
+**The collision is INTRA-session** (between plates inside one session), which is why
+session-scoping would not have rescued it. Contrast `epochMint`, which keys
+`(session_id, local_identifier)` because epoch id strings collide ACROSS sessions — 142 of
+corpus B's 149. Same field, different collision geometry, different fix. Only the triple works
+here.
+
+### Why the change is safe
+
+`local_identifier` is a HUMAN HANDLE, not a join key: `base.id` is the key, so changing a
+handle dangles nothing. `epochMint` is the one place this project joins on it, and that is for
+`epoch` entities, not subjects.
+
+### The constraint that follows from it
+
+The triple is NOT on the patch row. `patchVariables` keys on `{imageID, patchID}`;
+`imageVariables` carries `plateID`; `plateVariables` carries `expID`. So forming the
+identifier needs the SAME two-hop join (patch → image → plate) that `member_of` needs. **If a
+hop fails the identifier cannot be formed, and `local_identifier` is REQUIRED — so a subject
+that cannot be named must not be minted.** Refuse and count, never fall back to a bare
+`patchID`. A test asserts that a bare-`patchID` identifier FAILS, so the directive cannot
+silently regress.
+
+---
+
+## TEAM DECISION 2026-08-11 — "Do B": build the openMINDS citation migrator
+
+Team, jess@walthamdatascience.com, 2026-08-11, verbatim: **"Do B"**, against the three options
+recorded above (A accept the loss / B write the migrator / C require `metadata_editor`).
+
+**B IS ADDITIVE, NOT A REPLACEMENT.** The graph stores only a DOI for a related publication —
+no title, no PMID, no PMCID; NDI's reader recovers those by NETWORK LOOKUP
+(`resolveRelatedPublication`), while the editor path carries all four. Neither store dominates,
+0 of 6 corpora carry both, and a migrator must not fabricate the difference. The
+`metadata_editor` path is NOT removed or weakened.
+
+**Shape, as briefed to the build:** pass-1 guarded passthrough for `openminds` (branch on
+`matlab_type`, ERROR on an unknown shape per the `ontology_image` pattern) plus a batch
+assembler in `+did2/+convert/` wired at all four call sites, running BEFORE
+`resolveDatasetEntities` so its rich `dataset` wins that pass's richness ranking against the
+`dataset_remote` stubs. It emits the same six entity classes `metadata_editor.m` emits;
+`entityDoc`/`relationDoc`/`orgFor`/`buildGids` are reused unchanged and only the READERS
+differ. `person` can be id-preserving 1:1, which `metadata_editor.m:117` cannot.
+
+**`ndidataset2metadataeditorstruct.m` IS THE SPECIFICATION** — NDI's own reader that rebuilds
+the editor structure from the graph. Whatever it queries is what the migrator must consume.
+Nobody had read it as a spec before.
+
+**The orphan guard is the thing most likely to turn a green run red:** consumed `openminds`
+documents are referenced by surviving ones through `openminds_1..n`, so consumption must be
+all-or-none per connected component.
+
+Subject-side openMINDS types (Subject, BiologicalSex, Species, Strain, RRID, StockNumber) are
+OUT OF SCOPE — they overlap the existing `openminds_subject` route and the signed strain
+decision.
+
+**Neither decision carries a `TEAM-SIGN-OFF` line written by Claude.** The board will keep
+rendering these families as awaiting review until the team writes one.
