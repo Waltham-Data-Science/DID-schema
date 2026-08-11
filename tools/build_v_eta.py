@@ -2713,49 +2713,133 @@ _ngrid["fields"] = [
 write("stable", "ngrid", _ngrid)
 
 # ---- ontology_image: make the SOURCE TOMBSTONE hold real v1 documents ----
-# NDI redefined `ontologyImage` upstream, so two incompatible vintages are both
-# "did_v1":
-#   A (legacy, DID-schema V_alpha/V_beta ancestry): {ontology_name, ontology_region},
-#     depends_on element_id, file ontology_image_file, superclasses [base].
-#   B (current NDI production, ndi_common/database_documents/data/ontologyImage.json
-#     + +ndi/+setup/+NDIMaker/imageDocMaker): {ontologyNodes} -- a COMMA-JOINED list
-#     of one or more CURIEs (the template's singular `ontologyNode` is stale; the
-#     writer and its own lookup query both use the plural) -- depends_on
-#     ontologyTableRow_id, file ontologyImage.ngrid, superclasses [base, ngrid].
-# The class carried neither: it declared `region`, which is the V_DELTA MIGRATOR'S
-# OUTPUT (composed from vintage A's two chars), not a v1 field at all.
-# migrators_j.ontology_image MIGRATES vintage A (element_id gives it a subject) and
-# DEFERS vintage B to the NDI second pass -- vintage B's only edge is
-# ontologyTableRow_id, and a table row is not a subject, so the subject is reachable
-# only through the migrated-id graph. A deferred document is passed through
-# UNCHANGED, so this tombstone must declare vintage B faithfully or the passthrough
-# would quarantine on the undeclared `ngrid` block. `ngrid` returns as a superclass
-# for that reason -- it is also why retiring `ngrid` is gated on BOTH its consumers
-# (hartley_calc and ontologyImage). See V_eta_ngrid_family_findings.md.
+# THERE IS ONE SHAPE, NOT TWO. This block used to open "NDI redefined
+# `ontologyImage` upstream, so two incompatible vintages are both did_v1" and
+# declared a vintage A -- {ontology_name, ontology_region} + an `element_id` edge
+# -- alongside the real one. Vintage A has never existed. It is DID-schema's own
+# V_alpha/V_beta snapshot, re-labelled "legacy" and then read back as did_v1
+# ground truth: the ground-truth-track fabrication this repair track exists to
+# remove. The migrator's header carried the same correction from 2026-08-09;
+# the schema did not, so the fabricated fields were still being BUILT.
+#
+# RE-VERIFIED 2026-08-11 against NDI origin/main, before removing anything. The
+# earlier write-up of this evidence was itself partly wrong, so both the
+# corrected citations and the conclusion are recorded here.
+#
+#   (i) THE CLASS TEMPLATE, EVERY REVISION IT HAS EVER HAD. Four revisions of a
+#       file named ontologyImage.json exist; three define the class and all
+#       three carry {ontologyNode} + ontologyTableRow_id:
+#
+#         $ git rev-list --all -- '*ontologyImage.json'   # 4 revisions
+#         b33d8ce64  src/ndi/ndi_common/database_documents/data/ontologyImage.json
+#         88096f341  ndi_common/database_documents/data/ontologyImage.json
+#         40b7dfbff  ndi_common/database_documents/data/ontologyImage.json
+#         27daa610e  ndi_common/database_documents/ontologyImage.json
+#              ... first three:  "class_name": "ontologyImage",
+#                                "depends_on": [{"name": "ontologyTableRow_id"}],
+#                                "ontologyImage": {"ontologyNode": ""}
+#
+#       The FOURTH, 27daa610e ("Create ontologyImage.json"), is the one that
+#       looks like vintage A and is not: it is a verbatim copy of the
+#       spectrogram template sitting at that path --
+#         "class_name": "spectrogram", ... "depends_on": [{"name":"element_id"}]
+#       -- replaced by the real content in the next commit to touch the file. It
+#       has an `element_id` edge because it is NOT an ontologyImage. So no
+#       revision of the CLASS has ever declared `element_id`.
+#
+#       CITATION CORRECTED: the record (CLAUDE.md, migrators_j/ontology_image.m)
+#       said this was "exactly ONE commit, `0ae099c`". Both halves are wrong --
+#       --diff-filter=A returns TWO commits (27daa610e, then 40b7dfbff, which is
+#       the move into data/), and 0ae099c4a is "Merge pull request #716 ...
+#       claude/add-dataset-summary-utility", unrelated to this file. The
+#       conclusion the miscitation supported is nevertheless correct, and is now
+#       supported by content rather than by a commit count.
+#
+#  (ii) THE FABRICATED FIELD NAMES, BOTH SPELLINGS, CASE-INSENSITIVE.
+#       `ontology_region`/`ontologyRegion` appear in ZERO JSON files anywhere in
+#       NDI history:
+#
+#         $ git log --all --oneline -S"ontology_region" -- '*.json'   # (nothing)
+#         $ git log --all --oneline -S"ontologyRegion"  -- '*.json'   # (nothing)
+#
+#       `ontology_name`/`ontologyName` DO occur in templates -- measurement,
+#       treatment, treatment_drug, virus_injection, and a probe-location demo --
+#       and in none of them is the class ontologyImage:
+#
+#         $ git log --all -S"ontologyName" -- '*database_documents*' '*schema_documents*'
+#         60e323065  measurement.json, measurement_schema.json
+#         0dc856047  treatment/treatment_drug.json, treatment/virus_injection.json
+#         9aa6b053c  treatment/treatment_drug.json
+#         14e621426  treatment.json
+#
+# (iii) THE WRITER, WHICH OUTRANKS THE TEMPLATE. One construction site in all of
+#       NDI, and it sets one block field and one edge:
+#
+#         $ git grep -i "ontologyimage" origin/main -- '*.m'
+#           imageDocMaker.m:122  ontologyImage_struct = struct('ontologyNodes', ontologyNodes);
+#           imageDocMaker.m:125  doc = ndi.document('ontologyImage', ...
+#           imageDocMaker.m:133  doc.set_dependency_value('ontologyTableRow_id', ...)
+#           imageDocMaker.m:144  doc.add_file('ontologyImage.ngrid', filepath);
+#
+#       and `element_id` could not be added by a caller even if one tried:
+#       ndi.document/set_dependency_value defaults to ErrorIfNotFound=1 and
+#       errors on a name the template does not declare (document.m:707,732).
+#
+# WHAT IS REMOVED, AND WHY REMOVAL CANNOT QUARANTINE ANYTHING:
+#   - `ontology_name`, `ontology_region`. These are the only removals with a
+#     theoretical cost, because +did2/+schema/cache.m:744 raises
+#     `undeclaredField` on a block key the schema does not declare. It is not
+#     reachable: this tombstone is consulted ONLY on the passthrough arm, and
+#     migrators_j/ontology_image.m takes that arm only when `ontology_nodes` or
+#     `ontology_node` is non-empty. A document carrying either removed field
+#     non-empty takes the MIGRATE arm instead and never validates against this
+#     class; one carrying them empty-but-present would need NDI to have written
+#     a key that (ii) shows no template has ever had.
+#   - the `element_id` dependency. No cost at all in either direction: the
+#     validator allows undeclared depends_on entries wholesale (cache.m's
+#     allowedTop admits `depends_on` as a unit; only mustBeNonEmpty edges are
+#     checked, and this one was non_empty=False), so removing it cannot
+#     quarantine a document and leaving it would not have caught one.
+#
+# WHAT IS DELIBERATELY NOT TOUCHED:
+#   - migrators_j/ontology_image.m keeps its vintage-A arm and its no-match
+#     ERROR. An arm for a shape that cannot occur never fires, and the error is
+#     the safe direction to be wrong in. The two stay consistent because a
+#     vintage-A body is MIGRATED, never passed through, so it never meets this
+#     schema.
+#   - `ontology_nodes` stays declared although no template has it, because the
+#     WRITER wins: imageDocMaker.m:122 writes the plural.
+#   - `ontology_node` (the template's singular) stays UNDECLARED. That is the
+#     pre-existing open question recorded in the tombstone-audit note, unchanged
+#     by this edit and not decided here.
+#   - `ontology_table_row_id` keeps its snake_case spelling against NDI's
+#     camelCase `ontologyTableRow_id`. Raised in the migrator header as a
+#     convention call for a human; not decided here.
+#
+# The rest of the original note still holds: a deferred document is passed
+# through UNCHANGED, so this tombstone must declare the real shape faithfully or
+# the passthrough would quarantine on the undeclared `ngrid` block. `ngrid` is a
+# superclass for that reason -- and it is why retiring `ngrid` is gated on BOTH
+# its consumers (hartley_calc and ontologyImage). See
+# V_eta_ngrid_family_findings.md.
 _oimg = load(os.path.join(VETA, "stable", "ontology_image.json"))
 _oimg["document_class"]["superclasses"] = [
     {"class_name": "base"}, {"class_name": "ngrid"}]
 _oimg["document_class"]["class_version"] = "2.0.0"
 _oimg["depends_on"] = [
-    dep("element_id", "subject",
-        "Vintage A only: the element/subject this image depicts. Absent on current"
-        " NDI production documents.", non_empty=False),
     dep("ontology_table_row_id", "ontology_table_row",
-        "Vintage B only: the metadata table row giving this image its data context."
-        " NOT a subject -- resolving the subject through it is the NDI second pass's"
-        " job, which is why vintage B is deferred rather than migrated here.",
+        "The metadata table row giving this image its data context. NOT a subject"
+        " -- resolving the subject through it is the NDI second pass's job, which"
+        " is why these documents are deferred rather than migrated. The only edge"
+        " the class has ever declared, and the only one its writer sets.",
         non_empty=False),
 ]
 _oimg["fields"] = [
     field("ontology_nodes", "char",
-          "Vintage B (current NDI production): one or more ontology CURIEs for what"
-          " the image depicts, comma-joined and sorted, each normalised through"
-          " ndi.ontology.lookup. The v1 template's singular `ontologyNode` is stale;"
-          " the writer and its own lookup query both use the plural."),
-    field("ontology_name", "char",
-          "Vintage A (legacy): the CURIE of the depicted region."),
-    field("ontology_region", "char",
-          "Vintage A (legacy): the human-readable label of the depicted region."),
+          "One or more ontology CURIEs for what the image depicts, comma-joined and"
+          " sorted, each normalised through ndi.ontology.lookup. The v1 template's"
+          " singular `ontologyNode` is stale; the writer and its own lookup query"
+          " both use the plural."),
 ]
 # ---- the RASTER's carrier, and its home under R6 (#47) ----
 # NDI declares the payload file on the CONSUMER, not on `ngrid`:

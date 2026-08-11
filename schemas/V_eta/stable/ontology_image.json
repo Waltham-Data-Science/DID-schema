@@ -14,15 +14,9 @@
     },
     "depends_on": [
         {
-            "name": "element_id",
-            "mustBeNonEmpty": false,
-            "documentation": "Vintage A only: the element/subject this image depicts. Absent on current NDI production documents.",
-            "must_refer_to_document_class": "subject"
-        },
-        {
             "name": "ontology_table_row_id",
             "mustBeNonEmpty": false,
-            "documentation": "Vintage B only: the metadata table row giving this image its data context. NOT a subject -- resolving the subject through it is the NDI second pass's job, which is why vintage B is deferred rather than migrated here.",
+            "documentation": "The metadata table row giving this image its data context. NOT a subject -- resolving the subject through it is the NDI second pass's job, which is why these documents are deferred rather than migrated. The only edge the class has ever declared, and the only one its writer sets.",
             "must_refer_to_document_class": "ontology_table_row",
             "ndi_mustBeNonEmpty": false
         }
@@ -44,33 +38,7 @@
             "mustNotHaveNaN": false,
             "queryable": true,
             "ontology": null,
-            "documentation": "Vintage B (current NDI production): one or more ontology CURIEs for what the image depicts, comma-joined and sorted, each normalised through ndi.ontology.lookup. The v1 template's singular `ontologyNode` is stale; the writer and its own lookup query both use the plural.",
-            "constraints": {}
-        },
-        {
-            "name": "ontology_name",
-            "type": "char",
-            "blank_value": "",
-            "default_value": "",
-            "mustBeNonEmpty": false,
-            "mustBeScalar": true,
-            "mustNotHaveNaN": false,
-            "queryable": true,
-            "ontology": null,
-            "documentation": "Vintage A (legacy): the CURIE of the depicted region.",
-            "constraints": {}
-        },
-        {
-            "name": "ontology_region",
-            "type": "char",
-            "blank_value": "",
-            "default_value": "",
-            "mustBeNonEmpty": false,
-            "mustBeScalar": true,
-            "mustNotHaveNaN": false,
-            "queryable": true,
-            "ontology": null,
-            "documentation": "Vintage A (legacy): the human-readable label of the depicted region.",
+            "documentation": "One or more ontology CURIEs for what the image depicts, comma-joined and sorted, each normalised through ndi.ontology.lookup. The v1 template's singular `ontologyNode` is stale; the writer and its own lookup query both use the plural.",
             "constraints": {}
         }
     ]

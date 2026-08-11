@@ -65,8 +65,19 @@ KNOWN_BROKEN = {
     #   ontologyLabel has only ever been {ontologyNode}. The migrator prefers the
     #   real ontology_node idiom, so it WORKS; the invented branch is dead code.
     "daqreader_ndr.m",
-    #   BENIGN. Reads the real ndr_reader_string correctly; the file_extension
-    #   branch is guarded by isfield and simply never fires. Dead, not lossy.
+    #   FIXED, 2026-08-11 -- kept here as the historical offender census, NOT as
+    #   an allow-list entry (its VERIFIED_BENIGN row was retired when the tool's
+    #   own staleness detector reported it). It USED to carry `file_extension`
+    #   alongside the real `ndr_reader_string`; that copy was deleted on
+    #   2026-08-10 and the migrator now reads nothing invented:
+    #     $ grep -n "file_extension" \
+    #           DID-matlab/src/did/+did2/+convert/+migrators_j/daqreader_ndr.m
+    #       5:%   onto the generic daqreader: ndr_reader_string -> ...,
+    #       6:%   file_extension carried, and ndi_daqreader_ndr_class dropped ...
+    #       27:% NO `file_extension`. It was copied here until 2026-08-10, ...
+    #   -- lines 5-6 are a STALE DOCSTRING (raised, not fixed: DID-matlab side);
+    #   line 27 is the deletion. No code read remains, which is why the row
+    #   stopped appearing in `hits` at all.
     #
     # ---- confirmed in the second pass (broadened detection) ----------------
     # These read through local getField/getCharField helpers, which the first
@@ -162,14 +173,18 @@ RESOLVED_BY_GUARD = {
 # The bar: the read must be an ADDITIONAL, guarded read with a correct fallback,
 # never a wrong read standing in for a right one. A migrator that reads the
 # wrong name INSTEAD of the real one belongs in KNOWN_BROKEN and gets fixed.
+#
+# RETIRED, 2026-08-11: `daqreader_ndr.m`. Its entry said `file_extension` was an
+# isfield-guarded EXTRA carry alongside the real `ndr_reader_string`. The carry
+# was DELETED on 2026-08-10 (DID-matlab, daqreader_ndr.m:27 records it and the
+# reason: DID-schema had dropped the declaration, so copying it would have
+# emitted an undeclared field and quarantined the document), and this tool's own
+# staleness detector then reported the row as ALLOW-LIST STALE -- "the name is no
+# longer read at all". Retired on that evidence rather than left standing: an
+# allow-list entry for a read that does not happen makes the list read as if it
+# were still holding something back. The migrator stays in KNOWN_BROKEN above,
+# which is the historical offender census, not a permission.
 VERIFIED_BENIGN = {
-    "daqreader_ndr.m": (
-        "`file_extension` is an isfield-guarded EXTRA carry alongside the real "
-        "`ndr_reader_string`, which IS read correctly. The branch never fires "
-        "on an origin/main document. Kept rather than deleted so an older "
-        "corpus vintage carrying the field would still have it carried. "
-        "STOPS BEING BENIGN IF: the real read (`ndr_reader_string`) is ever "
-        "removed or renamed, leaving this as the only read."),
     "subject_group.m": (
         "`group_name`/`description` are isfield-guarded reads of a block NDI "
         "ships as literally `{}` -- all three writers construct subject_group "
