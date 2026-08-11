@@ -1849,3 +1849,192 @@ Nothing counts it today, so a real one would quarantine with no line saying why.
 error understates the problem: the 2019 block has no `id` and no `session_id` at all, so the
 exposure is four undeclared fields PLUS two missing required ones, not two undeclared fields on
 an otherwise sound block.
+
+---
+
+## #84 — AUDIT 2026-08-11: the surviving `ndi_document` reads in NDI-matlab. TWO REPAIRED (both broke a live user-facing operation and both had an unambiguous target); FIVE LEFT ALONE ON PURPOSE; and a CORRECTION to the section above — there are FOUR pre-`base` vintages, not one, and the two accounts already in this file are each right about a different one.
+
+Opened from a side observation by another agent, reported as *"NDI `origin/main` still
+carries three dead `ndi_document.id` reads (`+ndi/+fun/+dataset/diff.m:61-62`,
+`+ndi/+gui/docViewer.m:238,269,274`) against a block no document has had since 2023."*
+**The claim is substantially TRUE but wrong in three particulars**, each of which changes
+what to do about it. Corrections are at the end.
+
+### DENOMINATORS, first and unconditionally
+
+        NDI-matlab @ claude/v-eta-migration-plan-35jj1z (93d2e03e4), a read-write clone
+        1450 tracked files;  927 tracked .m files
+          87 templates under src/ndi/ndi_common/database_documents/ on the branch
+          91 templates on origin/main
+           0 templates -- of 87, and of 91 -- declare an `ndi_document` block
+
+        23 occurrences of `ndi_document` used as a BLOCK NAME, in 9 files:
+           8  LIVE CODE          4 files
+           2  TEST               1 file  (debug print inside an already-failing branch)
+           3  COMMENT            2 files (one is a .mold file, not on the MATLAB path)
+          10  NOTEBOOK / DOC     2 files (one is an .ipynb_checkpoints copy of the other)
+
+The grep that produces this must exclude `ndi_document2ndi_object` (a live, unrelated
+function) and the pervasive `ndi_document_obj` variable name; an unfiltered `ndi_document`
+search matches **91 files** and is useless for this question.
+
+### IS THE BLOCK ACTUALLY GONE? Positive evidence, five independent ways
+
+Not "we grepped and found no shim". The shim layer EXISTS and was read end to end:
+
+1. **The rename commit, verified rather than taken on faith.** `git log --diff-filter=A --
+   '*database_documents/base.json'` returns exactly one commit and `--diff-filter=D --
+   '*ndi_document.json'` returns the same one: **`9783809c2739d17dd9e4dd2a9a8a1950fde90f87`,
+   2023-04-13, Stephen D. Van Hooser, "database document definitions all changed"**.
+2. **`ndi.compat.fieldAliases` is a CLOSED static table of FOUR rows** — two `probe_location`,
+   two `treatment`. No row mentions `ndi_document` or `base`. `ndi.compat.augmentRead` does
+   nothing but walk that table, so it cannot mirror the old block back onto a read body.
+3. **`ndi.compat.translateQueryPaths` rewrites only those four rows plus the regex
+   `^depends_on(\(\d+\))?\.(id|value)$`.** `ndi_document.id` matches neither, and the
+   `ndi.query` CONSTRUCTOR calls the translator unconditionally (`+ndi/query.m:128`), so no
+   query on the old path is rescued anywhere.
+4. **The read path converts in the OPPOSITE direction.** `applyReadNormalization` routes every
+   body through `did2.convert.v1_to_v2`, whose `universalRenames` renames `ndi_document` →
+   `base`, or DISCARDS `ndi_document` when `base` is also present. A document that arrives
+   carrying the old block LOSES it on read.
+5. **The writer never creates it.** `ndi.document`'s constructor sets
+   `document_properties.base.id` (`+ndi/document.m:58`); `id()`, `session_id()`,
+   `doc_unique_id()` and `eq()` all read `base`; both dumbjsondb backends declare
+   `'unique_object_id_field','base.id'`.
+
+### THE SITE SET, and what each one does when it fires
+
+`base` declares FOUR fields — `id, session_id, name, datestamp`. The retired block declared
+those plus **`type`** and **`database_version`**. That two-field gap is what separates the
+repairable sites from the ones that are not.
+
+| site | kind | what happens | disposition |
+|---|---|---|---|
+| `+ndi/+fun/+dataset/diff.m:61,62` | live | query matches nothing → `doc1{1}` on line 66 has **no isempty guard** → hard MATLAB error | **REPAIRED** |
+| `+ndi/+database/+fun/plotinteractivedocgraph.m:52` | live | click callback → "Reference to non-existent field" | **REPAIRED** |
+| `+ndi/+gui/docViewer.m:55` | live | reads the block, then `d.type` | **LEFT ALONE** |
+| `+ndi/+gui/docViewer.m:238,269,274` | live | `.ndi_document.id` **and** `depends(j).value` | **LEFT ALONE** |
+| `+ndi/+gui/Data.m:44` | live | reads the block, then `d.type` | **LEFT ALONE** |
+| `+ndi/+test/+database/+core/test_ndi_daqreader_documents.m:63,64` | test | debug print reached only when the test is ALREADY failing; unregistered in `ndi_testsuite_list.txt` | counted only |
+| `+ndi/validate.m:77` | comment | — | counted only |
+| `+ndi/+database/+implementations/+database/postgresdb.mold:35,68` | comment | `.mold`, not on the path | counted only |
+| `document_database_demo.ipynb` (+ its checkpoint copy) | notebook | 10 lines | counted only |
+
+### WHY THOSE TWO WERE REPAIRED — each file already contains its own answer
+
+Neither repair required guessing at intent, because in **both** files the 2023 rename was
+applied to one code path and missed the other:
+
+- `dataset/diff.m` queries **`base.id`** at lines 156-157 while querying `ndi_document.id` at
+  61-62. Its sibling `ndi.fun.session.diff.m:64-65` implements the *identical* recheck loop
+  with `base.id`. Across all 927 `.m` files there are **~110 `'base.id'` query sites and
+  exactly 2 `'ndi_document.id'` ones** — both in this file.
+- `plotinteractivedocgraph.m` disps **`document_properties.base`** at line 87 and labels the
+  data-tip row `'base:'` at line 96, while the click callback at line 52 still reads
+  `.ndi_document`.
+
+`recheckFileReport` is a documented public name-value option; the interactive graph is
+exercised by `+ndi/+example/+tutorial/tutorial_02_05.m:217`. Both are user-facing.
+
+**RESTRAINT RECORDED:** the session sibling also guards with
+`if isempty(doc1) || isempty(doc2) ... continue`, and the dataset version does not. That guard
+was **NOT** added — the file's own line 64 says *"THIS IS A SIMPLIFIED RECHECK, ASSUMES DOCS
+EXIST"*, so adding it changes documented behaviour rather than restoring it. Flagged, not
+taken.
+
+### WHY THE OTHER FIVE WERE NOT REPAIRED — a rename does NOT restore them
+
+1. **`base` HAS NO `type` FIELD.** `docViewer.m:56` and `Data.m:52` build a table row
+   `{d.name d.id d.type d.datestamp}`. Renaming the block to `base` leaves `d.type`
+   throwing. The substitute (`document_class.class_name`? the dropped v1 `type`?) is a
+   **guess about intended display semantics**, which is the stated bar for not touching it.
+2. **Lines 238/269/274 are dead TWICE, and the second death is unrelated to 2023.** They also
+   read `depends(j).value`, but `ndi.compat.normalizeDependsOn` — called from the
+   `ndi.document` constructor — guarantees `depends_on` is *exactly* `{name, document_id}`.
+3. **They are downstream of a throw.** `graph`/`subgraph` iterate `obj.fullDocuments`, which
+   only `addDoc` populates — and `addDoc` is `docViewer.m:55`, which throws on the first
+   document. `graph`/`subgraph` are wired to buttons created inside `details`, itself the
+   table's `CellSelectionCallback`, and the table is populated by the same `addDoc`.
+4. The one in-repo driver, `+ndi/+test/+gui/displayDocViewer.m`, loads `SomeDocuments.mat`,
+   **which is not in the repository**. Its own closing comment reads *"details, graph and
+   subgraph are a bit tricky, but I am not sure if we want these functions..."*
+
+`ndi.gui.Data.addDoc` IS reached from live code (`+ndi/+gui/gui_v2.m:74`, on documents
+fetched at `:50` by `database_search({'base.id','(.*)'})` — the same file already using the
+new spelling). So `gui_v2` is broken today. **It is recorded, not repaired**, because the fix
+needs the `type` decision above.
+
+### WHAT WAS BUILT, AND THE HONEST STATE OF ITS TESTING
+
+`NDI-matlab tests/+ndi/+unittest/+fun/+dataset/diffTest.m` gains two methods. The existing
+five never pass `recheckFileReport` — **that is how the defect survived.** Fixtures are built
+the way the writer builds documents (`newdocument` / `add_file` / `database_add`), not from a
+schema. `testRecheckFileReportResolvesDocuments` asserts the recheck RESOLVED both documents
+(uids, session ids, byte diff) rather than merely not throwing;
+`testDocumentIdentityBlockIsBase` pins the premise, so a future shim that repopulates
+`ndi_document` turns the tests red instead of rotting the comment.
+
+        DENOMINATOR: 2 tests written, 0 executed.
+        MATLAB and Octave are both ABSENT from this container (`command -v` returns
+        nothing for either; no /usr/local/MATLAB, no /opt/MATLAB). The "mutate it to
+        prove it can go red" step WAS NOT PERFORMED. These tests are UNRUN. They will
+        first execute under .github/workflows/run-tests.yml, which does
+        addpath(genpath("tests")) and calls testToolboxNoCloud().
+
+Static checks that WERE run: block-nesting depth compared HEAD vs working tree for all three
+edited files — unchanged in every one; test-method names unique (7 total, no duplicates); and
+the recheck loop's inputs (`documentA_fname`/`documentB_fname`) confirmed to be populated by
+the main path at `diff.m:274-275`, so the two passes agree on a contract.
+
+### CORRECTIONS TO THE ORIGINAL CLAIM
+
+- **"three dead reads" undercounts and mis-splits.** There are **eight live lines in four
+  files**, not three; and `diff.m:61-62` are **query strings**, not struct-field reads — a
+  different failure mode (silent empty result, then an unguarded index) from `docViewer`'s
+  (immediate field-access throw). `Data.m:44` and `docViewer.m:55` were not in the claim at
+  all, and `Data.m:44` is the one reached from live non-GUI-test code.
+- **"origin/main" was not verified here.** Everything above is measured on
+  `claude/v-eta-migration-plan-35jj1z`. The template counts differ between the two (87 vs 91),
+  so do not restate the `.m` findings as being about `origin/main` without re-measuring.
+
+### CORRECTION TO THE SECTION ABOVE ("a pre-`base` v1 document cannot migrate") — FOUR VINTAGES, NOT ONE
+
+That section corrects #83's *"`id, session_id, name, type, datestamp, database_version`"*
+with *"two of those six are wrong ... the 2019 block has no `id` and no `session_id` at all"*.
+**Both descriptions are accurate, of different vintages, and the correction as written
+generalises a 2019 shape to the whole pre-`base` era.** All seven revisions of
+`ndi_common/database_documents/ndi_document.json` were read:
+
+        DENOMINATOR: 7 commits touch the file; block keys read from all 7
+
+        4f1a2b801  2019-05-05  experiment_unique_reference, document_unique_reference,
+                               name, type, datestamp, database_version
+        5d0b66d8f  2019-11-04  experiment_id, document_id, name, type, datestamp,
+                               database_version
+        f4f9d9450  2019-12-16  experiment_id, id, name, type, datestamp, database_version
+        e8c02831d  2020-05-19  session_id, id, name, type, datestamp, database_version
+        f6d4e0ec6  2020-06-02  (unchanged)
+        0d5749926  2020-06-03  (unchanged)
+        6529ce7bf  2020-12-01  id, session_id, name, type, datestamp, database_version
+        9783809c2  2023-04-13  DELETED; base.json added in the same commit with
+                               id, session_id, name, datestamp
+
+**The consequence is that the exposure is smaller than that section states, for most of the
+pre-`base` era, and larger than #83 states, for the earliest part of it.** From **2020-05-19
+to 2023-04-13 — the longest-lived pre-`base` vintage, nearly three years** — the block has
+BOTH required identity fields, correctly named, so `universalRenames`' wholesale move lands
+them properly and the only defect is `type` + `database_version` arriving undeclared: exactly
+#83's account. Only documents written **before 2020-05-19** hit the "no `id`, no
+`session_id`" case, and those need a genuine field rename
+(`experiment_unique_reference`/`experiment_id` → `session_id`,
+`document_unique_reference`/`document_id` → `id`) that nothing performs. **The field-set
+arithmetic that section flags as "an inference, verify against a writer" is now backed by the
+template history above** — the intermediate revisions show the renames happening in NDI's own
+commits, with the commit subjects saying so (*"change 'reference'/'identifier' to 'id'"*,
+*"changed experiment to session"*). It is still not a read of migrator code.
+
+**NOT DECIDED HERE.** The counter #83 asks for (how many bodies take the `no base` arm of
+`universalRenames.m:113-119`) should also record WHICH vintage arrives — a single counter
+cannot distinguish the two-field-undeclared case from the missing-identity case, and they need
+different repairs. No disposition is recorded and no sign-off is added; the `type` /
+`database_version` team call in #83 is unchanged and still open.
