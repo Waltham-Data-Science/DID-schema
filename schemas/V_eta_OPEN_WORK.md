@@ -1104,3 +1104,75 @@ Four throwaway refs from the `image_stack` CI mutation proofs need deleting;
 `claude/v-eta-imgstack-docid-mutation` and `…-b`. In `Waltham-Data-Science/DID-schema`:
 the two same-named pointer refs (no commits; they exist only because the workflow checks
 out did-schema at `github.ref_name`).
+
+---
+
+## TEAM DECISION 2026-08-11 — the E. coli lawns and plates are subjects, in two tiers
+
+Team decision, jess@walthamdatascience.com, 2026-08-11, verbatim:
+
+> "Yes, each lawn can be a subject and a plate of lawns is another subject where each lawn
+> is a member of it"
+
+This is RICHER than the single plate-subject that was scoped from the scouting pass. Two
+subject tiers plus a group relation:
+
+        lawn   (a bacterial patch)   -> subject
+        plate  (a plate of lawns)    -> subject, the GROUP
+        lawn --member_of--> plate
+
+**No TEAM-SIGN-OFF line has been added by Claude.** The governing plan document still needs
+the team's signature; this entry records the decision so it is not lost, and the board will
+keep rendering the family as awaiting review until that line exists.
+
+### The source data supports both tiers — read from NDI `origin/main`
+
+`+setup/+conv/+haley/doImport.m`, Step 8 (`session = sessions{2}`, the E. coli session):
+
+        plateVariables   keyed  plateID              14 cols  expID, OD600Label, peptoneFlag,
+                                                              timePoured, bacteriaStrain, CFU,
+                                                              OD600Real, OD600, lawnVolume, ...
+        imageVariables   keyed  {plateID, imageID}    4 cols
+        patchVariables   keyed  {imageID, patchID}   10 cols  lawnRadius, circularity, yPeak,
+                                                              yOuterEdge, borderAmplitude,
+                                                              meanAmplitude, centerAmplitude,
+                                                              borderCenterRatio
+
+So the LAWN is already a first-class row with its own geometry and fluorescence measures —
+it is not something that has to be invented to carry the decision.
+
+### Consequences and constraints, each established rather than assumed
+
+1. **Membership is a TWO-HOP join.** `patchVariables` keys on `imageID`, NOT `plateID`, so
+   lawn → plate runs patch → image → plate. Both hops are STRING joins on `data` values,
+   because no Haley `table2ontologyTableRowDocs` call passes `dependencyVariable` — every
+   row's `depends_on` is `[{document_id, ""}]`. Both hops must be scoped to
+   `base.session_id`: `plateID` COLLIDES across the two Haley sessions (`doImport.m:166`
+   adds `expType*1000`, `:729` does not), and both sessions land in ONE `ndi.dataset.dir`.
+
+2. **`local_identifier` must be qualified.** `patchID` is `1:numPatch` WITHIN a plate
+   (`doImport.m:275`), so `'0001'` recurs on every plate, and `jEnsureLocalId` does no
+   dataset-level qualification. Unqualified lawn ids collide immediately.
+
+3. **`member_of` already exists and is already bound.** The registry carries it with
+   `timed=True, ordered=True`, and the ensemble decision uses the same relation for
+   epoch-scoped group membership. This is not a new relation.
+
+4. **Do NOT bundle the strain edge.** `bacteriaStrain` is a document-id STRING sitting in
+   `data` (`doImport.m:734`), not an edge. Minting `strain_id` from it is a second
+   unverified-resolvability edge — the shape that turned `distance_metadata` from a quiet
+   passthrough into a GATING orphan failure. Separate step, separate decision.
+
+5. **No corpus can grade this.** `runCorpusDiscovery` runs five passes and ZERO
+   `ndi.migrate.*`, so NDI-side subject resolution is invisible to the corpus gate. The
+   scouting recommendation is to build the join DID-SIDE as a batch post-pass, since it
+   needs only documents already in the migrated batch — no session, no database, no file
+   bytes — the same criterion that put `epochMint` and `resolveSessionAnchors` DID-side.
+
+### What it unblocks
+
+4,563 JH `image_stack` documents stop being observations about nobody, and the ~4,563
+`ontology_label` documents that inherit their subject through the image unblock with them
+(`ndi.migrate.internal.ontologyLabelSubjects.m:59-73` records that bucket as blocked on
+exactly this). The plate's OD600 / CFU / lawn-volume covariates and the lawn's geometry
+become real observations rather than dropped columns.
