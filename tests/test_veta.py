@@ -1996,21 +1996,31 @@ def test_retiring_epoch_clock_fields_untouched_by_67():
     session_relative_reference. Their `epoch_clock` keeps NDI's full nine and
     stays a char, because that is what the emitters write today. Narrowing it
     here would quarantine live documents -- the epochfiles_ingested regression.
+
+    NARROWED 2026-08-11 (#65 increment 3a), and narrowed rather than deleted.
+    It named BOTH epoch reference classes and required `checked == 2`.
+    `epoch_relative_reference` is now deleted -- it has no emitter, no NDI
+    template and no referencing schema -- while `epoch_bounded_reference` is
+    still minted (ndi_second_pass/stimulusBathToBath.m:166) and still needs
+    exactly this guard. The `if cls not in RECORDS: continue` escape is GONE
+    with it: a skip that silently satisfies the loop is how this assertion
+    would go vacuous the day the surviving class disappears too.
     """
+    assert "epoch_relative_reference" not in RECORDS, (
+        "epoch_relative_reference came back; increment 3a deleted it")
     checked = 0
-    for cls in ("epoch_bounded_reference", "epoch_relative_reference"):
-        if cls not in RECORDS:          # gone once increment 3 lands
-            continue
-        _tier, d = RECORDS[cls]
+    for cls in ("epoch_bounded_reference",):
+        _tier, d = RECORDS[cls]        # KeyError, deliberately, not a skip
         fld = _field_at(d, ("epoch_clock",))
         assert fld["type"] == "char", cls
         b = fld["constraints"]["binding"]
         assert set(b["values"]) == NDI_CLOCKTYPES, (
             f"{cls}.epoch_clock no longer carries NDI's nine: {sorted(b['values'])}")
         checked += 1
-    assert checked == 2, (
-        f"expected both retiring reference classes; found {checked}. If increment "
-        "3 deleted them, delete this test with it.")
+    assert checked == 1, (
+        f"expected the one still-minted epoch reference class; found {checked}. "
+        "If a later increment deletes it, delete this test with it -- do not "
+        "let the count fall to zero and keep passing.")
 
 
 def test_no_list_valued_field_is_typed_char():

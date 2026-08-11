@@ -300,7 +300,7 @@ def test_freq_response_is_a_harmonic_number_not_a_boolean():
 
 
 def test_isspike_is_left_alone_and_the_inert_spelling_is_counted():
-    """DENOMINATOR: 245 built schema files walked (4 meta sidecars skipped).
+    """DENOMINATOR: 241 built schema files walked (4 meta sidecars skipped).
 
     Was 241 until 2026-08-10, when `generic_file` and `valid_interval` -- the two
     did_v1 classes that had no V_eta schema AND no migrator -- were restated as
@@ -314,6 +314,16 @@ def test_isspike_is_left_alone_and_the_inert_spelling_is_counted():
     because the v1 array has no stated length -- so again only the denominator
     moved. THIS TEST DID ITS JOB: the count is pinned precisely so a schema
     arriving from another walkthrough has to be looked at rather than absorbed.
+
+    245 -> 241 on 2026-08-11, and this is the first time the number has gone
+    DOWN -- the first time the pin has been asked to notice a SUBTRACTION.
+    #65 increment 3a deletes four collapsed time-reference classes
+    (`epoch_relative_reference`, `event_bounded_reference`,
+    `event_relative_reference`, `utc_reference`). The inert list below is
+    UNCHANGED, and that was checked rather than assumed: none of the four
+    declared a `min` or `max` at any depth, so nothing dropped out of the
+    pinned set when they left. A count falling while the list stays put is
+    exactly the case where the two assertions have to be read together.
 
     `isspike` is equally inert but its INTENT is correct -- the writer sets 0 or
     1 and nothing else (:176, :179-182) -- so rewriting its key would newly
@@ -338,7 +348,7 @@ def test_isspike_is_left_alone_and_the_inert_spelling_is_counted():
         walked += 1
         walk(d.get("fields", []), d["document_class"]["class_name"], "")
 
-    assert walked == 245, "schema count moved; re-derive the inert set (%d)" % walked
+    assert walked == 241, "schema count moved; re-derive the inert set (%d)" % walked
     assert sorted(inert) == [
         "element.direct",
         "element.reference",

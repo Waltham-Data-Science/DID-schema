@@ -6893,8 +6893,114 @@ _DELETE_PHASE8 = {
 #
 # NOT `zarr`, though it is the same category and CLAUDE.md already calls it "DELETED
 # not migrated": its removal rides with the data_body model (#45), which is blocked.
+#
+# ---------------------------------------------------------------------------
+# THE #65 TIME-REFERENCE COLLAPSE, INCREMENT 3a -- four of the seven concrete
+# legacy reference classes, 2026-08-11.
+#
+# THIS SET, NOT `_DELETE_PHASE8`, AND THE DIFFERENCE IS THE WHOLE POINT. The
+# task that produced this edit said to use `_DELETE_PHASE8`. That set's own
+# contract is "a did_v1 SOURCE whose documents are provably consumed by a
+# COMPLETED migrator". Neither half is true here: these four were never a
+# did_v1 source (provenance V_epsilon), and no migrator consumes them because
+# no migrator ever produced one. Putting them in `_DELETE_PHASE8` would have
+# recorded two claims that are false in order to reach a deletion that is
+# right for a different reason -- exactly the blurring the paragraph at the
+# top of this block exists to prevent.
+#
+# THE SIGNED DECISION: `V_eta_time_reference_model_plan.md`,
+# TEAM-SIGN-OFF [time_reference] jess@walthamdatascience.com / 2026-08-08 --
+# 8 classes collapse to `absolute_reference` + `relative_reference`. The 8 are
+# the abstract root plus its seven concrete children; the root STAYS.
+#
+# THE OTHER THREE CHILDREN ARE NOT TOUCHED, AND THE REASON IS EVIDENCE, NOT
+# CAUTION. `session_relative_reference` (22 mint sites), `session_bounded_
+# reference` (1) and `epoch_bounded_reference` (1) are minted TODAY -- a
+# deliberate pass-1 handle, because a migrator cannot emit `relative_reference`
+# without the session DOCUMENT's id. Deleting a class its emitters still mint
+# is the `epochfiles_ingested` regression: 2,484 corpus-B quarantines.
+#
+# EVERY CHECK, RE-RUN FOR EACH OF THE FOUR SEPARATELY, WITH ITS DENOMINATOR.
+# The absence-based ones are run under NORMALISED matching (lowercase,
+# underscores stripped) because V_eta is snake_case and NDI is camelCase --
+# the `demo_ndi`/`demoNDI` failure -- and every sweep was run against the five
+# LIVE siblings first as a POSITIVE CONTROL, so a zero here is a measurement
+# and not a property of the query.
+#
+#   NDI templates     0 of 91 templates on NDI-matlab origin/main declare any
+#                     of the four, under normalised matching. Stronger, and
+#                     the reason this one is not delicate: NOT ONE of the 91
+#                     class_names contains the substring `reference` at all.
+#                     There is no camelCase spelling to have missed.
+#   version history   absent from V_alpha (the did_v1 snapshot), V_beta and
+#                     V_delta; first appear in V_epsilon/stable.
+#   provenance file   all four `| stable | V_epsilon |` in
+#                     V_eta_class_provenance.md. Origin V_epsilon, NOT did_v1.
+#   migrators         0 mint sites, across ALL THREE idioms, over the 187 .m
+#                     files of DID-matlab +did2/+convert (the 24 batch
+#                     post-passes included) and the 17 of NDI-matlab
+#                     +ndi/+migrate. The sweep enumerates the FULL minted set
+#                     -- 45 distinct class names, from 77 idiom-1 sites, 21
+#                     idiom-2 (`classBlock`) and 4 idiom-3 -- and none of the
+#                     four is in it. The 17 mints whose class name is a
+#                     VARIABLE are resolved, not counted as a zero: 16 take
+#                     their value from string literals, and the four names
+#                     occur as a string literal NOWHERE in either repo (the
+#                     complete `*reference*` literal inventory of those 204
+#                     files is 14 distinct strings, none of them these). The
+#                     17th, universalRenames.m:88, COMPUTES its name as
+#                     `v1ToVDeltaClassName(snakeCase(v1 class))`; that map is
+#                     two rows (contrasttuning_calc, contrastsensitivity_calc)
+#                     and no NDI class snake-cases into any of the four.
+#   whole-repo sweep  normalised, over 443 DID-matlab and 1,262 NDI-matlab
+#                     files: 2 lines total, BOTH inside `%` comments
+#                     (migrators_j/stimulus_response_scalar.m:184 says
+#                     `epoch_relative_reference` "was the other candidate";
+#                     resolveSessionAnchors.m:43 says the `epoch_*`/`event_*`/
+#                     `utc_reference` classes are NOT touched there). A comment
+#                     is not an emitter. The same sweep returns 411 lines for
+#                     `relative_reference` and 188 for `session_relative_
+#                     reference`, which is what makes these zeros readable.
+#   V_eta schemas     0 superclass references and 0 `must_refer_to_document_
+#                     class` references, over 243 class-declaring schema files.
+#   coverage ledger   no v1-source row in V_eta_coverage_ledger.{md,json}; no
+#                     row in V_eta_migration_targets.json; absent from
+#                     V_eta_ndi_ground_truth.json. As expected for inventions.
+#   corpus            NOT MEASURED, AND SAID SO RATHER THAN COUNTED AS ZERO.
+#                     No corpus report is reachable from this checkout --
+#                     V_eta_STATUS.md's own denominator reads `*-summary.json`
+#                     reports read: 0, corpora named: NONE. The record (the
+#                     plan document, and CLAUDE.md quoting it) says these
+#                     classes had zero documents across five corpora, and run
+#                     31508009545 was still `pending` when this landed. THE
+#                     STATIC EVIDENCE IS WHAT CARRIES THIS DELETION. The
+#                     corpora are a SAMPLE; absence from them would not be
+#                     absence in the universe, and is not what is relied on.
+#
+# TWO RESIDUES, RECORDED BECAUSE THEY OUTLIVE THIS EDIT AND ARE NOT FIXED HERE:
+#   1. `schemas/V_eta/examples/utc_reference_grid.json` is an EXAMPLE DOCUMENT
+#      instance of `utc_reference`. It is copied in from V_zeta, not generated,
+#      so this delete loop (which walks TIERS only) does not reach it. It
+#      strands no real data -- an example is illustrative -- but the built tree
+#      now ships an example of a class it does not define.
+#   2. `directed_relation`'s `time_reference_#` field documentation names
+#      `event_relative_reference` in PROSE (see the `write()` call above). It
+#      is documentation, not a structural reference, so it does not block the
+#      deletion; under the collapse the right word is `relative_reference`.
+# Both are left for the team: fixing 1 means hand-editing under `schemas/`
+# (operating rule 1) and fixing 2 is a change to another class's schema.
+#
+# ALSO LEFT ALONE DELIBERATELY: section 8e's `EVENT_ANCHOR` transform still
+# names `event_relative_reference` / `event_bounded_reference`. It runs BEFORE
+# this loop and is already guarded by `if not p: continue`, so it becomes a
+# no-op rather than an error. It is dead for these two classes; it is not
+# removed here because that is a transform change, not a disposition change.
 _DELETE_NO_V1_PROVENANCE = {
     "dataseries_channel_map",
+    "epoch_relative_reference",
+    "event_bounded_reference",
+    "event_relative_reference",
+    "utc_reference",
 }
 
 _deleted = []

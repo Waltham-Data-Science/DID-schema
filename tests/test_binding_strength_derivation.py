@@ -235,13 +235,23 @@ def test_every_binding_in_the_built_tree_declares_a_strength():
     """MUTATION PROPERTY 3, the TREE scope -- and the reason it is separate.
 
     The generator can only refuse rows the registry catalogues, which is 3 of
-    the 14 bound declarations. The other 11 have no registry row at all, so a
+    the bound declarations. The others have no registry row at all, so a
     strength-less binding could arrive there without a word. This asserts the
     rule where it actually has to hold.
+
+    THE FLOOR MOVED 14 -> 13 ON 2026-08-11, AND IT MOVED DOWN, WHICH IS THE
+    DIRECTION THIS ASSERTION EXISTS TO CATCH -- so the reason is written here
+    rather than the number quietly edited. #65 increment 3a deleted
+    `epoch_relative_reference`, and its `epoch_clock` was one of the 14: a
+    `char` bound to NDI's nine clocktypes. The declaration did not lose its
+    strength, it left with its class. The surviving epoch carrier
+    (`epoch_bounded_reference.epoch_clock`) is pinned by
+    `test_veta.py::test_retiring_epoch_clock_fields_untouched_by_67`, so the
+    binding that mattered is still asserted somewhere.
     """
     index, den = rbs.bound_fields(VETA)
     assert den["bound_field_declarations"] == len(index)
-    assert len(index) >= 14, (
+    assert len(index) >= 13, (
         "only %d bound declarations found -- the sweep stopped descending, and "
         "a shrinking denominator is how this check goes quietly vacuous"
         % len(index))

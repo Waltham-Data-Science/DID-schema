@@ -165,12 +165,31 @@ FAMILIES = [
      "tombstoned so they stop stranding; tier and fold UNDECIDED",
      "open"),
 
+    # FOUR MEMBERS LEFT THIS FAMILY 2026-08-11 (#65 increment 3a):
+    # `epoch_relative_reference`, `event_bounded_reference`,
+    # `event_relative_reference` and `utc_reference` are DELETED from the built
+    # set, so the family may no longer claim them -- this generator fails on a
+    # family citing an absent class, which is how the omission would have been
+    # caught anyway. The signed decision is unchanged (it is still 8 classes
+    # collapsing to 2); what changed is that four of them are now executed
+    # rather than pending, on static evidence: no NDI template declares them
+    # (0 of 91, normalised), nothing mints them under any of the three idioms
+    # (0 sites across 187 +did2/+convert and 17 +ndi/+migrate files), no V_eta
+    # schema references them, and no v1-source row exists in the ledger. See
+    # `_DELETE_NO_V1_PROVENANCE` in tools/build_v_eta.py for the full evidence
+    # block, including why they are NOT in `_DELETE_PHASE8`.
+    #
+    # THE OTHER THREE CONCRETE MEMBERS STAY AND MUST STAY: they are minted
+    # today (session_relative 22 sites, session_bounded 1, epoch_bounded 1) as
+    # a deliberate pass-1 handle. The root `time_reference` stays too.
     ("time_reference", [
         "time_reference", "session_bounded_reference", "session_relative_reference",
-        "epoch_bounded_reference", "epoch_relative_reference",
-        "event_bounded_reference", "event_relative_reference", "utc_reference"],
+        "epoch_bounded_reference"],
      "V_eta_time_reference_model_plan.md",
-     "8 classes collapse to absolute_reference + relative_reference",
+     "8 classes collapse to absolute_reference + relative_reference "
+     "(4 of the 8 executed 2026-08-11: epoch_relative_reference, "
+     "event_bounded_reference, event_relative_reference, utc_reference deleted "
+     "-- no template, no emitter, no reference; the other 4 await their emitters)",
      "team"),
 
     # control_designation MOVED here 2026-08-05: it is a V_eta TARGET minted from
@@ -1605,14 +1624,22 @@ RETIRED_BY_ITS_OWN_DECISION = {
     # while the artifact beside it stays right. The live sites, with their
     # repositories, are listed in `schemas/V_eta_STATUS.md` under each class --
     # generated, and therefore correct or loudly broken.
+    # FOUR ENTRIES REMOVED 2026-08-11 (#65 increment 3a):
+    # `epoch_relative_reference` -> relative_reference,
+    # `event_bounded_reference` -> relative_reference,
+    # `event_relative_reference` -> relative_reference and
+    # `utc_reference` -> absolute_reference are gone from this dict because the
+    # CLASSES are gone from the built set. A discount only means anything for a
+    # class that still has a board row to discount; keeping the keys made them
+    # "discounted but claimed by no decision family", which
+    # test_every_discounted_class_names_a_replacement_that_exists rejects --
+    # correctly, since the sign-off a discount is transcribed from has to be
+    # locatable through a family. The collapse they name is EXECUTED for those
+    # four, not pending.
     "time_reference": "relative_reference",
     "session_bounded_reference": "relative_reference",
     "session_relative_reference": "relative_reference",
     "epoch_bounded_reference": "relative_reference",
-    "epoch_relative_reference": "relative_reference",
-    "event_bounded_reference": "relative_reference",
-    "event_relative_reference": "relative_reference",
-    "utc_reference": "absolute_reference",
     # V_eta_epoch_plan.md, signed 2026-08-08 -- the `epoch` ENTITY is minted and
     # `epochid` is DROPPED (the string mixin becomes an `epoch_id` EDGE on that
     # entity; `epoch_id` is a dependency name, not a class, so the replacement
