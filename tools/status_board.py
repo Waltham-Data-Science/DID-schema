@@ -211,8 +211,8 @@ FAMILIES = [
      "V_eta_OPEN_WORK.md",
      ("BUILT, unsigned: generic_file -> term_observation + opaque_body; "
       "valid_interval -> boolean validity_observation + relative_reference; "
-      "imageCollection -> tombstone. Needs a signature, not a model"),
-     "proposed"),
+      "imageCollection -> tombstone. SIGNED 2026-08-11"),
+     "team"),
 
     # FOUR MEMBERS LEFT THIS FAMILY 2026-08-11 (#65 increment 3a):
     # `epoch_relative_reference`, `event_bounded_reference`,

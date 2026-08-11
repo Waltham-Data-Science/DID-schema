@@ -6,9 +6,9 @@
     "classes_claimed": 42,
     "open_classes": 26,
     "by_state": {
-      "signed_awaiting_build": 18,
+      "signed_awaiting_build": 19,
       "awaiting_signature": 0,
-      "proposed_unreviewed": 1,
+      "proposed_unreviewed": 0,
       "open": 0
     },
     "state_labels": {
@@ -37,12 +37,12 @@
       ],
       "open_members": [],
       "plan": "V_eta_OPEN_WORK.md",
-      "decision": "BUILT, unsigned: generic_file -> term_observation + opaque_body; valid_interval -> boolean validity_observation + relative_reference; imageCollection -> tombstone. Needs a signature, not a model",
-      "status": "proposed",
-      "signed": false,
-      "signoff": null,
-      "state": "proposed_unreviewed",
-      "state_label": "written up by Claude alone, unreviewed"
+      "decision": "BUILT, unsigned: generic_file -> term_observation + opaque_body; valid_interval -> boolean validity_observation + relative_reference; imageCollection -> tombstone. SIGNED 2026-08-11",
+      "status": "team",
+      "signed": true,
+      "signoff": "jess@walthamdatascience.com, 2026-08-11 -- generic_file folds to term_observation + opaque_body; valid_interval decomposes to boolean validity_observation + relative_reference, one per interval, anchored by a shared time reference; imageCollection is a tombstone. All three are BUILT and ran in 6 of 6 corpora in run 31522068566. WRITTEN BY CLAUDE AT THE TEAM'S EXPLICIT INSTRUCTION (\"Please write the sign off for me. I give you permission this time.\"), which is a one-time authorisation and not a precedent: Operating Rule 4 otherwise forbids Claude from adding this line, and the next one is the team's to write.",
+      "state": "signed_awaiting_build",
+      "state_label": "decided and signed off, awaiting build"
     },
     {
       "name": "time_reference",
@@ -529,12 +529,12 @@
         ],
         "packages_missing": [],
         "files_read": 166,
-        "lines_read": 32980,
+        "lines_read": 33182,
         "classes_queried": 26,
         "classes_emitted_as_document_class": 8,
         "unresolved_mint_sites": [
           "DID-matlab:convert/+entities/entityDoc.m:58 (className)",
-          "DID-matlab:convert/resolveLawnPlateSubjects.m:1096 (leafClass)",
+          "DID-matlab:convert/resolveLawnPlateSubjects.m:1298 (leafClass)",
           "DID-matlab:convert/universalRenames.m:240 (v2ClassName;)",
           "DID-matlab:migrators_j/dataset_remote.m:70 (className)",
           "DID-matlab:migrators_j/ontology_table_row.m:248 (leafClass)",
@@ -572,7 +572,7 @@
         },
         "lines_read_by_group": {
           "per_document_migrator": 22140,
-          "batch_post_pass": 10840
+          "batch_post_pass": 11042
         },
         "classes_emitted_as_document_class_by_group": {
           "per_document_migrator": 8,
@@ -603,7 +603,7 @@
           ],
           "batch_post_pass": [
             "DID-matlab:convert/+entities/entityDoc.m:58 (className)",
-            "DID-matlab:convert/resolveLawnPlateSubjects.m:1096 (leafClass)",
+            "DID-matlab:convert/resolveLawnPlateSubjects.m:1298 (leafClass)",
             "DID-matlab:convert/universalRenames.m:240 (v2ClassName;)"
           ]
         },
@@ -1616,7 +1616,7 @@
         "named_refs": [],
         "n_comment_mentions": 20,
         "comment_mentions": [
-          "DID-matlab:convert/resolveLawnPlateSubjects.m:1121 (comment_mention)",
+          "DID-matlab:convert/resolveLawnPlateSubjects.m:1323 (comment_mention)",
           "DID-matlab:convert/resolveResponseParameters.m:42 (comment_mention)",
           "DID-matlab:migrators_j/element.m:112 (comment_mention)",
           "DID-matlab:migrators_j/element_epoch.m:58 (comment_mention)",
@@ -1656,7 +1656,7 @@
             "named_refs": [],
             "n_comment_mentions": 2,
             "comment_mentions": [
-              "DID-matlab:convert/resolveLawnPlateSubjects.m:1121 (comment_mention)",
+              "DID-matlab:convert/resolveLawnPlateSubjects.m:1323 (comment_mention)",
               "DID-matlab:convert/resolveResponseParameters.m:42 (comment_mention)"
             ]
           }
@@ -2492,7 +2492,7 @@
           "DID-matlab:convert/resolveDeferredBaths.m:13 (comment_mention)",
           "DID-matlab:convert/resolveDeferredBaths.m:358 (comment_mention)",
           "DID-matlab:convert/resolveDeferredBaths.m:367 (comment_mention)",
-          "DID-matlab:convert/resolveLawnPlateSubjects.m:289 (comment_mention)",
+          "DID-matlab:convert/resolveLawnPlateSubjects.m:384 (comment_mention)",
           "DID-matlab:convert/resolveSessionAnchors.m:19 (comment_mention)",
           "DID-matlab:convert/resolveSessionAnchors.m:244 (comment_mention)"
         ],
@@ -2552,7 +2552,7 @@
               "DID-matlab:convert/resolveDeferredBaths.m:13 (comment_mention)",
               "DID-matlab:convert/resolveDeferredBaths.m:358 (comment_mention)",
               "DID-matlab:convert/resolveDeferredBaths.m:367 (comment_mention)",
-              "DID-matlab:convert/resolveLawnPlateSubjects.m:289 (comment_mention)",
+              "DID-matlab:convert/resolveLawnPlateSubjects.m:384 (comment_mention)",
               "DID-matlab:convert/resolveSessionAnchors.m:19 (comment_mention)",
               "DID-matlab:convert/resolveSessionAnchors.m:244 (comment_mention)"
             ]
