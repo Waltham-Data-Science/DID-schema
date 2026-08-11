@@ -7048,7 +7048,19 @@ stamp_ndi_required, render_stamp_report = _nrs.stamp_ndi_required, _nrs.render_s
 
 _GT_PATH = os.path.join(ROOT, "schemas", "V_eta_ndi_ground_truth.json")
 
-_NDI_REQ = stamp_ndi_required(VETA, _GT_PATH, RENAME, TIERS, META_FILES)
+_MIGRATION_TARGETS_PATH = os.path.join(
+    ROOT, "schemas", "V_eta_migration_targets.json")
+
+# `_DELETE_PHASE8` and the migration-target map are what split "NOT MEASURED"
+# into causes. They are PASSED IN rather than re-derived inside the stamp: the
+# deleted set is this file's own datum, and the target map is the record of
+# what each migrator actually emits (`tools/refresh_migration_targets.py`,
+# whose `--check` gates.py runs, so it is not stale in a green run). The
+# coverage ledger says the same things but is generated AFTER this step, so
+# reading it here would report the PREVIOUS run's answer.
+_NDI_REQ = stamp_ndi_required(VETA, _GT_PATH, RENAME, TIERS, META_FILES,
+                              deleted_phase8=_DELETE_PHASE8,
+                              targets_path=_MIGRATION_TARGETS_PATH)
 for _line in render_stamp_report(_NDI_REQ):
     print(_line)
 
