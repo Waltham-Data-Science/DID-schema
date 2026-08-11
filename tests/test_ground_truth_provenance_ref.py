@@ -31,11 +31,12 @@ import json
 import os
 import subprocess
 import sys
+from pathlib import Path
 
 REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.join(REPO_ROOT, "tools"))
 
-import ndi_ground_truth as GT  # noqa: E402
+import ndi_ground_truth as GT  # noqa: E402  (needs the sys.path line above)
 
 
 def _git(repo, *args, when=None):
@@ -123,7 +124,7 @@ def test_provenance_walk_ignores_refs_outside_ndi_ref(tmp_path):
     # `side` branch sees `field_from_an_off_main_branch` first and says
     # DID-INVENTED instead.
     assert out["verdict"] == "NDI-CHANGED", (
-        "provenance verdict came from outside the declared ref: %r" % (out,))
+        f"provenance verdict came from outside the declared ref: {out!r}")
     assert out["first_version_fields"] == ["field_on_main"]
     assert out["why"] == "first NDI version 2020-03-01"
 
@@ -154,7 +155,7 @@ def test_provenance_walk_finds_a_template_that_arrived_by_rename(tmp_path):
 
     assert out["verdict"] != "UNKNOWN", (
         "the template's only add on `main` is a rename and the walk missed it: "
-        "%r" % (out,))
+        f"{out!r}")
     assert out["why"] == "first NDI version 2020-03-01"
     assert out["first_version_fields"] == ["field_on_main"]
 
@@ -162,7 +163,7 @@ def test_provenance_walk_finds_a_template_that_arrived_by_rename(tmp_path):
 def test_committed_artifact_ndi_ref_is_the_ref_the_walk_declares():
     """The artifact's `ndi_ref` is what the tests above pin the walk to."""
     path = os.path.join(REPO_ROOT, "schemas", "V_eta_ndi_ground_truth.json")
-    doc = json.load(open(path))
+    doc = json.loads(Path(path).read_text())
     assert doc["ndi_ref"] == "origin/main"
     div = doc["v_alpha_divergence"]
     # DENOMINATOR first (operating rule 5): every row carries a provenance
@@ -175,5 +176,4 @@ def test_committed_artifact_ndi_ref_is_the_ref_the_walk_declares():
                  if r["provenance"].get("why", "").startswith(
                      ("no add-commit", "no ref to walk"))]
     assert unlocated == [], (
-        "%d of %d divergent classes have no located first version on %s: %s"
-        % (len(unlocated), len(div), doc["ndi_ref"], unlocated))
+        f'{len(unlocated)} of {len(div)} divergent classes have no located first version on {doc["ndi_ref"]}: {unlocated}')

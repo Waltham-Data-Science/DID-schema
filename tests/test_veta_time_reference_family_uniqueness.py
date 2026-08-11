@@ -102,15 +102,14 @@ def test_the_meta_schema_can_express_the_rule_at_all():
 
 def test_every_time_reference_family_declares_the_rule():
     fams = _families()
-    print("DENOMINATOR: %d numbered edge families in the built set" % len(fams))
+    print(f'DENOMINATOR: {len(fams)} numbered edge families in the built set')
     for key in sorted(GOVERNED):
         assert key in fams, (
-            "%s.%s does not exist -- the uniqueness rule has no home. If the "
-            "family was renamed, move the rule; do not drop it." % key)
+            "{}.{} does not exist -- the uniqueness rule has no home. If the "
+            "family was renamed, move the rule; do not drop it.".format(*key))
         dep = fams[key]
         assert dep.get("referent_unique_by") == UNIQUE_BY, (
-            "%s.%s must declare referent_unique_by=%r; got %r"
-            % (key[0], key[1], UNIQUE_BY, dep.get("referent_unique_by")))
+            "{}.{} must declare referent_unique_by={!r}; got {!r}".format(key[0], key[1], UNIQUE_BY, dep.get("referent_unique_by")))
 
 
 def test_no_other_family_silently_acquires_the_rule():
@@ -120,11 +119,9 @@ def test_no_other_family_silently_acquires_the_rule():
     # nobody agreed are violations.
     fams = _families()
     carrying = {k for k, v in fams.items() if "referent_unique_by" in v}
-    print("DENOMINATOR: %d numbered families, %d declare referent_unique_by"
-          % (len(fams), len(carrying)))
+    print(f'DENOMINATOR: {len(fams)} numbered families, {len(carrying)} declare referent_unique_by')
     assert carrying == GOVERNED, (
-        "unexpected families carrying the rule: %s; missing: %s"
-        % (sorted(carrying - GOVERNED), sorted(GOVERNED - carrying)))
+        f"unexpected families carrying the rule: {sorted(carrying - GOVERNED)}; missing: {sorted(GOVERNED - carrying)}")
 
 
 def test_the_documentation_says_the_index_means_nothing_on_its_own():
@@ -133,16 +130,15 @@ def test_the_documentation_says_the_index_means_nothing_on_its_own():
     for key in sorted(GOVERNED):
         doc = fams[key].get("documentation", "")
         assert "value.clock" in doc, (
-            "%s.%s: the human-readable half must name the discriminator" % key)
+            "{}.{}: the human-readable half must name the discriminator".format(*key))
         assert "start_anchor" in doc, (
-            "%s.%s: the documentation must record that split-anchored "
+            "{}.{}: the documentation must record that split-anchored "
             "intervals have NO instance, or the next reader re-derives the "
-            "edges the row forbids" % key)
+            "edges the row forbids".format(*key))
         checked += 1
     # DENOMINATOR, asserted rather than printed: a loop over a collection that
     # could be empty passes having checked nothing.
-    print("DENOMINATOR: %d governed families, %d documentation strings checked"
-          % (len(GOVERNED), checked))
+    print(f'DENOMINATOR: {len(GOVERNED)} governed families, {checked} documentation strings checked')
     assert checked == len(GOVERNED) == 3
 
 
@@ -161,10 +157,10 @@ def test_no_start_anchor_or_end_anchor_edge_was_built():
             if dep.get("name") in ("start_anchor", "end_anchor",
                                    "start_anchor_#", "end_anchor_#"):
                 offenders.append((e["class_name"], dep["name"]))
-    print("DENOMINATOR: %d index.json schemas read" % n)
+    print(f'DENOMINATOR: {n} index.json schemas read')
     assert offenders == [], (
         "split-anchored intervals have NO INSTANCE (every markvalidinterval "
-        "call site passes one reference for both ends). Found: %s" % offenders)
+        f"call site passes one reference for both ends). Found: {offenders}")
 
 
 def test_the_rule_is_checkable_on_exactly_one_class_today_and_says_so():
@@ -202,18 +198,17 @@ def test_the_rule_is_checkable_on_exactly_one_class_today_and_says_so():
         return False
 
     with_clock = sorted(c for c in closure if has_clock(c))
-    print("DENOMINATOR: %d classes in the time_reference subtree; %d declare "
-          "value.clock: %s" % (len(closure), len(with_clock), with_clock))
+    print(f'DENOMINATOR: {len(closure)} classes in the time_reference subtree; {len(with_clock)} declare value.clock: {with_clock}')
     assert with_clock == ["relative_reference"], (
-        "the set of classes the rule can compare has changed: %s. If the "
+        f"the set of classes the rule can compare has changed: {with_clock}. If the "
         "collapse (#65 increment 3) has landed, this test's premise is the "
-        "thing that moved -- update it deliberately." % with_clock)
+        "thing that moved -- update it deliberately.")
     # And the two that hold the documents today still have no clock. Stated as
     # an assertion so the day it stops being true is a visible event.
     for legacy in ("session_relative_reference", "session_bounded_reference"):
-        assert legacy in entries, "%s vanished -- see the epochfiles_ingested " \
-            "regression before deleting a class whose documents exist" % legacy
+        assert legacy in entries, f"{legacy} vanished -- see the epochfiles_ingested " \
+            "regression before deleting a class whose documents exist"
         assert not has_clock(legacy), (
-            "%s now declares value.clock; the uniqueness rule became "
+            f"{legacy} now declares value.clock; the uniqueness rule became "
             "measurable on the 127,719 live anchors and the census must be "
-            "re-read before anyone quotes a zero" % legacy)
+            "re-read before anyone quotes a zero")

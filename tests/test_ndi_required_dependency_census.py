@@ -24,6 +24,7 @@ import importlib.util
 import json
 import os
 import shutil
+from pathlib import Path
 
 import pytest
 
@@ -77,7 +78,7 @@ def _rename_map():
     import re
     with open(os.path.join(REPO_ROOT, "tools", "build_v_eta.py")) as f:
         src = f.read()
-    m = re.search(r"^RENAME = \{(.*?)^\}", src, re.M | re.S)
+    m = re.search(r"^RENAME = \{(.*?)^\}", src, re.MULTILINE | re.DOTALL)
     return dict(re.findall(r'"([A-Za-z0-9_]+)"\s*:\s*"([A-Za-z0-9_]+)"',
                            m.group(1)))
 
@@ -89,7 +90,7 @@ def _phase8_set():
     import re
     with open(os.path.join(REPO_ROOT, "tools", "build_v_eta.py")) as f:
         src = f.read()
-    m = re.search(r"^_DELETE_PHASE8 = \{(.*?)^\}", src, re.M | re.S)
+    m = re.search(r"^_DELETE_PHASE8 = \{(.*?)^\}", src, re.MULTILINE | re.DOTALL)
     return set(re.findall(r'"([A-Za-z0-9_]+)"', m.group(1)))
 
 
@@ -168,7 +169,7 @@ def test_ndi_silence_is_not_recorded_as_optional():
     assert js, "no JSON Schema-form class found -- the scan cannot be checked"
     for c in js:
         assert gt["classes"][c]["depends_on_required"] == {}, (
-            "%s states no required-ness in NDI; recording one invents it" % c)
+            f"{c} states no required-ness in NDI; recording one invents it")
 
 
 def test_ground_truth_scan_carries_its_denominator():
@@ -261,7 +262,7 @@ def test_the_stamp_changes_no_mustBeNonEmpty_value():
             with open(p) as f:
                 now = json.load(f)
             assert without_marker(now) == was, (
-                "%s changed beyond the %s marker" % (p, NRS.MARKER))
+                f"{p} changed beyond the {NRS.MARKER} marker")
     finally:
         shutil.rmtree(tmp)
 
@@ -280,11 +281,11 @@ def test_the_stamp_is_idempotent():
     try:
         rn = _rename_map()
         a = NRS.stamp_ndi_required(tmp, GT_PATH, rn, TIERS, META_FILES)
-        snap = {p: open(p).read() for p in glob.glob(os.path.join(tmp, "*", "*.json"))}
+        snap = {p: Path(p).read_text() for p in glob.glob(os.path.join(tmp, "*", "*.json"))}
         b = NRS.stamp_ndi_required(tmp, GT_PATH, rn, TIERS, META_FILES)
         assert a == b
         for p, text in snap.items():
-            assert open(p).read() == text, p
+            assert Path(p).read_text() == text, p
     finally:
         shutil.rmtree(tmp)
 
@@ -306,7 +307,7 @@ def test_the_marker_is_absent_where_ndi_stated_nothing():
             if cand and cand in veta:
                 for name, dep in _deps(veta[cand]).items():
                     assert NRS.MARKER not in dep, (
-                        "%s.%s carries a verdict NDI never stated" % (cand, name))
+                        f"{cand}.{name} carries a verdict NDI never stated")
                     checked += 1
                 break
     assert checked > 0, (
@@ -369,7 +370,7 @@ def test_the_divergence_set_is_non_empty_and_names_the_planning_cases():
     for cn, doc in _veta().items():
         for name, dep in _deps(doc).items():
             if dep.get(NRS.MARKER) is True and not dep.get("mustBeNonEmpty"):
-                rows.add("%s.%s" % (cn, name))
+                rows.add(f"{cn}.{name}")
     assert rows, "the census found nothing to count -- check the stamp ran"
     assert "ontology_label.document_id" in rows
 
@@ -488,8 +489,7 @@ def test_the_genuine_hole_bucket_holds_only_classes_with_no_migrator_row():
     # THE INSTRUMENT RAN -- asserted before the bucket is read, so "found
     # nothing" and "looked at nothing" cannot produce the same verdict.
     assert d["ndi_classes_read"] > 50, (
-        "only %d NDI class(es) read -- the extract, not the bucket, is the "
-        "problem" % d["ndi_classes_read"])
+        f'only {d["ndi_classes_read"]} NDI class(es) read -- the extract, not the bucket, is the problem')
     assert d["unresolved_classes"], (
         "NO class is unresolved at all. Every did_v1 source having a V_eta home "
         "would be real news and this test should be revisited -- but the far "
@@ -505,10 +505,7 @@ def test_the_genuine_hole_bucket_holds_only_classes_with_no_migrator_row():
     # this bucket means a did_v1 source is stranding again; that must be read,
     # not absorbed.
     assert named == [], (
-        "`no_home_no_migrator` has %d member(s) again: %s. A did_v1 source with "
-        "no V_eta home and no migrator STRANDS -- its documents are lost on "
-        "migration. The bucket was emptied on 2026-08-11 by tombstoning "
-        "`imageCollection`, its only member." % (len(named), named))
+        f'`no_home_no_migrator` has {len(named)} member(s) again: {named}. A did_v1 source with no V_eta home and no migrator STRANDS -- its documents are lost on migration. The bucket was emptied on 2026-08-11 by tombstoning `imageCollection`, its only member.')
 
 
 def test_a_renamed_edge_and_a_dropped_edge_are_different_facts():
@@ -736,15 +733,11 @@ def test_the_report_states_not_compared_beside_every_divergence_count():
     """
     d = _run_stamp_with_causes()
     text = "\n".join(NRS.render_stamp_report(d))
-    assert ("COMPARED:     %d of %d edge(s)"
-            % (d["edges_compared"], d["edges_carrying_an_ndi_verdict"])) in text
-    assert ("NOT COMPARED: %d of %d edge(s)"
-            % (d["edges_not_compared"],
-               d["edges_carrying_an_ndi_verdict"])) in text
+    assert (f'COMPARED:     {d["edges_compared"]} of {d["edges_carrying_an_ndi_verdict"]} edge(s)') in text
+    assert (f'NOT COMPARED: {d["edges_not_compared"]} of {d["edges_carrying_an_ndi_verdict"]} edge(s)') in text
     assert "NEVER LOOKED AT" in text
     assert "no figure in this report is the" in text
-    assert ("of them %d are NDI-REQUIRED"
-            % d["edges_not_compared_ndi_required"]) in text
+    assert (f'of them {d["edges_not_compared_ndi_required"]} are NDI-REQUIRED') in text
 
 
 def test_a_zero_comparison_count_cannot_render_as_a_pass():

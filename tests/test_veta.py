@@ -498,10 +498,10 @@ def test_the_two_stranding_classes_have_a_tombstone():
     disp = {e["class_name"]: e.get("disposition") for e in INDEX["schemas"]}
     for name in ("generic_file", "valid_interval"):
         assert name in RECORDS, (
-            "%s has no V_eta schema; a document of this class reaches validation "
-            "as an undeclared class and is lost" % name)
+            f"{name} has no V_eta schema; a document of this class reaches validation "
+            "as an undeclared class and is lost")
         assert disp[name] == "retire", (
-            "%s is a v1 SOURCE tombstone, never a go-forward class" % name)
+            f"{name} is a v1 SOURCE tombstone, never a go-forward class")
 
     # generic_file, from +setup/+conv/+babu/import.m:526-531 and :575-580 --
     # all five fields, the file, and the document_id edge.
@@ -640,9 +640,7 @@ def test_image_collection_tombstone_matches_the_ndi_ground_truth_artifact():
 
     # denominator, stated before any verdict
     assert (len(gt["depends_on"]), len(gt["fields"]), len(gt["files"])) == (1, 2, 0), (
-        "the NDI ground truth for imageCollection changed shape (%d dep(s), "
-        "%d field(s), %d file(s)) -- re-read the template before trusting this"
-        % (len(gt["depends_on"]), len(gt["fields"]), len(gt["files"])))
+        f'the NDI ground truth for imageCollection changed shape ({len(gt["depends_on"])} dep(s), {len(gt["fields"])} field(s), {len(gt["files"])} file(s)) -- re-read the template before trusting this')
 
     ours_deps = {d["name"] for d in rec["depends_on"]}
     ours_fields = {f["name"] for f in rec["fields"]}
@@ -650,16 +648,13 @@ def test_image_collection_tombstone_matches_the_ndi_ground_truth_artifact():
     ours_supers = [s["class_name"] for s in rec["document_class"]["superclasses"]]
 
     assert ours_deps == set(gt["depends_on"]), (
-        "depends_on diverges from NDI: missing %r, invented %r"
-        % (sorted(set(gt["depends_on"]) - ours_deps),
+        "depends_on diverges from NDI: missing {!r}, invented {!r}".format(sorted(set(gt["depends_on"]) - ours_deps),
            sorted(ours_deps - set(gt["depends_on"]))))
     assert ours_fields == set(gt["fields"]), (
-        "fields diverge from NDI: missing %r, invented %r"
-        % (sorted(set(gt["fields"]) - ours_fields),
+        "fields diverge from NDI: missing {!r}, invented {!r}".format(sorted(set(gt["fields"]) - ours_fields),
            sorted(ours_fields - set(gt["fields"]))))
     assert ours_supers == gt["superclasses"], (
-        "superclass chain diverges from NDI: %r vs %r"
-        % (ours_supers, gt["superclasses"]))
+        "superclass chain diverges from NDI: {!r} vs {!r}".format(ours_supers, gt["superclasses"]))
 
     # THE FILE BLOCK, asserted separately from the sets above because it is the
     # one part universalRenames carries through VERBATIM (skip = {'document_class',
@@ -667,9 +662,9 @@ def test_image_collection_tombstone_matches_the_ndi_ground_truth_artifact():
     # and `did2.validate.fileList` compares it by exact strcmp. NDI declares NO
     # file for this class; V_zeta declared `collection_file`.
     assert ours_files == set(gt["files"]) == set(), (
-        "NDI's imageCollection declares no file; this tombstone declares %r. A "
+        f"NDI's imageCollection declares no file; this tombstone declares {sorted(ours_files)!r}. A "
         "file name is did_v1 spelling carried through verbatim -- declaring one "
-        "no document has is the image_stack defect repeated." % sorted(ours_files))
+        "no document has is the image_stack defect repeated.")
 
 
 def test_image_collection_tombstone_requires_nothing():
@@ -686,8 +681,7 @@ def test_image_collection_tombstone_requires_nothing():
     req_deps = [d["name"] for d in rec["depends_on"] if d.get("mustBeNonEmpty")]
     req_fields = [f["name"] for f in rec["fields"] if f.get("mustBeNonEmpty")]
     assert not req_deps and not req_fields, (
-        "required with no writer to justify it -- deps %r, fields %r"
-        % (req_deps, req_fields))
+        f"required with no writer to justify it -- deps {req_deps!r}, fields {req_fields!r}")
 
 
 def test_zarr_pyramid_orphans_dissolved():
@@ -1715,8 +1709,7 @@ def test_target_source_distinguishes_emitted_from_passthrough():
     # that only counts the states it knows about would have reported a clean
     # sweep over two thirds of the ledger.
     assert sum(kinds.values()) == len(rows), (
-        "%d rows classified out of %d -- a state is missing from this tally"
-        % (sum(kinds.values()), len(rows)))
+        f'{sum(kinds.values())} rows classified out of {len(rows)} -- a state is missing from this tally')
     assert kinds["emitted"] > 0 and kinds["passthrough"] > 0
 
 
@@ -2155,7 +2148,7 @@ def test_no_list_valued_field_is_typed_char():
         walk(cls, body.get("fields", []))
     assert seen > 0, "no classes read -- this sweep would pass vacuously"
     assert not bad, (
-        "list-valued fields typed `char` cannot validate; use `string`: %r" % (bad,))
+        f"list-valued fields typed `char` cannot validate; use `string`: {bad!r}")
 
 
 def test_ngrid_tombstone_is_the_did_v1_shape_and_carries_coordinates():
@@ -2192,17 +2185,16 @@ def test_ngrid_tombstone_is_the_did_v1_shape_and_carries_coordinates():
     assert "ngrid" in RECORDS, (
         "#46 is NOT retirement-ready: both consumers are unfolded, so the "
         "tombstone must survive -- see test_ngrid_may_not_be_retired_while_consumers_exist")
-    tier, d = RECORDS["ngrid"]
+    _tier, d = RECORDS["ngrid"]
     fields = {f["name"]: f for f in d.get("fields", [])}
     assert set(fields) == {"data_size", "data_type", "data_dim", "coordinates"}, (
-        "the tombstone must declare the four did_v1 names and nothing else; got %r"
-        % (sorted(fields),))
+        f"the tombstone must declare the four did_v1 names and nothing else; got {sorted(fields)!r}")
     # the V_delta migrator's output, and the three downstream inventions
     for invented in ("ndims", "dim_sizes", "dim_labels"):
         assert invented not in fields, (
-            "%s has no did_v1 existence -- it is V_delta output or a downstream "
+            f"{invented} has no did_v1 existence -- it is V_delta output or a downstream "
             "invention, and declaring it (REQUIRED, for ndims) quarantines every "
-            "real document" % invented)
+            "real document")
     assert d.get("depends_on") == [], "did_v1 ngrid declares no dependencies"
     assert d.get("file") == [], (
         "did_v1 ngrid declares no file of its own -- the CONSUMER does "
@@ -2237,19 +2229,15 @@ def test_ngrid_may_not_be_retired_while_consumers_exist():
     assert len(RECORDS) > 200, f"only {len(RECORDS)} schemas loaded"
     if "ngrid" not in RECORDS:
         assert not consumers, (
-            "`ngrid` was retired while %d class(es) still declare it a superclass "
-            "(%s). Retirement is gated on BOTH consumers (#46): ontology_image "
-            "(#47) and hartley_calc via reverse_correlation (#48). Fold them "
-            "first, or every passthrough quarantines on undeclaredField."
-            % (len(consumers), ", ".join(consumers)))
+            f'`ngrid` was retired while {len(consumers)} class(es) still declare it a superclass ({", ".join(consumers)}). Retirement is gated on BOTH consumers (#46): ontology_image (#47) and hartley_calc via reverse_correlation (#48). Fold them first, or every passthrough quarantines on undeclaredField.')
         return
     # Today: the gate is CLOSED, and this records who is holding it shut, so a
     # reader does not have to take the prose's word for the count.
     assert consumers == ["ontology_image", "reverse_correlation"], (
-        "the ngrid consumer set changed: %r. Re-derive #46's gate before acting "
+        f"the ngrid consumer set changed: {consumers!r}. Re-derive #46's gate before acting "
         "-- `hartley_calc` reaches ngrid through reverse_correlation, so the "
         "chain is hartley_calc -> hartley_reverse_correlation -> "
-        "reverse_correlation -> ngrid." % (consumers,))
+        "reverse_correlation -> ngrid.")
 
 
 def test_sampled_body_axes_has_no_slot_for_ngrid_coordinates():
@@ -2288,15 +2276,13 @@ def test_sampled_body_axes_has_no_slot_for_ngrid_coordinates():
     # which would read as "no coordinate slot" when it really means "read
     # nothing".
     assert len(sub) >= 4, (
-        "only %d axis sub-field(s) read (%r) -- too few to conclude anything "
-        "about a coordinate slot" % (len(sub), sub))
+        f'only {len(sub)} axis sub-field(s) read ({sub!r}) -- too few to conclude anything about a coordinate slot')
     coordinate_slots = [n for n in sub if n in ("values", "coordinates", "positions")]
     assert not coordinate_slots, (
-        "`sampled_body.axes[]` now declares %r. If #45 has landed the coordinate "
+        f"`sampled_body.axes[]` now declares {coordinate_slots!r}. If #45 has landed the coordinate "
         "array, the ngrid fold's refusal (jNgridBody, "
         "`did2:convert:ngridCoordinatesHaveNoHome`) is no longer necessary and "
-        "must be replaced by the carry — update BOTH halves, they are lockstep."
-        % (coordinate_slots,))
+        "must be replaced by the carry — update BOTH halves, they are lockstep.")
 
 
 def test_the_ngrid_fold_targets_exist_and_can_hold_what_the_fold_emits():
@@ -2320,7 +2306,7 @@ def test_the_ngrid_fold_targets_exist_and_can_hold_what_the_fold_emits():
         "instantiated (cache.m raises did2:validation:abstractInstantiation)")
     supers = [s["class_name"] for s in obs["document_class"]["superclasses"]]
     assert supers == ["subject_observation", "image"], (
-        "the migrator emits exactly these direct superclasses; got %r" % (supers,))
+        f"the migrator emits exactly these direct superclasses; got {supers!r}")
 
     # the body it is bound to
     _t, sb = RECORDS["sampled_body"]
@@ -2332,24 +2318,23 @@ def test_the_ngrid_fold_targets_exist_and_can_hold_what_the_fold_emits():
 
     # `datum.kind` must admit 'array' -- an ngrid is an N-D grid by definition,
     # and this is an ENUM, so a wrong word quarantines every folded body.
-    datum = [f for f in sb["fields"] if f["name"] == "datum"][0]
-    kind = [s for s in datum["fields"] if s["name"] == "kind"][0]
+    datum = next(f for f in sb["fields"] if f["name"] == "datum")
+    kind = next(s for s in datum["fields"] if s["name"] == "kind")
     assert "array" in kind["constraints"]["enum"], (
-        "sampled_body.datum.kind no longer admits 'array': %r"
-        % (kind["constraints"]["enum"],))
+        "sampled_body.datum.kind no longer admits 'array': {!r}".format(kind["constraints"]["enum"]))
 
     # `axes[].name` is the one axis sub-field that is REQUIRED, which is why
     # jNgridBody emits positional names (`axis_1` ...) rather than blanks.
-    axes = [f for f in sb["fields"] if f["name"] == "axes"][0]
+    axes = next(f for f in sb["fields"] if f["name"] == "axes")
     required = [s["name"] for s in axes["fields"] if s.get("mustBeNonEmpty")]
     assert required == ["name"], (
-        "the axis entry's required sub-fields changed to %r -- jNgridBody fills "
+        f"the axis entry's required sub-fields changed to {required!r} -- jNgridBody fills "
         "`name` and leaves the rest defaulted, so a new requirement quarantines "
-        "every folded body" % (required,))
+        "every folded body")
 
     # storage_mode 'body' is what says the pixels are in the sampled_body
     _t, stmt = RECORDS["subject_statement"]
-    mode = [f for f in stmt["fields"] if f["name"] == "storage_mode"][0]
+    mode = next(f for f in stmt["fields"] if f["name"] == "storage_mode")
     assert "body" in mode["constraints"]["enum"]
 
 
@@ -2387,22 +2372,20 @@ def test_the_rf_family_is_superclass_only_so_repointing_it_would_strand_hartley(
     # DENOMINATOR FIRST. An empty ledger would make every "not a source" claim
     # below trivially true.
     assert len(rows) == 102, (
-        "the v1 source universe is 102 classes (91 NDI templates + 11 vhlab app "
-        "classes); read %d" % len(rows))
+        f'the v1 source universe is 102 classes (91 NDI templates + 11 vhlab app classes); read {len(rows)}')
     v1 = {r["v1_class"] for r in rows}
 
     for name in ("reverse_correlation", "hartley_reverse_correlation"):
-        assert name in RECORDS, "%s is still in the built set" % name
+        assert name in RECORDS, f"{name} is still in the built set"
         assert name not in v1, (
-            "%s became a v1 SOURCE class. F1 read the writer and found it "
-            "superclass-only; if that changed, the ngrid gate changes with it."
-            % name)
+            f"{name} became a v1 SOURCE class. F1 read the writer and found it "
+            "superclass-only; if that changed, the ngrid gate changes with it.")
     # and the one class that IS a source, and that inherits ngrid through them
     assert "hartley_calc" in v1
     chain = [s["class_name"]
              for s in RECORDS["hartley_calc"][1]["document_class"]["superclasses"]]
     assert "hartley_reverse_correlation" in chain, (
-        "hartley_calc no longer reaches ngrid through the RF chain: %r" % (chain,))
+        f"hartley_calc no longer reaches ngrid through the RF chain: {chain!r}")
     rc_supers = [s["class_name"]
                  for s in RECORDS["reverse_correlation"][1]["document_class"]["superclasses"]]
     assert "ngrid" in rc_supers, (
@@ -2430,9 +2413,9 @@ def test_image_stack_pair_survives_for_the_subject_less_passthrough():
     assert len(RECORDS) > 200, f"only {len(RECORDS)} schemas loaded"   # denominator
     for cls in ("image_stack", "image_stack_parameters"):
         assert cls in RECORDS, (
-            "`%s` was re-deleted. The subject-less passthrough in "
+            f"`{cls}` was re-deleted. The subject-less passthrough in "
             "migrators_j/image_stack.m then has no schema to validate against: "
-            "4,563 JH quarantines." % cls)
+            "4,563 JH quarantines.")
 
     deps = {d["name"]: d for d in RECORDS["image_stack"][1]["depends_on"]}
     # The whole point of the reversal: NDI writes documents with no subject, so
@@ -2464,7 +2447,7 @@ def test_image_stack_declares_ndis_own_file_name():
     files = [f["name"] for f in RECORDS["image_stack"][1].get("file", [])]
     assert files == ["imageStack"], (
         "image_stack must declare NDI's own file_list entry verbatim, not a "
-        "snake_cased invention; got %r" % (files,))
+        f"snake_cased invention; got {files!r}")
 
 
 def test_openminds_stimulus_passthrough_keeps_the_second_pass_join_keys():
@@ -2522,7 +2505,7 @@ def test_openminds_stimulus_passthrough_keeps_the_second_pass_join_keys():
 
     deps = {d["name"]: d for d in tomb.get("depends_on", [])}
     assert set(deps) == {"stimulus_element_id"}, (
-        "openminds_stimulus declares exactly NDI's one edge; got %r" % (sorted(deps),))
+        f"openminds_stimulus declares exactly NDI's one edge; got {sorted(deps)!r}")
     assert "stimulus_id" not in deps, (
         "`stimulus_id` is the invented name that emptied 635 subjects (#71) -- "
         "NDI names this edge `stimulus_element_id` in template, schema and writer")
@@ -2590,7 +2573,7 @@ def test_acquisition_epoch_declares_the_vhsb_payload():
     files = [f["name"] for f in RECORDS["acquisition_epoch"][1].get("file", [])]
     assert files == ["epoch_binary_data.vhsb"], (
         "acquisition_epoch must declare NDI's element_epoch file_list entry "
-        "verbatim -- its documents all carry it; got %r" % (files,))
+        f"verbatim -- its documents all carry it; got {files!r}")
 
 
 def test_oneepoch_and_acquisition_epoch_agree_about_the_payload():
@@ -2611,7 +2594,7 @@ def test_oneepoch_and_acquisition_epoch_agree_about_the_payload():
     oe = [f["name"] for f in RECORDS["oneepoch"][1].get("file", [])]
     assert ae == oe == ["epoch_binary_data.vhsb"], (
         "acquisition_epoch and oneepoch both carry the element_epoch payload "
-        "and must declare the same file; got %r and %r" % (ae, oe))
+        f"and must declare the same file; got {ae!r} and {oe!r}")
 
 
 def test_directed_relation_has_an_optional_epoch_id_slot():
@@ -2670,12 +2653,10 @@ def test_the_epoch_id_edge_is_spelled_the_same_way_everywhere():
     }
     assert len(holders) >= 4, (
         "expected at least the four known holders (acquisition_metadata_file, "
-        "ingestion_manifest, method_parameters, directed_relation); got %r"
-        % (sorted(holders),))
+        f"ingestion_manifest, method_parameters, directed_relation); got {sorted(holders)!r}")
     for name, d in sorted(holders.items()):
         assert d["must_refer_to_document_class"] == "epoch", (
-            "%s.epoch_id must point at the minted `epoch` entity, not %r"
-            % (name, d["must_refer_to_document_class"]))
+            "{}.epoch_id must point at the minted `epoch` entity, not {!r}".format(name, d["must_refer_to_document_class"]))
 
 
 # ---------------------------------------------------------------------------
@@ -2717,7 +2698,7 @@ def test_ensemble_declares_the_neuron_roster_it_carries():
     deps = {d["name"]: d for d in RECORDS["ensemble"][1]["depends_on"]}
     assert "neuron_id_#" in deps, (
         "ensemble must declare the neuron roster as a numbered family; "
-        "declared: %r" % (sorted(deps),))
+        f"declared: {sorted(deps)!r}")
     assert "neuron_id" not in deps, (
         "a bare `neuron_id` does not match what a document carries "
         "(`neuron_id_1`, `neuron_id_2`, ...)")
@@ -2748,7 +2729,7 @@ def test_ensemble_declares_ndis_own_file_name_not_a_snake_cased_one():
     files = [f["name"] for f in RECORDS["ensemble"][1].get("file", [])]
     assert files == ["neuron_names.txt"], (
         "ensemble carries NDI's `neuron_names.txt` (+ndi/+element/ensemble.m:277 "
-        "attaches it, and both halves of NDI's pair declare it); got %r" % (files,))
+        f"attaches it, and both halves of NDI's pair declare it); got {files!r}")
 
 
 def test_ensemble_tombstone_matches_the_ndi_ground_truth_artifact():
@@ -2766,7 +2747,7 @@ def test_ensemble_tombstone_matches_the_ndi_ground_truth_artifact():
     rec = RECORDS["ensemble"][1]
 
     def defamily(n):
-        return n[:-2] if n.endswith("_#") else n
+        return n.removesuffix("_#")
 
     ours_deps = {defamily(d["name"]) for d in rec["depends_on"]}
     ours_fields = {f["name"] for f in rec["fields"]}
@@ -2776,22 +2757,16 @@ def test_ensemble_tombstone_matches_the_ndi_ground_truth_artifact():
 
     # denominator, stated before any verdict
     assert len(gt["depends_on"]) == 3 and len(gt["fields"]) == 5, (
-        "the ground truth for `ensemble` changed shape (%d dep(s), %d field(s)) "
-        "-- re-read NDI before trusting this comparison"
-        % (len(gt["depends_on"]), len(gt["fields"])))
+        f'the ground truth for `ensemble` changed shape ({len(gt["depends_on"])} dep(s), {len(gt["fields"])} field(s)) -- re-read NDI before trusting this comparison')
 
     assert set(gt["depends_on"]) <= ours_deps, (
-        "real dependencies with nowhere to land: %r"
-        % sorted(set(gt["depends_on"]) - ours_deps))
+        "real dependencies with nowhere to land: {!r}".format(sorted(set(gt["depends_on"]) - ours_deps)))
     assert set(gt["fields"]) <= ours_fields, (
-        "real fields with nowhere to land: %r"
-        % sorted(set(gt["fields"]) - ours_fields))
+        "real fields with nowhere to land: {!r}".format(sorted(set(gt["fields"]) - ours_fields)))
     assert set(gt["files"]) <= ours_files, (
-        "real files the tombstone does not declare: %r"
-        % sorted(set(gt["files"]) - ours_files))
+        "real files the tombstone does not declare: {!r}".format(sorted(set(gt["files"]) - ours_files)))
     assert ours_supers == gt["superclasses"], (
-        "superclass chain diverges from NDI: %r vs %r"
-        % (ours_supers, gt["superclasses"]))
+        "superclass chain diverges from NDI: {!r} vs {!r}".format(ours_supers, gt["superclasses"]))
 
 
 def test_ensemble_pass_one_mints_no_membership_edge():
@@ -2812,8 +2787,8 @@ def test_ensemble_pass_one_mints_no_membership_edge():
     for forbidden in ("member_of", "member_of_#", "derived_from", "derived_from_#",
                       "child", "parent"):
         assert forbidden not in names, (
-            "`%s` on the ensemble tombstone: membership is a relation DOCUMENT, "
-            "and pass 1 cannot resolve it" % forbidden)
+            f"`{forbidden}` on the ensemble tombstone: membership is a relation DOCUMENT, "
+            "and pass 1 cannot resolve it")
 
 
 def test_member_of_registry_row_is_timed_and_ordered_as_the_signoff_requires():
@@ -2829,7 +2804,7 @@ def test_member_of_registry_row_is_timed_and_ordered_as_the_signoff_requires():
         reg = json.load(fh)
     rows = [r for r in reg["relation_bindings"]
             if r["relation"]["name"] == "member_of"]
-    assert len(rows) == 1, "expected exactly one member_of row; got %d" % len(rows)
+    assert len(rows) == 1, f'expected exactly one member_of row; got {len(rows)}'
     row = rows[0]
     assert row["class"] == "directed_relation"
     assert row["timed"] is True, "the epoch scope makes this edge timed"

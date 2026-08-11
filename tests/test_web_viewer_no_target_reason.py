@@ -41,12 +41,12 @@ def test_the_viewer_states_no_blanket_dissolution_sentence():
     banned = "it dissolves or is deleted"
     # The phrase may legitimately appear inside the explanatory comment that
     # records why it was removed, so only executable text is searched.
-    code = re.sub(r"//.*$", "", body, flags=re.M)
-    code = re.sub(r"/\*.*?\*/", "", code, flags=re.S)
+    code = re.sub(r"//.*$", "", body, flags=re.MULTILINE)
+    code = re.sub(r"/\*.*?\*/", "", code, flags=re.DOTALL)
     assert banned not in code, (
-        "Coverage.tsx renders %r again. That sentence asserted a signed "
+        f"Coverage.tsx renders {banned!r} again. That sentence asserted a signed "
         "dissolution for rows that are disputed, passed through, or simply "
-        "unrecorded." % banned)
+        "unrecorded.")
 
 
 def test_a_row_with_no_recorded_reason_renders_as_unknown():
@@ -103,6 +103,4 @@ def test_the_ledger_actually_supplies_the_field():
         "about the rendering it is meant to guard")
     labelled = [r for r in blank if r.get("no_target_reason_label")]
     assert labelled, (
-        "%d row(s) have no target and NONE carries `no_target_reason_label` -- "
-        "the viewer would render every one as UNKNOWN, and the field the "
-        "generator writes is not the one the viewer reads" % len(blank))
+        f'{len(blank)} row(s) have no target and NONE carries `no_target_reason_label` -- the viewer would render every one as UNKNOWN, and the field the generator writes is not the one the viewer reads')

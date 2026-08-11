@@ -27,6 +27,7 @@ import shutil
 import subprocess
 import sys
 import tempfile
+from pathlib import Path
 
 REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 TOOLS = os.path.join(REPO_ROOT, "tools")
@@ -65,8 +66,7 @@ def test_every_producer_precedes_every_consumer():
     pos = {n: i for i, n in enumerate(g.ORDER)}
     for e in g.EDGES:
         assert pos[e.producer] < pos[e.consumer], (
-            "%s runs after %s, but %s reads %s that %s writes"
-            % (e.producer, e.consumer, e.consumer, e.artifact, e.producer))
+            f"{e.producer} runs after {e.consumer}, but {e.consumer} reads {e.artifact} that {e.producer} writes")
 
 
 def test_the_four_orderings_this_repo_gets_wrong_by_hand():
@@ -86,7 +86,7 @@ def test_the_four_orderings_this_repo_gets_wrong_by_hand():
              ("status_board", "check_signoff_header_staleness")]
     assert len(pairs) == 4
     for before, after in pairs:
-        assert pos[before] < pos[after], "%s must run before %s" % (before, after)
+        assert pos[before] < pos[after], f"{before} must run before {after}"
 
 
 def test_every_edge_reason_is_substantiated_by_the_consumers_own_source():
@@ -99,7 +99,7 @@ def test_every_edge_reason_is_substantiated_by_the_consumers_own_source():
     for e in g.EDGES:
         ok, detail = e.substantiated(REPO_ROOT)
         if not ok:
-            unsubstantiated.append("%s -> %s: %s" % (e.producer, e.consumer, detail))
+            unsubstantiated.append(f"{e.producer} -> {e.consumer}: {detail}")
     assert not unsubstantiated, "\n".join(unsubstantiated)
 
 
@@ -151,7 +151,7 @@ def test_every_gate_ci_used_to_run_by_hand_is_still_in_the_chain():
                  "check_vacuous_tests", "check_signoff_header_staleness"]
     assert len(was_in_ci) == 8
     missing = [n for n in was_in_ci if n not in g.BY_NAME]
-    assert not missing, "the driver dropped a gate CI used to run: %s" % missing
+    assert not missing, f"the driver dropped a gate CI used to run: {missing}"
 
 
 def test_a_step_needing_a_sibling_checkout_names_it_in_its_own_source():
@@ -162,13 +162,12 @@ def test_a_step_needing_a_sibling_checkout_names_it_in_its_own_source():
     assert needy, "no step declares a sibling -- this test would check nothing"
     for s in needy:
         src = s.source_path()
-        assert src, "%s declares requires but runs no script" % s.name
+        assert src, f"{s.name} declares requires but runs no script"
         with open(os.path.join(REPO_ROOT, src), errors="replace") as fh:
             body = fh.read()
         for sib in s.requires:
             assert sib in body, (
-                "%s says it needs %s, but %s never names it"
-                % (s.name, sib, src))
+                f"{s.name} says it needs {sib}, but {src} never names it")
 
 
 def test_every_step_is_told_the_same_sibling_answer():
@@ -183,7 +182,7 @@ def test_every_step_is_told_the_same_sibling_answer():
     happens to sit is a red build with a true-looking cause."""
     env = g.child_env()
     for var in ("NDI_MATLAB", "NDI_MATLAB_PATH", "DID_MATLAB", "DID_MATLAB_PATH"):
-        assert var in env, "child steps are not told %s" % var
+        assert var in env, f"child steps are not told {var}"
     assert env["NDI_MATLAB"] == env["NDI_MATLAB_PATH"]
     assert env["DID_MATLAB"] == env["DID_MATLAB_PATH"]
     for name, var in (("NDI-matlab", "NDI_MATLAB"), ("DID-matlab", "DID_MATLAB")):
@@ -193,8 +192,7 @@ def test_every_step_is_told_the_same_sibling_answer():
         else:
             # absent must be SAID, not left to a child's own default
             assert not os.path.isdir(env[var]), (
-                "%s is absent to the driver but %s points somewhere real"
-                % (name, var))
+                f"{name} is absent to the driver but {var} points somewhere real")
 
 
 # --------------------------------------------------------------------------
@@ -206,14 +204,14 @@ def _stub(step_name, code, printed):
     step = g.BY_NAME[step_name]
     saved = step.argv
     step.argv = [sys.executable, "-c",
-                 "import sys; sys.stdout.write(%r); sys.exit(%d)" % (printed, code)]
+                 f'import sys; sys.stdout.write({printed!r}); sys.exit({code})']
     return step, saved
 
 
 def _run(argv):
     """Run gates.main with stdout captured, returning (rc, text)."""
-    import io
     import contextlib
+    import io
     buf = io.StringIO()
     with contextlib.redirect_stdout(buf):
         rc = g.main(argv)
@@ -354,7 +352,7 @@ def test_check_mode_writes_nothing_into_the_repository():
     try:
         clone = _clone_with_live_driver(tmp)
         before_git = _dirty(clone)
-        assert before_git == "", "the clone did not start clean: %r" % before_git
+        assert before_git == "", f"the clone did not start clean: {before_git!r}"
 
         watched = sorted({w for s in g.STEPS for w in s.writes})
         assert watched, "no step declares a write -- this test would check nothing"
@@ -364,17 +362,16 @@ def test_check_mode_writes_nothing_into_the_repository():
         p = subprocess.run([sys.executable, os.path.join(clone, "tools", "gates.py"),
                             "--check", "--only", "build_v_eta",
                             "--only", "regen_final_class_set"],
-                           capture_output=True, text=True, cwd=clone)
+                           capture_output=True, text=True, cwd=clone, check=False)
         after = _dirty(clone)
         assert after == "", (
-            "--check changed tracked content in the working tree:\n%s\n"
-            "--- driver output ---\n%s" % (after, p.stdout[-3000:]))
+            f"--check changed tracked content in the working tree:\n{after}\n"
+            f"--- driver output ---\n{p.stdout[-3000:]}")
         touched = sorted(k for k, v in _stat_tree(clone, watched).items()
                          if before.get(k) != v)
         assert not touched, (
             "--check WROTE these working-tree paths (mtime moved) even though "
-            "the bytes did not change:\n  %s\n--- driver output ---\n%s"
-            % ("\n  ".join(touched[:20]), p.stdout[-3000:]))
+            "the bytes did not change:\n  {}\n--- driver output ---\n{}".format("\n  ".join(touched[:20]), p.stdout[-3000:]))
         # It must also have actually DONE something -- a --check that ran no
         # step would trivially satisfy the assertions above.
         assert "ARTIFACT DIFF" in p.stdout, p.stdout
@@ -397,11 +394,11 @@ def test_check_mode_reports_a_stale_artifact_as_a_difference():
         p = subprocess.run([sys.executable, os.path.join(clone, "tools", "gates.py"),
                             "--check", "--only", "build_v_eta",
                             "--only", "regen_final_class_set"],
-                           capture_output=True, text=True, cwd=clone)
+                           capture_output=True, text=True, cwd=clone, check=False)
         assert p.returncode != 0, p.stdout
         assert "V_eta_final_class_set.md" in p.stdout
         assert "DIFFERS" in p.stdout, p.stdout
         # and the hand edit is still there -- --check reported it, did not fix it
-        assert "FABRICATED CATEGORY" in open(target).read()
+        assert "FABRICATED CATEGORY" in Path(target).read_text()
     finally:
         shutil.rmtree(tmp, ignore_errors=True)

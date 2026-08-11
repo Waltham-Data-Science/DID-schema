@@ -24,6 +24,7 @@ import copy
 import importlib.util
 import json
 import os
+from pathlib import Path
 
 import pytest
 
@@ -85,7 +86,7 @@ def test_b5_scans_every_registry_row_not_just_the_three_it_can_pair():
     So assert the sweep's reach against the registry file itself, read
     independently here rather than taken from the tool.
     """
-    reg = json.load(open(os.path.join(VETA, "stable", "binding_registry_meta.json")))
+    reg = json.loads(Path(os.path.join(VETA, "stable", "binding_registry_meta.json")).read_text())
     total_rows = sum(len(v) for v in reg.values() if isinstance(v, list))
     f = LIVE["findings"]["B5_strength_stored_twice"]
     assert f["registry_rows_scanned"] == total_rows, (
@@ -192,7 +193,8 @@ def synthetic(tmp_path):
     }
     (root / "stable" / "binding_registry_meta.json").write_text(json.dumps(registry))
 
-    write = lambda n, d: (root / "stable" / (n + ".json")).write_text(json.dumps(d))  # noqa: E731
+    def write(n, d):
+        (root / "stable" / (n + ".json")).write_text(json.dumps(d))
     write("alpha", _minimal_class("alpha", [
         _field("a", "ontology_term",
                {"strength": "required", "root": "vs_x", "invented_key": 1,
@@ -412,8 +414,8 @@ def test_the_curie_grammar_is_identical_in_cache_m():
     fails loudly if the file is present but the marker line has moved.
     """
     if not os.path.exists(CACHE_M):
-        pytest.skip("DID-matlab not checked out at %s" % DIDM)
-    src = open(CACHE_M).read()
+        pytest.skip(f"DID-matlab not checked out at {DIDM}")
+    src = Path(CACHE_M).read_text()
     hits = [ln.split("=", 1)[1].strip().rstrip(";").strip()
             for ln in src.splitlines()
             if ln.strip().startswith("pattern = '^[A-Za-z]")]
@@ -442,8 +444,8 @@ def test_the_three_pivot_fields_declare_a_checkable_shape():
     for key in want:
         assert got[key]["shape"] == "node_form", got[key]
         assert got[key]["strength"] == "preferred", (
-            got[key], "required would reject the registry's own rows, which "
-                      "carry an empty `node` on all five species/cell-type rows")
+            got[key], ("required would reject the registry's own rows, which "
+                      "carry an empty `node` on all five species/cell-type rows"))
     unenforceable = {(e["class"], e["field"])
                      for e in LIVE["findings"]["B9_unenforceable_as_declared"]["detail"]}
     assert not (want & unenforceable), (
@@ -460,7 +462,7 @@ def test_tool_reports_failure_when_it_reads_nothing(tmp_path, synthetic):
     shutil.copytree(synthetic, empty)
     for fn in os.listdir(os.path.join(empty, "stable")):
         p = os.path.join(empty, "stable", fn)
-        d = json.load(open(p))
+        d = json.loads(Path(p).read_text())
         if "document_class" not in d:
             continue
         stripped = copy.deepcopy(d)
@@ -496,6 +498,6 @@ def test_tool_reports_failure_when_it_reads_nothing(tmp_path, synthetic):
         [sys.executable, os.path.join(REPO_ROOT, "tools",
                                       "check_binding_governance.py"),
          "--veta", empty, "--enforce"],
-        capture_output=True, text=True)
+        capture_output=True, text=True, check=False)
     assert proc.returncode == 2, (proc.returncode, proc.stderr)
     assert "read nothing" in proc.stderr, proc.stderr

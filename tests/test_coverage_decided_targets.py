@@ -69,10 +69,10 @@ def _md():
 def _md_row(cls):
     """The rendered markdown row for one v1 class, as (target_cell, account)."""
     for line in _md().splitlines():
-        if line.startswith("| `%s` |" % cls):
+        if line.startswith(f"| `{cls}` |"):
             cells = line.split(" | ")
             return cells[1], cells[2]
-    raise AssertionError("no rendered ledger row for `%s`" % cls)
+    raise AssertionError(f"no rendered ledger row for `{cls}`")
 
 
 def _built_classes():
@@ -185,15 +185,13 @@ def test_no_row_asserts_a_dissolution_from_an_empty_list():
     regression that emptied the table would not pass this as "no bad rows".
     """
     rows = _rows()
-    assert len(rows) > 50, "ledger has %d rows -- too few to be the real one" % len(rows)
+    assert len(rows) > 50, f'ledger has {len(rows)} rows -- too few to be the real one'
     md = _md()
     banned = "will dissolve / be deleted"
     offenders = [ln.split(" | ")[0] for ln in md.splitlines()
                  if ln.startswith("| `") and banned in ln]
     assert not offenders, (
-        "%d row(s) still assert a dissolution from an empty target list: %s. "
-        "A dissolution must be recorded in NO_TARGET_BY_DECISION with the "
-        "sign-off that licenses it." % (len(offenders), offenders))
+        f'{len(offenders)} row(s) still assert a dissolution from an empty target list: {offenders}. A dissolution must be recorded in NO_TARGET_BY_DECISION with the sign-off that licenses it.')
 
 
 def test_every_no_target_row_states_why_or_renders_as_a_gap():
@@ -219,9 +217,7 @@ def test_every_no_target_row_states_why_or_renders_as_a_gap():
         if not explicit:
             unexplained.append((r["v1_class"], cell))
     assert not unexplained, (
-        "DENOMINATOR: %d rows, %d naming no target. %d of those render a cell "
-        "that neither states a reason nor flags a gap: %s"
-        % (len(rows), len(blank), len(unexplained), unexplained))
+        f'DENOMINATOR: {len(rows)} rows, {len(blank)} naming no target. {len(unexplained)} of those render a cell that neither states a reason nor flags a gap: {unexplained}')
 
 
 @pytest.mark.parametrize("cls", sorted(PINNED_DISSOLUTIONS))
@@ -234,15 +230,13 @@ def test_recorded_dissolution_quotes_a_real_signoff_line(cls):
     """
     plan, fragment = PINNED_DISSOLUTIONS[cls]
     lines = _signoff_lines(plan)
-    assert lines, "%s carries no TEAM-SIGN-OFF line at all" % plan
+    assert lines, f"{plan} carries no TEAM-SIGN-OFF line at all"
     hits = [n for n, ln in lines if fragment in ln]
     assert hits, (
-        "%s: no TEAM-SIGN-OFF line in %s contains %r (checked %d sign-off "
-        "line(s))" % (cls, plan, fragment, len(lines)))
+        f'{cls}: no TEAM-SIGN-OFF line in {plan} contains {fragment!r} (checked {len(lines)} sign-off line(s))')
     row = next(r for r in _rows() if r["v1_class"] == cls)
     assert row["no_target_reason"] == "dissolved", (
-        "%s is signed as a dissolution at %s:%d but the ledger records "
-        "no_target_reason=%r" % (cls, plan, hits[0], row["no_target_reason"]))
+        f'{cls} is signed as a dissolution at {plan}:{hits[0]} but the ledger records no_target_reason={row["no_target_reason"]!r}')
 
 
 @pytest.mark.parametrize("cls", sorted(PINNED_DISPUTED))
@@ -258,23 +252,21 @@ def test_a_contested_row_stays_contested_and_names_no_target(cls):
     plan, signoff_frag, other_frag = PINNED_DISPUTED[cls]
     row = next(r for r in _rows() if r["v1_class"] == cls)
     assert row["no_target_reason"] == "disputed", (
-        "%s: no_target_reason=%r" % (cls, row["no_target_reason"]))
+        "{}: no_target_reason={!r}".format(cls, row["no_target_reason"]))
     assert not row["decided_targets"], (
-        "%s names %s as a decided target while its record is contested. A tool "
-        "must not pick." % (cls, row["decided_targets"]))
+        "{} names {} as a decided target while its record is contested. A tool "
+        "must not pick.".format(cls, row["decided_targets"]))
     cell, _ = _md_row(cls)
     assert "DISPUTED" in cell, (cls, cell)
 
     with open(os.path.join(SCHEMAS, plan)) as fh:
         text = fh.read()
     hits = [n for n, ln in _signoff_lines(plan) if signoff_frag in ln]
-    assert hits, "%s: no TEAM-SIGN-OFF line in %s contains %r" % (
-        cls, plan, signoff_frag)
+    assert hits, f"{cls}: no TEAM-SIGN-OFF line in {plan} contains {signoff_frag!r}"
     assert other_frag in text, (
-        "%s: the OTHER half of the dispute (%r) is no longer in %s. If the "
+        f"{cls}: the OTHER half of the dispute ({other_frag!r}) is no longer in {plan}. If the "
         "document now says only one thing, the dispute is resolved and this "
-        "row needs re-recording -- do not simply delete the assertion."
-        % (cls, other_frag, plan))
+        "row needs re-recording -- do not simply delete the assertion.")
 
 
 # ===========================================================================
@@ -293,22 +285,20 @@ def test_recorded_decided_target_survives_in_both_artifacts(cls):
     """
     want, plan, fragment = PINNED_DECIDED_TARGETS[cls]
     hits = [n for n, ln in _signoff_lines(plan) if fragment in ln]
-    assert hits, "%s: %s has no TEAM-SIGN-OFF line containing %r" % (
-        cls, plan, fragment)
+    assert hits, f"{cls}: {plan} has no TEAM-SIGN-OFF line containing {fragment!r}"
 
     row = next(r for r in _rows() if r["v1_class"] == cls)
     assert sorted(row["decided_targets"]) == sorted(want), (
-        "%s: ledger records decided_targets=%s, signed record says %s "
-        "(%s:%d)" % (cls, row["decided_targets"], want, plan, hits[0]))
+        f'{cls}: ledger records decided_targets={row["decided_targets"]}, signed record says {want} ({plan}:{hits[0]})')
 
     cell, _acct = _md_row(cls)
     for t in want:
-        assert "`%s`" % t in cell, (
-            "%s: `%s` is a recorded decided target but does not appear in the "
-            "rendered target cell %r" % (cls, t, cell))
+        assert f"`{t}`" in cell, (
+            f"{cls}: `{t}` is a recorded decided target but does not appear in the "
+            f"rendered target cell {cell!r}")
     assert "will become" in cell, (
-        "%s: a decided target must be rendered in the FUTURE voice, so it "
-        "cannot be misread as something a migrator emits today: %r" % (cls, cell))
+        f"{cls}: a decided target must be rendered in the FUTURE voice, so it "
+        f"cannot be misread as something a migrator emits today: {cell!r}")
 
 
 def test_binaryseries_parameters_records_both_mounts_not_one():
@@ -338,18 +328,17 @@ def test_binaryseries_parameters_records_both_mounts_not_one():
     row = next(r for r in _rows() if r["v1_class"] == "binaryseries_parameters")
     got = set(row["decided_targets"])
     assert got == {"subject_statement", "sampled_body"}, (
-        "binaryseries_parameters records decided_targets=%s. The signature "
-        "routes to TWO mounts; recording one of them drops the other."
-        % sorted(got))
+        f"binaryseries_parameters records decided_targets={sorted(got)}. The signature "
+        "routes to TWO mounts; recording one of them drops the other.")
 
     # ...and it must no longer render as an unresolved dispute, which is what it
     # was until the team ruled. A row cannot be both decided and contested.
     assert row["no_target_reason"] is None or not row["no_target_reason"], (
-        "binaryseries_parameters still carries no_target_reason=%r while naming "
-        "decided targets" % (row["no_target_reason"],))
+        "binaryseries_parameters still carries no_target_reason={!r} while naming "
+        "decided targets".format(row["no_target_reason"]))
     cell, _acct = _md_row("binaryseries_parameters")
     assert "DISPUTED" not in cell, (
-        "the row still renders as DISPUTED after the ruling: %r" % cell)
+        f"the row still renders as DISPUTED after the ruling: {cell!r}")
 
     # The mount rule is the whole justification for the second target. If that
     # sentence leaves the plan document, this pair is unsourced -- fail here
@@ -358,8 +347,8 @@ def test_binaryseries_parameters_records_both_mounts_not_one():
         body = fh.read()
     for frag in ("storage_mode: inline", "storage_mode: body"):
         assert frag in body, (
-            "V_eta_data_body_model_plan.md no longer states %r -- the two-mount "
-            "reading has lost its source and must be re-derived, not kept" % frag)
+            f"V_eta_data_body_model_plan.md no longer states {frag!r} -- the two-mount "
+            "reading has lost its source and must be re-derived, not kept")
 
 
 def test_ngrid_is_still_disputed_and_was_not_swept_along():
@@ -374,11 +363,10 @@ def test_ngrid_is_still_disputed_and_was_not_swept_along():
     """
     row = next(r for r in _rows() if r["v1_class"] == "ngrid")
     assert row["no_target_reason"] == "disputed", (
-        "ngrid: no_target_reason=%r -- if this row was resolved, it needs its "
-        "own signed ruling, not this one" % (row["no_target_reason"],))
+        "ngrid: no_target_reason={!r} -- if this row was resolved, it needs its "
+        "own signed ruling, not this one".format(row["no_target_reason"]))
     assert not row["decided_targets"], (
-        "ngrid now names %s as a decided target. No decision says so."
-        % (row["decided_targets"],))
+        "ngrid now names {} as a decided target. No decision says so.".format(row["decided_targets"]))
 
 
 def test_every_recorded_decided_target_names_a_class_that_exists():
@@ -388,8 +376,7 @@ def test_every_recorded_decided_target_names_a_class_that_exists():
     bad = [(r["v1_class"], t) for r in rows
            for t in r["decided_targets"] if t not in built]
     assert not bad, (
-        "DENOMINATOR: %d rows, %d built classes. Decided targets naming no "
-        "built class: %s" % (len(rows), len(built), bad))
+        f'DENOMINATOR: {len(rows)} rows, {len(built)} built classes. Decided targets naming no built class: {bad}')
 
 
 def test_a_decided_target_is_recorded_in_exactly_one_place():
@@ -411,11 +398,10 @@ def test_a_decided_target_is_recorded_in_exactly_one_place():
         entry = curated.get(r["v1_class"]) or {}
         if entry.get("decided_targets"):
             both.append(r["v1_class"])
+    transcribed = _ledger()["summary"]["decided_targets_from_signoff_transcription"]
     assert not both, (
-        "DENOMINATOR: %d rows, %d transcribed from a sign-off. Recorded twice: "
-        "%s" % (len(rows), len(_ledger()["summary"]
-                                ["decided_targets_from_signoff_transcription"]),
-                both))
+        f'DENOMINATOR: {len(rows)} rows, {len(transcribed)} transcribed from a '
+        f'sign-off. Recorded twice: {both}')
 
 
 def test_the_gap_list_is_enumerated_not_merely_counted():
@@ -423,11 +409,10 @@ def test_the_gap_list_is_enumerated_not_merely_counted():
     s = _ledger()["summary"]["no_target"]
     gaps = s["target_gaps"]
     assert s["by_reason"]["unrecorded"] == len(gaps), (
-        "the gap COUNT (%d) and the gap LIST (%d) disagree"
-        % (s["by_reason"]["unrecorded"], len(gaps)))
+        f'the gap COUNT ({s["by_reason"]["unrecorded"]}) and the gap LIST ({len(gaps)}) disagree')
     md = _md()
     for g in gaps:
-        assert "`%s`" % g in md, "gap `%s` is counted but never named" % g
+        assert f"`{g}`" in md, f"gap `{g}` is counted but never named"
 
 
 # ===========================================================================
@@ -449,14 +434,14 @@ def test_build_state_reports_schema_and_migrator_separately():
         bs = r.get("build_state") or {}
         for key in ("schema_targets_named", "schema_targets_built",
                     "schema_targets_missing", "migrator_emits_decided_targets"):
-            assert key in bs, "%s: build_state has no %r" % (r["v1_class"], key)
+            assert key in bs, "{}: build_state has no {!r}".format(r["v1_class"], key)
         assert (len(bs["schema_targets_built"]) + len(bs["schema_targets_missing"])
                 == bs["schema_targets_named"]), (
-            "%s: build_state does not partition its own targets" % r["v1_class"])
+            "{}: build_state does not partition its own targets".format(r["v1_class"]))
         _cell, acct = _md_row(r["v1_class"])
         assert "SCHEMA:" in acct and "MIGRATOR:" in acct, (
-            "%s: the rendered account states build state without splitting it "
-            "into a schema half and a migrator half: %r" % (r["v1_class"], acct))
+            "{}: the rendered account states build state without splitting it "
+            "into a schema half and a migrator half: {!r}".format(r["v1_class"], acct))
 
 
 def test_app_schema_half_is_reported_as_built():
@@ -502,9 +487,9 @@ def test_a_corrupted_signoff_citation_stops_the_ledger():
     assert not fails, fails
     assert lines and lines[0].startswith("DENOMINATOR:"), (
         "the citation check must state how many transcriptions it read, first "
-        "and unconditionally (operating rule 5): %r" % (lines[:1],))
+        f"and unconditionally (operating rule 5): {lines[:1]!r}")
     n_checked = len(cov.NO_TARGET_BY_DECISION) + len(cov.DECIDED_TARGETS_BY_SIGNOFF)
-    assert "DENOMINATOR: %d " % n_checked in lines[0], (lines[0], n_checked)
+    assert f'DENOMINATOR: {n_checked} ' in lines[0], (lines[0], n_checked)
 
     # Now corrupt one in a SUBPROCESS copy of the module's tables and confirm
     # the check reports it rather than shrugging.
@@ -513,7 +498,7 @@ def test_a_corrupted_signoff_citation_stops_the_ledger():
         "epochid is KEPT AND CELEBRATED", "fabricated")
     _lines, fails = cov.check_decision_citations()
     assert fails and any("epochid" in f for f in fails), (
-        "a fabricated sign-off quote passed the citation check: %s" % (fails,))
+        f"a fabricated sign-off quote passed the citation check: {fails}")
 
 
 def test_the_board_does_not_assert_what_it_never_read():
@@ -540,21 +525,17 @@ def test_the_board_does_not_assert_what_it_never_read():
     # not one of their members may carry a non-self decided target.
     rows = {r["v1_class"]: r for r in _rows()}
     m = re.search(r"\*\*The other (\d+) are unchecked, NOT clean\.\*\*(.*?)\n\n"
-                  r"Only the", text, re.S)
+                  r"Only the", text, re.DOTALL)
     assert m, "could not find the unchecked-families block in V_eta_STATUS.md"
-    named = re.findall(r"^- \*\*(.+?)\*\* \(\d+ class", m.group(2), re.M)
+    named = re.findall(r"^- \*\*(.+?)\*\* \(\d+ class", m.group(2), re.MULTILINE)
     assert len(named) == int(m.group(1)), (
-        "the board says %s families are unchecked and then lists %d"
-        % (m.group(1), len(named)))
+        f'the board says {m.group(1)} families are unchecked and then lists {len(named)}')
     listed = re.findall(r"`([A-Za-z_][\w]*)`", m.group(2))
     wrong = [c for c in listed
              if c in rows
              and [t for t in rows[c]["decided_targets"] if t != c]]
     assert not wrong, (
-        "DENOMINATOR: %d class(es) named in the unchecked block, %d present in "
-        "the ledger. These carry a decided target and must not be reported as "
-        "contributing nothing: %s"
-        % (len(listed), sum(1 for c in listed if c in rows), wrong))
+        f'DENOMINATOR: {len(listed)} class(es) named in the unchecked block, {sum(1 for c in listed if c in rows)} present in the ledger. These carry a decided target and must not be reported as contributing nothing: {wrong}')
 
 
 def test_the_family_prose_is_swept_against_the_signatures():
@@ -581,11 +562,11 @@ def test_the_family_prose_is_swept_against_the_signatures():
     section = text.split(heading, 1)[1].split("\n## ", 1)[0]
 
     m = re.search(r"DENOMINATOR: (\d+) signed families checked;.*?"
-                  r"(\d+) family/name pair\(s\) are\s+UNSIGNED", section, re.S)
+                  r"(\d+) family/name pair\(s\) are\s+UNSIGNED", section, re.DOTALL)
     assert m, "the sweep does not state its denominator"
     assert int(m.group(1)) >= 15, (
-        "the sweep claims to have checked only %s families -- too few to be the "
-        "real set" % m.group(1))
+        f"the sweep claims to have checked only {m.group(1)} families -- too few to be the "
+        "real set")
     assert int(m.group(2)) > 0, (
         "the sweep reports 0 unsigned family/name pairs. Two are known and "
         "documented (`ngrid` and `binaryseries_parameters`, both naming "
@@ -610,9 +591,7 @@ def test_a_row_whose_migrator_emits_its_decided_target_says_so():
     emitting = [r["v1_class"] for r in rows
                 if r["build_state"]["migrator_emits_decided_targets"]]
     assert emitting, (
-        "DENOMINATOR: %d rows naming a decided target; NONE reach the "
-        "'migrator emits them' branch, so that branch is unexercised and this "
-        "split is a constant in disguise." % len(rows))
+        f"DENOMINATOR: {len(rows)} rows naming a decided target; NONE reach the 'migrator emits them' branch, so that branch is unexercised and this split is a constant in disguise.")
     for cls in emitting:
         _cell, acct = _md_row(cls)
         assert "MIGRATOR: emits them today" in acct, (cls, acct)

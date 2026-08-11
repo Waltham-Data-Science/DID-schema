@@ -200,7 +200,9 @@
     "ontology_image": {
       "targets": [
         "term_observation",
-        "session_relative_reference"
+        "session_relative_reference",
+        "image_observation",
+        "sampled_body"
       ],
       "carried": [
         "subject"

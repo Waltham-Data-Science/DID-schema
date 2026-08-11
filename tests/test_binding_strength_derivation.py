@@ -30,6 +30,7 @@ the tree.
 import importlib.util
 import json
 import os
+from pathlib import Path
 
 import pytest
 
@@ -88,7 +89,7 @@ def _run(veta, reg_path, check=False):
 
 
 def _rows(reg_path, list_name="entity_field_bindings"):
-    return json.loads(open(reg_path).read())[list_name]
+    return json.loads(Path(reg_path).read_text())[list_name]
 
 
 _ONE_CLASS = {"demo": [_field("f", {"vocabulary": "openMINDS",
@@ -139,25 +140,25 @@ def test_a_change_to_the_field_moves_the_registry_column(tmp_path):
     first = _rows(reg)[0]["strength"]
 
     cls_path = os.path.join(veta, "stable", "demo.json")
-    doc = json.loads(open(cls_path).read())
+    doc = json.loads(Path(cls_path).read_text())
     doc["fields"][0]["constraints"]["binding"]["strength"] = "preferred"
-    open(cls_path, "w").write(json.dumps(doc, indent=4) + "\n")
+    Path(cls_path).write_text(json.dumps(doc, indent=4) + "\n")
 
     rc, out, _ = _run(veta, reg)
     assert rc == 0, out
     second = _rows(reg)[0]["strength"]
 
     assert (first, second) == ("required", "preferred"), (
-        "the registry column did not follow the field: %r -> %r" % (first, second))
+        f"the registry column did not follow the field: {first!r} -> {second!r}")
 
 
 def test_regeneration_is_idempotent(tmp_path):
     veta, reg = _make_tree(tmp_path, _ONE_CLASS, _registry())
     _run(veta, reg)
-    once = open(reg).read()
+    once = Path(reg).read_text()
     rc, out, _ = _run(veta, reg)
     assert rc == 0, out
-    assert open(reg).read() == once, "a second run changed the file"
+    assert Path(reg).read_text() == once, "a second run changed the file"
     assert "UNCHANGED" in out
 
 
@@ -188,12 +189,12 @@ def test_check_writes_nothing_even_when_it_fails(tmp_path):
     veta, reg = _make_tree(tmp_path, _ONE_CLASS, _registry(rows=[
         {"class": "demo", "field": "f", "vocabulary": "openMINDS",
          "term_set": "DemoSet", "closed": True, "strength": "preferred"}]))
-    before = open(reg).read()
+    before = Path(reg).read_text()
 
     rc, _out, _ = _run(veta, reg, check=True)
 
     assert rc == 1
-    assert open(reg).read() == before, "--check modified the registry"
+    assert Path(reg).read_text() == before, "--check modified the registry"
 
 
 def test_the_live_registry_column_is_up_to_date():
@@ -219,7 +220,7 @@ def test_a_binding_with_no_strength_is_an_error_not_a_default(tmp_path):
         tmp_path,
         {"demo": [_field("f", {"vocabulary": "openMINDS", "term_set": "DemoSet"})]},
         _registry())
-    before = open(reg).read()
+    before = Path(reg).read_text()
 
     rc, out, detail = _run(veta, reg)
 
@@ -227,7 +228,7 @@ def test_a_binding_with_no_strength_is_an_error_not_a_default(tmp_path):
     assert len(detail["errors"]) == 1
     assert "declares NO strength" in out
     assert "There is no default" in out
-    assert open(reg).read() == before, "a failed derivation still wrote the file"
+    assert Path(reg).read_text() == before, "a failed derivation still wrote the file"
     assert "strength" not in _rows(reg)[0]
 
 
@@ -252,17 +253,14 @@ def test_every_binding_in_the_built_tree_declares_a_strength():
     index, den = rbs.bound_fields(VETA)
     assert den["bound_field_declarations"] == len(index)
     assert len(index) >= 13, (
-        "only %d bound declarations found -- the sweep stopped descending, and "
-        "a shrinking denominator is how this check goes quietly vacuous"
-        % len(index))
+        f'only {len(index)} bound declarations found -- the sweep stopped descending, and a shrinking denominator is how this check goes quietly vacuous')
     assert den["bound_field_declarations_nested"] >= 2, (
         "the two nested bindings on relative_reference.value are not being "
         "reached; a top-level-only sweep would call the tree consistent")
     missing = sorted(k for k, v in index.items()
                      if v["binding"].get("strength") is None)
     assert missing == [], (
-        "binding(s) with no strength: %s. There is no default -- declare one."
-        % missing)
+        f"binding(s) with no strength: {missing}. There is no default -- declare one.")
 
 
 # ---------------------------------------------------------------------------
@@ -314,11 +312,11 @@ def test_the_generator_never_adds_removes_or_reorders_a_row(tmp_path):
                      "strength": "preferred"}),
     ]}
     veta, reg = _make_tree(tmp_path, classes, _registry(rows=rows))
-    before = json.loads(open(reg).read())
+    before = json.loads(Path(reg).read_text())
 
     rc, out, _ = _run(veta, reg)
     assert rc == 0, out
-    after = json.loads(open(reg).read())
+    after = json.loads(Path(reg).read_text())
 
     assert list(after) == list(before), "a top-level key was added or removed"
     assert len(after["entity_field_bindings"]) == 2
@@ -363,24 +361,21 @@ def test_build_v_eta_hand_authors_no_strength_in_the_registry_literal():
     literal, see the built file agree, and believe they had changed the rule.
     """
     import ast
-    src = open(os.path.join(TOOLS, "build_v_eta.py")).read()
+    src = Path(os.path.join(TOOLS, "build_v_eta.py")).read_text()
     tree = ast.parse(src)
     literals = [n.value for n in ast.walk(tree)
                 if isinstance(n, ast.Assign)
                 and any(getattr(t, "id", None) == "ENTITY_FIELD_BINDINGS"
                         for t in n.targets)]
     assert len(literals) == 1, (
-        "expected exactly one ENTITY_FIELD_BINDINGS assignment, found %d"
-        % len(literals))
+        f'expected exactly one ENTITY_FIELD_BINDINGS assignment, found {len(literals)}')
     rows = ast.literal_eval(literals[0])
     assert len(rows) == 3, (
-        "expected the 3 openMINDS dataset rows, found %d -- if the catalogue "
-        "grew, this denominator must move deliberately" % len(rows))
+        f'expected the 3 openMINDS dataset rows, found {len(rows)} -- if the catalogue grew, this denominator must move deliberately')
     offenders = [r for r in rows if "strength" in r]
     assert offenders == [], (
-        "build_v_eta.py hand-authors a strength again: %s. The field is "
-        "authoritative; tools/regen_binding_strengths.py derives this column."
-        % offenders)
+        f"build_v_eta.py hand-authors a strength again: {offenders}. The field is "
+        "authoritative; tools/regen_binding_strengths.py derives this column.")
 
 
 def test_the_registry_list_table_is_not_a_second_hand_kept_copy():
@@ -401,10 +396,10 @@ def test_the_live_derivation_reports_its_denominator_first():
                           out=lines.append)
     assert rc == 0
     assert lines[0].startswith("DENOMINATOR: "), lines[0]
-    reg = json.loads(open(LIVE_REGISTRY).read())
+    reg = json.loads(Path(LIVE_REGISTRY).read_text())
     total = sum(len(reg[k]) for k in rbs.REGISTRY_LISTS)
-    assert total == 38, "registry row count moved: %d" % total
-    assert "%d row(s)" % total in lines[0]
+    assert total == 38, f'registry row count moved: {total}'
+    assert f'{total} row(s)' in lines[0]
 
 
 @pytest.mark.parametrize("list_name,expected", [
@@ -415,12 +410,12 @@ def test_the_live_derivation_reports_its_denominator_first():
 ])
 def test_the_live_registry_lists_have_the_sizes_the_record_claims(list_name,
                                                                   expected):
-    reg = json.loads(open(LIVE_REGISTRY).read())
+    reg = json.loads(Path(LIVE_REGISTRY).read_text())
     assert len(reg[list_name]) == expected
 
 
 def test_only_the_rows_that_name_a_field_carry_a_strength_in_the_live_registry():
-    reg = json.loads(open(LIVE_REGISTRY).read())
+    reg = json.loads(Path(LIVE_REGISTRY).read_text())
     with_strength, naming_a_field = [], []
     for list_name in rbs.REGISTRY_LISTS:
         for i, row in enumerate(reg[list_name]):

@@ -73,8 +73,7 @@ def _field(schema, name):
         if f["name"] == name:
             return f
     raise AssertionError(
-        "%s has no field %r; it has %r"
-        % (schema["document_class"]["class_name"], name,
+        "{} has no field {!r}; it has {!r}".format(schema["document_class"]["class_name"], name,
            [f["name"] for f in schema.get("fields", [])])
     )
 
@@ -180,7 +179,7 @@ def test_all_four_source_tombstones_survive_the_build():
     `stimulus_response` additionally owns the block that carries
     `element_epochid`/`stimulator_epochid` on a passed-through response."""
     for cls in FAMILY:
-        assert cls in BUILT, "%s was deleted; a passthrough would quarantine" % cls
+        assert cls in BUILT, f"{cls} was deleted; a passthrough would quarantine"
 
 
 def test_no_tombstone_field_is_invented_relative_to_the_ndi_template():
@@ -190,8 +189,7 @@ def test_no_tombstone_field_is_invented_relative_to_the_ndi_template():
         _tier, d = BUILT[cls]
         ours = {f["name"] for f in d.get("fields", [])}
         theirs = set(NDI[cls]["fields"])
-        assert ours <= theirs, "%s declares fields NDI has not: %r" % (
-            cls, sorted(ours - theirs))
+        assert ours <= theirs, f"{cls} declares fields NDI has not: {sorted(ours - theirs)!r}"
         checked += 1
     assert checked == 4
 
@@ -203,8 +201,7 @@ def test_no_tombstone_drops_a_field_the_ndi_template_declares():
         _tier, d = BUILT[cls]
         ours = {f["name"] for f in d.get("fields", [])}
         theirs = set(NDI[cls]["fields"])
-        assert theirs <= ours, "%s is missing NDI fields: %r" % (
-            cls, sorted(theirs - ours))
+        assert theirs <= ours, f"{cls} is missing NDI fields: {sorted(theirs - ours)!r}"
 
 
 def test_response_file_is_not_declared_anywhere_in_the_family():
@@ -289,7 +286,7 @@ def test_freq_response_is_a_harmonic_number_not_a_boolean():
     _tier, d = BUILT["stimulus_response_scalar_parameters_basic"]
     f = _field(d, "freq_response")
     c = f.get("constraints") or {}
-    assert "max" not in c and "min" not in c, "the inert spelling is back: %r" % c
+    assert "max" not in c and "min" not in c, f"the inert spelling is back: {c!r}"
     assert c.get("minimum") == 0
     # NO maximum. :207 is `freq_response_commands = freq_response`, straight from
     # the caller, so 3 is representable; a bound we cannot derive from the writer
@@ -336,7 +333,7 @@ def test_isspike_is_left_alone_and_the_inert_spelling_is_counted():
         for f in fields:
             c = f.get("constraints") or {}
             if "min" in c or "max" in c:
-                inert.append("%s.%s%s" % (cls, prefix, f["name"]))
+                inert.append("{}.{}{}".format(cls, prefix, f["name"]))
             if f.get("fields"):
                 walk(f["fields"], cls, prefix + f["name"] + ".")
 
@@ -362,7 +359,7 @@ def test_isspike_is_left_alone_and_the_inert_spelling_is_counted():
     # passes no constraints, so the new class declares neither `min` nor `max` at
     # any depth and the pinned list below is again untouched. Two movements, two
     # re-derivations; the count is still a number somebody chose.
-    assert walked == 241, "schema count moved; re-derive the inert set (%d)" % walked
+    assert walked == 241, f'schema count moved; re-derive the inert set ({walked})'
     assert sorted(inert) == [
         "element.direct",
         "element.reference",

@@ -26,6 +26,7 @@ project keeps paying for when it is not held:
 import importlib.util
 import json
 import os
+from pathlib import Path
 
 import pytest
 
@@ -78,7 +79,7 @@ def test_in_progress_is_a_declaration_not_a_measurement():
     DERIVING `in_progress` from something, this test fails and the docstring at
     the top of `tools/status_board.py` needs rewriting -- which is the point.
     """
-    src = open(os.path.join(TOOLS, "build_v_eta.py")).read()
+    src = Path(os.path.join(TOOLS, "build_v_eta.py")).read_text()
     start = src.index("_DECIDED_PENDING = {")
     end = src.index("def _disposition(")
     ns = {"_re": __import__("re")}
@@ -638,15 +639,16 @@ def _cut_function(path, name):
         s = line.lstrip()
         if not s.startswith("function"):
             continue
-        if start is None and re.search(r"\b%s\s*\(" % re.escape(name), line):
+        if start is None and re.search(rf"\b{re.escape(name)}\s*\(", line):
             start = i
         elif start is not None:
             return "".join(lines[start:i])
     return "".join(lines[start:]) if start is not None else None
 
 
-import re  # noqa: E402 -- used by the extractors above
-
+# E402: this import sits beside the block it serves rather than at the top,
+# so the reader meets it where it is used. Deliberate, not an oversight.
+import re  # noqa: E402
 
 _IDIOM_SOURCES = [
     # idiom, file, the needle that finds the mint statement, helper to carry
@@ -674,13 +676,13 @@ def test_every_mint_idiom_in_the_real_migrators_is_detected(
     """
     path = _mig(rel)
     stmt, lineno = _cut_statement(path, needle)
-    assert stmt, ("%s no longer contains %r -- this fixture has stopped "
+    assert stmt, (f"{rel} no longer contains {needle!r} -- this fixture has stopped "
                   "describing the real migrator, so re-point it rather than "
-                  "relaxing it" % (rel, needle))
+                  "relaxing it")
     text = stmt
     if helper:
         fn = _cut_function(path, helper)
-        assert fn, "%s no longer defines %s()" % (rel, helper)
+        assert fn, f"{rel} no longer defines {helper}()"
         text = stmt + "\n" + fn
 
     p = tmp_path / "fixture.m"
@@ -693,12 +695,9 @@ def test_every_mint_idiom_in_the_real_migrators_is_detected(
     quoted = re.findall(r"'([a-z_][a-z_0-9]*)'", needle)
     want = quoted[-1] if quoted else None
     assert want and want != "class_name", (
-        "could not read the expected class out of %r" % needle)
+        f"could not read the expected class out of {needle!r}")
     assert want in minted, (
-        "idiom %s, cut verbatim from %s:%d, was NOT recognised as a mint. "
-        "Detected: %s. This is the undercount coming back: the site is filed "
-        "as a bare mention and the class renders with less outstanding work "
-        "than it has." % (idiom, rel, lineno, sorted(minted)))
+        f'idiom {idiom}, cut verbatim from {rel}:{lineno}, was NOT recognised as a mint. Detected: {sorted(minted)}. This is the undercount coming back: the site is filed as a bare mention and the class renders with less outstanding work than it has.')
 
 
 @pytest.mark.skipif(_did_root() is None, reason="DID-matlab not checked out")
@@ -717,7 +716,7 @@ def test_a_class_block_helper_argument_is_not_mistaken_for_a_mint(tmp_path):
     with open(str(p)) as fh:
         minted = {c for c, _l in sb.emitted_document_classes(fh.readlines())}
     assert minted == {"session_relative_reference"}, (
-        "the superclass argument was counted as a mint: %s" % sorted(minted))
+        f"the superclass argument was counted as a mint: {sorted(minted)}")
 
 
 @pytest.mark.skipif(_did_root() is None, reason="DID-matlab not checked out")
@@ -765,14 +764,9 @@ def test_session_relative_reference_mints_are_counted_in_full():
     # REF_CAP truncates the listed refs, so the count is asserted from the
     # count field and the membership from whatever was listed.
     assert row["n_emitted_class_refs"] >= 9, (
-        "%d mint site(s); at least 9 exist -- three `document_class = struct` "
-        "and six through a local classBlock helper. A smaller number is the "
-        "undercount returning."
-        % row["n_emitted_class_refs"])
+        f'{row["n_emitted_class_refs"]} mint site(s); at least 9 exist -- three `document_class = struct` and six through a local classBlock helper. A smaller number is the undercount returning.')
     assert row["n_named_refs"] == 0, (
-        "%d site(s) are still filed as bare mentions: %s. Every occurrence of "
-        "this class in the two packages is a mint, a field write or a comment."
-        % (row["n_named_refs"], row["named_refs"]))
+        f'{row["n_named_refs"]} site(s) are still filed as bare mentions: {row["named_refs"]}. Every occurrence of this class in the two packages is a mint, a field write or a comment.')
 
 
 @pytest.mark.skipif(_did_root() is None, reason="DID-matlab not checked out")
@@ -793,15 +787,15 @@ def test_the_classblock_migrators_are_each_credited_with_their_mint():
             expected.append(name + ".m")
     assert len(expected) == 6, (
         "expected six classBlock minters of session_relative_reference, found "
-        "%s -- re-point this test at whatever uses the idiom now, do not "
-        "loosen it" % expected)
+        f"{expected} -- re-point this test at whatever uses the idiom now, do not "
+        "loosen it")
     for name in expected:
         path = os.path.join(root, name)
         with open(path, errors="replace") as fh:
             minted = {c for c, _l in sb.emitted_document_classes(fh.readlines())}
         assert "session_relative_reference" in minted, (
-            "%s mints session_relative_reference through classBlock and the "
-            "detector missed it" % name)
+            f"{name} mints session_relative_reference through classBlock and the "
+            "detector missed it")
 
 
 @pytest.mark.skipif(_did_root() is None, reason="DID-matlab not checked out")
@@ -816,7 +810,7 @@ def test_every_occurrence_lands_in_exactly_one_category():
     cls = "session_relative_reference"
     classes = set(_open_classes())
     if cls not in classes:
-        pytest.skip("%s is no longer an open class" % cls)
+        pytest.skip(f"{cls} is no longer an open class")
     mig, _src = sb.migrator_evidence(classes, _did_root(), _ndi_root())
     row = mig[cls]
     counted = (row["n_emitted_class_refs"] + row["n_consuming_refs"]
@@ -827,16 +821,14 @@ def test_every_occurrence_lands_in_exactly_one_category():
     for _kind, _repo, _label, rel, _grp, skip in sb.MIGRATOR_PACKAGES:
         root = _did_root() if _kind == "did" else _ndi_root()
         if root is None:
-            pytest.skip("%s not checked out" % _repo)
+            pytest.skip(f"{_repo} not checked out")
         kept, _skipped = sb.package_files(os.path.join(root, rel), set(skip))
         for path in kept:
             with open(path, errors="replace") as fh:
                 raw += sum(1 for line in fh if cls in line)
     assert raw > 0, "the raw sweep found nothing -- treat as broken, not clean"
     assert counted == raw, (
-        "%d occurrence(s) of %s in the packages, %d accounted for across the "
-        "five categories. A site in no bucket is a site nobody counts."
-        % (raw, cls, counted))
+        f'{raw} occurrence(s) of {cls} in the packages, {counted} accounted for across the five categories. A site in no bucket is a site nobody counts.')
 
 
 @pytest.mark.skipif(_did_root() is None, reason="DID-matlab not checked out")
@@ -857,7 +849,7 @@ def test_a_site_names_the_repository_it_came_from():
             for ref in row[key]:
                 seen += 1
                 assert ref.split(":", 1)[0] in repos, (
-                    "%s cites %r with no repository" % (cls, ref))
+                    f"{cls} cites {ref!r} with no repository")
         if row["migrator_file"]:
             assert row["migrator_file"].split(":", 1)[0] in repos
     assert seen > 0, "no references at all -- this sweep checked nothing"
@@ -903,9 +895,8 @@ def test_the_artifact_never_sums_unlike_categories():
     assert bullets, "no per-class bullets -- this sweep would check nothing"
     offenders = [ln for ln in bullets if "emitted/named" in ln]
     assert offenders == [], (
-        "the summed caption is back on %d class row(s); mint, field write and "
-        "comment are not one quantity: %s" % (len(offenders), offenders[:2]))
-    src = open(os.path.join(TOOLS, "status_board.py")).read()
+        f'the summed caption is back on {len(offenders)} class row(s); mint, field write and comment are not one quantity: {offenders[:2]}')
+    src = Path(os.path.join(TOOLS, "status_board.py")).read_text()
     assert "still emitted/named at %d site(s)" not in src, (
         "the summed caption's format string is back in the renderer")
     with open(DECISIONS) as fh:
@@ -913,10 +904,10 @@ def test_the_artifact_never_sums_unlike_categories():
     assert rows, "no rows -- this sweep would check nothing"
     for r in rows:
         assert "n_emitting_refs" not in r, (
-            "%s carries the summed count again" % r["class_name"])
+            "{} carries the summed count again".format(r["class_name"]))
         for key in ("n_emitted_class_refs", "n_field_write_refs",
                     "n_named_refs", "n_comment_mentions"):
-            assert key in r, "%s has no %s" % (r["class_name"], key)
+            assert key in r, "{} has no {}".format(r["class_name"], key)
 
 
 def test_a_comment_mention_counts_toward_nothing():
@@ -936,8 +927,7 @@ def test_a_comment_mention_counts_toward_nothing():
                              or r["decided_targets_built"])]
     for r in only_comments:
         assert r["state"] == sb.STATE_A, (
-            "%s has %d comment mention(s) and nothing else, and is rendered %s"
-            % (r["class_name"], r["n_comment_mentions"], r["state"]))
+            f'{r["class_name"]} has {r["n_comment_mentions"]} comment mention(s) and nothing else, and is rendered {r["state"]}')
 
 
 # ---------------------------------------------------------------------------
@@ -968,7 +958,7 @@ def _batch_package():
     """The MIGRATOR_PACKAGES row for the batch post-passes."""
     rows = [p for p in sb.MIGRATOR_PACKAGES if p[4] == sb.GROUP_BATCH]
     assert len(rows) == 1, (
-        "expected exactly one batch post-pass root, found %d" % len(rows))
+        f'expected exactly one batch post-pass root, found {len(rows)}')
     return rows[0]
 
 
@@ -996,23 +986,16 @@ def test_the_convert_census_is_the_one_the_board_measures():
     migrators_j = per_dir.get("+migrators_j", 0)
     batch = total - v_zeta - migrators_j
     assert v_zeta and migrators_j and batch, (
-        "one of the three groups is empty: +migrators_j=%d v_zeta=%d batch=%d"
-        % (migrators_j, v_zeta, batch))
+        f'one of the three groups is empty: +migrators_j={migrators_j} v_zeta={v_zeta} batch={batch}')
 
     mig, src = sb.migrator_evidence(set(_open_classes()), _did_root(),
                                     _ndi_root())
     assert mig is not None and src["files_read"], (
         "the sweep read no files -- treat as broken, not as clean")
     assert src["files_read_by_group"][sb.GROUP_BATCH] == batch, (
-        "the board read %d batch post-pass file(s); %d .m files sit under "
-        "+convert outside +migrators_j and the V_zeta packages. The roots have "
-        "stopped covering the batch half of the pass."
-        % (src["files_read_by_group"][sb.GROUP_BATCH], batch))
+        f'the board read {src["files_read_by_group"][sb.GROUP_BATCH]} batch post-pass file(s); {batch} .m files sit under +convert outside +migrators_j and the V_zeta packages. The roots have stopped covering the batch half of the pass.')
     assert src["n_files_excluded_v_zeta"] == v_zeta, (
-        "the V_zeta exclusion reports %d file(s), the tree holds %d. An "
-        "exclusion that has stopped reaching its files is indistinguishable "
-        "from a root nobody wrote down -- which is how the batch passes went "
-        "missing." % (src["n_files_excluded_v_zeta"], v_zeta))
+        f'the V_zeta exclusion reports {src["n_files_excluded_v_zeta"]} file(s), the tree holds {v_zeta}. An exclusion that has stopped reaching its files is indistinguishable from a root nobody wrote down -- which is how the batch passes went missing.')
     assert (src["files_read_by_group"][sb.GROUP_MIGRATOR]
             >= migrators_j), "the +migrators_j root stopped being read in full"
 
@@ -1039,8 +1022,7 @@ def test_a_mint_in_a_batch_post_pass_is_found(tmp_path):
     with open(str(p)) as fh:
         minted = {c for c, _l in sb.emitted_document_classes(fh.readlines())}
     assert "session_relative_reference" in minted, (
-        "the mint at resolveDeferredBaths.m:%d was not recognised. Detected: "
-        "%s" % (lineno, sorted(minted)))
+        f'the mint at resolveDeferredBaths.m:{lineno} was not recognised. Detected: {sorted(minted)}')
     assert "time_reference" not in minted, (
         "the superclass in the same statement was counted as a mint")
 
@@ -1052,9 +1034,7 @@ def test_a_mint_in_a_batch_post_pass_is_found(tmp_path):
     row = mig["session_relative_reference"]
     batch = row["by_group"][sb.GROUP_BATCH]
     assert batch["n_emitted_class_refs"] >= 2, (
-        "%d batch mint(s) of session_relative_reference; resolveDeferredBaths.m "
-        "has two. The board is back to reading half the path."
-        % batch["n_emitted_class_refs"])
+        f'{batch["n_emitted_class_refs"]} batch mint(s) of session_relative_reference; resolveDeferredBaths.m has two. The board is back to reading half the path.')
     assert any("resolveDeferredBaths.m" in r
                for r in batch["emitted_class_refs"]), batch["emitted_class_refs"]
     assert row["n_emitted_class_refs"] == (
@@ -1085,20 +1065,19 @@ def test_the_v_zeta_packages_are_still_excluded():
             for ref in row[key]:
                 seen += 1
                 for pkg in sb.V_ZETA_PACKAGES:
-                    assert ("/%s/" % pkg) not in ref, (
-                        "%s is cited from the V_zeta package %s: %r. That "
-                        "inflates (b) with work predating every decision here."
-                        % (cls, pkg, ref))
+                    assert (f"/{pkg}/") not in ref, (
+                        f"{cls} is cited from the V_zeta package {pkg}: {ref!r}. That "
+                        "inflates (b) with work predating every decision here.")
     assert seen > 0, "no references at all -- this sweep checked nothing"
     for site in src["unresolved_mint_sites"]:
         for pkg in sb.V_ZETA_PACKAGES:
-            assert ("/%s/" % pkg) not in site, site
+            assert (f"/{pkg}/") not in site, site
 
     assert src["n_files_excluded_v_zeta"] > 0, (
         "no file was excluded on V_zeta grounds; the exclusion is either dead "
         "or unreported, and both look identical from the artifact")
     for f in src["files_excluded_v_zeta"]:
-        assert any(("/%s/" % p) in f for p in sb.V_ZETA_PACKAGES), f
+        assert any((f"/{p}/") in f for p in sb.V_ZETA_PACKAGES), f
 
 
 @pytest.mark.skipif(_did_root() is None, reason="DID-matlab not checked out")
@@ -1123,7 +1102,7 @@ def test_batch_evidence_is_distinguishable_from_migrator_evidence():
     for cls, row in mig.items():
         for k in keys:
             assert row[k] == sum(row["by_group"][g][k] for g in sb.GROUPS), (
-                "%s: %s does not decompose into its groups" % (cls, k))
+                f"{cls}: {k} does not decompose into its groups")
         if any(row["by_group"][sb.GROUP_BATCH][k] for k in keys):
             split_somewhere += 1
     assert split_somewhere > 0, (
@@ -1136,7 +1115,7 @@ def test_batch_evidence_is_distinguishable_from_migrator_evidence():
     assert rows, "no rows -- this sweep would check nothing"
     for r in rows:
         assert set(r.get("by_group") or {}) == set(sb.GROUPS), (
-            "%s carries no per-group split" % r["class_name"])
+            "{} carries no per-group split".format(r["class_name"]))
     with open(STATUS) as fh:
         text = fh.read()
     assert sb.GROUP_LABEL[sb.GROUP_BATCH] in text, (
@@ -1160,14 +1139,14 @@ def test_a_class_minted_only_in_a_batch_post_pass_is_not_invisible():
         for path in files:
             with open(path, errors="replace") as fh:
                 for cls, lno in sb.emitted_document_classes(fh.readlines()):
-                    out.setdefault(cls, []).append("%s:%d" % (path, lno))
+                    out.setdefault(cls, []).append(f'{path}:{lno}')
         return out
 
     old, new = [], []
     for _k, _repo, _l, rel, group, skip in sb.MIGRATOR_PACKAGES:
         root = _did_root() if _k == "did" else _ndi_root()
         if root is None:
-            pytest.skip("%s not checked out" % _repo)
+            pytest.skip(f"{_repo} not checked out")
         kept, _s = sb.package_files(os.path.join(root, rel), set(skip))
         (new if group == sb.GROUP_BATCH else old).extend(kept)
     assert old and new, "one of the two groups is empty"
@@ -1200,7 +1179,7 @@ def test_an_unresolvable_batch_mint_is_named_and_not_dropped():
     for site in listed:
         assert site.startswith("DID-matlab:convert/"), site
         assert "(" in site and site.rstrip().endswith(")"), (
-            "%r does not name the expression it could not resolve" % site)
+            f"{site!r} does not name the expression it could not resolve")
 
 
 @pytest.mark.skipif(_did_root() is None, reason="DID-matlab not checked out")
@@ -1224,11 +1203,11 @@ def test_all_three_mint_idioms_are_recognised_THROUGH_the_batch_root(tmp_path):
     for idiom, rel, needle, helper in _IDIOM_SOURCES:
         path = _mig(rel)
         stmt, _lineno = _cut_statement(path, needle)
-        assert stmt, "%s no longer contains %r" % (rel, needle)
+        assert stmt, f"{rel} no longer contains {needle!r}"
         pieces.append(stmt)
         if helper:
             fn = _cut_function(path, helper)
-            assert fn, "%s no longer defines %s()" % (rel, helper)
+            assert fn, f"{rel} no longer defines {helper}()"
             pieces.append(fn)
         want.add(re.findall(r"'([a-z_][a-z_0-9]*)'", needle)[-1])
     assert len(want) > 1, "the idiom sources no longer cover distinct classes"
@@ -1245,17 +1224,15 @@ def test_all_three_mint_idioms_are_recognised_THROUGH_the_batch_root(tmp_path):
     mig, src = sb.migrator_evidence(want, str(root), None)
     assert mig is not None, "the batch root was not read at all"
     assert src["files_read_by_group"][sb.GROUP_BATCH] == 1, (
-        "expected exactly the transplanted file, read %d"
-        % src["files_read_by_group"][sb.GROUP_BATCH])
+        f'expected exactly the transplanted file, read {src["files_read_by_group"][sb.GROUP_BATCH]}')
     for cls in sorted(want):
         batch = mig[cls]["by_group"][sb.GROUP_BATCH]
         assert batch["n_emitted_class_refs"] >= 1, (
-            "%s is minted in the transplanted post-pass and the sweep did not "
-            "see it through the batch root" % cls)
+            f"{cls} is minted in the transplanted post-pass and the sweep did not "
+            "see it through the batch root")
         assert all("transplanted_post_pass.m" in r
                    for r in batch["emitted_class_refs"]), (
-            "%s cites something other than the transplanted file: %s"
-            % (cls, batch["emitted_class_refs"]))
+            "{} cites something other than the transplanted file: {}".format(cls, batch["emitted_class_refs"]))
     assert src["n_files_excluded_v_zeta"] == 1, (
         "the decoy V_zeta file was not excluded")
 
@@ -1307,11 +1284,11 @@ def test_awaiting_build_never_asserts_the_schema_is_unbuilt():
                    "the schema has not changed",
                    "none of these is built"):
         assert banned not in sec, (
-            "the awaiting-build section asserts %r again. That sentence was "
+            f"the awaiting-build section asserts {banned!r} again. That sentence was "
             "removed because it was false for every family it decorated and "
             "would send a reader to rebuild schema that already exists. If "
             "the tree really has regressed, the per-family `targets built` "
-            "column will say so on its own." % banned)
+            "column will say so on its own.")
 
 
 def test_awaiting_build_states_how_many_families_it_could_not_check():
@@ -1335,14 +1312,11 @@ def test_awaiting_build_states_how_many_families_it_could_not_check():
         "bill of health: an unchecked family is not a passing one.")
     total, checked, unchecked = (int(g) for g in m.groups())
     assert checked + unchecked == total, (
-        "checked (%d) + unchecked (%d) != families (%d) -- the section's own "
-        "arithmetic does not close, so one bucket is silently dropping "
-        "families" % (checked, unchecked, total))
+        f"checked ({checked}) + unchecked ({unchecked}) != families ({total}) -- the section's own arithmetic does not close, so one bucket is silently dropping families")
 
     if unchecked:
         assert "unchecked, NOT clean" in sec, (
-            "%d families went unchecked and the section does not say that a "
-            "blank is not a pass" % unchecked)
+            f'{unchecked} families went unchecked and the section does not say that a blank is not a pass')
         # The two causes of a blank must stay distinguished in the prose: a
         # family that DISSOLVES correctly names no target, while one whose
         # target is fixed in a signed plan and never recorded is a real gap.
@@ -1366,5 +1340,4 @@ def test_awaiting_build_table_carries_a_targets_built_column():
     for ln in rows:
         cell = ln.split("|")[3].strip()
         assert re.fullmatch(r"\d+ of \d+", cell) or cell == "no target recorded", (
-            "family row %r has an uninterpretable `targets built` cell %r"
-            % (ln.split("|")[1].strip(), cell))
+            "family row {!r} has an uninterpretable `targets built` cell {!r}".format(ln.split("|")[1].strip(), cell))

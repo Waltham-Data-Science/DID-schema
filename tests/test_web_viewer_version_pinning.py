@@ -71,7 +71,7 @@ def _strip_comments(text):
     pass here is caught by the companion test below, which asserts the real
     fetch sites are version-parameterised rather than merely un-pinned.
     """
-    text = re.sub(r"/\*.*?\*/", "", text, flags=re.S)
+    text = re.sub(r"/\*.*?\*/", "", text, flags=re.DOTALL)
     return "\n".join(re.sub(r"//.*$", "", ln) for ln in text.splitlines())
 
 
@@ -80,7 +80,7 @@ def test_no_viewer_source_pins_a_schema_set_in_a_data_path():
     for name, text in _sources():
         for i, line in enumerate(_strip_comments(text).splitlines(), 1):
             if PINNED.search(line) and ALLOWED_CONST not in line:
-                offenders.append("%s:%d: %s" % (name, i, line.strip()))
+                offenders.append(f'{name}:{i}: {line.strip()}')
     assert not offenders, (
         "a viewer source hard-codes a schema set in a data path. The set must "
         "come from the version selector, or the panel shows one set's data "
@@ -103,10 +103,10 @@ def test_the_meta_schema_fetch_is_parameterised_by_the_selected_version():
         "delete it; an unvalidated editor is the failure it exists to catch.")
     path = m.group(1)
     assert "${version}" in path, (
-        "the meta-schema path %r does not interpolate the selected version, so "
-        "the editor validates against a fixed set again" % path)
+        f"the meta-schema path {path!r} does not interpolate the selected version, so "
+        "the editor validates against a fixed set again")
     assert not PINNED.search(path), (
-        "the meta-schema path %r still names a set literally" % path)
+        f"the meta-schema path {path!r} still names a set literally")
 
 
 def test_every_set_the_picker_can_reach_actually_ships_a_meta_schema():
@@ -127,9 +127,7 @@ def test_every_set_the_picker_can_reach_actually_ships_a_meta_schema():
         if not os.path.isfile(
             os.path.join(schemas_dir, s, "stable", "did_schema_meta.json"))]
     assert not missing, (
-        "%d of %d selectable set(s) ship no stable/did_schema_meta.json, so "
-        "choosing one in the viewer breaks the editor: %s"
-        % (len(missing), len(sets), ", ".join(missing)))
+        f'{len(missing)} of {len(sets)} selectable set(s) ship no stable/did_schema_meta.json, so choosing one in the viewer breaks the editor: {", ".join(missing)}')
 
 
 def test_the_editor_names_the_set_it_validated_against():
@@ -143,12 +141,10 @@ def test_the_editor_names_the_set_it_validated_against():
     with open(os.path.join(SRC, "Editor.tsx")) as fh:
         body = fh.read()
     m = re.search(r"validated live against the(.{0,80}?)meta-schema", body,
-                  flags=re.S)
+                  flags=re.DOTALL)
     assert m, "the editor no longer tells the user what it validated against"
     caption = m.group(1)
     assert "{version" in caption, (
-        "the editor's caption does not name the set from state; it reads %r"
-        % " ".join(caption.split()))
+        "the editor's caption does not name the set from state; it reads {!r}".format(" ".join(caption.split())))
     assert not re.search(r"V_[a-z]+", caption), (
-        "the editor's caption names a set literally: %r"
-        % " ".join(caption.split()))
+        "the editor's caption names a set literally: {!r}".format(" ".join(caption.split())))

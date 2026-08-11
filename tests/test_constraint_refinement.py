@@ -275,8 +275,8 @@ def test_agrees_with_the_duplicate_name_checker():
 def test_the_report_prints_its_denominator_first():
     """Operating rule 5, asserted on the rendered output rather than trusted:
     the first line a reader sees must be the denominator, unconditionally."""
-    import io
     import contextlib
+    import io
     buf = io.StringIO()
     with contextlib.redirect_stdout(buf):
         rc = TOOL.main([])
@@ -294,8 +294,8 @@ def test_enforce_fails_loudly_while_no_threshold_is_set():
     """A report-only tool must not have an --enforce that quietly passes. #69
     landed reporting; until the team sets a threshold, asking for enforcement
     is an error, not a no-op."""
-    import io
     import contextlib
+    import io
     assert TOOL.ENFORCEMENT_THRESHOLD is None, (
         "a threshold was set -- update this test and CI deliberately, with the "
         "count it was set from")

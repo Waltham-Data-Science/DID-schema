@@ -49,6 +49,7 @@ DENOMINATOR NOTE: each test that counts states what it counted.
 import glob
 import json
 import os
+from pathlib import Path
 
 REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 VETA = os.path.join(REPO_ROOT, "schemas", "V_eta")
@@ -121,8 +122,7 @@ def _field(schema, name):
         if f["name"] == name:
             return f
     raise AssertionError(
-        "%s has no field %r; it has %r"
-        % (schema["document_class"]["class_name"], name,
+        "{} has no field {!r}; it has {!r}".format(schema["document_class"]["class_name"], name,
            [f["name"] for f in schema.get("fields", [])]))
 
 
@@ -131,8 +131,7 @@ def _sub(field, name):
         if f["name"] == name:
             return f
     raise AssertionError(
-        "%r has no sub-field %r; it has %r"
-        % (field["name"], name, [f["name"] for f in field.get("fields", [])]))
+        "{!r} has no sub-field {!r}; it has {!r}".format(field["name"], name, [f["name"] for f in field.get("fields", [])]))
 
 
 def _subnames(field):
@@ -143,7 +142,7 @@ def _subnames(field):
 
 def test_the_two_targets_exist_under_the_abstract_root():
     """DENOMINATOR: 2 target classes + 1 abstract root, all three inspected."""
-    root_tier, root = BUILT["time_reference"]
+    _root_tier, root = BUILT["time_reference"]
     assert root["document_class"].get("abstract") is True
     assert [s["class_name"] for s in root["document_class"]["superclasses"]] == ["base"]
     for name in TARGETS:
@@ -366,7 +365,7 @@ def test_the_still_minted_retiring_classes_are_still_present():
     missing = [c for c in RETIRING if c not in BUILT]
     assert missing == [], (
         "the retiring reference classes were deleted before their documents "
-        "were folded: %r" % (missing,))
+        f"were folded: {missing!r}")
 
 
 def test_the_collapsed_reference_classes_stay_deleted():
@@ -397,10 +396,10 @@ def test_the_collapsed_reference_classes_stay_deleted():
     assert len(COLLAPSED_AWAY) == 4
     back = [c for c in COLLAPSED_AWAY if c in BUILT]
     assert back == [], (
-        "%r came back into the built set. The #65 collapse deletes them "
+        f"{back!r} came back into the built set. The #65 collapse deletes them "
         "(build_v_eta.py `_DELETE_NO_V1_PROVENANCE`); a rebuild that restores "
         "one has either dropped the entry or acquired an emitter, and an "
-        "emitter is a decision, not a build artifact." % (back,))
+        "emitter is a decision, not a build artifact.")
 
 
 def test_the_collapsed_reference_classes_are_deleted_by_the_named_mechanism():
@@ -419,7 +418,7 @@ def test_the_collapsed_reference_classes_are_deleted_by_the_named_mechanism():
     DENOMINATOR: the tool source is read and both literal sets are evaluated;
     each is asserted non-empty before it is used.
     """
-    src = open(os.path.join(REPO_ROOT, "tools", "build_v_eta.py")).read()
+    src = Path(os.path.join(REPO_ROOT, "tools", "build_v_eta.py")).read_text()
     start = src.index("_DELETE_PHASE8 = {")
     end = src.index("_deleted = []", start)
     ns = {}
@@ -429,17 +428,17 @@ def test_the_collapsed_reference_classes_are_deleted_by_the_named_mechanism():
     assert phase8 and invented, "both literal sets must be populated"
     for cls in COLLAPSED_AWAY:
         assert cls in invented, (
-            "%s is no longer in _DELETE_NO_V1_PROVENANCE -- its absence from "
-            "the built set is now unexplained" % cls)
+            f"{cls} is no longer in _DELETE_NO_V1_PROVENANCE -- its absence from "
+            "the built set is now unexplained")
         assert cls not in phase8, (
-            "%s is in _DELETE_PHASE8, which asserts it is a did_v1 source "
+            f"{cls} is in _DELETE_PHASE8, which asserts it is a did_v1 source "
             "consumed by a completed migrator. It is neither: its provenance "
-            "is V_epsilon and no migrator has ever emitted one." % cls)
+            "is V_epsilon and no migrator has ever emitted one.")
     # The three still-minted siblings must be in NEITHER set.
     for cls in RETIRING:
         assert cls not in phase8 and cls not in invented, (
-            "%s is minted by live emitters and may not be queued for deletion "
-            "-- that is the epochfiles_ingested regression" % cls)
+            f"{cls} is minted by live emitters and may not be queued for deletion "
+            "-- that is the epochfiles_ingested regression")
 
 
 def test_is_approximate_survives_on_the_root_and_says_it_is_deprecated():

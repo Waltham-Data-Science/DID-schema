@@ -28,12 +28,12 @@ REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 TOOL = os.path.join(REPO_ROOT, "tools", "check_pipeline_parity.py")
 
 sys.path.insert(0, os.path.join(REPO_ROOT, "tools"))
-import check_pipeline_parity as cpp  # noqa: E402
+import check_pipeline_parity as cpp  # noqa: E402  (needs the sys.path line above)
 
 
 def run(*args):
     return subprocess.run([sys.executable, TOOL, *args],
-                          capture_output=True, text=True)
+                          capture_output=True, text=True, check=False)
 
 
 def siblings_present():
@@ -59,17 +59,10 @@ def test_comments_cannot_contribute_a_pass():
     false negative it exists to prevent, and the most likely way for it to
     regress, since a plain grep counts them.
     """
-    text = "\n".join([
-        "% did2.convert.resolveDeferredBaths, which NDI replaces",
-        "  %   see did2.convert.epochMint for the pattern",
-        "%{",
-        "did2.convert.resolveSessionAnchors(r);",
-        "%}",
-        "out = did2.convert.foldGenericFiles(r);   % did2.convert.neverCalled",
-    ])
+    text = "% did2.convert.resolveDeferredBaths, which NDI replaces\n  %   see did2.convert.epochMint for the pattern\n%{\ndid2.convert.resolveSessionAnchors(r);\n%}\nout = did2.convert.foldGenericFiles(r);   % did2.convert.neverCalled"
     found = cpp.passes_in(cpp.strip_matlab_comments(text))
     assert found == {"foldGenericFiles"}, (
-        "comment text leaked into the pass set: %s" % sorted(found))
+        f"comment text leaked into the pass set: {sorted(found)}")
 
 
 def test_the_per_document_converter_is_not_counted_as_a_batch_pass():
@@ -86,9 +79,8 @@ def test_every_declared_divergence_carries_a_reason():
         "because an empty table also silences the stale-declaration check")
     for name, why in cpp.DECLARED_DIVERGENCES.items():
         assert isinstance(why, str) and len(why.split()) >= 8, (
-            "%s is declared with no usable reason. A bare exemption is how a "
-            "considered decision becomes indistinguishable from an oversight."
-            % name)
+            f"{name} is declared with no usable reason. A bare exemption is how a "
+            "considered decision becomes indistinguishable from an oversight.")
 
 
 def test_a_missing_sibling_reports_not_runnable_and_never_agreement():
@@ -100,7 +92,7 @@ def test_a_missing_sibling_reports_not_runnable_and_never_agreement():
     """
     env = dict(os.environ, DID_MATLAB="/nowhere", NDI_MATLAB="/nowhere")
     r = subprocess.run([sys.executable, TOOL], capture_output=True, text=True,
-                       env=env)
+                       env=env, check=False)
     assert r.returncode == 0, "a missing sibling is not a failure"
     assert "NOT RUNNABLE HERE" in r.stdout
     assert "0 file(s) scanned" in r.stdout
@@ -128,7 +120,7 @@ def test_an_empty_scan_on_one_side_is_a_broken_scan_not_a_finding(tmp_path):
 
     env = dict(os.environ, DID_MATLAB=str(did), NDI_MATLAB=str(ndi))
     r = subprocess.run([sys.executable, TOOL, "--enforce"],
-                       capture_output=True, text=True, env=env)
+                       capture_output=True, text=True, env=env, check=False)
     assert "ONE SIDE NAMED NO PASSES AT ALL" in r.stdout, r.stdout
     assert r.returncode == 1
 
@@ -146,7 +138,7 @@ def test_an_undeclared_divergence_fails_under_enforce(tmp_path):
 
     env = dict(os.environ, DID_MATLAB=str(did), NDI_MATLAB=str(ndi))
     r = subprocess.run([sys.executable, TOOL, "--enforce"],
-                       capture_output=True, text=True, env=env)
+                       capture_output=True, text=True, env=env, check=False)
     assert "*** UNDECLARED ***" in r.stdout
     assert "aPassNobodyDeclared" in r.stdout
     assert r.returncode == 1, "an undeclared divergence must fail --enforce"
@@ -167,7 +159,7 @@ def test_a_declaration_that_no_longer_diverges_is_reported_stale(tmp_path):
 
     env = dict(os.environ, DID_MATLAB=str(did), NDI_MATLAB=str(ndi))
     r = subprocess.run([sys.executable, TOOL, "--enforce"],
-                       capture_output=True, text=True, env=env)
+                       capture_output=True, text=True, env=env, check=False)
     assert "STALE DECLARATION" in r.stdout
     assert "resolveDeferredBaths" in r.stdout
     assert r.returncode == 1
@@ -201,6 +193,5 @@ def test_both_sides_are_actually_read():
     assert m, line[0]
     harness, ndi, both = (int(g) for g in m.groups())
     assert harness > 0 and ndi > 0, (
-        "one side named no passes (harness %d, NDI %d) -- the comparison read "
-        "nothing" % (harness, ndi))
+        f'one side named no passes (harness {harness}, NDI {ndi}) -- the comparison read nothing')
     assert both > 0, "the two pipelines share no pass at all, which cannot be right"

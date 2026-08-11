@@ -31,6 +31,7 @@ import json
 import os
 import subprocess
 import sys
+from pathlib import Path
 
 REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -45,8 +46,8 @@ def _load_tool(name):
 
 
 CT = _load_tool("check_tombstones")
-GT = json.load(open(os.path.join(REPO_ROOT, "schemas",
-                                "V_eta_ndi_ground_truth.json")))
+GT = json.loads(Path(os.path.join(REPO_ROOT, "schemas",
+                                "V_eta_ndi_ground_truth.json")).read_text())
 VETA = CT.veta_schemas()
 
 
@@ -70,11 +71,10 @@ def test_ndi_ground_truth_still_records_the_imagestack_file():
     pass while comparing an empty set against an empty set -- the exact shape of
     the failure the file audit exists to catch, one level up."""
     assert len(GT["classes"]) > 80, (
-        "only %d NDI templates in the ground truth" % len(GT["classes"]))
+        f'only {len(GT["classes"])} NDI templates in the ground truth')
     declaring = [c for c in GT["classes"] if CT.ndi_files(c, GT["classes"])]
     assert len(declaring) >= 15, (
-        "only %d NDI templates declare a file; the extractor may have stopped "
-        "reading `files.file_list`" % len(declaring))
+        f'only {len(declaring)} NDI templates declare a file; the extractor may have stopped reading `files.file_list`')
     assert CT.ndi_files("imageStack", GT["classes"]) == {"imageStack"}
 
 
@@ -91,10 +91,10 @@ def test_the_file_comparison_catches_the_image_stack_defect():
         _fake_veta("image_stack", ["imagestack_file"]))
     assert div["declared_but_absent"] == ["imagestack_file"], (
         "the pre-fix tombstone declared a file no NDI template has and the "
-        "checker did not report it: %r" % (div,))
+        f"checker did not report it: {div!r}")
     assert div["present_but_undeclared"] == ["imageStack"], (
         "every real imageStack document carries `imageStack` and the checker "
-        "did not report it as undeclared: %r" % (div,))
+        f"did not report it as undeclared: {div!r}")
 
 
 def test_file_names_are_compared_verbatim_not_snake_cased():
@@ -119,11 +119,10 @@ def test_image_stack_tombstone_agrees_with_ndi_today():
     denominator assertions here stop it passing on an empty set."""
     assert "image_stack" in VETA, "the image_stack tombstone was deleted again"
     assert CT.veta_files("image_stack", VETA) == {"imageStack"}, (
-        "image_stack must declare NDI's own file_list entry verbatim; got %r"
-        % (sorted(CT.veta_files("image_stack", VETA)),))
+        "image_stack must declare NDI's own file_list entry verbatim; got {!r}".format(sorted(CT.veta_files("image_stack", VETA))))
     div = CT.compare_file_block("imageStack", GT["classes"], "image_stack", VETA)
     assert div == {"declared_but_absent": [], "present_but_undeclared": []}, (
-        "image_stack diverges from NDI's file_list again: %r" % (div,))
+        f"image_stack diverges from NDI's file_list again: {div!r}")
 
 
 def test_declared_files_are_read_through_the_class_chain():
@@ -163,14 +162,14 @@ def test_the_report_prints_its_denominator_before_any_row():
     that inspected nothing, which is exactly how `silentLoss` shipped."""
     out = subprocess.run([sys.executable,
                           os.path.join(REPO_ROOT, "tools", "check_tombstones.py")],
-                         capture_output=True, text=True, cwd=REPO_ROOT)
+                         capture_output=True, text=True, cwd=REPO_ROOT, check=False)
     assert out.returncode == 0, out.stderr
     body = out.stdout
     head = body.index("FILE BLOCK AUDIT")
     for label in ("NDI templates read", "V_eta schemas read",
                   "tombstones compared for files",
                   "DECLARED BUT ABSENT", "PRESENT BUT UNDECLARED"):
-        assert label in body[head:], "the file audit never printed %r" % label
+        assert label in body[head:], f"the file audit never printed {label!r}"
     first_row = body.find("\nFILE      ", head)
     if first_row != -1:
         assert body.index("tombstones compared for files") < first_row, (
@@ -186,11 +185,11 @@ def test_enforce_files_is_a_separate_switch_from_enforce():
     a different question entirely."""
     tool = os.path.join(REPO_ROOT, "tools", "check_tombstones.py")
     plain = subprocess.run([sys.executable, tool, "--enforce"],
-                           capture_output=True, text=True, cwd=REPO_ROOT)
+                           capture_output=True, text=True, cwd=REPO_ROOT, check=False)
     assert plain.returncode == 0, (
-        "--enforce started failing on file rows:\n%s" % plain.stdout[-2000:])
+        f"--enforce started failing on file rows:\n{plain.stdout[-2000:]}")
     files = subprocess.run([sys.executable, tool, "--enforce-files"],
-                           capture_output=True, text=True, cwd=REPO_ROOT)
+                           capture_output=True, text=True, cwd=REPO_ROOT, check=False)
     # Report the live state rather than asserting a number: the rows are real and
     # their repair is a schemas/ change this tool may not make.
     if files.returncode == 0:
@@ -220,10 +219,9 @@ def test_no_enforce_verdict_is_produced_without_the_tier_source():
     tool = os.path.join(REPO_ROOT, "tools", "check_tombstones.py")
     env = dict(os.environ, DID_MATLAB="/nowhere")
     out = subprocess.run([sys.executable, tool, "--enforce"],
-                         capture_output=True, text=True, cwd=REPO_ROOT, env=env)
+                         capture_output=True, text=True, cwd=REPO_ROOT, env=env, check=False)
     assert out.returncode == 0, (
-        "--enforce still grades without its tier source:\n%s"
-        % out.stdout[-1500:])
+        f"--enforce still grades without its tier source:\n{out.stdout[-1500:]}")
     assert "NOT RUNNABLE HERE" in out.stdout, (
         "the tool exited 0 without saying it produced no verdict -- which is "
         "worse than the failure it replaces, because 0 reads as a pass")
@@ -248,6 +246,6 @@ def test_the_tier_source_being_present_still_grades():
         import pytest
         pytest.skip("needs a DID-matlab checkout to exercise the grading path")
     out = subprocess.run([sys.executable, tool, "--enforce"],
-                         capture_output=True, text=True, cwd=REPO_ROOT)
+                         capture_output=True, text=True, cwd=REPO_ROOT, check=False)
     assert "NOT RUNNABLE HERE" not in out.stdout, (
         "the tool withheld its verdict even though the tier source is present")
