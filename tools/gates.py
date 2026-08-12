@@ -331,6 +331,21 @@ STEPS = [
          _t("check_signoff_header_staleness.py", "--enforce"), "gate",
          r"^DENOMINATOR: (\d+) markdown file\(s\)", "plan documents read"),
 
+    # REPORT-ONLY, DELIBERATELY, AND THE REASON IS THIS PROJECT'S OWN RULE.
+    # It lands with SIX live disagreements already on the board (two plan
+    # documents still say `data_type` has 38 direct subclasses, three still
+    # quote a 915-file NDI tree, two still quote a 54-document schemas/), and
+    # arming a gate onto a non-zero count turns CI red for a condition nobody
+    # has triaged -- which trains readers to ignore the job. That is the same
+    # call `census_digest.py` records for its four sentinels: "Arming was gated
+    # on the count already being 0."
+    #
+    # `--enforce` exists and is tested; add it here when the count is 0. Note
+    # that CLAUDE.md is one of the six and is not this step's to fix -- a
+    # correction note in the house style is what closes it.
+    Step("check_prose_counts", _t("check_prose_counts.py"), "gate",
+         r"^DENOMINATOR: (\d+) document\(s\) globbed", "documents globbed"),
+
     # READS BOTH SIBLINGS, so it is NOT RUNNABLE on a bare runner -- and that
     # is reported rather than counted as agreement. It compares the batch
     # post-pass chain the six-corpus gate composes against the one NDI
@@ -514,6 +529,40 @@ EDGES = [
          "the staleness gate compares each plan document's header against the "
          "signature state in V_eta_decisions.json, which status_board.py writes.",
          "tools/check_signoff_header_staleness.py", r"V_eta_decisions\.json"),
+
+    # ---- the prose-count checker ----------------------------------------
+    # Its whole contract is that the EXPECTED value comes from the tree and the
+    # generated artifacts rather than from another sentence, so every artifact
+    # it derives a number from is an edge. Grade the prose against artifacts
+    # this chain has not yet regenerated and the verdict describes yesterday's
+    # tree -- which is the failure the prose already has, arriving in the tool
+    # that exists to find it.
+    Edge("build_v_eta", "check_prose_counts", "schemas/V_eta",
+         "the V_eta file count, the distinct class names, the `data_type` "
+         "direct subclasses and the bound-field count are all walked out of "
+         "the BUILT tree.",
+         "tools/check_prose_counts.py", r'"V_eta"'),
+
+    Edge("coverage", "check_prose_counts", "schemas/V_eta_coverage_ledger.json",
+         "the `ledger_rows` derivation is `len(ledger['rows'])`. Read the "
+         "ledger before coverage.py rewrites it and a document is graded "
+         "against the previous v1 universe.",
+         "tools/check_prose_counts.py", r"V_eta_coverage_ledger\.json"),
+
+    Edge("ndi_ground_truth", "check_prose_counts",
+         "schemas/V_eta_ndi_ground_truth.json",
+         "`ndi_templates` is the size of the ground truth's `classes` map -- "
+         "the artifact is how this tool reads NDI origin/main without opening "
+         "the NDI checkout twice.",
+         "tools/check_prose_counts.py", r"V_eta_ndi_ground_truth\.json"),
+
+    Edge("regen_binding_strengths", "check_prose_counts",
+         "schemas/V_eta/stable/binding_registry_meta.json",
+         "`registry_rows` counts the registry's row lists, and the registry is "
+         "rewritten by the strength derivation. The 34-vs-38 correction was "
+         "exactly a miscount of those lists, so grading it against a stale "
+         "copy would re-create the defect.",
+         "tools/check_prose_counts.py", r"binding_registry_meta\.json"),
 
     Edge("build_v_eta", "check_duplicate_field_declarations", "schemas/V_eta",
          "it walks every class chain in the built schema root.",

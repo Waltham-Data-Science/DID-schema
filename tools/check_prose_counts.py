@@ -368,7 +368,7 @@ NOUNS = [
 
     Noun("registry_rows", "rows in binding_registry_meta.json",
          derive_registry_rows,
-         [r"registry (?:is|carries)\s+\**" + _N + r"\s*\**\s*rows",
+         [r"registry (?:is|was|were|has|had|carries|carried)\s+\**" + _N + r"\s*\**\s*rows",
           _N + r"\s+row\(s\)\s*\(\d+ normative"]),
 
     Noun("bound_fields", "V_eta fields carrying a `constraints.binding`",
