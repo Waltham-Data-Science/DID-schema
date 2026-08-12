@@ -178,9 +178,23 @@ artifact, not from the commit that added it:
   rungs 1 and 2 was broken toward the fully-measured one — stated on the record at
   `coverage.py:1279-1291` rather than left an accident of declaration order. **`not
   measured` is NEVER a `no`**: *"no corpus proved it" and "nobody looked" are different
-  facts*, which is the `silentLoss` defect written into the type system. Quoting "16 rows
-  at stage 0" as the remaining work would be wrong twice over — 4 of those 16 are CAPPED
-  (something above is built), and 74 rows are capped at rung 1 by a question nobody asked.
+  facts*, which is the `silentLoss` defect written into the type system.
+
+  **SO THE HISTOGRAM MUST BE READ THROUGH WHAT STOPPED EACH CLIMB, WHICH THE LEDGER ALSO
+  CARRIES (`blocked_by`, `blocked_by_state`) — AND ON THE MAJORITY IT IS A QUESTION NOBODY
+  ASKED, NOT A FAILURE:**
+
+        DENOMINATOR: 102 rows, each stopped at exactly one rung
+        reached 0, blocked at rung 1, state `no`             16
+        reached 1, blocked at rung 2, state `NOT MEASURED`   65   <- the bulk
+        reached 2, blocked at rung 3, state `no`              7
+        reached 3, blocked at rung 4, state `NOT MEASURED`   14
+
+  Only **23** rows are stopped by positive evidence of something unbuilt (16 + 7); **79**
+  are stopped by an unread rung. And quoting "16 rows at stage 0" as untouched work is
+  wrong on a quarter of them: 4 of the 16 are CAPPED (a higher rung IS satisfied) and 3
+  more are excused by a signed dissolution, leaving 9 `genuinely_untouched` — the ledger
+  names all three sets in `stage_rollup.capped`.
 
 **RUNG 4 HAS A CEILING, AND IT IS THE STANDING "THE CORPORA ARE A SAMPLE" RULE FINALLY
 CARRYING A NUMBER.** Measured 2026-08-12 by reading all six corpus zips directly with
@@ -334,8 +348,8 @@ lives in these files — read them instead of re-deriving from memory:
   `try/catch` that warns and falls back to passthrough, nothing more. So a V_eta migration
   run today produces `visual_grating_manipulation`, which is the model this plan
   SUPERSEDES (`V_eta_stimulus_model_plan.md:111`, *"Supersedes #19
-  (visual_grating_manipulation dissolve)"*, signed 2026-08-08 — four and a half weeks
-  AFTER the assembler was committed).
+  (visual_grating_manipulation dissolve)"*, signed 2026-08-08 — **17 days AFTER** the
+  assembler was committed, so the signature superseded a shape that was already running).
 
   **AND NOTHING MINTS THE SIGNED SHAPE:**
 
