@@ -110,8 +110,10 @@ clone with the siblings fetched the way the workflow fetches them:
 
 Three properties of that clone are load-bearing and each fails QUIETLY if it
 regresses, so each is asserted by `tests/test_ci_runs_the_whole_chain.py`:
-the clone is FULL (a shallow one does not error — `coverage.py:185` and
-`ndi_ground_truth.py:449,539` read `origin/main`, the ref lookup falls through,
+the clone is FULL (a shallow one does not error — `coverage.py:215,222` and
+`ndi_ground_truth.py:491,614` read `origin/main` (line numbers repointed
+2026-08-12 -- they were `coverage.py:185` / `ndi_ground_truth.py:449,539`;
+see the citation audit), the ref lookup falls through,
 and the tool reports a smaller universe); it checks out the FEATURE branch, not
 main (`check_pipeline_parity` and the board's migrator evidence read NDI's
 `ndi_second_pass/`, which exists only there — one checkout serves both readers
@@ -425,7 +427,7 @@ lives in these files — read them instead of re-deriving from memory:
   A count whose method is not written down cannot be re-derived, which is Operating Rule 5
   arriving late: **the denominator was stated and the numerator's method was not.** Every
   reading is far above the threshold the argument needs, so `element_type` stays rejected. `data_body` gains `format` + `compression` (the unbuilt half of the 2.D "encoding
-  becomes a field" decision, which `migrators_j/image.m:51-56` has been waiting on) plus
+  becomes a field" decision, which `migrators_j/image.m:156-165` has been waiting on (was `:51-56`)) plus
   `filename`/`content_hash`/`description` and the `statement` edge — declared on both children
   today with OPPOSITE required-ness. `summary` is DROPPED (#68, empty + unread); `zarr` is
   DELETED not migrated (V_gamma invention, no v1 source, ZERO migrator references) and its
@@ -557,7 +559,8 @@ lives in these files — read them instead of re-deriving from memory:
   DIRECTION — IT INSTRUCTS A BUILD THE SIGNED PLAN FORBIDS.** Corrected 2026-08-11.
   Read this; do not act on the paragraph above.
 
-  **#51 IS ANSWERED, not deferred.** `V_eta_OPEN_WORK.md:51`, 2026-08-09, corpus run
+  **#51 IS ANSWERED, not deferred.** `V_eta_OPEN_WORK.md` ROW #51 -- an item number, not a
+  line number; the text is at `:375-383` -- 2026-08-09, corpus run
   31327383671: *"PASSES on all six ... 20211116 1/1, B 14/14, Dab 16/16, JH 3/3, PRED 1/1,
   Soph 33/33"* — session documents are 1:1 with the distinct `base.session_id` values, so
   the referent a required `relative_to` needs exists everywhere it would be demanded.
@@ -575,7 +578,7 @@ lives in these files — read them instead of re-deriving from memory:
   words `DO NOT BUILD start_anchor/end_anchor until an instance appears`.** A reader who
   acted on the sentence above would build exactly the thing that was ruled out — which is
   why this correction is spelled out rather than the old text softened. `build_v_eta.py`
-  says the same at `:5441`: *"the rule is a uniqueness constraint, not a set of role names,
+  says the same at `:5836` (was `:5441`): *"the rule is a uniqueness constraint, not a set of role names,
   and #52's title (\"role-name the edges\") is stale."*
 
   **THE REPLACEMENT RULE IS BUILT — schema side, and it is the ONLY half that is built.**
@@ -611,7 +614,7 @@ lives in these files — read them instead of re-deriving from memory:
         literal `time_reference_N` sites:  45, in 35 file(s)
         distinct N appearing as a literal: [1]        <- ONLY EVER 1
         sites numbering a family PROGRAMMATICALLY: 1
-              +did2/+convert/resolveValidIntervals.m:859
+              +did2/+convert/resolveValidIntervals.m:1000   (was :859)
 
   Every one of the 45 literal sites writes a single `time_reference_1` onto a DISTINCT
   emitted body — including the six files with more than one site, which are separate
@@ -623,7 +626,7 @@ lives in these files — read them instead of re-deriving from memory:
   **AND THAT ONE PATH IS THE REAL OPEN QUESTION, WHICH IS NOT ROLE-NAMING.**
   `resolveValidIntervals.m`'s split-anchor branch mints two instants when an interval's ends
   resolve to different anchors — and two anchors that differ by EPOCH while sharing a CLOCK
-  satisfy neither half of the rule. The file says so itself at `:222-227` and REPORTS it
+  satisfy neither half of the rule. The file says so itself at `:311-317` (was `:222-227`) and REPORTS it
   rather than emitting quietly. Its class is governed: `validity_observation ->
   subject_observation -> subject_interaction`, so the declared family covers it. The branch
   is predicted never to fire (every `markvalidinterval` call site passes one reference for
@@ -637,7 +640,7 @@ lives in these files — read them instead of re-deriving from memory:
   `:468`; it heads the walkthrough section and enumerates FOUR things — the 8→2 collapse,
   anchor/extent separation, deleting value-level `approximate`, and `clock` becoming a bound
   term with `clock_tolerance`. Those are CHANGES 1–4. **CHANGE 5 is inside that section but
-  is not among the four things the signature names.** `build_v_eta.py:5425` calls it
+  is not among the four things the signature names.** `build_v_eta.py:5829` (was `:5425`) calls it
   *"CHANGE 5 (signed section, :642)"*, which is true as a statement about WHERE the text
   sits and reads as a statement about whether the rule was AGREED. Operating Rule 4 forbids
   resolving that here. Stated plainly so it is carried in the open: **the uniqueness rule is
@@ -1300,8 +1303,8 @@ lives in these files — read them instead of re-deriving from memory:
   its cause is NOT the pattern below**: NDI's own writer leaves the edge empty. Three of the
   seven `ndi.document('imageStack'...)` sites in `+setup/+conv/+haley/doImport.m` (lines 789,
   811, 827 — the image / mask / closest-patch loop) set ONLY `document_id`, never
-  `subject_id`, so the source documents genuinely have no subject and `image_stack.m:48,78`
-  copies that emptiness into a required edge with no guard. The guarded-passthrough fix used
+  `subject_id`, so the source documents genuinely have no subject and `image_stack.m:189-200`
+  (was `:48,78`) copies that emptiness into a required edge with no guard. The guarded-passthrough fix used
   for `fitcurve` / `openminds_stimulus` / `probe_geometry` DOES NOT APPLY UNCHANGED: both
   `image_stack` and `image_stack_parameters` are phase-8 DELETED, so passing a document
   through gives it no schema to validate against — 4,563 quarantines, the
@@ -1312,7 +1315,7 @@ lives in these files — read them instead of re-deriving from memory:
   the E. coli images."* Option A = reverse the phase-8 deletion so the subject-less arm
   passes through; option C = resolve the subject in the NDI second pass, still deferred.
   Both classes are OUT of `_DELETE_PHASE8` (commit `49ba381`), their tombstones build into
-  `deprecated/`, the guard is live at `migrators_j/image_stack.m:78`, and NOTHING is
+  `deprecated/`, the guard is live at `migrators_j/image_stack.m:248` (was `:78`), and NOTHING is
   required on either tombstone — both deps optional, zero required fields — so a
   subject-less document cannot trip `mustBeNonEmpty`.
 
@@ -1326,7 +1329,7 @@ lives in these files — read them instead of re-deriving from memory:
   and `add_file('imageStack', ...)` at all EIGHT attachment sites (`haley/doImport.m`
   441/469/485/504/797/815/831, `babu/import.m:483`), no exceptions. The restatement took
   deps and fields from NDI and then snake_cased the one part a passthrough carries
-  VERBATIM: `universalRenames.m:308` skips the structural keys outright
+  VERBATIM: `universalRenames.m:628` (was `:308`) skips the structural keys outright
   (`skip = {'document_class','depends_on','file','files'}`). So the tombstone declared a
   file no document has WHILE the file every document has was undeclared — both directions
   of the file audit at once, on every passed-through JH document.
@@ -1439,6 +1442,64 @@ lives in these files — read them instead of re-deriving from memory:
   Dropping `epochid` creates no drift, because every epoch-scoped document gets its edge
   uniformly. In one line: **strain — the value IS the fact and the document is optional extra
   structure; epoch — the document IS the fact and the string was only ever a way to find it.**
+- **THE CITATION AUDIT, 2026-08-12 — every `file:line` reference in this document, checked.
+  Thirteen had drifted. THE INLINE CITATIONS HAVE BEEN REPOINTED AND THE OLD VALUE IS
+  RECORDED BOTH BESIDE EACH ONE AND IN THE TABLE BELOW**, because this file's own doctrine
+  is that *a drifted line number is worse than none: it looks precise*. Leaving twelve wrong
+  numbers in place while recording them elsewhere would have kept the trap and added a
+  footnote.
+
+        DENOMINATOR: 59 distinct file+line citations extracted from this document
+                     (DID-schema 9, DID-matlab 16, NDI-matlab 34)
+          verified EXACT, the cited line still says what the sentence claims : 45
+          DRIFTED, the file is right and the number is not                   : 13
+          notation collision (an item number written as a line number)       :  1
+          DEAD -- file does not exist where the sentence says to look        :  0
+
+  The thirteen, old -> true:
+
+        coverage.py:185               -> :215 + :222   the origin/main read + fallback
+        ndi_ground_truth.py:449       -> :491          origin/main template read
+        ndi_ground_truth.py:539       -> :614          the second origin/main read
+        build_v_eta.py:5425           -> :5829         "CHANGE 5 (signed section, :642)"
+        build_v_eta.py:5441           -> :5836         "#52's title [...] is stale"
+        migrators_j/image.m:51-56     -> :156-165      format/compression deferral
+        resolveValidIntervals.m:859   -> :1000         sprintf('time_reference_%d', r)
+        resolveValidIntervals.m:222-227 -> :311-317    the #52 interaction, reported
+        image_stack.m:48,78           -> :189-200      the guard's own explanation
+        image_stack.m:78 (2nd cite)   -> :248          `if isempty(subjectId)`
+        universalRenames.m:308        -> :628          skip = {'document_class', ...}
+        Contents.m:348                -> :354          (see the note above)
+        V_eta_OPEN_WORK.md:51         -> ROW #51, text at :375-383
+
+  **THE NOTATION COLLISION IS WORTH ITS OWN SENTENCE.** `V_eta_OPEN_WORK.md` numbers its
+  items `#nn` and this document cited one as `V_eta_OPEN_WORK.md:51`, which is
+  indistinguishable from a line reference and lands on an unrelated paragraph about how
+  `## COMPLETED` is formatted. Both notations are in use in this file. **Write
+  `V_eta_OPEN_WORK.md` row #51, never `V_eta_OPEN_WORK.md:51`.**
+
+  **WHAT DID NOT DRIFT IS THE MORE USEFUL HALF, because it says where citations survive.**
+  All 34 NDI-matlab citations verified exact — the eleven `epochid.epochid` sites, the
+  seven `ndi.document('imageStack')` sites and eight `add_file('imageStack')` sites, all
+  three `markgarbage.m` lines, `syncgraph.m:404-408`, `system.m:229`, `tuning_response.m:92`
+  and `:499`, `ensemble.m:274-276`. So did every `cache.m` line (1860/1869/1870/1871),
+  `references.m:90`, `fileList.m:93,99`, `jMeasurementFold.m:69` and `:84`, and both plan-document
+  references (`V_eta_time_reference_model_plan.md:642` and `:468`, which is still that
+  document's ONLY `TEAM-SIGN-OFF` line — HISTORICAL-SIGNOFF-CLAIM). **Every one of the
+  thirteen drifted citations points into a file THIS TEAM is actively editing; not one
+  points into NDI**, which we only read. A citation's decay rate is the edit rate of the
+  file it names, so a line number into `build_v_eta.py`, `coverage.py` or a `+migrators_j`
+  file should be treated as a hint and re-grepped, while one into NDI can be trusted longer.
+
+  **TWO CITATIONS ARE CORRECT ONLY BECAUSE OF WHERE THEY SAY TO LOOK, and would read as
+  dead otherwise.** `src/ndi/+ndi/+element/ensemble.m` does NOT exist in the NDI feature-branch
+  working tree; it exists on `origin/main`, which is exactly what the sentence says
+  (*"`origin/main src/ndi/+ndi/+element/ensemble.m:274-276`"*), and the quoted three lines
+  are verbatim there. Likewise `imageDocMaker.m:121-127` and `jMeasurementFold.m:69` are
+  cited by BASENAME and both files have moved directory
+  (`+setup/+NDIMaker/imageDocMaker.m`, `+migrators_j/private/jMeasurementFold.m`). **A
+  basename citation outlived a path change and a `origin/main` citation outlived a branch
+  divergence — both survived because they were UNDER-specified in the right dimension.**
 
 ## Build / test
 - **`python3 tools/gates.py` IS THE ENTRY POINT.** **19** steps, in an order
