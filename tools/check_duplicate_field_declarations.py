@@ -92,6 +92,29 @@ V1_FIDELITY = {
     ("probe_location", "name"),
     ("subjectmeasurement", "datestamp"),
     ("pyraview", "label"),
+    # ADDED 2026-08-12. THIS FILE CONTRADICTED ITSELF, IN THE DIRECTION THAT
+    # COSTS DOCUMENTS. The docstring above says "six of the nine rows are V1
+    # FIDELITY" and calls this one "the SIXTH fidelity row"; the set held five
+    # and omitted it, so the output filed `stimulus_parameter.name` under
+    # "V_eta target classes -- no template forces this. OPEN: which block is
+    # authoritative?" -- an invitation to delete the very field the docstring
+    # says must not be deleted.
+    #
+    # NDI declares it, verified against origin/main rather than taken from the
+    # docstring that was already wrong once:
+    #
+    #   $ git show origin/main:.../schema_documents/stimulus/
+    #                          stimulus_parameter_schema.json
+    #       field: ontology_name | string
+    #       field: name         | string
+    #       field: value        | double
+    #
+    # And the cost of acting on the wrong bucket is concrete:
+    # `migrators_j/stimulus_parameter.m` is a PURE PASSTHROUGH held for #31 --
+    # "the document reaches validation in its did_v1 shape" -- so dropping
+    # `name` from the tombstone leaves a field every real document carries
+    # undeclared, and `undeclaredField` quarantines all of them.
+    ("stimulus_parameter", "name"),
 }
 
 
