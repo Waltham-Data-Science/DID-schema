@@ -498,7 +498,19 @@ def test_the_gates_edges_for_this_step_are_substantiated():
     """Same standard as every other edge: the checker's own source must contain
     the literal that proves it reads the artifact."""
     mine = [e for e in g.EDGES if e.consumer == "check_web_assets_fresh"]
-    assert len(mine) == 3, [f"{e.producer}->{e.consumer}" for e in mine]
+    # 3 -> 5 on 2026-08-12. The count is a canary, and it fired exactly as
+    # intended: `gen_class_walkthrough` and `tenet_map` were wired into the
+    # chain as generators, and each gained an edge into this gate. The three
+    # originals (build_v_eta, coverage, status_board) produce artifacts the
+    # sync COPIES into public/; the two new ones WRITE into public/ directly,
+    # so this gate cannot compare them against a source and delegates to each
+    # tool's own --check -- which is worth nothing unless the generator ran
+    # first, hence the edge.
+    #
+    # Bumping this number is the intended response ONLY because the edges below
+    # are then re-substantiated one by one. The number alone would be a rubber
+    # stamp; the loop is what makes it a check.
+    assert len(mine) == 5, [f"{e.producer}->{e.consumer}" for e in mine]
     for e in mine:
         ok, detail = e.substantiated(REPO_ROOT)
         assert ok, f"{e.producer} -> {e.consumer}: {detail}"

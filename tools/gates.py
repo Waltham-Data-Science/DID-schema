@@ -371,6 +371,50 @@ STEPS = [
     # runner is correct. `web/public/schemas` is the sync script's own
     # `publicSchemas` root and exists only where the sync has run.
     #
+    # THE TWO VIEWER GENERATORS. They are `generate` steps, not gates, and they
+    # belong in this chain for the ordinary reason every other generator does:
+    # they READ generated artifacts (the coverage ledger, the ground truth, the
+    # built index, the tenets document) and WRITE a file that is COMMITTED. An
+    # unchained generator whose output is committed is precisely the hole this
+    # driver was built to close -- `--check` regenerates into a scratch mirror
+    # and diffs, so a stale committed asset now fails there rather than being
+    # noticed by a human.
+    #
+    # IT WAS ALREADY STALE WHEN THIS WAS WIRED, which is why it is wired.
+    # `tools/coverage.py` gained a derived per-class `stage` column; all 102
+    # ledger rows carry one. `class_walkthrough.json` was generated before that
+    # landed and carries none, so the viewer's class page renders every class
+    # with its ladder position missing. Nothing reported it: the freshness gate
+    # compares a served copy against its SOURCE, and these two assets are
+    # written into `web/public/` directly rather than copied into it, so they
+    # were the two files that gate could only delegate on -- and it can only
+    # delegate to a `--check` that something actually runs.
+    #
+    # UNLIKE `check_web_assets_fresh`, these declare NO `needs_paths`. That gate
+    # needs the gitignored synced tree and is correctly NOT RUNNABLE HERE on a
+    # runner; these two need only the repository and the siblings, so they run
+    # in CI like every other generator.
+    Step("gen_class_walkthrough", _t("gen_class_walkthrough.py"), "generate",
+         r"^DENOMINATOR: (\d+) ledger row\(s\) read", "ledger rows read",
+         writes=["web/public/class_walkthrough.json"],
+         check_argv=_t("gen_class_walkthrough.py", "--check"),
+         # DID-matlab ONLY, and the driver caught me declaring otherwise. I
+         # wrote `requires=["NDI-matlab", "DID-matlab"]` by analogy with
+         # `coverage` and `ndi_ground_truth`, which do read the NDI checkout.
+         # This one does not: it takes NDI's declarations from
+         # `V_eta_ndi_ground_truth.json`, an artifact of THIS repository, and
+         # opens the NDI tree never. It scans the DID-matlab convert package
+         # directly, so that requirement is real. A `requires` naming a
+         # checkout the step never reads is not harmless -- it would report the
+         # step NOT RUNNABLE HERE on a machine that legitimately has
+         # everything it needs.
+         requires=["DID-matlab"]),
+
+    Step("tenet_map", _t("tenet_map.py"), "generate",
+         r"^DENOMINATOR: (\d+) tenet\(s\) declared", "tenets declared",
+         writes=["web/public/tenets.json"],
+         check_argv=_t("tenet_map.py", "--check")),
+
     # It reads no artifact into a file of its own, so it declares no `writes`.
     Step("check_web_assets_fresh", _t("check_web_assets_fresh.py"), "gate",
          r"^DENOMINATOR: (\d+) served file\(s\) inspected", "served files inspected",
@@ -566,6 +610,56 @@ EDGES = [
          "the reason this gate exists. The checker requires the sync contract "
          "to serve it whenever it is present.",
          "tools/check_web_assets_fresh.py", r"V_eta_coverage_ledger\.json"),
+
+    Edge("coverage", "gen_class_walkthrough",
+         "schemas/V_eta_coverage_ledger.json",
+         "the walkthrough is BUILT FROM the ledger -- one page per ledger row, "
+         "carrying that row's disposition, targets, build_state and its derived "
+         "`stage`. Generated before the ledger, it renders the previous "
+         "ledger's classes; that is not hypothetical, it is how the asset came "
+         "to be missing `stage` on all 102 rows.",
+         "tools/gen_class_walkthrough.py", r"V_eta_coverage_ledger\.json"),
+
+    Edge("ndi_ground_truth", "gen_class_walkthrough",
+         "schemas/V_eta_ndi_ground_truth.json",
+         "the page's `what NDI actually declares` panel is read from the ground "
+         "truth, not from a V_eta schema. That direction is the whole repair "
+         "track: a walkthrough built from our own schema would show the reader "
+         "the shape we assumed rather than the shape NDI writes.",
+         "tools/gen_class_walkthrough.py", r"V_eta_ndi_ground_truth\.json"),
+
+    Edge("build_v_eta", "tenet_map", "schemas/V_eta",
+         "every class a tenet row names is checked against the BUILT index "
+         "before the row is allowed to render, which is what stops the table "
+         "showing leadership a rename of a class that no longer exists -- it "
+         "already rejected one (`dataseries_channel_map`, deleted 2026-08-09).",
+         "tools/tenet_map.py", r"index\.json"),
+
+    Edge("gen_class_walkthrough", "check_web_assets_fresh",
+         "web/public/class_walkthrough.json",
+         "the freshness gate cannot compare this asset against a source file -- "
+         "it is written into web/public/ rather than copied there -- so it "
+         "delegates to the generator's own --check. That delegation is only "
+         "worth anything if something runs the generator first.",
+         "tools/check_web_assets_fresh.py", r"class_walkthrough\.json"),
+
+    Edge("tenet_map", "check_web_assets_fresh",
+         "web/public/tenets.json",
+         # THE WITNESS IS THE MECHANISM, NOT THE FILENAME, and the difference is
+         # a fact about the gate rather than a convenience. `tenets.json` does
+         # not appear in that tool at all: it PAIRS a directly-written asset
+         # with its generator by looking the basename up in `tools/*.py` at run
+         # time, so it names no such file and naming one would be the hand list
+         # this repository keeps having to delete. The walkthrough edge above
+         # substantiates on its filename only because that file is also cited in
+         # the tool's artifact commentary -- an accident of documentation, not a
+         # second mechanism.
+         "the gate cannot compare this asset against a source: it is written "
+         "into web/public/ rather than copied there. `find_generator` pairs it "
+         "with `tenet_map.py` by basename and delegates freshness to that "
+         "tool's own --check, which is worth nothing unless the generator has "
+         "run first -- hence the edge.",
+         "tools/check_web_assets_fresh.py", r"find_generator"),
 
     Edge("status_board", "check_web_assets_fresh",
          "schemas/V_eta_decisions.json",

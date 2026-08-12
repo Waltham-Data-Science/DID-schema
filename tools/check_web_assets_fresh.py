@@ -254,8 +254,23 @@ def find_generator(root, served_rel):
     if not os.path.isdir(tdir):
         return [], False
     me = os.path.basename(__file__)
+    # THE DRIVER IS NEVER A GENERATOR, and this exclusion is structural rather
+    # than a special case. `tools/gates.py` names EVERY artifact in the chain,
+    # in each step's `writes=[...]`, which is ordinary code and not a comment --
+    # so the comment-vs-code rule above cannot separate it, and it also contains
+    # write idioms of its own. It declares what other tools write; it writes
+    # none of them.
+    #
+    # It was the comment case first (see `_mentions_in_code`) and became the
+    # code case on 2026-08-12, when `gen_class_walkthrough` and `tenet_map` were
+    # wired into the chain and their assets appeared in `writes=`. Both served
+    # files immediately went AMBIGUOUS between the driver and their real
+    # generator. Excluding the driver by name is narrower than relaxing the
+    # ambiguity rule, which is the check that stops a served file being
+    # attributed to a tool that merely mentions it.
+    driver = "gates.py"
     for name in sorted(os.listdir(tdir)):
-        if not name.endswith(".py") or name == me:
+        if not name.endswith(".py") or name == me or name == driver:
             continue
         p = os.path.join(tdir, name)
         try:
