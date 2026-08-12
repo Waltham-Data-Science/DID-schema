@@ -1,2317 +1,10 @@
 {
- "built_schemas": {
-  "CURIE_lookups_meta": {
-   "disposition": "persist",
-   "maturity_level": null,
-   "path": "schemas/V_eta/stable/CURIE_lookups_meta.json",
-   "superclasses": [],
-   "tier": "stable"
-  },
-  "absolute_reference": {
-   "disposition": "persist",
-   "maturity_level": "stable",
-   "path": "schemas/V_eta/stable/absolute_reference.json",
-   "superclasses": [
-    "time_reference"
-   ],
-   "tier": "stable"
-  },
-  "acceleration": {
-   "disposition": "persist",
-   "maturity_level": "stable",
-   "path": "schemas/V_eta/stable/acceleration.json",
-   "superclasses": [
-    "data_type"
-   ],
-   "tier": "stable"
-  },
-  "acceleration_assertion": {
-   "disposition": "persist",
-   "maturity_level": "stable",
-   "path": "schemas/V_eta/stable/acceleration_assertion.json",
-   "superclasses": [
-    "subject_assertion",
-    "acceleration"
-   ],
-   "tier": "stable"
-  },
-  "acceleration_observation": {
-   "disposition": "persist",
-   "maturity_level": "stable",
-   "path": "schemas/V_eta/stable/acceleration_observation.json",
-   "superclasses": [
-    "subject_observation",
-    "acceleration"
-   ],
-   "tier": "stable"
-  },
-  "acquisition_channels": {
-   "disposition": "persist",
-   "maturity_level": "draft",
-   "path": "schemas/V_eta/draft/acquisition_channels.json",
-   "superclasses": [
-    "base"
-   ],
-   "tier": "draft"
-  },
-  "acquisition_epoch": {
-   "disposition": "in_progress",
-   "maturity_level": "stable",
-   "path": "schemas/V_eta/stable/acquisition_epoch.json",
-   "superclasses": [
-    "base",
-    "epochid"
-   ],
-   "tier": "stable"
-  },
-  "acquisition_metadata_file": {
-   "disposition": "persist",
-   "maturity_level": "stable",
-   "path": "schemas/V_eta/stable/acquisition_metadata_file.json",
-   "superclasses": [
-    "base"
-   ],
-   "tier": "stable"
-  },
-  "acquisition_metadata_reader": {
-   "disposition": "persist",
-   "maturity_level": "stable",
-   "path": "schemas/V_eta/stable/acquisition_metadata_reader.json",
-   "superclasses": [
-    "base"
-   ],
-   "tier": "stable"
-  },
-  "acquisition_system": {
-   "disposition": "persist",
-   "maturity_level": "stable",
-   "path": "schemas/V_eta/stable/acquisition_system.json",
-   "superclasses": [
-    "entity"
-   ],
-   "tier": "stable"
-  },
-  "amount": {
-   "disposition": "persist",
-   "maturity_level": "stable",
-   "path": "schemas/V_eta/stable/amount.json",
-   "superclasses": [
-    "data_type"
-   ],
-   "tier": "stable"
-  },
-  "amount_assertion": {
-   "disposition": "persist",
-   "maturity_level": "stable",
-   "path": "schemas/V_eta/stable/amount_assertion.json",
-   "superclasses": [
-    "subject_assertion",
-    "amount"
-   ],
-   "tier": "stable"
-  },
-  "amount_observation": {
-   "disposition": "persist",
-   "maturity_level": "stable",
-   "path": "schemas/V_eta/stable/amount_observation.json",
-   "superclasses": [
-    "subject_observation",
-    "amount"
-   ],
-   "tier": "stable"
-  },
-  "angle": {
-   "disposition": "persist",
-   "maturity_level": "stable",
-   "path": "schemas/V_eta/stable/angle.json",
-   "superclasses": [
-    "data_type"
-   ],
-   "tier": "stable"
-  },
-  "angle_assertion": {
-   "disposition": "persist",
-   "maturity_level": "stable",
-   "path": "schemas/V_eta/stable/angle_assertion.json",
-   "superclasses": [
-    "subject_assertion",
-    "angle"
-   ],
-   "tier": "stable"
-  },
-  "angle_observation": {
-   "disposition": "persist",
-   "maturity_level": "stable",
-   "path": "schemas/V_eta/stable/angle_observation.json",
-   "superclasses": [
-    "subject_observation",
-    "angle"
-   ],
-   "tier": "stable"
-  },
-  "angular_velocity": {
-   "disposition": "persist",
-   "maturity_level": "stable",
-   "path": "schemas/V_eta/stable/angular_velocity.json",
-   "superclasses": [
-    "data_type"
-   ],
-   "tier": "stable"
-  },
-  "angular_velocity_assertion": {
-   "disposition": "persist",
-   "maturity_level": "stable",
-   "path": "schemas/V_eta/stable/angular_velocity_assertion.json",
-   "superclasses": [
-    "subject_assertion",
-    "angular_velocity"
-   ],
-   "tier": "stable"
-  },
-  "angular_velocity_observation": {
-   "disposition": "persist",
-   "maturity_level": "stable",
-   "path": "schemas/V_eta/stable/angular_velocity_observation.json",
-   "superclasses": [
-    "subject_observation",
-    "angular_velocity"
-   ],
-   "tier": "stable"
-  },
-  "app": {
-   "disposition": "in_progress",
-   "maturity_level": "stable",
-   "path": "schemas/V_eta/stable/app.json",
-   "superclasses": [
-    "base"
-   ],
-   "tier": "stable"
-  },
-  "area": {
-   "disposition": "persist",
-   "maturity_level": "stable",
-   "path": "schemas/V_eta/stable/area.json",
-   "superclasses": [
-    "data_type"
-   ],
-   "tier": "stable"
-  },
-  "area_assertion": {
-   "disposition": "persist",
-   "maturity_level": "stable",
-   "path": "schemas/V_eta/stable/area_assertion.json",
-   "superclasses": [
-    "subject_assertion",
-    "area"
-   ],
-   "tier": "stable"
-  },
-  "area_observation": {
-   "disposition": "persist",
-   "maturity_level": "stable",
-   "path": "schemas/V_eta/stable/area_observation.json",
-   "superclasses": [
-    "subject_observation",
-    "area"
-   ],
-   "tier": "stable"
-  },
-  "base": {
-   "disposition": "persist",
-   "maturity_level": "stable",
-   "path": "schemas/V_eta/stable/base.json",
-   "superclasses": [],
-   "tier": "stable"
-  },
-  "binaryseries_parameters": {
-   "disposition": "in_progress",
-   "maturity_level": "stable",
-   "path": "schemas/V_eta/stable/binaryseries_parameters.json",
-   "superclasses": [
-    "base"
-   ],
-   "tier": "stable"
-  },
-  "binding_registry_meta": {
-   "disposition": "persist",
-   "maturity_level": null,
-   "path": "schemas/V_eta/stable/binding_registry_meta.json",
-   "superclasses": [],
-   "tier": "stable"
-  },
-  "binnedspikeratevm": {
-   "disposition": "retire",
-   "maturity_level": "stable",
-   "path": "schemas/V_eta/stable/binnedspikeratevm.json",
-   "superclasses": [
-    "base",
-    "epochid",
-    "app"
-   ],
-   "tier": "stable"
-  },
-  "calculator": {
-   "disposition": "retire",
-   "maturity_level": "stable",
-   "path": "schemas/V_eta/stable/calculator.json",
-   "superclasses": [
-    "base",
-    "app"
-   ],
-   "tier": "stable"
-  },
-  "capacitance": {
-   "disposition": "persist",
-   "maturity_level": "stable",
-   "path": "schemas/V_eta/stable/capacitance.json",
-   "superclasses": [
-    "data_type"
-   ],
-   "tier": "stable"
-  },
-  "capacitance_assertion": {
-   "disposition": "persist",
-   "maturity_level": "stable",
-   "path": "schemas/V_eta/stable/capacitance_assertion.json",
-   "superclasses": [
-    "subject_assertion",
-    "capacitance"
-   ],
-   "tier": "stable"
-  },
-  "capacitance_observation": {
-   "disposition": "persist",
-   "maturity_level": "stable",
-   "path": "schemas/V_eta/stable/capacitance_observation.json",
-   "superclasses": [
-    "subject_observation",
-    "capacitance"
-   ],
-   "tier": "stable"
-  },
-  "charge": {
-   "disposition": "persist",
-   "maturity_level": "stable",
-   "path": "schemas/V_eta/stable/charge.json",
-   "superclasses": [
-    "data_type"
-   ],
-   "tier": "stable"
-  },
-  "charge_assertion": {
-   "disposition": "persist",
-   "maturity_level": "stable",
-   "path": "schemas/V_eta/stable/charge_assertion.json",
-   "superclasses": [
-    "subject_assertion",
-    "charge"
-   ],
-   "tier": "stable"
-  },
-  "charge_observation": {
-   "disposition": "persist",
-   "maturity_level": "stable",
-   "path": "schemas/V_eta/stable/charge_observation.json",
-   "superclasses": [
-    "subject_observation",
-    "charge"
-   ],
-   "tier": "stable"
-  },
-  "chemical": {
-   "disposition": "persist",
-   "maturity_level": "stable",
-   "path": "schemas/V_eta/stable/chemical.json",
-   "superclasses": [
-    "data_type"
-   ],
-   "tier": "stable"
-  },
-  "clock_alignment": {
-   "disposition": "persist",
-   "maturity_level": "draft",
-   "path": "schemas/V_eta/draft/clock_alignment.json",
-   "superclasses": [
-    "relation",
-    "polynomial"
-   ],
-   "tier": "draft"
-  },
-  "clock_alignment_configuration": {
-   "disposition": "persist",
-   "maturity_level": "draft",
-   "path": "schemas/V_eta/draft/clock_alignment_configuration.json",
-   "superclasses": [
-    "base"
-   ],
-   "tier": "draft"
-  },
-  "clock_alignment_policy": {
-   "disposition": "persist",
-   "maturity_level": "draft",
-   "path": "schemas/V_eta/draft/clock_alignment_policy.json",
-   "superclasses": [
-    "base"
-   ],
-   "tier": "draft"
-  },
-  "concentration": {
-   "disposition": "persist",
-   "maturity_level": "stable",
-   "path": "schemas/V_eta/stable/concentration.json",
-   "superclasses": [
-    "data_type"
-   ],
-   "tier": "stable"
-  },
-  "concentration_assertion": {
-   "disposition": "persist",
-   "maturity_level": "stable",
-   "path": "schemas/V_eta/stable/concentration_assertion.json",
-   "superclasses": [
-    "subject_assertion",
-    "concentration"
-   ],
-   "tier": "stable"
-  },
-  "concentration_manipulation": {
-   "disposition": "persist",
-   "maturity_level": "stable",
-   "path": "schemas/V_eta/stable/concentration_manipulation.json",
-   "superclasses": [
-    "subject_manipulation",
-    "concentration"
-   ],
-   "tier": "stable"
-  },
-  "concentration_observation": {
-   "disposition": "persist",
-   "maturity_level": "stable",
-   "path": "schemas/V_eta/stable/concentration_observation.json",
-   "superclasses": [
-    "subject_observation",
-    "concentration"
-   ],
-   "tier": "stable"
-  },
-  "conductance": {
-   "disposition": "persist",
-   "maturity_level": "stable",
-   "path": "schemas/V_eta/stable/conductance.json",
-   "superclasses": [
-    "data_type"
-   ],
-   "tier": "stable"
-  },
-  "conductance_assertion": {
-   "disposition": "persist",
-   "maturity_level": "stable",
-   "path": "schemas/V_eta/stable/conductance_assertion.json",
-   "superclasses": [
-    "subject_assertion",
-    "conductance"
-   ],
-   "tier": "stable"
-  },
-  "conductance_observation": {
-   "disposition": "persist",
-   "maturity_level": "stable",
-   "path": "schemas/V_eta/stable/conductance_observation.json",
-   "superclasses": [
-    "subject_observation",
-    "conductance"
-   ],
-   "tier": "stable"
-  },
-  "contrast_sensitivity": {
-   "disposition": "persist",
-   "maturity_level": "stable",
-   "path": "schemas/V_eta/stable/contrast_sensitivity.json",
-   "superclasses": [
-    "data_type"
-   ],
-   "tier": "stable"
-  },
-  "contrast_sensitivity_calculation": {
-   "disposition": "persist",
-   "maturity_level": "stable",
-   "path": "schemas/V_eta/stable/contrast_sensitivity_calculation.json",
-   "superclasses": [
-    "subject_calculation",
-    "contrast_sensitivity"
-   ],
-   "tier": "stable"
-  },
-  "control_designation": {
-   "disposition": "in_progress",
-   "maturity_level": "draft",
-   "path": "schemas/V_eta/draft/control_designation.json",
-   "superclasses": [
-    "base"
-   ],
-   "tier": "draft"
-  },
-  "control_stimulus_ids": {
-   "disposition": "retire",
-   "maturity_level": "stable",
-   "path": "schemas/V_eta/stable/control_stimulus_ids.json",
-   "superclasses": [
-    "base",
-    "app"
-   ],
-   "tier": "stable"
-  },
-  "count": {
-   "disposition": "persist",
-   "maturity_level": "stable",
-   "path": "schemas/V_eta/stable/count.json",
-   "superclasses": [
-    "data_type"
-   ],
-   "tier": "stable"
-  },
-  "count_assertion": {
-   "disposition": "persist",
-   "maturity_level": "stable",
-   "path": "schemas/V_eta/stable/count_assertion.json",
-   "superclasses": [
-    "subject_assertion",
-    "count"
-   ],
-   "tier": "stable"
-  },
-  "count_observation": {
-   "disposition": "persist",
-   "maturity_level": "stable",
-   "path": "schemas/V_eta/stable/count_observation.json",
-   "superclasses": [
-    "subject_observation",
-    "count"
-   ],
-   "tier": "stable"
-  },
-  "current": {
-   "disposition": "persist",
-   "maturity_level": "stable",
-   "path": "schemas/V_eta/stable/current.json",
-   "superclasses": [
-    "data_type"
-   ],
-   "tier": "stable"
-  },
-  "current_assertion": {
-   "disposition": "persist",
-   "maturity_level": "stable",
-   "path": "schemas/V_eta/stable/current_assertion.json",
-   "superclasses": [
-    "subject_assertion",
-    "current"
-   ],
-   "tier": "stable"
-  },
-  "current_manipulation": {
-   "disposition": "persist",
-   "maturity_level": "stable",
-   "path": "schemas/V_eta/stable/current_manipulation.json",
-   "superclasses": [
-    "subject_manipulation",
-    "current"
-   ],
-   "tier": "stable"
-  },
-  "current_observation": {
-   "disposition": "persist",
-   "maturity_level": "stable",
-   "path": "schemas/V_eta/stable/current_observation.json",
-   "superclasses": [
-    "subject_observation",
-    "current"
-   ],
-   "tier": "stable"
-  },
-  "daqmetadatareader": {
-   "disposition": "in_progress",
-   "maturity_level": "stable",
-   "path": "schemas/V_eta/stable/daqmetadatareader.json",
-   "superclasses": [
-    "base"
-   ],
-   "tier": "stable"
-  },
-  "daqmetadatareader_epochdata_ingested": {
-   "disposition": "in_progress",
-   "maturity_level": "stable",
-   "path": "schemas/V_eta/stable/daqmetadatareader_epochdata_ingested.json",
-   "superclasses": [
-    "base",
-    "epochid"
-   ],
-   "tier": "stable"
-  },
-  "daqreader": {
-   "disposition": "in_progress",
-   "maturity_level": "stable",
-   "path": "schemas/V_eta/stable/daqreader.json",
-   "superclasses": [
-    "base"
-   ],
-   "tier": "stable"
-  },
-  "daqreader_epochdata_ingested": {
-   "disposition": "in_progress",
-   "maturity_level": "stable",
-   "path": "schemas/V_eta/stable/daqreader_epochdata_ingested.json",
-   "superclasses": [
-    "base",
-    "epochid"
-   ],
-   "tier": "stable"
-  },
-  "daqreader_image_epochdata_ingested": {
-   "disposition": "in_progress",
-   "maturity_level": "stable",
-   "path": "schemas/V_eta/stable/daqreader_image_epochdata_ingested.json",
-   "superclasses": [
-    "base",
-    "daqreader_epochdata_ingested",
-    "epochid"
-   ],
-   "tier": "stable"
-  },
-  "daqsystem": {
-   "disposition": "in_progress",
-   "maturity_level": "stable",
-   "path": "schemas/V_eta/stable/daqsystem.json",
-   "superclasses": [
-    "base"
-   ],
-   "tier": "stable"
-  },
-  "data": {
-   "disposition": "persist",
-   "maturity_level": "stable",
-   "path": "schemas/V_eta/stable/data.json",
-   "superclasses": [
-    "base"
-   ],
-   "tier": "stable"
-  },
-  "data_body": {
-   "disposition": "persist",
-   "maturity_level": "draft",
-   "path": "schemas/V_eta/draft/data_body.json",
-   "superclasses": [
-    "data"
-   ],
-   "tier": "draft"
-  },
-  "data_type": {
-   "disposition": "persist",
-   "maturity_level": "stable",
-   "path": "schemas/V_eta/stable/data_type.json",
-   "superclasses": [
-    "data"
-   ],
-   "tier": "stable"
-  },
-  "dataset": {
-   "disposition": "persist",
-   "maturity_level": "stable",
-   "path": "schemas/V_eta/stable/dataset.json",
-   "superclasses": [
-    "entity"
-   ],
-   "tier": "stable"
-  },
-  "date": {
-   "disposition": "persist",
-   "maturity_level": "stable",
-   "path": "schemas/V_eta/stable/date.json",
-   "superclasses": [
-    "data_type"
-   ],
-   "tier": "stable"
-  },
-  "date_assertion": {
-   "disposition": "persist",
-   "maturity_level": "stable",
-   "path": "schemas/V_eta/stable/date_assertion.json",
-   "superclasses": [
-    "subject_assertion",
-    "date"
-   ],
-   "tier": "stable"
-  },
-  "demo": {
-   "disposition": "persist",
-   "maturity_level": "stable",
-   "path": "schemas/V_eta/stable/demo.json",
-   "superclasses": [
-    "base"
-   ],
-   "tier": "stable"
-  },
-  "did_schema_meta": {
-   "disposition": "persist",
-   "maturity_level": null,
-   "path": "schemas/V_eta/stable/did_schema_meta.json",
-   "superclasses": [],
-   "tier": "stable"
-  },
-  "directed_relation": {
-   "disposition": "persist",
-   "maturity_level": "stable",
-   "path": "schemas/V_eta/stable/directed_relation.json",
-   "superclasses": [
-    "relation"
-   ],
-   "tier": "stable"
-  },
-  "distance_metadata": {
-   "disposition": "retire",
-   "maturity_level": "stable",
-   "path": "schemas/V_eta/stable/distance_metadata.json",
-   "superclasses": [
-    "base"
-   ],
-   "tier": "stable"
-  },
-  "dose": {
-   "disposition": "persist",
-   "maturity_level": "stable",
-   "path": "schemas/V_eta/stable/dose.json",
-   "superclasses": [
-    "data_type"
-   ],
-   "tier": "stable"
-  },
-  "dose_manipulation": {
-   "disposition": "persist",
-   "maturity_level": "stable",
-   "path": "schemas/V_eta/stable/dose_manipulation.json",
-   "superclasses": [
-    "subject_manipulation",
-    "dose"
-   ],
-   "tier": "stable"
-  },
-  "duration": {
-   "disposition": "persist",
-   "maturity_level": "stable",
-   "path": "schemas/V_eta/stable/duration.json",
-   "superclasses": [
-    "data_type"
-   ],
-   "tier": "stable"
-  },
-  "duration_assertion": {
-   "disposition": "persist",
-   "maturity_level": "stable",
-   "path": "schemas/V_eta/stable/duration_assertion.json",
-   "superclasses": [
-    "subject_assertion",
-    "duration"
-   ],
-   "tier": "stable"
-  },
-  "duration_observation": {
-   "disposition": "persist",
-   "maturity_level": "stable",
-   "path": "schemas/V_eta/stable/duration_observation.json",
-   "superclasses": [
-    "subject_observation",
-    "duration"
-   ],
-   "tier": "stable"
-  },
-  "electrode_offset_voltage": {
-   "disposition": "retire",
-   "maturity_level": "stable",
-   "path": "schemas/V_eta/stable/electrode_offset_voltage.json",
-   "superclasses": [
-    "base"
-   ],
-   "tier": "stable"
-  },
-  "element": {
-   "disposition": "retire",
-   "maturity_level": "stable",
-   "path": "schemas/V_eta/stable/element.json",
-   "superclasses": [
-    "base"
-   ],
-   "tier": "stable"
-  },
-  "energy": {
-   "disposition": "persist",
-   "maturity_level": "stable",
-   "path": "schemas/V_eta/stable/energy.json",
-   "superclasses": [
-    "data_type"
-   ],
-   "tier": "stable"
-  },
-  "energy_assertion": {
-   "disposition": "persist",
-   "maturity_level": "stable",
-   "path": "schemas/V_eta/stable/energy_assertion.json",
-   "superclasses": [
-    "subject_assertion",
-    "energy"
-   ],
-   "tier": "stable"
-  },
-  "energy_observation": {
-   "disposition": "persist",
-   "maturity_level": "stable",
-   "path": "schemas/V_eta/stable/energy_observation.json",
-   "superclasses": [
-    "subject_observation",
-    "energy"
-   ],
-   "tier": "stable"
-  },
-  "ensemble": {
-   "disposition": "in_progress",
-   "maturity_level": "stable",
-   "path": "schemas/V_eta/stable/ensemble.json",
-   "superclasses": [
-    "base",
-    "epochid",
-    "app"
-   ],
-   "tier": "stable"
-  },
-  "entity": {
-   "disposition": "persist",
-   "maturity_level": "stable",
-   "path": "schemas/V_eta/stable/entity.json",
-   "superclasses": [
-    "base"
-   ],
-   "tier": "stable"
-  },
-  "epoch": {
-   "disposition": "persist",
-   "maturity_level": "stable",
-   "path": "schemas/V_eta/stable/epoch.json",
-   "superclasses": [
-    "entity"
-   ],
-   "tier": "stable"
-  },
-  "epoch_bounded_reference": {
-   "disposition": "in_progress",
-   "maturity_level": "stable",
-   "path": "schemas/V_eta/stable/epoch_bounded_reference.json",
-   "superclasses": [
-    "time_reference",
-    "epochid"
-   ],
-   "tier": "stable"
-  },
-  "epoch_file_pattern": {
-   "disposition": "persist",
-   "maturity_level": "stable",
-   "path": "schemas/V_eta/stable/epoch_file_pattern.json",
-   "superclasses": [
-    "base"
-   ],
-   "tier": "stable"
-  },
-  "epochfiles_ingested": {
-   "disposition": "in_progress",
-   "maturity_level": "stable",
-   "path": "schemas/V_eta/stable/epochfiles_ingested.json",
-   "superclasses": [
-    "base"
-   ],
-   "tier": "stable"
-  },
-  "epochid": {
-   "disposition": "in_progress",
-   "maturity_level": "stable",
-   "path": "schemas/V_eta/stable/epochid.json",
-   "superclasses": [
-    "base"
-   ],
-   "tier": "stable"
-  },
-  "filenavigator": {
-   "disposition": "in_progress",
-   "maturity_level": "stable",
-   "path": "schemas/V_eta/stable/filenavigator.json",
-   "superclasses": [
-    "base"
-   ],
-   "tier": "stable"
-  },
-  "filter": {
-   "disposition": "in_progress",
-   "maturity_level": "stable",
-   "path": "schemas/V_eta/stable/filter.json",
-   "superclasses": [
-    "base"
-   ],
-   "tier": "stable"
-  },
-  "fitcurve": {
-   "disposition": "retire",
-   "maturity_level": "stable",
-   "path": "schemas/V_eta/stable/fitcurve.json",
-   "superclasses": [
-    "base"
-   ],
-   "tier": "stable"
-  },
-  "force": {
-   "disposition": "persist",
-   "maturity_level": "stable",
-   "path": "schemas/V_eta/stable/force.json",
-   "superclasses": [
-    "data_type"
-   ],
-   "tier": "stable"
-  },
-  "force_assertion": {
-   "disposition": "persist",
-   "maturity_level": "stable",
-   "path": "schemas/V_eta/stable/force_assertion.json",
-   "superclasses": [
-    "subject_assertion",
-    "force"
-   ],
-   "tier": "stable"
-  },
-  "force_manipulation": {
-   "disposition": "persist",
-   "maturity_level": "stable",
-   "path": "schemas/V_eta/stable/force_manipulation.json",
-   "superclasses": [
-    "subject_manipulation",
-    "force"
-   ],
-   "tier": "stable"
-  },
-  "force_observation": {
-   "disposition": "persist",
-   "maturity_level": "stable",
-   "path": "schemas/V_eta/stable/force_observation.json",
-   "superclasses": [
-    "subject_observation",
-    "force"
-   ],
-   "tier": "stable"
-  },
-  "formulation": {
-   "disposition": "persist",
-   "maturity_level": "stable",
-   "path": "schemas/V_eta/stable/formulation.json",
-   "superclasses": [
-    "data_type"
-   ],
-   "tier": "stable"
-  },
-  "formulation_manipulation": {
-   "disposition": "persist",
-   "maturity_level": "stable",
-   "path": "schemas/V_eta/stable/formulation_manipulation.json",
-   "superclasses": [
-    "subject_manipulation",
-    "formulation"
-   ],
-   "tier": "stable"
-  },
-  "frequency": {
-   "disposition": "persist",
-   "maturity_level": "stable",
-   "path": "schemas/V_eta/stable/frequency.json",
-   "superclasses": [
-    "data_type"
-   ],
-   "tier": "stable"
-  },
-  "frequency_assertion": {
-   "disposition": "persist",
-   "maturity_level": "stable",
-   "path": "schemas/V_eta/stable/frequency_assertion.json",
-   "superclasses": [
-    "subject_assertion",
-    "frequency"
-   ],
-   "tier": "stable"
-  },
-  "frequency_filter": {
-   "disposition": "persist",
-   "maturity_level": "stable",
-   "path": "schemas/V_eta/stable/frequency_filter.json",
-   "superclasses": [
-    "base"
-   ],
-   "tier": "stable"
-  },
-  "frequency_manipulation": {
-   "disposition": "persist",
-   "maturity_level": "stable",
-   "path": "schemas/V_eta/stable/frequency_manipulation.json",
-   "superclasses": [
-    "subject_manipulation",
-    "frequency"
-   ],
-   "tier": "stable"
-  },
-  "frequency_observation": {
-   "disposition": "persist",
-   "maturity_level": "stable",
-   "path": "schemas/V_eta/stable/frequency_observation.json",
-   "superclasses": [
-    "subject_observation",
-    "frequency"
-   ],
-   "tier": "stable"
-  },
-  "funding": {
-   "disposition": "persist",
-   "maturity_level": "stable",
-   "path": "schemas/V_eta/stable/funding.json",
-   "superclasses": [
-    "entity"
-   ],
-   "tier": "stable"
-  },
-  "gain": {
-   "disposition": "persist",
-   "maturity_level": "stable",
-   "path": "schemas/V_eta/stable/gain.json",
-   "superclasses": [
-    "data_type"
-   ],
-   "tier": "stable"
-  },
-  "gain_assertion": {
-   "disposition": "persist",
-   "maturity_level": "stable",
-   "path": "schemas/V_eta/stable/gain_assertion.json",
-   "superclasses": [
-    "subject_assertion",
-    "gain"
-   ],
-   "tier": "stable"
-  },
-  "gain_observation": {
-   "disposition": "persist",
-   "maturity_level": "stable",
-   "path": "schemas/V_eta/stable/gain_observation.json",
-   "superclasses": [
-    "subject_observation",
-    "gain"
-   ],
-   "tier": "stable"
-  },
-  "generic_file": {
-   "disposition": "retire",
-   "maturity_level": "stable",
-   "path": "schemas/V_eta/stable/generic_file.json",
-   "superclasses": [
-    "base"
-   ],
-   "tier": "stable"
-  },
-  "harmonic_component": {
-   "disposition": "persist",
-   "maturity_level": "draft",
-   "path": "schemas/V_eta/draft/harmonic_component.json",
-   "superclasses": [
-    "data_type"
-   ],
-   "tier": "draft"
-  },
-  "harmonic_component_calculation": {
-   "disposition": "persist",
-   "maturity_level": "draft",
-   "path": "schemas/V_eta/draft/harmonic_component_calculation.json",
-   "superclasses": [
-    "subject_calculation",
-    "harmonic_component"
-   ],
-   "tier": "draft"
-  },
-  "hartley_calc": {
-   "disposition": "retire",
-   "maturity_level": "stable",
-   "path": "schemas/V_eta/stable/hartley_calc.json",
-   "superclasses": [
-    "base",
-    "hartley_reverse_correlation",
-    "calculator"
-   ],
-   "tier": "stable"
-  },
-  "hartley_reverse_correlation": {
-   "disposition": "retire",
-   "maturity_level": "stable",
-   "path": "schemas/V_eta/stable/hartley_reverse_correlation.json",
-   "superclasses": [
-    "base",
-    "reverse_correlation"
-   ],
-   "tier": "stable"
-  },
-  "image": {
-   "disposition": "persist",
-   "maturity_level": "stable",
-   "path": "schemas/V_eta/stable/image.json",
-   "superclasses": [
-    "data_type"
-   ],
-   "tier": "stable"
-  },
-  "image_collection": {
-   "disposition": "retire",
-   "maturity_level": "stable",
-   "path": "schemas/V_eta/stable/image_collection.json",
-   "superclasses": [
-    "base"
-   ],
-   "tier": "stable"
-  },
-  "image_manipulation": {
-   "disposition": "persist",
-   "maturity_level": "draft",
-   "path": "schemas/V_eta/draft/image_manipulation.json",
-   "superclasses": [
-    "subject_manipulation",
-    "image"
-   ],
-   "tier": "draft"
-  },
-  "image_observation": {
-   "disposition": "persist",
-   "maturity_level": "draft",
-   "path": "schemas/V_eta/draft/image_observation.json",
-   "superclasses": [
-    "subject_observation",
-    "image"
-   ],
-   "tier": "draft"
-  },
-  "image_stack": {
-   "disposition": "retire",
-   "maturity_level": "deprecated",
-   "path": "schemas/V_eta/deprecated/image_stack.json",
-   "superclasses": [
-    "base",
-    "image_stack_parameters"
-   ],
-   "tier": "deprecated"
-  },
-  "image_stack_parameters": {
-   "disposition": "retire",
-   "maturity_level": "deprecated",
-   "path": "schemas/V_eta/deprecated/image_stack_parameters.json",
-   "superclasses": [
-    "base"
-   ],
-   "tier": "deprecated"
-  },
-  "ingestion_manifest": {
-   "disposition": "persist",
-   "maturity_level": "stable",
-   "path": "schemas/V_eta/stable/ingestion_manifest.json",
-   "superclasses": [
-    "base"
-   ],
-   "tier": "stable"
-  },
-  "intensity": {
-   "disposition": "persist",
-   "maturity_level": "stable",
-   "path": "schemas/V_eta/stable/intensity.json",
-   "superclasses": [
-    "data_type"
-   ],
-   "tier": "stable"
-  },
-  "intensity_assertion": {
-   "disposition": "persist",
-   "maturity_level": "stable",
-   "path": "schemas/V_eta/stable/intensity_assertion.json",
-   "superclasses": [
-    "subject_assertion",
-    "intensity"
-   ],
-   "tier": "stable"
-  },
-  "intensity_manipulation": {
-   "disposition": "persist",
-   "maturity_level": "stable",
-   "path": "schemas/V_eta/stable/intensity_manipulation.json",
-   "superclasses": [
-    "subject_manipulation",
-    "intensity"
-   ],
-   "tier": "stable"
-  },
-  "intensity_observation": {
-   "disposition": "persist",
-   "maturity_level": "stable",
-   "path": "schemas/V_eta/stable/intensity_observation.json",
-   "superclasses": [
-    "subject_observation",
-    "intensity"
-   ],
-   "tier": "stable"
-  },
-  "interaction_purpose": {
-   "disposition": "in_progress",
-   "maturity_level": "stable",
-   "path": "schemas/V_eta/stable/interaction_purpose.json",
-   "superclasses": [
-    "base"
-   ],
-   "tier": "stable"
-  },
-  "jrclust_clusters": {
-   "disposition": "retire",
-   "maturity_level": "stable",
-   "path": "schemas/V_eta/stable/jrclust_clusters.json",
-   "superclasses": [
-    "base",
-    "app"
-   ],
-   "tier": "stable"
-  },
-  "kiasort_clusters": {
-   "disposition": "retire",
-   "maturity_level": "stable",
-   "path": "schemas/V_eta/stable/kiasort_clusters.json",
-   "superclasses": [
-    "base",
-    "app"
-   ],
-   "tier": "stable"
-  },
-  "kilosort_clusters": {
-   "disposition": "retire",
-   "maturity_level": "stable",
-   "path": "schemas/V_eta/stable/kilosort_clusters.json",
-   "superclasses": [
-    "base",
-    "app"
-   ],
-   "tier": "stable"
-  },
-  "length": {
-   "disposition": "persist",
-   "maturity_level": "stable",
-   "path": "schemas/V_eta/stable/length.json",
-   "superclasses": [
-    "data_type"
-   ],
-   "tier": "stable"
-  },
-  "length_assertion": {
-   "disposition": "persist",
-   "maturity_level": "stable",
-   "path": "schemas/V_eta/stable/length_assertion.json",
-   "superclasses": [
-    "subject_assertion",
-    "length"
-   ],
-   "tier": "stable"
-  },
-  "length_observation": {
-   "disposition": "persist",
-   "maturity_level": "stable",
-   "path": "schemas/V_eta/stable/length_observation.json",
-   "superclasses": [
-    "subject_observation",
-    "length"
-   ],
-   "tier": "stable"
-  },
-  "logical": {
-   "disposition": "persist",
-   "maturity_level": "draft",
-   "path": "schemas/V_eta/draft/logical.json",
-   "superclasses": [
-    "data_type"
-   ],
-   "tier": "draft"
-  },
-  "logical_observation": {
-   "disposition": "persist",
-   "maturity_level": "draft",
-   "path": "schemas/V_eta/draft/logical_observation.json",
-   "superclasses": [
-    "subject_observation",
-    "logical"
-   ],
-   "tier": "draft"
-  },
-  "mass": {
-   "disposition": "persist",
-   "maturity_level": "stable",
-   "path": "schemas/V_eta/stable/mass.json",
-   "superclasses": [
-    "data_type"
-   ],
-   "tier": "stable"
-  },
-  "mass_assertion": {
-   "disposition": "persist",
-   "maturity_level": "stable",
-   "path": "schemas/V_eta/stable/mass_assertion.json",
-   "superclasses": [
-    "subject_assertion",
-    "mass"
-   ],
-   "tier": "stable"
-  },
-  "mass_observation": {
-   "disposition": "persist",
-   "maturity_level": "stable",
-   "path": "schemas/V_eta/stable/mass_observation.json",
-   "superclasses": [
-    "subject_observation",
-    "mass"
-   ],
-   "tier": "stable"
-  },
-  "measurement": {
-   "disposition": "retire",
-   "maturity_level": "stable",
-   "path": "schemas/V_eta/stable/measurement.json",
-   "superclasses": [
-    "base"
-   ],
-   "tier": "stable"
-  },
-  "method_parameters": {
-   "disposition": "persist",
-   "maturity_level": "stable",
-   "path": "schemas/V_eta/stable/method_parameters.json",
-   "superclasses": [
-    "base"
-   ],
-   "tier": "stable"
-  },
-  "ndi_reserved_keys": {
-   "disposition": "persist",
-   "maturity_level": null,
-   "path": "schemas/V_eta/stable/ndi_reserved_keys.json",
-   "superclasses": [],
-   "tier": "stable"
-  },
-  "neuron_extracellular": {
-   "disposition": "retire",
-   "maturity_level": "stable",
-   "path": "schemas/V_eta/stable/neuron_extracellular.json",
-   "superclasses": [
-    "base",
-    "app"
-   ],
-   "tier": "stable"
-  },
-  "ngrid": {
-   "disposition": "in_progress",
-   "maturity_level": "stable",
-   "path": "schemas/V_eta/stable/ngrid.json",
-   "superclasses": [
-    "base"
-   ],
-   "tier": "stable"
-  },
-  "oneepoch": {
-   "disposition": "retire",
-   "maturity_level": "stable",
-   "path": "schemas/V_eta/stable/oneepoch.json",
-   "superclasses": [
-    "base",
-    "epochid"
-   ],
-   "tier": "stable"
-  },
-  "ontology_image": {
-   "disposition": "retire",
-   "maturity_level": "stable",
-   "path": "schemas/V_eta/stable/ontology_image.json",
-   "superclasses": [
-    "base",
-    "ngrid"
-   ],
-   "tier": "stable"
-  },
-  "ontology_label": {
-   "disposition": "retire",
-   "maturity_level": "stable",
-   "path": "schemas/V_eta/stable/ontology_label.json",
-   "superclasses": [
-    "base"
-   ],
-   "tier": "stable"
-  },
-  "ontology_table_row": {
-   "disposition": "retire",
-   "maturity_level": "stable",
-   "path": "schemas/V_eta/stable/ontology_table_row.json",
-   "superclasses": [
-    "base"
-   ],
-   "tier": "stable"
-  },
-  "opaque_body": {
-   "disposition": "persist",
-   "maturity_level": "draft",
-   "path": "schemas/V_eta/draft/opaque_body.json",
-   "superclasses": [
-    "data_body"
-   ],
-   "tier": "draft"
-  },
-  "openminds": {
-   "disposition": "retire",
-   "maturity_level": "stable",
-   "path": "schemas/V_eta/stable/openminds.json",
-   "superclasses": [
-    "base"
-   ],
-   "tier": "stable"
-  },
-  "openminds_element": {
-   "disposition": "retire",
-   "maturity_level": "stable",
-   "path": "schemas/V_eta/stable/openminds_element.json",
-   "superclasses": [
-    "base",
-    "openminds"
-   ],
-   "tier": "stable"
-  },
-  "openminds_stimulus": {
-   "disposition": "retire",
-   "maturity_level": "stable",
-   "path": "schemas/V_eta/stable/openminds_stimulus.json",
-   "superclasses": [
-    "base",
-    "openminds",
-    "epochid"
-   ],
-   "tier": "stable"
-  },
-  "openminds_subject": {
-   "disposition": "retire",
-   "maturity_level": "stable",
-   "path": "schemas/V_eta/stable/openminds_subject.json",
-   "superclasses": [
-    "base",
-    "openminds"
-   ],
-   "tier": "stable"
-  },
-  "organization": {
-   "disposition": "persist",
-   "maturity_level": "stable",
-   "path": "schemas/V_eta/stable/organization.json",
-   "superclasses": [
-    "entity"
-   ],
-   "tier": "stable"
-  },
-  "person": {
-   "disposition": "persist",
-   "maturity_level": "stable",
-   "path": "schemas/V_eta/stable/person.json",
-   "superclasses": [
-    "entity"
-   ],
-   "tier": "stable"
-  },
-  "ph": {
-   "disposition": "persist",
-   "maturity_level": "stable",
-   "path": "schemas/V_eta/stable/ph.json",
-   "superclasses": [
-    "data_type"
-   ],
-   "tier": "stable"
-  },
-  "ph_assertion": {
-   "disposition": "persist",
-   "maturity_level": "stable",
-   "path": "schemas/V_eta/stable/ph_assertion.json",
-   "superclasses": [
-    "subject_assertion",
-    "ph"
-   ],
-   "tier": "stable"
-  },
-  "ph_observation": {
-   "disposition": "persist",
-   "maturity_level": "stable",
-   "path": "schemas/V_eta/stable/ph_observation.json",
-   "superclasses": [
-    "subject_observation",
-    "ph"
-   ],
-   "tier": "stable"
-  },
-  "polynomial": {
-   "disposition": "persist",
-   "maturity_level": "draft",
-   "path": "schemas/V_eta/draft/polynomial.json",
-   "superclasses": [
-    "data_type"
-   ],
-   "tier": "draft"
-  },
-  "position_metadata": {
-   "disposition": "retire",
-   "maturity_level": "stable",
-   "path": "schemas/V_eta/stable/position_metadata.json",
-   "superclasses": [
-    "base"
-   ],
-   "tier": "stable"
-  },
-  "power": {
-   "disposition": "persist",
-   "maturity_level": "stable",
-   "path": "schemas/V_eta/stable/power.json",
-   "superclasses": [
-    "data_type"
-   ],
-   "tier": "stable"
-  },
-  "power_assertion": {
-   "disposition": "persist",
-   "maturity_level": "stable",
-   "path": "schemas/V_eta/stable/power_assertion.json",
-   "superclasses": [
-    "subject_assertion",
-    "power"
-   ],
-   "tier": "stable"
-  },
-  "power_observation": {
-   "disposition": "persist",
-   "maturity_level": "stable",
-   "path": "schemas/V_eta/stable/power_observation.json",
-   "superclasses": [
-    "subject_observation",
-    "power"
-   ],
-   "tier": "stable"
-  },
-  "pressure": {
-   "disposition": "persist",
-   "maturity_level": "stable",
-   "path": "schemas/V_eta/stable/pressure.json",
-   "superclasses": [
-    "data_type"
-   ],
-   "tier": "stable"
-  },
-  "pressure_assertion": {
-   "disposition": "persist",
-   "maturity_level": "stable",
-   "path": "schemas/V_eta/stable/pressure_assertion.json",
-   "superclasses": [
-    "subject_assertion",
-    "pressure"
-   ],
-   "tier": "stable"
-  },
-  "pressure_manipulation": {
-   "disposition": "persist",
-   "maturity_level": "stable",
-   "path": "schemas/V_eta/stable/pressure_manipulation.json",
-   "superclasses": [
-    "subject_manipulation",
-    "pressure"
-   ],
-   "tier": "stable"
-  },
-  "pressure_observation": {
-   "disposition": "persist",
-   "maturity_level": "stable",
-   "path": "schemas/V_eta/stable/pressure_observation.json",
-   "superclasses": [
-    "subject_observation",
-    "pressure"
-   ],
-   "tier": "stable"
-  },
-  "probe_geometry": {
-   "disposition": "retire",
-   "maturity_level": "stable",
-   "path": "schemas/V_eta/stable/probe_geometry.json",
-   "superclasses": [
-    "base"
-   ],
-   "tier": "stable"
-  },
-  "probe_location": {
-   "disposition": "retire",
-   "maturity_level": "stable",
-   "path": "schemas/V_eta/stable/probe_location.json",
-   "superclasses": [
-    "base"
-   ],
-   "tier": "stable"
-  },
-  "projectvar": {
-   "disposition": "in_progress",
-   "maturity_level": "deprecated",
-   "path": "schemas/V_eta/deprecated/projectvar.json",
-   "superclasses": [
-    "base"
-   ],
-   "tier": "deprecated"
-  },
-  "publication": {
-   "disposition": "persist",
-   "maturity_level": "stable",
-   "path": "schemas/V_eta/stable/publication.json",
-   "superclasses": [
-    "entity"
-   ],
-   "tier": "stable"
-  },
-  "pyraview": {
-   "disposition": "retire",
-   "maturity_level": "stable",
-   "path": "schemas/V_eta/stable/pyraview.json",
-   "superclasses": [
-    "filter",
-    "base",
-    "epochid"
-   ],
-   "tier": "stable"
-  },
-  "relation": {
-   "disposition": "persist",
-   "maturity_level": "stable",
-   "path": "schemas/V_eta/stable/relation.json",
-   "superclasses": [
-    "base"
-   ],
-   "tier": "stable"
-  },
-  "relative_reference": {
-   "disposition": "persist",
-   "maturity_level": "stable",
-   "path": "schemas/V_eta/stable/relative_reference.json",
-   "superclasses": [
-    "time_reference"
-   ],
-   "tier": "stable"
-  },
-  "resistance": {
-   "disposition": "persist",
-   "maturity_level": "stable",
-   "path": "schemas/V_eta/stable/resistance.json",
-   "superclasses": [
-    "data_type"
-   ],
-   "tier": "stable"
-  },
-  "resistance_assertion": {
-   "disposition": "persist",
-   "maturity_level": "stable",
-   "path": "schemas/V_eta/stable/resistance_assertion.json",
-   "superclasses": [
-    "subject_assertion",
-    "resistance"
-   ],
-   "tier": "stable"
-  },
-  "resistance_observation": {
-   "disposition": "persist",
-   "maturity_level": "stable",
-   "path": "schemas/V_eta/stable/resistance_observation.json",
-   "superclasses": [
-    "subject_observation",
-    "resistance"
-   ],
-   "tier": "stable"
-  },
-  "reverse_correlation": {
-   "disposition": "retire",
-   "maturity_level": "stable",
-   "path": "schemas/V_eta/stable/reverse_correlation.json",
-   "superclasses": [
-    "base",
-    "ngrid"
-   ],
-   "tier": "stable"
-  },
-  "sampled_body": {
-   "disposition": "persist",
-   "maturity_level": "draft",
-   "path": "schemas/V_eta/draft/sampled_body.json",
-   "superclasses": [
-    "data_body"
-   ],
-   "tier": "draft"
-  },
-  "score": {
-   "disposition": "persist",
-   "maturity_level": "stable",
-   "path": "schemas/V_eta/stable/score.json",
-   "superclasses": [
-    "data_type"
-   ],
-   "tier": "stable"
-  },
-  "score_assertion": {
-   "disposition": "persist",
-   "maturity_level": "stable",
-   "path": "schemas/V_eta/stable/score_assertion.json",
-   "superclasses": [
-    "subject_assertion",
-    "score"
-   ],
-   "tier": "stable"
-  },
-  "score_observation": {
-   "disposition": "persist",
-   "maturity_level": "stable",
-   "path": "schemas/V_eta/stable/score_observation.json",
-   "superclasses": [
-    "subject_observation",
-    "score"
-   ],
-   "tier": "stable"
-  },
-  "session": {
-   "disposition": "persist",
-   "maturity_level": "stable",
-   "path": "schemas/V_eta/stable/session.json",
-   "superclasses": [
-    "entity"
-   ],
-   "tier": "stable"
-  },
-  "session_bounded_reference": {
-   "disposition": "in_progress",
-   "maturity_level": "stable",
-   "path": "schemas/V_eta/stable/session_bounded_reference.json",
-   "superclasses": [
-    "time_reference"
-   ],
-   "tier": "stable"
-  },
-  "session_relative_reference": {
-   "disposition": "in_progress",
-   "maturity_level": "stable",
-   "path": "schemas/V_eta/stable/session_relative_reference.json",
-   "superclasses": [
-    "time_reference"
-   ],
-   "tier": "stable"
-  },
-  "simple_calc": {
-   "disposition": "retire",
-   "maturity_level": "stable",
-   "path": "schemas/V_eta/stable/simple_calc.json",
-   "superclasses": [
-    "base",
-    "app"
-   ],
-   "tier": "stable"
-  },
-  "site2channelmap": {
-   "disposition": "retire",
-   "maturity_level": "stable",
-   "path": "schemas/V_eta/stable/site2channelmap.json",
-   "superclasses": [
-    "base"
-   ],
-   "tier": "stable"
-  },
-  "software": {
-   "disposition": "persist",
-   "maturity_level": "stable",
-   "path": "schemas/V_eta/stable/software.json",
-   "superclasses": [
-    "entity"
-   ],
-   "tier": "stable"
-  },
-  "sorting_parameters": {
-   "disposition": "retire",
-   "maturity_level": "stable",
-   "path": "schemas/V_eta/stable/sorting_parameters.json",
-   "superclasses": [
-    "base",
-    "app"
-   ],
-   "tier": "stable"
-  },
-  "spike_clusters": {
-   "disposition": "retire",
-   "maturity_level": "stable",
-   "path": "schemas/V_eta/stable/spike_clusters.json",
-   "superclasses": [
-    "base",
-    "app"
-   ],
-   "tier": "stable"
-  },
-  "spike_extraction_parameters": {
-   "disposition": "retire",
-   "maturity_level": "stable",
-   "path": "schemas/V_eta/stable/spike_extraction_parameters.json",
-   "superclasses": [
-    "base",
-    "app"
-   ],
-   "tier": "stable"
-  },
-  "spike_extraction_parameters_modification": {
-   "disposition": "retire",
-   "maturity_level": "stable",
-   "path": "schemas/V_eta/stable/spike_extraction_parameters_modification.json",
-   "superclasses": [
-    "base",
-    "app"
-   ],
-   "tier": "stable"
-  },
-  "spike_interface_sorting_outputs": {
-   "disposition": "retire",
-   "maturity_level": "stable",
-   "path": "schemas/V_eta/stable/spike_interface_sorting_outputs.json",
-   "superclasses": [
-    "base"
-   ],
-   "tier": "stable"
-  },
-  "spikewaves": {
-   "disposition": "retire",
-   "maturity_level": "stable",
-   "path": "schemas/V_eta/stable/spikewaves.json",
-   "superclasses": [
-    "base",
-    "epochid",
-    "app"
-   ],
-   "tier": "stable"
-  },
-  "stimulus_parameter": {
-   "disposition": "retire",
-   "maturity_level": "stable",
-   "path": "schemas/V_eta/stable/stimulus_parameter.json",
-   "superclasses": [
-    "base",
-    "epochid"
-   ],
-   "tier": "stable"
-  },
-  "stimulus_parameter_table": {
-   "disposition": "retire",
-   "maturity_level": "deprecated",
-   "path": "schemas/V_eta/deprecated/stimulus_parameter_table.json",
-   "superclasses": [
-    "base",
-    "epochid"
-   ],
-   "tier": "deprecated"
-  },
-  "stimulus_presentation": {
-   "disposition": "in_progress",
-   "maturity_level": "stable",
-   "path": "schemas/V_eta/stable/stimulus_presentation.json",
-   "superclasses": [
-    "base",
-    "app",
-    "epochid"
-   ],
-   "tier": "stable"
-  },
-  "stimulus_response": {
-   "disposition": "retire",
-   "maturity_level": "stable",
-   "path": "schemas/V_eta/stable/stimulus_response.json",
-   "superclasses": [
-    "base"
-   ],
-   "tier": "stable"
-  },
-  "stimulus_response_scalar": {
-   "disposition": "retire",
-   "maturity_level": "stable",
-   "path": "schemas/V_eta/stable/stimulus_response_scalar.json",
-   "superclasses": [
-    "base",
-    "stimulus_response"
-   ],
-   "tier": "stable"
-  },
-  "stimulus_response_scalar_parameters": {
-   "disposition": "retire",
-   "maturity_level": "stable",
-   "path": "schemas/V_eta/stable/stimulus_response_scalar_parameters.json",
-   "superclasses": [
-    "base"
-   ],
-   "tier": "stable"
-  },
-  "stimulus_response_scalar_parameters_basic": {
-   "disposition": "retire",
-   "maturity_level": "stable",
-   "path": "schemas/V_eta/stable/stimulus_response_scalar_parameters_basic.json",
-   "superclasses": [
-    "base",
-    "stimulus_response_scalar_parameters"
-   ],
-   "tier": "stable"
-  },
-  "strain": {
-   "disposition": "persist",
-   "maturity_level": "stable",
-   "path": "schemas/V_eta/stable/strain.json",
-   "superclasses": [
-    "entity"
-   ],
-   "tier": "stable"
-  },
-  "subject": {
-   "disposition": "persist",
-   "maturity_level": "stable",
-   "path": "schemas/V_eta/stable/subject.json",
-   "superclasses": [
-    "entity"
-   ],
-   "tier": "stable"
-  },
-  "subject_assertion": {
-   "disposition": "persist",
-   "maturity_level": "stable",
-   "path": "schemas/V_eta/stable/subject_assertion.json",
-   "superclasses": [
-    "subject_statement"
-   ],
-   "tier": "stable"
-  },
-  "subject_calculation": {
-   "disposition": "persist",
-   "maturity_level": "stable",
-   "path": "schemas/V_eta/stable/subject_calculation.json",
-   "superclasses": [
-    "subject_interaction"
-   ],
-   "tier": "stable"
-  },
-  "subject_interaction": {
-   "disposition": "persist",
-   "maturity_level": "stable",
-   "path": "schemas/V_eta/stable/subject_interaction.json",
-   "superclasses": [
-    "subject_statement"
-   ],
-   "tier": "stable"
-  },
-  "subject_manipulation": {
-   "disposition": "persist",
-   "maturity_level": "stable",
-   "path": "schemas/V_eta/stable/subject_manipulation.json",
-   "superclasses": [
-    "subject_interaction"
-   ],
-   "tier": "stable"
-  },
-  "subject_observation": {
-   "disposition": "persist",
-   "maturity_level": "stable",
-   "path": "schemas/V_eta/stable/subject_observation.json",
-   "superclasses": [
-    "subject_interaction"
-   ],
-   "tier": "stable"
-  },
-  "subject_statement": {
-   "disposition": "persist",
-   "maturity_level": "stable",
-   "path": "schemas/V_eta/stable/subject_statement.json",
-   "superclasses": [
-    "base"
-   ],
-   "tier": "stable"
-  },
-  "subjectmeasurement": {
-   "disposition": "retire",
-   "maturity_level": "stable",
-   "path": "schemas/V_eta/stable/subjectmeasurement.json",
-   "superclasses": [
-    "base"
-   ],
-   "tier": "stable"
-  },
-  "syncgraph": {
-   "disposition": "in_progress",
-   "maturity_level": "stable",
-   "path": "schemas/V_eta/stable/syncgraph.json",
-   "superclasses": [
-    "base"
-   ],
-   "tier": "stable"
-  },
-  "syncrule": {
-   "disposition": "in_progress",
-   "maturity_level": "stable",
-   "path": "schemas/V_eta/stable/syncrule.json",
-   "superclasses": [
-    "base"
-   ],
-   "tier": "stable"
-  },
-  "syncrule_mapping": {
-   "disposition": "in_progress",
-   "maturity_level": "stable",
-   "path": "schemas/V_eta/stable/syncrule_mapping.json",
-   "superclasses": [
-    "base"
-   ],
-   "tier": "stable"
-  },
-  "temperature": {
-   "disposition": "persist",
-   "maturity_level": "stable",
-   "path": "schemas/V_eta/stable/temperature.json",
-   "superclasses": [
-    "data_type"
-   ],
-   "tier": "stable"
-  },
-  "temperature_assertion": {
-   "disposition": "persist",
-   "maturity_level": "stable",
-   "path": "schemas/V_eta/stable/temperature_assertion.json",
-   "superclasses": [
-    "subject_assertion",
-    "temperature"
-   ],
-   "tier": "stable"
-  },
-  "temperature_manipulation": {
-   "disposition": "persist",
-   "maturity_level": "stable",
-   "path": "schemas/V_eta/stable/temperature_manipulation.json",
-   "superclasses": [
-    "subject_manipulation",
-    "temperature"
-   ],
-   "tier": "stable"
-  },
-  "temperature_observation": {
-   "disposition": "persist",
-   "maturity_level": "stable",
-   "path": "schemas/V_eta/stable/temperature_observation.json",
-   "superclasses": [
-    "subject_observation",
-    "temperature"
-   ],
-   "tier": "stable"
-  },
-  "term": {
-   "disposition": "persist",
-   "maturity_level": "stable",
-   "path": "schemas/V_eta/stable/term.json",
-   "superclasses": [
-    "data_type"
-   ],
-   "tier": "stable"
-  },
-  "term_assertion": {
-   "disposition": "persist",
-   "maturity_level": "stable",
-   "path": "schemas/V_eta/stable/term_assertion.json",
-   "superclasses": [
-    "subject_assertion",
-    "term"
-   ],
-   "tier": "stable"
-  },
-  "term_manipulation": {
-   "disposition": "persist",
-   "maturity_level": "stable",
-   "path": "schemas/V_eta/stable/term_manipulation.json",
-   "superclasses": [
-    "subject_manipulation",
-    "term"
-   ],
-   "tier": "stable"
-  },
-  "term_observation": {
-   "disposition": "persist",
-   "maturity_level": "stable",
-   "path": "schemas/V_eta/stable/term_observation.json",
-   "superclasses": [
-    "subject_observation",
-    "term"
-   ],
-   "tier": "stable"
-  },
-  "time_reference": {
-   "disposition": "in_progress",
-   "maturity_level": "stable",
-   "path": "schemas/V_eta/stable/time_reference.json",
-   "superclasses": [
-    "base"
-   ],
-   "tier": "stable"
-  },
-  "timed_sequence": {
-   "disposition": "persist",
-   "maturity_level": "draft",
-   "path": "schemas/V_eta/draft/timed_sequence.json",
-   "superclasses": [
-    "data_type"
-   ],
-   "tier": "draft"
-  },
-  "timed_sequence_manipulation": {
-   "disposition": "persist",
-   "maturity_level": "draft",
-   "path": "schemas/V_eta/draft/timed_sequence_manipulation.json",
-   "superclasses": [
-    "subject_manipulation",
-    "timed_sequence"
-   ],
-   "tier": "draft"
-  },
-  "tuning_curve": {
-   "disposition": "persist",
-   "maturity_level": "draft",
-   "path": "schemas/V_eta/draft/tuning_curve.json",
-   "superclasses": [
-    "data_type"
-   ],
-   "tier": "draft"
-  },
-  "tuning_curve_calculation": {
-   "disposition": "persist",
-   "maturity_level": "draft",
-   "path": "schemas/V_eta/draft/tuning_curve_calculation.json",
-   "superclasses": [
-    "subject_calculation",
-    "tuning_curve"
-   ],
-   "tier": "draft"
-  },
-  "tuning_fit": {
-   "disposition": "retire",
-   "maturity_level": "stable",
-   "path": "schemas/V_eta/stable/tuning_fit.json",
-   "superclasses": [
-    "calculator"
-   ],
-   "tier": "stable"
-  },
-  "undirected_relation": {
-   "disposition": "persist",
-   "maturity_level": "stable",
-   "path": "schemas/V_eta/stable/undirected_relation.json",
-   "superclasses": [
-    "relation"
-   ],
-   "tier": "stable"
-  },
-  "valid_interval": {
-   "disposition": "retire",
-   "maturity_level": "stable",
-   "path": "schemas/V_eta/stable/valid_interval.json",
-   "superclasses": [
-    "base",
-    "app"
-   ],
-   "tier": "stable"
-  },
-  "velocity": {
-   "disposition": "persist",
-   "maturity_level": "stable",
-   "path": "schemas/V_eta/stable/velocity.json",
-   "superclasses": [
-    "data_type"
-   ],
-   "tier": "stable"
-  },
-  "velocity_assertion": {
-   "disposition": "persist",
-   "maturity_level": "stable",
-   "path": "schemas/V_eta/stable/velocity_assertion.json",
-   "superclasses": [
-    "subject_assertion",
-    "velocity"
-   ],
-   "tier": "stable"
-  },
-  "velocity_observation": {
-   "disposition": "persist",
-   "maturity_level": "stable",
-   "path": "schemas/V_eta/stable/velocity_observation.json",
-   "superclasses": [
-    "subject_observation",
-    "velocity"
-   ],
-   "tier": "stable"
-  },
-  "visual_grating": {
-   "disposition": "persist",
-   "maturity_level": "stable",
-   "path": "schemas/V_eta/stable/visual_grating.json",
-   "superclasses": [
-    "data_type"
-   ],
-   "tier": "stable"
-  },
-  "visual_grating_manipulation": {
-   "disposition": "persist",
-   "maturity_level": "stable",
-   "path": "schemas/V_eta/stable/visual_grating_manipulation.json",
-   "superclasses": [
-    "subject_manipulation",
-    "visual_grating"
-   ],
-   "tier": "stable"
-  },
-  "vmneuralresponseresiduals": {
-   "disposition": "retire",
-   "maturity_level": "stable",
-   "path": "schemas/V_eta/stable/vmneuralresponseresiduals.json",
-   "superclasses": [
-    "base"
-   ],
-   "tier": "stable"
-  },
-  "vmspikefilteringparameters": {
-   "disposition": "retire",
-   "maturity_level": "stable",
-   "path": "schemas/V_eta/stable/vmspikefilteringparameters.json",
-   "superclasses": [
-    "base",
-    "epochid",
-    "app"
-   ],
-   "tier": "stable"
-  },
-  "vmspikefit": {
-   "disposition": "retire",
-   "maturity_level": "stable",
-   "path": "schemas/V_eta/stable/vmspikefit.json",
-   "superclasses": [
-    "base",
-    "epochid",
-    "app"
-   ],
-   "tier": "stable"
-  },
-  "vmspikesummary": {
-   "disposition": "retire",
-   "maturity_level": "stable",
-   "path": "schemas/V_eta/stable/vmspikesummary.json",
-   "superclasses": [
-    "base",
-    "epochid"
-   ],
-   "tier": "stable"
-  },
-  "voltage": {
-   "disposition": "persist",
-   "maturity_level": "stable",
-   "path": "schemas/V_eta/stable/voltage.json",
-   "superclasses": [
-    "data_type"
-   ],
-   "tier": "stable"
-  },
-  "voltage_assertion": {
-   "disposition": "persist",
-   "maturity_level": "stable",
-   "path": "schemas/V_eta/stable/voltage_assertion.json",
-   "superclasses": [
-    "subject_assertion",
-    "voltage"
-   ],
-   "tier": "stable"
-  },
-  "voltage_manipulation": {
-   "disposition": "persist",
-   "maturity_level": "stable",
-   "path": "schemas/V_eta/stable/voltage_manipulation.json",
-   "superclasses": [
-    "subject_manipulation",
-    "voltage"
-   ],
-   "tier": "stable"
-  },
-  "voltage_observation": {
-   "disposition": "persist",
-   "maturity_level": "stable",
-   "path": "schemas/V_eta/stable/voltage_observation.json",
-   "superclasses": [
-    "subject_observation",
-    "voltage"
-   ],
-   "tier": "stable"
-  },
-  "volume": {
-   "disposition": "persist",
-   "maturity_level": "stable",
-   "path": "schemas/V_eta/stable/volume.json",
-   "superclasses": [
-    "data_type"
-   ],
-   "tier": "stable"
-  },
-  "volume_assertion": {
-   "disposition": "persist",
-   "maturity_level": "stable",
-   "path": "schemas/V_eta/stable/volume_assertion.json",
-   "superclasses": [
-    "subject_assertion",
-    "volume"
-   ],
-   "tier": "stable"
-  },
-  "volume_observation": {
-   "disposition": "persist",
-   "maturity_level": "stable",
-   "path": "schemas/V_eta/stable/volume_observation.json",
-   "superclasses": [
-    "subject_observation",
-    "volume"
-   ],
-   "tier": "stable"
-  },
-  "web_resource": {
-   "disposition": "persist",
-   "maturity_level": "stable",
-   "path": "schemas/V_eta/stable/web_resource.json",
-   "superclasses": [
-    "entity"
-   ],
-   "tier": "stable"
-  },
-  "zarr": {
-   "disposition": "retire",
-   "maturity_level": "stable",
-   "path": "schemas/V_eta/stable/zarr.json",
-   "superclasses": [
-    "base"
-   ],
-   "tier": "stable"
-  }
- },
  "classes": {
   "SpikeInterfaceSortingOutputs": {
    "consumers": {
     "convert_package_mentions": [],
     "per_class_migrators": [
      {
-      "lines": 69,
       "package": "migrators_j",
       "path": "src/did/+did2/+convert/+migrators_j/spike_interface_sorting_outputs.m",
       "spelling": "spike_interface_sorting_outputs"
@@ -2697,7 +390,6 @@
     "convert_package_mentions": [],
     "per_class_migrators": [
      {
-      "lines": 160,
       "package": "migrators_j",
       "path": "src/did/+did2/+convert/+migrators_j/binaryseries_parameters.m",
       "spelling": "binaryseries_parameters"
@@ -2770,7 +462,6 @@
     "convert_package_mentions": [],
     "per_class_migrators": [
      {
-      "lines": 86,
       "package": "migrators_j",
       "path": "src/did/+did2/+convert/+migrators_j/binnedspikeratevm.m",
       "spelling": "binnedspikeratevm"
@@ -2878,13 +569,11 @@
     ],
     "per_class_migrators": [
      {
-      "lines": 22,
       "package": "migrators_j",
       "path": "src/did/+did2/+convert/+migrators_j/contrast_sensitivity_calc.m",
       "spelling": "contrast_sensitivity_calc"
      },
      {
-      "lines": 16,
       "package": "migrators",
       "path": "src/did/+did2/+convert/+migrators/contrast_sensitivity_calc.m",
       "spelling": "contrast_sensitivity_calc"
@@ -2902,7 +591,6 @@
     "convert_package_mentions": [],
     "per_class_migrators": [
      {
-      "lines": 14,
       "package": "migrators_j",
       "path": "src/did/+did2/+convert/+migrators_j/contrast_tuning.m",
       "spelling": "contrast_tuning"
@@ -2933,13 +621,11 @@
     ],
     "per_class_migrators": [
      {
-      "lines": 14,
       "package": "migrators_j",
       "path": "src/did/+did2/+convert/+migrators_j/contrast_tuning_calc.m",
       "spelling": "contrast_tuning_calc"
      },
      {
-      "lines": 16,
       "package": "migrators",
       "path": "src/did/+did2/+convert/+migrators/contrast_tuning_calc.m",
       "spelling": "contrast_tuning_calc"
@@ -2957,7 +643,6 @@
     "convert_package_mentions": [],
     "per_class_migrators": [
      {
-      "lines": 161,
       "package": "migrators_j",
       "path": "src/did/+did2/+convert/+migrators_j/control_stimulus_ids.m",
       "spelling": "control_stimulus_ids"
@@ -3017,7 +702,6 @@
     "convert_package_mentions": [],
     "per_class_migrators": [
      {
-      "lines": 168,
       "package": "migrators_j",
       "path": "src/did/+did2/+convert/+migrators_j/daqmetadatareader.m",
       "spelling": "daqmetadatareader"
@@ -3096,7 +780,6 @@
     ],
     "per_class_migrators": [
      {
-      "lines": 166,
       "package": "migrators_j",
       "path": "src/did/+did2/+convert/+migrators_j/daqmetadatareader_epochdata_ingested.m",
       "spelling": "daqmetadatareader_epochdata_ingested"
@@ -3150,7 +833,6 @@
     "convert_package_mentions": [],
     "per_class_migrators": [
      {
-      "lines": 143,
       "package": "migrators_j",
       "path": "src/did/+did2/+convert/+migrators_j/daqreader.m",
       "spelling": "daqreader"
@@ -3185,7 +867,6 @@
     "convert_package_mentions": [],
     "per_class_migrators": [
      {
-      "lines": 130,
       "package": "migrators_j",
       "path": "src/did/+did2/+convert/+migrators_j/daqreader_epochdata_ingested.m",
       "spelling": "daqreader_epochdata_ingested"
@@ -3243,7 +924,6 @@
     "convert_package_mentions": [],
     "per_class_migrators": [
      {
-      "lines": 128,
       "package": "migrators_j",
       "path": "src/did/+did2/+convert/+migrators_j/daqreader_image_epochdata_ingested.m",
       "spelling": "daqreader_image_epochdata_ingested"
@@ -3301,7 +981,6 @@
     "convert_package_mentions": [],
     "per_class_migrators": [
      {
-      "lines": 67,
       "package": "migrators_j",
       "path": "src/did/+did2/+convert/+migrators_j/daqreader_mfdaq_epochdata_ingested.m",
       "spelling": "daqreader_mfdaq_epochdata_ingested"
@@ -3422,7 +1101,6 @@
     "convert_package_mentions": [],
     "per_class_migrators": [
      {
-      "lines": 75,
       "package": "migrators_j",
       "path": "src/did/+did2/+convert/+migrators_j/daqreader_ndr.m",
       "spelling": "daqreader_ndr"
@@ -3479,7 +1157,6 @@
     "convert_package_mentions": [],
     "per_class_migrators": [
      {
-      "lines": 421,
       "package": "migrators_j",
       "path": "src/did/+did2/+convert/+migrators_j/daqsystem.m",
       "spelling": "daqsystem"
@@ -3530,7 +1207,6 @@
     "convert_package_mentions": [],
     "per_class_migrators": [
      {
-      "lines": 85,
       "package": "migrators_j",
       "path": "src/did/+did2/+convert/+migrators_j/dataset_remote.m",
       "spelling": "dataset_remote"
@@ -3585,7 +1261,6 @@
     "convert_package_mentions": [],
     "per_class_migrators": [
      {
-      "lines": 24,
       "package": "migrators_j",
       "path": "src/did/+did2/+convert/+migrators_j/dataset_session_info.m",
       "spelling": "dataset_session_info"
@@ -3723,13 +1398,11 @@
     "convert_package_mentions": [],
     "per_class_migrators": [
      {
-      "lines": 37,
       "package": "migrators_j",
       "path": "src/did/+did2/+convert/+migrators_j/distance_metadata.m",
       "spelling": "distance_metadata"
      },
      {
-      "lines": 158,
       "package": "migrators",
       "path": "src/did/+did2/+convert/+migrators/distance_metadata.m",
       "spelling": "distance_metadata"
@@ -3816,7 +1489,6 @@
     "convert_package_mentions": [],
     "per_class_migrators": [
      {
-      "lines": 110,
       "package": "migrators_j",
       "path": "src/did/+did2/+convert/+migrators_j/electrode_offset_voltage.m",
       "spelling": "electrode_offset_voltage"
@@ -3908,13 +1580,11 @@
     ],
     "per_class_migrators": [
      {
-      "lines": 217,
       "package": "migrators_j",
       "path": "src/did/+did2/+convert/+migrators_j/element.m",
       "spelling": "element"
      },
      {
-      "lines": 57,
       "package": "migrators",
       "path": "src/did/+did2/+convert/+migrators/element.m",
       "spelling": "element"
@@ -3991,13 +1661,11 @@
     "convert_package_mentions": [],
     "per_class_migrators": [
      {
-      "lines": 104,
       "package": "migrators_j",
       "path": "src/did/+did2/+convert/+migrators_j/element_epoch.m",
       "spelling": "element_epoch"
      },
      {
-      "lines": 144,
       "package": "migrators",
       "path": "src/did/+did2/+convert/+migrators/element_epoch.m",
       "spelling": "element_epoch"
@@ -4114,7 +1782,6 @@
     "convert_package_mentions": [],
     "per_class_migrators": [
      {
-      "lines": 50,
       "package": "migrators",
       "path": "src/did/+did2/+convert/+migrators/epochclocktimes.m",
       "spelling": "epochclocktimes"
@@ -4168,7 +1835,6 @@
     "convert_package_mentions": [],
     "per_class_migrators": [
      {
-      "lines": 177,
       "package": "migrators_j",
       "path": "src/did/+did2/+convert/+migrators_j/epochfiles_ingested.m",
       "spelling": "epochfiles_ingested"
@@ -4298,7 +1964,6 @@
     "convert_package_mentions": [],
     "per_class_migrators": [
      {
-      "lines": 197,
       "package": "migrators_j",
       "path": "src/did/+did2/+convert/+migrators_j/filenavigator.m",
       "spelling": "filenavigator"
@@ -4339,7 +2004,6 @@
     "convert_package_mentions": [],
     "per_class_migrators": [
      {
-      "lines": 37,
       "package": "migrators",
       "path": "src/did/+did2/+convert/+migrators/filter.m",
       "spelling": "filter"
@@ -4398,7 +2062,6 @@
     "convert_package_mentions": [],
     "per_class_migrators": [
      {
-      "lines": 218,
       "package": "migrators_j",
       "path": "src/did/+did2/+convert/+migrators_j/fitcurve.m",
       "spelling": "fitcurve"
@@ -4570,7 +2233,6 @@
     "convert_package_mentions": [],
     "per_class_migrators": [
      {
-      "lines": 16,
       "package": "migrators",
       "path": "src/did/+did2/+convert/+migrators/hartley_calc.m",
       "spelling": "hartley_calc"
@@ -4588,7 +2250,6 @@
     "convert_package_mentions": [],
     "per_class_migrators": [
      {
-      "lines": 262,
       "package": "migrators_j",
       "path": "src/did/+did2/+convert/+migrators_j/image.m",
       "spelling": "image"
@@ -4724,13 +2385,11 @@
     "convert_package_mentions": [],
     "per_class_migrators": [
      {
-      "lines": 505,
       "package": "migrators_j",
       "path": "src/did/+did2/+convert/+migrators_j/image_stack.m",
       "spelling": "image_stack"
      },
      {
-      "lines": 328,
       "package": "migrators_i",
       "path": "src/did/+did2/+convert/+migrators_i/image_stack.m",
       "spelling": "image_stack"
@@ -4888,13 +2547,11 @@
     "convert_package_mentions": [],
     "per_class_migrators": [
      {
-      "lines": 202,
       "package": "migrators_j",
       "path": "src/did/+did2/+convert/+migrators_j/jrclust_clusters.m",
       "spelling": "jrclust_clusters"
      },
      {
-      "lines": 25,
       "package": "migrators",
       "path": "src/did/+did2/+convert/+migrators/jrclust_clusters.m",
       "spelling": "jrclust_clusters"
@@ -4955,7 +2612,6 @@
     "convert_package_mentions": [],
     "per_class_migrators": [
      {
-      "lines": 16,
       "package": "migrators_j",
       "path": "src/did/+did2/+convert/+migrators_j/kiasort_clusters.m",
       "spelling": "kiasort_clusters"
@@ -5001,7 +2657,6 @@
     "convert_package_mentions": [],
     "per_class_migrators": [
      {
-      "lines": 17,
       "package": "migrators_j",
       "path": "src/did/+did2/+convert/+migrators_j/kilosort_clusters.m",
       "spelling": "kilosort_clusters"
@@ -5060,7 +2715,6 @@
     ],
     "per_class_migrators": [
      {
-      "lines": 109,
       "package": "migrators_j",
       "path": "src/did/+did2/+convert/+migrators_j/measurement.m",
       "spelling": "measurement"
@@ -5157,7 +2811,6 @@
     "convert_package_mentions": [],
     "per_class_migrators": [
      {
-      "lines": 396,
       "package": "migrators_j",
       "path": "src/did/+did2/+convert/+migrators_j/metadata_editor.m",
       "spelling": "metadata_editor"
@@ -5235,7 +2888,6 @@
     "convert_package_mentions": [],
     "per_class_migrators": [
      {
-      "lines": 221,
       "package": "migrators_j",
       "path": "src/did/+did2/+convert/+migrators_j/neuron_extracellular.m",
       "spelling": "neuron_extracellular"
@@ -5344,7 +2996,6 @@
     "convert_package_mentions": [],
     "per_class_migrators": [
      {
-      "lines": 58,
       "package": "migrators",
       "path": "src/did/+did2/+convert/+migrators/ngrid.m",
       "spelling": "ngrid"
@@ -5416,7 +3067,6 @@
     "convert_package_mentions": [],
     "per_class_migrators": [
      {
-      "lines": 85,
       "package": "migrators_j",
       "path": "src/did/+did2/+convert/+migrators_j/oneepoch.m",
       "spelling": "oneepoch"
@@ -5469,13 +3119,11 @@
     "convert_package_mentions": [],
     "per_class_migrators": [
      {
-      "lines": 457,
       "package": "migrators_j",
       "path": "src/did/+did2/+convert/+migrators_j/ontology_image.m",
       "spelling": "ontology_image"
      },
      {
-      "lines": 41,
       "package": "migrators",
       "path": "src/did/+did2/+convert/+migrators/ontology_image.m",
       "spelling": "ontology_image"
@@ -5585,13 +3233,11 @@
     ],
     "per_class_migrators": [
      {
-      "lines": 201,
       "package": "migrators_j",
       "path": "src/did/+did2/+convert/+migrators_j/ontology_label.m",
       "spelling": "ontology_label"
      },
      {
-      "lines": 113,
       "package": "migrators",
       "path": "src/did/+did2/+convert/+migrators/ontology_label.m",
       "spelling": "ontology_label"
@@ -5680,13 +3326,11 @@
     ],
     "per_class_migrators": [
      {
-      "lines": 953,
       "package": "migrators_j",
       "path": "src/did/+did2/+convert/+migrators_j/ontology_table_row.m",
       "spelling": "ontology_table_row"
      },
      {
-      "lines": 309,
       "package": "migrators_i",
       "path": "src/did/+did2/+convert/+migrators_i/ontology_table_row.m",
       "spelling": "ontology_table_row"
@@ -5758,7 +3402,6 @@
     ],
     "per_class_migrators": [
      {
-      "lines": 196,
       "package": "migrators_j",
       "path": "src/did/+did2/+convert/+migrators_j/openminds.m",
       "spelling": "openminds"
@@ -5827,7 +3470,6 @@
     "convert_package_mentions": [],
     "per_class_migrators": [
      {
-      "lines": 105,
       "package": "migrators_j",
       "path": "src/did/+did2/+convert/+migrators_j/openminds_element.m",
       "spelling": "openminds_element"
@@ -5867,7 +3509,6 @@
     "convert_package_mentions": [],
     "per_class_migrators": [
      {
-      "lines": 96,
       "package": "migrators_j",
       "path": "src/did/+did2/+convert/+migrators_j/openminds_stimulus.m",
       "spelling": "openminds_stimulus"
@@ -5908,7 +3549,6 @@
     "convert_package_mentions": [],
     "per_class_migrators": [
      {
-      "lines": 99,
       "package": "migrators_j",
       "path": "src/did/+did2/+convert/+migrators_j/openminds_subject.m",
       "spelling": "openminds_subject"
@@ -5961,13 +3601,11 @@
     ],
     "per_class_migrators": [
      {
-      "lines": 16,
       "package": "migrators_j",
       "path": "src/did/+did2/+convert/+migrators_j/oridirtuning_calc.m",
       "spelling": "oridirtuning_calc"
      },
      {
-      "lines": 16,
       "package": "migrators",
       "path": "src/did/+did2/+convert/+migrators/oridirtuning_calc.m",
       "spelling": "oridirtuning_calc"
@@ -5985,7 +3623,6 @@
     "convert_package_mentions": [],
     "per_class_migrators": [
      {
-      "lines": 26,
       "package": "migrators_j",
       "path": "src/did/+did2/+convert/+migrators_j/orientation_direction_tuning.m",
       "spelling": "orientation_direction_tuning"
@@ -6061,13 +3698,11 @@
     "convert_package_mentions": [],
     "per_class_migrators": [
      {
-      "lines": 69,
       "package": "migrators_j",
       "path": "src/did/+did2/+convert/+migrators_j/position_metadata.m",
       "spelling": "position_metadata"
      },
      {
-      "lines": 116,
       "package": "migrators",
       "path": "src/did/+did2/+convert/+migrators/position_metadata.m",
       "spelling": "position_metadata"
@@ -6142,7 +3777,6 @@
     "convert_package_mentions": [],
     "per_class_migrators": [
      {
-      "lines": 140,
       "package": "migrators_j",
       "path": "src/did/+did2/+convert/+migrators_j/probe_geometry.m",
       "spelling": "probe_geometry"
@@ -6272,7 +3906,6 @@
     "convert_package_mentions": [],
     "per_class_migrators": [
      {
-      "lines": 37,
       "package": "migrators_j",
       "path": "src/did/+did2/+convert/+migrators_j/probe_location.m",
       "spelling": "probe_location"
@@ -6381,7 +4014,6 @@
     "convert_package_mentions": [],
     "per_class_migrators": [
      {
-      "lines": 267,
       "package": "migrators_j",
       "path": "src/did/+did2/+convert/+migrators_j/pyraview.m",
       "spelling": "pyraview"
@@ -6519,7 +4151,6 @@
     "convert_package_mentions": [],
     "per_class_migrators": [
      {
-      "lines": 31,
       "package": "migrators_j",
       "path": "src/did/+did2/+convert/+migrators_j/session_in_a_dataset.m",
       "spelling": "session_in_a_dataset"
@@ -6594,13 +4225,11 @@
     "convert_package_mentions": [],
     "per_class_migrators": [
      {
-      "lines": 78,
       "package": "migrators_j",
       "path": "src/did/+did2/+convert/+migrators_j/simple_calc.m",
       "spelling": "simple_calc"
      },
      {
-      "lines": 16,
       "package": "migrators",
       "path": "src/did/+did2/+convert/+migrators/simple_calc.m",
       "spelling": "simple_calc"
@@ -6677,7 +4306,6 @@
     "convert_package_mentions": [],
     "per_class_migrators": [
      {
-      "lines": 66,
       "package": "migrators_j",
       "path": "src/did/+did2/+convert/+migrators_j/site2channelmap.m",
       "spelling": "site2channelmap"
@@ -6752,7 +4380,6 @@
     "convert_package_mentions": [],
     "per_class_migrators": [
      {
-      "lines": 58,
       "package": "migrators_j",
       "path": "src/did/+did2/+convert/+migrators_j/sorting_parameters.m",
       "spelling": "sorting_parameters"
@@ -6809,7 +4436,6 @@
     "convert_package_mentions": [],
     "per_class_migrators": [
      {
-      "lines": 15,
       "package": "migrators_j",
       "path": "src/did/+did2/+convert/+migrators_j/spatial_frequency_tuning.m",
       "spelling": "spatial_frequency_tuning"
@@ -6827,13 +4453,11 @@
     "convert_package_mentions": [],
     "per_class_migrators": [
      {
-      "lines": 14,
       "package": "migrators_j",
       "path": "src/did/+did2/+convert/+migrators_j/spatial_frequency_tuning_calc.m",
       "spelling": "spatial_frequency_tuning_calc"
      },
      {
-      "lines": 16,
       "package": "migrators",
       "path": "src/did/+did2/+convert/+migrators/spatial_frequency_tuning_calc.m",
       "spelling": "spatial_frequency_tuning_calc"
@@ -6851,7 +4475,6 @@
     "convert_package_mentions": [],
     "per_class_migrators": [
      {
-      "lines": 15,
       "package": "migrators_j",
       "path": "src/did/+did2/+convert/+migrators_j/speed_tuning.m",
       "spelling": "speed_tuning"
@@ -6869,13 +4492,11 @@
     "convert_package_mentions": [],
     "per_class_migrators": [
      {
-      "lines": 14,
       "package": "migrators_j",
       "path": "src/did/+did2/+convert/+migrators_j/speed_tuning_calc.m",
       "spelling": "speed_tuning_calc"
      },
      {
-      "lines": 16,
       "package": "migrators",
       "path": "src/did/+did2/+convert/+migrators/speed_tuning_calc.m",
       "spelling": "speed_tuning_calc"
@@ -6893,7 +4514,6 @@
     "convert_package_mentions": [],
     "per_class_migrators": [
      {
-      "lines": 69,
       "package": "migrators_j",
       "path": "src/did/+did2/+convert/+migrators_j/spike_clusters.m",
       "spelling": "spike_clusters"
@@ -6987,7 +4607,6 @@
     "convert_package_mentions": [],
     "per_class_migrators": [
      {
-      "lines": 79,
       "package": "migrators_j",
       "path": "src/did/+did2/+convert/+migrators_j/spike_extraction_parameters.m",
       "spelling": "spike_extraction_parameters"
@@ -7077,7 +4696,6 @@
     "convert_package_mentions": [],
     "per_class_migrators": [
      {
-      "lines": 74,
       "package": "migrators_j",
       "path": "src/did/+did2/+convert/+migrators_j/spike_extraction_parameters_modification.m",
       "spelling": "spike_extraction_parameters_modification"
@@ -7198,7 +4816,6 @@
     "convert_package_mentions": [],
     "per_class_migrators": [
      {
-      "lines": 66,
       "package": "migrators_j",
       "path": "src/did/+did2/+convert/+migrators_j/spikewaves.m",
       "spelling": "spikewaves"
@@ -7303,19 +4920,16 @@
     ],
     "per_class_migrators": [
      {
-      "lines": 35,
       "package": "migrators_j",
       "path": "src/did/+did2/+convert/+migrators_j/stimulus_bath.m",
       "spelling": "stimulus_bath"
      },
      {
-      "lines": 209,
       "package": "migrators",
       "path": "src/did/+did2/+convert/+migrators/stimulus_bath.m",
       "spelling": "stimulus_bath"
      },
      {
-      "lines": 25,
       "package": "migrators_i",
       "path": "src/did/+did2/+convert/+migrators_i/stimulus_bath.m",
       "spelling": "stimulus_bath"
@@ -7377,7 +4991,6 @@
     "convert_package_mentions": [],
     "per_class_migrators": [
      {
-      "lines": 135,
       "package": "migrators_j",
       "path": "src/did/+did2/+convert/+migrators_j/stimulus_parameter.m",
       "spelling": "stimulus_parameter"
@@ -7502,7 +5115,6 @@
     "convert_package_mentions": [],
     "per_class_migrators": [
      {
-      "lines": 213,
       "package": "migrators_j",
       "path": "src/did/+did2/+convert/+migrators_j/stimulus_presentation.m",
       "spelling": "stimulus_presentation"
@@ -7644,7 +5256,6 @@
     ],
     "per_class_migrators": [
      {
-      "lines": 470,
       "package": "migrators_j",
       "path": "src/did/+did2/+convert/+migrators_j/stimulus_response_scalar.m",
       "spelling": "stimulus_response_scalar"
@@ -7743,7 +5354,6 @@
     ],
     "per_class_migrators": [
      {
-      "lines": 77,
       "package": "migrators_j",
       "path": "src/did/+did2/+convert/+migrators_j/stimulus_response_scalar_parameters_basic.m",
       "spelling": "stimulus_response_scalar_parameters_basic"
@@ -7807,7 +5417,6 @@
     "convert_package_mentions": [],
     "per_class_migrators": [
      {
-      "lines": 26,
       "package": "migrators_j",
       "path": "src/did/+did2/+convert/+migrators_j/stimulus_tuningcurve.m",
       "spelling": "stimulus_tuningcurve"
@@ -7934,7 +5543,6 @@
     ],
     "per_class_migrators": [
      {
-      "lines": 28,
       "package": "migrators_j",
       "path": "src/did/+did2/+convert/+migrators_j/subject.m",
       "spelling": "subject"
@@ -7971,13 +5579,11 @@
     "convert_package_mentions": [],
     "per_class_migrators": [
      {
-      "lines": 114,
       "package": "migrators_j",
       "path": "src/did/+did2/+convert/+migrators_j/subject_group.m",
       "spelling": "subject_group"
      },
      {
-      "lines": 58,
       "package": "migrators_i",
       "path": "src/did/+did2/+convert/+migrators_i/subject_group.m",
       "spelling": "subject_group"
@@ -8040,7 +5646,6 @@
     "convert_package_mentions": [],
     "per_class_migrators": [
      {
-      "lines": 206,
       "package": "migrators_j",
       "path": "src/did/+did2/+convert/+migrators_j/subjectmeasurement.m",
       "spelling": "subjectmeasurement"
@@ -8087,7 +5692,6 @@
     "convert_package_mentions": [],
     "per_class_migrators": [
      {
-      "lines": 260,
       "package": "migrators_j",
       "path": "src/did/+did2/+convert/+migrators_j/syncgraph.m",
       "spelling": "syncgraph"
@@ -8128,7 +5732,6 @@
     "convert_package_mentions": [],
     "per_class_migrators": [
      {
-      "lines": 209,
       "package": "migrators_j",
       "path": "src/did/+did2/+convert/+migrators_j/syncrule.m",
       "spelling": "syncrule"
@@ -8165,7 +5768,6 @@
     "convert_package_mentions": [],
     "per_class_migrators": [
      {
-      "lines": 263,
       "package": "migrators_j",
       "path": "src/did/+did2/+convert/+migrators_j/syncrule_mapping.m",
       "spelling": "syncrule_mapping"
@@ -8241,7 +5843,6 @@
     "convert_package_mentions": [],
     "per_class_migrators": [
      {
-      "lines": 15,
       "package": "migrators_j",
       "path": "src/did/+did2/+convert/+migrators_j/temporal_frequency_tuning.m",
       "spelling": "temporal_frequency_tuning"
@@ -8259,13 +5860,11 @@
     "convert_package_mentions": [],
     "per_class_migrators": [
      {
-      "lines": 14,
       "package": "migrators_j",
       "path": "src/did/+did2/+convert/+migrators_j/temporal_frequency_tuning_calc.m",
       "spelling": "temporal_frequency_tuning_calc"
      },
      {
-      "lines": 16,
       "package": "migrators",
       "path": "src/did/+did2/+convert/+migrators/temporal_frequency_tuning_calc.m",
       "spelling": "temporal_frequency_tuning_calc"
@@ -8283,13 +5882,11 @@
     "convert_package_mentions": [],
     "per_class_migrators": [
      {
-      "lines": 164,
       "package": "migrators_j",
       "path": "src/did/+did2/+convert/+migrators_j/treatment.m",
       "spelling": "treatment"
      },
      {
-      "lines": 276,
       "package": "migrators_i",
       "path": "src/did/+did2/+convert/+migrators_i/treatment.m",
       "spelling": "treatment"
@@ -8346,13 +5943,11 @@
     "convert_package_mentions": [],
     "per_class_migrators": [
      {
-      "lines": 82,
       "package": "migrators_j",
       "path": "src/did/+did2/+convert/+migrators_j/treatment_drug.m",
       "spelling": "treatment_drug"
      },
      {
-      "lines": 181,
       "package": "migrators_i",
       "path": "src/did/+did2/+convert/+migrators_i/treatment_drug.m",
       "spelling": "treatment_drug"
@@ -8444,13 +6039,11 @@
     "convert_package_mentions": [],
     "per_class_migrators": [
      {
-      "lines": 145,
       "package": "migrators_j",
       "path": "src/did/+did2/+convert/+migrators_j/treatment_transfer.m",
       "spelling": "treatment_transfer"
      },
      {
-      "lines": 111,
       "package": "migrators_i",
       "path": "src/did/+did2/+convert/+migrators_i/treatment_transfer.m",
       "spelling": "treatment_transfer"
@@ -8507,13 +6100,11 @@
     "convert_package_mentions": [],
     "per_class_migrators": [
      {
-      "lines": 31,
       "package": "migrators_j",
       "path": "src/did/+did2/+convert/+migrators_j/tuningcurve_calc.m",
       "spelling": "tuningcurve_calc"
      },
      {
-      "lines": 16,
       "package": "migrators",
       "path": "src/did/+did2/+convert/+migrators/tuningcurve_calc.m",
       "spelling": "tuningcurve_calc"
@@ -8648,13 +6239,11 @@
     "convert_package_mentions": [],
     "per_class_migrators": [
      {
-      "lines": 62,
       "package": "migrators_j",
       "path": "src/did/+did2/+convert/+migrators_j/virus_injection.m",
       "spelling": "virus_injection"
      },
      {
-      "lines": 163,
       "package": "migrators_i",
       "path": "src/did/+did2/+convert/+migrators_i/virus_injection.m",
       "spelling": "virus_injection"
@@ -8749,7 +6338,6 @@
     "convert_package_mentions": [],
     "per_class_migrators": [
      {
-      "lines": 82,
       "package": "migrators_j",
       "path": "src/did/+did2/+convert/+migrators_j/vmneuralresponseresiduals.m",
       "spelling": "vmneuralresponseresiduals"
@@ -8836,7 +6424,6 @@
     "convert_package_mentions": [],
     "per_class_migrators": [
      {
-      "lines": 225,
       "package": "migrators_j",
       "path": "src/did/+did2/+convert/+migrators_j/vmspikefilteringparameters.m",
       "spelling": "vmspikefilteringparameters"
@@ -8914,7 +6501,6 @@
     "convert_package_mentions": [],
     "per_class_migrators": [
      {
-      "lines": 212,
       "package": "migrators_j",
       "path": "src/did/+did2/+convert/+migrators_j/vmspikefit.m",
       "spelling": "vmspikefit"
@@ -8991,7 +6577,6 @@
     "convert_package_mentions": [],
     "per_class_migrators": [
      {
-      "lines": 91,
       "package": "migrators_j",
       "path": "src/did/+did2/+convert/+migrators_j/vmspikesummary.m",
       "spelling": "vmspikesummary"
@@ -9105,7 +6690,6 @@
   }
  },
  "denominator": {
-  "built_veta_schemas": 243,
   "convert_package_files_scanned": 15,
   "did_matlab_available": true,
   "ledger_disagreements": [],
@@ -9120,13 +6704,12 @@
   "rows_with_an_ndi_declaration": 91,
   "rows_without_one": 11
  },
- "description": "For each did_v1 source class: what NDI actually declares, what consumes it in DID-matlab, and the built V_eta schemas its targets resolve to. A projection of generated artifacts plus a file:line search of the convert package -- no new facts.",
+ "description": "For each did_v1 source class: what NDI actually declares, what consumes it in DID-matlab, and the built V_eta schemas its targets resolve to (joined in the viewer against the schema index it already loads). A projection of generated artifacts plus a file:line search of the convert package -- no new facts.",
  "generated_by": "tools/gen_class_walkthrough.py",
  "sources": {
   "did_matlab": "src/did/+did2/+convert",
   "ground_truth": "schemas/V_eta_ndi_ground_truth.json",
-  "ledger": "schemas/V_eta_coverage_ledger.json",
-  "veta_index": "schemas/V_eta/index.json"
+  "ledger": "schemas/V_eta_coverage_ledger.json"
  },
  "title": "Per-class migration walkthrough"
 }

@@ -18,6 +18,24 @@ where a browser can read them: web/public/class_walkthrough.json, committed, so
 them. Nothing here is a new fact -- every field is a projection of a generated
 artifact or a file:line in DID-matlab.
 
+WHAT IT DELIBERATELY DOES NOT COPY, AND WHY THAT IS A CORRECTNESS PROPERTY.
+This asset is COMMITTED and GATED (tools/check_web_assets_fresh.py finds this
+generator by basename and delegates freshness to its own `--check`), so every
+volatile fact copied into it is a red gate waiting for an unrelated edit. Two
+were removed after the gate caught them:
+
+  * the LINE COUNT of each migrator file. It went stale within the hour --
+    twice -- because another agent was editing DID-matlab, and the number told
+    a reader nothing they wanted. A gate that fires on the size of somebody
+    else's file is noise that teaches people to ignore gates.
+  * the BUILT SCHEMA TABLE (class -> path/tier/maturity/disposition). It
+    duplicated `schemas/V_eta/index.json`, which the viewer already loads for
+    its class tree, and it coupled this asset to every `build_v_eta.py` run.
+    The viewer joins against the index it already has.
+
+What is left changes only when NDI's templates change or when the v1 source
+universe does -- both rare, both genuinely this asset's business.
+
 WHAT IT DELIBERATELY DOES NOT DO. It does not decide whether a class is
 "handled". `migrator: true` already lives in the ledger, computed by
 tools/coverage.py, and a SECOND opinion on that question rendered beside the
@@ -40,7 +58,6 @@ HERE = Path(__file__).resolve().parent
 REPO = HERE.parent
 LEDGER = REPO / "schemas" / "V_eta_coverage_ledger.json"
 GROUND_TRUTH = REPO / "schemas" / "V_eta_ndi_ground_truth.json"
-VETA_INDEX = REPO / "schemas" / "V_eta" / "index.json"
 OUT = REPO / "web" / "public" / "class_walkthrough.json"
 
 # The three convert packages tools/coverage.py reads, in the same order and for
@@ -108,13 +125,7 @@ def _per_class_migrators(names):
             rel = f"{CONVERT_REL}/+{pkg}/{name}.m"
             if p.is_file() and rel not in seen:
                 seen.add(rel)
-                out.append({
-                    "package": pkg,
-                    "spelling": name,
-                    "path": rel,
-                    "lines": len(p.read_text(encoding="utf-8",
-                                             errors="replace").splitlines()),
-                })
+                out.append({"package": pkg, "spelling": name, "path": rel})
     return out
 
 
@@ -166,16 +177,9 @@ def build():
     """Assemble the asset. Returns (payload, denominator)."""
     ledger = _read_json(LEDGER)
     gt = _read_json(GROUND_TRUTH)
-    index = _read_json(VETA_INDEX)
 
     rows = ledger["rows"]
     gt_classes = gt.get("classes", {})
-    built = {e["class_name"]: {"path": e["path"],
-                               "tier": e.get("tier"),
-                               "maturity_level": e.get("maturity_level"),
-                               "disposition": e.get("disposition"),
-                               "superclasses": e.get("superclasses", [])}
-             for e in index["schemas"]}
 
     # Side tables in the ground truth are keyed by NDI class name; invert them
     # once so a per-class lookup is a dict hit rather than a scan.
@@ -230,13 +234,13 @@ def build():
         "description": (
             "For each did_v1 source class: what NDI actually declares, what "
             "consumes it in DID-matlab, and the built V_eta schemas its "
-            "targets resolve to. A projection of generated artifacts plus a "
-            "file:line search of the convert package -- no new facts."),
+            "targets resolve to (joined in the viewer against the schema index it "
+            "already loads). A projection of generated artifacts plus a file:line "
+            "search of the convert package -- no new facts."),
         "generated_by": "tools/gen_class_walkthrough.py",
         "sources": {
             "ledger": "schemas/V_eta_coverage_ledger.json",
             "ground_truth": "schemas/V_eta_ndi_ground_truth.json",
-            "veta_index": "schemas/V_eta/index.json",
             "did_matlab": CONVERT_REL if DIDM else None,
         },
         "denominator": {
@@ -244,14 +248,12 @@ def build():
             "ndi_ground_truth_classes": len(gt_classes),
             "rows_with_an_ndi_declaration": with_ndi,
             "rows_without_one": len(rows) - with_ndi,
-            "built_veta_schemas": len(built),
             "convert_package_files_scanned": len(convert_files),
             "migrator_packages_searched": list(MIGRATOR_PACKAGES),
             "rows_with_a_per_class_migrator_file": with_migrator_file,
             "did_matlab_available": bool(DIDM),
             "ledger_disagreements": disagree,
         },
-        "built_schemas": built,
         "classes": classes,
     }
     return payload
@@ -265,7 +267,6 @@ def print_denominator(payload):
     d = payload["denominator"]
     print(f"DENOMINATOR: {d['ledger_rows_read']} ledger row(s) read, "
           f"{d['ndi_ground_truth_classes']} NDI ground-truth class(es), "
-          f"{d['built_veta_schemas']} built V_eta schema(s), "
           f"{d['convert_package_files_scanned']} convert-package file(s) scanned")
     print(f"  rows carrying an NDI declaration: {d['rows_with_an_ndi_declaration']}"
           f"   without one: {d['rows_without_one']}")

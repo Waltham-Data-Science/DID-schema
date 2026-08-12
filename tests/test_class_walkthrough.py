@@ -46,8 +46,25 @@ def test_denominator_is_stated_and_non_vacuous():
     assert d["ledger_rows_read"] == len(rows) > 0
     assert len(a["classes"]) == len(rows)
     assert d["rows_with_an_ndi_declaration"] > 0
-    assert d["built_veta_schemas"] > 0
     assert d["convert_package_files_scanned"] > 0
+
+
+def test_the_asset_copies_no_volatile_fact():
+    """It is COMMITTED and GATED, so anything it copies that moves for an
+    unrelated reason is a red gate waiting to happen. Two such facts were
+    removed after the gate fired on them within the hour -- migrator file LINE
+    COUNTS (another agent editing DID-matlab) and the built-schema table (every
+    `build_v_eta.py` run, and a duplicate of an index the viewer already
+    loads). Neither may come back."""
+    a = _asset()
+    assert "built_schemas" not in a, (
+        "the built-schema table duplicates schemas/V_eta/index.json, which the "
+        "viewer already loads, and couples this asset to every build")
+    for name, entry in a["classes"].items():
+        for m in entry["consumers"]["per_class_migrators"]:
+            assert "lines" not in m, (
+                f"{name}: a migrator's line count is somebody else's file "
+                "size, and it staled this asset twice in one hour")
 
 
 def test_every_ledger_row_has_an_entry():
