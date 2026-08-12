@@ -496,10 +496,27 @@ class TestTheCommittedLedger(unittest.TestCase):
         # (OPEN_WORK row 107) and the row reads rung 1 `yes`. Nothing about
         # `generic_file` changed; what changed is that the instrument can see
         # the third consumption channel.
+        # WAS EIGHT EARLIER THE SAME DAY AND IS NOW SIX: `demoNDI` and
+        # `demoNDIMock` LEFT, and unlike `generic_file` they left because
+        # something was BUILT. The team collapsed demoNDI/demoNDIMock/mock into
+        # one `demo` class on 2026-08-06; only the schema half landed, and the
+        # migrator half was written on 2026-08-12
+        # (`+migrators_j/demo_ndi.m`, `demo_ndi_mock.m`, shared
+        # `private/jDemoFold.m`), 1->1 with `base.id` preserved and `is_mock`
+        # FALSE/TRUE respectively. Their curated rows were authored in the same
+        # pass, so `targets: ["demo"]` is derived rather than asserted.
+        #
+        # `mock` STAYS, and that is a measurement rather than an oversight:
+        # nothing in NDI ever constructs a bare `mock` document -- over 1,002
+        # `.m` files, `ndi.document('mock'`, `newdocument('mock'` and
+        # `'isa','mock'` return 0 each, and all 13 quoted `'mock'` literals are
+        # something else (a `subject.local_identifier` substring, an email
+        # prefix, a path segment, epochfile names, openMINDS object names). A
+        # class that cannot have documents needs no migrator.
         cap = _ledger()["summary"]["stage_rollup"]["capped"]
         self.assertEqual(cap["genuinely_untouched_rows"], [
-            "animalsubject", "base", "demoNDI", "demoNDIMock",
-            "imageCollection", "imageStack_parameters", "mock", "session"])
+            "animalsubject", "base", "imageCollection",
+            "imageStack_parameters", "mock", "session"])
 
     def test_a_signed_dissolution_is_not_counted_as_untouched(self):
         # The rows that separate "nothing built" from "nothing known".
@@ -949,11 +966,15 @@ class TestMutationsRedden(unittest.TestCase):
         rows = _with_governance(
             _reclassify(copy.deepcopy(_rows()), coverage.CORPUS_SCAN))
         rollup = coverage._stage_rollup(rows, None)
-        self.assertEqual(rollup["capped"]["genuinely_untouched"], 8,
-                         "precondition: eight rows have nothing built and "
-                         "nothing excused (nine until `generic_file` was "
-                         "credited to did2.convert.foldGenericFiles, OPEN_WORK "
-                         "row 107)")
+        self.assertEqual(rollup["capped"]["genuinely_untouched"], 6,
+                         "precondition: six rows have nothing built and "
+                         "nothing excused. Nine until `generic_file` was "
+                         "credited to did2.convert.foldGenericFiles (OPEN_WORK "
+                         "row 107); eight until the demo collapse's migrator "
+                         "half was built on 2026-08-12, which took `demoNDI` "
+                         "and `demoNDIMock` out. Each drop has a different "
+                         "cause -- one instrument, one build -- and the "
+                         "distinction is the point of this bucket")
         damaged = copy.deepcopy(rollup)
         damaged["capped"]["genuinely_untouched"] = 0
         with self.assertRaises(AssertionError):

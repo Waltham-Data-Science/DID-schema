@@ -148,26 +148,24 @@
       "dissolved \u2192 subject": 1,
       "in_progress": 19,
       "persist": 4,
-      "consumed by migrator (no tombstone)": 27,
-      "test/demo fixture (non-production)": 2,
-      "no V_eta home, no migrator -- UNVERIFIED": 1
+      "consumed by migrator (no tombstone)": 28,
+      "test/demo fixture (non-production)": 2
     },
     "by_source": {
       "ndi": 91,
       "app": 11
     },
-    "with_migrator": 85,
+    "with_migrator": 87,
     "gaps": 0,
     "no_target": {
-      "rows_naming_no_target": 10,
+      "rows_naming_no_target": 8,
       "by_reason": {
         "dissolved": 3,
         "disputed": 1,
         "passthrough": 2,
-        "unrecorded": 3
+        "unrecorded": 2
       },
       "target_gaps": [
-        "demoNDIMock",
         "epochclocktimes",
         "imageStack_parameters"
       ]
@@ -186,14 +184,14 @@
         "rung": 1,
         "name": "a migrator CONSUMES it",
         "denominator": 102,
-        "yes": 88,
-        "no": 14,
+        "yes": 90,
+        "no": 12,
         "n/a": 0,
         "not measured": 0
       },
       "by_stage_reached": {
-        "0": 14,
-        "1": 66,
+        "0": 12,
+        "1": 68,
         "2": 6,
         "3": 16,
         "4": 0
@@ -203,8 +201,8 @@
       ],
       "per_stage_state_counts": {
         "1": {
-          "yes": 88,
-          "no": 14
+          "yes": 90,
+          "no": 12
         },
         "2": {
           "not measured": 74,
@@ -222,7 +220,7 @@
         }
       },
       "per_stage_satisfied_independently": {
-        "1": 88,
+        "1": 90,
         "2": 25,
         "3": 15,
         "4": 0
@@ -237,18 +235,16 @@
           "stimulus_parameter_table"
         ],
         "highest_rung_satisfied_independently_histogram": {
-          "0": 10,
-          "1": 67,
+          "0": 8,
+          "1": 69,
           "2": 10,
           "3": 15,
           "4": 0
         },
-        "genuinely_untouched": 8,
+        "genuinely_untouched": 6,
         "genuinely_untouched_rows": [
           "animalsubject",
           "base",
-          "demoNDI",
-          "demoNDIMock",
           "imageCollection",
           "imageStack_parameters",
           "mock",
@@ -457,8 +453,8 @@
           "unmoved_by_cause": {
             "a family names this class and that family is UNSIGNED": 1,
             "no family names this class; a SIGNED family names a class its migrator EMITS": 38,
-            "no family names this class, and the row has no V_eta class and no target either": 6,
-            "no family in FAMILIES names this class": 23
+            "no family names this class, and the row has no V_eta class and no target either": 4,
+            "no family in FAMILIES names this class": 25
           },
           "unmoved_rows_by_cause": {
             "no family in FAMILIES names this class": [
@@ -467,6 +463,8 @@
               "binnedspikeratevm",
               "dataset_remote",
               "dataset_session_info",
+              "demoNDI",
+              "demoNDIMock",
               "distance_metadata",
               "hartley_calc",
               "metadata_editor",
@@ -488,8 +486,6 @@
             ],
             "no family names this class, and the row has no V_eta class and no target either": [
               "animalsubject",
-              "demoNDI",
-              "demoNDIMock",
               "epochclocktimes",
               "mock",
               "stimulus_bath"
@@ -2666,15 +2662,17 @@
       "v1_class": "demoNDI",
       "veta_class": null,
       "disposition": "test/demo fixture (non-production)",
-      "migrator": false,
+      "migrator": true,
       "source": "ndi",
       "nonprod": true,
       "gap": false,
-      "targets": [],
+      "targets": [
+        "demo"
+      ],
       "decided_targets": [],
       "decided_targets_source": null,
       "decided_signoff": null,
-      "target_source": "unknown",
+      "target_source": "emitted",
       "no_target_reason": null,
       "no_target_reason_label": null,
       "no_target_account": null,
@@ -2685,36 +2683,36 @@
         "schema_targets_built": [],
         "schema_targets_missing": [],
         "migrator_emits_decided_targets": false,
-        "has_per_class_migrator": false,
+        "has_per_class_migrator": true,
         "batch_pass_consumers": [],
         "batch_pass_emits": {},
         "batch_pass_emits_decided_targets": false
       },
       "carried": [],
       "second_pass": [],
-      "how": "",
-      "target_flags": "",
+      "how": "1->1 into the V_eta `demo` class, base.id PRESERVED; `value` carried and typed from the writer, `is_mock` FALSE. The team's 3->1 demo collapse (demoNDI/demoNDIMock/mock -> demo), signed 2026-08-06 and built 2026-08-12 via +migrators_j/private/jDemoFold.m.",
+      "target_flags": "the three source schemas are phase-deleted, so a guarded passthrough is NOT available here -- an unmappable field raises a named error rather than passing through to a class with no schema. An unset did_v1 `value` (template `\"\"`, which V_eta's `double` cannot hold) is OMITTED, not written as 0.0, which would read as a real measurement in every later query.",
       "decided_by_family": null,
       "families_naming_this_class": [],
-      "governance_gap": "no family names this class, and the row has no V_eta class and no target either",
+      "governance_gap": "no family in FAMILIES names this class",
       "governance": {
         "state": "no signature found",
         "signoff": null,
-        "why": "no family names this class, and the row has no V_eta class and no target either. This is the absence of a FINDABLE signature -- a transcription, or a signed family naming this class -- and NOT evidence that no decision exists"
+        "why": "no family in FAMILIES names this class. This is the absence of a FINDABLE signature -- a transcription, or a signed family naming this class -- and NOT evidence that no decision exists"
       },
       "stage": {
         "unclassifiable": false,
         "unclassifiable_why": null,
-        "reached": 0,
-        "reached_name": "source identified",
-        "blocked_by": 1,
-        "blocked_by_state": "no",
+        "reached": 1,
+        "reached_name": "a migrator CONSUMES it",
+        "blocked_by": 2,
+        "blocked_by_state": "not measured",
         "ladder": [
           {
             "stage": 1,
             "name": "a migrator CONSUMES it",
-            "state": "no",
-            "why": "neither `build_state.has_per_class_migrator`, a `second_pass` entry, nor a batch post-pass declaring it. All 9 batch post-pass(es) in the derived chain were read and none declares this class."
+            "state": "yes",
+            "why": "`build_state.has_per_class_migrator` -- a per-class migrator file named after this class exists in one of the three convert packages"
           },
           {
             "stage": 2,
@@ -2736,10 +2734,10 @@
           }
         ],
         "anomalies": [],
-        "highest_rung_satisfied_independently": 0,
+        "highest_rung_satisfied_independently": 1,
         "capped": false,
-        "nothing_built": true,
-        "nothing_satisfied": true,
+        "nothing_built": false,
+        "nothing_satisfied": false,
         "only_excused": false,
         "corpus_rung_state": "not measured"
       }
@@ -2747,56 +2745,58 @@
     {
       "v1_class": "demoNDIMock",
       "veta_class": null,
-      "disposition": "no V_eta home, no migrator -- UNVERIFIED",
-      "migrator": false,
+      "disposition": "consumed by migrator (no tombstone)",
+      "migrator": true,
       "source": "ndi",
       "nonprod": false,
       "gap": false,
-      "targets": [],
+      "targets": [
+        "demo"
+      ],
       "decided_targets": [],
       "decided_targets_source": null,
       "decided_signoff": null,
-      "target_source": "unknown",
-      "no_target_reason": "unrecorded",
-      "no_target_reason_label": "NO TARGET AND NO DISSOLUTION RECORDED -- a gap, not a decision",
+      "target_source": "emitted",
+      "no_target_reason": null,
+      "no_target_reason_label": null,
       "no_target_account": null,
       "no_target_signoff": null,
-      "target_gap": true,
+      "target_gap": false,
       "build_state": {
         "schema_targets_named": 0,
         "schema_targets_built": [],
         "schema_targets_missing": [],
         "migrator_emits_decided_targets": false,
-        "has_per_class_migrator": false,
+        "has_per_class_migrator": true,
         "batch_pass_consumers": [],
         "batch_pass_emits": {},
         "batch_pass_emits_decided_targets": false
       },
       "carried": [],
       "second_pass": [],
-      "how": "",
-      "target_flags": "",
+      "how": "1->1 into the V_eta `demo` class, base.id PRESERVED; `value` carried and typed from the writer, `is_mock` TRUE. The team's 3->1 demo collapse (demoNDI/demoNDIMock/mock -> demo), signed 2026-08-06 and built 2026-08-12 via +migrators_j/private/jDemoFold.m.",
+      "target_flags": "the three source schemas are phase-deleted, so a guarded passthrough is NOT available here -- an unmappable field raises a named error rather than passing through to a class with no schema. An unset did_v1 `value` (template `\"\"`, which V_eta's `double` cannot hold) is OMITTED, not written as 0.0, which would read as a real measurement in every later query.",
       "decided_by_family": null,
       "families_naming_this_class": [],
-      "governance_gap": "no family names this class, and the row has no V_eta class and no target either",
+      "governance_gap": "no family in FAMILIES names this class",
       "governance": {
         "state": "no signature found",
         "signoff": null,
-        "why": "no family names this class, and the row has no V_eta class and no target either. This is the absence of a FINDABLE signature -- a transcription, or a signed family naming this class -- and NOT evidence that no decision exists"
+        "why": "no family in FAMILIES names this class. This is the absence of a FINDABLE signature -- a transcription, or a signed family naming this class -- and NOT evidence that no decision exists"
       },
       "stage": {
         "unclassifiable": false,
         "unclassifiable_why": null,
-        "reached": 0,
-        "reached_name": "source identified",
-        "blocked_by": 1,
-        "blocked_by_state": "no",
+        "reached": 1,
+        "reached_name": "a migrator CONSUMES it",
+        "blocked_by": 2,
+        "blocked_by_state": "not measured",
         "ladder": [
           {
             "stage": 1,
             "name": "a migrator CONSUMES it",
-            "state": "no",
-            "why": "neither `build_state.has_per_class_migrator`, a `second_pass` entry, nor a batch post-pass declaring it. All 9 batch post-pass(es) in the derived chain were read and none declares this class."
+            "state": "yes",
+            "why": "`build_state.has_per_class_migrator` -- a per-class migrator file named after this class exists in one of the three convert packages"
           },
           {
             "stage": 2,
@@ -2818,10 +2818,10 @@
           }
         ],
         "anomalies": [],
-        "highest_rung_satisfied_independently": 0,
+        "highest_rung_satisfied_independently": 1,
         "capped": false,
-        "nothing_built": true,
-        "nothing_satisfied": true,
+        "nothing_built": false,
+        "nothing_satisfied": false,
         "only_excused": false,
         "corpus_rung_state": "not measured"
       }

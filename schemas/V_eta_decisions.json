@@ -541,8 +541,8 @@
           "DID-matlab:convert"
         ],
         "packages_missing": [],
-        "files_read": 165,
-        "lines_read": 34578,
+        "files_read": 168,
+        "lines_read": 34922,
         "classes_queried": 26,
         "classes_emitted_as_document_class": 8,
         "unresolved_mint_sites": [
@@ -560,7 +560,7 @@
         "mint_sites_by_idiom": {
           "1": 63,
           "2": 15,
-          "3": 4
+          "3": 5
         },
         "groups": [
           "per_document_migrator",
@@ -580,11 +580,11 @@
           ]
         },
         "files_read_by_group": {
-          "per_document_migrator": 140,
+          "per_document_migrator": 143,
           "batch_post_pass": 25
         },
         "lines_read_by_group": {
-          "per_document_migrator": 22604,
+          "per_document_migrator": 22948,
           "batch_post_pass": 11974
         },
         "classes_emitted_as_document_class_by_group": {
@@ -595,7 +595,7 @@
           "per_document_migrator": {
             "1": 49,
             "2": 15,
-            "3": 4
+            "3": 5
           },
           "batch_post_pass": {
             "1": 14
@@ -629,7 +629,7 @@
           "+migrators": 22,
           "+migrators_e": 7,
           "+migrators_i": 9,
-          "+migrators_j": 126
+          "+migrators_j": 129
         },
         "n_files_excluded_v_zeta": 38,
         "files_excluded_v_zeta": [
@@ -764,7 +764,7 @@
         "n_comment_mentions": 30,
         "comment_mentions": [
           "DID-matlab:convert/resolveValidIntervals.m:705 (comment_mention)",
-          "DID-matlab:migrators_j/Contents.m:653 (comment_mention)",
+          "DID-matlab:migrators_j/Contents.m:664 (comment_mention)",
           "DID-matlab:migrators_j/binaryseries_parameters.m:40 (comment_mention)",
           "DID-matlab:migrators_j/daqreader_image_epochdata_ingested.m:162 (comment_mention)",
           "DID-matlab:migrators_j/element_epoch.m:10 (comment_mention)",
@@ -788,7 +788,7 @@
             "named_refs": [],
             "n_comment_mentions": 29,
             "comment_mentions": [
-              "DID-matlab:migrators_j/Contents.m:653 (comment_mention)",
+              "DID-matlab:migrators_j/Contents.m:664 (comment_mention)",
               "DID-matlab:migrators_j/binaryseries_parameters.m:40 (comment_mention)",
               "DID-matlab:migrators_j/daqreader_image_epochdata_ingested.m:162 (comment_mention)",
               "DID-matlab:migrators_j/element_epoch.m:10 (comment_mention)",
@@ -1869,7 +1869,7 @@
             "n_comment_mentions": 16,
             "comment_mentions": [
               "DID-matlab:migrators_j/Contents.m:160 (comment_mention)",
-              "DID-matlab:migrators_j/Contents.m:654 (comment_mention)",
+              "DID-matlab:migrators_j/Contents.m:665 (comment_mention)",
               "DID-matlab:migrators_j/epochfiles_ingested.m:115 (comment_mention)",
               "DID-matlab:migrators_j/epochfiles_ingested.m:184 (comment_mention)",
               "DID-matlab:migrators_j/epochfiles_ingested.m:195 (comment_mention)",
@@ -2055,7 +2055,7 @@
           "DID-matlab:migrators_j/Contents.m:218 (comment_mention)",
           "DID-matlab:migrators_j/Contents.m:463 (comment_mention)",
           "DID-matlab:migrators_j/Contents.m:502 (comment_mention)",
-          "DID-matlab:migrators_j/Contents.m:656 (comment_mention)"
+          "DID-matlab:migrators_j/Contents.m:667 (comment_mention)"
         ],
         "by_group": {
           "per_document_migrator": {
@@ -2077,8 +2077,8 @@
               "DID-matlab:migrators_j/Contents.m:218 (comment_mention)",
               "DID-matlab:migrators_j/Contents.m:463 (comment_mention)",
               "DID-matlab:migrators_j/Contents.m:502 (comment_mention)",
-              "DID-matlab:migrators_j/Contents.m:656 (comment_mention)",
-              "DID-matlab:migrators_j/Contents.m:657 (comment_mention)"
+              "DID-matlab:migrators_j/Contents.m:667 (comment_mention)",
+              "DID-matlab:migrators_j/Contents.m:668 (comment_mention)"
             ]
           },
           "batch_post_pass": {
@@ -2646,8 +2646,8 @@
         "comment_mentions": [
           "DID-matlab:convert/universalRenames.m:471 (comment_mention)",
           "DID-matlab:convert/v1_to_v2.m:873 (comment_mention)",
-          "DID-matlab:migrators_j/Contents.m:832 (comment_mention)",
-          "DID-matlab:migrators_j/Contents.m:833 (comment_mention)",
+          "DID-matlab:migrators_j/Contents.m:843 (comment_mention)",
+          "DID-matlab:migrators_j/Contents.m:844 (comment_mention)",
           "DID-matlab:migrators_j/control_stimulus_ids.m:116 (comment_mention)",
           "DID-matlab:migrators_j/control_stimulus_ids.m:32 (comment_mention)"
         ],
@@ -2666,8 +2666,8 @@
             "named_refs": [],
             "n_comment_mentions": 27,
             "comment_mentions": [
-              "DID-matlab:migrators_j/Contents.m:832 (comment_mention)",
-              "DID-matlab:migrators_j/Contents.m:833 (comment_mention)",
+              "DID-matlab:migrators_j/Contents.m:843 (comment_mention)",
+              "DID-matlab:migrators_j/Contents.m:844 (comment_mention)",
               "DID-matlab:migrators_j/control_stimulus_ids.m:116 (comment_mention)",
               "DID-matlab:migrators_j/control_stimulus_ids.m:32 (comment_mention)",
               "DID-matlab:migrators_j/control_stimulus_ids.m:46 (comment_mention)",
@@ -2735,8 +2735,8 @@
           "DID-matlab:convert/epochMint.m:329 (comment_mention)",
           "DID-matlab:convert/epochMint.m:553 (comment_mention)",
           "DID-matlab:migrators_j/Contents.m:468 (comment_mention)",
-          "DID-matlab:migrators_j/Contents.m:874 (comment_mention)",
-          "DID-matlab:migrators_j/Contents.m:875 (comment_mention)"
+          "DID-matlab:migrators_j/Contents.m:885 (comment_mention)",
+          "DID-matlab:migrators_j/Contents.m:886 (comment_mention)"
         ],
         "by_group": {
           "per_document_migrator": {
@@ -2754,8 +2754,8 @@
             "n_comment_mentions": 30,
             "comment_mentions": [
               "DID-matlab:migrators_j/Contents.m:468 (comment_mention)",
-              "DID-matlab:migrators_j/Contents.m:874 (comment_mention)",
-              "DID-matlab:migrators_j/Contents.m:875 (comment_mention)",
+              "DID-matlab:migrators_j/Contents.m:885 (comment_mention)",
+              "DID-matlab:migrators_j/Contents.m:886 (comment_mention)",
               "DID-matlab:migrators_j/private/jClockAlignmentBodies.m:62 (comment_mention)",
               "DID-matlab:migrators_j/private/jClockAlignmentBodies.m:66 (comment_mention)",
               "DID-matlab:migrators_j/private/jClockAlignmentBodies.m:71 (comment_mention)"
@@ -2818,8 +2818,8 @@
         "n_comment_mentions": 35,
         "comment_mentions": [
           "DID-matlab:migrators_j/Contents.m:468 (comment_mention)",
-          "DID-matlab:migrators_j/Contents.m:876 (comment_mention)",
-          "DID-matlab:migrators_j/Contents.m:877 (comment_mention)",
+          "DID-matlab:migrators_j/Contents.m:887 (comment_mention)",
+          "DID-matlab:migrators_j/Contents.m:888 (comment_mention)",
           "DID-matlab:migrators_j/daqsystem.m:86 (comment_mention)",
           "DID-matlab:migrators_j/private/jAcquisitionChannels.m:15 (comment_mention)",
           "DID-matlab:migrators_j/private/jAcquisitionChannels.m:18 (comment_mention)"
@@ -2840,8 +2840,8 @@
             "n_comment_mentions": 35,
             "comment_mentions": [
               "DID-matlab:migrators_j/Contents.m:468 (comment_mention)",
-              "DID-matlab:migrators_j/Contents.m:876 (comment_mention)",
-              "DID-matlab:migrators_j/Contents.m:877 (comment_mention)",
+              "DID-matlab:migrators_j/Contents.m:887 (comment_mention)",
+              "DID-matlab:migrators_j/Contents.m:888 (comment_mention)",
               "DID-matlab:migrators_j/daqsystem.m:86 (comment_mention)",
               "DID-matlab:migrators_j/private/jAcquisitionChannels.m:15 (comment_mention)",
               "DID-matlab:migrators_j/private/jAcquisitionChannels.m:18 (comment_mention)"
@@ -2907,8 +2907,8 @@
           "DID-matlab:convert/epochMint.m:151 (comment_mention)",
           "DID-matlab:convert/epochMint.m:153 (comment_mention)",
           "DID-matlab:convert/resolveResponseParameters.m:483 (comment_mention)",
-          "DID-matlab:migrators_j/Contents.m:878 (comment_mention)",
-          "DID-matlab:migrators_j/Contents.m:879 (comment_mention)",
+          "DID-matlab:migrators_j/Contents.m:889 (comment_mention)",
+          "DID-matlab:migrators_j/Contents.m:890 (comment_mention)",
           "DID-matlab:migrators_j/epochfiles_ingested.m:196 (comment_mention)"
         ],
         "by_group": {
@@ -2930,8 +2930,8 @@
             "named_refs": [],
             "n_comment_mentions": 26,
             "comment_mentions": [
-              "DID-matlab:migrators_j/Contents.m:878 (comment_mention)",
-              "DID-matlab:migrators_j/Contents.m:879 (comment_mention)",
+              "DID-matlab:migrators_j/Contents.m:889 (comment_mention)",
+              "DID-matlab:migrators_j/Contents.m:890 (comment_mention)",
               "DID-matlab:migrators_j/epochfiles_ingested.m:196 (comment_mention)",
               "DID-matlab:migrators_j/private/jClockAlignmentBodies.m:10 (comment_mention)",
               "DID-matlab:migrators_j/private/jClockAlignmentBodies.m:170 (comment_mention)",

@@ -1119,6 +1119,24 @@
       "decided_targets": [
         "logical_observation"
       ]
+    },
+    "demo_ndi": {
+      "targets": [
+        "demo"
+      ],
+      "carried": [],
+      "second_pass": [],
+      "how": "1->1 into the V_eta `demo` class, base.id PRESERVED; `value` carried and typed from the writer, `is_mock` FALSE. The team's 3->1 demo collapse (demoNDI/demoNDIMock/mock -> demo), signed 2026-08-06 and built 2026-08-12 via +migrators_j/private/jDemoFold.m.",
+      "flags": "the three source schemas are phase-deleted, so a guarded passthrough is NOT available here -- an unmappable field raises a named error rather than passing through to a class with no schema. An unset did_v1 `value` (template `\"\"`, which V_eta's `double` cannot hold) is OMITTED, not written as 0.0, which would read as a real measurement in every later query."
+    },
+    "demo_ndi_mock": {
+      "targets": [
+        "demo"
+      ],
+      "carried": [],
+      "second_pass": [],
+      "how": "1->1 into the V_eta `demo` class, base.id PRESERVED; `value` carried and typed from the writer, `is_mock` TRUE. The team's 3->1 demo collapse (demoNDI/demoNDIMock/mock -> demo), signed 2026-08-06 and built 2026-08-12 via +migrators_j/private/jDemoFold.m.",
+      "flags": "the three source schemas are phase-deleted, so a guarded passthrough is NOT available here -- an unmappable field raises a named error rather than passing through to a class with no schema. An unset did_v1 `value` (template `\"\"`, which V_eta's `double` cannot hold) is OMITTED, not written as 0.0, which would read as a real measurement in every later query."
     }
   }
 }

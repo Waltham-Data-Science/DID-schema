@@ -460,7 +460,8 @@ lives in these files — read them instead of re-deriving from memory:
   read as governed and `required` would arm a gate nobody measured, so absence stops the
   generator instead of choosing. The counts in the paragraph above have also moved — the
   registry is **38 rows, not 34** (the 4 illustrative `binding_examples` were never counted),
-  and **14 fields carry a binding, not eight**, two of them NESTED
+  and **13 fields carry a binding, not eight** (it read 14 until 2026-08-12; the
+  generator's own denominator is the authority and says 13), two of them NESTED
   (`relative_reference.value.relation` / `.frame`), which a top-level-only sweep misses.
 
   **THE 38 IS EXACT AND RE-CONFIRMED. THE 14 IS NOT, AND `.frame` NAMES A FIELD THAT
@@ -573,8 +574,9 @@ lives in these files — read them instead of re-deriving from memory:
   (time is the commonest axis and has never been a condition) and `conditions` tightens to
   cardinality EXACTLY 1. `datum` collapses to `datum_type` and moves TO THE STATEMENT (the same
   `pyraview` loop indexes `dt`/`t0` by level but NOT `dataType`: extent is per-body, type is
-  per-statement). NOT `data_type` — that is a CLASS with **38 direct subclasses**; NOT
-  `element_type` — v1 `element` has **223 hits across 95 of 915 NDI files**; `datum` has ZERO v1
+  per-statement). NOT `data_type` — that is a CLASS with **41 direct subclasses** (38 when this was written); NOT
+  `element_type` — v1 `element` has **223 hits across 95 of 1002 NDI files** (the file count read 915
+  when this was written; the hit counts are as-of and were not re-derived); `datum` has ZERO v1
   meaning. **BOTH FIGURES RE-CHECKED 2026-08-12; the ARGUMENT survives both, the NUMBERS
   do not.** `data_type` now has **41** direct subclasses, not 38 (`DENOMINATOR: 247 json
   file(s) under schemas/V_eta/ read`) — it grew, so the "this name is taken" case is
@@ -770,8 +772,12 @@ lives in these files — read them instead of re-deriving from memory:
 
   **WHY IT CANNOT FIRE TODAY — measured over the whole DID-matlab tree, not assumed:**
 
-        DENOMINATOR: 260 .m file(s) under DID-matlab src/ scanned,
+        DENOMINATOR: was 260 .m file(s) under DID-matlab src/ scanned,
                      comment-only lines excluded
+        -> 263 .m file(s) under DID-matlab src/ as of 2026-08-12: the demo
+           collapse's migrator half added
+           demo_ndi.m, demo_ndi_mock.m and private/jDemoFold.m. The sweep's
+           CONCLUSION is unchanged -- none of the three writes a time_reference.
         literal `time_reference_N` sites:  46, in 36 file(s)   (was 45 in 35;
                                             re-derived 2026-08-12, same method)
         distinct N appearing as a literal: [1]        <- ONLY EVER 1
@@ -1149,7 +1155,8 @@ lives in these files — read them instead of re-deriving from memory:
   **AND THE LARGER HAZARD IS THE FILE ITSELF, NOT THE LINE NUMBER: `Contents.m` IS NOT A
   CENSUS OF MIGRATORS AND MUST NEVER BE READ AS ONE.** Measured 2026-08-12:
 
-        DENOMINATOR: 81 migrator .m file(s) in +did2/+convert/+migrators_j
+        DENOMINATOR: was 81 migrator .m file(s) in +did2/+convert/+migrators_j
+        -> 83 as of 2026-08-12 (demo_ndi, demo_ndi_mock)
                      (Contents.m and private/ excluded)
           named anywhere in Contents.m : 43
           ABSENT from Contents.m       : 38
@@ -1168,7 +1175,9 @@ lives in these files — read them instead of re-deriving from memory:
   denominator, run here:
 
         $ cd DID-matlab && python3 tools/check_migrator_roster.py
-        DENOMINATOR: 81 migrator .m file(s) in src/did/+did2/+convert/+migrators_j
+        DENOMINATOR: was 81 migrator .m file(s) in src/did/+did2/+convert/+migrators_j
+        -> 83 migrator .m file(s) as of 2026-08-12 (demo_ndi, demo_ndi_mock);
+           WITH NO TEST is now 0
                      (Contents.m excluded); Contents.m is 64106 char(s);
                      61 test file(s) scanned in tests/+did2/+unittest
           mentioned in Contents.m:        81

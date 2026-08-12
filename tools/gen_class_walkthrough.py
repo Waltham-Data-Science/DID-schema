@@ -95,6 +95,18 @@ def _quoted_name_re(name):
     return re.compile(r"(?<![\w.])'" + lit + r"'|(?<![\w.])\"" + lit + r"\"")
 
 
+def _snake(name):
+    """camelCase -> snake_case, mirroring universalRenames and coverage.py.
+
+    Kept identical to `coverage.py:snake` deliberately: the two tools are
+    cross-checked against each other, so a divergence in this function would
+    show up as a disagreement neither of them is wrong about.
+    """
+    s = re.sub(r"(.)([A-Z][a-z]+)", r"\1_\2", str(name))
+    s = re.sub(r"([a-z0-9])([A-Z])", r"\1_\2", s)
+    return s.lower()
+
+
 def _per_class_migrators(names):
     """Files named after the SOURCE class, across all three convert packages.
 
@@ -203,7 +215,18 @@ def build():
         ndi = gt_classes.get(v1)
         if ndi:
             with_ndi += 1
-        names = {v1}
+        # THE V_eta CLASS NAME IS NOT RELIABLY THE SNAKE SPELLING OF THE v1 ONE,
+        # and the docstring above assumed it was. For the five re-cased classes
+        # (`ontologyImage` -> `ontology_image`) the V_eta name supplies the
+        # snake form for free, which is why searching {v1, veta_class} looked
+        # sufficient. It is not when a class was RENAMED rather than re-cased:
+        # `demoNDI` and `demoNDIMock` both migrate to `demo`, so neither
+        # spelling in that pair is `demo_ndi`, and both read `files_found: []`
+        # against a ledger saying `migrator: True` -- the two tools disagreeing
+        # about the same fact, which this file's own cross-check caught.
+        # Deriving the snake form directly removes the dependency on the target
+        # name entirely.
+        names = {v1, _snake(v1)}
         if r.get("veta_class"):
             names.add(r["veta_class"])
         migs = _per_class_migrators(sorted(names))

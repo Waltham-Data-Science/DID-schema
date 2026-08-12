@@ -1311,7 +1311,13 @@
   "demoNDI": {
    "consumers": {
     "convert_package_mentions": [],
-    "per_class_migrators": []
+    "per_class_migrators": [
+     {
+      "package": "migrators_j",
+      "path": "src/did/+did2/+convert/+migrators_j/demo_ndi.m",
+      "spelling": "demo_ndi"
+     }
+    ]
    },
    "migrator_reads": [],
    "ndi": {
@@ -1358,7 +1364,13 @@
   "demoNDIMock": {
    "consumers": {
     "convert_package_mentions": [],
-    "per_class_migrators": []
+    "per_class_migrators": [
+     {
+      "package": "migrators_j",
+      "path": "src/did/+did2/+convert/+migrators_j/demo_ndi_mock.m",
+      "spelling": "demo_ndi_mock"
+     }
+    ]
    },
    "migrator_reads": [],
    "ndi": {
@@ -6705,7 +6717,7 @@
    "migrators_i"
   ],
   "ndi_ground_truth_classes": 91,
-  "rows_with_a_per_class_migrator_file": 85,
+  "rows_with_a_per_class_migrator_file": 87,
   "rows_with_an_ndi_declaration": 91,
   "rows_without_one": 11
  },
