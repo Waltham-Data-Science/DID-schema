@@ -546,7 +546,7 @@
             "stranded sources": [
               {
                 "document": "V_eta_OPEN_WORK.md",
-                "line": 2743
+                "line": 2849
               }
             ],
             "subject measurement": [
@@ -3666,7 +3666,7 @@
       "decided_by_family": {
         "family": "stranded sources",
         "document": "V_eta_OPEN_WORK.md",
-        "line": 2743,
+        "line": 2849,
         "signoff": "jess@walthamdatascience.com, 2026-08-11 -- generic_file folds to term_observation + opaque_body; imageCollection is a tombstone. Both are BUILT and ran in 6 of 6 corpora in run 31522068566. THIS SIGNATURE COVERS TWO CLASSES, NOT THREE. `valid_interval` IS NOT SIGNED AND IS NOT DECIDED -- an earlier revision of this line included it, which was Claude's error: the team ASKED whether valid_interval should take that shape and then said \"Can we skip this decision for now?\", and a question was recorded as an answer. Corrected 2026-08-11 when the team caught it. WRITTEN BY CLAUDE AT THE TEAM'S EXPLICIT INSTRUCTION (\"Please write the sign off for me. I give you permission this time.\"), a one-time authorisation and not a precedent: Operating Rule 4 otherwise forbids Claude from adding this line, and the next one is the team's to write.",
         "matched_on": "v1_class",
         "matched_name": "generic_file",
@@ -3681,13 +3681,13 @@
         "signoff": {
           "family": "stranded sources",
           "document": "V_eta_OPEN_WORK.md",
-          "line": 2743,
+          "line": 2849,
           "signoff": "jess@walthamdatascience.com, 2026-08-11 -- generic_file folds to term_observation + opaque_body; imageCollection is a tombstone. Both are BUILT and ran in 6 of 6 corpora in run 31522068566. THIS SIGNATURE COVERS TWO CLASSES, NOT THREE. `valid_interval` IS NOT SIGNED AND IS NOT DECIDED -- an earlier revision of this line included it, which was Claude's error: the team ASKED whether valid_interval should take that shape and then said \"Can we skip this decision for now?\", and a question was recorded as an answer. Corrected 2026-08-11 when the team caught it. WRITTEN BY CLAUDE AT THE TEAM'S EXPLICIT INSTRUCTION (\"Please write the sign off for me. I give you permission this time.\"), a one-time authorisation and not a precedent: Operating Rule 4 otherwise forbids Claude from adding this line, and the next one is the team's to write.",
           "matched_on": "v1_class",
           "matched_name": "generic_file",
           "conflict": []
         },
-        "why": "DERIVED, not transcribed: the decision family `stranded sources` names this class as `generic_file` (v1_class), and that family is signed at `V_eta_OPEN_WORK.md`:2743. Re-derived on every build from status_board.signed_families(); a family with no signature reaches nothing"
+        "why": "DERIVED, not transcribed: the decision family `stranded sources` names this class as `generic_file` (v1_class), and that family is signed at `V_eta_OPEN_WORK.md`:2849. Re-derived on every build from status_board.signed_families(); a family with no signature reaches nothing"
       },
       "stage": {
         "unclassifiable": false,
@@ -3931,7 +3931,7 @@
       "decided_by_family": {
         "family": "stranded sources",
         "document": "V_eta_OPEN_WORK.md",
-        "line": 2743,
+        "line": 2849,
         "signoff": "jess@walthamdatascience.com, 2026-08-11 -- generic_file folds to term_observation + opaque_body; imageCollection is a tombstone. Both are BUILT and ran in 6 of 6 corpora in run 31522068566. THIS SIGNATURE COVERS TWO CLASSES, NOT THREE. `valid_interval` IS NOT SIGNED AND IS NOT DECIDED -- an earlier revision of this line included it, which was Claude's error: the team ASKED whether valid_interval should take that shape and then said \"Can we skip this decision for now?\", and a question was recorded as an answer. Corrected 2026-08-11 when the team caught it. WRITTEN BY CLAUDE AT THE TEAM'S EXPLICIT INSTRUCTION (\"Please write the sign off for me. I give you permission this time.\"), a one-time authorisation and not a precedent: Operating Rule 4 otherwise forbids Claude from adding this line, and the next one is the team's to write.",
         "matched_on": "v1_class",
         "matched_name": "imageCollection",
@@ -3946,13 +3946,13 @@
         "signoff": {
           "family": "stranded sources",
           "document": "V_eta_OPEN_WORK.md",
-          "line": 2743,
+          "line": 2849,
           "signoff": "jess@walthamdatascience.com, 2026-08-11 -- generic_file folds to term_observation + opaque_body; imageCollection is a tombstone. Both are BUILT and ran in 6 of 6 corpora in run 31522068566. THIS SIGNATURE COVERS TWO CLASSES, NOT THREE. `valid_interval` IS NOT SIGNED AND IS NOT DECIDED -- an earlier revision of this line included it, which was Claude's error: the team ASKED whether valid_interval should take that shape and then said \"Can we skip this decision for now?\", and a question was recorded as an answer. Corrected 2026-08-11 when the team caught it. WRITTEN BY CLAUDE AT THE TEAM'S EXPLICIT INSTRUCTION (\"Please write the sign off for me. I give you permission this time.\"), a one-time authorisation and not a precedent: Operating Rule 4 otherwise forbids Claude from adding this line, and the next one is the team's to write.",
           "matched_on": "v1_class",
           "matched_name": "imageCollection",
           "conflict": []
         },
-        "why": "DERIVED, not transcribed: the decision family `stranded sources` names this class as `imageCollection` (v1_class), and that family is signed at `V_eta_OPEN_WORK.md`:2743. Re-derived on every build from status_board.signed_families(); a family with no signature reaches nothing"
+        "why": "DERIVED, not transcribed: the decision family `stranded sources` names this class as `imageCollection` (v1_class), and that family is signed at `V_eta_OPEN_WORK.md`:2849. Re-derived on every build from status_board.signed_families(); a family with no signature reaches nothing"
       },
       "stage": {
         "unclassifiable": false,

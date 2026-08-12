@@ -2738,6 +2738,112 @@ different repairs. No disposition is recorded and no sign-off is added; the `typ
 | 101 | **"0 QUARANTINE + 0 ORPHANS" — THE ORPHAN HALF IS ASSERTED BUT NEVER PERSISTED, SO NO DIGEST HAS EVER RENDERED IT; AND ON PRED IT IS NOT MEASURED AT ALL.** The digest now prints it as ABSENT rather than omitting it (DID-matlab `e1e9117`). **STATE THIS PRECISELY — it is less alarming than "half a gate was never checked" and more alarming than "a rendering bug".** | **THE GATE DOES CHECK ORPHANS ON THE FIVE DISCOVERY CORPORA.** `runCorpusDiscovery.m:476` is `verifyEqual(testCase, refRep.orphan_count, 0, ...)` — a hard assert, so a non-zero orphan count fails the corpus job. What does not happen is PERSISTENCE: the report is written at `:402` and `did2.validate.references` is not called until `:460`, **58 lines later**, so `orphan_count` cannot reach the artifact the digest reads. `writeCorpusReport.m` persists `silent_loss`, `time_reference_families`, `source_census`, `epoch_string_retention`, `epoch_mint`, `session_anchor_fold` and six more, and **no orphan field** — its only two mentions of the word are COMMENTS, one of which (`:299`) reads *"both are 0 quarantine and 0 orphans"* while the field it describes is not written. **PRED IS THE REAL GAP: `testCorpusPRED.m` never calls `did2.validate.references` at all** (0 matches), so its orphan half has never existed even in a log. That is the same shape as the census gap already recorded for that corpus — *a corpus we gate on but never measure* — and it is now true of orphans as well as the census. **SO EVERY "0 quarantine + 0 orphans" QUOTED FROM A DIGEST HAS QUOTED ONE MEASUREMENT AND ONE SILENCE.** The assertion was real for five corpora and absent for the sixth, and no reader of a digest could tell which. **BUILT: the digest prints ABSENT, loudly, per corpus and in the rollup**, naming what would have to change (persist the reference report; call the validator in the PRED path) and stating that both are MATLAB changes deliberately not made in that commit. It locates the block **BY SHAPE** — any top-level object carrying `orphan_count`, with the key name printed — rather than by a guessed key name, because reporting ABSENT after guessing a name that has never been persisted is the `demo_ndi` failure again (a search that could not have matched, reported as "this does not exist"). A key merely NAMED "orphan" in an unrendered shape prints as a WIRING MISMATCH, not an absence. Both branches state that `references.m:90` skips empty edges, so an orphan count and the empty-required-edge census can never stand in for one another. **METHODOLOGY NOTE WORTH KEEPING, from the agent's own mutation matrix:** its first run was WRONG AND REASSURING — two disjoint mutations reported identical failure lists, because they changed the file by the same number of bytes within the same second and Python reused the `.pyc`. `md5sum -c` passed throughout; **the artifact that lied was the bytecode cache.** Clear `__pycache__` between mutations, or a mutation matrix can confirm itself. |
 | 102 | **A COMMITTED DID-schema ARTIFACT CAN DESCRIBE ANOTHER SESSION'S UNCOMMITTED, UNPUSHED EDITS — a state nobody else can reproduce.** Not a build; a reproducibility hole in how the board gathers evidence, found while deciding whether it was safe to commit `V_eta_STATUS.md`. | **THE BOARD'S MIGRATOR EVIDENCE READS THE SIBLING WORKING TREE.** `status_board.py`'s migrator sweep and `batch_consumers()` both walk files on disk under `$DID_MATLAB`, so whatever is dirty in that checkout at the moment `gates.py` runs is what lands in `V_eta_STATUS.md` and `V_eta_decisions.json` — and those are then COMMITTED. With several sessions working one checkout this is not hypothetical: within two minutes on 2026-08-11 the sibling went from `M resolveOpenmindsCitations.m` to that file committed and `M resolveLawnPlateSubjects.m` dirty at +45/-8, so two regenerations a minute apart would have produced two different committed artifacts, neither reproducible from any pushed sha. **THE FIX ALREADY EXISTS ONE MODULE OVER AND IS NOT APPLIED HERE:** `coverage.py:185` and `ndi_ground_truth.py:449,539` read NDI from `origin/main` VIA GIT precisely because *"a V_eta feature branch of NDI can lag main"* — the same reasoning applies to reading a sibling whose working tree is shared, and more strongly, because an uncommitted edit is not merely lagging but invisible. **SYMPTOM ALREADY BEING PAID:** the `migrator lines inspected` counter has moved 32600 → 32627 → 32657 → 32980 across the day, each move a commit-and-regenerate cycle, and `V_eta_STATUS.md` goes stale within minutes of every commit. Some of that is real work landing; an unknown fraction is other sessions' in-flight edits being sampled. **NOT DECIDED, and deliberately not built here:** reading the sibling at its committed HEAD would make the artifact reproducible, but it would also make the board blind to work in progress on the machine of the person running it — which is what a developer usually wants to see. The two readings serve different purposes and the choice between them is a team call. What is NOT defensible is the current state, where the artifact is committed without recording WHICH sibling state it describes. **The cheap half, if the full change is unwanted: record the sibling's `git rev-parse HEAD` and whether its tree was dirty, in `V_eta_decisions.json` beside the counts.** Then a reader can at least tell that a number came from an unreproducible tree. |
 
+## MEASURED 2026-08-12 — WHICH v1 CLASSES A CORPUS RUN CAN EVER PROVE, AND WHICH 57 IT CANNOT
+
+Re-derived in-session by fetching all six corpus archives from the public S3
+prefix and censusing them by `document_class.class_name` (normalised: lowercase,
+underscores stripped). Independent of `sourceCensus.m`, and it lands on the same
+figure the harness prints for itself (`epochMint.m:39`), which is why it can be
+quoted:
+
+        DENOMINATOR: 6 corpora, 221,827 v1 documents censused, 0 unparseable
+        20211116 1,220 (21 classes) + B 12,917 (18) + Dab 27,561 (26)
+        + JH 78,688 (15) + PRED 14 (10) + Soph 101,427 (32)
+        distinct normalised class names across all six: 45
+        ledger rows: 102   PRESENT in >=1 corpus: 45   ABSENT from all six: 57
+
+**So the CORPUS-PROVEN rung can never exceed 45 of 102 with the corpora we
+hold.** The 57 are UNTESTED, NOT CLEAN — the standing "the corpora are a SAMPLE,
+not the universe" rule, finally carrying a number.
+
+**THE 57 ARE NOT ONE THING, AND ONLY THE LAST GROUP SHOULD WORRY ANYONE.**
+
+        A. test/demo fixture, non-production                              3
+           demoNDI, demoNDIMock, mock
+        B. deleted / superclass-only, zero documents BY CONSTRUCTION      2
+           stimulus_response, stimulus_response_scalar_parameters
+        C. vhlab app/calculator class -- no NDI template, lives in the
+           NDIcalc-* repos, which these corpora are not the population for 5
+           contrast_tuning, spatial_frequency_tuning, speed_tuning,
+           speed_tuning_calc, temporal_frequency_tuning
+        D. REAL NDI PRODUCTION CLASS, absent from our sample            47
+
+**PART OF D IS AN ARTIFACT OF COUNTING BY `class_name`, AND SAYING SO MATTERS
+MORE THAN THE NUMBER.** `base`, `app`, `epochid` and `filter` are SUPERCLASSES
+carried inside other documents; they are present in the corpora in every sense
+except the one this census measures. `animalsubject` dissolves into `subject`.
+Counting them as "absent" overstates the gap, exactly as counting them as
+"present" would understate it — the honest form is to name the reason.
+
+**THE PART OF D THAT IS A REAL, NAMED HOLE — whole families no corpus we hold
+exercises:**
+
+        spike sorting   kilosort_clusters, kiasort_clusters, spike_clusters,
+                        spikewaves, spike_extraction_parameters,
+                        spike_extraction_parameters_modification,
+                        sorting_parameters, SpikeInterfaceSortingOutputs
+        vmspike*        vmspikefit, vmspikesummary, vmspikefilteringparameters,
+                        vmneuralresponseresiduals, binnedspikeratevm
+        treatment       treatment_drug, treatment_transfer, virus_injection
+        imaging         image, ontologyImage, imageCollection
+        other           probe_geometry, measurement, subjectmeasurement,
+                        electrode_offset_voltage, site2channelmap, fitcurve,
+                        simple_calc, oneepoch, generic_file, valid_interval,
+                        projectvar, ngrid, binaryseries_parameters,
+                        epochclocktimes, dataset_session_info, ensemble,
+                        daqreader_epochdata_ingested,
+                        daqreader_image_epochdata_ingested,
+                        stimulus_parameter, stimulus_parameter_table,
+                        stimulus_tuningcurve, orientation_direction_tuning,
+                        imageStack_parameters
+
+**TWO CONSEQUENCES THAT ARE NOT OBVIOUS FROM THE COUNT.**
+
+1. **THE MIGRATION'S OWN DISSOLVERS ARE UNEXERCISED ON REAL DATA.**
+   `virus_injection` and the treatment family are consumed by COMPLETED
+   `migrators_i` dissolvers — three of the classes `_DELETE_PHASE8` removes on
+   the strength of that completion — and no corpus has ever driven them. The
+   phase-8 criterion asks whether a class's documents can SURVIVE migration; it
+   has never been asked of these with a document in hand.
+2. **`vmspikefilteringparameters` IS ON THIS LIST, WHICH ANSWERS AN OPEN
+   QUESTION WITH A "CANNOT".** Its tombstone rejects the document its own guard
+   preserves (threshold: template writes a string, V_eta declares double;
+   spiketimes: declared `mustBeScalar` while the guard fires precisely when it
+   is an array). The blast radius was recorded as UNMEASURED. It cannot be
+   measured against data we hold, because no corpus we have contains one.
+
+**WHAT WOULD ACTUALLY MOVE THIS, stated as a request rather than a wish:** not
+"more corpora" but THREE targeted datasets — one carrying spike-sorting output,
+one carrying the treatment/virus family, one carrying images. Between them they
+reach a large share of the 47. This is a DATA-ACCESS ask, not a schedule item,
+and it is the kind that gets more expensive the later it is raised.
+
+## OPEN — the schema types `epochnode_*.t0_t1` as a scalar; the writer stores two numbers
+
+Found 2026-08-12 while verifying #57's `syncrule_mapping`. **Recorded here
+because it existed only in a task description, and a task description is not a
+durable record** — the check this file's own header prescribes is *"is there
+anything in a task description, or in my head, that is not yet in a file?"*, and
+this was the one thing that failed it.
+
+The V_eta schema types `epochnode_a/_b.t0_t1` as `matrix` with
+`mustBeScalar: true`. NDI's writer stores a 2-element `[t0 t1]`:
+`syncgraph.m:253` lists `t0_t1` among the seven closed `epoch_node_fields`,
+copied into both endpoints at `:303-312`. Template and writer AGREE; the schema
+is the one that diverges.
+
+**IT CANNOT QUARANTINE TODAY, AND THAT IS THE WHOLE HAZARD RATHER THAN THE
+REASSURANCE.** `validateField` type-checks only immediate block fields, and this
+sits two levels down (endpoint -> `t0_t1`), so nothing reads the declaration. A
+declaration that is wrong AND unenforced becomes a quarantine the day
+enforcement deepens by one level — which is precisely the
+`mustBeNonEmpty`-on-`depends_on` story, decorative until #37 armed it, at a
+measured cost of 7,233 documents.
+
+**A TEAM CALL, not a build:** correct the declaration to a 2-element matrix
+(matching the writer, which the ground-truth rule makes the arbiter), or record
+deliberately why a scalar is wanted. Nothing is proposed here.
+
 ## Team sign-offs
 
 TEAM-SIGN-OFF [stranded sources]: jess@walthamdatascience.com, 2026-08-11 -- generic_file folds to term_observation + opaque_body; imageCollection is a tombstone. Both are BUILT and ran in 6 of 6 corpora in run 31522068566. THIS SIGNATURE COVERS TWO CLASSES, NOT THREE. `valid_interval` IS NOT SIGNED AND IS NOT DECIDED -- an earlier revision of this line included it, which was Claude's error: the team ASKED whether valid_interval should take that shape and then said "Can we skip this decision for now?", and a question was recorded as an answer. Corrected 2026-08-11 when the team caught it. WRITTEN BY CLAUDE AT THE TEAM'S EXPLICIT INSTRUCTION ("Please write the sign off for me. I give you permission this time."), a one-time authorisation and not a precedent: Operating Rule 4 otherwise forbids Claude from adding this line, and the next one is the team's to write.
