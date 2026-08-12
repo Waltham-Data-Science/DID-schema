@@ -2109,6 +2109,9 @@ def _stage_rollup(rows, evidence):
     that sounded like the first one.
     """
     from collections import Counter
+    # Keyed for the untouched-bucket detail below; the rows are the same
+    # objects, read never written.
+    by_name = {r["v1_class"]: r for r in rows}
     reached = Counter()
     per_stage_state = {n: Counter() for n in COMPLETION_RUNGS}
     anomalies, unclassifiable, with_na = [], [], []
@@ -2185,6 +2188,34 @@ def _stage_rollup(rows, evidence):
                 str(n): highest.get(n, 0) for n in range(5)},
             "genuinely_untouched": len(untouched),
             "genuinely_untouched_rows": sorted(untouched),
+            # WHAT THE RECORD ALREADY SAYS ABOUT EACH UNTOUCHED CLASS.
+            #
+            # "no rung satisfied" is a statement about the LADDER, and it was
+            # being read as a statement about the WORK. Every one of these rows
+            # already carries a recorded `disposition` and `target_source`, and
+            # for some of them no per-class migrator is expected AT ALL: a
+            # PASSTHROUGH carries the document through unchanged, which is why
+            # `projectvar` is documented as "PASSTHROUGH -- deliberately no
+            # migrator". Reporting the bucket as a bare list of six names made a
+            # settled passthrough and an unexamined class look identical, which
+            # is the same collapse this file keeps having to undo one layer up.
+            #
+            # NOTHING HERE IS A DISPOSITION THIS TOOL DECIDES. The fields are
+            # copied verbatim from the row, and `passthrough` is counted apart
+            # only because it is a RECORDED, machine-set value with a defined
+            # meaning -- not because this tool judges the class settled. A row
+            # whose disposition is absent shows as `None` and stands out, which
+            # is the point.
+            "genuinely_untouched_detail": [
+                {"v1_class": n,
+                 "disposition": (by_name.get(n) or {}).get("disposition"),
+                 "target_source": (by_name.get(n) or {}).get("target_source"),
+                 "governance": ((by_name.get(n) or {}).get("governance")
+                                or {}).get("state")}
+                for n in sorted(untouched)],
+            "genuinely_untouched_recorded_passthrough": sum(
+                1 for n in untouched
+                if (by_name.get(n) or {}).get("target_source") == "passthrough"),
             # Nothing is BUILT, but the record excuses the rungs above: a
             # signed dissolution. Counted apart from the untouched rows so a
             # settled class and an unexamined one are never one figure.
@@ -3030,6 +3061,17 @@ def _print_stage_rollup(s):
           % (cap["rows"], cap["genuinely_untouched"],
              (" (" + ", ".join(cap["genuinely_untouched_rows"]) + ")")
              if cap["genuinely_untouched_rows"] else ""))
+    # The untouched names alone read as six units of unbuilt work. Every one
+    # carries a recorded disposition, and for a PASSTHROUGH no per-class
+    # migrator is expected at all -- so the reason is printed beside the name
+    # rather than left for a reader to look up six times.
+    if cap.get("genuinely_untouched_detail"):
+        print("        -- of those, %d are a RECORDED PASSTHROUGH (a passthrough "
+              "carries the document through unchanged, so no per-class migrator "
+              "is expected):" % cap["genuinely_untouched_recorded_passthrough"])
+        for u in cap["genuinely_untouched_detail"]:
+            print("             %-22s disposition=%-32s target_source=%s"
+                  % (u["v1_class"], u["disposition"], u["target_source"]))
     print("      nothing built but EXCUSED by a signed dissolution: %d%s"
           % (cap["nothing_built_but_excused_by_a_signed_dissolution"],
              (" (" + ", ".join(cap["nothing_built_but_excused_rows"]) + ")")

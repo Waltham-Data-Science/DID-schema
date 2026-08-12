@@ -250,6 +250,45 @@
           "mock",
           "session"
         ],
+        "genuinely_untouched_detail": [
+          {
+            "v1_class": "animalsubject",
+            "disposition": "dissolved \u2192 subject",
+            "target_source": "unknown",
+            "governance": "no signature found"
+          },
+          {
+            "v1_class": "base",
+            "disposition": "persist",
+            "target_source": "passthrough",
+            "governance": "no signature found"
+          },
+          {
+            "v1_class": "imageCollection",
+            "disposition": "retire",
+            "target_source": "passthrough",
+            "governance": "signed"
+          },
+          {
+            "v1_class": "imageStack_parameters",
+            "disposition": "retire",
+            "target_source": "decided",
+            "governance": "signed"
+          },
+          {
+            "v1_class": "mock",
+            "disposition": "test/demo fixture (non-production)",
+            "target_source": "unknown",
+            "governance": "no signature found"
+          },
+          {
+            "v1_class": "session",
+            "disposition": "persist",
+            "target_source": "passthrough",
+            "governance": "no signature found"
+          }
+        ],
+        "genuinely_untouched_recorded_passthrough": 3,
         "nothing_built_but_excused_by_a_signed_dissolution": 2,
         "nothing_built_but_excused_rows": [
           "stimulus_response",

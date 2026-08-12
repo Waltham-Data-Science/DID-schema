@@ -387,6 +387,64 @@ ALL_ROW_CHECKS = (
 )
 
 
+class TestTheUntouchedBucketCarriesItsReasons(unittest.TestCase):
+    """The six names are not six units of work, and the bucket must say so.
+
+    "No rung satisfied" is a fact about the LADDER. Read as a fact about the
+    WORK it overstates what is left: three of the six are recorded
+    PASSTHROUGHS, where the document is carried through unchanged and no
+    per-class migrator is expected at all (`projectvar` is documented in exactly
+    those terms). A bare list of names made a settled passthrough and an
+    unexamined class identical.
+
+    THE RISK IN THE OTHER DIRECTION IS THE ONE THESE TESTS GUARD. A detail
+    block that INVENTED a reason would excuse real work, so every field must be
+    copied verbatim from the row, and a row with no recorded disposition must
+    show as absent rather than be filled in.
+    """
+
+    def setUp(self):
+        self.led = _ledger()
+        self.cap = self.led["summary"]["stage_rollup"]["capped"]
+        self.rows = {r["v1_class"]: r for r in self.led["rows"]}
+
+    def test_every_untouched_row_appears_in_the_detail(self):
+        self.assertEqual([d["v1_class"] for d in self.cap["genuinely_untouched_detail"]],
+                         self.cap["genuinely_untouched_rows"])
+
+    def test_the_detail_is_COPIED_from_the_row_never_derived(self):
+        for d in self.cap["genuinely_untouched_detail"]:
+            row = self.rows[d["v1_class"]]
+            self.assertEqual(d["disposition"], row.get("disposition"),
+                             d["v1_class"] + ": disposition was not copied")
+            self.assertEqual(d["target_source"], row.get("target_source"),
+                             d["v1_class"] + ": target_source was not copied")
+
+    def test_the_passthrough_count_is_the_recorded_value_not_a_judgement(self):
+        expected = sum(1 for d in self.cap["genuinely_untouched_detail"]
+                       if d["target_source"] == "passthrough")
+        self.assertEqual(self.cap["genuinely_untouched_recorded_passthrough"],
+                         expected)
+        # and it must be a PROPER subset -- if it ever equals the bucket, the
+        # bucket has stopped distinguishing anything
+        self.assertLess(self.cap["genuinely_untouched_recorded_passthrough"],
+                        self.cap["genuinely_untouched"],
+                        "every untouched row reads as a passthrough; the "
+                        "distinction has gone inert")
+
+    def test_a_missing_disposition_is_shown_as_missing(self):
+        """Absence must be visible, not filled in with something plausible."""
+        rows = _with_governance(
+            _reclassify(copy.deepcopy(_rows()), coverage.CORPUS_SCAN))
+        for r in rows:
+            r.pop("disposition", None)
+        cap = coverage._stage_rollup(rows, None)["capped"]
+        self.assertTrue(cap["genuinely_untouched_detail"],
+                        "precondition: the fixture has untouched rows")
+        for d in cap["genuinely_untouched_detail"]:
+            self.assertIsNone(d["disposition"])
+
+
 class TestTheCommittedLedger(unittest.TestCase):
     """The artifact a human and the web viewer read."""
 
