@@ -142,13 +142,50 @@ def veta_index():
 # already knew this class was real while this list said it was scaffolding: the
 # same prose-versus-artifact split that the CLAUDE.md rules exist to break.
 #
-# The three that REMAIN are named for what they are (`mock`, `demoNDI`,
-# `demoNDIMock`) and are demo scaffolding by construction. Note that they are
-# NOT unreferenced -- +ndi/+calc/+example/simple.m queries demoNDI.value and
-# constructs demoNDIMock documents -- so do not re-derive "nonprod" as "nothing
-# mentions it"; that grep was run once against the snake_case spelling and
-# returned zero for a repository that has never contained that string.
-_NONPROD_CLASSES = {"mock", "demoNDI", "demoNDIMock"}
+# REMOVED 2026-08-12, for the same evidence shape as `oneepoch`: `demoNDIMock`.
+# THE TEAM RULED, verbatim: *"an example calculator counts as production"*
+# (recorded in `V_eta_OPEN_WORK.md` row 111). Its two construction sites are
+# both in `src/`, in an example calculator, and neither is a test:
+#
+#   src/ndi/+ndi/+calc/+example/simple.m:107
+#       mock_doc1 = ndi.document('demoNDIMock', 'demoNDI', ...) + ...
+#   src/ndi/+ndi/+calc/+example/simple.m:126
+#       mock_doc2 = ndi.document('demoNDIMock', 'demoNDI', ...) + ...
+#
+#   DENOMINATOR: 1,002 .m files on NDI origin/main; `demoNDIMock` appears in
+#     exactly ONE of them, the file above -- 0 under tests/.
+#
+# The paragraph below already said this class was constructed there. What was
+# missing was the RULING about what that construction means, and the entry
+# survived because "demo scaffolding by construction" reads as an argument
+# while being a restatement of the name.
+#
+# CONSEQUENCE, AND IT IS THE POINT OF THE CHANGE: `demoNDIMock` now shows as a
+# coverage GAP. It has no V_eta schema (build_v_eta.py os.removes it), no
+# migrator, and no suppression. DO NOT close that gap here and do not suppress
+# it another way -- the missing migrator is a separate build, routed elsewhere.
+#
+# THE TWO THAT REMAIN, and why each stays:
+#   `demoNDI`     THE RULING DOES NOT REACH IT. It is a TEST HELPER, and the
+#                 ruling covers example calculators. Its construction sites are
+#                 10 files: 9 under tests/, and ONE under src/ --
+#                 src/ndi/+ndi/+test/+database/test_ndi_document.m:33, which
+#                 lives in src/ but sits inside a `+test` PACKAGE. **That last
+#                 reading is a JUDGEMENT, made here and not stated by the
+#                 team**: a strict src/-vs-tests/ split would call that file
+#                 production and remove `demoNDI` too. `simple.m` READS
+#                 `demoNDI.value` and constructs `demoNDIMock`, never a
+#                 `demoNDI` document -- so the example calculator the ruling is
+#                 about does not write this class.
+#   `mock`        NO DIRECT CONSTRUCTION SITE AT ALL. `git grep -E
+#                 "(ndi\.document|newdocument)\(\s*'mock'"` over origin/main
+#                 returns 0 lines; every `mock` hit is the `ndi.mock.*` package
+#                 or a comment, which is a different thing wearing the name.
+#
+# Note the three were NOT unreferenced -- do not re-derive "nonprod" as
+# "nothing mentions it"; that grep was run once against the snake_case spelling
+# and returned zero for a repository that has never contained that string.
+_NONPROD_CLASSES = {"mock", "demoNDI"}
 
 # did_v1 classes dissolved into their modern form BEFORE the V_zeta base V_eta was
 # copied from (hence absent from V_zeta). Reviewed and dissolved long ago -- not

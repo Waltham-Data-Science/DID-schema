@@ -149,7 +149,8 @@
       "in_progress": 19,
       "persist": 4,
       "consumed by migrator (no tombstone)": 27,
-      "test/demo fixture (non-production)": 3
+      "test/demo fixture (non-production)": 2,
+      "no V_eta home, no migrator -- UNVERIFIED": 1
     },
     "by_source": {
       "ndi": 91,
@@ -163,9 +164,10 @@
         "dissolved": 3,
         "disputed": 1,
         "passthrough": 2,
-        "unrecorded": 2
+        "unrecorded": 3
       },
       "target_gaps": [
+        "demoNDIMock",
         "epochclocktimes",
         "imageStack_parameters"
       ]
@@ -2745,21 +2747,21 @@
     {
       "v1_class": "demoNDIMock",
       "veta_class": null,
-      "disposition": "test/demo fixture (non-production)",
+      "disposition": "no V_eta home, no migrator -- UNVERIFIED",
       "migrator": false,
       "source": "ndi",
-      "nonprod": true,
+      "nonprod": false,
       "gap": false,
       "targets": [],
       "decided_targets": [],
       "decided_targets_source": null,
       "decided_signoff": null,
       "target_source": "unknown",
-      "no_target_reason": null,
-      "no_target_reason_label": null,
+      "no_target_reason": "unrecorded",
+      "no_target_reason_label": "NO TARGET AND NO DISSOLUTION RECORDED -- a gap, not a decision",
       "no_target_account": null,
       "no_target_signoff": null,
-      "target_gap": false,
+      "target_gap": true,
       "build_state": {
         "schema_targets_named": 0,
         "schema_targets_built": [],

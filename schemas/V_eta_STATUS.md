@@ -452,8 +452,9 @@ visible either.
 | consumed by migrator (no tombstone) | 27 |
 | in_progress | 19 |
 | persist | 4 |
-| test/demo fixture (non-production) | 3 |
+| test/demo fixture (non-production) | 2 |
 | dissolved → subject | 1 |
+| no V_eta home, no migrator -- UNVERIFIED | 1 |
 
 ### `retire`, but NO MIGRATOR YET -- 2 rows
 
@@ -482,6 +483,10 @@ DENOMINATOR: 2 row(s), each searched for its BARE CLASS NAME as a quoted literal
 
 - `generic_file` -- **NOT untouched**: consumed by `foldGenericFiles.m`
 - `imageCollection` -- no per-class migrator and no batch post-pass names it; passes through today
+
+**UNVERIFIED** -- no V_eta home, no migrator, fate never established. These strand today:
+
+- `demoNDIMock`
 
 ## Families naming classes that are no longer open
 
