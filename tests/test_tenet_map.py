@@ -80,8 +80,18 @@ def test_tenet_statements_are_quoted_from_the_north_star():
     plan document's header drifting from its own sign-off."""
     a = _asset()
     doc = (REPO / "schemas" / "V_eta_tenets.md").read_text(encoding="utf-8")
+    # DENOMINATOR FIRST. The loop asserts a property of every tenet, so an
+    # artifact carrying none would pass it having compared nothing --
+    # `check_vacuous_tests.py` flagged this function for exactly that, and the
+    # flag was correct.
+    checked = 0
     for t in a["tenets"]:
         assert f"### {t['id']} — {t['title']}" in doc
+        assert t["statement"].strip(), f"{t['id']} carries an empty statement"
+        checked += 1
+    assert checked == 14, (
+        f"{checked} tenet statement(s) compared against the north star, "
+        "expected 14")
 
 
 def test_plan_only_class_names_are_flagged_rather_than_rendered_plain():

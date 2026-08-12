@@ -60,11 +60,31 @@ def test_the_asset_copies_no_volatile_fact():
     assert "built_schemas" not in a, (
         "the built-schema table duplicates schemas/V_eta/index.json, which the "
         "viewer already loads, and couples this asset to every build")
+    # DENOMINATOR FIRST, and it is not decoration: the loop below asserts a
+    # property of every migrator entry, so an asset with no entries would pass
+    # it while inspecting nothing. `check_vacuous_tests.py` flagged exactly
+    # that, and it was right to.
+    files_seen = 0
+    classes_with_one = 0
     for name, entry in a["classes"].items():
-        for m in entry["consumers"]["per_class_migrators"]:
+        migs = entry["consumers"]["per_class_migrators"]
+        if migs:
+            classes_with_one += 1
+        for m in migs:
+            files_seen += 1
             assert "lines" not in m, (
                 f"{name}: a migrator's line count is somebody else's file "
                 "size, and it staled this asset twice in one hour")
+    assert len(a["classes"]) == a["denominator"]["ledger_rows_read"]
+    # THE TWO COUNTS ARE NOT THE SAME NUMBER AND THE GAP IS REAL: the
+    # denominator counts CLASSES with at least one migrator file (85), the loop
+    # counts FILES (109). A class can be handled in more than one convert
+    # package -- `+migrators_j` for V_eta and `+migrators` for the older set --
+    # and 23 of them are. Asserting they were equal is what surfaced it.
+    assert classes_with_one == a["denominator"]["rows_with_a_per_class_migrator_file"]
+    assert files_seen >= classes_with_one > 0, (
+        "0 migrator entries inspected -- this test would have passed while "
+        "checking nothing")
 
 
 def test_every_ledger_row_has_an_entry():
