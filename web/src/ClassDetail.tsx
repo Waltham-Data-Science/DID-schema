@@ -247,8 +247,26 @@ function StageLadder({ row }: { row: CoverageRow | null }) {
   }
   if (typeof stage === "object") {
     const s = stage as Record<string, unknown>;
-    const level = s.level ?? s.stage ?? s.n;
-    const label = s.label ?? s.name ?? s.title;
+    // `reached` / `reached_name` FIRST, because that is the shape the ledger
+    // actually emits. This renderer was written while `tools/coverage.py` was
+    // still growing the column, so it guessed at `level` / `stage` / `n` and
+    // `label` / `name` / `title` -- none of which the ladder uses. Every one of
+    // the 102 rows therefore fell through to the raw-JSON branch below and
+    // printed a nested object (a 5-entry ladder, its `why` strings and the
+    // anomaly list) where a stage belonged.
+    //
+    // The fallback did its job: the ladder was SHOWN RAW rather than dropped,
+    // which is why this reads as a rendering bug and not as a missing column.
+    // The guessed keys are kept after the real ones -- they cost nothing and
+    // this file cannot see the generator that fills them.
+    const level = s.reached ?? s.level ?? s.stage ?? s.n;
+    const label = s.reached_name ?? s.label ?? s.name ?? s.title;
+    // WHY IT STOPPED, which is the half a bare number cannot carry. `stage 0`
+    // with `blocked_by_state: "not measured"` means the rung was UNREAD, not
+    // failed -- 94 of 102 rows are in exactly that state, and rendering them as
+    // a bare 0 would tell a reader 94 classes have had nothing done to them.
+    const blockedBy = s.blocked_by;
+    const blockedState = s.blocked_by_state;
     if (level !== undefined || label !== undefined) {
       return (
         <div className="cw-stage">
@@ -256,6 +274,15 @@ function StageLadder({ row }: { row: CoverageRow | null }) {
             <span className="cw-stage-n">stage {String(level)}</span>
           )}
           {label !== undefined && <span>{String(label)}</span>}
+          {blockedState !== undefined && (
+            <span className="section-note">
+              {blockedState === "not measured"
+                ? `rung ${String(blockedBy)} is UNREAD, not failed -- this is` +
+                  " the absence of a checked transcription, not evidence that" +
+                  " no decision exists"
+                : `stopped at rung ${String(blockedBy)} (${String(blockedState)})`}
+            </span>
+          )}
           {typeof s.reason === "string" && (
             <span className="section-note">{s.reason}</span>
           )}
