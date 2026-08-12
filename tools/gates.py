@@ -350,6 +350,30 @@ STEPS = [
     Step("check_prose_counts", _t("check_prose_counts.py", "--enforce"), "gate",
          r"^DENOMINATOR: (\d+) document\(s\) globbed", "documents globbed"),
 
+    # REPORT-ONLY, DELIBERATELY, ON THE SAME GROUND THE STEP ABOVE STARTED
+    # FROM. The sibling of `check_prose_counts` for the OTHER thing this
+    # project's prose keeps getting wrong: not the number in a sentence, the
+    # `file:line` under it. It lands with 34 drifted citations, 0 dead files and
+    # 1 notation collision already on the board, so arming it today would turn
+    # CI red for a condition nobody has triaged -- which trains readers to
+    # ignore the job. This project's own rule for that switch is
+    # `census_digest.py`'s: "Arming was gated on the count already being 0."
+    #
+    # `--enforce` exists and is pinned by `tests/test_citations.py`. Note the
+    # count cannot reach 0 by repointing alone: the citation audit's own
+    # conclusion was that under active edit a repointed number does not
+    # survive a day, and that such files should be cited by SEARCHABLE CONTENT
+    # instead. So arming this step is a decision about the citing STYLE, not a
+    # cleanup -- and it is not this tool's to take.
+    #
+    # NO EDGES ARE DECLARED. It reads markdown and three checkouts and no
+    # artifact this chain generates, so it has no producer to run behind.
+    # It DOES read both siblings, so on a bare runner it is NOT RUNNABLE HERE
+    # -- named and counted -- rather than a smaller chain reported as complete.
+    Step("check_citations", _t("check_citations.py"), "gate",
+         r"^DENOMINATOR: (\d+) document\(s\) globbed", "documents globbed",
+         requires=["DID-matlab", "NDI-matlab"]),
+
     # READS BOTH SIBLINGS, so it is NOT RUNNABLE on a bare runner -- and that
     # is reported rather than counted as agreement. It compares the batch
     # post-pass chain the six-corpus gate composes against the one NDI

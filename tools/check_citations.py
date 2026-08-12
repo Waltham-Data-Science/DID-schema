@@ -403,7 +403,20 @@ def anchors_for(text, start, end, cited_path):
     spans = sorted(quoted_spans(text),
                    key=lambda q: min(abs(q[0] - end), abs(q[1] - start)))
     for qs, qe, content in spans:
-        if qs < lo or qe > hi:
+        # THE SENTENCE BOUND, RESTORED 2026-08-12. This read `if False:
+        # continue` -- the filter stubbed out mid-edit and never put back,
+        # leaving `lo, hi` computed and never read. So the docstring above
+        # promised a sentence-bounded search while the code searched the whole
+        # document, which is this project's signature failure (prose says one
+        # thing, code does another) occurring INSIDE the tool written to catch
+        # citations that do the same.
+        #
+        # It was caught by this file's own test rather than by review:
+        # `test_a_quote_from_a_DIFFERENT_sentence_decides_nothing` asserts the
+        # reason is "quotes nothing verbatim" (no anchor in the sentence) and
+        # got "quotes nothing distinctive enough" (an anchor was found) --
+        # the anchor having been borrowed from a neighbouring sentence.
+        if not (lo <= qs and qe <= hi):
             continue
         if not _usable_anchor(content, cited_path):
             continue
@@ -1039,7 +1052,11 @@ def render(paths, cites, read, lines_read, orphans, bare, unreadable,
                 f"{c.kind:10s} {c.reason[:70]}")
         out("")
 
-    if not by["DRIFTED"] and not by["DEAD"] and not by["COLLISION"]:
+    # THE REASSURING SENTENCE IS CONDITIONAL ON HAVING LOOKED AT SOMETHING.
+    # Printed unconditionally it appears above the empty-scan failure and reads
+    # as the verdict of a run that examined nothing -- the exact sentence
+    # `silentLoss` printed for two days.
+    if cites and not by["DRIFTED"] and not by["DEAD"] and not by["COLLISION"]:
         out("No citation points at a line that no longer carries what the "
             "citing text quotes.")
 
