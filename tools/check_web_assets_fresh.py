@@ -51,6 +51,19 @@ generated-in-place, and how many are UNPAIRABLE. An unpairable served file is
 NAMED and FAILS -- it is the shape of "found nothing" that is really "looked in
 the wrong place". Zero served files inspected is likewise a FAILURE, never a
 clean zero.
+
+BOTH DIRECTIONS, AND THE SECOND ONE EARNED ITS KEEP IMMEDIATELY. A source the
+contract serves with no served copy is a finding, not an absence -- because a
+sync that dies partway leaves every file it DID copy perfectly correct. Caught
+on 2026-08-12, a sync interrupted inside its last set:
+
+    DENOMINATOR: 769 served file(s) inspected, 904 the contract says exist
+    V_delta   135/135    V_epsilon 249/249    V_zeta 240/240
+    V_eta     141/278   <-- interrupted here
+    STALE 32   ORPHANED 13   UNSERVED 150   UNPAIRABLE 0
+
+A checker that only compared the files present would have reported 32 stale and
+missed 150 classes the viewer had simply stopped serving.
 """
 
 import argparse
