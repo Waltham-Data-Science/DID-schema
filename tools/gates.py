@@ -440,6 +440,31 @@ EDGES = [
          "same sweep, one level deeper -- it opens the built declarations.",
          "tools/check_constraint_refinement.py", r'"V_eta"'),
 
+    # ADDED 2026-08-12. This reader had NO ground-truth edge while its four
+    # siblings did -- build_v_eta, check_migrator_vocabulary, check_tombstones
+    # and check_duplicate_field_declarations all declare one. It has read the
+    # artifact since the #69 adjudication (`GROUND_TRUTH` at
+    # check_constraint_refinement.py:174, used for the v1-provenance column that
+    # decides whether a redeclaration is did_v1's own shadow or V_eta's).
+    #
+    # HARMLESS TODAY, AND ONLY BY LUCK: `ndi_ground_truth` already sorts early
+    # enough that the artifact happens to be fresh when this step runs. That is
+    # a property of the current topological order, not of anything declared --
+    # so a future reordering could feed this gate a stale ground truth and its
+    # provenance column would silently describe an older NDI. An undeclared
+    # dependency that works by accident is the shape this whole file exists to
+    # remove; `--explain` now has to substantiate it like every other edge.
+    Edge("ndi_ground_truth", "check_constraint_refinement",
+         "schemas/V_eta_ndi_ground_truth.json",
+         "the v1-PROVENANCE column is read from the ground truth: a "
+         "redeclaration is did_v1's own shadow only if NDI declares the name "
+         "in two of the declaring blocks, and V_eta's otherwise. Read a stale "
+         "artifact and a row NDI forces reads as one this side minted -- the "
+         "same misreading that let a hand-maintained fidelity list invite the "
+         "deletion of a field every passed-through document carries.",
+         "tools/check_constraint_refinement.py",
+         r"V_eta_ndi_ground_truth\.json"),
+
     Edge("build_v_eta", "check_binding_governance", "schemas/V_eta",
          "the binding registry it audits is written by the build.",
          "tools/check_binding_governance.py", r'"V_eta"'),

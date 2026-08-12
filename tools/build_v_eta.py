@@ -2671,8 +2671,22 @@ _drn_f = {f["name"]: f for f in _drn["fields"]}
 _dr = load(os.path.join(VETA, "stable", "daqreader.json"))
 _dr["document_class"]["class_version"] = "2.0.0"
 # ndr_reader_string -> reader_string (drop the subtype prefix), now optional;
-# carry file_extension; drop ndi_daqreader_ndr_class (redundant with the parent's
-# ndi_daqreader_class discriminator).
+# drop ndi_daqreader_ndr_class (redundant with the parent's ndi_daqreader_class
+# discriminator).
+#
+# THIS LINE SAID "carry file_extension" AND WAS CONTRADICTED EIGHT LINES BELOW,
+# where the same comment block says it is NOT carried and cites the signed
+# decision that DELETED it. Corrected 2026-08-12. The built set agrees with the
+# deletion, not with the sentence:
+#
+#     DENOMINATOR: 247 json files under schemas/V_eta
+#       declaring `file_extension`: 0
+#
+# The identical stale sentence was also sitting in DID-matlab's
+# `migrators_j/daqreader_ndr.m` docstring and in `testMigratorsJ.m`, in both
+# cases a few lines above an assertion that the field is absent. Three copies of
+# one wrong clause, none of which could be reached from the others -- which is
+# the argument for stating a fact once and deriving the rest.
 _rs = _drn_f["ndr_reader_string"]
 _rs["name"] = "reader_string"
 _rs["mustBeNonEmpty"] = False
