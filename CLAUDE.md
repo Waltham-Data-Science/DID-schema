@@ -1516,10 +1516,10 @@ lives in these files — read them instead of re-deriving from memory:
         tests.yml calls tools/gates.py --ci and owns no gate list   tests.yml:167,200
         test_ci_owns_no_second_list_of_gates                        test_gates.py:120
         the sibling-clone properties (5 asserts, not 3)             test_ci_runs_the_whole_chain.py
-        check_signoff_header_staleness: CI + pytest                 gates step 17; test_veta.py, test_gates.py
-        regen_binding_strengths after build, before pytest          gates steps 2 -> 3 -> 8, 14
+        check_signoff_header_staleness: CI + pytest                 a gates step; test_veta.py, test_gates.py
+        regen_binding_strengths after build, before pytest          the derived order, confirmed by --explain
         test_field_and_registry_strengths_agree                     test_veta.py:2029
-        the migrator vocabulary sweep enforces in CI                gates step 10
+        the migrator vocabulary sweep enforces in CI                a gates step
         referent_unique_by pinned by a test                         test_veta_time_reference_family_uniqueness.py
         silentLoss reads the key + reports a denominator            silentLoss.m:49-56,523-526
         timeReferenceFamilies reads it too                          timeReferenceFamilies.m:27,36,75
