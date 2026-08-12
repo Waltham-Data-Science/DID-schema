@@ -62,6 +62,25 @@ not repeat it — re-derive it with the tool.**
 | `schemas/V_eta_final_class_set.md` | the authoritative persist set | `python3 tools/regen_final_class_set.py` |
 | `schemas/V_eta_ndi_ground_truth.json` | what NDI templates + writers actually declare | `python3 tools/ndi_ground_truth.py` |
 
+**THE BIGGEST REMAINING ITEM IS A REVIEW, NOT A BUILD, AND ITS ENTRY POINT IS
+`python3 tools/confirm_sheet.py`.** 68 of 102 v1 classes sit at ladder stage 1 —
+a migrator RUNS and rung 2 reads `not measured` — which reads like 65 classes of
+unwritten migration and is not. `V_eta_migration_targets.json` says why in its
+own header: `targets` is GENERATED from the call graph while `decided_targets`
+is AUTHORED and means *"a signed decision no migrator implements yet"*, so it is
+populated ONLY where a gap is already known. A class whose migrator emits
+something with no recorded gap carries none, and the ladder correctly refuses to
+score a rung nobody answered. **So the question is not "what should these
+become" but "is what the migrator ALREADY emits the answer we want", 68 times.**
+The sheet sorts them by the KIND of answer each needs — 50 `CONFIRM THE EMITTED
+SET`, 14 `CONFIRM A PASSTHROUGH` (asked separately: "the tombstone is the end
+state" and "we deferred this" are indistinguishable in the data), 3 with no
+emission recorded, 1 absent from the target map — and prints the emitted set,
+the authored intent and the recorded caveat beside each. It **writes nothing by
+default** and refuses to write into `schemas/` at all (Rule 1), so it cannot put
+a proposal into the record on its own; `--markdown PATH` / `--json PATH` outside
+`schemas/` are opt-in. It decides nothing and writes no signature (Rule 4).
+
 **DO NOT REGENERATE THESE ONE AT A TIME. RUN `python3 tools/gates.py`** — the
 single entry point. It runs the whole regenerate-and-gate chain once, in an
 order DERIVED from which tool reads which artifact (`--explain` prints the

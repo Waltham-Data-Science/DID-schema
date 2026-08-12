@@ -3,9 +3,9 @@
 
 WHY THIS EXISTS
 ---------------
-The completion ladder puts 65 of 102 v1 classes at stage 1: a migrator consumes
+The completion ladder puts 68 of 102 v1 classes at stage 1: a migrator consumes
 the class, and rung 2 -- "its decided target classes EXIST in the build" --
-reads `not measured`. That reads like 65 classes of unbuilt work. It is not.
+reads `not measured`. That reads like 68 classes of unbuilt work. It is not.
 
 `V_eta_migration_targets.json` says so in its own header: `targets` is GENERATED
 from the call graph, while `decided_targets` is AUTHORED and means specifically
@@ -14,15 +14,23 @@ populated where a gap is ALREADY KNOWN. A class whose migrator emits something,
 with no recorded gap, carries no decided target at all -- and the ladder,
 correctly, refuses to score a rung nobody answered.
 
-    DENOMINATOR: 65 classes at stage 1
-      carry generated targets   57
-      carry an authored intent  60
-      carry a caveat flag       59
-      absent from the map        5
+    DENOMINATOR: 68 classes at stage 1
+      carry generated targets   64
+      carry an authored intent  67
+      carry a caveat flag       66
+      absent from the map        1
 
 So the question in front of the team is not "what should these classes become".
-It is "is what the migrator ALREADY emits the answer we want" -- 65 times. That
+It is "is what the migrator ALREADY emits the answer we want" -- 68 times. That
 is a review, and a review needs a sheet.
+
+THESE FIGURES MOVED ONCE ALREADY, AND BOTH REASONS ARE WORTH KNOWING. The stage
+count rose 65 -> 68 because work LANDED (the demo collapse's two migrators, and
+`generic_file` credited to its batch post-pass), which is the ladder working.
+The "absent from the map" figure fell 5 -> 1 because THIS TOOL WAS WRONG: it
+looked the map up by the ledger's did_v1 spelling only, and the map is keyed the
+way migrator FILES are named. See `lookup`. Re-derive these numbers rather than
+quoting them; the tool prints its own denominator every run.
 
 WHAT THIS TOOL WILL NOT DO
 --------------------------
@@ -39,6 +47,7 @@ import argparse
 import collections
 import json
 import os
+import re
 import sys
 
 SCHEMA_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -74,6 +83,32 @@ def load(path):
         return json.load(fh)
 
 
+def snake(name):
+    """camelCase -> snake_case, as universalRenames and coverage.py do it."""
+    s = re.sub(r"(.)([A-Z][a-z]+)", r"\1_\2", str(name))
+    s = re.sub(r"([a-z0-9])([A-Z])", r"\1_\2", s)
+    return s.lower()
+
+
+def lookup(targets_map, v1_class):
+    """The curated row for a class, under EITHER spelling.
+
+    THE LEDGER AND THE MAP ARE KEYED DIFFERENTLY, and this tool got it wrong
+    the first time in the direction that manufactures work. The ledger keys
+    rows by the did_v1 class name (`demoNDI`, `ontologyImage`); the map is keyed
+    the way the migrator FILES are named, in snake_case (`demo_ndi`,
+    `ontology_image`). Looking up by the ledger's spelling alone reported 8
+    classes as ABSENT FROM THE TARGET MAP when 7 of them were present all along
+    -- so a reviewer would have been handed seven classes to investigate that
+    are already recorded.
+
+    This is the third instance of the same trap in one day (`demo_ndi`/`demoNDI`
+    in a disposition, then the walkthrough generator's migrator search), which
+    is why it is a shared helper with a name rather than an inline `.get()`.
+    """
+    return targets_map.get(v1_class) or targets_map.get(snake(v1_class))
+
+
 def classify(v1_class, entry):
     """Exactly one bucket per class, decided from recorded evidence only."""
     if entry is None:
@@ -97,7 +132,7 @@ def build(ledger, targets_map, stage=1):
         if r["stage"]["reached"] != stage:
             continue
         cls = r["v1_class"]
-        entry = targets_map.get(cls)
+        entry = lookup(targets_map, cls)
         bucket = classify(cls, entry)
         if bucket not in BUCKETS:
             unclassified.append(cls)

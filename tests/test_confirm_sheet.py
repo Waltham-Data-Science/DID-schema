@@ -74,6 +74,43 @@ class Classification(unittest.TestCase):
         self.assertEqual(cs.classify("ontologyImage", None), cs.B_UNMAPPED)
 
 
+class TheMapIsKeyedDifferentlyFromTheLedger(unittest.TestCase):
+    """The third instance of one trap in a day, so it gets a test of its own.
+
+    The ledger keys rows by the did_v1 class name (`demoNDI`, `ontologyImage`);
+    `V_eta_migration_targets.json` is keyed the way the migrator FILES are named
+    (`demo_ndi`, `ontology_image`). Looking up by the ledger spelling alone
+    reported 8 classes as ABSENT FROM THE TARGET MAP when 7 were present all
+    along -- and the direction is what makes it worth a test: it MANUFACTURES
+    work, handing a reviewer seven classes to investigate that are already
+    recorded.
+    """
+
+    def test_a_camelCase_class_finds_its_snake_case_row(self):
+        m = {"demo_ndi": {"targets": ["demo"]}}
+        self.assertEqual(cs.lookup(m, "demoNDI"), {"targets": ["demo"]})
+
+    def test_an_exact_key_still_wins(self):
+        m = {"demoNDI": {"targets": ["exact"]}, "demo_ndi": {"targets": ["snake"]}}
+        self.assertEqual(cs.lookup(m, "demoNDI")["targets"], ["exact"])
+
+    def test_a_genuinely_absent_class_is_still_absent(self):
+        """The fix must not make everything findable."""
+        self.assertIsNone(cs.lookup({"demo_ndi": {}}, "nothing_like_this"))
+
+    def test_against_the_live_map_only_one_stage_row_is_unmapped(self):
+        """`generic_file` folds in a batch post-pass and has no per-class row.
+
+        Pinned as ONE so that a regression in `lookup` -- which would push this
+        back to 8 -- fails here rather than showing up as seven phantom review
+        items on the sheet.
+        """
+        led, tmap = cs.load(cs.LEDGER), cs.load(cs.TARGETS)["classes"]
+        rows, _ = cs.build(led, tmap)
+        unmapped = [r["v1_class"] for r in rows if r["bucket"] == cs.B_UNMAPPED]
+        self.assertEqual(unmapped, ["generic_file"])
+
+
 class EveryClassIsSorted(unittest.TestCase):
     def test_the_buckets_partition_the_stage(self):
         led = ledger([row("a"), row("b"), row("c"), row("d"),
