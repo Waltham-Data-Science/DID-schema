@@ -386,6 +386,152 @@ def emitted_classes():
     return out
 
 
+# ============================================================================
+# THE BATCH POST-PASS DECLARATIONS -- the third consumption channel (row 107).
+# ============================================================================
+#
+# THE UNDERSTATEMENT THIS REPAIRS, IN ONE ROW. `generic_file` is folded into a
+# `term_observation` + an `opaque_body` by `did2.convert.foldGenericFiles`, and
+# this tool reported it at stage 0, "source identified" -- because rung 1 asks
+# whether a migrator file NAMED AFTER the class exists, and a batch post-pass is
+# not one. `_rung_consumed` said so in its own comment for weeks: *"the fix is a
+# field in V_eta_migration_targets.json, not a grep in this function: a bare
+# name sweep over the convert package matches `base` in 9 of the 9 passes and
+# `app` in universalRenames, which is noise a stage cannot be built on."*
+#
+# The fix landed one step further out than that comment predicted, and for the
+# better reason. A field HERE would be a DID-schema author's claim about
+# DID-matlab code, going stale silently the day the pass changed. Instead the
+# PASSES DECLARE, in their own headers, and this reads the declaration --
+# the reasoning `_EDGE_REFERENT_UNIQUE` is declared by name in build_v_eta.py
+# rather than derived. The parser lives in DID-matlab beside the code it
+# describes (`tools/batch_pass_declarations.py`) and is imported by path, so
+# there is ONE grammar and one place it can drift from.
+#
+# THREE PROPERTIES ARE LOAD-BEARING AND EACH IS ASSERTED BY A TEST.
+#   1. A PASS WITH NO DECLARATION IS `MISSING`, NEVER AN EMPTY SET. The scan
+#      reports the missing ones separately and unconditionally, and a credit is
+#      only ever ADDED by a declaration present -- so an unread, unreadable or
+#      undeclared pass can never make a rung look better than it is. It can
+#      only leave it where it was.
+#   2. THE CREDIT IS DISTINGUISHABLE. `build_state.batch_pass_consumers` and
+#      `.batch_pass_emits` carry the pass names, the rung `why` strings say
+#      "batch post-pass" in words, and the rollup prints which rows moved.
+#   3. ONLY AN ATTRIBUTED EMISSION CREDITS RUNG 3. `UNATTRIBUTED` emissions and
+#      the `nothing` form credit nothing at all. `resolveValidIntervals`
+#      declares `valid_interval -> nothing` because it is dormant by team
+#      decision; that row must stay at rung 3 = `no`, and it does.
+BATCH_PASS_SCAN = {
+    "measured": False, "chain_size": 0, "declared": [], "missing": [],
+    "invalid": [], "index": {}, "why": "not read yet",
+    "path": None, "chain_info": {}, "per_pass": {},
+    "accounting_disagreement": [],
+}
+
+
+def batch_pass_declarations():
+    """Load DID-matlab's declaration scan. Populates BATCH_PASS_SCAN; no return.
+
+    DEGRADES BY SAYING SO. Every failure path here sets `measured` False with a
+    `why`, and leaves the index empty -- which cannot promote a row, because
+    the two rung functions only ever ADD on evidence found. A missing sibling
+    is therefore an UNDER-report that announces itself, never a silent one.
+    """
+    s = BATCH_PASS_SCAN
+    s.update({"measured": False, "chain_size": 0, "declared": [],
+              "missing": [], "invalid": [], "index": {}, "chain_info": {},
+              "per_pass": {}, "accounting_disagreement": []})
+    if not DIDM:
+        s["why"] = ("DID-matlab not found, so no pass could be read. Rung 1 and "
+                    "rung 3 carry NO batch-post-pass credit in this run -- an "
+                    "UNDERSTATEMENT, not a measurement")
+        return
+    path = os.path.join(DIDM, "tools", "batch_pass_declarations.py")
+    s["path"] = path
+    if not os.path.isfile(path):
+        s["why"] = (f"{path} is absent -- this DID-matlab checkout predates the "
+                    "declarations. No batch-post-pass credit in this run")
+        return
+    # NAMED, not blind (tests/test_tool_skip_denominators.py). The three ways
+    # this import can fail are the three named here: the file is unreadable
+    # (OSError), it is not valid Python or its own `import census_digest` is
+    # missing (ImportError/SyntaxError), or the scan hits a data shape it does
+    # not expect (AttributeError/KeyError/TypeError/ValueError). Every one of
+    # them lands in `why` and leaves `measured` False, so the failure is an
+    # announced UNDER-report and never a silent zero.
+    try:
+        import importlib.util
+        spec = importlib.util.spec_from_file_location(
+            "_did_batch_pass_declarations", path)
+        mod = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(mod)
+        out = mod.scan(DIDM)
+    except (OSError, ImportError, SyntaxError, AttributeError, KeyError,
+            TypeError, ValueError) as exc:
+        s["why"] = f"{type(exc).__name__} reading {path}: {exc}"
+        return
+    if not out.get("chain_derived"):
+        s["why"] = ("the batch-pass chain could not be DERIVED from the "
+                    "DID-matlab harness: " + str(out.get("why")))
+        return
+    s["measured"] = True
+    s["why"] = None
+    s["chain_size"] = out["chain_size"]
+    s["declared"] = list(out["declared"])
+    s["missing"] = list(out["missing"])
+    s["invalid"] = list(out["invalid"])
+    s["chain_info"] = out.get("chain_info", {})
+    # THE TWO ACCOUNTINGS, KEPT APART SO THEY CAN BE COMPARED. `declared` and
+    # `missing` are the scan's SUMMARY lists; `per_pass` is the per-file verdict
+    # they were built from. Storing only the summary means a bug that laundered
+    # a missing declaration into the declared list -- the one collapse this
+    # whole mechanism exists to prevent -- would be invisible on this side of
+    # the repo boundary, and invisible on any day the real tree happens to have
+    # no missing declarations. `corpus_proven.py` cross-checks its rung against
+    # the census it fed in for the same reason.
+    s["per_pass"] = {fn: {"declared": bool(d["declared"]),
+                          "errors": list(d["errors"])}
+                     for fn, d in out["passes"].items()}
+    s["accounting_disagreement"] = sorted(
+        fn for fn, d in s["per_pass"].items()
+        if d["declared"] != (fn in s["declared"])
+        or d["declared"] == (fn in s["missing"]))
+    # {consumed name -> [{pass, form, targets, reason}]}. An INVALID declaration
+    # is indexed for the names it did parse: it is reported as invalid either
+    # way, and dropping it whole would turn a malformed line into a silent loss
+    # of a credit the pass genuinely earns.
+    index = {}
+    for fn in out["declared"]:
+        d = out["passes"][fn]
+        for name in d["consumes"]:
+            e = d["emits"].get(name) or {"form": None, "targets": [],
+                                         "reason": None}
+            index.setdefault(name, []).append(
+                {"pass": fn, "form": e["form"], "targets": list(e["targets"]),
+                 "reason": e["reason"]})
+    s["index"] = index
+
+
+def batch_pass_entries(v1_class, veta_class):
+    """Declarations naming this row, matched on EITHER spelling.
+
+    V_eta is snake_case and NDI is camelCase (CLAUDE.md, the `demo_ndi` bug), and
+    a batch pass reads whichever spelling the batch carries at its point in the
+    chain -- `resolveLawnPlateSubjects` matches the MIGRATED `ontology_table_row`
+    while the ledger row is NDI's `ontologyTableRow`. So both names on the row
+    are offered, plus the snake form of the v1 name. A declared name that
+    matches NOTHING is reported by the rollup rather than dropped.
+    """
+    idx = BATCH_PASS_SCAN["index"]
+    out = []
+    for n in (v1_class, veta_class, snake(v1_class or "")):
+        for e in idx.get(n or "", []):
+            if e["pass"] in {x["pass"] for x in out}:
+                continue          # one pass credits a row once, not per spelling
+            out.append(dict(e, matched_on=n))
+    return out
+
+
 # Known emissions of NON-V_eta classes, with a tracked reason. These are NOT
 # clean -- each is a real issue to fix -- but they are explicitly acknowledged so
 # the guardrail fails on NEW (unacknowledged) revived/invented classes.
@@ -975,6 +1121,11 @@ def build_ledger():
     {v1_class, veta_class|None, disposition, migrator(bool), source(ndi|app), gap(bool)}.
     A `gap` is a v1 class with NO V_eta class and NO bespoke migrator -- unmapped,
     the actionable coverage hole (e.g. classes NDI/main added after V_eta forked)."""
+    # THE THIRD CONSUMPTION CHANNEL, read HERE rather than in main() so every
+    # caller that builds rows -- the tool, the tests, the board -- reads the
+    # same declarations. It cannot promote a row on its own: a failed read
+    # leaves the index empty and every rung exactly where it was.
+    batch_pass_declarations()
     veta = veta_index()
     v1 = v1_classes()
     migs = migrator_files()
@@ -1160,6 +1311,13 @@ def build_ledger():
         # is built and shipping). A reader acting on the undifferentiated
         # sentence re-authors schema that already exists.
         _named = list(decided_targets)
+        # THE THIRD CONSUMPTION CHANNEL, carried as its own two fields so the
+        # credit is never mistaken for a per-class migrator's. `_consumers` is
+        # every batch post-pass DECLARING it reads this class; `_emits` is only
+        # the ATTRIBUTED emissions -- an `UNATTRIBUTED` line and the `nothing`
+        # form contribute an empty list, deliberately.
+        _bp = batch_pass_entries(cn, vname)
+        _bp_targets = sorted({t for e in _bp for t in e["targets"]})
         build_state = {
             "schema_targets_named": len(_named),
             "schema_targets_built": sorted(t for t in _named if t in veta),
@@ -1169,6 +1327,12 @@ def build_ledger():
             "migrator_emits_decided_targets": bool(
                 _named and all(t in targets for t in _named)),
             "has_per_class_migrator": mig,
+            "batch_pass_consumers": [e["pass"] for e in _bp],
+            "batch_pass_emits": {e["pass"]: e["targets"] for e in _bp
+                                 if e["targets"]},
+            "batch_pass_emits_decided_targets": bool(
+                _named and not all(t in targets for t in _named)
+                and all(t in set(targets) | set(_bp_targets) for t in _named)),
         }
 
         rows.append({
@@ -1449,19 +1613,38 @@ def _rung_consumed(row):
         return S_YES, ("no per-class migrator, but `second_pass` records "
                        + ", ".join(f"`{t}`" for t in sp)
                        + " minted for this class in the NDI second pass")
-    # THE KNOWN UNDERSTATEMENT, NAMED RATHER THAN PATCHED. Two consumption
-    # channels are visible to this tool: a per-class migrator file, and the
-    # `second_pass` column. A DID BATCH POST-PASS (+did2/+convert, nine of them)
-    # is a third, and NO LEDGER FIELD RECORDS IT -- `generic_file` is consumed
-    # by `foldGenericFiles.m` and reads `no` here. That is an understatement,
-    # and the fix is a field in V_eta_migration_targets.json, not a grep in this
-    # function: a bare name sweep over the convert package matches `base` in 9
-    # of the 9 passes and `app` in universalRenames, which is noise a stage
-    # cannot be built on.
-    return S_NO, ("neither `build_state.has_per_class_migrator` nor a "
-                  "`second_pass` entry. NOTE the ledger carries no field for a "
-                  "DID batch post-pass (+did2/+convert), so a class consumed only "
-                  "by one reads `no` here -- an UNDERSTATEMENT, not a measurement")
+    # THE THIRD CHANNEL. A DID BATCH POST-PASS (+did2/+convert) is neither a
+    # per-class migrator file nor an NDI second-pass mint, and until row 107
+    # this function had no field to read for it -- `generic_file` is folded by
+    # `foldGenericFiles` and reported `no`. The credit is DECLARED by the pass,
+    # not grepped: a bare name sweep over the convert package matches `base` in
+    # 9 of the 9 passes and `app` in universalRenames, which is noise a stage
+    # cannot be built on. The `why` names the pass, so a reader can always see
+    # that this rung was climbed by a batch pass rather than by a migrator.
+    consumers = _need(bs, "batch_pass_consumers", list)
+    if consumers:
+        return S_YES, ("no per-class migrator and no `second_pass` entry, but "
+                       "`build_state.batch_pass_consumers` records the DID "
+                       "BATCH POST-PASS(es) "
+                       + ", ".join(f"`did2.convert.{p}`" for p in consumers)
+                       + " DECLARING that they consume this class")
+    s = BATCH_PASS_SCAN
+    if not s["measured"]:
+        unread = (" The batch post-pass declarations were NOT READ in this run "
+                  "(" + str(s["why"]) + "), so a class consumed only by one "
+                  "still reads `no` here -- an UNDERSTATEMENT, not a "
+                  "measurement.")
+    elif s["missing"]:
+        unread = (" " + str(len(s["missing"])) + " pass(es) in the derived "
+                  "chain carry NO DECLARATION (" + ", ".join(s["missing"])
+                  + "), so a class consumed only by one of those is not "
+                  "measured here.")
+    else:
+        unread = (" All " + str(s["chain_size"]) + " batch post-pass(es) in "
+                  "the derived chain were read and none declares this class.")
+    return S_NO, ("neither `build_state.has_per_class_migrator`, a "
+                  "`second_pass` entry, nor a batch post-pass declaring it."
+                  + unread)
 
 
 def _rung_emits_decided(row):
@@ -1475,11 +1658,28 @@ def _rung_emits_decided(row):
                            "generated target map records this migrator emitting")
         want = row.get("decided_targets") or []
         have = row.get("targets") or []
+        # THE SECOND AND THIRD EMISSION SHAPES OF ROW 107, and the reason this
+        # branch sits BELOW the migrator one: a per-class migrator that already
+        # emits the decided target needs no help, and reading the declaration
+        # first would attribute a migrator's work to a batch pass.
+        if _need(bs, "batch_pass_emits_decided_targets", bool):
+            em = _need(bs, "batch_pass_emits", dict)
+            return S_YES, (
+                "the migrator named after this class does not emit the decided "
+                "target(s), but `build_state.batch_pass_emits` records the DID "
+                "BATCH POST-PASS(es) "
+                + "; ".join(f"`did2.convert.{p}` -> "
+                            + ", ".join(f"`{t}`" for t in sorted(ts))
+                            for p, ts in sorted(em.items()))
+                + " DECLARING the emission. A declared emission is a fact about "
+                  "code the pass's own header states; it is NOT a corpus proof")
         return S_NO, ("the decided target(s) "
                       + ", ".join(f"`{t}`" for t in want)
                       + " are not all among what the migrator emits today ("
                       + (", ".join(f"`{t}`" for t in have) if have else "nothing")
-                      + ")")
+                      + ")"
+                      + (", nor among what any batch post-pass declares it emits"
+                         if _need(bs, "batch_pass_consumers", list) else ""))
     if row.get("no_target_reason") == NO_TARGET_DISSOLVED:
         doc = (row.get("no_target_signoff") or {}).get("document", "?")
         return S_NA, (f"signed to DISSOLVE in `{doc}`: no target class is decided, "
@@ -2044,10 +2244,127 @@ def _governance_rollup(rows):
     }
 
 
+def batch_pass_rollup(rows):
+    """How much the batch-post-pass declarations moved, and which rows.
+
+    DENOMINATOR FIRST AND UNCONDITIONALLY, and it is a THREE-PART one, because
+    "the declarations said nothing" and "nobody read the declarations" and "a
+    pass forgot to declare" are three different facts that a single count would
+    fuse:
+
+        measured        the chain was derived and the sources were read
+        chain_size      how many passes were in reach
+        missing         passes in the chain carrying NO declaration
+
+    `credited_rung_1` / `credited_rung_3` name the rows this channel moved, and
+    each row carries the pass that moved it -- so no number here can be read
+    without seeing what produced it. `declared_matching_no_row` is the honest
+    other side: a declared name that is not a did_v1 source class (every
+    `session_*_reference`, for one) credits nothing and is REPORTED rather than
+    dropped, because a silent non-match is how a typo becomes an absent credit.
+    """
+    s = BATCH_PASS_SCAN
+    out = {
+        "measured": s["measured"], "why": s["why"],
+        "chain_size": s["chain_size"], "declared": sorted(s["declared"]),
+        "missing": sorted(s["missing"]), "invalid": sorted(s["invalid"]),
+        # AN INSTRUMENT FAULT, NOT A MIGRATION FACT. Non-empty means the scan's
+        # summary lists disagree with its own per-pass verdicts, so no count
+        # below can be trusted -- reported separately from `missing` for that
+        # reason.
+        "accounting_disagreement": sorted(s["accounting_disagreement"]),
+        "denominator_rows": len(rows),
+        "credited_rung_1": [], "credited_rung_3": [],
+        "rows_naming_a_pass": [], "declared_matching_no_row": [],
+        "unattributed_or_nothing": [],
+    }
+    matched = set()
+    for r in rows:
+        bs = r.get("build_state") or {}
+        consumers = bs.get("batch_pass_consumers") or []
+        if not consumers:
+            continue
+        matched.update(consumers)
+        out["rows_naming_a_pass"].append(
+            {"v1_class": r["v1_class"], "passes": list(consumers)})
+        lad = {x["stage"]: x for x in (r.get("stage") or {}).get("ladder", [])}
+        if (not bs.get("has_per_class_migrator")
+                and not r.get("second_pass")
+                and lad.get(1, {}).get("state") == S_YES):
+            out["credited_rung_1"].append(
+                {"v1_class": r["v1_class"], "passes": list(consumers),
+                 "stage_reached": (r.get("stage") or {}).get("reached")})
+        if bs.get("batch_pass_emits_decided_targets") and \
+                lad.get(3, {}).get("state") == S_YES:
+            out["credited_rung_3"].append(
+                {"v1_class": r["v1_class"],
+                 "emits": bs.get("batch_pass_emits") or {},
+                 "decided_targets": list(r.get("decided_targets") or []),
+                 "stage_reached": (r.get("stage") or {}).get("reached")})
+        if not (bs.get("batch_pass_emits") or {}):
+            out["unattributed_or_nothing"].append(
+                {"v1_class": r["v1_class"], "passes": list(consumers)})
+    for name, entries in sorted(s["index"].items()):
+        hit = any(name in (r["v1_class"], r["veta_class"],
+                           snake(r["v1_class"] or ""))
+                  for r in rows)
+        if not hit:
+            out["declared_matching_no_row"].append(
+                {"name": name, "passes": [e["pass"] for e in entries]})
+    return out
+
+
+def _print_batch_pass_rollup(bp):
+    print("  BATCH POST-PASS DECLARATIONS (the third consumption channel)")
+    print("    DENOMINATOR: %d ledger row(s); chain of %d pass(es), "
+          "%d declared, %d MISSING A DECLARATION, %d INVALID"
+          % (bp["denominator_rows"], bp["chain_size"], len(bp["declared"]),
+             len(bp["missing"]), len(bp["invalid"])))
+    if not bp["measured"]:
+        print("    *** NOT MEASURED: " + str(bp["why"]))
+        print("    Every rung below is therefore an UNDERSTATEMENT, not a "
+              "measurement -- no row was credited by this channel.")
+        return
+    if bp.get("accounting_disagreement"):
+        print("    *** INSTRUMENT FAULT -- the scan's declared/missing lists "
+              "disagree with its own per-pass verdicts for: "
+              + ", ".join(bp["accounting_disagreement"])
+              + ". No count in this section can be trusted.")
+    if bp["missing"]:
+        print("    *** MISSING A DECLARATION: " + ", ".join(bp["missing"])
+              + " -- a class consumed only by one of those is NOT measured. "
+                "This is an absence, never an empty set.")
+    if bp["invalid"]:
+        print("    *** INVALID DECLARATION: " + ", ".join(bp["invalid"]))
+    print("    rung 1 (`a migrator CONSUMES it`) credited via a batch pass: %d"
+          % len(bp["credited_rung_1"]))
+    for e in bp["credited_rung_1"]:
+        print("      %-42s <- %s (now stage %s)"
+              % (e["v1_class"], ", ".join(e["passes"]), e["stage_reached"]))
+    print("    rung 3 (`the migrator emits THE DECIDED targets`) credited via "
+          "a batch pass: %d" % len(bp["credited_rung_3"]))
+    for e in bp["credited_rung_3"]:
+        print("      %-42s <- %s (decided %s; now stage %s)"
+              % (e["v1_class"],
+                 "; ".join("%s -> %s" % (p, ", ".join(t))
+                           for p, t in sorted(e["emits"].items())),
+                 ", ".join(e["decided_targets"]), e["stage_reached"]))
+    print("    rows naming a pass but credited NOTHING by it (an "
+          "`UNATTRIBUTED` or `nothing` emission, or a rung already climbed): %d"
+          % len(bp["unattributed_or_nothing"]))
+    for e in bp["unattributed_or_nothing"]:
+        print("      %-42s <- %s" % (e["v1_class"], ", ".join(e["passes"])))
+    print("    declared names matching NO ledger row (not a did_v1 source "
+          "class, so nothing to credit): %d" % len(bp["declared_matching_no_row"]))
+    for e in bp["declared_matching_no_row"]:
+        print("      %-42s <- %s" % (e["name"], ", ".join(e["passes"])))
+
+
 def _summary(rows):
     from collections import Counter
     return {
         "total": len(rows),
+        "batch_pass": batch_pass_rollup(rows),
         "by_disposition": dict(Counter(r["disposition"] for r in rows)),
         "by_source": dict(Counter(r["source"] for r in rows)),
         "with_migrator": sum(1 for r in rows if r["migrator"]),
@@ -2132,6 +2449,21 @@ def _stage_cell(r):
     elif st.get("only_excused"):
         cell += (" · nothing BUILT; the rungs above are `n/a` by a signed "
                  "dissolution")
+    # WHICH KIND OF CODE CLIMBED IT (row 107). A rung reached through a DID
+    # batch post-pass rather than through a migrator NAMED AFTER the class is
+    # marked here, in the cell, so the reader of the artifact -- not only the
+    # reader of the rollup on stdout -- can see the channel. Silently improving
+    # a number is the failure this whole mechanism is a correction for.
+    bs = r.get("build_state") or {}
+    passes = bs.get("batch_pass_consumers") or []
+    if passes and not bs.get("has_per_class_migrator") \
+            and not (r.get("second_pass") or []):
+        cell += (" · rung 1 via DID BATCH POST-PASS "
+                 + ", ".join(f"`did2.convert.{p}`" for p in passes))
+    if bs.get("batch_pass_emits_decided_targets"):
+        cell += (" · rung 3 via DID BATCH POST-PASS "
+                 + ", ".join(f"`did2.convert.{p}`"
+                             for p in sorted(bs.get("batch_pass_emits") or {})))
     return cell
 
 
@@ -2443,9 +2775,23 @@ def _build_state_clause(r):
         schema += " (" + ", ".join(f"`{t}`" for t in built) + ")"
     if missing:
         schema += "; NOT built: " + ", ".join(f"`{t}`" for t in missing)
-    migr = ("MIGRATOR: emits them today"
-            if bs.get("migrator_emits_decided_targets")
-            else "MIGRATOR: does NOT emit them yet")
+    # THREE STATES, NOT TWO. Until row 107 this clause said "does NOT emit them
+    # yet" for a class whose emission is done by a BATCH POST-PASS -- and the
+    # stage cell beside it now reads 3, so the artifact contradicted itself in
+    # its own row. The batch-pass case is spelled out, with the pass named, so
+    # a reader can see WHICH kind of code emits the decided target.
+    if bs.get("migrator_emits_decided_targets"):
+        migr = "MIGRATOR: emits them today"
+    elif bs.get("batch_pass_emits_decided_targets"):
+        em = bs.get("batch_pass_emits") or {}
+        migr = ("MIGRATOR: the per-class migrator does NOT emit them; the DID "
+                "BATCH POST-PASS(es) "
+                + "; ".join(f"`did2.convert.{p}` -> "
+                            + ", ".join(f"`{t}`" for t in sorted(ts))
+                            for p, ts in sorted(em.items()))
+                + " DECLARE the emission")
+    else:
+        migr = "MIGRATOR: does NOT emit them yet"
     return "⚑ " + schema + ". " + migr + "."
 
 
@@ -2823,6 +3169,7 @@ def main():
                  (" (" + ", ".join(nt["target_gaps"]) + ")")
                  if nt["target_gaps"] else "",
                  nt["by_reason"][NO_TARGET_PASSTHROUGH]))
+        _print_batch_pass_rollup(s["batch_pass"])
         _print_stage_rollup(s)
     else:
         print("ledger: SKIPPED (NDI-matlab sibling not found)")

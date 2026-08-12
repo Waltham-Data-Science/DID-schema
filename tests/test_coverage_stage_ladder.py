@@ -483,19 +483,37 @@ class TestTheCommittedLedger(unittest.TestCase):
                           coverage._stage_cell(r))
 
     def test_the_untouched_rows_are_the_ones_we_expect(self):
-        # PINNED. These nine have NOTHING built and nothing excused: no
-        # migrator, no second pass, no decided target, no signed dissolution.
-        # If the list changes, something real changed and someone must look.
+        # PINNED. These have NOTHING built and nothing excused: no migrator, no
+        # second pass, no batch post-pass declaring them, no decided target, no
+        # signed dissolution. If the list changes, something real changed and
+        # someone must look.
+        #
+        # WAS NINE UNTIL 2026-08-12 AND IS NOW EIGHT: `generic_file` LEFT, and
+        # it left because it was never untouched. `did2.convert.foldGenericFiles`
+        # folds it into a `term_observation` + an `opaque_body`, and the ladder
+        # could not see that -- rung 1 asked only whether a migrator FILE named
+        # after the class exists. The pass now DECLARES what it consumes
+        # (OPEN_WORK row 107) and the row reads rung 1 `yes`. Nothing about
+        # `generic_file` changed; what changed is that the instrument can see
+        # the third consumption channel.
         cap = _ledger()["summary"]["stage_rollup"]["capped"]
         self.assertEqual(cap["genuinely_untouched_rows"], [
-            "animalsubject", "base", "demoNDI", "demoNDIMock", "generic_file",
+            "animalsubject", "base", "demoNDI", "demoNDIMock",
             "imageCollection", "imageStack_parameters", "mock", "session"])
 
     def test_a_signed_dissolution_is_not_counted_as_untouched(self):
-        # The three rows that separate "nothing built" from "nothing known".
+        # The rows that separate "nothing built" from "nothing known".
+        #
+        # WAS THREE UNTIL 2026-08-12 AND IS NOW TWO. `epochid` left this bucket
+        # in the direction that matters: `only_excused` means nothing is BUILT
+        # and the rungs above are `n/a`, and something IS built --
+        # `did2.convert.epochMint` mints one `epoch` per (session, epoch-id
+        # string) with the v1 string as its `local_identifier`, which is the
+        # mint half of the signed dissolution, in code. It now satisfies rung 1
+        # on a declaration, so it is no longer "nothing built".
         cap = _ledger()["summary"]["stage_rollup"]["capped"]
         self.assertEqual(cap["nothing_built_but_excused_rows"],
-                         ["epochid", "stimulus_response",
+                         ["stimulus_response",
                           "stimulus_response_scalar_parameters"])
         for name in cap["nothing_built_but_excused_rows"]:
             self.assertNotIn(name, cap["genuinely_untouched_rows"])
@@ -931,9 +949,11 @@ class TestMutationsRedden(unittest.TestCase):
         rows = _with_governance(
             _reclassify(copy.deepcopy(_rows()), coverage.CORPUS_SCAN))
         rollup = coverage._stage_rollup(rows, None)
-        self.assertEqual(rollup["capped"]["genuinely_untouched"], 9,
-                         "precondition: nine rows have nothing built and "
-                         "nothing excused")
+        self.assertEqual(rollup["capped"]["genuinely_untouched"], 8,
+                         "precondition: eight rows have nothing built and "
+                         "nothing excused (nine until `generic_file` was "
+                         "credited to did2.convert.foldGenericFiles, OPEN_WORK "
+                         "row 107)")
         damaged = copy.deepcopy(rollup)
         damaged["capped"]["genuinely_untouched"] = 0
         with self.assertRaises(AssertionError):

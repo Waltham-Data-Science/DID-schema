@@ -3,6 +3,146 @@
   "description": "One row per did_v1 SOURCE class, from BOTH v1 writers: the NDI production templates (read from NDI-matlab `origin/main`, not a lagging feature branch) AND the vhlab app/calculator classes that appear in real corpora but ship no NDI template (footprint = a bespoke migrator that consumes them). Post-v1 DID intermediate classes (zarr, directory, the `*_observation` leaves, ...) are V_eta TARGETS, not v1 sources, and are excluded.",
   "summary": {
     "total": 102,
+    "batch_pass": {
+      "measured": true,
+      "why": null,
+      "chain_size": 9,
+      "declared": [
+        "epochMint",
+        "foldGenericFiles",
+        "resolveDatasetEntities",
+        "resolveDeferredBaths",
+        "resolveLawnPlateSubjects",
+        "resolveOpenmindsCitations",
+        "resolveResponseParameters",
+        "resolveSessionAnchors",
+        "resolveValidIntervals"
+      ],
+      "missing": [],
+      "invalid": [],
+      "accounting_disagreement": [],
+      "denominator_rows": 102,
+      "credited_rung_1": [
+        {
+          "v1_class": "epochid",
+          "passes": [
+            "epochMint"
+          ],
+          "stage_reached": 3
+        },
+        {
+          "v1_class": "generic_file",
+          "passes": [
+            "foldGenericFiles"
+          ],
+          "stage_reached": 1
+        }
+      ],
+      "credited_rung_3": [
+        {
+          "v1_class": "stimulus_response_scalar_parameters_basic",
+          "emits": {
+            "resolveResponseParameters": [
+              "method_parameters"
+            ]
+          },
+          "decided_targets": [
+            "method_parameters"
+          ],
+          "stage_reached": 3
+        }
+      ],
+      "rows_naming_a_pass": [
+        {
+          "v1_class": "daqmetadatareader_epochdata_ingested",
+          "passes": [
+            "epochMint"
+          ]
+        },
+        {
+          "v1_class": "epochid",
+          "passes": [
+            "epochMint"
+          ]
+        },
+        {
+          "v1_class": "generic_file",
+          "passes": [
+            "foldGenericFiles"
+          ]
+        },
+        {
+          "v1_class": "ontologyLabel",
+          "passes": [
+            "foldGenericFiles"
+          ]
+        },
+        {
+          "v1_class": "ontologyTableRow",
+          "passes": [
+            "resolveLawnPlateSubjects"
+          ]
+        },
+        {
+          "v1_class": "openminds",
+          "passes": [
+            "resolveOpenmindsCitations"
+          ]
+        },
+        {
+          "v1_class": "stimulus_bath",
+          "passes": [
+            "resolveDeferredBaths"
+          ]
+        },
+        {
+          "v1_class": "stimulus_response_scalar_parameters_basic",
+          "passes": [
+            "resolveResponseParameters"
+          ]
+        },
+        {
+          "v1_class": "valid_interval",
+          "passes": [
+            "resolveValidIntervals"
+          ]
+        }
+      ],
+      "declared_matching_no_row": [
+        {
+          "name": "session_bounded_reference",
+          "passes": [
+            "resolveSessionAnchors"
+          ]
+        },
+        {
+          "name": "session_relative_reference",
+          "passes": [
+            "resolveSessionAnchors"
+          ]
+        }
+      ],
+      "unattributed_or_nothing": [
+        {
+          "v1_class": "daqmetadatareader_epochdata_ingested",
+          "passes": [
+            "epochMint"
+          ]
+        },
+        {
+          "v1_class": "ontologyLabel",
+          "passes": [
+            "foldGenericFiles"
+          ]
+        },
+        {
+          "v1_class": "valid_interval",
+          "passes": [
+            "resolveValidIntervals"
+          ]
+        }
+      ]
+    },
     "by_disposition": {
       "retire": 48,
       "dissolved \u2192 subject": 1,
@@ -44,23 +184,25 @@
         "rung": 1,
         "name": "a migrator CONSUMES it",
         "denominator": 102,
-        "yes": 86,
-        "no": 16,
+        "yes": 88,
+        "no": 14,
         "n/a": 0,
         "not measured": 0
       },
       "by_stage_reached": {
-        "0": 16,
-        "1": 65,
-        "2": 7,
-        "3": 14,
+        "0": 14,
+        "1": 66,
+        "2": 6,
+        "3": 16,
         "4": 0
       },
-      "reached_with_an_n_a_in_the_chain": [],
+      "reached_with_an_n_a_in_the_chain": [
+        "epochid"
+      ],
       "per_stage_state_counts": {
         "1": {
-          "yes": 86,
-          "no": 16
+          "yes": 88,
+          "no": 14
         },
         "2": {
           "not measured": 74,
@@ -69,8 +211,8 @@
         },
         "3": {
           "not measured": 74,
-          "no": 11,
-          "yes": 14,
+          "no": 10,
+          "yes": 15,
           "n/a": 3
         },
         "4": {
@@ -78,9 +220,9 @@
         }
       },
       "per_stage_satisfied_independently": {
-        "1": 86,
+        "1": 88,
         "2": 25,
-        "3": 14,
+        "3": 15,
         "4": 0
       },
       "capped": {
@@ -93,27 +235,25 @@
           "stimulus_parameter_table"
         ],
         "highest_rung_satisfied_independently_histogram": {
-          "0": 12,
-          "1": 65,
-          "2": 11,
-          "3": 14,
+          "0": 10,
+          "1": 67,
+          "2": 10,
+          "3": 15,
           "4": 0
         },
-        "genuinely_untouched": 9,
+        "genuinely_untouched": 8,
         "genuinely_untouched_rows": [
           "animalsubject",
           "base",
           "demoNDI",
           "demoNDIMock",
-          "generic_file",
           "imageCollection",
           "imageStack_parameters",
           "mock",
           "session"
         ],
-        "nothing_built_but_excused_by_a_signed_dissolution": 3,
+        "nothing_built_but_excused_by_a_signed_dissolution": 2,
         "nothing_built_but_excused_rows": [
-          "epochid",
           "stimulus_response",
           "stimulus_response_scalar_parameters"
         ]
@@ -654,7 +794,10 @@
         "schema_targets_built": [],
         "schema_targets_missing": [],
         "migrator_emits_decided_targets": false,
-        "has_per_class_migrator": true
+        "has_per_class_migrator": true,
+        "batch_pass_consumers": [],
+        "batch_pass_emits": {},
+        "batch_pass_emits_decided_targets": false
       },
       "carried": [],
       "second_pass": [],
@@ -733,7 +876,10 @@
         "schema_targets_built": [],
         "schema_targets_missing": [],
         "migrator_emits_decided_targets": false,
-        "has_per_class_migrator": false
+        "has_per_class_migrator": false,
+        "batch_pass_consumers": [],
+        "batch_pass_emits": {},
+        "batch_pass_emits_decided_targets": false
       },
       "carried": [],
       "second_pass": [],
@@ -759,7 +905,7 @@
             "stage": 1,
             "name": "a migrator CONSUMES it",
             "state": "no",
-            "why": "neither `build_state.has_per_class_migrator` nor a `second_pass` entry. NOTE the ledger carries no field for a DID batch post-pass (+did2/+convert), so a class consumed only by one reads `no` here -- an UNDERSTATEMENT, not a measurement"
+            "why": "neither `build_state.has_per_class_migrator`, a `second_pass` entry, nor a batch post-pass declaring it. All 9 batch post-pass(es) in the derived chain were read and none declares this class."
           },
           {
             "stage": 2,
@@ -816,7 +962,10 @@
         ],
         "schema_targets_missing": [],
         "migrator_emits_decided_targets": false,
-        "has_per_class_migrator": false
+        "has_per_class_migrator": false,
+        "batch_pass_consumers": [],
+        "batch_pass_emits": {},
+        "batch_pass_emits_decided_targets": false
       },
       "carried": [],
       "second_pass": [],
@@ -860,7 +1009,7 @@
             "stage": 1,
             "name": "a migrator CONSUMES it",
             "state": "no",
-            "why": "neither `build_state.has_per_class_migrator` nor a `second_pass` entry. NOTE the ledger carries no field for a DID batch post-pass (+did2/+convert), so a class consumed only by one reads `no` here -- an UNDERSTATEMENT, not a measurement"
+            "why": "neither `build_state.has_per_class_migrator`, a `second_pass` entry, nor a batch post-pass declaring it. All 9 batch post-pass(es) in the derived chain were read and none declares this class."
           },
           {
             "stage": 2,
@@ -923,7 +1072,10 @@
         "schema_targets_built": [],
         "schema_targets_missing": [],
         "migrator_emits_decided_targets": false,
-        "has_per_class_migrator": false
+        "has_per_class_migrator": false,
+        "batch_pass_consumers": [],
+        "batch_pass_emits": {},
+        "batch_pass_emits_decided_targets": false
       },
       "carried": [],
       "second_pass": [],
@@ -949,7 +1101,7 @@
             "stage": 1,
             "name": "a migrator CONSUMES it",
             "state": "no",
-            "why": "neither `build_state.has_per_class_migrator` nor a `second_pass` entry. NOTE the ledger carries no field for a DID batch post-pass (+did2/+convert), so a class consumed only by one reads `no` here -- an UNDERSTATEMENT, not a measurement"
+            "why": "neither `build_state.has_per_class_migrator`, a `second_pass` entry, nor a batch post-pass declaring it. All 9 batch post-pass(es) in the derived chain were read and none declares this class."
           },
           {
             "stage": 2,
@@ -1015,7 +1167,10 @@
         ],
         "schema_targets_missing": [],
         "migrator_emits_decided_targets": false,
-        "has_per_class_migrator": true
+        "has_per_class_migrator": true,
+        "batch_pass_consumers": [],
+        "batch_pass_emits": {},
+        "batch_pass_emits_decided_targets": false
       },
       "carried": [],
       "second_pass": [],
@@ -1111,7 +1266,10 @@
         "schema_targets_built": [],
         "schema_targets_missing": [],
         "migrator_emits_decided_targets": false,
-        "has_per_class_migrator": true
+        "has_per_class_migrator": true,
+        "batch_pass_consumers": [],
+        "batch_pass_emits": {},
+        "batch_pass_emits_decided_targets": false
       },
       "carried": [],
       "second_pass": [],
@@ -1194,7 +1352,10 @@
         "schema_targets_built": [],
         "schema_targets_missing": [],
         "migrator_emits_decided_targets": false,
-        "has_per_class_migrator": true
+        "has_per_class_migrator": true,
+        "batch_pass_consumers": [],
+        "batch_pass_emits": {},
+        "batch_pass_emits_decided_targets": false
       },
       "carried": [
         "subject"
@@ -1279,7 +1440,10 @@
         "schema_targets_built": [],
         "schema_targets_missing": [],
         "migrator_emits_decided_targets": false,
-        "has_per_class_migrator": true
+        "has_per_class_migrator": true,
+        "batch_pass_consumers": [],
+        "batch_pass_emits": {},
+        "batch_pass_emits_decided_targets": false
       },
       "carried": [
         "subject"
@@ -1364,7 +1528,10 @@
         "schema_targets_built": [],
         "schema_targets_missing": [],
         "migrator_emits_decided_targets": false,
-        "has_per_class_migrator": true
+        "has_per_class_migrator": true,
+        "batch_pass_consumers": [],
+        "batch_pass_emits": {},
+        "batch_pass_emits_decided_targets": false
       },
       "carried": [
         "subject"
@@ -1447,7 +1614,10 @@
         "schema_targets_built": [],
         "schema_targets_missing": [],
         "migrator_emits_decided_targets": false,
-        "has_per_class_migrator": true
+        "has_per_class_migrator": true,
+        "batch_pass_consumers": [],
+        "batch_pass_emits": {},
+        "batch_pass_emits_decided_targets": false
       },
       "carried": [
         "timed_sequence"
@@ -1535,7 +1705,10 @@
         ],
         "schema_targets_missing": [],
         "migrator_emits_decided_targets": true,
-        "has_per_class_migrator": true
+        "has_per_class_migrator": true,
+        "batch_pass_consumers": [],
+        "batch_pass_emits": {},
+        "batch_pass_emits_decided_targets": false
       },
       "carried": [],
       "second_pass": [],
@@ -1638,7 +1811,12 @@
         ],
         "schema_targets_missing": [],
         "migrator_emits_decided_targets": true,
-        "has_per_class_migrator": true
+        "has_per_class_migrator": true,
+        "batch_pass_consumers": [
+          "epochMint"
+        ],
+        "batch_pass_emits": {},
+        "batch_pass_emits_decided_targets": false
       },
       "carried": [],
       "second_pass": [],
@@ -1741,7 +1919,10 @@
         ],
         "schema_targets_missing": [],
         "migrator_emits_decided_targets": true,
-        "has_per_class_migrator": true
+        "has_per_class_migrator": true,
+        "batch_pass_consumers": [],
+        "batch_pass_emits": {},
+        "batch_pass_emits_decided_targets": false
       },
       "carried": [],
       "second_pass": [],
@@ -1844,7 +2025,10 @@
         ],
         "schema_targets_missing": [],
         "migrator_emits_decided_targets": true,
-        "has_per_class_migrator": true
+        "has_per_class_migrator": true,
+        "batch_pass_consumers": [],
+        "batch_pass_emits": {},
+        "batch_pass_emits_decided_targets": false
       },
       "carried": [],
       "second_pass": [],
@@ -1951,7 +2135,10 @@
         ],
         "schema_targets_missing": [],
         "migrator_emits_decided_targets": false,
-        "has_per_class_migrator": true
+        "has_per_class_migrator": true,
+        "batch_pass_consumers": [],
+        "batch_pass_emits": {},
+        "batch_pass_emits_decided_targets": false
       },
       "carried": [],
       "second_pass": [],
@@ -2051,7 +2238,10 @@
         "schema_targets_built": [],
         "schema_targets_missing": [],
         "migrator_emits_decided_targets": false,
-        "has_per_class_migrator": true
+        "has_per_class_migrator": true,
+        "batch_pass_consumers": [],
+        "batch_pass_emits": {},
+        "batch_pass_emits_decided_targets": false
       },
       "carried": [],
       "second_pass": [],
@@ -2132,7 +2322,10 @@
         "schema_targets_built": [],
         "schema_targets_missing": [],
         "migrator_emits_decided_targets": false,
-        "has_per_class_migrator": true
+        "has_per_class_migrator": true,
+        "batch_pass_consumers": [],
+        "batch_pass_emits": {},
+        "batch_pass_emits_decided_targets": false
       },
       "carried": [],
       "second_pass": [],
@@ -2218,7 +2411,10 @@
         ],
         "schema_targets_missing": [],
         "migrator_emits_decided_targets": true,
-        "has_per_class_migrator": true
+        "has_per_class_migrator": true,
+        "batch_pass_consumers": [],
+        "batch_pass_emits": {},
+        "batch_pass_emits_decided_targets": false
       },
       "carried": [],
       "second_pass": [],
@@ -2320,7 +2516,10 @@
         "schema_targets_built": [],
         "schema_targets_missing": [],
         "migrator_emits_decided_targets": false,
-        "has_per_class_migrator": true
+        "has_per_class_migrator": true,
+        "batch_pass_consumers": [],
+        "batch_pass_emits": {},
+        "batch_pass_emits_decided_targets": false
       },
       "carried": [],
       "second_pass": [],
@@ -2402,7 +2601,10 @@
         "schema_targets_built": [],
         "schema_targets_missing": [],
         "migrator_emits_decided_targets": false,
-        "has_per_class_migrator": true
+        "has_per_class_migrator": true,
+        "batch_pass_consumers": [],
+        "batch_pass_emits": {},
+        "batch_pass_emits_decided_targets": false
       },
       "carried": [],
       "second_pass": [],
@@ -2481,7 +2683,10 @@
         "schema_targets_built": [],
         "schema_targets_missing": [],
         "migrator_emits_decided_targets": false,
-        "has_per_class_migrator": false
+        "has_per_class_migrator": false,
+        "batch_pass_consumers": [],
+        "batch_pass_emits": {},
+        "batch_pass_emits_decided_targets": false
       },
       "carried": [],
       "second_pass": [],
@@ -2507,7 +2712,7 @@
             "stage": 1,
             "name": "a migrator CONSUMES it",
             "state": "no",
-            "why": "neither `build_state.has_per_class_migrator` nor a `second_pass` entry. NOTE the ledger carries no field for a DID batch post-pass (+did2/+convert), so a class consumed only by one reads `no` here -- an UNDERSTATEMENT, not a measurement"
+            "why": "neither `build_state.has_per_class_migrator`, a `second_pass` entry, nor a batch post-pass declaring it. All 9 batch post-pass(es) in the derived chain were read and none declares this class."
           },
           {
             "stage": 2,
@@ -2560,7 +2765,10 @@
         "schema_targets_built": [],
         "schema_targets_missing": [],
         "migrator_emits_decided_targets": false,
-        "has_per_class_migrator": false
+        "has_per_class_migrator": false,
+        "batch_pass_consumers": [],
+        "batch_pass_emits": {},
+        "batch_pass_emits_decided_targets": false
       },
       "carried": [],
       "second_pass": [],
@@ -2586,7 +2794,7 @@
             "stage": 1,
             "name": "a migrator CONSUMES it",
             "state": "no",
-            "why": "neither `build_state.has_per_class_migrator` nor a `second_pass` entry. NOTE the ledger carries no field for a DID batch post-pass (+did2/+convert), so a class consumed only by one reads `no` here -- an UNDERSTATEMENT, not a measurement"
+            "why": "neither `build_state.has_per_class_migrator`, a `second_pass` entry, nor a batch post-pass declaring it. All 9 batch post-pass(es) in the derived chain were read and none declares this class."
           },
           {
             "stage": 2,
@@ -2641,7 +2849,10 @@
         "schema_targets_built": [],
         "schema_targets_missing": [],
         "migrator_emits_decided_targets": false,
-        "has_per_class_migrator": true
+        "has_per_class_migrator": true,
+        "batch_pass_consumers": [],
+        "batch_pass_emits": {},
+        "batch_pass_emits_decided_targets": false
       },
       "carried": [],
       "second_pass": [],
@@ -2723,7 +2934,10 @@
         "schema_targets_built": [],
         "schema_targets_missing": [],
         "migrator_emits_decided_targets": false,
-        "has_per_class_migrator": true
+        "has_per_class_migrator": true,
+        "batch_pass_consumers": [],
+        "batch_pass_emits": {},
+        "batch_pass_emits_decided_targets": false
       },
       "carried": [
         "subject"
@@ -2810,7 +3024,10 @@
         "schema_targets_built": [],
         "schema_targets_missing": [],
         "migrator_emits_decided_targets": false,
-        "has_per_class_migrator": true
+        "has_per_class_migrator": true,
+        "batch_pass_consumers": [],
+        "batch_pass_emits": {},
+        "batch_pass_emits_decided_targets": false
       },
       "carried": [],
       "second_pass": [],
@@ -2891,7 +3108,10 @@
         "schema_targets_built": [],
         "schema_targets_missing": [],
         "migrator_emits_decided_targets": false,
-        "has_per_class_migrator": true
+        "has_per_class_migrator": true,
+        "batch_pass_consumers": [],
+        "batch_pass_emits": {},
+        "batch_pass_emits_decided_targets": false
       },
       "carried": [],
       "second_pass": [],
@@ -2978,7 +3198,10 @@
         ],
         "schema_targets_missing": [],
         "migrator_emits_decided_targets": false,
-        "has_per_class_migrator": false
+        "has_per_class_migrator": false,
+        "batch_pass_consumers": [],
+        "batch_pass_emits": {},
+        "batch_pass_emits_decided_targets": false
       },
       "carried": [],
       "second_pass": [],
@@ -3022,7 +3245,7 @@
             "stage": 1,
             "name": "a migrator CONSUMES it",
             "state": "no",
-            "why": "neither `build_state.has_per_class_migrator` nor a `second_pass` entry. NOTE the ledger carries no field for a DID batch post-pass (+did2/+convert), so a class consumed only by one reads `no` here -- an UNDERSTATEMENT, not a measurement"
+            "why": "neither `build_state.has_per_class_migrator`, a `second_pass` entry, nor a batch post-pass declaring it. All 9 batch post-pass(es) in the derived chain were read and none declares this class."
           },
           {
             "stage": 2,
@@ -3083,7 +3306,10 @@
         "schema_targets_built": [],
         "schema_targets_missing": [],
         "migrator_emits_decided_targets": false,
-        "has_per_class_migrator": true
+        "has_per_class_migrator": true,
+        "batch_pass_consumers": [],
+        "batch_pass_emits": {},
+        "batch_pass_emits_decided_targets": false
       },
       "carried": [],
       "second_pass": [],
@@ -3173,7 +3399,10 @@
         ],
         "schema_targets_missing": [],
         "migrator_emits_decided_targets": false,
-        "has_per_class_migrator": true
+        "has_per_class_migrator": true,
+        "batch_pass_consumers": [],
+        "batch_pass_emits": {},
+        "batch_pass_emits_decided_targets": false
       },
       "carried": [],
       "second_pass": [
@@ -3272,7 +3501,16 @@
         "schema_targets_built": [],
         "schema_targets_missing": [],
         "migrator_emits_decided_targets": false,
-        "has_per_class_migrator": false
+        "has_per_class_migrator": false,
+        "batch_pass_consumers": [
+          "epochMint"
+        ],
+        "batch_pass_emits": {
+          "epochMint": [
+            "epoch"
+          ]
+        },
+        "batch_pass_emits_decided_targets": false
       },
       "carried": [],
       "second_pass": [],
@@ -3302,16 +3540,16 @@
       "stage": {
         "unclassifiable": false,
         "unclassifiable_why": null,
-        "reached": 0,
-        "reached_name": "source identified",
-        "blocked_by": 1,
-        "blocked_by_state": "no",
+        "reached": 3,
+        "reached_name": "the migrator emits THE DECIDED targets",
+        "blocked_by": 4,
+        "blocked_by_state": "not measured",
         "ladder": [
           {
             "stage": 1,
             "name": "a migrator CONSUMES it",
-            "state": "no",
-            "why": "neither `build_state.has_per_class_migrator` nor a `second_pass` entry. NOTE the ledger carries no field for a DID batch post-pass (+did2/+convert), so a class consumed only by one reads `no` here -- an UNDERSTATEMENT, not a measurement"
+            "state": "yes",
+            "why": "no per-class migrator and no `second_pass` entry, but `build_state.batch_pass_consumers` records the DID BATCH POST-PASS(es) `did2.convert.epochMint` DECLARING that they consume this class"
           },
           {
             "stage": 2,
@@ -3333,11 +3571,11 @@
           }
         ],
         "anomalies": [],
-        "highest_rung_satisfied_independently": 0,
+        "highest_rung_satisfied_independently": 1,
         "capped": false,
-        "nothing_built": true,
+        "nothing_built": false,
         "nothing_satisfied": false,
-        "only_excused": true,
+        "only_excused": false,
         "corpus_rung_state": "not measured"
       }
     },
@@ -3371,7 +3609,10 @@
         ],
         "schema_targets_missing": [],
         "migrator_emits_decided_targets": true,
-        "has_per_class_migrator": true
+        "has_per_class_migrator": true,
+        "batch_pass_consumers": [],
+        "batch_pass_emits": {},
+        "batch_pass_emits_decided_targets": false
       },
       "carried": [],
       "second_pass": [],
@@ -3477,7 +3718,10 @@
         ],
         "schema_targets_missing": [],
         "migrator_emits_decided_targets": false,
-        "has_per_class_migrator": true
+        "has_per_class_migrator": true,
+        "batch_pass_consumers": [],
+        "batch_pass_emits": {},
+        "batch_pass_emits_decided_targets": false
       },
       "carried": [],
       "second_pass": [],
@@ -3574,7 +3818,10 @@
         "schema_targets_built": [],
         "schema_targets_missing": [],
         "migrator_emits_decided_targets": false,
-        "has_per_class_migrator": true
+        "has_per_class_migrator": true,
+        "batch_pass_consumers": [],
+        "batch_pass_emits": {},
+        "batch_pass_emits_decided_targets": false
       },
       "carried": [
         "subject"
@@ -3657,7 +3904,17 @@
         "schema_targets_built": [],
         "schema_targets_missing": [],
         "migrator_emits_decided_targets": false,
-        "has_per_class_migrator": false
+        "has_per_class_migrator": false,
+        "batch_pass_consumers": [
+          "foldGenericFiles"
+        ],
+        "batch_pass_emits": {
+          "foldGenericFiles": [
+            "term_observation",
+            "opaque_body"
+          ]
+        },
+        "batch_pass_emits_decided_targets": false
       },
       "carried": [],
       "second_pass": [],
@@ -3692,16 +3949,16 @@
       "stage": {
         "unclassifiable": false,
         "unclassifiable_why": null,
-        "reached": 0,
-        "reached_name": "source identified",
-        "blocked_by": 1,
-        "blocked_by_state": "no",
+        "reached": 1,
+        "reached_name": "a migrator CONSUMES it",
+        "blocked_by": 2,
+        "blocked_by_state": "not measured",
         "ladder": [
           {
             "stage": 1,
             "name": "a migrator CONSUMES it",
-            "state": "no",
-            "why": "neither `build_state.has_per_class_migrator` nor a `second_pass` entry. NOTE the ledger carries no field for a DID batch post-pass (+did2/+convert), so a class consumed only by one reads `no` here -- an UNDERSTATEMENT, not a measurement"
+            "state": "yes",
+            "why": "no per-class migrator and no `second_pass` entry, but `build_state.batch_pass_consumers` records the DID BATCH POST-PASS(es) `did2.convert.foldGenericFiles` DECLARING that they consume this class"
           },
           {
             "stage": 2,
@@ -3723,10 +3980,10 @@
           }
         ],
         "anomalies": [],
-        "highest_rung_satisfied_independently": 0,
+        "highest_rung_satisfied_independently": 1,
         "capped": false,
-        "nothing_built": true,
-        "nothing_satisfied": true,
+        "nothing_built": false,
+        "nothing_satisfied": false,
         "only_excused": false,
         "corpus_rung_state": "not measured"
       }
@@ -3756,7 +4013,10 @@
         "schema_targets_built": [],
         "schema_targets_missing": [],
         "migrator_emits_decided_targets": false,
-        "has_per_class_migrator": true
+        "has_per_class_migrator": true,
+        "batch_pass_consumers": [],
+        "batch_pass_emits": {},
+        "batch_pass_emits_decided_targets": false
       },
       "carried": [],
       "second_pass": [],
@@ -3839,7 +4099,10 @@
         "schema_targets_built": [],
         "schema_targets_missing": [],
         "migrator_emits_decided_targets": false,
-        "has_per_class_migrator": true
+        "has_per_class_migrator": true,
+        "batch_pass_consumers": [],
+        "batch_pass_emits": {},
+        "batch_pass_emits_decided_targets": false
       },
       "carried": [
         "subject"
@@ -3922,7 +4185,10 @@
         "schema_targets_built": [],
         "schema_targets_missing": [],
         "migrator_emits_decided_targets": false,
-        "has_per_class_migrator": false
+        "has_per_class_migrator": false,
+        "batch_pass_consumers": [],
+        "batch_pass_emits": {},
+        "batch_pass_emits_decided_targets": false
       },
       "carried": [],
       "second_pass": [],
@@ -3966,7 +4232,7 @@
             "stage": 1,
             "name": "a migrator CONSUMES it",
             "state": "no",
-            "why": "neither `build_state.has_per_class_migrator` nor a `second_pass` entry. NOTE the ledger carries no field for a DID batch post-pass (+did2/+convert), so a class consumed only by one reads `no` here -- an UNDERSTATEMENT, not a measurement"
+            "why": "neither `build_state.has_per_class_migrator`, a `second_pass` entry, nor a batch post-pass declaring it. All 9 batch post-pass(es) in the derived chain were read and none declares this class."
           },
           {
             "stage": 2,
@@ -4023,7 +4289,10 @@
         "schema_targets_built": [],
         "schema_targets_missing": [],
         "migrator_emits_decided_targets": false,
-        "has_per_class_migrator": true
+        "has_per_class_migrator": true,
+        "batch_pass_consumers": [],
+        "batch_pass_emits": {},
+        "batch_pass_emits_decided_targets": false
       },
       "carried": [
         "subject"
@@ -4104,7 +4373,10 @@
         "schema_targets_built": [],
         "schema_targets_missing": [],
         "migrator_emits_decided_targets": false,
-        "has_per_class_migrator": false
+        "has_per_class_migrator": false,
+        "batch_pass_consumers": [],
+        "batch_pass_emits": {},
+        "batch_pass_emits_decided_targets": false
       },
       "carried": [],
       "second_pass": [],
@@ -4148,7 +4420,7 @@
             "stage": 1,
             "name": "a migrator CONSUMES it",
             "state": "no",
-            "why": "neither `build_state.has_per_class_migrator` nor a `second_pass` entry. NOTE the ledger carries no field for a DID batch post-pass (+did2/+convert), so a class consumed only by one reads `no` here -- an UNDERSTATEMENT, not a measurement"
+            "why": "neither `build_state.has_per_class_migrator`, a `second_pass` entry, nor a batch post-pass declaring it. All 9 batch post-pass(es) in the derived chain were read and none declares this class."
           },
           {
             "stage": 2,
@@ -4206,7 +4478,10 @@
         "schema_targets_built": [],
         "schema_targets_missing": [],
         "migrator_emits_decided_targets": false,
-        "has_per_class_migrator": true
+        "has_per_class_migrator": true,
+        "batch_pass_consumers": [],
+        "batch_pass_emits": {},
+        "batch_pass_emits_decided_targets": false
       },
       "carried": [
         "subject"
@@ -4292,7 +4567,10 @@
         "schema_targets_built": [],
         "schema_targets_missing": [],
         "migrator_emits_decided_targets": false,
-        "has_per_class_migrator": true
+        "has_per_class_migrator": true,
+        "batch_pass_consumers": [],
+        "batch_pass_emits": {},
+        "batch_pass_emits_decided_targets": false
       },
       "carried": [
         "subject"
@@ -4378,7 +4656,10 @@
         "schema_targets_built": [],
         "schema_targets_missing": [],
         "migrator_emits_decided_targets": false,
-        "has_per_class_migrator": true
+        "has_per_class_migrator": true,
+        "batch_pass_consumers": [],
+        "batch_pass_emits": {},
+        "batch_pass_emits_decided_targets": false
       },
       "carried": [
         "subject"
@@ -4466,7 +4747,10 @@
         "schema_targets_built": [],
         "schema_targets_missing": [],
         "migrator_emits_decided_targets": false,
-        "has_per_class_migrator": true
+        "has_per_class_migrator": true,
+        "batch_pass_consumers": [],
+        "batch_pass_emits": {},
+        "batch_pass_emits_decided_targets": false
       },
       "carried": [
         "subject"
@@ -4555,7 +4839,10 @@
         "schema_targets_built": [],
         "schema_targets_missing": [],
         "migrator_emits_decided_targets": false,
-        "has_per_class_migrator": true
+        "has_per_class_migrator": true,
+        "batch_pass_consumers": [],
+        "batch_pass_emits": {},
+        "batch_pass_emits_decided_targets": false
       },
       "carried": [],
       "second_pass": [],
@@ -4634,7 +4921,10 @@
         "schema_targets_built": [],
         "schema_targets_missing": [],
         "migrator_emits_decided_targets": false,
-        "has_per_class_migrator": false
+        "has_per_class_migrator": false,
+        "batch_pass_consumers": [],
+        "batch_pass_emits": {},
+        "batch_pass_emits_decided_targets": false
       },
       "carried": [],
       "second_pass": [],
@@ -4660,7 +4950,7 @@
             "stage": 1,
             "name": "a migrator CONSUMES it",
             "state": "no",
-            "why": "neither `build_state.has_per_class_migrator` nor a `second_pass` entry. NOTE the ledger carries no field for a DID batch post-pass (+did2/+convert), so a class consumed only by one reads `no` here -- an UNDERSTATEMENT, not a measurement"
+            "why": "neither `build_state.has_per_class_migrator`, a `second_pass` entry, nor a batch post-pass declaring it. All 9 batch post-pass(es) in the derived chain were read and none declares this class."
           },
           {
             "stage": 2,
@@ -4719,7 +5009,10 @@
         "schema_targets_built": [],
         "schema_targets_missing": [],
         "migrator_emits_decided_targets": false,
-        "has_per_class_migrator": true
+        "has_per_class_migrator": true,
+        "batch_pass_consumers": [],
+        "batch_pass_emits": {},
+        "batch_pass_emits_decided_targets": false
       },
       "carried": [
         "subject"
@@ -4803,7 +5096,10 @@
         "schema_targets_built": [],
         "schema_targets_missing": [],
         "migrator_emits_decided_targets": false,
-        "has_per_class_migrator": true
+        "has_per_class_migrator": true,
+        "batch_pass_consumers": [],
+        "batch_pass_emits": {},
+        "batch_pass_emits_decided_targets": false
       },
       "carried": [],
       "second_pass": [],
@@ -4897,7 +5193,10 @@
         "schema_targets_built": [],
         "schema_targets_missing": [],
         "migrator_emits_decided_targets": false,
-        "has_per_class_migrator": true
+        "has_per_class_migrator": true,
+        "batch_pass_consumers": [],
+        "batch_pass_emits": {},
+        "batch_pass_emits_decided_targets": false
       },
       "carried": [],
       "second_pass": [],
@@ -4981,7 +5280,10 @@
         "schema_targets_built": [],
         "schema_targets_missing": [],
         "migrator_emits_decided_targets": false,
-        "has_per_class_migrator": true
+        "has_per_class_migrator": true,
+        "batch_pass_consumers": [],
+        "batch_pass_emits": {},
+        "batch_pass_emits_decided_targets": false
       },
       "carried": [
         "subject"
@@ -5066,7 +5368,12 @@
         "schema_targets_built": [],
         "schema_targets_missing": [],
         "migrator_emits_decided_targets": false,
-        "has_per_class_migrator": true
+        "has_per_class_migrator": true,
+        "batch_pass_consumers": [
+          "foldGenericFiles"
+        ],
+        "batch_pass_emits": {},
+        "batch_pass_emits_decided_targets": false
       },
       "carried": [],
       "second_pass": [],
@@ -5168,7 +5475,21 @@
         "schema_targets_built": [],
         "schema_targets_missing": [],
         "migrator_emits_decided_targets": false,
-        "has_per_class_migrator": true
+        "has_per_class_migrator": true,
+        "batch_pass_consumers": [
+          "resolveLawnPlateSubjects"
+        ],
+        "batch_pass_emits": {
+          "resolveLawnPlateSubjects": [
+            "subject",
+            "directed_relation",
+            "concentration_observation",
+            "volume_observation",
+            "length_observation",
+            "score_observation"
+          ]
+        },
+        "batch_pass_emits_decided_targets": false
       },
       "carried": [
         "subject"
@@ -5251,7 +5572,22 @@
         "schema_targets_built": [],
         "schema_targets_missing": [],
         "migrator_emits_decided_targets": false,
-        "has_per_class_migrator": true
+        "has_per_class_migrator": true,
+        "batch_pass_consumers": [
+          "resolveOpenmindsCitations"
+        ],
+        "batch_pass_emits": {
+          "resolveOpenmindsCitations": [
+            "dataset",
+            "person",
+            "organization",
+            "funding",
+            "publication",
+            "web_resource",
+            "directed_relation"
+          ]
+        },
+        "batch_pass_emits_decided_targets": false
       },
       "carried": [],
       "second_pass": [],
@@ -5350,7 +5686,10 @@
         "schema_targets_built": [],
         "schema_targets_missing": [],
         "migrator_emits_decided_targets": false,
-        "has_per_class_migrator": true
+        "has_per_class_migrator": true,
+        "batch_pass_consumers": [],
+        "batch_pass_emits": {},
+        "batch_pass_emits_decided_targets": false
       },
       "carried": [
         "subject"
@@ -5433,7 +5772,10 @@
         "schema_targets_built": [],
         "schema_targets_missing": [],
         "migrator_emits_decided_targets": false,
-        "has_per_class_migrator": true
+        "has_per_class_migrator": true,
+        "batch_pass_consumers": [],
+        "batch_pass_emits": {},
+        "batch_pass_emits_decided_targets": false
       },
       "carried": [],
       "second_pass": [
@@ -5516,7 +5858,10 @@
         "schema_targets_built": [],
         "schema_targets_missing": [],
         "migrator_emits_decided_targets": false,
-        "has_per_class_migrator": true
+        "has_per_class_migrator": true,
+        "batch_pass_consumers": [],
+        "batch_pass_emits": {},
+        "batch_pass_emits_decided_targets": false
       },
       "carried": [
         "subject"
@@ -5601,7 +5946,10 @@
         "schema_targets_built": [],
         "schema_targets_missing": [],
         "migrator_emits_decided_targets": false,
-        "has_per_class_migrator": true
+        "has_per_class_migrator": true,
+        "batch_pass_consumers": [],
+        "batch_pass_emits": {},
+        "batch_pass_emits_decided_targets": false
       },
       "carried": [
         "subject"
@@ -5686,7 +6034,10 @@
         "schema_targets_built": [],
         "schema_targets_missing": [],
         "migrator_emits_decided_targets": false,
-        "has_per_class_migrator": true
+        "has_per_class_migrator": true,
+        "batch_pass_consumers": [],
+        "batch_pass_emits": {},
+        "batch_pass_emits_decided_targets": false
       },
       "carried": [
         "subject"
@@ -5770,7 +6121,10 @@
         "schema_targets_built": [],
         "schema_targets_missing": [],
         "migrator_emits_decided_targets": false,
-        "has_per_class_migrator": true
+        "has_per_class_migrator": true,
+        "batch_pass_consumers": [],
+        "batch_pass_emits": {},
+        "batch_pass_emits_decided_targets": false
       },
       "carried": [
         "subject"
@@ -5855,7 +6209,10 @@
         "schema_targets_built": [],
         "schema_targets_missing": [],
         "migrator_emits_decided_targets": false,
-        "has_per_class_migrator": true
+        "has_per_class_migrator": true,
+        "batch_pass_consumers": [],
+        "batch_pass_emits": {},
+        "batch_pass_emits_decided_targets": false
       },
       "carried": [
         "subject"
@@ -5939,7 +6296,10 @@
         "schema_targets_built": [],
         "schema_targets_missing": [],
         "migrator_emits_decided_targets": false,
-        "has_per_class_migrator": true
+        "has_per_class_migrator": true,
+        "batch_pass_consumers": [],
+        "batch_pass_emits": {},
+        "batch_pass_emits_decided_targets": false
       },
       "carried": [
         "subject"
@@ -6024,7 +6384,10 @@
         ],
         "schema_targets_missing": [],
         "migrator_emits_decided_targets": false,
-        "has_per_class_migrator": false
+        "has_per_class_migrator": false,
+        "batch_pass_consumers": [],
+        "batch_pass_emits": {},
+        "batch_pass_emits_decided_targets": false
       },
       "carried": [],
       "second_pass": [],
@@ -6068,7 +6431,7 @@
             "stage": 1,
             "name": "a migrator CONSUMES it",
             "state": "no",
-            "why": "neither `build_state.has_per_class_migrator` nor a `second_pass` entry. NOTE the ledger carries no field for a DID batch post-pass (+did2/+convert), so a class consumed only by one reads `no` here -- an UNDERSTATEMENT, not a measurement"
+            "why": "neither `build_state.has_per_class_migrator`, a `second_pass` entry, nor a batch post-pass declaring it. All 9 batch post-pass(es) in the derived chain were read and none declares this class."
           },
           {
             "stage": 2,
@@ -6134,7 +6497,10 @@
         "schema_targets_built": [],
         "schema_targets_missing": [],
         "migrator_emits_decided_targets": false,
-        "has_per_class_migrator": true
+        "has_per_class_migrator": true,
+        "batch_pass_consumers": [],
+        "batch_pass_emits": {},
+        "batch_pass_emits_decided_targets": false
       },
       "carried": [
         "subject"
@@ -6217,7 +6583,10 @@
         "schema_targets_built": [],
         "schema_targets_missing": [],
         "migrator_emits_decided_targets": false,
-        "has_per_class_migrator": false
+        "has_per_class_migrator": false,
+        "batch_pass_consumers": [],
+        "batch_pass_emits": {},
+        "batch_pass_emits_decided_targets": false
       },
       "carried": [],
       "second_pass": [],
@@ -6243,7 +6612,7 @@
             "stage": 1,
             "name": "a migrator CONSUMES it",
             "state": "no",
-            "why": "neither `build_state.has_per_class_migrator` nor a `second_pass` entry. NOTE the ledger carries no field for a DID batch post-pass (+did2/+convert), so a class consumed only by one reads `no` here -- an UNDERSTATEMENT, not a measurement"
+            "why": "neither `build_state.has_per_class_migrator`, a `second_pass` entry, nor a batch post-pass declaring it. All 9 batch post-pass(es) in the derived chain were read and none declares this class."
           },
           {
             "stage": 2,
@@ -6299,7 +6668,10 @@
         "schema_targets_built": [],
         "schema_targets_missing": [],
         "migrator_emits_decided_targets": false,
-        "has_per_class_migrator": true
+        "has_per_class_migrator": true,
+        "batch_pass_consumers": [],
+        "batch_pass_emits": {},
+        "batch_pass_emits_decided_targets": false
       },
       "carried": [],
       "second_pass": [],
@@ -6380,7 +6752,10 @@
         "schema_targets_built": [],
         "schema_targets_missing": [],
         "migrator_emits_decided_targets": false,
-        "has_per_class_migrator": true
+        "has_per_class_migrator": true,
+        "batch_pass_consumers": [],
+        "batch_pass_emits": {},
+        "batch_pass_emits_decided_targets": false
       },
       "carried": [],
       "second_pass": [
@@ -6463,7 +6838,10 @@
         "schema_targets_built": [],
         "schema_targets_missing": [],
         "migrator_emits_decided_targets": false,
-        "has_per_class_migrator": true
+        "has_per_class_migrator": true,
+        "batch_pass_consumers": [],
+        "batch_pass_emits": {},
+        "batch_pass_emits_decided_targets": false
       },
       "carried": [],
       "second_pass": [],
@@ -6549,7 +6927,10 @@
         ],
         "schema_targets_missing": [],
         "migrator_emits_decided_targets": true,
-        "has_per_class_migrator": true
+        "has_per_class_migrator": true,
+        "batch_pass_consumers": [],
+        "batch_pass_emits": {},
+        "batch_pass_emits_decided_targets": false
       },
       "carried": [],
       "second_pass": [],
@@ -6650,7 +7031,10 @@
         "schema_targets_built": [],
         "schema_targets_missing": [],
         "migrator_emits_decided_targets": false,
-        "has_per_class_migrator": true
+        "has_per_class_migrator": true,
+        "batch_pass_consumers": [],
+        "batch_pass_emits": {},
+        "batch_pass_emits_decided_targets": false
       },
       "carried": [
         "subject"
@@ -6735,7 +7119,10 @@
         "schema_targets_built": [],
         "schema_targets_missing": [],
         "migrator_emits_decided_targets": false,
-        "has_per_class_migrator": true
+        "has_per_class_migrator": true,
+        "batch_pass_consumers": [],
+        "batch_pass_emits": {},
+        "batch_pass_emits_decided_targets": false
       },
       "carried": [
         "subject"
@@ -6820,7 +7207,10 @@
         "schema_targets_built": [],
         "schema_targets_missing": [],
         "migrator_emits_decided_targets": false,
-        "has_per_class_migrator": true
+        "has_per_class_migrator": true,
+        "batch_pass_consumers": [],
+        "batch_pass_emits": {},
+        "batch_pass_emits_decided_targets": false
       },
       "carried": [
         "subject"
@@ -6905,7 +7295,10 @@
         "schema_targets_built": [],
         "schema_targets_missing": [],
         "migrator_emits_decided_targets": false,
-        "has_per_class_migrator": true
+        "has_per_class_migrator": true,
+        "batch_pass_consumers": [],
+        "batch_pass_emits": {},
+        "batch_pass_emits_decided_targets": false
       },
       "carried": [
         "subject"
@@ -6988,7 +7381,10 @@
         "schema_targets_built": [],
         "schema_targets_missing": [],
         "migrator_emits_decided_targets": false,
-        "has_per_class_migrator": true
+        "has_per_class_migrator": true,
+        "batch_pass_consumers": [],
+        "batch_pass_emits": {},
+        "batch_pass_emits_decided_targets": false
       },
       "carried": [],
       "second_pass": [],
@@ -7074,7 +7470,10 @@
         ],
         "schema_targets_missing": [],
         "migrator_emits_decided_targets": true,
-        "has_per_class_migrator": true
+        "has_per_class_migrator": true,
+        "batch_pass_consumers": [],
+        "batch_pass_emits": {},
+        "batch_pass_emits_decided_targets": false
       },
       "carried": [],
       "second_pass": [],
@@ -7178,7 +7577,10 @@
         ],
         "schema_targets_missing": [],
         "migrator_emits_decided_targets": true,
-        "has_per_class_migrator": true
+        "has_per_class_migrator": true,
+        "batch_pass_consumers": [],
+        "batch_pass_emits": {},
+        "batch_pass_emits_decided_targets": false
       },
       "carried": [],
       "second_pass": [],
@@ -7277,7 +7679,10 @@
         "schema_targets_built": [],
         "schema_targets_missing": [],
         "migrator_emits_decided_targets": false,
-        "has_per_class_migrator": true
+        "has_per_class_migrator": true,
+        "batch_pass_consumers": [],
+        "batch_pass_emits": {},
+        "batch_pass_emits_decided_targets": false
       },
       "carried": [],
       "second_pass": [],
@@ -7356,7 +7761,18 @@
         "schema_targets_built": [],
         "schema_targets_missing": [],
         "migrator_emits_decided_targets": false,
-        "has_per_class_migrator": true
+        "has_per_class_migrator": true,
+        "batch_pass_consumers": [
+          "resolveDeferredBaths"
+        ],
+        "batch_pass_emits": {
+          "resolveDeferredBaths": [
+            "session_relative_reference",
+            "dose_manipulation",
+            "term_observation"
+          ]
+        },
+        "batch_pass_emits_decided_targets": false
       },
       "carried": [],
       "second_pass": [
@@ -7440,7 +7856,10 @@
         "schema_targets_built": [],
         "schema_targets_missing": [],
         "migrator_emits_decided_targets": false,
-        "has_per_class_migrator": true
+        "has_per_class_migrator": true,
+        "batch_pass_consumers": [],
+        "batch_pass_emits": {},
+        "batch_pass_emits_decided_targets": false
       },
       "carried": [],
       "second_pass": [],
@@ -7541,7 +7960,10 @@
         ],
         "schema_targets_missing": [],
         "migrator_emits_decided_targets": false,
-        "has_per_class_migrator": false
+        "has_per_class_migrator": false,
+        "batch_pass_consumers": [],
+        "batch_pass_emits": {},
+        "batch_pass_emits_decided_targets": false
       },
       "carried": [],
       "second_pass": [],
@@ -7585,7 +8007,7 @@
             "stage": 1,
             "name": "a migrator CONSUMES it",
             "state": "no",
-            "why": "neither `build_state.has_per_class_migrator` nor a `second_pass` entry. NOTE the ledger carries no field for a DID batch post-pass (+did2/+convert), so a class consumed only by one reads `no` here -- an UNDERSTATEMENT, not a measurement"
+            "why": "neither `build_state.has_per_class_migrator`, a `second_pass` entry, nor a batch post-pass declaring it. All 9 batch post-pass(es) in the derived chain were read and none declares this class."
           },
           {
             "stage": 2,
@@ -7659,7 +8081,10 @@
         ],
         "schema_targets_missing": [],
         "migrator_emits_decided_targets": false,
-        "has_per_class_migrator": true
+        "has_per_class_migrator": true,
+        "batch_pass_consumers": [],
+        "batch_pass_emits": {},
+        "batch_pass_emits_decided_targets": false
       },
       "carried": [
         "subject"
@@ -7761,7 +8186,10 @@
         "schema_targets_built": [],
         "schema_targets_missing": [],
         "migrator_emits_decided_targets": false,
-        "has_per_class_migrator": false
+        "has_per_class_migrator": false,
+        "batch_pass_consumers": [],
+        "batch_pass_emits": {},
+        "batch_pass_emits_decided_targets": false
       },
       "carried": [],
       "second_pass": [],
@@ -7800,7 +8228,7 @@
             "stage": 1,
             "name": "a migrator CONSUMES it",
             "state": "no",
-            "why": "neither `build_state.has_per_class_migrator` nor a `second_pass` entry. NOTE the ledger carries no field for a DID batch post-pass (+did2/+convert), so a class consumed only by one reads `no` here -- an UNDERSTATEMENT, not a measurement"
+            "why": "neither `build_state.has_per_class_migrator`, a `second_pass` entry, nor a batch post-pass declaring it. All 9 batch post-pass(es) in the derived chain were read and none declares this class."
           },
           {
             "stage": 2,
@@ -7862,7 +8290,10 @@
         ],
         "schema_targets_missing": [],
         "migrator_emits_decided_targets": true,
-        "has_per_class_migrator": true
+        "has_per_class_migrator": true,
+        "batch_pass_consumers": [],
+        "batch_pass_emits": {},
+        "batch_pass_emits_decided_targets": false
       },
       "carried": [],
       "second_pass": [],
@@ -7962,7 +8393,10 @@
         "schema_targets_built": [],
         "schema_targets_missing": [],
         "migrator_emits_decided_targets": false,
-        "has_per_class_migrator": false
+        "has_per_class_migrator": false,
+        "batch_pass_consumers": [],
+        "batch_pass_emits": {},
+        "batch_pass_emits_decided_targets": false
       },
       "carried": [],
       "second_pass": [],
@@ -8001,7 +8435,7 @@
             "stage": 1,
             "name": "a migrator CONSUMES it",
             "state": "no",
-            "why": "neither `build_state.has_per_class_migrator` nor a `second_pass` entry. NOTE the ledger carries no field for a DID batch post-pass (+did2/+convert), so a class consumed only by one reads `no` here -- an UNDERSTATEMENT, not a measurement"
+            "why": "neither `build_state.has_per_class_migrator`, a `second_pass` entry, nor a batch post-pass declaring it. All 9 batch post-pass(es) in the derived chain were read and none declares this class."
           },
           {
             "stage": 2,
@@ -8060,7 +8494,16 @@
         ],
         "schema_targets_missing": [],
         "migrator_emits_decided_targets": false,
-        "has_per_class_migrator": true
+        "has_per_class_migrator": true,
+        "batch_pass_consumers": [
+          "resolveResponseParameters"
+        ],
+        "batch_pass_emits": {
+          "resolveResponseParameters": [
+            "method_parameters"
+          ]
+        },
+        "batch_pass_emits_decided_targets": true
       },
       "carried": [],
       "second_pass": [],
@@ -8095,10 +8538,10 @@
       "stage": {
         "unclassifiable": false,
         "unclassifiable_why": null,
-        "reached": 2,
-        "reached_name": "its decided target classes EXIST in the build",
-        "blocked_by": 3,
-        "blocked_by_state": "no",
+        "reached": 3,
+        "reached_name": "the migrator emits THE DECIDED targets",
+        "blocked_by": 4,
+        "blocked_by_state": "not measured",
         "ladder": [
           {
             "stage": 1,
@@ -8115,8 +8558,8 @@
           {
             "stage": 3,
             "name": "the migrator emits THE DECIDED targets",
-            "state": "no",
-            "why": "the decided target(s) `method_parameters` are not all among what the migrator emits today (`stimulus_response_scalar_parameters_basic`)"
+            "state": "yes",
+            "why": "the migrator named after this class does not emit the decided target(s), but `build_state.batch_pass_emits` records the DID BATCH POST-PASS(es) `did2.convert.resolveResponseParameters` -> `method_parameters` DECLARING the emission. A declared emission is a fact about code the pass's own header states; it is NOT a corpus proof"
           },
           {
             "stage": 4,
@@ -8126,7 +8569,7 @@
           }
         ],
         "anomalies": [],
-        "highest_rung_satisfied_independently": 2,
+        "highest_rung_satisfied_independently": 3,
         "capped": false,
         "nothing_built": false,
         "nothing_satisfied": false,
@@ -8161,7 +8604,10 @@
         "schema_targets_built": [],
         "schema_targets_missing": [],
         "migrator_emits_decided_targets": false,
-        "has_per_class_migrator": true
+        "has_per_class_migrator": true,
+        "batch_pass_consumers": [],
+        "batch_pass_emits": {},
+        "batch_pass_emits_decided_targets": false
       },
       "carried": [
         "subject"
@@ -8244,7 +8690,10 @@
         "schema_targets_built": [],
         "schema_targets_missing": [],
         "migrator_emits_decided_targets": false,
-        "has_per_class_migrator": true
+        "has_per_class_migrator": true,
+        "batch_pass_consumers": [],
+        "batch_pass_emits": {},
+        "batch_pass_emits_decided_targets": false
       },
       "carried": [],
       "second_pass": [],
@@ -8326,7 +8775,10 @@
         "schema_targets_built": [],
         "schema_targets_missing": [],
         "migrator_emits_decided_targets": false,
-        "has_per_class_migrator": true
+        "has_per_class_migrator": true,
+        "batch_pass_consumers": [],
+        "batch_pass_emits": {},
+        "batch_pass_emits_decided_targets": false
       },
       "carried": [],
       "second_pass": [],
@@ -8409,7 +8861,10 @@
         "schema_targets_built": [],
         "schema_targets_missing": [],
         "migrator_emits_decided_targets": false,
-        "has_per_class_migrator": true
+        "has_per_class_migrator": true,
+        "batch_pass_consumers": [],
+        "batch_pass_emits": {},
+        "batch_pass_emits_decided_targets": false
       },
       "carried": [],
       "second_pass": [],
@@ -8513,7 +8968,10 @@
         ],
         "schema_targets_missing": [],
         "migrator_emits_decided_targets": true,
-        "has_per_class_migrator": true
+        "has_per_class_migrator": true,
+        "batch_pass_consumers": [],
+        "batch_pass_emits": {},
+        "batch_pass_emits_decided_targets": false
       },
       "carried": [],
       "second_pass": [],
@@ -8618,7 +9076,10 @@
         ],
         "schema_targets_missing": [],
         "migrator_emits_decided_targets": true,
-        "has_per_class_migrator": true
+        "has_per_class_migrator": true,
+        "batch_pass_consumers": [],
+        "batch_pass_emits": {},
+        "batch_pass_emits_decided_targets": false
       },
       "carried": [],
       "second_pass": [],
@@ -8723,7 +9184,10 @@
         ],
         "schema_targets_missing": [],
         "migrator_emits_decided_targets": true,
-        "has_per_class_migrator": true
+        "has_per_class_migrator": true,
+        "batch_pass_consumers": [],
+        "batch_pass_emits": {},
+        "batch_pass_emits_decided_targets": false
       },
       "carried": [],
       "second_pass": [],
@@ -8824,7 +9288,10 @@
         "schema_targets_built": [],
         "schema_targets_missing": [],
         "migrator_emits_decided_targets": false,
-        "has_per_class_migrator": true
+        "has_per_class_migrator": true,
+        "batch_pass_consumers": [],
+        "batch_pass_emits": {},
+        "batch_pass_emits_decided_targets": false
       },
       "carried": [
         "subject"
@@ -8909,7 +9376,10 @@
         "schema_targets_built": [],
         "schema_targets_missing": [],
         "migrator_emits_decided_targets": false,
-        "has_per_class_migrator": true
+        "has_per_class_migrator": true,
+        "batch_pass_consumers": [],
+        "batch_pass_emits": {},
+        "batch_pass_emits_decided_targets": false
       },
       "carried": [
         "subject"
@@ -8996,7 +9466,10 @@
         "schema_targets_built": [],
         "schema_targets_missing": [],
         "migrator_emits_decided_targets": false,
-        "has_per_class_migrator": true
+        "has_per_class_migrator": true,
+        "batch_pass_consumers": [],
+        "batch_pass_emits": {},
+        "batch_pass_emits_decided_targets": false
       },
       "carried": [
         "subject"
@@ -9085,7 +9558,10 @@
         "schema_targets_built": [],
         "schema_targets_missing": [],
         "migrator_emits_decided_targets": false,
-        "has_per_class_migrator": true
+        "has_per_class_migrator": true,
+        "batch_pass_consumers": [],
+        "batch_pass_emits": {},
+        "batch_pass_emits_decided_targets": false
       },
       "carried": [
         "subject"
@@ -9174,7 +9650,10 @@
         "schema_targets_built": [],
         "schema_targets_missing": [],
         "migrator_emits_decided_targets": false,
-        "has_per_class_migrator": true
+        "has_per_class_migrator": true,
+        "batch_pass_consumers": [],
+        "batch_pass_emits": {},
+        "batch_pass_emits_decided_targets": false
       },
       "carried": [
         "subject"
@@ -9259,7 +9738,10 @@
         "schema_targets_built": [],
         "schema_targets_missing": [],
         "migrator_emits_decided_targets": false,
-        "has_per_class_migrator": true
+        "has_per_class_migrator": true,
+        "batch_pass_consumers": [],
+        "batch_pass_emits": {},
+        "batch_pass_emits_decided_targets": false
       },
       "carried": [
         "subject"
@@ -9344,7 +9826,12 @@
         ],
         "schema_targets_missing": [],
         "migrator_emits_decided_targets": false,
-        "has_per_class_migrator": false
+        "has_per_class_migrator": false,
+        "batch_pass_consumers": [
+          "resolveValidIntervals"
+        ],
+        "batch_pass_emits": {},
+        "batch_pass_emits_decided_targets": false
       },
       "carried": [
         "valid_interval"
@@ -9389,7 +9876,7 @@
             "stage": 3,
             "name": "the migrator emits THE DECIDED targets",
             "state": "no",
-            "why": "the decided target(s) `logical_observation` are not all among what the migrator emits today (nothing)"
+            "why": "the decided target(s) `logical_observation` are not all among what the migrator emits today (nothing), nor among what any batch post-pass declares it emits"
           },
           {
             "stage": 4,
@@ -9434,7 +9921,10 @@
         "schema_targets_built": [],
         "schema_targets_missing": [],
         "migrator_emits_decided_targets": false,
-        "has_per_class_migrator": true
+        "has_per_class_migrator": true,
+        "batch_pass_consumers": [],
+        "batch_pass_emits": {},
+        "batch_pass_emits_decided_targets": false
       },
       "carried": [
         "subject"
@@ -9521,7 +10011,10 @@
         "schema_targets_built": [],
         "schema_targets_missing": [],
         "migrator_emits_decided_targets": false,
-        "has_per_class_migrator": true
+        "has_per_class_migrator": true,
+        "batch_pass_consumers": [],
+        "batch_pass_emits": {},
+        "batch_pass_emits_decided_targets": false
       },
       "carried": [],
       "second_pass": [],
@@ -9607,7 +10100,10 @@
         ],
         "schema_targets_missing": [],
         "migrator_emits_decided_targets": true,
-        "has_per_class_migrator": true
+        "has_per_class_migrator": true,
+        "batch_pass_consumers": [],
+        "batch_pass_emits": {},
+        "batch_pass_emits_decided_targets": false
       },
       "carried": [],
       "second_pass": [],
@@ -9708,7 +10204,10 @@
         "schema_targets_built": [],
         "schema_targets_missing": [],
         "migrator_emits_decided_targets": false,
-        "has_per_class_migrator": true
+        "has_per_class_migrator": true,
+        "batch_pass_consumers": [],
+        "batch_pass_emits": {},
+        "batch_pass_emits_decided_targets": false
       },
       "carried": [
         "subject"
@@ -9791,7 +10290,10 @@
         "schema_targets_built": [],
         "schema_targets_missing": [],
         "migrator_emits_decided_targets": false,
-        "has_per_class_migrator": true
+        "has_per_class_migrator": true,
+        "batch_pass_consumers": [],
+        "batch_pass_emits": {},
+        "batch_pass_emits_decided_targets": false
       },
       "carried": [],
       "second_pass": [],
