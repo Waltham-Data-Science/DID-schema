@@ -669,9 +669,21 @@ class TestCorpusRungBecomesComputable(unittest.TestCase):
         self.assertEqual(rung["state"], "no")
         self.assertIn("empty required edge", rung["why"])
 
-    def test_a_missing_counter_is_a_fault_not_a_zero(self):
-        # A report with no orphan block is the state EVERY corpus report was in
-        # until 2026-08-12. Silence there must not read as 0 orphans.
+    def test_a_missing_counter_is_NOT_MEASURED_neither_a_zero_nor_a_refutation(self):
+        # INVERTED 2026-08-12, not updated. This test used to assert `no`, and
+        # it was WRONG IN ITS ASSERTION WHILE RIGHT IN ITS COMMENT: silence must
+        # not read as 0 orphans -- and it must not read as a refutation either.
+        #
+        # It was written from the same premise as the code, so it could not
+        # catch it, and the two agreed all the way into production: corpus run
+        # 31587869672 reported 10 classes FAILED, every one of them because
+        # PRED's report -- a hard 0-quarantine GATE run, not a discovery run --
+        # carries no `reference_integrity` block at all. Nothing had failed.
+        #
+        # The third state is the whole point of the state set. See
+        # tests/test_coverage_corpus_verdict.py, which is where the three-way
+        # discrimination is pinned; this case stays here because a stage-ladder
+        # reader must see that a blind corpus cannot move the ladder.
         self._report(self.tmp, "Dab", {"image_stack": 10})
         with open(os.path.join(self.tmp, "Dab-summary.json")) as fh:
             rep = json.load(fh)
@@ -680,8 +692,10 @@ class TestCorpusRungBecomesComputable(unittest.TestCase):
             json.dump(rep, fh)
         ev = coverage.load_corpus_evidence([self.tmp])
         rung = coverage.stage_ladder(self._row(), ev)["ladder"][3]
-        self.assertEqual(rung["state"], "no")
-        self.assertIn("NOT a zero", rung["why"])
+        self.assertEqual(rung["state"], "not measured", rung["why"])
+        self.assertIn("blind", rung["why"])
+        # and emphatically NOT read as clean
+        self.assertNotEqual(rung["state"], "yes")
 
     def test_a_report_with_no_source_census_is_not_measured(self):
         with open(os.path.join(self.tmp, "Bare-summary.json"), "w") as fh:

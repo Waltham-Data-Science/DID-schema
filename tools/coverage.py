@@ -1790,19 +1790,44 @@ def corpus_verdict(row, ev):
     mine |= {norm_class(t) for t in (row.get("decided_targets") or [])}
     mine |= {norm_class(t) for t in (row.get("second_pass") or [])}
     mine.add(norm_class(row["v1_class"]))
-    faults, checked = [], []
+    faults, checked, blind = [], [], []
     for c in ev["corpora"]:
         if not seen.get(c["corpus"]):
             continue
-        checked.append(c["corpus"])
+        # A COUNTER THAT IS ABSENT IS `not measured` FOR THIS CORPUS. IT IS NOT A
+        # FAULT. This branch used to append the absence to `faults`, which made
+        # any class present in a corpus whose report omits a counter come back
+        # rung `no` -- "we proved it broken" for what is actually "nobody
+        # looked". That is the `not measured` / `no` collapse this ladder exists
+        # to prevent, arriving inside the ladder itself. It fired for real:
+        # corpus run 31587869672 reported 10 FAILED classes, and every one named
+        # the same cause -- testCorpusPRED is a hard 0-quarantine GATE rather
+        # than a discovery run, so its report carries no `orphan_count` at all.
+        # Nothing had failed.
+        #
+        # The corpus is recorded as BLIND and named in the verdict text instead.
+        # Absence is not allowed to become a PASS either: a blind corpus never
+        # enters `checked`, so it can never be the thing that proves a class, and
+        # a class seen ONLY in blind corpora comes back `not measured`.
+        #
+        # Counters that ARE present are still read on a blind corpus. Suppressing
+        # them would be the reassuring direction: a report missing `orphan_count`
+        # can still record a quarantine attributable to this class, and that is a
+        # real fault whatever else the report omits.
+        missing = [k for k in ("quarantine_count", "fragment_count",
+                               "orphan_count") if c.get(k) is None]
+        if missing:
+            blind.append(f'{c["corpus"]} (' + ", ".join("`%s`" % k for k in missing)
+                         + " absent from the report)")
+        else:
+            checked.append(c["corpus"])
         for key, label in (("quarantine_count", "quarantined document(s)"),
                            ("fragment_count", "fragment(s)"),
                            ("orphan_count", "orphan edge(s)")):
             n = c.get(key)
             if n is None:
-                faults.append(f'{c["corpus"]}: `{key}` is absent from the report '
-                              "-- NOT a zero")
-            elif n:
+                continue
+            if n:
                 per_class = (c["fragment_by_class"] if key == "fragment_count"
                              else c["orphan_classes"] if key == "orphan_count"
                              else None)
@@ -1812,12 +1837,28 @@ def corpus_verdict(row, ev):
         if mine & c["empty_edge_classes"]:
             faults.append(f'{c["corpus"]}: an empty required edge is recorded on '
                           + ", ".join(sorted(mine & c["empty_edge_classes"])))
+    # The document count quoted by a verdict is the count over the corpora that
+    # verdict actually rests on -- never the class total, which would let a
+    # blind corpus's documents inflate a figure nothing inspected.
+    n_checked = sum(n for c, n in seen.items() if c in checked)
+    n_blind = total - n_checked
+    blind_note = ("" if not blind else
+                  "; NOT EVALUABLE in " + ", ".join(sorted(blind))
+                  + f" -- {n_blind} document(s) there are UNINSPECTED, not clean")
     if faults:
         return S_NO, ("; ".join(faults)
-                      + f' (over {total} document(s) in {len(checked)} corpus(es))')
-    return S_YES, (f"{total} document(s) across {len(checked)} corpus(es) "
+                      + f' (over {total} document(s) in '
+                      f'{len(checked) + len(blind)} corpus(es))')
+    if not checked:
+        return S_NOT_MEASURED, (
+            f"*** NOT MEASURED *** -- {total} document(s) in "
+            f'{len(blind)} corpus(es), and EVERY one of them is blind: '
+            + ", ".join(sorted(blind))
+            + ". No corpus that holds this class carries the counters the rung "
+            "reads, so it is UNEVALUATED here -- neither clean nor failed")
+    return S_YES, (f"{n_checked} document(s) across {len(checked)} corpus(es) "
                    f'({", ".join(checked)}) migrated with 0 quarantine, 0 '
-                   "orphans, no empty required edge and no fragment")
+                   "orphans, no empty required edge and no fragment" + blind_note)
 
 
 def _stage_rollup(rows, evidence):
@@ -2683,6 +2724,28 @@ def _corpus_roots(argv):
 
 def main():
     check_only = "--check" in sys.argv
+    # RULE 5, BEFORE ANYTHING ELSE: this tool's universe is two sibling
+    # checkouts, and until 2026-08-12 it never said whether it had them. On a
+    # GitHub runner `/home/user` does not exist and did-schema sits at
+    # $GITHUB_WORKSPACE/did-schema, so `find_repo`'s third candidate for
+    # DID-matlab is $GITHUB_WORKSPACE/DID-matlab -- which is not the checkout,
+    # because the WORKSPACE DIRECTORY IS the DID-matlab checkout. So DIDM came
+    # back None, the migrator scan was skipped whole (`migrator_files` returns
+    # an empty set), the 11 vhlab app classes that have no NDI template were
+    # dropped, and the tool wrote a 91-row ledger reporting `10 yes / 81 no` on
+    # rung 1 -- against 102 rows and `86 yes / 16 no` locally. It exited 0 and
+    # said nothing. A tool whose answer depends on a path it silently failed to
+    # find must announce the path first.
+    print("DENOMINATOR: sibling checkouts this ledger is derived from -- "
+          + ", ".join(f"{n}: {p or '*** NOT FOUND'}"
+                      for n, p in (("NDI-matlab", NDI), ("DID-matlab", DIDM))))
+    if not DIDM:
+        print("  *** DID-matlab NOT FOUND: the migrator scan cannot run, so "
+              "rung 1 reads `no` for every class and app classes with no NDI "
+              "template are absent from the ledger entirely. Set DID_MATLAB.")
+    if not NDI:
+        print("  *** NDI-matlab NOT FOUND: the did_v1 template universe is "
+              "unreadable. Set NDI_MATLAB.")
     # FIRST, UNCONDITIONALLY, AND FATAL. Every transcribed sign-off is
     # re-read from the document it cites before a single row is built, so a
     # citation that has gone stale (a plan reworded, a document renamed) stops
