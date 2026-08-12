@@ -2390,10 +2390,40 @@ write("draft", "harmonic_component_calculation",
 # them. Deleting a source ahead of its migrator is what cost 2,484 quarantines this
 # same day.
 #
-# `acquisition_channels.acquisition_system_id` is declared UNTYPED: `acquisition_system`
-# is #59's class and does not exist yet (#59 is itself GATED on #37). Typing an edge at
-# a class that is absent fails test_dependencies_resolve, and inventing the class here to
-# satisfy it would be building #59 sideways.
+# `acquisition_channels.acquisition_system_id` IS TYPED, and this comment used to be the
+# reason it was not. IT SAID: "declared UNTYPED: `acquisition_system` is #59's class and
+# does not exist yet (#59 is itself GATED on #37). Typing an edge at a class that is
+# absent fails test_dependencies_resolve, and inventing the class here to satisfy it
+# would be building #59 sideways." That was TRUE THE DAY IT WAS WRITTEN and stopped being
+# true the next day. Both halves have since lapsed, and the lapse is the whole content of
+# #57(b):
+#
+#     $ git log -1 --format="%h %ai %s" 9180524     <- wrote the comment
+#     9180524 2026-08-09 #57 clock alignment: correct the stale prose, build the schema half
+#     $ git log -1 --format="%h %ai %s" 8a3cc51     <- minted the class, one day later
+#     8a3cc51 2026-08-10 Mint epoch_file_pattern + acquisition_system -- the last two ...
+#     $ git merge-base --is-ancestor 9180524 8a3cc51 && echo ANCESTOR
+#     ANCESTOR
+#
+# The class is on disk today -- `schemas/V_eta/stable/acquisition_system.json`, ⊂ entity,
+# maturity stable -- so `test_dependencies_resolve` now RESOLVES the token instead of
+# failing on it, and nothing is being invented here: the target was named by the SIGNED
+# model block of this cluster's own plan, `V_eta_clock_alignment_cluster_plan.md:167`
+# ("acquisition_system_id -> acquisition_system    the DEVICENAME half"), and
+# `acquisition_system ⊂ entity` is TEAM-SIGN-OFF [daq configuration], jess 2026-08-08
+# (`V_eta_daq_family_decisions.md:471,476`). #37 is likewise no longer a gate: it is
+# ARMED BY DEFAULT (`DID-matlab +did2/+schema/cache.m:968`).
+#
+# WHAT THIS CHANGE IS NOT, said plainly because the reassuring reading is available.
+# `must_refer_to_document_class` is DECLARATIVE -- existence-only, not type-checked
+# (`DID-matlab +migrators_j/daqreader.m:59`) -- and the edge is OPTIONAL and is EMITTED BY
+# NOTHING today: `migrators_j/private/jAcquisitionChannels.m:98` omits it deliberately,
+# because a syncrule stores a device NAME and resolving name -> id needs the migrated-id
+# graph a single-document migrator does not have. So typing it changes no validation
+# outcome on any document that exists. It records what the edge means, before a second
+# pass fills it. REQUIRED-NESS IS UNTOUCHED (`non_empty=False`, as it was): this edge has
+# no NDI template to demand it, and a required edge nothing can populate is precisely the
+# invented-empty-edge pattern that put tens of thousands of hollow documents in the census.
 write("draft", "polynomial",
       doc("polynomial", ["data_type"], abstract=True, maturity="draft",
           fields=[field("value", "structure",
@@ -2487,9 +2517,17 @@ write("draft", "clock_alignment_policy",
 
 write("draft", "acquisition_channels",
       doc("acquisition_channels", ["base"], maturity="draft",
-          deps=[dep("acquisition_system_id", "",
-                    "The device half of v1's devicestring. UNTYPED for now: "
-                    "`acquisition_system` is #59's class and does not exist yet.",
+          deps=[dep("acquisition_system_id", "acquisition_system",
+                    "The device half of v1's devicestring -- the rig this channel "
+                    "group is read on. THIS DOCUMENTATION READ 'UNTYPED for now: "
+                    "`acquisition_system` is #59's class and does not exist yet' "
+                    "until 2026-08-12; the class was minted 2026-08-10 (⊂ entity, "
+                    "stable) and the sentence outlived its reason. OPTIONAL and "
+                    "emitted by nothing today: a syncrule stores a device NAME, "
+                    "which rides on `base.name`, and resolving name -> document id "
+                    "needs the migrated-id graph a single-document migrator does "
+                    "not have (DID-matlab jAcquisitionChannels.m). The type says "
+                    "what the edge will mean when a second pass fills it.",
                     non_empty=False)],
           fields=[field("channels", "structure",
                         "One entry per channel-TYPE GROUP, as v1's devicestring "
@@ -6486,6 +6524,13 @@ GOV_REF = {
     "filenavigator_id": "filenavigator", "daqreader_id": "daqreader",
     "daqsystem_id": "daqsystem", "daqmetadatareader_id": "daqmetadatareader",
     "syncrule_id": "syncrule", "syncrule_id_#": "syncrule",
+    # `acquisition_system_id` is NOT in this map and that is deliberate, not an
+    # omission: it is DECLARED with its target at its own mint site (the
+    # `acquisition_channels` write above), the way every J-authored dep() call
+    # names its class. This map is the RETROFIT sweep for edges that arrived
+    # untyped in the copied V_zeta tree. Typing it in both places would store one
+    # fact twice, and the two copies would agree only by coincidence -- the
+    # defect binding-registry `strength` was rebuilt to remove.
     # `parent_directory_id` was typed here until 2026-08-11. It existed ONLY on
     # `directory.json`, which the team deleted (see _DELETE_NO_V1_PROVENANCE),
     # so the entry now types an edge no schema declares. `parent_doc_id` stays:

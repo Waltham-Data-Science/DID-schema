@@ -13,8 +13,8 @@
         {
             "name": "acquisition_system_id",
             "mustBeNonEmpty": false,
-            "documentation": "The device half of v1's devicestring. UNTYPED for now: `acquisition_system` is #59's class and does not exist yet.",
-            "must_refer_to_document_class": ""
+            "documentation": "The device half of v1's devicestring -- the rig this channel group is read on. THIS DOCUMENTATION READ 'UNTYPED for now: `acquisition_system` is #59's class and does not exist yet' until 2026-08-12; the class was minted 2026-08-10 (\u2282 entity, stable) and the sentence outlived its reason. OPTIONAL and emitted by nothing today: a syncrule stores a device NAME, which rides on `base.name`, and resolving name -> document id needs the migrated-id graph a single-document migrator does not have (DID-matlab jAcquisitionChannels.m). The type says what the edge will mean when a second pass fills it.",
+            "must_refer_to_document_class": "acquisition_system"
         }
     ],
     "file": [],
