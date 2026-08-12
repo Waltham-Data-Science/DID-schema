@@ -62,6 +62,201 @@ was added.
 
 ---
 
+## CITATION AUDIT 2026-08-12 — every checkable citation in this file, re-run against the trees
+
+**DENOMINATOR: 138 distinct `file:line` citations extracted mechanically from this file and
+resolved against the three repositories; 131 resolved to a file on the checked-out branch, 5
+resolved only on NDI `origin/main` or after expanding a dotted prose name, 2 resolve to no
+file in any repo in scope. Of the 138, 29 point at a line that no longer says what the
+sentence citing it implies.** Separately: **575 distinct backticked bare identifiers**
+extracted, of which **115 match a known class name exactly** (239 built V_eta classes +
+91 NDI `origin/main` templates + 102 v1 ledger rows) and **4 match only after normalising
+case and underscores** — the `demo_ndi`/`demoNDI` spelling trap, re-run here as the operating
+rules require and found to be already handled in every one of the four.
+
+This pass **records BUILD state and citation accuracy only**. No disposition was resolved, no
+`TEAM-SIGN-OFF` line was added or edited.
+
+### PHANTOMS FIRST — items calling for work on things that do not exist
+
+These are the expensive kind: they consume planning attention forever, and no amount of
+building satisfies them. Both are struck **in place, with their evidence**, in the rows
+themselves; they are named here so a reader who only reads this section still learns of them.
+
+| # | the phantom | why it is one |
+|---|---|---|
+| 61 | *"the v1 scalar/**VECTOR**/tuning folds"* | **91 of 91** NDI `origin/main` production templates parsed, **0** `class_name` containing "vector"; the four stimulus_response templates that DO exist carry **0** occurrences of the string; `git grep -il "responsevector\|response_vector" origin/main` → **0 files**; and `V_eta_stimulus_response_model_plan.md:540`, the signature that governs the family, names **four** classes and no vector. Carried for weeks. |
+| 82 | `directory` *"NEEDS A TEAM CALL"* | The call was made and EXECUTED. `directory` is the second entry of `tools/build_v_eta.py` `_DELETE_NO_V1_PROVENANCE` (`:7547-7593`), whose comment reads *"TEAM DECISION 2026-08-11 (jess, in session): delete `directory`"*. `find schemas/V_eta -name 'directory*.json'` returns nothing, and a walk of the built tree reads **239 class schemas, `directory` absent**. The reserved schema KEY of the same name survives and is a different thing. |
+
+### STALE IN THE DANGEROUS DIRECTION — 2 found, both now corrected in place
+
+The bias this file has is understatement, and 25 of the 27 corrections below are that. Two go
+the other way and are called out separately, because that direction produces wrong builds
+rather than redone ones.
+
+- **#57 item (b)** asserted, present tense, that `acquisition_channels.acquisition_system_id`
+  is untyped and that *"the built schema still carries the expired reason in its own words …
+  `must_refer_to_document_class: ""`"*. The built schema says `'acquisition_system'`. Typed in
+  `9c0f532`, 2026-08-12. A reader acting on the row would have re-done work already landed.
+- **#82's `directory` paragraph** ends *"If `zarr` goes, `directory` has no remaining consumer
+  in V_eta and the question stops being cosmetic"*, framing a live ⑦-infra naming question
+  about a class that had already been deleted by team decision. Left standing it invites a
+  build against a class name the build tree refuses.
+
+### DRIFTED `file:line` — 29 citations, each re-derived
+
+A line number that has drifted is worse than none, because it looks precise. Each row gives
+what the sentence claims, and where the claim is TRUE in the file today. **The claims all
+survive; only the coordinates moved** — no substantive assertion was falsified by this table.
+
+| cited as | the sentence claims | true location today |
+|---|---|---|
+| `build_v_eta.py:576` (#69) | defers *"TIGHTENING a constraint rather than redeclaring it"* to binding governance | **`:673`** |
+| `build_v_eta.py:5583-5587` (row 86) | `_EDGE_REFERENT_UNIQUE`'s three entries | **`:5978`** |
+| `build_v_eta.py:5088-5094` (row 87) | *"That hoist is NOT done here"* | **`:5481`** |
+| `+did2/+schema/cache.m:598` | allows `file`/`files` as a top-level key | **`:761`** (prose at `:756`) |
+| `+did2/+schema/cache.m:1290-1310` (#82) | raises `did2:validation:typeMismatch` | **`:1768`**, first of 7 sites |
+| `migrators_j/Contents.m:340` (#82) | the deliberate absence of a `projectvar` migrator is written down | **`:346`**, *"DELIBERATELY WITHOUT A MIGRATOR: `projectvar`"* |
+| `silentLoss.m:930` | `requiredDependencies` | defined **`:1823`**, called **`:685`** |
+| `v1_to_v2.m:393-402` (#35) | `runConcreteMigrator` falls back to the V_delta `+migrators` package | function **`:525`**; the fallback is stated in the file header at **`:10-14`** |
+| `v1_to_v2.m:154` … `:162` | `applySuperclassMigrators` runs BEFORE `runConcreteMigrator` | the two calls are **`:225`** and **`:234`** |
+| `universalRenames.m:113-118` and `:113` (#83) | renames a legacy `ndi_document` block to `base`, dropping it when both are present | **`:265-281`**. `:113-119` is now the COUNTER-NAME comment block — which is exactly what rows 84 and 93 cite it for, and those two citations are CORRECT |
+| `universalRenames.m:145-164` | renames `app.name`/`app.version` to `app_name`/`app_version` | **`:472-473`** |
+| `runBatchPass.m:63` | *"Every pass in did2.convert assigns its report to RESULT unconditionally"* | **`:57`** |
+| `resolveDeferredBaths.m:69-72` | the per-bath failure path is a bare `catch` with no counter | `:69-72` is header prose; the bare `catch` sites are **`:162`, `:293`, `:554`** |
+| `resolveLawnPlateSubjects.m:373` | the counter `local_identifier_collisions_within_batch` | declared **`:485`**, described **`:126`,`:138`** |
+| `runCorpusDiscovery.m:476` | `verifyEqual(testCase, refRep.orphan_count, 0, …)` | **`:542`** |
+| `epochIndex.m:657` | `k = sprintf('%d:%s\|%s', numel(sessionId), …)` | **`:651`** (`pairKey` at `:641` is correct) |
+| `local.m:292` | says **20,583** pass-through `ontologyTableRow` documents | **`:293`** |
+| `coverage.py:185` (row 93) | reads `origin/main` | **`:215`** (docstring `:206`) |
+| `ndi_ground_truth.py:449,539` (row 93) | reads `origin/main` | **`:491`** and **`:614`** |
+| `refresh_migration_targets.py:831` | the failure deleted the INSTRUMENT CHECK line | the check prints at **`:868`/`:873`**; the skip that removes it is **`:520`** |
+| `ndi_required_stamp.py:298` | a skipped file surfaces as *an NDI class with no V_eta counterpart* | **`:308-312`** |
+| `markgarbage.m:172` | `if isempty(vi); intervals = [t0 t1]; return; end` | **`:174-177`** |
+| `markgarbage.m:200` | `if isempty(explicitly_good_intervals)` | **`:198`** |
+| `markgarbage.m:172-176` | returns the whole requested span when it finds no record | **`:173-177`** |
+| `tableDocMaker.m:233` (row 84) | `add_dependency_value_n` | **`:291`** (and `set_dependency_value` at **`:289`**) |
+| `tableDocMaker.m` *"exactly ONE `set_dependency_value`, line 231"* (row 87) | one dependency call, `document_id` | still ONE `set_dependency_value`, now **`:289`**, but there is a SECOND dependency call beside it — `add_dependency_value_n('document_id',…)` at **`:291`**. The conclusion (no subject edge) is unaffected; the word "ONE" now needs the sibling named |
+| `V_eta_epoch_plan.md:849` | *still says "uniform `epoch_id` edge"* | **`:878`** |
+| `tests/test_veta.py:1057-1070` | `test_visual_grating_manipulation_leaf` carries a superseded docstring | function **`:1254`**, docstring **`:1255-1258`** — and the docstring DOES still say *"stimulus_presentation folds to this on the animal in the second pass"*, so the finding stands |
+| `metadata_editor.m:117` (twice) | *"which `metadata_editor.m:117` cannot (it mints a fresh id)"* | `:117-118` is now the comment recording that **THE EMITTERS MOVED OUT on 2026-08-11** — `entityDoc`/`relationDoc`/`orgFor`/`buildGids`/`emptyGids`/`freshBase` are `did2.convert.entities.*`. The minting the sentence points at is no longer in this file |
+
+Two more line numbers are cited for states that **no longer exist by design**, and are kept as
+history rather than repaired:
+
+- **`epochMint.m:525` — `continue; % MUTATION M4`.** `grep -n "MUTATION M4"` over the file
+  returns **0 hits**: the temporary mutation was reverted, exactly as row 86(f) says. The
+  citation is a description of a reverted commit, not of the tree, and must not be read as
+  present tense.
+- **`V_eta_epoch_plan.md:451` (#57).** Line 451 is now BLANK. It is cited as one of the two
+  pieces of prose that wrongly called the clock-alignment cluster a proposal, and the row
+  itself says *"Both corrected"* — so the absence is the repair landing, not a bad citation.
+  **HISTORICAL-SIGNOFF-CLAIM**
+
+### CITATIONS THAT RESOLVE ONLY ON `origin/main`, and one that resolves nowhere in scope
+
+The V_eta NDI feature branch lags `main` — the fact `coverage.py` is built around — and it
+bites citation checking too. Two files cited here **do not exist on the checked-out NDI
+branch** and were verified against `origin/main`, where both are CORRECT:
+
+        $ ls src/ndi/+ndi/+element/ensemble.m
+        ls: cannot access ...: No such file or directory
+        $ git show origin/main:src/ndi/+ndi/+element/ensemble.m | sed -n '273,277p'
+            mapdoc = mapdoc.set_dependency_value('element_epoch_id', epochdoc.id());
+            for i = 1:numel(neuron_ids)
+                mapdoc = mapdoc.add_dependency_value_n('neuron_id', neuron_ids{i});
+            end
+            mapdoc = mapdoc.add_file('neuron_names.txt', names_tempfile);
+
+`+gui/+app/+pyraview/filterData.m:37-41,49-53` is the same case and is likewise correct on
+`origin/main` (`passBandRipple`, `stopbandAttentuation` at both sites). **Checking either
+against the working tree alone would have produced "this file does not exist" — the
+absence-as-evidence error arriving through a REF rather than through a spelling.**
+
+**`hartley.m:448` (row 87) is UNVERIFIED and cannot be settled from any repository in this
+session.** `git ls-tree -r --name-only origin/main | grep -ci hartley` returns **0** in
+NDI-matlab: the file lives in `VH-Lab/NDIcalc-vis-matlab`, whose clone is ephemeral and is not
+attached. **What would settle it:** that repository in scope, then re-reading `:448` for the
+single `hartley_calc` document the row describes.
+
+### NUMERIC CLAIMS RE-DERIVED — 11 checked, 6 stale
+
+| where | claimed | re-derived 2026-08-12 |
+|---|---|---|
+| `## COMPLETED` INDEX header | *"22 completed numbers indexed — 14 with a full prose entry below, 8 (marked *subject only*)"* | **48 — 14 prose + 34 subject-only.** The bare list is `1–8, 10–24, 26, 33, 36, 39–42, 44, 49, 50, 55` = 8+15+3+4+4 = **34**, not 8. The "8" is the count of rows the *RE-DERIVED STATE* section re-derived, borrowed into the wrong sentence. **This is the understatement defect landing inside the very table built to cure it** — the INDEX exists so a counter can see completed work, and its own denominator under-reports that work by 26 |
+| #82 denominators | 927 NDI `.m` files / 373 DID `.m` files, 125 under `+migrators_j` / 14 second-pass files / 247 schemas in `V_eta/index.json` / 251 V_eta JSON files | **932** (worktree; **1,002** on `origin/main`, which is the figure row 87 uses) / **381**, **126** / **17** / **243** (`index.json`'s `schemas` list) / **247** |
+| row 87 | *"57 of 244 V_eta schemas carry `abstract:true`"* | **57 of 239** — the 57 is right, the denominator moved |
+| md `:432` sign-off census | *"54 markdown files under `schemas/`, 54 read, 24 `TEAM-SIGN-OFF` lines (23 real + the format template)"* | **55 files; 26 lines beginning `TEAM-SIGN-OFF`, across 19 files.** The `Exactly ONE names these documents` conclusion was not re-checked against the two new lines and is **UNVERIFIED** at the new denominator |
+| #80 sweep | *"54 markdown files, 54 read, 16 carrying at least one `TEAM-SIGN-OFF` line"* | **55 / 19.** Legitimate as a dated 2026-08-10 measurement; flagged so nobody quotes it as current. **HISTORICAL-SIGNOFF-CLAIM** |
+| #30 | *"every concrete `*_observation` leaf (31 of them)"* | **CORRECT** — 32 `*_observation` classes, 1 abstract, **31 concrete** |
+| #67 | `check_empty_ontology_nodes.py`: 239 inspected / 991 nodes walked / 8 no-node / baseline 8 | **CORRECT**, verbatim |
+| #69 | `check_duplicate_field_declarations.py` returns *"9 rows: 6 V1-FIDELITY, 0 V_eta-SHADOW, 3 NOT-DERIVABLE"* | **CORRECT** — 9 (baseline 9), 6 V1-FIDELITY, over 235 chains |
+| #43 | `check_tombstones.py` BLOCKING = 0 | **CORRECT** — `BLOCKING : 0 (a real document CANNOT validate)` |
+| #57 / #65 | `acquisition_system` under `## ② Entities (12)`; `## ⑤ time_reference family (2)` = `absolute_reference`, `relative_reference` | **BOTH CORRECT**, verbatim from `V_eta_final_class_set.md` |
+| CLAUDE.md's `gap`/`target_gap` figures, re-checked here because rows cite them | 0 / 2 | **CORRECT** — 102 ledger rows, `gap` True on 0, `target_gap` True on 2 |
+
+### CLASS NAMES — the normalisation sweep, re-run
+
+**DENOMINATOR: 575 backticked bare identifiers; 239 built V_eta classes, 91 NDI `origin/main`
+templates, 102 v1 ledger rows.** Four identifiers match a real class only after normalising,
+and **all four are already handled correctly in the text that uses them** — `demo_ndi` appears
+only inside the retelling of the `demoNDI` bug; `epoch_`/`epoch_id`/`interactionPurpose` are a
+literal id prefix, an edge name and a camelCase spelling deliberately searched for. **No new
+absence-based disposition rests on a spelling this file gets wrong.**
+
+Three class names the file uses are absent from the built tree, and each absence is correct
+and already stated: `epoch_relative_reference`, `event_bounded_reference`,
+`event_relative_reference` — deleted in `f8f8681`. The fourth of that set, **`utc_reference`,
+is also correctly deleted**; a naive walk of `schemas/V_eta` finds the name only in
+`examples/utc_reference_grid.json`, a document INSTANCE, and reading that as a surviving class
+is the same mis-read the time-reference plan already records once.
+
+### ONE ROW UNDERSTATES A REPAIR THAT HAS SINCE LANDED — row 84 item (7), plural `document_id`
+
+The row says `tableDocMaker.m:170-172` *"DELETES the dependency columns before
+`names`/`variableNames`/`ontologyNodes`/`data` are built"*, that the edges are **anonymous by
+construction**, and that repairing the source is *"the only option that makes the data
+self-describing… NOT DECIDED"*. **That converter change has been made on the NDI branch we
+build against, and the row has not caught up.** The two refs disagree, which is the whole of
+it and is why this is recorded rather than acted on:
+
+        $ git show origin/main:src/ndi/+ndi/+setup/+NDIMaker/tableDocMaker.m | grep -n 'dependencyVariable)) = \[\]'
+        172:            varNames(ismember(varNames,dependencyVariable)) = [];
+        $ grep -n 'ARE KEPT' src/ndi/+ndi/+setup/+NDIMaker/tableDocMaker.m
+        178:            % ARE KEPT.
+        $ git merge-base --is-ancestor 40dc9aa86 origin/main || echo "NOT on origin/main"
+        NOT on origin/main
+
+So the citation is **correct against `origin/main`**, which is the did_v1 truth ref and
+therefore correct about every document already written; and it is **stale against the feature
+branch**, where `40dc9aa86` ("tableDocMaker: keep dependency columns so document_id edges are
+identifiable") keeps the columns and quotes the deleted line as history at `:183`. **Nothing
+here decides anything**: whether the branch repair changes the rule the row asks for is a team
+question, and the anonymous-edge exposure in already-written data is untouched by it.
+
+### WHAT THIS PASS DID NOT CHECK
+
+Stated so the denominator is honest. **Not re-derived:** row 82's *"139 files / 20,016 lines
+scanned by the board's migrator-evidence layer"* (needs a `status_board.py` run wired to
+report it); any figure whose source is a corpus report, since no corpus is on disk here (the
+board reports `census roots: 0 walked, 2 missing`); and the four Haley/Babu document COUNTS,
+which come from corpus runs and not from the trees. **Not checkable in scope:** `hartley.m`,
+above. Everything else named in this section was read out of a repository in the same pass
+that wrote the sentence.
+
+**A NOTE THE COVERAGE LADDER MAKES WORTH WRITING DOWN.** `schemas/V_eta_coverage_ledger.json`
+now carries a derived `stage` column, and **94 of its 102 rows read `not measured` at rung 1,
+"disposition DECIDED"** — with the tool saying why in its own words: *"coverage.py reads only
+its own transcriptions; the team's sign-offs live in plan documents this tool never opens, so
+this is the absence of a TRANSCRIPTION and not evidence that no decision exists."* This audit
+located and quoted two such signatures while checking citations —
+`V_eta_stimulus_response_model_plan.md:540` (#61's family) and
+`V_eta_clock_alignment_cluster_plan.md:492` (#57's) — and both are exactly the evidence that
+would move a row off `not measured`. Transcribing them is a separate, deliberate act and is
+not done here.
+
+---
+
 ## OPEN
 
 | # | subject | notes |
