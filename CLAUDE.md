@@ -1272,6 +1272,48 @@ lives in these files — read them instead of re-deriving from memory:
   a dataset still waiting to migrate, which is what this migration is FOR. Nothing may be
   deferred, retired or half-repaired on the grounds that no corpus we looked at holds it. A
   deletion needs a WRITER CHECK against NDI `origin/main`.
+- **THE SAME ERROR RAN BACKWARDS ONCE, AND IT IS WORTH THE SAME PARAGRAPH.** 2026-08-12,
+  corpus run 31587869672 — the first run in which the CORPUS-PROVEN rung was computed from
+  real reports. It reported **10 v1 classes FAILED**, and every one of them named one cause:
+
+        FAILED  element    PRED: `orphan_count` is absent from the report
+                                 -- NOT a zero (over 7014 document(s) in 6 corpus(es))
+
+  **Nothing had failed.** `testCorpusPRED` is a hard 0-quarantine GATE, not a discovery run,
+  so it never goes through `runCorpusDiscovery` and its report carries no
+  `reference_integrity` block at all. `coverage.py`'s `corpus_verdict` appended that absence
+  to `faults`, and any fault meant `no`. So *absence of evidence* became **a refutation** —
+  the same collapse as the four above, pointing the other way. The direction is why it was
+  caught in an hour rather than a month: this project's errors are usually reassuring, and a
+  pessimistic one is conspicuous. **Both directions are the same defect. "Nobody looked" is
+  a third state and must stay a third state.** Fixed: a corpus missing a counter is BLIND —
+  named in the verdict, never a fault, and never a pass either (a blind corpus cannot enter
+  `checked`, so a class seen only in blind corpora is `not measured`). Counters that ARE
+  present are still read there, because suppressing a real quarantine because a sibling
+  counter is missing would be the reassuring direction.
+  `test_a_missing_counter_is_a_fault_not_a_zero` was **INVERTED, not updated** — it was
+  wrong in its assertion while right in its comment, written from the same premise as the
+  code, and the two agreed all the way into a production run.
+- **`find_repo` FAILS SILENTLY ON A RUNNER, AND A LEDGER 11 ROWS SHORT LOOKS EXACTLY LIKE A
+  LEDGER.** Same run, same log, second defect. The ledger it wrote had **91 rows** and
+  reported **`rung 1: 10 yes / 81 no`**; the committed ledger has **102** and `86 yes / 16 no`.
+  Reproduced exactly by forcing `DIDM = None`:
+
+        find_repo saw DID-matlab at: /home/user/DID-matlab
+        ledger: wrote schemas/V_eta_coverage_ledger.{md,json} (91 v1 classes)
+        rung 1 a migrator CONSUMES it   10 yes / 81 no / 0 n/a / 0 NOT MEASURED
+
+  `coverage.py:90` tries `$ENV`, then `/home/user/<name>`, then
+  `<dirname of schema root>/<name>`. **On a runner `/home/user` does not exist**, and
+  did-schema is checked out at `$GITHUB_WORKSPACE/did-schema`, so the last candidate for
+  DID-matlab is `$GITHUB_WORKSPACE/DID-matlab` — *which is not the checkout, because the
+  workspace directory IS the DID-matlab checkout*. `DIDM` came back None, `migrator_files()`
+  returned an empty set, the 11 vhlab app classes with no NDI template were dropped, and the
+  tool **exited 0 saying nothing**. It is the sibling of the shallow-clone trap CLAUDE.md
+  already records for `origin/main`: not "it errored", but "it reported a smaller universe".
+  `coverage.py` now announces both sibling paths FIRST, unconditionally, and names what is
+  unreadable without them. **Every local run finds DID-matlab at `/home/user/DID-matlab`, so
+  this is invisible outside CI — do not test the fix locally and conclude anything.**
 - **A PLAN DOCUMENT'S HEADER IS NOT ITS STATE. READ THE BOTTOM, OR READ THE BOARD.**
   Sign-offs are APPENDED at the bottom of a plan document; the summary a reader stops at is
   at the top; nothing kept the two in agreement. On 2026-08-10 a mechanical sweep found
