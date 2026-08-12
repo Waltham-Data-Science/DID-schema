@@ -262,25 +262,71 @@ not done here.
 
 ---
 
+## REVERSE RECONCILIATION 2026-08-12 — the 27 `## OPEN` rows nobody had checked in the "already done?" direction
+
+**DENOMINATOR: 35 rows stood under `## OPEN`. 5 were covered by the 2026-08-12 forward
+reconciliation (30, 57, 65, 67, 76) and 3 had been checked since by build agents (53, 61,
+74 — all three already built). The other 27 had NEVER been asked whether the work they
+describe already exists: 9, 25, 27, 28, 29, 31, 32, 34, 35, 45, 46, 47, 48, 52, 60, 62, 66,
+68, 69, 72, 73, 78, 79, 80, 81, 82, 83. All 27 were checked here; 27 verdicts reached; 0
+left unresolved.**
+
+The forward pass asked *is anything called done actually not done?* — the dangerous
+direction, and it found 5 PARTIAL. This is the mirror question, and it is the direction this
+record is documented as failing in: **the header always claims less progress than the tree
+holds.** Three for three on the rows checked before this pass; eight for twenty-seven here.
+
+| verdict | n | numbers |
+|---|--:|---|
+| ALREADY DONE | 8 | 25, 29, 34, 35, 52, 78, 80, 82 |
+| PARTIAL | 10 | 9, 28, 31, 32, 47, 60, 66, 69, 72, 83 |
+| GENUINELY OPEN | 4 | 27, 46, 48, 68 |
+| BLOCKED | 4 | 45, 62, 73, 81 |
+| CANNOT TELL | 1 | 79 |
+
+**EIGHT ROWS MOVED** to `## COMPLETED`, each carrying the command output that settled it:
+**25, 29, 34, 35, 52, 78, 80, 82**. The other 19 stay, each gaining a note that says what
+the row used to claim and why that is wrong now, rather than being silently edited.
+
+**THE THREE TELLS FROM THE EARLIER AGENTS ALL FIRED AGAIN, and a fourth appeared.**
+(1) *work landed under a different name*: #78's build is
+`NDI-matlab .../+migrate/+internal/subjectStrainAssembly.m`, which names `#78` in its own
+first line; #25's dedup is `softwareDedup.m`; #29's is `ensembleMembership.m` — none is a
+`+migrators_j/<class>.m` and no name-based search for one finds them. (2) *a row that was
+never revisited*: #80's own text begins **CLOSED 2026-08-10** and it sat under `## OPEN` for
+two days. (3) *a phantom* — three more, listed below. (4) NEW: **a row whose stated blocker
+had already been dismantled by a commit in another repository** — #83 says *"0 hits for
+`database_version` across `src/` and `tests/` in DID-matlab"* and asks for a counter at
+`universalRenames.m`; the counter is there and the hits are 10 files.
+
+### PHANTOMS — work asked for on things that must not or cannot be built
+
+| # | the phantom | why it is one |
+|---|---|---|
+| 27 | `dataseries_channel_map` → `channel_assignment`, 1 of the 5 R5 renames | the class was **DELETED** 2026-08-09 on the team's instruction. `tools/build_v_eta.py:7548` lists it in `_DELETE_NO_V1_PROVENANCE`; `find schemas/V_eta -name 'dataseries_channel_map.json'` returns nothing. Renaming a deleted class is not deferred work. |
+| 27 | `daqreader_epochdata_ingested` → `daqreader_epoch_cache` and its `daqmetadatareader` twin, 2 more of the 5 | **REJECTED, not deferred**, by the signed daq-ingested decision: `V_eta_ingested_payload_findings.md:339` — *"R5's `_epoch_cache` rename stays REJECTED, not merely deferred: for an ingested session those archives are the ONLY copy of the recording, and 'cache' invites deleting primary data."* Carrying them as pending build work invites building the thing a signature forbids. |
+| 52 | the row's own TITLE, *"Role-name the `time_reference_#` statement edges"* | the row's body already says so and it is repeated here because a reader stops at the title: the plan's own words are `DO NOT BUILD start_anchor/end_anchor until an instance appears`. The replacement — a uniqueness rule — is BUILT (see the `## COMPLETED` entry). |
+
+**NOTHING BELOW RECORDS A DISPOSITION.** This pass reconciles BUILD state, which is what
+this file's own header says it owns. No design question was resolved and no signature line
+was added or edited.
+
+---
+
 ## OPEN
 
 | # | subject | notes |
 |---|---|---|
 | 9 | D-C: analysis-tier decomposition (calc/tuning/spike zoo → observations + data_body + derived_from) | **in_progress** |
-| 25 | software follow-ups: app retires BY ATTRITION (not a sweep) + dedup + crosswalk | |
 | 27 | Build deferred: R5 infra renames (DID-only, NOT cross-repo — T11/T13) | R5's `_epoch_cache` is DANGEROUS, see `V_eta_ingested_payload_findings.md` |
 | 28 | Build deferred: boundary-class dispositions (7 of 8) | |
-| 29 | Build deferred: ensemble model | `V_eta_ensemble_plan.md` — SIGNED. **NEW 2026-08-09, from the ground-truth extractor fix:** NDI's SCHEMA document declares a third edge the template does not — `ensemble_schema.json` has `element_id` (req), `element_epoch_id` (req) and **`neuron_id` (`mustbenotempty: 0`)** — and V_eta declares no `neuron_id` at all. This was invisible until the extractor started reading `schema_documents/` as well as `database_documents/`. It bears directly on the signed model, which makes the per-epoch roster `member_of` edges: NDI already has a per-neuron edge here, so check whether `member_of` is re-inventing it before building. |
 | 30 | Build deferred: raw recordings as typed observations | `V_eta_recording_observation_plan.md`. **PARTIAL, verified 2026-08-12 — the harness mirror calls this completed and it is not.** **LANDED:** the signed assembler exists and is live. `DID-matlab +did2/+convert/+migrators_j/private/jRecordingObservation.m` builds the `<modality>_observation` (`subject_id` = the specimen, `instrument_id` = the element per T7, body = `sampled_body`, plus the session anchor), with `private/jRecordingModality.m` as the element-type → modality map; `migrators_j/element.m:114-120` calls it for every `isDirect` element, and `:132-135` retires the loose `probe observes specimen` relation ONLY when `retireObserves` came back true, so the relation is never dropped without its replacement being present. `tests/+did2/+unittest/testMigratorsJRecordingObservation.m` covers it, and it rode the green corpus run 31522068566 (`7ed9cda`, 633,432 documents, 0 quarantine, row 95), which POSTDATES the build (`8640f1f`, 2026-08-10 20:56 — committed as UNVERIFIED because there is no MATLAB in this container). **NOT LANDED, and both halves are named in the code rather than inferred: (a) GUARD A HAS NO SCHEMA HOME.** The sign-off requires an unmapped element type to still yield a VALUED observation over a bare self-describing `sampled_body` with a queryable `modality_unresolved` flag. `jRecordingObservation.m:115-131` records that BOTH halves need V_eta things that do not exist — every concrete `*_observation` leaf (31 of them) mixes in a `data_type`, so there is no undimensioned concrete leaf to instantiate, and `modality_unresolved` matches nothing under `schemas/` except the decision documents themselves. What ships instead is a `kindAssertion` worklist entry (`element.m:121-127`), which is a stand-in and is labelled as one. **(b) THE SIGNED BUILD GATE IS UNMEASURED.** The sign-off's gate is *"the build gate is ZERO fallbacks on the real corpus"* (`V_eta_recording_observation_plan.md:99`); no corpus report renders a fallback count, so the gate has never been read on real data. **What would settle (b):** a fallback / `modality unresolved` counter in the corpus report plus one full run. |
 | 31 | Build deferred: stimulus model | `V_eta_stimulus_model_plan.md` |
 | 32 | **Binding governance (T8): bind `variable`/`method`; decide field-vs-registry authority** | **PREREQUISITE** for #45 and #65, not adjacent cleanup |
-| 34 | Phase 1: make silent data loss impossible — REPORT-ONLY landed, enforcement open | |
-| 35 | Phase 2: fix migrators reading invented field names — 17/17 closed AS SCOPED | **THE SCOPE HAD A HOLE, found 2026-08-09: fixing a migrator did not fix its TOMBSTONE.** `migrators_j/vmspikefit.m` was repaired to read `fit_equation`/`fit_sse` once it was established that `fit_function` and `r_squared` have never existed on the NDI template (0 commits mention either, against 7 for `fit_equation`/`fit_sse`; both names came from V_alpha). The V_eta tombstone was left declaring **exactly those two invented names, with `fit_function` REQUIRED**, and none of the seven real fields — plus it had dropped the `epochid`+`app` superclasses, dropped `fit_input_id`, and invented a `vmspikefit_file` the template does not have. NOW REPAIRED from the template. It was not firing only by luck: the migrator consumes every document (1 → score_observation + anchor) so nothing reaches validation under the class, but the class is not phase-8 deleted and so still advertises itself as describing a document that has never existed. **THE OTHER 16 WERE CHECKED THE SAME DAY AND THREE MORE HAD IT.** `probe_geometry` was the sharpest: its tombstone declared `channel_positions`, `position_units` and `probe_type` — **the exact three names its own migrator RAISES on, by name, as proof that a body was built against our schema instead of a real document** (`migrators_j/probe_geometry.m:70-77`) — plus a REQUIRED `num_channels` no document has. So the schema described the shape the migrator rejects as impossible. `position_metadata` declared a REQUIRED `measurement`, which is the name the MIGRATOR gives its OUTPUT field: the tombstone had been written from the migrator's target instead of its source, so the one real descriptive field (`ontologyNode`) went undeclared. `fitcurve` is `vmspikefit`'s twin — same invented `fit_function`, same missing real fields. All four now restated from NDI's template + schema; `check_tombstones` went 22 rows → 16, and the LOSSY *passthrough* tier is empty. **A FIFTH WAS NEARLY 'REPAIRED' AND WOULD HAVE BEEN BROKEN.** The checker reports `filter` as declaring `filter_type` (in no NDI template) and missing the real `type`. Both true of the template, both irrelevant: `+did2/+convert/+migrators/filter.m:29-34` performs exactly that rename and DELETES `type`, and it still runs under V_eta — `runConcreteMigrator` falls back to the V_delta `+migrators` package whenever no `migrators_j` entry exists (`v1_to_v2.m:393-402` **[drifted; `runConcreteMigrator` is now `:525` and the fallback is stated in the file header at `:10-14`]**), there is no `migrators_j/filter.m`, and `filter` is a SUPERCLASS migrator applied to everything declaring it (`pyraview`, chiefly). Declaring `type` would have left the real field undeclared and the declared one permanently blank — introducing the very defect the sweep exists to remove. **The checker compares against the v1 template and cannot see a migrator that legitimately renames: its output is a STARTING POINT, NOT AN INSTRUCTION, and the thing to check is what actually runs.** **ONE DEFECT FOUND THAT IS NOT A TOMBSTONE AND NEEDS A DECISION** — see the fitcurve subject-attribution entry below. |
 | 45 | **DECIDED 2026-08-08: the data_body model — axes, datum, encoding** | `V_eta_data_body_model_plan.md`. BLOCKED ON #32. **2026-08-09 ADDENDUM: the `axis` entry gains its own `datum_type`** — required when the axis is body-mounted and `regular` is false, i.e. when the coordinates are stored in the bytes. Found from `binaryseries_parameters`, which declares TWO encodings (`time_type` and `data_type`) where the plan had one. `byte_order` stays on `sampled_body` (one per file); only the element type varies per column. Without it the `binaryseries_parameters` fold drops the timestamp encoding. |
 | 46 | Phase 3: retire ngrid, gated on BOTH consumers | **image / ngrid SIGNED 2026-08-08.** Gates: both consumers; both tombstones rewritten FROM THE WRITER; `dimension_labels` is the axis `variable` source, not the `dimension_order` letter; `data_limits` has no destination; re-verify the Hartley plane labels (`NDIcalc-vis-matlab` @ `65718ed`, out of session scope) |
 | 47 | Phase 3: confirm the ontology_image raster has a home under R6 | **F5 CORRECTED**: ONE vintage, not two. Tombstone needs exactly `ontology_nodes`; drop `ontology_name` + `ontology_region`. DO NOT follow `check_tombstones.py` here — it compares against the TEMPLATE and the template loses to the writer |
 | 48 | Phase 4: the RF/Hartley fold (group F) and the rest of the roadmap | |
-| 52 | Role-name the `time_reference_#` statement edges | **SHRUNK 2026-08-08** to ONE rule: within a `_#` family every member describes the same instant/extent and `value.clock` is UNIQUE. Split-anchored intervals have NO INSTANCE — do NOT build `start_anchor`/`end_anchor` |
 | 53 | `ontology_table_row` emits ~76,766 observations with an EMPTY `subject_id` | |
 | 57 | **Build: the clock alignment cluster — MIGRATOR half** | `V_eta_clock_alignment_cluster_plan.md`. **SIGNED 2026-08-08** (two `TEAM-SIGN-OFF` lines, one per family). **SCHEMA HALF BUILT 2026-08-09**: `polynomial ⊂ data_type` (coefficients HIGHEST ORDER FIRST + a `degree` kept because did2 has NO length predicate, so `degree > 1` is expressible only if stored), `clock_alignment ⊂ relation, polynomial` (named `from_reference`/`to_reference` endpoints — the rule is symmetric, its OUTPUT is directed — plus `cost` on the leaf, not in `value`), `clock_alignment_configuration` (was syncrule), `clock_alignment_policy` (was syncgraph), `acquisition_channels` (the devicestring decomposition, grouped not flat). **GATE 3 IS NOW MET**: #63 landed, so `acquisition_channels_#` carries a real `min_count: 2, max_count: 2` instead of the word "EXACTLY 2" in a plan. **THIS ROW SAT UNBUILT FOR A DAY BECAUSE TWO PIECES OF PROSE SAID IT WAS A PROPOSAL** — the plan's own header ("NO `TEAM-SIGN-OFF` LINE", 474 lines above two of them) and `V_eta_epoch_plan.md:451`. Both corrected. The status board was right the whole time; it derives from the sign-off lines, which is Operating Rule 4 doing its job. **STILL OPEN, all migrator + still gated**: (a) **#67 gates this cluster** — `clock_alignment_configuration.clock` binds to `did_clocktype`, whose 4 terms have no ontology nodes yet, and `clock_alignment.relation` needs an NDIC term for "temporally aligned with" (a MAPPING predicate, so it cannot reuse relative_reference's OWL-Time binding); both staged `{node: '', name: ...}` per the plan's §5 and counted by #70. (b) `acquisition_channels.acquisition_system_id` is UNTYPED — `acquisition_system` is #59's class, itself gated on #37. (c) the migrators; until they exist `syncrule`, `syncgraph` and `syncrule_mapping` REMAIN as v1 source tombstones and must not be deleted. **HISTORICAL-SIGNOFF-CLAIM** **PARTIAL, verified 2026-08-12 — the harness mirror calls this completed, and this row's own text already says "STILL OPEN, all migrator". It stays open, and item (c) is the part that moved.** **WHAT LANDED:** DID-matlab `9269a62` (2026-08-10) adds `migrators_j/syncrule.m` — 1 → 4: `clock_alignment_configuration` + EXACTLY 2 `acquisition_channels` + one `software` entity, `base.id` and `base.name` preserved, `parameters` unbagged into declared fields, and BOTH v1 spellings read (`daqsystem1_name` for ctoe/randomPulses, `daqsystem1` for filefind) — and `migrators_j/syncgraph.m` — 1 → 2, `syncrule_id_1..N` → `clock_alignment_configuration_1..N` renumbered from 1, a rule-less graph emitting ZERO edges rather than one blank one, and a session-less graph passing through because pointing a required `session_id` at `ndi.session.empty_id()` is an orphan, not a fact. `tests/+did2/+unittest/testMigratorsJClockAlignment.m` covers them. The build also found and fixed a REAL data loss: `epochprobemap` was being dropped on every real document because `syncgraph.m` calls `.serialize()`, which returns a CHARACTER ARRAY (`epochprobemap_daqsystem.m:136-143`) while the reader required `isstruct` — and the old unit fixture used a struct no writer produces. That is the `distance_metadata` failure again, one family over. **WHAT DID NOT LAND, three named parts.** (i) `migrators_j/syncrule_mapping.m`'s fold is BUILT AND GATED, not live: `epochDocIds()` at `:156-168` reads `epoch_id_1` / `epoch_id_2`, edges NO did_v1 document carries, so **every corpus document takes the #58 passthrough today**; the file names itself as the single line that changes when #60's epoch pass lands. (ii) `filematch` PASSES THROUGH by design — its whole parameter set is `number_fullpath_matches`, so it has no two devices and a converted document would violate its own `min_count: 2 / max_count: 2` while validating clean. (iii) Gate (a) is UNCHANGED: `python3 tools/check_empty_ontology_nodes.py` reports `admissible-set entries, no node: 8`, every one `did_clocktype`, four of them on `clock_alignment_configuration.clock` — that is #67, which is PARTIAL below. **AND ONE CLAUSE OF THIS ROW IS NOW STALE.** Item (b) says `acquisition_channels.acquisition_system_id` is untyped because *"`acquisition_system` is #59's class, itself gated on #37"*. **BOTH REASONS HAVE EXPIRED**: #37 is armed (moved to COMPLETED today) and `acquisition_system` EXISTS — `V_eta_final_class_set.md` lists it under `## ② Entities (12)`. So (b) is unblocked work rather than a gated one. **THIS SENTENCE SAID "The built schema still carries the expired reason in its own words (`acquisition_channels.json`, `acquisition_system_id`: *'UNTYPED for now: `acquisition_system` is #59's class and does not exist yet'*, `must_refer_to_document_class: \"\"`) — a generated artifact repeating a premise that has lapsed." THAT IS NO LONGER TRUE, corrected 2026-08-12: the edge is TYPED.** Re-derived from the built tree, not from the commit that claims it:
 
@@ -309,28 +355,19 @@ not done here.
 | 76a | **The #76 grouped measurement RAN. The join it assumes does not exist by epoch id.** | Corpus run **31415147934** (`02854c7`, 2026-08-10). **DENOMINATOR: 6 corpus reports, 6 read, 0 unreadable, 0 skipped; 562,422 documents inspected.** Dab is the only corpus with StimulationApproach documents: **635 approaches over 635 epochs, and 635 of those epochs have NO `stimulus_presentation` document at all.** Epoch ids carried by BOTH classes: **0**. The cross-tab says why, and it is not a data gap -- **the two classes use different epoch-id namespaces**: every one of the 635 approach epoch ids carries the `epoch_` prefix (635 distinct / 635 docs), and every one of the 1,242 presentation epoch ids is in the `other` bucket (149 distinct / 1,242 docs). Neither class has a single id in the other's bucket. The pooled Dab histogram decomposes exactly against this: 1,605 distinct `epoch_` over 3,845 docs (the 635 are a subset) and 149 distinct `other` over 6,207 docs -- and corpus B, whose data Dab contains, reports the SAME 149 distinct `other` ids over the SAME 6,207 docs. **CONSEQUENCE for #76: the distribution it asks for cannot be computed on this corpus, because the grouping key does not join.** That is an answer, not a failed measurement -- but it is an answer about Dab, and the corpora are a sample. What #76 still needs is either a corpus where both classes are written by the same converter, or a different join key than `epochid`. **CONSEQUENCE for #75: unchanged** -- routing 635 approaches to `interaction_purpose` on "the epoch's interaction" presumes an interaction exists for that epoch, and in Dab none does. |
 
 
-| 78 | **#56 remainder: the strain MIGRATOR (a second pass)** | opened 2026-08-09 when the schema half of #56 landed. The classes exist; nothing populates them yet. Needs: `openminds_subject` Strain documents -> `strain` entities with `strain_id` back on the assertion; the `openminds_#` pedigree edges read so `backgroundStrain` becomes `background_strain_#` (~2,362 composite Strain documents currently drop their pedigree); ~2,365 `genetic strain type` assertions moved off subjects onto the strain; duplicate `species` assertions deduped; strain documents deduped (roughly ten distinct strains behind 2,365 documents, because `getStrain` constructs fresh objects per call). A SECOND PASS: the pedigree lives in other documents, which a single-document migrator cannot follow. Rides with #72. |
-
 | 79 | **#63 remainder: the family-count MEASUREMENT — BUILT 2026-08-09; the corpus number is still unmeasured** | `silentLoss` now reports `family_count_violation` + `family_violation_count` against the declared min_count/max_count. REPORT ONLY: `subject_interaction.time_reference_#` min 1 has never been measured on real data and enforcing it blind is how a gate turns red on a corpus, so what remains is READING the number off a full corpus run. **This row previously said the cause of the second CI failure was "unknown" and the work "needs someone with a local MATLAB". Both were wrong, and the way they were wrong is the point.** The detector was correct throughout; `famKeys`/`famCounts` were accumulated in the loop and then never assigned to the report, while their four sibling fields were — so the report read `family_violation_count: 0` on a document the detector had just flagged. A zero meaning *not reported* rather than *nothing wrong* is the exact silentLoss failure mode, occurring inside silentLoss. It survived two CI rounds and a revert because a pass/fail result cannot distinguish a broken detector from a discarded answer. What actually unblocked it was the ability to PRINT: `.github/workflows/matlab-scratch.yml` + `tools/scratch.m` run arbitrary MATLAB in CI (~2 min) and print to the log. No local MATLAB was ever required. |
-| 80 | **CLOSED 2026-08-10: six signed plan documents told their readers they were unsigned** | Sign-offs are APPENDED AT THE BOTTOM of a plan document; the reader's summary of its state is at the TOP; nothing kept the two in agreement. `V_eta_clock_alignment_cluster_plan.md` sat unbuilt for a day on exactly this, and it was found by accident. A mechanical sweep on 2026-08-10 found FIVE MORE: `V_eta_epoch_plan.md`, `V_eta_ingested_payload_findings.md`, `V_eta_stimulus_response_model_plan.md`, `V_eta_daq_family_decisions.md` and `V_eta_stimulus_parameter_plan.md`, plus a partially-stale line in `V_eta_go_forward_class_audit.md`. **DENOMINATOR: 54 markdown files under `schemas/`, 54 read, 16 carrying at least one `TEAM-SIGN-OFF` line.** The defect is ONE-DIRECTIONAL -- the header always claims LESS progress than the record holds -- so its cost is always work not done, never work wrongly done, which is why it never announced itself. `status_board.py` was never fooled, because it reads the signature and not the prose; the human read the prose. Headers corrected (per-proposal for `go_forward`, where two of four ARE signed and a blanket claim in either direction is what made the line wrong), and the condition is now gated by `tools/check_signoff_header_staleness.py` in CI and in pytest, verified to fire. Historical quotations are exempted by a `HISTORICAL-SIGNOFF-CLAIM` marker so a correction note does not re-trip it. |
 | 81 | **`oneepoch`: fork A1 chosen (NOT signed); passthrough repair BUILT** | opened 2026-08-10 out of the epoch plan's own pre-build check. `oneepoch` is not an epoch class -- it is the record of a CONCATENATION (`ndi.element.oneepoch` glues an element's N epochs into one; its single own field `epoch_ids` lists the sources). Everything else it carries arrives by INHERITANCE from `element_epoch`, its ONLY declared superclass -- which the signed epoch model dissolves. **IT HAD NO V_eta SCHEMA AT ALL**, because `coverage.py`'s `_NONPROD_CLASSES` asserted it was test scaffolding; that tag suppresses the coverage gap, which is why the class had no schema, no migrator and no worklist row. The assertion was false (writer `src/ndi/element.m:387`, reader `+ndi/+element/oneepoch.m:78-80`, both in `src/`), and the tag is removed. **A real document quarantined -- MEASURED, not predicted** (scratch probe 8, DID-matlab run 31423494433: `No schema file for class "oneepoch"`). **BUILT:** the tombstone (chain `base, epochid`; declares `clocks`, NOT the did_v1 `epoch_clock`/`t0_t1`, because the base superclass migrator collapses them before validation sees the document) + `migrators_j/oneepoch.m` folding the inherited block onto the concrete one + 4 tests including one with validation ON. **STILL OPEN, and it needs the team:** fork A1 is the chosen DIRECTION (the concatenation becomes a typed observation whose `derived_from_#` edges point at the N per-epoch observations; NO `epoch` entity is minted for the synthetic `whole_session_<ref>` id, since that would make `epoch` mean both a recording and a derived aggregate -- and `sourceCensus` already treats those ids as a grouping hazard, citing `oneepoch.m:42`). It is NOT signed, and it is NOT buildable until the raw-recording plan is: `derived_from_#` is typed `-> subject_statement`, and the source recordings only become statements there. |
-| 82 | **`directory` / `interaction_purpose` / `projectvar` — the three non-time-reference `(a)` rows on the board. AUDITED 2026-08-11: none of the three is outstanding migration work. ONE needs a team call and it is recorded here (`directory`) — **THAT CLAUSE IS STALE: the call was made and EXECUTED 2026-08-11 and `directory` no longer exists as a class; see the bracketed correction inside this row**; one is already tracked under #75/#76a and blocked; one is DONE-as-decided and the board cannot see it.** | **DENOMINATORS FIRST.** 91 NDI production templates on `origin/main` (`class_name` parsed out of 91 of 91); 927 NDI-matlab `.m` files; 373 DID-matlab `.m` files, 125 of them under `+migrators_j`; 14 second-pass files under `src/ndi/+ndi/+migrate/+internal`; 102 v1 source rows in `V_eta_coverage_ledger.json`; 247 schemas in the built `V_eta/index.json`; **[re-derived 2026-08-12: 932 / 381 / 126 / 17 / 102 / 243 — every one of these DENOMINATORS except the 102 has moved, and the 927 is the worktree figure where row 87 uses the 1,002 on `origin/main`]** 139 files / 20,016 lines scanned by the board's migrator-evidence layer. **THE BOARD WAS RE-RUN WITH THE FIXED MINT DETECTOR AND ALL THREE ROWS SURVIVE AT `(a)`.** `python3 tools/status_board.py` at HEAD (i.e. after `5f39da7` / `e29bb9f` / `807315d`) rewrites `V_eta_STATUS.md` and `V_eta_decisions.json` byte-for-byte identically — `git diff` is empty — so the board on disk already IS the fixed detector's output. The fix DID touch all three rows, and only their evidence text: `directory` went from *"still emitted/named at 1 site(s)"* to *"NAMED as a string value at 1 site(s)"* + 12 comment mentions, `interaction_purpose` from *"no evidence found"* to *"mentioned in 3 COMMENT(s)"*, `projectvar` gained its comment column. **No state moved.** The undercount that was fixed for `session_relative_reference` (3→9 mints) had nothing to find here, because none of these three is minted by anything under any of the three idioms. **`directory` — NOT a did_v1 source; a V_eta TARGET; no writer anywhere; NEEDS A TEAM CALL.** Positive evidence, three independent ways: it is 0 of the 91 declared `class_name`s on `origin/main`; across 927 NDI `.m` files the substring occurs 569 times in 164 files and **0 of those are a quoted literal `'directory'`/`"directory"` and 0 sit near a `document(`/`newdocument(`/`class_name` construction** — they are all English prose about filesystem paths; and **0 of the JSON files under `src/ndi/ndi_common/` mention it at all.** So it is not that we failed to find an NDI writer, it is that the class-name string is absent from NDI. This CONFIRMS `TEAM-SIGN-OFF [file navigation]: jess, 2026-08-06` (`V_eta_daq_family_decisions.md:325`), which already said *"`directory` is NOT a did_v1 source and is unaffected"*. `coverage.py` agrees: not among the 102. The single board hit is a FALSE POSITIVE of string matching — `migrators_j/private/jSorterOutput.m:134` is `body.opaque_body = struct('format', 'directory', ...)`, a format VALUE on an `opaque_body`, not a class name. **What is actually open on it** is the ⑦ infra re-open recorded in its own `disposition_note`: *"the KEEP predated T11/T13 scrutiny; needs a naming + governance confirmation"*. Two concrete things for the team, both measured here, neither decided: (i) **the name collides with a reserved schema keyword** — `directory` is a top-level key in DID's own meta-schema (`stable/ndi_reserved_keys.json:16`, `stable/did_schema_meta.json:31`: *"Array of directory-record objects"*, alongside `depends_on` / `file` / `fields`) *and* a document class, so one token means both a schema slot and a document; T13 (naming altitude) and T11 have never been applied to it. (ii) **its only class-level consumer in the built set is `zarr`** (`stable/zarr.json:15`, a `directory: [{name: store}]` slot) — grep of all 251 V_eta JSON files **[247 as of 2026-08-12]** finds no other referent — and `V_eta_data_body_model_plan.md` has `zarr` DELETED, not migrated. If `zarr` goes, `directory` has no remaining consumer in V_eta and the question stops being cosmetic. **[SUPERSEDED 2026-08-12 BY THE CITATION AUDIT — READ THE NEXT SENTENCES BEFORE ACTING ON ANY OF THIS PARAGRAPH. THE TEAM CALL THIS ROW ASKS FOR WAS MADE AND EXECUTED, AND `directory` NO LONGER EXISTS AS A CLASS.** It is the second entry of `tools/build_v_eta.py` `_DELETE_NO_V1_PROVENANCE` (block at `:7547-7593`), whose own comment reads *"TEAM DECISION 2026-08-11 (jess, in session): delete `directory`"* and carries the measured zeros this row asked for, plus the normalisation sweep run *because this disposition rests on ABSENCE*. Re-derived from the built tree rather than from that comment:
-
-        $ find schemas/V_eta -name 'directory*.json'
-        (no output)
-        $ python3 -c "...walk schemas/V_eta, excluding examples/, collect document_class.class_name..."
-        DENOMINATOR: 239 class schemas read; 'directory' present: False
-
-  **WHAT SURVIVES OF THE PARAGRAPH, and it is the half a reader must not conflate: the schema KEY `directory` is untouched.** `stable/ndi_reserved_keys.json:16` and `stable/did_schema_meta.json:31` still declare it, and `stable/zarr.json:15` still uses the slot — those were always the KEY, never the class, and the one-token-means-two-things observation in (i) is now a statement about a key with no class beside it. The deletion block records its own residual risk in the team's terms (a V_gamma/V_delta-era migrated database could hold `directory` documents and would get the `image_stack` treatment — a `deprecated/` tombstone), which is the only `directory` item still live and is NOT this row's ⑦ naming question.] **CORRECTION to its own note, with evidence:** the note's trailing clause *"NDI lockstep where the writers own the class string"* does not apply to `directory` — the measurements above show NDI holds no writer and no template for it, so any rename is DID-side only. The same clause is equally inapplicable to `interaction_purpose` (below). It is correct for the other twelve classes the ⑦ loop covers; it was applied to all fourteen at once. **`interaction_purpose` — NOT a did_v1 source; a V_eta TARGET; already built to its signed shape; its remaining work is #75/#76a, not a new row.** 0 of 91 templates; 0 hits for `interaction_purpose` or `interactionPurpose` across 927 NDI `.m` files; 0 hits for a quoted `'purpose'` literal; 0 in `ndi_common` JSON; not among the 102 sources (provenance `V_epsilon`). The schema `stable/interaction_purpose.json` is built to EXACTLY what `TEAM-SIGN-OFF [misc singletons]: jess, 2026-08-09` describes — `purpose` as an `ontology_term` with a `{strength: preferred, node_form: curie}` binding, a free-text `comment`, and `interaction_id_#` `multiple` / `min_count: 1` → `subject_interaction`. Pass 1 emits nothing **by decision, and that is pinned by a test**: `DID-matlab tests/+did2/+unittest/testMiscSingletons.m::testInteractionPurposeIsNotEmittedByPassOne`, alongside `testInteractionPurposeTargetValidates` and `testInteractionPurposeMissingEdgeFamilyIsReportOnly`. Its emitter is the NDI second pass, which **does not exist yet — 0 hits across the 14 files** in `src/ndi/+ndi/+migrate/+internal`. That build is #75's remainder (#31/#76a) and it is BLOCKED on a join that #76a measured does not exist by epoch id; `#76` still owns the collapse-to-a-field question. Nothing new to open. **`projectvar` — IS a did_v1 source (1 of 91); the passthrough half is BUILT; but it is the record's ONLY `NDI-CHANGED` class and that half is NOT closed. See row 83, which this row opened.** `src/ndi/ndi_common/database_documents/projectvar.json` is a real template. Its only NDI code is `+ndi/+database/+fun/projectvardef.m`, a shorthand that returns the four name/value pairs (`base.name`, `projectvar.type/.description/.data`) — and it has **ZERO callers**: a repo-wide search over ALL file types finds one hit outside the file itself, `docs/developer_notes/packagecontstruction/ndireplacement.txt:35`, a rename map. Same posture as `subjectmeasurement`: no in-tree production writer, and **that is not evidence no documents exist** — the corpora are a sample and older lab scripts could have written them, which is precisely why the disposition is passthrough. `TEAM-SIGN-OFF [misc singletons]: jess, 2026-08-09` says *"`projectvar` stays a deprecated passthrough until real documents exist to model its untyped `data` field against"*, and that is BUILT: `schemas/V_eta/deprecated/projectvar.json` restated field-by-field FROM the writer (the four writer-set fields plus the template's `project`/`user`/`lab`, each documented *"Never set by the writer"*, and an `element_id` edge relaxed to `mustBeNonEmpty: false` with `ndi_mustBeNonEmpty: true` retained); the deliberate absence of a migrator is written down at `migrators_j/Contents.m:340` **[drifted; now `:346`]**; and three tests gate it (`testProjectvarWriterShapePassesThroughAndValidates`, `testProjectvarEmptyElementEdgeIsNotInvented`, `testProjectvarNumericPayloadQuarantinesToday`). **WHY THE BOARD CALLS IT `(a)` ANYWAY, and why that is not a defect to chase:** the board's evidence layer reads only the two migrator packages (139 files), and a *deliberate no-migrator passthrough* can produce no mint, no field write and no consume by construction — so a correctly-completed decision of this shape is indistinguishable from an untouched one **in that instrument**. `directory` is `(a)` for the same structural reason (a target with no v1 documents cannot be minted by a migrator). Read `(a)` here as *"the migrator packages hold no evidence"*, which is what it measures, not as *"nothing was built"*. The one genuinely open sub-item on `projectvar` is already recorded in the tombstone's own `data` documentation and pinned by the third test: a NON-EMPTY NUMERIC payload hard-quarantines today (`did2:validation:typeMismatch`, `+did2/+schema/cache.m:1290-1310` **[drifted; now `:1768`, first of 7 sites]**) because the meta-schema has no union type — the same limitation as `vmneuralresponseresiduals.goodness_of_fit`. **AND A SECOND, LARGER ONE — `projectvar` is `NDI-CHANGED`, which this row initially missed and row 83 carries.** **ONE CONTRADICTION FOUND IN THE RECORD, reported not resolved:** `V_eta_class_provenance.md:83` gives `directory` origin **V_gamma**, but `schemas/V_alpha/directory.json` and `schemas/V_beta/directory.json` both exist and carry the same class under the underscore-key vintage (`_classname: directory`, `_maturity_level: work_in_progress`, the same `parent_doc_id` / `parent_directory_id` pair). By that document's own rule — *origin = earliest schema version the class name first appears* — the row should read V_alpha. It does not change the verdict (V_alpha is DID-schema's own snapshot, never NDI production, so `directory` is a non-source either way), but the provenance table is the named arbiter for source-vs-target and one of its rows disagrees with the tree it describes. |
 | 83 | **`projectvar` is the record's only `NDI-CHANGED` class — and chasing WHY found that the change is a RELOCATION out of the base block, so the exposure is REPO-WIDE, not `projectvar`'s. Every pre-2023 v1 document of EVERY class carries two base fields V_eta does not declare. NEEDS A TEAM CALL + A MEASUREMENT; nothing built.** | opened 2026-08-11 out of #82, after `tools/ndi_ground_truth.py` was repointed at `origin/main --full-history --no-renames` (`2fd1298`) and `projectvar` moved `UNKNOWN` → `NDI-CHANGED`. **RE-DERIVED FROM THE REGENERATED ARTIFACT, not from the report of it.** `schemas/V_eta_ndi_ground_truth.json` has `ndi_ref: "origin/main"`, 91 NDI classes, 80 V_alpha classes compared, **67 divergence rows — 39 `DID-INVENTED`, 27 `UNKNOWN`, and exactly 1 `NDI-CHANGED`: `projectvar`**, `only_in_ndi_template: ["type"]`, `first_version_fields: [data, description, lab, project, user]`, *"first NDI version 2023-04-13"*. Confirmed first-hand: `git show 9783809c2:ndi_common/database_documents/projectvar.json` has no `type`; `origin/main` has `{project, type, user, lab, description, data}`. **BUT `NDI-CHANGED` UNDERSTATES IT, AND THE UNDERSTATEMENT IS THE FINDING.** `type` was not ADDED to NDI — it was MOVED, out of the base block and into the `projectvar` block, by ONE commit that changed the template and the writer together: `5270ed62c`, 2023-04-13, *"lots of ndi_document dependencies removed"*. The writer diff is unambiguous — `'ndi_document.name' → 'base.name'` and `'ndi_document.type' → 'projectvar.type'` — and the 2018 original (`0683cb386`, `database/functions/nsd_projectvardef.m`) already took a `TYPE` argument and parked it at `nsd_document.type`. So the value always existed; only its address changed, and it changed as part of the global `ndi_document` → `base` rename. **THE PRE-2023 SHAPE IS DISTINGUISHABLE, AND THE MIGRATION ALREADY DETECTS IT** — `did2/+convert/universalRenames.m:113-118` **[drifted; the rename is now `:265-281` — `:113-119` is the counter-name comment block]** renames a legacy `ndi_document` block to `base` (and drops it when both are present, base winning). **WHAT IT DOES NOT DO IS RECONCILE THE CONTENTS, and that is where every pre-2023 document of every class walks into a hard error.** The pre-2023 base template (`git show 9783809c2^:ndi_common/database_documents/ndi_document.json`) declares **SIX** fields — `id, session_id, name, type, datestamp, database_version`. V_eta `stable/base.json` declares **FOUR** — `id, session_id, name, datestamp`. `universalRenames` moves the block wholesale (grep for a `type` literal in that file: **no hits**), so `type` and `database_version` arrive on `base` undeclared, and `undeclaredField` is a hard error (`+did2/+schema/cache.m:744`). Neither field is handled or even mentioned anywhere: **0 hits for `database_version` across `src/` and `tests/` in DID-matlab, and 0 across `schemas/*.md` + `tools/*.py` in DID-schema.** The two `ndi_document` mentions in `schemas/` are about `openMINDSobj2ndi_document`, an unrelated function. **SO THE SCOPE CLAIM IS: this is not a `projectvar` two-path problem, it is a `base` problem that `projectvar` happens to expose**, because `projectvar` is the one class whose own template moved a field across that boundary. `projectvar` does carry an EXTRA, class-specific consequence on top: post-rename its pre-2023 `type` value lands at `base.type`, when the semantics the post-2023 template gives it are `projectvar.type` — so even if `base` were made tolerant, the field would arrive in the wrong block with nothing to move it. **WHAT IS NOT ESTABLISHED, AND MUST NOT BE ASSERTED: that any such document exists.** No corpus is on disk here (the board reports `census roots: 0 walked, 2 missing`), so the count of pre-2023 `ndi_document`-block documents is **UNMEASURED, denominator 0 corpora read**. The shape is unhandled; whether the wild contains it is a separate question and the corpora are a sample either way. **THE TEAM CALL, stated but NOT taken here:** for `base.type` and `base.database_version` — (i) declare them on `base` as optional legacy carry, (ii) drop them in `universalRenames` as pre-base bookkeeping, or (iii) route them per class (`type` → `projectvar.type` for `projectvar`, dropped elsewhere). These differ in what is preserved, and the `image_stack` lesson says the option that makes documents disappear cleanly is not automatically the right one. **THE MEASUREMENT that should precede it:** a corpus count of documents arriving with an `ndi_document` block, and of those, how many carry a non-empty `type` — `universalRenames.m:113` **[drifted; now `:265`, `if isfield(postBody, 'ndi_document')`]** is the one line that sees them, so the counter goes there. **BLOCKED on that measurement; nothing built, no `.m` written.** |
 
 ## COMPLETED (kept so the `#nn` numbering stays stable)
 
 ### INDEX — every completed number, in the row form a counter can see (added 2026-08-12)
 
-**DENOMINATOR: 48 completed numbers indexed — 14 with a full prose entry below, 34 (marked
+**DENOMINATOR: 56 completed numbers indexed — 22 with a full prose entry below, 34 (marked
 *subject only*) recorded in the bare list at the end of this section, whose descriptions were
-lost with the 2026-08-08 re-provisioning and are not recoverable.** **[THIS HEADER SAID "22 … 14 … 8" WHEN IT WAS WRITTEN THIS MORNING AND WAS CORRECTED THE SAME DAY BY THE CITATION AUDIT. The bare list it points at holds `1–8, 10–24, 26, 33, 36, 39–42, 44, 49, 50, 55` = 8+15+3+4+4 = **34**, not 8; the 8 is the count of rows the *RE-DERIVED STATE* section re-derived, borrowed into the wrong sentence. The table built so a counter could SEE finished work was itself under-reporting it by 26 — this file's signature defect, one level up again, and in its usual direction.]** This table exists because
+lost with the 2026-08-08 re-provisioning and are not recoverable.** **[48 / 14 / 34 until the
+REVERSE RECONCILIATION of 2026-08-12 added eight — 25, 29, 34, 35, 52, 78, 80, 82 — each with
+a prose entry.]** **[THIS HEADER SAID "22 … 14 … 8" WHEN IT WAS WRITTEN THIS MORNING AND WAS CORRECTED THE SAME DAY BY THE CITATION AUDIT. The bare list it points at holds `1–8, 10–24, 26, 33, 36, 39–42, 44, 49, 50, 55` = 8+15+3+4+4 = **34**, not 8; the 8 is the count of rows the *RE-DERIVED STATE* section re-derived, borrowed into the wrong sentence. The table built so a counter could SEE finished work was itself under-reporting it by 26 — this file's signature defect, one level up again, and in its usual direction.]** This table exists because
 the entries below are **prose paragraphs**, not table rows, and a sweep keyed on `^| <n> |`
 therefore reported seven finished items as having "NO ROW AT ALL" (see the RECONCILIATION
 section at the top). It adds no new claim: every row points at the entry that already holds
@@ -338,10 +375,15 @@ the evidence.
 
 | # | what completed | where the evidence is |
 |---|---|---|
+| 25 | software follow-ups — the dedup pass and the openMINDS crosswalk both exist | prose entry below (2026-08-12, reverse reconciliation) |
+| 29 | the ensemble second pass — `member_of` + the derived cache + the verify-before-delete gate | prose entry below (2026-08-12, reverse reconciliation) |
+| 34 | Phase 1 — all three gates accounted for; two ARMED by default, the third disarmed on purpose | prose entry below (2026-08-12, reverse reconciliation) |
+| 35 | Phase 2 — the migrator vocabulary sweep reads 0 and ENFORCES | prose entry below (2026-08-12, reverse reconciliation) |
 | 37 | Phase 1.1 — `mustBeNonEmpty` on `depends_on` is ENFORCED | prose entry below (2026-08-12) |
 | 38 | Phase 1.2 — an all-blank composite counts as empty | prose entry below (2026-08-12) |
 | 43 | Phase 2b — the last BLOCKING tombstone; `check_tombstones.py` BLOCKING = 0 | prose entry below (2026-08-12) |
 | 51 | `session` documents present in every corpus | prose entry below (2026-08-09) |
+| 52 | the `time_reference_#` uniqueness rule — BUILT schema-side, read by two validators | prose entry below (2026-08-12, reverse reconciliation) |
 | 54 | NDI schema-document + writer-dependency scans read completely, both directions | three prose entries below (2026-08-09) |
 | 56 | `strain` is an entity — schema half | prose entry below (2026-08-09) |
 | 58 | `syncrule_mapping` — the live NDI query works again | prose entry below (2026-08-09) |
@@ -352,6 +394,9 @@ the evidence.
 | 71 | `openminds_stimulus` stops emitting hollow statements | prose entry below (2026-08-09) |
 | 75 | there were never two signed plans | prose entry below (2026-08-11) |
 | 77 | `measurement.m` was NOT a regression | prose entry below (2026-08-09) |
+| 78 | `#56` remainder — the strain MIGRATOR second pass | prose entry below (2026-08-12, reverse reconciliation) |
+| 80 | six signed plan documents told their readers they were unsigned | prose entry below; the row said **CLOSED 2026-08-10** and sat under `## OPEN` for two days |
+| 82 | the `directory` / `interaction_purpose` / `projectvar` audit | prose entry below (2026-08-12, reverse reconciliation) |
 | 1–8, 10–24, 26, 33, 36, 39–42, 44, 49, 50, 55 | *subject only* | the bare list at the end of this section |
 
 
@@ -680,6 +725,183 @@ MUST TRAVEL WITH IT:** *"What is still OPEN is the BUILD, and it is #31/#76a, no
 the second pass that resolves epoch + stimulator to interactions does not exist, and #76 above
 is PARTIAL for exactly that reason. Closing #75 closes a false conflict between two team
 decisions; it closes no build.
+
+### Moved out of `## OPEN` by the 2026-08-12 REVERSE reconciliation
+
+Eight rows that described work the tree already holds. Each entry gives the command output
+that settled it, so the move can be re-checked without repeating the search — and each names
+what does NOT travel with the move, because a row that closes a build rarely closes every
+question standing near it.
+
+**25 — software follow-ups: both build items exist; the third was never a build (2026-08-12).**
+The row named three things: *app retires BY ATTRITION (not a sweep) + dedup + crosswalk*.
+**The DEDUP is `NDI-matlab src/ndi/+ndi/+migrate/+internal/softwareDedup.m`** — 475 lines,
+landed in `e932626ae` *"Software dedup second pass: a corpus-wide merge that RETARGETS, never
+deletes"*, wired at `+ndi/+migrate/local.m:1915` and covered by
+`tests/+ndi/+unittest/+migrate/TestSoftwareDedup.m`. Its own header quotes the signature it
+implements (`TEAM-SIGN-OFF [software] jess 2026-08-06`) and states why pass 1 cannot do it: a
+single-document migrator *"cannot know that another document in another file already minted
+`ndi.calc.vis.oridir @ 1.2`"*. **The CROSSWALK is `schemas/V_eta_openminds_crosswalk.json`**,
+landed in `94d8ed3` *"Build the decided items: R5 renames (4 of 5) + the openMINDS software
+crosswalk"*:
+
+        DENOMINATOR: 5 openMINDS types in the crosswalk
+          DatasetVersion -> dataset (29 properties)
+          Person -> person (6)   Organization -> organization (5)
+          Funding -> funding (3)
+          SoftwareVersion -> software (8 properties)     <- the #25 entry
+
+**THE THIRD ITEM IS NOT A BUILD AND MUST NOT BE READ AS ONE.** *"Retires by attrition, not a
+sweep"* is the decision that nothing deletes `app` in one go; it leaves the built set as each
+consuming migrator folds it, through `+migrators_j/private/jSoftwareFromApp.m` (called from
+10 files). `schemas/V_eta/stable/app.json` therefore still exists **on purpose**, and the
+board measures the attrition (`app` renders `(b) built, awaiting corpus proof`, consumed at 2
+sites). Deleting it because this row moved would be the `epochfiles_ingested` regression.
+**WHY THIS HID:** neither build carries the word "software follow-up" and neither is a
+`+migrators_j/<class>.m`; the dedup is an NDI batch pass and the crosswalk is a JSON artifact.
+
+**29 — the ensemble second pass exists, and it already answers the objection the row raised
+against it (2026-08-12).** The row read *"Build deferred: ensemble model"* plus a
+2026-08-09 note asking whether `member_of` was re-inventing NDI's own `neuron_id` edge.
+**BOTH ARE ANSWERED IN THE BUILD.** `NDI-matlab .../+migrate/+internal/ensembleMembership.m`
+is 721 lines, wired at `+ndi/+migrate/local.m:1225`, with 36 test methods in
+`tests/+ndi/+unittest/+migrate/TestEnsembleMembership.m`, and
+`+internal/ensembleGateReport.m` (226 lines) renders the signed verify-before-delete gate —
+its commit is `f839bc95c` *"Ensemble #29: render the verify-before-delete gate, and drop two
+stale comments"*. On the `neuron_id` question the file is explicit at `:44-63`: it READS the
+`neuron_id_#` edges rather than duplicating them, because `add_dependency_value_n` appends
+`neuron_id_1, neuron_id_2, …` so **the suffix index IS the column index**, and the names in
+`neuron_names.txt` *"add nothing: they are `e.elementstring()` of the very elements the ids
+point at"*. It also records why the divergence existed — the TEMPLATE declares only
+`element_id` + `element_epoch_id` while the SCHEMA and the WRITER carry `neuron_id` — i.e.
+the ground-truth rule firing inside NDI's own pair. **WHAT DOES NOT TRAVEL:** the
+verify-before-delete gate is MEASURED but has never been read on a real corpus, so the
+combined marked-point-process bytes may not be dropped yet; and the file's own `:279` says
+*"authored without local MATLAB -- CI is the first execution"*.
+
+**34 — Phase 1 is not "enforcement open"; two of its three gates are ARMED BY DEFAULT and
+the third is disarmed on purpose (2026-08-12).** The row read *"REPORT-ONLY landed,
+enforcement open"*. The plan document had already corrected itself —
+`V_eta_ground_truth_plan.md:102` now reads **"(TWO OF THE THREE GATES ARE ARMED)"** and
+carries the switch table — and the authority is the code:
+
+        $ sed -n '71,73p' DID-matlab/src/did/+did2/+schema/cache.m
+        %     #38 NonVacuousFields      ARMED    -- 0 measured cost
+        %     #37 RequiredDependencies  ARMED    -- 7,233 measured cost, ON PURPOSE
+        %     #32 BindingConformance    DISARMED -- cost NEVER MEASURED
+
+Phase 1.3 also enforces rather than reports: `tools/gates.py:296-297` runs
+`check_migrator_vocabulary.py --enforce` as a gate step, and 1.4 (`did2.validate.isFragment`)
+landed with it. **#37 and #38 have their own `## COMPLETED` entries already**, so what was
+left under #34 was the umbrella, not a build. **WHAT DOES NOT TRAVEL:** `BindingConformance`
+stays OFF, and that is #32's business, not this row's — arming it enforces a vocabulary whose
+blast radius nobody has measured.
+
+**35 — Phase 2's sweep reads 0 and ENFORCES; the four tombstones the row named are restated
+(2026-08-12).** The row is a long narrative ending *"17/17 closed AS SCOPED"* plus a
+scope hole (`vmspikefit`, `probe_geometry`, `position_metadata`, `fitcurve`) that it then
+recorded as repaired. Both halves re-derived from the instruments rather than from the
+narrative:
+
+        $ python3 tools/check_migrator_vocabulary.py --enforce   (exit 0)
+        migrator vocabulary check  (ground truth: NDI origin/main, 91 classes)
+          still CONSUME invented names               : 0
+          verified benign (allow-listed, with reason) : 1
+          name present only in a rejection guard     : 13
+          NOT on the known-broken list (regressions) : 0
+          writer-set deps no template declares (#54) : 0
+
+        $ python3 tools/check_tombstones.py | head -6
+          classes compared : 67
+          BLOCKING         : 0   (a real document CANNOT validate)
+          LOSSY            : 8   COSMETIC : 4
+
+**WHAT DOES NOT TRAVEL, and it is named in the row itself:** *"ONE DEFECT FOUND THAT IS NOT A
+TOMBSTONE AND NEEDS A DECISION"* — `fitcurve` migrates to an observation about nobody. That
+is a TEAM call plus a corpus read, it keeps its own section (`## DECISION NEEDED — fitcurve
+…`) further down this file, and it is not closed by this move. Nor is `LOSSY: 8`, which is
+Phase 2b's number and belongs to `check_tombstones.py`, not to #35's scope.
+
+**52 — the replacement for role-naming is BUILT, schema-side, and read by two validators
+(2026-08-12).** The row's title asks for `start_anchor`/`end_anchor` edges the signed plan
+forbids (see PHANTOMS above); its body already records the 2026-08-08 shrink to ONE rule —
+*within a `time_reference_#` family every member describes the same instant or extent and
+`value.clock` is UNIQUE*. That rule exists:
+
+        DENOMINATOR: 247 json file(s) under schemas/V_eta/ read
+        schemas declaring `referent_unique_by` on a dependency: 3
+          stable/subject_interaction.json  time_reference_#  value.clock  min_count 1
+          stable/directed_relation.json    time_reference_#  value.clock  min_count 0
+          stable/epoch.json                time_reference_#  value.clock  min_count 0
+
+pinned by `tests/test_veta_time_reference_family_uniqueness.py`, and read on the MATLAB side
+by `+did2/+validate/timeReferenceFamilies.m` and `+did2/+validate/silentLoss.m` (the only two
+files under `DID-matlab/src` that mention the key). **THREE THINGS DO NOT TRAVEL.** (i) The
+rule is REPORT-ONLY IN BATCH by construction — the discriminator lives on the REFERENCED
+document, so a per-document validator cannot see it. (ii) It has never fired, and the digest
+says so in its own words rather than presenting the zero as a pass. (iii) **Whether the
+signature at `V_eta_time_reference_model_plan.md:468` was meant to reach CHANGE 5 is a
+question for the team** — it enumerates four things and the uniqueness rule is not among
+them. Operating Rule 4 forbids resolving that here, and moving this row does not resolve it:
+the row moves because the BUILD exists, which is the only thing this file owns.
+
+**78 — the strain migrator second pass exists and names this row in its own first line
+(2026-08-12).** The row read *"opened 2026-08-09 when the schema half of #56 landed. The
+classes exist; nothing populates them yet."* The populating pass is
+`NDI-matlab .../+migrate/+internal/subjectStrainAssembly.m`, whose opening docstring is
+literally *"SUBJECTSTRAINASSEMBLY V_eta second pass (#78)"* and which lists the row's five
+asks in the row's own order: deduplicated `strain` entities, `strain_id` back on the
+assertion, `backgroundStrain` into the recursive `background_strain_#` pedigree, the `genetic
+strain type` assertion moved off the subject onto the strain, and the duplicate `species`
+assertion dropped. 557 lines; wired at `local.m:1670`; 34 test methods in
+`TestSubjectStrainAssembly.m`; last touched by `9c30bcf33` *"subjectStrainAssembly: remove
+three O(n^2) paths before a real corpus meets it"* (2026-08-12). It is deliberately distinct
+from `strainAssembly.m`, which handles the UNATTACHED `openminds` documents (#72 group A) —
+the header explains why in a section titled *"THIS IS THE OTHER HALF OF THE STRAIN FAMILY,
+NOT A SECOND COPY OF IT"*: `openminds_subject` documents already migrated 1→1 into a
+`term_assertion`, so the source id is in use and the minted `strain` cannot reuse it.
+**WHAT DOES NOT TRAVEL:** the file's own `:23-28` — *"Neither this function nor its unit
+tests have been run. Nothing here has been exercised against a corpus."*
+
+**80 — the row said CLOSED, in bold, and stayed under `## OPEN` for two days
+(2026-08-12).** No search was needed; the row's own subject begins **"CLOSED 2026-08-10: six
+signed plan documents told their readers they were unsigned"**. The gate it describes exists
+and runs, denominator first:
+
+        $ python3 tools/check_signoff_header_staleness.py
+        DENOMINATOR: 55 markdown file(s) under schemas/ globbed, 55 read,
+                     19 carrying at least one TEAM-SIGN-OFF line
+        DECISIONS ARTIFACT: 20 family/families, 0 awaiting a signature
+        No signed plan document claims to be unsigned. (19 checked)
+
+and it is a gate step (`tools/gates.py:330-331`, `--enforce`) plus a pytest assertion
+(`tests/test_veta.py:1657`, `tests/test_gates.py:279-285`). **THIS IS THE CHEAPEST ROW IN THE
+WHOLE PASS AND THE MOST INSTRUCTIVE:** nothing about it required reading another repository.
+A row whose first word is CLOSED sat in the open list because the list is only ever appended
+to. That is the same defect as the six documents the row itself is about — a header nobody
+re-read — arriving in the index that tracks them.
+
+**82 — the audit is complete and its one live item was taken and executed (2026-08-12).**
+The row is an AUDIT, not a build: it established that none of `directory`,
+`interaction_purpose` or `projectvar` is outstanding migration work, and left exactly one
+thing live — a team call on `directory`. That call was made and executed on 2026-08-11, and
+this file's own citation audit already struck the clause; re-derived here from the built tree
+rather than from either note:
+
+        DENOMINATOR: 245 json files under schemas/V_eta read (examples/ excluded);
+                     239 class schemas
+        'directory' present: False
+
+`tools/build_v_eta.py` `_DELETE_NO_V1_PROVENANCE` (`:7547`) carries the reason in the team's
+words. The other two conclusions stand where the row put them: `interaction_purpose` is built
+to its signed shape and its remaining work is #75/#76a; `projectvar` is a deprecated
+passthrough with three tests, deliberately without a migrator
+(`+migrators_j/Contents.m:346`). **THREE THINGS DO NOT TRAVEL.** (i) The reserved schema KEY
+`directory` survives (`stable/ndi_reserved_keys.json:16`, `stable/did_schema_meta.json:31`,
+used by `stable/zarr.json:15`) and is a different thing from the deleted class. (ii) The
+`projectvar` numeric-payload quarantine remains, pinned by its own test. (iii) **Row 83 is
+the larger finding this row opened and it stays OPEN** — `projectvar` being the record's only
+`NDI-CHANGED` class turned out to be a `base` problem, not a `projectvar` one.
 
 
 
