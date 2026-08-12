@@ -356,6 +356,10 @@ lives in these files — read them instead of re-deriving from memory:
   THROUGH for the NDI second pass (a table row is not a subject), and anything else ERRORS.
   Also surfaced a systemic gap: `mustBeNonEmpty` on `depends_on` is declared everywhere and
   **enforced nowhere** (`validate/references.m` skips empty edges) — sibling to #32.
+  **THAT HALF-SENTENCE IS STALE AS OF 2026-08-10 AND IS CORRECTED BELOW, at the
+  invented-empty-edge entry. `references.m` still skips empty edges — that part is
+  right and the code says it is right — but the enforcement moved somewhere else and
+  is ARMED BY DEFAULT. Do not read "enforced nowhere" as current.**
   Evidence came from `VH-Lab/NDIcalc-vis-matlab` (added to scope; the clone is EPHEMERAL — re-add
   to re-check). **PROCESS: every remaining item in that doc is DECIDED BEFORE ANY BUILD.**
 - **`schemas/V_eta_data_body_model_plan.md`** — the FINAL `data_body` tier (decided 2026-08-08 in
@@ -1211,6 +1215,45 @@ lives in these files — read them instead of re-deriving from memory:
   `V_eta_stimulus_response_model_plan.md` (`stimulus_presentation.element_id` rides with the
   stimulus model, #31/#43). **Treat these as ONE problem, and check a new required edge against
   the NDI template before adding it.**
+
+  **"THE FIX THAT WOULD STOP ALL OF THEM IS ENFORCING `mustBeNonEmpty` ON EDGES (#37)" READS
+  AS OUTSTANDING WORK. IT IS BUILT AND ARMED BY DEFAULT, since 2026-08-10.** So does the
+  sentence directly above it — *"`+did2/+validate/references.m:90` SKIPS empty edges … so
+  `mustBeNonEmpty` on a `depends_on` is decorative"* — and so does the one in the `ontology_image`
+  entry far above. All three are corrected here rather than edited away, because the
+  half of them that is still TRUE is what made them survive: `references.m` really does
+  skip empty edges, and the code now explains why that is CORRECT rather than a hole.
+  This is the file's documented direction inverted — three sentences claiming LESS
+  enforcement than exists, whose cost is a fix rebuilt, not a gate wrongly trusted.
+
+  Positive evidence, from the two files themselves:
+
+        $ sed -n '90,105p' DID-matlab/src/did/+did2/+validate/references.m
+        90:        if isempty(documentId)
+        91:            % THE LINE #37 IS ABOUT -- AND IT STAYS. It was read for a
+        92:            % long time as the reason `mustBeNonEmpty` on a depends_on
+        93:            % was decorative. It is only half the reason, and it is the
+        94:            % half that is CORRECT: an edge with no id names no
+        95:            % document, so it cannot dangle, and this function is the
+        96:            % ORPHAN check. It is also handed no schema, so it cannot
+        97:            % know which edges were declared required [...]
+       101:            % The actual hole was that did2.schema.cache/validateDocument
+       102:            % never looked at depends_on AT ALL. That is where the check
+       103:            % now lives, behind
+       104:            % did2.schema.cache.strictMode('RequiredDependencies')
+
+        $ grep -n "'RequiredDependencies'" DID-matlab/src/did/+did2/+schema/cache.m
+         787:            if did2.schema.cache.strictMode('RequiredDependencies')
+         967:                    'RequiredDependencies', ...
+         968:                        ~did2.schema.cache.envFlagIsOff('DID_ENFORCE_REQUIRED_DEPENDENCIES'), ...
+
+  `~envFlagIsOff` means **ON unless explicitly disabled** — the opposite polarity from
+  `BindingConformance` (#32), which uses `envFlag` so that unset and a typo both leave it
+  OFF. `cache.m:72` states the arming and its price in one line: *"#37 RequiredDependencies
+  ARMED -- 7,233 measured cost, ON PURPOSE"*. `NonVacuousFields` (#38) is armed the same way.
+  So of the three switches, TWO are on by default and one is off, and this file described all
+  three as off. **#37 is no longer the fix to build; it is a gate to reason about when a new
+  required edge is added.**
 - **WHEN AN INLINE VALUE STAYS ALONGSIDE ITS EDGE — and when only the edge survives.** Two
   decisions on 2026-08-05 went OPPOSITE ways and neither is a precedent for the other, so the
   test is written here rather than in one plan document. `strain` KEEPS its inline
@@ -1232,7 +1275,7 @@ lives in these files — read them instead of re-deriving from memory:
   structure; epoch — the document IS the fact and the string was only ever a way to find it.**
 
 ## Build / test
-- **`python3 tools/gates.py` IS THE ENTRY POINT.** **18** steps, in an order
+- **`python3 tools/gates.py` IS THE ENTRY POINT.** **19** steps, in an order
   derived from which tool reads which artifact, run once for a whole batch of
   edits. `--explain` prints the order + the evidence for each edge; `--check`
   regenerates into a scratch mirror and diffs without touching the working tree;
@@ -1264,6 +1307,33 @@ lives in these files — read them instead of re-deriving from memory:
   are the ones to re-measure before quoting — a step count is checked by CI
   (`test_gates.py::test_ci_owns_no_second_list_of_gates`), a wall clock is
   checked by nothing and drifts silently with the test suite.
+
+  **AND BOTH DRIFTED AGAIN INSIDE ONE DAY. "18 steps / 19 edges" and "39.14s /
+  pytest 31.16s" were written 2026-08-11 and were stale by 2026-08-12.**
+  Re-measured on this container, quoting the tool's own denominator and its own
+  per-step table, exactly as the block above instructs:
+
+        $ python3 tools/gates.py --explain | head -1
+        DENOMINATOR: 19 steps declared, 24 dependency edge(s) to substantiate
+
+        $ python3 tools/gates.py --check | tail
+        SUMMARY: 19 step(s) declared, 19 ran, 19 passed, 0 failed, 0 skipped,
+                 0 not runnable here
+          ARTIFACTS DIFFERING FROM THE COMMITTED COPY: 0
+          WALL CLOCK: 41.56s total
+              pytest             32.55s
+              ndi_ground_truth    3.26s
+              check_web_assets_fresh 2.18s
+              status_board        1.07s
+              ... the other 15 steps total 1.50s
+
+  The nineteenth step is `check_web_assets_fresh` and it is third-slowest, so it
+  moved BOTH numbers. **The sentence above — "a step count is checked by CI" —
+  is TRUE and did not help.** `test_ci_owns_no_second_list_of_gates` checks that
+  `tests.yml` does not keep a SECOND list; nothing checks that a number typed
+  into prose matches the list. That is the same shape as every other error in
+  this file: the artifact was right, the prose about the artifact was not.
+  **Do not type a step count here again — run `--explain | head -1`.**
 - The individual tools still work and are what the driver calls:
   `python3 tools/build_v_eta.py` rebuilds `schemas/V_eta/` (copytree V_zeta→V_eta
   then transforms). `python3 -m pytest tests/test_veta.py -q` checks the schema.
