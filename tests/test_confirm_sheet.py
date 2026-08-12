@@ -202,3 +202,157 @@ class AgainstTheLiveLedger(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class EveryRowAsksAQuestion(unittest.TestCase):
+    """THE DEFECT THIS CLASS PINS, in the team's own words: 'It reads as
+    decisions have been made.'
+
+    The first sheet printed `emits:` / `intent:` / `caveat:` per row -- three
+    declarative statements -- and stated the ask ONCE, in a bucket header above
+    fifty of them. That is a report on settled state wearing the word 'confirm'
+    at the top, and it was read exactly as written. A reviewer cannot answer a
+    question they have to reconstruct.
+    """
+
+    def rows(self):
+        led = ledger([row("contrast_tuning"), row("projectvar"),
+                      row("nothing_emitted"), row("not_in_map")])
+        targets = {"contrast_tuning": {"targets": ["tuning_curve_calculation"]},
+                   "projectvar": {"targets": ["projectvar"]},
+                   "nothing_emitted": {"targets": []}}
+        rows, unsorted_ = cs.build(led, targets)
+        self.assertEqual(unsorted_, [])
+        return {r["v1_class"]: r for r in rows}
+
+    def test_every_row_carries_a_question_ending_in_a_question_mark(self):
+        for cls, r in self.rows().items():
+            self.assertTrue(r["question"], cls)
+            # The two buckets that are not the team's still get a sentence, but
+            # it is a statement of what must happen first -- deliberately NOT a
+            # question, because presenting it as one invites an answer nobody
+            # can give yet.
+            if r["answer_from"] == "team":
+                self.assertTrue(r["question"].rstrip().endswith("?"),
+                                f"{cls}: {r['question']!r}")
+
+    def test_the_question_names_the_class_so_it_stands_alone(self):
+        for cls, r in self.rows().items():
+            self.assertIn(cls, r["question"])
+
+    def test_a_confirm_question_names_the_emitted_set_inline(self):
+        """The emitted set must be IN the question, not three lines above it.
+
+        This is what made the old sheet unanswerable in isolation: the 'that'
+        in 'is that right?' lived in a differently formatted block.
+        """
+        q = self.rows()["contrast_tuning"]["question"]
+        self.assertIn("tuning_curve_calculation", q)
+
+    def test_the_team_buckets_offer_NAMED_answers(self):
+        r = self.rows()
+        self.assertEqual([o["key"] for o in r["contrast_tuning"]["options"]],
+                         ["yes", "no", "unsure"])
+        self.assertEqual([o["key"] for o in r["projectvar"]["options"]],
+                         ["end_state", "deferral", "unsure"])
+        for o in r["contrast_tuning"]["options"]:
+            self.assertTrue(o["label"].strip())
+
+    def test_unsure_is_an_OPTION_and_never_the_absence_of_one(self):
+        """`not measured` is never a `no`, one layer up.
+
+        'Nobody answered' and 'we discussed it and could not settle it' are
+        different facts about the migration, and collapsing them is the
+        silentLoss defect in a review sheet.
+        """
+        for b in (cs.B_CONFIRM, cs.B_PASSTHROUGH):
+            keys = [k for k, _ in cs.BUCKET_OPTIONS[b]]
+            self.assertIn("unsure", keys)
+            self.assertEqual(len(set(keys)), len(keys))
+
+    def test_the_buckets_nobody_can_answer_yet_offer_NO_options(self):
+        r = self.rows()
+        self.assertEqual(r["nothing_emitted"]["options"], [])
+        self.assertEqual(r["not_in_map"]["options"], [])
+        self.assertEqual(r["nothing_emitted"]["answer_from"], "migrator reader")
+        self.assertEqual(r["not_in_map"]["answer_from"], "migrator reader")
+
+    def test_every_bucket_declares_who_owes_the_answer(self):
+        """A missing entry here would make a row silently answerable-by-nobody."""
+        for b in cs.BUCKETS:
+            self.assertIn(b, cs.ANSWER_FROM)
+            self.assertIn(cs.ANSWER_FROM[b], ("team", "migrator reader"))
+
+    def test_the_rendered_sheet_puts_the_question_ABOVE_the_evidence(self):
+        led = ledger([row("contrast_tuning")])
+        out = io.StringIO()
+        cs.render(*cs.build(led, {"contrast_tuning":
+                                  {"targets": ["tuning_curve_calculation"],
+                                   "how": "the intent"}}),
+                  total_rows=1, stage=1, out=out)
+        text = out.getvalue()
+        self.assertLess(text.index("Q: "), text.index("emits      :"),
+                        "the evidence must read as subordinate to the question")
+        self.assertIn("[ ] Yes", text)
+
+
+class AgainstTheLiveLedgerQuestions(unittest.TestCase):
+    def test_the_real_sheet_asks_the_team_a_bounded_number_of_questions(self):
+        """Guards the headline the page states: N questions, and 4 that are mine.
+
+        Not pinned to an exact N -- that moves as classes climb the ladder --
+        but every team row must carry options and every non-team row must not,
+        which is the property the page's count is computed from.
+        """
+        if not (os.path.exists(cs.LEDGER) and os.path.exists(cs.TARGETS)):
+            self.skipTest("generated artifacts absent")
+        rows, unsorted_ = cs.build(cs.load(cs.LEDGER),
+                                   cs.load(cs.TARGETS)["classes"])
+        self.assertEqual(unsorted_, [])
+        team = [r for r in rows if r["answer_from"] == "team"]
+        self.assertTrue(team)
+        for r in rows:
+            self.assertEqual(bool(r["options"]), r["answer_from"] == "team",
+                             r["v1_class"])
+            self.assertTrue(r["question"])
+
+
+class ABatchPostPassIsAnEmission(unittest.TestCase):
+    """`V_eta_OPEN_WORK.md` row #107, shape (2), repeating one layer up.
+
+    `targets` is GENERATED from the call graph and cannot see a batch post-pass;
+    `second_pass` is the AUTHORED record of what that pass emits. Reading only
+    the first filed `stimulus_bath` under 'nobody can ask you this yet' while
+    its question was ready to ask -- hiding a real team question inside the
+    sheet built to surface them.
+    """
+
+    def test_second_pass_only_is_CONFIRM_not_NO_EMISSION(self):
+        self.assertEqual(
+            cs.classify("stimulus_bath",
+                        {"targets": [], "second_pass": ["dose_manipulation"]}),
+            cs.B_CONFIRM)
+
+    def test_no_targets_and_no_second_pass_is_still_NO_EMISSION(self):
+        self.assertEqual(cs.classify("x", {"targets": [], "second_pass": []}),
+                         cs.B_NO_EMISSION)
+        self.assertEqual(cs.classify("x", {"targets": []}), cs.B_NO_EMISSION)
+
+    def test_the_question_says_pass_1_emits_NOTHING(self):
+        """A batch pass fires only when its referents are in the batch, so it
+        must not be described in the same words as a single-document fold."""
+        q = cs.question_for(cs.B_CONFIRM, "stimulus_bath", [],
+                            ["dose_manipulation", "session_relative_reference"])
+        self.assertIn("nothing in pass 1", q)
+        self.assertIn("dose_manipulation", q)
+        self.assertTrue(q.rstrip().endswith("?"))
+
+    def test_the_live_sheet_asks_about_stimulus_bath(self):
+        if not (os.path.exists(cs.LEDGER) and os.path.exists(cs.TARGETS)):
+            self.skipTest("generated artifacts absent")
+        rows, _ = cs.build(cs.load(cs.LEDGER), cs.load(cs.TARGETS)["classes"])
+        hit = [r for r in rows if r["v1_class"] == "stimulus_bath"]
+        if not hit:
+            self.skipTest("stimulus_bath is no longer at this stage")
+        self.assertEqual(hit[0]["answer_from"], "team")
+        self.assertTrue(hit[0]["options"])

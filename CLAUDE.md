@@ -72,14 +72,35 @@ populated ONLY where a gap is already known. A class whose migrator emits
 something with no recorded gap carries none, and the ladder correctly refuses to
 score a rung nobody answered. **So the question is not "what should these
 become" but "is what the migrator ALREADY emits the answer we want", 68 times.**
-The sheet sorts them by the KIND of answer each needs — 50 `CONFIRM THE EMITTED
-SET`, 14 `CONFIRM A PASSTHROUGH` (asked separately: "the tombstone is the end
-state" and "we deferred this" are indistinguishable in the data), 3 with no
-emission recorded, 1 absent from the target map — and prints the emitted set,
-the authored intent and the recorded caveat beside each. It **writes nothing by
+The sheet sorts them by the KIND of answer each needs — **51** `CONFIRM THE
+EMITTED SET`, 14 `CONFIRM A PASSTHROUGH` (asked separately: "the tombstone is the
+end state" and "we deferred this" are indistinguishable in the data), **2** with
+no emission recorded, 1 absent from the target map. **Those two counts read 50
+and 3 until 2026-08-12**, and the row that moved is `stimulus_bath`: `classify()`
+read only `targets`, which is GENERATED from the call graph and cannot see a
+batch post-pass, so a class whose emission is recorded ONLY in the authored
+`second_pass` was filed under *"investigate first, not a team question"* while
+its question was ready to ask. That is emission shape (2) of
+`V_eta_OPEN_WORK.md` row #107 — **the blind spot the ladder is already known to
+have, repeating inside the sheet built to surface unanswered questions**, which
+is worse than the original because the sheet is what a reviewer trusts to be
+complete. Re-derive the four numbers with `python3 tools/confirm_sheet.py`
+rather than quoting these. It **writes nothing by
 default** and refuses to write into `schemas/` at all (Rule 1), so it cannot put
 a proposal into the record on its own; `--markdown PATH` / `--json PATH` outside
 `schemas/` are opt-in. It decides nothing and writes no signature (Rule 4).
+
+**AND THE SHEET'S FIRST VERSION WAS UNANSWERABLE, WHICH NO GATE COULD HAVE
+CAUGHT.** It printed `emits:` / `intent:` / `caveat:` per row — three
+declaratives — and stated the ask ONCE, in a bucket header above fifty of them.
+The team read it exactly as written: *"It reads as decisions have been made."*
+Every fact on it was correct; the VOICE was wrong, and a question a reader has to
+reconstruct gets answered by silence. Each row now leads with an interrogative
+that names its own class and its own emitted set (so it can be answered alone,
+days later, by someone who did not write the migrator), carries NAMED answer
+options, and says WHO owes the answer — 64 of the 68 are the team's, 4 are a
+migrator read that has to happen first. `tests/test_confirm_sheet.py` pins the
+framing as an invariant, not the prose.
 
 **DO NOT REGENERATE THESE ONE AT A TIME. RUN `python3 tools/gates.py`** — the
 single entry point. It runs the whole regenerate-and-gate chain once, in an

@@ -77,6 +77,63 @@ BUCKET_ASK = {
                  "confirm; this needs a first pass before it can be reviewed."),
 }
 
+# WHO OWES THE ANSWER. Two of the four buckets are not the team's to answer, and
+# saying so is the difference between "68 questions" and "64 questions plus 4
+# pieces of homework". A reviewer handed all 68 undifferentiated cannot tell
+# which ones they are BLOCKED on versus merely uninformed about.
+ANSWER_FROM = {B_CONFIRM: "team", B_PASSTHROUGH: "team",
+               B_NO_EMISSION: "migrator reader", B_UNMAPPED: "migrator reader"}
+
+# THE OPTIONS ARE NAMED, NOT IMPLIED. The sheet's first version printed the
+# emitted set in the declarative and expected a reviewer to infer that a
+# question was being asked -- and the team read it, correctly, as a report of
+# decisions already taken. A question a reader has to reconstruct is a
+# question that gets answered by silence.
+#
+# `unsure` is a REAL answer and is deliberately not a null. "Nobody has looked"
+# and "we looked and could not agree" are different facts, which is the same
+# three-state rule the corpus rung is built on -- an unanswered row and a row
+# parked for discussion must never collapse into each other.
+OPT_UNSURE = ("unsure", "Not sure — needs discussion")
+BUCKET_OPTIONS = {
+    B_CONFIRM: [("yes", "Yes — that is the target we want"),
+                ("no", "No — it should emit something else"), OPT_UNSURE],
+    B_PASSTHROUGH: [("end_state", "End state — the tombstone is correct"),
+                    ("deferral", "Deferral — a fold is still owed"), OPT_UNSURE],
+}
+
+
+def question_for(bucket, v1_class, emits, second_pass=()):
+    """The row's ask, in the INTERROGATIVE, self-contained enough to answer alone.
+
+    Self-contained matters more than brevity here: these are read one at a time,
+    days apart, by someone who did not write the migrator. A question that says
+    "is that right?" while the "that" lives three lines above in a differently
+    formatted block is how the first sheet read as a set of assertions.
+    """
+    if bucket == B_CONFIRM:
+        if not emits and second_pass:
+            # Said differently ON PURPOSE: a reviewer needs to know the pass-1
+            # migrator emits NOTHING here, because "it produces X" would read as
+            # a single-document fold and the failure modes are not the same one
+            # -- a batch pass only fires when its referents are in the batch.
+            return ("Migrating `%s` emits nothing in pass 1; a batch post-pass "
+                    "then produces %s. Is that the end state we want for `%s`?"
+                    % (v1_class, ", ".join(second_pass), v1_class))
+        emitted = ", ".join(emits) if emits else "(nothing recorded)"
+        return ("Migrating `%s` today produces %s. Is that the end state we "
+                "want for `%s`?" % (v1_class, emitted, v1_class))
+    if bucket == B_PASSTHROUGH:
+        return ("`%s` is folded into nothing -- its documents survive under "
+                "their own v1 name as a tombstone. Is that the intended end "
+                "state, or work still owed?" % v1_class)
+    if bucket == B_NO_EMISSION:
+        return ("`%s` has an authored intent but the call graph resolved no "
+                "emitted class. Someone must read the migrator before this can "
+                "be put to the team." % v1_class)
+    return ("`%s` is absent from the curated target map. There is nothing "
+            "recorded to confirm yet." % v1_class)
+
 
 def load(path):
     with open(path) as fh:
@@ -114,7 +171,19 @@ def classify(v1_class, entry):
     if entry is None:
         return B_UNMAPPED
     targets = entry.get("targets") or []
-    if not targets:
+    # A CLASS THAT EMITS ONLY VIA A BATCH POST-PASS IS STILL EMITTING, and
+    # reading `targets` alone hid that -- inside the very sheet built to surface
+    # unanswered questions. `targets` is GENERATED from the call graph, which
+    # cannot see a batch pass; `second_pass` is the authored record of what the
+    # pass emits. `stimulus_bath` has an empty `targets` and two second-pass
+    # emissions, and was being filed as "investigate first, not a team
+    # question" while its question was ready to ask.
+    #
+    # This is emission shape (2) of `V_eta_OPEN_WORK.md` row #107 -- the shape
+    # the ladder's rung 3 is already known to miss. Repeating a recorded blind
+    # spot one layer up is worse than the original, because the sheet is what a
+    # reviewer trusts to be complete.
+    if not targets and not (entry.get("second_pass") or []):
         return B_NO_EMISSION
     # A migrator that emits only the source class name is a PASSTHROUGH: the
     # document validates against its own v1 tombstone and nothing was folded.
@@ -141,6 +210,11 @@ def build(ledger, targets_map, stage=1):
         rows.append({
             "v1_class": cls,
             "bucket": bucket,
+            "question": question_for(bucket, cls, e.get("targets") or [],
+                                     e.get("second_pass") or []),
+            "options": [{"key": k, "label": v}
+                        for k, v in BUCKET_OPTIONS.get(bucket, [])],
+            "answer_from": ANSWER_FROM[bucket],
             "emits": e.get("targets") or [],
             "carried": e.get("carried") or [],
             "second_pass": e.get("second_pass") or [],
@@ -184,6 +258,12 @@ def render(rows, unclassified, total_rows, stage, out=sys.stdout):
         p("=" * 78)
         for r in sorted(mine, key=lambda x: x["v1_class"].lower()):
             p("  %s" % r["v1_class"])
+            # THE QUESTION LEADS. Everything under it is the evidence for
+            # answering it, and is indented to read as subordinate to it.
+            p("      Q: %s" % r["question"])
+            for o in r["options"]:
+                p("         [ ] %s" % o["label"])
+            p("      -- the evidence --")
             p("      emits      : %s" % (", ".join(r["emits"]) or "(none recorded)"))
             if r["carried"]:
                 p("      attaches to: %s" % ", ".join(r["carried"]))

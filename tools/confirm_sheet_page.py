@@ -116,17 +116,56 @@ h2{font-family:var(--serif);font-size:1.45rem;font-weight:600;margin:0;
   font-variant-numeric:tabular-nums}
 .ask{color:var(--ink-2);max-width:44em;margin:0 0 1.4rem;font-size:.95rem}
 .entry{background:var(--card);border:1px solid var(--rule);border-radius:3px;
-  padding:1rem 1.1rem;margin-bottom:.6rem;box-shadow:var(--shadow);
-  display:grid;grid-template-columns:auto 1fr;gap:.15rem .85rem}
-.entry.done{opacity:.55}
-.tick{grid-row:1/span 9;padding-top:.15rem}
-.tick input{width:1.05rem;height:1.05rem;accent-color:var(--accent);cursor:pointer}
-.tick input:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
-.cls{font-family:var(--mono);font-size:1rem;font-weight:600;color:var(--ink);
-  word-break:break-word}
-.row{font-size:.9rem;color:var(--ink-2);margin-top:.35rem}
+  padding:1.1rem 1.2rem;margin-bottom:.7rem;box-shadow:var(--shadow);
+  border-left:3px solid var(--rule-2)}
+.entry.answered{border-left-color:var(--confirm)}
+.entry.answered .q{color:var(--ink-2)}
+.entry.parked{border-left-color:var(--passthrough)}
+.cls{font-family:var(--mono);font-size:.8rem;font-weight:600;color:var(--ink-3);
+  word-break:break-word;letter-spacing:.02em}
+.q{font-family:var(--serif);font-size:1.12rem;line-height:1.4;color:var(--ink);
+  margin:.15rem 0 .9rem;text-wrap:pretty}
+.q code{font-size:.88em}
+.opts{display:flex;flex-wrap:wrap;gap:.4rem;margin-bottom:.5rem}
+.opt{font-family:var(--sans);font-size:.85rem;cursor:pointer;
+  border:1px solid var(--rule-2);background:var(--card);color:var(--ink-2);
+  border-radius:2px;padding:.4rem .75rem;text-align:left}
+.opt:hover{border-color:var(--accent);color:var(--ink)}
+.opt:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.opt[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);
+  color:var(--paper);font-weight:600}
+.note{width:100%;font-family:var(--sans);font-size:.85rem;color:var(--ink);
+  background:var(--sunk);border:1px solid var(--rule-2);border-radius:2px;
+  padding:.45rem .6rem;margin-top:.1rem;resize:vertical;min-height:2.4rem}
+.note:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
+.note[hidden]{display:none}
+details.ev{margin-top:.7rem}
+details.ev>summary{font-family:var(--mono);font-size:.72rem;letter-spacing:.08em;
+  text-transform:uppercase;color:var(--ink-3);cursor:pointer;
+  list-style:none;display:inline-flex;align-items:center;gap:.35rem}
+details.ev>summary::-webkit-details-marker{display:none}
+details.ev>summary::before{content:"▸";font-size:.8em}
+details.ev[open]>summary::before{content:"▾"}
+details.ev>summary:hover{color:var(--accent)}
+details.ev>summary:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.row{font-size:.88rem;color:var(--ink-2);margin-top:.4rem}
 .row .k{font-family:var(--mono);font-size:.7rem;letter-spacing:.1em;
   text-transform:uppercase;color:var(--ink-3);margin-right:.5rem}
+.bar{position:sticky;bottom:0;background:var(--card);border:1px solid var(--rule-2);
+  border-bottom:0;border-radius:3px 3px 0 0;box-shadow:var(--shadow);
+  padding:.7rem .9rem;display:flex;gap:.6rem;align-items:center;flex-wrap:wrap;
+  margin-top:2rem}
+.bar .lbl{font-family:var(--mono);font-size:.78rem;color:var(--ink-3);
+  font-variant-numeric:tabular-nums;margin-right:auto}
+button.act{font-family:var(--sans);font-size:.85rem;cursor:pointer;
+  border:1px solid var(--accent);background:var(--accent);color:var(--paper);
+  border-radius:2px;padding:.45rem .9rem;font-weight:600}
+button.act.ghost{background:transparent;color:var(--ink-2);border-color:var(--rule-2)}
+button.act:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+#export{width:100%;font-family:var(--mono);font-size:.78rem;line-height:1.6;
+  color:var(--ink);background:var(--sunk);border:1px solid var(--rule-2);
+  border-radius:2px;padding:.7rem;margin-top:.7rem;min-height:14rem}
+#export[hidden]{display:none}
 code{font-family:var(--mono);font-size:.85em;background:var(--sunk);
   border:1px solid var(--rule);border-radius:2px;padding:.05em .35em}
 .chips{display:flex;flex-wrap:wrap;gap:.4rem;margin-top:.6rem}
@@ -148,25 +187,107 @@ footer{border-top:1px solid var(--rule);padding-top:1.4rem;color:var(--ink-3);
 
 JS = """
 (function(){
-  var KEY='v_eta_confirm_v1';
-  var done={};
-  try{done=JSON.parse(localStorage.getItem(KEY)||'{}')}catch(e){done={}}
-  var boxes=[].slice.call(document.querySelectorAll('input[type=checkbox][data-cls]'));
-  var out=document.getElementById('progress');
+  // v2, AND v1 IS DELIBERATELY NOT MIGRATED. A v1 tick meant "I have looked at
+  // this row"; a v2 entry means "my answer is X". Carrying the ticks forward
+  // would turn 'reviewed' into 'confirmed' silently -- inventing agreement
+  // nobody gave, which is the exact failure this sheet exists to prevent.
+  var KEY='v_eta_confirm_v2';
+  var ans={};
+  try{ans=JSON.parse(localStorage.getItem(KEY)||'{}')}catch(e){ans={}}
+  function save(){try{localStorage.setItem(KEY,JSON.stringify(ans))}catch(e){}}
+
+  var entries=[].slice.call(document.querySelectorAll('.entry[data-cls]'));
+  var asked=entries.filter(function(e){return e.dataset.mine==='1'});
+  var prog=document.getElementById('progress');
+  var barlbl=document.getElementById('barlbl');
+  var box=document.getElementById('export');
+
   function paint(){
     var n=0;
-    boxes.forEach(function(b){
-      var on=!!done[b.dataset.cls];
-      b.checked=on; b.closest('.entry').classList.toggle('done',on); if(on)n++;
+    entries.forEach(function(e){
+      var cur=ans[e.dataset.cls]||{};
+      var mine=e.dataset.mine==='1';
+      if(mine&&cur.a)n++;
+      e.classList.toggle('answered',!!cur.a&&cur.a!=='unsure');
+      e.classList.toggle('parked',cur.a==='unsure');
+      [].forEach.call(e.querySelectorAll('.opt'),function(b){
+        b.setAttribute('aria-pressed',String(cur.a===b.dataset.k));
+      });
+      var note=e.querySelector('.note');
+      if(note){
+        // The note appears only where it carries weight: a "no" or a "deferral"
+        // is useless to the person acting on it without the because.
+        var want=cur.a&&cur.a!=='yes'&&cur.a!=='end_state';
+        note.hidden=!want;
+        if(note.value!==(cur.note||''))note.value=cur.note||'';
+      }
     });
-    out.textContent=n+' of '+boxes.length+' marked';
+    var txt=n+' of '+asked.length+' answered';
+    prog.textContent=txt;
+    barlbl.textContent=txt+(n<asked.length?'  ·  '+(asked.length-n)+' left':'  ·  complete');
   }
-  boxes.forEach(function(b){
-    b.addEventListener('change',function(){
-      if(b.checked){done[b.dataset.cls]=1}else{delete done[b.dataset.cls]}
-      try{localStorage.setItem(KEY,JSON.stringify(done))}catch(e){}
-      paint();
+
+  entries.forEach(function(e){
+    [].forEach.call(e.querySelectorAll('.opt'),function(b){
+      b.addEventListener('click',function(){
+        var cur=ans[e.dataset.cls]||{};
+        // Clicking the chosen answer again CLEARS it. Without this there is no
+        // way back to "unanswered", and a misclick would be permanent -- which
+        // would push the count up while the reader disagrees with it.
+        if(cur.a===b.dataset.k){delete cur.a}else{cur.a=b.dataset.k}
+        if(!cur.a&&!cur.note){delete ans[e.dataset.cls]}else{ans[e.dataset.cls]=cur}
+        save();paint();
+      });
     });
+    var note=e.querySelector('.note');
+    if(note)note.addEventListener('input',function(){
+      var cur=ans[e.dataset.cls]||{};
+      cur.note=note.value;
+      if(!cur.a&&!cur.note){delete ans[e.dataset.cls]}else{ans[e.dataset.cls]=cur}
+      save();
+    });
+  });
+
+  function render(){
+    var out=[],by={},n=0;
+    asked.forEach(function(e){
+      var b=e.dataset.bucket;(by[b]=by[b]||[]).push(e);
+    });
+    Object.keys(by).forEach(function(b){
+      out.push('');out.push(b+' ('+by[b].length+')');
+      var miss=[];
+      by[b].forEach(function(e){
+        var cur=ans[e.dataset.cls]||{};
+        if(!cur.a){miss.push(e.dataset.cls);return}
+        n++;
+        var lbl=e.querySelector('.opt[data-k="'+cur.a+'"]');
+        out.push('  '+e.dataset.cls+'  ->  '+(lbl?lbl.textContent.trim():cur.a)
+                 +(cur.note?'\\n      because: '+cur.note:''));
+      });
+      // UNANSWERED IS PRINTED, NOT OMITTED. A silent export would read as a
+      // complete set of answers and the missing rows would be invisible.
+      if(miss.length)out.push('  UNANSWERED ('+miss.length+'): '+miss.join(', '));
+    });
+    return ['V_eta confirm sheet -- answers',
+            n+' of '+asked.length+' questions answered'].concat(out).join('\\n');
+  }
+
+  document.getElementById('show').addEventListener('click',function(){
+    box.hidden=false;box.value=render();box.focus();box.select();
+  });
+  document.getElementById('copy').addEventListener('click',function(){
+    box.hidden=false;box.value=render();box.select();
+    var b=this;
+    function ok(){b.textContent='Copied';setTimeout(function(){
+      b.textContent='Copy answers'},1400)}
+    // execCommand first: the async clipboard API is blocked in a sandboxed
+    // frame, and a silent failure here loses the whole review.
+    var done=false;
+    try{done=document.execCommand('copy')}catch(e){}
+    if(done){ok()}
+    else if(navigator.clipboard){navigator.clipboard.writeText(box.value).then(ok,
+      function(){b.textContent='Select the text below and copy'})}
+    else{b.textContent='Select the text below and copy'}
   });
   paint();
 })();
@@ -179,6 +300,17 @@ def esc(s):
 
 def code_list(items):
     return ", ".join("<code>%s</code>" % esc(i) for i in items) if items else ""
+
+
+def question_html(q):
+    """`backticked` spans become <code>. Escape FIRST, then mark up.
+
+    Order matters and is the whole reason this is a function: marking up first
+    would let a class name containing a bracket escape its own tag.
+    """
+    parts = esc(q).split("`")
+    return "".join(p if i % 2 == 0 else "<code>%s</code>" % p
+                   for i, p in enumerate(parts))
 
 
 def build(blob, den):
@@ -205,29 +337,49 @@ def build(blob, den):
             gov = r["governance"]
             gcls = ("disputed" if "DISPUT" in gov.upper()
                     else "sig" if gov == "signed" else "unsig")
-            bits = ['<div class="tick"><input type="checkbox" data-cls="%s" '
-                    'aria-label="mark %s reviewed"></div>'
-                    % (esc(r["v1_class"]), esc(r["v1_class"])),
-                    '<div class="cls">%s</div>' % esc(r["v1_class"])]
+            mine_to_answer = r.get("answer_from") == "team"
+            # THE QUESTION IS THE HEADING. The class name is demoted to a label
+            # above it: the reader is answering a question about a class, not
+            # reading a record of a class that happens to end in a question.
+            bits = ['<div class="cls">%s</div>' % esc(r["v1_class"]),
+                    '<p class="q">%s</p>' % question_html(r["question"])]
+            opts = r.get("options") or []
+            if opts:
+                bits.append(
+                    '<div class="opts" role="group" aria-label="answer for %s">%s</div>'
+                    % (esc(r["v1_class"]),
+                       "".join('<button type="button" class="opt" data-k="%s" '
+                               'aria-pressed="false">%s</button>'
+                               % (esc(o["key"]), esc(o["label"])) for o in opts)))
+                bits.append('<textarea class="note" hidden rows="2" '
+                            'placeholder="Why — what should it be instead?" '
+                            'aria-label="reason for %s"></textarea>'
+                            % esc(r["v1_class"]))
+            ev = []
             if r["emits"]:
-                bits.append('<div class="row"><span class="k">emits</span>%s</div>'
-                            % code_list(r["emits"]))
+                ev.append('<div class="row"><span class="k">emits today</span>%s</div>'
+                          % code_list(r["emits"]))
             if r.get("carried"):
-                bits.append('<div class="row"><span class="k">attaches to</span>%s</div>'
-                            % code_list(r["carried"]))
+                ev.append('<div class="row"><span class="k">attaches to</span>%s</div>'
+                          % code_list(r["carried"]))
             if r.get("second_pass"):
-                bits.append('<div class="row"><span class="k">2nd pass</span>%s</div>'
-                            % code_list(r["second_pass"]))
+                ev.append('<div class="row"><span class="k">2nd pass</span>%s</div>'
+                          % code_list(r["second_pass"]))
             if r["intent"]:
-                bits.append('<div class="row"><span class="k">intent</span>%s</div>'
-                            % esc(r["intent"]))
+                ev.append('<div class="row"><span class="k">why</span>%s</div>'
+                          % esc(r["intent"]))
             if r["caveat"]:
-                bits.append('<div class="row"><span class="k">caveat</span>%s</div>'
-                            % esc(r["caveat"]))
-            bits.append('<div class="chips"><span class="chip %s">%s</span>'
-                        '<span class="chip">corpus: %s</span></div>'
-                        % (gcls, esc(gov), esc(r["corpus"])))
-            ents.append('<article class="entry">%s</article>' % "".join(bits))
+                ev.append('<div class="row"><span class="k">caveat</span>%s</div>'
+                          % esc(r["caveat"]))
+            ev.append('<div class="chips"><span class="chip %s">%s</span>'
+                      '<span class="chip">corpus: %s</span></div>'
+                      % (gcls, esc(gov), esc(r["corpus"])))
+            bits.append('<details class="ev"><summary>What the migrator does '
+                        'today, and why</summary>%s</details>' % "".join(ev))
+            ents.append('<article class="entry" data-cls="%s" data-bucket="%s" '
+                        'data-mine="%s">%s</article>'
+                        % (esc(r["v1_class"]), esc(r["bucket"]),
+                           "1" if mine_to_answer else "0", "".join(bits)))
         secs.append(
             '<section id="%s" class="b-%s"><div class="sec-head">'
             '<h2>%s</h2><span class="count">%d</span></div>'
@@ -235,28 +387,44 @@ def build(blob, den):
             % (k, k, esc(BUCKET_SHORT[k]), len(mine), esc(BUCKET_ASK[k]),
                "".join(ents)))
 
+    n_team = sum(1 for r in rows if r.get("answer_from") == "team")
+    n_other = len(rows) - n_team
+    n_confirm = len(by.get("confirm") or [])
+    n_pass = len(by.get("passthrough") or [])
+
     return """<title>V_eta Confirm Sheet</title>
 <style>%s</style>
 <div class="wrap">
 <header class="top">
-  <div class="eyebrow">did_v1 → V_eta · review, not a build</div>
-  <h1>The migration runs on these classes. Nobody has confirmed where it sends them.</h1>
+  <div class="eyebrow">did_v1 → V_eta · %d open questions</div>
+  <h1>Nothing on this page is decided. These are the questions the migration is waiting on.</h1>
   <p class="lede">Each class below has a migrator that <strong>consumes its documents
-  today</strong>. What is missing is a record that the target it emits is the target
-  we want. That is a review, and this is its sheet — sorted by the kind of answer
-  each class needs, cheapest first, so a sitting that runs out of time has cleared
-  the confirmable ones rather than a random third of the list.</p>
+  today</strong> and sends them somewhere. Nobody has ever said whether that
+  somewhere is right. <strong>%d questions need an answer from you</strong>, in two
+  shapes: %d are <em>“is this the target we want”</em>, %d are <em>“is this tombstone
+  the end state, or is a fold still owed”</em>. The remaining %d cannot be put to you
+  yet — someone has to read the migrator first, and that is my job, not yours.</p>
+  <p class="lede">Answer by clicking. Nothing is sent anywhere; your answers stay in
+  this browser until you press <strong>Copy answers</strong> at the bottom and paste
+  them back to me. Click a chosen answer again to clear it.</p>
   <p class="den">%s</p>
 </header>
 <nav class="summary">%s<span class="progress" id="progress"></span></nav>
 %s
-<footer>Ticks are a private note to you, kept in this browser and sent nowhere. This
-page decides nothing and records no signature — the dispositions remain the team's.
-Regenerate with <code>python3 tools/confirm_sheet.py</code>; the evidence behind each
-row is in <code>V_eta_OPEN_WORK.md</code>.</footer>
+<div class="bar">
+  <span class="lbl" id="barlbl"></span>
+  <button type="button" class="act ghost" id="show">Show answers</button>
+  <button type="button" class="act" id="copy">Copy answers</button>
+  <textarea id="export" hidden readonly aria-label="your answers, ready to paste"></textarea>
+</div>
+<footer>This page decides nothing and records no signature — the dispositions remain
+the team's, and an answer here is your reply to me, not a decision written into the
+record. Regenerate with <code>python3 tools/confirm_sheet.py</code>; the evidence
+behind each row is in <code>V_eta_OPEN_WORK.md</code>.</footer>
 </div>
 <script>%s</script>
-""" % (CSS, esc(den), "".join(nav), "".join(secs), JS)
+""" % (CSS, n_team, n_team, n_confirm, n_pass, n_other, esc(den),
+       "".join(nav), "".join(secs), JS)
 
 
 def main(argv=None):
