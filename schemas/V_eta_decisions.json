@@ -542,7 +542,7 @@
         ],
         "packages_missing": [],
         "files_read": 167,
-        "lines_read": 34378,
+        "lines_read": 34430,
         "classes_queried": 26,
         "classes_emitted_as_document_class": 8,
         "unresolved_mint_sites": [
@@ -584,7 +584,7 @@
           "batch_post_pass": 25
         },
         "lines_read_by_group": {
-          "per_document_migrator": 22595,
+          "per_document_migrator": 22647,
           "batch_post_pass": 11783
         },
         "classes_emitted_as_document_class_by_group": {
@@ -1277,23 +1277,23 @@
           "DID-matlab:migrators_j/daqreader.m:100 (guard)",
           "DID-matlab:migrators_j/daqreader.m:101 (field_read)",
           "DID-matlab:migrators_j/daqreader.m:102 (field_read)",
-          "DID-matlab:migrators_j/daqreader_ndr.m:21 (guard)"
+          "DID-matlab:migrators_j/daqreader_ndr.m:32 (guard)"
         ],
         "n_emitted_class_refs": 1,
         "emitted_class_refs": [
-          "DID-matlab:migrators_j/daqreader_ndr.m:14 (emitted_class)"
+          "DID-matlab:migrators_j/daqreader_ndr.m:25 (emitted_class)"
         ],
         "emission_counts_as_build": true,
         "retired_by_decision_in_favour_of": null,
         "emission_discounted": null,
         "n_field_write_refs": 2,
         "field_write_refs": [
-          "DID-matlab:migrators_j/daqreader_ndr.m:22 (field_write)",
-          "DID-matlab:migrators_j/daqreader_ndr.m:25 (field_write)"
+          "DID-matlab:migrators_j/daqreader_ndr.m:33 (field_write)",
+          "DID-matlab:migrators_j/daqreader_ndr.m:36 (field_write)"
         ],
         "n_named_refs": 0,
         "named_refs": [],
-        "n_comment_mentions": 32,
+        "n_comment_mentions": 33,
         "comment_mentions": [
           "DID-matlab:convert/epochMint.m:1190 (comment_mention)",
           "DID-matlab:convert/epochMint.m:238 (comment_mention)",
@@ -1309,20 +1309,20 @@
               "DID-matlab:migrators_j/daqreader.m:100 (guard)",
               "DID-matlab:migrators_j/daqreader.m:101 (field_read)",
               "DID-matlab:migrators_j/daqreader.m:102 (field_read)",
-              "DID-matlab:migrators_j/daqreader_ndr.m:21 (guard)"
+              "DID-matlab:migrators_j/daqreader_ndr.m:32 (guard)"
             ],
             "n_emitted_class_refs": 1,
             "emitted_class_refs": [
-              "DID-matlab:migrators_j/daqreader_ndr.m:14 (emitted_class)"
+              "DID-matlab:migrators_j/daqreader_ndr.m:25 (emitted_class)"
             ],
             "n_field_write_refs": 2,
             "field_write_refs": [
-              "DID-matlab:migrators_j/daqreader_ndr.m:22 (field_write)",
-              "DID-matlab:migrators_j/daqreader_ndr.m:25 (field_write)"
+              "DID-matlab:migrators_j/daqreader_ndr.m:33 (field_write)",
+              "DID-matlab:migrators_j/daqreader_ndr.m:36 (field_write)"
             ],
             "n_named_refs": 0,
             "named_refs": [],
-            "n_comment_mentions": 30,
+            "n_comment_mentions": 31,
             "comment_mentions": [
               "DID-matlab:migrators_j/Contents.m:160 (comment_mention)",
               "DID-matlab:migrators_j/Contents.m:214 (comment_mention)",
@@ -1574,7 +1574,7 @@
         "field_write_refs": [],
         "n_named_refs": 0,
         "named_refs": [],
-        "n_comment_mentions": 23,
+        "n_comment_mentions": 24,
         "comment_mentions": [
           "DID-matlab:migrators_j/Contents.m:145 (comment_mention)",
           "DID-matlab:migrators_j/Contents.m:162 (comment_mention)",
@@ -1597,7 +1597,7 @@
             "field_write_refs": [],
             "n_named_refs": 0,
             "named_refs": [],
-            "n_comment_mentions": 23,
+            "n_comment_mentions": 24,
             "comment_mentions": [
               "DID-matlab:migrators_j/Contents.m:145 (comment_mention)",
               "DID-matlab:migrators_j/Contents.m:162 (comment_mention)",
@@ -2042,7 +2042,7 @@
         "field_write_refs": [],
         "n_named_refs": 0,
         "named_refs": [],
-        "n_comment_mentions": 24,
+        "n_comment_mentions": 25,
         "comment_mentions": [
           "DID-matlab:convert/v1_to_v2.m:680 (comment_mention)",
           "DID-matlab:migrators_j/Contents.m:144 (comment_mention)",
@@ -2065,7 +2065,7 @@
             "field_write_refs": [],
             "n_named_refs": 0,
             "named_refs": [],
-            "n_comment_mentions": 23,
+            "n_comment_mentions": 24,
             "comment_mentions": [
               "DID-matlab:migrators_j/Contents.m:144 (comment_mention)",
               "DID-matlab:migrators_j/Contents.m:204 (comment_mention)",
