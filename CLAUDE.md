@@ -908,6 +908,38 @@ lives in these files — read them instead of re-deriving from memory:
   finds nothing and always will. **THAT SIGNATURE COVERS TWO CLASSES, NOT THREE:**
   `valid_interval` was NOT signed, is still open, and its code
   (`+did2/+convert/resolveValidIntervals.m`) is running ahead of the decision by declaration.
+
+  **THE LAST SENTENCE IS STALE AS OF 2026-08-12, AND SO IS THE SAME CLAIM WHERE IT REPEATS
+  BELOW ("`valid_interval`'s MODEL IS STILL UNSIGNED — the board reports it as BUILT AHEAD
+  OF THE DECISION"). `valid_interval` HAS A SIGNATURE, AND THE PASS IS DORMANT RATHER THAN
+  RUNNING AHEAD.** Nothing is decided here — Operating Rule 4 — this records where the
+  team's own record lives, because a reader acting on the stale sentence would go asking
+  for a decision that exists. HISTORICAL-SIGNOFF-CLAIM. Positive evidence, from the
+  generated board and from the plan document, not from prose about either:
+
+        $ grep -c "TEAM-SIGN-OFF \[logical_observation\]" \
+              schemas/V_eta_logical_observation_plan.md
+        1                                   (the line is at :357, dated 2026-08-12)
+
+        $ grep -n "valid_interval" schemas/V_eta_STATUS.md
+        339: | **valid_interval** | 1 | BUILT AHEAD OF THE DECISION, AND NOW DORMANT
+             BY IT. Decided AND SIGNED 2026-08-12 [...] that pass is DORMANT (census
+             only, emits nothing) and the documents live on the v1 tombstone.
+             Classes renamed validity -> logical
+
+  Three consequences, each of which a reader would otherwise get wrong:
+  **(1)** the class the pass will emit is **`logical_observation`**, not
+  `validity_observation` — renamed 2026-08-12, so the sentence far above that describes
+  its chain as *"`validity_observation -> subject_observation -> subject_interaction`"*
+  names a class that no longer exists. It lives at `schemas/V_eta/draft/logical_observation.json`,
+  in `draft/`, NOT `stable/`. **(2)** the pass **appends nothing**: it runs as a census.
+  `+migrators_j/Contents.m` states the reason in its own words — *"the team chose to WAIT
+  for `axes[]` (DID-schema OPEN_WORK #45 -> #32) rather than ship the 1->N
+  one-statement-per-interval shape as an interim"*. **(3)** the target is ONE statement
+  per source document carrying an ARRAY of booleans on a time axis, so it is BLOCKED ON
+  `axes[]` — the same block as `data_body`, not an open modelling question.
+  **This one points the file's usual direction backwards: it claims less settled than the
+  record holds, and its cost is a decision re-litigated rather than a model wrongly built.**
 - **THE 4 UNVERIFIED COVERAGE ROWS ARE RESOLVED AND THE BUCKET NO LONGER EXISTS.
   Re-derived from the generated ledger 2026-08-11 — the account below is HISTORY, kept
   for its writer evidence, and its two "STRANDS today" lines are FALSE NOW.** Both
@@ -925,13 +957,48 @@ lives in these files — read them instead of re-deriving from memory:
 
   **THE FIX WAS A TOMBSTONE, NOT A MIGRATOR, AND THE DISTINCTION IS WHY A NAME-BASED
   SEARCH STILL FINDS NOTHING.** `generic_file` and `valid_interval` are DELIBERATELY
-  without a per-document migrator (`DID-matlab .../+migrators_j/Contents.m:348`); they are
+  without a per-document migrator (`DID-matlab .../+migrators_j/Contents.m:354`, corrected
+  from `:348` — see the note below); they are
   restated from the WRITER in `build_v_eta.py`, marked `retire`, and handled by BATCH
   POST-PASSES — `+did2/+convert/foldGenericFiles.m` and `resolveValidIntervals.m`, both in
   the derived 9-pass chain above. So `ls +migrators_j/generic_file.m` fails and the class
   is fully handled: the absence is the design. **`valid_interval`'s MODEL IS STILL
   UNSIGNED** — the board reports it as BUILT AHEAD OF THE DECISION, which is a fact to
-  carry in the open, not a gap to close by signing it.
+  carry in the open, not a gap to close by signing it. **[STALE — signed 2026-08-12; see
+  the correction under the `generic_file` entry above. HISTORICAL-SIGNOFF-CLAIM.]**
+
+  **THE `Contents.m:348` CITATION IS WRONG, AND IT IS WRONG IN THE WAY A CITATION CAN BE
+  WORST: IT LANDS ON A REAL SENTENCE ABOUT A DIFFERENT CLASS.** Corrected 2026-08-12.
+  Line 346 opens *"DELIBERATELY WITHOUT A MIGRATOR: `projectvar`"*; the sentence this
+  file is citing is eight lines later:
+
+        $ sed -n '346p;354p' \
+              DID-matlab/src/did/+did2/+convert/+migrators_j/Contents.m
+        346:%   DELIBERATELY WITHOUT A MIGRATOR: `projectvar`. TEAM-SIGN-OFF [misc
+        354:%   ALSO DELIBERATELY WITHOUT A MIGRATOR: `generic_file` and `valid_interval`,
+
+  So a reader who follows `:348` reads a `projectvar` sign-off and concludes the citation
+  was misremembered, when the CLAIM is fully supported eight lines down. The claim stands;
+  only the number was wrong. HISTORICAL-SIGNOFF-CLAIM.
+
+  **AND THE LARGER HAZARD IS THE FILE ITSELF, NOT THE LINE NUMBER: `Contents.m` IS NOT A
+  CENSUS OF MIGRATORS AND MUST NEVER BE READ AS ONE.** Measured 2026-08-12:
+
+        DENOMINATOR: 81 migrator .m file(s) in +did2/+convert/+migrators_j
+                     (Contents.m and private/ excluded)
+          named anywhere in Contents.m : 43
+          ABSENT from Contents.m       : 38
+
+  Thirty-eight migrators that exist are unmentioned — `distance_metadata`, `fitcurve`,
+  `syncrule_mapping`, `stimulus_presentation`, the whole `openminds_*` set, the four
+  `*_tuning` classes, every `daqreader_*_epochdata_ingested`, and more. **So "absent from
+  `Contents.m`" means nothing at all, and in particular does NOT mean "deliberately has no
+  migrator"** — that conclusion is available only from the file's three explicit
+  `DELIBERATELY WITHOUT A MIGRATOR` sentences (`:346`, `:354`, `:365`), which name four
+  classes between them. This is the `demo_ndi` failure with a different query: a search
+  whose zero result is a property of where you looked. **To ask whether a class has a
+  migrator, list `+migrators_j/*.m` or read the ledger's `migrator` column — never the
+  prose index.**
 
   **THE 2 REMAINING `target_gap` ROWS, which are the honest successor to this bucket** —
   both labelled *"NO TARGET AND NO DISSOLUTION RECORDED -- a gap, not a decision"*:
