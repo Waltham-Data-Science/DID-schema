@@ -8,9 +8,11 @@ does not exist.*
 **THIS DOCUMENT CARRIES NO SIGNATURE LINE, DELIBERATELY.** Operating Rule 4 forbids Claude
 writing one, and this family has a specific history with that rule: on 2026-08-11 a QUESTION
 the team asked was written up as their decision and put into a signature under their name
-(`V_eta_OPEN_WORK.md` #103). The board should render this family as **awaiting review**, and
-that is correct — the decisions transcribed below are real, and the signature is a separate
-act by a human.
+(`V_eta_OPEN_WORK.md` #103). **This document was written with NO signature, deliberately, and
+the team dictated one on 2026-08-12 — it is at the foot of the file.** The decisions
+transcribed below are real, and the signature was a separate act by a human, which is the
+whole point of the rule. Its scope is NARROWER than this document: the open items in §7 are
+outside it.
 
 Decisions below are attributed in prose: **jess@walthamdatascience.com, 2026-08-12**, unless
 another date is given.
@@ -328,9 +330,14 @@ is the gate.
    construction — the pass is dormant. If that ordering ever changes, it is a decision, not a
    default.
 3. **Materialise vs re-derive** (HAZARD 3 above).
-4. **The signature.** The model, the naming, the dormancy and the four rules are all recorded
-   here as the team's decisions. No `TEAM-SIGN-OFF` line exists for this family and none was
-   written; the board renders it as awaiting review, which is the accurate state.
+4. ~~**The signature.**~~ **SIGNED 2026-08-12** — see the TEAM-SIGN-OFF line at the foot of
+   this document. It was dictated by the team and transcribed verbatim; one clause was
+   CORRECTED before it was written, because the draft justified transitive inheritance as a
+   *divergence* from NDI on the claim that `loadvalidinterval` checks `underlying_element`
+   exactly once. That claim was false — the function calls ITSELF, so it already recurses to
+   any depth — and signing the draft would have put a false justification into the record.
+   The signature says *matching NDI* and names the real divergences instead. The items above
+   (1-3) are NOT covered by it and remain open.
 
 ---
 
@@ -344,3 +351,7 @@ is the gate.
 | `DID-matlab tests/+did2/+unittest/testValidIntervalDecompose.m` | dormancy gate + the preserved logic, armed |
 | `DID-matlab tools/census_digest.py` | how the dormant report renders |
 | `schemas/V_eta_migration_targets.json` (`valid_interval`) | the ledger's account of all of the above |
+
+## TEAM SIGN-OFF
+
+TEAM-SIGN-OFF [logical_observation]: jess@walthamdatascience.com / 2026-08-12 -- `validity` and `validity_observation` are replaced by `logical` + `logical_observation`; the semantic moves to `subject_statement.variable`, since a data_type names the KIND of value and not what it is about. `logical` carries ONE field, `value` typed `boolean` with mustBeScalar false -- a bare array, no wrapper cell (`boolean` is impossible as a class name: it is a primitive in the validator's type switch, cache.m:1793; `logical`:`boolean` mirrors the existing `term`:`ontology_term`). `logical_observation` declares no fields. `sequence` is deleted: NDI never reads interval order, because identifyvalidintervals accumulates through interval_add, a set union, and tuning_response.m:256 indexes THAT union rather than the stored array. THE ARRAY IS THE TARGET MODEL -- one statement per source document holding N booleans against a time axis -- and the 1->N decomposition is NOT shipped as an interim: migration WAITS for `axes[]` on `subject_statement` rather than migrating twice, so the pass is dormant by decision. Inheritance walks the whole `derived_from` chain TRANSITIVELY, MATCHING NDI, whose `loadvalidinterval` calls ITSELF on `underlying_element` and so already recurses to any depth; the divergences are the EDGE (V_eta walks `derived_from` in the migrated document graph, NDI walks a runtime object property) and the SCOPE (v1 has no `variable`, so its fallback cannot be per-variable). Inheritance yields the statement WITH ITS ANCHOR, never the interval numbers alone. Three states, a deliberate break from v1: no statement anywhere -> VALID; statements projected -> use them; statements found but none projectable into the caller's frame -> UNKNOWN, NOT VALID (v1 returns the entire requested span, so a clock mismatch reads as "all data good"). Consumers must count inherited statements they could not project. NOT COVERED BY THIS SIGNATURE: the gap semantics between statements (still undefined, still open), the timing of `axes[]`, and any change to ndi.app.markgarbage's v1 reader behaviour.

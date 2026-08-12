@@ -253,13 +253,16 @@ FAMILIES = [
     # and `status="open"` gets NO prose checking of any kind
     # (`family_prose_vs_signoff` requires status == "team" AND a plan), which
     # is exactly how #99's row asserted the most while being checked the least.
-    # STILL `open`: the plan document carries no TEAM-SIGN-OFF line, Rule 4
-    # forbids this file's author writing one, and awaiting-review is the
-    # accurate render.
+    # SIGNED 2026-08-12 -- the team dictated the line and it is at the foot of
+    # V_eta_logical_observation_plan.md. Its SCOPE IS NARROWER THAN THE FAMILY:
+    # it covers the classes, the naming, the dormancy and the four reading
+    # rules, and explicitly NOT the gap semantics between statements, the
+    # timing of axes[], or any change to markgarbage's v1 reader. Those stay
+    # open, which is why this family is not simply "done".
     ("valid_interval", ["valid_interval"],
      "V_eta_logical_observation_plan.md",
-     ("BUILT AHEAD OF THE DECISION, AND NOW DORMANT BY IT. Decided "
-      "2026-08-12, UNSIGNED: the target is ONE logical_observation per source "
+     ("BUILT AHEAD OF THE DECISION, AND NOW DORMANT BY IT. Decided AND "
+      "SIGNED 2026-08-12: the target is ONE logical_observation per source "
       "document carrying an ARRAY of booleans on a time axis, and it WAITS "
       "for axes[] (#45 -> #32); the 1->N decomposition resolveValidIntervals "
       "already contains is explicitly rejected as an interim, so that pass is "
