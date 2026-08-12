@@ -24,6 +24,15 @@ having looked:
      answers "declared twice?" and this one answers "which way did it move?".
      They must see the SAME set of redeclarations over the tiers they share --
      if they diverge, one of them is reading a corpus it does not think it is.
+
+  4. THE EVIDENCE COLUMNS DO NOT FAIL SILENTLY. The v1 provenance column is the
+     one a reader will act on, and its failure mode is the project's signature
+     error: a missing artifact, or a camelCase/snake_case mismatch, would make
+     every row read "no did_v1 counterpart" -- a confident, uniform, WRONG
+     answer that looks like a finding. So the absent-artifact path is asserted
+     to say NOT-LOOKED-UP rather than "not in v1", the case-folding is driven
+     through an NDI-spelled fixture, and the enforcement tags are asserted
+     against the specific keys `validateConstraints` switches on.
 """
 
 import importlib.util
@@ -270,6 +279,166 @@ def test_agrees_with_the_duplicate_name_checker():
         "one of them is reading a corpus it does not think it is")
     assert theirs <= mine, (
         f"seen by the name-level tool and NOT by this one: {sorted(theirs - mine)!r}")
+
+
+# ---------------------------------------------------------------------------
+# 4. the evidence columns
+# ---------------------------------------------------------------------------
+
+GT_INDEX, GT_STATS = TOOL.load_ground_truth()
+
+
+def test_the_ground_truth_artifact_was_actually_read():
+    """The provenance column is worthless if the file behind it was not opened,
+    and its failure is UNIFORM -- every row would read the same reassuring
+    'no did_v1 counterpart'."""
+    assert GT_STATS["present"], (
+        f"did_v1 ground truth not read: {GT_STATS['error']!r}. Every "
+        "provenance verdict would be NOT-LOOKED-UP.")
+    assert GT_STATS["classes"] > 50, GT_STATS
+    assert GT_STATS["field_names"] > 100, GT_STATS
+    assert GT_STATS["ndi_ref"], "the artifact does not say which NDI ref it read"
+
+
+def test_an_absent_ground_truth_says_not_looked_up_not_not_in_v1():
+    """The distinction the whole tool turns on. A missing artifact must NEVER
+    render as evidence about NDI."""
+    index, stats = TOOL.load_ground_truth("/nonexistent/ground_truth.json")
+    assert index == {}
+    assert stats["present"] is False
+    assert stats["error"]
+    code, why = TOOL.provenance(index, stats, "kid", "pop", "f")
+    assert code == TOOL.P_UNKNOWN, code
+    assert "unavailable" in why
+
+
+def _gt(classes):
+    """A synthetic did_v1 index + a 'present' stats block."""
+    stats = {"path": "<synthetic>", "present": True, "error": None,
+             "ndi_ref": "origin/main", "classes": len(classes),
+             "field_names": 0, "edge_names": 0}
+    index = {}
+    for cn, fields in classes.items():
+        index[TOOL._norm(cn)] = {
+            "class": cn,
+            "fields": {TOOL._norm(f) for f in fields},
+            "depends_on": set()}
+    return index, stats
+
+
+def test_provenance_matches_across_the_case_convention():
+    """V_eta is snake_case, NDI is camelCase. `demo_ndi` against `demoNDI`
+    returned zero hits from a repository that had never contained the string,
+    and the zero was reported as a finding. The fixture is spelled NDI's way on
+    purpose: a lookup that only worked on identical spellings would pass every
+    other test in this file and fail here."""
+    index, stats = _gt({"imageStack": ["ontologyNode"],
+                        "imageStack_parameters": ["ontologyNode"]})
+    code, _ = TOOL.provenance(index, stats, "image_stack",
+                              "image_stack_parameters", "ontology_node")
+    assert code == TOOL.P_V1_FIDELITY, code
+    # And the negative: a name did_v1 really does not carry must not be
+    # rescued by the folding.
+    code, _ = TOOL.provenance(index, stats, "image_stack",
+                              "image_stack_parameters", "storage_mode")
+    assert code == TOOL.P_ADDED_BOTH, code
+
+
+def test_provenance_distinguishes_all_four_populated_cases():
+    """Answers decided before the tool ran."""
+    index, stats = _gt({"pop": ["shared", "only_parent"],
+                        "kid": ["shared", "only_child"]})
+    assert TOOL.provenance(index, stats, "kid", "pop", "shared")[0] \
+        == TOOL.P_V1_FIDELITY
+    assert TOOL.provenance(index, stats, "kid", "pop", "only_parent")[0] \
+        == TOOL.P_ADDED_ON_CHILD
+    assert TOOL.provenance(index, stats, "kid", "pop", "only_child")[0] \
+        == TOOL.P_ADDED_ON_PARENT
+    assert TOOL.provenance(index, stats, "kid", "pop", "neither")[0] \
+        == TOOL.P_ADDED_BOTH
+    # A class did_v1 has never heard of is NOT-LOOKED-UP-shaped, not a claim
+    # about the field: it is also what a V_eta RENAME looks like from here.
+    code, why = TOOL.provenance(index, stats, "orphan_class", "pop", "shared")
+    assert code == TOOL.P_NO_V1_CLASS, code
+    assert "rename" in why
+
+
+def test_every_live_row_carries_a_provenance_verdict():
+    rows = TOOL.annotate_provenance(list(FIELD_ROWS), GT_INDEX, GT_STATS,
+                                    "fields")
+    codes = {TOOL.P_V1_FIDELITY, TOOL.P_ADDED_ON_CHILD, TOOL.P_ADDED_ON_PARENT,
+             TOOL.P_ADDED_BOTH, TOOL.P_NO_V1_CLASS, TOOL.P_UNKNOWN}
+    # The loop below is the check; this is its DENOMINATOR. An empty `rows` is
+    # allowed -- the count is the team's to move, not this test's to freeze --
+    # but only when the sweep genuinely compared nothing, which the denominator
+    # tests above prove would be a real zero and not a walker that stopped.
+    assert len(rows) == len(FIELD_ROWS), (
+        "annotate_provenance returned a different number of rows than the "
+        "sweep produced -- some pair was dropped on the way to the report")
+    assert len(rows) or FIELD_STATS["comparisons"] == 0, (
+        f"{FIELD_STATS['comparisons']} comparison(s) performed but no row "
+        "carries a provenance verdict")
+    for r in rows:
+        assert r["v1_provenance"] in codes, r
+        assert r["v1_evidence"], r
+        assert r["v1_provenance"] != TOOL.P_UNKNOWN, (
+            "a live row could not be looked up at all -- the artifact is "
+            "present, so this is a real gap, not a missing file")
+
+
+def test_enforcement_tags_track_what_the_validator_actually_switches_on():
+    """`validateConstraints` (cache.m:1829) reads SIX keys and tolerates the
+    rest; the sixth is gated. A LOOSENED row on a key nothing reads is not the
+    same finding as one on `maxLength`, and the report must not print them
+    alike."""
+    for key in ("maxLength", "minLength", "minimum", "maximum", "enum"):
+        assert TOOL.enforcement_of(f"constraints.{key}") == TOOL.ENFORCED, key
+    # The machinery exists; strictMode('BindingConformance') is DISARMED.
+    assert TOOL.enforcement_of("constraints.binding.strength") == TOOL.GATED_OFF
+    # Dropped into the tolerated `otherwise` -- unreported AND unread.
+    assert TOOL.enforcement_of("constraints.element_type") == TOOL.DECLARATIVE
+    assert TOOL.enforcement_of("constraints.cols") == TOOL.DECLARATIVE
+    for attr in ("type", "mustBeNonEmpty", "mustBeScalar", "mustNotHaveNaN"):
+        assert TOOL.enforcement_of(attr) == TOOL.ENFORCED, attr
+    assert TOOL.enforcement_of("documentation") == TOOL.DECLARATIVE
+    # Edges: mustBeNonEmpty IS enforced now (strictMode('RequiredDependencies'),
+    # armed 2026-08-10); must_refer is existence-only and never type-checked.
+    assert TOOL.enforcement_of("mustBeNonEmpty", "depends_on") == TOOL.ENFORCED
+    assert TOOL.enforcement_of("must_refer_to_document_class",
+                               "depends_on") == TOOL.DECLARATIVE
+
+
+def test_non_constraint_differences_are_printed_not_only_counted():
+    """They used to be summed into a headline and shown on IDENTICAL rows only,
+    so a LOOSENED row's other differences were counted and never displayed --
+    a count without its evidence. The live case is
+    `subjectmeasurement.datestamp`, which differs on `blank_value` (0.0, a
+    NUMBER, in a field typed `timestamp`) as well as on mustBeNonEmpty."""
+    import contextlib
+    import io
+    buf = io.StringIO()
+    with contextlib.redirect_stdout(buf):
+        TOOL.main([])
+    out = buf.getvalue()
+    assert "(non-constraint)" in out, (
+        "no non-constraint difference was rendered anywhere")
+    loosened = out.split("LOOSENED (")[1] if "LOOSENED (" in out else ""
+    assert "(non-constraint)" in loosened.split("TIGHTENED (")[0], (
+        "non-constraint differences are still hidden on non-IDENTICAL rows")
+
+
+def test_the_denominator_reports_whether_the_ground_truth_was_read():
+    """Rule 5 applied to the new column: 'found nothing' and 'looked in the
+    wrong place' must be distinguishable from the output alone."""
+    import contextlib
+    import io
+    buf = io.StringIO()
+    with contextlib.redirect_stdout(buf):
+        TOOL.main([])
+    body = buf.getvalue()
+    assert "did_v1 ground truth artifact" in body
+    assert ("PRESENT" in body) or ("ABSENT" in body)
+    assert "did_v1 classes indexed" in body
 
 
 def test_the_report_prints_its_denominator_first():

@@ -56,12 +56,45 @@ fill. If #69's fix lands and the copies are MERGED into the ancestor's entry,
 the identical verdict becomes the subtype-substitutability question directly --
 which is why the direction is worth recording before the merge, not after.
 
+TWO THINGS EVERY ROW NOW CARRIES, BECAUSE A VERDICT ALONE IS NOT EVIDENCE
+-------------------------------------------------------------------------
+A bare LOOSENED does not say whether the child is wrong or the ancestor was
+over-tightened, and the first run gave a reader nothing to answer that with. Two
+mechanical facts, both DERIVED rather than hand-listed, are now printed per row.
+
+1. **v1 PROVENANCE.** Read off `schemas/V_eta_ndi_ground_truth.json` (which
+   `tools/ndi_ground_truth.py` extracts from NDI `origin/main`): does did_v1
+   ITSELF declare this field in BOTH blocks? If it does, the shadow is not
+   V_eta's -- a source tombstone that dropped it would stop matching the writer,
+   which is the one thing tombstones exist to do. If it does not, the second
+   storage location was minted on this side and "which block is authoritative"
+   is a live question. Names are matched with underscores stripped and case
+   folded, because V_eta is snake_case and NDI is camelCase and a sweep that
+   forgets it reports zero hits against a repository that never contained the
+   string it searched for. LIMIT, stated so it is not mistaken for a finding: a
+   class V_eta RENAMED from its did_v1 source matches nothing here and reports
+   NO-DID-V1-CLASS. That is "not looked up", not "not in NDI".
+
+2. **WHETHER A VALIDATOR READS THE ATTRIBUTE THAT MOVED.** Dropping `maxLength`
+   is a live relaxation -- `validateConstraints` raises `did2:validation:maxLength`
+   on it. Rewriting `element_type` is not, today: it falls into the same
+   function's tolerated `otherwise`. Both are LOOSENED/DIVERGENT rows and they
+   are not the same kind of problem, so each diff line is tagged ENFORCED,
+   GATED-OFF (the machinery exists behind a disarmed switch) or DECLARATIVE
+   (nothing reads it). The tags come from `+did2/+schema/cache.m` and are cited
+   at `ENFORCEMENT` below.
+
 WHAT IT DOES NOT DO
 -------------------
 IT DECIDES NOTHING and it ENFORCES NOTHING (operating rules 4 and the report-only
 landing asked for on #69). There is no baseline and no ratchet: the enforcement
 threshold is a team call, and this run exists to put real numbers in front of it.
 `--enforce` deliberately fails until someone SETS `ENFORCEMENT_THRESHOLD` below.
+
+The provenance column is EVIDENCE, NOT A DISPOSITION. "did_v1 declares it too"
+is a strong argument that a tombstone must keep the field; it is not an argument
+that the two copies may disagree about `maxLength`. Those are different
+questions and the tool answers only the first.
 
 It also reads SCHEMA DECLARATIONS ONLY. It does not read the corpus -- no corpus
 report is checked into this repository -- so nothing here is a document count,
@@ -81,12 +114,34 @@ dispositions -- every row below is for the team to decide.
                  3 DIVERGENT.
     depends_on   2 redeclaration pairs, both IDENTICAL (documentation only).
 
+RE-RUN 2026-08-12. THE ROW SET IS UNCHANGED; THE DENOMINATOR IS NOT.
+
+    239 classes loaded (stable=216, draft=19, deprecated=4), 982 inheritance
+    edges declared and 982 RESOLVED, 2,177 field declarations and 460
+    depends_on declarations read, 4 files skipped, 0 unparseable, 0 unresolved.
+
+    FIELDS       9 pairs: 2 IDENTICAL, 1 TIGHTENED, 3 LOOSENED, 3 DIVERGENT
+    depends_on   2 pairs, both IDENTICAL
+
+Two classes left `stable` and two arrived in `draft` between the runs and twenty
+field declarations went with them, so "9 again" is a re-derivation and not a
+cached number. The same nine were re-derived a second time against COMMITTED
+HEAD, not the working tree, because two other sessions were mid-edit in
+`schemas/` at the time; both reads agree.
+
 The 9 field pairs are EXACTLY the 9 rows `check_duplicate_field_declarations.py`
 reports at its baseline, which is the cross-check that matters: the name-level
 tool and the constraint-level tool see the same set, so neither is reading a
 different corpus than it thinks. What is NEW is that only 2 of the 9 are
 constraint-identical. Seven differ, and four of those differ in a direction the
 name-level count could never have shown.
+
+THE TWO TOOLS DO NOT READ THE SAME TIERS, AND THE AGREEMENT ABOVE IS ABOUT
+FIELDS ONLY. The name-level tool loads `stable` + `draft` (235 classes); this
+one also loads `deprecated` (239). Nothing in `deprecated` adds a FIELD pair, so
+the nine coincide -- but one of the two `depends_on` pairs
+(`image_stack.document_id` over `image_stack_parameters`) is deprecated-over-
+deprecated and is INVISIBLE to the name-level tool by construction.
 
 RELATED, AND DELIBERATELY NOT DUPLICATED HERE
 ---------------------------------------------
@@ -111,6 +166,12 @@ import sys
 HERE = os.path.dirname(os.path.abspath(__file__))
 REPO = os.path.dirname(HERE)
 SCHEMA_ROOT = os.path.join(REPO, "schemas", "V_eta")
+
+# The did_v1 truth, extracted from NDI origin/main by tools/ndi_ground_truth.py.
+# READ, never written here. Its absence is REPORTED, not worked around: a
+# provenance column that quietly says "not in NDI" because the file was missing
+# is the exact failure mode this repository keeps paying for.
+GROUND_TRUTH = os.path.join(REPO, "schemas", "V_eta_ndi_ground_truth.json")
 
 # Tiers named by schemas/V_eta/index.json. Read all three, and REPORT which of
 # them was actually found on disk, so "0 rows" and "read nothing" cannot look
@@ -151,6 +212,56 @@ SET_CONSTRAINTS = ("enum", "values")
 STRENGTH_ORDER = ("none", "optional", "preferred", "required")
 
 TIGHTEN, LOOSEN, UNORDERED, OTHER = "TIGHTEN", "LOOSEN", "UNORDERED", "OTHER"
+
+# ---------------------------------------------------------------------------
+# Does anything actually READ the attribute that moved?
+# ---------------------------------------------------------------------------
+# Every entry below is a line in DID-matlab src/did/+did2/+schema/cache.m,
+# re-read 2026-08-12 rather than copied from a comment. A LOOSENED row on an
+# ENFORCED attribute admits documents the ancestor's copy would reject TODAY; a
+# LOOSENED row on a DECLARATIVE one is a disagreement nothing can act on yet.
+# They are not the same finding and must not print the same.
+#
+#   validateConstraints (cache.m:1829) switches on exactly six keys --
+#     maxLength minLength minimum maximum enum   (unconditional)
+#     binding                                    (cache.m:1860, behind
+#                                                 strictMode('BindingConformance'),
+#                                                 which is DISARMED by default)
+#   and drops everything else into a tolerated `otherwise` (cache.m:1870).
+#
+#   validateField enforces the field-level attributes directly --
+#     type            validateTypeShape,        cache.m:1645
+#     mustBeNonEmpty  missingField/emptyField,  cache.m:1635, 1649
+#     mustBeScalar    notScalar,                cache.m:1678
+#     mustNotHaveNaN  nanValue,                 cache.m:1682
+ENFORCED = "ENFORCED"
+GATED_OFF = "GATED-OFF"
+DECLARATIVE = "DECLARATIVE"
+
+ENFORCED_FIELD_ATTRS = ("type", "mustBeNonEmpty", "mustBeScalar",
+                        "mustNotHaveNaN")
+ENFORCED_CONSTRAINT_KEYS = ("maxLength", "minLength", "minimum", "maximum",
+                            "enum")
+GATED_CONSTRAINT_KEYS = ("binding",)
+
+
+def enforcement_of(attr, kind="fields"):
+    """ENFORCED / GATED-OFF / DECLARATIVE for one differing attribute name."""
+    if kind == "depends_on":
+        # `mustBeNonEmpty` on an EDGE is enforced -- see compare_edge, which
+        # also explains why a child cannot use it to loosen anything.
+        # `must_refer_to_document_class` appears in no validator: it is
+        # existence-only by the standing decision in CLAUDE.md.
+        return ENFORCED if attr == "mustBeNonEmpty" else DECLARATIVE
+    if attr in ENFORCED_FIELD_ATTRS:
+        return ENFORCED
+    if attr.startswith("constraints."):
+        key = attr.split(".", 2)[1]
+        if key in ENFORCED_CONSTRAINT_KEYS:
+            return ENFORCED
+        if key in GATED_CONSTRAINT_KEYS:
+            return GATED_OFF
+    return DECLARATIVE
 
 
 # ---------------------------------------------------------------------------
@@ -209,6 +320,103 @@ def load_classes(root=SCHEMA_ROOT, tiers=TIERS):
             n += 1
         stats["per_tier"][tier] = n
     return classes, stats
+
+
+def _norm(s):
+    """Fold a class or field name so snake_case and camelCase compare equal.
+
+    V_eta is snake_case, NDI is camelCase, and a sweep that forgets it searches
+    for a string the other repository has never contained -- `demo_ndi` against
+    `demoNDI` cost this project a whole disposition. Underscores stripped, case
+    folded, nothing else.
+    """
+    return str(s).replace("_", "").lower()
+
+
+def load_ground_truth(path=GROUND_TRUTH):
+    """Return (index, stats) for the did_v1 truth, or ({}, stats) if absent.
+
+    `index` maps a NORMALISED did_v1 class name to the normalised names it
+    declares, per kind. `stats` says whether the artifact was found and how much
+    of it was read, so "no v1 counterpart" and "never opened the file" are
+    distinguishable from the output alone.
+    """
+    stats = {"path": path, "present": False, "error": None,
+             "ndi_ref": None, "classes": 0, "field_names": 0, "edge_names": 0}
+    if not os.path.exists(path):
+        stats["error"] = "artifact not present -- run tools/ndi_ground_truth.py"
+        return {}, stats
+    try:
+        with open(path) as fh:
+            gt = json.load(fh)
+    except (OSError, ValueError) as exc:
+        stats["error"] = f"unreadable: {exc}"
+        return {}, stats
+    stats["present"] = True
+    stats["ndi_ref"] = gt.get("ndi_ref")
+    index = {}
+    for cn, entry in (gt.get("classes") or {}).items():
+        fields = {_norm(f) for f in (entry.get("fields") or [])}
+        edges = {_norm(e) for e in (entry.get("depends_on") or [])}
+        index[_norm(cn)] = {"class": cn, "fields": fields, "depends_on": edges}
+        stats["field_names"] += len(fields)
+        stats["edge_names"] += len(edges)
+    stats["classes"] = len(index)
+    return index, stats
+
+
+# Provenance codes. The first is the one that changes what a reader should do:
+# did_v1 declares the field in BOTH blocks, so the second declaration is not
+# V_eta's to remove.
+P_V1_FIDELITY = "V1-FIDELITY"          # did_v1 declares it in both blocks
+P_ADDED_ON_CHILD = "V_eta-ADDED-ON-CHILD"    # did_v1 has the parent's only
+P_ADDED_ON_PARENT = "V_eta-ADDED-ON-PARENT"  # did_v1 has the child's only
+P_ADDED_BOTH = "V_eta-ADDED-BOTH"      # both classes are did_v1, neither
+                                       # declares this field -- V_eta's shadow
+P_NO_V1_CLASS = "NO-DID-V1-CLASS"      # a V_eta target class, OR a rename this
+                                       # lookup cannot follow. NOT "not in NDI".
+P_UNKNOWN = "NOT-LOOKED-UP"            # the ground truth artifact was absent
+
+
+def provenance(gt_index, gt_stats, child, parent, name, kind="fields"):
+    """(code, one-line evidence) for one redeclaration pair."""
+    if not gt_stats.get("present"):
+        return P_UNKNOWN, f"ground truth artifact unavailable ({gt_stats.get('error')})"
+    c = gt_index.get(_norm(child))
+    p = gt_index.get(_norm(parent))
+    if c is None or p is None:
+        missing = [n for n, e in ((child, c), (parent, p)) if e is None]
+        return P_NO_V1_CLASS, (
+            "no did_v1 class matches " + " and ".join(repr(m) for m in missing)
+            + " (a V_eta target class, or a rename this lookup cannot follow)")
+    n = _norm(name)
+    in_c, in_p = n in c[kind], n in p[kind]
+    if in_c and in_p:
+        return P_V1_FIDELITY, (
+            f"did_v1 declares it in BOTH -- {p['class']}.{name} and "
+            f"{c['class']}.{name}; dropping the child's would stop the "
+            "tombstone matching the writer")
+    if in_p and not in_c:
+        return P_ADDED_ON_CHILD, (
+            f"did_v1 declares {p['class']}.{name} only; the "
+            f"{c['class']} block declaration was minted on this side")
+    if in_c and not in_p:
+        return P_ADDED_ON_PARENT, (
+            f"did_v1 declares {c['class']}.{name} only; the "
+            f"{p['class']} block declaration was minted on this side")
+    return P_ADDED_BOTH, (
+        f"both classes exist in did_v1 and NEITHER declares {name} in its own "
+        "block -- both copies were minted on this side")
+
+
+def annotate_provenance(rows, gt_index, gt_stats, kind="fields"):
+    """Attach the v1 provenance to every row, in place. Returns `rows`."""
+    for r in rows:
+        code, why = provenance(gt_index, gt_stats, r["child"], r["parent"],
+                               r["name"], kind)
+        r["v1_provenance"] = code
+        r["v1_evidence"] = why
+    return rows
 
 
 def ancestry(classes, cn):
@@ -427,10 +635,32 @@ def _declarations(schema, kind):
 def compare_edge(parent_e, child_e, path):
     """Diff two `depends_on` entries.
 
-    Same silence, one tier over: `mustBeNonEmpty` on an edge is declared
-    everywhere and enforced nowhere (`+did2/+validate/references.m` skips empty
-    edges), and `must_refer_to_document_class` is DECLARATIVE -- existence-only,
-    never type-checked. A child that rewrites either is unreported today.
+    THIS DOCSTRING SAID "`mustBeNonEmpty` on an edge is declared everywhere and
+    enforced nowhere (`+did2/+validate/references.m` skips empty edges)". THAT
+    IS STALE, and stale in the direction that makes a live gate read as
+    decorative. Corrected 2026-08-12 from the code, not from a comment:
+
+      * `references.m:90` does still skip empty edges -- and says in its own
+        words that this is "the limit of what is knowable from this function's
+        inputs", not a policy: it is the ORPHAN check and is handed no schema.
+      * The check now lives in `cache.m:787-788`, behind
+        `strictMode('RequiredDependencies')`, WHICH IS ARMED (2026-08-10, team's
+        call, on a measured cost of 7,233 empty required edges). An edge
+        declared `mustBeNonEmpty` and left blank raises
+        `did2:validation:emptyRequiredDependency`.
+
+    AND THE SEMANTICS ARE NOT THE FIELD SEMANTICS, which is why a LOOSEN here
+    reads differently from a LOOSEN on a field. `requiredDependencies`
+    (`cache.m:236-289`) collects every edge name declared `mustBeNonEmpty`
+    ANYWHERE IN THE CHAIN and unions them -- `if ~logical(dep.mustBeNonEmpty);
+    continue; end`, then add the name. So the STRICTEST declaration in the chain
+    governs and a child CANNOT relax a required edge by redeclaring it `false`.
+    The disagreement is still worth reporting (it is two copies of one fact
+    saying different things, which is #69's other half) but it is not a hole a
+    document can get through. Rows carry that caveat inline.
+
+    `must_refer_to_document_class` is DECLARATIVE -- existence-only, never
+    type-checked -- per the standing decision in CLAUDE.md.
     """
     diffs = []
     pv = parent_e.get("mustBeNonEmpty", _MISSING)
@@ -535,7 +765,12 @@ def _fmt(v):
     return s if len(s) <= 60 else s[:57] + "..."
 
 
-def print_denominator(load_stats, field_stats, edge_stats):
+EDGE_UNION_CAVEAT = ("chain-union: cache.m:236-289 unions mustBeNonEmpty over "
+                     "the WHOLE chain, so the strictest declaration governs "
+                     "and a child cannot relax it")
+
+
+def print_denominator(load_stats, field_stats, edge_stats, gt_stats):
     """FIRST and UNCONDITIONALLY, per operating rule 5.
 
     'Found nothing' and 'looked in the wrong place' must be distinguishable from
@@ -576,10 +811,22 @@ def print_denominator(load_stats, field_stats, edge_stats):
             print(f"      {label}: {item}")
     for item in field_stats["edges_unresolved"]:
         print(f"      unresolved superclass: {item}")
+    print(f"  did_v1 ground truth artifact    "
+          f"{'PRESENT' if gt_stats['present'] else 'ABSENT'}   {gt_stats['path']}")
+    if gt_stats["present"]:
+        print(f"    ndi_ref                       {gt_stats['ndi_ref']}")
+        print(f"    did_v1 classes indexed        {gt_stats['classes']}")
+        print(f"    did_v1 field names indexed    {gt_stats['field_names']}")
+        print(f"    did_v1 depends_on names       {gt_stats['edge_names']}")
+    else:
+        print(f"    NOT READ: {gt_stats['error']}")
+        print("    Every row below will read NOT-LOOKED-UP. That is the tool "
+              "not having looked,")
+        print("    NOT a finding that these fields are absent from did_v1.")
     print()
 
 
-def print_section(title, rows, stats, show_identical):
+def print_section(title, rows, stats, show_identical, kind="fields"):
     counts = collections.Counter(r["verdict"] for r in rows)
     print(title)
     print(f"  redeclaration pairs (deduped)   {len(rows)}")
@@ -591,6 +838,23 @@ def print_section(title, rows, stats, show_identical):
                 if verdict == OTHER)
     print(f"  attribute differences with NO defined tighten/loosen ordering: {unordered}")
     print(f"  differences on NON-constraint attributes (doc/default/queryable): {other}")
+
+    # The provenance split is the one a reader acts on, so it goes in the
+    # summary and not only under the rows.
+    prov = collections.Counter(r.get("v1_provenance", P_UNKNOWN) for r in rows)
+    print("  v1 provenance of the shadow (did_v1 declares BOTH copies?):")
+    for code in (P_V1_FIDELITY, P_ADDED_ON_CHILD, P_ADDED_ON_PARENT,
+                 P_ADDED_BOTH, P_NO_V1_CLASS, P_UNKNOWN):
+        if prov.get(code):
+            print(f"    {code:<24} {prov[code]}")
+    # A LOOSENED/DIVERGENT row on an attribute a validator READS is the
+    # actionable subset. Counted here rather than left for a reader to spot.
+    live = [r for r in rows
+            if r["verdict"] in ("LOOSENED", "DIVERGENT")
+            and any(enforcement_of(d[1], kind) == ENFORCED
+                    for d in r["diffs"] if d[4] in (LOOSEN, UNORDERED))]
+    print(f"  LOOSENED/DIVERGENT rows whose moved attribute IS read by a "
+          f"validator: {len(live)}")
     print()
 
     for verdict in ("LOOSENED", "TIGHTENED", "DIVERGENT", "IDENTICAL"):
@@ -607,10 +871,24 @@ def print_section(title, rows, stats, show_identical):
             print(f"    {r['child']}.{r['name']}  redeclares  {r['parent']}.{r['name']}"
                   f"   [{r['child_tier']} over {r['parent_tier']}; "
                   f"seen in {r['chains']} chain(s)]")
-            for path, attr, pv, cv, v in r["diffs"]:
-                if v == OTHER and verdict != "IDENTICAL":
-                    continue
-                print(f"        {v:<9} {path}.{attr}: "
+            print(f"        v1 provenance: {r.get('v1_provenance', P_UNKNOWN)} "
+                  f"-- {r.get('v1_evidence', '')}")
+            constraint_diffs = [d for d in r["diffs"] if d[4] != OTHER]
+            other_diffs = [d for d in r["diffs"] if d[4] == OTHER]
+            for path, attr, pv, cv, v in constraint_diffs:
+                tag = enforcement_of(attr, kind)
+                print(f"        {v:<9} [{tag:<11}] {path}.{attr}: "
+                      f"{_fmt(pv)}  ->  {_fmt(cv)}")
+                if kind == "depends_on" and attr == "mustBeNonEmpty":
+                    print(f"                  ^ {EDGE_UNION_CAVEAT}")
+            # PRINTED ON EVERY ROW NOW, not only on IDENTICAL ones. They were
+            # counted in the summary and shown nowhere, which is a count
+            # without its evidence -- and it hid a real one: the
+            # subjectmeasurement.datestamp row differs on `blank_value` (0.0,
+            # a NUMBER, in a field typed `timestamp`) as well as on
+            # mustBeNonEmpty, and only the second was ever visible.
+            for path, attr, pv, cv, _v in other_diffs:
+                print(f"        (non-constraint) {path}.{attr}: "
                       f"{_fmt(pv)}  ->  {_fmt(cv)}")
         print()
 
@@ -628,12 +906,16 @@ def main(argv=None):
     args = ap.parse_args(argv)
 
     classes, load_stats = load_classes()
+    gt_index, gt_stats = load_ground_truth()
     field_rows, field_stats = sweep(classes, "fields")
     edge_rows, edge_stats = sweep(classes, "depends_on")
+    annotate_provenance(field_rows, gt_index, gt_stats, "fields")
+    annotate_provenance(edge_rows, gt_index, gt_stats, "depends_on")
 
     if args.json:
         print(json.dumps({
             "load": {k: v for k, v in load_stats.items()},
+            "ground_truth": gt_stats,
             "fields": {"rows": [{k: v for k, v in r.items() if k != "diffs"}
                                 for r in field_rows],
                        "stats": {k: v for k, v in field_stats.items()
@@ -645,11 +927,11 @@ def main(argv=None):
         }, indent=1, default=str))
         return 0
 
-    print_denominator(load_stats, field_stats, edge_stats)
+    print_denominator(load_stats, field_stats, edge_stats, gt_stats)
     print_section("FIELDS REDECLARED FROM AN ANCESTOR", field_rows, field_stats,
-                  args.show_identical)
+                  args.show_identical, "fields")
     print_section("depends_on EDGES REDECLARED FROM AN ANCESTOR", edge_rows,
-                  edge_stats, args.show_identical)
+                  edge_stats, args.show_identical, "depends_on")
 
     loosened = sum(1 for r in field_rows + edge_rows if r["verdict"] == "LOOSENED")
     divergent = sum(1 for r in field_rows + edge_rows if r["verdict"] == "DIVERGENT")
