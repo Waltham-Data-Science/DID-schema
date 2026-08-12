@@ -47,7 +47,7 @@
             "mustNotHaveNaN": false,
             "queryable": true,
             "ontology": null,
-            "documentation": "The protocol's name, e.g. \"default\" -- the string spikeextractor.m:372 and spikesorter.m:373 query by exact_string. OPTIONAL: a scoped variant need not be named.",
+            "documentation": "The protocol's name, e.g. \"default\". OPTIONAL: a scoped variant need not be named. CITATION CORRECTED 2026-08-12 -- this read \"the string spikeextractor.m:372 and spikesorter.m:373 query by exact_string\", and those two lines query `base.name`, NOT this field: ndi.query('base.name','exact_string',extraction_parameters_name,'') and ndi.query('base.name','exact_string',sorting_parameters_name,''), re-read from NDI origin/main. `method_parameters` inherits `base`, so this declaration is a SECOND COPY of a name the apps read from the `base` block -- one fact in two live storage locations, which is #69. WHICH BLOCK IS AUTHORITATIVE IS AN OPEN TEAM DECISION riding with binding governance; nothing here settles it, and the field and its constraints are unchanged. Do not delete either copy on this note. The block comment above is correct as written: it always said `base.name`, and only this string disagreed with it.",
             "constraints": {}
         },
         {

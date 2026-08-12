@@ -12,7 +12,9 @@ pharmacological family, the dataseries -> data_body consolidation, and the
 meta-schema `binding` formalization) is an in-progress follow-up; those tests
 land with that increment.
 """
+import contextlib
 import glob
+import io
 import json
 import os
 
@@ -1484,10 +1486,11 @@ def test_no_new_duplicate_field_declarations_in_a_chain():
     # DIFFERENT blocks, so the redeclaration never trips it -- and a cross-block
     # duplicate name is checked nowhere else either.
     #
-    # A RATCHET, not a zero. Six of the nine known rows are V1 FIDELITY: NDI's
-    # own templates declare a class-block `name` beside `base.name`, and a
-    # tombstone that dropped it would stop matching the writer. See the evidence
-    # quoted in tools/check_duplicate_field_declarations.py.
+    # A RATCHET, not a zero. Most rows are V1 FIDELITY: NDI's own templates
+    # declare a class-block `name` beside `base.name`, and a tombstone that
+    # dropped it would stop matching the writer. The fidelity split is DERIVED
+    # from schemas/V_eta_ndi_ground_truth.json -- see the tests below, and the
+    # tool's docstring for why the hand list it replaced had to go.
     # LOADED BY PATH, not imported. `tools/` has no __init__.py and the package
     # is installed with `pip install -e .`, so `import tools.x` resolves locally
     # (cwd on sys.path) and raises ModuleNotFoundError in CI. Running only
@@ -1502,6 +1505,144 @@ def test_no_new_duplicate_field_declarations_in_a_chain():
     assert len(rows) == mod.BASELINE, (
         f"BASELINE is stale ({len(rows)} found, baseline {mod.BASELINE}) -- "
         "lower it so the ratchet keeps the ground it won")
+
+
+def test_duplicate_field_fidelity_split_is_derived_from_the_ground_truth():
+    """The V1-FIDELITY split must come from NDI, not from a list beside it.
+
+    THE HAND LIST DRIFTED, in the direction that costs documents: the module
+    docstring said "six of the nine rows are V1 FIDELITY" and named
+    `stimulus_parameter.name` as the sixth while the set held five and omitted
+    it, so a field NDI's own schema declares was filed under "no template forces
+    this -- OPEN: which block is authoritative?". Acting on that bucket means
+    dropping the field from a PURE PASSTHROUGH tombstone, which leaves it
+    undeclared on every real document and quarantines all of them.
+
+    So this asserts the property the list could not have: every V1-FIDELITY
+    verdict is RE-DERIVED here, straight out of the ground truth artifact, by
+    code that shares nothing with the tool's classifier but the artifact itself.
+    """
+    mod = _load_tool("check_duplicate_field_declarations")
+
+    classes = mod.load_classes()
+    gt_index, gt_stats = mod.load_ground_truth()
+    # DENOMINATORS, asserted rather than printed. A missing artifact would make
+    # every row NOT-DERIVABLE, and "0 misfiled rows" would be true and vacuous.
+    assert gt_stats["present"], (
+        f"ground truth artifact not read ({gt_stats['error']}) -- this check "
+        "would pass while classifying nothing")
+    assert gt_stats["classes"] > 0 and gt_stats["field_names"] > 0, gt_stats
+    rows = mod.find_duplicates(classes)
+    assert rows, "no duplicate rows at all -- the check would pass vacuously"
+
+    classified, _ = mod.classify(rows, gt_index, gt_stats)
+    assert len(classified) == len(rows)
+
+    # Independent re-derivation: read the raw artifact, not the tool's index.
+    with open(mod.GROUND_TRUTH) as fh:
+        raw = json.load(fh)
+    norm = mod._norm
+    v1 = {norm(cn): {norm(f) for f in (e.get("fields") or [])}
+          for cn, e in (raw.get("classes") or {}).items()}
+
+    for r in classified:
+        declaring = [o for o in r["owners"]
+                     if norm(o) in v1 and norm(r["name"]) in v1[norm(o)]]
+        unknown = [o for o in r["owners"] if norm(o) not in v1]
+        if r["derived"] == mod.V1_FIDELITY:
+            assert len(declaring) >= 2, (
+                f"{r['leaf']}.{r['name']} is filed V1-FIDELITY but did_v1 "
+                f"declares it in {declaring!r}, fewer than two blocks")
+        elif r["derived"] == mod.V_ETA_SHADOW:
+            assert not unknown and len(declaring) < 2, (
+                f"{r['leaf']}.{r['name']} is filed V_eta-SHADOW but "
+                f"unknown={unknown!r} declaring={declaring!r}")
+        else:
+            assert r["derived"] == mod.NOT_DERIVABLE, r
+            assert unknown, (
+                f"{r['leaf']}.{r['name']} is filed NOT-DERIVABLE but every "
+                "declaring class has a did_v1 counterpart -- the ground truth "
+                "could have answered it")
+
+    # The exact row the drift misfiled. Its provenance is NDI's, so it must
+    # never come back as an open question a reader might close by deleting.
+    sp = [r for r in classified
+          if (r["leaf"], r["name"]) == ("stimulus_parameter", "name")]
+    assert sp and sp[0]["derived"] == mod.V1_FIDELITY, (
+        "stimulus_parameter.name must derive as V1-FIDELITY -- NDI's schema "
+        f"declares it and migrators_j/stimulus_parameter.m passes documents "
+        f"through unchanged; got {sp!r}")
+
+
+def test_duplicate_field_overrides_cannot_outvote_ndi_and_cannot_go_stale():
+    """The hand list survives only as a NOT-DERIVABLE override, and a dead one fails.
+
+    Both halves matter, and for opposite reasons. An override that could
+    overrule the artifact would reintroduce the drift under a new name; an
+    override nobody uses is an exception nobody is checking, which is exactly
+    how the old list went wrong -- by omission, silently, for two days.
+    """
+    mod = _load_tool("check_duplicate_field_declarations")
+
+    classes = mod.load_classes()
+    gt_index, gt_stats = mod.load_ground_truth()
+    assert gt_stats["present"], gt_stats
+    rows = mod.find_duplicates(classes)
+
+    derivable = [r for r in mod.classify(rows, gt_index, gt_stats)[0]
+                 if r["derived"] != mod.NOT_DERIVABLE]
+    undecided = [r for r in mod.classify(rows, gt_index, gt_stats)[0]
+                 if r["derived"] == mod.NOT_DERIVABLE]
+    assert derivable and undecided, (
+        "this test needs one row of each kind to mean anything; got "
+        f"{len(derivable)} derivable, {len(undecided)} not")
+
+    # 1. An override on a row the artifact ANSWERS is refused, and the reported
+    #    bucket stays the derived one -- NDI wins, the hand entry loses.
+    victim = (derivable[0]["leaf"], derivable[0]["name"])
+    wrong = mod.V_ETA_SHADOW if derivable[0]["derived"] == mod.V1_FIDELITY \
+        else mod.V1_FIDELITY
+    out, ovr = mod.classify(rows, gt_index, gt_stats,
+                            {victim: (wrong, "a hand claim contradicting NDI")})
+    got = next(r for r in out if (r["leaf"], r["name"]) == victim)
+    assert victim in ovr["refused"], ovr
+    assert got["bucket"] == got["derived"] != wrong, got
+
+    # 2. An override on a NOT-DERIVABLE row applies.
+    target = (undecided[0]["leaf"], undecided[0]["name"])
+    out, ovr = mod.classify(rows, gt_index, gt_stats,
+                            {target: (mod.V1_FIDELITY, "renamed from a v1 source")})
+    got = next(r for r in out if (r["leaf"], r["name"]) == target)
+    assert target in ovr["used"] and got["bucket"] == mod.V1_FIDELITY, (got, ovr)
+
+    # 3. An override matching no row is reported unused...
+    _, ovr = mod.classify(rows, gt_index, gt_stats,
+                          {("no_such_class", "no_such_field"): (mod.V1_FIDELITY, "x")})
+    assert ovr["unused"] == [("no_such_class", "no_such_field")], ovr
+
+    # 4. ...and unused or refused overrides FAIL the tool, with or without
+    #    --enforce. Driven through main() so the exit code is the thing tested.
+    real = mod.OVERRIDES
+    try:
+        for bad, label in ((({("no_such_class", "no_such_field"):
+                              (mod.V1_FIDELITY, "stale")}), "unused"),
+                           (({victim: (wrong, "contradicts NDI")}), "refused")):
+            mod.OVERRIDES = bad
+            for argv in ([], ["--enforce"]):
+                buf = io.StringIO()
+                with contextlib.redirect_stdout(buf):
+                    code = mod.main(argv)
+                assert code == 1, (
+                    f"a {label} override exited {code} with argv={argv!r} -- a "
+                    "silent stale exception is the defect this replaces")
+                assert "FAIL:" in buf.getvalue(), buf.getvalue()
+    finally:
+        mod.OVERRIDES = real
+
+    # 5. And the committed set is clean under the real overrides.
+    buf = io.StringIO()
+    with contextlib.redirect_stdout(buf):
+        assert mod.main(["--enforce"]) == 0, buf.getvalue()
 
 
 def test_no_signed_plan_document_claims_to_be_unsigned():

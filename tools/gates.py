@@ -426,6 +426,16 @@ EDGES = [
          "it walks every class chain in the built schema root.",
          "tools/check_duplicate_field_declarations.py", r'"V_eta"'),
 
+    Edge("ndi_ground_truth", "check_duplicate_field_declarations",
+         "schemas/V_eta_ndi_ground_truth.json",
+         "the V1-FIDELITY split is DERIVED from the ground truth (2026-08-12), "
+         "not from a hand list beside it -- a row is NDI's own only if did_v1 "
+         "declares the name in two of the declaring blocks. Read a stale "
+         "artifact and a duplicate NDI forces reads as one V_eta invented, "
+         "which is an invitation to delete a field every real document carries.",
+         "tools/check_duplicate_field_declarations.py",
+         r"V_eta_ndi_ground_truth\.json"),
+
     Edge("build_v_eta", "check_constraint_refinement", "schemas/V_eta",
          "same sweep, one level deeper -- it opens the built declarations.",
          "tools/check_constraint_refinement.py", r'"V_eta"'),
