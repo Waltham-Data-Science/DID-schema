@@ -301,6 +301,41 @@ lives in these files — read them instead of re-deriving from memory:
   registry is **38 rows, not 34** (the 4 illustrative `binding_examples` were never counted),
   and **14 fields carry a binding, not eight**, two of them NESTED
   (`relative_reference.value.relation` / `.frame`), which a top-level-only sweep misses.
+
+  **THE 38 IS EXACT AND RE-CONFIRMED. THE 14 IS NOT, AND `.frame` NAMES A FIELD THAT
+  DOES NOT EXIST.** Corrected 2026-08-12 from the generator's own denominator — which is
+  the point, because this file typed a number beside a tool that prints one:
+
+        $ python3 tools/regen_binding_strengths.py --check | head -1
+        DENOMINATOR: 13 bound field declaration(s) read from 239 document_class
+        file(s) (991 field declarations walked, 2 of the bindings NESTED);
+        4 registry list(s), 38 row(s) (34 normative, 4 illustrative)
+
+  Registry **38 = 5 subject_statement + 4 binding_examples + 26 relation + 3
+  entity_field** ✓ exactly as recorded. Bound fields are **13, not 14** — the count is
+  in the reassuring direction (one more field governed than really is), which is the
+  smaller half of the error. The larger half is the NAME: the two nested bindings are
+  `relative_reference.value.relation` and **`relative_reference.value.clock`**. There is
+  no `frame` field on `relative_reference` — `grep -c frame` on the built schema returns
+  0. **`frame` is the name the SUMMARY paragraph of the time-reference plan proposed
+  ("`frame` not `clock`") and the SIGNED walkthrough section then did not adopt**: the
+  signature at `V_eta_time_reference_model_plan.md:468` says *"`clock` becomes a bound
+  ontology_term over FOUR terms"*, and the built schema binds `value.clock` over exactly
+  four (`utc`, `dev_local_time`, `dev_global_time`, `exp_global_time`) and `value.relation`
+  over all thirteen OWL-Time interval terms. HISTORICAL-SIGNOFF-CLAIM. So a reader who
+  greps for `frame` finds nothing and concludes the binding is unbuilt; it is built under
+  the other name. **This is the "read the plan's later sections, they supersede the
+  summary" rule failing one level up — inside a correction note written to fix a
+  different staleness.**
+
+  The 13, listed so the next reader does not have to re-derive them:
+  `clock_alignment_configuration.clock`, `dataset.accessibility` / `.ethics_assessment` /
+  `.experimental_approach`, `epoch_bounded_reference.epoch_clock`,
+  `frequency_filter.algorithm` / `.band`, `interaction_purpose.purpose`,
+  `relative_reference.value.clock` / `.value.relation`, `subject_interaction.method`,
+  `subject_statement.variable`, `term.value`. **`DID-matlab .../+schema/cache.m` carries
+  the same stale 14** in its `case 'binding'` comment (*"14 bound fields exist in the whole
+  of V_eta"*) — recorded here, not fixed there, per scope.
 - **`schemas/V_eta_ngrid_family_findings.md`** — FACTS (not decisions) for group F, read from
   the real v1 writers: the RF family is **ONE** document class (`hartley_calc`; `reverse_correlation`
   + `hartley_reverse_correlation` are superclass-only, no docs, and `calculator` is a V_delta
@@ -379,7 +414,17 @@ lives in these files — read them instead of re-deriving from memory:
   `pyraview` loop indexes `dt`/`t0` by level but NOT `dataType`: extent is per-body, type is
   per-statement). NOT `data_type` — that is a CLASS with **38 direct subclasses**; NOT
   `element_type` — v1 `element` has **223 hits across 95 of 915 NDI files**; `datum` has ZERO v1
-  meaning. `data_body` gains `format` + `compression` (the unbuilt half of the 2.D "encoding
+  meaning. **BOTH FIGURES RE-CHECKED 2026-08-12; the ARGUMENT survives both, the NUMBERS
+  do not.** `data_type` now has **41** direct subclasses, not 38 (`DENOMINATOR: 247 json
+  file(s) under schemas/V_eta/ read`) — it grew, so the "this name is taken" case is
+  stronger, not weaker. The `element` figure is **NOT REPRODUCIBLE from its own
+  description**: the denominator moved (`git ls-tree -r origin/main | grep -c '\.m$'` =
+  **1002**, not 915, and `tools/coverage.py:116` already records 1,002), and no obvious
+  reading lands on 223/95 — substring `element` gives 1780 hits across 177 files,
+  word-boundary `\belement\b` gives 765 across 128, quoted `'element'` gives 25 across 13.
+  A count whose method is not written down cannot be re-derived, which is Operating Rule 5
+  arriving late: **the denominator was stated and the numerator's method was not.** Every
+  reading is far above the threshold the argument needs, so `element_type` stays rejected. `data_body` gains `format` + `compression` (the unbuilt half of the 2.D "encoding
   becomes a field" decision, which `migrators_j/image.m:51-56` has been waiting on) plus
   `filename`/`content_hash`/`description` and the `statement` edge — declared on both children
   today with OPPOSITE required-ness. `summary` is DROPPED (#68, empty + unread); `zarr` is
@@ -412,7 +457,26 @@ lives in these files — read them instead of re-deriving from memory:
   were written from V_alpha too, so a passthrough would have QUARANTINED the documents it exists
   to preserve (the validator is strict BOTH ways — `undeclaredField` and `mustBeNonEmpty`).
   First run: 36 of 60 diverged. Now **BLOCKING 9 → 3** (the 3 left are `stimulus_parameter`,
-  `stimulus_parameter_table`, `stimulus_presentation`, held for #31 deliberately). It reads the
+  `stimulus_parameter_table`, `stimulus_presentation`, held for #31 deliberately).
+  **"BLOCKING 9 → 3" IS STALE: IT IS NOW 0.** Re-run 2026-08-12, quoting the checker's
+  own header rather than a sentence about it:
+
+        $ python3 tools/check_tombstones.py | head -9
+        V_eta source-tombstone check   (ground truth: NDI origin/main)
+          classes compared : 67          <- the "60" above is also stale
+          COLLISION        : 0
+          BLOCKING         : 0   (a real document CANNOT validate)
+          LOSSY            : 8   (real content has nowhere to land)
+          COSMETIC         : 4   (invented declarations only)
+          name reused      : 1   (image)
+          skipped          : 4 nonprod, 3 chain-mixin, 17 no tombstone
+
+  The three `stimulus_*` classes held for #31 no longer block. **LOSSY 8 is the live
+  number and it is NOT zero** — `distance_metadata` and `element_epoch` are two of the
+  eight, both already described in this file — so the row that matters moved from
+  BLOCKING to LOSSY rather than disappearing. Direction: understating progress on the
+  gating count, while the non-gating count it did not mention is where the work is.
+  It reads the
   `RENAME` map, so renamed classes are compared instead of silently skipped — that hole hid
   `element_epoch`→`acquisition_epoch`, which declares `axes`/`channels`/`storage` that no NDI
   template has. THREE failure modes — hollow / passthrough / **fragment**
@@ -981,6 +1045,41 @@ lives in these files — read them instead of re-deriving from memory:
   absence-based. **Re-run the sweep before any new disposition that turns on absence.**
   Sibling to the `depends_on` rule below: that one is about the KIND of reference, this
   one is about the SPELLING of the thing referenced.
+
+  **THE SWEEP ABOVE WAS RE-RUN 2026-08-12, AS ITS OWN LAST SENTENCE INSTRUCTS, AND
+  EVERY NUMBER IN IT HAS MOVED. Its recorded result is HISTORY — do not use the
+  six-row table as the current at-risk list.** The V_eta side grew by 17 classes, and
+  the two rows that WERE the bug are gone while three new rows arrived:
+
+        DENOMINATOR: 91 template json file(s) on NDI origin/main, 0 unparseable
+                     -> 91 distinct NDI template class_names
+                     247 json file(s) under schemas/V_eta/ read
+                     -> 241 distinct V_eta class names   (the note above said 224)
+        AT RISK (match ONLY after lowercase + strip-underscores): 7, not 6
+           image_collection <-> imageCollection                <- NEW
+           image_stack <-> imageStack                          <- NEW
+           image_stack_parameters <-> imageStack_parameters    <- NEW
+           ontology_image <-> ontologyImage
+           ontology_label <-> ontologyLabel
+           ontology_table_row <-> ontologyTableRow
+           spike_interface_sorting_outputs <-> SpikeInterfaceSortingOutputs
+
+  `demo_ndi` and `demo_ndi_mock` are **no longer V_eta class names at all** (0 files
+  under `schemas/V_eta/` declare either), while `demoNDI` and `demoNDIMock` both still
+  ship on NDI `origin/main` — so the pair that taught the lesson has dropped out of the
+  instrument that records it. The three new rows are the `image_stack` /
+  `image_stack_parameters` restoration of 2026-08-10 plus the `imageCollection`
+  tombstone, i.e. **the sweep gained rows because work landed, and nobody re-ran it.**
+  That is the direction this file is NOT known for: the recorded list reads SAFER than
+  reality — three camelCase/snake_case collisions that an absence-based grep could
+  trip over were absent from the at-risk table for two days.
+
+  A cross-check on the prose itself, same run: of **246** distinct backticked
+  identifiers in this file, **79** name a real NDI or V_eta class exactly and **5**
+  match one only after normalisation — `dataType`, `demo_ndi`, `demo_ndi_mock`,
+  `epoch_id`, `imagecollection`. All five sit in sentences that are ABOUT the spelling
+  difference, so there is no live mis-spelling in this document. The check is cheap;
+  re-run it rather than assume that stays true.
 
 - **A `depends_on` SWEEP IS NOT A REFERENCE CHECK. Grep for the NAME too.** Three times in one
   session (2026-08-05) a dependency-graph sweep came back empty or nearly empty while the real
