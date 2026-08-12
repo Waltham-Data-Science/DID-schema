@@ -261,12 +261,27 @@ function StageLadder({ row }: { row: CoverageRow | null }) {
     // this file cannot see the generator that fills them.
     const level = s.reached ?? s.level ?? s.stage ?? s.n;
     const label = s.reached_name ?? s.label ?? s.name ?? s.title;
-    // WHY IT STOPPED, which is the half a bare number cannot carry. `stage 0`
-    // with `blocked_by_state: "not measured"` means the rung was UNREAD, not
-    // failed -- 94 of 102 rows are in exactly that state, and rendering them as
-    // a bare 0 would tell a reader 94 classes have had nothing done to them.
+    // WHY IT STOPPED, which is the half a bare number cannot carry. A rung
+    // whose `blocked_by_state` is "not measured" was UNREAD, not failed, and a
+    // bare stage number tells a reader the class has had nothing done to it.
+    //
+    // REWORDED 2026-08-12 WITH THE LADDER'S RESTRUCTURE, because the sentence
+    // here had become false about its own subject. It said the unread rung was
+    // "the absence of a checked transcription" -- true while rung 1 was
+    // `disposition DECIDED`, and wrong now that governance has left the chain
+    // entirely and lives in `row.governance`. The completion rungs are
+    // consumed / targets built / emits the decided targets / corpus-proven, and
+    // the reason a rung is unread differs per rung, so this no longer guesses
+    // at one: the ledger's own `why` is the place that says it.
     const blockedBy = s.blocked_by;
     const blockedState = s.blocked_by_state;
+    // THE SECOND QUANTITY, and the reason it is rendered rather than dropped:
+    // "capped at 0 by an unread rung" and "nothing has happened here" printed
+    // the same number until 2026-08-12. `highest_rung_satisfied_independently`
+    // is NOT a stage and is never shown as one.
+    const highest = s.highest_rung_satisfied_independently;
+    const capped = s.capped === true;
+    const untouched = s.nothing_satisfied === true;
     if (level !== undefined || label !== undefined) {
       return (
         <div className="cw-stage">
@@ -277,10 +292,23 @@ function StageLadder({ row }: { row: CoverageRow | null }) {
           {blockedState !== undefined && (
             <span className="section-note">
               {blockedState === "not measured"
-                ? `rung ${String(blockedBy)} is UNREAD, not failed -- this is` +
-                  " the absence of a checked transcription, not evidence that" +
-                  " no decision exists"
+                ? `rung ${String(blockedBy)} is UNREAD, not failed -- this` +
+                  " stage is capped by a question nobody has answered, not by" +
+                  " a build that failed"
                 : `stopped at rung ${String(blockedBy)} (${String(blockedState)})`}
+            </span>
+          )}
+          {capped && highest !== undefined && (
+            <span className="section-note">
+              highest rung satisfied on its own: {String(highest)} — NOT a
+              stage, and never to be quoted as one; it says only that something
+              above the cap holds
+            </span>
+          )}
+          {untouched && (
+            <span className="section-note">
+              nothing above it is satisfied either — no rung holds and none is
+              excused, so this class is genuinely untouched
             </span>
           )}
           {typeof s.reason === "string" && (

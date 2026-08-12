@@ -688,6 +688,28 @@ class TestMutationsRedden(unittest.TestCase):
         self.assertTrue(any("epochfiles_ingested" in f for f in fails), fails)
         self.assertTrue(any("misc singletons" in f for f in fails), fails)
 
+    def test_hand_editing_the_TABLE_side_is_an_error_too(self):
+        # The mutation above edits the FAMILIES side; this one edits the
+        # hand-carried table, which is the side a person is most likely to
+        # touch. Either direction must stop the build rather than silently
+        # override the other record.
+        #
+        # WHICH CHECK CATCHES IT IS REPORTED, not assumed: re-pointing a
+        # transcription at a document that does not contain its quoted
+        # fragment is caught by the older citation check, and re-pointing it
+        # at one that DOES would be caught by the reconciliation. Both are
+        # fatal, which is the property under test.
+        table = dict(coverage.DECIDED_TARGETS_BY_SIGNOFF)
+        targets, _plan, frag, mapping, note = table["epochfiles_ingested"]
+        table["epochfiles_ingested"] = (targets, "V_eta_stimulus_model_plan.md",
+                                        frag, mapping, note)
+        with _Swap(coverage, DECIDED_TARGETS_BY_SIGNOFF=table):
+            _lines, fails = coverage.check_decision_citations()
+        self.assertTrue(fails, "a transcription now cites a document that "
+                               "neither carries its sign-off line nor is the "
+                               "one the signed family cites, and nothing failed")
+        self.assertTrue(any("epochfiles_ingested" in f for f in fails), fails)
+
     def test_the_reconciliation_denominator_cannot_be_faked_by_deleting_members(self):
         # A class no family names is COUNTED, not failed -- families track open
         # classes and a class can be signed and closed. So the check must not

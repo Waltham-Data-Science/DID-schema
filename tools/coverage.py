@@ -2053,9 +2053,16 @@ def _stage_cell(r):
     """One class's stage, plus the rung that stopped it and any anomaly.
 
     The stopping rung is printed BESIDE the number, always. A bare `stage 0`
-    says only "not far"; `stage 0 (stopped at 1, not measured)` says WHICH
-    question is unanswered and whether it is unanswered or answered NO -- and
-    for 94 of these rows the honest word is `not measured`, not `no`.
+    says only "not far"; `stage 0 (stops at 2, not measured)` says WHICH
+    question is unanswered and whether it is unanswered or answered NO. The
+    two are different facts and the cell must not merge them: `no` is a
+    measurement, `not measured` is a hole.
+
+    THE COUNT THAT USED TO BE QUOTED HERE IS GONE ON PURPOSE. This docstring
+    said "for 94 of these rows the honest word is `not measured`" -- a number
+    produced by the governance rung that no longer exists in this ladder, and
+    the kind of figure CLAUDE.md has three separate corrections about. The
+    live counts are in the rollup, which prints them.
     """
     st = r.get("stage") or {}
     if st.get("unclassifiable"):
