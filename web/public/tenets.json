@@ -1,0 +1,1053 @@
+{
+ "classes_index": [
+  "acquisition_epoch",
+  "acquisition_layout",
+  "acquisition_system",
+  "app",
+  "binaryseries_parameters",
+  "binding_registry_meta",
+  "contrast_tuning",
+  "contrast_tuning_calc",
+  "control_designation",
+  "control_stimulus_ids",
+  "daqreader",
+  "daqsystem",
+  "dataset",
+  "directed_relation",
+  "element",
+  "element_epoch",
+  "ensemble",
+  "fitcurve",
+  "image",
+  "imageStack",
+  "image_manipulation",
+  "image_observation",
+  "logical",
+  "logical_observation",
+  "ngrid",
+  "opaque_body",
+  "openminds_subject",
+  "oridirtuning_calc",
+  "orientation_direction_tuning",
+  "sampled_body",
+  "software",
+  "spatial_frequency_tuning",
+  "spatial_frequency_tuning_calc",
+  "speed_tuning",
+  "speed_tuning_calc",
+  "stimulus_tuningcurve",
+  "strain",
+  "subject",
+  "subject_calculation",
+  "temporal_frequency_tuning",
+  "temporal_frequency_tuning_calc",
+  "term_assertion",
+  "tuning_curve",
+  "tuning_curve_calculation",
+  "tuningcurve_calc",
+  "validity",
+  "validity_observation",
+  "voltage",
+  "voltage_observation",
+  "zarr"
+ ],
+ "denominator": {
+  "classes_in_the_built_set": 33,
+  "classes_that_are_v1_sources": 26,
+  "classes_vouched_only_by_the_cited_plan": [
+   "acquisition_layout",
+   "validity",
+   "validity_observation"
+  ],
+  "distinct_classes_named": 50,
+  "negative_control": "the substantiation lookup was asked for a canary string that cannot occur in any document and did not find it",
+  "plan_documents_cited": [
+   "schemas/V_eta_daq_family_decisions.md",
+   "schemas/V_eta_data_body_model_plan.md",
+   "schemas/V_eta_ensemble_plan.md",
+   "schemas/V_eta_image_model_plan.md",
+   "schemas/V_eta_logical_observation_plan.md",
+   "schemas/V_eta_openminds_controlled_terms_binding_plan.md",
+   "schemas/V_eta_openminds_family_record.md",
+   "schemas/V_eta_recording_observation_plan.md",
+   "schemas/V_eta_tenet_audit.md",
+   "schemas/V_eta_tuning_model_plan.md"
+  ],
+  "rows": 21,
+  "tenets_declared": 14,
+  "tenets_with_at_least_one_row": 14,
+  "tenets_with_no_substantiated_row": []
+ },
+ "description": "A CURATED map: the link from a tenet to a class exists only in prose (353 T-references across schemas/*.md; 0 of 245 built schema files name a tenet), so every row carries the plan document and the verbatim line that substantiates it. A row that could not be substantiated was dropped, not softened.",
+ "generated_by": "tools/tenet_map.py",
+ "rows": [
+  {
+   "after": [
+    "subject",
+    "term_assertion",
+    "directed_relation"
+   ],
+   "after_built": [
+    "subject",
+    "term_assertion",
+    "directed_relation"
+   ],
+   "after_not_built": [],
+   "before": [
+    "element"
+   ],
+   "change": "The recording element stops being its own kind of thing and becomes a plain subject with its id preserved; what it IS becomes a term assertion and where it came from becomes an edge.",
+   "citation": {
+    "anchor": "element\u2192subject, id preserved, Path-S",
+    "doc": "schemas/V_eta_ensemble_plan.md",
+    "line": 35,
+    "quote": "(element\u2192subject, id preserved, Path-S); each carries its spike-time record as a"
+   },
+   "class_registers": {
+    "directed_relation": [
+     "built",
+     "named_in_cited_plan"
+    ],
+    "element": [
+     "v1_source",
+     "built",
+     "named_in_cited_plan"
+    ],
+    "subject": [
+     "v1_source",
+     "built",
+     "named_in_cited_plan"
+    ],
+    "term_assertion": [
+     "built",
+     "named_in_cited_plan"
+    ]
+   },
+   "note": "T1 admits no kind-subclasses, so a probe, a neuron and an animal are all subjects; the difference is what the graph and the ontology say about them.",
+   "plan_only_classes": [],
+   "tenet": "T1"
+  },
+  {
+   "after": [
+    "acquisition_system"
+   ],
+   "after_built": [
+    "acquisition_system"
+   ],
+   "after_not_built": [],
+   "before": [
+    "daqsystem"
+   ],
+   "change": "The recording rig is NOT promoted to a subject. `acquisition_system` sits beside `software` and `session` under `entity`, because T1's bare subject is the thing statements are ABOUT and a rig is what does the recording.",
+   "citation": {
+    "anchor": "T1's bare subject is the thing statements are",
+    "doc": "schemas/V_eta_daq_family_decisions.md",
+    "line": 221,
+    "quote": ">    and `session`. It is NOT `\u2282 subject`: T1's bare subject is the thing statements are"
+   },
+   "class_registers": {
+    "acquisition_system": [
+     "built",
+     "named_in_cited_plan"
+    ],
+    "daqsystem": [
+     "v1_source",
+     "built",
+     "named_in_cited_plan"
+    ]
+   },
+   "note": "The tenet is doing negative work here -- it is the reason a class was kept OFF the subject spine.",
+   "plan_only_classes": [],
+   "tenet": "T1"
+  },
+  {
+   "after": [
+    "logical",
+    "logical_observation"
+   ],
+   "after_built": [
+    "logical",
+    "logical_observation"
+   ],
+   "after_not_built": [],
+   "before": [
+    "validity",
+    "validity_observation"
+   ],
+   "change": "`validity` was the only data_type naming a SEMANTIC rather than a kind of value. The semantic moved onto `subject_statement.variable`, where T2 puts identity, and the class became the plain boolean type.",
+   "citation": {
+    "anchor": "The semantic belongs in `subject_statement.variable`.",
+    "doc": "schemas/V_eta_logical_observation_plan.md",
+    "line": 42,
+    "quote": "measurement is *about*. The semantic belongs in `subject_statement.variable`."
+   },
+   "class_registers": {
+    "logical": [
+     "built",
+     "named_in_cited_plan"
+    ],
+    "logical_observation": [
+     "built",
+     "named_in_cited_plan"
+    ],
+    "validity": [
+     "named_in_cited_plan"
+    ],
+    "validity_observation": [
+     "named_in_cited_plan"
+    ]
+   },
+   "note": "T2's 'identity rides on `variable`, not the class' is what makes one query span every statement; a class per semantic breaks it.",
+   "plan_only_classes": [
+    "validity",
+    "validity_observation"
+   ],
+   "tenet": "T2"
+  },
+  {
+   "after": [
+    "image",
+    "image_observation",
+    "image_manipulation"
+   ],
+   "after_built": [
+    "image",
+    "image_observation",
+    "image_manipulation"
+   ],
+   "after_not_built": [],
+   "before": [
+    "imageStack",
+    "image"
+   ],
+   "change": "One raster type crossed with the statement direction gives the measured case and the shown-as-stimulus case, instead of two unrelated image classes.",
+   "citation": {
+    "anchor": "**Two directions** (T3):",
+    "doc": "schemas/V_eta_image_model_plan.md",
+    "line": 24,
+    "quote": "2. **Two directions** (T3):"
+   },
+   "class_registers": {
+    "image": [
+     "v1_source",
+     "built",
+     "named_in_cited_plan"
+    ],
+    "imageStack": [
+     "v1_source"
+    ],
+    "image_manipulation": [
+     "built",
+     "named_in_cited_plan"
+    ],
+    "image_observation": [
+     "built",
+     "named_in_cited_plan"
+    ]
+   },
+   "note": "T3 is the factoring move: data_type x direction, so a new stance on an existing value costs a leaf, not a design.",
+   "plan_only_classes": [],
+   "tenet": "T3"
+  },
+  {
+   "after": [
+    "subject",
+    "directed_relation",
+    "sampled_body"
+   ],
+   "after_built": [
+    "subject",
+    "directed_relation",
+    "sampled_body"
+   ],
+   "after_not_built": [],
+   "before": [
+    "ensemble"
+   ],
+   "change": "An ensemble's membership stops being a list inside a document and becomes epoch-scoped `member_of` edges -- documents in their own right, with the per-epoch roster preserved in the graph.",
+   "citation": {
+    "anchor": "T4: relations are documents",
+    "doc": "schemas/V_eta_ensemble_plan.md",
+    "line": 43,
+    "quote": "`member_of` edges\"; T4: relations are documents). **Each `member_of` edge carries the epoch"
+   },
+   "class_registers": {
+    "directed_relation": [
+     "built",
+     "named_in_cited_plan"
+    ],
+    "ensemble": [
+     "v1_source",
+     "built",
+     "named_in_cited_plan"
+    ],
+    "sampled_body": [
+     "built",
+     "named_in_cited_plan"
+    ],
+    "subject": [
+     "v1_source",
+     "built",
+     "named_in_cited_plan"
+    ]
+   },
+   "note": "The per-epoch map document dissolves: once each spike train is keyed by its neuron-subject id, the column legend carries nothing.",
+   "plan_only_classes": [],
+   "tenet": "T4"
+  },
+  {
+   "after": [
+    "acquisition_system",
+    "software"
+   ],
+   "after_built": [
+    "acquisition_system",
+    "software"
+   ],
+   "after_not_built": [],
+   "before": [
+    "daqsystem",
+    "daqreader"
+   ],
+   "change": "The daq family does NOT earn subjecthood: the payload is a MATLAB class name, so there is no hardware fact in the document to attach to a device-subject, and T5 declines to mint one.",
+   "citation": {
+    "anchor": "does not license minting one",
+    "doc": "schemas/V_eta_daq_family_decisions.md",
+    "line": 178,
+    "quote": "earns subjecthood only when it is a thing-in-itself\") does not license minting one."
+   },
+   "class_registers": {
+    "acquisition_system": [
+     "built",
+     "named_in_cited_plan"
+    ],
+    "daqreader": [
+     "v1_source",
+     "built",
+     "named_in_cited_plan"
+    ],
+    "daqsystem": [
+     "v1_source",
+     "built",
+     "named_in_cited_plan"
+    ],
+    "software": [
+     "built",
+     "named_in_cited_plan"
+    ]
+   },
+   "note": "Path S in its refusing mode -- the test is whether the structure is a thing-in-itself, not whether a name exists for it.",
+   "plan_only_classes": [],
+   "tenet": "T5"
+  },
+  {
+   "after": [
+    "sampled_body"
+   ],
+   "after_built": [
+    "sampled_body"
+   ],
+   "after_not_built": [],
+   "before": [
+    "ngrid"
+   ],
+   "change": "A labeled N-D numeric grid is a CARRIER, not a value type: `ngrid` phases into `sampled_body`, and the generic `array` composite that would have duplicated it was killed outright.",
+   "citation": {
+    "anchor": "**`ngrid` \u2192 phases into `sampled_body`**",
+    "doc": "schemas/V_eta_image_model_plan.md",
+    "line": 116,
+    "quote": "- **`ngrid` \u2192 phases into `sampled_body`** like every other carrier (drop `ngrid_file` +"
+   },
+   "class_registers": {
+    "ngrid": [
+     "v1_source",
+     "built",
+     "named_in_cited_plan"
+    ],
+    "sampled_body": [
+     "built",
+     "named_in_cited_plan"
+    ]
+   },
+   "note": "`sampled_body` is already self-describing (axis + typed datum), which is exactly what a bare numeric grid is.",
+   "plan_only_classes": [],
+   "tenet": "T6"
+  },
+  {
+   "after": [
+    "sampled_body",
+    "opaque_body"
+   ],
+   "after_built": [
+    "sampled_body",
+    "opaque_body"
+   ],
+   "after_not_built": [],
+   "before": [
+    "zarr"
+   ],
+   "change": "`zarr` is deleted rather than migrated -- a storage format is a field on a body, not a class, and this one has no v1 source to migrate.",
+   "citation": {
+    "anchor": "`zarr` is DELETED, not migrated",
+    "doc": "schemas/V_eta_data_body_model_plan.md",
+    "line": 349,
+    "quote": "### 10. `zarr` is DELETED, not migrated"
+   },
+   "class_registers": {
+    "opaque_body": [
+     "built",
+     "named_in_cited_plan"
+    ],
+    "sampled_body": [
+     "built",
+     "named_in_cited_plan"
+    ],
+    "zarr": [
+     "built",
+     "named_in_cited_plan"
+    ]
+   },
+   "note": "T6's 'encoding/format is a field, not a class', applied to the one carrier that never had a did_v1 document behind it.",
+   "plan_only_classes": [],
+   "tenet": "T6"
+  },
+  {
+   "after": [
+    "voltage_observation",
+    "sampled_body",
+    "acquisition_epoch"
+   ],
+   "after_built": [
+    "voltage_observation",
+    "sampled_body",
+    "acquisition_epoch"
+   ],
+   "after_not_built": [],
+   "before": [
+    "element",
+    "element_epoch"
+   ],
+   "change": "A raw recording becomes an observation OF THE SPECIMEN taken WITH the electrode: the loose `probe observes specimen` relation is replaced by an `instrument_id` edge, and the modality typing the bare-body path dropped comes back.",
+   "citation": {
+    "anchor": "the `probe observes specimen` relation is REPLACED by the `instrument_id` edge",
+    "doc": "schemas/V_eta_recording_observation_plan.md",
+    "line": 34,
+    "quote": "- **the `probe observes specimen` relation is REPLACED by the `instrument_id` edge** \u2014 one"
+   },
+   "class_registers": {
+    "acquisition_epoch": [
+     "built",
+     "named_in_cited_plan"
+    ],
+    "element": [
+     "v1_source",
+     "built",
+     "named_in_cited_plan"
+    ],
+    "element_epoch": [
+     "v1_source",
+     "named_in_cited_plan"
+    ],
+    "sampled_body": [
+     "built",
+     "named_in_cited_plan"
+    ],
+    "voltage_observation": [
+     "built",
+     "named_in_cited_plan"
+    ]
+   },
+   "note": "T7's two questions: whose value is this (subject_id) and what tool produced it (instrument_id). The electrode is a subject -- just not the subject of this statement.",
+   "plan_only_classes": [],
+   "tenet": "T7"
+  },
+  {
+   "after": [
+    "dataset",
+    "binding_registry_meta"
+   ],
+   "after_built": [
+    "dataset",
+    "binding_registry_meta"
+   ],
+   "after_not_built": [],
+   "before": [
+    "dataset"
+   ],
+   "change": "Three `dataset` fields that were free `char` become `ontology_term` values bound to openMINDS term sets through a new binding shape keyed by (class, field) rather than by a sibling `variable`.",
+   "citation": {
+    "anchor": "(new) `entity_field_bindings`** \u2014 keyed by **(class, field)**",
+    "doc": "schemas/V_eta_openminds_controlled_terms_binding_plan.md",
+    "line": 18,
+    "quote": "- **(new) `entity_field_bindings`** \u2014 keyed by **(class, field)**. For a directly-named"
+   },
+   "class_registers": {
+    "binding_registry_meta": [
+     "built",
+     "named_in_cited_plan"
+    ],
+    "dataset": [
+     "built",
+     "named_in_cited_plan"
+    ]
+   },
+   "note": "T8 is about hard validation, and the binding shape follows the thing being validated: an entity field names its own term set.",
+   "plan_only_classes": [],
+   "tenet": "T8"
+  },
+  {
+   "after": [
+    "strain",
+    "term_assertion"
+   ],
+   "after_built": [
+    "strain",
+    "term_assertion"
+   ],
+   "after_not_built": [],
+   "before": [
+    "openminds_subject"
+   ],
+   "change": "A strain stops being a string inside somebody else's document and becomes a first-class entity with a repeatable `global_identifier`, reached by a typed `strain_id` edge.",
+   "citation": {
+    "anchor": "So the edge to a `strain` document is `strain_id`",
+    "doc": "schemas/V_eta_openminds_family_record.md",
+    "line": 567,
+    "quote": "So the edge to a `strain` document is `strain_id`, exactly parallel to"
+   },
+   "class_registers": {
+    "openminds_subject": [
+     "v1_source",
+     "built",
+     "named_in_cited_plan"
+    ],
+    "strain": [
+     "built",
+     "named_in_cited_plan"
+    ],
+    "term_assertion": [
+     "built",
+     "named_in_cited_plan"
+    ]
+   },
+   "note": "T9's FAIR entities are what make the openMINDS crosswalk mechanical rather than per-dataset.",
+   "plan_only_classes": [],
+   "tenet": "T9"
+  },
+  {
+   "after": [
+    "tuning_curve_calculation",
+    "subject_calculation"
+   ],
+   "after_built": [
+    "tuning_curve_calculation",
+    "subject_calculation"
+   ],
+   "after_not_built": [],
+   "before": [
+    "oridirtuning_calc",
+    "contrast_tuning_calc",
+    "spatial_frequency_tuning_calc",
+    "temporal_frequency_tuning_calc",
+    "speed_tuning_calc",
+    "tuningcurve_calc"
+   ],
+   "change": "Every tuning calculator output folds 1->1 into ONE calculation leaf with `base.id` and `depends_on` preserved -- never dissolved into observations, because dissolution dangles every downstream reference.",
+   "citation": {
+    "anchor": "ONE `tuning_curve_calculation` leaf** (id-preserving 1\u21921 fold)",
+    "doc": "schemas/V_eta_tuning_model_plan.md",
+    "line": 84,
+    "quote": "3. **T10 \u2014 ONE `tuning_curve_calculation` leaf** (id-preserving 1\u21921 fold), NOT five"
+   },
+   "class_registers": {
+    "contrast_tuning_calc": [
+     "v1_source"
+    ],
+    "oridirtuning_calc": [
+     "v1_source",
+     "named_in_cited_plan"
+    ],
+    "spatial_frequency_tuning_calc": [
+     "v1_source"
+    ],
+    "speed_tuning_calc": [
+     "v1_source"
+    ],
+    "subject_calculation": [
+     "built",
+     "named_in_cited_plan"
+    ],
+    "temporal_frequency_tuning_calc": [
+     "v1_source"
+    ],
+    "tuning_curve_calculation": [
+     "built",
+     "named_in_cited_plan"
+    ],
+    "tuningcurve_calc": [
+     "v1_source",
+     "named_in_cited_plan"
+    ]
+   },
+   "note": "The 11,448-orphan run is what this tenet is made of: id preservation plus existence-only `must_refer` is why the calculators un-defer with 0 orphans.",
+   "plan_only_classes": [],
+   "tenet": "T10"
+  },
+  {
+   "after": [
+    "tuning_curve"
+   ],
+   "after_built": [
+    "tuning_curve"
+   ],
+   "after_not_built": [],
+   "before": [
+    "orientation_direction_tuning",
+    "contrast_tuning",
+    "spatial_frequency_tuning",
+    "temporal_frequency_tuning",
+    "speed_tuning"
+   ],
+   "change": "The independent variable of a tuning curve is a `variable`, not a name suffix -- so `orientation_tuning_curve`, `contrast_tuning_curve` and their three siblings were never minted.",
+   "citation": {
+    "anchor": "`subject_statement.variable`, **not** a name suffix (T11) \u2014 so we do NOT mint",
+    "doc": "schemas/V_eta_tuning_model_plan.md",
+    "line": 39,
+    "quote": "`subject_statement.variable`, **not** a name suffix (T11) \u2014 so we do NOT mint"
+   },
+   "class_registers": {
+    "contrast_tuning": [
+     "v1_source",
+     "named_in_cited_plan"
+    ],
+    "orientation_direction_tuning": [
+     "v1_source",
+     "named_in_cited_plan"
+    ],
+    "spatial_frequency_tuning": [
+     "v1_source",
+     "named_in_cited_plan"
+    ],
+    "speed_tuning": [
+     "v1_source",
+     "named_in_cited_plan"
+    ],
+    "temporal_frequency_tuning": [
+     "v1_source",
+     "named_in_cited_plan"
+    ],
+    "tuning_curve": [
+     "built",
+     "named_in_cited_plan"
+    ]
+   },
+   "note": "T11 says the name encodes only the data type and the stance. An independent variable is neither.",
+   "plan_only_classes": [],
+   "tenet": "T11"
+  },
+  {
+   "after": [
+    "acquisition_layout"
+   ],
+   "after_built": [],
+   "after_not_built": [
+    "acquisition_layout"
+   ],
+   "before": [
+    "binaryseries_parameters"
+   ],
+   "change": "The infra tier is not exempt from the grammar: R5 strips `binary`/`series`/`parameters` from the acquisition layout class. A DECIDED TARGET, NOT BUILT -- the walkthrough re-opened the whole infra tier and a build was reverted pending review.",
+   "citation": {
+    "anchor": "`binaryseries_parameters` \u2192 **`acquisition_layout`**",
+    "doc": "schemas/V_eta_tenet_audit.md",
+    "line": 92,
+    "quote": "- **R5 infra** (cross-repo, NDI lockstep): `binaryseries_parameters` \u2192 **`acquisition_layout`**;"
+   },
+   "class_registers": {
+    "acquisition_layout": [
+     "named_in_cited_plan"
+    ],
+    "binaryseries_parameters": [
+     "v1_source",
+     "built",
+     "named_in_cited_plan"
+    ]
+   },
+   "note": "Rendered because it is the tenet's live edge, not because it is done: the target does not exist in the built tree and the artifact says so. The same R5 line names three further renames; only this one has a source class that is still both a v1 source and a built class.",
+   "plan_only_classes": [
+    "acquisition_layout"
+   ],
+   "tenet": "T11"
+  },
+  {
+   "after": [
+    "tuning_curve",
+    "tuning_curve_calculation"
+   ],
+   "after_built": [
+    "tuning_curve",
+    "tuning_curve_calculation"
+   ],
+   "after_not_built": [],
+   "before": [
+    "stimulus_tuningcurve",
+    "orientation_direction_tuning",
+    "contrast_tuning",
+    "spatial_frequency_tuning",
+    "temporal_frequency_tuning",
+    "speed_tuning"
+   ],
+   "change": "Six overlapping v1 tuning classes and five fit shapes collapse into ONE `tuning_curve` composite. The curve was identical in all six; only the fitted model differed, and a model is a controlled term.",
+   "citation": {
+    "anchor": "ONE `tuning_curve` `data_type` composite",
+    "doc": "schemas/V_eta_tuning_model_plan.md",
+    "line": 36,
+    "quote": "1. **R3 \u2014 ONE `tuning_curve` `data_type` composite** (T12 look-alike collapse). Fields:"
+   },
+   "class_registers": {
+    "contrast_tuning": [
+     "v1_source",
+     "named_in_cited_plan"
+    ],
+    "orientation_direction_tuning": [
+     "v1_source",
+     "named_in_cited_plan"
+    ],
+    "spatial_frequency_tuning": [
+     "v1_source",
+     "named_in_cited_plan"
+    ],
+    "speed_tuning": [
+     "v1_source",
+     "named_in_cited_plan"
+    ],
+    "stimulus_tuningcurve": [
+     "v1_source",
+     "named_in_cited_plan"
+    ],
+    "temporal_frequency_tuning": [
+     "v1_source",
+     "named_in_cited_plan"
+    ],
+    "tuning_curve": [
+     "built",
+     "named_in_cited_plan"
+    ],
+    "tuning_curve_calculation": [
+     "built",
+     "named_in_cited_plan"
+    ]
+   },
+   "note": "T12's parsimony test: a new composite is warranted only by a new quantity dimension or a new measurement structure. Five names for one curve is neither.",
+   "plan_only_classes": [],
+   "tenet": "T12"
+  },
+  {
+   "after": [
+    "tuning_curve"
+   ],
+   "after_built": [
+    "tuning_curve"
+   ],
+   "after_not_built": [],
+   "before": [
+    "fitcurve"
+   ],
+   "change": "The five fit shapes become an ARRAY of `model_fit` entries distinguished by a bound `model` term -- not a class per fit, and not a single slot that would silently drop four of the five.",
+   "citation": {
+    "anchor": "not a class per fit",
+    "doc": "schemas/V_eta_tuning_model_plan.md",
+    "line": 14,
+    "quote": "> a coefficient block \u2014 not a class per fit; the empirical summary scalars (circular variance,"
+   },
+   "class_registers": {
+    "fitcurve": [
+     "v1_source",
+     "built"
+    ],
+    "tuning_curve": [
+     "built",
+     "named_in_cited_plan"
+    ]
+   },
+   "note": "The array is the re-audit's correction: spatial and temporal frequency tunings each carry five co-existing fits.",
+   "plan_only_classes": [],
+   "tenet": "T12"
+  },
+  {
+   "after": [
+    "software"
+   ],
+   "after_built": [
+    "software"
+   ],
+   "after_not_built": [],
+   "before": [
+    "app"
+   ],
+   "change": "`app` loses to `software`: the abbreviation is not the more recognizable form, and in a neuroscience corpus `application` collides with applying a stimulus. The mixin copied into every calculator output becomes a deduplicated entity behind an edge.",
+   "citation": {
+    "anchor": "`app` \u2192 `software` entity + `software_id` edge + `execution_environment`",
+    "doc": "schemas/V_eta_tenet_audit.md",
+    "line": 31,
+    "quote": "| **R1** `app` \u2192 `software` entity + `software_id` edge + `execution_environment` | FINAL | \u2705 built + green |"
+   },
+   "class_registers": {
+    "app": [
+     "v1_source",
+     "built",
+     "named_in_cited_plan"
+    ],
+    "software": [
+     "built",
+     "named_in_cited_plan"
+    ]
+   },
+   "note": "T13's abbreviation rule, and T9's entity rule, landing on the same class from two directions.",
+   "plan_only_classes": [],
+   "tenet": "T13"
+  },
+  {
+   "after": [
+    "control_designation"
+   ],
+   "after_built": [
+    "control_designation"
+   ],
+   "after_not_built": [],
+   "before": [
+    "control_stimulus_ids"
+   ],
+   "change": "`control_stimulus_ids` drops the `ids` container word and becomes `control_designation` -- a name for the content, not for the box the content came in.",
+   "citation": {
+    "anchor": "`control_stimulus_ids` \u2192 **`control_designation`** (drops the `ids` container word, T13)",
+    "doc": "schemas/V_eta_tenet_audit.md",
+    "line": 264,
+    "quote": "| `control_stimulus_ids` \u2192 **`control_designation`** | \u2705 **Separate DERIVED annotation doc (option c)**, RENAMED `control_stimulus_ids` \u2192 **`control_designation`** (drops the `ids` container word, T13). References the `timed_sequence` + the control stimulus `data_type` doc(s), carries the `method`, marked `derived_from`/`software_id` (T10). NOT baked into the immutable body. | **Investigated:** the `tuning_response` app *derives* it (`tuning_response.m:653\u2013656`) and **always** sets `stimulus_presentation_id` \u2192 presentation-less docs are a non-issue (schema `optional` is just permissiveness; can tighten to required). Since it's derived, keeping it out of the machine body is correct. Drop the `app` straggler (\u2192 `software_id`). |"
+   },
+   "class_registers": {
+    "control_designation": [
+     "built",
+     "named_in_cited_plan"
+    ],
+    "control_stimulus_ids": [
+     "v1_source",
+     "built",
+     "named_in_cited_plan"
+    ]
+   },
+   "note": "The same rule kills `parameters`, `data`, `info`, `table`, `record` and `metadata` wherever they name a class.",
+   "plan_only_classes": [],
+   "tenet": "T13"
+  },
+  {
+   "after": [
+    "tuning_curve"
+   ],
+   "after_built": [
+    "tuning_curve"
+   ],
+   "after_not_built": [],
+   "before": [
+    "orientation_direction_tuning"
+   ],
+   "change": "The `derived_summary` bag was killed and replaced by three sub-blocks named for what they hold; an untyped `{name, value}` bag is the field-level form of naming the container.",
+   "citation": {
+    "anchor": "the `derived_summary` bag is KILLED",
+    "doc": "schemas/V_eta_tenet_audit.md",
+    "line": 82,
+    "quote": "(the `derived_summary` bag is KILLED \u2014 failed the T13 \"predict the content\" test, overloaded"
+   },
+   "class_registers": {
+    "orientation_direction_tuning": [
+     "v1_source",
+     "named_in_cited_plan"
+    ],
+    "tuning_curve": [
+     "built",
+     "named_in_cited_plan"
+    ]
+   },
+   "note": "`significance` / `circular_statistics` / `interpolated_values` -- and they stay typed and queryable, which the bag would have cost.",
+   "plan_only_classes": [],
+   "tenet": "T13"
+  },
+  {
+   "after": [
+    "image",
+    "image_observation",
+    "image_manipulation"
+   ],
+   "after_built": [
+    "image",
+    "image_observation",
+    "image_manipulation"
+   ],
+   "after_not_built": [],
+   "before": [
+    "imageStack"
+   ],
+   "change": "`image` carries its pixels in exactly one `value` slot, with dtype, axes, colour model and channels declared INSIDE the cell beside them -- because dtype is not recoverable from an inline matrix.",
+   "citation": {
+    "anchor": "one `value` cell (T14)",
+    "doc": "schemas/V_eta_tenet_audit.md",
+    "line": 32,
+    "quote": "| **R6/`image`** full model | FINAL \u2192 `V_eta_image_model_plan.md` | \u2705 **built + corpus-green** (run #251, see gate record below). `image` is a standalone `data_type` with one `value` cell (T14). |"
+   },
+   "class_registers": {
+    "image": [
+     "v1_source",
+     "built",
+     "named_in_cited_plan"
+    ],
+    "imageStack": [
+     "v1_source"
+    ],
+    "image_manipulation": [
+     "built",
+     "named_in_cited_plan"
+    ],
+    "image_observation": [
+     "built",
+     "named_in_cited_plan"
+    ]
+   },
+   "note": "One payload slot is what makes T3's factoring mechanical: `mass.value` means the same thing under every direction.",
+   "plan_only_classes": [],
+   "tenet": "T14"
+  },
+  {
+   "after": [
+    "tuning_curve",
+    "voltage",
+    "image"
+   ],
+   "after_built": [
+    "tuning_curve",
+    "voltage",
+    "image"
+   ],
+   "after_not_built": [],
+   "before": [
+    "stimulus_tuningcurve"
+   ],
+   "change": "The named composite types shipped for most of the project as bare enum strings whose real layout lived in migrator literals, and 26 of 35 composites emitted no query path at all. Declaring the cell inline is what made the values indexable.",
+   "citation": {
+    "anchor": "26 of 35",
+    "doc": "schemas/V_eta_tenet_audit.md",
+    "line": 490,
+    "quote": "whose real layout lived in prose and in migrator string literals \u2014 which meant **26 of 35"
+   },
+   "class_registers": {
+    "image": [
+     "v1_source",
+     "built",
+     "named_in_cited_plan"
+    ],
+    "stimulus_tuningcurve": [
+     "v1_source",
+     "named_in_cited_plan"
+    ],
+    "tuning_curve": [
+     "built",
+     "named_in_cited_plan"
+    ],
+    "voltage": [
+     "built",
+     "named_in_cited_plan"
+    ]
+   },
+   "note": "T14 is T8 one level down: T8 governs the vocabulary a value may take, T14 governs the value's own shape.",
+   "plan_only_classes": [],
+   "tenet": "T14"
+  }
+ ],
+ "tenets": [
+  {
+   "id": "T1",
+   "line": 29,
+   "statement": "A `subject` is an id + optional `local_identifier` + `description`, and **no\n`depends_on`**. Organism, slice, neuron, brain region, group, or recording device \u2014 all\nare subjects, with **no kind-subclasses**. Every other property is *derived from the\ngraph*: group-ness from incoming `member_of` edges; kind from a `term_assertion`;\n\"biological\" from whether that kind term sits under an organism branch. (SPEC \u00a71)",
+   "title": "The subject is a bare identity; there is no privileged level."
+  },
+  {
+   "id": "T2",
+   "line": 36,
+   "statement": "A statement binds a **`variable`** (what \u2014 an ontology term) to a **`value`**, about a\nsubject, optionally at a **time**. Identity rides on `variable`, not the class, so one\nquery spans all statements. The family branches by *epistemic direction*:\n`subject_assertion` (timeless fact), `subject_observation` (measured from),\n`subject_manipulation` (done to), `subject_calculation` (derived/computed about). An\nassertion has no act/series; an interaction (observation/manipulation/calculation) adds\n`method` (the verb), a per-sample `sample_time` cadence, an optional `instrument_id`, and\nrequires a `time_reference`. (SPEC \u00a73\u2013\u00a75)",
+   "title": "Everything you can say about a subject is one `subject_statement` family."
+  },
+  {
+   "id": "T3",
+   "line": 46,
+   "statement": "Instead of hundreds of classes, **factor**: data-type composites (`mass`, `dose`,\n`term`, `visual_grating`, \u2026) \u00d7 directions = one-word leaves (`mass_observation`,\n`dose_manipulation`, `term_assertion`, `visual_grating_manipulation`,\n`orientation_direction_tuning_calculation`). A new measurement is a new composite or a\nnew `variable`; it is **not** a new hand-written class. (SPEC \u00a76)\n\n**Undimensioned values ride a bare self-describing body (no generic numeric data_type).**\n`direction \u00d7 data_type` is the norm \u2014 the data_type carries the meaning (`voltage`, `image`,\n`tuning_curve`). But when a value is **raw numeric with no dimensioned meaning** (an\nunknown-modality recording; a receptive-field map), do **not** invent a generic `array` /\n`numeric` data_type \u2014 that would only duplicate `sampled_body` (T6, which is already\n\"self-describing: axis + typed datum\"). Instead the value **is** a bare self-describing\n`sampled_body`: its `dtype`/`axes` live on the body, and the `variable` carries the label.\nThe dimensioned data_types just *add* units on top. So: type it when you can (a modality \u2192 a\ncomposite); otherwise the self-describing body is the value. *(This is why `array` was killed\nand `ngrid` phases into `sampled_body`.)*",
+   "title": "A leaf class = a direction \u00d7 a data type. This is the move that collapses the zoo."
+  },
+  {
+   "id": "T4",
+   "line": 64,
+   "statement": "`subject_relation` \u2192 `directed_relation` (ordered child\u2192parent: `part_of`, `member_of`,\n`derived_from`, \u2026) + `undirected_relation` (`paired_with`, `same_as`). Relations are\n**binary** \u2014 a many-way group is a reified subject + `member_of` edges, never a list.\nEndpoints are typed `depends_on`, so referential integrity and reverse lookup are\nautomatic. Containment and provenance live on this ancestry spine. (SPEC \u00a72)",
+   "title": "Relationships are first-class documents; the graph carries structure."
+  },
+  {
+   "id": "T5",
+   "line": 71,
+   "statement": "A structure a value is **attributed to** becomes its own subject + `part_of` (the\ninteraction's subject is the part); a structure merely **located** stays a\n`term_observation` value (a spatial-relation `variable` + an atlas term). A brain region\nis normally an *address* (a value), not a subject. (SPEC \u00a74)",
+   "title": "Path S: a structure earns subjecthood only when it is a thing-in-itself."
+  },
+  {
+   "id": "T6",
+   "line": 77,
+   "statement": "`storage_mode \u2208 {inline, reference, body}`. `data_body` has **exactly two** members:\n`sampled_body` (self-describing \u2014 sample-time axis + typed datum + summary; partial-read,\nvalue-searchable) and `opaque_body` (uninterpreted bytes). Every carrier \u2014 timeseries,\ndataseries, zarr, image, generic_file \u2014 phases into those; **encoding/format is a field,\nnot a class**. Timing splits: the anchor lives in `time_reference`, the per-sample\ncadence rides beside the value. (SPEC \u00a78)\n\n**Primary vs. derived (the cache rule; cross-ref T10/T12).** When representation *B* is\n**losslessly derivable** from representation *A*, store *A* once at the **finest grain** and\ntreat *B* as a **rebuildable cache**, never as a second source of truth. A materialized cache\nis still one of the two bodies (usually `sampled_body`), but it is marked `derived_from` its\nsource subjects (T10) and carries no authority \u2014 deleting it loses nothing, because it\nregenerates from *A*. Store the source, project the view. *Example:* per-neuron spike trains\nare the source of truth; an ensemble's combined (time, neuron) marked-point-process is a\nderived cache for fast population reads, not primary data (see `V_eta_ensemble_plan.md`).\nThis is the storage-side face of T12 parsimony: never store the same information twice, but\na *marked, disposable* cache is a permitted performance exception, not a duplicate source.\n\n**The cache marker (required).** `derived_from` alone is overloaded \u2014 T10 uses it for\n*authoritative* analysis outputs (a calculation result IS the science), while a cache is\n*disposable*. A consumer must be able to tell them apart, so a materialized cache carries an\nexplicit **`is_cache: true`** marker (distinct from a plain `derived_from` provenance edge).\n`is_cache` \u21d2 regenerable, no authority, safe to drop and rebuild; absent \u21d2 the `derived_from`\nproduct is authoritative (a T10 calculation). Never infer cache-ness from `derived_from` presence.\n\n**The cache-warrant test (parallel to T12's data_type-warrant).** Materializing a cache is the\n*exception*; before minting one, all of the following must hold \u2014 else store only the source\nand project on read:\n  1. *Losslessly derivable* \u2014 the cache adds **no information** the source lacks (else it's a\n     source, not a cache).\n  2. *A real access need* \u2014 a concrete query/read pattern is materially cheaper against the\n     cache than against the source at the expected scale (e.g. windowed population reads).\n  3. *Marked & regenerable* \u2014 it carries `is_cache` + `derived_from`, and a deterministic\n     rebuild from the source exists.\n  4. *Recorded reason* \u2014 the warranting access need is written next to it (as T12 requires for\n     a new data_type). No silent caches.",
+   "title": "Storage is orthogonal to meaning; there are exactly two data bodies."
+  },
+  {
+   "id": "T7",
+   "line": 115,
+   "statement": "The measuring/manipulating device is a subject (kind asserted), linked by a typed\n`instrument_id`. `subject_id` = patient, `instrument_id` = agent, `method` = verb. No\norganism/cell/instrument/medium subclasses. (SPEC \u00a78, D2)\n\n**Worked example (instrument vs. subject).** Extracellular voltage recorded from a brain\nslice with an electrode: the *slice* is the `subject` of the `voltage_observation` (the\n**patient** \u2014 its voltage is what's measured); the *electrode* is a subject too (T1), but\nhere it plays the **instrument role**, referenced by `instrument_id` \u2014 it is *not* the\nsubject of the recording.\n\n**The trap (do not fall in):** a device is its own subject, but it is **never the observed\nsubject of the value it helps measure**. Ask two questions: \"Whose value is this?\" \u2192 the\npatient (`subject_id`); \"What tool produced it?\" \u2192 the instrument edge (`instrument_id`).\nThe same electrode is the *patient* only when the statement is *about the electrode itself*\n(e.g., its measured impedance is a `voltage`/`resistance` observation whose `subject_id` is\nthe electrode). This is the difference between *observing with* a device and *observing* the\ndevice.",
+   "title": "Roles are edges, not subclasses."
+  },
+  {
+   "id": "T8",
+   "line": 134,
+   "statement": "A `value_set` declares an admissible set (ontology root + descendants, or an enum); a\nbinding registry maps `variable` (and `method`+`variable`) \u2192 a value_set or a leaf; an\nontology-aware validator resolves term values against NCBITaxon/OBI/CL/CHEBI/UBERON/RO.\n`must_refer` is **existence-only** (referential, not type-checked): the graph is loosely\ntyped and the *ontology* carries the semantics. (SPEC \u00a77, D9)",
+   "title": "Controlled vocabularies are hard-validated, not advisory."
+  },
+  {
+   "id": "T9",
+   "line": 141,
+   "statement": "`dataset`, `person`, `organization`, `funding`, `publication`, `web_resource`, `session`,\n`subject` carry a `global_identifier`, with full openMINDS field parity and a\nmachine-readable crosswalk. Aggregation/authorship/funding are `directed_relation`s.",
+   "title": "Datasets and provenance are first-class, FAIR entities."
+  },
+  {
+   "id": "T10",
+   "line": 146,
+   "statement": "(Lepsky et al.) A calculator produces **one** output document type \u2014 a\n`subject_calculation` leaf (direction \u00d7 a result composite). Migration is **1\u21921 with\n`base.id` and `depends_on` preserved**, never a dissolution: dissolving a calc changes\nits id and dangles every downstream consumer (the 11,448-orphan lesson). Because\n`must_refer` is existence-only, id-preservation keeps the provenance graph intact.",
+   "title": "The calculator motif: analysis outputs are calculations, migrated id-preserving."
+  },
+  {
+   "id": "T11",
+   "line": 153,
+   "statement": "- **Leaf** = `<data_type>_<direction>` (snake_case; direction \u2208\n  `observation`/`manipulation`/`assertion`/`calculation`). **Composite** = the bare\n  `<data_type>`. **time_reference** = `<origin>_<mode>_reference`.\n- The name encodes **only the data type and the stance**. It must **never** encode:\n  cardinality (`scalar_`, `_series`), storage/format (`_data`, `_file`, `_zarr`), a\n  device/method subtype (`_ndr`, `_mfdaq`, `_image`), or an instrument. Those are a\n  `value` length, a `storage_mode`, a field, a `method`, or an edge \u2014 never a class name.\n- **One canonical spelling per concept.** Every `{node, name}` value is the single `term`\n  type (+ a binding), never a bespoke class per vocabulary entry (no `species`,\n  `categorical_observation`, \u2026). One direction-suffix set, used consistently.\n- A name that reads like a sentence fragment about *how it was made or stored* is a smell:\n  the how is `method`/`app`/`storage_mode`, the where is an edge.",
+   "title": "Naming grammar: one shape, one canonical name; nothing else in the name."
+  },
+  {
+   "id": "T12",
+   "line": 167,
+   "statement": "A new composite is the **last resort**, warranted only when the value has a **new\nmeasurement structure or a new quantity dimension** that no existing composite can carry.\nBefore minting one, exhaust the cheaper axes \u2014 a new composite is wrong if the difference\nis any of:\n1. **Same shape, different meaning** \u2192 keep the composite, change the **`variable`**\n   (and/or `method`). *(species vs strain are both `term_assertion`; two different\n   scores are both `score_observation` with different `variable`.)*\n2. **A controlled term** \u2192 `term_*` + a **binding** to a value_set. Never a class per\n   vocabulary entry.\n3. **Same quantity, different cardinality / storage / format** \u2192 same composite; use a\n   length-N `value` + `storage_mode`. *(a temperature series is `temperature`.)*\n4. **A role or relationship** \u2192 a typed **edge** (`directed_relation`, `*_id`), not a\n   data_type. *(donor, target region, parent group.)*\n\nMint a composite **only when 1\u20134 all fail** \u2014 i.e. a genuinely new **dimensioned\nquantity** (its own unit: `mass`, `charge`, `pressure`) or a genuinely new **structured\nobject** (several co-varying fields that form one unit: a tuning curve, a grating spec).\nWhen several near-identical structures differ only by an independent variable or a fit\nform, **prefer one parameterized composite** (a single `tuning_curve` whose independent\nvariable is a field/`variable`) over a family of look-alike composites \u2014 **unless** a\ndownstream contract requires the split (e.g. T10's \"one calculator \u2192 one document type\").\nIf you split for such a contract, **record the reason** next to the classes; an\nunexplained look-alike family is a T12 violation to revisit.",
+   "title": "When a new `data_type` is warranted (the parsimony test)."
+  },
+  {
+   "id": "T13",
+   "line": 192,
+   "statement": "T11 fixes the *grammar* of a name (which slots, what must not appear); T13 governs the\n*words and case* you actually choose \u2014 for both **class/`data_type` names and field\nnames**. A good name lets a reader predict its content and scope **without a qualifier or\na footnote**.\n\n- **Case.** Every name we author \u2014 classes, `data_type`s, fields \u2014 is **`snake_case`**,\n  lowercase. The *only* verbatim-cased strings are **external identifiers carried as\n  values**: ontology CURIEs (`obi:0000750`), openMINDS term-set names. PascalCase/camelCase\n  in a document block is a migration smell (snake-case it) unless it is such an external id.\n- **Right altitude \u2014 the `visual_grating` rule.** Pitch the name at the level a domain\n  expert names the thing. Two failure modes, both detectable by their tell:\n  - **Too generic \u2192 needs a rescue qualifier.** If a base name only becomes usable with a\n    bolted-on `_<type>` (`stimulus_parameters_grating`, `stimulus_parameters_bar`), the\n    base was under-specified. Name the concept directly: **`visual_grating`**, not\n    `stimulus_parameters_visual_grating`. A `_<qualifier>` added to make a vague base\n    specific is the signal you named the *container*, not the *content*.\n  - **Too specific \u2192 near-duplicate fragmentation.** If you would mint a separate class per\n    minor variant, lift to the shared concept and push the variant onto a `variable`/field\n    (T12). \"As simple as possible, but no simpler\": the shortest name that stays\n    unambiguous and does not over-claim scope.\n- **Name the content, not the container.** Drop altitude-noise wrapper words \u2014\n  `parameters`, `data`, `info`, `struct`, `table`, `record`, `metadata`, `object`,\n  `properties`. They describe the box, not what is in it (`stimulus_parameter_table`,\n  `stimulus_response_scalar_parameters` are v1 smells). A field holds a **role** \u2014 name the\n  role: v1's generic `parameters` split into **`conditions`** (the experimental conditions\n  on a statement) and **`method_parameters`** (the algorithm config on an interaction);\n  a per-stimulus mean is `response_mean`, not `value`.\n- **Abbreviate only when the short form is the *more* recognizable one.** `id`, `url`,\n  `daq` earn it \u2014 the expansion is rarely spoken and the short form is unambiguous. `app`\n  does not: prefer the clear full word (`software`). Expand whenever the full word removes\n  ambiguity \u2014 and note that a longer word is not automatically clearer: `application` is\n  *worse* than both, because in a neuroscience corpus it collides with \"applying\" a\n  stimulus or drug. Pick the term that is shortest **among those that are unambiguous**.\n- **The stance word must be TRUE, not convenient.** The direction suffix \u2014\n  `_observation` (measured *from*), `_manipulation` (done *to*), `_assertion` (declared),\n  `_calculation` (computed) \u2014 carries meaning, so a wrong one lies. Choose the suffix that\n  matches the actual epistemic act; likewise a field's noun must match its semantics.\n\n**Litmus:** could a reader who does not know this project's history *predict what the doc\nholds and guess it's not something adjacent*, from the name alone? If they'd need to open\nit, or if the name only works once you append a qualifier, re-pitch it.\n\n- **No untyped `{name, value}` bags inside a composite.** A composite's fields must be\n  **typed and named for their content**. A generic `{name, value}` (or `{name, value, units}`)\n  array names nothing, is not queryable, and is the *field-level* form of the container-word\n  smell this tenet forbids at the class level. A per-stimulus mean is `response_mean`, not a\n  `{name:\"mean\", value:\u2026}` entry; fit coefficients are a named `coefficients` block, not a\n  `parameters` bag. When a set of things varies, distinguish by a controlled **term + a typed\n  slot** (T8/T12), never by an unordered kv-bag. *(This killed the `derived_summary` bag and\n  the `model_fit.parameters`-as-bag draft.)*\n- **Infra reach.** The grammar (T11 + T13) applies to **\u2466 acquisition/infra plumbing too**\n  (`daqreader`, `syncgraph`, ingested caches) \u2014 infra is **not exempt** from \"name the content,\n  no container/format/cardinality/subtype words.\" The *only* concession: when an infra class\n  name mirrors an external writer's string (NDI), the rename is a **cross-repo lockstep** change\n  batched with the owning repo \u2014 same bar, coordinated landing (this is R5). Mirroring an\n  implementation is not a license to keep a smelly name.",
+   "title": "Name at the concept's altitude: snake_case, wrapper-free, honestly stanced."
+  },
+  {
+   "id": "T14",
+   "line": 250,
+   "statement": "A convention that lives in prose, in examples, or in code literals is not a convention \u2014\nit is drift waiting to happen. **Anything a consumer must know in order to read a value is\ndeclared in the schema.** This is T8's *\"hard-validated, not advisory\"* applied one level\ndown: T8 governs the vocabulary a value may take, T14 governs the value's own shape.\n\n- **One payload slot.** Every `data_type` composite exposes its payload at exactly one\n  field: **`value`**. This is what makes T3's `direction \u00d7 data_type` factoring mechanical\n  \u2014 `mass.value` means the same thing under `mass_observation` and `mass_assertion`, so one\n  query spans both. Descriptors needed to *interpret* the payload (unit, dtype, axes,\n  colour model) ride **inside** the cell, beside the value \u2014 never hoisted alongside it.\n  *(A `voltage` cell carries `source_unit` next to `source_value`; by the same rule an\n  `image` cell carries `dtype`/`axes` next to its pixels.)*\n- **The cell layout is declared inline.** A named composite type (`voltage`, `count`,\n  `ontology_term`, \u2026) declares its sub-fields in the schema \u2014 the canonical value plus\n  lossless source provenance \u2014 so the validator, the query-path generator, the viewer and\n  the docs all read one source of truth. **A type that is only an enum string is\n  undeclared**, and its internals are then known solely to whoever wrote the migrator.\n- **Declaration is what makes a field queryable.** A value is indexable exactly to the\n  depth its structure is declared; undeclared internals are an opaque blob no matter how\n  well named. \"Typed\" must mean *machine-readable*, not *documented*.\n\n**The failure this names is not hypothetical.** The named types shipped for most of the\nproject as enum strings whose real layout lived in the meta-schema's prose and in\n`struct('celsius', \u2026)` literals inside migrators. The result: the validator could only\ncheck `isstruct` inside a cell, and **26 of 35 `data_type` composites emitted no query\npath at all** \u2014 no measured value in the corpus was indexable, silently, for as long as\nthe convention went unwritten. Two composites (`image`, `contrast_sensitivity`) had also\ndrifted off the one-payload-slot rule for exactly the same reason: nothing checked it.\n\n**Litmus:** could a consumer that has never read our migrator code \u2014 a validator, an\nindexer, a third-party reader \u2014 get the value out and know what it means, from the schema\nalone? If it needs prose, an example, or our source, the structure is not declared.\n\n---\n\n## The meta-principle\n\n**Meaning migrates from the class name into the graph + ontology.** The class set should\n*shrink and stay principled*: a new measurement is a new composite (T12) or a new\n`variable` (T2); a new grouping is an edge (T4); a new vocabulary is a binding (T8). If a\nproposed class encodes a how, a where, a cardinality, a storage format, or a vocabulary\nentry, it is not a class \u2014 it is a field, an edge, a `storage_mode`, or a binding.\n\n**Litmus for any proposed class:** *Which of the four axes is genuinely new \u2014 the subject,\nthe statement direction, the data-type structure, or the relation?* If the answer is\n\"none, it's a variant of an existing one,\" it is not a new class.",
+   "title": "Structure is declared, not conventional."
+  }
+ ],
+ "tenets_document": "schemas/V_eta_tenets.md",
+ "title": "Brainstorm J's tenets, and the classes each one shaped"
+}
