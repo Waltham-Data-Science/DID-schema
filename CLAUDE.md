@@ -611,12 +611,13 @@ lives in these files — read them instead of re-deriving from memory:
 
         DENOMINATOR: 260 .m file(s) under DID-matlab src/ scanned,
                      comment-only lines excluded
-        literal `time_reference_N` sites:  45, in 35 file(s)
+        literal `time_reference_N` sites:  46, in 36 file(s)   (was 45 in 35;
+                                            re-derived 2026-08-12, same method)
         distinct N appearing as a literal: [1]        <- ONLY EVER 1
         sites numbering a family PROGRAMMATICALLY: 1
               +did2/+convert/resolveValidIntervals.m:1000   (was :859)
 
-  Every one of the 45 literal sites writes a single `time_reference_1` onto a DISTINCT
+  Every one of the 46 literal sites writes a single `time_reference_1` onto a DISTINCT
   emitted body — including the six files with more than one site, which are separate
   documents (`ontology_image` obs/imgObs; `treatment`/`treatment_drug`/`virus_injection`
   manip-or-dose + obs; `ontology_table_row`'s four helpers) or mutually exclusive branches
@@ -1271,7 +1272,8 @@ lives in these files — read them instead of re-deriving from memory:
 
         DENOMINATOR: convert package .../+did2/+convert -- 15 .m file(s) read,
                      9 batch post-pass signature(s); call sites runCorpusDiscovery
-                     (1428 lines) and testCorpusPRED (365 lines), 10 pass(es)
+                     (1526 lines, was 1428) and testCorpusPRED (368 lines, was
+                     365), 10 pass(es)
                      composed each (9 + v1_to_v2, excluded by signature)
         chain, in call order: resolveDeferredBaths, resolveOpenmindsCitations,
                      resolveDatasetEntities, epochMint, resolveSessionAnchors,
@@ -1334,8 +1336,9 @@ lives in these files — read them instead of re-deriving from memory:
   file no document has WHILE the file every document has was undeclared — both directions
   of the file audit at once, on every passed-through JH document.
 
-        DENOMINATOR: 91 NDI templates read from origin/main; 19 V_eta schemas
-                     declare a file; 1 mismatch among classes with a did_v1
+        DENOMINATOR: 91 NDI templates read from origin/main; 20 V_eta schemas
+                     declare a file (was 19; re-derived 2026-08-12 over 247
+                     files); 1 mismatch among classes with a did_v1
                      template -- image_stack.
 
   Nothing was looking: `fileList.m` compares by exact `strcmp` (`:93,99`),
@@ -1500,11 +1503,69 @@ lives in these files — read them instead of re-deriving from memory:
   (`+setup/+NDIMaker/imageDocMaker.m`, `+migrators_j/private/jMeasurementFold.m`). **A
   basename citation outlived a path change and a `origin/main` citation outlived a branch
   divergence — both survived because they were UNDER-specified in the right dimension.**
+- **THE "X IS GATED / ENFORCED / CHECKED IN CI" CLAIMS, 2026-08-12 — ALL FOUND, ALL RUN.**
+  This file has been wrong about exactly this before, in the reassuring direction (it said
+  all four generated artifacts were CI-gated when three were not), so every such claim was
+  followed to the gate rather than believed:
+
+        DENOMINATOR: 11 "gated / enforced / checked in CI" claims located in this
+                     document; 11 traced to a named gate; 11 gates exist and run;
+                     0 found to be absent; 1 found to be ARMED where this file
+                     says it is not (#37, corrected above)
+
+        tests.yml calls tools/gates.py --ci and owns no gate list   tests.yml:167,200
+        test_ci_owns_no_second_list_of_gates                        test_gates.py:120
+        the sibling-clone properties (5 asserts, not 3)             test_ci_runs_the_whole_chain.py
+        check_signoff_header_staleness: CI + pytest                 gates step 17; test_veta.py, test_gates.py
+        regen_binding_strengths after build, before pytest          gates steps 2 -> 3 -> 8, 14
+        test_field_and_registry_strengths_agree                     test_veta.py:2029
+        the migrator vocabulary sweep enforces in CI                gates step 10
+        referent_unique_by pinned by a test                         test_veta_time_reference_family_uniqueness.py
+        silentLoss reads the key + reports a denominator            silentLoss.m:49-56,523-526
+        timeReferenceFamilies reads it too                          timeReferenceFamilies.m:27,36,75
+        test_census_digest on the fast gate                         test-migrators-quick.yml:189,196
+
+  **Two of these are BETTER than claimed and the difference matters.**
+  `test_ci_runs_the_whole_chain.py` asserts **five** properties, not the three this file
+  enumerates — it also pins the missing-`origin/main` guard and the announced fallback.
+  And the fast gate runs `test_census_digest_uniqueness.py` alongside `test_census_digest.py`.
+  Understating a gate is the safe direction, and it is the direction found here.
+- **WHAT THIS PASS COULD NOT VERIFY, NAMED SO THE GAP HAS A SHAPE.** Everything above was
+  re-derived from files in this container. The following were NOT, and no sentence in this
+  document should be read as re-confirmed on 2026-08-12:
+
+        DENOMINATOR: 3 categories of unverifiable claim, and what would settle each
+
+        every CORPUS figure          no MATLAB here and corpus artifacts cannot be
+                                     downloaded. That covers 633,432 / 7,233 / 2,670 /
+                                     4,563 / 562,448 / 305,480 / 20,850 / the six
+                                     invented-empty-edge rows / 76,766 / ~7,007 /
+                                     107,308 / 20,411 / 11,118 / the 11,448 orphans /
+                                     115 strains, and every run id quoted.
+                                     SETTLED BY: the digest's own printed rollup from a
+                                     fresh run -- never a sum performed by a reader.
+        `variable`'s admissible set  NDIC.txt lives in VH-Lab/ndi-ontology-matlab, which
+                                     is not attached here (the T8 note already says so).
+        the vhlab_voltage2firingrate the writer is in no repo we have. UNCHANGED.
+                                     Still blocks binnedspikeratevm's Hz-vs-spikes-per-bin.
+
+  **The armed batch-post-pass gate is still UNEXERCISED against a real report** — that
+  caveat is already written above and this pass did not change it: every run behind it used
+  SYNTHETIC reports, and this container still has no MATLAB.
+
+  **AND ONE INSTRUMENT-LEVEL FINDING FROM THE PASS ITSELF.** Two numbers in this document
+  are not re-derivable from their own descriptions: `element`'s *"223 hits across 95 of 915
+  NDI files"* (no reading of "hits" reproduces it) and, in the same sentence, a denominator
+  that has since moved to 1,002. Operating Rule 5 requires a denominator; **it does not
+  require the NUMERATOR's method, and that is where both of these escaped.** A count is
+  re-checkable only if the command that produced it is written down beside it — which is
+  what Rule 2 asks for and what a figure quoted without its command quietly drops.
 
 ## Build / test
-- **`python3 tools/gates.py` IS THE ENTRY POINT.** **19** steps, in an order
-  derived from which tool reads which artifact, run once for a whole batch of
-  edits. `--explain` prints the order + the evidence for each edge; `--check`
+- **`python3 tools/gates.py` IS THE ENTRY POINT.** **NO STEP COUNT IS WRITTEN
+  HERE ANY MORE — run `python3 tools/gates.py --explain | head -1`.** The steps
+  run in an order derived from which tool reads which artifact, once for a whole
+  batch of edits. `--explain` prints the order + the evidence for each edge; `--check`
   regenerates into a scratch mirror and diffs without touching the working tree;
   `--ci` is what `tests.yml` runs. It prints its step count first, a headline
   count per step, and FAILS a step that exits 0 while printing no headline.
@@ -1560,7 +1621,15 @@ lives in these files — read them instead of re-deriving from memory:
   `tests.yml` does not keep a SECOND list; nothing checks that a number typed
   into prose matches the list. That is the same shape as every other error in
   this file: the artifact was right, the prose about the artifact was not.
-  **Do not type a step count here again — run `--explain | head -1`.**
+
+  **AND IT DRIFTED AGAIN DURING THE HOUR THIS CORRECTION WAS BEING WRITTEN.** The
+  block above was measured at 19 steps / 24 edges; before it was committed the
+  chain was at **21 steps / 29 edges** (`gen_class_walkthrough` and `tenet_map`
+  arrived), so a note written to fix a stale number was stale on arrival. **That
+  is why the header no longer carries one.** Three revisions of the same sentence
+  — 16, then 18, then 19 — were each true for about a day. A count that changes
+  whenever anyone adds a gate does not belong in prose beside a tool that prints
+  it. **Do not type a step count here again — run `--explain | head -1`.**
 - The individual tools still work and are what the driver calls:
   `python3 tools/build_v_eta.py` rebuilds `schemas/V_eta/` (copytree V_zeta→V_eta
   then transforms). `python3 -m pytest tests/test_veta.py -q` checks the schema.
