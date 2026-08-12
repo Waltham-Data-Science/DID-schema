@@ -387,6 +387,63 @@ ALL_ROW_CHECKS = (
 )
 
 
+class TestSupersclassOnlySourcesGetTheirEmissionCredited(unittest.TestCase):
+    """Shape (1) of row 107: the emitter is ANOTHER class's migrator.
+
+    `filter` is superclass-only -- no document of that class exists, its content
+    rides as a block on a `pyraview` document -- so no migrator can ever be
+    named after it and rung 3's question is unanswerable in the form it asks.
+    Its fold is real and tested (`private/jFrequencyFilter.m`, called at
+    `pyraview.m:89`), and the ladder reported it as unbuilt.
+
+    WHY THIS IS AUTHORED AND NOT DERIVED, which is the invariant worth pinning:
+    9 rows have a decided target that some other row's migrator emits, and 8 of
+    them name a SHARED target (`sampled_body` has 6 emitters) where the standing
+    attribution limit forbids any conclusion. An inference would credit 8 rows
+    on no evidence to reach the 1 that deserves it. So the credit requires an
+    explicit `emitted_by` in the target map, and a row without one gets nothing.
+    """
+
+    def setUp(self):
+        self.led = _ledger()
+        self.rows = {r["v1_class"]: r for r in self.led["rows"]}
+
+    def test_filter_reaches_stage_3_on_the_authored_emitter(self):
+        r = self.rows["filter"]
+        rung3 = r["stage"]["ladder"][2]
+        self.assertEqual(rung3["state"], "yes", rung3["why"])
+        self.assertIn("SUPERCLASS-ONLY", rung3["why"])
+        self.assertIn("pyraview", rung3["why"])
+        self.assertGreaterEqual(r["stage"]["reached"], 3)
+
+    def test_the_credit_is_DISTINGUISHABLE_from_a_migrator_of_its_own(self):
+        """A reader must never mistake this for the class's own migrator."""
+        why = self.rows["filter"]["stage"]["ladder"][2]["why"]
+        self.assertIn("no migrator can be named after this class", why)
+        self.assertNotIn("`build_state.migrator_emits_decided_targets`", why)
+
+    def test_an_emitted_by_naming_the_wrong_target_credits_NOTHING(self):
+        rows = _with_governance(
+            _reclassify(copy.deepcopy(_rows()), coverage.CORPUS_SCAN))
+        hit = 0
+        for r in rows:
+            bs = r.get("build_state") or {}
+            if bs.get("emitted_by_migrator"):
+                hit += 1
+                bs["emitted_by_targets"] = ["something_else_entirely"]
+                bs["emitted_by_emits_decided_targets"] = False
+                state, _why = coverage._rung_emits_decided(r)
+                self.assertNotEqual(state, "yes")
+        self.assertTrue(hit, "precondition: a row carries an `emitted_by`")
+
+    def test_only_rows_with_an_authored_emitted_by_are_credited(self):
+        """The 8 shared-target rows must NOT be swept in."""
+        credited = [n for n, r in self.rows.items()
+                    if (r.get("build_state") or {}).get(
+                        "emitted_by_emits_decided_targets")]
+        self.assertEqual(credited, ["filter"])
+
+
 class TestTheUntouchedBucketCarriesItsReasons(unittest.TestCase):
     """The six names are not six units of work, and the bucket must say so.
 

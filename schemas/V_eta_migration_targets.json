@@ -678,7 +678,14 @@
       "carried": [],
       "second_pass": [],
       "how": "superclass block migrator: renames filter.type->filter_type in place; no class change",
-      "flags": "in-place block rewrite, emits no new document"
+      "flags": "in-place block rewrite, emits no new document",
+      "emitted_by": {
+        "migrator": "pyraview",
+        "targets": [
+          "frequency_filter"
+        ],
+        "why": "`filter` is SUPERCLASS-ONLY: no document of that class exists, so no migrator can be named after it. `git grep -E \"(ndi\\.document|newdocument)\\s*\\(\\s*'filter'\" origin/main -- '*.m'` returns 0 files of 1,002, and the only 'filter' sites pass it as a BLOCK on an ndi.document('pyraview',...). The fold is real and tested: private/jFrequencyFilter.m (13,271 bytes), called at pyraview.m:89, edge attached at :172, ~12 tests in testMigratorsJMeasurementFilter.m with fixtures built from the writer (+gui/+app/+pyraview/filterData.m). Decision signed at V_eta_frequency_filter_model_plan.md:5."
+      }
     },
     "ngrid": {
       "targets": [],

@@ -350,6 +350,17 @@ STEPS = [
     Step("check_prose_counts", _t("check_prose_counts.py", "--enforce"), "gate",
          r"^DENOMINATOR: (\d+) document\(s\) globbed", "documents globbed"),
 
+    # REPORT-ONLY, AND IT MUST STAY THAT WAY. The corpus proof is EVIDENCE FROM
+    # A NAMED RUN, not something this chain can re-derive: there is no MATLAB
+    # here and rung 4 correctly reads `not measured` without corpus reports. So
+    # this step reports what the committed snapshot holds and never fails for
+    # its absence or its age. A gate that went red because the last corpus run
+    # was three weeks ago would be disabled inside a month, and the number it
+    # protects would go back to living only in an expiring CI artifact.
+    Step("corpus_proof_snapshot", _t("corpus_proof_snapshot.py", "--check"),
+         "report", r"^  DENOMINATOR: committed snapshot carries (\d+) class",
+         "class verdicts in the committed corpus proof"),
+
     # REPORT-ONLY, DELIBERATELY, ON THE SAME GROUND THE STEP ABOVE STARTED
     # FROM. The sibling of `check_prose_counts` for the OTHER thing this
     # project's prose keeps getting wrong: not the number in a sentence, the

@@ -542,7 +542,7 @@
         ],
         "packages_missing": [],
         "files_read": 168,
-        "lines_read": 34922,
+        "lines_read": 35132,
         "classes_queried": 26,
         "classes_emitted_as_document_class": 8,
         "unresolved_mint_sites": [
@@ -584,7 +584,7 @@
           "batch_post_pass": 25
         },
         "lines_read_by_group": {
-          "per_document_migrator": 22948,
+          "per_document_migrator": 23158,
           "batch_post_pass": 11974
         },
         "classes_emitted_as_document_class_by_group": {
@@ -851,7 +851,7 @@
         "named_refs": [
           "DID-matlab:convert/resolveValidIntervals.m:1094 (named)"
         ],
-        "n_comment_mentions": 177,
+        "n_comment_mentions": 179,
         "comment_mentions": [
           "DID-matlab:convert/calcCommon.m:25 (comment_mention)",
           "DID-matlab:convert/calcCommon.m:28 (comment_mention)",
@@ -875,7 +875,7 @@
             ],
             "n_named_refs": 0,
             "named_refs": [],
-            "n_comment_mentions": 141,
+            "n_comment_mentions": 143,
             "comment_mentions": [
               "DID-matlab:migrators_j/Contents.m:127 (comment_mention)",
               "DID-matlab:migrators_j/Contents.m:143 (comment_mention)",
@@ -2273,8 +2273,8 @@
         "migrator_file": null,
         "n_consuming_refs": 6,
         "consuming_refs": [
-          "DID-matlab:migrators_j/+super/ngrid.m:100 (field_read)",
-          "DID-matlab:migrators_j/+super/ngrid.m:96 (guard)",
+          "DID-matlab:migrators_j/+super/ngrid.m:125 (guard)",
+          "DID-matlab:migrators_j/+super/ngrid.m:129 (field_read)",
           "DID-matlab:migrators_j/ontology_image.m:273 (guard)",
           "DID-matlab:migrators_j/ontology_image.m:387 (field_read)",
           "DID-matlab:migrators_j/private/jNgridBody.m:138 (guard)",
@@ -2287,25 +2287,25 @@
         "emission_discounted": null,
         "n_field_write_refs": 1,
         "field_write_refs": [
-          "DID-matlab:migrators_j/+super/ngrid.m:115 (field_write)"
+          "DID-matlab:migrators_j/+super/ngrid.m:144 (field_write)"
         ],
         "n_named_refs": 0,
         "named_refs": [],
-        "n_comment_mentions": 60,
+        "n_comment_mentions": 64,
         "comment_mentions": [
           "DID-matlab:convert/v1_to_v2.m:661 (comment_mention)",
           "DID-matlab:convert/v1_to_v2.m:667 (comment_mention)",
           "DID-matlab:convert/v1_to_v2.m:672 (comment_mention)",
-          "DID-matlab:migrators_j/+super/ngrid.m:15 (comment_mention)",
+          "DID-matlab:migrators_j/+super/ngrid.m:19 (comment_mention)",
           "DID-matlab:migrators_j/+super/ngrid.m:2 (comment_mention)",
-          "DID-matlab:migrators_j/+super/ngrid.m:23 (comment_mention)"
+          "DID-matlab:migrators_j/+super/ngrid.m:20 (comment_mention)"
         ],
         "by_group": {
           "per_document_migrator": {
             "n_consuming_refs": 6,
             "consuming_refs": [
-              "DID-matlab:migrators_j/+super/ngrid.m:100 (field_read)",
-              "DID-matlab:migrators_j/+super/ngrid.m:96 (guard)",
+              "DID-matlab:migrators_j/+super/ngrid.m:125 (guard)",
+              "DID-matlab:migrators_j/+super/ngrid.m:129 (field_read)",
               "DID-matlab:migrators_j/ontology_image.m:273 (guard)",
               "DID-matlab:migrators_j/ontology_image.m:387 (field_read)",
               "DID-matlab:migrators_j/private/jNgridBody.m:138 (guard)",
@@ -2315,18 +2315,18 @@
             "emitted_class_refs": [],
             "n_field_write_refs": 1,
             "field_write_refs": [
-              "DID-matlab:migrators_j/+super/ngrid.m:115 (field_write)"
+              "DID-matlab:migrators_j/+super/ngrid.m:144 (field_write)"
             ],
             "n_named_refs": 0,
             "named_refs": [],
-            "n_comment_mentions": 57,
+            "n_comment_mentions": 61,
             "comment_mentions": [
-              "DID-matlab:migrators_j/+super/ngrid.m:15 (comment_mention)",
+              "DID-matlab:migrators_j/+super/ngrid.m:19 (comment_mention)",
               "DID-matlab:migrators_j/+super/ngrid.m:2 (comment_mention)",
-              "DID-matlab:migrators_j/+super/ngrid.m:23 (comment_mention)",
-              "DID-matlab:migrators_j/+super/ngrid.m:30 (comment_mention)",
-              "DID-matlab:migrators_j/+super/ngrid.m:36 (comment_mention)",
-              "DID-matlab:migrators_j/+super/ngrid.m:37 (comment_mention)"
+              "DID-matlab:migrators_j/+super/ngrid.m:20 (comment_mention)",
+              "DID-matlab:migrators_j/+super/ngrid.m:21 (comment_mention)",
+              "DID-matlab:migrators_j/+super/ngrid.m:32 (comment_mention)",
+              "DID-matlab:migrators_j/+super/ngrid.m:38 (comment_mention)"
             ]
           },
           "batch_post_pass": {

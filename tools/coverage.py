@@ -1355,6 +1355,7 @@ def build_ledger():
         # form contribute an empty list, deliberately.
         _bp = batch_pass_entries(cn, vname)
         _bp_targets = sorted({t for e in _bp for t in e["targets"]})
+        _eb = tinfo.get("emitted_by")
         build_state = {
             "schema_targets_named": len(_named),
             "schema_targets_built": sorted(t for t in _named if t in veta),
@@ -1370,6 +1371,34 @@ def build_ledger():
             "batch_pass_emits_decided_targets": bool(
                 _named and not all(t in targets for t in _named)
                 and all(t in set(targets) | set(_bp_targets) for t in _named)),
+            # THE FIRST EMISSION SHAPE OF ROW 107, and the last to get a home.
+            # A SUPERCLASS-ONLY v1 class has no documents of its own -- its
+            # content rides as a BLOCK on another class's document -- so no
+            # migrator can ever be named after it, and rung 3's question is
+            # unanswerable in the form it asks. `filter` is the case: its fold
+            # is real and tested, carried by `pyraview`'s migrator.
+            #
+            # AUTHORED, NOT DERIVED, AND DELIBERATELY SO. The derivation was
+            # measured and does not exist: 9 rows have a decided target that
+            # some other row's migrator emits, and 8 of them name a SHARED
+            # target (`sampled_body` has 6 emitters, `subject` 5) where the
+            # standing attribution limit forbids any conclusion. Inferring
+            # would credit 8 rows on no evidence to reach the 1 that deserves
+            # it. So the map states the emitter by name, with its citation, the
+            # same way `_EDGE_REFERENT_UNIQUE` is declared rather than derived.
+            "emitted_by_migrator": (_eb or {}).get("migrator"),
+            "emitted_by_targets": sorted((_eb or {}).get("targets") or []),
+            # THE UNION HERE IS DELIBERATELY NARROWER THAN THE BATCH-PASS ONE
+            # ABOVE, and the first draft got it wrong by copying that line: it
+            # left `_bp_targets` in, so a class covered by a BATCH PASS also
+            # set this flag. The rung was unaffected (the batch branch is
+            # evaluated first) which is exactly why it would have gone
+            # unnoticed -- a flag that lies while the behaviour looks right.
+            # Caught by `test_only_rows_with_an_authored_emitted_by_are_credited`.
+            "emitted_by_emits_decided_targets": bool(
+                _eb and _named and not all(t in targets for t in _named)
+                and all(t in set(targets) | set((_eb or {}).get("targets") or [])
+                        for t in _named)),
         }
 
         rows.append({
@@ -1710,6 +1739,30 @@ def _rung_emits_decided(row):
                             for p, ts in sorted(em.items()))
                 + " DECLARING the emission. A declared emission is a fact about "
                   "code the pass's own header states; it is NOT a corpus proof")
+        # SHAPE (1): a SUPERCLASS-ONLY class, whose fold is carried by the
+        # migrator of the class its block rides on. Last in the order for the
+        # same reason as the batch-pass branch: it may not shadow work the
+        # class's own migrator does.
+        # `.get`, NOT `_need`, and the distinction is the shape rule this file
+        # enforces everywhere else. `_need` says "this key must exist or the row
+        # is malformed", which is right for the fields every row carries. This
+        # channel is AUTHORED and OPTIONAL: 101 of 102 rows have no `emitted_by`,
+        # so demanding the key would declare every one of them malformed and
+        # force every constructed row in every test to carry a key meaning "no".
+        # It did exactly that on first write -- three batch-pass tests went red
+        # with an EMPTY ladder, because the raise made the row unclassifiable.
+        if bs.get("emitted_by_emits_decided_targets"):
+            return S_YES, (
+                "no migrator can be named after this class -- it is "
+                "SUPERCLASS-ONLY and its content rides as a block on another "
+                "class's document -- and the target map DECLARES the emission "
+                "carried by `"
+                + str(bs.get("emitted_by_migrator"))
+                + "`'s migrator: "
+                + ", ".join(f"`{t}`" for t in (bs.get("emitted_by_targets") or []))
+                + ". Authored with its citation, not inferred: 8 of the 9 rows "
+                  "whose decided target another migrator emits name a SHARED "
+                  "target, where nothing is attributable. NOT a corpus proof")
         return S_NO, ("the decided target(s) "
                       + ", ".join(f"`{t}`" for t in want)
                       + " are not all among what the migrator emits today ("
@@ -2426,6 +2479,38 @@ def _print_batch_pass_rollup(bp):
           "class, so nothing to credit): %d" % len(bp["declared_matching_no_row"]))
     for e in bp["declared_matching_no_row"]:
         print("      %-42s <- %s" % (e["name"], ", ".join(e["passes"])))
+
+
+def _print_emitted_by_rollup(rows):
+    """Shape (1) of row 107, printed SEPARATELY and on purpose.
+
+    This lived inside `_print_batch_pass_rollup` for ten minutes and was wrong
+    there: that function RETURNS EARLY when the batch-pass scan is not measured
+    (no DID-matlab checkout), and this credit does not depend on DID-matlab at
+    all -- it is authored in the target map. So on a runner without the sibling
+    the rung would have been credited in the artifact and invisible in the
+    output, which is the asymmetry between what a tool does and what it says
+    that this repository keeps paying for.
+    """
+    # A row is listed ONLY if its own migrator does not already emit the
+    # decided target, so the count is the credit, not the population.
+    eb = [r for r in rows if (r.get("build_state") or {}).get("emitted_by_migrator")]
+    credited = [r for r in eb
+                if (r["build_state"].get("emitted_by_emits_decided_targets"))]
+    print("    rung 3 credited via ANOTHER CLASS'S MIGRATOR (superclass-only "
+          "sources, authored in the target map with a citation): %d of %d "
+          "row(s) carrying an `emitted_by`" % (len(credited), len(eb)))
+    for r in credited:
+        print("      %-42s <- %s -> %s (now stage %s)"
+              % (r["v1_class"], r["build_state"]["emitted_by_migrator"],
+                 ", ".join(r["build_state"]["emitted_by_targets"]),
+                 r["stage"]["reached"]))
+    for r in eb:
+        if r not in credited:
+            print("      %-42s <- %s, but it credits NOTHING (its own migrator "
+                  "already emits the decided target, or the declared targets do "
+                  "not cover it)"
+                  % (r["v1_class"], r["build_state"]["emitted_by_migrator"]))
 
 
 def _summary(rows):
@@ -3249,6 +3334,7 @@ def main():
                  if nt["target_gaps"] else "",
                  nt["by_reason"][NO_TARGET_PASSTHROUGH]))
         _print_batch_pass_rollup(s["batch_pass"])
+        _print_emitted_by_rollup(rows)
         _print_stage_rollup(s)
     else:
         print("ledger: SKIPPED (NDI-matlab sibling not found)")
