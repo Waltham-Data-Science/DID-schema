@@ -216,7 +216,11 @@ export function Detail({ entry }: Props) {
   );
 }
 
-function FieldsTable({ fields }: { fields: FieldDef[] }) {
+// EXPORTED so the class-walkthrough view renders a built schema's fields the
+// same way this one does. A second field renderer beside this one would drift,
+// and the two would then disagree about the same schema in two panels of the
+// same app.
+export function FieldsTable({ fields }: { fields: FieldDef[] }) {
   return (
     <table className="fields-table">
       <thead>

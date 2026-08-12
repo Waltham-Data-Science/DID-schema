@@ -14,6 +14,8 @@ import { FlatList, Tree } from "./Tree";
 import { Detail } from "./Detail";
 import { BindingRegistry } from "./BindingRegistry";
 import { Coverage } from "./Coverage";
+import { ClassDetail } from "./ClassDetail";
+import { Tenets } from "./Tenets";
 import { Editor } from "./Editor";
 import { AuthPanel } from "./AuthPanel";
 import { loadAuth } from "./auth";
@@ -22,6 +24,13 @@ import { ErrorBoundary } from "./ErrorBoundary";
 import "./styles.css";
 
 type ViewMode = "topic" | "class" | "flat";
+
+// The full-width panels, and the one piece of state each needs.
+type Panel =
+  | null
+  | { kind: "coverage" }
+  | { kind: "tenets" }
+  | { kind: "walkthrough"; v1Class: string };
 
 // The toggleable filter tags shown in the legend: a class is visible only when
 // BOTH its maturity tag and its disposition tag are active (meta files are
@@ -67,7 +76,11 @@ export default function App() {
     parseHash(window.location.hash),
   );
   const [editing, setEditing] = useState<boolean>(false);
-  const [showCoverage, setShowCoverage] = useState<boolean>(false);
+  // WHICH FULL-WIDTH PANEL IS SHOWING. This was a pair of booleans, and adding
+  // two more panels to a set of booleans is how a viewer ends up rendering two
+  // of them at once. One value, one panel: `null` falls through to the selected
+  // class's schema detail.
+  const [panel, setPanel] = useState<Panel>(null);
   const [auth, setAuth] = useState<AuthState | null>(() => loadAuth());
   const [activeTags, setActiveTags] = useState<Set<string>>(
     () => new Set(ALL_TAGS),
@@ -119,9 +132,18 @@ export default function App() {
 
   const select = (className: string) => {
     // Selecting a class always returns to the detail view.
-    setShowCoverage(false);
+    setPanel(null);
     setEditing(false);
     window.location.hash = `#/${encodeURIComponent(className)}`;
+  };
+
+  // Open the per-class migration walkthrough for a did_v1 SOURCE class. Kept
+  // separate from `select` on purpose: `select` takes a V_eta class name and
+  // opens its schema, and the two namespaces overlap without being the same
+  // (`image_stack` is a built class; `imageStack` is the v1 source).
+  const openWalkthrough = (v1Class: string) => {
+    setEditing(false);
+    setPanel({ kind: "walkthrough", v1Class });
   };
 
   const keep = useMemo(
@@ -211,13 +233,24 @@ export default function App() {
           <button
             className="btn-coverage"
             onClick={() => {
-              setShowCoverage(true);
+              setPanel({ kind: "coverage" });
               setEditing(false);
             }}
-            aria-pressed={showCoverage}
+            aria-pressed={panel?.kind === "coverage"}
             title="V_eta migration coverage: every did_v1 class and its V_eta fate"
           >
             ⛿ Coverage ledger
+          </button>
+          <button
+            className="btn-coverage"
+            onClick={() => {
+              setPanel({ kind: "tenets" });
+              setEditing(false);
+            }}
+            aria-pressed={panel?.kind === "tenets"}
+            title="Brainstorm J's 14 tenets and the classes each one shaped"
+          >
+            ✦ Tenets
           </button>
         </div>
         <nav className="sidebar-scroll">
@@ -240,9 +273,22 @@ export default function App() {
               onCancel={() => setEditing(false)}
             />
           </ErrorBoundary>
-        ) : showCoverage ? (
+        ) : panel?.kind === "coverage" ? (
           <ErrorBoundary resetKey="coverage">
-            <Coverage onSelect={select} />
+            <Coverage onSelect={select} onOpenClass={openWalkthrough} />
+          </ErrorBoundary>
+        ) : panel?.kind === "tenets" ? (
+          <ErrorBoundary resetKey="tenets">
+            <Tenets onSelect={select} onOpenClass={openWalkthrough} />
+          </ErrorBoundary>
+        ) : panel?.kind === "walkthrough" ? (
+          <ErrorBoundary resetKey={`wt-${panel.v1Class}`}>
+            <ClassDetail
+              v1Class={panel.v1Class}
+              index={index.schemas}
+              onSelect={select}
+              onBack={() => setPanel({ kind: "coverage" })}
+            />
           </ErrorBoundary>
         ) : selectedEntry ? (
           <ErrorBoundary resetKey={selectedEntry.class_name}>

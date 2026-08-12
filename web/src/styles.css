@@ -1183,3 +1183,280 @@ button.badge-persist {
   border-style: dashed !important;
   opacity: 0.9;
 }
+
+/* ==========================================================================
+   THE PER-CLASS WALKTHROUGH (ClassDetail.tsx)
+
+   Every panel states the artifact its facts come from. Four generators feed
+   this page -- the ledger, the ground truth, the decision families and the
+   built tree -- and "which of these is wrong" is the first question anyone
+   asks when two disagree, so the provenance line is part of the layout rather
+   than a footnote.
+   ========================================================================== */
+.cw-back {
+  margin-bottom: 1rem;
+}
+.cw-writer {
+  margin-left: 0.7rem;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 0.15em 0.6em;
+  vertical-align: middle;
+}
+.cw-step {
+  margin: 2rem 0;
+  padding-top: 1.2rem;
+  border-top: 1px solid var(--border);
+}
+.cw-step h3 {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-bottom: 0.15rem;
+}
+.cw-step-n {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.7em;
+  height: 1.7em;
+  border-radius: 50%;
+  background: var(--bg-alt);
+  border: 1px solid var(--border);
+  font-size: 0.8em;
+  color: var(--text-muted);
+}
+.cw-source {
+  margin: 0 0 1rem 2.3rem;
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  font-style: italic;
+}
+.cw-step h4 {
+  margin: 1.2rem 0 0.4rem;
+  font-size: 0.86rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--text-muted);
+}
+.cw-stage {
+  display: flex;
+  align-items: baseline;
+  gap: 0.7rem;
+  margin-top: 0.6rem;
+}
+.cw-stage-n {
+  font-weight: 700;
+  padding: 0.15em 0.65em;
+  border-radius: 999px;
+  background: var(--selected-bg);
+  border: 1px solid var(--selected-border);
+}
+/* A divergence is not a decoration: where the template and the WRITER
+   disagree, the writer wins, and a reader looking only at the template takes
+   the losing side. */
+.cw-warn {
+  margin: 1rem 0;
+  padding: 0.8rem 1rem;
+  border-left: 3px solid var(--maturity-draft);
+  background: var(--bg-alt);
+  border-radius: 0 4px 4px 0;
+  font-size: 0.88rem;
+}
+.cw-warn dl {
+  margin: 0.5rem 0 0;
+}
+.cw-flags {
+  color: var(--maturity-draft);
+  font-size: 0.88rem;
+  max-width: 78ch;
+}
+.cw-target-source {
+  max-width: 78ch;
+}
+.cw-mentions {
+  margin: 0.5rem 0;
+  font-size: 0.86rem;
+}
+.cw-mentions summary {
+  cursor: pointer;
+  padding: 0.25rem 0;
+}
+.cw-code-line {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  padding-left: 1rem;
+  overflow-x: auto;
+  white-space: pre;
+}
+.cw-build-table th {
+  text-align: left;
+  white-space: nowrap;
+  vertical-align: top;
+  width: 1%;
+}
+.cw-target-schema {
+  margin: 1rem 0;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 0.7rem 1rem;
+}
+.cw-target-schema > summary {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  font-weight: 600;
+}
+.cw-target-schema table {
+  margin-top: 0.6rem;
+}
+.cw-tenet-list {
+  list-style: none;
+  padding: 0;
+}
+.cw-tenet-list li {
+  margin-bottom: 0.7rem;
+  max-width: 80ch;
+}
+.cw-tenet-id {
+  font-weight: 700;
+  color: var(--link);
+  margin-right: 0.3rem;
+}
+/* The v1 class name in the coverage table is now the way into the walkthrough,
+   so it has to look like a way in. */
+.cov-v1-link {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  color: var(--link);
+  font: inherit;
+  text-align: left;
+}
+.cov-v1-link:hover code {
+  text-decoration: underline;
+}
+
+/* ==========================================================================
+   THE TENET PANEL (Tenets.tsx)
+   ========================================================================== */
+.tenet-block {
+  margin: 2rem 0;
+  padding-top: 1.2rem;
+  border-top: 1px solid var(--border);
+}
+.tenet-block h3 {
+  max-width: 80ch;
+}
+.tenet-id {
+  display: inline-block;
+  min-width: 2.6em;
+  font-weight: 700;
+  color: var(--link);
+}
+.tenet-toggle {
+  margin-bottom: 0.8rem;
+  font-size: 0.78rem;
+}
+.tenet-statement {
+  white-space: pre-wrap;
+  font-family: inherit;
+  font-size: 0.86rem;
+  line-height: 1.55;
+  background: var(--bg-alt);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 0.9rem 1.1rem;
+  max-width: 84ch;
+  overflow-x: auto;
+}
+.tenet-row {
+  margin: 1rem 0 1.4rem;
+  padding-left: 1rem;
+  border-left: 3px solid var(--border);
+}
+.tenet-change {
+  max-width: 80ch;
+  margin-bottom: 0.6rem;
+}
+.tenet-ba {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.8rem;
+  margin-bottom: 0.5rem;
+}
+.tenet-ba-side {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.3rem;
+}
+.tenet-ba-label {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-muted);
+  margin-right: 0.2rem;
+}
+.tenet-arrow {
+  color: var(--text-muted);
+  font-size: 1.1rem;
+}
+.tenet-chip-before {
+  opacity: 0.85;
+}
+.tenet-chip-after {
+  border-color: var(--maturity-stable) !important;
+}
+/* A class named ONLY by the cited plan -- decided-but-unbuilt, or superseded.
+   Dashed and disabled, because drawing it like a shipped class is the most
+   misleading thing this panel could do in front of someone deciding what is
+   finished. */
+.cw-plan-only {
+  border-style: dashed !important;
+  opacity: 0.75;
+  cursor: default;
+}
+.tenet-chip-mark {
+  margin-left: 0.25em;
+  font-size: 0.85em;
+}
+.tenet-unbuilt {
+  font-size: 0.84rem;
+  color: var(--maturity-draft);
+  max-width: 80ch;
+}
+.tenet-note {
+  font-size: 0.86rem;
+  color: var(--text-muted);
+  max-width: 80ch;
+}
+/* The citation is the only reason to believe the row, so it is shown, not
+   hidden behind a tooltip. */
+.tenet-citation {
+  margin: 0.6rem 0 0;
+  padding: 0.6rem 0.9rem;
+  background: var(--bg-alt);
+  border-radius: 4px;
+  max-width: 84ch;
+}
+.tenet-citation-quote {
+  font-size: 0.84rem;
+  line-height: 1.5;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  overflow-x: auto;
+}
+.tenet-citation-src {
+  margin-top: 0.35rem;
+  font-size: 0.76rem;
+  color: var(--text-muted);
+}

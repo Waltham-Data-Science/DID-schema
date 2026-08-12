@@ -11,6 +11,11 @@ import { loadCoverage, loadDecisions } from "./schemaIndex";
 interface Props {
   // Jump to a class's detail view (used by the clickable V_eta class chip).
   onSelect: (className: string) => void;
+  // Open the per-class migration walkthrough for a did_v1 SOURCE class. The
+  // table row is a summary; the walkthrough is where `build_state`,
+  // `target_gap` and the NDI declaration live -- three things this table
+  // carried in its data and rendered nowhere.
+  onOpenClass: (v1Class: string) => void;
 }
 
 const DASH = "—";
@@ -71,7 +76,7 @@ const DSTATE_META: Record<DecisionState, { label: string; cls: string; tip: stri
   },
 };
 
-export function Coverage({ onSelect }: Props) {
+export function Coverage({ onSelect, onOpenClass }: Props) {
   const [led, setLed] = useState<CoverageLedger | null>(null);
   const [dec, setDec] = useState<DecisionsDoc | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -238,7 +243,10 @@ export function Coverage({ onSelect }: Props) {
       </div>
 
       <p className="section-note">
-        Showing {filtered.length} of {rows.length}. The{" "}
+        Showing {filtered.length} of {rows.length}.{" "}
+        <strong>Click a v1 class name</strong> to walk it end to end — what NDI
+        actually declares, what consumes it, what it becomes, the built schema
+        for each target, and its full <code>build_state</code>. The{" "}
         <strong>→ V_eta target(s)</strong> column lists the V_eta document class(es)
         each v1 class migrates into (click a chip to open it). A{" "}
         <span className="cov-target-2pass enum-chip">class✦</span> is minted in the
@@ -265,7 +273,22 @@ export function Coverage({ onSelect }: Props) {
             return [
               <tr key={r.v1_class} className={r.gap ? "cov-row-gap" : ""}>
                 <td>
-                  <code>{r.v1_class}</code>
+                  <button
+                    className="cov-link cov-v1-link"
+                    onClick={() => onOpenClass(r.v1_class)}
+                    title={`Walk ${r.v1_class} end to end: what NDI declares, `
+                      + "what consumes it, what it becomes, and its build state"}
+                  >
+                    <code>{r.v1_class}</code>
+                  </button>
+                  {r.target_gap && (
+                    <span
+                      className="cov-target-flag"
+                      title="TARGET GAP -- no target and no dissolution recorded. A gap in the record, not a decision."
+                    >
+                      {" "}⚠
+                    </span>
+                  )}
                 </td>
                 <td>
                   <TargetCell row={r} fam={famOf(r)} onSelect={onSelect} />
