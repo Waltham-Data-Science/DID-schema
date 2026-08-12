@@ -173,7 +173,8 @@ class Step:
     def unavailable(self):
         """Everything that makes this step un-measurable HERE, in one list, so
         the header, the run loop and the summary cannot disagree about it."""
-        return self.missing_siblings + [p + " (absent)" for p in self.missing_paths]
+        return ([f"sibling {n}" for n in self.missing_siblings]
+                + [f"path {p}" for p in self.missing_paths])
 
     def source_path(self):
         """The file whose content backs this step's declarations, if any."""
@@ -867,7 +868,7 @@ def main(argv=None):
             # It must still be COUNTED and NAMED, or a shorter chain would read
             # as a complete one -- which is the whole defect this file is about.
             no_sibling.append(s.name)
-            print(f'[{i:>2}/{len(steps):>2}] {s.name:<34} NOT-RUNNABLE ({", ".join(s.unavailable)} absent; step not attempted)')
+            print(f'[{i:>2}/{len(steps):>2}] {s.name:<34} NOT-RUNNABLE ({", ".join(s.unavailable)} absent here; step not attempted)')
             continue
         blockers = [f for f in failed + skipped
                     if BY_NAME[f].blocks_dependents
