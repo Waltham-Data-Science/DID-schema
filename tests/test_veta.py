@@ -2813,59 +2813,88 @@ def test_member_of_registry_row_is_timed_and_ordered_as_the_signoff_requires():
         "a neuron-subject is a member of an ensemble group-SUBJECT")
 
 
-# ===================== `validity` -- the valid_interval go-forward home ============
+# ===================== `logical` -- the valid_interval go-forward home ============
 #
-# TEAM DECISION 2026-08-11 (V_eta_OPEN_WORK.md, "`valid_interval` becomes a
-# boolean-valued `subject_statement`"). The three tests below are the three
-# hazards named with the decision, one test each, so a regression names the
-# hazard it re-opened rather than a field.
+# TEAM DECISION 2026-08-12 (jess@walthamdatascience.com): `validity` and
+# `validity_observation` are REPLACED by `logical` and `logical_observation`.
+# The 32 `*_observation` data_types name a KIND OF VALUE; `validity` was the
+# only one naming a SEMANTIC, and a semantic belongs in
+# `subject_statement.variable` -- which is what the live table-column pass
+# already does (`resolveLawnPlateSubjects.m:1106-1113` sends six distinct
+# fluorescence semantics to ONE `intensity_observation`, told apart by
+# `variable`). `boolean` was impossible as a class name: it is a hard-coded
+# primitive in DID-matlab's type switch (`+did2/+schema/cache.m:1793`), so a
+# composite of that name would send every struct-valued field into that check.
+# `logical` follows the `term`/`ontology_term` precedent -- the data_type name
+# differs from the field-type name it wraps.
+#
+# THE MODEL ITSELF IS STILL UNSIGNED. The 2026-08-11 "decision" it rests on was
+# a QUESTION recorded as an answer (OPEN_WORK #103); what is decided is the
+# naming. The tests below are the hazards named with the model, one test each,
+# so a regression names the hazard it re-opened rather than a field.
 
 
-def test_validity_is_a_boolean_valued_statement_leaf():
-    """The shape the team asked for: a `subject_statement`-derived class carrying a
-    BOOLEAN, sharing the statement family's time reference.
+def test_logical_is_a_boolean_valued_statement_leaf():
+    """The shape: a `subject_statement`-derived class carrying a BOOLEAN, sharing
+    the statement family's time reference.
 
     `variable` (what is judged), `subject_id` (whose data) and `time_reference_#`
     (over which stretch) are all INHERITED -- from subject_statement and
     subject_interaction -- which is the whole point of "takes a subject
     statement". If the chain ever stops reaching subject_interaction, the class
-    silently loses its time anchor and starts asserting validity over all
-    time, so the chain is asserted here rather than assumed.
+    silently loses its time anchor and starts asserting over all time, so the
+    chain is asserted here rather than assumed.
     """
-    assert "validity" in RECORDS and "validity_observation" in RECORDS
-    _tier, comp = RECORDS["validity"]
+    assert "logical" in RECORDS and "logical_observation" in RECORDS
+    assert "validity" not in RECORDS and "validity_observation" not in RECORDS, (
+        "the replaced classes are still built; a name that means the same thing "
+        "twice is how a migrator ends up emitting the dead one")
+    _tier, comp = RECORDS["logical"]
     assert comp["document_class"]["abstract"] is True
     assert [s["class_name"] for s in comp["document_class"]["superclasses"]] == ["data_type"]
 
-    # T14: ONE payload slot, `value`, an ARRAY of cells whose layout is DECLARED
-    # (not left to prose) -- and the cell is a boolean.
+    # T14: ONE payload slot, `value` -- and it is a BARE boolean array, not a
+    # cell. The cell it replaced was `{value: boolean}`, i.e. `value.value`: a
+    # wrapper around nothing. The composites that nest do so to carry provenance
+    # (canonical + source_unit + source_value, or count's semantic unit); a truth
+    # value has no unit, no source unit and cannot be approximate. `term.value`
+    # is the precedent -- typed `ontology_term` directly.
     assert [f["name"] for f in comp["fields"]] == ["value"]
     val = comp["fields"][0]
-    assert val["type"] == "validity" and val["mustBeScalar"] is False
-    assert val["mustBeNonEmpty"] is True, (
-        "a validity statement with no cell says nothing at all -- exactly the "
-        "hollow document silentLoss and isFragment exist to catch")
-    assert [sf["name"] for sf in val["fields"]] == ["value"]
-    assert val["fields"][0]["type"] == "boolean", (
+    assert val["type"] == "boolean", (
         "the team asked for true/false. A term-valued 'valid'/'garbage' pair "
         "would encode a boolean as a vocabulary (T13) and would make the "
         "invalid half unreachable the same way the CLASS NAME did in v1")
+    assert val["mustBeScalar"] is False and val["blank_value"] == []
+    assert val["mustBeNonEmpty"] is True, (
+        "a logical statement with no value says nothing at all -- exactly the "
+        "hollow document silentLoss and isFragment exist to catch")
+    assert "fields" not in val, (
+        "`logical.value` grew a nested cell again. `value.value` is a wrapper "
+        "around nothing; provenance is what earns a cell and a boolean has none")
+    # And the class name is NOT a field type: `boolean` is the field type, and it
+    # is a validator primitive, so `logical` must stay out of the meta enum.
+    assert "logical" not in META["$defs"]["field_definition"]["properties"]["type"]["enum"]
 
-    _, leaf = RECORDS["validity_observation"]
+    _, leaf = RECORDS["logical_observation"]
     assert [s["class_name"] for s in leaf["document_class"]["superclasses"]] == [
-        "subject_observation", "validity"]
+        "subject_observation", "logical"]
+    assert leaf["fields"] == [], (
+        "logical_observation declares fields. It has NONE, like "
+        "length_observation and count_observation -- everything it needs is "
+        "inherited, and `sequence` went with HAZARD 2")
     chain, seen = [], "subject_observation"
     while seen and seen in RECORDS:
         chain.append(seen)
         sup = RECORDS[seen][1]["document_class"]["superclasses"]
         seen = sup[0]["class_name"] if sup else None
     assert "subject_interaction" in chain and "subject_statement" in chain, (
-        "validity_observation must reach subject_interaction (for "
+        "logical_observation must reach subject_interaction (for "
         "time_reference_#) and subject_statement (for subject_id + variable); "
         f"chain was {chain!r}")
 
 
-def test_absence_of_a_validity_statement_must_keep_meaning_valid():
+def test_absence_of_a_logical_statement_must_keep_meaning_valid():
     """HAZARD 1. `ndi.app.markgarbage` is OPT-IN: no `valid_interval` document
     means the whole epoch is good data (markgarbage.m:172-176 returns the whole
     requested span when it finds no record).
@@ -2873,7 +2902,7 @@ def test_absence_of_a_validity_statement_must_keep_meaning_valid():
     A class that states true/false explicitly can destroy that in two ways, and
     both are mechanical, so both are gated here:
 
-      * something REQUIRES a validity statement, so a subject without one reads
+      * something REQUIRES a logical statement, so a subject without one reads
         as incomplete rather than as valid;
       * the reading rule lives only in prose, so a consumer assumes
         "no statement = unknown" and every epoch in every dataset that never ran
@@ -2889,10 +2918,10 @@ def test_absence_of_a_validity_statement_must_keep_meaning_valid():
         for dep in d.get("depends_on", []):
             required = dep.get("mustBeNonEmpty") or (dep.get("min_count") or 0) > 0
             if dep.get("must_refer_to_document_class") in (
-                    "validity", "validity_observation") and required:
+                    "logical", "logical_observation") and required:
                 offenders.append("{}.{}".format(name, dep["name"]))
     assert offenders == [], (
-        "these edges REQUIRE a validity statement: {}. Absence must stay a "
+        "these edges REQUIRE a logical statement: {}. Absence must stay a "
         "legal, meaningful state -- it is how every dataset that never ran "
         "markgarbage says 'all of this is good data'.".format(
             ", ".join(offenders)))
@@ -2900,18 +2929,77 @@ def test_absence_of_a_validity_statement_must_keep_meaning_valid():
     # And nothing subclasses it into a position where a parent's requirement
     # could reach it.
     children = [n for n, (_t, d) in RECORDS.items()
-                if any(s["class_name"] == "validity"
+                if any(s["class_name"] == "logical"
                        for s in d["document_class"]["superclasses"])]
-    assert children == ["validity_observation"], (
-        f"validity gained subclasses ({children!r}); each one is a new way for "
+    assert children == ["logical_observation"], (
+        f"logical gained subclasses ({children!r}); each one is a new way for "
         "the boolean to become required somewhere")
 
-    doc = RECORDS["validity"][1]["fields"][0]["documentation"]
-    assert "ABSENCE OF *EVERY* `validity` STATEMENT ABOUT A SUBJECT MEANS "\
-           "ITS DATA IS VALID" in doc, (
+    doc = RECORDS["logical"][1]["fields"][0]["documentation"]
+    # SCOPED BY `variable`, and that scoping is load-bearing now that the class
+    # is generic. `validity` named the semantic, so "no statement of this class"
+    # and "no statement about data validity" were one sentence; under `logical`
+    # they are not, and an unscoped rule would let a subject with no statement
+    # about some unrelated boolean read as "data valid".
+    assert "ABSENCE OF *EVERY* `logical` STATEMENT ABOUT A SUBJECT'S DATA "\
+           "VALIDITY MEANS ITS DATA IS VALID" in doc, (
         "the absence rule is DECLARED (T14), not left in a plan document. A "
         "consumer that never read our prose has to get this right, because "
         "reading it wrong is silent")
+    assert "scoped BY `variable`" in doc, (
+        "the absence rule lost its `variable` scoping. Unscoped on a GENERIC "
+        "boolean class it claims something about every subject that never "
+        "carried a validity judgement at all")
+
+
+def test_the_four_reading_rules_are_declared_on_the_class():
+    """Team, 2026-08-12. FOUR reading rules for a V_eta consumer, DECLARED on
+    the class rather than left in `V_eta_logical_observation_plan.md`.
+
+    T14 is the reason, and it is the same reason the absence rule is declared:
+    a consumer that never read our plan documents still has to get these right,
+    and EVERY WAY OF GETTING THEM WRONG IS SILENT. A consumer that stops at the
+    first `derived_from` hop, or that copies interval numbers without their
+    anchor, or that reads "we could not project this" as "valid", produces
+    documents that validate, a corpus that is 0-quarantine and 0-orphan, and
+    an answer that is wrong about which stretches of a recording are usable.
+
+    Each assertion below pins ONE rule by the clause that carries its meaning,
+    not by a paraphrase -- a rule softened in the documentation should fail
+    here rather than pass on a near-match.
+    """
+    doc = RECORDS["logical"][1]["fields"][0]["documentation"]
+
+    # RULE 1 -- transitive, and over `derived_from` specifically.
+    assert "INHERITANCE WALKS THE WHOLE `derived_from` CHAIN, TRANSITIVELY" in doc
+    assert "ANY DEPTH" in doc, (
+        "rule 1 lost its depth claim. A single-hop walk never reaches the "
+        "electrode from a neuron, which is the case the rule exists for")
+    # And the divergence from NDI is stated as what it IS. NDI's fallback DOES
+    # recurse (markgarbage.m:149 calls loadvalidinterval on underlying_element,
+    # and that function contains the same block), so a claim that V_eta
+    # diverges by DEPTH would be false -- it diverges by EDGE and by SCOPE.
+    assert "it is NOT depth" in doc, (
+        "the divergence claim drifted back to depth. NDI recurses "
+        "(markgarbage.m:149); V_eta differs by walking `derived_from` in the "
+        "migrated graph and by scoping the walk to one `variable`")
+
+    # RULE 2 -- the anchor travels with the statement.
+    assert "NEVER THE" in doc and "INTERVAL NUMBERS ALONE" in doc
+    assert "converts through the syncgraph" in doc
+
+    # RULE 3 -- three states, and the third is NOT valid.
+    assert "THERE ARE THREE STATES, NOT TWO" in doc
+    assert "UNKNOWN, AND NOT VALID" in doc, (
+        "the third state stopped being distinguished from the first. In v1 "
+        "they collapse -- markgarbage.m:190 skips an unprojectable interval "
+        "and :198-199 then returns the WHOLE requested span -- so a clock "
+        "mismatch reads as 'all of this data is good'. That collapse is the "
+        "thing this rule exists to break")
+
+    # RULE 4 -- and the number, without which rule 3 cannot be checked.
+    assert "THE FAILURE MUST BE COUNTABLE" in doc
+    assert "REPORTS the" in doc and "could not project" in doc
 
     # AND IT MUST NOT CLAIM MORE THAN THAT. The rule is scoped to NO STATEMENT
     # AT ALL. It does NOT extend to the gaps BETWEEN statements, and v1's answer
@@ -2936,37 +3024,46 @@ def test_absence_of_a_validity_statement_must_keep_meaning_valid():
         "this assertion to pin the answer instead")
 
 
-def test_validity_carries_the_v1_array_position_that_order_is_load_bearing_for():
-    """HAZARD 2. One v1 `valid_interval` document holds an ARRAY, appended to in
-    call order (markgarbage.m:89, `vi(end+1) = validintervalstruct`), and
-    `+app/+stimulus/tuning_response.m:253-256` reads `interval(1,1)`..
-    `interval(1,2)` -- the FIRST interval only -- to choose the stretch of signal
-    it analyses.
+def test_logical_does_not_carry_a_v1_array_position():
+    """HAZARD 2, RESOLVED AND INVERTED 2026-08-12. This test used to assert the
+    OPPOSITE and was named `test_validity_carries_the_v1_array_position_that_
+    order_is_load_bearing_for`.
 
-    Decomposing the array into one statement per interval makes "first"
-    undefined unless the position is carried, and losing it does not fail
-    anything: the documents still validate, the corpus is still 0-quarantine,
-    and a re-run of the tuning calculators just quietly analyses a different
-    stretch of signal.
+    The old premise: `+app/+stimulus/tuning_response.m:253-256` reads
+    `interval(1,1)`..`interval(1,2)` -- "the FIRST interval" -- so v1's
+    array-append order (markgarbage.m:89) had to be carried through the
+    decomposition, in `sequence`.
+
+    The premise is false, and the evidence is the two call sites, read from NDI
+    `origin/main` (42c94e53b). `interval` is the RETURN VALUE of
+    `identifyvalidintervals`; the stored array `vi` is loaded at :253 into a
+    variable that is never read again. And `identifyvalidintervals`
+    (markgarbage.m:178-204) iterates `for i=1:size(vi,1)` accumulating through
+    `vlt.math.interval_add` -- a SET UNION -- and never indexes `vi` by
+    position. So the append order is invisible to its only consumer: a storage
+    artifact, not a fact.
+
+    This is the shape CLAUDE.md names under "A TEST WRITTEN FROM THE SAME
+    PREMISE AS THE CODE CANNOT CATCH THE CODE" -- the schema, the migrator and
+    the test all asserted one unchecked reading of a call site. So the
+    replacement pins the DELETION rather than removing the test.
     """
-    seq = [f for f in RECORDS["validity_observation"][1]["fields"]
-           if f["name"] == "sequence"]
-    assert len(seq) == 1, (
-        "validity_observation lost `sequence` -- the v1 array position. "
-        "tuning_response.m reads the FIRST interval; with no order there is no "
-        "first")
-    seq = seq[0]
-    assert seq["type"] == "integer"
-    assert seq["queryable"] is True, "an order nothing can sort by is not an order"
-    # Same word as directed_relation.sequence -- T11, one canonical spelling per
-    # concept. Two words for one idea is how a later reader ends up sorting on
-    # the wrong one.
+    fields = RECORDS["logical_observation"][1]["fields"]
+    assert fields == [], (
+        f"logical_observation declares {[f['name'] for f in fields]!r}. It has "
+        "no fields: `sequence` was deleted with HAZARD 2, and nothing else "
+        "belongs on the leaf")
+    # `sequence` itself is NOT retired as a concept -- directed_relation's is a
+    # real order over a real sequence. Pinned so this deletion is not read as a
+    # licence to delete that one.
     dr = [f for f in RECORDS["directed_relation"][1]["fields"]
           if f["name"] == "sequence"]
-    assert len(dr) == 1 and dr[0]["type"] == seq["type"]
+    assert len(dr) == 1 and dr[0]["type"] == "integer", (
+        "directed_relation.sequence went with it; that one orders a genuine "
+        "sequence and was never part of HAZARD 2")
 
 
-def test_validity_forecloses_neither_answer_on_the_inheritance_question():
+def test_logical_forecloses_neither_answer_on_the_inheritance_question():
     """HAZARD 3, WHICH IS NOT DECIDED AND IS NOT CLAIMED HERE.
 
     `loadvalidinterval` falls back to `underlying_element` when a derived
@@ -2988,7 +3085,7 @@ def test_validity_forecloses_neither_answer_on_the_inheritance_question():
         "answer to the inheritance question would ride on")
     assert df[0]["mustBeNonEmpty"] is False and (df[0].get("min_count") or 0) == 0, (
         "derived_from_# became required; pass 1 mints no such edge for a "
-        "validity statement, so requiring it would quarantine every one of them "
+        "logical statement, so requiring it would quarantine every one of them "
         "and would ALSO pre-empt a team decision by making the materialising "
         "answer the only legal one")
     # The referent is the element-subject, unqualified: subject_statement's own

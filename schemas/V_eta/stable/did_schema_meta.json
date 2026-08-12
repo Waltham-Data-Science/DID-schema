@@ -266,8 +266,7 @@
                         "capacitance",
                         "amount",
                         "ph",
-                        "gain",
-                        "validity"
+                        "gain"
                     ],
                     "description": "Data type of the field. Uses the standard JSON Schema keyword 'type'; values are NDI-specific."
                 },

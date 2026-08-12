@@ -199,8 +199,10 @@ FAMILIES = [
     # SENTENCE WAS FALSE WHILE THE BOARD ITSELF HELD THE REFUTATION. The team
     # decided both models in session and both are BUILT and running in all six
     # corpora: `generic_file` -> term_observation + opaque_body
-    # (`foldGenericFiles.m`), `valid_interval` -> boolean validity_observation +
-    # relative_reference (`resolveValidIntervals.m`), `imageCollection` ->
+    # (`foldGenericFiles.m`), `valid_interval` -> boolean logical_observation +
+    # relative_reference (`resolveValidIntervals.m`; the classes were named
+    # `validity`/`validity_observation` until the 2026-08-12 rename),
+    # `imageCollection` ->
     # tombstone (`V_eta/stable/image_collection.json`). `batch_consumers()` --
     # in this same file, in the same run -- returns
     # {'generic_file': ['foldGenericFiles.m'], 'valid_interval':
@@ -232,11 +234,37 @@ FAMILIES = [
     # corpus holds a `valid_interval`), so nothing has actually been transformed
     # under an unapproved model -- which bounds the exposure but does not change
     # the disposition.
+    #
+    # 2026-08-12: THE MODEL IS DECIDED AND IT IS NOT THE ONE THAT WAS BUILT.
+    # The team chose the ARRAY model -- ONE statement per source document
+    # holding an ARRAY of booleans against a TIME AXIS -- and chose to WAIT for
+    # `axes[]` (#45 -> #32) rather than ship the 1->N decomposition as an
+    # interim. So `resolveValidIntervals` is now DORMANT: it runs as a census
+    # and emits nothing. The one-liner KEEPS the words "BUILT AHEAD OF THE
+    # DECISION" and that is not inertia: the code in `resolveValidIntervals`
+    # was written before any decision and is still there, unsigned, which is
+    # exactly the contradiction the sweep below wants a reader to meet first.
+    # What changed is that the decision then arrived and TURNED IT OFF -- so
+    # the one-liner says "and now dormant by it" rather than pretending the
+    # contradiction was resolved by the code being harmless.
+    #
+    # THE FAMILY NOW CITES A PLAN DOCUMENT, which it did not before. That
+    # matters mechanically as well as editorially: a family with `plan=None`
+    # and `status="open"` gets NO prose checking of any kind
+    # (`family_prose_vs_signoff` requires status == "team" AND a plan), which
+    # is exactly how #99's row asserted the most while being checked the least.
+    # STILL `open`: the plan document carries no TEAM-SIGN-OFF line, Rule 4
+    # forbids this file's author writing one, and awaiting-review is the
+    # accurate render.
     ("valid_interval", ["valid_interval"],
-     None,
-     ("BUILT AHEAD OF THE DECISION: resolveValidIntervals decomposes it into "
-      "boolean validity_observation + relative_reference. NOT signed, NOT "
-      "agreed -- the team deferred this one and it is still open"),
+     "V_eta_logical_observation_plan.md",
+     ("BUILT AHEAD OF THE DECISION, AND NOW DORMANT BY IT. Decided "
+      "2026-08-12, UNSIGNED: the target is ONE logical_observation per source "
+      "document carrying an ARRAY of booleans on a time axis, and it WAITS "
+      "for axes[] (#45 -> #32); the 1->N decomposition resolveValidIntervals "
+      "already contains is explicitly rejected as an interim, so that pass is "
+      "DORMANT (census only, emits nothing) and the documents live on the v1 "
+      "tombstone. Classes renamed validity -> logical"),
      "open"),
 
     # FOUR MEMBERS LEFT THIS FAMILY 2026-08-11 (#65 increment 3a):

@@ -49,8 +49,8 @@
         }
       ],
       "open_members": [],
-      "plan": null,
-      "decision": "BUILT AHEAD OF THE DECISION: resolveValidIntervals decomposes it into boolean validity_observation + relative_reference. NOT signed, NOT agreed -- the team deferred this one and it is still open",
+      "plan": "V_eta_logical_observation_plan.md",
+      "decision": "BUILT AHEAD OF THE DECISION, AND NOW DORMANT BY IT. Decided 2026-08-12, UNSIGNED: the target is ONE logical_observation per source document carrying an ARRAY of booleans on a time axis, and it WAITS for axes[] (#45 -> #32); the 1->N decomposition resolveValidIntervals already contains is explicitly rejected as an interim, so that pass is DORMANT (census only, emits nothing) and the documents live on the v1 tombstone. Classes renamed validity -> logical",
       "status": "open",
       "signed": false,
       "signoff": null,
@@ -542,7 +542,7 @@
         ],
         "packages_missing": [],
         "files_read": 167,
-        "lines_read": 33618,
+        "lines_read": 33771,
         "classes_queried": 26,
         "classes_emitted_as_document_class": 8,
         "unresolved_mint_sites": [
@@ -584,8 +584,8 @@
           "batch_post_pass": 25
         },
         "lines_read_by_group": {
-          "per_document_migrator": 22451,
-          "batch_post_pass": 11167
+          "per_document_migrator": 22459,
+          "batch_post_pass": 11312
         },
         "classes_emitted_as_document_class_by_group": {
           "per_document_migrator": 8,
@@ -763,7 +763,7 @@
         "named_refs": [],
         "n_comment_mentions": 27,
         "comment_mentions": [
-          "DID-matlab:convert/resolveValidIntervals.m:547 (comment_mention)",
+          "DID-matlab:convert/resolveValidIntervals.m:681 (comment_mention)",
           "DID-matlab:migrators_j/element_epoch.m:10 (comment_mention)",
           "DID-matlab:migrators_j/element_epoch.m:12 (comment_mention)",
           "DID-matlab:migrators_j/element_epoch.m:2 (comment_mention)",
@@ -807,7 +807,7 @@
             "named_refs": [],
             "n_comment_mentions": 1,
             "comment_mentions": [
-              "DID-matlab:convert/resolveValidIntervals.m:547 (comment_mention)"
+              "DID-matlab:convert/resolveValidIntervals.m:681 (comment_mention)"
             ]
           }
         },
@@ -831,7 +831,7 @@
         "migrator_file": null,
         "n_consuming_refs": 5,
         "consuming_refs": [
-          "DID-matlab:convert/resolveValidIntervals.m:483 (guard)",
+          "DID-matlab:convert/resolveValidIntervals.m:617 (guard)",
           "DID-matlab:convert/universalRenames.m:285 (guard)",
           "DID-matlab:convert/universalRenames.m:286 (field_read)",
           "DID-matlab:migrators_j/private/jSoftwareFromApp.m:91 (guard)",
@@ -849,16 +849,16 @@
         ],
         "n_named_refs": 1,
         "named_refs": [
-          "DID-matlab:convert/resolveValidIntervals.m:925 (named)"
+          "DID-matlab:convert/resolveValidIntervals.m:1070 (named)"
         ],
         "n_comment_mentions": 174,
         "comment_mentions": [
           "DID-matlab:convert/calcCommon.m:25 (comment_mention)",
           "DID-matlab:convert/calcCommon.m:28 (comment_mention)",
           "DID-matlab:convert/resolveOpenmindsCitations.m:860 (comment_mention)",
-          "DID-matlab:convert/resolveValidIntervals.m:128 (comment_mention)",
-          "DID-matlab:convert/resolveValidIntervals.m:217 (comment_mention)",
-          "DID-matlab:convert/resolveValidIntervals.m:264 (comment_mention)"
+          "DID-matlab:convert/resolveValidIntervals.m:1041 (comment_mention)",
+          "DID-matlab:convert/resolveValidIntervals.m:1044 (comment_mention)",
+          "DID-matlab:convert/resolveValidIntervals.m:1045 (comment_mention)"
         ],
         "by_group": {
           "per_document_migrator": {
@@ -881,14 +881,14 @@
               "DID-matlab:migrators_j/Contents.m:129 (comment_mention)",
               "DID-matlab:migrators_j/Contents.m:355 (comment_mention)",
               "DID-matlab:migrators_j/Contents.m:356 (comment_mention)",
-              "DID-matlab:migrators_j/Contents.m:412 (comment_mention)",
-              "DID-matlab:migrators_j/Contents.m:417 (comment_mention)"
+              "DID-matlab:migrators_j/Contents.m:420 (comment_mention)",
+              "DID-matlab:migrators_j/Contents.m:425 (comment_mention)"
             ]
           },
           "batch_post_pass": {
             "n_consuming_refs": 3,
             "consuming_refs": [
-              "DID-matlab:convert/resolveValidIntervals.m:483 (guard)",
+              "DID-matlab:convert/resolveValidIntervals.m:617 (guard)",
               "DID-matlab:convert/universalRenames.m:285 (guard)",
               "DID-matlab:convert/universalRenames.m:286 (field_read)"
             ],
@@ -900,16 +900,16 @@
             ],
             "n_named_refs": 1,
             "named_refs": [
-              "DID-matlab:convert/resolveValidIntervals.m:925 (named)"
+              "DID-matlab:convert/resolveValidIntervals.m:1070 (named)"
             ],
             "n_comment_mentions": 36,
             "comment_mentions": [
               "DID-matlab:convert/calcCommon.m:25 (comment_mention)",
               "DID-matlab:convert/calcCommon.m:28 (comment_mention)",
               "DID-matlab:convert/resolveOpenmindsCitations.m:860 (comment_mention)",
-              "DID-matlab:convert/resolveValidIntervals.m:128 (comment_mention)",
-              "DID-matlab:convert/resolveValidIntervals.m:217 (comment_mention)",
-              "DID-matlab:convert/resolveValidIntervals.m:264 (comment_mention)"
+              "DID-matlab:convert/resolveValidIntervals.m:1041 (comment_mention)",
+              "DID-matlab:convert/resolveValidIntervals.m:1044 (comment_mention)",
+              "DID-matlab:convert/resolveValidIntervals.m:1045 (comment_mention)"
             ]
           }
         },
@@ -1839,7 +1839,7 @@
           "DID-matlab:convert/epochMint.m:126 (comment_mention)",
           "DID-matlab:convert/epochMint.m:165 (comment_mention)",
           "DID-matlab:convert/resolveSessionAnchors.m:238 (comment_mention)",
-          "DID-matlab:convert/resolveValidIntervals.m:45 (comment_mention)",
+          "DID-matlab:convert/resolveValidIntervals.m:116 (comment_mention)",
           "DID-matlab:migrators_j/Contents.m:146 (comment_mention)"
         ],
         "by_group": {
@@ -1877,7 +1877,7 @@
               "DID-matlab:convert/epochMint.m:126 (comment_mention)",
               "DID-matlab:convert/epochMint.m:165 (comment_mention)",
               "DID-matlab:convert/resolveSessionAnchors.m:238 (comment_mention)",
-              "DID-matlab:convert/resolveValidIntervals.m:45 (comment_mention)"
+              "DID-matlab:convert/resolveValidIntervals.m:116 (comment_mention)"
             ]
           }
         },
@@ -2037,8 +2037,8 @@
         "comment_mentions": [
           "DID-matlab:convert/v1_to_v2.m:680 (comment_mention)",
           "DID-matlab:migrators_j/Contents.m:144 (comment_mention)",
-          "DID-matlab:migrators_j/Contents.m:416 (comment_mention)",
-          "DID-matlab:migrators_j/Contents.m:455 (comment_mention)",
+          "DID-matlab:migrators_j/Contents.m:424 (comment_mention)",
+          "DID-matlab:migrators_j/Contents.m:463 (comment_mention)",
           "DID-matlab:migrators_j/daqsystem.m:59 (comment_mention)",
           "DID-matlab:migrators_j/epochfiles_ingested.m:10 (comment_mention)"
         ],
@@ -2059,8 +2059,8 @@
             "n_comment_mentions": 16,
             "comment_mentions": [
               "DID-matlab:migrators_j/Contents.m:144 (comment_mention)",
-              "DID-matlab:migrators_j/Contents.m:416 (comment_mention)",
-              "DID-matlab:migrators_j/Contents.m:455 (comment_mention)",
+              "DID-matlab:migrators_j/Contents.m:424 (comment_mention)",
+              "DID-matlab:migrators_j/Contents.m:463 (comment_mention)",
               "DID-matlab:migrators_j/daqsystem.m:59 (comment_mention)",
               "DID-matlab:migrators_j/epochfiles_ingested.m:10 (comment_mention)",
               "DID-matlab:migrators_j/filenavigator.m:17 (comment_mention)"
@@ -2710,14 +2710,14 @@
         "field_write_refs": [],
         "n_named_refs": 0,
         "named_refs": [],
-        "n_comment_mentions": 32,
+        "n_comment_mentions": 31,
         "comment_mentions": [
           "DID-matlab:convert/epochIndex.m:243 (comment_mention)",
           "DID-matlab:convert/epochMint.m:259 (comment_mention)",
           "DID-matlab:convert/epochMint.m:442 (comment_mention)",
-          "DID-matlab:convert/resolveValidIntervals.m:141 (comment_mention)",
-          "DID-matlab:migrators_j/Contents.m:421 (comment_mention)",
-          "DID-matlab:migrators_j/private/jClockAlignmentBodies.m:62 (comment_mention)"
+          "DID-matlab:migrators_j/Contents.m:429 (comment_mention)",
+          "DID-matlab:migrators_j/private/jClockAlignmentBodies.m:62 (comment_mention)",
+          "DID-matlab:migrators_j/private/jClockAlignmentBodies.m:66 (comment_mention)"
         ],
         "by_group": {
           "per_document_migrator": {
@@ -2734,7 +2734,7 @@
             "named_refs": [],
             "n_comment_mentions": 28,
             "comment_mentions": [
-              "DID-matlab:migrators_j/Contents.m:421 (comment_mention)",
+              "DID-matlab:migrators_j/Contents.m:429 (comment_mention)",
               "DID-matlab:migrators_j/private/jClockAlignmentBodies.m:62 (comment_mention)",
               "DID-matlab:migrators_j/private/jClockAlignmentBodies.m:66 (comment_mention)",
               "DID-matlab:migrators_j/private/jClockAlignmentBodies.m:71 (comment_mention)",
@@ -2751,12 +2751,11 @@
             "field_write_refs": [],
             "n_named_refs": 0,
             "named_refs": [],
-            "n_comment_mentions": 4,
+            "n_comment_mentions": 3,
             "comment_mentions": [
               "DID-matlab:convert/epochIndex.m:243 (comment_mention)",
               "DID-matlab:convert/epochMint.m:259 (comment_mention)",
-              "DID-matlab:convert/epochMint.m:442 (comment_mention)",
-              "DID-matlab:convert/resolveValidIntervals.m:141 (comment_mention)"
+              "DID-matlab:convert/epochMint.m:442 (comment_mention)"
             ]
           }
         },
@@ -2799,7 +2798,7 @@
         "named_refs": [],
         "n_comment_mentions": 33,
         "comment_mentions": [
-          "DID-matlab:migrators_j/Contents.m:421 (comment_mention)",
+          "DID-matlab:migrators_j/Contents.m:429 (comment_mention)",
           "DID-matlab:migrators_j/daqsystem.m:83 (comment_mention)",
           "DID-matlab:migrators_j/private/jAcquisitionChannels.m:15 (comment_mention)",
           "DID-matlab:migrators_j/private/jAcquisitionChannels.m:18 (comment_mention)",
@@ -2821,7 +2820,7 @@
             "named_refs": [],
             "n_comment_mentions": 33,
             "comment_mentions": [
-              "DID-matlab:migrators_j/Contents.m:421 (comment_mention)",
+              "DID-matlab:migrators_j/Contents.m:429 (comment_mention)",
               "DID-matlab:migrators_j/daqsystem.m:83 (comment_mention)",
               "DID-matlab:migrators_j/private/jAcquisitionChannels.m:15 (comment_mention)",
               "DID-matlab:migrators_j/private/jAcquisitionChannels.m:18 (comment_mention)",
@@ -2972,7 +2971,7 @@
         "field_write_refs": [
           "DID-matlab:convert/resolveDeferredBaths.m:371 (field_write)",
           "DID-matlab:convert/resolveDeferredBaths.m:420 (field_write)",
-          "DID-matlab:convert/resolveValidIntervals.m:807 (field_write)",
+          "DID-matlab:convert/resolveValidIntervals.m:941 (field_write)",
           "DID-matlab:migrators_j/fitcurve.m:153 (field_write)",
           "DID-matlab:migrators_j/image_stack.m:283 (field_write)",
           "DID-matlab:migrators_j/jrclust_clusters.m:92 (field_write)"
@@ -2982,7 +2981,7 @@
           "DID-matlab:convert/resolveDeferredBaths.m:363 (named)",
           "DID-matlab:convert/resolveDeferredBaths.m:415 (named)",
           "DID-matlab:convert/resolveSessionAnchors.m:531 (named)",
-          "DID-matlab:convert/resolveValidIntervals.m:797 (named)",
+          "DID-matlab:convert/resolveValidIntervals.m:931 (named)",
           "DID-matlab:migrators_j/fitcurve.m:147 (named)",
           "DID-matlab:migrators_j/image_stack.m:279 (named)"
         ],
@@ -3042,14 +3041,14 @@
             "field_write_refs": [
               "DID-matlab:convert/resolveDeferredBaths.m:371 (field_write)",
               "DID-matlab:convert/resolveDeferredBaths.m:420 (field_write)",
-              "DID-matlab:convert/resolveValidIntervals.m:807 (field_write)"
+              "DID-matlab:convert/resolveValidIntervals.m:941 (field_write)"
             ],
             "n_named_refs": 4,
             "named_refs": [
               "DID-matlab:convert/resolveDeferredBaths.m:363 (named)",
               "DID-matlab:convert/resolveDeferredBaths.m:415 (named)",
               "DID-matlab:convert/resolveSessionAnchors.m:531 (named)",
-              "DID-matlab:convert/resolveValidIntervals.m:797 (named)"
+              "DID-matlab:convert/resolveValidIntervals.m:931 (named)"
             ],
             "n_comment_mentions": 3,
             "comment_mentions": [

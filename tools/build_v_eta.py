@@ -4901,13 +4901,54 @@ _tombstone(
     ())
 
 # ==========================================================================
-# `validity` + `validity_observation` -- the GO-FORWARD HOME for valid_interval
+# `logical` + `logical_observation` -- the GO-FORWARD HOME for valid_interval
 # ==========================================================================
-# TEAM DECISION 2026-08-11, recorded in V_eta_OPEN_WORK.md under
-# "`valid_interval` becomes a boolean-valued `subject_statement`".
-# jess@walthamdatascience.com, verbatim: *"Should valid interval be a new class
-# that takes a subject statement, shares its time reference and states true or
-# false for each value?"*
+# TEAM DECISION 2026-08-12, jess@walthamdatascience.com: `validity` and
+# `validity_observation` are REPLACED by `logical` and `logical_observation`.
+#
+# THE HISTORY, KEPT ACCURATE BECAUSE IT HAS BEEN MIS-RECORDED ONCE ALREADY.
+# On 2026-08-11 the team ASKED *"Should valid interval be a new class that takes
+# a subject statement, shares its time reference and states true or false for
+# each value?"* and then said *"Can we skip this decision for now?"*. That
+# question was written up as a decision and put in a signature (OPEN_WORK #103);
+# it was NOT one. The shape below is still BUILT AHEAD OF THAT DECISION. What
+# WAS decided, on 2026-08-12, is the CLASS NAMING -- the rename this block
+# implements. Do not read the rename's decidedness as covering the model.
+#
+# WHY THE RENAME (the team's own reasoning, recorded so it is not paraphrased
+# away). The 32 `*_observation` data_types name a KIND OF VALUE -- length,
+# intensity, count, score, term, image. `validity` was the only one naming a
+# SEMANTIC: what the measurement is ABOUT. The semantic belongs in
+# `subject_statement.variable`, and that is not a theory -- it is what the live
+# table-column pass already does. `resolveLawnPlateSubjects.m:1106-1113` maps
+# EIGHT source columns onto THREE data_types, SIX of them onto the single
+# `intensity_observation`, told apart only by `variable`
+# (`:689 variableTerm(c{1})` -> `:1317 body.subject_statement.variable`):
+#
+#     bacterialpatchborderpeakfluorescenceintensity   intensity_observation
+#     bacterialpatchborderedgefluorescenceintensity   intensity_observation
+#     bacterialpatchborderfluorescenceamplitude       intensity_observation
+#     bacterialpatchmeanfluorescenceamplitude         intensity_observation
+#     bacterialpatchcenterfluorescenceamplitude       intensity_observation
+#     bacterialpatchbordertocenterfluorescenceratio   intensity_observation
+#
+# It is also the error R2/R3 already fixed once, one tier up: six v1 tuning
+# classes named by their INDEPENDENT VARIABLE collapsed into one `tuning_curve`
+# with the variable carried as a `variable` (T11, V_eta_tuning_model_plan.md).
+#
+# WHY `logical` AND NOT `boolean`. `boolean` is IMPOSSIBLE, not merely
+# undesirable: it is a hard-coded primitive in the validator's type switch --
+# DID-matlab `src/did/+did2/+schema/cache.m:1793`,
+#
+#     case 'boolean'
+#         if ~(islogical(value) || (isnumeric(value) && all(value(:) == 0 | value(:) == 1)))
+#             error('did2:validation:typeMismatch', ...
+#
+# so a COMPOSITE of that name would send every struct-valued field carrying it
+# into that scalar/array check. `logical` follows the EXISTING precedent
+# exactly: the data_type `term` wraps the field type `ontology_term`; the
+# data_type `logical` wraps the field type `boolean`. Different strings, no
+# collision, same shape.
 #
 # THE TOMBSTONE ABOVE IS NOT DELETED AND IS NOT SUPERSEDED. It keeps the v1
 # documents alive under their own class; these two classes are where the fact
@@ -4928,9 +4969,23 @@ _tombstone(
 #                                       content" failure one level down.
 #   3. same quantity, other cardinality? There is no such quantity yet.
 #   4. a role or relationship?          NO -- it is a value about a subject.
-# So 1-4 all fail and a composite is warranted. It is the FIRST boolean-valued
-# data_type in V_eta; a second boolean fact should reuse it and change
-# `variable` (rule 1), not mint a sibling.
+# So 1-4 all fail and a composite is warranted. It is the ONLY boolean-valued
+# data_type in V_eta and it is meant to stay that way: a second boolean fact
+# ("did the animal respond?", "was the epoch a control?", "was this trial
+# aborted?") reuses `logical` and changes `variable` (rule 1). That is exactly
+# what the name buys -- `validity` could not have been reused for any of them.
+#
+# NO NESTED CELL. The old `validity` shape was a `value` of type `validity`
+# wrapping a one-field struct `{value: boolean}` -- `value.value`, a wrapper
+# around nothing. The other composites nest because they carry PROVENANCE:
+# `length` wraps meters + source_unit + source_value, `count` wraps value +
+# unit + approximate. A boolean has no unit, no source unit, and cannot be
+# approximate. The precedent for a bare payload is `term`, whose `value` is
+# typed `ontology_term` directly. So the sub-field list is DELETED, not
+# renamed, and `logical` is NOT registered in the meta-schema's
+# `field_definition.type` enum -- nothing declares a field of type `logical`,
+# and an enum entry with no declared layout would fail
+# test_named_composite_cells_declare_their_layout.
 #
 # THE STANCE IS `_observation`, and that is a judgement worth stating (T13: the
 # stance word must be TRUE, not convenient). It is not an `_assertion`: an
@@ -4946,23 +5001,58 @@ _tombstone(
 # epoch is good data; that is the semantics `identifyvalidintervals` implements
 # (markgarbage.m:172-176: `if isempty(vi); intervals = [t0 t1]; return; end`).
 # So:
-#   * NOTHING declares a dependency on `validity` or `validity_observation`,
+#   * NOTHING declares a dependency on `logical` or `logical_observation`,
 #     and neither is a superclass of anything. Nothing can require one.
-#     tests/test_veta.py::test_validity_is_never_required_by_anything is the
-#     mechanical gate on that, over every built schema.
+#     tests/test_veta.py::test_absence_of_a_logical_statement_must_keep_meaning_valid
+#     is the mechanical gate on that, over every built schema. (This comment
+#     used to cite `test_validity_is_never_required_by_anything`, a test that
+#     has never existed under that name in this repository -- the assertion is
+#     the first half of the test named above.)
 #   * NO document is minted for an element that has none -- the migration path
 #     reads `valid_interval` documents and nothing else.
 #   * the reading rule is DECLARED on the class (T14: a convention that lives
 #     in prose is not a convention), so a consumer that never read this file
 #     still gets it right.
+#   THE RULE IS NOW SCOPED BY `variable`, AND IT HAD TO BE. `validity` named
+#   the semantic, so "absence of every statement of this class" and "absence of
+#   every statement about data validity" were the same sentence. `logical` is
+#   generic, so they are not: a subject with no statement about "was this trial
+#   aborted" says nothing whatever about its data validity. The declared rule
+#   below therefore reads "absence of every `logical` statement about a
+#   SUBJECT'S DATA VALIDITY", which is what the v1 semantics actually is.
 #
-# HAZARD 2 -- ORDER IS LOAD-BEARING. `+app/+stimulus/tuning_response.m:253-256`
-# restricts the stretch of signal it analyses to `interval(1,1)`..`interval(1,2)`
-# -- the FIRST interval. In v1 that order is array-append order
-# (markgarbage.m:89, `vi(end+1) = validintervalstruct`). One v1 document holds
-# an ARRAY, so decomposing it into one statement per interval makes "first"
-# undefined unless the position is carried. It is carried, explicitly, in
-# `sequence`.
+# HAZARD 2 -- ORDER IS NOT LOAD-BEARING, AND THE OLD COMMENT HERE SAID THE
+# OPPOSITE. It read: *"`+app/+stimulus/tuning_response.m:253-256` restricts the
+# stretch of signal it analyses to `interval(1,1)`..`interval(1,2)` -- the FIRST
+# interval. In v1 that order is array-append order"*, and it is what `sequence`
+# existed for. THAT IS WRONG, and the positive evidence is the two call sites
+# themselves, read from NDI `origin/main` (42c94e53b):
+#
+#     $ git show origin/main:src/ndi/+ndi/+app/+stimulus/tuning_response.m
+#       253:  vi = gapp.loadvalidinterval(ndi_timeseries_obj);
+#       254:  interval = gapp.identifyvalidintervals(ndi_timeseries_obj,timeref,0,Inf);
+#       256:  [data,t_raw,timeref] = readtimeseries(..., interval(1,1), interval(1,2));
+#
+# `interval` is the RETURN VALUE of `identifyvalidintervals`; the stored array
+# `vi` is loaded into a variable that is then never read. And
+# `identifyvalidintervals` (markgarbage.m:178-204) does this:
+#
+#     for i=1:size(vi,1)
+#         ...
+#         explicitly_good_intervals = vlt.math.interval_add( ...
+#             explicitly_good_intervals, [epoch_t0_out epoch_t1_out]);
+#     end
+#
+# -- it iterates EVERY row and accumulates through a set union. It never indexes
+# `vi` by position. So v1's append order is invisible to its only consumer: it
+# is a storage artifact, not a fact. `sequence` IS DELETED.
+#   LIMIT OF THIS CHECK, STATED RATHER THAN GLOSSED: `vlt.math.interval_add` is
+#   in vhlab-toolbox-matlab, which is not in this container and could not be
+#   attached, so whether the union SORTS its output was not read from source.
+#   The claim above does not depend on it -- `interval(1,1)` indexes the union's
+#   output, not the stored array, and one v1 document's rows are unordered
+#   INPUT to that union either way -- but the sort behaviour itself is
+#   unverified here.
 #
 # HAZARD 3 -- VALIDITY INHERITS, AND THAT IS NOT DECIDED HERE.
 # `loadvalidinterval` falls back to `underlying_element` when a derived element
@@ -4973,40 +5063,36 @@ _tombstone(
 #   * `subject_id` is the element the v1 document named and nothing else, so a
 #     re-derivation still has the exact v1 graph to walk;
 #   * `subject_observation.derived_from_#` already exists (optional, min_count
-#     0), so a materialising decision has its edge with no schema change;
-#   * `sequence` is scoped to ONE source document, so materialised copies do
-#     not have to renumber against a sibling element's intervals.
+#     0), so a materialising decision has its edge with no schema change.
 # What a later decision WOULD have to change is written out in
 # did2.convert.resolveValidIntervals's header, next to the counter that
 # measures how often the fallback could fire.
-_VALIDITY_SUBS = [
-    subfield("value", "boolean",
-             "TRUE = this stretch is GOOD DATA. FALSE = this stretch is"
-             " GARBAGE. did_v1 could only express TRUE -- validity was encoded"
-             " in the CLASS NAME (`valid_interval`), so 'this stretch is bad'"
-             " was expressible only as absence, and markgarbage's own author"
-             " wrote the gap down: `% developer note: it would be great to have"
-             " a 'markinvalidinterval' companion` (markgarbage.m:40). A"
-             " migrated document therefore always carries TRUE; FALSE is"
-             " reachable only by a writer that states invalidity directly."),
-]
-write("draft", "validity",
-      doc("validity", ["data_type"], abstract=True, maturity="draft",
+write("draft", "logical",
+      doc("logical", ["data_type"], abstract=True, maturity="draft",
           fields=[field(
-              "value", "validity",
-              "Whether the subject's data is good over the interval this"
-              " statement is anchored to. Series-as-cardinality (Brainstorm I):"
-              " an ARRAY of the cell, length 1 for a single judgement."
-              " EACH CELL IS ONE INTERVAL, NOT ONE SAMPLE. A per-sample"
-              " validity mask needs the sample grid, and no migrator reads file"
-              " bytes to learn it (confirmed via pyraview) -- the mask is"
-              " derivable from the intervals by anyone holding the grid, the"
-              " reverse is lossy, and a mask over a long recording is exactly"
-              " the rebuildable cache T6/T10 say not to store as source."
-              " ABSENCE OF *EVERY* `validity` STATEMENT ABOUT A SUBJECT MEANS"
-              " ITS DATA IS VALID -- ndi.app.markgarbage is opt-in and"
-              " identifyvalidintervals returns the whole requested span when it"
-              " finds no record (markgarbage.m:172-176)."
+              "value", "boolean",
+              "The truth value(s) this statement asserts. WHAT the boolean is"
+              " ABOUT lives in `subject_statement.variable`, not in the class"
+              " name -- that is the whole reason this class is `logical` and"
+              " not `validity`. Series-as-cardinality (Brainstorm I): an ARRAY,"
+              " length 1 for a single judgement. NO NESTED CELL: a boolean has"
+              " no unit, no source unit and cannot be approximate, so there is"
+              " no provenance triple to wrap it in (`term.value` is typed"
+              " `ontology_term` directly for the same reason)."
+              " FOR THE `valid_interval` FOLD, EACH CELL IS ONE INTERVAL, NOT"
+              " ONE SAMPLE. A per-sample validity mask needs the sample grid,"
+              " and no migrator reads file bytes to learn it (confirmed via"
+              " pyraview) -- the mask is derivable from the intervals by anyone"
+              " holding the grid, the reverse is lossy, and a mask over a long"
+              " recording is exactly the rebuildable cache T6/T10 say not to"
+              " store as source."
+              " ABSENCE OF *EVERY* `logical` STATEMENT ABOUT A SUBJECT'S DATA"
+              " VALIDITY MEANS ITS DATA IS VALID -- ndi.app.markgarbage is"
+              " opt-in and identifyvalidintervals returns the whole requested"
+              " span when it finds no record (markgarbage.m:172-176). The rule"
+              " is scoped BY `variable` because this class is generic: no"
+              " statement about some OTHER boolean variable says anything about"
+              " validity."
               " THAT RULE IS SCOPED TO *NO STATEMENT AT ALL*, AND IT DOES NOT"
               " EXTEND TO THE GAPS BETWEEN STATEMENTS. WHAT A GAP MEANS IS"
               " UNDEFINED HERE AND IS AN OPEN TEAM DECISION -- do not read one"
@@ -5020,30 +5106,81 @@ write("draft", "validity",
               " inverted. Declared here rather"
               " than left to prose (T14) because a reader who assumes"
               " 'no statement = unknown' silently reclassifies every epoch in"
-              " every dataset that never ran markgarbage.",
-              non_empty=True, scalar=False, blank=[],
-              default=[{"value": True}])]))
-write("draft", "validity_observation",
-      doc("validity_observation", ["subject_observation", "validity"],
-          maturity="draft",
-          fields=[field(
-              "sequence", "integer",
-              "The position this interval held in the v1 `valid_interval`"
-              " ARRAY, 1-based, in append order (markgarbage.m:89,"
-              " `vi(end+1) = validintervalstruct`). HAZARD 2, and the reason"
-              " this field exists at all: one v1 document holds N intervals and"
-              " decomposing it into N statements destroys their order unless it"
-              " is carried explicitly. Order is load-bearing for ANALYSIS, not"
-              " only for bookkeeping --"
-              " +app/+stimulus/tuning_response.m:253-256 loads the intervals"
-              " and reads only `interval(1,1)`..`interval(1,2)`, the FIRST one,"
-              " so a re-run against a reordered set would analyse a different"
-              " stretch of signal and report different tuning. Same word and"
-              " same meaning as `directed_relation.sequence` (T11: one"
-              " canonical spelling per concept). Scoped to ONE source document:"
-              " it orders the intervals that arrived together, and says nothing"
-              " across elements. Empty when the statement did not come from a"
-              " v1 array.")]))
+              " every dataset that never ran markgarbage."
+              " ========== READING RULES FOR A V_eta CONSUMER (team,"
+              " 2026-08-12). Declared here and not left in prose (T14), for the"
+              " same reason the absence rule above is: a consumer that never"
+              " read our plan documents still has to get these right, and every"
+              " way of getting them wrong is SILENT. They govern V_eta"
+              " consumers; they change nothing about ndi.app.markgarbage."
+              " (1) INHERITANCE WALKS THE WHOLE `derived_from` CHAIN,"
+              " TRANSITIVELY. A subject with no `logical` statement for a given"
+              " `variable` inherits from its `derived_from` ancestors to ANY"
+              " DEPTH -- electrode -> filtered -> neuron reaches the electrode."
+              " The chain is in the migrated graph:"
+              " `migrators_j/element.m:130-131` emits a `derived_from` lineage"
+              " relation for every `underlying_element_id`. WHAT THIS DIVERGES"
+              " FROM, STATED PRECISELY: it is NOT depth. NDI's"
+              " `loadvalidinterval` fallback DOES recurse -- markgarbage.m:149"
+              " calls `loadvalidinterval` on `underlying_element` and that"
+              " function contains the same fallback block. The divergences are"
+              " (a) the EDGE: NDI walks `underlying_element`, a property of a"
+              " live NDI runtime object; V_eta walks `derived_from`, an edge in"
+              " the migrated document graph, which is the only lineage a"
+              " consumer holding documents can see; and (b) the SCOPE: v1 has"
+              " one kind of validity and no `variable`, so its walk cannot be"
+              " scoped and this one MUST be -- inheriting a statement about"
+              " some other boolean variable would be a different fact"
+              " altogether."
+              " (2) INHERITANCE YIELDS THE STATEMENT WITH ITS ANCHOR, NEVER THE"
+              " INTERVAL NUMBERS ALONE. The times mean nothing without the"
+              " `time_reference_#` that anchors them, so an inheriting consumer"
+              " converts through the syncgraph exactly as if it had asked about"
+              " the ancestor directly. This MIRRORS v1 rather than diverging"
+              " from it: `identifyvalidintervals` rebuilds each interval's own"
+              " anchor (`ndi.time.timereference(session, vi(i).timeref_structt0)`"
+              " at markgarbage.m:181-182) and calls"
+              " `syncgraph.time_convert` into the caller's frame"
+              " (markgarbage.m:184-189)."
+              " (3) THERE ARE THREE STATES, NOT TWO, AND THE THIRD IS A"
+              " DELIBERATE BREAK FROM v1. No statement anywhere in the chain"
+              " => VALID (the absence rule above, unchanged). Statements found"
+              " and projected => USE THEM. Statements found but NONE could be"
+              " projected into the caller's frame => UNKNOWN, AND NOT VALID."
+              " v1 collapses the third into the first: an unprojectable"
+              " interval is skipped with the comment `so we say the region is"
+              " valid, we have no restrictions to add` (markgarbage.m:190), and"
+              " if none projects the function returns `baseline_interval` --"
+              " the ENTIRE requested span (markgarbage.m:198-199). So in v1 a"
+              " clock mismatch reads as 'all of this data is good'. The two"
+              " facts are opposites: 'nobody marked this' and 'somebody marked"
+              " this and we could not read their clock'. Only the first is good"
+              " data. RULE 1 MAKES THIS MATTER MORE OFTEN, not less -- walking"
+              " the whole chain multiplies the chances of reaching an ancestor"
+              " whose anchor does not project."
+              " (4) THE FAILURE MUST BE COUNTABLE. A consumer REPORTS the"
+              " number of inherited statements it could not project. A silent"
+              " permissive fallback is the failure this project has paid for"
+              " repeatedly (silentLoss printing 0 while reading nothing), and"
+              " rule 3 is unenforceable without a number: 'unknown' and 'valid'"
+              " are indistinguishable in the output otherwise. =========="
+              " TRUE = this stretch is GOOD DATA, FALSE = this stretch is"
+              " GARBAGE. did_v1 could only express TRUE -- validity was encoded"
+              " in the CLASS NAME (`valid_interval`), so 'this stretch is bad'"
+              " was expressible only as absence, and markgarbage's own author"
+              " wrote the gap down: `% developer note: it would be great to"
+              " have a 'markinvalidinterval' companion` (markgarbage.m:40). A"
+              " migrated document therefore always carries TRUE; FALSE is"
+              " reachable only by a writer that states invalidity directly.",
+              non_empty=True, scalar=False, blank=[])]))
+# NO FIELDS AT ALL -- the same as `length_observation` and `count_observation`.
+# `sequence` is gone with HAZARD 2 (see above); everything else the leaf needs
+# (`subject_id`, `variable`, `time_reference_#`) is INHERITED from
+# subject_statement / subject_interaction, which is what "takes a subject
+# statement" meant.
+write("draft", "logical_observation",
+      doc("logical_observation", ["subject_observation", "logical"],
+          maturity="draft"))
 
 
 # ---------- 11. storage_mode + data_body (sampled_/opaque_) ----------
@@ -5422,12 +5559,14 @@ type_enum = meta["$defs"]["field_definition"]["properties"]["type"]["enum"]
 for _seed_name, _ in NUMERIC_SEED:          # J §7 comprehensive numeric set
     if _seed_name not in type_enum:
         type_enum.append(_seed_name)
-# `validity` -- the first BOOLEAN-valued named composite (the valid_interval
-# team decision, 2026-08-11). Registered here for the same reason as the numeric
-# seed: `field_definition.type` is a CLOSED enum, so a composite that is not in
-# it fails the meta-schema and takes the whole build with it.
-if "validity" not in type_enum:
-    type_enum.append("validity")
+# `validity` USED TO BE APPENDED HERE, and its replacement deliberately is not.
+# The enum is `field_definition.type` -- the types a FIELD may declare -- and it
+# needed an entry only because `validity.value` was typed `validity` (a nested
+# cell wrapping one boolean). `logical.value` is typed `boolean`, which is
+# already a primitive in this enum and in DID-matlab's own type switch
+# (cache.m:1793), so `logical` names no field type and belongs to no enum. An
+# entry for it would also FAIL test_named_composite_cells_declare_their_layout,
+# which requires every non-primitive enum member to declare sub-fields.
 # Governance: `needs_ndi` marks a field whose value is an NDI-runtime class handle
 # (e.g. ndi_daqreader_class = 'ndi.daq.reader.mfdaq') that DID cannot resolve or
 # validate on its own -- the concrete class lives in NDI-matlab. An advisory boolean
@@ -6630,14 +6769,14 @@ _DIM_SPECIAL = {
         subfield("node", "char", "The CURIE (prefix resolved via CURIE_lookups_meta.json)."),
         subfield("name", "char", "The human-readable label."),
     ],
-    # `validity` is the third documented exception to the canonical+source triple,
-    # and the plainest: a truth value has no unit to normalise and no source unit to
-    # preserve. Declared as a CELL rather than as a bare boolean array so the value
-    # gets a query path the same way count/score do -- T14's whole point was that 26
-    # of 35 composites emitted no query path at all because their layout lived in
-    # prose. The single sub-field is named `value`, matching count/score, so
-    # `<composite>.value.value` means the same thing across the family.
-    "validity": _VALIDITY_SUBS,
+    # `validity` HAD AN ENTRY HERE and `logical` deliberately has none. The entry
+    # declared a one-sub-field cell `{value: boolean}`, i.e. `validity.value.value`
+    # -- a wrapper around nothing. The reason given for it was that a cell buys a
+    # query path; a bare `boolean` field already has one (`logical.value`), and the
+    # composites that DO nest are the ones with provenance to carry (canonical +
+    # source_unit + source_value, or count's semantic unit). A truth value has none
+    # of that, so it is declared as a bare typed field, following `term.value`
+    # (typed `ontology_term` directly).
 }
 
 def _named_type_subfields(tname):

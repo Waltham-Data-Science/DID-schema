@@ -322,6 +322,16 @@ def test_isspike_is_left_alone_and_the_inert_spelling_is_counted():
     pinned set when they left. A count falling while the list stays put is
     exactly the case where the two assertions have to be read together.
 
+    241 -> 241 on 2026-08-12, and a ZERO NET MOVE is the case this pin is worst
+    at seeing, so it is written down rather than left silent: `validity` +
+    `validity_observation` were REPLACED by `logical` + `logical_observation`
+    (team, jess@walthamdatascience.com). Two out, two in. The denominator
+    cannot notice that, and neither can the inert list -- a boolean still has
+    no bound to declare, and the `sequence` ordinal that was the other
+    unbounded field is DELETED with it (HAZARD 2 was resolved: v1's array order
+    is invisible to its only consumer). The pin is silent here BY
+    CONSTRUCTION; the change is recorded in test_veta.py's `logical` block.
+
     `isspike` is equally inert but its INTENT is correct -- the writer sets 0 or
     1 and nothing else (:176, :179-182) -- so rewriting its key would newly
     ENFORCE a rule on 11,440 live documents to no benefit. Pinned so the count

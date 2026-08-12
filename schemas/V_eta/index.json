@@ -1550,6 +1550,29 @@
             "disposition": "persist"
         },
         {
+            "class_name": "logical",
+            "tier": "draft",
+            "class_version": "1.0.0",
+            "maturity_level": "draft",
+            "superclasses": [
+                "data_type"
+            ],
+            "path": "schemas/V_eta/draft/logical.json",
+            "disposition": "persist"
+        },
+        {
+            "class_name": "logical_observation",
+            "tier": "draft",
+            "class_version": "1.0.0",
+            "maturity_level": "draft",
+            "superclasses": [
+                "subject_observation",
+                "logical"
+            ],
+            "path": "schemas/V_eta/draft/logical_observation.json",
+            "disposition": "persist"
+        },
+        {
             "class_name": "mass",
             "tier": "stable",
             "class_version": "1.0.0",
@@ -2646,29 +2669,6 @@
             "path": "schemas/V_eta/stable/valid_interval.json",
             "disposition": "retire",
             "disposition_note": "Phase-8 source (migrator \u2192 delete)"
-        },
-        {
-            "class_name": "validity",
-            "tier": "draft",
-            "class_version": "1.0.0",
-            "maturity_level": "draft",
-            "superclasses": [
-                "data_type"
-            ],
-            "path": "schemas/V_eta/draft/validity.json",
-            "disposition": "persist"
-        },
-        {
-            "class_name": "validity_observation",
-            "tier": "draft",
-            "class_version": "1.0.0",
-            "maturity_level": "draft",
-            "superclasses": [
-                "subject_observation",
-                "validity"
-            ],
-            "path": "schemas/V_eta/draft/validity_observation.json",
-            "disposition": "persist"
         },
         {
             "class_name": "velocity",
