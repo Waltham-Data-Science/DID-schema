@@ -41,11 +41,34 @@ DIMS = ["mass", "length", "volume", "duration", "temperature", "pressure",
 
 # ---------- helpers ----------
 
+# The types DID-matlab's validator will accept ONLY as char/scalar-string.
+# `src/did/+did2/+schema/cache.m:1764` validateTypeShape:
+#
+#     case {'char', 'did_uid', 'timestamp'}
+#         if ~(ischar(value) || (isstring(value) && isscalar(value)))
+#             error('did2:validation:typeMismatch', ...
+#
+# `string` is NOT in that case (it has its own, wider one) but a bare '' is
+# accepted there too, so it rides along in the ladders below.
+#
+# WHY THIS IS A NAMED CONSTANT AND NOT THREE LITERALS IN TWO LADDERS: it was
+# two literals in two ladders, and `timestamp` was in neither. Both ladders
+# fell through to `0.0`, so `subjectmeasurement.datestamp` and
+# `absolute_reference.value.start.utc` were emitted with a DOUBLE blank for a
+# type the validator accepts only as char -- a blank document built from the
+# schema cache would have failed its own type check. `base.datestamp` was
+# right only because it is copied verbatim from the V_zeta snapshot and never
+# passes through these helpers. See tests/test_veta_blank_values_typecheck.py,
+# which scans EVERY field of EVERY built schema against the validator's
+# accepted shapes rather than special-casing this one type.
+_CHARLIKE_BLANK_TYPES = ("char", "string", "did_uid", "timestamp")
+
+
 def subfield(name, ftype, doc, *, non_empty=False, scalar=True, blank=None,
              constraints=None, sub_fields=None):
     if blank is None:
         blank = {"node": "", "name": ""} if ftype == "ontology_term" else (
-            "" if ftype in ("char", "string") else (
+            "" if ftype in _CHARLIKE_BLANK_TYPES else (
                 [] if ftype == "matrix" or not scalar else (
                     0 if ftype == "integer" else (
                         {} if ftype == "structure" else 0.0))))
@@ -62,7 +85,7 @@ def field(name, ftype, doc, *, non_empty=False, scalar=True, queryable=True,
           blank=None, default=None, constraints=None, ontology=None, sub_fields=None):
     if blank is None:
         blank = {"node": "", "name": ""} if ftype == "ontology_term" else (
-            [] if not scalar else ("" if ftype in ("char", "string") else (
+            [] if not scalar else ("" if ftype in _CHARLIKE_BLANK_TYPES else (
                 False if ftype == "boolean" else ({} if ftype == "structure" else 0.0))))
     if default is None:
         default = blank
@@ -895,9 +918,22 @@ _PARAMETER_SUBS = [
 ]
 write("stable", "method_parameters", doc("method_parameters", ["base"], fields=[
     field("name", "char",
-          "The protocol's name, e.g. \"default\" -- the string "
-          "spikeextractor.m:372 and spikesorter.m:373 query by exact_string. "
-          "OPTIONAL: a scoped variant need not be named.", non_empty=False),
+          "The protocol's name, e.g. \"default\". OPTIONAL: a scoped variant "
+          "need not be named. "
+          "CITATION CORRECTED 2026-08-12 -- this read \"the string "
+          "spikeextractor.m:372 and spikesorter.m:373 query by exact_string\", "
+          "and those two lines query `base.name`, NOT this field: "
+          "ndi.query('base.name','exact_string',extraction_parameters_name,'') "
+          "and ndi.query('base.name','exact_string',sorting_parameters_name,''), "
+          "re-read from NDI origin/main. `method_parameters` inherits `base`, so "
+          "this declaration is a SECOND COPY of a name the apps read from the "
+          "`base` block -- one fact in two live storage locations, which is #69. "
+          "WHICH BLOCK IS AUTHORITATIVE IS AN OPEN TEAM DECISION riding with "
+          "binding governance; nothing here settles it, and the field and its "
+          "constraints are unchanged. Do not delete either copy on this note. "
+          "The block comment above is correct as written: it always said "
+          "`base.name`, and only this string disagreed with it.",
+          non_empty=False),
     field("method_parameters", "structure",
           "The settings themselves. SAME FIELD NAME as the inline field on "
           "`subject_interaction`, deliberately: one list means one thing in both "
