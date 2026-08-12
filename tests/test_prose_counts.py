@@ -84,6 +84,54 @@ def test_no_noun_is_silently_dropped_from_the_report():
     assert adjudicated == pairs, "a (document, noun) pair was dropped without a verdict"
 
 
+def test_an_underivable_noun_is_named_not_dropped(monkeypatch, tmp_path):
+    """CONSTRUCTED, because today's checkout can derive all thirteen.
+
+    The mutation this pins -- `if noun in unavailable: continue` in
+    `adjudicate`, i.e. drop the pair instead of reporting it -- is INVISIBLE on
+    today's data: nothing is underivable here, so the branch never runs. A
+    checker whose most dangerous branch is only reachable on a machine we do
+    not test on is a checker with an untested exemption, which is how one
+    stops checking. So the unavailable case is manufactured."""
+    doc = tmp_path / "fixture.md"
+    doc.write_text("DENOMINATOR: 7 NDI templates on origin/main\n", encoding="utf-8")
+
+    def boom():
+        raise C.Unavailable("NDI-matlab checkout not found")
+
+    monkeypatch.setattr(C.BY_KEY["ndi_templates"], "derive", boom)
+    claims, _d, _l, _b = C.scan([str(doc)])
+    values, unavailable = C.derive_all(["ndi_templates"])
+    assert values == {}
+    assert "ndi_templates" in unavailable
+
+    agree, disagree, _sup, undecidable = C.adjudicate(claims, values, unavailable)
+    assert not agree and not disagree
+    assert len(undecidable) == 1, "the pair was dropped instead of reported"
+
+    lines = []
+    C.render([str(doc)], claims, 1, 1, [], values, unavailable,
+             agree, disagree, _sup, undecidable, out=lines.append)
+    text = "\n".join(lines)
+    assert "NOT DERIVABLE HERE" in text
+    assert "ndi_templates" in text
+    assert "claims whose noun is NOT DERIVABLE   : 1" in text
+
+
+def test_an_underivable_noun_never_fails_the_gate(monkeypatch, tmp_path):
+    """The other half: a gap in THIS checkout is not a defect in the prose.
+    `--enforce` on a runner without the siblings must not go red for it."""
+    doc = tmp_path / "fixture.md"
+    doc.write_text("DENOMINATOR: 7 NDI templates on origin/main\n", encoding="utf-8")
+
+    def boom():
+        raise C.Unavailable("NDI-matlab checkout not found")
+
+    monkeypatch.setattr(C.BY_KEY["ndi_templates"], "derive", boom)
+    monkeypatch.setattr(C, "documents", lambda: [str(doc)])
+    assert C.main(["--enforce"]) == 0
+
+
 # --------------------------------------------------------------------------
 # THE DERIVATIONS DO NOT READ THE PROSE
 # --------------------------------------------------------------------------
