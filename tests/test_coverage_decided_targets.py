@@ -66,12 +66,30 @@ def _md():
         return fh.read()
 
 
+def _md_columns():
+    """Column name -> index, read from the table HEADER.
+
+    THIS USED TO BE `cells[1], cells[2]`, and a column added to the left of the
+    target cell silently re-pointed every assertion in this file at the wrong
+    text -- nine tests failed at once and none of them named the real cause.
+    Resolving by NAME means a column may be inserted, and only a column
+    RENAMED or REMOVED breaks the parse, which is a change someone should see.
+    """
+    for line in _md().splitlines():
+        if line.startswith("| v1 class |"):
+            return {name.strip(): i
+                    for i, name in enumerate(line.strip("|").split("|"))}
+    raise AssertionError("the ledger markdown has no `| v1 class |` header row")
+
+
 def _md_row(cls):
     """The rendered markdown row for one v1 class, as (target_cell, account)."""
+    cols = _md_columns()
     for line in _md().splitlines():
         if line.startswith(f"| `{cls}` |"):
-            cells = line.split(" | ")
-            return cells[1], cells[2]
+            cells = [c.strip() for c in line.strip("|").split(" | ")]
+            return (cells[cols["→ V_eta target(s)"]],
+                    cells[cols["what happens to it"]])
     raise AssertionError(f"no rendered ledger row for `{cls}`")
 
 

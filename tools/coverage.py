@@ -39,6 +39,12 @@ TARGETS = os.path.join(SCHEMA_ROOT, "schemas", "V_eta_migration_targets.json")
 # Printed by main() before any figure that depends on them; see the comments at
 # each read for why a silent failure there is not a filter.
 TARGETS_SCAN = {"rows": 0, "read": False, "why": None}
+# Stage 5's input, and the reason it is a module global like the two above:
+# `_summary()` is called from three places and none of them is the one that
+# knows where the corpus reports are. Defaults to NOT MEASURED, which is the
+# state every run is in until a corpus artifact is put in reach.
+CORPUS_SCAN = {"measured": False, "denominator": None,
+               "why": "no corpus report root was supplied to this run"}
 TEMPLATE_SCAN = {"candidates": 0, "unreadable": 0, "unparseable": 0,
                  "not_a_document_class": 0, "classes": 0,
                  "refs_tried": [], "source": None}
@@ -930,6 +936,11 @@ def build_ledger():
             "how": how,
             "target_flags": tflags,
         })
+    # THE DERIVED STAGE, added last because it reads the finished row. It is a
+    # function of fields already on that row -- there is no list here to hand-set
+    # and nothing to override it with.
+    for r in rows:
+        r["stage"] = stage_ladder(r, CORPUS_SCAN)
     # sanity: every named target class should exist in the built V_eta schema
     unknown = sorted({t for r in rows
                       for t in (r["targets"] + r["second_pass"] + r["decided_targets"])
@@ -937,6 +948,554 @@ def build_ledger():
     if unknown:
         print("  WARNING: target classes not in V_eta schema: " + ", ".join(unknown))
     return veta, v1, rows
+
+
+# ============================================================================
+# THE STAGE LADDER -- "how far has this class actually got?", DERIVED.
+# ============================================================================
+#
+# The question the team asks of this ledger is one question, and answering it
+# used to mean reading five columns and forming a judgement:
+# `decided_signoff`, `build_state.schema_targets_missing`,
+# `build_state.has_per_class_migrator`,
+# `build_state.migrator_emits_decided_targets`, and a corpus report nobody has
+# open. A judgement assembled by hand drifts; five people assemble it five ways.
+#
+# So it is a DERIVED FIELD. Never hand-set, never overridable by a list beside a
+# paragraph. Every boundary below reads a field that already exists on the row,
+# and the `why` string on each rung names the field it read, so a stage can be
+# audited without reading this file.
+#
+# FOUR STATES PER RUNG, NOT TWO. This is the whole design, and it is the
+# difference between an instrument and a reassurance:
+#
+#   yes           the evidence is on the row
+#   no            POSITIVE evidence the rung is not met (a target named and not
+#                 built; a record that states two incompatible dispositions)
+#   n/a           the rung cannot apply, and a SIGNED line says why (a class
+#                 signed to dissolve has no target class to build)
+#   not measured  this tool cannot see the answer. NOT a `no`.
+#
+# `not measured` exists because of operating rule 3. A row with no transcribed
+# sign-off is not a row with no decision -- coverage.py reads only its own
+# checked transcriptions (DECIDED_TARGETS_BY_SIGNOFF, NO_TARGET_BY_DECISION),
+# and the team's sign-offs live in ~54 plan documents this tool never opens.
+# Rendering that absence as "not decided" would be this repository's signature
+# error pointed the other way: an absence promoted to a finding about the
+# record. It would also be UNFALSIFIABLE progress -- every transcription added
+# would look like the migration advancing.
+#
+# THE ANTI-VACUITY RULE. A rung is `yes` only on evidence PRESENT, never on an
+# empty list. `schema_targets_missing == []` is TRUE for all 102 rows, and for
+# 77 of them it is true because no target was ever named -- an empty list
+# reading as "everything is built". Stage 2 therefore requires
+# `schema_targets_named > 0` as well, which is why it is satisfied by 25 rows
+# and not by 102. The same trap is what `_no_target_cell` above was written to
+# close one column over.
+STAGE_NAMES = {
+    0: "source identified",
+    1: "disposition DECIDED",
+    2: "target classes EXIST in the build",
+    3: "a migrator CONSUMES it",
+    4: "the migrator emits THE DECIDED targets",
+    5: "CORPUS-PROVEN",
+}
+S_YES = "yes"
+S_NO = "no"
+S_NA = "n/a"
+S_NOT_MEASURED = "not measured"
+# States that let the ladder continue upward. `not measured` deliberately does
+# NOT: a class cannot be reported as having climbed past a rung nobody read.
+_STAGE_PASSING = (S_YES, S_NA)
+
+
+class StageDataError(Exception):
+    """A row whose fields cannot carry the classifier.
+
+    Raised, caught, and REPORTED as an unclassifiable row -- never swallowed.
+    A row that cannot be placed is the one row a reader most needs to see, and
+    dropping it would shrink the denominator silently, which is the failure
+    mode operating rule 5 exists for.
+    """
+
+
+_MISSING = object()
+
+
+def _need(row, key, kinds):
+    val = row.get(key, _MISSING)
+    if val is _MISSING:
+        raise StageDataError(f"row has no `{key}` field")
+    if not isinstance(val, kinds):
+        raise StageDataError(
+            f"`{key}` is {type(val).__name__}, expected "
+            + "/".join(k.__name__ for k in (kinds if isinstance(kinds, tuple) else (kinds,))))
+    return val
+
+
+def _stage1_decided(row):
+    """A CHECKED sign-off transcription, or nothing this tool can read."""
+    reason = row.get("no_target_reason")
+    cite = row.get("decided_signoff") or row.get("no_target_signoff")
+    if reason == NO_TARGET_DISPUTED:
+        # Positive evidence AGAINST: the transcription exists and says the
+        # record holds two incompatible dispositions. That is a `no`, not an
+        # absence -- and it is the one row on the ladder whose lower rung fails
+        # while higher rungs hold.
+        doc = (row.get("no_target_signoff") or {}).get("document", "?")
+        return S_NO, (f"`no_target_reason` is DISPUTED -- {doc} states two "
+                      "incompatible dispositions, so no disposition is decided")
+    if cite:
+        doc = cite.get("document", "?")
+        return S_YES, (f"a TEAM-SIGN-OFF line in `{doc}` is transcribed onto this "
+                       "row and re-checked against that document by "
+                       "check_decision_citations() on every ledger build")
+    claim = row.get("decided_targets_source") == "curated_targets_file"
+    extra = ("; V_eta_migration_targets.json DOES claim a signed decision for "
+             "this class (`decided_targets`), but that claim is authored and "
+             "UNCHECKED -- transcribing it into DECIDED_TARGETS_BY_SIGNOFF "
+             "would make this rung readable" if claim else "")
+    return S_NOT_MEASURED, (
+        "no checked TEAM-SIGN-OFF transcription is attached to this row. "
+        "coverage.py reads only its own transcriptions; the team's sign-offs "
+        "live in plan documents this tool never opens, so this is the absence "
+        "of a TRANSCRIPTION and not evidence that no decision exists" + extra)
+
+
+def _stage2_targets_built(row):
+    """Named target classes, all present in the built V_eta set."""
+    bs = _need(row, "build_state", dict)
+    named = _need(bs, "schema_targets_named", int)
+    missing = _need(bs, "schema_targets_missing", list)
+    if named > 0:
+        if missing:
+            return S_NO, ("`build_state.schema_targets_missing` names "
+                          + ", ".join(f"`{t}`" for t in missing)
+                          + f" -- {len(missing)} of {named} decided target class(es) "
+                          "are absent from the built V_eta set")
+        return S_YES, (f"all {named} decided target class(es) are present in the "
+                       "built V_eta set (`build_state.schema_targets_missing` is "
+                       "empty AND `schema_targets_named` is non-zero)")
+    if row.get("no_target_reason") == NO_TARGET_DISSOLVED:
+        doc = (row.get("no_target_signoff") or {}).get("document", "?")
+        return S_NA, (f"signed to DISSOLVE in `{doc}`: there is no target class "
+                      "to build, so the rung cannot apply")
+    return S_NOT_MEASURED, (
+        "`build_state.schema_targets_named` is 0 -- no target class is named for "
+        "this row, so there is nothing to look for in the built set. This is NOT "
+        "'all targets present': an empty `schema_targets_missing` is empty here "
+        "because the question was never asked")
+
+
+def _stage3_consumed(row):
+    """Something in the migration consumes documents of this class."""
+    bs = _need(row, "build_state", dict)
+    if _need(bs, "has_per_class_migrator", bool):
+        return S_YES, ("`build_state.has_per_class_migrator` -- a per-class "
+                       "migrator file named after this class exists in one of the "
+                       "three convert packages")
+    sp = _need(row, "second_pass", list)
+    if sp:
+        return S_YES, ("no per-class migrator, but `second_pass` records "
+                       + ", ".join(f"`{t}`" for t in sp)
+                       + " minted for this class in the NDI second pass")
+    # THE KNOWN UNDERSTATEMENT, NAMED RATHER THAN PATCHED. Two consumption
+    # channels are visible to this tool: a per-class migrator file, and the
+    # `second_pass` column. A DID BATCH POST-PASS (+did2/+convert, nine of them)
+    # is a third, and NO LEDGER FIELD RECORDS IT -- `generic_file` is consumed
+    # by `foldGenericFiles.m` and reads `no` here. That is an understatement,
+    # and the fix is a field in V_eta_migration_targets.json, not a grep in this
+    # function: a bare name sweep over the convert package matches `base` in 9
+    # of the 9 passes and `app` in universalRenames, which is noise a stage
+    # cannot be built on.
+    return S_NO, ("neither `build_state.has_per_class_migrator` nor a "
+                  "`second_pass` entry. NOTE the ledger carries no field for a "
+                  "DID batch post-pass (+did2/+convert), so a class consumed only "
+                  "by one reads `no` here -- an UNDERSTATEMENT, not a measurement")
+
+
+def _stage4_emits_decided(row):
+    """The migrator emits the classes the decision names."""
+    bs = _need(row, "build_state", dict)
+    named = _need(bs, "schema_targets_named", int)
+    if named > 0:
+        if _need(bs, "migrator_emits_decided_targets", bool):
+            return S_YES, ("`build_state.migrator_emits_decided_targets` -- every "
+                           "decided target class is among the classes the "
+                           "generated target map records this migrator emitting")
+        want = row.get("decided_targets") or []
+        have = row.get("targets") or []
+        return S_NO, ("the decided target(s) "
+                      + ", ".join(f"`{t}`" for t in want)
+                      + " are not all among what the migrator emits today ("
+                      + (", ".join(f"`{t}`" for t in have) if have else "nothing")
+                      + ")")
+    if row.get("no_target_reason") == NO_TARGET_DISSOLVED:
+        doc = (row.get("no_target_signoff") or {}).get("document", "?")
+        return S_NA, (f"signed to DISSOLVE in `{doc}`: no target class is decided, "
+                      "so there is no emission to check")
+    return S_NOT_MEASURED, (
+        "`build_state.schema_targets_named` is 0 -- no decided target to check an "
+        "emission against")
+
+
+def _stage5_corpus(row, evidence):
+    """CORPUS-PROVEN. NOT MEASURED unless a corpus report was supplied.
+
+    This container has no MATLAB and cannot download run artifacts, so on every
+    run today this returns `not measured` WITH THOSE WORDS. It must never return
+    `no`: "no corpus proved it" and "nobody looked" are different facts, and
+    collapsing them is the defect `silentLoss` shipped for two days.
+
+    `load_corpus_evidence()` below is what turns this on. It is written and
+    tested against constructed reports, so the day a real corpus artifact is in
+    reach the stage is COMPUTED -- no new code.
+    """
+    if not evidence or not evidence.get("measured"):
+        why = (evidence or {}).get(
+            "why", "no corpus report was supplied to this run")
+        return S_NOT_MEASURED, "*** NOT MEASURED *** -- " + why
+    return corpus_verdict(row, evidence)
+
+
+def stage_ladder(row, evidence=None):
+    """The full ladder for one row: per-rung state, the stage REACHED, anomalies.
+
+    THE RULE, and it is not negotiable: a class lands on EXACTLY ONE stage, and
+    that stage is the highest N for which every rung 1..N is `yes` or `n/a`. A
+    rung that is `no` or `not measured` STOPS the climb -- including when a
+    higher rung is satisfied.
+
+    A higher rung satisfied over a stopped one is not a promotion and not an
+    error to be smoothed away. It is a REAL CONDITION with a name in this
+    repository -- `valid_interval` is "BUILT AHEAD OF THE DECISION" in
+    CLAUDE.md's own words -- so it is reported as an anomaly, counted, and the
+    class is named. Two kinds are counted separately because they mean opposite
+    things:
+
+      over_failed      a lower rung has POSITIVE evidence against it. A real
+                       contradiction: something was built for a class whose
+                       record disagrees with itself.
+      over_unmeasured  a lower rung could not be read. Evidence exists above a
+                       hole in the RECORD, which is a transcription job, not a
+                       build job.
+    """
+    rungs = []
+    try:
+        for n, fn in ((1, _stage1_decided), (2, _stage2_targets_built),
+                      (3, _stage3_consumed), (4, _stage4_emits_decided)):
+            state, why = fn(row)
+            rungs.append({"stage": n, "name": STAGE_NAMES[n],
+                          "state": state, "why": why})
+        state, why = _stage5_corpus(row, evidence)
+        rungs.append({"stage": 5, "name": STAGE_NAMES[5],
+                      "state": state, "why": why})
+    except StageDataError as exc:
+        return {
+            "unclassifiable": True,
+            "unclassifiable_why": str(exc),
+            "reached": None,
+            "reached_name": None,
+            "blocked_by": None,
+            "blocked_by_state": None,
+            "ladder": rungs,
+            "anomalies": [],
+            "stage5_state": S_NOT_MEASURED,
+        }
+
+    reached, blocked_by, blocked_state = 0, None, None
+    for rung in rungs:
+        if rung["state"] in _STAGE_PASSING:
+            reached = rung["stage"]
+        else:
+            blocked_by, blocked_state = rung["stage"], rung["state"]
+            break
+
+    anomalies = []
+    for rung in rungs:
+        if rung["stage"] > reached and rung["state"] == S_YES:
+            anomalies.append({
+                "stage": rung["stage"],
+                "stage_name": STAGE_NAMES[rung["stage"]],
+                "satisfied_over": blocked_by,
+                "satisfied_over_name": STAGE_NAMES[blocked_by] if blocked_by else None,
+                "kind": ("over_failed" if blocked_state == S_NO
+                         else "over_unmeasured"),
+            })
+    return {
+        "unclassifiable": False,
+        "unclassifiable_why": None,
+        "reached": reached,
+        "reached_name": STAGE_NAMES[reached],
+        "blocked_by": blocked_by,
+        "blocked_by_state": blocked_state,
+        "ladder": rungs,
+        "anomalies": anomalies,
+        "stage5_state": rungs[-1]["state"],
+    }
+
+
+# ---------------------------------------------------------------------------
+# STAGE 5's INPUT. Written now so the stage is COMPUTED, not coded, on the day
+# a corpus artifact is in reach.
+# ---------------------------------------------------------------------------
+#
+# WHAT WOULD LIGHT IT UP: the corpus run reports DID-matlab's harness writes --
+# `<corpus>-summary.json`, the same files `tools/census_digest.py` digests --
+# reachable from this repo, either via `--corpus-reports DIR` or the
+# `V_ETA_CORPUS_REPORTS` environment variable (os.pathsep-separated roots).
+# The search is RECURSIVE over any number of roots, for the reason CLAUDE.md
+# records: a one-level glob matched neither copy of the reports in corpus run
+# #3, and the digest printed NO CORPUS REPORTS FOUND after an hour of green.
+#
+# WHAT IS READ OUT OF ONE REPORT, and which half of the claim each part carries:
+#
+#   source_census.by_class      PER-CLASS, keyed by the v1 SOURCE class -- the
+#                               only block that can say "documents OF THIS CLASS
+#                               were in the batch". Keys are normalised
+#                               (lowercase, underscores stripped) exactly as
+#                               did2.validate.sourceCensus normalises them; the
+#                               pretty spelling returns nothing, which is the
+#                               `demo_ndi` failure.
+#   quarantine_count            CORPUS-LEVEL, and SOUND as an upper bound: a
+#   fragment_count              corpus with 0 quarantined documents has 0 for
+#   reference_integrity         every class in it. A corpus-level ZERO therefore
+#     .orphan_count             proves the per-class zero; a corpus-level
+#                               NON-zero does not disprove it, so a non-zero
+#                               falls back to the per-class tables below and
+#                               fails the rung if it cannot be attributed.
+#   fragment_by_class           PER-TARGET-CLASS.
+#   reference_integrity.orphans PER-TARGET-CLASS via `doc_class`.
+#   silent_loss                 PER-TARGET-CLASS via `class_name`.
+#     .empty_required_dependency
+#
+# A class with ZERO documents across every readable report is NOT proven and NOT
+# refuted: `not measured`, because THE CORPORA ARE A SAMPLE OF DATASETS, NOT THE
+# UNIVERSE. Reading "absent from the six corpora" as "clean" is the standing
+# error this repository has paid for four times.
+CORPUS_REPORT_GLOB = "*-summary.json"
+CORPUS_REPORTS_ENV = "V_ETA_CORPUS_REPORTS"
+
+
+def norm_class(name):
+    """lowercase + underscores stripped -- did2.validate.sourceCensus's normClass."""
+    return str(name).replace("_", "").lower()
+
+
+def load_corpus_evidence(roots):
+    """Read corpus run reports into the shape `corpus_verdict()` consumes.
+
+    Returns a dict that ALWAYS carries `measured` and a denominator. When
+    nothing was read it carries `why` -- and `why` is printed, so "found
+    nothing" and "looked in the wrong place" are distinguishable from the
+    output alone.
+    """
+    den = {"roots_named": list(roots), "roots_missing": [], "files_matched": 0,
+           "files_unreadable": 0, "files_unparseable": 0,
+           "reports_with_source_census": 0, "reports_read": 0}
+    if not roots:
+        return {"measured": False, "denominator": den,
+                "why": ("no corpus report root was supplied (pass "
+                        f"--corpus-reports DIR or set {CORPUS_REPORTS_ENV})")}
+    paths = []
+    for root in roots:
+        if not os.path.isdir(root):
+            den["roots_missing"].append(root)
+            continue
+        paths.extend(sorted(glob.glob(os.path.join(root, "**", CORPUS_REPORT_GLOB),
+                                      recursive=True)))
+    den["files_matched"] = len(paths)
+    reports = []
+    for p in paths:
+        try:
+            blob = Path(p).read_text()
+        except OSError:
+            den["files_unreadable"] += 1
+            continue
+        try:
+            reports.append((os.path.basename(p), json.loads(blob)))
+        except json.JSONDecodeError:
+            den["files_unparseable"] += 1
+    den["reports_read"] = len(reports)
+
+    by_class, corpora = {}, []
+    for name, rep in reports:
+        if not isinstance(rep, dict):
+            den["files_unparseable"] += 1
+            continue
+        sc = rep.get("source_census")
+        corpus = str(rep.get("corpus") or name)
+        entry = {
+            "corpus": corpus,
+            "quarantine_count": rep.get("quarantine_count"),
+            "fragment_count": rep.get("fragment_count"),
+            "fragment_by_class": {norm_class(k): v for k, v in
+                                  (rep.get("fragment_by_class") or {}).items()},
+            "orphan_count": None,
+            "orphan_classes": set(),
+            "empty_edge_classes": set(),
+        }
+        ri = rep.get("reference_integrity")
+        if isinstance(ri, dict):
+            entry["orphan_count"] = ri.get("orphan_count")
+            for o in (ri.get("orphans") or []):
+                if isinstance(o, dict) and o.get("doc_class"):
+                    entry["orphan_classes"].add(norm_class(o["doc_class"]))
+        sl = rep.get("silent_loss")
+        if isinstance(sl, dict):
+            erd = sl.get("empty_required_dependency")
+            if isinstance(erd, dict):
+                erd = [erd]
+            for e in (erd or []):
+                if isinstance(e, dict) and e.get("class_name"):
+                    entry["empty_edge_classes"].add(norm_class(e["class_name"]))
+        corpora.append(entry)
+        if not isinstance(sc, dict) or "audit_failed" in sc \
+                or not isinstance(sc.get("total_docs"), int) \
+                or sc["total_docs"] <= 0:
+            continue
+        den["reports_with_source_census"] += 1
+        for key, val in (sc.get("by_class") or {}).items():
+            try:
+                n = int(val)
+            except (TypeError, ValueError):
+                continue
+            slot = by_class.setdefault(norm_class(key), {})
+            slot[corpus] = slot.get(corpus, 0) + n
+
+    if not den["reports_with_source_census"]:
+        return {"measured": False, "denominator": den,
+                "why": (f'{den["files_matched"]} file(s) matched '
+                        f'{CORPUS_REPORT_GLOB}, {den["reports_read"]} parsed, and '
+                        "NONE carried a readable v1 source census "
+                        "(`source_census.by_class` with a non-zero `total_docs`)")}
+    return {"measured": True, "denominator": den,
+            "by_class": by_class, "corpora": corpora}
+
+
+def corpus_verdict(row, ev):
+    """Stage 5 for one row, given readable corpus evidence.
+
+    The gate is the project's own: 0 quarantine + 0 orphans, plus no empty
+    required edge and not a fragment. It is evaluated ONLY over corpora that
+    actually held documents of this v1 class -- a corpus that never saw the
+    class cannot vouch for it.
+    """
+    seen = ev["by_class"].get(norm_class(row["v1_class"]), {})
+    total = sum(seen.values())
+    if total <= 0:
+        return S_NOT_MEASURED, (
+            "*** NOT MEASURED *** -- 0 document(s) of this class across "
+            f'{ev["denominator"]["reports_with_source_census"]} readable source '
+            "census(es). THE CORPORA ARE A SAMPLE OF DATASETS, NOT THE UNIVERSE, "
+            "so this is untested, not clean")
+    # The classes a defect would be attributed to: what the migrator emits, plus
+    # the decided targets, plus the source class itself (a guarded passthrough
+    # validates under its own name).
+    mine = {norm_class(t) for t in (row.get("targets") or [])}
+    mine |= {norm_class(t) for t in (row.get("decided_targets") or [])}
+    mine |= {norm_class(t) for t in (row.get("second_pass") or [])}
+    mine.add(norm_class(row["v1_class"]))
+    faults, checked = [], []
+    for c in ev["corpora"]:
+        if not seen.get(c["corpus"]):
+            continue
+        checked.append(c["corpus"])
+        for key, label in (("quarantine_count", "quarantined document(s)"),
+                           ("fragment_count", "fragment(s)"),
+                           ("orphan_count", "orphan edge(s)")):
+            n = c.get(key)
+            if n is None:
+                faults.append(f'{c["corpus"]}: `{key}` is absent from the report '
+                              "-- NOT a zero")
+            elif n:
+                per_class = (c["fragment_by_class"] if key == "fragment_count"
+                             else c["orphan_classes"] if key == "orphan_count"
+                             else None)
+                if per_class is None or (mine & set(per_class)):
+                    faults.append(f'{c["corpus"]}: {n} {label} and the report '
+                                  "does not clear this class of them")
+        if mine & c["empty_edge_classes"]:
+            faults.append(f'{c["corpus"]}: an empty required edge is recorded on '
+                          + ", ".join(sorted(mine & c["empty_edge_classes"])))
+    if faults:
+        return S_NO, ("; ".join(faults)
+                      + f' (over {total} document(s) in {len(checked)} corpus(es))')
+    return S_YES, (f"{total} document(s) across {len(checked)} corpus(es) "
+                   f'({", ".join(checked)}) migrated with 0 quarantine, 0 '
+                   "orphans, no empty required edge and no fragment")
+
+
+def _stage_rollup(rows, evidence):
+    """The rollup, DENOMINATOR FIRST. Reports what it could not place."""
+    from collections import Counter
+    reached = Counter()
+    per_stage_state = {n: Counter() for n in (1, 2, 3, 4, 5)}
+    anomalies, unclassifiable, with_na = [], [], []
+    for r in rows:
+        st = r["stage"]
+        if st["unclassifiable"]:
+            unclassifiable.append({"v1_class": r["v1_class"],
+                                   "why": st["unclassifiable_why"]})
+            continue
+        reached[st["reached"]] += 1
+        for rung in st["ladder"]:
+            per_stage_state[rung["stage"]][rung["state"]] += 1
+        if any(rung["state"] == S_NA for rung in st["ladder"]
+               if rung["stage"] <= (st["reached"] or 0)):
+            with_na.append(r["v1_class"])
+        for a in st["anomalies"]:
+            anomalies.append(dict(a, v1_class=r["v1_class"]))
+    return {
+        # RULE 5, positionally: how many were classified and how many were not,
+        # before any figure that depends on either.
+        "classified": len(rows) - len(unclassifiable),
+        "unclassifiable": len(unclassifiable),
+        "unclassifiable_rows": unclassifiable,
+        "by_stage_reached": {str(n): reached.get(n, 0) for n in range(6)},
+        "reached_with_an_n_a_in_the_chain": sorted(with_na),
+        # Each rung on its own, ignoring the ladder order. The GAP between this
+        # and `by_stage_reached` is the anomaly story, and printing only the
+        # first would hide how much is built above an unreadable record.
+        "per_stage_state_counts": {str(n): dict(c)
+                                   for n, c in per_stage_state.items()},
+        "per_stage_satisfied_independently": {
+            str(n): per_stage_state[n][S_YES] for n in (1, 2, 3, 4, 5)},
+        "anomalies": {
+            # BOTH counts, because they answer different questions and one
+            # without the other misleads in opposite directions. A class stopped
+            # at rung 1 with rungs 2, 3 and 4 all satisfied contributes THREE
+            # anomalies and is ONE class; quoting only `total` inflates the
+            # number of affected classes, quoting only `classes` hides how far
+            # above the stopped rung the evidence reaches.
+            "total": len(anomalies),
+            "classes": len({a["v1_class"] for a in anomalies}),
+            "by_kind": dict(Counter(a["kind"] for a in anomalies)),
+            "by_stage": {str(n): sum(1 for a in anomalies if a["stage"] == n)
+                         for n in (1, 2, 3, 4, 5)},
+            "rows": anomalies,
+        },
+        "stage5": {
+            "measured": bool(evidence and evidence.get("measured")),
+            "state": (S_NOT_MEASURED
+                      if not (evidence and evidence.get("measured")) else "computed"),
+            "why": (evidence or {}).get(
+                "why", "no corpus report was supplied to this run"),
+            "denominator": (evidence or {}).get("denominator"),
+            "what_would_light_it_up": (
+                "a DID-matlab corpus run's `<corpus>-summary.json` reports "
+                f"reachable from this repo -- pass --corpus-reports DIR or set "
+                f"{CORPUS_REPORTS_ENV}. Each report must carry "
+                "`source_census.by_class` (per v1 SOURCE class) plus "
+                "`quarantine_count`, `fragment_count`, `reference_integrity."
+                "orphan_count` and `silent_loss.empty_required_dependency`."),
+        },
+        "decision_claimed_but_unchecked": sorted(
+            r["v1_class"] for r in rows
+            if not r["stage"]["unclassifiable"]
+            and r["stage"]["ladder"][0]["state"] == S_NOT_MEASURED
+            and r.get("decided_targets_source") == "curated_targets_file"),
+    }
 
 
 def _summary(rows):
@@ -963,6 +1522,7 @@ def _summary(rows):
         "decided_targets_from_signoff_transcription": sorted(
             r["v1_class"] for r in rows
             if r.get("decided_targets_source") == "signoff_transcription"),
+        "stage_rollup": _stage_rollup(rows, CORPUS_SCAN),
     }
 
 
@@ -982,6 +1542,116 @@ def _no_target_cell(r):
     if reason == NO_TARGET_PASSTHROUGH:
         return "· **passes through as itself** by decision"
     return "· ⚠ **NO TARGET AND NO DISSOLUTION RECORDED** -- a gap, not a decision"
+
+
+def _stage_cell(r):
+    """One class's stage, plus the rung that stopped it and any anomaly.
+
+    The stopping rung is printed BESIDE the number, always. A bare `stage 0`
+    says only "not far"; `stage 0 (stopped at 1, not measured)` says WHICH
+    question is unanswered and whether it is unanswered or answered NO -- and
+    for 94 of these rows the honest word is `not measured`, not `no`.
+    """
+    st = r.get("stage") or {}
+    if st.get("unclassifiable"):
+        return "⚠ **UNCLASSIFIABLE** -- " + str(st.get("unclassifiable_why", "?"))
+    cell = f'**{st.get("reached")}** {STAGE_NAMES.get(st.get("reached"), "?")}'
+    if st.get("blocked_by"):
+        cell += (f' · stops at {st["blocked_by"]}'
+                 f' ({st.get("blocked_by_state")})')
+    anom = st.get("anomalies") or []
+    if anom:
+        cell += (" · ⚠ but "
+                 + "+".join(str(a["stage"]) for a in anom)
+                 + " satisfied ("
+                 + ("CONTRADICTION"
+                    if any(a["kind"] == "over_failed" for a in anom)
+                    else "above an unread rung") + ")")
+    return cell
+
+
+def _stage_rollup_md(s):
+    """The stage rollup table, DENOMINATOR FIRST and unconditionally.
+
+    Two columns, not one, and the gap between them is the point. `classes AT
+    this stage` is the strict ladder -- a class counts once, at the highest rung
+    it reached with every rung below it satisfied. `rung satisfied on its own`
+    ignores the order. A migration that has built far ahead of its written
+    record shows up as a large second column over a small first one, which is
+    exactly what it does today.
+    """
+    sr = s["stage_rollup"]
+    reach, ind, states = (sr["by_stage_reached"],
+                          sr["per_stage_satisfied_independently"],
+                          sr["per_stage_state_counts"])
+    out = [
+        "**Stage rollup.** DENOMINATOR: {c} of {t} row(s) classified, {u} "
+        "UNCLASSIFIABLE{ulist}. A class lands on EXACTLY ONE stage -- the highest "
+        "rung for which every rung below it is satisfied -- so a rung that is "
+        "`no` or `not measured` stops the climb even when a higher one holds. "
+        "The stage is DERIVED from fields on the row; there is no list to "
+        "hand-set. `not measured` is not `no`: coverage.py reads only its own "
+        "checked sign-off transcriptions, so an unread rung is a hole in what "
+        "this tool can see, never a finding about the record.".format(
+            c=sr["classified"], t=s["total"], u=sr["unclassifiable"],
+            ulist=(" (" + ", ".join("`" + u["v1_class"] + "`"
+                                    for u in sr["unclassifiable_rows"]) + ")"
+                   if sr["unclassifiable_rows"] else "")),
+        "",
+        "| stage | what it means | classes AT this stage | rung satisfied on its own | yes / no / n/a / not measured |",
+        "|---|---|---:|---:|---|",
+        f'| 0 | {STAGE_NAMES[0]} | {reach["0"]} | {s["total"]} (by construction) | — |',
+    ]
+    for n in (1, 2, 3, 4, 5):
+        st = states[str(n)]
+        out.append(
+            f'| {n} | {STAGE_NAMES[n]} | {reach[str(n)]} | {ind[str(n)]} | '
+            f'{st.get(S_YES, 0)} / {st.get(S_NO, 0)} / {st.get(S_NA, 0)} / '
+            f'{st.get(S_NOT_MEASURED, 0)} |')
+    an = sr["anomalies"]
+    out += [
+        "",
+        ("**Stage 5 is NOT MEASURED** -- {why}. It is not `no` and it is not "
+         "skipped: \"no corpus proved it\" and \"nobody looked\" are different "
+         "facts, and this container has no MATLAB and cannot download run "
+         "artifacts. WHAT WOULD LIGHT IT UP: {light}"
+         if not sr["stage5"]["measured"] else
+         "**Stage 5 is COMPUTED** from the corpus reports supplied to this "
+         "run.{why}{light}").format(
+            why=sr["stage5"]["why"] if not sr["stage5"]["measured"] else "",
+            light=sr["stage5"]["what_would_light_it_up"]
+            if not sr["stage5"]["measured"] else ""),
+        "",
+        "**Anomalies: {n} across {k} class(es).** A rung satisfied above the "
+        "stage a class reached. "
+        "Not smoothed away and not promoted -- `over_failed` ({f}) means a lower "
+        "rung has POSITIVE evidence against it, a real contradiction; "
+        "`over_unmeasured` ({u}) means evidence exists above a hole in the "
+        "record, which is a transcription job and not a build job.{rows}".format(
+            n=an["total"], k=an["classes"],
+            f=an["by_kind"].get("over_failed", 0),
+            u=an["by_kind"].get("over_unmeasured", 0),
+            rows=("" if not an["by_kind"].get("over_failed") else
+                  " CONTRADICTIONS: " + ", ".join(
+                      "`" + a["v1_class"] + "` (stage " + str(a["stage"]) + ")"
+                      for a in an["rows"] if a["kind"] == "over_failed") + ".")),
+        "",
+    ]
+    if sr["decision_claimed_but_unchecked"]:
+        out += [
+            "**{n} row(s) claim a signed decision that is not transcribed here** "
+            "-- `V_eta_migration_targets.json` gives them `decided_targets`, "
+            "which its own header calls \"a signed decision no migrator "
+            "implements yet\", but no `TEAM-SIGN-OFF` line is quoted and checked "
+            "for them. They read `not measured` at stage 1 and cannot climb. "
+            "Transcribing each into `DECIDED_TARGETS_BY_SIGNOFF` (which "
+            "re-reads the cited document on every build) is what moves them: "
+            "{lst}.".format(n=len(sr["decision_claimed_but_unchecked"]),
+                            lst=", ".join("`" + c + "`" for c in
+                                          sr["decision_claimed_but_unchecked"])),
+            "",
+        ]
+    return out
 
 
 def _build_state_clause(r):
@@ -1050,8 +1720,11 @@ def write_ledger(veta, v1, rows):
                                       for c in s["no_target"]["target_gaps"]) + ")"
                      if s["no_target"]["target_gaps"] else "")),
         "",
-        "| v1 class | → V_eta target(s) | what happens to it | disposition | source |",
-        "|---|---|---|---|---|",
+    ]
+    lines += _stage_rollup_md(s)
+    lines += [
+        "| v1 class | stage | → V_eta target(s) | what happens to it | disposition | source |",
+        "|---|---|---|---|---|---|",
     ]
     for r in rows:
         chips = ["`" + t + "`" for t in r["targets"]]
@@ -1145,7 +1818,8 @@ def write_ledger(veta, v1, rows):
             acct = (acct + " " if acct else "") + _bsc
         acct = acct.replace("|", "\\|").replace("\n", " ") or "—"
         lines.append(
-            f"| `{r['v1_class']}` | {tgt} | {acct} | {r['disposition']} | {r['source']} |")
+            f"| `{r['v1_class']}` | {_stage_cell(r)} | {tgt} | {acct} "
+            f"| {r['disposition']} | {r['source']} |")
     lines.append("")
     lines.append("*`class`\\* = minted in the NDI second pass. "
                  "\"on `subject`\" = the pre-existing class the statements attach to. "
@@ -1167,6 +1841,53 @@ def write_ledger_json(rows):
         "rows": rows,
     }
     Path(LEDGER_JSON).write_text(json.dumps(doc, indent=2) + "\n")
+
+
+def _print_stage_rollup(s):
+    """The stage histogram on the console, denominator first.
+
+    `gates.py` matches a HEADLINE COUNT per step and fails a step that exits 0
+    while printing none, so this line is also the step's evidence that the
+    classifier ran at all.
+    """
+    sr = s["stage_rollup"]
+    print("  stage ladder: DENOMINATOR %d row(s) classified, %d UNCLASSIFIABLE%s"
+          % (sr["classified"], sr["unclassifiable"],
+             ("" if not sr["unclassifiable_rows"] else
+              " (" + ", ".join(u["v1_class"]
+                               for u in sr["unclassifiable_rows"]) + ")")))
+    for n in range(6):
+        print("      stage %d  %-38s %4d at this stage | %s satisfied on its own"
+              % (n, STAGE_NAMES[n], sr["by_stage_reached"][str(n)],
+                 (str(s["total"]) + " (by construction)") if n == 0
+                 else str(sr["per_stage_satisfied_independently"][str(n)])))
+    an = sr["anomalies"]
+    print("      anomalies: %d across %d class(es) (%d over a FAILED rung, "
+          "%d over an UNMEASURED rung)"
+          % (an["total"], an["classes"], an["by_kind"].get("over_failed", 0),
+             an["by_kind"].get("over_unmeasured", 0)))
+    print("      stage 5: *** NOT MEASURED *** -- " + sr["stage5"]["why"]
+          if not sr["stage5"]["measured"] else
+          "      stage 5: computed from corpus reports")
+
+
+def _corpus_roots(argv):
+    """Corpus report roots from --corpus-reports and the environment.
+
+    Both, not one: a CI job sets the variable, a human passes the flag, and a
+    tool that reads only one of them reports NOT MEASURED at the exact moment
+    the evidence is on disk.
+    """
+    roots = []
+    for i, a in enumerate(argv):
+        if a == "--corpus-reports" and i + 1 < len(argv):
+            roots.append(argv[i + 1])
+        elif a.startswith("--corpus-reports="):
+            roots.append(a.split("=", 1)[1])
+    env = os.environ.get(CORPUS_REPORTS_ENV)
+    if env:
+        roots.extend(p for p in env.split(os.pathsep) if p)
+    return roots
 
 
 def main():
@@ -1200,6 +1921,12 @@ def main():
 
     if check_only:
         sys.exit(1 if new else 0)
+
+    # STAGE 5's INPUT, read before the rows are built so the stage is computed
+    # rather than back-filled. Absent on this container and in CI today; the
+    # rollup says so in those words rather than defaulting to "not reached".
+    CORPUS_SCAN.clear()
+    CORPUS_SCAN.update(load_corpus_evidence(_corpus_roots(sys.argv)))
 
     veta, v1, rows = build_ledger()
     # THE LEFT-HAND SIDE'S OWN DENOMINATORS, printed before the ledger line that
@@ -1242,6 +1969,7 @@ def main():
                  (" (" + ", ".join(nt["target_gaps"]) + ")")
                  if nt["target_gaps"] else "",
                  nt["by_reason"][NO_TARGET_PASSTHROUGH]))
+        _print_stage_rollup(s)
     else:
         print("ledger: SKIPPED (NDI-matlab sibling not found)")
 
