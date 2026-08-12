@@ -110,10 +110,11 @@ clone with the siblings fetched the way the workflow fetches them:
 
 Three properties of that clone are load-bearing and each fails QUIETLY if it
 regresses, so each is asserted by `tests/test_ci_runs_the_whole_chain.py`:
-the clone is FULL (a shallow one does not error — `coverage.py:215,222` and
+the clone is FULL (a shallow one does not error — `coverage.py:217,226` and
 `ndi_ground_truth.py:491,614` read `origin/main` (line numbers repointed
 2026-08-12 -- they were `coverage.py:185` / `ndi_ground_truth.py:449,539`;
-see the citation audit), the ref lookup falls through,
+then `coverage.py:215,222` for a few hours, until the completion ladder landed
+in the same file — see the citation audit), the ref lookup falls through,
 and the tool reports a smaller universe); it checks out the FEATURE branch, not
 main (`check_pipeline_parity` and the board's migrator evidence read NDI's
 `ndi_second_pass/`, which exists only there — one checkout serves both readers
@@ -130,6 +131,85 @@ document that does not exist.
 **The status board is the answer to "where are we".** Do not reconstruct that from
 the task list or from the plan documents — they disagree with each other. The plan
 documents are RATIONALE (why a model was chosen); the board is STATE.
+
+**AND SINCE 2026-08-12 THE COVERAGE LEDGER ANSWERS "HOW MUCH IS LEFT" PER CLASS, WHICH
+IT DID NOT BEFORE. NOTHING ABOVE MENTIONED IT BECAUSE IT DID NOT EXIST.**
+`tools/coverage.py` now derives a **COMPLETION LADDER** onto every row — `stage`, rungs
+1..4, plus a `stage_rollup` in the ledger's `summary`. Re-derived here from the generated
+artifact, not from the commit that added it:
+
+        DENOMINATOR: 102 ledger rows read from schemas/V_eta_coverage_ledger.json;
+                     102 classified, 0 unclassifiable
+        HEADLINE  rung 1 `a migrator CONSUMES it` -- denominator 102:
+                     yes 86 / no 16 / n/a 0 / NOT MEASURED 0
+        by stage REACHED : 0:16  1:65  2:7  3:14  4:0
+        per rung, satisfied INDEPENDENTLY of the ones below it:
+                     1: 86   2: 25   3: 14   4: 0
+        per-rung state counts:
+          1  yes 86, no 16
+          2  yes 25, n/a 3,  NOT MEASURED 74
+          3  yes 14, no 11, n/a 3, NOT MEASURED 74
+          4  NOT MEASURED 102
+
+  The rung names are `coverage.py:1299-1305`: **0** source identified, **1** a migrator
+  CONSUMES it, **2** its decided target classes EXIST in the build, **3** the migrator
+  emits THE DECIDED targets, **4** **CORPUS-PROVEN**.
+
+  **TWO PROPERTIES MUST TRAVEL WITH ANY NUMBER QUOTED FROM THAT LADDER, and both were
+  learned the expensive way on the day it was built.**
+
+  **(1) GOVERNANCE IS NOT IN THE COMPLETION CHAIN, AND IT USED TO BE RUNG 1.** In the
+  first version the bottom rung was `disposition DECIDED`, every build rung sat behind
+  it, and the tool reported the project's BOOKKEEPING as the migration's progress —
+  `coverage.py:1237-1242` in its own words: *"a class with a working migrator reported
+  stage 0 whenever no sign-off could be machine-found for it [...] **95 of 102 rows read
+  'stage 0' while 86 of them had a migrator** consuming their documents."* Decidedness and
+  builtness are ORTHOGONAL — a class can be built and unsigned (`valid_interval` was, in
+  this file's own words) or signed and unbuilt (most of the decided families). Governance
+  is now a FLAG in a column beside the stage (`coverage.py:1341`, four states, *"none of
+  them is progress"*) and **the two must never be summed.** Note the DIRECTION that error
+  pointed: pessimistic. A number nobody can act on is as useless as an optimistic one, and
+  it is the third time this week the file's documented bias has run backwards.
+
+  **(2) THE HEADLINE RUNG IS THE ONLY ONE WITH NO UNMEASURED ROWS.** Rung 1 has an answer
+  on all 102 (86 yes / 16 no); rung 2 and rung 3 read `not measured` on **74** because no
+  target is recorded for those rows; rung 4 reads `not measured` on **all 102** in every
+  run in this container. That is why rung 1 leads the rollup, and why the tie between
+  rungs 1 and 2 was broken toward the fully-measured one — stated on the record at
+  `coverage.py:1279-1291` rather than left an accident of declaration order. **`not
+  measured` is NEVER a `no`**: *"no corpus proved it" and "nobody looked" are different
+  facts*, which is the `silentLoss` defect written into the type system. Quoting "16 rows
+  at stage 0" as the remaining work would be wrong twice over — 4 of those 16 are CAPPED
+  (something above is built), and 74 rows are capped at rung 1 by a question nobody asked.
+
+**RUNG 4 HAS A CEILING, AND IT IS THE STANDING "THE CORPORA ARE A SAMPLE" RULE FINALLY
+CARRYING A NUMBER.** Measured 2026-08-12 by reading all six corpus zips directly with
+`did2.validate.sourceCensus`'s own reader, and recorded at
+`DID-matlab tools/corpus_proven.py:59-73`:
+
+        DENOMINATOR: 6 corpora, 221,827 v1 document(s), 0 skipped, 45 distinct
+                     normalised v1 class name(s); 102 ledger rows
+        addends: 20211116 1,220 + B 12,917 + Dab 27,561 + JH 78,688
+                 + PRED 14 + Soph 101,427 = 221,827
+          PRESENT in at least one corpus : 45   <- can read PROVEN
+          ABSENT from all six            : 57   <- read NOT MEASURED, forever,
+                                                  until a dataset holding them migrates
+          in a corpus but not a ledger row: 0
+        per corpus: 20211116 21, B 18, Dab 26, JH 15, PRED 10, Soph 32
+
+**SO CORPUS PROOF CAN NEVER REACH MORE THAN 45 OF 102 WITH THE CORPORA WE HOLD, AND THE
+45 IS ITSELF CONDITIONAL** on the run being globally clean (a corpus-level zero is a sound
+upper bound for every class in it; a non-zero has to be attributed, and 25 of the 85
+distinct target classes are reachable from more than one v1 source, so those are ambiguous
+by construction and the tool says so instead of guessing). **THE 57 ARE UNTESTED, NOT
+CLEAN — 56% of the v1 universe is outside the sample.** Put that number beside the rule
+every time the rule is quoted: this file has paid four times for reading "absent from the
+corpora we looked at" as "fine". **UNVERIFIED IN THIS CONTAINER:** the six figures above
+come from the corpus zips and there is no MATLAB and no corpus artifact here (`find /
+-name '*-summary.json'` matches only this session's own test temporaries). SETTLED BY:
+`python3 tools/corpus_proven.py --schema-repo did-schema corpus-reports
+tests/corpus-reports` on a real run's downloaded artifacts. Its 20 self-tests DO run here
+and pass, over constructed reports.
 
 The DID-matlab side has the same rule: `tools/census_digest.py` renders the corpus
 census and `tools/test_census_digest.py` tests it in ~5 ms on the fast gate. The
@@ -156,6 +236,26 @@ report**: it is a hard 0-quarantine gate rather than a discovery run, so it
 never went through `runCorpusDiscovery` and contributed NOTHING to the census —
 a corpus we gate on but never measure is a denominator missing from every
 figure we quote.
+
+**TWO MORE DID-matlab INSTRUMENTS LANDED 2026-08-12 AND THIS FILE HAD NEVER HEARD OF
+EITHER — zero mentions each until now.** Both are the same shape as `census_digest.py`:
+a hand-maintained claim replaced by a generator plus a gate.
+
+| tool | what it answers | where it runs |
+|---|---|---|
+| `DID-matlab tools/check_migrator_roster.py` | is every `+migrators_j` migrator in `Contents.m`, and does each have a covering test | `test-migrators-quick.yml:237` (+ its own tests at `:248`) |
+| `DID-matlab tools/corpus_proven.py` | carries a corpus run's reports across the repo boundary into this repo's ladder and renders **rung 4, CORPUS-PROVEN** | `test-code.yml:307`, `test-corpus.yml:273`; self-tests on the fast gate at `test-migrators-quick.yml:205` |
+
+`corpus_proven.py` does NOT reimplement the verdict — it invokes `DID-schema
+tools/coverage.py`'s `load_corpus_evidence()` / `corpus_verdict()` across the repo
+boundary, on the stated ground that *"two implementations of 'is this class proven' that
+disagree is worse than one that is missing"*. What it owns is finding the reports
+recursively over any number of roots, saying out loud where it looked, and CROSS-CHECKING
+the rung it gets back against the census it fed in — a row marked proven whose class
+appears in no census is an instrument fault, not a result. **Zero reports is a non-zero
+exit**, for the reason recorded above. An instrument fault fails the step; a MIGRATION
+defect (a rung coming back `no`) is report-only unless `--gate-on-failed-rung` is passed,
+so a corpus failure still reaches the artifact.
 
 ## READ THESE BEFORE answering about V_eta class structure or the migration walkthrough
 The conversation gets compacted and loses fine-grained state. The durable record
@@ -212,6 +312,51 @@ lives in these files — read them instead of re-deriving from memory:
   plan's own "Resolved" section records `timed_sequence` + `timed_sequence_manipulation` as
   confirmed by the naming pass (neutral by design so a future `_observation` leaf is possible).
   This line said "provisional" long after the plan settled it; do not re-open on its word.
+
+  **AN OPEN TEAM QUESTION FOUND 2026-08-12, AND IT IS THE ONE FINDING OF THAT PASS THAT
+  POINTS THE DANGEROUS WAY: A LIVE, UNCONDITIONAL SECOND PASS EMITS THE SUPERSEDED SHAPE
+  TODAY, WHILE THE SIGNED SHAPE HAS NO EMITTER AT ALL.** Recorded, not resolved —
+  Operating Rule 4. HISTORICAL-SIGNOFF-CLAIM. Positive evidence, from the code:
+
+        $ grep -n resolveStimulusPresentations \
+              NDI-matlab/src/ndi/+ndi/+migrate/local.m
+         714:            convertResult = resolveStimulusPresentations(convertResult, bodies, options);
+        1927: function convertResult = resolveStimulusPresentations(convertResult, bodies, options)
+
+        $ git log -1 --format="%h %ai %s" -- \
+              src/ndi/+ndi/+migrate/+internal/stimulusPresentationToManipulation.m
+        d5ec088e8 2026-07-22  migrate: stimulusPresentationToManipulation assembly (second pass)
+        $ head -1 <that file>
+        function [manipBody, bodyDoc, records] = stimulusPresentationToManipulation(...)
+        %STIMULUSPRESENTATIONTOMANIPULATION Assemble a body-backed visual_grating_manipulation
+
+  `:714` is in the second-pass chain and is not conditional — it is wrapped in a
+  `try/catch` that warns and falls back to passthrough, nothing more. So a V_eta migration
+  run today produces `visual_grating_manipulation`, which is the model this plan
+  SUPERSEDES (`V_eta_stimulus_model_plan.md:111`, *"Supersedes #19
+  (visual_grating_manipulation dissolve)"*, signed 2026-08-08 — four and a half weeks
+  AFTER the assembler was committed).
+
+  **AND NOTHING MINTS THE SIGNED SHAPE:**
+
+        $ cd NDI-matlab && grep -rl "timed_sequence" --include=*.m . | wc -l
+        0
+
+  **NOR CAN ANYTHING, TODAY:** `schemas/V_eta/draft/timed_sequence.json` carries
+  `"abstract": true` at `:11`, and `+did2/+schema/cache.m` raises
+  `did2:validation:abstractInstantiation` for any document naming an abstract class — so
+  the signed multi-subject `storage_mode: reference` case, which needs a STANDALONE
+  `timed_sequence` as body-of-record, cannot be instantiated at all until that flag is
+  reconsidered. Both target classes are in `draft/`, not `stable/`.
+
+  **WHAT IS AND IS NOT NEW HERE.** The plan already lists *"`visual_grating_manipulation`
+  reconciliation (keep for presentation-less single gratings, or retire) — build-time"* at
+  `:133`, so the reconciliation is a named item, not a discovery. **What nothing recorded
+  is that the superseded path RUNS while the signed one has no emitter** — the two facts
+  are in different repositories and neither file says the other half. That combination is
+  a TEAM question (does the running assembler keep going, get gated, or get retired ahead
+  of an emitter that does not exist yet?), and it is tracked as `V_eta_OPEN_WORK.md`
+  row #31. **Do not resolve it by building, and do not resolve it by deleting.**
 - **`schemas/V_eta_image_model_plan.md`** — the FINAL `image` model (decided in the R6
   walkthrough; build deferred, TaskList #24). image = a **standalone** `data_type` (raster
   value) — **`array` is KILLED** (re-audit: a bare N-D numeric grid duplicates sampled_body
@@ -560,7 +705,9 @@ lives in these files — read them instead of re-deriving from memory:
   Read this; do not act on the paragraph above.
 
   **#51 IS ANSWERED, not deferred.** `V_eta_OPEN_WORK.md` ROW #51 -- an item number, not a
-  line number; the text is at `:375-383` -- 2026-08-09, corpus run
+  line number; the row has MOVED TO `## COMPLETED` and its text is now at `:634-641`
+  (it was `:375-383` this morning; `:375` is now the head of the new COMPLETED INDEX
+  table, and `:385` is #51's one-line entry in it) -- 2026-08-09, corpus run
   31327383671: *"PASSES on all six ... 20211116 1/1, B 14/14, Dab 16/16, JH 3/3, PRED 1/1,
   Soph 33/33"* — session documents are 1:1 with the distinct `base.session_id` values, so
   the referent a required `relative_to` needs exists everywhere it would be demanded.
@@ -995,14 +1142,65 @@ lives in these files — read them instead of re-deriving from memory:
 
   Thirty-eight migrators that exist are unmentioned — `distance_metadata`, `fitcurve`,
   `syncrule_mapping`, `stimulus_presentation`, the whole `openminds_*` set, the four
-  `*_tuning` classes, every `daqreader_*_epochdata_ingested`, and more. **So "absent from
-  `Contents.m`" means nothing at all, and in particular does NOT mean "deliberately has no
-  migrator"** — that conclusion is available only from the file's three explicit
-  `DELIBERATELY WITHOUT A MIGRATOR` sentences (`:346`, `:354`, `:365`), which name four
-  classes between them. This is the `demo_ndi` failure with a different query: a search
-  whose zero result is a property of where you looked. **To ask whether a class has a
-  migrator, list `+migrators_j/*.m` or read the ledger's `migrator` column — never the
-  prose index.**
+  `*_tuning` classes, every `daqreader_*_epochdata_ingested`, and more.
+
+  **THE PAIR OF NUMBERS ABOVE IS STALE IN THE WORST AVAILABLE WAY: ONE OF THE TWO IS
+  STILL `43` AND NO LONGER MEANS WHAT IT SAID.** Corrected 2026-08-12, later the same
+  day the block above was written. `38` went to **0** — a GENERATED ROSTER landed inside
+  `Contents.m` (`DID-matlab fb38a29`, *"Contents.m named 43 of 81 migrators; the complete
+  roster is now generated"*), one entry per migrator taken from that migrator's own H1
+  summary, fenced between `BEGIN GENERATED ROSTER` / `END GENERATED ROSTER` markers, and
+  `DID-matlab tools/check_migrator_roster.py` re-renders and diffs it as a gate. Its own
+  denominator, run here:
+
+        $ cd DID-matlab && python3 tools/check_migrator_roster.py
+        DENOMINATOR: 81 migrator .m file(s) in src/did/+did2/+convert/+migrators_j
+                     (Contents.m excluded); Contents.m is 64106 char(s);
+                     61 test file(s) scanned in tests/+did2/+unittest
+          mentioned in Contents.m:        81
+          UNMENTIONED:                    0
+          of the mentioned, described in the hand-written narrative
+                            (outside the generated roster): 43
+          with a covering test:           80
+          WITH NO TEST:                   1   temporal_frequency_tuning
+          pinned baseline UNTESTED:       1   temporal_frequency_tuning
+        OK
+
+  **`43` SURVIVED AND CHANGED MEANING, WHICH IS SUBTLER THAN A WRONG NUMBER.** It was
+  *"named anywhere in `Contents.m`"* — the whole file. It is now *"described in the
+  HAND-WRITTEN NARRATIVE"* — a subset of a file that names all 81. The two counts sat one
+  line apart and only one moved, so a reader who spot-checks `43` finds it reproducible
+  and reads the `38` beside it as current too. **A number that stays numerically right
+  while its denominator's meaning shifts underneath it is not caught by re-running the
+  number.**
+
+  **THE CONCLUSION IS UNCHANGED AND IS WHY THE ROSTER EXISTS, so it is kept in the
+  present tense: "absent from `Contents.m`" never meant "deliberately has no migrator",
+  and it still does not** — that conclusion is available only from the file's three
+  explicit `DELIBERATELY WITHOUT A MIGRATOR` sentences. This was the `demo_ndi` failure
+  with a different query: a search whose zero result is a property of where you looked.
+  **To ask whether a class has a migrator, list `+migrators_j/*.m`, read the ledger's
+  `migrator` column, or read the GENERATED ROSTER — never the hand-written narrative.**
+
+  Two footnotes to those three sentences, both of which this file had wrong:
+
+        $ grep -n "DELIBERATELY WITHOUT A MIGRATOR" \
+              DID-matlab/src/did/+did2/+convert/+migrators_j/Contents.m
+        360:%   DELIBERATELY WITHOUT A MIGRATOR: `projectvar`. TEAM-SIGN-OFF [misc
+        368:%   ALSO DELIBERATELY WITHOUT A MIGRATOR: `generic_file` and `valid_interval`,
+        379:%   under "DELIBERATELY WITHOUT A MIGRATOR" just above. Both are restated from
+
+  **(a) The citations `:346` / `:354` / `:365` DRIFTED to `:360` / `:368` / `:379`** — the
+  roster was inserted above them. See the citation-audit entry far below, where the same
+  drift is recorded against a correction that was itself written today.
+  **(b) "which name four classes between them" is now THREE.** The fourth was
+  `vmspikefilteringparameters`, and `Contents.m` withdrew it in its own words at
+  `:384-400` (*"CITATION CORRECTED 2026-08-12. This named 'the vmspikefilteringparameters
+  shape', and that class has NOT been tombstone-only since 2026-08-10: it has a migrator,
+  and THIS FILE describes it at the `vmspikefilteringparameters` entry ~230 lines
+  above"*), with `git merge-base --is-ancestor` showing the migrator predated the sentence
+  citing its absence by 1h42m. HISTORICAL-SIGNOFF-CLAIM. The claim about `projectvar`,
+  `generic_file` and `valid_interval` is unaffected and stands.
 
   **THE 2 REMAINING `target_gap` ROWS, which are the honest successor to this bucket** —
   both labelled *"NO TARGET AND NO DISSOLUTION RECORDED -- a gap, not a decision"*:
@@ -1082,6 +1280,75 @@ lives in these files — read them instead of re-deriving from memory:
   own header about itself. Now gated by `tools/check_signoff_header_staleness.py` (CI +
   pytest); a correction note that quotes the old wording is exempted by a
   `HISTORICAL-SIGNOFF-CLAIM` marker.
+- **THE OPEN LIST WAS RECONCILED IN BOTH DIRECTIONS ON 2026-08-12, AND THE ASYMMETRY IS
+  THE FINDING: THE DANGEROUS DIRECTION WAS ALMOST CLEAN AND THE SAFE ONE WAS NOT.** Two
+  passes over `V_eta_OPEN_WORK.md`, each verdict taken from a commit, a `file:line`, a
+  generated-artifact figure or a test — never from the harness TaskList, which is the
+  unreliable side of the comparison.
+
+        FORWARD  (does anything called DONE turn out not to be? -- the direction
+                  this file's five operating rules exist for)
+        DENOMINATOR: 18 rows the mirror marked completed -- 30 37 38 43 51 54 56
+                     57 58 59 63 64 65 67 70 71 75 76
+          LANDED 13    PARTIAL 5    NOT LANDED 0    CANNOT TELL 0
+
+        REVERSE  (does anything called OPEN turn out to be built? -- nobody had
+                  ever asked)
+        DENOMINATOR: 35 rows under `## OPEN`; 5 covered by the forward pass,
+                     3 handed to build agents since (53, 61, 74), 27 unchecked.
+                     All 27 checked.
+          ALREADY DONE 8   (25 29 34 35 52 78 80 82)
+          PARTIAL     10   (9 28 31 32 47 60 66 69 72 83)
+          GENUINELY OPEN 4 (27 46 48 68)     BLOCKED 4 (45 62 73 81)
+          CANNOT TELL 1    (79)
+
+  **Together: of 30 OPEN rows checked, 11 were already built** — the 8 above plus the
+  three build agents (53, 61, 74), all three of which wrote no production code because
+  the work existed. **NOT ONE of the 18 rows called done was NOT LANDED.** So the list
+  understated progress in eleven places and overstated it in none.
+
+  **THE CAUSE IS MECHANICAL, NOT ATTITUDINAL, AND IT IS FOUR NAMED TELLS.** (1) *Work
+  landed under a different name*: #78's build is `subjectStrainAssembly.m`, #25's is
+  `softwareDedup.m`, #29's is `ensembleMembership.m` — none is a `+migrators_j/<class>.m`,
+  so a name-based search finds none of them, and the same blind spot is why
+  `foldGenericFiles.m` reads `no` on the ladder's rung 1. (2) *A row never revisited*:
+  #80's own text begins **CLOSED 2026-08-10** and it sat under `## OPEN` for two days;
+  settling it required no search at all. (3) *A phantom* — work asked for on a class
+  deleted on the team's instruction, or REJECTED by a signature rather than deferred (two
+  of the three are in #27 alone); carrying those as pending invites building what a
+  signature forbids. (4) NEW: *a blocker dismantled in the OTHER repository and never
+  propagated back*.
+
+  **THAT FOURTH TELL IS `V_eta_OPEN_WORK.md` ROW #83, AND IT IS RECORDED HERE AS A STALE
+  MARKER FOUND AND NOT FIXED.** The row reads *"NEEDS A TEAM CALL + A MEASUREMENT;
+  nothing built"* and asks for a counter at `universalRenames.m`, on the stated evidence
+  of *"0 hits for `database_version` across `src/` and `tests/` in DID-matlab"*. Both
+  halves are wrong today:
+
+        $ cd DID-matlab && grep -rln database_version src/ tests/ | wc -l
+        10
+        $ grep -n "moved_carrying_database_version\|moved_vintage_bodies_classified" \
+              src/did/+did2/+convert/universalRenames.m
+        114:%     moved_carrying_database_version         SINGLE-FIELD discriminators.
+        151:%     moved_vintage_bodies_classified         THE CLASSIFIER'S OWN DENOMINATOR
+        225:    'moved_carrying_database_version',          0, ...
+        226:    'moved_vintage_bodies_classified',          0, ...
+
+  The counter the row asks for is in the file the row nominates, with a four-vintage
+  classifier beside it and five real fixtures under
+  `tests/+did2/fixtures/ndi_document_vintages/`. **The `database_version` TEAM CALL is
+  unaffected and is still open** — what lapsed is the row's claim that nothing was built
+  and that nothing in the repository mentions the field. Not fixed here: this file does
+  not own that row.
+
+  **WHY THIS ENTRY IS HERE RATHER THAN IN THE OPEN LIST: it is the inverse of this file's
+  documented bias, for the third time this week.** The bias is *"further along than we
+  are"*; the plan-header staleness above, the coverage ladder's governance rung, and this
+  reconciliation all point the other way. **The costs are different and neither is free.**
+  Optimism produces a wrong build; pessimism produces work rebuilt, a decision
+  re-litigated, and an agent dispatched at a task already finished — three for three, in
+  this case. **Both directions need the same discipline, and a "safe" direction is not a
+  reason to check less often.**
 - **A TEST WRITTEN FROM THE SAME PREMISE AS THE CODE CANNOT CATCH THE CODE.** Three tests
   asserted the `epochid` bug (`test_phase1_source_cleanup_and_dep_typing`,
   `test_ingested_caches_epochid_dep_only`, `testMfdaqIngestedDeEncodesToDaqreaderEpochdataIngested`)
@@ -1144,6 +1411,30 @@ lives in these files — read them instead of re-deriving from memory:
   That is the direction this file is NOT known for: the recorded list reads SAFER than
   reality — three camelCase/snake_case collisions that an absence-based grep could
   trip over were absent from the at-risk table for two days.
+
+  **A SECOND STALE MARKER FROM THE SAME COLLAPSE, FOUND 2026-08-12 AND RECORDED NOT
+  FIXED.** The pair that taught this lesson is gone from the schemas and is still named in
+  the builder:
+
+        $ sed -n '7284,7286p' tools/build_v_eta.py
+        _IN_PROGRESS = {"app", "stimulus_presentation",
+            "demo_ndi", "demo_ndi_mock",
+            "projectvar", "ensemble"}
+
+        DENOMINATOR: 247 json file(s) under schemas/V_eta/ read
+        class names containing "demo": 1 -- `demo`, at stable/demo.json
+
+  `build_v_eta.py:1864` performs the collapse in the same file (`for _gone in ("demo_ndi",
+  "demo_ndi_mock", "mock")`, *"3 classes -> 1. `mock` and `demo_ndi_mock` cease to
+  exist"*, team decision 2026-08-06), so one half of the file removes the classes and the
+  other half still lists them as decided-pending. **The marker is INERT rather than
+  wrong-in-effect** — `_disposition(name)` is only ever asked about names that exist, so a
+  membership test for a name nothing declares can never fire — which is exactly why it
+  survived a build, a regen and a board render. **It still misreports the final class
+  set's inputs to anyone reading the markers instead of the tree**, which is the failure
+  mode `V_eta_final_class_set.md`'s own note warns about one direction over ("its counts
+  are only as good as the `disposition` markers"). Not fixed here, per scope; this file
+  records it so the next person to touch `_IN_PROGRESS` finds it.
 
   A cross-check on the prose itself, same run: of **246** distinct backticked
   identifiers in this file, **79** name a real NDI or V_eta class exactly and **5**
@@ -1494,6 +1785,39 @@ lives in these files — read them instead of re-deriving from memory:
   file it names, so a line number into `build_v_eta.py`, `coverage.py` or a `+migrators_j`
   file should be treated as a hint and re-grepped, while one into NDI can be trusted longer.
 
+  **THREE OF THE THIRTEEN REPOINTED CITATIONS WERE STALE AGAIN WITHIN HOURS, AND THAT IS
+  THE AUDIT'S OWN THESIS ARRIVING FASTER THAN IT PREDICTED.** Re-checked at the end of
+  2026-08-12; the other ten are still exact.
+
+        old -> repointed this morning -> TRUE at the end of the day
+        coverage.py:185      -> :215,:222   -> :217 (docstring) + :226 (the ref loop)
+        Contents.m:348       -> :354        -> :368
+        OPEN_WORK.md:51      -> row #51 at  -> :634-641 (the row MOVED to `## COMPLETED`;
+                                :375-383      :375 is now the head of a new index table
+                                              and :385 is #51's entry in it)
+
+  All three files were edited by THIS TEAM in the intervening hours, and every edit
+  INSERTED above the cited line: the completion ladder went into `coverage.py`, the
+  generated roster into `Contents.m`, a COMPLETED index table into `V_eta_OPEN_WORK.md`.
+  **No correction was wrong when written and none survived the day.** The third is the
+  worst-behaved of the three even though it was written as a WARNING about this exact
+  notation — *"Write `V_eta_OPEN_WORK.md` row #51, never `V_eta_OPEN_WORK.md:51`"* — and
+  the line range added to help a reader find the row drifted anyway. And the `Contents.m`
+  case reproduces, exactly, the failure the audit
+  singled out as the worst kind — the old number lands on a real sentence about something
+  else:
+
+        $ sed -n '346p;354p' DID-matlab/.../+migrators_j/Contents.m
+        346:%                          `double`; validateTypeShape runs unconditionally on a
+        354:%                          it is. All three writer sites DO set `value`, so this
+
+  **The rule the audit derived — a citation's decay rate is the edit rate of the file it
+  names — is right, and this is the strong form of it: for a file under active edit, hours
+  is a realistic half-life, and repointing a number does not buy you a day.** For those
+  files, cite by SEARCHABLE CONTENT (a grep pattern, a function name, a marker) and let
+  the line number be a hint. Every one of the 34 NDI-matlab citations is still exact,
+  across both audits.
+
   **TWO CITATIONS ARE CORRECT ONLY BECAUSE OF WHERE THEY SAY TO LOOK, and would read as
   dead otherwise.** `src/ndi/+ndi/+element/ensemble.m` does NOT exist in the NDI feature-branch
   working tree; it exists on `origin/main`, which is exactly what the sentence says
@@ -1635,3 +1959,20 @@ lives in these files — read them instead of re-deriving from memory:
   then transforms). `python3 -m pytest tests/test_veta.py -q` checks the schema.
 - Migrators live in DID-matlab `+did2/+convert/+migrators_j/`; corpus validation is
   DID-matlab `test-code.yml` (full, ~1–2h) and `test-migrators-quick.yml` (~2 min).
+- **THREE GATES THAT MATTER TO THIS REPO DO NOT RUN IN `tools/gates.py`, AND NOTHING HERE
+  SAID SO.** Added 2026-08-12. `gates.py` is the entry point for DID-schema, and it is
+  still the whole of DID-schema — but two of the instruments that answer questions about
+  V_eta live on the DID-matlab side and run in DID-matlab's workflows:
+
+        DID-matlab  tools/check_migrator_roster.py     test-migrators-quick.yml:237
+                    tools/test_check_migrator_roster.py                       :248
+                    tools/test_corpus_proven.py                               :205
+                    tools/corpus_proven.py             test-code.yml:307
+                                                       test-corpus.yml:273
+                    tools/census_digest.py             (already recorded above)
+
+  `corpus_proven.py` is the only one that can move the coverage ladder's **rung 4**, and
+  it reaches back across the repo boundary to call `DID-schema tools/coverage.py` rather
+  than reimplementing the verdict. So `gates.py` green says nothing about rung 4, and
+  never will: **the ladder's top rung is answered by a workflow in the other repository,
+  and in this container it reads `not measured` on all 102 rows by construction.**
