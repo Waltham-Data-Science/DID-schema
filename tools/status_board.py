@@ -606,6 +606,94 @@ def has_signoff(plan, family):
     return find_signoff(plan, family) is not None
 
 
+def scan_signoff_lines(text):
+    """Every line-initial TEAM-SIGN-OFF in `text`, ACCEPTED or REJECTED with a reason.
+
+    THE ONE SCANNER. `find_signoff` (which decides whether a family is signed)
+    and `signature_census` (which reports where the signatures are) both read
+    this, so the set of lines that COUNT as a signature and the set a gap report
+    describes cannot drift apart. A second copy of these guards would be a
+    second place for the two laundering paths below to reopen.
+
+    Returns a list of dicts: {line, tag, content, accepted, rejected_because}.
+    A REJECTED line is returned rather than dropped -- a census that silently
+    discards the lines it will not honour cannot tell "no signature here" from
+    "a signature written in a form nothing reads".
+    """
+    # STRIP HTML COMMENTS FIRST. The first version of this check counted any line
+    # starting with the marker -- including the <!-- ... --> block in a plan
+    # document that TELLS the team how to sign off. Claude wrote that instruction,
+    # so Claude's own document promoted itself to "decided": the exact laundering
+    # this function exists to prevent, arriving through a different door. Caught
+    # only because the count was verified instead of trusted.
+    text = re.sub(r"<!--.*?-->", "", text, flags=re.DOTALL)
+    marker = SIGNOFF.rstrip(":")          # the tag sits BETWEEN the marker and the colon
+    out = []
+    for n, raw in enumerate(text.splitlines(), 1):
+        line = raw.lstrip()
+        if not line.startswith(marker):
+            continue
+        rest = line[len(marker):].strip()
+        tagged = None
+        m = re.match(r"\[([^\]]+)\]\s*(.*)$", rest)
+        if m:
+            tagged, rest = m.group(1).strip(), m.group(2).strip()
+        rest = rest.lstrip(":").strip()
+        # A placeholder is not a sign-off. Reject TEMPLATE SLOTS -- a PAIRED
+        # <...> -- not any angle bracket: the first version rejected every line
+        # containing "<" or ">", so a legitimate sign-off saying
+        # "datestamp -> absolute_reference" was silently ignored and the family
+        # kept rendering as unsigned. Caught by checking the blast radius instead
+        # of trusting that writing the line was enough.
+        why = None
+        if re.search(r"<[^>]*>", rest):
+            why = "TEMPLATE PLACEHOLDER -- a paired <...> slot, not a decision"
+        elif len(rest) < 10:
+            why = "under 10 characters after the marker -- not a decision"
+        out.append({"line": n, "tag": tagged, "content": rest,
+                    "accepted": why is None, "rejected_because": why})
+    return out
+
+
+def find_signoff_line(plan, family):
+    """The accepted sign-off ENTRY that signs this family, or None.
+
+    Same rule as `find_signoff`, which is a thin wrapper over it; this returns
+    the whole entry so a caller can cite `document:line` instead of quoting a
+    sentence nobody can locate.
+    """
+    if not plan:
+        return None
+    path = os.path.join(REPO, "schemas", plan)
+    if not os.path.exists(path):
+        return None
+    with open(path) as fh:
+        entries = scan_signoff_lines(fh.read())
+
+    # A SIGN-OFF MUST BE UNAMBIGUOUS ABOUT WHAT IT SIGNS. Three plan documents are
+    # cited by more than one family, so a bare marker in a shared document silently
+    # signed every family citing it -- one line for `dataseries_channel_map` would
+    # also have promoted `subject measurement`, `misc singletons` and `demo / mock`.
+    # Same laundering as the HTML-comment hole above, through a different door, and
+    # caught the same way: by checking instead of trusting.
+    #
+    #   TEAM-SIGN-OFF [family]: who, when -- what     signs THAT family only
+    #   TEAM-SIGN-OFF: who, when -- what              signs the document, and counts
+    #                                                 ONLY if exactly one family cites it
+    shared = sum(1 for f in FAMILIES if f[2] == plan) > 1
+    for e in entries:
+        if not e["accepted"]:
+            continue
+        if e["tag"] is not None:
+            if e["tag"] == family:
+                return dict(e, document=plan)
+            continue
+        # Untagged: only meaningful when the document belongs to one family.
+        if not shared:
+            return dict(e, document=plan)
+    return None
+
+
 def find_signoff(plan, family):
     """Return the sign-off line's content for this family, or None.
 
@@ -629,63 +717,138 @@ def find_signoff(plan, family):
     RED is as useless as a false GREEN, and the honest state is simply "not
     signed off yet".
     """
-    if not plan:
-        return None
-    path = os.path.join(REPO, "schemas", plan)
-    if not os.path.exists(path):
-        return None
-    with open(path) as fh:
-        text = fh.read()
+    hit = find_signoff_line(plan, family)
+    return hit["content"] if hit else None
 
-    # STRIP HTML COMMENTS FIRST. The first version of this check counted any line
-    # starting with the marker -- including the <!-- ... --> block in a plan
-    # document that TELLS the team how to sign off. Claude wrote that instruction,
-    # so Claude's own document promoted itself to "decided": the exact laundering
-    # this function exists to prevent, arriving through a different door. Caught
-    # only because the count was verified instead of trusted.
-    text = re.sub(r"<!--.*?-->", "", text, flags=re.DOTALL)
 
-    # A SIGN-OFF MUST BE UNAMBIGUOUS ABOUT WHAT IT SIGNS. Three plan documents are
-    # cited by more than one family, so a bare marker in a shared document silently
-    # signed every family citing it -- one line for `dataseries_channel_map` would
-    # also have promoted `subject measurement`, `misc singletons` and `demo / mock`.
-    # Same laundering as the HTML-comment hole above, through a different door, and
-    # caught the same way: by checking instead of trusting.
-    #
-    #   TEAM-SIGN-OFF [family]: who, when -- what     signs THAT family only
-    #   TEAM-SIGN-OFF: who, when -- what              signs the document, and counts
-    #                                                 ONLY if exactly one family cites it
-    shared = sum(1 for f in FAMILIES if f[2] == plan) > 1
+def signed_families():
+    """The families whose decision the TEAM has signed. ONE definition of it.
 
-    marker = SIGNOFF.rstrip(":")          # the tag sits BETWEEN the marker and the colon
-    for line in text.splitlines():
-        line = line.lstrip()
-        if not line.startswith(marker):
+    A family is DECIDED only when BOTH hold:
+
+      * the FAMILIES table records the decision as the team's (`status ==
+        "team"`, not `proposed` and not `open`), and
+      * the cited plan document carries a sign-off line this family's tag
+        reaches (`find_signoff_line`).
+
+    MEMBERSHIP IS NOT A SIGNATURE, and that is the whole point of the second
+    condition. Every family in the table names classes whether or not anyone
+    has signed anything; joining on membership alone would let an unsigned
+    family promote its classes to "decided" -- operating rule 4 broken by a
+    lookup rather than by a sentence. `tools/coverage.py` derives its stage-1
+    rung from THIS function for that reason, instead of from FAMILIES.
+
+    Returns {family: {plan, line, signoff, members, call}}.
+    """
+    out = {}
+    for name, members, plan, what, status in FAMILIES:
+        if status != "team":
             continue
-        rest = line[len(marker):].strip()
-        tagged = None
-        m = re.match(r"\[([^\]]+)\]\s*(.*)$", rest)
-        if m:
-            tagged, rest = m.group(1).strip(), m.group(2).strip()
-        rest = rest.lstrip(":").strip()
-        # A placeholder is not a sign-off. Reject TEMPLATE SLOTS -- a PAIRED
-        # <...> -- not any angle bracket: the first version rejected every line
-        # containing "<" or ">", so a legitimate sign-off saying
-        # "datestamp -> absolute_reference" was silently ignored and the family
-        # kept rendering as unsigned. Caught by checking the blast radius instead
-        # of trusting that writing the line was enough.
-        if re.search(r"<[^>]*>", rest):
+        hit = find_signoff_line(plan, name)
+        if hit is None:
             continue
-        if len(rest) < 10:
+        out[name] = {"plan": plan, "line": hit["line"], "signoff": hit["content"],
+                     "tagged": hit["tag"] is not None,
+                     "members": list(members), "call": what}
+    return out
+
+
+# GENERATED MARKDOWN IS NOT A RECORD OF ANYTHING; it is a copy of one. The
+# census below excludes these and SAYS SO with its denominator, because a
+# generated file can carry the marker for two innocent reasons and both would
+# read as signatures: `V_eta_STATUS.md` prints the sign-off TEMPLATE (a paired
+# <...> slot, which the scanner rejects anyway) and any of them may quote a real
+# line while rendering it. A quotation is not a second signature.
+#
+# Kept as a literal, and checked in tests against the `.md` files
+# `tools/gates.py` declares its steps WRITE -- so a new generated document
+# cannot quietly become an input to the census.
+GENERATED_MARKDOWN = ("V_eta_STATUS.md", "V_eta_coverage_ledger.md",
+                      "V_eta_final_class_set.md")
+
+
+def signature_census(schemas_dir=None):
+    """Where every TEAM-SIGN-OFF line is, against what the FAMILIES table names.
+
+    RULE 5, and it is the reason this is a first-class output rather than a
+    debug print: "no signature for this family" and "a signature nobody joined
+    to this family" printed identically before, and the second is the state
+    four of today's tags are in. The census reports its denominator, then the
+    two directions of the mismatch SEPARATELY:
+
+      orphan tag       a signed `TEAM-SIGN-OFF [tag]` whose tag names no family
+                       in FAMILIES. The signature exists and reaches nothing.
+      unsigned family  a family with no line this tool will honour.
+
+    NEITHER IS RESOLVED HERE. Mapping a signature onto a family it does not
+    name is recording a disposition, which operating rule 4 forbids -- so the
+    pairs are printed as questions for the team, never joined.
+    """
+    root = schemas_dir or os.path.join(REPO, "schemas")
+    files, excluded = [], []
+    for name in sorted(os.listdir(root)):
+        if not name.endswith(".md"):
             continue
-        if tagged is not None:
-            if tagged == family:
-                return rest
-            continue
-        # Untagged: only meaningful when the document belongs to one family.
-        if not shared:
-            return rest
-    return None
+        (excluded if name in GENERATED_MARKDOWN else files).append(name)
+
+    lines, rejected = [], []
+    for name in files:
+        with open(os.path.join(root, name)) as fh:
+            for e in scan_signoff_lines(fh.read()):
+                (lines if e["accepted"] else rejected).append(dict(e, document=name))
+    # The same scan over the excluded copies, counted but never honoured, so the
+    # exclusion is visible as a number rather than as an absence.
+    excluded_markers = 0
+    for name in excluded:
+        path = os.path.join(root, name)
+        if os.path.exists(path):
+            with open(path) as fh:
+                excluded_markers += len(scan_signoff_lines(fh.read()))
+
+    tags = {}
+    for e in lines:
+        if e["tag"] is not None:
+            tags.setdefault(e["tag"], []).append((e["document"], e["line"]))
+    untagged = {}
+    for e in lines:
+        if e["tag"] is None:
+            untagged[e["document"]] = untagged.get(e["document"], 0) + 1
+
+    fam_names = [f[0] for f in FAMILIES]
+    sf = signed_families()
+    return {
+        "documents_read": len(files),
+        "documents_excluded_as_generated": excluded,
+        "signoff_markers_inside_excluded_documents": excluded_markers,
+        "accepted_lines": len(lines),
+        # A REJECTED LINE IS REPORTED WITH ITS TAG AND ITS DOCUMENT'S REACH, not
+        # just its line number. The guards above are heuristics over free text
+        # and one of them misfires today: a real, dated, tagged sign-off whose
+        # DECISION TEXT contains a paired `<...>` reads as a template slot. That
+        # is the safe direction (less signed than reality, never more) and it is
+        # invisible unless the rejection is printed, so it is printed -- with
+        # `document_cited_by_families`, which bounds what the rejection could
+        # possibly change. Widening the guard is a team call: it changes which
+        # lines count as a decision, which operating rule 4 puts out of reach
+        # here.
+        "rejected_lines": [
+            {"document": e["document"], "line": e["line"],
+             "tag": e["tag"], "why": e["rejected_because"],
+             "excerpt": e["content"][:120],
+             "document_cited_by_families": sorted(
+                 f[0] for f in FAMILIES if f[2] == e["document"])}
+            for e in rejected],
+        "distinct_tags": sorted(tags),
+        "tags": {t: [{"document": d, "line": n} for d, n in v]
+                 for t, v in sorted(tags.items())},
+        "untagged_documents": untagged,
+        "families_total": len(FAMILIES),
+        "families_signed": sorted(sf),
+        "families_unsigned": sorted(f for f in fam_names if f not in sf),
+        # A tag matching no family. NOT paired with anything here.
+        "orphan_tags": {t: [{"document": d, "line": n} for d, n in tags[t]]
+                        for t in sorted(tags) if t not in fam_names},
+    }
 
 
 def load():
@@ -2585,8 +2748,13 @@ def build(ocs=None, didm=None, log=None):
     # a status board lies quietly. Guarded below so an unknown status is loud.
     # A "team" claim is only honoured when the cited document carries the
     # sign-off line. Otherwise it is a proposal, whatever the table says.
-    decided   = [f for f in FAMILIES if f[4] == "team" and has_signoff(f[2], f[0])]
-    unsigned  = [f for f in FAMILIES if f[4] == "team" and not has_signoff(f[2], f[0])]
+    # ONE DEFINITION of "this family is decided", shared with tools/coverage.py
+    # (which derives its stage-1 rung from it). Two tools asking the same
+    # question two ways is how the ledger and this board disagreed about
+    # `binaryseries_parameters` for a day.
+    _signed = signed_families()
+    decided   = [f for f in FAMILIES if f[0] in _signed]
+    unsigned  = [f for f in FAMILIES if f[4] == "team" and f[0] not in _signed]
     proposed  = [f for f in FAMILIES if f[4] == "proposed"]
     undecided = [f for f in FAMILIES if f[4] == "open"]
 

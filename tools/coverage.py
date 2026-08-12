@@ -29,6 +29,17 @@ import sys
 from pathlib import Path
 
 HERE = os.path.dirname(os.path.abspath(__file__))
+sys.path.insert(0, HERE)
+# ONE PARSER FOR `TEAM-SIGN-OFF`, and it lives in status_board.py because that
+# is where operating rule 4 is enforced. This tool used to hand-carry four
+# transcriptions and read nothing else, so 94 of 102 rows reported stage 1 as
+# `not measured` -- correctly, since that was the absence of a TRANSCRIPTION
+# rather than evidence of no decision, but it also meant the team's signatures
+# could not reach the ledger at all. A second copy of the sign-off parsing here
+# would be a second place for the two laundering holes it closes (HTML
+# comments, untagged lines in shared documents) to reopen.
+import status_board  # noqa: E402
+
 SCHEMA_ROOT = os.path.dirname(HERE)
 INDEX = os.path.join(SCHEMA_ROOT, "schemas", "V_eta", "index.json")
 LEDGER = os.path.join(SCHEMA_ROOT, "schemas", "V_eta_coverage_ledger.md")
@@ -695,7 +706,259 @@ def check_decision_citations():
                              f"{mapping!r}")
                 continue
         lines.append(f'  [ok] {kind:<14} {cls:<28} {plan}:{hits[0]}')
+
+    # ---- THE TWO RECORDS RECONCILED, which is the whole reason the tables
+    # above survive the signature join at all.
+    #
+    # The join DERIVES that a class is decided; these tables ALSO carry
+    # something it cannot derive -- the TARGET CLASSES a signature names, and
+    # the reason a signed row has no target. So they stay. What must not
+    # survive is the two records DISAGREEING: a transcription citing document A
+    # while the signed family that names the same class cites document B means
+    # one of them is pointing at the wrong decision, and today it would be
+    # noticed by nobody. Hand-editing either side into a contradiction is now
+    # fatal, in the same run, with both citations printed.
+    #
+    # NOT an error: a transcribed class that NO family names. Families track
+    # open classes; a class can be signed and closed. That case is counted, not
+    # failed, so the check cannot be satisfied by deleting family members.
+    signed_idx = signed_family_index()
+    reconciled, unfamilied = 0, []
+    for kind, cls, plan, _frag, _mapping in checks:
+        hits = [e for name in (cls, snake(cls)) for e in (signed_idx.get(name) or [])]
+        if not hits:
+            unfamilied.append(cls)
+            continue
+        docs = {e["document"] for e in hits}
+        if plan not in docs:
+            fails.append(
+                f"{kind} {cls}: the transcription cites {plan}, but the SIGNED "
+                f'family {", ".join(sorted(e["family"] for e in hits))} that '
+                f'names this class is signed in {", ".join(sorted(docs))}. '
+                "Two records of one decision, pointing at different documents "
+                "-- fix whichever is wrong; do not keep both.")
+            continue
+        reconciled += 1
+    lines.append(
+        f'  DENOMINATOR: {len(checks)} transcription(s) reconciled against the '
+        f'DERIVED signature join -- {reconciled} also named by a signed family '
+        f'and citing that family\'s document, {len(unfamilied)} named by no '
+        f'family at all (not an error: families track OPEN classes)'
+        + (": " + ", ".join(sorted(unfamilied)) if unfamilied else ""))
     return lines, fails
+
+# ============================================================================
+# THE SIGNATURE JOIN -- rung 1, DERIVED from the team's own sign-off lines.
+# ============================================================================
+#
+# WHAT WAS WRONG. `DECIDED_TARGETS_BY_SIGNOFF` above is hand-carried, and it
+# carries FOUR classes. The team has written far more than four sign-off lines,
+# in ~19 plan documents this tool never opened, so 94 of 102 rows reported rung
+# 1 as `not measured`. That reading was HONEST -- absence of a transcription is
+# not evidence of no decision, and rendering it as "not decided" would be this
+# repository's signature error -- but it made the ladder unable to see the one
+# record that is authoritative.
+#
+# WHAT REPLACES IT. `status_board.FAMILIES` groups open classes into decision
+# units and each family cites a plan document; `status_board.signed_families()`
+# returns the families whose document carries a `TEAM-SIGN-OFF` line that
+# family's tag reaches. The join is: ledger row -> the family naming that row's
+# class -> that family's SIGNATURE. Re-derived on every build; nothing is
+# transcribed, so a signature added tomorrow moves rows tomorrow.
+#
+# THREE PROPERTIES OF THE JOIN, EACH CHOSEN AGAINST A SPECIFIC FAILURE:
+#
+# 1. IT JOINS ON THE SIGNATURE, NEVER ON MEMBERSHIP. A family exists in the
+#    table whether or not anyone signed it; `signed_families()` is the only
+#    admission. Joining on membership would let one unsigned family promote
+#    every class it names -- operating rule 4 broken by a lookup.
+#
+# 2. IT JOINS ON THE ROW'S OWN IDENTITY, NEVER ON WHAT ITS MIGRATOR EMITS.
+#    Measured before it was written: matching a row's `targets` as well would
+#    move 62 rows instead of 26, and 36 of those 62 arrive through ONE class --
+#    `session_relative_reference`, the time anchor almost every migrator emits
+#    alongside its real output. The `time_reference` signature decides the time
+#    model; it says nothing about whether `treatment_drug`'s disposition is
+#    settled. Those 36 are counted and reported as their own bucket instead, so
+#    the reach a looser join would buy is visible rather than taken.
+#
+# 3. IT MATCHES EXACTLY, IN BOTH NAMESPACES, AND NORMALISES NOTHING. A ledger
+#    row is keyed by its v1 (NDI, camelCase) name; a family member may be
+#    EITHER a v1 name (`imageCollection`, `imageStack_parameters` -- status_board
+#    says so in its own comment) or a V_eta snake_case class (`acquisition_epoch`).
+#    So the row's v1 name AND its V_eta class name are each compared, unchanged,
+#    by string equality. No lowercasing, no underscore-stripping, no substring:
+#    `filter` is a substring of `frequency_filter` and `image` of `image_stack`,
+#    and CLAUDE.md records five classes a previous generator got wrong on
+#    exactly this axis. Names that match only after normalisation are REPORTED
+#    as near misses and never joined.
+
+
+def _normalised(name):
+    """CLAUDE.md's own spelling sweep: lowercase, strip underscores.
+
+    Used ONLY to REPORT a near miss. Never to join -- a join on this would make
+    `demo_ndi` and `demoNDI` the same class, which is a fact about spelling and
+    not about identity.
+    """
+    return name.lower().replace("_", "")
+
+
+def family_index(families=None):
+    """class name -> [family names that claim it], over ALL families.
+
+    Signed or not. The unsigned half is what lets a gap be labelled "a family
+    tracks this class and nobody has signed it" instead of "nothing tracks it",
+    which are different questions for the team.
+    """
+    idx = {}
+    for name, members, _plan, _what, _status in (
+            families if families is not None else status_board.FAMILIES):
+        for m in members:
+            idx.setdefault(m, []).append(name)
+    return idx
+
+
+def signed_family_index(signed=None):
+    """class name -> [{family, document, line, signoff}], SIGNED families only."""
+    idx = {}
+    sf = status_board.signed_families() if signed is None else signed
+    for fam in sorted(sf):
+        info = sf[fam]
+        for m in info["members"]:
+            idx.setdefault(m, []).append({
+                "family": fam, "document": info["plan"], "line": info["line"],
+                "signoff": info["signoff"]})
+    return idx
+
+
+def match_signed_family(v1_class, veta_class, index):
+    """The signed family that names THIS row, or None. Pure; exact match only.
+
+    Both namespaces are offered and the match records WHICH one hit, because
+    `imageStack_parameters` matches on its v1 name while its V_eta name
+    (`image_stack_parameters`) matches nothing -- the snake/camel split, and a
+    join that reported only "matched" would hide which spelling carried it.
+
+    A row claimed by TWO different signed families is returned with `conflict`
+    populated rather than silently resolved: status_board already fails when two
+    families claim one class, but it compares within one namespace and this join
+    spans two, so the condition is reachable here and unreachable there.
+    """
+    hits = []
+    for name, how in ((v1_class, "v1_class"), (veta_class, "veta_class")):
+        for entry in (index.get(name) or []) if name else []:
+            hits.append(dict(entry, matched_on=how, matched_name=name))
+    if not hits:
+        return None
+    fams = sorted({h["family"] for h in hits})
+    first = dict(hits[0])
+    first["conflict"] = fams if len(fams) > 1 else []
+    return first
+
+
+# The gap buckets, named so "nothing to see" and "nobody looked" cannot print
+# the same way. Every rung-1 row that is still `not measured` after the join
+# carries exactly one of these.
+GAP_FAMILY_UNSIGNED = "a family names this class and that family is UNSIGNED"
+GAP_TARGET_ONLY = ("no family names this class; a SIGNED family names a class "
+                   "its migrator EMITS")
+GAP_NOTHING_TO_JOIN = ("no family names this class, and the row has no V_eta "
+                       "class and no target either")
+GAP_NO_FAMILY = "no family in FAMILIES names this class"
+
+
+def governance_gap(row, all_idx, signed_idx):
+    """Why no signature is FINDABLE for this row, in ONE named bucket, or None."""
+    if row.get("decided_signoff") or row.get("no_target_signoff") \
+            or row.get("decided_by_family"):
+        return None
+    identity = [n for n in (row.get("v1_class"), row.get("veta_class")) if n]
+    if any(all_idx.get(n) for n in identity):
+        return GAP_FAMILY_UNSIGNED
+    emitted = list(row.get("targets") or []) + list(row.get("decided_targets") or [])
+    if any(signed_idx.get(t) for t in emitted):
+        return GAP_TARGET_ONLY
+    if not row.get("veta_class") and not emitted:
+        return GAP_NOTHING_TO_JOIN
+    return GAP_NO_FAMILY
+
+
+def signature_join_census(rows, all_idx, signed_idx):
+    """RULE 5 for the join: what it inspected, what it moved, what it did not.
+
+    The three outputs a reader needs and could not get before:
+      * the DENOMINATOR and how many rows the signature reached;
+      * every unmoved row bucketed by CAUSE, so "decided but unrecorded" and
+        "nobody has looked at this class" stop printing identically;
+      * the SPELLING near misses, which is the failure mode CLAUDE.md records
+        five instances of and which a join reports as a clean zero.
+    """
+    from collections import Counter
+    matched = [r for r in rows if r.get("decided_by_family")]
+    gaps = Counter()
+    gap_rows = {}
+    for r in rows:
+        g = r.get("governance_gap")
+        if g:
+            gaps[g] += 1
+            gap_rows.setdefault(g, []).append(r["v1_class"])
+    # Which signed-family class each target-only row reached, so the bucket is
+    # inspectable rather than a number. `session_relative_reference` dominates
+    # it and that is the whole argument for excluding emitted targets.
+    via = Counter()
+    for r in rows:
+        if r.get("governance_gap") != GAP_TARGET_ONLY:
+            continue
+        for t in list(r.get("targets") or []) + list(r.get("decided_targets") or []):
+            for e in signed_idx.get(t) or []:
+                via[t + " (" + e["family"] + ")"] += 1
+
+    row_names = {n for r in rows for n in (r["v1_class"], r.get("veta_class")) if n}
+    near = []
+    for member in sorted(all_idx):
+        if member in row_names:
+            continue
+        for n in sorted(row_names):
+            if _normalised(member) == _normalised(n):
+                near.append({"family_member": member, "ledger_name": n,
+                             "families": all_idx[member]})
+    unmatched_members = sorted(m for m in all_idx if m not in row_names)
+    return {
+        "rows_inspected": len(rows),
+        "rows_matched_by_a_signed_family": len(matched),
+        "matched_on": dict(Counter(r["decided_by_family"]["matched_on"]
+                                   for r in matched)),
+        # WHICH NAMESPACE UNIQUELY CARRIED THE MATCH. `matched_on` records the
+        # FIRST hit and the v1 name is offered first, so it would read "34 on
+        # v1_class" even if every one of them also matched on its V_eta name.
+        # These two say whether the second namespace is doing any work at all
+        # -- 0 today, and that is worth knowing before anyone deletes it.
+        "matched_on_v1_class_only": sum(
+            1 for r in matched
+            if r["v1_class"] in signed_idx
+            and (r.get("veta_class") or "") not in signed_idx),
+        "matched_on_veta_class_only": sum(
+            1 for r in matched
+            if r["v1_class"] not in signed_idx
+            and (r.get("veta_class") or "") in signed_idx),
+        "matched_by_family": dict(Counter(r["decided_by_family"]["family"]
+                                          for r in matched)),
+        "conflicting_claims": sorted(
+            r["v1_class"] for r in matched if r["decided_by_family"]["conflict"]),
+        "unmoved_by_cause": {k: gaps.get(k, 0) for k in (
+            GAP_FAMILY_UNSIGNED, GAP_TARGET_ONLY, GAP_NOTHING_TO_JOIN,
+            GAP_NO_FAMILY)},
+        "unmoved_rows_by_cause": {k: sorted(v) for k, v in gap_rows.items()},
+        "target_only_reached_via": dict(via.most_common()),
+        # A family member that names no ledger row is NORMAL -- families track
+        # V_eta target classes too (`acquisition_epoch`, `control_designation`).
+        # Reported as a count, with the spelling near misses split out, because
+        # a member that SHOULD have matched and did not is invisible otherwise.
+        "family_members_matching_no_ledger_row": len(unmatched_members),
+        "spelling_near_misses": near,
+    }
+
 
 LEDGER_BLURB = (
     "One row per did_v1 SOURCE class, from BOTH v1 writers: the NDI production "
@@ -936,10 +1199,23 @@ def build_ledger():
             "how": how,
             "target_flags": tflags,
         })
-    # THE DERIVED STAGE, added last because it reads the finished row. It is a
-    # function of fields already on that row -- there is no list here to hand-set
-    # and nothing to override it with.
+    # THE DERIVED COLUMNS, added last because they read the finished row. Each
+    # is a function of fields already on that row -- there is no list here to
+    # hand-set and nothing to override any of them with.
+    #
+    # ORDER IS LOAD-BEARING: the signature join fills `decided_by_family`, the
+    # gap bucket reads it, `governance_state` reads both, and the completion
+    # ladder reads NONE of them. That last clause is the restructure of
+    # 2026-08-12 in one line -- a signature can no longer cap a build stage.
+    all_idx, signed_idx = family_index(), signed_family_index()
     for r in rows:
+        r["decided_by_family"] = match_signed_family(
+            r["v1_class"], r["veta_class"], signed_idx)
+        r["families_naming_this_class"] = sorted(
+            {f for n in (r["v1_class"], r["veta_class"]) if n
+             for f in all_idx.get(n, [])})
+        r["governance_gap"] = governance_gap(r, all_idx, signed_idx)
+        r["governance"] = governance_state(r)
         r["stage"] = stage_ladder(r, CORPUS_SCAN)
     # sanity: every named target class should exist in the built V_eta schema
     unknown = sorted({t for r in rows
@@ -951,55 +1227,83 @@ def build_ledger():
 
 
 # ============================================================================
-# THE STAGE LADDER -- "how far has this class actually got?", DERIVED.
+# TWO QUANTITIES, NEVER SUMMED: what a class has BUILT, and whether we can
+# PROVE the team agreed to it.
 # ============================================================================
 #
-# The question the team asks of this ledger is one question, and answering it
-# used to mean reading five columns and forming a judgement:
-# `decided_signoff`, `build_state.schema_targets_missing`,
-# `build_state.has_per_class_migrator`,
-# `build_state.migrator_emits_decided_targets`, and a corpus report nobody has
-# open. A judgement assembled by hand drifts; five people assemble it five ways.
+# THE DESIGN ERROR THIS REPLACES, stated plainly because it was expensive.
+# Until 2026-08-12 there was ONE ladder and its first rung was `disposition
+# DECIDED`. Every completion rung was gated behind it, so a class with a
+# working migrator reported stage 0 whenever no sign-off could be machine-found
+# for it. That measures our BOOKKEEPING and renders it as the migration's
+# progress -- 95 of 102 rows read "stage 0" while 86 of them had a migrator
+# consuming their documents. It is the reassuring-direction error inverted:
+# the number was pessimistic, and a pessimistic number that nobody can act on
+# is just as useless as an optimistic one.
 #
-# So it is a DERIVED FIELD. Never hand-set, never overridable by a list beside a
-# paragraph. Every boundary below reads a field that already exists on the row,
-# and the `why` string on each rung names the field it read, so a stage can be
-# audited without reading this file.
+# DECIDEDNESS AND BUILTNESS ARE ORTHOGONAL. A migrator exists or does not,
+# whatever any document says; a signature exists or does not, whatever any
+# migrator does. So:
+#
+#   `stage`       THE COMPLETION LADDER. What has been BUILT for this class,
+#                 rungs 1..4, strictly ordered among themselves. Governance
+#                 cannot cap it.
+#   `governance`  A FLAG BESIDE IT, never in the chain: can this tool find the
+#                 team's signature for this class's disposition? Its states are
+#                 about the RECORD, and none of them is progress.
+#
+# The two are printed as two columns and must never be added together. A class
+# can be fully built and unsigned (`valid_interval` was, in this repository's
+# own words: BUILT AHEAD OF THE DECISION) or signed and unbuilt (most of the
+# decided families). Those are different problems for different people.
+#
+# THE COMPLETION LADDER IS DERIVED. Never hand-set, never overridable by a list
+# beside a paragraph. Every boundary below reads a field that already exists on
+# the row, and the `why` string on each rung names the field it read, so a stage
+# can be audited without reading this file.
 #
 # FOUR STATES PER RUNG, NOT TWO. This is the whole design, and it is the
 # difference between an instrument and a reassurance:
 #
 #   yes           the evidence is on the row
 #   no            POSITIVE evidence the rung is not met (a target named and not
-#                 built; a record that states two incompatible dispositions)
+#                 built; a migrator that does not emit what was decided)
 #   n/a           the rung cannot apply, and a SIGNED line says why (a class
 #                 signed to dissolve has no target class to build)
 #   not measured  this tool cannot see the answer. NOT a `no`.
 #
-# `not measured` exists because of operating rule 3. A row with no transcribed
-# sign-off is not a row with no decision -- coverage.py reads only its own
-# checked transcriptions (DECIDED_TARGETS_BY_SIGNOFF, NO_TARGET_BY_DECISION),
-# and the team's sign-offs live in ~54 plan documents this tool never opens.
-# Rendering that absence as "not decided" would be this repository's signature
-# error pointed the other way: an absence promoted to a finding about the
-# record. It would also be UNFALSIFIABLE progress -- every transcription added
-# would look like the migration advancing.
+# `not measured` exists because of operating rule 3, and it is why rung 4 reads
+# `not measured` on every row in a run with no corpus report rather than `no`:
+# "no corpus proved it" and "nobody looked" are different facts.
+#
+# THE RUNG ORDER, AND THE ONE PLACE IT IS A JUDGEMENT CALL. Rung 3 (the
+# migrator emits the decided targets) genuinely requires both rung 1 (something
+# consumes the class) and rung 2 (the target classes exist), so it sits above
+# both. Rungs 1 and 2 do not imply each other in either direction -- a schema
+# can be built before its migrator and a migrator can run before its target is
+# named -- so their order is a TIE, and it is broken toward the rung that is
+# FULLY MEASURED. `a migrator CONSUMES it` has an answer on all 102 rows (86
+# yes, 16 no); `target classes EXIST` reads `not measured` on 74, because no
+# target is recorded for them. Putting the unmeasured rung first would cap 74
+# rows below a fact this tool knows for certain, which is the burial this
+# restructure exists to end. The tie-break is stated here so it is a choice on
+# the record rather than an accident of declaration order.
 #
 # THE ANTI-VACUITY RULE. A rung is `yes` only on evidence PRESENT, never on an
 # empty list. `schema_targets_missing == []` is TRUE for all 102 rows, and for
 # 77 of them it is true because no target was ever named -- an empty list
-# reading as "everything is built". Stage 2 therefore requires
+# reading as "everything is built". The targets rung therefore requires
 # `schema_targets_named > 0` as well, which is why it is satisfied by 25 rows
 # and not by 102. The same trap is what `_no_target_cell` above was written to
 # close one column over.
 STAGE_NAMES = {
     0: "source identified",
-    1: "disposition DECIDED",
-    2: "target classes EXIST in the build",
-    3: "a migrator CONSUMES it",
-    4: "the migrator emits THE DECIDED targets",
-    5: "CORPUS-PROVEN",
+    1: "a migrator CONSUMES it",
+    2: "its decided target classes EXIST in the build",
+    3: "the migrator emits THE DECIDED targets",
+    4: "CORPUS-PROVEN",
 }
+COMPLETION_RUNGS = (1, 2, 3, 4)
 S_YES = "yes"
 S_NO = "no"
 S_NA = "n/a"
@@ -1033,36 +1337,82 @@ def _need(row, key, kinds):
     return val
 
 
-def _stage1_decided(row):
-    """A CHECKED sign-off transcription, or nothing this tool can read."""
+# ---------------------------------------------------------------------------
+# GOVERNANCE -- a FLAG, not a rung. Nothing here may cap a completion stage.
+# ---------------------------------------------------------------------------
+G_SIGNED = "signed"
+G_DISPUTED = "DISPUTED"
+G_UNSIGNED = "family UNSIGNED"
+G_NOT_FOUND = "no signature found"
+
+# The order matters and is asserted by a test: DISPUTED outranks a derived
+# family signature. `ngrid` is claimed by the SIGNED family `image / ngrid` AND
+# carries a transcription saying `V_eta_image_model_plan.md` states two
+# incompatible dispositions. Letting the family join answer first would erase a
+# recorded contradiction with a lookup -- the disagreement is the finding.
+GOVERNANCE_STATES = (G_SIGNED, G_DISPUTED, G_UNSIGNED, G_NOT_FOUND)
+
+
+def governance_state(row):
+    """Can this tool find the TEAM's signature for this class? A flag, not progress.
+
+    NONE OF THESE FOUR STATES IS AN ACHIEVEMENT AND NONE OF THEM IS A STAGE.
+    `signed` says the record is findable, not that anything was built;
+    `no signature found` says this tool could not reach one, NOT that no
+    decision exists -- operating rule 3, and the reason the state is named for
+    the search and not for the record.
+
+    Two independent sources, in this order:
+      1. a CHECKED TRANSCRIPTION on the row (`DECIDED_TARGETS_BY_SIGNOFF` /
+         `NO_TARGET_BY_DECISION`), re-verified against its document on every
+         build by check_decision_citations();
+      2. the DERIVED join: a signed decision family in status_board.FAMILIES
+         names this class. Re-derived every build, never transcribed.
+    """
     reason = row.get("no_target_reason")
-    cite = row.get("decided_signoff") or row.get("no_target_signoff")
     if reason == NO_TARGET_DISPUTED:
-        # Positive evidence AGAINST: the transcription exists and says the
-        # record holds two incompatible dispositions. That is a `no`, not an
-        # absence -- and it is the one row on the ladder whose lower rung fails
-        # while higher rungs hold.
         doc = (row.get("no_target_signoff") or {}).get("document", "?")
-        return S_NO, (f"`no_target_reason` is DISPUTED -- {doc} states two "
-                      "incompatible dispositions, so no disposition is decided")
+        return {"state": G_DISPUTED, "signoff": row.get("no_target_signoff"),
+                "why": (f"the transcription on this row says `{doc}` states two "
+                        "incompatible dispositions. POSITIVE evidence that the "
+                        "record disagrees with itself -- not an absence")}
+    cite = row.get("decided_signoff") or row.get("no_target_signoff")
     if cite:
         doc = cite.get("document", "?")
-        return S_YES, (f"a TEAM-SIGN-OFF line in `{doc}` is transcribed onto this "
-                       "row and re-checked against that document by "
-                       "check_decision_citations() on every ledger build")
+        return {"state": G_SIGNED, "signoff": cite,
+                "why": (f"a TEAM-SIGN-OFF line in `{doc}` is transcribed onto this "
+                        "row and re-checked against that document by "
+                        "check_decision_citations() on every ledger build")}
+    fam = row.get("decided_by_family")
+    if fam:
+        return {"state": G_SIGNED, "signoff": fam,
+                "why": ("DERIVED, not transcribed: the decision family "
+                        f'`{fam["family"]}` names this class as `{fam["matched_name"]}` '
+                        f'({fam["matched_on"]}), and that family is signed at '
+                        f'`{fam["document"]}`:{fam["line"]}. Re-derived on every '
+                        "build from status_board.signed_families(); a family "
+                        "with no signature reaches nothing")}
+    gap = row.get("governance_gap")
+    if gap == GAP_FAMILY_UNSIGNED:
+        fams = row.get("families_naming_this_class") or []
+        return {"state": G_UNSIGNED, "signoff": None,
+                "why": ("the decision family "
+                        + ", ".join("`" + f + "`" for f in fams)
+                        + " names this class and carries no sign-off line this "
+                          "tool will honour. What is missing is a SIGNATURE, "
+                          "not a model")}
     claim = row.get("decided_targets_source") == "curated_targets_file"
     extra = ("; V_eta_migration_targets.json DOES claim a signed decision for "
              "this class (`decided_targets`), but that claim is authored and "
-             "UNCHECKED -- transcribing it into DECIDED_TARGETS_BY_SIGNOFF "
-             "would make this rung readable" if claim else "")
-    return S_NOT_MEASURED, (
-        "no checked TEAM-SIGN-OFF transcription is attached to this row. "
-        "coverage.py reads only its own transcriptions; the team's sign-offs "
-        "live in plan documents this tool never opens, so this is the absence "
-        "of a TRANSCRIPTION and not evidence that no decision exists" + extra)
+             "UNCHECKED" if claim else "")
+    return {"state": G_NOT_FOUND, "signoff": None,
+            "why": ((gap or GAP_NO_FAMILY) + ". This is the absence of a "
+                    "FINDABLE signature -- a transcription, or a signed family "
+                    "naming this class -- and NOT evidence that no decision "
+                    "exists" + extra)}
 
 
-def _stage2_targets_built(row):
+def _rung_targets_built(row):
     """Named target classes, all present in the built V_eta set."""
     bs = _need(row, "build_state", dict)
     named = _need(bs, "schema_targets_named", int)
@@ -1087,7 +1437,7 @@ def _stage2_targets_built(row):
         "because the question was never asked")
 
 
-def _stage3_consumed(row):
+def _rung_consumed(row):
     """Something in the migration consumes documents of this class."""
     bs = _need(row, "build_state", dict)
     if _need(bs, "has_per_class_migrator", bool):
@@ -1114,7 +1464,7 @@ def _stage3_consumed(row):
                   "by one reads `no` here -- an UNDERSTATEMENT, not a measurement")
 
 
-def _stage4_emits_decided(row):
+def _rung_emits_decided(row):
     """The migrator emits the classes the decision names."""
     bs = _need(row, "build_state", dict)
     named = _need(bs, "schema_targets_named", int)
@@ -1139,7 +1489,7 @@ def _stage4_emits_decided(row):
         "emission against")
 
 
-def _stage5_corpus(row, evidence):
+def _rung_corpus_proven(row, evidence):
     """CORPUS-PROVEN. NOT MEASURED unless a corpus report was supplied.
 
     This container has no MATLAB and cannot download run artifacts, so on every
@@ -1159,12 +1509,16 @@ def _stage5_corpus(row, evidence):
 
 
 def stage_ladder(row, evidence=None):
-    """The full ladder for one row: per-rung state, the stage REACHED, anomalies.
+    """The COMPLETION ladder for one row: per-rung state, stage REACHED, anomalies.
 
     THE RULE, and it is not negotiable: a class lands on EXACTLY ONE stage, and
     that stage is the highest N for which every rung 1..N is `yes` or `n/a`. A
     rung that is `no` or `not measured` STOPS the climb -- including when a
     higher rung is satisfied.
+
+    NOTHING ABOUT A SIGNATURE ENTERS THIS FUNCTION. Governance is a flag beside
+    the stage (`governance_state`), never a rung, so a class with a working
+    migrator can no longer report stage 0 because a sign-off was not findable.
 
     A higher rung satisfied over a stopped one is not a promotion and not an
     error to be smoothed away. It is a REAL CONDITION with a name in this
@@ -1174,21 +1528,39 @@ def stage_ladder(row, evidence=None):
     things:
 
       over_failed      a lower rung has POSITIVE evidence against it. A real
-                       contradiction: something was built for a class whose
-                       record disagrees with itself.
+                       contradiction: something was built past a rung that is
+                       measurably not met.
       over_unmeasured  a lower rung could not be read. Evidence exists above a
                        hole in the RECORD, which is a transcription job, not a
                        build job.
+
+    TWO QUANTITIES COME OUT, AND THE SECOND ONE IS WHY:
+
+      reached                              the strict, ordered stage. UNCHANGED
+                                           by anything below -- a capped row is
+                                           not promoted.
+      highest_rung_satisfied_independently the highest rung that is `yes` at
+                                           all, order ignored. It is NOT a
+                                           stage, it is NOT progress, and it is
+                                           deliberately named for what it is: a
+                                           rung that holds somewhere above a
+                                           rung that does not.
+
+    Reporting only the first made "capped at 0 by an unread rung" and "nothing
+    has happened here" print the same number, which is the defect this pair
+    closes. `capped` is the flag that separates them and `nothing_satisfied`
+    names the genuinely untouched rows -- the ones where no rung is `yes` at
+    all, which is a real and much smaller set.
     """
     rungs = []
     try:
-        for n, fn in ((1, _stage1_decided), (2, _stage2_targets_built),
-                      (3, _stage3_consumed), (4, _stage4_emits_decided)):
+        for n, fn in ((1, _rung_consumed), (2, _rung_targets_built),
+                      (3, _rung_emits_decided)):
             state, why = fn(row)
             rungs.append({"stage": n, "name": STAGE_NAMES[n],
                           "state": state, "why": why})
-        state, why = _stage5_corpus(row, evidence)
-        rungs.append({"stage": 5, "name": STAGE_NAMES[5],
+        state, why = _rung_corpus_proven(row, evidence)
+        rungs.append({"stage": 4, "name": STAGE_NAMES[4],
                       "state": state, "why": why})
     except StageDataError as exc:
         return {
@@ -1200,7 +1572,12 @@ def stage_ladder(row, evidence=None):
             "blocked_by_state": None,
             "ladder": rungs,
             "anomalies": [],
-            "stage5_state": S_NOT_MEASURED,
+            "highest_rung_satisfied_independently": None,
+            "capped": None,
+            "nothing_built": None,
+            "nothing_satisfied": None,
+            "only_excused": None,
+            "corpus_rung_state": S_NOT_MEASURED,
         }
 
     reached, blocked_by, blocked_state = 0, None, None
@@ -1222,6 +1599,9 @@ def stage_ladder(row, evidence=None):
                 "kind": ("over_failed" if blocked_state == S_NO
                          else "over_unmeasured"),
             })
+    satisfied = [r["stage"] for r in rungs if r["state"] == S_YES]
+    excused = [r["stage"] for r in rungs if r["state"] == S_NA]
+    highest = max(satisfied) if satisfied else 0
     return {
         "unclassifiable": False,
         "unclassifiable_why": None,
@@ -1231,7 +1611,21 @@ def stage_ladder(row, evidence=None):
         "blocked_by_state": blocked_state,
         "ladder": rungs,
         "anomalies": anomalies,
-        "stage5_state": rungs[-1]["state"],
+        # NOT A STAGE. See the docstring: this is the highest rung that holds
+        # on its own, and it exists only so a capped row can say so.
+        "highest_rung_satisfied_independently": highest,
+        "capped": highest > reached,
+        # NOTHING IS BUILT for this class: no rung is `yes`.
+        "nothing_built": not satisfied,
+        # GENUINELY UNTOUCHED is stricter, and the difference is a real class
+        # of row rather than a nicety. `epochid` is signed to DISSOLVE, so its
+        # target and emission rungs are `n/a` -- the record says those rungs
+        # cannot apply, which is a fact about the class and not silence about
+        # it. Counting it as untouched would put a settled dissolution in the
+        # same bucket as `base`, which nobody has looked at at all.
+        "nothing_satisfied": not satisfied and not excused,
+        "only_excused": bool(excused) and not satisfied,
+        "corpus_rung_state": rungs[-1]["state"],
     }
 
 
@@ -1427,11 +1821,21 @@ def corpus_verdict(row, ev):
 
 
 def _stage_rollup(rows, evidence):
-    """The rollup, DENOMINATOR FIRST. Reports what it could not place."""
+    """The rollup, DENOMINATOR FIRST. Reports what it could not place.
+
+    IT LEADS WITH WHAT IS MEASURED. The first figure out of this function is
+    rung 1 -- `a migrator CONSUMES it` -- because it is the only rung with an
+    answer on every row, and because the question a reader actually arrives
+    with is "how much is left". Leading with a capped stage histogram answered
+    a different question (how much of our bookkeeping is findable) in a voice
+    that sounded like the first one.
+    """
     from collections import Counter
     reached = Counter()
-    per_stage_state = {n: Counter() for n in (1, 2, 3, 4, 5)}
+    per_stage_state = {n: Counter() for n in COMPLETION_RUNGS}
     anomalies, unclassifiable, with_na = [], [], []
+    capped, untouched, excused_only = [], [], []
+    highest = Counter()
     for r in rows:
         st = r["stage"]
         if st["unclassifiable"]:
@@ -1439,6 +1843,13 @@ def _stage_rollup(rows, evidence):
                                    "why": st["unclassifiable_why"]})
             continue
         reached[st["reached"]] += 1
+        highest[st["highest_rung_satisfied_independently"]] += 1
+        if st["capped"]:
+            capped.append(r["v1_class"])
+        if st["nothing_satisfied"]:
+            untouched.append(r["v1_class"])
+        if st["only_excused"]:
+            excused_only.append(r["v1_class"])
         for rung in st["ladder"]:
             per_stage_state[rung["stage"]][rung["state"]] += 1
         if any(rung["state"] == S_NA for rung in st["ladder"]
@@ -1446,13 +1857,37 @@ def _stage_rollup(rows, evidence):
             with_na.append(r["v1_class"])
         for a in st["anomalies"]:
             anomalies.append(dict(a, v1_class=r["v1_class"]))
+
+    placed = [r for r in rows if not r["stage"]["unclassifiable"]]
+    # THE UNDERSTATEMENT, NAMED RATHER THAN FIXED BY GUESSING. Rungs 2 and 3
+    # both read `not measured` on every row whose `decided_targets` is empty:
+    # there is no target to look for in the build and none to check an emission
+    # against. That is the missing-transcription problem one level down from
+    # governance, and it is NOT evidence that no target exists. The signature
+    # join cannot repair it -- a family signature names a FAMILY, not a
+    # per-class target list -- so the count it moves is zero, stated here rather
+    # than left for a reader to assume either way.
+    no_target_recorded = sorted(
+        r["v1_class"] for r in placed
+        if not (r.get("build_state") or {}).get("schema_targets_named"))
     return {
         # RULE 5, positionally: how many were classified and how many were not,
         # before any figure that depends on either.
         "classified": len(rows) - len(unclassifiable),
         "unclassifiable": len(unclassifiable),
         "unclassifiable_rows": unclassifiable,
-        "by_stage_reached": {str(n): reached.get(n, 0) for n in range(6)},
+        # THE HEADLINE, and it is deliberately the first content key: the one
+        # rung with no unmeasured rows.
+        "headline": {
+            "rung": 1,
+            "name": STAGE_NAMES[1],
+            "denominator": len(placed),
+            "yes": per_stage_state[1][S_YES],
+            "no": per_stage_state[1][S_NO],
+            "n/a": per_stage_state[1][S_NA],
+            "not measured": per_stage_state[1][S_NOT_MEASURED],
+        },
+        "by_stage_reached": {str(n): reached.get(n, 0) for n in range(5)},
         "reached_with_an_n_a_in_the_chain": sorted(with_na),
         # Each rung on its own, ignoring the ladder order. The GAP between this
         # and `by_stage_reached` is the anomaly story, and printing only the
@@ -1460,7 +1895,38 @@ def _stage_rollup(rows, evidence):
         "per_stage_state_counts": {str(n): dict(c)
                                    for n, c in per_stage_state.items()},
         "per_stage_satisfied_independently": {
-            str(n): per_stage_state[n][S_YES] for n in (1, 2, 3, 4, 5)},
+            str(n): per_stage_state[n][S_YES] for n in COMPLETION_RUNGS},
+        # CAPPED vs UNTOUCHED. One bucket of "stage 0" made these identical,
+        # and they are the difference between "evidence exists above a hole"
+        # and "nothing has happened to this class".
+        "capped": {
+            "denominator": len(placed),
+            "rows": len(capped),
+            "row_names": sorted(capped),
+            "highest_rung_satisfied_independently_histogram": {
+                str(n): highest.get(n, 0) for n in range(5)},
+            "genuinely_untouched": len(untouched),
+            "genuinely_untouched_rows": sorted(untouched),
+            # Nothing is BUILT, but the record excuses the rungs above: a
+            # signed dissolution. Counted apart from the untouched rows so a
+            # settled class and an unexamined one are never one figure.
+            "nothing_built_but_excused_by_a_signed_dissolution": len(excused_only),
+            "nothing_built_but_excused_rows": sorted(excused_only),
+        },
+        "no_target_recorded": {
+            "denominator": len(placed),
+            "rows": len(no_target_recorded),
+            "row_names": no_target_recorded,
+            "rungs_it_makes_unreadable": [2, 3],
+            "cause": ("`decided_targets` is empty, so rung 2 has nothing to look "
+                      "for in the built set and rung 3 has nothing to check an "
+                      "emission against. NOT evidence that no target exists"),
+            "moved_by_the_signature_join": 0,
+            "why_the_join_moves_none_of_them": (
+                "a TEAM-SIGN-OFF line signs a FAMILY, not a per-class target "
+                "list. The join can say a class is decided; it cannot say WHAT "
+                "it becomes. Naming a target from it would be inventing one"),
+        },
         "anomalies": {
             # BOTH counts, because they answer different questions and one
             # without the other misleads in opposite directions. A class stopped
@@ -1472,10 +1938,11 @@ def _stage_rollup(rows, evidence):
             "classes": len({a["v1_class"] for a in anomalies}),
             "by_kind": dict(Counter(a["kind"] for a in anomalies)),
             "by_stage": {str(n): sum(1 for a in anomalies if a["stage"] == n)
-                         for n in (1, 2, 3, 4, 5)},
+                         for n in COMPLETION_RUNGS},
             "rows": anomalies,
         },
-        "stage5": {
+        "corpus_rung": {
+            "rung": 4,
             "measured": bool(evidence and evidence.get("measured")),
             "state": (S_NOT_MEASURED
                       if not (evidence and evidence.get("measured")) else "computed"),
@@ -1490,11 +1957,49 @@ def _stage_rollup(rows, evidence):
                 "`quarantine_count`, `fragment_count`, `reference_integrity."
                 "orphan_count` and `silent_loss.empty_required_dependency`."),
         },
+        # GOVERNANCE, REPORTED BESIDE THE LADDER AND NEVER SUMMED WITH IT.
+        # Nothing in this block caps a stage; it answers a different question,
+        # for different people. `signed` here means A SIGNATURE IS FINDABLE,
+        # not that anything was built.
+        "governance": _governance_rollup(rows),
         "decision_claimed_but_unchecked": sorted(
             r["v1_class"] for r in rows
             if not r["stage"]["unclassifiable"]
-            and r["stage"]["ladder"][0]["state"] == S_NOT_MEASURED
+            and (r.get("governance") or {}).get("state") == G_NOT_FOUND
             and r.get("decided_targets_source") == "curated_targets_file"),
+    }
+
+
+def _governance_rollup(rows):
+    """Can we PROVE the team agreed, per class -- and where the gaps are.
+
+    THREE OUTPUTS, and the second and third are the ones that drifted:
+      * the per-state histogram over every row, denominator first;
+      * the JOIN's own census: what it moved, and every unmoved row bucketed by
+        CAUSE, so "decided but unrecorded" and "nobody has looked at this
+        class" stop printing identically;
+      * the SIGNATURE census: orphan tags and unsigned families, which are
+        QUESTIONS FOR THE TEAM and are never paired up here. Mapping a
+        signature onto a family it does not name would be recording a
+        disposition (operating rule 4).
+    """
+    from collections import Counter
+    states = Counter((r.get("governance") or {}).get("state") for r in rows)
+    by_source = Counter()
+    for r in rows:
+        g = r.get("governance") or {}
+        if g.get("state") != G_SIGNED:
+            continue
+        by_source["derived from a signed family" if r.get("decided_by_family")
+                  and not (r.get("decided_signoff") or r.get("no_target_signoff"))
+                  else "checked transcription on the row"] += 1
+    all_idx, signed_idx = family_index(), signed_family_index()
+    return {
+        "denominator": len(rows),
+        "by_state": {k: states.get(k, 0) for k in GOVERNANCE_STATES},
+        "signed_by": dict(by_source),
+        "join": signature_join_census(rows, all_idx, signed_idx),
+        "census": status_board.signature_census(),
     }
 
 
@@ -1567,7 +2072,40 @@ def _stage_cell(r):
                  + ("CONTRADICTION"
                     if any(a["kind"] == "over_failed" for a in anom)
                     else "above an unread rung") + ")")
+    # BOTH QUANTITIES, IN THE CELL. A capped row says which rung holds above
+    # its cap; a row where nothing holds says THAT, in words. Printing only the
+    # stage made "capped at 0 by an unread rung" and "nothing has happened
+    # here" the same number, which is what a reader was misled by.
+    if st.get("capped"):
+        cell += (" · highest rung satisfied on its own: "
+                 f'{st["highest_rung_satisfied_independently"]} (NOT a stage)')
+    elif st.get("nothing_satisfied"):
+        cell += " · nothing above it satisfied either"
+    elif st.get("only_excused"):
+        cell += (" · nothing BUILT; the rungs above are `n/a` by a signed "
+                 "dissolution")
     return cell
+
+
+def _governance_cell(r):
+    """The governance flag, printed as its own column. Never a stage."""
+    g = r.get("governance") or {}
+    state = g.get("state", G_NOT_FOUND)
+    cite = g.get("signoff") or {}
+    where = ""
+    if cite.get("document"):
+        where = " `{}`{}".format(cite["document"],
+                                 ":" + str(cite["line"]) if cite.get("line") else "")
+    if state == G_SIGNED:
+        how = ("derived: family `{}`".format(cite.get("family"))
+               if cite.get("family") else "transcribed")
+        return f"**signed** ({how}){where}"
+    if state == G_DISPUTED:
+        return f"⚠ **DISPUTED**{where}"
+    if state == G_UNSIGNED:
+        return "⚠ **family UNSIGNED** -- " + ", ".join(
+            "`" + f + "`" for f in (r.get("families_naming_this_class") or []))
+    return "· no signature found (NOT `undecided`)"
 
 
 def _stage_rollup_md(s):
@@ -1584,25 +2122,40 @@ def _stage_rollup_md(s):
     reach, ind, states = (sr["by_stage_reached"],
                           sr["per_stage_satisfied_independently"],
                           sr["per_stage_state_counts"])
+    hl, cap, ntr = sr["headline"], sr["capped"], sr["no_target_recorded"]
     out = [
-        "**Stage rollup.** DENOMINATOR: {c} of {t} row(s) classified, {u} "
-        "UNCLASSIFIABLE{ulist}. A class lands on EXACTLY ONE stage -- the highest "
-        "rung for which every rung below it is satisfied -- so a rung that is "
-        "`no` or `not measured` stops the climb even when a higher one holds. "
-        "The stage is DERIVED from fields on the row; there is no list to "
-        "hand-set. `not measured` is not `no`: coverage.py reads only its own "
-        "checked sign-off transcriptions, so an unread rung is a hole in what "
-        "this tool can see, never a finding about the record.".format(
-            c=sr["classified"], t=s["total"], u=sr["unclassifiable"],
+        # THE HEADLINE FIRST, and it is a BUILD fact rather than a bookkeeping
+        # one. Until 2026-08-12 this section opened with a stage histogram in
+        # which 95 of 102 rows read `0` because a signature could not be
+        # machine-found for them -- a number that answered "how findable is our
+        # paperwork" while looking like an answer to "how much is left".
+        "**How much is built.** DENOMINATOR: {d} of {t} row(s) classified, {u} "
+        "UNCLASSIFIABLE{ulist}. **{yes} of {d} v1 source classes have something "
+        "in the migration that CONSUMES them; {no} do not.** That rung has an "
+        "answer on every row -- {nm} unmeasured -- which is why it leads. "
+        "Governance is NOT part of this ladder: whether a sign-off can be found "
+        "for a class is reported in its own column and never caps a build "
+        "stage.".format(
+            d=hl["denominator"], t=s["total"], u=sr["unclassifiable"],
+            yes=hl["yes"], no=hl["no"], nm=hl["not measured"],
             ulist=(" (" + ", ".join("`" + u["v1_class"] + "`"
                                     for u in sr["unclassifiable_rows"]) + ")"
                    if sr["unclassifiable_rows"] else "")),
+        "",
+        ("**Completion ladder.** A class lands on EXACTLY ONE stage -- the "
+        "highest rung for which every rung below it is satisfied -- so a rung "
+        "that is `no` or `not measured` stops the climb even when a higher one "
+        "holds. The stage is DERIVED from fields on the row; there is no list "
+        "to hand-set. `not measured` is not `no`. Rungs 1 and 2 do not imply "
+        "each other, so their order is a tie broken toward the FULLY MEASURED "
+        "one -- putting the unread rung first would cap "
+         f'{ntr["rows"]} rows below a fact this tool knows for certain.'),
         "",
         "| stage | what it means | classes AT this stage | rung satisfied on its own | yes / no / n/a / not measured |",
         "|---|---|---:|---:|---|",
         f'| 0 | {STAGE_NAMES[0]} | {reach["0"]} | {s["total"]} (by construction) | — |',
     ]
-    for n in (1, 2, 3, 4, 5):
+    for n in COMPLETION_RUNGS:
         st = states[str(n)]
         out.append(
             f'| {n} | {STAGE_NAMES[n]} | {reach[str(n)]} | {ind[str(n)]} | '
@@ -1611,16 +2164,47 @@ def _stage_rollup_md(s):
     an = sr["anomalies"]
     out += [
         "",
-        ("**Stage 5 is NOT MEASURED** -- {why}. It is not `no` and it is not "
-         "skipped: \"no corpus proved it\" and \"nobody looked\" are different "
-         "facts, and this container has no MATLAB and cannot download run "
-         "artifacts. WHAT WOULD LIGHT IT UP: {light}"
-         if not sr["stage5"]["measured"] else
-         "**Stage 5 is COMPUTED** from the corpus reports supplied to this "
-         "run.{why}{light}").format(
-            why=sr["stage5"]["why"] if not sr["stage5"]["measured"] else "",
-            light=sr["stage5"]["what_would_light_it_up"]
-            if not sr["stage5"]["measured"] else ""),
+        # CAPPED vs UNTOUCHED, IMMEDIATELY UNDER THE HISTOGRAM, because the
+        # histogram is what made them indistinguishable.
+        "**Capped, or untouched? DENOMINATOR: {d} classified row(s).** {c} are "
+        "CAPPED -- a rung above their stage is satisfied while a lower one is "
+        "unread or unmet -- and **{u} are GENUINELY UNTOUCHED: no rung is "
+        "satisfied at all**{ulist}. A further {e} have nothing built while the "
+        "rungs above them are `n/a` by a SIGNED DISSOLUTION{elist} -- counted "
+        "apart, because a settled class and an unexamined one must never be one "
+        "figure. The untouched number is the honest floor. "
+        "`highest rung satisfied on its own` is NOT a stage and must never be "
+        "quoted as one; it exists so a capped row can say which rung holds "
+        "above its cap.".format(
+            d=cap["denominator"], c=cap["rows"], u=cap["genuinely_untouched"],
+            e=cap["nothing_built_but_excused_by_a_signed_dissolution"],
+            ulist=(" (" + ", ".join("`" + c + "`"
+                                    for c in cap["genuinely_untouched_rows"]) + ")"
+                   if cap["genuinely_untouched_rows"] else ""),
+            elist=(" (" + ", ".join("`" + c + "`"
+                                    for c in cap["nothing_built_but_excused_rows"]) + ")"
+                   if cap["nothing_built_but_excused_rows"] else "")),
+        "",
+        # THE UNDERSTATEMENT, NAMED. Asked for by the team rather than patched.
+        "**{n} of {d} rows record NO TARGET CLASS**, which makes rungs 2 and 3 "
+        "unreadable for them: {cause}. The signature join moves **{moved}** of "
+        "them, and that zero is structural, not a shortfall -- {why}.".format(
+            n=ntr["rows"], d=ntr["denominator"], cause=ntr["cause"],
+            moved=ntr["moved_by_the_signature_join"],
+            why=ntr["why_the_join_moves_none_of_them"]),
+        "",
+        ("**Stage 4 (CORPUS-PROVEN) is NOT MEASURED on all {t} rows** -- {why}. "
+         "It is not `no` and it is not skipped: \"no corpus proved it\" and "
+         "\"nobody looked\" are different facts, and this container has no "
+         "MATLAB and cannot download run artifacts. It is the only honest "
+         "\"done\" measure this ledger has. WHAT WOULD LIGHT IT UP: {light}"
+         if not sr["corpus_rung"]["measured"] else
+         "**Stage 4 (CORPUS-PROVEN) is COMPUTED** from the corpus reports "
+         "supplied to this run.{why}{light}").format(
+            t=s["total"],
+            why=sr["corpus_rung"]["why"] if not sr["corpus_rung"]["measured"] else "",
+            light=sr["corpus_rung"]["what_would_light_it_up"]
+            if not sr["corpus_rung"]["measured"] else ""),
         "",
         "**Anomalies: {n} across {k} class(es).** A rung satisfied above the "
         "stage a class reached. "
@@ -1639,16 +2223,154 @@ def _stage_rollup_md(s):
     ]
     if sr["decision_claimed_but_unchecked"]:
         out += [
-            "**{n} row(s) claim a signed decision that is not transcribed here** "
+            "**{n} row(s) claim a signed decision this tool cannot find** "
             "-- `V_eta_migration_targets.json` gives them `decided_targets`, "
             "which its own header calls \"a signed decision no migrator "
             "implements yet\", but no `TEAM-SIGN-OFF` line is quoted and checked "
-            "for them. They read `not measured` at stage 1 and cannot climb. "
-            "Transcribing each into `DECIDED_TARGETS_BY_SIGNOFF` (which "
-            "re-reads the cited document on every build) is what moves them: "
-            "{lst}.".format(n=len(sr["decision_claimed_but_unchecked"]),
-                            lst=", ".join("`" + c + "`" for c in
-                                          sr["decision_claimed_but_unchecked"])),
+            "for them and no signed family names them. This caps NOTHING (the "
+            "completion ladder no longer reads governance); it is a hole in the "
+            "RECORD: {lst}.".format(n=len(sr["decision_claimed_but_unchecked"]),
+                                    lst=", ".join("`" + c + "`" for c in
+                                                  sr["decision_claimed_but_unchecked"])),
+            "",
+        ]
+    out += _governance_md(sr["governance"])
+    return out
+
+
+def _governance_md(g):
+    """The governance flag + the signature gaps, as their own section.
+
+    A FIRST-CLASS OUTPUT WITH A DENOMINATOR, which is the whole point: this
+    drifted precisely because "nothing to see" and "nobody looked" printed the
+    same way. Nothing here is summed with a stage and nothing here is resolved
+    -- the orphan tags and the unsigned families are printed as QUESTIONS,
+    because pairing a signature with a family it does not name is recording a
+    disposition and operating rule 4 puts that with the team.
+    """
+    j, c = g["join"], g["census"]
+    st = g["by_state"]
+    out = [
+        "**Governance -- can we PROVE the team agreed? A FLAG, NOT A STAGE, and "
+        "never added to one.** DENOMINATOR: {d} row(s) classified. "
+        "**{signed} signed** ({by}), **{disputed} DISPUTED** (the record states "
+        "two incompatible dispositions), **{unsigned} named by a family that "
+        "carries no signature**, **{none} with no signature this tool can "
+        "find**. That last number is the absence of a FINDABLE signature and "
+        "not evidence that no decision exists -- operating rule 3.".format(
+            d=g["denominator"], signed=st[G_SIGNED], disputed=st[G_DISPUTED],
+            unsigned=st[G_UNSIGNED], none=st[G_NOT_FOUND],
+            by=", ".join(f"{v} {k}" for k, v in sorted(g["signed_by"].items()))
+            or "none"),
+        "",
+        "**The join, measured.** DENOMINATOR: {n} row(s) inspected; {m} reached "
+        "by a signed decision family ({how}; {v1o} matched on the v1 name ONLY, "
+        "{veo} on the V_eta name ONLY). It joins on the SIGNATURE, never "
+        "on family membership -- an unsigned family names classes too, and "
+        "promoting them would break operating rule 4 with a lookup. It joins on "
+        "the row's OWN identity (its v1 name or its V_eta class, matched "
+        "EXACTLY, in both namespaces, with no normalisation), never on what its "
+        "migrator emits.".format(
+            n=j["rows_inspected"], m=j["rows_matched_by_a_signed_family"],
+            v1o=j["matched_on_v1_class_only"],
+            veo=j["matched_on_veta_class_only"],
+            how=", ".join(f"{v} on {k}" for k, v in sorted(j["matched_on"].items()))
+            or "none"),
+        "",
+        "| rows with no findable signature | cause |",
+        "|---:|---|",
+    ]
+    for cause, n in j["unmoved_by_cause"].items():
+        out.append(f"| {n} | {cause} |")
+    via = j["target_only_reached_via"]
+    if via:
+        top = ", ".join(f"`{k}` ×{v}" for k, v in list(via.items())[:4])
+        out += [
+            "",
+            ("**Why the emitted-target rows are NOT joined.** Matching a row's "
+             "emitted `targets` as well would move more rows, and most of them "
+             f"would arrive through one class: {top}. A signature on the time "
+             "model decides the time model; it says nothing about whether the "
+             "disposition of the class that happens to emit a time anchor is "
+             "settled. The reach is counted here instead of taken."),
+        ]
+    if j["spelling_near_misses"]:
+        out += [
+            "",
+            "⚠ **{n} family member(s) match a ledger name ONLY after "
+            "normalisation** (lowercase + strip underscores): {lst}. V_eta is "
+            "snake_case and NDI is camelCase; these are NOT joined, because a "
+            "join on a normalised name would make `demo_ndi` and `demoNDI` one "
+            "class. Fix the spelling in `FAMILIES` or confirm they are "
+            "different things.".format(
+                n=len(j["spelling_near_misses"]),
+                lst=", ".join("`{}` ~ `{}`".format(m["family_member"],
+                                                   m["ledger_name"])
+                              for m in j["spelling_near_misses"])),
+        ]
+    if j["conflicting_claims"]:
+        out += [
+            "",
+            "⚠ **{n} row(s) claimed by TWO signed families**: {lst}. One class, "
+            "two decisions -- for the team.".format(
+                n=len(j["conflicting_claims"]),
+                lst=", ".join("`" + c + "`" for c in j["conflicting_claims"])),
+        ]
+    out += [
+        "",
+        "**Where the signatures are. DENOMINATOR: {d} plan document(s) read "
+        "({x} generated artifact(s) excluded, carrying {xm} marker(s) between "
+        "them -- a generated file quotes signatures, it does not hold them); "
+        "{a} sign-off line(s) accepted, {r} rejected.** {ft} of {fa} decision "
+        "families are signed.".format(
+            d=c["documents_read"], x=len(c["documents_excluded_as_generated"]),
+            xm=c["signoff_markers_inside_excluded_documents"],
+            a=c["accepted_lines"], r=len(c["rejected_lines"]),
+            ft=len(c["families_signed"]), fa=c["families_total"]),
+        "",
+    ]
+    # THE TWO DIRECTIONS OF THE MISMATCH, AS QUESTIONS. Never paired.
+    if c["orphan_tags"]:
+        out += [
+            "**QUESTION FOR THE TEAM -- {n} signed tag(s) name no decision "
+            "family**, so the signature reaches nothing this tool joins: {lst}. "
+            "Whether each is a family that needs renaming, a family that needs "
+            "creating, or a decision that belongs to no family is a TEAM call; "
+            "mapping one onto a family it does not name would be recording a "
+            "disposition.".format(
+                n=len(c["orphan_tags"]),
+                lst="; ".join(
+                    "`{}` ({}:{})".format(t, v[0]["document"], v[0]["line"])
+                    for t, v in c["orphan_tags"].items())),
+            "",
+        ]
+    if c["families_unsigned"]:
+        out += [
+            "**QUESTION FOR THE TEAM -- {n} decision family(ies) carry no "
+            "signature this tool will honour**: {lst}. Their classes read "
+            "`family UNSIGNED` above, which is a missing SIGNATURE and not a "
+            "missing model.".format(
+                n=len(c["families_unsigned"]),
+                lst=", ".join("`" + f + "`" for f in c["families_unsigned"])),
+            "",
+        ]
+    tagged_rejects = [r for r in c["rejected_lines"] if r["tag"]]
+    if tagged_rejects:
+        out += [
+            "⚠ **{n} rejected line(s) carry a family tag and read as a real "
+            "signature.** The scanner's placeholder guard fires on a paired "
+            "`<...>` anywhere after the marker, and a decision whose own TEXT "
+            "contains one is rejected with it: {lst}. The direction is safe "
+            "(less signed than reality, never more) and the blast radius is "
+            "printed beside each -- a rejected line in a document NO family "
+            "cites changes nothing today. Widening the guard changes which "
+            "lines count as a decision, which is a team call.".format(
+                n=len(tagged_rejects),
+                lst="; ".join(
+                    "`{}` ({}:{}, cited by {})".format(
+                        r["tag"], r["document"], r["line"],
+                        ", ".join(r["document_cited_by_families"]) or "NO family")
+                    for r in tagged_rejects)),
             "",
         ]
     return out
@@ -1723,8 +2445,12 @@ def write_ledger(veta, v1, rows):
     ]
     lines += _stage_rollup_md(s)
     lines += [
-        "| v1 class | stage | → V_eta target(s) | what happens to it | disposition | source |",
-        "|---|---|---|---|---|---|",
+        # TWO COLUMNS, TWO QUANTITIES, NEVER SUMMED. `build stage` is what
+        # exists for this class; `governance` is whether the team's agreement
+        # can be found. A single column merging them is the shape that reported
+        # 95 of 102 classes as "no progress".
+        "| v1 class | build stage | governance | → V_eta target(s) | what happens to it | disposition | source |",
+        "|---|---|---|---|---|---|---|",
     ]
     for r in rows:
         chips = ["`" + t + "`" for t in r["targets"]]
@@ -1818,7 +2544,8 @@ def write_ledger(veta, v1, rows):
             acct = (acct + " " if acct else "") + _bsc
         acct = acct.replace("|", "\\|").replace("\n", " ") or "—"
         lines.append(
-            f"| `{r['v1_class']}` | {_stage_cell(r)} | {tgt} | {acct} "
+            f"| `{r['v1_class']}` | {_stage_cell(r)} | {_governance_cell(r)} "
+            f"| {tgt} | {acct} "
             f"| {r['disposition']} | {r['source']} |")
     lines.append("")
     lines.append("*`class`\\* = minted in the NDI second pass. "
@@ -1851,24 +2578,81 @@ def _print_stage_rollup(s):
     classifier ran at all.
     """
     sr = s["stage_rollup"]
-    print("  stage ladder: DENOMINATOR %d row(s) classified, %d UNCLASSIFIABLE%s"
+    hl, cap, ntr, gov = (sr["headline"], sr["capped"],
+                         sr["no_target_recorded"], sr["governance"])
+    # LEADS WITH THE MEASURED RUNG. `gates.py` matches the first headline count
+    # per step, so this line is also what CI sees -- and what it should see is
+    # the build fact, not the bookkeeping one.
+    print("  build ladder: DENOMINATOR %d row(s) classified, %d UNCLASSIFIABLE%s"
           % (sr["classified"], sr["unclassifiable"],
              ("" if not sr["unclassifiable_rows"] else
               " (" + ", ".join(u["v1_class"]
                                for u in sr["unclassifiable_rows"]) + ")")))
-    for n in range(6):
-        print("      stage %d  %-38s %4d at this stage | %s satisfied on its own"
+    print("      rung 1 %-42s %d yes / %d no / %d n/a / %d NOT MEASURED  <- fully measured, so it leads"
+          % (hl["name"], hl["yes"], hl["no"], hl["n/a"], hl["not measured"]))
+    for n in range(5):
+        print("      stage %d  %-46s %4d at this stage | %s satisfied on its own"
               % (n, STAGE_NAMES[n], sr["by_stage_reached"][str(n)],
                  (str(s["total"]) + " (by construction)") if n == 0
                  else str(sr["per_stage_satisfied_independently"][str(n)])))
+    print("      capped by a lower rung: %d | GENUINELY UNTOUCHED (no rung satisfied at all): %d%s"
+          % (cap["rows"], cap["genuinely_untouched"],
+             (" (" + ", ".join(cap["genuinely_untouched_rows"]) + ")")
+             if cap["genuinely_untouched_rows"] else ""))
+    print("      nothing built but EXCUSED by a signed dissolution: %d%s"
+          % (cap["nothing_built_but_excused_by_a_signed_dissolution"],
+             (" (" + ", ".join(cap["nothing_built_but_excused_rows"]) + ")")
+             if cap["nothing_built_but_excused_rows"] else ""))
+    print("      no target recorded on %d row(s) -- rungs 2+3 unreadable for them, "
+          "and the signature join moves %d of them (a signature names a FAMILY, "
+          "not a target)" % (ntr["rows"], ntr["moved_by_the_signature_join"]))
     an = sr["anomalies"]
     print("      anomalies: %d across %d class(es) (%d over a FAILED rung, "
           "%d over an UNMEASURED rung)"
           % (an["total"], an["classes"], an["by_kind"].get("over_failed", 0),
              an["by_kind"].get("over_unmeasured", 0)))
-    print("      stage 5: *** NOT MEASURED *** -- " + sr["stage5"]["why"]
-          if not sr["stage5"]["measured"] else
-          "      stage 5: computed from corpus reports")
+    print("      stage 4: *** NOT MEASURED *** -- " + sr["corpus_rung"]["why"]
+          if not sr["corpus_rung"]["measured"] else
+          "      stage 4: computed from corpus reports")
+    # GOVERNANCE, PRINTED SEPARATELY AND AFTER. It is not part of the ladder and
+    # it is not summed with it.
+    gst, gj, gc = gov["by_state"], gov["join"], gov["census"]
+    print("  governance (a FLAG, never a stage): DENOMINATOR %d row(s) -- "
+          "%d signed, %d DISPUTED, %d family UNSIGNED, %d no signature found"
+          % (gov["denominator"], gst[G_SIGNED], gst[G_DISPUTED],
+             gst[G_UNSIGNED], gst[G_NOT_FOUND]))
+    print("      signature join: %d of %d row(s) reached by a SIGNED family "
+          "(%d matched on the v1 name ONLY, %d on the V_eta name ONLY)"
+          % (gj["rows_matched_by_a_signed_family"], gj["rows_inspected"],
+             gj["matched_on_v1_class_only"], gj["matched_on_veta_class_only"]))
+    for cause, n in gj["unmoved_by_cause"].items():
+        print("        %4d  %s" % (n, cause))
+    print("      signatures: %d document(s) read, %d accepted line(s), "
+          "%d rejected; %d of %d families signed"
+          % (gc["documents_read"], gc["accepted_lines"],
+             len(gc["rejected_lines"]), len(gc["families_signed"]),
+             gc["families_total"]))
+    if gc["orphan_tags"]:
+        print("      *** %d SIGNED TAG(S) NAME NO FAMILY (a question for the "
+              "team, not a mapping to make here): %s"
+              % (len(gc["orphan_tags"]),
+                 ", ".join("%s (%s:%d)" % (t, v[0]["document"], v[0]["line"])
+                           for t, v in gc["orphan_tags"].items())))
+    if gc["families_unsigned"]:
+        print("      *** %d FAMILY(IES) CARRY NO SIGNATURE: %s"
+              % (len(gc["families_unsigned"]), ", ".join(gc["families_unsigned"])))
+    for rj in gc["rejected_lines"]:
+        if rj["tag"]:
+            print("      *** REJECTED sign-off line with a family tag: [%s] "
+                  "%s:%d -- %s (document cited by: %s)"
+                  % (rj["tag"], rj["document"], rj["line"], rj["why"],
+                     ", ".join(rj["document_cited_by_families"]) or "NO family"))
+    if gj["spelling_near_misses"]:
+        print("      *** %d family member(s) match a ledger name ONLY after "
+              "normalisation: %s"
+              % (len(gj["spelling_near_misses"]),
+                 ", ".join("%s ~ %s" % (m["family_member"], m["ledger_name"])
+                           for m in gj["spelling_near_misses"])))
 
 
 def _corpus_roots(argv):

@@ -1,14 +1,36 @@
-"""The DERIVED per-class stage, and proof that the classifier still classifies.
+"""The DERIVED per-class COMPLETION stage, and proof it still classifies.
 
 WHY THIS FILE EXISTS
 --------------------
 "How far has this v1 class actually got?" was a judgement assembled by hand from
 five fields of `V_eta_coverage_ledger.json`. Five people assemble it five ways
-and none of them is re-derivable next week. `tools/coverage.py` now DERIVES a
-stage 0-5 per class, and this file is the thing that keeps it honest.
+and none of them is re-derivable next week. `tools/coverage.py` DERIVES a stage
+per class, and this file is the thing that keeps it honest.
 
-THE TWO FAILURES THIS FILE IS AIMED AT, both of which print identically to a
-healthy result:
+THE RESTRUCTURE OF 2026-08-12, WHICH THIS FILE WAS REWRITTEN FOR RATHER THAN
+UPDATED -- and the difference matters, because a test updated in step with the
+code it guards is the failure CLAUDE.md names ("A TEST WRITTEN FROM THE SAME
+PREMISE AS THE CODE CANNOT CATCH THE CODE"). The ladder used to open with a
+GOVERNANCE rung -- `disposition DECIDED` -- and gate every completion rung
+behind it, so a class with a working migrator reported stage 0 whenever no
+sign-off could be machine-found for it. 95 of 102 rows read "stage 0" while 86
+of them had a migrator consuming their documents: a number that measured our
+bookkeeping and was read as the migration's progress.
+
+Governance is now a FLAG BESIDE THE STAGE (`row["governance"]`), never a rung,
+and the completion ladder is rungs 1..4:
+
+    1  a migrator CONSUMES it                        (fully measured: 86 / 16)
+    2  its decided target classes EXIST in the build
+    3  the migrator emits THE DECIDED targets
+    4  CORPUS-PROVEN                                 (NOT MEASURED, always,
+                                                      without a corpus report)
+
+So these invariants assert something they could not assert before: THAT NOTHING
+ABOUT A SIGNATURE CAN MOVE A BUILD STAGE.
+
+THE FAILURES THIS FILE IS AIMED AT, all of which print identically to a healthy
+result:
 
   1. A CLASSIFIER THAT HAS STOPPED CLASSIFYING. `partitions_hold -> return True`
      cost this repository 76 green tests. A stage function that returns a
@@ -16,21 +38,19 @@ healthy result:
      and an empty anomaly list -- exactly what "everything is fine" looks like.
   2. A RUNG SATISFIED BY AN EMPTY LIST. `schema_targets_missing == []` is TRUE
      for all 102 rows, and for 77 of them it is true because no target was ever
-     named. A stage 2 that reads that list alone reports 102 of 102 classes
+     named. A rung that reads that list alone reports 102 of 102 classes
      "targets built" and is wrong about three quarters of them.
+  3. TWO DIFFERENT SILENCES PRINTING THE SAME NUMBER. "capped at 0 by an unread
+     rung" and "nothing has happened to this class" were one bucket of 95.
 
 HOW THESE TESTS AVOID BEING WRITTEN FROM THE SAME PREMISE AS THE CODE
 ---------------------------------------------------------------------
-CLAUDE.md: "A TEST WRITTEN FROM THE SAME PREMISE AS THE CODE CANNOT CATCH THE
-CODE" -- three tests in this repository had to be INVERTED rather than updated.
-So:
-
   * the ladder rule ("highest rung with every rung below it satisfied") is
     RE-IMPLEMENTED here, in `_independent_reached`, from the rung states alone.
     It never calls coverage.py's `stage_ladder` to decide what the answer is;
-  * every stage-1 `yes` is re-verified by OPENING the cited plan document and
-    parsing for a `TEAM-SIGN-OFF` line with a parser written in this file, not
-    by calling `check_decision_citations`;
+  * governance's independence from the stage is proved by MUTATING the
+    governance fields on every row and requiring every `reached` to be
+    unchanged -- a structural claim, not a reading of the code;
   * the counts that matter are PINNED as literals, so deleting rows from the
     tool's tables fails rather than silently redefining "correct";
   * MUTATION TESTS run at the end. Each one damages the classifier in a
@@ -59,9 +79,13 @@ LEDGER_MD = os.path.join(REPO_ROOT, "schemas", "V_eta_coverage_ledger.md")
 # rule in CLAUDE.md is written against.
 V1_UNIVERSE = 102
 
+# The completion rungs, written out here rather than imported so a change to
+# coverage.py's tuple is a test failure and not a silent redefinition. A FIFTH
+# entry appearing here is how a governance rung would come back.
+COMPLETION_RUNGS = [1, 2, 3, 4]
+
 # The rungs whose states are `yes`/`n/a` let the climb continue. Written out
-# here rather than imported so a change to coverage.py's tuple is a test
-# failure and not a silent redefinition.
+# here rather than imported for the same reason.
 PASSING = ("yes", "n/a")
 
 # A minimal well-formed row, used where the live 102 cannot exhibit a condition.
@@ -70,9 +94,11 @@ PASSING = ("yes", "n/a")
 # unclassifiable" and calling it covered is the shape of every all-zero census
 # this project has shipped. Hence a constructed fixture.
 FIXTURE_ROW = {
-    "v1_class": "fixture_class", "targets": [], "decided_targets": [],
-    "second_pass": [], "no_target_reason": None, "decided_signoff": None,
-    "no_target_signoff": None, "decided_targets_source": None,
+    "v1_class": "fixture_class", "veta_class": None, "targets": [],
+    "decided_targets": [], "second_pass": [], "no_target_reason": None,
+    "decided_signoff": None, "no_target_signoff": None,
+    "decided_targets_source": None, "decided_by_family": None,
+    "governance_gap": None, "families_naming_this_class": [],
     "build_state": {"schema_targets_named": 0, "schema_targets_built": [],
                     "schema_targets_missing": [],
                     "migrator_emits_decided_targets": False,
@@ -92,6 +118,13 @@ def _rows():
 def _reclassify(rows, evidence=None):
     """Re-derive the stage for each row, in memory, from coverage.py."""
     return [dict(r, stage=coverage.stage_ladder(r, evidence)) for r in rows]
+
+
+def _with_governance(rows):
+    """Rows carrying the governance flag, for the rollup's sake."""
+    for r in rows:
+        r["governance"] = coverage.governance_state(r)
+    return rows
 
 
 def _independent_reached(stage):
@@ -144,10 +177,12 @@ def check_every_row_is_placed(rows):
                 "from one that was dropped")
             assert st["reached"] is None
             continue
-        assert st["reached"] in (0, 1, 2, 3, 4, 5), (
+        assert st["reached"] in (0, 1, 2, 3, 4), (
             f"{r['v1_class']}: reached={st['reached']!r} is not a stage")
-        assert [rung["stage"] for rung in st["ladder"]] == [1, 2, 3, 4, 5], (
-            f"{r['v1_class']}: the ladder must carry all five rungs, in order")
+        assert [rung["stage"] for rung in st["ladder"]] == COMPLETION_RUNGS, (
+            f"{r['v1_class']}: the ladder must carry the four COMPLETION rungs "
+            "in order and nothing else -- a fifth entry is how a governance "
+            "rung comes back into the chain")
 
 
 def check_exactly_one_stage_and_no_promotion(rows):
@@ -172,14 +207,17 @@ def check_the_ladder_still_discriminates(rows):
     """A classifier that answers the same thing for everything is not one.
 
     Two separate ways to be dead, because a mutation can produce either: one
-    stage for every class, or one state for every rung.
+    stage for every class, or one state for every rung. Rung 4 is EXCLUDED from
+    the second check: with no corpus report in reach it is `not measured` on
+    every row BY DESIGN, and demanding variety there would demand the tool
+    invent a corpus verdict.
     """
     placed = [r["stage"] for r in rows if not r["stage"]["unclassifiable"]]
     reached = {st["reached"] for st in placed}
     assert len(reached) > 1, (
         f"every classified row landed on stage {reached} -- the classifier is "
         "constant, which prints exactly like a healthy result")
-    for n in (1, 2, 3, 4):
+    for n in (1, 2, 3):
         states = {rung["state"] for st in placed for rung in st["ladder"]
                   if rung["stage"] == n}
         assert len(states) > 1, (
@@ -187,7 +225,7 @@ def check_the_ladder_still_discriminates(rows):
             "with one answer measures nothing")
 
 
-def check_stage2_is_not_satisfied_by_an_empty_list(rows):
+def check_targets_rung_is_not_satisfied_by_an_empty_list(rows):
     """THE ANTI-VACUITY RULE, in the one place it was going to be broken."""
     for r in rows:
         st = r["stage"]
@@ -198,33 +236,14 @@ def check_stage2_is_not_satisfied_by_an_empty_list(rows):
         named = r["build_state"]["schema_targets_named"]
         if rung["state"] == "yes":
             assert named > 0, (
-                f"{r['v1_class']}: stage 2 satisfied while NO target class is "
-                "named. `schema_targets_missing == []` is true of every row; "
-                "reading it alone reports 102 of 102 classes built")
+                f"{r['v1_class']}: the targets rung is satisfied while NO "
+                "target class is named. `schema_targets_missing == []` is true "
+                "of every row; reading it alone reports 102 of 102 built")
             assert not r["build_state"]["schema_targets_missing"]
         if named == 0 and r.get("no_target_reason") != "dissolved":
             assert rung["state"] == "not measured", (
                 f"{r['v1_class']}: names no target and is not signed to "
-                f"dissolve, so stage 2 is unreadable, not `{rung['state']}`")
-
-
-def check_stage1_yes_rests_on_a_real_signoff(rows):
-    """Every stage-1 `yes` is re-verified against the document it cites."""
-    for r in rows:
-        st = r["stage"]
-        if st["unclassifiable"] or st["ladder"][0]["state"] != "yes":
-            continue
-        cite = r.get("decided_signoff") or r.get("no_target_signoff")
-        assert cite, (
-            f"{r['v1_class']}: stage 1 is `yes` with no transcribed sign-off "
-            "on the row -- a decision cannot be inferred from absence")
-        frag = cite.get("signoff_fragment")
-        hits = [ln for ln in _signoff_lines(cite["document"]) if frag in ln]
-        assert hits, (
-            f"{r['v1_class']}: no TEAM-SIGN-OFF line in {cite['document']} "
-            f"contains {frag!r}")
-        assert r.get("no_target_reason") != "disputed", (
-            f"{r['v1_class']}: a DISPUTED record is not a decided disposition")
+                f"dissolve, so rung 2 is unreadable, not `{rung['state']}`")
 
 
 def check_na_requires_a_signed_dissolution(rows):
@@ -244,21 +263,101 @@ def check_na_requires_a_signed_dissolution(rows):
                 f"{r['v1_class']}: dissolution with no citation")
 
 
-def check_stage5_is_not_measured_without_evidence(rows):
+def check_corpus_rung_is_not_measured_without_evidence(rows):
     """NOT MEASURED, in those words. Never `no`, never silently skipped."""
     for r in rows:
         st = r["stage"]
         if st["unclassifiable"]:
             continue
-        rung = st["ladder"][4]
-        assert rung["stage"] == 5
+        rung = st["ladder"][3]
+        assert rung["stage"] == 4
         assert rung["state"] == "not measured", (
-            f"{r['v1_class']}: stage 5 is `{rung['state']}` with no corpus "
-            "report in reach. `no corpus proved it` and `nobody looked` are "
-            "different facts")
+            f"{r['v1_class']}: the corpus rung is `{rung['state']}` with no "
+            "corpus report in reach. `no corpus proved it` and `nobody looked` "
+            "are different facts, and rendering the second as a failure is the "
+            "defect silentLoss shipped for two days")
         assert "NOT MEASURED" in rung["why"], (
-            f"{r['v1_class']}: stage 5 must say NOT MEASURED in those words; "
-            f"it says {rung['why']!r}")
+            f"{r['v1_class']}: the corpus rung must say NOT MEASURED in those "
+            f"words; it says {rung['why']!r}")
+
+
+def check_governance_cannot_move_a_build_stage(rows):
+    """THE RESTRUCTURE, ASSERTED STRUCTURALLY RATHER THAN READ OFF THE CODE.
+
+    Every governance field on every row is replaced with its most flattering
+    and its least flattering value in turn, and the completion stage must not
+    move on any row. A governance rung reinstated anywhere in `stage_ladder`
+    fails this immediately -- which is the point, because that is the change
+    that would quietly reintroduce "95 classes at stage 0".
+    """
+    for flavour in ("flattering", "damning"):
+        for r in rows:
+            probe = copy.deepcopy(r)
+            if flavour == "flattering":
+                probe["decided_signoff"] = {"document": "X.md",
+                                            "signoff_fragment": "f"}
+                probe["decided_by_family"] = {
+                    "family": "f", "document": "X.md", "line": 1,
+                    "signoff": "s", "matched_on": "v1_class",
+                    "matched_name": r["v1_class"], "conflict": []}
+                probe["governance_gap"] = None
+            else:
+                probe["decided_signoff"] = None
+                probe["decided_by_family"] = None
+                probe["governance_gap"] = coverage.GAP_NO_FAMILY
+            again = coverage.stage_ladder(probe, coverage.CORPUS_SCAN)
+            assert again["reached"] == r["stage"]["reached"], (
+                f"{r['v1_class']}: changing GOVERNANCE ({flavour}) moved the "
+                f"build stage {r['stage']['reached']} -> {again['reached']}. "
+                "Decidedness and builtness are orthogonal; a signature may "
+                "never cap or lift a build stage")
+
+
+def check_capped_and_untouched_are_distinguishable(rows):
+    """"Capped by an unread rung" and "nothing happened" must not be one number."""
+    for r in rows:
+        st = r["stage"]
+        if st["unclassifiable"]:
+            continue
+        yes = [x["stage"] for x in st["ladder"] if x["state"] == "yes"]
+        na = [x["stage"] for x in st["ladder"] if x["state"] == "n/a"]
+        highest = max(yes) if yes else 0
+        assert st["highest_rung_satisfied_independently"] == highest, (
+            f"{r['v1_class']}: highest satisfied rung is {highest}, the row "
+            f"says {st['highest_rung_satisfied_independently']}")
+        assert st["capped"] == (highest > st["reached"]), (
+            f"{r['v1_class']}: `capped` disagrees with the two numbers it is "
+            "derived from")
+        assert st["nothing_built"] == (not yes)
+        assert st["nothing_satisfied"] == (not yes and not na), (
+            f"{r['v1_class']}: GENUINELY UNTOUCHED must mean no rung is "
+            "satisfied AND none is excused by a signed dissolution -- a "
+            "dissolution is a fact about the class, not silence about it")
+
+
+def check_rollup_leads_with_a_fully_measured_rung(rollup):
+    """The first figure must be one with no unmeasured rows.
+
+    A reader's first question is "how much is left". Leading with a stage
+    histogram whose top bucket was produced by unfindable paperwork answered a
+    different question in the voice of that one.
+    """
+    hl = rollup["headline"]
+    assert hl["rung"] == 1 and hl["name"] == coverage.STAGE_NAMES[1]
+    assert hl["not measured"] == 0, (
+        "the headline rung reports "
+        f'{hl["not measured"]} unmeasured row(s) -- it may only lead if it has '
+        "an answer on every row")
+    assert hl["yes"] + hl["no"] + hl["n/a"] + hl["not measured"] \
+        == hl["denominator"], "the headline does not account for every row"
+    assert hl["yes"] > 0
+    # The headline must be a BUILD fact, and must come first. A governance
+    # count leading here is the regression this check exists for.
+    keys = list(rollup)
+    assert keys.index("headline") < keys.index("by_stage_reached"), (
+        "the headline must come before the stage histogram")
+    assert keys.index("headline") < keys.index("governance"), (
+        "the rollup must lead with what is BUILT, never with governance")
 
 
 def check_rollup_accounts_for_every_row(rollup, total):
@@ -269,16 +368,22 @@ def check_rollup_accounts_for_every_row(rollup, total):
     assert sum(rollup["by_stage_reached"].values()) == rollup["classified"], (
         "the stage histogram does not sum to the number of classified rows")
     assert len(rollup["unclassifiable_rows"]) == rollup["unclassifiable"]
+    cap = rollup["capped"]
+    assert cap["genuinely_untouched"] == len(cap["genuinely_untouched_rows"]), (
+        "the untouched COUNT and the untouched NAMES disagree -- one of them "
+        "is being maintained and the other quoted")
+    assert cap["rows"] == len(cap["row_names"])
 
 
 ALL_ROW_CHECKS = (
     check_every_row_is_placed,
     check_exactly_one_stage_and_no_promotion,
     check_the_ladder_still_discriminates,
-    check_stage2_is_not_satisfied_by_an_empty_list,
-    check_stage1_yes_rests_on_a_real_signoff,
+    check_targets_rung_is_not_satisfied_by_an_empty_list,
     check_na_requires_a_signed_dissolution,
-    check_stage5_is_not_measured_without_evidence,
+    check_corpus_rung_is_not_measured_without_evidence,
+    check_governance_cannot_move_a_build_stage,
+    check_capped_and_untouched_are_distinguishable,
 )
 
 
@@ -294,22 +399,29 @@ class TestTheCommittedLedger(unittest.TestCase):
     def test_the_ladder_discriminates(self):
         check_the_ladder_still_discriminates(_rows())
 
-    def test_stage_2_is_not_satisfied_by_an_empty_target_list(self):
-        check_stage2_is_not_satisfied_by_an_empty_list(_rows())
-
-    def test_every_stage_1_yes_quotes_a_real_team_signoff(self):
-        check_stage1_yes_rests_on_a_real_signoff(_rows())
+    def test_the_targets_rung_is_not_satisfied_by_an_empty_list(self):
+        check_targets_rung_is_not_satisfied_by_an_empty_list(_rows())
 
     def test_n_a_is_only_ever_issued_on_a_signed_dissolution(self):
         check_na_requires_a_signed_dissolution(_rows())
 
-    def test_stage_5_reports_NOT_MEASURED_and_never_no(self):
-        check_stage5_is_not_measured_without_evidence(_rows())
+    def test_the_corpus_rung_reports_NOT_MEASURED_and_never_no(self):
+        check_corpus_rung_is_not_measured_without_evidence(_rows())
+
+    def test_governance_cannot_move_a_build_stage(self):
+        check_governance_cannot_move_a_build_stage(_rows())
+
+    def test_capped_and_untouched_are_two_quantities(self):
+        check_capped_and_untouched_are_distinguishable(_rows())
 
     def test_the_rollup_reports_its_denominator(self):
         led = _ledger()
         check_rollup_accounts_for_every_row(
             led["summary"]["stage_rollup"], led["summary"]["total"])
+
+    def test_the_rollup_leads_with_what_is_measured(self):
+        check_rollup_leads_with_a_fully_measured_rung(
+            _ledger()["summary"]["stage_rollup"])
 
     def test_the_committed_stage_is_what_the_tool_derives(self):
         # A hand-edited ledger is the thing the whole "derived, never hand-set"
@@ -327,15 +439,66 @@ class TestTheCommittedLedger(unittest.TestCase):
         with open(LEDGER_MD) as fh:
             md = fh.read()
         total = _ledger()["summary"]["total"]
+        hl = rollup["headline"]
         self.assertIn(
-            f'**Stage rollup.** DENOMINATOR: {rollup["classified"]} of {total} '
-            f'row(s) classified, {rollup["unclassifiable"]} UNCLASSIFIABLE', md)
-        for n in range(6):
+            f'DENOMINATOR: {hl["denominator"]} of {total} row(s) classified, '
+            f'{rollup["unclassifiable"]} UNCLASSIFIABLE', md)
+        self.assertIn(
+            f'**{hl["yes"]} of {hl["denominator"]} v1 source classes have '
+            f'something in the migration that CONSUMES them; {hl["no"]} do '
+            "not.**", md)
+        for n in range(5):
             row = [ln for ln in md.splitlines()
                    if ln.startswith(f"| {n} | {coverage.STAGE_NAMES[n]} |")]
             self.assertEqual(len(row), 1, f"stage {n} must have one rollup row")
             self.assertIn(f"| {rollup['by_stage_reached'][str(n)]} |", row[0])
-        self.assertIn("Stage 5 is NOT MEASURED", md)
+        self.assertIn("Stage 4 (CORPUS-PROVEN) is NOT MEASURED", md)
+
+    def test_the_markdown_states_the_untouched_count_separately(self):
+        # THE DEFECT: one bucket of 95 rows. The rendered form must carry both
+        # quantities, and the untouched rows must be NAMED.
+        cap = _ledger()["summary"]["stage_rollup"]["capped"]
+        with open(LEDGER_MD) as fh:
+            md = fh.read()
+        self.assertIn(
+            f'**{cap["genuinely_untouched"]} are GENUINELY UNTOUCHED: no rung '
+            "is satisfied at all**", md)
+        for name in cap["genuinely_untouched_rows"]:
+            self.assertIn("`" + name + "`", md)
+        self.assertIn(f'{cap["rows"]} are CAPPED', md)
+
+    def test_a_capped_row_and_an_untouched_row_render_differently(self):
+        # The two sentences a reader distinguishes them by. If either
+        # disappears the numbers are still right and the page is not.
+        rows = _rows()
+        capped = [r for r in rows if r["stage"].get("capped")]
+        untouched = [r for r in rows if r["stage"].get("nothing_satisfied")]
+        self.assertTrue(capped and untouched,
+                        "precondition: today's ledger holds both kinds")
+        for r in capped:
+            self.assertIn("highest rung satisfied on its own",
+                          coverage._stage_cell(r))
+        for r in untouched:
+            self.assertIn("nothing above it satisfied either",
+                          coverage._stage_cell(r))
+
+    def test_the_untouched_rows_are_the_ones_we_expect(self):
+        # PINNED. These nine have NOTHING built and nothing excused: no
+        # migrator, no second pass, no decided target, no signed dissolution.
+        # If the list changes, something real changed and someone must look.
+        cap = _ledger()["summary"]["stage_rollup"]["capped"]
+        self.assertEqual(cap["genuinely_untouched_rows"], [
+            "animalsubject", "base", "demoNDI", "demoNDIMock", "generic_file",
+            "imageCollection", "imageStack_parameters", "mock", "session"])
+
+    def test_a_signed_dissolution_is_not_counted_as_untouched(self):
+        # The three rows that separate "nothing built" from "nothing known".
+        cap = _ledger()["summary"]["stage_rollup"]["capped"]
+        self.assertEqual(cap["nothing_built_but_excused_rows"],
+                         ["epochid", "stimulus_response",
+                          "stimulus_response_scalar_parameters"])
+        for name in cap["nothing_built_but_excused_rows"]:
+            self.assertNotIn(name, cap["genuinely_untouched_rows"])
 
     def test_the_anomaly_count_names_its_two_kinds(self):
         an = _ledger()["summary"]["stage_rollup"]["anomalies"]
@@ -348,15 +511,35 @@ class TestTheCommittedLedger(unittest.TestCase):
         for a in an["rows"]:
             self.assertIn(a["kind"], ("over_failed", "over_unmeasured"))
 
-    def test_the_one_contradiction_is_named(self):
-        # PINNED. `ngrid` is the single row whose lower rung has POSITIVE
-        # evidence against it (V_eta_image_model_plan.md states two
-        # dispositions) while a higher rung holds -- a migrator consumes it.
-        # If this list changes, a real condition changed and someone must look.
+    def test_the_build_ahead_rows_are_named(self):
+        # PINNED, and it is a REAL CONDITION rather than a defect: these four
+        # have their decided target class BUILT while nothing consumes them yet
+        # -- schema ahead of migrator, which CLAUDE.md records for `app` in its
+        # own words ("`software` IS built and shipping ... only the migrator is
+        # outstanding"). Under the old governance-gated ladder this condition
+        # was invisible: the only anomaly was `ngrid`, and it was one about
+        # paperwork.
         an = _ledger()["summary"]["stage_rollup"]["anomalies"]
         failed = sorted({a["v1_class"] for a in an["rows"]
                          if a["kind"] == "over_failed"})
-        self.assertEqual(failed, ["ngrid"])
+        self.assertEqual(failed, ["app", "ensemble", "projectvar",
+                                  "stimulus_parameter_table"])
+
+    def test_the_no_target_understatement_is_named_not_hidden(self):
+        # Rungs 2 and 3 are unreadable for every row with no recorded target.
+        # That is a hole in the RECORD and must be reported as its own
+        # quantity, with the join's contribution stated as the zero it is.
+        ntr = _ledger()["summary"]["stage_rollup"]["no_target_recorded"]
+        rows = _rows()
+        want = sorted(r["v1_class"] for r in rows
+                      if not r["build_state"]["schema_targets_named"])
+        self.assertEqual(ntr["row_names"], want)
+        self.assertEqual(ntr["rows"], len(want))
+        self.assertEqual(ntr["moved_by_the_signature_join"], 0)
+        self.assertIn("signs a FAMILY", ntr["why_the_join_moves_none_of_them"])
+        with open(LEDGER_MD) as fh:
+            self.assertIn(f'**{ntr["rows"]} of {ntr["denominator"]} rows record '
+                          "NO TARGET CLASS**", fh.read())
 
 
 class TestUnclassifiableRowsAreReportedNotDropped(unittest.TestCase):
@@ -391,7 +574,7 @@ class TestUnclassifiableRowsAreReportedNotDropped(unittest.TestCase):
         bad["v1_class"] = "broken_class"
         bad["build_state"]["has_per_class_migrator"] = False
         del bad["second_pass"]        # now REACHED, so the row cannot be placed
-        rows = _reclassify([good, bad])
+        rows = _with_governance(_reclassify([good, bad]))
         rollup = coverage._stage_rollup(rows, None)
         check_rollup_accounts_for_every_row(rollup, len(rows))
         self.assertEqual(rollup["unclassifiable"], 1)
@@ -400,8 +583,8 @@ class TestUnclassifiableRowsAreReportedNotDropped(unittest.TestCase):
         self.assertEqual(rollup["classified"], 1)
 
 
-class TestStage5BecomesComputable(unittest.TestCase):
-    """Stage 5 is CODE ALREADY WRITTEN, waiting on an input.
+class TestCorpusRungBecomesComputable(unittest.TestCase):
+    """The corpus rung is CODE ALREADY WRITTEN, waiting on an input.
 
     These fixtures are the contract: the day a real `<corpus>-summary.json` is
     in reach, the stage is computed and no new code is needed. They also pin
@@ -420,15 +603,9 @@ class TestStage5BecomesComputable(unittest.TestCase):
             json.dump(rep, fh)
 
     def _row(self, cls="image_stack", targets=("image_observation",)):
-        return {"v1_class": cls, "targets": list(targets), "decided_targets": [],
-                "second_pass": [], "no_target_reason": None,
-                "decided_signoff": None, "no_target_signoff": None,
-                "decided_targets_source": None,
-                "build_state": {"schema_targets_named": 0,
-                                "schema_targets_built": [],
-                                "schema_targets_missing": [],
-                                "migrator_emits_decided_targets": False,
-                                "has_per_class_migrator": True}}
+        row = copy.deepcopy(FIXTURE_ROW)
+        row.update({"v1_class": cls, "targets": list(targets)})
+        return row
 
     def setUp(self):
         import tempfile
@@ -463,7 +640,7 @@ class TestStage5BecomesComputable(unittest.TestCase):
         self._report(self.tmp, "Dab", {"image_stack": 4563})
         ev = coverage.load_corpus_evidence([self.tmp])
         st = coverage.stage_ladder(self._row(), ev)
-        rung = st["ladder"][4]
+        rung = st["ladder"][3]
         self.assertEqual(rung["state"], "yes", rung["why"])
         self.assertIn("4563 document(s)", rung["why"])
 
@@ -471,14 +648,14 @@ class TestStage5BecomesComputable(unittest.TestCase):
         # THE CORPORA ARE A SAMPLE OF DATASETS, NOT THE UNIVERSE.
         self._report(self.tmp, "Dab", {"something_else": 10})
         ev = coverage.load_corpus_evidence([self.tmp])
-        rung = coverage.stage_ladder(self._row(), ev)["ladder"][4]
+        rung = coverage.stage_ladder(self._row(), ev)["ladder"][3]
         self.assertEqual(rung["state"], "not measured")
         self.assertIn("SAMPLE", rung["why"])
 
     def test_a_quarantine_refutes_it(self):
         self._report(self.tmp, "Dab", {"image_stack": 10}, quarantine_count=7)
         ev = coverage.load_corpus_evidence([self.tmp])
-        rung = coverage.stage_ladder(self._row(), ev)["ladder"][4]
+        rung = coverage.stage_ladder(self._row(), ev)["ladder"][3]
         self.assertEqual(rung["state"], "no")
         self.assertIn("quarantined", rung["why"])
 
@@ -488,7 +665,7 @@ class TestStage5BecomesComputable(unittest.TestCase):
                          {"count": 4563, "class_name": "image_observation",
                           "edge_name": "subject_id"}]})
         ev = coverage.load_corpus_evidence([self.tmp])
-        rung = coverage.stage_ladder(self._row(), ev)["ladder"][4]
+        rung = coverage.stage_ladder(self._row(), ev)["ladder"][3]
         self.assertEqual(rung["state"], "no")
         self.assertIn("empty required edge", rung["why"])
 
@@ -502,7 +679,7 @@ class TestStage5BecomesComputable(unittest.TestCase):
         with open(os.path.join(self.tmp, "Dab-summary.json"), "w") as fh:
             json.dump(rep, fh)
         ev = coverage.load_corpus_evidence([self.tmp])
-        rung = coverage.stage_ladder(self._row(), ev)["ladder"][4]
+        rung = coverage.stage_ladder(self._row(), ev)["ladder"][3]
         self.assertEqual(rung["state"], "no")
         self.assertIn("NOT a zero", rung["why"])
 
@@ -513,7 +690,7 @@ class TestStage5BecomesComputable(unittest.TestCase):
         self.assertFalse(ev["measured"])
         self.assertIn("source_census", ev["why"])
 
-    def test_stage_5_yes_lets_a_class_reach_stage_5(self):
+    def test_a_corpus_yes_lets_a_class_reach_the_top_stage(self):
         # The rung is wired into the ladder, not just computed beside it.
         self._report(self.tmp, "Dab", {"epochid": 12})
         ev = coverage.load_corpus_evidence([self.tmp])
@@ -523,7 +700,7 @@ class TestStage5BecomesComputable(unittest.TestCase):
                                     "signoff_fragment": "epochid is DROPPED"}
         row["build_state"]["has_per_class_migrator"] = True
         st = coverage.stage_ladder(row, ev)
-        self.assertEqual(st["reached"], 5, st["ladder"])
+        self.assertEqual(st["reached"], 4, st["ladder"])
 
 
 # ===========================================================================
@@ -575,40 +752,39 @@ class TestMutationsRedden(unittest.TestCase):
             "constructed fixture, not a weaker claim."))
         return caught
 
-    def test_collapsing_two_adjacent_stages_reddens(self):
-        # Stage 2 answers stage 3's question. Every class with a migrator now
-        # reads "its target classes are built", including the 77 that name no
-        # target at all.
+    def test_collapsing_two_adjacent_rungs_reddens(self):
+        # The targets rung answers the migrator rung's question. Every class
+        # with a migrator now reads "its target classes are built", including
+        # the 77 that name no target at all.
         caught = self._assert_reddens(
-            _Mutation(_stage2_targets_built=coverage._stage3_consumed))
-        self.assertIn("check_stage2_is_not_satisfied_by_an_empty_list",
+            _Mutation(_rung_targets_built=coverage._rung_consumed))
+        self.assertIn("check_targets_rung_is_not_satisfied_by_an_empty_list",
                       [c[0] for c in caught])
 
-    def test_a_stage_function_returning_a_constant_YES_reddens(self):
+    def test_a_rung_returning_a_constant_YES_reddens(self):
         const = lambda row: ("yes", "constant")  # noqa: E731
         caught = self._assert_reddens(_Mutation(
-            _stage1_decided=const, _stage2_targets_built=const,
-            _stage3_consumed=const, _stage4_emits_decided=const,
-            _stage5_corpus=lambda row, ev: ("yes", "constant")))
+            _rung_consumed=const, _rung_targets_built=const,
+            _rung_emits_decided=const,
+            _rung_corpus_proven=lambda row, ev: ("yes", "constant")))
         names = [c[0] for c in caught]
         self.assertIn("check_the_ladder_still_discriminates", names)
-        self.assertIn("check_stage2_is_not_satisfied_by_an_empty_list", names)
-        self.assertIn("check_stage1_yes_rests_on_a_real_signoff", names)
+        self.assertIn("check_targets_rung_is_not_satisfied_by_an_empty_list",
+                      names)
 
-    def test_a_stage_function_returning_a_constant_NOT_MEASURED_reddens(self):
+    def test_a_rung_returning_a_constant_NOT_MEASURED_reddens(self):
         # The other way to be dead: everything reads stage 0, which looks like
         # an honest "we have not got far" and is in fact a broken instrument.
         const = lambda row: ("not measured", "constant")  # noqa: E731
         caught = self._assert_reddens(_Mutation(
-            _stage1_decided=const, _stage2_targets_built=const,
-            _stage3_consumed=const, _stage4_emits_decided=const))
+            _rung_consumed=const, _rung_targets_built=const,
+            _rung_emits_decided=const))
         self.assertIn("check_the_ladder_still_discriminates",
                       [c[0] for c in caught])
 
     def test_dropping_the_satisfies_every_stage_below_rule_reddens(self):
         # `reached` becomes the highest rung that is `yes` regardless of order,
-        # which promotes 86 classes over a rung nobody read and promotes `ngrid`
-        # over a rung whose record contradicts itself.
+        # which promotes every capped class over a rung nobody read.
         real = coverage.stage_ladder
 
         def promoted(row, evidence=None):
@@ -624,43 +800,136 @@ class TestMutationsRedden(unittest.TestCase):
         self.assertIn("check_exactly_one_stage_and_no_promotion",
                       [c[0] for c in caught])
 
-    def test_treating_an_ABSENT_signoff_as_a_decision_reddens(self):
-        # The operating-rule-3 mutation: absence promoted to a finding. 94 rows
-        # would read "decided" on the strength of nothing.
-        real = coverage._stage1_decided
+    def test_promoting_a_capped_row_reddens(self):
+        # The single most tempting change: "it has a migrator, call it stage 1
+        # even though a lower rung is unread". Distinct from the mutation above
+        # -- this one promotes ONLY the capped rows, which is what a reader
+        # complaining about the number would ask for.
+        real = coverage.stage_ladder
 
-        def optimistic(row):
-            state, why = real(row)
-            return ("yes", why) if state == "not measured" else (state, why)
+        def promoted(row, evidence=None):
+            st = real(row, evidence)
+            if st["unclassifiable"] or not st["capped"]:
+                return st
+            st["reached"] = st["highest_rung_satisfied_independently"]
+            st["reached_name"] = coverage.STAGE_NAMES[st["reached"]]
+            return st
 
-        caught = self._assert_reddens(_Mutation(_stage1_decided=optimistic))
-        self.assertIn("check_stage1_yes_rests_on_a_real_signoff",
+        caught = self._assert_reddens(_Mutation(stage_ladder=promoted))
+        self.assertIn("check_exactly_one_stage_and_no_promotion",
+                      [c[0] for c in caught])
+
+    def test_collapsing_the_two_quantities_into_one_reddens(self):
+        # `highest_rung_satisfied_independently` set equal to `reached` erases
+        # the distinction between a capped row and an untouched one -- the
+        # exact defect the pair was added to close.
+        real = coverage.stage_ladder
+
+        def collapsed(row, evidence=None):
+            st = real(row, evidence)
+            if st["unclassifiable"]:
+                return st
+            st["highest_rung_satisfied_independently"] = st["reached"]
+            st["capped"] = False
+            return st
+
+        caught = self._assert_reddens(_Mutation(stage_ladder=collapsed))
+        self.assertIn("check_capped_and_untouched_are_distinguishable",
+                      [c[0] for c in caught])
+
+    def test_counting_an_excused_row_as_untouched_reddens(self):
+        # `nothing_satisfied` computed from `yes` alone puts the three signed
+        # DISSOLUTIONS (epochid, stimulus_response, ...) in the same bucket as
+        # `base`, which nobody has looked at. A settled class reported as
+        # untouched inflates the work-remaining figure.
+        real = coverage.stage_ladder
+
+        def loose(row, evidence=None):
+            st = real(row, evidence)
+            if st["unclassifiable"]:
+                return st
+            st["nothing_satisfied"] = st["nothing_built"]
+            return st
+
+        caught = self._assert_reddens(_Mutation(stage_ladder=loose))
+        self.assertIn("check_capped_and_untouched_are_distinguishable",
                       [c[0] for c in caught])
 
     def test_issuing_n_a_without_a_signed_dissolution_reddens(self):
         # `n/a` lets a class climb, so it is the quiet way to fake progress.
-        real = coverage._stage2_targets_built
+        real = coverage._rung_targets_built
 
         def loose(row):
             if not row["build_state"]["schema_targets_named"]:
                 return ("n/a", "nothing named")
             return real(row)
 
-        caught = self._assert_reddens(_Mutation(_stage2_targets_built=loose))
+        caught = self._assert_reddens(_Mutation(_rung_targets_built=loose))
         self.assertIn("check_na_requires_a_signed_dissolution",
                       [c[0] for c in caught])
 
-    def test_defaulting_stage_5_to_NO_reddens(self):
+    def test_rendering_NOT_MEASURED_as_a_failure_reddens(self):
+        # "no corpus proved it" and "nobody looked" collapsed into one word.
         caught = self._assert_reddens(
-            _Mutation(_stage5_corpus=lambda row, ev: ("no", "not proven")))
-        self.assertIn("check_stage5_is_not_measured_without_evidence",
+            _Mutation(_rung_corpus_proven=lambda row, ev: ("no", "not proven")))
+        self.assertIn("check_corpus_rung_is_not_measured_without_evidence",
                       [c[0] for c in caught])
+
+    def test_putting_GOVERNANCE_BACK_into_the_completion_chain_reddens(self):
+        # THE REGRESSION THIS RESTRUCTURE EXISTS TO PREVENT, mutated in exactly
+        # the shape it had before 2026-08-12: a signature rung, first, gating
+        # everything. It caps dozens of rows whose migrators are built.
+        real = coverage.stage_ladder
+
+        def governed(row, evidence=None):
+            st = real(row, evidence)
+            if st["unclassifiable"]:
+                return st
+            g = coverage.governance_state(row)
+            if g["state"] != coverage.G_SIGNED:
+                st["reached"] = 0
+                st["reached_name"] = coverage.STAGE_NAMES[0]
+                st["blocked_by"], st["blocked_by_state"] = 1, "not measured"
+            return st
+
+        caught = self._assert_reddens(_Mutation(stage_ladder=governed))
+        self.assertIn("check_governance_cannot_move_a_build_stage",
+                      [c[0] for c in caught])
+
+    def test_a_rollup_leading_with_a_governance_capped_number_reddens(self):
+        # The rollup's headline replaced by the count of rows whose signature
+        # is findable -- the number that led this section until 2026-08-12.
+        rows = _with_governance(
+            _reclassify(copy.deepcopy(_rows()), coverage.CORPUS_SCAN))
+        rollup = coverage._stage_rollup(rows, None)
+        check_rollup_leads_with_a_fully_measured_rung(rollup)   # precondition
+        damaged = copy.deepcopy(rollup)
+        signed = sum(1 for r in rows
+                     if r["governance"]["state"] == coverage.G_SIGNED)
+        damaged["headline"] = {
+            "rung": 1, "name": coverage.STAGE_NAMES[1],
+            "denominator": len(rows), "yes": signed, "no": 0, "n/a": 0,
+            "not measured": len(rows) - signed}
+        with self.assertRaises(AssertionError):
+            check_rollup_leads_with_a_fully_measured_rung(damaged)
+
+    def test_reporting_the_untouched_count_as_zero_reddens(self):
+        rows = _with_governance(
+            _reclassify(copy.deepcopy(_rows()), coverage.CORPUS_SCAN))
+        rollup = coverage._stage_rollup(rows, None)
+        self.assertEqual(rollup["capped"]["genuinely_untouched"], 9,
+                         "precondition: nine rows have nothing built and "
+                         "nothing excused")
+        damaged = copy.deepcopy(rollup)
+        damaged["capped"]["genuinely_untouched"] = 0
+        with self.assertRaises(AssertionError):
+            check_rollup_accounts_for_every_row(damaged, len(rows))
 
     def test_swallowing_an_unclassifiable_row_reddens(self):
         # CONSTRUCTED FIXTURE, because no live row is malformed -- the mutation
         # is invisible on today's 102 and that is a fact about the data, not a
         # reason to drop the claim.
-        rows = [dict(TestUnclassifiableRowsAreReportedNotDropped.BASE)]
+        rows = [copy.deepcopy(FIXTURE_ROW)]
         broken = copy.deepcopy(rows[0])
         broken["v1_class"] = "broken_class"
         del broken["build_state"]
@@ -674,26 +943,29 @@ class TestMutationsRedden(unittest.TestCase):
                 st = dict(st, unclassifiable=False, reached=0,
                           reached_name=coverage.STAGE_NAMES[0],
                           unclassifiable_why=None,
+                          highest_rung_satisfied_independently=0,
+                          capped=False, nothing_built=True,
+                          nothing_satisfied=True, only_excused=False,
                           ladder=[{"stage": n, "name": coverage.STAGE_NAMES[n],
                                    "state": "not measured", "why": "swallowed"}
-                                  for n in (1, 2, 3, 4, 5)])
+                                  for n in COMPLETION_RUNGS])
             return st
 
         with _Mutation(stage_ladder=swallowing):
-            mutated = _reclassify(rows)
-            rollup = coverage._stage_rollup(mutated, None)
+            rollup = coverage._stage_rollup(
+                _with_governance(_reclassify(rows)), None)
         self.assertEqual(
             rollup["unclassifiable"], 0,
             "precondition: the mutation must actually hide the broken row")
-        with self.assertRaises(AssertionError):
-            # The invariant that catches it: an unplaceable row must be named,
-            # and the honest tool reports it. Re-derive without the mutation and
-            # require the two to disagree.
-            honest = coverage._stage_rollup(_reclassify(rows), None)
-            self.assertEqual(honest["unclassifiable"], rollup["unclassifiable"])
+        honest = coverage._stage_rollup(
+            _with_governance(_reclassify(rows)), None)
+        self.assertNotEqual(
+            honest["unclassifiable"], rollup["unclassifiable"],
+            "the honest tool must report the row the mutation hid")
 
     def test_the_rollup_dropping_a_row_reddens(self):
-        rows = _reclassify(copy.deepcopy(_rows()))
+        rows = _with_governance(
+            _reclassify(copy.deepcopy(_rows()), coverage.CORPUS_SCAN))
         rollup = coverage._stage_rollup(rows, None)
         check_rollup_accounts_for_every_row(rollup, len(rows))
         # Now drop one class from the histogram, as a filtered counter would.
