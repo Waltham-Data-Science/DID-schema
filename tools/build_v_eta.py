@@ -1078,8 +1078,10 @@ write(_ae_tier, "acquisition_epoch", _ae)
 # rather than trusting quarantine=0." That hazard is a MIGRATOR emitting an
 # unpopulated edge, which cannot occur while no migrator exists. The escape branch
 # is also now cheap: silentLoss reports empty required edges by name and the census
-# digest renders them, so the five names below are watchable the moment a migrator
-# does land. They are: software_id (on both classes), reader_id,
+# digest renders them, so the names below are watchable the moment a migrator
+# does land. They are: software_id (on THREE classes since 2026-08-12 --
+# `epoch_file_pattern`, `acquisition_metadata_reader` AND `acquisition_system`;
+# this line said "both" while the count was two), reader_id,
 # epoch_file_pattern_id, acquisition_metadata_reader_#.
 #
 # `epoch_file_pattern` is where epoch identity ENTERS THE ARCHIVE. Of 1,002 NDI .m
@@ -1123,8 +1125,90 @@ write("stable", "epoch_file_pattern", doc("epoch_file_pattern", ["base"], fields
 # is matched by strcmpi in `+ndi/+daq/system.m:229` (probe -> device attribution),
 # named in every `syncrule.parameters.daqsystem1_name`, and queried by exact_string
 # in `+ndi/+time/syncgraph.m:404-408`. A depends_on sweep saw none of that.
+#
+# ---- #59, THE SECOND SOFTWARE EDGE: `software_id` (team, 2026-08-12) --------
+# DECIDED BY jess@walthamdatascience.com on 2026-08-12, option A of the two the
+# daqsystem migrator's header put up: "`acquisition_system` gains a SECOND
+# software edge so `ndi_daqsystem_class` has a home." Recorded in prose here
+# because Claude may not write a signature line; the signed decision document
+# for this family is V_eta_daq_family_decisions.md.
+#
+# WHAT IT CLOSES. The signed model (V_eta_daq_family_decisions.md:265) says "The
+# class NAMES all move to deduplicated `software` entities" -- and it gave three
+# of the four an edge to move along while `acquisition_system` declared
+# `"fields": []` and one software edge, `reader_id`, already spoken for by the
+# daqreader. So `daqsystem.ndi_daqsystem_class` had nowhere to land, and
+# migrators_j/daqsystem.m GUARDED its whole fold on that: every real did_v1
+# document passed through unconverted rather than lose the field.
+#
+# THE FIELD IS NOT DEAD WEIGHT, and the reason a literal grep says otherwise is
+# that its name is CONSTRUCTED at the reader:
+#
+#     +ndi/+database/+fun/ndi_document2ndi_object.m:38-42
+#         obj_struct = getfield(doc.document_properties, obj_parent_string);
+#         obj_string = getfield(obj_struct,['ndi_' obj_parent_string '_class']);
+#         o = eval([obj_string '(ndi_session_obj, ndi_document_obj);']);
+#
+# reached from +ndi/session.m:167-169 (daqsystem_load). It is the
+# object-reconstruction key, and the SAME generic site reads
+# `ndi_daqreader_class`, `ndi_daqmetadatareader_class` and
+# `ndi_filenavigator_class` -- the three that already have their edge.
+#
+# WHY THE NAME IS `software_id` AND NOT A NEW WORD. T11: "One canonical spelling
+# per concept." The concept here -- THIS document's own implementation class,
+# folded to a `software` entity -- is already spelled `software_id` on both
+# siblings minted in this same block, from the same signed decision:
+#
+#     epoch_file_pattern.software_id           <- ndi_filenavigator_class
+#     acquisition_metadata_reader.software_id  <- ndi_daqmetadatareader_class
+#
+# (and on `method_parameters` / `subject_interaction` for the same "the software
+# that did this" sense). Minting `system_software_id` or `implementation_id`
+# would be a SECOND spelling of one concept, which is the thing T11 forbids;
+# `implementation`/`system_software` are also container-altitude words T13 warns
+# off, and `application` is ruled out by name in T13.
+#
+# AND THE PAIR READS COHERENTLY, which is the test the two edges have to pass
+# together, because both point at `software`:
+#
+#     software_id  the rig's OWN implementation class -- what this document IS
+#                  ('ndi.daq.system.mfdaq' / 'ndi.daq.system.image')
+#     reader_id    a DIFFERENT component's identity, reached through v1's
+#                  `daqreader_id` -- what this rig acquires THROUGH
+#
+# `reader_id` names a role because it points OUT at another component; the
+# unqualified `software_id` is this class's own implementation, exactly as on
+# the two siblings. That is a learnable rule, not two ad-hoc names.
+#
+# WHY OPTIONAL, AND THIS IS THE PART THAT COSTS DOCUMENTS IF IT IS WRONG.
+# #37 RequiredDependencies is ARMED BY DEFAULT (DID-matlab
+# +did2/+schema/cache.m:967-968, `~envFlagIsOff('DID_ENFORCE_REQUIRED_DEPENDENCIES')`),
+# so a REQUIRED edge that cannot always be populated now QUARANTINES the
+# document rather than passing silently. It cannot always be populated:
+#
+#     $ git show origin/main:src/ndi/ndi_common/schema_documents/daq/\
+#           daqsystem_schema.json
+#         { "name": "ndi_daqsystem_class", "type": "string",
+#           "default_value": "", ... }        <- NO "mustbenotempty"
+#
+# NDI's own schema lets the field be empty, and jSoftware returns [] for an
+# empty name ("no identity -> no entity"), so the fold has a real path on which
+# there is no software document to point at -- the path every daqsystem test in
+# testMigratorsJDaqConfiguration.m has been driving while the guard stood.
+# `non_empty=False` matches all three edges already on this class, and matches
+# `software_id` on both siblings.
 write("stable", "acquisition_system", doc("acquisition_system", ["entity"],
-    deps=[dep("reader_id", "software",
+    deps=[dep("software_id", "software",
+              "The implementation of the acquisition system itself (v1's "
+              "`daqsystem.ndi_daqsystem_class`, e.g. 'ndi.daq.system.mfdaq', "
+              "became an edge rather than a string field -- the same fold "
+              "`epoch_file_pattern` and `acquisition_metadata_reader` make of "
+              "their own class names). It is the object-reconstruction key read "
+              "at +ndi/+database/+fun/ndi_document2ndi_object.m:38-42 through a "
+              "CONSTRUCTED field name, so no literal grep finds the reader. "
+              "Distinct from `reader_id`, which names a DIFFERENT component.",
+              non_empty=False),
+          dep("reader_id", "software",
               "The reader implementation this system acquires through "
               "(daqreader DISSOLVES into a `software` entity, base.id preserved -- "
               "it is the only one of the four with no parameters of its own).",

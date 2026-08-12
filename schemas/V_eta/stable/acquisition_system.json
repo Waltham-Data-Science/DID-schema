@@ -11,6 +11,12 @@
     },
     "depends_on": [
         {
+            "name": "software_id",
+            "mustBeNonEmpty": false,
+            "documentation": "The implementation of the acquisition system itself (v1's `daqsystem.ndi_daqsystem_class`, e.g. 'ndi.daq.system.mfdaq', became an edge rather than a string field -- the same fold `epoch_file_pattern` and `acquisition_metadata_reader` make of their own class names). It is the object-reconstruction key read at +ndi/+database/+fun/ndi_document2ndi_object.m:38-42 through a CONSTRUCTED field name, so no literal grep finds the reader. Distinct from `reader_id`, which names a DIFFERENT component.",
+            "must_refer_to_document_class": "software"
+        },
+        {
             "name": "reader_id",
             "mustBeNonEmpty": false,
             "documentation": "The reader implementation this system acquires through (daqreader DISSOLVES into a `software` entity, base.id preserved -- it is the only one of the four with no parameters of its own).",

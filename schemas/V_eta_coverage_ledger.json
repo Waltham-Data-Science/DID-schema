@@ -642,7 +642,8 @@
       "nonprod": false,
       "gap": false,
       "targets": [
-        "acquisition_system"
+        "acquisition_system",
+        "software"
       ],
       "decided_targets": [
         "acquisition_system"

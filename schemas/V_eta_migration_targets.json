@@ -872,7 +872,8 @@
     },
     "daqsystem": {
       "targets": [
-        "acquisition_system"
+        "acquisition_system",
+        "software"
       ],
       "carried": [],
       "second_pass": [],
