@@ -569,6 +569,22 @@ migrator reads a dependency name that does not exist. Tracked as #75.
 > `TEAM-SIGN-OFF` line, so before writing "two signed plans", name both lines.**
 > `status_board.py` reads exactly that marker and was never fooled — the same lesson
 > as #80, one level up.
+>
+> **ONE FIGURE IN THAT DENOMINATOR HAS SINCE MOVED, corrected 2026-08-12:**
+> **there are 55 markdown files under `schemas/`, not 54.** The `54` above is LEFT AS
+> WRITTEN — it is what the 2026-08-11 check actually read, and rewriting the denominator of
+> a dated measurement into today's figure is how a record stops being a record. Re-derived:
+>
+> `$ ls schemas/*.md | wc -l` → `55`. The entire difference is ONE document added on
+> 2026-08-12 (`V_eta_logical_observation_plan.md`, commit `ffc6fd7`); nothing was deleted
+> or renamed, so the drift has a single named cause. **The `24 TEAM-SIGN-OFF lines` figure
+> beside it was NOT re-derived** and this note does not correct it — read it as of
+> 2026-08-11. **Nothing the paragraph concludes moves**: its finding is that exactly ONE
+> signed line names these documents, and adding a document to the corpus cannot subtract
+> from that.
+>
+> Found by `tools/check_prose_counts.py`, which derives the count from the tree and asks
+> whether the prose still carries it, rather than by anyone re-reading this page.
 
 **Recorded so this cannot rot the way `openminds_import` did:** if the stimulus build
 lands and does NOT emit `interaction_purpose`, the class has no emitter and no consumer,

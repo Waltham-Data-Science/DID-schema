@@ -971,6 +971,32 @@ it grepped for `"epochid.json"` with a leading quote while NDI writes
 mode as the `demo_ndi` grep. Re-run without the leading quote, it returns 16, of which 15 are
 carriers and one is `epochid.json` itself.
 
+**A SECOND CORRECTION ON THE SAME SWEEP, 2026-08-12 — this one on its DENOMINATOR, and it is
+a figure that MOVED rather than a method that was wrong.** The block above opens with a
+denominator of 91 NDI templates on `origin/main` and a `.m`-file count that said 915. The
+template half still derives to 91. The file half does not:
+
+        $ git -C NDI-matlab ls-tree -r --name-only origin/main | grep -c '\.m$'
+        1002
+
+i.e. `git ls-tree -r origin/main | grep -c '\.m$'` = **1002**, a denominator of 1,002 NDI
+files.
+
+**The 2026-08-08 block is LEFT AS WRITTEN.** It is a dated measurement whose numerators — 15
+carrier templates, 30 live `epochid.epochid` sites, 14 writer sites — were counted against
+that denominator on that day, and rewriting one figure out from under the others would make
+the block internally inconsistent while looking better measured than it is. **What the sweep
+CONCLUDED is untouched**: a denominator that grew does not bear on "`epochid` is the join
+mechanism for the epoch-scoped half of the database", and the three groups a builder must
+touch are enumerated individually rather than as a fraction of the tree.
+
+**Why this is written HERE and not only in `CLAUDE.md`:** that file corrected 915 to 1,002
+earlier the same day, but inside its summary of a DIFFERENT document
+(`V_eta_data_body_model_plan.md`). The correction reached the file that QUOTES the fact and
+neither of the two that STATE it — this plan and the data_body plan — so a reader of either
+had no way to know it existed. Both were found by `tools/check_prose_counts.py`, which
+derives the count from NDI `origin/main` instead of reading prose about it.
+
 ### A CLAIM MADE AND WITHDRAWN IN THE SAME SESSION — `local_identifier`
 
 Claude reported that `local_identifier` is declared on nine entity subclasses but not on

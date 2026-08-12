@@ -236,6 +236,60 @@ subject_statement
 - `datum` has **zero** v1 meaning: 3 NDI hits, all our own migration code. And
   `datum.dtype -> datum_type` is a flattening of the existing path, not a new word.
 
+**BOTH FIGURES IN THE THREE BULLETS ABOVE WERE RE-DERIVED 2026-08-12 AND BOTH HAVE MOVED.
+THE ARGUMENT SURVIVES BOTH — one of the two is now STRONGER — so the bullets keep their
+reasoning and only the numbers are corrected, here, beside them.**
+
+**WHY HERE, AND NOT ONLY IN `CLAUDE.md`.** That file corrected these same two numbers
+earlier the same day, inside its one-paragraph summary of THIS plan. The correction landed
+in the file that QUOTES the fact and never reached the file that STATES it, so a reader of
+this document had no way to know a correction existed two files away, and would have gone
+on quoting 38 subclasses and a 915-file NDI tree indefinitely. **A correction is only where
+it is written.**
+
+**(1) `data_type` now has 41 direct subclasses, not 38 — and the bullet's case gets
+STRONGER, which is worth more than the digit.** Derived from the built tree:
+
+        DENOMINATOR: 247 json file(s) under schemas/V_eta/ read
+        classes declaring `data_type` as a DIRECT superclass: 41
+           acceleration amount angle angular_velocity area capacitance charge chemical
+           concentration conductance contrast_sensitivity count current date dose
+           duration energy force formulation frequency gain harmonic_component image
+           intensity length logical mass ph polynomial power pressure resistance score
+           temperature term timed_sequence tuning_curve velocity visual_grating voltage
+           volume
+
+The bullet's case is *"`data_type` is TAKEN, so `datum_type` cannot reuse the name"*, and
+the count moved UP: the name is spoken for by three more classes than when the walkthrough
+ran (`logical`, `timed_sequence` and `tuning_curve` are among the arrivals). **A "this name
+is already taken" argument cannot be weakened by the name being taken more.** §5 stands
+unchanged; this is a figure correction, not a re-opening.
+
+**(2) The NDI denominator said 915 and is now 1,002 — but the `element_type` bullet's
+NUMERATOR IS NOT REPRODUCIBLE, so it is MARKED rather than restated.**
+
+        $ git -C NDI-matlab ls-tree -r --name-only origin/main | grep -c '\.m$'
+        1002
+
+i.e. `git ls-tree -r origin/main | grep -c '\.m$'` = **1002**, a denominator of 1,002 NDI
+files on `origin/main`.
+
+**The bullet is NOT rewritten to read `95 of 1002`, and that is deliberate.** No reading of
+"hits" reproduces its `223` / `95` — `CLAUDE.md` records the three that were tried:
+substring `element` gives 1780 hits across 177 files, word-boundary `\belement\b` gives 765
+across 128, quoted `'element'` gives 25 across 13. Pairing a freshly derived denominator
+with a numerator nobody can re-derive would manufacture precision the measurement never had
+— a number that LOOKS checked and is not, which is the failure this project pays for most
+often. **What the bullet needs from those figures is a THRESHOLD, and every available
+reading clears it by an order of magnitude, so `element_type` stays rejected on exactly the
+grounds given.** Operating Rule 5 asks for a denominator; this is the case that shows it
+does not also ask for the NUMERATOR'S METHOD, and that is the gap both halves escaped
+through. If the claim is ever needed as a number rather than as a threshold, re-measure it
+and write the command down beside it.
+
+Both were found by `tools/check_prose_counts.py`, which derives the quantities from the
+tree and the generated artifacts instead of reading prose about them.
+
 ### 6. The bytes tier — what moves to `data_body`
 
 **The rule: the statement says what the values ARE; the body says how the bytes ENCODE them.**

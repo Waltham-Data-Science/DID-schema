@@ -331,19 +331,23 @@ STEPS = [
          _t("check_signoff_header_staleness.py", "--enforce"), "gate",
          r"^DENOMINATOR: (\d+) markdown file\(s\)", "plan documents read"),
 
-    # REPORT-ONLY, DELIBERATELY, AND THE REASON IS THIS PROJECT'S OWN RULE.
-    # It lands with SIX live disagreements already on the board (two plan
-    # documents still say `data_type` has 38 direct subclasses, three still
-    # quote a 915-file NDI tree, two still quote a 54-document schemas/), and
-    # arming a gate onto a non-zero count turns CI red for a condition nobody
-    # has triaged -- which trains readers to ignore the job. That is the same
-    # call `census_digest.py` records for its four sentinels: "Arming was gated
-    # on the count already being 0."
+    # ARMED 2026-08-12. It LANDED report-only, deliberately, because it found
+    # SIX live disagreements on its first run (two plan documents saying
+    # `data_type` has 38 direct subclasses, two quoting a 915-file NDI tree,
+    # two quoting a 54-document schemas/), and arming a gate onto a non-zero
+    # count turns CI red for a condition nobody has triaged -- which trains
+    # readers to ignore the job. That is the same call `census_digest.py`
+    # records for its four sentinels: "Arming was gated on the count already
+    # being 0."
     #
-    # `--enforce` exists and is tested; add it here when the count is 0. Note
-    # that CLAUDE.md is one of the six and is not this step's to fix -- a
-    # correction note in the house style is what closes it.
-    Step("check_prose_counts", _t("check_prose_counts.py"), "gate",
+    # ALL SIX WERE CLOSED FIRST, with correction notes in the house style, and
+    # the count was 0 BEFORE `--enforce` was added here -- not after. What the
+    # six turned out to share is worth keeping beside the switch: FOUR of them
+    # had already been corrected in `CLAUDE.md` earlier the same day, and the
+    # correction landed in the file that QUOTES the fact rather than the file
+    # that STATES it. A per-document checker is exactly what catches that,
+    # because agreement is adjudicated per (document, noun) pair.
+    Step("check_prose_counts", _t("check_prose_counts.py", "--enforce"), "gate",
          r"^DENOMINATOR: (\d+) document\(s\) globbed", "documents globbed"),
 
     # READS BOTH SIBLINGS, so it is NOT RUNNABLE on a bare runner -- and that

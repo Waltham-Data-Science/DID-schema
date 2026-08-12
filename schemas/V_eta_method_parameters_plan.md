@@ -576,6 +576,21 @@ for three reasons, two of them decisions already taken.**
 2. **`data_type` is a CLASS with 38 direct subclasses**, not a field value. The data_body
    walkthrough already rejected `data_type` as a field name for precisely this reason
    when naming `datum_type`.
+
+   **RE-DERIVED 2026-08-12: `data_type` now has 41 direct subclasses, not 38.** Corrected
+   here because the correction did not arrive on its own — `CLAUDE.md` fixed this same
+   figure earlier the same day, in its summary of the data_body walkthrough, i.e. in the
+   file that QUOTES the fact and in neither of the two that STATE it. This page would
+   otherwise have gone on saying 38 indefinitely.
+
+        DENOMINATOR: 247 json file(s) under schemas/V_eta/ read
+        classes declaring `data_type` as a DIRECT superclass: 41
+
+   **The point this item makes is unaffected, and is in fact stronger.** It says `data_type`
+   is a CLASS rather than a field value; a class that has gained three more direct
+   subclasses since the walkthrough is more thoroughly taken, not less. Nothing about
+   `method_parameters` changes. Found by `tools/check_prose_counts.py`, which derives the
+   count from the built tree rather than reading prose about it.
 3. **A per-entry `data_type` makes `value` polymorphic** -- a voltage cell here, a
    duration cell there, chosen per row. That is openMINDS's polymorphic `specimen.species`
    slot, which V_eta examined and deliberately declined to adopt

@@ -1294,6 +1294,33 @@ lives in these files — read them instead of re-deriving from memory:
   own header about itself. Now gated by `tools/check_signoff_header_staleness.py` (CI +
   pytest); a correction note that quotes the old wording is exempted by a
   `HISTORICAL-SIGNOFF-CLAIM` marker.
+
+  **THE `54` IN THAT DENOMINATOR IS THE 2026-08-10 SWEEP'S OWN COUNT AND STAYS WHERE IT
+  IS; THE CORPUS IS LARGER NOW.** Corrected 2026-08-12, and corrected BESIDE the block
+  rather than inside it: a dated denominator is a measurement, and the sweep really did
+  read 54 files that day, so overwriting the digit would falsify it. Re-derived here:
+
+        $ ls schemas/*.md | wc -l
+        55
+
+        $ git log --since=2026-08-09 --diff-filter=AD --name-status \
+              --format='%h %ad %s' --date=short -- 'schemas/*.md'
+        ffc6fd7 2026-08-12  `validity` named a semantic, [...] it becomes `logical`
+        A       schemas/V_eta_logical_observation_plan.md
+
+  So there are **55 markdown files under `schemas/`, not 54**, and the entire difference is
+  ONE document added on 2026-08-12 — nothing was deleted or renamed, which is why the
+  correction is a single named cause rather than a drift nobody can attribute. The sweep's
+  other two figures (16 documents carrying a signature; 6 stale + 1 partial) were NOT
+  re-run and must not be read as current.
+
+  **THIS WAS FOUND BY A MACHINE, WHICH IS NEW.** `tools/check_prose_counts.py` derives 13
+  countable quantities from the tree and the generated artifacts and asks whether the prose
+  still carries them; `plan_documents` is one of them. Every previous number in this file
+  was corrected by a human or an agent reading carefully, which is why several went stale
+  again within hours. The checker is ARMED (`--enforce` in `tools/gates.py`) as of
+  2026-08-12, so a document asserting a countable number the tree does not hold now fails
+  the chain instead of waiting to be noticed.
 - **THE OPEN LIST WAS RECONCILED IN BOTH DIRECTIONS ON 2026-08-12, AND THE ASYMMETRY IS
   THE FINDING: THE DANGEROUS DIRECTION WAS ALMOST CLEAN AND THE SAFE ONE WAS NOT.** Two
   passes over `V_eta_OPEN_WORK.md`, each verdict taken from a commit, a `file:line`, a
