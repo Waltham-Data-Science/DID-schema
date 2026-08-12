@@ -65,9 +65,14 @@ was added.
 ## CITATION AUDIT 2026-08-12 — every checkable citation in this file, re-run against the trees
 
 **DENOMINATOR: 138 distinct `file:line` citations extracted mechanically from this file and
-resolved against the three repositories; 131 resolved to a file on the checked-out branch, 5
-resolved only on NDI `origin/main` or after expanding a dotted prose name, 2 resolve to no
-file in any repo in scope. Of the 138, 29 point at a line that no longer says what the
+resolved against the three repositories; 131 resolved to a file on the checked-out branch, 6
+resolved only on NDI `origin/main` or after expanding a dotted prose name, and exactly 1
+resolves to no file in any repo in scope (`hartley.m:448`). **THAT SPLIT READ "5 … 2" IN THE
+FIRST DRAFT OF THIS SECTION, WHICH WAS WRONG AND IS CORRECTED HERE RATHER THAN QUIETLY
+RE-TYPED** — `ndi.fun.session.diff.m:64-65` was counted as unresolvable when it is a dotted
+prose spelling of `src/ndi/+ndi/+fun/+session/diff.m`, whose `:64-65` are the two
+`database_search` calls the sentence citing it describes. An audit that mis-sorts its own
+denominator is the thing it exists to catch, so it is written down. Of the 138, 29 point at a line that no longer says what the
 sentence citing it implies.** Separately: **575 distinct backticked bare identifiers**
 extracted, of which **115 match a known class name exactly** (239 built V_eta classes +
 91 NDI `origin/main` templates + 102 v1 ledger rows) and **4 match only after normalising
