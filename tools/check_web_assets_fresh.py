@@ -199,14 +199,42 @@ def source_of(served_rel, copies, set_root, sets):
 # generators that write into public/ directly
 # --------------------------------------------------------------------------
 
+# Writing a file is what makes a tool its GENERATOR. A tool that merely reads a
+# served file, or names one in prose, is not.
+_WRITE_IDIOMS = ("write_text(", ".write(", "json.dump", 'open(', "writelines(")
+
+
+def _mentions_in_code(body, needle):
+    """Does `needle` appear on a line that is not a comment?
+
+    NOT A COSMETIC REFINEMENT -- it was a live false positive. `tools/gates.py`
+    names `web/public/class_walkthrough.json` in a COMMENT explaining why the
+    step's path precondition is the subtree rather than its parent, and a bare
+    substring search therefore reported two generators for one file and failed
+    the run as AMBIGUOUS. A mention is not a write; the same distinction
+    `check_pipeline_parity` draws when it excludes comment-only lines."""
+    for line in body.splitlines():
+        i = line.find(needle)
+        if i < 0:
+            continue
+        hash_at = line.find("#")
+        if hash_at == -1 or hash_at > i:
+            return True
+    return False
+
+
 def find_generator(root, served_rel):
     """Which tool under tools/ produces this served file, if any.
 
     Discovery is by BASENAME across `tools/*.py`, not a list kept here: a list
     would be one more copy of a mapping that already exists in the tool that
-    does the writing. Returns (relative tool path, offers --check) or
-    (None, False); an ambiguous match returns the list so the caller can report
-    it rather than pick."""
+    does the writing. A tool qualifies only if it names the file OUTSIDE a
+    comment and contains a write idiom -- naming a file and writing it are
+    different things, and a reader is not a generator.
+
+    Returns (list of relative tool paths, whether the single match offers
+    --check). More than one match is returned as a LIST rather than resolved:
+    an ambiguous answer is reported, never guessed."""
     base = os.path.basename(served_rel)
     tdir = os.path.join(root, TOOLS)
     hits = []
@@ -222,9 +250,9 @@ def find_generator(root, served_rel):
                 body = fh.read()
         except OSError:
             continue
-        if base in body and "public" in body:
-            hits.append((os.path.join(TOOLS, name), '"--check"' in body
-                         or "'--check'" in body or "--check" in body))
+        if _mentions_in_code(body, base) and "public" in body \
+                and any(idiom in body for idiom in _WRITE_IDIOMS):
+            hits.append((os.path.join(TOOLS, name), "--check" in body))
     return [h[0] for h in hits], (hits[0][1] if len(hits) == 1 else False)
 
 

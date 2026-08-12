@@ -355,16 +355,25 @@ STEPS = [
     # while the generated ledger had it resolved with a sign-off citation.
     #
     # NOT RUNNABLE ON A BARE RUNNER, and that is a property of the subject, not
-    # of the gate: `web/public/` is gitignored and has never been tracked, so a
-    # CI checkout has none of it -- the viewer workflows produce it fresh via
-    # `npm run build`'s prebuild hook. The step therefore declares the path it
-    # needs and is reported NOT RUNNABLE HERE when it is absent, on the same
-    # footing as a missing sibling checkout: named, counted, never a pass.
+    # of the gate: the 904 copied paths are gitignored and are produced by
+    # `npm run build`'s prebuild hook, so a CI checkout has none of them. The
+    # step therefore declares the path it needs and is reported NOT RUNNABLE
+    # HERE when it is absent, on the same footing as a missing sibling
+    # checkout: named, counted, never a pass.
+    #
+    # THE MARKER IS `web/public/schemas`, NOT `web/public`, and the difference
+    # is not pedantry -- it was measured. `web/public/class_walkthrough.json`
+    # is TRACKED (one file, committed 2026-08-12), so `web/public` DOES exist
+    # in a bare checkout while none of the copied tree does. Keying on the
+    # parent would have let this gate run on a runner and report 904 UNSERVED
+    # paths: a red build whose cause is that the sync has not run, which on a
+    # runner is correct. `web/public/schemas` is the sync script's own
+    # `publicSchemas` root and exists only where the sync has run.
     #
     # It reads no artifact into a file of its own, so it declares no `writes`.
     Step("check_web_assets_fresh", _t("check_web_assets_fresh.py"), "gate",
          r"^DENOMINATOR: (\d+) served file\(s\) inspected", "served files inspected",
-         needs_paths=[os.path.join("web", "public")]),
+         needs_paths=[os.path.join("web", "public", "schemas")]),
 ]
 
 BY_NAME = {s.name: s for s in STEPS}
