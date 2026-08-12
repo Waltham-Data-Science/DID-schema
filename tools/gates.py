@@ -130,7 +130,8 @@ def child_env():
 
 class Step:
     def __init__(self, name, argv, kind, headline, headline_label,
-                 writes=(), check_argv=None, external=False, requires=()):
+                 writes=(), check_argv=None, external=False, requires=(),
+                 needs_paths=()):
         self.name = name
         self.argv = list(argv)
         self.kind = kind                      # "generate" | "gate"
@@ -140,6 +141,13 @@ class Step:
         # Sibling checkouts this step READS. Named, not guessed: `--explain`
         # requires the step's own source to mention each one.
         self.requires = list(requires)
+        # Repo-relative paths that must EXIST for the step to have anything to
+        # measure. Same footing as `requires`: a step whose subject is absent
+        # is reported as NOT RUNNABLE HERE under --ci -- named and counted --
+        # and is never rendered as a pass. The one case is the web viewer's
+        # served tree, which is gitignored and produced by `npm run build`, so
+        # a CI checkout legitimately has none.
+        self.needs_paths = list(needs_paths)
         # A tool that has its OWN --check: composed rather than reimplemented.
         self.check_argv = list(check_argv) if check_argv else None
         self.external = external              # not a tools/*.py script
@@ -155,6 +163,17 @@ class Step:
     @property
     def missing_siblings(self):
         return [n for n in self.requires if not SIBLINGS.get(n)]
+
+    @property
+    def missing_paths(self):
+        return [p for p in self.needs_paths
+                if not os.path.exists(os.path.join(REPO, p))]
+
+    @property
+    def unavailable(self):
+        """Everything that makes this step un-measurable HERE, in one list, so
+        the header, the run loop and the summary cannot disagree about it."""
+        return self.missing_siblings + [p + " (absent)" for p in self.missing_paths]
 
     def source_path(self):
         """The file whose content backs this step's declarations, if any."""
@@ -326,6 +345,26 @@ STEPS = [
          r"DENOMINATOR: (\d+) pass\(es\) named by the harness",
          "harness batch passes",
          requires=["DID-matlab", "NDI-matlab"]),
+
+    # THE VIEWER SERVES COPIES, AND THE COPIES WERE GATED BY NOTHING. Four of
+    # the artifacts this chain regenerates are read by the web viewer, which
+    # cannot fetch them from `schemas/` -- `web/scripts/sync-schemas.mjs` copies
+    # them into `web/public/`, and that copy is what a reader reads. Measured
+    # 2026-08-12: the served ledger and the generated one disagreed on 5 of 102
+    # rows, and `binaryseries_parameters` rendered as `disputed` in the panel
+    # while the generated ledger had it resolved with a sign-off citation.
+    #
+    # NOT RUNNABLE ON A BARE RUNNER, and that is a property of the subject, not
+    # of the gate: `web/public/` is gitignored and has never been tracked, so a
+    # CI checkout has none of it -- the viewer workflows produce it fresh via
+    # `npm run build`'s prebuild hook. The step therefore declares the path it
+    # needs and is reported NOT RUNNABLE HERE when it is absent, on the same
+    # footing as a missing sibling checkout: named, counted, never a pass.
+    #
+    # It reads no artifact into a file of its own, so it declares no `writes`.
+    Step("check_web_assets_fresh", _t("check_web_assets_fresh.py"), "gate",
+         r"^DENOMINATOR: (\d+) served file\(s\) inspected", "served files inspected",
+         needs_paths=[os.path.join("web", "public")]),
 ]
 
 BY_NAME = {s.name: s for s in STEPS}
@@ -499,6 +538,31 @@ EDGES = [
          "most of tests/test_veta.py asserts against the BUILT tree; running "
          "pytest before the build tests the previous schema set and passes.",
          "tests/test_veta.py", r'"V_eta"'),
+
+    # ---- the served copies -----------------------------------------------
+    # All three producers write something the viewer serves a COPY of, so the
+    # freshness comparison has to happen after they have run: grade the copies
+    # first and they are compared against the artifacts as they were BEFORE
+    # this chain regenerated them, which is a pass that means nothing.
+    Edge("build_v_eta", "check_web_assets_fresh", "schemas/V_eta",
+         "the whole V_eta set is copied into web/public/schemas/V_eta; the "
+         "checker names V_eta as the set the viewer defaults to and fails when "
+         "the contract stops serving it.",
+         "tools/check_web_assets_fresh.py", r'GATED_SET = "V_eta"'),
+
+    Edge("coverage", "check_web_assets_fresh",
+         "schemas/V_eta_coverage_ledger.json",
+         "web/public/coverage.json IS this ledger -- the copy that drifted, and "
+         "the reason this gate exists. The checker requires the sync contract "
+         "to serve it whenever it is present.",
+         "tools/check_web_assets_fresh.py", r"V_eta_coverage_ledger\.json"),
+
+    Edge("status_board", "check_web_assets_fresh",
+         "schemas/V_eta_decisions.json",
+         "web/public/decisions.json IS the decision families the board writes; "
+         "a stale copy shows a signed family as undecided, which is the exact "
+         "failure the artifact was added to remove.",
+         "tools/check_web_assets_fresh.py", r"V_eta_decisions\.json"),
 ]
 
 
@@ -707,6 +771,15 @@ def explain(root=REPO, out=print):
         out(f'  [{mark}] {s.name:<34} needs {", ".join(s.requires)}{"" if not unnamed else f"  -- {unnamed} never named in {src}"}')
         if unnamed:
             bad += 1
+    out("")
+    out("PATH PRECONDITIONS -- a step whose SUBJECT is absent has nothing to")
+    out("measure, and reporting that is not the same as passing.")
+    needy = [s for s in STEPS if s.needs_paths]
+    out(f'DENOMINATOR: {len(needy)} of {len(STEPS)} steps declare a path precondition')
+    for s in needy:
+        for p in s.needs_paths:
+            here = os.path.exists(os.path.join(root, p))
+            out(f'  [{"PRESENT" if here else "ABSENT"}] {s.name:<34} needs {p}')
     return 1 if bad else 0
 
 
@@ -723,8 +796,9 @@ def main(argv=None):
     ap.add_argument("--list", action="store_true", help="print step names, one per line")
     ap.add_argument("--ci", action="store_true",
                     help="implies --check, and reports (rather than fails) the "
-                         "steps that need an NDI-matlab / DID-matlab checkout "
-                         "the workflow does not have")
+                         "steps whose subject is not on a runner -- an "
+                         "NDI-matlab / DID-matlab checkout, or the viewer's "
+                         "gitignored web/public tree")
     a = ap.parse_args(argv)
     if a.ci:
         a.check = True
@@ -747,11 +821,14 @@ def main(argv=None):
                                  if a.check else "regenerate + gate"))
     print(f'DENOMINATOR: {len(steps)} steps will run ({len(gens)} generate, {len(steps) - len(gens)} gate); {len(EDGES)} dependency edges, {ok_edges} substantiated')
     print("            order: {}".format(" -> ".join(order)))
-    unavailable = [s.name for s in steps if s.missing_siblings]
+    unavailable = [s.name for s in steps if s.unavailable]
     if unavailable:
         print(f'            NOT RUNNABLE HERE ({len(unavailable)}): {", ".join(unavailable)}')
         for n, p in sorted(SIBLINGS.items()):
             print(f'              sibling {n:<12} {p or "NOT FOUND"}')
+        for s in steps:
+            for p in s.missing_paths:
+                print(f'              path    {p:<12} ABSENT (needed by {s.name})')
         if not a.ci:
             print("              these will be ATTEMPTED anyway and will fail; "
                   "pass --ci to report them as not-runnable instead.")
@@ -766,7 +843,7 @@ def main(argv=None):
     watched = sorted({w for s in STEPS for w in s.writes})
     before = _snapshot(watched, REPO)
     will_generate = [s for s in steps
-                     if s.kind == "generate" and not (a.ci and s.missing_siblings)]
+                     if s.kind == "generate" and not (a.ci and s.unavailable)]
     if a.check and will_generate:
         mirror = tempfile.mkdtemp(prefix="veta-gates-check-")
         n = mirror_tracked_tree(REPO, mirror)
@@ -776,12 +853,12 @@ def main(argv=None):
     results, failed, skipped, composed_failed, no_sibling = {}, [], [], [], []
     t_all = time.time()
     for i, s in enumerate(steps, 1):
-        if a.ci and s.missing_siblings:
+        if a.ci and s.unavailable:
             # NOT a failure and NOT a skip: the checkout simply is not here.
             # It must still be COUNTED and NAMED, or a shorter chain would read
             # as a complete one -- which is the whole defect this file is about.
             no_sibling.append(s.name)
-            print(f'[{i:>2}/{len(steps):>2}] {s.name:<34} NO-SIBLING ({", ".join(s.missing_siblings)} absent; step not attempted)')
+            print(f'[{i:>2}/{len(steps):>2}] {s.name:<34} NOT-RUNNABLE ({", ".join(s.unavailable)} absent; step not attempted)')
             continue
         blockers = [f for f in failed + skipped
                     if BY_NAME[f].blocks_dependents
@@ -886,7 +963,8 @@ def main(argv=None):
     print(f'SUMMARY: {len(steps)} step(s) declared, {ran} ran, {ran - len(failed)} passed, {len(failed)} failed, {len(skipped)} skipped, {len(no_sibling)} not runnable here')
     if no_sibling:
         print("  NOT RUNNABLE HERE: {}  (needs an NDI-matlab / DID-matlab "
-              "checkout; NOT evidence they would pass)".format(", ".join(no_sibling)))
+              "checkout, or a path this checkout does not have; NOT evidence "
+              "they would pass)".format(", ".join(no_sibling)))
     if failed:
         print("  FAILED : {}".format(", ".join(failed)))
     if skipped:
