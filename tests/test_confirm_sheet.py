@@ -24,6 +24,7 @@ import json
 import os
 import sys
 import tempfile
+import typing
 import unittest
 
 REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -356,3 +357,97 @@ class ABatchPostPassIsAnEmission(unittest.TestCase):
             self.skipTest("stimulus_bath is no longer at this stage")
         self.assertEqual(hit[0]["answer_from"], "team")
         self.assertTrue(hit[0]["options"])
+
+
+class DestinationsAndUnreadTargetsCase(unittest.TestCase):
+    """The sheet must not ask for an end state while listing intermediates.
+
+    Reported by the team 2026-08-13: "I'm struggling to confirm those rows when
+    you are showing me intermediate classes." Three of the classes on the sheet
+    (`daqreader`, `session_relative_reference`, `epoch_bounded_reference`) are
+    pass-1 transport handles that a later pass folds away, and every one is
+    marked `in_progress` in the built set -- so the fact was already in an
+    artifact and simply not read.
+    """
+
+    DISP: typing.ClassVar[dict] = {
+        "subject": "persist", "voltage_observation": "persist",
+        "session_relative_reference": "in_progress",
+        "daqreader": "in_progress"}
+
+    def test_an_in_progress_class_is_an_intermediate_not_a_destination(self):
+        final, inter, unknown = cs.destinations(
+            ["subject", "session_relative_reference"], self.DISP)
+        self.assertEqual(final, ["subject"])
+        self.assertEqual([c for c, _, _ in inter], ["session_relative_reference"])
+        self.assertEqual(unknown, [])
+
+    def test_the_folding_pass_is_named(self):
+        _, inter, _ = cs.destinations(["session_relative_reference"], self.DISP)
+        self.assertIn("resolveSessionAnchors", inter[0][2])
+
+    def test_an_unknown_class_is_NEITHER_not_assumed_final(self):
+        # Assuming final is the reassuring direction, on the sheet the team
+        # uses to decide. It must be reported as unknown instead.
+        final, inter, unknown = cs.destinations(["no_such_class"], self.DISP)
+        self.assertEqual(final, [])
+        self.assertEqual(inter, [])
+        self.assertEqual(unknown, ["no_such_class"])
+
+    def test_the_QUESTION_names_destinations_not_every_minted_class(self):
+        # The question is the line a reviewer actually reads. It used to recite
+        # `targets` verbatim, so `daqreader_ndr` was put to the team as
+        # "produces daqreader, acquisition_reader, software" -- and `daqreader`
+        # is folded away in the same pass.
+        q = cs.question_for(cs.B_CONFIRM, "daqreader_ndr",
+                            ["daqreader", "acquisition_reader", "software"],
+                            final=["acquisition_reader", "software"])
+        self.assertIn("ends as acquisition_reader, software", q)
+        self.assertNotIn("daqreader,", q)
+
+    def test_a_partial_row_says_so_IN_THE_QUESTION(self):
+        q = cs.question_for(cs.B_CONFIRM, "element", ["subject"],
+                            final=["subject"], partial=True)
+        self.assertIn("LOWER BOUND", q)
+
+    def test_an_authored_entry_is_added_to_the_question_and_LABELLED(self):
+        # element's raw-recording observation cannot be derived (the class name
+        # is a struct field carried across two files), so it is authored. It
+        # must appear -- omitting it understates the migration -- and it must be
+        # labelled, so a hand claim is never read as a machine fact.
+        q = cs.question_for(cs.B_CONFIRM, "element",
+                            ["subject"], final=["subject"], partial=True,
+                            unread=["voltage_observation"])
+        self.assertIn("voltage_observation", q)
+        self.assertIn("AUTHORED", q)
+        self.assertNotIn("confirms less than it appears to", q)
+
+
+class UnreadTargetsSurviveRegenerationCase(unittest.TestCase):
+    """`unread_targets` is AUTHORED and the derivation must never remove it."""
+
+    def test_element_carries_the_authored_entry_with_a_citation(self):
+        path = os.path.join(REPO_ROOT, "schemas", "V_eta_migration_targets.json")
+        with open(path) as fh:
+            doc = json.load(fh)
+        rows = doc.get("classes") or doc
+        ur = rows["element"].get("unread_targets") or {}
+        self.assertIn("voltage_observation", ur.get("targets") or [],
+                      "element's authored raw-recording observation is gone -- "
+                      "if the derivation learned to read it, move it to "
+                      "`targets` deliberately rather than dropping it")
+        self.assertTrue(ur.get("citation"),
+                        "an authored target without a citation is a claim with "
+                        "no evidence, which is what this key exists to avoid")
+
+    def test_the_completeness_block_still_names_the_unread_site(self):
+        # The authored entry ANSWERS the gap; it does not close it. The site
+        # must stay recorded, or a future reader cannot tell that `targets` is
+        # still a lower bound.
+        path = os.path.join(REPO_ROOT, "schemas", "V_eta_migration_targets.json")
+        with open(path) as fh:
+            doc = json.load(fh)
+        rows = doc.get("classes") or doc
+        tc = rows["element"].get("target_completeness") or {}
+        self.assertEqual(tc.get("state"), "partial")
+        self.assertTrue(tc.get("unresolved_sites"))

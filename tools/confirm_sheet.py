@@ -104,7 +104,7 @@ BUCKET_OPTIONS = {
 
 
 def question_for(bucket, v1_class, emits, second_pass=(), final=None,
-                 partial=False):
+                 partial=False, unread=()):
     """The row's ask, in the INTERROGATIVE, self-contained enough to answer alone.
 
     Self-contained matters more than brevity here: these are read one at a time,
@@ -127,15 +127,21 @@ def question_for(bucket, v1_class, emits, second_pass=(), final=None,
         # is folded away in the same pass. Asking someone to confirm an end
         # state while listing classes that are not end states is a question that
         # cannot be answered as written.
-        shown = final if final is not None else list(emits)
+        shown = list(final if final is not None else emits)
+        for extra in (unread or []):
+            if extra not in shown:
+                shown.append(extra)
         emitted = ", ".join(shown) if shown else "(nothing recorded)"
         q = ("Migrating `%s` today ends as %s. Is that the end state we "
              "want for `%s`?" % (v1_class, emitted, v1_class))
-        if partial:
+        if partial and not unread:
             # Do not ask for a confirmation the evidence cannot support.
             q += (" NOTE: that set is a LOWER BOUND -- at least one emission "
                   "could not be read from the code, so answering `yes` here "
                   "confirms less than it appears to.")
+        elif unread:
+            q += (" (The last %d are AUTHORED from the migrator's own lookup "
+                  "table, which the derivation cannot read.)" % len(unread))
         return q
     if bucket == B_PASSTHROUGH:
         return ("`%s` is folded into nothing -- its documents survive under "
@@ -291,7 +297,8 @@ def build(ledger, targets_map, stage=1):
                 e.get("second_pass") or [],
                 final=destinations(e.get("targets") or [], disp)[0],
                 partial=(e.get("target_completeness") or {}).get("state")
-                        == "partial"),
+                        == "partial",
+                unread=(e.get("unread_targets") or {}).get("targets") or ()),
             "options": [{"key": k, "label": v}
                         for k, v in BUCKET_OPTIONS.get(bucket, [])],
             "answer_from": ANSWER_FROM[bucket],
@@ -302,6 +309,11 @@ def build(ledger, targets_map, stage=1):
                 for c, d, by in destinations(e.get("targets") or [], disp)[1]],
             "destination_unknown": destinations(e.get("targets") or [], disp)[2],
             "target_completeness": e.get("target_completeness") or {},
+            # AUTHORED, and kept SEPARATE from `targets` on purpose. The map's
+            # own division is derived-vs-authored, and merging a hand entry into
+            # a generated list makes the two indistinguishable to the next
+            # reader -- who would then trust a hand claim as a machine fact.
+            "unread_targets": e.get("unread_targets") or {},
             "carried": e.get("carried") or [],
             "second_pass": e.get("second_pass") or [],
             "intent": e.get("how") or "",
@@ -353,6 +365,16 @@ def render(rows, unclassified, total_rows, stage, out=sys.stdout):
             p("      emits      : %s" % (", ".join(r["emits"]) or "(none recorded)"))
             if r["destinations"]:
                 p("      ENDS AS    : %s" % ", ".join(r["destinations"]))
+            ur = r["unread_targets"]
+            if ur.get("targets"):
+                seen = set(ur.get("observed_in_corpus") or [])
+                p("      ALSO ENDS AS (authored -- the derivation cannot read "
+                  "these):")
+                for c in ur["targets"]:
+                    p("           %-26s %s" % (
+                        c, "observed in a corpus" if c in seen
+                        else "reachable from the table, not corpus-observed"))
+                p("           cited: %s" % ur.get("citation", "(no citation)"))
             for it in r["intermediates"]:
                 p("      intermediate: %s (%s) -- folded by %s"
                   % (it["class"], it["disposition"],
@@ -365,8 +387,13 @@ def render(rows, unclassified, total_rows, stage, out=sys.stdout):
                 # THE ROW IS NOT ANSWERABLE FROM `emits` ALONE and the sheet has
                 # to say so where the reader is looking. refresh_migration_targets
                 # knew this and only printed it; the fact was lost between tools.
-                p("      *** THE EMITTED SET ABOVE IS A LOWER BOUND -- this row "
-                  "cannot be confirmed as an end state from it alone.")
+                if r["unread_targets"].get("targets"):
+                    p("      *** `targets` IS A LOWER BOUND, and the gap is "
+                      "COVERED by the authored entry above -- confirm the "
+                      "union of the two lists, not `targets` alone.")
+                else:
+                    p("      *** THE EMITTED SET ABOVE IS A LOWER BOUND -- this "
+                      "row cannot be confirmed as an end state from it alone.")
                 for site in tc.get("unresolved_sites", []):
                     p("          unread: %s" % site.get("why", ""))
                     p("                  %s" % site.get("site", ""))

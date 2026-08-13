@@ -22,6 +22,20 @@
           }
         ],
         "warning": "`targets` IS A LOWER BOUND for this class. This tool could not read every document_class write, so the emitted set may be larger than what is listed. Do not confirm this row as an end state from `targets` alone -- read the sites below."
+      },
+      "unread_targets": {
+        "targets": [
+          "voltage_observation",
+          "current_observation",
+          "image_observation",
+          "acceleration_observation",
+          "temperature_observation"
+        ],
+        "why": "AUTHORED, because `targets` is DERIVED and this tool cannot derive these. element.m:118 calls private/jRecordingObservation, whose construction site is `classBlock(e.class, ...)` at :209 -- a VARIABLE. The literals are three steps away, in private/jRecordingModality.m, passed to a local helper `mk` and returned as a struct field: `mk('voltage_observation', ...)` at :190, :198, :208, :218, plus current_observation :200/:209, image_observation :214, acceleration_observation :220, temperature_observation :222 -- five distinct classes over eight sites. Following that is inter-procedural data flow through a struct field across two files, which the derivation deliberately does not attempt; it reports the site instead (see `target_completeness`). THE EMISSION IS NOT IN DOUBT: this is the SIGNED raw-recording observation (V_eta_recording_observation_plan.md:99, 2026-08-10), it is what carries `instrument_id`, and NDI-matlab's PRED end-to-end test asserts the `voltage_observation` it produces (TestMigrateLocalEtaPRED, run 31748129747, 8/8). Only ONE of the five is corpus-exercised -- PRED is an ephys corpus -- so the other four are recorded as REACHABLE from the table, not as observed.",
+        "citation": "DID-matlab src/did/+did2/+convert/+migrators_j/private/jRecordingModality.m:190-222",
+        "observed_in_corpus": [
+          "voltage_observation"
+        ]
       }
     },
     "element_epoch": {
