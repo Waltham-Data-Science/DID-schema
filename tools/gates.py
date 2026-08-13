@@ -357,6 +357,18 @@ STEPS = [
     # its absence or its age. A gate that went red because the last corpus run
     # was three weeks ago would be disabled inside a month, and the number it
     # protects would go back to living only in an expiring CI artifact.
+    # REPORT-ONLY, and it lands with 332 untriaged sites so it must be. The
+    # corpus gate proves documents MIGRATE; nothing proves MATLAB can still READ
+    # them, because no job opens a migrated database through NDI's object API.
+    # This measures the join -- where NDI reads a document field BY PATH, against
+    # what V_eta moves -- so the size of that gap is a number rather than an
+    # intuition. Arming it today would redden a job nobody owns, which is how a
+    # gate gets ignored; this repository's rule for the switch is
+    # census_digest.py's, "arming was gated on the count already being 0".
+    Step("check_ndi_read_path", _t("check_ndi_read_path.py"), "report",
+         r"^  AT_RISK\s+(\d+) read", "NDI by-path reads of classes V_eta moves",
+         requires=["NDI-matlab"]),
+
     Step("corpus_proof_snapshot", _t("corpus_proof_snapshot.py", "--check"),
          "report", r"^  DENOMINATOR: committed snapshot carries (\d+) class",
          "class verdicts in the committed corpus proof"),
