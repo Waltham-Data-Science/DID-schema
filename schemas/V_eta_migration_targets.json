@@ -556,8 +556,8 @@
       ],
       "carried": [],
       "second_pass": [],
-      "how": "ndr subtype dissolves into generic daqreader; ndr_reader_string -> reader_string, ndi_daqreader_ndr_class dropped",
-      "flags": "in-place class rename"
+      "how": "The `ndr` subtype was encoded in the CLASS NAME while `ndi_daqreader_class` already discriminates it, so this de-encodes onto the generic `daqreader` block -- `ndr_reader_string` -> `reader_string`, `ndi_daqreader_ndr_class` dropped as redundant, `file_extension` NOT carried (invented; no NDI template declares it in any spelling) -- and then HANDS THE BODY ON to migrators_j/daqreader, which performs the signed fold. So the end state is `acquisition_reader` (base.id PRESERVED, so every `daqreader_id` edge still resolves) + a `software` entity. `daqreader` is an INTERMEDIATE class name, not a destination.",
+      "flags": "BUILT (migrators_j/daqreader_ndr.m -> migrators_j/daqreader.m, DID-matlab 5d3f532). THIS `how` DESCRIBED THE PRE-5d3f532 BEHAVIOUR UNTIL 2026-08-13 -- it said the subtype 'dissolves into generic daqreader' and flagged an 'in-place class rename', which was true when written and stopped being true when the delegation landed. The confirm sheet renders this text, so the stale record was making a completed fold read as a `daqreader` tombstone, i.e. as work still owed. WHY `daqreader` IS STILL IN `targets`, WHICH IS GENERATED AND CORRECT: refresh_migration_targets follows the call graph and sees both the literal `class_name = 'daqreader'` assignment here and daqreader.m's guard-1 passthrough, which returns the body unfolded when it carries NEITHER a class name NOR a reader string. That branch is REACHABLE IN GENERAL and unreachable for PRED: both PRED `daqreader_ndr` documents carry `ndr_reader_string: 'intan'` AND a populated `ndi_daqreader_class` (`ndi.daq.reader.mfdaq.ndr`, `ndi.setup.daq.reader.mfdaq.stimulus.rayolab_intanseries`), read from the corpus zip directly, so both take the folding path. NOT VERIFIED BY EXECUTION."
     },
     "daqreader_mfdaq_epochdata_ingested": {
       "targets": [
