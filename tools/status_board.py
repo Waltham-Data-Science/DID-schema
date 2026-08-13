@@ -597,6 +597,49 @@ FAMILIES = [
      "ANCHOR (-> absolute_reference), NOT a field (corrected 2026-08-06)"),
      "team"),
 
+    # SIGNED 2026-08-10; the FAMILY ROW is 2026-08-13, and the row is the only
+    # new thing. The signature was there all along and UNREACHABLE, because the
+    # scanner's placeholder guard rejected any line carrying a paired `<...>`
+    # and this decision's own text says `<modality>_observation`. So `element`
+    # rendered `no signature found` and reached the team on the confirm sheet
+    # as a question that had been answered three days earlier.
+    #
+    # ONE MEMBER, NOT TWO, AND THE SECOND CANDIDATE IS THE FINDING. `pyraview`
+    # emits a `voltage_observation` + `sampled_body` and so LOOKS like it
+    # implements this model. It does not:
+    #
+    #   element  (private/jRecordingObservation.m:211-212)
+    #       subject_id    = the SPECIMEN
+    #       instrument_id = the electrode          <- the signed shape
+    #   pyraview (migrators_j/pyraview.m:90,225)
+    #       subject_id    = element_id (the PROBE promoted to a subject)
+    #       instrument_id  -- 0 occurrences in the file
+    #
+    # An observation OF THE ELECTRODE with no instrument edge is precisely the
+    # pre-decision shape this signature exists to replace ("REPLACES the loose
+    # `probe observes specimen` relation + bare-body path the migrators emit
+    # today"). Naming `pyraview` a member would make the board report a model
+    # as implemented where it is not -- this file's documented failure
+    # direction. It is a REAL GAP, recorded here and NOT fixed: repointing
+    # pyraview at the specimen changes what the PRED corpus emits and is a
+    # build, not bookkeeping.
+    ("raw recording observation", ["element"],
+     "V_eta_recording_observation_plan.md",
+     ("a raw continuous recording IS a typed `<modality>_observation` of the "
+      "SPECIMEN: subject_id = the specimen, instrument_id = the electrode in "
+      "the instrument role (T7), variable = the modality from the element "
+      "type, body = `sampled_body`; the loose `probe observes specimen` "
+      "relation RETIRES in favour of the instrument_id edge, and ONLY where "
+      "that edge was actually written. Guard A stands (an unmapped element "
+      "type still yields a VALUED observation over a self-describing "
+      "sampled_body with a queryable `modality_unresolved` flag, never a "
+      "timeseries_observation or `array`). Multi-channel is ONE observation "
+      "with a channel axis, not N. Specimen granularity is accepted as "
+      "faithful-but-coarse. OPEN, NOT COVERED BY THE SIGNATURE: `pyraview` "
+      "emits this model's SHAPE while attributing it to the element rather "
+      "than the specimen and writing no instrument_id"),
+     "team"),
+
     # TWO ROWS ADDED 2026-08-13, AND NEITHER IS A DECISION -- both are the
     # JOIN that was missing. `signature_census` had been reporting both tags as
     # ORPHANS ("a signature that exists and reaches nothing") while `subject`

@@ -393,10 +393,17 @@ class TestTheCommittedLedger(unittest.TestCase):
         # once -- "no decision" and "decided, narrower items outstanding" --
         # and the contradiction was invisible only while the tag mismatch kept
         # the signature unreachable.
+        # 29 -> 30 later on 2026-08-13: `element` joined, and like `subject`
+        # and `session` before it the DECISION is not new -- it was signed
+        # 2026-08-10. Two things were in the way at once, which is why it took
+        # a rule change AND a table row: the scanner's placeholder guard was
+        # discarding the signature (its text names `<modality>_observation`),
+        # and no FAMILIES row named the class. Fixing either alone would have
+        # left the row reading `no signature found`.
         self.assertEqual(transcribed, 8)
-        self.assertEqual(derived, 29)
-        self.assertEqual(self.gov["by_state"][coverage.G_SIGNED], 36,
-                         "8 transcribed + 29 derived, less `ngrid`, whose "
+        self.assertEqual(derived, 30)
+        self.assertEqual(self.gov["by_state"][coverage.G_SIGNED], 37,
+                         "8 transcribed + 30 derived, less `ngrid`, whose "
                          "DISPUTED record outranks its family signature")
 
     def test_a_DISPUTED_record_outranks_a_family_signature(self):

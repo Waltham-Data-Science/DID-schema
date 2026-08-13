@@ -2,11 +2,11 @@
   "title": "V_eta decision families (GENERATED -- do not hand-edit)",
   "description": "Regenerate with `python3 tools/status_board.py`. The human-readable twin is schemas/V_eta_STATUS.md. A family counts as decided ONLY when its plan document carries a TEAM-SIGN-OFF line; Claude cannot promote its own work.",
   "summary": {
-    "families": 22,
-    "classes_claimed": 44,
+    "families": 23,
+    "classes_claimed": 45,
     "open_classes": 26,
     "by_state": {
-      "signed_awaiting_build": 22,
+      "signed_awaiting_build": 23,
       "awaiting_signature": 0,
       "proposed_unreviewed": 0,
       "open": 0
@@ -458,6 +458,23 @@
       "state_label": "decided and signed off, awaiting build"
     },
     {
+      "name": "raw recording observation",
+      "members": [
+        {
+          "class_name": "element",
+          "disposition": "retire"
+        }
+      ],
+      "open_members": [],
+      "plan": "V_eta_recording_observation_plan.md",
+      "decision": "a raw continuous recording IS a typed `<modality>_observation` of the SPECIMEN: subject_id = the specimen, instrument_id = the electrode in the instrument role (T7), variable = the modality from the element type, body = `sampled_body`; the loose `probe observes specimen` relation RETIRES in favour of the instrument_id edge, and ONLY where that edge was actually written. Guard A stands (an unmapped element type still yields a VALUED observation over a self-describing sampled_body with a queryable `modality_unresolved` flag, never a timeseries_observation or `array`). Multi-channel is ONE observation with a channel axis, not N. Specimen granularity is accepted as faithful-but-coarse. OPEN, NOT COVERED BY THE SIGNATURE: `pyraview` emits this model's SHAPE while attributing it to the element rather than the specimen and writing no instrument_id",
+      "status": "team",
+      "signed": true,
+      "signoff": "jess@walthamdatascience.com / 2026-08-10 -- a raw continuous recording IS a typed `<modality>_observation` of the SPECIMEN: `subject_id` = the specimen, `instrument_id` = the electrode/probe in the instrument role (T7), `variable` = the modality from the element/probe type, body = `sampled_body`, timing = the existing epoch anchor; the loose `probe observes specimen` relation RETIRES in favour of the `instrument_id` edge. Guard A stands: an unmapped element type still yields a VALUED observation over a bare self-describing `sampled_body` with a queryable `modality_unresolved` flag -- never a `timeseries_observation` or `array` class -- and the build gate is ZERO fallbacks on the real corpus. Multi-channel is ONE observation with a channel axis, not N observations. Specimen granularity is accepted as faithful-but-coarse; Path-S may promote a recording-locus part-subject later. Signed KNOWING the body shape rides on the data_body model, which is NOT signed: the `sampled_body` under these observations will be reshaped when that lands, and that rework is accepted rather than waiting on binding enforcement plus two corpus measurements.",
+      "state": "signed_awaiting_build",
+      "state_label": "decided and signed off, awaiting build"
+    },
+    {
       "name": "subject",
       "members": [
         {
@@ -561,6 +578,7 @@
     "stimulus_response_scalar_parameters": "stimulus response",
     "stimulus_response_scalar_parameters_basic": "stimulus response",
     "subjectmeasurement": "subject measurement",
+    "element": "raw recording observation",
     "subject": "subject",
     "session": "session",
     "binaryseries_parameters": "misc singletons",

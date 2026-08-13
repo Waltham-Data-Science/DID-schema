@@ -444,20 +444,20 @@
       "governance": {
         "denominator": 102,
         "by_state": {
-          "signed": 36,
+          "signed": 37,
           "DISPUTED": 1,
           "family UNSIGNED": 0,
-          "no signature found": 65
+          "no signature found": 64
         },
         "signed_by": {
-          "derived from a signed family": 29,
+          "derived from a signed family": 30,
           "checked transcription on the row": 7
         },
         "join": {
           "rows_inspected": 102,
-          "rows_matched_by_a_signed_family": 37,
+          "rows_matched_by_a_signed_family": 38,
           "matched_on": {
-            "v1_class": 37
+            "v1_class": 38
           },
           "matched_on_v1_class_only": 2,
           "matched_on_veta_class_only": 0,
@@ -466,6 +466,7 @@
             "misc singletons": 2,
             "daq configuration": 3,
             "daq ingested payloads": 3,
+            "raw recording observation": 1,
             "ensemble": 1,
             "epoch": 2,
             "file navigation": 1,
@@ -487,7 +488,7 @@
           "conflicting_claims": [],
           "unmoved_by_cause": {
             "a family names this class and that family is UNSIGNED": 0,
-            "no family names this class; a SIGNED family names a class its migrator EMITS": 39,
+            "no family names this class; a SIGNED family names a class its migrator EMITS": 38,
             "no family names this class, and the row has no V_eta class and no target either": 4,
             "no family in FAMILIES names this class": 22
           },
@@ -530,7 +531,6 @@
               "daqreader_mfdaq_epochdata_ingested",
               "daqreader_ndr",
               "electrode_offset_voltage",
-              "element",
               "element_epoch",
               "fitcurve",
               "image",
@@ -565,8 +565,8 @@
             ]
           },
           "target_only_reached_via": {
-            "session_relative_reference (time_reference)": 34,
-            "subject (subject)": 4,
+            "session_relative_reference (time_reference)": 33,
+            "subject (subject)": 3,
             "control_designation (stimulus)": 1,
             "daqreader_epochdata_ingested (daq ingested payloads)": 1,
             "daqreader (daq configuration)": 1,
@@ -785,7 +785,7 @@
             "V_eta_frequency_filter_model_plan.md": 1,
             "V_eta_openminds_family_record.md": 2
           },
-          "families_total": 22,
+          "families_total": 23,
           "families_signed": [
             "daq configuration",
             "daq ingested payloads",
@@ -797,6 +797,7 @@
             "logical_observation",
             "misc singletons",
             "openMINDS",
+            "raw recording observation",
             "session",
             "software",
             "spike processing parameters",
@@ -840,12 +841,6 @@
               {
                 "document": "V_eta_OPEN_WORK.md",
                 "line": 2904
-              }
-            ],
-            "raw recording observation": [
-              {
-                "document": "V_eta_recording_observation_plan.md",
-                "line": 99
               }
             ]
           }
@@ -3201,13 +3196,31 @@
       "second_pass": [],
       "how": "element becomes a subject (id PRESERVED) + kind term_assertion(s) (type, ndi_element_class) + a lineage directed_relation (derived_from underlying element, or observes the specimen)",
       "target_flags": "mints subject (id preserved); relation type dynamic (derived_from vs observes); part_of deliberately not emitted",
-      "decided_by_family": null,
-      "families_naming_this_class": [],
-      "governance_gap": "no family names this class; a SIGNED family names a class its migrator EMITS",
+      "decided_by_family": {
+        "family": "raw recording observation",
+        "document": "V_eta_recording_observation_plan.md",
+        "line": 99,
+        "signoff": "jess@walthamdatascience.com / 2026-08-10 -- a raw continuous recording IS a typed `<modality>_observation` of the SPECIMEN: `subject_id` = the specimen, `instrument_id` = the electrode/probe in the instrument role (T7), `variable` = the modality from the element/probe type, body = `sampled_body`, timing = the existing epoch anchor; the loose `probe observes specimen` relation RETIRES in favour of the `instrument_id` edge. Guard A stands: an unmapped element type still yields a VALUED observation over a bare self-describing `sampled_body` with a queryable `modality_unresolved` flag -- never a `timeseries_observation` or `array` class -- and the build gate is ZERO fallbacks on the real corpus. Multi-channel is ONE observation with a channel axis, not N observations. Specimen granularity is accepted as faithful-but-coarse; Path-S may promote a recording-locus part-subject later. Signed KNOWING the body shape rides on the data_body model, which is NOT signed: the `sampled_body` under these observations will be reshaped when that lands, and that rework is accepted rather than waiting on binding enforcement plus two corpus measurements.",
+        "matched_on": "v1_class",
+        "matched_name": "element",
+        "conflict": []
+      },
+      "families_naming_this_class": [
+        "raw recording observation"
+      ],
+      "governance_gap": null,
       "governance": {
-        "state": "no signature found",
-        "signoff": null,
-        "why": "no family names this class; a SIGNED family names a class its migrator EMITS. This is the absence of a FINDABLE signature -- a transcription, or a signed family naming this class -- and NOT evidence that no decision exists"
+        "state": "signed",
+        "signoff": {
+          "family": "raw recording observation",
+          "document": "V_eta_recording_observation_plan.md",
+          "line": 99,
+          "signoff": "jess@walthamdatascience.com / 2026-08-10 -- a raw continuous recording IS a typed `<modality>_observation` of the SPECIMEN: `subject_id` = the specimen, `instrument_id` = the electrode/probe in the instrument role (T7), `variable` = the modality from the element/probe type, body = `sampled_body`, timing = the existing epoch anchor; the loose `probe observes specimen` relation RETIRES in favour of the `instrument_id` edge. Guard A stands: an unmapped element type still yields a VALUED observation over a bare self-describing `sampled_body` with a queryable `modality_unresolved` flag -- never a `timeseries_observation` or `array` class -- and the build gate is ZERO fallbacks on the real corpus. Multi-channel is ONE observation with a channel axis, not N observations. Specimen granularity is accepted as faithful-but-coarse; Path-S may promote a recording-locus part-subject later. Signed KNOWING the body shape rides on the data_body model, which is NOT signed: the `sampled_body` under these observations will be reshaped when that lands, and that rework is accepted rather than waiting on binding enforcement plus two corpus measurements.",
+          "matched_on": "v1_class",
+          "matched_name": "element",
+          "conflict": []
+        },
+        "why": "DERIVED, not transcribed: the decision family `raw recording observation` names this class as `element` (v1_class), and that family is signed at `V_eta_recording_observation_plan.md`:99. Re-derived on every build from status_board.signed_families(); a family with no signature reaches nothing"
       },
       "stage": {
         "unclassifiable": false,
