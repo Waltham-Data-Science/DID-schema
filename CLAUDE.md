@@ -1423,6 +1423,8 @@ lives in these files — read them instead of re-deriving from memory:
             $ git ls-tree -r origin/main | grep -c '\.m$' = **1003**
         veta_class_names      242   distinct V_eta class names
         veta_schema_files     248   json files under schemas/V_eta/
+        264 .m file(s) under DID-matlab src/   -- jBase.m, the central `base`
+            block constructor, was added 2026-08-13
 
   **The first cause was EXTERNAL: an NDI-matlab `origin/main` merge.** `ndi_m_files` moved
   1,002 -> 1,003 because main gained one `.m` file, which is a DENOMINATOR shift and

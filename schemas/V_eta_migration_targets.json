@@ -549,7 +549,9 @@
     },
     "daqreader_ndr": {
       "targets": [
-        "daqreader"
+        "daqreader",
+        "acquisition_reader",
+        "software"
       ],
       "carried": [],
       "second_pass": [],
@@ -841,7 +843,8 @@
     },
     "daqreader": {
       "targets": [
-        "software"
+        "software",
+        "acquisition_reader"
       ],
       "carried": [],
       "second_pass": [],

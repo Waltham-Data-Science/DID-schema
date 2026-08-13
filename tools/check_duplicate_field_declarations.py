@@ -137,7 +137,14 @@ GROUND_TRUTH = os.path.join(REPO, "schemas", "V_eta_ndi_ground_truth.json")
 
 # The count as of 2026-08-12. May fall freely; an increase fails, and so does a
 # fall that is not recorded here.
-BASELINE = 9
+# 9 -> 8 on 2026-08-13, and the ratchet is doing exactly what it is for: the
+# row that left is `subjectmeasurement.datestamp`, which shadowed
+# `base.datestamp`. Renaming the base field to `creation_timestamp` ended the
+# collision without touching subjectmeasurement at all -- its `datestamp` is a
+# did_v1 field naming when the MEASUREMENT was taken, which is a different fact
+# from when the DOCUMENT was created, and the two only ever looked like one
+# because they shared a word. Lowered rather than left, so the ground stays won.
+BASELINE = 8
 
 V1_FIDELITY = "V1-FIDELITY"
 V_ETA_SHADOW = "V_eta-SHADOW"

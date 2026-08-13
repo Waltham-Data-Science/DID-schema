@@ -59,7 +59,7 @@
             }
         },
         {
-            "name": "datestamp",
+            "name": "creation_timestamp",
             "type": "timestamp",
             "blank_value": "",
             "default_value": "2018-12-05T18:36:47.241Z",
@@ -71,7 +71,7 @@
                 "node": "schema:dateCreated",
                 "name": "dateCreated"
             },
-            "documentation": "UTC timestamp of document creation in ISO 8601 format.",
+            "documentation": "UTC timestamp of document creation, ISO 8601. Renamed from `datestamp` 2026-08-13: `datestamp` named the container rather than the content (T13), and `_timestamp` is the kind word because every existing `_time` field in V_eta is a numeric offset or duration, not an instant.",
             "constraints": {}
         }
     ]

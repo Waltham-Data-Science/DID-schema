@@ -5811,6 +5811,49 @@ for _seed_name, _ in NUMERIC_SEED:          # J §7 comprehensive numeric set
 # invents a month, a day and a time.
 if "date" not in type_enum:
     type_enum.append("date")
+
+# ---- `base.datestamp` -> `base.creation_timestamp` -------------------------
+# THE FIELD IS INHERITED FROM V_zeta AND NOTHING HERE TOUCHED IT, which is why
+# the rename needs an explicit transform rather than an edit to a `field()`
+# call: `base.json` is copied wholesale and `datestamp` rode through unchanged.
+#
+# WHY THE NAME. `datestamp` names the CONTAINER (a stamp), not the content (a
+# creation time), which T13 rules out. The replacement follows the house style
+# as MEASURED rather than as preferred: `<noun>_<kind>` across 472 field names
+# (13 `_name`, 11 `_time`, 10 `_type`, 6 `_value`, 5 `_id`) and ZERO bare past
+# participles -- so `created`, which reads better in isolation, would have been
+# the only one of its kind in the schema.
+#
+# AND THE KIND WORD IS `_timestamp`, NOT `_time`. All 22 existing
+# `_time`/`_times` fields are NUMERIC (13 double, 6 matrix, 3 structure) --
+# offsets and durations in seconds, never wall-clock instants -- so a
+# `timestamp`-typed `_time` would collide with an established meaning. That
+# `_timestamp` echoes its own type is not an objection here: `_id`, `_name`,
+# `_type`, `_value` and `_unit` all do, and they are the convention.
+#
+# THE MIGRATOR SIDE IS ONE FUNCTION, NOT 65 EDITS:
+# did2.convert.v1_to_v2/renameOutboundBaseFields renames on the way OUT, after
+# ensureClassBlocks and before validation -- the only point every body passes
+# through, passthroughs included. Migrators keep reading and writing did_v1
+# spelling internally and not one of them changed.
+_base_tier, _base_path = path_of("base")
+_base = load(_base_path)
+_renamed = 0
+for _f in _base.get("fields", []):
+    if _f["name"] == "datestamp":
+        _f["name"] = "creation_timestamp"
+        _f["documentation"] = (
+            "UTC timestamp of document creation, ISO 8601. Renamed from "
+            "`datestamp` 2026-08-13: `datestamp` named the container rather "
+            "than the content (T13), and `_timestamp` is the kind word "
+            "because every existing `_time` field in V_eta is a numeric "
+            "offset or duration, not an instant.")
+        _renamed += 1
+if _renamed != 1:
+    raise SystemExit(
+        "build_v_eta: expected exactly ONE `datestamp` field on `base`, "
+        "found %d -- the rename is no longer describing the tree" % _renamed)
+write(_base_tier, "base", _base)
 # `validity` USED TO BE APPENDED HERE, and its replacement deliberately is not.
 # The enum is `field_definition.type` -- the types a FIELD may declare -- and it
 # needed an entry only because `validity.value` was typed `validity` (a nested

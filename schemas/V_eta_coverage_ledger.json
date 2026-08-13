@@ -1972,7 +1972,8 @@
       "nonprod": false,
       "gap": false,
       "targets": [
-        "software"
+        "software",
+        "acquisition_reader"
       ],
       "decided_targets": [
         "software"
@@ -2391,7 +2392,9 @@
       "nonprod": false,
       "gap": false,
       "targets": [
-        "daqreader"
+        "daqreader",
+        "acquisition_reader",
+        "software"
       ],
       "decided_targets": [],
       "decided_targets_source": null,

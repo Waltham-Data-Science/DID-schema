@@ -354,6 +354,18 @@
         "text": "if isfield(postBody, 'base') && isstruct(postBody.base) ..."
        }
       ]
+     },
+     {
+      "pass": "v1_to_v2",
+      "path": "src/did/+did2/+convert/v1_to_v2.m",
+      "site_count": 1,
+      "sites": [
+       {
+        "line": 614,
+        "spelling": "base",
+        "text": "if ~isfield(body, 'base') || ~isstruct(body.base) || ~isscalar(body.base)"
+       }
+      ]
      }
     ],
     "per_class_migrators": []
