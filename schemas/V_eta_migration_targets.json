@@ -1,5 +1,5 @@
 {
-  "_comment": "did_v1 -> V_eta migration TARGET map: for each v1 source class, the V_eta document class(es) its migrator actually emits. targets = pass-1 emitted classes; carried = pre-existing classes attached to (not minted); second_pass = classes minted in the NDI second pass; decided_targets = a signed decision no migrator implements yet; how = one-line authored intent; flags = caveats (dynamic emit, header/code mismatch, deferrals). Consumed by tools/coverage.py to fill the ledger's target column. == targets IS GENERATED, THE REST IS AUTHORED. Re-run `python3 tools/refresh_migration_targets.py` after any migrator change; `--check` fails when it is stale. It follows the call graph from each class's entry point in +migrators_j (falling back to +migrators, which is where V_eta lands when +migrators_j has no file) through private/ helpers and local subfunctions, resolving class names passed as parameters at their call sites, and reuses tools/status_board.py's statement-level extractor so a `superclasses` entry is never read as a document class. It rewrites a row only when every reachable emission resolved; where one did not (element, measurement, ontology_table_row, subjectmeasurement -- all pick their leaf class at runtime) the row can only GAIN, never lose. A migrator that mints nothing keeps a target naming ITSELF and loses any target naming another class. == ON session_relative_reference, WHICH IS A CONTRADICTION BETWEEN TWO COMMITTED RECORDS AND IS NOT RESOLVED HERE. 36 rows name `session_relative_reference`, because private/jSessionAnchor.m:19 mints it and every observation migrator calls that helper. The signed time model (V_eta_time_reference_model_plan.md) COLLAPSES it, with seven siblings, into `relative_reference`. Both are true of different moments, and both halves are already in the code: private/jEpochClockReferences.m:141 and private/jClockAlignmentBodies.m:174 mint `relative_reference` today, which is why 4 rows name the new class while 36 name the old one. So a `session_relative_reference` target is a statement about what pass 1 EMITS TODAY, never a decision that the class survives; the decision is the sign-off in the plan document, and tools/status_board.py's RETIRED_BY_ITS_OWN_DECISION carries the same reading. Rewriting the 36 rows to a class their migrators do not emit would make this file describe an intention rather than the code.",
+  "_comment": "did_v1 -> V_eta migration TARGET map: for each v1 source class, the V_eta document class(es) its migrator actually emits. targets = pass-1 emitted classes; carried = pre-existing classes attached to (not minted); second_pass = classes minted in the NDI second pass; decided_targets = a signed decision no migrator implements yet; confirmed_targets = the team read what the migrator ALREADY emits and accepted it as the end state (the opposite of decided_targets -- never merge them); how = one-line authored intent; flags = caveats (dynamic emit, header/code mismatch, deferrals). Consumed by tools/coverage.py to fill the ledger's target column. == targets IS GENERATED, THE REST IS AUTHORED. Re-run `python3 tools/refresh_migration_targets.py` after any migrator change; `--check` fails when it is stale. It follows the call graph from each class's entry point in +migrators_j (falling back to +migrators, which is where V_eta lands when +migrators_j has no file) through private/ helpers and local subfunctions, resolving class names passed as parameters at their call sites, and reuses tools/status_board.py's statement-level extractor so a `superclasses` entry is never read as a document class. It rewrites a row only when every reachable emission resolved; where one did not (element, measurement, ontology_table_row, subjectmeasurement -- all pick their leaf class at runtime) the row can only GAIN, never lose. A migrator that mints nothing keeps a target naming ITSELF and loses any target naming another class. == ON session_relative_reference, WHICH IS A CONTRADICTION BETWEEN TWO COMMITTED RECORDS AND IS NOT RESOLVED HERE. 36 rows name `session_relative_reference`, because private/jSessionAnchor.m:19 mints it and every observation migrator calls that helper. The signed time model (V_eta_time_reference_model_plan.md) COLLAPSES it, with seven siblings, into `relative_reference`. Both are true of different moments, and both halves are already in the code: private/jEpochClockReferences.m:141 and private/jClockAlignmentBodies.m:174 mint `relative_reference` today, which is why 4 rows name the new class while 36 name the old one. So a `session_relative_reference` target is a statement about what pass 1 EMITS TODAY, never a decision that the class survives; the decision is the sign-off in the plan document, and tools/status_board.py's RETIRED_BY_ITS_OWN_DECISION carries the same reading. Rewriting the 36 rows to a class their migrators do not emit would make this file describe an intention rather than the code.",
   "classes": {
     "element": {
       "targets": [
@@ -36,6 +36,23 @@
         "observed_in_corpus": [
           "voltage_observation"
         ]
+      },
+      "confirmed_targets": {
+        "targets": [
+          "subject",
+          "term_assertion",
+          "directed_relation",
+          "sampled_body",
+          "session_relative_reference",
+          "voltage_observation",
+          "current_observation",
+          "image_observation",
+          "acceleration_observation",
+          "temperature_observation"
+        ],
+        "confirmed": "jess@walthamdatascience.com / 2026-08-13 -- answered YES to the generated confirm-sheet row for this class: the set the migrator already emits IS the end state we want.",
+        "signoff": "V_eta_recording_observation_plan.md [raw recording observation]",
+        "why": "THE EMITTED SET, confirmed -- not a wish. This key means the team read what the migrator produces today and accepted it, which is the OPPOSITE of `decided_targets` (a signed decision no migrator implements yet); the two must never be merged or the ladder reports finished work as a gap. Recorded by Claude at the signer's instruction in session_01BenWtpJyRu3QhEZqCErpwm; the DECISION is the signer's. It is fed through the SAME rung 2 and rung 3 checks as any decided set, so if the migrator later stops emitting one of these the rung goes `no` and this confirmation shows up as stale rather than standing silently."
       }
     },
     "element_epoch": {
@@ -62,6 +79,14 @@
       "target_completeness": {
         "state": "carry_forward",
         "unresolved_sites": []
+      },
+      "confirmed_targets": {
+        "targets": [
+          "subject"
+        ],
+        "confirmed": "jess@walthamdatascience.com / 2026-08-13 -- answered YES to the generated confirm-sheet row for this class: the set the migrator already emits IS the end state we want.",
+        "signoff": "V_eta_go_forward_class_audit.md [subject]",
+        "why": "THE EMITTED SET, confirmed -- not a wish. This key means the team read what the migrator produces today and accepted it, which is the OPPOSITE of `decided_targets` (a signed decision no migrator implements yet); the two must never be merged or the ladder reports finished work as a gap. Recorded by Claude at the signer's instruction in session_01BenWtpJyRu3QhEZqCErpwm; the DECISION is the signer's. It is fed through the SAME rung 2 and rung 3 checks as any decided set, so if the migrator later stops emitting one of these the rung goes `no` and this confirmation shows up as stale rather than standing silently."
       }
     },
     "subject_group": {
@@ -548,6 +573,18 @@
       "target_completeness": {
         "state": "full",
         "unresolved_sites": []
+      },
+      "confirmed_targets": {
+        "targets": [
+          "voltage_observation",
+          "sampled_body",
+          "session_relative_reference",
+          "frequency_filter",
+          "epoch_bounded_reference"
+        ],
+        "confirmed": "jess@walthamdatascience.com / 2026-08-13 -- answered YES to the generated confirm-sheet row for this class: the set the migrator already emits IS the end state we want.",
+        "signoff": "V_eta_recording_observation_plan.md [pyraview pyramid]",
+        "why": "THE EMITTED SET, confirmed -- not a wish. This key means the team read what the migrator produces today and accepted it, which is the OPPOSITE of `decided_targets` (a signed decision no migrator implements yet); the two must never be merged or the ladder reports finished work as a gap. Recorded by Claude at the signer's instruction in session_01BenWtpJyRu3QhEZqCErpwm; the DECISION is the signer's. It is fed through the SAME rung 2 and rung 3 checks as any decided set, so if the migrator later stops emitting one of these the rung goes `no` and this confirmation shows up as stale rather than standing silently."
       }
     },
     "image_stack": {
@@ -771,6 +808,16 @@
       "target_completeness": {
         "state": "full",
         "unresolved_sites": []
+      },
+      "confirmed_targets": {
+        "targets": [
+          "daqreader",
+          "acquisition_reader",
+          "software"
+        ],
+        "confirmed": "jess@walthamdatascience.com / 2026-08-13 -- answered YES to the generated confirm-sheet row for this class: the set the migrator already emits IS the end state we want.",
+        "signoff": "V_eta_daq_family_decisions.md [daq reader subtype]",
+        "why": "THE EMITTED SET, confirmed -- not a wish. This key means the team read what the migrator produces today and accepted it, which is the OPPOSITE of `decided_targets` (a signed decision no migrator implements yet); the two must never be merged or the ladder reports finished work as a gap. Recorded by Claude at the signer's instruction in session_01BenWtpJyRu3QhEZqCErpwm; the DECISION is the signer's. It is fed through the SAME rung 2 and rung 3 checks as any decided set, so if the migrator later stops emitting one of these the rung goes `no` and this confirmation shows up as stale rather than standing silently."
       }
     },
     "daqreader_mfdaq_epochdata_ingested": {
@@ -1578,6 +1625,14 @@
       "target_completeness": {
         "state": "carry_forward",
         "unresolved_sites": []
+      },
+      "confirmed_targets": {
+        "targets": [
+          "session"
+        ],
+        "confirmed": "jess@walthamdatascience.com / 2026-08-13 -- answered YES to the generated confirm-sheet row for this class: the set the migrator already emits IS the end state we want.",
+        "signoff": "V_eta_go_forward_class_audit.md [session]",
+        "why": "THE EMITTED SET, confirmed -- not a wish. This key means the team read what the migrator produces today and accepted it, which is the OPPOSITE of `decided_targets` (a signed decision no migrator implements yet); the two must never be merged or the ladder reports finished work as a gap. Recorded by Claude at the signer's instruction in session_01BenWtpJyRu3QhEZqCErpwm; the DECISION is the signer's. It is fed through the SAME rung 2 and rung 3 checks as any decided set, so if the migrator later stops emitting one of these the rung goes `no` and this confirmation shows up as stale rather than standing silently."
       }
     }
   }

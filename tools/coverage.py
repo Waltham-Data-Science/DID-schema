@@ -1289,9 +1289,37 @@ def build_ledger():
         # binding-strength defect this repository already has open (#32), and
         # it is not worth reproducing for a target list.
         curated_decided = list((tinfo or {}).get("decided_targets") or [])
+        # ---- THE ANSWER SINK, added 2026-08-13 -------------------------------
+        # The confirm sheet asks 69 classes "is what the migrator ALREADY emits
+        # the answer we want?" and until today a YES had nowhere to go. The two
+        # existing keys both mean something else: `targets` is GENERATED from the
+        # call graph and cannot be hand-set, and `decided_targets` is defined by
+        # the map's own header as "a signed decision NO MIGRATOR IMPLEMENTS YET"
+        # -- the exact opposite of a confirmed emission. So five classes signed
+        # on 2026-08-13 stayed at stage 1 with rung 2 reading `not measured`,
+        # and every other answered row would have done the same.
+        #
+        # `confirmed_targets` is that sink, and it is a THIRD key rather than a
+        # reuse of `decided_targets` on purpose: collapsing "already right" into
+        # "still owed" would make the ladder report finished work as a gap, and
+        # this repository has paid for exactly that kind of conflation before.
+        #
+        # IT IS NOT A FREE PASS. The confirmed set is fed through the SAME rung 2
+        # and rung 3 machinery as any other decided set -- so if a migrator later
+        # stops emitting one of these classes, rung 3 goes `no` and the stale
+        # confirmation becomes visible instead of silently standing.
+        confirmed = (tinfo or {}).get("confirmed_targets") or {}
+        confirmed_list = list(confirmed.get("targets") or [])
         signed = DECIDED_TARGETS_BY_SIGNOFF.get(cn) or \
             DECIDED_TARGETS_BY_SIGNOFF.get(sn)
         decided_cite = None
+        if confirmed_list and (curated_decided or signed):
+            raise SystemExit(
+                f"coverage: `{cn}` carries BOTH `confirmed_targets` and a "
+                "decided-target record. `confirmed_targets` means the EMITTED "
+                "set is the end state; `decided_targets` means a signed "
+                "decision no migrator implements yet. A class cannot be both -- "
+                "delete whichever is wrong.")
         if signed and curated_decided:
             raise SystemExit(
                 f"coverage: `{cn}` has decided_targets in BOTH "
@@ -1303,6 +1331,17 @@ def build_ledger():
             decided_source = "signoff_transcription"
             decided_cite = {"document": signed[1], "signoff_fragment": signed[2],
                             "mapping_fragment": signed[3], "account": signed[4]}
+        elif confirmed_list:
+            decided_targets = confirmed_list
+            decided_source = "confirmed_emission"
+            # `decided_cite` STAYS None, and that is load-bearing rather than an
+            # omission: this field becomes the row's GOVERNANCE citation, and a
+            # confirmation of a target set is not a signature. Setting it here
+            # overrode the family-derived citation on all five confirmed rows,
+            # leaving them `signed` while citing a document-less record --
+            # caught by test_every_signed_row_cites_a_real_team_signoff. The
+            # confirmation's own provenance lives in the map beside the
+            # confirmed set, where it describes what it actually is.
         else:
             decided_targets = curated_decided
             decided_source = "curated_targets_file" if curated_decided else None
@@ -1353,6 +1392,15 @@ def build_ledger():
         # every batch post-pass DECLARING it reads this class; `_emits` is only
         # the ATTRIBUTED emissions -- an `UNATTRIBUTED` line and the `nothing`
         # form contribute an empty list, deliberately.
+        # `targets` is what the DERIVATION could read. A row may also carry
+        # `unread_targets` -- classes it provably emits whose names the walker
+        # cannot resolve (a struct field carried across two files), authored
+        # with a citation. Rung 3 asks whether the migrator EMITS the decided
+        # classes, and those are emitted; excluding them would fail the rung for
+        # a limitation of the reader rather than a fact about the migrator.
+        _unread = list(((tinfo or {}).get("unread_targets") or {}).get("targets")
+                       or [])
+        _emitted_known = set(targets) | set(_unread)
         _bp = batch_pass_entries(cn, vname)
         _bp_targets = sorted({t for e in _bp for t in e["targets"]})
         _eb = tinfo.get("emitted_by")
@@ -1363,7 +1411,7 @@ def build_ledger():
             # A migrator implements the decision only when it EMITS the decided
             # class. Emitting the source class back out is a passthrough.
             "migrator_emits_decided_targets": bool(
-                _named and all(t in targets for t in _named)),
+                _named and all(t in _emitted_known for t in _named)),
             "has_per_class_migrator": mig,
             "batch_pass_consumers": [e["pass"] for e in _bp],
             "batch_pass_emits": {e["pass"]: e["targets"] for e in _bp

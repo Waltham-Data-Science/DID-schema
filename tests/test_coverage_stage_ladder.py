@@ -1158,3 +1158,68 @@ class TestMutationsRedden(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class ConfirmedTargetsCase(unittest.TestCase):
+    """`confirmed_targets` -- the confirm sheet's answer sink.
+
+    The sheet asks 69 classes "is what the migrator ALREADY emits the answer we
+    want?" and until 2026-08-13 a YES had nowhere to go: `targets` is generated
+    and cannot be hand-set, and `decided_targets` means, by the map's own
+    header, "a signed decision no migrator implements yet" -- the opposite. So
+    five classes signed that day stayed at stage 1 with rung 2 reading `not
+    measured`, and every other answered row would have too.
+    """
+
+    def test_the_five_answered_rows_reach_stage_3(self):
+        path = os.path.join(REPO_ROOT, "schemas", "V_eta_coverage_ledger.json")
+        with open(path) as fh:
+            rows = {r["v1_class"]: r for r in json.load(fh)["rows"]}
+        for cls in ("daqreader_ndr", "element", "pyraview", "session", "subject"):
+            st = rows[cls]["stage"]
+            self.assertEqual(
+                st["reached"], 3,
+                f"{cls} fell back below stage 3 -- a confirmed emission should "
+                "satisfy rungs 2 and 3")
+            self.assertEqual(
+                st["blocked_by"], 4,
+                f"{cls} is blocked below rung 4; only the corpus rung should "
+                "stop a confirmed, built class")
+            self.assertEqual(rows[cls]["decided_targets_source"],
+                             "confirmed_emission")
+
+    def test_a_confirmation_is_NOT_a_governance_citation(self):
+        # It briefly was, and every one of the five went `signed` while citing a
+        # record with no document. Confirming a target set is not signing a
+        # disposition; the governance citation must still come from the family.
+        path = os.path.join(REPO_ROOT, "schemas", "V_eta_coverage_ledger.json")
+        with open(path) as fh:
+            rows = {r["v1_class"]: r for r in json.load(fh)["rows"]}
+        for cls in ("daqreader_ndr", "element", "pyraview", "session", "subject"):
+            cite = (rows[cls]["governance"] or {}).get("signoff") or {}
+            self.assertTrue(
+                cite.get("document"),
+                f"{cls}: signed with a citation carrying no document")
+
+    def test_confirmed_and_decided_cannot_both_be_recorded(self):
+        # "already right" and "still owed" are opposites. A row asserting both
+        # must stop the ledger, not have one silently win.
+        path = os.path.join(REPO_ROOT, "schemas", "V_eta_migration_targets.json")
+        with open(path) as fh:
+            doc = json.load(fh)
+        rows = doc.get("classes") or doc
+        both = [k for k, v in rows.items()
+                if isinstance(v, dict) and (v.get("confirmed_targets") or {}).get("targets")
+                and v.get("decided_targets")]
+        self.assertEqual(both, [], f"rows claiming both: {both}")
+
+    def test_an_authored_unread_target_counts_as_emitted_for_rung_3(self):
+        # element's raw-recording observation is emitted but underivable, so it
+        # lives in `unread_targets`. Excluding it from rung 3 would fail the
+        # rung for a limit of the READER rather than a fact about the migrator.
+        path = os.path.join(REPO_ROOT, "schemas", "V_eta_coverage_ledger.json")
+        with open(path) as fh:
+            rows = {r["v1_class"]: r for r in json.load(fh)["rows"]}
+        el = rows["element"]
+        self.assertIn("voltage_observation", el["decided_targets"])
+        self.assertEqual(el["stage"]["reached"], 3)

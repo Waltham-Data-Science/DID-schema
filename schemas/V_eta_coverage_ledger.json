@@ -162,7 +162,7 @@
       "by_reason": {
         "dissolved": 3,
         "disputed": 1,
-        "passthrough": 2,
+        "passthrough": 4,
         "unrecorded": 2
       },
       "target_gaps": [
@@ -191,9 +191,9 @@
       },
       "by_stage_reached": {
         "0": 11,
-        "1": 69,
+        "1": 64,
         "2": 5,
-        "3": 17,
+        "3": 22,
         "4": 0
       },
       "reached_with_an_n_a_in_the_chain": [
@@ -205,14 +205,14 @@
           "no": 11
         },
         "2": {
-          "not measured": 74,
-          "yes": 25,
+          "not measured": 69,
+          "yes": 30,
           "n/a": 3
         },
         "3": {
-          "not measured": 74,
+          "not measured": 69,
           "no": 9,
-          "yes": 16,
+          "yes": 21,
           "n/a": 3
         },
         "4": {
@@ -221,8 +221,8 @@
       },
       "per_stage_satisfied_independently": {
         "1": 91,
-        "2": 25,
-        "3": 16,
+        "2": 30,
+        "3": 21,
         "4": 0
       },
       "capped": {
@@ -236,9 +236,9 @@
         ],
         "highest_rung_satisfied_independently_histogram": {
           "0": 7,
-          "1": 70,
+          "1": 65,
           "2": 9,
-          "3": 16,
+          "3": 21,
           "4": 0
         },
         "genuinely_untouched": 5,
@@ -290,7 +290,7 @@
       },
       "no_target_recorded": {
         "denominator": 102,
-        "rows": 77,
+        "rows": 72,
         "row_names": [
           "SpikeInterfaceSortingOutputs",
           "animalsubject",
@@ -301,14 +301,12 @@
           "contrast_tuning_calc",
           "control_stimulus_ids",
           "daqreader_mfdaq_epochdata_ingested",
-          "daqreader_ndr",
           "dataset_remote",
           "dataset_session_info",
           "demoNDI",
           "demoNDIMock",
           "distance_metadata",
           "electrode_offset_voltage",
-          "element",
           "element_epoch",
           "epochclocktimes",
           "epochid",
@@ -340,8 +338,6 @@
           "position_metadata",
           "probe_geometry",
           "probe_location",
-          "pyraview",
-          "session",
           "session_in_a_dataset",
           "simple_calc",
           "site2channelmap",
@@ -356,7 +352,6 @@
           "stimulus_response",
           "stimulus_response_scalar_parameters",
           "stimulus_tuningcurve",
-          "subject",
           "subject_group",
           "subjectmeasurement",
           "temporal_frequency_tuning",
@@ -2462,8 +2457,12 @@
         "acquisition_reader",
         "software"
       ],
-      "decided_targets": [],
-      "decided_targets_source": null,
+      "decided_targets": [
+        "daqreader",
+        "acquisition_reader",
+        "software"
+      ],
+      "decided_targets_source": "confirmed_emission",
       "decided_signoff": null,
       "target_source": "emitted",
       "no_target_reason": null,
@@ -2472,10 +2471,14 @@
       "no_target_signoff": null,
       "target_gap": false,
       "build_state": {
-        "schema_targets_named": 0,
-        "schema_targets_built": [],
+        "schema_targets_named": 3,
+        "schema_targets_built": [
+          "acquisition_reader",
+          "daqreader",
+          "software"
+        ],
         "schema_targets_missing": [],
-        "migrator_emits_decided_targets": false,
+        "migrator_emits_decided_targets": true,
         "has_per_class_migrator": true,
         "batch_pass_consumers": [],
         "batch_pass_emits": {},
@@ -2517,9 +2520,9 @@
       "stage": {
         "unclassifiable": false,
         "unclassifiable_why": null,
-        "reached": 1,
-        "reached_name": "a migrator CONSUMES it",
-        "blocked_by": 2,
+        "reached": 3,
+        "reached_name": "the migrator emits THE DECIDED targets",
+        "blocked_by": 4,
         "blocked_by_state": "not measured",
         "ladder": [
           {
@@ -2531,14 +2534,14 @@
           {
             "stage": 2,
             "name": "its decided target classes EXIST in the build",
-            "state": "not measured",
-            "why": "`build_state.schema_targets_named` is 0 -- no target class is named for this row, so there is nothing to look for in the built set. This is NOT 'all targets present': an empty `schema_targets_missing` is empty here because the question was never asked"
+            "state": "yes",
+            "why": "all 3 decided target class(es) are present in the built V_eta set (`build_state.schema_targets_missing` is empty AND `schema_targets_named` is non-zero)"
           },
           {
             "stage": 3,
             "name": "the migrator emits THE DECIDED targets",
-            "state": "not measured",
-            "why": "`build_state.schema_targets_named` is 0 -- no decided target to check an emission against"
+            "state": "yes",
+            "why": "`build_state.migrator_emits_decided_targets` -- every decided target class is among the classes the generated target map records this migrator emitting"
           },
           {
             "stage": 4,
@@ -2548,7 +2551,7 @@
           }
         ],
         "anomalies": [],
-        "highest_rung_satisfied_independently": 1,
+        "highest_rung_satisfied_independently": 3,
         "capped": false,
         "nothing_built": false,
         "nothing_satisfied": false,
@@ -3210,8 +3213,19 @@
         "sampled_body",
         "session_relative_reference"
       ],
-      "decided_targets": [],
-      "decided_targets_source": null,
+      "decided_targets": [
+        "subject",
+        "term_assertion",
+        "directed_relation",
+        "sampled_body",
+        "session_relative_reference",
+        "voltage_observation",
+        "current_observation",
+        "image_observation",
+        "acceleration_observation",
+        "temperature_observation"
+      ],
+      "decided_targets_source": "confirmed_emission",
       "decided_signoff": null,
       "target_source": "emitted",
       "no_target_reason": null,
@@ -3220,10 +3234,21 @@
       "no_target_signoff": null,
       "target_gap": false,
       "build_state": {
-        "schema_targets_named": 0,
-        "schema_targets_built": [],
+        "schema_targets_named": 10,
+        "schema_targets_built": [
+          "acceleration_observation",
+          "current_observation",
+          "directed_relation",
+          "image_observation",
+          "sampled_body",
+          "session_relative_reference",
+          "subject",
+          "temperature_observation",
+          "term_assertion",
+          "voltage_observation"
+        ],
         "schema_targets_missing": [],
-        "migrator_emits_decided_targets": false,
+        "migrator_emits_decided_targets": true,
         "has_per_class_migrator": true,
         "batch_pass_consumers": [],
         "batch_pass_emits": {},
@@ -3265,9 +3290,9 @@
       "stage": {
         "unclassifiable": false,
         "unclassifiable_why": null,
-        "reached": 1,
-        "reached_name": "a migrator CONSUMES it",
-        "blocked_by": 2,
+        "reached": 3,
+        "reached_name": "the migrator emits THE DECIDED targets",
+        "blocked_by": 4,
         "blocked_by_state": "not measured",
         "ladder": [
           {
@@ -3279,14 +3304,14 @@
           {
             "stage": 2,
             "name": "its decided target classes EXIST in the build",
-            "state": "not measured",
-            "why": "`build_state.schema_targets_named` is 0 -- no target class is named for this row, so there is nothing to look for in the built set. This is NOT 'all targets present': an empty `schema_targets_missing` is empty here because the question was never asked"
+            "state": "yes",
+            "why": "all 10 decided target class(es) are present in the built V_eta set (`build_state.schema_targets_missing` is empty AND `schema_targets_named` is non-zero)"
           },
           {
             "stage": 3,
             "name": "the migrator emits THE DECIDED targets",
-            "state": "not measured",
-            "why": "`build_state.schema_targets_named` is 0 -- no decided target to check an emission against"
+            "state": "yes",
+            "why": "`build_state.migrator_emits_decided_targets` -- every decided target class is among the classes the generated target map records this migrator emitting"
           },
           {
             "stage": 4,
@@ -3296,7 +3321,7 @@
           }
         ],
         "anomalies": [],
-        "highest_rung_satisfied_independently": 1,
+        "highest_rung_satisfied_independently": 3,
         "capped": false,
         "nothing_built": false,
         "nothing_satisfied": false,
@@ -6815,8 +6840,14 @@
         "frequency_filter",
         "epoch_bounded_reference"
       ],
-      "decided_targets": [],
-      "decided_targets_source": null,
+      "decided_targets": [
+        "voltage_observation",
+        "sampled_body",
+        "session_relative_reference",
+        "frequency_filter",
+        "epoch_bounded_reference"
+      ],
+      "decided_targets_source": "confirmed_emission",
       "decided_signoff": null,
       "target_source": "emitted",
       "no_target_reason": null,
@@ -6825,10 +6856,16 @@
       "no_target_signoff": null,
       "target_gap": false,
       "build_state": {
-        "schema_targets_named": 0,
-        "schema_targets_built": [],
+        "schema_targets_named": 5,
+        "schema_targets_built": [
+          "epoch_bounded_reference",
+          "frequency_filter",
+          "sampled_body",
+          "session_relative_reference",
+          "voltage_observation"
+        ],
         "schema_targets_missing": [],
-        "migrator_emits_decided_targets": false,
+        "migrator_emits_decided_targets": true,
         "has_per_class_migrator": true,
         "batch_pass_consumers": [],
         "batch_pass_emits": {},
@@ -6872,9 +6909,9 @@
       "stage": {
         "unclassifiable": false,
         "unclassifiable_why": null,
-        "reached": 1,
-        "reached_name": "a migrator CONSUMES it",
-        "blocked_by": 2,
+        "reached": 3,
+        "reached_name": "the migrator emits THE DECIDED targets",
+        "blocked_by": 4,
         "blocked_by_state": "not measured",
         "ladder": [
           {
@@ -6886,14 +6923,14 @@
           {
             "stage": 2,
             "name": "its decided target classes EXIST in the build",
-            "state": "not measured",
-            "why": "`build_state.schema_targets_named` is 0 -- no target class is named for this row, so there is nothing to look for in the built set. This is NOT 'all targets present': an empty `schema_targets_missing` is empty here because the question was never asked"
+            "state": "yes",
+            "why": "all 5 decided target class(es) are present in the built V_eta set (`build_state.schema_targets_missing` is empty AND `schema_targets_named` is non-zero)"
           },
           {
             "stage": 3,
             "name": "the migrator emits THE DECIDED targets",
-            "state": "not measured",
-            "why": "`build_state.schema_targets_named` is 0 -- no decided target to check an emission against"
+            "state": "yes",
+            "why": "`build_state.migrator_emits_decided_targets` -- every decided target class is among the classes the generated target map records this migrator emitting"
           },
           {
             "stage": 4,
@@ -6903,7 +6940,7 @@
           }
         ],
         "anomalies": [],
-        "highest_rung_satisfied_independently": 1,
+        "highest_rung_satisfied_independently": 3,
         "capped": false,
         "nothing_built": false,
         "nothing_satisfied": false,
@@ -6922,20 +6959,24 @@
       "targets": [
         "session"
       ],
-      "decided_targets": [],
-      "decided_targets_source": null,
+      "decided_targets": [
+        "session"
+      ],
+      "decided_targets_source": "confirmed_emission",
       "decided_signoff": null,
       "target_source": "emitted",
-      "no_target_reason": null,
-      "no_target_reason_label": null,
+      "no_target_reason": "passthrough",
+      "no_target_reason_label": "PASSES THROUGH as itself by decision -- the target is the class",
       "no_target_account": null,
       "no_target_signoff": null,
       "target_gap": false,
       "build_state": {
-        "schema_targets_named": 0,
-        "schema_targets_built": [],
+        "schema_targets_named": 1,
+        "schema_targets_built": [
+          "session"
+        ],
         "schema_targets_missing": [],
-        "migrator_emits_decided_targets": false,
+        "migrator_emits_decided_targets": true,
         "has_per_class_migrator": true,
         "batch_pass_consumers": [],
         "batch_pass_emits": {},
@@ -6977,9 +7018,9 @@
       "stage": {
         "unclassifiable": false,
         "unclassifiable_why": null,
-        "reached": 1,
-        "reached_name": "a migrator CONSUMES it",
-        "blocked_by": 2,
+        "reached": 3,
+        "reached_name": "the migrator emits THE DECIDED targets",
+        "blocked_by": 4,
         "blocked_by_state": "not measured",
         "ladder": [
           {
@@ -6991,14 +7032,14 @@
           {
             "stage": 2,
             "name": "its decided target classes EXIST in the build",
-            "state": "not measured",
-            "why": "`build_state.schema_targets_named` is 0 -- no target class is named for this row, so there is nothing to look for in the built set. This is NOT 'all targets present': an empty `schema_targets_missing` is empty here because the question was never asked"
+            "state": "yes",
+            "why": "all 1 decided target class(es) are present in the built V_eta set (`build_state.schema_targets_missing` is empty AND `schema_targets_named` is non-zero)"
           },
           {
             "stage": 3,
             "name": "the migrator emits THE DECIDED targets",
-            "state": "not measured",
-            "why": "`build_state.schema_targets_named` is 0 -- no decided target to check an emission against"
+            "state": "yes",
+            "why": "`build_state.migrator_emits_decided_targets` -- every decided target class is among the classes the generated target map records this migrator emitting"
           },
           {
             "stage": 4,
@@ -7008,7 +7049,7 @@
           }
         ],
         "anomalies": [],
-        "highest_rung_satisfied_independently": 1,
+        "highest_rung_satisfied_independently": 3,
         "capped": false,
         "nothing_built": false,
         "nothing_satisfied": false,
@@ -9113,20 +9154,24 @@
       "targets": [
         "subject"
       ],
-      "decided_targets": [],
-      "decided_targets_source": null,
+      "decided_targets": [
+        "subject"
+      ],
+      "decided_targets_source": "confirmed_emission",
       "decided_signoff": null,
       "target_source": "emitted",
-      "no_target_reason": null,
-      "no_target_reason_label": null,
+      "no_target_reason": "passthrough",
+      "no_target_reason_label": "PASSES THROUGH as itself by decision -- the target is the class",
       "no_target_account": null,
       "no_target_signoff": null,
       "target_gap": false,
       "build_state": {
-        "schema_targets_named": 0,
-        "schema_targets_built": [],
+        "schema_targets_named": 1,
+        "schema_targets_built": [
+          "subject"
+        ],
         "schema_targets_missing": [],
-        "migrator_emits_decided_targets": false,
+        "migrator_emits_decided_targets": true,
         "has_per_class_migrator": true,
         "batch_pass_consumers": [],
         "batch_pass_emits": {},
@@ -9168,9 +9213,9 @@
       "stage": {
         "unclassifiable": false,
         "unclassifiable_why": null,
-        "reached": 1,
-        "reached_name": "a migrator CONSUMES it",
-        "blocked_by": 2,
+        "reached": 3,
+        "reached_name": "the migrator emits THE DECIDED targets",
+        "blocked_by": 4,
         "blocked_by_state": "not measured",
         "ladder": [
           {
@@ -9182,14 +9227,14 @@
           {
             "stage": 2,
             "name": "its decided target classes EXIST in the build",
-            "state": "not measured",
-            "why": "`build_state.schema_targets_named` is 0 -- no target class is named for this row, so there is nothing to look for in the built set. This is NOT 'all targets present': an empty `schema_targets_missing` is empty here because the question was never asked"
+            "state": "yes",
+            "why": "all 1 decided target class(es) are present in the built V_eta set (`build_state.schema_targets_missing` is empty AND `schema_targets_named` is non-zero)"
           },
           {
             "stage": 3,
             "name": "the migrator emits THE DECIDED targets",
-            "state": "not measured",
-            "why": "`build_state.schema_targets_named` is 0 -- no decided target to check an emission against"
+            "state": "yes",
+            "why": "`build_state.migrator_emits_decided_targets` -- every decided target class is among the classes the generated target map records this migrator emitting"
           },
           {
             "stage": 4,
@@ -9199,7 +9244,7 @@
           }
         ],
         "anomalies": [],
-        "highest_rung_satisfied_independently": 1,
+        "highest_rung_satisfied_independently": 3,
         "capped": false,
         "nothing_built": false,
         "nothing_satisfied": false,
