@@ -79,18 +79,84 @@ def measured_count(blob):
                if v.get("state") in (S_YES, S_NO))
 
 
-def ingest(source_path, run=None, sha=None, when=None):
-    """Turn DID-matlab's `v_eta_corpus_proven.json` into a snapshot document."""
-    with open(source_path) as fh:
-        src = json.load(fh)
-    rows = src.get("rung", {}).get("rows") or src.get("rows") or []
+def verdicts(src):
+    """Per-class verdicts out of DID-matlab's corpus-proven document.
+
+    THE SHAPE THIS FUNCTION EXISTS FOR, and the bug it replaces. The first
+    draft read
+
+        rows = src.get("rung", {}).get("rows") or src.get("rows") or []
+        for r in rows: ...
+
+    and `rung.rows` IS NOT A LIST OF ROWS -- it is a COUNT. `corpus_proven.py`
+    sets `doc["rung"] = state["rung"]`, and that is the TALLY it builds while
+    walking the ledger: `{"rows": len(rows), "yes": n, "no": n,
+    "not_measured": n, "yes_classes": [...], "no_rows": [...]}`. So the read
+    resolved `rows` to an integer and `for r in 102` raised TypeError on every
+    real document -- run 31744202105 among them. The tool was written from a CI
+    LOG rather than from the writer, which is the ground-truth rule this
+    repository already has for migrators (`where template and WRITER disagree,
+    the WRITER wins`) arriving one layer up, in a Python tool nobody had tested.
+
+    WHAT THE SOURCE CAN AND CANNOT SAY. `yes_classes` and `no_rows` NAME their
+    classes; `not_measured` is only ever a COUNT there. So a not-measured class
+    cannot be listed from this source, and this returns the tally beside the
+    map rather than letting a reader infer 0 from an empty section -- "nobody
+    looked" must not collapse into "none".
+
+    An unrecognised shape RAISES. Returning {} would be worse than crashing:
+    the caller's anti-clobber rule turns an empty ingest into `REFUSING TO
+    WRITE`, which reads exactly like the safe no-op it is designed to be, and a
+    writer whose shape had changed under us would look like a quiet weekend.
+    """
+    rung = src.get("rung") if isinstance(src.get("rung"), dict) else {}
     classes = {}
+    if "yes_classes" in rung or "no_rows" in rung:
+        for name in rung.get("yes_classes") or []:
+            classes[name] = {"state": S_YES, "why": ""}
+        for row in rung.get("no_rows") or []:
+            name = row.get("v1_class")
+            if name:
+                classes[name] = {"state": S_NO,
+                                 "why": (row.get("why") or "")[:400]}
+        return classes, rung
+
+    # The per-row shape this tool was originally written for. No writer emits
+    # it today; it is kept because a list is unambiguous and costs one isinstance.
+    rows = next((c for c in (rung.get("rows"), src.get("rows"))
+                 if isinstance(c, list)), None)
+    if rows is None:
+        raise ValueError(
+            "the source names no per-class verdicts: `rung` carries %s and no "
+            "`rows` list was found. Expected either `rung.yes_classes` / "
+            "`rung.no_rows` (what DID-matlab tools/corpus_proven.py writes) or "
+            "a list of row dicts."
+            % (sorted(rung) if rung else "nothing"))
     for r in rows:
         name = r.get("v1_class")
         if not name:
             continue
         classes[name] = {"state": r.get("state") or r.get("corpus_verdict"),
                          "why": (r.get("why") or "")[:400]}
+    return classes, rung
+
+
+def ingest(source_path, run=None, sha=None, when=None):
+    """Turn DID-matlab's `v_eta_corpus_proven.json` into a snapshot document."""
+    with open(source_path) as fh:
+        src = json.load(fh)
+    classes, rung = verdicts(src)
+    # PREFER THE SOURCE'S OWN TALLY over anything counted off `classes`, for
+    # `not_measured` especially: the source knows the number and this file
+    # cannot name the members, so counting the map would print 0 for a
+    # population that exists. Rule 5's denominator, carried rather than re-derived.
+    not_measured = rung.get("not_measured")
+    if not isinstance(not_measured, int):
+        not_measured = sum(1 for v in classes.values()
+                           if v["state"] == S_NOT_MEASURED)
+    rows_read = rung.get("rows")
+    if not isinstance(rows_read, int):
+        rows_read = len(classes)
     den = src.get("denominator") or {}
     return {
         "_comment": ("The last CORPUS PROOF carried out of CI. Written by "
@@ -98,6 +164,11 @@ def ingest(source_path, run=None, sha=None, when=None):
                      "corpus-proven/v_eta_corpus_proven.json. EVIDENCE, not a "
                      "gate: it records what a named run measured and is never "
                      "re-derived here."),
+        "limits": ("`not_measured` is a COUNT carried from the source tally, "
+                   "not a list: DID-matlab's corpus_proven.py names the classes "
+                   "it proved and the ones that failed, and only counts the "
+                   "ones nobody measured. An absent class name here means "
+                   "UNNAMED, never `no`."),
         "provenance": {"run": run, "head_sha": sha,
                        "recorded_utc": when or datetime.now(timezone.utc)
                        .strftime("%Y-%m-%dT%H:%M:%SZ"),
@@ -107,9 +178,9 @@ def ingest(source_path, run=None, sha=None, when=None):
                 1 for v in classes.values() if v["state"] in (S_YES, S_NO)),
             "proven": sum(1 for v in classes.values() if v["state"] == S_YES),
             "failed": sum(1 for v in classes.values() if v["state"] == S_NO),
-            "not_measured": sum(1 for v in classes.values()
-                                if v["state"] == S_NOT_MEASURED),
-            "rows_read": len(classes),
+            "not_measured": not_measured,
+            "classes_named": len(classes),
+            "rows_read": rows_read,
         },
         "classes": classes,
     }
@@ -128,6 +199,10 @@ def render_md(blob):
             "ever been proven.")
     tail = ("THE CORPORA ARE A SAMPLE OF DATASETS, NOT THE UNIVERSE. A class "
             "absent from all of them is UNTESTED — never clean, never failed.")
+    unnamed = ("The source NAMES the proven and the failed classes and only "
+               "COUNTS the not-measured ones, so this file cannot list them. "
+               "A class missing from the sections below is UNNAMED HERE, which "
+               "is not a verdict of any kind.")
     lines = [
         "# V_eta corpus proof — the last measurement carried out of CI", "",
         gen, "", what, "",
@@ -138,7 +213,9 @@ def render_md(blob):
         f"| PROVEN | **{c['proven']}** |",
         f"| FAILED | {c['failed']} |",
         f"| not measured (absent from every corpus, or unevaluable) | {c['not_measured']} |",
+        f"| classes NAMED in this file | {c.get('classes_named', c['rows_read'])} |",
         f"| rows read | {c['rows_read']} |", "",
+        unnamed, "",
         "## Proven", "",
     ]
     proven = sorted(n for n, v in blob["classes"].items() if v["state"] == S_YES)
