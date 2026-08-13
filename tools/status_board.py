@@ -259,7 +259,42 @@ FAMILIES = [
     # rules, and explicitly NOT the gap semantics between statements, the
     # timing of axes[], or any change to markgarbage's v1 reader. Those stay
     # open, which is why this family is not simply "done".
-    ("valid_interval", ["valid_interval"],
+    # RENAMED `valid_interval` -> `logical_observation` 2026-08-13, at the
+    # team's instruction. THE FAMILY IS RENAMED; THE MEMBER IS NOT. The member
+    # stays `valid_interval` because that is the did_v1 SOURCE class -- a real
+    # class NDI's markgarbage still writes -- while the family now carries the
+    # name of what it becomes, which is what the signature already said.
+    #
+    # WHY IT MATTERED: the signature is tagged `[logical_observation]` (the
+    # classes were renamed validity -> logical on 2026-08-12) and the family
+    # was still called `valid_interval`, so `find_signoff_line` could not reach
+    # it. The census reported the two halves of one fact as two separate
+    # defects -- an ORPHAN TAG ("a signature that exists and reaches nothing")
+    # and an UNSIGNED FAMILY -- which is exactly the pair it exists to keep
+    # distinguishable, and exactly the pair a rename resolves.
+    #
+    # `status` MOVES "open" -> "team", AND THE RENAME IS WHAT FORCED IT.
+    # I intended to leave it open, on the recorded ground that the signature's
+    # scope is narrower than the family. A gate refused:
+    #
+    #   test_signed_is_never_asserted_without_a_signoff_line
+    #   AssertionError: logical_observation is marked signed but its status is
+    #   'open' -- only a team decision can be signed.
+    #
+    # And the gate is right. `open` had been carrying two meanings at once --
+    # "no decision" and "decided, with narrower items still outstanding" --
+    # and it went unnoticed only because the name mismatch kept the signature
+    # unreachable. The moment the tag resolved, the row asserted both that a
+    # team signed it and that no team had.
+    #
+    # The decision IS the team's: a dated, tagged TEAM-SIGN-OFF at
+    # V_eta_logical_observation_plan.md:357. What is outstanding is BUILD plus
+    # three narrower items the signature names as excluded -- the gap semantics
+    # between statements, the timing of axes[], and any change to markgarbage's
+    # v1 reader. That is precisely `signed_awaiting_build`, which is what this
+    # family now renders as, and it is a better description than `open` was:
+    # the pass is DORMANT BY THE DECISION, not undecided.
+    ("logical_observation", ["valid_interval"],
      "V_eta_logical_observation_plan.md",
      ("BUILT AHEAD OF THE DECISION, AND NOW DORMANT BY IT. Decided AND "
       "SIGNED 2026-08-12: the target is ONE logical_observation per source "
@@ -268,7 +303,7 @@ FAMILIES = [
       "already contains is explicitly rejected as an interim, so that pass is "
       "DORMANT (census only, emits nothing) and the documents live on the v1 "
       "tombstone. Classes renamed validity -> logical"),
-     "open"),
+     "team"),
 
     # FOUR MEMBERS LEFT THIS FAMILY 2026-08-11 (#65 increment 3a):
     # `epoch_relative_reference`, `event_bounded_reference`,

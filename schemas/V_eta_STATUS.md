@@ -15,10 +15,10 @@ for each model; this board owns *how much is left and what exactly*.
 | **still open (`in_progress`)** | **26** |
 | **`retire` with no migrator YET** | **2** |
 | open **decision families** | **22** |
-| &nbsp;&nbsp;DECIDED and signed off, awaiting build | 21 |
+| &nbsp;&nbsp;DECIDED and signed off, awaiting build | 22 |
 | &nbsp;&nbsp;decided in a walkthrough, **awaiting a signature** | 0 |
 | &nbsp;&nbsp;**written up by Claude alone, unreviewed** | **0** |
-| &nbsp;&nbsp;nobody has proposed anything yet | 1 |
+| &nbsp;&nbsp;nobody has proposed anything yet | 0 |
 
 | open-class BUILD/PROOF state (derived, see below) | count |
 |---|---|
@@ -29,7 +29,7 @@ for each model; this board owns *how much is left and what exactly*.
 
 The class count is not the work count. 26 open classes are 22 decisions, because most open classes move as a family.
 
-**1 of those 22 are not settled**: 0 awaiting a signature on a decision already taken, 0 written up by Claude alone and unreviewed, 1 with nothing proposed. Only 21 are signed off.
+**0 of those 22 are not settled**: 0 awaiting a signature on a decision already taken, 0 written up by Claude alone and unreviewed, 0 with nothing proposed. Only 22 are signed off.
 
 ## What is actually left on the 26 open classes
 
@@ -319,32 +319,17 @@ Until that line exists the family shows here regardless of what
 |---|---|---|---|
 
 
-## A FAMILY CALLED UNDECIDED WHOSE CLASSES ARE ALREADY BUILT
-
-Two different things land here and they are NOT the same finding.
-
-- **UNDECLARED** is a FAILURE. The table says a decision is outstanding and the migrator tree says the model was chosen and built, and nobody had compared the two. That is the stale-prose case this section was written for.
-- **DECLARED** is not a failure and must not be made one. The family's own one-liner says BUILT AHEAD OF THE DECISION, so the contradiction is the first thing a reader meets. Failing on it would force the wrong repair -- signing a model to turn a gate green -- which is the precise thing Operating Rule 4 exists to stop. Code existing ahead of a decision is a fact to carry in the open, not to launder into agreement.
-
-**valid_interval** -- DECLARED (reported, not failing)
-- **valid_interval** -- DENOMINATOR: 1 of the family's classes named by a batch post-pass, over 10 file(s) scanned under `+did2/+convert`
-    - `valid_interval` is consumed by `resolveValidIntervals.m`
-
-Move the family out of `open` and say what was built. Do NOT add a `TEAM-SIGN-OFF` line to make this pass -- an unsigned built model is `proposed`, and the missing thing is a signature.
-
 ## Nobody has proposed anything yet
 
 | family | classes | the call to make |
 |---|---|---|
-| **valid_interval** | 1 | BUILT AHEAD OF THE DECISION, AND NOW DORMANT BY IT. Decided AND SIGNED 2026-08-12: the target is ONE logical_observation per source document carrying an ARRAY of booleans on a time axis, and it WAITS for axes[] (#45 -> #32); the 1->N decomposition resolveValidIntervals already contains is explicitly rejected as an interim, so that pass is DORMANT (census only, emits nothing) and the documents live on the v1 tombstone. Classes renamed validity -> logical |
 
-- **valid_interval**: `valid_interval`
 
 ## DECIDED by the team, awaiting build
 
-**DENOMINATOR: 21 signed families. 13 named at least one decided target class and were checked against the built tree; 8 named none and are UNCHECKED HERE.**
+**DENOMINATOR: 22 signed families. 14 named at least one decided target class and were checked against the built tree; 8 named none and are UNCHECKED HERE.**
 
-Across the 13 checked: 20 distinct target class(es), 20 present in the built set, 0 not.
+Across the 14 checked: 21 distinct target class(es), 21 present in the built set, 0 not.
 
 So for the checked families the schema half is DONE and what
 remains is MIGRATOR work. Do not read those rows as a build
@@ -376,6 +361,7 @@ is why migrator work before the target closes is rework.
 | family | classes | targets built | decision | recorded in |
 |---|---|---|---|---|
 | **stranded sources** | 2 | no target recorded | generic_file -> term_observation + opaque_body; imageCollection -> tombstone. SIGNED 2026-08-11 | `V_eta_OPEN_WORK.md` |
+| **logical_observation** | 1 | 1 of 1 | BUILT AHEAD OF THE DECISION, AND NOW DORMANT BY IT. Decided AND SIGNED 2026-08-12: the target is ONE logical_observation per source document carrying an ARRAY of booleans on a time axis, and it WAITS for axes[] (#45 -> #32); the 1->N decomposition resolveValidIntervals already contains is explicitly rejected as an interim, so that pass is DORMANT (census only, emits nothing) and the documents live on the v1 tombstone. Classes renamed validity -> logical | `V_eta_logical_observation_plan.md` |
 | **time_reference** | 4 | no target recorded | 8 classes collapse to absolute_reference + relative_reference (4 of the 8 executed 2026-08-11: epoch_relative_reference, event_bounded_reference, event_relative_reference, utc_reference deleted -- no template, no emitter, no reference; the other 4 await their emitters) | `V_eta_time_reference_model_plan.md` |
 | **stimulus** | 2 | 2 of 2 | timed_sequence data_type + timed_sequence_manipulation leaf; control_designation resolved here | `V_eta_stimulus_model_plan.md` |
 | **ensemble** | 1 | 3 of 3 | group subject + epoch-scoped member_of edges + rebuildable cache | `V_eta_ensemble_plan.md` |
@@ -399,7 +385,7 @@ is why migrator work before the target closes is rework.
 
 ## Class names the family table asserts that its sign-off does not say
 
-DENOMINATOR: 21 signed families checked; every V_eta class name in the family one-liner above was matched against the text of the `TEAM-SIGN-OFF` line that signs that family. 9 family/name pair(s) are UNSIGNED -- the prose names the class, the signature does not.
+DENOMINATOR: 22 signed families checked; every V_eta class name in the family one-liner above was matched against the text of the `TEAM-SIGN-OFF` line that signs that family. 9 family/name pair(s) are UNSIGNED -- the prose names the class, the signature does not.
 
 **THIS IS NOT A LIST OF ERRORS, AND NOTHING HERE IS RESOLVED BY A TOOL.**
 The family one-liner is Claude-authored prose in `tools/status_board.py`;

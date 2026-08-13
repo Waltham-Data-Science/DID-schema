@@ -364,10 +364,19 @@ class TestTheCommittedLedger(unittest.TestCase):
         # joined them. Adding the rows is the join, not the decision; this
         # count moves BECAUSE the derivation reached further, which is exactly
         # what it is here to measure.
+        # 28 -> 29 on 2026-08-13: `valid_interval` joined when its FAMILY was
+        # renamed to `logical_observation` to match the tag its signature has
+        # carried since the classes were renamed validity -> logical. The
+        # signature is not new and the decision is not new; the NAME the family
+        # was looked up by is. That rename also forced the row's `status` from
+        # `open` to `team`, because `open` had been carrying two meanings at
+        # once -- "no decision" and "decided, narrower items outstanding" --
+        # and the contradiction was invisible only while the tag mismatch kept
+        # the signature unreachable.
         self.assertEqual(transcribed, 8)
-        self.assertEqual(derived, 28)
-        self.assertEqual(self.gov["by_state"][coverage.G_SIGNED], 35,
-                         "8 transcribed + 28 derived, less `ngrid`, whose "
+        self.assertEqual(derived, 29)
+        self.assertEqual(self.gov["by_state"][coverage.G_SIGNED], 36,
+                         "8 transcribed + 29 derived, less `ngrid`, whose "
                          "DISPUTED record outranks its family signature")
 
     def test_a_DISPUTED_record_outranks_a_family_signature(self):
@@ -658,17 +667,48 @@ class TestMutationsRedden(unittest.TestCase):
                 check_orphan_tags_and_unsigned_families_are_reported(gov)
 
     def test_dropping_an_unsigned_family_from_the_report_reddens(self):
-        real = status_board.signature_census
+        # THIS TEST WENT VACUOUS ON 2026-08-13 AND THE SUITE STAYED GREEN FOR
+        # ONE RUN. It used to clear `families_unsigned` on the LIVE census and
+        # assert that the checker noticed. That worked only while some family
+        # really was unsigned; renaming `valid_interval` -> `logical_observation`
+        # joined the last one, the list became empty, and clearing an empty list
+        # mutates nothing -- so `assertRaises` failed and said, correctly, that
+        # no error was raised. A mutation test whose mutation is a no-op reports
+        # exactly like a passing one; this is the `silentLoss` defect wearing a
+        # different hat, and the honest repair is to stop depending on the tree
+        # having a defect in it.
+        #
+        # So the fixture SUPPLIES the unsigned family. A synthetic row with
+        # status `team` and a plan document carrying no line its tag reaches is
+        # unsigned by construction, and both the census and this file's
+        # independent re-scan agree on that -- which is what makes dropping it
+        # detectable.
+        unsigned = ("a_family_nothing_signs", ["nothing_at_all"],
+                    "V_eta_tenets.md",
+                    "a synthetic row: no TEAM-SIGN-OFF tag names it", "team")
+        families = list(status_board.FAMILIES) + [unsigned]
 
-        def silent(*a, **kw):
-            c = real(*a, **kw)
-            c["families_unsigned"] = []
-            return c
+        with _Swap(status_board, FAMILIES=families):
+            # PRECONDITION, ASSERTED RATHER THAN ASSUMED. If the synthetic row
+            # were somehow signed, the mutation below would be a no-op again and
+            # this test would go quietly vacuous a second time.
+            census = status_board.signature_census()
+            self.assertIn(unsigned[0], census["families_unsigned"],
+                          "the synthetic family is not reported unsigned, so "
+                          "the mutation would have nothing to remove")
 
-        with _Swap(status_board, signature_census=silent):
-            gov = coverage._governance_rollup(_rejoin(_rows()))
-            with self.assertRaises(AssertionError):
-                check_orphan_tags_and_unsigned_families_are_reported(gov)
+            real = status_board.signature_census
+
+            def silent(*a, **kw):
+                c = real(*a, **kw)
+                c["families_unsigned"] = [f for f in c["families_unsigned"]
+                                          if f != unsigned[0]]
+                return c
+
+            with _Swap(status_board, signature_census=silent):
+                gov = coverage._governance_rollup(_rejoin(_rows()))
+                with self.assertRaises(AssertionError):
+                    check_orphan_tags_and_unsigned_families_are_reported(gov)
 
     def test_a_hand_edit_contradicting_the_derivation_is_FATAL(self):
         # `epochfiles_ingested` is transcribed as decided in
