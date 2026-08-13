@@ -444,20 +444,20 @@
       "governance": {
         "denominator": 102,
         "by_state": {
-          "signed": 33,
+          "signed": 35,
           "DISPUTED": 1,
           "family UNSIGNED": 1,
-          "no signature found": 67
+          "no signature found": 65
         },
         "signed_by": {
-          "derived from a signed family": 26,
+          "derived from a signed family": 28,
           "checked transcription on the row": 7
         },
         "join": {
           "rows_inspected": 102,
-          "rows_matched_by_a_signed_family": 34,
+          "rows_matched_by_a_signed_family": 36,
           "matched_on": {
-            "v1_class": 34
+            "v1_class": 36
           },
           "matched_on_v1_class_only": 2,
           "matched_on_veta_class_only": 0,
@@ -473,10 +473,12 @@
             "stranded sources": 2,
             "image / ngrid": 2,
             "openMINDS": 1,
+            "session": 1,
             "spike processing parameters": 4,
             "stimulus parameters": 2,
             "stimulus": 1,
             "stimulus response": 4,
+            "subject": 1,
             "subject measurement": 1,
             "sync configuration": 2,
             "sync mapping": 1
@@ -484,9 +486,9 @@
           "conflicting_claims": [],
           "unmoved_by_cause": {
             "a family names this class and that family is UNSIGNED": 1,
-            "no family names this class; a SIGNED family names a class its migrator EMITS": 38,
+            "no family names this class; a SIGNED family names a class its migrator EMITS": 39,
             "no family names this class, and the row has no V_eta class and no target either": 4,
-            "no family in FAMILIES names this class": 25
+            "no family in FAMILIES names this class": 22
           },
           "unmoved_rows_by_cause": {
             "no family in FAMILIES names this class": [
@@ -505,14 +507,11 @@
               "openminds_element",
               "openminds_stimulus",
               "openminds_subject",
-              "session",
               "session_in_a_dataset",
               "simple_calc",
               "site2channelmap",
               "spike_clusters",
               "spikewaves",
-              "subject",
-              "subject_group",
               "vmneuralresponseresiduals",
               "vmspikesummary"
             ],
@@ -553,6 +552,7 @@
               "speed_tuning",
               "speed_tuning_calc",
               "stimulus_tuningcurve",
+              "subject_group",
               "temporal_frequency_tuning",
               "temporal_frequency_tuning_calc",
               "treatment",
@@ -568,6 +568,7 @@
           },
           "target_only_reached_via": {
             "session_relative_reference (time_reference)": 34,
+            "subject (subject)": 4,
             "control_designation (stimulus)": 1,
             "daqreader_epochdata_ingested (daq ingested payloads)": 1,
             "daqreader (daq configuration)": 1,
@@ -586,7 +587,7 @@
             "V_eta_final_class_set.md"
           ],
           "signoff_markers_inside_excluded_documents": 1,
-          "accepted_lines": 29,
+          "accepted_lines": 30,
           "rejected_lines": [
             {
               "document": "V_eta_recording_observation_plan.md",
@@ -618,6 +619,7 @@
             "stimulus parameters",
             "stimulus response",
             "stranded sources",
+            "subject",
             "subject measurement",
             "sync configuration",
             "sync mapping",
@@ -752,6 +754,12 @@
                 "line": 2851
               }
             ],
+            "subject": [
+              {
+                "document": "V_eta_go_forward_class_audit.md",
+                "line": 659
+              }
+            ],
             "subject measurement": [
               {
                 "document": "V_eta_go_forward_class_audit.md",
@@ -781,7 +789,7 @@
             "V_eta_frequency_filter_model_plan.md": 1,
             "V_eta_openminds_family_record.md": 2
           },
-          "families_total": 20,
+          "families_total": 22,
           "families_signed": [
             "daq configuration",
             "daq ingested payloads",
@@ -792,12 +800,14 @@
             "image / ngrid",
             "misc singletons",
             "openMINDS",
+            "session",
             "software",
             "spike processing parameters",
             "stimulus",
             "stimulus parameters",
             "stimulus response",
             "stranded sources",
+            "subject",
             "subject measurement",
             "sync configuration",
             "sync mapping",
@@ -841,12 +851,6 @@
               {
                 "document": "V_eta_logical_observation_plan.md",
                 "line": 357
-              }
-            ],
-            "session": [
-              {
-                "document": "V_eta_go_forward_class_audit.md",
-                "line": 656
               }
             ]
           }
@@ -6878,13 +6882,31 @@
       "second_pass": [],
       "how": "1->1 into `session`, base.id PRESERVED. `reference` is renamed to `local_identifier` -- the name every other entity already uses for the same fact, REQUIRED on the V_eta schema as it is on `subject` and `epoch` -- and the three V_zeta inventions `type`/`date`/`purpose` are DELETED. Signed 2026-08-13.",
       "target_flags": "BUILT (migrators_j/session.m). NOT VERIFIED BY EXECUTION. THIS CLASS HAD NO MIGRATOR UNTIL 2026-08-13 and that was correct: it migrated 1:1 with every field carried, so a passthrough said everything. The three deleted fields have NO did_v1 source -- `git show origin/main:src/ndi/ndi_common/database_documents/session.json` declares `session.reference` and nothing else -- but they are rmfield'ed rather than assumed absent, because a V_zeta-vintage body re-run would carry them and they are now undeclared, which quarantines. `local_identifier` is mustBeNonEmpty, so a source with an empty `reference` quarantines correctly; nothing is substituted. CROSS-REPO: NDI reads this field BY PATH at +ndi/+session/dir.m:124 and +ndi/+dataset/dir.m:69 (not a did.query, so a query-shaped grep misses both -- the daqsystem lesson); both now read either spelling. The WRITE at +ndi/+session/dir.m:138 is UNCHANGED and must stay so: it constructs from NDI's own v1 template, which still declares `reference`.",
-      "decided_by_family": null,
-      "families_naming_this_class": [],
-      "governance_gap": "no family in FAMILIES names this class",
+      "decided_by_family": {
+        "family": "session",
+        "document": "V_eta_go_forward_class_audit.md",
+        "line": 656,
+        "signoff": "jess@walthamdatascience.com / 2026-08-13 -- session.type, session.date and session.purpose are DELETED -- the did_v1 template declares only `reference` and no writer fills them (V_zeta inventions, same disposition as daqreader.file_extension). session.reference becomes `local_identifier`, REQUIRED, matching subject and epoch, and the now-duplicate optional local_identifier is dropped. THE RENAME IS A THREE-PART CHANGE: schema + migrator + NDI-matlab src/ndi/+ndi/+dataset/dir.m:69, which reads `document_properties.session.reference` directly off a retrieved document and returns nothing after the rename. NOT YET BUILT.",
+        "matched_on": "v1_class",
+        "matched_name": "session",
+        "conflict": []
+      },
+      "families_naming_this_class": [
+        "session"
+      ],
+      "governance_gap": null,
       "governance": {
-        "state": "no signature found",
-        "signoff": null,
-        "why": "no family in FAMILIES names this class. This is the absence of a FINDABLE signature -- a transcription, or a signed family naming this class -- and NOT evidence that no decision exists"
+        "state": "signed",
+        "signoff": {
+          "family": "session",
+          "document": "V_eta_go_forward_class_audit.md",
+          "line": 656,
+          "signoff": "jess@walthamdatascience.com / 2026-08-13 -- session.type, session.date and session.purpose are DELETED -- the did_v1 template declares only `reference` and no writer fills them (V_zeta inventions, same disposition as daqreader.file_extension). session.reference becomes `local_identifier`, REQUIRED, matching subject and epoch, and the now-duplicate optional local_identifier is dropped. THE RENAME IS A THREE-PART CHANGE: schema + migrator + NDI-matlab src/ndi/+ndi/+dataset/dir.m:69, which reads `document_properties.session.reference` directly off a retrieved document and returns nothing after the rename. NOT YET BUILT.",
+          "matched_on": "v1_class",
+          "matched_name": "session",
+          "conflict": []
+        },
+        "why": "DERIVED, not transcribed: the decision family `session` names this class as `session` (v1_class), and that family is signed at `V_eta_go_forward_class_audit.md`:656. Re-derived on every build from status_board.signed_families(); a family with no signature reaches nothing"
       },
       "stage": {
         "unclassifiable": false,
@@ -9051,13 +9073,31 @@
       "second_pass": [],
       "how": "carry-forward: guarantee a non-empty subject.local_identifier (now REQUIRED), else unchanged",
       "target_flags": "passthrough of same class, id preserved",
-      "decided_by_family": null,
-      "families_naming_this_class": [],
-      "governance_gap": "no family in FAMILIES names this class",
+      "decided_by_family": {
+        "family": "subject",
+        "document": "V_eta_go_forward_class_audit.md",
+        "line": 659,
+        "signoff": "jess@walthamdatascience.com / 2026-08-13 -- `subject` is a PASSTHROUGH, and that is the END STATE, not a deferral: no fold is owed and none should be built. It migrates 1 -> 1 with `base.id` PRESERVED, which is load-bearing -- `subject_id` is the most-referenced edge in the corpus and a minted id would dangle every one of them. The did_v1 template declares exactly `local_identifier` and `description`, and V_eta declares exactly those two, so nothing is dropped and nothing is invented. THREE THINGS CHANGE AND NOTHING ELSE: the superclass moves `base` -> `entity` (adding one OPTIONAL `global_identifier`), `local_identifier` becomes REQUIRED (it was already populated on real documents -- PRED's sole subject carries `P03@amandalab.org` -- so the requirement quarantines nothing that was previously valid), and `base.datestamp` becomes `base.creation_timestamp` via the outbound rename rather than via this class's migrator. The migrator's only job is to guarantee the now-required `local_identifier` is non-empty; a subject with none quarantines rather than being given a manufactured handle.",
+        "matched_on": "v1_class",
+        "matched_name": "subject",
+        "conflict": []
+      },
+      "families_naming_this_class": [
+        "subject"
+      ],
+      "governance_gap": null,
       "governance": {
-        "state": "no signature found",
-        "signoff": null,
-        "why": "no family in FAMILIES names this class. This is the absence of a FINDABLE signature -- a transcription, or a signed family naming this class -- and NOT evidence that no decision exists"
+        "state": "signed",
+        "signoff": {
+          "family": "subject",
+          "document": "V_eta_go_forward_class_audit.md",
+          "line": 659,
+          "signoff": "jess@walthamdatascience.com / 2026-08-13 -- `subject` is a PASSTHROUGH, and that is the END STATE, not a deferral: no fold is owed and none should be built. It migrates 1 -> 1 with `base.id` PRESERVED, which is load-bearing -- `subject_id` is the most-referenced edge in the corpus and a minted id would dangle every one of them. The did_v1 template declares exactly `local_identifier` and `description`, and V_eta declares exactly those two, so nothing is dropped and nothing is invented. THREE THINGS CHANGE AND NOTHING ELSE: the superclass moves `base` -> `entity` (adding one OPTIONAL `global_identifier`), `local_identifier` becomes REQUIRED (it was already populated on real documents -- PRED's sole subject carries `P03@amandalab.org` -- so the requirement quarantines nothing that was previously valid), and `base.datestamp` becomes `base.creation_timestamp` via the outbound rename rather than via this class's migrator. The migrator's only job is to guarantee the now-required `local_identifier` is non-empty; a subject with none quarantines rather than being given a manufactured handle.",
+          "matched_on": "v1_class",
+          "matched_name": "subject",
+          "conflict": []
+        },
+        "why": "DERIVED, not transcribed: the decision family `subject` names this class as `subject` (v1_class), and that family is signed at `V_eta_go_forward_class_audit.md`:659. Re-derived on every build from status_board.signed_families(); a family with no signature reaches nothing"
       },
       "stage": {
         "unclassifiable": false,
@@ -9141,11 +9181,11 @@
       "target_flags": "member_of edges from subject_id_1..N deps",
       "decided_by_family": null,
       "families_naming_this_class": [],
-      "governance_gap": "no family in FAMILIES names this class",
+      "governance_gap": "no family names this class; a SIGNED family names a class its migrator EMITS",
       "governance": {
         "state": "no signature found",
         "signoff": null,
-        "why": "no family in FAMILIES names this class. This is the absence of a FINDABLE signature -- a transcription, or a signed family naming this class -- and NOT evidence that no decision exists"
+        "why": "no family names this class; a SIGNED family names a class its migrator EMITS. This is the absence of a FINDABLE signature -- a transcription, or a signed family naming this class -- and NOT evidence that no decision exists"
       },
       "stage": {
         "unclassifiable": false,

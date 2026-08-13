@@ -14,8 +14,8 @@ for each model; this board owns *how much is left and what exactly*.
 | settled (retire) | 53 |
 | **still open (`in_progress`)** | **26** |
 | **`retire` with no migrator YET** | **2** |
-| open **decision families** | **20** |
-| &nbsp;&nbsp;DECIDED and signed off, awaiting build | 19 |
+| open **decision families** | **22** |
+| &nbsp;&nbsp;DECIDED and signed off, awaiting build | 21 |
 | &nbsp;&nbsp;decided in a walkthrough, **awaiting a signature** | 0 |
 | &nbsp;&nbsp;**written up by Claude alone, unreviewed** | **0** |
 | &nbsp;&nbsp;nobody has proposed anything yet | 1 |
@@ -27,9 +27,9 @@ for each model; this board owns *how much is left and what exactly*.
 | (c) corpus: 0 survivors in the corpora read | 0 |
 | (?) UNMEASURED -- no build evidence was ever taken | 0 |
 
-The class count is not the work count. 26 open classes are 20 decisions, because most open classes move as a family.
+The class count is not the work count. 26 open classes are 22 decisions, because most open classes move as a family.
 
-**1 of those 20 are not settled**: 0 awaiting a signature on a decision already taken, 0 written up by Claude alone and unreviewed, 1 with nothing proposed. Only 19 are signed off.
+**1 of those 22 are not settled**: 0 awaiting a signature on a decision already taken, 0 written up by Claude alone and unreviewed, 1 with nothing proposed. Only 21 are signed off.
 
 ## What is actually left on the 26 open classes
 
@@ -342,7 +342,7 @@ Move the family out of `open` and say what was built. Do NOT add a `TEAM-SIGN-OF
 
 ## DECIDED by the team, awaiting build
 
-**DENOMINATOR: 19 signed families. 13 named at least one decided target class and were checked against the built tree; 6 named none and are UNCHECKED HERE.**
+**DENOMINATOR: 21 signed families. 13 named at least one decided target class and were checked against the built tree; 8 named none and are UNCHECKED HERE.**
 
 Across the 13 checked: 20 distinct target class(es), 20 present in the built set, 0 not.
 
@@ -350,7 +350,7 @@ So for the checked families the schema half is DONE and what
 remains is MIGRATOR work. Do not read those rows as a build
 queue for schema.
 
-**The other 6 are unchecked, NOT clean.** Nothing above says anything about them, and the reason differs per family:
+**The other 8 are unchecked, NOT clean.** Nothing above says anything about them, and the reason differs per family:
 
 - **stranded sources** (2 class(es)): 2 `generic_file`, `imageCollection` -- has a ledger row whose `decided_targets` is EMPTY -- the gap the ledger now flags by name
 - **time_reference** (4 class(es)): 4 `epoch_bounded_reference`, `session_bounded_reference`, `session_relative_reference`, `time_reference` -- a V_eta target class, so the coverage ledger has no row for it (it is not a v1 source)
@@ -358,6 +358,8 @@ queue for schema.
 - **openMINDS** (1 class(es)): 1 `openminds` -- has a ledger row whose `decided_targets` is EMPTY -- the gap the ledger now flags by name
 - **stimulus parameters** (2 class(es)): 1 `stimulus_parameter` -- has a ledger row whose `decided_targets` is EMPTY -- the gap the ledger now flags by name; 1 `stimulus_parameter_table` -- its only decided target is ITSELF, a signed passthrough, which is stripped because it is not build evidence
 - **subject measurement** (1 class(es)): 1 `subjectmeasurement` -- has a ledger row whose `decided_targets` is EMPTY -- the gap the ledger now flags by name
+- **subject** (1 class(es)): 1 `subject` -- has a ledger row whose `decided_targets` is EMPTY -- the gap the ledger now flags by name
+- **session** (1 class(es)): 1 `session` -- has a ledger row whose `decided_targets` is EMPTY -- the gap the ledger now flags by name
 
 Only the `decided_targets` EMPTY bucket is a missing record. The
 others are correct states that this check cannot use: a V_eta
@@ -391,11 +393,13 @@ is why migrator work before the target closes is rework.
 | **stimulus parameters** | 2 | no target recorded | stimulus_parameter DISSOLVES to a typed leaf keyed by its CURIE (build gated on #32); stimulus_parameter_table PASSES THROUGH; both tombstones repaired | `V_eta_stimulus_parameter_plan.md` |
 | **stimulus response** | 4 | 2 of 2 | 4 -> 2: `harmonic_component` data_type + calculation leaf (id preserved); parameters fold inline, killing 11,440 empty required edges | `V_eta_stimulus_response_model_plan.md` |
 | **subject measurement** | 1 | no target recorded | route through the `measurement` fold -- no new class; `datestamp` is a TIME ANCHOR (-> absolute_reference), NOT a field (corrected 2026-08-06) | `V_eta_go_forward_class_audit.md` |
+| **subject** | 1 | no target recorded | PASSTHROUGH IS THE END STATE, not a deferral -- 1 -> 1, base.id PRESERVED (subject_id is the most-referenced edge in the corpus). The did_v1 template and V_eta declare the same two fields; the superclass moves base -> entity, `local_identifier` becomes REQUIRED, and `datestamp` -> `creation_timestamp` arrives via the OUTBOUND rename rather than this migrator. No fold is owed and none should be built | `V_eta_go_forward_class_audit.md` |
+| **session** | 1 | no target recorded | `reference` -> `local_identifier`, REQUIRED, matching subject and epoch, with the now-duplicate optional slot dropped; type/date/purpose DELETED as V_zeta inventions (NDI's template declares `reference` and nothing else). THREE PARTS, ALL BUILT 2026-08-13: schema, the class's first migrator, and the two NDI reads by path -- which accept BOTH spellings rather than moving, because a database may be pre- or post-migration. NDI's WRITE stays did_v1 on purpose: it validates against NDI's own template, which still declares `reference` | `V_eta_go_forward_class_audit.md` |
 | **misc singletons** | 3 | 2 of 2 | binaryseries_parameters -> subject_statement + sampled_body (the two axis mounts, by storage_mode); projectvar PASSES THROUGH (needs real docs); interaction_purpose is a target (#32) | `V_eta_go_forward_class_audit.md` |
 
 ## Class names the family table asserts that its sign-off does not say
 
-DENOMINATOR: 19 signed families checked; every V_eta class name in the family one-liner above was matched against the text of the `TEAM-SIGN-OFF` line that signs that family. 9 family/name pair(s) are UNSIGNED -- the prose names the class, the signature does not.
+DENOMINATOR: 21 signed families checked; every V_eta class name in the family one-liner above was matched against the text of the `TEAM-SIGN-OFF` line that signs that family. 9 family/name pair(s) are UNSIGNED -- the prose names the class, the signature does not.
 
 **THIS IS NOT A LIST OF ERRORS, AND NOTHING HERE IS RESOLVED BY A TOOL.**
 The family one-liner is Claude-authored prose in `tools/status_board.py`;
@@ -489,6 +493,7 @@ Settled or removed since the family was written -- prune from `FAMILIES`:
 
 - `imageStack_parameters`
 - `openminds`
+- `session`
 - `sorting_parameters`
 - `spike_extraction_parameters`
 - `spike_extraction_parameters_modification`
@@ -498,6 +503,7 @@ Settled or removed since the family was written -- prune from `FAMILIES`:
 - `stimulus_response_scalar`
 - `stimulus_response_scalar_parameters`
 - `stimulus_response_scalar_parameters_basic`
+- `subject`
 - `subjectmeasurement`
 - `valid_interval`
 - `vmspikefilteringparameters`

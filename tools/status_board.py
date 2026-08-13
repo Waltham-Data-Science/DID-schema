@@ -562,6 +562,39 @@ FAMILIES = [
      "ANCHOR (-> absolute_reference), NOT a field (corrected 2026-08-06)"),
      "team"),
 
+    # TWO ROWS ADDED 2026-08-13, AND NEITHER IS A DECISION -- both are the
+    # JOIN that was missing. `signature_census` had been reporting both tags as
+    # ORPHANS ("a signature that exists and reaches nothing") while `subject`
+    # and `session` rendered as `no signature found` in the coverage ledger.
+    # Two halves of one fact printed as two absences, which is exactly the
+    # failure Rule 5 exists to stop: "nobody signed this" and "nobody joined
+    # the signature to this" are different states and were indistinguishable.
+    #
+    # SIGNED 2026-08-13, both lines at the foot of the audit document. Adding a
+    # FAMILIES row records WHERE a decision lives; `signed_families()` still
+    # requires the line itself, so this cannot promote anything on its own.
+    ("subject", ["subject"],
+     "V_eta_go_forward_class_audit.md",
+     ("PASSTHROUGH IS THE END STATE, not a deferral -- 1 -> 1, base.id "
+      "PRESERVED (subject_id is the most-referenced edge in the corpus). The "
+      "did_v1 template and V_eta declare the same two fields; the superclass "
+      "moves base -> entity, `local_identifier` becomes REQUIRED, and "
+      "`datestamp` -> `creation_timestamp` arrives via the OUTBOUND rename "
+      "rather than this migrator. No fold is owed and none should be built"),
+     "team"),
+
+    ("session", ["session"],
+     "V_eta_go_forward_class_audit.md",
+     ("`reference` -> `local_identifier`, REQUIRED, matching subject and epoch, "
+      "with the now-duplicate optional slot dropped; type/date/purpose DELETED "
+      "as V_zeta inventions (NDI's template declares `reference` and nothing "
+      "else). THREE PARTS, ALL BUILT 2026-08-13: schema, the class's first "
+      "migrator, and the two NDI reads by path -- which accept BOTH spellings "
+      "rather than moving, because a database may be pre- or post-migration. "
+      "NDI's WRITE stays did_v1 on purpose: it validates against NDI's own "
+      "template, which still declares `reference`"),
+     "team"),
+
     # DECIDED 2026-08-05. control_designation moved to the stimulus family (a V_eta
     # target already resolved there). interaction_purpose is a V_epsilon TARGET whose
     # only open item is its unbound `purpose` (#32), not a disposition.

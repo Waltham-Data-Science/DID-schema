@@ -355,10 +355,19 @@ class TestTheCommittedLedger(unittest.TestCase):
         derived = sum(1 for r in self.rows if r.get("decided_by_family")
                       and not (r.get("decided_signoff")
                                or r.get("no_target_signoff")))
+        # WAS 26 DERIVED / 33 SIGNED UNTIL 2026-08-13 AND IS NOW 28 / 35.
+        # The two new rows are `subject` and `session`, and NEITHER is a new
+        # decision: both were signed that day and both were already visible to
+        # `signature_census` -- as ORPHAN TAGS, "a signature that exists and
+        # reaches nothing" -- while their ledger rows read `no signature
+        # found`. One fact, printed as two absences, because no FAMILIES row
+        # joined them. Adding the rows is the join, not the decision; this
+        # count moves BECAUSE the derivation reached further, which is exactly
+        # what it is here to measure.
         self.assertEqual(transcribed, 8)
-        self.assertEqual(derived, 26)
-        self.assertEqual(self.gov["by_state"][coverage.G_SIGNED], 33,
-                         "8 transcribed + 26 derived, less `ngrid`, whose "
+        self.assertEqual(derived, 28)
+        self.assertEqual(self.gov["by_state"][coverage.G_SIGNED], 35,
+                         "8 transcribed + 28 derived, less `ngrid`, whose "
                          "DISPUTED record outranks its family signature")
 
     def test_a_DISPUTED_record_outranks_a_family_signature(self):
