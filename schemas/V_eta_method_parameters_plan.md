@@ -584,6 +584,7 @@ for three reasons, two of them decisions already taken.**
    otherwise have gone on saying 38 indefinitely.
 
         DENOMINATOR: 247 json file(s) under schemas/V_eta/ read
+        RE-DERIVED 2026-08-13: 248 json file(s) under schemas/V_eta/ -- `acquisition_reader` was minted, so one class was added and nothing was removed.
         classes declaring `data_type` as a DIRECT superclass: 41
 
    **The point this item makes is unaffected, and is in fact stronger.** It says `data_type`

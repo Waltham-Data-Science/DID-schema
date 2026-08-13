@@ -980,6 +980,7 @@ template half still derives to 91. The file half does not:
         1002
 
 i.e. `git ls-tree -r origin/main | grep -c '\.m$'` = **1002**, a denominator of 1,002 NDI
+RE-DERIVED 2026-08-13: 91 NDI templates on origin/main; 1,003 .m files. The did_v1 ground truth did NOT move -- 0 template diffs across the NDI main merge, still 91; main gained one .m file, so only the denominator shifted.
 files.
 
 **The 2026-08-08 block is LEFT AS WRITTEN.** It is a dated measurement whose numerators — 15

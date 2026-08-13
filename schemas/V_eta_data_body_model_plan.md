@@ -251,6 +251,7 @@ it is written.**
 STRONGER, which is worth more than the digit.** Derived from the built tree:
 
         DENOMINATOR: 247 json file(s) under schemas/V_eta/ read
+        RE-DERIVED 2026-08-13: 248 json file(s) under schemas/V_eta/ -- `acquisition_reader` was minted, so one class was added and nothing was removed.
         classes declaring `data_type` as a DIRECT superclass: 41
            acceleration amount angle angular_velocity area capacitance charge chemical
            concentration conductance contrast_sensitivity count current date dose
@@ -272,6 +273,7 @@ NUMERATOR IS NOT REPRODUCIBLE, so it is MARKED rather than restated.**
         1002
 
 i.e. `git ls-tree -r origin/main | grep -c '\.m$'` = **1002**, a denominator of 1,002 NDI
+RE-DERIVED 2026-08-13: 91 NDI templates on origin/main; 1,003 .m files. The did_v1 ground truth did NOT move -- 0 template diffs across the NDI main merge, still 91; main gained one .m file, so only the denominator shifted.
 files on `origin/main`.
 
 **The bullet is NOT rewritten to read `95 of 1002`, and that is deliberate.** No reading of

@@ -641,7 +641,7 @@
             "daq ingested payloads": [
               {
                 "document": "V_eta_ingested_payload_findings.md",
-                "line": 275
+                "line": 276
               }
             ],
             "dataseries_channel_map": [
@@ -663,7 +663,7 @@
               },
               {
                 "document": "V_eta_method_parameters_plan.md",
-                "line": 682
+                "line": 683
               }
             ],
             "file navigation": [
@@ -711,19 +711,19 @@
             "stimulus parameters": [
               {
                 "document": "V_eta_stimulus_parameter_plan.md",
-                "line": 220
+                "line": 221
               }
             ],
             "stimulus response": [
               {
                 "document": "V_eta_stimulus_response_model_plan.md",
-                "line": 540
+                "line": 541
               }
             ],
             "stranded sources": [
               {
                 "document": "V_eta_OPEN_WORK.md",
-                "line": 2849
+                "line": 2851
               }
             ],
             "subject measurement": [
@@ -735,13 +735,13 @@
             "sync configuration": [
               {
                 "document": "V_eta_clock_alignment_cluster_plan.md",
-                "line": 492
+                "line": 493
               }
             ],
             "sync mapping": [
               {
                 "document": "V_eta_clock_alignment_cluster_plan.md",
-                "line": 494
+                "line": 495
               }
             ],
             "time_reference": [
@@ -1898,7 +1898,7 @@
       "decided_by_family": {
         "family": "daq ingested payloads",
         "document": "V_eta_ingested_payload_findings.md",
-        "line": 275,
+        "line": 276,
         "signoff": "jess@walthamdatascience.com / 2026-08-08 -- ONE new class, `acquisition_metadata_file`; the reader and image classes RETIRE by decomposing into relative_reference + sampled_body + image_observation, all of which are now themselves signed.",
         "matched_on": "v1_class",
         "matched_name": "daqmetadatareader_epochdata_ingested",
@@ -1913,13 +1913,13 @@
         "signoff": {
           "family": "daq ingested payloads",
           "document": "V_eta_ingested_payload_findings.md",
-          "line": 275,
+          "line": 276,
           "signoff": "jess@walthamdatascience.com / 2026-08-08 -- ONE new class, `acquisition_metadata_file`; the reader and image classes RETIRE by decomposing into relative_reference + sampled_body + image_observation, all of which are now themselves signed.",
           "matched_on": "v1_class",
           "matched_name": "daqmetadatareader_epochdata_ingested",
           "conflict": []
         },
-        "why": "DERIVED, not transcribed: the decision family `daq ingested payloads` names this class as `daqmetadatareader_epochdata_ingested` (v1_class), and that family is signed at `V_eta_ingested_payload_findings.md`:275. Re-derived on every build from status_board.signed_families(); a family with no signature reaches nothing"
+        "why": "DERIVED, not transcribed: the decision family `daq ingested payloads` names this class as `daqmetadatareader_epochdata_ingested` (v1_class), and that family is signed at `V_eta_ingested_payload_findings.md`:276. Re-derived on every build from status_board.signed_families(); a family with no signature reaches nothing"
       },
       "stage": {
         "unclassifiable": false,
@@ -2116,7 +2116,7 @@
       "decided_by_family": {
         "family": "daq ingested payloads",
         "document": "V_eta_ingested_payload_findings.md",
-        "line": 275,
+        "line": 276,
         "signoff": "jess@walthamdatascience.com / 2026-08-08 -- ONE new class, `acquisition_metadata_file`; the reader and image classes RETIRE by decomposing into relative_reference + sampled_body + image_observation, all of which are now themselves signed.",
         "matched_on": "v1_class",
         "matched_name": "daqreader_epochdata_ingested",
@@ -2131,13 +2131,13 @@
         "signoff": {
           "family": "daq ingested payloads",
           "document": "V_eta_ingested_payload_findings.md",
-          "line": 275,
+          "line": 276,
           "signoff": "jess@walthamdatascience.com / 2026-08-08 -- ONE new class, `acquisition_metadata_file`; the reader and image classes RETIRE by decomposing into relative_reference + sampled_body + image_observation, all of which are now themselves signed.",
           "matched_on": "v1_class",
           "matched_name": "daqreader_epochdata_ingested",
           "conflict": []
         },
-        "why": "DERIVED, not transcribed: the decision family `daq ingested payloads` names this class as `daqreader_epochdata_ingested` (v1_class), and that family is signed at `V_eta_ingested_payload_findings.md`:275. Re-derived on every build from status_board.signed_families(); a family with no signature reaches nothing"
+        "why": "DERIVED, not transcribed: the decision family `daq ingested payloads` names this class as `daqreader_epochdata_ingested` (v1_class), and that family is signed at `V_eta_ingested_payload_findings.md`:276. Re-derived on every build from status_board.signed_families(); a family with no signature reaches nothing"
       },
       "stage": {
         "unclassifiable": false,
@@ -2229,7 +2229,7 @@
       "decided_by_family": {
         "family": "daq ingested payloads",
         "document": "V_eta_ingested_payload_findings.md",
-        "line": 275,
+        "line": 276,
         "signoff": "jess@walthamdatascience.com / 2026-08-08 -- ONE new class, `acquisition_metadata_file`; the reader and image classes RETIRE by decomposing into relative_reference + sampled_body + image_observation, all of which are now themselves signed.",
         "matched_on": "v1_class",
         "matched_name": "daqreader_image_epochdata_ingested",
@@ -2244,13 +2244,13 @@
         "signoff": {
           "family": "daq ingested payloads",
           "document": "V_eta_ingested_payload_findings.md",
-          "line": 275,
+          "line": 276,
           "signoff": "jess@walthamdatascience.com / 2026-08-08 -- ONE new class, `acquisition_metadata_file`; the reader and image classes RETIRE by decomposing into relative_reference + sampled_body + image_observation, all of which are now themselves signed.",
           "matched_on": "v1_class",
           "matched_name": "daqreader_image_epochdata_ingested",
           "conflict": []
         },
-        "why": "DERIVED, not transcribed: the decision family `daq ingested payloads` names this class as `daqreader_image_epochdata_ingested` (v1_class), and that family is signed at `V_eta_ingested_payload_findings.md`:275. Re-derived on every build from status_board.signed_families(); a family with no signature reaches nothing"
+        "why": "DERIVED, not transcribed: the decision family `daq ingested payloads` names this class as `daqreader_image_epochdata_ingested` (v1_class), and that family is signed at `V_eta_ingested_payload_findings.md`:276. Re-derived on every build from status_board.signed_families(); a family with no signature reaches nothing"
       },
       "stage": {
         "unclassifiable": false,
@@ -4068,7 +4068,7 @@
       "decided_by_family": {
         "family": "stranded sources",
         "document": "V_eta_OPEN_WORK.md",
-        "line": 2849,
+        "line": 2851,
         "signoff": "jess@walthamdatascience.com, 2026-08-11 -- generic_file folds to term_observation + opaque_body; imageCollection is a tombstone. Both are BUILT and ran in 6 of 6 corpora in run 31522068566. THIS SIGNATURE COVERS TWO CLASSES, NOT THREE. `valid_interval` IS NOT SIGNED AND IS NOT DECIDED -- an earlier revision of this line included it, which was Claude's error: the team ASKED whether valid_interval should take that shape and then said \"Can we skip this decision for now?\", and a question was recorded as an answer. Corrected 2026-08-11 when the team caught it. WRITTEN BY CLAUDE AT THE TEAM'S EXPLICIT INSTRUCTION (\"Please write the sign off for me. I give you permission this time.\"), a one-time authorisation and not a precedent: Operating Rule 4 otherwise forbids Claude from adding this line, and the next one is the team's to write.",
         "matched_on": "v1_class",
         "matched_name": "generic_file",
@@ -4083,13 +4083,13 @@
         "signoff": {
           "family": "stranded sources",
           "document": "V_eta_OPEN_WORK.md",
-          "line": 2849,
+          "line": 2851,
           "signoff": "jess@walthamdatascience.com, 2026-08-11 -- generic_file folds to term_observation + opaque_body; imageCollection is a tombstone. Both are BUILT and ran in 6 of 6 corpora in run 31522068566. THIS SIGNATURE COVERS TWO CLASSES, NOT THREE. `valid_interval` IS NOT SIGNED AND IS NOT DECIDED -- an earlier revision of this line included it, which was Claude's error: the team ASKED whether valid_interval should take that shape and then said \"Can we skip this decision for now?\", and a question was recorded as an answer. Corrected 2026-08-11 when the team caught it. WRITTEN BY CLAUDE AT THE TEAM'S EXPLICIT INSTRUCTION (\"Please write the sign off for me. I give you permission this time.\"), a one-time authorisation and not a precedent: Operating Rule 4 otherwise forbids Claude from adding this line, and the next one is the team's to write.",
           "matched_on": "v1_class",
           "matched_name": "generic_file",
           "conflict": []
         },
-        "why": "DERIVED, not transcribed: the decision family `stranded sources` names this class as `generic_file` (v1_class), and that family is signed at `V_eta_OPEN_WORK.md`:2849. Re-derived on every build from status_board.signed_families(); a family with no signature reaches nothing"
+        "why": "DERIVED, not transcribed: the decision family `stranded sources` names this class as `generic_file` (v1_class), and that family is signed at `V_eta_OPEN_WORK.md`:2851. Re-derived on every build from status_board.signed_families(); a family with no signature reaches nothing"
       },
       "stage": {
         "unclassifiable": false,
@@ -4351,7 +4351,7 @@
       "decided_by_family": {
         "family": "stranded sources",
         "document": "V_eta_OPEN_WORK.md",
-        "line": 2849,
+        "line": 2851,
         "signoff": "jess@walthamdatascience.com, 2026-08-11 -- generic_file folds to term_observation + opaque_body; imageCollection is a tombstone. Both are BUILT and ran in 6 of 6 corpora in run 31522068566. THIS SIGNATURE COVERS TWO CLASSES, NOT THREE. `valid_interval` IS NOT SIGNED AND IS NOT DECIDED -- an earlier revision of this line included it, which was Claude's error: the team ASKED whether valid_interval should take that shape and then said \"Can we skip this decision for now?\", and a question was recorded as an answer. Corrected 2026-08-11 when the team caught it. WRITTEN BY CLAUDE AT THE TEAM'S EXPLICIT INSTRUCTION (\"Please write the sign off for me. I give you permission this time.\"), a one-time authorisation and not a precedent: Operating Rule 4 otherwise forbids Claude from adding this line, and the next one is the team's to write.",
         "matched_on": "v1_class",
         "matched_name": "imageCollection",
@@ -4366,13 +4366,13 @@
         "signoff": {
           "family": "stranded sources",
           "document": "V_eta_OPEN_WORK.md",
-          "line": 2849,
+          "line": 2851,
           "signoff": "jess@walthamdatascience.com, 2026-08-11 -- generic_file folds to term_observation + opaque_body; imageCollection is a tombstone. Both are BUILT and ran in 6 of 6 corpora in run 31522068566. THIS SIGNATURE COVERS TWO CLASSES, NOT THREE. `valid_interval` IS NOT SIGNED AND IS NOT DECIDED -- an earlier revision of this line included it, which was Claude's error: the team ASKED whether valid_interval should take that shape and then said \"Can we skip this decision for now?\", and a question was recorded as an answer. Corrected 2026-08-11 when the team caught it. WRITTEN BY CLAUDE AT THE TEAM'S EXPLICIT INSTRUCTION (\"Please write the sign off for me. I give you permission this time.\"), a one-time authorisation and not a precedent: Operating Rule 4 otherwise forbids Claude from adding this line, and the next one is the team's to write.",
           "matched_on": "v1_class",
           "matched_name": "imageCollection",
           "conflict": []
         },
-        "why": "DERIVED, not transcribed: the decision family `stranded sources` names this class as `imageCollection` (v1_class), and that family is signed at `V_eta_OPEN_WORK.md`:2849. Re-derived on every build from status_board.signed_families(); a family with no signature reaches nothing"
+        "why": "DERIVED, not transcribed: the decision family `stranded sources` names this class as `imageCollection` (v1_class), and that family is signed at `V_eta_OPEN_WORK.md`:2851. Re-derived on every build from status_board.signed_families(); a family with no signature reaches nothing"
       },
       "stage": {
         "unclassifiable": false,
@@ -8142,7 +8142,7 @@
       "decided_by_family": {
         "family": "stimulus parameters",
         "document": "V_eta_stimulus_parameter_plan.md",
-        "line": 220,
+        "line": 221,
         "signoff": "jess@walthamdatascience.com / 2026-08-08 -- A + C: `stimulus_parameter` DISSOLVES into a typed statement leaf keyed by its CURIE (build GATED on #32); `stimulus_parameter_table` PASSES THROUGH and is DEMOTED to deprecated/; both tombstones rewritten to the NDI shape.",
         "matched_on": "v1_class",
         "matched_name": "stimulus_parameter",
@@ -8157,13 +8157,13 @@
         "signoff": {
           "family": "stimulus parameters",
           "document": "V_eta_stimulus_parameter_plan.md",
-          "line": 220,
+          "line": 221,
           "signoff": "jess@walthamdatascience.com / 2026-08-08 -- A + C: `stimulus_parameter` DISSOLVES into a typed statement leaf keyed by its CURIE (build GATED on #32); `stimulus_parameter_table` PASSES THROUGH and is DEMOTED to deprecated/; both tombstones rewritten to the NDI shape.",
           "matched_on": "v1_class",
           "matched_name": "stimulus_parameter",
           "conflict": []
         },
-        "why": "DERIVED, not transcribed: the decision family `stimulus parameters` names this class as `stimulus_parameter` (v1_class), and that family is signed at `V_eta_stimulus_parameter_plan.md`:220. Re-derived on every build from status_board.signed_families(); a family with no signature reaches nothing"
+        "why": "DERIVED, not transcribed: the decision family `stimulus parameters` names this class as `stimulus_parameter` (v1_class), and that family is signed at `V_eta_stimulus_parameter_plan.md`:221. Re-derived on every build from status_board.signed_families(); a family with no signature reaches nothing"
       },
       "stage": {
         "unclassifiable": false,
@@ -8249,7 +8249,7 @@
       "decided_by_family": {
         "family": "stimulus parameters",
         "document": "V_eta_stimulus_parameter_plan.md",
-        "line": 220,
+        "line": 221,
         "signoff": "jess@walthamdatascience.com / 2026-08-08 -- A + C: `stimulus_parameter` DISSOLVES into a typed statement leaf keyed by its CURIE (build GATED on #32); `stimulus_parameter_table` PASSES THROUGH and is DEMOTED to deprecated/; both tombstones rewritten to the NDI shape.",
         "matched_on": "v1_class",
         "matched_name": "stimulus_parameter_table",
@@ -8264,13 +8264,13 @@
         "signoff": {
           "family": "stimulus parameters",
           "document": "V_eta_stimulus_parameter_plan.md",
-          "line": 220,
+          "line": 221,
           "signoff": "jess@walthamdatascience.com / 2026-08-08 -- A + C: `stimulus_parameter` DISSOLVES into a typed statement leaf keyed by its CURIE (build GATED on #32); `stimulus_parameter_table` PASSES THROUGH and is DEMOTED to deprecated/; both tombstones rewritten to the NDI shape.",
           "matched_on": "v1_class",
           "matched_name": "stimulus_parameter_table",
           "conflict": []
         },
-        "why": "DERIVED, not transcribed: the decision family `stimulus parameters` names this class as `stimulus_parameter_table` (v1_class), and that family is signed at `V_eta_stimulus_parameter_plan.md`:220. Re-derived on every build from status_board.signed_families(); a family with no signature reaches nothing"
+        "why": "DERIVED, not transcribed: the decision family `stimulus parameters` names this class as `stimulus_parameter_table` (v1_class), and that family is signed at `V_eta_stimulus_parameter_plan.md`:221. Re-derived on every build from status_board.signed_families(); a family with no signature reaches nothing"
       },
       "stage": {
         "unclassifiable": false,
@@ -8481,7 +8481,7 @@
       "decided_by_family": {
         "family": "stimulus response",
         "document": "V_eta_stimulus_response_model_plan.md",
-        "line": 540,
+        "line": 541,
         "signoff": "jess@walthamdatascience.com / 2026-08-08 -- four classes to TWO: `harmonic_component` (data_type) + `harmonic_component_calculation` (\u2282 subject_calculation, id PRESERVED); stimulus_response and stimulus_response_scalar_parameters DELETE (superclass-only, 0 docs); _parameters_basic FOLDS inline to method_parameters. Signed WITH the three mapping revisions above.",
         "matched_on": "v1_class",
         "matched_name": "stimulus_response",
@@ -8588,7 +8588,7 @@
       "decided_by_family": {
         "family": "stimulus response",
         "document": "V_eta_stimulus_response_model_plan.md",
-        "line": 540,
+        "line": 541,
         "signoff": "jess@walthamdatascience.com / 2026-08-08 -- four classes to TWO: `harmonic_component` (data_type) + `harmonic_component_calculation` (\u2282 subject_calculation, id PRESERVED); stimulus_response and stimulus_response_scalar_parameters DELETE (superclass-only, 0 docs); _parameters_basic FOLDS inline to method_parameters. Signed WITH the three mapping revisions above.",
         "matched_on": "v1_class",
         "matched_name": "stimulus_response_scalar",
@@ -8603,13 +8603,13 @@
         "signoff": {
           "family": "stimulus response",
           "document": "V_eta_stimulus_response_model_plan.md",
-          "line": 540,
+          "line": 541,
           "signoff": "jess@walthamdatascience.com / 2026-08-08 -- four classes to TWO: `harmonic_component` (data_type) + `harmonic_component_calculation` (\u2282 subject_calculation, id PRESERVED); stimulus_response and stimulus_response_scalar_parameters DELETE (superclass-only, 0 docs); _parameters_basic FOLDS inline to method_parameters. Signed WITH the three mapping revisions above.",
           "matched_on": "v1_class",
           "matched_name": "stimulus_response_scalar",
           "conflict": []
         },
-        "why": "DERIVED, not transcribed: the decision family `stimulus response` names this class as `stimulus_response_scalar` (v1_class), and that family is signed at `V_eta_stimulus_response_model_plan.md`:540. Re-derived on every build from status_board.signed_families(); a family with no signature reaches nothing"
+        "why": "DERIVED, not transcribed: the decision family `stimulus response` names this class as `stimulus_response_scalar` (v1_class), and that family is signed at `V_eta_stimulus_response_model_plan.md`:541. Re-derived on every build from status_board.signed_families(); a family with no signature reaches nothing"
       },
       "stage": {
         "unclassifiable": false,
@@ -8694,7 +8694,7 @@
       "decided_by_family": {
         "family": "stimulus response",
         "document": "V_eta_stimulus_response_model_plan.md",
-        "line": 540,
+        "line": 541,
         "signoff": "jess@walthamdatascience.com / 2026-08-08 -- four classes to TWO: `harmonic_component` (data_type) + `harmonic_component_calculation` (\u2282 subject_calculation, id PRESERVED); stimulus_response and stimulus_response_scalar_parameters DELETE (superclass-only, 0 docs); _parameters_basic FOLDS inline to method_parameters. Signed WITH the three mapping revisions above.",
         "matched_on": "v1_class",
         "matched_name": "stimulus_response_scalar_parameters",
@@ -8804,7 +8804,7 @@
       "decided_by_family": {
         "family": "stimulus response",
         "document": "V_eta_stimulus_response_model_plan.md",
-        "line": 540,
+        "line": 541,
         "signoff": "jess@walthamdatascience.com / 2026-08-08 -- four classes to TWO: `harmonic_component` (data_type) + `harmonic_component_calculation` (\u2282 subject_calculation, id PRESERVED); stimulus_response and stimulus_response_scalar_parameters DELETE (superclass-only, 0 docs); _parameters_basic FOLDS inline to method_parameters. Signed WITH the three mapping revisions above.",
         "matched_on": "v1_class",
         "matched_name": "stimulus_response_scalar_parameters_basic",
@@ -8819,13 +8819,13 @@
         "signoff": {
           "family": "stimulus response",
           "document": "V_eta_stimulus_response_model_plan.md",
-          "line": 540,
+          "line": 541,
           "signoff": "jess@walthamdatascience.com / 2026-08-08 -- four classes to TWO: `harmonic_component` (data_type) + `harmonic_component_calculation` (\u2282 subject_calculation, id PRESERVED); stimulus_response and stimulus_response_scalar_parameters DELETE (superclass-only, 0 docs); _parameters_basic FOLDS inline to method_parameters. Signed WITH the three mapping revisions above.",
           "matched_on": "v1_class",
           "matched_name": "stimulus_response_scalar_parameters_basic",
           "conflict": []
         },
-        "why": "DERIVED, not transcribed: the decision family `stimulus response` names this class as `stimulus_response_scalar_parameters_basic` (v1_class), and that family is signed at `V_eta_stimulus_response_model_plan.md`:540. Re-derived on every build from status_board.signed_families(); a family with no signature reaches nothing"
+        "why": "DERIVED, not transcribed: the decision family `stimulus response` names this class as `stimulus_response_scalar_parameters_basic` (v1_class), and that family is signed at `V_eta_stimulus_response_model_plan.md`:541. Re-derived on every build from status_board.signed_families(); a family with no signature reaches nothing"
       },
       "stage": {
         "unclassifiable": false,
@@ -9287,7 +9287,7 @@
       "decided_by_family": {
         "family": "sync configuration",
         "document": "V_eta_clock_alignment_cluster_plan.md",
-        "line": 492,
+        "line": 493,
         "signoff": "jess@walthamdatascience.com / 2026-08-08 -- syncrule -> `clock_alignment_configuration` (parameters DECLARED not bagged, devices become `acquisition_channels_#` edges, EXACTLY 2 and UNORDERED); syncgraph -> `clock_alignment_policy`, earning its existence on membership; both preserve base.id, and syncrule_id_# is un-tightened back to NDI's optional.",
         "matched_on": "v1_class",
         "matched_name": "syncgraph",
@@ -9302,13 +9302,13 @@
         "signoff": {
           "family": "sync configuration",
           "document": "V_eta_clock_alignment_cluster_plan.md",
-          "line": 492,
+          "line": 493,
           "signoff": "jess@walthamdatascience.com / 2026-08-08 -- syncrule -> `clock_alignment_configuration` (parameters DECLARED not bagged, devices become `acquisition_channels_#` edges, EXACTLY 2 and UNORDERED); syncgraph -> `clock_alignment_policy`, earning its existence on membership; both preserve base.id, and syncrule_id_# is un-tightened back to NDI's optional.",
           "matched_on": "v1_class",
           "matched_name": "syncgraph",
           "conflict": []
         },
-        "why": "DERIVED, not transcribed: the decision family `sync configuration` names this class as `syncgraph` (v1_class), and that family is signed at `V_eta_clock_alignment_cluster_plan.md`:492. Re-derived on every build from status_board.signed_families(); a family with no signature reaches nothing"
+        "why": "DERIVED, not transcribed: the decision family `sync configuration` names this class as `syncgraph` (v1_class), and that family is signed at `V_eta_clock_alignment_cluster_plan.md`:493. Re-derived on every build from status_board.signed_families(); a family with no signature reaches nothing"
       },
       "stage": {
         "unclassifiable": false,
@@ -9398,7 +9398,7 @@
       "decided_by_family": {
         "family": "sync configuration",
         "document": "V_eta_clock_alignment_cluster_plan.md",
-        "line": 492,
+        "line": 493,
         "signoff": "jess@walthamdatascience.com / 2026-08-08 -- syncrule -> `clock_alignment_configuration` (parameters DECLARED not bagged, devices become `acquisition_channels_#` edges, EXACTLY 2 and UNORDERED); syncgraph -> `clock_alignment_policy`, earning its existence on membership; both preserve base.id, and syncrule_id_# is un-tightened back to NDI's optional.",
         "matched_on": "v1_class",
         "matched_name": "syncrule",
@@ -9413,13 +9413,13 @@
         "signoff": {
           "family": "sync configuration",
           "document": "V_eta_clock_alignment_cluster_plan.md",
-          "line": 492,
+          "line": 493,
           "signoff": "jess@walthamdatascience.com / 2026-08-08 -- syncrule -> `clock_alignment_configuration` (parameters DECLARED not bagged, devices become `acquisition_channels_#` edges, EXACTLY 2 and UNORDERED); syncgraph -> `clock_alignment_policy`, earning its existence on membership; both preserve base.id, and syncrule_id_# is un-tightened back to NDI's optional.",
           "matched_on": "v1_class",
           "matched_name": "syncrule",
           "conflict": []
         },
-        "why": "DERIVED, not transcribed: the decision family `sync configuration` names this class as `syncrule` (v1_class), and that family is signed at `V_eta_clock_alignment_cluster_plan.md`:492. Re-derived on every build from status_board.signed_families(); a family with no signature reaches nothing"
+        "why": "DERIVED, not transcribed: the decision family `sync configuration` names this class as `syncrule` (v1_class), and that family is signed at `V_eta_clock_alignment_cluster_plan.md`:493. Re-derived on every build from status_board.signed_families(); a family with no signature reaches nothing"
       },
       "stage": {
         "unclassifiable": false,
@@ -9509,7 +9509,7 @@
       "decided_by_family": {
         "family": "sync mapping",
         "document": "V_eta_clock_alignment_cluster_plan.md",
-        "line": 494,
+        "line": 495,
         "signoff": "jess@walthamdatascience.com / 2026-08-08 -- syncrule_mapping -> `clock_alignment` (\u2282 relation, polynomial), base.id PRESERVED; endpoints become from_reference / to_reference on relative_reference documents; syncgraph_id RESTORED and the invented required `epochid` (5,316 docs, 100% empty) REMOVED; `degree` kept and CHECKED.",
         "matched_on": "v1_class",
         "matched_name": "syncrule_mapping",
@@ -9524,13 +9524,13 @@
         "signoff": {
           "family": "sync mapping",
           "document": "V_eta_clock_alignment_cluster_plan.md",
-          "line": 494,
+          "line": 495,
           "signoff": "jess@walthamdatascience.com / 2026-08-08 -- syncrule_mapping -> `clock_alignment` (\u2282 relation, polynomial), base.id PRESERVED; endpoints become from_reference / to_reference on relative_reference documents; syncgraph_id RESTORED and the invented required `epochid` (5,316 docs, 100% empty) REMOVED; `degree` kept and CHECKED.",
           "matched_on": "v1_class",
           "matched_name": "syncrule_mapping",
           "conflict": []
         },
-        "why": "DERIVED, not transcribed: the decision family `sync mapping` names this class as `syncrule_mapping` (v1_class), and that family is signed at `V_eta_clock_alignment_cluster_plan.md`:494. Re-derived on every build from status_board.signed_families(); a family with no signature reaches nothing"
+        "why": "DERIVED, not transcribed: the decision family `sync mapping` names this class as `syncrule_mapping` (v1_class), and that family is signed at `V_eta_clock_alignment_cluster_plan.md`:495. Re-derived on every build from status_board.signed_families(); a family with no signature reaches nothing"
       },
       "stage": {
         "unclassifiable": false,
