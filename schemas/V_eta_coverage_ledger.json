@@ -585,17 +585,8 @@
             "V_eta_final_class_set.md"
           ],
           "signoff_markers_inside_excluded_documents": 1,
-          "accepted_lines": 30,
-          "rejected_lines": [
-            {
-              "document": "V_eta_recording_observation_plan.md",
-              "line": 99,
-              "tag": "raw recording observation",
-              "why": "TEMPLATE PLACEHOLDER -- a paired <...> slot, not a decision",
-              "excerpt": "jess@walthamdatascience.com / 2026-08-10 -- a raw continuous recording IS a typed `<modality>_observation` of the SPECIM",
-              "document_cited_by_families": []
-            }
-          ],
+          "accepted_lines": 31,
+          "rejected_lines": [],
           "distinct_tags": [
             "base naming",
             "binding governance",
@@ -610,6 +601,7 @@
             "image / ngrid",
             "logical_observation",
             "misc singletons",
+            "raw recording observation",
             "session",
             "software",
             "spike processing parameters",
@@ -708,6 +700,12 @@
               {
                 "document": "V_eta_go_forward_class_audit.md",
                 "line": 3
+              }
+            ],
+            "raw recording observation": [
+              {
+                "document": "V_eta_recording_observation_plan.md",
+                "line": 99
               }
             ],
             "session": [
@@ -842,6 +840,12 @@
               {
                 "document": "V_eta_OPEN_WORK.md",
                 "line": 2904
+              }
+            ],
+            "raw recording observation": [
+              {
+                "document": "V_eta_recording_observation_plan.md",
+                "line": 99
               }
             ]
           }

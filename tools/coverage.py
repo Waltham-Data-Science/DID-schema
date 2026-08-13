@@ -2891,13 +2891,18 @@ def _governance_md(g):
     if tagged_rejects:
         out += [
             "⚠ **{n} rejected line(s) carry a family tag and read as a real "
-            "signature.** The scanner's placeholder guard fires on a paired "
-            "`<...>` anywhere after the marker, and a decision whose own TEXT "
-            "contains one is rejected with it: {lst}. The direction is safe "
+            "signature.** The scanner's placeholder guard rejects a line that "
+            "carries one of the TEMPLATE's own unfilled slots (`<family>`, "
+            "`<who/when>`, `<what was decided>`): {lst}. The direction is safe "
             "(less signed than reality, never more) and the blast radius is "
             "printed beside each -- a rejected line in a document NO family "
-            "cites changes nothing today. Widening the guard changes which "
-            "lines count as a decision, which is a team call.".format(
+            "cites changes nothing today. NARROWED 2026-08-13: this guard used "
+            "to fire on a paired `<...>` ANYWHERE after the marker, which "
+            "rejected a real dated decision whose text names a class-name "
+            "pattern (`<modality>_observation`) and left the class it settles "
+            "reading as unsigned. Changing which lines count as a decision is "
+            "a team call; this narrowing restored one the guard should never "
+            "have taken.".format(
                 n=len(tagged_rejects),
                 lst="; ".join(
                     "`{}` ({}:{}, cited by {})".format(

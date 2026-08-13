@@ -106,6 +106,26 @@ def _scan(path):
     return out
 
 
+# THE TEMPLATE SLOTS, re-stated here rather than imported from status_board.
+# This file's whole point is to be a SECOND OPINION -- importing the tool's
+# constant would make both sides agree by construction, which is the "a test
+# written from the same premise as the code cannot catch the code" failure.
+# Read off the template as this repository renders it into V_eta_STATUS.md:
+#
+#     TEAM-SIGN-OFF [<family>]: <who/when> -- <what was decided>
+#
+# NARROWED 2026-08-13 in step with the tool. Both sides used to reject ANY
+# paired `<...>`, which discarded a real dated decision whose text names a
+# class-name pattern (`<modality>_observation`). Angle brackets in prose are
+# not a placeholder; an unfilled SLOT is.
+TEMPLATE_SLOTS = ("<family>", "<who/when>", "<what was decided>")
+
+
+def _is_placeholder(content):
+    """A sign-off line that is really an unfilled template row."""
+    return any(slot in content for slot in TEMPLATE_SLOTS)
+
+
 def _plan_documents():
     """Every schemas/*.md that is NOT a generated artifact."""
     return sorted(n for n in os.listdir(SCHEMAS)
@@ -123,7 +143,7 @@ def _independent_signed_families():
             continue
         shared = sum(1 for f in status_board.FAMILIES if f[2] == plan) > 1
         for line, tag, content in _scan(path):
-            if re.search(r"<[^>]*>", content) or len(content) < 10:
+            if _is_placeholder(content) or len(content) < 10:
                 continue          # a template slot is not a decision
             if tag is not None and tag != name:
                 continue
@@ -165,7 +185,7 @@ def check_every_signed_row_cites_a_real_signoff(rows):
             assert tag == fam or (tag is None and not shared), (
                 f"{r['v1_class']}: {doc}:{cite['line']} is tagged {tag!r}, "
                 f"which does not sign the family {fam!r} the row claims")
-            assert not re.search(r"<[^>]*>", content) and len(content) >= 10, (
+            assert not _is_placeholder(content) and len(content) >= 10, (
                 f"{r['v1_class']}: {doc}:{cite['line']} is a template slot, "
                 "not a decision")
             members = [f[1] for f in status_board.FAMILIES if f[0] == fam]
@@ -270,7 +290,7 @@ def check_orphan_tags_and_unsigned_families_are_reported(gov):
     mine = {}
     for name in _plan_documents():
         for line, tag, content in _scan(os.path.join(SCHEMAS, name)):
-            if tag is None or re.search(r"<[^>]*>", content) or len(content) < 10:
+            if tag is None or _is_placeholder(content) or len(content) < 10:
                 continue
             mine.setdefault(tag, []).append((name, line))
     orphans = {t: v for t, v in mine.items() if t not in fam_names}
@@ -417,25 +437,60 @@ class TestTheCommittedLedger(unittest.TestCase):
         for cause in self.gov["join"]["unmoved_by_cause"]:
             self.assertIn(cause, md)
 
-    def test_a_tagged_signoff_rejected_by_the_guard_is_reported(self):
-        # FOUND BY THIS WORK, and reported rather than fixed by widening the
-        # guard: `V_eta_recording_observation_plan.md:99` is a real, dated,
-        # tagged team sign-off whose DECISION TEXT contains `<modality>`, so
-        # the paired-<...> placeholder guard rejects it. The direction is safe
-        # (less signed than reality) and the blast radius is zero today --
-        # no family cites that document -- but a rejection nobody prints is a
-        # signature nobody can find.
+    def test_no_tagged_signoff_is_rejected_by_the_placeholder_guard(self):
+        # INVERTED 2026-08-13, NOT PATCHED. This test used to ASSERT THE
+        # DEFECT: that `V_eta_recording_observation_plan.md:99` -- a real,
+        # dated, tagged team sign-off -- was REJECTED, because the guard threw
+        # away any line containing a paired `<...>` and that decision's text
+        # says `<modality>_observation`. The test was correct about the facts
+        # and it pinned the wrong behaviour in place, which is the same call
+        # the three `epochid` tests needed: a test written from the same
+        # premise as the code cannot catch the code.
+        #
+        # The guard now rejects only the three slot names the TEMPLATE uses,
+        # so prose naming a class-name pattern survives. The blast radius was
+        # measured before the change: of all 55 schemas/*.md, exactly two
+        # SCANNED lines carry a paired `<...>` -- the rendered template in
+        # V_eta_STATUS.md (still rejected, and generated markdown the census
+        # excludes anyway) and this signature (now accepted).
+        #
+        # WHY IT MATTERED rather than being a tidy-up: that signature is what
+        # settles `element`'s disposition. While it was discarded, `element`
+        # read `no signature found` in the coverage ledger and reached the team
+        # on the confirm sheet as an open question it had already answered.
         rejected = self.gov["census"]["rejected_lines"]
         tagged = [r for r in rejected if r["tag"]]
-        self.assertEqual(len(tagged), 1, [r["tag"] for r in tagged])
-        self.assertEqual(tagged[0]["tag"], "raw recording observation")
-        self.assertEqual(tagged[0]["document"],
+        self.assertEqual(tagged, [], "a tagged team sign-off is being "
+                         "discarded by the placeholder guard: "
+                         + str([(r["document"], r["line"], r["why"])
+                                for r in tagged]))
+
+        # ...and the signature really is visible now, rather than merely not
+        # rejected. An empty `rejected_lines` would also be produced by a
+        # scanner that read no documents at all.
+        tags = self.gov["census"]["tags"]
+        self.assertIn("raw recording observation", tags)
+        where = tags["raw recording observation"][0]
+        self.assertEqual(where["document"],
                          "V_eta_recording_observation_plan.md")
-        self.assertEqual(tagged[0]["document_cited_by_families"], [],
-                         "if a family starts citing this document the "
-                         "rejection stops being harmless")
+
+        # THE REPORTING INVARIANT SURVIVES THE INVERSION, AND IS ASSERTED IN
+        # BOTH DIRECTIONS SO IT CANNOT GO VACUOUS. The renderer prints its
+        # rejected-line warning only when there IS one, so a bare `assertIn`
+        # here would fail today for the right reason and a bare `assertNotIn`
+        # would stop covering the case that matters. Asserting the ledger
+        # AGREES WITH THE CENSUS covers both: a rejection nobody prints is a
+        # signature nobody can find, and a warning printed over an empty list
+        # is a defect reported that does not exist.
+        marker = "rejected line(s) carry a family tag"
         with open(LEDGER_MD) as fh:
-            self.assertIn("rejected line(s) carry a family tag", fh.read())
+            md = fh.read()
+        if tagged:
+            self.assertIn(marker, md, "a tagged line is rejected and the "
+                          "ledger does not say so")
+        else:
+            self.assertNotIn(marker, md, "the ledger warns about rejected "
+                             "tagged lines while the census reports none")
 
     def test_the_generated_markdown_list_matches_what_gates_declares(self):
         # DERIVED CROSS-CHECK. The census excludes generated artifacts; the

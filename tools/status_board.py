@@ -707,15 +707,50 @@ def scan_signoff_lines(text):
         if m:
             tagged, rest = m.group(1).strip(), m.group(2).strip()
         rest = rest.lstrip(":").strip()
-        # A placeholder is not a sign-off. Reject TEMPLATE SLOTS -- a PAIRED
-        # <...> -- not any angle bracket: the first version rejected every line
-        # containing "<" or ">", so a legitimate sign-off saying
-        # "datestamp -> absolute_reference" was silently ignored and the family
-        # kept rendering as unsigned. Caught by checking the blast radius instead
-        # of trusting that writing the line was enough.
+        # A placeholder is not a sign-off. NARROWED TWICE, and the second
+        # narrowing is 2026-08-13.
+        #
+        # v1 rejected any line containing "<" or ">", so a sign-off saying
+        # "datestamp -> absolute_reference" was silently ignored.
+        # v2 rejected any PAIRED <...>, which is what this comment used to
+        # describe -- and it was still too broad, because prose legitimately
+        # names a class-name PATTERN in angle brackets. It threw away a real,
+        # dated, tagged decision:
+        #
+        #   V_eta_recording_observation_plan.md:99
+        #   TEAM-SIGN-OFF [raw recording observation]: ... 2026-08-10 -- a raw
+        #   continuous recording IS a typed `<modality>_observation` of the
+        #   SPECIMEN ...
+        #
+        # That signature is what settles `element`'s disposition, and with it
+        # discarded the class read `no signature found` in the coverage ledger
+        # and reached the team on the confirm sheet as an open question it had
+        # already answered.
+        #
+        # v3 rejects only the slot names the TEMPLATE actually uses. The
+        # template is rendered by this repository into V_eta_STATUS.md and is
+        # the only thing this guard needs to catch:
+        #
+        #   TEAM-SIGN-OFF [<family>]: <who/when> -- <what was decided>
+        #
+        # MEASURED BEFORE CHANGING IT, over all 55 schemas/*.md: exactly TWO
+        # scanned lines carry a paired <...>. STATUS.md:312 is that template
+        # (still rejected, and generated markdown the census excludes anyway);
+        # recording_observation_plan.md:99 is the real decision (now accepted).
+        # One line changes state and it is the one that should.
+        #
+        # A NOTE ON WHAT THIS DOES NOT REACH, because it looked like a risk and
+        # is not: two `TEAM-SIGN-OFF` mentions in V_eta_OPEN_WORK.md sit
+        # MID-LINE inside markdown table rows -- one of them a quotation of the
+        # epoch signature. The loop above matches only a LINE-INITIAL marker,
+        # so the scanner never saw them under any version of this rule, and
+        # narrowing it cannot promote a quotation into a decision.
         why = None
-        if re.search(r"<[^>]*>", rest):
-            why = "TEMPLATE PLACEHOLDER -- a paired <...> slot, not a decision"
+        _slots = ("<family>", "<who/when>", "<what was decided>")
+        _hit = [s for s in _slots if s in rest]
+        if _hit:
+            why = ("TEMPLATE PLACEHOLDER -- carries the unfilled slot %s, not a "
+                   "decision" % _hit[0])
         elif len(rest) < 10:
             why = "under 10 characters after the marker -- not a decision"
         out.append({"line": n, "tag": tagged, "content": rest,

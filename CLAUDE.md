@@ -818,6 +818,16 @@ lives in these files — read them instead of re-deriving from memory:
            collapse's migrator half added
            demo_ndi.m, demo_ndi_mock.m and private/jDemoFold.m. The sweep's
            CONCLUSION is unchanged -- none of the three writes a time_reference.
+        -> 265 as of 2026-08-13: jBase.m (the central `base` block constructor)
+           and +migrators_j/session.m (the class's first migrator, for the
+           signed `reference` -> `local_identifier` rename). The sweep's
+           CONCLUSION SURVIVES BOTH and the second one is worth saying out
+           loud, because it is the first addition here that COULD have broken
+           it: session.m writes no time_reference, but pyraview.m -- already
+           counted -- now writes `time_reference_2` alongside its
+           `time_reference_1`, so the claim "distinct N appearing as a literal:
+           [1] ONLY EVER 1" below is STALE. See the epoch-extent work; PRED is
+           the first corpus to carry a family of size 2.
         literal `time_reference_N` sites:  46, in 36 file(s)   (was 45 in 35;
                                             re-derived 2026-08-12, same method)
         distinct N appearing as a literal: [1]        <- ONLY EVER 1
@@ -1218,6 +1228,13 @@ lives in these files — read them instead of re-deriving from memory:
         DENOMINATOR: was 81 migrator .m file(s) in src/did/+did2/+convert/+migrators_j
         -> 83 migrator .m file(s) as of 2026-08-12 (demo_ndi, demo_ndi_mock);
            WITH NO TEST is now 0
+        -> 84 migrator .m file(s) as of 2026-08-13: session.m. Its covering test had
+           to be WRITTEN rather than found -- the roster gate counts a migrator
+           covered when a quoted class-name literal appears in any test file,
+           and 'session' appears as a quoted literal in dozens of unrelated
+           tests, so the gate read WITH NO TEST: 0 the moment the file landed,
+           without a line exercising it. testMigratorsJSession.m fills that
+           hole; the gate's rule is unchanged, being sound for the other 83.
                      (Contents.m excluded); Contents.m is 64106 char(s);
                      61 test file(s) scanned in tests/+did2/+unittest
           mentioned in Contents.m:        81
@@ -1423,8 +1440,12 @@ lives in these files — read them instead of re-deriving from memory:
             $ git ls-tree -r origin/main | grep -c '\.m$' = **1003**
         veta_class_names      242   distinct V_eta class names
         veta_schema_files     248   json files under schemas/V_eta/
-        264 .m file(s) under DID-matlab src/   -- jBase.m, the central `base`
-            block constructor, was added 2026-08-13
+        265 .m file(s) under DID-matlab src/   -- jBase.m, the central `base`
+            block constructor, plus +migrators_j/session.m, both added
+            2026-08-13. THE SECOND ONE MOVES TWO NOUNS AT ONCE
+            (`didmatlab_m_files` 264 -> 265 and `migrator_files` 83 -> 84),
+            which is the same one-change-many-counters shape this block
+            already records for a single schema addition.
 
   **The first cause was EXTERNAL: an NDI-matlab `origin/main` merge.** `ndi_m_files` moved
   1,002 -> 1,003 because main gained one `.m` file, which is a DENOMINATOR shift and
