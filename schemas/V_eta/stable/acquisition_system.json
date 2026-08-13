@@ -19,8 +19,8 @@
         {
             "name": "reader_id",
             "mustBeNonEmpty": false,
-            "documentation": "The reader implementation this system acquires through (daqreader DISSOLVES into a `software` entity, base.id preserved -- it is the only one of the four with no parameters of its own).",
-            "must_refer_to_document_class": "software"
+            "documentation": "The reader this system acquires through. REPOINTED from `software` to `acquisition_reader`: the parenthesis here used to read \"it is the only one of the four with no parameters of its own\", and that was the error -- `reader_string` is a parameter of its own, and pointing straight at `software` left it homeless (both PRED `daqreader_ndr` documents carry one). The edge now has the same shape as `acquisition_metadata_reader_#`: a reader class that owns its configuration and points on at the `software` that implements it.",
+            "must_refer_to_document_class": "acquisition_reader"
         },
         {
             "name": "epoch_file_pattern_id",

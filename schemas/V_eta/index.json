@@ -146,6 +146,17 @@
             "disposition": "persist"
         },
         {
+            "class_name": "acquisition_reader",
+            "tier": "stable",
+            "class_version": "1.0.0",
+            "maturity_level": "stable",
+            "superclasses": [
+                "base"
+            ],
+            "path": "schemas/V_eta/stable/acquisition_reader.json",
+            "disposition": "persist"
+        },
+        {
             "class_name": "acquisition_system",
             "tier": "stable",
             "class_version": "1.0.0",

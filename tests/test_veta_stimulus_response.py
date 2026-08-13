@@ -369,7 +369,16 @@ def test_isspike_is_left_alone_and_the_inert_spelling_is_counted():
     # passes no constraints, so the new class declares neither `min` nor `max` at
     # any depth and the pinned list below is again untouched. Two movements, two
     # re-derivations; the count is still a number somebody chose.
-    assert walked == 241, f'schema count moved; re-derive the inert set ({walked})'
+    # 241 -> 242 on 2026-08-13: `acquisition_reader` was minted (the missing
+    # sibling of `acquisition_metadata_reader`, so `daqreader`'s `reader_string`
+    # has a home and `acquisition_system.reader_id` can stop pointing at
+    # `software`). Re-derived rather than bumped, the same way as the two
+    # movements above: the new class declares ONE field, `reader_string`, whose
+    # constraints are `{}` -- it is built through `field()`, whose `constraints`
+    # default is `{}`, and the call passes none -- so it declares neither `min`
+    # nor `max` at any depth and the pinned list below is untouched. Third
+    # movement, third re-derivation.
+    assert walked == 242, f'schema count moved; re-derive the inert set ({walked})'
     assert sorted(inert) == [
         "element.direct",
         "element.reference",

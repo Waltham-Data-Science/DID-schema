@@ -856,6 +856,42 @@ write("stable", "acquisition_metadata_reader",
                     "The reader program itself, as a `software` entity -- the R1 "
                     "replacement for an NDI class-handle string.",
                     non_empty=False)]))
+# `acquisition_reader` -- THE MISSING SIBLING, and the gap it closes is a
+# measured one rather than a symmetry argument.
+#
+# The signed daq decision (V_eta_daq_family_decisions.md:471) says "daqreader
+# DISSOLVES into a `software` entity" AND, in the same sentence, that
+# `reader_string` is "KEPT as the de-encoded daqreader_ndr.ndr_reader_string".
+# Both cannot hold: `software` declares name / version / local_identifier and
+# nothing else, so a document carrying a reader string had nowhere to put it.
+# `+migrators_j/daqreader.m` has been holding that line with a guard -- "A
+# POPULATED `reader_string` => PASS THROUGH" -- so those documents never
+# dissolved at all; they stayed `daqreader`, a class the signature retires.
+#
+# IT IS NOT HYPOTHETICAL. Both `daqreader_ndr` documents in the PRED corpus
+# carry one:
+#
+#     daqreader_ndr {"ndr_reader_string": "intan",
+#                    "ndi_daqreader_ndr_class": "ndi.daq.reader.mfdaq.ndr"}
+#
+# The shape is NOT invented here -- it is the one its sibling already has.
+# `acquisition_metadata_reader` is exactly "a reader that carries its own
+# configuration field and points at a `software` entity for its implementation
+# class", and that is what a daq reader is too. The asymmetry was the accident.
+write("stable", "acquisition_reader",
+      doc("acquisition_reader", ["base"], fields=[
+          field("reader_string", "char",
+                "Reader/file-type string (e.g. 'intan', 'SpikeGadgets') -- the "
+                "de-encoded did_v1 `daqreader_ndr.ndr_reader_string`. Optional: "
+                "the concrete reader is discriminated by its `software` entity, "
+                "and only some readers take a format selector.",
+                non_empty=False)],
+          deps=[dep("software_id", "software",
+                    "The reader program itself, as a `software` entity -- the R1 "
+                    "replacement for an NDI class-handle string. Same edge, same "
+                    "meaning and same optionality as on "
+                    "`acquisition_metadata_reader`.",
+                    non_empty=False)]))
 write("stable", "acquisition_metadata_file",
       doc("acquisition_metadata_file", ["base"], fields=[],
           deps=[dep("acquisition_metadata_reader_id", "acquisition_metadata_reader",
@@ -1244,10 +1280,16 @@ write("stable", "acquisition_system", doc("acquisition_system", ["entity"],
               "CONSTRUCTED field name, so no literal grep finds the reader. "
               "Distinct from `reader_id`, which names a DIFFERENT component.",
               non_empty=False),
-          dep("reader_id", "software",
-              "The reader implementation this system acquires through "
-              "(daqreader DISSOLVES into a `software` entity, base.id preserved -- "
-              "it is the only one of the four with no parameters of its own).",
+          dep("reader_id", "acquisition_reader",
+              "The reader this system acquires through. REPOINTED from `software` "
+              "to `acquisition_reader`: the parenthesis here used to read \"it is "
+              "the only one of the four with no parameters of its own\", and that "
+              "was the error -- `reader_string` is a parameter of its own, and "
+              "pointing straight at `software` left it homeless (both PRED "
+              "`daqreader_ndr` documents carry one). The edge now has the same "
+              "shape as `acquisition_metadata_reader_#`: a reader class that owns "
+              "its configuration and points on at the `software` that implements "
+              "it.",
               non_empty=False),
           dep("epoch_file_pattern_id", "epoch_file_pattern",
               "The rule that decides which files form one epoch on this system.",

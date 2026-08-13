@@ -1412,6 +1412,33 @@ lives in these files — read them instead of re-deriving from memory:
   again within hours. The checker is ARMED (`--enforce` in `tools/gates.py`) as of
   2026-08-12, so a document asserting a countable number the tree does not hold now fails
   the chain instead of waiting to be noticed.
+
+  **AND IT FIRED TWICE ON 2026-08-13, FOR TWO DIFFERENT REASONS, WHICH IS THE USEFUL
+  PART.** Both are re-derived here as LIVE claims; every older figure in this file for
+  these three nouns is superseded by the numbers in this block.
+
+        DENOMINATOR: 3 countable noun(s) that moved, each re-derived from the tree
+
+        ndi_m_files                 .m files on NDI origin/main
+            $ git ls-tree -r origin/main | grep -c '\.m$' = **1003**
+        veta_class_names      242   distinct V_eta class names
+        veta_schema_files     248   json files under schemas/V_eta/
+
+  **The first cause was EXTERNAL: an NDI-matlab `origin/main` merge.** `ndi_m_files` moved
+  1,002 -> 1,003 because main gained one `.m` file, which is a DENOMINATOR shift and
+  nothing else — the did_v1 ground truth did not move (0 template diffs across the update,
+  still 91 templates). Note what that means in practice: **merging the sibling repository
+  can turn this repository's gate red without anyone editing this repository**, and the
+  fetch alone is enough, because `coverage.py` and `ndi_ground_truth.py` read `origin/main`
+  through git rather than the working tree.
+
+  **The second cause was OURS: minting `acquisition_reader`** (the missing sibling of
+  `acquisition_metadata_reader`, so `daqreader`'s `reader_string` has a home). One new
+  class moves BOTH `veta_class_names` (241 -> 242) and `veta_schema_files` (247 -> 248),
+  and it also tripped the inert-set canary in
+  `tests/test_veta_stimulus_response.py`, which asks for a re-derivation rather than a
+  bump and got one. **A single schema addition invalidates prose counts in several
+  documents at once**, so the cost of a stale number is paid per-document, not per-change.
 - **THE OPEN LIST WAS RECONCILED IN BOTH DIRECTIONS ON 2026-08-12, AND THE ASYMMETRY IS
   THE FINDING: THE DANGEROUS DIRECTION WAS ALMOST CLEAN AND THE SAFE ONE WAS NOT.** Two
   passes over `V_eta_OPEN_WORK.md`, each verdict taken from a commit, a `file:line`, a
