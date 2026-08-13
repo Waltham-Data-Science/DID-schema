@@ -155,7 +155,7 @@
       "ndi": 91,
       "app": 11
     },
-    "with_migrator": 87,
+    "with_migrator": 88,
     "gaps": 0,
     "no_target": {
       "rows_naming_no_target": 8,
@@ -184,14 +184,14 @@
         "rung": 1,
         "name": "a migrator CONSUMES it",
         "denominator": 102,
-        "yes": 90,
-        "no": 12,
+        "yes": 91,
+        "no": 11,
         "n/a": 0,
         "not measured": 0
       },
       "by_stage_reached": {
-        "0": 12,
-        "1": 68,
+        "0": 11,
+        "1": 69,
         "2": 5,
         "3": 17,
         "4": 0
@@ -201,8 +201,8 @@
       ],
       "per_stage_state_counts": {
         "1": {
-          "yes": 90,
-          "no": 12
+          "yes": 91,
+          "no": 11
         },
         "2": {
           "not measured": 74,
@@ -220,7 +220,7 @@
         }
       },
       "per_stage_satisfied_independently": {
-        "1": 90,
+        "1": 91,
         "2": 25,
         "3": 16,
         "4": 0
@@ -235,20 +235,19 @@
           "stimulus_parameter_table"
         ],
         "highest_rung_satisfied_independently_histogram": {
-          "0": 8,
-          "1": 69,
+          "0": 7,
+          "1": 70,
           "2": 9,
           "3": 16,
           "4": 0
         },
-        "genuinely_untouched": 6,
+        "genuinely_untouched": 5,
         "genuinely_untouched_rows": [
           "animalsubject",
           "base",
           "imageCollection",
           "imageStack_parameters",
-          "mock",
-          "session"
+          "mock"
         ],
         "genuinely_untouched_detail": [
           {
@@ -280,15 +279,9 @@
             "disposition": "test/demo fixture (non-production)",
             "target_source": "unknown",
             "governance": "no signature found"
-          },
-          {
-            "v1_class": "session",
-            "disposition": "persist",
-            "target_source": "passthrough",
-            "governance": "no signature found"
           }
         ],
-        "genuinely_untouched_recorded_passthrough": 3,
+        "genuinely_untouched_recorded_passthrough": 2,
         "nothing_built_but_excused_by_a_signed_dissolution": 2,
         "nothing_built_but_excused_rows": [
           "stimulus_response",
@@ -6852,7 +6845,7 @@
       "v1_class": "session",
       "veta_class": "session",
       "disposition": "persist",
-      "migrator": false,
+      "migrator": true,
       "source": "ndi",
       "nonprod": false,
       "gap": false,
@@ -6862,7 +6855,7 @@
       "decided_targets": [],
       "decided_targets_source": null,
       "decided_signoff": null,
-      "target_source": "passthrough",
+      "target_source": "emitted",
       "no_target_reason": null,
       "no_target_reason_label": null,
       "no_target_account": null,
@@ -6873,7 +6866,7 @@
         "schema_targets_built": [],
         "schema_targets_missing": [],
         "migrator_emits_decided_targets": false,
-        "has_per_class_migrator": false,
+        "has_per_class_migrator": true,
         "batch_pass_consumers": [],
         "batch_pass_emits": {},
         "batch_pass_emits_decided_targets": false,
@@ -6883,8 +6876,8 @@
       },
       "carried": [],
       "second_pass": [],
-      "how": "",
-      "target_flags": "",
+      "how": "1->1 into `session`, base.id PRESERVED. `reference` is renamed to `local_identifier` -- the name every other entity already uses for the same fact, REQUIRED on the V_eta schema as it is on `subject` and `epoch` -- and the three V_zeta inventions `type`/`date`/`purpose` are DELETED. Signed 2026-08-13.",
+      "target_flags": "BUILT (migrators_j/session.m). NOT VERIFIED BY EXECUTION. THIS CLASS HAD NO MIGRATOR UNTIL 2026-08-13 and that was correct: it migrated 1:1 with every field carried, so a passthrough said everything. The three deleted fields have NO did_v1 source -- `git show origin/main:src/ndi/ndi_common/database_documents/session.json` declares `session.reference` and nothing else -- but they are rmfield'ed rather than assumed absent, because a V_zeta-vintage body re-run would carry them and they are now undeclared, which quarantines. `local_identifier` is mustBeNonEmpty, so a source with an empty `reference` quarantines correctly; nothing is substituted. CROSS-REPO: NDI reads this field BY PATH at +ndi/+session/dir.m:124 and +ndi/+dataset/dir.m:69 (not a did.query, so a query-shaped grep misses both -- the daqsystem lesson); both now read either spelling. The WRITE at +ndi/+session/dir.m:138 is UNCHANGED and must stay so: it constructs from NDI's own v1 template, which still declares `reference`.",
       "decided_by_family": null,
       "families_naming_this_class": [],
       "governance_gap": "no family in FAMILIES names this class",
@@ -6896,16 +6889,16 @@
       "stage": {
         "unclassifiable": false,
         "unclassifiable_why": null,
-        "reached": 0,
-        "reached_name": "source identified",
-        "blocked_by": 1,
-        "blocked_by_state": "no",
+        "reached": 1,
+        "reached_name": "a migrator CONSUMES it",
+        "blocked_by": 2,
+        "blocked_by_state": "not measured",
         "ladder": [
           {
             "stage": 1,
             "name": "a migrator CONSUMES it",
-            "state": "no",
-            "why": "neither `build_state.has_per_class_migrator`, a `second_pass` entry, nor a batch post-pass declaring it. All 9 batch post-pass(es) in the derived chain were read and none declares this class."
+            "state": "yes",
+            "why": "`build_state.has_per_class_migrator` -- a per-class migrator file named after this class exists in one of the three convert packages"
           },
           {
             "stage": 2,
@@ -6927,10 +6920,10 @@
           }
         ],
         "anomalies": [],
-        "highest_rung_satisfied_independently": 0,
+        "highest_rung_satisfied_independently": 1,
         "capped": false,
-        "nothing_built": true,
-        "nothing_satisfied": true,
+        "nothing_built": false,
+        "nothing_satisfied": false,
         "only_excused": false,
         "corpus_rung_state": "not measured"
       }

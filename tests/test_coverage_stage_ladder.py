@@ -628,10 +628,19 @@ class TestTheCommittedLedger(unittest.TestCase):
         # something else (a `subject.local_identifier` substring, an email
         # prefix, a path segment, epochfile names, openMINDS object names). A
         # class that cannot have documents needs no migrator.
+        # WAS SIX UNTIL 2026-08-13 AND IS NOW FIVE: `session` LEFT, and like the
+        # demo pair it left because something was BUILT rather than because the
+        # instrument learned to see. `session` had no migrator, and until
+        # 2026-08-13 that was CORRECT: it migrated 1:1 with its id preserved and
+        # every field carried, so a passthrough said everything there was to say.
+        # The signed change gives it work to do -- `reference` is renamed to
+        # `local_identifier` (required, matching `subject` and `epoch`) and the
+        # three V_zeta inventions `type`/`date`/`purpose` are deleted -- so
+        # `+migrators_j/session.m` now exists and rung 1 reads `yes`.
         cap = _ledger()["summary"]["stage_rollup"]["capped"]
         self.assertEqual(cap["genuinely_untouched_rows"], [
             "animalsubject", "base", "imageCollection",
-            "imageStack_parameters", "mock", "session"])
+            "imageStack_parameters", "mock"])
 
     def test_a_signed_dissolution_is_not_counted_as_untouched(self):
         # The rows that separate "nothing built" from "nothing known".
@@ -1081,14 +1090,16 @@ class TestMutationsRedden(unittest.TestCase):
         rows = _with_governance(
             _reclassify(copy.deepcopy(_rows()), coverage.CORPUS_SCAN))
         rollup = coverage._stage_rollup(rows, None)
-        self.assertEqual(rollup["capped"]["genuinely_untouched"], 6,
-                         "precondition: six rows have nothing built and "
+        self.assertEqual(rollup["capped"]["genuinely_untouched"], 5,
+                         "precondition: five rows have nothing built and "
                          "nothing excused. Nine until `generic_file` was "
                          "credited to did2.convert.foldGenericFiles (OPEN_WORK "
                          "row 107); eight until the demo collapse's migrator "
                          "half was built on 2026-08-12, which took `demoNDI` "
-                         "and `demoNDIMock` out. Each drop has a different "
-                         "cause -- one instrument, one build -- and the "
+                         "and `demoNDIMock` out; six until `session` gained a "
+                         "migrator on 2026-08-13 for the signed `reference` -> "
+                         "`local_identifier` rename. Each drop has a different "
+                         "cause -- one instrument, two builds -- and the "
                          "distinction is the point of this bucket")
         damaged = copy.deepcopy(rollup)
         damaged["capped"]["genuinely_untouched"] = 0

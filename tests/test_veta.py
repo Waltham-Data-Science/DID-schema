@@ -278,20 +278,37 @@ def _local_id(cls):
     return fs.get("local_identifier")
 
 
-def test_local_identifier_required_on_subject_optional_elsewhere():
-    """local_identifier is a schema-enforced handle: REQUIRED on subject, OPTIONAL
-    on every other entity, and NOT declared on the abstract `entity` parent (so
-    subject *adds* a required field rather than illegally overriding a
-    parent-optional one). Requiredness is expressed by placement, like the timing
-    model — not an ingest convention."""
+def test_local_identifier_required_on_subject_and_session_optional_elsewhere():
+    """local_identifier is a schema-enforced handle: REQUIRED where the handle is
+    how people name the thing, OPTIONAL on every other entity, and NOT declared on
+    the abstract `entity` parent (so a child *adds* a required field rather than
+    illegally overriding a parent-optional one). Requiredness is expressed by
+    placement, like the timing model — not an ingest convention.
+
+    `session` MOVED FROM THE OPTIONAL LIST TO THE REQUIRED ONE on 2026-08-13, and
+    the move is a rename, not a new obligation. It used to carry BOTH an optional
+    `local_identifier` and a required-in-practice `reference` — one slot spelled
+    two ways, which is exactly the drift the naming tenets exist to prevent. The
+    signed change deletes the optional slot and renames `reference` into it:
+
+        TEAM-SIGN-OFF [session]: jess@walthamdatascience.com / 2026-08-13
+          "session.reference becomes local_identifier, required, matching
+           subject and epoch."
+
+    Every did_v1 session document carries the value already (NDI's own template
+    declares `session.reference` and nothing else), so requiring it quarantines
+    nothing that was previously valid.
+    """
     # the parent stays neutral (no local_identifier -> no forbidden override)
     assert _local_id("entity") is None
-    # subject requires it
-    sub = _local_id("subject")
-    assert sub is not None and sub["mustBeNonEmpty"] is True
+    # the handle is the name: required
+    for e in ("subject", "session"):
+        f = _local_id(e)
+        assert f is not None, f"{e} should carry a required local_identifier"
+        assert f["mustBeNonEmpty"] is True, f"{e}.local_identifier must be required"
     # every other entity carries it, optional
     for e in ("dataset", "person", "organization", "publication", "funding",
-              "web_resource", "session"):
+              "web_resource"):
         f = _local_id(e)
         assert f is not None, f"{e} should carry an optional local_identifier"
         assert f["mustBeNonEmpty"] is False, f"{e}.local_identifier must be optional"

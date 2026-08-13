@@ -13,7 +13,7 @@
     "file": [],
     "fields": [
         {
-            "name": "reference",
+            "name": "local_identifier",
             "type": "char",
             "blank_value": "",
             "default_value": "",
@@ -25,77 +25,10 @@
                 "node": "ncit:C169028",
                 "name": "Study Unique Identifier"
             },
-            "documentation": "A unique reference string for this experimental session.",
+            "documentation": "Human-facing handle for this session, unique within its dataset. Renamed from `reference` 2026-08-13 to match `subject` and `epoch`.",
             "constraints": {
                 "maxLength": 256
             }
-        },
-        {
-            "name": "type",
-            "type": "char",
-            "blank_value": "",
-            "default_value": "",
-            "mustBeNonEmpty": false,
-            "mustBeScalar": true,
-            "mustNotHaveNaN": false,
-            "queryable": true,
-            "ontology": {
-                "node": "iao:0000219",
-                "name": "denotes"
-            },
-            "documentation": "The session type (e.g., 'acute', 'chronic'). The field denotes a value drawn from a session-type vocabulary; candidate for promotion to ontology_term.",
-            "constraints": {
-                "maxLength": 128
-            }
-        },
-        {
-            "name": "date",
-            "type": "char",
-            "blank_value": "",
-            "default_value": "",
-            "mustBeNonEmpty": false,
-            "mustBeScalar": true,
-            "mustNotHaveNaN": false,
-            "queryable": true,
-            "ontology": {
-                "node": "schema:startDate",
-                "name": "startDate"
-            },
-            "documentation": "The date of the session in ISO 8601 format (YYYY-MM-DD).",
-            "constraints": {
-                "maxLength": 32
-            }
-        },
-        {
-            "name": "purpose",
-            "type": "char",
-            "blank_value": "",
-            "default_value": "",
-            "mustBeNonEmpty": false,
-            "mustBeScalar": true,
-            "mustNotHaveNaN": false,
-            "queryable": false,
-            "ontology": {
-                "node": "schema:description",
-                "name": "description"
-            },
-            "documentation": "A free-text description of the purpose of this session.",
-            "constraints": {
-                "maxLength": 1024
-            }
-        },
-        {
-            "name": "local_identifier",
-            "type": "char",
-            "blank_value": "",
-            "default_value": "",
-            "mustBeNonEmpty": false,
-            "mustBeScalar": true,
-            "mustNotHaveNaN": false,
-            "queryable": true,
-            "ontology": null,
-            "documentation": "Optional human-facing handle for this entity, used to cross-reference it within its dataset (distinct from any display name/title). Required on subject; optional here.",
-            "constraints": {}
         }
     ]
 }

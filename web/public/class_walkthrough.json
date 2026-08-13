@@ -4134,7 +4134,13 @@
       ]
      }
     ],
-    "per_class_migrators": []
+    "per_class_migrators": [
+     {
+      "package": "migrators_j",
+      "path": "src/did/+did2/+convert/+migrators_j/session.m",
+      "spelling": "session"
+     }
+    ]
    },
    "migrator_reads": [],
    "ndi": {
@@ -6729,7 +6735,7 @@
    "migrators_i"
   ],
   "ndi_ground_truth_classes": 91,
-  "rows_with_a_per_class_migrator_file": 87,
+  "rows_with_a_per_class_migrator_file": 88,
   "rows_with_an_ndi_declaration": 91,
   "rows_without_one": 11
  },

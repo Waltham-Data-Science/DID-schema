@@ -1630,8 +1630,36 @@ write("stable", "dataset", doc("dataset", ["entity"], fields=[
 # (must_refer is declarative), so there is no blast radius.
 sess = load(os.path.join(VETA, "stable", "session.json"))
 sess["document_class"]["superclasses"] = [{"class_name": "entity"}]
-if not any(f["name"] == "local_identifier" for f in sess.get("fields", [])):
-    sess.setdefault("fields", []).append(LOCAL_ID_OPT)
+
+# ---- TEAM-SIGNED 2026-08-13 ------------------------------------------------
+# THREE INVENTED FIELDS GO. NDI's template declares exactly one:
+#     git show origin/main:src/ndi/ndi_common/database_documents/session.json
+#       "session": { "reference": "" }
+# No `type`, no `date`, no `purpose`, and ndi.session.dir writes only
+# `session.reference`. They came from the V_zeta snapshot, so no writer can
+# fill them -- the `daqreader.file_extension` pattern, deleted this month for
+# exactly this reason.
+_gone = {"type", "date", "purpose"}
+_before = len(sess.get("fields", []))
+sess["fields"] = [f for f in sess.get("fields", []) if f["name"] not in _gone]
+if _before - len(sess["fields"]) != len(_gone):
+    raise SystemExit("build_v_eta: session should have declared all of %s; "
+                     "removed %d" % (sorted(_gone), _before - len(sess["fields"])))
+
+# `reference` -> `local_identifier`, REQUIRED. `subject` and `epoch` both name
+# this same fact `local_identifier` and both require it; session was the only
+# entity using a different word for it, AND carried a second, optional
+# `local_identifier` besides. One slot, one name, matching its siblings.
+sess["fields"] = [f for f in sess["fields"] if f["name"] != "local_identifier"]
+_ref = [f for f in sess["fields"] if f["name"] == "reference"]
+if len(_ref) != 1:
+    raise SystemExit("build_v_eta: session must declare exactly one "
+                     "`reference`; found %d" % len(_ref))
+_ref[0]["name"] = "local_identifier"
+_ref[0]["mustBeNonEmpty"] = True
+_ref[0]["documentation"] = (
+    "Human-facing handle for this session, unique within its dataset. Renamed "
+    "from `reference` 2026-08-13 to match `subject` and `epoch`.")
 write("stable", "session", sess)
 
 # openminds_import: REMOVED 2026-07-30 (team sign-off), REVERSING the earlier
