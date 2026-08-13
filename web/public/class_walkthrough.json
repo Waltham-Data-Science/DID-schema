@@ -215,19 +215,24 @@
      {
       "pass": "epochMint",
       "path": "src/did/+did2/+convert/epochMint.m",
-      "site_count": 1,
+      "site_count": 2,
       "sites": [
        {
         "line": 1393,
         "spelling": "base",
         "text": "if ~isfield(b, 'base') || ~isstruct(b.base) || ~isfield(b.base, name); return; end"
+       },
+       {
+        "line": 1484,
+        "spelling": "base",
+        "text": "if ~isstruct(body) || ~isfield(body, 'base') || ~isstruct(body.base)"
        }
       ]
      },
      {
       "pass": "foldGenericFiles",
       "path": "src/did/+did2/+convert/foldGenericFiles.m",
-      "site_count": 3,
+      "site_count": 4,
       "sites": [
        {
         "line": 495,
@@ -240,9 +245,14 @@
         "text": "if isstruct(src) && isfield(src, 'base') && isstruct(src.base)"
        },
        {
-        "line": 567,
+        "line": 568,
         "spelling": "base",
         "text": "if isstruct(b) && isfield(b, 'base') && isstruct(b.base) && isfield(b.base, name)"
+       },
+       {
+        "line": 655,
+        "spelling": "base",
+        "text": "if ~isstruct(body) || ~isfield(body, 'base') || ~isstruct(body.base)"
        }
       ]
      },
@@ -261,7 +271,7 @@
      {
       "pass": "resolveLawnPlateSubjects",
       "path": "src/did/+did2/+convert/resolveLawnPlateSubjects.m",
-      "site_count": 3,
+      "site_count": 4,
       "sites": [
        {
         "line": 1319,
@@ -274,16 +284,21 @@
         "text": "if isstruct(srcBody) && isfield(srcBody, 'base') && isstruct(srcBody.base)"
        },
        {
-        "line": 1594,
+        "line": 1595,
         "spelling": "base",
         "text": "if isstruct(b) && isfield(b, 'base') && isstruct(b.base) && isfield(b.base, name)"
+       },
+       {
+        "line": 1635,
+        "spelling": "base",
+        "text": "if ~isstruct(body) || ~isfield(body, 'base') || ~isstruct(body.base)"
        }
       ]
      },
      {
       "pass": "resolveOpenmindsCitations",
       "path": "src/did/+did2/+convert/resolveOpenmindsCitations.m",
-      "site_count": 2,
+      "site_count": 3,
       "sites": [
        {
         "line": 984,
@@ -294,6 +309,11 @@
         "line": 1061,
         "spelling": "base",
         "text": "if isstruct(s) && isfield(s, 'base') && isstruct(s.base) && isfield(s.base, name) ..."
+       },
+       {
+        "line": 1154,
+        "spelling": "base",
+        "text": "if ~isstruct(body) || ~isfield(body, 'base') || ~isstruct(body.base)"
        }
       ]
      },
@@ -324,7 +344,7 @@
      {
       "pass": "resolveValidIntervals",
       "path": "src/did/+did2/+convert/resolveValidIntervals.m",
-      "site_count": 2,
+      "site_count": 3,
       "sites": [
        {
         "line": 1103,
@@ -332,9 +352,14 @@
         "text": "if isstruct(src) && isfield(src, 'base') && isstruct(src.base)"
        },
        {
-        "line": 1245,
+        "line": 1246,
         "spelling": "base",
         "text": "if isstruct(b) && isfield(b, 'base') && isstruct(b.base) && isfield(b.base, name)"
+       },
+       {
+        "line": 1327,
+        "spelling": "base",
+        "text": "if ~isstruct(body) || ~isfield(body, 'base') || ~isstruct(body.base)"
        }
       ]
      },
@@ -5569,7 +5594,7 @@
         "text": "body.document_class = struct('class_name', 'subject', 'class_version', '3.0.0', ..."
        },
        {
-        "line": 1602,
+        "line": 1603,
         "spelling": "subject",
         "text": "if isstruct(b) && isfield(b, 'subject') && isstruct(b.subject) ..."
        }
