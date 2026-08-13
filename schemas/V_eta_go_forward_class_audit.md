@@ -651,3 +651,7 @@ already assigned it.
 concrete pass over 635 real documents, not a hypothetical one. The condition recorded
 above still stands as written, but it is now expected to be met rather than merely hoped
 for.
+
+
+TEAM-SIGN-OFF [session]: jess@walthamdatascience.com / 2026-08-13 -- session.type, session.date and session.purpose are DELETED -- the did_v1 template declares only `reference` and no writer fills them (V_zeta inventions, same disposition as daqreader.file_extension). session.reference becomes `local_identifier`, REQUIRED, matching subject and epoch, and the now-duplicate optional local_identifier is dropped. THE RENAME IS A THREE-PART CHANGE: schema + migrator + NDI-matlab src/ndi/+ndi/+dataset/dir.m:69, which reads `document_properties.session.reference` directly off a retrieved document and returns nothing after the rename. NOT YET BUILT.
+    (Recorded by Claude at the signer's explicit consent, given in session_01BenWtpJyRu3QhEZqCErpwm after the decision was stated in conversation. Operating Rule 4 normally forbids Claude writing this line; the signer waived that here. The DECISION is the signer's -- this is transcription, not authorship.)

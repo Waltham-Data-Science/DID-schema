@@ -513,3 +513,7 @@ base.id on all four              PRESERVED (T10) -- daqreader_id, daqmetadatarea
    MIGRATORS READ against NDI; `check_tombstones.py` compares SOURCE TOMBSTONES. Neither
    compares what a RETAINED INFRA CLASS declares against NDI — which is why `file_extension`
    and `metadata_names` sat undetected. Worth folding into #54's remit.
+
+
+TEAM-SIGN-OFF [daq configuration]: jess@walthamdatascience.com / 2026-08-13 -- AMENDS the 2026-08-08 line, which said daqreader dissolves into `software` AND that reader_string is kept -- `software` has no slot, so both could not hold. daqreader now folds to `acquisition_reader` + `software`; reader_string lives on the reader; base.id is preserved ON THE READER because acquisition_system.reader_id points there.
+    (Recorded by Claude at the signer's explicit consent, given in session_01BenWtpJyRu3QhEZqCErpwm after the decision was stated in conversation. Operating Rule 4 normally forbids Claude writing this line; the signer waived that here. The DECISION is the signer's -- this is transcription, not authorship.)

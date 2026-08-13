@@ -507,3 +507,11 @@ dimensioned cells must carry the full source triple.
 Recommended order: decide `app` + `image` (closes R1, R6, and 2 boundary classes) →
 resolve the tuning composites R2/R3 (closes the biggest T12 tension) → `ngrid` R4 (unblocks
 the RF fold) → the remaining boundary calls → the deferred source folds.
+
+
+TEAM-SIGN-OFF [date dtype]: jess@walthamdatascience.com / 2026-08-13 -- `date` is a dtype distinct from `timestamp`, accepting PARTIAL PRECISION (YYYY, YYYY-MM, YYYY-MM-DD); `timestamp` remains the ISO 8601 UTC instant. publication.date -> publication.publication_date and dataset.release_date are retyped from char.
+    (Recorded by Claude at the signer's explicit consent, given in session_01BenWtpJyRu3QhEZqCErpwm after the decision was stated in conversation. Operating Rule 4 normally forbids Claude writing this line; the signer waived that here. The DECISION is the signer's -- this is transcription, not authorship.)
+
+
+TEAM-SIGN-OFF [base naming]: jess@walthamdatascience.com / 2026-08-13 -- base.datestamp becomes base.creation_timestamp. the noun-then-kind house style, measured (0 bare participles in 472 field names); `_timestamp` not `_time`, because all 22 existing `_time` fields are numeric offsets. Renamed OUTBOUND -- once in pass 1 (v1_to_v2/renameOutboundBaseFields) and once in the NDI second pass -- so migrators keep reading did_v1 spelling.
+    (Recorded by Claude at the signer's explicit consent, given in session_01BenWtpJyRu3QhEZqCErpwm after the decision was stated in conversation. Operating Rule 4 normally forbids Claude writing this line; the signer waived that here. The DECISION is the signer's -- this is transcription, not authorship.)

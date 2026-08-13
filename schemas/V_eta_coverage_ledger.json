@@ -592,7 +592,7 @@
             "V_eta_final_class_set.md"
           ],
           "signoff_markers_inside_excluded_documents": 1,
-          "accepted_lines": 24,
+          "accepted_lines": 29,
           "rejected_lines": [
             {
               "document": "V_eta_recording_observation_plan.md",
@@ -604,16 +604,20 @@
             }
           ],
           "distinct_tags": [
+            "base naming",
             "binding governance",
             "daq configuration",
             "daq ingested payloads",
             "dataseries_channel_map",
+            "date dtype",
             "ensemble",
             "epoch",
+            "epoch extent -- row #113",
             "file navigation",
             "image / ngrid",
             "logical_observation",
             "misc singletons",
+            "session",
             "software",
             "spike processing parameters",
             "stimulus",
@@ -626,6 +630,12 @@
             "time_reference"
           ],
           "tags": {
+            "base naming": [
+              {
+                "document": "V_eta_tenet_audit.md",
+                "line": 516
+              }
+            ],
             "binding governance": [
               {
                 "document": "V_eta_tenet_audit.md",
@@ -636,6 +646,10 @@
               {
                 "document": "V_eta_daq_family_decisions.md",
                 "line": 471
+              },
+              {
+                "document": "V_eta_daq_family_decisions.md",
+                "line": 518
               }
             ],
             "daq ingested payloads": [
@@ -648,6 +662,12 @@
               {
                 "document": "V_eta_go_forward_class_audit.md",
                 "line": 222
+              }
+            ],
+            "date dtype": [
+              {
+                "document": "V_eta_tenet_audit.md",
+                "line": 512
               }
             ],
             "ensemble": [
@@ -664,6 +684,12 @@
               {
                 "document": "V_eta_method_parameters_plan.md",
                 "line": 683
+              }
+            ],
+            "epoch extent -- row #113": [
+              {
+                "document": "V_eta_OPEN_WORK.md",
+                "line": 2866
               }
             ],
             "file navigation": [
@@ -688,6 +714,12 @@
               {
                 "document": "V_eta_go_forward_class_audit.md",
                 "line": 3
+              }
+            ],
+            "session": [
+              {
+                "document": "V_eta_go_forward_class_audit.md",
+                "line": 656
               }
             ],
             "software": [
@@ -781,6 +813,12 @@
             "valid_interval"
           ],
           "orphan_tags": {
+            "base naming": [
+              {
+                "document": "V_eta_tenet_audit.md",
+                "line": 516
+              }
+            ],
             "binding governance": [
               {
                 "document": "V_eta_tenet_audit.md",
@@ -793,10 +831,28 @@
                 "line": 222
               }
             ],
+            "date dtype": [
+              {
+                "document": "V_eta_tenet_audit.md",
+                "line": 512
+              }
+            ],
+            "epoch extent -- row #113": [
+              {
+                "document": "V_eta_OPEN_WORK.md",
+                "line": 2866
+              }
+            ],
             "logical_observation": [
               {
                 "document": "V_eta_logical_observation_plan.md",
                 "line": 357
+              }
+            ],
+            "session": [
+              {
+                "document": "V_eta_go_forward_class_audit.md",
+                "line": 656
               }
             ]
           }
