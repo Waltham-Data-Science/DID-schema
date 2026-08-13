@@ -723,6 +723,28 @@ EDGES = [
          "already rejected one (`dataseries_channel_map`, deleted 2026-08-09).",
          "tools/tenet_map.py", r"index\.json"),
 
+    # THE CHAIN COULD NOT GO GREEN IN ONE PASS FROM A STALE ASSET, and the
+    # missing edge is this one. `pytest` is declared early (it only needs the
+    # built tree) and `gen_class_walkthrough` late, but
+    # `test_class_walkthrough.py::test_committed_asset_matches_the_generator`
+    # asserts the COMMITTED asset equals what the generator would write -- so
+    # pass 1 failed that test against the stale copy, step 22 then regenerated
+    # it, and pass 2 was green. Measured 2026-08-13 while regenerating three
+    # artifacts a DID-matlab commit had moved.
+    #
+    # A CHAIN THAT NEEDS RUNNING TWICE IS NOT A LOUD FAILURE, WHICH IS WHY IT
+    # SURVIVED: the second run is green and looks like the first one worked.
+    # The same shape on a runner is a red CI job whose fix is "run it again",
+    # and the cost is a reader learning that a red gate here means nothing.
+    Edge("gen_class_walkthrough", "pytest",
+         "web/public/class_walkthrough.json",
+         "test_committed_asset_matches_the_generator compares the COMMITTED "
+         "asset against a fresh render, so running pytest before the generator "
+         "tests the previous render and fails on a tree the chain is about to "
+         "fix itself.",
+         "tests/test_class_walkthrough.py",
+         r"def test_committed_asset_matches_the_generator"),
+
     Edge("gen_class_walkthrough", "check_web_assets_fresh",
          "web/public/class_walkthrough.json",
          "the freshness gate cannot compare this asset against a source file -- "
