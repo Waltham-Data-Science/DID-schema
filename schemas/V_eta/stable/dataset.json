@@ -290,7 +290,7 @@
         },
         {
             "name": "release_date",
-            "type": "char",
+            "type": "date",
             "blank_value": "",
             "default_value": "",
             "mustBeNonEmpty": false,
@@ -298,7 +298,7 @@
             "mustNotHaveNaN": false,
             "queryable": true,
             "ontology": null,
-            "documentation": "Release date (openMINDS DatasetVersion.releaseDate).",
+            "documentation": "Release date (openMINDS DatasetVersion.releaseDate). `date`, not `timestamp`: a release is dated, not instantaneous, and openMINDS supplies no time of day to put in one. The NAME is already `<noun>_<kind>` and is unchanged -- it is the field the naming survey measured the house style against.",
             "constraints": {}
         },
         {

@@ -1439,9 +1439,13 @@ def test_named_composite_cells_declare_their_layout():
     # A named composite type must declare its sub-fields inline: a type that is only an
     # enum string is undeclared, and undeclared internals are an opaque blob to the
     # validator, the query-path generator and the viewer alike.
+    # `date` joins the PRIMITIVE set 2026-08-13, beside `timestamp`. It is a
+    # scalar string (the validator accepts it on the char branch), so it has no
+    # internals to declare and is not the kind of thing this test is about --
+    # which is named COMPOSITE cells whose layout would otherwise be opaque.
     named = set(META["$defs"]["field_definition"]["properties"]["type"]["enum"]) - {
         "did_uid", "char", "string", "integer", "double", "matrix", "timestamp",
-        "boolean", "structure"}
+        "date", "boolean", "structure"}
     missing = []
 
     def walk(cls, fields, prefix):

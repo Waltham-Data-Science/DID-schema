@@ -26,8 +26,8 @@
             "constraints": {}
         },
         {
-            "name": "date",
-            "type": "char",
+            "name": "publication_date",
+            "type": "date",
             "blank_value": "",
             "default_value": "",
             "mustBeNonEmpty": false,
@@ -35,7 +35,7 @@
             "mustNotHaveNaN": false,
             "queryable": true,
             "ontology": null,
-            "documentation": "Publication date/year.",
+            "documentation": "Publication date. PARTIAL PRECISION IS THE POINT: a publication may be recorded as a year, a year-month or a full date, and `date` accepts all three -- which is why this is not a `timestamp`. Renamed from the bare `date` 2026-08-13: `date` alone names the KIND of value and not the fact, and `<noun>_<kind>` is this schema's measured house style (13 `_name`, 11 `_time`, 10 `_type`, 5 `_id`; 0 bare participles in 472 field names).",
             "constraints": {}
         },
         {

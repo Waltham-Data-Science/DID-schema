@@ -61,7 +61,22 @@ DIMS = ["mass", "length", "volume", "duration", "temperature", "pressure",
 # passes through these helpers. See tests/test_veta_blank_values_typecheck.py,
 # which scans EVERY field of EVERY built schema against the validator's
 # accepted shapes rather than special-casing this one type.
-_CHARLIKE_BLANK_TYPES = ("char", "string", "did_uid", "timestamp")
+# `date` JOINS THE CHAR-LIKE SET 2026-08-13, and it is a NEW dtype rather than
+# a relabelling of `timestamp`. A calendar date and a wall-clock instant are
+# different facts with different precision, and conflating them INVENTS data:
+# `publication.date` is documented "Publication date/year", so forcing it into
+# an ISO 8601 UTC instant manufactures a month, a day and a time that no source
+# supplied. `date` is deliberately PARTIAL-PRECISION -- `YYYY`, `YYYY-MM` and
+# `YYYY-MM-DD` are all well-formed -- which is exactly what `timestamp` must
+# NOT accept once it is constrained.
+#
+# It is char-like for the same reason `timestamp` is: the validator's
+# `validateTypeShape` accepts these as char/scalar-string, so the blank value
+# must be '' and not 0.0. tests/test_veta_blank_values_typecheck.py scans every
+# field of every built schema against the validator's accepted shapes, so a
+# type added here and NOT taught to the MATLAB side fails there rather than
+# silently emitting 0.0 into a char slot.
+_CHARLIKE_BLANK_TYPES = ("char", "string", "did_uid", "timestamp", "date")
 
 
 def subfield(name, ftype, doc, *, non_empty=False, scalar=True, blank=None,
@@ -1475,7 +1490,15 @@ write(_ta_tier, "term_assertion", _ta)
 
 write("stable", "publication", doc("publication", ["entity"], fields=[
     field("title", "char", "Publication title."),
-    field("date", "char", "Publication date/year.", non_empty=False),
+    field("publication_date", "date",
+          "Publication date. PARTIAL PRECISION IS THE POINT: a publication may "
+          "be recorded as a year, a year-month or a full date, and `date` "
+          "accepts all three -- which is why this is not a `timestamp`. Renamed "
+          "from the bare `date` 2026-08-13: `date` alone names the KIND of value "
+          "and not the fact, and `<noun>_<kind>` is this schema's measured house "
+          "style (13 `_name`, 11 `_time`, 10 `_type`, 5 `_id`; 0 bare "
+          "participles in 472 field names).",
+          non_empty=False),
     field("authors", "char", "Author citation string — external, NOT decomposed "
           "into person entities (cited papers' authors stay coarse).",
           non_empty=False), LOCAL_ID_OPT]))
@@ -1582,8 +1605,12 @@ write("stable", "dataset", doc("dataset", ["entity"], fields=[
           "address or discussion channel (openMINDS DatasetVersion.supportChannel); "
           "a support URL is instead a directed_relation -> web_resource. Repeatable.",
           non_empty=False, scalar=False),
-    field("release_date", "char", "Release date "
-          "(openMINDS DatasetVersion.releaseDate).", non_empty=False),
+    field("release_date", "date", "Release date "
+          "(openMINDS DatasetVersion.releaseDate). `date`, not `timestamp`: a "
+          "release is dated, not instantaneous, and openMINDS supplies no time "
+          "of day to put in one. The NAME is already `<noun>_<kind>` and is "
+          "unchanged -- it is the field the naming survey measured the house "
+          "style against.", non_empty=False),
     field("copyright_year", "char", "Copyright year (openMINDS "
           "DatasetVersion.copyright -> Copyright.year); the holder is a "
           "directed_relation -> organization|person (copyright_holder).",
@@ -5773,6 +5800,17 @@ type_enum = meta["$defs"]["field_definition"]["properties"]["type"]["enum"]
 for _seed_name, _ in NUMERIC_SEED:          # J §7 comprehensive numeric set
     if _seed_name not in type_enum:
         type_enum.append(_seed_name)
+# `date` -- a PRIMITIVE, joining the enum beside `timestamp` rather than as a
+# composite. It declares no sub-fields and needs none: like `char`, `did_uid`
+# and `timestamp` it is a scalar string, so it does not trip
+# test_named_composite_cells_declare_their_layout (which requires a layout only
+# of NON-primitive members). It exists because a calendar date and a wall-clock
+# instant are different facts: `timestamp` is an ISO 8601 UTC INSTANT, `date` is
+# a calendar date at whatever precision the source gave -- `YYYY`, `YYYY-MM` or
+# `YYYY-MM-DD`. Typing a year-granularity publication date as `timestamp`
+# invents a month, a day and a time.
+if "date" not in type_enum:
+    type_enum.append("date")
 # `validity` USED TO BE APPENDED HERE, and its replacement deliberately is not.
 # The enum is `field_definition.type` -- the types a FIELD may declare -- and it
 # needed an entry only because `validity.value` was typed `validity` (a nested
