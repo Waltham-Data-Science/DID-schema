@@ -2863,5 +2863,43 @@ TEAM-SIGN-OFF [stranded sources]: jess@walthamdatascience.com, 2026-08-11 -- gen
 | 114 | **`ngrid` AND `stimulus_bath` ARE BOTH DONE; ONE HAS A GOVERNANCE CONFLICT AND THE OTHER IS UNDER-COUNTED BY ONE EMISSION.** Neither needs a build. Investigated alongside row 113. | **`ngrid` — the migrator is complete and the payload fold is built by ANOTHER class, the `filter` pattern again.** `+migrators_j/+super/ngrid.m` is an explicit no-op carrying `{data_size, data_type, data_dim, coordinates}` verbatim with a guard erroring on the V_delta shape; `stable/ngrid.json` declares exactly those four, so schema and migrator are lockstep. `private/jNgridBody.m` folds the block into a `sampled_body` and its ONLY caller is `+migrators_j/ontology_image.m:389`. **The fold cannot fire on a real document and the file says so at `:155-215`**: it is gated on `subjectId` AND an `ngrid` block (`:273`), and the only vintage that exists is B, whose sole edge `ontologyTableRow_id` never carries a subject — so every real `ontologyImage` takes the vintage-B passthrough. Two consumers CONFIRMED (`ontologyImage`, and `hartley_calc` via `reverse_correlation`), and `hartley_calc` is NOT an NDI class — one hit across `origin/main`, in `docs/developer_notes/` — consistent with it being one of the 11 vhlab app classes; its RF fold is #48, unbuilt. Zero concrete `ngrid` documents can exist: `mat2ngrid.m` returns a STRUCT handed to `ndi.document` as a block at `imageDocMaker.m:121-127`. **THE LIVE ISSUE IS GOVERNANCE, AND THE BOARD ALREADY FLAGS IT `DISPUTED`:** the signed line at `V_eta_image_model_plan.md:144` says *"ngrid is DISSOLVED (deleted, not migrated)"* while `ontology_image.m:158` records a newer in-session decision, *"The ngrid documents should be migrated into sampled_bodys."* Deleted versus migrated. **The question: does the later decision replace the signed one in the record, and if so which of the three options at `ontology_image.m:213-215` supplies the subject the fold is gated on?** **`stimulus_bath` — complete and correctly reported.** `+migrators_j/stimulus_bath.m:30` raises `did2:convert:needsSessionContext` unconditionally, by design; the work is `resolveDeferredBaths`, which declares `stimulus_bath -> document: session_relative_reference, dose_manipulation, term_observation`. A real document is deferred in pass 1 and resolved in the batch pass if its element is in the batch, otherwise it stays QUARANTINED with its deferral reason — visible, never lost. Two production writers (`stimulusDocMaker.m:195`, `marderbath.m:61`). **ONE DISCREPANCY, IN THE CURATED MAP RATHER THAN THE CODE:** `V_eta_migration_targets.json` records `second_pass: ["dose_manipulation", "session_relative_reference"]` — TWO — while the pass declares THREE, adding `term_observation` (conditional, `resolveDeferredBaths.m:462-466`, when the source names a location). The confirm sheet therefore under-counts this row's emissions by one; it should be confirmed as three. |
 
 
+**CORRECTION TO ROW #113, 2026-08-13, AND IT ENLARGES THE ROW.** The row above
+says the epoch END TIME and CLOCK FRAME are lost. True, and incomplete: **the epoch
+IDENTITY is dropped too, and recovering it comes FIRST.** Positive evidence, from
+NDI's own template and from the migrator:
+
+        $ git show origin/main:src/ndi/ndi_common/database_documents/data/pyraview.json
+          superclasses: ['epochclocktimes.json', 'filter.json']
+
+        $ grep -n "epochid" DID-matlab/.../+migrators_j/pyraview.m
+          (no matches -- 0 of 267 lines)
+
+`pyraview` is EPOCH-SCOPED BY DECLARATION: `epochclocktimes` is one of its two
+superclasses, and that mixin carries the `epochid` block (which is why PRED's
+document has one). Belonging to an epoch is part of what a pyraview IS. The
+migrator reads NEITHER block, so migration loses the epoch dimension in two
+pieces -- `epochid.epochid` (PRED: `EST_VISUAL_PREDROGA`) and the extent
+(`t0_t1 = [0, 28.12495]`, `dev_local_time`).
+
+**A CLAIM MADE EARLIER IN THE SAME SESSION WAS WRONG AND IS WITHDRAWN HERE:**
+"epochMint already mints PRED's epoch from `epochid.epochid`". The v1 SOURCE
+carries it; the MIGRATED bodies do not, and `epochMint` reads migrated bodies.
+PRED's pyraview is the only document in that corpus carrying an epoch id, so
+**PRED currently gets NO epoch minted at all** and there is nothing for a
+`relative_reference` to anchor to. The two were conflated; they are not the same.
+
+**SO THE BUILD IS THREE STEPS, NOT ONE**, and the signed decision describes only
+the middle one:
+  1. pyraview's output carries the epoch id forward, onto a body whose class
+     DECLARES it -- a schema question first, since an undeclared block quarantines.
+  2. epochMint mints the extent as a `relative_reference` off that epoch's
+     `time_reference_#`.   <- the signed part
+  3. pyraview's emitted observation gains its `epoch_id` edge once the epoch
+     exists -- the deferred rewire `jEpochDocId`'s header describes, and the
+     reason that seam returns '' for every did_v1 document today.
+
+Step 3 makes this the first real instance of the epoch family (#60) landing,
+not a pyraview-local fix. NOTHING IS BUILT.
+
 TEAM-SIGN-OFF [epoch extent -- row #113]: jess@walthamdatascience.com / 2026-08-13 -- epochMint OWNS the epoch extent: it mints the relative_reference carrying the extent and clock frame, hung off the epoch's time_reference_#. pyraview.m stops dropping the epochclocktimes block so the mint can see it. REJECTED: adding a value slot to `epoch_bounded_reference`, which is not in the persist set. NOT YET BUILT.
     (Recorded by Claude at the signer's explicit consent, given in session_01BenWtpJyRu3QhEZqCErpwm after the decision was stated in conversation. Operating Rule 4 normally forbids Claude writing this line; the signer waived that here. The DECISION is the signer's -- this is transcription, not authorship.)
