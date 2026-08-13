@@ -579,7 +579,8 @@
             "daqreader_epochdata_ingested (daq ingested payloads)": 1,
             "daqreader (daq configuration)": 1,
             "acquisition_epoch (epoch)": 1,
-            "session_bounded_reference (time_reference)": 1
+            "session_bounded_reference (time_reference)": 1,
+            "epoch_bounded_reference (time_reference)": 1
           },
           "family_members_matching_no_ledger_row": 7,
           "spelling_near_misses": []
@@ -6766,7 +6767,8 @@
         "voltage_observation",
         "sampled_body",
         "session_relative_reference",
-        "frequency_filter"
+        "frequency_filter",
+        "epoch_bounded_reference"
       ],
       "decided_targets": [],
       "decided_targets_source": null,

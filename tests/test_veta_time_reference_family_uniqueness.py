@@ -199,7 +199,20 @@ def test_the_rule_is_checkable_on_exactly_one_class_today_and_says_so():
 
     with_clock = sorted(c for c in closure if has_clock(c))
     print(f'DENOMINATOR: {len(closure)} classes in the time_reference subtree; {len(with_clock)} declare value.clock: {with_clock}')
-    assert with_clock == ["relative_reference"], (
+    # 1 -> 2 on 2026-08-13, and this is the deliberate update the message below
+    # asks for. `epoch_bounded_reference` gained a `value` slot copied verbatim
+    # from relative_reference so pyraview's epoch EXTENT has transport between
+    # pass 1 and did2.convert.epochMint -- it had none, which is why the extent
+    # could not be minted. The copy brings `value.clock` with it, so the handle
+    # is now comparable by the same discriminator.
+    #
+    # THAT IS CORRECT RATHER THAN INCIDENTAL: the uniqueness rule says members
+    # of one `time_reference_#` family must differ by clock, and a handle that
+    # will BECOME a relative_reference has to satisfy the same rule or the fold
+    # could turn a legal family into an illegal one. The handle is transitional
+    # (not in the persist set -- tier 5 is absolute_reference +
+    # relative_reference), so this list shrinks back to one when it is deleted.
+    assert with_clock == ["epoch_bounded_reference", "relative_reference"], (
         f"the set of classes the rule can compare has changed: {with_clock}. If the "
         "collapse (#65 increment 3) has landed, this test's premise is the "
         "thing that moved -- update it deliberately.")

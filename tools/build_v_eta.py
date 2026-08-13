@@ -5836,6 +5836,71 @@ if "date" not in type_enum:
 # ensureClassBlocks and before validation -- the only point every body passes
 # through, passthroughs included. Migrators keep reading and writing did_v1
 # spelling internally and not one of them changed.
+# ---- the epoch handle gains the extent, by COPYING relative_reference.value --
+# TEAM GRANT 2026-08-13: "you can change any of the transitional schema... as
+# long as they aren't in V_eta's final schema." `epoch_bounded_reference` is a
+# pass-1 HANDLE -- it is consumed by ndi.migrate.internal.epochAnchorFold and is
+# NOT in the persist set (V_eta_final_class_set.md's tier 5 is exactly
+# `absolute_reference`, `relative_reference`), so a slot added here never reaches
+# the schema we keep.
+#
+# WHY IT IS NEEDED. pyraview is epoch-scoped by declaration and carries the
+# epoch's extent in its v1 `epochclocktimes` block (PRED: t0_t1 = [0, 28.12495],
+# dev_local_time). The handle could carry the epoch IDENTITY and the CLOCK but
+# had NO slot for an interval, so the extent had no transport between pass 1 and
+# did2.convert.epochMint -- which is where the extent is minted onto the epoch's
+# own `time_reference_#`.
+#
+# COPIED, NOT RE-DECLARED, and that is the point: the fold's job becomes a
+# straight copy of `value` into the `relative_reference` it emits, with no
+# translation step to get wrong, and the two shapes CANNOT DRIFT -- change
+# relative_reference.value and this follows on the next build.
+_rr_tier, _rr_path = path_of("relative_reference")
+_rr_value = [f for f in load(_rr_path)["fields"] if f["name"] == "value"]
+if len(_rr_value) != 1:
+    raise SystemExit("build_v_eta: relative_reference must declare exactly one "
+                     "`value` field; found %d" % len(_rr_value))
+_ebr_tier, _ebr_path = path_of("epoch_bounded_reference")
+_ebr = load(_ebr_path)
+if not any(f["name"] == "value" for f in _ebr["fields"]):
+    _v = json.loads(json.dumps(_rr_value[0]))      # deep copy
+
+    def _strip_governance(node):
+        # THE COPY CARRIES SHAPE, NOT GOVERNANCE. relative_reference.value's
+        # `relation` and `clock` are BOUND (OWL-Time, and the four clock terms),
+        # and those bindings belong to the class we KEEP. Copying them onto a
+        # transitional handle would grow the bound-field count -- which
+        # check_binding_governance ratchets on, correctly -- and would put
+        # governance on a class that is deleted after the fold. The fold target
+        # enforces the vocabulary; the handle only has to carry the numbers.
+        node["constraints"] = {}
+        # AND NORMALISE THE COMPOSITE BLANK. A named composite (`duration`,
+        # `ontology_term`) whose blank_value is a scalar is a document that
+        # cannot validate against its own declared type -- cache.m:1764 --
+        # which tests/test_veta_blank_values_typecheck.py ratchets on. The
+        # copy inherits whatever the source declared; a composite blank is {}.
+        # KEYED ON TYPE, NOT ON SHAPE. This patch runs BEFORE the step that
+        # expands composite sub-fields, so at copy time a `duration` field has
+        # no `fields` key yet and a shape test silently does nothing -- which
+        # is exactly what the first version of this did.
+        if node.get("type") not in _CHARLIKE_BLANK_TYPES + (
+                "integer", "double", "boolean", "matrix"):
+            node["blank_value"] = {}
+            node["default_value"] = {}
+        for _sf in node.get("fields") or []:
+            _strip_governance(_sf)
+
+    _strip_governance(_v)
+    _v["mustBeNonEmpty"] = False                   # a handle may carry no extent
+    _v["documentation"] = (
+        "The epoch's extent and clock, shaped EXACTLY as relative_reference."
+        "value so the fold is a copy rather than a translation. OPTIONAL here "
+        "and required there: a handle may name an epoch without knowing its "
+        "bounds, which is the `no times => no reference` rule applied to the "
+        "transitional class. Populated from the did_v1 `epochclocktimes` block.")
+    _ebr["fields"].append(_v)
+    write(_ebr_tier, "epoch_bounded_reference", _ebr)
+
 _base_tier, _base_path = path_of("base")
 _base = load(_base_path)
 _renamed = 0

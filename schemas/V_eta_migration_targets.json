@@ -382,7 +382,8 @@
         "voltage_observation",
         "sampled_body",
         "session_relative_reference",
-        "frequency_filter"
+        "frequency_filter",
+        "epoch_bounded_reference"
       ],
       "carried": [
         "subject"
