@@ -583,7 +583,6 @@
             "binding governance",
             "daq configuration",
             "daq ingested payloads",
-            "daq reader subtype",
             "dataseries_channel_map",
             "date dtype",
             "ensemble",
@@ -593,7 +592,6 @@
             "image / ngrid",
             "logical_observation",
             "misc singletons",
-            "pyraview pyramid",
             "raw recording observation",
             "session",
             "software",
@@ -628,19 +626,17 @@
               },
               {
                 "document": "V_eta_daq_family_decisions.md",
-                "line": 518
+                "line": 519
+              },
+              {
+                "document": "V_eta_daq_family_decisions.md",
+                "line": 522
               }
             ],
             "daq ingested payloads": [
               {
                 "document": "V_eta_ingested_payload_findings.md",
                 "line": 276
-              }
-            ],
-            "daq reader subtype": [
-              {
-                "document": "V_eta_daq_family_decisions.md",
-                "line": 521
               }
             ],
             "dataseries_channel_map": [
@@ -701,16 +697,14 @@
                 "line": 3
               }
             ],
-            "pyraview pyramid": [
-              {
-                "document": "V_eta_recording_observation_plan.md",
-                "line": 105
-              }
-            ],
             "raw recording observation": [
               {
                 "document": "V_eta_recording_observation_plan.md",
                 "line": 99
+              },
+              {
+                "document": "V_eta_recording_observation_plan.md",
+                "line": 106
               }
             ],
             "session": [
@@ -830,12 +824,6 @@
                 "line": 429
               }
             ],
-            "daq reader subtype": [
-              {
-                "document": "V_eta_daq_family_decisions.md",
-                "line": 521
-              }
-            ],
             "dataseries_channel_map": [
               {
                 "document": "V_eta_go_forward_class_audit.md",
@@ -852,12 +840,6 @@
               {
                 "document": "V_eta_OPEN_WORK.md",
                 "line": 2904
-              }
-            ],
-            "pyraview pyramid": [
-              {
-                "document": "V_eta_recording_observation_plan.md",
-                "line": 105
               }
             ]
           }
