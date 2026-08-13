@@ -444,29 +444,29 @@
       "governance": {
         "denominator": 102,
         "by_state": {
-          "signed": 37,
+          "signed": 39,
           "DISPUTED": 1,
           "family UNSIGNED": 0,
-          "no signature found": 64
+          "no signature found": 62
         },
         "signed_by": {
-          "derived from a signed family": 30,
+          "derived from a signed family": 32,
           "checked transcription on the row": 7
         },
         "join": {
           "rows_inspected": 102,
-          "rows_matched_by_a_signed_family": 38,
+          "rows_matched_by_a_signed_family": 40,
           "matched_on": {
-            "v1_class": 38
+            "v1_class": 40
           },
-          "matched_on_v1_class_only": 2,
+          "matched_on_v1_class_only": 3,
           "matched_on_veta_class_only": 0,
           "matched_by_family": {
             "software": 1,
             "misc singletons": 2,
-            "daq configuration": 3,
+            "daq configuration": 4,
             "daq ingested payloads": 3,
-            "raw recording observation": 1,
+            "raw recording observation": 2,
             "ensemble": 1,
             "epoch": 2,
             "file navigation": 1,
@@ -488,7 +488,7 @@
           "conflicting_claims": [],
           "unmoved_by_cause": {
             "a family names this class and that family is UNSIGNED": 0,
-            "no family names this class; a SIGNED family names a class its migrator EMITS": 38,
+            "no family names this class; a SIGNED family names a class its migrator EMITS": 36,
             "no family names this class, and the row has no V_eta class and no target either": 4,
             "no family in FAMILIES names this class": 22
           },
@@ -529,7 +529,6 @@
               "contrast_tuning_calc",
               "control_stimulus_ids",
               "daqreader_mfdaq_epochdata_ingested",
-              "daqreader_ndr",
               "electrode_offset_voltage",
               "element_epoch",
               "fitcurve",
@@ -547,7 +546,6 @@
               "position_metadata",
               "probe_geometry",
               "probe_location",
-              "pyraview",
               "spatial_frequency_tuning",
               "spatial_frequency_tuning_calc",
               "speed_tuning",
@@ -565,14 +563,12 @@
             ]
           },
           "target_only_reached_via": {
-            "session_relative_reference (time_reference)": 33,
+            "session_relative_reference (time_reference)": 32,
             "subject (subject)": 3,
             "control_designation (stimulus)": 1,
             "daqreader_epochdata_ingested (daq ingested payloads)": 1,
-            "daqreader (daq configuration)": 1,
             "acquisition_epoch (epoch)": 1,
-            "session_bounded_reference (time_reference)": 1,
-            "epoch_bounded_reference (time_reference)": 1
+            "session_bounded_reference (time_reference)": 1
           },
           "family_members_matching_no_ledger_row": 7,
           "spelling_near_misses": []
@@ -585,13 +581,14 @@
             "V_eta_final_class_set.md"
           ],
           "signoff_markers_inside_excluded_documents": 1,
-          "accepted_lines": 31,
+          "accepted_lines": 33,
           "rejected_lines": [],
           "distinct_tags": [
             "base naming",
             "binding governance",
             "daq configuration",
             "daq ingested payloads",
+            "daq reader subtype",
             "dataseries_channel_map",
             "date dtype",
             "ensemble",
@@ -601,6 +598,7 @@
             "image / ngrid",
             "logical_observation",
             "misc singletons",
+            "pyraview pyramid",
             "raw recording observation",
             "session",
             "software",
@@ -642,6 +640,12 @@
               {
                 "document": "V_eta_ingested_payload_findings.md",
                 "line": 276
+              }
+            ],
+            "daq reader subtype": [
+              {
+                "document": "V_eta_daq_family_decisions.md",
+                "line": 521
               }
             ],
             "dataseries_channel_map": [
@@ -700,6 +704,12 @@
               {
                 "document": "V_eta_go_forward_class_audit.md",
                 "line": 3
+              }
+            ],
+            "pyraview pyramid": [
+              {
+                "document": "V_eta_recording_observation_plan.md",
+                "line": 105
               }
             ],
             "raw recording observation": [
@@ -825,6 +835,12 @@
                 "line": 429
               }
             ],
+            "daq reader subtype": [
+              {
+                "document": "V_eta_daq_family_decisions.md",
+                "line": 521
+              }
+            ],
             "dataseries_channel_map": [
               {
                 "document": "V_eta_go_forward_class_audit.md",
@@ -841,6 +857,12 @@
               {
                 "document": "V_eta_OPEN_WORK.md",
                 "line": 2904
+              }
+            ],
+            "pyraview pyramid": [
+              {
+                "document": "V_eta_recording_observation_plan.md",
+                "line": 105
               }
             ]
           }
@@ -2466,13 +2488,31 @@
       "second_pass": [],
       "how": "The `ndr` subtype was encoded in the CLASS NAME while `ndi_daqreader_class` already discriminates it, so this de-encodes onto the generic `daqreader` block -- `ndr_reader_string` -> `reader_string`, `ndi_daqreader_ndr_class` dropped as redundant, `file_extension` NOT carried (invented; no NDI template declares it in any spelling) -- and then HANDS THE BODY ON to migrators_j/daqreader, which performs the signed fold. So the end state is `acquisition_reader` (base.id PRESERVED, so every `daqreader_id` edge still resolves) + a `software` entity. `daqreader` is an INTERMEDIATE class name, not a destination.",
       "target_flags": "BUILT (migrators_j/daqreader_ndr.m -> migrators_j/daqreader.m, DID-matlab 5d3f532). THIS `how` DESCRIBED THE PRE-5d3f532 BEHAVIOUR UNTIL 2026-08-13 -- it said the subtype 'dissolves into generic daqreader' and flagged an 'in-place class rename', which was true when written and stopped being true when the delegation landed. The confirm sheet renders this text, so the stale record was making a completed fold read as a `daqreader` tombstone, i.e. as work still owed. WHY `daqreader` IS STILL IN `targets`, WHICH IS GENERATED AND CORRECT: refresh_migration_targets follows the call graph and sees both the literal `class_name = 'daqreader'` assignment here and daqreader.m's guard-1 passthrough, which returns the body unfolded when it carries NEITHER a class name NOR a reader string. That branch is REACHABLE IN GENERAL and unreachable for PRED: both PRED `daqreader_ndr` documents carry `ndr_reader_string: 'intan'` AND a populated `ndi_daqreader_class` (`ndi.daq.reader.mfdaq.ndr`, `ndi.setup.daq.reader.mfdaq.stimulus.rayolab_intanseries`), read from the corpus zip directly, so both take the folding path. NOT VERIFIED BY EXECUTION.",
-      "decided_by_family": null,
-      "families_naming_this_class": [],
-      "governance_gap": "no family names this class; a SIGNED family names a class its migrator EMITS",
+      "decided_by_family": {
+        "family": "daq configuration",
+        "document": "V_eta_daq_family_decisions.md",
+        "line": 471,
+        "signoff": "jess@walthamdatascience.com / 2026-08-08 -- daqreader DISSOLVES into a `software` entity (base.id preserved); daqmetadatareader -> `acquisition_metadata_reader`; daqsystem -> `acquisition_system` \u2282 entity, base.id AND base.name preserved because the name is the join key; the invented `file_extension` and `metadata_names` are DELETED; `reader_string` is KEPT as the de-encoded daqreader_ndr.ndr_reader_string.",
+        "matched_on": "v1_class",
+        "matched_name": "daqreader_ndr",
+        "conflict": []
+      },
+      "families_naming_this_class": [
+        "daq configuration"
+      ],
+      "governance_gap": null,
       "governance": {
-        "state": "no signature found",
-        "signoff": null,
-        "why": "no family names this class; a SIGNED family names a class its migrator EMITS. This is the absence of a FINDABLE signature -- a transcription, or a signed family naming this class -- and NOT evidence that no decision exists"
+        "state": "signed",
+        "signoff": {
+          "family": "daq configuration",
+          "document": "V_eta_daq_family_decisions.md",
+          "line": 471,
+          "signoff": "jess@walthamdatascience.com / 2026-08-08 -- daqreader DISSOLVES into a `software` entity (base.id preserved); daqmetadatareader -> `acquisition_metadata_reader`; daqsystem -> `acquisition_system` \u2282 entity, base.id AND base.name preserved because the name is the join key; the invented `file_extension` and `metadata_names` are DELETED; `reader_string` is KEPT as the de-encoded daqreader_ndr.ndr_reader_string.",
+          "matched_on": "v1_class",
+          "matched_name": "daqreader_ndr",
+          "conflict": []
+        },
+        "why": "DERIVED, not transcribed: the decision family `daq configuration` names this class as `daqreader_ndr` (v1_class), and that family is signed at `V_eta_daq_family_decisions.md`:471. Re-derived on every build from status_board.signed_families(); a family with no signature reaches nothing"
       },
       "stage": {
         "unclassifiable": false,
@@ -6803,13 +6843,31 @@
       "second_pass": [],
       "how": "multi-resolution pyramid signal -> a body-backed voltage_observation + ONE sampled_body per stored resolution level + anchor",
       "target_flags": "multiple sampled_body (one per level), all sharing the statement; levels told apart by sample_time.dt, and each level keeps its own bytes because a pyramid is a precomputed performance cache rather than a disposable thumbnail. THE `dataseries_observation` CAVEAT IS RESOLVED AND REMOVED (2026-08-13). It read \"header title says dataseries_observation but code emits voltage_observation\" and put that to the team as an open question. It was never a question about the model: `dataseries_observation` was phase-8 DELETED -- abstract and unminted in J, so no document can be an instance of one -- and 0 of 248 json files under schemas/V_eta declare it, alongside its two siblings imageseries_/timeseries_observation. `voltage_observation` is stable/ and is what the code has always emitted. Team, 2026-08-13: \"There is no dataseries_observation anymore. Voltage is correct.\" The migrator docstring outlived the deletion and has been corrected.",
-      "decided_by_family": null,
-      "families_naming_this_class": [],
-      "governance_gap": "no family names this class; a SIGNED family names a class its migrator EMITS",
+      "decided_by_family": {
+        "family": "raw recording observation",
+        "document": "V_eta_recording_observation_plan.md",
+        "line": 99,
+        "signoff": "jess@walthamdatascience.com / 2026-08-10 -- a raw continuous recording IS a typed `<modality>_observation` of the SPECIMEN: `subject_id` = the specimen, `instrument_id` = the electrode/probe in the instrument role (T7), `variable` = the modality from the element/probe type, body = `sampled_body`, timing = the existing epoch anchor; the loose `probe observes specimen` relation RETIRES in favour of the `instrument_id` edge. Guard A stands: an unmapped element type still yields a VALUED observation over a bare self-describing `sampled_body` with a queryable `modality_unresolved` flag -- never a `timeseries_observation` or `array` class -- and the build gate is ZERO fallbacks on the real corpus. Multi-channel is ONE observation with a channel axis, not N observations. Specimen granularity is accepted as faithful-but-coarse; Path-S may promote a recording-locus part-subject later. Signed KNOWING the body shape rides on the data_body model, which is NOT signed: the `sampled_body` under these observations will be reshaped when that lands, and that rework is accepted rather than waiting on binding enforcement plus two corpus measurements.",
+        "matched_on": "v1_class",
+        "matched_name": "pyraview",
+        "conflict": []
+      },
+      "families_naming_this_class": [
+        "raw recording observation"
+      ],
+      "governance_gap": null,
       "governance": {
-        "state": "no signature found",
-        "signoff": null,
-        "why": "no family names this class; a SIGNED family names a class its migrator EMITS. This is the absence of a FINDABLE signature -- a transcription, or a signed family naming this class -- and NOT evidence that no decision exists"
+        "state": "signed",
+        "signoff": {
+          "family": "raw recording observation",
+          "document": "V_eta_recording_observation_plan.md",
+          "line": 99,
+          "signoff": "jess@walthamdatascience.com / 2026-08-10 -- a raw continuous recording IS a typed `<modality>_observation` of the SPECIMEN: `subject_id` = the specimen, `instrument_id` = the electrode/probe in the instrument role (T7), `variable` = the modality from the element/probe type, body = `sampled_body`, timing = the existing epoch anchor; the loose `probe observes specimen` relation RETIRES in favour of the `instrument_id` edge. Guard A stands: an unmapped element type still yields a VALUED observation over a bare self-describing `sampled_body` with a queryable `modality_unresolved` flag -- never a `timeseries_observation` or `array` class -- and the build gate is ZERO fallbacks on the real corpus. Multi-channel is ONE observation with a channel axis, not N observations. Specimen granularity is accepted as faithful-but-coarse; Path-S may promote a recording-locus part-subject later. Signed KNOWING the body shape rides on the data_body model, which is NOT signed: the `sampled_body` under these observations will be reshaped when that lands, and that rework is accepted rather than waiting on binding enforcement plus two corpus measurements.",
+          "matched_on": "v1_class",
+          "matched_name": "pyraview",
+          "conflict": []
+        },
+        "why": "DERIVED, not transcribed: the decision family `raw recording observation` names this class as `pyraview` (v1_class), and that family is signed at `V_eta_recording_observation_plan.md`:99. Re-derived on every build from status_board.signed_families(); a family with no signature reaches nothing"
       },
       "stage": {
         "unclassifiable": false,

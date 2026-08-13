@@ -3,7 +3,7 @@
   "description": "Regenerate with `python3 tools/status_board.py`. The human-readable twin is schemas/V_eta_STATUS.md. A family counts as decided ONLY when its plan document carries a TEAM-SIGN-OFF line; Claude cannot promote its own work.",
   "summary": {
     "families": 23,
-    "classes_claimed": 45,
+    "classes_claimed": 47,
     "open_classes": 26,
     "by_state": {
       "signed_awaiting_build": 23,
@@ -200,6 +200,10 @@
         {
           "class_name": "daqmetadatareader",
           "disposition": "in_progress"
+        },
+        {
+          "class_name": "daqreader_ndr",
+          "disposition": "(absent)"
         }
       ],
       "open_members": [
@@ -463,6 +467,10 @@
         {
           "class_name": "element",
           "disposition": "retire"
+        },
+        {
+          "class_name": "pyraview",
+          "disposition": "retire"
         }
       ],
       "open_members": [],
@@ -557,6 +565,7 @@
     "daqsystem": "daq configuration",
     "daqreader": "daq configuration",
     "daqmetadatareader": "daq configuration",
+    "daqreader_ndr": "daq configuration",
     "daqreader_epochdata_ingested": "daq ingested payloads",
     "daqmetadatareader_epochdata_ingested": "daq ingested payloads",
     "daqreader_image_epochdata_ingested": "daq ingested payloads",
@@ -579,6 +588,7 @@
     "stimulus_response_scalar_parameters_basic": "stimulus response",
     "subjectmeasurement": "subject measurement",
     "element": "raw recording observation",
+    "pyraview": "raw recording observation",
     "subject": "subject",
     "session": "session",
     "binaryseries_parameters": "misc singletons",

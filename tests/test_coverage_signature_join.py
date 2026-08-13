@@ -400,10 +400,24 @@ class TestTheCommittedLedger(unittest.TestCase):
         # discarding the signature (its text names `<modality>_observation`),
         # and no FAMILIES row named the class. Fixing either alone would have
         # left the row reading `no signature found`.
+        # 30 -> 32 later on 2026-08-13: `daqreader_ndr` and `pyraview` joined,
+        # AND THIS INCREMENT IS NOT LIKE THE FOUR ABOVE IT. Every earlier bump
+        # was a JOIN catching up with a decision that already existed --
+        # "the DECISION is not new" appears in each. These two are NEW
+        # DECISIONS, signed 2026-08-13 in response to the generated confirm
+        # sheet, and each needed BOTH halves: a signature (neither class had
+        # one -- both read `no signature found`) and a FAMILIES row to reach it.
+        #
+        # Recording the difference is the point of this comment. If the two
+        # kinds blur together, this counter stops distinguishing "the
+        # derivation reached further" from "the team decided more", and those
+        # are the two things it exists to keep apart. A future reader diffing
+        # this number should be able to tell which happened without reading the
+        # plan documents.
         self.assertEqual(transcribed, 8)
-        self.assertEqual(derived, 30)
-        self.assertEqual(self.gov["by_state"][coverage.G_SIGNED], 37,
-                         "8 transcribed + 30 derived, less `ngrid`, whose "
+        self.assertEqual(derived, 32)
+        self.assertEqual(self.gov["by_state"][coverage.G_SIGNED], 39,
+                         "8 transcribed + 32 derived, less `ngrid`, whose "
                          "DISPUTED record outranks its family signature")
 
     def test_a_DISPUTED_record_outranks_a_family_signature(self):

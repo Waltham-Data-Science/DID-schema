@@ -387,7 +387,12 @@ FAMILIES = [
     # archival" proposal was WRONG and is reversed in place: daqsystem.base.name
     # is a join key referenced BY NAME (epochprobemap devicestring, syncrule
     # parameters), which a depends_on check cannot see.
-    ("daq configuration", ["daqsystem", "daqreader", "daqmetadatareader"],
+    # `daqreader_ndr` joined 2026-08-13. Its own signature is at
+    # V_eta_daq_family_decisions.md ([daq reader subtype]); it is a member here
+    # because it de-encodes onto the `daqreader` block and the 2026-08-08
+    # signature above already reaches its `ndr_reader_string` by name.
+    ("daq configuration",
+     ["daqsystem", "daqreader", "daqmetadatareader", "daqreader_ndr"],
      "V_eta_daq_family_decisions.md",
      ("acquisition_system + `acquisition_metadata_reader` keep ids; class names fold to "
      "software entities"),
@@ -623,7 +628,13 @@ FAMILIES = [
     # direction. It is a REAL GAP, recorded here and NOT fixed: repointing
     # pyraview at the specimen changes what the PRED corpus emits and is a
     # build, not bookkeeping.
-    ("raw recording observation", ["element"],
+    # `pyraview` joined 2026-08-13, and the membership is NEW rather than an
+    # oversight corrected: until that day pyraview did NOT implement this model
+    # -- it named the probe as subject and wrote no instrument edge, which is
+    # the shape the signature REPLACES -- and the family deliberately listed
+    # `element` alone on that evidence. `ndi.migrate.internal.recordingAttribution`
+    # closed the gap in the second pass, so the class now belongs here.
+    ("raw recording observation", ["element", "pyraview"],
      "V_eta_recording_observation_plan.md",
      ("a raw continuous recording IS a typed `<modality>_observation` of the "
       "SPECIMEN: subject_id = the specimen, instrument_id = the electrode in "
