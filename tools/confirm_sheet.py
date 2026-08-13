@@ -103,7 +103,8 @@ BUCKET_OPTIONS = {
 }
 
 
-def question_for(bucket, v1_class, emits, second_pass=()):
+def question_for(bucket, v1_class, emits, second_pass=(), final=None,
+                 partial=False):
     """The row's ask, in the INTERROGATIVE, self-contained enough to answer alone.
 
     Self-contained matters more than brevity here: these are read one at a time,
@@ -120,9 +121,22 @@ def question_for(bucket, v1_class, emits, second_pass=()):
             return ("Migrating `%s` emits nothing in pass 1; a batch post-pass "
                     "then produces %s. Is that the end state we want for `%s`?"
                     % (v1_class, ", ".join(second_pass), v1_class))
-        emitted = ", ".join(emits) if emits else "(nothing recorded)"
-        return ("Migrating `%s` today produces %s. Is that the end state we "
-                "want for `%s`?" % (v1_class, emitted, v1_class))
+        # THE QUESTION NAMES DESTINATIONS, NOT EVERY MINTED CLASS. It used to
+        # recite `targets` verbatim, so `daqreader_ndr` was put to the team as
+        # "produces daqreader, acquisition_reader, software" -- and `daqreader`
+        # is folded away in the same pass. Asking someone to confirm an end
+        # state while listing classes that are not end states is a question that
+        # cannot be answered as written.
+        shown = final if final is not None else list(emits)
+        emitted = ", ".join(shown) if shown else "(nothing recorded)"
+        q = ("Migrating `%s` today ends as %s. Is that the end state we "
+             "want for `%s`?" % (v1_class, emitted, v1_class))
+        if partial:
+            # Do not ask for a confirmation the evidence cannot support.
+            q += (" NOTE: that set is a LOWER BOUND -- at least one emission "
+                  "could not be read from the code, so answering `yes` here "
+                  "confirms less than it appears to.")
+        return q
     if bucket == B_PASSTHROUGH:
         return ("`%s` is folded into nothing -- its documents survive under "
                 "their own v1 name as a tombstone. Is that the intended end "
@@ -195,8 +209,70 @@ def classify(v1_class, entry):
     return B_CONFIRM
 
 
+# ---------------------------------------------------------------------------
+# WHAT A DESTINATION ACTUALLY IS
+# ---------------------------------------------------------------------------
+# `targets` lists every class the migrator MINTS, and some of those are pass-1
+# TRANSPORT HANDLES that a later pass folds away. Rendering them undifferentiated
+# asked the team to confirm `daqreader`, `session_relative_reference` and
+# `epoch_bounded_reference` as end states; none of the three is one, and all
+# three are marked `in_progress` in the built set, which is exactly what "not in
+# the persist set" means. Reported 2026-08-13: "I'm struggling to confirm those
+# rows when you are showing me intermediate classes."
+#
+# The disposition is READ FROM THE BUILT INDEX, never hardcoded -- a hand list
+# would go stale the day a class is promoted. What IS named here is the pass that
+# performs each fold, because that fact lives in the other repository's code and
+# no artifact in this one carries it.
+_FOLDED_BY = {
+    "session_relative_reference": "did2.convert.resolveSessionAnchors",
+    "epoch_bounded_reference":    "ndi.migrate.internal.epochAnchorFold",
+    "daqreader":                  "migrators_j/daqreader.m (same pass)",
+}
+
+
+def load_dispositions():
+    """{class_name: disposition} from the built V_eta index, or {} with a why."""
+    path = os.path.join(SCHEMA_ROOT, "schemas", "V_eta", "index.json")
+    try:
+        with open(path) as fh:
+            idx = json.load(fh)
+    except (OSError, ValueError) as exc:
+        return {}, "the built V_eta index could not be read (%s)" % exc
+    return ({s["class_name"]: s.get("disposition")
+             for s in idx.get("schemas", [])}, "")
+
+
+def destinations(emits, disp):
+    """Split an emitted set into FINAL destinations and intermediates.
+
+    An unknown disposition is neither -- it is reported as unknown rather than
+    assumed final, because assuming final is the reassuring direction and this
+    sheet is read as a decision aid.
+    """
+    final, intermediate, unknown = [], [], []
+    for cls in emits:
+        d = disp.get(cls)
+        if d is None:
+            unknown.append(cls)
+        elif d == "persist":
+            final.append(cls)
+        else:
+            intermediate.append((cls, d, _FOLDED_BY.get(cls, "")))
+    return final, intermediate, unknown
+
+
 def build(ledger, targets_map, stage=1):
     rows, unclassified = [], []
+    disp, disp_why = load_dispositions()
+    if disp_why:
+        # NOT a silent degradation. Without dispositions every row would render
+        # with no `ENDS AS` line at all, which reads exactly like a row whose
+        # emissions are all final -- the reassuring direction, on the sheet the
+        # team uses to decide. Say it once, loudly, and let the caller render it.
+        unclassified.append(
+            "*** DESTINATIONS UNAVAILABLE: %s. Every row below lists MINTED "
+            "classes only; intermediates are NOT marked." % disp_why)
     for r in ledger["rows"]:
         if r["stage"]["reached"] != stage:
             continue
@@ -210,12 +286,22 @@ def build(ledger, targets_map, stage=1):
         rows.append({
             "v1_class": cls,
             "bucket": bucket,
-            "question": question_for(bucket, cls, e.get("targets") or [],
-                                     e.get("second_pass") or []),
+            "question": question_for(
+                bucket, cls, e.get("targets") or [],
+                e.get("second_pass") or [],
+                final=destinations(e.get("targets") or [], disp)[0],
+                partial=(e.get("target_completeness") or {}).get("state")
+                        == "partial"),
             "options": [{"key": k, "label": v}
                         for k, v in BUCKET_OPTIONS.get(bucket, [])],
             "answer_from": ANSWER_FROM[bucket],
             "emits": e.get("targets") or [],
+            "destinations": destinations(e.get("targets") or [], disp)[0],
+            "intermediates": [
+                {"class": c, "disposition": d, "folded_by": by}
+                for c, d, by in destinations(e.get("targets") or [], disp)[1]],
+            "destination_unknown": destinations(e.get("targets") or [], disp)[2],
+            "target_completeness": e.get("target_completeness") or {},
             "carried": e.get("carried") or [],
             "second_pass": e.get("second_pass") or [],
             "intent": e.get("how") or "",
@@ -265,6 +351,25 @@ def render(rows, unclassified, total_rows, stage, out=sys.stdout):
                 p("         [ ] %s" % o["label"])
             p("      -- the evidence --")
             p("      emits      : %s" % (", ".join(r["emits"]) or "(none recorded)"))
+            if r["destinations"]:
+                p("      ENDS AS    : %s" % ", ".join(r["destinations"]))
+            for it in r["intermediates"]:
+                p("      intermediate: %s (%s) -- folded by %s"
+                  % (it["class"], it["disposition"],
+                     it["folded_by"] or "a later pass; emitter not recorded here"))
+            for u in r["destination_unknown"]:
+                p("      UNKNOWN    : %s is not in the built index -- neither a "
+                  "destination nor an intermediate can be claimed" % u)
+            tc = r["target_completeness"]
+            if tc.get("state") == "partial":
+                # THE ROW IS NOT ANSWERABLE FROM `emits` ALONE and the sheet has
+                # to say so where the reader is looking. refresh_migration_targets
+                # knew this and only printed it; the fact was lost between tools.
+                p("      *** THE EMITTED SET ABOVE IS A LOWER BOUND -- this row "
+                  "cannot be confirmed as an end state from it alone.")
+                for site in tc.get("unresolved_sites", []):
+                    p("          unread: %s" % site.get("why", ""))
+                    p("                  %s" % site.get("site", ""))
             if r["carried"]:
                 p("      attaches to: %s" % ", ".join(r["carried"]))
             if r["second_pass"]:

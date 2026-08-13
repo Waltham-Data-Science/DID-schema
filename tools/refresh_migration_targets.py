@@ -775,6 +775,7 @@ def refresh(write=True, out=sys.stdout):
     changed = []
     partial_report = []
     carry_report = []
+    completeness_changed = []
     all_derived = set()
     for cls in rows:
         derived, unresolved, carries, path = an.targets_for(cls)
@@ -811,6 +812,37 @@ def refresh(write=True, out=sys.stdout):
             mode = "PARTIAL" if unresolved else ("carry-fwd" if carries else "full")
             changed.append((cls, existing, new, mode, _rel(path)))
             classes[cls]["targets"] = new
+
+        # THE COMPLETENESS OF `targets` IS NOW PART OF THE ROW, and until
+        # 2026-08-13 it was not: this tool KNEW element's emitted set was
+        # incomplete, named the exact site, counted the row among 8 PARTIAL --
+        # and then wrote a `targets` list indistinguishable from a fully derived
+        # one. `confirm_sheet.py` read that list and asked the team "is this the
+        # end state?" over a set missing `voltage_observation`, the very class
+        # the 2026-08-10 raw-recording signature is about. The knowledge existed
+        # and was lost between two tools, which is worse than never having it:
+        # a reviewer cannot discount a caveat nobody carried forward.
+        #
+        # `full` and `carry-fwd` are recorded too, not just the bad case. A key
+        # present only when something is wrong is a key whose absence means
+        # either "fine" or "written by an older version", and those must not
+        # look alike.
+        completeness = {
+            "state": "partial" if unresolved else (
+                "carry_forward" if carries else "full"),
+            "unresolved_sites": [
+                {"why": why, "site": site} for why, site in sorted(set(unresolved))
+            ],
+        }
+        if unresolved:
+            completeness["warning"] = (
+                "`targets` IS A LOWER BOUND for this class. This tool could not "
+                "read every document_class write, so the emitted set may be "
+                "larger than what is listed. Do not confirm this row as an end "
+                "state from `targets` alone -- read the sites below.")
+        if classes[cls].get("target_completeness") != completeness:
+            completeness_changed.append(cls)
+        classes[cls]["target_completeness"] = completeness
 
     p("DERIVATION MODE")
     p(f'  {n_full:>3} rows FULLY DERIVED   (every document_class write resolved -> the set is')
@@ -874,14 +906,19 @@ def refresh(write=True, out=sys.stdout):
         p(f'  {len(all_derived)} distinct target names were derived and NONE was checked against the schema set.')
         p("")
 
-    if write and changed:
+    if completeness_changed:
+        p(f"TARGET COMPLETENESS: {len(completeness_changed)} row(s) gained or "
+          f"changed a `target_completeness` block")
+        p("")
+
+    if write and (changed or completeness_changed):
         with open(TARGETS_JSON, "w") as fh:
             json.dump(doc, fh, indent=2, ensure_ascii=False)
             fh.write("\n")
         p(f"WROTE {TARGETS_JSON}")
-    elif not changed:
+    elif not (changed or completeness_changed):
         p("no change")
-    return changed
+    return changed or completeness_changed
 
 
 def main(argv):

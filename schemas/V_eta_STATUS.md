@@ -47,12 +47,12 @@ decides a disposition -- it DERIVES, per class, how far the work has got.
 | build: V_eta migrator packages read | `DID-matlab:migrators_j`, `NDI-matlab:ndi_second_pass`, `DID-matlab:convert` |
 | build: &nbsp;&nbsp;-- of those, per-document migrator | `DID-matlab:migrators_j`, `NDI-matlab:ndi_second_pass` |
 | build: &nbsp;&nbsp;-- of those, batch post-pass | `DID-matlab:convert` |
-| build: migrator files inspected | 173 |
-| build: &nbsp;&nbsp;-- of those, per-document migrator | 148 |
+| build: migrator files inspected | 174 |
+| build: &nbsp;&nbsp;-- of those, per-document migrator | 149 |
 | build: &nbsp;&nbsp;-- of those, batch post-pass | 25 |
 | build: V_zeta files DELIBERATELY EXCLUDED (`+migrators`, `+migrators_i`, `+migrators_e`) | 38 |
-| build: migrator lines inspected | 38430 |
-| build: &nbsp;&nbsp;-- of those, per-document migrator | 26252 |
+| build: migrator lines inspected | 38724 |
+| build: &nbsp;&nbsp;-- of those, per-document migrator | 26546 |
 | build: &nbsp;&nbsp;-- of those, batch post-pass | 12178 |
 | build: classes queried | 26 |
 | build: open classes MINTED as a document class | 8 |
