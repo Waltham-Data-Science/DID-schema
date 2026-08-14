@@ -3,6 +3,24 @@
 **DECIDED with the team, 2026-08-08, in the coordinates walkthrough. SIGNED 2026-08-14**
 — the signature is at the bottom of this file, under "SIGNED OFF 2026-08-14".
 
+> ## READ THIS BEFORE ACTING ON ANYTHING BELOW
+>
+> This document was SIGNED and then AMENDED TWICE on 2026-08-14. **Three claims in
+> the body below are superseded** and are marked in place where they sit, but a
+> reader who skims will still meet the old text first — which is the failure this
+> repository has already paid for once ("A PLAN DOCUMENT'S HEADER IS NOT ITS
+> STATE. READ THE BOTTOM, OR READ THE BOARD").
+>
+> | at the bottom of this file | what it changes |
+> |---|---|
+> | `SIGNED OFF 2026-08-14` | the signature, and what it does NOT cover |
+> | `ADDENDUM — the storage-mode walkthrough` | closes OPEN items 3, 4 and 7; a body is emitted only when bytes are attached; axes live with the thing whose extent they describe |
+> | `AMENDMENT 1 — the axis carries its own unit` | **REVERSES** `THERE IS NO \`unit\` FIELD`; angles are radians; #32 and #115 leave the critical path |
+> | `AMENDMENT 2 — conditions reaches format parity` | restructures `conditions`: four descriptors move up, `count` flattens |
+>
+> **The axis entry has NO remaining prerequisite.** Anything below that says
+> otherwise is superseded.
+
 Owns TaskList **#45**. Supersedes the `axes[]`-only framing of that task: the walkthrough
 started at "where do coordinates go" and ended at the whole `data_body` tier, because every
 field on `sampled_body` turned out to be either half-built, ambiguous between writers, or
@@ -92,6 +110,11 @@ axis
                                              canonical unit come from the D9 registry --
                                              the same contract as conditions.quantity.
                                              THERE IS NO `unit` FIELD.
+                                             ^^^ SUPERSEDED 2026-08-14 by
+                                             AMENDMENT 1 at the bottom of this
+                                             file: the axis DOES carry `unit`,
+                                             as a bound `ontology_term`. Do not
+                                             act on this line.
    source_unit     char           optional   the unit exactly as the source gave it
    approximate     boolean        optional   applies to the whole axis
    n               integer        REQUIRED
@@ -158,6 +181,12 @@ element type is constant per statement.** That is why the two fields mount diffe
 read off the writer, not chosen for tidiness.
 
 ### 4. `conditions` is NOT an axis — the D10 sentence is amended
+
+> **STILL TRUE, AND RESTRUCTURED 2026-08-14 (AMENDMENT 2).** `conditions` is
+> still NOT an axis and merging the two was NOT reopened. What changed is its
+> SHAPE: `variable`, `unit`, `source_unit` and `approximate` move up to the top
+> of the entry (matching the axis), and `count` flattens. Read AMENDMENT 2
+> before writing a `conditions` field.
 
 The declaration says:
 
@@ -524,19 +553,21 @@ every `float64` came from a `double` rather than from a default.
 
 ## OPEN
 
-1. **#32 is a hard prerequisite**, not adjacent cleanup. This puts a bound vocabulary on every
+1. **[SUPERSEDED 2026-08-14 -- AMENDMENT 1. #32 is NOT a prerequisite; the axis
+   carries its own `unit` and the registry becomes a VALIDATION follow-up. The
+   text below is kept for its reasoning only.]** #32 is a hard prerequisite, not adjacent cleanup. This puts a bound vocabulary on every
    axis of every sampled body — the most-instantiated bound field in the schema — and
    `binding` is enforced by nothing today (`validateConstraints` handles only
    maxLength/minLength/minimum/maximum/enum).
 2. **`format` / `compression` vocabularies** need a corpus sweep before binding.
-3. **`content_hash` must state which bytes** it hashes, now that compression is declarable.
-4. **THREE axes declarations, not two.** `image.value.axes` is a third shape —
+3. **[CLOSED 2026-08-14 — see the walkthrough addendum.]** **`content_hash` must state which bytes** it hashes, now that compression is declarable.
+4. **[CLOSED 2026-08-14 — see the walkthrough addendum.]** **THREE axes declarations, not two.** `image.value.axes` is a third shape —
    `{name, length, spacing, unit}`, four fields, no regularity, no coordinates — and is in
    scope for this decision.
 5. **The Hartley plane read is from the record, not a fresh clone** (§8).
 6. **`char` and complex datum types** are decisions, not mappings, and want a corpus check for
    whether either occurs.
-7. **`storage_mode: reference`** — where the axes live when the value is a reference is not
+7. **[CLOSED 2026-08-14 — see the walkthrough addendum.]** **`storage_mode: reference`** — where the axes live when the value is a reference is not
    settled here.
 
 ---
@@ -545,7 +576,9 @@ every `float64` came from a `double` rather than from a default.
 
 1. The D10 sentence is amended and `conditions` tightens to cardinality 1.
 2. `axes[]` gains a mount on `subject_statement`.
-3. The axis carries no `unit`; the dimension comes from `variable` + D9, making #32 blocking.
+3. ~~The axis carries no `unit`; the dimension comes from `variable` + D9, making #32
+   blocking.~~ **REVERSED 2026-08-14, AMENDMENT 1: the axis carries `unit` as a bound
+   `ontology_term`, and #32 is out of its path.**
 4. `datum` collapses to a bound, required `datum_type`, which lives on the **statement**.
 5. `record` is retired as a datum kind; its one real use becomes a labelled axis.
 6. `format` + `compression` land on `data_body`, with `filename`, `content_hash` and

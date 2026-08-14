@@ -636,7 +636,20 @@ lives in these files — read them instead of re-deriving from memory:
   archives (`.nbf.tgz`, `.zip`) and `tiff`+`lzw`. **CORRECTION recorded there**: a claim that
   numeric predicates inside an array of structs silently match everything was read off the
   LEGACY `+did/+datastructures/fieldsearch.m`; `did2` DOES support them
-  (`compileQuery.m` → `queryable_array_elem.value_num`). BLOCKED ON #32.
+  (`compileQuery.m` → `queryable_array_elem.value_num`). ~~BLOCKED ON #32.~~
+  **SIGNED AND UNBLOCKED 2026-08-14 — do not repeat the #32 block.** The plan now
+  carries a `TEAM-SIGN-OFF [data_body]` line plus a walkthrough addendum and TWO
+  amendments, and its own top now opens with a READ-THIS-FIRST amendment index.
+  **AMENDMENT 1 REVERSES the plan's `THERE IS NO \`unit\` FIELD` line**: the axis
+  carries `unit` as a bound `ontology_term`, so the D9 registry becomes a
+  VALIDATION follow-up and **#32 and #115 are both OUT of the axis's path**. The
+  prompt was that `spatial frequency` had no expressible canonical unit — no
+  `spatial_frequency` data_type, cycles-per-degree is inverse-angle which nothing
+  declares, and the registry row shape that would carry either DOES NOT EXIST
+  (4 lists, no dimension key, no unit key). Angles are RADIANS, per
+  `angle.value.radians`. AMENDMENT 2 restructures `conditions` for parity with the
+  axis (four descriptors up, `count` flattens). Two corpus-sweep items remain and
+  they gate the ENCODING FIELDS only, never the axis.
 - **`schemas/V_eta_ground_truth_plan.md`** + **`schemas/V_eta_migrator_vocabulary_audit.md`** —
   THE REPAIR TRACK. Migrators were written against DID-schema's own `V_alpha` snapshot instead of
   the real NDI templates, so many read fields NO REAL DOCUMENT HAS and emit empty-but-valid
