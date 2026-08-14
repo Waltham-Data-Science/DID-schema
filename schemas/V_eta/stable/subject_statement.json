@@ -694,6 +694,49 @@
             ]
         },
         {
+            "name": "datum_type",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "How this statement's VALUES are encoded. REQUIRED in practice whenever the value has a byte representation (storage_mode `body` or `reference`); absent for a value that is a term or an inline composite with no numeric payload.",
+            "constraints": {
+                "enum": [
+                    "uint8",
+                    "uint16",
+                    "uint32",
+                    "uint64",
+                    "int8",
+                    "int16",
+                    "int32",
+                    "int64",
+                    "float16",
+                    "float32",
+                    "float64",
+                    "complex64",
+                    "complex128",
+                    "bool"
+                ]
+            }
+        },
+        {
+            "name": "source_datum_type",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "The source's own spelling, OMITTED when it is already canonical. Kept because the map is NOT invertible -- `bool` maps back to `logical` OR `ubit1`, and `char` has no canonical at all -- so retaining it makes the normalisation AUDITABLE: the corpus can be queried afterwards to verify every `float64` came from a `double` rather than from a default.",
+            "constraints": {}
+        },
+        {
             "name": "storage_mode",
             "type": "char",
             "blank_value": "inline",

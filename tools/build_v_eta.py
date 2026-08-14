@@ -115,6 +115,21 @@ def field(name, ftype, doc, *, non_empty=False, scalar=True, queryable=True,
     return obj
 
 
+# The 14-value datum vocabulary, copied from `zarr.dtype` (signed plan, "WHAT IS
+# BOUND"): the class is deleted but its enumeration was the considered one, and
+# reusing it keeps V_eta readable against the wider array-storage world.
+#
+# `char` IS DELIBERATELY ABSENT and that is the plan's own finding -- the
+# normalisation map says "char -> DECISION: no canonical in the 14", and open
+# item 6 ("`char` and complex datum types are decisions, not mappings") is NOT
+# closed. Nothing is invented here to paper over it.
+DATUM_TYPES = [
+    "uint8", "uint16", "uint32", "uint64", "int8", "int16", "int32",
+     "int64", "float16", "float32", "float64", "complex64",
+     "complex128", "bool",
+]
+
+
 def axis_subfields():
     """The ONE axis entry. TEAM-SIGN-OFF [data_body] 2026-08-14 + AMENDMENT 1.
 
@@ -497,6 +512,52 @@ def _param_block(name, doc_text, value_type, value_subs=None):
                  "measurement's value length (one label per reading).",
                  scalar=False, blank=[], sub_fields=value_subs)])
 
+# `datum` COLLAPSES TO `datum_type`, AND IT MOVES TO THE STATEMENT (signed sec.5
+# + the signature: "datum collapses to datum_type on the statement"). Of the old
+# four sub-fields only `dtype` survives: `unit` was EMPTY at 4 of 4 writers and
+# the value's unit comes from `variable`; `shape` was read two different ways by
+# its own writers and is now `[axes.n]` in array order; `kind` was scalar-vs-array,
+# which is the axis COUNT, and its one `record` use is a labelled categorical axis.
+#
+# IT IS NOT SCHEMA-REQUIRED, AND THAT DEPARTS FROM THE WORD "REQUIRED" IN THE
+# PLAN. Recorded rather than done quietly. The plan says REQUIRED in sec.5 and
+# says "DECLARED ON data_body" in "WHAT IS BOUND" -- two placements, and the
+# signature plus the later addendum both settle on the STATEMENT. But required
+# on the statement is not buildable against the 14-value vocabulary:
+#
+#     DENOMINATOR: 241 V_eta classes; 78 CONCRETE classes descend from
+#                  subject_statement, and all 78 carry a data_type composite.
+#     The 14 values are all NUMERIC, and the plan's own map records
+#     "char -> DECISION: no canonical in the 14" with open item 6 still OPEN.
+#
+# So a `term_observation`, whose payload is a CURIE, has no legal value to put
+# there -- and #38 (NonVacuousFields) is armed, so a blank required field
+# quarantines. Making it required would quarantine most of the corpus to satisfy
+# a word.
+#
+# The requirement is therefore CONDITIONAL AND DOCUMENTED, exactly as
+# `byte_order` and `datum_order` are one commit back: the condition ("the value
+# has a byte representation") is a property of the document, which this schema
+# layer cannot express. If the team wants it enforced, the way in is a 15th
+# value for non-numeric payloads, or declaring it on `data_body` per the other
+# reading -- both team calls, neither made here.
+DATUM_TYPE = field(
+    "datum_type", "char",
+    "How this statement's VALUES are encoded. REQUIRED in practice whenever the "
+    "value has a byte representation (storage_mode `body` or `reference`); "
+    "absent for a value that is a term or an inline composite with no numeric "
+    "payload.",
+    non_empty=False, constraints={"enum": DATUM_TYPES})
+
+SOURCE_DATUM_TYPE = field(
+    "source_datum_type", "char",
+    "The source's own spelling, OMITTED when it is already canonical. Kept "
+    "because the map is NOT invertible -- `bool` maps back to `logical` OR "
+    "`ubit1`, and `char` has no canonical at all -- so retaining it makes the "
+    "normalisation AUDITABLE: the corpus can be queried afterwards to verify "
+    "every `float64` came from a `double` rather than from a default.",
+    non_empty=False)
+
 STATEMENT_AXES = field(
     "axes", "structure",
     "Index dimensions of this statement's value, in array order: axes[k] IS "
@@ -540,7 +601,9 @@ CONDITIONS = field(
 
 write("stable", "subject_statement",
       doc("subject_statement", ["base"], abstract=True, version="1.0.0",
-          deps=[SUBJECT_ID], fields=[VARIABLE, CONDITIONS, STATEMENT_AXES]))
+          deps=[SUBJECT_ID],
+          fields=[VARIABLE, CONDITIONS, STATEMENT_AXES,
+                  DATUM_TYPE, SOURCE_DATUM_TYPE]))
 
 # subject_interaction: re-root under subject_statement; drop subject_id/variable
 # (inherited), target_structure, element_id; add method, sample_time, instrument_id;
@@ -5702,14 +5765,12 @@ FILTER_ID = dep("filter_id", "frequency_filter",
 # the child rather than the shared parent.
 sampled = doc("sampled_body", ["data_body"], maturity="draft",
               deps=[FILTER_ID], fields=[
-    field("datum", "structure", "The per-sample value type (kind/dtype/unit/shape).",
-          blank={}, sub_fields=[
-              subfield("kind", "char", "scalar | array | record.", non_empty=True,
-                       blank="scalar",
-                       constraints={"enum": ["scalar", "array", "record"]}),
-              subfield("dtype", "char", "Numeric dtype (float64, int16, …)."),
-              subfield("unit", "char", "The per-sample value unit."),
-              subfield("shape", "matrix", "array only: intra-datum dims.")]),
+    # `datum` IS GONE. Its `dtype` became `subject_statement.datum_type`; `unit`,
+    # `shape` and `kind` were dropped for the reasons recorded on that field.
+    # `record` is retired as a datum kind -- its one real use (dtype `double`
+    # over [nTrials,7], the grating parameters) is a LABELLED CATEGORICAL AXIS,
+    # and a genuinely heterogeneous record was never representable here anyway,
+    # there being one dtype field.
     field("sample_time", "structure",
           "The body-local timeline (D1 — the single home for a body-backed value). "
           "Regular grid (regular=true: t0 + k*dt, n samples) OR enumerated "

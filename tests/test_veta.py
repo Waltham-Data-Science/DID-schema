@@ -491,7 +491,14 @@ def test_data_body_classes():
         assert "statement" not in own, (
             f"{body} re-declares `statement`; it is inherited from data_body now")
     sft = _flat_field_types("sampled_body")
-    assert sft.get("datum") == "structure" and sft.get("sample_time") == "structure"
+    # `datum` IS GONE (signed sec.5): its `dtype` became
+    # `subject_statement.datum_type`, and `unit` / `shape` / `kind` were dropped
+    # -- unit was empty at 4 of 4 writers, shape was read two ways by its own
+    # writers, and kind was the axis COUNT restated.
+    assert sft.get("datum") is None, (
+        "sampled_body declares `datum` again; it collapsed to datum_type on the "
+        "statement")
+    assert sft.get("sample_time") == "structure"
     # `summary` IS GONE (#68, signed sec.9 "summary is DROPPED, not deferred in
     # place"). It was minted empty on every body -- `{value: {}, time: {}}` --
     # with no writer filling it and no reader consulting it.
@@ -2641,12 +2648,18 @@ def test_the_ngrid_fold_targets_exist_and_can_hold_what_the_fold_emits():
         "the fold binds the body to the image_observation through `statement`; "
         "an optional edge here would let a body be minted belonging to nobody")
 
-    # `datum.kind` must admit 'array' -- an ngrid is an N-D grid by definition,
-    # and this is an ENUM, so a wrong word quarantines every folded body.
-    datum = next(f for f in sb["fields"] if f["name"] == "datum")
-    kind = next(s for s in datum["fields"] if s["name"] == "kind")
-    assert "array" in kind["constraints"]["enum"], (
-        "sampled_body.datum.kind no longer admits 'array': {!r}".format(kind["constraints"]["enum"]))
+    # WAS: "`datum.kind` must admit 'array' -- an ngrid is an N-D grid by
+    # definition, and this is an ENUM, so a wrong word quarantines every folded
+    # body." `datum` collapsed (signed sec.5) and `kind` went with it: scalar
+    # vs array IS the axis count, which `axes[]` now states directly, so the
+    # ngrid fold's N-D-ness is expressed by having N axis entries rather than by
+    # a word. The property this guarded is now checked where it lives.
+    assert not [f for f in sb["fields"] if f["name"] == "datum"], (
+        "sampled_body declares `datum` again")
+    axes = next(f for f in sb["fields"] if f["name"] == "axes")
+    assert axes["mustBeScalar"] is False, (
+        "sampled_body.axes must be a LIST -- an ngrid is an N-D grid, and the "
+        "axis count is what replaced datum.kind's scalar/array distinction")
 
     # `axes[].name` is the one axis sub-field that is REQUIRED, which is why
     # jNgridBody emits positional names (`axis_1` ...) rather than blanks.

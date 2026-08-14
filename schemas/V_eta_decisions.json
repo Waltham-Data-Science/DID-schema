@@ -605,8 +605,8 @@
           "DID-matlab:convert"
         ],
         "packages_missing": [],
-        "files_read": 174,
-        "lines_read": 39000,
+        "files_read": 175,
+        "lines_read": 39108,
         "classes_queried": 26,
         "classes_emitted_as_document_class": 8,
         "unresolved_mint_sites": [
@@ -644,11 +644,11 @@
           ]
         },
         "files_read_by_group": {
-          "per_document_migrator": 148,
+          "per_document_migrator": 149,
           "batch_post_pass": 26
         },
         "lines_read_by_group": {
-          "per_document_migrator": 26396,
+          "per_document_migrator": 26504,
           "batch_post_pass": 12604
         },
         "classes_emitted_as_document_class_by_group": {
@@ -693,7 +693,7 @@
           "+migrators": 22,
           "+migrators_e": 7,
           "+migrators_i": 9,
-          "+migrators_j": 131
+          "+migrators_j": 132
         },
         "n_files_excluded_v_zeta": 38,
         "files_excluded_v_zeta": [
@@ -2359,8 +2359,8 @@
           "DID-matlab:migrators_j/+super/ngrid.m:129 (field_read)",
           "DID-matlab:migrators_j/ontology_image.m:273 (guard)",
           "DID-matlab:migrators_j/ontology_image.m:387 (field_read)",
-          "DID-matlab:migrators_j/private/jNgridBody.m:148 (guard)",
-          "DID-matlab:migrators_j/private/jNgridBody.m:155 (field_read)"
+          "DID-matlab:migrators_j/private/jNgridBody.m:156 (guard)",
+          "DID-matlab:migrators_j/private/jNgridBody.m:163 (field_read)"
         ],
         "n_emitted_class_refs": 0,
         "emitted_class_refs": [],
@@ -2373,7 +2373,7 @@
         ],
         "n_named_refs": 0,
         "named_refs": [],
-        "n_comment_mentions": 66,
+        "n_comment_mentions": 71,
         "comment_mentions": [
           "DID-matlab:convert/v1_to_v2.m:792 (comment_mention)",
           "DID-matlab:convert/v1_to_v2.m:798 (comment_mention)",
@@ -2390,8 +2390,8 @@
               "DID-matlab:migrators_j/+super/ngrid.m:129 (field_read)",
               "DID-matlab:migrators_j/ontology_image.m:273 (guard)",
               "DID-matlab:migrators_j/ontology_image.m:387 (field_read)",
-              "DID-matlab:migrators_j/private/jNgridBody.m:148 (guard)",
-              "DID-matlab:migrators_j/private/jNgridBody.m:155 (field_read)"
+              "DID-matlab:migrators_j/private/jNgridBody.m:156 (guard)",
+              "DID-matlab:migrators_j/private/jNgridBody.m:163 (field_read)"
             ],
             "n_emitted_class_refs": 0,
             "emitted_class_refs": [],
@@ -2401,7 +2401,7 @@
             ],
             "n_named_refs": 0,
             "named_refs": [],
-            "n_comment_mentions": 63,
+            "n_comment_mentions": 68,
             "comment_mentions": [
               "DID-matlab:migrators_j/+super/ngrid.m:19 (comment_mention)",
               "DID-matlab:migrators_j/+super/ngrid.m:2 (comment_mention)",
