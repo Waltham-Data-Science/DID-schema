@@ -987,7 +987,11 @@
           }
         ],
         "warning": "`targets` IS A LOWER BOUND for this class. This tool could not read every document_class write, so the emitted set may be larger than what is listed. Do not confirm this row as an end state from `targets` alone -- read the sites below."
-      }
+      },
+      "decided_targets": [
+        "relative_reference"
+      ],
+      "decision_note": "SIGNED 2026-08-13 -- see V_eta_OPEN_WORK.md row #113, which carries the TEAM-SIGN-OFF line and the full analysis. epochMint OWNS the epoch extent: it mints the `relative_reference` carrying the extent and clock frame, hung off the epoch's `time_reference_#`, and pyraview.m stops dropping the epochclocktimes block so the mint can see it. REJECTED: adding a value slot to `epoch_bounded_reference`, which is not in the persist set. NOT YET BUILT. This entry exists because the SIGNATURE was in OPEN_WORK and the TARGET MAP was not, so the ledger still read `no target and no dissolution recorded` and the row was twice reported as an undecided gap by a reader who checked the map rather than the open list."
     },
     "filter": {
       "targets": [],

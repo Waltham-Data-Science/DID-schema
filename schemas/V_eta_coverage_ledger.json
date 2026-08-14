@@ -158,15 +158,14 @@
     "with_migrator": 88,
     "gaps": 0,
     "no_target": {
-      "rows_naming_no_target": 8,
+      "rows_naming_no_target": 7,
       "by_reason": {
         "dissolved": 3,
         "disputed": 1,
         "passthrough": 4,
-        "unrecorded": 2
+        "unrecorded": 1
       },
       "target_gaps": [
-        "epochclocktimes",
         "imageStack_parameters"
       ]
     },
@@ -191,8 +190,8 @@
       },
       "by_stage_reached": {
         "0": 11,
-        "1": 64,
-        "2": 5,
+        "1": 63,
+        "2": 6,
         "3": 22,
         "4": 0
       },
@@ -205,13 +204,13 @@
           "no": 11
         },
         "2": {
-          "not measured": 69,
-          "yes": 30,
+          "not measured": 68,
+          "yes": 31,
           "n/a": 3
         },
         "3": {
-          "not measured": 69,
-          "no": 9,
+          "not measured": 68,
+          "no": 10,
           "yes": 21,
           "n/a": 3
         },
@@ -221,7 +220,7 @@
       },
       "per_stage_satisfied_independently": {
         "1": 91,
-        "2": 30,
+        "2": 31,
         "3": 21,
         "4": 0
       },
@@ -236,8 +235,8 @@
         ],
         "highest_rung_satisfied_independently_histogram": {
           "0": 7,
-          "1": 65,
-          "2": 9,
+          "1": 64,
+          "2": 10,
           "3": 21,
           "4": 0
         },
@@ -290,7 +289,7 @@
       },
       "no_target_recorded": {
         "denominator": 102,
-        "rows": 72,
+        "rows": 71,
         "row_names": [
           "SpikeInterfaceSortingOutputs",
           "animalsubject",
@@ -308,7 +307,6 @@
           "distance_metadata",
           "electrode_offset_voltage",
           "element_epoch",
-          "epochclocktimes",
           "epochid",
           "fitcurve",
           "generic_file",
@@ -484,8 +482,8 @@
           "unmoved_by_cause": {
             "a family names this class and that family is UNSIGNED": 0,
             "no family names this class; a SIGNED family names a class its migrator EMITS": 36,
-            "no family names this class, and the row has no V_eta class and no target either": 4,
-            "no family in FAMILIES names this class": 22
+            "no family names this class, and the row has no V_eta class and no target either": 3,
+            "no family in FAMILIES names this class": 23
           },
           "unmoved_rows_by_cause": {
             "no family in FAMILIES names this class": [
@@ -497,6 +495,7 @@
               "demoNDI",
               "demoNDIMock",
               "distance_metadata",
+              "epochclocktimes",
               "hartley_calc",
               "metadata_editor",
               "oneepoch",
@@ -514,7 +513,6 @@
             ],
             "no family names this class, and the row has no V_eta class and no target either": [
               "animalsubject",
-              "epochclocktimes",
               "mock",
               "stimulus_bath"
             ],
@@ -576,13 +574,14 @@
             "V_eta_final_class_set.md"
           ],
           "signoff_markers_inside_excluded_documents": 1,
-          "accepted_lines": 33,
+          "accepted_lines": 34,
           "rejected_lines": [],
           "distinct_tags": [
             "base naming",
             "binding governance",
             "daq configuration",
             "daq ingested payloads",
+            "data_body",
             "dataseries_channel_map",
             "date dtype",
             "ensemble",
@@ -637,6 +636,12 @@
               {
                 "document": "V_eta_ingested_payload_findings.md",
                 "line": 276
+              }
+            ],
+            "data_body": [
+              {
+                "document": "V_eta_data_body_model_plan.md",
+                "line": 613
               }
             ],
             "dataseries_channel_map": [
@@ -824,6 +829,12 @@
                 "line": 429
               }
             ],
+            "data_body": [
+              {
+                "document": "V_eta_data_body_model_plan.md",
+                "line": 613
+              }
+            ],
             "dataseries_channel_map": [
               {
                 "document": "V_eta_go_forward_class_audit.md",
@@ -845,7 +856,9 @@
           }
         }
       },
-      "decision_claimed_but_unchecked": []
+      "decision_claimed_but_unchecked": [
+        "epochclocktimes"
+      ]
     }
   },
   "rows": [
@@ -3526,18 +3539,22 @@
       "nonprod": false,
       "gap": false,
       "targets": [],
-      "decided_targets": [],
-      "decided_targets_source": null,
+      "decided_targets": [
+        "relative_reference"
+      ],
+      "decided_targets_source": "curated_targets_file",
       "decided_signoff": null,
       "target_source": "decided",
-      "no_target_reason": "unrecorded",
-      "no_target_reason_label": "NO TARGET AND NO DISSOLUTION RECORDED -- a gap, not a decision",
+      "no_target_reason": null,
+      "no_target_reason_label": null,
       "no_target_account": null,
       "no_target_signoff": null,
-      "target_gap": true,
+      "target_gap": false,
       "build_state": {
-        "schema_targets_named": 0,
-        "schema_targets_built": [],
+        "schema_targets_named": 1,
+        "schema_targets_built": [
+          "relative_reference"
+        ],
         "schema_targets_missing": [],
         "migrator_emits_decided_targets": false,
         "has_per_class_migrator": true,
@@ -3554,19 +3571,19 @@
       "target_flags": "in-place block rewrite, emits no new document",
       "decided_by_family": null,
       "families_naming_this_class": [],
-      "governance_gap": "no family names this class, and the row has no V_eta class and no target either",
+      "governance_gap": "no family in FAMILIES names this class",
       "governance": {
         "state": "no signature found",
         "signoff": null,
-        "why": "no family names this class, and the row has no V_eta class and no target either. This is the absence of a FINDABLE signature -- a transcription, or a signed family naming this class -- and NOT evidence that no decision exists"
+        "why": "no family in FAMILIES names this class. This is the absence of a FINDABLE signature -- a transcription, or a signed family naming this class -- and NOT evidence that no decision exists; V_eta_migration_targets.json DOES claim a signed decision for this class (`decided_targets`), but that claim is authored and UNCHECKED"
       },
       "stage": {
         "unclassifiable": false,
         "unclassifiable_why": null,
-        "reached": 1,
-        "reached_name": "a migrator CONSUMES it",
-        "blocked_by": 2,
-        "blocked_by_state": "not measured",
+        "reached": 2,
+        "reached_name": "its decided target classes EXIST in the build",
+        "blocked_by": 3,
+        "blocked_by_state": "no",
         "ladder": [
           {
             "stage": 1,
@@ -3577,14 +3594,14 @@
           {
             "stage": 2,
             "name": "its decided target classes EXIST in the build",
-            "state": "not measured",
-            "why": "`build_state.schema_targets_named` is 0 -- no target class is named for this row, so there is nothing to look for in the built set. This is NOT 'all targets present': an empty `schema_targets_missing` is empty here because the question was never asked"
+            "state": "yes",
+            "why": "all 1 decided target class(es) are present in the built V_eta set (`build_state.schema_targets_missing` is empty AND `schema_targets_named` is non-zero)"
           },
           {
             "stage": 3,
             "name": "the migrator emits THE DECIDED targets",
-            "state": "not measured",
-            "why": "`build_state.schema_targets_named` is 0 -- no decided target to check an emission against"
+            "state": "no",
+            "why": "the decided target(s) `relative_reference` are not all among what the migrator emits today (nothing)"
           },
           {
             "stage": 4,
@@ -3594,7 +3611,7 @@
           }
         ],
         "anomalies": [],
-        "highest_rung_satisfied_independently": 1,
+        "highest_rung_satisfied_independently": 2,
         "capped": false,
         "nothing_built": false,
         "nothing_satisfied": false,
