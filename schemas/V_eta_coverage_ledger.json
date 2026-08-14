@@ -155,7 +155,7 @@
       "ndi": 91,
       "app": 11
     },
-    "with_migrator": 87,
+    "with_migrator": 88,
     "gaps": 0,
     "no_target": {
       "rows_naming_no_target": 7,
@@ -183,16 +183,16 @@
         "rung": 1,
         "name": "a migrator CONSUMES it",
         "denominator": 102,
-        "yes": 90,
-        "no": 12,
+        "yes": 91,
+        "no": 11,
         "n/a": 0,
         "not measured": 0
       },
       "by_stage_reached": {
-        "0": 12,
+        "0": 11,
         "1": 63,
         "2": 6,
-        "3": 21,
+        "3": 22,
         "4": 0
       },
       "reached_with_an_n_a_in_the_chain": [
@@ -200,8 +200,8 @@
       ],
       "per_stage_state_counts": {
         "1": {
-          "yes": 90,
-          "no": 12
+          "yes": 91,
+          "no": 11
         },
         "2": {
           "not measured": 68,
@@ -219,19 +219,18 @@
         }
       },
       "per_stage_satisfied_independently": {
-        "1": 90,
+        "1": 91,
         "2": 31,
         "3": 21,
         "4": 0
       },
       "capped": {
         "denominator": 102,
-        "rows": 5,
+        "rows": 4,
         "row_names": [
           "app",
           "ensemble",
           "projectvar",
-          "session",
           "stimulus_parameter_table"
         ],
         "highest_rung_satisfied_independently_histogram": {
@@ -373,15 +372,15 @@
         "why_the_join_moves_none_of_them": "a TEAM-SIGN-OFF line signs a FAMILY, not a per-class target list. The join can say a class is decided; it cannot say WHAT it becomes. Naming a target from it would be inventing one"
       },
       "anomalies": {
-        "total": 6,
-        "classes": 5,
+        "total": 4,
+        "classes": 4,
         "by_kind": {
-          "over_failed": 6
+          "over_failed": 4
         },
         "by_stage": {
           "1": 0,
-          "2": 5,
-          "3": 1,
+          "2": 4,
+          "3": 0,
           "4": 0
         },
         "rows": [
@@ -408,22 +407,6 @@
             "satisfied_over_name": "a migrator CONSUMES it",
             "kind": "over_failed",
             "v1_class": "projectvar"
-          },
-          {
-            "stage": 2,
-            "stage_name": "its decided target classes EXIST in the build",
-            "satisfied_over": 1,
-            "satisfied_over_name": "a migrator CONSUMES it",
-            "kind": "over_failed",
-            "v1_class": "session"
-          },
-          {
-            "stage": 3,
-            "stage_name": "the migrator emits THE DECIDED targets",
-            "satisfied_over": 1,
-            "satisfied_over_name": "a migrator CONSUMES it",
-            "kind": "over_failed",
-            "v1_class": "session"
           },
           {
             "stage": 2,
@@ -6968,7 +6951,7 @@
       "v1_class": "session",
       "veta_class": "session",
       "disposition": "persist",
-      "migrator": false,
+      "migrator": true,
       "source": "ndi",
       "nonprod": false,
       "gap": false,
@@ -6993,7 +6976,7 @@
         ],
         "schema_targets_missing": [],
         "migrator_emits_decided_targets": true,
-        "has_per_class_migrator": false,
+        "has_per_class_migrator": true,
         "batch_pass_consumers": [],
         "batch_pass_emits": {},
         "batch_pass_emits_decided_targets": false,
@@ -7034,16 +7017,16 @@
       "stage": {
         "unclassifiable": false,
         "unclassifiable_why": null,
-        "reached": 0,
-        "reached_name": "source identified",
-        "blocked_by": 1,
-        "blocked_by_state": "no",
+        "reached": 3,
+        "reached_name": "the migrator emits THE DECIDED targets",
+        "blocked_by": 4,
+        "blocked_by_state": "not measured",
         "ladder": [
           {
             "stage": 1,
             "name": "a migrator CONSUMES it",
-            "state": "no",
-            "why": "neither `build_state.has_per_class_migrator`, a `second_pass` entry, nor a batch post-pass declaring it. All 9 batch post-pass(es) in the derived chain were read and none declares this class."
+            "state": "yes",
+            "why": "`build_state.has_per_class_migrator` -- a per-class migrator file named after this class exists in one of the three convert packages"
           },
           {
             "stage": 2,
@@ -7064,24 +7047,9 @@
             "why": "*** NOT MEASURED *** -- no corpus report root was supplied (pass --corpus-reports DIR or set V_ETA_CORPUS_REPORTS)"
           }
         ],
-        "anomalies": [
-          {
-            "stage": 2,
-            "stage_name": "its decided target classes EXIST in the build",
-            "satisfied_over": 1,
-            "satisfied_over_name": "a migrator CONSUMES it",
-            "kind": "over_failed"
-          },
-          {
-            "stage": 3,
-            "stage_name": "the migrator emits THE DECIDED targets",
-            "satisfied_over": 1,
-            "satisfied_over_name": "a migrator CONSUMES it",
-            "kind": "over_failed"
-          }
-        ],
+        "anomalies": [],
         "highest_rung_satisfied_independently": 3,
-        "capped": true,
+        "capped": false,
         "nothing_built": false,
         "nothing_satisfied": false,
         "only_excused": false,

@@ -565,21 +565,24 @@
             "field": "accessibility",
             "vocabulary": "openMINDS",
             "term_set": "ProductAccessibility",
-            "closed": true
+            "closed": true,
+            "strength": "required"
         },
         {
             "class": "dataset",
             "field": "ethics_assessment",
             "vocabulary": "openMINDS",
             "term_set": "EthicsAssessment",
-            "closed": true
+            "closed": true,
+            "strength": "required"
         },
         {
             "class": "dataset",
             "field": "experimental_approach",
             "vocabulary": "openMINDS",
             "term_set": "ExperimentalApproach",
-            "closed": false
+            "closed": false,
+            "strength": "preferred"
         }
     ],
     "notes": "subject_statement_bindings are keyed on the variable (+ method on interactions) and name the concrete leaf class that carries the statement (e.g. mass_observation, dose_manipulation, term_assertion). The leaf fixes the value type -- there is no data_type and no separately-named value_set. Only a term-valued leaf carries an admissible-set spec (values or ontology+root_node); a dimensional leaf needs none. Rows flagged subject_defining make the subject-kind ingestion invariant precise: a subject is expected to carry >=1 term_assertion whose variable matches a subject_defining binding (checked at ingest). The remaining (non-defining) bindings are populated by the D3/D6 corpus sweep; binding_examples holds illustrative rows only and is not swept data. relation_bindings enumerate the admissible relation terms (D6): the value carried on directed_relation.relation / undirected_relation.relation is a member of this set. class pins the term to its carrier and thus its endpoint symmetry: a directed_relation carries child_types -> parent_types (matching the schema child/parent deps), an undirected_relation carries a symmetric member_types (matching its single entities dep). Abstract types (entity, subject) mean 'any of that genus'; [] = unconstrained. NOTE: every term today is directed_relation, so undirected_relation / member_types are reserved but currently unused -- the first symmetric relation added will exercise them. A relation `node` is the backing ontology CURIE (RO/BFO where one exists; \"\" = an open D6 slot). ordered marks terms where the directed sequence field is meaningful; timed marks event edges that may carry a method/time anchor."

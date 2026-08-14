@@ -174,7 +174,31 @@ META_FILES = {"did_schema_meta.json", "CURIE_lookups_meta.json",
 #
 # Second consecutive raise where the count went up because the code got better
 # (44 -> 45 was the same shape). Recorded so nobody reads this series as decay.
-BASELINE_MIGRATORS = 46
+#
+# 46 -> 47, 2026-08-14. `image_stack.m` imageAxes, `<computed: nm>` at the axis
+# `variable`. THE THIRD CONSECUTIVE RAISE OF THIS SHAPE, and this one is the
+# clearest case yet that the counter is measuring VISIBILITY rather than loss.
+#
+# NOTHING NEW IS UNMINTED HERE. The v1 axis label ('Y', 'X', 'T', ...) was
+# always an unbound free-text string; the old `axes[]` entry stored it in a
+# field typed `char` (`name`), and this harvest only inspects `ontology_term`
+# emissions, so a bare char was invisible to it BY CONSTRUCTION. The signed
+# axis entry (TEAM-SIGN-OFF [data_body] + AMENDMENT 1, addendum sec.5) replaces
+# `name` with `variable`, an `ontology_term` -- a slot that CAN carry a CURIE --
+# so the same fact is now countable, and counted.
+#
+# In other words the gap did not appear; the instrument's reach did. Killing
+# the free-text `name` beside a bound `variable` was the point of the fold: the
+# plan's own words are that a free-text name beside a bound term "is what makes
+# the binding pointless". Reverting to char to keep this number at 46 would be
+# gaming the counter by re-hiding the fact.
+#
+# The node is empty for the one reason that covers most rows here: NDIC.txt
+# moved out of NDI-matlab (2c19bf24c) and `ndi-ontology-matlab` is not in this
+# session's scope, so `variable` has no admissible set to resolve against (#32,
+# option C). `jNgridBody.m` already carries the identical `<computed: nm>` row
+# from the same fold's first half -- these two are one item, not two.
+BASELINE_MIGRATORS = 47
 
 # Schema-side baseline, set 2026-08-10 when the sweep was added. It is 8 on the
 # day it landed: the four did_clocktype terms x two carriers
