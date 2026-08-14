@@ -654,3 +654,158 @@ with NO BYTES TO DESCRIBE. Two instances, and they are the same shape:
   defect in the axis -- it is the question of whether a body should be emitted at all when
   the payload is outside the database. It needs a team call and is NOT covered by the
   signature above.
+
+---
+
+# ADDENDUM — the storage-mode walkthrough. Team, 2026-08-14.
+
+Six questions were put to the team on the day of the signature. Four of the plan's
+seven `## OPEN` items close here. Recorded in this file rather than in a task
+description, because a task list is not a durable record.
+
+## 1. A LEAF GIVES THE UNIT; AN AXIS HAS NO LEAF
+
+The team asked whether pairing `variable` with a leaf class already fixes the
+canonical unit implicitly. **It does, and that makes the registry work SMALLER than
+this plan implies.** Two value cells from the built tree, side by side:
+
+        voltage.value              volts, source_unit, source_value, approximate
+        conditions.quantity.value         source_unit, source_value, approximate
+
+`voltage` has a canonical slot NAMED FOR ITS UNIT, so the class fixes the dimension
+and no registry row is needed -- which is what the registry's own `binding_examples`
+already says about `body mass` (*"dimensional leaf: mass_observation already fixes
+the value type, so no admissible-set spec is needed"*). `conditions.quantity.value`
+has NO canonical slot, only what the source said, so its number is uninterpretable
+without one.
+
+An axis is the `conditions` case: a `voltage_observation` fixes that the VALUES are
+volts and says nothing about what the time axis is measured in.
+
+**CONSEQUENCE: the D9 seed set is axis variables and condition variables ONLY**, not
+every variable in the system. That is the material half of the #32 -> #115 split, and
+it is why the axis work does not wait on the NDIC vocabulary.
+
+## 2. THE ENCODING VOCABULARIES
+
+`format` -> an IANA media type (`image/tiff`, `application/zip`), `application/x-…`
+for lab formats with no registration. `compression` -> a short closed enum of
+transforms (`none`, `gzip`, `zstd`, `lzw`, `deflate`). **NOT file extensions** --
+`.zip` / `application/zip` / `zip` are three spellings of one thing, and an extension
+is a filename convention rather than an identifier.
+
+This separates the two cases the observed values tangle: `tiff` + `lzw` is a format
+with internal compression (`image/tiff` + `lzw`); `.nbf.tgz` is a format wrapped in
+one (`application/x-nbf` + `gzip`).
+
+**DIRECTION DECIDED, VOCABULARY NOT.** OPEN item 2 stands: the full value set needs a
+corpus sweep before either field is bound.
+
+## 3. `content_hash` HASHES THE BYTES AS STORED
+
+With `format` + `compression` declared, "the stored bytes" is unambiguous, and it is
+the only hash checkable without decompressing -- which is what an integrity check is
+for. Closes OPEN item 3.
+
+## 4. `summary` IS DROPPED AND NOT REPLACED
+
+Reconsider a value rollup later if a query need appears. `jSampledBody` stops minting
+the empty `{value:{}, time:{}}` scaffold it puts on every body today.
+
+## 5. ALL THREE AXES DECLARATIONS FOLD INTO THE ONE ENTRY
+
+Measured over the built tree -- THREE incompatible shapes, not two:
+
+        DENOMINATOR: 3 axes declarations found under schemas/V_eta/
+        sampled_body.axes        name, kind, length, regularity, spacing, unit
+        image.value.axes         name,       length,             spacing, unit
+        acquisition_epoch.axes   name, kind, length, regularity, spacing, unit, sample_rate
+
+`image.value.axes` has no `regularity`, so it declares a `spacing` with no way to say
+whether spacing is meaningful. `acquisition_epoch.axes` carries `sample_rate` -- the
+same fact as `spacing`, inverted. **None of the three has an `origin` and none can
+store coordinates**, so `regularity: irregular` is declarable and unstorable today.
+
+Team: all three fold into the one entry; every one carries the regularity flag and an
+origin; none carries `sample_rate`. Closes OPEN item 4. Note `image.value.axes` sits
+inside a composite's `value` rather than on a body, so the fold must respect the
+statement/body mount rule rather than just renaming fields.
+
+## 6. A BODY IS EMITTED ONLY WHEN THERE ARE BYTES TO ATTACH
+
+The question that was NOT in this plan. It came from reading a real migrated document
+rather than a schema.
+
+**THIS IS V1'S OWN DIVISION, not a new concept.** Measured:
+
+        DENOMINATOR: 91 v1 template(s) parsed from NDI origin/main
+          declare a file_list : 15
+          declare NONE        : 76
+
+Fifteen classes carry bytes; seventy-six are pure metadata. `jrclust_clusters` is one
+of the 76 -- its entire body is `res_mat_MD5_checksum` + an `element_id` edge, a
+fingerprint of a `res.mat` file living outside the database, with **no file list at
+all**. V_eta had been minting a `sampled_body` for it anyway, with `n = 0`.
+
+**THE RULE.** When the payload lives outside the database the document records a
+REFERENCE -- `filename` + `content_hash`, both already hoisted onto `data_body` by
+this plan -- and NO body. A body means bytes.
+
+**Why it matters for the axis:** it makes `n` safe to require. An axis is asserted
+only when the array is held, so "required but unknowable" cannot arise.
+
+**AND THE PRED CASE IS A DIAGNOSIS, NOT A DESIGN GAP.** `jRecordingObservation` emits
+11 bodies with `storage_mode: 'body'` and nothing attached in a PRED-like session --
+because that session is **NOT INGESTED**. The `.rhd` files sit beside the session and
+are read on demand by the file navigator; they were never in the database, so there
+was nothing to attach. **After ingestion there is**, and the body becomes the honest
+shape. The hollow bodies are a symptom of migrating a non-ingested session, not of
+the model.
+
+## 7. AXES LIVE WITH THE THING WHOSE EXTENT THEY DESCRIBE
+
+The team asked whether axes should ALWAYS live on the statement, so a consumer finds
+them in one place regardless of storage mode. **They should not, and `pyraview` is
+why:**
+
+        pyraview.m:284-287   for k = 1:numel(fileList)
+                                 rate_k = ...; dt_k = 1.0/rate_k; t0_k = starts(k);
+                                 b = jSampledBody(..., struct('regular',true, ...
+                                     't0',...,'dt',durationComposite(dt_k),'n',0));
+
+One observation, ten bodies, a different rate and start per body -- a decimation
+pyramid. A statement-level list cannot say "this one has 30,000 samples at 30 kHz and
+that one has 3,000 at 3 kHz". Extent genuinely varies per body.
+
+**The rule is uniform even though the location is not:**
+
+> Axes live with the thing whose extent they describe.
+>   inline    -> the value is on the statement    -> axes on the statement
+>   reference -> one external payload, one extent -> axes on the statement
+>   body      -> each body has its own extent     -> axes on each body
+
+A consumer never branches on storage mode: it asks *where is the value*, which it must
+do anyway, and the axes are with it. **`reference` joining `inline` on the statement
+CLOSES OPEN item 7**, which the signature above explicitly did not cover.
+
+Rejected: statement-always with a per-body override. The override becomes the common
+case the moment anything is multi-body, and then the axes are in two places with a
+precedence rule to remember.
+
+## WHAT REMAINS OPEN AFTER THIS ADDENDUM
+
+Of the seven `## OPEN` items: **3, 4 and 7 are CLOSED**; **1** narrows to the D9
+dimension seed (#115) rather than the whole of #32; **2** and **6** need a corpus
+sweep (the format/compression value set; whether `char` or complex datum types occur);
+**5** (the Hartley plane read) is unchanged and still wants the NDIcalc-vis writer,
+which no session has been able to attach.
+
+**AND TWO ITEMS THIS ADDENDUM ADDS, both from reading writers on 2026-08-14:**
+
+  * `electrode_offset_voltage.m:90` leaves its temperature qualifier's unit
+    *"deliberately unstated"*. NDI's own schema documentation settles it --
+    *"The temperature at which the measurement was made, in degrees C"* -- so the unit
+    was documented and dropped on the way through, not unknown. Recoverable.
+  * `pyraview`'s per-level `n` IS derivable (file size / (bytes-per-sample x channels);
+    `dataType`, `channels` and a ten-entry `file_list` are all on the v1 template).
+    `jrclust_clusters`'s is NOT, and under rule 6 above it should emit no body at all.
