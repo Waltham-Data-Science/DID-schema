@@ -809,3 +809,122 @@ which no session has been able to attach.
   * `pyraview`'s per-level `n` IS derivable (file size / (bytes-per-sample x channels);
     `dataType`, `channels` and a ten-entry `file_list` are all on the v1 template).
     `jrclust_clusters`'s is NOT, and under rule 6 above it should emit no body at all.
+
+---
+
+# AMENDMENT — the axis carries its own unit. Team, 2026-08-14.
+
+**THIS AMENDS THE SIGNATURE ABOVE, on the same day, and it reverses one line of
+it.** The signed axis entry says `THERE IS NO `unit` FIELD` and routes the
+canonical unit through the D9 registry. That is changed here. The rest of the
+signed entry is untouched.
+
+## WHAT PROMPTED IT: the registry could not express the one variable that needed it
+
+Working through the seed set for #115, `spatial frequency` has no expressible
+canonical unit:
+
+  * there is **no `spatial_frequency` data_type** -- `frequency` is `hertz`, which
+    is temporal;
+  * cycles-per-degree is inverse-angle, a dimension nothing in V_eta declares;
+  * and the registry row shape that would say so **does not exist**. Measured --
+    four lists, and not one carries a dimension or a unit:
+
+        DENOMINATOR: schemas/V_eta/stable/binding_registry_meta.json, 4 list(s)
+        subject_statement_bindings  class, ontology, root_node, subject_defining, variable
+        binding_examples            class, method, notes, ontology, root_node, values, variable
+        relation_bindings           child_role, child_types, class, ordered,
+                                    parent_role, parent_types, relation, timed
+        entity_field_bindings       class, closed, field, strength, term_set, vocabulary
+
+So the one axis variable that most needed the registry was the one it could not
+answer for, and the machinery to answer at all was unbuilt.
+
+## 1. THE AXIS CARRIES `unit`, AS A BOUND `ontology_term`
+
+```
+axis
+   variable      ontology_term   REQUIRED   what varies along this dimension
+   unit          ontology_term   NEW        the canonical unit of `value`/`values`
+   source_unit   char            optional   the unit exactly as the source gave it
+   ...           (everything else unchanged from the signed entry)
+```
+
+**BOUND, NOT FREE TEXT, and that distinction is the whole reason this is safe.**
+The signed entry's objection to a unit field was that a free-text unit beside a
+bound `variable` is the escape hatch that makes the binding pointless. That
+objection is about `char`. An `ontology_term` is not an escape hatch.
+
+**THE PATTERN IS ALREADY IN THE SCHEMA, TWICE, and this borrows rather than
+invents:** `voltage.value` is canonical-plus-source (`volts`, `source_unit`,
+`source_value`); `conditions.count.value` carries a BOUND `unit` inline
+(`{value: integer, unit: ontology_term, approximate}`). The axis needs both
+halves because it cannot name its slot after a unit the way `voltage` does --
+one `values` list serves time, position, contrast and orientation.
+
+**THE FAILURE MODE THIS FIXES IS THE ONE THIS PROJECT CARES ABOUT MOST.** As
+signed: an unpopulated registry row makes the number SILENTLY MEANINGLESS -- the
+document carries a quantity nothing can interpret, and nothing reports it. With
+`unit` on the axis the worst case is an UNVALIDATED number, which is the
+difference between "wrong" and "not checked", and this repository has spent four
+separate corrections keeping those two apart.
+
+## 2. ANGLES ARE RADIANS, EVERYWHERE
+
+Read off the built tree, not chosen:
+
+        angle      value: radians, source_unit, source_value, approximate
+        duration   value: seconds, ...
+        frequency  value: hertz,   ...
+        length     value: meters,  ...
+        voltage    value: volts,   ...
+
+Every quantity in V_eta names its canonical slot after an SI unit, and `angle`'s
+is `radians`. So `orientation` and `direction` axes are RADIANS.
+
+**A degrees-based proposal was put and rejected on this evidence.** NDI's vision
+calculators work in degrees throughout -- which is an argument about
+`source_unit`, not about the canonical value. Converting on the way in is
+precisely what `source_unit`/`source_value` exist for.
+
+## 3. `conditions` IS RESCOPED AGAINST `axis` FOR FORMAT PARITY -- NEW WORK, NOT DECIDED HERE
+
+The team's call, and it is a SCOPE, not a design. Recorded so the next reader
+does not treat the two as settled.
+
+The overlap is exact and the asymmetry is already inside one field today:
+
+        conditions.term      ontology_term array          <-> axis.labels    ontology_term array
+        conditions.count     {value, unit, approximate}   <-> axis has no count form
+        conditions.quantity  {source_unit, source_value}  <-> axis origin/spacing/values
+                             NO canonical, NO unit             canonical + source + unit
+
+`conditions.count` carries a BOUND unit inline; `conditions.quantity` -- one slot
+over -- carries neither a canonical value nor a unit, and its own documentation
+says *"the dimension is carried by `variable` + the D9 registry"*. So the schema
+already does it both ways, adjacently, and that predates this plan.
+
+**What parity would mean, stated as the question rather than the answer:** does
+`conditions.quantity` gain `unit` + a canonical value, matching `count` and the
+amended axis -- so every dimensioned value in V_eta is self-describing -- or do
+conditions and axes converge on ONE cell shape? `quantity` has live writers, so
+this is a real change with a real blast radius, and it is deliberately NOT
+decided by this amendment.
+
+## 4. THE REGISTRY BECOMES VALIDATION, AND MOVES OUT OF THE CRITICAL PATH
+
+Its rows say which units are ADMISSIBLE for a variable, rather than being the
+only place the unit lives. A missing row can then no longer produce
+uninterpretable data -- it can only fail to confirm interpretable data.
+
+**#115 CHANGES MEANING: it is a FOLLOW-UP, not a prerequisite.** The axis entry
+is buildable with no registry work at all. The dimension-seed framing in that
+row is superseded by this amendment; what it becomes is a variable -> admissible
+units check.
+
+## CONSEQUENCE
+
+**The axis entry has no remaining prerequisite.** #32 and #115 are both out of
+its path, and the two corpus-sweep items (the format/compression value set;
+whether char or complex datum types occur) gate the ENCODING FIELDS only, not
+the axis.
