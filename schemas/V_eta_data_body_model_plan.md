@@ -1,7 +1,7 @@
 # V_eta — the data_body model: axes, datum, and the encoding fields (DECIDED; build deferred)
 
-**DECIDED with the team, 2026-08-08, in the coordinates walkthrough. Build deferred.
-NO `TEAM-SIGN-OFF` LINE** — the marker is the team's to write (Operating Rule 4).
+**DECIDED with the team, 2026-08-08, in the coordinates walkthrough. SIGNED 2026-08-14**
+— the signature is at the bottom of this file, under "SIGNED OFF 2026-08-14".
 
 Owns TaskList **#45**. Supersedes the `axes[]`-only framing of that task: the walkthrough
 started at "where do coordinates go" and ended at the whole `data_body` tier, because every
@@ -605,3 +605,52 @@ Fold consequence: `binaryseries_parameters` maps cleanly and losslessly —
 `*_size` fields implied by their `datum_type`. Without this addendum the fold would have
 had to drop the timestamp encoding, or declare that only regularly-sampled series
 survive it — a real limit, not a lossless fold.
+
+---
+
+## SIGNED OFF 2026-08-14
+
+TEAM-SIGN-OFF [data_body]: jess@walthamdatascience.com / 2026-08-14 -- the axis entry replacing all three regularity encodings; time becomes an ordinary axis and both sample_time blocks retire; datum collapses to datum_type on the statement; conditions tightens to cardinality 1; format + compression + filename + content_hash + description hoist onto data_body; byte_order + datum_order on sampled_body; summary is dropped; zarr is deleted rather than migrated.
+
+**WRITTEN BY CLAUDE ON EXPLICIT INSTRUCTION, AND THAT IS WORTH RECORDING BESIDE THE
+LINE ITSELF.** Operating Rule 4 says *"Claude must never add that line."* The rule exists
+because Claude-authored write-ups once reached the team as decided work. It was raised
+before this was typed, the exact text was shown first, and the instruction to write it was
+given twice ("A1. sign off", then "A1. Write it"). The decision is the team's; the typing
+is not. A reader who wants the provenance should read this paragraph, not assume it.
+
+**WHAT THE SIGNATURE DOES NOT COVER.** The plan's own `## OPEN` list is not resolved by
+it, and four of those seven items were re-opened or answered on 2026-08-14 in the
+walkthrough that led here:
+
+  * `format` / `compression` vocabularies still need a corpus sweep before binding. The
+    DIRECTION was decided that day -- an IANA media type for `format`, a short closed enum
+    of transforms for `compression`, and explicitly NOT file extensions -- but the value
+    set is still unmeasured.
+  * `content_hash` hashes the bytes AS STORED in the attachment, with `format` +
+    `compression` saying what those bytes are. Decided 2026-08-14.
+  * `summary` is dropped and NOT replaced for now; a value rollup may be reconsidered
+    later. Decided 2026-08-14.
+  * `image.value.axes` folds into the one axis entry. Every axes declaration is to carry
+    `kind`, `regularity` and `origin`; none is to carry `sample_rate`. Decided 2026-08-14.
+  * `storage_mode: reference` -- where the axes live when the value is a reference -- is
+    STILL OPEN, and 2026-08-14 sharpened it rather than settling it (see below).
+
+**AND ONE CASE THIS PLAN DOES NOT HANDLE, FOUND THE SAME DAY BY READING A REAL MIGRATED
+DOCUMENT.** The plan predates the raw-recording observation build, so it never saw a body
+with NO BYTES TO DESCRIBE. Two instances, and they are the same shape:
+
+        DENOMINATOR: 2 emitters inspected, both writing a sampled_body with no file
+        jRecordingObservation   sets storage_mode 'body' and attaches nothing; the raw
+                                acquisition files are beside the session, never in the
+                                database. 11 such bodies in one migrated PRED-like
+                                session, each with dtype '', shape [], empty sample_time.
+        jrclust_clusters        the v1 template is `res_mat_MD5_checksum` + `element_id`
+                                and NO file list at all, so there is not even an
+                                attachment to measure. The migrator writes n = 0 and says
+                                why.
+
+  The axis entry makes `n` REQUIRED, so neither can produce a valid axis. That is not a
+  defect in the axis -- it is the question of whether a body should be emitted at all when
+  the payload is outside the database. It needs a team call and is NOT covered by the
+  signature above.
