@@ -492,7 +492,12 @@ def test_data_body_classes():
             f"{body} re-declares `statement`; it is inherited from data_body now")
     sft = _flat_field_types("sampled_body")
     assert sft.get("datum") == "structure" and sft.get("sample_time") == "structure"
-    assert sft.get("summary") == "structure"
+    # `summary` IS GONE (#68, signed sec.9 "summary is DROPPED, not deferred in
+    # place"). It was minted empty on every body -- `{value: {}, time: {}}` --
+    # with no writer filling it and no reader consulting it.
+    assert sft.get("summary") is None, (
+        "sampled_body declares `summary` again; it was dropped as a vacuous "
+        "composite, not deferred")
     # 2.D Option 1: sampled_body stays LEAN (a no-daq derived body needs only
     # datum + sample_time + bytes). The acquisition header lives on
     # acquisition_epoch. The ONE opt-in addition is `axes` for multi-dim derived
@@ -638,7 +643,14 @@ def test_dataseries_carrier_family_dissolved():
     descriptor (load-bearing for directory's zarr_implicit manifest)."""
     for c in ("dataseries_data", "timeseries_data", "imageseries_data"):
         assert c not in RECORDS
-    assert "zarr" in RECORDS  # kept: storage descriptor
+    # `zarr` IS DELETED (signed sec.10 "zarr is DELETED, not migrated"). This
+    # line read `assert "zarr" in RECORDS  # kept: storage descriptor`, which
+    # was the pre-decision state: a V_gamma invention with no did_v1 source,
+    # nothing subclassing it, nothing depending on it and no migrator touching
+    # it. Its `codecs[]` models per-chunk ARRAY codecs, while the compression
+    # V_eta actually meets is archives and tiff+lzw -- which `data_body.
+    # compression` now carries.
+    assert "zarr" not in RECORDS
     # THROUGH THE CHAIN, same reason: `content_hash` hoisted to `data_body` with
     # the rest of the byte descriptors. The carrier family still dissolved into
     # a body that can carry a hash, which is what this asserts.
@@ -741,7 +753,10 @@ def test_zarr_pyramid_orphans_dissolved():
     STAYS (real NDI presence -> observation-tier fold with #9)."""
     for c in ("ephys_zarr", "image_zarr", "dataseries_pyramid"):
         assert c not in RECORDS
-    assert "zarr" in RECORDS and "pyraview" in RECORDS
+    # zarr DELETED (signed sec.10); pyraview STAYS -- it has real NDI presence
+    # and folds at the observation tier with #9. The two were paired here on the
+    # old reading that zarr was a kept storage descriptor.
+    assert "zarr" not in RECORDS and "pyraview" in RECORDS
 
 
 def test_data_type_value_is_body_backable():
@@ -1270,7 +1285,12 @@ def test_data_body_carrier_dispositions():
     # was the bug: retiring the mixin of a persisting leaf).
     assert disp["image"] != "retire", "image is a kept geometry mixin, not retiring"
     assert disp["image_observation"] == "persist"
-    assert disp["zarr"] == "retire" and disp["pyraview"] == "retire"
+    # `zarr` HAS NO DISPOSITION ANY MORE because it has no class: it was deleted
+    # outright (signed sec.10) rather than retired, and it left _RET_CARRIERS in
+    # the same change -- a disposition for a name nothing declares would make the
+    # final class set report on a phantom.
+    assert "zarr" not in disp
+    assert disp["pyraview"] == "retire"
     # a persisting class never has a RETIRING superclass (the image bug: a kept
     # class whose mixin was marked retire). in_progress supers are fine -- they are
     # kept infra whose ⑥/⑦ disposition is just not finalized.

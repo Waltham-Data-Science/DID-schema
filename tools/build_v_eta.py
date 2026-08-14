@@ -5726,11 +5726,14 @@ sampled = doc("sampled_body", ["data_body"], maturity="draft",
                        "enumerated (regular=false): the explicit per-sample times "
                        "from the anchor -- the array of sample times (e.g. trial "
                        "onsets).")]),
-    field("summary", "structure", "The searchable value + time rollup.",
-          blank={}, sub_fields=[
-              subfield("value", "structure", "Per-type value rollup.", blank={}),
-              subfield("time", "structure", "min/max/n over sample_time.",
-                       blank={})]),
+    # `summary` IS DROPPED, NOT DEFERRED IN PLACE (#68, signed sec.9). It
+    # declared a "searchable value + time rollup" and was minted EMPTY on every
+    # body jSampledBody ever produced -- `{value: {}, time: {}}` -- with no
+    # writer filling either half and no reader consulting one. A block that is
+    # always empty but looks structural is the vacuous composite #38 exists to
+    # catch. The migrator half (DID-matlab 3792240) landed FIRST, which for a
+    # removal is transient-free: an optional field a writer stops emitting
+    # validates against the old schema too.
     # THE AXIS ENTRY. TEAM-SIGN-OFF [data_body] 2026-08-14, with AMENDMENT 1 of
     # the same day. It replaces THREE encodings of regular-vs-enumerated
     # (subject_interaction.sample_time.kind / sampled_body.sample_time.regular /
@@ -7511,7 +7514,11 @@ _RET_SERIES_OBS = {"dataseries_observation", "timeseries_observation",
 #              body-backed observation with #9 (deferred, needs the NDI second pass).
 # `image` is NOT here: image_observation subclasses `image` (its geometry mixin), so
 # image is a KEPT superclass -- retiring it would orphan a persisting class.
-_RET_CARRIERS = {"zarr", "pyraview"}
+# `zarr` LEFT THIS SET when it was deleted outright (see
+# _DELETE_NO_V1_PROVENANCE): a class that does not exist cannot be a
+# retained carrier, and leaving it here would have the final class set
+# report a disposition for a name nothing declares.
+_RET_CARRIERS = {"pyraview"}
 # consumed v1 source: migrators_j.control_stimulus_ids emits `control_designation`
 # (renamed per T13 -- the `ids` container word is dropped), so its docs migrate away.
 _RET_RENAMED_SOURCES = {"control_stimulus_ids"}
@@ -7978,6 +7985,31 @@ _DELETE_PHASE8 = {
 # removed here because that is a transform change, not a disposition change.
 _DELETE_NO_V1_PROVENANCE = {
     "dataseries_channel_map",
+    # TEAM DECISION 2026-08-14: delete `zarr`, per signed sec.10 "zarr is
+    # DELETED, not migrated". Provenance V_gamma -- a DID-side invention that
+    # was never a did_v1 class, so no NDI document can be one. Measured before
+    # the deletion, in the same shape as `directory` above, and every figure is
+    # zero:
+    #
+    #     DENOMINATOR: 248 V_eta schema file(s), 91 NDI template class(es),
+    #                  195 .m file(s) under DID-matlab +convert/
+    #     V_eta schemas SUBCLASSING zarr          NONE
+    #     V_eta schemas DEPENDING on zarr         NONE
+    #     migrators/passes minting or consuming   NONE
+    #     NDI class names normalising to "zarr"   NONE
+    #
+    # THE TWO STRING MATCHES THAT REMAIN ARE NOT REFERENCES TO THE CLASS, and
+    # are checked rather than assumed -- this repository has twice mistaken a
+    # string match for a reference. `acquisition_epoch.storage.format` carries
+    # the documentation "Physical encoding (vhsb | zarr | ome_ngff | ...)", a
+    # FORMAT VALUE; and `+migrators_j/daqreader_image_epochdata_ingested.m:163`
+    # names it in a COMMENT listing classes it does not emit.
+    #
+    # ITS `codecs[]` IS NOT COPIED ANYWHERE, which is the substantive half of
+    # the decision: it models per-chunk ARRAY codecs, while the compression
+    # V_eta actually meets is archives (`.nbf.tgz`, `.zip`) and `tiff`+`lzw` --
+    # which is what the new `data_body.compression` char carries.
+    "zarr",
     # TEAM DECISION 2026-08-11 (jess, in session): delete `directory`.
     #
     # Provenance V_gamma, "review/infra" -- a DID-side invention that was never

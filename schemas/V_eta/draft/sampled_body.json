@@ -286,49 +286,6 @@
             ]
         },
         {
-            "name": "summary",
-            "type": "structure",
-            "blank_value": {},
-            "default_value": {},
-            "mustBeNonEmpty": false,
-            "mustBeScalar": true,
-            "mustNotHaveNaN": false,
-            "queryable": true,
-            "ontology": null,
-            "documentation": "The searchable value + time rollup.",
-            "constraints": {},
-            "fields": [
-                {
-                    "name": "value",
-                    "type": "structure",
-                    "blank_value": {},
-                    "default_value": {},
-                    "mustBeNonEmpty": false,
-                    "mustBeScalar": true,
-                    "mustNotHaveNaN": false,
-                    "queryable": true,
-                    "ontology": null,
-                    "documentation": "Per-type value rollup.",
-                    "constraints": {},
-                    "fields": []
-                },
-                {
-                    "name": "time",
-                    "type": "structure",
-                    "blank_value": {},
-                    "default_value": {},
-                    "mustBeNonEmpty": false,
-                    "mustBeScalar": true,
-                    "mustNotHaveNaN": false,
-                    "queryable": true,
-                    "ontology": null,
-                    "documentation": "min/max/n over sample_time.",
-                    "constraints": {},
-                    "fields": []
-                }
-            ]
-        },
-        {
             "name": "axes",
             "type": "structure",
             "blank_value": [],

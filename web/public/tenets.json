@@ -52,12 +52,13 @@
   "zarr"
  ],
  "denominator": {
-  "classes_in_the_built_set": 33,
+  "classes_in_the_built_set": 32,
   "classes_that_are_v1_sources": 26,
   "classes_vouched_only_by_the_cited_plan": [
    "acquisition_layout",
    "validity",
-   "validity_observation"
+   "validity_observation",
+   "zarr"
   ],
   "distinct_classes_named": 50,
   "negative_control": "the substantiation lookup was asked for a canary string that cannot occur in any document and did not find it",
@@ -403,12 +404,13 @@
      "named_in_cited_plan"
     ],
     "zarr": [
-     "built",
      "named_in_cited_plan"
     ]
    },
    "note": "T6's 'encoding/format is a field, not a class', applied to the one carrier that never had a did_v1 document behind it.",
-   "plan_only_classes": [],
+   "plan_only_classes": [
+    "zarr"
+   ],
    "tenet": "T6"
   },
   {

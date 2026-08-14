@@ -378,7 +378,13 @@ def test_isspike_is_left_alone_and_the_inert_spelling_is_counted():
     # default is `{}`, and the call passes none -- so it declares neither `min`
     # nor `max` at any depth and the pinned list below is untouched. Third
     # movement, third re-derivation.
-    assert walked == 242, f'schema count moved; re-derive the inert set ({walked})'
+    # FOURTH MOVEMENT, FOURTH RE-DERIVATION, and re-derived rather than bumped
+    # exactly as the three before it. 242 -> 241 because `zarr` was DELETED
+    # (signed sec.10). The pinned list below is untouched, and that is the
+    # substantive check rather than the count: zarr declared no field carrying a
+    # `min`/`max` constraint at any depth, so removing the class removes no
+    # entry from the inert set. The count is the tripwire; the list is the fact.
+    assert walked == 241, f'schema count moved; re-derive the inert set ({walked})' 
     assert sorted(inert) == [
         "element.direct",
         "element.reference",

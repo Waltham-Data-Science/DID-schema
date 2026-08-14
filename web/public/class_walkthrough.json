@@ -240,17 +240,17 @@
         "text": "if isfield(src, 'base') && isstruct(src.base)"
        },
        {
-        "line": 547,
+        "line": 555,
         "spelling": "base",
         "text": "if isstruct(src) && isfield(src, 'base') && isstruct(src.base)"
        },
        {
-        "line": 568,
+        "line": 576,
         "spelling": "base",
         "text": "if isstruct(b) && isfield(b, 'base') && isstruct(b.base) && isfield(b.base, name)"
        },
        {
-        "line": 655,
+        "line": 663,
         "spelling": "base",
         "text": "if ~isstruct(body) || ~isfield(body, 'base') || ~isstruct(body.base)"
        }

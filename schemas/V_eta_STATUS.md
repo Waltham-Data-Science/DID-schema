@@ -9,9 +9,9 @@ for each model; this board owns *how much is left and what exactly*.
 
 | | count |
 |---|---|
-| target classes | 244 |
+| target classes | 243 |
 | settled (persist) | 165 |
-| settled (retire) | 53 |
+| settled (retire) | 52 |
 | **still open (`in_progress`)** | **26** |
 | **`retire` with no migrator YET** | **2** |
 | open **decision families** | **23** |
@@ -51,9 +51,9 @@ decides a disposition -- it DERIVES, per class, how far the work has got.
 | build: &nbsp;&nbsp;-- of those, per-document migrator | 148 |
 | build: &nbsp;&nbsp;-- of those, batch post-pass | 26 |
 | build: V_zeta files DELIBERATELY EXCLUDED (`+migrators`, `+migrators_i`, `+migrators_e`) | 38 |
-| build: migrator lines inspected | 38977 |
-| build: &nbsp;&nbsp;-- of those, per-document migrator | 26381 |
-| build: &nbsp;&nbsp;-- of those, batch post-pass | 12596 |
+| build: migrator lines inspected | 39000 |
+| build: &nbsp;&nbsp;-- of those, per-document migrator | 26396 |
+| build: &nbsp;&nbsp;-- of those, batch post-pass | 12604 |
 | build: classes queried | 26 |
 | build: open classes MINTED as a document class | 8 |
 | build: &nbsp;&nbsp;-- open classes minted in a per-document migrator (rows overlap) | 8 |

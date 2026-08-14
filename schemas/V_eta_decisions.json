@@ -606,7 +606,7 @@
         ],
         "packages_missing": [],
         "files_read": 174,
-        "lines_read": 38977,
+        "lines_read": 39000,
         "classes_queried": 26,
         "classes_emitted_as_document_class": 8,
         "unresolved_mint_sites": [
@@ -648,8 +648,8 @@
           "batch_post_pass": 26
         },
         "lines_read_by_group": {
-          "per_document_migrator": 26381,
-          "batch_post_pass": 12596
+          "per_document_migrator": 26396,
+          "batch_post_pass": 12604
         },
         "classes_emitted_as_document_class_by_group": {
           "per_document_migrator": 8,
