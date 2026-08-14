@@ -465,17 +465,31 @@ def test_assertion_is_timeless():
 
 def test_data_body_classes():
     assert RECORDS["data_body"][1]["document_class"].get("abstract") is True
-    # `statement` is declared per child, not on the abstract parent (placement
-    # pattern): required on sampled_body (a statement's stream), optional on
-    # opaque_body (may be a standalone attachment).
-    assert "statement" not in _flat_dep_names("data_body")
+    # INVERTED 2026-08-14 BY THE #45 HOIST. This asserted `statement` was NOT on
+    # the abstract parent, and that the two children declared it with OPPOSITE
+    # required-ness -- required on sampled_body, optional on opaque_body. That
+    # asymmetry was the defect the hoist exists to remove: same edge, same
+    # referent, two answers.
+    #
+    # It is now ONE edge on the parent, REQUIRED. Team decision 2026-08-14, on
+    # the measurement that all THREE code paths minting a data_body already set
+    # it (jSorterOutput, foldGenericFiles, and NDI's
+    # stimulusPresentationToManipulation), so opaque_body's documented
+    # "free-standing attachment" case had zero emitters.
+    statement = next(d for d in RECORDS["data_body"][1]["depends_on"]
+                     if d["name"] == "statement")
+    assert statement["mustBeNonEmpty"] is True, (
+        "the hoisted `statement` edge must be REQUIRED -- optional would drop a "
+        "guarantee sampled_body already enforced under the armed #37 gate")
     for body in ("sampled_body", "opaque_body"):
         assert "data_body" in _chain(body)
         assert RECORDS[body][0] == "draft"
-    sampled_deps = {d["name"]: d for d in RECORDS["sampled_body"][1]["depends_on"]}
-    assert sampled_deps["statement"]["mustBeNonEmpty"] is True
-    opaque_deps = {d["name"]: d for d in RECORDS["opaque_body"][1]["depends_on"]}
-    assert opaque_deps["statement"]["mustBeNonEmpty"] is False
+        # and NEITHER child re-declares it: a child cannot tighten a parent
+        # field (#69) and redeclaring is SILENT, so a re-declaration here would
+        # be invisible drift rather than an error.
+        own = {d["name"] for d in RECORDS[body][1].get("depends_on", [])}
+        assert "statement" not in own, (
+            f"{body} re-declares `statement`; it is inherited from data_body now")
     sft = _flat_field_types("sampled_body")
     assert sft.get("datum") == "structure" and sft.get("sample_time") == "structure"
     assert sft.get("summary") == "structure"
@@ -491,7 +505,11 @@ def test_data_body_classes():
     # opaque_body carries a small descriptor (generic_file is INTENDED to fold onto
     # it, 2.D slice A -- see test_the_two_stranding_classes_have_a_tombstone for why
     # that fold is not built and what opaque_body still lacks).
-    of = {f["name"] for f in RECORDS["opaque_body"][1]["fields"]}
+    # THROUGH THE CHAIN: the #45 hoist (2026-08-14) moved these to `data_body`.
+    # opaque_body still HAS them, one level up, which is what this assertion is
+    # about -- it cares that an opaque body can describe its payload, not where
+    # the declaration sits.
+    of = set(_flat_field_types("opaque_body"))
     assert {"format", "filename", "description"} <= of
 
 
@@ -544,31 +562,42 @@ def test_the_two_stranding_classes_have_a_tombstone():
     # would leave nothing asserting the checksum has somewhere to land; the
     # three `epochid` tests were inverted for the same reason.
     assert "checksum" in {f["name"] for f in gf["fields"]}
-    assert "content_hash" in {f["name"] for f in RECORDS["opaque_body"][1]["fields"]}, \
-        ("opaque_body LOST content_hash -- the generic_file -> opaque_body fold "
-         "(did2.convert.foldGenericFiles) drops the MD5 ndi.fun.file.MD5 "
-         "computes, which is the one field whose whole purpose is not to be lost")
-    ch = next(f for f in RECORDS["opaque_body"][1]["fields"]
+    # READ THROUGH THE CHAIN, NOT OFF THE CLASS. The #45 hoist landed
+    # 2026-08-14 and moved these onto `data_body`; an opaque_body still HAS
+    # content_hash, one level up. The intent this test was written for is
+    # unchanged -- the MD5 must have somewhere to land -- so the assertion
+    # follows the field rather than the declaration site.
+    ob_fields = set(_flat_field_types("opaque_body"))
+    assert "content_hash" in ob_fields, (
+        "opaque_body LOST content_hash -- the generic_file -> opaque_body fold "
+        "(did2.convert.foldGenericFiles) drops the MD5 ndi.fun.file.MD5 "
+        "computes, which is the one field whose whole purpose is not to be lost")
+    ch = next(f for f in RECORDS["data_body"][1]["fields"]
               if f["name"] == "content_hash")
     assert ch["mustBeNonEmpty"] is False, (
         "content_hash is optional on the SIGNED data_body model; requiring it "
         "would quarantine every opaque_body minted from a source that computes "
         "no hash (jSorterOutput's external sorter directories, for one)")
-    # ONLY the one field. The rest of the #45 data_body tier is a separate,
-    # larger, deferred item and parts of it are blocked on #32 -- so `format`,
-    # `filename` and `description` must still be on the CHILD, not hoisted, and
-    # `compression` must still be absent. If `compression` ever appears without
-    # content_hash's documentation saying which byte stream it covers, that is
-    # the plan's own open question 3 going unanswered.
-    ob_fields = {f["name"] for f in RECORDS["opaque_body"][1]["fields"]}
-    assert "compression" not in ob_fields, (
-        "opaque_body gained `compression` -- then content_hash must state "
-        "whether it hashes the compressed or the decompressed bytes "
+    # THE HOIST IS DONE, and this half of the test is INVERTED rather than
+    # deleted. It used to assert the four fields were on the CHILD and that
+    # `data_body` was empty -- the state before step 2. They are on the parent
+    # now, and opaque_body declares nothing of its own, which is the signed
+    # sec.6 shape in as many words: "nothing of its own -- its content is
+    # 'these bytes are not an array', which the class name states."
+    assert not RECORDS["opaque_body"][1]["fields"], (
+        "opaque_body declares fields of its own again -- after the hoist its "
+        "content is exactly 'these bytes are not an array'")
+    db_fields = {f["name"] for f in RECORDS["data_body"][1]["fields"]}
+    assert {"format", "compression", "filename", "content_hash",
+            "description"} == db_fields, db_fields
+    # AND THE CONDITION THIS TEST ATTACHED TO `compression` IS NOW DUE, not
+    # moot: it said that if `compression` ever appeared, content_hash must state
+    # WHICH byte stream it covers (plan open question 3). It appeared, so the
+    # answer is asserted rather than trusted.
+    assert "AS STORED" in ch["documentation"] and "compression" in ch["documentation"], (
+        "`compression` exists, so content_hash's documentation must say whether "
+        "it hashes the compressed or the decompressed bytes "
         "(V_eta_data_body_model_plan.md, open question 3)")
-    assert {"format", "filename", "description"} <= ob_fields
-    assert not RECORDS["data_body"][1]["fields"], (
-        "the data_body hoist (#45) has started -- it is blocked on #32 and is "
-        "not what the generic_file fold was authorised to build")
 
     # valid_interval, from markgarbage.m:55-58,93-95. `session_ID` is the
     # writer-vs-template divergence: ndi_timereference_struct returns it
@@ -610,8 +639,10 @@ def test_dataseries_carrier_family_dissolved():
     for c in ("dataseries_data", "timeseries_data", "imageseries_data"):
         assert c not in RECORDS
     assert "zarr" in RECORDS  # kept: storage descriptor
-    sampled_fields = {f["name"] for f in RECORDS["sampled_body"][1]["fields"]}
-    assert "content_hash" in sampled_fields
+    # THROUGH THE CHAIN, same reason: `content_hash` hoisted to `data_body` with
+    # the rest of the byte descriptors. The carrier family still dissolved into
+    # a body that can carry a hash, which is what this asserts.
+    assert "content_hash" in set(_flat_field_types("sampled_body"))
 
 
 def test_image_collection_is_a_tombstone_not_a_dissolution():
@@ -2579,7 +2610,13 @@ def test_the_ngrid_fold_targets_exist_and_can_hold_what_the_fold_emits():
     # the body it is bound to
     _t, sb = RECORDS["sampled_body"]
     assert not sb["document_class"].get("abstract")
-    edges = {e["name"]: e for e in sb.get("depends_on", [])}
+    # `statement` is INHERITED from data_body since the #45 hoist, and it is
+    # REQUIRED there -- so the guarantee this asserts is stronger than before,
+    # not weaker: it now covers opaque_body too, which used to declare the same
+    # edge optional.
+    edges = {e["name"]: e
+             for c in _chain("sampled_body")
+             for e in RECORDS[c][1].get("depends_on", [])}
     assert edges["statement"]["mustBeNonEmpty"] is True, (
         "the fold binds the body to the image_observation through `statement`; "
         "an optional edge here would let a body be minted belonging to nobody")

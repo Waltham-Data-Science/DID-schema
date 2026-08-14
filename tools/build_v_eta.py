@@ -5604,7 +5604,75 @@ STATEMENT_OPT = dep("statement", "subject_statement",
                     "The statement this body is the opaque value of, if any; a "
                     "free-standing attachment leaves it empty.", non_empty=False)
 BODY_FILE = [{"name": "body_data", "documentation": "The byte payload (>=1 file)."}]
-data_body = doc("data_body", ["base"], abstract=True, maturity="draft")
+# THE HOIST (#45 step 2, signed sec.6). Everything about the BYTES moves here;
+# the statement says what the values ARE, the body says how the bytes ENCODE
+# them. `data_body` carried NOTHING before this -- the five fields sat on the
+# children, `format`/`filename`/`description` on opaque_body only, and
+# `content_hash` on both.
+#
+# THE `statement` EDGE IS REQUIRED, AND THAT IS THE HALF THE PLAN LEFT OPEN.
+# It said "ONE required-ness, settled here" without saying which; the children
+# disagreed (sampled_body REQUIRED, opaque_body OPTIONAL) and a child cannot
+# tighten a parent field (#69), so the hoist forces one answer. Team decision
+# 2026-08-14, on this measurement:
+#
+#     DENOMINATOR: 195 .m file(s) under DID-matlab +convert/, 842 under
+#                  NDI-matlab src/; code paths that MINT a data_body: 3
+#       DID  +migrators_j/private/jSorterOutput.m              sets statement
+#       DID  foldGenericFiles.m                                sets statement
+#       NDI  +migrate/+internal/stimulusPresentationToManipulation.m  sets it
+#
+# Three of three. The "free-standing attachment leaves it empty" case that
+# opaque_body's own documentation described has ZERO emitters, and that
+# docstring line is deleted here rather than left describing a shape nothing
+# produces.
+#
+# THIS IS NOT THE CORPUS-ABSENCE ARGUMENT THIS PROJECT HAS BEEN BURNED BY. V_eta
+# documents are not found in the wild, they are GENERATED, by exactly those
+# three paths -- so "no emitter can leave it empty" is a claim about the
+# generator, not about a sample, and it is complete for migrated data.
+#
+# AND THE DIRECTION IS WHY IT IS DONE NOW. #37 is armed, so required is
+# enforced from the first run, at a cost measured at zero today. Loosening later
+# is always free; tightening stops being free the moment something relies on the
+# looseness. The plan makes this same argument one field over, about `count`'s
+# placement: "Zero writers means no legacy to preserve. If it is not aligned
+# now, the first writer cements the third pattern permanently."
+data_body = doc("data_body", ["base"], abstract=True, maturity="draft",
+                deps=[STATEMENT_REQ], fields=[
+    field("format", "char",
+          "Container / MIME format of the carried bytes (e.g. 'application/pdf', "
+          "'image/tiff', 'tiff'). A descriptor only.",
+          non_empty=False),
+    # NEW. The unbuilt half of the 2.D "encoding becomes a field" decision that
+    # `migrators_j/image.m` has been waiting on: v1 `image.compression` carries
+    # 'lzw' beside format 'tiff' and had nowhere to land.
+    field("compression", "char",
+          "Compression applied within or around `format` (e.g. 'lzw', 'gzip'). "
+          "Empty when the bytes are stored uncompressed.",
+          non_empty=False),
+    field("filename", "char", "Original filename of the payload, if any.",
+          non_empty=False),
+    # "WHICH BYTES" (plan open question 3) IS SETTLED HERE, because `compression`
+    # arriving is exactly what made it ambiguous -- the old opaque_body
+    # documentation said so and asked for this answer by name. THE BYTES AS
+    # STORED, and the reason is the v1 source rather than taste:
+    # `generic_file.checksum` is the MD5 `ndi.fun.file.MD5` computes over the
+    # file ON DISK, i.e. after whatever compression was applied. Hashing the
+    # decompressed form would change what a migrated hash MEANS relative to the
+    # v1 value it carries, and would make the hash uncheckable without first
+    # decompressing.
+    field("content_hash", "char",
+          "Optional hash of the payload bytes AS STORED in `body_data` -- after "
+          "`compression`, not before. A natural dedup / integrity key, checkable "
+          "without decoding. did_v1 source: `generic_file.checksum`, the "
+          "32-character lowercase MD5 ndi.fun.file.MD5 computes over the stored "
+          "file; the algorithm is not declared by this field and is not "
+          "recoverable from it.",
+          non_empty=False),
+    field("description", "char", "Human description of the payload.",
+          non_empty=False),
+])
 data_body["file"] = BODY_FILE
 write("draft", "data_body", data_body)
 
@@ -5627,8 +5695,13 @@ write("draft", "data_body", data_body)
 FILTER_ID = dep("filter_id", "frequency_filter",
                 "Optional: the frequency filter these samples passed through. See "
                 "V_eta_frequency_filter_model_plan.md.", non_empty=False)
+# STATEMENT_REQ IS GONE FROM HERE -- it is inherited from data_body now, at the
+# same required-ness this class already declared, so nothing about a sampled_body
+# changed. `content_hash` likewise moved up. FILTER_ID stays: a frequency filter
+# is INAPPLICABLE to an opaque body, and the note above says why that belongs on
+# the child rather than the shared parent.
 sampled = doc("sampled_body", ["data_body"], maturity="draft",
-              deps=[STATEMENT_REQ, FILTER_ID], fields=[
+              deps=[FILTER_ID], fields=[
     field("datum", "structure", "The per-sample value type (kind/dtype/unit/shape).",
           blank={}, sub_fields=[
               subfield("kind", "char", "scalar | array | record.", non_empty=True,
@@ -5694,58 +5767,41 @@ sampled = doc("sampled_body", ["data_body"], maturity="draft",
           "dimension k. Time is an ordinary axis. Empty for a bare scalar.",
           non_empty=False, scalar=False, blank=[],
           sub_fields=axis_subfields()),
-    # Preserved from the dissolved dataseries_data carrier (2.D slice C): a
-    # content hash of the payload bytes, usable as a natural dedup / integrity
-    # key. Optional -- absent when not computed.
-    field("content_hash", "char",
-          "Optional content hash of the payload bytes; a natural dedup / "
-          "integrity key. Formerly dataseries_data.content_hash.",
+    # `content_hash` USED TO BE DECLARED HERE and is now on data_body -- it is a
+    # fact about the BYTES, which is what the hoist sorts by, and declaring it on
+    # both children was the duplication the hoist removes.
+    #
+    # THE TWO ORDERS, named at the same altitude on purpose (signed sec.6):
+    # bytes within a datum, data within the array. `endianness`/`chunk_order`
+    # were rejected for reading as unrelated concepts. Neither is required by
+    # the schema, because neither is universally applicable -- a single-byte
+    # datum has no byte order and a 1-D body has no datum order -- and a
+    # required field that is inapplicable to real bodies is the invented-empty
+    # pattern. The REQUIREMENT the plan states ("REQUIRED when datum_type is
+    # multi-byte", "REQUIRED when there is more than one axis") is conditional
+    # on the body's own shape, which this schema layer cannot express; it is
+    # stated in the documentation so a writer knows when it must fill them.
+    field("byte_order", "char",
+          "'little' | 'big' -- the order of bytes WITHIN one datum. REQUIRED in "
+          "practice whenever `datum_type` is multi-byte; meaningless, and left "
+          "empty, for single-byte data.",
+          non_empty=False),
+    field("datum_order", "char",
+          "'C' | 'F' -- the order of DATA within the array: C is row-major "
+          "(last axis fastest), F is column-major (first axis fastest, MATLAB's "
+          "native layout). REQUIRED in practice whenever there is more than one "
+          "axis; meaningless, and left empty, for a 1-D body.",
           non_empty=False),
 ])
 sampled["file"] = BODY_FILE
 write("draft", "sampled_body", sampled)
 
-opaque = doc("opaque_body", ["data_body"], maturity="draft", deps=[STATEMENT_OPT], fields=[
-    field("format", "char",
-          "Container / MIME format of the bytes (e.g. 'application/pdf', "
-          "'image/tiff'). A descriptor only -- the payload is uninterpreted; a "
-          "container format is otherwise derivable from the stored bytes.",
-          non_empty=False),
-    field("filename", "char", "Original filename of the payload, if any.",
-          non_empty=False),
-    # ONE FIELD OF #45, ADDED BECAUSE THE generic_file FOLD NEEDS IT AND NOTHING
-    # ELSE. `content_hash` is part of the ALREADY-SIGNED data_body model
-    # (V_eta_data_body_model_plan.md sec.6: "content_hash char  hash of the
-    # payload bytes ... (was sampled_body)"), where it is HOISTED onto the
-    # abstract `data_body` alongside `format`/`compression`/`filename`/
-    # `description` + the statement edge. That hoist is NOT done here: it moves
-    # `format`/`filename`/`description` off both children and adds `compression`,
-    # and the tier it belongs to is blocked on #32 (bind `variable`, the hard
-    # prerequisite for `axes[]`). So the field is added at the SAME position
-    # sampled_body already carries it -- on the child -- which is where every
-    # other data_body field sits today. When #45 lands, all five hoist together
-    # and this declaration moves with them; nothing here has to be undone.
-    #
-    # "WHICH BYTES" (plan open question 3): the bytes in `body_data` AS STORED.
-    # That is unambiguous ONLY because `compression` is deliberately NOT added
-    # here -- with no declarable compression there is no second candidate byte
-    # stream. The plan's requirement to state which bytes becomes live the day
-    # `compression` arrives, and the documentation below says so rather than
-    # leaving a reader to discover it.
-    field("content_hash", "char",
-          "Optional content hash of the payload bytes -- a natural dedup / "
-          "integrity key. THE BYTES HASHED ARE THE BYTES AS STORED in "
-          "`body_data`; opaque_body declares no `compression` today, so there "
-          "is exactly one candidate byte stream. When `compression` lands "
-          "(#45) this documentation must say whether the hash covers the "
-          "compressed or the decompressed form. did_v1 source: "
-          "`generic_file.checksum`, the 32-character lowercase MD5 that "
-          "ndi.fun.file.MD5 computes; the algorithm is not declared by this "
-          "field and is not recoverable from it.",
-          non_empty=False),
-    field("description", "char", "Human description of the opaque payload.",
-          non_empty=False),
-])
+# EMPTIED BY THE HOIST, deliberately, and the plan says so in as many words:
+# "nothing of its own -- its content is 'these bytes are not an array', which the
+# class name states." All four fields it used to declare are on `data_body` now,
+# and the `statement` edge with them. `data_body` has EXACTLY two members; that
+# is not reopened here.
+opaque = doc("opaque_body", ["data_body"], maturity="draft", deps=[], fields=[])
 opaque["file"] = BODY_FILE
 write("draft", "opaque_body", opaque)
 

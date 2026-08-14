@@ -9,72 +9,12 @@
         ],
         "maturity_level": "draft"
     },
-    "depends_on": [
-        {
-            "name": "statement",
-            "mustBeNonEmpty": false,
-            "documentation": "The statement this body is the opaque value of, if any; a free-standing attachment leaves it empty.",
-            "must_refer_to_document_class": "subject_statement"
-        }
-    ],
+    "depends_on": [],
     "file": [
         {
             "name": "body_data",
             "documentation": "The byte payload (>=1 file)."
         }
     ],
-    "fields": [
-        {
-            "name": "format",
-            "type": "char",
-            "blank_value": "",
-            "default_value": "",
-            "mustBeNonEmpty": false,
-            "mustBeScalar": true,
-            "mustNotHaveNaN": false,
-            "queryable": true,
-            "ontology": null,
-            "documentation": "Container / MIME format of the bytes (e.g. 'application/pdf', 'image/tiff'). A descriptor only -- the payload is uninterpreted; a container format is otherwise derivable from the stored bytes.",
-            "constraints": {}
-        },
-        {
-            "name": "filename",
-            "type": "char",
-            "blank_value": "",
-            "default_value": "",
-            "mustBeNonEmpty": false,
-            "mustBeScalar": true,
-            "mustNotHaveNaN": false,
-            "queryable": true,
-            "ontology": null,
-            "documentation": "Original filename of the payload, if any.",
-            "constraints": {}
-        },
-        {
-            "name": "content_hash",
-            "type": "char",
-            "blank_value": "",
-            "default_value": "",
-            "mustBeNonEmpty": false,
-            "mustBeScalar": true,
-            "mustNotHaveNaN": false,
-            "queryable": true,
-            "ontology": null,
-            "documentation": "Optional content hash of the payload bytes -- a natural dedup / integrity key. THE BYTES HASHED ARE THE BYTES AS STORED in `body_data`; opaque_body declares no `compression` today, so there is exactly one candidate byte stream. When `compression` lands (#45) this documentation must say whether the hash covers the compressed or the decompressed form. did_v1 source: `generic_file.checksum`, the 32-character lowercase MD5 that ndi.fun.file.MD5 computes; the algorithm is not declared by this field and is not recoverable from it.",
-            "constraints": {}
-        },
-        {
-            "name": "description",
-            "type": "char",
-            "blank_value": "",
-            "default_value": "",
-            "mustBeNonEmpty": false,
-            "mustBeScalar": true,
-            "mustNotHaveNaN": false,
-            "queryable": true,
-            "ontology": null,
-            "documentation": "Human description of the opaque payload.",
-            "constraints": {}
-        }
-    ]
+    "fields": []
 }
