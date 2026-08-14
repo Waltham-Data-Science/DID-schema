@@ -928,3 +928,88 @@ units check.
 its path, and the two corpus-sweep items (the format/compression value set;
 whether char or complex datum types occur) gate the ENCODING FIELDS only, not
 the axis.
+
+---
+
+# AMENDMENT 2 — `conditions` reaches format parity with `axis`. Team, 2026-08-14.
+
+Closes the rescope opened by AMENDMENT 1 item 3. **Merging `conditions` INTO
+`axes` was NOT reopened** -- the signed plan rejects it (*"time is the commonest
+axis and has never been a condition"*), and that stands. An axis INDEXES a
+value; a condition QUALIFIES it. Same descriptors, different job.
+
+## THE SCOPE, MEASURED BEFORE DECIDING
+
+        DENOMINATOR: 210 .m file(s) under DID-matlab src/did/+did2 scanned,
+                     comment-only lines excluded
+        files referencing `conditions` in CODE: 2
+          electrode_offset_voltage.m:90   quantity -- temperature, unit ''
+          jTuningFold.m:53                quantity -- tuning independent variable
+
+**`term` and `count` have ZERO writers. Ever.** Three forms are declared and one
+is used. And `jTuningFold`'s condition is an AXIS by construction -- it writes a
+`variable`, a unit and a value list -- so the signed build order moves it, leaving
+`conditions` with exactly ONE live writer: a scalar temperature qualifier.
+
+## THE SHAPE
+
+```
+conditions
+   variable     ontology_term   what is being qualified
+   unit         ontology_term   canonical unit
+   source_unit  char            as the source gave it
+   approximate  boolean         applies to the whole condition
+   term     { value : ontology_term[] }
+   count    { value : integer[] }
+   quantity { value : { value:double, source_value:double }[] }
+```
+
+Against the amended axis -- same four descriptors, same place, then the value
+forms:
+
+```
+axis
+   variable, unit, source_unit, approximate
+   n, regular, origin, spacing
+   values { values, source_values }
+   labels ontology_term[]
+```
+
+## WHY THIS IS THE SHAPE, AND WHY A SMALLER CHANGE WAS REJECTED
+
+A first proposal added `unit` + a canonical value to `quantity` ALONE. **It was
+withdrawn: it does not achieve parity, it creates a THIRD placement.**
+
+        axis        unit at the TOP level, one for the whole axis
+        count       unit INSIDE each value element
+        quantity    unit at the quantity level      <- the proposed third
+
+Three placements for one concept is the disease, not the cure.
+
+**MOVING THE DESCRIPTORS UP LOSES NOTHING, and that is measured rather than
+asserted.** `jMeasureArray` -- the shared helper both writers use -- applies ONE
+unit to every reading and writes `approximate` false at every position:
+
+        m(k) = struct('source_unit', char(unit), ...
+                      'source_value', double(vals(k)), 'approximate', false);
+
+So per-element `source_unit` is identical across the array in every writer that
+exists, and per-element `approximate` has never been anything but false. Moving
+both up removes redundancy, not expressiveness.
+
+**The one objection this had to answer** -- a descriptor that only some value
+forms use -- is already the accepted pattern: the axis's `unit` applies to
+`values` and not to `labels`. `conditions` doing the same is parity, not new
+looseness.
+
+**AND `count`'s PLACEMENT HAS NEVER BEEN EXERCISED.** Zero writers means no
+legacy to preserve. If it is not aligned now, the first `count` writer cements
+the third pattern permanently.
+
+## WHAT THIS IS, HONESTLY
+
+**A RESTRUCTURE of `conditions`, not a field addition.** Three descriptors move
+up a level and `count` flattens. Small in code -- zero writers for two forms, two
+for the third and one of those is leaving -- but it is a schema change to a class
+with live documents, and it was approved as that rather than as the smaller thing
+first described.
