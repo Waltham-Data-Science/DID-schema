@@ -2158,3 +2158,131 @@ lives in these files — read them instead of re-deriving from memory:
   than reimplementing the verdict. So `gates.py` green says nothing about rung 4, and
   never will: **the ladder's top rung is answered by a workflow in the other repository,
   and in this container it reads `not measured` on all 102 rows by construction.**
+
+
+## CAN MATLAB READ A MIGRATED DATABASE? (2026-08-14) — the read path, recorded
+
+**Everything above this section is about whether documents MIGRATE and VALIDATE.
+None of it was ever about whether NDI can USE them, and until 2026-08-14 the
+answer was NO — not for one document.** This is a record of what was built and
+what is still open. It decides nothing and carries no signature.
+
+**`ndi.session.dir` could not open a migrated session at all, and the cause was
+not V_eta.** The two sqlite backends are DIFFERENT FORMATS:
+
+        did2.database.sqlitedb   documents, superclasses, depends_on,
+                                 queryable_array_elem, meta
+                                 grep -c "branch"  ->  0
+        did.implementations.sqlitedb (LEGACY)   branch-versioned:
+          :144 SELECT DISTINCT branch_id FROM branches
+          :172 insert_into_table('branches','branch_id,parent_id,timestamp',...)
+
+`ndi.migrate.local` writes with the first (`local.m`, `db =
+did2.database.sqlitedb(dstPath)`); `didsqlite.m:25` read with the second, so the
+open failed before a document was touched: `'DID:SQLITEDB:OPEN' ... "branches"
+table not found`. There is no branch table to add — the fix was a new backend.
+
+**BUILT (NDI-matlab, branch `claude/v-eta-migration-plan-35jj1z`):**
+
+| what | where |
+|---|---|
+| an ndi.database that speaks did2 | `+ndi/+database/+implementations/+database/did2sqlite.m` |
+| makes the migrated file FINDABLE | `+ndi/+database/+fun/databasehierarchyinit.m`, entry 2, extension `V_eta.sqlite` |
+| the vintage map + resolution | `+ndi/+vintage/` (map, entryFor, isaQuery, objectClass, edge, edge_n, edgeName, field) |
+| element-specific reads | `+ndi/+vintage/` (elementLabel, elementSubjectDocs, elementFields) |
+| syncrule parameter reassembly | `+ndi/+vintage/syncruleParameters.m` |
+| hand-run walkthrough | `tools/veta_open_migrated_session.m` |
+
+**THE DESIGN, IN ONE SENTENCE: NDI's object layer is defined over BOTH vintages
+from one declaration, and is NOT ported off v1 — because NDI STILL WRITES v1.**
+`ndi.session.dir` on a fresh directory creates a legacy database (only the first
+hierarchy entry can create, and it is `didsqlite`), so a layer that spoke only
+V_eta could not read a session NDI had just made.
+
+**THE OBJECT-RECONSTRUCTION KEY LIVES IN THREE PLACES, and that is the single
+most useful fact here.** v1 stores the MATLAB class to construct in a field
+NAMED AFTER THE CLASS (`daqsystem.ndi_daqsystem_class`) — a CONSTRUCTED name, so
+a literal grep finds only the writer and reports the field as unread. V_eta has
+no such field:
+
+        daqreader (v1 tombstone only)  still a field
+        daqsystem / filenavigator / daqmetadatareader / daqreader /
+          syncgraph / syncrule          a `software` ENTITY behind `software_id`
+                                        (jSoftware is called with the class as NAME)
+        element                         a `term_assertion` pointing IN via
+                                        subject_id, variable `ndi element class`
+
+**FIVE FRAMES OF ONE BUG WERE FOUND, four by CI and one by reading.** Every
+failure was the same species: a CONSTRUCTOR indexing a document block by its v1
+class name. `ndi.daq.system` -> `acquisition_reader`; `ndi.daq.reader.mfdaq.ndr`
+-> `daqreader_ndr`; `ndi.element` -> `element`; plus the two earlier ones. **The
+map covers CLASSES; it cannot tell you which CONSTRUCTORS hard-code a block
+name.** Those are found by running, or by grepping
+`document_properties\.<v1class>\.` across the read path.
+
+**A NAME SURVIVING IN V_eta IS NOT EVIDENCE THE MIGRATOR EMITS IT.** `daqreader`
+was left out of the map because `schemas/V_eta/stable/daqreader.json` exists and
+keeps `ndi_daqreader_class` — both true, and both about the v1 TOMBSTONE. The
+migrator emits `acquisition_reader` (`+migrators_j/daqreader.m:159`). Fifteen v1
+class names still exist as tombstones; **ask what the migrator emits, never
+whether the name is present.**
+
+**WHAT IS TESTED, and its denominator.** e2e run 62, head `4714cb81e`:
+
+        Totals:  27 Passed, 0 Failed, 0 Incomplete.   22.15 s
+
+covering, through the ordinary object API on migrated PRED: the session opens
+where the migrator left it; `daqsystem_load` returns 2 systems with their reader
+/ navigator / metadata reader resolved through renamed edges and a `software_id`
+hop; the syncgraph loads carrying its 1 RULE (its existence proves nothing — an
+unfound syncgraph is rebuilt EMPTY with no error, so the rule count is the
+assertion); `getelements` returns 2, rebuilt as
+`ndi.probe.timeseries.mfdaq`/`.stimulator`. Every one of those returned `{}`
+before, none of them errored.
+
+**WHAT IS NOT TESTED, NOT DONE, OR DELIBERATELY LEFT:**
+
+  * **`readtimeseries` is untested and cannot be tested from the corpus zips.**
+    Measured 2026-08-14, all four: `find <corpus> -type f | grep -vc '\.json$'`
+    = **0 non-JSON files** in PRED (14 docs), 20211116 (1,220), Dab (27,561) and
+    Soph (101,427). They are DOCUMENT corpora. Dab's ingested documents DECLARE
+    their binaries (`ai_group*_seg.nbf_#`) and the zip does not carry them.
+  * **`getsubjects()` returns the apparatus.** On migrated PRED: 3 subjects —
+    the animal plus both probes — because V_eta makes every identifiable thing a
+    subject. Filtering is now one line using the same label; it changes an
+    existing call's return for every user, so it is a TEAM decision, untouched.
+  * **`daq/reader.m:82` reads `document_properties.epochid.epochid`** and is a
+    live sixth frame for any INGESTED corpus. PRED is not ingested; Dab is.
+  * **`element.m:463` reads the same path** in the added-epoch branch. PRED has
+    no `epochid` documents; 20211116 and Soph have `element_epoch` (252 / 4,232).
+  * The element lookup rests on a FREE-TEXT label with an empty ontology node,
+    written `if ~isempty(ndiClass)` — so an element with no class name is
+    invisible to it. NDI's own writer always sets the class (`element.m:543`),
+    so anything NDI wrote is found. `TestElementLabelMatchesMigrator` pins the
+    phrase across the repo boundary and asserts it is written at exactly ONE
+    site; the bound-vocabulary version rides with T8, which is blocked on NDIC.
+  * `element` name+reference are stored CONCATENATED in
+    `subject.local_identifier` as `'%s (ref %s)'` with no escaping, so a name
+    ending in " (ref X)" is ambiguous on the way back. A property of the format,
+    not of the reader.
+
+**THE FOUR CORPORA, MEASURED 2026-08-14 (all read directly from the zips), so
+the next target can be chosen on evidence:**
+
+        DENOMINATOR: 4 corpora censused; PRED covers 10 class(es)
+        corpus         docs classes  NEW vs PRED   new docs
+        20211116       1220      21           13         1185
+        Dab           27561      26           17        26288
+        Soph         101427      32           24        99395
+
+  * **20211116** is the smallest step: the stimulus-response tier
+    (`stimulus_response_scalar` 273 + `_parameters_basic` 273), the calculator
+    tier (`hartley_calc` 210, `tuningcurve_calc` 84, `oridirtuning_calc` 42) and
+    `element_epoch` (252). It shares 8 of PRED's 10 classes.
+  * **Dab** is the widest: ingestion (9,419 docs), openMINDS (2,344),
+    `ontologyTableRow` (6,205), `syncrule_mapping` (2,484 — the class with the
+    live NDI query).
+  * **Soph** is ~70% one path: the vision calculators (~70,600 of 101,427). It
+    also holds 1,647 `element` documents, 800x PRED, which is the first real
+    workout for the element assembler.
+  * Only PRED holds `pyraview` and `daqreader_ndr`.
