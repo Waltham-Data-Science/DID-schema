@@ -1484,11 +1484,23 @@ def test_dimensioned_cells_carry_source_provenance():
     # documented exceptions: a count has no dimensional scaling, a score is
     # scale-relative, a term is an identity.)
     exempt = {"count", "score", "ontology_term"}
+    # AND THE AXIS ENTRY, which hoists the triple RATHER THAN DROPPING IT
+    # (2026-08-14, AMENDMENT 1 + 2 to the data_body plan). An axis carries
+    # `unit`, `source_unit` and `approximate` at the TOP of the entry, shared by
+    # whichever value form it uses, and the per-slot `origin`/`spacing`/`values`
+    # then carry `value` + `source_value`. Splitting the triple across two levels
+    # is the POINT -- one axis has one unit and one approximate flag, and
+    # `jMeasureArray` proves the per-element copies were always identical:
+    # `m(k) = struct('source_unit', char(unit), ..., 'approximate', false)`.
+    # `conditions` is the same shape for the same reason (AMENDMENT 2).
+    hoisted = {("sampled_body", "axes"), ("subject_statement", "axes")}
     bad = []
     for name, (tier, d) in RECORDS.items():
         for f in d.get("fields", []):
             t = f["type"]
             if t in exempt or not f.get("fields"):
+                continue
+            if (name, f["name"]) in hoisted:
                 continue
             subs = {sf["name"] for sf in f["fields"]}
             if ("source_unit" in subs or "source_value" in subs) and not {
@@ -2402,49 +2414,56 @@ def test_ngrid_may_not_be_retired_while_consumers_exist():
         "reverse_correlation -> ngrid.")
 
 
-def test_sampled_body_axes_has_no_slot_for_ngrid_coordinates():
-    """#47's GUARD 2, made executable — the reason the ngrid fold REFUSES a
-    document carrying explicit coordinate positions.
+def test_sampled_body_axes_now_has_the_coordinate_slot_ngrid_needs():
+    """INVERTED 2026-08-14. This asserted the slot does NOT exist; it does now.
 
-    TEAM DECISION (2026-08-11): "The ngrid documents should be migrated into
-    sampled_bodys." `V_eta_image_model_plan.md` R4 spells out the mapping and
-    sends `ngrid.coordinates` to `axes[k].values`.
+    THE TRIPWIRE WORKED, and that is worth recording before the assertion is
+    changed. The old test was written as #47's GUARD 2 made executable: the ngrid
+    fold refuses a document carrying explicit coordinates because
+    `axes[k].values` did not exist, and the test pinned that PREMISE so the guard
+    could not quietly outlive its reason. Its own words: "When #45 lands the
+    slot, this test fails -- which is the signal that the refusal can be relaxed,
+    rather than a guard quietly outliving its reason."
 
-    THAT FIELD DOES NOT EXIST. It belongs to the data_body tier (#45), which is
-    blocked on #32; `V_eta_ngrid_family_findings.md` F3b records the same gap and
-    is explicit that the repair is neither decided nor built. So a fold today has
-    nowhere to put real positions, and folding anyway would DELETE them — which
-    is exactly the loss `+migrators_j/+super/ngrid.m` was written to stop,
-    arriving through a different door.
+    #45 landed the slot (TEAM-SIGN-OFF [data_body] 2026-08-14 plus AMENDMENT 1),
+    the test failed on the first build, and its failure message said exactly what
+    to do. This is the rare case of a stale justification being caught BY
+    CONSTRUCTION rather than by someone noticing.
 
-    `DID-matlab .../+migrators_j/private/jNgridBody.m` therefore folds only when
-    the coordinates are absent, empty, or `mat2ngrid`'s default index vector
-    (recoverable from `data_dim`), and raises
-    `did2:convert:ngridCoordinatesHaveNoHome` otherwise.
+    WHAT IS NOW OWED, AND IT IS NOT DONE HERE. The carry --
+    `ngrid.coordinates -> axes[k].values` -- is #46/#48 work: retiring `ngrid` is
+    gated on BOTH its consumers (`ngrid` itself and `ontologyImage`), and that is
+    a signed plan of its own. Landing the SLOT does not land the CARRY, and
+    `DID-matlab .../+migrators_j/private/jNgridBody.m:166` still raises
+    `did2:convert:ngridCoordinatesHaveNoHome`. That refusal is now a DEFERRAL
+    rather than a necessity, and it is correct to keep it until the carry is
+    built: folding without carrying would DELETE real positions, which is the
+    loss the guard exists to stop.
 
-    THIS TEST IS THAT GUARD'S PREMISE, AND IT IS DELIBERATELY TWO-WAY. The
-    migrator half asserts the refusal; nothing asserted WHY. When #45 lands the
-    slot, this test fails — which is the signal that the refusal can be relaxed,
-    rather than a guard quietly outliving its reason. That is the failure mode
-    this repo keeps paying for: a justification that was true when written and
-    stale for the nineteen days after.
+    So this test now asserts the slot's EXISTENCE -- the precondition the carry
+    needs -- and the two-way pressure moves to the migrator half, where
+    testNgridSampledBodyFold still pins the refusal.
     """
     assert "sampled_body" in RECORDS, "sampled_body is the ngrid fold's target"
     _tier, body = RECORDS["sampled_body"]
     axes = [f for f in body["fields"] if f["name"] == "axes"]
     assert len(axes) == 1, "sampled_body must declare exactly one `axes` field"
     sub = [s["name"] for s in axes[0].get("fields", [])]
-    # DENOMINATOR FIRST: without it an empty sub-field list passes vacuously,
-    # which would read as "no coordinate slot" when it really means "read
-    # nothing".
+    # DENOMINATOR FIRST, kept from the original: without it an empty sub-field
+    # list would pass or fail for the wrong reason.
     assert len(sub) >= 4, (
-        f'only {len(sub)} axis sub-field(s) read ({sub!r}) -- too few to conclude anything about a coordinate slot')
-    coordinate_slots = [n for n in sub if n in ("values", "coordinates", "positions")]
-    assert not coordinate_slots, (
-        f"`sampled_body.axes[]` now declares {coordinate_slots!r}. If #45 has landed the coordinate "
-        "array, the ngrid fold's refusal (jNgridBody, "
-        "`did2:convert:ngridCoordinatesHaveNoHome`) is no longer necessary and "
-        "must be replaced by the carry — update BOTH halves, they are lockstep.")
+        f"only {len(sub)} axis sub-field(s) read ({sub!r}) -- too few to conclude "
+        "anything about a coordinate slot")
+    assert "values" in sub, (
+        f"`sampled_body.axes[]` declares {sub!r} with no `values`. The signed axis "
+        "entry carries the coordinates for an irregular axis; without it the ngrid "
+        "carry has nowhere to land and jNgridBody's refusal becomes permanent.")
+    # and the slot has to be able to hold BOTH halves of a coordinate array
+    vals = [f for f in axes[0]["fields"] if f["name"] == "values"]
+    got = sorted(x["name"] for x in vals[0].get("fields", []))
+    assert got == ["source_values", "values"], (
+        f"`axes[].values` declares {got!r}; the canonical + as-recorded pair is what "
+        "lets a fold carry coordinates without silently normalising them")
 
 
 def test_the_ngrid_fold_targets_exist_and_can_hold_what_the_fold_emits():
@@ -2489,7 +2508,13 @@ def test_the_ngrid_fold_targets_exist_and_can_hold_what_the_fold_emits():
     # jNgridBody emits positional names (`axis_1` ...) rather than blanks.
     axes = next(f for f in sb["fields"] if f["name"] == "axes")
     required = [s["name"] for s in axes["fields"] if s.get("mustBeNonEmpty")]
-    assert required == ["name"], (
+    # UPDATED 2026-08-14: was `["name"]`. The signed axis entry drops `name` --
+    # its own examples ('contrast', 'orientation') ARE variables, and a
+    # free-text name beside a bound `variable` is the escape hatch that makes
+    # the binding pointless -- and requires `variable` and `n` instead. `n` is
+    # required because an axis that cannot say how long it is cannot index
+    # anything; that is the jrclust `n = 0` shape the plan refuses.
+    assert required == ["variable", "n"], (
         f"the axis entry's required sub-fields changed to {required!r} -- jNgridBody fills "
         "`name` and leaves the rest defaulted, so a new requirement quarantines "
         "every folded body")

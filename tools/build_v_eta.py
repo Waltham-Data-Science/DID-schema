@@ -5529,28 +5529,97 @@ sampled = doc("sampled_body", ["data_body"], maturity="draft",
               subfield("value", "structure", "Per-type value rollup.", blank={}),
               subfield("time", "structure", "min/max/n over sample_time.",
                        blank={})]),
-    # Optional NON-time index axes for a multi-dimensional body (e.g. a derived
-    # tuning curve over [contrast x orientation]). The TIME axis is sample_time;
-    # this describes the OTHER dims. Absent for plain scalar/time series and for
-    # device data whose acquisition axes/channels live on acquisition_epoch --
-    # keeping the body lean is the whole point of the no-daq case (a bare derived
-    # signal needs none of the acquisition header). 2.D Option 1.
+    # THE AXIS ENTRY. TEAM-SIGN-OFF [data_body] 2026-08-14, with AMENDMENT 1 of
+    # the same day. It replaces THREE encodings of regular-vs-enumerated
+    # (subject_interaction.sample_time.kind / sampled_body.sample_time.regular /
+    # the old axes[].regularity) plus a fourth spelling of the same fact
+    # (acquisition_epoch.axes.sample_rate, a frequency, against sample_time.dt,
+    # a duration).
+    #
+    # TIME IS AN ORDINARY AXIS now: `t0 -> origin`, `dt -> spacing`, `n -> n`,
+    # `offsets -> values`. `sample_rate` goes away because an axis stores its
+    # spacing in its own quantity.
+    #
+    # THE OLD SHAPE COULD NOT STORE WHAT IT DECLARED: `regularity: irregular`
+    # was declarable with NOWHERE to put the coordinates, and there was no
+    # `origin`, so even a regular axis could not say where it starts.
+    #
+    # `unit` IS PRESENT AND IS A BOUND TERM -- this is AMENDMENT 1 reversing the
+    # signed plan's own "THERE IS NO `unit` FIELD". The registry was to carry
+    # the canonical unit, but `spatial frequency` has none it can express (no
+    # `spatial_frequency` data_type; cycles-per-degree is inverse-angle, which
+    # nothing declares; and the registry row shape for a unit DOES NOT EXIST --
+    # 4 lists, no dimension key, no unit key). A missing row would have made the
+    # number SILENTLY MEANINGLESS; carrying the unit makes the worst case an
+    # UNVALIDATED number instead. Bound, not char: the plan's objection was to a
+    # FREE-TEXT unit beside a bound `variable`, and an ontology_term is not an
+    # escape hatch. The pattern is already in the schema twice -- voltage.value
+    # is canonical-plus-source, conditions.count.value carries a bound unit.
+    #
+    # `name` and `kind` GO. `name`'s own examples ('contrast', 'orientation')
+    # ARE variables, and a free-text name beside a bound `variable` is what makes
+    # the binding pointless. `kind` was one of THREE unrelated fields called
+    # `kind` (datum.kind, this, sample_time.kind).
     field("axes", "structure",
-          "Optional non-time index dimensions for a multi-dimensional body "
-          "(the time axis is sample_time). Populated only for multi-dim derived "
-          "data that has no acquisition_epoch to carry axes; empty otherwise.",
+          "Index dimensions of this body, in array order: axes[k] IS array "
+          "dimension k. Time is an ordinary axis. Empty for a bare scalar.",
           non_empty=False, scalar=False, blank=[], sub_fields=[
-              subfield("name", "char", "Axis name (e.g. 'contrast', 'orientation').",
+              subfield("variable", "ontology_term",
+                       "What varies along this dimension (time, spatial "
+                       "position, contrast, ...). UNIQUE within the list -- "
+                       "that uniqueness is what makes 'which axis is X' well "
+                       "defined.",
                        non_empty=True),
-              subfield("kind", "char",
-                       "Axis kind (index | space_x | space_y | wavelength | ...)."),
-              subfield("length", "integer", "Number of coordinates along this axis.",
-                       scalar=True, blank=0),
-              subfield("regularity", "char", "regular | irregular.",
-                       constraints={"enum": ["regular", "irregular"]}),
-              subfield("spacing", "double", "Coordinate spacing when regular.",
-                       scalar=True, blank=0.0),
-              subfield("unit", "char", "Unit of the axis coordinate.")]),
+              subfield("unit", "ontology_term",
+                       "Canonical unit of `origin`/`spacing`/`values`. Angles "
+                       "are RADIANS, per angle.value.radians and the SI "
+                       "convention every other quantity in V_eta follows. "
+                       "Absent for a categorical axis, which uses `labels`."),
+              subfield("source_unit", "char",
+                       "The unit exactly as the source gave it. OMITTED when "
+                       "the source unit is already canonical."),
+              subfield("approximate", "boolean",
+                       "Applies to the whole axis.", blank=False),
+              subfield("n", "integer",
+                       "Number of coordinates along this axis; equals the "
+                       "extent of the value it indexes.",
+                       non_empty=True, scalar=True, blank=0),
+              subfield("regular", "boolean",
+                       "True: coordinates are generated from origin + spacing. "
+                       "False: they are stored, in `values` or `labels`.",
+                       blank=False),
+              subfield("origin", "structure",
+                       "Where the axis starts. REQUIRED iff `regular`.",
+                       sub_fields=[
+                           subfield("value", "double", "Canonical value.", blank=0.0),
+                           subfield("source_value", "double",
+                                    "As-recorded value.", blank=0.0)]),
+              subfield("spacing", "structure",
+                       "The step. REQUIRED iff `regular`.",
+                       sub_fields=[
+                           subfield("value", "double", "Canonical value.", blank=0.0),
+                           subfield("source_value", "double",
+                                    "As-recorded value.", blank=0.0)]),
+              subfield("values", "structure",
+                       "The coordinates themselves. REQUIRED iff NOT `regular` "
+                       "and numeric. XOR with `labels`.",
+                       sub_fields=[
+                           subfield("values", "matrix", "Canonical values.", blank=[]),
+                           subfield("source_values", "matrix",
+                                    "As-recorded values.", blank=[])]),
+              # blank is the helper's ontology_term default ({node,name}), NOT
+              # []. A non-scalar ontology_term whose blank is `[]` fails its own
+              # type check -- cache.m:1764 wants a struct -- and
+              # test_veta_blank_values_typecheck catches exactly that. The two
+              # other non-scalar ontology_terms in the schema
+              # (dataset.experimental_approach, strain.disease_model) use the
+              # struct blank; conditions.term.value carries `[]` and sits in
+              # that test's pinned baseline, so it is the exception, not the
+              # pattern to copy.
+              subfield("labels", "ontology_term",
+                       "Categorical coordinates. REQUIRED iff NOT `regular` "
+                       "and categorical. XOR with `values`.",
+                       scalar=False)]),
     # Preserved from the dissolved dataseries_data carrier (2.D slice C): a
     # content hash of the payload bytes, usable as a natural dedup / integrity
     # key. Optional -- absent when not computed.
