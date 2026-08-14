@@ -532,3 +532,88 @@ REJECTED   acquisition_channels_A/_B   `x_1`/`x_2` wearing letters; for an unord
    and checkable, instead of being a sentence in a plan.
 4. **#58 rides with this build**: `syncgraph_id` restored and `objectname` recoverable via
    `epoch.instrument_id`. Both fix LIVE NDI queries and stand whether or not this model ships.
+
+---
+
+# FINDING — `syncrule` DOES NOT PASS THROUGH FOR THE REASON `syncgraph` DOES.
+# 2026-08-14. Recorded, NOT resolved: the second half is a team question.
+
+Scoping the move of the clock-alignment fold into the batch phase (the change
+`syncgraph.m` describes as *"the ONE line that changes"*), on the evidence of a
+real migrated PRED-like session that came back with BOTH `syncgraph` and
+`syncrule` still present as v1 tombstones and NO `clock_alignment_*` document of
+either kind.
+
+## 1. THE DEFERRED-FOLD SEAM IS NARROWER THAN IT READS
+
+        DENOMINATOR: 84 migrator .m file(s) in +migrators_j, comment-only
+                     lines excluded, Contents.m excluded
+        jSessionDocId CALLED IN CODE by: 1   -- syncgraph
+        jEpochDocId   CALLED IN CODE by: 4   -- daqmetadatareader_epochdata_ingested,
+                                                daqreader_epochdata_ingested,
+                                                daqreader_image_epochdata_ingested,
+                                                stimulus_response_scalar
+        distinct migrators gated on either seam: 5
+
+Several other files MENTION the seams in comments and do not call them, so a
+substring sweep overstates this set. Five migrators, two seams.
+
+## 2. `syncrule` IS NOT ONE OF THEM, AND THAT IS THE FINDING
+
+`syncrule.m` never calls `jSessionDocId`. Its guard is a different one entirely:
+
+        syncrule.m:112-116
+            channelsA = jAcquisitionChannels(preBody, name1, ch1);
+            channelsB = jAcquisitionChannels(preBody, name2, ch2);
+            if isempty(channelsA) || isempty(channelsB)
+                bodies = {preBody};      % THE GUARD
+                return;
+
+and `jAcquisitionChannels` returns `[]` when the device name is empty --
+*"no device => nothing to say; the caller must then NOT emit the edge"*.
+
+**THE RULE IN THE SESSION IS `ndi.time.syncrule.filematch`, AND IT CARRIES NO
+DEVICES AT ALL.** From the class itself:
+
+        origin/main src/ndi/+ndi/+time/+syncrule/filematch.m:25
+            parameters = struct('number_fullpath_matches', 2);
+
+No `daqsystem1_name`, no `daqsystem_ch1` -- nothing for `jAcquisitionChannels`
+to read. A filematch rule synchronises by MATCHING FILE PATHS, not by comparing
+trigger channels, so `name1`/`name2` are empty and the guard fires correctly.
+
+## 3. WHAT THIS MEANS FOR THE BATCH-PHASE MOVE
+
+**It would fold `syncgraph` and leave `syncrule` exactly where it is.** The two
+documents look like one deferred item in a migrated session -- both v1
+tombstones, both from the sync family -- and they are two unrelated situations:
+
+  * `syncgraph` -- a DEFERRED FOLD. The model exists, the code exists, and it is
+    waiting on a session-document id that only a batch pass can supply.
+  * `syncrule` (filematch) -- an UNMODELLED RULE TYPE. The signed
+    clock-alignment model is built around a device/channel pair, and a filematch
+    rule has neither. There is nothing deferred; there is nothing to defer TO.
+
+## 4. THE TEAM QUESTION
+
+What does a `filematch` syncrule become? It states a real fact -- *these two
+epochs are the same epoch because N components of their full paths match* --
+and the signed `clock_alignment_configuration` has no slot for it. Options, none
+chosen here:
+
+  * a `clock_alignment_configuration` whose `method` is the match rule and whose
+    device/channel slots are absent (widens the class);
+  * a separate configuration class for path-matched alignment;
+  * a deliberate passthrough, recorded as such rather than falling out of a
+    guard written for a different case.
+
+**Do not resolve this by widening `jAcquisitionChannels`.** Its refusal is
+correct: a filematch rule genuinely has no channels, and inventing empty ones
+would be the invented-empty-edge pattern this repository has paid for six times.
+
+## 5. HOW MANY REAL DOCUMENTS THIS REACHES IS UNMEASURED
+
+No corpus figure is quoted here because none was taken. `filematch` is the rule
+in the one PRED-like session inspected; whether it is the common case across the
+six corpora is not known, and the standing rule applies -- absent from the
+corpora we hold is not evidence of anything.
