@@ -1493,14 +1493,27 @@ def test_dimensioned_cells_carry_source_provenance():
     # `jMeasureArray` proves the per-element copies were always identical:
     # `m(k) = struct('source_unit', char(unit), ..., 'approximate', false)`.
     # `conditions` is the same shape for the same reason (AMENDMENT 2).
-    hoisted = {("sampled_body", "axes"), ("subject_statement", "axes")}
+    #
+    # KEYED ON THE FIELD NAME, NOT ON AN ENUMERATED LIST OF MOUNTS. This read
+    # `{("sampled_body", "axes"), ("subject_statement", "axes")}` and broke the
+    # moment `acquisition_epoch.axes` folded into the same entry (2026-08-14,
+    # signed addendum sec.5, "ALL THREE AXES DECLARATIONS FOLD INTO THE ONE
+    # ENTRY"). A hard-coded pair list needs an edit every time a mount is added
+    # -- the maintenance defect the fold exists to remove, reproduced inside a
+    # test that guards it.
+    #
+    # Exempting by NAME is safe only because something else constrains the SHAPE:
+    # `test_all_axes_declarations_are_the_one_entry` asserts every `axes`
+    # declaration in the tree is the one signed entry. Without that this would be
+    # a hole, since any field called `axes` would then skip the triple check.
+    hoisted_field_names = {"axes"}
     bad = []
     for name, (tier, d) in RECORDS.items():
         for f in d.get("fields", []):
             t = f["type"]
             if t in exempt or not f.get("fields"):
                 continue
-            if (name, f["name"]) in hoisted:
+            if f["name"] in hoisted_field_names:
                 continue
             subs = {sf["name"] for sf in f["fields"]}
             if ("source_unit" in subs or "source_value" in subs) and not {
@@ -2464,6 +2477,80 @@ def test_sampled_body_axes_now_has_the_coordinate_slot_ngrid_needs():
     assert got == ["source_values", "values"], (
         f"`axes[].values` declares {got!r}; the canonical + as-recorded pair is what "
         "lets a fold carry coordinates without silently normalising them")
+
+
+def test_all_axes_declarations_are_the_one_entry():
+    """Signed addendum sec.5: "ALL THREE AXES DECLARATIONS FOLD INTO THE ONE ENTRY".
+
+    THIS PINS THE DECISION ITSELF, NOT A SHAPE. The plan's ground-truth section
+    counts THREE incompatible spellings of regular-vs-enumerated in the built
+    tree, and the whole point of the entry is that there stops being more than
+    one. A test checking only `sampled_body` would let the other two drift back
+    -- which is exactly how the tree acquired three shapes to begin with, each
+    added by someone looking at one class.
+
+    So the assertion is IDENTITY ACROSS DECLARATIONS, not a hard-coded field
+    list. A hard-coded list here would be a fourth copy of the thing, needing
+    edits in lockstep with the builder -- the same maintenance defect one level
+    up. `sampled_body` is the reference because it is the mount the signed entry
+    was written against.
+
+    THE BUILDER IS DELIBERATELY NOT IMPORTED to read `axis_subfields()` directly.
+    `build_v_eta.py` does its work at module scope -- `write(...)` calls sit at
+    the top level, not behind `__main__` -- so importing it from a test would RUN
+    A BUILD as a side effect of collection, writing into `schemas/`. That is
+    Operating Rule 1 violated by an import statement.
+
+    WHAT THIS DOES NOT CATCH, said plainly: if all three declarations drift
+    TOGETHER, identity still holds. That is why the two facts the team stated in
+    its own words are asserted separately below, as themselves.
+
+    `zarr` IS EXCLUDED, AND ITS EXCLUSION IS THE ONE HARD-CODED FACT. Decision 10
+    DELETES zarr rather than migrating it (V_gamma invention, no v1 source, zero
+    migrator references), so folding its axes would be work on a class on its way
+    out. This is why the plan's denominator reads 3 where a sweep of the built
+    tree reads 4 -- recorded here so the discrepancy is never read as a miss.
+    """
+    found = {}
+
+    def walk(fields, cls):
+        for f in fields or []:
+            if f["name"] == "axes":
+                found[cls] = [s["name"] for s in f.get("fields", [])]
+            walk(f.get("fields"), cls)
+
+    for name, (_tier, body) in RECORDS.items():
+        walk(body.get("fields"), name)
+
+    # DENOMINATOR FIRST. Without it a walker that silently found nothing would
+    # pass by vacuous agreement -- the `silentLoss` defect, inside a test.
+    assert len(found) >= 3, (
+        f"only {len(found)} `axes` declaration(s) found across {len(RECORDS)} "
+        f"classes ({sorted(found)!r}). The plan counts three that must fold plus "
+        "zarr; finding fewer means the walker is not reaching them, not that the "
+        "fold is done.")
+
+    folded = {c: s for c, s in found.items() if c != "zarr"}
+    assert "sampled_body" in folded, (
+        "sampled_body declares no `axes` -- it is the reference mount for the "
+        "signed entry, so its absence means the walker, not the schema, is wrong")
+    expected = folded["sampled_body"]
+    for cls, sub in sorted(folded.items()):
+        assert sub == expected, (
+            f"`{cls}.axes[]` declares {sub!r}, but sampled_body declares "
+            f"{expected!r}. All three axes declarations fold into ONE entry "
+            "(signed addendum sec.5) -- build it with `axis_subfields()` in "
+            "build_v_eta.py rather than authoring a fourth spelling.")
+
+    # The two facts the team stated in its own words, asserted as themselves
+    # rather than as a consequence of the lists matching.
+    for cls, sub in sorted(folded.items()):
+        assert "sample_rate" not in sub, (
+            f"`{cls}.axes[]` still carries `sample_rate` -- a FREQUENCY stating "
+            "the same fact `spacing` states as a duration. Team: none carries it.")
+        assert "origin" in sub, (
+            f"`{cls}.axes[]` has no `origin`, so it cannot say where the axis "
+            "starts. Team: every one carries the regularity flag and an origin.")
 
 
 def test_the_ngrid_fold_targets_exist_and_can_hold_what_the_fold_emits():

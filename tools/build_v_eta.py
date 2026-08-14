@@ -115,6 +115,90 @@ def field(name, ftype, doc, *, non_empty=False, scalar=True, queryable=True,
     return obj
 
 
+def axis_subfields():
+    """The ONE axis entry. TEAM-SIGN-OFF [data_body] 2026-08-14 + AMENDMENT 1.
+
+    A SHARED BUILDER RATHER THAN THREE COPIES, BECAUSE "ONE AXIS ENTRY" IS THE
+    DECISION ITSELF. The signed addendum's section 5 is titled "ALL THREE AXES
+    DECLARATIONS FOLD INTO THE ONE ENTRY", and three hand-maintained copies of a
+    shape whose whole purpose is to stop being three shapes would re-create the
+    defect on the first divergent edit -- which is how the tree acquired three
+    incompatible spellings of regular-vs-enumerated in the first place.
+
+    A FUNCTION, not a module-level constant: each caller mounts the result under
+    its own documentation, and a shared mutable list would let one caller's edit
+    leak into the next.
+
+    THE THREE MOUNTS, and the fourth that is deliberately absent:
+        sampled_body.axes        the body's own extent
+        image.value.axes         the raster cell's extent, when inline
+        acquisition_epoch.axes   the epoch header's extent
+        zarr.axes                NOT FOLDED. Decision 10 DELETES zarr rather
+                                 than migrating it, so folding its axes would be
+                                 work on a class on its way out. This is why the
+                                 plan's denominator reads 3 where a sweep of the
+                                 built tree reads 4.
+    """
+    return [
+              subfield("variable", "ontology_term",
+                       "What varies along this dimension (time, spatial "
+                       "position, contrast, ...). UNIQUE within the list -- "
+                       "that uniqueness is what makes 'which axis is X' well "
+                       "defined.",
+                       non_empty=True),
+              subfield("unit", "ontology_term",
+                       "Canonical unit of `origin`/`spacing`/`values`. Angles "
+                       "are RADIANS, per angle.value.radians and the SI "
+                       "convention every other quantity in V_eta follows. "
+                       "Absent for a categorical axis, which uses `labels`."),
+              subfield("source_unit", "char",
+                       "The unit exactly as the source gave it. OMITTED when "
+                       "the source unit is already canonical."),
+              subfield("approximate", "boolean",
+                       "Applies to the whole axis.", blank=False),
+              subfield("n", "integer",
+                       "Number of coordinates along this axis; equals the "
+                       "extent of the value it indexes.",
+                       non_empty=True, scalar=True, blank=0),
+              subfield("regular", "boolean",
+                       "True: coordinates are generated from origin + spacing. "
+                       "False: they are stored, in `values` or `labels`.",
+                       blank=False),
+              subfield("origin", "structure",
+                       "Where the axis starts. REQUIRED iff `regular`.",
+                       sub_fields=[
+                           subfield("value", "double", "Canonical value.", blank=0.0),
+                           subfield("source_value", "double",
+                                    "As-recorded value.", blank=0.0)]),
+              subfield("spacing", "structure",
+                       "The step. REQUIRED iff `regular`.",
+                       sub_fields=[
+                           subfield("value", "double", "Canonical value.", blank=0.0),
+                           subfield("source_value", "double",
+                                    "As-recorded value.", blank=0.0)]),
+              subfield("values", "structure",
+                       "The coordinates themselves. REQUIRED iff NOT `regular` "
+                       "and numeric. XOR with `labels`.",
+                       sub_fields=[
+                           subfield("values", "matrix", "Canonical values.", blank=[]),
+                           subfield("source_values", "matrix",
+                                    "As-recorded values.", blank=[])]),
+              # blank is the helper's ontology_term default ({node,name}), NOT
+              # []. A non-scalar ontology_term whose blank is `[]` fails its own
+              # type check -- cache.m:1764 wants a struct -- and
+              # test_veta_blank_values_typecheck catches exactly that. The two
+              # other non-scalar ontology_terms in the schema
+              # (dataset.experimental_approach, strain.disease_model) use the
+              # struct blank; conditions.term.value carries `[]` and sits in
+              # that test's pinned baseline, so it is the exception, not the
+              # pattern to copy.
+              subfield("labels", "ontology_term",
+                       "Categorical coordinates. REQUIRED iff NOT `regular` "
+                       "and categorical. XOR with `values`.",
+                       scalar=False)
+    ]
+
+
 def dep(name, cls, doc, *, non_empty=True, multiple=False):
     d = {"name": name, "mustBeNonEmpty": non_empty, "documentation": doc,
          "must_refer_to_document_class": cls}
@@ -1145,6 +1229,42 @@ _ae["file"] = [{"name": "epoch_binary_data.vhsb",
                     " becomes a `sampled_body`; until that lands (blocked on"
                     " #65 -> #67/#32) the bytes stay here and must be"
                     " DECLARED, or every document carries an undeclared file."}]
+# ---- the THIRD axes declaration folds into the one entry --------------------
+# Signed addendum section 5. This one carried the WORST of the three shapes:
+# {name, kind, length, regularity, spacing, unit, sample_rate}, where
+# `sample_rate` is `spacing` inverted -- a FREQUENCY stating the same fact that
+# `sample_time.dt` states as a DURATION. That is the "fourth spelling" the
+# plan's ground-truth section counts, and the team's words were: every one
+# carries the regularity flag and an origin, NONE carries `sample_rate`.
+#
+# NO LOCKSTEP MIGRATOR CHANGE IS NEEDED HERE, AND THAT IS MEASURED RATHER THAN
+# ASSUMED -- it is the difference between this declaration and
+# `image.value.axes`, which does have a live writer. `axes` is a V_zeta
+# INVENTION: NDI's own `element_epoch` template declares exactly two fields, and
+# neither is this one.
+#
+#     $ python3 -c "import json; c=json.load(open(
+#           'schemas/V_eta_ndi_ground_truth.json'))['classes']
+#       print([f['name'] for f in c['element_epoch']['fields']])"
+#       ['epoch_clock', 't0_t1']
+#       DENOMINATOR: 91 NDI class(es) in the ground truth artifact
+#
+# So no did_v1 document can carry an `axes` block, and the only V_eta-path
+# handler of the class -- `migrators_j/element_epoch.m`, which renames the block
+# wholesale (`v2Body.acquisition_epoch = v2Body.element_epoch`) -- authors no
+# fields. A passthrough cannot produce what the source never had. The one writer
+# of the old shape, `migrators_i/image_stack.m`, is on the V_zeta path only
+# (`v1_to_v2.m` selects `migrators_i.` for target V_zeta and `migrators_j.` for
+# V_eta), so it never reaches this class in a V_eta run.
+_ae_fields = [f for f in _ae["fields"] if f["name"] != "axes"]
+_ae_fields.append(
+    field("axes", "structure",
+          "Index dimensions of this epoch's data, in array order: axes[k] IS "
+          "array dimension k. Time is an ordinary axis. Empty for a bare "
+          "scalar.",
+          non_empty=False, scalar=False, blank=[],
+          sub_fields=axis_subfields()))
+_ae["fields"] = _ae_fields
 write(_ae_tier, "acquisition_epoch", _ae)
 
 # ---- #59 / file navigation: MINT `epoch_file_pattern` + `acquisition_system` ----
@@ -5563,63 +5683,8 @@ sampled = doc("sampled_body", ["data_body"], maturity="draft",
     field("axes", "structure",
           "Index dimensions of this body, in array order: axes[k] IS array "
           "dimension k. Time is an ordinary axis. Empty for a bare scalar.",
-          non_empty=False, scalar=False, blank=[], sub_fields=[
-              subfield("variable", "ontology_term",
-                       "What varies along this dimension (time, spatial "
-                       "position, contrast, ...). UNIQUE within the list -- "
-                       "that uniqueness is what makes 'which axis is X' well "
-                       "defined.",
-                       non_empty=True),
-              subfield("unit", "ontology_term",
-                       "Canonical unit of `origin`/`spacing`/`values`. Angles "
-                       "are RADIANS, per angle.value.radians and the SI "
-                       "convention every other quantity in V_eta follows. "
-                       "Absent for a categorical axis, which uses `labels`."),
-              subfield("source_unit", "char",
-                       "The unit exactly as the source gave it. OMITTED when "
-                       "the source unit is already canonical."),
-              subfield("approximate", "boolean",
-                       "Applies to the whole axis.", blank=False),
-              subfield("n", "integer",
-                       "Number of coordinates along this axis; equals the "
-                       "extent of the value it indexes.",
-                       non_empty=True, scalar=True, blank=0),
-              subfield("regular", "boolean",
-                       "True: coordinates are generated from origin + spacing. "
-                       "False: they are stored, in `values` or `labels`.",
-                       blank=False),
-              subfield("origin", "structure",
-                       "Where the axis starts. REQUIRED iff `regular`.",
-                       sub_fields=[
-                           subfield("value", "double", "Canonical value.", blank=0.0),
-                           subfield("source_value", "double",
-                                    "As-recorded value.", blank=0.0)]),
-              subfield("spacing", "structure",
-                       "The step. REQUIRED iff `regular`.",
-                       sub_fields=[
-                           subfield("value", "double", "Canonical value.", blank=0.0),
-                           subfield("source_value", "double",
-                                    "As-recorded value.", blank=0.0)]),
-              subfield("values", "structure",
-                       "The coordinates themselves. REQUIRED iff NOT `regular` "
-                       "and numeric. XOR with `labels`.",
-                       sub_fields=[
-                           subfield("values", "matrix", "Canonical values.", blank=[]),
-                           subfield("source_values", "matrix",
-                                    "As-recorded values.", blank=[])]),
-              # blank is the helper's ontology_term default ({node,name}), NOT
-              # []. A non-scalar ontology_term whose blank is `[]` fails its own
-              # type check -- cache.m:1764 wants a struct -- and
-              # test_veta_blank_values_typecheck catches exactly that. The two
-              # other non-scalar ontology_terms in the schema
-              # (dataset.experimental_approach, strain.disease_model) use the
-              # struct blank; conditions.term.value carries `[]` and sits in
-              # that test's pinned baseline, so it is the exception, not the
-              # pattern to copy.
-              subfield("labels", "ontology_term",
-                       "Categorical coordinates. REQUIRED iff NOT `regular` "
-                       "and categorical. XOR with `values`.",
-                       scalar=False)]),
+          non_empty=False, scalar=False, blank=[],
+          sub_fields=axis_subfields()),
     # Preserved from the dissolved dataseries_data carrier (2.D slice C): a
     # content hash of the payload bytes, usable as a natural dedup / integrity
     # key. Optional -- absent when not computed.
@@ -5717,15 +5782,32 @@ _img["fields"] = [
               subfield("dtype", "char",
                        "Pixel data type (uint16 | uint8 | single | …). NOT recoverable "
                        "from an inline matrix, so always explicit (R6 decision 4)."),
+              # FOLDED INTO THE ONE AXIS ENTRY, 2026-08-14 -- signed addendum
+              # section 5. The old shape here was {name, length, spacing, unit},
+              # the WEAKEST of the three: no `regularity` at all, so it declared
+              # a `spacing` with no way to say whether spacing was even
+              # meaningful, and (like the other two) no `origin`, so it could not
+              # say where an axis starts.
+              #
+              # THE MOUNT IS CORRECT AS IT STANDS, and section 5 warned that this
+              # one is not a pure rename because of it: axes live with the thing
+              # whose extent they describe (section 7), so a raster whose pixels
+              # are INLINE in `value.pixels` carries its axes right here, beside
+              # them. What is NOT yet done is the other arm -- when storage_mode
+              # is `body` the axes belong on each sampled_body, and
+              # `migrators_j/image_stack.m` still fills this cell while emitting
+              # storage_mode:body. That move is deferred WITH the `sample_time`
+              # retirement rather than split from it: image_stack's spatial
+              # calibration lives here and its time axis lives in
+              # `sampled_body.sample_time`, and the signed model turns BOTH into
+              # ordinary axes on the body. Moving one without the other would
+              # leave a body with space but no time.
               subfield("axes", "structure",
-                       "Per-axis descriptor {name, length, spacing, unit} (Y,X,C,Z,T) — "
-                       "the full N-D calibration the old x/y_resolution lost.",
-                       scalar=False, blank=[], sub_fields=[
-                           subfield("name", "char", "Axis label (Y|X|C|Z|T)."),
-                           subfield("length", "integer", "Samples along this axis."),
-                           subfield("spacing", "double", "Physical spacing per sample."),
-                           subfield("unit", "char", "Unit of `spacing`."),
-                       ]),
+                       "Index dimensions of the raster, in array order (Y,X,C,Z,T) — the "
+                       "full N-D calibration the old x/y_resolution lost. Populated when "
+                       "the pixels are inline; when they live in a data_body, the axes "
+                       "live with the body.",
+                       scalar=False, blank=[], sub_fields=axis_subfields()),
               subfield("color_model", "ontology_term",
                        "grayscale | rgb | multichannel (T8-bound)."),
               subfield("channels", "string",
