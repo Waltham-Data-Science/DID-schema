@@ -4,9 +4,17 @@
 WHY THIS EXISTS
 ---------------
 The corpus gate proves documents MIGRATE and VALIDATE. It cannot prove MATLAB
-can still READ them, and nothing else was asking: no job opens a migrated
-database through NDI's object API. So "the documents are correct" and "NDI can
-use them" have been two different claims with only the first one tested.
+can still READ them. When this tool was written nothing else was asking: no
+job opened a migrated database through NDI's object API, so "the documents are
+correct" and "NDI can use them" were two claims with only the first tested.
+
+THAT IS NO LONGER TRUE, and the sentence is corrected rather than deleted
+because the gap it names is what the tool exists to size.
+`ndi.unittest.migrate.TestMigrateLocalEtaPRED` now opens a migrated session
+through `ndi.session.dir` and asserts OBJECTS come back -- 2 daq systems, a
+syncgraph carrying its rule, 2 elements rebuilt as their probe classes. So the
+read path is tested for PRED's 10 v1 classes. The count below is still a SIZE
+and still untriaged for everything else.
 
 Asked by the team 2026-08-13, with the case that makes it concrete: after
 migration, can `ndi.session.dir` still turn a session document into an object?
@@ -238,7 +246,8 @@ def main(argv=None):
     print("  whether a site breaks depends on which vintage of document reaches")
     print("  it, and that is a question about callers, not about this join.")
     print("  SETTLED BY: opening a migrated database through NDI's object API --")
-    print("  no job does that today.")
+    print("  TestMigrateLocalEtaPRED does that for PRED's 10 v1 classes;")
+    print("  every other class here is still untested through the object API.")
     return 0
 
 
