@@ -399,17 +399,46 @@ def test_the_new_pair_stays_in_draft_until_the_resolver_lands(cls):
     assert BUILT[cls][0] == "draft"
 
 
-def test_subject_statement_still_has_no_axes_so_stimid_deferral_is_real():
-    """Revision 1 of the signed plan moves `responses.stimid` from `conditions`
-    to an `axes[]` entry, because `conditions` tightened to cardinality EXACTLY 1
-    and is explicitly NOT an axis. Neither half exists yet.
+def test_subject_statement_now_has_the_axes_stimid_needs():
+    """INVERTED 2026-08-14, exactly as its own last line instructed.
 
-    WHEN #45 LANDS THIS TEST MUST BE INVERTED, not patched -- it asserts the
-    absence that justifies the migrator carrying neither field."""
+    THE TRIPWIRE WORKED, and that is worth recording before the assertion flips.
+    It asserted the ABSENCE that justified `stimulus_response_scalar.m` carrying
+    neither half of revision 1's `responses.stimid` move -- from `conditions`,
+    which tightened to cardinality EXACTLY 1 and is explicitly NOT an axis, to an
+    `axes[]` entry. Its own words: "WHEN #45 LANDS THIS TEST MUST BE INVERTED,
+    not patched -- it asserts the absence that justifies the migrator carrying
+    neither field."
+
+    #45's statement mount landed, the test failed on the first build, and its
+    failure message said what to do. This is the second time in this build that a
+    deferral's premise was caught by construction rather than by someone
+    noticing (the ngrid coordinate slot was the first).
+
+    WHAT IS NOW OWED, AND IT IS NOT DONE HERE. The SCHEMA half is what landed:
+    `subject_statement` can hold axes, so an inline or reference value finally has
+    somewhere to put its extent -- the mount rule's other arm, which had no home
+    at all until now. The MIGRATOR half -- moving `stimid` out of `conditions`
+    into an axis entry -- is #61's, and until it lands the migrator still carries
+    neither field. Landing the SLOT does not land the MOVE, which is the same
+    distinction the ngrid inversion had to make.
+    """
     _tier, d = BUILT["subject_statement"]
     names = {f["name"] for f in d["fields"]}
-    assert "axes" not in names
-    assert names == {"variable", "conditions", "storage_mode"}
+    assert "axes" in names, (
+        "`subject_statement.axes` is the inline/reference arm of the signed mount "
+        "rule (addendum sec.7: axes live with the thing whose extent they "
+        "describe). Without it, `storage_mode: inline` has nowhere to put an "
+        "extent and the stimid move has no target.")
+    assert names == {"variable", "conditions", "storage_mode", "axes"}
+    # and it is THE ONE ENTRY, not a fourth spelling -- the identity check lives
+    # in test_veta.py::test_all_axes_declarations_are_the_one_entry, which picks
+    # this mount up automatically because it walks every class rather than a list.
+    axes = next(f for f in d["fields"] if f["name"] == "axes")
+    sub = [s["name"] for s in axes.get("fields", [])]
+    assert "variable" in sub and "n" in sub, (
+        f"`subject_statement.axes[]` declares {sub!r}, which is not the signed "
+        "axis entry")
 
 
 def test_relative_reference_still_requires_a_referent_no_migrator_can_mint():

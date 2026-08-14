@@ -497,6 +497,15 @@ def _param_block(name, doc_text, value_type, value_subs=None):
                  "measurement's value length (one label per reading).",
                  scalar=False, blank=[], sub_fields=value_subs)])
 
+STATEMENT_AXES = field(
+    "axes", "structure",
+    "Index dimensions of this statement's value, in array order: axes[k] IS "
+    "array dimension k. Time is an ordinary axis. Populated when the value is "
+    "INLINE on the statement or lives behind a single external REFERENCE; when "
+    "storage_mode is `body` the axes live on each data_body instead, because "
+    "each body has its own extent.",
+    non_empty=False, scalar=False, blank=[], sub_fields=axis_subfields())
+
 CONDITIONS = field(
     "conditions", "structure",
     "D10 qualifiers: the experimental conditions a statement was taken under, as a "
@@ -531,7 +540,7 @@ CONDITIONS = field(
 
 write("stable", "subject_statement",
       doc("subject_statement", ["base"], abstract=True, version="1.0.0",
-          deps=[SUBJECT_ID], fields=[VARIABLE, CONDITIONS]))
+          deps=[SUBJECT_ID], fields=[VARIABLE, CONDITIONS, STATEMENT_AXES]))
 
 # subject_interaction: re-root under subject_statement; drop subject_id/variable
 # (inherited), target_structure, element_id; add method, sample_time, instrument_id;

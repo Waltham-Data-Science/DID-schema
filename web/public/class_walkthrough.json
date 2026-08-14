@@ -218,12 +218,12 @@
       "site_count": 2,
       "sites": [
        {
-        "line": 1393,
+        "line": 1557,
         "spelling": "base",
         "text": "if ~isfield(b, 'base') || ~isstruct(b.base) || ~isfield(b.base, name); return; end"
        },
        {
-        "line": 1484,
+        "line": 1762,
         "spelling": "base",
         "text": "if ~isstruct(body) || ~isfield(body, 'base') || ~isstruct(body.base)"
        }
@@ -798,17 +798,17 @@
       "site_count": 3,
       "sites": [
        {
-        "line": 759,
+        "line": 907,
         "spelling": "daqmetadatareader_epochdata_ingested",
         "text": "if ~strcmp(rows(k).class_name, 'daqmetadatareader_epochdata_ingested')"
        },
        {
-        "line": 790,
+        "line": 938,
         "spelling": "daqmetadatareader_epochdata_ingested",
         "text": "'daqmetadatareader_epochdata_ingested');"
        },
        {
-        "line": 1120,
+        "line": 1284,
         "spelling": "daqmetadatareader_epochdata_ingested",
         "text": "'daqmetadatareader_epochdata_ingested', ..."
        }
@@ -1963,20 +1963,25 @@
      {
       "pass": "epochMint",
       "path": "src/did/+did2/+convert/epochMint.m",
-      "site_count": 3,
+      "site_count": 4,
       "sites": [
        {
-        "line": 678,
+        "line": 666,
+        "spelling": "epochid",
+        "text": "es = valueForSource(epochValues{k}, epochSources{k}, 'epochid');"
+       },
+       {
+        "line": 826,
         "spelling": "epochid",
         "text": "&& isfield(b.method_parameters.other, 'epochid')"
        },
        {
-        "line": 679,
+        "line": 827,
         "spelling": "epochid",
         "text": "b.method_parameters.other = rmfield(b.method_parameters.other, 'epochid');"
        },
        {
-        "line": 766,
+        "line": 914,
         "spelling": "epochid",
         "text": "es = valueForSource(epochValues{k}, epochSources{k}, 'epochid');"
        }
@@ -4140,7 +4145,7 @@
       "site_count": 1,
       "sites": [
        {
-        "line": 505,
+        "line": 527,
         "spelling": "session",
         "text": "if ~strcmp(rows(k).class_name, 'session'); continue; end"
        }
