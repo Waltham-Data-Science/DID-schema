@@ -1473,18 +1473,32 @@ lives in these files — read them instead of re-deriving from memory:
   as the instrument-level finding at the end of this file asks:
 
         $ cd /home/user/DID-matlab && find src -name '*.m' | wc -l
-        267 .m file(s) under DID-matlab src/
+        268 .m file(s) under DID-matlab src/
         $ git log --oneline --diff-filter=A --since=2026-08-13 --name-status -- 'src/**/*.m'
+        018780d  A  src/did/+did2/+convert/+migrators_j/private/jAxis.m
         72d6aea  A  src/did/+did2/+convert/+migrators_j/private/jDatumType.m
         37bf6a1  A  src/did/+did2/+convert/schemaVersionRank.m
 
   `jDatumType.m` is the `datum` -> `datum_type` normalisation map (signed sec.5);
-  `schemaVersionRank.m` is the version comparison that `strcmp` was getting backwards.
-  **NEITHER MOVES `migrator_files`** — `jDatumType.m` lives in `private/`, which that
+  `jAxis.m` is the shared axis-entry constructor; `schemaVersionRank.m` is the version
+  comparison that `strcmp` was getting backwards.
+  **NONE OF THE THREE MOVES `migrator_files`** — two live in `private/`, which that
   noun excludes, and `schemaVersionRank.m` is not in `+migrators_j` at all. So this is
-  the one-change-many-counters shape recorded above running the OTHER way: two files
+  the one-change-many-counters shape recorded above running the OTHER way: three files
   landed and only one of the two DID-matlab nouns moved. A reader who assumes the pair
   move together will bump the wrong one.
+
+  **THIS NUMBER WENT STALE THREE TIMES IN ONE SESSION — 265, 267, 268 — AND THAT
+  CADENCE IS THE POINT, not the digits.** Each bump came from ordinary work in the
+  SIBLING repository, and each one turned THIS repository's gate red without anyone
+  editing this repository: `check_prose_counts` derives the noun from the sibling
+  checkout, so adding one `.m` file over there fails the chain over here. It is the
+  same coupling already recorded above for `ndi_m_files` and an `origin/main` merge,
+  arriving through our own commits instead of an upstream one.
+  **So do not treat a red `didmatlab_m_files` as a finding.** Re-derive it, note what
+  landed, move on. The counts worth reading closely are the ones that move when
+  NOTHING was added — those mean a denominator changed meaning, which is the failure
+  the `src/did/+did2` false positive below actually was.
 
   **AND THE SAME PASS FOUND A FALSE POSITIVE IN THE CHECKER ITSELF, which is worth more
   than the number it mis-flagged.** `V_eta_data_body_model_plan.md` says *"210 .m file(s)

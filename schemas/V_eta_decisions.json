@@ -605,8 +605,8 @@
           "DID-matlab:convert"
         ],
         "packages_missing": [],
-        "files_read": 175,
-        "lines_read": 39131,
+        "files_read": 177,
+        "lines_read": 39680,
         "classes_queried": 26,
         "classes_emitted_as_document_class": 8,
         "unresolved_mint_sites": [
@@ -644,11 +644,11 @@
           ]
         },
         "files_read_by_group": {
-          "per_document_migrator": 149,
+          "per_document_migrator": 151,
           "batch_post_pass": 26
         },
         "lines_read_by_group": {
-          "per_document_migrator": 26527,
+          "per_document_migrator": 27076,
           "batch_post_pass": 12604
         },
         "classes_emitted_as_document_class_by_group": {
@@ -693,7 +693,7 @@
           "+migrators": 22,
           "+migrators_e": 7,
           "+migrators_i": 9,
-          "+migrators_j": 132
+          "+migrators_j": 133
         },
         "n_files_excluded_v_zeta": 38,
         "files_excluded_v_zeta": [
@@ -923,7 +923,7 @@
         "named_refs": [
           "DID-matlab:convert/resolveValidIntervals.m:1094 (named)"
         ],
-        "n_comment_mentions": 181,
+        "n_comment_mentions": 182,
         "comment_mentions": [
           "DID-matlab:convert/calcCommon.m:25 (comment_mention)",
           "DID-matlab:convert/calcCommon.m:28 (comment_mention)",
@@ -947,7 +947,7 @@
             ],
             "n_named_refs": 0,
             "named_refs": [],
-            "n_comment_mentions": 145,
+            "n_comment_mentions": 146,
             "comment_mentions": [
               "DID-matlab:migrators_j/Contents.m:127 (comment_mention)",
               "DID-matlab:migrators_j/Contents.m:143 (comment_mention)",
@@ -1804,17 +1804,17 @@
         "state": "b_built_awaiting_corpus_proof",
         "state_label": "(b) built, awaiting corpus proof",
         "build_evidence": [
-          "6 consuming reference(s) (6 per-document migrator)"
+          "11 consuming reference(s) (11 per-document migrator)"
         ],
         "migrator_file": null,
-        "n_consuming_refs": 6,
+        "n_consuming_refs": 11,
         "consuming_refs": [
           "NDI-matlab:ndi_second_pass/epochAnchorFold.m:322 (guard)",
-          "NDI-matlab:ndi_second_pass/epochAnchorFold.m:424 (guard)",
-          "NDI-matlab:ndi_second_pass/epochAnchorFold.m:535 (guard)",
-          "NDI-matlab:ndi_second_pass/epochAnchorFold.m:536 (field_read)",
-          "NDI-matlab:ndi_second_pass/epochAnchorFold.m:537 (field_read)",
-          "NDI-matlab:ndi_second_pass/epochAnchorFold.m:538 (field_read)"
+          "NDI-matlab:ndi_second_pass/epochAnchorFold.m:426 (guard)",
+          "NDI-matlab:ndi_second_pass/epochAnchorFold.m:427 (field_read)",
+          "NDI-matlab:ndi_second_pass/epochAnchorFold.m:428 (field_read)",
+          "NDI-matlab:ndi_second_pass/epochAnchorFold.m:429 (field_read)",
+          "NDI-matlab:ndi_second_pass/epochAnchorFold.m:430 (field_read)"
         ],
         "n_emitted_class_refs": 2,
         "emitted_class_refs": [
@@ -1833,9 +1833,9 @@
         "n_named_refs": 2,
         "named_refs": [
           "DID-matlab:migrators_j/syncrule_mapping.m:182 (named)",
-          "NDI-matlab:ndi_second_pass/epochAnchorFold.m:425 (named)"
+          "NDI-matlab:ndi_second_pass/epochAnchorFold.m:437 (named)"
         ],
-        "n_comment_mentions": 35,
+        "n_comment_mentions": 37,
         "comment_mentions": [
           "DID-matlab:convert/resolveDeferredBaths.m:15 (comment_mention)",
           "DID-matlab:convert/resolveDeferredBaths.m:47 (comment_mention)",
@@ -1846,14 +1846,14 @@
         ],
         "by_group": {
           "per_document_migrator": {
-            "n_consuming_refs": 6,
+            "n_consuming_refs": 11,
             "consuming_refs": [
               "NDI-matlab:ndi_second_pass/epochAnchorFold.m:322 (guard)",
-              "NDI-matlab:ndi_second_pass/epochAnchorFold.m:424 (guard)",
-              "NDI-matlab:ndi_second_pass/epochAnchorFold.m:535 (guard)",
-              "NDI-matlab:ndi_second_pass/epochAnchorFold.m:536 (field_read)",
-              "NDI-matlab:ndi_second_pass/epochAnchorFold.m:537 (field_read)",
-              "NDI-matlab:ndi_second_pass/epochAnchorFold.m:538 (field_read)"
+              "NDI-matlab:ndi_second_pass/epochAnchorFold.m:426 (guard)",
+              "NDI-matlab:ndi_second_pass/epochAnchorFold.m:427 (field_read)",
+              "NDI-matlab:ndi_second_pass/epochAnchorFold.m:428 (field_read)",
+              "NDI-matlab:ndi_second_pass/epochAnchorFold.m:429 (field_read)",
+              "NDI-matlab:ndi_second_pass/epochAnchorFold.m:430 (field_read)"
             ],
             "n_emitted_class_refs": 2,
             "emitted_class_refs": [
@@ -1869,9 +1869,9 @@
             "n_named_refs": 2,
             "named_refs": [
               "DID-matlab:migrators_j/syncrule_mapping.m:182 (named)",
-              "NDI-matlab:ndi_second_pass/epochAnchorFold.m:425 (named)"
+              "NDI-matlab:ndi_second_pass/epochAnchorFold.m:437 (named)"
             ],
-            "n_comment_mentions": 31,
+            "n_comment_mentions": 33,
             "comment_mentions": [
               "DID-matlab:migrators_j/pyraview.m:148 (comment_mention)",
               "DID-matlab:migrators_j/pyraview.m:161 (comment_mention)",
@@ -2058,7 +2058,7 @@
               "DID-matlab:migrators_j/pyraview.m:171 (named)",
               "DID-matlab:migrators_j/pyraview.m:178 (named)",
               "DID-matlab:migrators_j/pyraview.m:183 (named)",
-              "NDI-matlab:ndi_second_pass/epochAnchorFold.m:428 (named)"
+              "NDI-matlab:ndi_second_pass/epochAnchorFold.m:440 (named)"
             ],
             "n_comment_mentions": 77,
             "comment_mentions": [
@@ -3061,7 +3061,7 @@
         "n_consuming_refs": 2,
         "consuming_refs": [
           "DID-matlab:convert/resolveSessionAnchors.m:560 (guard)",
-          "NDI-matlab:ndi_second_pass/epochAnchorFold.m:432 (guard)"
+          "NDI-matlab:ndi_second_pass/epochAnchorFold.m:444 (guard)"
         ],
         "n_emitted_class_refs": 0,
         "emitted_class_refs": [],
@@ -3099,7 +3099,7 @@
           "per_document_migrator": {
             "n_consuming_refs": 1,
             "consuming_refs": [
-              "NDI-matlab:ndi_second_pass/epochAnchorFold.m:432 (guard)"
+              "NDI-matlab:ndi_second_pass/epochAnchorFold.m:444 (guard)"
             ],
             "n_emitted_class_refs": 0,
             "emitted_class_refs": [],
