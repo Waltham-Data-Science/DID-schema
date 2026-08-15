@@ -248,7 +248,25 @@ META_FILES = {"did_schema_meta.json", "CURIE_lookups_meta.json",
 # does not otherwise touch, and the count it would report is `<computed: name>`
 # rather than the real terms. A denominator this instrument cannot see is worth
 # more as a written-down gap than as a silent one.
-BASELINE_MIGRATORS = 49
+# 49 -> 50, 2026-08-15. `image_stack.m`, the axis `variable` "frame". The LAST of
+# the four sampled_body writers to convert off `sample_time`, and the sixth raise
+# of this shape for the reason the earlier notes give: every axis carries an
+# `ontology_term` variable and none can carry a node until #32 has an admissible
+# set.
+#
+# THIS ONE ALSO CORRECTS A SCOPING ERROR, not just a count. image_stack was held
+# back for a day on the stated grounds that converting it needed a team call --
+# two signed documents appearing to disagree about where a body-backed image
+# states its axes. That was a misreading of WHICH CLASS was in question:
+# `image_stack` is a v1 SOURCE whose ledger disposition is `retire`, exactly like
+# `pyraview` and `jrclust_clusters`, both of which were converted without anyone
+# asking. The axes question belongs to the go-forward `image` COMPOSITE, and R6
+# already settles that. A retiring migrator only has to emit valid V_eta and stop
+# writing a field the schema is dropping.
+#
+# The raster dimensions stay on `image.value.axes`; the body states the frame
+# ORDINAL, which is what its bytes are indexed by. One fact each, no restatement.
+BASELINE_MIGRATORS = 50
 
 # Schema-side baseline, set 2026-08-10 when the sweep was added. It is 8 on the
 # day it landed: the four did_clocktype terms x two carriers

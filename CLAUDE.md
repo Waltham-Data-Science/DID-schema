@@ -1451,8 +1451,15 @@ lives in these files — read them instead of re-deriving from memory:
 
         ndi_m_files                 .m files on NDI origin/main
             $ git ls-tree -r origin/main | grep -c '\.m$' = **1003**
-        veta_class_names      242   distinct V_eta class names
-        veta_schema_files     248   json files under schemas/V_eta/
+        veta_class_names      241   distinct V_eta class names
+        veta_schema_files     247   json files under schemas/V_eta/
+            BOTH RE-DERIVED 2026-08-15, and both went DOWN by one. They read
+            242 and 248 on 2026-08-13, when `acquisition_reader` was minted.
+            The step-2 data_body build then DELETED `zarr` (signed sec.10,
+            "zarr is deleted rather than migrated" -- a V_gamma invention with
+            no v1 source and zero migrator references), removing one class and
+            one file. Net over two days: +1 then -1, so the pair is back where
+            it started while every figure quoted in between is wrong.
         265 .m file(s) under DID-matlab src/   -- jBase.m, the central `base`
             block constructor, plus +migrators_j/session.m, both added
             2026-08-13. THE SECOND ONE MOVES TWO NOUNS AT ONCE

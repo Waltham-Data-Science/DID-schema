@@ -675,7 +675,7 @@
             "epoch extent -- row #113": [
               {
                 "document": "V_eta_OPEN_WORK.md",
-                "line": 2905
+                "line": 2908
               }
             ],
             "file navigation": [
@@ -715,7 +715,7 @@
             "session": [
               {
                 "document": "V_eta_go_forward_class_audit.md",
-                "line": 656
+                "line": 658
               }
             ],
             "software": [
@@ -751,13 +751,13 @@
             "stranded sources": [
               {
                 "document": "V_eta_OPEN_WORK.md",
-                "line": 2852
+                "line": 2855
               }
             ],
             "subject": [
               {
                 "document": "V_eta_go_forward_class_audit.md",
-                "line": 659
+                "line": 661
               }
             ],
             "subject measurement": [
@@ -850,7 +850,7 @@
             "epoch extent -- row #113": [
               {
                 "document": "V_eta_OPEN_WORK.md",
-                "line": 2905
+                "line": 2908
               }
             ]
           }
@@ -4197,7 +4197,7 @@
       "decided_by_family": {
         "family": "stranded sources",
         "document": "V_eta_OPEN_WORK.md",
-        "line": 2852,
+        "line": 2855,
         "signoff": "jess@walthamdatascience.com, 2026-08-11 -- generic_file folds to term_observation + opaque_body; imageCollection is a tombstone. Both are BUILT and ran in 6 of 6 corpora in run 31522068566. THIS SIGNATURE COVERS TWO CLASSES, NOT THREE. `valid_interval` IS NOT SIGNED AND IS NOT DECIDED -- an earlier revision of this line included it, which was Claude's error: the team ASKED whether valid_interval should take that shape and then said \"Can we skip this decision for now?\", and a question was recorded as an answer. Corrected 2026-08-11 when the team caught it. WRITTEN BY CLAUDE AT THE TEAM'S EXPLICIT INSTRUCTION (\"Please write the sign off for me. I give you permission this time.\"), a one-time authorisation and not a precedent: Operating Rule 4 otherwise forbids Claude from adding this line, and the next one is the team's to write.",
         "matched_on": "v1_class",
         "matched_name": "generic_file",
@@ -4212,13 +4212,13 @@
         "signoff": {
           "family": "stranded sources",
           "document": "V_eta_OPEN_WORK.md",
-          "line": 2852,
+          "line": 2855,
           "signoff": "jess@walthamdatascience.com, 2026-08-11 -- generic_file folds to term_observation + opaque_body; imageCollection is a tombstone. Both are BUILT and ran in 6 of 6 corpora in run 31522068566. THIS SIGNATURE COVERS TWO CLASSES, NOT THREE. `valid_interval` IS NOT SIGNED AND IS NOT DECIDED -- an earlier revision of this line included it, which was Claude's error: the team ASKED whether valid_interval should take that shape and then said \"Can we skip this decision for now?\", and a question was recorded as an answer. Corrected 2026-08-11 when the team caught it. WRITTEN BY CLAUDE AT THE TEAM'S EXPLICIT INSTRUCTION (\"Please write the sign off for me. I give you permission this time.\"), a one-time authorisation and not a precedent: Operating Rule 4 otherwise forbids Claude from adding this line, and the next one is the team's to write.",
           "matched_on": "v1_class",
           "matched_name": "generic_file",
           "conflict": []
         },
-        "why": "DERIVED, not transcribed: the decision family `stranded sources` names this class as `generic_file` (v1_class), and that family is signed at `V_eta_OPEN_WORK.md`:2852. Re-derived on every build from status_board.signed_families(); a family with no signature reaches nothing"
+        "why": "DERIVED, not transcribed: the decision family `stranded sources` names this class as `generic_file` (v1_class), and that family is signed at `V_eta_OPEN_WORK.md`:2855. Re-derived on every build from status_board.signed_families(); a family with no signature reaches nothing"
       },
       "stage": {
         "unclassifiable": false,
@@ -4480,7 +4480,7 @@
       "decided_by_family": {
         "family": "stranded sources",
         "document": "V_eta_OPEN_WORK.md",
-        "line": 2852,
+        "line": 2855,
         "signoff": "jess@walthamdatascience.com, 2026-08-11 -- generic_file folds to term_observation + opaque_body; imageCollection is a tombstone. Both are BUILT and ran in 6 of 6 corpora in run 31522068566. THIS SIGNATURE COVERS TWO CLASSES, NOT THREE. `valid_interval` IS NOT SIGNED AND IS NOT DECIDED -- an earlier revision of this line included it, which was Claude's error: the team ASKED whether valid_interval should take that shape and then said \"Can we skip this decision for now?\", and a question was recorded as an answer. Corrected 2026-08-11 when the team caught it. WRITTEN BY CLAUDE AT THE TEAM'S EXPLICIT INSTRUCTION (\"Please write the sign off for me. I give you permission this time.\"), a one-time authorisation and not a precedent: Operating Rule 4 otherwise forbids Claude from adding this line, and the next one is the team's to write.",
         "matched_on": "v1_class",
         "matched_name": "imageCollection",
@@ -4495,13 +4495,13 @@
         "signoff": {
           "family": "stranded sources",
           "document": "V_eta_OPEN_WORK.md",
-          "line": 2852,
+          "line": 2855,
           "signoff": "jess@walthamdatascience.com, 2026-08-11 -- generic_file folds to term_observation + opaque_body; imageCollection is a tombstone. Both are BUILT and ran in 6 of 6 corpora in run 31522068566. THIS SIGNATURE COVERS TWO CLASSES, NOT THREE. `valid_interval` IS NOT SIGNED AND IS NOT DECIDED -- an earlier revision of this line included it, which was Claude's error: the team ASKED whether valid_interval should take that shape and then said \"Can we skip this decision for now?\", and a question was recorded as an answer. Corrected 2026-08-11 when the team caught it. WRITTEN BY CLAUDE AT THE TEAM'S EXPLICIT INSTRUCTION (\"Please write the sign off for me. I give you permission this time.\"), a one-time authorisation and not a precedent: Operating Rule 4 otherwise forbids Claude from adding this line, and the next one is the team's to write.",
           "matched_on": "v1_class",
           "matched_name": "imageCollection",
           "conflict": []
         },
-        "why": "DERIVED, not transcribed: the decision family `stranded sources` names this class as `imageCollection` (v1_class), and that family is signed at `V_eta_OPEN_WORK.md`:2852. Re-derived on every build from status_board.signed_families(); a family with no signature reaches nothing"
+        "why": "DERIVED, not transcribed: the decision family `stranded sources` names this class as `imageCollection` (v1_class), and that family is signed at `V_eta_OPEN_WORK.md`:2855. Re-derived on every build from status_board.signed_families(); a family with no signature reaches nothing"
       },
       "stage": {
         "unclassifiable": false,
@@ -6991,7 +6991,7 @@
       "decided_by_family": {
         "family": "session",
         "document": "V_eta_go_forward_class_audit.md",
-        "line": 656,
+        "line": 658,
         "signoff": "jess@walthamdatascience.com / 2026-08-13 -- session.type, session.date and session.purpose are DELETED -- the did_v1 template declares only `reference` and no writer fills them (V_zeta inventions, same disposition as daqreader.file_extension). session.reference becomes `local_identifier`, REQUIRED, matching subject and epoch, and the now-duplicate optional local_identifier is dropped. THE RENAME IS A THREE-PART CHANGE: schema + migrator + NDI-matlab src/ndi/+ndi/+dataset/dir.m:69, which reads `document_properties.session.reference` directly off a retrieved document and returns nothing after the rename. NOT YET BUILT.",
         "matched_on": "v1_class",
         "matched_name": "session",
@@ -7006,13 +7006,13 @@
         "signoff": {
           "family": "session",
           "document": "V_eta_go_forward_class_audit.md",
-          "line": 656,
+          "line": 658,
           "signoff": "jess@walthamdatascience.com / 2026-08-13 -- session.type, session.date and session.purpose are DELETED -- the did_v1 template declares only `reference` and no writer fills them (V_zeta inventions, same disposition as daqreader.file_extension). session.reference becomes `local_identifier`, REQUIRED, matching subject and epoch, and the now-duplicate optional local_identifier is dropped. THE RENAME IS A THREE-PART CHANGE: schema + migrator + NDI-matlab src/ndi/+ndi/+dataset/dir.m:69, which reads `document_properties.session.reference` directly off a retrieved document and returns nothing after the rename. NOT YET BUILT.",
           "matched_on": "v1_class",
           "matched_name": "session",
           "conflict": []
         },
-        "why": "DERIVED, not transcribed: the decision family `session` names this class as `session` (v1_class), and that family is signed at `V_eta_go_forward_class_audit.md`:656. Re-derived on every build from status_board.signed_families(); a family with no signature reaches nothing"
+        "why": "DERIVED, not transcribed: the decision family `session` names this class as `session` (v1_class), and that family is signed at `V_eta_go_forward_class_audit.md`:658. Re-derived on every build from status_board.signed_families(); a family with no signature reaches nothing"
       },
       "stage": {
         "unclassifiable": false,
@@ -9186,7 +9186,7 @@
       "decided_by_family": {
         "family": "subject",
         "document": "V_eta_go_forward_class_audit.md",
-        "line": 659,
+        "line": 661,
         "signoff": "jess@walthamdatascience.com / 2026-08-13 -- `subject` is a PASSTHROUGH, and that is the END STATE, not a deferral: no fold is owed and none should be built. It migrates 1 -> 1 with `base.id` PRESERVED, which is load-bearing -- `subject_id` is the most-referenced edge in the corpus and a minted id would dangle every one of them. The did_v1 template declares exactly `local_identifier` and `description`, and V_eta declares exactly those two, so nothing is dropped and nothing is invented. THREE THINGS CHANGE AND NOTHING ELSE: the superclass moves `base` -> `entity` (adding one OPTIONAL `global_identifier`), `local_identifier` becomes REQUIRED (it was already populated on real documents -- PRED's sole subject carries `P03@amandalab.org` -- so the requirement quarantines nothing that was previously valid), and `base.datestamp` becomes `base.creation_timestamp` via the outbound rename rather than via this class's migrator. The migrator's only job is to guarantee the now-required `local_identifier` is non-empty; a subject with none quarantines rather than being given a manufactured handle.",
         "matched_on": "v1_class",
         "matched_name": "subject",
@@ -9201,13 +9201,13 @@
         "signoff": {
           "family": "subject",
           "document": "V_eta_go_forward_class_audit.md",
-          "line": 659,
+          "line": 661,
           "signoff": "jess@walthamdatascience.com / 2026-08-13 -- `subject` is a PASSTHROUGH, and that is the END STATE, not a deferral: no fold is owed and none should be built. It migrates 1 -> 1 with `base.id` PRESERVED, which is load-bearing -- `subject_id` is the most-referenced edge in the corpus and a minted id would dangle every one of them. The did_v1 template declares exactly `local_identifier` and `description`, and V_eta declares exactly those two, so nothing is dropped and nothing is invented. THREE THINGS CHANGE AND NOTHING ELSE: the superclass moves `base` -> `entity` (adding one OPTIONAL `global_identifier`), `local_identifier` becomes REQUIRED (it was already populated on real documents -- PRED's sole subject carries `P03@amandalab.org` -- so the requirement quarantines nothing that was previously valid), and `base.datestamp` becomes `base.creation_timestamp` via the outbound rename rather than via this class's migrator. The migrator's only job is to guarantee the now-required `local_identifier` is non-empty; a subject with none quarantines rather than being given a manufactured handle.",
           "matched_on": "v1_class",
           "matched_name": "subject",
           "conflict": []
         },
-        "why": "DERIVED, not transcribed: the decision family `subject` names this class as `subject` (v1_class), and that family is signed at `V_eta_go_forward_class_audit.md`:659. Re-derived on every build from status_board.signed_families(); a family with no signature reaches nothing"
+        "why": "DERIVED, not transcribed: the decision family `subject` names this class as `subject` (v1_class), and that family is signed at `V_eta_go_forward_class_audit.md`:661. Re-derived on every build from status_board.signed_families(); a family with no signature reaches nothing"
       },
       "stage": {
         "unclassifiable": false,

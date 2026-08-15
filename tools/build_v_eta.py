@@ -5771,22 +5771,21 @@ sampled = doc("sampled_body", ["data_body"], maturity="draft",
     # over [nTrials,7], the grating parameters) is a LABELLED CATEGORICAL AXIS,
     # and a genuinely heterogeneous record was never representable here anyway,
     # there being one dtype field.
-    field("sample_time", "structure",
-          "The body-local timeline (D1 — the single home for a body-backed value). "
-          "Regular grid (regular=true: t0 + k*dt, n samples) OR enumerated "
-          "(regular=false: explicit per-sample times in `offsets`) -- mirroring the "
-          "spine sample_time's grid/enumerated split, so an irregular series (e.g. a "
-          "stimulus presentation's trial onsets) states its times as an array.",
-          blank={}, sub_fields=[
-              subfield("regular", "boolean", "Regular grid vs enumerated.",
-                       blank=True),
-              subfield("t0", "duration", "Local start offset from the anchor."),
-              subfield("dt", "duration", "regular: sample spacing."),
-              subfield("n", "integer", "Sample count."),
-              subfield("offsets", "matrix",
-                       "enumerated (regular=false): the explicit per-sample times "
-                       "from the anchor -- the array of sample times (e.g. trial "
-                       "onsets).")]),
+    # `sample_time` IS GONE FROM THE BODY (signed sec.2, step 5: "time becomes an
+    # ordinary axis" and "both sample_time blocks retire"). Its five sub-fields
+    # map onto the axis entry below with nothing left over:
+    #     regular -> regular   t0 -> origin   dt -> spacing
+    #     n       -> n         offsets -> values
+    # and the rate-vs-period drift resolves on the way, because an axis states
+    # `spacing` in its own quantity rather than as a `frequency` here and a
+    # `duration` there.
+    #
+    # ALL FIVE WRITERS CONVERTED FIRST, which for a removal is transient-free (an
+    # optional field a writer stops emitting validates against the old schema
+    # too): DID-matlab pyraview / image_stack / jrclust_clusters / jNgridBody via
+    # the shared jSampledBody, and NDI stimulusPresentationToManipulation. The
+    # STATEMENT-side `subject_interaction.sample_time` is a DIFFERENT field, is
+    # still declared, and is still written by nine call sites across both repos.
     # `summary` IS DROPPED, NOT DEFERRED IN PLACE (#68, signed sec.9). It
     # declared a "searchable value + time rollup" and was minted EMPTY on every
     # body jSampledBody ever produced -- `{value: {}, time: {}}` -- with no

@@ -498,7 +498,18 @@ def test_data_body_classes():
     assert sft.get("datum") is None, (
         "sampled_body declares `datum` again; it collapsed to datum_type on the "
         "statement")
-    assert sft.get("sample_time") == "structure"
+    # `sample_time` IS GONE FROM THE BODY (signed sec.2, step 5: "time becomes an
+    # ordinary axis" and "both sample_time blocks retire"). INVERTED rather than
+    # updated: this asserted the field's PRESENCE, so it was written from the same
+    # premise as the code it was guarding and would have passed straight through
+    # the retirement. Its five sub-fields map onto `axes` with nothing left over
+    # (regular/t0/dt/n/offsets -> regular/origin/spacing/n/values).
+    assert sft.get("sample_time") is None, (
+        "sampled_body declares `sample_time` again; it retired into `axes`, "
+        "which is the single home for a body's index dimensions")
+    assert sft.get("axes") is not None, (
+        "sampled_body must declare `axes` -- it is where the retired "
+        "sample_time's content went")
     # `summary` IS GONE (#68, signed sec.9 "summary is DROPPED, not deferred in
     # place"). It was minted empty on every body -- `{value: {}, time: {}}` --
     # with no writer filling it and no reader consulting it.

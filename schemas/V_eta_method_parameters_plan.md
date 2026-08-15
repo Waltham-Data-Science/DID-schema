@@ -573,7 +573,7 @@ for three reasons, two of them decisions already taken.**
    spellings of one fact in the schema -- the exact defect the axis entry exists to
    remove (it collapsed THREE encodings of regular-vs-enumerated plus a fourth spelling
    of sample spacing).
-2. **`data_type` is a CLASS with 38 direct subclasses**, not a field value. The data_body
+2. **`data_type` is a CLASS with 41 direct subclasses**, not a field value. The data_body
    walkthrough already rejected `data_type` as a field name for precisely this reason
    when naming `datum_type`.
 
@@ -584,7 +584,7 @@ for three reasons, two of them decisions already taken.**
    otherwise have gone on saying 38 indefinitely.
 
         DENOMINATOR: 247 json file(s) under schemas/V_eta/ read
-        RE-DERIVED 2026-08-13: 248 json file(s) under schemas/V_eta/ -- `acquisition_reader` was minted, so one class was added and nothing was removed.
+        RE-DERIVED 2026-08-15: 247 json file(s) under schemas/V_eta/. This read 248 on 2026-08-13, when `acquisition_reader` was minted; the step-2 data_body build then DELETED `zarr` (signed sec.10 -- a V_gamma invention with no v1 source), so the count went +1 then -1 and is back where it started.
         classes declaring `data_type` as a DIRECT superclass: 41
 
    **The point this item makes is unaffected, and is in fact stronger.** It says `data_type`

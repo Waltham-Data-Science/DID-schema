@@ -554,7 +554,9 @@ migrator reads a dependency name that does not exist. Tracked as #75.
 > clause gives it away: a signed plan does not "read a dependency name that does not
 > exist" — a migrator does. **DENOMINATOR: 54 markdown files under `schemas/`, 54
 > read, 24 `TEAM-SIGN-OFF` lines (23 real, plus the format template at
-> `V_eta_STATUS.md:216`).** Exactly one names these documents — the `[misc singletons]`
+> `V_eta_STATUS.md:216`).** *[The 54 is that day's measurement and stays. There are
+> **55 markdown files under `schemas/`** today -- one document added 2026-08-12,
+> nothing deleted. The other two figures were NOT re-run.]* Exactly one names these documents — the `[misc singletons]`
 > line at the top of THIS file, which sends them to `interaction_purpose`. Exactly two
 > mention `term_assertion`, both in `V_eta_openminds_family_record.md` (:10, :20) and
 > both about STRAIN; neither routes an approach term. The `term_assertion` route came

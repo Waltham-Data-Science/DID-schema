@@ -189,8 +189,10 @@ KNOWN_DIVERGENT = {
     ("pyraview", "decimation_start_times", "matrix"),
     ("relative_reference", "value.duration", "duration"),
     ("relative_reference", "value.start", "duration"),
-    ("sampled_body", "sample_time.dt", "duration"),
-    ("sampled_body", "sample_time.t0", "duration"),
+    # ("sampled_body", "sample_time.dt"/".t0") REMOVED 2026-08-15: the body-side
+    # `sample_time` retired into `axes` (signed sec.2, step 5), so these two rows
+    # name fields that no longer exist. Deleted in the same commit that retired
+    # them, which is what this file's own failure message asks for.
     ("subject_interaction", "sample_time.dt", "duration"),
     ("subject_statement", "conditions.term.value", "ontology_term"),
     ("time_reference", "clock_tolerance", "duration"),

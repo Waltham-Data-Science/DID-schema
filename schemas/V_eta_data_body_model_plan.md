@@ -254,7 +254,7 @@ subject_statement
 
 **Named `datum_type`, not `data_type` and not `element_type`.**
 
-- `data_type` is **taken**: it is a class with **38 direct subclasses** (acceleration, angle,
+- `data_type` is **taken**: it is a class with **41 direct subclasses** (acceleration, angle,
   concentration, duration, image, length, voltage, …) — tier ③. The five fields spelled
   `data_type` today (`ngrid`, `pyraview`, `binaryseries_parameters`,
   `daqreader_image_epochdata_ingested`, `acquisition_epoch.storage`) all sit on v1 classes on
@@ -280,7 +280,7 @@ it is written.**
 STRONGER, which is worth more than the digit.** Derived from the built tree:
 
         DENOMINATOR: 247 json file(s) under schemas/V_eta/ read
-        RE-DERIVED 2026-08-13: 248 json file(s) under schemas/V_eta/ -- `acquisition_reader` was minted, so one class was added and nothing was removed.
+        RE-DERIVED 2026-08-15: 247 json file(s) under schemas/V_eta/. This read 248 on 2026-08-13, when `acquisition_reader` was minted; the step-2 data_body build then DELETED `zarr` (signed sec.10 -- a V_gamma invention with no v1 source), so the count went +1 then -1 and is back where it started.
         classes declaring `data_type` as a DIRECT superclass: 41
            acceleration amount angle angular_velocity area capacitance charge chemical
            concentration conductance contrast_sensitivity count current date dose
