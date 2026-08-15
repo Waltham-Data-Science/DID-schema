@@ -198,7 +198,22 @@ META_FILES = {"did_schema_meta.json", "CURIE_lookups_meta.json",
 # session's scope, so `variable` has no admissible set to resolve against (#32,
 # option C). `jNgridBody.m` already carries the identical `<computed: nm>` row
 # from the same fold's first half -- these two are one item, not two.
-BASELINE_MIGRATORS = 47
+# 47 -> 48, 2026-08-15. `pyraview.m`, the axis `variable` "channel". FOURTH
+# consecutive raise of this shape, and the third for an AXIS variable
+# specifically (jNgridBody, image_stack, now pyraview) -- which is the shape the
+# signed axis entry creates by design: `variable` is an `ontology_term`, so
+# every axis any migrator emits is a countable emission, and none of them can
+# carry a node until `variable` has an admissible set (#32, blocked on NDIC.txt
+# living in a repository not in scope).
+#
+# THIS ONE AROSE FROM RECOVERING A LOSS, not from new work. `datum.shape`
+# carried pyraview's channel count; when `datum` collapsed its only consumer
+# went with it, and code scanning alert 219 caught the orphaned `channels`
+# variable. The plan says `shape` becomes `[axes.n]` in array order, so the
+# count is now a channel AXIS -- and an axis has a `variable`. The alternative
+# was to leave the extent unrecorded, which is the trade this counter exists to
+# make visible: one more unminted term against one fewer silently dropped fact.
+BASELINE_MIGRATORS = 48
 
 # Schema-side baseline, set 2026-08-10 when the sweep was added. It is 8 on the
 # day it landed: the four did_clocktype terms x two carriers
