@@ -157,7 +157,36 @@ def test_the_tool_runs_clean_and_reports_a_real_denominator():
 
     DENOMINATORS ASSERTED RATHER THAN PRINTED. A sweep that walked no files, or
     whose signature index came back empty, would print `0 CONTRADICTED` and
-    exit 0 -- the silentLoss defect. Both are asserted non-zero."""
+    exit 0 -- the silentLoss defect. Both are asserted non-zero.
+
+    THE SIBLING-ABSENT SKIP IS ANNOUNCED, and it was added because this test
+    turned CI red on its first run. `tests.yml`'s MAIN job clones both siblings
+    and this passes there; its `older-pythons` matrix jobs run pytest ALONE, so
+    the tool correctly reported
+
+        UNREADABLE -- these comment trees were NOT scanned ...
+        This is a failure, not a pass.
+
+    and the assertion below fired on a tool that was behaving exactly as
+    designed. The tool must keep failing loudly there -- reporting a smaller
+    universe quietly is the find_repo trap it exists to avoid -- so it is the
+    TEST that yields, by skipping with a stated reason.
+
+    A SILENT skip would make this a vacuous instrument on every machine without
+    the siblings, which is most of them. The adjudication tests above need no
+    sibling and run unconditionally, so a regression in the RULES still fails
+    everywhere; only the end-to-end sweep is conditional. Same shape, and same
+    reasoning, as `test_corpus_proof_snapshot.py`'s announced skip."""
+    missing = [name for name, _sub in MOD.SCAN_ROOTS
+               if MOD.find_repo(name) is None]
+    if missing:
+        pytest.skip(
+            f"sibling comment tree(s) absent, so the end-to-end sweep cannot "
+            f"run here: {', '.join(missing)}. The tool reports this as a "
+            f"FAILURE when it is asked to scan -- correctly, since a smaller "
+            f"universe must never pass quietly -- so this test declines to run "
+            f"rather than asserting against it. The adjudication tests in this "
+            f"file need no sibling and did run.")
     proc = subprocess.run([sys.executable, TOOL, "--enforce"],
                           capture_output=True, text=True, cwd=REPO_ROOT,
                           check=False)
