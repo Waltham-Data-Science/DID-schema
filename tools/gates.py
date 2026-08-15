@@ -1123,8 +1123,30 @@ def main(argv=None):
             print(why)
         if status != "OK":
             failed.append(s.name)
-            tail = [ln for ln in r["out"].splitlines() if ln.strip()][-12:]
-            for ln in tail:
+            # A FAILING STEP PRINTS ITS WHOLE OUTPUT. This was `[-12:]`, and the
+            # last twelve lines are the WRONG twelve: a gate that reports its
+            # findings in severity order puts the actionable section FIRST and
+            # the informational one last, so the tail shows the part nobody
+            # needs. `check_prose_counts` is the live case -- it prints DISAGREE
+            # (the failures) and then SUPERSEDED (explicitly "not a failure"),
+            # so a twelve-line tail on a run with ten superseded rows shows two
+            # lines of the thing that failed.
+            #
+            # THAT COST HOURS ON 2026-08-15, and the shape of the cost is worth
+            # recording because it is this repo's own recurring error wearing a
+            # new hat. The local run printed the full report and passed; CI
+            # printed twelve lines and failed; the two were compared AS IF they
+            # were the same report, and the difference was read as an
+            # unreproducible environment discrepancy. Five configurations were
+            # tried -- pristine clone, both interpreters, --ci -- to explain a
+            # gap that was an artifact of THIS LINE.
+            #
+            # An instrument that hides its own evidence is worse than one that
+            # is merely absent, for the same reason a wrong line number is worse
+            # than none: it looks like the whole answer. If a failing step is
+            # ever verbose enough that this floods the log, cap the STEP, not
+            # the diagnosis.
+            for ln in [ln for ln in r["out"].splitlines() if ln.strip()]:
                 print("        | " + ln)
         sys.stdout.flush()
         del argv_used
