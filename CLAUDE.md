@@ -1468,6 +1468,36 @@ lives in these files — read them instead of re-deriving from memory:
   fetch alone is enough, because `coverage.py` and `ndi_ground_truth.py` read `origin/main`
   through git rather than the working tree.
 
+  **`didmatlab_m_files` MOVED AGAIN ON 2026-08-14, 265 -> 267, AND BOTH ADDITIONS ARE
+  OURS.** Re-derived from the tree, with the numerator's method written down beside it
+  as the instrument-level finding at the end of this file asks:
+
+        $ cd /home/user/DID-matlab && find src -name '*.m' | wc -l
+        267 .m file(s) under DID-matlab src/
+        $ git log --oneline --diff-filter=A --since=2026-08-13 --name-status -- 'src/**/*.m'
+        72d6aea  A  src/did/+did2/+convert/+migrators_j/private/jDatumType.m
+        37bf6a1  A  src/did/+did2/+convert/schemaVersionRank.m
+
+  `jDatumType.m` is the `datum` -> `datum_type` normalisation map (signed sec.5);
+  `schemaVersionRank.m` is the version comparison that `strcmp` was getting backwards.
+  **NEITHER MOVES `migrator_files`** — `jDatumType.m` lives in `private/`, which that
+  noun excludes, and `schemaVersionRank.m` is not in `+migrators_j` at all. So this is
+  the one-change-many-counters shape recorded above running the OTHER way: two files
+  landed and only one of the two DID-matlab nouns moved. A reader who assumes the pair
+  move together will bump the wrong one.
+
+  **AND THE SAME PASS FOUND A FALSE POSITIVE IN THE CHECKER ITSELF, which is worth more
+  than the number it mis-flagged.** `V_eta_data_body_model_plan.md` says *"210 .m file(s)
+  under DID-matlab src/did/+did2 scanned"* and was adjudicated DISAGREE against 267,
+  because the noun's pattern matched `src/` as a PREFIX of `src/did/+did2`. **That is
+  precisely the error `SCOPED_RE` exists to prevent** — *a count over a narrowed set is a
+  different count, not a stale one* — arriving through the PATH instead of through a
+  parenthesis, so a parenthesis-shaped guard could not see it. The pattern now carries a
+  lookahead that rejects any deeper path, which recognises a subtree STRUCTURALLY and
+  needs no vocabulary of narrowings. Direction: the checker was manufacturing a stale
+  number where none existed — a gate crying wolf trains its readers to bump digits
+  without looking, which is how a real drift gets bumped away too.
+
   **The second cause was OURS: minting `acquisition_reader`** (the missing sibling of
   `acquisition_metadata_reader`, so `daqreader`'s `reader_string` has a home). One new
   class moves BOTH `veta_class_names` (241 -> 242) and `veta_schema_files` (247 -> 248),

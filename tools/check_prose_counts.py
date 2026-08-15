@@ -380,9 +380,22 @@ NOUNS = [
          derive_migrator_files,
          [_N + r"\s+migrator \.m file\(s\)"]),
 
+    # THE PATH ITSELF NAMES THE SCOPE, and this pattern used to ignore that.
+    # `210 .m file(s) under DID-matlab src/did/+did2 scanned` was adjudicated
+    # against the WHOLE-TREE count (267) and reported DISAGREE, because `src/`
+    # matched as a PREFIX of `src/did/+did2`. That is the same error SCOPED_RE
+    # exists to prevent -- a count over a narrowed set is a different count,
+    # not a stale one -- arriving through the path instead of through a
+    # parenthesis, so the parenthesis-shaped guard could not see it.
+    #
+    # The lookahead rejects any DEEPER path while still matching the whole-tree
+    # form (`src/ scanned`, `src/ as of 2026-08-12`), and it needs no vocabulary
+    # of narrowings: a subtree is recognised structurally. A claim about a
+    # subtree is now simply not a claim about this noun, which is why it drops
+    # out of the adjudication entirely rather than joining the SCOPED bucket.
     Noun("didmatlab_m_files", ".m files under DID-matlab src/",
          derive_didmatlab_m_files,
-         [_N + r"\s+\.m file\(s\) under DID-matlab src/"]),
+         [_N + r"\s+\.m file\(s\) under DID-matlab src/(?![\w/+.])"]),
 
     Noun("ndi_m_files", ".m files on NDI origin/main",
          derive_ndi_m_files,
