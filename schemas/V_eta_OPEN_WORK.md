@@ -2934,19 +2934,62 @@ answer and a single verdict either way would be wrong:
           Twelve `epoch_extent_*` counters, four of them NAMED REFUSAL REASONS,
           so a run that mints nothing says which refusal fired.
 
-        STEP 3 -- the observation gains its `epoch_id` EDGE.  NOT BUILT, and it
-          is a SCHEMA increment, not a migrator change.
-          pyraview.m:254-256, in its own words: "This is the LINK, not the
-          `epoch_id` edge. That edge is declared by exactly four V_eta classes
-          and `voltage_observation` is not one of them, so wiring it needs a
-          schema increment and belongs with the epoch family (#60)."
-          private/jEpochDocId.m:11 -- "THIS RETURNS '' FOR EVERY did_v1
-          DOCUMENT TODAY, BY CONSTRUCTION", with both reasons checked there.
+        STEP 3 -- the observation gains its `epoch_id` EDGE.  **NOT DEFERRED --
+          FORBIDDEN. STEP 3 IS A PHANTOM AND MUST NOT BE BUILT.** Corrected
+          hours after this note first called it a pending schema increment; the
+          correction is below, because it is the more useful half.
 
-So the row's own sentence -- *"Step 3 makes this the first real instance of the
-epoch family (#60) landing"* -- is the part still outstanding, and it is
-correctly pointed at #60 rather than at this row. **UNVERIFIED:** every line
-above is read from source in a container with no MATLAB. What a PRED run does
-prove is narrower and is asserted NDI-side, not here:
+**CORRECTION, 2026-08-15, THE SAME DAY THIS NOTE WAS WRITTEN.** Step 3 above
+originally read *"NOT BUILT, and it is a SCHEMA increment, not a migrator
+change"*, sourced to `pyraview.m:254-256`. Every FACT in that source sentence is
+true and its CONCLUSION is backwards. TEAM-SIGN-OFF [epoch]
+(`V_eta_epoch_plan.md:869`), verbatim: HISTORICAL-SIGNOFF-CLAIM
+
+  > a document reaches its epoch through the TIME_REFERENCE CHAIN
+  > (subject_interaction -> time_reference_# -> relative_reference ->
+  > relative_to -> epoch) -- a direct `epoch_id` edge is added ONLY where the
+  > epoch is the document's own content (`directed_relation`, per the ensemble
+  > sign-off), **NOT on subject_interaction**
+
+`voltage_observation` is UNDER `subject_interaction`, and the four classes that
+DO declare `epoch_id` are exactly the four that are not:
+
+        DENOMINATOR: 245 json file(s) under schemas/V_eta/ read; 241 class(es)
+                     indexed; 4 declare an epoch_id edge
+          acquisition_metadata_file  <- base                    required
+          directed_relation          <- relation <- base        optional
+          ingestion_manifest         <- base                    required
+          method_parameters          <- base                    optional
+          voltage_observation        <- subject_observation
+                                     <- subject_interaction ... <- EXCLUDED
+
+So `time_reference_2` IS the epoch link the signed model specifies, and steps 1
+and 2 are the whole of what this signature asks pyraview and epochMint to do.
+**All three steps are accounted for: two built, one ruled out. Nothing in this
+row is outstanding.**
+
+`jEpochDocId.m:11` -- *"THIS RETURNS '' FOR EVERY did_v1 DOCUMENT TODAY, BY
+CONSTRUCTION"* -- is correct and is about those four classes, not about
+observations. It is not evidence of a gap here.
+
+**HOW THIS GOT WRITTEN, because the mechanism matters more than the row.** The
+row's own closing sentence -- *"Step 3 makes this the first real instance of the
+epoch family (#60) landing"* -- predates the 2026-08-10 amendment that added the
+NOT-on-subject_interaction clause, and nothing reconciled the two. It was then
+read forward as pending work, by me, inside a `BUILD-STATE:` note whose entire
+purpose was to stop build claims going stale. That is tell (3) of the 2026-08-12
+open-list reconciliation -- *a phantom: work REJECTED by a signature rather than
+deferred* -- and the #52 shape exactly: a note left standing that instructs the
+one build a signature rules out. `pyraview.m:254` carried the same sentence and
+is corrected in the same pass (DID-matlab).
+
+**AND IT IS THE FIRST ERROR IN THIS FILE'S DANGEROUS DIRECTION IN SOME TIME.**
+The plan-header staleness, the governance rung and the open-list reconciliation
+all UNDERSTATED progress; the cost was work repeated. This one OVERSTATED what
+remains, and its cost would have been a schema edit that contradicts a
+signature. Both are the same defect and neither direction is the safe one.
+
+**UNVERIFIED:** every line above is read from source in a container with no
+MATLAB. What a PRED run proves is narrower and is asserted NDI-side, not here:
 `TestMigrateLocalEtaPRED.m:205/:208/:211` -- `epoch_bounded_reference` absent,
 `epoch` and `relative_reference` present.
