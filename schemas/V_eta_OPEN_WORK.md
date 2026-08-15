@@ -2019,7 +2019,7 @@ it is the two facts NDI already stores, landing in the two slots that already ex
 **NOTHING REFERENCES `generic_file` BY ID.**
 
         DENOMINATOR: 91 NDI templates on origin/main, 1002 .m files searched
-        RE-DERIVED 2026-08-13: 91 NDI templates on origin/main; 1,003 .m files. The did_v1 ground truth did NOT move -- 0 template diffs across the NDI main merge, still 91; main gained one .m file, so only the denominator shifted.
+        RE-DERIVED 2026-08-13: 91 NDI templates on origin/main; 1,003 .m files. The did_v1 ground truth did NOT move -- 0 template diffs across the NDI main merge, still 91; main gained one .m file, so only the denominator shifted. RE-DERIVED AGAIN 2026-08-15: 91 NDI templates on origin/main; 1,005 .m files. NDI main moved to 928b1cd5 and two of its nine commits add test .m files (closeAndRemoveDir.m, TestRayoLabStims.m). The did_v1 ground truth is STILL unmoved -- 91 templates, 0 diffs; only the denominator shifted.
         NDI templates declaring generic_file_id or valid_interval_id     0
         DID-matlab migrator references to either id                      0
 

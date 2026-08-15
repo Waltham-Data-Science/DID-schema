@@ -10,7 +10,7 @@
     "writer_divergences": 3,
     "writer_dependencies_no_template": 0,
     "writer_dependency_scan": {
-      "m_files_scanned": 1003,
+      "m_files_scanned": 1005,
       "dependency_call_sites": 126,
       "distinct_dependencies_written": [
         "daqmetadatareader_id",

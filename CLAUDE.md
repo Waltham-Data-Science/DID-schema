@@ -1450,7 +1450,19 @@ lives in these files — read them instead of re-deriving from memory:
         DENOMINATOR: 3 countable noun(s) that moved, each re-derived from the tree
 
         ndi_m_files                 .m files on NDI origin/main
-            $ git ls-tree -r origin/main | grep -c '\.m$' = **1003**
+            $ git ls-tree -r origin/main | grep -c '\.m$' = **1005**
+            RE-DERIVED 2026-08-15, 1003 -> 1005. NDI `origin/main` moved to
+            928b1cd5 (nine commits: Windows SQLite teardown, Intan marker
+            ingestion, a RayoLab regexp fix) and two of them are new `.m` files
+            under `tests/` -- closeAndRemoveDir.m and TestRayoLabStims.m.
+            THE FETCH ALONE DID IT. This noun is derived from NDI `origin/main`
+            THROUGH GIT, not from any checkout, so it moves the moment the
+            sibling's main moves -- before any merge, and with nobody having
+            edited this repository. That is the coupling recorded further up
+            this file, observed a second time and now with a second cause:
+            the first was an upstream merge, this one is ours. `ndi_templates`
+            did NOT move (still 91): `rayo_stim.json` is a daq_system, not a
+            database_document, so the did_v1 ground truth is untouched.
         veta_class_names      241   distinct V_eta class names
         veta_schema_files     247   json files under schemas/V_eta/
             BOTH RE-DERIVED 2026-08-15, and both went DOWN by one. They read
