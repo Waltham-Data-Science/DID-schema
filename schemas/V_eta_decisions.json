@@ -606,7 +606,7 @@
         ],
         "packages_missing": [],
         "files_read": 177,
-        "lines_read": 39680,
+        "lines_read": 39729,
         "classes_queried": 26,
         "classes_emitted_as_document_class": 8,
         "unresolved_mint_sites": [
@@ -648,7 +648,7 @@
           "batch_post_pass": 26
         },
         "lines_read_by_group": {
-          "per_document_migrator": 27076,
+          "per_document_migrator": 27125,
           "batch_post_pass": 12604
         },
         "classes_emitted_as_document_class_by_group": {
@@ -2603,7 +2603,7 @@
           "DID-matlab:convert/resolveDeferredBaths.m:436 (emitted_class)",
           "DID-matlab:migrators_j/fitcurve.m:147 (emitted_class)",
           "DID-matlab:migrators_j/image_stack.m:279 (emitted_class)",
-          "DID-matlab:migrators_j/jrclust_clusters.m:88 (emitted_class)",
+          "DID-matlab:migrators_j/jrclust_clusters.m:85 (emitted_class)",
           "DID-matlab:migrators_j/neuron_extracellular.m:118 (emitted_class)"
         ],
         "emission_counts_as_build": false,
@@ -2615,7 +2615,7 @@
           "DID-matlab:convert/resolveDeferredBaths.m:444 (field_write)",
           "DID-matlab:migrators_j/fitcurve.m:154 (field_write)",
           "DID-matlab:migrators_j/image_stack.m:284 (field_write)",
-          "DID-matlab:migrators_j/jrclust_clusters.m:93 (field_write)",
+          "DID-matlab:migrators_j/jrclust_clusters.m:90 (field_write)",
           "DID-matlab:migrators_j/neuron_extracellular.m:123 (field_write)"
         ],
         "n_named_refs": 0,
@@ -2637,7 +2637,7 @@
             "emitted_class_refs": [
               "DID-matlab:migrators_j/fitcurve.m:147 (emitted_class)",
               "DID-matlab:migrators_j/image_stack.m:279 (emitted_class)",
-              "DID-matlab:migrators_j/jrclust_clusters.m:88 (emitted_class)",
+              "DID-matlab:migrators_j/jrclust_clusters.m:85 (emitted_class)",
               "DID-matlab:migrators_j/neuron_extracellular.m:118 (emitted_class)",
               "DID-matlab:migrators_j/ontology_table_row.m:867 (emitted_class)",
               "DID-matlab:migrators_j/private/jSessionAnchor.m:60 (emitted_class)"
@@ -2646,7 +2646,7 @@
             "field_write_refs": [
               "DID-matlab:migrators_j/fitcurve.m:154 (field_write)",
               "DID-matlab:migrators_j/image_stack.m:284 (field_write)",
-              "DID-matlab:migrators_j/jrclust_clusters.m:93 (field_write)",
+              "DID-matlab:migrators_j/jrclust_clusters.m:90 (field_write)",
               "DID-matlab:migrators_j/neuron_extracellular.m:123 (field_write)",
               "DID-matlab:migrators_j/ontology_table_row.m:875 (field_write)",
               "DID-matlab:migrators_j/private/jSessionAnchor.m:68 (field_write)"
@@ -2657,8 +2657,8 @@
             "comment_mentions": [
               "DID-matlab:migrators_j/fitcurve.m:13 (comment_mention)",
               "DID-matlab:migrators_j/image_stack.m:25 (comment_mention)",
-              "DID-matlab:migrators_j/jrclust_clusters.m:20 (comment_mention)",
-              "DID-matlab:migrators_j/jrclust_clusters.m:40 (comment_mention)",
+              "DID-matlab:migrators_j/jrclust_clusters.m:21 (comment_mention)",
+              "DID-matlab:migrators_j/jrclust_clusters.m:41 (comment_mention)",
               "DID-matlab:migrators_j/neuron_extracellular.m:132 (comment_mention)",
               "DID-matlab:migrators_j/neuron_extracellular.m:19 (comment_mention)"
             ]
@@ -3075,7 +3075,7 @@
           "DID-matlab:convert/resolveValidIntervals.m:965 (field_write)",
           "DID-matlab:migrators_j/fitcurve.m:153 (field_write)",
           "DID-matlab:migrators_j/image_stack.m:283 (field_write)",
-          "DID-matlab:migrators_j/jrclust_clusters.m:92 (field_write)"
+          "DID-matlab:migrators_j/jrclust_clusters.m:89 (field_write)"
         ],
         "n_named_refs": 24,
         "named_refs": [
@@ -3107,7 +3107,7 @@
             "field_write_refs": [
               "DID-matlab:migrators_j/fitcurve.m:153 (field_write)",
               "DID-matlab:migrators_j/image_stack.m:283 (field_write)",
-              "DID-matlab:migrators_j/jrclust_clusters.m:92 (field_write)",
+              "DID-matlab:migrators_j/jrclust_clusters.m:89 (field_write)",
               "DID-matlab:migrators_j/neuron_extracellular.m:122 (field_write)",
               "DID-matlab:migrators_j/ontology_table_row.m:280 (field_write)",
               "DID-matlab:migrators_j/ontology_table_row.m:874 (field_write)"
@@ -3116,7 +3116,7 @@
             "named_refs": [
               "DID-matlab:migrators_j/fitcurve.m:147 (named)",
               "DID-matlab:migrators_j/image_stack.m:279 (named)",
-              "DID-matlab:migrators_j/jrclust_clusters.m:88 (named)",
+              "DID-matlab:migrators_j/jrclust_clusters.m:85 (named)",
               "DID-matlab:migrators_j/neuron_extracellular.m:118 (named)",
               "DID-matlab:migrators_j/ontology_table_row.m:276 (named)",
               "DID-matlab:migrators_j/ontology_table_row.m:869 (named)"
