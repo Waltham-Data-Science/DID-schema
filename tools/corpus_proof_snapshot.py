@@ -108,6 +108,24 @@ def verdicts(src):
     the caller's anti-clobber rule turns an empty ingest into `REFUSING TO
     WRITE`, which reads exactly like the safe no-op it is designed to be, and a
     writer whose shape had changed under us would look like a quiet weekend.
+
+    AMENDED 2026-08-15, and the paragraph above still stands for what it is
+    about. It reasons about an UNRECOGNISED shape, and that reasoning is
+    correct. What it did not distinguish is a RECOGNISED shape that measured
+    NOTHING -- a corpus_proven.py document from a run whose corpora were
+    cancelled -- and treating that as unrecognised crashed the tool in
+    production. The two are now told apart by the document's own
+    self-identification (`_looks_like_corpus_proven`), not by whether it
+    happens to carry verdicts:
+
+        recognised + verdicts    -> the verdicts
+        recognised + nothing     -> {}, and main() refuses IN WORDS, naming the
+                                    source's own instrument faults
+        unrecognised             -> RAISE, exactly as argued above
+
+    So "a writer whose shape had changed under us would look like a quiet
+    weekend" remains true and remains guarded; a writer that ran and found
+    nothing no longer has to crash to say so.
     """
     rung = src.get("rung") if isinstance(src.get("rung"), dict) else {}
     classes = {}
@@ -126,11 +144,36 @@ def verdicts(src):
     rows = next((c for c in (rung.get("rows"), src.get("rows"))
                  if isinstance(c, list)), None)
     if rows is None:
+        # A WELL-FORMED SOURCE THAT MEASURED NOTHING IS NOT A WRONG FILE, and
+        # conflating the two crashed this tool in production on 2026-08-15
+        # (run 31888793256). All six corpus jobs were cancelled, so
+        # `corpus_proven.py` found no reports, exited 1 -- and still WROTE its
+        # json, because the document carries the instrument faults that explain
+        # the emptiness. That json has a `rung` carrying nothing and no `rows`,
+        # which landed here as a ValueError traceback.
+        #
+        # THE GRACEFUL PATH ALREADY EXISTED AND WAS UNREACHABLE. `main()`'s
+        # anti-clobber rule handles "the source measured 0 classes" in words,
+        # and the workflow step's own comment promises exactly that behaviour
+        # ("a run that measured nothing cannot erase the last one that did").
+        # But `ingest()` raises BEFORE `main()` ever computes the count, so the
+        # promised refusal could only ever fire for a source that parsed to an
+        # empty map -- never for the one shape a zero-report run actually
+        # produces. The protection was written for a case that could not occur
+        # and absent for the case that did.
+        #
+        # It was INVISIBLE on top of that: the step carries
+        # `continue-on-error: true`, so the crash rendered as a GREEN step. A
+        # tool that dies and reports success is the silentLoss shape, and it
+        # took reading the log line by line to find.
+        if _looks_like_corpus_proven(src):
+            return classes, rung        # empty; main() refuses and says why
         raise ValueError(
-            "the source names no per-class verdicts: `rung` carries %s and no "
-            "`rows` list was found. Expected either `rung.yes_classes` / "
-            "`rung.no_rows` (what DID-matlab tools/corpus_proven.py writes) or "
-            "a list of row dicts."
+            "the source names no per-class verdicts AND does not look like a "
+            "corpus_proven.py document (no `tool` / `instrument_faults` / "
+            "`exit_code` key): `rung` carries %s and no `rows` list was found. "
+            "Expected either `rung.yes_classes` / `rung.no_rows` (what "
+            "DID-matlab tools/corpus_proven.py writes) or a list of row dicts."
             % (sorted(rung) if rung else "nothing"))
     for r in rows:
         name = r.get("v1_class")
@@ -139,6 +182,29 @@ def verdicts(src):
         classes[name] = {"state": r.get("state") or r.get("corpus_verdict"),
                          "why": (r.get("why") or "")[:400]}
     return classes, rung
+
+
+def _looks_like_corpus_proven(src):
+    """Is this a corpus_proven.py document, whatever it measured?
+
+    Keyed on the document's OWN self-identification rather than on whether it
+    happens to carry verdicts -- that is the distinction the crash conflated.
+    `tool` is written unconditionally; `instrument_faults` and `exit_code` are
+    the two keys that exist precisely BECAUSE a run can measure nothing and
+    still need to say why."""
+    if not isinstance(src, dict):
+        return False
+    if "corpus_proven" in str(src.get("tool") or ""):
+        return True
+    return "instrument_faults" in src and "exit_code" in src
+
+
+def source_faults(src):
+    """The source's own account of why it measured nothing, for the refusal."""
+    out = []
+    for f in (src.get("instrument_faults") or []):
+        out.append(f if isinstance(f, str) else json.dumps(f, sort_keys=True))
+    return out
 
 
 def ingest(source_path, run=None, sha=None, when=None):
@@ -272,15 +338,39 @@ def main(argv=None):
                   "here and never fails a gate.")
         return 0
 
+    with open(args.source) as _fh:
+        raw_src = json.load(_fh)
     fresh = ingest(args.source, run=args.run, sha=args.sha)
     got = measured_count(fresh)
     # THE ANTI-CLOBBER RULE. See the module docstring: an absence must never
     # overwrite a measurement, or the one durable copy of the number is erased
     # by running the tool in the wrong place.
-    if got == 0 and have > 0:
-        print("  *** REFUSING TO WRITE. The source measured 0 classes and the "
-              "committed snapshot carries %d. A measurement is never "
-              "overwritten by an absence; the snapshot is unchanged." % have)
+    #
+    # THE CONDITION WAS `got == 0 and have > 0` UNTIL 2026-08-15. The second
+    # half is dropped: with `have == 0` the old code fell through and WROTE a
+    # snapshot carrying zero verdicts -- committing a file that looks like
+    # evidence and asserts nothing, into a repository whose whole complaint is
+    # that its record says nothing has been proven. There is no case in which
+    # writing an empty snapshot is better than leaving the file absent, and an
+    # absent file is what `--check` already reports honestly.
+    if got == 0:
+        faults = source_faults(raw_src)
+        print("  *** REFUSING TO WRITE. The source measured 0 classes.")
+        if have > 0:
+            print("      The committed snapshot carries %d. A measurement is "
+                  "never overwritten by an absence; it is unchanged." % have)
+        else:
+            print("      No snapshot is committed either, and none is written: "
+                  "a file asserting 0 verdicts is not evidence, and an absent "
+                  "file is what --check already reports honestly.")
+        # THE SOURCE'S OWN ACCOUNT OF WHY, rather than leaving the reader to
+        # guess whether the corpora were cancelled, missing, or genuinely clean.
+        print("      DENOMINATOR: the source names %d instrument fault(s)%s"
+              % (len(faults), ":" if faults else
+                 " -- so it measured nothing WITHOUT reporting a reason, which "
+                 "is itself worth chasing."))
+        for f in faults:
+            print("        %s" % f[:300])
         return 1
     with open(SNAPSHOT, "w") as fh:
         json.dump(fresh, fh, indent=1, sort_keys=True)

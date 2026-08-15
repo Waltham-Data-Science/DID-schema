@@ -214,3 +214,102 @@ print(os.path.join(out, "corpus-proven", "v_eta_corpus_proven.json"))
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class ZeroReportSourceCase(unittest.TestCase):
+    """A run that MEASURED NOTHING must decline in words, not crash.
+
+    THE PRODUCTION FAILURE, run 31888793256 (2026-08-15). All six corpus jobs
+    were cancelled, so `corpus_proven.py` found no reports, exited 1, and STILL
+    wrote its json -- the document carries the instrument faults that explain
+    the emptiness, so writing it is correct. That json has a `rung` carrying
+    nothing and no `rows`, and this tool raised:
+
+        ValueError: the source names no per-class verdicts
+
+    THE GRACEFUL PATH EXISTED AND WAS UNREACHABLE. `main()`'s anti-clobber rule
+    already handled "the source measured 0 classes" in words, and the workflow
+    step's comment promises exactly that ("a run that measured nothing cannot
+    erase the last one that did"). But `ingest()` raised BEFORE `main()`
+    computed the count, so the promised refusal could only fire for a source
+    that parsed to an empty map -- never for the one shape a zero-report run
+    actually produces.
+
+    AND IT WAS INVISIBLE: the step carries `continue-on-error: true`, so the
+    crash rendered as a GREEN step. A tool that dies and reports success is the
+    silentLoss shape. It was found by reading the log line by line, which is
+    why this case is pinned rather than left to the next reader.
+    """
+
+    def zero_report_doc(self):
+        """The shape run 31888793256 produced, in the WRITER's vocabulary.
+
+        Keys are the ones `corpus_proven.py` writes unconditionally in
+        `publish()` -- `tool`, `instrument_faults`, `exit_code` -- which is
+        also what tells a recognised-but-empty document apart from a wrong
+        file. Built from the writer's key list, not from the reader's guess."""
+        return {
+            "tool": "DID-matlab tools/corpus_proven.py",
+            "rung": {},
+            "corpora": [],
+            "instrument_faults": [
+                ("NO CORPUS REPORTS FOUND. 2 root(s) named, 2 of them "
+                 "missing, 0 director(ies) walked.")],
+            "exit_code": 1,
+        }
+
+    def test_a_recognised_but_empty_source_yields_no_verdicts_without_raising(self):
+        classes, rung = SNAP.verdicts(self.zero_report_doc())
+        self.assertEqual(classes, {})
+        self.assertEqual(rung, {})
+
+    def test_a_wrong_shaped_file_still_raises(self):
+        """The narrowing must not become a blanket. `verdicts` returning {} for
+        anything unparseable is what the function's own docstring argues
+        against: a writer whose shape changed under us would look like a quiet
+        weekend."""
+        with self.assertRaises(ValueError):
+            SNAP.verdicts({"not": "a corpus_proven document"})
+
+    def test_the_faults_are_carried_so_the_refusal_can_say_why(self):
+        faults = SNAP.source_faults(self.zero_report_doc())
+        self.assertEqual(len(faults), 1)
+        self.assertIn("NO CORPUS REPORTS FOUND", faults[0])
+
+    def test_a_source_that_measured_nothing_and_named_no_reason_is_still_empty(self):
+        """Zero faults is not an error here -- it is a DIFFERENT report.
+
+        The refusal prints `0 instrument fault(s)` with a note that measuring
+        nothing without saying why is itself worth chasing. Silence about the
+        reason must not be dressed up as a reason."""
+        doc = self.zero_report_doc()
+        doc["instrument_faults"] = []
+        self.assertEqual(SNAP.verdicts(doc)[0], {})
+        self.assertEqual(SNAP.source_faults(doc), [])
+
+    def test_refusing_writes_nothing_even_with_no_committed_snapshot(self):
+        """The condition was `got == 0 and have > 0`; with `have == 0` the old
+        code fell through and WROTE a snapshot carrying zero verdicts -- a file
+        that looks like evidence and asserts nothing, in a repository whose
+        complaint is that its record says nothing has been proven."""
+        import tempfile
+        with tempfile.TemporaryDirectory() as td:
+            src = os.path.join(td, "v_eta_corpus_proven.json")
+            with open(src, "w") as fh:
+                json.dump(self.zero_report_doc(), fh)
+            snap = os.path.join(td, "V_eta_corpus_proof.json")
+            old_snap, old_md = SNAP.SNAPSHOT, SNAP.SNAPSHOT_MD
+            SNAP.SNAPSHOT = snap
+            SNAP.SNAPSHOT_MD = os.path.join(td, "V_eta_corpus_proof.md")
+            try:
+                argv = sys.argv
+                sys.argv = ["corpus_proof_snapshot.py", "--from", src]
+                try:
+                    rc = SNAP.main()
+                finally:
+                    sys.argv = argv
+            finally:
+                SNAP.SNAPSHOT, SNAP.SNAPSHOT_MD = old_snap, old_md
+            self.assertEqual(rc, 1, "an empty source must not exit 0")
+            self.assertFalse(os.path.exists(snap),
+                             "an empty source must write NO snapshot at all")
