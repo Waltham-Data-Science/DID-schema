@@ -331,6 +331,22 @@ STEPS = [
          _t("check_signoff_header_staleness.py", "--enforce"), "gate",
          r"^DENOMINATOR: (\d+) markdown file\(s\)", "plan documents read"),
 
+    # ARMED ON ARRIVAL, 2026-08-15, and the reason is the opposite of the one
+    # `check_prose_counts` records two steps down. That one landed report-only
+    # because it found six live disagreements nobody had triaged. This one was
+    # brought to ZERO CONTRADICTED before it was wired -- the three real hits
+    # were corrected in DID-matlab in the same pass -- so arming it cannot turn
+    # CI red for an untriaged backlog. The condition for arming is the same in
+    # both cases: the count is already 0.
+    #
+    # IT READS THE SIBLING REPOSITORIES' COMMENTS, so it fails LOUDLY when a
+    # sibling is missing rather than reporting a smaller universe -- the
+    # `find_repo` trap recorded in CLAUDE.md, which cost a ledger 11 rows and
+    # exited 0 about it.
+    Step("check_build_claims",
+         _t("check_build_claims.py", "--enforce"), "gate",
+         r"^DENOMINATOR: (\d+) \.m file\(s\) walked", "sibling .m files walked"),
+
     # ARMED 2026-08-12. It LANDED report-only, deliberately, because it found
     # SIX live disagreements on its first run (two plan documents saying
     # `data_type` has 38 direct subclasses, two quoting a 915-file NDI tree,
@@ -580,6 +596,19 @@ EDGES = [
          "the staleness gate compares each plan document's header against the "
          "signature state in V_eta_decisions.json, which status_board.py writes.",
          "tools/check_signoff_header_staleness.py", r"V_eta_decisions\.json"),
+
+    # NO EDGE FOR check_build_claims, DELIBERATELY, and the first attempt at one
+    # is worth recording because it was wrong in KIND rather than in detail.
+    # It declared `schemas/V_eta_OPEN_WORK.md` as the artifact carrying an
+    # ordering dependency from the signature gate. Two tests caught it at once:
+    # the edge could not be substantiated (no step WRITES that file), and
+    # `test_the_generated_markdown_list_matches_what_gates_declares` reported
+    # V_eta_OPEN_WORK.md as a generated markdown that status_board does not
+    # generate. Both were right. An Edge here means "step A writes X, step B
+    # reads X"; this gate reads only HAND-MAINTAINED documents and the siblings'
+    # comments, so it has no generated input and needs no edge. It sits after
+    # check_signoff_header_staleness by declaration order, which is the honest
+    # expression of "related, not dependent".
 
     # ---- the prose-count checker ----------------------------------------
     # Its whole contract is that the EXPECTED value comes from the tree and the
