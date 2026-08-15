@@ -1787,6 +1787,56 @@ def test_no_signed_plan_document_claims_to_be_unsigned():
         f"{[(mod.os.path.basename(p), n) for p, n, _ in rows]!r}")
 
 
+def test_signature_build_claims_carry_a_build_state_note():
+    """RULE 3: a TEAM-SIGN-OFF line asserting NOT (YET) BUILT must have a note.
+
+    Rules 1 and 2 police whether a document admits it is SIGNED. Neither looks
+    at what a signature SAYS, and a signature's tail routinely carries a build
+    state that nothing keeps current. Two were found on 2026-08-15 while walking
+    PRED's target classes, both stale, both understating progress:
+
+      * `TEAM-SIGN-OFF [session]` ends "NOT YET BUILT" and names three
+        artifacts -- schema field, migrator, NDI read site. All three exist.
+      * `TEAM-SIGN-OFF [epoch extent -- row #113]` ends "NOT YET BUILT" while
+        epochMint mints the extent references and carries twelve
+        `epoch_extent_*` counters for them. (Two of that signature's three
+        steps are built; the third is a schema increment under #60. "Partly"
+        is the honest answer and the note says so -- which is the point of
+        requiring a note instead of a boolean.)
+
+    THE RULE IS DELIBERATELY NOT "IS IT ACTUALLY BUILT". No artifact in this
+    repo answers that per signature, and an inference would be worse than the
+    gap -- it is the governance-in-the-completion-chain error waiting to happen
+    again. The rule is that the CLAIM must be maintained beside the signature.
+
+    AND THE FIX IS NEVER TO EDIT THE SIGNATURE. Operating Rule 4: striking
+    "NOT YET BUILT" out of a TEAM-SIGN-OFF line would rewrite what was signed.
+    That is why the note is a separate adjacent line and why the search window
+    is asymmetric -- signatures are appended at the bottom of a document, so
+    there is usually nothing above them.
+    """
+    mod = _load_tool("check_signoff_header_staleness")
+
+    import glob as _glob
+    import os as _os
+    paths = _glob.glob(_os.path.join(mod.SCHEMA_DIR, "*.md"))
+    rows, claims = mod.scan_signoff_build_claims(paths)
+
+    # DENOMINATOR, asserted rather than printed. If the regex stopped matching --
+    # someone writes "NOT CONSTRUCTED", or the marker changes shape -- this test
+    # would pass with zero rows while checking nothing. It is the silentLoss
+    # defect, and it is exactly what this file's other gate-tests exist to stop.
+    assert claims > 0, (
+        "no TEAM-SIGN-OFF line asserts NOT (YET) BUILT -- if that is genuinely "
+        "true the rule has nothing to police and this assertion should be "
+        "relaxed deliberately, not deleted quietly; if it is not true, "
+        "BUILD_CLAIM_RE has stopped matching and the check is vacuous")
+    assert not rows, (
+        "TEAM-SIGN-OFF line(s) asserting a build state with no adjacent "
+        f"{mod.BUILD_STATE} note: "
+        f"{[(mod.os.path.basename(p), n) for p, n, _ in rows]!r}")
+
+
 def test_ndi_schema_documents_are_all_read():
     """The ground truth reads NDI's SCHEMA documents, not just its templates -- and
     says how many, in what shape, and how many it could not parse.

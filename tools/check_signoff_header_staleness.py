@@ -73,6 +73,40 @@ moment a genuinely unsigned family appears. Phrases that are RENDERING STRINGS
 ("awaiting a signature" as a heading the board prints) are not claims about a
 family and are not matched -- only the "no signature yet" assertion form is.
 
+THE THIRD RULE -- a BUILD claim inside the signature itself
+-----------------------------------------------------------
+Rules 1 and 2 police whether a document admits it is SIGNED. Neither looks at
+what a signature SAYS, and a signature's tail routinely carries a build state.
+Found 2026-08-15, walking PRED's target classes:
+
+  * `V_eta_go_forward_class_audit.md` `TEAM-SIGN-OFF [session]` ends "NOT YET
+    BUILT" and names three artifacts. All three exist -- the schema field, the
+    migrator, and the NDI-matlab read site.
+  * `V_eta_OPEN_WORK.md` `TEAM-SIGN-OFF [epoch extent -- row #113]` ends "NOT
+    YET BUILT". `did2.convert.epochMint` mints the extent references and
+    carries twelve `epoch_extent_*` counters for them.
+
+Same one-directional shape as rules 1 and 2 -- the record claims LESS progress
+than exists, so the cost is a build repeated rather than a build wrongly made.
+And the same cause: the claim and the thing it describes are updated by
+different acts, with nothing between them.
+
+THE RULE CANNOT BE "IS IT ACTUALLY BUILT" -- no artifact in this repo answers
+that per signature, and inventing an inference would be worse than the gap.
+What it CAN require is that the claim be maintained: a signature line asserting
+`NOT BUILT` / `NOT YET BUILT` must have a dated
+
+    BUILD-STATE:
+
+line within twenty lines BELOW it (two above, for a lead-in), carrying the
+command output that establishes the state as of that date.
+
+CRITICALLY, THE FIX IS NEVER TO EDIT THE SIGNATURE. Operating Rule 4 says the
+`TEAM-SIGN-OFF` line is the team's; striking "NOT YET BUILT" out of one would
+rewrite what was signed. The note goes BESIDE it, which is also why the window
+is asymmetric -- signatures are appended at the bottom of a document and there
+is often nothing above them.
+
 Usage:  python3 tools/check_signoff_header_staleness.py
         python3 tools/check_signoff_header_staleness.py --enforce
 """
@@ -97,6 +131,16 @@ EXEMPT = "HISTORICAL-SIGNOFF-CLAIM"
 # The assertion form only. "awaiting a signature" is a heading the board PRINTS
 # for whatever is genuinely unsigned, and matching it would flag the renderer.
 UNSIGNED_CLAIM_RE = re.compile(r"\bno\s+signature\s+yet\b", re.IGNORECASE)
+
+# RULE 3 -- a build claim in the TAIL of a signature line. See the module
+# docstring. Matched ONLY on lines that are themselves signatures.
+BUILD_CLAIM_RE = re.compile(r"\bnot\s+(?:yet\s+)?built\b", re.IGNORECASE)
+BUILD_STATE = "BUILD-STATE:"
+# The note goes AFTER the signature, because a signature is appended at the
+# bottom of a document and there is frequently nothing above it. Asymmetric on
+# purpose; 2 lines of slack above covers a note written as a lead-in.
+BUILD_WINDOW_BEFORE = 2
+BUILD_WINDOW_AFTER = 20
 
 
 def families_awaiting_signature():
@@ -135,6 +179,34 @@ def scan_tools_for_unsigned_claims():
                     continue
                 rows.append((path, i + 1, ln.strip()))
     return rows, files
+
+
+def scan_signoff_build_claims(paths):
+    """RULE 3: signature lines asserting NOT (YET) BUILT with no adjacent note.
+
+    Returns (rows, claims_found). `claims_found` is the denominator that
+    matters -- "0 unaccompanied" means nothing without "out of how many build
+    claims", and a regex that stopped matching would print the same zero."""
+    rows = []
+    claims = 0
+    for path in sorted(paths):
+        try:
+            with open(path, encoding="utf-8") as fh:
+                lines = fh.read().splitlines()
+        except OSError:
+            continue
+        for i, ln in enumerate(lines):
+            if not HAS_SIGNOFF_RE.match(ln):
+                continue
+            if not BUILD_CLAIM_RE.search(ln):
+                continue
+            claims += 1
+            lo = max(0, i - BUILD_WINDOW_BEFORE)
+            hi = i + BUILD_WINDOW_AFTER + 1
+            if any(BUILD_STATE in w for w in lines[lo:hi]):
+                continue
+            rows.append((path, i + 1, ln.strip()[:160]))
+    return rows, claims
 
 
 def scan(paths):
@@ -199,12 +271,17 @@ def main():
         print(f'TOOL SOURCE: {tool_files} .py file(s) under tools/ scanned for "no signature yet"')
     else:
         print(f'TOOL SOURCE: not scanned -- {awaiting} family/families really are awaiting a signature, so the claim may be true somewhere.')
+
+    # RULE 3: a build claim in a signature's tail.
+    build_rows, build_claims = scan_signoff_build_claims(paths)
+    print(f'SIGNATURE BUILD CLAIMS: {build_claims} TEAM-SIGN-OFF line(s) assert NOT (YET) BUILT; {len(build_rows)} carry no adjacent {BUILD_STATE} note')
     print()
 
-    if not rows and not tool_rows:
+    if not rows and not tool_rows and not build_rows:
         print(f'No signed plan document claims to be unsigned. ({signed} checked)')
         if awaiting == 0:
             print("No tool source claims a family is awaiting a signature.")
+        print(f'Every signature build claim carries a {BUILD_STATE} note. ({build_claims} checked)')
         return 0
 
     if rows:
@@ -220,6 +297,19 @@ def main():
         for path, lineno, text in tool_rows:
             print(f'  {os.path.relpath(path, REPO)}:{lineno}')
             print(f"      {text}")
+        print()
+    if build_rows:
+        print("SIGNATURE BUILD CLAIM WITH NO ADJACENT NOTE -- these signatures "
+              "assert a build state and nothing keeps that assertion current:")
+        for path, lineno, text in build_rows:
+            print(f'  {os.path.relpath(path, REPO)}:{lineno}')
+            print(f"      {text}")
+        print()
+        print(f"FIX: add a dated `{BUILD_STATE}` line within "
+              f"{BUILD_WINDOW_AFTER} lines BELOW the signature, with the command "
+              "output that establishes the current state.")
+        print("     DO NOT EDIT THE SIGNATURE LINE -- Operating Rule 4. The note "
+              "goes beside it; what the team signed is not rewritten.")
         print()
     print("FIX: point the claim at the signature that exists, and mark any quoted")
     print(f"     historical wording with {EXEMPT}.")

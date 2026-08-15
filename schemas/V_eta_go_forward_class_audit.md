@@ -658,5 +658,35 @@ for.
 TEAM-SIGN-OFF [session]: jess@walthamdatascience.com / 2026-08-13 -- session.type, session.date and session.purpose are DELETED -- the did_v1 template declares only `reference` and no writer fills them (V_zeta inventions, same disposition as daqreader.file_extension). session.reference becomes `local_identifier`, REQUIRED, matching subject and epoch, and the now-duplicate optional local_identifier is dropped. THE RENAME IS A THREE-PART CHANGE: schema + migrator + NDI-matlab src/ndi/+ndi/+dataset/dir.m:69, which reads `document_properties.session.reference` directly off a retrieved document and returns nothing after the rename. NOT YET BUILT.
     (Recorded by Claude at the signer's explicit consent, given in session_01BenWtpJyRu3QhEZqCErpwm after the decision was stated in conversation. Operating Rule 4 normally forbids Claude writing this line; the signer waived that here. The DECISION is the signer's -- this is transcription, not authorship.)
 
+BUILD-STATE: 2026-08-15 -- **BUILT, all three parts.** The signature above ends
+"NOT YET BUILT" and that tail is now stale; it is NOT edited (Operating Rule 4 --
+the line is the team's), so the current state is recorded here beside it.
+HISTORICAL-SIGNOFF-CLAIM. The signature names three artifacts and each was
+checked separately, because "the schema landed" has been mistaken for "the rename
+landed" before:
+
+        (1) SCHEMA   schemas/V_eta/stable/session.json
+              superclasses : ['entity']
+              fields       : [('local_identifier', mustBeNonEmpty=True)]
+            -- one field, required. `type`, `date`, `purpose` and the duplicate
+               optional `local_identifier` are all gone.
+        (2) MIGRATOR DID-matlab .../+migrators_j/session.m
+              :2  "%SESSION Brainstorm-J migrator: `reference` -> `local_identifier`"
+              :43 "THE VALUE IS CARRIED, NEVER INVENTED."
+        (3) NDI READ SITE  NDI-matlab src/ndi/+ndi/+dataset/dir.m
+              :69-70 "BOTH VINTAGES. V_eta renamed session.reference ->
+                      session.local_identifier (did-schema, signed 2026-08-13)."
+              :76-79 if isfield(session_blk,'local_identifier') ... else ... .reference
+
+The signature cites part (3) as `dir.m:69`, which still lands on the right
+paragraph -- a citation into NDI outliving the edit, exactly as the citation
+audit predicts for a repository we only read.
+
+**WHY THIS NOTE EXISTS RATHER THAN A CORRECTED SIGNATURE.** Nothing kept the
+signature's build claim in agreement with the build, and nothing could: the two
+are updated by different acts. `tools/check_signoff_header_staleness.py` now
+requires this `BUILD-STATE:` line beside any signature asserting NOT (YET)
+BUILT, so the next one fails the chain instead of waiting to be walked into.
+
 TEAM-SIGN-OFF [subject]: jess@walthamdatascience.com / 2026-08-13 -- `subject` is a PASSTHROUGH, and that is the END STATE, not a deferral: no fold is owed and none should be built. It migrates 1 -> 1 with `base.id` PRESERVED, which is load-bearing -- `subject_id` is the most-referenced edge in the corpus and a minted id would dangle every one of them. The did_v1 template declares exactly `local_identifier` and `description`, and V_eta declares exactly those two, so nothing is dropped and nothing is invented. THREE THINGS CHANGE AND NOTHING ELSE: the superclass moves `base` -> `entity` (adding one OPTIONAL `global_identifier`), `local_identifier` becomes REQUIRED (it was already populated on real documents -- PRED's sole subject carries `P03@amandalab.org` -- so the requirement quarantines nothing that was previously valid), and `base.datestamp` becomes `base.creation_timestamp` via the outbound rename rather than via this class's migrator. The migrator's only job is to guarantee the now-required `local_identifier` is non-empty; a subject with none quarantines rather than being given a manufactured handle.
     (Recorded by Claude at the signer's explicit consent, asked for and given in session_01BenWtpJyRu3QhEZqCErpwm: the line was quoted in full, the signer was told Operating Rule 4 forbids Claude writing it unprompted, and the signer answered "Yes. I confirm subject is a passthrough". The DECISION is the signer's -- this is transcription, not authorship.)

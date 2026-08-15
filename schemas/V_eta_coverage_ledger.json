@@ -757,7 +757,7 @@
             "subject": [
               {
                 "document": "V_eta_go_forward_class_audit.md",
-                "line": 661
+                "line": 691
               }
             ],
             "subject measurement": [
@@ -9186,7 +9186,7 @@
       "decided_by_family": {
         "family": "subject",
         "document": "V_eta_go_forward_class_audit.md",
-        "line": 661,
+        "line": 691,
         "signoff": "jess@walthamdatascience.com / 2026-08-13 -- `subject` is a PASSTHROUGH, and that is the END STATE, not a deferral: no fold is owed and none should be built. It migrates 1 -> 1 with `base.id` PRESERVED, which is load-bearing -- `subject_id` is the most-referenced edge in the corpus and a minted id would dangle every one of them. The did_v1 template declares exactly `local_identifier` and `description`, and V_eta declares exactly those two, so nothing is dropped and nothing is invented. THREE THINGS CHANGE AND NOTHING ELSE: the superclass moves `base` -> `entity` (adding one OPTIONAL `global_identifier`), `local_identifier` becomes REQUIRED (it was already populated on real documents -- PRED's sole subject carries `P03@amandalab.org` -- so the requirement quarantines nothing that was previously valid), and `base.datestamp` becomes `base.creation_timestamp` via the outbound rename rather than via this class's migrator. The migrator's only job is to guarantee the now-required `local_identifier` is non-empty; a subject with none quarantines rather than being given a manufactured handle.",
         "matched_on": "v1_class",
         "matched_name": "subject",
@@ -9201,13 +9201,13 @@
         "signoff": {
           "family": "subject",
           "document": "V_eta_go_forward_class_audit.md",
-          "line": 661,
+          "line": 691,
           "signoff": "jess@walthamdatascience.com / 2026-08-13 -- `subject` is a PASSTHROUGH, and that is the END STATE, not a deferral: no fold is owed and none should be built. It migrates 1 -> 1 with `base.id` PRESERVED, which is load-bearing -- `subject_id` is the most-referenced edge in the corpus and a minted id would dangle every one of them. The did_v1 template declares exactly `local_identifier` and `description`, and V_eta declares exactly those two, so nothing is dropped and nothing is invented. THREE THINGS CHANGE AND NOTHING ELSE: the superclass moves `base` -> `entity` (adding one OPTIONAL `global_identifier`), `local_identifier` becomes REQUIRED (it was already populated on real documents -- PRED's sole subject carries `P03@amandalab.org` -- so the requirement quarantines nothing that was previously valid), and `base.datestamp` becomes `base.creation_timestamp` via the outbound rename rather than via this class's migrator. The migrator's only job is to guarantee the now-required `local_identifier` is non-empty; a subject with none quarantines rather than being given a manufactured handle.",
           "matched_on": "v1_class",
           "matched_name": "subject",
           "conflict": []
         },
-        "why": "DERIVED, not transcribed: the decision family `subject` names this class as `subject` (v1_class), and that family is signed at `V_eta_go_forward_class_audit.md`:661. Re-derived on every build from status_board.signed_families(); a family with no signature reaches nothing"
+        "why": "DERIVED, not transcribed: the decision family `subject` names this class as `subject` (v1_class), and that family is signed at `V_eta_go_forward_class_audit.md`:691. Re-derived on every build from status_board.signed_families(); a family with no signature reaches nothing"
       },
       "stage": {
         "unclassifiable": false,

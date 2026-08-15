@@ -2907,3 +2907,46 @@ not a pyraview-local fix. NOTHING IS BUILT.
 
 TEAM-SIGN-OFF [epoch extent -- row #113]: jess@walthamdatascience.com / 2026-08-13 -- epochMint OWNS the epoch extent: it mints the relative_reference carrying the extent and clock frame, hung off the epoch's time_reference_#. pyraview.m stops dropping the epochclocktimes block so the mint can see it. REJECTED: adding a value slot to `epoch_bounded_reference`, which is not in the persist set. NOT YET BUILT.
     (Recorded by Claude at the signer's explicit consent, given in session_01BenWtpJyRu3QhEZqCErpwm after the decision was stated in conversation. Operating Rule 4 normally forbids Claude writing this line; the signer waived that here. The DECISION is the signer's -- this is transcription, not authorship.)
+
+BUILD-STATE: 2026-08-15 -- **TWO OF THE THREE STEPS ARE BUILT; STEP 3 IS NOT.**
+The signature above ends "NOT YET BUILT" and the row prose above it ends
+"NOTHING IS BUILT". Both are stale, and the signature is NOT edited (Operating
+Rule 4 -- the line is the team's), so the state is recorded here beside it.
+HISTORICAL-SIGNOFF-CLAIM. Read step by step, because "partly built" is the
+answer and a single verdict either way would be wrong:
+
+        STEP 1 -- pyraview carries the epoch id forward.  BUILT.
+          DID-matlab .../+migrators_j/pyraview.m:177
+            epochRef.document_class = classBlock('epoch_bounded_reference', ...
+          :244  obs.depends_on(end+1) = struct('name','time_reference_2', ...)
+          The handle is emitted and hung off the observation as the SECOND
+          member of the time_reference_# family; the two members differ by
+          `value.clock` (the session anchor names none, this names
+          dev_local_time), which is the CHANGE 5 uniqueness rule.
+
+        STEP 2 -- epochMint mints the extent.  BUILT.  <- the signed part
+          DID-matlab .../+convert/epochMint.m
+          1663:%EPOCHEXTENTREFERENCES One `relative_reference` per DISTINCT
+                clock of an epoch.
+          1719:    ref.document_class = struct('class_name','relative_reference', ...
+           414:    'epoch_extent_references_emitted',     0, ...
+           776:        report.epoch_extent_references_emitted + numel(refs);
+          Twelve `epoch_extent_*` counters, four of them NAMED REFUSAL REASONS,
+          so a run that mints nothing says which refusal fired.
+
+        STEP 3 -- the observation gains its `epoch_id` EDGE.  NOT BUILT, and it
+          is a SCHEMA increment, not a migrator change.
+          pyraview.m:254-256, in its own words: "This is the LINK, not the
+          `epoch_id` edge. That edge is declared by exactly four V_eta classes
+          and `voltage_observation` is not one of them, so wiring it needs a
+          schema increment and belongs with the epoch family (#60)."
+          private/jEpochDocId.m:11 -- "THIS RETURNS '' FOR EVERY did_v1
+          DOCUMENT TODAY, BY CONSTRUCTION", with both reasons checked there.
+
+So the row's own sentence -- *"Step 3 makes this the first real instance of the
+epoch family (#60) landing"* -- is the part still outstanding, and it is
+correctly pointed at #60 rather than at this row. **UNVERIFIED:** every line
+above is read from source in a container with no MATLAB. What a PRED run does
+prove is narrower and is asserted NDI-side, not here:
+`TestMigrateLocalEtaPRED.m:205/:208/:211` -- `epoch_bounded_reference` absent,
+`epoch` and `relative_reference` present.
