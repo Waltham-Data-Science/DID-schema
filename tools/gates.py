@@ -283,6 +283,26 @@ STEPS = [
     Step("pytest", [PY, "-m", "pytest", "-q"], "gate",
          r"^(\d+) passed", "tests passed", external=True),
 
+    # THE SAME SUITE WITH THE SIBLINGS HIDDEN, which is what two of the three
+    # jobs in `tests.yml` actually run. Added 2026-08-15 after TWO tests in a
+    # row were red on their FIRST CI run for the same reason and passed locally
+    # every time: `older-pythons` (3.10, 3.11) runs pytest with no sibling
+    # checkout, and a test asserting on sibling-derived output cannot be made
+    # to fail here by configuration -- `/home/user/DID-matlab` exists whatever
+    # the environment says, so the lookup falls through to it and succeeds.
+    #
+    # A SEPARATE STEP RATHER THAN A FIXTURE INSIDE `pytest`, so its cost is
+    # attributable in the per-step table instead of hidden inside the slowest
+    # step, and so a failure names WHICH condition broke.
+    #
+    # It costs a second full suite (~20s). That is the price of reproducing a
+    # CI-only condition locally, and this chain has already paid twice for not
+    # having it.
+    Step("pytest_no_siblings",
+         [PY, "-m", "pytest", "-q", "-p", "tests._sibling_absent_plugin"],
+         "gate", r"^(\d+) passed", "tests passed with siblings hidden",
+         external=True),
+
     # `tools` JOINED `tests` ON 2026-08-11. The step had read `tests` alone
     # since it was written, so the eighteen scripts that generate every artifact
     # under `schemas/` were linted by nothing -- 559 findings on first
