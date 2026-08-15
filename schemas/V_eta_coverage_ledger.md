@@ -43,7 +43,7 @@
 
 **Where the signatures are. DENOMINATOR: 52 plan document(s) read (3 generated artifact(s) excluded, carrying 1 marker(s) between them -- a generated file quotes signatures, it does not hold them); 34 sign-off line(s) accepted, 0 rejected.** 23 of 23 decision families are signed.
 
-**QUESTION FOR THE TEAM -- 6 signed tag(s) name no decision family**, so the signature reaches nothing this tool joins: `base naming` (V_eta_tenet_audit.md:516); `binding governance` (V_eta_tenet_audit.md:429); `data_body` (V_eta_data_body_model_plan.md:646); `dataseries_channel_map` (V_eta_go_forward_class_audit.md:222); `date dtype` (V_eta_tenet_audit.md:512); `epoch extent -- row #113` (V_eta_OPEN_WORK.md:2908). Whether each is a family that needs renaming, a family that needs creating, or a decision that belongs to no family is a TEAM call; mapping one onto a family it does not name would be recording a disposition.
+**QUESTION FOR THE TEAM -- 6 signed tag(s) name no decision family**, so the signature reaches nothing this tool joins: `base naming` (V_eta_tenet_audit.md:516); `binding governance` (V_eta_tenet_audit.md:429); `data_body` (V_eta_data_body_model_plan.md:648); `dataseries_channel_map` (V_eta_go_forward_class_audit.md:222); `date dtype` (V_eta_tenet_audit.md:512); `epoch extent -- row #113` (V_eta_OPEN_WORK.md:2908). Whether each is a family that needs renaming, a family that needs creating, or a decision that belongs to no family is a TEAM call; mapping one onto a family it does not name would be recording a disposition.
 
 | v1 class | build stage | governance | → V_eta target(s) | what happens to it | disposition | source |
 |---|---|---|---|---|---|---|

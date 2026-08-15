@@ -302,8 +302,10 @@ NUMERATOR IS NOT REPRODUCIBLE, so it is MARKED rather than restated.**
         1002
 
 i.e. `git ls-tree -r origin/main | grep -c '\.m$'` = **1002**, a denominator of 1,002 NDI
-RE-DERIVED 2026-08-13: 91 NDI templates on origin/main; 1,003 .m files. The did_v1 ground truth did NOT move -- 0 template diffs across the NDI main merge, still 91; main gained one .m file, so only the denominator shifted. RE-DERIVED AGAIN 2026-08-15: 91 NDI templates on origin/main; 1,005 .m files. NDI main moved to 928b1cd5 and two of its nine commits add test .m files (closeAndRemoveDir.m, TestRayoLabStims.m). The did_v1 ground truth is STILL unmoved -- 91 templates, 0 diffs; only the denominator shifted.
 files on `origin/main`.
+
+RE-DERIVED 2026-08-13: 91 NDI templates on origin/main; 1,003 .m files. The did_v1 ground truth did NOT move -- 0 template diffs across the NDI main merge, still 91; main gained one .m file, so only the denominator shifted.
+RE-DERIVED AGAIN 2026-08-15: 91 NDI templates on origin/main; 1,005 .m files. NDI main moved to 928b1cd5 and two of its nine commits add test .m files (closeAndRemoveDir.m, TestRayoLabStims.m). The did_v1 ground truth is STILL unmoved -- 91 templates, 0 diffs; only the denominator shifted.
 
 **The bullet is NOT rewritten to read `95 of 1002`, and that is deliberate.** No reading of
 "hits" reproduces its `223` / `95` — `CLAUDE.md` records the three that were tried:
