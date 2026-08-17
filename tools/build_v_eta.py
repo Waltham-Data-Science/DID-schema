@@ -2530,6 +2530,70 @@ GRATING_SUBS = [
     subfield("duration", "double", "Presentation duration, seconds."),
     subfield("is_blank", "boolean",
              "True for a control/blank (no-stimulus) trial (NDI 'isblank')."),
+    # PHASE ADDED, team, 2026-08-17: "Add phase."
+    #
+    # It is what distinguishes half the Hartley basis. `hartleyrange.m` returns
+    # each (kx,ky) pair TWICE, once with s=-1 and once with s=+1
+    # (`s = [-ones(numel(I),1); ones(numel(I),1)]`), and the Hartley function
+    # cas = cos + sin is a 45-degree-offset cosine, so the sign is a 180-degree
+    # phase flip. Measured on 20211116: 1680 distinct (kx,ky) pairs x 2 signs =
+    # 3360 distinct stimuli, and 41*41-1 -- the DC term, excluded by `F_ > 0` --
+    # accounts for the 1680 exactly.
+    #
+    # WITHOUT THIS FIELD THE SIGN HAS NOWHERE TO GO and 3360 distinct gratings
+    # fold into 1680 indistinguishable pairs: a silent halving of the stimulus
+    # set that no counter we have would see, because each emitted document
+    # would be individually valid.
+    subfield("phase", "double", "Spatial phase of the grating, degrees. For a "
+             "Hartley basis function the sign s=-1 is +180 relative to s=+1 "
+             "(cas = cos + sin, a 45-degree-offset cosine)."),
+    # THE PIXEL-DOMAIN SOURCE VALUES. Team 2026-08-17: "we definitely shouldn't
+    # be dropping fields."
+    #
+    # `spatial_frequency`, `size` and `position` above are all declared in
+    # DEGREES OF VISUAL ANGLE, and for a Hartley stimulus none of the three can
+    # be computed. `hartleyrange.m` derives cycles/degree as
+    #     F_ = sqrt(kx^2+ky^2)/M * pixels_per_cm * distance * tan(1 deg)
+    # and `pixels_per_cm` comes from `NewStimGlobals` -- rig calibration. It is
+    # not in the document and not anywhere else: a sweep of all 1,220 documents
+    # in 20211116 across 229 distinct field names found no screen, monitor or
+    # pixel calibration of any kind.
+    #
+    # The PIXEL-domain quantities ARE exactly computable. Writing them into the
+    # degree-domain fields would store one quantity under another's name, which
+    # is the silent unit error this repository already paid for once with
+    # Hz-vs-spikes-per-bin. Leaving them out drops them. So they are carried
+    # here beside the canonical fields, in the T14 shape every other quantity in
+    # V_eta uses (`duration.value` = {seconds, source_unit, source_value,
+    # approximate}; `angle.value` = {radians, ...}).
+    #
+    # One multiplication recovers the canonical values the day the calibration
+    # is known. Until then nothing is lost and nothing is misstated.
+    subfield("source_geometry", "structure",
+             "As-recorded stimulus geometry, in the units the source used, for "
+             "when the degree-domain fields above cannot be computed. Populated "
+             "when `pixels_per_degree` is unknown; the canonical fields are then "
+             "left unset rather than filled with a differently-united number.",
+             sub_fields=[
+                 subfield("spatial_frequency", "double",
+                          "Spatial frequency as recorded, in `unit`. For a "
+                          "Hartley index this is sqrt(kx^2+ky^2)/M."),
+                 subfield("size", "double",
+                          "Aperture extent as recorded, in `unit`."),
+                 subfield("position", "structure",
+                          "Stimulus centre as recorded, in `unit`.", sub_fields=[
+                              subfield("x", "double", "Horizontal, in `unit`."),
+                              subfield("y", "double", "Vertical, in `unit`.")]),
+                 subfield("unit", "char",
+                          "The unit these values are in: 'cycles/pixel' for "
+                          "spatial_frequency and 'pixel' for size and position "
+                          "when the source is a screen geometry."),
+                 subfield("pixels_per_degree", "double",
+                          "The missing conversion factor, when it becomes known. "
+                          "Left unset by migration: it is rig calibration "
+                          "(NewStimGlobals `pixels_per_cm` x distance x "
+                          "tan(1 deg)) and no did_v1 document records it."),
+             ]),
 ]
 # ABSTRACT REMOVED, team, 2026-08-17: "Making visual_grating abstract false."
 # Same flag, same reason, same day as `timed_sequence`. The signed stimulus

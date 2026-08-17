@@ -156,6 +156,127 @@
                     "ontology": null,
                     "documentation": "True for a control/blank (no-stimulus) trial (NDI 'isblank').",
                     "constraints": {}
+                },
+                {
+                    "name": "phase",
+                    "type": "double",
+                    "blank_value": 0.0,
+                    "default_value": 0.0,
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Spatial phase of the grating, degrees. For a Hartley basis function the sign s=-1 is +180 relative to s=+1 (cas = cos + sin, a 45-degree-offset cosine).",
+                    "constraints": {}
+                },
+                {
+                    "name": "source_geometry",
+                    "type": "structure",
+                    "blank_value": {},
+                    "default_value": {},
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "As-recorded stimulus geometry, in the units the source used, for when the degree-domain fields above cannot be computed. Populated when `pixels_per_degree` is unknown; the canonical fields are then left unset rather than filled with a differently-united number.",
+                    "constraints": {},
+                    "fields": [
+                        {
+                            "name": "spatial_frequency",
+                            "type": "double",
+                            "blank_value": 0.0,
+                            "default_value": 0.0,
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "Spatial frequency as recorded, in `unit`. For a Hartley index this is sqrt(kx^2+ky^2)/M.",
+                            "constraints": {}
+                        },
+                        {
+                            "name": "size",
+                            "type": "double",
+                            "blank_value": 0.0,
+                            "default_value": 0.0,
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "Aperture extent as recorded, in `unit`.",
+                            "constraints": {}
+                        },
+                        {
+                            "name": "position",
+                            "type": "structure",
+                            "blank_value": {},
+                            "default_value": {},
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "Stimulus centre as recorded, in `unit`.",
+                            "constraints": {},
+                            "fields": [
+                                {
+                                    "name": "x",
+                                    "type": "double",
+                                    "blank_value": 0.0,
+                                    "default_value": 0.0,
+                                    "mustBeNonEmpty": false,
+                                    "mustBeScalar": true,
+                                    "mustNotHaveNaN": false,
+                                    "queryable": true,
+                                    "ontology": null,
+                                    "documentation": "Horizontal, in `unit`.",
+                                    "constraints": {}
+                                },
+                                {
+                                    "name": "y",
+                                    "type": "double",
+                                    "blank_value": 0.0,
+                                    "default_value": 0.0,
+                                    "mustBeNonEmpty": false,
+                                    "mustBeScalar": true,
+                                    "mustNotHaveNaN": false,
+                                    "queryable": true,
+                                    "ontology": null,
+                                    "documentation": "Vertical, in `unit`.",
+                                    "constraints": {}
+                                }
+                            ]
+                        },
+                        {
+                            "name": "unit",
+                            "type": "char",
+                            "blank_value": "",
+                            "default_value": "",
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "The unit these values are in: 'cycles/pixel' for spatial_frequency and 'pixel' for size and position when the source is a screen geometry.",
+                            "constraints": {}
+                        },
+                        {
+                            "name": "pixels_per_degree",
+                            "type": "double",
+                            "blank_value": 0.0,
+                            "default_value": 0.0,
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "The missing conversion factor, when it becomes known. Left unset by migration: it is rig calibration (NewStimGlobals `pixels_per_cm` x distance x tan(1 deg)) and no did_v1 document records it.",
+                            "constraints": {}
+                        }
+                    ]
                 }
             ]
         }
