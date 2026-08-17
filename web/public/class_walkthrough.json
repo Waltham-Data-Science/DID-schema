@@ -218,12 +218,12 @@
       "site_count": 2,
       "sites": [
        {
-        "line": 1557,
+        "line": 1578,
         "spelling": "base",
         "text": "if ~isfield(b, 'base') || ~isstruct(b.base) || ~isfield(b.base, name); return; end"
        },
        {
-        "line": 1762,
+        "line": 1783,
         "spelling": "base",
         "text": "if ~isstruct(body) || ~isfield(body, 'base') || ~isstruct(body.base)"
        }
@@ -798,17 +798,17 @@
       "site_count": 3,
       "sites": [
        {
-        "line": 907,
+        "line": 928,
         "spelling": "daqmetadatareader_epochdata_ingested",
         "text": "if ~strcmp(rows(k).class_name, 'daqmetadatareader_epochdata_ingested')"
        },
        {
-        "line": 938,
+        "line": 959,
         "spelling": "daqmetadatareader_epochdata_ingested",
         "text": "'daqmetadatareader_epochdata_ingested');"
        },
        {
-        "line": 1284,
+        "line": 1305,
         "spelling": "daqmetadatareader_epochdata_ingested",
         "text": "'daqmetadatareader_epochdata_ingested', ..."
        }
@@ -1966,22 +1966,22 @@
       "site_count": 4,
       "sites": [
        {
-        "line": 666,
+        "line": 687,
         "spelling": "epochid",
         "text": "es = valueForSource(epochValues{k}, epochSources{k}, 'epochid');"
        },
        {
-        "line": 826,
+        "line": 847,
         "spelling": "epochid",
         "text": "&& isfield(b.method_parameters.other, 'epochid')"
        },
        {
-        "line": 827,
+        "line": 848,
         "spelling": "epochid",
         "text": "b.method_parameters.other = rmfield(b.method_parameters.other, 'epochid');"
        },
        {
-        "line": 914,
+        "line": 935,
         "spelling": "epochid",
         "text": "es = valueForSource(epochValues{k}, epochSources{k}, 'epochid');"
        }
@@ -4145,7 +4145,7 @@
       "site_count": 1,
       "sites": [
        {
-        "line": 527,
+        "line": 548,
         "spelling": "session",
         "text": "if ~strcmp(rows(k).class_name, 'session'); continue; end"
        }

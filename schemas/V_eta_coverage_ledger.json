@@ -60,6 +60,12 @@
           ]
         },
         {
+          "v1_class": "element_epoch",
+          "passes": [
+            "epochMint"
+          ]
+        },
+        {
           "v1_class": "epochid",
           "passes": [
             "epochMint"
@@ -3420,8 +3426,14 @@
         "schema_targets_missing": [],
         "migrator_emits_decided_targets": false,
         "has_per_class_migrator": true,
-        "batch_pass_consumers": [],
-        "batch_pass_emits": {},
+        "batch_pass_consumers": [
+          "epochMint"
+        ],
+        "batch_pass_emits": {
+          "epochMint": [
+            "relative_reference"
+          ]
+        },
         "batch_pass_emits_decided_targets": false,
         "helper_consumers": [],
         "helper_emits": {},

@@ -569,6 +569,68 @@ def batch_pass_entries(v1_class, veta_class):
     return out
 
 
+# A RENAME IS A FOURTH SPELLING, and it is the only one of its kind that is
+# safe to join on. Added 2026-08-17 for `epochMint`, which reads
+# `acquisition_epoch` bodies -- the migrated form of did_v1 `element_epoch` --
+# and mints a `relative_reference` per clock. It declared that consumption
+# truthfully and the ledger still could not credit it, because `element_epoch`
+# carries `veta_class = None`, so none of the three spellings above is the name
+# the batch actually holds at that point in the chain.
+#
+# WHY NOT JUST MATCH ON `targets`, WHICH WOULD HAVE BEEN ONE LINE. Measured
+# before it was written, over the committed ledger:
+#
+#   DENOMINATOR: 102 rows; 81 distinct target class name(s) claimed
+#     claimed by EXACTLY ONE row : 55
+#     claimed by SEVERAL rows    : 26
+#   `session_relative_reference`, declared by resolveSessionAnchors, is a
+#   target of THIRTY-SIX rows.
+#
+# So the one-line version credits one pass to 36 rows -- a mass over-credit in
+# the reassuring direction, which is the trade this file refuses everywhere
+# else. Uniqueness alone is not enough either: `session_bounded_reference` has
+# exactly one owner (`ontologyTableRow`), and crediting that row with "a pass
+# consumes it" because a pass consumes an ANCHOR its migrator emitted is a
+# different claim from the one rung 1 makes.
+#
+# THE RULE IS THEREFORE THE RENAME CASE AND NOTHING ELSE: the declared name is
+# the row's SOLE target, and no other row claims it. Then the migrated name IS
+# the row, 1:1, and consuming it is consuming the row's documents. On today's
+# ledger that admits exactly one join -- `acquisition_epoch` -> `element_epoch`
+# -- and refuses every other declared name, including all 36 above.
+def rename_target_owner(targets_by_class):
+    """{sole-target name: v1_class} for classes whose migration is a pure rename.
+
+    Takes {v1_class: [target, ...]} for the WHOLE universe and is computed once,
+    before rows are built. Not per-row on purpose: the uniqueness half needs
+    every class to have answered, so a version that accumulated as rows were
+    built would silently degrade to "unique among the classes seen so far" --
+    which would make the join depend on iteration order.
+    """
+    claims = {}
+    for cn, targets in targets_by_class.items():
+        for t in (targets or []):
+            claims.setdefault(t, []).append(cn)
+    return {name: owners[0]
+            for name, owners in claims.items()
+            if len(owners) == 1 and list(targets_by_class[owners[0]]) == [name]}
+
+
+RENAME_OWNER = {}
+
+
+def rename_entries(v1_class):
+    """Declarations naming this row by its MIGRATED name, rename case only."""
+    idx = BATCH_PASS_SCAN["index"]
+    out = []
+    for name, owner in RENAME_OWNER.items():
+        if owner != v1_class:
+            continue
+        for e in idx.get(name, []):
+            out.append(dict(e, matched_on=name))
+    return out
+
+
 # ============================================================================
 # THE SHARED HELPER -- the FOURTH consumption channel (the `app` mis-score).
 # ============================================================================
@@ -1287,6 +1349,12 @@ def build_ledger():
     migs = migrator_files()
     vz = vzeta_classes()
     tmap = targets_map()
+    # THE RENAME JOIN, computed over the WHOLE universe before any row is built
+    # (see `rename_target_owner`: uniqueness cannot be accumulated per row).
+    RENAME_OWNER.clear()
+    RENAME_OWNER.update(rename_target_owner({
+        _cn: list((tmap.get(snake(_cn)) or tmap.get(_cn) or {}).get("targets", []))
+        for _cn in sorted(v1)}))
     rows = []
     for cn in sorted(v1):
         sn = snake(cn)
@@ -1532,6 +1600,11 @@ def build_ledger():
                        or [])
         _emitted_known = set(targets) | set(_unread)
         _bp = batch_pass_entries(cn, vname)
+        # The rename spelling, added last so it can only ADD a pass, never
+        # displace one already matched by a direct spelling.
+        for _re in rename_entries(cn):
+            if _re["pass"] not in {x["pass"] for x in _bp}:
+                _bp.append(_re)
         _bp_targets = sorted({t for e in _bp for t in e["targets"]})
         # THE FOURTH CHANNEL, carried apart from the third for the same reason
         # the third is carried apart from the first: a reader must be able to
@@ -2663,9 +2736,17 @@ def batch_pass_rollup(rows):
             out["unattributed_or_nothing"].append(
                 {"v1_class": r["v1_class"], "passes": list(consumers)})
     for name, entries in sorted(s["index"].items()):
-        hit = any(name in (r["v1_class"], r["veta_class"],
-                           snake(r["v1_class"] or ""))
-                  for r in rows)
+        # The RENAME spelling counts as a hit here for the same reason it
+        # counts in `batch_pass_entries`: `acquisition_epoch` is the migrated
+        # form of `element_epoch` and that row IS credited. Omitting it would
+        # put the name in `declared_matching_no_row` -- "matched nothing" --
+        # while the row it matched carries the pass in its own build_state.
+        # The two accountings in this function exist to be COMPARED, so a
+        # disagreement between them is worse than either being wrong alone.
+        hit = (RENAME_OWNER.get(name) is not None
+               or any(name in (r["v1_class"], r["veta_class"],
+                               snake(r["v1_class"] or ""))
+                      for r in rows))
         if not hit:
             out["declared_matching_no_row"].append(
                 {"name": name, "passes": [e["pass"] for e in entries]})

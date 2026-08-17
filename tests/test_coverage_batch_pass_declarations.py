@@ -433,3 +433,70 @@ class TestMutationsRedden(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class TestTheRenameJoin(unittest.TestCase):
+    """A batch pass runs AFTER the migrators, so it names the MIGRATED class.
+
+    `epochMint` reads `acquisition_epoch` bodies -- the migrated form of did_v1
+    `element_epoch` -- and declared that truthfully, and the ledger still could
+    not credit it: `element_epoch` carries `veta_class = None`, so none of the
+    three spellings the matcher offers is the name the batch holds.
+
+    THE DANGEROUS FIX IS THE OBVIOUS ONE, and these tests exist to keep it out.
+    Matching a declared name against every row's `targets` credits one pass to
+    every row that emits that class, and `session_relative_reference` -- which
+    `resolveSessionAnchors` declares -- is a target of THIRTY-SIX rows. So the
+    rule is the RENAME case only: sole target, single owner.
+    """
+
+    def test_a_pure_rename_joins(self):
+        owners = coverage.rename_target_owner(
+            {"element_epoch": ["acquisition_epoch"], "other": ["something_else"]})
+        self.assertEqual(owners.get("acquisition_epoch"), "element_epoch")
+
+    def test_a_target_claimed_by_several_rows_never_joins(self):
+        """The 36-row case, in miniature. This is the whole point of the rule."""
+        owners = coverage.rename_target_owner(
+            {"a": ["session_relative_reference"],
+             "b": ["session_relative_reference"],
+             "c": ["session_relative_reference"]})
+        self.assertNotIn("session_relative_reference", owners)
+
+    def test_a_row_with_several_targets_never_joins(self):
+        """Uniqueness alone is NOT enough. `session_bounded_reference` has
+        exactly one owner, and crediting that row with "a pass consumes it"
+        because a pass consumes an ANCHOR its migrator emitted is a different
+        claim from the one rung 1 makes."""
+        owners = coverage.rename_target_owner(
+            {"ontologyTableRow": ["subject", "session_bounded_reference"]})
+        self.assertEqual(owners, {},
+                         "a decomposition is not a rename; only a 1:1 rename "
+                         "makes the migrated name identify the row")
+
+    def test_the_order_of_classes_cannot_change_the_answer(self):
+        """Uniqueness is computed over the WHOLE universe. Accumulating it per
+        row would degrade to `unique among the rows seen so far`, which makes
+        the join depend on iteration order."""
+        a = coverage.rename_target_owner({"x": ["t"], "y": ["t"]})
+        b = coverage.rename_target_owner({"y": ["t"], "x": ["t"]})
+        self.assertEqual(a, b)
+        self.assertEqual(a, {})
+
+    def test_the_live_ledger_credits_element_epoch_and_nothing_else_moved(self):
+        rows = _ledger()["rows"]
+        print(f"\nDENOMINATOR: {len(rows)} ledger rows read")
+        by = {r["v1_class"]: r for r in rows}
+        self.assertIn("epochMint",
+                      by["element_epoch"]["build_state"]["batch_pass_consumers"])
+        # The refusal, on real data: 36 rows emit `session_relative_reference`
+        # and not one of them may be credited to `resolveSessionAnchors` by it.
+        emitters = [r["v1_class"] for r in rows
+                    if "session_relative_reference" in (r.get("targets") or [])]
+        self.assertGreater(len(emitters), 1)
+        for cn in emitters:
+            self.assertNotIn(
+                "resolveSessionAnchors",
+                by[cn]["build_state"]["batch_pass_consumers"],
+                f"{cn} was credited through a SHARED target -- the over-credit "
+                "the rename rule exists to refuse")
