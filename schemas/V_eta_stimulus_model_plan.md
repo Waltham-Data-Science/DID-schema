@@ -311,3 +311,26 @@ and Claude typed this one. Authorised explicitly -- "Yes, note the sign-off for
 me" (jess, in session, 2026-08-17) -- immediately after the team was shown the
 two schema shapes side by side and the code that writes neither of them. The
 decision is the team's; the transcription is the only part that is Claude's.
+
+
+**CORRECTION, 2026-08-17, same day, to the paragraph above.** It says the board
+"takes the FIRST signature in a document". **That is not the rule and never was.**
+`status_board.find_signoff_line(plan, family)` joins on an EXACT TAG MATCH --
+`if e["tag"] == family` -- and an UNTAGGED `TEAM-SIGN-OFF:` signs the document
+only when exactly one family cites it. Position is irrelevant.
+
+The ACTION taken above was right and the REASON given for it was wrong, which is
+the more dangerous half: a reader would conclude that appending a signature to a
+document is unsafe, when what actually matters is whether the TAG NAMES A FAMILY.
+A tag naming no family is an ORPHAN TAG -- reported as such by
+`status_board.signature_census()`, reaching nothing, promoting nothing.
+
+**AND THIS DOCUMENT'S 2026-08-17 SIGNATURE IS ITSELF AN ORPHAN TAG.**
+`TEAM-SIGN-OFF [stimulus -- visual_grating_manipulation reconciliation]` names no
+family, so it reaches no ledger row. That is COSMETIC rather than a governance
+hole -- `stimulus_presentation` already reads `signed` through the `stimulus`
+family and the `[stimulus]` tag at :224, which is the signature that governs it.
+The refinement is recorded here for a human reader and is indexed by the census
+as an orphan tag, not by the family join. Recorded rather than repaired: giving
+it a family of its own would make TWO families claim `stimulus_presentation`,
+which `status_board.py --check` fails on by design.

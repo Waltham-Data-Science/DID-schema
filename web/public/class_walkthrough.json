@@ -2287,6 +2287,11 @@
     "convert_package_mentions": [],
     "per_class_migrators": [
      {
+      "package": "migrators_j",
+      "path": "src/did/+did2/+convert/+migrators_j/hartley_calc.m",
+      "spelling": "hartley_calc"
+     },
+     {
       "package": "migrators",
       "path": "src/did/+did2/+convert/+migrators/hartley_calc.m",
       "spelling": "hartley_calc"

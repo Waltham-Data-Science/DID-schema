@@ -200,3 +200,16 @@ verbatim text of `:468` and told that it does not reach this class. The rule
 exists so research cannot quietly become the record; the decision is the team's
 and only the transcription is mine. Nothing else in that exchange was signed:
 the same message asked for Fork A to be explained rather than decided.
+
+
+**CORRECTION, 2026-08-17, same day, to the paragraph above.** It says the board
+"takes the FIRST signature in a document". **That is not the rule and never was.**
+`status_board.find_signoff_line(plan, family)` joins on an EXACT TAG MATCH --
+`if e["tag"] == family` -- and an UNTAGGED `TEAM-SIGN-OFF:` signs the document
+only when exactly one family cites it. Position is irrelevant.
+
+The ACTION taken above was right and the REASON given for it was wrong, which is
+the more dangerous half: a reader would conclude that appending a signature to a
+document is unsafe, when what actually matters is whether the TAG NAMES A FAMILY.
+A tag naming no family is an ORPHAN TAG -- reported as such by
+`status_board.signature_census()`, reaching nothing, promoting nothing.

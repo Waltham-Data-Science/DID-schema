@@ -375,15 +375,24 @@ FAMILIES = [
     # tracking the moment it reappeared. It is tracked here, with the raster
     # model it belongs to, rather than special-cased out of the count.
     # THE RF FOLD IS ITS OWN FAMILY, 2026-08-17, citing the findings document
-    # rather than the image plan. Two reasons, and the second is the one this
-    # session learned the hard way. (1) `hartley_calc` is a v1 SOURCE whose
-    # decision lives in `V_eta_ngrid_family_findings.md`, a document no family
-    # cited until now -- so its whole model was invisible to every generated
-    # artifact and the row read `no signature found`. (2) The board takes the
-    # FIRST signature in a cited document; folding this into `image / ngrid`
-    # below would have joined `hartley_calc` to the image plan's signature,
-    # which decides `ngrid is DISSOLVED` and says nothing about a receptive
-    # field. A family per DOCUMENT keeps the join truthful.
+    # rather than the image plan. `hartley_calc` is a v1 SOURCE whose decision
+    # lives in `V_eta_ngrid_family_findings.md`, a document no family cited
+    # until now -- so its whole model was invisible to every generated artifact
+    # and the row read `no signature found`.
+    #
+    # A COMMENT HERE CLAIMED "the board takes the FIRST signature in a cited
+    # document". IT IS WRONG and is corrected rather than deleted, because the
+    # wrong reason was attached to a right action and that is the shape this
+    # repository keeps paying for. `find_signoff_line` joins on an EXACT TAG
+    # MATCH (`if e["tag"] == family`); an untagged sign-off signs the document
+    # only when exactly one family cites it. POSITION IS IRRELEVANT. So a
+    # signature may be appended anywhere, and what decides whether it reaches a
+    # row is whether its TAG NAMES A FAMILY. It follows that
+    # `TEAM-SIGN-OFF [receptive field naming]` in the same document is an
+    # ORPHAN TAG: it reaches nothing. Cosmetic here -- `hartley_calc` is
+    # governed by the `[receptive field fold]` tag below -- and deliberately
+    # NOT given a family of its own, because two families claiming one class is
+    # a condition `--check` fails on.
     #
     # `ngrid` itself deliberately STAYS with `image / ngrid`: its retirement is
     # gated on both consumers (F4) and is not what was signed here.
@@ -392,6 +401,23 @@ FAMILIES = [
      ("hartley_calc migrates 1->1 id-preserved into a receptive_field_calculation "
       "leaf + receptive_field composite, payload in TWO sampled_body documents "
       "(STA, p-value); ngrid.coordinates fold into axes[].values"),
+     "team"),
+
+    # THE CONFIRM-SHEET ANSWERS, 2026-08-17. Five classes whose migration was
+    # already RUNNING and simply unconfirmed -- the sheet's whole purpose. They
+    # share one family because they share one answer and one signature; none of
+    # them was claimed by any family before (checked: 0 collisions across the
+    # then-25 families), so this creates no double claim.
+    #
+    # `neuron_extracellular` is DELIBERATELY ABSENT. It was the sixth row and it
+    # was sent back for investigation, which found a real drop. It gets its own
+    # family when its fold is signed, not this one.
+    ("confirm sheet 2026-08-17",
+     ["tuningcurve_calc", "oridirtuning_calc", "probe_location", "treatment",
+      "jrclust_clusters"],
+     "V_eta_go_forward_class_audit.md",
+     ("each migrates today to the set the confirm sheet recorded, and that set "
+      "IS the intended end state; no further fold is owed"),
      "team"),
 
     ("image / ngrid", ["ngrid", "imageStack_parameters"],

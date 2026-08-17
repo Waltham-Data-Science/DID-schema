@@ -425,13 +425,21 @@ class TestTheCommittedLedger(unittest.TestCase):
         # THE FIRST ATTEMPT PUT THE SIGNATURE IN THE WRONG DOCUMENT and this
         # counter would NOT have caught it: appending to
         # `V_eta_time_reference_model_plan.md` (which a family already cited)
-        # also produced 33, because the board takes the FIRST signature in a
-        # cited document -- `:468`, which enumerates four changes and never
-        # mentions this class. The row read `signed` while pointing at a
-        # signature that does not cover it. So a bump here means a row was
-        # REACHED; it does not mean it was reached by the right line, and
-        # nothing in this file checks that. Read the join's `document:line`
-        # against the class before trusting an increment.
+        # also produced 33, and the row read `signed` while pointing at `:468`,
+        # a signature enumerating four changes that never mentions this class.
+        #
+        # THE REASON RECORDED HERE FOR THAT WAS WRONG. It said "the board takes
+        # the FIRST signature in a cited document". It does not:
+        # `status_board.find_signoff_line` joins on an EXACT TAG MATCH,
+        # `if e["tag"] == family`, and position is irrelevant. What actually
+        # happened is that the family was named `time_reference` and only the
+        # `[time_reference]` tag at :468 matched it -- the longer tag appended
+        # below named no family and was an ORPHAN TAG reaching nothing.
+        #
+        # The lesson survives the corrected mechanism and is why this comment
+        # stays: a bump here means a row was REACHED, not that it was reached
+        # by the right line, and nothing in this file checks that. Read the
+        # join's `document:line` against the class before trusting an increment.
         # 33 -> 34 on 2026-08-17: `hartley_calc` joined, and it is the same
         # THIRD kind as `epochclocktimes` two hours earlier -- the model was
         # written down at length in `V_eta_ngrid_family_findings.md` and NO
@@ -440,10 +448,19 @@ class TestTheCommittedLedger(unittest.TestCase):
         # the file. Deliberately a family of its own rather than folding into
         # `image / ngrid`, which cites the image plan -- whose first signature
         # decides `ngrid is DISSOLVED` and says nothing about a receptive field.
+        # 34 -> 39 on 2026-08-17: the CONFIRM-SHEET family joined five rows at
+        # once (tuningcurve_calc, oridirtuning_calc, probe_location, treatment,
+        # jrclust_clusters). A FOURTH kind again -- not a new decision and not a
+        # join catching up with an old one, but five migrations that were
+        # already RUNNING and merely unconfirmed, which is precisely what
+        # `confirm_sheet.py` exists to surface. Two of the five
+        # (tuningcurve_calc, oridirtuning_calc) were corpus-green under the
+        # Lepsky calculator fold long before today; their decision was never
+        # missing, only unjoined.
         self.assertEqual(transcribed, 8)
-        self.assertEqual(derived, 34)
-        self.assertEqual(self.gov["by_state"][coverage.G_SIGNED], 41,
-                         "8 transcribed + 34 derived, less `ngrid`, whose "
+        self.assertEqual(derived, 39)
+        self.assertEqual(self.gov["by_state"][coverage.G_SIGNED], 46,
+                         "8 transcribed + 39 derived, less `ngrid`, whose "
                          "DISPUTED record outranks its family signature")
 
     def test_a_DISPUTED_record_outranks_a_family_signature(self):

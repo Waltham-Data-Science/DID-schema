@@ -434,22 +434,22 @@
       "governance": {
         "denominator": 102,
         "by_state": {
-          "signed": 41,
+          "signed": 46,
           "DISPUTED": 1,
           "family UNSIGNED": 0,
-          "no signature found": 60
+          "no signature found": 55
         },
         "signed_by": {
-          "derived from a signed family": 34,
+          "derived from a signed family": 39,
           "checked transcription on the row": 7
         },
         "join": {
           "rows_inspected": 102,
-          "rows_matched_by_a_signed_family": 42,
+          "rows_matched_by_a_signed_family": 47,
           "matched_on": {
-            "v1_class": 42
+            "v1_class": 47
           },
-          "matched_on_v1_class_only": 4,
+          "matched_on_v1_class_only": 7,
           "matched_on_veta_class_only": 0,
           "matched_by_family": {
             "software": 1,
@@ -465,6 +465,7 @@
             "stranded sources": 2,
             "receptive field fold": 1,
             "image / ngrid": 2,
+            "confirm sheet 2026-08-17": 5,
             "openMINDS": 1,
             "session": 1,
             "spike processing parameters": 4,
@@ -480,7 +481,7 @@
           "conflicting_claims": [],
           "unmoved_by_cause": {
             "a family names this class and that family is UNSIGNED": 0,
-            "no family names this class; a SIGNED family names a class its migrator EMITS": 36,
+            "no family names this class; a SIGNED family names a class its migrator EMITS": 31,
             "no family names this class, and the row has no V_eta class and no target either": 3,
             "no family in FAMILIES names this class": 21
           },
@@ -524,18 +525,15 @@
               "fitcurve",
               "image",
               "imageStack",
-              "jrclust_clusters",
               "kiasort_clusters",
               "kilosort_clusters",
               "measurement",
               "neuron_extracellular",
               "ontologyImage",
               "ontologyTableRow",
-              "oridirtuning_calc",
               "orientation_direction_tuning",
               "position_metadata",
               "probe_geometry",
-              "probe_location",
               "spatial_frequency_tuning",
               "spatial_frequency_tuning_calc",
               "speed_tuning",
@@ -544,16 +542,14 @@
               "subject_group",
               "temporal_frequency_tuning",
               "temporal_frequency_tuning_calc",
-              "treatment",
               "treatment_drug",
               "treatment_transfer",
-              "tuningcurve_calc",
               "virus_injection",
               "vmspikefit"
             ]
           },
           "target_only_reached_via": {
-            "session_relative_reference (time_reference)": 32,
+            "session_relative_reference (time_reference)": 27,
             "subject (subject)": 3,
             "control_designation (stimulus)": 1,
             "daqreader_epochdata_ingested (daq ingested payloads)": 1,
@@ -571,11 +567,12 @@
             "V_eta_final_class_set.md"
           ],
           "signoff_markers_inside_excluded_documents": 1,
-          "accepted_lines": 38,
+          "accepted_lines": 39,
           "rejected_lines": [],
           "distinct_tags": [
             "base naming",
             "binding governance",
+            "confirm sheet 2026-08-17",
             "daq configuration",
             "daq ingested payloads",
             "data_body",
@@ -617,6 +614,12 @@
               {
                 "document": "V_eta_tenet_audit.md",
                 "line": 429
+              }
+            ],
+            "confirm sheet 2026-08-17": [
+              {
+                "document": "V_eta_go_forward_class_audit.md",
+                "line": 717
               }
             ],
             "daq configuration": [
@@ -814,8 +817,9 @@
             "V_eta_frequency_filter_model_plan.md": 1,
             "V_eta_openminds_family_record.md": 2
           },
-          "families_total": 25,
+          "families_total": 26,
           "families_signed": [
+            "confirm sheet 2026-08-17",
             "daq configuration",
             "daq ingested payloads",
             "ensemble",
@@ -4978,13 +4982,31 @@
       "second_pass": [],
       "how": "per-spike cluster assignments -> a body-backed count_observation (integer label series) + sampled_body + anchor",
       "target_flags": "",
-      "decided_by_family": null,
-      "families_naming_this_class": [],
-      "governance_gap": "no family names this class; a SIGNED family names a class its migrator EMITS",
+      "decided_by_family": {
+        "family": "confirm sheet 2026-08-17",
+        "document": "V_eta_go_forward_class_audit.md",
+        "line": 717,
+        "signoff": "jess@walthamdatascience.com / 2026-08-17 -- `tuningcurve_calc`, `oridirtuning_calc`, `probe_location`, `treatment` and `jrclust_clusters` each migrate today to the set recorded in the table above, and that set IS the intended end state. No further fold is owed for any of the five. Answered one at a time against the generated confirm sheet's evidence, not in bulk.",
+        "matched_on": "v1_class",
+        "matched_name": "jrclust_clusters",
+        "conflict": []
+      },
+      "families_naming_this_class": [
+        "confirm sheet 2026-08-17"
+      ],
+      "governance_gap": null,
       "governance": {
-        "state": "no signature found",
-        "signoff": null,
-        "why": "no family names this class; a SIGNED family names a class its migrator EMITS. This is the absence of a FINDABLE signature -- a transcription, or a signed family naming this class -- and NOT evidence that no decision exists"
+        "state": "signed",
+        "signoff": {
+          "family": "confirm sheet 2026-08-17",
+          "document": "V_eta_go_forward_class_audit.md",
+          "line": 717,
+          "signoff": "jess@walthamdatascience.com / 2026-08-17 -- `tuningcurve_calc`, `oridirtuning_calc`, `probe_location`, `treatment` and `jrclust_clusters` each migrate today to the set recorded in the table above, and that set IS the intended end state. No further fold is owed for any of the five. Answered one at a time against the generated confirm sheet's evidence, not in bulk.",
+          "matched_on": "v1_class",
+          "matched_name": "jrclust_clusters",
+          "conflict": []
+        },
+        "why": "DERIVED, not transcribed: the decision family `confirm sheet 2026-08-17` names this class as `jrclust_clusters` (v1_class), and that family is signed at `V_eta_go_forward_class_audit.md`:717. Re-derived on every build from status_board.signed_families(); a family with no signature reaches nothing"
       },
       "stage": {
         "unclassifiable": false,
@@ -6542,13 +6564,31 @@
       "second_pass": [],
       "how": "calculator OUTPUT -> the tuning_curve_calculation subject_calculation LEAF (id-preserved; input_parameters -> method_parameters; app kept; raw input -> derived_from_1) + session anchor",
       "target_flags": "calculator composite-leaf fold (Lepsky et al.); un-defers with 0 orphans (id-preserved)",
-      "decided_by_family": null,
-      "families_naming_this_class": [],
-      "governance_gap": "no family names this class; a SIGNED family names a class its migrator EMITS",
+      "decided_by_family": {
+        "family": "confirm sheet 2026-08-17",
+        "document": "V_eta_go_forward_class_audit.md",
+        "line": 717,
+        "signoff": "jess@walthamdatascience.com / 2026-08-17 -- `tuningcurve_calc`, `oridirtuning_calc`, `probe_location`, `treatment` and `jrclust_clusters` each migrate today to the set recorded in the table above, and that set IS the intended end state. No further fold is owed for any of the five. Answered one at a time against the generated confirm sheet's evidence, not in bulk.",
+        "matched_on": "v1_class",
+        "matched_name": "oridirtuning_calc",
+        "conflict": []
+      },
+      "families_naming_this_class": [
+        "confirm sheet 2026-08-17"
+      ],
+      "governance_gap": null,
       "governance": {
-        "state": "no signature found",
-        "signoff": null,
-        "why": "no family names this class; a SIGNED family names a class its migrator EMITS. This is the absence of a FINDABLE signature -- a transcription, or a signed family naming this class -- and NOT evidence that no decision exists"
+        "state": "signed",
+        "signoff": {
+          "family": "confirm sheet 2026-08-17",
+          "document": "V_eta_go_forward_class_audit.md",
+          "line": 717,
+          "signoff": "jess@walthamdatascience.com / 2026-08-17 -- `tuningcurve_calc`, `oridirtuning_calc`, `probe_location`, `treatment` and `jrclust_clusters` each migrate today to the set recorded in the table above, and that set IS the intended end state. No further fold is owed for any of the five. Answered one at a time against the generated confirm sheet's evidence, not in bulk.",
+          "matched_on": "v1_class",
+          "matched_name": "oridirtuning_calc",
+          "conflict": []
+        },
+        "why": "DERIVED, not transcribed: the decision family `confirm sheet 2026-08-17` names this class as `oridirtuning_calc` (v1_class), and that family is signed at `V_eta_go_forward_class_audit.md`:717. Re-derived on every build from status_board.signed_families(); a family with no signature reaches nothing"
       },
       "stage": {
         "unclassifiable": false,
@@ -6916,13 +6956,31 @@
       "second_pass": [],
       "how": "probe location -> a term_observation about the probe-subject (device-as-subject); value = atlas term (located-by-default) + anchor",
       "target_flags": "Path-S promotion NOT applied (no co-anchored manipulation)",
-      "decided_by_family": null,
-      "families_naming_this_class": [],
-      "governance_gap": "no family names this class; a SIGNED family names a class its migrator EMITS",
+      "decided_by_family": {
+        "family": "confirm sheet 2026-08-17",
+        "document": "V_eta_go_forward_class_audit.md",
+        "line": 717,
+        "signoff": "jess@walthamdatascience.com / 2026-08-17 -- `tuningcurve_calc`, `oridirtuning_calc`, `probe_location`, `treatment` and `jrclust_clusters` each migrate today to the set recorded in the table above, and that set IS the intended end state. No further fold is owed for any of the five. Answered one at a time against the generated confirm sheet's evidence, not in bulk.",
+        "matched_on": "v1_class",
+        "matched_name": "probe_location",
+        "conflict": []
+      },
+      "families_naming_this_class": [
+        "confirm sheet 2026-08-17"
+      ],
+      "governance_gap": null,
       "governance": {
-        "state": "no signature found",
-        "signoff": null,
-        "why": "no family names this class; a SIGNED family names a class its migrator EMITS. This is the absence of a FINDABLE signature -- a transcription, or a signed family naming this class -- and NOT evidence that no decision exists"
+        "state": "signed",
+        "signoff": {
+          "family": "confirm sheet 2026-08-17",
+          "document": "V_eta_go_forward_class_audit.md",
+          "line": 717,
+          "signoff": "jess@walthamdatascience.com / 2026-08-17 -- `tuningcurve_calc`, `oridirtuning_calc`, `probe_location`, `treatment` and `jrclust_clusters` each migrate today to the set recorded in the table above, and that set IS the intended end state. No further fold is owed for any of the five. Answered one at a time against the generated confirm sheet's evidence, not in bulk.",
+          "matched_on": "v1_class",
+          "matched_name": "probe_location",
+          "conflict": []
+        },
+        "why": "DERIVED, not transcribed: the decision family `confirm sheet 2026-08-17` names this class as `probe_location` (v1_class), and that family is signed at `V_eta_go_forward_class_audit.md`:717. Re-derived on every build from status_board.signed_families(); a family with no signature reaches nothing"
       },
       "stage": {
         "unclassifiable": false,
@@ -10363,13 +10421,31 @@
       ],
       "how": "dispatched by data structure into ONE data-type-named subject_manipulation leaf + an optional site term_observation + session anchor",
       "target_flags": "DYNAMIC: exactly one of temperature/dose/term_manipulation per row; SECOND PASS: an attributed (co-anchored) site -> Path-S part-subject via pathSPromotion, retargeting the manipulation onto the part",
-      "decided_by_family": null,
-      "families_naming_this_class": [],
-      "governance_gap": "no family names this class; a SIGNED family names a class its migrator EMITS",
+      "decided_by_family": {
+        "family": "confirm sheet 2026-08-17",
+        "document": "V_eta_go_forward_class_audit.md",
+        "line": 717,
+        "signoff": "jess@walthamdatascience.com / 2026-08-17 -- `tuningcurve_calc`, `oridirtuning_calc`, `probe_location`, `treatment` and `jrclust_clusters` each migrate today to the set recorded in the table above, and that set IS the intended end state. No further fold is owed for any of the five. Answered one at a time against the generated confirm sheet's evidence, not in bulk.",
+        "matched_on": "v1_class",
+        "matched_name": "treatment",
+        "conflict": []
+      },
+      "families_naming_this_class": [
+        "confirm sheet 2026-08-17"
+      ],
+      "governance_gap": null,
       "governance": {
-        "state": "no signature found",
-        "signoff": null,
-        "why": "no family names this class; a SIGNED family names a class its migrator EMITS. This is the absence of a FINDABLE signature -- a transcription, or a signed family naming this class -- and NOT evidence that no decision exists"
+        "state": "signed",
+        "signoff": {
+          "family": "confirm sheet 2026-08-17",
+          "document": "V_eta_go_forward_class_audit.md",
+          "line": 717,
+          "signoff": "jess@walthamdatascience.com / 2026-08-17 -- `tuningcurve_calc`, `oridirtuning_calc`, `probe_location`, `treatment` and `jrclust_clusters` each migrate today to the set recorded in the table above, and that set IS the intended end state. No further fold is owed for any of the five. Answered one at a time against the generated confirm sheet's evidence, not in bulk.",
+          "matched_on": "v1_class",
+          "matched_name": "treatment",
+          "conflict": []
+        },
+        "why": "DERIVED, not transcribed: the decision family `confirm sheet 2026-08-17` names this class as `treatment` (v1_class), and that family is signed at `V_eta_go_forward_class_audit.md`:717. Re-derived on every build from status_board.signed_families(); a family with no signature reaches nothing"
       },
       "stage": {
         "unclassifiable": false,
@@ -10649,13 +10725,31 @@
       "second_pass": [],
       "how": "IS-A stimulus_tuningcurve so inherits a populated element_id -> single-doc fold to tuning_curve_calculation (result on the inherited stimulus_tuningcurve block; input_parameters -> method_parameters) + session anchor",
       "target_flags": "calculator composite-leaf fold (Lepsky et al.); un-defers with 0 orphans (id-preserved)",
-      "decided_by_family": null,
-      "families_naming_this_class": [],
-      "governance_gap": "no family names this class; a SIGNED family names a class its migrator EMITS",
+      "decided_by_family": {
+        "family": "confirm sheet 2026-08-17",
+        "document": "V_eta_go_forward_class_audit.md",
+        "line": 717,
+        "signoff": "jess@walthamdatascience.com / 2026-08-17 -- `tuningcurve_calc`, `oridirtuning_calc`, `probe_location`, `treatment` and `jrclust_clusters` each migrate today to the set recorded in the table above, and that set IS the intended end state. No further fold is owed for any of the five. Answered one at a time against the generated confirm sheet's evidence, not in bulk.",
+        "matched_on": "v1_class",
+        "matched_name": "tuningcurve_calc",
+        "conflict": []
+      },
+      "families_naming_this_class": [
+        "confirm sheet 2026-08-17"
+      ],
+      "governance_gap": null,
       "governance": {
-        "state": "no signature found",
-        "signoff": null,
-        "why": "no family names this class; a SIGNED family names a class its migrator EMITS. This is the absence of a FINDABLE signature -- a transcription, or a signed family naming this class -- and NOT evidence that no decision exists"
+        "state": "signed",
+        "signoff": {
+          "family": "confirm sheet 2026-08-17",
+          "document": "V_eta_go_forward_class_audit.md",
+          "line": 717,
+          "signoff": "jess@walthamdatascience.com / 2026-08-17 -- `tuningcurve_calc`, `oridirtuning_calc`, `probe_location`, `treatment` and `jrclust_clusters` each migrate today to the set recorded in the table above, and that set IS the intended end state. No further fold is owed for any of the five. Answered one at a time against the generated confirm sheet's evidence, not in bulk.",
+          "matched_on": "v1_class",
+          "matched_name": "tuningcurve_calc",
+          "conflict": []
+        },
+        "why": "DERIVED, not transcribed: the decision family `confirm sheet 2026-08-17` names this class as `tuningcurve_calc` (v1_class), and that family is signed at `V_eta_go_forward_class_audit.md`:717. Re-derived on every build from status_board.signed_families(); a family with no signature reaches nothing"
       },
       "stage": {
         "unclassifiable": false,

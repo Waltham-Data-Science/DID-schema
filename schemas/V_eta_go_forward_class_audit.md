@@ -690,3 +690,98 @@ BUILT, so the next one fails the chain instead of waiting to be walked into.
 
 TEAM-SIGN-OFF [subject]: jess@walthamdatascience.com / 2026-08-13 -- `subject` is a PASSTHROUGH, and that is the END STATE, not a deferral: no fold is owed and none should be built. It migrates 1 -> 1 with `base.id` PRESERVED, which is load-bearing -- `subject_id` is the most-referenced edge in the corpus and a minted id would dangle every one of them. The did_v1 template declares exactly `local_identifier` and `description`, and V_eta declares exactly those two, so nothing is dropped and nothing is invented. THREE THINGS CHANGE AND NOTHING ELSE: the superclass moves `base` -> `entity` (adding one OPTIONAL `global_identifier`), `local_identifier` becomes REQUIRED (it was already populated on real documents -- PRED's sole subject carries `P03@amandalab.org` -- so the requirement quarantines nothing that was previously valid), and `base.datestamp` becomes `base.creation_timestamp` via the outbound rename rather than via this class's migrator. The migrator's only job is to guarantee the now-required `local_identifier` is non-empty; a subject with none quarantines rather than being given a manufactured handle.
     (Recorded by Claude at the signer's explicit consent, asked for and given in session_01BenWtpJyRu3QhEZqCErpwm: the line was quoted in full, the signer was told Operating Rule 4 forbids Claude writing it unprompted, and the signer answered "Yes. I confirm subject is a passthrough". The DECISION is the signer's -- this is transcription, not authorship.)
+
+---
+
+## Confirm-sheet answers, 2026-08-17
+
+Five rows of `tools/confirm_sheet.py` were put to the team one at a time, each
+with its emitted set, its intent and its caveat, and each answered YES — "that
+is the target we want". The sheet asks whether what the migrator ALREADY emits
+is the intended end state; these five were confirmed unchanged, so no build
+follows from them.
+
+| class | 20211116 docs | ENDS AS |
+|---|---|---|
+| `tuningcurve_calc` | 84 | `tuning_curve_calculation`, `software` |
+| `oridirtuning_calc` | 42 | `tuning_curve_calculation`, `software` |
+| `probe_location` | 2 | `term_observation` |
+| `treatment` | 2 | `temperature_manipulation` / `dose_manipulation` / `term_manipulation` (one per row, dispatched) + `term_observation` |
+| `jrclust_clusters` | 1 | `count_observation`, `sampled_body`, `software` |
+
+`jrclust_clusters` carries a caveat the team accepted knowingly: it emits a
+`sampled_body`, and 20211116 is a DOCUMENT-ONLY corpus (`find <corpus> -type f
+| grep -vc '\.json$'` = 0), so that path cannot be exercised there. The team
+will exercise it locally.
+
+TEAM-SIGN-OFF [confirm sheet 2026-08-17]: jess@walthamdatascience.com / 2026-08-17 -- `tuningcurve_calc`, `oridirtuning_calc`, `probe_location`, `treatment` and `jrclust_clusters` each migrate today to the set recorded in the table above, and that set IS the intended end state. No further fold is owed for any of the five. Answered one at a time against the generated confirm sheet's evidence, not in bulk.
+
+WHAT THIS COSTS IF IT IS WRONG, stated because a confirmation is the cheapest
+kind of signature to give and the hardest to revisit: these five account for 131
+of 20211116's 1,220 documents. Two of them (`tuningcurve_calc`,
+`oridirtuning_calc`) were already corpus-green under the Lepsky calculator fold
+with 0 orphans, so the confirmation records a decision that had already been
+made and had simply never been joined to a ledger row.
+
+A SIXTH ROW WAS NOT CONFIRMED. `neuron_extracellular` was sent back for
+investigation and the investigation found a real drop -- see the
+`neuron_extracellular` section below.
+
+PROVENANCE: Operating Rule 4 -- Claude typed this line under explicit
+authorisation, "Do 3, and note the sign-offs" (jess, in session, 2026-08-17).
+The five answers are the team's; the transcription is Claude's.
+
+## `neuron_extracellular` — the sixth confirm-sheet row, NOT confirmed
+
+Sent back for investigation rather than answered. The sheet's caveat read
+"`mean_waveform` + cell-type `term_assertion` deferred", which understates it.
+Re-derived from all 21 documents in 20211116:
+
+        DENOMINATOR: 21 neuron_extracellular document(s) read
+
+        field                          shape    distinct
+        number_of_samples_per_channel  scalar    1/21     always 21
+        number_of_channels             scalar    1/21     always 32
+        mean_waveform                  21x32    21/21     -316.7 .. 259.4
+        waveform_sample_times          21        1/21     -0.25 .. +0.75 ms
+        cluster_index                  scalar   21/21     1..21
+        quality_number                 scalar    2/21     1 or 4
+        quality_label                  scalar    2/21     "multi" / "single"
+
+        depends_on: element_id 21/21 populated, spike_clusters_id 0/21
+
+Tracing every source field through `+migrators_j/neuron_extracellular.m`: only
+`quality_number`, `element_id` and the `app` block reach an emitted document.
+The source block is read for fields and never carried out, so what is DROPPED is
+
+  * `mean_waveform` -- 672 numbers per document, UNIQUE to every neuron, 14,112
+    in this corpus. The mean spike waveform across 32 channels: the most
+    identifying physiological feature a sorted unit has.
+  * `waveform_sample_times` -- its time base.
+  * `cluster_index` -- the sorter's own label, unique per neuron. It survives
+    only as text inside the derived subject's `local_identifier`,
+    `unit_<cluster_index>`.
+  * `number_of_channels` / `number_of_samples_per_channel` -- redundant, both
+    derivable from the array shape.
+
+**THE BLOCKER IN THE MIGRATOR'S OWN NOTE IS STALE.** It reads "needs a
+body-serialization decision -- a sampled_body carries files, not an inline
+matrix". That was true when written and is not now: `axes[]` landed 2026-08-14,
+and the time base is EXACTLY REGULAR --
+
+        21 entries, distinct steps: [5e-05]
+        origin = -0.00025 s, spacing = 5e-05 s   (20 kHz)
+
+-- so it needs no new machinery. The shape that follows from the signed
+data_body model is a `voltage_observation` of the neuron-subject (microvolts
+over time and channel) with a `sampled_body` carrying two axes: time REGULAR
+with the origin and spacing above, and a channel axis of n = 32. The two count
+fields drop as derivable, exactly as `ngrid.data_size` does.
+
+**ONE HAZARD FOR WHOEVER BUILDS IT:** `spike_clusters_id` is declared and EMPTY
+on all 21 documents IN THE SOURCE. That is not a V_eta defect, but a target or
+tombstone that makes it required would quarantine all 21.
+
+DECISION, team 2026-08-17: build the waveform fold BEFORE confirming the row --
+"Let's investigate this one", then "Do 3". Not signed as a disposition here; the
+signature belongs with the built fold.
