@@ -2531,8 +2531,23 @@ GRATING_SUBS = [
     subfield("is_blank", "boolean",
              "True for a control/blank (no-stimulus) trial (NDI 'isblank')."),
 ]
+# ABSTRACT REMOVED, team, 2026-08-17: "Making visual_grating abstract false."
+# Same flag, same reason, same day as `timed_sequence`. The signed stimulus
+# model requires N STANDALONE `visual_grating` documents that a
+# `timed_sequence`'s `presented_id` can point at -- and
+# `+did2/+schema/cache.m` raises `did2:validation:abstractInstantiation` for any
+# document naming an abstract class, so the model's central case was forbidden
+# by its own target class.
+#
+# THE MEASUREMENT THAT MADE THIS URGENT, over the built set:
+#     41 direct subclasses of `data_type`; 40 abstract, 1 concrete
+# The single concrete one was `timed_sequence`, made so yesterday. So
+# `presented_id -> data_type` -- a deliberately BROAD edge, meant to accept any
+# presented stimulus -- had essentially nothing it could legally reference.
+# Whether the other 39 should also be reconsidered is NOT decided here; this
+# changes the one class the team named.
 write("stable", "visual_grating",
-      doc("visual_grating", ["base"], abstract=True, fields=[field(
+      doc("visual_grating", ["base"], fields=[field(
           "value", "structure",
           "A presented visual grating (static or drifting) and its "
           "presentation parameters.", non_empty=True, blank={}, sub_fields=GRATING_SUBS)]))
