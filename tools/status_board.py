@@ -322,6 +322,27 @@ FAMILIES = [
     # THE OTHER THREE CONCRETE MEMBERS STAY AND MUST STAY: they are minted
     # today (session_relative 22 sites, session_bounded 1, epoch_bounded 1) as
     # a deliberate pass-1 handle. The root `time_reference` stays too.
+    # `epochclocktimes` IS ITS OWN FAMILY, 2026-08-17, and the separation is
+    # deliberate rather than tidy-minded. The class is a v1 SOURCE, not a V_eta
+    # target like the four below, and its decision lives in a DIFFERENT document
+    # -- `V_eta_time_reference_family_plan.md`, which until today no family cited,
+    # so the model written there was invisible to every generated artifact and
+    # this row rendered `no signature found`.
+    #
+    # FOLDING IT INTO `time_reference` BELOW WAS TRIED FIRST AND WAS WRONG. The
+    # board takes the FIRST signature in a cited document, and that document's
+    # first is `:468`, which enumerates four changes and never mentions this
+    # class. The row came back `signed` citing a signature that does not cover it
+    # -- strictly worse than the honest `no signature found`, because it is the
+    # reassuring direction and it looks settled. A family per DOCUMENT is what
+    # keeps the join truthful.
+    ("epochclocktimes", ["epochclocktimes"],
+     "V_eta_time_reference_family_plan.md",
+     ("epochclocktimes == acquisition_epoch.clocks[], so its content becomes "
+      "relative_reference documents; the class does not return. EQUIVALENCE "
+      "ONLY -- Fork A (where the epoch anchor lives) is open and gates the build"),
+     "team"),
+
     ("time_reference", [
         "time_reference", "session_bounded_reference", "session_relative_reference",
         "epoch_bounded_reference"],

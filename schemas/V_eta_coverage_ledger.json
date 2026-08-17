@@ -428,22 +428,22 @@
       "governance": {
         "denominator": 102,
         "by_state": {
-          "signed": 39,
+          "signed": 40,
           "DISPUTED": 1,
           "family UNSIGNED": 0,
-          "no signature found": 62
+          "no signature found": 61
         },
         "signed_by": {
-          "derived from a signed family": 32,
+          "derived from a signed family": 33,
           "checked transcription on the row": 7
         },
         "join": {
           "rows_inspected": 102,
-          "rows_matched_by_a_signed_family": 40,
+          "rows_matched_by_a_signed_family": 41,
           "matched_on": {
-            "v1_class": 40
+            "v1_class": 41
           },
-          "matched_on_v1_class_only": 3,
+          "matched_on_v1_class_only": 4,
           "matched_on_veta_class_only": 0,
           "matched_by_family": {
             "software": 1,
@@ -452,6 +452,7 @@
             "daq ingested payloads": 3,
             "raw recording observation": 2,
             "ensemble": 1,
+            "epochclocktimes": 1,
             "epoch": 2,
             "file navigation": 1,
             "frequency_filter": 1,
@@ -474,7 +475,7 @@
             "a family names this class and that family is UNSIGNED": 0,
             "no family names this class; a SIGNED family names a class its migrator EMITS": 36,
             "no family names this class, and the row has no V_eta class and no target either": 3,
-            "no family in FAMILIES names this class": 23
+            "no family in FAMILIES names this class": 22
           },
           "unmoved_rows_by_cause": {
             "no family in FAMILIES names this class": [
@@ -486,7 +487,6 @@
               "demoNDI",
               "demoNDIMock",
               "distance_metadata",
-              "epochclocktimes",
               "hartley_calc",
               "metadata_editor",
               "oneepoch",
@@ -565,7 +565,7 @@
             "V_eta_final_class_set.md"
           ],
           "signoff_markers_inside_excluded_documents": 1,
-          "accepted_lines": 34,
+          "accepted_lines": 35,
           "rejected_lines": [],
           "distinct_tags": [
             "base naming",
@@ -578,6 +578,7 @@
             "ensemble",
             "epoch",
             "epoch extent -- row #113",
+            "epochclocktimes",
             "file navigation",
             "image / ngrid",
             "logical_observation",
@@ -667,6 +668,12 @@
               {
                 "document": "V_eta_OPEN_WORK.md",
                 "line": 2908
+              }
+            ],
+            "epochclocktimes": [
+              {
+                "document": "V_eta_time_reference_family_plan.md",
+                "line": 181
               }
             ],
             "file navigation": [
@@ -780,12 +787,13 @@
             "V_eta_frequency_filter_model_plan.md": 1,
             "V_eta_openminds_family_record.md": 2
           },
-          "families_total": 23,
+          "families_total": 24,
           "families_signed": [
             "daq configuration",
             "daq ingested payloads",
             "ensemble",
             "epoch",
+            "epochclocktimes",
             "file navigation",
             "frequency_filter",
             "image / ngrid",
@@ -847,9 +855,7 @@
           }
         }
       },
-      "decision_claimed_but_unchecked": [
-        "epochclocktimes"
-      ]
+      "decision_claimed_but_unchecked": []
     }
   },
   "rows": [
@@ -3642,13 +3648,31 @@
       "second_pass": [],
       "how": "superclass block migrator: rewrites the epochclocktimes block in place (clocktype->epoch_clock, t0_t1->t0/t1); no class change",
       "target_flags": "in-place block rewrite, emits no new document",
-      "decided_by_family": null,
-      "families_naming_this_class": [],
-      "governance_gap": "no family in FAMILIES names this class",
+      "decided_by_family": {
+        "family": "epochclocktimes",
+        "document": "V_eta_time_reference_family_plan.md",
+        "line": 181,
+        "signoff": "jess@walthamdatascience.com / 2026-08-17 -- `epochclocktimes` IS the same fact as `acquisition_epoch.clocks[]` -- `epochclocktimes.clocktype == clocks[].name` and `epochclocktimes.t0_t1 == clocks[].t0 / .t1`, the equivalence stated at :125-126 above -- so its content becomes `relative_reference` documents by the clause in `V_eta_epoch_plan.md`:869, \"acquisition_epoch dissolves and its clocks become relative_reference documents\". It does NOT come back as a class. THIS SIGNS THE EQUIVALENCE ONLY. Fork A above (where the epoch anchor lives -- mint / inline / stay approximate) is explicitly LEFT OPEN and still gates the build.",
+        "matched_on": "v1_class",
+        "matched_name": "epochclocktimes",
+        "conflict": []
+      },
+      "families_naming_this_class": [
+        "epochclocktimes"
+      ],
+      "governance_gap": null,
       "governance": {
-        "state": "no signature found",
-        "signoff": null,
-        "why": "no family in FAMILIES names this class. This is the absence of a FINDABLE signature -- a transcription, or a signed family naming this class -- and NOT evidence that no decision exists; V_eta_migration_targets.json DOES claim a signed decision for this class (`decided_targets`), but that claim is authored and UNCHECKED"
+        "state": "signed",
+        "signoff": {
+          "family": "epochclocktimes",
+          "document": "V_eta_time_reference_family_plan.md",
+          "line": 181,
+          "signoff": "jess@walthamdatascience.com / 2026-08-17 -- `epochclocktimes` IS the same fact as `acquisition_epoch.clocks[]` -- `epochclocktimes.clocktype == clocks[].name` and `epochclocktimes.t0_t1 == clocks[].t0 / .t1`, the equivalence stated at :125-126 above -- so its content becomes `relative_reference` documents by the clause in `V_eta_epoch_plan.md`:869, \"acquisition_epoch dissolves and its clocks become relative_reference documents\". It does NOT come back as a class. THIS SIGNS THE EQUIVALENCE ONLY. Fork A above (where the epoch anchor lives -- mint / inline / stay approximate) is explicitly LEFT OPEN and still gates the build.",
+          "matched_on": "v1_class",
+          "matched_name": "epochclocktimes",
+          "conflict": []
+        },
+        "why": "DERIVED, not transcribed: the decision family `epochclocktimes` names this class as `epochclocktimes` (v1_class), and that family is signed at `V_eta_time_reference_family_plan.md`:181. Re-derived on every build from status_board.signed_families(); a family with no signature reaches nothing"
       },
       "stage": {
         "unclassifiable": false,

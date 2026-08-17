@@ -414,10 +414,28 @@ class TestTheCommittedLedger(unittest.TestCase):
         # are the two things it exists to keep apart. A future reader diffing
         # this number should be able to tell which happened without reading the
         # plan documents.
+        # 32 -> 33 on 2026-08-17: `epochclocktimes` joined, and it is the THIRD
+        # kind -- neither "the join caught up with an old decision" nor "the
+        # team decided something new". The MODEL was fully written down long
+        # ago, in `V_eta_time_reference_family_plan.md`; what was missing is
+        # that NO FAMILY CITED THAT DOCUMENT, so nothing in it could ever reach
+        # a ledger row however well argued it was. The team signed the
+        # equivalence on 2026-08-17 and a family was added citing the file.
+        #
+        # THE FIRST ATTEMPT PUT THE SIGNATURE IN THE WRONG DOCUMENT and this
+        # counter would NOT have caught it: appending to
+        # `V_eta_time_reference_model_plan.md` (which a family already cited)
+        # also produced 33, because the board takes the FIRST signature in a
+        # cited document -- `:468`, which enumerates four changes and never
+        # mentions this class. The row read `signed` while pointing at a
+        # signature that does not cover it. So a bump here means a row was
+        # REACHED; it does not mean it was reached by the right line, and
+        # nothing in this file checks that. Read the join's `document:line`
+        # against the class before trusting an increment.
         self.assertEqual(transcribed, 8)
-        self.assertEqual(derived, 32)
-        self.assertEqual(self.gov["by_state"][coverage.G_SIGNED], 39,
-                         "8 transcribed + 32 derived, less `ngrid`, whose "
+        self.assertEqual(derived, 33)
+        self.assertEqual(self.gov["by_state"][coverage.G_SIGNED], 40,
+                         "8 transcribed + 33 derived, less `ngrid`, whose "
                          "DISPUTED record outranks its family signature")
 
     def test_a_DISPUTED_record_outranks_a_family_signature(self):

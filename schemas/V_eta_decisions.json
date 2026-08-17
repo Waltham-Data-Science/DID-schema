@@ -2,11 +2,11 @@
   "title": "V_eta decision families (GENERATED -- do not hand-edit)",
   "description": "Regenerate with `python3 tools/status_board.py`. The human-readable twin is schemas/V_eta_STATUS.md. A family counts as decided ONLY when its plan document carries a TEAM-SIGN-OFF line; Claude cannot promote its own work.",
   "summary": {
-    "families": 23,
-    "classes_claimed": 47,
+    "families": 24,
+    "classes_claimed": 48,
     "open_classes": 26,
     "by_state": {
-      "signed_awaiting_build": 23,
+      "signed_awaiting_build": 24,
       "awaiting_signature": 0,
       "proposed_unreviewed": 0,
       "open": 0
@@ -54,6 +54,23 @@
       "status": "team",
       "signed": true,
       "signoff": "jess@walthamdatascience.com / 2026-08-12 -- `validity` and `validity_observation` are replaced by `logical` + `logical_observation`; the semantic moves to `subject_statement.variable`, since a data_type names the KIND of value and not what it is about. `logical` carries ONE field, `value` typed `boolean` with mustBeScalar false -- a bare array, no wrapper cell (`boolean` is impossible as a class name: it is a primitive in the validator's type switch, cache.m:1793; `logical`:`boolean` mirrors the existing `term`:`ontology_term`). `logical_observation` declares no fields. `sequence` is deleted: NDI never reads interval order, because identifyvalidintervals accumulates through interval_add, a set union, and tuning_response.m:256 indexes THAT union rather than the stored array. THE ARRAY IS THE TARGET MODEL -- one statement per source document holding N booleans against a time axis -- and the 1->N decomposition is NOT shipped as an interim: migration WAITS for `axes[]` on `subject_statement` rather than migrating twice, so the pass is dormant by decision. Inheritance walks the whole `derived_from` chain TRANSITIVELY, MATCHING NDI, whose `loadvalidinterval` calls ITSELF on `underlying_element` and so already recurses to any depth; the divergences are the EDGE (V_eta walks `derived_from` in the migrated document graph, NDI walks a runtime object property) and the SCOPE (v1 has no `variable`, so its fallback cannot be per-variable). Inheritance yields the statement WITH ITS ANCHOR, never the interval numbers alone. Three states, a deliberate break from v1: no statement anywhere -> VALID; statements projected -> use them; statements found but none projectable into the caller's frame -> UNKNOWN, NOT VALID (v1 returns the entire requested span, so a clock mismatch reads as \"all data good\"). Consumers must count inherited statements they could not project. NOT COVERED BY THIS SIGNATURE: the gap semantics between statements (still undefined, still open), the timing of `axes[]`, and any change to ndi.app.markgarbage's v1 reader behaviour.",
+      "state": "signed_awaiting_build",
+      "state_label": "decided and signed off, awaiting build"
+    },
+    {
+      "name": "epochclocktimes",
+      "members": [
+        {
+          "class_name": "epochclocktimes",
+          "disposition": "(absent)"
+        }
+      ],
+      "open_members": [],
+      "plan": "V_eta_time_reference_family_plan.md",
+      "decision": "epochclocktimes == acquisition_epoch.clocks[], so its content becomes relative_reference documents; the class does not return. EQUIVALENCE ONLY -- Fork A (where the epoch anchor lives) is open and gates the build",
+      "status": "team",
+      "signed": true,
+      "signoff": "jess@walthamdatascience.com / 2026-08-17 -- `epochclocktimes` IS the same fact as `acquisition_epoch.clocks[]` -- `epochclocktimes.clocktype == clocks[].name` and `epochclocktimes.t0_t1 == clocks[].t0 / .t1`, the equivalence stated at :125-126 above -- so its content becomes `relative_reference` documents by the clause in `V_eta_epoch_plan.md`:869, \"acquisition_epoch dissolves and its clocks become relative_reference documents\". It does NOT come back as a class. THIS SIGNS THE EQUIVALENCE ONLY. Fork A above (where the epoch anchor lives -- mint / inline / stay approximate) is explicitly LEFT OPEN and still gates the build.",
       "state": "signed_awaiting_build",
       "state_label": "decided and signed off, awaiting build"
     },
@@ -550,6 +567,7 @@
     "generic_file": "stranded sources",
     "imageCollection": "stranded sources",
     "valid_interval": "logical_observation",
+    "epochclocktimes": "epochclocktimes",
     "time_reference": "time_reference",
     "session_bounded_reference": "time_reference",
     "session_relative_reference": "time_reference",
@@ -605,8 +623,8 @@
           "DID-matlab:convert"
         ],
         "packages_missing": [],
-        "files_read": 176,
-        "lines_read": 39649,
+        "files_read": 177,
+        "lines_read": 40098,
         "classes_queried": 26,
         "classes_emitted_as_document_class": 8,
         "unresolved_mint_sites": [
@@ -644,11 +662,11 @@
           ]
         },
         "files_read_by_group": {
-          "per_document_migrator": 150,
+          "per_document_migrator": 151,
           "batch_post_pass": 26
         },
         "lines_read_by_group": {
-          "per_document_migrator": 27045,
+          "per_document_migrator": 27494,
           "batch_post_pass": 12604
         },
         "classes_emitted_as_document_class_by_group": {
@@ -1804,17 +1822,17 @@
         "state": "b_built_awaiting_corpus_proof",
         "state_label": "(b) built, awaiting corpus proof",
         "build_evidence": [
-          "6 consuming reference(s) (6 per-document migrator)"
+          "11 consuming reference(s) (11 per-document migrator)"
         ],
         "migrator_file": null,
-        "n_consuming_refs": 6,
+        "n_consuming_refs": 11,
         "consuming_refs": [
-          "NDI-matlab:ndi_second_pass/epochAnchorFold.m:322 (guard)",
-          "NDI-matlab:ndi_second_pass/epochAnchorFold.m:424 (guard)",
-          "NDI-matlab:ndi_second_pass/epochAnchorFold.m:535 (guard)",
-          "NDI-matlab:ndi_second_pass/epochAnchorFold.m:536 (field_read)",
-          "NDI-matlab:ndi_second_pass/epochAnchorFold.m:537 (field_read)",
-          "NDI-matlab:ndi_second_pass/epochAnchorFold.m:538 (field_read)"
+          "NDI-matlab:ndi_second_pass/epochAnchorFold.m:361 (guard)",
+          "NDI-matlab:ndi_second_pass/epochAnchorFold.m:465 (guard)",
+          "NDI-matlab:ndi_second_pass/epochAnchorFold.m:466 (field_read)",
+          "NDI-matlab:ndi_second_pass/epochAnchorFold.m:467 (field_read)",
+          "NDI-matlab:ndi_second_pass/epochAnchorFold.m:468 (field_read)",
+          "NDI-matlab:ndi_second_pass/epochAnchorFold.m:469 (field_read)"
         ],
         "n_emitted_class_refs": 2,
         "emitted_class_refs": [
@@ -1833,9 +1851,9 @@
         "n_named_refs": 2,
         "named_refs": [
           "DID-matlab:migrators_j/syncrule_mapping.m:182 (named)",
-          "NDI-matlab:ndi_second_pass/epochAnchorFold.m:425 (named)"
+          "NDI-matlab:ndi_second_pass/epochAnchorFold.m:476 (named)"
         ],
-        "n_comment_mentions": 35,
+        "n_comment_mentions": 40,
         "comment_mentions": [
           "DID-matlab:convert/resolveDeferredBaths.m:15 (comment_mention)",
           "DID-matlab:convert/resolveDeferredBaths.m:47 (comment_mention)",
@@ -1846,14 +1864,14 @@
         ],
         "by_group": {
           "per_document_migrator": {
-            "n_consuming_refs": 6,
+            "n_consuming_refs": 11,
             "consuming_refs": [
-              "NDI-matlab:ndi_second_pass/epochAnchorFold.m:322 (guard)",
-              "NDI-matlab:ndi_second_pass/epochAnchorFold.m:424 (guard)",
-              "NDI-matlab:ndi_second_pass/epochAnchorFold.m:535 (guard)",
-              "NDI-matlab:ndi_second_pass/epochAnchorFold.m:536 (field_read)",
-              "NDI-matlab:ndi_second_pass/epochAnchorFold.m:537 (field_read)",
-              "NDI-matlab:ndi_second_pass/epochAnchorFold.m:538 (field_read)"
+              "NDI-matlab:ndi_second_pass/epochAnchorFold.m:361 (guard)",
+              "NDI-matlab:ndi_second_pass/epochAnchorFold.m:465 (guard)",
+              "NDI-matlab:ndi_second_pass/epochAnchorFold.m:466 (field_read)",
+              "NDI-matlab:ndi_second_pass/epochAnchorFold.m:467 (field_read)",
+              "NDI-matlab:ndi_second_pass/epochAnchorFold.m:468 (field_read)",
+              "NDI-matlab:ndi_second_pass/epochAnchorFold.m:469 (field_read)"
             ],
             "n_emitted_class_refs": 2,
             "emitted_class_refs": [
@@ -1869,9 +1887,9 @@
             "n_named_refs": 2,
             "named_refs": [
               "DID-matlab:migrators_j/syncrule_mapping.m:182 (named)",
-              "NDI-matlab:ndi_second_pass/epochAnchorFold.m:425 (named)"
+              "NDI-matlab:ndi_second_pass/epochAnchorFold.m:476 (named)"
             ],
-            "n_comment_mentions": 31,
+            "n_comment_mentions": 36,
             "comment_mentions": [
               "DID-matlab:migrators_j/pyraview.m:148 (comment_mention)",
               "DID-matlab:migrators_j/pyraview.m:161 (comment_mention)",
@@ -2058,7 +2076,7 @@
               "DID-matlab:migrators_j/pyraview.m:186 (named)",
               "DID-matlab:migrators_j/pyraview.m:193 (named)",
               "DID-matlab:migrators_j/pyraview.m:198 (named)",
-              "NDI-matlab:ndi_second_pass/epochAnchorFold.m:428 (named)"
+              "NDI-matlab:ndi_second_pass/epochAnchorFold.m:479 (named)"
             ],
             "n_comment_mentions": 77,
             "comment_mentions": [
@@ -2551,7 +2569,7 @@
             "comment_mentions": [
               "DID-matlab:migrators_j/ontology_table_row.m:271 (comment_mention)",
               "DID-matlab:migrators_j/ontology_table_row.m:35 (comment_mention)",
-              "NDI-matlab:ndi_second_pass/epochAnchorFold.m:87 (comment_mention)"
+              "NDI-matlab:ndi_second_pass/epochAnchorFold.m:126 (comment_mention)"
             ]
           },
           "batch_post_pass": {
@@ -3061,7 +3079,7 @@
         "n_consuming_refs": 2,
         "consuming_refs": [
           "DID-matlab:convert/resolveSessionAnchors.m:560 (guard)",
-          "NDI-matlab:ndi_second_pass/epochAnchorFold.m:432 (guard)"
+          "NDI-matlab:ndi_second_pass/epochAnchorFold.m:483 (guard)"
         ],
         "n_emitted_class_refs": 0,
         "emitted_class_refs": [],
@@ -3099,7 +3117,7 @@
           "per_document_migrator": {
             "n_consuming_refs": 1,
             "consuming_refs": [
-              "NDI-matlab:ndi_second_pass/epochAnchorFold.m:432 (guard)"
+              "NDI-matlab:ndi_second_pass/epochAnchorFold.m:483 (guard)"
             ],
             "n_emitted_class_refs": 0,
             "emitted_class_refs": [],

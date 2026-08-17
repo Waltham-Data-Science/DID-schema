@@ -175,3 +175,28 @@ expensive one and should be batched with a corpus run. C, D and E are small and 
 whichever lands first.
 
 **Nothing here is built. Recorded for the walkthrough decision.**
+
+---
+
+TEAM-SIGN-OFF [epochclocktimes]: jess@walthamdatascience.com / 2026-08-17 -- `epochclocktimes` IS the same fact as `acquisition_epoch.clocks[]` -- `epochclocktimes.clocktype == clocks[].name` and `epochclocktimes.t0_t1 == clocks[].t0 / .t1`, the equivalence stated at :125-126 above -- so its content becomes `relative_reference` documents by the clause in `V_eta_epoch_plan.md`:869, "acquisition_epoch dissolves and its clocks become relative_reference documents". It does NOT come back as a class. THIS SIGNS THE EQUIVALENCE ONLY. Fork A above (where the epoch anchor lives -- mint / inline / stay approximate) is explicitly LEFT OPEN and still gates the build.
+
+WHY THIS DOCUMENT NEEDED A FAMILY ENTRY BEFORE THE SIGNATURE MEANT ANYTHING.
+`tools/status_board.py` joins a signature to a class through its FAMILIES table,
+and until today no family cited this file -- so the whole model written above,
+including the equivalence, was invisible to every generated artifact and
+`epochclocktimes` rendered as `no signature found`. The first attempt at this
+signature was appended to `V_eta_time_reference_model_plan.md` instead, because
+that document IS cited. It joined to the WRONG LINE: the board takes the first
+signature in a document, and that is `:468`, which enumerates four changes and
+does not mention this class at all. The row then read `signed` while pointing at
+a signature that does not cover it -- a worse state than the honest
+`no signature found` it replaced. Hence a family of its own, citing this file.
+
+PROVENANCE, because Operating Rule 4 says Claude must never add a TEAM-SIGN-OFF
+line and this one was typed by Claude. It was authorised explicitly, in the same
+message as the decision -- "I sign-off on the equivalence and give you permission
+to note that for me" (jess, in session, 2026-08-17) -- and after being shown the
+verbatim text of `:468` and told that it does not reach this class. The rule
+exists so research cannot quietly become the record; the decision is the team's
+and only the transcription is mine. Nothing else in that exchange was signed:
+the same message asked for Fork A to be explained rather than decided.
