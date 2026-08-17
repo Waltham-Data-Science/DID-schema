@@ -154,3 +154,62 @@ you never need both as source-of-truth; storing both would be duplication (T12).
 4. **Verify-before-delete gate** on the corpus (0 stranded per-neuron trains).
 5. **Retire the v1 `ensemble` MAP class** from the persist set once the second pass lands
    (until then it stays a green passthrough — do NOT phase-8-delete early).
+
+---
+
+## Deferred build task 1 WAS CONFIRMED, 2026-08-17, and the answer is NO — with the source class now named
+
+Task 1 above asks to *"confirm the element migrator already lands this for
+'spikes' elements; if not, add it."* The confirmation ran. **It does not, and
+until today nothing in this document said WHERE the spike trains currently
+live.** They live in `element_epoch`, and that is the join neither this plan nor
+`V_eta_epoch_plan.md` was carrying.
+
+        DENOMINATOR: 1220 json file(s) read from corpus 20211116
+          element_epoch                      252
+          distinct element_id targets         21   (12 documents each, exact)
+          of those 21, direct=false           21   all type='spikes',
+                                                   ndi_element_class='ndi.neuron'
+          the .vhsb payload                  252   one per (neuron, epoch)
+
+So this plan's *"each carries its spike-time record as a `sampled_body` of event
+times"* has a concrete, counted source: **21 neuron-subjects × 12 epochs = 252
+bodies**, sitting today on `acquisition_epoch` (the class `element_epoch`
+migrates to 1:1).
+
+**WHY THE MIGRATOR DOES NOT LAND IT, in two facts rather than one.** The first is
+the one this plan would have predicted; the second is not.
+
+  1. `jRecordingObservation` is called from `+migrators_j/element.m:118` behind
+     `if isDirect`, and the file says why at `:111-113` — *"spike trains ride
+     with the ensemble model and its NDI second pass, not here"*. So a derived
+     element gets no observation at all.
+  2. **`'spikes'` is not in the modality map**, so even reversing that gate would
+     emit nothing: `grep -n "spikes"` over
+     `+migrators_j/private/jRecordingModality.m` returns ONE hit, a comment at
+     `:157`. The key falls to `otherwise` → `disposition = 'unresolved'` →
+     Guard A.
+
+**THE ROUTE IS NOW DECIDED AND THE SIGNATURE IS IN THE OTHER DOCUMENT** —
+`V_eta_epoch_plan.md`, "AMENDMENT 1 to the #60 scoping walkthrough",
+`TEAM-SIGN-OFF [epoch]` 2026-08-17: the 252 attach to the neuron-subject's
+spike-time observation per THIS plan's 2026-08-06 signature, not to a
+raw-recording observation, and `acquisition_epoch` stays the carrier until the
+second pass lands. Recorded here as a cross-reference so a reader who arrives at
+task 1 from this side finds it; the signature is deliberately NOT duplicated,
+because two copies of one decision agree by coincidence until something checks
+them.
+
+**WHAT TASK 1 STILL CANNOT BE BUILT AGAINST, and it is a class that does not
+exist.** This plan names the host as *"a spike-time `subject_observation` of that
+neuron"*. `subject_observation` is ABSTRACT — `+did2/+schema/cache.m` raises
+`did2:validation:abstractInstantiation` for any document naming it — and of the
+33 concrete `*_observation` classes (`DENOMINATOR: 249 json file(s) under
+schemas/V_eta/ read`) **none carries event times**. `count_observation` is the
+neighbour, used by `jrclust_clusters` for its integer label series, but a spike
+TIME is not a count. Open work, `V_eta_OPEN_WORK.md` row #117.
+
+**AND ONE CONSTRAINT ON WHATEVER IS BUILT:** `element_epoch`'s `.vhsb` is a
+GENERIC `(timepoints, datapoints)` series — `+ndi/+element/timeseries.m:274`
+writes both, for any derived element type — so the fold must key on element
+`type`, not assume spikes.

@@ -1230,3 +1230,116 @@ this corpus. The fold has three other guards (`element_id`, `response_type`,
 reached, and none of this has been run.
 
 TEAM-SIGN-OFF [epoch]: jess@walthamdatascience.com / 2026-08-17 -- the #60 scoping walkthrough above. Q1: for an INGESTED session the element's `<modality>_observation` becomes `storage_mode: 'body'` and carries its per-epoch `sampled_body` documents (21 statements, 252 bodies), accepting that the class then carries two storage_modes across datasets. Q2: `epochid` STAYS DROPPED, `ndi.element.loadaddedepochs` is ported in the SAME change as the dissolution, and a characterization test lands FIRST (done, NDI-matlab 0d97bc69f). Q3: the dissolution SPLITS -- pass 1 emits the relative_reference, the epoch anchor and the observation edges; the NDI second pass attaches the `sampled_body` with a complete axis and flips the storage_mode, accepting that neither is visible to the corpus gate. Q4 required no decision: the 384 session anchors are correct because none of their sources carries an epoch string, so the anchor work is the `stimulus_response_scalar` arming row alone. This signature covers the four answers above and NOT the arming row itself, which is a build.
+
+---
+
+# AMENDMENT 1 to the #60 scoping walkthrough — Q1 IS CORRECTED. Team, 2026-08-17.
+
+**PROVENANCE.** Claude measured, proposed and was asked for a recommendation
+(*"I'm not sure. What's the right answer?"*, jess@walthamdatascience.com,
+2026-08-17); the team then instructed that the recommendation be recorded
+(*"Record that"*). Operating Rules 1 and 4 are waived for this entry on that
+instruction. Recorded as the team ADOPTING the recommendation below, not as
+Claude deciding it.
+
+## What Q1 got wrong, and what it got right
+
+Q1 (above, same day) places the 252 `element_epoch` bodies on **"the element's
+`<modality>_observation`"**. **No such observation exists for any of the 252, and
+none can be emitted today.** Measured from the corpus rather than from the plan:
+
+        DENOMINATOR: 1220 json file(s) read from corpus 20211116
+          element_epoch                      252
+          distinct element_id targets         21   (12 documents each, exact)
+          of those 21 targets, direct=true     0
+          of those 21 targets, direct=false   21   all type='spikes',
+                                                   ndi_element_class='ndi.neuron'
+          element documents in total          23   (the other 2 are the DIRECT
+                                                   n-trode and stimulator, and
+                                                   NEITHER owns an element_epoch)
+
+`jRecordingObservation` — the only emitter of a `<modality>_observation` — is
+called from `+migrators_j/element.m:118` behind `if isDirect`, and that file
+states the exclusion in its own words at `:111-113`: *"A DERIVED element
+(direct = 0) is a computed signal or a sorted unit — **spike trains ride with
+the ensemble model and its NDI second pass, not here**"*.
+
+**Q1'S ARITHMETIC AND ITS STORAGE-MODE REASONING SURVIVE UNCHANGED, and that is
+why this is a correction rather than a reversal.** "21 statements, 252 bodies" is
+exactly right under the amendment: 21 neuron-subjects, each with one spike-time
+observation carrying twelve per-epoch bodies. What was wrong is only WHICH
+statement class hosts them.
+
+## TEAM: the destination is the ensemble model's per-neuron body, and it was already signed
+
+**This is not a new decision. It is `V_eta_ensemble_plan.md`'s signature, joined
+to `element_epoch` for the first time.** That sign-off (jess, 2026-08-06, `:10`)
+reads *"per-neuron spike times are the PRIMARY archival data (each
+neuron-subject, event times to a sampled_body)"*, and its deferred-build list
+asks for precisely the check performed here:
+
+> 1. **Per-neuron spike-time observation** shape (event times → `sampled_body`)
+>    on each neuron-subject — confirm the element migrator already lands this for
+>    'spikes' elements; if not, add it.
+
+**The confirmation was run and the answer is NO.** The 252 documents ARE those
+per-neuron spike trains: 21 `ndi.neuron` elements × 12 epochs, every one
+`type='spikes'`. The two plans were written two weeks apart and neither said the
+other half.
+
+## TEAM: `acquisition_epoch` stays the carrier until the ensemble second pass lands
+
+Destination and interim are separate answers and both are recorded, because
+taking only the first would strand the payload:
+
+* **DESTINATION** — the neuron-subject's spike-time observation, per the
+  ensemble sign-off. NOT a raw-recording `<modality>_observation`.
+* **INTERIM** — `acquisition_epoch` continues to carry the 252, migrating 1:1
+  exactly as it does today. This is row #60's own standing rule (*nothing may be
+  deleted until the corpus proves the fold*) and it keeps
+  `ensemble.element_epoch_id` resolving.
+
+## TEAM: the `isDirect` gate is NOT reversed
+
+Rejected, and on a measurement rather than on taste. Reversing it would emit
+nothing, because `'spikes'` is not in the modality map at all:
+
+        $ grep -n "spikes" \
+              DID-matlab .../+migrators_j/private/jRecordingModality.m
+        157:%   be the spikewaves bug (a body declaring zero spikes of zero
+             samples each).
+
+One hit, in a COMMENT. So `'spikes'` falls to `otherwise` → `disposition =
+'unresolved'` → Guard A, which emits **no observation and 21 `modality
+unresolved` term_assertions**. Reversing the gate is three changes deep — the
+gate, a map row, and a leaf class — and the third does not exist. See the open
+question below.
+
+## OPEN, AND DELIBERATELY NOT ANSWERED HERE: what does a series of event times instantiate?
+
+The ensemble plan names the host as *"a spike-time `subject_observation` of that
+neuron"*, and **`subject_observation` is ABSTRACT** —
+`+did2/+schema/cache.m` raises `did2:validation:abstractInstantiation` for any
+document naming it. So the model is signed and the concrete leaf is neither
+named nor built:
+
+        DENOMINATOR: 249 json file(s) under schemas/V_eta/ read
+          classes ending `_observation`: 33
+          any of them for event TIMES  :  0
+
+`count_observation` is the neighbour — `jrclust_clusters` already folds to it for
+its integer label series — but a spike TIME is not a count, and picking it here
+would assert a quantity nobody has agreed. Tracked as `V_eta_OPEN_WORK.md`
+row #117.
+
+## A SECOND CONSTRAINT ON WHATEVER IS BUILT, so it is not discovered later
+
+`element_epoch`'s `.vhsb` is a GENERIC `(timepoints, datapoints)` series, not a
+spike-specific one — `+ndi/+element/timeseries.m:274` writes both, from
+`ep.timepoints` and `ep.datapoints`, for any derived element type. So the
+destination must be keyed on element `type` the way `jRecordingModality` already
+is. Hardcoding it to spikes would silently give the next derived element type a
+spike-shaped home, which is the `pyraview` "the physical quantity is not carried
+on the doc" hazard one class over.
+
+TEAM-SIGN-OFF [epoch]: jess@walthamdatascience.com / 2026-08-17, AMENDMENT 1 to the same day's scoping walkthrough -- Q1 is CORRECTED. The 252 `element_epoch` payloads attach to the NEURON-SUBJECT's spike-time observation per the already-signed `V_eta_ensemble_plan.md` (jess, 2026-08-06), NOT to the raw-recording `<modality>_observation` Q1 named, which is emitted only for DIRECT elements and which none of the 252 owners is. Q1's cardinality (21 statements, 252 bodies) and its ingested-session `storage_mode: 'body'` reasoning stand unchanged; only the host class moves. `acquisition_epoch` REMAINS the carrier until the ensemble second pass lands, so nothing is deleted and `ensemble.element_epoch_id` keeps resolving. The `isDirect` gate in `+migrators_j/element.m:118` is NOT reversed. The concrete leaf class for a series of EVENT TIMES is NOT decided here and is open work (row #117); `subject_observation` is abstract and none of the 33 `*_observation` classes carries event times. Whatever is built must key on element `type`, because the `.vhsb` is a generic (timepoints, datapoints) series and not spike-specific.
