@@ -571,7 +571,7 @@
             "V_eta_final_class_set.md"
           ],
           "signoff_markers_inside_excluded_documents": 1,
-          "accepted_lines": 35,
+          "accepted_lines": 36,
           "rejected_lines": [],
           "distinct_tags": [
             "base naming",
@@ -594,6 +594,7 @@
             "software",
             "spike processing parameters",
             "stimulus",
+            "stimulus -- visual_grating_manipulation reconciliation",
             "stimulus parameters",
             "stimulus response",
             "stranded sources",
@@ -740,6 +741,12 @@
                 "line": 224
               }
             ],
+            "stimulus -- visual_grating_manipulation reconciliation": [
+              {
+                "document": "V_eta_stimulus_model_plan.md",
+                "line": 270
+              }
+            ],
             "stimulus parameters": [
               {
                 "document": "V_eta_stimulus_parameter_plan.md",
@@ -856,6 +863,12 @@
               {
                 "document": "V_eta_OPEN_WORK.md",
                 "line": 2908
+              }
+            ],
+            "stimulus -- visual_grating_manipulation reconciliation": [
+              {
+                "document": "V_eta_stimulus_model_plan.md",
+                "line": 270
               }
             ]
           }

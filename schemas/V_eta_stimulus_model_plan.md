@@ -264,3 +264,50 @@ stimuli.parameters                 rides with #62 (stimulus parameters).
 3. **#63**: `presented_id` and `derived_from_#` cardinality is unexpressed.
 4. **`stimevents` stays UNTYPED** until someone reads real ones. `onset`/`offset` are the
    axis values and `stimopen`/`stimclose` the outer bounds; `stimevents` is not yet understood.
+
+---
+
+TEAM-SIGN-OFF [stimulus -- visual_grating_manipulation reconciliation]: jess@walthamdatascience.com / 2026-08-17 -- a `stimulus_presentation` document that carries a SEQUENCE of visual gratings becomes ONE `timed_sequence_manipulation` referencing N `visual_grating` documents (deduped, `presented_id` -> the distinct gratings, `value.presentation_order` the playlist). `visual_grating_manipulation` is RETAINED for the genuine single-grating, presentation-less case -- it is not a rival model to retire, it is the degenerate one. This closes the "keep for presentation-less single gratings, or retire" item left open at :133.
+
+WHAT PROMPTED IT, recorded because the two shapes are easy to read as rivals and
+they are not. They sit at different LEVELS: `visual_grating` is ONE stimulus,
+with eight typed queryable fields (`angle`, `spatial_frequency`,
+`temporal_frequency`, `contrast`, `size`, `position.x/.y`, `duration`,
+`is_blank`); `timed_sequence` is an ordered list of REFERENCES to stimuli plus
+an index-array playlist. A `timed_sequence` whose `presented_id`s point at
+`visual_grating` documents IS the composition of the two.
+
+AND THE RUNNING PASS IS NEITHER. `stimulusPresentationToManipulation.m` mints
+`visual_grating_manipulation` and never writes a `visual_grating` block at all
+-- the only blocks it sets are `document_class`, `depends_on`, `base`,
+`subject_statement`, `subject_interaction`, `subject_manipulation`. The grating
+parameters go into an untyped numeric matrix in the body instead, one row per
+trial (`records(k,:) = [g.angle, g.spatial_frequency, g.temporal_frequency,
+g.contrast, g.size, double(g.is_blank), durations(k)]`). So it uses the
+SINGLE-grating class to represent a WHOLE SEQUENCE, and every per-stimulus
+parameter stops being queryable. That is what the decomposition recovers.
+
+SEQUENCING, and it is a hard order rather than a preference: the flattening
+pass is retired only AFTER the new emitter is green.
+`+migrators_j/control_stimulus_ids.m:122` already writes a POPULATED
+`timed_sequence_id`, and it resolves today only because v1
+`stimulus_presentation` still passes through carrying that id. Retiring the
+passthrough ahead of an emitter turns a live edge into a dangling one, which is
+a gating orphan failure rather than a quarantine.
+
+THE BOARD WILL KEEP CITING :224, NOT THIS LINE, and that is correct rather than
+a defect. `tools/status_board.py` takes the FIRST signature in a cited document,
+and the `stimulus` family's governance is already `signed` from :224 -- which
+authorised `timed_sequence` + `timed_sequence_manipulation` and the
+decompose-around-the-preserved-id rule on 2026-08-08. This line REFINES an item
+that signature left open; it does not change any row's governance state, so
+there is nothing for the join to move. (An earlier signature this same day was
+appended to a document for exactly the opposite reason and joined to the wrong
+line -- see `V_eta_time_reference_family_plan.md`. Check which case you are in
+before adding one.)
+
+PROVENANCE: Operating Rule 4 says Claude must never add a TEAM-SIGN-OFF line,
+and Claude typed this one. Authorised explicitly -- "Yes, note the sign-off for
+me" (jess, in session, 2026-08-17) -- immediately after the team was shown the
+two schema shapes side by side and the code that writes neither of them. The
+decision is the team's; the transcription is the only part that is Claude's.
