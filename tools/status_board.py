@@ -441,7 +441,15 @@ FAMILIES = [
     # report its own resolved output as outstanding work -- and the board's
     # "families naming classes that are no longer open" section had been saying so.
     # The three that remain are all `in_progress`.
-    ("epoch", ["acquisition_epoch", "epochid", "epochfiles_ingested"],
+    # `element_epoch` ADDED 2026-08-17. The family always DESCRIBED its
+    # dissolution -- the summary below has said "element_epoch dissolves" since
+    # the family was written -- but the class was not in the list, so the ledger
+    # reported it as `no signature found` while the decision about it sat two
+    # lines away. It is the v1 source `acquisition_epoch` is renamed FROM, so
+    # naming both is consistent rather than a widening; the #60 scoping
+    # walkthrough (plan addendum, 2026-08-17) is what made the gap visible.
+    ("epoch",
+     ["acquisition_epoch", "element_epoch", "epochid", "epochfiles_ingested"],
      "V_eta_epoch_plan.md",
      ("MINT `epoch` ENTITY (+ OPTIONAL `instrument_id`, 2026-08-06); element_epoch "
      "dissolves; epochid DROPPED; probemap -> edges (B)"),

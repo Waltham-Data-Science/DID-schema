@@ -371,7 +371,7 @@ is why migrator work before the target closes is rework.
 | **receptive field fold** | 1 | no target recorded | hartley_calc migrates 1->1 id-preserved into a receptive_field_calculation leaf + receptive_field composite, payload in TWO sampled_body documents (STA, p-value); ngrid.coordinates fold into axes[].values | `V_eta_ngrid_family_findings.md` |
 | **confirm sheet 2026-08-17** | 5 | no target recorded | each migrates today to the set the confirm sheet recorded, and that set IS the intended end state; no further fold is owed | `V_eta_go_forward_class_audit.md` |
 | **image / ngrid** | 2 | no target recorded | ngrid phases into sampled_body; image is a standalone data_type; the two image_stack tombstones are held until the subject is recoverable | `V_eta_image_model_plan.md` |
-| **epoch** | 3 | 1 of 1 | MINT `epoch` ENTITY (+ OPTIONAL `instrument_id`, 2026-08-06); element_epoch dissolves; epochid DROPPED; probemap -> edges (B) | `V_eta_epoch_plan.md` |
+| **epoch** | 4 | 1 of 1 | MINT `epoch` ENTITY (+ OPTIONAL `instrument_id`, 2026-08-06); element_epoch dissolves; epochid DROPPED; probemap -> edges (B) | `V_eta_epoch_plan.md` |
 | **daq configuration** | 4 | 5 of 5 | acquisition_system + `acquisition_metadata_reader` keep ids; class names fold to software entities | `V_eta_daq_family_decisions.md` |
 | **daq ingested payloads** | 3 | 4 of 4 | reader one DECOMPOSES (per-clock relative_references + sampled_body) and retires; metadata one -> `acquisition_metadata_file`; image one folds into the image model | `V_eta_ingested_payload_findings.md` |
 | **sync configuration** | 2 | 2 of 2 | syncrule -> `clock_alignment_configuration` (parameters DECLARED, devices become edges); syncgraph -> `clock_alignment_policy` (earns existence on membership) | `V_eta_clock_alignment_cluster_plan.md` |
@@ -486,6 +486,7 @@ Settled or removed since the family was written -- prune from `FAMILIES`:
 
 - `daqreader_ndr`
 - `element`
+- `element_epoch`
 - `epochclocktimes`
 - `hartley_calc`
 - `imageStack_parameters`

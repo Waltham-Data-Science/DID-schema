@@ -434,22 +434,22 @@
       "governance": {
         "denominator": 102,
         "by_state": {
-          "signed": 46,
+          "signed": 47,
           "DISPUTED": 1,
           "family UNSIGNED": 0,
-          "no signature found": 55
+          "no signature found": 54
         },
         "signed_by": {
-          "derived from a signed family": 39,
+          "derived from a signed family": 40,
           "checked transcription on the row": 7
         },
         "join": {
           "rows_inspected": 102,
-          "rows_matched_by_a_signed_family": 47,
+          "rows_matched_by_a_signed_family": 48,
           "matched_on": {
-            "v1_class": 47
+            "v1_class": 48
           },
-          "matched_on_v1_class_only": 7,
+          "matched_on_v1_class_only": 8,
           "matched_on_veta_class_only": 0,
           "matched_by_family": {
             "software": 1,
@@ -457,9 +457,9 @@
             "daq configuration": 4,
             "daq ingested payloads": 3,
             "raw recording observation": 2,
+            "epoch": 3,
             "ensemble": 1,
             "epochclocktimes": 1,
-            "epoch": 2,
             "file navigation": 1,
             "frequency_filter": 1,
             "stranded sources": 2,
@@ -481,7 +481,7 @@
           "conflicting_claims": [],
           "unmoved_by_cause": {
             "a family names this class and that family is UNSIGNED": 0,
-            "no family names this class; a SIGNED family names a class its migrator EMITS": 31,
+            "no family names this class; a SIGNED family names a class its migrator EMITS": 30,
             "no family names this class, and the row has no V_eta class and no target either": 3,
             "no family in FAMILIES names this class": 21
           },
@@ -521,7 +521,6 @@
               "control_stimulus_ids",
               "daqreader_mfdaq_epochdata_ingested",
               "electrode_offset_voltage",
-              "element_epoch",
               "fitcurve",
               "image",
               "imageStack",
@@ -553,7 +552,6 @@
             "subject (subject)": 3,
             "control_designation (stimulus)": 1,
             "daqreader_epochdata_ingested (daq ingested payloads)": 1,
-            "acquisition_epoch (epoch)": 1,
             "session_bounded_reference (time_reference)": 1
           },
           "family_members_matching_no_ledger_row": 7,
@@ -567,7 +565,7 @@
             "V_eta_final_class_set.md"
           ],
           "signoff_markers_inside_excluded_documents": 1,
-          "accepted_lines": 39,
+          "accepted_lines": 40,
           "rejected_lines": [],
           "distinct_tags": [
             "base naming",
@@ -670,6 +668,10 @@
               {
                 "document": "V_eta_epoch_plan.md",
                 "line": 869
+              },
+              {
+                "document": "V_eta_epoch_plan.md",
+                "line": 1232
               },
               {
                 "document": "V_eta_method_parameters_plan.md",
@@ -3484,13 +3486,31 @@
       "second_pass": [],
       "how": "element retired, so the epoch doc is renamed element_epoch -> acquisition_epoch",
       "target_flags": "in-place class rename",
-      "decided_by_family": null,
-      "families_naming_this_class": [],
-      "governance_gap": "no family names this class; a SIGNED family names a class its migrator EMITS",
+      "decided_by_family": {
+        "family": "epoch",
+        "document": "V_eta_epoch_plan.md",
+        "line": 869,
+        "signoff": "jess@walthamdatascience.com / 2026-08-08, AMENDED 2026-08-10 -- MINT `epoch` as an entity (one per epoch id, local_identifier = the v1 epochid string, REQUIRED); acquisition_epoch dissolves and its clocks become relative_reference documents; epochid is DROPPED, and a document reaches its epoch through the TIME_REFERENCE CHAIN (subject_interaction -> time_reference_# -> relative_reference -> relative_to -> epoch) -- a direct `epoch_id` edge is added ONLY where the epoch is the document's own content (`directed_relation`, per the ensemble sign-off), NOT on subject_interaction; epochfiles_ingested becomes `ingestion_manifest` with filenavigator_id RESTORED; instrument_id -> entity, OPTIONAL.",
+        "matched_on": "v1_class",
+        "matched_name": "element_epoch",
+        "conflict": []
+      },
+      "families_naming_this_class": [
+        "epoch"
+      ],
+      "governance_gap": null,
       "governance": {
-        "state": "no signature found",
-        "signoff": null,
-        "why": "no family names this class; a SIGNED family names a class its migrator EMITS. This is the absence of a FINDABLE signature -- a transcription, or a signed family naming this class -- and NOT evidence that no decision exists"
+        "state": "signed",
+        "signoff": {
+          "family": "epoch",
+          "document": "V_eta_epoch_plan.md",
+          "line": 869,
+          "signoff": "jess@walthamdatascience.com / 2026-08-08, AMENDED 2026-08-10 -- MINT `epoch` as an entity (one per epoch id, local_identifier = the v1 epochid string, REQUIRED); acquisition_epoch dissolves and its clocks become relative_reference documents; epochid is DROPPED, and a document reaches its epoch through the TIME_REFERENCE CHAIN (subject_interaction -> time_reference_# -> relative_reference -> relative_to -> epoch) -- a direct `epoch_id` edge is added ONLY where the epoch is the document's own content (`directed_relation`, per the ensemble sign-off), NOT on subject_interaction; epochfiles_ingested becomes `ingestion_manifest` with filenavigator_id RESTORED; instrument_id -> entity, OPTIONAL.",
+          "matched_on": "v1_class",
+          "matched_name": "element_epoch",
+          "conflict": []
+        },
+        "why": "DERIVED, not transcribed: the decision family `epoch` names this class as `element_epoch` (v1_class), and that family is signed at `V_eta_epoch_plan.md`:869. Re-derived on every build from status_board.signed_families(); a family with no signature reaches nothing"
       },
       "stage": {
         "unclassifiable": false,

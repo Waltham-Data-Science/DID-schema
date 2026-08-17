@@ -3,7 +3,7 @@
   "description": "Regenerate with `python3 tools/status_board.py`. The human-readable twin is schemas/V_eta_STATUS.md. A family counts as decided ONLY when its plan document carries a TEAM-SIGN-OFF line; Claude cannot promote its own work.",
   "summary": {
     "families": 26,
-    "classes_claimed": 54,
+    "classes_claimed": 55,
     "open_classes": 26,
     "by_state": {
       "signed_awaiting_build": 26,
@@ -230,6 +230,10 @@
         {
           "class_name": "acquisition_epoch",
           "disposition": "in_progress"
+        },
+        {
+          "class_name": "element_epoch",
+          "disposition": "(absent)"
         },
         {
           "class_name": "epochid",
@@ -634,6 +638,7 @@
     "ngrid": "image / ngrid",
     "imageStack_parameters": "image / ngrid",
     "acquisition_epoch": "epoch",
+    "element_epoch": "epoch",
     "epochid": "epoch",
     "epochfiles_ingested": "epoch",
     "daqsystem": "daq configuration",

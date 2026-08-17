@@ -1063,3 +1063,170 @@ time_reference."*
 **#10 is correctly closed. Do not hoist.** Two general lessons, both earned here: a defect
 inferred from generated OUTPUT must be checked against the GENERATOR before it is reported —
 and a claim about enforcement must be read off the CODE, not the docstring above it.
+
+---
+
+# ADDENDUM — the #60 scoping walkthrough. Team, 2026-08-17.
+
+Four questions were put to the team while scoping the `element_epoch` dissolution
+on corpus 20211116. Three were answered by the team; the fourth was answered by
+measurement and needed no decision. Recorded here rather than in a task
+description, because a task list is not a durable record.
+
+**PROVENANCE.** Claude scoped and proposed; the team chose. Operating Rule 1 and
+Rule 4 were both waived explicitly for this entry — *"Note the sign-offs and write
+to schemas"* (jess@walthamdatascience.com, 2026-08-17), following *"Take them one
+at a time"* and, on Q2, *"What's the correct way?"* — a request for a
+recommendation, which is recorded below as the team ADOPTING that recommendation
+rather than as Claude deciding it.
+
+## THE POPULATION, measured before anything was asked
+
+        DENOMINATOR: 1220 json file(s) read from corpus 20211116
+          252 element_epoch = 21 element_id target(s) x 12 (session,epochid) pair(s), exact
+          epoch_clock   `dev_local_time` on all 252   (ONE value)
+          t0_t1         [0, T]; t0 == 0 on ALL 252; T 352.66 .. 4037.08 s
+          depends_on    element_id, and nothing else
+          files         epoch_binary_data.vhsb on all 252, ingest: 1
+          23 element document(s): 21 direct==false, 2 direct==true (n-trode, stimulator)
+          documents REFERENCING an element_epoch id: 0 (2436 edge values scanned)
+
+## Q1. THE BODIES ATTACH TO THE ELEMENT'S OBSERVATION
+
+Half of this was already decided and is NOT re-opened: `element_epoch` is one of
+the 15 v1 templates declaring a `file_list`, and all 252 documents carry the
+file, so under the signed *"A body is emitted only when there are bytes to
+attach"* (`V_eta_data_body_model_plan.md`, walkthrough item 6, 2026-08-14) it
+EARNS a `sampled_body`. `element` declares no files and correctly emits none.
+
+What was open is that `jRecordingObservation.m:262` sets `storage_mode:
+'reference'` on the reasoning that *"the raw acquisition files are beside the
+session, never in the database"* — false for an ingested session, where the bytes
+are declared IN the database on `element_epoch`.
+
+**TEAM: the bodies attach to the element's observation.** For an INGESTED
+session the `<modality>_observation` becomes `storage_mode: 'body'` and carries
+its per-epoch `sampled_body` documents — 21 statements, 252 bodies, not 252
+statements. The rationale accepted: `storage_mode` exists to say where the bytes
+are, and ingested-vs-not is a real difference in where they are — v1's own
+two-state division (`navigator.m:218`, `:795-807`), which
+`jRecordingObservation`'s header already cites approvingly.
+
+ACCEPTED COST, stated rather than discovered later: the same class then carries
+two storage_modes across datasets.
+
+## Q2. `epochid` STAYS DROPPED, AND THE READER IS PORTED IN THE SAME CHANGE
+
+The signature at `:869` says *"epochid is DROPPED"*. That breaks
+`ndi.element.loadaddedepochs` for all 21 derived elements, in THREE places at
+once rather than the one this document's own risk note names:
+
+        element.m:459  if isfield(...document_properties,'element_epoch')
+        element.m:463      newet.epoch_id = ...epochid.epochid;
+        element.m:468      clocks_array = ...element_epoch.clocks;
+
+The `:459` GATE is the dangerous one: once the block is gone the loop matches
+nothing, `et_added` returns empty, and every derived element reports NO epochs
+— silently. In this corpus 252 of the 263 documents carrying `epochid.epochid`
+are `element_epoch` (96%).
+
+**TEAM: keep it dropped; port `loadaddedepochs` in the SAME change; land a
+characterization test FIRST.** Keeping the string was rejected on the ground
+that this project's own inline-value-vs-join-key rule already decided it — a
+bare local id is not a complete fact, one epoch is minted per distinct id by
+construction so the edge cannot dangle, and the id is a join key rather than
+content. Porting the reader first was rejected because it would be written
+against a shape no document has, testable only from a fixture built from our own
+model of that shape.
+
+THE PRECONDITION IS THE POINT: `loadaddedepochs` had ZERO test coverage — it
+appeared in exactly one file in NDI-matlab, `element.m` itself — so the change
+would have landed blind either way. The characterization test landed first
+(`NDI-matlab 0d97bc69f`, `TestMigrateLocalEta20211116`).
+
+## Q3. THE METADATA MIGRATES IN PASS 1; THE BODY IS BUILT IN THE SECOND PASS
+
+A third case the data_body plan never considered. That plan reasoned about
+payloads OUTSIDE the database (`jRecordingObservation`) and about a checksum with
+no file list (`jrclust_clusters`), and both correctly emit no body.
+`element_epoch` is the opposite: the payload is INSIDE the database, so a body is
+earned — and then `n` is REQUIRED on the axis and unreachable, because
+single-document migrators carry files without reading their bytes.
+
+The absent bytes in the corpus are an EXPORT artifact, not a fact about the data:
+
+        DENOMINATOR: all entries in the 20211116 corpus zip
+          entries: 2443 ; non-.json: 3
+          all three are macOS junk (.DS_Store and two `._` resource forks)
+
+**TEAM: split it.** Pass 1 dissolves the half needing no bytes — the
+`relative_reference` from `t0_t1` + `epoch_clock`, the epoch anchor, the
+observation edges. The NDI SECOND PASS, which holds a live session and the
+ingested file, attaches the `sampled_body` with a COMPLETE axis. This follows the
+data_body plan's own logic — *"n is safe to require because an axis is asserted
+only when the array is held"*, and pass 1 does not hold it — and the
+`jRecordingObservation.m:53` precedent, where the channel-axis count is already
+*"a second-pass fill"*.
+
+This CLOSES the open team call named at `V_eta_data_body_model_plan.md`
+(*"whether a body should be emitted at all when the payload is outside the
+database ... needs a team call and is NOT covered by the signature above"*) for
+the INSIDE-the-database case. The outside case is unchanged: no body.
+
+ACCEPTED COST: neither the bodies nor the `storage_mode` flip appear in a corpus
+run, so the coverage ladder cannot see them — the same NDI-side blind spot that
+makes `stimulus_presentation` read `no` on rung 3 today (`V_eta_OPEN_WORK.md`
+row #107).
+
+CONSEQUENCE OF Q1 + Q3 TOGETHER, stated so it is not discovered later: in pass 1
+the observation stays `storage_mode: 'reference'`; the SECOND PASS flips it to
+`'body'` when it attaches the 252.
+
+## Q4. THE 384 SESSION ANCHORS ARE CORRECT — NO DECISION NEEDED
+
+The post-mint chain census (built 2026-08-17 for exactly this question; corpus
+run 32063177881) reports, on the SHIPPED batch:
+
+        20211116   2761 inspected   12 `epoch` document(s)   0 REACH AN EPOCH
+        PRED         42 inspected    1 `epoch` document       0 REACH AN EPOCH
+
+That zero was initially read as "the anchor half has not started". IT IS NOT A
+DEFECT, and the correction is recorded because it ran in the alarming direction
+rather than the reassuring one. None of the sources behind those anchors carries
+an epoch string at all:
+
+        DENOMINATOR: 1220 document(s); anchors owned by 6 source classes
+          hartley_calc 210, tuningcurve_calc 84, oridirtuning_calc 42,
+          neuron_extracellular 21, element 23, jrclust_clusters 1
+          carrying an epochid string: 0 of every one of them
+          (210 receptive_field_calculation + 126 tuning_curve_calculation
+           + 22 voltage_observation + 21 score_observation + 5 = 384, exact)
+
+A session anchor is the ONLY honest anchor for them; re-anchoring would invent an
+attribution the source does not have. The one family that CAN anchor to an epoch
+is `stimulus_response_scalar` — `element_epochid` populated on 273 of 273, 11
+distinct values — and it is precisely the family branch 2 suppresses today.
+
+**So the anchor emission is not a separate item and not a large build: it is the
+arming row.** No team decision was required and none is recorded.
+
+## WHAT #60 THEREFORE IS, ordered by size
+
+        the 384 session anchors        384 docs   NOTHING -- already correct
+        stimulus_response_scalar       273 docs   the arming row in
+                                                  epochMint.defaultArmingMigrators;
+                                                  NO schema increment (the
+                                                  migrator's own header derives
+                                                  why: the fold path never copies
+                                                  preBody.depends_on wholesale)
+        element_epoch                  252 docs   the dissolution, split pass-1 /
+                                                  second-pass, with the
+                                                  loadaddedepochs port in the
+                                                  same change
+
+PREDICTION, NOT A RESULT: arming should take `REACH AN EPOCH` from 0 to 273 in
+this corpus. The fold has three other guards (`element_id`, `response_type`,
+`responses.response_real`) that may refuse some of the 273 before the anchor is
+reached, and none of this has been run.
+
+TEAM-SIGN-OFF [epoch]: jess@walthamdatascience.com / 2026-08-17 -- the #60 scoping walkthrough above. Q1: for an INGESTED session the element's `<modality>_observation` becomes `storage_mode: 'body'` and carries its per-epoch `sampled_body` documents (21 statements, 252 bodies), accepting that the class then carries two storage_modes across datasets. Q2: `epochid` STAYS DROPPED, `ndi.element.loadaddedepochs` is ported in the SAME change as the dissolution, and a characterization test lands FIRST (done, NDI-matlab 0d97bc69f). Q3: the dissolution SPLITS -- pass 1 emits the relative_reference, the epoch anchor and the observation edges; the NDI second pass attaches the `sampled_body` with a complete axis and flips the storage_mode, accepting that neither is visible to the corpus gate. Q4 required no decision: the 384 session anchors are correct because none of their sources carries an epoch string, so the anchor work is the `stimulus_response_scalar` arming row alone. This signature covers the four answers above and NOT the arming row itself, which is a build.

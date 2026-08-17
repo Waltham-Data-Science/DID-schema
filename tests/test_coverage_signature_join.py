@@ -457,10 +457,29 @@ class TestTheCommittedLedger(unittest.TestCase):
         # (tuningcurve_calc, oridirtuning_calc) were corpus-green under the
         # Lepsky calculator fold long before today; their decision was never
         # missing, only unjoined.
+        # 39 -> 40 on 2026-08-17: `element_epoch` joined, and it is a FIFTH
+        # kind -- the family always DESCRIBED this class's disposition and
+        # simply did not LIST it. The `epoch` family's summary has read
+        # "element_epoch dissolves" since it was written, and its signature at
+        # V_eta_epoch_plan.md:869 says "acquisition_epoch dissolves and its
+        # clocks become relative_reference documents; epochid is DROPPED" --
+        # so the decision was never missing, never unwritten, and not even in
+        # an uncited document. The class name was absent from a five-element
+        # list two lines from the sentence deciding its fate, and the ledger
+        # therefore read `no signature found` for it.
+        #
+        # PER THIS FILE'S OWN WARNING, the line was checked against the class
+        # before the number was bumped: element_epoch joins :869 (matched_on
+        # `v1_class`), which is the signature that decides the dissolution --
+        # NOT the 2026-08-17 addendum appended to the same document, whose tag
+        # is also `[epoch]` and which records the scoping answers rather than
+        # the dissolution. First-tagged-line wins, and here that is the right
+        # line; a reader adding a third `[epoch]` signature should re-check
+        # that it still is.
         self.assertEqual(transcribed, 8)
-        self.assertEqual(derived, 39)
-        self.assertEqual(self.gov["by_state"][coverage.G_SIGNED], 46,
-                         "8 transcribed + 39 derived, less `ngrid`, whose "
+        self.assertEqual(derived, 40)
+        self.assertEqual(self.gov["by_state"][coverage.G_SIGNED], 47,
+                         "8 transcribed + 40 derived, less `ngrid`, whose "
                          "DISPUTED record outranks its family signature")
 
     def test_a_DISPUTED_record_outranks_a_family_signature(self):

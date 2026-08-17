@@ -690,6 +690,26 @@ with NO BYTES TO DESCRIBE. Two instances, and they are the same shape:
   the payload is outside the database. It needs a team call and is NOT covered by the
   signature above.
 
+  **BOTH HALVES ARE NOW ANSWERED, AND A THIRD CASE THIS PARAGRAPH DID NOT KNOW ABOUT
+  ARRIVED WITH THEM.** The OUTSIDE-the-database half is closed by walkthrough item 6
+  below (*"A body means bytes"*), which is what the two instances above were waiting
+  for: `jRecordingObservation` and `jrclust_clusters` emit NO body, so neither is
+  asked for an axis and `n` stays safe to require. Read item 6 rather than this
+  paragraph for that case.
+
+  The third case is `element_epoch`, and it inverts the premise: its payload is INSIDE
+  the database (one of the 15 v1 templates declaring a `file_list`; `ingest: 1` on all
+  252 documents in corpus 20211116), so a body IS earned -- and `n` is still
+  unreachable, because a single-document migrator carries files without reading their
+  bytes. **TEAM, 2026-08-17: the dissolution SPLITS.** Pass 1 emits the metadata that
+  needs no bytes; the NDI second pass, which holds a live session and the ingested
+  file, attaches the `sampled_body` with a COMPLETE axis. That follows this plan's own
+  reasoning -- an axis is asserted only when the array is held, and pass 1 does not
+  hold it -- and the `jRecordingObservation.m:53` precedent, where a channel-axis count
+  is already *"a second-pass fill"*. Recorded in full, with its measurements and its
+  accepted costs, at `V_eta_epoch_plan.md`, "ADDENDUM -- the #60 scoping walkthrough",
+  which carries the signature; nothing is decided here.
+
 ---
 
 # ADDENDUM — the storage-mode walkthrough. Team, 2026-08-14.
