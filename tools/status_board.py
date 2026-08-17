@@ -448,6 +448,15 @@ FAMILIES = [
     # lines away. It is the v1 source `acquisition_epoch` is renamed FROM, so
     # naming both is consistent rather than a widening; the #60 scoping
     # walkthrough (plan addendum, 2026-08-17) is what made the gap visible.
+    #
+    # EXPECT `element_epoch` TO APPEAR UNDER THE BOARD'S "Settled or removed
+    # since the family was written -- prune from `FAMILIES`" LIST, AND DO NOT
+    # PRUNE IT. That list collects classes a family names whose disposition is
+    # no longer `in_progress`, and this one's is `retire` -- so it lands there
+    # the moment it is signed, exactly as `element` and `hartley_calc` already
+    # have. Removing it to clear the list would un-join the signature and put
+    # the row straight back to `no signature found`, which is the state this
+    # entry exists to fix. The list is a prompt to look, not an instruction.
     ("epoch",
      ["acquisition_epoch", "element_epoch", "epochid", "epochfiles_ingested"],
      "V_eta_epoch_plan.md",

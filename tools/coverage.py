@@ -3098,6 +3098,22 @@ def _governance_md(g):
     -- the orphan tags and the unsigned families are printed as QUESTIONS,
     because pairing a signature with a family it does not name is recording a
     disposition and operating rule 4 puts that with the team.
+
+    HOW AN ORPHAN TAG GETS CREATED, since the count moved twice on 2026-08-17
+    and the mechanism is not obvious from the output. `find_signoff_line` joins
+    a signature to a family by EXACT TAG MATCH against the family NAME. So a
+    signature written with a tag that reads naturally -- `[receptive field
+    naming]`, `[stimulus -- visual_grating_manipulation reconciliation]` --
+    reaches nothing at all unless a family of exactly that name exists in
+    status_board.FAMILIES. Both of those were written that day and are
+    COSMETIC: each sits in a document a signed family already cites, so the
+    decision is on the record and only the join is missing.
+
+    THE WAY TO AVOID ADDING A NINTH is to check, before writing a signature,
+    whether an existing family already names the class -- and if one does, use
+    ITS name as the tag. That is what the `[epoch]` signature added later the
+    same day did, which is why the count stayed at 8 rather than becoming 9.
+    A tag is not free-text; it is a foreign key.
     """
     j, c = g["join"], g["census"]
     st = g["by_state"]
