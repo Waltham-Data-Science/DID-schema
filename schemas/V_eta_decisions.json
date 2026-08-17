@@ -2,11 +2,11 @@
   "title": "V_eta decision families (GENERATED -- do not hand-edit)",
   "description": "Regenerate with `python3 tools/status_board.py`. The human-readable twin is schemas/V_eta_STATUS.md. A family counts as decided ONLY when its plan document carries a TEAM-SIGN-OFF line; Claude cannot promote its own work.",
   "summary": {
-    "families": 24,
-    "classes_claimed": 48,
+    "families": 25,
+    "classes_claimed": 49,
     "open_classes": 26,
     "by_state": {
-      "signed_awaiting_build": 24,
+      "signed_awaiting_build": 25,
       "awaiting_signature": 0,
       "proposed_unreviewed": 0,
       "open": 0
@@ -148,6 +148,23 @@
       "status": "team",
       "signed": true,
       "signoff": "jess, 2026-08-06 -- per-neuron spike times are the PRIMARY archival data (each neuron-subject, event times to a sampled_body); the ensemble is a GROUP SUBJECT with its id preserved and NO data body of its own, whose members are EPOCH-SCOPED member_of edges carrying their epoch and column order; the combined (times, ids) array is kept as an explicitly-DERIVED, REBUILDABLE CACHE (derived_from the neurons, T10) for fast windowed population reads, not as source of truth; the per-epoch MAP document dissolves. Build is sequenced: pass 1 keeps a green passthrough, the NDI second pass mints member_of and builds the cache, and a verify-before-delete (0 stranded per-neuron trains) gates dropping the combined bytes.",
+      "state": "signed_awaiting_build",
+      "state_label": "decided and signed off, awaiting build"
+    },
+    {
+      "name": "receptive field fold",
+      "members": [
+        {
+          "class_name": "hartley_calc",
+          "disposition": "retire"
+        }
+      ],
+      "open_members": [],
+      "plan": "V_eta_ngrid_family_findings.md",
+      "decision": "hartley_calc migrates 1->1 id-preserved into a receptive_field_calculation leaf + receptive_field composite, payload in TWO sampled_body documents (STA, p-value); ngrid.coordinates fold into axes[].values",
+      "status": "team",
+      "signed": true,
+      "signoff": "jess@walthamdatascience.com / 2026-08-17 -- OPEN ITEM 3 (the RF fold) and the COORDINATES HALF of open item 2 are decided. A `hartley_calc` document migrates 1->1, id- and deps-PRESERVED, into a `receptive_field_calculation` leaf (= `subject_calculation` + `receptive_field`), with the payload in TWO `sampled_body` documents -- one for the STA plane, one for the p-value plane, because the writer itself gives the length-2 dimension no coordinates (436 coordinate values against a data_dim summing to 438). `ngrid.coordinates` folds into `axes[].values`, which now exists; the guard in `jNgridBody.m` lifts from a refusal to a carry. `reverse_correlation.method` becomes a bound term on the composite, NOT part of the class name. `frameTimes` becomes the irregular time axis of the per-presentation `timed_sequence`; `spiketimes` is carried as CALCULATION INPUT with `derived_from` the neuron, not as archival data; `stimulus_properties` is checked for equality against the presentation's generator spec and dropped only when equal, refused and reported when not.",
       "state": "signed_awaiting_build",
       "state_label": "decided and signed off, awaiting build"
     },
@@ -575,6 +592,7 @@
     "stimulus_presentation": "stimulus",
     "control_designation": "stimulus",
     "ensemble": "ensemble",
+    "hartley_calc": "receptive field fold",
     "ngrid": "image / ngrid",
     "imageStack_parameters": "image / ngrid",
     "acquisition_epoch": "epoch",

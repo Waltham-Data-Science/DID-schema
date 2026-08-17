@@ -1048,3 +1048,20 @@ up a level and `count` flattens. Small in code -- zero writers for two forms, tw
 for the third and one of those is leaving -- but it is a schema change to a class
 with live documents, and it was approved as that rather than as the smaller thing
 first described.
+
+
+---
+
+**COUNT CORRECTION, 2026-08-17 — `receptive_field` and `receptive_field_calculation` were
+minted** (TEAM-SIGN-OFF [receptive field naming], `V_eta_ngrid_family_findings.md`). The
+dated measurements above are left exactly as taken; this is the live claim beside them:
+
+        DENOMINATOR: 249 json file(s) under schemas/V_eta/ read
+        243 distinct V_eta class names
+        42 direct subclasses of `data_type`
+
+Only the COMPOSITE is a `data_type` subclass — the leaf hangs off
+`subject_calculation` — which is why the class count moved by two and the
+data_type-subclass count by one. One signed decision moved four counters at once
+(these three plus the inert-set canary in `tests/test_veta_stimulus_response.py`),
+which is the per-document cost `check_prose_counts` exists to find.

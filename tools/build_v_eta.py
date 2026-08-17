@@ -3062,6 +3062,77 @@ write("stable", "contrast_sensitivity_calculation",
       doc("contrast_sensitivity_calculation",
           ["subject_calculation", "contrast_sensitivity"]))
 
+# receptive_field: the result of a reverse-correlation / subspace-sampling
+# calculation -- a spatiotemporal response volume over (x, y, time-lag).
+# TEAM-SIGN-OFF [receptive field fold] + [receptive field naming],
+# V_eta_ngrid_family_findings.md, 2026-08-17.
+#
+# WHY A NEW COMPOSITE (T12, all four cheaper axes checked and failed).
+#   1. same shape, different `variable`?  No -- nothing existing carries an
+#      (x, y, lag) volume. `tuning_curve` is response against ONE independent
+#      variable.
+#   2. a controlled term?  No.
+#   3. same quantity, different cardinality/storage?  No -- a different
+#      measurement structure, not a longer `value`.
+#   4. a role or relationship?  No.
+# So it is T12's "genuinely new structured object", and T10's
+# one-calculator-one-document-type contract applies.
+#
+# WHY NOT `spike_triggered_average`, which was the obvious alternative: T11 says
+# a name reading as HOW IT WAS MADE is a smell and the how belongs in `method`.
+# STA is the method. `hartley_receptive_field` fails the same rule twice over.
+# The method rides as a bound term in `value.method` -- which is exactly how the
+# v1 document already separates it (`reverse_correlation.method = 'Hartley'`).
+#
+# THE PAYLOAD IS NOT INLINE, and that is the one way this composite differs from
+# its three siblings. `tuning_curve`, `contrast_sensitivity` and
+# `harmonic_component` hold small results as inline matrices; a receptive field
+# is 200x200x36 doubles per plane (~23 MB for the pair on real 20211116 data),
+# so it goes to `sampled_body` via `storage_mode` and this composite carries the
+# DESCRIPTORS. That follows the `image` precedent, not the `tuning_curve` one.
+#
+# TWO PLANES, TWO BODIES -- and the source data is what decided it, not taste.
+# v1 `ngrid.data_dim` is [200,200,36,2] while `ngrid.coordinates` has 436
+# entries and the dims sum to 438: the writer gave coordinates to three axes and
+# NONE to the length-2 one, because it is not a coordinate axis. It is two
+# quantities (the STA and its significance) sharing a volume.
+_RF_SUBS = [
+    subfield("method", "ontology_term",
+             "How the field was estimated -- e.g. Hartley subspace reverse "
+             "correlation. The METHOD, never part of the class name (T11).",
+             sub_fields=[subfield("node", "char", "CURIE, when bound."),
+                         subfield("name", "char", "As-recorded method name.")]),
+    subfield("storage_mode", "char",
+             "Where the response volume lives. `body` for a sampled_body per "
+             "plane, which is the only mode a real receptive field uses."),
+    subfield("planes", "structure",
+             "ARRAY, one entry per emitted body in emission order, naming what "
+             "that body holds. A receptive field and its significance map are "
+             "DIFFERENT QUANTITIES that happen to share a grid, so they are "
+             "separate bodies rather than a length-2 axis -- the v1 writer says "
+             "the same by giving that dimension no coordinates.",
+             scalar=False, non_empty=True, sub_fields=[
+                 subfield("quantity", "ontology_term",
+                          "What this plane holds (the response estimate, or its "
+                          "significance).",
+                          sub_fields=[subfield("node", "char", "CURIE, when bound."),
+                                      subfield("name", "char", "As-recorded name.")]),
+             ]),
+]
+write("stable", "receptive_field",
+      doc("receptive_field", ["data_type"], abstract=True,
+          fields=[field("value", "structure",
+                        "A spatiotemporal receptive field: the response volume "
+                        "over two spatial axes and a time lag, with the "
+                        "estimation method and one entry per stored plane. The "
+                        "volume itself lives in `sampled_body` documents; the "
+                        "axes (including real lag coordinates) are declared "
+                        "there, on `axes[]`.",
+                        non_empty=True, blank={}, sub_fields=_RF_SUBS)]))
+write("stable", "receptive_field_calculation",
+      doc("receptive_field_calculation",
+          ["subject_calculation", "receptive_field"]))
+
 write("stable", "visual_grating_manipulation",
       doc("visual_grating_manipulation",
           ["subject_manipulation", "visual_grating"]))

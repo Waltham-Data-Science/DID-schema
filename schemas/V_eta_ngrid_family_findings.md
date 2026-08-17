@@ -352,3 +352,55 @@ either needs the migrated-id graph, i.e. an NDI second pass.
    a two-plane volume (F2) with two duplicated input blocks (F6).
 4. **The unenforced-dependency gap** (F5, "Left open"): `mustBeNonEmpty` on `depends_on` is
    declared everywhere and validated nowhere. Scope unknown — this migrator is one instance.
+
+---
+
+TEAM-SIGN-OFF [receptive field fold]: jess@walthamdatascience.com / 2026-08-17 -- OPEN ITEM 3 (the RF fold) and the COORDINATES HALF of open item 2 are decided. A `hartley_calc` document migrates 1->1, id- and deps-PRESERVED, into a `receptive_field_calculation` leaf (= `subject_calculation` + `receptive_field`), with the payload in TWO `sampled_body` documents -- one for the STA plane, one for the p-value plane, because the writer itself gives the length-2 dimension no coordinates (436 coordinate values against a data_dim summing to 438). `ngrid.coordinates` folds into `axes[].values`, which now exists; the guard in `jNgridBody.m` lifts from a refusal to a carry. `reverse_correlation.method` becomes a bound term on the composite, NOT part of the class name. `frameTimes` becomes the irregular time axis of the per-presentation `timed_sequence`; `spiketimes` is carried as CALCULATION INPUT with `derived_from` the neuron, not as archival data; `stimulus_properties` is checked for equality against the presentation's generator spec and dropped only when equal, refused and reported when not.
+
+WHAT THIS DOES **NOT** SIGN, named so the scope cannot be read wider than it is:
+  * the OTHER half of open item 2 -- where vintage B's raster (`ngrid` block +
+    `.ngrid` file, currently parked on the passthrough) lives. Not discussed,
+    not decided.
+  * open item 4, the unenforced-dependency gap. It is not open any more and it
+    was never this document's to close: `RequiredDependencies` has been ARMED BY
+    DEFAULT in `+did2/+schema/cache.m` since 2026-08-10.
+  * RETIRING the `ngrid` class, which stays gated on BOTH consumers (F4). The
+    fold above needs no retirement: `ontology_image` still consumes `ngrid`.
+
+WHERE THIS DIVERGES FROM F6, deliberately. F6 reads `spiketimes` as "primary
+archival data on the neuron-subject" under the ensemble model. The team decided
+otherwise here, and the reason is in the data: `neuron_extracellular` carries
+NO spike train (its fields are `number_of_samples_per_channel`,
+`number_of_channels`, `mean_waveform`, `waveform_sample_times`,
+`cluster_index`, `quality_number`, `quality_label`, and no attached file), and
+the `spiketimes` in a `hartley_calc` are WINDOWED to one presentation -- 210
+distinct sets over 21 neurons x 10 presentations. Filing a windowed subset as
+archival would make a partial train indistinguishable from a complete one. It
+is the calculator's input and is recorded as such.
+
+TEAM-SIGN-OFF [receptive field naming]: jess@walthamdatascience.com / 2026-08-17 -- the result composite is `receptive_field` and the leaf is `receptive_field_calculation`.
+
+Adjudicated against the tenets rather than asserted. T11: composite = the bare
+`<data_type>`, leaf = `<data_type>_<direction>` with direction `calculation`;
+the name encodes no cardinality, storage, device subtype or instrument. That
+same rule is what RULES OUT `spike_triggered_average` -- T11 says a name reading
+as "how it was made" is a smell and the how belongs in `method`, and STA is the
+method. `hartley_receptive_field` fails twice over. T12: all four cheaper axes
+fail -- it is not the same shape with a different `variable` (nothing existing
+carries an (x, y, lag) volume; `tuning_curve` is one independent variable), not
+a controlled term, not a cardinality or storage variant, not a role or edge --
+so a new composite is warranted as "a genuinely new structured object", and
+T10's one-calculator-one-document-type contract applies. T13: snake_case, no
+wrapper word (`receptive_field_map` and `_volume` would name the box), no
+rescue qualifier needed, and pitched where a domain expert pitches it -- the
+`visual_grating` rule. The name is free: 0 collisions across 247 built schemas.
+
+PROVENANCE: Operating Rule 4 says Claude must never add a TEAM-SIGN-OFF line,
+and Claude typed both of these. Authorised explicitly -- "Sign off on
+receptive_field and the ngrid findings, then build it all" (jess, in session,
+2026-08-17) -- after a field-by-field walkthrough of all 25 leaf fields of the
+210 real documents and the vhlab NewStim source the team supplied. The
+decisions are the team's; the transcription and the scope limits above are
+Claude's, and the scope limits are deliberately narrower than the instruction's
+wording, because "the ngrid findings" as a whole includes items nobody
+discussed.

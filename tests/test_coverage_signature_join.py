@@ -432,10 +432,18 @@ class TestTheCommittedLedger(unittest.TestCase):
         # REACHED; it does not mean it was reached by the right line, and
         # nothing in this file checks that. Read the join's `document:line`
         # against the class before trusting an increment.
+        # 33 -> 34 on 2026-08-17: `hartley_calc` joined, and it is the same
+        # THIRD kind as `epochclocktimes` two hours earlier -- the model was
+        # written down at length in `V_eta_ngrid_family_findings.md` and NO
+        # FAMILY CITED THAT DOCUMENT, so nothing in it could reach a ledger row.
+        # The team signed the RF fold and the naming; a family was added citing
+        # the file. Deliberately a family of its own rather than folding into
+        # `image / ngrid`, which cites the image plan -- whose first signature
+        # decides `ngrid is DISSOLVED` and says nothing about a receptive field.
         self.assertEqual(transcribed, 8)
-        self.assertEqual(derived, 33)
-        self.assertEqual(self.gov["by_state"][coverage.G_SIGNED], 40,
-                         "8 transcribed + 33 derived, less `ngrid`, whose "
+        self.assertEqual(derived, 34)
+        self.assertEqual(self.gov["by_state"][coverage.G_SIGNED], 41,
+                         "8 transcribed + 34 derived, less `ngrid`, whose "
                          "DISPUTED record outranks its family signature")
 
     def test_a_DISPUTED_record_outranks_a_family_signature(self):

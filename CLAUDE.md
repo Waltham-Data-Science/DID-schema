@@ -619,7 +619,8 @@ lives in these files — read them instead of re-deriving from memory:
   when this was written; the hit counts are as-of and were not re-derived); `datum` has ZERO v1
   meaning. **BOTH FIGURES RE-CHECKED 2026-08-12; the ARGUMENT survives both, the NUMBERS
   do not.** `data_type` now has **41** direct subclasses, not 38 (`DENOMINATOR: 247 json
-  file(s) under schemas/V_eta/ read`) — it grew, so the "this name is taken" case is
+  file(s) under schemas/V_eta/ read`) — **and 42 direct subclasses as of 2026-08-17, over
+  249 json file(s), when `receptive_field` was minted** — it grew, so the "this name is taken" case is
   stronger, not weaker. The `element` figure is **NOT REPRODUCIBLE from its own
   description**: the denominator moved (`git ls-tree -r origin/main | grep -c '\.m$'` =
   **1002**, not 915, and `tools/coverage.py:116` already records 1,002), and no obvious
@@ -1506,8 +1507,20 @@ lives in these files — read them instead of re-deriving from memory:
             the first was an upstream merge, this one is ours. `ndi_templates`
             did NOT move (still 91): `rayo_stim.json` is a daq_system, not a
             database_document, so the did_v1 ground truth is untouched.
-        veta_class_names      241   distinct V_eta class names
-        veta_schema_files     247   json files under schemas/V_eta/
+        veta_class_names      243   distinct V_eta class names
+        veta_schema_files     249   json files under schemas/V_eta/
+            241 AND 247 UNTIL 2026-08-17, when the signed receptive-field fold
+            minted `receptive_field` + `receptive_field_calculation`. ONE signed
+            decision moved FOUR counters at once -- these two, plus
+            `data_type_subclasses` (41 -> 42; only the composite is a data_type
+            subclass, the leaf hangs off `subject_calculation`, which is why
+            that one moved by ONE and the class count by TWO), plus the
+            inert-set canary in tests/test_veta_stimulus_response.py. Each was
+            RE-DERIVED, not bumped. The recurring lesson in this block is not
+            any of the numbers: it is that a single class addition invalidates
+            counts in several documents simultaneously, so the cost is paid
+            per-document and `check_prose_counts` is the only thing that finds
+            them all.
             BOTH RE-DERIVED 2026-08-15, and both went DOWN by one. They read
             242 and 248 on 2026-08-13, when `acquisition_reader` was minted.
             The step-2 data_body build then DELETED `zarr` (signed sec.10,

@@ -434,20 +434,20 @@
       "governance": {
         "denominator": 102,
         "by_state": {
-          "signed": 40,
+          "signed": 41,
           "DISPUTED": 1,
           "family UNSIGNED": 0,
-          "no signature found": 61
+          "no signature found": 60
         },
         "signed_by": {
-          "derived from a signed family": 33,
+          "derived from a signed family": 34,
           "checked transcription on the row": 7
         },
         "join": {
           "rows_inspected": 102,
-          "rows_matched_by_a_signed_family": 41,
+          "rows_matched_by_a_signed_family": 42,
           "matched_on": {
-            "v1_class": 41
+            "v1_class": 42
           },
           "matched_on_v1_class_only": 4,
           "matched_on_veta_class_only": 0,
@@ -463,6 +463,7 @@
             "file navigation": 1,
             "frequency_filter": 1,
             "stranded sources": 2,
+            "receptive field fold": 1,
             "image / ngrid": 2,
             "openMINDS": 1,
             "session": 1,
@@ -481,7 +482,7 @@
             "a family names this class and that family is UNSIGNED": 0,
             "no family names this class; a SIGNED family names a class its migrator EMITS": 36,
             "no family names this class, and the row has no V_eta class and no target either": 3,
-            "no family in FAMILIES names this class": 22
+            "no family in FAMILIES names this class": 21
           },
           "unmoved_rows_by_cause": {
             "no family in FAMILIES names this class": [
@@ -493,7 +494,6 @@
               "demoNDI",
               "demoNDIMock",
               "distance_metadata",
-              "hartley_calc",
               "metadata_editor",
               "oneepoch",
               "ontologyLabel",
@@ -571,7 +571,7 @@
             "V_eta_final_class_set.md"
           ],
           "signoff_markers_inside_excluded_documents": 1,
-          "accepted_lines": 36,
+          "accepted_lines": 38,
           "rejected_lines": [],
           "distinct_tags": [
             "base naming",
@@ -590,6 +590,8 @@
             "logical_observation",
             "misc singletons",
             "raw recording observation",
+            "receptive field fold",
+            "receptive field naming",
             "session",
             "software",
             "spike processing parameters",
@@ -717,6 +719,18 @@
                 "line": 106
               }
             ],
+            "receptive field fold": [
+              {
+                "document": "V_eta_ngrid_family_findings.md",
+                "line": 358
+              }
+            ],
+            "receptive field naming": [
+              {
+                "document": "V_eta_ngrid_family_findings.md",
+                "line": 381
+              }
+            ],
             "session": [
               {
                 "document": "V_eta_go_forward_class_audit.md",
@@ -800,7 +814,7 @@
             "V_eta_frequency_filter_model_plan.md": 1,
             "V_eta_openminds_family_record.md": 2
           },
-          "families_total": 24,
+          "families_total": 25,
           "families_signed": [
             "daq configuration",
             "daq ingested payloads",
@@ -814,6 +828,7 @@
             "misc singletons",
             "openMINDS",
             "raw recording observation",
+            "receptive field fold",
             "session",
             "software",
             "spike processing parameters",
@@ -863,6 +878,12 @@
               {
                 "document": "V_eta_OPEN_WORK.md",
                 "line": 2908
+              }
+            ],
+            "receptive field naming": [
+              {
+                "document": "V_eta_ngrid_family_findings.md",
+                "line": 381
               }
             ],
             "stimulus -- visual_grating_manipulation reconciliation": [
@@ -4442,13 +4463,31 @@
       "second_pass": [],
       "how": "DEFERRED calculator: calcCommon passthrough, class retained",
       "target_flags": "calculators deferred (conversion doc exists but no decomposition migrator)",
-      "decided_by_family": null,
-      "families_naming_this_class": [],
-      "governance_gap": "no family in FAMILIES names this class",
+      "decided_by_family": {
+        "family": "receptive field fold",
+        "document": "V_eta_ngrid_family_findings.md",
+        "line": 358,
+        "signoff": "jess@walthamdatascience.com / 2026-08-17 -- OPEN ITEM 3 (the RF fold) and the COORDINATES HALF of open item 2 are decided. A `hartley_calc` document migrates 1->1, id- and deps-PRESERVED, into a `receptive_field_calculation` leaf (= `subject_calculation` + `receptive_field`), with the payload in TWO `sampled_body` documents -- one for the STA plane, one for the p-value plane, because the writer itself gives the length-2 dimension no coordinates (436 coordinate values against a data_dim summing to 438). `ngrid.coordinates` folds into `axes[].values`, which now exists; the guard in `jNgridBody.m` lifts from a refusal to a carry. `reverse_correlation.method` becomes a bound term on the composite, NOT part of the class name. `frameTimes` becomes the irregular time axis of the per-presentation `timed_sequence`; `spiketimes` is carried as CALCULATION INPUT with `derived_from` the neuron, not as archival data; `stimulus_properties` is checked for equality against the presentation's generator spec and dropped only when equal, refused and reported when not.",
+        "matched_on": "v1_class",
+        "matched_name": "hartley_calc",
+        "conflict": []
+      },
+      "families_naming_this_class": [
+        "receptive field fold"
+      ],
+      "governance_gap": null,
       "governance": {
-        "state": "no signature found",
-        "signoff": null,
-        "why": "no family in FAMILIES names this class. This is the absence of a FINDABLE signature -- a transcription, or a signed family naming this class -- and NOT evidence that no decision exists"
+        "state": "signed",
+        "signoff": {
+          "family": "receptive field fold",
+          "document": "V_eta_ngrid_family_findings.md",
+          "line": 358,
+          "signoff": "jess@walthamdatascience.com / 2026-08-17 -- OPEN ITEM 3 (the RF fold) and the COORDINATES HALF of open item 2 are decided. A `hartley_calc` document migrates 1->1, id- and deps-PRESERVED, into a `receptive_field_calculation` leaf (= `subject_calculation` + `receptive_field`), with the payload in TWO `sampled_body` documents -- one for the STA plane, one for the p-value plane, because the writer itself gives the length-2 dimension no coordinates (436 coordinate values against a data_dim summing to 438). `ngrid.coordinates` folds into `axes[].values`, which now exists; the guard in `jNgridBody.m` lifts from a refusal to a carry. `reverse_correlation.method` becomes a bound term on the composite, NOT part of the class name. `frameTimes` becomes the irregular time axis of the per-presentation `timed_sequence`; `spiketimes` is carried as CALCULATION INPUT with `derived_from` the neuron, not as archival data; `stimulus_properties` is checked for equality against the presentation's generator spec and dropped only when equal, refused and reported when not.",
+          "matched_on": "v1_class",
+          "matched_name": "hartley_calc",
+          "conflict": []
+        },
+        "why": "DERIVED, not transcribed: the decision family `receptive field fold` names this class as `hartley_calc` (v1_class), and that family is signed at `V_eta_ngrid_family_findings.md`:358. Re-derived on every build from status_board.signed_families(); a family with no signature reaches nothing"
       },
       "stage": {
         "unclassifiable": false,
@@ -7102,7 +7141,7 @@
       ],
       "second_pass": [],
       "how": "multi-resolution pyramid signal -> a body-backed voltage_observation + ONE sampled_body per stored resolution level + anchor",
-      "target_flags": "multiple sampled_body (one per level), all sharing the statement; levels told apart by sample_time.dt, and each level keeps its own bytes because a pyramid is a precomputed performance cache rather than a disposable thumbnail. THE `dataseries_observation` CAVEAT IS RESOLVED AND REMOVED (2026-08-13). It read \"header title says dataseries_observation but code emits voltage_observation\" and put that to the team as an open question. It was never a question about the model: `dataseries_observation` was phase-8 DELETED -- abstract and unminted in J, so no document can be an instance of one -- and 0 of 247 json files under schemas/V_eta declare it, alongside its two siblings imageseries_/timeseries_observation. `voltage_observation` is stable/ and is what the code has always emitted. Team, 2026-08-13: \"There is no dataseries_observation anymore. Voltage is correct.\" The migrator docstring outlived the deletion and has been corrected.",
+      "target_flags": "multiple sampled_body (one per level), all sharing the statement; levels told apart by sample_time.dt, and each level keeps its own bytes because a pyramid is a precomputed performance cache rather than a disposable thumbnail. THE `dataseries_observation` CAVEAT IS RESOLVED AND REMOVED (2026-08-13). It read \"header title says dataseries_observation but code emits voltage_observation\" and put that to the team as an open question. It was never a question about the model: `dataseries_observation` was phase-8 DELETED -- abstract and unminted in J, so no document can be an instance of one -- and 0 of 249 json files under schemas/V_eta declare it, alongside its two siblings imageseries_/timeseries_observation. `voltage_observation` is stable/ and is what the code has always emitted. Team, 2026-08-13: \"There is no dataseries_observation anymore. Voltage is correct.\" The migrator docstring outlived the deletion and has been corrected.",
       "decided_by_family": {
         "family": "raw recording observation",
         "document": "V_eta_recording_observation_plan.md",

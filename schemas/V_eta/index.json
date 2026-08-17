@@ -2003,6 +2003,29 @@
             "disposition_note": "2.D \u2192 data_body fold"
         },
         {
+            "class_name": "receptive_field",
+            "tier": "stable",
+            "class_version": "1.0.0",
+            "maturity_level": "stable",
+            "superclasses": [
+                "data_type"
+            ],
+            "path": "schemas/V_eta/stable/receptive_field.json",
+            "disposition": "persist"
+        },
+        {
+            "class_name": "receptive_field_calculation",
+            "tier": "stable",
+            "class_version": "1.0.0",
+            "maturity_level": "stable",
+            "superclasses": [
+                "subject_calculation",
+                "receptive_field"
+            ],
+            "path": "schemas/V_eta/stable/receptive_field_calculation.json",
+            "disposition": "persist"
+        },
+        {
             "class_name": "relation",
             "tier": "stable",
             "class_version": "1.0.0",

@@ -384,7 +384,18 @@ def test_isspike_is_left_alone_and_the_inert_spelling_is_counted():
     # substantive check rather than the count: zarr declared no field carrying a
     # `min`/`max` constraint at any depth, so removing the class removes no
     # entry from the inert set. The count is the tripwire; the list is the fact.
-    assert walked == 241, f'schema count moved; re-derive the inert set ({walked})' 
+    # FIFTH MOVEMENT, FIFTH RE-DERIVATION. 241 -> 243: `receptive_field` and
+    # `receptive_field_calculation` were minted (TEAM-SIGN-OFF [receptive field
+    # naming], V_eta_ngrid_family_findings.md, 2026-08-17). The pinned list
+    # below is UNTOUCHED, which is the substantive check rather than the count.
+    # Re-derived, not bumped: the composite declares `value.{method,
+    # storage_mode, planes[]}` and the leaf declares no fields of its own, so
+    # neither carries a `min` or `max` constraint at any depth and neither can
+    # enter the inert set. Note the two are counted here but only ONE of them
+    # is a `data_type` subclass -- the leaf hangs off `subject_calculation` --
+    # which is why the `data_type_subclasses` counter moved by one and this one
+    # by two.
+    assert walked == 243, f'schema count moved; re-derive the inert set ({walked})'
     assert sorted(inert) == [
         "element.direct",
         "element.reference",
