@@ -5537,7 +5537,9 @@
         "directed_relation",
         "score_observation",
         "session_relative_reference",
-        "software"
+        "software",
+        "count_assertion",
+        "voltage_observation"
       ],
       "decided_targets": [],
       "decided_targets_source": null,

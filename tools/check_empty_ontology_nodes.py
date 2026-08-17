@@ -292,7 +292,39 @@ META_FILES = {"did_schema_meta.json", "CURIE_lookups_meta.json",
 # cannot arrive unnoticed -- and the six above are now named here, so when NDIC
 # becomes readable this comment is the worklist rather than an archaeology
 # problem.
-BASELINE_MIGRATORS = 56
+#
+# RAISED AGAIN 56 -> 60, 2026-08-17, by the `neuron_extracellular` mean-waveform
+# fold. FOUR terms, each at exactly one call site, named here for the same
+# worklist reason:
+#
+#     mean spike waveform    neuron_extracellular.m   the voltage_observation's
+#                                                     `variable`
+#     time                   neuron_extracellular.m   axis 1 (built ONCE, above
+#                                                     the regular/irregular
+#                                                     branch, so it is not
+#                                                     staged twice)
+#     channel                neuron_extracellular.m   axis 2, an index axis
+#     spike sorter cluster index
+#                            neuron_extracellular.m   the count_assertion's
+#                                                     `variable` -- and note this
+#                                                     one rides on a PROPOSED
+#                                                     model (see that file's
+#                                                     "team may overturn" header
+#                                                     block), so it may not
+#                                                     survive to be minted at all
+#
+# `time` and `channel` are already staged by pyraview.m for the same reason, so
+# two of the four are a SECOND site for a term this file already lists rather
+# than a new concept. That does not make them free -- the count is of EMISSIONS,
+# not of distinct terms, and it is deliberately the emission count because each
+# site is a place a document gets written with a blank node.
+#
+# THE BLOCK IS UNCHANGED: minting still needs NDIC.txt in
+# `VH-Lab/ndi-ontology-matlab`, still unattachable here. This is the second
+# raise in one day (50 -> 56 -> 60) and that RATE is the thing to watch: the
+# ratchet is doing its job by making each raise deliberate, and it stops being
+# honest the moment a raise happens without the terms being written down.
+BASELINE_MIGRATORS = 60
 
 # Schema-side baseline, set 2026-08-10 when the sweep was added. It is 8 on the
 # day it landed: the four did_clocktype terms x two carriers
