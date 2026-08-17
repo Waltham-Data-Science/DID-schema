@@ -2841,8 +2841,20 @@ write("draft", "acquisition_channels",
 # storage_mode governs inline-vs-shared (multi-subject → a shared timed_sequence doc
 # referenced by N manipulations). Decompose of v1 stimulus_presentation (around its
 # preserved id) is the coupled DID-matlab 2nd-pass step. Additive here.
+# ABSTRACT REMOVED, team, 2026-08-17: "It doesn't need to be abstract."
+# It was `abstract=True`, and that flag CONTRADICTED the signed model it was
+# built to serve. `+did2/+schema/cache.m` raises
+# `did2:validation:abstractInstantiation` for any document naming an abstract
+# class, while the plan's multi-subject `storage_mode: reference` case needs a
+# STANDALONE `timed_sequence` as body-of-record -- "a shared timed_sequence doc
+# referenced by N manipulations", three lines above. So the one case the class
+# exists to model was the one case it forbade. Nothing had noticed because
+# nothing mints the class yet: 0 mint sites in either repo, and the edge that
+# already points at it (`+migrators_j/control_stimulus_ids.m:122`,
+# `timed_sequence_id`) resolves only because v1 `stimulus_presentation` still
+# passes through carrying that id.
 write("draft", "timed_sequence",
-      doc("timed_sequence", ["data_type"], abstract=True, maturity="draft",
+      doc("timed_sequence", ["data_type"], maturity="draft",
           deps=[dep("presented_id", "data_type",
                     "References to the DISTINCT presented stimulus data_type docs "
                     "(deduped); the playlist indexes these.", non_empty=False, multiple=True)],

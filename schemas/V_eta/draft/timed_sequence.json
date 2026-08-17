@@ -7,8 +7,7 @@
                 "class_name": "data_type"
             }
         ],
-        "maturity_level": "draft",
-        "abstract": true
+        "maturity_level": "draft"
     },
     "depends_on": [
         {
