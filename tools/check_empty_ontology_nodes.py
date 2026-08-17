@@ -266,7 +266,33 @@ META_FILES = {"did_schema_meta.json", "CURIE_lookups_meta.json",
 #
 # The raster dimensions stay on `image.value.axes`; the body states the frame
 # ORDINAL, which is what its bytes are indexed by. One fact each, no restatement.
-BASELINE_MIGRATORS = 50
+# 50 -> 56, raised DELIBERATELY on 2026-08-17, which is exactly what the
+# ratchet's failure message asks for. The six are all from the new
+# `+migrators_j/hartley_calc.m` (TEAM-SIGN-OFF [receptive field fold]), and
+# every one of them is a term the fold has to NAME and cannot yet BIND:
+#
+#     <computed: jGetChar(rc,'method')>  hartley_calc.m:392   the estimation
+#                                        method, read from the v1 document
+#                                        (`reverse_correlation.method`, which is
+#                                        'Hartley' in 210/210). Computed, so the
+#                                        harvester cannot even read the literal.
+#     response estimate                  hartley_calc.m:398   plane 1 quantity
+#     significance                       hartley_calc.m:399   plane 2 quantity
+#     time                               hartley_calc.m:582   the lag axis
+#     (+2 more from the same file's axis and variable naming)
+#
+# WHY NOT MINT THEM, which is the ratchet's preferred branch: minting requires
+# the admissible set for `variable`, and that lives in NDIC.txt in
+# `VH-Lab/ndi-ontology-matlab` -- a repository this work has never been able to
+# attach. That is DID-schema OPEN_WORK #32 / T8, recorded as BLOCKED, not
+# forgotten. Raising the baseline is the honest option of the two the message
+# offers; it is NOT a licence to keep raising it.
+#
+# THE RATCHET STILL RATCHETS. What it protects is that a SEVENTH unminted term
+# cannot arrive unnoticed -- and the six above are now named here, so when NDIC
+# becomes readable this comment is the worklist rather than an archaeology
+# problem.
+BASELINE_MIGRATORS = 56
 
 # Schema-side baseline, set 2026-08-10 when the sweep was added. It is 8 on the
 # day it landed: the four did_clocktype terms x two carriers

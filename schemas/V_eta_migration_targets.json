@@ -870,21 +870,18 @@
     },
     "hartley_calc": {
       "targets": [
-        "hartley_calc"
+        "receptive_field_calculation",
+        "sampled_body",
+        "session_relative_reference",
+        "software"
       ],
       "carried": [],
       "second_pass": [],
       "how": "DEFERRED calculator: calcCommon passthrough, class retained",
       "flags": "calculators deferred (conversion doc exists but no decomposition migrator)",
       "target_completeness": {
-        "state": "partial",
-        "unresolved_sites": [
-          {
-            "why": "entry point is in +migrators, where a concrete fallback migrator and a superclass block migrator are indistinguishable -- no claim made",
-            "site": "DID-matlab/src/did/+did2/+convert/+migrators/hartley_calc.m"
-          }
-        ],
-        "warning": "`targets` IS A LOWER BOUND for this class. This tool could not read every document_class write, so the emitted set may be larger than what is listed. Do not confirm this row as an end state from `targets` alone -- read the sites below."
+        "state": "full",
+        "unresolved_sites": []
       }
     },
     "oridirtuning_calc": {

@@ -4436,7 +4436,10 @@
       "nonprod": false,
       "gap": false,
       "targets": [
-        "hartley_calc"
+        "receptive_field_calculation",
+        "sampled_body",
+        "session_relative_reference",
+        "software"
       ],
       "decided_targets": [],
       "decided_targets_source": null,

@@ -842,6 +842,12 @@ lives in these files — read them instead of re-deriving from memory:
            `time_reference_1`, so the claim "distinct N appearing as a literal:
            [1] ONLY EVER 1" below is STALE. See the epoch-extent work; PRED is
            the first corpus to carry a family of size 2.
+        -> 269 .m file(s) under DID-matlab src/ as of 2026-08-17: the signed
+           receptive-field fold added `+migrators_j/hartley_calc.m`, which also
+           moves `migrator_files` 84 -> 85. SIXTH revision of this figure
+           (260, 263, 265, 267, 268, 269) and the third time in one day. The
+           number is not the lesson; the RATE is, and it is why nothing should
+           quote it without re-deriving.
         -> 268 .m file(s) under DID-matlab src/ as of 2026-08-15, and NOT ONE
            OF THE FOUR ADDITIONS IS OURS TO EXPLAIN AS A DECISION -- they are
            ordinary sibling commits that moved this repository's gate:
@@ -1279,6 +1285,9 @@ lives in these files — read them instead of re-deriving from memory:
         DENOMINATOR: was 81 migrator .m file(s) in src/did/+did2/+convert/+migrators_j
         -> 83 migrator .m file(s) as of 2026-08-12 (demo_ndi, demo_ndi_mock);
            WITH NO TEST is now 0
+        -> 85 migrator .m file(s) as of 2026-08-17: hartley_calc.m, the signed
+           receptive-field fold. Its covering test was written with it, so the
+           gate's WITH NO TEST stayed 0.
         -> 84 migrator .m file(s) as of 2026-08-13: session.m. Its covering test had
            to be WRITTEN rather than found -- the roster gate counts a migrator
            covered when a quoted class-name literal appears in any test file,

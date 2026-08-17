@@ -546,6 +546,8 @@ either kind.
 
 ## 1. THE DEFERRED-FOLD SEAM IS NARROWER THAN IT READS
 
+        [2026-08-17: 85 migrator .m file(s) -- hartley_calc.m landed. The
+         sweep's CONCLUSION is unaffected; it writes no clock alignment.]
         DENOMINATOR: 84 migrator .m file(s) in +migrators_j, comment-only
                      lines excluded, Contents.m excluded
         jSessionDocId CALLED IN CODE by: 1   -- syncgraph
