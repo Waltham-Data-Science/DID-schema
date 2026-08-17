@@ -671,18 +671,43 @@ class TestTheCommittedLedger(unittest.TestCase):
             self.assertIn(a["kind"], ("over_failed", "over_unmeasured"))
 
     def test_the_build_ahead_rows_are_named(self):
-        # PINNED, and it is a REAL CONDITION rather than a defect: these four
-        # have their decided target class BUILT while nothing consumes them yet
-        # -- schema ahead of migrator, which CLAUDE.md records for `app` in its
-        # own words ("`software` IS built and shipping ... only the migrator is
-        # outstanding"). Under the old governance-gated ladder this condition
-        # was invisible: the only anomaly was `ngrid`, and it was one about
-        # paperwork.
+        # PINNED, and it is a REAL CONDITION rather than a defect: these have
+        # their decided target class BUILT while nothing consumes them yet --
+        # schema ahead of migrator. Under the old governance-gated ladder the
+        # condition was invisible: the only anomaly was `ngrid`, and it was one
+        # about paperwork.
+        #
+        # THIS LIST WAS FOUR AND IS THREE. `app` LEFT, and the sentence that
+        # used to justify its place here was the thing that turned out to be
+        # wrong. It read "which CLAUDE.md records for `app` in its own words
+        # ('`software` IS built and shipping ... only the migrator is
+        # outstanding')" -- and CLAUDE.md says no such thing. `grep -rn "is
+        # built and shipping"` matches `tools/coverage.py` and
+        # `tools/status_board.py`, never CLAUDE.md, and CLAUDE.md's only
+        # sentence on this reads "R1 (app->software) built+green", which was
+        # right all along. A citation to the file a project treats as its
+        # record, for a sentence that file does not contain.
+        #
+        # The claim itself is also false now: the migrator is NOT outstanding.
+        # `+migrators_j/private/jSoftwareFromApp.m` has been folding `app` into
+        # a `software` entity at six call sites, and the ladder could not see
+        # it because all three of its channels ask about a NAME and that helper
+        # is named after neither the source nor the target. It now declares
+        # (BATCH-PASS-CONSUMES / -EMITS, read by `scan_helpers`) and `app`
+        # climbs to stage 3, so it is no longer schema-ahead-of-migrator.
+        #
+        # DO NOT RE-ADD IT BY BUMPING THE DIGIT. If this list grows an entry,
+        # the question is which channel cannot see the emitter -- not whether
+        # the number needs updating.
         an = _ledger()["summary"]["stage_rollup"]["anomalies"]
         failed = sorted({a["v1_class"] for a in an["rows"]
                          if a["kind"] == "over_failed"})
-        self.assertEqual(failed, ["app", "ensemble", "projectvar",
+        self.assertEqual(failed, ["ensemble", "projectvar",
                                   "stimulus_parameter_table"])
+        self.assertNotIn(
+            "app", failed,
+            "`app` is emitted by jSoftwareFromApp; if it is back here, the "
+            "helper declaration stopped being read")
 
     def test_the_no_target_understatement_is_named_not_hidden(self):
         # Rungs 2 and 3 are unreadable for every row with no recorded target.

@@ -183,16 +183,16 @@
         "rung": 1,
         "name": "a migrator CONSUMES it",
         "denominator": 102,
-        "yes": 91,
-        "no": 11,
+        "yes": 92,
+        "no": 10,
         "n/a": 0,
         "not measured": 0
       },
       "by_stage_reached": {
-        "0": 11,
+        "0": 10,
         "1": 63,
         "2": 6,
-        "3": 22,
+        "3": 23,
         "4": 0
       },
       "reached_with_an_n_a_in_the_chain": [
@@ -200,8 +200,8 @@
       ],
       "per_stage_state_counts": {
         "1": {
-          "yes": 91,
-          "no": 11
+          "yes": 92,
+          "no": 10
         },
         "2": {
           "not measured": 68,
@@ -210,8 +210,8 @@
         },
         "3": {
           "not measured": 68,
-          "no": 10,
-          "yes": 21,
+          "yes": 22,
+          "no": 9,
           "n/a": 3
         },
         "4": {
@@ -219,16 +219,15 @@
         }
       },
       "per_stage_satisfied_independently": {
-        "1": 91,
+        "1": 92,
         "2": 31,
-        "3": 21,
+        "3": 22,
         "4": 0
       },
       "capped": {
         "denominator": 102,
-        "rows": 4,
+        "rows": 3,
         "row_names": [
-          "app",
           "ensemble",
           "projectvar",
           "stimulus_parameter_table"
@@ -236,8 +235,8 @@
         "highest_rung_satisfied_independently_histogram": {
           "0": 7,
           "1": 64,
-          "2": 10,
-          "3": 21,
+          "2": 9,
+          "3": 22,
           "4": 0
         },
         "genuinely_untouched": 5,
@@ -372,26 +371,18 @@
         "why_the_join_moves_none_of_them": "a TEAM-SIGN-OFF line signs a FAMILY, not a per-class target list. The join can say a class is decided; it cannot say WHAT it becomes. Naming a target from it would be inventing one"
       },
       "anomalies": {
-        "total": 4,
-        "classes": 4,
+        "total": 3,
+        "classes": 3,
         "by_kind": {
-          "over_failed": 4
+          "over_failed": 3
         },
         "by_stage": {
           "1": 0,
-          "2": 4,
+          "2": 3,
           "3": 0,
           "4": 0
         },
         "rows": [
-          {
-            "stage": 2,
-            "stage_name": "its decided target classes EXIST in the build",
-            "satisfied_over": 1,
-            "satisfied_over_name": "a migrator CONSUMES it",
-            "kind": "over_failed",
-            "v1_class": "app"
-          },
           {
             "stage": 2,
             "stage_name": "its decided target classes EXIST in the build",
@@ -891,6 +882,9 @@
         "batch_pass_consumers": [],
         "batch_pass_emits": {},
         "batch_pass_emits_decided_targets": false,
+        "helper_consumers": [],
+        "helper_emits": {},
+        "helper_emits_decided_targets": false,
         "emitted_by_migrator": null,
         "emitted_by_targets": [],
         "emitted_by_emits_decided_targets": false
@@ -976,6 +970,9 @@
         "batch_pass_consumers": [],
         "batch_pass_emits": {},
         "batch_pass_emits_decided_targets": false,
+        "helper_consumers": [],
+        "helper_emits": {},
+        "helper_emits_decided_targets": false,
         "emitted_by_migrator": null,
         "emitted_by_targets": [],
         "emitted_by_emits_decided_targets": false
@@ -1065,6 +1062,15 @@
         "batch_pass_consumers": [],
         "batch_pass_emits": {},
         "batch_pass_emits_decided_targets": false,
+        "helper_consumers": [
+          "jSoftwareFromApp"
+        ],
+        "helper_emits": {
+          "jSoftwareFromApp": [
+            "software"
+          ]
+        },
+        "helper_emits_decided_targets": true,
         "emitted_by_migrator": null,
         "emitted_by_targets": [],
         "emitted_by_emits_decided_targets": false
@@ -1102,16 +1108,16 @@
       "stage": {
         "unclassifiable": false,
         "unclassifiable_why": null,
-        "reached": 0,
-        "reached_name": "source identified",
-        "blocked_by": 1,
-        "blocked_by_state": "no",
+        "reached": 3,
+        "reached_name": "the migrator emits THE DECIDED targets",
+        "blocked_by": 4,
+        "blocked_by_state": "not measured",
         "ladder": [
           {
             "stage": 1,
             "name": "a migrator CONSUMES it",
-            "state": "no",
-            "why": "neither `build_state.has_per_class_migrator`, a `second_pass` entry, nor a batch post-pass declaring it. All 9 batch post-pass(es) in the derived chain were read and none declares this class."
+            "state": "yes",
+            "why": "no per-class migrator, no `second_pass` entry and no batch post-pass, but `build_state.helper_consumers` records the SHARED HELPER(s) `jSoftwareFromApp` DECLARING that they consume this class"
           },
           {
             "stage": 2,
@@ -1122,8 +1128,8 @@
           {
             "stage": 3,
             "name": "the migrator emits THE DECIDED targets",
-            "state": "no",
-            "why": "the decided target(s) `software` are not all among what the migrator emits today (nothing)"
+            "state": "yes",
+            "why": "the migrator named after this class does not emit the decided target(s) -- there is no migrator named after it -- but `build_state.helper_emits` records the SHARED HELPER(s) `jSoftwareFromApp` -> `software` DECLARING the emission. Declared, not derived: a call-graph walk credits `valid_interval` from a mint site behind a guard that is OFF by team decision. NOT a corpus proof"
           },
           {
             "stage": 4,
@@ -1132,17 +1138,9 @@
             "why": "*** NOT MEASURED *** -- no corpus report root was supplied (pass --corpus-reports DIR or set V_ETA_CORPUS_REPORTS)"
           }
         ],
-        "anomalies": [
-          {
-            "stage": 2,
-            "stage_name": "its decided target classes EXIST in the build",
-            "satisfied_over": 1,
-            "satisfied_over_name": "a migrator CONSUMES it",
-            "kind": "over_failed"
-          }
-        ],
-        "highest_rung_satisfied_independently": 2,
-        "capped": true,
+        "anomalies": [],
+        "highest_rung_satisfied_independently": 3,
+        "capped": false,
         "nothing_built": false,
         "nothing_satisfied": false,
         "only_excused": false,
@@ -1178,6 +1176,9 @@
         "batch_pass_consumers": [],
         "batch_pass_emits": {},
         "batch_pass_emits_decided_targets": false,
+        "helper_consumers": [],
+        "helper_emits": {},
+        "helper_emits_decided_targets": false,
         "emitted_by_migrator": null,
         "emitted_by_targets": [],
         "emitted_by_emits_decided_targets": false
@@ -1276,6 +1277,9 @@
         "batch_pass_consumers": [],
         "batch_pass_emits": {},
         "batch_pass_emits_decided_targets": false,
+        "helper_consumers": [],
+        "helper_emits": {},
+        "helper_emits_decided_targets": false,
         "emitted_by_migrator": null,
         "emitted_by_targets": [],
         "emitted_by_emits_decided_targets": false
@@ -1331,7 +1335,7 @@
             "stage": 3,
             "name": "the migrator emits THE DECIDED targets",
             "state": "no",
-            "why": "the decided target(s) `subject_statement`, `sampled_body` are not all among what the migrator emits today (`binaryseries_parameters`)"
+            "why": "the decided target(s) `subject_statement`, `sampled_body` are not all among what the migrator emits today (`binaryseries_parameters`). 1 of 54 shared helper(s) declare; 16 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jCalculation, jClockAlignmentBodies, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMethodParameters, jSampledBody, jSessionAnchor, jSoftware, jSorterOutput, jTuningFold, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
           },
           {
             "stage": 4,
@@ -1378,6 +1382,9 @@
         "batch_pass_consumers": [],
         "batch_pass_emits": {},
         "batch_pass_emits_decided_targets": false,
+        "helper_consumers": [],
+        "helper_emits": {},
+        "helper_emits_decided_targets": false,
         "emitted_by_migrator": null,
         "emitted_by_targets": [],
         "emitted_by_emits_decided_targets": false
@@ -1467,6 +1474,9 @@
         "batch_pass_consumers": [],
         "batch_pass_emits": {},
         "batch_pass_emits_decided_targets": false,
+        "helper_consumers": [],
+        "helper_emits": {},
+        "helper_emits_decided_targets": false,
         "emitted_by_migrator": null,
         "emitted_by_targets": [],
         "emitted_by_emits_decided_targets": false
@@ -1558,6 +1568,9 @@
         "batch_pass_consumers": [],
         "batch_pass_emits": {},
         "batch_pass_emits_decided_targets": false,
+        "helper_consumers": [],
+        "helper_emits": {},
+        "helper_emits_decided_targets": false,
         "emitted_by_migrator": null,
         "emitted_by_targets": [],
         "emitted_by_emits_decided_targets": false
@@ -1649,6 +1662,9 @@
         "batch_pass_consumers": [],
         "batch_pass_emits": {},
         "batch_pass_emits_decided_targets": false,
+        "helper_consumers": [],
+        "helper_emits": {},
+        "helper_emits_decided_targets": false,
         "emitted_by_migrator": null,
         "emitted_by_targets": [],
         "emitted_by_emits_decided_targets": false
@@ -1738,6 +1754,9 @@
         "batch_pass_consumers": [],
         "batch_pass_emits": {},
         "batch_pass_emits_decided_targets": false,
+        "helper_consumers": [],
+        "helper_emits": {},
+        "helper_emits_decided_targets": false,
         "emitted_by_migrator": null,
         "emitted_by_targets": [],
         "emitted_by_emits_decided_targets": false
@@ -1832,6 +1851,9 @@
         "batch_pass_consumers": [],
         "batch_pass_emits": {},
         "batch_pass_emits_decided_targets": false,
+        "helper_consumers": [],
+        "helper_emits": {},
+        "helper_emits_decided_targets": false,
         "emitted_by_migrator": null,
         "emitted_by_targets": [],
         "emitted_by_emits_decided_targets": false
@@ -1943,6 +1965,9 @@
         ],
         "batch_pass_emits": {},
         "batch_pass_emits_decided_targets": false,
+        "helper_consumers": [],
+        "helper_emits": {},
+        "helper_emits_decided_targets": false,
         "emitted_by_migrator": null,
         "emitted_by_targets": [],
         "emitted_by_emits_decided_targets": false
@@ -2053,6 +2078,9 @@
         "batch_pass_consumers": [],
         "batch_pass_emits": {},
         "batch_pass_emits_decided_targets": false,
+        "helper_consumers": [],
+        "helper_emits": {},
+        "helper_emits_decided_targets": false,
         "emitted_by_migrator": null,
         "emitted_by_targets": [],
         "emitted_by_emits_decided_targets": false
@@ -2162,6 +2190,9 @@
         "batch_pass_consumers": [],
         "batch_pass_emits": {},
         "batch_pass_emits_decided_targets": false,
+        "helper_consumers": [],
+        "helper_emits": {},
+        "helper_emits_decided_targets": false,
         "emitted_by_migrator": null,
         "emitted_by_targets": [],
         "emitted_by_emits_decided_targets": false
@@ -2275,6 +2306,9 @@
         "batch_pass_consumers": [],
         "batch_pass_emits": {},
         "batch_pass_emits_decided_targets": false,
+        "helper_consumers": [],
+        "helper_emits": {},
+        "helper_emits_decided_targets": false,
         "emitted_by_migrator": null,
         "emitted_by_targets": [],
         "emitted_by_emits_decided_targets": false
@@ -2333,7 +2367,7 @@
             "stage": 3,
             "name": "the migrator emits THE DECIDED targets",
             "state": "no",
-            "why": "the decided target(s) `image_observation`, `relative_reference`, `sampled_body` are not all among what the migrator emits today (`relative_reference`)"
+            "why": "the decided target(s) `image_observation`, `relative_reference`, `sampled_body` are not all among what the migrator emits today (`relative_reference`). 1 of 54 shared helper(s) declare; 16 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jCalculation, jClockAlignmentBodies, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMethodParameters, jSampledBody, jSessionAnchor, jSoftware, jSorterOutput, jTuningFold, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
           },
           {
             "stage": 4,
@@ -2381,6 +2415,9 @@
         "batch_pass_consumers": [],
         "batch_pass_emits": {},
         "batch_pass_emits_decided_targets": false,
+        "helper_consumers": [],
+        "helper_emits": {},
+        "helper_emits_decided_targets": false,
         "emitted_by_migrator": null,
         "emitted_by_targets": [],
         "emitted_by_emits_decided_targets": false
@@ -2478,6 +2515,9 @@
         "batch_pass_consumers": [],
         "batch_pass_emits": {},
         "batch_pass_emits_decided_targets": false,
+        "helper_consumers": [],
+        "helper_emits": {},
+        "helper_emits_decided_targets": false,
         "emitted_by_migrator": null,
         "emitted_by_targets": [],
         "emitted_by_emits_decided_targets": false
@@ -2588,6 +2628,9 @@
         "batch_pass_consumers": [],
         "batch_pass_emits": {},
         "batch_pass_emits_decided_targets": false,
+        "helper_consumers": [],
+        "helper_emits": {},
+        "helper_emits_decided_targets": false,
         "emitted_by_migrator": null,
         "emitted_by_targets": [],
         "emitted_by_emits_decided_targets": false
@@ -2696,6 +2739,9 @@
         "batch_pass_consumers": [],
         "batch_pass_emits": {},
         "batch_pass_emits_decided_targets": false,
+        "helper_consumers": [],
+        "helper_emits": {},
+        "helper_emits_decided_targets": false,
         "emitted_by_migrator": null,
         "emitted_by_targets": [],
         "emitted_by_emits_decided_targets": false
@@ -2784,6 +2830,9 @@
         "batch_pass_consumers": [],
         "batch_pass_emits": {},
         "batch_pass_emits_decided_targets": false,
+        "helper_consumers": [],
+        "helper_emits": {},
+        "helper_emits_decided_targets": false,
         "emitted_by_migrator": null,
         "emitted_by_targets": [],
         "emitted_by_emits_decided_targets": false
@@ -2871,6 +2920,9 @@
         "batch_pass_consumers": [],
         "batch_pass_emits": {},
         "batch_pass_emits_decided_targets": false,
+        "helper_consumers": [],
+        "helper_emits": {},
+        "helper_emits_decided_targets": false,
         "emitted_by_migrator": null,
         "emitted_by_targets": [],
         "emitted_by_emits_decided_targets": false
@@ -2958,6 +3010,9 @@
         "batch_pass_consumers": [],
         "batch_pass_emits": {},
         "batch_pass_emits_decided_targets": false,
+        "helper_consumers": [],
+        "helper_emits": {},
+        "helper_emits_decided_targets": false,
         "emitted_by_migrator": null,
         "emitted_by_targets": [],
         "emitted_by_emits_decided_targets": false
@@ -3045,6 +3100,9 @@
         "batch_pass_consumers": [],
         "batch_pass_emits": {},
         "batch_pass_emits_decided_targets": false,
+        "helper_consumers": [],
+        "helper_emits": {},
+        "helper_emits_decided_targets": false,
         "emitted_by_migrator": null,
         "emitted_by_targets": [],
         "emitted_by_emits_decided_targets": false
@@ -3133,6 +3191,9 @@
         "batch_pass_consumers": [],
         "batch_pass_emits": {},
         "batch_pass_emits_decided_targets": false,
+        "helper_consumers": [],
+        "helper_emits": {},
+        "helper_emits_decided_targets": false,
         "emitted_by_migrator": null,
         "emitted_by_targets": [],
         "emitted_by_emits_decided_targets": false
@@ -3248,6 +3309,9 @@
         "batch_pass_consumers": [],
         "batch_pass_emits": {},
         "batch_pass_emits_decided_targets": false,
+        "helper_consumers": [],
+        "helper_emits": {},
+        "helper_emits_decided_targets": false,
         "emitted_by_migrator": null,
         "emitted_by_targets": [],
         "emitted_by_emits_decided_targets": false
@@ -3353,6 +3417,9 @@
         "batch_pass_consumers": [],
         "batch_pass_emits": {},
         "batch_pass_emits_decided_targets": false,
+        "helper_consumers": [],
+        "helper_emits": {},
+        "helper_emits_decided_targets": false,
         "emitted_by_migrator": null,
         "emitted_by_targets": [],
         "emitted_by_emits_decided_targets": false
@@ -3446,6 +3513,9 @@
         "batch_pass_consumers": [],
         "batch_pass_emits": {},
         "batch_pass_emits_decided_targets": false,
+        "helper_consumers": [],
+        "helper_emits": {},
+        "helper_emits_decided_targets": false,
         "emitted_by_migrator": null,
         "emitted_by_targets": [],
         "emitted_by_emits_decided_targets": false
@@ -3504,7 +3574,7 @@
             "stage": 3,
             "name": "the migrator emits THE DECIDED targets",
             "state": "no",
-            "why": "the decided target(s) `subject`, `directed_relation`, `sampled_body` are not all among what the migrator emits today (nothing)"
+            "why": "the decided target(s) `subject`, `directed_relation`, `sampled_body` are not all among what the migrator emits today (nothing). 1 of 54 shared helper(s) declare; 16 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jCalculation, jClockAlignmentBodies, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMethodParameters, jSampledBody, jSessionAnchor, jSoftware, jSorterOutput, jTuningFold, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
           },
           {
             "stage": 4,
@@ -3561,6 +3631,9 @@
         "batch_pass_consumers": [],
         "batch_pass_emits": {},
         "batch_pass_emits_decided_targets": false,
+        "helper_consumers": [],
+        "helper_emits": {},
+        "helper_emits_decided_targets": false,
         "emitted_by_migrator": null,
         "emitted_by_targets": [],
         "emitted_by_emits_decided_targets": false
@@ -3601,7 +3674,7 @@
             "stage": 3,
             "name": "the migrator emits THE DECIDED targets",
             "state": "no",
-            "why": "the decided target(s) `relative_reference` are not all among what the migrator emits today (nothing)"
+            "why": "the decided target(s) `relative_reference` are not all among what the migrator emits today (nothing). 1 of 54 shared helper(s) declare; 16 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jCalculation, jClockAlignmentBodies, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMethodParameters, jSampledBody, jSessionAnchor, jSoftware, jSorterOutput, jTuningFold, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
           },
           {
             "stage": 4,
@@ -3657,6 +3730,9 @@
         "batch_pass_consumers": [],
         "batch_pass_emits": {},
         "batch_pass_emits_decided_targets": false,
+        "helper_consumers": [],
+        "helper_emits": {},
+        "helper_emits_decided_targets": false,
         "emitted_by_migrator": null,
         "emitted_by_targets": [],
         "emitted_by_emits_decided_targets": false
@@ -3714,7 +3790,7 @@
             "stage": 3,
             "name": "the migrator emits THE DECIDED targets",
             "state": "no",
-            "why": "the decided target(s) `ingestion_manifest` are not all among what the migrator emits today (`epochfiles_ingested`)"
+            "why": "the decided target(s) `ingestion_manifest` are not all among what the migrator emits today (`epochfiles_ingested`). 1 of 54 shared helper(s) declare; 16 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jCalculation, jClockAlignmentBodies, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMethodParameters, jSampledBody, jSessionAnchor, jSoftware, jSorterOutput, jTuningFold, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
           },
           {
             "stage": 4,
@@ -3768,6 +3844,9 @@
           ]
         },
         "batch_pass_emits_decided_targets": false,
+        "helper_consumers": [],
+        "helper_emits": {},
+        "helper_emits_decided_targets": false,
         "emitted_by_migrator": null,
         "emitted_by_targets": [],
         "emitted_by_emits_decided_targets": false
@@ -3873,6 +3952,9 @@
         "batch_pass_consumers": [],
         "batch_pass_emits": {},
         "batch_pass_emits_decided_targets": false,
+        "helper_consumers": [],
+        "helper_emits": {},
+        "helper_emits_decided_targets": false,
         "emitted_by_migrator": null,
         "emitted_by_targets": [],
         "emitted_by_emits_decided_targets": false
@@ -3985,6 +4067,9 @@
         "batch_pass_consumers": [],
         "batch_pass_emits": {},
         "batch_pass_emits_decided_targets": false,
+        "helper_consumers": [],
+        "helper_emits": {},
+        "helper_emits_decided_targets": false,
         "emitted_by_migrator": "pyraview",
         "emitted_by_targets": [
           "frequency_filter"
@@ -4090,6 +4175,9 @@
         "batch_pass_consumers": [],
         "batch_pass_emits": {},
         "batch_pass_emits_decided_targets": false,
+        "helper_consumers": [],
+        "helper_emits": {},
+        "helper_emits_decided_targets": false,
         "emitted_by_migrator": null,
         "emitted_by_targets": [],
         "emitted_by_emits_decided_targets": false
@@ -4186,6 +4274,9 @@
           ]
         },
         "batch_pass_emits_decided_targets": false,
+        "helper_consumers": [],
+        "helper_emits": {},
+        "helper_emits_decided_targets": false,
         "emitted_by_migrator": null,
         "emitted_by_targets": [],
         "emitted_by_emits_decided_targets": false
@@ -4291,6 +4382,9 @@
         "batch_pass_consumers": [],
         "batch_pass_emits": {},
         "batch_pass_emits_decided_targets": false,
+        "helper_consumers": [],
+        "helper_emits": {},
+        "helper_emits_decided_targets": false,
         "emitted_by_migrator": null,
         "emitted_by_targets": [],
         "emitted_by_emits_decided_targets": false
@@ -4380,6 +4474,9 @@
         "batch_pass_consumers": [],
         "batch_pass_emits": {},
         "batch_pass_emits_decided_targets": false,
+        "helper_consumers": [],
+        "helper_emits": {},
+        "helper_emits_decided_targets": false,
         "emitted_by_migrator": null,
         "emitted_by_targets": [],
         "emitted_by_emits_decided_targets": false
@@ -4469,6 +4566,9 @@
         "batch_pass_consumers": [],
         "batch_pass_emits": {},
         "batch_pass_emits_decided_targets": false,
+        "helper_consumers": [],
+        "helper_emits": {},
+        "helper_emits_decided_targets": false,
         "emitted_by_migrator": null,
         "emitted_by_targets": [],
         "emitted_by_emits_decided_targets": false
@@ -4576,6 +4676,9 @@
         "batch_pass_consumers": [],
         "batch_pass_emits": {},
         "batch_pass_emits_decided_targets": false,
+        "helper_consumers": [],
+        "helper_emits": {},
+        "helper_emits_decided_targets": false,
         "emitted_by_migrator": null,
         "emitted_by_targets": [],
         "emitted_by_emits_decided_targets": false
@@ -4663,6 +4766,9 @@
         "batch_pass_consumers": [],
         "batch_pass_emits": {},
         "batch_pass_emits_decided_targets": false,
+        "helper_consumers": [],
+        "helper_emits": {},
+        "helper_emits_decided_targets": false,
         "emitted_by_migrator": null,
         "emitted_by_targets": [],
         "emitted_by_emits_decided_targets": false
@@ -4771,6 +4877,9 @@
         "batch_pass_consumers": [],
         "batch_pass_emits": {},
         "batch_pass_emits_decided_targets": false,
+        "helper_consumers": [],
+        "helper_emits": {},
+        "helper_emits_decided_targets": false,
         "emitted_by_migrator": null,
         "emitted_by_targets": [],
         "emitted_by_emits_decided_targets": false
@@ -4863,6 +4972,9 @@
         "batch_pass_consumers": [],
         "batch_pass_emits": {},
         "batch_pass_emits_decided_targets": false,
+        "helper_consumers": [],
+        "helper_emits": {},
+        "helper_emits_decided_targets": false,
         "emitted_by_migrator": null,
         "emitted_by_targets": [],
         "emitted_by_emits_decided_targets": false
@@ -4955,6 +5067,9 @@
         "batch_pass_consumers": [],
         "batch_pass_emits": {},
         "batch_pass_emits_decided_targets": false,
+        "helper_consumers": [],
+        "helper_emits": {},
+        "helper_emits_decided_targets": false,
         "emitted_by_migrator": null,
         "emitted_by_targets": [],
         "emitted_by_emits_decided_targets": false
@@ -5049,6 +5164,9 @@
         "batch_pass_consumers": [],
         "batch_pass_emits": {},
         "batch_pass_emits_decided_targets": false,
+        "helper_consumers": [],
+        "helper_emits": {},
+        "helper_emits_decided_targets": false,
         "emitted_by_migrator": null,
         "emitted_by_targets": [],
         "emitted_by_emits_decided_targets": false
@@ -5144,6 +5262,9 @@
         "batch_pass_consumers": [],
         "batch_pass_emits": {},
         "batch_pass_emits_decided_targets": false,
+        "helper_consumers": [],
+        "helper_emits": {},
+        "helper_emits_decided_targets": false,
         "emitted_by_migrator": null,
         "emitted_by_targets": [],
         "emitted_by_emits_decided_targets": false
@@ -5229,6 +5350,9 @@
         "batch_pass_consumers": [],
         "batch_pass_emits": {},
         "batch_pass_emits_decided_targets": false,
+        "helper_consumers": [],
+        "helper_emits": {},
+        "helper_emits_decided_targets": false,
         "emitted_by_migrator": null,
         "emitted_by_targets": [],
         "emitted_by_emits_decided_targets": false
@@ -5320,6 +5444,9 @@
         "batch_pass_consumers": [],
         "batch_pass_emits": {},
         "batch_pass_emits_decided_targets": false,
+        "helper_consumers": [],
+        "helper_emits": {},
+        "helper_emits_decided_targets": false,
         "emitted_by_migrator": null,
         "emitted_by_targets": [],
         "emitted_by_emits_decided_targets": false
@@ -5410,6 +5537,9 @@
         "batch_pass_consumers": [],
         "batch_pass_emits": {},
         "batch_pass_emits_decided_targets": false,
+        "helper_consumers": [],
+        "helper_emits": {},
+        "helper_emits_decided_targets": false,
         "emitted_by_migrator": null,
         "emitted_by_targets": [],
         "emitted_by_emits_decided_targets": false
@@ -5510,6 +5640,9 @@
         "batch_pass_consumers": [],
         "batch_pass_emits": {},
         "batch_pass_emits_decided_targets": false,
+        "helper_consumers": [],
+        "helper_emits": {},
+        "helper_emits_decided_targets": false,
         "emitted_by_migrator": null,
         "emitted_by_targets": [],
         "emitted_by_emits_decided_targets": false
@@ -5600,6 +5733,9 @@
         "batch_pass_consumers": [],
         "batch_pass_emits": {},
         "batch_pass_emits_decided_targets": false,
+        "helper_consumers": [],
+        "helper_emits": {},
+        "helper_emits_decided_targets": false,
         "emitted_by_migrator": null,
         "emitted_by_targets": [],
         "emitted_by_emits_decided_targets": false
@@ -5693,6 +5829,9 @@
         ],
         "batch_pass_emits": {},
         "batch_pass_emits_decided_targets": false,
+        "helper_consumers": [],
+        "helper_emits": {},
+        "helper_emits_decided_targets": false,
         "emitted_by_migrator": null,
         "emitted_by_targets": [],
         "emitted_by_emits_decided_targets": false
@@ -5812,6 +5951,9 @@
           ]
         },
         "batch_pass_emits_decided_targets": false,
+        "helper_consumers": [],
+        "helper_emits": {},
+        "helper_emits_decided_targets": false,
         "emitted_by_migrator": null,
         "emitted_by_targets": [],
         "emitted_by_emits_decided_targets": false
@@ -5913,6 +6055,9 @@
           ]
         },
         "batch_pass_emits_decided_targets": false,
+        "helper_consumers": [],
+        "helper_emits": {},
+        "helper_emits_decided_targets": false,
         "emitted_by_migrator": null,
         "emitted_by_targets": [],
         "emitted_by_emits_decided_targets": false
@@ -6018,6 +6163,9 @@
         "batch_pass_consumers": [],
         "batch_pass_emits": {},
         "batch_pass_emits_decided_targets": false,
+        "helper_consumers": [],
+        "helper_emits": {},
+        "helper_emits_decided_targets": false,
         "emitted_by_migrator": null,
         "emitted_by_targets": [],
         "emitted_by_emits_decided_targets": false
@@ -6107,6 +6255,9 @@
         "batch_pass_consumers": [],
         "batch_pass_emits": {},
         "batch_pass_emits_decided_targets": false,
+        "helper_consumers": [],
+        "helper_emits": {},
+        "helper_emits_decided_targets": false,
         "emitted_by_migrator": null,
         "emitted_by_targets": [],
         "emitted_by_emits_decided_targets": false
@@ -6196,6 +6347,9 @@
         "batch_pass_consumers": [],
         "batch_pass_emits": {},
         "batch_pass_emits_decided_targets": false,
+        "helper_consumers": [],
+        "helper_emits": {},
+        "helper_emits_decided_targets": false,
         "emitted_by_migrator": null,
         "emitted_by_targets": [],
         "emitted_by_emits_decided_targets": false
@@ -6287,6 +6441,9 @@
         "batch_pass_consumers": [],
         "batch_pass_emits": {},
         "batch_pass_emits_decided_targets": false,
+        "helper_consumers": [],
+        "helper_emits": {},
+        "helper_emits_decided_targets": false,
         "emitted_by_migrator": null,
         "emitted_by_targets": [],
         "emitted_by_emits_decided_targets": false
@@ -6378,6 +6535,9 @@
         "batch_pass_consumers": [],
         "batch_pass_emits": {},
         "batch_pass_emits_decided_targets": false,
+        "helper_consumers": [],
+        "helper_emits": {},
+        "helper_emits_decided_targets": false,
         "emitted_by_migrator": null,
         "emitted_by_targets": [],
         "emitted_by_emits_decided_targets": false
@@ -6468,6 +6628,9 @@
         "batch_pass_consumers": [],
         "batch_pass_emits": {},
         "batch_pass_emits_decided_targets": false,
+        "helper_consumers": [],
+        "helper_emits": {},
+        "helper_emits_decided_targets": false,
         "emitted_by_migrator": null,
         "emitted_by_targets": [],
         "emitted_by_emits_decided_targets": false
@@ -6559,6 +6722,9 @@
         "batch_pass_consumers": [],
         "batch_pass_emits": {},
         "batch_pass_emits_decided_targets": false,
+        "helper_consumers": [],
+        "helper_emits": {},
+        "helper_emits_decided_targets": false,
         "emitted_by_migrator": null,
         "emitted_by_targets": [],
         "emitted_by_emits_decided_targets": false
@@ -6649,6 +6815,9 @@
         "batch_pass_consumers": [],
         "batch_pass_emits": {},
         "batch_pass_emits_decided_targets": false,
+        "helper_consumers": [],
+        "helper_emits": {},
+        "helper_emits_decided_targets": false,
         "emitted_by_migrator": null,
         "emitted_by_targets": [],
         "emitted_by_emits_decided_targets": false
@@ -6740,6 +6909,9 @@
         "batch_pass_consumers": [],
         "batch_pass_emits": {},
         "batch_pass_emits_decided_targets": false,
+        "helper_consumers": [],
+        "helper_emits": {},
+        "helper_emits_decided_targets": false,
         "emitted_by_migrator": null,
         "emitted_by_targets": [],
         "emitted_by_emits_decided_targets": false
@@ -6798,7 +6970,7 @@
             "stage": 3,
             "name": "the migrator emits THE DECIDED targets",
             "state": "no",
-            "why": "the decided target(s) `projectvar` are not all among what the migrator emits today (nothing)"
+            "why": "the decided target(s) `projectvar` are not all among what the migrator emits today (nothing). 1 of 54 shared helper(s) declare; 16 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jCalculation, jClockAlignmentBodies, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMethodParameters, jSampledBody, jSessionAnchor, jSoftware, jSorterOutput, jTuningFold, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
           },
           {
             "stage": 4,
@@ -6869,6 +7041,9 @@
         "batch_pass_consumers": [],
         "batch_pass_emits": {},
         "batch_pass_emits_decided_targets": false,
+        "helper_consumers": [],
+        "helper_emits": {},
+        "helper_emits_decided_targets": false,
         "emitted_by_migrator": null,
         "emitted_by_targets": [],
         "emitted_by_emits_decided_targets": false
@@ -6980,6 +7155,9 @@
         "batch_pass_consumers": [],
         "batch_pass_emits": {},
         "batch_pass_emits_decided_targets": false,
+        "helper_consumers": [],
+        "helper_emits": {},
+        "helper_emits_decided_targets": false,
         "emitted_by_migrator": null,
         "emitted_by_targets": [],
         "emitted_by_emits_decided_targets": false
@@ -7086,6 +7264,9 @@
         "batch_pass_consumers": [],
         "batch_pass_emits": {},
         "batch_pass_emits_decided_targets": false,
+        "helper_consumers": [],
+        "helper_emits": {},
+        "helper_emits_decided_targets": false,
         "emitted_by_migrator": null,
         "emitted_by_targets": [],
         "emitted_by_emits_decided_targets": false
@@ -7173,6 +7354,9 @@
         "batch_pass_consumers": [],
         "batch_pass_emits": {},
         "batch_pass_emits_decided_targets": false,
+        "helper_consumers": [],
+        "helper_emits": {},
+        "helper_emits_decided_targets": false,
         "emitted_by_migrator": null,
         "emitted_by_targets": [],
         "emitted_by_emits_decided_targets": false
@@ -7262,6 +7446,9 @@
         "batch_pass_consumers": [],
         "batch_pass_emits": {},
         "batch_pass_emits_decided_targets": false,
+        "helper_consumers": [],
+        "helper_emits": {},
+        "helper_emits_decided_targets": false,
         "emitted_by_migrator": null,
         "emitted_by_targets": [],
         "emitted_by_emits_decided_targets": false
@@ -7354,6 +7541,9 @@
         "batch_pass_consumers": [],
         "batch_pass_emits": {},
         "batch_pass_emits_decided_targets": false,
+        "helper_consumers": [],
+        "helper_emits": {},
+        "helper_emits_decided_targets": false,
         "emitted_by_migrator": null,
         "emitted_by_targets": [],
         "emitted_by_emits_decided_targets": false
@@ -7461,6 +7651,9 @@
         "batch_pass_consumers": [],
         "batch_pass_emits": {},
         "batch_pass_emits_decided_targets": false,
+        "helper_consumers": [],
+        "helper_emits": {},
+        "helper_emits_decided_targets": false,
         "emitted_by_migrator": null,
         "emitted_by_targets": [],
         "emitted_by_emits_decided_targets": false
@@ -7552,6 +7745,9 @@
         "batch_pass_consumers": [],
         "batch_pass_emits": {},
         "batch_pass_emits_decided_targets": false,
+        "helper_consumers": [],
+        "helper_emits": {},
+        "helper_emits_decided_targets": false,
         "emitted_by_migrator": null,
         "emitted_by_targets": [],
         "emitted_by_emits_decided_targets": false
@@ -7643,6 +7839,9 @@
         "batch_pass_consumers": [],
         "batch_pass_emits": {},
         "batch_pass_emits_decided_targets": false,
+        "helper_consumers": [],
+        "helper_emits": {},
+        "helper_emits_decided_targets": false,
         "emitted_by_migrator": null,
         "emitted_by_targets": [],
         "emitted_by_emits_decided_targets": false
@@ -7734,6 +7933,9 @@
         "batch_pass_consumers": [],
         "batch_pass_emits": {},
         "batch_pass_emits_decided_targets": false,
+        "helper_consumers": [],
+        "helper_emits": {},
+        "helper_emits_decided_targets": false,
         "emitted_by_migrator": null,
         "emitted_by_targets": [],
         "emitted_by_emits_decided_targets": false
@@ -7823,6 +8025,9 @@
         "batch_pass_consumers": [],
         "batch_pass_emits": {},
         "batch_pass_emits_decided_targets": false,
+        "helper_consumers": [],
+        "helper_emits": {},
+        "helper_emits_decided_targets": false,
         "emitted_by_migrator": null,
         "emitted_by_targets": [],
         "emitted_by_emits_decided_targets": false
@@ -7915,6 +8120,9 @@
         "batch_pass_consumers": [],
         "batch_pass_emits": {},
         "batch_pass_emits_decided_targets": false,
+        "helper_consumers": [],
+        "helper_emits": {},
+        "helper_emits_decided_targets": false,
         "emitted_by_migrator": null,
         "emitted_by_targets": [],
         "emitted_by_emits_decided_targets": false
@@ -8025,6 +8233,9 @@
         "batch_pass_consumers": [],
         "batch_pass_emits": {},
         "batch_pass_emits_decided_targets": false,
+        "helper_consumers": [],
+        "helper_emits": {},
+        "helper_emits_decided_targets": false,
         "emitted_by_migrator": null,
         "emitted_by_targets": [],
         "emitted_by_emits_decided_targets": false
@@ -8130,6 +8341,9 @@
         "batch_pass_consumers": [],
         "batch_pass_emits": {},
         "batch_pass_emits_decided_targets": false,
+        "helper_consumers": [],
+        "helper_emits": {},
+        "helper_emits_decided_targets": false,
         "emitted_by_migrator": null,
         "emitted_by_targets": [],
         "emitted_by_emits_decided_targets": false
@@ -8223,6 +8437,9 @@
           ]
         },
         "batch_pass_emits_decided_targets": false,
+        "helper_consumers": [],
+        "helper_emits": {},
+        "helper_emits_decided_targets": false,
         "emitted_by_migrator": null,
         "emitted_by_targets": [],
         "emitted_by_emits_decided_targets": false
@@ -8313,6 +8530,9 @@
         "batch_pass_consumers": [],
         "batch_pass_emits": {},
         "batch_pass_emits_decided_targets": false,
+        "helper_consumers": [],
+        "helper_emits": {},
+        "helper_emits_decided_targets": false,
         "emitted_by_migrator": null,
         "emitted_by_targets": [],
         "emitted_by_emits_decided_targets": false
@@ -8420,6 +8640,9 @@
         "batch_pass_consumers": [],
         "batch_pass_emits": {},
         "batch_pass_emits_decided_targets": false,
+        "helper_consumers": [],
+        "helper_emits": {},
+        "helper_emits_decided_targets": false,
         "emitted_by_migrator": null,
         "emitted_by_targets": [],
         "emitted_by_emits_decided_targets": false
@@ -8478,7 +8701,7 @@
             "stage": 3,
             "name": "the migrator emits THE DECIDED targets",
             "state": "no",
-            "why": "the decided target(s) `stimulus_parameter_table` are not all among what the migrator emits today (nothing)"
+            "why": "the decided target(s) `stimulus_parameter_table` are not all among what the migrator emits today (nothing). 1 of 54 shared helper(s) declare; 16 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jCalculation, jClockAlignmentBodies, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMethodParameters, jSampledBody, jSessionAnchor, jSoftware, jSorterOutput, jTuningFold, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
           },
           {
             "stage": 4,
@@ -8544,6 +8767,9 @@
         "batch_pass_consumers": [],
         "batch_pass_emits": {},
         "batch_pass_emits_decided_targets": false,
+        "helper_consumers": [],
+        "helper_emits": {},
+        "helper_emits_decided_targets": false,
         "emitted_by_migrator": null,
         "emitted_by_targets": [],
         "emitted_by_emits_decided_targets": false
@@ -8604,7 +8830,7 @@
             "stage": 3,
             "name": "the migrator emits THE DECIDED targets",
             "state": "no",
-            "why": "the decided target(s) `timed_sequence`, `timed_sequence_manipulation` are not all among what the migrator emits today (`stimulus_presentation`)"
+            "why": "the decided target(s) `timed_sequence`, `timed_sequence_manipulation` are not all among what the migrator emits today (`stimulus_presentation`). 1 of 54 shared helper(s) declare; 16 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jCalculation, jClockAlignmentBodies, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMethodParameters, jSampledBody, jSessionAnchor, jSoftware, jSorterOutput, jTuningFold, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
           },
           {
             "stage": 4,
@@ -8652,6 +8878,9 @@
         "batch_pass_consumers": [],
         "batch_pass_emits": {},
         "batch_pass_emits_decided_targets": false,
+        "helper_consumers": [],
+        "helper_emits": {},
+        "helper_emits_decided_targets": false,
         "emitted_by_migrator": null,
         "emitted_by_targets": [],
         "emitted_by_emits_decided_targets": false
@@ -8759,6 +8988,9 @@
         "batch_pass_consumers": [],
         "batch_pass_emits": {},
         "batch_pass_emits_decided_targets": false,
+        "helper_consumers": [],
+        "helper_emits": {},
+        "helper_emits_decided_targets": false,
         "emitted_by_migrator": null,
         "emitted_by_targets": [],
         "emitted_by_emits_decided_targets": false
@@ -8865,6 +9097,9 @@
         "batch_pass_consumers": [],
         "batch_pass_emits": {},
         "batch_pass_emits_decided_targets": false,
+        "helper_consumers": [],
+        "helper_emits": {},
+        "helper_emits_decided_targets": false,
         "emitted_by_migrator": null,
         "emitted_by_targets": [],
         "emitted_by_emits_decided_targets": false
@@ -8975,6 +9210,9 @@
           ]
         },
         "batch_pass_emits_decided_targets": true,
+        "helper_consumers": [],
+        "helper_emits": {},
+        "helper_emits_decided_targets": true,
         "emitted_by_migrator": null,
         "emitted_by_targets": [],
         "emitted_by_emits_decided_targets": false
@@ -9082,6 +9320,9 @@
         "batch_pass_consumers": [],
         "batch_pass_emits": {},
         "batch_pass_emits_decided_targets": false,
+        "helper_consumers": [],
+        "helper_emits": {},
+        "helper_emits_decided_targets": false,
         "emitted_by_migrator": null,
         "emitted_by_targets": [],
         "emitted_by_emits_decided_targets": false
@@ -9175,6 +9416,9 @@
         "batch_pass_consumers": [],
         "batch_pass_emits": {},
         "batch_pass_emits_decided_targets": false,
+        "helper_consumers": [],
+        "helper_emits": {},
+        "helper_emits_decided_targets": false,
         "emitted_by_migrator": null,
         "emitted_by_targets": [],
         "emitted_by_emits_decided_targets": false
@@ -9281,6 +9525,9 @@
         "batch_pass_consumers": [],
         "batch_pass_emits": {},
         "batch_pass_emits_decided_targets": false,
+        "helper_consumers": [],
+        "helper_emits": {},
+        "helper_emits_decided_targets": false,
         "emitted_by_migrator": null,
         "emitted_by_targets": [],
         "emitted_by_emits_decided_targets": false
@@ -9370,6 +9617,9 @@
         "batch_pass_consumers": [],
         "batch_pass_emits": {},
         "batch_pass_emits_decided_targets": false,
+        "helper_consumers": [],
+        "helper_emits": {},
+        "helper_emits_decided_targets": false,
         "emitted_by_migrator": null,
         "emitted_by_targets": [],
         "emitted_by_emits_decided_targets": false
@@ -9480,6 +9730,9 @@
         "batch_pass_consumers": [],
         "batch_pass_emits": {},
         "batch_pass_emits_decided_targets": false,
+        "helper_consumers": [],
+        "helper_emits": {},
+        "helper_emits_decided_targets": false,
         "emitted_by_migrator": null,
         "emitted_by_targets": [],
         "emitted_by_emits_decided_targets": false
@@ -9591,6 +9844,9 @@
         "batch_pass_consumers": [],
         "batch_pass_emits": {},
         "batch_pass_emits_decided_targets": false,
+        "helper_consumers": [],
+        "helper_emits": {},
+        "helper_emits_decided_targets": false,
         "emitted_by_migrator": null,
         "emitted_by_targets": [],
         "emitted_by_emits_decided_targets": false
@@ -9702,6 +9958,9 @@
         "batch_pass_consumers": [],
         "batch_pass_emits": {},
         "batch_pass_emits_decided_targets": false,
+        "helper_consumers": [],
+        "helper_emits": {},
+        "helper_emits_decided_targets": false,
         "emitted_by_migrator": null,
         "emitted_by_targets": [],
         "emitted_by_emits_decided_targets": false
@@ -9809,6 +10068,9 @@
         "batch_pass_consumers": [],
         "batch_pass_emits": {},
         "batch_pass_emits_decided_targets": false,
+        "helper_consumers": [],
+        "helper_emits": {},
+        "helper_emits_decided_targets": false,
         "emitted_by_migrator": null,
         "emitted_by_targets": [],
         "emitted_by_emits_decided_targets": false
@@ -9900,6 +10162,9 @@
         "batch_pass_consumers": [],
         "batch_pass_emits": {},
         "batch_pass_emits_decided_targets": false,
+        "helper_consumers": [],
+        "helper_emits": {},
+        "helper_emits_decided_targets": false,
         "emitted_by_migrator": null,
         "emitted_by_targets": [],
         "emitted_by_emits_decided_targets": false
@@ -9993,6 +10258,9 @@
         "batch_pass_consumers": [],
         "batch_pass_emits": {},
         "batch_pass_emits_decided_targets": false,
+        "helper_consumers": [],
+        "helper_emits": {},
+        "helper_emits_decided_targets": false,
         "emitted_by_migrator": null,
         "emitted_by_targets": [],
         "emitted_by_emits_decided_targets": false
@@ -10088,6 +10356,9 @@
         "batch_pass_consumers": [],
         "batch_pass_emits": {},
         "batch_pass_emits_decided_targets": false,
+        "helper_consumers": [],
+        "helper_emits": {},
+        "helper_emits_decided_targets": false,
         "emitted_by_migrator": null,
         "emitted_by_targets": [],
         "emitted_by_emits_decided_targets": false
@@ -10183,6 +10454,9 @@
         "batch_pass_consumers": [],
         "batch_pass_emits": {},
         "batch_pass_emits_decided_targets": false,
+        "helper_consumers": [],
+        "helper_emits": {},
+        "helper_emits_decided_targets": false,
         "emitted_by_migrator": null,
         "emitted_by_targets": [],
         "emitted_by_emits_decided_targets": false
@@ -10274,6 +10548,9 @@
         "batch_pass_consumers": [],
         "batch_pass_emits": {},
         "batch_pass_emits_decided_targets": false,
+        "helper_consumers": [],
+        "helper_emits": {},
+        "helper_emits_decided_targets": false,
         "emitted_by_migrator": null,
         "emitted_by_targets": [],
         "emitted_by_emits_decided_targets": false
@@ -10367,6 +10644,9 @@
         ],
         "batch_pass_emits": {},
         "batch_pass_emits_decided_targets": false,
+        "helper_consumers": [],
+        "helper_emits": {},
+        "helper_emits_decided_targets": false,
         "emitted_by_migrator": null,
         "emitted_by_targets": [],
         "emitted_by_emits_decided_targets": false
@@ -10430,7 +10710,7 @@
             "stage": 3,
             "name": "the migrator emits THE DECIDED targets",
             "state": "no",
-            "why": "the decided target(s) `logical_observation` are not all among what the migrator emits today (nothing), nor among what any batch post-pass declares it emits"
+            "why": "the decided target(s) `logical_observation` are not all among what the migrator emits today (nothing), nor among what any batch post-pass declares it emits. 1 of 54 shared helper(s) declare; 16 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jCalculation, jClockAlignmentBodies, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMethodParameters, jSampledBody, jSessionAnchor, jSoftware, jSorterOutput, jTuningFold, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
           },
           {
             "stage": 4,
@@ -10479,6 +10759,9 @@
         "batch_pass_consumers": [],
         "batch_pass_emits": {},
         "batch_pass_emits_decided_targets": false,
+        "helper_consumers": [],
+        "helper_emits": {},
+        "helper_emits_decided_targets": false,
         "emitted_by_migrator": null,
         "emitted_by_targets": [],
         "emitted_by_emits_decided_targets": false
@@ -10572,6 +10855,9 @@
         "batch_pass_consumers": [],
         "batch_pass_emits": {},
         "batch_pass_emits_decided_targets": false,
+        "helper_consumers": [],
+        "helper_emits": {},
+        "helper_emits_decided_targets": false,
         "emitted_by_migrator": null,
         "emitted_by_targets": [],
         "emitted_by_emits_decided_targets": false
@@ -10664,6 +10950,9 @@
         "batch_pass_consumers": [],
         "batch_pass_emits": {},
         "batch_pass_emits_decided_targets": false,
+        "helper_consumers": [],
+        "helper_emits": {},
+        "helper_emits_decided_targets": false,
         "emitted_by_migrator": null,
         "emitted_by_targets": [],
         "emitted_by_emits_decided_targets": false
@@ -10771,6 +11060,9 @@
         "batch_pass_consumers": [],
         "batch_pass_emits": {},
         "batch_pass_emits_decided_targets": false,
+        "helper_consumers": [],
+        "helper_emits": {},
+        "helper_emits_decided_targets": false,
         "emitted_by_migrator": null,
         "emitted_by_targets": [],
         "emitted_by_emits_decided_targets": false
@@ -10860,6 +11152,9 @@
         "batch_pass_consumers": [],
         "batch_pass_emits": {},
         "batch_pass_emits_decided_targets": false,
+        "helper_consumers": [],
+        "helper_emits": {},
+        "helper_emits_decided_targets": false,
         "emitted_by_migrator": null,
         "emitted_by_targets": [],
         "emitted_by_emits_decided_targets": false

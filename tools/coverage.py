@@ -569,6 +569,123 @@ def batch_pass_entries(v1_class, veta_class):
     return out
 
 
+# ============================================================================
+# THE SHARED HELPER -- the FOURTH consumption channel (the `app` mis-score).
+# ============================================================================
+#
+# `app` read rung 3 = `no`, "the decided target `software` is not among what
+# the migrator emits today (nothing)", while `+migrators_j/private/
+# jSoftwareFromApp.m` has been folding it into a `software` entity at six call
+# sites. Every channel above asks a question about a NAME -- a migrator file
+# named after the class, a pass in the derived chain, an `emitted_by`
+# cross-reference -- and that helper is named after neither the source nor the
+# target. It is tell (1) of the four the open-list reconciliation recorded:
+# work landed under a different name and read as work not done.
+#
+# THE DIRECTION MATTERS AND IT IS THE UNUSUAL ONE. This mis-score UNDERSTATES
+# progress, and the cost is the one that has now been paid three times this
+# week: a decision re-litigated and an agent dispatched at finished work. It
+# was two hours from being reported as a buildable gap.
+#
+# WHAT WAS REJECTED, AND WHY IT MATTERS MORE THAN WHAT WAS BUILT. The obvious
+# repair is to DERIVE this -- walk the call graph from each migrator and credit
+# any mint site reachable through its helpers. That was written and measured
+# over all 102 rows before it was thrown away. It agrees with the ledger on 22
+# of the 31 scored rows, recovers `app` -- and gets `valid_interval` WRONG, in
+# the reassuring direction: `resolveValidIntervals.m` contains a
+# `logical_observation` mint site behind a guard that is off by team decision,
+# so reachability credits a rung for code that cannot run. A derivation cannot
+# see dormancy; a declaration states it, and that pass already declares
+# `valid_interval -> nothing` with the reason. Trading a pessimistic miss for
+# an optimistic one is the worse trade in this repository, so the credit comes
+# from a DECLARATION, in the grammar the batch passes already use.
+#
+# THE ASYMMETRY WITH `batch_pass_declarations` IS DELIBERATE. A pass in the
+# chain MUST declare -- the chain is derived, so the denominator is known and
+# every member was declared before that gate was armed. There is no equivalent
+# derivation for "a helper that owes a declaration", so declaring is VOLUNTARY,
+# an undeclared helper credits NOTHING, and DID-matlab's scan prints how many
+# helpers mint while declaring nothing. That keeps the substance of rule 1 -- a
+# missing declaration can only leave a rung where it was, never make one look
+# better -- without arming a gate whose blast radius nobody has measured.
+HELPER_SCAN = {"measured": False, "candidates": 0, "minting": 0,
+               "declared": [], "undeclared": 0, "invalid": [],
+               "minting_undeclared": [], "index": {}, "why": "not read yet"}
+
+
+def helper_declarations():
+    """Load DID-matlab's shared-helper scan. Populates HELPER_SCAN; no return.
+
+    Degrades exactly as `batch_pass_declarations` does: every failure path sets
+    `measured` False with a named `why` and leaves the index empty, which
+    cannot promote a row because the rung functions only ever ADD on evidence
+    found. A missing sibling under-reports and says so.
+    """
+    s = HELPER_SCAN
+    s.update({"measured": False, "candidates": 0, "minting": 0, "declared": [],
+              "undeclared": 0, "invalid": [], "minting_undeclared": [],
+              "index": {}})
+    if not DIDM:
+        s["why"] = ("DID-matlab not found, so no helper could be read. Rung 1 "
+                    "and rung 3 carry NO shared-helper credit in this run -- "
+                    "an UNDERSTATEMENT, not a measurement")
+        return
+    path = os.path.join(DIDM, "tools", "batch_pass_declarations.py")
+    if not os.path.isfile(path):
+        s["why"] = (f"{path} is absent -- this DID-matlab checkout predates the "
+                    "declarations. No shared-helper credit in this run")
+        return
+    # NAMED, not blind, and the LAST name is the one that matters here: an
+    # older DID-matlab carries `batch_pass_declarations.py` WITHOUT
+    # `scan_helpers`, which is an AttributeError and must read as "this
+    # checkout cannot answer", never as "no helper declares anything".
+    try:
+        import importlib.util
+        spec = importlib.util.spec_from_file_location(
+            "_did_batch_pass_declarations_helpers", path)
+        mod = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(mod)
+        out = mod.scan_helpers(DIDM)
+        index = mod.helper_index(out)
+    except (OSError, ImportError, SyntaxError, AttributeError, KeyError,
+            TypeError, ValueError) as exc:
+        s["why"] = (f"{type(exc).__name__} reading scan_helpers from {path}: "
+                    f"{exc}")
+        return
+    if not out.get("candidates"):
+        # Zero candidates is "looked in the wrong place", not "no helpers".
+        s["why"] = ("the helper directories are absent or empty at "
+                    + str(DIDM) + " -- 0 candidates, so this is a failed "
+                    "lookup and not a measurement")
+        return
+    s["measured"] = True
+    s["why"] = None
+    s["candidates"] = out["candidates"]
+    s["minting"] = len(out.get("minting") or [])
+    s["declared"] = list(out.get("declared") or [])
+    s["undeclared"] = len(out.get("undeclared") or [])
+    s["invalid"] = list(out.get("invalid") or [])
+    s["minting_undeclared"] = list(out.get("helpers_minting_undeclared") or [])
+    s["index"] = index
+
+
+def helper_entries(v1_class, veta_class):
+    """Helper declarations naming this row, matched on EITHER spelling.
+
+    Same both-spellings rule as `batch_pass_entries`, for the same reason: a
+    helper reads whichever spelling the body carries at its point in the chain,
+    and V_eta is snake_case where NDI is camelCase.
+    """
+    idx = HELPER_SCAN["index"]
+    out = []
+    for n in (v1_class, veta_class, snake(v1_class or "")):
+        for e in idx.get(n or "", []):
+            if e["helper"] in {x["helper"] for x in out}:
+                continue      # one helper credits a row once, not per spelling
+            out.append(dict(e, matched_on=n))
+    return out
+
+
 # Known emissions of NON-V_eta classes, with a tracked reason. These are NOT
 # clean -- each is a real issue to fix -- but they are explicitly acknowledged so
 # the guardrail fails on NEW (unacknowledged) revived/invented classes.
@@ -1163,6 +1280,8 @@ def build_ledger():
     # same declarations. It cannot promote a row on its own: a failed read
     # leaves the index empty and every rung exactly where it was.
     batch_pass_declarations()
+    # THE FOURTH, read in the same place and for the same reason.
+    helper_declarations()
     veta = veta_index()
     v1 = v1_classes()
     migs = migrator_files()
@@ -1386,6 +1505,17 @@ def build_ledger():
         # migrator, and false of the schema for 3 of them (`app`'s `software`
         # is built and shipping). A reader acting on the undifferentiated
         # sentence re-authors schema that already exists.
+        #
+        # CORRECTED 2026-08-17: "true of the migrator" IS NOT TRUE OF `app`,
+        # and that is the example this comment leads with. `app`'s migrator
+        # half is done -- `+migrators_j/private/jSoftwareFromApp.m` folds it
+        # into a `software` entity at six call sites -- and it read as
+        # outstanding because all three consumption channels ask about a NAME
+        # and that helper is named after neither the source nor the target.
+        # The SPLIT this comment argues for is unaffected and is the reason the
+        # error was findable at all; what was wrong was the assumption that the
+        # migrator half is the reliable one. It was the schema half that
+        # happened to be right about `app`. See `helper_declarations()`.
         _named = list(decided_targets)
         # THE THIRD CONSUMPTION CHANNEL, carried as its own two fields so the
         # credit is never mistaken for a per-class migrator's. `_consumers` is
@@ -1403,6 +1533,14 @@ def build_ledger():
         _emitted_known = set(targets) | set(_unread)
         _bp = batch_pass_entries(cn, vname)
         _bp_targets = sorted({t for e in _bp for t in e["targets"]})
+        # THE FOURTH CHANNEL, carried apart from the third for the same reason
+        # the third is carried apart from the first: a reader must be able to
+        # tell WHICH mechanism earned the rung. A batch post-pass runs once
+        # over the whole corpus; a shared helper runs inside a migrator that
+        # is named after some OTHER class. Summing them would hide the `app`
+        # shape, which is the shape this channel exists to surface.
+        _hp = helper_entries(cn, vname)
+        _hp_targets = sorted({t for e in _hp for t in e["targets"]})
         _eb = tinfo.get("emitted_by")
         build_state = {
             "schema_targets_named": len(_named),
@@ -1419,6 +1557,17 @@ def build_ledger():
             "batch_pass_emits_decided_targets": bool(
                 _named and not all(t in targets for t in _named)
                 and all(t in set(targets) | set(_bp_targets) for t in _named)),
+            "helper_consumers": [e["helper"] for e in _hp],
+            "helper_emits": {e["helper"]: e["targets"] for e in _hp
+                             if e["targets"]},
+            # Credit only where the decided set is NOT already satisfied by the
+            # per-class migrator, so a row cannot be credited twice and the
+            # rollup's "rows this channel moved" stays a true count.
+            "helper_emits_decided_targets": bool(
+                _named
+                and not all(t in _emitted_known for t in _named)
+                and all(t in _emitted_known | set(_bp_targets) | set(_hp_targets)
+                        for t in _named)),
             # THE FIRST EMISSION SHAPE OF ROW 107, and the last to get a home.
             # A SUPERCLASS-ONLY v1 class has no documents of its own -- its
             # content rides as a BLOCK on another class's document -- so no
@@ -1742,6 +1891,20 @@ def _rung_consumed(row):
                        "BATCH POST-PASS(es) "
                        + ", ".join(f"`did2.convert.{p}`" for p in consumers)
                        + " DECLARING that they consume this class")
+    # THE FOURTH CHANNEL. A SHARED HELPER (+migrators_j/private) runs inside a
+    # migrator named after some OTHER class, so it is invisible to all three
+    # questions above -- every one of which asks about a NAME. `app` read `no`
+    # here while `jSoftwareFromApp` folded it at six call sites. Declared, not
+    # derived: a call-graph walk was written and rejected because it credits
+    # `valid_interval`, whose mint site sits behind a guard that is off by team
+    # decision. Reachability cannot see dormancy; a declaration states it.
+    helpers = _need(bs, "helper_consumers", list)
+    if helpers:
+        return S_YES, ("no per-class migrator, no `second_pass` entry and no "
+                       "batch post-pass, but `build_state.helper_consumers` "
+                       "records the SHARED HELPER(s) "
+                       + ", ".join(f"`{h}`" for h in helpers)
+                       + " DECLARING that they consume this class")
     s = BATCH_PASS_SCAN
     if not s["measured"]:
         unread = (" The batch post-pass declarations were NOT READ in this run "
@@ -1811,13 +1974,39 @@ def _rung_emits_decided(row):
                 + ". Authored with its citation, not inferred: 8 of the 9 rows "
                   "whose decided target another migrator emits name a SHARED "
                   "target, where nothing is attributable. NOT a corpus proof")
+        # SHAPE (4): a SHARED HELPER. Last, with the other two, and for the
+        # same reason -- it may not shadow the class's own migrator.
+        if _need(bs, "helper_emits_decided_targets", bool):
+            em = _need(bs, "helper_emits", dict)
+            return S_YES, (
+                "the migrator named after this class does not emit the decided "
+                "target(s) -- there is no migrator named after it -- but "
+                "`build_state.helper_emits` records the SHARED HELPER(s) "
+                + "; ".join(f"`{h}` -> " + ", ".join(f"`{t}`" for t in sorted(ts))
+                            for h, ts in sorted(em.items()))
+                + " DECLARING the emission. Declared, not derived: a call-graph "
+                  "walk credits `valid_interval` from a mint site behind a guard "
+                  "that is OFF by team decision. NOT a corpus proof")
+        hs = HELPER_SCAN
+        if not hs["measured"]:
+            hunread = (" The shared-helper declarations were NOT READ in this "
+                       "run (" + str(hs["why"]) + "), so a target emitted only "
+                       "by a helper still reads `no` -- an UNDERSTATEMENT.")
+        else:
+            hunread = (" %d of %d shared helper(s) declare; %d MINT a document "
+                       "while declaring nothing (%s), so a target emitted only "
+                       "by one of those is not measured here."
+                       % (len(hs["declared"]), hs["candidates"],
+                          len(hs["minting_undeclared"]),
+                          ", ".join(hs["minting_undeclared"]) or "none"))
         return S_NO, ("the decided target(s) "
                       + ", ".join(f"`{t}`" for t in want)
                       + " are not all among what the migrator emits today ("
                       + (", ".join(f"`{t}`" for t in have) if have else "nothing")
                       + ")"
                       + (", nor among what any batch post-pass declares it emits"
-                         if _need(bs, "batch_pass_consumers", list) else ""))
+                         if _need(bs, "batch_pass_consumers", list) else "")
+                      + "." + hunread)
     if row.get("no_target_reason") == NO_TARGET_DISSOLVED:
         doc = (row.get("no_target_signoff") or {}).get("document", "?")
         return S_NA, (f"signed to DISSOLVE in `{doc}`: no target class is decided, "

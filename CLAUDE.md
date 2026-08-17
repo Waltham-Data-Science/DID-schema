@@ -841,6 +841,27 @@ lives in these files — read them instead of re-deriving from memory:
            `time_reference_1`, so the claim "distinct N appearing as a literal:
            [1] ONLY EVER 1" below is STALE. See the epoch-extent work; PRED is
            the first corpus to carry a family of size 2.
+        -> 268 .m file(s) under DID-matlab src/ as of 2026-08-15, and NOT ONE
+           OF THE FOUR ADDITIONS IS OURS TO EXPLAIN AS A DECISION -- they are
+           ordinary sibling commits that moved this repository's gate:
+               +migrators_j/private/jDatumType.m   72d6aea  `datum` -> datum_type
+               +convert/schemaVersionRank.m        37bf6a1  strcmp version compare
+               +migrators_j/private/jAxis.m        838e187  both axes or neither
+               +migrators_j/session.m              25a9beb  (already counted above)
+           $ cd DID-matlab && find src -name '*.m' | wc -l  ->  268
+           The sweep's CONCLUSION survives all four: none writes a
+           time_reference. **This is the fifth revision of this one figure --
+           260, 263, 265, 267, 268 -- and the useful reading is not the number
+           but the RATE.** `check_prose_counts` caught it, which is the whole
+           reason it is armed; nobody was going to notice by reading.
+           **AND THE `267` IN THAT LIST WAS NEVER TRUE OF THIS BRANCH.** It was
+           measured an hour earlier on a local tree the container had REWOUND
+           ten commits behind `origin`, and `jAxis.m` -- the fourth file -- was
+           already pushed at the time. The rewind is the failure CLAUDE.md
+           records under the task-list wipe: everything PUSHED survived, the
+           local checkout did not, and a measurement taken on the rewound tree
+           looks exactly like a measurement. **Before quoting a sibling count,
+           `git fetch` and confirm the local branch is not behind.**
         literal `time_reference_N` sites:  46, in 36 file(s)   (was 45 in 35;
                                             re-derived 2026-08-12, same method)
         distinct N appearing as a literal: [1]        <- ONLY EVER 1
@@ -969,7 +990,23 @@ lives in these files — read them instead of re-deriving from memory:
   bucket is gone**, replaced by a NARROWER `target_gap` that stands at **2** rows
   (`epochclocktimes`, `imageStack_parameters`), each labelled *"NO TARGET AND NO DISSOLUTION
   RECORDED -- a gap, not a decision"*. See the resolved account further down; do not quote
-  the 4 as outstanding. The history of the concept is still worth keeping, because the
+  the 4 as outstanding.
+  **THE `2` IS STALE AND `epochclocktimes` IS NO LONGER ONE OF THEM. IT IS 1, and the row
+  is `imageStack_parameters` alone** — re-derived 2026-08-17 from the generated ledger, which
+  is the authority the sentence above already points at:
+
+        DENOMINATOR: 102 ledger rows read from schemas/V_eta_coverage_ledger.json
+        target_gap = True: 1 row
+            imageStack_parameters | retire | targets [] | source decided
+
+  `epochclocktimes` now carries a decided target (`relative_reference`) and reaches rung 2,
+  so it is no longer a row with no target recorded. **It has NOT become fine, and the state
+  it moved to is the one worth carrying:** rung 3 reads `no` — *"the decided target(s)
+  `relative_reference` are not all among what the migrator emits today (nothing)"* — and its
+  governance reads `no signature found`. So it left the gap bucket for a worse-defined
+  place: a target claimed by `V_eta_migration_targets.json`'s AUTHORED `decided_targets`
+  with no signature behind it and no emitter in front of it. Direction: the stale `2` was
+  PESSIMISTIC about the bookkeeping and optimistic about nothing. The history of the concept is still worth keeping, because the
   failure it fixed is this file's signature error:
   the line before it read "currently
   NONE (0 gaps)", which was true only because the ledger asserted a conclusion it had no
@@ -1300,6 +1337,12 @@ lives in these files — read them instead of re-deriving from memory:
   `epochclocktimes` (consumed by a migrator, no tombstone) and `imageStack_parameters`
   (retire, no migrator — the FALSE ALARM below explains why it has none, and that
   explanation is still correct; what is missing is the RECORD, not the handling).
+  **CORRECTED 2026-08-17 — IT IS 1 ROW, `imageStack_parameters`. See the correction at the
+  `target_gap` paragraph far above for the ledger output and for where `epochclocktimes`
+  went (it gained an AUTHORED, UNSIGNED target and now sits at rung 3 = `no`, which is a
+  different problem rather than a solved one).** The dated `DENOMINATOR: ... target_gap =
+  True: 2 rows` block below is a MEASUREMENT taken 2026-08-11 and is left exactly as it
+  was: overwriting a dated figure falsifies the measurement instead of correcting it.
 
   The historical account, WRITER-CHECKED 2026-08-09 against NDI `origin/main`.
   They were not one bucket; they were three different situations, and only the checking was
@@ -1474,7 +1517,11 @@ lives in these files — read them instead of re-deriving from memory:
             it started while every figure quoted in between is wrong.
         265 .m file(s) under DID-matlab src/   -- jBase.m, the central `base`
             block constructor, plus +migrators_j/session.m, both added
-            2026-08-13. THE SECOND ONE MOVES TWO NOUNS AT ONCE
+            2026-08-13.  [STALE: 267 as of 2026-08-14 -- jDatumType.m and
+            schemaVersionRank.m. See the four-revision note further up; the
+            figure has now moved 260 -> 263 -> 265 -> 267 and every revision
+            of it in this file has been overtaken within days.]
+            THE SECOND ONE MOVES TWO NOUNS AT ONCE
             (`didmatlab_m_files` 264 -> 265 and `migrator_files` 83 -> 84),
             which is the same one-change-many-counters shape this block
             already records for a single schema addition.

@@ -470,6 +470,7 @@ SCOPED_RE = re.compile(r"\([^)]{0,60}?exclud", re.IGNORECASE)
 SCOPE_REACH = 60
 
 
+
 def is_demoted(line, start, end):
     """Is the number at line[start:end] quoted as history rather than asserted?"""
     if DEMOTED_BEFORE_RE.search(line[:start]):

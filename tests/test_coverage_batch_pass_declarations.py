@@ -63,6 +63,13 @@ BARE_ROW = {
         "has_per_class_migrator": False,
         "batch_pass_consumers": [], "batch_pass_emits": {},
         "batch_pass_emits_decided_targets": False,
+        # The FOURTH channel's fields, empty for the same reason as the third's:
+        # this row must climb nothing on its own, so every movement below stays
+        # attributable to the declaration under test. They are `_need`-read, not
+        # `.get`-read, because `build_rows` computes them for all 102 rows --
+        # so a row without them is malformed and should say so loudly.
+        "helper_consumers": [], "helper_emits": {},
+        "helper_emits_decided_targets": False,
     },
 }
 

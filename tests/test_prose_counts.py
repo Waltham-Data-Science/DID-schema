@@ -29,6 +29,8 @@ import re
 import subprocess
 import sys
 
+import pytest
+
 REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 TOOLS = os.path.join(REPO_ROOT, "tools")
 
@@ -278,6 +280,22 @@ def test_a_document_that_only_quotes_history_is_undecidable_not_clean(tmp_path):
     assert len(undecidable) == 1
 
 
+def _require_didmatlab():
+    """Skip, ANNOUNCED, when the DID-matlab sibling is out of reach.
+
+    `gates.py` step `pytest_no_siblings` runs the suite with both siblings
+    hidden, to reproduce the CI condition where `find_repo` returns None. These
+    two tests adjudicate a DID-matlab-derived noun, so there they have nothing
+    to compare against. A silent pass would be the reassuring direction; the
+    reason is printed instead.
+    """
+    try:
+        C.derive_didmatlab_m_files()
+    except C.Unavailable as exc:
+        pytest.skip(f"DID-matlab not in reach, so this noun cannot be derived "
+                    f"and the adjudication has no expected value: {exc}")
+
+
 def test_a_scoped_count_is_exempt_and_reported(tmp_path):
     """`245 json files under schemas/V_eta read (examples/ excluded)` is a
     different count, not a stale one."""
@@ -289,6 +307,44 @@ def test_a_scoped_count_is_exempt_and_reported(tmp_path):
     assert not agree and not disagree
     assert len(undecidable) == 1
     assert [c.scoped for c in claims] == [True]
+
+
+def test_a_deeper_path_is_not_a_claim_about_the_whole_tree(tmp_path):
+    """`210 .m file(s) under DID-matlab src/did/+did2` counts a SUBDIRECTORY of
+    the tree this noun derives, so it must not be adjudicated against the whole
+    of it.
+
+    IT IS EXCLUDED AT THE PATTERN, NOT EXEMPTED AFTER THE FACT, which is why
+    this asserts `claims == []` and not `scoped == [True]`. A second exemption
+    path in `is_scoped` was written for this case and then thrown away: the
+    noun's own trailing lookahead already refuses to match a deeper path, and
+    two mechanisms for one rule is how the two halves of a file come to
+    disagree. The discarded one was also broader -- it would have exempted a
+    path continuation after ANY noun, not just the ones whose phrase ends in a
+    path.
+    """
+    _require_didmatlab()
+    text = ("DENOMINATOR: 210 .m file(s) under DID-matlab src/did/+did2 "
+            "scanned,\n")
+    claims, (agree, disagree, _sup, _und), _ = _adjudicate_text(
+        tmp_path, text, "didmatlab_m_files")
+    assert not agree and not disagree
+    assert claims == []
+
+
+def test_the_whole_tree_is_still_checked(tmp_path):
+    """The other half, and the one that matters: excluding the deeper path must
+    not also excuse a claim about the FULL tree."""
+    _require_didmatlab()
+    derived = C.derive_didmatlab_m_files()
+    text = (f"DENOMINATOR: {derived - 4} .m file(s) under DID-matlab src/ "
+            "scanned,\n")
+    claims, (_agree, disagree, _sup, _und), _ = _adjudicate_text(
+        tmp_path, text, "didmatlab_m_files")
+    assert [c.scoped for c in claims] == [False], \
+        "a stale whole-tree count must stay CHECKED; exempting it is the " \
+        "reassuring direction"
+    assert len(disagree) == 1
 
 
 # --------------------------------------------------------------------------

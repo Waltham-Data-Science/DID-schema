@@ -2278,6 +2278,13 @@ def open_class_state(open_work, schemas, rows, mig, mig_src, cen, cen_src):
     while `app` itself is still carried, and a migrator-only signal would call
     that nothing.
 
+    THE `app` EXAMPLE IS NOW THE WRONG ONE, 2026-08-17, and the rule it
+    illustrates still holds. A migrator-only signal DOES now find `app`:
+    `+migrators_j/private/jSoftwareFromApp.m` declares the fold and
+    `coverage.py`'s fourth consumption channel reads it, so the class reaches
+    rung 3. The second half of the OR is still load-bearing for genuinely
+    half-landed families -- it is just no longer this one that proves it.
+
     A DECIDED TARGET THAT IS THE CLASS ITSELF IS NOT EVIDENCE. `projectvar`'s
     ledger row names `projectvar` as its own decided target (it passes through
     deliberately), and counting that would report every passthrough as built.
