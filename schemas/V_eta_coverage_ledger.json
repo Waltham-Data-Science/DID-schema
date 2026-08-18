@@ -6,10 +6,11 @@
     "batch_pass": {
       "measured": true,
       "why": null,
-      "chain_size": 9,
+      "chain_size": 10,
       "declared": [
         "epochMint",
         "foldGenericFiles",
+        "resolveClockAlignment",
         "resolveDatasetEntities",
         "resolveDeferredBaths",
         "resolveLawnPlateSubjects",
@@ -111,6 +112,12 @@
           "v1_class": "stimulus_response_scalar_parameters_basic",
           "passes": [
             "resolveResponseParameters"
+          ]
+        },
+        {
+          "v1_class": "syncgraph",
+          "passes": [
+            "resolveClockAlignment"
           ]
         },
         {
@@ -1121,7 +1128,7 @@
             "stage": 1,
             "name": "a migrator CONSUMES it",
             "state": "no",
-            "why": "neither `build_state.has_per_class_migrator`, a `second_pass` entry, nor a batch post-pass declaring it. All 9 batch post-pass(es) in the derived chain were read and none declares this class."
+            "why": "neither `build_state.has_per_class_migrator`, a `second_pass` entry, nor a batch post-pass declaring it. All 10 batch post-pass(es) in the derived chain were read and none declares this class."
           },
           {
             "stage": 2,
@@ -1327,7 +1334,7 @@
             "stage": 1,
             "name": "a migrator CONSUMES it",
             "state": "no",
-            "why": "neither `build_state.has_per_class_migrator`, a `second_pass` entry, nor a batch post-pass declaring it. All 9 batch post-pass(es) in the derived chain were read and none declares this class."
+            "why": "neither `build_state.has_per_class_migrator`, a `second_pass` entry, nor a batch post-pass declaring it. All 10 batch post-pass(es) in the derived chain were read and none declares this class."
           },
           {
             "stage": 2,
@@ -3706,7 +3713,7 @@
             "stage": 1,
             "name": "a migrator CONSUMES it",
             "state": "no",
-            "why": "neither `build_state.has_per_class_migrator`, a `second_pass` entry, nor a batch post-pass declaring it. All 9 batch post-pass(es) in the derived chain were read and none declares this class."
+            "why": "neither `build_state.has_per_class_migrator`, a `second_pass` entry, nor a batch post-pass declaring it. All 10 batch post-pass(es) in the derived chain were read and none declares this class."
           },
           {
             "stage": 2,
@@ -4798,7 +4805,7 @@
             "stage": 1,
             "name": "a migrator CONSUMES it",
             "state": "no",
-            "why": "neither `build_state.has_per_class_migrator`, a `second_pass` entry, nor a batch post-pass declaring it. All 9 batch post-pass(es) in the derived chain were read and none declares this class."
+            "why": "neither `build_state.has_per_class_migrator`, a `second_pass` entry, nor a batch post-pass declaring it. All 10 batch post-pass(es) in the derived chain were read and none declares this class."
           },
           {
             "stage": 2,
@@ -4998,7 +5005,7 @@
             "stage": 1,
             "name": "a migrator CONSUMES it",
             "state": "no",
-            "why": "neither `build_state.has_per_class_migrator`, a `second_pass` entry, nor a batch post-pass declaring it. All 9 batch post-pass(es) in the derived chain were read and none declares this class."
+            "why": "neither `build_state.has_per_class_migrator`, a `second_pass` entry, nor a batch post-pass declaring it. All 10 batch post-pass(es) in the derived chain were read and none declares this class."
           },
           {
             "stage": 2,
@@ -5582,7 +5589,7 @@
             "stage": 1,
             "name": "a migrator CONSUMES it",
             "state": "no",
-            "why": "neither `build_state.has_per_class_migrator`, a `second_pass` entry, nor a batch post-pass declaring it. All 9 batch post-pass(es) in the derived chain were read and none declares this class."
+            "why": "neither `build_state.has_per_class_migrator`, a `second_pass` entry, nor a batch post-pass declaring it. All 10 batch post-pass(es) in the derived chain were read and none declares this class."
           },
           {
             "stage": 2,
@@ -7197,7 +7204,7 @@
             "stage": 1,
             "name": "a migrator CONSUMES it",
             "state": "no",
-            "why": "neither `build_state.has_per_class_migrator`, a `second_pass` entry, nor a batch post-pass declaring it. All 9 batch post-pass(es) in the derived chain were read and none declares this class."
+            "why": "neither `build_state.has_per_class_migrator`, a `second_pass` entry, nor a batch post-pass declaring it. All 10 batch post-pass(es) in the derived chain were read and none declares this class."
           },
           {
             "stage": 2,
@@ -8928,7 +8935,7 @@
             "stage": 1,
             "name": "a migrator CONSUMES it",
             "state": "no",
-            "why": "neither `build_state.has_per_class_migrator`, a `second_pass` entry, nor a batch post-pass declaring it. All 9 batch post-pass(es) in the derived chain were read and none declares this class."
+            "why": "neither `build_state.has_per_class_migrator`, a `second_pass` entry, nor a batch post-pass declaring it. All 10 batch post-pass(es) in the derived chain were read and none declares this class."
           },
           {
             "stage": 2,
@@ -9161,7 +9168,7 @@
             "stage": 1,
             "name": "a migrator CONSUMES it",
             "state": "no",
-            "why": "neither `build_state.has_per_class_migrator`, a `second_pass` entry, nor a batch post-pass declaring it. All 9 batch post-pass(es) in the derived chain were read and none declares this class."
+            "why": "neither `build_state.has_per_class_migrator`, a `second_pass` entry, nor a batch post-pass declaring it. All 10 batch post-pass(es) in the derived chain were read and none declares this class."
           },
           {
             "stage": 2,
@@ -9382,7 +9389,7 @@
             "stage": 1,
             "name": "a migrator CONSUMES it",
             "state": "no",
-            "why": "neither `build_state.has_per_class_migrator`, a `second_pass` entry, nor a batch post-pass declaring it. All 9 batch post-pass(es) in the derived chain were read and none declares this class."
+            "why": "neither `build_state.has_per_class_migrator`, a `second_pass` entry, nor a batch post-pass declaring it. All 10 batch post-pass(es) in the derived chain were read and none declares this class."
           },
           {
             "stage": 2,
@@ -9968,8 +9975,14 @@
         "schema_targets_missing": [],
         "migrator_emits_decided_targets": true,
         "has_per_class_migrator": true,
-        "batch_pass_consumers": [],
-        "batch_pass_emits": {},
+        "batch_pass_consumers": [
+          "resolveClockAlignment"
+        ],
+        "batch_pass_emits": {
+          "resolveClockAlignment": [
+            "clock_alignment_policy"
+          ]
+        },
         "batch_pass_emits_decided_targets": false,
         "helper_consumers": [],
         "helper_emits": {},

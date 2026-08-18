@@ -322,7 +322,11 @@ class TestTheCommittedLedger(unittest.TestCase):
         self.assertTrue(self.bp["measured"], self.bp["why"])
         self.assertEqual(self.bp["missing"], [])
         self.assertEqual(self.bp["invalid"], [])
-        self.assertEqual(self.bp["chain_size"], 9)
+        # 10, not 9: resolveClockAlignment (the #57 syncgraph -> clock_alignment_
+        # policy batch pass) joined the chain 2026-08-18. It credits no new
+        # ledger rung (syncgraph is a passthrough class), so the row pins below
+        # are unchanged -- only the chain length moved.
+        self.assertEqual(self.bp["chain_size"], 10)
 
     def test_the_rows_this_channel_moved_are_pinned(self):
         # PINNED BY NAME. Three shapes, three rows, and each is one of the

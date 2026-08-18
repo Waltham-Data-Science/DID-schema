@@ -257,6 +257,18 @@
       ]
      },
      {
+      "pass": "resolveClockAlignment",
+      "path": "src/did/+did2/+convert/resolveClockAlignment.m",
+      "site_count": 1,
+      "sites": [
+       {
+        "line": 295,
+        "spelling": "base",
+        "text": "if isstruct(b) && isfield(b, 'base') && isstruct(b.base) && isfield(b.base, name)"
+       }
+      ]
+     },
+     {
       "pass": "resolveDeferredBaths",
       "path": "src/did/+did2/+convert/resolveDeferredBaths.m",
       "site_count": 1,
@@ -4157,6 +4169,18 @@
       ]
      },
      {
+      "pass": "resolveClockAlignment",
+      "path": "src/did/+did2/+convert/resolveClockAlignment.m",
+      "site_count": 1,
+      "sites": [
+       {
+        "line": 127,
+        "spelling": "session",
+        "text": "if ~strcmp(classes{k}, 'session'); continue; end"
+       }
+      ]
+     },
+     {
       "pass": "resolveSessionAnchors",
       "path": "src/did/+did2/+convert/resolveSessionAnchors.m",
       "site_count": 1,
@@ -5781,7 +5805,25 @@
   },
   "syncgraph": {
    "consumers": {
-    "convert_package_mentions": [],
+    "convert_package_mentions": [
+     {
+      "pass": "resolveClockAlignment",
+      "path": "src/did/+did2/+convert/resolveClockAlignment.m",
+      "site_count": 2,
+      "sites": [
+       {
+        "line": 144,
+        "spelling": "syncgraph",
+        "text": "if ~strcmp(classes{k}, 'syncgraph'); continue; end"
+       },
+       {
+        "line": 168,
+        "spelling": "syncgraph",
+        "text": "if isscalar(folded) && strcmp(classNameOf(folded{1}), 'syncgraph')"
+       }
+      ]
+     }
+    ],
     "per_class_migrators": [
      {
       "package": "migrators_j",
@@ -6782,7 +6824,7 @@
   }
  },
  "denominator": {
-  "convert_package_files_scanned": 16,
+  "convert_package_files_scanned": 17,
   "did_matlab_available": true,
   "ledger_disagreements": [],
   "ledger_rows_read": 102,

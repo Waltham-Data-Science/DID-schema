@@ -842,6 +842,13 @@ lives in these files — read them instead of re-deriving from memory:
            `time_reference_1`, so the claim "distinct N appearing as a literal:
            [1] ONLY EVER 1" below is STALE. See the epoch-extent work; PRED is
            the first corpus to carry a family of size 2.
+        -> 270 .m file(s) under DID-matlab src/ as of 2026-08-18: the #57
+           clock-alignment syncgraph fold added
+           `+did2/+convert/resolveClockAlignment.m`. It is a batch post-pass,
+           NOT in `+migrators_j`, so `migrator_files` did NOT move (stays 85).
+           SEVENTH revision (260, 263, 265, 267, 268, 269, 270) -- the same
+           coupling as always: a `.m` file added over in DID-matlab turns this
+           repository's `check_prose_counts` gate red, so re-derive, don't quote.
         -> 269 .m file(s) under DID-matlab src/ as of 2026-08-17: the signed
            receptive-field fold added `+migrators_j/hartley_calc.m`, which also
            moves `migrator_files` 84 -> 85. SIXTH revision of this figure
