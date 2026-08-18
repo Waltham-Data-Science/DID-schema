@@ -1906,6 +1906,17 @@ lives in these files — read them instead of re-deriving from memory:
                      foldGenericFiles, resolveValidIntervals
         renderable 9   unrendered 0   unmeasured 0   not_in_chain 0
 
+  -> 10 batch post-pass signature(s) as of 2026-08-18: #57's syncgraph fold added
+     `resolveClockAlignment` to the chain (it supplies the session-document id a
+     single-document migrator cannot resolve, then re-runs `migrators_j.syncgraph`
+     to mint `clock_alignment_policy`). It is appended AFTER `resolveValidIntervals`
+     in the DID harness and runs BEFORE `resolveSoftwareDedup` in NDI `local.m` (so
+     the `software` entity it emits gets deduped). The coverage ledger's
+     `summary.batch_pass.chain_size` moved 9 -> 10 and
+     `test_coverage_batch_pass_declarations.py` pins the 10; `check_pipeline_parity`
+     reads `10 harness batch passes`. The file-based `syncrule` fold (amendment 1)
+     is a PER-DOCUMENT migrator, not a batch pass, so it does NOT move this count.
+
   **AND IT IS A GATE, NOT A WARNING.** A pass that runs over the whole corpus and attaches
   no report used to print `*** MEASURED BY NOTHING` and then exit 0. It now exits non-zero.
   Four conditions are armed with SEPARATE sentinels rather than one tidy gate, because they
