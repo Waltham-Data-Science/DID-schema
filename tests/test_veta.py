@@ -216,8 +216,16 @@ def test_direction_classes_renamed():
 
 
 def test_leaf_tier_named_by_data_type_no_scalar_prefix():
-    """Observation leaves are <dim>_observation (one word, no scalar_ prefix)."""
-    for dim in ("mass", "temperature", "length", "duration", "volume", "pressure",
+    """Observation leaves are <dim>_observation (one word, no scalar_ prefix).
+
+    `time` sits where `duration` used to, under TEAM-SIGN-OFF [time dtype]
+    (`V_eta_tenet_audit.md`, 2026-08-17). The two-way assert below is what makes
+    that a rename rather than an addition: the V_zeta spelling
+    `scalar_duration_observation` must still be gone, and the row named here is
+    the ONLY place this file asserts a `duration_*` leaf, so `duration` is now
+    absent by construction rather than by anyone remembering.
+    """
+    for dim in ("mass", "temperature", "length", "time", "volume", "pressure",
                 "frequency", "voltage", "current", "concentration", "count", "score",
                 "intensity"):
         leaf = f"{dim}_observation"
@@ -425,7 +433,11 @@ def test_session_bounded_reference():
     assert "session_bounded_reference" in RECORDS
     assert "time_reference" in _chain("session_bounded_reference")
     ft = _flat_field_types("session_bounded_reference")
-    assert ft.get("start") == "duration" and ft.get("end") == "duration"
+    # `time`, not `duration` -- TEAM-SIGN-OFF [time dtype], 2026-08-17. These two
+    # fields are half the evidence the signature rests on: `start` and `end` are
+    # OFFSETS, not extents, and typing them `duration` is what made the old name
+    # a role claim the data did not support.
+    assert ft.get("start") == "time" and ft.get("end") == "time"
     # no required deps (session rides on base.session_id)
     deps = RECORDS["session_bounded_reference"][1]["depends_on"]
     assert all(not d.get("mustBeNonEmpty") for d in deps)

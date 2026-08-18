@@ -27,13 +27,13 @@ First match wins; resolved against the term's ontology branch, not a string matc
 | **Heating / cooling** (thermal) | **`temperature_manipulation`** (← `subject_manipulation`, `temperature`) | identity → spine `variable`; verb → spine `method`; thermal `numeric_value` → `value` (typed temperature array); focal site → spine `target_structure` (empty ⇒ ambient) |
 | Other **imposed typed quantity** (applied pressure/force, field, frequency) | matching `subject_manipulation` subclass (`pressure_manipulation`, …) or `generic_subject_manipulation` | identity → spine `variable`; `numeric_value` → `value` |
 | **Environmental / husbandry / behavioral regime** with no typed value (dark rearing, deprivation regime, social isolation, enrichment, light cycle, diet/water restriction, training) | **`generic_manipulation`** | identity → spine `variable`; structure (lateralized) → spine `target_structure`; prose → inherited `notes`; duration → bounded `time_reference` |
-| **Not a manipulation** (`Treatment: Date of birth`, `Treatment: Non-survival experiment time`, …) | **out of tier** → `duration_observation`/`term_observation` (DOB/age) or session metadata/annotation | per [`ontology_table_row.md`](ontology_table_row.md) routing |
+| **Not a manipulation** (`Treatment: Date of birth`, `Treatment: Non-survival experiment time`, …) | **out of tier** → `time_observation`/`term_observation` (DOB/age) or session metadata/annotation | per [`ontology_table_row.md`](ontology_table_row.md) routing |
 | Empty / unresolvable `ontologyName` | **curator review queue** (default routing **off**) | flagged, never silently forced into a residual family |
 
 ### Edge cases captured from real corpora
 
 - **`string_value` carrying an ontology target, not prose** (the `Dab` treeshrew optogenetic-tetanus rows: `ontologyName = EMPTY:0000074`, `name = "…Target Location"`, `string_value = UBERON CURIE`). Route `string_value` → **spine `target_structure`** (as `ontology_term`), strip the "Target Location" role-suffix from the action name, register an NDIC term for the `EMPTY:` placeholder (curator backfill until then). Detection rule: `name` ends in "Target Location" **and/or** `string_value` matches a CURIE pattern.
-- **`numeric_value` → companion observation.** A recognizable typed quantity that is *measured*, not the manipulation's own payload (e.g. a training-exposure duration), becomes a companion shape-typed observation (`duration_observation`, …) sharing `subject_id` + `time_reference`, with the property on its `variable`. Unrecognizable numbers are **flagged, never silently kept** (the `numeric_value` grab-bag is exactly what I retires).
+- **`numeric_value` → companion observation.** A recognizable typed quantity that is *measured*, not the manipulation's own payload (e.g. a training-exposure duration), becomes a companion shape-typed observation (`time_observation`, …) sharing `subject_id` + `time_reference`, with the property on its `variable`. Unrecognizable numbers are **flagged, never silently kept** (the `numeric_value` grab-bag is exactly what I retires).
 
 ## Common field mapping (all manipulation destinations)
 

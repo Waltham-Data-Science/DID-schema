@@ -685,7 +685,7 @@
         ],
         "packages_missing": [],
         "files_read": 180,
-        "lines_read": 43104,
+        "lines_read": 43115,
         "classes_queried": 26,
         "classes_emitted_as_document_class": 8,
         "unresolved_mint_sites": [
@@ -694,7 +694,7 @@
           "DID-matlab:convert/universalRenames.m:240 (v2ClassName;)",
           "DID-matlab:migrators_j/dataset_remote.m:70 (className)",
           "DID-matlab:migrators_j/ontology_table_row.m:248 (leafClass)",
-          "DID-matlab:migrators_j/ontology_table_row.m:779 (className)",
+          "DID-matlab:migrators_j/ontology_table_row.m:783 (className)",
           "DID-matlab:migrators_j/private/jCalculation.m:84 (leafClass)",
           "DID-matlab:migrators_j/private/jRecordingObservation.m:251 (e.class)",
           "DID-matlab:migrators_j/private/jStartInteraction.m:36 (className)"
@@ -727,7 +727,7 @@
           "batch_post_pass": 26
         },
         "lines_read_by_group": {
-          "per_document_migrator": 30257,
+          "per_document_migrator": 30268,
           "batch_post_pass": 12847
         },
         "classes_emitted_as_document_class_by_group": {
@@ -752,7 +752,7 @@
           "per_document_migrator": [
             "DID-matlab:migrators_j/dataset_remote.m:70 (className)",
             "DID-matlab:migrators_j/ontology_table_row.m:248 (leafClass)",
-            "DID-matlab:migrators_j/ontology_table_row.m:779 (className)",
+            "DID-matlab:migrators_j/ontology_table_row.m:783 (className)",
             "DID-matlab:migrators_j/private/jCalculation.m:84 (leafClass)",
             "DID-matlab:migrators_j/private/jRecordingObservation.m:251 (e.class)",
             "DID-matlab:migrators_j/private/jStartInteraction.m:36 (className)"
@@ -2721,7 +2721,7 @@
               "DID-matlab:migrators_j/image_stack.m:279 (emitted_class)",
               "DID-matlab:migrators_j/jrclust_clusters.m:85 (emitted_class)",
               "DID-matlab:migrators_j/neuron_extracellular.m:357 (emitted_class)",
-              "DID-matlab:migrators_j/ontology_table_row.m:867 (emitted_class)",
+              "DID-matlab:migrators_j/ontology_table_row.m:871 (emitted_class)",
               "DID-matlab:migrators_j/private/jSessionAnchor.m:60 (emitted_class)"
             ],
             "n_field_write_refs": 9,
@@ -2730,7 +2730,7 @@
               "DID-matlab:migrators_j/image_stack.m:284 (field_write)",
               "DID-matlab:migrators_j/jrclust_clusters.m:90 (field_write)",
               "DID-matlab:migrators_j/neuron_extracellular.m:362 (field_write)",
-              "DID-matlab:migrators_j/ontology_table_row.m:875 (field_write)",
+              "DID-matlab:migrators_j/ontology_table_row.m:879 (field_write)",
               "DID-matlab:migrators_j/private/jSessionAnchor.m:68 (field_write)"
             ],
             "n_named_refs": 0,
@@ -3200,7 +3200,7 @@
               "DID-matlab:migrators_j/jrclust_clusters.m:89 (field_write)",
               "DID-matlab:migrators_j/neuron_extracellular.m:361 (field_write)",
               "DID-matlab:migrators_j/ontology_table_row.m:280 (field_write)",
-              "DID-matlab:migrators_j/ontology_table_row.m:874 (field_write)"
+              "DID-matlab:migrators_j/ontology_table_row.m:878 (field_write)"
             ],
             "n_named_refs": 19,
             "named_refs": [
@@ -3209,7 +3209,7 @@
               "DID-matlab:migrators_j/jrclust_clusters.m:85 (named)",
               "DID-matlab:migrators_j/neuron_extracellular.m:357 (named)",
               "DID-matlab:migrators_j/ontology_table_row.m:276 (named)",
-              "DID-matlab:migrators_j/ontology_table_row.m:869 (named)"
+              "DID-matlab:migrators_j/ontology_table_row.m:873 (named)"
             ],
             "n_comment_mentions": 36,
             "comment_mentions": [

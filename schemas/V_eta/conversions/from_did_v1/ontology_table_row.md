@@ -37,7 +37,7 @@ column both become `mass_observation`, distinguished only by their
 |---|---|---|
 | Mass-dimensioned (body weight, brain/tumor mass) | `mass_observation` (`value : mass`) | term → `variable`; anatomy → `target_structure`; value+unit → `mass` composite |
 | Length / distance | `length_observation` (`length`) | as above |
-| Duration / age | `duration_observation` (`duration`) | |
+| Duration / age | `time_observation` (`duration`) | |
 | Volume | `volume_observation` (`volume`) | |
 | Temperature | `temperature_observation` (`temperature`) | |
 | Frequency (heart / respiration rate) | `frequency_observation` (`frequency`) | |

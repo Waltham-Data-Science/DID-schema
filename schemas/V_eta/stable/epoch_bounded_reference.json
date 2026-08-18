@@ -151,7 +151,7 @@
                 },
                 {
                     "name": "start",
-                    "type": "duration",
+                    "type": "time",
                     "blank_value": {},
                     "default_value": {},
                     "mustBeNonEmpty": false,
@@ -172,7 +172,7 @@
                             "mustNotHaveNaN": false,
                             "queryable": true,
                             "ontology": null,
-                            "documentation": "Canonical duration value -- the normalised, cross-document comparable number.",
+                            "documentation": "Canonical time value -- the normalised, cross-document comparable number.",
                             "constraints": {}
                         },
                         {
@@ -218,7 +218,7 @@
                 },
                 {
                     "name": "duration",
-                    "type": "duration",
+                    "type": "time",
                     "blank_value": {},
                     "default_value": {},
                     "mustBeNonEmpty": false,
@@ -239,7 +239,7 @@
                             "mustNotHaveNaN": false,
                             "queryable": true,
                             "ontology": null,
-                            "documentation": "Canonical duration value -- the normalised, cross-document comparable number.",
+                            "documentation": "Canonical time value -- the normalised, cross-document comparable number.",
                             "constraints": {}
                         },
                         {

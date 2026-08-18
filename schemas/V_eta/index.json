@@ -895,41 +895,6 @@
             "disposition": "persist"
         },
         {
-            "class_name": "duration",
-            "tier": "stable",
-            "class_version": "1.0.0",
-            "maturity_level": "stable",
-            "superclasses": [
-                "data_type"
-            ],
-            "path": "schemas/V_eta/stable/duration.json",
-            "disposition": "persist"
-        },
-        {
-            "class_name": "duration_assertion",
-            "tier": "stable",
-            "class_version": "1.0.0",
-            "maturity_level": "stable",
-            "superclasses": [
-                "subject_assertion",
-                "duration"
-            ],
-            "path": "schemas/V_eta/stable/duration_assertion.json",
-            "disposition": "persist"
-        },
-        {
-            "class_name": "duration_observation",
-            "tier": "stable",
-            "class_version": "1.0.0",
-            "maturity_level": "stable",
-            "superclasses": [
-                "subject_observation",
-                "duration"
-            ],
-            "path": "schemas/V_eta/stable/duration_observation.json",
-            "disposition": "persist"
-        },
-        {
             "class_name": "electrode_offset_voltage",
             "tier": "stable",
             "class_version": "2.0.0",
@@ -2608,6 +2573,41 @@
                 "term"
             ],
             "path": "schemas/V_eta/stable/term_observation.json",
+            "disposition": "persist"
+        },
+        {
+            "class_name": "time",
+            "tier": "stable",
+            "class_version": "1.0.0",
+            "maturity_level": "stable",
+            "superclasses": [
+                "data_type"
+            ],
+            "path": "schemas/V_eta/stable/time.json",
+            "disposition": "persist"
+        },
+        {
+            "class_name": "time_assertion",
+            "tier": "stable",
+            "class_version": "1.0.0",
+            "maturity_level": "stable",
+            "superclasses": [
+                "subject_assertion",
+                "time"
+            ],
+            "path": "schemas/V_eta/stable/time_assertion.json",
+            "disposition": "persist"
+        },
+        {
+            "class_name": "time_observation",
+            "tier": "stable",
+            "class_version": "1.0.0",
+            "maturity_level": "stable",
+            "superclasses": [
+                "subject_observation",
+                "time"
+            ],
+            "path": "schemas/V_eta/stable/time_observation.json",
             "disposition": "persist"
         },
         {

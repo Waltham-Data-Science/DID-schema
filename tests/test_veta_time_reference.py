@@ -169,9 +169,13 @@ def test_change_1_end_is_gone_and_duration_is_the_extent():
         assert "duration" in subs, (name, subs)
         assert "end" not in subs, (name, subs)
         assert "end_utc" not in subs, (name, subs)
-        # the extent is a duration cell, so canonical seconds + source
-        # provenance come for free
-        assert _sub(value, "duration")["type"] == "duration", name
+        # the extent is a `time` cell, so canonical seconds + source provenance
+        # come for free. The FIELD is still named `duration` and the TYPE is now
+        # `time` -- TEAM-SIGN-OFF [time dtype], 2026-08-17 -- and that split is
+        # the decision itself: the role lives on the field name, never on the
+        # type, so `start` (an offset) and `duration` (an extent) can share one
+        # dimensioned cell without either name claiming the other's job.
+        assert _sub(value, "duration")["type"] == "time", name
         checked += 1
     assert checked == 2
 
@@ -215,7 +219,11 @@ def test_the_three_precisions_are_distinct_and_none_restates_another():
     duration.approximate (the EXTENT). Each qualifies a different thing, which
     is why deleting the fourth (the value-level flag) lost nothing."""
     _t, root = BUILT["time_reference"]
-    assert _field(root, "clock_tolerance")["type"] == "duration"
+    # `time`, not `duration` (TEAM-SIGN-OFF [time dtype], 2026-08-17).
+    # `clock_tolerance` is one of the two fields that were neither an instant nor
+    # an extent -- it is a TOLERANCE -- and it is why the old type name was
+    # withdrawn rather than narrowed.
+    assert _field(root, "clock_tolerance")["type"] == "time"
 
     _t, rel = BUILT["relative_reference"]
     value = _field(rel, "value")

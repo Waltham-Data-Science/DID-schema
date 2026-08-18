@@ -84,9 +84,6 @@
 | `distance_metadata` | stable | **did_v1** | review/infra |
 | `dose` | stable | **V_eta** | review/infra |
 | `dose_manipulation` | stable | **V_eta** | J leaf |
-| `duration` | stable | **V_epsilon** | J dim abstract |
-| `duration_assertion` | stable | **V_eta** | J leaf |
-| `duration_observation` | stable | **V_zeta** | J leaf |
 | `electrode_offset_voltage` | stable | **did_v1** | review/infra |
 | `element` | stable | **did_v1** | RETIRE (Phase 8) |
 | `element_epoch` | stable | **did_v1** | D-A infra |
@@ -251,6 +248,9 @@
 | `term_assertion` | stable | **V_eta** | J leaf |
 | `term_manipulation` | stable | **V_eta** | J leaf |
 | `term_observation` | stable | **V_epsilon** | J leaf |
+| `time` | stable | **V_epsilon** | J dim abstract (was `duration`) |
+| `time_assertion` | stable | **V_eta** | J leaf (was `duration_assertion`) |
+| `time_observation` | stable | **V_zeta** | J leaf (was `duration_observation`) |
 | `time_reference` | stable | **V_epsilon** | J time_ref |
 | `timeseries_data` | draft | **V_epsilon** | 2.D data_body |
 | `timeseries_data_binary` | draft | **V_epsilon** | 2.D data_body |

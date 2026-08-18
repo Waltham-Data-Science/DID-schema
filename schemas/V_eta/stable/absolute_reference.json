@@ -107,7 +107,7 @@
                 },
                 {
                     "name": "duration",
-                    "type": "duration",
+                    "type": "time",
                     "blank_value": 0.0,
                     "default_value": 0.0,
                     "mustBeNonEmpty": false,
@@ -128,7 +128,7 @@
                             "mustNotHaveNaN": false,
                             "queryable": true,
                             "ontology": null,
-                            "documentation": "Canonical duration value -- the normalised, cross-document comparable number.",
+                            "documentation": "Canonical time value -- the normalised, cross-document comparable number.",
                             "constraints": {}
                         },
                         {

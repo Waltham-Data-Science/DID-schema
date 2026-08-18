@@ -1,13 +1,13 @@
 {
     "document_class": {
-        "class_name": "duration_observation",
+        "class_name": "time_assertion",
         "class_version": "1.0.0",
         "superclasses": [
             {
-                "class_name": "subject_observation"
+                "class_name": "subject_assertion"
             },
             {
-                "class_name": "duration"
+                "class_name": "time"
             }
         ],
         "maturity_level": "stable"

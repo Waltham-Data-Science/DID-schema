@@ -35,8 +35,41 @@ TIERS = ["stable", "draft", "deprecated"]
 META_FILES = {"did_schema_meta.json", "CURIE_lookups_meta.json", "ndi_reserved_keys.json",
               "binding_registry_meta.json"}
 
-DIMS = ["mass", "length", "volume", "duration", "temperature", "pressure",
+DIMS = ["mass", "length", "volume", "time", "temperature", "pressure",
         "frequency", "voltage", "current", "concentration", "count", "score"]
+
+# The V_zeta shape mixin a dimension is renamed FROM, where it differs from the
+# dimension's own name. Only one entry, and it is the point of
+# TEAM-SIGN-OFF [time dtype] (V_eta_tenet_audit.md, 2026-08-17):
+#
+#   `duration` was the ONLY role-named member of this tier -- every other
+#   physical quantity here is named for its DIMENSION (voltage, mass, charge,
+#   frequency, ...) -- and it had come to carry mostly non-durations. Measured
+#   at signing time: of 10 fields typed `duration`, 3 were extents, FOUR were
+#   instants/offsets (relative_reference.value.start,
+#   epoch_bounded_reference.value.start, session_bounded_reference.start/.end)
+#   and two were neither (sample_time.dt a step, clock_tolerance a tolerance).
+#
+# The composite is a dimensioned scalar of TIME, neutral between an offset and
+# an extent; the ROLE is carried by the field name (`start` vs `duration`) or
+# by `subject_statement.variable`, never by the type. `date` keeps the
+# calendar/wall-clock job and `time_reference` keeps the anchoring job, so the
+# three jobs still have three names.
+DIM_V_ZETA_SOURCE = {"time": "duration"}
+
+# The renamed mixin's `value` documentation. The V_zeta text reads "A typed
+# duration value ... classes that read or impose a duration inherit this
+# `value`", which is the ROLE claim the rename exists to withdraw -- a class
+# named `time` whose own prose says it holds durations teaches the reader the
+# thing the signature decided was wrong. Only the first sentence pair is
+# replaced; the series-as-cardinality tail is unchanged and still applies.
+DIM_RETYPED_DOC = {
+    "time": "A typed time value (shape-library mixin) -- a dimensioned scalar "
+            "of TIME, neutral between an INSTANT/OFFSET and an EXTENT. The role "
+            "is carried by the field name (`start` vs `duration`) or by "
+            "`subject_statement.variable`, never by this type. Identity classes "
+            "that read or impose a time inherit this `value`.",
+}
 
 
 # ---------- helpers ----------
@@ -281,8 +314,12 @@ RENAME = {
     "award": "funding",
 }
 for d in DIMS:
-    RENAME[f"scalar_{d}"] = d                       # shape mixin
-    RENAME[f"scalar_{d}_observation"] = f"{d}_observation"
+    # `src` differs from `d` only for the [time dtype] rename; see
+    # DIM_V_ZETA_SOURCE. Keyed on the V_zeta name because that is what the
+    # snapshot on disk is called, and the RENAME map's job is source -> target.
+    src = DIM_V_ZETA_SOURCE.get(d, d)
+    RENAME[f"scalar_{src}"] = d                     # shape mixin
+    RENAME[f"scalar_{src}_observation"] = f"{d}_observation"
 
 # classes deleted outright; when they appear as a superclass, replace per SUPER_SUB
 DELETE = {"scalar_observation", "scalar_manipulation", "annotation", "group_assignment",
@@ -639,7 +676,7 @@ SAMPLE_TIME = field(
     sub_fields=[
         subfield("kind", "char", "point | grid | enumerated.", non_empty=True,
                  blank="point", constraints={"enum": ["point", "grid", "enumerated"]}),
-        subfield("dt", "duration", "grid only: sample spacing.", scalar=True),
+        subfield("dt", "time", "grid only: sample spacing.", scalar=True),
         subfield("n", "integer", "grid only: sample count.", scalar=True),
         subfield("offsets", "matrix",
                  "enumerated only: explicit per-sample offsets from the anchor."),
@@ -2057,15 +2094,28 @@ write("stable", "ensemble", _ensemble)
 
 # ---------- 7. value mixins: refresh doc (series timing note) ----------
 # the <dim> shape mixins keep their array `value`; only the timing note is stale.
+# A RENAMED dimension additionally needs its `value` RETYPED: the class name was
+# moved by RENAME, the type token inside it was not, so `time.json` arrived here
+# declaring `"type": "duration"` -- a class named for one dimension carrying a
+# cell named for another. See the type_enum block for the other half.
 for d in DIMS + ["generic_scalar"]:
     tier, p = path_of(d)
     if not p:
         continue
     obj = load(p)
+    _src = DIM_V_ZETA_SOURCE.get(d)
     for f in obj.get("fields", []):
         if f["name"] == "value" and "sample_time" in f.get("documentation", ""):
             f["documentation"] = f["documentation"].split(" Per-sample")[0] + \
                 " Per-sample timing is the statement's sample_time cadence (D1)."
+        if _src and f.get("type") == _src:
+            f["type"] = d
+    if d in DIM_RETYPED_DOC:
+        for f in obj.get("fields", []):
+            if f["name"] == "value":
+                _tail = f["documentation"].split("Series-as-cardinality", 1)
+                f["documentation"] = DIM_RETYPED_DOC[d] + (
+                    " Series-as-cardinality" + _tail[1] if len(_tail) > 1 else "")
     write(tier, d, obj)
 
 
@@ -2089,10 +2139,10 @@ write("stable", "session_bounded_reference",
           field("relation", "char",
                 "Ordinal relation to the session (default 'during').",
                 non_empty=False, blank="during", default="during"),
-          field("start", "duration",
+          field("start", "time",
                 "Window start, relative to the session/assay origin.",
                 non_empty=False, blank=_DUR, default=_DUR),
-          field("end", "duration",
+          field("end", "time",
                 "Window end, relative to the session/assay origin.",
                 non_empty=False, blank=_DUR, default=_DUR)]))
 
@@ -2345,7 +2395,7 @@ _ABSOLUTE_REFERENCE_SUBS = [
                           "`duration.approximate` (the EXTENT) and from "
                           "`time_reference.clock_tolerance` (the TIMELINE)."),
              ]),
-    subfield("duration", "duration",
+    subfield("duration", "time",
              "The EXTENT, measured from `start`. ABSENT means an INSTANT, not an "
              "interval. CHANGE 1: this replaces `end_utc`, so 'started around 09:00, ran "
              "exactly 60 minutes' is expressible -- with two instants both inherit the "
@@ -2373,13 +2423,13 @@ _RELATIVE_REFERENCE_SUBS = [
              "Nodes are STAGED EMPTY -- no NDIC identifier can be assigned from any "
              "repository in scope; see the build script for the evidence.",
              constraints=_CLOCK_BINDING),
-    subfield("start", "duration",
+    subfield("start", "time",
              "The ANCHOR: offset of this reference from the referent named by "
              "`relative_to`, on the named clock. ABSENT together with `duration` means "
              "the `relation` alone is asserted -- which is the honest state for the "
              "107,308 'during the session' anchors, and is why no value-level "
              "`approximate` flag is needed to say 'we do not know exactly when'."),
-    subfield("duration", "duration",
+    subfield("duration", "time",
              "The EXTENT, measured from `start`. ABSENT means an INSTANT. CHANGE 1: this "
              "replaces `end`, so an approximate anchor and an exact span are separately "
              "expressible."),
@@ -2450,7 +2500,7 @@ for _f in _tr["fields"]:
             "THE IMPRECISION. Not removed yet ONLY because the strict-fields check would "
             "quarantine every live anchor whose emitter still writes it.")
 _tr["fields"].append(field(
-    "clock_tolerance", "duration",
+    "clock_tolerance", "time",
     "The stated precision of the TIMELINE these times are expressed on -- NOT of any one "
     "value. ABSENT = no stated tolerance. De-encoded from NDI's `approx_` clocktype "
     "prefix, which documents +/-5 s in a docstring "
@@ -6266,6 +6316,19 @@ write("stable", "frequency_filter", doc("frequency_filter", ["base"], fields=[
 
 meta = load(os.path.join(VETA, "stable", "did_schema_meta.json"))
 type_enum = meta["$defs"]["field_definition"]["properties"]["type"]["enum"]
+# THE TYPE TOKEN AND THE CLASS NAME ARE THE SAME WORD, so the [time dtype]
+# rename has to move BOTH. For every dimension the shape mixin class `<d>` owns
+# a `value` typed `<d>`; renaming only the class leaves a `time` class whose
+# `value` is typed `duration`, and a schema declaring `"type": "time"` fails
+# this very enum. Driven off DIM_V_ZETA_SOURCE rather than a literal pair so a
+# future dimension rename moves the type with it. In place, not appended: the
+# old token must STOP being accepted, or a stale `"type": "duration"` validates
+# and nothing says so.
+for _d, _src in ((d, DIM_V_ZETA_SOURCE[d]) for d in DIMS if d in DIM_V_ZETA_SOURCE):
+    if _src in type_enum:
+        type_enum[type_enum.index(_src)] = _d
+    elif _d not in type_enum:
+        type_enum.append(_d)
 for _seed_name, _ in NUMERIC_SEED:          # J §7 comprehensive numeric set
     if _seed_name not in type_enum:
         type_enum.append(_seed_name)
@@ -7008,16 +7071,31 @@ with open(os.path.join(VETA, "stable", "binding_registry_meta.json"), "w") as f:
 import re as _re  # noqa: E402
 
 CONV = os.path.join(VETA, "conversions", "from_did_v1")
-_dims_re = "|".join(DIMS)
+# THE ALTERNATION IS OVER THE V_ZETA SOURCE NAMES, NOT THE V_eta ONES, and the
+# replacement maps back. A dimension whose V_eta name differs from its V_zeta
+# name (`time`, was `scalar_duration`) is invisible to an alternation built from
+# DIMS: the doc still says `scalar_duration_observation`, nothing matches, and
+# the retarget silently leaves a V_zeta class name standing in a V_eta document.
+# That happened when `duration` -> `time` landed and was caught only by the
+# artifact diff, so the mapping is explicit here rather than implied by DIMS.
+_dim_by_source = {DIM_V_ZETA_SOURCE.get(d, d): d for d in DIMS}
+_dims_re = "|".join(sorted(_dim_by_source, key=len, reverse=True))
+
+
+def _retarget_dim(m, suffix=""):
+    return _dim_by_source[m.group(1)] + suffix
+
 
 for p in sorted(glob.glob(os.path.join(CONV, "*.md"))):
     b = os.path.basename(p)
     if b in ("_index.md",):
         continue
     s = Path(p).read_text()
-    s = _re.sub(rf"scalar_({_dims_re})_observation", r"\1_observation", s)
-    s = _re.sub(rf"`scalar_({_dims_re})`", r"`\1`", s)
-    s = _re.sub(rf"\bscalar_({_dims_re})\b", r"\1", s)
+    s = _re.sub(rf"scalar_({_dims_re})_observation",
+                lambda m: _retarget_dim(m, "_observation"), s)
+    s = _re.sub(rf"`scalar_({_dims_re})`",
+                lambda m: "`" + _retarget_dim(m) + "`", s)
+    s = _re.sub(rf"\bscalar_({_dims_re})\b", _retarget_dim, s)
     s = s.replace("scalar_observation", "subject_observation")
     s = s.replace("scalar_manipulation", "subject_manipulation")
     s = s.replace("categorical_observation", "term_observation")
@@ -7557,7 +7635,7 @@ idx["notes"] = ("Source of truth for class_name uniqueness and tier placement. "
 # named here from the documented SI unit, following the same spelled-out-plural convention.
 _DIM_CANON = {
     # --- attested in migrator code (do NOT rename without a coupled migrator change) ---
-    "duration": ["seconds"], "volume": ["liters"], "mass": ["kilograms"],
+    "time": ["seconds"], "volume": ["liters"], "mass": ["kilograms"],
     "length": ["meters"], "voltage": ["volts"], "current": ["amperes"],
     "frequency": ["hertz"], "temperature": ["celsius"], "pressure": ["mmhg"],
     # multi-canonical BY DESIGN: concentration units do not collapse to one canonical
@@ -7669,7 +7747,7 @@ print(f"V_eta named-type expansion: declared sub_fields in {_expanded} schema(s)
 _m = load(os.path.join(VETA, "stable", "did_schema_meta.json"))
 _m["$defs"]["field_definition"]["properties"]["fields"]["description"] = (
     "Nested field definitions. Used for `structure` fields AND for the named composite "
-    "types (duration/voltage/count/score/ontology_term/...), whose canonical + "
+    "types (time/voltage/count/score/ontology_term/...), whose canonical + "
     "source-provenance layout is declared inline so validators, query-path generation and "
     "docs read one source of truth instead of hardcoding it.")
 write("stable", "did_schema_meta", _m)

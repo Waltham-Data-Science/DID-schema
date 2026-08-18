@@ -66,9 +66,15 @@ NON_SCHEMA = {"index.json", "topics.json"}
 # case {'char', 'did_uid', 'timestamp'}: ischar || (isstring && isscalar)
 CHAR_ONLY_TYPES = ("char", "did_uid", "timestamp")
 
-# case {'duration','volume','mass','length','voltage','current','frequency',
-#       'concentration','ontology_term'}: isstruct
-NAMED_COMPOSITE_TYPES = ("duration", "volume", "mass", "length", "voltage",
+# case {'duration','time','volume','mass','length','voltage','current',
+#       'frequency','concentration','ontology_term'}: isstruct
+#
+# `time` was added to the MATLAB case list on 2026-08-17 alongside the [time
+# dtype] rename. `duration` stays in BOTH places: the same cache validates
+# V_zeta, where the composite is still called `duration`. V_eta declares no
+# `duration`-typed field any more, so its presence here is inert for this sweep
+# and load-bearing for the validator it mirrors.
+NAMED_COMPOSITE_TYPES = ("duration", "time", "volume", "mass", "length", "voltage",
                          "current", "frequency", "concentration", "ontology_term")
 
 
@@ -169,13 +175,13 @@ def _structure_blank_is_rebuilt(ftype, blank):
 # Each entry is (class_name, dotted field path, declared type).
 # ---------------------------------------------------------------------------
 KNOWN_DIVERGENT = {
-    ("absolute_reference", "value.duration", "duration"),
+    ("absolute_reference", "value.duration", "time"),
     ("chemical", "value.amount", "concentration"),
     ("concentration", "value", "concentration"),
     ("current", "value", "current"),
     ("dose", "value.formulation.chemicals.amount", "concentration"),
     ("dose", "value.volume", "volume"),
-    ("duration", "value", "duration"),
+    ("time", "value", "time"),
     ("formulation", "value.chemicals.amount", "concentration"),
     ("frequency", "value", "frequency"),
     ("frequency_filter", "passband.high", "frequency"),
@@ -187,15 +193,15 @@ KNOWN_DIVERGENT = {
     ("pyraview", "decimation_levels", "matrix"),
     ("pyraview", "decimation_sampling_rates", "matrix"),
     ("pyraview", "decimation_start_times", "matrix"),
-    ("relative_reference", "value.duration", "duration"),
-    ("relative_reference", "value.start", "duration"),
+    ("relative_reference", "value.duration", "time"),
+    ("relative_reference", "value.start", "time"),
     # ("sampled_body", "sample_time.dt"/".t0") REMOVED 2026-08-15: the body-side
     # `sample_time` retired into `axes` (signed sec.2, step 5), so these two rows
     # name fields that no longer exist. Deleted in the same commit that retired
     # them, which is what this file's own failure message asks for.
-    ("subject_interaction", "sample_time.dt", "duration"),
+    ("subject_interaction", "sample_time.dt", "time"),
     ("subject_statement", "conditions.term.value", "ontology_term"),
-    ("time_reference", "clock_tolerance", "duration"),
+    ("time_reference", "clock_tolerance", "time"),
     ("voltage", "value", "voltage"),
     ("volume", "value", "volume"),
 }

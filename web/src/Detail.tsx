@@ -31,8 +31,12 @@ const TYPE_DESCRIPTIONS: Record<string, string> = {
   null: "JSON null value.",
   frequency:
     "Named composite type: a frequency value with full unit provenance. Sub-fields: `hertz` (canonical value), `approximate` (bool), `source_unit` (e.g. \"kHz\"), `source_value` (number in source units). Constraints: minimum, maximum (bound the canonical `hertz`), allowed_units.",
+  time:
+    "Named composite type: a dimensioned scalar of TIME with full unit provenance — neutral between an instant/offset and an extent; the role is carried by the field name (`start` vs `duration`), never by the type. Sub-fields: `seconds` (canonical), `approximate`, `source_unit`, `source_value`. Constraints: minimum, maximum (bound `seconds`), allowed_units.",
+  // The V_zeta spelling. Kept because this viewer renders V_zeta as well as
+  // V_eta, and a type with no glossary entry renders bare.
   duration:
-    "Named composite type: a duration with full unit provenance. Sub-fields: `seconds` (canonical), `approximate`, `source_unit`, `source_value`. Constraints: minimum, maximum (bound `seconds`), allowed_units.",
+    "Named composite type: a duration with full unit provenance. Sub-fields: `seconds` (canonical), `approximate`, `source_unit`, `source_value`. Constraints: minimum, maximum (bound `seconds`), allowed_units. RENAMED `time` in V_eta (TEAM-SIGN-OFF [time dtype], 2026-08-17).",
   length:
     "Named composite type: a length with full unit provenance. Sub-fields: `meters` (canonical), `approximate`, `source_unit`, `source_value`. Constraints: minimum, maximum (bound `meters`), allowed_units.",
   mass:
