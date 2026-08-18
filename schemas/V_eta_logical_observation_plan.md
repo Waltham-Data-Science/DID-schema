@@ -424,8 +424,22 @@ array of booleans is WITHDRAWN, because the source holds times and the booleans
 would be invented. `logical` + `logical_observation` are left minted and unused in
 `draft/`; whether they are retired or held for a future user is NOT decided here.
 Everything else in the 2026-08-12 signature stands. `resolveValidIntervals` is
-re-armed against this shape -- the `axes[]` wait condition it was made dormant for
-was met on 2026-08-14.
+AUTHORISED to be re-armed against this shape -- the `axes[]` wait condition it was
+made dormant for was met on 2026-08-14 -- but IS NOT RE-ARMED YET: as of
+2026-08-18 `options.Decompose` is still FALSE and the pass still emits nothing.
+
+**AND RE-ARMING IS NOT A FLAG FLIP, which is the one thing a reader of this
+signature must not assume.** The decomposition preserved behind that flag is the
+1->N ONE-STATEMENT-PER-INTERVAL shape, and the file says so itself
+(`resolveValidIntervals.m`, its own header): *"The 1->N decomposition written in
+this file -- one statement per interval -- is NOT that model, and the team
+declined to ship it as an interim step."* So setting `Decompose` true today would
+ship the shape the team REJECTED, not the shape this amendment signs. The build is
+a REWRITE of the emission -- one statement per source document, N x 2 value, two
+axis entries -- over a 1,337-line pass and its 979-line, 24-test companion. The
+anchor resolution, the (session, epoch-id) pair keying, the verb resolution and
+the eight refusal reasons are reusable unchanged; only the emitted body's shape
+moves.
 
 PROVENANCE OF THIS LINE, because Operating Rule 4 forbids Claude to record a
 decision and this file must show that a human made it. Claude put three named
