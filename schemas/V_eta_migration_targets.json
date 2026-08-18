@@ -879,8 +879,8 @@
       ],
       "carried": [],
       "second_pass": [],
-      "how": "DEFERRED calculator: calcCommon passthrough, class retained",
-      "flags": "calculators deferred (conversion doc exists but no decomposition migrator)",
+      "how": "1->1 fold, id- and deps-PRESERVED, into the `receptive_field_calculation` leaf (= subject_calculation + receptive_field) + session anchor. The [200 200 36 2] response volume splits into TWO `sampled_body` documents -- one STA plane, one p-value plane -- because the writer gives the length-2 dimension no coordinates (436 coordinate values against a data_dim summing to 438), so it is not a coordinate axis. `ngrid.coordinates` segments [36,200,200] into `axes[].values`; the lag axis carries `values` rather than origin+spacing because 0 of 210 documents reproduce T exactly from -0.1 + k*0.01. `spiketimes` rides as a third, input-side body with `derived_from` the neuron, not as archival data.",
+      "flags": "`ngrid` is NOT retired by this fold and the block still rides through: the sign-off gates retirement on BOTH consumers and `ontology_image` still consumes it (#46). THIS ROW READ `DEFERRED calculator: calcCommon passthrough, class retained` UNTIL 2026-08-18, which was true when written and stopped being true at DID-matlab 89aace1 (2026-08-17), an ancestor of the branch head -- so a signed fold that had already run green rendered on the confirm sheet as work still owed. Same shape as the stale `how` this file already records against `daqreader_ndr`. `targets` beside it was correct throughout, being GENERATED.",
       "target_completeness": {
         "state": "full",
         "unresolved_sites": []
