@@ -577,7 +577,7 @@
             "V_eta_final_class_set.md"
           ],
           "signoff_markers_inside_excluded_documents": 1,
-          "accepted_lines": 44,
+          "accepted_lines": 45,
           "rejected_lines": [],
           "distinct_tags": [
             "base naming",
@@ -612,6 +612,7 @@
             "subject",
             "subject measurement",
             "sync configuration",
+            "sync configuration amendment 1",
             "sync mapping",
             "time dtype",
             "time_reference"
@@ -833,6 +834,12 @@
                 "line": 493
               }
             ],
+            "sync configuration amendment 1": [
+              {
+                "document": "V_eta_clock_alignment_cluster_plan.md",
+                "line": 625
+              }
+            ],
             "sync mapping": [
               {
                 "document": "V_eta_clock_alignment_cluster_plan.md",
@@ -945,6 +952,12 @@
               {
                 "document": "V_eta_stimulus_model_plan.md",
                 "line": 270
+              }
+            ],
+            "sync configuration amendment 1": [
+              {
+                "document": "V_eta_clock_alignment_cluster_plan.md",
+                "line": 625
               }
             ],
             "time dtype": [

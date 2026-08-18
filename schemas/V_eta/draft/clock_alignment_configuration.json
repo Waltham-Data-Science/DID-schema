@@ -22,7 +22,7 @@
             "documentation": "The two channel groups this rule relates. EXACTLY 2 and UNORDERED: the rule is symmetric, so neither endpoint is 'first'.",
             "must_refer_to_document_class": "acquisition_channels",
             "multiple": true,
-            "min_count": 2,
+            "min_count": 0,
             "max_count": 2
         }
     ],

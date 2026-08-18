@@ -6643,10 +6643,21 @@ _EDGE_COUNTS = {
     # nothing in NDI caps it. Note the template declares the edge SINGULAR while
     # the writer uses the _n family form -- writer wins, as always here.
     ("acquisition_system", "acquisition_metadata_reader_#"): (0, None),
-    # #57 gate 3, NOW MET. The sign-off recorded "EXACTLY 2 is prose until #63
-    # lands" -- #63 has landed, so the cardinality the rule actually has is
-    # declared and checkable instead of being a sentence in a plan.
-    ("clock_alignment_configuration", "acquisition_channels_#"): (2, 2),
+    # #57 gate 3, then AMENDED. The original sign-off recorded "EXACTLY 2" for a
+    # device-pair rule (commonTriggers/randomPulses name two devices+channels;
+    # filefind names two devices). But a `filematch` rule names NO devices -- its
+    # whole parameter set is `number_fullpath_matches` -- and it is a REAL
+    # alignment rule (apply() returns an IDENTITY timemapping when two epochs
+    # share >=N filenames, NDI-matlab +time/+syncrule/filematch.m:97-128). So the
+    # EXACTLY-2 cardinality made a legitimate file-based rule structurally
+    # impossible to express, forcing it to pass through as a v1 `syncrule`. The
+    # schema already declares its criterion field (`minimum_matching_file_paths`),
+    # so the only thing missing was room for zero channels. Relaxed to {0,2}: a
+    # file-based rule carries 0, a device-pair rule still carries 2 (the migrator
+    # guard emits both channels or neither, so a 1-channel config cannot be
+    # minted). TEAM-SIGN-OFF [sync configuration amendment 1],
+    # V_eta_clock_alignment_cluster_plan.md.
+    ("clock_alignment_configuration", "acquisition_channels_#"): (0, 2),
     # a policy with no rules yet is legitimate -- NDI's own syncgraph schema says
     # "mustbenotempty": 0 for syncrule_id
     ("clock_alignment_policy", "clock_alignment_configuration_#"): (0, None),

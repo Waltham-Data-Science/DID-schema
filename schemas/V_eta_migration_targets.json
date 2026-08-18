@@ -18,7 +18,7 @@
         "unresolved_sites": [
           {
             "why": "class-name argument to `classBlock` is an expression (`e.class`)",
-            "site": "DID-matlab/src/did/+did2/+convert/+migrators_j/private/jRecordingObservation.m:251"
+            "site": "DID-matlab/src/did/+did2/+convert/+migrators_j/private/jRecordingObservation.m:275"
           }
         ],
         "warning": "`targets` IS A LOWER BOUND for this class. This tool could not read every document_class write, so the emitted set may be larger than what is listed. Do not confirm this row as an end state from `targets` alone -- read the sites below."
