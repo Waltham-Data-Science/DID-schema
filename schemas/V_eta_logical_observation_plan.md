@@ -355,3 +355,85 @@ is the gate.
 ## TEAM SIGN-OFF
 
 TEAM-SIGN-OFF [logical_observation]: jess@walthamdatascience.com / 2026-08-12 -- `validity` and `validity_observation` are replaced by `logical` + `logical_observation`; the semantic moves to `subject_statement.variable`, since a data_type names the KIND of value and not what it is about. `logical` carries ONE field, `value` typed `boolean` with mustBeScalar false -- a bare array, no wrapper cell (`boolean` is impossible as a class name: it is a primitive in the validator's type switch, cache.m:1793; `logical`:`boolean` mirrors the existing `term`:`ontology_term`). `logical_observation` declares no fields. `sequence` is deleted: NDI never reads interval order, because identifyvalidintervals accumulates through interval_add, a set union, and tuning_response.m:256 indexes THAT union rather than the stored array. THE ARRAY IS THE TARGET MODEL -- one statement per source document holding N booleans against a time axis -- and the 1->N decomposition is NOT shipped as an interim: migration WAITS for `axes[]` on `subject_statement` rather than migrating twice, so the pass is dormant by decision. Inheritance walks the whole `derived_from` chain TRANSITIVELY, MATCHING NDI, whose `loadvalidinterval` calls ITSELF on `underlying_element` and so already recurses to any depth; the divergences are the EDGE (V_eta walks `derived_from` in the migrated document graph, NDI walks a runtime object property) and the SCOPE (v1 has no `variable`, so its fallback cannot be per-variable). Inheritance yields the statement WITH ITS ANCHOR, never the interval numbers alone. Three states, a deliberate break from v1: no statement anywhere -> VALID; statements projected -> use them; statements found but none projectable into the caller's frame -> UNKNOWN, NOT VALID (v1 returns the entire requested span, so a clock mismatch reads as "all data good"). Consumers must count inherited statements they could not project. NOT COVERED BY THIS SIGNATURE: the gap semantics between statements (still undefined, still open), the timing of `axes[]`, and any change to ndi.app.markgarbage's v1 reader behaviour.
+
+---
+
+## AMENDMENT 1 (2026-08-18) — the leaf becomes `time_observation`; the array of booleans is withdrawn
+
+**READ THIS BEFORE THE SIGNATURE ABOVE.** The 2026-08-12 signature is not
+withdrawn as a whole — its reasoning about `variable` carrying the semantic, about
+`sequence` being deleted, about transitive inheritance and about the three reading
+states all stand unchanged. What is superseded is the **LEAF AND THE VALUE**:
+`logical_observation` holding an array of booleans becomes `time_observation`
+holding the interval times.
+
+**WHAT PROMPTED IT.** The team asked, of the encoding question this amendment was
+opened to settle: *"Should valid interval actually be time_observation?"* The
+question was better than the one put to them.
+
+**THE ARGUMENT, in the order the evidence arrived.**
+
+**(1) THE SOURCE HOLDS TIMES. THERE ARE NO BOOLEANS TO MIGRATE.** The v1 class
+declares exactly four fields and not one of them is a boolean:
+
+        valid_interval [stable]   deps: ['element_id']
+          timeref_structt0  structure     t0  double
+          timeref_structt1  structure     t1  double
+
+Under `logical_observation` the migration would INVENT the boolean array, and for a
+list of VALID intervals every element of it is `true` (or alternates by
+construction), so it carries nothing the times do not already carry. Manufacturing
+content is the failure mode this repository's operating rules exist to stop, and it
+would have been manufactured on every migrated document.
+
+**(2) THE COST ARGUMENT THAT SETTLED THE SPIKE TRAIN POINTS THE SAME WAY, HARDER.**
+`TEAM-SIGN-OFF [spike train leaf]` (`V_eta_ensemble_plan.md`, 2026-08-17) weighed
+*"a regular index axis is `origin + spacing + n`, three numbers regardless of N,
+while N booleans is O(N)"*. Here `logical_observation` is worse than it was for
+spikes: it needs an IRREGULAR axis (O(N) stored boundary times) AND N booleans
+(O(N)). `time_observation` needs the times (O(N)) plus a bare regular index.
+
+**(3) THE POSITIONAL-PAIRING OBJECTION IS REAL AND IS ANSWERED BY THE AXIS, NOT BY
+A CONVENTION.** A flat `[t0_1, t1_1, t0_2, t1_2, ...]` pairs by POSITION, which T14
+forbids ("structure is declared, not conventional"). The value is therefore **N x 2**:
+`axes[1]` is a bare regular interval index and `axes[2]` carries `labels`
+(`ontology_term`, `mustBeScalar` FALSE, XOR with `values`) naming `start` and `end`.
+The roles are DECLARED. Multi-axis is not hypothetical — `DID-matlab
++migrators_j/private/jNgridBody.m:223` already emits `ngridAxes(dataDim, axisLabels)`,
+one entry per grid dimension.
+
+**THE CONSEQUENCE THE TEAM WEIGHED AND ACCEPTED, stated before the signature rather
+than discovered after it:** `valid_interval` is `logical_observation`'s ONLY
+consumer.
+
+        DENOMINATOR: 102 ledger rows read from schemas/V_eta_coverage_ledger.json;
+                     1 names logical_observation
+          valid_interval -> []
+
+So this amendment leaves `logical` and `logical_observation` with **no user
+anywhere**. Their retire-or-hold disposition is a SEPARATE call and is NOT decided
+here; they are left in `draft/` and nothing is deleted by this amendment.
+
+TEAM-SIGN-OFF [logical_observation amendment 1]: jess@walthamdatascience.com /
+2026-08-18 -- `valid_interval` migrates to `time_observation`, not
+`logical_observation`. The INTERVAL TIMES ARE THE VALUE: one statement per source
+document carrying an N x 2 array of `time` cells, `axes[1]` a bare regular interval
+index and `axes[2]` an endpoint axis whose `labels` name `start` and `end`, anchored
+as before (`time_reference_1` -> a `relative_reference` -> the minted `epoch`). The
+array of booleans is WITHDRAWN, because the source holds times and the booleans
+would be invented. `logical` + `logical_observation` are left minted and unused in
+`draft/`; whether they are retired or held for a future user is NOT decided here.
+Everything else in the 2026-08-12 signature stands. `resolveValidIntervals` is
+re-armed against this shape -- the `axes[]` wait condition it was made dormant for
+was met on 2026-08-14.
+
+PROVENANCE OF THIS LINE, because Operating Rule 4 forbids Claude to record a
+decision and this file must show that a human made it. Claude put three named
+encodings to the team; the team replied with a question instead --
+*"Should valid interval actually be time_observation?"* -- Claude answered it with
+the three points above and the `logical`-loses-its-only-consumer consequence, and
+offered: *"(a) `time_observation`, N x 2 with a labelled endpoint axis, and `logical`
+is retired or held for a future user; (b) `time_observation`, and `logical` stays
+minted-but-unused deliberately; (c) stay with the signed `logical_observation`."*
+The team replied, verbatim: **"Let's build a"**. Claude transcribed that choice into
+the line above and decided nothing.
