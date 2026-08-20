@@ -3099,3 +3099,43 @@ Only the COMPOSITE is a `data_type` subclass — the leaf hangs off
 data_type-subclass count by one. One signed decision moved four counters at once
 (these three plus the inert-set canary in `tests/test_veta_stimulus_response.py`),
 which is the per-document cost `check_prose_counts` exists to find.
+
+## TEAM DECISIONS 2026-08-20 — two calls made to close Soph's Bar-2 gap
+
+Recorded here as prose, NOT as a `TEAM-SIGN-OFF` marker (Operating Rule 4); if the
+epoch/stimulus plan documents need a formal signature to move their board state, the
+team adds it. Both calls were made by jess@walthamdatascience.com after the first
+full-corpus Soph e2e run (run #7, `02698b58c`) revealed the three unfolded survivors
+recorded in the MEASURED section above (`epochfiles_ingested` 349, `syncrule_mapping`
+348, `stimulus_presentation` 2). Neither call is new modelling — each resolves a live
+ambiguity in an ALREADY-SIGNED plan.
+
+**DECISION #2 — `epochfiles_ingested` → `ingestion_manifest`: `epochprobemap` decomposes
+to EDGES (option B), built BEFORE the fold ("B-first").** The signed #60 epoch plan
+carries a self-contradiction — *"epochprobemap REMOVED — decomposes into edges (option B)"*
+AND *"B as the model, A as pass-1 behaviour"* — and `build_v_eta.py` built the class in
+B-shape (no probemap field), so pass 1 has nowhere to put a field that is populated on
+2,484/2,484 corpus-B documents (`name/reference/type/devicestring/subjectstring`,
+per-epoch neuron/device/subject attribution). The team chose **B-first**: build the
+probemap→edges decomposition (the final shape), then fold `epochfiles_ingested`. This
+picks the "give it a home via edges, don't keep it as text" horn and closes the option-A
+interim. Evidence basis: `+migrators_j/epochfiles_ingested.m` BLOCKER 2 (the migrator's
+own guarded-passthrough header).
+
+**DECISION #3 — build the stimulus decompose NOW.** The #31 stimulus model is signed
+(`timed_sequence` + `timed_sequence_manipulation`, the ensemble/dedup pattern) but
+unbuilt and four-way blocked (no subject knowable at pass 1; the stimulus dictionary
+lives in referenced docs that do not exist yet; dedup is whole-corpus; `timed_sequence`
+is declared `"abstract": true`). The superseded `stimulusPresentationToManipulation`
+assembler still runs unconditionally in NDI `local.m` and mints the old
+`visual_grating_manipulation` shape (Soph pass-1 had 175 `stimulus_presentation`, only 2
+survive — the rest folded to the superseded target). The team chose to **take on the full
+second-pass decompose now**: un-abstract `timed_sequence` (itself a team call per the
+2026-08-10 correction note in this file), build the whole-corpus dedup + the manipulation
+leaf + the `relative_reference`/per-trial `sampled_body`, and RETIRE the superseded NDI
+assembler rather than extend it. Evidence basis: `+migrators_j/stimulus_presentation.m`
+(the four-blocker header + the "one more thing the second pass must not do" section).
+
+Build order chosen: (1) `syncrule_mapping` post-`epochMint` anchoring (decision-free,
+smallest), (2) #2 `epochprobemap`→edges then the `epochfiles_ingested` fold, (3) #3 the
+stimulus decompose. Each lands with fixture tests then a full-corpus verify.
