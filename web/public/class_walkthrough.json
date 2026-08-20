@@ -218,12 +218,12 @@
       "site_count": 2,
       "sites": [
        {
-        "line": 1800,
+        "line": 2050,
         "spelling": "base",
         "text": "if ~isfield(b, 'base') || ~isstruct(b.base) || ~isfield(b.base, name); return; end"
        },
        {
-        "line": 2005,
+        "line": 2255,
         "spelling": "base",
         "text": "if ~isstruct(body) || ~isfield(body, 'base') || ~isstruct(body.base)"
        }
@@ -810,17 +810,17 @@
       "site_count": 3,
       "sites": [
        {
-        "line": 956,
+        "line": 985,
         "spelling": "daqmetadatareader_epochdata_ingested",
         "text": "if ~strcmp(rows(k).class_name, 'daqmetadatareader_epochdata_ingested')"
        },
        {
-        "line": 987,
+        "line": 1016,
         "spelling": "daqmetadatareader_epochdata_ingested",
         "text": "'daqmetadatareader_epochdata_ingested');"
        },
        {
-        "line": 1525,
+        "line": 1726,
         "spelling": "daqmetadatareader_epochdata_ingested",
         "text": "'daqmetadatareader_epochdata_ingested', ..."
        }
@@ -1975,27 +1975,37 @@
      {
       "pass": "epochMint",
       "path": "src/did/+did2/+convert/epochMint.m",
-      "site_count": 4,
+      "site_count": 6,
       "sites": [
        {
-        "line": 715,
+        "line": 744,
         "spelling": "epochid",
         "text": "es = valueForSource(epochValues{k}, epochSources{k}, 'epochid');"
        },
        {
-        "line": 875,
+        "line": 904,
         "spelling": "epochid",
         "text": "&& isfield(b.method_parameters.other, 'epochid')"
        },
        {
-        "line": 876,
+        "line": 905,
         "spelling": "epochid",
         "text": "b.method_parameters.other = rmfield(b.method_parameters.other, 'epochid');"
        },
        {
-        "line": 963,
+        "line": 992,
         "spelling": "epochid",
         "text": "es = valueForSource(epochValues{k}, epochSources{k}, 'epochid');"
+       },
+       {
+        "line": 1962,
+        "spelling": "epochid",
+        "text": "es = charField(node.(trName{1}), {'epoch_id', 'epochId', 'epochID', 'epochid'});"
+       },
+       {
+        "line": 1967,
+        "spelling": "epochid",
+        "text": "es = charField(node, {'epoch_id', 'epochId', 'epochID', 'epochid'});"
        }
       ]
      }
@@ -4162,7 +4172,7 @@
       "site_count": 1,
       "sites": [
        {
-        "line": 576,
+        "line": 605,
         "spelling": "session",
         "text": "if ~strcmp(rows(k).class_name, 'session'); continue; end"
        }
@@ -5341,17 +5351,17 @@
       "site_count": 3,
       "sites": [
        {
-        "line": 1131,
+        "line": 1161,
         "spelling": "stimulus_response_scalar",
         "text": "if ~strcmp(rows(k).class_name, 'stimulus_response_scalar'); continue; end"
        },
        {
-        "line": 1154,
+        "line": 1184,
         "spelling": "stimulus_response_scalar",
         "text": "migrator = armingMigratorFor(armingMigrators, 'stimulus_response_scalar');"
        },
        {
-        "line": 1527,
+        "line": 1728,
         "spelling": "stimulus_response_scalar",
         "text": "'stimulus_response_scalar', ..."
        }
@@ -5899,7 +5909,35 @@
   },
   "syncrule_mapping": {
    "consumers": {
-    "convert_package_mentions": [],
+    "convert_package_mentions": [
+     {
+      "pass": "epochMint",
+      "path": "src/did/+did2/+convert/epochMint.m",
+      "site_count": 4,
+      "sites": [
+       {
+        "line": 1300,
+        "spelling": "syncrule_mapping",
+        "text": "if ~strcmp(rows(k).class_name, 'syncrule_mapping'); continue; end"
+       },
+       {
+        "line": 1321,
+        "spelling": "syncrule_mapping",
+        "text": "migrator = armingMigratorFor(armingMigrators, 'syncrule_mapping');"
+       },
+       {
+        "line": 1730,
+        "spelling": "syncrule_mapping",
+        "text": "'syncrule_mapping', ..."
+       },
+       {
+        "line": 1937,
+        "spelling": "syncrule_mapping",
+        "text": "|| ~isfield(body, 'syncrule_mapping') || ~isstruct(body.syncrule_mapping) ..."
+       }
+      ]
+     }
+    ],
     "per_class_migrators": [
      {
       "package": "migrators_j",
