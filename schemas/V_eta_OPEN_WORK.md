@@ -3136,6 +3136,35 @@ leaf + the `relative_reference`/per-trial `sampled_body`, and RETIRE the superse
 assembler rather than extend it. Evidence basis: `+migrators_j/stimulus_presentation.m`
 (the four-blocker header + the "one more thing the second pass must not do" section).
 
+**CORRECTION 2026-08-20 (same day) — THE PARAGRAPH ABOVE IS BASED ON STALE STATE;
+MOST OF #3 IS ALREADY BUILT.** A design pass verified against the branch that the
+premise ("the superseded assembler still runs; 173/175 fold to the superseded shape")
+is PRE-2026-08-17. On this branch, positive evidence from the code:
+
+        $ grep -n stimulusPresentationToTimedSequence NDI-matlab/src/ndi/+ndi/+migrate/local.m
+        2154:  ndi.migrate.internal.stimulusPresentationToTimedSequence( ...
+        $ grep -c '"abstract"' DID-schema/schemas/V_eta/draft/timed_sequence.json \
+              DID-schema/schemas/V_eta/stable/visual_grating.json
+        0
+        0
+
+  The second pass calls the NEW `stimulusPresentationToTimedSequence` (the superseded
+  `stimulusPresentationToManipulation` is gated off, retained only for the
+  presentation-less single-grating case); `timed_sequence` and `visual_grating` are
+  ALREADY un-abstracted (team decision 2026-08-17, `build_v_eta.py`). So the Soph
+  presentations that dropped out of the survivor census almost certainly folded to the
+  CORRECT `timed_sequence_manipulation`, not the superseded shape. The "take it on now"
+  call is therefore largely MOOT. WHAT ACTUALLY REMAINS: (a) DONE 2026-08-20 — the three
+  decompose tests were wired into `test-eta-migrate.yml` (they had never run on a
+  claude/** push, so the two-emitter exclusivity guard was unchecked); (b) re-measure
+  Soph post-decompose to confirm 0 orphans; (c) the ONE genuine open build — the
+  multi-subject `storage_mode: reference` case has no emitter (the code takes `animals{1}`
+  only, always `inline`), which is team-gated; (d) two schema/dedup questions (the
+  `presented_id` family `_#` marker; confirming the dedup key is `isequal` on the emitted
+  grating value, not a hash of raw parameters). This correction points the direction this
+  file is NOT known for — LESS to build than claimed — and is recorded so no agent
+  re-builds the 2026-08-17 work.
+
 Build order chosen: (1) `syncrule_mapping` post-`epochMint` anchoring (decision-free,
 smallest), (2) #2 `epochprobemap`→edges then the `epochfiles_ingested` fold, (3) #3 the
 stimulus decompose. Each lands with fixture tests then a full-corpus verify.
