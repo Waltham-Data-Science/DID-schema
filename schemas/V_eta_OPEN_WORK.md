@@ -1240,6 +1240,73 @@ false "defect" report on 2026-08-08.
 
 ---
 
+## MEASURED 2026-08-20 — the FIRST full-corpus Soph Bar-2 census (e2e run #7, `02698b58c`)
+
+The Soph NDI end-to-end test (`ndi.unittest.migrate.TestMigrateLocalEtaSoph`) ran over the
+WHOLE corpus for the first time — every prior Soph e2e either timed out (OOM at 2h41m in the
+shared job; the standalone run hit the 350-min cap twice) or was cut to a 25000-document
+SUBSET to localise the migration sink. The three perf fixes (`buildV1Sqlite` one-transaction
+build, `bodyResolver` O(n²)→O(n), and the DID-matlab `sqlitedb.add` per-document→per-batch
+commit) brought the full run in at **2h43m**, well under the 6-hour runner cap. Job
+`96442236315` conclusion **success**; `5 Passed, 0 Failed, 0 Incomplete; 9771.9 s`.
+
+**THE SUBSET UNDER-REPORTED BAR-2, AND THAT IS THE FINDING.** The 25k subset (first 25000
+documents) showed survivors `params_basic 3708 / subject 970 / session 14 / stimulus_presentation 1`
+and was reported as "Soph at Bar-2 modulo the signed #61 deferral". The full corpus contains
+`epochfiles_ingested` and `syncrule_mapping` documents that sit BEYOND the first 25000, so the
+subset could not see them. **The corpora are a sample and so is a subset** — the same standing
+rule, one level in.
+
+Both census stages quoted verbatim from the run log; nothing transcribed from memory.
+
+```
+PASS 1 — unconverted (migrator returned its input)
+  DENOMINATOR: 101427 read, 212954 migrated, 0 quarantined; fragments 0
+  unconverted: 21781, by class (7):
+    11167  stimulus_response_scalar_parameters_basic
+     9851  stimulus_response_scalar
+      349  epochfiles_ingested
+      175  stimulus_presentation
+      175  daqmetadatareader_epochdata_ingested
+       32  syncgraph
+       32  subject
+
+BAR-2 FINAL-OUTPUT V1 SURVIVOR CENSUS (after the batch post-pass chain)
+  DENOMINATOR: 101427 source doc(s), 212954 destination doc(s)
+  v1 source class names still labelling a destination document: 6
+    11167  stimulus_response_scalar_parameters_basic  SIGNED verify-before-delete deferral (#61)
+     3169  subject                 persist (v1 class IS the V_eta class)
+      349  epochfiles_ingested     UNFOLDED — a Bar-2 gap
+      348  syncrule_mapping        UNFOLDED — a Bar-2 gap
+       33  session                 persist (v1 class IS the V_eta class)
+        2  stimulus_presentation   UNFOLDED — a Bar-2 gap
+
+READ-BACK (one of Soph's 33 sessions): daqsystem_load 3, getelements 27
+```
+
+**THE SECOND PASSES WORKED.** `stimulus_response_scalar` (9851), `daqmetadatareader_epochdata_ingested`
+(175) and `syncgraph` (32) are all present in the pass-1 unconverted list and ABSENT from the
+final survivor census — `resolveResponseParameters`, the metadata-reader arming in `epochMint`,
+and `resolveClockAlignment` consumed them. The test PASSED because its survivor census is
+report-only; the hard gates it asserts (0 quarantine, session opens on `did2sqlite`, calc
+id-preservation, read-back) are all green.
+
+**WHERE SOPH STANDS, and it decides nothing — Operating Rule 4.** Bar-1 is achieved on the
+full corpus (0 quarantine, 0 dangling, read-back works). Bar-2 is NOT fully reached: beyond
+the signed #61 deferral and the two persist classes, THREE unfolded survivor classes remain,
+each mapping to a tracked, still-pending build:
+
+| survivor | count | tracked as |
+|---|---|---|
+| `epochfiles_ingested` | 349 | #60 epoch family (renamed `ingestion_manifest`; tombstone leaves when the fold lands + a corpus proves it) |
+| `syncrule_mapping` | 348 | #57/#60 — the clock-alignment row already records this as "STILL OPEN, gated on #60's epoch pass" |
+| `stimulus_presentation` | 2 | #31 stimulus model (#43 held for #31) |
+
+So the subset's "Bar-2 modulo the signed deferral" was optimistic by three tracked items.
+None is a new discovery; all three are already on the build queue. The first full-corpus
+verify the clock-alignment row (#57) asked for now EXISTS, and it confirms `syncrule_mapping`
+must stay until #60's epoch pass lands.
+
 ## MEASURED 2026-08-10 — corpus run 31415147934 (`02854c7`), census digest job 93561591223
 
 Two questions that three builds were each blocked on are now answered from the same run.
