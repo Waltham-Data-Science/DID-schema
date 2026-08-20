@@ -215,15 +215,20 @@
      {
       "pass": "epochMint",
       "path": "src/did/+did2/+convert/epochMint.m",
-      "site_count": 2,
+      "site_count": 3,
       "sites": [
        {
-        "line": 2050,
+        "line": 2393,
+        "spelling": "base",
+        "text": "if ~isstruct(body) || ~isfield(body, 'base') || ~isstruct(body.base) ..."
+       },
+       {
+        "line": 2462,
         "spelling": "base",
         "text": "if ~isfield(b, 'base') || ~isstruct(b.base) || ~isfield(b.base, name); return; end"
        },
        {
-        "line": 2255,
+        "line": 2667,
         "spelling": "base",
         "text": "if ~isstruct(body) || ~isfield(body, 'base') || ~isstruct(body.base)"
        }
@@ -810,17 +815,17 @@
       "site_count": 3,
       "sites": [
        {
-        "line": 985,
+        "line": 1049,
         "spelling": "daqmetadatareader_epochdata_ingested",
         "text": "if ~strcmp(rows(k).class_name, 'daqmetadatareader_epochdata_ingested')"
        },
        {
-        "line": 1016,
+        "line": 1080,
         "spelling": "daqmetadatareader_epochdata_ingested",
         "text": "'daqmetadatareader_epochdata_ingested');"
        },
        {
-        "line": 1726,
+        "line": 1790,
         "spelling": "daqmetadatareader_epochdata_ingested",
         "text": "'daqmetadatareader_epochdata_ingested', ..."
        }
@@ -1893,7 +1898,25 @@
   },
   "epochfiles_ingested": {
    "consumers": {
-    "convert_package_mentions": [],
+    "convert_package_mentions": [
+     {
+      "pass": "epochMint",
+      "path": "src/did/+did2/+convert/epochMint.m",
+      "site_count": 2,
+      "sites": [
+       {
+        "line": 2237,
+        "spelling": "epochfiles_ingested",
+        "text": "if ~strcmp(rows(k).class_name, 'epochfiles_ingested'); continue; end"
+       },
+       {
+        "line": 2329,
+        "spelling": "epochfiles_ingested",
+        "text": "if ~isstruct(body) || ~isfield(body, 'epochfiles_ingested') ..."
+       }
+      ]
+     }
+    ],
     "per_class_migrators": [
      {
       "package": "migrators_j",
@@ -1978,32 +2001,32 @@
       "site_count": 6,
       "sites": [
        {
-        "line": 744,
+        "line": 808,
         "spelling": "epochid",
         "text": "es = valueForSource(epochValues{k}, epochSources{k}, 'epochid');"
        },
        {
-        "line": 904,
+        "line": 968,
         "spelling": "epochid",
         "text": "&& isfield(b.method_parameters.other, 'epochid')"
        },
        {
-        "line": 905,
+        "line": 969,
         "spelling": "epochid",
         "text": "b.method_parameters.other = rmfield(b.method_parameters.other, 'epochid');"
        },
        {
-        "line": 992,
+        "line": 1056,
         "spelling": "epochid",
         "text": "es = valueForSource(epochValues{k}, epochSources{k}, 'epochid');"
        },
        {
-        "line": 1962,
+        "line": 2026,
         "spelling": "epochid",
         "text": "es = charField(node.(trName{1}), {'epoch_id', 'epochId', 'epochID', 'epochid'});"
        },
        {
-        "line": 1967,
+        "line": 2031,
         "spelling": "epochid",
         "text": "es = charField(node, {'epoch_id', 'epochId', 'epochID', 'epochid'});"
        }
@@ -4172,7 +4195,7 @@
       "site_count": 1,
       "sites": [
        {
-        "line": 605,
+        "line": 669,
         "spelling": "session",
         "text": "if ~strcmp(rows(k).class_name, 'session'); continue; end"
        }
@@ -5351,17 +5374,17 @@
       "site_count": 3,
       "sites": [
        {
-        "line": 1161,
+        "line": 1225,
         "spelling": "stimulus_response_scalar",
         "text": "if ~strcmp(rows(k).class_name, 'stimulus_response_scalar'); continue; end"
        },
        {
-        "line": 1184,
+        "line": 1248,
         "spelling": "stimulus_response_scalar",
         "text": "migrator = armingMigratorFor(armingMigrators, 'stimulus_response_scalar');"
        },
        {
-        "line": 1728,
+        "line": 1792,
         "spelling": "stimulus_response_scalar",
         "text": "'stimulus_response_scalar', ..."
        }
@@ -5645,6 +5668,23 @@
    "consumers": {
     "convert_package_mentions": [
      {
+      "pass": "epochMint",
+      "path": "src/did/+did2/+convert/epochMint.m",
+      "site_count": 2,
+      "sites": [
+       {
+        "line": 2184,
+        "spelling": "subject",
+        "text": "if strcmp(cn, 'subject') && isstruct(bodies{k}) ..."
+       },
+       {
+        "line": 2185,
+        "spelling": "subject",
+        "text": "&& isfield(bodies{k}, 'subject') && isstruct(bodies{k}.subject)"
+       }
+      ]
+     },
+     {
       "pass": "resolveLawnPlateSubjects",
       "path": "src/did/+did2/+convert/resolveLawnPlateSubjects.m",
       "site_count": 3,
@@ -5916,22 +5956,22 @@
       "site_count": 4,
       "sites": [
        {
-        "line": 1300,
+        "line": 1364,
         "spelling": "syncrule_mapping",
         "text": "if ~strcmp(rows(k).class_name, 'syncrule_mapping'); continue; end"
        },
        {
-        "line": 1321,
+        "line": 1385,
         "spelling": "syncrule_mapping",
         "text": "migrator = armingMigratorFor(armingMigrators, 'syncrule_mapping');"
        },
        {
-        "line": 1730,
+        "line": 1794,
         "spelling": "syncrule_mapping",
         "text": "'syncrule_mapping', ..."
        },
        {
-        "line": 1937,
+        "line": 2001,
         "spelling": "syncrule_mapping",
         "text": "|| ~isfield(body, 'syncrule_mapping') || ~isstruct(body.syncrule_mapping) ..."
        }
