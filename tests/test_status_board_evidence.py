@@ -765,8 +765,19 @@ def test_session_relative_reference_mints_are_counted_in_full():
     # count field and the membership from whatever was listed.
     assert row["n_emitted_class_refs"] >= 9, (
         f'{row["n_emitted_class_refs"]} mint site(s); at least 9 exist -- three `document_class = struct` and six through a local classBlock helper. A smaller number is the undercount returning.')
-    assert row["n_named_refs"] == 0, (
-        f'{row["n_named_refs"]} site(s) are still filed as bare mentions: {row["named_refs"]}. Every occurrence of this class in the two packages is a mint, a field write or a comment.')
+    # The #2 epochprobemap measurement (DID-matlab epochMint.m, report-only) READS
+    # the two session-anchor class names to classify each recording observation as
+    # session- vs epoch-scoped -- a legitimate READ, not a mint, so it is the one
+    # kind of occurrence that is neither a mint, a field write nor a comment. It is
+    # allow-listed by FILE (not line, which drifts). Any named ref OUTSIDE that
+    # instrument is a mint miscategorised as a bare mention -- the undercount this
+    # guard exists to catch -- and still fails.
+    unexpected = [r for r in row["named_refs"] if "epochMint.m" not in r]
+    assert not unexpected and row["n_named_refs"] == len(row["named_refs"]), (
+        f'{row["n_named_refs"]} bare mention(s), {len(unexpected)} outside the '
+        f'epochMint probemap-measurement read: {row["named_refs"]}. Every occurrence '
+        'of this class in the two packages must be a mint, a field write, a comment, '
+        'or that one documented classification read.')
 
 
 @pytest.mark.skipif(_did_root() is None, reason="DID-matlab not checked out")
