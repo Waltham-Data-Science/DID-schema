@@ -322,11 +322,14 @@ class TestTheCommittedLedger(unittest.TestCase):
         self.assertTrue(self.bp["measured"], self.bp["why"])
         self.assertEqual(self.bp["missing"], [])
         self.assertEqual(self.bp["invalid"], [])
-        # 10, not 9: resolveClockAlignment (the #57 syncgraph -> clock_alignment_
-        # policy batch pass) joined the chain 2026-08-18. It credits no new
-        # ledger rung (syncgraph is a passthrough class), so the row pins below
-        # are unchanged -- only the chain length moved.
-        self.assertEqual(self.bp["chain_size"], 10)
+        # 11, not 10: resolveEpochProbemap (the #66 inc-1 epochprobemap
+        # decomposition, BATCH-PASS-CONSUMES: epochfiles_ingested) joined the
+        # chain 2026-08-21, after resolveClockAlignment (#57 syncgraph ->
+        # clock_alignment_policy) took it 9 -> 10 on 2026-08-18. Like that pass,
+        # it credits no new ledger rung -- epochfiles_ingested already has a
+        # per-document migrator crediting rung 1 -- so the row pins below are
+        # unchanged and only the chain length moved.
+        self.assertEqual(self.bp["chain_size"], 11)
 
     def test_the_rows_this_channel_moved_are_pinned(self):
         # PINNED BY NAME. Three shapes, three rows, and each is one of the
