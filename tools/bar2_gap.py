@@ -45,9 +45,9 @@ THE TOOL DECIDES NOTHING AND WRITES NO SIGNATURE. It reads the signed record and
 reports. It prints its denominator first (Operating Rule 5).
 """
 from __future__ import annotations
+
 import argparse
 import json
-import os
 import sys
 from pathlib import Path
 
@@ -115,21 +115,21 @@ def verdict_for(v1_class, row):
     tsrc = row.get("target_source", "unknown")
     if r3 == "no":
         return ("SUPERSEDED",
-                f"ladder rung 3 = no: the migrator emits {targets or 'nothing'}, "
-                f"not the decided {decided}")
+                (f"ladder rung 3 = no: the migrator emits {targets or 'nothing'}, "
+                 f"not the decided {decided}"))
     # rung 3 yes  -> emits the decided target set.
     if r3 == "yes":
         return ("AT_DECIDED", f"emits decided target(s) {decided or targets}")
     # rung 3 not-measured / n/a: no AUTHORED gap. Two cases.
     if targets and tsrc in ("emitted", "passthrough", "decided", "self"):
         return ("AT_DECIDED",
-                f"no authored gap; migrator emits {targets} "
-                f"(target_source={tsrc}, rung3={r3})")
+                (f"no authored gap; migrator emits {targets} "
+                 f"(target_source={tsrc}, rung3={r3})"))
     if disp == "persist" and not decided:
         return ("AT_DECIDED", f"persist 1:1 (target_source={tsrc})")
     return ("UNDECIDED",
-            f"no decided shape recorded (targets={targets or '-'}, "
-            f"target_source={tsrc}, disposition={disp}, rung3={r3})")
+            (f"no decided shape recorded (targets={targets or '-'}, "
+             f"target_source={tsrc}, disposition={disp}, rung3={r3})"))
 
 
 AT = "AT_DECIDED"
