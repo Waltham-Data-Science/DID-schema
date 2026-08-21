@@ -60,10 +60,23 @@ def test_persist_self_is_at_decided():
     assert v == "AT_DECIDED"
 
 
-def test_bridge_overlay_fires():
-    # even with a rung-3 'yes' row, the bridge overlay wins: raw v1 preserved.
-    v, _ = B.verdict_for("epochfiles_ingested", _row("yes"))
+def test_bridge_overlay_mechanism(monkeypatch):
+    # the BRIDGE overlay wins even over a rung-3 'yes' row (raw v1 preserved).
+    # HUSK_BRIDGE is empty as of 2026-08-21 (epochfiles_ingested left it when the
+    # stimulator rows started decomposing), so exercise the mechanism through a
+    # synthetic entry rather than a real class.
+    monkeypatch.setitem(B.HUSK_BRIDGE, "some_bridge_class",
+                        {"kind": "BRIDGE", "why": "x", "counter": "y",
+                         "clears_when": "z"})
+    v, _ = B.verdict_for("some_bridge_class", _row("yes"))
     assert v == "BRIDGE"
+
+
+def test_epochfiles_ingested_is_no_longer_a_bridge():
+    # increment 3 decomposes stimulator rows -> a rung-3 'yes' now reads through.
+    v, _ = B.verdict_for("epochfiles_ingested",
+                         _row("yes", decided=["ingestion_manifest"]))
+    assert v == "AT_DECIDED"
 
 
 def test_overlay_matches_by_normalised_name():

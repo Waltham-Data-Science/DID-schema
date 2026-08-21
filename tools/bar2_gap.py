@@ -69,16 +69,20 @@ HUSK_BRIDGE = {
     # proved it -- the ledger reads the class at STAGE 4 (corpus-proven at
     # method_parameters) and it is in the PROVEN list. It is no longer a husk;
     # the ledger's batch-pass rung-3 credit now carries it to AT_DECIDED.
-    "epochfiles_ingested": {
-        "kind": "BRIDGE",
-        "why": "the serialized epochprobemap is preserved verbatim on "
-               "ingestion_manifest because its stimulator/imaging rows do not "
-               "decompose (only recording rows become observations).",
-        "counter": "resolveEpochProbemap: `<N> stimulator` rows -> 0 observations "
-                   "(Soph run 49: 1225 of 1399).",
-        "clears_when": "the stimulus model (#31/#43) + image model (#24) "
-                       "decompose the remaining rows and the string retires.",
-    },
+    # epochfiles_ingested WAS here (the epochprobemap string preserved on
+    # ingestion_manifest while stimulator/imaging rows did not decompose).
+    # RETIRED from the overlay 2026-08-21: resolveEpochProbemap increment 3
+    # (TEAM-SIGNED) now decomposes STIMULATOR rows into a `term_manipulation`
+    # each (T3 direction, mirror of the recording observation), so the emitted
+    # set gains term_manipulation and the ledger's batch-pass rung-3 credit
+    # carries the class to AT_DECIDED. Soph run 52 measured 1225 stimulator + 0
+    # image-deferred rows, so on Soph every probemap row now has a typed home
+    # and nothing is bridged. RESIDUAL, NOT a Soph gap: an epochprobemap IMAGING
+    # row still rides the string (localModality returns 'image_deferred' -> no
+    # emission -- the image `value` cell cannot be filled from a probemap row);
+    # that bites only a dataset whose ingested epochs carry imaging probes, and
+    # none of the six corpora do (Soph 0, the census). It rides with the image
+    # model (#24) if such a dataset appears.
 }
 
 

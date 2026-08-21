@@ -746,9 +746,45 @@ EXEC_ENV = field(
 # RequiredDependencies gate keys on mustBeNonEmpty and will NOT catch it. That
 # is the invented-empty-edge shape one link along, and tightening it is the
 # thing to do before anyone argues the direct edge is needed after all.
-si = doc("subject_interaction", ["subject_statement"], abstract=True, version="3.0.0",
-         deps=[TIME_REF_REQ, INSTRUMENT, SOFTWARE_ID],
-         fields=[METHOD, METHOD_PARAMS, SAMPLE_TIME, EXEC_ENV])
+# --- #66 increment 3: the DEVICE HALF of v1's `devicestring`, HOISTED to the
+# INTERACTION (was on subject_observation only). Team-signed 2026-08-21: a
+# stimulator probemap row decomposes into a `term_manipulation` mirroring the
+# recording observation, and it carries the SAME device wiring (which channels
+# the stimulator was driven on). Wiring is a property of the DAQ-mediated
+# INTERACTION -- observation OR manipulation -- not of the observation alone, so
+# `acquisition_system_id` + `channels` move UP to subject_interaction. Both stay
+# OPTIONAL, so every other interaction (a computed score, a hand length, a dose)
+# is unaffected: absent-is-valid. Moving them (rather than declaring on both
+# sibling leaves) keeps ONE declaration -- a redeclaration would be silent (#69).
+ACQ_SYSTEM_ID = dep(
+    "acquisition_system_id", "acquisition_system",
+    "The acquisition rig this interaction used -- the DEVICE HALF of v1's "
+    "`devicestring` (the name before the ':'), resolved against "
+    "`acquisition_system.base.name`. OPTIONAL: present only on an interaction "
+    "decomposed from an ingested epoch's `epochprobemap` "
+    "(did2.convert.resolveEpochProbemap) -- a recording observation or a "
+    "stimulator manipulation; omitted when the device name resolves to no "
+    "acquisition_system in the session, never emitted empty.",
+    non_empty=False)
+CHANNELS = field(
+    "channels", "structure",
+    "The CHANNEL HALF of v1's `devicestring` (after the ':'), one entry per "
+    "channel-TYPE GROUP as the source stores them ('ai27-28,45,88;di1-4' -> "
+    "[{type ai, numbers [27 28 45 88]}, {type di, numbers [1 2 3 4]}]). `type` "
+    "is scalar per entry (a group is one type); `numbers` is the list. Grouped, "
+    "not flat parallel arrays -- the flat form repeats the type N times and "
+    "discards the grouping. OPTIONAL, on interactions decomposed from an "
+    "ingested probemap: recording observations (record channels) and stimulator "
+    "manipulations (output channels).",
+    non_empty=False, scalar=False, blank=[], sub_fields=[
+        subfield("type", "ontology_term",
+                 "ai | ao | di | do (daqsystemstring.m:53-56)."),
+        subfield("numbers", "matrix", "That group's channel numbers.",
+                 scalar=False),
+    ])
+si = doc("subject_interaction", ["subject_statement"], abstract=True, version="3.1.0",
+         deps=[TIME_REF_REQ, INSTRUMENT, SOFTWARE_ID, ACQ_SYSTEM_ID],
+         fields=[METHOD, METHOD_PARAMS, SAMPLE_TIME, EXEC_ENV, CHANNELS])
 write("stable", "subject_interaction", si)
 
 # derived_from: computation provenance on OBSERVATIONS (D-C analysis tier). A
@@ -773,50 +809,11 @@ DERIVED_FROM = dep(
 so = load(os.path.join(VETA, "stable", "subject_observation.json"))
 so.setdefault("depends_on", []).append(DERIVED_FROM)
 
-# --- #66 increment 2: the DEVICE HALF of v1's `devicestring` ---------------
-# SIGNED 2026-08-08 (TEAM-SIGN-OFF [epoch]) -- the epoch plan's "What B looks
-# like" mounts the device half ON THE OBSERVATION:
-#
-#     <modality>_observation
-#        depends_on: acquisition_system_id -> intan1   <- device half
-#        channels    "ai1-4"                           <- channel half
-#
-# The channel half is NOT the flat char the sketch draws; it is the STRUCTURED
-# `channels` field the team already designed on the draft `acquisition_channels`
-# class -- one entry per channel-TYPE GROUP ({type, numbers}), because v1's
-# devicestring stores them grouped ('intan1:ai27-28,45,88;di1-4') and the flat
-# form "repeats the type N times and discards the grouping the source stores"
-# (acquisition_channels.json's own words). Built here with the SAME field/subfield
-# shape (acquisition_channels is minted later in this file, ~line 2978, so it
-# cannot be read yet -- the shape is what is shared, not the object). A test pins
-# the two `channels` field definitions identical so they cannot drift.
-#
-# Both are OPTIONAL: only a recording observation decomposed from an ingested
-# epoch's probemap carries a device string, so absent-is-valid for every other
-# observation (a computed score, a length from distance_metadata, ...).
-so.setdefault("depends_on", []).append(dep(
-    "acquisition_system_id", "acquisition_system",
-    "The acquisition rig this observation was recorded on -- the DEVICE HALF of "
-    "v1's `devicestring` (the name before the ':'), resolved against "
-    "`acquisition_system.base.name`. OPTIONAL: present only on a recording "
-    "observation decomposed from an ingested epoch's `epochprobemap` "
-    "(did2.convert.resolveEpochProbemap); omitted when the device name resolves "
-    "to no acquisition_system in the session, never emitted empty.",
-    non_empty=False))
-so.setdefault("fields", []).append(field(
-    "channels", "structure",
-    "The CHANNEL HALF of v1's `devicestring` (after the ':'), one entry per "
-    "channel-TYPE GROUP as the source stores them ('ai27-28,45,88;di1-4' -> "
-    "[{type ai, numbers [27 28 45 88]}, {type di, numbers [1 2 3 4]}]). `type` "
-    "is scalar per entry (a group is one type); `numbers` is the list. Grouped, "
-    "not flat parallel arrays -- the flat form repeats the type N times and "
-    "discards the grouping. OPTIONAL, on recording observations only.",
-    non_empty=False, scalar=False, blank=[], sub_fields=[
-        subfield("type", "ontology_term",
-                 "ai | ao | di | do (daqsystemstring.m:53-56)."),
-        subfield("numbers", "matrix", "That group's channel numbers.",
-                 scalar=False),
-    ]))
+# NOTE: the device half (`acquisition_system_id` + `channels`) USED to be added
+# here on subject_observation. As of #66 increment 3 (2026-08-21) it is HOISTED
+# to subject_interaction above, so both a recording observation AND a stimulator
+# manipulation inherit it. subject_observation still inherits it unchanged --
+# absent-is-valid on every observation that is not probemap-decomposed.
 write("stable", "subject_observation", so)
 
 # subject_calculation: the COMPUTED statement direction (Lepsky et al., the

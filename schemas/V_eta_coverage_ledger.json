@@ -50,6 +50,7 @@
               "time_observation",
               "acceleration_observation",
               "temperature_observation",
+              "term_manipulation",
               "ingestion_manifest",
               "relative_reference"
             ]
@@ -3943,6 +3944,7 @@
             "time_observation",
             "acceleration_observation",
             "temperature_observation",
+            "term_manipulation",
             "ingestion_manifest",
             "relative_reference"
           ]
@@ -4008,7 +4010,7 @@
             "stage": 3,
             "name": "the migrator emits THE DECIDED targets",
             "state": "yes",
-            "why": "the migrator named after this class does not emit the decided target(s), but `build_state.batch_pass_emits` records the DID BATCH POST-PASS(es) `did2.convert.resolveEpochProbemap` -> `acceleration_observation`, `current_observation`, `ingestion_manifest`, `relative_reference`, `temperature_observation`, `time_observation`, `voltage_observation` DECLARING the emission. A declared emission is a fact about code the pass's own header states; it is NOT a corpus proof"
+            "why": "the migrator named after this class does not emit the decided target(s), but `build_state.batch_pass_emits` records the DID BATCH POST-PASS(es) `did2.convert.resolveEpochProbemap` -> `acceleration_observation`, `current_observation`, `ingestion_manifest`, `relative_reference`, `temperature_observation`, `term_manipulation`, `time_observation`, `voltage_observation` DECLARING the emission. A declared emission is a fact about code the pass's own header states; it is NOT a corpus proof"
           },
           {
             "stage": 4,

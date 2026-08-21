@@ -54,12 +54,14 @@ META = _load(os.path.join(VETA, "stable", "did_schema_meta.json"))
 
 
 def test_channels_field_identical_on_subject_observation_and_acquisition_channels():
-    """#66 increment 2 reuses acquisition_channels' `channels` shape on
-    subject_observation (built with the same field/subfield helpers because the
-    draft class is minted later in build_v_eta and cannot be read at that point).
-    Pin the two definitions identical -- barring documentation, which is
-    context-specific -- so they cannot drift into two channel encodings."""
-    so = _load(os.path.join(VETA, "stable", "subject_observation.json"))
+    """#66 increment 2 reuses acquisition_channels' `channels` shape (built with
+    the same field/subfield helpers because the draft class is minted later in
+    build_v_eta and cannot be read at that point). Increment 3 (2026-08-21)
+    HOISTED it from subject_observation to subject_interaction so a stimulator
+    manipulation carries the same wiring; read it there. Pin the two definitions
+    identical -- barring documentation, which is context-specific -- so they
+    cannot drift into two channel encodings."""
+    so = _load(os.path.join(VETA, "stable", "subject_interaction.json"))
     ac = _load(os.path.join(VETA, "draft", "acquisition_channels.json"))
 
     def channels(d):

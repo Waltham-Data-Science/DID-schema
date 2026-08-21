@@ -1,7 +1,7 @@
 {
     "document_class": {
         "class_name": "subject_interaction",
-        "class_version": "3.0.0",
+        "class_version": "3.1.0",
         "superclasses": [
             {
                 "class_name": "subject_statement"
@@ -31,6 +31,12 @@
             "mustBeNonEmpty": false,
             "documentation": "Optional: the software that produced this value, modeled as a `software` entity (name + version + citation id). The agent for a computation; distinct from instrument_id (a measuring device) and from derived_from (the input data). Empty for hand/DAQ measurements; populated on calculations, optional on computed observations. Supersedes the v1 `app` block.",
             "must_refer_to_document_class": "software"
+        },
+        {
+            "name": "acquisition_system_id",
+            "mustBeNonEmpty": false,
+            "documentation": "The acquisition rig this interaction used -- the DEVICE HALF of v1's `devicestring` (the name before the ':'), resolved against `acquisition_system.base.name`. OPTIONAL: present only on an interaction decomposed from an ingested epoch's `epochprobemap` (did2.convert.resolveEpochProbemap) -- a recording observation or a stimulator manipulation; omitted when the device name resolves to no acquisition_system in the session, never emitted empty.",
+            "must_refer_to_document_class": "acquisition_system"
         },
         {
             "name": "method_parameters_id",
@@ -297,6 +303,81 @@
                     "queryable": true,
                     "ontology": null,
                     "documentation": "Interpreter version.",
+                    "constraints": {}
+                }
+            ]
+        },
+        {
+            "name": "channels",
+            "type": "structure",
+            "blank_value": [],
+            "default_value": [],
+            "mustBeNonEmpty": false,
+            "mustBeScalar": false,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "The CHANNEL HALF of v1's `devicestring` (after the ':'), one entry per channel-TYPE GROUP as the source stores them ('ai27-28,45,88;di1-4' -> [{type ai, numbers [27 28 45 88]}, {type di, numbers [1 2 3 4]}]). `type` is scalar per entry (a group is one type); `numbers` is the list. Grouped, not flat parallel arrays -- the flat form repeats the type N times and discards the grouping. OPTIONAL, on interactions decomposed from an ingested probemap: recording observations (record channels) and stimulator manipulations (output channels).",
+            "constraints": {},
+            "fields": [
+                {
+                    "name": "type",
+                    "type": "ontology_term",
+                    "blank_value": {
+                        "node": "",
+                        "name": ""
+                    },
+                    "default_value": {
+                        "node": "",
+                        "name": ""
+                    },
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "ai | ao | di | do (daqsystemstring.m:53-56).",
+                    "constraints": {},
+                    "fields": [
+                        {
+                            "name": "node",
+                            "type": "char",
+                            "blank_value": "",
+                            "default_value": "",
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "The CURIE (prefix resolved via CURIE_lookups_meta.json).",
+                            "constraints": {}
+                        },
+                        {
+                            "name": "name",
+                            "type": "char",
+                            "blank_value": "",
+                            "default_value": "",
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "The human-readable label.",
+                            "constraints": {}
+                        }
+                    ]
+                },
+                {
+                    "name": "numbers",
+                    "type": "matrix",
+                    "blank_value": [],
+                    "default_value": [],
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": false,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "That group's channel numbers.",
                     "constraints": {}
                 }
             ]
