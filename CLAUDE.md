@@ -100,6 +100,55 @@ coverage ladder, 2026-08-21:**
 migrator (#61), the ontology_table_row second pass (#53) — plus binding governance (#32)
 and the reader. NONE of the three target corpora is corpus-proven at Bar-2 today.
 
+**CORRECTED 2026-08-21 for PRED + 20211116 — TWO of the three bullets above are STALE, AND
+BOTH IN THE PESSIMISTIC DIRECTION. The run-49 bullets stay (a dated measurement is not
+overwritten); this block supersedes them for PRED and 20211116.** The run-49 reading rested
+on TWO things that have since changed, and one instrument BUG:
+
+  1. **`params_basic` husks are GONE.** `resolveResponseParameters` was armed per-document
+     (DID-matlab 71f80e0, #61): it now DELETES the source docs this run's own edge-walk
+     proves unreferenced. The coverage ladder reads `stimulus_response_scalar_parameters_basic`
+     at **stage 4 (corpus-proven at `method_parameters`)** and lists it PROVEN.
+  2. **`stimulus_presentation` is NOT emitting the superseded shape.** The signed decomposition
+     replaced the flattening pass 2026-08-17; `resolveStimulusPresentations`
+     (`local.m:723`) folds it to `timed_sequence_manipulation` in the NDI SECOND PASS. A
+     DID-only corpus report cannot see a second pass, so bar2_gap classes it `SECOND_PASS`,
+     not a failure.
+  3. **The run-49 "20211116 NOT at Bar-2 / 11 UNDECIDED" was partly a `bar2_gap` NORMALIZATION
+     BUG** (fixed DID-schema e759113): census keys are normalised (no underscores), the ledger
+     keys are not, so every multi-word class (`stimulus_response_scalar`, `element_epoch`,
+     `hartley_calc`…) fell to UNDECIDED "not in the ledger at all" while single-word names
+     (`subject`…) matched. The tuning calculators DO have a decided shape recorded
+     (`tuningcurve_calc`/`oridirtuning_calc` → `tuning_curve_calculation`,
+     `hartley_calc` → `receptive_field_calculation`); the bug hid it.
+
+  **MEASURED, run 51 (32515825475, workflow_dispatch PRED+20211116, all green), the fixed
+  `bar2_gap` printed in the Census-digest job:**
+
+        corpus 20211116 (21 v1 class(es), 1220 doc(s))
+          BAR-1: quarantine 0, orphans 0, fragments 0 -> PASS
+          BAR-2: 20/21 AT DECIDED SHAPE (DID side); 1 in NDI SECOND PASS; 0 NOT
+          ==> at Bar-2: YES on the DID side; PENDING the NDI e2e for the 2nd-pass class
+              SECOND_PASS stimulus_presentation  11 doc(s) -> timed_sequence_manipulation
+        corpus PRED (10 v1 class(es), 14 doc(s))
+          BAR-1: PASS;  BAR-2: 10/10 AT DECIDED SHAPE
+          ==> at Bar-2: YES (pending stage-4 corpus-proof)
+
+  **The 2nd-pass class IS confirmed on real full-corpus 20211116, not just fixtures.** NDI e2e
+  run **32447547585** (head 5c08d4d4 = current NDI tip) — **312 Passed, 0 Failed, 0 Incomplete**
+  — includes `TestMigrateLocalEta20211116.testEveryStimulusPresentationIsDecomposedAroundIts`
+  `PreservedId`, which asserts on the real corpus that all 11 `stimulus_presentation` become
+  11 `timed_sequence_manipulation` (ids preserved), **zero** `stimulus_presentation` survive,
+  and **zero** superseded `visual_grating_manipulation` are emitted.
+
+  **SO: PRED and 20211116 are at Bar-2** — every class at its decided final shape, Bar-1 clean,
+  the one second-pass class proven by the full-corpus e2e. The standing "stage-4 corpus-proof"
+  caveat is unchanged for the DID-side proof (PROVEN 23 | FAILED 0 | not measured 79 this run;
+  the 79 are the CORPUS-SAMPLE ceiling, not a defect). **Soph is NOT re-measured here** — its
+  run-49 bullet still stands (the 1,225-stimulator epochprobemap bridge is real and deferred to
+  the stimulus/image models; the 11,167 `params_basic` husks should now delete like 20211116's
+  273, to be confirmed by a full Soph run).
+
 ---
 
 ## START HERE — the generated state artifacts (read these FIRST, before any prose)
