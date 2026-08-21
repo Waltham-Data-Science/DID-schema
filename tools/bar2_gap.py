@@ -62,15 +62,13 @@ LEDGER = HERE.parent / "schemas" / "V_eta_coverage_ledger.json"
 # despite an emission, with the batch-pass counter that proves it. Remove an
 # entry only when its counter goes to zero on a real run (verify-before-delete).
 HUSK_BRIDGE = {
-    "stimulus_response_scalar_parameters_basic": {
-        "kind": "HUSK",
-        "why": "resolveResponseParameters inlines it into method_parameters but "
-               "NEVER deletes the source; the params_basic documents survive "
-               "unreferenced.",
-        "counter": "resolveResponseParameters: `<N> parameters documents ... "
-                   "unreferenced, 0 deleted` (Soph run 49: 11167).",
-        "clears_when": "the #61 verify-before-delete removes the folded sources.",
-    },
+    # stimulus_response_scalar_parameters_basic WAS here (folded into
+    # method_parameters, source never deleted). RETIRED from the overlay
+    # 2026-08-21: the verify-before-delete was armed per document
+    # (resolveResponseParameters), and corpus run 50 (32510814852, 20211116)
+    # proved it -- the ledger reads the class at STAGE 4 (corpus-proven at
+    # method_parameters) and it is in the PROVEN list. It is no longer a husk;
+    # the ledger's batch-pass rung-3 credit now carries it to AT_DECIDED.
     "epochfiles_ingested": {
         "kind": "BRIDGE",
         "why": "the serialized epochprobemap is preserved verbatim on "
@@ -154,12 +152,18 @@ def rung3_state(row) -> str:
 
 
 def verdict_for(v1_class, row):
-    """Return (verdict, detail) for one v1 class using the ledger row."""
-    if v1_class in HUSK_BRIDGE:
-        hb = HUSK_BRIDGE[v1_class]
+    """Return (verdict, detail) for one v1 class using the ledger row.
+
+    Matching is by NORMALISED name (lowercase, no underscores) because a corpus
+    report's `source_census.by_class` keys are normalised (`stimuluspresentation`)
+    while the ledger and the overlays use the v1 name with underscores. Matching
+    the raw strings sent every real class to UNDECIDED -- caught on run 50."""
+    nc = norm(v1_class)
+    hb = next((v for k, v in HUSK_BRIDGE.items() if norm(k) == nc), None)
+    if hb:
         return (hb["kind"], hb["why"])
-    if v1_class in SECOND_PASS:
-        sp = SECOND_PASS[v1_class]
+    sp = next((v for k, v in SECOND_PASS.items() if norm(k) == nc), None)
+    if sp:
         detail = (f"decomposed by {sp['assembler']} -> {sp['emits']}; "
                   f"NOT visible in a DID-only corpus report -- {sp['e2e']}")
         if sp["caveat"]:
@@ -237,6 +241,7 @@ def find_reports(roots):
 
 def run(roots, ledger_path=LEDGER, only=None, verbose=False):
     ledger = load_ledger(ledger_path)
+    ledger_norm = {norm(k): v for k, v in ledger.items()}
     reports = find_reports(roots)
     print(f"DENOMINATOR: {len(roots)} root(s) named, {len(reports)} corpus "
           f"report(s) found; {len(ledger)} ledger rows")
@@ -259,8 +264,10 @@ def run(roots, ledger_path=LEDGER, only=None, verbose=False):
         buckets = {AT: [], "SECOND_PASS": [], "SUPERSEDED": [],
                    "HUSK": [], "BRIDGE": [], "UNDECIDED": []}
         for c in present:
-            v, detail = verdict_for(c, ledger.get(c))
-            buckets.setdefault(v, []).append((c, census[c], detail))
+            row = ledger_norm.get(norm(c))
+            v, detail = verdict_for(c, row)
+            name = row["v1_class"] if row else c   # readable name when matched
+            buckets.setdefault(v, []).append((name, census[c], detail))
         n_at = len(buckets[AT])
         n_sp = len(buckets["SECOND_PASS"])
         n_fail = sum(len(buckets[k]) for k in FAIL_KINDS)

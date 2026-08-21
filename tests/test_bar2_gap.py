@@ -60,16 +60,18 @@ def test_persist_self_is_at_decided():
     assert v == "AT_DECIDED"
 
 
-def test_husk_overlay_fires_regardless_of_ledger():
-    # even with a rung-3 'yes' row, the husk overlay wins: source survives.
-    v, _ = B.verdict_for("stimulus_response_scalar_parameters_basic",
-                         _row("yes", decided=["method_parameters"]))
-    assert v == "HUSK"
-
-
 def test_bridge_overlay_fires():
+    # even with a rung-3 'yes' row, the bridge overlay wins: raw v1 preserved.
     v, _ = B.verdict_for("epochfiles_ingested", _row("yes"))
     assert v == "BRIDGE"
+
+
+def test_overlay_matches_by_normalised_name():
+    # a corpus report's by_class keys are normalised (no underscores); the
+    # overlay keys use underscores. They must still match. (run 50 bug.)
+    v, _ = B.verdict_for("stimuluspresentation",
+                         _row("no", decided=["timed_sequence_manipulation"]))
+    assert v == "SECOND_PASS"
 
 
 def test_second_pass_overlay_beats_a_stale_ledger():
