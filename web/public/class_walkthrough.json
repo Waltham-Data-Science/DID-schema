@@ -288,15 +288,20 @@
      {
       "pass": "resolveEpochProbemap",
       "path": "src/did/+did2/+convert/resolveEpochProbemap.m",
-      "site_count": 2,
+      "site_count": 3,
       "sites": [
        {
-        "line": 728,
+        "line": 692,
+        "spelling": "base",
+        "text": "'superclasses', struct('class_name', 'base', 'class_version', '1.0.0'), ..."
+       },
+       {
+        "line": 993,
         "spelling": "base",
         "text": "if ~isstruct(body) || ~isfield(body, 'base') || ~isstruct(body.base) ..."
        },
        {
-        "line": 745,
+        "line": 1010,
         "spelling": "base",
         "text": "if isstruct(b) && isfield(b, 'base') && isstruct(b.base) && isfield(b.base, name)"
        }
@@ -1936,20 +1941,25 @@
      {
       "pass": "resolveEpochProbemap",
       "path": "src/did/+did2/+convert/resolveEpochProbemap.m",
-      "site_count": 3,
+      "site_count": 4,
       "sites": [
        {
-        "line": 217,
+        "line": 260,
         "spelling": "epochfiles_ingested",
         "text": "if ~strcmp(classOf{k}, 'epochfiles_ingested'); continue; end"
        },
        {
-        "line": 675,
+        "line": 708,
         "spelling": "epochfiles_ingested",
         "text": "if ~isstruct(body) || ~isfield(body, 'epochfiles_ingested') ..."
        },
        {
-        "line": 694,
+        "line": 940,
+        "spelling": "epochfiles_ingested",
+        "text": "if ~isstruct(body) || ~isfield(body, 'epochfiles_ingested') ..."
+       },
+       {
+        "line": 959,
         "spelling": "epochfiles_ingested",
         "text": "if ~isstruct(body) || ~isfield(body, 'epochfiles_ingested') ..."
        }
@@ -2077,7 +2087,7 @@
       "site_count": 1,
       "sites": [
        {
-        "line": 698,
+        "line": 963,
         "spelling": "epochid",
         "text": "es = charField(body.epochfiles_ingested, {'epoch_id', 'epochId', 'epochid'});"
        }
@@ -2409,12 +2419,12 @@
       "site_count": 2,
       "sites": [
        {
-        "line": 519,
+        "line": 659,
         "spelling": "image",
         "text": "if strcmp(mixin, 'image')"
        },
        {
-        "line": 591,
+        "line": 856,
         "spelling": "image",
         "text": "entries = mkEntry('image_observation', 'image', 'image');"
        }
@@ -5759,12 +5769,12 @@
       "site_count": 2,
       "sites": [
        {
-        "line": 182,
+        "line": 212,
         "spelling": "subject",
         "text": "case 'subject'"
        },
        {
-        "line": 184,
+        "line": 214,
         "spelling": "subject",
         "text": "if isfield(b, 'subject') && isstruct(b.subject)"
        }

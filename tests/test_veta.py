@@ -51,6 +51,34 @@ def _load(path):
 
 
 META = _load(os.path.join(VETA, "stable", "did_schema_meta.json"))
+
+
+def test_channels_field_identical_on_subject_observation_and_acquisition_channels():
+    """#66 increment 2 reuses acquisition_channels' `channels` shape on
+    subject_observation (built with the same field/subfield helpers because the
+    draft class is minted later in build_v_eta and cannot be read at that point).
+    Pin the two definitions identical -- barring documentation, which is
+    context-specific -- so they cannot drift into two channel encodings."""
+    so = _load(os.path.join(VETA, "stable", "subject_observation.json"))
+    ac = _load(os.path.join(VETA, "draft", "acquisition_channels.json"))
+
+    def channels(d):
+        return next(f for f in d["fields"] if f["name"] == "channels")
+
+    def strip_docs(x):
+        if isinstance(x, dict):
+            x.pop("documentation", None)
+            for v in x.values():
+                strip_docs(v)
+        elif isinstance(x, list):
+            for v in x:
+                strip_docs(v)
+        return x
+
+    a = strip_docs(channels(so))
+    b = strip_docs(channels(ac))
+    assert a == b, ("subject_observation.channels and acquisition_channels."
+                    "channels diverged (ignoring documentation)")
 INDEX = _load(os.path.join(VETA, "index.json"))
 
 

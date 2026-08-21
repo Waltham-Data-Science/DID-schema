@@ -42,6 +42,24 @@
       ],
       "credited_rung_3": [
         {
+          "v1_class": "epochfiles_ingested",
+          "emits": {
+            "resolveEpochProbemap": [
+              "voltage_observation",
+              "current_observation",
+              "time_observation",
+              "acceleration_observation",
+              "temperature_observation",
+              "ingestion_manifest",
+              "relative_reference"
+            ]
+          },
+          "decided_targets": [
+            "ingestion_manifest"
+          ],
+          "stage_reached": 3
+        },
+        {
           "v1_class": "stimulus_response_scalar_parameters_basic",
           "emits": {
             "resolveResponseParameters": [
@@ -235,8 +253,8 @@
       "by_stage_reached": {
         "0": 10,
         "1": 63,
-        "2": 6,
-        "3": 23,
+        "2": 5,
+        "3": 24,
         "4": 0
       },
       "reached_with_an_n_a_in_the_chain": [
@@ -254,8 +272,8 @@
         },
         "3": {
           "not measured": 68,
-          "yes": 22,
-          "no": 9,
+          "yes": 23,
+          "no": 8,
           "n/a": 3
         },
         "4": {
@@ -265,7 +283,7 @@
       "per_stage_satisfied_independently": {
         "1": 92,
         "2": 31,
-        "3": 22,
+        "3": 23,
         "4": 0
       },
       "capped": {
@@ -279,8 +297,8 @@
         "highest_rung_satisfied_independently_histogram": {
           "0": 7,
           "1": 64,
-          "2": 9,
-          "3": 22,
+          "2": 8,
+          "3": 23,
           "4": 0
         },
         "genuinely_untouched": 5,
@@ -3925,13 +3943,14 @@
             "time_observation",
             "acceleration_observation",
             "temperature_observation",
+            "ingestion_manifest",
             "relative_reference"
           ]
         },
-        "batch_pass_emits_decided_targets": false,
+        "batch_pass_emits_decided_targets": true,
         "helper_consumers": [],
         "helper_emits": {},
-        "helper_emits_decided_targets": false,
+        "helper_emits_decided_targets": true,
         "emitted_by_migrator": null,
         "emitted_by_targets": [],
         "emitted_by_emits_decided_targets": false
@@ -3968,10 +3987,10 @@
       "stage": {
         "unclassifiable": false,
         "unclassifiable_why": null,
-        "reached": 2,
-        "reached_name": "its decided target classes EXIST in the build",
-        "blocked_by": 3,
-        "blocked_by_state": "no",
+        "reached": 3,
+        "reached_name": "the migrator emits THE DECIDED targets",
+        "blocked_by": 4,
+        "blocked_by_state": "not measured",
         "ladder": [
           {
             "stage": 1,
@@ -3988,8 +4007,8 @@
           {
             "stage": 3,
             "name": "the migrator emits THE DECIDED targets",
-            "state": "no",
-            "why": "the decided target(s) `ingestion_manifest` are not all among what the migrator emits today (`epochfiles_ingested`), nor among what any batch post-pass declares it emits. 1 of 54 shared helper(s) declare; 16 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jCalculation, jClockAlignmentBodies, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMethodParameters, jSampledBody, jSessionAnchor, jSoftware, jSorterOutput, jTuningFold, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
+            "state": "yes",
+            "why": "the migrator named after this class does not emit the decided target(s), but `build_state.batch_pass_emits` records the DID BATCH POST-PASS(es) `did2.convert.resolveEpochProbemap` -> `acceleration_observation`, `current_observation`, `ingestion_manifest`, `relative_reference`, `temperature_observation`, `time_observation`, `voltage_observation` DECLARING the emission. A declared emission is a fact about code the pass's own header states; it is NOT a corpus proof"
           },
           {
             "stage": 4,
@@ -3999,7 +4018,7 @@
           }
         ],
         "anomalies": [],
-        "highest_rung_satisfied_independently": 2,
+        "highest_rung_satisfied_independently": 3,
         "capped": false,
         "nothing_built": false,
         "nothing_satisfied": false,

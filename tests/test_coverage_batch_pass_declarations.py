@@ -332,14 +332,18 @@ class TestTheCommittedLedger(unittest.TestCase):
         self.assertEqual(self.bp["chain_size"], 11)
 
     def test_the_rows_this_channel_moved_are_pinned(self):
-        # PINNED BY NAME. Three shapes, three rows, and each is one of the
-        # three row 107 names -- not an accident of a name collision.
+        # PINNED BY NAME. rung 1: two rows a batch pass CONSUMES (epochid via
+        # epochMint, generic_file via foldGenericFiles). rung 3: two rows a batch
+        # pass EMITS the decided target for -- stimulus_response_scalar_parameters_
+        # basic (resolveResponseParameters -> method_parameters) and, since #66
+        # increment 3, epochfiles_ingested (resolveEpochProbemap -> ingestion_
+        # manifest).
         self.assertEqual(
             sorted(e["v1_class"] for e in self.bp["credited_rung_1"]),
             ["epochid", "generic_file"])
         self.assertEqual(
             sorted(e["v1_class"] for e in self.bp["credited_rung_3"]),
-            ["stimulus_response_scalar_parameters_basic"])
+            ["epochfiles_ingested", "stimulus_response_scalar_parameters_basic"])
 
     def test_a_dormant_pass_credited_nothing(self):
         named = {e["v1_class"] for e in self.bp["unattributed_or_nothing"]}
@@ -359,9 +363,10 @@ class TestTheCommittedLedger(unittest.TestCase):
         for name in ("epochid", "generic_file"):
             why = rows[name]["stage"]["ladder"][0]["why"]
             self.assertIn("BATCH POST-PASS", why, name)
-        why3 = rows["stimulus_response_scalar_parameters_basic"][
-            "stage"]["ladder"][2]["why"]
-        self.assertIn("BATCH POST-PASS", why3)
+        for name in ("stimulus_response_scalar_parameters_basic",
+                     "epochfiles_ingested"):
+            why3 = rows[name]["stage"]["ladder"][2]["why"]
+            self.assertIn("BATCH POST-PASS", why3, name)
 
 
 class TestMutationsRedden(unittest.TestCase):

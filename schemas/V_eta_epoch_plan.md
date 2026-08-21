@@ -1381,5 +1381,42 @@ The emitter is a batch post-pass `did2.convert.resolveEpochProbemap`, ordered af
 and the ensemble, and the "SECOND PASS" the model names. Tracked as `V_eta_OPEN_WORK.md`
 row #66 (the ingested-payload family).
 
+### BUILD STATUS 2026-08-21 — all three increments landed (status, not a sign-off)
+
+All three increments above are now built, plus a #30-retirement fix the first Soph
+corpus run surfaced. NOT a new decision -- the model is the signed one above; this is a
+record of what shipped, per "a finding is not recorded until it is committed."
+
+- **Increment 1** (observation half): landed earlier; first real-data run on Soph
+  (corpus run 47) emitted 174 epoch-scoped observations, 0 quarantine.
+- **Increment 2** (device half): `subject_observation` gains OPTIONAL
+  `acquisition_system_id` (-> acquisition_system, resolved from the devicestring's device
+  name against `acquisition_system.base.name`) + a structured `channels` field (the
+  team's existing draft `acquisition_channels` shape, reused so the two cannot drift).
+  `resolveEpochProbemap` parses `intan1:ai27-28,45;di1-4` into the edge + grouped
+  `{type, numbers}` channels.
+- **Increment 3** (rename-thin): `resolveEpochProbemap` rewrites each source
+  `epochfiles_ingested` to `ingestion_manifest` (schema already built) once its probemap
+  is decomposed -- GUARDED on `filenavigator_id` + a resolved epoch, and a manifest that
+  fails validation keeps the `epochfiles_ingested` tombstone (Bar-1 fallback), never
+  quarantines.
+- **#30 dedup**: the first Soph run left the #30 retirement 174/174 skipped-ambiguous,
+  because a spike-sorted probe carries a #30 observation per derived neuron on the same
+  instrument. The retirement now keys on the `(subject_id, instrument_id, class)` triple,
+  superseding only the probe's own direct recording and leaving neuron spike-trains
+  intact; it also resolves patch/sharp (voltage vs current are different classes).
+
+Commits: DID-matlab `45a44bd` (resolveEpochProbemap + tests), DID-schema (this + the
+subject_observation device-half fields + regenerated ledger/board/walkthrough).
+
+**READ-PATH FOLLOW-UP (NOT built, NOT gated by the corpus run):** NDI's object layer
+queries `epochfiles_ingested` by class name (`+ndi/+database/+fun/find_ingested_docs.m`,
+`+ndi/+file/navigator.m`, `+ndi/session.m`). Reading a MIGRATED INGESTED session now
+needs a vintage-map entry `epochfiles_ingested -> ingestion_manifest` plus field/edge
+remapping (`epochprobemap` is gone, `epoch_id` is now an edge). This joins the existing
+deferred ingestion-read-path items (`daq/reader.m:82` reads `epochid.epochid`); it does
+not regress any passing test (the e2e runs PRED, which is not ingested), and the corpus
+gate validates MIGRATION, not NDI reads.
+
 
 RE-DERIVED 2026-08-21 (ndi_m_files, `check_prose_counts`): 91 NDI templates on origin/main; 1,012 .m files (`git ls-tree -r origin/main | grep -c '\.m$'` = 1012 at 5df51cf9; +7 since the 1,005 reading). The did_v1 ground truth is STILL unmoved -- 91 templates, 0 template diffs; only the denominator shifted.
