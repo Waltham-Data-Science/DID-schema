@@ -2452,3 +2452,5 @@ the next target can be chosen on evidence:**
 
 
 RE-DERIVED 2026-08-21 (ndi_m_files, `check_prose_counts`): 91 NDI templates on origin/main; 1,012 .m files (`git ls-tree -r origin/main | grep -c '\.m$'` = 1012 at 5df51cf9; +7 since the 1,005 reading). The did_v1 ground truth is STILL unmoved -- 91 templates, 0 template diffs; only the denominator shifted.
+
+RE-DERIVED 2026-08-21 (#66 increment 1 -- the `resolveEpochProbemap` batch pass landed, and two figures this file carried stale independently of it): **271 .m file(s) under DID-matlab src/** (was 270; +`resolveEpochProbemap.m`), **42 direct subclasses** of `data_type` (the `receptive_field` mint; was 41), and **85 migrator .m file(s)** in `+migrators_j` (was 84; `hartley_calc.m`). Only denominators moved; the did_v1 ground truth is unchanged. `check_prose_counts` derives all three from the tree/siblings and the earlier numbers went stale as siblings advanced -- re-derive, do not quote.

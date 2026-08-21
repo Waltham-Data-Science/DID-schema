@@ -286,6 +286,23 @@
       ]
      },
      {
+      "pass": "resolveEpochProbemap",
+      "path": "src/did/+did2/+convert/resolveEpochProbemap.m",
+      "site_count": 2,
+      "sites": [
+       {
+        "line": 728,
+        "spelling": "base",
+        "text": "if ~isstruct(body) || ~isfield(body, 'base') || ~isstruct(body.base) ..."
+       },
+       {
+        "line": 745,
+        "spelling": "base",
+        "text": "if isstruct(b) && isfield(b, 'base') && isstruct(b.base) && isfield(b.base, name)"
+       }
+      ]
+     },
+     {
       "pass": "resolveLawnPlateSubjects",
       "path": "src/did/+did2/+convert/resolveLawnPlateSubjects.m",
       "site_count": 4,
@@ -1915,6 +1932,28 @@
         "text": "if ~isstruct(body) || ~isfield(body, 'epochfiles_ingested') ..."
        }
       ]
+     },
+     {
+      "pass": "resolveEpochProbemap",
+      "path": "src/did/+did2/+convert/resolveEpochProbemap.m",
+      "site_count": 3,
+      "sites": [
+       {
+        "line": 217,
+        "spelling": "epochfiles_ingested",
+        "text": "if ~strcmp(classOf{k}, 'epochfiles_ingested'); continue; end"
+       },
+       {
+        "line": 675,
+        "spelling": "epochfiles_ingested",
+        "text": "if ~isstruct(body) || ~isfield(body, 'epochfiles_ingested') ..."
+       },
+       {
+        "line": 694,
+        "spelling": "epochfiles_ingested",
+        "text": "if ~isstruct(body) || ~isfield(body, 'epochfiles_ingested') ..."
+       }
+      ]
      }
     ],
     "per_class_migrators": [
@@ -2029,6 +2068,18 @@
         "line": 2031,
         "spelling": "epochid",
         "text": "es = charField(node, {'epoch_id', 'epochId', 'epochID', 'epochid'});"
+       }
+      ]
+     },
+     {
+      "pass": "resolveEpochProbemap",
+      "path": "src/did/+did2/+convert/resolveEpochProbemap.m",
+      "site_count": 1,
+      "sites": [
+       {
+        "line": 698,
+        "spelling": "epochid",
+        "text": "es = charField(body.epochfiles_ingested, {'epoch_id', 'epochId', 'epochid'});"
        }
       ]
      }
@@ -2351,7 +2402,25 @@
   },
   "image": {
    "consumers": {
-    "convert_package_mentions": [],
+    "convert_package_mentions": [
+     {
+      "pass": "resolveEpochProbemap",
+      "path": "src/did/+did2/+convert/resolveEpochProbemap.m",
+      "site_count": 2,
+      "sites": [
+       {
+        "line": 519,
+        "spelling": "image",
+        "text": "if strcmp(mixin, 'image')"
+       },
+       {
+        "line": 591,
+        "spelling": "image",
+        "text": "entries = mkEntry('image_observation', 'image', 'image');"
+       }
+      ]
+     }
+    ],
     "per_class_migrators": [
      {
       "package": "migrators_j",
@@ -5685,6 +5754,23 @@
       ]
      },
      {
+      "pass": "resolveEpochProbemap",
+      "path": "src/did/+did2/+convert/resolveEpochProbemap.m",
+      "site_count": 2,
+      "sites": [
+       {
+        "line": 182,
+        "spelling": "subject",
+        "text": "case 'subject'"
+       },
+       {
+        "line": 184,
+        "spelling": "subject",
+        "text": "if isfield(b, 'subject') && isstruct(b.subject)"
+       }
+      ]
+     },
+     {
       "pass": "resolveLawnPlateSubjects",
       "path": "src/did/+did2/+convert/resolveLawnPlateSubjects.m",
       "site_count": 3,
@@ -6902,7 +6988,7 @@
   }
  },
  "denominator": {
-  "convert_package_files_scanned": 17,
+  "convert_package_files_scanned": 18,
   "did_matlab_available": true,
   "ledger_disagreements": [],
   "ledger_rows_read": 102,
