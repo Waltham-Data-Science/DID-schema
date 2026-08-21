@@ -45,6 +45,63 @@ authorisation to change X. Ambiguity is resolved by asking, not by doing more.
 
 ---
 
+## BAR-1 vs BAR-2 — the distinction Claude conflated on 2026-08-21, and must never again
+
+**On 2026-08-21 Claude told the team a green Soph corpus run meant "Bar-2 held on
+real data," and repeated it to a direct question. IT WAS FALSE. A green corpus run
+gates BAR-1 ONLY.** This section exists because that error is this project's
+signature bias — *biased toward looking like progress had been made* — and the
+distinction was written down and read past.
+
+**BAR-1 = the documents migrate and validate.** The corpus run's pass condition is
+`n_failed==0`, which gates on **quarantine + orphans** (+ fragments / empty required
+edges). Green means: every v1 document became *a* valid V_eta document, nothing
+quarantined, no dangling edge. It says NOTHING about whether a document is at its
+intended shape.
+
+**BAR-2 = every document is at its DECIDED final V_eta shape.** No husks, no preserved
+raw bridges (the epochprobemap string is one), no v1 tombstones passed through, no
+superseded emissions — AND corpus-PROVEN (coverage ladder stage 4).
+
+**RULES, so this cannot recur:**
+1. **A green corpus run is BAR-1. Never report it as Bar-2.** Say WHICH bar, every
+   time, with the number.
+2. **BAR-2 IS PER-CORPUS**: only the classes THAT CORPUS contains must be at decided
+   shape, not all 102. Bar-2(Soph) ≠ Bar-2(universe). Measure per corpus.
+3. **BAR-2 IS NOT FULLY MEASURABLE TODAY — and that is itself a gap:**
+   - stage 4 (corpus-proven) reads `not measured` in any container without MATLAB +
+     corpus reports;
+   - **68 of 102 classes have NO decided final shape recorded** (ladder rung 3 =
+     `not measured`), so "at decided shape" cannot even be confirmed for them;
+   - the ladder's rung 3 (`emits decided target`) does **NOT** capture HUSKS —
+     `stimulus_response_scalar_parameters_basic` reads rung-3 `yes` (it emits
+     `method_parameters`) while **11,167 husk documents survive undeleted on Soph**.
+   So rung-3 `yes` is necessary, NOT sufficient: Bar-2 = rung 3 `yes` AND no husks AND
+   stage 4 proven.
+
+**MEASURED per-corpus Bar-2 state — run 49 (32491536842) batch-pass counters + the
+coverage ladder, 2026-08-21:**
+- **PRED** (10 classes): all 10 reach rung 3 (emit decided targets); PRED is NOT
+  ingested and carries no husk / superseded / bridge class. The ONLY corpus plausibly
+  at Bar-2 — but stage 4 (corpus-proof) is unmeasured, so NOT proven, only "no known gap".
+- **20211116** (21 classes): NOT at Bar-2. `stimulus_presentation` (11 docs) is blocked
+  at rung 3 = `no` — it emits the SUPERSEDED `stimulus_presentation`, not the decided
+  `timed_sequence_manipulation`; `params_basic` (273) leaves husks; the tuning
+  calculators (`hartley_calc` / `tuningcurve_calc` / `oridirtuning_calc`) have NO decided
+  shape recorded (tuning model #26 deferred).
+- **Soph** (32 classes): NOT at Bar-2, largest gap. Direct batch-pass measurement:
+  **1,225 stimulator probe rows decomposed into NOTHING** (epochprobemap string-bridge),
+  **11,167 `params_basic` husks** (`resolveResponseParameters`: *"11167 unreferenced, 0
+  deleted"*), `stimulus_presentation` superseded, ~70,600 vision-calculator docs on the
+  deferred tuning model.
+
+**The gap to Bar-2 is the ~6–8 signed-but-unbuilt models** — stimulus (#31/#43), image
+(#24), data_body completion (#45), tuning (#26), ngrid (#46), the response-family
+migrator (#61), the ontology_table_row second pass (#53) — plus binding governance (#32)
+and the reader. NONE of the three target corpora is corpus-proven at Bar-2 today.
+
+---
+
 ## START HERE — the generated state artifacts (read these FIRST, before any prose)
 
 Everything below this section is PROSE, and prose in this project has been wrong
