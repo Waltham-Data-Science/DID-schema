@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 """Self-tests for bar2_gap.py -- run on the fast gate, no corpus artifacts needed.
 
 They pin the CLASSIFICATION LOGIC against a synthetic ledger + synthetic report,
@@ -123,7 +122,7 @@ def test_tool_runs_as_script(tmp_path):
     led = _ledger(tmp_path, [_row("yes", decided=["subject"]) | {"v1_class": "subject"}])
     _write(tmp_path, "S", {"subject": 3})
     out = subprocess.run([sys.executable, str(TOOL), str(tmp_path), "--ledger", str(led)],
-                         capture_output=True, text=True)
+                         capture_output=True, text=True, check=False)
     assert out.returncode == 0
     assert "DENOMINATOR" in out.stdout
     assert "corpus S" in out.stdout
