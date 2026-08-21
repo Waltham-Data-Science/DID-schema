@@ -685,7 +685,7 @@
         ],
         "packages_missing": [],
         "files_read": 182,
-        "lines_read": 45623,
+        "lines_read": 45648,
         "classes_queried": 26,
         "classes_emitted_as_document_class": 8,
         "unresolved_mint_sites": [
@@ -729,7 +729,7 @@
         },
         "lines_read_by_group": {
           "per_document_migrator": 30667,
-          "batch_post_pass": 14956
+          "batch_post_pass": 14981
         },
         "classes_emitted_as_document_class_by_group": {
           "per_document_migrator": 8,
@@ -1825,7 +1825,7 @@
         "n_comment_mentions": 25,
         "comment_mentions": [
           "DID-matlab:convert/resolveLawnPlateSubjects.m:1358 (comment_mention)",
-          "DID-matlab:convert/resolveResponseParameters.m:68 (comment_mention)",
+          "DID-matlab:convert/resolveResponseParameters.m:71 (comment_mention)",
           "DID-matlab:migrators_j/element_epoch.m:89 (comment_mention)",
           "DID-matlab:migrators_j/element_epoch.m:91 (comment_mention)",
           "DID-matlab:migrators_j/element_epoch.m:92 (comment_mention)",
@@ -1865,7 +1865,7 @@
             "n_comment_mentions": 2,
             "comment_mentions": [
               "DID-matlab:convert/resolveLawnPlateSubjects.m:1358 (comment_mention)",
-              "DID-matlab:convert/resolveResponseParameters.m:68 (comment_mention)"
+              "DID-matlab:convert/resolveResponseParameters.m:71 (comment_mention)"
             ]
           }
         },

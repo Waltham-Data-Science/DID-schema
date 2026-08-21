@@ -362,7 +362,7 @@
       "site_count": 1,
       "sites": [
        {
-        "line": 529,
+        "line": 554,
         "spelling": "base",
         "text": "if isstruct(b) && isfield(b, 'base') && isstruct(b.base) && isfield(b.base, name)"
        }
@@ -5475,7 +5475,7 @@
       "site_count": 1,
       "sites": [
        {
-        "line": 236,
+        "line": 243,
         "spelling": "stimulus_response_scalar",
         "text": "SOURCE = 'stimulus_response_scalar';"
        }
@@ -5573,7 +5573,7 @@
       "site_count": 1,
       "sites": [
        {
-        "line": 235,
+        "line": 242,
         "spelling": "stimulus_response_scalar_parameters_basic",
         "text": "PARAMS = 'stimulus_response_scalar_parameters_basic';"
        }
