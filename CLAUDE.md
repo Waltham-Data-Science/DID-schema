@@ -143,11 +143,33 @@ on TWO things that have since changed, and one instrument BUG:
 
   **SO: PRED and 20211116 are at Bar-2** — every class at its decided final shape, Bar-1 clean,
   the one second-pass class proven by the full-corpus e2e. The standing "stage-4 corpus-proof"
-  caveat is unchanged for the DID-side proof (PROVEN 23 | FAILED 0 | not measured 79 this run;
-  the 79 are the CORPUS-SAMPLE ceiling, not a defect). **Soph is NOT re-measured here** — its
-  run-49 bullet still stands (the 1,225-stimulator epochprobemap bridge is real and deferred to
-  the stimulus/image models; the 11,167 `params_basic` husks should now delete like 20211116's
-  273, to be confirmed by a full Soph run).
+  caveat is unchanged for the DID-side proof.
+
+  **SOPH IS NOW MEASURED TOO — run 52 (32516904776, workflow_dispatch Soph, green, ~90 min over
+  101,427 docs), fixed `bar2_gap`, 2026-08-21. The run-49 Soph bullet above is SUPERSEDED.** The
+  11,167 `params_basic` husks are GONE — the armed delete cleared them, and stage-4 corpus-proof
+  jumped **23 -> 32 PROVEN** (params_basic now stage 4 at `method_parameters` on Soph). The
+  tuning calculators (~70,600 docs) are AT_DECIDED, not "no decided shape". Soph's entire
+  remaining Bar-2 gap is now **ONE class**:
+
+        corpus Soph (32 v1 class(es), 101427 doc(s))
+          BAR-1: quarantine 0, orphans 0, fragments 0 -> PASS
+          BAR-2: 30/32 AT DECIDED SHAPE (DID side); 1 NDI SECOND PASS; 1 NOT -- BRIDGE 1
+          ==> at Bar-2: NO
+              BRIDGE      epochfiles_ingested    349 doc(s)  epochprobemap preserved verbatim
+                          on ingestion_manifest; the stimulator/imaging rows do not decompose
+                          (only recording rows become observations)
+              SECOND_PASS stimulus_presentation  175 doc(s)  -> timed_sequence_manipulation
+
+  So Soph is **30/32 AT DECIDED + 1 SECOND_PASS + 1 BRIDGE**, Bar-1 clean over 101,427 docs. The
+  lone BRIDGE (`epochfiles_ingested`, 349 docs) is LOSSLESS — the serialized epochprobemap
+  string is carried verbatim on `ingestion_manifest` — but not yet at decided shape: its
+  stimulator/imaging probe rows need the signed-but-unbuilt stimulus (#31) / image (#24) models
+  to decompose into observations. **That is Soph's whole gap to Bar-2 now — a deferred model,
+  not a husk or a bug.** UNCONFIRMED FOR SOPH SPECIFICALLY: the 175 `stimulus_presentation`
+  second-pass fold is proven on 20211116's full-corpus e2e (identical code path); the Soph count
+  is confirmable by `test-eta-migrate-soph.yml`, not re-run here. Stage-4 corpus proof this run:
+  **PROVEN 32 | FAILED 0 | not measured 70** (the 70 are the corpus-sample ceiling, not a defect).
 
 ---
 
