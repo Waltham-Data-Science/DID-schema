@@ -7372,9 +7372,11 @@ for _c in ("daqreader_epochdata_ingested", "epochfiles_ingested"):
 #      leaving 6,921 documents with a required edge that is empty in 100% of
 #      them. Restored here, alongside a real `epoch_id`.
 #
-# `epochprobemap` is REMOVED: it decomposes into edges (option B in the plan).
-# The v1 `epoch_id` CHAR field goes with it -- the edge replaces the string, which
-# is the whole point of minting `epoch`.
+# The v1 `epoch_id` CHAR field is REMOVED -- the `epoch_id` edge replaces the
+# string, which is the whole point of minting `epoch`. `epochprobemap` is KEPT as
+# opaque read-back provenance (see the LOSSLESS ROUND-TRIP note below): its
+# recording rows decompose into observations, but stimulator/imaging rows do not,
+# so the verbatim string is what makes the migration lossless.
 _efi_tier, _efi_path = path_of("epochfiles_ingested")
 if _efi_path:
     _efi = load(_efi_path)
@@ -7392,6 +7394,26 @@ if _efi_path:
     ]
     _efi["fields"] = [f for f in _efi.get("fields", [])
                       if f["name"] not in ("epoch_id", "epochprobemap")]
+    # LOSSLESS ROUND-TRIP (2026-08-21, team-directed): keep the serialized
+    # epochprobemap as OPAQUE read-back provenance. The signed #66 model
+    # decomposes it into observations, but that decomposition only fires for
+    # RECORDING modalities -- stimulator/display/imaging rows (1,225 of 1,399 on
+    # Soph) emit no observation, so their per-epoch presence would be LOST with
+    # nowhere to land. Carried VERBATIM so ndi.vintage can reconstruct the exact
+    # v1 epochprobemap for every epoch and every probe type; retired only once
+    # the stimulus/image models decompose the remaining rows (verify-before-
+    # delete). NOT queryable: the observations are the queryable expression;
+    # this string is the object-reconstruction record.
+    _efi["fields"].append(field(
+        "epochprobemap", "char",
+        "The epoch's original serialized epochprobemap (name<TAB>reference<TAB>"
+        "type<TAB>devicestring<TAB>subjectstring, one row per probe), carried "
+        "VERBATIM for lossless read-back. The recording rows also decompose into "
+        "<modality>_observation documents (the queryable V_eta expression); this "
+        "opaque string preserves the FULL map -- including the stimulator/imaging "
+        "rows that do not decompose -- so ndi.vintage rebuilds the exact v1 "
+        "epochprobemap object. Retired when every row has a decomposed home.",
+        non_empty=False, scalar=True, queryable=False))
     write(_efi_tier, "ingestion_manifest", _efi)
 
     # THE SOURCE TOMBSTONE STAYS UNTIL A MIGRATOR CONSUMES IT.

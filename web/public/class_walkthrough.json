@@ -291,17 +291,17 @@
       "site_count": 3,
       "sites": [
        {
-        "line": 692,
+        "line": 699,
         "spelling": "base",
         "text": "'superclasses', struct('class_name', 'base', 'class_version', '1.0.0'), ..."
        },
        {
-        "line": 993,
+        "line": 1001,
         "spelling": "base",
         "text": "if ~isstruct(body) || ~isfield(body, 'base') || ~isstruct(body.base) ..."
        },
        {
-        "line": 1010,
+        "line": 1018,
         "spelling": "base",
         "text": "if isstruct(b) && isfield(b, 'base') && isstruct(b.base) && isfield(b.base, name)"
        }
@@ -1944,22 +1944,22 @@
       "site_count": 4,
       "sites": [
        {
-        "line": 260,
+        "line": 262,
         "spelling": "epochfiles_ingested",
         "text": "if ~strcmp(classOf{k}, 'epochfiles_ingested'); continue; end"
        },
        {
-        "line": 708,
+        "line": 716,
         "spelling": "epochfiles_ingested",
         "text": "if ~isstruct(body) || ~isfield(body, 'epochfiles_ingested') ..."
        },
        {
-        "line": 940,
+        "line": 948,
         "spelling": "epochfiles_ingested",
         "text": "if ~isstruct(body) || ~isfield(body, 'epochfiles_ingested') ..."
        },
        {
-        "line": 959,
+        "line": 967,
         "spelling": "epochfiles_ingested",
         "text": "if ~isstruct(body) || ~isfield(body, 'epochfiles_ingested') ..."
        }
@@ -2087,7 +2087,7 @@
       "site_count": 1,
       "sites": [
        {
-        "line": 963,
+        "line": 971,
         "spelling": "epochid",
         "text": "es = charField(body.epochfiles_ingested, {'epoch_id', 'epochId', 'epochid'});"
        }
@@ -2419,12 +2419,12 @@
       "site_count": 2,
       "sites": [
        {
-        "line": 659,
+        "line": 661,
         "spelling": "image",
         "text": "if strcmp(mixin, 'image')"
        },
        {
-        "line": 856,
+        "line": 864,
         "spelling": "image",
         "text": "entries = mkEntry('image_observation', 'image', 'image');"
        }
@@ -5769,12 +5769,12 @@
       "site_count": 2,
       "sites": [
        {
-        "line": 212,
+        "line": 214,
         "spelling": "subject",
         "text": "case 'subject'"
        },
        {
-        "line": 214,
+        "line": 216,
         "spelling": "subject",
         "text": "if isfield(b, 'subject') && isstruct(b.subject)"
        }
