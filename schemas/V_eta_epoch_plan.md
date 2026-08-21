@@ -1343,3 +1343,40 @@ spike-shaped home, which is the `pyraview` "the physical quantity is not carried
 on the doc" hazard one class over.
 
 TEAM-SIGN-OFF [epoch]: jess@walthamdatascience.com / 2026-08-17, AMENDMENT 1 to the same day's scoping walkthrough -- Q1 is CORRECTED. The 252 `element_epoch` payloads attach to the NEURON-SUBJECT's spike-time observation per the already-signed `V_eta_ensemble_plan.md` (jess, 2026-08-06), NOT to the raw-recording `<modality>_observation` Q1 named, which is emitted only for DIRECT elements and which none of the 252 owners is. Q1's cardinality (21 statements, 252 bodies) and its ingested-session `storage_mode: 'body'` reasoning stand unchanged; only the host class moves. `acquisition_epoch` REMAINS the carrier until the ensemble second pass lands, so nothing is deleted and `ensemble.element_epoch_id` keeps resolving. The `isDirect` gate in `+migrators_j/element.m:118` is NOT reversed. The concrete leaf class for a series of EVENT TIMES is NOT decided here and is open work (row #117); `subject_observation` is abstract and none of the 33 `*_observation` classes carries event times. Whatever is built must key on element `type`, because the `.vhsb` is a generic (timepoints, datapoints) series and not spike-specific.
+
+## TEAM DECISION 2026-08-21 — build the probemap decomposition now (option B), staged
+
+Recorded per the build process (a directive from the team, NOT a new sign-off line;
+the option-B model was already signed above). On 2026-08-21 the team directed that the
+`epochprobemap` decomposition be BUILT now rather than left as pass-1 behaviour A, on
+the grounds that its stated blocker (#30) is built and the measure-first numbers are in
+(corpus B, run 32427048919: 2,484 `epochfiles_ingested`, 9,936 probe rows, mean 4.0/doc,
+min 1 / max 7; subjectstring join 13/13 distinct matched, 0 unmatched; 277 #30
+observations all session-scoped, 0 epoch-scoped -> the per-epoch observations are
+additive, nothing to duplicate).
+
+Four calls the team made, each refining the signed model rather than changing it:
+
+- **Decompose to edges now (option B), superseding "A as pass-1 behaviour"** for these
+  documents. The manifest survives thinner; the probemap's content becomes edges on the
+  observations the model already describes.
+- **`devicestring` -> `acquisition_system_id` (device half) + a `channels` field
+  (channel half)** on the observation, NOT `instrument_id`. `instrument_id` is the PROBE
+  (`probe_ctx1`), per T7. This matches the signed shape at :776-777.
+- **REPLACE, not coexist.** For an ingested probe, the epoch-scoped observations are the
+  Bar-2 record and #30's coarse session-scoped observation for that probe is retired in
+  the same pass (safe: #30 observations are unreferenced -- `jRecordingObservation.m`).
+- **Build in verifiable increments** (nothing is validatable with MATLAB outside CI, and
+  it is a ~10k-document second pass): (1) the load-bearing attribution -- epoch-scoped
+  `<modality>_observation` per probemap row with `subject_id` + `instrument_id` + an epoch
+  `during` anchor, replacing #30's session observation; (2) the device half
+  (`acquisition_system_id` + `channels`, which needs a schema increment); (3) the
+  rename+thin `epochfiles_ingested -> ingestion_manifest` (drop the probemap), only after
+  1+2 prove the content is captured. Increment 1 needs NO schema change: `relative_to`
+  is typed to `base` so `relative_to -> epoch` is valid, and epoch-scoping rides the
+  existing `subject_interaction.time_reference_#`.
+
+The emitter is a batch post-pass `did2.convert.resolveEpochProbemap`, ordered after
+`epochMint` (it anchors to the minted epochs) -- the same posture as `distance_metadata`
+and the ensemble, and the "SECOND PASS" the model names. Tracked as `V_eta_OPEN_WORK.md`
+row #66 (the ingested-payload family).
