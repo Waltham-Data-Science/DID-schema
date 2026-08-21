@@ -1085,3 +1085,6 @@ Only the COMPOSITE is a `data_type` subclass — the leaf hangs off
 data_type-subclass count by one. One signed decision moved four counters at once
 (these three plus the inert-set canary in `tests/test_veta_stimulus_response.py`),
 which is the per-document cost `check_prose_counts` exists to find.
+
+
+RE-DERIVED 2026-08-21 (ndi_m_files, `check_prose_counts`): 91 NDI templates on origin/main; 1,012 .m files (`git ls-tree -r origin/main | grep -c '\.m$'` = 1012 at 5df51cf9; +7 since the 1,005 reading). The did_v1 ground truth is STILL unmoved -- 91 templates, 0 template diffs; only the denominator shifted.

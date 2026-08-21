@@ -342,3 +342,6 @@ Restated through `_tombstone` from the real template; 226 schemas, 497 tests gre
 3. **The undeclared-file gap (#64) is unfixed** — `daqreader_epochdata_ingested` still declares
    no files while `mfdaq.m:829,916,955` attaches the recording under runtime-computed names.
 4. **`data.bin` stays UNTYPED.** The readers produce TSV in the cases seen; nothing declares it.
+
+
+RE-DERIVED 2026-08-21 (ndi_m_files, `check_prose_counts`): 91 NDI templates on origin/main; 1,012 .m files (`git ls-tree -r origin/main | grep -c '\.m$'` = 1012 at 5df51cf9; +7 since the 1,005 reading). The did_v1 ground truth is STILL unmoved -- 91 templates, 0 template diffs; only the denominator shifted.

@@ -1380,3 +1380,6 @@ The emitter is a batch post-pass `did2.convert.resolveEpochProbemap`, ordered af
 `epochMint` (it anchors to the minted epochs) -- the same posture as `distance_metadata`
 and the ensemble, and the "SECOND PASS" the model names. Tracked as `V_eta_OPEN_WORK.md`
 row #66 (the ingested-payload family).
+
+
+RE-DERIVED 2026-08-21 (ndi_m_files, `check_prose_counts`): 91 NDI templates on origin/main; 1,012 .m files (`git ls-tree -r origin/main | grep -c '\.m$'` = 1012 at 5df51cf9; +7 since the 1,005 reading). The did_v1 ground truth is STILL unmoved -- 91 templates, 0 template diffs; only the denominator shifted.

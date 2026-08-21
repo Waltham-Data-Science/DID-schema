@@ -3168,3 +3168,6 @@ is PRE-2026-08-17. On this branch, positive evidence from the code:
 Build order chosen: (1) `syncrule_mapping` post-`epochMint` anchoring (decision-free,
 smallest), (2) #2 `epochprobemap`→edges then the `epochfiles_ingested` fold, (3) #3 the
 stimulus decompose. Each lands with fixture tests then a full-corpus verify.
+
+
+RE-DERIVED 2026-08-21 (ndi_m_files, `check_prose_counts`): 91 NDI templates on origin/main; 1,012 .m files (`git ls-tree -r origin/main | grep -c '\.m$'` = 1012 at 5df51cf9; +7 since the 1,005 reading). The did_v1 ground truth is STILL unmoved -- 91 templates, 0 template diffs; only the denominator shifted.

@@ -274,3 +274,6 @@ corpora-are-a-sample rule working exactly as intended, not evidence of absence.
    is an untyped `string[]`, and typing it from a template alone is the wrong-assumed-shape
    failure that produced the ~2,078 `distance_metadata` quarantines — and, in this very
    family, the six invented V_eta fields being repaired.
+
+
+RE-DERIVED 2026-08-21 (ndi_m_files, `check_prose_counts`): 91 NDI templates on origin/main; 1,012 .m files (`git ls-tree -r origin/main | grep -c '\.m$'` = 1012 at 5df51cf9; +7 since the 1,005 reading). The did_v1 ground truth is STILL unmoved -- 91 templates, 0 template diffs; only the denominator shifted.
