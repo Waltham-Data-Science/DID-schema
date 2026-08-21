@@ -84,6 +84,58 @@ HUSK_BRIDGE = {
 }
 
 
+# ---- the NDI second-pass overlay ---------------------------------------------
+# THE BLIND SPOT THIS CLOSES. The coverage ledger is built from the DID-side
+# call graph (`+migrators_j` + the `+did2/+convert` batch passes). NDI runs a
+# SECOND set of assemblers in `ndi.migrate.local` AFTER the DID conversion --
+# the ones a single document cannot resolve because they need the whole migrated
+# body set (subject attribution, ensemble membership, the stimulus
+# decomposition). The ledger cannot see them, so a class the DID side passes
+# through (rung 3 = `no`) but NDI decomposes reads as SUPERSEDED here when it is
+# actually built. `stimulus_presentation` is the case that exposed this on
+# 2026-08-21: `migration_targets.json.second_pass` still records the SUPERSEDED
+# `visual_grating_manipulation` (pre-2026-08-17), so even the authored record is
+# stale. Each entry is a v1 class an NDI second pass brings to decided shape,
+# with the assembler and the green e2e test as evidence.
+#
+# CAVEAT, STATED IN THE VERDICT: a DID-only corpus report (what census_digest /
+# corpus_proven read) is taken BEFORE these passes run, so the class is still
+# PRESENT in it. This overlay says the decided shape EXISTS and is e2e-green; it
+# does NOT claim this particular report exercised it. A fully authoritative
+# per-corpus Bar-2 needs the census of the FULL ndi.migrate.local output.
+SECOND_PASS = {
+    "stimulus_presentation": {
+        "emits": "visual_grating (deduped) + timed_sequence_manipulation "
+                 "(+ control_designation)",
+        "assembler": "ndi.migrate.internal.stimulusPresentationToTimedSequence "
+                     "(local.m resolveStimulusPresentations, wired :723)",
+        "e2e": "TestStimulusPresentation / TestGratingValue (run 92 green); the "
+               "signed decomposition replaced the flattening pass 2026-08-17.",
+        "caveat": "a presentation with no responding animal is left as "
+                  "passthrough by the pass (measured as single_grating_candidates).",
+    },
+    "ensemble": {
+        "emits": "member_of edges + a derived (times,ids) cache",
+        "assembler": "ndi.migrate.internal.ensembleMembership",
+        "e2e": "TestEnsembleMembership (run 92 green).",
+        "caveat": "",
+    },
+    "ontology_label": {
+        "emits": "the subject it is about (attribution via the migrated-id graph)",
+        "assembler": "ndi.migrate.internal.ontologyLabelSubjects",
+        "e2e": "TestOntologyLabelSubjects (run 92 green).",
+        "caveat": "",
+    },
+    "ontology_table_row": {
+        "emits": "typed statements fanned out per row (#53)",
+        "assembler": "ndi.migrate.internal.ontologyRowSubjects",
+        "e2e": "TestOntologyRowSubjects (run 92 green).",
+        "caveat": "the subject fan-out is #53 work; confirm the row's decided "
+                  "target set separately.",
+    },
+}
+
+
 def load_ledger(path=LEDGER):
     d = json.loads(Path(path).read_text())
     return {r["v1_class"]: r for r in d["rows"]}
@@ -106,6 +158,13 @@ def verdict_for(v1_class, row):
     if v1_class in HUSK_BRIDGE:
         hb = HUSK_BRIDGE[v1_class]
         return (hb["kind"], hb["why"])
+    if v1_class in SECOND_PASS:
+        sp = SECOND_PASS[v1_class]
+        detail = (f"decomposed by {sp['assembler']} -> {sp['emits']}; "
+                  f"NOT visible in a DID-only corpus report -- {sp['e2e']}")
+        if sp["caveat"]:
+            detail += f"  CAVEAT: {sp['caveat']}"
+        return ("SECOND_PASS", detail)
     if row is None:
         return ("UNDECIDED", "class is not in the coverage ledger at all")
     r3 = rung3_state(row)
@@ -197,24 +256,35 @@ def run(roots, ledger_path=LEDGER, only=None, verbose=False):
         print(f"  BAR-1 (migrates+validates): quarantine {clean['quarantine']}, "
               f"orphans {clean['orphans']}, fragments {clean['fragments']} "
               f"-> {'PASS' if bar1 else 'FAIL'}")
-        buckets = {AT: [], "SUPERSEDED": [], "HUSK": [], "BRIDGE": [], "UNDECIDED": []}
+        buckets = {AT: [], "SECOND_PASS": [], "SUPERSEDED": [],
+                   "HUSK": [], "BRIDGE": [], "UNDECIDED": []}
         for c in present:
             v, detail = verdict_for(c, ledger.get(c))
             buckets.setdefault(v, []).append((c, census[c], detail))
         n_at = len(buckets[AT])
+        n_sp = len(buckets["SECOND_PASS"])
         n_fail = sum(len(buckets[k]) for k in FAIL_KINDS)
-        print(f"  BAR-2: {n_at}/{len(present)} classes AT DECIDED SHAPE; "
+        print(f"  BAR-2: {n_at}/{len(present)} AT DECIDED SHAPE (DID side); "
+              f"{n_sp} reach it in the NDI SECOND PASS (not in this report); "
               f"{n_fail} NOT -- "
               + ", ".join(f"{k} {len(buckets[k])}" for k in FAIL_KINDS if buckets[k]))
+        # SECOND_PASS is not a failure (the decided shape is built + e2e-green),
+        # but this DID-only report cannot confirm it -- so a corpus with any
+        # SECOND_PASS class is at Bar-2 only PENDING the NDI e2e for those.
         at_bar2 = bar1 and n_fail == 0
-        print(f"  ==> corpus {corpus} at Bar-2 (decided shape + Bar-1 clean): "
-              f"{'YES (pending stage-4 corpus-proof)' if at_bar2 else 'NO'}")
-        for k in FAIL_KINDS:
+        if at_bar2 and n_sp:
+            verdict = "YES on the DID side; PENDING the NDI e2e for the second-pass class(es)"
+        elif at_bar2:
+            verdict = "YES (pending stage-4 corpus-proof)"
+        else:
+            verdict = "NO"
+        print(f"  ==> corpus {corpus} at Bar-2 (decided shape + Bar-1 clean): {verdict}")
+        for k in (*FAIL_KINDS, "SECOND_PASS"):
             for c, n, detail in buckets[k]:
-                print(f"      {k:10s} {c:44s} {n:>8} doc(s)  {detail}")
+                print(f"      {k:11s} {c:44s} {n:>8} doc(s)  {detail}")
         if verbose:
             for c, n, detail in buckets[AT]:
-                print(f"      {AT:10s} {c:44s} {n:>8} doc(s)  {detail}")
+                print(f"      {AT:11s} {c:44s} {n:>8} doc(s)  {detail}")
         any_gap = any_gap or not at_bar2
     return 1 if any_gap else 0
 

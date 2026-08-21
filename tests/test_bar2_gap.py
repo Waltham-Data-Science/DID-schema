@@ -72,6 +72,28 @@ def test_bridge_overlay_fires():
     assert v == "BRIDGE"
 
 
+def test_second_pass_overlay_beats_a_stale_ledger():
+    # the ledger says rung3=no (SUPERSEDED-looking) because it cannot see NDI's
+    # second pass; the overlay knows stimulus_presentation is decomposed there.
+    v, detail = B.verdict_for("stimulus_presentation",
+                              _row("no", targets=["stimulus_presentation"],
+                                   decided=["timed_sequence_manipulation"]))
+    assert v == "SECOND_PASS"
+    assert "timed_sequence_manipulation" in detail
+
+
+def test_second_pass_is_not_counted_a_bar2_failure(tmp_path):
+    led = _ledger(tmp_path, [
+        _row("no", targets=["stimulus_presentation"],
+             decided=["timed_sequence_manipulation"]) | {"v1_class": "stimulus_presentation"},
+        _row("yes", decided=["subject"]) | {"v1_class": "subject"},
+    ])
+    _write(tmp_path, "SPonly", {"stimulus_presentation": 11, "subject": 3})
+    # only a SECOND_PASS class + an AT_DECIDED class, Bar-1 clean -> no hard gap
+    rc = B.run([str(tmp_path)], ledger_path=led)
+    assert rc == 0
+
+
 def _write(tmp, name, census, quar=0, orph=0, frag=0):
     rep = {
         "corpus": name, "quarantine_count": quar,
