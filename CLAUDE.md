@@ -171,6 +171,42 @@ on TWO things that have since changed, and one instrument BUG:
   is confirmable by `test-eta-migrate-soph.yml`, not re-run here. Stage-4 corpus proof this run:
   **PROVEN 32 | FAILED 0 | not measured 70** (the 70 are the corpus-sample ceiling, not a defect).
 
+  **SOPH'S LONE BRIDGE IS NOW CLOSED — run 32538355371 (workflow_dispatch Soph via
+  test-corpus.yml, DID-matlab head 2f33f159 + DID-schema head 35f09e4, green, ~113 min over
+  101,427 docs), 2026-08-22. The run-52 Soph bullet above (1 BRIDGE) is SUPERSEDED; the dated
+  run-52 block stays as a measurement.** #66 increment 3 (TEAM-SIGNED 2026-08-21: "decompose the
+  stimulator rows" + "build the mirrored subject_manipulation") landed: `resolveEpochProbemap`
+  now decomposes each stimulator epochprobemap row into a `term_manipulation` (subject = the
+  specimen, instrument = the stimulator element-subject per T7, stimulator type as `variable` +
+  `term.value`, device wiring carried on the shared `subject_interaction` v3.1.0 parent). The
+  serialized epochprobemap string is still carried verbatim on `ingestion_manifest`, but the
+  stimulator rows no longer ride it undecomposed, so `epochfiles_ingested` LEAVES the `bar2_gap`
+  HUSK_BRIDGE overlay (now empty) and reads AT_DECIDED / stage-4 corpus-proven. The fixed
+  `bar2_gap` printed in the Census-digest job:
+
+        corpus Soph (32 v1 class(es), 101427 doc(s))
+          BAR-1 (migrates+validates): quarantine 0, orphans 0, fragments 0 -> PASS
+          BAR-2: 31/32 AT DECIDED SHAPE (DID side); 1 reach it in the NDI SECOND PASS
+                 (not in this report); 0 NOT --
+          ==> corpus Soph at Bar-2: YES on the DID side; PENDING the NDI e2e for the
+              second-pass class(es)
+              SECOND_PASS stimulus_presentation  175 doc(s)  -> timed_sequence_manipulation
+
+  So Soph is now **31/32 AT DECIDED + 1 SECOND_PASS + 0 BRIDGE + 0 NOT**, Bar-1 clean over
+  101,427 docs — the same standing PRED and 20211116 hold. The coverage ladder credits the new
+  emission (`epochfiles_ingested <- resolveEpochProbemap -> voltage_observation,
+  current_observation, time_observation, acceleration_observation, temperature_observation,
+  term_manipulation, ingestion_manifest, relative_reference`, now stage 4), and stage-4 corpus
+  proof is unchanged at **PROVEN 32 | FAILED 0 | not measured 70**. The one residual is the
+  imaging probemap row, which still rides the string (an `image` value cell cannot be filled from
+  a probemap row); NO corpus in the run carries one, so it is a deferred model (#24), not a Soph
+  gap. **The one remaining caveat is identical to 20211116's before its e2e ran: the 175
+  `stimulus_presentation` second-pass fold is proven on 20211116's full-corpus e2e (identical
+  code path, `resolveStimulusPresentations` local.m:723), and the Soph-specific count is
+  confirmable by `test-eta-migrate-soph.yml`.** So all three target corpora (PRED, 20211116,
+  Soph) are at Bar-2 on the DID side; only Soph's NDI e2e for the one second-pass class is
+  outstanding.
+
 ---
 
 ## START HERE — the generated state artifacts (read these FIRST, before any prose)
