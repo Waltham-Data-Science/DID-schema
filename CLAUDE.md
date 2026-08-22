@@ -267,6 +267,32 @@ on TWO things that have since changed, and one instrument BUG:
   (there is no B NDI e2e workflow); it is the identical code path proven on 20211116's
   full-corpus e2e and Soph's.
 
+  **CORPUS DAB IS AT Bar-2 (DID side) — run 32577289356 (workflow_dispatch Dab via
+  test-corpus.yml, DID-matlab 2f33f159 + DID-schema at the `stimulus_bath` coverage wiring, green
+  over 27,561 docs), 2026-08-22. This closed Dab's ONE remaining gap: `stimulus_bath` moved
+  UNDECIDED -> AT_DECIDED after the team sign-off (`V_eta_go_forward_class_audit.md`, 2026-08-22:
+  `stimulus_bath` -> `dose_manipulation` + `session_relative_reference` + conditional
+  `term_observation`) was wired into `coverage.py`'s `DECIDED_TARGETS_BY_SIGNOFF`.** The fixed
+  `bar2_gap` printed in the Census-digest job:
+
+        corpus Dab (26 v1 class(es), 27561 doc(s))
+          BAR-1 (migrates+validates): quarantine 0, orphans 0, fragments 0 -> PASS
+          BAR-2: 24/26 AT DECIDED SHAPE (DID side); 2 reach it in the NDI SECOND PASS; 0 NOT --
+          ==> corpus Dab at Bar-2: YES on the DID side; PENDING the NDI e2e for the
+              second-pass class(es)
+              SECOND_PASS ontologyTableRow       6205 doc(s)  -> typed statements per row (#53)
+              SECOND_PASS stimulus_presentation  1242 doc(s)  -> timed_sequence_manipulation
+
+  So Dab is **24/26 AT DECIDED + 2 SECOND_PASS + 0 NOT**, Bar-1 clean over 27,561 docs; governance
+  48 signed; stage-4 corpus proof **PROVEN 26 | FAILED 0**. The DID-schema `stimulus_bath` wiring
+  (`21bdfe5` + the guard-test fix `f8560ba`) is CI-green on PR #64 (heads `8b09cab` and the
+  ground-truth line counts that moved with the DID-matlab counter fix all pass). **FIVE of the six
+  corpora are now at Bar-2 on the DID side: PRED, 20211116, Soph, B, Dab.** The lone remaining
+  corpus is JH (carries the `image_stack` E. coli deferred model, #24). Dab's TWO second-pass
+  classes are exercised for the first time on a real full corpus by `test-eta-migrate-dab.yml`
+  (PR #836) — `ontologyTableRow` (#53) has never run the two-tier fan-out at scale before; that
+  run is PENDING as of this record.
+
 ---
 
 ## START HERE — the generated state artifacts (read these FIRST, before any prose)
