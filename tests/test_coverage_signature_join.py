@@ -270,7 +270,16 @@ def check_governance_accounts_for_every_row(rows, gov):
 def check_every_unmoved_row_has_a_named_cause(rows, gov):
     """"decided but unrecorded" and "nobody looked" must not print the same."""
     j = gov["join"]
-    unmoved = [r for r in rows if not r.get("decided_by_family")]
+    # A row moved by a standalone TRANSCRIPTION (`decided_signoff` /
+    # `no_target_signoff`) but named by no FAMILY is moved -- its signature is
+    # findable, so `governance_gap` returns None for it and it is not bucketed.
+    # It must therefore be excluded from `unmoved` too, exactly as coverage.py
+    # excludes it. Before `stimulus_bath` (confirm sheet 2026-08-22) every
+    # decided-target transcription ALSO carried a family, so `not
+    # decided_by_family` alone happened to match; it no longer does.
+    unmoved = [r for r in rows if not (r.get("decided_by_family")
+                                       or r.get("decided_signoff")
+                                       or r.get("no_target_signoff"))]
     assert sum(j["unmoved_by_cause"].values()) == len(unmoved), (
         f'{sum(j["unmoved_by_cause"].values())} bucketed != {len(unmoved)} '
         "rows with no signed family -- a row fell out of the census")
@@ -476,10 +485,15 @@ class TestTheCommittedLedger(unittest.TestCase):
         # the dissolution. First-tagged-line wins, and here that is the right
         # line; a reader adding a third `[epoch]` signature should re-check
         # that it still is.
-        self.assertEqual(transcribed, 8)
+        # transcribed 8 -> 9 on 2026-08-22: `stimulus_bath` joined as a
+        # decided-target transcription (confirm sheet 2026-08-22, target
+        # `dose_manipulation`). It is the FIRST decided-target transcription
+        # named by NO family, so `derived` is unchanged and G_SIGNED moves by
+        # the one transcription only.
+        self.assertEqual(transcribed, 9)
         self.assertEqual(derived, 40)
-        self.assertEqual(self.gov["by_state"][coverage.G_SIGNED], 47,
-                         "8 transcribed + 40 derived, less `ngrid`, whose "
+        self.assertEqual(self.gov["by_state"][coverage.G_SIGNED], 48,
+                         "9 transcribed + 40 derived, less `ngrid`, whose "
                          "DISPUTED record outranks its family signature")
 
     def test_a_DISPUTED_record_outranks_a_family_signature(self):
@@ -605,7 +619,7 @@ class TestTheReconciliation(unittest.TestCase):
         den = [ln for ln in lines if "reconciled against the DERIVED" in ln]
         self.assertEqual(len(den), 1, "the reconciliation must print a "
                                       "denominator, unconditionally")
-        self.assertIn("8 transcription(s)", den[0])
+        self.assertIn("9 transcription(s)", den[0])
         self.assertIn("8 also named by a signed family", den[0],
                       "a reconciliation that matches nothing proves nothing")
 
@@ -908,7 +922,7 @@ class TestMutationsRedden(unittest.TestCase):
         self.assertEqual(fails, [])
         den = next(ln for ln in lines if "reconciled against the DERIVED" in ln)
         self.assertIn("0 also named by a signed family", den)
-        self.assertIn("8 named by no family at all", den)
+        self.assertIn("9 named by no family at all", den)
 
 
 if __name__ == "__main__":

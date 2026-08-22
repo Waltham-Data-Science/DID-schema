@@ -333,17 +333,19 @@ class TestTheCommittedLedger(unittest.TestCase):
 
     def test_the_rows_this_channel_moved_are_pinned(self):
         # PINNED BY NAME. rung 1: two rows a batch pass CONSUMES (epochid via
-        # epochMint, generic_file via foldGenericFiles). rung 3: two rows a batch
-        # pass EMITS the decided target for -- stimulus_response_scalar_parameters_
-        # basic (resolveResponseParameters -> method_parameters) and, since #66
-        # increment 3, epochfiles_ingested (resolveEpochProbemap -> ingestion_
-        # manifest).
+        # epochMint, generic_file via foldGenericFiles). rung 3: three rows a
+        # batch pass EMITS the decided target for -- stimulus_response_scalar_
+        # parameters_basic (resolveResponseParameters -> method_parameters),
+        # epochfiles_ingested (resolveEpochProbemap -> ingestion_manifest, #66
+        # increment 3), and, since the confirm sheet 2026-08-22, stimulus_bath
+        # (resolveDeferredBaths -> dose_manipulation).
         self.assertEqual(
             sorted(e["v1_class"] for e in self.bp["credited_rung_1"]),
             ["epochid", "generic_file"])
         self.assertEqual(
             sorted(e["v1_class"] for e in self.bp["credited_rung_3"]),
-            ["epochfiles_ingested", "stimulus_response_scalar_parameters_basic"])
+            ["epochfiles_ingested", "stimulus_bath",
+             "stimulus_response_scalar_parameters_basic"])
 
     def test_a_dormant_pass_credited_nothing(self):
         named = {e["v1_class"] for e in self.bp["unattributed_or_nothing"]}
