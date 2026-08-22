@@ -243,6 +243,30 @@ on TWO things that have since changed, and one instrument BUG:
   2 no-responding-animal `stimulus_presentation` documents, not the stimulator-bridge work
   (#66 increment 3), which is fully closed.
 
+  **CORPUS B IS AT Bar-2 (DID side) TOO, AND NEEDED NO NEW WORK — run 32553340452
+  (workflow_dispatch B via test-corpus.yml, DID-matlab 2f33f159 + DID-schema e081e67, green,
+  ~12 min over 12,917 docs), 2026-08-22.** The fixed `bar2_gap` in the Census-digest job:
+
+        corpus B (18 v1 class(es), 12917 doc(s))
+          BAR-1 (migrates+validates): quarantine 0, orphans 0, fragments 0 -> PASS
+          BAR-2: 17/18 AT DECIDED SHAPE (DID side); 1 reach it in the NDI SECOND PASS
+                 (not in this report); 0 NOT --
+          ==> corpus B at Bar-2: YES on the DID side; PENDING the NDI e2e for the
+              second-pass class(es)
+              SECOND_PASS stimulus_presentation  1242 doc(s)  -> timed_sequence_manipulation
+
+  B is a smaller vision-stimulus corpus (18 classes; `stimulus_presentation` 1242,
+  `epochfiles_ingested` 2484, `syncrule_mapping` 2484, `stimulus_response_scalar`, plus the
+  spine), and every one of its classes is AT_DECIDED except `stimulus_presentation`
+  (SECOND_PASS). It rode entirely on the already-landed #66 (stimulator bridge) + #61
+  (params_basic husks) fixes plus the `stimulus_presentation` fold — NO B-specific gap
+  existed, so no build was needed. Stage-4 corpus proof this run: **PROVEN 18 | FAILED 0 |
+  not measured 84** (all 18 of B's classes corpus-proven, `epochfiles_ingested` at stage 4).
+  **FOUR of the six corpora are now at Bar-2 on the DID side: PRED, 20211116, Soph, B. The
+  remaining two are Dab and JH.** B's `stimulus_presentation` fold is not separately e2e'd
+  (there is no B NDI e2e workflow); it is the identical code path proven on 20211116's
+  full-corpus e2e and Soph's.
+
 ---
 
 ## START HERE — the generated state artifacts (read these FIRST, before any prose)
