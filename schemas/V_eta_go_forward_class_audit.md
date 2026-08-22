@@ -716,6 +716,8 @@ will exercise it locally.
 
 TEAM-SIGN-OFF [confirm sheet 2026-08-17]: jess@walthamdatascience.com / 2026-08-17 -- `tuningcurve_calc`, `oridirtuning_calc`, `probe_location`, `treatment` and `jrclust_clusters` each migrate today to the set recorded in the table above, and that set IS the intended end state. No further fold is owed for any of the five. Answered one at a time against the generated confirm sheet's evidence, not in bulk.
 
+TEAM-SIGN-OFF [confirm sheet 2026-08-22]: jess@walthamdatascience.com / 2026-08-22 -- `stimulus_bath` migrates to a `dose_manipulation` (the delivered substance, a subject_manipulation leaf) + a `session_relative_reference` 'during' anchor + a CONDITIONAL `term_observation` (only when the source names a location), and that emitted set IS the intended end state. Deferred in pass 1 (`did2:convert:needsSessionContext`) by design, assembled by the `resolveDeferredBaths` batch pass. Strict-J D8 disposition -- the `bath`/`pharmacological_manipulation` family is retired -- matching the treatment family (`treatment_drug` / `virus_injection` also -> `dose_manipulation`). Answered against the generated confirm sheet and bar2_gap's Dab UNDECIDED flag (1,605 docs).
+
 WHAT THIS COSTS IF IT IS WRONG, stated because a confirmation is the cheapest
 kind of signature to give and the hardest to revisit: these five account for 131
 of 20211116's 1,220 documents. Two of them (`tuningcurve_calc`,

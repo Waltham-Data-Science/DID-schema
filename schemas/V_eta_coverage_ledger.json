@@ -61,6 +61,20 @@
           "stage_reached": 3
         },
         {
+          "v1_class": "stimulus_bath",
+          "emits": {
+            "resolveDeferredBaths": [
+              "session_relative_reference",
+              "dose_manipulation",
+              "term_observation"
+            ]
+          },
+          "decided_targets": [
+            "dose_manipulation"
+          ],
+          "stage_reached": 3
+        },
+        {
           "v1_class": "stimulus_response_scalar_parameters_basic",
           "emits": {
             "resolveResponseParameters": [
@@ -236,6 +250,7 @@
       "binaryseries_parameters",
       "epochfiles_ingested",
       "filter",
+      "stimulus_bath",
       "stimulus_presentation"
     ],
     "stage_rollup": {
@@ -253,9 +268,9 @@
       },
       "by_stage_reached": {
         "0": 10,
-        "1": 63,
+        "1": 62,
         "2": 5,
-        "3": 24,
+        "3": 25,
         "4": 0
       },
       "reached_with_an_n_a_in_the_chain": [
@@ -267,13 +282,13 @@
           "no": 10
         },
         "2": {
-          "not measured": 68,
-          "yes": 31,
+          "not measured": 67,
+          "yes": 32,
           "n/a": 3
         },
         "3": {
-          "not measured": 68,
-          "yes": 23,
+          "not measured": 67,
+          "yes": 24,
           "no": 8,
           "n/a": 3
         },
@@ -283,8 +298,8 @@
       },
       "per_stage_satisfied_independently": {
         "1": 92,
-        "2": 31,
-        "3": 23,
+        "2": 32,
+        "3": 24,
         "4": 0
       },
       "capped": {
@@ -297,9 +312,9 @@
         ],
         "highest_rung_satisfied_independently_histogram": {
           "0": 7,
-          "1": 64,
+          "1": 63,
           "2": 8,
-          "3": 23,
+          "3": 24,
           "4": 0
         },
         "genuinely_untouched": 5,
@@ -351,7 +366,7 @@
       },
       "no_target_recorded": {
         "denominator": 102,
-        "rows": 71,
+        "rows": 70,
         "row_names": [
           "SpikeInterfaceSortingOutputs",
           "animalsubject",
@@ -407,7 +422,6 @@
           "speed_tuning_calc",
           "spike_clusters",
           "spikewaves",
-          "stimulus_bath",
           "stimulus_parameter",
           "stimulus_response",
           "stimulus_response_scalar_parameters",
@@ -491,14 +505,14 @@
       "governance": {
         "denominator": 102,
         "by_state": {
-          "signed": 47,
+          "signed": 48,
           "DISPUTED": 1,
           "family UNSIGNED": 0,
-          "no signature found": 54
+          "no signature found": 53
         },
         "signed_by": {
           "derived from a signed family": 40,
-          "checked transcription on the row": 7
+          "checked transcription on the row": 8
         },
         "join": {
           "rows_inspected": 102,
@@ -539,7 +553,7 @@
           "unmoved_by_cause": {
             "a family names this class and that family is UNSIGNED": 0,
             "no family names this class; a SIGNED family names a class its migrator EMITS": 30,
-            "no family names this class, and the row has no V_eta class and no target either": 3,
+            "no family names this class, and the row has no V_eta class and no target either": 2,
             "no family in FAMILIES names this class": 21
           },
           "unmoved_rows_by_cause": {
@@ -568,8 +582,7 @@
             ],
             "no family names this class, and the row has no V_eta class and no target either": [
               "animalsubject",
-              "mock",
-              "stimulus_bath"
+              "mock"
             ],
             "no family names this class; a SIGNED family names a class its migrator EMITS": [
               "contrast_sensitivity_calc",
@@ -622,12 +635,13 @@
             "V_eta_final_class_set.md"
           ],
           "signoff_markers_inside_excluded_documents": 1,
-          "accepted_lines": 45,
+          "accepted_lines": 46,
           "rejected_lines": [],
           "distinct_tags": [
             "base naming",
             "binding governance",
             "confirm sheet 2026-08-17",
+            "confirm sheet 2026-08-22",
             "daq configuration",
             "daq ingested payloads",
             "data_body",
@@ -679,6 +693,12 @@
               {
                 "document": "V_eta_go_forward_class_audit.md",
                 "line": 717
+              }
+            ],
+            "confirm sheet 2026-08-22": [
+              {
+                "document": "V_eta_go_forward_class_audit.md",
+                "line": 719
               }
             ],
             "daq configuration": [
@@ -949,6 +969,12 @@
               {
                 "document": "V_eta_tenet_audit.md",
                 "line": 429
+              }
+            ],
+            "confirm sheet 2026-08-22": [
+              {
+                "document": "V_eta_go_forward_class_audit.md",
+                "line": 719
               }
             ],
             "data_body": [
@@ -8708,9 +8734,16 @@
       "nonprod": false,
       "gap": false,
       "targets": [],
-      "decided_targets": [],
-      "decided_targets_source": null,
-      "decided_signoff": null,
+      "decided_targets": [
+        "dose_manipulation"
+      ],
+      "decided_targets_source": "signoff_transcription",
+      "decided_signoff": {
+        "document": "V_eta_go_forward_class_audit.md",
+        "signoff_fragment": "migrates to a `dose_manipulation`",
+        "mapping_fragment": "migrates to a `dose_manipulation`",
+        "account": "Deferred in pass 1 (needsSessionContext), assembled by resolveDeferredBaths into a `dose_manipulation` subject_manipulation leaf + a session anchor + a conditional `term_observation`; the bath/pharmacological_manipulation family is retired (D8)."
+      },
       "target_source": "emitted",
       "no_target_reason": null,
       "no_target_reason_label": null,
@@ -8718,8 +8751,10 @@
       "no_target_signoff": null,
       "target_gap": false,
       "build_state": {
-        "schema_targets_named": 0,
-        "schema_targets_built": [],
+        "schema_targets_named": 1,
+        "schema_targets_built": [
+          "dose_manipulation"
+        ],
         "schema_targets_missing": [],
         "migrator_emits_decided_targets": false,
         "has_per_class_migrator": true,
@@ -8733,10 +8768,10 @@
             "term_observation"
           ]
         },
-        "batch_pass_emits_decided_targets": false,
+        "batch_pass_emits_decided_targets": true,
         "helper_consumers": [],
         "helper_emits": {},
-        "helper_emits_decided_targets": false,
+        "helper_emits_decided_targets": true,
         "emitted_by_migrator": null,
         "emitted_by_targets": [],
         "emitted_by_emits_decided_targets": false
@@ -8750,18 +8785,23 @@
       "target_flags": "pass-1 migrator always errors (intentional deferral); NDI stimulusBathToBath still targets retired `bath` for V_zeta/V_epsilon (task #20)",
       "decided_by_family": null,
       "families_naming_this_class": [],
-      "governance_gap": "no family names this class, and the row has no V_eta class and no target either",
+      "governance_gap": null,
       "governance": {
-        "state": "no signature found",
-        "signoff": null,
-        "why": "no family names this class, and the row has no V_eta class and no target either. This is the absence of a FINDABLE signature -- a transcription, or a signed family naming this class -- and NOT evidence that no decision exists"
+        "state": "signed",
+        "signoff": {
+          "document": "V_eta_go_forward_class_audit.md",
+          "signoff_fragment": "migrates to a `dose_manipulation`",
+          "mapping_fragment": "migrates to a `dose_manipulation`",
+          "account": "Deferred in pass 1 (needsSessionContext), assembled by resolveDeferredBaths into a `dose_manipulation` subject_manipulation leaf + a session anchor + a conditional `term_observation`; the bath/pharmacological_manipulation family is retired (D8)."
+        },
+        "why": "a TEAM-SIGN-OFF line in `V_eta_go_forward_class_audit.md` is transcribed onto this row and re-checked against that document by check_decision_citations() on every ledger build"
       },
       "stage": {
         "unclassifiable": false,
         "unclassifiable_why": null,
-        "reached": 1,
-        "reached_name": "a migrator CONSUMES it",
-        "blocked_by": 2,
+        "reached": 3,
+        "reached_name": "the migrator emits THE DECIDED targets",
+        "blocked_by": 4,
         "blocked_by_state": "not measured",
         "ladder": [
           {
@@ -8773,14 +8813,14 @@
           {
             "stage": 2,
             "name": "its decided target classes EXIST in the build",
-            "state": "not measured",
-            "why": "`build_state.schema_targets_named` is 0 -- no target class is named for this row, so there is nothing to look for in the built set. This is NOT 'all targets present': an empty `schema_targets_missing` is empty here because the question was never asked"
+            "state": "yes",
+            "why": "all 1 decided target class(es) are present in the built V_eta set (`build_state.schema_targets_missing` is empty AND `schema_targets_named` is non-zero)"
           },
           {
             "stage": 3,
             "name": "the migrator emits THE DECIDED targets",
-            "state": "not measured",
-            "why": "`build_state.schema_targets_named` is 0 -- no decided target to check an emission against"
+            "state": "yes",
+            "why": "the migrator named after this class does not emit the decided target(s), but `build_state.batch_pass_emits` records the DID BATCH POST-PASS(es) `did2.convert.resolveDeferredBaths` -> `dose_manipulation`, `session_relative_reference`, `term_observation` DECLARING the emission. A declared emission is a fact about code the pass's own header states; it is NOT a corpus proof"
           },
           {
             "stage": 4,
@@ -8790,7 +8830,7 @@
           }
         ],
         "anomalies": [],
-        "highest_rung_satisfied_independently": 1,
+        "highest_rung_satisfied_independently": 3,
         "capped": false,
         "nothing_built": false,
         "nothing_satisfied": false,

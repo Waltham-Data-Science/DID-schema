@@ -950,6 +950,21 @@ DECIDED_TARGETS_BY_SIGNOFF = {
         "subject. The deduped stimulus `data_type` documents it also mints are "
         "not a fixed class set and are not listed.")),
 
+    # stimulus_bath is DEFERRED in pass 1 (needsSessionContext, by design) and
+    # assembled by the resolveDeferredBaths batch pass into a `dose_manipulation`
+    # (+ a session_relative_reference 'during' anchor + a conditional
+    # term_observation). The decided target CLASS the sign-off line names is
+    # `dose_manipulation`; the anchor is shared infra and the term_observation is
+    # conditional, so neither is listed as the shape-defining decided target.
+    "stimulus_bath": (
+        ["dose_manipulation"], "V_eta_go_forward_class_audit.md",
+        "migrates to a `dose_manipulation`",
+        "migrates to a `dose_manipulation`",
+        ("Deferred in pass 1 (needsSessionContext), assembled by "
+        "resolveDeferredBaths into a `dose_manipulation` subject_manipulation "
+        "leaf + a session anchor + a conditional `term_observation`; the "
+        "bath/pharmacological_manipulation family is retired (D8).")),
+
     # RESOLVED 2026-08-11, and it moved OUT of NO_TARGET_BY_DECISION to get
     # here. It sat as DISPUTED because `V_eta_go_forward_class_audit.md` says two
     # things about this class:

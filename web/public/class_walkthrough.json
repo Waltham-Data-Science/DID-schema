@@ -291,17 +291,17 @@
       "site_count": 3,
       "sites": [
        {
-        "line": 787,
+        "line": 775,
         "spelling": "base",
         "text": "'superclasses', struct('class_name', 'base', 'class_version', '1.0.0'), ..."
        },
        {
-        "line": 1089,
+        "line": 1077,
         "spelling": "base",
         "text": "if ~isstruct(body) || ~isfield(body, 'base') || ~isstruct(body.base) ..."
        },
        {
-        "line": 1106,
+        "line": 1094,
         "spelling": "base",
         "text": "if isstruct(b) && isfield(b, 'base') && isstruct(b.base) && isfield(b.base, name)"
        }
@@ -1949,17 +1949,17 @@
         "text": "if ~strcmp(classOf{k}, 'epochfiles_ingested'); continue; end"
        },
        {
-        "line": 804,
+        "line": 792,
         "spelling": "epochfiles_ingested",
         "text": "if ~isstruct(body) || ~isfield(body, 'epochfiles_ingested') ..."
        },
        {
-        "line": 1036,
+        "line": 1024,
         "spelling": "epochfiles_ingested",
         "text": "if ~isstruct(body) || ~isfield(body, 'epochfiles_ingested') ..."
        },
        {
-        "line": 1055,
+        "line": 1043,
         "spelling": "epochfiles_ingested",
         "text": "if ~isstruct(body) || ~isfield(body, 'epochfiles_ingested') ..."
        }
@@ -2087,7 +2087,7 @@
       "site_count": 1,
       "sites": [
        {
-        "line": 1059,
+        "line": 1047,
         "spelling": "epochid",
         "text": "es = charField(body.epochfiles_ingested, {'epoch_id', 'epochId', 'epochid'});"
        }
@@ -2419,12 +2419,12 @@
       "site_count": 2,
       "sites": [
        {
-        "line": 749,
+        "line": 737,
         "spelling": "image",
         "text": "if strcmp(mixin, 'image')"
        },
        {
-        "line": 952,
+        "line": 940,
         "spelling": "image",
         "text": "entries = mkEntry('image_observation', 'image', 'image');"
        }
