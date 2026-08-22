@@ -207,6 +207,42 @@ on TWO things that have since changed, and one instrument BUG:
   Soph) are at Bar-2 on the DID side; only Soph's NDI e2e for the one second-pass class is
   outstanding.
 
+  **THE SOPH NDI e2e RAN AND IS GREEN — run 32545547029 (NDI-matlab head 043bf9d, PR #836,
+  `test-eta-migrate-soph.yml`, 2026-08-22), `TestMigrateLocalEtaSoph` 5 Passed / 0 Failed / 0
+  Incomplete, 8343 s.** This is the PRODUCTION `ndi.migrate.local` path over the whole corpus
+  (not the DID harness), plus the object read-back — the one thing the DID-side corpus proof
+  cannot see. The FIRST dispatch (run 32545423486) died ~1.5 min in on a GitHub API 403 "rate
+  limit exceeded" inside `matbox.installRequirements` (unauthenticated MatBox = 60 req/hr per
+  runner IP); FIXED by passing `secrets.GITHUB_TOKEN` to both MatBox steps of the workflow (the
+  pattern `test-corpus.yml` already uses), which re-fired the run via its push trigger. The
+  green run's own census, quoted from the log:
+
+        PASS-1 CONVERSION CENSUS (Soph)
+          DENOMINATOR: 101427 read, 203935 migrated, 0 quarantined; fragments 0
+          [Soph timing] ndi.migrate.local: 6366.6 s
+        READ-BACK (one of Soph's 33 session(s))
+          daqsystem_load: 3 object(s)   getelements: 27 object(s)
+        BAR-2 FINAL-OUTPUT V1 SURVIVOR CENSUS (Soph)
+          v1 source class names still labelling a destination document: 3
+             3169  subject                 persist (v1 class IS the V_eta class)
+               33  session                 persist
+                2  stimulus_presentation   UNFOLDED -- a Bar-2 gap unless persist
+                                           or a declared deferral
+
+  **Bar-1 is clean on the production path** (0 quarantined, 0 fragments over 101,427 docs), and
+  the migrated session opens on the `did2sqlite` backend and reads back through the object API.
+  **173 of Soph's 175 `stimulus_presentation` fold to `timed_sequence_manipulation` in the NDI
+  second pass; TWO remain UNFOLDED** — the presentations with NO responding animal (the pass's
+  own `single_grating_candidates` case: no response document to decompose around). The test is
+  green because the survivor census is report-only (measured, not asserted) and nothing
+  quarantines; the census itself flags the 2 as "a Bar-2 gap unless persist or a declared
+  deferral". **THAT DISPOSITION IS NOT MADE HERE (Operating Rule 4): whether a
+  no-responding-animal presentation should persist as-is or counts as a residual Bar-2 gap is a
+  team question.** So the honest final state: Soph is at Bar-2 on the DID side and its
+  production migration + object read-back are proven; the lone open item is the disposition of
+  2 no-responding-animal `stimulus_presentation` documents, not the stimulator-bridge work
+  (#66 increment 3), which is fully closed.
+
 ---
 
 ## START HERE — the generated state artifacts (read these FIRST, before any prose)
