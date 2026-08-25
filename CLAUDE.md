@@ -293,6 +293,69 @@ on TWO things that have since changed, and one instrument BUG:
   (PR #836) — `ontologyTableRow` (#53) has never run the two-tier fan-out at scale before; that
   run is PENDING as of this record.
 
+  **THE DAB NDI e2e RAN (PR #836) AND SETTLED BOTH SECOND-PASS CLASSES — 2026-08-24/25, six runs,
+  each a real full-corpus `ndi.migrate.local` over 27,561 docs, all green (7 Passed / 0 Failed on
+  the final run 32785560214). ALL FIGURES BELOW ARE MEASURED, and this block CORRECTS a wrong
+  conclusion I reached mid-investigation — the census is the arbiter, not my read of the importer.**
+
+  - **`ontologyTableRow` (#53) fan-out: 6205/6205 resolved, 0 surviving unresolved** — the two-tier
+    subject fan-out is clean on a real corpus, first time at scale. Bar-1 clean on the production
+    path (0 quarantine / 0 orphans / 0 fragments over 27,561 docs), object read-back works.
+  - **`stimulus_presentation` (1242): the response-based fold refused ALL 1242** for `no responding
+    animal` — Dab carries visual gratings but NO `stimulus_response_scalar` documents (the vhlab
+    tuning pipeline's per-stimulus responses were never computed/exported for it), and
+    `bodyResolver.subjectsForPresentation` reaches the animal ONLY through that response link.
+  - **FORK 1 (TEAM-SIGNED 2026-08-22) fixed the subject attribution**: when no response names a
+    presentation, fall back to `subjectsViaEpochScoped` (the presentation's `epochid` -> the
+    element recorded in that epoch, SESSION-scoped -> its subject). Measured: session-scoped, 1174
+    resolve to exactly one subject, 0 to several, 68 to none (the unscoped `several` of 1235 was a
+    cross-session epoch-NAME pooling artifact — proven by the scoped/unscoped split, `26c3e537a`).
+    With fork 1 LIVE (`6efea9a`): **1011/1242 fold to `visual_grating` `timed_sequence_manipulation`
+    via the epoch-resolved subject; Bar-1 stayed clean** (all 1011 new subject edges resolve).
+  - **THE 1011 ARE REAL VISUAL GRATINGS — VERIFIED by a parameter census over Dab's own documents
+    (`1e3b89bfa`, run 32785560214):**
+
+        STIMULUS-PARAMETER CENSUS (Dab)  1242 presentations, 53,144 stimuli, 8 field-name sets
+          25728  {angle, sFrequency, sPhaseShift, tFrequency, contrast, nCycles, windowShape,
+                  chromhigh, chromlow, barColor, barWidth, dispprefs, rect, distance, stimnum, ...}
+          ... (vhlab NewStim visual-stimulus fields: dispprefs/rect/distance = monitor/display)
+        grating-named field presence + value range:
+          angle       present 51429   distinct 36   min 0     max 337.5
+          sFrequency  present 51133   distinct 14   min 0.05  max 1.6
+          tFrequency  present 51133   distinct 13   min 0.5   max 30
+
+    Varied orientation (36 dirs) / SF (0.05-1.6 cyc/deg) / TF (0.5-30 Hz): a genuine visual TUNING
+    protocol, not a hollow default. **Dabrowska is visual physiology in BNST/SON COMBINED with
+    optogenetics + bath pharmacology.**
+
+  - **A CORRECTION OF MY OWN, RECORDED PER THIS FILE'S DOCTRINE.** Mid-investigation I read the
+    Dabrowska importer (`+setup/+conv/+dabrowska/doImport.m`), saw it authors only bath / opto
+    treatment / ephys probes / behavioral EPM+FPS (its one stimulator probe is `bath`), and
+    concluded "Dabrowska has no visual stimuli, so the 1011 visual_grating are MISLABELED bath
+    events." **That was wrong — an over-correction.** The importer I read does not cover the visual
+    stimulus path, but the CORPUS plainly contains 53k vhlab visual stimuli. Reading what a tool
+    AUTHORS is not reading what the corpus CONTAINS; the census (the data) settled it. Lesson: run
+    the measurement over the documents before concluding from an importer's source.
+
+  - **DAB'S REMAINING `stimulus_presentation` GAP IS 231 = 163 + 68, NEITHER OF WHICH IS BATH:**
+    - **163 refuse `no grating parameter`** — these are the NON-GRATING *visual* stimuli in Dab:
+      sparse-noise / reverse-correlation (`{BG,N,randState,pixSize,values}`), disparity/stereo
+      (`{BG,N,disparity,...}`), etc. They correctly decline the grating-only emitter because they
+      are a different VISUAL stimulus type, and need their own value model — a noise/RF stimulus
+      `data_type`, adjacent to the RF/Hartley family (`V_eta_OPEN_WORK.md` #48) and the stimulus
+      model (#31), NOT the bath/`dose_manipulation` model. A team modelling item.
+    - **68 refuse `no epoch element`** — genuinely subject-less: the presentation's session-scoped
+      epoch has no recorded `element_epoch` at all, so no subject resolves. Fork-2 territory (a
+      bare standalone `timed_sequence` with no manipulation leaf) or a data-quality look at why
+      those epochs recorded nothing. A team call.
+    - The bath/opto side is separately and correctly handled (`stimulus_bath -> dose_manipulation`,
+      `treatment`); it is not part of this gap.
+
+  So on the NDI production path Dab now folds **1011/1242** presentations to their decided shape
+  with Bar-1 clean, `ontologyTableRow` fully fanned out, and object read-back working; the residual
+  is **163 non-grating visual stimuli (need a noise/RF value model, #48/#31) + 68 subject-less** —
+  both team modelling questions, neither a defect in the migration.
+
 ---
 
 ## START HERE — the generated state artifacts (read these FIRST, before any prose)
