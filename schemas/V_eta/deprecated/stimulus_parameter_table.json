@@ -1,0 +1,40 @@
+{
+    "document_class": {
+        "class_name": "stimulus_parameter_table",
+        "class_version": "2.0.0",
+        "superclasses": [
+            {
+                "class_name": "base"
+            },
+            {
+                "class_name": "epochid"
+            }
+        ],
+        "maturity_level": "deprecated"
+    },
+    "depends_on": [
+        {
+            "name": "stimulus_element_id",
+            "mustBeNonEmpty": false,
+            "documentation": "The stimulus ELEMENT this table belongs to. NDI's schema marks it required; declared non-required here because the class has no writer anywhere, so no real document is known to populate it.",
+            "must_refer_to_document_class": "subject",
+            "ndi_mustBeNonEmpty": true
+        }
+    ],
+    "file": [],
+    "fields": [
+        {
+            "name": "string",
+            "type": "string",
+            "blank_value": [],
+            "default_value": [],
+            "mustBeNonEmpty": false,
+            "mustBeScalar": false,
+            "mustNotHaveNaN": false,
+            "queryable": false,
+            "ontology": null,
+            "documentation": "The one field the class has. NDI documents it as 'an array of the order of stimulus presentation (each stimulus has an integer ID)' while typing it char -- an unresolved v1 shape, preserved as written. UNMODELLED: no writer, no reader, no documents.",
+            "constraints": {}
+        }
+    ]
+}

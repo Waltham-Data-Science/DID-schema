@@ -1,0 +1,66 @@
+{
+    "document_class": {
+        "class_name": "stimulus_parameter",
+        "class_version": "2.0.0",
+        "superclasses": [
+            {
+                "class_name": "base"
+            },
+            {
+                "class_name": "epochid"
+            }
+        ],
+        "maturity_level": "stable"
+    },
+    "depends_on": [
+        {
+            "name": "stimulus_element_id",
+            "mustBeNonEmpty": true,
+            "documentation": "The stimulus ELEMENT this parameter is a parameter of, promoted to a subject with its id preserved by migrators_j.element. Required: all three writer sites set it.",
+            "must_refer_to_document_class": "subject",
+            "ndi_mustBeNonEmpty": true
+        }
+    ],
+    "file": [],
+    "fields": [
+        {
+            "name": "ontology_name",
+            "type": "string",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "The parameter's identity as a CURIE (e.g. NDIC:12). This is the field the live NDI queries pivot on (find_epochids_with_temperature.m:25, marder/demo.m:24).",
+            "constraints": {}
+        },
+        {
+            "name": "name",
+            "type": "string",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "The human label for the parameter (e.g. 'Command temperature constant').",
+            "constraints": {}
+        },
+        {
+            "name": "value",
+            "type": "double",
+            "blank_value": [],
+            "default_value": [],
+            "mustBeNonEmpty": false,
+            "mustBeScalar": false,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "The parameter's value. Numeric per NDI's schema and per the writer; the template's `\"\"` is a placeholder, not a type. Not scalar-constrained -- the constant branch assigns a whole cell.",
+            "constraints": {}
+        }
+    ]
+}

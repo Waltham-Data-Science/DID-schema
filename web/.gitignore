@@ -1,6 +1,8 @@
 node_modules/
 dist/
 public/schemas/
+public/coverage.json
+public/decisions.json
 *.tsbuildinfo
 vite.config.js
 vite.config.d.ts

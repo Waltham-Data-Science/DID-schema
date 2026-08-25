@@ -1,0 +1,25 @@
+{
+    "document_class": {
+        "class_name": "term_assertion",
+        "class_version": "1.0.0",
+        "superclasses": [
+            {
+                "class_name": "subject_assertion"
+            },
+            {
+                "class_name": "term"
+            }
+        ],
+        "maturity_level": "stable"
+    },
+    "depends_on": [
+        {
+            "name": "strain_id",
+            "mustBeNonEmpty": false,
+            "documentation": "OPTIONAL: the strain document this assertion's term names, when one exists. Named for its target per the convention measured across 97 dependency declarations (45 distinct names, all `<target>_id`) -- NOT a generic `term_id`.",
+            "must_refer_to_document_class": "strain"
+        }
+    ],
+    "file": [],
+    "fields": []
+}

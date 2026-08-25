@@ -1,0 +1,94 @@
+{
+    "document_class": {
+        "class_name": "generic_file",
+        "class_version": "2.0.0",
+        "superclasses": [
+            {
+                "class_name": "base"
+            }
+        ],
+        "maturity_level": "stable"
+    },
+    "depends_on": [
+        {
+            "name": "document_id",
+            "mustBeNonEmpty": false,
+            "documentation": "The document this file belongs to. NDI's ONLY dependency on this class, and its schema marks it mustbenotempty: 0. The writer always sets it -- to a `subject_group` id (plasmid branch) or a subject id (LC-MS branch). Typed `subject` because migrators_j.subject_group folds 1->1 to `subject` carrying the v1 `base` block, so the id is preserved and the edge resolves after migration. Declared OPTIONAL anyway: must_refer is existence-only and a tombstone must not reject a document an older writer produced.",
+            "must_refer_to_document_class": "subject",
+            "ndi_mustBeNonEmpty": false
+        }
+    ],
+    "file": [
+        {
+            "name": "generic_file.ext",
+            "documentation": "The file itself, uninterpreted bytes. NDI names the slot with a literal `.ext` -- the real extension is recoverable only from `filename`, which is what downloadGenericFiles.m:107-126 does."
+        }
+    ],
+    "fields": [
+        {
+            "name": "filename",
+            "type": "string",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "The original full file path and name, verbatim from the source tree (e.g. '/Users/lab/Documents/YYMMDD/subject/file.jpg').",
+            "constraints": {}
+        },
+        {
+            "name": "format_ontology",
+            "type": "string",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "An ontology node naming the FILE FORMAT, as `ontology:nodeID`. The writer emits 'EMPTY:0000253' for plasmid files and 'EDAM:format_3620' for the LC-MS tables. Spelled `formatOntology` in did_v1; snake_cased by universalRenames. NOT declared `ontology_term`: v1 stores a bare CURIE string, not the {node, name} pair that composite requires, and manufacturing the `name` half is exactly the invention a tombstone must not make.",
+            "constraints": {}
+        },
+        {
+            "name": "checksum",
+            "type": "string",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "The MD5 checksum of the file (ndi.fun.file.MD5). THIS FIELD USED TO BLOCK THE opaque_body FOLD -- opaque_body had no content_hash, so folding would have dropped it. opaque_body now declares `content_hash` and did2.convert.foldGenericFiles carries this value into it verbatim.",
+            "constraints": {}
+        },
+        {
+            "name": "date_created",
+            "type": "double",
+            "blank_value": 0.0,
+            "default_value": 0.0,
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "When the file was created, as a MATLAB datenum. Typed `double` by generic_file_schema.json AND written as a datenum double by the writer (convertTo(...,'datenum')) -- they agree. The template's literal `\"\"` is a placeholder; no document from this writer carries it. Spelled `dateCreated` in did_v1.",
+            "constraints": {}
+        },
+        {
+            "name": "date_updated",
+            "type": "double",
+            "blank_value": 0.0,
+            "default_value": 0.0,
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "When the file was last updated, as a MATLAB datenum. Same writer/schema agreement as date_created. Spelled `dateUpdated` in did_v1.",
+            "constraints": {}
+        }
+    ]
+}

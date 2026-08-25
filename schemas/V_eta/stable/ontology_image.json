@@ -1,0 +1,45 @@
+{
+    "document_class": {
+        "class_name": "ontology_image",
+        "class_version": "2.0.0",
+        "superclasses": [
+            {
+                "class_name": "base"
+            },
+            {
+                "class_name": "ngrid"
+            }
+        ],
+        "maturity_level": "stable"
+    },
+    "depends_on": [
+        {
+            "name": "ontology_table_row_id",
+            "mustBeNonEmpty": false,
+            "documentation": "The metadata table row giving this image its data context. NOT a subject -- resolving the subject through it is the NDI second pass's job, which is why these documents are deferred rather than migrated. The only edge the class has ever declared, and the only one its writer sets.",
+            "must_refer_to_document_class": "ontology_table_row",
+            "ndi_mustBeNonEmpty": false
+        }
+    ],
+    "file": [
+        {
+            "name": "ontologyImage.ngrid",
+            "documentation": "The raster, written by ndi.fun.data.writengrid (little-endian, dtype = ngrid.data_type, extent = ngrid.data_dim). Carried verbatim on the vintage-B passthrough; its R6 home is an image_observation minted by the NDI second pass, once the ontologyTableRow edge resolves to a subject. The name is NDI's own: universalRenames does not touch the file/files keys, so it arrives unchanged."
+        }
+    ],
+    "fields": [
+        {
+            "name": "ontology_nodes",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "One or more ontology CURIEs for what the image depicts, comma-joined and sorted, each normalised through ndi.ontology.lookup. The v1 template's singular `ontologyNode` is stale; the writer and its own lookup query both use the plural.",
+            "constraints": {}
+        }
+    ]
+}

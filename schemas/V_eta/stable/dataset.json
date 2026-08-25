@@ -1,0 +1,331 @@
+{
+    "document_class": {
+        "class_name": "dataset",
+        "class_version": "1.0.0",
+        "superclasses": [
+            {
+                "class_name": "entity"
+            }
+        ],
+        "maturity_level": "stable"
+    },
+    "depends_on": [],
+    "file": [],
+    "fields": [
+        {
+            "name": "full_name",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Full dataset name (openMINDS DatasetVersion.fullName).",
+            "constraints": {}
+        },
+        {
+            "name": "short_name",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Short dataset name / acronym (openMINDS DatasetVersion.shortName).",
+            "constraints": {}
+        },
+        {
+            "name": "version",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Version identifier (openMINDS DatasetVersion.versionIdentifier).",
+            "constraints": {}
+        },
+        {
+            "name": "version_innovation",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "What changed relative to the previous version -- the changelog note (openMINDS DatasetVersion.versionInnovation).",
+            "constraints": {}
+        },
+        {
+            "name": "description",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Dataset description / abstract (openMINDS DatasetVersion.description).",
+            "constraints": {}
+        },
+        {
+            "name": "how_to_cite",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Preferred citation string for this dataset version (openMINDS DatasetVersion.howToCite).",
+            "constraints": {}
+        },
+        {
+            "name": "keyword",
+            "type": "string",
+            "blank_value": [],
+            "default_value": [],
+            "mustBeNonEmpty": false,
+            "mustBeScalar": false,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Free-text keywords/tags describing the dataset (openMINDS DatasetVersion.keyword); repeatable.",
+            "constraints": {}
+        },
+        {
+            "name": "license",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "License (openMINDS DatasetVersion.license, a SPDX license identifier).",
+            "constraints": {}
+        },
+        {
+            "name": "accessibility",
+            "type": "ontology_term",
+            "blank_value": {
+                "node": "",
+                "name": ""
+            },
+            "default_value": {
+                "node": "",
+                "name": ""
+            },
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Access level of the data -- e.g. free access / controlled access / under embargo (openMINDS DatasetVersion.accessibility, controlled term ProductAccessibility).",
+            "constraints": {
+                "binding": {
+                    "vocabulary": "openMINDS",
+                    "term_set": "ProductAccessibility",
+                    "strength": "required"
+                }
+            },
+            "fields": [
+                {
+                    "name": "node",
+                    "type": "char",
+                    "blank_value": "",
+                    "default_value": "",
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "The CURIE (prefix resolved via CURIE_lookups_meta.json).",
+                    "constraints": {}
+                },
+                {
+                    "name": "name",
+                    "type": "char",
+                    "blank_value": "",
+                    "default_value": "",
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "The human-readable label.",
+                    "constraints": {}
+                }
+            ]
+        },
+        {
+            "name": "ethics_assessment",
+            "type": "ontology_term",
+            "blank_value": {
+                "node": "",
+                "name": ""
+            },
+            "default_value": {
+                "node": "",
+                "name": ""
+            },
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Whether/how the work required ethics review -- e.g. not required / EU compliant / EU non-compliant (openMINDS DatasetVersion.ethicsAssessment, controlled term EthicsAssessment).",
+            "constraints": {
+                "binding": {
+                    "vocabulary": "openMINDS",
+                    "term_set": "EthicsAssessment",
+                    "strength": "required"
+                }
+            },
+            "fields": [
+                {
+                    "name": "node",
+                    "type": "char",
+                    "blank_value": "",
+                    "default_value": "",
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "The CURIE (prefix resolved via CURIE_lookups_meta.json).",
+                    "constraints": {}
+                },
+                {
+                    "name": "name",
+                    "type": "char",
+                    "blank_value": "",
+                    "default_value": "",
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "The human-readable label.",
+                    "constraints": {}
+                }
+            ]
+        },
+        {
+            "name": "experimental_approach",
+            "type": "ontology_term",
+            "blank_value": {
+                "node": "",
+                "name": ""
+            },
+            "default_value": {
+                "node": "",
+                "name": ""
+            },
+            "mustBeNonEmpty": false,
+            "mustBeScalar": false,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Scientific method/approach used to acquire the data -- e.g. electrophysiology, behavior (openMINDS DatasetVersion.experimentalApproach, controlled term ExperimentalApproach); repeatable, open/growing set.",
+            "constraints": {
+                "binding": {
+                    "vocabulary": "openMINDS",
+                    "term_set": "ExperimentalApproach",
+                    "strength": "preferred"
+                }
+            },
+            "fields": [
+                {
+                    "name": "node",
+                    "type": "char",
+                    "blank_value": "",
+                    "default_value": "",
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "The CURIE (prefix resolved via CURIE_lookups_meta.json).",
+                    "constraints": {}
+                },
+                {
+                    "name": "name",
+                    "type": "char",
+                    "blank_value": "",
+                    "default_value": "",
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "The human-readable label.",
+                    "constraints": {}
+                }
+            ]
+        },
+        {
+            "name": "support_channel",
+            "type": "string",
+            "blank_value": [],
+            "default_value": [],
+            "mustBeNonEmpty": false,
+            "mustBeScalar": false,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Where to get support for this dataset -- an email address or discussion channel (openMINDS DatasetVersion.supportChannel); a support URL is instead a directed_relation -> web_resource. Repeatable.",
+            "constraints": {}
+        },
+        {
+            "name": "release_date",
+            "type": "date",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Release date (openMINDS DatasetVersion.releaseDate). `date`, not `timestamp`: a release is dated, not instantaneous, and openMINDS supplies no time of day to put in one. The NAME is already `<noun>_<kind>` and is unchanged -- it is the field the naming survey measured the house style against.",
+            "constraints": {}
+        },
+        {
+            "name": "copyright_year",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Copyright year (openMINDS DatasetVersion.copyright -> Copyright.year); the holder is a directed_relation -> organization|person (copyright_holder).",
+            "constraints": {}
+        },
+        {
+            "name": "local_identifier",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Optional human-facing handle for this entity, used to cross-reference it within its dataset (distinct from any display name/title). Required on subject; optional here.",
+            "constraints": {}
+        }
+    ]
+}

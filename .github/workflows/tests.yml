@@ -8,26 +8,193 @@ on:
   workflow_dispatch:
 
 jobs:
-  lint:
+  # THE CHAIN. One command, one list, and the list lives in tools/gates.py --
+  # not here. This file used to enumerate eight steps in an order nobody could
+  # check, beside a second copy of the same sequence retyped into every commit
+  # message. Two lists is one too many: on 2026-08-11 the workflow's list had
+  # drifted to a strict SUBSET of what the tools can check, and the four
+  # artifacts CLAUDE.md calls "CHECKED IN CI" were, three of them, not.
+  #
+  # `--ci` implies `--check`: everything is regenerated into a scratch mirror
+  # and diffed against the checkout, so a hand-edited schemas/V_eta or a stale
+  # V_eta_final_class_set.md now fails here. Nothing is written back.
+  #
+  # THIS COMMENT USED TO SAY the five sibling-reading steps were "the concrete
+  # reason CI cannot be the whole chain". THE SIBLINGS ARE NOW CHECKED OUT AND
+  # ALL EIGHTEEN STEPS RUN. Six were being reported NOT RUNNABLE HERE --
+  # ndi_ground_truth, refresh_migration_targets, coverage, check_tombstones,
+  # check_empty_ontology_nodes, check_pipeline_parity -- which is honest but is
+  # still a third of the chain never exercised on a runner, and it left THREE OF
+  # THE FOUR artifacts CLAUDE.md calls "checked in CI" unprotected: the coverage
+  # ledger (both halves) and the NDI ground truth are produced by steps that
+  # could not run. Both siblings are public, so nothing but a clone was ever in
+  # the way:
+  #
+  #   VH-Lab/NDI-matlab   "private": false
+  #   VH-Lab/DID-matlab   "private": false
+  #
+  # "not runnable here" is not "passed" and never was; the fix is to make them
+  # runnable rather than to keep counting them.
+  chain:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-      - run: pip install ruff
-      - run: ruff check tests
+      - run: pip install -e ".[test]"
 
-  tests:
+      # THE SIBLING CHECKOUTS, AND EVERY DETAIL HERE IS LOAD-BEARING.
+      #
+      # fetch-depth: 0 -- NOT a shallow clone, for two independent reasons.
+      # `tools/coverage.py:185` and `tools/ndi_ground_truth.py:449,539` read NDI
+      # from `origin/main` (falling back to `main`), and `ndi_ground_truth.py`
+      # additionally WALKS HISTORY for provenance (`git log --diff-filter=A` to
+      # find each class's add-commit). A depth-1 checkout has neither, and the
+      # failure would not be loud: the ref lookup falls through and the tool
+      # reports a smaller universe.
+      #
+      # ref: the FEATURE branch, not main. `check_pipeline_parity.py` and the
+      # status board's migrator evidence read NDI's V_eta second pass
+      # (`ndi_second_pass/`), which exists only on the feature branch, while
+      # coverage and the ground truth deliberately want `origin/main`. One
+      # checkout serves both ONLY because fetch-depth 0 brings every remote
+      # branch with it, so `origin/main` resolves inside a feature-branch
+      # working tree -- which is exactly the shape of a developer's machine.
+      #
+      # The fallback is explicit and it is ANNOUNCED. After this branch merges,
+      # `claude/...` stops existing in the siblings and a bare checkout would go
+      # red for a reason that has nothing to do with the change under test. A
+      # silent fallback would be worse: the gates would then be measuring main
+      # while the log implies the branch. So the step prints which ref it got
+      # for each sibling, and says FALLBACK in words when it took one.
+      - name: Check out the sibling repositories the gates read
+        env:
+          SIBLING_REF: ${{ github.head_ref || github.ref_name }}
+        run: |
+          set -euo pipefail
+          echo "SIBLING CHECKOUT"
+          echo "  DENOMINATOR: 2 sibling repo(s) requested, ref '${SIBLING_REF}'"
+          rc=0
+          for spec in "NDI-matlab:VH-Lab/NDI-matlab" "DID-matlab:VH-Lab/DID-matlab"; do
+            name="${spec%%:*}"; slug="${spec#*:}"
+            dest="${GITHUB_WORKSPACE}/${name}"
+            if ! git clone --quiet --no-checkout \
+                 "https://github.com/${slug}.git" "$dest"; then
+              echo "  ${name}: CLONE FAILED -- this is a failure, not a skip"
+              rc=1
+              continue
+            fi
+            if git -C "$dest" checkout --quiet "$SIBLING_REF" 2>/dev/null; then
+              got="$SIBLING_REF"; how="requested"
+            else
+              def=$(git -C "$dest" symbolic-ref --short refs/remotes/origin/HEAD \
+                    | sed 's|^origin/||')
+              git -C "$dest" checkout --quiet "$def"
+              got="$def"; how="FALLBACK -- '${SIBLING_REF}' does not exist here"
+            fi
+            has_main=$(git -C "$dest" rev-parse --verify -q origin/main >/dev/null \
+                       && echo yes || echo NO)
+            n=$(git -C "$dest" rev-list --count HEAD)
+            echo "  ${name}: ref=${got} (${how}); origin/main present=${has_main}; ${n} commit(s)"
+            if [ "$has_main" = "NO" ]; then
+              echo "  ${name}: *** origin/main IS MISSING. coverage.py and"
+              echo "  ${name}: *** ndi_ground_truth.py read it; a shallow or"
+              echo "  ${name}: *** single-ref clone is not enough."
+              rc=1
+            fi
+            # gates.py resolves the siblings ONCE and hands the answer to every
+            # child in all four spellings, so these two canonical names are
+            # enough -- see `find_repo` / `child_env` in tools/gates.py. An
+            # explicitly SET variable is authoritative there, which is what
+            # stops a child falling back to a default the driver rejected.
+            case "$name" in
+              NDI-matlab) echo "NDI_MATLAB=${dest}" >> "$GITHUB_ENV" ;;
+              DID-matlab) echo "DID_MATLAB=${dest}" >> "$GITHUB_ENV" ;;
+            esac
+          done
+          exit $rc
+
+      # PINNED, DELIBERATELY. This was `pip install ruff`, and on 2026-08-09 the
+      # gate went red across FIVE test files with no code change: ruff 0.16.2
+      # shipped and promoted UP031, RUF015, RUF059, SIM102, SIM115 and I001 to
+      # its default set. 25 errors appeared at once, most of them in files
+      # nobody had touched in months, and the failure looked like it belonged to
+      # whichever branch happened to push next.
+      #
+      # An unpinned linter is an unreviewed dependency that can fail the build
+      # on someone else's release schedule. Pinned FORWARD to the version that
+      # caught these -- all 25 are fixed -- not back to the one that missed them.
+      # Bump it deliberately, with the fixes in the same commit.
+      - run: pip install ruff==0.16.2
+
+      # Every gate this repository has, in the order tools/gates.py DERIVES from
+      # which tool reads which artifact. What each step is for is documented at
+      # its declaration in that file; `python3 tools/gates.py --explain` prints
+      # the order, the reason for every edge, and the witness that substantiates
+      # it. The steps folded in here, each with the comment that used to sit
+      # beside it in this file:
+      #
+      #   ruff                                the pin above
+      #   pytest                              the suite
+      #   check_migrator_vocabulary --enforce Phase 1.3 -- migrators written
+      #       against DID-schema's own V_alpha snapshot read fields no real
+      #       document has. ENFORCING since the confirmed list reached zero; it
+      #       also fails on a GUARD GONE or an ALLOW-LIST STALE entry.
+      #   status_board --check                V_eta state used to live in 27
+      #       plan documents that disagreed. The board is DERIVED, so it cannot
+      #       drift; this fails when it is stale, when an in_progress class
+      #       belongs to no decision family, or when a family cites a decision
+      #       document that does not exist.
+      #   check_duplicate_field_declarations --enforce   #69, a RATCHET: the
+      #       count may fall freely and may not grow, so the known rows stay
+      #       visible instead of quietly becoming one more.
+      #   check_constraint_refinement         #69's other half, REPORT-ONLY by
+      #       design -- it prints the DIRECTION of each redeclared field
+      #       (IDENTICAL / TIGHTENED / LOOSENED / DIVERGENT) with its
+      #       denominator. Where enforcement should sit is a team call.
+      #   check_vacuous_tests --enforce       a test that passes while checking
+      #       nothing is the failure this project keeps paying for, one level up.
+      #   check_signoff_header_staleness --enforce   six plan documents carried
+      #       a header asserting "NO TEAM-SIGN-OFF LINE" while carrying that
+      #       line hundreds of lines below.
+      #
+      # NEW HERE, and the reason the driver is a superset rather than a
+      # rearrangement: build_v_eta and regen_final_class_set now run and their
+      # output is diffed. Before this, CI never rebuilt the schema set at all,
+      # so a hand-edit to schemas/V_eta/*.json passed every gate.
+      - name: Regenerate-and-gate chain (tools/gates.py)
+        run: python3 tools/gates.py --ci
+
+  # The chain job pins 3.12. This one exists ONLY to prove the suite still runs
+  # on the older interpreters the project supports; it is not a second gate list
+  # and must not grow one. Anything that belongs to the chain belongs in
+  # tools/gates.py, where the order is derived and the dependencies are checked.
+  older-pythons:
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
-        python-version: ["3.10", "3.11", "3.12"]
+        python-version: ["3.10", "3.11"]
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.python-version }}
       - run: pip install -e ".[test]"
-      - run: pytest
+
+      # THE SAME PIN AS THE `chain` JOB, and it has to be here even though this
+      # job runs no lint step. `tests/test_ruff_rule_set.py` is part of the
+      # SUITE, and it asserts that the ruff on PATH is the one tests.yml pins --
+      # so with no ruff installed it failed on both matrix legs the moment it
+      # landed. Making it skip instead would have been the wrong repair: a
+      # rule-set check that skips wherever the tool is missing is a check that
+      # reports nothing on exactly the machines where the tool set is wrong,
+      # which is how the 18 lost rules stayed invisible in the first place.
+      #
+      # Keep this version equal to the `chain` job's. The test parses the pin
+      # out of this file and there must be EXACTLY ONE match, so a second,
+      # different pin fails loudly rather than letting the two legs diverge.
+      - run: pip install ruff==0.16.2
+
+      - run: python3 tools/gates.py --ci --only pytest

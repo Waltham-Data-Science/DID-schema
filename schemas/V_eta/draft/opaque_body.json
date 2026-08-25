@@ -1,0 +1,20 @@
+{
+    "document_class": {
+        "class_name": "opaque_body",
+        "class_version": "1.0.0",
+        "superclasses": [
+            {
+                "class_name": "data_body"
+            }
+        ],
+        "maturity_level": "draft"
+    },
+    "depends_on": [],
+    "file": [
+        {
+            "name": "body_data",
+            "documentation": "The byte payload (>=1 file)."
+        }
+    ],
+    "fields": []
+}

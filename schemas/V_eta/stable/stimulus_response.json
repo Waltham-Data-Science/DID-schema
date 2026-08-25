@@ -1,0 +1,75 @@
+{
+    "document_class": {
+        "class_name": "stimulus_response",
+        "class_version": "1.0.0",
+        "superclasses": [
+            {
+                "class_name": "base"
+            }
+        ],
+        "maturity_level": "stable"
+    },
+    "depends_on": [
+        {
+            "name": "element_id",
+            "mustBeNonEmpty": true,
+            "documentation": "The element (e.g. neuron) whose response was measured. REQUIRED in NDI (\"mustbenotempty\": 1).",
+            "must_refer_to_document_class": "subject",
+            "ndi_mustBeNonEmpty": true
+        },
+        {
+            "name": "stimulator_id",
+            "mustBeNonEmpty": true,
+            "documentation": "The stimulator element that delivered the stimulus -- T7's instrument role. REQUIRED in NDI (\"mustbenotempty\": 1) and set at +ndi/+app/+stimulus/tuning_response.m:328; V_eta had DROPPED it, so a migrated response could not say what stimulated the subject.",
+            "must_refer_to_document_class": "subject",
+            "ndi_mustBeNonEmpty": true
+        },
+        {
+            "name": "stimulus_presentation_id",
+            "mustBeNonEmpty": true,
+            "documentation": "The presentation this response was measured against. REQUIRED in NDI (\"mustbenotempty\": 1).",
+            "must_refer_to_document_class": "stimulus_presentation",
+            "ndi_mustBeNonEmpty": true
+        },
+        {
+            "name": "stimulus_control_id",
+            "mustBeNonEmpty": true,
+            "documentation": "The control this response is compared with. REQUIRED in NDI (\"mustbenotempty\": 1) and set at tuning_response.m:327; V_eta had DROPPED it. Left untyped: the control is another stimulus_response document and typing it rides with the stimulus model.",
+            "must_refer_to_document_class": "",
+            "ndi_mustBeNonEmpty": true
+        }
+    ],
+    "file": [],
+    "fields": [
+        {
+            "name": "stimulator_epochid",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Epoch identifier on the stimulator element whose presentation produced this response (e.g., 't00002'). Mirrors the v1 stimulus_response field.",
+            "constraints": {
+                "maxLength": 64
+            }
+        },
+        {
+            "name": "element_epochid",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Epoch identifier on the responding element (the element_id this document depends on) that aligns with the stimulator epoch above.",
+            "constraints": {
+                "maxLength": 64
+            }
+        }
+    ]
+}

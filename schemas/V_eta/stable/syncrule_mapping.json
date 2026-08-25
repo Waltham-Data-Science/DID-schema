@@ -1,0 +1,325 @@
+{
+    "document_class": {
+        "class_name": "syncrule_mapping",
+        "class_version": "1.0.0",
+        "superclasses": [
+            {
+                "class_name": "base"
+            }
+        ],
+        "maturity_level": "stable"
+    },
+    "depends_on": [
+        {
+            "name": "syncgraph_id",
+            "mustBeNonEmpty": true,
+            "documentation": "The sync graph these saved rules belong to. REQUIRED in NDI (\"mustbenotempty\": 1) and READ BY A LIVE QUERY (+ndi/+time/syncgraph.m:404-408).",
+            "must_refer_to_document_class": "syncgraph",
+            "ndi_mustBeNonEmpty": true
+        },
+        {
+            "name": "syncrule_id",
+            "mustBeNonEmpty": true,
+            "documentation": "The rule that produced this mapping. REQUIRED in NDI (\"mustbenotempty\": 1).",
+            "must_refer_to_document_class": "syncrule",
+            "ndi_mustBeNonEmpty": true
+        }
+    ],
+    "file": [],
+    "fields": [
+        {
+            "name": "cost",
+            "type": "double",
+            "blank_value": 0,
+            "default_value": 0,
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Numeric cost / score of this mapping (lower is typically better). v1 ships an integer; V_delta uses `double` to admit fractional costs from future rules.",
+            "constraints": {}
+        },
+        {
+            "name": "mapping",
+            "type": "matrix",
+            "blank_value": [],
+            "default_value": [],
+            "mustBeNonEmpty": false,
+            "mustBeScalar": false,
+            "mustNotHaveNaN": false,
+            "queryable": false,
+            "ontology": null,
+            "documentation": "Numeric mapping vector relating the two endpoints in clock space. v1 ships a 2-element numeric vector (int or float depending on the rule); V_delta keeps the shape open as a matrix.",
+            "constraints": {}
+        },
+        {
+            "name": "epochnode_a",
+            "type": "structure",
+            "blank_value": {},
+            "default_value": {},
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Sync endpoint A: the epoch whose clock this mapping relates. Its time flows through the time_reference model (an embedded epoch_bounded_reference), not bare char.",
+            "constraints": {},
+            "fields": [
+                {
+                    "name": "time_reference",
+                    "type": "structure",
+                    "blank_value": {},
+                    "default_value": {},
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "The epoch-clock reference this endpoint's times are stated in (epoch_bounded_reference shape).",
+                    "constraints": {},
+                    "fields": [
+                        {
+                            "name": "kind",
+                            "type": "char",
+                            "blank_value": "",
+                            "default_value": "",
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "The time_reference subclass modeled (epoch_bounded_reference).",
+                            "constraints": {}
+                        },
+                        {
+                            "name": "epoch_clock",
+                            "type": "char",
+                            "blank_value": "",
+                            "default_value": "",
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "The clock on the epoch (e.g. 'dev_local_time').",
+                            "constraints": {}
+                        },
+                        {
+                            "name": "epoch_id",
+                            "type": "char",
+                            "blank_value": "",
+                            "default_value": "",
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "The epoch NAME (an epoch is not a standalone doc, so a name, not a dep).",
+                            "constraints": {}
+                        }
+                    ]
+                },
+                {
+                    "name": "epoch_session_id",
+                    "type": "char",
+                    "blank_value": "",
+                    "default_value": "",
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "The session the epoch belongs to.",
+                    "constraints": {}
+                },
+                {
+                    "name": "epochprobemap",
+                    "type": "string",
+                    "blank_value": "",
+                    "default_value": "",
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "The probe map at this epoch, SERIALISED. NDI stores the character-array form produced by ndi.epoch.epochprobemap_daqsystem.serialize() (syncgraph.m:313-314), carrying name / reference / type / devicestring / subjectstring for every probe on the epoch. Typed `string` rather than `char` because an absent value decodes as an empty double, which `char` rejects.",
+                    "constraints": {}
+                },
+                {
+                    "name": "objectclass",
+                    "type": "char",
+                    "blank_value": "",
+                    "default_value": "",
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "The NDI object class of this epoch node.",
+                    "constraints": {}
+                },
+                {
+                    "name": "objectname",
+                    "type": "char",
+                    "blank_value": "",
+                    "default_value": "",
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "The name of the object (daq system / element) this epoch node belongs to. READ BY A LIVE NDI QUERY by exact_string (+ndi/+time/syncgraph.m:406-407) -- dropping it broke saved-rule lookup.",
+                    "constraints": {}
+                },
+                {
+                    "name": "t0_t1",
+                    "type": "matrix",
+                    "blank_value": [],
+                    "default_value": [],
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "The node's [t0 t1] bounds on its own clock. Dropped by the same reshape that dropped objectname.",
+                    "constraints": {}
+                }
+            ]
+        },
+        {
+            "name": "epochnode_b",
+            "type": "structure",
+            "blank_value": {},
+            "default_value": {},
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Sync endpoint B: the epoch whose clock this mapping relates. Its time flows through the time_reference model (an embedded epoch_bounded_reference), not bare char.",
+            "constraints": {},
+            "fields": [
+                {
+                    "name": "time_reference",
+                    "type": "structure",
+                    "blank_value": {},
+                    "default_value": {},
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "The epoch-clock reference this endpoint's times are stated in (epoch_bounded_reference shape).",
+                    "constraints": {},
+                    "fields": [
+                        {
+                            "name": "kind",
+                            "type": "char",
+                            "blank_value": "",
+                            "default_value": "",
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "The time_reference subclass modeled (epoch_bounded_reference).",
+                            "constraints": {}
+                        },
+                        {
+                            "name": "epoch_clock",
+                            "type": "char",
+                            "blank_value": "",
+                            "default_value": "",
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "The clock on the epoch (e.g. 'dev_local_time').",
+                            "constraints": {}
+                        },
+                        {
+                            "name": "epoch_id",
+                            "type": "char",
+                            "blank_value": "",
+                            "default_value": "",
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "The epoch NAME (an epoch is not a standalone doc, so a name, not a dep).",
+                            "constraints": {}
+                        }
+                    ]
+                },
+                {
+                    "name": "epoch_session_id",
+                    "type": "char",
+                    "blank_value": "",
+                    "default_value": "",
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "The session the epoch belongs to.",
+                    "constraints": {}
+                },
+                {
+                    "name": "epochprobemap",
+                    "type": "string",
+                    "blank_value": "",
+                    "default_value": "",
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "The probe map at this epoch, SERIALISED. NDI stores the character-array form produced by ndi.epoch.epochprobemap_daqsystem.serialize() (syncgraph.m:313-314), carrying name / reference / type / devicestring / subjectstring for every probe on the epoch. Typed `string` rather than `char` because an absent value decodes as an empty double, which `char` rejects.",
+                    "constraints": {}
+                },
+                {
+                    "name": "objectclass",
+                    "type": "char",
+                    "blank_value": "",
+                    "default_value": "",
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "The NDI object class of this epoch node.",
+                    "constraints": {}
+                },
+                {
+                    "name": "objectname",
+                    "type": "char",
+                    "blank_value": "",
+                    "default_value": "",
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "The name of the object (daq system / element) this epoch node belongs to. READ BY A LIVE NDI QUERY by exact_string (+ndi/+time/syncgraph.m:406-407) -- dropping it broke saved-rule lookup.",
+                    "constraints": {}
+                },
+                {
+                    "name": "t0_t1",
+                    "type": "matrix",
+                    "blank_value": [],
+                    "default_value": [],
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "The node's [t0 t1] bounds on its own clock. Dropped by the same reshape that dropped objectname.",
+                    "constraints": {}
+                }
+            ]
+        }
+    ]
+}

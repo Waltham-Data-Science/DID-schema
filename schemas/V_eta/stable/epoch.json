@@ -1,0 +1,51 @@
+{
+    "document_class": {
+        "class_name": "epoch",
+        "class_version": "1.0.0",
+        "superclasses": [
+            {
+                "class_name": "entity"
+            }
+        ],
+        "maturity_level": "stable"
+    },
+    "depends_on": [
+        {
+            "name": "session_id",
+            "mustBeNonEmpty": true,
+            "documentation": "The session this recording belongs to.",
+            "must_refer_to_document_class": "session"
+        },
+        {
+            "name": "time_reference_#",
+            "mustBeNonEmpty": false,
+            "documentation": "The epoch's own extent. One entry per (clock, extent) pair -- the real per-clock extents live in `daqreader_epochdata_ingested.epochtable`, one pair per entry, which is what makes this family well defined under the #52 uniqueness rule. #52 (V_eta_time_reference_model_plan.md CHANGE 5): within this family every member describes THE SAME instant or extent, and `value.clock` on the REFERENCED document must be unique across the family -- that clock is what makes two members different, and the `_1`/`_2` index means nothing on its own. Split-anchored intervals are NOT what a second member is for: they have no instance (every markvalidinterval call site passes one reference for both ends), so there are no `start_anchor`/`end_anchor` edges. Measured report-only, in batch, by did2.validate.silentLoss (`family_uniqueness_violation`); a per-document validator cannot see the referenced document and must not pretend to check it.",
+            "must_refer_to_document_class": "relative_reference",
+            "multiple": true,
+            "min_count": 0,
+            "referent_unique_by": "value.clock"
+        },
+        {
+            "name": "instrument_id",
+            "mustBeNonEmpty": false,
+            "documentation": "The acquisition device this epoch was recorded from. OPTIONAL, and typed to `entity` rather than `subject`: an epoch's instrument may be an `acquisition_system`, which is not a subject. Added because a daqsystem does not own a period of time -- the missing fact was the recording device, not a misnamed one.",
+            "must_refer_to_document_class": "entity"
+        }
+    ],
+    "file": [],
+    "fields": [
+        {
+            "name": "local_identifier",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": true,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "The v1 epochid string ('epoch_4126958b19a21a41_...'), PRESERVED as the handle. REQUIRED: 30 live NDI sites match it by exact_string, and 15 NDI templates carry the `epochid` superclass whose join it is.",
+            "constraints": {}
+        }
+    ]
+}

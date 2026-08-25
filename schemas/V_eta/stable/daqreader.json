@@ -1,0 +1,47 @@
+{
+    "document_class": {
+        "class_name": "daqreader",
+        "class_version": "2.0.0",
+        "superclasses": [
+            {
+                "class_name": "base"
+            }
+        ],
+        "maturity_level": "stable"
+    },
+    "depends_on": [],
+    "file": [],
+    "fields": [
+        {
+            "name": "ndi_daqreader_class",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "ndi_daqreader",
+            "mustBeNonEmpty": true,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "The class name of the DAQ reader implementation.",
+            "constraints": {
+                "maxLength": 256
+            },
+            "needs_ndi": true
+        },
+        {
+            "name": "reader_string",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Reader/file-type string (e.g. 'intan', 'SpikeGadgets') for a reader that needs one; formerly daqreader_ndr.ndr_reader_string. Optional -- the concrete reader is discriminated by ndi_daqreader_class.",
+            "constraints": {
+                "maxLength": 256
+            }
+        }
+    ]
+}

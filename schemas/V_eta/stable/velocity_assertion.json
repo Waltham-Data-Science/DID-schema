@@ -1,0 +1,18 @@
+{
+    "document_class": {
+        "class_name": "velocity_assertion",
+        "class_version": "1.0.0",
+        "superclasses": [
+            {
+                "class_name": "subject_assertion"
+            },
+            {
+                "class_name": "velocity"
+            }
+        ],
+        "maturity_level": "stable"
+    },
+    "depends_on": [],
+    "file": [],
+    "fields": []
+}

@@ -1,0 +1,175 @@
+{
+    "document_class": {
+        "class_name": "vmspikesummary",
+        "class_version": "2.0.0",
+        "superclasses": [
+            {
+                "class_name": "base"
+            },
+            {
+                "class_name": "epochid"
+            }
+        ],
+        "maturity_level": "stable"
+    },
+    "depends_on": [
+        {
+            "name": "element_id",
+            "mustBeNonEmpty": false,
+            "documentation": "The recording element, promoted to a subject with its id preserved.",
+            "must_refer_to_document_class": "subject"
+        },
+        {
+            "name": "spike_extraction_id",
+            "mustBeNonEmpty": false,
+            "documentation": "The extraction this summary was computed from. The tombstone declared only element_id before; this edge was being dropped.",
+            "must_refer_to_document_class": "spike_extraction_parameters"
+        }
+    ],
+    "file": [],
+    "fields": [
+        {
+            "name": "mean_spikewave",
+            "type": "matrix",
+            "blank_value": [],
+            "default_value": [],
+            "mustBeNonEmpty": false,
+            "mustBeScalar": false,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "The mean spike waveform.",
+            "constraints": {}
+        },
+        {
+            "name": "sample_times",
+            "type": "matrix",
+            "blank_value": [],
+            "default_value": [],
+            "mustBeNonEmpty": false,
+            "mustBeScalar": false,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Sample times for mean_spikewave.",
+            "constraints": {}
+        },
+        {
+            "name": "number_of_spikes",
+            "type": "matrix",
+            "blank_value": [],
+            "default_value": [],
+            "mustBeNonEmpty": false,
+            "mustBeScalar": false,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "How many spikes the mean was taken over. An ARRAY, not a scalar -- the old `num_spikes` read required a scalar and would have failed even with the name corrected.",
+            "constraints": {}
+        },
+        {
+            "name": "median_spikekink_vm",
+            "type": "matrix",
+            "blank_value": [],
+            "default_value": [],
+            "mustBeNonEmpty": false,
+            "mustBeScalar": false,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Median membrane potential at the spike kink.",
+            "constraints": {}
+        },
+        {
+            "name": "median_voltageofhalfmaximum",
+            "type": "matrix",
+            "blank_value": [],
+            "default_value": [],
+            "mustBeNonEmpty": false,
+            "mustBeScalar": false,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Median voltage at half maximum.",
+            "constraints": {}
+        },
+        {
+            "name": "median_fullwidthhalfmaximum",
+            "type": "matrix",
+            "blank_value": [],
+            "default_value": [],
+            "mustBeNonEmpty": false,
+            "mustBeScalar": false,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Median full width at half maximum.",
+            "constraints": {}
+        },
+        {
+            "name": "median_presk_halfwidthmaximum",
+            "type": "matrix",
+            "blank_value": [],
+            "default_value": [],
+            "mustBeNonEmpty": false,
+            "mustBeScalar": false,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Median pre-spike half-width at maximum.",
+            "constraints": {}
+        },
+        {
+            "name": "median_postsk_halfwidthmaximum",
+            "type": "matrix",
+            "blank_value": [],
+            "default_value": [],
+            "mustBeNonEmpty": false,
+            "mustBeScalar": false,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Median post-spike half-width at maximum. Present in the NDI TEMPLATE but absent from the NDI schema, which instead repeats median_fullwidthhalfmaximum and median_presk_halfwidthmaximum -- a copy-paste slip on the schema side. The template is the authority for field names, so it is declared here.",
+            "constraints": {}
+        },
+        {
+            "name": "median_max_dvdt",
+            "type": "matrix",
+            "blank_value": [],
+            "default_value": [],
+            "mustBeNonEmpty": false,
+            "mustBeScalar": false,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Median maximum dV/dt.",
+            "constraints": {}
+        },
+        {
+            "name": "median_kink_index",
+            "type": "matrix",
+            "blank_value": [],
+            "default_value": [],
+            "mustBeNonEmpty": false,
+            "mustBeScalar": false,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Median kink index.",
+            "constraints": {}
+        },
+        {
+            "name": "slope_criterion",
+            "type": "string",
+            "blank_value": [],
+            "default_value": [],
+            "mustBeNonEmpty": false,
+            "mustBeScalar": false,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "The slope criterion used. NDI types this string-or-number; the meta-schema has no union type, so it is declared string (which also accepts an empty numeric).",
+            "constraints": {}
+        }
+    ]
+}

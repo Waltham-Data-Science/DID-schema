@@ -1,0 +1,72 @@
+{
+    "document_class": {
+        "class_name": "term",
+        "class_version": "1.0.0",
+        "superclasses": [
+            {
+                "class_name": "data_type"
+            }
+        ],
+        "maturity_level": "stable",
+        "abstract": true
+    },
+    "depends_on": [],
+    "file": [],
+    "fields": [
+        {
+            "name": "value",
+            "type": "ontology_term",
+            "blank_value": {
+                "node": "",
+                "name": ""
+            },
+            "default_value": {
+                "node": "",
+                "name": ""
+            },
+            "mustBeNonEmpty": true,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "The bound term this statement is about \u2014 asserted (species, sex, strain, instrument type), observed (developmental stage, health status, behaviour, anatomical site), or imposed (a procedure, a regime, a transferred material). The admissible vocabulary is a variable-keyed binding (D9), REQUIRED for every direction: a term must resolve against the registry whether it is observed, imposed or asserted. An unrepresentable concept is a reason to extend the vocabulary, not to weaken the binding (T8).",
+            "constraints": {
+                "binding": {
+                    "keyed_by": "variable",
+                    "expansion": "descendants",
+                    "node_kind": "class",
+                    "strength": "required",
+                    "source": "ontology"
+                }
+            },
+            "fields": [
+                {
+                    "name": "node",
+                    "type": "char",
+                    "blank_value": "",
+                    "default_value": "",
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "The CURIE (prefix resolved via CURIE_lookups_meta.json).",
+                    "constraints": {}
+                },
+                {
+                    "name": "name",
+                    "type": "char",
+                    "blank_value": "",
+                    "default_value": "",
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "The human-readable label.",
+                    "constraints": {}
+                }
+            ]
+        }
+    ]
+}

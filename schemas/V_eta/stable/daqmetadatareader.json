@@ -1,0 +1,47 @@
+{
+    "document_class": {
+        "class_name": "daqmetadatareader",
+        "class_version": "1.0.0",
+        "superclasses": [
+            {
+                "class_name": "base"
+            }
+        ],
+        "maturity_level": "stable"
+    },
+    "depends_on": [],
+    "file": [],
+    "fields": [
+        {
+            "name": "ndi_daqmetadatareader_class",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": true,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "The class name of the metadata reader implementation.",
+            "constraints": {
+                "maxLength": 256
+            },
+            "needs_ndi": true
+        },
+        {
+            "name": "tab_separated_file_parameter",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Optional 'lazy hook' field: if the metadata for each epoch is a tab-separated file, the base ndi.daq.metadatareader uses this field to identify the per-epoch file without requiring a subclass. Preserved as a v1 \u2192 V_delta pass-through; new code should prefer a dedicated subclass (e.g., daqmetadatareader_tsv) when one exists.",
+            "constraints": {
+                "maxLength": 1024
+            }
+        }
+    ]
+}

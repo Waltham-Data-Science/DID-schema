@@ -1,0 +1,186 @@
+{
+    "document_class": {
+        "class_name": "binnedspikeratevm",
+        "class_version": "2.0.0",
+        "superclasses": [
+            {
+                "class_name": "base"
+            },
+            {
+                "class_name": "epochid"
+            },
+            {
+                "class_name": "app"
+            }
+        ],
+        "maturity_level": "stable"
+    },
+    "depends_on": [
+        {
+            "name": "vmspikefilteringparameters_id",
+            "mustBeNonEmpty": false,
+            "documentation": "The Vm spike-filtering parameters (the NDI TEMPLATE's first dependency).",
+            "must_refer_to_document_class": "vmspikefilteringparameters"
+        },
+        {
+            "name": "sorting_parameters_id",
+            "mustBeNonEmpty": false,
+            "documentation": "The sorting parameters (what the NDI SCHEMA declares in the same slot -- template and schema disagree and there is no writer to arbitrate).",
+            "must_refer_to_document_class": "sorting_parameters"
+        },
+        {
+            "name": "element_id",
+            "mustBeNonEmpty": false,
+            "documentation": "The recording element, promoted to a subject with its id preserved.",
+            "must_refer_to_document_class": "subject"
+        }
+    ],
+    "file": [],
+    "fields": [
+        {
+            "name": "parameters",
+            "type": "structure",
+            "blank_value": {},
+            "default_value": {},
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "The binning configuration written by the v1 app.",
+            "constraints": {},
+            "fields": [
+                {
+                    "name": "binsize",
+                    "type": "double",
+                    "blank_value": 0.0,
+                    "default_value": 0.0,
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Bin width in seconds.",
+                    "constraints": {}
+                },
+                {
+                    "name": "vm_baseline_correction",
+                    "type": "double",
+                    "blank_value": 0.0,
+                    "default_value": 0.0,
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Whether the Vm baseline was corrected.",
+                    "constraints": {}
+                },
+                {
+                    "name": "vm_baseline_correct_time",
+                    "type": "double",
+                    "blank_value": 0.0,
+                    "default_value": 0.0,
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "The time window used for baseline correction.",
+                    "constraints": {}
+                },
+                {
+                    "name": "vm_baseline_correct_func",
+                    "type": "string",
+                    "blank_value": "",
+                    "default_value": "",
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "The baseline-correction function (e.g. 'median').",
+                    "constraints": {}
+                },
+                {
+                    "name": "number_of_points",
+                    "type": "double",
+                    "blank_value": 0.0,
+                    "default_value": 0.0,
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "The number of points per bin.",
+                    "constraints": {}
+                }
+            ]
+        },
+        {
+            "name": "voltage_observations",
+            "type": "string",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "The Vm observations. Encoding undocumented -- typed `string` by the NDI schema, with no writer to say how values are packed.",
+            "constraints": {}
+        },
+        {
+            "name": "firingrate_observations",
+            "type": "string",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "The binned firing observations. Encoding undocumented, and the quantity (rate vs per-bin count) is not stated anywhere.",
+            "constraints": {}
+        },
+        {
+            "name": "stimids",
+            "type": "string",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "The stimulus ids per bin. Encoding undocumented.",
+            "constraints": {}
+        },
+        {
+            "name": "timepoints",
+            "type": "string",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "The bin timepoints. Encoding undocumented.",
+            "constraints": {}
+        },
+        {
+            "name": "exactbintime",
+            "type": "string",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "The exact bin times. Encoding undocumented.",
+            "constraints": {}
+        }
+    ]
+}

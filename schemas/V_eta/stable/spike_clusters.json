@@ -1,0 +1,94 @@
+{
+    "document_class": {
+        "class_name": "spike_clusters",
+        "class_version": "2.0.0",
+        "superclasses": [
+            {
+                "class_name": "base"
+            },
+            {
+                "class_name": "app"
+            }
+        ],
+        "maturity_level": "stable"
+    },
+    "depends_on": [
+        {
+            "name": "sorting_parameters_id",
+            "mustBeNonEmpty": false,
+            "documentation": "The sorting run's parameters.",
+            "must_refer_to_document_class": "sorting_parameters",
+            "ndi_mustBeNonEmpty": true
+        },
+        {
+            "name": "element_id",
+            "mustBeNonEmpty": false,
+            "documentation": "The recording element, promoted to a subject with its id preserved by migrators_j.element (device-as-subject, D2).",
+            "must_refer_to_document_class": "subject",
+            "ndi_mustBeNonEmpty": true
+        },
+        {
+            "name": "extraction_parameters_id",
+            "mustBeNonEmpty": false,
+            "documentation": "The spike-extraction parameters the sorted waveforms came from.",
+            "must_refer_to_document_class": "spike_extraction_parameters",
+            "ndi_mustBeNonEmpty": true
+        },
+        {
+            "name": "spikewaves_doc_id",
+            "mustBeNonEmpty": false,
+            "documentation": "The spikewaves document holding the waveforms that were sorted.",
+            "must_refer_to_document_class": "spikewaves",
+            "ndi_mustBeNonEmpty": false
+        }
+    ],
+    "file": [
+        {
+            "name": "spike_cluster.bin",
+            "documentation": "The per-spike cluster assignments, as bytes."
+        }
+    ],
+    "fields": [
+        {
+            "name": "epoch_info",
+            "type": "structure",
+            "blank_value": {},
+            "default_value": {},
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Per-epoch bookkeeping for the sorted run, as written by the v1 app.",
+            "constraints": {},
+            "fields": []
+        },
+        {
+            "name": "clusterinfo",
+            "type": "structure",
+            "blank_value": [],
+            "default_value": [],
+            "mustBeNonEmpty": false,
+            "mustBeScalar": false,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "One entry per cluster, as written by the v1 app.",
+            "constraints": {},
+            "fields": []
+        },
+        {
+            "name": "waveform_sample_times",
+            "type": "matrix",
+            "blank_value": [],
+            "default_value": [],
+            "mustBeNonEmpty": false,
+            "mustBeScalar": false,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Sample times for the spike waveforms.",
+            "constraints": {}
+        }
+    ]
+}

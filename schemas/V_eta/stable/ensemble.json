@@ -1,0 +1,115 @@
+{
+    "document_class": {
+        "class_name": "ensemble",
+        "class_version": "1.0.0",
+        "superclasses": [
+            {
+                "class_name": "base"
+            },
+            {
+                "class_name": "epochid"
+            },
+            {
+                "class_name": "app"
+            }
+        ],
+        "maturity_level": "stable"
+    },
+    "depends_on": [
+        {
+            "name": "element_id",
+            "mustBeNonEmpty": true,
+            "documentation": "The recording element (a subject in V_eta) the ensemble was computed from.",
+            "must_refer_to_document_class": "subject",
+            "ndi_mustBeNonEmpty": true
+        },
+        {
+            "name": "element_epoch_id",
+            "mustBeNonEmpty": false,
+            "documentation": "The epoch over which the ensemble was defined.",
+            "must_refer_to_document_class": "acquisition_epoch",
+            "ndi_mustBeNonEmpty": true
+        },
+        {
+            "name": "neuron_id_#",
+            "mustBeNonEmpty": false,
+            "documentation": "The constituent neurons, in COLUMN ORDER -- the per-epoch roster of the ensemble. NDI writes these with `add_dependency_value_n` (+ndi/+element/ensemble.m:274-276), so the `_1`/`_2` suffix is the column index into the combined marked-point-process binary, and `neuron_names.txt` carries the NAMES of this same roster rather than the roster itself. Typed to `subject` because a neuron is an element and `migrators_j.element` promotes an element to a subject with its id PRESERVED. This is what the NDI second pass (ndi.migrate.internal.ensembleMembership) reads to mint the signed epoch-scoped `member_of` edges; the plan's original premise that it had to read the file bytes was WRONG.",
+            "must_refer_to_document_class": "subject",
+            "multiple": true,
+            "min_count": 0
+        }
+    ],
+    "file": [
+        {
+            "name": "neuron_names.txt",
+            "documentation": "The constituent neuron NAMES, one per line, in the same column order as the `neuron_id_#` family -- written by +ndi/+element/ensemble.m:255-256 and attached at :277. NDI's OWN file_list entry verbatim, NOT snake_cased: universalRenames skips the `file`/`files` keys (universalRenames.m:308), so a passed-through document still carries this spelling and `did2.validate.fileList` compares it by exact strcmp. The names are `e.elementstring()` of the elements the `neuron_id_#` edges already point at (+ndi/+fun/+ensemble/load.m), so this file adds no fact the edges lack -- it is declared because the document CARRIES it, not because anything needs to read it."
+        }
+    ],
+    "fields": [
+        {
+            "name": "ensemble_name",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Name of the neuron ensemble.",
+            "constraints": {}
+        },
+        {
+            "name": "value_type",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Type of the ensemble's value/activity representation.",
+            "constraints": {}
+        },
+        {
+            "name": "value_description",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Free-text description of the ensemble value.",
+            "constraints": {}
+        },
+        {
+            "name": "num_neurons",
+            "type": "integer",
+            "blank_value": 0.0,
+            "default_value": 0.0,
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Number of neurons in the ensemble. DERIVABLE from the `neuron_id_#` family and dropped by the signed model when the map document dissolves (T11); restated here because a PASSTHROUGH document still carries it and an undeclared field quarantines.",
+            "constraints": {}
+        },
+        {
+            "name": "clocktype",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Clock type for the ensemble's epoch times.",
+            "constraints": {}
+        }
+    ]
+}

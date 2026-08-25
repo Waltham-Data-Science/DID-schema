@@ -1,0 +1,44 @@
+{
+    "document_class": {
+        "class_name": "site2channelmap",
+        "class_version": "2.0.0",
+        "superclasses": [
+            {
+                "class_name": "base"
+            }
+        ],
+        "maturity_level": "stable"
+    },
+    "depends_on": [
+        {
+            "name": "probe_id",
+            "mustBeNonEmpty": false,
+            "documentation": "The probe, promoted to a subject with its id preserved.",
+            "must_refer_to_document_class": "subject",
+            "ndi_mustBeNonEmpty": true
+        },
+        {
+            "name": "probe_geometry_id",
+            "mustBeNonEmpty": false,
+            "documentation": "The geometry document whose site ordering indexes `map`.",
+            "must_refer_to_document_class": "probe_geometry",
+            "ndi_mustBeNonEmpty": true
+        }
+    ],
+    "file": [],
+    "fields": [
+        {
+            "name": "map",
+            "type": "matrix",
+            "blank_value": [],
+            "default_value": [],
+            "mustBeNonEmpty": false,
+            "mustBeScalar": false,
+            "mustNotHaveNaN": false,
+            "queryable": false,
+            "ontology": null,
+            "documentation": "Column of channel indices; the i-th element is the channel wired to site i of the referenced probe_geometry.",
+            "constraints": {}
+        }
+    ]
+}

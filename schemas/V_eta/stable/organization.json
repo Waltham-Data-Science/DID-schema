@@ -1,0 +1,55 @@
+{
+    "document_class": {
+        "class_name": "organization",
+        "class_version": "1.0.0",
+        "superclasses": [
+            {
+                "class_name": "entity"
+            }
+        ],
+        "maturity_level": "stable"
+    },
+    "depends_on": [],
+    "file": [],
+    "fields": [
+        {
+            "name": "full_name",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Organization full name (funder or affiliation); ROR via global_identifier. Location is not stored \u2014 it lives in the ROR record. (openMINDS Organization.fullName.)",
+            "constraints": {}
+        },
+        {
+            "name": "short_name",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Organization short name / acronym (e.g. 'NIH'); openMINDS Organization.shortName.",
+            "constraints": {}
+        },
+        {
+            "name": "local_identifier",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Optional human-facing handle for this entity, used to cross-reference it within its dataset (distinct from any display name/title). Required on subject; optional here.",
+            "constraints": {}
+        }
+    ]
+}

@@ -1,0 +1,179 @@
+{
+    "document_class": {
+        "class_name": "session_bounded_reference",
+        "class_version": "1.0.0",
+        "superclasses": [
+            {
+                "class_name": "time_reference"
+            }
+        ],
+        "maturity_level": "stable"
+    },
+    "depends_on": [],
+    "file": [],
+    "fields": [
+        {
+            "name": "relation",
+            "type": "char",
+            "blank_value": "during",
+            "default_value": "during",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Ordinal relation to the session (default 'during').",
+            "constraints": {}
+        },
+        {
+            "name": "start",
+            "type": "time",
+            "blank_value": {
+                "approximate": false,
+                "source_unit": "",
+                "source_value": 0.0
+            },
+            "default_value": {
+                "approximate": false,
+                "source_unit": "",
+                "source_value": 0.0
+            },
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Window start, relative to the session/assay origin.",
+            "constraints": {},
+            "fields": [
+                {
+                    "name": "seconds",
+                    "type": "double",
+                    "blank_value": 0.0,
+                    "default_value": 0.0,
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Canonical time value -- the normalised, cross-document comparable number.",
+                    "constraints": {}
+                },
+                {
+                    "name": "source_unit",
+                    "type": "char",
+                    "blank_value": "",
+                    "default_value": "",
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "The unit exactly as given by the source (lossless provenance).",
+                    "constraints": {}
+                },
+                {
+                    "name": "source_value",
+                    "type": "double",
+                    "blank_value": 0.0,
+                    "default_value": 0.0,
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "The number as given by the source, in `source_unit`.",
+                    "constraints": {}
+                },
+                {
+                    "name": "approximate",
+                    "type": "boolean",
+                    "blank_value": 0.0,
+                    "default_value": 0.0,
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "True when the value is approximate.",
+                    "constraints": {}
+                }
+            ]
+        },
+        {
+            "name": "end",
+            "type": "time",
+            "blank_value": {
+                "approximate": false,
+                "source_unit": "",
+                "source_value": 0.0
+            },
+            "default_value": {
+                "approximate": false,
+                "source_unit": "",
+                "source_value": 0.0
+            },
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Window end, relative to the session/assay origin.",
+            "constraints": {},
+            "fields": [
+                {
+                    "name": "seconds",
+                    "type": "double",
+                    "blank_value": 0.0,
+                    "default_value": 0.0,
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Canonical time value -- the normalised, cross-document comparable number.",
+                    "constraints": {}
+                },
+                {
+                    "name": "source_unit",
+                    "type": "char",
+                    "blank_value": "",
+                    "default_value": "",
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "The unit exactly as given by the source (lossless provenance).",
+                    "constraints": {}
+                },
+                {
+                    "name": "source_value",
+                    "type": "double",
+                    "blank_value": 0.0,
+                    "default_value": 0.0,
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "The number as given by the source, in `source_unit`.",
+                    "constraints": {}
+                },
+                {
+                    "name": "approximate",
+                    "type": "boolean",
+                    "blank_value": 0.0,
+                    "default_value": 0.0,
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "True when the value is approximate.",
+                    "constraints": {}
+                }
+            ]
+        }
+    ]
+}

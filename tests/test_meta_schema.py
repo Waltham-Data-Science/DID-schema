@@ -8,7 +8,6 @@ import os
 
 import jsonschema
 import pytest
-
 from conftest import load_json
 
 # Files in each schemas/V_*/ directory that are NOT document-type schemas

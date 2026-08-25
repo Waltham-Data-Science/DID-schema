@@ -1,0 +1,18 @@
+{
+    "document_class": {
+        "class_name": "formulation_manipulation",
+        "class_version": "1.0.0",
+        "superclasses": [
+            {
+                "class_name": "subject_manipulation"
+            },
+            {
+                "class_name": "formulation"
+            }
+        ],
+        "maturity_level": "stable"
+    },
+    "depends_on": [],
+    "file": [],
+    "fields": []
+}

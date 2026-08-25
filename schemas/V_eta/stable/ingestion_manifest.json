@@ -1,0 +1,55 @@
+{
+    "document_class": {
+        "class_name": "ingestion_manifest",
+        "class_version": "2.0.0",
+        "superclasses": [
+            {
+                "class_name": "base"
+            }
+        ],
+        "maturity_level": "stable"
+    },
+    "depends_on": [
+        {
+            "name": "filenavigator_id",
+            "mustBeNonEmpty": true,
+            "documentation": "The file navigator that produced this manifest. REQUIRED, and RESTORED: this is the edge NDI actually writes, which V_eta had dropped in favour of an invented `epochid`.",
+            "must_refer_to_document_class": "filenavigator"
+        },
+        {
+            "name": "epoch_id",
+            "mustBeNonEmpty": true,
+            "documentation": "The epoch these files were ingested for. Replaces the invented `epochid` edge, which was empty on all 6,921 documents.",
+            "must_refer_to_document_class": "epoch"
+        }
+    ],
+    "file": [],
+    "fields": [
+        {
+            "name": "files",
+            "type": "string",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": false,
+            "mustNotHaveNaN": false,
+            "queryable": false,
+            "ontology": null,
+            "documentation": "List of file references ingested for this epoch. Entries are either NDI-scheme URIs (e.g., 'epochid://t00001') or absolute filesystem paths to the source files. Length varies per epoch (3-6 entries seen in the discovery corpora).",
+            "constraints": {}
+        },
+        {
+            "name": "epochprobemap",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": false,
+            "ontology": null,
+            "documentation": "The epoch's original serialized epochprobemap (name<TAB>reference<TAB>type<TAB>devicestring<TAB>subjectstring, one row per probe), carried VERBATIM for lossless read-back. The recording rows also decompose into <modality>_observation documents (the queryable V_eta expression); this opaque string preserves the FULL map -- including the stimulator/imaging rows that do not decompose -- so ndi.vintage rebuilds the exact v1 epochprobemap object. Retired when every row has a decomposed home.",
+            "constraints": {}
+        }
+    ]
+}

@@ -1,0 +1,25 @@
+{
+    "document_class": {
+        "class_name": "timed_sequence_manipulation",
+        "class_version": "1.0.0",
+        "superclasses": [
+            {
+                "class_name": "subject_manipulation"
+            },
+            {
+                "class_name": "timed_sequence"
+            }
+        ],
+        "maturity_level": "draft"
+    },
+    "depends_on": [
+        {
+            "name": "timed_sequence_id",
+            "mustBeNonEmpty": false,
+            "documentation": "For storage_mode:reference (multi-subject) \u2014 the shared timed_sequence body this manipulation presents.",
+            "must_refer_to_document_class": "timed_sequence"
+        }
+    ],
+    "file": [],
+    "fields": []
+}

@@ -1,0 +1,68 @@
+{
+    "document_class": {
+        "class_name": "publication",
+        "class_version": "1.0.0",
+        "superclasses": [
+            {
+                "class_name": "entity"
+            }
+        ],
+        "maturity_level": "stable"
+    },
+    "depends_on": [],
+    "file": [],
+    "fields": [
+        {
+            "name": "title",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Publication title.",
+            "constraints": {}
+        },
+        {
+            "name": "publication_date",
+            "type": "date",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Publication date. PARTIAL PRECISION IS THE POINT: a publication may be recorded as a year, a year-month or a full date, and `date` accepts all three -- which is why this is not a `timestamp`. Renamed from the bare `date` 2026-08-13: `date` alone names the KIND of value and not the fact, and `<noun>_<kind>` is this schema's measured house style (13 `_name`, 11 `_time`, 10 `_type`, 5 `_id`; 0 bare participles in 472 field names).",
+            "constraints": {}
+        },
+        {
+            "name": "authors",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Author citation string \u2014 external, NOT decomposed into person entities (cited papers' authors stay coarse).",
+            "constraints": {}
+        },
+        {
+            "name": "local_identifier",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Optional human-facing handle for this entity, used to cross-reference it within its dataset (distinct from any display name/title). Required on subject; optional here.",
+            "constraints": {}
+        }
+    ]
+}

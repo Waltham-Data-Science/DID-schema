@@ -1,0 +1,97 @@
+{
+    "document_class": {
+        "class_name": "sorting_parameters",
+        "class_version": "2.0.0",
+        "superclasses": [
+            {
+                "class_name": "base"
+            },
+            {
+                "class_name": "app"
+            }
+        ],
+        "maturity_level": "stable"
+    },
+    "depends_on": [],
+    "file": [],
+    "fields": [
+        {
+            "name": "graphical_mode",
+            "type": "integer",
+            "blank_value": 0.0,
+            "default_value": 0.0,
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "0/1 -- interactive GUI clustering vs automatic KlustaKwik.",
+            "constraints": {}
+        },
+        {
+            "name": "num_pca_features",
+            "type": "integer",
+            "blank_value": 0.0,
+            "default_value": 0.0,
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "PCA features fed to clustering (automatic mode only).",
+            "constraints": {}
+        },
+        {
+            "name": "interpolation",
+            "type": "double",
+            "blank_value": 0.0,
+            "default_value": 0.0,
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Spline oversampling factor for spike waveforms; >1 triggers resampling. Typed double by the NDI schema while its default and all five siblings are integers; the writer rounds it. The schema's [1,10000] bound is contradicted by the writer's clamp to [1,10] -- writer wins for semantics, neither changes the shape.",
+            "constraints": {}
+        },
+        {
+            "name": "min_clusters",
+            "type": "integer",
+            "blank_value": 0.0,
+            "default_value": 0.0,
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "KlustaKwik minimum cluster count.",
+            "constraints": {}
+        },
+        {
+            "name": "max_clusters",
+            "type": "integer",
+            "blank_value": 0.0,
+            "default_value": 0.0,
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "KlustaKwik maximum cluster count.",
+            "constraints": {}
+        },
+        {
+            "name": "num_start",
+            "type": "integer",
+            "blank_value": 0.0,
+            "default_value": 0.0,
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Random restarts for KlustaKwik.",
+            "constraints": {}
+        }
+    ]
+}

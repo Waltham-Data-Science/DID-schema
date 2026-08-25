@@ -1,0 +1,244 @@
+{
+    "document_class": {
+        "class_name": "method_parameters",
+        "class_version": "1.0.0",
+        "superclasses": [
+            {
+                "class_name": "base"
+            }
+        ],
+        "maturity_level": "stable"
+    },
+    "depends_on": [
+        {
+            "name": "software_id",
+            "mustBeNonEmpty": false,
+            "documentation": "Which program these settings configure.",
+            "must_refer_to_document_class": "software"
+        },
+        {
+            "name": "subject_id",
+            "mustBeNonEmpty": false,
+            "documentation": "OPTIONAL scope: settings that apply to ONE recording. Precedence comes from THIS and epoch_id -- not from the self-edge.",
+            "must_refer_to_document_class": "subject"
+        },
+        {
+            "name": "epoch_id",
+            "mustBeNonEmpty": false,
+            "documentation": "OPTIONAL scope: settings that apply to ONE epoch.",
+            "must_refer_to_document_class": "epoch"
+        },
+        {
+            "name": "derived_from_id",
+            "mustBeNonEmpty": false,
+            "documentation": "The named protocol this one is a variant of. LINEAGE ONLY -- it records origin, not precedence, and the variant carries a COMPLETE copy of every setting rather than a diff. Reuses the word the schema already spends on this relation (`derived_from_#` on calculations and observations); `parent_id` was rejected because it implies the child inherits, and it does not.",
+            "must_refer_to_document_class": "method_parameters"
+        }
+    ],
+    "file": [],
+    "fields": [
+        {
+            "name": "name",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "The protocol's name, e.g. \"default\". OPTIONAL: a scoped variant need not be named. CITATION CORRECTED 2026-08-12 -- this read \"the string spikeextractor.m:372 and spikesorter.m:373 query by exact_string\", and those two lines query `base.name`, NOT this field: ndi.query('base.name','exact_string',extraction_parameters_name,'') and ndi.query('base.name','exact_string',sorting_parameters_name,''), re-read from NDI origin/main. `method_parameters` inherits `base`, so this declaration is a SECOND COPY of a name the apps read from the `base` block -- one fact in two live storage locations, which is #69. WHICH BLOCK IS AUTHORITATIVE IS AN OPEN TEAM DECISION riding with binding governance; nothing here settles it, and the field and its constraints are unchanged. Do not delete either copy on this note. The block comment above is correct as written: it always said `base.name`, and only this string disagreed with it.",
+            "constraints": {}
+        },
+        {
+            "name": "method_parameters",
+            "type": "structure",
+            "blank_value": [],
+            "default_value": [],
+            "mustBeNonEmpty": false,
+            "mustBeScalar": false,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "The settings themselves. SAME FIELD NAME as the inline field on `subject_interaction`, deliberately: one list means one thing in both mount points, exactly as `axes` mounts on two classes under one name. `parameters` was REJECTED -- that name was vacated when the statement's field became `conditions`, and a document already carries three variable-keyed lists (conditions, axes, method_parameters) that must not be confusable.",
+            "constraints": {},
+            "fields": [
+                {
+                    "name": "variable",
+                    "type": "ontology_term",
+                    "blank_value": {
+                        "node": "",
+                        "name": ""
+                    },
+                    "default_value": {
+                        "node": "",
+                        "name": ""
+                    },
+                    "mustBeNonEmpty": true,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "WHAT knob this is. BOUND, and UNIQUE within the list. Modelled on the `axis` entry: identity lives in a bound variable, so domain-specific knobs are DATA rather than schema, and no class or field has to be minted per program. Its dimension comes from the registry -- there is NO unit field and NO data_type field.",
+                    "constraints": {},
+                    "fields": [
+                        {
+                            "name": "node",
+                            "type": "char",
+                            "blank_value": "",
+                            "default_value": "",
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "The CURIE (prefix resolved via CURIE_lookups_meta.json).",
+                            "constraints": {}
+                        },
+                        {
+                            "name": "name",
+                            "type": "char",
+                            "blank_value": "",
+                            "default_value": "",
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "The human-readable label.",
+                            "constraints": {}
+                        }
+                    ]
+                },
+                {
+                    "name": "value",
+                    "type": "structure",
+                    "blank_value": {},
+                    "default_value": {},
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Numeric knobs. The canonical value plus what the source wrote.",
+                    "constraints": {},
+                    "fields": [
+                        {
+                            "name": "value",
+                            "type": "double",
+                            "blank_value": 0.0,
+                            "default_value": 0.0,
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "Canonical value.",
+                            "constraints": {}
+                        },
+                        {
+                            "name": "source_unit",
+                            "type": "char",
+                            "blank_value": "",
+                            "default_value": "",
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "As-recorded unit.",
+                            "constraints": {}
+                        },
+                        {
+                            "name": "source_value",
+                            "type": "char",
+                            "blank_value": "",
+                            "default_value": "",
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "As-recorded value, VERBATIM -- v1 writes a threshold as the string \"0.030\", and the string is kept whatever the registry later says.",
+                            "constraints": {}
+                        }
+                    ]
+                },
+                {
+                    "name": "term",
+                    "type": "ontology_term",
+                    "blank_value": {
+                        "node": "",
+                        "name": ""
+                    },
+                    "default_value": {
+                        "node": "",
+                        "name": ""
+                    },
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Categorical knobs (e.g. a threshold method).",
+                    "constraints": {},
+                    "fields": [
+                        {
+                            "name": "node",
+                            "type": "char",
+                            "blank_value": "",
+                            "default_value": "",
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "The CURIE (prefix resolved via CURIE_lookups_meta.json).",
+                            "constraints": {}
+                        },
+                        {
+                            "name": "name",
+                            "type": "char",
+                            "blank_value": "",
+                            "default_value": "",
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "The human-readable label.",
+                            "constraints": {}
+                        }
+                    ]
+                },
+                {
+                    "name": "text",
+                    "type": "char",
+                    "blank_value": "",
+                    "default_value": "",
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Free-string knobs.",
+                    "constraints": {}
+                }
+            ]
+        },
+        {
+            "name": "other",
+            "type": "structure",
+            "blank_value": {},
+            "default_value": {},
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "The undeclared long tail -- read_time, overlap, graphical_mode, PCA feature counts. Kept whole rather than dropped; a knob nobody will query does not earn a bound variable.",
+            "constraints": {},
+            "fields": []
+        }
+    ]
+}

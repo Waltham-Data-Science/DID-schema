@@ -1,0 +1,82 @@
+{
+    "document_class": {
+        "class_name": "daqreader_epochdata_ingested",
+        "class_version": "2.0.0",
+        "superclasses": [
+            {
+                "class_name": "base"
+            },
+            {
+                "class_name": "epochid"
+            }
+        ],
+        "maturity_level": "stable"
+    },
+    "depends_on": [
+        {
+            "name": "daqreader_id",
+            "mustBeNonEmpty": false,
+            "documentation": "The DAQ reader whose epoch this caches.",
+            "must_refer_to_document_class": "daqreader",
+            "ndi_mustBeNonEmpty": true
+        }
+    ],
+    "file": [],
+    "fields": [
+        {
+            "name": "epochtable",
+            "type": "structure",
+            "blank_value": {},
+            "default_value": {},
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Epoch-table snapshot. Nested (not renamed -- universalRenames leaves nested struct values alone): `epochclock` = clock-type strings, `t0_t1` = a 2xN matrix, one COLUMN per epochclock.",
+            "constraints": {},
+            "fields": []
+        },
+        {
+            "name": "parameters",
+            "type": "structure",
+            "blank_value": {},
+            "default_value": {},
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "OPTIONAL, and not a did_v1 field of this class -- it is the de-encode target from \u2465/\u2466 chunk (c), which dissolved `daqreader_mfdaq_epochdata_ingested` (subtype encoded in the class NAME) by folding its one mfdaq-specific field onto this generic parent. Kept when restating this tombstone from the NDI template: the template does not have it, but the migrator emits it, so dropping it would quarantine every migrated mfdaq cache.",
+            "constraints": {},
+            "fields": [
+                {
+                    "name": "sample_analog_segment",
+                    "type": "double",
+                    "blank_value": 0.0,
+                    "default_value": 0.0,
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Analog segmentation cutoff. Template default 1e6.",
+                    "constraints": {}
+                },
+                {
+                    "name": "sample_digital_segment",
+                    "type": "double",
+                    "blank_value": 0.0,
+                    "default_value": 0.0,
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Digital segmentation cutoff. The WRITER uses 1e7 while the template says 1e6 -- writer wins.",
+                    "constraints": {}
+                }
+            ]
+        }
+    ]
+}

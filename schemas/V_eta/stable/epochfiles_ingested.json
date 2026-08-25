@@ -1,0 +1,63 @@
+{
+    "document_class": {
+        "class_name": "epochfiles_ingested",
+        "class_version": "2.0.0",
+        "superclasses": [
+            {
+                "class_name": "base"
+            }
+        ],
+        "maturity_level": "stable"
+    },
+    "depends_on": [
+        {
+            "name": "filenavigator_id",
+            "mustBeNonEmpty": false,
+            "documentation": "The file navigator that produced this manifest -- the edge NDI writes.",
+            "must_refer_to_document_class": "filenavigator",
+            "ndi_mustBeNonEmpty": true
+        }
+    ],
+    "file": [],
+    "fields": [
+        {
+            "name": "epoch_id",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "The epoch id STRING as did_v1 records it. Becomes the `epoch_id` EDGE on ingestion_manifest once `epoch` documents are minted (#60's migrator half).",
+            "constraints": {}
+        },
+        {
+            "name": "files",
+            "type": "string",
+            "blank_value": [],
+            "default_value": [],
+            "mustBeNonEmpty": false,
+            "mustBeScalar": false,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "The files ingested for this epoch.",
+            "constraints": {}
+        },
+        {
+            "name": "epochprobemap",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "The probe map for this epoch. Decomposes into edges under the signed model; carried verbatim until that is built, because dropping it now would be loss with no destination.",
+            "constraints": {}
+        }
+    ]
+}

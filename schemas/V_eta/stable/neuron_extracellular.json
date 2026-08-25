@@ -1,0 +1,133 @@
+{
+    "document_class": {
+        "class_name": "neuron_extracellular",
+        "class_version": "1.0.0",
+        "superclasses": [
+            {
+                "class_name": "base"
+            },
+            {
+                "class_name": "app"
+            }
+        ],
+        "maturity_level": "stable"
+    },
+    "depends_on": [
+        {
+            "name": "element_id",
+            "mustBeNonEmpty": true,
+            "documentation": "The document ID of the element (e.g., probe) this neuron was recorded from.",
+            "must_refer_to_document_class": "subject",
+            "ndi_mustBeNonEmpty": true
+        },
+        {
+            "name": "spike_clusters_id",
+            "mustBeNonEmpty": false,
+            "documentation": "The sorted-cluster document this unit came from. Declared by the NDI template; the tombstone previously listed only element_id.",
+            "must_refer_to_document_class": "spike_clusters",
+            "ndi_mustBeNonEmpty": false
+        }
+    ],
+    "file": [],
+    "fields": [
+        {
+            "name": "cluster_index",
+            "type": "integer",
+            "blank_value": 0,
+            "default_value": 0,
+            "mustBeNonEmpty": true,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": true,
+            "queryable": true,
+            "ontology": {
+                "node": "iao:0000578",
+                "name": "centrally registered identifier"
+            },
+            "documentation": "The cluster index assigned to this neuron by a spike sorter.",
+            "constraints": {}
+        },
+        {
+            "name": "number_of_channels",
+            "type": "integer",
+            "blank_value": 0,
+            "default_value": 0,
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": true,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Number of recording channels contributing to this unit's waveform (e.g., the tetrode/probe channel count).",
+            "constraints": {}
+        },
+        {
+            "name": "number_of_samples_per_channel",
+            "type": "integer",
+            "blank_value": 0,
+            "default_value": 0,
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": true,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Number of time samples per channel in mean_waveform / waveform_sample_times.",
+            "constraints": {}
+        },
+        {
+            "name": "mean_waveform",
+            "type": "matrix",
+            "blank_value": [],
+            "default_value": [],
+            "mustBeNonEmpty": false,
+            "mustBeScalar": false,
+            "mustNotHaveNaN": false,
+            "queryable": false,
+            "ontology": null,
+            "documentation": "Mean spike-waveform matrix shaped (number_of_samples_per_channel x number_of_channels) -- samples down rows, channels across columns. Recorded in the original A/D units of the source data.",
+            "constraints": {}
+        },
+        {
+            "name": "waveform_sample_times",
+            "type": "matrix",
+            "blank_value": [],
+            "default_value": [],
+            "mustBeNonEmpty": false,
+            "mustBeScalar": false,
+            "mustNotHaveNaN": false,
+            "queryable": false,
+            "ontology": null,
+            "documentation": "Time stamp of each sample in mean_waveform (seconds, in the element's local clock); length equals number_of_samples_per_channel.",
+            "constraints": {}
+        },
+        {
+            "name": "quality_label",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": {
+                "node": "placeholder:spike_sorting_quality_label",
+                "name": "spike-sorting quality label"
+            },
+            "documentation": "Human-readable spike-sorting quality label (e.g., 'good', 'multi', 'noise'). Candidate for promotion to ontology_term once a controlled vocabulary (e.g., a spike-sorting quality branch in NIFSTD) is registered.",
+            "constraints": {
+                "maxLength": 64
+            }
+        },
+        {
+            "name": "quality_number",
+            "type": "integer",
+            "blank_value": 0,
+            "default_value": 0,
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": true,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Numeric spike-sorting quality grade (e.g., 1-4) paired with quality_label. Sorter-specific scale.",
+            "constraints": {}
+        }
+    ]
+}

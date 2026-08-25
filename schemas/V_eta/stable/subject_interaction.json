@@ -1,0 +1,386 @@
+{
+    "document_class": {
+        "class_name": "subject_interaction",
+        "class_version": "3.1.0",
+        "superclasses": [
+            {
+                "class_name": "subject_statement"
+            }
+        ],
+        "maturity_level": "stable",
+        "abstract": true
+    },
+    "depends_on": [
+        {
+            "name": "time_reference_#",
+            "mustBeNonEmpty": false,
+            "documentation": "When the interaction happened, as one or more time_reference anchor documents. Required on interactions (Brainstorm J: an interaction tightens time to required). #52 (V_eta_time_reference_model_plan.md CHANGE 5): within this family every member describes THE SAME instant or extent, and `value.clock` on the REFERENCED document must be unique across the family -- that clock is what makes two members different, and the `_1`/`_2` index means nothing on its own. Split-anchored intervals are NOT what a second member is for: they have no instance (every markvalidinterval call site passes one reference for both ends), so there are no `start_anchor`/`end_anchor` edges. Measured report-only, in batch, by did2.validate.silentLoss (`family_uniqueness_violation`); a per-document validator cannot see the referenced document and must not pretend to check it.",
+            "must_refer_to_document_class": "time_reference",
+            "multiple": true,
+            "min_count": 1,
+            "referent_unique_by": "value.clock"
+        },
+        {
+            "name": "instrument_id",
+            "mustBeNonEmpty": false,
+            "documentation": "Optional: the device that performed the method \u2014 an instrument modeled as a subject (kind asserted via a term_assertion). The agent role; subject_id is the patient. Empty for hand measurements (D2).",
+            "must_refer_to_document_class": "subject"
+        },
+        {
+            "name": "software_id",
+            "mustBeNonEmpty": false,
+            "documentation": "Optional: the software that produced this value, modeled as a `software` entity (name + version + citation id). The agent for a computation; distinct from instrument_id (a measuring device) and from derived_from (the input data). Empty for hand/DAQ measurements; populated on calculations, optional on computed observations. Supersedes the v1 `app` block.",
+            "must_refer_to_document_class": "software"
+        },
+        {
+            "name": "acquisition_system_id",
+            "mustBeNonEmpty": false,
+            "documentation": "The acquisition rig this interaction used -- the DEVICE HALF of v1's `devicestring` (the name before the ':'), resolved against `acquisition_system.base.name`. OPTIONAL: present only on an interaction decomposed from an ingested epoch's `epochprobemap` (did2.convert.resolveEpochProbemap) -- a recording observation or a stimulator manipulation; omitted when the device name resolves to no acquisition_system in the session, never emitted empty.",
+            "must_refer_to_document_class": "acquisition_system"
+        },
+        {
+            "name": "method_parameters_id",
+            "mustBeNonEmpty": false,
+            "documentation": "OPTIONAL: named, shared settings this run used. A statement carries the inline `method_parameters` field OR this edge, NEVER BOTH (team, 2026-08-09) -- one fact, one place, so a reader never has to know which wins.",
+            "must_refer_to_document_class": "method_parameters"
+        }
+    ],
+    "file": [],
+    "fields": [
+        {
+            "name": "method",
+            "type": "ontology_term",
+            "blank_value": {
+                "node": "",
+                "name": ""
+            },
+            "default_value": {
+                "node": "",
+                "name": ""
+            },
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "The verb: what was done (measure, inject, heat, stimulate). Present only on interactions; optional (the observation verb is nearly always 'measurement').",
+            "constraints": {
+                "binding": {
+                    "strength": "preferred",
+                    "node_form": "curie"
+                }
+            },
+            "fields": [
+                {
+                    "name": "node",
+                    "type": "char",
+                    "blank_value": "",
+                    "default_value": "",
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "The CURIE (prefix resolved via CURIE_lookups_meta.json).",
+                    "constraints": {}
+                },
+                {
+                    "name": "name",
+                    "type": "char",
+                    "blank_value": "",
+                    "default_value": "",
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "The human-readable label.",
+                    "constraints": {}
+                }
+            ]
+        },
+        {
+            "name": "method_parameters",
+            "type": "structure",
+            "blank_value": {},
+            "default_value": {},
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Optional configuration of a COMPUTED value's algorithm -- the calculator input_parameters that produced it (D-C analysis tier). Present only when `method` names an algorithm; free-form (the knob set varies per calculator). Retaining it keeps the computation reproducible from the observation packet (paper Fig. 3E). Lives on the packet-head observation, once per calculation.",
+            "constraints": {},
+            "fields": []
+        },
+        {
+            "name": "sample_time",
+            "type": "structure",
+            "blank_value": {},
+            "default_value": {},
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "The per-sample cadence beside the value (Brainstorm J / D1): a compressed descriptor. The absolute anchor (t0, clock) comes from time_reference; this restates only the cadence. For body-backed values the cadence lives in sampled_body.sample_time instead.",
+            "constraints": {},
+            "fields": [
+                {
+                    "name": "kind",
+                    "type": "char",
+                    "blank_value": "point",
+                    "default_value": "point",
+                    "mustBeNonEmpty": true,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "point | grid | enumerated.",
+                    "constraints": {
+                        "enum": [
+                            "point",
+                            "grid",
+                            "enumerated"
+                        ]
+                    }
+                },
+                {
+                    "name": "dt",
+                    "type": "time",
+                    "blank_value": 0.0,
+                    "default_value": 0.0,
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "grid only: sample spacing.",
+                    "constraints": {},
+                    "fields": [
+                        {
+                            "name": "seconds",
+                            "type": "double",
+                            "blank_value": 0.0,
+                            "default_value": 0.0,
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "Canonical time value -- the normalised, cross-document comparable number.",
+                            "constraints": {}
+                        },
+                        {
+                            "name": "source_unit",
+                            "type": "char",
+                            "blank_value": "",
+                            "default_value": "",
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "The unit exactly as given by the source (lossless provenance).",
+                            "constraints": {}
+                        },
+                        {
+                            "name": "source_value",
+                            "type": "double",
+                            "blank_value": 0.0,
+                            "default_value": 0.0,
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "The number as given by the source, in `source_unit`.",
+                            "constraints": {}
+                        },
+                        {
+                            "name": "approximate",
+                            "type": "boolean",
+                            "blank_value": 0.0,
+                            "default_value": 0.0,
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "True when the value is approximate.",
+                            "constraints": {}
+                        }
+                    ]
+                },
+                {
+                    "name": "n",
+                    "type": "integer",
+                    "blank_value": 0,
+                    "default_value": 0,
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "grid only: sample count.",
+                    "constraints": {}
+                },
+                {
+                    "name": "offsets",
+                    "type": "matrix",
+                    "blank_value": [],
+                    "default_value": [],
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "enumerated only: explicit per-sample offsets from the anchor.",
+                    "constraints": {}
+                }
+            ]
+        },
+        {
+            "name": "execution_environment",
+            "type": "structure",
+            "blank_value": {},
+            "default_value": {},
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Optional per-run provenance of a software-produced value: the actual OS + interpreter the producing run used. This is provenance of THIS execution, distinct from the software's identity (the `software` entity) and from the SUPPORTED os (openMINDS SoftwareVersion.operatingSystem). Empty for hand/DAQ measurements.",
+            "constraints": {},
+            "fields": [
+                {
+                    "name": "os",
+                    "type": "char",
+                    "blank_value": "",
+                    "default_value": "",
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Operating system the run executed on.",
+                    "constraints": {}
+                },
+                {
+                    "name": "os_version",
+                    "type": "char",
+                    "blank_value": "",
+                    "default_value": "",
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Operating-system version.",
+                    "constraints": {}
+                },
+                {
+                    "name": "interpreter",
+                    "type": "char",
+                    "blank_value": "",
+                    "default_value": "",
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Language/interpreter the run used (e.g. MATLAB, Python).",
+                    "constraints": {}
+                },
+                {
+                    "name": "interpreter_version",
+                    "type": "char",
+                    "blank_value": "",
+                    "default_value": "",
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Interpreter version.",
+                    "constraints": {}
+                }
+            ]
+        },
+        {
+            "name": "channels",
+            "type": "structure",
+            "blank_value": [],
+            "default_value": [],
+            "mustBeNonEmpty": false,
+            "mustBeScalar": false,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "The CHANNEL HALF of v1's `devicestring` (after the ':'), one entry per channel-TYPE GROUP as the source stores them ('ai27-28,45,88;di1-4' -> [{type ai, numbers [27 28 45 88]}, {type di, numbers [1 2 3 4]}]). `type` is scalar per entry (a group is one type); `numbers` is the list. Grouped, not flat parallel arrays -- the flat form repeats the type N times and discards the grouping. OPTIONAL, on interactions decomposed from an ingested probemap: recording observations (record channels) and stimulator manipulations (output channels).",
+            "constraints": {},
+            "fields": [
+                {
+                    "name": "type",
+                    "type": "ontology_term",
+                    "blank_value": {
+                        "node": "",
+                        "name": ""
+                    },
+                    "default_value": {
+                        "node": "",
+                        "name": ""
+                    },
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "ai | ao | di | do (daqsystemstring.m:53-56).",
+                    "constraints": {},
+                    "fields": [
+                        {
+                            "name": "node",
+                            "type": "char",
+                            "blank_value": "",
+                            "default_value": "",
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "The CURIE (prefix resolved via CURIE_lookups_meta.json).",
+                            "constraints": {}
+                        },
+                        {
+                            "name": "name",
+                            "type": "char",
+                            "blank_value": "",
+                            "default_value": "",
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "The human-readable label.",
+                            "constraints": {}
+                        }
+                    ]
+                },
+                {
+                    "name": "numbers",
+                    "type": "matrix",
+                    "blank_value": [],
+                    "default_value": [],
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": false,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "That group's channel numbers.",
+                    "constraints": {}
+                }
+            ]
+        }
+    ]
+}
