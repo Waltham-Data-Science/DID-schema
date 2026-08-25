@@ -685,7 +685,7 @@
         ],
         "packages_missing": [],
         "files_read": 182,
-        "lines_read": 45890,
+        "lines_read": 45926,
         "classes_queried": 26,
         "classes_emitted_as_document_class": 8,
         "unresolved_mint_sites": [
@@ -728,7 +728,7 @@
           "batch_post_pass": 28
         },
         "lines_read_by_group": {
-          "per_document_migrator": 30821,
+          "per_document_migrator": 30857,
           "batch_post_pass": 15069
         },
         "classes_emitted_as_document_class_by_group": {
@@ -2105,9 +2105,9 @@
         "consuming_refs": [
           "DID-matlab:convert/epochMint.m:968 (guard)",
           "DID-matlab:migrators_j/private/jMethodParameters.m:122 (guard)",
-          "NDI-matlab:ndi_second_pass/bodyResolver.m:474 (guard)",
-          "NDI-matlab:ndi_second_pass/bodyResolver.m:475 (guard)",
-          "NDI-matlab:ndi_second_pass/bodyResolver.m:476 (field_read)",
+          "NDI-matlab:ndi_second_pass/bodyResolver.m:497 (guard)",
+          "NDI-matlab:ndi_second_pass/bodyResolver.m:498 (guard)",
+          "NDI-matlab:ndi_second_pass/bodyResolver.m:499 (field_read)",
           "NDI-matlab:ndi_second_pass/ensembleMembership.m:731 (guard)"
         ],
         "n_emitted_class_refs": 0,
@@ -2142,9 +2142,9 @@
             "n_consuming_refs": 14,
             "consuming_refs": [
               "DID-matlab:migrators_j/private/jMethodParameters.m:122 (guard)",
-              "NDI-matlab:ndi_second_pass/bodyResolver.m:474 (guard)",
-              "NDI-matlab:ndi_second_pass/bodyResolver.m:475 (guard)",
-              "NDI-matlab:ndi_second_pass/bodyResolver.m:476 (field_read)",
+              "NDI-matlab:ndi_second_pass/bodyResolver.m:497 (guard)",
+              "NDI-matlab:ndi_second_pass/bodyResolver.m:498 (guard)",
+              "NDI-matlab:ndi_second_pass/bodyResolver.m:499 (field_read)",
               "NDI-matlab:ndi_second_pass/ensembleMembership.m:731 (guard)",
               "NDI-matlab:ndi_second_pass/ensembleMembership.m:732 (field_read)"
             ],
@@ -2831,8 +2831,8 @@
           "NDI-matlab:ndi_second_pass/hartleyBasisGratings.m:357 (field_read)",
           "NDI-matlab:ndi_second_pass/stimulusPresentationToManipulation.m:47 (guard)",
           "NDI-matlab:ndi_second_pass/stimulusPresentationToManipulation.m:48 (field_read)",
-          "NDI-matlab:ndi_second_pass/stimulusPresentationToTimedSequence.m:286 (guard)",
-          "NDI-matlab:ndi_second_pass/stimulusPresentationToTimedSequence.m:287 (field_read)"
+          "NDI-matlab:ndi_second_pass/stimulusPresentationToTimedSequence.m:299 (guard)",
+          "NDI-matlab:ndi_second_pass/stimulusPresentationToTimedSequence.m:300 (field_read)"
         ],
         "n_emitted_class_refs": 0,
         "emitted_class_refs": [],
@@ -2860,8 +2860,8 @@
               "NDI-matlab:ndi_second_pass/hartleyBasisGratings.m:357 (field_read)",
               "NDI-matlab:ndi_second_pass/stimulusPresentationToManipulation.m:47 (guard)",
               "NDI-matlab:ndi_second_pass/stimulusPresentationToManipulation.m:48 (field_read)",
-              "NDI-matlab:ndi_second_pass/stimulusPresentationToTimedSequence.m:286 (guard)",
-              "NDI-matlab:ndi_second_pass/stimulusPresentationToTimedSequence.m:287 (field_read)"
+              "NDI-matlab:ndi_second_pass/stimulusPresentationToTimedSequence.m:299 (guard)",
+              "NDI-matlab:ndi_second_pass/stimulusPresentationToTimedSequence.m:300 (field_read)"
             ],
             "n_emitted_class_refs": 0,
             "emitted_class_refs": [],
