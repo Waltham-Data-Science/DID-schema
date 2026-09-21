@@ -140,3 +140,18 @@ be re-verified on the corpus after the re-target, not assumed.
 - **NDIcalc-vis `ndi.query` rename** to the leaf name (`tuning_curve_calculation`) — separate
   repo, naming-B, out of scope (as with the current leaf names).
 - **Per-model schema enforcement** (option B) — only if a corpus need arises; see decision 2.
+
+TEAM-SIGN-OFF [tuning_curve composite + tuning_curve_calculation leaf, restructure]:
+Steve Van Hooser 2026-09-21 -- (1) REVERSE R2/R3's LEAF COLLAPSE: restore
+per-calculator subclasses (oridirtuning_calc, contrasttuning_calc,
+spatial_frequency_tuning_calc, temporal_frequency_tuning_calc, speedtuning_calc,
+tuningcurve_calc) under a new abstract `tuning_curve_calculation` leaf, per Lepsky
+et al. 2026 §3.2 / Fig. 2F / Fig. 4 / Fig. 5Bii. (2) PRESERVE R2's SHAPE
+COLLAPSE: one `tuning_curve` composite carries the raw curve (independent_variables[],
+mean, stddev, stderr, individual, raw_individual optional, control{...},
+response_units, response_type, coordinates). (3) FIELD SPLIT: significance and
+model_fit[] on the LEAF (calc-produced); everything else on the composite. (4)
+Per-family fit shapes ride as `model_fit[]` array entries (R2 approach preserved),
+not typed field declarations. (5) Multi-D tuning is first-class via
+`independent_variables[]` cardinality — speed_tuning is a thin marker. Full spec:
+Waltham-Data-Science/DID-schema#67.
