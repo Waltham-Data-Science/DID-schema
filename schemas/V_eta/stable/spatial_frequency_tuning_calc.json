@@ -1,16 +1,16 @@
 {
     "document_class": {
-        "class_name": "tuning_curve_calculation",
+        "class_name": "spatial_frequency_tuning_calc",
         "class_version": "1.0.0",
         "superclasses": [
             {
-                "class_name": "subject_calculation"
+                "class_name": "tuning_curve_calculation"
             },
             {
-                "class_name": "tuning_curve"
+                "class_name": "spatial_frequency_tuning"
             }
         ],
-        "maturity_level": "draft"
+        "maturity_level": "stable"
     },
     "depends_on": [],
     "file": [],

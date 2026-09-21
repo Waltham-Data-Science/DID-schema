@@ -968,6 +968,31 @@ into `subject_calculation` leaves with ids and deps PRESERVED (Soph corpus run #
 ~101k docs, **0 orphans** — the 11,448-orphan dissolution failure does not recur) and the
 tuning collapse (#26).
 
+**#26 R2/R3 LEAF COLLAPSE — SUPERSEDED 2026-09-21 by GitHub issue
+[Waltham-Data-Science/DID-schema#67](https://github.com/Waltham-Data-Science/DID-schema/issues/67).**
+`TEAM-SIGN-OFF [tuning_curve composite + tuning_curve_calculation leaf, restructure]`,
+Steve Van Hooser 2026-09-21, `V_eta_tuning_model_plan.md`. R2/R3's collapse of five
+per-family `_calc` classes into ONE `tuning_curve_calculation` leaf violated Lepsky et
+al. 2026 §3.2 / Fig. 2F -- "a calculator can only produce a single output document type"
+-- so five calculators would have emitted into one bucket. And the v1 class names
+(`oridirtuning_calc`, `contrasttuning_calc`, `spatial_frequency_tuning_calc`,
+`temporal_frequency_tuning_calc`, `speedtuning_calc`, `tuningcurve_calc`) appear
+verbatim in 3+ published/preprint papers (§3.3 Reikersdorfer 2021, Griswold & Gazelle
+2025, Casanova 2025) and are the pipeline hook (Fig. 5Bii). The RESTRUCTURE (issue
+#67): (1) the SHAPE collapse is preserved -- ONE `tuning_curve` composite carries the
+raw curve with the field split (independent_variables[], mean, stddev, stderr,
+individual, raw_individual optional, control{...}, response_units, response_type,
+coordinates); (2) five thin marker composites ⊂ tuning_curve preserve the v1 result
+class names; (3) abstract `tuning_curve_calculation` ⊂ subject_calculation carries
+calc-produced significance + model_fit[]; (4) six concrete calc leaves ⊂
+[tuning_curve_calculation, marker] restore the 1:1 calc→doctype contract. Also:
+`calculator` becomes a STANDALONE abstract with required software_id +
+runtime_environment_id edges (`runtime_environment` NEW entity), and
+`subject_calculation` multi-inherits from `[subject_interaction, calculator]`.
+`harmonic_component_calculation` DELETED from draft (no v1 source emits it as a leaf).
+DID-matlab migrator retargets follow in a separate PR; the corpus 0-orphan re-verify
+rides with them. See the SCHEMA PR against `main` for the diff.
+
 **The spike zoo, RE-DERIVED 2026-08-08 from `+migrators_j/` (60 top-level migrators, 22 private
 helpers). All eleven classes have a migrator; the split is 5 folded / 6 deliberately deferred:**
 

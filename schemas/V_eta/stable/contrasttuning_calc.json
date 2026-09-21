@@ -1,0 +1,18 @@
+{
+    "document_class": {
+        "class_name": "contrasttuning_calc",
+        "class_version": "1.0.0",
+        "superclasses": [
+            {
+                "class_name": "tuning_curve_calculation"
+            },
+            {
+                "class_name": "contrast_tuning"
+            }
+        ],
+        "maturity_level": "stable"
+    },
+    "depends_on": [],
+    "file": [],
+    "fields": []
+}

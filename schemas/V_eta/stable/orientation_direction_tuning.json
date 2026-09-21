@@ -1,13 +1,10 @@
 {
     "document_class": {
-        "class_name": "reverse_correlation",
-        "class_version": "2.0.0",
+        "class_name": "orientation_direction_tuning",
+        "class_version": "1.0.0",
         "superclasses": [
             {
-                "class_name": "receptive_field"
-            },
-            {
-                "class_name": "ngrid"
+                "class_name": "tuning_curve"
             }
         ],
         "maturity_level": "stable",

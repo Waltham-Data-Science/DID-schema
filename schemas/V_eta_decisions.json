@@ -173,11 +173,11 @@
       "members": [
         {
           "class_name": "tuningcurve_calc",
-          "disposition": "(absent)"
+          "disposition": "persist"
         },
         {
           "class_name": "oridirtuning_calc",
-          "disposition": "(absent)"
+          "disposition": "persist"
         },
         {
           "class_name": "probe_location",

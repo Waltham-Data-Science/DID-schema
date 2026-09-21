@@ -5,6 +5,9 @@
         "superclasses": [
             {
                 "class_name": "subject_interaction"
+            },
+            {
+                "class_name": "calculator"
             }
         ],
         "maturity_level": "stable",

@@ -9,9 +9,9 @@ for each model; this board owns *how much is left and what exactly*.
 
 | | count |
 |---|---|
-| target classes | 245 |
-| settled (persist) | 167 |
-| settled (retire) | 52 |
+| target classes | 256 |
+| settled (persist) | 181 |
+| settled (retire) | 49 |
 | **still open (`in_progress`)** | **26** |
 | **`retire` with no migrator YET** | **2** |
 | open **decision families** | **26** |
@@ -330,18 +330,18 @@ Until that line exists the family shows here regardless of what
 
 **DENOMINATOR: 26 signed families. 16 named at least one decided target class and were checked against the built tree; 10 named none and are UNCHECKED HERE.**
 
-Across the 16 checked: 30 distinct target class(es), 30 present in the built set, 0 not.
+Across the 16 checked: 30 distinct target class(es), 29 present in the built set, 1 not.
 
-So for the checked families the schema half is DONE and what
-remains is MIGRATOR work. Do not read those rows as a build
-queue for schema.
+The classes not yet present are the schema build queue:
+
+- `harmonic_component_calculation`
 
 **The other 10 are unchecked, NOT clean.** Nothing above says anything about them, and the reason differs per family:
 
 - **stranded sources** (2 class(es)): 2 `generic_file`, `imageCollection` -- has a ledger row whose `decided_targets` is EMPTY -- the gap the ledger now flags by name
 - **time_reference** (4 class(es)): 4 `epoch_bounded_reference`, `session_bounded_reference`, `session_relative_reference`, `time_reference` -- a V_eta target class, so the coverage ledger has no row for it (it is not a v1 source)
-- **receptive field fold** (1 class(es)): 1 `hartley_calc` -- has a ledger row whose `decided_targets` is EMPTY -- the gap the ledger now flags by name
-- **confirm sheet 2026-08-17** (5 class(es)): 5 `jrclust_clusters`, `oridirtuning_calc`, `probe_location`, `treatment`, `tuningcurve_calc` -- has a ledger row whose `decided_targets` is EMPTY -- the gap the ledger now flags by name
+- **receptive field fold** (1 class(es)): 1 `hartley_calc` -- a V_eta target class, so the coverage ledger has no row for it (it is not a v1 source)
+- **confirm sheet 2026-08-17** (5 class(es)): 4 `jrclust_clusters`, `probe_location`, `treatment`, `tuningcurve_calc` -- has a ledger row whose `decided_targets` is EMPTY -- the gap the ledger now flags by name; 1 `oridirtuning_calc` -- a V_eta target class, so the coverage ledger has no row for it (it is not a v1 source)
 - **image / ngrid** (2 class(es)): 2 `imageStack_parameters`, `ngrid` -- has a ledger row whose `decided_targets` is EMPTY -- the gap the ledger now flags by name
 - **openMINDS** (1 class(es)): 1 `openminds` -- has a ledger row whose `decided_targets` is EMPTY -- the gap the ledger now flags by name
 - **stimulus parameters** (2 class(es)): 1 `stimulus_parameter` -- has a ledger row whose `decided_targets` is EMPTY -- the gap the ledger now flags by name; 1 `stimulus_parameter_table` -- its only decided target is ITSELF, a signed passthrough, which is stripped because it is not build evidence
@@ -383,7 +383,7 @@ is why migrator work before the target closes is rework.
 | **frequency_filter** | 1 | 1 of 1 | referenced document (not entity); band edges; typed gain fields; no sample_rate | `V_eta_frequency_filter_model_plan.md` |
 | **spike processing parameters** | 4 | 1 of 1 | 4 -> 1 `method_parameters` (id+name preserved); canonical parts typed, rest a bag | `V_eta_method_parameters_plan.md` |
 | **stimulus parameters** | 2 | no target recorded | stimulus_parameter DISSOLVES to a typed leaf keyed by its CURIE (build gated on #32); stimulus_parameter_table PASSES THROUGH; both tombstones repaired | `V_eta_stimulus_parameter_plan.md` |
-| **stimulus response** | 4 | 2 of 2 | 4 -> 2: `harmonic_component` data_type + calculation leaf (id preserved); parameters fold inline, killing 11,440 empty required edges | `V_eta_stimulus_response_model_plan.md` |
+| **stimulus response** | 4 | 1 of 2 | 4 -> 2: `harmonic_component` data_type + calculation leaf (id preserved); parameters fold inline, killing 11,440 empty required edges | `V_eta_stimulus_response_model_plan.md` |
 | **subject measurement** | 1 | no target recorded | route through the `measurement` fold -- no new class; `datestamp` is a TIME ANCHOR (-> absolute_reference), NOT a field (corrected 2026-08-06) | `V_eta_go_forward_class_audit.md` |
 | **raw recording observation** | 2 | 12 of 12 | a raw continuous recording IS a typed `<modality>_observation` of the SPECIMEN: subject_id = the specimen, instrument_id = the electrode in the instrument role (T7), variable = the modality from the element type, body = `sampled_body`; the loose `probe observes specimen` relation RETIRES in favour of the instrument_id edge, and ONLY where that edge was actually written. Guard A stands (an unmapped element type still yields a VALUED observation over a self-describing sampled_body with a queryable `modality_unresolved` flag, never a timeseries_observation or `array`). Multi-channel is ONE observation with a channel axis, not N. Specimen granularity is accepted as faithful-but-coarse. OPEN, NOT COVERED BY THE SIGNATURE: `pyraview` emits this model's SHAPE while attributing it to the element rather than the specimen and writing no instrument_id | `V_eta_recording_observation_plan.md` |
 | **subject** | 1 | no target recorded | PASSTHROUGH IS THE END STATE, not a deferral -- 1 -> 1, base.id PRESERVED (subject_id is the most-referenced edge in the corpus). The did_v1 template and V_eta declare the same two fields; the superclass moves base -> entity, `local_identifier` becomes REQUIRED, and `datestamp` -> `creation_timestamp` arrives via the OUTBOUND rename rather than this migrator. No fold is owed and none should be built | `V_eta_go_forward_class_audit.md` |
@@ -446,10 +446,11 @@ visible either.
 
 | disposition | count |
 |---|---|
-| retire | 48 |
-| consumed by migrator (no tombstone) | 28 |
+| retire | 47 |
 | in_progress | 19 |
-| persist | 4 |
+| no V_eta home, no migrator -- UNVERIFIED | 16 |
+| UNMAPPED (needs a V_eta home) | 10 |
+| persist | 7 |
 | test/demo fixture (non-production) | 2 |
 | dissolved → subject | 1 |
 
@@ -480,6 +481,25 @@ DENOMINATOR: 2 row(s), each searched for its BARE CLASS NAME as a quoted literal
 
 - `generic_file` -- **NOT untouched**: consumed by `foldGenericFiles.m`
 - `imageCollection` -- no per-class migrator and no batch post-pass names it; passes through today
+
+**UNVERIFIED** -- no V_eta home, no migrator, fate never established. These strand today:
+
+- `daqreader_mfdaq_epochdata_ingested`
+- `daqreader_ndr`
+- `dataset_remote`
+- `dataset_session_info`
+- `demoNDIMock`
+- `element_epoch`
+- `epochclocktimes`
+- `metadata_editor`
+- `session_in_a_dataset`
+- `stimulus_bath`
+- `stimulus_tuningcurve`
+- `subject_group`
+- `treatment`
+- `treatment_drug`
+- `treatment_transfer`
+- `virus_injection`
 
 ## Families naming classes that are no longer open
 
