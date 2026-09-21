@@ -260,3 +260,19 @@ spine-queryable (`method`/`method_parameters`).
 5. **Docs:** update CLAUDE.md (calculators no longer deferred for these), the
    cohesiveness plan (§2.C / D-C revision), the coverage ledger targets, and the web
    viewer.
+
+
+TEAM-SIGN-OFF [calculator + subject_calculation restructure]:
+Steve Van Hooser 2026-09-21 -- (1) REVERSE §5's RETIREMENT of `calculator`:
+`calculator` becomes a STANDALONE abstract document class (not ⊂ subject_calculation)
+with REQUIRED `software_id → software` and `runtime_environment_id →
+runtime_environment` edges (min_count 1 each). (2) `subject_calculation` gains
+multi-inheritance: ⊂ [subject_interaction, calculator]. (3) NEW entity
+`runtime_environment` (fields os, os_version, interpreter, interpreter_version) —
+Shape 2, no software_run join. (4) `input_parameters` → `method_parameters` rename
+with reader-side alias only (no schema-level field alias). (5) `_calculation`
+suffix reserved for calculator outputs; `tuning_curve` (composite) is broader.
+Full spec: Waltham-Data-Science/DID-schema#67.
+
+
+
