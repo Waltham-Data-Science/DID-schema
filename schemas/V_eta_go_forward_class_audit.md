@@ -787,3 +787,8 @@ tombstone that makes it required would quarantine all 21.
 DECISION, team 2026-08-17: build the waveform fold BEFORE confirming the row --
 "Let's investigate this one", then "Do 3". Not signed as a disposition here; the
 signature belongs with the built fold.
+
+
+TEAM-SIGN-OFF [orientation_direction_tuning.json location]:
+Steve Van Hooser 2026-09-22 -- STAYS ON NDI-matlab post-retirement of
+ndi.app.oridirtuning (VH-Lab/NDI-matlab#1001). Resolves #67 sub-question.
