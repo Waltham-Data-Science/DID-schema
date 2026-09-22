@@ -4,7 +4,12 @@ on:
   push:
     branches: [main]
   pull_request:
-    branches: [main]
+    # No branch filter -- a PR stacked on a feature branch (this file's own
+    # sibling-base-ref fallback exists for that case, see the checkout step)
+    # needs its tests to run just like a PR targeting main. Restricting the
+    # trigger to main meant the tests workflow never fired on PR #69 -- the
+    # very PR that adds the base-ref fallback -- so the fallback was
+    # unverifiable by CI on the PR that shipped it.
   workflow_dispatch:
 
 jobs:
