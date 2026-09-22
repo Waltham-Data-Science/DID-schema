@@ -89,11 +89,25 @@ def _gov(rows=None):
 # ---------------------------------------------------------------------------
 
 def _scan(path):
-    """(line, tag, content) for every line-initial TEAM-SIGN-OFF in a file."""
+    """(line, tag, content) for every line-initial TEAM-SIGN-OFF in a file.
+
+    MULTI-LINE HANDLING (added 2026-09-22, alongside the same change in the
+    status_board parser). A long tag can push the who/when past the right
+    margin and the team's habit is to write the tag on one line and the
+    decision on the next -- issue #67's two sign-off lines both take this
+    shape. If the marker line has nothing after the tag+colon, join the
+    next non-empty non-marker lines the way the tool does, stopping at a
+    structural marker or after enough content to be non-placeholder.
+    Second-opinion status: this is a re-implementation of the same rule
+    from status_board.py's docstring, NOT an import of the tool's parser;
+    the two must independently arrive at the same output for the tests
+    that compare them to remain a check.
+    """
     with open(path) as fh:
         text = re.sub(r"<!--.*?-->", "", fh.read(), flags=re.DOTALL)
     out = []
-    for n, raw in enumerate(text.splitlines(), 1):
+    lines = text.splitlines()
+    for n, raw in enumerate(lines, 1):
         line = raw.lstrip()
         if not line.startswith("TEAM-SIGN-OFF"):
             continue
@@ -102,7 +116,23 @@ def _scan(path):
         m = re.match(r"\[([^\]]+)\]\s*(.*)$", rest)
         if m:
             tag, rest = m.group(1).strip(), m.group(2).strip()
-        out.append((n, tag, rest.lstrip(":").strip()))
+        rest = rest.lstrip(":").strip()
+        if not rest:
+            joined = []
+            for nxt in lines[n:]:
+                s = nxt.strip()
+                if not s:
+                    break
+                if s.startswith("TEAM-SIGN-OFF"):
+                    break
+                if s[0] in "|#-*" and not joined:
+                    break
+                joined.append(s)
+                if len(joined) >= 8 or ("-- " in s and sum(len(j) for j in joined) >= 20):
+                    break
+            if joined:
+                rest = " ".join(joined).lstrip(":").strip()
+        out.append((n, tag, rest))
     return out
 
 

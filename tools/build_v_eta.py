@@ -8319,6 +8319,7 @@ _IN_PROGRESS = {"app", "stimulus_presentation",
     "projectvar", "ensemble"}
 
 _TRANSITIVE_SUPER_CACHE = {}
+_TRANSITIVE_SUPER_UNREADABLE = []
 def _transitive_supers(name):
     """The full ancestor set of `name` across all V_eta tiers -- direct parents,
     parents of parents, ... . Loads schemas lazily and caches. Empty if the
@@ -8326,7 +8327,15 @@ def _transitive_supers(name):
     intermediate (e.g. `oridirtuning_calc` -> tuning_curve_calculation ->
     subject_calculation) reads its transitive family rather than only the
     literal superclass string, which is how the #67 restructure adds calc
-    leaves under new intermediates."""
+    leaves under new intermediates.
+
+    `path_of()` verifies the file exists, so the only realistic failure at
+    `load()` is a malformed JSON body -- catch it by name, RECORD the skip on
+    the module-level list `_TRANSITIVE_SUPER_UNREADABLE` (test_tool_skip_denominators:
+    a skip that shrinks a number silently is a denominator defect), and treat
+    the class as having no ancestors so a dispositions pass still terminates.
+    OSError is not caught: a file that path_of found but load could not read
+    is an instrument fault, not an item to filter out."""
     if name in _TRANSITIVE_SUPER_CACHE:
         return _TRANSITIVE_SUPER_CACHE[name]
     result = set()
@@ -8334,7 +8343,8 @@ def _transitive_supers(name):
     if _p:
         try:
             _d = load(_p)
-        except Exception:
+        except json.JSONDecodeError:
+            _TRANSITIVE_SUPER_UNREADABLE.append(name)
             _TRANSITIVE_SUPER_CACHE[name] = result
             return result
         for _sc in _d.get("document_class", {}).get("superclasses", []):
@@ -8792,3 +8802,7 @@ with open(os.path.join(VETA, "index.json"), "w") as f:
     f.write("\n")
 
 print(f"V_eta built: {len(schemas)} schemas across {TIERS}")
+if _TRANSITIVE_SUPER_UNREADABLE:
+    print(f"  _transitive_supers UNREADABLE (malformed JSON, dropped from ancestor "
+          f"walk, disposition falls through): {len(_TRANSITIVE_SUPER_UNREADABLE)} "
+          f"class(es) -- {sorted(_TRANSITIVE_SUPER_UNREADABLE)}")

@@ -88,15 +88,14 @@
           "yes": 10
         },
         "2": {
-          "not measured": 67,
+          "not measured": 68,
           "yes": 31,
-          "n/a": 3,
-          "no": 1
+          "n/a": 3
         },
         "3": {
-          "not measured": 67,
+          "not measured": 68,
           "no": 12,
-          "yes": 20,
+          "yes": 19,
           "n/a": 3
         },
         "4": {
@@ -106,12 +105,12 @@
       "per_stage_satisfied_independently": {
         "1": 10,
         "2": 31,
-        "3": 20,
+        "3": 19,
         "4": 0
       },
       "capped": {
         "denominator": 102,
-        "rows": 28,
+        "rows": 27,
         "row_names": [
           "app",
           "binaryseries_parameters",
@@ -134,7 +133,6 @@
           "spike_extraction_parameters",
           "spike_extraction_parameters_modification",
           "stimulus_parameter_table",
-          "stimulus_response_scalar",
           "stimulus_response_scalar_parameters_basic",
           "subject",
           "syncgraph",
@@ -143,13 +141,13 @@
           "vmspikefilteringparameters"
         ],
         "highest_rung_satisfied_independently_histogram": {
-          "0": 64,
+          "0": 65,
           "1": 6,
           "2": 12,
-          "3": 20,
+          "3": 19,
           "4": 0
         },
-        "genuinely_untouched": 61,
+        "genuinely_untouched": 62,
         "genuinely_untouched_rows": [
           "SpikeInterfaceSortingOutputs",
           "animalsubject",
@@ -204,6 +202,7 @@
           "spike_clusters",
           "spikewaves",
           "stimulus_parameter",
+          "stimulus_response_scalar",
           "stimulus_tuningcurve",
           "subject_group",
           "subjectmeasurement",
@@ -533,6 +532,12 @@
             "governance": "signed"
           },
           {
+            "v1_class": "stimulus_response_scalar",
+            "disposition": "retire",
+            "target_source": "emitted",
+            "governance": "signed"
+          },
+          {
             "v1_class": "stimulus_tuningcurve",
             "disposition": "no V_eta home, no migrator -- UNVERIFIED",
             "target_source": "emitted",
@@ -591,7 +596,7 @@
       },
       "no_target_recorded": {
         "denominator": 102,
-        "rows": 70,
+        "rows": 71,
         "row_names": [
           "SpikeInterfaceSortingOutputs",
           "animalsubject",
@@ -651,6 +656,7 @@
           "spikewaves",
           "stimulus_parameter",
           "stimulus_response",
+          "stimulus_response_scalar",
           "stimulus_response_scalar_parameters",
           "stimulus_tuningcurve",
           "subject_group",
@@ -673,15 +679,15 @@
         "why_the_join_moves_none_of_them": "a TEAM-SIGN-OFF line signs a FAMILY, not a per-class target list. The join can say a class is decided; it cannot say WHAT it becomes. Naming a target from it would be inventing one"
       },
       "anomalies": {
-        "total": 47,
-        "classes": 28,
+        "total": 46,
+        "classes": 27,
         "by_kind": {
-          "over_failed": 47
+          "over_failed": 46
         },
         "by_stage": {
           "1": 0,
           "2": 27,
-          "3": 20,
+          "3": 19,
           "4": 0
         },
         "rows": [
@@ -966,14 +972,6 @@
             "v1_class": "stimulus_parameter_table"
           },
           {
-            "stage": 3,
-            "stage_name": "the migrator emits THE DECIDED targets",
-            "satisfied_over": 1,
-            "satisfied_over_name": "a migrator CONSUMES it",
-            "kind": "over_failed",
-            "v1_class": "stimulus_response_scalar"
-          },
-          {
             "stage": 2,
             "stage_name": "its decided target classes EXIST in the build",
             "satisfied_over": 1,
@@ -1200,7 +1198,9 @@
             "subject (subject)": 3,
             "control_designation (stimulus)": 1,
             "daqreader_epochdata_ingested (daq ingested payloads)": 1,
-            "session_bounded_reference (time_reference)": 1
+            "session_bounded_reference (time_reference)": 1,
+            "oridirtuning_calc (confirm sheet 2026-08-17)": 1,
+            "tuningcurve_calc (confirm sheet 2026-08-17)": 1
           },
           "family_members_matching_no_ledger_row": 9,
           "spelling_near_misses": []
@@ -1213,28 +1213,12 @@
             "V_eta_final_class_set.md"
           ],
           "signoff_markers_inside_excluded_documents": 1,
-          "accepted_lines": 46,
-          "rejected_lines": [
-            {
-              "document": "V_eta_subject_calculation_plan.md",
-              "line": 265,
-              "tag": "calculator + subject_calculation restructure",
-              "why": "under 10 characters after the marker -- not a decision",
-              "excerpt": "",
-              "document_cited_by_families": []
-            },
-            {
-              "document": "V_eta_tuning_model_plan.md",
-              "line": 144,
-              "tag": "tuning_curve composite + tuning_curve_calculation leaf, restructure",
-              "why": "under 10 characters after the marker -- not a decision",
-              "excerpt": "",
-              "document_cited_by_families": []
-            }
-          ],
+          "accepted_lines": 48,
+          "rejected_lines": [],
           "distinct_tags": [
             "base naming",
             "binding governance",
+            "calculator + subject_calculation restructure",
             "confirm sheet 2026-08-17",
             "confirm sheet 2026-08-22",
             "daq configuration",
@@ -1269,7 +1253,8 @@
             "sync configuration amendment 1",
             "sync mapping",
             "time dtype",
-            "time_reference"
+            "time_reference",
+            "tuning_curve composite + tuning_curve_calculation leaf, restructure"
           ],
           "tags": {
             "base naming": [
@@ -1282,6 +1267,12 @@
               {
                 "document": "V_eta_tenet_audit.md",
                 "line": 429
+              }
+            ],
+            "calculator + subject_calculation restructure": [
+              {
+                "document": "V_eta_subject_calculation_plan.md",
+                "line": 265
               }
             ],
             "confirm sheet 2026-08-17": [
@@ -1517,6 +1508,12 @@
                 "document": "V_eta_time_reference_model_plan.md",
                 "line": 468
               }
+            ],
+            "tuning_curve composite + tuning_curve_calculation leaf, restructure": [
+              {
+                "document": "V_eta_tuning_model_plan.md",
+                "line": 144
+              }
             ]
           },
           "untagged_documents": {
@@ -1564,6 +1561,12 @@
               {
                 "document": "V_eta_tenet_audit.md",
                 "line": 429
+              }
+            ],
+            "calculator + subject_calculation restructure": [
+              {
+                "document": "V_eta_subject_calculation_plan.md",
+                "line": 265
               }
             ],
             "confirm sheet 2026-08-22": [
@@ -1630,6 +1633,12 @@
               {
                 "document": "V_eta_tenet_audit.md",
                 "line": 520
+              }
+            ],
+            "tuning_curve composite + tuning_curve_calculation leaf, restructure": [
+              {
+                "document": "V_eta_tuning_model_plan.md",
+                "line": 144
               }
             ]
           }
@@ -7716,9 +7725,10 @@
       "nonprod": false,
       "gap": false,
       "targets": [
-        "tuning_curve_calculation",
         "session_relative_reference",
-        "software"
+        "software",
+        "oridirtuning_calc",
+        "runtime_environment"
       ],
       "decided_targets": [],
       "decided_targets_source": null,
@@ -10151,15 +10161,10 @@
       "nonprod": false,
       "gap": false,
       "targets": [
-        "harmonic_component_calculation",
-        "session_relative_reference",
-        "software",
-        "relative_reference"
+        "stimulus_response_scalar"
       ],
-      "decided_targets": [
-        "harmonic_component_calculation"
-      ],
-      "decided_targets_source": "curated_targets_file",
+      "decided_targets": [],
+      "decided_targets_source": null,
       "decided_signoff": null,
       "target_source": "emitted",
       "no_target_reason": null,
@@ -10168,12 +10173,10 @@
       "no_target_signoff": null,
       "target_gap": false,
       "build_state": {
-        "schema_targets_named": 1,
+        "schema_targets_named": 0,
         "schema_targets_built": [],
-        "schema_targets_missing": [
-          "harmonic_component_calculation"
-        ],
-        "migrator_emits_decided_targets": true,
+        "schema_targets_missing": [],
+        "migrator_emits_decided_targets": false,
         "has_per_class_migrator": false,
         "batch_pass_consumers": [],
         "batch_pass_emits": {},
@@ -10187,8 +10190,8 @@
       },
       "carried": [],
       "second_pass": [],
-      "how": "Becomes a `harmonic_component_calculation` (a `subject_calculation` leaf) with its id PRESERVED, carrying a `harmonic_component` data_type value. Id preservation is what keeps downstream references resolving.",
-      "target_flags": "BUILT (migrators_j/stimulus_response_scalar.m:209): folds via migrators_j.private.jCalculation into `harmonic_component_calculation` with base.id PRESERVED, plus the session anchor and the `software` entity, with a guarded-passthrough branch at :184. The harmonic number is recoverable from the response document alone -- `response_type` is a total function of `freq_response` computed two lines before the document is built (tuning_response.m:262-266) -- so no parameters document is needed. The fold restores `stimulator_id` and `stimulus_control_id`, which V_eta had dropped.",
+      "how": "TODAY'S EMISSION: folds to `harmonic_component_calculation` per the 2026-08-08 sign-off. TARGET SUPERSEDED 2026-09-21 by issue #67 (Steve Van Hooser) which DELETED `harmonic_component_calculation` from the built set. `decided_targets` is now empty pending a new signed target -- a team modelling question, not a bug in the migrator (which still emits the old name; the DID-matlab retarget rides with issue #67's follow-on).",
+      "target_flags": "BUILT (migrators_j/stimulus_response_scalar.m:209): folds via migrators_j.private.jCalculation into `harmonic_component_calculation` with base.id PRESERVED, plus the session anchor and the `software` entity, with a guarded-passthrough branch at :184. The harmonic number is recoverable from the response document alone -- `response_type` is a total function of `freq_response` computed two lines before the document is built (tuning_response.m:262-266) -- so no parameters document is needed. The fold restores `stimulator_id` and `stimulus_control_id`, which V_eta had dropped. TARGET SUPERSEDED per issue #67 -- pending new signed target.",
       "decided_by_family": {
         "family": "stimulus response",
         "document": "V_eta_stimulus_response_model_plan.md",
@@ -10232,14 +10235,14 @@
           {
             "stage": 2,
             "name": "its decided target classes EXIST in the build",
-            "state": "no",
-            "why": "`build_state.schema_targets_missing` names `harmonic_component_calculation` -- 1 of 1 decided target class(es) are absent from the built V_eta set"
+            "state": "not measured",
+            "why": "`build_state.schema_targets_named` is 0 -- no target class is named for this row, so there is nothing to look for in the built set. This is NOT 'all targets present': an empty `schema_targets_missing` is empty here because the question was never asked"
           },
           {
             "stage": 3,
             "name": "the migrator emits THE DECIDED targets",
-            "state": "yes",
-            "why": "`build_state.migrator_emits_decided_targets` -- every decided target class is among the classes the generated target map records this migrator emitting"
+            "state": "not measured",
+            "why": "`build_state.schema_targets_named` is 0 -- no decided target to check an emission against"
           },
           {
             "stage": 4,
@@ -10248,19 +10251,11 @@
             "why": "*** NOT MEASURED *** -- no corpus report root was supplied (pass --corpus-reports DIR or set V_ETA_CORPUS_REPORTS)"
           }
         ],
-        "anomalies": [
-          {
-            "stage": 3,
-            "stage_name": "the migrator emits THE DECIDED targets",
-            "satisfied_over": 1,
-            "satisfied_over_name": "a migrator CONSUMES it",
-            "kind": "over_failed"
-          }
-        ],
-        "highest_rung_satisfied_independently": 3,
-        "capped": true,
-        "nothing_built": false,
-        "nothing_satisfied": false,
+        "anomalies": [],
+        "highest_rung_satisfied_independently": 0,
+        "capped": false,
+        "nothing_built": true,
+        "nothing_satisfied": true,
         "only_excused": false,
         "corpus_rung_state": "not measured"
       }
@@ -10498,9 +10493,10 @@
       "nonprod": false,
       "gap": false,
       "targets": [
-        "tuning_curve_calculation",
         "session_relative_reference",
-        "software"
+        "software",
+        "runtime_environment",
+        "tuningcurve_calc"
       ],
       "decided_targets": [],
       "decided_targets_source": null,
@@ -11616,9 +11612,10 @@
       "nonprod": false,
       "gap": false,
       "targets": [
-        "tuning_curve_calculation",
         "session_relative_reference",
-        "software"
+        "software",
+        "runtime_environment",
+        "tuningcurve_calc"
       ],
       "decided_targets": [],
       "decided_targets_source": null,
