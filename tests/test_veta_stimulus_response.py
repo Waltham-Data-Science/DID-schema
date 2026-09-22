@@ -414,7 +414,17 @@ def test_isspike_is_left_alone_and_the_inert_spelling_is_counted():
     # data_type subclasses -- which is why this one moves by 11 while the
     # data_type_subclasses counter moved by ONE (tuning_curve alone; the five
     # markers hang off tuning_curve, not data_type directly).
-    assert walked == 254, f'schema count moved; re-derive the inert set ({walked})'
+    # walked 243 -> 254 -> 262 as families landed: +11 for #67's tuning
+    # restructure (2026-09-21), then +8 for the spatial-transcriptomics family
+    # (2026-09-22, TEAM-SIGN-OFF [spatial_transcriptomics_family] +
+    # V_eta_go_forward_class_audit.md:796). The pinned INERT list below is
+    # UNTOUCHED across both moves: none of the new gene-expression schemas
+    # declares a numeric constraint at any depth (all fields are char / integer
+    # / double / matrix without min/max, and the deps are unconstrained
+    # ontology-free document edges), so this walk counts every schema and
+    # every count check catches only real additions -- exactly what a canary
+    # test asks of its denominator.
+    assert walked == 262, f'schema count moved; re-derive the inert set ({walked})'
     assert sorted(inert) == [
         "element.direct",
         "element.reference",

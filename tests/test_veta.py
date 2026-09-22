@@ -2211,26 +2211,39 @@ def test_the_pivot_bindings_name_no_admissible_set_yet():
 def test_the_pivot_bindings_stay_preferred_because_the_registry_itself_would_fail():
     """WHY `required` is not affordable, stated as evidence rather than caution.
 
-    binding_registry_meta.json's own `subject_statement_bindings` rows carry
-    `"variable": {"node": "", "name": "species"}` -- an EMPTY node, on every
-    row. A `required` node_form binding on `variable` would reject the very file
-    that defines the vocabulary. That is positive evidence of a non-zero cost,
-    not an absence of evidence, and it is the reason the DID-matlab validator
-    (did2.schema.cache/checkBinding) rejects only on `required` and ships behind
-    a switch that is disarmed by default.
+    Until 2026-09-22 EVERY row in `subject_statement_bindings` carried
+    `"variable": {"node": "", "name": "..."}` -- an empty node -- and this test
+    asserted the invariant across the whole list. That was positive evidence
+    that a `required` node_form binding would reject the very file that defines
+    the vocabulary, and it is why the DID-matlab validator
+    (did2.schema.cache/checkBinding) rejects only on `required` and ships
+    behind a switch that is disarmed by default.
 
-    If someone ever fills those nodes in, this test fails and says to
-    re-examine the strength -- which is the moment the question should be
-    reopened.
+    #120 added the FIRST row with a real CURIE (NCIT:C16608 "gene expression",
+    the pyramid observation), so the whole-list invariant is now false. The
+    argument for `preferred` is UNCHANGED, though: five of the six registry
+    rows still carry an empty node, and a `required` binding on the field
+    would still reject the file it lives in. The question the earlier
+    invariant deferred -- "when can we tighten to required?" -- reopens the
+    moment EVERY row carries a real CURIE, not the moment ONE does; until
+    then, `preferred` is the honest strength and this test just pins that.
+
+    RULE: at least one bound-variable row must still carry an empty node
+    (i.e. some pivot variable still lacks a resolvable CURIE), which is the
+    concrete evidence that `required` would reject a real file. If someone
+    fills every node in, this test fails and says to re-examine the strength
+    -- which is the moment the question should be reopened.
     """
     reg = _load(os.path.join(VETA, "stable", "binding_registry_meta.json"))
     rows = reg["subject_statement_bindings"]
     assert rows, "no rows -- this test would verify nothing"
     without_node = [r for r in rows if not r["variable"].get("node")]
-    assert len(without_node) == len(rows), (
-        f"{len(rows) - len(without_node)} of {len(rows)} registry variable rows "
-        "now carry a node. A `required` node_form may finally be affordable -- "
-        "measure it on a corpus before changing anything.")
+    assert without_node, (
+        f"0 of {len(rows)} registry variable rows still carry an empty node. "
+        "Every pivot variable now resolves to a real CURIE -- the evidence "
+        "that `required` node_form would reject the registry file itself is "
+        "gone. Re-examine the strength (and this test's premise) before "
+        "changing anything, and measure the change on a corpus.")
 
 
 def test_field_and_registry_strengths_agree():

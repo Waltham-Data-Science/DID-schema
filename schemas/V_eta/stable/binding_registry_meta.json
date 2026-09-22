@@ -53,6 +53,14 @@
             "ontology": "UBERON",
             "root_node": "UBERON:0000105",
             "subject_defining": true
+        },
+        {
+            "variable": {
+                "node": "NCIT:C16608",
+                "name": "gene expression"
+            },
+            "class": "spatial_gene_expression_pyramid",
+            "subject_defining": false
         }
     ],
     "binding_examples": [

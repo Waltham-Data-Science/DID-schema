@@ -398,12 +398,18 @@ def test_the_live_derivation_reports_its_denominator_first():
     assert lines[0].startswith("DENOMINATOR: "), lines[0]
     reg = json.loads(Path(LIVE_REGISTRY).read_text())
     total = sum(len(reg[k]) for k in rbs.REGISTRY_LISTS)
-    assert total == 38, f'registry row count moved: {total}'
+    # subject_statement_bindings 6 (was 5 until 2026-09-22, when #120 added the
+    # `gene expression` -> spatial_gene_expression_pyramid row), relation_bindings
+    # 26, entity_field_bindings 3, binding_examples 4.
+    assert total == 39, f'registry row count moved: {total}'
     assert f'{total} row(s)' in lines[0]
 
 
 @pytest.mark.parametrize("list_name,expected", [
-    ("subject_statement_bindings", 5),
+    # subject_statement_bindings moved 5 -> 6 on 2026-09-22 when #120 added
+    # `gene expression` -> spatial_gene_expression_pyramid (TEAM-SIGN-OFF
+    # [spatial_transcriptomics_family], option A on the #70 candidates comment).
+    ("subject_statement_bindings", 6),
     ("relation_bindings", 26),
     ("entity_field_bindings", 3),
     ("binding_examples", 4),

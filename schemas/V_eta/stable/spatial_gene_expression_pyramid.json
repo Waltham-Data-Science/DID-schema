@@ -1,0 +1,250 @@
+{
+    "document_class": {
+        "class_name": "spatial_gene_expression_pyramid",
+        "class_version": "1.0.0",
+        "superclasses": [
+            {
+                "class_name": "base"
+            },
+            {
+                "class_name": "gene_expression"
+            },
+            {
+                "class_name": "subject_observation"
+            }
+        ],
+        "maturity_level": "stable"
+    },
+    "depends_on": [
+        {
+            "name": "gene_list_id",
+            "mustBeNonEmpty": true,
+            "documentation": "The gene_list naming the columns of this pyramid's count space. Every gene_index emitted by a child tile row resolves against this list.",
+            "must_refer_to_document_class": "gene_list",
+            "ndi_mustBeNonEmpty": true
+        }
+    ],
+    "file": [
+        {
+            "name": "gene_totals.tsv",
+            "documentation": "Per-gene total counts across the whole pyramid (rows aligned to the referenced gene_list)."
+        }
+    ],
+    "fields": [
+        {
+            "name": "label",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "A human-readable label for this pyramid (e.g. 'Opossum V1 Stereo-seq').",
+            "constraints": {}
+        },
+        {
+            "name": "chip_serial",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "The capture chip serial number, if the assay uses one. For Stereo-seq this is the SAW 'sn' field.",
+            "constraints": {}
+        },
+        {
+            "name": "pipeline_version",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "The version of the primary analysis pipeline that produced the counts (e.g. 'SAW v7.1.2').",
+            "constraints": {}
+        },
+        {
+            "name": "bin_sizes",
+            "type": "matrix",
+            "blank_value": [],
+            "default_value": [
+                1,
+                2,
+                4,
+                8,
+                16,
+                32
+            ],
+            "mustBeNonEmpty": false,
+            "mustBeScalar": false,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Vector of bin sizes present in this pyramid, in base pixel units, finest first. One spatialGeneExpressionTiles document exists per entry.",
+            "constraints": {}
+        },
+        {
+            "name": "base_pixel_size_x",
+            "type": "double",
+            "blank_value": 0.0,
+            "default_value": 0.0,
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "The physical size of one base (bin size 1) pixel in x, in pixel_size_units. For Stereo-seq at 500 nm DNB pitch this is 0.5.",
+            "constraints": {}
+        },
+        {
+            "name": "base_pixel_size_y",
+            "type": "double",
+            "blank_value": 0.0,
+            "default_value": 0.0,
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "The physical size of one base pixel in y, in pixel_size_units.",
+            "constraints": {}
+        },
+        {
+            "name": "pixel_size_units",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "micrometer",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "The units of the pixel size, origin, and extent fields.",
+            "constraints": {}
+        },
+        {
+            "name": "origin_x",
+            "type": "double",
+            "blank_value": 0.0,
+            "default_value": 0.0,
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "The x coordinate of the upper-left corner of tile (0,0) in the source coordinate system (GEF minX for Stereo-seq). Required to register tiles against cell centroids, contours, and stain images.",
+            "constraints": {}
+        },
+        {
+            "name": "origin_y",
+            "type": "double",
+            "blank_value": 0.0,
+            "default_value": 0.0,
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "The y coordinate of the upper-left corner of tile (0,0) in the source coordinate system (GEF minY for Stereo-seq).",
+            "constraints": {}
+        },
+        {
+            "name": "extent_x",
+            "type": "double",
+            "blank_value": 0.0,
+            "default_value": 0.0,
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "The full width of the tiled region, in base pixel units.",
+            "constraints": {}
+        },
+        {
+            "name": "extent_y",
+            "type": "double",
+            "blank_value": 0.0,
+            "default_value": 0.0,
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "The full height of the tiled region, in base pixel units.",
+            "constraints": {}
+        },
+        {
+            "name": "tile_rows",
+            "type": "integer",
+            "blank_value": 0.0,
+            "default_value": 9,
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Number of tile rows, identical at every level, so tile (row,column) covers the same physical region at every bin size.",
+            "constraints": {}
+        },
+        {
+            "name": "tile_columns",
+            "type": "integer",
+            "blank_value": 0.0,
+            "default_value": 9,
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Number of tile columns, identical at every level.",
+            "constraints": {}
+        },
+        {
+            "name": "index_order",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "row-major",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "How (row,column) maps to the tile INDEX N. 'row-major': N = row*tile_columns + column. 'column-major': N = column*tile_rows + row.",
+            "constraints": {}
+        },
+        {
+            "name": "origin_corner",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "upper-left",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Which corner tile (0,0) occupies: 'upper-left' or 'lower-left'.",
+            "constraints": {}
+        },
+        {
+            "name": "byte_order",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "little",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Byte order of multi-byte values in all binary files of this pyramid: 'little' or 'big'.",
+            "constraints": {}
+        }
+    ]
+}

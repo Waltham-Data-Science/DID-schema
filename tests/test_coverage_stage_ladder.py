@@ -641,26 +641,32 @@ class TestTheCommittedLedger(unittest.TestCase):
         # `local_identifier` (required, matching `subject` and `epoch`) and the
         # three V_zeta inventions `type`/`date`/`purpose` are deleted -- so
         # `+migrators_j/session.m` now exists and rung 1 reads `yes`.
-        # WAS FIVE UNTIL 2026-09 AND IS NOW SIXTEEN: eleven joined at once and
-        # every one names something real. TEN are new NDI templates -- the
-        # gene-expression family (`cellTypeLabels`, `geneList`, `geneListMapping`,
-        # `geneExpression`, `spatialGeneExpressionCells`/`Pyramid`/`Tiles`),
-        # the demo-series pair (`demoNDISeries`, `demoNDISeriesMixed`) and
-        # `fileReference`, none of which existed when the pinned list was five;
-        # they need V_eta homes / migrators like any other v1 source. The
-        # eleventh is `calculator`: #67 promoted `calculator` from a V_eta
-        # helper into a standalone class, and V_eta's `calculator` matches the
-        # v1 NDI template of the same name, so the ledger's join pulls the
-        # template in as a source that has no migrator yet (id-preserved
-        # passthrough is the intended shape; that migrator has to be authored).
+        # WAS FIVE UNTIL 2026-09 AND WAS SIXTEEN. WAS SIXTEEN UNTIL 2026-09-22
+        # AND IS NOW EIGHT. The gene-expression family + `fileReference` -- eight
+        # of the sixteen -- LEFT this bucket in the direction that matters: the
+        # team signed `spatial_transcriptomics_family` (Corrected Option C,
+        # V_eta_go_forward_class_audit.md:796) and this PR built their V_eta
+        # target schemas, so rung 2 (target class exists in the built V_eta
+        # set) now reads `yes` for each. Rung 1 still reads `no` -- the
+        # migrators are #122's scope (Session 2). A class with rung 2
+        # satisfied and rung 1 unmet is BUILD-AHEAD, not untouched: it moves
+        # into `anomalies.over_failed` and appears in the
+        # `test_the_build_ahead_rows_are_named` list. What was `NO TARGET AND
+        # NO DISSOLUTION RECORDED` is now `signed passthrough with target =
+        # the class itself, migrator pending`, which is a very different
+        # state.
+        #
+        # WHY THIS SET STOPS AT 8, and the shape reads correctly for what
+        # is left: `demoNDISeries` / `demoNDISeriesMixed` / `calculator` /
+        # `imageCollection` / `imageStack_parameters` / `animalsubject` /
+        # `base` / `mock` still have no V_eta target class recorded and no
+        # signed disposition -- an honest gap or (in the case of `base` /
+        # `mock` / `animalsubject`) a chain/nonprod row nothing consumes.
         cap = _ledger()["summary"]["stage_rollup"]["capped"]
         self.assertEqual(cap["genuinely_untouched_rows"], [
-            "animalsubject", "base", "calculator", "cellTypeLabels",
-            "demoNDISeries", "demoNDISeriesMixed", "fileReference",
-            "geneExpression", "geneList", "geneListMapping",
-            "imageCollection", "imageStack_parameters", "mock",
-            "spatialGeneExpressionCells", "spatialGeneExpressionPyramid",
-            "spatialGeneExpressionTiles"])
+            "animalsubject", "base", "calculator",
+            "demoNDISeries", "demoNDISeriesMixed",
+            "imageCollection", "imageStack_parameters", "mock"])
 
     def test_a_signed_dissolution_is_not_counted_as_untouched(self):
         # The rows that separate "nothing built" from "nothing known".
@@ -722,8 +728,23 @@ class TestTheCommittedLedger(unittest.TestCase):
         an = _ledger()["summary"]["stage_rollup"]["anomalies"]
         failed = sorted({a["v1_class"] for a in an["rows"]
                          if a["kind"] == "over_failed"})
-        self.assertEqual(failed, ["ensemble", "projectvar",
-                                  "stimulus_parameter_table"])
+        # WAS THREE UNTIL 2026-09-22 AND IS NOW ELEVEN. The eight new entries
+        # are the spatial-transcriptomics family: TEAM-SIGN-OFF
+        # [spatial_transcriptomics_family] (Corrected Option C,
+        # V_eta_go_forward_class_audit.md:796) built the V_eta target
+        # classes (rung 2 satisfied) while the migrators are deferred to
+        # Session 2 (#122; rung 1 not yet). That is exactly the
+        # build-ahead-of-migrator shape this bucket names, so the eight
+        # sources belong here rather than in `genuinely_untouched`.
+        # NB: `spatial_gene_expression_pyramid` is a signed reshape (#119);
+        # the other seven are ⊂ base passthroughs (#121). Both shapes read
+        # the same on the ladder -- the row's build-state exposes only the
+        # rung answers, not what the target's superclass list says.
+        self.assertEqual(failed, [
+            "cellTypeLabels", "ensemble", "fileReference", "geneExpression",
+            "geneList", "geneListMapping", "projectvar",
+            "spatialGeneExpressionCells", "spatialGeneExpressionPyramid",
+            "spatialGeneExpressionTiles", "stimulus_parameter_table"])
         self.assertNotIn(
             "app", failed,
             "`app` is emitted by jSoftwareFromApp; if it is back here, the "
@@ -1135,8 +1156,8 @@ class TestMutationsRedden(unittest.TestCase):
         rows = _with_governance(
             _reclassify(copy.deepcopy(_rows()), coverage.CORPUS_SCAN))
         rollup = coverage._stage_rollup(rows, None)
-        self.assertEqual(rollup["capped"]["genuinely_untouched"], 16,
-                         "precondition: sixteen rows have nothing built and "
+        self.assertEqual(rollup["capped"]["genuinely_untouched"], 8,
+                         "precondition: eight rows have nothing built and "
                          "nothing excused. Nine until `generic_file` was "
                          "credited to did2.convert.foldGenericFiles (OPEN_WORK "
                          "row 107); eight until the demo collapse's migrator "
@@ -1147,9 +1168,16 @@ class TestMutationsRedden(unittest.TestCase):
                          "eleven new v1 sources joined at once -- ten new NDI "
                          "templates (the gene-expression family + demoNDISeries "
                          "pair + fileReference) and the `calculator` join "
-                         "introduced by #67's standalone `calculator` class. "
-                         "Each drop has a different cause; the distinction is "
-                         "the point of this bucket")
+                         "introduced by #67's standalone `calculator` class -- "
+                         "which raised it to sixteen; sixteen until 2026-09-22, "
+                         "when TEAM-SIGN-OFF [spatial_transcriptomics_family] "
+                         "(V_eta_go_forward_class_audit.md:796) landed and this "
+                         "PR built the V_eta target schemas for the eight-row "
+                         "gene-expression family, moving them into "
+                         "`anomalies.over_failed` (build-ahead: rung 2 satisfied "
+                         "on the target existing, rung 1 not yet -- Session 2's "
+                         "migrator scope, #122). Each drop has a different "
+                         "cause; the distinction is the point of this bucket")
         damaged = copy.deepcopy(rollup)
         damaged["capped"]["genuinely_untouched"] = 0
         with self.assertRaises(AssertionError):

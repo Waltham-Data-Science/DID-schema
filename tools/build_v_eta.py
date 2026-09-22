@@ -6999,6 +6999,474 @@ for (_cls, _edge), _path in _EDGE_REFERENT_UNIQUE.items():
     write(_t, _cls, _d)
 
 
+# ---------- 12.5. spatial-transcriptomics family (Corrected Option C) ----------
+#
+# TEAM-SIGN-OFF [spatial_transcriptomics_family] 2026-09-22 (see
+# V_eta_go_forward_class_audit.md:796 and Waltham-Data-Science/DID-schema#70).
+# Eight new did_v1 classes arrived from NDI-matlab origin/main during the #67
+# calculator restructure; the coverage ledger flagged them as v1 sources with
+# NO TARGET AND NO DISSOLUTION RECORDED (a gap, not a decision). The signature
+# closes that gap with Corrected Option C. The did_v1 (NDI) class names are
+# camelCase; the V_eta targets are snake_cased following the standing V_eta
+# convention (universalRenames.m snake-cases every migrated class), matching
+# what the coverage ledger already prints for ontology_image / image_collection
+# / image_stack against NDI's `ontologyImage` / `imageCollection` /
+# `imageStack`. RESOLVE-BY-SNAKE is exactly how check_tombstones and the
+# ground-truth extractor line the two sides up.
+#
+#   v1 (NDI)                     -> V_eta
+#   spatialGeneExpressionPyramid -> spatial_gene_expression_pyramid
+#                                  ⊂ [base, geneExpression, subject_observation]
+#                                  -- reshape (#119). Was ⊂ [base, geneExpression]
+#                                  in NDI. Picks up variable / method_parameters /
+#                                  sample_time / time_reference_# from the
+#                                  subject_observation direction; the existing
+#                                  subject_id required-ness moves from the class's
+#                                  own declaration onto the inherited
+#                                  subject_statement slot.
+#   geneExpression               -> gene_expression   shape mixin
+#                                  (assay / count_type / count_units)
+#   spatialGeneExpressionCells   -> spatial_gene_expression_cells
+#                                  data-of-record for the pyramid observation
+#   spatialGeneExpressionTiles   -> spatial_gene_expression_tiles
+#                                  the tile-level payload
+#   cellTypeLabels               -> cell_type_labels
+#                                  labeling attached to a cells doc
+#   geneListMapping              -> gene_list_mapping
+#                                  between-entity relation with structure
+#   fileReference                -> file_reference
+#                                  external-file identity (deliberately NOT folded
+#                                  to generic_file; the two coexist by design per
+#                                  the class's own .md doc)
+#   geneList                     -> gene_list   reference table (outside #70's
+#                                  six but confirmed here in the same signature)
+#
+# THESE ARE NOT TOMBSTONES: each class is the go-forward V_eta target, and
+# migration is id-preserving 1:1 passthrough (#122's migrators, Session 2's
+# scope). They mint here rather than via `_tombstone()` because V_zeta -- the
+# copytree source -- was cut before these NDI-main additions and does not carry
+# them.
+#
+# EVERY FIELD, DEP AND FILE IS REPRODUCED FROM THE NDI-main TEMPLATE VERBATIM
+# (fields and deps snake_cased, class names on `must_refer_to_document_class`
+# snake_cased too), because check_tombstones.py compares against that template
+# after applying the same snake_case, and any divergence would be a real defect
+# (a passed-through document meeting a schema that describes a different
+# shape). The only structural change is the pyramid's superclass list, which
+# the signed reshape explicitly requires.
+#
+# Follow-ons deferred, not signed here:
+#     - `axes[]`/`format`/`compression` migration for Cells/Tiles when 2.D
+#       data_body ships (#125);
+#     - T8 bindings for contour_reference / segmentation_method / mapping_type
+#       / taxonomy_level / assignment_method / checksumAlgorithm /
+#       formatOntology / origin_corner (#126);
+#     - the `variable` term binding for the pyramid observation (#120), added
+#       to SUBJECT_STATEMENT_BINDINGS below.
+
+# gene_expression -- the shape mixin. Provides assay / count_type / count_units
+# to any class that multi-inherits it (currently the pyramid). Semantically a
+# shape, NOT an observation: the observation-ness lives on the concrete pyramid
+# class that binds it to a subject.
+write("stable", "gene_expression",
+      doc("gene_expression", ["base"],
+          fields=[
+              field("assay", "char",
+                    "The assay that produced the counts (e.g. 'Stereo-seq', "
+                    "'Visium', '10x Chromium 3-prime')."),
+              field("count_type", "char",
+                    "What the stored values are: 'raw' for integer UMI or read "
+                    "counts, 'normalized', or 'log-normalized'. Analyses that "
+                    "assume raw counts must check this.", default="raw"),
+              field("count_units", "char",
+                    "The unit of one count: 'UMI', 'read', or 'arbitrary' for "
+                    "normalized values.", default="UMI"),
+          ]))
+
+# spatial_gene_expression_pyramid -- the tile-pyramid ROOT. Reshape per the
+# signed decision: ⊂ [base, gene_expression, subject_observation]. Every field
+# below comes verbatim from NDI-main's spatialGeneExpressionPyramid_schema.json;
+# `subject_id` is REQUIRED via the inherited subject_statement slot (moved
+# from the class's own declaration, per the sign-off), so the local
+# `depends_on` here lists only `gene_list_id`.
+write("stable", "spatial_gene_expression_pyramid",
+      doc("spatial_gene_expression_pyramid",
+          ["base", "gene_expression", "subject_observation"],
+          deps=[dep("gene_list_id", "gene_list",
+                    "The gene_list naming the columns of this pyramid's count "
+                    "space. Every gene_index emitted by a child tile row "
+                    "resolves against this list.", non_empty=True)],
+          fields=[
+              field("label", "char",
+                    "A human-readable label for this pyramid (e.g. 'Opossum V1 "
+                    "Stereo-seq')."),
+              field("chip_serial", "char",
+                    "The capture chip serial number, if the assay uses one. "
+                    "For Stereo-seq this is the SAW 'sn' field."),
+              field("pipeline_version", "char",
+                    "The version of the primary analysis pipeline that "
+                    "produced the counts (e.g. 'SAW v7.1.2')."),
+              field("bin_sizes", "matrix",
+                    "Vector of bin sizes present in this pyramid, in base "
+                    "pixel units, finest first. One spatialGeneExpressionTiles "
+                    "document exists per entry.",
+                    scalar=False, default=[1, 2, 4, 8, 16, 32]),
+              field("base_pixel_size_x", "double",
+                    "The physical size of one base (bin size 1) pixel in x, "
+                    "in pixel_size_units. For Stereo-seq at 500 nm DNB pitch "
+                    "this is 0.5."),
+              field("base_pixel_size_y", "double",
+                    "The physical size of one base pixel in y, in "
+                    "pixel_size_units."),
+              field("pixel_size_units", "char",
+                    "The units of the pixel size, origin, and extent fields.",
+                    default="micrometer"),
+              field("origin_x", "double",
+                    "The x coordinate of the upper-left corner of tile (0,0) "
+                    "in the source coordinate system (GEF minX for "
+                    "Stereo-seq). Required to register tiles against cell "
+                    "centroids, contours, and stain images."),
+              field("origin_y", "double",
+                    "The y coordinate of the upper-left corner of tile (0,0) "
+                    "in the source coordinate system (GEF minY for "
+                    "Stereo-seq)."),
+              field("extent_x", "double",
+                    "The full width of the tiled region, in base pixel units."),
+              field("extent_y", "double",
+                    "The full height of the tiled region, in base pixel units."),
+              field("tile_rows", "integer",
+                    "Number of tile rows, identical at every level, so tile "
+                    "(row,column) covers the same physical region at every "
+                    "bin size.", default=9),
+              field("tile_columns", "integer",
+                    "Number of tile columns, identical at every level.",
+                    default=9),
+              field("index_order", "char",
+                    "How (row,column) maps to the tile INDEX N. 'row-major': "
+                    "N = row*tile_columns + column. 'column-major': N = "
+                    "column*tile_rows + row.", default="row-major"),
+              field("origin_corner", "char",
+                    "Which corner tile (0,0) occupies: 'upper-left' or "
+                    "'lower-left'.", default="upper-left"),
+              field("byte_order", "char",
+                    "Byte order of multi-byte values in all binary files of "
+                    "this pyramid: 'little' or 'big'.", default="little"),
+          ]))
+# spatial_gene_expression_pyramid file block: gene_totals.tsv (not required).
+_p = load(os.path.join(VETA, "stable", "spatial_gene_expression_pyramid.json"))
+_p["file"] = [{"name": "gene_totals.tsv",
+               "documentation": "Per-gene total counts across the whole "
+               "pyramid (rows aligned to the referenced gene_list)."}]
+write("stable", "spatial_gene_expression_pyramid", _p)
+
+# spatial_gene_expression_cells -- cell segmentation attached to a pyramid.
+write("stable", "spatial_gene_expression_cells",
+      doc("spatial_gene_expression_cells", ["base"],
+          deps=[dep("spatial_gene_expression_pyramid_id",
+                    "spatial_gene_expression_pyramid",
+                    "The pyramid this cell segmentation was computed for.",
+                    non_empty=True),
+                dep("subject_id", "subject",
+                    "The subject (specimen) this segmentation is about.",
+                    non_empty=False),
+                dep("source_file_id", "file_reference",
+                    "The external source file (e.g. h5ad) the cell data was "
+                    "imported from, if any.", non_empty=False)],
+          fields=[
+              field("label", "char",
+                    "A human-readable label for this segmentation (e.g. 'SAW "
+                    "cellbin adjusted')."),
+              field("n_cells", "integer",
+                    "The number of data rows in cells.tsv."),
+              field("segmentation_method", "char",
+                    "How cells were segmented (e.g. 'SAW v7.1.2 CellBin', "
+                    "'Cellpose 2.0')."),
+              field("segmentation_dilation", "double",
+                    "The radial expansion applied to each segmented nucleus, "
+                    "in coordinate_units. 0 if none."),
+              field("coordinate_units", "char",
+                    "The units of the centroid and contour coordinates. "
+                    "SOURCE coordinate units, the same frame as the pyramid's "
+                    "origin_x and origin_y, NOT micrometers unless stated."),
+              field("contours_present", "integer",
+                    "1 if contours.bin was written, 0 if only centroids are "
+                    "available."),
+              field("contour_reference", "char",
+                    "Whether contour vertices are stored relative to their "
+                    "cell centroid ('centroid') or in absolute source "
+                    "coordinates ('absolute').", default="centroid"),
+              field("n_vertices_per_cell", "integer",
+                    "0 means contours are ragged and contours.bin carries an "
+                    "offset array. A positive value means every cell has "
+                    "exactly that many vertices and no offset array is "
+                    "present."),
+              field("data_type_vertex", "char",
+                    "Integer type of the contour vertex arrays.",
+                    default="int16"),
+              field("data_type_offset", "char",
+                    "Integer type of the contour offset array.",
+                    default="uint32"),
+              field("contour_format_version", "integer",
+                    "The version of the contour binary layout.", default=1),
+          ]))
+_c = load(os.path.join(VETA, "stable", "spatial_gene_expression_cells.json"))
+_c["file"] = [{"name": "cells.tsv",
+               "documentation": "One row per cell (centroid + per-gene counts)."},
+              {"name": "contours.bin",
+               "documentation": "The polygon vertices of each cell (only "
+               "when contours_present is 1)."}]
+write("stable", "spatial_gene_expression_cells", _c)
+
+# spatial_gene_expression_tiles -- one document per pyramid level, carrying the
+# tile data at that level.
+write("stable", "spatial_gene_expression_tiles",
+      doc("spatial_gene_expression_tiles", ["base"],
+          deps=[dep("spatial_gene_expression_pyramid_id",
+                    "spatial_gene_expression_pyramid",
+                    "The pyramid this tile level belongs to.",
+                    non_empty=True),
+                dep("subject_id", "subject",
+                    "The subject (specimen) these tiles are of. Optional; the "
+                    "pyramid dep carries the subject transitively.",
+                    non_empty=False),
+                dep("source_file_id", "file_reference",
+                    "The external source file the tile data was imported "
+                    "from.", non_empty=False)],
+          fields=[
+              field("label", "char",
+                    "A human-readable label for this level (e.g. 'bin20')."),
+              field("bin_size", "integer",
+                    "The edge length of one pixel of this level in base pixel "
+                    "units. Must appear in the parent's bin_sizes.", default=1),
+              field("pixel_size_x", "double",
+                    "The physical size of one pixel of this level in x. Equal "
+                    "to bin_size times the parent's base_pixel_size_x."),
+              field("pixel_size_y", "double",
+                    "The physical size of one pixel of this level in y."),
+              field("pixel_size_units", "char",
+                    "The units of pixel_size_x and pixel_size_y.",
+                    default="micrometer"),
+              field("dimension_order", "char",
+                    "The order of the dimensions, following the "
+                    "imageStack_parameters convention; G denotes the gene "
+                    "dimension.", default="YXG"),
+              field("dimension_labels", "char",
+                    "The labels of each dimension as a comma-separated list, "
+                    "in dimension_order.", default="height,width,gene"),
+              field("dimension_size", "matrix",
+                    "The length of each dimension in dimension_order for the "
+                    "whole level, not per tile.", scalar=False),
+              field("dimension_scale", "matrix",
+                    "The scale of each dimension in dimension_order, in "
+                    "dimension_scale_units.", scalar=False),
+              field("dimension_scale_units", "char",
+                    "The units of each dimension as a comma-separated list, "
+                    "in dimension_order.",
+                    default="micrometer,micrometer,dimensionless"),
+              field("tile_size_x_bins", "integer",
+                    "The width of one tile in pixels of THIS level. Edge "
+                    "tiles may be partially filled."),
+              field("tile_size_y_bins", "integer",
+                    "The height of one tile in pixels of THIS level."),
+              field("n_tiles_stored", "integer",
+                    "The number of tile files written. May be less than "
+                    "tile_rows*tile_columns because empty tiles are omitted."),
+              field("data_type_gene_index", "char",
+                    "Integer type of the gene_index array.",
+                    default="uint32"),
+              field("data_type_count", "char",
+                    "Integer type of the count array.", default="uint16"),
+              field("data_type_offset", "char",
+                    "Integer type of the offset (row pointer) array.",
+                    default="uint32"),
+              field("data_type_coordinate", "char",
+                    "Integer type of the tile-local x and y coordinate "
+                    "arrays.", default="uint16"),
+              field("tile_compression", "char",
+                    "Compression applied to each tile file as a whole: 'none' "
+                    "or 'gzip'.", default="none"),
+              field("tile_format_version", "integer",
+                    "The version of the tile binary layout.", default=1),
+              field("tile_index_origin", "integer",
+                    "The suffix of the file holding tile N is N plus this. A "
+                    "DID file series is ONE-BASED.", default=1),
+          ]))
+_t = load(os.path.join(VETA, "stable", "spatial_gene_expression_tiles.json"))
+_t["file"] = [{"name": "tile.bin_#",
+               "documentation": "One binary file per stored tile; suffix is "
+               "the tile index plus tile_index_origin."}]
+write("stable", "spatial_gene_expression_tiles", _t)
+
+# cell_type_labels -- per-cell labels attached to a cells document. The label
+# taxonomy is a distinct concept from the segmentation, so this is its own
+# class rather than a subject_calculation: several competing labelings may
+# attach to one cells document (transferred atlas call + clustering at res 1
+# + same at res 2), each independent.
+write("stable", "cell_type_labels",
+      doc("cell_type_labels", ["base"],
+          deps=[dep("cells_document_id", "spatial_gene_expression_cells",
+                    "The cells document these labels are aligned to. Row "
+                    "order must match.", non_empty=True),
+                dep("reference_document_id", "base",
+                    "Optional back-pointer to the source atlas / taxonomy / "
+                    "clustering result the labels came from.",
+                    non_empty=False)],
+          fields=[
+              field("label", "char",
+                    "A human-readable label for this labeling (e.g. 'G&T "
+                    "2026 subclass, NN transfer')."),
+              field("label_name", "char",
+                    "The name of the labeled variable as it appeared in the "
+                    "source (e.g. 'subclass_nn_column', 'leiden')."),
+              field("taxonomy_level", "char",
+                    "Where this sits in a class/subclass/type hierarchy, if "
+                    "any. Free text; use '' for flat or unsupervised "
+                    "labelings."),
+              field("n_cells", "integer",
+                    "The number of data rows in labels.tsv. Must equal the "
+                    "n_cells of the cells document."),
+              field("n_categories", "integer",
+                    "The number of distinct non-empty categories."),
+              field("n_unlabeled", "integer",
+                    "How many cells have no category."),
+              field("assignment_method", "char",
+                    "How labels were assigned (e.g. 'nearest-neighbor "
+                    "transfer from a dissociated atlas', 'Leiden clustering', "
+                    "'manual')."),
+              field("is_unsupervised", "integer",
+                    "1 if the labels come from unsupervised clustering and "
+                    "therefore carry no biological identity. Leiden and SNN "
+                    "clusterings must set this to 1 so they are not mistaken "
+                    "for cell type calls."),
+          ]))
+_ctl = load(os.path.join(VETA, "stable", "cell_type_labels.json"))
+_ctl["file"] = [{"name": "labels.tsv",
+                 "documentation": "One row per cell, aligned to the cells "
+                 "document's row order."}]
+write("stable", "cell_type_labels", _ctl)
+
+# gene_list_mapping -- a correspondence between two gene_list documents.
+# `alias` means the two rows denote the same gene under different identifiers
+# (lossless renaming); `ortholog` means different genes in different species
+# inferred to be homologous (a biological inference, can be wrong). Preserved
+# as a typed class rather than a bare directed_relation because the
+# alias/ortholog distinction is load-bearing (an ortholog treated as an alias
+# silently converts an inference into an assertion).
+write("stable", "gene_list_mapping",
+      doc("gene_list_mapping", ["base"],
+          deps=[dep("gene_list_id_a", "gene_list",
+                    "The first gene list.", non_empty=True),
+                dep("gene_list_id_b", "gene_list",
+                    "The second gene list.", non_empty=True)],
+          fields=[
+              field("label", "char",
+                    "A human-readable label for this mapping."),
+              field("mapping_type", "char",
+                    "The kind of correspondence. 'alias': the two rows denote "
+                    "the SAME gene under different identifier systems. "
+                    "'ortholog': the two rows denote DIFFERENT genes in "
+                    "different species inferred to be homologous. Never treat "
+                    "'ortholog' as 'alias'.", default="alias"),
+              field("method", "char",
+                    "How the mapping was produced (e.g. 'OrthoFinder v2.5.5', "
+                    "'DIAMOND reciprocal best hits')."),
+              field("symmetric", "integer",
+                    "1 if the mapping may be applied in either direction, 0 "
+                    "if it is only valid from list a to list b.", default=1),
+              field("n_pairs", "integer",
+                    "The number of data rows in mapping.tsv."),
+              field("n_genes_mapped_a", "integer",
+                    "How many genes of list a appear at least once."),
+              field("n_genes_mapped_b", "integer",
+                    "How many genes of list b appear at least once."),
+              field("has_score", "integer",
+                    "1 if mapping.tsv carries a score column (e.g. an "
+                    "orthology confidence or bit score), 0 otherwise."),
+          ]))
+_glm = load(os.path.join(VETA, "stable", "gene_list_mapping.json"))
+_glm["file"] = [{"name": "mapping.tsv",
+                 "documentation": "One row per mapped pair (gene_index_a, "
+                 "gene_index_b, optional score)."}]
+write("stable", "gene_list_mapping", _glm)
+
+# file_reference -- the identity of a file that lives OUTSIDE the database.
+# DELIBERATELY NOT folded to generic_file (which HOLDS the bytes); the two
+# coexist by design per the class's own .md doc. `document_id` is an optional
+# back-pointer to whatever document this file annotates.
+#
+# NDI's template names fields in camelCase (originalPath, formatOntology,
+# dateCreated, dateUpdated, fileSize, checksumAlgorithm). universalRenames.m
+# snake-cases document field names when a v1 document migrates, so the V_eta
+# schema spells them snake_case; the ground-truth extractor already snake_cases
+# them for check_tombstones.
+write("stable", "file_reference",
+      doc("file_reference", ["base"],
+          deps=[dep("document_id", "base",
+                    "Optional: the document this file is a reference to.",
+                    non_empty=False)],
+          fields=[
+              field("filename", "char",
+                    "The file's name with extension, without a directory "
+                    "(e.g. 'Opossum.tissue.gef')."),
+              field("original_path", "char",
+                    "The full path the file was read from. A hint, not a "
+                    "promise: the checksum rather than this field identifies "
+                    "the file."),
+              field("format_ontology", "char",
+                    "The ontology node describing the file format in the form "
+                    "of ontology:nodeID (e.g. 'EMPTY:0000002'). Empty when "
+                    "not known."),
+              field("date_created", "double",
+                    "The time the file was created, as a datenum."),
+              field("date_updated", "double",
+                    "The time the file was last updated, as a datenum."),
+              field("file_size", "double",
+                    "The file's size in bytes, or 0 if it was not recorded."),
+              field("checksum", "char",
+                    "The checksum of the file's contents. Empty when not "
+                    "computed; empty means unknown and never means the file "
+                    "had no content."),
+              field("checksum_algorithm", "char",
+                    "The algorithm the checksum was computed with (e.g. "
+                    "'MD5').", default="MD5"),
+          ]))
+
+# gene_list -- a reference table of the genes a pyramid/mapping is keyed on.
+write("stable", "gene_list",
+      doc("gene_list", ["base"],
+          fields=[
+              field("label", "char",
+                    "A human-readable label for this gene list (e.g. "
+                    "'Opossum SAW bin1 GEF genes')."),
+              field("n_genes", "integer",
+                    "The number of data rows in genes.tsv. Every gene_index "
+                    "referring to this list must be less than this value."),
+              field("genome_assembly", "char",
+                    "The reference genome assembly the annotation was built "
+                    "against (e.g. 'monDom5', 'GRCm39')."),
+              field("gene_id_namespace", "char",
+                    "The identifier system used in the gene_id column (e.g. "
+                    "'Ensembl', 'NCBI', 'FlyBase')."),
+              field("gene_symbol_namespace", "char",
+                    "The identifier system used in the gene_name column "
+                    "(e.g. 'HGNC', 'MGI', ''). May be empty if symbols are "
+                    "absent or unofficial."),
+              field("annotation_source", "char",
+                    "Identifier of the genome annotation (GTF/GFF) this list "
+                    "came from."),
+              field("gene_name_completeness", "double",
+                    "Fraction of rows with a non-empty gene_name.", default=1),
+              field("n_duplicate_gene_names", "integer",
+                    "How many gene_name values appear on more than one row. "
+                    "0 means symbols are unique; any other value means they "
+                    "may not be used as a key."),
+          ]))
+_gl = load(os.path.join(VETA, "stable", "gene_list.json"))
+_gl["file"] = [{"name": "genes.tsv",
+                "documentation": "One row per gene (index, id, symbol, ...)."}]
+write("stable", "gene_list", _gl)
+
+
 # ---------- 13. binding-registry meta-file + kind-variable set (D9) ----------
 
 # ---------- D6 relation bindings ----------
@@ -7171,6 +7639,32 @@ SUBJECT_STATEMENT_BINDINGS = [
     _sdef("material type", "CHEBI", "CHEBI:24431"),
     _sdef("developmental stage", "UBERON", "UBERON:0000105"),
     # The D3/D6 corpus sweep appends the non-defining bindings here.
+    #
+    # #120 -- the variable bound to the spatial-transcriptomics pyramid
+    # observation. TEAM DECISION 2026-09-22 (option A on the #70 candidates
+    # comment, https://github.com/Waltham-Data-Science/DID-schema/issues/70#issuecomment-5783677748):
+    # NCIT:C16608 "Gene Expression". `ncit` is already in the CURIE registry
+    # (see CURIE_lookups_meta.json), so no lookups change with this row.
+    #
+    # THE CLASS IS THE CONCRETE PYRAMID LEAF, NOT ABSTRACT subject_observation
+    # -- one of two candidates flagged as an open sub-question in the #120
+    # candidates comment. Every existing row in this list maps to a CONCRETE
+    # subject_statement leaf (test_binding_examples_well_formed / _leaf_ok
+    # enforces it), which rules out `subject_observation` (abstract by
+    # design; it does not carry `value`) and rules out `count_observation`
+    # (concrete but wrong shape: the pyramid has no scalar `value` field, it
+    # carries per-tile per-gene counts in files fronted by the
+    # `gene_expression` mixin's assay/count_type/count_units). The concrete
+    # leaf that DOES carry this variable is the pyramid itself. If another
+    # gene-expression-shaped leaf ever arrives (bulk RNA-seq, single-cell),
+    # this row grows a sibling or generalises -- not now.
+    #
+    # subject_defining is FALSE: the pyramid observation is a dimensional/
+    # quantitative statement, not a kind-of-subject assertion (D9). Reserved
+    # kind-defining variables stay on term_assertion with an ontology subtree.
+    {"variable": {"node": "NCIT:C16608", "name": "gene expression"},
+     "class": "spatial_gene_expression_pyramid",
+     "subject_defining": False},
 ]
 
 # ---------- controlled-vocabulary (openMINDS) entity-field bindings ----------

@@ -117,7 +117,26 @@ def _scan(path):
         if m:
             tag, rest = m.group(1).strip(), m.group(2).strip()
         rest = rest.lstrip(":").strip()
+        # Continuation lines join when EITHER the header line is a bare
+        # tag+colon (nothing after) OR it ends with an em-dash separator
+        # (the "who/when --" then the paragraph shape). The second case
+        # arrived 2026-09-22 with the spatial_transcriptomics_family
+        # sign-off at V_eta_go_forward_class_audit.md:796, whose header
+        # reads `... 2026-09-22 --` and pushes the decision onto the
+        # following lines. Without joining those, no per-class fragment
+        # from the paragraph can be matched. The join runs bigger for
+        # this case (cap 40) because a real family paragraph carries a
+        # sentence per class, and the 8-line cap the header-only path
+        # inherits from status_board is too tight when there are more
+        # than a handful of members.
+        continuation = False
         if not rest:
+            continuation = True
+            cap = 8
+        elif rest.rstrip().endswith("--"):
+            continuation = True
+            cap = 40
+        if continuation:
             joined = []
             for nxt in lines[n:]:
                 s = nxt.strip()
@@ -128,10 +147,18 @@ def _scan(path):
                 if s[0] in "|#-*" and not joined:
                     break
                 joined.append(s)
-                if len(joined) >= 8 or ("-- " in s and sum(len(j) for j in joined) >= 20):
+                if len(joined) >= cap:
+                    break
+                if cap == 8 and "-- " in s and sum(len(j) for j in joined) >= 20:
                     break
             if joined:
-                rest = " ".join(joined).lstrip(":").strip()
+                # When rest already has content ending "--", keep it as the
+                # leading fragment so the header's who/when survives; when
+                # rest was empty, joined stands alone.
+                if rest:
+                    rest = rest + " " + " ".join(joined).lstrip(":").strip()
+                else:
+                    rest = " ".join(joined).lstrip(":").strip()
         out.append((n, tag, rest))
     return out
 
@@ -520,10 +547,21 @@ class TestTheCommittedLedger(unittest.TestCase):
         # `dose_manipulation`). It is the FIRST decided-target transcription
         # named by NO family, so `derived` is unchanged and G_SIGNED moves by
         # the one transcription only.
-        self.assertEqual(transcribed, 9)
+        # transcribed 9 -> 17 on 2026-09-22 (#70 Corrected Option C, sign-off
+        # [spatial_transcriptomics_family]): eight decided-target transcriptions
+        # arrive, each a signed passthrough (target = v1 class in snake_case).
+        # All 8 are ALSO named by the new family `spatial_transcriptomics_family`
+        # in status_board.FAMILIES, so from `derived`'s point of view they are
+        # NOT counted (this counter measures rows joined by the derivation
+        # ONLY, i.e. `decided_by_family` without a `decided_signoff`/
+        # `no_target_signoff`). `derived` therefore STAYS at 40 while
+        # `transcribed` climbs by 8 -- the "one fact, two records" join, per
+        # the row above under stimulus_bath. G_SIGNED climbs by 8: eight rows
+        # were previously "no signature found" and now read `signed`.
+        self.assertEqual(transcribed, 17)
         self.assertEqual(derived, 40)
-        self.assertEqual(self.gov["by_state"][coverage.G_SIGNED], 48,
-                         "9 transcribed + 40 derived, less `ngrid`, whose "
+        self.assertEqual(self.gov["by_state"][coverage.G_SIGNED], 56,
+                         "17 transcribed + 40 derived, less `ngrid`, whose "
                          "DISPUTED record outranks its family signature")
 
     def test_a_DISPUTED_record_outranks_a_family_signature(self):
@@ -649,8 +687,12 @@ class TestTheReconciliation(unittest.TestCase):
         den = [ln for ln in lines if "reconciled against the DERIVED" in ln]
         self.assertEqual(len(den), 1, "the reconciliation must print a "
                                       "denominator, unconditionally")
-        self.assertIn("9 transcription(s)", den[0])
-        self.assertIn("8 also named by a signed family", den[0],
+        # transcriptions moved 9 -> 17 on 2026-09-22 (#70 Corrected Option C):
+        # 8 spatial-transcriptomics rows added to DECIDED_TARGETS_BY_SIGNOFF,
+        # all 8 also named by the new signed family. Matched-by-a-family count
+        # tracks: 8 -> 16.
+        self.assertIn("17 transcription(s)", den[0])
+        self.assertIn("16 also named by a signed family", den[0],
                       "a reconciliation that matches nothing proves nothing")
 
     def test_the_table_still_carries_what_the_join_cannot(self):
@@ -952,7 +994,10 @@ class TestMutationsRedden(unittest.TestCase):
         self.assertEqual(fails, [])
         den = next(ln for ln in lines if "reconciled against the DERIVED" in ln)
         self.assertIn("0 also named by a signed family", den)
-        self.assertIn("9 named by no family at all", den)
+        # 9 -> 17 on 2026-09-22 (#70 Corrected Option C): 8 spatial-transcriptomics
+        # transcriptions added. With FAMILIES emptied, all 17 transcriptions
+        # fall into "named by no family at all".
+        self.assertIn("17 named by no family at all", den)
 
 
 if __name__ == "__main__":

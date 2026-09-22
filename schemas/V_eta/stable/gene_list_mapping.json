@@ -1,0 +1,140 @@
+{
+    "document_class": {
+        "class_name": "gene_list_mapping",
+        "class_version": "1.0.0",
+        "superclasses": [
+            {
+                "class_name": "base"
+            }
+        ],
+        "maturity_level": "stable"
+    },
+    "depends_on": [
+        {
+            "name": "gene_list_id_a",
+            "mustBeNonEmpty": true,
+            "documentation": "The first gene list.",
+            "must_refer_to_document_class": "gene_list",
+            "ndi_mustBeNonEmpty": true
+        },
+        {
+            "name": "gene_list_id_b",
+            "mustBeNonEmpty": true,
+            "documentation": "The second gene list.",
+            "must_refer_to_document_class": "gene_list",
+            "ndi_mustBeNonEmpty": true
+        }
+    ],
+    "file": [
+        {
+            "name": "mapping.tsv",
+            "documentation": "One row per mapped pair (gene_index_a, gene_index_b, optional score)."
+        }
+    ],
+    "fields": [
+        {
+            "name": "label",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "A human-readable label for this mapping.",
+            "constraints": {}
+        },
+        {
+            "name": "mapping_type",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "alias",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "The kind of correspondence. 'alias': the two rows denote the SAME gene under different identifier systems. 'ortholog': the two rows denote DIFFERENT genes in different species inferred to be homologous. Never treat 'ortholog' as 'alias'.",
+            "constraints": {}
+        },
+        {
+            "name": "method",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "How the mapping was produced (e.g. 'OrthoFinder v2.5.5', 'DIAMOND reciprocal best hits').",
+            "constraints": {}
+        },
+        {
+            "name": "symmetric",
+            "type": "integer",
+            "blank_value": 0.0,
+            "default_value": 1,
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "1 if the mapping may be applied in either direction, 0 if it is only valid from list a to list b.",
+            "constraints": {}
+        },
+        {
+            "name": "n_pairs",
+            "type": "integer",
+            "blank_value": 0.0,
+            "default_value": 0.0,
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "The number of data rows in mapping.tsv.",
+            "constraints": {}
+        },
+        {
+            "name": "n_genes_mapped_a",
+            "type": "integer",
+            "blank_value": 0.0,
+            "default_value": 0.0,
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "How many genes of list a appear at least once.",
+            "constraints": {}
+        },
+        {
+            "name": "n_genes_mapped_b",
+            "type": "integer",
+            "blank_value": 0.0,
+            "default_value": 0.0,
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "How many genes of list b appear at least once.",
+            "constraints": {}
+        },
+        {
+            "name": "has_score",
+            "type": "integer",
+            "blank_value": 0.0,
+            "default_value": 0.0,
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "1 if mapping.tsv carries a score column (e.g. an orthology confidence or bit score), 0 otherwise.",
+            "constraints": {}
+        }
+    ]
+}

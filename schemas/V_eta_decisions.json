@@ -2,11 +2,11 @@
   "title": "V_eta decision families (GENERATED -- do not hand-edit)",
   "description": "Regenerate with `python3 tools/status_board.py`. The human-readable twin is schemas/V_eta_STATUS.md. A family counts as decided ONLY when its plan document carries a TEAM-SIGN-OFF line; Claude cannot promote its own work.",
   "summary": {
-    "families": 26,
-    "classes_claimed": 55,
+    "families": 27,
+    "classes_claimed": 63,
     "open_classes": 26,
     "by_state": {
-      "signed_awaiting_build": 26,
+      "signed_awaiting_build": 27,
       "awaiting_signature": 0,
       "proposed_unreviewed": 0,
       "open": 0
@@ -615,6 +615,51 @@
       "signoff": "jess, 2026-08-09 -- `binaryseries_parameters` folds into the data_body model and is retired (its `time_type` is the time axis's new `datum_type`, its `data_type` the statement's, `data_dim` the axis count, `samples_regular_intervals` the axis `regular` flag); `interaction_purpose` is KEPT, conditionally on the stimulus build actually emitting it, and is the destination for the 635 `StimulationApproach` documents via a second pass -- so #71 is repaired by re-targeting, with pass 1 emitting nothing; `projectvar` stays a deprecated passthrough until real documents exist to model its untyped `data` field against. Whether `purpose` collapses to a field on `subject_interaction` stays open pending the corpus measurement.",
       "state": "signed_awaiting_build",
       "state_label": "decided and signed off, awaiting build"
+    },
+    {
+      "name": "spatial_transcriptomics_family",
+      "members": [
+        {
+          "class_name": "spatialGeneExpressionPyramid",
+          "disposition": "(absent)"
+        },
+        {
+          "class_name": "spatialGeneExpressionCells",
+          "disposition": "(absent)"
+        },
+        {
+          "class_name": "spatialGeneExpressionTiles",
+          "disposition": "(absent)"
+        },
+        {
+          "class_name": "cellTypeLabels",
+          "disposition": "(absent)"
+        },
+        {
+          "class_name": "geneListMapping",
+          "disposition": "(absent)"
+        },
+        {
+          "class_name": "fileReference",
+          "disposition": "(absent)"
+        },
+        {
+          "class_name": "geneList",
+          "disposition": "(absent)"
+        },
+        {
+          "class_name": "geneExpression",
+          "disposition": "(absent)"
+        }
+      ],
+      "open_members": [],
+      "plan": "V_eta_go_forward_class_audit.md",
+      "decision": "Corrected Option C. spatialGeneExpressionPyramid becomes \u2282 [gene_expression, subject_observation] (was \u2282 [base, geneExpression]), picking up variable/method_parameters/sample_time/time_reference_# from the subject_observation direction; the class's own subject_id required-ness moves onto the inherited subject_statement slot. The other seven persist \u2282 base: cell_type_labels, gene_expression, gene_list, gene_list_mapping, spatial_gene_expression_cells, spatial_gene_expression_tiles, file_reference. file_reference is DELIBERATELY NOT folded to generic_file -- the two coexist by design. Follow-ons deferred: `variable` binding (#120, signed and wired), axes[]/format/compression when 2.D lands (#125), T8 bindings (#126). Full reasoning at DID-schema#70. Migrators + fixtures are Session 2's scope (#122, #123); no corpus proof today (#124).",
+      "status": "team",
+      "signed": true,
+      "signoff": "Steve Van Hooser 2026-09-22 --",
+      "state": "signed_awaiting_build",
+      "state_label": "decided and signed off, awaiting build"
     }
   ],
   "by_class": {
@@ -672,7 +717,15 @@
     "session": "session",
     "binaryseries_parameters": "misc singletons",
     "interaction_purpose": "misc singletons",
-    "projectvar": "misc singletons"
+    "projectvar": "misc singletons",
+    "spatialGeneExpressionPyramid": "spatial_transcriptomics_family",
+    "spatialGeneExpressionCells": "spatial_transcriptomics_family",
+    "spatialGeneExpressionTiles": "spatial_transcriptomics_family",
+    "cellTypeLabels": "spatial_transcriptomics_family",
+    "geneListMapping": "spatial_transcriptomics_family",
+    "fileReference": "spatial_transcriptomics_family",
+    "geneList": "spatial_transcriptomics_family",
+    "geneExpression": "spatial_transcriptomics_family"
   },
   "open_class_state": {
     "sources": {
@@ -680,12 +733,13 @@
         "available": true,
         "packages_read": [
           "DID-matlab:migrators_j",
-          "NDI-matlab:ndi_second_pass",
           "DID-matlab:convert"
         ],
-        "packages_missing": [],
-        "files_read": 183,
-        "lines_read": 45256,
+        "packages_missing": [
+          "NDI-matlab:ndi_second_pass"
+        ],
+        "files_read": 163,
+        "lines_read": 35383,
         "classes_queried": 26,
         "classes_emitted_as_document_class": 8,
         "unresolved_mint_sites": [
@@ -702,8 +756,8 @@
         ],
         "n_unresolved_mint_sites": 10,
         "mint_sites_by_idiom": {
-          "1": 73,
-          "2": 20,
+          "1": 58,
+          "2": 16,
           "3": 5
         },
         "groups": [
@@ -716,19 +770,18 @@
         },
         "packages_by_group": {
           "per_document_migrator": [
-            "DID-matlab:migrators_j",
-            "NDI-matlab:ndi_second_pass"
+            "DID-matlab:migrators_j"
           ],
           "batch_post_pass": [
             "DID-matlab:convert"
           ]
         },
         "files_read_by_group": {
-          "per_document_migrator": 155,
+          "per_document_migrator": 135,
           "batch_post_pass": 28
         },
         "lines_read_by_group": {
-          "per_document_migrator": 30187,
+          "per_document_migrator": 20314,
           "batch_post_pass": 15069
         },
         "classes_emitted_as_document_class_by_group": {
@@ -737,8 +790,8 @@
         },
         "mint_sites_by_idiom_by_group": {
           "per_document_migrator": {
-            "1": 56,
-            "2": 19,
+            "1": 41,
+            "2": 15,
             "3": 5
           },
           "batch_post_pass": {
@@ -866,8 +919,8 @@
       "u_unmeasured": "(?) UNMEASURED -- no build evidence was ever taken"
     },
     "counts": {
-      "a_nothing_built": 2,
-      "b_built_awaiting_corpus_proof": 24,
+      "a_nothing_built": 3,
+      "b_built_awaiting_corpus_proof": 23,
       "c_corpus_zero_survivors": 0,
       "u_unmeasured": 0
     },
@@ -878,18 +931,17 @@
         "state": "b_built_awaiting_corpus_proof",
         "state_label": "(b) built, awaiting corpus proof",
         "build_evidence": [
-          "6 consuming reference(s) (1 per-document migrator, 5 batch post-pass)",
+          "5 consuming reference(s) (5 batch post-pass)",
           "minted as a document class at 1 site(s) (1 per-document migrator)"
         ],
         "migrator_file": null,
-        "n_consuming_refs": 6,
+        "n_consuming_refs": 5,
         "consuming_refs": [
           "DID-matlab:convert/epochMint.m:2550 (guard)",
           "DID-matlab:convert/epochMint.m:2551 (field_read)",
           "DID-matlab:convert/epochMint.m:2552 (field_read)",
           "DID-matlab:convert/epochMint.m:2555 (field_read)",
-          "DID-matlab:convert/epochMint.m:803 (guard)",
-          "NDI-matlab:ndi_second_pass/ensembleMembership.m:705 (guard)"
+          "DID-matlab:convert/epochMint.m:803 (guard)"
         ],
         "n_emitted_class_refs": 1,
         "emitted_class_refs": [
@@ -904,7 +956,7 @@
         ],
         "n_named_refs": 0,
         "named_refs": [],
-        "n_comment_mentions": 46,
+        "n_comment_mentions": 35,
         "comment_mentions": [
           "DID-matlab:convert/epochMint.m:25 (comment_mention)",
           "DID-matlab:convert/epochMint.m:2539 (comment_mention)",
@@ -915,10 +967,8 @@
         ],
         "by_group": {
           "per_document_migrator": {
-            "n_consuming_refs": 1,
-            "consuming_refs": [
-              "NDI-matlab:ndi_second_pass/ensembleMembership.m:705 (guard)"
-            ],
+            "n_consuming_refs": 0,
+            "consuming_refs": [],
             "n_emitted_class_refs": 1,
             "emitted_class_refs": [
               "DID-matlab:migrators_j/element_epoch.m:130 (emitted_class)"
@@ -929,7 +979,7 @@
             ],
             "n_named_refs": 0,
             "named_refs": [],
-            "n_comment_mentions": 29,
+            "n_comment_mentions": 18,
             "comment_mentions": [
               "DID-matlab:migrators_j/Contents.m:654 (comment_mention)",
               "DID-matlab:migrators_j/binaryseries_parameters.m:39 (comment_mention)",
@@ -1005,7 +1055,7 @@
         "named_refs": [
           "DID-matlab:convert/resolveValidIntervals.m:1094 (named)"
         ],
-        "n_comment_mentions": 187,
+        "n_comment_mentions": 181,
         "comment_mentions": [
           "DID-matlab:convert/calcCommon.m:25 (comment_mention)",
           "DID-matlab:convert/calcCommon.m:28 (comment_mention)",
@@ -1029,7 +1079,7 @@
             ],
             "n_named_refs": 0,
             "named_refs": [],
-            "n_comment_mentions": 151,
+            "n_comment_mentions": 145,
             "comment_mentions": [
               "DID-matlab:migrators_j/Contents.m:127 (comment_mention)",
               "DID-matlab:migrators_j/Contents.m:143 (comment_mention)",
@@ -1184,7 +1234,7 @@
         ],
         "n_named_refs": 0,
         "named_refs": [],
-        "n_comment_mentions": 8,
+        "n_comment_mentions": 6,
         "comment_mentions": [
           "DID-matlab:migrators_j/Contents.m:565 (comment_mention)",
           "DID-matlab:migrators_j/control_stimulus_ids.m:3 (comment_mention)",
@@ -1207,7 +1257,7 @@
             ],
             "n_named_refs": 0,
             "named_refs": [],
-            "n_comment_mentions": 8,
+            "n_comment_mentions": 6,
             "comment_mentions": [
               "DID-matlab:migrators_j/Contents.m:565 (comment_mention)",
               "DID-matlab:migrators_j/control_stimulus_ids.m:3 (comment_mention)",
@@ -1451,7 +1501,7 @@
         ],
         "n_named_refs": 0,
         "named_refs": [],
-        "n_comment_mentions": 50,
+        "n_comment_mentions": 47,
         "comment_mentions": [
           "DID-matlab:convert/epochMint.m:1202 (comment_mention)",
           "DID-matlab:convert/epochMint.m:1749 (comment_mention)",
@@ -1481,7 +1531,7 @@
             ],
             "n_named_refs": 0,
             "named_refs": [],
-            "n_comment_mentions": 44,
+            "n_comment_mentions": 41,
             "comment_mentions": [
               "DID-matlab:migrators_j/Contents.m:174 (comment_mention)",
               "DID-matlab:migrators_j/Contents.m:228 (comment_mention)",
@@ -1739,7 +1789,7 @@
         "field_write_refs": [],
         "n_named_refs": 0,
         "named_refs": [],
-        "n_comment_mentions": 35,
+        "n_comment_mentions": 34,
         "comment_mentions": [
           "DID-matlab:convert/resolveEpochProbemap.m:187 (comment_mention)",
           "DID-matlab:convert/resolveEpochProbemap.m:188 (comment_mention)",
@@ -1762,7 +1812,7 @@
             "field_write_refs": [],
             "n_named_refs": 0,
             "named_refs": [],
-            "n_comment_mentions": 33,
+            "n_comment_mentions": 32,
             "comment_mentions": [
               "DID-matlab:migrators_j/Contents.m:159 (comment_mention)",
               "DID-matlab:migrators_j/Contents.m:176 (comment_mention)",
@@ -1806,14 +1856,11 @@
         "state": "b_built_awaiting_corpus_proof",
         "state_label": "(b) built, awaiting corpus proof",
         "build_evidence": [
-          "1 consuming reference(s) (1 per-document migrator)",
           "decided target(s) built: `subject`, `directed_relation`, `sampled_body`"
         ],
         "migrator_file": null,
-        "n_consuming_refs": 1,
-        "consuming_refs": [
-          "NDI-matlab:ndi_second_pass/ensembleMembership.m:438 (guard)"
-        ],
+        "n_consuming_refs": 0,
+        "consuming_refs": [],
         "n_emitted_class_refs": 0,
         "emitted_class_refs": [],
         "emission_counts_as_build": false,
@@ -1823,7 +1870,7 @@
         "field_write_refs": [],
         "n_named_refs": 0,
         "named_refs": [],
-        "n_comment_mentions": 25,
+        "n_comment_mentions": 11,
         "comment_mentions": [
           "DID-matlab:convert/resolveLawnPlateSubjects.m:1358 (comment_mention)",
           "DID-matlab:convert/resolveResponseParameters.m:71 (comment_mention)",
@@ -1834,17 +1881,15 @@
         ],
         "by_group": {
           "per_document_migrator": {
-            "n_consuming_refs": 1,
-            "consuming_refs": [
-              "NDI-matlab:ndi_second_pass/ensembleMembership.m:438 (guard)"
-            ],
+            "n_consuming_refs": 0,
+            "consuming_refs": [],
             "n_emitted_class_refs": 0,
             "emitted_class_refs": [],
             "n_field_write_refs": 0,
             "field_write_refs": [],
             "n_named_refs": 0,
             "named_refs": [],
-            "n_comment_mentions": 23,
+            "n_comment_mentions": 9,
             "comment_mentions": [
               "DID-matlab:migrators_j/element_epoch.m:89 (comment_mention)",
               "DID-matlab:migrators_j/element_epoch.m:91 (comment_mention)",
@@ -1889,41 +1934,29 @@
       {
         "class_name": "epoch_bounded_reference",
         "family": "time_reference",
-        "state": "b_built_awaiting_corpus_proof",
-        "state_label": "(b) built, awaiting corpus proof",
-        "build_evidence": [
-          "11 consuming reference(s) (11 per-document migrator)"
-        ],
+        "state": "a_nothing_built",
+        "state_label": "(a) decided, nothing built",
+        "build_evidence": [],
         "migrator_file": null,
-        "n_consuming_refs": 11,
-        "consuming_refs": [
-          "NDI-matlab:ndi_second_pass/epochAnchorFold.m:361 (guard)",
-          "NDI-matlab:ndi_second_pass/epochAnchorFold.m:465 (guard)",
-          "NDI-matlab:ndi_second_pass/epochAnchorFold.m:466 (field_read)",
-          "NDI-matlab:ndi_second_pass/epochAnchorFold.m:467 (field_read)",
-          "NDI-matlab:ndi_second_pass/epochAnchorFold.m:468 (field_read)",
-          "NDI-matlab:ndi_second_pass/epochAnchorFold.m:469 (field_read)"
-        ],
-        "n_emitted_class_refs": 2,
+        "n_consuming_refs": 0,
+        "consuming_refs": [],
+        "n_emitted_class_refs": 1,
         "emitted_class_refs": [
-          "DID-matlab:migrators_j/pyraview.m:192 (emitted_class)",
-          "NDI-matlab:ndi_second_pass/stimulusBathToBath.m:166 (emitted_class)"
+          "DID-matlab:migrators_j/pyraview.m:192 (emitted_class)"
         ],
         "emission_counts_as_build": false,
         "retired_by_decision_in_favour_of": "relative_reference",
-        "emission_discounted": "minted at 2 site(s) (2 per-document migrator), NOT counted as build progress: the signed decision retires this class in favour of `relative_reference`, so an emission is work still to undo",
-        "n_field_write_refs": 3,
+        "emission_discounted": "minted at 1 site(s) (1 per-document migrator), NOT counted as build progress: the signed decision retires this class in favour of `relative_reference`, so an emission is work still to undo",
+        "n_field_write_refs": 2,
         "field_write_refs": [
           "DID-matlab:migrators_j/pyraview.m:205 (field_write)",
-          "DID-matlab:migrators_j/pyraview.m:223 (field_write)",
-          "NDI-matlab:ndi_second_pass/stimulusBathToBath.m:176 (field_write)"
+          "DID-matlab:migrators_j/pyraview.m:223 (field_write)"
         ],
-        "n_named_refs": 2,
+        "n_named_refs": 1,
         "named_refs": [
-          "DID-matlab:migrators_j/syncrule_mapping.m:182 (named)",
-          "NDI-matlab:ndi_second_pass/epochAnchorFold.m:476 (named)"
+          "DID-matlab:migrators_j/syncrule_mapping.m:182 (named)"
         ],
-        "n_comment_mentions": 40,
+        "n_comment_mentions": 12,
         "comment_mentions": [
           "DID-matlab:convert/resolveDeferredBaths.m:15 (comment_mention)",
           "DID-matlab:convert/resolveDeferredBaths.m:47 (comment_mention)",
@@ -1934,32 +1967,22 @@
         ],
         "by_group": {
           "per_document_migrator": {
-            "n_consuming_refs": 11,
-            "consuming_refs": [
-              "NDI-matlab:ndi_second_pass/epochAnchorFold.m:361 (guard)",
-              "NDI-matlab:ndi_second_pass/epochAnchorFold.m:465 (guard)",
-              "NDI-matlab:ndi_second_pass/epochAnchorFold.m:466 (field_read)",
-              "NDI-matlab:ndi_second_pass/epochAnchorFold.m:467 (field_read)",
-              "NDI-matlab:ndi_second_pass/epochAnchorFold.m:468 (field_read)",
-              "NDI-matlab:ndi_second_pass/epochAnchorFold.m:469 (field_read)"
-            ],
-            "n_emitted_class_refs": 2,
+            "n_consuming_refs": 0,
+            "consuming_refs": [],
+            "n_emitted_class_refs": 1,
             "emitted_class_refs": [
-              "DID-matlab:migrators_j/pyraview.m:192 (emitted_class)",
-              "NDI-matlab:ndi_second_pass/stimulusBathToBath.m:166 (emitted_class)"
+              "DID-matlab:migrators_j/pyraview.m:192 (emitted_class)"
             ],
-            "n_field_write_refs": 3,
+            "n_field_write_refs": 2,
             "field_write_refs": [
               "DID-matlab:migrators_j/pyraview.m:205 (field_write)",
-              "DID-matlab:migrators_j/pyraview.m:223 (field_write)",
-              "NDI-matlab:ndi_second_pass/stimulusBathToBath.m:176 (field_write)"
+              "DID-matlab:migrators_j/pyraview.m:223 (field_write)"
             ],
-            "n_named_refs": 2,
+            "n_named_refs": 1,
             "named_refs": [
-              "DID-matlab:migrators_j/syncrule_mapping.m:182 (named)",
-              "NDI-matlab:ndi_second_pass/epochAnchorFold.m:476 (named)"
+              "DID-matlab:migrators_j/syncrule_mapping.m:182 (named)"
             ],
-            "n_comment_mentions": 36,
+            "n_comment_mentions": 8,
             "comment_mentions": [
               "DID-matlab:migrators_j/pyraview.m:148 (comment_mention)",
               "DID-matlab:migrators_j/pyraview.m:161 (comment_mention)",
@@ -2098,17 +2121,13 @@
         "state": "b_built_awaiting_corpus_proof",
         "state_label": "(b) built, awaiting corpus proof",
         "build_evidence": [
-          "15 consuming reference(s) (14 per-document migrator, 1 batch post-pass)"
+          "2 consuming reference(s) (1 per-document migrator, 1 batch post-pass)"
         ],
         "migrator_file": null,
-        "n_consuming_refs": 15,
+        "n_consuming_refs": 2,
         "consuming_refs": [
           "DID-matlab:convert/epochMint.m:968 (guard)",
-          "DID-matlab:migrators_j/private/jMethodParameters.m:122 (guard)",
-          "NDI-matlab:ndi_second_pass/bodyResolver.m:561 (guard)",
-          "NDI-matlab:ndi_second_pass/bodyResolver.m:562 (guard)",
-          "NDI-matlab:ndi_second_pass/bodyResolver.m:563 (field_read)",
-          "NDI-matlab:ndi_second_pass/ensembleMembership.m:731 (guard)"
+          "DID-matlab:migrators_j/private/jMethodParameters.m:122 (guard)"
         ],
         "n_emitted_class_refs": 0,
         "emitted_class_refs": [],
@@ -2119,7 +2138,7 @@
         "field_write_refs": [
           "DID-matlab:migrators_j/private/jMethodParameters.m:126 (field_write)"
         ],
-        "n_named_refs": 16,
+        "n_named_refs": 11,
         "named_refs": [
           "DID-matlab:convert/epochMint.m:1056 (named)",
           "DID-matlab:convert/epochMint.m:2026 (named)",
@@ -2128,7 +2147,7 @@
           "DID-matlab:convert/epochMint.m:969 (named)",
           "DID-matlab:convert/resolveEpochProbemap.m:1059 (named)"
         ],
-        "n_comment_mentions": 101,
+        "n_comment_mentions": 75,
         "comment_mentions": [
           "DID-matlab:convert/epochIndex.m:16 (comment_mention)",
           "DID-matlab:convert/epochIndex.m:235 (comment_mention)",
@@ -2139,14 +2158,9 @@
         ],
         "by_group": {
           "per_document_migrator": {
-            "n_consuming_refs": 14,
+            "n_consuming_refs": 1,
             "consuming_refs": [
-              "DID-matlab:migrators_j/private/jMethodParameters.m:122 (guard)",
-              "NDI-matlab:ndi_second_pass/bodyResolver.m:561 (guard)",
-              "NDI-matlab:ndi_second_pass/bodyResolver.m:562 (guard)",
-              "NDI-matlab:ndi_second_pass/bodyResolver.m:563 (field_read)",
-              "NDI-matlab:ndi_second_pass/ensembleMembership.m:731 (guard)",
-              "NDI-matlab:ndi_second_pass/ensembleMembership.m:732 (field_read)"
+              "DID-matlab:migrators_j/private/jMethodParameters.m:122 (guard)"
             ],
             "n_emitted_class_refs": 0,
             "emitted_class_refs": [],
@@ -2154,16 +2168,15 @@
             "field_write_refs": [
               "DID-matlab:migrators_j/private/jMethodParameters.m:126 (field_write)"
             ],
-            "n_named_refs": 10,
+            "n_named_refs": 5,
             "named_refs": [
               "DID-matlab:migrators_j/epochfiles_ingested.m:265 (named)",
               "DID-matlab:migrators_j/private/jMethodParameters.m:123 (named)",
               "DID-matlab:migrators_j/pyraview.m:186 (named)",
               "DID-matlab:migrators_j/pyraview.m:193 (named)",
-              "DID-matlab:migrators_j/pyraview.m:198 (named)",
-              "NDI-matlab:ndi_second_pass/epochAnchorFold.m:479 (named)"
+              "DID-matlab:migrators_j/pyraview.m:198 (named)"
             ],
-            "n_comment_mentions": 79,
+            "n_comment_mentions": 53,
             "comment_mentions": [
               "DID-matlab:migrators_j/Contents.m:142 (comment_mention)",
               "DID-matlab:migrators_j/Contents.m:144 (comment_mention)",
@@ -2236,7 +2249,7 @@
         "field_write_refs": [],
         "n_named_refs": 0,
         "named_refs": [],
-        "n_comment_mentions": 27,
+        "n_comment_mentions": 26,
         "comment_mentions": [
           "DID-matlab:convert/v1_to_v2.m:811 (comment_mention)",
           "DID-matlab:migrators_j/Contents.m:158 (comment_mention)",
@@ -2259,7 +2272,7 @@
             "field_write_refs": [],
             "n_named_refs": 0,
             "named_refs": [],
-            "n_comment_mentions": 26,
+            "n_comment_mentions": 25,
             "comment_mentions": [
               "DID-matlab:migrators_j/Contents.m:158 (comment_mention)",
               "DID-matlab:migrators_j/Contents.m:218 (comment_mention)",
@@ -2633,7 +2646,7 @@
         "named_refs": [
           "DID-matlab:convert/epochMint.m:2208 (named)"
         ],
-        "n_comment_mentions": 15,
+        "n_comment_mentions": 14,
         "comment_mentions": [
           "DID-matlab:convert/resolveSessionAnchors.m:17 (comment_mention)",
           "DID-matlab:convert/resolveSessionAnchors.m:19 (comment_mention)",
@@ -2656,11 +2669,10 @@
             ],
             "n_named_refs": 0,
             "named_refs": [],
-            "n_comment_mentions": 3,
+            "n_comment_mentions": 2,
             "comment_mentions": [
               "DID-matlab:migrators_j/ontology_table_row.m:271 (comment_mention)",
-              "DID-matlab:migrators_j/ontology_table_row.m:35 (comment_mention)",
-              "NDI-matlab:ndi_second_pass/epochAnchorFold.m:126 (comment_mention)"
+              "DID-matlab:migrators_j/ontology_table_row.m:35 (comment_mention)"
             ]
           },
           "batch_post_pass": {
@@ -2733,7 +2745,7 @@
         "named_refs": [
           "DID-matlab:convert/epochMint.m:2208 (named)"
         ],
-        "n_comment_mentions": 32,
+        "n_comment_mentions": 29,
         "comment_mentions": [
           "DID-matlab:convert/epochMint.m:2132 (comment_mention)",
           "DID-matlab:convert/epochMint.m:2137 (comment_mention)",
@@ -2766,7 +2778,7 @@
             ],
             "n_named_refs": 0,
             "named_refs": [],
-            "n_comment_mentions": 19,
+            "n_comment_mentions": 16,
             "comment_mentions": [
               "DID-matlab:migrators_j/fitcurve.m:13 (comment_mention)",
               "DID-matlab:migrators_j/image_stack.m:25 (comment_mention)",
@@ -2821,19 +2833,11 @@
         "state_label": "(b) built, awaiting corpus proof",
         "build_evidence": [
           "migrator `DID-matlab:migrators_j/stimulus_presentation.m`",
-          "6 consuming reference(s) (6 per-document migrator)",
           "decided target(s) built: `timed_sequence`, `timed_sequence_manipulation`"
         ],
         "migrator_file": "DID-matlab:migrators_j/stimulus_presentation.m",
-        "n_consuming_refs": 6,
-        "consuming_refs": [
-          "NDI-matlab:ndi_second_pass/hartleyBasisGratings.m:354 (guard)",
-          "NDI-matlab:ndi_second_pass/hartleyBasisGratings.m:357 (field_read)",
-          "NDI-matlab:ndi_second_pass/stimulusPresentationToManipulation.m:47 (guard)",
-          "NDI-matlab:ndi_second_pass/stimulusPresentationToManipulation.m:48 (field_read)",
-          "NDI-matlab:ndi_second_pass/stimulusPresentationToTimedSequence.m:331 (guard)",
-          "NDI-matlab:ndi_second_pass/stimulusPresentationToTimedSequence.m:332 (field_read)"
-        ],
+        "n_consuming_refs": 0,
+        "consuming_refs": [],
         "n_emitted_class_refs": 0,
         "emitted_class_refs": [],
         "emission_counts_as_build": false,
@@ -2843,7 +2847,7 @@
         "field_write_refs": [],
         "n_named_refs": 0,
         "named_refs": [],
-        "n_comment_mentions": 41,
+        "n_comment_mentions": 20,
         "comment_mentions": [
           "DID-matlab:convert/universalRenames.m:471 (comment_mention)",
           "DID-matlab:convert/v1_to_v2.m:1004 (comment_mention)",
@@ -2854,22 +2858,15 @@
         ],
         "by_group": {
           "per_document_migrator": {
-            "n_consuming_refs": 6,
-            "consuming_refs": [
-              "NDI-matlab:ndi_second_pass/hartleyBasisGratings.m:354 (guard)",
-              "NDI-matlab:ndi_second_pass/hartleyBasisGratings.m:357 (field_read)",
-              "NDI-matlab:ndi_second_pass/stimulusPresentationToManipulation.m:47 (guard)",
-              "NDI-matlab:ndi_second_pass/stimulusPresentationToManipulation.m:48 (field_read)",
-              "NDI-matlab:ndi_second_pass/stimulusPresentationToTimedSequence.m:331 (guard)",
-              "NDI-matlab:ndi_second_pass/stimulusPresentationToTimedSequence.m:332 (field_read)"
-            ],
+            "n_consuming_refs": 0,
+            "consuming_refs": [],
             "n_emitted_class_refs": 0,
             "emitted_class_refs": [],
             "n_field_write_refs": 0,
             "field_write_refs": [],
             "n_named_refs": 0,
             "named_refs": [],
-            "n_comment_mentions": 39,
+            "n_comment_mentions": 18,
             "comment_mentions": [
               "DID-matlab:migrators_j/Contents.m:812 (comment_mention)",
               "DID-matlab:migrators_j/Contents.m:813 (comment_mention)",
@@ -2937,7 +2934,7 @@
         "field_write_refs": [],
         "n_named_refs": 0,
         "named_refs": [],
-        "n_comment_mentions": 49,
+        "n_comment_mentions": 46,
         "comment_mentions": [
           "DID-matlab:convert/epochIndex.m:243 (comment_mention)",
           "DID-matlab:convert/epochMint.m:365 (comment_mention)",
@@ -2959,7 +2956,7 @@
             "field_write_refs": [],
             "n_named_refs": 0,
             "named_refs": [],
-            "n_comment_mentions": 30,
+            "n_comment_mentions": 27,
             "comment_mentions": [
               "DID-matlab:migrators_j/Contents.m:468 (comment_mention)",
               "DID-matlab:migrators_j/Contents.m:851 (comment_mention)",
@@ -3127,7 +3124,7 @@
           "DID-matlab:convert/epochMint.m:1385 (named)",
           "DID-matlab:convert/epochMint.m:1794 (named)"
         ],
-        "n_comment_mentions": 46,
+        "n_comment_mentions": 45,
         "comment_mentions": [
           "DID-matlab:convert/epochMint.m:1328 (comment_mention)",
           "DID-matlab:convert/epochMint.m:1334 (comment_mention)",
@@ -3153,7 +3150,7 @@
             ],
             "n_named_refs": 0,
             "named_refs": [],
-            "n_comment_mentions": 26,
+            "n_comment_mentions": 25,
             "comment_mentions": [
               "DID-matlab:migrators_j/Contents.m:855 (comment_mention)",
               "DID-matlab:migrators_j/Contents.m:856 (comment_mention)",
@@ -3210,23 +3207,22 @@
         "state": "b_built_awaiting_corpus_proof",
         "state_label": "(b) built, awaiting corpus proof",
         "build_evidence": [
-          "5 consuming reference(s) (4 per-document migrator, 1 batch post-pass)"
+          "4 consuming reference(s) (3 per-document migrator, 1 batch post-pass)"
         ],
         "migrator_file": null,
-        "n_consuming_refs": 5,
+        "n_consuming_refs": 4,
         "consuming_refs": [
           "DID-matlab:convert/resolveSessionAnchors.m:560 (guard)",
           "DID-matlab:migrators_j/private/jClockAlignmentBodies.m:179 (guard)",
           "DID-matlab:migrators_j/private/jClockAlignmentBodies.m:180 (field_read)",
-          "DID-matlab:migrators_j/private/jClockAlignmentBodies.m:181 (field_read)",
-          "NDI-matlab:ndi_second_pass/epochAnchorFold.m:483 (guard)"
+          "DID-matlab:migrators_j/private/jClockAlignmentBodies.m:181 (field_read)"
         ],
         "n_emitted_class_refs": 0,
         "emitted_class_refs": [],
         "emission_counts_as_build": false,
         "retired_by_decision_in_favour_of": "relative_reference",
         "emission_discounted": null,
-        "n_field_write_refs": 18,
+        "n_field_write_refs": 16,
         "field_write_refs": [
           "DID-matlab:convert/resolveDeferredBaths.m:394 (field_write)",
           "DID-matlab:convert/resolveDeferredBaths.m:443 (field_write)",
@@ -3235,7 +3231,7 @@
           "DID-matlab:migrators_j/image_stack.m:283 (field_write)",
           "DID-matlab:migrators_j/jrclust_clusters.m:89 (field_write)"
         ],
-        "n_named_refs": 25,
+        "n_named_refs": 22,
         "named_refs": [
           "DID-matlab:convert/epochMint.m:2023 (named)",
           "DID-matlab:convert/epochMint.m:2626 (named)",
@@ -3244,7 +3240,7 @@
           "DID-matlab:convert/resolveEpochProbemap.m:728 (named)",
           "DID-matlab:convert/resolveSessionAnchors.m:550 (named)"
         ],
-        "n_comment_mentions": 45,
+        "n_comment_mentions": 39,
         "comment_mentions": [
           "DID-matlab:convert/epochMint.m:1991 (comment_mention)",
           "DID-matlab:convert/epochMint.m:2022 (comment_mention)",
@@ -3255,16 +3251,15 @@
         ],
         "by_group": {
           "per_document_migrator": {
-            "n_consuming_refs": 4,
+            "n_consuming_refs": 3,
             "consuming_refs": [
               "DID-matlab:migrators_j/private/jClockAlignmentBodies.m:179 (guard)",
               "DID-matlab:migrators_j/private/jClockAlignmentBodies.m:180 (field_read)",
-              "DID-matlab:migrators_j/private/jClockAlignmentBodies.m:181 (field_read)",
-              "NDI-matlab:ndi_second_pass/epochAnchorFold.m:483 (guard)"
+              "DID-matlab:migrators_j/private/jClockAlignmentBodies.m:181 (field_read)"
             ],
             "n_emitted_class_refs": 0,
             "emitted_class_refs": [],
-            "n_field_write_refs": 15,
+            "n_field_write_refs": 13,
             "field_write_refs": [
               "DID-matlab:migrators_j/fitcurve.m:153 (field_write)",
               "DID-matlab:migrators_j/image_stack.m:283 (field_write)",
@@ -3273,7 +3268,7 @@
               "DID-matlab:migrators_j/ontology_table_row.m:280 (field_write)",
               "DID-matlab:migrators_j/ontology_table_row.m:878 (field_write)"
             ],
-            "n_named_refs": 18,
+            "n_named_refs": 15,
             "named_refs": [
               "DID-matlab:migrators_j/fitcurve.m:147 (named)",
               "DID-matlab:migrators_j/image_stack.m:279 (named)",
@@ -3282,7 +3277,7 @@
               "DID-matlab:migrators_j/ontology_table_row.m:276 (named)",
               "DID-matlab:migrators_j/ontology_table_row.m:873 (named)"
             ],
-            "n_comment_mentions": 36,
+            "n_comment_mentions": 30,
             "comment_mentions": [
               "DID-matlab:migrators_j/daqreader_epochdata_ingested.m:21 (comment_mention)",
               "DID-matlab:migrators_j/neuron_extracellular.m:250 (comment_mention)",

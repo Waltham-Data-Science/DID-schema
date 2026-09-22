@@ -327,11 +327,37 @@ def _defamily(dep_name):
     return dep_name.removesuffix("_#")
 
 
+def _chain_deps(name, veta):
+    """Every dep NAME the V_eta class CHAIN declares (`_#` families flattened).
+
+    Chain, not leaf, for the same reason `veta_files` walks the chain: did2
+    resolves a dependency against the class's transitive `must_refer_to_document_class`
+    declaration set, so a dep declared on a superclass IS declared for the
+    subclass. Comparing only the leaf would report subject_id as "undeclared"
+    on any subject_observation subclass that leaves subject_id to the
+    subject_statement declaration (which requires it) -- a false alarm."""
+    out = {_defamily(d["name"])
+           for d in veta.get(name, {}).get("depends_on", [])}
+    for sup in super_chain(name, veta):
+        out |= {_defamily(d["name"])
+                for d in veta.get(sup, {}).get("depends_on", [])}
+    return out
+
+
 def compare(cls, ndi, schema, name, veta):
     """Divergences between one NDI template and its V_eta tombstone."""
     theirs = set(ndi["fields"])            # already snake_cased by the extractor
     ours = set(declared_field_names(schema))
-    their_deps = set(ndi["depends_on"])
+    # DEPS: SNAKE-CASE BEFORE COMPARING. universalRenames.m snake-cases
+    # dependency names on migration (a v1 `spatialGeneExpressionPyramid_id`
+    # arrives at V_eta as `spatial_gene_expression_pyramid_id`), and V_eta
+    # tombstones declare the snake form to match. The ground-truth extractor
+    # carries the RAW NDI names (per its docstring at :22-25, template vs
+    # schema-doc are recorded separately). Comparing raw against snake would
+    # report every such edge as invented AND undeclared -- exactly what the
+    # extractor already does for fields ("already snake_cased by the
+    # extractor"), and left inconsistent for deps.
+    their_deps = {snake(d) for d in ndi["depends_on"]}
     # A `<name>_#` FAMILY SATISFIES AN NDI `<name>` EDGE, and comparing the
     # literal strings said otherwise -- reporting the declaration as invented AND
     # the real edge as undeclared, two false rows for one correct declaration.
@@ -351,7 +377,26 @@ def compare(cls, ndi, schema, name, veta):
     # reads. Normalising here does NOT hide a real divergence: a `_#` family
     # whose base name appears in no template still shows up, because the base
     # name is what gets compared.
-    our_deps = {_defamily(d["name"]) for d in schema.get("depends_on", [])}
+    # DEPS ARE CHAIN FOR THE "UNDECLARED" SIDE, LEAF FOR "INVENTED" -- the two
+    # comparisons ask different questions.
+    #
+    # `undeclared_deps` asks: does NDI declare an edge V_eta's class chain does
+    # not cover? An edge inherited via multi-inheritance IS covered. The live
+    # case, from 2026-09-22: `spatialGeneExpressionPyramid` becomes ⊂
+    # [geneExpression, subject_observation] and its `subject_id` requirement
+    # rides on the inherited subject_statement slot rather than a local
+    # declaration (TEAM-SIGN-OFF [spatial_transcriptomics_family]). A leaf-only
+    # read would see V_eta declaring `[geneList_id]` against NDI's
+    # `[subject_id, geneList_id]` and flag it LOSSY -- exactly a false alarm
+    # the runtime instrument does not see, because did2 walks the chain for
+    # `must_refer_to_document_class` (mirror of veta_files' chain read).
+    #
+    # `invented_deps` asks: did the V_eta TOMBSTONE add an edge not in NDI?
+    # That question is about what the TOMBSTONE authored, not what it inherits
+    # -- an inherited dep is constitutive of the parent class, not an
+    # invention of this row -- so leaf-only is correct here.
+    our_deps_chain = _chain_deps(name, veta)
+    our_deps_leaf = {_defamily(d["name"]) for d in schema.get("depends_on", [])}
     their_sup = {snake(s) for s in ndi["superclasses"]}
     our_sup = super_chain(name, veta)
 
@@ -362,8 +407,8 @@ def compare(cls, ndi, schema, name, veta):
         "undeclared_fields": sorted(theirs - ours),   # -> undeclaredField
         "invented_fields": sorted(ours - theirs),     # not in any NDI template
         "invented_required": required_missing,        # guaranteed quarantine
-        "undeclared_deps": sorted(their_deps - our_deps),
-        "invented_deps": sorted(our_deps - their_deps),
+        "undeclared_deps": sorted(their_deps - our_deps_chain),
+        "invented_deps": sorted(our_deps_leaf - their_deps),
         "missing_supers": sorted(their_sup - our_sup),
     }
 

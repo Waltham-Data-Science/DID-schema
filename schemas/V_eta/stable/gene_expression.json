@@ -1,0 +1,55 @@
+{
+    "document_class": {
+        "class_name": "gene_expression",
+        "class_version": "1.0.0",
+        "superclasses": [
+            {
+                "class_name": "base"
+            }
+        ],
+        "maturity_level": "stable"
+    },
+    "depends_on": [],
+    "file": [],
+    "fields": [
+        {
+            "name": "assay",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "The assay that produced the counts (e.g. 'Stereo-seq', 'Visium', '10x Chromium 3-prime').",
+            "constraints": {}
+        },
+        {
+            "name": "count_type",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "raw",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "What the stored values are: 'raw' for integer UMI or read counts, 'normalized', or 'log-normalized'. Analyses that assume raw counts must check this.",
+            "constraints": {}
+        },
+        {
+            "name": "count_units",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "UMI",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "The unit of one count: 'UMI', 'read', or 'arbitrary' for normalized values.",
+            "constraints": {}
+        }
+    ]
+}

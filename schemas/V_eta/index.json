@@ -401,6 +401,17 @@
             "disposition": "persist"
         },
         {
+            "class_name": "cell_type_labels",
+            "tier": "stable",
+            "class_version": "1.0.0",
+            "maturity_level": "stable",
+            "superclasses": [
+                "base"
+            ],
+            "path": "schemas/V_eta/stable/cell_type_labels.json",
+            "disposition": "persist"
+        },
+        {
             "class_name": "charge",
             "tier": "stable",
             "class_version": "1.0.0",
@@ -1059,6 +1070,17 @@
             "disposition_note": "\u2466 infra tier re-opened: the KEEP predated T11/T13 scrutiny (R5 found 5 of its siblings needed renames/folds); needs a naming + governance confirmation, NDI lockstep where the writers own the class string"
         },
         {
+            "class_name": "file_reference",
+            "tier": "stable",
+            "class_version": "1.0.0",
+            "maturity_level": "stable",
+            "superclasses": [
+                "base"
+            ],
+            "path": "schemas/V_eta/stable/file_reference.json",
+            "disposition": "persist"
+        },
+        {
             "class_name": "filenavigator",
             "tier": "stable",
             "class_version": "1.0.0",
@@ -1266,6 +1288,39 @@
                 "gain"
             ],
             "path": "schemas/V_eta/stable/gain_observation.json",
+            "disposition": "persist"
+        },
+        {
+            "class_name": "gene_expression",
+            "tier": "stable",
+            "class_version": "1.0.0",
+            "maturity_level": "stable",
+            "superclasses": [
+                "base"
+            ],
+            "path": "schemas/V_eta/stable/gene_expression.json",
+            "disposition": "persist"
+        },
+        {
+            "class_name": "gene_list",
+            "tier": "stable",
+            "class_version": "1.0.0",
+            "maturity_level": "stable",
+            "superclasses": [
+                "base"
+            ],
+            "path": "schemas/V_eta/stable/gene_list.json",
+            "disposition": "persist"
+        },
+        {
+            "class_name": "gene_list_mapping",
+            "tier": "stable",
+            "class_version": "1.0.0",
+            "maturity_level": "stable",
+            "superclasses": [
+                "base"
+            ],
+            "path": "schemas/V_eta/stable/gene_list_mapping.json",
             "disposition": "persist"
         },
         {
@@ -2251,6 +2306,41 @@
                 "spatial_frequency_tuning"
             ],
             "path": "schemas/V_eta/stable/spatial_frequency_tuning_calc.json",
+            "disposition": "persist"
+        },
+        {
+            "class_name": "spatial_gene_expression_cells",
+            "tier": "stable",
+            "class_version": "1.0.0",
+            "maturity_level": "stable",
+            "superclasses": [
+                "base"
+            ],
+            "path": "schemas/V_eta/stable/spatial_gene_expression_cells.json",
+            "disposition": "persist"
+        },
+        {
+            "class_name": "spatial_gene_expression_pyramid",
+            "tier": "stable",
+            "class_version": "1.0.0",
+            "maturity_level": "stable",
+            "superclasses": [
+                "base",
+                "gene_expression",
+                "subject_observation"
+            ],
+            "path": "schemas/V_eta/stable/spatial_gene_expression_pyramid.json",
+            "disposition": "persist"
+        },
+        {
+            "class_name": "spatial_gene_expression_tiles",
+            "tier": "stable",
+            "class_version": "1.0.0",
+            "maturity_level": "stable",
+            "superclasses": [
+                "base"
+            ],
+            "path": "schemas/V_eta/stable/spatial_gene_expression_tiles.json",
             "disposition": "persist"
         },
         {

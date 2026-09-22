@@ -1,0 +1,303 @@
+{
+    "document_class": {
+        "class_name": "spatial_gene_expression_tiles",
+        "class_version": "1.0.0",
+        "superclasses": [
+            {
+                "class_name": "base"
+            }
+        ],
+        "maturity_level": "stable"
+    },
+    "depends_on": [
+        {
+            "name": "spatial_gene_expression_pyramid_id",
+            "mustBeNonEmpty": true,
+            "documentation": "The pyramid this tile level belongs to.",
+            "must_refer_to_document_class": "spatial_gene_expression_pyramid",
+            "ndi_mustBeNonEmpty": true
+        },
+        {
+            "name": "subject_id",
+            "mustBeNonEmpty": false,
+            "documentation": "The subject (specimen) these tiles are of. Optional; the pyramid dep carries the subject transitively.",
+            "must_refer_to_document_class": "subject",
+            "ndi_mustBeNonEmpty": false
+        },
+        {
+            "name": "source_file_id",
+            "mustBeNonEmpty": false,
+            "documentation": "The external source file the tile data was imported from.",
+            "must_refer_to_document_class": "file_reference",
+            "ndi_mustBeNonEmpty": false
+        }
+    ],
+    "file": [
+        {
+            "name": "tile.bin_#",
+            "documentation": "One binary file per stored tile; suffix is the tile index plus tile_index_origin."
+        }
+    ],
+    "fields": [
+        {
+            "name": "label",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "A human-readable label for this level (e.g. 'bin20').",
+            "constraints": {}
+        },
+        {
+            "name": "bin_size",
+            "type": "integer",
+            "blank_value": 0.0,
+            "default_value": 1,
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "The edge length of one pixel of this level in base pixel units. Must appear in the parent's bin_sizes.",
+            "constraints": {}
+        },
+        {
+            "name": "pixel_size_x",
+            "type": "double",
+            "blank_value": 0.0,
+            "default_value": 0.0,
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "The physical size of one pixel of this level in x. Equal to bin_size times the parent's base_pixel_size_x.",
+            "constraints": {}
+        },
+        {
+            "name": "pixel_size_y",
+            "type": "double",
+            "blank_value": 0.0,
+            "default_value": 0.0,
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "The physical size of one pixel of this level in y.",
+            "constraints": {}
+        },
+        {
+            "name": "pixel_size_units",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "micrometer",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "The units of pixel_size_x and pixel_size_y.",
+            "constraints": {}
+        },
+        {
+            "name": "dimension_order",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "YXG",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "The order of the dimensions, following the imageStack_parameters convention; G denotes the gene dimension.",
+            "constraints": {}
+        },
+        {
+            "name": "dimension_labels",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "height,width,gene",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "The labels of each dimension as a comma-separated list, in dimension_order.",
+            "constraints": {}
+        },
+        {
+            "name": "dimension_size",
+            "type": "matrix",
+            "blank_value": [],
+            "default_value": [],
+            "mustBeNonEmpty": false,
+            "mustBeScalar": false,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "The length of each dimension in dimension_order for the whole level, not per tile.",
+            "constraints": {}
+        },
+        {
+            "name": "dimension_scale",
+            "type": "matrix",
+            "blank_value": [],
+            "default_value": [],
+            "mustBeNonEmpty": false,
+            "mustBeScalar": false,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "The scale of each dimension in dimension_order, in dimension_scale_units.",
+            "constraints": {}
+        },
+        {
+            "name": "dimension_scale_units",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "micrometer,micrometer,dimensionless",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "The units of each dimension as a comma-separated list, in dimension_order.",
+            "constraints": {}
+        },
+        {
+            "name": "tile_size_x_bins",
+            "type": "integer",
+            "blank_value": 0.0,
+            "default_value": 0.0,
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "The width of one tile in pixels of THIS level. Edge tiles may be partially filled.",
+            "constraints": {}
+        },
+        {
+            "name": "tile_size_y_bins",
+            "type": "integer",
+            "blank_value": 0.0,
+            "default_value": 0.0,
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "The height of one tile in pixels of THIS level.",
+            "constraints": {}
+        },
+        {
+            "name": "n_tiles_stored",
+            "type": "integer",
+            "blank_value": 0.0,
+            "default_value": 0.0,
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "The number of tile files written. May be less than tile_rows*tile_columns because empty tiles are omitted.",
+            "constraints": {}
+        },
+        {
+            "name": "data_type_gene_index",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "uint32",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Integer type of the gene_index array.",
+            "constraints": {}
+        },
+        {
+            "name": "data_type_count",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "uint16",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Integer type of the count array.",
+            "constraints": {}
+        },
+        {
+            "name": "data_type_offset",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "uint32",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Integer type of the offset (row pointer) array.",
+            "constraints": {}
+        },
+        {
+            "name": "data_type_coordinate",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "uint16",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Integer type of the tile-local x and y coordinate arrays.",
+            "constraints": {}
+        },
+        {
+            "name": "tile_compression",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "none",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Compression applied to each tile file as a whole: 'none' or 'gzip'.",
+            "constraints": {}
+        },
+        {
+            "name": "tile_format_version",
+            "type": "integer",
+            "blank_value": 0.0,
+            "default_value": 1,
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "The version of the tile binary layout.",
+            "constraints": {}
+        },
+        {
+            "name": "tile_index_origin",
+            "type": "integer",
+            "blank_value": 0.0,
+            "default_value": 1,
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "The suffix of the file holding tile N is N plus this. A DID file series is ONE-BASED.",
+            "constraints": {}
+        }
+    ]
+}
