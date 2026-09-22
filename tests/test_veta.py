@@ -2817,9 +2817,13 @@ def test_the_rf_family_is_superclass_only_so_repointing_it_would_strand_hartley(
     ledger = _load(os.path.join(REPO_ROOT, "schemas", "V_eta_coverage_ledger.json"))
     rows = ledger["rows"]
     # DENOMINATOR FIRST. An empty ledger would make every "not a source" claim
-    # below trivially true.
-    assert len(rows) == 102, (
-        f'the v1 source universe is 102 classes (91 NDI templates + 11 vhlab app classes); read {len(rows)}')
+    # below trivially true. Was 102 until 2026-09; NDI-matlab origin/main gained
+    # 10 new templates (cellTypeLabels, demoNDISeries, demoNDISeriesMixed,
+    # fileReference, geneExpression, geneList, geneListMapping,
+    # spatialGeneExpressionCells/Pyramid/Tiles) and #67 added the `calculator`
+    # v1 name-collision, so the join carries 113 rows now.
+    assert len(rows) == 113, (
+        f'the v1 source universe is 113 classes (102 NDI templates + 11 vhlab app classes); read {len(rows)}')
     v1 = {r["v1_class"] for r in rows}
 
     for name in ("reverse_correlation", "hartley_reverse_correlation"):

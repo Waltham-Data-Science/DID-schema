@@ -5,12 +5,12 @@
     "ndi_classes": 102,
     "v_alpha_classes_compared": 80,
     "v_alpha_divergences": 67,
-    "migrator_suspects": 0,
-    "migrator_suspects_confirmed_vocabulary": 0,
+    "migrator_suspects": 16,
+    "migrator_suspects_confirmed_vocabulary": 14,
     "writer_divergences": 3,
     "writer_dependencies_no_template": 0,
     "writer_dependency_scan": {
-      "m_files_scanned": 1177,
+      "m_files_scanned": 1179,
       "dependency_call_sites": 156,
       "distinct_dependencies_written": [
         "cells_document_id",
@@ -1518,7 +1518,270 @@
       }
     }
   ],
-  "migrator_reads": [],
+  "migrator_reads": [
+    {
+      "migrator": "binnedspikeratevm.m",
+      "ndi_class": "binnedspikeratevm",
+      "confidence": "confirmed-vocabulary",
+      "reads_names_absent_from_template": [
+        "bin_size",
+        "num_bins"
+      ],
+      "mentions_names_absent_from_template": [],
+      "template_fields": [
+        "exactbintime",
+        "firingrate_observations",
+        "parameters",
+        "stimids",
+        "timepoints",
+        "voltage_observations"
+      ]
+    },
+    {
+      "migrator": "electrode_offset_voltage.m",
+      "ndi_class": "electrode_offset_voltage",
+      "confidence": "confirmed-vocabulary",
+      "reads_names_absent_from_template": [
+        "offset_voltages",
+        "voltage_units"
+      ],
+      "mentions_names_absent_from_template": [],
+      "template_fields": [
+        "offset",
+        "temperature"
+      ]
+    },
+    {
+      "migrator": "measurement.m",
+      "ndi_class": "measurement",
+      "confidence": "confirmed-vocabulary",
+      "reads_names_absent_from_template": [
+        "measurement_class",
+        "parameters"
+      ],
+      "mentions_names_absent_from_template": [],
+      "template_fields": [
+        "name",
+        "numeric_value",
+        "ontology_name",
+        "string_value"
+      ]
+    },
+    {
+      "migrator": "neuron_extracellular.m",
+      "ndi_class": "neuron_extracellular",
+      "confidence": "possible",
+      "reads_names_absent_from_template": [],
+      "mentions_names_absent_from_template": [
+        "quality"
+      ],
+      "template_fields": [
+        "cluster_index",
+        "mean_waveform",
+        "number_of_channels",
+        "number_of_samples_per_channel",
+        "quality_label",
+        "quality_number",
+        "waveform_sample_times"
+      ]
+    },
+    {
+      "migrator": "ontology_image.m",
+      "ndi_class": "ontologyImage",
+      "confidence": "confirmed-vocabulary",
+      "reads_names_absent_from_template": [
+        "ontology_name",
+        "ontology_region"
+      ],
+      "mentions_names_absent_from_template": [],
+      "template_fields": [
+        "ontology_node"
+      ]
+    },
+    {
+      "migrator": "ontology_label.m",
+      "ndi_class": "ontologyLabel",
+      "confidence": "confirmed-vocabulary",
+      "reads_names_absent_from_template": [
+        "label",
+        "label_id",
+        "ontology_name"
+      ],
+      "mentions_names_absent_from_template": [],
+      "template_fields": [
+        "ontology_node"
+      ]
+    },
+    {
+      "migrator": "probe_geometry.m",
+      "ndi_class": "probe_geometry",
+      "confidence": "confirmed-vocabulary",
+      "reads_names_absent_from_template": [
+        "channel_positions",
+        "position_units",
+        "probe_type"
+      ],
+      "mentions_names_absent_from_template": [],
+      "template_fields": [
+        "contact_shape",
+        "contact_shape_height",
+        "contact_shape_radius",
+        "contact_shape_width",
+        "contour_x",
+        "contour_y",
+        "has_planar_contour",
+        "manufacturer",
+        "ndim",
+        "probe_model",
+        "shank_id",
+        "site_locations_depth",
+        "site_locations_frontback",
+        "site_locations_leftright",
+        "unit"
+      ]
+    },
+    {
+      "migrator": "simple_calc.m",
+      "ndi_class": "simple_calc",
+      "confidence": "confirmed-vocabulary",
+      "reads_names_absent_from_template": [
+        "result_units",
+        "result_value"
+      ],
+      "mentions_names_absent_from_template": [],
+      "template_fields": [
+        "answer",
+        "input_parameters"
+      ]
+    },
+    {
+      "migrator": "site2channelmap.m",
+      "ndi_class": "site2channelmap",
+      "confidence": "confirmed-vocabulary",
+      "reads_names_absent_from_template": [
+        "num_sites",
+        "site_to_channel"
+      ],
+      "mentions_names_absent_from_template": [],
+      "template_fields": [
+        "map"
+      ]
+    },
+    {
+      "migrator": "spike_clusters.m",
+      "ndi_class": "spike_clusters",
+      "confidence": "confirmed-vocabulary",
+      "reads_names_absent_from_template": [
+        "num_clusters",
+        "num_spikes"
+      ],
+      "mentions_names_absent_from_template": [],
+      "template_fields": [
+        "clusterinfo",
+        "epoch_info",
+        "waveform_sample_times"
+      ]
+    },
+    {
+      "migrator": "spike_interface_sorting_outputs.m",
+      "ndi_class": "SpikeInterfaceSortingOutputs",
+      "confidence": "confirmed-vocabulary",
+      "reads_names_absent_from_template": [
+        "num_units",
+        "sorter_parameters"
+      ],
+      "mentions_names_absent_from_template": [],
+      "template_fields": [
+        "sample_rate",
+        "sorter_name",
+        "unit"
+      ]
+    },
+    {
+      "migrator": "spikewaves.m",
+      "ndi_class": "spikewaves",
+      "confidence": "confirmed-vocabulary",
+      "reads_names_absent_from_template": [
+        "num_spikes",
+        "sample_rate",
+        "samples_per_spike"
+      ],
+      "mentions_names_absent_from_template": [],
+      "template_fields": [
+        "extraction_name"
+      ]
+    },
+    {
+      "migrator": "subject_group.m",
+      "ndi_class": "subject_group",
+      "confidence": "confirmed-vocabulary",
+      "reads_names_absent_from_template": [
+        "description",
+        "group_name"
+      ],
+      "mentions_names_absent_from_template": [],
+      "template_fields": []
+    },
+    {
+      "migrator": "treatment_drug.m",
+      "ndi_class": "treatment_drug",
+      "confidence": "possible",
+      "reads_names_absent_from_template": [],
+      "mentions_names_absent_from_template": [
+        "dose"
+      ],
+      "template_fields": [
+        "administration_duration",
+        "administration_offset_time",
+        "administration_onset_time",
+        "location_name",
+        "location_ontology_node",
+        "mixture_table"
+      ]
+    },
+    {
+      "migrator": "vmneuralresponseresiduals.m",
+      "ndi_class": "vmneuralresponseresiduals",
+      "confidence": "confirmed-vocabulary",
+      "reads_names_absent_from_template": [
+        "mean_residual"
+      ],
+      "mentions_names_absent_from_template": [],
+      "template_fields": [
+        "column_labels",
+        "element_epochid",
+        "goodness_of_fit",
+        "parameters",
+        "residual_power",
+        "total_power"
+      ]
+    },
+    {
+      "migrator": "vmspikesummary.m",
+      "ndi_class": "vmspikesummary",
+      "confidence": "confirmed-vocabulary",
+      "reads_names_absent_from_template": [
+        "mean_firing_rate",
+        "mean_vm",
+        "num_spikes",
+        "recording_duration"
+      ],
+      "mentions_names_absent_from_template": [],
+      "template_fields": [
+        "mean_spikewave",
+        "median_fullwidthhalfmaximum",
+        "median_kink_index",
+        "median_max_dvdt",
+        "median_postsk_halfwidthmaximum",
+        "median_presk_halfwidthmaximum",
+        "median_spikekink_vm",
+        "median_voltageofhalfmaximum",
+        "number_of_spikes",
+        "sample_times",
+        "slope_criterion"
+      ]
+    }
+  ],
   "classes": {
     "animalsubject": {
       "fields": [

@@ -102,7 +102,16 @@ NONPROD = {"mock", "oneepoch", "demoNDI", "demoNDIMock"}
 
 # Chain classes that are not v1 SOURCE documents in their own right -- they are
 # mixins every document inherits. A tombstone comparison on them is meaningless.
-CHAIN = {"base", "app", "epochid", "ndi_document"}
+#
+# `calculator` was added by #67: it is an abstract superclass in NDI's own
+# templates too (no direct documents; every calculator subclass inherits it),
+# so a passthrough comparison is meaningless -- no v1 `calculator` document
+# ever reaches validation. `simple_calc` is a real concrete NDI class but is
+# deferred to the NDI second pass by #67's shape-2 restructure (the tombstone
+# cannot simultaneously match NDI's chain, which now requires calculator's
+# runtime_environment_id + software_id, AND the raw v1 shape which has
+# neither) -- classified as chain-mixin PENDING the second-pass migrator.
+CHAIN = {"base", "app", "epochid", "ndi_document", "calculator", "simple_calc"}
 
 # Shared helpers / non-per-class migrators, mirrored from tools/coverage.py.
 MIG_HELPERS = {

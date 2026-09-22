@@ -340,8 +340,8 @@ queue for schema.
 
 - **stranded sources** (2 class(es)): 2 `generic_file`, `imageCollection` -- has a ledger row whose `decided_targets` is EMPTY -- the gap the ledger now flags by name
 - **time_reference** (4 class(es)): 4 `epoch_bounded_reference`, `session_bounded_reference`, `session_relative_reference`, `time_reference` -- a V_eta target class, so the coverage ledger has no row for it (it is not a v1 source)
-- **receptive field fold** (1 class(es)): 1 `hartley_calc` -- a V_eta target class, so the coverage ledger has no row for it (it is not a v1 source)
-- **confirm sheet 2026-08-17** (5 class(es)): 4 `jrclust_clusters`, `probe_location`, `treatment`, `tuningcurve_calc` -- has a ledger row whose `decided_targets` is EMPTY -- the gap the ledger now flags by name; 1 `oridirtuning_calc` -- a V_eta target class, so the coverage ledger has no row for it (it is not a v1 source)
+- **receptive field fold** (1 class(es)): 1 `hartley_calc` -- has a ledger row whose `decided_targets` is EMPTY -- the gap the ledger now flags by name
+- **confirm sheet 2026-08-17** (5 class(es)): 5 `jrclust_clusters`, `oridirtuning_calc`, `probe_location`, `treatment`, `tuningcurve_calc` -- has a ledger row whose `decided_targets` is EMPTY -- the gap the ledger now flags by name
 - **image / ngrid** (2 class(es)): 2 `imageStack_parameters`, `ngrid` -- has a ledger row whose `decided_targets` is EMPTY -- the gap the ledger now flags by name
 - **openMINDS** (1 class(es)): 1 `openminds` -- has a ledger row whose `decided_targets` is EMPTY -- the gap the ledger now flags by name
 - **stimulus parameters** (2 class(es)): 1 `stimulus_parameter` -- has a ledger row whose `decided_targets` is EMPTY -- the gap the ledger now flags by name; 1 `stimulus_parameter_table` -- its only decided target is ITSELF, a signed passthrough, which is stripped because it is not build evidence
@@ -446,11 +446,11 @@ visible either.
 
 | disposition | count |
 |---|---|
-| retire | 47 |
+| retire | 48 |
 | in_progress | 19 |
-| no V_eta home, no migrator -- UNVERIFIED | 16 |
+| consumed by migrator (no tombstone) | 19 |
+| persist | 14 |
 | UNMAPPED (needs a V_eta home) | 10 |
-| persist | 7 |
 | test/demo fixture (non-production) | 2 |
 | dissolved → subject | 1 |
 
@@ -481,25 +481,6 @@ DENOMINATOR: 2 row(s), each searched for its BARE CLASS NAME as a quoted literal
 
 - `generic_file` -- **NOT untouched**: consumed by `foldGenericFiles.m`
 - `imageCollection` -- no per-class migrator and no batch post-pass names it; passes through today
-
-**UNVERIFIED** -- no V_eta home, no migrator, fate never established. These strand today:
-
-- `daqreader_mfdaq_epochdata_ingested`
-- `daqreader_ndr`
-- `dataset_remote`
-- `dataset_session_info`
-- `demoNDIMock`
-- `element_epoch`
-- `epochclocktimes`
-- `metadata_editor`
-- `session_in_a_dataset`
-- `stimulus_bath`
-- `stimulus_tuningcurve`
-- `subject_group`
-- `treatment`
-- `treatment_drug`
-- `treatment_transfer`
-- `virus_injection`
 
 ## Families naming classes that are no longer open
 

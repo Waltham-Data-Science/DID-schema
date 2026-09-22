@@ -74,10 +74,14 @@ import coverage  # noqa: E402
 LEDGER_JSON = os.path.join(REPO_ROOT, "schemas", "V_eta_coverage_ledger.json")
 LEDGER_MD = os.path.join(REPO_ROOT, "schemas", "V_eta_coverage_ledger.md")
 
-# PINNED, DELIBERATELY. The v1 source universe is 102 (NOT 87, NOT 91) and a
-# classifier whose denominator quietly shrinks is the failure every operating
+# PINNED, DELIBERATELY. The v1 source universe is 113 (was 102 until 2026-08;
+# NDI-matlab origin/main gained 10 templates -- cellTypeLabels, demoNDISeries,
+# demoNDISeriesMixed, fileReference, geneExpression, geneList, geneListMapping,
+# spatialGeneExpressionCells/Pyramid/Tiles -- and #67 added `calculator` as a
+# V_eta class whose NDI v1 name matches, so it enters the ledger by the join).
+# A classifier whose denominator quietly shrinks is the failure every operating
 # rule in CLAUDE.md is written against.
-V1_UNIVERSE = 102
+V1_UNIVERSE = 113
 
 # The completion rungs, written out here rather than imported so a change to
 # coverage.py's tuple is a test failure and not a silent redefinition. A FIFTH
@@ -637,10 +641,26 @@ class TestTheCommittedLedger(unittest.TestCase):
         # `local_identifier` (required, matching `subject` and `epoch`) and the
         # three V_zeta inventions `type`/`date`/`purpose` are deleted -- so
         # `+migrators_j/session.m` now exists and rung 1 reads `yes`.
+        # WAS FIVE UNTIL 2026-09 AND IS NOW SIXTEEN: eleven joined at once and
+        # every one names something real. TEN are new NDI templates -- the
+        # gene-expression family (`cellTypeLabels`, `geneList`, `geneListMapping`,
+        # `geneExpression`, `spatialGeneExpressionCells`/`Pyramid`/`Tiles`),
+        # the demo-series pair (`demoNDISeries`, `demoNDISeriesMixed`) and
+        # `fileReference`, none of which existed when the pinned list was five;
+        # they need V_eta homes / migrators like any other v1 source. The
+        # eleventh is `calculator`: #67 promoted `calculator` from a V_eta
+        # helper into a standalone class, and V_eta's `calculator` matches the
+        # v1 NDI template of the same name, so the ledger's join pulls the
+        # template in as a source that has no migrator yet (id-preserved
+        # passthrough is the intended shape; that migrator has to be authored).
         cap = _ledger()["summary"]["stage_rollup"]["capped"]
         self.assertEqual(cap["genuinely_untouched_rows"], [
-            "animalsubject", "base", "imageCollection",
-            "imageStack_parameters", "mock"])
+            "animalsubject", "base", "calculator", "cellTypeLabels",
+            "demoNDISeries", "demoNDISeriesMixed", "fileReference",
+            "geneExpression", "geneList", "geneListMapping",
+            "imageCollection", "imageStack_parameters", "mock",
+            "spatialGeneExpressionCells", "spatialGeneExpressionPyramid",
+            "spatialGeneExpressionTiles"])
 
     def test_a_signed_dissolution_is_not_counted_as_untouched(self):
         # The rows that separate "nothing built" from "nothing known".
@@ -1115,17 +1135,21 @@ class TestMutationsRedden(unittest.TestCase):
         rows = _with_governance(
             _reclassify(copy.deepcopy(_rows()), coverage.CORPUS_SCAN))
         rollup = coverage._stage_rollup(rows, None)
-        self.assertEqual(rollup["capped"]["genuinely_untouched"], 5,
-                         "precondition: five rows have nothing built and "
+        self.assertEqual(rollup["capped"]["genuinely_untouched"], 16,
+                         "precondition: sixteen rows have nothing built and "
                          "nothing excused. Nine until `generic_file` was "
                          "credited to did2.convert.foldGenericFiles (OPEN_WORK "
                          "row 107); eight until the demo collapse's migrator "
                          "half was built on 2026-08-12, which took `demoNDI` "
                          "and `demoNDIMock` out; six until `session` gained a "
                          "migrator on 2026-08-13 for the signed `reference` -> "
-                         "`local_identifier` rename. Each drop has a different "
-                         "cause -- one instrument, two builds -- and the "
-                         "distinction is the point of this bucket")
+                         "`local_identifier` rename; five until 2026-09, when "
+                         "eleven new v1 sources joined at once -- ten new NDI "
+                         "templates (the gene-expression family + demoNDISeries "
+                         "pair + fileReference) and the `calculator` join "
+                         "introduced by #67's standalone `calculator` class. "
+                         "Each drop has a different cause; the distinction is "
+                         "the point of this bucket")
         damaged = copy.deepcopy(rollup)
         damaged["capped"]["genuinely_untouched"] = 0
         with self.assertRaises(AssertionError):
