@@ -792,3 +792,30 @@ signature belongs with the built fold.
 TEAM-SIGN-OFF [orientation_direction_tuning.json location]:
 Steve Van Hooser 2026-09-22 -- STAYS ON NDI-matlab post-retirement of
 ndi.app.oridirtuning (VH-Lab/NDI-matlab#1001). Resolves #67 sub-question.
+
+TEAM-SIGN-OFF [spatial_transcriptomics_family]: Steve Van Hooser 2026-09-22 --
+Corrected Option C for the spatial-transcriptomics family from
+Waltham-Data-Science/DID-schema#70. Structural: `spatialGeneExpressionPyramid`
+becomes ⊂ [geneExpression, subject_observation] (was ⊂ [base, geneExpression]),
+picking up variable/method_parameters/sample_time/time_reference_# from the
+subject_observation direction; the existing subject_id required-ness moves from
+the class's own declaration to the inherited slot. `geneExpression` STAYS a
+⊂ base shape mixin (assay/count_type/count_units) -- semantically a shape, not
+an observation; the observation-ness lives on the concrete pyramid class that
+binds it to a subject. The other five classes in #70 PERSIST as ⊂ base:
+`spatialGeneExpressionCells` (data-of-record for pyramid observation, subject_id
+required), `spatialGeneExpressionTiles` (same, subject_id optional because the
+pyramid dep carries it), `cellTypeLabels` (labeling attached to a cells doc, not
+directly to a subject; is_unsupervised flag load-bearing), `geneListMapping`
+(between-entity relation with structure -- alias vs ortholog matters, not a
+bare directed_relation), `fileReference` (DELIBERATELY NOT folded to
+generic_file; the two coexist by design per the class's own .md doc --
+generic_file holds bytes, fileReference records identity of an external file).
+Also outside #70's 6 but confirmed here: `geneList` STAYS ⊂ base reference table.
+Follow-ons deferred, not signed as part of this: `axes[]`/`format`/`compression`
+migration for Cells/Tiles when 2.D data_body ships; T8 bindings for
+contour_reference/segmentation_method/mapping_type/checksumAlgorithm/
+formatOntology/origin_corner; a bound `variable` term for the pyramid
+observation (needs to exist in NDIC or the registry before the reshape validates
+end-to-end). Full reasoning in #70.
+
