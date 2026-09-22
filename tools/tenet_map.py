@@ -208,14 +208,17 @@ TENET_MAP = [
         "rather than per-dataset."),
     Row("T10",
         "Every tuning calculator output folds 1->1 into ONE calculation leaf "
-        "with `base.id` and `depends_on` preserved -- never dissolved into "
-        "observations, because dissolution dangles every downstream reference.",
-        ["oridirtuning_calc", "contrast_tuning_calc",
+        "under `tuning_curve_calculation`, base.id + depends_on preserved -- "
+        "never dissolved into observations, because dissolution dangles every "
+        "downstream reference. #67 (TEAM-SIGN-OFF 2026-09-21): the leaves are "
+        "per-calculator (1:1 restored per Lepsky et al. Fig. 2F), pairing the "
+        "abstract leaf with a marker composite.",
+        ["oridirtuning_calc", "contrasttuning_calc",
          "spatial_frequency_tuning_calc", "temporal_frequency_tuning_calc",
-         "speed_tuning_calc", "tuningcurve_calc"],
+         "speedtuning_calc", "tuningcurve_calc"],
         ["tuning_curve_calculation", "subject_calculation"],
         "V_eta_tuning_model_plan.md",
-        "ONE `tuning_curve_calculation` leaf** (id-preserving 1→1 fold)",
+        "REVERSE R2/R3's LEAF COLLAPSE",
         "The 11,448-orphan run is what this tenet is made of: id preservation "
         "plus existence-only `must_refer` is why the calculators un-defer with "
         "0 orphans."),

@@ -816,6 +816,69 @@ so.setdefault("depends_on", []).append(DERIVED_FROM)
 # absent-is-valid on every observation that is not probemap-decomposed.
 write("stable", "subject_observation", so)
 
+# ---- #67 TEAM-SIGN-OFF 2026-09-21: `calculator` restructured, `runtime_environment` new ---
+# `calculator` becomes a STANDALONE abstract document class (not ⊂
+# subject_calculation, not ⊂ app), carrying the required-per-run provenance edges
+# every calculator output must resolve. Drops v1's `input_parameters` field
+# (`method_parameters` on subject_interaction is the successor). Docstring update:
+# v1's `app.app_name` reference is obsolete (calculators no longer inherit from
+# `app`).
+#
+# `software_id` and `runtime_environment_id` are REQUIRED (min_count 1 each):
+# per issue #67 §② "Shape 2 -- no software_run join entity. Concrete calc doc
+# carries software_id + runtime_environment_id as separate edges. ndi.calculator
+# ⊂ ndi.app, so calculators populate runtime info by construction; required
+# edges always resolve." These are single (non-numbered) required edges, so
+# `mustBeNonEmpty: true` is the enforceable form; `min_count: 1` is recorded
+# alongside per issue #67's own text (numbered-family cardinality vocabulary
+# extended to single required deps as an intent marker).
+_CALCULATOR_SOFTWARE_ID = dep(
+    "software_id", "software",
+    "The software that produced this document, as a `software` entity (name + "
+    "version + citation id). REQUIRED on every calculator output (issue #67 §②, "
+    "Shape 2): a calculator without a named producer cannot be re-run. Supersedes "
+    "the v1 `app` mixin; distinct from `instrument_id` (a measuring device) and "
+    "from `derived_from` (the input data).")
+_CALCULATOR_SOFTWARE_ID["min_count"] = 1
+_CALCULATOR_RUNTIME_ID = dep(
+    "runtime_environment_id", "runtime_environment",
+    "The per-run environment (os / os_version / interpreter / interpreter_version) "
+    "the producing run used, as a `runtime_environment` entity. REQUIRED on every "
+    "calculator output (issue #67 §②, Shape 2 -- no `software_run` join). Distinct "
+    "from the software's SUPPORTED os (openMINDS SoftwareVersion.operatingSystem) "
+    "and from the `software` entity's own identity.")
+_CALCULATOR_RUNTIME_ID["min_count"] = 1
+write("stable", "calculator",
+      doc("calculator", ["base"], abstract=True, version="2.0.0",
+          deps=[_CALCULATOR_SOFTWARE_ID, _CALCULATOR_RUNTIME_ID]))
+# `runtime_environment`: NEW entity (issue #67 §②, Shape 2 -- no `software_run`
+# join). One `runtime_environment` doc per distinct execution environment; each
+# calculator output references it via `runtime_environment_id`. Field set matches
+# the v1 `app`'s per-run subfields (os / os_version / interpreter /
+# interpreter_version) so migration is a straight lift into a citable entity.
+write("stable", "runtime_environment",
+      doc("runtime_environment", ["entity"],
+          fields=[
+              field("os", "char",
+                    "Operating system the producing run executed on "
+                    "(e.g., 'Linux', 'macOS', 'Windows').",
+                    ontology={"node": "schema:operatingSystem",
+                              "name": "operatingSystem"}),
+              field("os_version", "char",
+                    "Operating-system version.",
+                    ontology={"node": "schema:softwareVersion",
+                              "name": "softwareVersion"}),
+              field("interpreter", "char",
+                    "Language/interpreter the run used (e.g., 'MATLAB', "
+                    "'python3').",
+                    ontology={"node": "schema:runtimePlatform",
+                              "name": "runtimePlatform"}),
+              field("interpreter_version", "char",
+                    "Interpreter version.",
+                    ontology={"node": "schema:softwareVersion",
+                              "name": "softwareVersion"}),
+          ]))
+
 # subject_calculation: the COMPUTED statement direction (Lepsky et al., the
 # calculator-motif paper). A calculator produces ONE output document type; in V_eta
 # that output is a subject_calculation LEAF pairing this direction with a result
@@ -830,9 +893,15 @@ write("stable", "subject_observation", so)
 # Distinct direction, NOT an observation: the measured stimulus_response is the
 # observation, a tuning curve / fit is a calculation (paper §3.2-3.3). Experimental
 # conditions (the tuning axis + covariates) ride on the inherited subject_statement.conditions.
+# #67 TEAM-SIGN-OFF 2026-09-21: multi-inherit from `calculator` too. `calculator`
+# is a STANDALONE abstract carrying required software_id + runtime_environment_id
+# edges (below) -- the run-provenance side of every calculator-produced document.
+# Multi-inheritance keeps subject_calculation's semantics (the COMPUTED statement
+# direction) AND picks up calculator's required provenance edges structurally,
+# so every ④ calc leaf inherits both without redeclaring.
 write("stable", "subject_calculation",
-      doc("subject_calculation", ["subject_interaction"], abstract=True,
-          deps=[DERIVED_FROM]))
+      doc("subject_calculation", ["subject_interaction", "calculator"],
+          abstract=True, deps=[DERIVED_FROM]))
 
 
 # ---------- 4. subject_assertion genus + leaves ----------
@@ -2707,73 +2776,191 @@ write("stable", "visual_grating",
           "value", "structure",
           "A presented visual grating (static or drifting) and its "
           "presentation parameters.", non_empty=True, blank={}, sub_fields=GRATING_SUBS)]))
-# ---------- tuning collapse (R2/R3): the 6 old composites are CONSUMED ----------
-# The 5 tuning "result" classes + the raw `stimulus_tuningcurve` no longer become their
-# own composites/leaves -- they COLLAPSE to the one `tuning_curve` + `tuning_curve_calculation`
-# (added below, V_eta_tuning_model_plan.md). Each is now a CONSUMED source: the tuning
-# migrators (migrators_j, retargeted) reshape its v1 block into the `tuning_curve` value and
-# fold it 1->1 (id-preserved) into `tuning_curve_calculation`. So delete the copytree'd
-# source composites here (their docs migrate; downstream refs resolve to the preserved id).
-for _old in ("orientation_direction_tuning", "contrast_tuning",
-             "spatial_frequency_tuning", "temporal_frequency_tuning",
-             "speed_tuning", "stimulus_tuningcurve"):
-    _op = os.path.join(VETA, "stable", _old + ".json")
-    if os.path.exists(_op):
-        os.remove(_op)
+# ---------- tuning restructure (#67, TEAM-SIGN-OFF 2026-09-21): 1:1 calc leaves ----
+# Reverses R2/R3's LEAF collapse and preserves the R2 SHAPE collapse
+# (V_eta_tuning_model_plan.md, TEAM-SIGN-OFF 2026-09-21; Lepsky et al. 2026 §3.2 /
+# Fig. 2F / Fig. 4 / Fig. 5Bii; issue #67). ONE `tuning_curve` composite carries
+# the raw curve; five thin marker composites ⊂ tuning_curve preserve the v1 result
+# class names (which appear verbatim in 3+ published papers); abstract
+# `tuning_curve_calculation` ⊂ subject_calculation carries the calc-produced
+# significance + model_fit[]; six concrete calc leaves pair the abstract leaf
+# with a marker composite so each calculator emits ONE document type (paper §3.2).
+# `stimulus_tuningcurve` still folds to `tuning_curve` (v1 raw case → composite).
+_op = os.path.join(VETA, "stable", "stimulus_tuningcurve.json")
+if os.path.exists(_op):
+    os.remove(_op)
 
-# ---------- tuning_curve: the R2/R3 collapse TARGET (re-audit) ----------------------
-# V_eta_tuning_model_plan.md: the 6 overlapping tuning composites collapse to ONE
-# `tuning_curve` data_type (independent variable rides `subject_statement.variable`, T11)
-# + an ARRAY of `model_fit` entries {model (T8 term), coefficients, goodness} + TYPED,
-# queryable metric sub-blocks (significance / circular_statistics / interpolated_values --
-# NOT a {name,value} bag, T13) + ONE `tuning_curve_calculation` leaf. Added ADDITIVELY
-# alongside the shipped per-tuning composites; the calculator RE-TARGET (migrators_j
-# jCalculation → this leaf) + removal of the 6 old composites is the coupled DID-matlab
-# + corpus step (0-orphan re-verify). Abstract data_type composite so _disposition
-# persists it structurally (the "tuning" stem would otherwise hit the retire heuristic).
+# ---------- tuning_curve: raw curve composite (#67 SHAPE COLLAPSE) ----------------
+# Field split (issue #67): the raw curve data lives on the composite --
+# independent_variables[] (departs from data_body's `axes[]` naming per team
+# choice; 1..N cardinality, typical 1, speed_tuning typical 2), mean/stddev/stderr
+# (N-D tensors sized by independent_variables[]), individual (+ trial axis),
+# raw_individual (OPTIONAL, pre-control-subtraction), control{mean,stddev,stderr,
+# individual} nested, response_units, response_type, coordinates. The calc-produced
+# metadata (significance ANOVA p-values, model_fit[]) lives on the LEAF, not here:
+# `tuning_curve` describes the curve shape a v1 stimulus_tuningcurve carried and is
+# broader than a calculator's output (anyone can carry a tuning curve without a
+# calculator; `_calculation` suffix is reserved for calculator outputs).
+_TUNING_CURVE_IV_SUBS = [
+    subfield("variable", "ontology_term",
+             "What varies along this independent-variable dimension "
+             "(direction, contrast, spatial_frequency, ...). T11: role in "
+             "`variable`, not in the class name.", non_empty=True),
+    subfield("values", "matrix",
+             "The samples along this independent variable.", scalar=False),
+    subfield("unit", "ontology_term",
+             "Canonical unit of `values` (radians for angles per SI convention; "
+             "absent for a categorical variable)."),
+]
+_TUNING_CURVE_CONTROL_SUBS = [
+    subfield("mean", "matrix",
+             "Mean response to the control/blank stimulus.", scalar=False),
+    subfield("stddev", "matrix",
+             "Standard deviation of the control response.", scalar=False),
+    subfield("stderr", "matrix",
+             "Standard error of the mean of the control response.", scalar=False),
+    subfield("individual", "matrix",
+             "Per-trial individual control response values.", scalar=False),
+]
+_TUNING_CURVE_SUBS = [
+    subfield("independent_variables", "structure",
+             "ARRAY (1..N; typical 1; speed_tuning typical 2) of the "
+             "independent-variable axes the response is tabulated over. Each "
+             "entry carries its {variable, values, unit, ...}. Named "
+             "`independent_variables` rather than `axes` per issue #67's "
+             "team choice -- reads better in tuning-curve context. Multi-D "
+             "tuning (e.g. speed = {temporal_frequency, spatial_frequency}) "
+             "is first-class via cardinality, not a sibling class.",
+             scalar=False, non_empty=True, sub_fields=_TUNING_CURVE_IV_SUBS),
+    subfield("mean", "matrix",
+             "Per-sample mean response. N-D tensor sized by "
+             "independent_variables[].", scalar=False),
+    subfield("stddev", "matrix",
+             "Per-sample response standard deviation. N-D tensor sized by "
+             "independent_variables[].", scalar=False),
+    subfield("stderr", "matrix",
+             "Per-sample response standard error of the mean. N-D tensor "
+             "sized by independent_variables[].", scalar=False),
+    subfield("individual", "matrix",
+             "Per-trial individual response values (independent_variables[] "
+             "axes + a trial axis). Responses may be normalized or "
+             "control-subtracted.", scalar=False),
+    subfield("raw_individual", "matrix",
+             "OPTIONAL: unprocessed per-trial responses BEFORE control "
+             "subtraction or normalization. Paper Fig. 4 shows this on "
+             "oridir; any curve reporter may include it.", scalar=False),
+    subfield("control", "structure",
+             "The control/blank response block (nested for symmetry with "
+             "the response statistics; avoids parallel `control_*` prefixed "
+             "fields).",
+             non_empty=False, sub_fields=_TUNING_CURVE_CONTROL_SUBS),
+    subfield("response_units", "char",
+             "Units of the response values (e.g., 'spikes/s', 'dF/F')."),
+    subfield("response_type", "char",
+             "Reduction applied to each stimulus presentation to yield a "
+             "per-trial response (e.g., 'mean', 'peak', 'F1')."),
+    subfield("coordinates", "char",
+             "The coordinate basis for angle-valued independent variables "
+             "(e.g., 'compass', 'cartesian'). Absent for non-angular curves."),
+]
+write("stable", "tuning_curve",
+      doc("tuning_curve", ["data_type"], abstract=True,
+          fields=[field("value", "structure",
+                        "A response-vs-independent-variable(s) tuning curve: "
+                        "self-describing raw curve data. The v1 "
+                        "`stimulus_tuningcurve` and per-family result classes "
+                        "(orientation_direction_tuning, contrast_tuning, ...) "
+                        "carried this SHAPE; the shape is collapsed to ONE "
+                        "composite and the per-family class names survive as "
+                        "thin marker subclasses (Lepsky et al. 2026 Fig. 4; "
+                        "class names appear verbatim in 3+ published papers). "
+                        "Calc-produced metadata (ANOVA p-values, fits) lives "
+                        "on `tuning_curve_calculation`, not here.",
+                        non_empty=True, blank={},
+                        sub_fields=_TUNING_CURVE_SUBS)]))
+
+# ---- five thin marker composites (⊂ tuning_curve; NO new fields) -----------------
+# Issue #67 category ③. Each preserves a v1 class name that appears verbatim in
+# published papers (Reikersdorfer 2021, Griswold & Gazelle 2025, Casanova 2025).
+# The marker adds NO fields -- the shape is entirely inherited from tuning_curve;
+# it exists to (a) preserve the v1 class name as the pipeline hook (Fig. 5Bii)
+# and (b) let a concrete calc pair `tuning_curve_calculation` with the specific
+# tuning family for Fig 4's class-named property blocks. write() overwrites the
+# copytree'd V_zeta shape (large thick classes carrying all fields inline).
+for _marker in ("orientation_direction_tuning", "contrast_tuning",
+                "spatial_frequency_tuning", "temporal_frequency_tuning",
+                "speed_tuning"):
+    write("stable", _marker,
+          doc(_marker, ["tuning_curve"], abstract=True))
+
+# ---- tuning_curve_calculation: abstract leaf carrying calc-produced metadata ----
+# Issue #67 category ④. ⊂ subject_calculation ONLY (not paired with a composite
+# at this level -- the concrete children pair it with a specific marker). Carries
+# the fields that are calc-produced (ANOVA p-values were computed BY the fit
+# calcs, paper §2.1; model_fit[] entries are calculator outputs) and are
+# therefore the calc leaf's responsibility, not the raw curve's.
 _TUNING_MODEL_FIT_SUBS = [
     subfield("model", "ontology_term",
-             "The fitted model as a controlled term (T8): double_gaussian | naka_rushton | "
-             "difference_of_gaussians | movshon | spline | gausslog | priebe | …."),
+             "The fitted model as a controlled term (T8): double_gaussian | "
+             "naka_rushton | difference_of_gaussians | movshon | spline | "
+             "gausslog | priebe | ...."),
     subfield("coefficients", "structure",
              "The fit coefficients (named, per the `model`).", non_empty=False),
     subfield("goodness", "structure",
-             "Fit-quality scalars (r², residual, …).", non_empty=False),
+             "Fit-quality scalars (r-squared, residual, ...).", non_empty=False),
 ]
-_TUNING_CURVE_SUBS = [
-    subfield("independent_values", "matrix",
-             "The independent-variable axis samples.", scalar=False),
-    subfield("response_mean", "matrix", "Per-sample mean response.", scalar=False),
-    subfield("response_stddev", "matrix", "Per-sample response stddev.", scalar=False),
-    subfield("response_stderr", "matrix", "Per-sample response stderr.", scalar=False),
-    subfield("individual_responses", "matrix",
-             "Trial-level responses (real/imaginary preserved where present).", scalar=False),
-    subfield("control_response", "structure",
-             "The control/blank response block.", non_empty=False),
-    subfield("response_units", "char", "Units of the response."),
-    subfield("model_fit", "structure",
-             "ARRAY of fitted models, each {model, coefficients, goodness}; a curve may carry "
-             "several co-existing fits.", scalar=False, non_empty=False,
-             sub_fields=_TUNING_MODEL_FIT_SUBS),
-    subfield("significance", "structure",
-             "Statistical significance sub-block (visual-response / across-stimuli ANOVA p) — "
-             "typed, queryable fields.", non_empty=False),
-    subfield("circular_statistics", "structure",
-             "Circular-statistics sub-block (circular_variance, orientation/direction "
-             "preference, Hotelling) — typed, queryable fields.", non_empty=False),
-    subfield("interpolated_values", "structure",
-             "Fitless interpolated summaries (c50, l50, h50, pref, bandwidth, low/high-pass "
-             "index) — typed, queryable fields.", non_empty=False),
+_TUNING_CALC_SIGNIFICANCE_SUBS = [
+    subfield("visual_response_anova_p", "double",
+             "p-value of the ANOVA relating mean response values between the "
+             "raw (stimulus) and control groups.", blank=0),
+    subfield("across_stimuli_anova_p", "double",
+             "p-value of the ANOVA relating mean response values across "
+             "different stimuli (tuning vs. flat).", blank=0),
 ]
-write("draft", "tuning_curve",
-      doc("tuning_curve", ["data_type"], abstract=True, maturity="draft",
-          fields=[field("value", "structure",
-                        "A response-vs-independent-variable tuning curve, with an ARRAY of "
-                        "model fits and typed summary-statistic sub-blocks.",
-                        non_empty=True, blank={}, sub_fields=_TUNING_CURVE_SUBS)]))
-write("draft", "tuning_curve_calculation",
-      doc("tuning_curve_calculation", ["subject_calculation", "tuning_curve"],
-          maturity="draft"))
+write("stable", "tuning_curve_calculation",
+      doc("tuning_curve_calculation", ["subject_calculation"], abstract=True,
+          fields=[
+              field("significance", "structure",
+                    "Statistical significance of the tuning (ANOVA p-values). "
+                    "Calc-produced: computed by the fit calculator per paper "
+                    "§2.1, not carried by the raw curve.",
+                    non_empty=False, sub_fields=_TUNING_CALC_SIGNIFICANCE_SUBS),
+              field("model_fit", "structure",
+                    "ARRAY of fitted models, each {model, coefficients, "
+                    "goodness}; a curve may carry several co-existing fits "
+                    "(freq tunings carry 5). Data-in-array (R2 preserved), "
+                    "not typed field declarations per family.",
+                    scalar=False, non_empty=False,
+                    sub_fields=_TUNING_MODEL_FIT_SUBS),
+          ]))
+
+# ---- six concrete calc leaves (⊂ [tuning_curve_calculation, <marker>]) ----------
+# Issue #67 category ④. Multi-inheritance per Lepsky et al. Fig. 4: each concrete
+# calc emits one document type (paper §3.2) inheriting provenance +
+# significance + fits from `tuning_curve_calculation` AND the raw curve shape +
+# self-describing metadata from the marker composite. The emitted document has
+# one class-named property block per class in the chain -- e.g.
+# `oridirtuning_calc:` distinct from `orientation_direction_tuning:` (Fig. 4).
+# Per-family typed scalars (vector for oridir, fitless for freq/contrast, ...)
+# would ride here as leaf-specific fields; kept empty in this build (the R2/R3
+# reversal is the primary edit; family-specific scalar declarations follow with
+# the DID-matlab migrator retargets).
+for _leaf, _marker in [
+    ("oridirtuning_calc",              "orientation_direction_tuning"),
+    ("contrasttuning_calc",            "contrast_tuning"),
+    ("spatial_frequency_tuning_calc",  "spatial_frequency_tuning"),
+    ("temporal_frequency_tuning_calc", "temporal_frequency_tuning"),
+    ("speedtuning_calc",               "speed_tuning"),
+    ("tuningcurve_calc",               "tuning_curve"),
+]:
+    write("stable", _leaf,
+          doc(_leaf, ["tuning_curve_calculation", _marker]))
+
+# Retire the draft/ versions -- promoted to stable/ above.
+for _draft_name in ("tuning_curve", "tuning_curve_calculation"):
+    _draft_path = os.path.join(VETA, "draft", _draft_name + ".json")
+    if os.path.exists(_draft_path):
+        os.remove(_draft_path)
 
 # ---------- #61 harmonic_component: the stimulus-response composite ------------------
 # SIGNED. A stimulus response is a HARMONIC of the response at the stimulus
@@ -2822,9 +3009,15 @@ write("draft", "harmonic_component",
                         "One harmonic of a response to a periodic stimulus, complex, "
                         "with its control counterpart.",
                         non_empty=True, blank={}, sub_fields=_HARMONIC_SUBS)]))
-write("draft", "harmonic_component_calculation",
-      doc("harmonic_component_calculation",
-          ["subject_calculation", "harmonic_component"], maturity="draft"))
+# `harmonic_component_calculation` DELETED per #67 TEAM-SIGN-OFF 2026-09-21: the
+# 1:1 calculator restructure invalidates the old subject_calculation ⊂ [genus,
+# composite] pattern for this direction (no v1 source emits it as its own leaf).
+# The harmonic_component composite stays as ③ infrastructure for #61's stimulus-
+# response fold; a future concrete calc under the restored `tuning_curve_calculation`
+# or a dedicated `stimulus_response_calculation` family names its own leaf.
+_hcc = os.path.join(VETA, "draft", "harmonic_component_calculation.json")
+if os.path.exists(_hcc):
+    os.remove(_hcc)
 
 # ---------- #57 the clock alignment cluster: SCHEMA HALF -----------------------------
 # SIGNED 2026-08-08, two families, in V_eta_clock_alignment_cluster_plan.md:477 and :479.
@@ -3224,6 +3417,25 @@ write("stable", "receptive_field",
 write("stable", "receptive_field_calculation",
       doc("receptive_field_calculation",
           ["subject_calculation", "receptive_field"]))
+
+# ---- #67: three-level composite chain preserved from v1 (RF map family) ----
+# TEAM-SIGN-OFF 2026-09-21, issue #67 category ③: `reverse_correlation` composite
+# ⊂ `receptive_field`, and `hartley_reverse_correlation` thin marker ⊂
+# `reverse_correlation`. Overwrites the V_zeta copytree'd shapes
+# (⊂ [base, ngrid] / ⊂ [base, reverse_correlation]) with the receptive-field-
+# family composite chain. hartley naturally fits under reverse_correlation
+# (Hartley subspace is a reverse-correlation METHOD; T11 says the method
+# rides in `value.method`, not the class name), so the marker is empty.
+# `hartley_calc` still ⊂ [base, hartley_reverse_correlation, calculator] and
+# inherits the new composite chain through hartley_reverse_correlation;
+# retargeting it under `receptive_field_calculation` (Fig. 4 pattern) is
+# deferred to the DID-matlab migrator retarget pass.
+write("stable", "reverse_correlation",
+      doc("reverse_correlation", ["receptive_field", "ngrid"], abstract=True,
+          version="2.0.0"))
+write("stable", "hartley_reverse_correlation",
+      doc("hartley_reverse_correlation", ["reverse_correlation"], abstract=True,
+          version="2.0.0"))
 
 write("stable", "visual_grating_manipulation",
       doc("visual_grating_manipulation",
@@ -7900,7 +8112,14 @@ _RET_RENAMED_SOURCES = {"control_stimulus_ids"}
 _RET_TOOBS = {"probe_location", "probe_geometry", "electrode_offset_voltage",
     "position_metadata", "distance_metadata", "ontology_label", "ontology_table_row",
     "ontology_image"}
-_RET_HOLDOVER = {"calculator", "measurement"}
+# `calculator` DROPPED from _RET_HOLDOVER 2026-09-21 (#67 TEAM-SIGN-OFF): the
+# R1 retirement -- "supersedes calculator via software + software_id edge" -- was
+# REVERSED by issue #67. `calculator` is now a STANDALONE abstract carrying the
+# required per-run provenance edges every calculator output must resolve (paper
+# §3.2 / Fig. 4). `subject_calculation` multi-inherits from it, so retiring the
+# parent while the child persists would recreate the "persist class with retiring
+# super" bug test_data_body_carrier_dispositions guards against.
+_RET_HOLDOVER = {"measurement"}
 _ANALYSIS_RE = _re.compile(r"(_calc$|_calc_|tuning|stimulus_response|spike|cluster|"
     r"vmspike|binnedspikerate|jrclust|sorting_param|neuron_extracellular|hartley|"
     r"oridir|reverse_correlation|fitcurve|tuning_fit|simple_calc|contrast_sensitivity|"
@@ -8099,6 +8318,43 @@ _IN_PROGRESS = {"app", "stimulus_presentation",
     "demo_ndi", "demo_ndi_mock",
     "projectvar", "ensemble"}
 
+_TRANSITIVE_SUPER_CACHE = {}
+_TRANSITIVE_SUPER_UNREADABLE = []
+def _transitive_supers(name):
+    """The full ancestor set of `name` across all V_eta tiers -- direct parents,
+    parents of parents, ... . Loads schemas lazily and caches. Empty if the
+    class is not on disk. Used by `_disposition` so a class inheriting via an
+    intermediate (e.g. `oridirtuning_calc` -> tuning_curve_calculation ->
+    subject_calculation) reads its transitive family rather than only the
+    literal superclass string, which is how the #67 restructure adds calc
+    leaves under new intermediates.
+
+    `path_of()` verifies the file exists, so the only realistic failure at
+    `load()` is a malformed JSON body -- catch it by name, RECORD the skip on
+    the module-level list `_TRANSITIVE_SUPER_UNREADABLE` (test_tool_skip_denominators:
+    a skip that shrinks a number silently is a denominator defect), and treat
+    the class as having no ancestors so a dispositions pass still terminates.
+    OSError is not caught: a file that path_of found but load could not read
+    is an instrument fault, not an item to filter out."""
+    if name in _TRANSITIVE_SUPER_CACHE:
+        return _TRANSITIVE_SUPER_CACHE[name]
+    result = set()
+    _t, _p = path_of(name)
+    if _p:
+        try:
+            _d = load(_p)
+        except json.JSONDecodeError:
+            _TRANSITIVE_SUPER_UNREADABLE.append(name)
+            _TRANSITIVE_SUPER_CACHE[name] = result
+            return result
+        for _sc in _d.get("document_class", {}).get("superclasses", []):
+            _s = _sc.get("class_name")
+            if _s:
+                result.add(_s)
+                result |= _transitive_supers(_s)
+    _TRANSITIVE_SUPER_CACHE[name] = result
+    return result
+
 def _disposition(name, doc=None):
     # An EXPLICIT decided-pending marker wins over every heuristic below (including the
     # structural persist rules): we have already voted to fold/rename/reshape these, so a
@@ -8110,22 +8366,24 @@ def _disposition(name, doc=None):
     # _ANALYSIS_RE source-tombstone heuristic (the calc family shares stems like
     # "tuning"/"contrast_sensitivity" with the v1 sources it consumes). Detect them
     # structurally so the rule self-maintains as the family grows:
-    #   ④ a subject_calculation LEAF (e.g. orientation_direction_tuning_calculation,
-    #      stimulus_tuningcurve_calculation) -- subject_calculation is a V_eta-native
-    #      genus, never a retiring source; and
-    #   ③ an ABSTRACT data_type COMPOSITE (e.g. orientation_direction_tuning,
-    #      contrast_sensitivity, stimulus_tuningcurve) -- audited: every abstract
-    #      data_type composite is a real ③ class, none retire.
-    # The v1 CALC source tombstones still carried as a safety net (oridirtuning_calc,
-    # tuningcurve_calc, contrast_sensitivity_calc, ...) keep the v1 `base` shape
-    # (concrete, no data_type/subject_calculation chain), so _ANALYSIS_RE still retires
-    # them below -- correct, their docs migrate into the leaf.
+    #   ④ a subject_calculation LEAF (transitively, so #67's per-family calc
+    #      abstract layer -- oridirtuning_calc -> tuning_curve_calculation ->
+    #      subject_calculation -- persists without an explicit marker); and
+    #   ③ an ABSTRACT data_type COMPOSITE (transitively, so #67's thin markers
+    #      -- orientation_direction_tuning -> tuning_curve -> data_type --
+    #      persist alongside the composite root).
+    # The v1 CALC source tombstones still carried as a safety net keep the v1
+    # `base` shape (concrete, no data_type/subject_calculation chain), so
+    # _ANALYSIS_RE still retires them below -- correct, their docs migrate.
     if doc is not None:
         _dc = doc.get("document_class", {})
         _chain = [sc.get("class_name") for sc in _dc.get("superclasses", [])]
-        if "subject_calculation" in _chain:
+        _ancestors = set(_chain)
+        for _s in _chain:
+            _ancestors |= _transitive_supers(_s)
+        if "subject_calculation" in _ancestors:
             return ("persist", None)
-        if _dc.get("abstract") and "data_type" in _chain:
+        if _dc.get("abstract") and "data_type" in _ancestors:
             return ("persist", None)
     if name in _KEEP_INFRA:
         return ("persist", None)                 # ⑥/⑦ walkthrough KEEP (closed)
@@ -8218,9 +8476,17 @@ _DELETE_PHASE8 = {
     # They leave again when the subject is recoverable (see the note in
     # migrators_j/image_stack.m) and a corpus proves 0 survivors.
     "dataseries_observation", "timeseries_observation", "imageseries_observation",
-    "oridirtuning_calc", "contrast_tuning_calc", "spatial_frequency_tuning_calc",
-    "temporal_frequency_tuning_calc", "speed_tuning_calc", "contrast_sensitivity_calc",
-    "tuningcurve_calc",
+    # #67 TEAM-SIGN-OFF 2026-09-21: R2/R3's LEAF collapse REVERSED. The four v1
+    # tombstones whose names collide with the restored V_eta target classes
+    # (`oridirtuning_calc`, `tuningcurve_calc`, `spatial_frequency_tuning_calc`,
+    # `temporal_frequency_tuning_calc`) are NOT deleted here -- our write()s
+    # overwrite them with the new V_eta shape ⊂ [tuning_curve_calculation, marker]
+    # at the same class_name (v1 docs migrate 1:1 into the same-named target, id
+    # preserved). Two v1 names that do NOT collide with the V_eta target names
+    # (`contrast_tuning_calc` → target `contrasttuning_calc`; `speed_tuning_calc`
+    # → target `speedtuning_calc`) still delete: their docs migrate to the
+    # differently-named target, so the v1 tombstone must go.
+    "contrast_tuning_calc", "speed_tuning_calc", "contrast_sensitivity_calc",
 }
 # A SEPARATE SET, DELIBERATELY. _DELETE_PHASE8 above means "a did_v1 SOURCE whose
 # documents are provably consumed by a completed migrator" -- its whole contract is
@@ -8536,3 +8802,7 @@ with open(os.path.join(VETA, "index.json"), "w") as f:
     f.write("\n")
 
 print(f"V_eta built: {len(schemas)} schemas across {TIERS}")
+if _TRANSITIVE_SUPER_UNREADABLE:
+    print(f"  _transitive_supers UNREADABLE (malformed JSON, dropped from ancestor "
+          f"walk, disposition falls through): {len(_TRANSITIVE_SUPER_UNREADABLE)} "
+          f"class(es) -- {sorted(_TRANSITIVE_SUPER_UNREADABLE)}")

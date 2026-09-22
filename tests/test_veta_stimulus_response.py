@@ -125,21 +125,20 @@ def test_the_four_coefficient_subfields_are_matrices_and_harmonic_is_scalar():
     assert subs["harmonic"]["mustBeScalar"] is True
 
 
-def test_harmonic_component_calculation_is_the_subject_calculation_leaf():
-    """Mirrors tuning_curve / tuning_curve_calculation exactly. The tier is
-    `subject_calculation` because this is computed, and because
-    `stimulus_tuningcurve` -- the other output of the same app and the same file
-    -- already folds to a calculation leaf. Treating two outputs of one app
-    differently would be drift by our own definition."""
-    _tier, d = BUILT["harmonic_component_calculation"]
-    assert [s["class_name"] for s in d["document_class"]["superclasses"]] == [
-        "subject_calculation", "harmonic_component"]
-    assert d["document_class"].get("abstract") is not True
-    # It declares NO edges of its own: subject_id / time_reference_# /
-    # instrument_id / software_id / method_parameters_id / derived_from_# all
-    # arrive from the subject_statement -> subject_interaction -> subject_calculation
-    # chain. Re-declaring any of them here is the duplicate-declaration defect.
-    assert d.get("depends_on", []) == []
+def test_harmonic_component_calculation_is_deleted():
+    """#67 (TEAM-SIGN-OFF 2026-09-21) DELETED `harmonic_component_calculation`
+    from `schemas/V_eta/draft/`. The composite `harmonic_component` stays as
+    ③ infrastructure for #61's stimulus-response fold; a future concrete calc
+    under `tuning_curve_calculation` or a dedicated `stimulus_response_calculation`
+    family names its own leaf. Inverted from the earlier "is the
+    subject_calculation leaf" test, kept because the deletion is a decision
+    someone tidying the tree would be tempted to un-do -- the tripwire fails
+    the moment the class comes back."""
+    assert "harmonic_component_calculation" not in BUILT, (
+        "`harmonic_component_calculation` was restored to the built set. Per "
+        "issue #67 §Concrete edits, the class is DELETED -- v1 has no source "
+        "that emits it as its own leaf. A restoration would need its own "
+        "sign-off; do not re-add it silently.")
 
 
 def test_the_leaf_inherits_every_edge_the_fold_writes():
@@ -395,7 +394,27 @@ def test_isspike_is_left_alone_and_the_inert_spelling_is_counted():
     # is a `data_type` subclass -- the leaf hangs off `subject_calculation` --
     # which is why the `data_type_subclasses` counter moved by one and this one
     # by two.
-    assert walked == 243, f'schema count moved; re-derive the inert set ({walked})'
+    # SIXTH MOVEMENT, SIXTH RE-DERIVATION. 243 -> 254: #67 calculator
+    # restructure (TEAM-SIGN-OFF 2026-09-21) minted `runtime_environment`,
+    # `tuning_curve`, `tuning_curve_calculation`, five thin marker composites
+    # (orientation_direction_tuning, contrast_tuning,
+    # spatial_frequency_tuning, temporal_frequency_tuning, speed_tuning) and
+    # six concrete calc leaves (oridirtuning_calc, contrasttuning_calc,
+    # spatial_frequency_tuning_calc, temporal_frequency_tuning_calc,
+    # speedtuning_calc, tuningcurve_calc); DELETED
+    # `harmonic_component_calculation`, `stimulus_tuningcurve`,
+    # `contrast_tuning_calc`, `speed_tuning_calc`. Net +11 classes over the
+    # walked set. The pinned list below is UNTOUCHED: none of the new
+    # composites/leaves declares a numeric constraint at any depth (the field
+    # bodies live on `tuning_curve.value.*` as matrix/char/structure without
+    # min/max, and the leaves have no fields), and `runtime_environment`'s
+    # four char fields carry no min/max either. The composite additions are
+    # ABSTRACT so the count of data_type subclasses only moves by the
+    # non-marker composites, but this walk counts every schema, not just
+    # data_type subclasses -- which is why this one moves by 11 while the
+    # data_type_subclasses counter moved by ONE (tuning_curve alone; the five
+    # markers hang off tuning_curve, not data_type directly).
+    assert walked == 254, f'schema count moved; re-derive the inert set ({walked})'
     assert sorted(inert) == [
         "element.direct",
         "element.reference",
@@ -405,14 +424,16 @@ def test_isspike_is_left_alone_and_the_inert_spelling_is_counted():
 
 # --------------------------------------------------------- deferrals, recorded
 
-@pytest.mark.parametrize("cls", ["harmonic_component", "harmonic_component_calculation"])
+@pytest.mark.parametrize("cls", ["harmonic_component"])
 def test_the_new_pair_stays_in_draft_until_the_resolver_lands(cls):
-    """Both halves of the fold are DRAFT on purpose. The signed model is not
+    """`harmonic_component` stays DRAFT on purpose. The signed model is not
     fully built: the parameters are still a separate document (the inline fold
     needs the resolver pass), `responses.stimid` has no `axes[]` to land on
     (#45), and `element_epochid` has no `epoch` document to anchor to (#45/#67).
-    Promoting either class to stable would assert a completeness that does not
-    exist."""
+    Promoting to stable would assert a completeness that does not exist.
+    The paired `harmonic_component_calculation` was DELETED per #67
+    TEAM-SIGN-OFF 2026-09-21 (see `test_harmonic_component_calculation_is_deleted`
+    above); only the composite half is still parameterized here."""
     assert BUILT[cls][0] == "draft"
 
 

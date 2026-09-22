@@ -682,9 +682,10 @@
     },
     "contrast_tuning": {
       "targets": [
-        "tuning_curve_calculation",
         "session_relative_reference",
-        "software"
+        "software",
+        "contrasttuning_calc",
+        "runtime_environment"
       ],
       "carried": [
         "subject"
@@ -699,9 +700,10 @@
     },
     "orientation_direction_tuning": {
       "targets": [
-        "tuning_curve_calculation",
         "session_relative_reference",
-        "software"
+        "software",
+        "oridirtuning_calc",
+        "runtime_environment"
       ],
       "carried": [
         "subject"
@@ -716,9 +718,10 @@
     },
     "spatial_frequency_tuning": {
       "targets": [
-        "tuning_curve_calculation",
         "session_relative_reference",
-        "software"
+        "software",
+        "runtime_environment",
+        "spatial_frequency_tuning_calc"
       ],
       "carried": [
         "subject"
@@ -733,9 +736,10 @@
     },
     "temporal_frequency_tuning": {
       "targets": [
-        "tuning_curve_calculation",
         "session_relative_reference",
-        "software"
+        "software",
+        "runtime_environment",
+        "temporal_frequency_tuning_calc"
       ],
       "carried": [
         "subject"
@@ -750,9 +754,10 @@
     },
     "speed_tuning": {
       "targets": [
-        "tuning_curve_calculation",
         "session_relative_reference",
-        "software"
+        "software",
+        "runtime_environment",
+        "speedtuning_calc"
       ],
       "carried": [
         "subject"
@@ -840,7 +845,8 @@
       "targets": [
         "contrast_sensitivity_calculation",
         "session_relative_reference",
-        "software"
+        "software",
+        "runtime_environment"
       ],
       "carried": [
         "subject"
@@ -855,9 +861,10 @@
     },
     "contrast_tuning_calc": {
       "targets": [
-        "tuning_curve_calculation",
         "session_relative_reference",
-        "software"
+        "software",
+        "contrasttuning_calc",
+        "runtime_environment"
       ],
       "carried": [
         "subject"
@@ -875,7 +882,8 @@
         "receptive_field_calculation",
         "sampled_body",
         "session_relative_reference",
-        "software"
+        "software",
+        "runtime_environment"
       ],
       "carried": [],
       "second_pass": [],
@@ -888,9 +896,10 @@
     },
     "oridirtuning_calc": {
       "targets": [
-        "tuning_curve_calculation",
         "session_relative_reference",
-        "software"
+        "software",
+        "oridirtuning_calc",
+        "runtime_environment"
       ],
       "carried": [
         "subject"
@@ -905,9 +914,10 @@
     },
     "spatial_frequency_tuning_calc": {
       "targets": [
-        "tuning_curve_calculation",
         "session_relative_reference",
-        "software"
+        "software",
+        "runtime_environment",
+        "spatial_frequency_tuning_calc"
       ],
       "carried": [
         "subject"
@@ -922,9 +932,10 @@
     },
     "speed_tuning_calc": {
       "targets": [
-        "tuning_curve_calculation",
         "session_relative_reference",
-        "software"
+        "software",
+        "runtime_environment",
+        "speedtuning_calc"
       ],
       "carried": [
         "subject"
@@ -939,9 +950,10 @@
     },
     "temporal_frequency_tuning_calc": {
       "targets": [
-        "tuning_curve_calculation",
         "session_relative_reference",
-        "software"
+        "software",
+        "runtime_environment",
+        "temporal_frequency_tuning_calc"
       ],
       "carried": [
         "subject"
@@ -956,9 +968,10 @@
     },
     "tuningcurve_calc": {
       "targets": [
-        "tuning_curve_calculation",
         "session_relative_reference",
-        "software"
+        "software",
+        "runtime_environment",
+        "tuningcurve_calc"
       ],
       "carried": [
         "subject"
@@ -1035,9 +1048,10 @@
     },
     "stimulus_tuningcurve": {
       "targets": [
-        "tuning_curve_calculation",
         "session_relative_reference",
-        "software"
+        "software",
+        "runtime_environment",
+        "tuningcurve_calc"
       ],
       "carried": [
         "subject"
@@ -1445,20 +1459,15 @@
     },
     "stimulus_response_scalar": {
       "targets": [
-        "harmonic_component_calculation",
-        "session_relative_reference",
-        "software",
-        "relative_reference"
+        "stimulus_response_scalar"
       ],
       "carried": [],
       "second_pass": [],
-      "how": "Becomes a `harmonic_component_calculation` (a `subject_calculation` leaf) with its id PRESERVED, carrying a `harmonic_component` data_type value. Id preservation is what keeps downstream references resolving.",
-      "flags": "BUILT (migrators_j/stimulus_response_scalar.m:209): folds via migrators_j.private.jCalculation into `harmonic_component_calculation` with base.id PRESERVED, plus the session anchor and the `software` entity, with a guarded-passthrough branch at :184. The harmonic number is recoverable from the response document alone -- `response_type` is a total function of `freq_response` computed two lines before the document is built (tuning_response.m:262-266) -- so no parameters document is needed. The fold restores `stimulator_id` and `stimulus_control_id`, which V_eta had dropped.",
-      "decided_targets": [
-        "harmonic_component_calculation"
-      ],
+      "how": "TODAY'S EMISSION: folds to `harmonic_component_calculation` per the 2026-08-08 sign-off. TARGET SUPERSEDED 2026-09-21 by issue #67 (Steve Van Hooser) which DELETED `harmonic_component_calculation` from the built set. `decided_targets` is now empty pending a new signed target -- a team modelling question, not a bug in the migrator (which still emits the old name; the DID-matlab retarget rides with issue #67's follow-on).",
+      "flags": "BUILT (migrators_j/stimulus_response_scalar.m:209): folds via migrators_j.private.jCalculation into `harmonic_component_calculation` with base.id PRESERVED, plus the session anchor and the `software` entity, with a guarded-passthrough branch at :184. The harmonic number is recoverable from the response document alone -- `response_type` is a total function of `freq_response` computed two lines before the document is built (tuning_response.m:262-266) -- so no parameters document is needed. The fold restores `stimulator_id` and `stimulus_control_id`, which V_eta had dropped. TARGET SUPERSEDED per issue #67 -- pending new signed target.",
+      "decided_targets": [],
       "target_completeness": {
-        "state": "full",
+        "state": "carry_forward",
         "unresolved_sites": []
       }
     },

@@ -7,7 +7,7 @@
   "binaryseries_parameters",
   "binding_registry_meta",
   "contrast_tuning",
-  "contrast_tuning_calc",
+  "contrasttuning_calc",
   "control_designation",
   "control_stimulus_ids",
   "daqreader",
@@ -34,7 +34,7 @@
   "spatial_frequency_tuning",
   "spatial_frequency_tuning_calc",
   "speed_tuning",
-  "speed_tuning_calc",
+  "speedtuning_calc",
   "stimulus_tuningcurve",
   "strain",
   "subject",
@@ -52,8 +52,8 @@
   "zarr"
  ],
  "denominator": {
-  "classes_in_the_built_set": 32,
-  "classes_that_are_v1_sources": 26,
+  "classes_in_the_built_set": 43,
+  "classes_that_are_v1_sources": 17,
   "classes_vouched_only_by_the_cited_plan": [
    "acquisition_layout",
    "validity",
@@ -548,39 +548,43 @@
    "after_not_built": [],
    "before": [
     "oridirtuning_calc",
-    "contrast_tuning_calc",
+    "contrasttuning_calc",
     "spatial_frequency_tuning_calc",
     "temporal_frequency_tuning_calc",
-    "speed_tuning_calc",
+    "speedtuning_calc",
     "tuningcurve_calc"
    ],
-   "change": "Every tuning calculator output folds 1->1 into ONE calculation leaf with `base.id` and `depends_on` preserved -- never dissolved into observations, because dissolution dangles every downstream reference.",
+   "change": "Every tuning calculator output folds 1->1 into ONE calculation leaf under `tuning_curve_calculation`, base.id + depends_on preserved -- never dissolved into observations, because dissolution dangles every downstream reference. #67 (TEAM-SIGN-OFF 2026-09-21): the leaves are per-calculator (1:1 restored per Lepsky et al. Fig. 2F), pairing the abstract leaf with a marker composite.",
    "citation": {
-    "anchor": "ONE `tuning_curve_calculation` leaf** (id-preserving 1\u21921 fold)",
+    "anchor": "REVERSE R2/R3's LEAF COLLAPSE",
     "doc": "schemas/V_eta_tuning_model_plan.md",
-    "line": 84,
-    "quote": "3. **T10 \u2014 ONE `tuning_curve_calculation` leaf** (id-preserving 1\u21921 fold), NOT five"
+    "line": 145,
+    "quote": "Steve Van Hooser 2026-09-21 -- (1) REVERSE R2/R3's LEAF COLLAPSE: restore"
    },
    "class_registers": {
-    "contrast_tuning_calc": [
-     "v1_source"
+    "contrasttuning_calc": [
+     "built",
+     "named_in_cited_plan"
     ],
     "oridirtuning_calc": [
-     "v1_source",
+     "built",
      "named_in_cited_plan"
     ],
     "spatial_frequency_tuning_calc": [
-     "v1_source"
+     "built",
+     "named_in_cited_plan"
     ],
-    "speed_tuning_calc": [
-     "v1_source"
+    "speedtuning_calc": [
+     "built",
+     "named_in_cited_plan"
     ],
     "subject_calculation": [
      "built",
      "named_in_cited_plan"
     ],
     "temporal_frequency_tuning_calc": [
-     "v1_source"
+     "built",
+     "named_in_cited_plan"
     ],
     "tuning_curve_calculation": [
      "built",
@@ -588,6 +592,7 @@
     ],
     "tuningcurve_calc": [
      "v1_source",
+     "built",
      "named_in_cited_plan"
     ]
    },
@@ -619,23 +624,24 @@
    },
    "class_registers": {
     "contrast_tuning": [
-     "v1_source",
+     "built",
      "named_in_cited_plan"
     ],
     "orientation_direction_tuning": [
      "v1_source",
+     "built",
      "named_in_cited_plan"
     ],
     "spatial_frequency_tuning": [
-     "v1_source",
+     "built",
      "named_in_cited_plan"
     ],
     "speed_tuning": [
-     "v1_source",
+     "built",
      "named_in_cited_plan"
     ],
     "temporal_frequency_tuning": [
-     "v1_source",
+     "built",
      "named_in_cited_plan"
     ],
     "tuning_curve": [
@@ -708,19 +714,20 @@
    },
    "class_registers": {
     "contrast_tuning": [
-     "v1_source",
+     "built",
      "named_in_cited_plan"
     ],
     "orientation_direction_tuning": [
      "v1_source",
+     "built",
      "named_in_cited_plan"
     ],
     "spatial_frequency_tuning": [
-     "v1_source",
+     "built",
      "named_in_cited_plan"
     ],
     "speed_tuning": [
-     "v1_source",
+     "built",
      "named_in_cited_plan"
     ],
     "stimulus_tuningcurve": [
@@ -728,7 +735,7 @@
      "named_in_cited_plan"
     ],
     "temporal_frequency_tuning": [
-     "v1_source",
+     "built",
      "named_in_cited_plan"
     ],
     "tuning_curve": [
@@ -863,6 +870,7 @@
    "class_registers": {
     "orientation_direction_tuning": [
      "v1_source",
+     "built",
      "named_in_cited_plan"
     ],
     "tuning_curve": [

@@ -1,0 +1,80 @@
+{
+    "document_class": {
+        "class_name": "runtime_environment",
+        "class_version": "1.0.0",
+        "superclasses": [
+            {
+                "class_name": "entity"
+            }
+        ],
+        "maturity_level": "stable"
+    },
+    "depends_on": [],
+    "file": [],
+    "fields": [
+        {
+            "name": "os",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": {
+                "node": "schema:operatingSystem",
+                "name": "operatingSystem"
+            },
+            "documentation": "Operating system the producing run executed on (e.g., 'Linux', 'macOS', 'Windows').",
+            "constraints": {}
+        },
+        {
+            "name": "os_version",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": {
+                "node": "schema:softwareVersion",
+                "name": "softwareVersion"
+            },
+            "documentation": "Operating-system version.",
+            "constraints": {}
+        },
+        {
+            "name": "interpreter",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": {
+                "node": "schema:runtimePlatform",
+                "name": "runtimePlatform"
+            },
+            "documentation": "Language/interpreter the run used (e.g., 'MATLAB', 'python3').",
+            "constraints": {}
+        },
+        {
+            "name": "interpreter_version",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": {
+                "node": "schema:softwareVersion",
+                "name": "softwareVersion"
+            },
+            "documentation": "Interpreter version.",
+            "constraints": {}
+        }
+    ]
+}

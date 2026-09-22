@@ -835,7 +835,8 @@ def scan_signoff_lines(text):
     text = re.sub(r"<!--.*?-->", "", text, flags=re.DOTALL)
     marker = SIGNOFF.rstrip(":")          # the tag sits BETWEEN the marker and the colon
     out = []
-    for n, raw in enumerate(text.splitlines(), 1):
+    lines = text.splitlines()
+    for n, raw in enumerate(lines, 1):
         line = raw.lstrip()
         if not line.startswith(marker):
             continue
@@ -845,6 +846,46 @@ def scan_signoff_lines(text):
         if m:
             tagged, rest = m.group(1).strip(), m.group(2).strip()
         rest = rest.lstrip(":").strip()
+        # MULTI-LINE SIGN-OFFS. Added 2026-09-22.
+        #
+        # A sign-off with a long tag can push the who/when clause past the
+        # right margin, and the team's own habit is then to write the tag
+        # and colon on one line and continue the decision on the next.
+        # Example, `V_eta_tuning_model_plan.md` from 2026-09-21 (#67):
+        #
+        #   TEAM-SIGN-OFF [tuning_curve composite + tuning_curve_calculation leaf, restructure]:
+        #   Steve Van Hooser 2026-09-21 -- (1) REVERSE R2/R3's ...
+        #
+        # The old parser saw an empty `rest` after the tag+colon strip and
+        # rejected the line as "under 10 characters", stranding a real signed
+        # decision. If the marker line looks like a header (nothing after the
+        # colon), pull in following non-empty lines until we have decision
+        # text -- stopping at the next blank line, the next `TEAM-SIGN-OFF`
+        # marker, or a line that looks structural (a markdown table row,
+        # heading, or list marker). Same rejection rules then apply to the
+        # joined content.
+        if not rest:
+            _joined = []
+            for _next in lines[n:]:
+                _stripped = _next.strip()
+                if not _stripped:
+                    break
+                if _stripped.startswith(marker):
+                    break
+                if _stripped[0] in "|#-*" and not _joined:
+                    break
+                _joined.append(_stripped)
+                # A sign-off is usually one paragraph. Guard against an
+                # unbounded walk into the rest of the document by stopping
+                # once we have enough text to be non-placeholder AND we have
+                # crossed the "-- " separator this template uses; the join
+                # cap of 8 lines matches the longest existing sign-off body
+                # in the tree (measured 2026-09-22).
+                if len(_joined) >= 8 or ("-- " in _stripped and
+                                         sum(len(s) for s in _joined) >= 20):
+                    break
+            if _joined:
+                rest = " ".join(_joined).lstrip(":").strip()
         # A placeholder is not a sign-off. NARROWED TWICE, and the second
         # narrowing is 2026-08-13.
         #
