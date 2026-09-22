@@ -789,3 +789,6 @@ Only the COMPOSITE is a `data_type` subclass — the leaf hangs off
 data_type-subclass count by one. One signed decision moved four counters at once
 (these three plus the inert-set canary in `tests/test_veta_stimulus_response.py`),
 which is the per-document cost `check_prose_counts` exists to find.
+
+
+RE-DERIVED 2026-09-22 (#67 calculator restructure + sibling drift, `check_prose_counts`): 102 NDI templates on origin/main; 254 distinct V_eta class names; 260 json file(s) under schemas/V_eta. Re-derive rather than quote; #67 added `calculator` + `runtime_environment` + the `tuning_curve`/`tuning_curve_calculation` families (11 new classes total), and NDI `origin/main` gained 11 templates (gene-expression family + demoNDISeries pair + fileReference).

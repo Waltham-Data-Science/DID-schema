@@ -53,7 +53,7 @@
  ],
  "denominator": {
   "classes_in_the_built_set": 43,
-  "classes_that_are_v1_sources": 17,
+  "classes_that_are_v1_sources": 24,
   "classes_vouched_only_by_the_cited_plan": [
    "acquisition_layout",
    "validity",
@@ -567,10 +567,12 @@
      "named_in_cited_plan"
     ],
     "oridirtuning_calc": [
+     "v1_source",
      "built",
      "named_in_cited_plan"
     ],
     "spatial_frequency_tuning_calc": [
+     "v1_source",
      "built",
      "named_in_cited_plan"
     ],
@@ -583,6 +585,7 @@
      "named_in_cited_plan"
     ],
     "temporal_frequency_tuning_calc": [
+     "v1_source",
      "built",
      "named_in_cited_plan"
     ],
@@ -624,6 +627,7 @@
    },
    "class_registers": {
     "contrast_tuning": [
+     "v1_source",
      "built",
      "named_in_cited_plan"
     ],
@@ -633,14 +637,17 @@
      "named_in_cited_plan"
     ],
     "spatial_frequency_tuning": [
+     "v1_source",
      "built",
      "named_in_cited_plan"
     ],
     "speed_tuning": [
+     "v1_source",
      "built",
      "named_in_cited_plan"
     ],
     "temporal_frequency_tuning": [
+     "v1_source",
      "built",
      "named_in_cited_plan"
     ],
@@ -714,6 +721,7 @@
    },
    "class_registers": {
     "contrast_tuning": [
+     "v1_source",
      "built",
      "named_in_cited_plan"
     ],
@@ -723,10 +731,12 @@
      "named_in_cited_plan"
     ],
     "spatial_frequency_tuning": [
+     "v1_source",
      "built",
      "named_in_cited_plan"
     ],
     "speed_tuning": [
+     "v1_source",
      "built",
      "named_in_cited_plan"
     ],
@@ -735,6 +745,7 @@
      "named_in_cited_plan"
     ],
     "temporal_frequency_tuning": [
+     "v1_source",
      "built",
      "named_in_cited_plan"
     ],

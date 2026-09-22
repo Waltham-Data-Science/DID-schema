@@ -3,9 +3,31 @@
   "SpikeInterfaceSortingOutputs": {
    "consumers": {
     "convert_package_mentions": [],
-    "per_class_migrators": []
+    "per_class_migrators": [
+     {
+      "package": "migrators_j",
+      "path": "src/did/+did2/+convert/+migrators_j/spike_interface_sorting_outputs.m",
+      "spelling": "spike_interface_sorting_outputs"
+     }
+    ]
    },
-   "migrator_reads": [],
+   "migrator_reads": [
+    {
+     "confidence": "confirmed-vocabulary",
+     "mentions_names_absent_from_template": [],
+     "migrator": "spike_interface_sorting_outputs.m",
+     "ndi_class": "SpikeInterfaceSortingOutputs",
+     "reads_names_absent_from_template": [
+      "num_units",
+      "sorter_parameters"
+     ],
+     "template_fields": [
+      "sample_rate",
+      "sorter_name",
+      "unit"
+     ]
+    }
+   ],
    "ndi": {
     "depends_on": [],
     "depends_on_required": {},
@@ -83,7 +105,37 @@
   },
   "app": {
    "consumers": {
-    "convert_package_mentions": [],
+    "convert_package_mentions": [
+     {
+      "pass": "resolveValidIntervals",
+      "path": "src/did/+did2/+convert/resolveValidIntervals.m",
+      "site_count": 2,
+      "sites": [
+       {
+        "line": 641,
+        "spelling": "app",
+        "text": "if isfield(src, 'app') && isstruct(src.app) && ~isempty(fieldnames(src.app))"
+       },
+       {
+        "line": 1094,
+        "spelling": "app",
+        "text": "if isempty(charField(subStruct(src, {'app'}), {'app_name', 'name'}))"
+       }
+      ]
+     },
+     {
+      "pass": "universalRenames",
+      "path": "src/did/+did2/+convert/universalRenames.m",
+      "site_count": 1,
+      "sites": [
+       {
+        "line": 285,
+        "spelling": "app",
+        "text": "if isfield(postBody, 'app') && isstruct(postBody.app) ..."
+       }
+      ]
+     }
+    ],
     "per_class_migrators": []
    },
    "migrator_reads": [],
@@ -147,7 +199,239 @@
   },
   "base": {
    "consumers": {
-    "convert_package_mentions": [],
+    "convert_package_mentions": [
+     {
+      "pass": "epochIndex",
+      "path": "src/did/+did2/+convert/epochIndex.m",
+      "site_count": 1,
+      "sites": [
+       {
+        "line": 783,
+        "spelling": "base",
+        "text": "if ~isfield(b, 'base') || ~isstruct(b.base) || ~isscalar(b.base) ..."
+       }
+      ]
+     },
+     {
+      "pass": "epochMint",
+      "path": "src/did/+did2/+convert/epochMint.m",
+      "site_count": 3,
+      "sites": [
+       {
+        "line": 2393,
+        "spelling": "base",
+        "text": "if ~isstruct(body) || ~isfield(body, 'base') || ~isstruct(body.base) ..."
+       },
+       {
+        "line": 2462,
+        "spelling": "base",
+        "text": "if ~isfield(b, 'base') || ~isstruct(b.base) || ~isfield(b.base, name); return; end"
+       },
+       {
+        "line": 2667,
+        "spelling": "base",
+        "text": "if ~isstruct(body) || ~isfield(body, 'base') || ~isstruct(body.base)"
+       }
+      ]
+     },
+     {
+      "pass": "foldGenericFiles",
+      "path": "src/did/+did2/+convert/foldGenericFiles.m",
+      "site_count": 4,
+      "sites": [
+       {
+        "line": 495,
+        "spelling": "base",
+        "text": "if isfield(src, 'base') && isstruct(src.base)"
+       },
+       {
+        "line": 555,
+        "spelling": "base",
+        "text": "if isstruct(src) && isfield(src, 'base') && isstruct(src.base)"
+       },
+       {
+        "line": 576,
+        "spelling": "base",
+        "text": "if isstruct(b) && isfield(b, 'base') && isstruct(b.base) && isfield(b.base, name)"
+       },
+       {
+        "line": 663,
+        "spelling": "base",
+        "text": "if ~isstruct(body) || ~isfield(body, 'base') || ~isstruct(body.base)"
+       }
+      ]
+     },
+     {
+      "pass": "resolveClockAlignment",
+      "path": "src/did/+did2/+convert/resolveClockAlignment.m",
+      "site_count": 1,
+      "sites": [
+       {
+        "line": 295,
+        "spelling": "base",
+        "text": "if isstruct(b) && isfield(b, 'base') && isstruct(b.base) && isfield(b.base, name)"
+       }
+      ]
+     },
+     {
+      "pass": "resolveDeferredBaths",
+      "path": "src/did/+did2/+convert/resolveDeferredBaths.m",
+      "site_count": 1,
+      "sites": [
+       {
+        "line": 609,
+        "spelling": "base",
+        "text": "if isfield(body, 'base') && isstruct(body.base) && isfield(body.base, name)"
+       }
+      ]
+     },
+     {
+      "pass": "resolveEpochProbemap",
+      "path": "src/did/+did2/+convert/resolveEpochProbemap.m",
+      "site_count": 3,
+      "sites": [
+       {
+        "line": 787,
+        "spelling": "base",
+        "text": "'superclasses', struct('class_name', 'base', 'class_version', '1.0.0'), ..."
+       },
+       {
+        "line": 1089,
+        "spelling": "base",
+        "text": "if ~isstruct(body) || ~isfield(body, 'base') || ~isstruct(body.base) ..."
+       },
+       {
+        "line": 1106,
+        "spelling": "base",
+        "text": "if isstruct(b) && isfield(b, 'base') && isstruct(b.base) && isfield(b.base, name)"
+       }
+      ]
+     },
+     {
+      "pass": "resolveLawnPlateSubjects",
+      "path": "src/did/+did2/+convert/resolveLawnPlateSubjects.m",
+      "site_count": 4,
+      "sites": [
+       {
+        "line": 1319,
+        "spelling": "base",
+        "text": "'superclasses', struct('class_name', 'base', 'class_version', '1.0.0'), ..."
+       },
+       {
+        "line": 1386,
+        "spelling": "base",
+        "text": "if isstruct(srcBody) && isfield(srcBody, 'base') && isstruct(srcBody.base)"
+       },
+       {
+        "line": 1595,
+        "spelling": "base",
+        "text": "if isstruct(b) && isfield(b, 'base') && isstruct(b.base) && isfield(b.base, name)"
+       },
+       {
+        "line": 1635,
+        "spelling": "base",
+        "text": "if ~isstruct(body) || ~isfield(body, 'base') || ~isstruct(body.base)"
+       }
+      ]
+     },
+     {
+      "pass": "resolveOpenmindsCitations",
+      "path": "src/did/+did2/+convert/resolveOpenmindsCitations.m",
+      "site_count": 3,
+      "sites": [
+       {
+        "line": 984,
+        "spelling": "base",
+        "text": "if isstruct(s) && isfield(s, 'base') && isstruct(s.base)"
+       },
+       {
+        "line": 1061,
+        "spelling": "base",
+        "text": "if isstruct(s) && isfield(s, 'base') && isstruct(s.base) && isfield(s.base, name) ..."
+       },
+       {
+        "line": 1154,
+        "spelling": "base",
+        "text": "if ~isstruct(body) || ~isfield(body, 'base') || ~isstruct(body.base)"
+       }
+      ]
+     },
+     {
+      "pass": "resolveResponseParameters",
+      "path": "src/did/+did2/+convert/resolveResponseParameters.m",
+      "site_count": 1,
+      "sites": [
+       {
+        "line": 554,
+        "spelling": "base",
+        "text": "if isstruct(b) && isfield(b, 'base') && isstruct(b.base) && isfield(b.base, name)"
+       }
+      ]
+     },
+     {
+      "pass": "resolveSessionAnchors",
+      "path": "src/did/+did2/+convert/resolveSessionAnchors.m",
+      "site_count": 1,
+      "sites": [
+       {
+        "line": 676,
+        "spelling": "base",
+        "text": "if isstruct(b) && isfield(b, 'base') && isstruct(b.base) && isfield(b.base, name)"
+       }
+      ]
+     },
+     {
+      "pass": "resolveValidIntervals",
+      "path": "src/did/+did2/+convert/resolveValidIntervals.m",
+      "site_count": 3,
+      "sites": [
+       {
+        "line": 1103,
+        "spelling": "base",
+        "text": "if isstruct(src) && isfield(src, 'base') && isstruct(src.base)"
+       },
+       {
+        "line": 1246,
+        "spelling": "base",
+        "text": "if isstruct(b) && isfield(b, 'base') && isstruct(b.base) && isfield(b.base, name)"
+       },
+       {
+        "line": 1327,
+        "spelling": "base",
+        "text": "if ~isstruct(body) || ~isfield(body, 'base') || ~isstruct(body.base)"
+       }
+      ]
+     },
+     {
+      "pass": "universalRenames",
+      "path": "src/did/+did2/+convert/universalRenames.m",
+      "site_count": 2,
+      "sites": [
+       {
+        "line": 267,
+        "spelling": "base",
+        "text": "if isfield(postBody, 'base')"
+       },
+       {
+        "line": 295,
+        "spelling": "base",
+        "text": "if isfield(postBody, 'base') && isstruct(postBody.base) ..."
+       }
+      ]
+     },
+     {
+      "pass": "v1_to_v2",
+      "path": "src/did/+did2/+convert/v1_to_v2.m",
+      "site_count": 1,
+      "sites": [
+       {
+        "line": 689,
+        "spelling": "base",
+        "text": "if ~isfield(body, 'base') || ~isstruct(body.base) || ~isscalar(body.base)"
+       }
+      ]
+     }
+    ],
     "per_class_migrators": []
    },
    "migrator_reads": [],
@@ -180,7 +464,13 @@
   "binaryseries_parameters": {
    "consumers": {
     "convert_package_mentions": [],
-    "per_class_migrators": []
+    "per_class_migrators": [
+     {
+      "package": "migrators_j",
+      "path": "src/did/+did2/+convert/+migrators_j/binaryseries_parameters.m",
+      "spelling": "binaryseries_parameters"
+     }
+    ]
    },
    "migrator_reads": [],
    "ndi": {
@@ -246,9 +536,34 @@
   "binnedspikeratevm": {
    "consumers": {
     "convert_package_mentions": [],
-    "per_class_migrators": []
+    "per_class_migrators": [
+     {
+      "package": "migrators_j",
+      "path": "src/did/+did2/+convert/+migrators_j/binnedspikeratevm.m",
+      "spelling": "binnedspikeratevm"
+     }
+    ]
    },
-   "migrator_reads": [],
+   "migrator_reads": [
+    {
+     "confidence": "confirmed-vocabulary",
+     "mentions_names_absent_from_template": [],
+     "migrator": "binnedspikeratevm.m",
+     "ndi_class": "binnedspikeratevm",
+     "reads_names_absent_from_template": [
+      "bin_size",
+      "num_bins"
+     ],
+     "template_fields": [
+      "exactbintime",
+      "firingrate_observations",
+      "parameters",
+      "stimids",
+      "timepoints",
+      "voltage_observations"
+     ]
+    }
+   ],
    "ndi": {
     "depends_on": [
      "vmspikefilteringparameters_id",
@@ -393,10 +708,103 @@
    "v_alpha_divergence": null,
    "writer_divergence": []
   },
+  "contrast_sensitivity_calc": {
+   "consumers": {
+    "convert_package_mentions": [
+     {
+      "pass": "universalRenames",
+      "path": "src/did/+did2/+convert/universalRenames.m",
+      "site_count": 1,
+      "sites": [
+       {
+        "line": 497,
+        "spelling": "contrast_sensitivity_calc",
+        "text": "'contrastsensitivity_calc', 'contrast_sensitivity_calc'};"
+       }
+      ]
+     }
+    ],
+    "per_class_migrators": [
+     {
+      "package": "migrators_j",
+      "path": "src/did/+did2/+convert/+migrators_j/contrast_sensitivity_calc.m",
+      "spelling": "contrast_sensitivity_calc"
+     },
+     {
+      "package": "migrators",
+      "path": "src/did/+did2/+convert/+migrators/contrast_sensitivity_calc.m",
+      "spelling": "contrast_sensitivity_calc"
+     }
+    ]
+   },
+   "migrator_reads": [],
+   "ndi": null,
+   "ndi_absent_reason": "vhlab app/calculator class -- NDI ships no template for it (ledger source=app), so there is no NDI declaration to show",
+   "v_alpha_divergence": null,
+   "writer_divergence": []
+  },
+  "contrast_tuning": {
+   "consumers": {
+    "convert_package_mentions": [],
+    "per_class_migrators": [
+     {
+      "package": "migrators_j",
+      "path": "src/did/+did2/+convert/+migrators_j/contrast_tuning.m",
+      "spelling": "contrast_tuning"
+     }
+    ]
+   },
+   "migrator_reads": [],
+   "ndi": null,
+   "ndi_absent_reason": "vhlab app/calculator class -- NDI ships no template for it (ledger source=app), so there is no NDI declaration to show",
+   "v_alpha_divergence": null,
+   "writer_divergence": []
+  },
+  "contrast_tuning_calc": {
+   "consumers": {
+    "convert_package_mentions": [
+     {
+      "pass": "universalRenames",
+      "path": "src/did/+did2/+convert/universalRenames.m",
+      "site_count": 1,
+      "sites": [
+       {
+        "line": 496,
+        "spelling": "contrast_tuning_calc",
+        "text": "'contrasttuning_calc',      'contrast_tuning_calc'; ..."
+       }
+      ]
+     }
+    ],
+    "per_class_migrators": [
+     {
+      "package": "migrators_j",
+      "path": "src/did/+did2/+convert/+migrators_j/contrast_tuning_calc.m",
+      "spelling": "contrast_tuning_calc"
+     },
+     {
+      "package": "migrators",
+      "path": "src/did/+did2/+convert/+migrators/contrast_tuning_calc.m",
+      "spelling": "contrast_tuning_calc"
+     }
+    ]
+   },
+   "migrator_reads": [],
+   "ndi": null,
+   "ndi_absent_reason": "vhlab app/calculator class -- NDI ships no template for it (ledger source=app), so there is no NDI declaration to show",
+   "v_alpha_divergence": null,
+   "writer_divergence": []
+  },
   "control_stimulus_ids": {
    "consumers": {
     "convert_package_mentions": [],
-    "per_class_migrators": []
+    "per_class_migrators": [
+     {
+      "package": "migrators_j",
+      "path": "src/did/+did2/+convert/+migrators_j/control_stimulus_ids.m",
+      "spelling": "control_stimulus_ids"
+     }
+    ]
    },
    "migrator_reads": [],
    "ndi": {
@@ -449,7 +857,13 @@
   "daqmetadatareader": {
    "consumers": {
     "convert_package_mentions": [],
-    "per_class_migrators": []
+    "per_class_migrators": [
+     {
+      "package": "migrators_j",
+      "path": "src/did/+did2/+convert/+migrators_j/daqmetadatareader.m",
+      "spelling": "daqmetadatareader"
+     }
+    ]
    },
    "migrator_reads": [],
    "ndi": {
@@ -497,8 +911,37 @@
   },
   "daqmetadatareader_epochdata_ingested": {
    "consumers": {
-    "convert_package_mentions": [],
-    "per_class_migrators": []
+    "convert_package_mentions": [
+     {
+      "pass": "epochMint",
+      "path": "src/did/+did2/+convert/epochMint.m",
+      "site_count": 3,
+      "sites": [
+       {
+        "line": 1049,
+        "spelling": "daqmetadatareader_epochdata_ingested",
+        "text": "if ~strcmp(rows(k).class_name, 'daqmetadatareader_epochdata_ingested')"
+       },
+       {
+        "line": 1080,
+        "spelling": "daqmetadatareader_epochdata_ingested",
+        "text": "'daqmetadatareader_epochdata_ingested');"
+       },
+       {
+        "line": 1790,
+        "spelling": "daqmetadatareader_epochdata_ingested",
+        "text": "'daqmetadatareader_epochdata_ingested', ..."
+       }
+      ]
+     }
+    ],
+    "per_class_migrators": [
+     {
+      "package": "migrators_j",
+      "path": "src/did/+did2/+convert/+migrators_j/daqmetadatareader_epochdata_ingested.m",
+      "spelling": "daqmetadatareader_epochdata_ingested"
+     }
+    ]
    },
    "migrator_reads": [],
    "ndi": {
@@ -545,7 +988,13 @@
   "daqreader": {
    "consumers": {
     "convert_package_mentions": [],
-    "per_class_migrators": []
+    "per_class_migrators": [
+     {
+      "package": "migrators_j",
+      "path": "src/did/+did2/+convert/+migrators_j/daqreader.m",
+      "spelling": "daqreader"
+     }
+    ]
    },
    "migrator_reads": [],
    "ndi": {
@@ -573,7 +1022,13 @@
   "daqreader_epochdata_ingested": {
    "consumers": {
     "convert_package_mentions": [],
-    "per_class_migrators": []
+    "per_class_migrators": [
+     {
+      "package": "migrators_j",
+      "path": "src/did/+did2/+convert/+migrators_j/daqreader_epochdata_ingested.m",
+      "spelling": "daqreader_epochdata_ingested"
+     }
+    ]
    },
    "migrator_reads": [],
    "ndi": {
@@ -624,7 +1079,13 @@
   "daqreader_image_epochdata_ingested": {
    "consumers": {
     "convert_package_mentions": [],
-    "per_class_migrators": []
+    "per_class_migrators": [
+     {
+      "package": "migrators_j",
+      "path": "src/did/+did2/+convert/+migrators_j/daqreader_image_epochdata_ingested.m",
+      "spelling": "daqreader_image_epochdata_ingested"
+     }
+    ]
    },
    "migrator_reads": [],
    "ndi": {
@@ -675,7 +1136,13 @@
   "daqreader_mfdaq_epochdata_ingested": {
    "consumers": {
     "convert_package_mentions": [],
-    "per_class_migrators": []
+    "per_class_migrators": [
+     {
+      "package": "migrators_j",
+      "path": "src/did/+did2/+convert/+migrators_j/daqreader_mfdaq_epochdata_ingested.m",
+      "spelling": "daqreader_mfdaq_epochdata_ingested"
+     }
+    ]
    },
    "migrator_reads": [],
    "ndi": {
@@ -789,7 +1256,13 @@
   "daqreader_ndr": {
    "consumers": {
     "convert_package_mentions": [],
-    "per_class_migrators": []
+    "per_class_migrators": [
+     {
+      "package": "migrators_j",
+      "path": "src/did/+did2/+convert/+migrators_j/daqreader_ndr.m",
+      "spelling": "daqreader_ndr"
+     }
+    ]
    },
    "migrator_reads": [],
    "ndi": {
@@ -839,7 +1312,13 @@
   "daqsystem": {
    "consumers": {
     "convert_package_mentions": [],
-    "per_class_migrators": []
+    "per_class_migrators": [
+     {
+      "package": "migrators_j",
+      "path": "src/did/+did2/+convert/+migrators_j/daqsystem.m",
+      "spelling": "daqsystem"
+     }
+    ]
    },
    "migrator_reads": [],
    "ndi": {
@@ -883,7 +1362,13 @@
   "dataset_remote": {
    "consumers": {
     "convert_package_mentions": [],
-    "per_class_migrators": []
+    "per_class_migrators": [
+     {
+      "package": "migrators_j",
+      "path": "src/did/+did2/+convert/+migrators_j/dataset_remote.m",
+      "spelling": "dataset_remote"
+     }
+    ]
    },
    "migrator_reads": [],
    "ndi": {
@@ -931,7 +1416,13 @@
   "dataset_session_info": {
    "consumers": {
     "convert_package_mentions": [],
-    "per_class_migrators": []
+    "per_class_migrators": [
+     {
+      "package": "migrators_j",
+      "path": "src/did/+did2/+convert/+migrators_j/dataset_session_info.m",
+      "spelling": "dataset_session_info"
+     }
+    ]
    },
    "migrator_reads": [],
    "ndi": {
@@ -977,7 +1468,13 @@
   "demoNDI": {
    "consumers": {
     "convert_package_mentions": [],
-    "per_class_migrators": []
+    "per_class_migrators": [
+     {
+      "package": "migrators_j",
+      "path": "src/did/+did2/+convert/+migrators_j/demo_ndi.m",
+      "spelling": "demo_ndi"
+     }
+    ]
    },
    "migrator_reads": [],
    "ndi": {
@@ -1024,7 +1521,13 @@
   "demoNDIMock": {
    "consumers": {
     "convert_package_mentions": [],
-    "per_class_migrators": []
+    "per_class_migrators": [
+     {
+      "package": "migrators_j",
+      "path": "src/did/+did2/+convert/+migrators_j/demo_ndi_mock.m",
+      "spelling": "demo_ndi_mock"
+     }
+    ]
    },
    "migrator_reads": [],
    "ndi": {
@@ -1125,7 +1628,18 @@
   "distance_metadata": {
    "consumers": {
     "convert_package_mentions": [],
-    "per_class_migrators": []
+    "per_class_migrators": [
+     {
+      "package": "migrators_j",
+      "path": "src/did/+did2/+convert/+migrators_j/distance_metadata.m",
+      "spelling": "distance_metadata"
+     },
+     {
+      "package": "migrators",
+      "path": "src/did/+did2/+convert/+migrators/distance_metadata.m",
+      "spelling": "distance_metadata"
+     }
+    ]
    },
    "migrator_reads": [],
    "ndi": {
@@ -1205,9 +1719,30 @@
   "electrode_offset_voltage": {
    "consumers": {
     "convert_package_mentions": [],
-    "per_class_migrators": []
+    "per_class_migrators": [
+     {
+      "package": "migrators_j",
+      "path": "src/did/+did2/+convert/+migrators_j/electrode_offset_voltage.m",
+      "spelling": "electrode_offset_voltage"
+     }
+    ]
    },
-   "migrator_reads": [],
+   "migrator_reads": [
+    {
+     "confidence": "confirmed-vocabulary",
+     "mentions_names_absent_from_template": [],
+     "migrator": "electrode_offset_voltage.m",
+     "ndi_class": "electrode_offset_voltage",
+     "reads_names_absent_from_template": [
+      "offset_voltages",
+      "voltage_units"
+     ],
+     "template_fields": [
+      "offset",
+      "temperature"
+     ]
+    }
+   ],
    "ndi": {
     "depends_on": [
      "probe_id"
@@ -1261,8 +1796,32 @@
   },
   "element": {
    "consumers": {
-    "convert_package_mentions": [],
-    "per_class_migrators": []
+    "convert_package_mentions": [
+     {
+      "pass": "resolveDeferredBaths",
+      "path": "src/did/+did2/+convert/resolveDeferredBaths.m",
+      "site_count": 1,
+      "sites": [
+       {
+        "line": 305,
+        "spelling": "element",
+        "text": "if strcmp(cn, 'element')"
+       }
+      ]
+     }
+    ],
+    "per_class_migrators": [
+     {
+      "package": "migrators_j",
+      "path": "src/did/+did2/+convert/+migrators_j/element.m",
+      "spelling": "element"
+     },
+     {
+      "package": "migrators",
+      "path": "src/did/+did2/+convert/+migrators/element.m",
+      "spelling": "element"
+     }
+    ]
    },
    "migrator_reads": [],
    "ndi": {
@@ -1332,7 +1891,18 @@
   "element_epoch": {
    "consumers": {
     "convert_package_mentions": [],
-    "per_class_migrators": []
+    "per_class_migrators": [
+     {
+      "package": "migrators_j",
+      "path": "src/did/+did2/+convert/+migrators_j/element_epoch.m",
+      "spelling": "element_epoch"
+     },
+     {
+      "package": "migrators",
+      "path": "src/did/+did2/+convert/+migrators/element_epoch.m",
+      "spelling": "element_epoch"
+     }
+    ]
    },
    "migrator_reads": [],
    "ndi": {
@@ -1442,7 +2012,13 @@
   "epochclocktimes": {
    "consumers": {
     "convert_package_mentions": [],
-    "per_class_migrators": []
+    "per_class_migrators": [
+     {
+      "package": "migrators",
+      "path": "src/did/+did2/+convert/+migrators/epochclocktimes.m",
+      "spelling": "epochclocktimes"
+     }
+    ]
    },
    "migrator_reads": [],
    "ndi": {
@@ -1488,8 +2064,59 @@
   },
   "epochfiles_ingested": {
    "consumers": {
-    "convert_package_mentions": [],
-    "per_class_migrators": []
+    "convert_package_mentions": [
+     {
+      "pass": "epochMint",
+      "path": "src/did/+did2/+convert/epochMint.m",
+      "site_count": 2,
+      "sites": [
+       {
+        "line": 2237,
+        "spelling": "epochfiles_ingested",
+        "text": "if ~strcmp(rows(k).class_name, 'epochfiles_ingested'); continue; end"
+       },
+       {
+        "line": 2329,
+        "spelling": "epochfiles_ingested",
+        "text": "if ~isstruct(body) || ~isfield(body, 'epochfiles_ingested') ..."
+       }
+      ]
+     },
+     {
+      "pass": "resolveEpochProbemap",
+      "path": "src/did/+did2/+convert/resolveEpochProbemap.m",
+      "site_count": 4,
+      "sites": [
+       {
+        "line": 264,
+        "spelling": "epochfiles_ingested",
+        "text": "if ~strcmp(classOf{k}, 'epochfiles_ingested'); continue; end"
+       },
+       {
+        "line": 804,
+        "spelling": "epochfiles_ingested",
+        "text": "if ~isstruct(body) || ~isfield(body, 'epochfiles_ingested') ..."
+       },
+       {
+        "line": 1036,
+        "spelling": "epochfiles_ingested",
+        "text": "if ~isstruct(body) || ~isfield(body, 'epochfiles_ingested') ..."
+       },
+       {
+        "line": 1055,
+        "spelling": "epochfiles_ingested",
+        "text": "if ~isstruct(body) || ~isfield(body, 'epochfiles_ingested') ..."
+       }
+      ]
+     }
+    ],
+    "per_class_migrators": [
+     {
+      "package": "migrators_j",
+      "path": "src/did/+did2/+convert/+migrators_j/epochfiles_ingested.m",
+      "spelling": "epochfiles_ingested"
+     }
+    ]
    },
    "migrator_reads": [],
    "ndi": {
@@ -1548,7 +2175,69 @@
   },
   "epochid": {
    "consumers": {
-    "convert_package_mentions": [],
+    "convert_package_mentions": [
+     {
+      "pass": "epochIndex",
+      "path": "src/did/+did2/+convert/epochIndex.m",
+      "site_count": 1,
+      "sites": [
+       {
+        "line": 235,
+        "spelling": "epochid",
+        "text": "%   'epochid' for the did_v1 mixin, 'method_parameters' for the"
+       }
+      ]
+     },
+     {
+      "pass": "epochMint",
+      "path": "src/did/+did2/+convert/epochMint.m",
+      "site_count": 6,
+      "sites": [
+       {
+        "line": 808,
+        "spelling": "epochid",
+        "text": "es = valueForSource(epochValues{k}, epochSources{k}, 'epochid');"
+       },
+       {
+        "line": 968,
+        "spelling": "epochid",
+        "text": "&& isfield(b.method_parameters.other, 'epochid')"
+       },
+       {
+        "line": 969,
+        "spelling": "epochid",
+        "text": "b.method_parameters.other = rmfield(b.method_parameters.other, 'epochid');"
+       },
+       {
+        "line": 1056,
+        "spelling": "epochid",
+        "text": "es = valueForSource(epochValues{k}, epochSources{k}, 'epochid');"
+       },
+       {
+        "line": 2026,
+        "spelling": "epochid",
+        "text": "es = charField(node.(trName{1}), {'epoch_id', 'epochId', 'epochID', 'epochid'});"
+       },
+       {
+        "line": 2031,
+        "spelling": "epochid",
+        "text": "es = charField(node, {'epoch_id', 'epochId', 'epochID', 'epochid'});"
+       }
+      ]
+     },
+     {
+      "pass": "resolveEpochProbemap",
+      "path": "src/did/+did2/+convert/resolveEpochProbemap.m",
+      "site_count": 1,
+      "sites": [
+       {
+        "line": 1059,
+        "spelling": "epochid",
+        "text": "es = charField(body.epochfiles_ingested, {'epoch_id', 'epochId', 'epochid'});"
+       }
+      ]
+     }
+    ],
     "per_class_migrators": []
    },
    "migrator_reads": [],
@@ -1627,7 +2316,13 @@
   "filenavigator": {
    "consumers": {
     "convert_package_mentions": [],
-    "per_class_migrators": []
+    "per_class_migrators": [
+     {
+      "package": "migrators_j",
+      "path": "src/did/+did2/+convert/+migrators_j/filenavigator.m",
+      "spelling": "filenavigator"
+     }
+    ]
    },
    "migrator_reads": [],
    "ndi": {
@@ -1661,7 +2356,13 @@
   "filter": {
    "consumers": {
     "convert_package_mentions": [],
-    "per_class_migrators": []
+    "per_class_migrators": [
+     {
+      "package": "migrators",
+      "path": "src/did/+did2/+convert/+migrators/filter.m",
+      "spelling": "filter"
+     }
+    ]
    },
    "migrator_reads": [],
    "ndi": {
@@ -1713,7 +2414,13 @@
   "fitcurve": {
    "consumers": {
     "convert_package_mentions": [],
-    "per_class_migrators": []
+    "per_class_migrators": [
+     {
+      "package": "migrators_j",
+      "path": "src/did/+did2/+convert/+migrators_j/fitcurve.m",
+      "spelling": "fitcurve"
+     }
+    ]
    },
    "migrator_reads": [],
    "ndi": {
@@ -1918,7 +2625,30 @@
   },
   "generic_file": {
    "consumers": {
-    "convert_package_mentions": [],
+    "convert_package_mentions": [
+     {
+      "pass": "foldGenericFiles",
+      "path": "src/did/+did2/+convert/foldGenericFiles.m",
+      "site_count": 3,
+      "sites": [
+       {
+        "line": 74,
+        "spelling": "generic_file",
+        "text": "%       doc = ndi.document('generic_file','generic_file',generic_file) + ..."
+       },
+       {
+        "line": 321,
+        "spelling": "generic_file",
+        "text": "if strcmp(classes{k}, 'generic_file') && ~isempty(docIds{k})"
+       },
+       {
+        "line": 370,
+        "spelling": "generic_file",
+        "text": "blk = blockOf(b, 'generic_file');"
+       }
+      ]
+     }
+    ],
     "per_class_migrators": []
    },
    "migrator_reads": [],
@@ -1984,10 +2714,56 @@
    },
    "writer_divergence": []
   },
-  "image": {
+  "hartley_calc": {
    "consumers": {
     "convert_package_mentions": [],
-    "per_class_migrators": []
+    "per_class_migrators": [
+     {
+      "package": "migrators_j",
+      "path": "src/did/+did2/+convert/+migrators_j/hartley_calc.m",
+      "spelling": "hartley_calc"
+     },
+     {
+      "package": "migrators",
+      "path": "src/did/+did2/+convert/+migrators/hartley_calc.m",
+      "spelling": "hartley_calc"
+     }
+    ]
+   },
+   "migrator_reads": [],
+   "ndi": null,
+   "ndi_absent_reason": "vhlab app/calculator class -- NDI ships no template for it (ledger source=app), so there is no NDI declaration to show",
+   "v_alpha_divergence": null,
+   "writer_divergence": []
+  },
+  "image": {
+   "consumers": {
+    "convert_package_mentions": [
+     {
+      "pass": "resolveEpochProbemap",
+      "path": "src/did/+did2/+convert/resolveEpochProbemap.m",
+      "site_count": 2,
+      "sites": [
+       {
+        "line": 749,
+        "spelling": "image",
+        "text": "if strcmp(mixin, 'image')"
+       },
+       {
+        "line": 952,
+        "spelling": "image",
+        "text": "entries = mkEntry('image_observation', 'image', 'image');"
+       }
+      ]
+     }
+    ],
+    "per_class_migrators": [
+     {
+      "package": "migrators_j",
+      "path": "src/did/+did2/+convert/+migrators_j/image.m",
+      "spelling": "image"
+     }
+    ]
    },
    "migrator_reads": [],
    "ndi": {
@@ -2116,7 +2892,18 @@
   "imageStack": {
    "consumers": {
     "convert_package_mentions": [],
-    "per_class_migrators": []
+    "per_class_migrators": [
+     {
+      "package": "migrators_j",
+      "path": "src/did/+did2/+convert/+migrators_j/image_stack.m",
+      "spelling": "image_stack"
+     },
+     {
+      "package": "migrators_i",
+      "path": "src/did/+did2/+convert/+migrators_i/image_stack.m",
+      "spelling": "image_stack"
+     }
+    ]
    },
    "migrator_reads": [],
    "ndi": {
@@ -2267,7 +3054,18 @@
   "jrclust_clusters": {
    "consumers": {
     "convert_package_mentions": [],
-    "per_class_migrators": []
+    "per_class_migrators": [
+     {
+      "package": "migrators_j",
+      "path": "src/did/+did2/+convert/+migrators_j/jrclust_clusters.m",
+      "spelling": "jrclust_clusters"
+     },
+     {
+      "package": "migrators",
+      "path": "src/did/+did2/+convert/+migrators/jrclust_clusters.m",
+      "spelling": "jrclust_clusters"
+     }
+    ]
    },
    "migrator_reads": [],
    "ndi": {
@@ -2321,7 +3119,13 @@
   "kiasort_clusters": {
    "consumers": {
     "convert_package_mentions": [],
-    "per_class_migrators": []
+    "per_class_migrators": [
+     {
+      "package": "migrators_j",
+      "path": "src/did/+did2/+convert/+migrators_j/kiasort_clusters.m",
+      "spelling": "kiasort_clusters"
+     }
+    ]
    },
    "migrator_reads": [],
    "ndi": {
@@ -2360,7 +3164,13 @@
   "kilosort_clusters": {
    "consumers": {
     "convert_package_mentions": [],
-    "per_class_migrators": []
+    "per_class_migrators": [
+     {
+      "package": "migrators_j",
+      "path": "src/did/+did2/+convert/+migrators_j/kilosort_clusters.m",
+      "spelling": "kilosort_clusters"
+     }
+    ]
    },
    "migrator_reads": [],
    "ndi": {
@@ -2398,10 +3208,46 @@
   },
   "measurement": {
    "consumers": {
-    "convert_package_mentions": [],
-    "per_class_migrators": []
+    "convert_package_mentions": [
+     {
+      "pass": "resolveValidIntervals",
+      "path": "src/did/+did2/+convert/resolveValidIntervals.m",
+      "site_count": 1,
+      "sites": [
+       {
+        "line": 390,
+        "spelling": "measurement",
+        "text": "%   observation verb \"is nearly always 'measurement'\" -- so a blank reads as the"
+       }
+      ]
+     }
+    ],
+    "per_class_migrators": [
+     {
+      "package": "migrators_j",
+      "path": "src/did/+did2/+convert/+migrators_j/measurement.m",
+      "spelling": "measurement"
+     }
+    ]
    },
-   "migrator_reads": [],
+   "migrator_reads": [
+    {
+     "confidence": "confirmed-vocabulary",
+     "mentions_names_absent_from_template": [],
+     "migrator": "measurement.m",
+     "ndi_class": "measurement",
+     "reads_names_absent_from_template": [
+      "measurement_class",
+      "parameters"
+     ],
+     "template_fields": [
+      "name",
+      "numeric_value",
+      "ontology_name",
+      "string_value"
+     ]
+    }
+   ],
    "ndi": {
     "depends_on": [
      "subject_id",
@@ -2472,7 +3318,13 @@
   "metadata_editor": {
    "consumers": {
     "convert_package_mentions": [],
-    "per_class_migrators": []
+    "per_class_migrators": [
+     {
+      "package": "migrators_j",
+      "path": "src/did/+did2/+convert/+migrators_j/metadata_editor.m",
+      "spelling": "metadata_editor"
+     }
+    ]
    },
    "migrator_reads": [],
    "ndi": {
@@ -2543,9 +3395,34 @@
   "neuron_extracellular": {
    "consumers": {
     "convert_package_mentions": [],
-    "per_class_migrators": []
+    "per_class_migrators": [
+     {
+      "package": "migrators_j",
+      "path": "src/did/+did2/+convert/+migrators_j/neuron_extracellular.m",
+      "spelling": "neuron_extracellular"
+     }
+    ]
    },
-   "migrator_reads": [],
+   "migrator_reads": [
+    {
+     "confidence": "possible",
+     "mentions_names_absent_from_template": [
+      "quality"
+     ],
+     "migrator": "neuron_extracellular.m",
+     "ndi_class": "neuron_extracellular",
+     "reads_names_absent_from_template": [],
+     "template_fields": [
+      "cluster_index",
+      "mean_waveform",
+      "number_of_channels",
+      "number_of_samples_per_channel",
+      "quality_label",
+      "quality_number",
+      "waveform_sample_times"
+     ]
+    }
+   ],
    "ndi": {
     "depends_on": [
      "element_id",
@@ -2626,7 +3503,13 @@
   "ngrid": {
    "consumers": {
     "convert_package_mentions": [],
-    "per_class_migrators": []
+    "per_class_migrators": [
+     {
+      "package": "migrators",
+      "path": "src/did/+did2/+convert/+migrators/ngrid.m",
+      "spelling": "ngrid"
+     }
+    ]
    },
    "migrator_reads": [],
    "ndi": {
@@ -2691,7 +3574,13 @@
   "oneepoch": {
    "consumers": {
     "convert_package_mentions": [],
-    "per_class_migrators": []
+    "per_class_migrators": [
+     {
+      "package": "migrators_j",
+      "path": "src/did/+did2/+convert/+migrators_j/oneepoch.m",
+      "spelling": "oneepoch"
+     }
+    ]
    },
    "migrator_reads": [],
    "ndi": {
@@ -2737,9 +3626,34 @@
   "ontologyImage": {
    "consumers": {
     "convert_package_mentions": [],
-    "per_class_migrators": []
+    "per_class_migrators": [
+     {
+      "package": "migrators_j",
+      "path": "src/did/+did2/+convert/+migrators_j/ontology_image.m",
+      "spelling": "ontology_image"
+     },
+     {
+      "package": "migrators",
+      "path": "src/did/+did2/+convert/+migrators/ontology_image.m",
+      "spelling": "ontology_image"
+     }
+    ]
    },
-   "migrator_reads": [],
+   "migrator_reads": [
+    {
+     "confidence": "confirmed-vocabulary",
+     "mentions_names_absent_from_template": [],
+     "migrator": "ontology_image.m",
+     "ndi_class": "ontologyImage",
+     "reads_names_absent_from_template": [
+      "ontology_name",
+      "ontology_region"
+     ],
+     "template_fields": [
+      "ontology_node"
+     ]
+    }
+   ],
    "ndi": {
     "depends_on": [
      "ontologyTableRow_id"
@@ -2802,10 +3716,59 @@
   },
   "ontologyLabel": {
    "consumers": {
-    "convert_package_mentions": [],
-    "per_class_migrators": []
+    "convert_package_mentions": [
+     {
+      "pass": "foldGenericFiles",
+      "path": "src/did/+did2/+convert/foldGenericFiles.m",
+      "site_count": 3,
+      "sites": [
+       {
+        "line": 77,
+        "spelling": "ontologyLabel",
+        "text": "%       label = ndi.document('ontologyLabel','ontologyLabel', ..."
+       },
+       {
+        "line": 347,
+        "spelling": "ontology_label",
+        "text": "if ~strcmp(classes{k}, 'ontology_label'); continue; end"
+       },
+       {
+        "line": 356,
+        "spelling": "ontology_label",
+        "text": "labelNode(targetId)  = charField(blockOf(bodies{k}, 'ontology_label'), ..."
+       }
+      ]
+     }
+    ],
+    "per_class_migrators": [
+     {
+      "package": "migrators_j",
+      "path": "src/did/+did2/+convert/+migrators_j/ontology_label.m",
+      "spelling": "ontology_label"
+     },
+     {
+      "package": "migrators",
+      "path": "src/did/+did2/+convert/+migrators/ontology_label.m",
+      "spelling": "ontology_label"
+     }
+    ]
    },
-   "migrator_reads": [],
+   "migrator_reads": [
+    {
+     "confidence": "confirmed-vocabulary",
+     "mentions_names_absent_from_template": [],
+     "migrator": "ontology_label.m",
+     "ndi_class": "ontologyLabel",
+     "reads_names_absent_from_template": [
+      "label",
+      "label_id",
+      "ontology_name"
+     ],
+     "template_fields": [
+      "ontology_node"
+     ]
+    }
+   ],
    "ndi": {
     "depends_on": [
      "document_id"
@@ -2856,8 +3819,37 @@
   },
   "ontologyTableRow": {
    "consumers": {
-    "convert_package_mentions": [],
-    "per_class_migrators": []
+    "convert_package_mentions": [
+     {
+      "pass": "resolveLawnPlateSubjects",
+      "path": "src/did/+did2/+convert/resolveLawnPlateSubjects.m",
+      "site_count": 2,
+      "sites": [
+       {
+        "line": 24,
+        "spelling": "ontology_table_row",
+        "text": "%   `ROW = 'ontology_table_row'` at :507 is the only class this pass selects"
+       },
+       {
+        "line": 528,
+        "spelling": "ontology_table_row",
+        "text": "ROW = 'ontology_table_row';"
+       }
+      ]
+     }
+    ],
+    "per_class_migrators": [
+     {
+      "package": "migrators_j",
+      "path": "src/did/+did2/+convert/+migrators_j/ontology_table_row.m",
+      "spelling": "ontology_table_row"
+     },
+     {
+      "package": "migrators_i",
+      "path": "src/did/+did2/+convert/+migrators_i/ontology_table_row.m",
+      "spelling": "ontology_table_row"
+     }
+    ]
    },
    "migrator_reads": [],
    "ndi": {
@@ -2898,8 +3890,37 @@
   },
   "openminds": {
    "consumers": {
-    "convert_package_mentions": [],
-    "per_class_migrators": []
+    "convert_package_mentions": [
+     {
+      "pass": "resolveOpenmindsCitations",
+      "path": "src/did/+did2/+convert/resolveOpenmindsCitations.m",
+      "site_count": 3,
+      "sites": [
+       {
+        "line": 318,
+        "spelling": "openminds",
+        "text": "if strcmp(classNameOf(b), 'openminds')"
+       },
+       {
+        "line": 775,
+        "spelling": "openminds",
+        "text": "if ~isstruct(s) || ~isfield(s, 'openminds') || ~isstruct(s.openminds); return; end"
+       },
+       {
+        "line": 807,
+        "spelling": "openminds",
+        "text": "if isstruct(s) && isfield(s, 'openminds') && isstruct(s.openminds) ..."
+       }
+      ]
+     }
+    ],
+    "per_class_migrators": [
+     {
+      "package": "migrators_j",
+      "path": "src/did/+did2/+convert/+migrators_j/openminds.m",
+      "spelling": "openminds"
+     }
+    ]
    },
    "migrator_reads": [],
    "ndi": {
@@ -2961,7 +3982,13 @@
   "openminds_element": {
    "consumers": {
     "convert_package_mentions": [],
-    "per_class_migrators": []
+    "per_class_migrators": [
+     {
+      "package": "migrators_j",
+      "path": "src/did/+did2/+convert/+migrators_j/openminds_element.m",
+      "spelling": "openminds_element"
+     }
+    ]
    },
    "migrator_reads": [],
    "ndi": {
@@ -2994,7 +4021,13 @@
   "openminds_stimulus": {
    "consumers": {
     "convert_package_mentions": [],
-    "per_class_migrators": []
+    "per_class_migrators": [
+     {
+      "package": "migrators_j",
+      "path": "src/did/+did2/+convert/+migrators_j/openminds_stimulus.m",
+      "spelling": "openminds_stimulus"
+     }
+    ]
    },
    "migrator_reads": [],
    "ndi": {
@@ -3028,7 +4061,13 @@
   "openminds_subject": {
    "consumers": {
     "convert_package_mentions": [],
-    "per_class_migrators": []
+    "per_class_migrators": [
+     {
+      "package": "migrators_j",
+      "path": "src/did/+did2/+convert/+migrators_j/openminds_subject.m",
+      "spelling": "openminds_subject"
+     }
+    ]
    },
    "migrator_reads": [],
    "ndi": {
@@ -3058,10 +4097,51 @@
    "v_alpha_divergence": null,
    "writer_divergence": []
   },
+  "oridirtuning_calc": {
+   "consumers": {
+    "convert_package_mentions": [
+     {
+      "pass": "calcCommon",
+      "path": "src/did/+did2/+convert/calcCommon.m",
+      "site_count": 1,
+      "sites": [
+       {
+        "line": 36,
+        "spelling": "oridirtuning_calc",
+        "text": "%           v2Body = did2.convert.calcCommon(preBody, 'oridirtuning_calc');"
+       }
+      ]
+     }
+    ],
+    "per_class_migrators": [
+     {
+      "package": "migrators_j",
+      "path": "src/did/+did2/+convert/+migrators_j/oridirtuning_calc.m",
+      "spelling": "oridirtuning_calc"
+     },
+     {
+      "package": "migrators",
+      "path": "src/did/+did2/+convert/+migrators/oridirtuning_calc.m",
+      "spelling": "oridirtuning_calc"
+     }
+    ]
+   },
+   "migrator_reads": [],
+   "ndi": null,
+   "ndi_absent_reason": "vhlab app/calculator class -- NDI ships no template for it (ledger source=app), so there is no NDI declaration to show",
+   "v_alpha_divergence": null,
+   "writer_divergence": []
+  },
   "orientation_direction_tuning": {
    "consumers": {
     "convert_package_mentions": [],
-    "per_class_migrators": []
+    "per_class_migrators": [
+     {
+      "package": "migrators_j",
+      "path": "src/did/+did2/+convert/+migrators_j/orientation_direction_tuning.m",
+      "spelling": "orientation_direction_tuning"
+     }
+    ]
    },
    "migrator_reads": [],
    "ndi": {
@@ -3130,7 +4210,18 @@
   "position_metadata": {
    "consumers": {
     "convert_package_mentions": [],
-    "per_class_migrators": []
+    "per_class_migrators": [
+     {
+      "package": "migrators_j",
+      "path": "src/did/+did2/+convert/+migrators_j/position_metadata.m",
+      "spelling": "position_metadata"
+     },
+     {
+      "package": "migrators",
+      "path": "src/did/+did2/+convert/+migrators/position_metadata.m",
+      "spelling": "position_metadata"
+     }
+    ]
    },
    "migrator_reads": [],
    "ndi": {
@@ -3198,9 +4289,44 @@
   "probe_geometry": {
    "consumers": {
     "convert_package_mentions": [],
-    "per_class_migrators": []
+    "per_class_migrators": [
+     {
+      "package": "migrators_j",
+      "path": "src/did/+did2/+convert/+migrators_j/probe_geometry.m",
+      "spelling": "probe_geometry"
+     }
+    ]
    },
-   "migrator_reads": [],
+   "migrator_reads": [
+    {
+     "confidence": "confirmed-vocabulary",
+     "mentions_names_absent_from_template": [],
+     "migrator": "probe_geometry.m",
+     "ndi_class": "probe_geometry",
+     "reads_names_absent_from_template": [
+      "channel_positions",
+      "position_units",
+      "probe_type"
+     ],
+     "template_fields": [
+      "contact_shape",
+      "contact_shape_height",
+      "contact_shape_radius",
+      "contact_shape_width",
+      "contour_x",
+      "contour_y",
+      "has_planar_contour",
+      "manufacturer",
+      "ndim",
+      "probe_model",
+      "shank_id",
+      "site_locations_depth",
+      "site_locations_frontback",
+      "site_locations_leftright",
+      "unit"
+     ]
+    }
+   ],
    "ndi": {
     "depends_on": [
      "probe_id"
@@ -3292,7 +4418,13 @@
   "probe_location": {
    "consumers": {
     "convert_package_mentions": [],
-    "per_class_migrators": []
+    "per_class_migrators": [
+     {
+      "package": "migrators_j",
+      "path": "src/did/+did2/+convert/+migrators_j/probe_location.m",
+      "spelling": "probe_location"
+     }
+    ]
    },
    "migrator_reads": [],
    "ndi": {
@@ -3394,7 +4526,13 @@
   "pyraview": {
    "consumers": {
     "convert_package_mentions": [],
-    "per_class_migrators": []
+    "per_class_migrators": [
+     {
+      "package": "migrators_j",
+      "path": "src/did/+did2/+convert/+migrators_j/pyraview.m",
+      "spelling": "pyraview"
+     }
+    ]
    },
    "migrator_reads": [],
    "ndi": {
@@ -3455,8 +4593,51 @@
   },
   "session": {
    "consumers": {
-    "convert_package_mentions": [],
-    "per_class_migrators": []
+    "convert_package_mentions": [
+     {
+      "pass": "epochMint",
+      "path": "src/did/+did2/+convert/epochMint.m",
+      "site_count": 1,
+      "sites": [
+       {
+        "line": 669,
+        "spelling": "session",
+        "text": "if ~strcmp(rows(k).class_name, 'session'); continue; end"
+       }
+      ]
+     },
+     {
+      "pass": "resolveClockAlignment",
+      "path": "src/did/+did2/+convert/resolveClockAlignment.m",
+      "site_count": 1,
+      "sites": [
+       {
+        "line": 127,
+        "spelling": "session",
+        "text": "if ~strcmp(classes{k}, 'session'); continue; end"
+       }
+      ]
+     },
+     {
+      "pass": "resolveSessionAnchors",
+      "path": "src/did/+did2/+convert/resolveSessionAnchors.m",
+      "site_count": 1,
+      "sites": [
+       {
+        "line": 400,
+        "spelling": "session",
+        "text": "if ~strcmp(anchorClass{k}, 'session'); continue; end"
+       }
+      ]
+     }
+    ],
+    "per_class_migrators": [
+     {
+      "package": "migrators_j",
+      "path": "src/did/+did2/+convert/+migrators_j/session.m",
+      "spelling": "session"
+     }
+    ]
    },
    "migrator_reads": [],
    "ndi": {
@@ -3500,7 +4681,13 @@
   "session_in_a_dataset": {
    "consumers": {
     "convert_package_mentions": [],
-    "per_class_migrators": []
+    "per_class_migrators": [
+     {
+      "package": "migrators_j",
+      "path": "src/did/+did2/+convert/+migrators_j/session_in_a_dataset.m",
+      "spelling": "session_in_a_dataset"
+     }
+    ]
    },
    "migrator_reads": [],
    "ndi": {
@@ -3568,9 +4755,35 @@
   "simple_calc": {
    "consumers": {
     "convert_package_mentions": [],
-    "per_class_migrators": []
+    "per_class_migrators": [
+     {
+      "package": "migrators_j",
+      "path": "src/did/+did2/+convert/+migrators_j/simple_calc.m",
+      "spelling": "simple_calc"
+     },
+     {
+      "package": "migrators",
+      "path": "src/did/+did2/+convert/+migrators/simple_calc.m",
+      "spelling": "simple_calc"
+     }
+    ]
    },
-   "migrator_reads": [],
+   "migrator_reads": [
+    {
+     "confidence": "confirmed-vocabulary",
+     "mentions_names_absent_from_template": [],
+     "migrator": "simple_calc.m",
+     "ndi_class": "simple_calc",
+     "reads_names_absent_from_template": [
+      "result_units",
+      "result_value"
+     ],
+     "template_fields": [
+      "answer",
+      "input_parameters"
+     ]
+    }
+   ],
    "ndi": {
     "depends_on": [
      "document_id"
@@ -3622,9 +4835,29 @@
   "site2channelmap": {
    "consumers": {
     "convert_package_mentions": [],
-    "per_class_migrators": []
+    "per_class_migrators": [
+     {
+      "package": "migrators_j",
+      "path": "src/did/+did2/+convert/+migrators_j/site2channelmap.m",
+      "spelling": "site2channelmap"
+     }
+    ]
    },
-   "migrator_reads": [],
+   "migrator_reads": [
+    {
+     "confidence": "confirmed-vocabulary",
+     "mentions_names_absent_from_template": [],
+     "migrator": "site2channelmap.m",
+     "ndi_class": "site2channelmap",
+     "reads_names_absent_from_template": [
+      "num_sites",
+      "site_to_channel"
+     ],
+     "template_fields": [
+      "map"
+     ]
+    }
+   ],
    "ndi": {
     "depends_on": [
      "probe_id",
@@ -3676,7 +4909,13 @@
   "sorting_parameters": {
    "consumers": {
     "convert_package_mentions": [],
-    "per_class_migrators": []
+    "per_class_migrators": [
+     {
+      "package": "migrators_j",
+      "path": "src/did/+did2/+convert/+migrators_j/sorting_parameters.m",
+      "spelling": "sorting_parameters"
+     }
+    ]
    },
    "migrator_reads": [],
    "ndi": {
@@ -3947,12 +5186,112 @@
    "v_alpha_divergence": null,
    "writer_divergence": []
   },
+  "spatial_frequency_tuning": {
+   "consumers": {
+    "convert_package_mentions": [],
+    "per_class_migrators": [
+     {
+      "package": "migrators_j",
+      "path": "src/did/+did2/+convert/+migrators_j/spatial_frequency_tuning.m",
+      "spelling": "spatial_frequency_tuning"
+     }
+    ]
+   },
+   "migrator_reads": [],
+   "ndi": null,
+   "ndi_absent_reason": "vhlab app/calculator class -- NDI ships no template for it (ledger source=app), so there is no NDI declaration to show",
+   "v_alpha_divergence": null,
+   "writer_divergence": []
+  },
+  "spatial_frequency_tuning_calc": {
+   "consumers": {
+    "convert_package_mentions": [],
+    "per_class_migrators": [
+     {
+      "package": "migrators_j",
+      "path": "src/did/+did2/+convert/+migrators_j/spatial_frequency_tuning_calc.m",
+      "spelling": "spatial_frequency_tuning_calc"
+     },
+     {
+      "package": "migrators",
+      "path": "src/did/+did2/+convert/+migrators/spatial_frequency_tuning_calc.m",
+      "spelling": "spatial_frequency_tuning_calc"
+     }
+    ]
+   },
+   "migrator_reads": [],
+   "ndi": null,
+   "ndi_absent_reason": "vhlab app/calculator class -- NDI ships no template for it (ledger source=app), so there is no NDI declaration to show",
+   "v_alpha_divergence": null,
+   "writer_divergence": []
+  },
+  "speed_tuning": {
+   "consumers": {
+    "convert_package_mentions": [],
+    "per_class_migrators": [
+     {
+      "package": "migrators_j",
+      "path": "src/did/+did2/+convert/+migrators_j/speed_tuning.m",
+      "spelling": "speed_tuning"
+     }
+    ]
+   },
+   "migrator_reads": [],
+   "ndi": null,
+   "ndi_absent_reason": "vhlab app/calculator class -- NDI ships no template for it (ledger source=app), so there is no NDI declaration to show",
+   "v_alpha_divergence": null,
+   "writer_divergence": []
+  },
+  "speed_tuning_calc": {
+   "consumers": {
+    "convert_package_mentions": [],
+    "per_class_migrators": [
+     {
+      "package": "migrators_j",
+      "path": "src/did/+did2/+convert/+migrators_j/speed_tuning_calc.m",
+      "spelling": "speed_tuning_calc"
+     },
+     {
+      "package": "migrators",
+      "path": "src/did/+did2/+convert/+migrators/speed_tuning_calc.m",
+      "spelling": "speed_tuning_calc"
+     }
+    ]
+   },
+   "migrator_reads": [],
+   "ndi": null,
+   "ndi_absent_reason": "vhlab app/calculator class -- NDI ships no template for it (ledger source=app), so there is no NDI declaration to show",
+   "v_alpha_divergence": null,
+   "writer_divergence": []
+  },
   "spike_clusters": {
    "consumers": {
     "convert_package_mentions": [],
-    "per_class_migrators": []
+    "per_class_migrators": [
+     {
+      "package": "migrators_j",
+      "path": "src/did/+did2/+convert/+migrators_j/spike_clusters.m",
+      "spelling": "spike_clusters"
+     }
+    ]
    },
-   "migrator_reads": [],
+   "migrator_reads": [
+    {
+     "confidence": "confirmed-vocabulary",
+     "mentions_names_absent_from_template": [],
+     "migrator": "spike_clusters.m",
+     "ndi_class": "spike_clusters",
+     "reads_names_absent_from_template": [
+      "num_clusters",
+      "num_spikes"
+     ],
+     "template_fields": [
+      "clusterinfo",
+      "epoch_info",
+      "waveform_sample_times"
+     ]
+    }
+   ],
    "ndi": {
     "depends_on": [
      "sorting_parameters_id",
@@ -4021,7 +5360,13 @@
   "spike_extraction_parameters": {
    "consumers": {
     "convert_package_mentions": [],
-    "per_class_migrators": []
+    "per_class_migrators": [
+     {
+      "package": "migrators_j",
+      "path": "src/did/+did2/+convert/+migrators_j/spike_extraction_parameters.m",
+      "spelling": "spike_extraction_parameters"
+     }
+    ]
    },
    "migrator_reads": [],
    "ndi": {
@@ -4104,7 +5449,13 @@
   "spike_extraction_parameters_modification": {
    "consumers": {
     "convert_package_mentions": [],
-    "per_class_migrators": []
+    "per_class_migrators": [
+     {
+      "package": "migrators_j",
+      "path": "src/did/+did2/+convert/+migrators_j/spike_extraction_parameters_modification.m",
+      "spelling": "spike_extraction_parameters_modification"
+     }
+    ]
    },
    "migrator_reads": [],
    "ndi": {
@@ -4218,9 +5569,30 @@
   "spikewaves": {
    "consumers": {
     "convert_package_mentions": [],
-    "per_class_migrators": []
+    "per_class_migrators": [
+     {
+      "package": "migrators_j",
+      "path": "src/did/+did2/+convert/+migrators_j/spikewaves.m",
+      "spelling": "spikewaves"
+     }
+    ]
    },
-   "migrator_reads": [],
+   "migrator_reads": [
+    {
+     "confidence": "confirmed-vocabulary",
+     "mentions_names_absent_from_template": [],
+     "migrator": "spikewaves.m",
+     "ndi_class": "spikewaves",
+     "reads_names_absent_from_template": [
+      "num_spikes",
+      "sample_rate",
+      "samples_per_spike"
+     ],
+     "template_fields": [
+      "extraction_name"
+     ]
+    }
+   ],
    "ndi": {
     "depends_on": [
      "extraction_parameters_id",
@@ -4277,8 +5649,47 @@
   },
   "stimulus_bath": {
    "consumers": {
-    "convert_package_mentions": [],
-    "per_class_migrators": []
+    "convert_package_mentions": [
+     {
+      "pass": "resolveDeferredBaths",
+      "path": "src/did/+did2/+convert/resolveDeferredBaths.m",
+      "site_count": 3,
+      "sites": [
+       {
+        "line": 522,
+        "spelling": "stimulus_bath",
+        "text": "if isfield(body, 'stimulus_bath') && isstruct(body.stimulus_bath) ..."
+       },
+       {
+        "line": 534,
+        "spelling": "stimulus_bath",
+        "text": "if isfield(body, 'stimulus_bath') && isstruct(body.stimulus_bath) ..."
+       },
+       {
+        "line": 563,
+        "spelling": "stimulus_bath",
+        "text": "if isfield(qEntry, 'class_name') && strcmp(qEntry.class_name, 'stimulus_bath')"
+       }
+      ]
+     }
+    ],
+    "per_class_migrators": [
+     {
+      "package": "migrators_j",
+      "path": "src/did/+did2/+convert/+migrators_j/stimulus_bath.m",
+      "spelling": "stimulus_bath"
+     },
+     {
+      "package": "migrators",
+      "path": "src/did/+did2/+convert/+migrators/stimulus_bath.m",
+      "spelling": "stimulus_bath"
+     },
+     {
+      "package": "migrators_i",
+      "path": "src/did/+did2/+convert/+migrators_i/stimulus_bath.m",
+      "spelling": "stimulus_bath"
+     }
+    ]
    },
    "migrator_reads": [],
    "ndi": {
@@ -4333,7 +5744,13 @@
   "stimulus_parameter": {
    "consumers": {
     "convert_package_mentions": [],
-    "per_class_migrators": []
+    "per_class_migrators": [
+     {
+      "package": "migrators_j",
+      "path": "src/did/+did2/+convert/+migrators_j/stimulus_parameter.m",
+      "spelling": "stimulus_parameter"
+     }
+    ]
    },
    "migrator_reads": [],
    "ndi": {
@@ -4451,7 +5868,13 @@
   "stimulus_presentation": {
    "consumers": {
     "convert_package_mentions": [],
-    "per_class_migrators": []
+    "per_class_migrators": [
+     {
+      "package": "migrators_j",
+      "path": "src/did/+did2/+convert/+migrators_j/stimulus_presentation.m",
+      "spelling": "stimulus_presentation"
+     }
+    ]
    },
    "migrator_reads": [],
    "ndi": {
@@ -4572,8 +5995,49 @@
   },
   "stimulus_response_scalar": {
    "consumers": {
-    "convert_package_mentions": [],
-    "per_class_migrators": []
+    "convert_package_mentions": [
+     {
+      "pass": "epochMint",
+      "path": "src/did/+did2/+convert/epochMint.m",
+      "site_count": 3,
+      "sites": [
+       {
+        "line": 1225,
+        "spelling": "stimulus_response_scalar",
+        "text": "if ~strcmp(rows(k).class_name, 'stimulus_response_scalar'); continue; end"
+       },
+       {
+        "line": 1248,
+        "spelling": "stimulus_response_scalar",
+        "text": "migrator = armingMigratorFor(armingMigrators, 'stimulus_response_scalar');"
+       },
+       {
+        "line": 1792,
+        "spelling": "stimulus_response_scalar",
+        "text": "'stimulus_response_scalar', ..."
+       }
+      ]
+     },
+     {
+      "pass": "resolveResponseParameters",
+      "path": "src/did/+did2/+convert/resolveResponseParameters.m",
+      "site_count": 1,
+      "sites": [
+       {
+        "line": 243,
+        "spelling": "stimulus_response_scalar",
+        "text": "SOURCE = 'stimulus_response_scalar';"
+       }
+      ]
+     }
+    ],
+    "per_class_migrators": [
+     {
+      "package": "migrators_j",
+      "path": "src/did/+did2/+convert/+migrators_j/stimulus_response_scalar.m",
+      "spelling": "stimulus_response_scalar"
+     }
+    ]
    },
    "migrator_reads": [],
    "ndi": {
@@ -4651,8 +6115,27 @@
   },
   "stimulus_response_scalar_parameters_basic": {
    "consumers": {
-    "convert_package_mentions": [],
-    "per_class_migrators": []
+    "convert_package_mentions": [
+     {
+      "pass": "resolveResponseParameters",
+      "path": "src/did/+did2/+convert/resolveResponseParameters.m",
+      "site_count": 1,
+      "sites": [
+       {
+        "line": 242,
+        "spelling": "stimulus_response_scalar_parameters_basic",
+        "text": "PARAMS = 'stimulus_response_scalar_parameters_basic';"
+       }
+      ]
+     }
+    ],
+    "per_class_migrators": [
+     {
+      "package": "migrators_j",
+      "path": "src/did/+did2/+convert/+migrators_j/stimulus_response_scalar_parameters_basic.m",
+      "spelling": "stimulus_response_scalar_parameters_basic"
+     }
+    ]
    },
    "migrator_reads": [],
    "ndi": {
@@ -4709,7 +6192,13 @@
   "stimulus_tuningcurve": {
    "consumers": {
     "convert_package_mentions": [],
-    "per_class_migrators": []
+    "per_class_migrators": [
+     {
+      "package": "migrators_j",
+      "path": "src/did/+did2/+convert/+migrators_j/stimulus_tuningcurve.m",
+      "spelling": "stimulus_tuningcurve"
+     }
+    ]
    },
    "migrator_reads": [],
    "ndi": {
@@ -4805,8 +6294,71 @@
   },
   "subject": {
    "consumers": {
-    "convert_package_mentions": [],
-    "per_class_migrators": []
+    "convert_package_mentions": [
+     {
+      "pass": "epochMint",
+      "path": "src/did/+did2/+convert/epochMint.m",
+      "site_count": 2,
+      "sites": [
+       {
+        "line": 2184,
+        "spelling": "subject",
+        "text": "if strcmp(cn, 'subject') && isstruct(bodies{k}) ..."
+       },
+       {
+        "line": 2185,
+        "spelling": "subject",
+        "text": "&& isfield(bodies{k}, 'subject') && isstruct(bodies{k}.subject)"
+       }
+      ]
+     },
+     {
+      "pass": "resolveEpochProbemap",
+      "path": "src/did/+did2/+convert/resolveEpochProbemap.m",
+      "site_count": 2,
+      "sites": [
+       {
+        "line": 216,
+        "spelling": "subject",
+        "text": "case 'subject'"
+       },
+       {
+        "line": 218,
+        "spelling": "subject",
+        "text": "if isfield(b, 'subject') && isstruct(b.subject)"
+       }
+      ]
+     },
+     {
+      "pass": "resolveLawnPlateSubjects",
+      "path": "src/did/+did2/+convert/resolveLawnPlateSubjects.m",
+      "site_count": 3,
+      "sites": [
+       {
+        "line": 861,
+        "spelling": "subject",
+        "text": "if ~strcmp(classes{k}, 'subject'); continue; end"
+       },
+       {
+        "line": 1318,
+        "spelling": "subject",
+        "text": "body.document_class = struct('class_name', 'subject', 'class_version', '3.0.0', ..."
+       },
+       {
+        "line": 1603,
+        "spelling": "subject",
+        "text": "if isstruct(b) && isfield(b, 'subject') && isstruct(b.subject) ..."
+       }
+      ]
+     }
+    ],
+    "per_class_migrators": [
+     {
+      "package": "migrators_j",
+      "path": "src/did/+did2/+convert/+migrators_j/subject.m",
+      "spelling": "subject"
+     }
+    ]
    },
    "migrator_reads": [],
    "ndi": {
@@ -4836,9 +6388,32 @@
   "subject_group": {
    "consumers": {
     "convert_package_mentions": [],
-    "per_class_migrators": []
+    "per_class_migrators": [
+     {
+      "package": "migrators_j",
+      "path": "src/did/+did2/+convert/+migrators_j/subject_group.m",
+      "spelling": "subject_group"
+     },
+     {
+      "package": "migrators_i",
+      "path": "src/did/+did2/+convert/+migrators_i/subject_group.m",
+      "spelling": "subject_group"
+     }
+    ]
    },
-   "migrator_reads": [],
+   "migrator_reads": [
+    {
+     "confidence": "confirmed-vocabulary",
+     "mentions_names_absent_from_template": [],
+     "migrator": "subject_group.m",
+     "ndi_class": "subject_group",
+     "reads_names_absent_from_template": [
+      "description",
+      "group_name"
+     ],
+     "template_fields": []
+    }
+   ],
    "ndi": {
     "depends_on": [
      "subject_id"
@@ -4880,7 +6455,13 @@
   "subjectmeasurement": {
    "consumers": {
     "convert_package_mentions": [],
-    "per_class_migrators": []
+    "per_class_migrators": [
+     {
+      "package": "migrators_j",
+      "path": "src/did/+did2/+convert/+migrators_j/subjectmeasurement.m",
+      "spelling": "subjectmeasurement"
+     }
+    ]
    },
    "migrator_reads": [],
    "ndi": {
@@ -4919,8 +6500,32 @@
   },
   "syncgraph": {
    "consumers": {
-    "convert_package_mentions": [],
-    "per_class_migrators": []
+    "convert_package_mentions": [
+     {
+      "pass": "resolveClockAlignment",
+      "path": "src/did/+did2/+convert/resolveClockAlignment.m",
+      "site_count": 2,
+      "sites": [
+       {
+        "line": 144,
+        "spelling": "syncgraph",
+        "text": "if ~strcmp(classes{k}, 'syncgraph'); continue; end"
+       },
+       {
+        "line": 168,
+        "spelling": "syncgraph",
+        "text": "if isscalar(folded) && strcmp(classNameOf(folded{1}), 'syncgraph')"
+       }
+      ]
+     }
+    ],
+    "per_class_migrators": [
+     {
+      "package": "migrators_j",
+      "path": "src/did/+did2/+convert/+migrators_j/syncgraph.m",
+      "spelling": "syncgraph"
+     }
+    ]
    },
    "migrator_reads": [],
    "ndi": {
@@ -4954,7 +6559,13 @@
   "syncrule": {
    "consumers": {
     "convert_package_mentions": [],
-    "per_class_migrators": []
+    "per_class_migrators": [
+     {
+      "package": "migrators_j",
+      "path": "src/did/+did2/+convert/+migrators_j/syncrule.m",
+      "spelling": "syncrule"
+     }
+    ]
    },
    "migrator_reads": [],
    "ndi": {
@@ -4983,8 +6594,42 @@
   },
   "syncrule_mapping": {
    "consumers": {
-    "convert_package_mentions": [],
-    "per_class_migrators": []
+    "convert_package_mentions": [
+     {
+      "pass": "epochMint",
+      "path": "src/did/+did2/+convert/epochMint.m",
+      "site_count": 4,
+      "sites": [
+       {
+        "line": 1364,
+        "spelling": "syncrule_mapping",
+        "text": "if ~strcmp(rows(k).class_name, 'syncrule_mapping'); continue; end"
+       },
+       {
+        "line": 1385,
+        "spelling": "syncrule_mapping",
+        "text": "migrator = armingMigratorFor(armingMigrators, 'syncrule_mapping');"
+       },
+       {
+        "line": 1794,
+        "spelling": "syncrule_mapping",
+        "text": "'syncrule_mapping', ..."
+       },
+       {
+        "line": 2001,
+        "spelling": "syncrule_mapping",
+        "text": "|| ~isfield(body, 'syncrule_mapping') || ~isstruct(body.syncrule_mapping) ..."
+       }
+      ]
+     }
+    ],
+    "per_class_migrators": [
+     {
+      "package": "migrators_j",
+      "path": "src/did/+did2/+convert/+migrators_j/syncrule_mapping.m",
+      "spelling": "syncrule_mapping"
+     }
+    ]
    },
    "migrator_reads": [],
    "ndi": {
@@ -5050,10 +6695,60 @@
    },
    "writer_divergence": []
   },
+  "temporal_frequency_tuning": {
+   "consumers": {
+    "convert_package_mentions": [],
+    "per_class_migrators": [
+     {
+      "package": "migrators_j",
+      "path": "src/did/+did2/+convert/+migrators_j/temporal_frequency_tuning.m",
+      "spelling": "temporal_frequency_tuning"
+     }
+    ]
+   },
+   "migrator_reads": [],
+   "ndi": null,
+   "ndi_absent_reason": "vhlab app/calculator class -- NDI ships no template for it (ledger source=app), so there is no NDI declaration to show",
+   "v_alpha_divergence": null,
+   "writer_divergence": []
+  },
+  "temporal_frequency_tuning_calc": {
+   "consumers": {
+    "convert_package_mentions": [],
+    "per_class_migrators": [
+     {
+      "package": "migrators_j",
+      "path": "src/did/+did2/+convert/+migrators_j/temporal_frequency_tuning_calc.m",
+      "spelling": "temporal_frequency_tuning_calc"
+     },
+     {
+      "package": "migrators",
+      "path": "src/did/+did2/+convert/+migrators/temporal_frequency_tuning_calc.m",
+      "spelling": "temporal_frequency_tuning_calc"
+     }
+    ]
+   },
+   "migrator_reads": [],
+   "ndi": null,
+   "ndi_absent_reason": "vhlab app/calculator class -- NDI ships no template for it (ledger source=app), so there is no NDI declaration to show",
+   "v_alpha_divergence": null,
+   "writer_divergence": []
+  },
   "treatment": {
    "consumers": {
     "convert_package_mentions": [],
-    "per_class_migrators": []
+    "per_class_migrators": [
+     {
+      "package": "migrators_j",
+      "path": "src/did/+did2/+convert/+migrators_j/treatment.m",
+      "spelling": "treatment"
+     },
+     {
+      "package": "migrators_i",
+      "path": "src/did/+did2/+convert/+migrators_i/treatment.m",
+      "spelling": "treatment"
+     }
+    ]
    },
    "migrator_reads": [],
    "ndi": {
@@ -5103,9 +6798,38 @@
   "treatment_drug": {
    "consumers": {
     "convert_package_mentions": [],
-    "per_class_migrators": []
+    "per_class_migrators": [
+     {
+      "package": "migrators_j",
+      "path": "src/did/+did2/+convert/+migrators_j/treatment_drug.m",
+      "spelling": "treatment_drug"
+     },
+     {
+      "package": "migrators_i",
+      "path": "src/did/+did2/+convert/+migrators_i/treatment_drug.m",
+      "spelling": "treatment_drug"
+     }
+    ]
    },
-   "migrator_reads": [],
+   "migrator_reads": [
+    {
+     "confidence": "possible",
+     "mentions_names_absent_from_template": [
+      "dose"
+     ],
+     "migrator": "treatment_drug.m",
+     "ndi_class": "treatment_drug",
+     "reads_names_absent_from_template": [],
+     "template_fields": [
+      "administration_duration",
+      "administration_offset_time",
+      "administration_onset_time",
+      "location_name",
+      "location_ontology_node",
+      "mixture_table"
+     ]
+    }
+   ],
    "ndi": {
     "depends_on": [
      "subject_id"
@@ -5170,7 +6894,18 @@
   "treatment_transfer": {
    "consumers": {
     "convert_package_mentions": [],
-    "per_class_migrators": []
+    "per_class_migrators": [
+     {
+      "package": "migrators_j",
+      "path": "src/did/+did2/+convert/+migrators_j/treatment_transfer.m",
+      "spelling": "treatment_transfer"
+     },
+     {
+      "package": "migrators_i",
+      "path": "src/did/+did2/+convert/+migrators_i/treatment_transfer.m",
+      "spelling": "treatment_transfer"
+     }
+    ]
    },
    "migrator_reads": [],
    "ndi": {
@@ -5220,7 +6955,18 @@
   "tuningcurve_calc": {
    "consumers": {
     "convert_package_mentions": [],
-    "per_class_migrators": []
+    "per_class_migrators": [
+     {
+      "package": "migrators_j",
+      "path": "src/did/+did2/+convert/+migrators_j/tuningcurve_calc.m",
+      "spelling": "tuningcurve_calc"
+     },
+     {
+      "package": "migrators",
+      "path": "src/did/+did2/+convert/+migrators/tuningcurve_calc.m",
+      "spelling": "tuningcurve_calc"
+     }
+    ]
    },
    "migrator_reads": [],
    "ndi": {
@@ -5272,7 +7018,35 @@
   },
   "valid_interval": {
    "consumers": {
-    "convert_package_mentions": [],
+    "convert_package_mentions": [
+     {
+      "pass": "resolveValidIntervals",
+      "path": "src/did/+did2/+convert/resolveValidIntervals.m",
+      "site_count": 4,
+      "sites": [
+       {
+        "line": 620,
+        "spelling": "valid_interval",
+        "text": "if ~strcmp(classes{k}, 'valid_interval'); continue; end"
+       },
+       {
+        "line": 623,
+        "spelling": "valid_interval",
+        "text": "numel(intervalEntries(blockOf(bodies{k}, 'valid_interval')));"
+       },
+       {
+        "line": 637,
+        "spelling": "valid_interval",
+        "text": "if ~strcmp(classes{k}, 'valid_interval'); continue; end"
+       },
+       {
+        "line": 640,
+        "spelling": "valid_interval",
+        "text": "blk = blockOf(src, 'valid_interval');"
+       }
+      ]
+     }
+    ],
     "per_class_migrators": []
    },
    "migrator_reads": [],
@@ -5320,7 +7094,18 @@
   "virus_injection": {
    "consumers": {
     "convert_package_mentions": [],
-    "per_class_migrators": []
+    "per_class_migrators": [
+     {
+      "package": "migrators_j",
+      "path": "src/did/+did2/+convert/+migrators_j/virus_injection.m",
+      "spelling": "virus_injection"
+     },
+     {
+      "package": "migrators_i",
+      "path": "src/did/+did2/+convert/+migrators_i/virus_injection.m",
+      "spelling": "virus_injection"
+     }
+    ]
    },
    "migrator_reads": [],
    "ndi": {
@@ -5408,9 +7193,33 @@
   "vmneuralresponseresiduals": {
    "consumers": {
     "convert_package_mentions": [],
-    "per_class_migrators": []
+    "per_class_migrators": [
+     {
+      "package": "migrators_j",
+      "path": "src/did/+did2/+convert/+migrators_j/vmneuralresponseresiduals.m",
+      "spelling": "vmneuralresponseresiduals"
+     }
+    ]
    },
-   "migrator_reads": [],
+   "migrator_reads": [
+    {
+     "confidence": "confirmed-vocabulary",
+     "mentions_names_absent_from_template": [],
+     "migrator": "vmneuralresponseresiduals.m",
+     "ndi_class": "vmneuralresponseresiduals",
+     "reads_names_absent_from_template": [
+      "mean_residual"
+     ],
+     "template_fields": [
+      "column_labels",
+      "element_epochid",
+      "goodness_of_fit",
+      "parameters",
+      "residual_power",
+      "total_power"
+     ]
+    }
+   ],
    "ndi": {
     "depends_on": [
      "element_id"
@@ -5470,7 +7279,13 @@
   "vmspikefilteringparameters": {
    "consumers": {
     "convert_package_mentions": [],
-    "per_class_migrators": []
+    "per_class_migrators": [
+     {
+      "package": "migrators_j",
+      "path": "src/did/+did2/+convert/+migrators_j/vmspikefilteringparameters.m",
+      "spelling": "vmspikefilteringparameters"
+     }
+    ]
    },
    "migrator_reads": [],
    "ndi": {
@@ -5541,7 +7356,13 @@
   "vmspikefit": {
    "consumers": {
     "convert_package_mentions": [],
-    "per_class_migrators": []
+    "per_class_migrators": [
+     {
+      "package": "migrators_j",
+      "path": "src/did/+did2/+convert/+migrators_j/vmspikefit.m",
+      "spelling": "vmspikefit"
+     }
+    ]
    },
    "migrator_reads": [],
    "ndi": {
@@ -5611,9 +7432,41 @@
   "vmspikesummary": {
    "consumers": {
     "convert_package_mentions": [],
-    "per_class_migrators": []
+    "per_class_migrators": [
+     {
+      "package": "migrators_j",
+      "path": "src/did/+did2/+convert/+migrators_j/vmspikesummary.m",
+      "spelling": "vmspikesummary"
+     }
+    ]
    },
-   "migrator_reads": [],
+   "migrator_reads": [
+    {
+     "confidence": "confirmed-vocabulary",
+     "mentions_names_absent_from_template": [],
+     "migrator": "vmspikesummary.m",
+     "ndi_class": "vmspikesummary",
+     "reads_names_absent_from_template": [
+      "mean_firing_rate",
+      "mean_vm",
+      "num_spikes",
+      "recording_duration"
+     ],
+     "template_fields": [
+      "mean_spikewave",
+      "median_fullwidthhalfmaximum",
+      "median_kink_index",
+      "median_max_dvdt",
+      "median_postsk_halfwidthmaximum",
+      "median_presk_halfwidthmaximum",
+      "median_spikekink_vm",
+      "median_voltageofhalfmaximum",
+      "number_of_spikes",
+      "sample_times",
+      "slope_criterion"
+     ]
+    }
+   ],
    "ndi": {
     "depends_on": [
      "element_id",
@@ -5694,19 +7547,19 @@
   }
  },
  "denominator": {
-  "convert_package_files_scanned": 0,
+  "convert_package_files_scanned": 18,
   "did_matlab_available": true,
   "ledger_disagreements": [],
-  "ledger_rows_read": 102,
+  "ledger_rows_read": 113,
   "migrator_packages_searched": [
    "migrators_j",
    "migrators",
    "migrators_i"
   ],
   "ndi_ground_truth_classes": 102,
-  "rows_with_a_per_class_migrator_file": 0,
+  "rows_with_a_per_class_migrator_file": 88,
   "rows_with_an_ndi_declaration": 102,
-  "rows_without_one": 0
+  "rows_without_one": 11
  },
  "description": "For each did_v1 source class: what NDI actually declares, what consumes it in DID-matlab, and the built V_eta schemas its targets resolve to (joined in the viewer against the schema index it already loads). A projection of generated artifacts plus a file:line search of the convert package -- no new facts.",
  "generated_by": "tools/gen_class_walkthrough.py",

@@ -301,3 +301,6 @@ its own check, and each was found by reading source rather than by any gate.
   — `daqreader_ndr`, whose `file_extension` branch is confirmed unreachable dead code. It also
   now flags a guard that has DISAPPEARED, so deleting one later reads as a regression rather
   than as progress.
+
+
+RE-DERIVED 2026-09-22 (#67 calculator restructure + sibling drift, `check_prose_counts`): 102 NDI templates on origin/main. Re-derive rather than quote; #67 added `calculator` + `runtime_environment` + the `tuning_curve`/`tuning_curve_calculation` families (11 new classes total), and NDI `origin/main` gained 11 templates (gene-expression family + demoNDISeries pair + fileReference).

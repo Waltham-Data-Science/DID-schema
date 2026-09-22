@@ -631,3 +631,6 @@ RE-DERIVED 2026-08-21 (ndi_m_files, `check_prose_counts`): 91 NDI templates on o
 
 
 RE-DERIVED 2026-08-21 (ndi_m_files, sibling drift): NDI `origin/main` advanced to `1c0fe1283` (PR #882, parallel-workers), so `git ls-tree -r origin/main | grep -c '\.m$'` = **1013** (was 1012). The did_v1 ground truth is UNMOVED -- 91 templates, 0 template diffs; only the denominator shifted. Re-derive, do not quote.
+
+
+RE-DERIVED 2026-09-22 (#67 calculator restructure + sibling drift, `check_prose_counts`): 102 NDI templates on origin/main; 1,177 .m files. Re-derive rather than quote; #67 added `calculator` + `runtime_environment` + the `tuning_curve`/`tuning_curve_calculation` families (11 new classes total), and NDI `origin/main` gained 11 templates (gene-expression family + demoNDISeries pair + fileReference).

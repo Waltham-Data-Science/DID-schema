@@ -71,10 +71,16 @@ jobs:
       - name: Check out the sibling repositories the gates read
         env:
           SIBLING_REF: ${{ github.head_ref || github.ref_name }}
+          # When a PR stacks on a feature branch (this PR bases on the V_eta
+          # migration branch, and both siblings carry a branch of the SAME NAME
+          # with the migrators the gates need), the sibling's copy of that base
+          # branch is a better fallback than main. github.base_ref is the PR
+          # target; empty on a push/dispatch and then this is a no-op fallback.
+          SIBLING_BASE_REF: ${{ github.base_ref }}
         run: |
           set -euo pipefail
           echo "SIBLING CHECKOUT"
-          echo "  DENOMINATOR: 2 sibling repo(s) requested, ref '${SIBLING_REF}'"
+          echo "  DENOMINATOR: 2 sibling repo(s) requested, ref '${SIBLING_REF}'; base ref '${SIBLING_BASE_REF:-<none>}'"
           rc=0
           for spec in "NDI-matlab:VH-Lab/NDI-matlab" "DID-matlab:VH-Lab/DID-matlab"; do
             name="${spec%%:*}"; slug="${spec#*:}"
@@ -87,6 +93,10 @@ jobs:
             fi
             if git -C "$dest" checkout --quiet "$SIBLING_REF" 2>/dev/null; then
               got="$SIBLING_REF"; how="requested"
+            elif [ -n "${SIBLING_BASE_REF:-}" ] \
+                 && git -C "$dest" checkout --quiet "$SIBLING_BASE_REF" 2>/dev/null; then
+              got="$SIBLING_BASE_REF"
+              how="FALLBACK -- '${SIBLING_REF}' does not exist here; took the PR base ref"
             else
               def=$(git -C "$dest" symbolic-ref --short refs/remotes/origin/HEAD \
                     | sed 's|^origin/||')
