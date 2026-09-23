@@ -335,7 +335,14 @@ depend on knowing which software counts as a "calculator":
 - **Two recorded designs settled with it:** `oneepoch`'s concatenation (fork A1) becomes a
   calculation (see `V_eta_epoch_plan.md`); `valid_interval` inheritance stays RE-DERIVED
   (team, 2026-08-11), so no materialised copy needs an observation-side `derived_from`.
-- **Left open, as its own item:** spike-sorter output. `jSorterOutput.m` emits
-  `count_observation` with no `derived_from`, but its input (the voltage recording) is
-  stored in the dataset, so by this rule it should become a calculation with a
-  `derived_from` to that recording.
+- **Spike-sorter output is a calculation too** (decided later in the same session). The
+  sorter's input, the voltage recording, is stored in the dataset. So `kilosort_clusters`
+  and `kiasort_clusters` (both via `jSorterOutput.m`) and `jrclust_clusters`, which all
+  emit `count_observation` with no `derived_from` today, become a `count_calculation`
+  with `derived_from` to that recording. For `jrclust_clusters` this revises the
+  2026-08-17 confirm-sheet signature in `V_eta_go_forward_class_audit.md`, which accepted
+  its emitted `count_observation` as the end state. NOT BUILT: `count_calculation` does
+  not exist yet, and the retarget is DID-matlab work. The target is NOT in
+  `decided_targets` (a decided target must name a built class); it is carried in the
+  three rows' `flags` in `V_eta_migration_targets.json` until `count_calculation` exists.
+  `spike_interface_sorting_outputs` is untouched: it still passes through, undecided.
