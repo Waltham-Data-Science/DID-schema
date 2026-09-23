@@ -20,6 +20,12 @@ on:
       # on showing a settled family as open, which is the precise failure the
       # artifact was added to remove.
       - "schemas/V_*_decisions.json"
+      # The V_eta shape panel's two markdown inputs (web/src/veta/sources.ts),
+      # imported at build time. Same trap as the two files above: without
+      # these lines, regenerating the final class set or editing a tenet would
+      # deploy nothing and the panel would go on showing the old text.
+      - "schemas/V_eta_final_class_set.md"
+      - "schemas/V_eta_tenets.md"
       - ".github/workflows/deploy-web.yml"
   workflow_dispatch:
 
@@ -47,6 +53,8 @@ jobs:
           cache-dependency-path: web/package-lock.json
       - run: npm ci
       - run: npm run build
+      # Never publish a V_eta shape panel whose bundle lost part of the tree.
+      - run: node scripts/check-veta-bundle.mjs
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:

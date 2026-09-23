@@ -130,3 +130,28 @@ def test_the_requested_ref_is_the_branch_under_test_with_an_announced_fallback()
         "stops existing in the siblings; a bare checkout then goes red for a "
         "reason unrelated to the change, and a SILENT fallback is worse -- the "
         "gates would measure main while the log implies the branch.")
+
+
+def test_the_integration_ref_is_tried_before_the_default_branch():
+    """After #64 merged, a branch the siblings do not share fell through to
+    their `main`, which lacks the files the gates read -- and the chain went
+    red for a reason unrelated to the change under test. The siblings' V_eta
+    integration branch must be tried BEFORE their default branch, and taking it
+    must be announced like every other fallback."""
+    step = _checkout_step()
+    assert "SIBLING_INTEGRATION_REF:" in step, (
+        "no integration ref is declared for the sibling checkout")
+    loop = step.index('for cand in "requested:${SIBLING_REF}"')
+    integration = step.index('"the integration ref:${SIBLING_INTEGRATION_REF:-}"')
+    default = step.index('checkout --quiet "$def"')
+    assert loop < integration < default, (
+        "the integration ref is not tried before the siblings' default branch, "
+        "so it can never be taken")
+    # A push to main or a PR into main REQUESTS the default branch by name; if
+    # that counted as a match the integration ref would never be reached.
+    assert '[ "$ref" != "$def" ]' in step, (
+        "a request naming the siblings' default branch is taken as a match, "
+        "which skips the integration ref on every push to main and PR into main")
+    assert "the integration ref" in step and "FALLBACK" in step, (
+        "taking the integration ref is not announced; a silent fallback makes "
+        "the log imply one tree while the gates measure another")
