@@ -82,10 +82,23 @@ jobs:
           # branch is a better fallback than main. github.base_ref is the PR
           # target; empty on a push/dispatch and then this is a no-op fallback.
           SIBLING_BASE_REF: ${{ github.base_ref }}
+          # THE SIBLINGS' INTEGRATION BRANCH, tried after the two above and
+          # before their default branch. V_eta merged here (#64) while
+          # NDI-matlab and DID-matlab still carry the migrators, the second
+          # pass and every file the gates read on THIS branch -- their `main`
+          # does not have them yet. So a PR here whose branch name the siblings
+          # do not share (any branch cut after #64) fell through to their
+          # `main`, and the chain went red on 6 steps and 5 artifacts for a
+          # reason unrelated to the change: `main` itself is red that way
+          # (run 35894139718). DELETE THIS once both siblings merge it to main;
+          # until then their default branch is the wrong thing to measure.
+          # The checkout below prints which ref it took, so the fallback is
+          # never silent.
+          SIBLING_INTEGRATION_REF: claude/v-eta-migration-plan-35jj1z
         run: |
           set -euo pipefail
           echo "SIBLING CHECKOUT"
-          echo "  DENOMINATOR: 2 sibling repo(s) requested, ref '${SIBLING_REF}'; base ref '${SIBLING_BASE_REF:-<none>}'"
+          echo "  DENOMINATOR: 2 sibling repo(s) requested, ref '${SIBLING_REF}'; base ref '${SIBLING_BASE_REF:-<none>}'; integration ref '${SIBLING_INTEGRATION_REF:-<none>}'"
           rc=0
           for spec in "NDI-matlab:VH-Lab/NDI-matlab" "DID-matlab:VH-Lab/DID-matlab"; do
             name="${spec%%:*}"; slug="${spec#*:}"
@@ -96,17 +109,32 @@ jobs:
               rc=1
               continue
             fi
-            if git -C "$dest" checkout --quiet "$SIBLING_REF" 2>/dev/null; then
-              got="$SIBLING_REF"; how="requested"
-            elif [ -n "${SIBLING_BASE_REF:-}" ] \
-                 && git -C "$dest" checkout --quiet "$SIBLING_BASE_REF" 2>/dev/null; then
-              got="$SIBLING_BASE_REF"
-              how="FALLBACK -- '${SIBLING_REF}' does not exist here; took the PR base ref"
-            else
-              def=$(git -C "$dest" symbolic-ref --short refs/remotes/origin/HEAD \
-                    | sed 's|^origin/||')
+            # Candidates in order: the branch under test, the PR base, the
+            # integration branch, then the sibling's default branch. A request
+            # that NAMES the default branch (a push to main, a PR into main)
+            # is not a match of its own: it is deferred to the end, so the
+            # integration branch is preferred over the siblings' `main` for as
+            # long as it exists.
+            def=$(git -C "$dest" symbolic-ref --short refs/remotes/origin/HEAD \
+                  | sed 's|^origin/||')
+            got=""
+            for cand in "requested:${SIBLING_REF}" \
+                        "the PR base ref:${SIBLING_BASE_REF:-}" \
+                        "the integration ref:${SIBLING_INTEGRATION_REF:-}"; do
+              label="${cand%%:*}"; ref="${cand#*:}"
+              [ -n "$ref" ] && [ "$ref" != "$def" ] || continue
+              if git -C "$dest" checkout --quiet "$ref" 2>/dev/null; then
+                got="$ref"
+                if [ "$label" = "requested" ]; then how="requested"
+                elif [ "$SIBLING_REF" = "$def" ]; then
+                  how="FALLBACK -- '${SIBLING_REF}' is the default branch here, deferred; took ${label}"
+                else how="FALLBACK -- '${SIBLING_REF}' does not exist here; took ${label}"; fi
+                break
+              fi
+            done
+            if [ -z "$got" ]; then
               git -C "$dest" checkout --quiet "$def"
-              got="$def"; how="FALLBACK -- '${SIBLING_REF}' does not exist here"
+              got="$def"; how="FALLBACK -- took the default branch"
             fi
             has_main=$(git -C "$dest" rev-parse --verify -q origin/main >/dev/null \
                        && echo yes || echo NO)
