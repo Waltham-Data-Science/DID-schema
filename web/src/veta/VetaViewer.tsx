@@ -33,9 +33,47 @@ export default function VetaViewer({ onOpenSchema }: Props) {
   const [selected, setSelected] = useState<string | null>(null);
   const [query, setQuery] = useState("");
   const [showExcluded, setShowExcluded] = useState(false);
+  // Open nodes, by path key. The root starts open so the first level shows.
+  const [expanded, setExpanded] = useState<Set<string>>(
+    () => new Set([...MODEL.classes.values()].filter((c) => !c.superclasses.length).map((c) => c.name)),
+  );
+
+  const toggle = (key: string) =>
+    setExpanded((prev) => {
+      const next = new Set(prev);
+      if (next.has(key)) next.delete(key);
+      else next.add(key);
+      return next;
+    });
+
+  // Select a class and open the tree down to it (along its first superclass),
+  // so a class reached from a card link or a tenet is visible in the tree.
+  const select = (name: string) => {
+    setSelected(name);
+    setExpanded((prev) => {
+      const next = new Set(prev);
+      for (const k of pathKeys(MODEL, name).slice(0, -1)) next.add(k);
+      return next;
+    });
+  };
+
+  const expandAll = () => {
+    const all = new Set<string>();
+    const walk = (name: string, key: string, seen: Set<string>) => {
+      const c = MODEL.classes.get(name);
+      if (!c || seen.has(name) || !c.subclasses.length) return;
+      all.add(key);
+      seen.add(name);
+      for (const k of c.subclasses) walk(k, `${key}${SEP}${k}`, seen);
+      seen.delete(name);
+    };
+    for (const c of MODEL.classes.values())
+      if (!c.superclasses.length) walk(c.name, c.name, new Set());
+    setExpanded(all);
+  };
 
   const openClass = (name: string) => {
-    setSelected(name);
+    select(name);
     setTab("classes");
   };
 
@@ -45,9 +83,9 @@ export default function VetaViewer({ onOpenSchema }: Props) {
         <h2>V_eta schema shape</h2>
         <p className="registry-description">
           The go-forward V_eta class set, rendered directly from{" "}
-          <code>schemas/V_eta/</code> at build time and grouped by the seven
-          categories of <code>schemas/V_eta_final_class_set.md</code>. Nothing
-          here is copied in: edit a schema, rebuild, and this page follows.
+          <code>schemas/V_eta/</code> at build time as an inheritance tree from{" "}
+          <code>base</code>. Nothing here is copied in: edit a schema, rebuild,
+          and this page follows.
         </p>
         <Denominator model={MODEL} />
         <div className="view-toggle veta-tabs" role="tablist">
@@ -57,7 +95,7 @@ export default function VetaViewer({ onOpenSchema }: Props) {
             className={tab === "classes" ? "active" : ""}
             onClick={() => setTab("classes")}
           >
-            Classes by category
+            Class tree
           </button>
           <button
             role="tab"
@@ -89,12 +127,22 @@ export default function VetaViewer({ onOpenSchema }: Props) {
                 show classes NOT in the final set
               </label>
             </div>
-            <CategoryList
+            <div className="veta-tree-actions">
+              <button type="button" className="btn-secondary" onClick={expandAll}>
+                expand all
+              </button>
+              <button type="button" className="btn-secondary" onClick={() => setExpanded(new Set())}>
+                collapse all
+              </button>
+            </div>
+            <ClassTree
               model={MODEL}
               query={query}
               showExcluded={showExcluded}
               selected={selected}
-              onSelect={setSelected}
+              expanded={expanded}
+              onToggle={toggle}
+              onSelect={select}
             />
           </div>
           <div className="veta-detail">
@@ -102,7 +150,7 @@ export default function VetaViewer({ onOpenSchema }: Props) {
               <ClassCard
                 model={MODEL}
                 cls={MODEL.classes.get(selected)!}
-                onSelect={setSelected}
+                onSelect={select}
                 onOpenSchema={onOpenSchema}
               />
             ) : (
@@ -169,81 +217,143 @@ function Stat({ n, label, warn }: { n: number; label: string; warn?: boolean }) 
   );
 }
 
-// ---- categories -----------------------------------------------------------
+// ---- the class tree -------------------------------------------------------
+//
+// Classes are drawn by inheritance, starting from the tree's roots (in V_eta,
+// only `base`). A class with several superclasses -- most leaves are
+// `<direction>_observation` + `<data_type>` -- appears under EACH parent, and
+// says where else it sits, so no parent looks childless.
+//
+// A node's key is its path from the root ("base/data/subject_statement"),
+// because the same class can be open under one parent and closed under another.
 
-function CategoryList({
+const SEP = "/";
+
+// The first-superclass path from a root down to `name`, as the keys of every
+// node on it. Used to open the tree onto a class selected from elsewhere.
+function pathKeys(model: VetaModel, name: string): string[] {
+  const chain = [name];
+  const seen = new Set(chain);
+  let cur = model.classes.get(name);
+  while (cur && cur.superclasses.length) {
+    const up = cur.superclasses[0];
+    if (seen.has(up)) break;
+    seen.add(up);
+    chain.unshift(up);
+    cur = model.classes.get(up);
+  }
+  return chain.map((_, i) => chain.slice(0, i + 1).join(SEP));
+}
+
+function ClassTree({
   model,
   query,
   showExcluded,
   selected,
+  expanded,
+  onToggle,
   onSelect,
 }: {
   model: VetaModel;
   query: string;
   showExcluded: boolean;
   selected: string | null;
+  expanded: Set<string>;
+  onToggle: (key: string) => void;
   onSelect: (n: string) => void;
 }) {
   const q = query.trim().toLowerCase();
-  const match = (n: string) => !q || n.toLowerCase().includes(q);
-  const groups: Array<{ key: string; title: string; names: string[]; muted?: boolean }> =
-    model.categories.map((c) => ({
-      key: c.symbol,
-      title: `${c.symbol} ${c.title}`,
-      names: c.classes,
-    }));
-  if (model.denominator.unplaced.length)
-    groups.push({
-      key: "unplaced",
-      title: "⚠ In the tree, in no category",
-      names: model.denominator.unplaced,
-    });
-  if (showExcluded)
-    for (const g of model.excluded)
-      groups.push({
-        key: `x-${g.disposition}`,
-        title: `Not in the final set — ${g.disposition}`,
-        names: g.classes,
-        muted: true,
-      });
-  return (
-    <>
-      {groups.map((g) => {
-        const names = g.names.filter(match);
-        if (q && names.length === 0) return null;
-        return (
-          <section key={g.key} className={`veta-category ${g.muted ? "veta-muted" : ""}`}>
-            <h3>
-              {g.title} <span className="count-pill">{g.names.length}</span>
-            </h3>
-            <div className="veta-chips">
-              {names.map((n) => {
-                const c = model.classes.get(n);
-                return (
-                  <button
-                    key={n}
-                    type="button"
-                    className={`veta-chip ${selected === n ? "veta-chip-on" : ""} ${
-                      c ? "" : "veta-chip-missing"
-                    } ${c?.abstract ? "veta-chip-abstract" : ""}`}
-                    title={
-                      c
-                        ? `${n}${c.abstract ? " (abstract)" : ""} — ${c.path}`
-                        : `${n} is named by the final-set document but is not in the tree`
-                    }
-                    onClick={() => c && onSelect(n)}
-                    disabled={!c}
-                  >
-                    {n}
-                  </button>
-                );
-              })}
-            </div>
-          </section>
-        );
-      })}
-    </>
+  const roots = useMemo(
+    () =>
+      [...model.classes.values()]
+        .filter((c) => c.superclasses.length === 0)
+        .map((c) => c.name)
+        .sort(),
+    [model],
   );
+
+  // Does this class, or anything below it, pass the filters? Memoised per
+  // class: the answer does not depend on which parent it is reached through.
+  const visible = useMemo(() => {
+    const memo = new Map<string, boolean>();
+    const self = (c: VetaClass) =>
+      (showExcluded || !c.excludedAs) && (!q || c.name.toLowerCase().includes(q));
+    const walk = (name: string, stack: Set<string>): boolean => {
+      if (memo.has(name)) return memo.get(name)!;
+      const c = model.classes.get(name);
+      if (!c || stack.has(name)) return false;
+      stack.add(name);
+      const kids = c.subclasses.map((k) => walk(k, stack)).some(Boolean);
+      stack.delete(name);
+      const v = self(c) || kids;
+      memo.set(name, v);
+      return v;
+    };
+    for (const r of roots) walk(r, new Set());
+    return memo;
+  }, [model, roots, q, showExcluded]);
+
+  const matches = (c: VetaClass) =>
+    (showExcluded || !c.excludedAs) && (!q || c.name.toLowerCase().includes(q));
+
+  const render = (name: string, parentKey: string, depth: number): ReactNode => {
+    const c = model.classes.get(name);
+    if (!c || !visible.get(name)) return null;
+    const key = parentKey ? `${parentKey}${SEP}${name}` : name;
+    if (parentKey.split(SEP).includes(name)) return null; // cycle guard
+    const kids = c.subclasses.filter((k) => visible.get(k));
+    // While filtering, every path to a match is open.
+    const open = q ? true : expanded.has(key);
+    const parent = parentKey.split(SEP).pop();
+    const others = c.superclasses.filter((s) => s !== parent);
+    return (
+      <li key={key}>
+        <div className="veta-tree-row" style={{ paddingLeft: `${depth * 1.1}rem` }}>
+          {kids.length > 0 ? (
+            <button
+              type="button"
+              className="tree-caret"
+              aria-label={open ? "collapse" : "expand"}
+              aria-expanded={open}
+              onClick={() => onToggle(key)}
+            >
+              {open ? "▾" : "▸"}
+            </button>
+          ) : (
+            <span className="tree-caret tree-caret-empty" />
+          )}
+          <button
+            type="button"
+            className={`veta-chip ${selected === name ? "veta-chip-on" : ""} ${
+              c.abstract ? "veta-chip-abstract" : ""
+            } ${matches(c) ? "" : "veta-chip-dim"}`}
+            title={`${name}${c.abstract ? " (abstract)" : ""} -- ${c.path}`}
+            onClick={() => onSelect(name)}
+          >
+            {name}
+          </button>
+          {kids.length > 0 && <span className="tree-folder-count">{kids.length}</span>}
+          {c.disposition && c.disposition !== "persist" && (
+            <span className={`veta-dot cov-${c.disposition === "in_progress" ? "wip" : c.disposition}`}>
+              {c.disposition === "in_progress" ? "wip" : c.disposition}
+            </span>
+          )}
+          {others.length > 0 && parentKey && (
+            <span className="veta-also" title={`superclasses: ${c.superclasses.join(", ")}`}>
+              also ⊂ {others.join(", ")}
+            </span>
+          )}
+        </div>
+        {open && kids.length > 0 && (
+          <ul className="veta-tree">{kids.map((k) => render(k, key, depth + 1))}</ul>
+        )}
+      </li>
+    );
+  };
+
+  const shown = roots.filter((r) => visible.get(r));
+  if (shown.length === 0) return <p className="muted">No class matches.</p>;
+  return <ul className="veta-tree">{shown.map((r) => render(r, "", 0))}</ul>;
 }
 
 // ---- one class ------------------------------------------------------------

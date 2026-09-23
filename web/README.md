@@ -11,10 +11,14 @@ flow (issue + draft PR) is the next step (issue #39).
 ## V_eta shape panel (issue #72)
 
 The **◈ V_eta shape** button opens a panel that renders the go-forward V_eta
-class set grouped by the seven categories of
-`schemas/V_eta_final_class_set.md` -- per class its fields and value shapes,
-superclasses and subclasses, `depends_on` edges, and disposition / abstract
-flags -- plus a **Tenets T1–T14** tab rendered from `schemas/V_eta_tenets.md`.
+class set as an inheritance tree starting from `base` -- a class with several
+superclasses appears under each one and says where else it sits. Selecting a
+class shows its fields and value shapes, superclasses and subclasses,
+`depends_on` edges, and disposition / abstract flags. Classes outside
+`schemas/V_eta_final_class_set.md`'s persist set are hidden unless asked for
+(an ancestor of a shown class stays, dimmed), and a class's final-set category
+is shown as a badge on its card. A **Tenets T1–T14** tab renders
+`schemas/V_eta_tenets.md`.
 
 Nothing is copied in. `src/veta/sources.ts` globs `schemas/V_eta/**/*.json`
 and imports the two markdown files `?raw`, so Vite reads them at build time:

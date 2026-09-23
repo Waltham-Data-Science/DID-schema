@@ -1623,3 +1623,42 @@ button.badge-persist {
   margin: 0.4rem 0;
   line-height: 1.5;
 }
+.veta-tree {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.veta-tree-row {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.08rem 0;
+  flex-wrap: nowrap;
+  min-width: 0;
+}
+.veta-tree-actions {
+  display: flex;
+  gap: 0.4rem;
+  margin: 0.25rem 0 0.6rem;
+}
+.veta-chip-dim {
+  opacity: 0.55;
+}
+.veta-dot {
+  font-size: 0.68rem;
+  color: #fff;
+  padding: 0 0.3rem;
+  border-radius: 3px;
+}
+.veta-also {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 0;
+}
+.veta-tree-row > .veta-chip,
+.veta-tree-row > .tree-caret {
+  flex-shrink: 0;
+}
