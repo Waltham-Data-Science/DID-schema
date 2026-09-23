@@ -293,6 +293,37 @@ function ClassTree({
     return memo;
   }, [model, roots, q, showExcluded]);
 
+  // How big each branch is, over what the tree is SHOWING (so the numbers move
+  // with the filter and the final-set toggle). Distinct classes: a class under
+  // several parents counts once per branch, so siblings' numbers need not add
+  // up to their parent's.
+  //   all    -- every class anywhere below
+  //   leaves -- those below with nothing shown below them (terminal nodes)
+  const branch = useMemo(() => {
+    const memo = new Map<string, { all: Set<string>; leaves: Set<string> }>();
+    const walk = (name: string, stack: Set<string>) => {
+      const hit = memo.get(name);
+      if (hit) return hit;
+      const all = new Set<string>();
+      const leaves = new Set<string>();
+      stack.add(name);
+      for (const k of model.classes.get(name)?.subclasses ?? []) {
+        if (!visible.get(k) || stack.has(k)) continue;
+        const sub = walk(k, stack);
+        all.add(k);
+        sub.all.forEach((x) => all.add(x));
+        if (sub.all.size === 0) leaves.add(k);
+        sub.leaves.forEach((x) => leaves.add(x));
+      }
+      stack.delete(name);
+      const out = { all, leaves };
+      memo.set(name, out);
+      return out;
+    };
+    for (const r of roots) if (visible.get(r)) walk(r, new Set());
+    return memo;
+  }, [model, roots, visible]);
+
   const matches = (c: VetaClass) =>
     (showExcluded || !c.excludedAs) && (!q || c.name.toLowerCase().includes(q));
 
@@ -332,7 +363,16 @@ function ClassTree({
           >
             {name}
           </button>
-          {kids.length > 0 && <span className="tree-folder-count">{kids.length}</span>}
+          {kids.length > 0 && (
+            <span
+              className="tree-folder-count"
+              title={`${branch.get(name)?.all.size ?? 0} subclass(es) anywhere below; ${
+                branch.get(name)?.leaves.size ?? 0
+              } terminal node(s); ${kids.length} direct. A class with several parents counts under each.`}
+            >
+              {branch.get(name)?.all.size ?? 0}
+            </span>
+          )}
           {c.disposition && c.disposition !== "persist" && (
             <span className={`veta-dot cov-${c.disposition === "in_progress" ? "wip" : c.disposition}`}>
               {c.disposition === "in_progress" ? "wip" : c.disposition}
