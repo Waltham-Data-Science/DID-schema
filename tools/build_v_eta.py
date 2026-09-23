@@ -832,25 +832,40 @@ write("stable", "subject_observation", so)
 # `mustBeNonEmpty: true` is the enforceable form; `min_count: 1` is recorded
 # alongside per issue #67's own text (numbered-family cardinality vocabulary
 # extended to single required deps as an intent marker).
-_CALCULATOR_SOFTWARE_ID = dep(
+#
+# #73 (2026-09-23) SUPERSEDES the standalone-abstract half of the above: the
+# `calculator` MIXIN IS DROPPED from every V_eta chain. It had exactly one
+# persisting child (`subject_calculation`), its only unique content was these two
+# edges, and its name described the PRODUCER (the software is the calculator)
+# rather than the document (T13 -- the honest stance word `_calculation` is
+# already on the child). The two edges move onto `subject_calculation` below,
+# unchanged in required-ness. What stays here is a v1 SOURCE TOMBSTONE only:
+# NDI ships `database_documents/calculator.json` (⊂ [base, app], no fields, no
+# deps -- V_eta_ndi_ground_truth.json), so `calculator` is a did_v1 class name,
+# and nothing in the tree establishes that no v1 document carries it. The
+# tombstone restates the NDI template so such a document can still pass
+# through; it is `retire` (see _RET_HOLDOVER) and is in NO V_eta chain.
+_SUBJECT_CALCULATION_SOFTWARE_ID = dep(
     "software_id", "software",
     "The software that produced this document, as a `software` entity (name + "
-    "version + citation id). REQUIRED on every calculator output (issue #67 §②, "
-    "Shape 2): a calculator without a named producer cannot be re-run. Supersedes "
-    "the v1 `app` mixin; distinct from `instrument_id` (a measuring device) and "
-    "from `derived_from` (the input data).")
-_CALCULATOR_SOFTWARE_ID["min_count"] = 1
-_CALCULATOR_RUNTIME_ID = dep(
+    "version + citation id). REQUIRED on every calculation (issue #67 §②, "
+    "Shape 2): a calculation without a named producer cannot be re-run. "
+    "Redeclares -- and TIGHTENS to required -- the optional `software_id` every "
+    "subject_interaction carries; the target class is unchanged. Moved here "
+    "from the dropped `calculator` mixin (#73). Distinct from `instrument_id` "
+    "(a measuring device) and from `derived_from` (the input data).")
+_SUBJECT_CALCULATION_SOFTWARE_ID["min_count"] = 1
+_SUBJECT_CALCULATION_RUNTIME_ID = dep(
     "runtime_environment_id", "runtime_environment",
     "The per-run environment (os / os_version / interpreter / interpreter_version) "
     "the producing run used, as a `runtime_environment` entity. REQUIRED on every "
-    "calculator output (issue #67 §②, Shape 2 -- no `software_run` join). Distinct "
-    "from the software's SUPPORTED os (openMINDS SoftwareVersion.operatingSystem) "
-    "and from the `software` entity's own identity.")
-_CALCULATOR_RUNTIME_ID["min_count"] = 1
+    "calculation (issue #67 §②, Shape 2 -- no `software_run` join). Moved here "
+    "from the dropped `calculator` mixin (#73). Distinct from the software's "
+    "SUPPORTED os (openMINDS SoftwareVersion.operatingSystem) and from the "
+    "`software` entity's own identity.")
+_SUBJECT_CALCULATION_RUNTIME_ID["min_count"] = 1
 write("stable", "calculator",
-      doc("calculator", ["base"], abstract=True, version="2.0.0",
-          deps=[_CALCULATOR_SOFTWARE_ID, _CALCULATOR_RUNTIME_ID]))
+      doc("calculator", ["base", "app"], version="3.0.0"))
 # `runtime_environment`: NEW entity (issue #67 §②, Shape 2 -- no `software_run`
 # join). One `runtime_environment` doc per distinct execution environment; each
 # calculator output references it via `runtime_environment_id`. Field set matches
@@ -899,9 +914,14 @@ write("stable", "runtime_environment",
 # Multi-inheritance keeps subject_calculation's semantics (the COMPUTED statement
 # direction) AND picks up calculator's required provenance edges structurally,
 # so every ④ calc leaf inherits both without redeclaring.
+# #73 (2026-09-23): the `calculator` parent is DROPPED; its two required
+# provenance edges are declared here directly instead (see the `calculator`
+# tombstone note above). Single inheritance again.
 write("stable", "subject_calculation",
-      doc("subject_calculation", ["subject_interaction", "calculator"],
-          abstract=True, deps=[DERIVED_FROM]))
+      doc("subject_calculation", ["subject_interaction"],
+          abstract=True, deps=[DERIVED_FROM,
+                               _SUBJECT_CALCULATION_SOFTWARE_ID,
+                               _SUBJECT_CALCULATION_RUNTIME_ID]))
 
 
 # ---------- 4. subject_assertion genus + leaves ----------
@@ -2871,34 +2891,115 @@ write("stable", "tuning_curve",
                         "`stimulus_tuningcurve` and per-family result classes "
                         "(orientation_direction_tuning, contrast_tuning, ...) "
                         "carried this SHAPE; the shape is collapsed to ONE "
-                        "composite and the per-family class names survive as "
-                        "thin marker subclasses (Lepsky et al. 2026 Fig. 4; "
-                        "class names appear verbatim in 3+ published papers). "
+                        "composite. The tuning family (orientation/direction, "
+                        "contrast, spatial/temporal frequency, speed) is "
+                        "carried by `independent_variables[].variable`, not by "
+                        "a subclass (#73 dropped the marker subclasses). "
                         "Calc-produced metadata (ANOVA p-values, fits) lives "
                         "on `tuning_curve_calculation`, not here.",
                         non_empty=True, blank={},
                         sub_fields=_TUNING_CURVE_SUBS)]))
 
-# ---- five thin marker composites (⊂ tuning_curve; NO new fields) -----------------
-# Issue #67 category ③. Each preserves a v1 class name that appears verbatim in
-# published papers (Reikersdorfer 2021, Griswold & Gazelle 2025, Casanova 2025).
-# The marker adds NO fields -- the shape is entirely inherited from tuning_curve;
-# it exists to (a) preserve the v1 class name as the pipeline hook (Fig. 5Bii)
-# and (b) let a concrete calc pair `tuning_curve_calculation` with the specific
-# tuning family for Fig 4's class-named property blocks. write() overwrites the
-# copytree'd V_zeta shape (large thick classes carrying all fields inline).
-for _marker in ("orientation_direction_tuning", "contrast_tuning",
-                "spatial_frequency_tuning", "temporal_frequency_tuning",
-                "speed_tuning"):
-    write("stable", _marker,
-          doc(_marker, ["tuning_curve"], abstract=True))
+# ---- #73 (2026-09-23): NO marker composites -----------------------------------
+# #67 wrote five thin markers here (orientation_direction_tuning, contrast_tuning,
+# spatial_frequency_tuning, temporal_frequency_tuning, speed_tuning), each
+# ⊂ tuning_curve with no fields, reusing the v1 RESULT class names. #73 drops
+# them: they held nothing, and the fact each one encoded -- which independent
+# variable the curve is over -- is already a field,
+# `tuning_curve.value.independent_variables[].variable` (T11: "role in
+# `variable`, not in the class name"), with nothing tying the two together
+# (T14). The one-calculator-one-document-type contract (T10 / Lepsky §3.2) is
+# met by the calculation LEAVES below, not by the composites. The copytree'd
+# V_zeta result classes at those five names are v1 source tombstones whose
+# documents the migrators fold onto the leaves; they go in _DELETE_PHASE8.
 
-# ---- tuning_curve_calculation: abstract leaf carrying calc-produced metadata ----
-# Issue #67 category ④. ⊂ subject_calculation ONLY (not paired with a composite
-# at this level -- the concrete children pair it with a specific marker). Carries
-# the fields that are calc-produced (ANOVA p-values were computed BY the fit
-# calcs, paper §2.1; model_fit[] entries are calculator outputs) and are
-# therefore the calc leaf's responsibility, not the raw curve's.
+# ---- tuning_curve_calculation: CONCRETE, ⊂ [subject_calculation, tuning_curve] --
+# #73: made concrete and paired with the composite ITSELF, so it is the generic
+# tuning-curve calculator's own output type (it replaces `tuningcurve_calc`) and
+# has the same <result>_calculation shape as contrast_sensitivity_calculation and
+# receptive_field_calculation. The five family calculations below refine it.
+# A family calculation IS-A tuning_curve_calculation, so an `isa` query on this
+# class returns all six; a consumer that wants only the generic calculator's
+# output matches the exact class_name. The one-calculator-one-document-type
+# contract is about the EMITTED class_name, and all six stay distinct.
+#
+# model_fit[] entries (#73): {model, coefficients, goodness, metrics,
+# sampled_fit}. `metrics` holds values READ OFF a fit (a DoG fit's preferred
+# spatial frequency; a double Gaussian's half-width) -- they belong to the fit
+# they came from, and v1 kept them per fit (fit_dog.l50 vs fit_movshon.l50). It
+# is ONE fixed set of optional typed fields covering every fit family, so every
+# value stays queryable (V_eta_tuning_model_plan.md: no {name,value} bag).
+# KNOWN LOOSENESS: nothing stops a fit filling a metric that does not apply to
+# its `model`; binding the admissible metrics to the `model` term (as term.value
+# is keyed_by variable) waits on the model terms being in a bound vocabulary.
+#
+# NAMES (#73, T13): the v1 contractions pref / l50 / h50 / interpolated_c50 are
+# four spellings of three points on the curve and become preferred_value /
+# half_maximum_below / half_maximum_above; hwhh becomes
+# half_width_at_half_maximum; hotelling2test (a p-value) becomes hotelling_t2_p.
+def _tuning_double(name, text):
+    return subfield(name, "double", text, blank=0)
+
+_TUNING_CURVE_POINTS = [
+    _tuning_double("preferred_value",
+        "The independent-variable value at which the peak response occurs "
+        "(v1 `pref`). Same unit as the curve's independent variable."),
+    _tuning_double("half_maximum_below",
+        "The independent-variable value BELOW the peak where the response falls "
+        "to half the maximum (v1 `l50`; on a contrast curve, which only rises, "
+        "this is C50 -- v1 `interpolated_c50`). -Inf if no such point exists."),
+    _tuning_double("half_maximum_above",
+        "The independent-variable value ABOVE the peak where the response falls "
+        "to half the maximum (v1 `h50`). +Inf if no such point exists."),
+    _tuning_double("bandwidth",
+        "Bandwidth between half_maximum_below and half_maximum_above, in "
+        "OCTAVES: log2(half_maximum_above / half_maximum_below). Inf if either "
+        "bound is infinite."),
+]
+_TUNING_PASS_INDICES = [
+    _tuning_double("low_pass_index",
+        "Response at the lowest tested value divided by the response at the "
+        "peak (responses rectified to be non-negative)."),
+    _tuning_double("high_pass_index",
+        "Response at the highest tested value divided by the response at the "
+        "peak (responses rectified to be non-negative)."),
+]
+_TUNING_FIT_METRICS_SUBS = _TUNING_CURVE_POINTS + [
+    _tuning_double("half_width_at_half_maximum",
+        "Angular distance from the preferred direction at which the fit "
+        "response is half the maximum (v1 `hwhh`). Same unit as the curve's "
+        "direction variable."),
+    _tuning_double("orientation_preference",
+        "Orientation evoking the maximum response under the fit (v1 "
+        "`orientation_angle_preference`)."),
+    _tuning_double("direction_preference",
+        "Direction evoking the maximum response under the fit (v1 "
+        "`direction_angle_preference`)."),
+    _tuning_double("orientation_preferred_orthogonal_ratio",
+        "Fit response at the preferred orientation over the response at the "
+        "orthogonal orientation (90 degrees away)."),
+    _tuning_double("orientation_preferred_orthogonal_ratio_rectified",
+        "orientation_preferred_orthogonal_ratio with each response rectified at 0."),
+    _tuning_double("direction_preferred_null_ratio",
+        "Fit response at the preferred direction over the response at the null "
+        "direction (180 degrees away)."),
+    _tuning_double("direction_preferred_null_ratio_rectified",
+        "direction_preferred_null_ratio with each response rectified at 0."),
+    _tuning_double("speed_tuning_index",
+        "Index relating preferred speed to spatial frequency under the fit "
+        "(Priebe et al.; v1 `priebe_fit_speed_tuning_index`)."),
+    _tuning_double("spatial_frequency_preference",
+        "Spatial frequency, averaged across temporal frequencies, of the optimal "
+        "response under the fit (v1 `priebe_fit_spatial_frequency_preference`)."),
+    _tuning_double("temporal_frequency_preference",
+        "Temporal frequency, averaged across spatial frequencies, of the optimal "
+        "response under the fit (v1 `priebe_fit_temporal_frequency_preference`)."),
+    _tuning_double("partial_r2",
+        "Partial r-squared of this fit against the nested comparison fit."),
+    _tuning_double("nested_f_test_p",
+        "p-value of the nested-model F test against the comparison fit (v1 "
+        "`priebe_fit_nested_f_test_p_value`)."),
+]
 _TUNING_MODEL_FIT_SUBS = [
     subfield("model", "ontology_term",
              "The fitted model as a controlled term (T8): double_gaussian | "
@@ -2907,7 +3008,34 @@ _TUNING_MODEL_FIT_SUBS = [
     subfield("coefficients", "structure",
              "The fit coefficients (named, per the `model`).", non_empty=False),
     subfield("goodness", "structure",
-             "Fit-quality scalars (r-squared, residual, ...).", non_empty=False),
+             "How well the fit matches the measured responses.", non_empty=False,
+             sub_fields=[
+                 _tuning_double("r2",
+                     "Coefficient of determination between the responses and "
+                     "the fit (v1 `r2` / `r_squared`)."),
+                 _tuning_double("sse",
+                     "Sum of squared errors of the fit."),
+             ]),
+    subfield("metrics", "structure",
+             "Values READ OFF this fit (not the raw data -- those are the "
+             "family's own summary block). One fixed set of optional typed "
+             "fields across every fit family; a fit fills only the ones that "
+             "apply to its `model`.", non_empty=False,
+             sub_fields=_TUNING_FIT_METRICS_SUBS),
+    subfield("sampled_fit", "structure",
+             "OPTIONAL: the fit evaluated on a grid, as v1 stored it "
+             "(fit_*.values/.fit, double_gaussian_fit_angles/_values, the Priebe "
+             "grids). Kept rather than recomputed from model + coefficients, "
+             "because recomputation reproduces it only if the model definition "
+             "is exact.", non_empty=False,
+             sub_fields=[
+                 subfield("independent_values", "matrix",
+                          "The grid, one entry per independent variable in "
+                          "independent_variables[] order.", scalar=False),
+                 subfield("response", "matrix",
+                          "Fit response at each grid point, sized by the grid.",
+                          scalar=False),
+             ]),
 ]
 _TUNING_CALC_SIGNIFICANCE_SUBS = [
     subfield("visual_response_anova_p", "double",
@@ -2918,7 +3046,8 @@ _TUNING_CALC_SIGNIFICANCE_SUBS = [
              "different stimuli (tuning vs. flat).", blank=0),
 ]
 write("stable", "tuning_curve_calculation",
-      doc("tuning_curve_calculation", ["subject_calculation"], abstract=True,
+      doc("tuning_curve_calculation", ["subject_calculation", "tuning_curve"],
+          version="2.0.0",
           fields=[
               field("significance", "structure",
                     "Statistical significance of the tuning (ANOVA p-values). "
@@ -2927,34 +3056,74 @@ write("stable", "tuning_curve_calculation",
                     non_empty=False, sub_fields=_TUNING_CALC_SIGNIFICANCE_SUBS),
               field("model_fit", "structure",
                     "ARRAY of fitted models, each {model, coefficients, "
-                    "goodness}; a curve may carry several co-existing fits "
-                    "(freq tunings carry 5). Data-in-array (R2 preserved), "
-                    "not typed field declarations per family.",
+                    "goodness, metrics, sampled_fit}; a curve may carry several "
+                    "co-existing fits (freq tunings carry 5).",
                     scalar=False, non_empty=False,
                     sub_fields=_TUNING_MODEL_FIT_SUBS),
           ]))
 
-# ---- six concrete calc leaves (⊂ [tuning_curve_calculation, <marker>]) ----------
-# Issue #67 category ④. Multi-inheritance per Lepsky et al. Fig. 4: each concrete
-# calc emits one document type (paper §3.2) inheriting provenance +
-# significance + fits from `tuning_curve_calculation` AND the raw curve shape +
-# self-describing metadata from the marker composite. The emitted document has
-# one class-named property block per class in the chain -- e.g.
-# `oridirtuning_calc:` distinct from `orientation_direction_tuning:` (Fig. 4).
-# Per-family typed scalars (vector for oridir, fitless for freq/contrast, ...)
-# would ride here as leaf-specific fields; kept empty in this build (the R2/R3
-# reversal is the primary edit; family-specific scalar declarations follow with
-# the DID-matlab migrator retargets).
-for _leaf, _marker in [
-    ("oridirtuning_calc",              "orientation_direction_tuning"),
-    ("contrasttuning_calc",            "contrast_tuning"),
-    ("spatial_frequency_tuning_calc",  "spatial_frequency_tuning"),
-    ("temporal_frequency_tuning_calc", "temporal_frequency_tuning"),
-    ("speedtuning_calc",               "speed_tuning"),
-    ("tuningcurve_calc",               "tuning_curve"),
+# ---- five family calculations (⊂ tuning_curve_calculation) ---------------------
+# #73: renamed from the #67 `*_calc` leaves to the <result>_calculation form (T13),
+# consistent with contrast_sensitivity_calculation and receptive_field_calculation.
+# Each carries the family's OWN typed summary block -- values read off the RAW
+# curve, as opposed to model_fit[].metrics, which are read off a fit. These are
+# what v1 carried as `vector` (oridir) and `fitless` (contrast / SF / TF); the
+# signed naming pass called them `circular_statistics` / `interpolated_values`.
+# Declared per family (not once on the parent) so the class says which block to
+# expect; the SF/TF declarations share one constant so they cannot drift.
+#   old #67 leaf                    -> #73 name
+#   oridirtuning_calc               -> orientation_direction_tuning_calculation
+#   contrasttuning_calc             -> contrast_tuning_calculation
+#   spatial_frequency_tuning_calc   -> spatial_frequency_tuning_calculation
+#   temporal_frequency_tuning_calc  -> temporal_frequency_tuning_calculation
+#   speedtuning_calc                -> speed_tuning_calculation
+#   tuningcurve_calc                -> tuning_curve_calculation (above, concrete)
+_TUNING_CIRCULAR_STATISTICS_SUBS = [
+    _tuning_double("circular_variance",
+        "Circular variance in orientation space; related to selectivity and "
+        "tuning width."),
+    _tuning_double("direction_circular_variance",
+        "Circular variance in direction space."),
+    _tuning_double("hotelling_t2_p",
+        "p-value of Hotelling's T-squared test of whether the orientation "
+        "vectors differ from [0,0] (v1 `hotelling2test`)."),
+    _tuning_double("direction_hotelling_t2_p",
+        "p-value of Hotelling's T-squared test on the direction vectors (v1 "
+        "`direction_hotelling2test`)."),
+    _tuning_double("direction_dot_product_p",
+        "p-value of the direction dot-product test, which uses both orientation "
+        "and direction vectors to assess direction selectivity (Mazurek et al.; "
+        "v1 `dot_direction_significance`)."),
+    _tuning_double("orientation_preference",
+        "Orientation with the highest response in orientation vector space. "
+        "Same unit as the curve's direction variable."),
+    _tuning_double("direction_preference",
+        "Direction with the highest response in direction vector space. Same "
+        "unit as the curve's direction variable."),
+]
+_TUNING_INTERPOLATED_FREQUENCY_SUBS = _TUNING_CURVE_POINTS + _TUNING_PASS_INDICES
+_TUNING_INTERPOLATED_CONTRAST_SUBS = [
+    s for s in _TUNING_CURVE_POINTS if s["name"] == "half_maximum_below"]
+_INTERPOLATED_DOC = ("Summary points read off the RAW (unfitted) curve by "
+                     "interpolation (v1 `fitless`).")
+for _leaf, _fields in [
+    ("orientation_direction_tuning_calculation", [
+        field("circular_statistics", "structure",
+              "Vector-space summary of the RAW (unfitted) direction curve (v1 "
+              "`vector`).", non_empty=False,
+              sub_fields=_TUNING_CIRCULAR_STATISTICS_SUBS)]),
+    ("contrast_tuning_calculation", [
+        field("interpolated_values", "structure", _INTERPOLATED_DOC,
+              non_empty=False, sub_fields=_TUNING_INTERPOLATED_CONTRAST_SUBS)]),
+    ("spatial_frequency_tuning_calculation", [
+        field("interpolated_values", "structure", _INTERPOLATED_DOC,
+              non_empty=False, sub_fields=_TUNING_INTERPOLATED_FREQUENCY_SUBS)]),
+    ("temporal_frequency_tuning_calculation", [
+        field("interpolated_values", "structure", _INTERPOLATED_DOC,
+              non_empty=False, sub_fields=_TUNING_INTERPOLATED_FREQUENCY_SUBS)]),
+    ("speed_tuning_calculation", []),
 ]:
-    write("stable", _leaf,
-          doc(_leaf, ["tuning_curve_calculation", _marker]))
+    write("stable", _leaf, doc(_leaf, ["tuning_curve_calculation"], fields=_fields))
 
 # Retire the draft/ versions -- promoted to stable/ above.
 for _draft_name in ("tuning_curve", "tuning_curve_calculation"):
@@ -3436,6 +3605,29 @@ write("stable", "reverse_correlation",
 write("stable", "hartley_reverse_correlation",
       doc("hartley_reverse_correlation", ["reverse_correlation"], abstract=True,
           version="2.0.0"))
+
+# #73 (2026-09-23): the `calculator` mixin is out of every V_eta chain, so the two
+# copytree'd V_zeta classes that still named it lose that parent. Both are
+# `retire` and neither declares anything of its own, so nothing else changes:
+#   hartley_calc  -- the v1 source tombstone; its documents fold to
+#                    receptive_field_calculation (migrators_j.hartley_calc).
+#   tuning_fit    -- abstract, no fields, no V_eta subclass; its only NDI hit is
+#                    the MATLAB class ndi.calc.tuning_fit, not a document template.
+#                    Re-parented rather than deleted: a deletion is a disposition,
+#                    and this change is not making one for it.
+for _name, _supers in (("hartley_calc", ["base", "hartley_reverse_correlation"]),
+                       ("tuning_fit", ["base"])):
+    _t, _p = path_of(_name)
+    if not _p:
+        raise SystemExit(f"#73: {_name} is not in the built set -- the re-parent "
+                         "has nothing to act on. Fix the build, do not drop this.")
+    _d = load(_p)
+    _before = [s["class_name"] for s in _d["document_class"]["superclasses"]]
+    if "calculator" not in _before:
+        raise SystemExit(f"#73: {_name} no longer names `calculator` ({_before}) -- "
+                         "this re-parent is stale; remove it.")
+    _d["document_class"]["superclasses"] = [{"class_name": s} for s in _supers]
+    write(_t, _name, _d)
 
 write("stable", "visual_grating_manipulation",
       doc("visual_grating_manipulation",
@@ -8613,7 +8805,11 @@ _RET_TOOBS = {"probe_location", "probe_geometry", "electrode_offset_voltage",
 # §3.2 / Fig. 4). `subject_calculation` multi-inherits from it, so retiring the
 # parent while the child persists would recreate the "persist class with retiring
 # super" bug test_data_body_carrier_dispositions guards against.
-_RET_HOLDOVER = {"measurement"}
+# RE-ADDED 2026-09-23 (#73): the paragraph above no longer holds. `calculator` is
+# out of every V_eta chain -- subject_calculation declares the two provenance edges
+# itself -- so no persisting class has it as a super, and what remains is a v1
+# source tombstone restating the NDI template (⊂ [base, app]). It retires.
+_RET_HOLDOVER = {"measurement", "calculator"}
 _ANALYSIS_RE = _re.compile(r"(_calc$|_calc_|tuning|stimulus_response|spike|cluster|"
     r"vmspike|binnedspikerate|jrclust|sorting_param|neuron_extracellular|hartley|"
     r"oridir|reverse_correlation|fitcurve|tuning_fit|simple_calc|contrast_sensitivity|"
@@ -8981,6 +9177,21 @@ _DELETE_PHASE8 = {
     # → target `speedtuning_calc`) still delete: their docs migrate to the
     # differently-named target, so the v1 tombstone must go.
     "contrast_tuning_calc", "speed_tuning_calc", "contrast_sensitivity_calc",
+    # #73 (2026-09-23): the #67 paragraph above is SUPERSEDED for the four
+    # colliding names. The calculation leaves were renamed to the
+    # <result>_calculation form (tuningcurve_calc -> the now-concrete
+    # tuning_curve_calculation), so NO V_eta target reuses a v1 calc name any
+    # more, and all four v1 calc tombstones delete on the same ground as the two
+    # above: a completed migrator (migrators_j.<name>) folds every document 1->1,
+    # id-preserved, onto a differently-named leaf.
+    "oridirtuning_calc", "tuningcurve_calc",
+    "spatial_frequency_tuning_calc", "temporal_frequency_tuning_calc",
+    # ...and the five v1 RESULT classes #67 had overwritten with thin markers.
+    # #73 drops the markers; what is left at those names is the copytree'd V_zeta
+    # source tombstone, and a completed migrator (migrators_j.<name>) folds each
+    # onto its family calculation.
+    "orientation_direction_tuning", "contrast_tuning",
+    "spatial_frequency_tuning", "temporal_frequency_tuning", "speed_tuning",
 }
 # A SEPARATE SET, DELIBERATELY. _DELETE_PHASE8 above means "a did_v1 SOURCE whose
 # documents are provably consumed by a completed migrator" -- its whole contract is

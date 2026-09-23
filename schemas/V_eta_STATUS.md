@@ -9,14 +9,14 @@ for each model; this board owns *how much is left and what exactly*.
 
 | | count |
 |---|---|
-| target classes | 264 |
-| settled (persist) | 189 |
-| settled (retire) | 49 |
+| target classes | 258 |
+| settled (persist) | 182 |
+| settled (retire) | 50 |
 | **still open (`in_progress`)** | **26** |
-| **`retire` with no migrator YET** | **2** |
-| open **decision families** | **27** |
+| **`retire` with no migrator YET** | **3** |
+| open **decision families** | **28** |
 | &nbsp;&nbsp;DECIDED and signed off, awaiting build | 27 |
-| &nbsp;&nbsp;decided in a walkthrough, **awaiting a signature** | 0 |
+| &nbsp;&nbsp;decided in a walkthrough, **awaiting a signature** | 1 |
 | &nbsp;&nbsp;**written up by Claude alone, unreviewed** | **0** |
 | &nbsp;&nbsp;nobody has proposed anything yet | 0 |
 
@@ -27,9 +27,9 @@ for each model; this board owns *how much is left and what exactly*.
 | (c) corpus: 0 survivors in the corpora read | 0 |
 | (?) UNMEASURED -- no build evidence was ever taken | 0 |
 
-The class count is not the work count. 26 open classes are 27 decisions, because most open classes move as a family.
+The class count is not the work count. 26 open classes are 28 decisions, because most open classes move as a family.
 
-**0 of those 27 are not settled**: 0 awaiting a signature on a decision already taken, 0 written up by Claude alone and unreviewed, 0 with nothing proposed. Only 27 are signed off.
+**1 of those 28 are not settled**: 1 awaiting a signature on a decision already taken, 0 written up by Claude alone and unreviewed, 0 with nothing proposed. Only 27 are signed off.
 
 ## What is actually left on the 26 open classes
 
@@ -301,7 +301,9 @@ re-deciding -- it needs recording.
 
 | family | classes | what was decided | document |
 |---|---|---|---|
+| **calculator mixin dropped (#73)** | 1 | `calculator` leaves every V_eta chain; subject_calculation declares the required software_id + runtime_environment_id itself; the name survives only as a retiring v1 tombstone for passthrough | `V_eta_subject_calculation_plan.md` |
 
+- **calculator mixin dropped (#73)**: `calculator`
 
 ## WRITTEN UP BY CLAUDE ALONE -- nobody has checked the reasoning
 
@@ -329,20 +331,19 @@ Until that line exists the family shows here regardless of what
 
 ## DECIDED by the team, awaiting build
 
-**DENOMINATOR: 27 signed families. 17 named at least one decided target class and were checked against the built tree; 10 named none and are UNCHECKED HERE.**
+**DENOMINATOR: 27 signed families. 18 named at least one decided target class and were checked against the built tree; 9 named none and are UNCHECKED HERE.**
 
-Across the 17 checked: 37 distinct target class(es), 37 present in the built set, 0 not.
+Across the 18 checked: 40 distinct target class(es), 40 present in the built set, 0 not.
 
 So for the checked families the schema half is DONE and what
 remains is MIGRATOR work. Do not read those rows as a build
 queue for schema.
 
-**The other 10 are unchecked, NOT clean.** Nothing above says anything about them, and the reason differs per family:
+**The other 9 are unchecked, NOT clean.** Nothing above says anything about them, and the reason differs per family:
 
 - **stranded sources** (2 class(es)): 2 `generic_file`, `imageCollection` -- has a ledger row whose `decided_targets` is EMPTY -- the gap the ledger now flags by name
 - **time_reference** (4 class(es)): 4 `epoch_bounded_reference`, `session_bounded_reference`, `session_relative_reference`, `time_reference` -- a V_eta target class, so the coverage ledger has no row for it (it is not a v1 source)
 - **receptive field fold** (1 class(es)): 1 `hartley_calc` -- has a ledger row whose `decided_targets` is EMPTY -- the gap the ledger now flags by name
-- **confirm sheet 2026-08-17** (5 class(es)): 5 `jrclust_clusters`, `oridirtuning_calc`, `probe_location`, `treatment`, `tuningcurve_calc` -- has a ledger row whose `decided_targets` is EMPTY -- the gap the ledger now flags by name
 - **image / ngrid** (2 class(es)): 2 `imageStack_parameters`, `ngrid` -- has a ledger row whose `decided_targets` is EMPTY -- the gap the ledger now flags by name
 - **openMINDS** (1 class(es)): 1 `openminds` -- has a ledger row whose `decided_targets` is EMPTY -- the gap the ledger now flags by name
 - **stimulus parameters** (2 class(es)): 1 `stimulus_parameter` -- has a ledger row whose `decided_targets` is EMPTY -- the gap the ledger now flags by name; 1 `stimulus_parameter_table` -- its only decided target is ITSELF, a signed passthrough, which is stripped because it is not build evidence
@@ -371,7 +372,7 @@ is why migrator work before the target closes is rework.
 | **stimulus** | 2 | 2 of 2 | timed_sequence data_type + timed_sequence_manipulation leaf; control_designation resolved here | `V_eta_stimulus_model_plan.md` |
 | **ensemble** | 1 | 3 of 3 | group subject + epoch-scoped member_of edges + rebuildable cache | `V_eta_ensemble_plan.md` |
 | **receptive field fold** | 1 | no target recorded | hartley_calc migrates 1->1 id-preserved into a receptive_field_calculation leaf + receptive_field composite, payload in TWO sampled_body documents (STA, p-value); ngrid.coordinates fold into axes[].values | `V_eta_ngrid_family_findings.md` |
-| **confirm sheet 2026-08-17** | 5 | no target recorded | each migrates today to the set the confirm sheet recorded, and that set IS the intended end state; no further fold is owed | `V_eta_go_forward_class_audit.md` |
+| **confirm sheet 2026-08-17** | 5 | 5 of 5 | each migrates today to the set the confirm sheet recorded, and that set IS the intended end state; no further fold is owed | `V_eta_go_forward_class_audit.md` |
 | **image / ngrid** | 2 | no target recorded | ngrid phases into sampled_body; image is a standalone data_type; the two image_stack tombstones are held until the subject is recoverable | `V_eta_image_model_plan.md` |
 | **epoch** | 4 | 1 of 1 | MINT `epoch` ENTITY (+ OPTIONAL `instrument_id`, 2026-08-06); element_epoch dissolves; epochid DROPPED; probemap -> edges (B) | `V_eta_epoch_plan.md` |
 | **daq configuration** | 4 | 5 of 5 | acquisition_system + `acquisition_metadata_reader` keep ids; class names fold to software entities | `V_eta_daq_family_decisions.md` |
@@ -449,15 +450,15 @@ visible either.
 
 | disposition | count |
 |---|---|
-| retire | 48 |
-| persist | 22 |
+| retire | 49 |
+| consumed by migrator (no tombstone) | 28 |
 | in_progress | 19 |
-| consumed by migrator (no tombstone) | 19 |
+| persist | 12 |
 | test/demo fixture (non-production) | 2 |
 | UNMAPPED (needs a V_eta home) | 2 |
 | dissolved → subject | 1 |
 
-### `retire`, but NO MIGRATOR YET -- 2 rows
+### `retire`, but NO MIGRATOR YET -- 3 rows
 
 Marked `retire` in the ledger with **no per-class migrator and no `how`
 note**. `retire` reads as settled, so these do not appear in the family
@@ -480,8 +481,9 @@ rows is covered by a plan document**, and most are signed. The list means
 reports settled work as undecided is the mirror of the failure this board
 exists to prevent, and it cost a review pass to notice.
 
-DENOMINATOR: 2 row(s), each searched for its BARE CLASS NAME as a quoted literal in 13 batch post-pass file(s) under `+did2/+convert` (comments stripped).
+DENOMINATOR: 3 row(s), each searched for its BARE CLASS NAME as a quoted literal in 13 batch post-pass file(s) under `+did2/+convert` (comments stripped).
 
+- `calculator` -- no per-class migrator and no batch post-pass names it; passes through today
 - `generic_file` -- **NOT untouched**: consumed by `foldGenericFiles.m`
 - `imageCollection` -- no per-class migrator and no batch post-pass names it; passes through today
 

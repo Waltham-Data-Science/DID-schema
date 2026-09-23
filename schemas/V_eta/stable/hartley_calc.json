@@ -8,9 +8,6 @@
             },
             {
                 "class_name": "hartley_reverse_correlation"
-            },
-            {
-                "class_name": "calculator"
             }
         ],
         "maturity_level": "stable"

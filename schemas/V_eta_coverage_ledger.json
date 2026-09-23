@@ -221,11 +221,11 @@
       ]
     },
     "by_disposition": {
-      "retire": 48,
+      "retire": 49,
       "dissolved \u2192 subject": 1,
       "in_progress": 19,
-      "persist": 22,
-      "consumed by migrator (no tombstone)": 19,
+      "persist": 12,
+      "consumed by migrator (no tombstone)": 28,
       "test/demo fixture (non-production)": 2,
       "UNMAPPED (needs a V_eta home)": 2
     },
@@ -279,8 +279,8 @@
       },
       "by_stage_reached": {
         "0": 13,
-        "1": 63,
-        "2": 5,
+        "1": 51,
+        "2": 17,
         "3": 32,
         "4": 0
       },
@@ -293,14 +293,14 @@
           "no": 13
         },
         "2": {
-          "not measured": 71,
-          "yes": 39,
+          "not measured": 59,
+          "yes": 51,
           "n/a": 3
         },
         "3": {
-          "not measured": 71,
+          "not measured": 59,
           "yes": 31,
-          "no": 8,
+          "no": 20,
           "n/a": 3
         },
         "4": {
@@ -309,7 +309,7 @@
       },
       "per_stage_satisfied_independently": {
         "1": 100,
-        "2": 39,
+        "2": 51,
         "3": 31,
         "4": 0
       },
@@ -323,8 +323,8 @@
         ],
         "highest_rung_satisfied_independently_histogram": {
           "0": 10,
-          "1": 64,
-          "2": 8,
+          "1": 52,
+          "2": 20,
           "3": 31,
           "4": 0
         },
@@ -354,9 +354,9 @@
           },
           {
             "v1_class": "calculator",
-            "disposition": "persist",
+            "disposition": "retire",
             "target_source": "passthrough",
-            "governance": "no signature found"
+            "governance": "family UNSIGNED"
           },
           {
             "v1_class": "demoNDISeries",
@@ -398,7 +398,7 @@
       },
       "no_target_recorded": {
         "denominator": 113,
-        "rows": 74,
+        "rows": 62,
         "row_names": [
           "SpikeInterfaceSortingOutputs",
           "animalsubject",
@@ -406,8 +406,6 @@
           "binnedspikeratevm",
           "calculator",
           "contrast_sensitivity_calc",
-          "contrast_tuning",
-          "contrast_tuning_calc",
           "control_stimulus_ids",
           "daqreader_mfdaq_epochdata_ingested",
           "dataset_remote",
@@ -443,33 +441,23 @@
           "openminds_element",
           "openminds_stimulus",
           "openminds_subject",
-          "oridirtuning_calc",
-          "orientation_direction_tuning",
           "position_metadata",
           "probe_geometry",
           "probe_location",
           "session_in_a_dataset",
           "simple_calc",
           "site2channelmap",
-          "spatial_frequency_tuning",
-          "spatial_frequency_tuning_calc",
-          "speed_tuning",
-          "speed_tuning_calc",
           "spike_clusters",
           "spikewaves",
           "stimulus_parameter",
           "stimulus_response",
           "stimulus_response_scalar",
           "stimulus_response_scalar_parameters",
-          "stimulus_tuningcurve",
           "subject_group",
           "subjectmeasurement",
-          "temporal_frequency_tuning",
-          "temporal_frequency_tuning_calc",
           "treatment",
           "treatment_drug",
           "treatment_transfer",
-          "tuningcurve_calc",
           "virus_injection",
           "vmneuralresponseresiduals",
           "vmspikefit",
@@ -543,8 +531,8 @@
         "by_state": {
           "signed": 56,
           "DISPUTED": 1,
-          "family UNSIGNED": 0,
-          "no signature found": 56
+          "family UNSIGNED": 1,
+          "no signature found": 55
         },
         "signed_by": {
           "derived from a signed family": 40,
@@ -556,7 +544,7 @@
           "matched_on": {
             "v1_class": 56
           },
-          "matched_on_v1_class_only": 14,
+          "matched_on_v1_class_only": 16,
           "matched_on_veta_class_only": 0,
           "matched_by_family": {
             "software": 1,
@@ -588,17 +576,16 @@
           },
           "conflicting_claims": [],
           "unmoved_by_cause": {
-            "a family names this class and that family is UNSIGNED": 0,
+            "a family names this class and that family is UNSIGNED": 1,
             "no family names this class; a SIGNED family names a class its migrator EMITS": 30,
             "no family names this class, and the row has no V_eta class and no target either": 4,
-            "no family in FAMILIES names this class": 22
+            "no family in FAMILIES names this class": 21
           },
           "unmoved_rows_by_cause": {
             "no family in FAMILIES names this class": [
               "SpikeInterfaceSortingOutputs",
               "base",
               "binnedspikeratevm",
-              "calculator",
               "dataset_remote",
               "dataset_session_info",
               "demoNDI",
@@ -623,6 +610,9 @@
               "demoNDISeries",
               "demoNDISeriesMixed",
               "mock"
+            ],
+            "a family names this class and that family is UNSIGNED": [
+              "calculator"
             ],
             "no family names this class; a SIGNED family names a class its migrator EMITS": [
               "contrast_sensitivity_calc",
@@ -658,7 +648,7 @@
             ]
           },
           "target_only_reached_via": {
-            "session_relative_reference (time_reference)": 27,
+            "session_relative_reference (time_reference)": 37,
             "subject (subject)": 3,
             "control_designation (stimulus)": 1,
             "daqreader_epochdata_ingested (daq ingested payloads)": 1,
@@ -998,7 +988,7 @@
             "V_eta_frequency_filter_model_plan.md": 1,
             "V_eta_openminds_family_record.md": 2
           },
-          "families_total": 27,
+          "families_total": 28,
           "families_signed": [
             "confirm sheet 2026-08-17",
             "daq configuration",
@@ -1028,7 +1018,9 @@
             "sync mapping",
             "time_reference"
           ],
-          "families_unsigned": [],
+          "families_unsigned": [
+            "calculator mixin dropped (#73)"
+          ],
           "orphan_tags": {
             "base naming": [
               {
@@ -1129,7 +1121,18 @@
           }
         }
       },
-      "decision_claimed_but_unchecked": []
+      "decision_claimed_but_unchecked": [
+        "contrast_tuning",
+        "contrast_tuning_calc",
+        "orientation_direction_tuning",
+        "spatial_frequency_tuning",
+        "spatial_frequency_tuning_calc",
+        "speed_tuning",
+        "speed_tuning_calc",
+        "stimulus_tuningcurve",
+        "temporal_frequency_tuning",
+        "temporal_frequency_tuning_calc"
+      ]
     }
   },
   "rows": [
@@ -1726,7 +1729,7 @@
     {
       "v1_class": "calculator",
       "veta_class": "calculator",
-      "disposition": "persist",
+      "disposition": "retire",
       "migrator": false,
       "source": "ndi",
       "nonprod": false,
@@ -1764,12 +1767,14 @@
       "how": "",
       "target_flags": "",
       "decided_by_family": null,
-      "families_naming_this_class": [],
-      "governance_gap": "no family in FAMILIES names this class",
+      "families_naming_this_class": [
+        "calculator mixin dropped (#73)"
+      ],
+      "governance_gap": "a family names this class and that family is UNSIGNED",
       "governance": {
-        "state": "no signature found",
+        "state": "family UNSIGNED",
         "signoff": null,
-        "why": "no family in FAMILIES names this class. This is the absence of a FINDABLE signature -- a transcription, or a signed family naming this class -- and NOT evidence that no decision exists"
+        "why": "the decision family `calculator mixin dropped (#73)` names this class and carries no sign-off line this tool will honour. What is missing is a SIGNATURE, not a model"
       },
       "stage": {
         "unclassifiable": false,
@@ -2024,8 +2029,8 @@
     },
     {
       "v1_class": "contrast_tuning",
-      "veta_class": "contrast_tuning",
-      "disposition": "persist",
+      "veta_class": null,
+      "disposition": "consumed by migrator (no tombstone)",
       "migrator": true,
       "source": "app",
       "nonprod": false,
@@ -2036,8 +2041,13 @@
         "contrasttuning_calc",
         "runtime_environment"
       ],
-      "decided_targets": [],
-      "decided_targets_source": null,
+      "decided_targets": [
+        "session_relative_reference",
+        "software",
+        "runtime_environment",
+        "contrast_tuning_calculation"
+      ],
+      "decided_targets_source": "curated_targets_file",
       "decided_signoff": null,
       "target_source": "emitted",
       "no_target_reason": null,
@@ -2046,8 +2056,13 @@
       "no_target_signoff": null,
       "target_gap": false,
       "build_state": {
-        "schema_targets_named": 0,
-        "schema_targets_built": [],
+        "schema_targets_named": 4,
+        "schema_targets_built": [
+          "contrast_tuning_calculation",
+          "runtime_environment",
+          "session_relative_reference",
+          "software"
+        ],
         "schema_targets_missing": [],
         "migrator_emits_decided_targets": false,
         "has_per_class_migrator": true,
@@ -2066,22 +2081,22 @@
       ],
       "second_pass": [],
       "how": "result class -> the tuning_curve_calculation subject_calculation LEAF (id-preserved 1->1; element_id -> subject_id; result composite kept verbatim) + session anchor",
-      "target_flags": "calculator composite-leaf fold (Lepsky et al.); un-defers with 0 orphans (id-preserved)",
+      "target_flags": "calculator composite-leaf fold (Lepsky et al.); un-defers with 0 orphans (id-preserved) #73 (2026-09-23): the V_eta leaf is renamed to `contrast_tuning_calculation` (the #67 `*_calc` leaf names and the tuning marker composites are gone from the build); the migrator still emits `contrasttuning_calc`, so the retarget, plus lifting v1 `vector`/`fitless` into the family's typed summary block and fit-derived values into `model_fit[].metrics`, is the DID-matlab half of #73.",
       "decided_by_family": null,
       "families_naming_this_class": [],
       "governance_gap": "no family names this class; a SIGNED family names a class its migrator EMITS",
       "governance": {
         "state": "no signature found",
         "signoff": null,
-        "why": "no family names this class; a SIGNED family names a class its migrator EMITS. This is the absence of a FINDABLE signature -- a transcription, or a signed family naming this class -- and NOT evidence that no decision exists"
+        "why": "no family names this class; a SIGNED family names a class its migrator EMITS. This is the absence of a FINDABLE signature -- a transcription, or a signed family naming this class -- and NOT evidence that no decision exists; V_eta_migration_targets.json DOES claim a signed decision for this class (`decided_targets`), but that claim is authored and UNCHECKED"
       },
       "stage": {
         "unclassifiable": false,
         "unclassifiable_why": null,
-        "reached": 1,
-        "reached_name": "a migrator CONSUMES it",
-        "blocked_by": 2,
-        "blocked_by_state": "not measured",
+        "reached": 2,
+        "reached_name": "its decided target classes EXIST in the build",
+        "blocked_by": 3,
+        "blocked_by_state": "no",
         "ladder": [
           {
             "stage": 1,
@@ -2092,14 +2107,14 @@
           {
             "stage": 2,
             "name": "its decided target classes EXIST in the build",
-            "state": "not measured",
-            "why": "`build_state.schema_targets_named` is 0 -- no target class is named for this row, so there is nothing to look for in the built set. This is NOT 'all targets present': an empty `schema_targets_missing` is empty here because the question was never asked"
+            "state": "yes",
+            "why": "all 4 decided target class(es) are present in the built V_eta set (`build_state.schema_targets_missing` is empty AND `schema_targets_named` is non-zero)"
           },
           {
             "stage": 3,
             "name": "the migrator emits THE DECIDED targets",
-            "state": "not measured",
-            "why": "`build_state.schema_targets_named` is 0 -- no decided target to check an emission against"
+            "state": "no",
+            "why": "the decided target(s) `session_relative_reference`, `software`, `runtime_environment`, `contrast_tuning_calculation` are not all among what the migrator emits today (`session_relative_reference`, `software`, `contrasttuning_calc`, `runtime_environment`). 1 of 55 shared helper(s) declare; 16 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jClockAlignmentBodies, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMethodParameters, jRuntimeEnvironment, jSampledBody, jSessionAnchor, jSoftware, jSorterOutput, jTuningFold, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
           },
           {
             "stage": 4,
@@ -2109,7 +2124,7 @@
           }
         ],
         "anomalies": [],
-        "highest_rung_satisfied_independently": 1,
+        "highest_rung_satisfied_independently": 2,
         "capped": false,
         "nothing_built": false,
         "nothing_satisfied": false,
@@ -2131,8 +2146,13 @@
         "contrasttuning_calc",
         "runtime_environment"
       ],
-      "decided_targets": [],
-      "decided_targets_source": null,
+      "decided_targets": [
+        "session_relative_reference",
+        "software",
+        "runtime_environment",
+        "contrast_tuning_calculation"
+      ],
+      "decided_targets_source": "curated_targets_file",
       "decided_signoff": null,
       "target_source": "emitted",
       "no_target_reason": null,
@@ -2141,8 +2161,13 @@
       "no_target_signoff": null,
       "target_gap": false,
       "build_state": {
-        "schema_targets_named": 0,
-        "schema_targets_built": [],
+        "schema_targets_named": 4,
+        "schema_targets_built": [
+          "contrast_tuning_calculation",
+          "runtime_environment",
+          "session_relative_reference",
+          "software"
+        ],
         "schema_targets_missing": [],
         "migrator_emits_decided_targets": false,
         "has_per_class_migrator": true,
@@ -2161,22 +2186,22 @@
       ],
       "second_pass": [],
       "how": "calculator OUTPUT -> the tuning_curve_calculation subject_calculation LEAF (id-preserved; input_parameters -> method_parameters; app kept; raw input -> derived_from_1) + session anchor",
-      "target_flags": "calculator composite-leaf fold (Lepsky et al.); un-defers with 0 orphans (id-preserved)",
+      "target_flags": "calculator composite-leaf fold (Lepsky et al.); un-defers with 0 orphans (id-preserved) #73 (2026-09-23): the V_eta leaf is renamed to `contrast_tuning_calculation` (the #67 `*_calc` leaf names and the tuning marker composites are gone from the build); the migrator still emits `contrasttuning_calc`, so the retarget, plus lifting v1 `vector`/`fitless` into the family's typed summary block and fit-derived values into `model_fit[].metrics`, is the DID-matlab half of #73.",
       "decided_by_family": null,
       "families_naming_this_class": [],
       "governance_gap": "no family names this class; a SIGNED family names a class its migrator EMITS",
       "governance": {
         "state": "no signature found",
         "signoff": null,
-        "why": "no family names this class; a SIGNED family names a class its migrator EMITS. This is the absence of a FINDABLE signature -- a transcription, or a signed family naming this class -- and NOT evidence that no decision exists"
+        "why": "no family names this class; a SIGNED family names a class its migrator EMITS. This is the absence of a FINDABLE signature -- a transcription, or a signed family naming this class -- and NOT evidence that no decision exists; V_eta_migration_targets.json DOES claim a signed decision for this class (`decided_targets`), but that claim is authored and UNCHECKED"
       },
       "stage": {
         "unclassifiable": false,
         "unclassifiable_why": null,
-        "reached": 1,
-        "reached_name": "a migrator CONSUMES it",
-        "blocked_by": 2,
-        "blocked_by_state": "not measured",
+        "reached": 2,
+        "reached_name": "its decided target classes EXIST in the build",
+        "blocked_by": 3,
+        "blocked_by_state": "no",
         "ladder": [
           {
             "stage": 1,
@@ -2187,14 +2212,14 @@
           {
             "stage": 2,
             "name": "its decided target classes EXIST in the build",
-            "state": "not measured",
-            "why": "`build_state.schema_targets_named` is 0 -- no target class is named for this row, so there is nothing to look for in the built set. This is NOT 'all targets present': an empty `schema_targets_missing` is empty here because the question was never asked"
+            "state": "yes",
+            "why": "all 4 decided target class(es) are present in the built V_eta set (`build_state.schema_targets_missing` is empty AND `schema_targets_named` is non-zero)"
           },
           {
             "stage": 3,
             "name": "the migrator emits THE DECIDED targets",
-            "state": "not measured",
-            "why": "`build_state.schema_targets_named` is 0 -- no decided target to check an emission against"
+            "state": "no",
+            "why": "the decided target(s) `session_relative_reference`, `software`, `runtime_environment`, `contrast_tuning_calculation` are not all among what the migrator emits today (`session_relative_reference`, `software`, `contrasttuning_calc`, `runtime_environment`). 1 of 55 shared helper(s) declare; 16 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jClockAlignmentBodies, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMethodParameters, jRuntimeEnvironment, jSampledBody, jSessionAnchor, jSoftware, jSorterOutput, jTuningFold, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
           },
           {
             "stage": 4,
@@ -2204,7 +2229,7 @@
           }
         ],
         "anomalies": [],
-        "highest_rung_satisfied_independently": 1,
+        "highest_rung_satisfied_independently": 2,
         "capped": false,
         "nothing_built": false,
         "nothing_satisfied": false,
@@ -7628,8 +7653,8 @@
     },
     {
       "v1_class": "oridirtuning_calc",
-      "veta_class": "oridirtuning_calc",
-      "disposition": "persist",
+      "veta_class": null,
+      "disposition": "consumed by migrator (no tombstone)",
       "migrator": true,
       "source": "app",
       "nonprod": false,
@@ -7640,8 +7665,13 @@
         "oridirtuning_calc",
         "runtime_environment"
       ],
-      "decided_targets": [],
-      "decided_targets_source": null,
+      "decided_targets": [
+        "session_relative_reference",
+        "software",
+        "runtime_environment",
+        "orientation_direction_tuning_calculation"
+      ],
+      "decided_targets_source": "curated_targets_file",
       "decided_signoff": null,
       "target_source": "emitted",
       "no_target_reason": null,
@@ -7650,8 +7680,13 @@
       "no_target_signoff": null,
       "target_gap": false,
       "build_state": {
-        "schema_targets_named": 0,
-        "schema_targets_built": [],
+        "schema_targets_named": 4,
+        "schema_targets_built": [
+          "orientation_direction_tuning_calculation",
+          "runtime_environment",
+          "session_relative_reference",
+          "software"
+        ],
         "schema_targets_missing": [],
         "migrator_emits_decided_targets": false,
         "has_per_class_migrator": true,
@@ -7670,7 +7705,7 @@
       ],
       "second_pass": [],
       "how": "calculator OUTPUT -> the tuning_curve_calculation subject_calculation LEAF (id-preserved; input_parameters -> method_parameters; app kept; raw input -> derived_from_1) + session anchor",
-      "target_flags": "calculator composite-leaf fold (Lepsky et al.); un-defers with 0 orphans (id-preserved)",
+      "target_flags": "calculator composite-leaf fold (Lepsky et al.); un-defers with 0 orphans (id-preserved) #73 (2026-09-23): the V_eta leaf is renamed to `orientation_direction_tuning_calculation` (the #67 `*_calc` leaf names and the tuning marker composites are gone from the build); the migrator still emits `oridirtuning_calc`, so the retarget, plus lifting v1 `vector`/`fitless` into the family's typed summary block and fit-derived values into `model_fit[].metrics`, is the DID-matlab half of #73.",
       "decided_by_family": {
         "family": "confirm sheet 2026-08-17",
         "document": "V_eta_go_forward_class_audit.md",
@@ -7700,10 +7735,10 @@
       "stage": {
         "unclassifiable": false,
         "unclassifiable_why": null,
-        "reached": 1,
-        "reached_name": "a migrator CONSUMES it",
-        "blocked_by": 2,
-        "blocked_by_state": "not measured",
+        "reached": 2,
+        "reached_name": "its decided target classes EXIST in the build",
+        "blocked_by": 3,
+        "blocked_by_state": "no",
         "ladder": [
           {
             "stage": 1,
@@ -7714,14 +7749,14 @@
           {
             "stage": 2,
             "name": "its decided target classes EXIST in the build",
-            "state": "not measured",
-            "why": "`build_state.schema_targets_named` is 0 -- no target class is named for this row, so there is nothing to look for in the built set. This is NOT 'all targets present': an empty `schema_targets_missing` is empty here because the question was never asked"
+            "state": "yes",
+            "why": "all 4 decided target class(es) are present in the built V_eta set (`build_state.schema_targets_missing` is empty AND `schema_targets_named` is non-zero)"
           },
           {
             "stage": 3,
             "name": "the migrator emits THE DECIDED targets",
-            "state": "not measured",
-            "why": "`build_state.schema_targets_named` is 0 -- no decided target to check an emission against"
+            "state": "no",
+            "why": "the decided target(s) `session_relative_reference`, `software`, `runtime_environment`, `orientation_direction_tuning_calculation` are not all among what the migrator emits today (`session_relative_reference`, `software`, `oridirtuning_calc`, `runtime_environment`). 1 of 55 shared helper(s) declare; 16 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jClockAlignmentBodies, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMethodParameters, jRuntimeEnvironment, jSampledBody, jSessionAnchor, jSoftware, jSorterOutput, jTuningFold, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
           },
           {
             "stage": 4,
@@ -7731,7 +7766,7 @@
           }
         ],
         "anomalies": [],
-        "highest_rung_satisfied_independently": 1,
+        "highest_rung_satisfied_independently": 2,
         "capped": false,
         "nothing_built": false,
         "nothing_satisfied": false,
@@ -7741,8 +7776,8 @@
     },
     {
       "v1_class": "orientation_direction_tuning",
-      "veta_class": "orientation_direction_tuning",
-      "disposition": "persist",
+      "veta_class": null,
+      "disposition": "consumed by migrator (no tombstone)",
       "migrator": true,
       "source": "ndi",
       "nonprod": false,
@@ -7753,8 +7788,13 @@
         "oridirtuning_calc",
         "runtime_environment"
       ],
-      "decided_targets": [],
-      "decided_targets_source": null,
+      "decided_targets": [
+        "session_relative_reference",
+        "software",
+        "runtime_environment",
+        "orientation_direction_tuning_calculation"
+      ],
+      "decided_targets_source": "curated_targets_file",
       "decided_signoff": null,
       "target_source": "emitted",
       "no_target_reason": null,
@@ -7763,8 +7803,13 @@
       "no_target_signoff": null,
       "target_gap": false,
       "build_state": {
-        "schema_targets_named": 0,
-        "schema_targets_built": [],
+        "schema_targets_named": 4,
+        "schema_targets_built": [
+          "orientation_direction_tuning_calculation",
+          "runtime_environment",
+          "session_relative_reference",
+          "software"
+        ],
         "schema_targets_missing": [],
         "migrator_emits_decided_targets": false,
         "has_per_class_migrator": true,
@@ -7783,22 +7828,22 @@
       ],
       "second_pass": [],
       "how": "result class -> the tuning_curve_calculation subject_calculation LEAF (id-preserved 1->1; element_id -> subject_id; result composite kept verbatim) + session anchor",
-      "target_flags": "calculator composite-leaf fold (Lepsky et al.); un-defers with 0 orphans (id-preserved)",
+      "target_flags": "calculator composite-leaf fold (Lepsky et al.); un-defers with 0 orphans (id-preserved) #73 (2026-09-23): the V_eta leaf is renamed to `orientation_direction_tuning_calculation` (the #67 `*_calc` leaf names and the tuning marker composites are gone from the build); the migrator still emits `oridirtuning_calc`, so the retarget, plus lifting v1 `vector`/`fitless` into the family's typed summary block and fit-derived values into `model_fit[].metrics`, is the DID-matlab half of #73.",
       "decided_by_family": null,
       "families_naming_this_class": [],
       "governance_gap": "no family names this class; a SIGNED family names a class its migrator EMITS",
       "governance": {
         "state": "no signature found",
         "signoff": null,
-        "why": "no family names this class; a SIGNED family names a class its migrator EMITS. This is the absence of a FINDABLE signature -- a transcription, or a signed family naming this class -- and NOT evidence that no decision exists"
+        "why": "no family names this class; a SIGNED family names a class its migrator EMITS. This is the absence of a FINDABLE signature -- a transcription, or a signed family naming this class -- and NOT evidence that no decision exists; V_eta_migration_targets.json DOES claim a signed decision for this class (`decided_targets`), but that claim is authored and UNCHECKED"
       },
       "stage": {
         "unclassifiable": false,
         "unclassifiable_why": null,
-        "reached": 1,
-        "reached_name": "a migrator CONSUMES it",
-        "blocked_by": 2,
-        "blocked_by_state": "not measured",
+        "reached": 2,
+        "reached_name": "its decided target classes EXIST in the build",
+        "blocked_by": 3,
+        "blocked_by_state": "no",
         "ladder": [
           {
             "stage": 1,
@@ -7809,14 +7854,14 @@
           {
             "stage": 2,
             "name": "its decided target classes EXIST in the build",
-            "state": "not measured",
-            "why": "`build_state.schema_targets_named` is 0 -- no target class is named for this row, so there is nothing to look for in the built set. This is NOT 'all targets present': an empty `schema_targets_missing` is empty here because the question was never asked"
+            "state": "yes",
+            "why": "all 4 decided target class(es) are present in the built V_eta set (`build_state.schema_targets_missing` is empty AND `schema_targets_named` is non-zero)"
           },
           {
             "stage": 3,
             "name": "the migrator emits THE DECIDED targets",
-            "state": "not measured",
-            "why": "`build_state.schema_targets_named` is 0 -- no decided target to check an emission against"
+            "state": "no",
+            "why": "the decided target(s) `session_relative_reference`, `software`, `runtime_environment`, `orientation_direction_tuning_calculation` are not all among what the migrator emits today (`session_relative_reference`, `software`, `oridirtuning_calc`, `runtime_environment`). 1 of 55 shared helper(s) declare; 16 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jClockAlignmentBodies, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMethodParameters, jRuntimeEnvironment, jSampledBody, jSessionAnchor, jSoftware, jSorterOutput, jTuningFold, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
           },
           {
             "stage": 4,
@@ -7826,7 +7871,7 @@
           }
         ],
         "anomalies": [],
-        "highest_rung_satisfied_independently": 1,
+        "highest_rung_satisfied_independently": 2,
         "capped": false,
         "nothing_built": false,
         "nothing_satisfied": false,
@@ -8307,7 +8352,7 @@
       ],
       "second_pass": [],
       "how": "multi-resolution pyramid signal -> a body-backed voltage_observation + ONE sampled_body per stored resolution level + anchor",
-      "target_flags": "multiple sampled_body (one per level), all sharing the statement; levels told apart by sample_time.dt, and each level keeps its own bytes because a pyramid is a precomputed performance cache rather than a disposable thumbnail. THE `dataseries_observation` CAVEAT IS RESOLVED AND REMOVED (2026-08-13). It read \"header title says dataseries_observation but code emits voltage_observation\" and put that to the team as an open question. It was never a question about the model: `dataseries_observation` was phase-8 DELETED -- abstract and unminted in J, so no document can be an instance of one -- and 0 of 268 json file(s) under schemas/V_eta declare it (was 260; #64 added 8 spatial-transcriptomics files), alongside its two siblings imageseries_/timeseries_observation. `voltage_observation` is stable/ and is what the code has always emitted. Team, 2026-08-13: \"There is no dataseries_observation anymore. Voltage is correct.\" The migrator docstring outlived the deletion and has been corrected.",
+      "target_flags": "multiple sampled_body (one per level), all sharing the statement; levels told apart by sample_time.dt, and each level keeps its own bytes because a pyramid is a precomputed performance cache rather than a disposable thumbnail. THE `dataseries_observation` CAVEAT IS RESOLVED AND REMOVED (2026-08-13). It read \"header title says dataseries_observation but code emits voltage_observation\" and put that to the team as an open question. It was never a question about the model: `dataseries_observation` was phase-8 DELETED -- abstract and unminted in J, so no document can be an instance of one -- and 0 of 262 json file(s) under schemas/V_eta declare it (was 268; #73 removed 6 net: -5 tuning marker composites, -6 `*_calc` leaves, +5 `*_tuning_calculation` leaves), alongside its two siblings imageseries_/timeseries_observation. `voltage_observation` is stable/ and is what the code has always emitted. Team, 2026-08-13: \"There is no dataseries_observation anymore. Voltage is correct.\" The migrator docstring outlived the deletion and has been corrected.",
       "decided_by_family": {
         "family": "raw recording observation",
         "document": "V_eta_recording_observation_plan.md",
@@ -9219,8 +9264,8 @@
     },
     {
       "v1_class": "spatial_frequency_tuning",
-      "veta_class": "spatial_frequency_tuning",
-      "disposition": "persist",
+      "veta_class": null,
+      "disposition": "consumed by migrator (no tombstone)",
       "migrator": true,
       "source": "app",
       "nonprod": false,
@@ -9231,8 +9276,13 @@
         "runtime_environment",
         "spatial_frequency_tuning_calc"
       ],
-      "decided_targets": [],
-      "decided_targets_source": null,
+      "decided_targets": [
+        "session_relative_reference",
+        "software",
+        "runtime_environment",
+        "spatial_frequency_tuning_calculation"
+      ],
+      "decided_targets_source": "curated_targets_file",
       "decided_signoff": null,
       "target_source": "emitted",
       "no_target_reason": null,
@@ -9241,8 +9291,13 @@
       "no_target_signoff": null,
       "target_gap": false,
       "build_state": {
-        "schema_targets_named": 0,
-        "schema_targets_built": [],
+        "schema_targets_named": 4,
+        "schema_targets_built": [
+          "runtime_environment",
+          "session_relative_reference",
+          "software",
+          "spatial_frequency_tuning_calculation"
+        ],
         "schema_targets_missing": [],
         "migrator_emits_decided_targets": false,
         "has_per_class_migrator": true,
@@ -9261,22 +9316,22 @@
       ],
       "second_pass": [],
       "how": "result class -> the tuning_curve_calculation subject_calculation LEAF (id-preserved 1->1; element_id -> subject_id; result composite kept verbatim) + session anchor",
-      "target_flags": "calculator composite-leaf fold (Lepsky et al.); un-defers with 0 orphans (id-preserved)",
+      "target_flags": "calculator composite-leaf fold (Lepsky et al.); un-defers with 0 orphans (id-preserved) #73 (2026-09-23): the V_eta leaf is renamed to `spatial_frequency_tuning_calculation` (the #67 `*_calc` leaf names and the tuning marker composites are gone from the build); the migrator still emits `spatial_frequency_tuning_calc`, so the retarget, plus lifting v1 `vector`/`fitless` into the family's typed summary block and fit-derived values into `model_fit[].metrics`, is the DID-matlab half of #73.",
       "decided_by_family": null,
       "families_naming_this_class": [],
       "governance_gap": "no family names this class; a SIGNED family names a class its migrator EMITS",
       "governance": {
         "state": "no signature found",
         "signoff": null,
-        "why": "no family names this class; a SIGNED family names a class its migrator EMITS. This is the absence of a FINDABLE signature -- a transcription, or a signed family naming this class -- and NOT evidence that no decision exists"
+        "why": "no family names this class; a SIGNED family names a class its migrator EMITS. This is the absence of a FINDABLE signature -- a transcription, or a signed family naming this class -- and NOT evidence that no decision exists; V_eta_migration_targets.json DOES claim a signed decision for this class (`decided_targets`), but that claim is authored and UNCHECKED"
       },
       "stage": {
         "unclassifiable": false,
         "unclassifiable_why": null,
-        "reached": 1,
-        "reached_name": "a migrator CONSUMES it",
-        "blocked_by": 2,
-        "blocked_by_state": "not measured",
+        "reached": 2,
+        "reached_name": "its decided target classes EXIST in the build",
+        "blocked_by": 3,
+        "blocked_by_state": "no",
         "ladder": [
           {
             "stage": 1,
@@ -9287,14 +9342,14 @@
           {
             "stage": 2,
             "name": "its decided target classes EXIST in the build",
-            "state": "not measured",
-            "why": "`build_state.schema_targets_named` is 0 -- no target class is named for this row, so there is nothing to look for in the built set. This is NOT 'all targets present': an empty `schema_targets_missing` is empty here because the question was never asked"
+            "state": "yes",
+            "why": "all 4 decided target class(es) are present in the built V_eta set (`build_state.schema_targets_missing` is empty AND `schema_targets_named` is non-zero)"
           },
           {
             "stage": 3,
             "name": "the migrator emits THE DECIDED targets",
-            "state": "not measured",
-            "why": "`build_state.schema_targets_named` is 0 -- no decided target to check an emission against"
+            "state": "no",
+            "why": "the decided target(s) `session_relative_reference`, `software`, `runtime_environment`, `spatial_frequency_tuning_calculation` are not all among what the migrator emits today (`session_relative_reference`, `software`, `runtime_environment`, `spatial_frequency_tuning_calc`). 1 of 55 shared helper(s) declare; 16 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jClockAlignmentBodies, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMethodParameters, jRuntimeEnvironment, jSampledBody, jSessionAnchor, jSoftware, jSorterOutput, jTuningFold, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
           },
           {
             "stage": 4,
@@ -9304,7 +9359,7 @@
           }
         ],
         "anomalies": [],
-        "highest_rung_satisfied_independently": 1,
+        "highest_rung_satisfied_independently": 2,
         "capped": false,
         "nothing_built": false,
         "nothing_satisfied": false,
@@ -9314,8 +9369,8 @@
     },
     {
       "v1_class": "spatial_frequency_tuning_calc",
-      "veta_class": "spatial_frequency_tuning_calc",
-      "disposition": "persist",
+      "veta_class": null,
+      "disposition": "consumed by migrator (no tombstone)",
       "migrator": true,
       "source": "app",
       "nonprod": false,
@@ -9326,8 +9381,13 @@
         "runtime_environment",
         "spatial_frequency_tuning_calc"
       ],
-      "decided_targets": [],
-      "decided_targets_source": null,
+      "decided_targets": [
+        "session_relative_reference",
+        "software",
+        "runtime_environment",
+        "spatial_frequency_tuning_calculation"
+      ],
+      "decided_targets_source": "curated_targets_file",
       "decided_signoff": null,
       "target_source": "emitted",
       "no_target_reason": null,
@@ -9336,8 +9396,13 @@
       "no_target_signoff": null,
       "target_gap": false,
       "build_state": {
-        "schema_targets_named": 0,
-        "schema_targets_built": [],
+        "schema_targets_named": 4,
+        "schema_targets_built": [
+          "runtime_environment",
+          "session_relative_reference",
+          "software",
+          "spatial_frequency_tuning_calculation"
+        ],
         "schema_targets_missing": [],
         "migrator_emits_decided_targets": false,
         "has_per_class_migrator": true,
@@ -9356,22 +9421,22 @@
       ],
       "second_pass": [],
       "how": "calculator OUTPUT -> the tuning_curve_calculation subject_calculation LEAF (id-preserved; input_parameters -> method_parameters; app kept; raw input -> derived_from_1) + session anchor",
-      "target_flags": "calculator composite-leaf fold (Lepsky et al.); un-defers with 0 orphans (id-preserved)",
+      "target_flags": "calculator composite-leaf fold (Lepsky et al.); un-defers with 0 orphans (id-preserved) #73 (2026-09-23): the V_eta leaf is renamed to `spatial_frequency_tuning_calculation` (the #67 `*_calc` leaf names and the tuning marker composites are gone from the build); the migrator still emits `spatial_frequency_tuning_calc`, so the retarget, plus lifting v1 `vector`/`fitless` into the family's typed summary block and fit-derived values into `model_fit[].metrics`, is the DID-matlab half of #73.",
       "decided_by_family": null,
       "families_naming_this_class": [],
       "governance_gap": "no family names this class; a SIGNED family names a class its migrator EMITS",
       "governance": {
         "state": "no signature found",
         "signoff": null,
-        "why": "no family names this class; a SIGNED family names a class its migrator EMITS. This is the absence of a FINDABLE signature -- a transcription, or a signed family naming this class -- and NOT evidence that no decision exists"
+        "why": "no family names this class; a SIGNED family names a class its migrator EMITS. This is the absence of a FINDABLE signature -- a transcription, or a signed family naming this class -- and NOT evidence that no decision exists; V_eta_migration_targets.json DOES claim a signed decision for this class (`decided_targets`), but that claim is authored and UNCHECKED"
       },
       "stage": {
         "unclassifiable": false,
         "unclassifiable_why": null,
-        "reached": 1,
-        "reached_name": "a migrator CONSUMES it",
-        "blocked_by": 2,
-        "blocked_by_state": "not measured",
+        "reached": 2,
+        "reached_name": "its decided target classes EXIST in the build",
+        "blocked_by": 3,
+        "blocked_by_state": "no",
         "ladder": [
           {
             "stage": 1,
@@ -9382,14 +9447,14 @@
           {
             "stage": 2,
             "name": "its decided target classes EXIST in the build",
-            "state": "not measured",
-            "why": "`build_state.schema_targets_named` is 0 -- no target class is named for this row, so there is nothing to look for in the built set. This is NOT 'all targets present': an empty `schema_targets_missing` is empty here because the question was never asked"
+            "state": "yes",
+            "why": "all 4 decided target class(es) are present in the built V_eta set (`build_state.schema_targets_missing` is empty AND `schema_targets_named` is non-zero)"
           },
           {
             "stage": 3,
             "name": "the migrator emits THE DECIDED targets",
-            "state": "not measured",
-            "why": "`build_state.schema_targets_named` is 0 -- no decided target to check an emission against"
+            "state": "no",
+            "why": "the decided target(s) `session_relative_reference`, `software`, `runtime_environment`, `spatial_frequency_tuning_calculation` are not all among what the migrator emits today (`session_relative_reference`, `software`, `runtime_environment`, `spatial_frequency_tuning_calc`). 1 of 55 shared helper(s) declare; 16 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jClockAlignmentBodies, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMethodParameters, jRuntimeEnvironment, jSampledBody, jSessionAnchor, jSoftware, jSorterOutput, jTuningFold, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
           },
           {
             "stage": 4,
@@ -9399,7 +9464,7 @@
           }
         ],
         "anomalies": [],
-        "highest_rung_satisfied_independently": 1,
+        "highest_rung_satisfied_independently": 2,
         "capped": false,
         "nothing_built": false,
         "nothing_satisfied": false,
@@ -9409,8 +9474,8 @@
     },
     {
       "v1_class": "speed_tuning",
-      "veta_class": "speed_tuning",
-      "disposition": "persist",
+      "veta_class": null,
+      "disposition": "consumed by migrator (no tombstone)",
       "migrator": true,
       "source": "app",
       "nonprod": false,
@@ -9421,8 +9486,13 @@
         "runtime_environment",
         "speedtuning_calc"
       ],
-      "decided_targets": [],
-      "decided_targets_source": null,
+      "decided_targets": [
+        "session_relative_reference",
+        "software",
+        "runtime_environment",
+        "speed_tuning_calculation"
+      ],
+      "decided_targets_source": "curated_targets_file",
       "decided_signoff": null,
       "target_source": "emitted",
       "no_target_reason": null,
@@ -9431,8 +9501,13 @@
       "no_target_signoff": null,
       "target_gap": false,
       "build_state": {
-        "schema_targets_named": 0,
-        "schema_targets_built": [],
+        "schema_targets_named": 4,
+        "schema_targets_built": [
+          "runtime_environment",
+          "session_relative_reference",
+          "software",
+          "speed_tuning_calculation"
+        ],
         "schema_targets_missing": [],
         "migrator_emits_decided_targets": false,
         "has_per_class_migrator": true,
@@ -9451,22 +9526,22 @@
       ],
       "second_pass": [],
       "how": "result class -> the tuning_curve_calculation subject_calculation LEAF (id-preserved 1->1; element_id -> subject_id; result composite kept verbatim) + session anchor",
-      "target_flags": "calculator composite-leaf fold (Lepsky et al.); un-defers with 0 orphans (id-preserved)",
+      "target_flags": "calculator composite-leaf fold (Lepsky et al.); un-defers with 0 orphans (id-preserved) #73 (2026-09-23): the V_eta leaf is renamed to `speed_tuning_calculation` (the #67 `*_calc` leaf names and the tuning marker composites are gone from the build); the migrator still emits `speedtuning_calc`, so the retarget, plus lifting v1 `vector`/`fitless` into the family's typed summary block and fit-derived values into `model_fit[].metrics`, is the DID-matlab half of #73.",
       "decided_by_family": null,
       "families_naming_this_class": [],
       "governance_gap": "no family names this class; a SIGNED family names a class its migrator EMITS",
       "governance": {
         "state": "no signature found",
         "signoff": null,
-        "why": "no family names this class; a SIGNED family names a class its migrator EMITS. This is the absence of a FINDABLE signature -- a transcription, or a signed family naming this class -- and NOT evidence that no decision exists"
+        "why": "no family names this class; a SIGNED family names a class its migrator EMITS. This is the absence of a FINDABLE signature -- a transcription, or a signed family naming this class -- and NOT evidence that no decision exists; V_eta_migration_targets.json DOES claim a signed decision for this class (`decided_targets`), but that claim is authored and UNCHECKED"
       },
       "stage": {
         "unclassifiable": false,
         "unclassifiable_why": null,
-        "reached": 1,
-        "reached_name": "a migrator CONSUMES it",
-        "blocked_by": 2,
-        "blocked_by_state": "not measured",
+        "reached": 2,
+        "reached_name": "its decided target classes EXIST in the build",
+        "blocked_by": 3,
+        "blocked_by_state": "no",
         "ladder": [
           {
             "stage": 1,
@@ -9477,14 +9552,14 @@
           {
             "stage": 2,
             "name": "its decided target classes EXIST in the build",
-            "state": "not measured",
-            "why": "`build_state.schema_targets_named` is 0 -- no target class is named for this row, so there is nothing to look for in the built set. This is NOT 'all targets present': an empty `schema_targets_missing` is empty here because the question was never asked"
+            "state": "yes",
+            "why": "all 4 decided target class(es) are present in the built V_eta set (`build_state.schema_targets_missing` is empty AND `schema_targets_named` is non-zero)"
           },
           {
             "stage": 3,
             "name": "the migrator emits THE DECIDED targets",
-            "state": "not measured",
-            "why": "`build_state.schema_targets_named` is 0 -- no decided target to check an emission against"
+            "state": "no",
+            "why": "the decided target(s) `session_relative_reference`, `software`, `runtime_environment`, `speed_tuning_calculation` are not all among what the migrator emits today (`session_relative_reference`, `software`, `runtime_environment`, `speedtuning_calc`). 1 of 55 shared helper(s) declare; 16 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jClockAlignmentBodies, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMethodParameters, jRuntimeEnvironment, jSampledBody, jSessionAnchor, jSoftware, jSorterOutput, jTuningFold, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
           },
           {
             "stage": 4,
@@ -9494,7 +9569,7 @@
           }
         ],
         "anomalies": [],
-        "highest_rung_satisfied_independently": 1,
+        "highest_rung_satisfied_independently": 2,
         "capped": false,
         "nothing_built": false,
         "nothing_satisfied": false,
@@ -9516,8 +9591,13 @@
         "runtime_environment",
         "speedtuning_calc"
       ],
-      "decided_targets": [],
-      "decided_targets_source": null,
+      "decided_targets": [
+        "session_relative_reference",
+        "software",
+        "runtime_environment",
+        "speed_tuning_calculation"
+      ],
+      "decided_targets_source": "curated_targets_file",
       "decided_signoff": null,
       "target_source": "emitted",
       "no_target_reason": null,
@@ -9526,8 +9606,13 @@
       "no_target_signoff": null,
       "target_gap": false,
       "build_state": {
-        "schema_targets_named": 0,
-        "schema_targets_built": [],
+        "schema_targets_named": 4,
+        "schema_targets_built": [
+          "runtime_environment",
+          "session_relative_reference",
+          "software",
+          "speed_tuning_calculation"
+        ],
         "schema_targets_missing": [],
         "migrator_emits_decided_targets": false,
         "has_per_class_migrator": true,
@@ -9546,22 +9631,22 @@
       ],
       "second_pass": [],
       "how": "calculator OUTPUT -> the tuning_curve_calculation subject_calculation LEAF (id-preserved; input_parameters -> method_parameters; app kept; raw input -> derived_from_1) + session anchor",
-      "target_flags": "calculator composite-leaf fold (Lepsky et al.); un-defers with 0 orphans (id-preserved)",
+      "target_flags": "calculator composite-leaf fold (Lepsky et al.); un-defers with 0 orphans (id-preserved) #73 (2026-09-23): the V_eta leaf is renamed to `speed_tuning_calculation` (the #67 `*_calc` leaf names and the tuning marker composites are gone from the build); the migrator still emits `speedtuning_calc`, so the retarget, plus lifting v1 `vector`/`fitless` into the family's typed summary block and fit-derived values into `model_fit[].metrics`, is the DID-matlab half of #73.",
       "decided_by_family": null,
       "families_naming_this_class": [],
       "governance_gap": "no family names this class; a SIGNED family names a class its migrator EMITS",
       "governance": {
         "state": "no signature found",
         "signoff": null,
-        "why": "no family names this class; a SIGNED family names a class its migrator EMITS. This is the absence of a FINDABLE signature -- a transcription, or a signed family naming this class -- and NOT evidence that no decision exists"
+        "why": "no family names this class; a SIGNED family names a class its migrator EMITS. This is the absence of a FINDABLE signature -- a transcription, or a signed family naming this class -- and NOT evidence that no decision exists; V_eta_migration_targets.json DOES claim a signed decision for this class (`decided_targets`), but that claim is authored and UNCHECKED"
       },
       "stage": {
         "unclassifiable": false,
         "unclassifiable_why": null,
-        "reached": 1,
-        "reached_name": "a migrator CONSUMES it",
-        "blocked_by": 2,
-        "blocked_by_state": "not measured",
+        "reached": 2,
+        "reached_name": "its decided target classes EXIST in the build",
+        "blocked_by": 3,
+        "blocked_by_state": "no",
         "ladder": [
           {
             "stage": 1,
@@ -9572,14 +9657,14 @@
           {
             "stage": 2,
             "name": "its decided target classes EXIST in the build",
-            "state": "not measured",
-            "why": "`build_state.schema_targets_named` is 0 -- no target class is named for this row, so there is nothing to look for in the built set. This is NOT 'all targets present': an empty `schema_targets_missing` is empty here because the question was never asked"
+            "state": "yes",
+            "why": "all 4 decided target class(es) are present in the built V_eta set (`build_state.schema_targets_missing` is empty AND `schema_targets_named` is non-zero)"
           },
           {
             "stage": 3,
             "name": "the migrator emits THE DECIDED targets",
-            "state": "not measured",
-            "why": "`build_state.schema_targets_named` is 0 -- no decided target to check an emission against"
+            "state": "no",
+            "why": "the decided target(s) `session_relative_reference`, `software`, `runtime_environment`, `speed_tuning_calculation` are not all among what the migrator emits today (`session_relative_reference`, `software`, `runtime_environment`, `speedtuning_calc`). 1 of 55 shared helper(s) declare; 16 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jClockAlignmentBodies, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMethodParameters, jRuntimeEnvironment, jSampledBody, jSessionAnchor, jSoftware, jSorterOutput, jTuningFold, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
           },
           {
             "stage": 4,
@@ -9589,7 +9674,7 @@
           }
         ],
         "anomalies": [],
-        "highest_rung_satisfied_independently": 1,
+        "highest_rung_satisfied_independently": 2,
         "capped": false,
         "nothing_built": false,
         "nothing_satisfied": false,
@@ -10913,8 +10998,13 @@
         "runtime_environment",
         "tuningcurve_calc"
       ],
-      "decided_targets": [],
-      "decided_targets_source": null,
+      "decided_targets": [
+        "session_relative_reference",
+        "software",
+        "runtime_environment",
+        "tuning_curve_calculation"
+      ],
+      "decided_targets_source": "curated_targets_file",
       "decided_signoff": null,
       "target_source": "emitted",
       "no_target_reason": null,
@@ -10923,8 +11013,13 @@
       "no_target_signoff": null,
       "target_gap": false,
       "build_state": {
-        "schema_targets_named": 0,
-        "schema_targets_built": [],
+        "schema_targets_named": 4,
+        "schema_targets_built": [
+          "runtime_environment",
+          "session_relative_reference",
+          "software",
+          "tuning_curve_calculation"
+        ],
         "schema_targets_missing": [],
         "migrator_emits_decided_targets": false,
         "has_per_class_migrator": true,
@@ -10943,22 +11038,22 @@
       ],
       "second_pass": [],
       "how": "raw ndi.app.stimulus.tuning_response curve -> tuning_curve_calculation (element_id -> subject_id; result verbatim; no calc input_parameters/app) + session anchor",
-      "target_flags": "calculator composite-leaf fold (Lepsky et al.); un-defers with 0 orphans (id-preserved)",
+      "target_flags": "calculator composite-leaf fold (Lepsky et al.); un-defers with 0 orphans (id-preserved) #73 (2026-09-23): the V_eta leaf is renamed to `tuning_curve_calculation` (the #67 `*_calc` leaf names and the tuning marker composites are gone from the build); the migrator still emits `tuningcurve_calc`, so the retarget, plus lifting v1 `vector`/`fitless` into the family's typed summary block and fit-derived values into `model_fit[].metrics`, is the DID-matlab half of #73.",
       "decided_by_family": null,
       "families_naming_this_class": [],
       "governance_gap": "no family names this class; a SIGNED family names a class its migrator EMITS",
       "governance": {
         "state": "no signature found",
         "signoff": null,
-        "why": "no family names this class; a SIGNED family names a class its migrator EMITS. This is the absence of a FINDABLE signature -- a transcription, or a signed family naming this class -- and NOT evidence that no decision exists"
+        "why": "no family names this class; a SIGNED family names a class its migrator EMITS. This is the absence of a FINDABLE signature -- a transcription, or a signed family naming this class -- and NOT evidence that no decision exists; V_eta_migration_targets.json DOES claim a signed decision for this class (`decided_targets`), but that claim is authored and UNCHECKED"
       },
       "stage": {
         "unclassifiable": false,
         "unclassifiable_why": null,
-        "reached": 1,
-        "reached_name": "a migrator CONSUMES it",
-        "blocked_by": 2,
-        "blocked_by_state": "not measured",
+        "reached": 2,
+        "reached_name": "its decided target classes EXIST in the build",
+        "blocked_by": 3,
+        "blocked_by_state": "no",
         "ladder": [
           {
             "stage": 1,
@@ -10969,14 +11064,14 @@
           {
             "stage": 2,
             "name": "its decided target classes EXIST in the build",
-            "state": "not measured",
-            "why": "`build_state.schema_targets_named` is 0 -- no target class is named for this row, so there is nothing to look for in the built set. This is NOT 'all targets present': an empty `schema_targets_missing` is empty here because the question was never asked"
+            "state": "yes",
+            "why": "all 4 decided target class(es) are present in the built V_eta set (`build_state.schema_targets_missing` is empty AND `schema_targets_named` is non-zero)"
           },
           {
             "stage": 3,
             "name": "the migrator emits THE DECIDED targets",
-            "state": "not measured",
-            "why": "`build_state.schema_targets_named` is 0 -- no decided target to check an emission against"
+            "state": "no",
+            "why": "the decided target(s) `session_relative_reference`, `software`, `runtime_environment`, `tuning_curve_calculation` are not all among what the migrator emits today (`session_relative_reference`, `software`, `runtime_environment`, `tuningcurve_calc`). 1 of 55 shared helper(s) declare; 16 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jClockAlignmentBodies, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMethodParameters, jRuntimeEnvironment, jSampledBody, jSessionAnchor, jSoftware, jSorterOutput, jTuningFold, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
           },
           {
             "stage": 4,
@@ -10986,7 +11081,7 @@
           }
         ],
         "anomalies": [],
-        "highest_rung_satisfied_independently": 1,
+        "highest_rung_satisfied_independently": 2,
         "capped": false,
         "nothing_built": false,
         "nothing_satisfied": false,
@@ -11658,8 +11753,8 @@
     },
     {
       "v1_class": "temporal_frequency_tuning",
-      "veta_class": "temporal_frequency_tuning",
-      "disposition": "persist",
+      "veta_class": null,
+      "disposition": "consumed by migrator (no tombstone)",
       "migrator": true,
       "source": "app",
       "nonprod": false,
@@ -11670,8 +11765,13 @@
         "runtime_environment",
         "temporal_frequency_tuning_calc"
       ],
-      "decided_targets": [],
-      "decided_targets_source": null,
+      "decided_targets": [
+        "session_relative_reference",
+        "software",
+        "runtime_environment",
+        "temporal_frequency_tuning_calculation"
+      ],
+      "decided_targets_source": "curated_targets_file",
       "decided_signoff": null,
       "target_source": "emitted",
       "no_target_reason": null,
@@ -11680,8 +11780,13 @@
       "no_target_signoff": null,
       "target_gap": false,
       "build_state": {
-        "schema_targets_named": 0,
-        "schema_targets_built": [],
+        "schema_targets_named": 4,
+        "schema_targets_built": [
+          "runtime_environment",
+          "session_relative_reference",
+          "software",
+          "temporal_frequency_tuning_calculation"
+        ],
         "schema_targets_missing": [],
         "migrator_emits_decided_targets": false,
         "has_per_class_migrator": true,
@@ -11700,22 +11805,22 @@
       ],
       "second_pass": [],
       "how": "result class -> the tuning_curve_calculation subject_calculation LEAF (id-preserved 1->1; element_id -> subject_id; result composite kept verbatim) + session anchor",
-      "target_flags": "calculator composite-leaf fold (Lepsky et al.); un-defers with 0 orphans (id-preserved)",
+      "target_flags": "calculator composite-leaf fold (Lepsky et al.); un-defers with 0 orphans (id-preserved) #73 (2026-09-23): the V_eta leaf is renamed to `temporal_frequency_tuning_calculation` (the #67 `*_calc` leaf names and the tuning marker composites are gone from the build); the migrator still emits `temporal_frequency_tuning_calc`, so the retarget, plus lifting v1 `vector`/`fitless` into the family's typed summary block and fit-derived values into `model_fit[].metrics`, is the DID-matlab half of #73.",
       "decided_by_family": null,
       "families_naming_this_class": [],
       "governance_gap": "no family names this class; a SIGNED family names a class its migrator EMITS",
       "governance": {
         "state": "no signature found",
         "signoff": null,
-        "why": "no family names this class; a SIGNED family names a class its migrator EMITS. This is the absence of a FINDABLE signature -- a transcription, or a signed family naming this class -- and NOT evidence that no decision exists"
+        "why": "no family names this class; a SIGNED family names a class its migrator EMITS. This is the absence of a FINDABLE signature -- a transcription, or a signed family naming this class -- and NOT evidence that no decision exists; V_eta_migration_targets.json DOES claim a signed decision for this class (`decided_targets`), but that claim is authored and UNCHECKED"
       },
       "stage": {
         "unclassifiable": false,
         "unclassifiable_why": null,
-        "reached": 1,
-        "reached_name": "a migrator CONSUMES it",
-        "blocked_by": 2,
-        "blocked_by_state": "not measured",
+        "reached": 2,
+        "reached_name": "its decided target classes EXIST in the build",
+        "blocked_by": 3,
+        "blocked_by_state": "no",
         "ladder": [
           {
             "stage": 1,
@@ -11726,14 +11831,14 @@
           {
             "stage": 2,
             "name": "its decided target classes EXIST in the build",
-            "state": "not measured",
-            "why": "`build_state.schema_targets_named` is 0 -- no target class is named for this row, so there is nothing to look for in the built set. This is NOT 'all targets present': an empty `schema_targets_missing` is empty here because the question was never asked"
+            "state": "yes",
+            "why": "all 4 decided target class(es) are present in the built V_eta set (`build_state.schema_targets_missing` is empty AND `schema_targets_named` is non-zero)"
           },
           {
             "stage": 3,
             "name": "the migrator emits THE DECIDED targets",
-            "state": "not measured",
-            "why": "`build_state.schema_targets_named` is 0 -- no decided target to check an emission against"
+            "state": "no",
+            "why": "the decided target(s) `session_relative_reference`, `software`, `runtime_environment`, `temporal_frequency_tuning_calculation` are not all among what the migrator emits today (`session_relative_reference`, `software`, `runtime_environment`, `temporal_frequency_tuning_calc`). 1 of 55 shared helper(s) declare; 16 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jClockAlignmentBodies, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMethodParameters, jRuntimeEnvironment, jSampledBody, jSessionAnchor, jSoftware, jSorterOutput, jTuningFold, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
           },
           {
             "stage": 4,
@@ -11743,7 +11848,7 @@
           }
         ],
         "anomalies": [],
-        "highest_rung_satisfied_independently": 1,
+        "highest_rung_satisfied_independently": 2,
         "capped": false,
         "nothing_built": false,
         "nothing_satisfied": false,
@@ -11753,8 +11858,8 @@
     },
     {
       "v1_class": "temporal_frequency_tuning_calc",
-      "veta_class": "temporal_frequency_tuning_calc",
-      "disposition": "persist",
+      "veta_class": null,
+      "disposition": "consumed by migrator (no tombstone)",
       "migrator": true,
       "source": "app",
       "nonprod": false,
@@ -11765,8 +11870,13 @@
         "runtime_environment",
         "temporal_frequency_tuning_calc"
       ],
-      "decided_targets": [],
-      "decided_targets_source": null,
+      "decided_targets": [
+        "session_relative_reference",
+        "software",
+        "runtime_environment",
+        "temporal_frequency_tuning_calculation"
+      ],
+      "decided_targets_source": "curated_targets_file",
       "decided_signoff": null,
       "target_source": "emitted",
       "no_target_reason": null,
@@ -11775,8 +11885,13 @@
       "no_target_signoff": null,
       "target_gap": false,
       "build_state": {
-        "schema_targets_named": 0,
-        "schema_targets_built": [],
+        "schema_targets_named": 4,
+        "schema_targets_built": [
+          "runtime_environment",
+          "session_relative_reference",
+          "software",
+          "temporal_frequency_tuning_calculation"
+        ],
         "schema_targets_missing": [],
         "migrator_emits_decided_targets": false,
         "has_per_class_migrator": true,
@@ -11795,22 +11910,22 @@
       ],
       "second_pass": [],
       "how": "calculator OUTPUT -> the tuning_curve_calculation subject_calculation LEAF (id-preserved; input_parameters -> method_parameters; app kept; raw input -> derived_from_1) + session anchor",
-      "target_flags": "calculator composite-leaf fold (Lepsky et al.); un-defers with 0 orphans (id-preserved)",
+      "target_flags": "calculator composite-leaf fold (Lepsky et al.); un-defers with 0 orphans (id-preserved) #73 (2026-09-23): the V_eta leaf is renamed to `temporal_frequency_tuning_calculation` (the #67 `*_calc` leaf names and the tuning marker composites are gone from the build); the migrator still emits `temporal_frequency_tuning_calc`, so the retarget, plus lifting v1 `vector`/`fitless` into the family's typed summary block and fit-derived values into `model_fit[].metrics`, is the DID-matlab half of #73.",
       "decided_by_family": null,
       "families_naming_this_class": [],
       "governance_gap": "no family names this class; a SIGNED family names a class its migrator EMITS",
       "governance": {
         "state": "no signature found",
         "signoff": null,
-        "why": "no family names this class; a SIGNED family names a class its migrator EMITS. This is the absence of a FINDABLE signature -- a transcription, or a signed family naming this class -- and NOT evidence that no decision exists"
+        "why": "no family names this class; a SIGNED family names a class its migrator EMITS. This is the absence of a FINDABLE signature -- a transcription, or a signed family naming this class -- and NOT evidence that no decision exists; V_eta_migration_targets.json DOES claim a signed decision for this class (`decided_targets`), but that claim is authored and UNCHECKED"
       },
       "stage": {
         "unclassifiable": false,
         "unclassifiable_why": null,
-        "reached": 1,
-        "reached_name": "a migrator CONSUMES it",
-        "blocked_by": 2,
-        "blocked_by_state": "not measured",
+        "reached": 2,
+        "reached_name": "its decided target classes EXIST in the build",
+        "blocked_by": 3,
+        "blocked_by_state": "no",
         "ladder": [
           {
             "stage": 1,
@@ -11821,14 +11936,14 @@
           {
             "stage": 2,
             "name": "its decided target classes EXIST in the build",
-            "state": "not measured",
-            "why": "`build_state.schema_targets_named` is 0 -- no target class is named for this row, so there is nothing to look for in the built set. This is NOT 'all targets present': an empty `schema_targets_missing` is empty here because the question was never asked"
+            "state": "yes",
+            "why": "all 4 decided target class(es) are present in the built V_eta set (`build_state.schema_targets_missing` is empty AND `schema_targets_named` is non-zero)"
           },
           {
             "stage": 3,
             "name": "the migrator emits THE DECIDED targets",
-            "state": "not measured",
-            "why": "`build_state.schema_targets_named` is 0 -- no decided target to check an emission against"
+            "state": "no",
+            "why": "the decided target(s) `session_relative_reference`, `software`, `runtime_environment`, `temporal_frequency_tuning_calculation` are not all among what the migrator emits today (`session_relative_reference`, `software`, `runtime_environment`, `temporal_frequency_tuning_calc`). 1 of 55 shared helper(s) declare; 16 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jClockAlignmentBodies, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMethodParameters, jRuntimeEnvironment, jSampledBody, jSessionAnchor, jSoftware, jSorterOutput, jTuningFold, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
           },
           {
             "stage": 4,
@@ -11838,7 +11953,7 @@
           }
         ],
         "anomalies": [],
-        "highest_rung_satisfied_independently": 1,
+        "highest_rung_satisfied_independently": 2,
         "capped": false,
         "nothing_built": false,
         "nothing_satisfied": false,
@@ -12158,8 +12273,8 @@
     },
     {
       "v1_class": "tuningcurve_calc",
-      "veta_class": "tuningcurve_calc",
-      "disposition": "persist",
+      "veta_class": null,
+      "disposition": "consumed by migrator (no tombstone)",
       "migrator": true,
       "source": "ndi",
       "nonprod": false,
@@ -12170,8 +12285,13 @@
         "runtime_environment",
         "tuningcurve_calc"
       ],
-      "decided_targets": [],
-      "decided_targets_source": null,
+      "decided_targets": [
+        "session_relative_reference",
+        "software",
+        "runtime_environment",
+        "tuning_curve_calculation"
+      ],
+      "decided_targets_source": "curated_targets_file",
       "decided_signoff": null,
       "target_source": "emitted",
       "no_target_reason": null,
@@ -12180,8 +12300,13 @@
       "no_target_signoff": null,
       "target_gap": false,
       "build_state": {
-        "schema_targets_named": 0,
-        "schema_targets_built": [],
+        "schema_targets_named": 4,
+        "schema_targets_built": [
+          "runtime_environment",
+          "session_relative_reference",
+          "software",
+          "tuning_curve_calculation"
+        ],
         "schema_targets_missing": [],
         "migrator_emits_decided_targets": false,
         "has_per_class_migrator": true,
@@ -12200,7 +12325,7 @@
       ],
       "second_pass": [],
       "how": "IS-A stimulus_tuningcurve so inherits a populated element_id -> single-doc fold to tuning_curve_calculation (result on the inherited stimulus_tuningcurve block; input_parameters -> method_parameters) + session anchor",
-      "target_flags": "calculator composite-leaf fold (Lepsky et al.); un-defers with 0 orphans (id-preserved)",
+      "target_flags": "calculator composite-leaf fold (Lepsky et al.); un-defers with 0 orphans (id-preserved) #73 (2026-09-23): the V_eta leaf is renamed to `tuning_curve_calculation` (the #67 `*_calc` leaf names and the tuning marker composites are gone from the build); the migrator still emits `tuningcurve_calc`, so the retarget, plus lifting v1 `vector`/`fitless` into the family's typed summary block and fit-derived values into `model_fit[].metrics`, is the DID-matlab half of #73.",
       "decided_by_family": {
         "family": "confirm sheet 2026-08-17",
         "document": "V_eta_go_forward_class_audit.md",
@@ -12230,10 +12355,10 @@
       "stage": {
         "unclassifiable": false,
         "unclassifiable_why": null,
-        "reached": 1,
-        "reached_name": "a migrator CONSUMES it",
-        "blocked_by": 2,
-        "blocked_by_state": "not measured",
+        "reached": 2,
+        "reached_name": "its decided target classes EXIST in the build",
+        "blocked_by": 3,
+        "blocked_by_state": "no",
         "ladder": [
           {
             "stage": 1,
@@ -12244,14 +12369,14 @@
           {
             "stage": 2,
             "name": "its decided target classes EXIST in the build",
-            "state": "not measured",
-            "why": "`build_state.schema_targets_named` is 0 -- no target class is named for this row, so there is nothing to look for in the built set. This is NOT 'all targets present': an empty `schema_targets_missing` is empty here because the question was never asked"
+            "state": "yes",
+            "why": "all 4 decided target class(es) are present in the built V_eta set (`build_state.schema_targets_missing` is empty AND `schema_targets_named` is non-zero)"
           },
           {
             "stage": 3,
             "name": "the migrator emits THE DECIDED targets",
-            "state": "not measured",
-            "why": "`build_state.schema_targets_named` is 0 -- no decided target to check an emission against"
+            "state": "no",
+            "why": "the decided target(s) `session_relative_reference`, `software`, `runtime_environment`, `tuning_curve_calculation` are not all among what the migrator emits today (`session_relative_reference`, `software`, `runtime_environment`, `tuningcurve_calc`). 1 of 55 shared helper(s) declare; 16 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jClockAlignmentBodies, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMethodParameters, jRuntimeEnvironment, jSampledBody, jSessionAnchor, jSoftware, jSorterOutput, jTuningFold, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
           },
           {
             "stage": 4,
@@ -12261,7 +12386,7 @@
           }
         ],
         "anomalies": [],
-        "highest_rung_satisfied_independently": 1,
+        "highest_rung_satisfied_independently": 2,
         "capped": false,
         "nothing_built": false,
         "nothing_satisfied": false,

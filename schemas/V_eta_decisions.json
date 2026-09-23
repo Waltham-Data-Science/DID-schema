@@ -2,12 +2,12 @@
   "title": "V_eta decision families (GENERATED -- do not hand-edit)",
   "description": "Regenerate with `python3 tools/status_board.py`. The human-readable twin is schemas/V_eta_STATUS.md. A family counts as decided ONLY when its plan document carries a TEAM-SIGN-OFF line; Claude cannot promote its own work.",
   "summary": {
-    "families": 27,
-    "classes_claimed": 63,
+    "families": 28,
+    "classes_claimed": 64,
     "open_classes": 26,
     "by_state": {
       "signed_awaiting_build": 27,
-      "awaiting_signature": 0,
+      "awaiting_signature": 1,
       "proposed_unreviewed": 0,
       "open": 0
     },
@@ -19,6 +19,23 @@
     }
   },
   "families": [
+    {
+      "name": "calculator mixin dropped (#73)",
+      "members": [
+        {
+          "class_name": "calculator",
+          "disposition": "retire"
+        }
+      ],
+      "open_members": [],
+      "plan": "V_eta_subject_calculation_plan.md",
+      "decision": "`calculator` leaves every V_eta chain; subject_calculation declares the required software_id + runtime_environment_id itself; the name survives only as a retiring v1 tombstone for passthrough",
+      "status": "team",
+      "signed": false,
+      "signoff": null,
+      "state": "awaiting_signature",
+      "state_label": "decided in a walkthrough, awaiting a signature"
+    },
     {
       "name": "stranded sources",
       "members": [
@@ -173,11 +190,11 @@
       "members": [
         {
           "class_name": "tuningcurve_calc",
-          "disposition": "persist"
+          "disposition": "(absent)"
         },
         {
           "class_name": "oridirtuning_calc",
-          "disposition": "persist"
+          "disposition": "(absent)"
         },
         {
           "class_name": "probe_location",
@@ -663,6 +680,7 @@
     }
   ],
   "by_class": {
+    "calculator": "calculator mixin dropped (#73)",
     "generic_file": "stranded sources",
     "imageCollection": "stranded sources",
     "valid_interval": "logical_observation",

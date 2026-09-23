@@ -276,3 +276,40 @@ Full spec: Waltham-Data-Science/DID-schema#67.
 
 
 
+
+
+## Amendment — #73 (2026-09-23): the `calculator` mixin is dropped
+
+Decided by jess@walthamdatascience.com in the #73 review session, 2026-09-23.
+It revises items (1) and (2) of the 2026-09-21 signature above; items (3)–(5)
+stand. Source: Waltham-Data-Science/DID-schema#73.
+
+- **`subject_calculation` ⊂ [`subject_interaction`] only.** It declares the two
+  provenance edges itself: `software_id → software` (REQUIRED, `min_count` 1;
+  it tightens the optional `software_id` every `subject_interaction` carries)
+  and `runtime_environment_id → runtime_environment` (REQUIRED, `min_count` 1),
+  both unchanged from what `calculator` declared.
+- **Why.** Across the built set, `calculator` had exactly one persisting child
+  (`subject_calculation`). Its only unique content was those two edges (nine
+  classes declare `software_id`; only `calculator` declared
+  `runtime_environment_id`). Its name described the producer, not the document
+  (T13: the software is the calculator; the honest stance word `_calculation`
+  is already on the child). It also made `subject_calculation` declare
+  `software_id` twice through two parents, optional and required, with nothing
+  saying which applied.
+- **Why not `software` as the parent.** `software` ⊂ `entity` is the program
+  itself. A result that inherited from it would claim to *be* a program, which
+  is the `app`-mixin conflation the 2026-08-06 `software` decision removed.
+  Provenance stays an edge.
+- **What remains named `calculator`.** NDI ships
+  `database_documents/calculator.json` (⊂ [`base`, `app`], no fields, no deps;
+  `V_eta_ndi_ground_truth.json`), so the name is a did_v1 class. It is kept as a
+  `retire` source tombstone restating that template, in no V_eta chain, so a v1
+  document carrying it can still pass through. Nothing in the tree establishes
+  that none exists.
+- **Knock-on:** `hartley_calc` (retire) becomes ⊂ [`base`,
+  `hartley_reverse_correlation`] and `tuning_fit` (retire, abstract, no fields,
+  no subclass) becomes ⊂ [`base`]. Neither declared anything of its own.
+- **Cross-repo:** any migrator that writes `calculator` into a document's
+  superclass list, or emits a `calculator:` block, must stop. That is the
+  DID-matlab half of #73.

@@ -357,13 +357,15 @@
         {
             "class_name": "calculator",
             "tier": "stable",
-            "class_version": "2.0.0",
+            "class_version": "3.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                "base"
+                "base",
+                "app"
             ],
             "path": "schemas/V_eta/stable/calculator.json",
-            "disposition": "persist"
+            "disposition": "retire",
+            "disposition_note": "D-C analysis-tier decompose"
         },
         {
             "class_name": "capacitance",
@@ -597,26 +599,14 @@
             "disposition": "persist"
         },
         {
-            "class_name": "contrast_tuning",
+            "class_name": "contrast_tuning_calculation",
             "tier": "stable",
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                "tuning_curve"
+                "tuning_curve_calculation"
             ],
-            "path": "schemas/V_eta/stable/contrast_tuning.json",
-            "disposition": "persist"
-        },
-        {
-            "class_name": "contrasttuning_calc",
-            "tier": "stable",
-            "class_version": "1.0.0",
-            "maturity_level": "stable",
-            "superclasses": [
-                "tuning_curve_calculation",
-                "contrast_tuning"
-            ],
-            "path": "schemas/V_eta/stable/contrasttuning_calc.json",
+            "path": "schemas/V_eta/stable/contrast_tuning_calculation.json",
             "disposition": "persist"
         },
         {
@@ -1353,8 +1343,7 @@
             "maturity_level": "stable",
             "superclasses": [
                 "base",
-                "hartley_reverse_correlation",
-                "calculator"
+                "hartley_reverse_correlation"
             ],
             "path": "schemas/V_eta/stable/hartley_calc.json",
             "disposition": "retire",
@@ -1818,26 +1807,14 @@
             "disposition": "persist"
         },
         {
-            "class_name": "oridirtuning_calc",
+            "class_name": "orientation_direction_tuning_calculation",
             "tier": "stable",
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                "tuning_curve_calculation",
-                "orientation_direction_tuning"
+                "tuning_curve_calculation"
             ],
-            "path": "schemas/V_eta/stable/oridirtuning_calc.json",
-            "disposition": "persist"
-        },
-        {
-            "class_name": "orientation_direction_tuning",
-            "tier": "stable",
-            "class_version": "1.0.0",
-            "maturity_level": "stable",
-            "superclasses": [
-                "tuning_curve"
-            ],
-            "path": "schemas/V_eta/stable/orientation_direction_tuning.json",
+            "path": "schemas/V_eta/stable/orientation_direction_tuning_calculation.json",
             "disposition": "persist"
         },
         {
@@ -2286,26 +2263,14 @@
             "disposition_note": "D-C analysis-tier decompose"
         },
         {
-            "class_name": "spatial_frequency_tuning",
+            "class_name": "spatial_frequency_tuning_calculation",
             "tier": "stable",
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                "tuning_curve"
+                "tuning_curve_calculation"
             ],
-            "path": "schemas/V_eta/stable/spatial_frequency_tuning.json",
-            "disposition": "persist"
-        },
-        {
-            "class_name": "spatial_frequency_tuning_calc",
-            "tier": "stable",
-            "class_version": "1.0.0",
-            "maturity_level": "stable",
-            "superclasses": [
-                "tuning_curve_calculation",
-                "spatial_frequency_tuning"
-            ],
-            "path": "schemas/V_eta/stable/spatial_frequency_tuning_calc.json",
+            "path": "schemas/V_eta/stable/spatial_frequency_tuning_calculation.json",
             "disposition": "persist"
         },
         {
@@ -2344,26 +2309,14 @@
             "disposition": "persist"
         },
         {
-            "class_name": "speed_tuning",
+            "class_name": "speed_tuning_calculation",
             "tier": "stable",
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                "tuning_curve"
+                "tuning_curve_calculation"
             ],
-            "path": "schemas/V_eta/stable/speed_tuning.json",
-            "disposition": "persist"
-        },
-        {
-            "class_name": "speedtuning_calc",
-            "tier": "stable",
-            "class_version": "1.0.0",
-            "maturity_level": "stable",
-            "superclasses": [
-                "tuning_curve_calculation",
-                "speed_tuning"
-            ],
-            "path": "schemas/V_eta/stable/speedtuning_calc.json",
+            "path": "schemas/V_eta/stable/speed_tuning_calculation.json",
             "disposition": "persist"
         },
         {
@@ -2560,8 +2513,7 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                "subject_interaction",
-                "calculator"
+                "subject_interaction"
             ],
             "path": "schemas/V_eta/stable/subject_calculation.json",
             "disposition": "persist"
@@ -2706,26 +2658,14 @@
             "disposition": "persist"
         },
         {
-            "class_name": "temporal_frequency_tuning",
+            "class_name": "temporal_frequency_tuning_calculation",
             "tier": "stable",
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                "tuning_curve"
+                "tuning_curve_calculation"
             ],
-            "path": "schemas/V_eta/stable/temporal_frequency_tuning.json",
-            "disposition": "persist"
-        },
-        {
-            "class_name": "temporal_frequency_tuning_calc",
-            "tier": "stable",
-            "class_version": "1.0.0",
-            "maturity_level": "stable",
-            "superclasses": [
-                "tuning_curve_calculation",
-                "temporal_frequency_tuning"
-            ],
-            "path": "schemas/V_eta/stable/temporal_frequency_tuning_calc.json",
+            "path": "schemas/V_eta/stable/temporal_frequency_tuning_calculation.json",
             "disposition": "persist"
         },
         {
@@ -2859,10 +2799,11 @@
         {
             "class_name": "tuning_curve_calculation",
             "tier": "stable",
-            "class_version": "1.0.0",
+            "class_version": "2.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                "subject_calculation"
+                "subject_calculation",
+                "tuning_curve"
             ],
             "path": "schemas/V_eta/stable/tuning_curve_calculation.json",
             "disposition": "persist"
@@ -2873,23 +2814,11 @@
             "class_version": "1.0.0",
             "maturity_level": "stable",
             "superclasses": [
-                "calculator"
+                "base"
             ],
             "path": "schemas/V_eta/stable/tuning_fit.json",
             "disposition": "retire",
             "disposition_note": "D-C analysis-tier decompose"
-        },
-        {
-            "class_name": "tuningcurve_calc",
-            "tier": "stable",
-            "class_version": "1.0.0",
-            "maturity_level": "stable",
-            "superclasses": [
-                "tuning_curve_calculation",
-                "tuning_curve"
-            ],
-            "path": "schemas/V_eta/stable/tuningcurve_calc.json",
-            "disposition": "persist"
         },
         {
             "class_name": "undirected_relation",

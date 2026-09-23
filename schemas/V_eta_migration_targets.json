@@ -80,11 +80,17 @@
       ],
       "second_pass": [],
       "how": "result class -> the tuning_curve_calculation subject_calculation LEAF (id-preserved 1->1; element_id -> subject_id; result composite kept verbatim) + session anchor",
-      "flags": "calculator composite-leaf fold (Lepsky et al.); un-defers with 0 orphans (id-preserved)",
+      "flags": "calculator composite-leaf fold (Lepsky et al.); un-defers with 0 orphans (id-preserved) #73 (2026-09-23): the V_eta leaf is renamed to `contrast_tuning_calculation` (the #67 `*_calc` leaf names and the tuning marker composites are gone from the build); the migrator still emits `contrasttuning_calc`, so the retarget, plus lifting v1 `vector`/`fitless` into the family's typed summary block and fit-derived values into `model_fit[].metrics`, is the DID-matlab half of #73.",
       "target_completeness": {
         "state": "full",
         "unresolved_sites": []
-      }
+      },
+      "decided_targets": [
+        "session_relative_reference",
+        "software",
+        "runtime_environment",
+        "contrast_tuning_calculation"
+      ]
     },
     "contrast_tuning_calc": {
       "targets": [
@@ -98,11 +104,17 @@
       ],
       "second_pass": [],
       "how": "calculator OUTPUT -> the tuning_curve_calculation subject_calculation LEAF (id-preserved; input_parameters -> method_parameters; app kept; raw input -> derived_from_1) + session anchor",
-      "flags": "calculator composite-leaf fold (Lepsky et al.); un-defers with 0 orphans (id-preserved)",
+      "flags": "calculator composite-leaf fold (Lepsky et al.); un-defers with 0 orphans (id-preserved) #73 (2026-09-23): the V_eta leaf is renamed to `contrast_tuning_calculation` (the #67 `*_calc` leaf names and the tuning marker composites are gone from the build); the migrator still emits `contrasttuning_calc`, so the retarget, plus lifting v1 `vector`/`fitless` into the family's typed summary block and fit-derived values into `model_fit[].metrics`, is the DID-matlab half of #73.",
       "target_completeness": {
         "state": "full",
         "unresolved_sites": []
-      }
+      },
+      "decided_targets": [
+        "session_relative_reference",
+        "software",
+        "runtime_environment",
+        "contrast_tuning_calculation"
+      ]
     },
     "control_stimulus_ids": {
       "targets": [
@@ -936,11 +948,17 @@
       ],
       "second_pass": [],
       "how": "calculator OUTPUT -> the tuning_curve_calculation subject_calculation LEAF (id-preserved; input_parameters -> method_parameters; app kept; raw input -> derived_from_1) + session anchor",
-      "flags": "calculator composite-leaf fold (Lepsky et al.); un-defers with 0 orphans (id-preserved)",
+      "flags": "calculator composite-leaf fold (Lepsky et al.); un-defers with 0 orphans (id-preserved) #73 (2026-09-23): the V_eta leaf is renamed to `orientation_direction_tuning_calculation` (the #67 `*_calc` leaf names and the tuning marker composites are gone from the build); the migrator still emits `oridirtuning_calc`, so the retarget, plus lifting v1 `vector`/`fitless` into the family's typed summary block and fit-derived values into `model_fit[].metrics`, is the DID-matlab half of #73.",
       "target_completeness": {
         "state": "full",
         "unresolved_sites": []
-      }
+      },
+      "decided_targets": [
+        "session_relative_reference",
+        "software",
+        "runtime_environment",
+        "orientation_direction_tuning_calculation"
+      ]
     },
     "orientation_direction_tuning": {
       "targets": [
@@ -954,11 +972,17 @@
       ],
       "second_pass": [],
       "how": "result class -> the tuning_curve_calculation subject_calculation LEAF (id-preserved 1->1; element_id -> subject_id; result composite kept verbatim) + session anchor",
-      "flags": "calculator composite-leaf fold (Lepsky et al.); un-defers with 0 orphans (id-preserved)",
+      "flags": "calculator composite-leaf fold (Lepsky et al.); un-defers with 0 orphans (id-preserved) #73 (2026-09-23): the V_eta leaf is renamed to `orientation_direction_tuning_calculation` (the #67 `*_calc` leaf names and the tuning marker composites are gone from the build); the migrator still emits `oridirtuning_calc`, so the retarget, plus lifting v1 `vector`/`fitless` into the family's typed summary block and fit-derived values into `model_fit[].metrics`, is the DID-matlab half of #73.",
       "target_completeness": {
         "state": "full",
         "unresolved_sites": []
-      }
+      },
+      "decided_targets": [
+        "session_relative_reference",
+        "software",
+        "runtime_environment",
+        "orientation_direction_tuning_calculation"
+      ]
     },
     "position_metadata": {
       "targets": [
@@ -1032,7 +1056,7 @@
       ],
       "second_pass": [],
       "how": "multi-resolution pyramid signal -> a body-backed voltage_observation + ONE sampled_body per stored resolution level + anchor",
-      "flags": "multiple sampled_body (one per level), all sharing the statement; levels told apart by sample_time.dt, and each level keeps its own bytes because a pyramid is a precomputed performance cache rather than a disposable thumbnail. THE `dataseries_observation` CAVEAT IS RESOLVED AND REMOVED (2026-08-13). It read \"header title says dataseries_observation but code emits voltage_observation\" and put that to the team as an open question. It was never a question about the model: `dataseries_observation` was phase-8 DELETED -- abstract and unminted in J, so no document can be an instance of one -- and 0 of 268 json file(s) under schemas/V_eta declare it (was 260; #64 added 8 spatial-transcriptomics files), alongside its two siblings imageseries_/timeseries_observation. `voltage_observation` is stable/ and is what the code has always emitted. Team, 2026-08-13: \"There is no dataseries_observation anymore. Voltage is correct.\" The migrator docstring outlived the deletion and has been corrected.",
+      "flags": "multiple sampled_body (one per level), all sharing the statement; levels told apart by sample_time.dt, and each level keeps its own bytes because a pyramid is a precomputed performance cache rather than a disposable thumbnail. THE `dataseries_observation` CAVEAT IS RESOLVED AND REMOVED (2026-08-13). It read \"header title says dataseries_observation but code emits voltage_observation\" and put that to the team as an open question. It was never a question about the model: `dataseries_observation` was phase-8 DELETED -- abstract and unminted in J, so no document can be an instance of one -- and 0 of 262 json file(s) under schemas/V_eta declare it (was 268; #73 removed 6 net: -5 tuning marker composites, -6 `*_calc` leaves, +5 `*_tuning_calculation` leaves), alongside its two siblings imageseries_/timeseries_observation. `voltage_observation` is stable/ and is what the code has always emitted. Team, 2026-08-13: \"There is no dataseries_observation anymore. Voltage is correct.\" The migrator docstring outlived the deletion and has been corrected.",
       "target_completeness": {
         "state": "full",
         "unresolved_sites": []
@@ -1142,11 +1166,17 @@
       ],
       "second_pass": [],
       "how": "result class -> the tuning_curve_calculation subject_calculation LEAF (id-preserved 1->1; element_id -> subject_id; result composite kept verbatim) + session anchor",
-      "flags": "calculator composite-leaf fold (Lepsky et al.); un-defers with 0 orphans (id-preserved)",
+      "flags": "calculator composite-leaf fold (Lepsky et al.); un-defers with 0 orphans (id-preserved) #73 (2026-09-23): the V_eta leaf is renamed to `spatial_frequency_tuning_calculation` (the #67 `*_calc` leaf names and the tuning marker composites are gone from the build); the migrator still emits `spatial_frequency_tuning_calc`, so the retarget, plus lifting v1 `vector`/`fitless` into the family's typed summary block and fit-derived values into `model_fit[].metrics`, is the DID-matlab half of #73.",
       "target_completeness": {
         "state": "full",
         "unresolved_sites": []
-      }
+      },
+      "decided_targets": [
+        "session_relative_reference",
+        "software",
+        "runtime_environment",
+        "spatial_frequency_tuning_calculation"
+      ]
     },
     "spatial_frequency_tuning_calc": {
       "targets": [
@@ -1160,11 +1190,17 @@
       ],
       "second_pass": [],
       "how": "calculator OUTPUT -> the tuning_curve_calculation subject_calculation LEAF (id-preserved; input_parameters -> method_parameters; app kept; raw input -> derived_from_1) + session anchor",
-      "flags": "calculator composite-leaf fold (Lepsky et al.); un-defers with 0 orphans (id-preserved)",
+      "flags": "calculator composite-leaf fold (Lepsky et al.); un-defers with 0 orphans (id-preserved) #73 (2026-09-23): the V_eta leaf is renamed to `spatial_frequency_tuning_calculation` (the #67 `*_calc` leaf names and the tuning marker composites are gone from the build); the migrator still emits `spatial_frequency_tuning_calc`, so the retarget, plus lifting v1 `vector`/`fitless` into the family's typed summary block and fit-derived values into `model_fit[].metrics`, is the DID-matlab half of #73.",
       "target_completeness": {
         "state": "full",
         "unresolved_sites": []
-      }
+      },
+      "decided_targets": [
+        "session_relative_reference",
+        "software",
+        "runtime_environment",
+        "spatial_frequency_tuning_calculation"
+      ]
     },
     "spatial_gene_expression_cells": {
       "targets": [
@@ -1218,11 +1254,17 @@
       ],
       "second_pass": [],
       "how": "result class -> the tuning_curve_calculation subject_calculation LEAF (id-preserved 1->1; element_id -> subject_id; result composite kept verbatim) + session anchor",
-      "flags": "calculator composite-leaf fold (Lepsky et al.); un-defers with 0 orphans (id-preserved)",
+      "flags": "calculator composite-leaf fold (Lepsky et al.); un-defers with 0 orphans (id-preserved) #73 (2026-09-23): the V_eta leaf is renamed to `speed_tuning_calculation` (the #67 `*_calc` leaf names and the tuning marker composites are gone from the build); the migrator still emits `speedtuning_calc`, so the retarget, plus lifting v1 `vector`/`fitless` into the family's typed summary block and fit-derived values into `model_fit[].metrics`, is the DID-matlab half of #73.",
       "target_completeness": {
         "state": "full",
         "unresolved_sites": []
-      }
+      },
+      "decided_targets": [
+        "session_relative_reference",
+        "software",
+        "runtime_environment",
+        "speed_tuning_calculation"
+      ]
     },
     "speed_tuning_calc": {
       "targets": [
@@ -1236,11 +1278,17 @@
       ],
       "second_pass": [],
       "how": "calculator OUTPUT -> the tuning_curve_calculation subject_calculation LEAF (id-preserved; input_parameters -> method_parameters; app kept; raw input -> derived_from_1) + session anchor",
-      "flags": "calculator composite-leaf fold (Lepsky et al.); un-defers with 0 orphans (id-preserved)",
+      "flags": "calculator composite-leaf fold (Lepsky et al.); un-defers with 0 orphans (id-preserved) #73 (2026-09-23): the V_eta leaf is renamed to `speed_tuning_calculation` (the #67 `*_calc` leaf names and the tuning marker composites are gone from the build); the migrator still emits `speedtuning_calc`, so the retarget, plus lifting v1 `vector`/`fitless` into the family's typed summary block and fit-derived values into `model_fit[].metrics`, is the DID-matlab half of #73.",
       "target_completeness": {
         "state": "full",
         "unresolved_sites": []
-      }
+      },
+      "decided_targets": [
+        "session_relative_reference",
+        "software",
+        "runtime_environment",
+        "speed_tuning_calculation"
+      ]
     },
     "spike_clusters": {
       "targets": [
@@ -1426,11 +1474,17 @@
       ],
       "second_pass": [],
       "how": "raw ndi.app.stimulus.tuning_response curve -> tuning_curve_calculation (element_id -> subject_id; result verbatim; no calc input_parameters/app) + session anchor",
-      "flags": "calculator composite-leaf fold (Lepsky et al.); un-defers with 0 orphans (id-preserved)",
+      "flags": "calculator composite-leaf fold (Lepsky et al.); un-defers with 0 orphans (id-preserved) #73 (2026-09-23): the V_eta leaf is renamed to `tuning_curve_calculation` (the #67 `*_calc` leaf names and the tuning marker composites are gone from the build); the migrator still emits `tuningcurve_calc`, so the retarget, plus lifting v1 `vector`/`fitless` into the family's typed summary block and fit-derived values into `model_fit[].metrics`, is the DID-matlab half of #73.",
       "target_completeness": {
         "state": "full",
         "unresolved_sites": []
-      }
+      },
+      "decided_targets": [
+        "session_relative_reference",
+        "software",
+        "runtime_environment",
+        "tuning_curve_calculation"
+      ]
     },
     "subject": {
       "targets": [
@@ -1553,11 +1607,17 @@
       ],
       "second_pass": [],
       "how": "result class -> the tuning_curve_calculation subject_calculation LEAF (id-preserved 1->1; element_id -> subject_id; result composite kept verbatim) + session anchor",
-      "flags": "calculator composite-leaf fold (Lepsky et al.); un-defers with 0 orphans (id-preserved)",
+      "flags": "calculator composite-leaf fold (Lepsky et al.); un-defers with 0 orphans (id-preserved) #73 (2026-09-23): the V_eta leaf is renamed to `temporal_frequency_tuning_calculation` (the #67 `*_calc` leaf names and the tuning marker composites are gone from the build); the migrator still emits `temporal_frequency_tuning_calc`, so the retarget, plus lifting v1 `vector`/`fitless` into the family's typed summary block and fit-derived values into `model_fit[].metrics`, is the DID-matlab half of #73.",
       "target_completeness": {
         "state": "full",
         "unresolved_sites": []
-      }
+      },
+      "decided_targets": [
+        "session_relative_reference",
+        "software",
+        "runtime_environment",
+        "temporal_frequency_tuning_calculation"
+      ]
     },
     "temporal_frequency_tuning_calc": {
       "targets": [
@@ -1571,11 +1631,17 @@
       ],
       "second_pass": [],
       "how": "calculator OUTPUT -> the tuning_curve_calculation subject_calculation LEAF (id-preserved; input_parameters -> method_parameters; app kept; raw input -> derived_from_1) + session anchor",
-      "flags": "calculator composite-leaf fold (Lepsky et al.); un-defers with 0 orphans (id-preserved)",
+      "flags": "calculator composite-leaf fold (Lepsky et al.); un-defers with 0 orphans (id-preserved) #73 (2026-09-23): the V_eta leaf is renamed to `temporal_frequency_tuning_calculation` (the #67 `*_calc` leaf names and the tuning marker composites are gone from the build); the migrator still emits `temporal_frequency_tuning_calc`, so the retarget, plus lifting v1 `vector`/`fitless` into the family's typed summary block and fit-derived values into `model_fit[].metrics`, is the DID-matlab half of #73.",
       "target_completeness": {
         "state": "full",
         "unresolved_sites": []
-      }
+      },
+      "decided_targets": [
+        "session_relative_reference",
+        "software",
+        "runtime_environment",
+        "temporal_frequency_tuning_calculation"
+      ]
     },
     "treatment": {
       "targets": [
@@ -1650,11 +1716,17 @@
       ],
       "second_pass": [],
       "how": "IS-A stimulus_tuningcurve so inherits a populated element_id -> single-doc fold to tuning_curve_calculation (result on the inherited stimulus_tuningcurve block; input_parameters -> method_parameters) + session anchor",
-      "flags": "calculator composite-leaf fold (Lepsky et al.); un-defers with 0 orphans (id-preserved)",
+      "flags": "calculator composite-leaf fold (Lepsky et al.); un-defers with 0 orphans (id-preserved) #73 (2026-09-23): the V_eta leaf is renamed to `tuning_curve_calculation` (the #67 `*_calc` leaf names and the tuning marker composites are gone from the build); the migrator still emits `tuningcurve_calc`, so the retarget, plus lifting v1 `vector`/`fitless` into the family's typed summary block and fit-derived values into `model_fit[].metrics`, is the DID-matlab half of #73.",
       "target_completeness": {
         "state": "full",
         "unresolved_sites": []
-      }
+      },
+      "decided_targets": [
+        "session_relative_reference",
+        "software",
+        "runtime_environment",
+        "tuning_curve_calculation"
+      ]
     },
     "valid_interval": {
       "targets": [],

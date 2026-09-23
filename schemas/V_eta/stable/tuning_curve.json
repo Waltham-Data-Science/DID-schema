@@ -23,7 +23,7 @@
             "mustNotHaveNaN": false,
             "queryable": true,
             "ontology": null,
-            "documentation": "A response-vs-independent-variable(s) tuning curve: self-describing raw curve data. The v1 `stimulus_tuningcurve` and per-family result classes (orientation_direction_tuning, contrast_tuning, ...) carried this SHAPE; the shape is collapsed to ONE composite and the per-family class names survive as thin marker subclasses (Lepsky et al. 2026 Fig. 4; class names appear verbatim in 3+ published papers). Calc-produced metadata (ANOVA p-values, fits) lives on `tuning_curve_calculation`, not here.",
+            "documentation": "A response-vs-independent-variable(s) tuning curve: self-describing raw curve data. The v1 `stimulus_tuningcurve` and per-family result classes (orientation_direction_tuning, contrast_tuning, ...) carried this SHAPE; the shape is collapsed to ONE composite. The tuning family (orientation/direction, contrast, spatial/temporal frequency, speed) is carried by `independent_variables[].variable`, not by a subclass (#73 dropped the marker subclasses). Calc-produced metadata (ANOVA p-values, fits) lives on `tuning_curve_calculation`, not here.",
             "constraints": {},
             "fields": [
                 {

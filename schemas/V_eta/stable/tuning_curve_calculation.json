@@ -1,14 +1,16 @@
 {
     "document_class": {
         "class_name": "tuning_curve_calculation",
-        "class_version": "1.0.0",
+        "class_version": "2.0.0",
         "superclasses": [
             {
                 "class_name": "subject_calculation"
+            },
+            {
+                "class_name": "tuning_curve"
             }
         ],
-        "maturity_level": "stable",
-        "abstract": true
+        "maturity_level": "stable"
     },
     "depends_on": [],
     "file": [],
@@ -64,7 +66,7 @@
             "mustNotHaveNaN": false,
             "queryable": true,
             "ontology": null,
-            "documentation": "ARRAY of fitted models, each {model, coefficients, goodness}; a curve may carry several co-existing fits (freq tunings carry 5). Data-in-array (R2 preserved), not typed field declarations per family.",
+            "documentation": "ARRAY of fitted models, each {model, coefficients, goodness, metrics, sampled_fit}; a curve may carry several co-existing fits (freq tunings carry 5).",
             "constraints": {},
             "fields": [
                 {
@@ -138,9 +140,300 @@
                     "mustNotHaveNaN": false,
                     "queryable": true,
                     "ontology": null,
-                    "documentation": "Fit-quality scalars (r-squared, residual, ...).",
+                    "documentation": "How well the fit matches the measured responses.",
                     "constraints": {},
-                    "fields": []
+                    "fields": [
+                        {
+                            "name": "r2",
+                            "type": "double",
+                            "blank_value": 0,
+                            "default_value": 0,
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "Coefficient of determination between the responses and the fit (v1 `r2` / `r_squared`).",
+                            "constraints": {}
+                        },
+                        {
+                            "name": "sse",
+                            "type": "double",
+                            "blank_value": 0,
+                            "default_value": 0,
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "Sum of squared errors of the fit.",
+                            "constraints": {}
+                        }
+                    ]
+                },
+                {
+                    "name": "metrics",
+                    "type": "structure",
+                    "blank_value": {},
+                    "default_value": {},
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Values READ OFF this fit (not the raw data -- those are the family's own summary block). One fixed set of optional typed fields across every fit family; a fit fills only the ones that apply to its `model`.",
+                    "constraints": {},
+                    "fields": [
+                        {
+                            "name": "preferred_value",
+                            "type": "double",
+                            "blank_value": 0,
+                            "default_value": 0,
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "The independent-variable value at which the peak response occurs (v1 `pref`). Same unit as the curve's independent variable.",
+                            "constraints": {}
+                        },
+                        {
+                            "name": "half_maximum_below",
+                            "type": "double",
+                            "blank_value": 0,
+                            "default_value": 0,
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "The independent-variable value BELOW the peak where the response falls to half the maximum (v1 `l50`; on a contrast curve, which only rises, this is C50 -- v1 `interpolated_c50`). -Inf if no such point exists.",
+                            "constraints": {}
+                        },
+                        {
+                            "name": "half_maximum_above",
+                            "type": "double",
+                            "blank_value": 0,
+                            "default_value": 0,
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "The independent-variable value ABOVE the peak where the response falls to half the maximum (v1 `h50`). +Inf if no such point exists.",
+                            "constraints": {}
+                        },
+                        {
+                            "name": "bandwidth",
+                            "type": "double",
+                            "blank_value": 0,
+                            "default_value": 0,
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "Bandwidth between half_maximum_below and half_maximum_above, in OCTAVES: log2(half_maximum_above / half_maximum_below). Inf if either bound is infinite.",
+                            "constraints": {}
+                        },
+                        {
+                            "name": "half_width_at_half_maximum",
+                            "type": "double",
+                            "blank_value": 0,
+                            "default_value": 0,
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "Angular distance from the preferred direction at which the fit response is half the maximum (v1 `hwhh`). Same unit as the curve's direction variable.",
+                            "constraints": {}
+                        },
+                        {
+                            "name": "orientation_preference",
+                            "type": "double",
+                            "blank_value": 0,
+                            "default_value": 0,
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "Orientation evoking the maximum response under the fit (v1 `orientation_angle_preference`).",
+                            "constraints": {}
+                        },
+                        {
+                            "name": "direction_preference",
+                            "type": "double",
+                            "blank_value": 0,
+                            "default_value": 0,
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "Direction evoking the maximum response under the fit (v1 `direction_angle_preference`).",
+                            "constraints": {}
+                        },
+                        {
+                            "name": "orientation_preferred_orthogonal_ratio",
+                            "type": "double",
+                            "blank_value": 0,
+                            "default_value": 0,
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "Fit response at the preferred orientation over the response at the orthogonal orientation (90 degrees away).",
+                            "constraints": {}
+                        },
+                        {
+                            "name": "orientation_preferred_orthogonal_ratio_rectified",
+                            "type": "double",
+                            "blank_value": 0,
+                            "default_value": 0,
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "orientation_preferred_orthogonal_ratio with each response rectified at 0.",
+                            "constraints": {}
+                        },
+                        {
+                            "name": "direction_preferred_null_ratio",
+                            "type": "double",
+                            "blank_value": 0,
+                            "default_value": 0,
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "Fit response at the preferred direction over the response at the null direction (180 degrees away).",
+                            "constraints": {}
+                        },
+                        {
+                            "name": "direction_preferred_null_ratio_rectified",
+                            "type": "double",
+                            "blank_value": 0,
+                            "default_value": 0,
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "direction_preferred_null_ratio with each response rectified at 0.",
+                            "constraints": {}
+                        },
+                        {
+                            "name": "speed_tuning_index",
+                            "type": "double",
+                            "blank_value": 0,
+                            "default_value": 0,
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "Index relating preferred speed to spatial frequency under the fit (Priebe et al.; v1 `priebe_fit_speed_tuning_index`).",
+                            "constraints": {}
+                        },
+                        {
+                            "name": "spatial_frequency_preference",
+                            "type": "double",
+                            "blank_value": 0,
+                            "default_value": 0,
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "Spatial frequency, averaged across temporal frequencies, of the optimal response under the fit (v1 `priebe_fit_spatial_frequency_preference`).",
+                            "constraints": {}
+                        },
+                        {
+                            "name": "temporal_frequency_preference",
+                            "type": "double",
+                            "blank_value": 0,
+                            "default_value": 0,
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "Temporal frequency, averaged across spatial frequencies, of the optimal response under the fit (v1 `priebe_fit_temporal_frequency_preference`).",
+                            "constraints": {}
+                        },
+                        {
+                            "name": "partial_r2",
+                            "type": "double",
+                            "blank_value": 0,
+                            "default_value": 0,
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "Partial r-squared of this fit against the nested comparison fit.",
+                            "constraints": {}
+                        },
+                        {
+                            "name": "nested_f_test_p",
+                            "type": "double",
+                            "blank_value": 0,
+                            "default_value": 0,
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "p-value of the nested-model F test against the comparison fit (v1 `priebe_fit_nested_f_test_p_value`).",
+                            "constraints": {}
+                        }
+                    ]
+                },
+                {
+                    "name": "sampled_fit",
+                    "type": "structure",
+                    "blank_value": {},
+                    "default_value": {},
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "OPTIONAL: the fit evaluated on a grid, as v1 stored it (fit_*.values/.fit, double_gaussian_fit_angles/_values, the Priebe grids). Kept rather than recomputed from model + coefficients, because recomputation reproduces it only if the model definition is exact.",
+                    "constraints": {},
+                    "fields": [
+                        {
+                            "name": "independent_values",
+                            "type": "matrix",
+                            "blank_value": [],
+                            "default_value": [],
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": false,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "The grid, one entry per independent variable in independent_variables[] order.",
+                            "constraints": {}
+                        },
+                        {
+                            "name": "response",
+                            "type": "matrix",
+                            "blank_value": [],
+                            "default_value": [],
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": false,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "Fit response at each grid point, sized by the grid.",
+                            "constraints": {}
+                        }
+                    ]
                 }
             ]
         }

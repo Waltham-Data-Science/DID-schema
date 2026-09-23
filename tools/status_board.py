@@ -138,6 +138,18 @@ DECISIONS_OUT = os.path.join(REPO, "schemas", "V_eta_decisions.json")
 BUILT_AHEAD_OF_DECISION = "BUILT AHEAD OF THE DECISION"
 
 FAMILIES = [
+    # ADDED 2026-09-23 (#73), and the board is again what demanded it. Dropping the
+    # `calculator` MIXIN from subject_calculation's chain left the name as a v1
+    # source tombstone restating NDI's database_documents/calculator.json
+    # (⊂ [base, app], no fields) -- `retire`, no migrator -- so it became an open
+    # class that no family claimed, and this generator refused to go green. The
+    # family points at the amendment in the subject_calculation plan, and it reads
+    # "awaiting review" until that document carries its signature.
+    ("calculator mixin dropped (#73)", ["calculator"],
+     "V_eta_subject_calculation_plan.md",
+     ("`calculator` leaves every V_eta chain; subject_calculation declares the "
+      "required software_id + runtime_environment_id itself; the name survives "
+      "only as a retiring v1 tombstone for passthrough"), "team"),
     # ADDED 2026-08-10, and the board is what demanded it. `generic_file` and
     # `valid_interval` were the last two did_v1 classes that stranded COMPLETELY
     # -- no V_eta schema AND no migrator, so a dataset carrying them lost them.

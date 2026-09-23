@@ -155,3 +155,75 @@ Per-family fit shapes ride as `model_fit[]` array entries (R2 approach preserved
 not typed field declarations. (5) Multi-D tuning is first-class via
 `independent_variables[]` cardinality — speed_tuning is a thin marker. Full spec:
 Waltham-Data-Science/DID-schema#67.
+
+
+## Amendment — #73 (2026-09-23): markers dropped, leaves renamed, family metrics typed
+
+Decided by jess@walthamdatascience.com in the #73 review session, 2026-09-23.
+It revises items (1) and (5) of the 2026-09-21 signature above and fills in
+the per-family scalars that signature left empty; items (2)–(4) stand.
+Source: Waltham-Data-Science/DID-schema#73.
+
+1. **The five marker composites are dropped** (`orientation_direction_tuning`,
+   `contrast_tuning`, `spatial_frequency_tuning`, `temporal_frequency_tuning`,
+   `speed_tuning`). They were abstract with no fields. The fact each encoded is
+   already `tuning_curve.value.independent_variables[].variable`, and nothing
+   tied the two together (T11, T14). The one-calculator-one-document-type
+   contract (T10, Lepsky §3.2) is met by the calculation leaves, not by the
+   composites.
+2. **`tuning_curve_calculation` is CONCRETE and ⊂ [`subject_calculation`,
+   `tuning_curve`].** It is the generic tuning-curve calculator's own output
+   type, the same `<result>_calculation` shape as
+   `contrast_sensitivity_calculation` and `receptive_field_calculation`. An
+   `isa tuning_curve_calculation` query returns all six. A consumer wanting only
+   the generic calculator's output matches the exact class name. The contract is
+   about the emitted class name, and all six stay distinct.
+3. **The leaves are renamed to the `<result>_calculation` form (T13)**, each
+   ⊂ `tuning_curve_calculation`:
+
+   | #67 name | #73 name |
+   |---|---|
+   | `tuningcurve_calc` | `tuning_curve_calculation` (item 2) |
+   | `oridirtuning_calc` | `orientation_direction_tuning_calculation` |
+   | `contrasttuning_calc` | `contrast_tuning_calculation` |
+   | `spatial_frequency_tuning_calc` | `spatial_frequency_tuning_calculation` |
+   | `temporal_frequency_tuning_calc` | `temporal_frequency_tuning_calculation` |
+   | `speedtuning_calc` | `speed_tuning_calculation` |
+
+   The published v1 names stay the SOURCE side of the migration: every one is a
+   ledger row folded by a completed migrator. The v1 tombstones at the four
+   colliding calc names and the five result names join `_DELETE_PHASE8`.
+4. **Each family carries its own typed summary block**: values read off the
+   RAW curve. These are what v1 carried as `vector` and `fitless`, named as this
+   plan's signed naming pass named them:
+   - `orientation_direction_tuning_calculation.circular_statistics`
+   - `interpolated_values` on the contrast, spatial-frequency and
+     temporal-frequency calculations (contrast carries only the lower half-max
+     point; SF/TF share one generated declaration)
+   - speed and the generic calculation carry none.
+5. **`model_fit[]` entries become `{model, coefficients, goodness, metrics,
+   sampled_fit}`.** `goodness` = {`r2`, `sse`}. `metrics` = values read off THAT
+   fit, one fixed set of optional typed fields across every fit family, so each
+   stays queryable (no `{name, value}` bag). `sampled_fit` = the fit evaluated on
+   a grid, kept as v1 stored it rather than recomputed. KNOWN LOOSENESS: nothing
+   yet stops a fit filling a metric that does not apply to its `model`. Keying
+   the admissible metrics on `model` waits on the model terms being bound.
+6. **Names (T13).** The v1 contractions are replaced: `pref` → `preferred_value`;
+   `l50` and `interpolated_c50` → `half_maximum_below` (C50 is the lower half-max
+   point of a curve that only rises); `h50` → `half_maximum_above`; `hwhh` →
+   `half_width_at_half_maximum`; `hotelling2test` / `direction_hotelling2test` →
+   `hotelling_t2_p` / `direction_hotelling_t2_p`; `dot_direction_significance` →
+   `direction_dot_product_p`. `bandwidth` keeps its name and is documented in
+   octaves.
+
+**A LIVE DEFECT THIS AMENDMENT DOES NOT FIX BY ITSELF.** Measured 2026-09-23 on
+DID-matlab `claude/v-eta-migration-plan-35jj1z` @ `47cf8ba`, over 209 `.m` files
+under `+did2/+convert`: **0 files read a v1 `vector` or `fitless` block.**
+`jTuningCurveValue.m` lifts only `significance` and the `fit`/`fit_*` blocks. So
+every oridir circular statistic and every SF/TF/contrast interpolated value is
+dropped on migration today, while the documents validate. `collectFits` copies
+each whole v1 fit block (parameters, derived metrics, sampled curve, r²) verbatim
+into `coefficients`, leaves `goodness` empty, and turns contrast's single `fit`
+block (three Naka-Rushton variants) into ONE entry named `fit`. SF/TF's `abs`
+block (every block recomputed on absolute responses; declared empty in v1) is not
+read either. Closing all of this is the DID-matlab half of #73.

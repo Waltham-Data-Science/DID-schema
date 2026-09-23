@@ -424,7 +424,19 @@ def test_isspike_is_left_alone_and_the_inert_spelling_is_counted():
     # ontology-free document edges), so this walk counts every schema and
     # every count check catches only real additions -- exactly what a canary
     # test asks of its denominator.
-    assert walked == 262, f'schema count moved; re-derive the inert set ({walked})'
+    # SEVENTH MOVEMENT, re-derived not bumped: 262 -> 256 for #73 (2026-09-23).
+    # -5 marker composites (orientation_direction_tuning, contrast_tuning,
+    # spatial_frequency_tuning, temporal_frequency_tuning, speed_tuning), -6 #67
+    # calc leaves (oridirtuning_calc, contrasttuning_calc,
+    # spatial_frequency_tuning_calc, temporal_frequency_tuning_calc,
+    # speedtuning_calc, tuningcurve_calc), +5 renamed family calculations
+    # (*_tuning_calculation). The pinned INERT list is UNTOUCHED, and that is
+    # the substantive check: the new typed blocks (circular_statistics,
+    # interpolated_values, model_fit[].goodness/metrics/sampled_fit) are
+    # double/matrix fields with NO min/max constraint at any depth, and the
+    # `calculator` tombstone and subject_calculation's two moved edges declare
+    # no field at all.
+    assert walked == 256, f'schema count moved; re-derive the inert set ({walked})'
     assert sorted(inert) == [
         "element.direct",
         "element.reference",

@@ -52,10 +52,12 @@
   "zarr"
  ],
  "denominator": {
-  "classes_in_the_built_set": 43,
+  "classes_in_the_built_set": 32,
   "classes_that_are_v1_sources": 24,
   "classes_vouched_only_by_the_cited_plan": [
    "acquisition_layout",
+   "contrasttuning_calc",
+   "speedtuning_calc",
    "validity",
    "validity_observation",
    "zarr"
@@ -563,21 +565,17 @@
    },
    "class_registers": {
     "contrasttuning_calc": [
-     "built",
      "named_in_cited_plan"
     ],
     "oridirtuning_calc": [
      "v1_source",
-     "built",
      "named_in_cited_plan"
     ],
     "spatial_frequency_tuning_calc": [
      "v1_source",
-     "built",
      "named_in_cited_plan"
     ],
     "speedtuning_calc": [
-     "built",
      "named_in_cited_plan"
     ],
     "subject_calculation": [
@@ -586,7 +584,6 @@
     ],
     "temporal_frequency_tuning_calc": [
      "v1_source",
-     "built",
      "named_in_cited_plan"
     ],
     "tuning_curve_calculation": [
@@ -595,12 +592,14 @@
     ],
     "tuningcurve_calc": [
      "v1_source",
-     "built",
      "named_in_cited_plan"
     ]
    },
    "note": "The 11,448-orphan run is what this tenet is made of: id preservation plus existence-only `must_refer` is why the calculators un-defer with 0 orphans.",
-   "plan_only_classes": [],
+   "plan_only_classes": [
+    "contrasttuning_calc",
+    "speedtuning_calc"
+   ],
    "tenet": "T10"
   },
   {
@@ -628,27 +627,22 @@
    "class_registers": {
     "contrast_tuning": [
      "v1_source",
-     "built",
      "named_in_cited_plan"
     ],
     "orientation_direction_tuning": [
      "v1_source",
-     "built",
      "named_in_cited_plan"
     ],
     "spatial_frequency_tuning": [
      "v1_source",
-     "built",
      "named_in_cited_plan"
     ],
     "speed_tuning": [
      "v1_source",
-     "built",
      "named_in_cited_plan"
     ],
     "temporal_frequency_tuning": [
      "v1_source",
-     "built",
      "named_in_cited_plan"
     ],
     "tuning_curve": [
@@ -722,22 +716,18 @@
    "class_registers": {
     "contrast_tuning": [
      "v1_source",
-     "built",
      "named_in_cited_plan"
     ],
     "orientation_direction_tuning": [
      "v1_source",
-     "built",
      "named_in_cited_plan"
     ],
     "spatial_frequency_tuning": [
      "v1_source",
-     "built",
      "named_in_cited_plan"
     ],
     "speed_tuning": [
      "v1_source",
-     "built",
      "named_in_cited_plan"
     ],
     "stimulus_tuningcurve": [
@@ -746,7 +736,6 @@
     ],
     "temporal_frequency_tuning": [
      "v1_source",
-     "built",
      "named_in_cited_plan"
     ],
     "tuning_curve": [
@@ -881,7 +870,6 @@
    "class_registers": {
     "orientation_direction_tuning": [
      "v1_source",
-     "built",
      "named_in_cited_plan"
     ],
     "tuning_curve": [

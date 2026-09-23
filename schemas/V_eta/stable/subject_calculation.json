@@ -5,9 +5,6 @@
         "superclasses": [
             {
                 "class_name": "subject_interaction"
-            },
-            {
-                "class_name": "calculator"
             }
         ],
         "maturity_level": "stable",
@@ -20,6 +17,20 @@
             "documentation": "The subject_statement leaf(s) this value was COMPUTED from (its inputs). Present only on computed observations, whose subject_interaction.method names the algorithm. Typed to a statement leaf -- never an entity; the provenance inverse of directed_relation's entity->entity child/parent.",
             "must_refer_to_document_class": "subject_statement",
             "min_count": 0
+        },
+        {
+            "name": "software_id",
+            "mustBeNonEmpty": true,
+            "documentation": "The software that produced this document, as a `software` entity (name + version + citation id). REQUIRED on every calculation (issue #67 \u00a7\u2461, Shape 2): a calculation without a named producer cannot be re-run. Redeclares -- and TIGHTENS to required -- the optional `software_id` every subject_interaction carries; the target class is unchanged. Moved here from the dropped `calculator` mixin (#73). Distinct from `instrument_id` (a measuring device) and from `derived_from` (the input data).",
+            "must_refer_to_document_class": "software",
+            "min_count": 1
+        },
+        {
+            "name": "runtime_environment_id",
+            "mustBeNonEmpty": true,
+            "documentation": "The per-run environment (os / os_version / interpreter / interpreter_version) the producing run used, as a `runtime_environment` entity. REQUIRED on every calculation (issue #67 \u00a7\u2461, Shape 2 -- no `software_run` join). Moved here from the dropped `calculator` mixin (#73). Distinct from the software's SUPPORTED os (openMINDS SoftwareVersion.operatingSystem) and from the `software` entity's own identity.",
+            "must_refer_to_document_class": "runtime_environment",
+            "min_count": 1
         }
     ],
     "file": [],
