@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { Suspense, lazy, useEffect, useMemo, useState } from "react";
 import type { IndexEntry, SchemaIndex, TopicsFile } from "./types";
 import {
   buildTopicTree,
@@ -23,6 +23,11 @@ import type { AuthState } from "./auth";
 import { ErrorBoundary } from "./ErrorBoundary";
 import "./styles.css";
 
+// The V_eta shape panel carries the whole V_eta schema tree in its bundle (it
+// is read at build time -- see veta/sources.ts), so it is split into its own
+// chunk and loaded only when the panel is opened.
+const VetaViewer = lazy(() => import("./veta/VetaViewer"));
+
 type ViewMode = "topic" | "class" | "flat";
 
 // The full-width panels, and the one piece of state each needs.
@@ -30,6 +35,7 @@ type Panel =
   | null
   | { kind: "coverage" }
   | { kind: "tenets" }
+  | { kind: "veta" }
   | { kind: "walkthrough"; v1Class: string };
 
 // The toggleable filter tags shown in the legend: a class is visible only when
@@ -252,6 +258,17 @@ export default function App() {
           >
             ✦ Tenets
           </button>
+          <button
+            className="btn-coverage"
+            onClick={() => {
+              setPanel({ kind: "veta" });
+              setEditing(false);
+            }}
+            aria-pressed={panel?.kind === "veta"}
+            title="The go-forward V_eta class set by category, plus tenets T1-T14 -- read from schemas/ at build time"
+          >
+            ◈ V_eta shape
+          </button>
         </div>
         <nav className="sidebar-scroll">
           {view === "topic" ? (
@@ -280,6 +297,12 @@ export default function App() {
         ) : panel?.kind === "tenets" ? (
           <ErrorBoundary resetKey="tenets">
             <Tenets onSelect={select} onOpenClass={openWalkthrough} />
+          </ErrorBoundary>
+        ) : panel?.kind === "veta" ? (
+          <ErrorBoundary resetKey="veta">
+            <Suspense fallback={<div className="detail-loading">Loading the V_eta shape…</div>}>
+              <VetaViewer onOpenSchema={select} />
+            </Suspense>
           </ErrorBoundary>
         ) : panel?.kind === "walkthrough" ? (
           <ErrorBoundary resetKey={`wt-${panel.v1Class}`}>

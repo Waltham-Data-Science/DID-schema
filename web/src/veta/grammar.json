@@ -1,0 +1,23 @@
+{
+  "_comment": "The grammar the V_eta viewer uses to read its two markdown inputs. It is the ONE copy: web/src/veta/model.ts imports it and tools/check_veta_viewer.py loads it, so the build-time parser and the CI gate cannot disagree about what a category heading or a tenet heading looks like. Every pattern is written in the subset of regex syntax that JavaScript and Python read identically.",
+  "final_class_set": {
+    "path": "schemas/V_eta_final_class_set.md",
+    "category_heading": "^## ([①-⑦]) (.+?) \\((\\d+)\\)\\s*$",
+    "excluded_section_heading": "^## NOT in the final set",
+    "disposition_heading": "^\\*\\*([a-z_]+) \\((\\d+)\\):\\*\\*\\s*$",
+    "any_heading": "^#{1,6} ",
+    "class_token": "`([A-Za-z][A-Za-z0-9_]*)`",
+    "expected_categories": ["①", "②", "③", "④", "⑤", "⑥", "⑦"]
+  },
+  "tenets": {
+    "path": "schemas/V_eta_tenets.md",
+    "tenet_heading": "^### (T\\d+) — (.+?)\\s*$",
+    "section_heading": "^## (.+?)\\s*$",
+    "expected_tenets": ["T1", "T2", "T3", "T4", "T5", "T6", "T7", "T8", "T9", "T10", "T11", "T12", "T13", "T14"]
+  },
+  "schema_tree": {
+    "glob": "schemas/V_eta/**/*.json",
+    "class_tiers": ["stable", "draft", "deprecated"],
+    "index": "schemas/V_eta/index.json"
+  }
+}

@@ -42,6 +42,11 @@ on:
       - "schemas/V_*/**"
       - "schemas/V_*_coverage_ledger.json"
       - "schemas/V_*_decisions.json"
+      # The V_eta shape panel imports these two at build time (?raw) -- see
+      # web/src/veta/sources.ts. Like the ledger they sit directly under
+      # schemas/, which `schemas/V_*/**` does not match.
+      - "schemas/V_eta_final_class_set.md"
+      - "schemas/V_eta_tenets.md"
       - ".github/workflows/web-build.yml"
   pull_request:
     paths:
@@ -49,6 +54,11 @@ on:
       - "schemas/V_*/**"
       - "schemas/V_*_coverage_ledger.json"
       - "schemas/V_*_decisions.json"
+      # The V_eta shape panel imports these two at build time (?raw) -- see
+      # web/src/veta/sources.ts. Like the ledger they sit directly under
+      # schemas/, which `schemas/V_*/**` does not match.
+      - "schemas/V_eta_final_class_set.md"
+      - "schemas/V_eta_tenets.md"
       - ".github/workflows/web-build.yml"
   workflow_dispatch:
 
@@ -89,3 +99,9 @@ jobs:
           n=$(find dist/assets -name '*.js' | wc -l)
           echo "DENOMINATOR: $(find dist -type f | wc -l) file(s) in dist/, $n JS chunk(s)"
           test "$n" -ge 1 || { echo "no JS chunk in dist/assets"; exit 1; }
+      # The V_eta shape panel reads schemas/V_eta/**/*.json and two markdown
+      # files AT BUILD TIME (issue #72). A glob that resolved to nothing would
+      # still build, so check the OUTPUT: every file on disk reached the bundle,
+      # and nothing in the bundle is absent from disk.
+      - name: Assert the V_eta shape bundle reflects the schema tree
+        run: node scripts/check-veta-bundle.mjs

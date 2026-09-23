@@ -8,6 +8,32 @@ a schema editor with live meta-schema validation, "Download JSON", and
 GitHub auth via personal access tokens. The end-to-end "Submit for review"
 flow (issue + draft PR) is the next step (issue #39).
 
+## V_eta shape panel (issue #72)
+
+The **◈ V_eta shape** button opens a panel that renders the go-forward V_eta
+class set grouped by the seven categories of
+`schemas/V_eta_final_class_set.md` -- per class its fields and value shapes,
+superclasses and subclasses, `depends_on` edges, and disposition / abstract
+flags -- plus a **Tenets T1–T14** tab rendered from `schemas/V_eta_tenets.md`.
+
+Nothing is copied in. `src/veta/sources.ts` globs `schemas/V_eta/**/*.json`
+and imports the two markdown files `?raw`, so Vite reads them at build time:
+edit a class JSON, rebuild, and the panel follows with no code change.
+`src/veta/grammar.json` is the one description of how the two markdown files
+are parsed; the viewer and the gate both read it.
+
+Two gates keep it honest:
+
+- `python3 tools/check_veta_viewer.py` (a step in `tools/gates.py`, so it runs
+  in `tests.yml`): the inputs agree -- 7 categories and 14 tenets parse, every
+  class in the tree is placed exactly once, every placed name is in the tree,
+  every category's `(n)` matches its list, and no class name is written into
+  the viewer's source.
+- `node scripts/check-veta-bundle.mjs` (after `npm run build`, in
+  `web-build.yml` and `deploy-web.yml`): every JSON file under
+  `schemas/V_eta/` and every line of the two markdown files reached the
+  bundle.
+
 ## Develop
 
 ```sh

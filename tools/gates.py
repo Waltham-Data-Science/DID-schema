@@ -517,6 +517,18 @@ STEPS = [
          writes=["web/public/tenets.json"],
          check_argv=_t("tenet_map.py", "--check")),
 
+    # THE V_eta SHAPE PANEL (issue #72). The panel reads schemas/V_eta/**/*.json
+    # and two schemas/*.md files at BUILD TIME (web/src/veta/sources.ts), so
+    # there is no served copy for `check_web_assets_fresh` to compare. What
+    # can drift is the inputs against EACH OTHER -- a class built but placed
+    # in no category, a category naming a class the tree lost, a tenet
+    # heading the parser no longer matches -- and this gate reads the same
+    # grammar file the viewer does. It needs no sync and no sibling, so it
+    # runs on a bare runner. The post-build half (the bundle really carries
+    # every file) is web/scripts/check-veta-bundle.mjs, in the web workflows.
+    Step("check_veta_viewer", _t("check_veta_viewer.py"), "gate",
+         r"^DENOMINATOR: (\d+) JSON file\(s\) matched", "V_eta JSON files matched"),
+
     # It reads no artifact into a file of its own, so it declares no `writes`.
     Step("check_web_assets_fresh", _t("check_web_assets_fresh.py"), "gate",
          r"^DENOMINATOR: (\d+) served file\(s\) inspected", "served files inspected",
@@ -600,6 +612,17 @@ EDGES = [
          "the persist set IS the `disposition` markers in the built "
          "V_eta/index.json -- there is no other source for it.",
          "tools/regen_final_class_set.py", r'"V_eta", "index\.json"'),
+
+    Edge("build_v_eta", "check_veta_viewer", "schemas/V_eta",
+         "the V_eta shape panel globs the BUILT tree; gating it before the "
+         "build grades the previous schema set.",
+         "web/src/veta/grammar.json", r'"schemas/V_eta/\*\*/\*\.json"'),
+
+    Edge("regen_final_class_set", "check_veta_viewer",
+         "schemas/V_eta_final_class_set.md",
+         "the panel groups classes by the categories of the generated "
+         "final-set document; a stale one places classes wrongly.",
+         "web/src/veta/grammar.json", r"V_eta_final_class_set\.md"),
 
     Edge("build_v_eta", "status_board", "schemas/V_eta",
          "the board's class state is read from the built V_eta/index.json.",
