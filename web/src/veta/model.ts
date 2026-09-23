@@ -90,10 +90,19 @@ export interface ExcludedGroup {
   classes: string[];
 }
 
+export interface TenetPoint {
+  title: string; // the bold lead-in, without its ** markers
+  body: string; // the rest of that paragraph / list item, as markdown
+}
+
 export interface Tenet {
   id: string;
   title: string;
   body: string;
+  // The body split for skimming: the opening text, then one point per bold
+  // lead-in. `intro` + the points together are exactly `body`, re-grouped.
+  intro: string;
+  points: TenetPoint[];
 }
 
 export interface TenetSection {
@@ -209,7 +218,7 @@ export function parseTenets(md: string): {
   const sectionRe = new RegExp(G.tenets.section_heading);
   let title = "";
   const preamble: string[] = [];
-  const tenets: Array<Tenet & { lines: string[] }> = [];
+  const tenets: Array<{ id: string; title: string; body: string; lines: string[] }> = [];
   const sections: Array<TenetSection & { lines: string[] }> = [];
   let cur: string[] = preamble;
 
@@ -241,11 +250,84 @@ export function parseTenets(md: string): {
   return {
     title,
     preamble: finish(preamble),
-    tenets: tenets.map(({ id, title, lines }) => ({ id, title, body: finish(lines) })),
+    tenets: tenets.map(({ id, title, lines }) => {
+      const body = finish(lines);
+      return { id, title, body, ...splitLeadIns(body) };
+    }),
     // "## The tenets" only introduces T1-T14 and has no body worth a card.
     sections: sections
       .map(({ title, lines }) => ({ title, body: finish(lines) }))
       .filter((x) => x.body.length > 0),
+  };
+}
+
+// A BOLD LEAD-IN is a paragraph, or a top-level list item, that opens with
+// **bold text ending in `.`, `:` or `)`** -- "**Case.** Every name we author",
+// "**The trap (do not fall in):** a device is". The long tenets are written as
+// a run of these, so they become the points of a skimmable outline.
+//
+// A list is split into points only when EVERY top-level item in it is a
+// lead-in. A list mixing lead-ins with plain items (T11's) is one thought and
+// stays whole, attached to whatever precedes it. A bold phrase that merely
+// starts a wrapped line ("**losslessly derivable** from...") is not at the
+// start of a paragraph and so is never taken for one.
+const LEAD_RE = /^\*\*(.+?[.:)])\*\*\s*(.*)$/;
+const ITEM_RE = /^([-*+]|\d+\.)\s+(.*)$/;
+
+export function splitLeadIns(body: string): { intro: string; points: TenetPoint[] } {
+  const lines = body.split("\n");
+  // Segment into paragraphs and top-level lists.
+  const segs: Array<{ kind: "para" | "list"; lines: string[] }> = [];
+  let i = 0;
+  while (i < lines.length) {
+    if (!lines[i].trim()) {
+      i++;
+      continue;
+    }
+    if (ITEM_RE.test(lines[i])) {
+      const seg: string[] = [];
+      while (i < lines.length && lines[i].trim() && (ITEM_RE.test(lines[i]) || /^\s/.test(lines[i])))
+        seg.push(lines[i++]);
+      segs.push({ kind: "list", lines: seg });
+    } else {
+      const seg: string[] = [];
+      while (i < lines.length && lines[i].trim() && !ITEM_RE.test(lines[i])) seg.push(lines[i++]);
+      segs.push({ kind: "para", lines: seg });
+    }
+  }
+
+  const intro: string[] = [];
+  const points: Array<{ title: string; lines: string[] }> = [];
+  const append = (text: string[]) => {
+    const target = points.length ? points[points.length - 1].lines : intro;
+    if (target.length) target.push("");
+    target.push(...text);
+  };
+  for (const seg of segs) {
+    if (seg.kind === "para") {
+      const m = LEAD_RE.exec(seg.lines[0]);
+      if (m) points.push({ title: m[1], lines: [m[2], ...seg.lines.slice(1)].filter((l, j) => j > 0 || l) });
+      else append(seg.lines);
+      continue;
+    }
+    // Split the list into its top-level items.
+    const items: string[][] = [];
+    for (const l of seg.lines) {
+      if (ITEM_RE.test(l)) items.push([l]);
+      else items[items.length - 1]?.push(l);
+    }
+    const leads = items.map((it) => LEAD_RE.exec(ITEM_RE.exec(it[0])![2]));
+    if (leads.every(Boolean)) {
+      items.forEach((it, j) => {
+        const indent = it[0].length - ITEM_RE.exec(it[0])![2].length;
+        const rest = it.slice(1).map((l) => l.slice(Math.min(indent, l.length - l.trimStart().length)));
+        points.push({ title: leads[j]![1], lines: [leads[j]![2], ...rest].filter((l, k) => k > 0 || l) });
+      });
+    } else append(seg.lines);
+  }
+  return {
+    intro: intro.join("\n").trim(),
+    points: points.map((pt) => ({ title: pt.title, body: pt.lines.join("\n").trim() })),
   };
 }
 

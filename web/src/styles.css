@@ -1579,29 +1579,6 @@ button.badge-persist {
 .md-class-link:hover code {
   text-decoration: underline;
 }
-.veta-tenets {
-  max-width: 60rem;
-}
-.veta-tenet {
-  border-top: 1px solid var(--border);
-  padding-top: 0.5rem;
-  margin-top: 1rem;
-}
-.veta-tenet-id {
-  display: inline-block;
-  min-width: 2.5rem;
-  color: var(--link);
-}
-.veta-tenet-index {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-  margin: 1rem 0;
-  position: sticky;
-  top: 0;
-  background: var(--bg);
-  padding: 0.4rem 0;
-}
 .md-quote {
   border-left: 3px solid var(--border);
   margin: 0.5rem 0;
@@ -1661,4 +1638,152 @@ button.badge-persist {
 .veta-tree-row > .veta-chip,
 .veta-tree-row > .tree-caret {
   flex-shrink: 0;
+}
+
+/* ---- V_eta tenets, skimmable -------------------------------------------- */
+.veta-tenets {
+  max-width: 76ch;
+  font-size: 0.95rem;
+}
+.veta-tenets .md-p,
+.veta-tenets .md-list li {
+  line-height: 1.6;
+}
+.veta-tenet-aside {
+  border-left: 3px solid var(--border);
+  padding: 0.1rem 0 0.1rem 0.9rem;
+  margin: 0.75rem 0 1rem;
+}
+.veta-tenet-aside h3 {
+  margin: 0.2rem 0;
+  font-size: 1rem;
+}
+.veta-tenet-toolbar {
+  display: flex;
+  gap: 0.4rem;
+  margin: 0.75rem 0;
+}
+.veta-tenet-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  border-top: 1px solid var(--border);
+}
+.veta-tenet-item {
+  border-bottom: 1px solid var(--border);
+}
+.veta-tenet-head,
+.veta-point-head {
+  display: flex;
+  align-items: baseline;
+  gap: 0.6rem;
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: none;
+  color: var(--text);
+  font: inherit;
+  cursor: pointer;
+  padding: 0.55rem 0.3rem;
+}
+.veta-tenet-head:hover,
+.veta-point-head:hover {
+  background: var(--bg-alt);
+}
+.veta-tenet-caret {
+  color: var(--text-muted);
+  width: 0.8rem;
+  flex-shrink: 0;
+}
+.veta-tenet-id {
+  font-weight: 700;
+  color: var(--link);
+  min-width: 2.2rem;
+  flex-shrink: 0;
+}
+.veta-tenet-title {
+  font-weight: 600;
+  flex: 1;
+}
+.veta-tenet-meta {
+  color: var(--text-muted);
+  font-size: 0.75rem;
+  white-space: nowrap;
+}
+.veta-tenet-body {
+  padding: 0 0.3rem 0.8rem 3.9rem;
+}
+.veta-points {
+  list-style: none;
+  padding: 0;
+  margin: 0.3rem 0 0.6rem;
+  border-left: 2px solid var(--border);
+}
+.veta-point-head {
+  padding: 0.3rem 0.5rem;
+}
+.veta-point-lead {
+  color: var(--text-muted);
+}
+.veta-point-body {
+  padding: 0 0.5rem 0.4rem 1.9rem;
+}
+.md-xref {
+  color: var(--text-muted);
+  font-size: 0.8em;
+}
+.md-tenet-link {
+  background: none;
+  border: none;
+  padding: 0;
+  font: inherit;
+  color: var(--link);
+  cursor: pointer;
+}
+.md-tenet-link:hover {
+  text-decoration: underline;
+}
+.veta-tenet-classes {
+  margin-top: 0.6rem;
+  padding: 0.5rem 0.7rem;
+  background: var(--bg-alt);
+  border-radius: 6px;
+  font-size: 0.85rem;
+}
+.veta-tenet-classes-head {
+  font-weight: 600;
+  margin-bottom: 0.3rem;
+}
+.veta-tenet-class-row + .veta-tenet-class-row {
+  margin-top: 0.6rem;
+}
+.veta-tenet-change {
+  margin-bottom: 0.25rem;
+}
+.veta-tenet-ba {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem;
+  align-items: center;
+}
+.veta-ba-label {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+.veta-ba-arrow {
+  color: var(--text-muted);
+  margin: 0 0.2rem;
+}
+.veta-chip-static {
+  cursor: default;
+  opacity: 0.8;
+}
+.veta-chip-unbuilt {
+  border-style: dashed;
+}
+.veta-tenet-cite {
+  margin-top: 0.2rem;
+  color: var(--text-muted);
+  font-size: 0.72rem;
 }

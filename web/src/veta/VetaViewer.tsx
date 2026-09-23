@@ -1,9 +1,11 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import type { ReactNode } from "react";
 import { FINAL_CLASS_SET_MD, TENETS_MD, VETA_FILES, VETA_KEY_PREFIX } from "./sources";
 import { ancestors, buildModel, refTargets } from "./model";
 import type { RawDependency, RawField, VetaClass, VetaModel } from "./model";
-import { Markdown } from "./Markdown";
+import { InlineMarkdown, Markdown } from "./Markdown";
+import { loadTenets } from "../schemaIndex";
+import type { TenetRow, TenetsDoc } from "../types";
 
 // THE V_eta SHAPE, READ FROM THE SCHEMA TREE AT BUILD TIME.
 //
@@ -50,6 +52,9 @@ export default function VetaViewer({ onOpenSchema }: Props) {
   // so a class reached from a card link or a tenet is visible in the tree.
   const select = (name: string) => {
     setSelected(name);
+    // A class outside the final set is hidden by default; selecting one (from
+    // a tenet, a card link) must still land on a visible node.
+    if (MODEL.classes.get(name)?.excludedAs) setShowExcluded(true);
     setExpanded((prev) => {
       const next = new Set(prev);
       for (const k of pathKeys(MODEL, name).slice(0, -1)) next.add(k);
@@ -660,11 +665,62 @@ function FieldsTable({
 }
 
 // ---- tenets ---------------------------------------------------------------
+//
+// Built for skimming, from the structure the document already has:
+//   1. the 14 headings ARE one-line rules, so the tab opens as that list;
+//   2. an opened tenet shows its opening text, then its bold lead-ins as a
+//      collapsed outline (model.splitLeadIns) -- T13 reads as 8 sub-rules;
+//   3. tenet numbers in the text link to the tenet; "(SPEC §n)" is dimmed;
+//   4. each tenet lists the classes it shaped, from the tenet map
+//      (web/public/tenets.json, tools/tenet_map.py), linked into the tree.
+// Nothing is rewritten: every word shown is the document's own, re-grouped.
+
+function words(s: string) {
+  return s.split(/\s+/).filter(Boolean).length;
+}
+
+// "Litmus:" says nothing on its own, so a title that ends in a colon brings
+// the first sentence of its body into the summary line.
+function leadSentence(body: string): string {
+  const m = /^(.+?[.?!])(\s|$)/s.exec(body.replace(/\s+/g, " "));
+  return m ? m[1] : body;
+}
 
 function TenetsText({ model, onClass }: { model: VetaModel; onClass: (n: string) => void }) {
   const isClass = (n: string) => model.classes.has(n);
+  const [open, setOpen] = useState<Set<string>>(new Set());
+  const [openPoints, setOpenPoints] = useState<Set<string>>(new Set());
+  const [pendingScroll, setPendingScroll] = useState<string | null>(null);
+  const [map, setMap] = useState<TenetsDoc | null>(null);
+  const [mapError, setMapError] = useState<string | null>(null);
+
+  useEffect(() => {
+    let cancelled = false;
+    loadTenets()
+      .then((d) => !cancelled && setMap(d))
+      .catch((e) => !cancelled && setMapError(String(e)));
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!pendingScroll) return;
+    document.getElementById(`veta-${pendingScroll}`)?.scrollIntoView({ behavior: "smooth" });
+    setPendingScroll(null);
+  }, [pendingScroll, open]);
+
+  const rowsByTenet = useMemo(() => {
+    const m = new Map<string, TenetRow[]>();
+    for (const r of map?.rows ?? []) {
+      if (!m.has(r.tenet)) m.set(r.tenet, []);
+      m.get(r.tenet)!.push(r);
+    }
+    return m;
+  }, [map]);
+
   const [before, after] = useMemo(() => {
-    // Sections before "## The tenets" (the thesis) render above T1-T14; the
+    // Sections before the first tenet (the thesis) render above T1-T14; the
     // rest (the meta-principle) render below. Order is the document's own.
     const idx = TENETS_MD.search(/^### T1 /m);
     const b: typeof model.tenetSections = [];
@@ -675,44 +731,224 @@ function TenetsText({ model, onClass }: { model: VetaModel; onClass: (n: string)
     }
     return [b, a];
   }, [model]);
+
+  const toggle = (id: string) =>
+    setOpen((prev) => {
+      const next = new Set(prev);
+      if (next.has(id)) next.delete(id);
+      else next.add(id);
+      return next;
+    });
+  const togglePoint = (key: string) =>
+    setOpenPoints((prev) => {
+      const next = new Set(prev);
+      if (next.has(key)) next.delete(key);
+      else next.add(key);
+      return next;
+    });
+  // From a "T10" link in the text: open that tenet and bring it into view.
+  const openTenet = (id: string) => {
+    setOpen((prev) => new Set(prev).add(id));
+    setPendingScroll(id);
+  };
+  const allPoints = () =>
+    new Set(model.tenets.flatMap((t) => t.points.map((_, i) => `${t.id}:${i}`)));
+
+  const md = (source: string) => (
+    <Markdown source={source} isClass={isClass} onClass={onClass} onTenet={openTenet} />
+  );
+
   return (
     <div className="veta-tenets">
       <p className="section-note">
-        Rendered from <code>schemas/V_eta_tenets.md</code> — {model.tenetsTitle}.
-        Code spans naming a class in the tree link to it.
+        Rendered from <code>schemas/V_eta_tenets.md</code> — {model.tenetsTitle}. Every
+        heading is a one-line rule; open one for its text. Class names link into the tree.
       </p>
-      {model.tenetsPreamble && (
-        <Markdown source={model.tenetsPreamble} isClass={isClass} onClass={onClass} />
-      )}
       {before.map((s) => (
-        <section key={s.title} className="veta-tenet">
+        <section key={s.title} className="veta-tenet-aside">
           <h3>{s.title}</h3>
-          <Markdown source={s.body} isClass={isClass} onClass={onClass} />
+          {md(s.body)}
         </section>
       ))}
-      <nav className="veta-tenet-index">
-        {model.tenets.map((t) => (
-          <a key={t.id} href={`#veta-${t.id}`} onClick={(e) => {
-            e.preventDefault();
-            document.getElementById(`veta-${t.id}`)?.scrollIntoView({ behavior: "smooth" });
-          }}>
-            {t.id}
-          </a>
-        ))}
-      </nav>
-      {model.tenets.map((t) => (
-        <section key={t.id} id={`veta-${t.id}`} className="veta-tenet">
-          <h3>
-            <span className="veta-tenet-id">{t.id}</span> {t.title}
-          </h3>
-          <Markdown source={t.body} isClass={isClass} onClass={onClass} />
-        </section>
-      ))}
+
+      <div className="veta-tenet-toolbar">
+        <button
+          type="button"
+          className="btn-secondary"
+          onClick={() => {
+            setOpen(new Set());
+            setOpenPoints(new Set());
+          }}
+        >
+          headlines only
+        </button>
+        <button
+          type="button"
+          className="btn-secondary"
+          onClick={() => {
+            setOpen(new Set(model.tenets.map((t) => t.id)));
+            setOpenPoints(new Set());
+          }}
+        >
+          open all tenets
+        </button>
+        <button
+          type="button"
+          className="btn-secondary"
+          onClick={() => {
+            setOpen(new Set(model.tenets.map((t) => t.id)));
+            setOpenPoints(allPoints());
+          }}
+        >
+          full text
+        </button>
+      </div>
+
+      <ol className="veta-tenet-list">
+        {model.tenets.map((t) => {
+          const isOpen = open.has(t.id);
+          const rows = rowsByTenet.get(t.id) ?? [];
+          return (
+            <li key={t.id} id={`veta-${t.id}`} className={`veta-tenet-item ${isOpen ? "is-open" : ""}`}>
+              <button
+                type="button"
+                className="veta-tenet-head"
+                aria-expanded={isOpen}
+                onClick={() => toggle(t.id)}
+              >
+                <span className="veta-tenet-caret">{isOpen ? "▾" : "▸"}</span>
+                <span className="veta-tenet-id">{t.id}</span>
+                <span className="veta-tenet-title">
+                  <InlineMarkdown source={t.title} />
+                </span>
+                <span className="veta-tenet-meta">
+                  {t.points.length > 0
+                    ? `${t.points.length} point${t.points.length === 1 ? "" : "s"} · `
+                    : ""}
+                  {words(t.body)} words
+                </span>
+              </button>
+              {isOpen && (
+                <div className="veta-tenet-body">
+                  {t.intro && md(t.intro)}
+                  {t.points.length > 0 && (
+                    <ul className="veta-points">
+                      {t.points.map((pt, i) => {
+                        const key = `${t.id}:${i}`;
+                        const po = openPoints.has(key);
+                        return (
+                          <li key={key} className={po ? "is-open" : ""}>
+                            <button
+                              type="button"
+                              className="veta-point-head"
+                              aria-expanded={po}
+                              onClick={() => togglePoint(key)}
+                            >
+                              <span className="veta-tenet-caret">{po ? "▾" : "▸"}</span>
+                              <span>
+                                <strong>
+                                  <InlineMarkdown source={pt.title} />
+                                </strong>
+                                {pt.title.endsWith(":") && !po && (
+                                  <span className="veta-point-lead">
+                                    {" "}
+                                    <InlineMarkdown source={leadSentence(pt.body)} />
+                                  </span>
+                                )}
+                              </span>
+                            </button>
+                            {po && <div className="veta-point-body">{md(pt.body)}</div>}
+                          </li>
+                        );
+                      })}
+                    </ul>
+                  )}
+                  <TenetClasses
+                    rows={rows}
+                    model={model}
+                    onClass={onClass}
+                    error={mapError}
+                    loaded={!!map}
+                  />
+                </div>
+              )}
+            </li>
+          );
+        })}
+      </ol>
+
       {after.map((s) => (
-        <section key={s.title} className="veta-tenet">
+        <section key={s.title} className="veta-tenet-aside">
           <h3>{s.title}</h3>
-          <Markdown source={s.body} isClass={isClass} onClass={onClass} />
+          {md(s.body)}
         </section>
+      ))}
+    </div>
+  );
+}
+
+// The classes a tenet shaped, from the curated, cited tenet map. A chip links
+// into the class tree when the class is in the tree; a decided-but-unbuilt
+// target is drawn dashed so it cannot read as shipped.
+function TenetClasses({
+  rows,
+  model,
+  onClass,
+  error,
+  loaded,
+}: {
+  rows: TenetRow[];
+  model: VetaModel;
+  onClass: (n: string) => void;
+  error: string | null;
+  loaded: boolean;
+}) {
+  if (error)
+    return <p className="muted veta-tenet-classes">Class map unavailable: {error}</p>;
+  if (!loaded) return <p className="muted veta-tenet-classes">Loading the class map…</p>;
+  if (rows.length === 0)
+    return (
+      <p className="muted veta-tenet-classes">
+        No cited class mapping is recorded for this tenet (tools/tenet_map.py).
+      </p>
+    );
+  const chip = (c: string, unbuilt: boolean) =>
+    model.classes.has(c) ? (
+      <button key={c} type="button" className="veta-chip" onClick={() => onClass(c)} title={`Open ${c} in the tree`}>
+        {c}
+      </button>
+    ) : (
+      <span
+        key={c}
+        className={`veta-chip veta-chip-static ${unbuilt ? "veta-chip-unbuilt" : ""}`}
+        title={unbuilt ? `${c}: decided, not built` : `${c}: a did_v1 name, not a V_eta class`}
+      >
+        {c}
+      </span>
+    );
+  return (
+    <div className="veta-tenet-classes">
+      <div className="veta-tenet-classes-head">Classes this tenet shaped</div>
+      {rows.map((r, i) => (
+        <div key={i} className="veta-tenet-class-row">
+          <div className="veta-tenet-change">
+            <InlineMarkdown source={r.change} />
+          </div>
+          <div className="veta-tenet-ba">
+            {r.before.length > 0 && (
+              <>
+                <span className="veta-ba-label">did_v1</span>
+                {r.before.map((c) => chip(c, false))}
+                <span className="veta-ba-arrow">→</span>
+              </>
+            )}
+            <span className="veta-ba-label">V_eta</span>
+            {r.after.map((c) => chip(c, r.after_not_built.includes(c)))}
+          </div>
+          <div className="veta-tenet-cite" title={r.citation.quote}>
+            source: <code>{r.citation.doc}</code>:{r.citation.line}
+          </div>
+        </div>
       ))}
     </div>
   );

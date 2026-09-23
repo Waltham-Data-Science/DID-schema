@@ -14,14 +14,22 @@ interface Props {
   source: string;
   isClass?: (name: string) => boolean;
   onClass?: (name: string) => void;
+  // When given, a bare tenet number in running text ("see T10", "T11 + T13")
+  // becomes a link that opens that tenet.
+  onTenet?: (id: string) => void;
 }
 
-export function Markdown({ source, isClass, onClass }: Props) {
-  const ctx = { isClass, onClass };
+export function Markdown({ source, isClass, onClass, onTenet }: Props) {
+  const ctx = { isClass, onClass, onTenet };
   return <>{blocks(source.split(/\r?\n/), ctx, "b")}</>;
 }
 
-type Ctx = Pick<Props, "isClass" | "onClass">;
+// Inline marks only -- for a one-line title that must not become a paragraph.
+export function InlineMarkdown({ source, isClass, onClass, onTenet }: Props) {
+  return <>{inline(source, { isClass, onClass, onTenet })}</>;
+}
+
+type Ctx = Pick<Props, "isClass" | "onClass" | "onTenet">;
 
 const LIST_RE = /^(\s*)([-*+]|\d+\.)\s+(.*)$/;
 
@@ -211,7 +219,7 @@ function inline(text: string, ctx: Ctx): ReactNode[] {
   let k = 0;
   for (const m of text.matchAll(INLINE_RE)) {
     const idx = m.index ?? 0;
-    if (idx > last) out.push(text.slice(last, idx));
+    if (idx > last) out.push(...plain(text.slice(last, idx), ctx, `p${k++}`));
     const tok = m[0];
     if (m[1]) {
       const code = tok.slice(1, -1);
@@ -244,6 +252,45 @@ function inline(text: string, ctx: Ctx): ReactNode[] {
       );
     }
     last = idx + tok.length;
+  }
+  if (last < text.length) out.push(...plain(text.slice(last), ctx, `p${k++}`));
+  return out;
+}
+
+// Plain running text: a "(SPEC §8)"-style cross-reference is dimmed, since it
+// points outside the page and interrupts the sentence; a tenet number becomes
+// a link when the caller can open tenets.
+const PLAIN_RE = /(\((?:SPEC|see) §[^)]*\))|\b(T(?:1[0-4]|[1-9]))\b/g;
+
+function plain(text: string, ctx: Ctx, keyBase: string): ReactNode[] {
+  const out: ReactNode[] = [];
+  let last = 0;
+  let k = 0;
+  for (const m of text.matchAll(PLAIN_RE)) {
+    const idx = m.index ?? 0;
+    if (m[2] && !ctx.onTenet) continue;
+    if (idx > last) out.push(text.slice(last, idx));
+    if (m[1]) {
+      out.push(
+        <span key={`${keyBase}-${k++}`} className="md-xref">
+          {m[1]}
+        </span>,
+      );
+    } else {
+      const id = m[2];
+      out.push(
+        <button
+          key={`${keyBase}-${k++}`}
+          type="button"
+          className="md-tenet-link"
+          title={`Open ${id}`}
+          onClick={() => ctx.onTenet!(id)}
+        >
+          {id}
+        </button>,
+      );
+    }
+    last = idx + m[0].length;
   }
   if (last < text.length) out.push(text.slice(last));
   return out;
